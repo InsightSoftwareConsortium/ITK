@@ -83,7 +83,7 @@ int itkTriangleHelperTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  if( vnl_math_abs( TriangleHelperType::Cotangent( a, Org, b ) - 1. ) > 1e-6 )
+  if( itk::Math::abs( TriangleHelperType::Cotangent( a, Org, b ) - 1. ) > 1e-6 )
     {
     return EXIT_FAILURE;
     }
@@ -103,8 +103,8 @@ int itkTriangleHelperTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  if( vnl_math_abs( TriangleHelperType::ComputeAngle( a, Org, b )
-        - 0.25 * vnl_math::pi ) > 1e-6 )
+  if( itk::Math::abs( TriangleHelperType::ComputeAngle( a, Org, b )
+        - 0.25 * itk::Math::pi ) > 1e-6 )
     {
     std::cout <<"TriangleHelperType::ComputeAngle( a, Org, b ) FAILED"
       <<std::endl;
@@ -138,7 +138,7 @@ int itkTriangleHelperTest( int argc, char* argv[] )
     }
 
   CoordRepType area = TriangleHelperType::ComputeArea( a, Org, b );
-  if( vnl_math_abs( area - 0.25 ) > 1e-6 )
+  if( itk::Math::abs( area - 0.25 ) > 1e-6 )
     {
     std::cout <<"TriangleHelperType::ComputeArea( a, Org, b ) FAILED"
       <<std::endl;

@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "itkMath.h"
 #include "itkCompositeValleyFunction.h"
@@ -59,7 +59,7 @@ int itkCompositeValleyFunctionTest(int , char* [] )
   double interval2 =
     ( function.GetUpperBound() - function.GetLowerBound() )
     / (1000000.0 - 1.0);
-  if (  vnl_math_abs( interval1 - interval2 ) >
+  if (  itk::Math::abs( interval1 - interval2 ) >
         itk::NumericTraits< double >::epsilon() )
     {
     std::cout << "Test fails: GetInterval()" << std::endl;
@@ -75,10 +75,10 @@ int itkCompositeValleyFunctionTest(int , char* [] )
   double value1 = function( measure );
   double value2 = function.Evaluate( measure );
 
-  if ( vnl_math_abs(value1 - value2) >
+  if ( itk::Math::abs(value1 - value2) >
        itk::NumericTraits< double >::epsilon())
     {
-    std::cout << "diff = " << vnl_math_abs(value1 - value2) << std::endl;
+    std::cout << "diff = " << itk::Math::abs(value1 - value2) << std::endl;
     std::cout << "Test fails: operator()" << std::endl;
 
     return EXIT_FAILURE;

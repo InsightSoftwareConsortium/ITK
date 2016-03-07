@@ -23,7 +23,7 @@
 #include "itkAddImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkStatisticsImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 typedef short                             PixelType;
 typedef itk::Image< PixelType, 3 >        ImageType;
@@ -39,8 +39,8 @@ namespace
 // if the difference is < average/10000, close enough
 bool CloseEnough(double a, double b)
 {
-  double diff = vnl_math_abs(a - b);
-  double avg = (vnl_math_abs(a) + vnl_math_abs(b)) / 2.0;
+  double diff = itk::Math::abs(a - b);
+  double avg = (itk::Math::abs(a) + itk::Math::abs(b)) / 2.0;
   if(diff == 0.0 || diff < avg/10000.00)
     {
     return true;

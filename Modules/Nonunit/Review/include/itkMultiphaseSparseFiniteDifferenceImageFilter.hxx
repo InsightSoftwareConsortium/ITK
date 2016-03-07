@@ -219,7 +219,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
             {
             //  Neighbors are same sign OR at least one neighbor is zero.
             // Pick the larger magnitude derivative.
-            if ( vnl_math_abs (forward - current) > vnl_math_abs(current - backward) )
+            if ( itk::Math::abs (forward - current) > itk::Math::abs(current - backward) )
               {
               offset[j] = ( forward - current ) / spacing[j];
               }
@@ -578,7 +578,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
           // Keep the smallest possible value for the new active node.  This
           // places the new active layer node closest to the zero level-set.
           if ( outputIt.GetPixel (idx) < LOWER_ACTIVE_THRESHOLD
-               || vnl_math_abs (temp_value) < vnl_math_abs (
+               || itk::Math::abs (temp_value) < itk::Math::abs (
                  outputIt.GetPixel (idx) ) )
             {
             UpdatePixel (this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status);
@@ -633,7 +633,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
           // Keep the smallest magnitude value for this active set node.  This
           // places the node closest to the active layer.
           if ( outputIt.GetPixel (idx) >= UPPER_ACTIVE_THRESHOLD
-               || vnl_math_abs (temp_value) < vnl_math_abs (
+               || itk::Math::abs (temp_value) < itk::Math::abs (
                  outputIt.GetPixel (idx) ) )
             {
             UpdatePixel (this->m_CurrentFunctionIndex, idx, outputIt, temp_value, bounds_status);
@@ -717,7 +717,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
           {
           //  Neighbors are same sign OR at least one neighbor is zero.
           // Pick the larger magnitude derivative.
-          if ( ::vnl_math_abs (forward - center) > ::vnl_math_abs(center - backward) )
+          if ( ::itk::Math::abs (forward - center) > ::itk::Math::abs(center - backward) )
             {
             dx = ( forward - current ) / spacing[j];
             }
@@ -729,7 +729,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
         else
           {
           // Choose the derivative closest to the 0 contour
-          if ( vnl_math_sgn(current * forward) == -1 )
+          if ( itk::Math::sgn(current * forward) == -1 )
             {
             dx = ( forward - current ) / spacing[j];
             }
@@ -905,8 +905,8 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
           {
           // Irrespective of negative/positive region, select the lowest
           // absolute minimum
-          //value = delta * std::min( vnl_math_abs( value_temp ),
-          // vnl_math_abs( value ) );
+          //value = delta * std::min( itk::Math::abs( value_temp ),
+          // itk::Math::abs( value ) );
           if ( InOrOut == 1 ) // inward
             {
             // Find the largest (least negative) neighbor

@@ -24,7 +24,7 @@
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
 #include "vnl/vnl_matrix.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

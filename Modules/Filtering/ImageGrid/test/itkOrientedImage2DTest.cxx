@@ -101,7 +101,7 @@ int itkOrientedImage2DTest( int ac, char * av[] )
       const double expectedValue = atof( av[ element++ ] );
       const double currentValue = physicalPoint[dim];
       const double difference = currentValue - expectedValue;
-      if( vnl_math_abs( difference ) > tolerance )
+      if( itk::Math::abs( difference ) > tolerance )
         {
         std::cerr << "Error: " << std::endl;
         std::cerr << "in Point # " << pointId << std::endl;
@@ -144,7 +144,7 @@ int itkOrientedImage2DTest( int ac, char * av[] )
     const double expectedValue = atof( av[ element++ ] );
     const double currentValue = gradient1a[dim];
     const double difference = currentValue - expectedValue;
-    if( vnl_math_abs( difference ) > tolerance )
+    if( itk::Math::abs( difference ) > tolerance )
       {
       std::cerr << "Error: " << std::endl;
 
@@ -169,7 +169,7 @@ int itkOrientedImage2DTest( int ac, char * av[] )
     const double expectedValue = atof( av[ element++ ] );
     const double currentValue = gradient1b[dim];
     const double difference = currentValue - expectedValue;
-    if( vnl_math_abs( difference ) > tolerance )
+    if( itk::Math::abs( difference ) > tolerance )
       {
       std::cerr << "Error: " << std::endl;
       std::cerr << "Expected      = " << expectedValue << std::endl;

@@ -19,7 +19,7 @@
 #define itkMinMaxCurvatureFlowFunction_hxx
 #include "itkMinMaxCurvatureFlowFunction.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkNeighborhoodInnerProduct.h"
 
 namespace itk
@@ -93,7 +93,7 @@ MinMaxCurvatureFlowFunction< TImage >
     for ( j = 0; j < ImageDimension; j++ )
       {
       length += static_cast< RadiusValueType >(
-        vnl_math_sqr( static_cast< IndexValueType >( counter[j] )
+        itk::Math::sqr( static_cast< IndexValueType >( counter[j] )
                       - static_cast< IndexValueType >( m_StencilRadius ) ) );
       }
     if ( length <= sqrRadius )
@@ -155,7 +155,7 @@ MinMaxCurvatureFlowFunction< TImage >
                           - it.GetPixel(center - stride) );
     gradient[j] *= this->m_ScaleCoefficients[j];
 
-    gradMagnitude += vnl_math_sqr( (double)gradient[j] );
+    gradMagnitude += itk::Math::sqr( (double)gradient[j] );
     }
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
@@ -190,7 +190,7 @@ MinMaxCurvatureFlowFunction< TImage >
                          - static_cast< IndexValueType >( m_StencilRadius );
 
       dotProduct += static_cast< PixelType >( diff ) * gradient[j];
-      vectorMagnitude += static_cast< PixelType >( vnl_math_sqr(diff) );
+      vectorMagnitude += static_cast< PixelType >( itk::Math::sqr(diff) );
       }
 
     vectorMagnitude = std::sqrt( (double)vectorMagnitude );
@@ -200,7 +200,7 @@ MinMaxCurvatureFlowFunction< TImage >
       dotProduct /= gradMagnitude * vectorMagnitude;
       }
 
-    if ( vectorMagnitude >= m_StencilRadius && vnl_math_abs(dotProduct) < 0.262 )
+    if ( vectorMagnitude >= m_StencilRadius && itk::Math::abs(dotProduct) < 0.262 )
       {
       threshold += it.GetPixel(i);
       numPixels++;
@@ -256,14 +256,14 @@ MinMaxCurvatureFlowFunction< TImage >
                         - it.GetPixel(center - 1) );
   k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = vnl_math_sqr( (double)gradient[k] );
+  gradMagnitude = itk::Math::sqr( (double)gradient[k] );
   k++;
 
   stride = it.GetStride(1);
   gradient[k] = 0.5 * ( it.GetPixel(center + stride)
                         - it.GetPixel(center - stride) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += vnl_math_sqr( (double)gradient[k] );
+  gradMagnitude += itk::Math::sqr( (double)gradient[k] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
@@ -322,19 +322,19 @@ MinMaxCurvatureFlowFunction< TImage >
                         - it.GetPixel(center - 1) );
   k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = vnl_math_sqr( (double)gradient[k] );
+  gradMagnitude = itk::Math::sqr( (double)gradient[k] );
   k++;
 
   gradient[k] = 0.5 * ( it.GetPixel(center + strideY)
                         - it.GetPixel(center - strideY) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += vnl_math_sqr( (double)gradient[k] );
+  gradMagnitude += itk::Math::sqr( (double)gradient[k] );
   k++;
 
   gradient[k] = 0.5 * ( it.GetPixel(center + strideZ)
                         - it.GetPixel(center - strideZ) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += vnl_math_sqr( (double)gradient[k] );
+  gradMagnitude += itk::Math::sqr( (double)gradient[k] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
@@ -359,7 +359,7 @@ MinMaxCurvatureFlowFunction< TImage >
 
   if ( Math::AlmostEquals(gradient[0], NumericTraits< PixelType >::ZeroValue()) )
     {
-    phi = vnl_math::pi * 0.5;
+    phi = itk::Math::pi * 0.5;
     }
   else
     {

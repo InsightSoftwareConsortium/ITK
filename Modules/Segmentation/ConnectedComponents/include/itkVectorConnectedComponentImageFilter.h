@@ -28,7 +28,7 @@
 #ifndef itkVectorConnectedComponentImageFilter_h
 #define itkVectorConnectedComponentImageFilter_h
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkNumericTraits.h"
 #include "itkConnectedComponentFunctorImageFilter.h"
 
@@ -77,7 +77,7 @@ public:
       {
       dotProduct += a[i]*b[i];
       }
-    return ( static_cast<typename TInput::ValueType>( 1.0 - vnl_math_abs(dotProduct) ) <= m_Threshold );
+    return ( static_cast<typename TInput::ValueType>( 1.0 - itk::Math::abs(dotProduct) ) <= m_Threshold );
   }
 
 protected:

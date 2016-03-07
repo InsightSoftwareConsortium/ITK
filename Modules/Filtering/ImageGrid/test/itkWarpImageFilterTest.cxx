@@ -280,7 +280,7 @@ int itkWarpImageFilterTest(int, char* [] )
 
     double trueValue = pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue );
 
-      if( vnl_math_abs( trueValue - value ) > 1e-4 )
+      if( itk::Math::abs( trueValue - value ) > 1e-4 )
         {
         testPassed = false;
         std::cout << "Error at Index: " << index << " ";

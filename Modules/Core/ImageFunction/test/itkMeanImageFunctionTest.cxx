@@ -92,7 +92,7 @@ int itkMeanImageFunctionTest(int, char* [] )
 
   // since the input image is constant
   // the should be equal to the initial value
-  if( vnl_math_abs( initialValue - mean ) > 10e-7 )
+  if( itk::Math::abs( initialValue - mean ) > 10e-7 )
     {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;

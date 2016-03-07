@@ -47,13 +47,13 @@ itkBSplineScatteredDataPointSetToImageFilterTest5( int, char * [] )
   // Sample the trefoil knot.
   // The first parametric dimension, u,  is doing the knot part
   // whereas the second dimension, v, is going around in a simple circle.
-for( RealType u = -2.0 * vnl_math::pi; u <= 2.0 * vnl_math::pi; u += 0.1 )
+for( RealType u = -2.0 * itk::Math::pi; u <= 2.0 * itk::Math::pi; u += 0.1 )
   {
-  for( RealType v = -vnl_math::pi; v <= vnl_math::pi; v += 0.1 )
+  for( RealType v = -itk::Math::pi; v <= itk::Math::pi; v += 0.1 )
     {
     PointSetType::PointType point;
-    point[0] = ( u + 2.0 * vnl_math::pi ) / ( 4.0 * vnl_math::pi );
-    point[1] = ( v + vnl_math::pi ) / ( 2.0 * vnl_math::pi );
+    point[0] = ( u + 2.0 * itk::Math::pi ) / ( 4.0 * itk::Math::pi );
+    point[1] = ( v + itk::Math::pi ) / ( 2.0 * itk::Math::pi );
     unsigned long i = pointSet->GetNumberOfPoints();
     pointSet->SetPoint( i, point );
 

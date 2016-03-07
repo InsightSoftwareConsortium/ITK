@@ -385,7 +385,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         continue;
         }
 
-      rms_change_accumulator += vnl_math_sqr( new_value - outputIt.GetCenterPixel() );
+      rms_change_accumulator += itk::Math::sqr( new_value - outputIt.GetCenterPixel() );
 
       // Search the neighborhood for inside indices.
       temp_value = new_value - m_ConstantGradientValue;
@@ -398,7 +398,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           // Keep the smallest possible value for the new active node.  This
           // places the new active layer node closest to the zero level-set.
           if ( outputIt.GetPixel(idx) < LOWER_ACTIVE_THRESHOLD
-               || ::vnl_math_abs(temp_value) < ::vnl_math_abs( outputIt.GetPixel(idx) ) )
+               || ::itk::Math::abs(temp_value) < ::itk::Math::abs( outputIt.GetPixel(idx) ) )
             {
             outputIt.SetPixel(idx, temp_value, bounds_status);
             }
@@ -437,7 +437,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         continue;
         }
 
-      rms_change_accumulator += vnl_math_sqr( new_value - outputIt.GetCenterPixel() );
+      rms_change_accumulator += itk::Math::sqr( new_value - outputIt.GetCenterPixel() );
 
       // Search the neighborhood for outside indices.
       temp_value = new_value + m_ConstantGradientValue;
@@ -450,7 +450,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           // Keep the smallest magnitude value for this active set node.  This
           // places the node closest to the active layer.
           if ( outputIt.GetPixel(idx) >= UPPER_ACTIVE_THRESHOLD
-               || ::vnl_math_abs(temp_value) < ::vnl_math_abs( outputIt.GetPixel(idx) ) )
+               || ::itk::Math::abs(temp_value) < ::itk::Math::abs( outputIt.GetPixel(idx) ) )
             {
             outputIt.SetPixel(idx, temp_value, bounds_status);
             }
@@ -469,7 +469,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      rms_change_accumulator += vnl_math_sqr( new_value - outputIt.GetCenterPixel() );
+      rms_change_accumulator += itk::Math::sqr( new_value - outputIt.GetCenterPixel() );
       //rms_change_accumulator += (*updateIt) * (*updateIt);
       outputIt.SetCenterPixel(new_value);
       ++layerIt;
@@ -865,7 +865,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
       dx_backward = ( shiftedIt.GetCenterPixel()
                       - shiftedIt.GetPixel( center - m_NeighborList.GetStride(i) ) ) * neighborhoodScales[i];
 
-      if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
+      if ( itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward) )
         {
         length += dx_forward * dx_forward;
         }
@@ -964,7 +964,7 @@ SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           dx_backward = centerValue - backwardValue;
 
           // Pick the larger magnitude derivative.
-          if ( ::vnl_math_abs(dx_forward) > ::vnl_math_abs(dx_backward) )
+          if ( ::itk::Math::abs(dx_forward) > ::itk::Math::abs(dx_backward) )
             {
             offset[i] = dx_forward;
             }

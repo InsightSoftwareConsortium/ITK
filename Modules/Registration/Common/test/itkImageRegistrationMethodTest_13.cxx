@@ -314,7 +314,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
 
   for( j = 0; j < 9; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
+    if( itk::Math::abs( solution[j] - trueParameters[j] ) > 0.025 )
       {
       std::cout << "Failed " << j << std::endl;
       pass = false;
@@ -322,7 +322,7 @@ int itkImageRegistrationMethodTest_13(int, char* [] )
     }
   for( j = 9; j < 12; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
+    if( itk::Math::abs( solution[j] - trueParameters[j] ) > 1.0 )
       {
       std::cout << "Failed " << j << std::endl;
       pass = false;
@@ -415,9 +415,9 @@ double F( itk::Vector<double,3> & v )
   double r = std::sqrt( x*x + y*y + z*z );
   if( r > 35 )
     {
-    value = 2 * ( vnl_math_abs( x ) +
-      0.8 * vnl_math_abs( y ) +
-      0.5 * vnl_math_abs( z ) );
+    value = 2 * ( itk::Math::abs( x ) +
+      0.8 * itk::Math::abs( y ) +
+      0.5 * itk::Math::abs( z ) );
     }
   if( r < 4 )
     {

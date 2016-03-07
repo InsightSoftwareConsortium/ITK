@@ -162,7 +162,7 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
 
   index[0] = 10;
   index[1] = 20;
-  if( vnl_math_abs( term->Evaluate( index ) - 1 ) >  5e-2 )
+  if( itk::Math::abs( term->Evaluate( index ) - 1 ) >  5e-2 )
     {
     return EXIT_FAILURE;
     }
@@ -175,7 +175,7 @@ int itkLevelSetEquationPropagationTermTest( int argc, char* argv[] )
 
   while( !iIt.IsAtEnd() )
     {
-    if( vnl_math_abs( static_cast< double >( iIt.Get() ) - static_cast< double >( pIt.Get() ) ) > 1e-2 )
+    if( itk::Math::abs( static_cast< double >( iIt.Get() ) - static_cast< double >( pIt.Get() ) ) > 1e-2 )
       {
       std::cout << iIt.GetIndex() << " * " << pIt.GetIndex() << std::endl;
       std::cout << iIt.Get() << " * " << pIt.Get() << std::endl;

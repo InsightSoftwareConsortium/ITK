@@ -72,7 +72,7 @@ bool
 GaussianSpatialObject< TDimension >
 ::IsInside(const PointType & point) const
 {
-  if ( m_Radius < vnl_math::eps )
+  if ( m_Radius < itk::Math::eps )
     {
     return false;
     }

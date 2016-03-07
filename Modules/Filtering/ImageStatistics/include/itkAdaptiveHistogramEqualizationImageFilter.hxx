@@ -20,7 +20,7 @@
 
 #include <map>
 #include <set>
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkImageRegionIterator.h"

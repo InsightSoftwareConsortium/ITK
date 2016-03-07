@@ -269,7 +269,7 @@ int itkWarpVectorImageFilterTest(int, char* [] )
       PixelType trueValue(pattern.Evaluate( outIter.GetIndex(), validSize, clampSize, padValue));
       for( unsigned int k=0; k<ImageDimension; k++ )
         {
-        if( vnl_math_abs( trueValue[k] - value[k] ) > 1e-4 )
+        if( itk::Math::abs( trueValue[k] - value[k] ) > 1e-4 )
           {
           testPassed = false;
           std::cout << "Error at Index: " << index << " ";

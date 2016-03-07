@@ -304,7 +304,7 @@ int itkSubsampleTest2( int, char * [] )
     MeasurementVectorType vector9b = subSample2->GetMeasurementVector( targetEntry );
     for( unsigned int kitr =0; kitr < measurementVectorSize; kitr++ )
       {
-      if( vnl_math_abs( vector9b[kitr] - vector9a[kitr] ) )
+      if( itk::Math::abs( vector9b[kitr] - vector9a[kitr] ) )
         {
         std::cerr << "Constructor with container followed by increments failed" << std::endl;
         std::cerr << "Expected " << vector9b << std::endl;

@@ -20,7 +20,7 @@
 
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 /*
  *

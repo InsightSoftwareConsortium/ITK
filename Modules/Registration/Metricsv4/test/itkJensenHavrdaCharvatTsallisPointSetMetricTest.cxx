@@ -42,14 +42,14 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   for( unsigned int d=0; d < Dimension; d++ )
     {
     offset[d] = 2;
-    normOffset += vnl_math_sqr( offset[d] );
+    normOffset += itk::Math::sqr( offset[d] );
     normalizedOffset[d] = offset[d];
     }
   normOffset = std::sqrt( normOffset );
   normalizedOffset /= normOffset;
 
   unsigned long count = 0;
-  for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
+  for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
     PointType fixedPoint;
     float radius = 100.0;

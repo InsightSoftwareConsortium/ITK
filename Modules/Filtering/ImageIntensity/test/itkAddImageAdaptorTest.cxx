@@ -130,13 +130,13 @@ int itkAddImageAdaptorTest(int, char* [] )
 
     RealPixelType diff = std::fabs( v1 - v2 );
 
-    if( diff > vnl_math::eps )
+    if( diff > itk::Math::eps )
       {
       std::cerr << "Error in itkAddImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
-      std::cerr << " by more than " << vnl_math::eps << std::endl;
+      std::cerr << " by more than " << itk::Math::eps << std::endl;
       return EXIT_FAILURE;
       }
     ++dt;

@@ -233,11 +233,11 @@ int main( int argc, char *argv[] )
 
   translation[ 1 ] =  size[1] * spacing[1] / 2.0;
   translation[ 2 ] =  size[2] * spacing[2] * 0.22;
-  transform2->Rotate( 1, 2, vnl_math::pi / 2.0 );
+  transform2->Rotate( 1, 2, itk::Math::pi / 2.0 );
   transform2->Translate( translation, false );
 
   translation[ 2 ] = size[2] * spacing[2] * 0.78;
-  transform3->Rotate( 1, 2, vnl_math::pi / 2.0 );
+  transform3->Rotate( 1, 2, itk::Math::pi / 2.0 );
   transform3->Translate( translation, false );
 
   ellipse->SetObjectToParentTransform( transform1 );

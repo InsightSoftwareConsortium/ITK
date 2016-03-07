@@ -21,7 +21,7 @@
 #include "itkConformalFlatteningMeshFilter.h"
 #include "itkExceptionObject.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include <cfloat>  // for DBL_MIN
 

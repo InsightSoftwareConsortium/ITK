@@ -184,9 +184,9 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
 
-  if((vnl_math_abs(transform->GetParameters()[0])>1.0)
+  if((itk::Math::abs(transform->GetParameters()[0])>1.0)
     ||
-    (vnl_math_abs(transform->GetParameters()[1])>1.0)
+    (itk::Math::abs(transform->GetParameters()[1])>1.0)
     )
     {
     return EXIT_FAILURE;
@@ -240,9 +240,9 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
 
-  if((vnl_math_abs(transform->GetParameters()[0])>1.0)
+  if((itk::Math::abs(transform->GetParameters()[0])>1.0)
     ||
-    (vnl_math_abs(transform->GetParameters()[1])>1.0)
+    (itk::Math::abs(transform->GetParameters()[1])>1.0)
     )
     {
     return EXIT_FAILURE;

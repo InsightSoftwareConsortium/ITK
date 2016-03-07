@@ -20,7 +20,7 @@
 
 #include "itkLabelObject.h"
 #include "itkLabelObjectLineComparator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <algorithm>
 
 namespace itk

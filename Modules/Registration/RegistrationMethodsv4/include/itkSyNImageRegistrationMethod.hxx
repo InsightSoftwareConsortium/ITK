@@ -586,7 +586,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
     RealType localNorm = 0;
     for( SizeValueType d = 0; d < ImageDimension; d++ )
       {
-      localNorm += vnl_math_sqr( vector[d] / spacing[d] );
+      localNorm += itk::Math::sqr( vector[d] / spacing[d] );
       }
     localNorm = std::sqrt( localNorm );
 

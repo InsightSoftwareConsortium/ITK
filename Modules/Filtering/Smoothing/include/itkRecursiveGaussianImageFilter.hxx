@@ -180,7 +180,7 @@ RecursiveGaussianImageFilter< TInputImage, TOutputImage >
       {
        if ( this->GetNormalizeAcrossScale() )
          {
-         across_scale_normalization = vnl_math_sqr(  m_Sigma );
+         across_scale_normalization = itk::Math::sqr(  m_Sigma );
          }
       // Approximation of convolution with the second derivative of a
       // Gaussian.

@@ -484,7 +484,7 @@ ConnectedComponentImageFilter< TInputImage, TOutputImage, TMaskImage >
 
   for ( unsigned i = 1; i < OutputImageDimension; i++ )
     {
-    if ( vnl_math_abs(Off[i]) > 1 )
+    if ( itk::Math::abs(Off[i]) > 1 )
       {
       return ( false );
       }

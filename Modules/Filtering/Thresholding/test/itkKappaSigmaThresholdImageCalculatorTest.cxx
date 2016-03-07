@@ -81,7 +81,7 @@ int itkKappaSigmaThresholdImageCalculatorTest( int argc, char * argv [] )
   // In a typical usage of this class, you will simply take the calculator->GetOutput().
   PixelType expectedThreshold = atoi( argv[4] );
 
-  if( vnl_math_abs( expectedThreshold - threshold ) > 1e-3 )
+  if( itk::Math::abs( expectedThreshold - threshold ) > 1e-3 )
     {
     std::cerr << "Test failed" << std::endl;
     std::cerr << "Expected threshold = " << expectedThreshold << std::endl;

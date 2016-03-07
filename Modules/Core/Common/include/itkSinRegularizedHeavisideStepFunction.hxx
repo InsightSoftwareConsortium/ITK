@@ -19,7 +19,7 @@
 #define itkSinRegularizedHeavisideStepFunction_hxx
 
 #include "itkSinRegularizedHeavisideStepFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -51,7 +51,7 @@ SinRegularizedHeavisideStepFunction< TInput, TOutput >
       }
     else
       {
-      const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
+      const RealType angleFactor = 0.5 * itk::Math::pi * this->GetOneOverEpsilon();
       const RealType angle = input * angleFactor;
 
       return static_cast< OutputType >( 0.5 * ( 1.0 + std::sin( angle ) ) );
@@ -64,13 +64,13 @@ typename SinRegularizedHeavisideStepFunction< TInput, TOutput >::OutputType
 SinRegularizedHeavisideStepFunction< TInput, TOutput >
 ::EvaluateDerivative(const InputType & input) const
 {
-  if ( vnl_math_abs( static_cast< RealType >( input ) ) >= this->GetEpsilon() )
+  if ( itk::Math::abs( static_cast< RealType >( input ) ) >= this->GetEpsilon() )
     {
     return NumericTraits< OutputType >::ZeroValue();
     }
   else
     {
-    const RealType angleFactor = 0.5 * vnl_math::pi * this->GetOneOverEpsilon();
+    const RealType angleFactor = 0.5 * itk::Math::pi * this->GetOneOverEpsilon();
     const RealType angle = input * angleFactor;
 
     return static_cast< OutputType >( 0.5 * angleFactor * std::cos(angle) );

@@ -384,7 +384,7 @@ int main( int argc, char *argv[] )
 
   // Print out results
   //
-  const double finalAngleInDegrees = finalAngle * 180.0 / vnl_math::pi;
+  const double finalAngleInDegrees = finalAngle * 180.0 / itk::Math::pi;
 
   std::cout << std::endl;
   std::cout << "Result = " << std::endl;

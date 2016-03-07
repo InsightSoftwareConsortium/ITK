@@ -74,7 +74,7 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double value = vnl_math::pi / 6.0;
+  const double value = itk::Math::pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() )
@@ -123,7 +123,7 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
     const float expectedValue = input / factor;
     std::cout << output << " = ";
     std::cout << expectedValue  << std::endl;
-    if( vnl_math_abs( expectedValue - output ) > epsilon )
+    if( itk::Math::abs( expectedValue - output ) > epsilon )
       {
       std::cerr << "Error " << std::endl;
       std::cerr << " expected Value = " << expectedValue << std::endl;

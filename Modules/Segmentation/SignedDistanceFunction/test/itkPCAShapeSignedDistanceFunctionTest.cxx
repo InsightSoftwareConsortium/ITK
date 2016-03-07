@@ -182,7 +182,7 @@ int itkPCAShapeSignedDistanceFunctionTest( int, char *[])
     // check result
     std::cout << "f(" << point << ") = " << output << std::endl;
 
-    if(vnl_math_abs( output - expected ) > 1e-9)
+    if(itk::Math::abs( output - expected ) > 1e-9)
       {
       std::cout << "But expected value is: " << expected << std::endl;
       return EXIT_FAILURE;

@@ -120,7 +120,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
   AffineTransformType::Pointer affineTransformGroundTruth = AffineTransformType::New();
   affineTransformGroundTruth->SetIdentity();
   affineTransformGroundTruth->Translate(moffset);
-  affineTransformGroundTruth->Rotate2D(vnl_math::pi);
+  affineTransformGroundTruth->Rotate2D(itk::Math::pi);
   affineTransformGroundTruth->Translate(foffset);
 
   /** define a resample filter that will ultimately be used to deform the image */
@@ -205,7 +205,7 @@ int itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char *argv[])
     {
     AffineTransformType::Pointer aff = AffineTransformType::New();
     aff->SetIdentity();
-    float rad=(float)i*vnl_math::pi /180.0;
+    float rad=(float)i*itk::Math::pi /180.0;
     aff->Translate(moffset);
     aff->Rotate2D(rad);
     aff->Translate(foffset);

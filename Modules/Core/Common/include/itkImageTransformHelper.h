@@ -21,7 +21,7 @@
 #include "itkConceptChecking.h"
 #include "itkImageBase.h"
 #include "itkMatrix.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

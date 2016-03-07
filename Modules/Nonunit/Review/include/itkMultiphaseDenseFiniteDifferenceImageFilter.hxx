@@ -211,7 +211,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
     }
 
   // this must never occur!
-  if ( den < vnl_math::eps )
+  if ( den < itk::Math::eps )
     {
     itkExceptionMacro("den = 0.");
     }
@@ -234,7 +234,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
       {
       val = static_cast< InputPixelType >( dt ) * u.Get();
       o.Set(o.Value() + val);
-      rms_change_accumulator += static_cast< double >( vnl_math_sqr(val) );
+      rms_change_accumulator += static_cast< double >( itk::Math::sqr(val) );
       ++u;
       ++o;
       }
@@ -266,7 +266,7 @@ MultiphaseDenseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
       while ( !o.IsAtEnd() )
         {
         val = it.Value();
-        rms_change_accumulator += static_cast< double >( vnl_math_sqr(o.Value() - val) );
+        rms_change_accumulator += static_cast< double >( itk::Math::sqr(o.Value() - val) );
         o.Set(val);
         ++o;
         ++it;

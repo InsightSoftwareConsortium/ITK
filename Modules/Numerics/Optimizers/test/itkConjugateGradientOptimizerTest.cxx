@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkConjugateGradientOptimizer.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 
 /**
@@ -247,7 +247,7 @@ int itkConjugateGradientOptimizerTest(int, char* [] )
   double trueParameters[2] = { 2, -2 };
   for( unsigned int j = 0; j < 2; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       pass = false;
     }
 

@@ -123,7 +123,7 @@ int itkKdTreeTest2( int argc, char * argv [] )
                 << "] : "
                 << distance << std::endl;
 
-      if( distance > vnl_math::eps )
+      if( distance > itk::Math::eps )
         {
         testFailed = true;
         }

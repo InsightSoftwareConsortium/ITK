@@ -28,7 +28,7 @@
 #ifndef itkMathDetail_h
 #define itkMathDetail_h
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkIntTypes.h"
 #include "itkNumericTraits.h"
 

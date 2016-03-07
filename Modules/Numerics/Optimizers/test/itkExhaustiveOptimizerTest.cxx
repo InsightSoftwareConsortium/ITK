@@ -21,7 +21,7 @@
 #include "itkCommand.h"
 #include "itkExhaustiveOptimizer.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 /**
  *  The objectif function is the quadratic form:
@@ -207,12 +207,12 @@ int itkExhaustiveOptimizerTest(int, char* [] )
     }
 
 
-  bool minimumValuePass = vnl_math_abs ( itkOptimizer->GetMinimumMetricValue() - -10 ) < 1E-3;
+  bool minimumValuePass = itk::Math::abs ( itkOptimizer->GetMinimumMetricValue() - -10 ) < 1E-3;
 
   std::cout << "MinimumMetricValue = " << itkOptimizer->GetMinimumMetricValue() << std::endl;
   std::cout << "Minimum Position = " << itkOptimizer->GetMinimumMetricValuePosition() << std::endl;
 
-  bool maximumValuePass = vnl_math_abs ( itkOptimizer->GetMaximumMetricValue() - 926 ) < 1E-3;
+  bool maximumValuePass = itk::Math::abs ( itkOptimizer->GetMaximumMetricValue() - 926 ) < 1E-3;
   std::cout << "MaximumMetricValue = " << itkOptimizer->GetMaximumMetricValue() << std::endl;
   std::cout << "Maximum Position = " << itkOptimizer->GetMaximumMetricValuePosition() << std::endl;
 
@@ -249,7 +249,7 @@ int itkExhaustiveOptimizerTest(int, char* [] )
   double trueParameters[2] = { 2, -2 };
   for( unsigned int j = 0; j < 2; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       {
       trueParamsPass = false;
       }

@@ -19,7 +19,7 @@
 #define itkRingBuffer_hxx
 
 #include "itkRingBuffer.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -225,7 +225,7 @@ typename RingBuffer< TElement >::OffsetValueType
 RingBuffer< TElement >
 ::GetOffsetBufferIndex(OffsetValueType offset)
 {
-  OffsetValueType moddedOffset = vnl_math_abs(offset) % this->GetNumberOfBuffers();
+  OffsetValueType moddedOffset = itk::Math::abs(offset) % this->GetNumberOfBuffers();
   OffsetValueType signedHeadIndex = static_cast<OffsetValueType>(m_HeadIndex);
   if (offset >= 0)
     {

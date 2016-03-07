@@ -542,7 +542,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
       dx_backward =
         ( shiftedIt.GetCenterPixel()          - shiftedIt.GetPixel(center - stride) ) * neighborhoodScales[i];
 
-      if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
+      if ( itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward) )
         {
         length += dx_forward  * dx_forward;
         }
@@ -642,7 +642,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           }
         else
           {
-          if ( vnl_math_abs(value_temp + delta) < vnl_math_abs(value + delta) )
+          if ( itk::Math::abs(value_temp + delta) < itk::Math::abs(value + delta) )
             {
             // take the value closest to zero
             value = value_temp;
@@ -1426,7 +1426,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           dx_backward = centerValue - backwardValue;
 
           // take the one-sided derivative with the larger magnitude
-          if ( vnl_math_abs(dx_forward) > vnl_math_abs(dx_backward) )
+          if ( itk::Math::abs(dx_forward) > itk::Math::abs(dx_backward) )
             {
             offset[i] = dx_forward;
             }
@@ -1644,7 +1644,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         continue;
         }
 
-      rms_change_accumulator += vnl_math_sqr( static_cast< float >( new_value - centerValue ) );
+      rms_change_accumulator += itk::Math::sqr( static_cast< float >( new_value - centerValue ) );
       // update the value of the pixel
       m_OutputImage->SetPixel (centerIndex, new_value);
 
@@ -1682,7 +1682,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
         continue;
         }
 
-      rms_change_accumulator += vnl_math_sqr( static_cast< float >( new_value - centerValue ) );
+      rms_change_accumulator += itk::Math::sqr( static_cast< float >( new_value - centerValue ) );
       // update the value of the pixel
       m_OutputImage->SetPixel(centerIndex, new_value);
 
@@ -1701,7 +1701,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      rms_change_accumulator += vnl_math_sqr( static_cast< float >( new_value - centerValue ) );
+      rms_change_accumulator += itk::Math::sqr( static_cast< float >( new_value - centerValue ) );
       // update the value of the pixel
       m_OutputImage->SetPixel(centerIndex, new_value);
       ++layerIt;
@@ -1905,7 +1905,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           }
         else
           {
-          if ( vnl_math_abs(value_temp + delta) < vnl_math_abs(value + delta) )
+          if ( itk::Math::abs(value_temp + delta) < itk::Math::abs(value + delta) )
             {
             // take the value closest to zero
             value = value_temp;
@@ -2195,7 +2195,7 @@ ParallelSparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
           }
         else
           {
-          if ( vnl_math_abs(value_temp + delta) < vnl_math_abs(value + delta) )
+          if ( itk::Math::abs(value_temp + delta) < itk::Math::abs(value + delta) )
             {
             // take the value closest to zero
             value = value_temp;

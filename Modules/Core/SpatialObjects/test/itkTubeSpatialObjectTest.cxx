@@ -299,11 +299,11 @@ int itkTubeSpatialObjectTest(int, char * [] )
 
   axis.Fill(0);
   axis[1] = 1;
-  angle = vnl_math::pi_over_2;
+  angle = itk::Math::pi_over_2;
   tube2->GetObjectToParentTransform()->Rotate3D(axis,angle);
   tube2->ComputeObjectToWorldTransform();
 
-  angle = -vnl_math::pi_over_2;
+  angle = -itk::Math::pi_over_2;
   tube3->GetObjectToParentTransform()->Rotate3D(axis,angle);
   tube3->ComputeObjectToWorldTransform();
 

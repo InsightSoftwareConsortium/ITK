@@ -24,7 +24,7 @@
 #include <sys/time.h>
 #endif  // defined(WIN32) || defined(_WIN32)
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

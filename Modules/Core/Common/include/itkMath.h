@@ -34,6 +34,16 @@
 #include "itkNumericTraits.h"
 #include <vnl/vnl_math.h>
 
+/* Only maintain backwards compatibility with old versions
+ * of VXL back to the point where vnl_math:: was introduced
+ * versions of VXL where only vnl_math_ was available are not
+ * supported.
+ */
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL <= 20121114
+# error "VXL version must support vnl_math:: namespace versions of fuctions"
+#endif
+
 namespace itk
 {
 namespace Math
@@ -714,6 +724,126 @@ ITKCommon_EXPORT unsigned int       GreatestPrimeFactor( unsigned int n );
 ITKCommon_EXPORT unsigned long      GreatestPrimeFactor( unsigned long n );
 ITKCommon_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
 
+
+/*==========================================
+ * alias the vnl_math functions in the itk::Math
+ * namespace.  If possible, use the std:: equivalents
+ */
+#if  __cplusplus >= 201103L
+
+/** A macro to allow perfect forwarding of functions using
+  * C++11 or greater features
+  * http://stackoverflow.com/questions/9864125/c11-how-to-alias-a-function
+  */
+#define ITK_PERFECT_FORWARD_MACRO(new_name, old_name) \
+  template <typename... TArgs> \
+    auto new_name(TArgs&&... args) -> decltype(old_name(std::forward<TArgs>(args)...)) { \
+      return old_name(std::forward<TArgs>(args)...); \
+    }
+
+  // Prefer to use perfect forwarding to the std library if C++11 features are available and consistent with vnl
+ITK_PERFECT_FORWARD_MACRO(isnan,std::isnan);
+ITK_PERFECT_FORWARD_MACRO(isinf,std::isinf);
+ITK_PERFECT_FORWARD_MACRO(isfinite,std::isfinite);
+ITK_PERFECT_FORWARD_MACRO(isnormal,std::isnormal);
+ITK_PERFECT_FORWARD_MACRO(cbrt,std::cbrt);
+ITK_PERFECT_FORWARD_MACRO(hypot,std::hypot);
+// Pefect forwarding to vnl specializations
+ITK_PERFECT_FORWARD_MACRO(angle_0_to_2pi,vnl_math::angle_0_to_2pi);
+ITK_PERFECT_FORWARD_MACRO(angle_minuspi_to_pi,vnl_math::angle_minuspi_to_pi);
+ITK_PERFECT_FORWARD_MACRO(rnd_halfinttoeven,vnl_math::rnd_halfinttoeven);
+ITK_PERFECT_FORWARD_MACRO(rnd_halfintup,vnl_math::rnd_halfintup);
+ITK_PERFECT_FORWARD_MACRO(rnd,vnl_math::rnd);
+ITK_PERFECT_FORWARD_MACRO(floor,vnl_math::floor);
+ITK_PERFECT_FORWARD_MACRO(ceil,vnl_math::ceil);
+ITK_PERFECT_FORWARD_MACRO(sgn,vnl_math::sgn);
+ITK_PERFECT_FORWARD_MACRO(sgn0,vnl_math::sgn0);
+ITK_PERFECT_FORWARD_MACRO(remainder_truncated,vnl_math::remainder_truncated);
+ITK_PERFECT_FORWARD_MACRO(remainder_floored,vnl_math::remainder_floored);
+ITK_PERFECT_FORWARD_MACRO(abs,vnl_math::abs);
+ITK_PERFECT_FORWARD_MACRO(sqr,vnl_math::sqr);
+ITK_PERFECT_FORWARD_MACRO(cube,vnl_math::cube);
+ITK_PERFECT_FORWARD_MACRO(squared_magnitude,vnl_math::squared_magnitude);
+
+#undef ITK_PERFECT_FORWARD_MACRO
+
+#else
+template<typename T> bool isnan(const T value) { return vnl_math::isnan(value); }
+template<typename T> bool isinf(const T value) { return vnl_math::isinf(value); }
+template<typename T> bool isfinite(const T value) { return vnl_math::isfinite(value); }
+template<typename T> T cbrt(const T value) { return vnl_math::cuberoot(value); }
+template<typename T> T hypot(const T value1, const T value2) { return vnl_math::hypot(value1,value2); }
+template<typename T> T angle_0_to_2pi(const T angle) { return vnl_math::angle_0_to_2pi(angle); }
+template<typename T> T angle_minuspi_to_pi(const T angle) { return vnl_math::angle_minuspi_to_pi(angle); }
+template<typename T> inline int rnd_halfinttoeven(const T x) {return vnl_math::rnd_halfinttoeven(x); }
+template<typename T> inline int rnd_halfintup(const T x) { return vnl_math::rnd_halfintup(x); }
+template<typename T> inline int rnd(const T x) { return vnl_math::rnd(x); }
+template<typename T> inline int floor(const T x) { return vnl_math::floor(x); }
+template<typename T> inline int ceil(const T x) { return vnl_math::ceil(x); }
+template<typename T> int sgn(const T x)       { return vnl_math::sgn(x); }
+template<typename T> int sgn0(const T x)       { return vnl_math::sgn0(x); }
+template<typename T> T remainder_truncated(const T x, const T y) { return vnl_math::remainder_truncated(x,y); }
+template<typename T> T remainder_floored(const T x, const T y) { return vnl_math::remainder_floored(x,y); }
+
+inline bool               abs(const bool x)               { return x; }
+inline unsigned char      abs(const unsigned char x)      { return x; }
+inline unsigned char      abs(const signed char x)        { return vnl_math::abs(x); }
+inline unsigned char      abs(const char x)               { return vnl_math::abs(x); }
+inline unsigned short     abs(const short x)              { return vnl_math::abs(x); }
+inline unsigned short     abs(const unsigned short x)     { return x; }
+inline unsigned int       abs(const int x)                { return vnl_math::abs(x); }
+inline unsigned int       abs(const unsigned int x)       { return x; }
+inline unsigned long      abs(const long x)               { return vnl_math::abs(x); }
+inline unsigned long      abs(const unsigned long x)      { return x; }
+#if VCL_HAS_LONG_LONG
+inline unsigned long long abs(const long long x)          { return vnl_math::abs(x); }
+inline unsigned long long abs(const unsigned long long x) { return x; }
+#endif
+inline float              abs(const float x)              { return std::abs(x); }
+inline double             abs(const double x)             { return std::abs(x); }
+inline long double        abs(const long double x)        { return std::abs(x); }
+
+inline bool               sqr(const bool x)               { return vnl_math::sqr(x); }
+inline int                sqr(const int x)                { return vnl_math::sqr(x); }
+inline unsigned int       sqr(const unsigned int x)       { return vnl_math::sqr(x); }
+inline long               sqr(const long x)               { return vnl_math::sqr(x); }
+inline unsigned long      sqr(const unsigned long x)      { return vnl_math::sqr(x); }
+#if VCL_HAS_LONG_LONG
+inline long long          sqr(const long long x)          { return vnl_math::sqr(x); }
+inline unsigned long long sqr(const unsigned long long x) { return vnl_math::sqr(x); }
+#endif
+inline float              sqr(const float x)              { return vnl_math::sqr(x); }
+inline double             sqr(const double x)             { return vnl_math::sqr(x); }
+
+inline bool               cube(const bool x)               { return vnl_math::cube(x); }
+inline int                cube(const int x)                { return vnl_math::cube(x); }
+inline unsigned int       cube(const unsigned int x)       { return vnl_math::cube(x); }
+inline long               cube(const long x)               { return vnl_math::cube(x); }
+inline unsigned long      cube(const unsigned long x)      { return vnl_math::cube(x); }
+#if VCL_HAS_LONG_LONG
+inline long long          cube(const long long x)          { return vnl_math::cube(x); }
+inline unsigned long long cube(const unsigned long long x) { return vnl_math::cube(x); }
+#endif
+inline float              cube(const float x)              { return vnl_math::cube(x); }
+inline double             cube(const double x)             { return vnl_math::cube(x); }
+
+inline unsigned int       squared_magnitude(const char               x) { return vnl_math::squared_magnitude(x); }
+inline unsigned int       squared_magnitude(const unsigned char      x) { return vnl_math::squared_magnitude(x); }
+inline unsigned int       squared_magnitude(const int                x) { return vnl_math::squared_magnitude(x); }
+inline unsigned int       squared_magnitude(const unsigned int       x) { return vnl_math::squared_magnitude(x); }
+inline unsigned long      squared_magnitude(const long               x) { return vnl_math::squared_magnitude(x); }
+inline unsigned long      squared_magnitude(const unsigned long      x) { return vnl_math::squared_magnitude(x); }
+#if VCL_HAS_LONG_LONG
+inline unsigned long long squared_magnitude(const long long          x) { return vnl_math::squared_magnitude(x); }
+inline unsigned long long squared_magnitude(const unsigned long long x) { return vnl_math::squared_magnitude(x); }
+#endif
+inline float              squared_magnitude(const float              x) { return vnl_math::squared_magnitude(x); }
+inline double             squared_magnitude(const double             x) { return vnl_math::squared_magnitude(x); }
+inline long double        squared_magnitude(const long double        x) { return vnl_math::squared_magnitude(x); }
+
+#endif //If not C++11 features
+
 } // end namespace Math
 } // end namespace itk
+
 #endif // end of itkMath.h

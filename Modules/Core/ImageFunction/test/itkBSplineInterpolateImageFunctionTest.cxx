@@ -138,7 +138,7 @@ double trueValue )
     double value = interp->Evaluate( point );
     std::cout << " Value: " << value;
 
-    if( vnl_math_abs( value - trueValue ) > 1e-9 )
+    if( itk::Math::abs( value - trueValue ) > 1e-9 )
       {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -178,7 +178,7 @@ double trueValue )
     double value = interp->EvaluateAtContinuousIndex( index );
     std::cout << " Value: " << value;
 
-    if( vnl_math_abs( value - trueValue ) > 1e-4 )
+    if( itk::Math::abs( value - trueValue ) > 1e-4 )
       {
       std::cout << "*** Error: value should be " << trueValue << std::endl;
       return false;
@@ -226,7 +226,7 @@ double * trueValue )
           std::cout << ", ";
           }
         std::cout << value[i];
-        if ( vnl_math_abs( value[i] - trueValue[i] ) > 1e-4 )
+        if ( itk::Math::abs( value[i] - trueValue[i] ) > 1e-4 )
           {
           std::cout << "*** Error: value should be " << trueValue[i] << std::endl;
           return false;
@@ -588,7 +588,7 @@ int testEvaluateValueAndDerivative(void)
     std::cout << std::scientific << value << std::endl;
     std::cout << std::scientific << "EvaluateDerivative:         " << dx_1 << std::endl;
     std::cout << std::scientific << "EvaluateValueAndDerivative: " << dx_2 << std::endl;
-    if( vnl_math_abs( dx_1[i] - dx_2[i] ) >  1e-5 )
+    if( itk::Math::abs( dx_1[i] - dx_2[i] ) >  1e-5 )
       {
       std::cout << "[ERROR]" << dx_1[i] << " != " << dx_2[i] << std::endl;
       return EXIT_FAILURE;

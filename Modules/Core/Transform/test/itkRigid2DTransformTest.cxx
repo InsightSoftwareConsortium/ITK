@@ -465,7 +465,7 @@ int itkRigid2DTransformTest(int ,char * [] )
       TransformType::InputPointType center;
       TransformType::OutputVectorType translation;
 
-      angle0 = -21.0 / 180.0 * vnl_math::pi;
+      angle0 = -21.0 / 180.0 * itk::Math::pi;
       center[0] = 12.0;
       center[1] = -8.9;
       translation[0] = 67.8;
@@ -537,7 +537,7 @@ int itkRigid2DTransformTest(int ,char * [] )
      // Test compose
      TransformType::Pointer t4 = TransformType::New();
 
-     angle0 = 14.7 / 180.0 * vnl_math::pi;
+     angle0 = 14.7 / 180.0 * itk::Math::pi;
      center.Fill( 4.0 );
      translation.Fill( 67.1);
      t4->SetAngle( angle0 );

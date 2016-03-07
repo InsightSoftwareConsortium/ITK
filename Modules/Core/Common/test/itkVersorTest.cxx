@@ -88,16 +88,16 @@ itk::Versor<double> TestCreateRotationVersorFromAngles(const double alpha, const
 int RotationMatrixToVersorTest(void)
 {
   int errorCount=0;
-  //const double onedegree=1e-10*vnl_math::pi/180.0;
-  const double onedegree=vnl_math::pi/180.0;
-  //const double td=180.0/vnl_math::pi;
+  //const double onedegree=1e-10*itk::Math::pi/180.0;
+  const double onedegree=itk::Math::pi/180.0;
+  //const double td=180.0/itk::Math::pi;
   double centers[6];
   centers[0]=0;
-  centers[1]=vnl_math::pi*0.25;
-  centers[2]=vnl_math::pi*0.5;
-  centers[3]=vnl_math::pi;
-  centers[4]=vnl_math::pi*1.5;
-  centers[5]=vnl_math::pi*2.0;
+  centers[1]=itk::Math::pi*0.25;
+  centers[2]=itk::Math::pi*0.5;
+  centers[3]=itk::Math::pi;
+  centers[4]=itk::Math::pi*1.5;
+  centers[5]=itk::Math::pi*2.0;
 
   const double steps=0;
   const double small_degree_steps=onedegree/1000.0; //1/1000 of a degree

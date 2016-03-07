@@ -94,7 +94,7 @@ LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 
     OutputCoordRepType area = TriangleType::ComputeMixedArea(p[0], p[1], p[2]);
 
-    if ( area < vnl_math::eps )
+    if ( area < itk::Math::eps )
       {
       return NumericTraits< OutputCoordRepType >::ZeroValue();
       }

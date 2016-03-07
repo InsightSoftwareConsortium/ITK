@@ -246,7 +246,7 @@ BorderQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
     ++BoundaryPtIterator;
     }
 
-  InputCoordRepType a = ( 2.0 * vnl_math::pi ) / tetas[NbBoundaryPt - 1];
+  InputCoordRepType a = ( 2.0 * itk::Math::pi ) / tetas[NbBoundaryPt - 1];
 
   if ( this->m_Radius == 0.0 )
     {

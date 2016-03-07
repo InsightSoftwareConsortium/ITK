@@ -19,7 +19,7 @@
 #include <iostream>
 
 #include "itkBioGenome.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 
 int itkBioGenomeTest( int, char * [] )
@@ -37,7 +37,7 @@ int itkBioGenomeTest( int, char * [] )
 
    const double outLevel = genome.GetExpressionLevel("Cyclin");
 
-   if( vnl_math_abs( inLevel - outLevel ) / outLevel > tolerance )
+   if( itk::Math::abs( inLevel - outLevel ) / outLevel > tolerance )
      {
      std::cerr << "Error in SetExpressionLevel()/GetExpressionLevel()" << std::endl;
      return EXIT_FAILURE;
@@ -45,7 +45,7 @@ int itkBioGenomeTest( int, char * [] )
 
    genome.KnockOutGene("Cyclin");
 
-   if( vnl_math_abs( genome.GetExpressionLevel("Cyclin") ) > tolerance )
+   if( itk::Math::abs( genome.GetExpressionLevel("Cyclin") ) > tolerance )
      {
      std::cerr << "Error in KnockOutGene()/GetExpressionLevel()" << std::endl;
      return EXIT_FAILURE;
@@ -59,7 +59,7 @@ int itkBioGenomeTest( int, char * [] )
 
    const double expectedSigmoid = std::atan(( value - threshold ) / slant ) / 3.1416 + 0.5001;
 
-   if( vnl_math_abs( sigmoid - expectedSigmoid ) / expectedSigmoid > tolerance )
+   if( itk::Math::abs( sigmoid - expectedSigmoid ) / expectedSigmoid > tolerance )
      {
      std::cerr << "Error in Sigmoid()" << std::endl;
      std::cerr << "Expected valued = " << expectedSigmoid << std::endl;
@@ -80,14 +80,14 @@ int itkBioGenomeTest( int, char * [] )
 
    genome2.Copy( genome );
 
-   if( vnl_math_abs( genome.GetExpressionLevel("Tubulin") -
+   if( itk::Math::abs( genome.GetExpressionLevel("Tubulin") -
              genome2.GetExpressionLevel("Tubulin") ) > tolerance )
      {
      std::cerr << "Error in Copy()" << std::endl;
      return EXIT_FAILURE;
      }
 
-   if( vnl_math_abs( genome.GetExpressionLevel("Cyclin") -
+   if( itk::Math::abs( genome.GetExpressionLevel("Cyclin") -
              genome2.GetExpressionLevel("Cyclin") ) > tolerance )
      {
      std::cerr << "Error in Copy()" << std::endl;

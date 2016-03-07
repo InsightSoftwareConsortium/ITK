@@ -21,7 +21,7 @@
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <algorithm>
 
 namespace itk

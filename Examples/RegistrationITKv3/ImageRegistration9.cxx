@@ -114,7 +114,7 @@ public:
       vnl_matrix<double> r(2, 2);
       r = svd.U() * vnl_transpose(svd.V());
       double angle = std::asin(r[1][0]);
-      std::cout << " AffineAngle: " << angle * 180.0 / vnl_math::pi << std::endl;
+      std::cout << " AffineAngle: " << angle * 180.0 / itk::Math::pi << std::endl;
     }
 };
 
@@ -417,7 +417,7 @@ int main( int argc, char *argv[] )
   r = svd.U() * vnl_transpose(svd.V());
   double angle = std::asin(r[1][0]);
 
-  const double angleInDegrees = angle * 180.0 / vnl_math::pi;
+  const double angleInDegrees = angle * 180.0 / itk::Math::pi;
 
   std::cout << " Scale 1         = " << svd.W(0)        << std::endl;
   std::cout << " Scale 2         = " << svd.W(1)        << std::endl;

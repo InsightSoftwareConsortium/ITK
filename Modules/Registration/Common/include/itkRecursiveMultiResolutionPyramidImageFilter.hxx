@@ -27,7 +27,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkIdentityTransform.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -142,7 +142,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
         factors[idim] = this->GetSchedule()[ilevel][idim]
                         / this->GetSchedule()[ilevel + 1][idim];
         }
-      variance[idim] = vnl_math_sqr( 0.5
+      variance[idim] = itk::Math::sqr( 0.5
                                      * static_cast< float >( factors[idim] ) );
       if ( factors[idim] != 1 )
         {
@@ -297,7 +297,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
       if ( factors[idim] > 1 )
         {
         oper->SetDirection(idim);
-        oper->SetVariance( vnl_math_sqr( 0.5
+        oper->SetVariance( itk::Math::sqr( 0.5
                                          * static_cast< float >( factors[idim] ) ) );
         oper->CreateDirectional();
         radius[idim] = oper->GetRadius()[idim];
@@ -332,7 +332,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
       if ( factors[idim] > 1 )
         {
         oper->SetDirection(idim);
-        oper->SetVariance( vnl_math_sqr( 0.5
+        oper->SetVariance( itk::Math::sqr( 0.5
                                          * static_cast< float >( factors[idim] ) ) );
         oper->CreateDirectional();
         radius[idim] = oper->GetRadius()[idim];
@@ -424,7 +424,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   for ( idim = 0; idim < TInputImage::ImageDimension; idim++ )
     {
     oper->SetDirection(idim);
-    oper->SetVariance( vnl_math_sqr( 0.5 * static_cast< float >(
+    oper->SetVariance( itk::Math::sqr( 0.5 * static_cast< float >(
                                        this->GetSchedule()[refLevel][idim] ) ) );
     oper->SetMaximumError( this->GetMaximumError() );
     oper->CreateDirectional();

@@ -23,7 +23,7 @@
 #include "itkDCMTKFileReader.h"
 #include <iostream>
 #include "vnl/vnl_cross.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "dcmtk/dcmimgle/dcmimage.h"
 #include "dcmtk/dcmjpeg/djdecode.h"

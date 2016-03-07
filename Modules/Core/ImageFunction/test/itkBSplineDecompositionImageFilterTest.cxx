@@ -85,7 +85,7 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
     const double f = resample->Evaluate( point );
     const double g = interpolator->Evaluate( point );
 
-    if ( vnl_math_abs( f - g ) > 1e-5 )
+    if ( itk::Math::abs( f - g ) > 1e-5 )
       {
       std::cout << "Resample and Interpolated point are different." << std::endl;
       std::cout << " point: " << point << std::endl;

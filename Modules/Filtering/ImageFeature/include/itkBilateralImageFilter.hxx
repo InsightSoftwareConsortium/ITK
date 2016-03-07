@@ -222,7 +222,7 @@ BilateralImageFilter< TInputImage, TOutputImage >
 
   // denominator (normalization factor) for Gaussian used for range
   double rangeGaussianDenom;
-  rangeGaussianDenom = m_RangeSigma * std::sqrt(2.0 * vnl_math::pi);
+  rangeGaussianDenom = m_RangeSigma * std::sqrt(2.0 * itk::Math::pi);
 
   // Maximum delta for the dynamic range
   double tableDelta;

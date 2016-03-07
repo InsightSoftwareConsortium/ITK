@@ -167,9 +167,9 @@ int itkTransformToDisplacementFieldSourceTest1( int argc, char *argv[] )
 
     /** Create and set parameters. */
     ParametersType parameters( eulerTransform->GetNumberOfParameters() );
-    parameters[0] =   9.0 * (vnl_math::pi) / 180.0;
-    parameters[1] =   6.0 * (vnl_math::pi) / 180.0;
-    parameters[2] =   3.0 * (vnl_math::pi) / 180.0;
+    parameters[0] =   9.0 * (itk::Math::pi) / 180.0;
+    parameters[1] =   6.0 * (itk::Math::pi) / 180.0;
+    parameters[2] =   3.0 * (itk::Math::pi) / 180.0;
     parameters[3] =  -40;
     parameters[4] =  -15.0;
     parameters[5] =  35.0;

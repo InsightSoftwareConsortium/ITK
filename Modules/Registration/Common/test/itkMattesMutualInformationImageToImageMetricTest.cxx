@@ -362,7 +362,7 @@ int TestMattesMetricWithAffineTransform(
     std::cout << ratio << "\t";
     std::cout << std::endl;
 
-    if ( vnl_math_abs( ratio - 1.0 ) > 0.012 )
+    if ( itk::Math::abs( ratio - 1.0 ) > 0.012 )
       {
       std::cout << "computed derivative differ from central difference." << std::endl;
       testFailed = true;
@@ -657,7 +657,7 @@ int TestMattesMetricWithBSplineTransform(
     std::cout << ratio << "\t";
     std::cout << std::endl;
 
-    if ( vnl_math_abs( ratio - 1.0 ) > 0.05 && vnl_math_abs( derivative[i] ) > 1e-4 )
+    if ( itk::Math::abs( ratio - 1.0 ) > 0.05 && itk::Math::abs( derivative[i] ) > 1e-4 )
       {
       std::cout << "computed derivative differ from central difference." << std::endl;
       testFailed = true;

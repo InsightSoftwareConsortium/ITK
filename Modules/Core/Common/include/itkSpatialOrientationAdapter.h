@@ -42,9 +42,9 @@ inline unsigned Max3(double x, double y, double z)
 {
   const double obliquityThresholdCosineValue = 0.001;
 
-  double absX = vnl_math_abs(x);
-  double absY = vnl_math_abs(y);
-  double absZ = vnl_math_abs(z);
+  double absX = itk::Math::abs(x);
+  double absY = itk::Math::abs(y);
+  double absZ = itk::Math::abs(z);
 
   if ( ( absX > obliquityThresholdCosineValue ) && ( absX > absY ) && ( absX > absZ ) )
     {

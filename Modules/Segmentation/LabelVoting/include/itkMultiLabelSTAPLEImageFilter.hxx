@@ -22,7 +22,7 @@
 
 #include "itkLabelVotingImageFilter.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -358,7 +358,7 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
         for ( OutputPixelType ci = 0; ci < this->m_TotalLabelCount; ++ci )
           {
           const WeightsType thisParameterUpdate =
-            vnl_math_abs( this->m_UpdatedConfusionMatrixArray[k][j][ci] -
+            itk::Math::abs( this->m_UpdatedConfusionMatrixArray[k][j][ci] -
            this->m_ConfusionMatrixArray[k][j][ci] );
 
             maximumUpdate = std::max( maximumUpdate, thisParameterUpdate );

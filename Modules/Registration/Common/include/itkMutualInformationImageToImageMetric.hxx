@@ -20,7 +20,7 @@
 
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkGaussianKernelFunction.h"
 #include "itkCompensatedSummation.h"
 
@@ -437,7 +437,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
   value += std::log(nsamp);
 
   derivative /= nsamp;
-  derivative /= vnl_math_sqr(m_MovingImageStandardDeviation);
+  derivative /= itk::Math::sqr(m_MovingImageStandardDeviation);
 }
 
 /*

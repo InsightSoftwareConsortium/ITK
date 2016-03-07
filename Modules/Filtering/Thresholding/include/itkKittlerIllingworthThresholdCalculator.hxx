@@ -20,7 +20,7 @@
 
 #include "itkKittlerIllingworthThresholdCalculator.h"
 #include "itkProgressReporter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkMath.h"
 
 namespace itk
@@ -130,7 +130,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
   double Bs1 = B( size - 1 );
   double Cs1 = C( size - 1 );
 
-  if( vnl_math_abs( As1 ) < vnl_math::eps )
+  if( itk::Math::abs( As1 ) < itk::Math::eps )
     {
     itkGenericExceptionMacro( << "As1 = 0." );
     }
@@ -143,13 +143,13 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
     double Bt = B( threshold );
     double Ct = C( threshold );
 
-    if( vnl_math_abs( At ) < vnl_math::eps )
+    if( itk::Math::abs( At ) < itk::Math::eps )
       {
       itkGenericExceptionMacro( << "At = 0." );
       }
     double mu = Bt/At;
 
-    if( vnl_math_abs( As1 - At ) < vnl_math::eps )
+    if( itk::Math::abs( As1 - At ) < itk::Math::eps )
       {
       itkWarningMacro( << "KittlerIllingworthThresholdCalculator: not converging: As1 = At = " << At );
       break;
@@ -162,17 +162,17 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
     double sigma2 = Ct/At-(mu*mu);
     double tau2 = (Cs1-Ct) / (As1-At) - (nu*nu);
 
-    if( sigma2 < vnl_math::eps )
+    if( sigma2 < itk::Math::eps )
       {
       itkGenericExceptionMacro( << "sigma2 <= 0");
       }
 
-    if( vnl_math_abs( tau2 ) < vnl_math::eps )
+    if( itk::Math::abs( tau2 ) < itk::Math::eps )
       {
       itkGenericExceptionMacro( << "tau2 = 0");
       }
 
-    if( vnl_math_abs( p ) < vnl_math::eps )
+    if( itk::Math::abs( p ) < itk::Math::eps )
       {
       itkGenericExceptionMacro( << "p = 0" );
       }
@@ -184,13 +184,13 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 
     //If the next threshold would be imaginary, return with the current one.
     double sqterm = (w1*w1)-w0*w2;
-    if (sqterm < vnl_math::eps)
+    if (sqterm < itk::Math::eps)
       {
       itkWarningMacro( << "KittlerIllingworthThresholdCalculator: not converging.");
       break;
       }
 
-    if( vnl_math_abs( w0 ) < vnl_math::eps )
+    if( itk::Math::abs( w0 ) < itk::Math::eps )
       {
       double temp = -w2 / w1;
 
@@ -215,7 +215,7 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
       double temp = (w1+std::sqrt(sqterm))/w0;
 
       // not sure if this condition is really useful
-      if (vnl_math_isnan(temp))
+      if (itk::Math::isnan(temp))
         {
         itkWarningMacro (<< "KittlerIllingworthThresholdCalculator: NaN, not converging.");
         threshold = Tprev;

@@ -28,7 +28,7 @@
 #ifndef itkScalarConnectedComponentImageFilter_h
 #define itkScalarConnectedComponentImageFilter_h
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkNumericTraits.h"
 #include "itkConnectedComponentFunctorImageFilter.h"
 
@@ -88,7 +88,7 @@ public:
   bool operator()(const TInput & a, const TInput & b) const
   {
     typedef typename NumericTraits< TInput >::RealType InputRealType;
-    TInput absDifference = static_cast< TInput >( vnl_math_abs(
+    TInput absDifference = static_cast< TInput >( itk::Math::abs(
                                                     static_cast< InputRealType >( a )
                                                     - static_cast< InputRealType >( b ) ) );
     if ( absDifference <= m_Threshold )

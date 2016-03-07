@@ -21,7 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkLevelSet.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include <functional>
 #include <queue>
@@ -255,7 +255,7 @@ private:
   void SetSpeedConstant(double value)
   {
     m_SpeedConstant = value;
-    m_InverseSpeed = -1.0 * vnl_math_sqr(1.0 / m_SpeedConstant);
+    m_InverseSpeed = -1.0 * itk::Math::sqr(1.0 / m_SpeedConstant);
     this->Modified();
   }
 

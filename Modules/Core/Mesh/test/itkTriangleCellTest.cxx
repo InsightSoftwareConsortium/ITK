@@ -181,9 +181,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] - 0.3 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[1] - 0.5 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[2] - 0.2 ) > tolerance )   )
+  if( ( itk::Math::abs( pcoords[0] - 0.3 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[1] - 0.5 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[2] - 0.2 ) > tolerance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -192,9 +192,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( weights[0] - 0.3 ) > tolerance ) ||
-      ( vnl_math_abs( weights[1] - 0.5 ) > tolerance ) ||
-      ( vnl_math_abs( weights[2] - 0.2 ) > tolerance )   )
+  if( ( itk::Math::abs( weights[0] - 0.3 ) > tolerance ) ||
+      ( itk::Math::abs( weights[1] - 0.5 ) > tolerance ) ||
+      ( itk::Math::abs( weights[2] - 0.2 ) > tolerance )   )
     {
     std::cerr << "Error: weights computed incorrectly" << std::endl;
     std::cerr << "weights[0] = " << weights[0] << std::endl;
@@ -203,9 +203,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ((vnl_math_abs(closestPoint[0] - 5.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[1] - 3.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[2] - 0.0) > tolerance))
+  if ((itk::Math::abs(closestPoint[0] - 5.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[1] - 3.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[2] - 0.0) > tolerance))
     {
     std::cerr << "Error: closestPoint computed incorrectly" << std::endl;
     std::cerr << "closestPoint[0] = " << closestPoint[0] << std::endl;
@@ -234,9 +234,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] - 0.5 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[1] + 0.5 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[2] - 1.0 ) > tolerance )   )
+  if( ( itk::Math::abs( pcoords[0] - 0.5 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[1] + 0.5 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[2] - 1.0 ) > tolerance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -245,9 +245,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ((vnl_math_abs(closestPoint[0] - 10.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[1] - 5.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[2] - 0.0) > tolerance))
+  if ((itk::Math::abs(closestPoint[0] - 10.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[1] - 5.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[2] - 0.0) > tolerance))
     {
     std::cerr << "Error: closestPoint computed incorrectly" << std::endl;
     std::cerr << "closestPoint[0] = " << closestPoint[0] << std::endl;
@@ -280,9 +280,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] - 1.0 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[1] - 1.0 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[2] + 1.0 ) > tolerance )   )
+  if( ( itk::Math::abs( pcoords[0] - 1.0 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[1] - 1.0 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[2] + 1.0 ) > tolerance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -292,9 +292,9 @@ int itkTriangleCellTest(int, char* [] )
     }
 
   //note should be half way up the line (0,0,0)  -> (10,10,0)
-  if ((vnl_math_abs(closestPoint[0] - 5.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[1] - 5.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[2] - 0.0) > tolerance))
+  if ((itk::Math::abs(closestPoint[0] - 5.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[1] - 5.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[2] - 0.0) > tolerance))
     {
     std::cerr << "Error: closestPoint computed incorrectly" << std::endl;
     std::cerr << "closestPoint[0] = " << closestPoint[0] << std::endl;
@@ -327,9 +327,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] + 0.5 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[1] - 0.5 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[2] - 1.0 ) > tolerance )   )
+  if( ( itk::Math::abs( pcoords[0] + 0.5 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[1] - 0.5 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[2] - 1.0 ) > tolerance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -338,9 +338,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ((vnl_math_abs(closestPoint[0] - 5.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[1] - 0.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[2] - 0.0) > tolerance))
+  if ((itk::Math::abs(closestPoint[0] - 5.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[1] - 0.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[2] - 0.0) > tolerance))
     {
     std::cerr << "Error: closestPoint computed incorrectly" << std::endl;
     std::cerr << "closestPoint[0] = " << closestPoint[0] << std::endl;
@@ -373,9 +373,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] + 0.3 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[1] - 1.5 ) > tolerance ) ||
-      ( vnl_math_abs( pcoords[2] + 0.2 ) > tolerance )   )
+  if( ( itk::Math::abs( pcoords[0] + 0.3 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[1] - 1.5 ) > tolerance ) ||
+      ( itk::Math::abs( pcoords[2] + 0.2 ) > tolerance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -384,9 +384,9 @@ int itkTriangleCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ((vnl_math_abs(closestPoint[0] - 0.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[1] - 0.0) > tolerance) ||
-      (vnl_math_abs(closestPoint[2] - 0.0) > tolerance))
+  if ((itk::Math::abs(closestPoint[0] - 0.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[1] - 0.0) > tolerance) ||
+      (itk::Math::abs(closestPoint[2] - 0.0) > tolerance))
     {
     std::cerr << "Error: closestPoint computed incorrectly" << std::endl;
     std::cerr << "closestPoint[0] = " << closestPoint[0] << std::endl;

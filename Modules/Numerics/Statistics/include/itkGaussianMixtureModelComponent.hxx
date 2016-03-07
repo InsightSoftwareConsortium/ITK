@@ -219,7 +219,7 @@ GaussianMixtureModelComponent< TSample >
   typename MeanEstimatorType::MeasurementVectorType meanEstimate = m_MeanEstimator->GetMean();
   for ( i = 0; i < measurementVectorSize; i++ )
     {
-    changes = vnl_math_abs( m_Mean[i] - meanEstimate[i] );
+    changes = itk::Math::abs( m_Mean[i] - meanEstimate[i] );
 
     if ( changes > this->GetMinimalParametersChange() )
       {
@@ -256,7 +256,7 @@ GaussianMixtureModelComponent< TSample >
         {
         temp = m_Covariance.GetVnlMatrix().get(i, j)
                - covEstimate.GetVnlMatrix().get(i, j);
-        changes = vnl_math_abs( temp );
+        changes = itk::Math::abs( temp );
         if ( changes > this->GetMinimalParametersChange() )
           {
           changed = true;

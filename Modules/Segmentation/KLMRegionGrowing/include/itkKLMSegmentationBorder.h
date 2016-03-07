@@ -23,7 +23,7 @@
 #include "itkMacro.h"
 #include "ITKKLMRegionGrowingExport.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/vnl_vector.h"
 #include "itkMath.h"
 

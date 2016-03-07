@@ -122,7 +122,7 @@ int itkNonUniformBSplineTest(int, char* [] )
 
   while ( kitr != kend )
     {
-    if( vnl_math_abs( *kitr - *rkitr ) > vnl_math::eps )
+    if( itk::Math::abs( *kitr - *rkitr ) > itk::Math::eps )
       {
       std::cerr << "Error in Set/GetKnots() " << std::endl;
       std::cerr << "Expected = " << *kitr << std::endl;

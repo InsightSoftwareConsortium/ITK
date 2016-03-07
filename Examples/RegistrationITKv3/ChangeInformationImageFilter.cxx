@@ -152,7 +152,7 @@ int main( int argc, char * argv[] )
     double additionalAngle = atof( argv[7] );
 
     itk::Versor< itk::SpacePrecisionType >  rotation;
-    double angleInRadians = additionalAngle * vnl_math::pi / 180.0;
+    double angleInRadians = additionalAngle * itk::Math::pi / 180.0;
     rotation.SetRotationAroundZ( angleInRadians );
 
     ImageType::DirectionType newDirection = direction * rotation.GetMatrix();

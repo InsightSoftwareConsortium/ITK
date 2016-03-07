@@ -203,11 +203,11 @@ DiscreteGradientMagnitudeGaussianImageFunction< TInputImage, TOutput >
     temp = m_OperatorImageFunction->EvaluateAtIndex(index);
     if ( m_UseImageSpacing )
       {
-      gradientMagnitude += vnl_math_sqr(temp / this->GetInputImage()->GetSpacing()[i]);
+      gradientMagnitude += itk::Math::sqr(temp / this->GetInputImage()->GetSpacing()[i]);
       }
     else
       {
-      gradientMagnitude += vnl_math_sqr(temp);
+      gradientMagnitude += itk::Math::sqr(temp);
       }
     }
 

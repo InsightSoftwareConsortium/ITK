@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkTimeProbesCollectorBase.h"
 
 double itkVNLRoundTestHelperFunction( double x )
@@ -178,16 +178,16 @@ int itkVNLRoundProfileTest1( int, char *[] )
     //
     //  Count the time of rounding plus storing in container
     //
-    chronometer.Start("vnl_math_rnd");
+    chronometer.Start("itk::Math::rnd");
 
     while( inpItr != inputEnd )
       {
-      *outItr = vnl_math_rnd( *inpItr );
+      *outItr = itk::Math::rnd( *inpItr );
       ++outItr;
       ++inpItr;
       }
 
-    chronometer.Stop("vnl_math_rnd");
+    chronometer.Stop("itk::Math::rnd");
 
     }
 
@@ -212,9 +212,9 @@ int itkVNLRoundProfileTest1( int, char *[] )
 
   while( inpItr != inputEnd )
     {
-    if( vnl_math_abs( *outItr1 - *outItr2 ) > tolerance )
+    if( itk::Math::abs( *outItr1 - *outItr2 ) > tolerance )
       {
-      std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1 << " differs from vnl_math_rnd: " << *outItr2 << std::endl;
+      std::cout << "Warning*** For input: " << *inpItr << " if-round: " << *outItr1 << " differs from itk::Math::rnd: " << *outItr2 << std::endl;
       if ((static_cast<int>(*outItr2) % 2) == 0)
         {
         roundUp = false;
@@ -237,16 +237,16 @@ int itkVNLRoundProfileTest1( int, char *[] )
     {
     if( roundUp)
       {
-      std::cout << "******* On this platform, vnl_math_rnd() rounds up ********" << std::endl;
+      std::cout << "******* On this platform, itk::Math::rnd() rounds up ********" << std::endl;
       }
     else
       {
-      std::cout << "******* On this platform, vnl_math_rnd() rounds to even ********" << std::endl;
+      std::cout << "******* On this platform, itk::Math::rnd() rounds to even ********" << std::endl;
       }
     }
   else
     {
-    std::cout << "******* On this platform, vnl_math_rnd() neither rounds up nor rounds to even consistently ********" << std::endl;
+    std::cout << "******* On this platform, itk::Math::rnd() neither rounds up nor rounds to even consistently ********" << std::endl;
     }
   if (roundMismatch)
     {

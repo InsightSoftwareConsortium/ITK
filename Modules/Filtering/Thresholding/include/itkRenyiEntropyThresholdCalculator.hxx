@@ -21,7 +21,7 @@
 
 #include "itkRenyiEntropyThresholdCalculator.h"
 #include "itkProgressReporter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -48,7 +48,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>
     return;
     }
 
-  const double tolerance = vnl_math::eps;
+  const double tolerance = itk::Math::eps;
 
   InstanceIdentifier ih;
 

@@ -442,7 +442,7 @@ int itkSplineKernelTransformTest(int , char* [] )
   const double tolerance = 1e-7;
   for(unsigned int pr = 0; pr < numberOfParameters; pr++)
     {
-    if( vnl_math_abs( parameters1[pr] - parameters2[pr] ) > tolerance )
+    if( itk::Math::abs( parameters1[pr] - parameters2[pr] ) > tolerance )
       {
       std::cout << "Parameters were not correctly recovered " << std::endl;
       return EXIT_FAILURE;

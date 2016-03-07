@@ -85,7 +85,7 @@ int itkRescaleIntensityImageFilterTest(int, char* [] )
   const double obtainedMinimum = calculator->GetMinimum();
   const double obtainedMaximum = calculator->GetMaximum();
 
-  if( vnl_math_abs( obtainedMinimum - desiredMinimum ) > tolerance )
+  if( itk::Math::abs( obtainedMinimum - desiredMinimum ) > tolerance )
     {
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
@@ -93,7 +93,7 @@ int itkRescaleIntensityImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( vnl_math_abs( obtainedMaximum - desiredMaximum ) > tolerance )
+  if( itk::Math::abs( obtainedMaximum - desiredMaximum ) > tolerance )
     {
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMaximum  << std::endl;

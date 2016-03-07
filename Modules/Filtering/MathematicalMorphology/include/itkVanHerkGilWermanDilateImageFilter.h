@@ -19,7 +19,7 @@
 #define itkVanHerkGilWermanDilateImageFilter_h
 
 #include "itkVanHerkGilWermanErodeDilateImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

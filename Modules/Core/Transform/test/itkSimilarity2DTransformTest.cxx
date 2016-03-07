@@ -253,7 +253,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
     TransformType::ParametersType parameters( t1->GetNumberOfParameters() );
 
     parameters[0] = 2.0;
-    parameters[1] = -21.0 / 180.0 * vnl_math::pi;
+    parameters[1] = -21.0 / 180.0 * itk::Math::pi;
     parameters[2] = 12.0;
     parameters[3] = -8.9;
 
@@ -326,7 +326,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
     TransformType::Pointer t4 = TransformType::New();
 
     parameters[0] = 0.6;
-    parameters[1] = 14.7 / 180.0 * vnl_math::pi;
+    parameters[1] = 14.7 / 180.0 * itk::Math::pi;
     parameters[2] = 4.0;
     parameters[3] = 4.0;
 
@@ -393,7 +393,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-4 )
+        if( itk::Math::abs( approxDerivative - computedDerivative ) > 1e-4 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -418,7 +418,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
     TransformType::ParametersType parameters( t1->GetNumberOfParameters() );
 
     parameters[0] = 2.0;
-    parameters[1] = -21.0 / 180.0 * vnl_math::pi;
+    parameters[1] = -21.0 / 180.0 * itk::Math::pi;
     parameters[2] = 12.0;
     parameters[3] = -8.9;
     parameters[4] = 67.8;
@@ -488,7 +488,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
     TransformType::Pointer t4 = TransformType::New();
 
     parameters[0] = 0.6;
-    parameters[1] = 14.7 / 180.0 * vnl_math::pi;
+    parameters[1] = 14.7 / 180.0 * itk::Math::pi;
     parameters[2] = 4.0;
     parameters[3] = 4.0;
     parameters[4] = 67.1;
@@ -553,7 +553,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-4 )
+        if( itk::Math::abs( approxDerivative - computedDerivative ) > 1e-4 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -584,7 +584,7 @@ int itkSimilarity2DTransformTest(int, char *[] )
       {
       parameters[j] = static_cast<double>( j ) + 1.0;
       }
-    parameters[1] *= vnl_math::pi / 180.0;
+    parameters[1] *= itk::Math::pi / 180.0;
 
     t1->SetCenter( center );
     t1->SetParameters( parameters );

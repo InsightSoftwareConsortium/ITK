@@ -21,7 +21,7 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <algorithm>
 #include "itkMath.h"
 
@@ -277,7 +277,7 @@ void
 FastMarchingImageFilter< TLevelSet, TSpeedImage >
 ::GenerateData()
 {
-  if( m_NormalizationFactor < vnl_math::eps )
+  if( m_NormalizationFactor < itk::Math::eps )
     {
     ExceptionObject err(__FILE__, __LINE__);
     err.SetLocation(ITK_LOCATION);
@@ -469,7 +469,7 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
   if ( speedImage )
     {
     cc = static_cast< double >( speedImage->GetPixel(index)  ) / m_NormalizationFactor;
-    cc = -1.0 * vnl_math_sqr(1.0 / cc);
+    cc = -1.0 * itk::Math::sqr(1.0 / cc);
     }
 
   OutputSpacingType spacing = /* this->GetOutput() */ output->GetSpacing();
@@ -485,12 +485,12 @@ FastMarchingImageFilter< TLevelSet, TSpeedImage >
       {
       const int    axis = node.GetAxis();
       // spaceFactor = \frac{1}{spacing[axis]^2}
-      const double spaceFactor = vnl_math_sqr(1.0 / spacing[axis]);
+      const double spaceFactor = itk::Math::sqr(1.0 / spacing[axis]);
       aa += spaceFactor;
       bb += value * spaceFactor;
-      cc += vnl_math_sqr(value) * spaceFactor;
+      cc += itk::Math::sqr(value) * spaceFactor;
 
-      discrim = vnl_math_sqr(bb) - aa * cc;
+      discrim = itk::Math::sqr(bb) - aa * cc;
       if ( discrim < 0.0 )
         {
         // Discriminant of quadratic eqn. is negative

@@ -47,7 +47,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return static_cast<TOutput>( vnl_math_abs( A ) );
+    return static_cast<TOutput>( itk::Math::abs( A ) );
   }
 };
 }
@@ -55,7 +55,7 @@ public:
 /** \class AbsImageFilter
  * \brief Computes the absolute value of each pixel.
  *
- * vnl_math_abs() is used to perform the computation.
+ * itk::Math::abs() is used to perform the computation.
  *
  * \ingroup IntensityImageFilters
  * \ingroup MultiThreaded

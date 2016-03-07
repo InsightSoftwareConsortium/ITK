@@ -382,7 +382,7 @@ protected:
   {
     this->m_KdTree = ITK_NULLPTR;
     this->m_ElapsedIterations = 0;
-    this->m_MaximumRMSError = vnl_math::eps;
+    this->m_MaximumRMSError = itk::Math::eps;
     this->m_RMSChange = NumericTraits< double >::max();
     this->m_UseImageSpacing = true;
     this->m_ManualReinitialization = false;

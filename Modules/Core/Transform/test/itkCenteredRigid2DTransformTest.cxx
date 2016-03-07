@@ -228,7 +228,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
     // Set parameters
     TransformType::ParametersType parameters( t1->GetNumberOfParameters() );
 
-    parameters[0] = -21.0 / 180.0 * vnl_math::pi;
+    parameters[0] = -21.0 / 180.0 * itk::Math::pi;
     parameters[1] = 12.0;
     parameters[2] = -8.9;
     parameters[3] = 67.8;
@@ -293,7 +293,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
     // Test compose
     TransformType::Pointer t4 = TransformType::New();
 
-    parameters[0] = 14.7 / 180.0 * vnl_math::pi;
+    parameters[0] = 14.7 / 180.0 * itk::Math::pi;
     parameters[1] = 4.0;
     parameters[2] = 4.0;
     parameters[3] = 67.1;
@@ -357,7 +357,7 @@ int itkCenteredRigid2DTransformTest(int argc, char *argv[] )
         const double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         const double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-4 )
+        if( itk::Math::abs( approxDerivative - computedDerivative ) > 1e-4 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;

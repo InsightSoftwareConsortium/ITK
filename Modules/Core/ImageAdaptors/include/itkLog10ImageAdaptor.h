@@ -19,7 +19,7 @@
 #define itkLog10ImageAdaptor_h
 
 #include "itkImageAdaptor.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

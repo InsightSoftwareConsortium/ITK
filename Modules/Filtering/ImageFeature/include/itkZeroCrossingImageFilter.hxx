@@ -150,8 +150,8 @@ ZeroCrossingImageFilter< TInputImage, TOutputImage >
              || ( ( Math::ExactlyEquals(this_one, zero) ) && ( Math::NotExactlyEquals(that, zero) ) )
              || ( ( Math::NotExactlyEquals(this_one, zero) ) && ( Math::ExactlyEquals(that, zero) ) ) )
           {
-          abs_this_one =  vnl_math_abs(this_one);
-          abs_that = vnl_math_abs(that);
+          abs_this_one =  itk::Math::abs(this_one);
+          abs_that = itk::Math::abs(that);
           if ( abs_this_one < abs_that )
             {
             it.Set(m_ForegroundValue);

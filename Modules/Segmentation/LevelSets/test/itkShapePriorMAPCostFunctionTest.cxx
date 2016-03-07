@@ -110,7 +110,7 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
     float value  = shape->Evaluate( point );
     iter.Set( value );
 
-    if ( vnl_math_abs( value ) < activeRegionThreshold )
+    if ( itk::Math::abs( value ) < activeRegionThreshold )
       {
       NodeType node;
       node.SetIndex( index );
@@ -213,7 +213,7 @@ int itkShapePriorMAPCostFunctionTest( int, char *[])
 
   for ( unsigned int j = 0; j < costFunction->GetNumberOfParameters(); j++ )
     {
-    if ( vnl_math_abs( parameters[j] - optimizer->GetCurrentPosition()[j] ) > 0.5 )
+    if ( itk::Math::abs( parameters[j] - optimizer->GetCurrentPosition()[j] ) > 0.5 )
       {
       std::cout << "Final parameters not within tolerance. " << std::endl;
       return EXIT_FAILURE;
