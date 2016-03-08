@@ -146,27 +146,27 @@ public:
    * tric overlap measures
    */
   /** measures over all labels */
-  RealType GetTotalOverlap();
-  RealType GetUnionOverlap();
-  RealType GetMeanOverlap();
-  RealType GetVolumeSimilarity();
-  RealType GetFalseNegativeError();
-  RealType GetFalsePositiveError();
+  RealType GetTotalOverlap() const;
+  RealType GetUnionOverlap() const;
+  RealType GetMeanOverlap() const;
+  RealType GetVolumeSimilarity() const;
+  RealType GetFalseNegativeError() const;
+  RealType GetFalsePositiveError() const;
   /** measures over individual labels */
-  RealType GetTargetOverlap( LabelType );
-  RealType GetUnionOverlap( LabelType );
-  RealType GetMeanOverlap( LabelType );
-  RealType GetVolumeSimilarity( LabelType );
-  RealType GetFalseNegativeError( LabelType );
-  RealType GetFalsePositiveError( LabelType );
+  RealType GetTargetOverlap( LabelType ) const;
+  RealType GetUnionOverlap( LabelType ) const;
+  RealType GetMeanOverlap( LabelType ) const;
+  RealType GetVolumeSimilarity( LabelType ) const;
+  RealType GetFalseNegativeError( LabelType ) const;
+  RealType GetFalsePositiveError( LabelType ) const;
   /** alternative names */
-  RealType GetJaccardCoefficient()
+  RealType GetJaccardCoefficient() const
   { return this->GetUnionOverlap(); }
-  RealType GetJaccardCoefficient( LabelType label )
+  RealType GetJaccardCoefficient( LabelType label ) const
   { return this->GetUnionOverlap( label ); }
-  RealType GetDiceCoefficient()
+  RealType GetDiceCoefficient() const
   { return this->GetMeanOverlap(); }
-  RealType GetDiceCoefficient( LabelType label )
+  RealType GetDiceCoefficient( LabelType label ) const
   { return this->GetMeanOverlap( label ); }
 
 
