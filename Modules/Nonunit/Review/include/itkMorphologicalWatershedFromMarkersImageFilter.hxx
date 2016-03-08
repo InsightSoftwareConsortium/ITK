@@ -101,10 +101,10 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   //---------------------------------------------------------------------------
 
   // the label used to find background in the marker image
-  static ITK_CONSTEXPR LabelImagePixelType bgLabel =
+  static LabelImagePixelType bgLabel =
     NumericTraits< LabelImagePixelType >::ZeroValue();
   // the label used to mark the watershed line in the output image
-  static ITK_CONSTEXPR LabelImagePixelType wsLabel =
+  static LabelImagePixelType wsLabel =
     NumericTraits< LabelImagePixelType >::ZeroValue();
 
   this->AllocateOutputs();
