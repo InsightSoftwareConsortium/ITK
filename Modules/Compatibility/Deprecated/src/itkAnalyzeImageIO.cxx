@@ -68,7 +68,7 @@ const short int DataTypeKey[12] =
 
 // due to gzip and other io limitations this is the maximum size to
 // read at one time
-const unsigned int ANALYZE_MAXIMUM_IO_CHUNK = itk::NumericTraits< unsigned int >::max() / 4;
+unsigned int ANALYZE_MAXIMUM_IO_CHUNK = itk::NumericTraits< unsigned int >::max() / 4;
 
 static std::string
 GetExtension(const std::string & filename)
@@ -749,7 +749,7 @@ void AnalyzeImageIO::Read(void *buffer)
     // will be read as several chunks.
     //This is due to the limitation of 'unsigned int' in  the gzread()
     //  function.
-    static ITK_CONSTEXPR unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
+    static unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
 
     char *p = static_cast< char * >( buffer );
 
@@ -1513,7 +1513,7 @@ AnalyzeImageIO
       // read in a single operation on some platforms to a different limit
       // than the corresponding fread operation.
 
-      static ITK_CONSTEXPR unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
+      static unsigned int maxChunk = ANALYZE_MAXIMUM_IO_CHUNK;
 
       SizeType bytesRemaining = this->GetImageSizeInBytes();
       while ( bytesRemaining )
