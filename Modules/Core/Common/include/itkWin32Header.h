@@ -71,6 +71,10 @@
 
 // nonstandard extension used : 'extern' before template explicit instantiation
 #pragma warning ( disable : 4231 )
+
+// data-conversion related to 'size_t'
+#pragma warning ( disable : 4267 )
+
 #endif // _MSC_VER
 
 #endif
