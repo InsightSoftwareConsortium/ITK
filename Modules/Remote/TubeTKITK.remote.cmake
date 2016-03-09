@@ -1,5 +1,5 @@
-itk_fetch_module(TubeTK
+itk_fetch_module(TubeTKITK
   "A toolkit for the segmentation, registration, and analysis of tubes and surfaces in images"
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/TubeTK.git
-  GIT_TAG 2c673a939baf35b8452f05dde02ec994e10689cb
+  GIT_TAG a909cadf11129c2ec55a89d4c5767a8efc0192c2
   )
