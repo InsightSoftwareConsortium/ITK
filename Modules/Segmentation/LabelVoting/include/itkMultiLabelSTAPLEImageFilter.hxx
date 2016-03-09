@@ -35,8 +35,21 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
   Superclass::PrintSelf( os, indent );
   os << indent << "HasLabelForUndecidedPixels = "
      << this->m_HasLabelForUndecidedPixels << std::endl;
+  typedef typename NumericTraits< OutputPixelType >::PrintType OutputPixelPrintType;
   os << indent << "LabelForUndecidedPixels = "
-     << this->m_LabelForUndecidedPixels << std::endl;
+     << static_cast<OutputPixelPrintType>(this->m_LabelForUndecidedPixels) << std::endl;
+  os << indent << "HasPriorProbabilities = "
+     << this->m_PriorProbabilities << std::endl;
+  os << indent << "PriorProbabilities = "
+     << this->m_PriorProbabilities << std::endl;
+  os << indent << "HasMaximumNumberOfIterations = "
+     << this->m_HasMaximumNumberOfIterations << std::endl;
+  os << indent << "MaximumNumberOfIterations = "
+     << this->m_MaximumNumberOfIterations << std::endl;
+  os << indent << "m_ElapsedNumberOfIterations = "
+     << m_ElapsedNumberOfIterations << std::endl;
+  os << indent << "TerminationUpdateThreshold = "
+     << this->m_TerminationUpdateThreshold << std::endl;
 }
 
 template < typename TInputImage, typename TOutputImage, typename TWeights>
@@ -251,7 +264,8 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
   // allocate array for pixel class weights
   WeightsType* W = new WeightsType[ this->m_TotalLabelCount ];
 
-  for ( unsigned int iteration = 0; (!this->m_HasMaximumNumberOfIterations) || (iteration < this->m_MaximumNumberOfIterations); ++iteration )
+  unsigned int iteration = 0;
+  for (; (!this->m_HasMaximumNumberOfIterations) || (iteration < this->m_MaximumNumberOfIterations); ++iteration )
     {
     // reset updated confusion matrix
     for ( unsigned int k = 0; k < numberOfInputs; ++k )
@@ -418,6 +432,8 @@ MultiLabelSTAPLEImageFilter< TInputImage, TOutputImage, TWeights >
 
     out.Set( winningLabel );
     }
+
+  m_ElapsedNumberOfIterations = iteration;
 
   delete[] W;
   delete[] it;
