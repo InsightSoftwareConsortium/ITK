@@ -18,6 +18,7 @@
 
 #include "itkVideoToVideoFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 // typedefs for test
 const unsigned int Dimension =                          2;
@@ -181,6 +182,8 @@ int itkVideoToVideoFilterTest( int, char* [] )
   typedef itk::VideoToVideoFilterTest::
   DummyVideoToVideoFilter< InputVideoType, OutputVideoType > VideoFilterType;
   VideoFilterType::Pointer filter = VideoFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(filter, VideoFilterType);
 
   // Set up an input video stream
   InputVideoType::Pointer inputVideo = InputVideoType::New();
