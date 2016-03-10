@@ -49,13 +49,12 @@ macro(itk_wrap_named_class_DOC class swig_name)
       endif()
 
       # some simple computations to find the xml file produced for this class
-      string(REGEX REPLACE "([A-Z])" "_\\1" xmlname ${class})
+      string(REGEX REPLACE "([A-Z])" "\\1" xmlname ${class})
       string(REGEX REPLACE ":" "_1" xmlname ${xmlname})
       string(TOLOWER  ${xmlname} xmlname)
-      list(APPEND ITK_WRAP_DOC_DOXYGEN_XML_FILES "${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml")
-
+      list(APPEND ITK_WRAP_DOC_DOXYGEN_XML_FILES "${ITK_BINARY_DIR}/Utilities/Doxygen/xml/class${xmlname}.xml")
       # the doxy2swig input
-      set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\n${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml\t${class}")
+      set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\n${ITK_BINARY_DIR}/Utilities/Doxygen/xml/class${xmlname}.xml\t${class}")
       set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT ON)
     endif()
   endif()
@@ -77,7 +76,9 @@ macro(itk_end_wrap_module_DOC)
 
     # configure doxygen input file.
     # be sure to not include a header several times
-    UNIQUE(headers "${ITK_WRAP_DOC_DOXYGEN_HEADERS}")
+    if("${ITK_WRAP_DOC_DOXYGEN_HEADERS}")
+      UNIQUE(headers "${ITK_WRAP_DOC_DOXYGEN_HEADERS}")
+    endif()
     set(library_doxygen_config_file ${library_doc_build_dir}/doxygen.config)
     set(ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED)
     foreach(header ${headers})
