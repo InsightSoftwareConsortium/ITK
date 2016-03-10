@@ -265,7 +265,7 @@ FFTConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPre
   typename KernelShiftFilterType::OffsetType kernelShift;
   for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-    kernelShift[i] = -(kernelSize[i] / 2);
+    kernelShift[i] = -(static_cast<typename KernelShiftFilterType::OffsetType::OffsetValueType>(kernelSize[i]/2));
     }
   kernelShifter->SetShift( kernelShift );
   kernelShifter->SetNumberOfThreads( this->GetNumberOfThreads() );

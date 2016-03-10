@@ -257,7 +257,7 @@ BoxMeanCalculatorFunction(const TInputImage *accImage,
         }
       else
         {
-        thisCorner[i] = -( radius[i] + 1 );
+        thisCorner[i] = -(static_cast<OffsetValueType>(radius[i]) + 1);
         }
       }
     weights.push_back( (AccPixType)prod );
@@ -439,7 +439,7 @@ BoxSigmaCalculatorFunction(const TInputImage *accImage,
         }
       else
         {
-        thisCorner[i] = -( radius[i] + 1 );
+        thisCorner[i] = -(static_cast<OffsetValueType>(radius[i]) + 1);
         }
       }
     weights.push_back( (AccPixType)prod );
