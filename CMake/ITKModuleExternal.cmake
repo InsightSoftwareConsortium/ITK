@@ -64,6 +64,7 @@ set(ITK_MODULES_DIR "${ITK_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 include(CTest)
 include(ITKExternalData)
 include(ITKModuleTest)
+include(ITKDownloadSetup)
 
 include(ITKModuleMacros)
 include(itk-module.cmake)
