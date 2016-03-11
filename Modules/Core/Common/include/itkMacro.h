@@ -212,6 +212,17 @@ namespace itk
 #define ITK_CONSTEXPR_FUNC
 #endif
 
+// Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
+// use it analogously to "break;".  The trailing semi-colon is required.
+#if __cplusplus >= 201103L && defined(__has_warning)
+# if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
+#  define ITK_FALLTHROUGH [[clang::fallthrough]]
+# endif
+#endif
+
+#ifndef ITK_FALLTHROUGH
+# define ITK_FALLTHROUGH ((void)0)
+#endif
 
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class, potentially deferring to a factory.

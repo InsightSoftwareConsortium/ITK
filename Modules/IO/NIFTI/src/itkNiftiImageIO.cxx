@@ -1178,23 +1178,29 @@ NiftiImageIO
       this->SetDimensions(6, this->m_NiftiImage->nw);
       //NOTE: Scaling is not defined in this dimension
       this->SetSpacing(6, this->m_NiftiImage->dw);
+      ITK_FALLTHROUGH;
     case 6:
       this->SetDimensions(5, this->m_NiftiImage->nv);
       //NOTE: Scaling is not defined in this dimension
       this->SetSpacing(5, this->m_NiftiImage->dv);
+      ITK_FALLTHROUGH;
     case 5:
       this->SetDimensions(4, this->m_NiftiImage->nu);
       //NOTE: Scaling is not defined in this dimension
       this->SetSpacing(4, this->m_NiftiImage->du);
+      ITK_FALLTHROUGH;
     case 4:
       this->SetDimensions(3, this->m_NiftiImage->nt);
       this->SetSpacing(3, this->m_NiftiImage->dt * timingscale);
+      ITK_FALLTHROUGH;
     case 3:
       this->SetDimensions(2, this->m_NiftiImage->nz);
       this->SetSpacing(2, this->m_NiftiImage->dz * spacingscale);
+      ITK_FALLTHROUGH;
     case 2:
       this->SetDimensions(1, this->m_NiftiImage->ny);
       this->SetSpacing(1, this->m_NiftiImage->dy * spacingscale);
+      ITK_FALLTHROUGH;
     case 1:
       this->SetDimensions(0, this->m_NiftiImage->nx);
       this->SetSpacing(0, this->m_NiftiImage->dx * spacingscale);
@@ -1349,36 +1355,42 @@ NiftiImageIO
       this->m_NiftiImage->pixdim[7] = this->m_NiftiImage->dw =
                                         static_cast< float >( this->GetSpacing(6) );
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[7];
+      ITK_FALLTHROUGH;
     case 6:
       this->m_NiftiImage->dim[6] = this->m_NiftiImage->nv =
                                      this->GetDimensions(5);
       this->m_NiftiImage->pixdim[6] = this->m_NiftiImage->dv =
                                         static_cast< float >( this->GetSpacing(5) );
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[6];
+      ITK_FALLTHROUGH;
     case 5:
       this->m_NiftiImage->dim[5] =
         this->m_NiftiImage->nu = this->GetDimensions(4);
       this->m_NiftiImage->pixdim[5] =
         this->m_NiftiImage->du = static_cast< float >( this->GetSpacing(4) );
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[5];
+      ITK_FALLTHROUGH;
     case 4:
       this->m_NiftiImage->dim[4] = this->m_NiftiImage->nt =
                                      this->GetDimensions(3);
       this->m_NiftiImage->pixdim[4] =
         this->m_NiftiImage->dt = static_cast< float >( this->GetSpacing(3) );
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[4];
+      ITK_FALLTHROUGH;
     case 3:
       this->m_NiftiImage->dim[3] = this->m_NiftiImage->nz =
                                      this->GetDimensions(2);
       this->m_NiftiImage->pixdim[3] =
         this->m_NiftiImage->dz = static_cast< float >( this->GetSpacing(2) );
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[3];
+      ITK_FALLTHROUGH;
     case 2:
       this->m_NiftiImage->dim[2] = this->m_NiftiImage->ny =
                                      this->GetDimensions(1);
       this->m_NiftiImage->pixdim[2] =
         this->m_NiftiImage->dy = static_cast< float >( this->GetSpacing(1) );
       this->m_NiftiImage->nvox *= this->m_NiftiImage->dim[2];
+      ITK_FALLTHROUGH;
     case 1:
       this->m_NiftiImage->dim[1] = this->m_NiftiImage->nx =
                                      this->GetDimensions(0);
