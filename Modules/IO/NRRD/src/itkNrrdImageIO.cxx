@@ -800,14 +800,17 @@ void NrrdImageIO::Read(void *buffer)
         size[axi] = maxIdx[axi] - minIdx[axi] + 1;
         }
       Nrrd *ntmp = nrrdNew();
-      if ( nrrdCopy(ntmp, nrrd)
-           || ( nrrdEmpty(nrrd),
-                nrrdWrap_nva(nrrd, buffer, ntmp->type, ntmp->dim, size) )
+      if ( nrrdCopy(ntmp, nrrd) )
+        {
+        char *err = biffGetDone(NRRD); // would be nice to free(err)
+        itkExceptionMacro("Read: Error copying:\n" << err);
+        }
+      nrrdEmpty(nrrd);
+      if ( nrrdWrap_nva(nrrd, buffer, ntmp->type, ntmp->dim, size)
            || nrrdCrop(nrrd, ntmp, minIdx, maxIdx) )
         {
-        char *err =  biffGetDone(NRRD); // would be nice to free(err)
-        itkExceptionMacro("Read: Error copying, crapping or cropping:\n"
-                          << err);
+        char *err = biffGetDone(NRRD); // would be nice to free(err)
+        itkExceptionMacro("Read: Error wrapping or cropping:\n" << err);
         }
       nrrdNuke(ntmp);
       nrrdNix(nrrd);
