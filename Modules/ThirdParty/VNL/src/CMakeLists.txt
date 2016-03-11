@@ -11,6 +11,11 @@ set(EXECUTABLE_OUTPUT_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 set(LIBRARY_OUTPUT_PATH ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
 
 add_subdirectory(vxl)
+
+# The variable type of BUILD_EXAMPLES changed to INTERNAL type in VXL.
+# Retrive the variable type to CACHE.
+set(BUILD_EXAMPLES ${BUILD_EXAMPLES} CACHE BOOL "Build the examples from the ITK Software Guide." FORCE)
+
 foreach(lib itkvcl itkv3p_netlib itktestlib itkvnl itkvnl_algo itknetlib)
   itk_module_target(${lib} NO_INSTALL)
 endforeach()
