@@ -55,10 +55,9 @@ namespace itk {
  *      on a downsampled version of the original image.
  *  3. A binary mask or a weighted image can be supplied.  If a binary mask
  *     is specified, those voxels in the input image which correspond to the
- *     voxels in the mask image with a value equal to m_MaskLabel, are used
- *     to estimate the bias field.  If a confidence image is specified, the
- *     input voxels are weighted in the b-spline fitting routine according to
- *     the confidence voxel values.
+ *     voxels in the mask image are used to estimate the bias field.  If a
+ *     confidence image is specified, the input voxels are weighted in the
+ *     b-spline fitting routine according to the confidence voxel values.
  *  4. The filter returns the corrected image.  If the bias field is wanted, one
  *     can reconstruct it using the class itkBSplineControlPointImageFilter.
  *     See the IJ article and the test file for an example.
@@ -142,8 +141,8 @@ public:
 
   /**
    * Set mask image function.  If a binary mask image is specified, only
-   * those input image voxels corresponding with mask image values equal
-   * to m_MaskLabel are used in estimating the bias field.
+   * those input image voxels inside the mask image values are used in
+   * estimating the bias field.
    */
   void SetMaskImage( const MaskImageType *mask )
     {
@@ -153,8 +152,8 @@ public:
 
   /**
    * Get mask image function.  If a binary mask image is specified, only
-   * those input image voxels corresponding with mask image values equal
-   * to m_MaskLabel are used in estimating the bias field.
+   * those input image voxels inside the mask image values are used in
+   * estimating the bias field.
    */
   const MaskImageType* GetMaskImage() const
     {
@@ -191,20 +190,6 @@ public:
     {
     return static_cast<const RealImageType*>( this->ProcessObject::GetInput( 2 ) );
     }
-
-  /**
-   * Set mask label function.  If a binary mask image is specified, only those
-   * input image voxels corresponding with mask image values equal to
-   * m_MaskLabel are used in estimating the bias field.  Default = 1.
-   */
-  itkSetMacro( MaskLabel, MaskPixelType );
-
-  /**
-   * Get mask label function.  If a binary mask image is specified, only those
-   * input image voxels corresponding with mask image values equal to
-   * m_MaskLabel are used in estimating the bias field.  Default = 1.
-   */
-  itkGetConstMacro( MaskLabel, MaskPixelType );
 
   // Sharpen histogram parameters: in estimating the bias field, the
   // first step is to sharpen the intensity histogram by Wiener deconvolution
@@ -408,8 +393,6 @@ private:
    * image between the current bias field estimate and the previous estimate.
    */
   RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
-
-  MaskPixelType m_MaskLabel;
 
   // Parameters for deconvolution with Wiener filter
 
