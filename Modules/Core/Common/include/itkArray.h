@@ -155,9 +155,15 @@ public:
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValue *data, SizeValueType sz,
-               bool LetArrayManageMemory = false);
+  void SetData(TValue *data, SizeValueType sz, bool LetArrayManageMemory = false);
 
+  /** A compiler ambiguity occurs when the type of sz is not the same as SizeValueType
+      due to the default bool parameter. The following signatures allow wrapping to
+      disabmiguate how to cast sz (i.e. NOT to a bool) */
+  inline void SetData(TValue *tmpdata, unsigned int sz, bool LetArrayManageMemory = false)
+          { this->SetData(tmpdata,static_cast<SizeValueType>(sz),LetArrayManageMemory); }
+  inline void SetData(TValue *tmpdata, int sz, bool LetArrayManageMemory = false)
+          { this->SetData(tmpdata,static_cast<SizeValueType>(sz),LetArrayManageMemory); }
 
 #ifdef __INTEL_COMPILER
 #pragma warning disable 444 //destructor for base class "itk::Array<>" is not virtual
