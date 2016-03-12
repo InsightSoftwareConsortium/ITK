@@ -86,7 +86,7 @@ ImageVectorOptimizerParametersHelper< TValue, NVectorDimension, VImageDimension 
     //The PixelContainer for Image<Vector> points to type Vector, so we have
     // to determine the number of raw elements of type TValue in the buffer
     // and cast a pointer to it for assignment to the Array data pointer.
-    unsigned int sz = image->GetPixelContainer()->Size() * NVectorDimension;
+    SizeValueType sz = image->GetPixelContainer()->Size() * NVectorDimension;
     TValue* valuePointer = reinterpret_cast<TValue *>
                               ( image->GetPixelContainer()->GetBufferPointer() );
     //Set the Array's pointer to the image data buffer. By default it will
