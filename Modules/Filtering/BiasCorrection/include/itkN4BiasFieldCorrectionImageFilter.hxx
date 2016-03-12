@@ -43,7 +43,6 @@ namespace itk {
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::N4BiasFieldCorrectionImageFilter() :
-  m_MaskLabel( NumericTraits<MaskPixelType>::OneValue() ),
   m_NumberOfHistogramBins( 200 ),
   m_WienerFilterNoise( 0.01 ),
   m_BiasFieldFullWidthAtHalfMaximum( 0.15 ),
@@ -102,7 +101,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
+          maskImage->GetPixel( It.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
@@ -254,7 +253,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
+          maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
@@ -280,7 +279,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
+          maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
@@ -444,7 +443,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( ItU.GoToBegin(), ItC.GoToBegin(); !ItU.IsAtEnd(); ++ItU, ++ItC )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( ItU.GetIndex() ) == this->m_MaskLabel )
+          maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
@@ -512,7 +511,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for ( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
+          maskImage->GetPixel( It.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
@@ -672,7 +671,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( It.GetIndex() ) == this->m_MaskLabel )
+          maskImage->GetPixel( It.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
@@ -698,7 +697,6 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Mask label: " << this->m_MaskLabel << std::endl;
   os << indent << "Number of histogram bins: "
      << this->m_NumberOfHistogramBins << std::endl;
   os << indent << "Wiener filter noise: "
