@@ -99,9 +99,9 @@ LabelSetMorphBaseImageFilter< TInputImage, doDilate, TOutputImage >
   double range = static_cast< double >( requestedRegionSize[splitAxis] );
 
   unsigned int valuesPerThread =
-    static_cast< unsigned int >( vcl_ceil( range / static_cast< double >( num ) ) );
+    static_cast< unsigned int >( std::ceil( range / static_cast< double >( num ) ) );
   unsigned int maxThreadIdUsed =
-    static_cast< unsigned int >( vcl_ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
+    static_cast< unsigned int >( std::ceil( range / static_cast< double >( valuesPerThread ) ) ) - 1;
 
   // Split the region
   if ( i < maxThreadIdUsed )
