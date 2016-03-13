@@ -86,7 +86,7 @@ class vnl_sparse_lst_sqr_function
                               unsigned int num_b,
                               unsigned int num_params_per_b,
                               unsigned int num_params_c,
-                              const vcl_vector<vcl_vector<bool> >& xmask,
+                              const std::vector<std::vector<bool> >& xmask,
                               unsigned int num_residuals_per_e,
                               UseGradient g = use_gradient,
                               UseWeights w = no_weights);
@@ -101,11 +101,11 @@ class vnl_sparse_lst_sqr_function
   // xmask must be a_sizes.size() by b_sizes.size() and contain e_sizes.size() true entries
   // The optional argument should be no_gradient if the gradf function has not
   // been implemented.  Default is use_gradient.
-  vnl_sparse_lst_sqr_function(const vcl_vector<unsigned int>& a_sizes,
-                              const vcl_vector<unsigned int>& b_sizes,
+  vnl_sparse_lst_sqr_function(const std::vector<unsigned int>& a_sizes,
+                              const std::vector<unsigned int>& b_sizes,
                               unsigned int num_params_c,
-                              const vcl_vector<unsigned int>& e_sizes,
-                              const vcl_vector<vcl_vector<bool> >& xmask,
+                              const std::vector<unsigned int>& e_sizes,
+                              const std::vector<std::vector<bool> >& xmask,
                               UseGradient g = use_gradient,
                               UseWeights w = no_weights);
 
@@ -137,9 +137,9 @@ class vnl_sparse_lst_sqr_function
   virtual void jac_blocks(vnl_vector<double> const& a,
                           vnl_vector<double> const& b,
                           vnl_vector<double> const& c,
-                          vcl_vector<vnl_matrix<double> >& A,
-                          vcl_vector<vnl_matrix<double> >& B,
-                          vcl_vector<vnl_matrix<double> >& C);
+                          std::vector<vnl_matrix<double> >& A,
+                          std::vector<vnl_matrix<double> >& B,
+                          std::vector<vnl_matrix<double> >& C);
 
   //: Compute the sparse Jacobian in block form using a finite difference approximation.
   //  Given the parameter vectors a, b and c, compute the set of block Jacobians
@@ -152,9 +152,9 @@ class vnl_sparse_lst_sqr_function
   virtual void fd_jac_blocks(vnl_vector<double> const& a,
                              vnl_vector<double> const& b,
                              vnl_vector<double> const& c,
-                             vcl_vector<vnl_matrix<double> >& A,
-                             vcl_vector<vnl_matrix<double> >& B,
-                             vcl_vector<vnl_matrix<double> >& C,
+                             std::vector<vnl_matrix<double> >& A,
+                             std::vector<vnl_matrix<double> >& B,
+                             std::vector<vnl_matrix<double> >& C,
                              double stepsize);
 
   //: If using weighted least squares, compute the weights for each i and j.
@@ -183,9 +183,9 @@ class vnl_sparse_lst_sqr_function
   //  You do not need to overload this method unless you want to provide
   //  a more specialized implementation for your problem.
   virtual void apply_weights(vnl_vector<double> const& weights,
-                             vcl_vector<vnl_matrix<double> >& A,
-                             vcl_vector<vnl_matrix<double> >& B,
-                             vcl_vector<vnl_matrix<double> >& C);
+                             std::vector<vnl_matrix<double> >& A,
+                             std::vector<vnl_matrix<double> >& B,
+                             std::vector<vnl_matrix<double> >& C);
 
   //: Compute the residuals from the ith component of a, the jth component of b.
   //  Given the parameter vectors ai, bj, and c, compute the vector of residuals fij.
@@ -322,10 +322,10 @@ class vnl_sparse_lst_sqr_function
 
  protected:
   vnl_crs_index residual_indices_;
-  vcl_vector<unsigned int> indices_a_;
-  vcl_vector<unsigned int> indices_b_;
+  std::vector<unsigned int> indices_a_;
+  std::vector<unsigned int> indices_b_;
   unsigned int num_params_c_;
-  vcl_vector<unsigned int> indices_e_;
+  std::vector<unsigned int> indices_e_;
 
   bool use_gradient_;
   bool use_weights_;

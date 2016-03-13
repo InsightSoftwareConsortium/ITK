@@ -1,7 +1,8 @@
 // This is core/vnl/vnl_decnum.cxx
+#include <sstream>
 #include "vnl_decnum.h"
 #include <vcl_cassert.h>
-#include <vcl_sstream.h>
+#include <vcl_compiler.h>
 
 // constructor from (decimal) string.
 // Parses the input into (in that order)
@@ -11,8 +12,8 @@
 // * and the exponent (optional, starts with "e", then optionally "+" or "-", then an integer)
 // * If the mantissa contains a decimal point, it is ignored (but the exponent is adapted accordingly).
 // Alternatively, the input might also be "NaN", "Inf", "+Inf", or "-Inf".
-// See also operator>>(vcl_istream& s, vnl_decnum& r).
-vnl_decnum::vnl_decnum(vcl_string const& r)
+// See also operator>>(std::istream& s, vnl_decnum& r).
+vnl_decnum::vnl_decnum(std::string const& r)
 : sign_('+'), data_(""), exp_(0L)
 {
   long exp = 0L;
@@ -43,7 +44,7 @@ vnl_decnum::vnl_decnum(vcl_string const& r)
     if (sign_ == ' ') exp_ = 0L;
   }
 #ifdef DEBUG
-  vcl_cerr << "Leaving vnl_decnum::vnl_decnum(\"" << r << "\") with " << sign_ << data_ << 'e' << exp_ << '\n';
+  std::cerr << "Leaving vnl_decnum::vnl_decnum(\"" << r << "\") with " << sign_ << data_ << 'e' << exp_ << '\n';
 #endif
 }
 
@@ -61,24 +62,24 @@ vnl_decnum::vnl_decnum(unsigned long r)
 vnl_decnum::vnl_decnum(double r)
 {
 #ifdef DEBUG
-  vcl_cerr << "vnl_decnum::vnl_decnum(double " << r << ")\n";
+  std::cerr << "vnl_decnum::vnl_decnum(double " << r << ")\n";
 #endif
-  vcl_ostringstream os; os << r;
+  std::ostringstream os; os << r;
   *this = vnl_decnum(os.str());
 }
 
 // Implicit type conversion to a decimal string
 // Also used for ostream output
-vnl_decnum::operator vcl_string() const
+vnl_decnum::operator std::string() const
 {
   if (data_=="NaN") return "NaN";
   if (sign_==' ') return "0"; // even if the exponent would be nonzero
-  vcl_string r=data_; if (sign_=='-') r.insert(r.begin(), sign_);
+  std::string r=data_; if (sign_=='-') r.insert(r.begin(), sign_);
   if (exp_ == 0) return r;
   // if not a plain integer: also print out the exponent:
   r.push_back('e');
   long exp=exp_; if (exp < 0) { exp = -exp; r.push_back('-'); }
-  vcl_string e="";
+  std::string e="";
   while (exp) {e.insert(e.begin(), '0'+(exp%10)); exp /=10; }
   return r+e;
 }
@@ -143,10 +144,10 @@ bool vnl_decnum::operator==(vnl_decnum const& r) const
 // This is "operator<" for strings.
 // The arguments should consist of digits only (interpreted as mantissas with the same exponent).
 // The shorter of the two arguments is implicitly zero-padded.
-bool vnl_decnum::comp(vcl_string const& a, vcl_string const& b)
+bool vnl_decnum::comp(std::string const& a, std::string const& b)
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::comp with " << a << " and " << b << '\n';
+  std::cerr << "Entering vnl_decnum::comp with " << a << " and " << b << '\n';
 #endif
   int i, na = int(a.length()), nb = int(b.length()), nc = na < nb ? na : nb;
   for (i = 0; i < nc; ++i) {
@@ -162,9 +163,9 @@ bool vnl_decnum::comp(vcl_string const& a, vcl_string const& b)
 bool vnl_decnum::operator< (vnl_decnum const& r) const
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::operator< with " << data_ << " and " << r.data() << '\n';
+  std::cerr << "Entering vnl_decnum::operator< with " << data_ << " and " << r.data() << '\n';
 #endif
-  vcl_string rs = r.data();
+  std::string rs = r.data();
   if (data_ == "NaN" || rs == "NaN") return false; // NaN compares to nothing!
   else if (operator==(r)) return false;
   else if (data_ == "Inf") return sign_ == '-';
@@ -184,12 +185,12 @@ bool vnl_decnum::operator< (vnl_decnum const& r) const
 // Returns the sum of the two first arguments (interpreted as mantissas with the same exponent).
 // Both arguments should consist of digits only.
 // The third argument will be the exponent of the result.
-vnl_decnum vnl_decnum::plus(vcl_string const& a, vcl_string const& b, long exp)
+vnl_decnum vnl_decnum::plus(std::string const& a, std::string const& b, long exp)
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::plus with " << a << " and " << b << '\n';
+  std::cerr << "Entering vnl_decnum::plus with " << a << " and " << b << '\n';
 #endif
-  vcl_string result = "";
+  std::string result = "";
   int na=int(a.length()), nb=int(b.length()), carry=0;
   for (--na,--nb; na>=0&&nb>=0; --na,--nb) {
     char c = a.c_str()[na] + (b.c_str()[nb] - '0') + carry;
@@ -214,12 +215,12 @@ vnl_decnum vnl_decnum::plus(vcl_string const& a, vcl_string const& b, long exp)
 // Both arguments should consist of digits only
 // and the first one should be numerically larger than the second one.
 // The third argument will be the exponent of the result.
-vnl_decnum vnl_decnum::minus(vcl_string const& a, vcl_string const& b, long exp)
+vnl_decnum vnl_decnum::minus(std::string const& a, std::string const& b, long exp)
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::minus with " << a << " and " << b << '\n';
+  std::cerr << "Entering vnl_decnum::minus with " << a << " and " << b << '\n';
 #endif
-  vcl_string result = "";
+  std::string result = "";
   int na=int(a.length()), nb=int(b.length()), carry=0;
   assert(na>=nb);
   for (--na,--nb; na>=0&&nb>=0; --na,--nb) {
@@ -241,7 +242,7 @@ vnl_decnum vnl_decnum::minus(vcl_string const& a, vcl_string const& b, long exp)
 vnl_decnum vnl_decnum::operator+(vnl_decnum const& r) const
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::operator+ with "
+  std::cerr << "Entering vnl_decnum::operator+ with "
            << sign_ << data_ << 'e' << exp_ << " and "
            << r.sign() << r.data() << 'e' << r.exp() << '\n';
 #endif
@@ -268,12 +269,12 @@ vnl_decnum vnl_decnum::operator+(vnl_decnum const& r) const
 // Returns the product of the two arguments.
 // The first argument should consist of digits only;
 // the second argument should be a single digit.
-vcl_string vnl_decnum::mult(vcl_string const& a, char b)
+std::string vnl_decnum::mult(std::string const& a, char b)
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::mult with " << a << " and " << b << '\n';
+  std::cerr << "Entering vnl_decnum::mult with " << a << " and " << b << '\n';
 #endif
-  vcl_string result = "";
+  std::string result = "";
   int na=int(a.length()), carry=0, bb = b-'0';
   assert(bb >= 0 && bb <= 9);
   for (--na; na>=0; --na) {
@@ -289,7 +290,7 @@ vcl_string vnl_decnum::mult(vcl_string const& a, char b)
 vnl_decnum vnl_decnum::operator*(vnl_decnum const& r) const
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::operator* with "
+  std::cerr << "Entering vnl_decnum::operator* with "
            << sign_ << data_ << 'e' << exp_ << " and "
            << r.sign() << r.data() << 'e' << r.exp() << '\n';
 #endif
@@ -303,7 +304,7 @@ vnl_decnum vnl_decnum::operator*(vnl_decnum const& r) const
   int sign = (sign_==' '?0:sign_=='-'?-1:1) * (r.sign()==' '?0:r.sign()=='-'?-1:1);
   vnl_decnum result(0L);
   if (sign == 0) return result;
-  vcl_string zeros = "";
+  std::string zeros = "";
   int na=int(data_.length());
   for (--na; na>=0; --na) {
     result += vnl_decnum(mult(r.data(), data_.c_str()[na]) + zeros);
@@ -318,17 +319,17 @@ vnl_decnum vnl_decnum::operator*(vnl_decnum const& r) const
 // (I.e.: the product of the original b with the returned divisor.)
 // The arguments should consist of digits only
 // and the first one should be numerically larger than the second one.
-vcl_string vnl_decnum::div(vcl_string const& a, vcl_string& b)
+std::string vnl_decnum::div(std::string const& a, std::string& b)
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::div with " << a << " and " << b << '\n';
+  std::cerr << "Entering vnl_decnum::div with " << a << " and " << b << '\n';
 #endif
   int na=int(a.length()), nb=int(b.length());
   assert(na >= nb);
   if (comp(a,b)) ++nb;
-  vcl_string u = "1";
+  std::string u = "1";
   while (nb<na) { b.push_back('0'), u.push_back('0'); ++nb; }
-  vcl_string c = b;
+  std::string c = b;
   for (; u[0]<'9'; u[0]++) {
     vnl_decnum d = plus(c,b,0L);
     if (vnl_decnum(a) < d) { b=c; return u; }
@@ -341,7 +342,7 @@ vcl_string vnl_decnum::div(vcl_string const& a, vcl_string& b)
 vnl_decnum vnl_decnum::operator/(vnl_decnum const& r) const
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::operator/ with "
+  std::cerr << "Entering vnl_decnum::operator/ with "
            << sign_ << data_ << 'e' << exp_ << " and "
            << r.sign() << r.data() << 'e' << r.exp() << '\n';
 #endif
@@ -359,14 +360,14 @@ vnl_decnum vnl_decnum::operator/(vnl_decnum const& r) const
 
   if (r == 1L) return *this;
   if (operator==(r)) return vnl_decnum('+',"1",0L);
-  vcl_string a = data_, b = r.data();
+  std::string a = data_, b = r.data();
   int na=int(a.length()), nb=int(b.length());
   vnl_decnum result(0L);
   while (na > nb || (na == nb && !comp(a,b))) {
-    vcl_string c = b;
-    vcl_string d = div(a, c);
+    std::string c = b;
+    std::string d = div(a, c);
 #ifdef DEBUG
-    vcl_cerr << "vnl_decnum::div returns " << d << '\n';
+    std::cerr << "vnl_decnum::div returns " << d << '\n';
 #endif
     result += vnl_decnum(d);
     vnl_decnum m = vnl_decnum(a) - vnl_decnum(c);
@@ -380,7 +381,7 @@ vnl_decnum vnl_decnum::operator/(vnl_decnum const& r) const
 vnl_decnum vnl_decnum::operator%(vnl_decnum const& r) const
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering vnl_decnum::operator% with "
+  std::cerr << "Entering vnl_decnum::operator% with "
            << sign_ << data_ << 'e' << exp_ << " and "
            << r.sign() << r.data() << 'e' << r.exp() << '\n';
 #endif
@@ -392,13 +393,13 @@ vnl_decnum vnl_decnum::operator%(vnl_decnum const& r) const
 
   if (r == vnl_decnum("1")) return vnl_decnum("0");
   if (operator==(r)) return vnl_decnum("0");
-  vcl_string a = data_, b = r.data();
+  std::string a = data_, b = r.data();
   int na=int(a.length()), nb=int(b.length());
   while (na > nb || (na == nb && !comp(a,b))) {
-    vcl_string c = b;
-    vcl_string d = div(a, c);
+    std::string c = b;
+    std::string d = div(a, c);
 #ifdef DEBUG
-    vcl_cerr << "vnl_decnum::div returns " << d << '\n';
+    std::cerr << "vnl_decnum::div returns " << d << '\n';
 #endif
     vnl_decnum m = vnl_decnum(a) - vnl_decnum(c);
     a = m.data(); na=a.length();
@@ -407,13 +408,13 @@ vnl_decnum vnl_decnum::operator%(vnl_decnum const& r) const
   else       return vnl_decnum(sign_,a,exp_);
 }
 
-// See also the constructor from vcl_string.
-vcl_istream& operator>>(vcl_istream& s, vnl_decnum& r)
+// See also the constructor from std::string.
+std::istream& operator>>(std::istream& s, vnl_decnum& r)
 {
 #ifdef DEBUG
-  vcl_cerr << "Entering operator>>(istream,vnl_decnum) with " << r << '\n';
+  std::cerr << "Entering operator>>(istream,vnl_decnum) with " << r << '\n';
 #endif
-  vcl_string data = "";
+  std::string data = "";
   int c = ' ';
   while (c == ' ' || c == '\t' || c == '\r') c=s.get(); // blank skipping
   if (c == -1 || c == '\n') { r = vnl_decnum(0L); return s; } // stop parsing at EOLN or EOF

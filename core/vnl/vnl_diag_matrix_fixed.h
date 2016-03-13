@@ -20,8 +20,9 @@
 //   Jan.2011 - Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 
+#include <iosfwd>
 #include <vcl_cassert.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 
@@ -175,7 +176,7 @@ class vnl_diag_matrix_fixed
 //:
 // \relatesalso vnl_diag_matrix_fixed
 template <class T, unsigned int N>
-vcl_ostream& operator<< (vcl_ostream&, vnl_diag_matrix_fixed<T,N> const&);
+std::ostream& operator<< (std::ostream&, vnl_diag_matrix_fixed<T,N> const&);
 
 //: Convert a vnl_diag_matrix_fixed to a Matrix.
 template <class T, unsigned int N>

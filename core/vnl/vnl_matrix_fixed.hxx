@@ -3,11 +3,12 @@
 #define vnl_matrix_fixed_hxx_
 //:
 // \file
+#include <cmath>
+#include <iostream>
+#include <cstdlib>
 #include "vnl_matrix_fixed.h"
 
-#include <vcl_cmath.h>
-#include <vcl_iostream.h>
-#include <vcl_cstdlib.h> // for abort
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 #include <vnl/vnl_error.h>
@@ -146,7 +147,7 @@ vnl_matrix_fixed<T,nrows,ncols>::set_diagonal(vnl_vector<T> const& diag)
 
 template<class T, unsigned nrows, unsigned ncols>
 void
-vnl_matrix_fixed<T,nrows,ncols>::print(vcl_ostream& os) const
+vnl_matrix_fixed<T,nrows,ncols>::print(std::ostream& os) const
 {
   for (unsigned int i = 0; i < nrows; ++i)
   {
@@ -160,7 +161,8 @@ vnl_matrix_fixed<T,nrows,ncols>::print(vcl_ostream& os) const
 
 template <class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>
-vnl_matrix_fixed<T,nrows,ncols>::apply(T (*f)(T const&)) const
+vnl_matrix_fixed<T,nrows,ncols>
+::apply(T (*f)(T const&)) const
 {
   vnl_matrix_fixed<T,nrows,ncols> ret;
   vnl_c_vector<T>::apply(this->data_[0], rows()*cols(), f, ret.data_block());
@@ -169,11 +171,36 @@ vnl_matrix_fixed<T,nrows,ncols>::apply(T (*f)(T const&)) const
 
 template <class T, unsigned nrows, unsigned ncols>
 vnl_matrix_fixed<T,nrows,ncols>
-vnl_matrix_fixed<T,nrows,ncols>::apply(T (*f)(T)) const
+vnl_matrix_fixed<T,nrows,ncols>
+::apply(T (*f)(T)) const
 {
   vnl_matrix_fixed<T,nrows,ncols> ret;
   vnl_c_vector<T>::apply(this->data_[0], rows()*cols(), f, ret.data_block());
   return ret;
+}
+
+//: Make a vector by applying a function across rows.
+template <class T, unsigned nrows, unsigned ncols>
+vnl_vector_fixed<T,nrows>
+vnl_matrix_fixed<T,nrows,ncols>
+::apply_rowwise(T (*f)(vnl_vector_fixed<T,ncols> const&)) const
+{
+  vnl_vector_fixed<T,nrows> v;
+  for (unsigned int i = 0; i < nrows; ++i)
+    v.put(i,f(this->get_row(i)));
+  return v;
+}
+
+//: Make a vector by applying a function across columns.
+template <class T, unsigned nrows, unsigned ncols>
+vnl_vector_fixed<T,ncols>
+vnl_matrix_fixed<T,nrows,ncols>
+::apply_columnwise(T (*f)(vnl_vector_fixed<T,nrows> const&)) const
+{
+  vnl_vector_fixed<T,ncols> v;
+  for (unsigned int i = 0; i < ncols; ++i)
+    v.put(i,f(this->get_column(i)));
+  return v;
 }
 
 ////--------------------------- Additions------------------------------------
@@ -300,7 +327,7 @@ vnl_matrix_fixed<T,nrows,ncols>::normalize_rows()
     if (norm != 0)
     {
       typedef typename vnl_numeric_traits<abs_t>::real_t real_t;
-      real_t scale = real_t(1)/vcl_sqrt((real_t)norm);
+      real_t scale = real_t(1)/std::sqrt((real_t)norm);
       for (unsigned int j = 0; j < ncols; ++j)
       {
         // FIXME need correct rounding here
@@ -324,7 +351,7 @@ vnl_matrix_fixed<T,nrows,ncols>::normalize_columns()
     if (norm != 0)
     {
       typedef typename vnl_numeric_traits<abs_t>::real_t real_t;
-      real_t scale = real_t(1)/vcl_sqrt((real_t)norm);
+      real_t scale = real_t(1)/std::sqrt((real_t)norm);
       for (unsigned int i = 0; i < nrows; ++i)
       {
         // FIXME need correct rounding here
@@ -634,24 +661,24 @@ vnl_matrix_fixed<T,nrows,ncols>::assert_finite_internal() const
   if (is_finite())
     return;
 
-  vcl_cerr << "\n\n" __FILE__ ": " << __LINE__ << ": matrix has non-finite elements\n";
+  std::cerr << "\n\n" __FILE__ ": " << __LINE__ << ": matrix has non-finite elements\n";
 
   if (rows() <= 20 && cols() <= 20)
-    vcl_cerr << __FILE__ ": here it is:\n" << *this << '\n';
+    std::cerr << __FILE__ ": here it is:\n" << *this << '\n';
   else
   {
-    vcl_cerr << __FILE__ ": it is quite big (" << rows() << 'x' << cols() << ")\n"
+    std::cerr << __FILE__ ": it is quite big (" << rows() << 'x' << cols() << ")\n"
              << __FILE__ ": in the following picture '-' means finite and '*' means non-finite:\n";
 
     for (unsigned int i=0; i<rows(); ++i)
     {
       for (unsigned int j=0; j<cols(); ++j)
-        vcl_cerr << char(vnl_math::isfinite(this->data_[i][ j]) ? '-' : '*');
-      vcl_cerr << '\n';
+        std::cerr << char(vnl_math::isfinite(this->data_[i][ j]) ? '-' : '*');
+      std::cerr << '\n';
     }
   }
-  vcl_cerr << __FILE__ ": calling abort()\n";
-  vcl_abort();
+  std::cerr << __FILE__ ": calling abort()\n";
+  std::abort();
 }
 
 //: Abort unless M has the given size.
@@ -661,19 +688,19 @@ vnl_matrix_fixed<T,nrows,ncols>::assert_size_internal(unsigned rs,unsigned cs) c
 {
   if (nrows!=rs || ncols!=cs)
   {
-    vcl_cerr << __FILE__ ": size is " << nrows << 'x' << ncols
-             << ". should be " << rs << 'x' << cs << vcl_endl;
-    vcl_abort();
+    std::cerr << __FILE__ ": size is " << nrows << 'x' << ncols
+             << ". should be " << rs << 'x' << cs << std::endl;
+    std::abort();
   }
 }
 
 template <class T, unsigned nrows, unsigned ncols>
 bool
-vnl_matrix_fixed<T,nrows,ncols>::read_ascii(vcl_istream& s)
+vnl_matrix_fixed<T,nrows,ncols>::read_ascii(std::istream& s)
 {
   if (!s.good())
   {
-    vcl_cerr << __FILE__ ": vnl_matrix_fixed<T,nrows,ncols>::read_ascii: Called with bad stream\n";
+    std::cerr << __FILE__ ": vnl_matrix_fixed<T,nrows,ncols>::read_ascii: Called with bad stream\n";
     return false;
   }
 

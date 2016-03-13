@@ -20,9 +20,10 @@
 //   24-Oct-2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
 
+#include <iosfwd>
 #include <vcl_cassert.h>
 #include <vnl/vnl_vector_fixed.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 
 template <class T, unsigned int n>
@@ -32,7 +33,7 @@ class vnl_vector_fixed_ref_const
   const T* data_;
 
  public:
-  typedef unsigned int size_type;
+  typedef size_t size_type;
 
   vnl_vector_fixed_ref_const(vnl_vector_fixed<T,n> const& rhs) : data_(rhs.data_block()) {}
 
@@ -224,7 +225,7 @@ class vnl_vector_fixed_ref_const
 
   //: Display the vector
   // Output each element separated by a single space.
-  void print( vcl_ostream& s ) const;
+  void print( std::ostream& s ) const;
 
  public:
   // Helper routines for arithmetic. n is the size, and is the
@@ -317,19 +318,19 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
 
   //: Copy operator
   vnl_vector_fixed_ref<T,n> const & operator=( const vnl_vector_fixed<T,n>& rhs ) const {
-    vcl_memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
+    std::memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
     return *this;
   }
 
   //: Copy operator
   vnl_vector_fixed_ref<T,n> const& operator=( const vnl_vector_fixed_ref<T,n>& rhs ) const {
-    vcl_memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
+    std::memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
     return *this;
   }
 
   //: Copy operator
   vnl_vector_fixed_ref<T,n> const& operator=( const vnl_vector_fixed_ref_const<T,n>& rhs ) const {
-    vcl_memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
+    std::memcpy( data_block(), rhs.data_block(), n * sizeof(T) );
     return *this;
   }
 
@@ -383,7 +384,7 @@ class vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
   vnl_vector_fixed_ref const& update (vnl_vector<T> const&, unsigned int start=0) const;
 
   //: Read from text stream
-  bool read_ascii(vcl_istream& s) const;
+  bool read_ascii(std::istream& s) const;
 
   vnl_vector_fixed_ref const& flip() const;
 
@@ -673,7 +674,7 @@ inline T vnl_vector_ssd( const vnl_vector<T>& a, const vnl_vector_fixed_ref_cons
 //: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline
-vcl_ostream& operator<<(vcl_ostream& o,const vnl_vector_fixed_ref_const<T,n>& v)
+std::ostream& operator<<(std::ostream& o,const vnl_vector_fixed_ref_const<T,n>& v)
 {
   v.print(o);
   return o;
@@ -682,7 +683,7 @@ vcl_ostream& operator<<(vcl_ostream& o,const vnl_vector_fixed_ref_const<T,n>& v)
 //: \relatesalso vnl_vector_fixed
 template<class T, unsigned int n>
 inline
-vcl_istream& operator>>(vcl_istream& i, const vnl_vector_fixed_ref<T,n>& v)
+std::istream& operator>>(std::istream& i, const vnl_vector_fixed_ref<T,n>& v)
 {
   v.read_ascii(i);
   return i;

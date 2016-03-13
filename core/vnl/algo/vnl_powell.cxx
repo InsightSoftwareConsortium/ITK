@@ -4,6 +4,7 @@
 #endif
 //:
 // \file
+#include <iostream>
 #include "vnl_powell.h"
 
 #include <vcl_cassert.h>
@@ -18,7 +19,7 @@
 #endif
 #ifdef DEBUG
 #include <vnl/vnl_matlab_print.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #endif
 
 class vnl_powell_1dfun : public vnl_cost_function
@@ -108,16 +109,16 @@ vnl_powell::minimize(vnl_vector<double>& p)
       f1d.uninit(xx, p);
       // Now p is minimizer along xi
 
-      if (vcl_fabs(fptt-fret) > del) {
-        del = vcl_fabs(fptt-fret);
+      if (std::fabs(fptt-fret) > del) {
+        del = std::fabs(fptt-fret);
         ibig = i;
       }
     }
 
-    if (2.0*vcl_fabs(fp-fret) <= ftol*(vcl_fabs(fp)+vcl_fabs(fret)))
+    if (2.0*std::fabs(fp-fret) <= ftol*(std::fabs(fp)+std::fabs(fret)))
     {
 #ifdef DEBUG
-      vnl_matlab_print(vcl_cerr, xi, "xi");
+      vnl_matlab_print(std::cerr, xi, "xi");
 #endif
       return CONVERGED_FTOL;
     }

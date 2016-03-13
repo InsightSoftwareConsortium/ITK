@@ -1,7 +1,8 @@
 // @author fsm
+#include <cmath>
+#include <iostream>
 #include <vnl/vnl_double_2.h>
-#include <vcl_cmath.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_least_squares_function.h>
@@ -51,7 +52,7 @@ void do_rosenbrock_test(bool with_grad)
   vnl_rosenbrock f(with_grad);
 
   vnl_double_2 x0(2.7,-1.3);
-  vcl_cout << "x0 = " << x0 << vcl_endl;
+  std::cout << "x0 = " << x0 << std::endl;
 
   vnl_levenberg_marquardt lm(f);
 
@@ -60,11 +61,11 @@ void do_rosenbrock_test(bool with_grad)
     lm.minimize_using_gradient(x1);
   else
     lm.minimize_without_gradient(x1);
-  lm.diagnose_outcome(vcl_cout);
-  vcl_cout << "x1 = " << x1 << vcl_endl;
+  lm.diagnose_outcome(std::cout);
+  std::cout << "x1 = " << x1 << std::endl;
 
-  double err = vcl_abs(x1[0] - 1) + vcl_abs(x1[1] - 1);
-  vcl_cout << "err = " << err << vcl_endl;
+  double err = std::abs(x1[0] - 1) + std::abs(x1[1] - 1);
+  std::cout << "err = " << err << std::endl;
   TEST_NEAR("converged to (1, 1)", err, 0.0, 1e-10);
 }
 
@@ -101,8 +102,8 @@ void do_linear_test( bool with_grad )
     lm.minimize_using_gradient(x);
   else
     lm.minimize_without_gradient(x);
-  lm.diagnose_outcome(vcl_cout);
-  vcl_cout << "x = " << x << vcl_endl;
+  lm.diagnose_outcome(std::cout);
+  std::cout << "x = " << x << std::endl;
 
   vnl_vector<double> true_x(2);
   true_x[1]=0.969684757298943;
@@ -118,7 +119,7 @@ void do_linear_test( bool with_grad )
   true_cov(1,1)=1384.14;
 
   vnl_matrix<double> covar = lm.get_JtJ();
-  vcl_cout << "Cov(x) =\n" << covar << vcl_endl;
+  std::cout << "Cov(x) =\n" << covar << std::endl;
   TEST_NEAR( "covariance approximation", (true_cov-covar).array_two_norm(), 0, 1e-5 );
 }
 

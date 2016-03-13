@@ -1,7 +1,8 @@
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h>
-#include <vcl_string.h>
-#include <vcl_limits.h> // for infinity()
+#include <iostream>
+#include <iomanip>
+#include <string>
+#include <limits>
+#include <vcl_compiler.h>
 #include <vxl_config.h> // for VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex.h> // for vnl_math::abs(std::complex)
@@ -9,21 +10,21 @@
 
 //Utility function for printing hex representations
 template<typename T>
-vcl_string print_hex(const T p)
+std::string print_hex(const T p)
   {
-  vcl_stringstream str;
-  str << vcl_hex<<vcl_setfill('0')<<vcl_setw(2);
+  std::stringstream str;
+  str << std::hex<<std::setfill('0')<<std::setw(2);
   for(int i = 0; i < (16-sizeof(p) ); ++i)
     {
     str << ".." ;
     }
   for (int i=(sizeof(p) -1 ); i>=0; --i)
     {
-    str<<vcl_setfill('0')<<vcl_setw(2);
+    str<<std::setfill('0')<<std::setw(2);
     const short curr_value = static_cast<short>( (reinterpret_cast<unsigned char const *>(&p))[i] );
     str<<curr_value;
     }
-  str<<vcl_dec;
+  str<<std::dec;
   return str.str();
   }
 
@@ -116,11 +117,11 @@ static void test_math()
   int n = -11;
   float f = -7.5f;
   double d = -vnl_math::pi;
-  vcl_complex<double> i(0,1);
-  vcl_complex<double> z(-1,2);
-  vcl_complex<double> e_ipi = vcl_exp(d*i);
+  std::complex<double> i(0,1);
+  std::complex<double> z(-1,2);
+  std::complex<double> e_ipi = std::exp(d*i);
 
-  vcl_cout << "n = " << n << '\n'
+  std::cout << "n = " << n << '\n'
            << "f = " << f << '\n'
            << "d = " << d << '\n'
            << "i = " << i << '\n'
@@ -134,16 +135,16 @@ static void test_math()
            << "abs(i) = " << vnl_math::abs(i) << '\n'
            << "abs(z) = " << vnl_math::abs(z) << '\n'
            <<"norm(z) = " << vnl_math::squared_magnitude(z) << '\n'
-           << vcl_endl;
+           << std::endl;
 
   TEST("abs(n) == 11", vnl_math::abs(n), 11);
   TEST("abs(f) == 7.5f", vnl_math::abs(f), 7.5f);
   TEST("abs(d) == pi", vnl_math::abs(d), vnl_math::pi);
   TEST("abs(i) == 1", vnl_math::abs(i), 1.0);
-  TEST_NEAR("abs(-1+2i)~=sqrt(5)",vnl_math::abs(z),vcl_sqrt(5.0), 1e-12);
+  TEST_NEAR("abs(-1+2i)~=sqrt(5)",vnl_math::abs(z),std::sqrt(5.0), 1e-12);
   TEST_NEAR("norm(-1+2i) ~= 5", vnl_math::squared_magnitude(z),5, 1e-12);
   TEST_NEAR("exp(d*i) ~= -1", vnl_math::abs(e_ipi+1.0), 0, 1e-12);
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 
   TEST("rnd(-8.4999)  == -8  ", vnl_math::rnd(-8.4999), -8);
   TEST("rnd(-8.4999f) == -8  ", vnl_math::rnd(-8.4999f), -8);
@@ -281,53 +282,60 @@ static void test_math()
   TEST(" isfinite(z)    ",  vnl_math::isfinite(z), true);
 
 
-  // There is an assumption in this code that vcl_numeric_limits<float/double>::has_infinity==true
+  // There is an assumption in this code that std::numeric_limits<float/double>::has_infinity==true
 
-  TEST("vcl_numeric_limits<float>::has_infinity==true assumption",vcl_numeric_limits<float>::has_infinity, true);
-  TEST("vcl_numeric_limits<double>::has_infinity==true assumption",vcl_numeric_limits<double>::has_infinity, true);
-  TEST("vcl_numeric_limits<ldouble>::has_infinity==true assumption",vcl_numeric_limits<long double>::has_infinity, true);
-  if (! vcl_numeric_limits<float>::has_infinity && ! vcl_numeric_limits<double>::has_infinity)
+  TEST("std::numeric_limits<float>::has_infinity==true assumption",std::numeric_limits<float>::has_infinity, true);
+  TEST("std::numeric_limits<double>::has_infinity==true assumption",std::numeric_limits<double>::has_infinity, true);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+  TEST("std::numeric_limits<ldouble>::has_infinity==true assumption",std::numeric_limits<long double>::has_infinity, true);
+#endif
+  if (! std::numeric_limits<float>::has_infinity && ! std::numeric_limits<double>::has_infinity)
   {
-    vcl_cout << "Your platform doesn't appear to have an infinity. VXL is in places relatively\n"
+    std::cout << "Your platform doesn't appear to have an infinity. VXL is in places relatively\n"
              << "dependent on the existence of an infinity. There are two solutions.\n"
              << "A. If your platform really doesn't have an infinity, VXL's configuration code\n"
              << "   can be modified to correctly detect and use the infinity.\n"
-             << "B. Fix VXL so that it can cope with the lack of an infinity.\n" << vcl_endl;
+             << "B. Fix VXL so that it can cope with the lack of an infinity.\n" << std::endl;
   }
-  TEST("vcl_numeric_limits<float>::has_quiet_NaN==true assumption",vcl_numeric_limits<float>::has_quiet_NaN, true);
-  TEST("vcl_numeric_limits<double>::has_quiet_NaN==true assumption",vcl_numeric_limits<double>::has_quiet_NaN, true);
-  TEST("vcl_numeric_limits<ldouble>::has_quiet_NaN==true assumption",vcl_numeric_limits<long double>::has_quiet_NaN, true);
-  if (! vcl_numeric_limits<float>::has_quiet_NaN && ! vcl_numeric_limits<double>::has_quiet_NaN)
+  TEST("std::numeric_limits<float>::has_quiet_NaN==true assumption",std::numeric_limits<float>::has_quiet_NaN, true);
+  TEST("std::numeric_limits<double>::has_quiet_NaN==true assumption",std::numeric_limits<double>::has_quiet_NaN, true);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+  TEST("std::numeric_limits<ldouble>::has_quiet_NaN==true assumption",std::numeric_limits<long double>::has_quiet_NaN, true);
+#endif
+  if (! std::numeric_limits<float>::has_quiet_NaN && ! std::numeric_limits<double>::has_quiet_NaN)
   {
-    vcl_cout << "Your platform doesn't appear to have a quiet NaN. VXL is in places relatively\n"
+    std::cout << "Your platform doesn't appear to have a quiet NaN. VXL is in places relatively\n"
              << "dependent on the existence of a quiet NaN. There are two solutions.\n"
              << "A. If your platform really doesn't have a quiet NaN, VXL's configuration code\n"
              << "   can be modified to correctly detect and use the NaN.\n"
-             << "B. Fix VXL so that it can cope with the lack of a quiet NaN.\n" << vcl_endl;
+             << "B. Fix VXL so that it can cope with the lack of a quiet NaN.\n" << std::endl;
   }
   // Create Inf and -Inf:
-  const float pinf_f =   vcl_numeric_limits<float>::infinity();
-  const float ninf_f = - vcl_numeric_limits<float>::infinity();
-  const double pinf_d =   vcl_numeric_limits<double>::infinity();
-  const double ninf_d = - vcl_numeric_limits<double>::infinity();
-  const long double pinf_q =  vcl_numeric_limits<long double>::infinity();
-  const long double ninf_q = -vcl_numeric_limits<long double>::infinity();
-
+  const float pinf_f =   std::numeric_limits<float>::infinity();
+  const float ninf_f = - std::numeric_limits<float>::infinity();
+  const double pinf_d =   std::numeric_limits<double>::infinity();
+  const double ninf_d = - std::numeric_limits<double>::infinity();
   // Create NaN
-  const float qnan_f = vcl_numeric_limits<float>::quiet_NaN();
-  const double qnan_d = vcl_numeric_limits<double>::quiet_NaN();
-  const long double qnan_q = vcl_numeric_limits<long double>::quiet_NaN();
+  const float qnan_f = std::numeric_limits<float>::quiet_NaN();
+  const double qnan_d = std::numeric_limits<double>::quiet_NaN();
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+  const long double pinf_q =  std::numeric_limits<long double>::infinity();
+  const long double ninf_q = -std::numeric_limits<long double>::infinity();
+  const long double qnan_q = std::numeric_limits<long double>::quiet_NaN();
+#endif
 
-  vcl_cout << "pinf_f = " << pinf_f << " =  "<< print_hex(pinf_f) << "    sizeof " << sizeof(pinf_f) << '\n'
+  std::cout << "pinf_f = " << pinf_f << " =  "<< print_hex(pinf_f) << "    sizeof " << sizeof(pinf_f) << '\n'
            << "ninf_f = " << ninf_f << " = " << print_hex(ninf_f) << "    sizeof " << sizeof(ninf_f) << '\n'
            << "pinf_d = " << pinf_d << " =  "<< print_hex(pinf_d) << "    sizeof " << sizeof(pinf_d) << '\n'
            << "ninf_d = " << ninf_d << " = " << print_hex(ninf_d) << "    sizeof " << sizeof(ninf_d) << '\n'
-           << "pinf_q = " << pinf_q << " =  "<< print_hex(pinf_q) << "    sizeof " << sizeof(pinf_q) << '\n'
-           << "ninf_q = " << ninf_q << " = " << print_hex(ninf_q) << "    sizeof " << sizeof(ninf_q) << '\n'
            << "qnan_f = " << qnan_f << " =  "<< print_hex(qnan_f) << "    sizeof " << sizeof(qnan_f) << '\n'
            << "qnan_d = " << qnan_d << " =  "<< print_hex(qnan_d) << "    sizeof " << sizeof(qnan_d) << '\n'
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+           << "pinf_q = " << pinf_q << " =  "<< print_hex(pinf_q) << "    sizeof " << sizeof(pinf_q) << '\n'
+           << "ninf_q = " << ninf_q << " = " << print_hex(ninf_q) << "    sizeof " << sizeof(ninf_q) << '\n'
            << "qnan_q = " << qnan_q << " =  "<< print_hex(qnan_q) << "    sizeof " << sizeof(qnan_q) << '\n'
-           << vcl_endl;
+#endif
+           << std::endl;
 
   TEST("!isfinite(pinf_f)", vnl_math::isfinite(pinf_f), false);
   TEST("!isfinite(ninf_f)", vnl_math::isfinite(ninf_f), false);
@@ -349,6 +357,7 @@ static void test_math()
   TEST("!isinf(qnan_d)   ", vnl_math::isinf(qnan_d), false);
   TEST(" isnan(qnan_d)   ",  vnl_math::isnan(qnan_d), true);
 
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
 #ifndef __ICC // "long double" has no standard internal representation on different platforms/compilers
   TEST("!isfinite(pinf_q)", vnl_math::isfinite(pinf_q), false);
   TEST("!isfinite(ninf_q)", vnl_math::isfinite(ninf_q), false);
@@ -359,6 +368,7 @@ static void test_math()
   TEST("!isfinite(qnan_q)", vnl_math::isfinite(qnan_q), false);
   TEST("!isinf(qnan_q)   ", vnl_math::isinf(qnan_q), false);
 #endif // __ICC
+#endif
 
   TEST("!isfinite(huge_val(double))", vnl_math::isfinite(vnl_huge_val(double())), false);
   TEST("!isfinite(huge_val(float))",  vnl_math::isfinite(vnl_huge_val(float())),  false);
@@ -378,21 +388,21 @@ static void test_math()
   TEST("vnl_math::sgn(-0.0F)  ", vnl_math::sgn(-0.0F),  0);
   TEST("vnl_math::sgn(+0.0F)  ", vnl_math::sgn(-0.0F),  0);
 
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 
   // test vnl_math::angle_0_to_2pi() for "extreme values":
   TEST("vnl_math::angle_0_to_2pi(2pi)", vnl_math::angle_0_to_2pi(vnl_math::twopi), 0.0);
   double eps = 2e-16; // which is smaller than the precision of vnl_math::pi
   double conv_eps = vnl_math::angle_0_to_2pi(-eps);
-  vcl_cout << "conv_eps = " << conv_eps << " = 2pi - " << vnl_math::twopi-conv_eps << vcl_endl;
+  std::cout << "conv_eps = " << conv_eps << " = 2pi - " << vnl_math::twopi-conv_eps << std::endl;
   TEST("vnl_math::angle_0_to_2pi(-eps)", conv_eps < vnl_math::twopi && conv_eps > 6.283, true);
   eps = 2e-15; // which is larger than the precision of vnl_math::pi
   conv_eps = vnl_math::angle_0_to_2pi(-eps);
-  vcl_cout << "conv_eps = " << conv_eps << " = 2pi - " << vnl_math::twopi-conv_eps << vcl_endl;
+  std::cout << "conv_eps = " << conv_eps << " = 2pi - " << vnl_math::twopi-conv_eps << std::endl;
   TEST("vnl_math::angle_0_to_2pi(-10eps)", conv_eps < vnl_math::twopi - 1e-15 && conv_eps > 6.283, true);
   double ang = vnl_math::twopi - eps;
   double conv_ang = vnl_math::angle_0_to_2pi(ang);
-  vcl_cout << "conv_ang = " << conv_ang << " = 2pi - " << vnl_math::twopi-conv_ang << vcl_endl;
+  std::cout << "conv_ang = " << conv_ang << " = 2pi - " << vnl_math::twopi-conv_ang << std::endl;
   TEST("vnl_math::angle_0_to_2pi(2pi-10eps)", conv_ang, ang);
   // test vnl_math::angle_minuspi_to_pi() for "extreme values":
   TEST("vnl_math::angle_minuspi_to_pi(2pi)", vnl_math::angle_minuspi_to_pi(vnl_math::twopi), 0.0);
@@ -400,25 +410,25 @@ static void test_math()
   TEST("vnl_math::angle_minuspi_to_pi(-pi)", vnl_math::angle_minuspi_to_pi(-vnl_math::pi), -vnl_math::pi);
   eps = 2e-16; // which is smaller than the precision of vnl_math::pi
   conv_eps = vnl_math::angle_minuspi_to_pi(-eps);
-  vcl_cout << "conv_eps = " << conv_eps << vcl_endl;
+  std::cout << "conv_eps = " << conv_eps << std::endl;
   TEST("vnl_math::angle_minuspi_to_pi(-eps)", conv_eps, -eps);
   eps = 2e-15; // which is larger than the precision of vnl_math::pi
   conv_eps = vnl_math::angle_minuspi_to_pi(-eps);
-  vcl_cout << "conv_eps = " << conv_eps << vcl_endl;
+  std::cout << "conv_eps = " << conv_eps << std::endl;
   TEST("vnl_math::angle_minuspi_to_pi(-10eps)", conv_eps, -eps);
 
   ///////////////
   // TRUNCATED //
   ///////////////
 
-  vcl_cout << "Truncated Remainder:" << vcl_endl;
+  std::cout << "Truncated Remainder:" << std::endl;
   // Truncated Remainder (% for integers, fmod for floating point)
   // This behavior is most familiar to c++ programmers, but is unusual
   // in mathematical terms.
 
     {
 
-    vcl_cout << "+ +" << vcl_endl;
+    std::cout << "+ +" << std::endl;
 
     unsigned short x_short_u     = 7;
     unsigned short y_short_u     = 2;
@@ -436,8 +446,10 @@ static void test_math()
     float          y_float       = 2;
     double         x_double      = 7;
     double         y_double      = 2;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     long double    x_long_double = 7;
     long double    y_long_double = 2;
+#endif
 
     TEST("vnl_math::remainder_truncated(x_short_u    ,y_short_u    )",vnl_math::remainder_truncated(x_short_u    ,y_short_u    ),+1);
     TEST("vnl_math::remainder_truncated(x_short_s    ,y_short_s    )",vnl_math::remainder_truncated(x_short_s    ,y_short_s    ),+1);
@@ -447,68 +459,82 @@ static void test_math()
     TEST("vnl_math::remainder_truncated(x_long_s     ,y_long_s     )",vnl_math::remainder_truncated(x_long_s     ,y_long_s     ),+1);
     TEST("vnl_math::remainder_truncated(x_float      ,y_float      )",vnl_math::remainder_truncated(x_float      ,y_float      ),+1);
     TEST("vnl_math::remainder_truncated(x_double     ,y_double     )",vnl_math::remainder_truncated(x_double     ,y_double     ),+1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_truncated(x_long_double,y_long_double)",vnl_math::remainder_truncated(x_long_double,y_long_double),+1);
+#endif
 
-    vcl_cout << "+ -" << vcl_endl;
+    std::cout << "+ -" << std::endl;
 
     y_short_s     *= -1;
     y_int_s       *= -1;
     y_long_s      *= -1;
     y_float       *= -1;
     y_double      *= -1;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     y_long_double *= -1;
+#endif
 
     TEST("vnl_math::remainder_truncated(x_short_s    ,y_short_s    )",vnl_math::remainder_truncated(x_short_s    ,y_short_s    ),+1);
     TEST("vnl_math::remainder_truncated(x_int_s      ,y_int_s      )",vnl_math::remainder_truncated(x_int_s      ,y_int_s      ),+1);
     TEST("vnl_math::remainder_truncated(x_long_s     ,y_long_s     )",vnl_math::remainder_truncated(x_long_s     ,y_long_s     ),+1);
     TEST("vnl_math::remainder_truncated(x_float      ,y_float      )",vnl_math::remainder_truncated(x_float      ,y_float      ),+1);
     TEST("vnl_math::remainder_truncated(x_double     ,y_double     )",vnl_math::remainder_truncated(x_double     ,y_double     ),+1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_truncated(x_long_double,y_long_double)",vnl_math::remainder_truncated(x_long_double,y_long_double),+1);
+#endif
 
-    vcl_cout << "- -" << vcl_endl;
+    std::cout << "- -" << std::endl;
 
     x_short_s     *= -1;
     x_int_s       *= -1;
     x_long_s      *= -1;
     x_float       *= -1;
     x_double      *= -1;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     x_long_double *= -1;
+#endif
 
     TEST("vnl_math::remainder_truncated(x_short_s    ,y_short_s    )",vnl_math::remainder_truncated(x_short_s    ,y_short_s    ),-1);
     TEST("vnl_math::remainder_truncated(x_int_s      ,y_int_s      )",vnl_math::remainder_truncated(x_int_s      ,y_int_s      ),-1);
     TEST("vnl_math::remainder_truncated(x_long_s     ,y_long_s     )",vnl_math::remainder_truncated(x_long_s     ,y_long_s     ),-1);
     TEST("vnl_math::remainder_truncated(x_float      ,y_float      )",vnl_math::remainder_truncated(x_float      ,y_float      ),-1);
     TEST("vnl_math::remainder_truncated(x_double     ,y_double     )",vnl_math::remainder_truncated(x_double     ,y_double     ),-1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_truncated(x_long_double,y_long_double)",vnl_math::remainder_truncated(x_long_double,y_long_double),-1);
+#endif
 
-    vcl_cout << "- +" << vcl_endl;
+    std::cout << "- +" << std::endl;
 
     y_short_s     *= -1;
     y_int_s       *= -1;
     y_long_s      *= -1;
     y_float       *= -1;
     y_double      *= -1;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     y_long_double *= -1;
+#endif
 
     TEST("vnl_math::remainder_truncated(x_short_s    ,y_short_s    )",vnl_math::remainder_truncated(x_short_s    ,y_short_s    ),-1);
     TEST("vnl_math::remainder_truncated(x_int_s      ,y_int_s      )",vnl_math::remainder_truncated(x_int_s      ,y_int_s      ),-1);
     TEST("vnl_math::remainder_truncated(x_long_s     ,y_long_s     )",vnl_math::remainder_truncated(x_long_s     ,y_long_s     ),-1);
     TEST("vnl_math::remainder_truncated(x_float      ,y_float      )",vnl_math::remainder_truncated(x_float      ,y_float      ),-1);
     TEST("vnl_math::remainder_truncated(x_double     ,y_double     )",vnl_math::remainder_truncated(x_double     ,y_double     ),-1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_truncated(x_long_double,y_long_double)",vnl_math::remainder_truncated(x_long_double,y_long_double),-1);
+#endif
     }
 
   /////////////
   // FLOORED //
   /////////////
 
-  vcl_cout << "Floored Remainder:" << vcl_endl;
+  std::cout << "Floored Remainder:" << std::endl;
   // This definition is identical to truncated_remainder for two positive arguments.
   // When one or both of the arguments are negative, this attempts to mimick Python's modulus behavior.
 
     {
 
-    vcl_cout << "+ +" << vcl_endl;
+    std::cout << "+ +" << std::endl;
 
     unsigned short x_short_u     = 7;
     unsigned short y_short_u     = 2;
@@ -526,8 +552,10 @@ static void test_math()
     float          y_float       = 2;
     double         x_double      = 7;
     double         y_double      = 2;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     long double    x_long_double = 7;
     long double    y_long_double = 2;
+#endif
 
     TEST("vnl_math::remainder_floored(x_short_u    ,y_short_u    )",vnl_math::remainder_floored(x_short_u    ,y_short_u    ),+1);
     TEST("vnl_math::remainder_floored(x_short_s    ,y_short_s    )",vnl_math::remainder_floored(x_short_s    ,y_short_s    ),+1);
@@ -537,55 +565,69 @@ static void test_math()
     TEST("vnl_math::remainder_floored(x_long_s     ,y_long_s     )",vnl_math::remainder_floored(x_long_s     ,y_long_s     ),+1);
     TEST("vnl_math::remainder_floored(x_float      ,y_float      )",vnl_math::remainder_floored(x_float      ,y_float      ),+1);
     TEST("vnl_math::remainder_floored(x_double     ,y_double     )",vnl_math::remainder_floored(x_double     ,y_double     ),+1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_floored(x_long_double,y_long_double)",vnl_math::remainder_floored(x_long_double,y_long_double),+1);
+#endif
 
-    vcl_cout << "+ -" << vcl_endl;
+    std::cout << "+ -" << std::endl;
 
     y_short_s     *= -1;
     y_int_s       *= -1;
     y_long_s      *= -1;
     y_float       *= -1;
     y_double      *= -1;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     y_long_double *= -1;
+#endif
 
     TEST("vnl_math::remainder_floored(x_short_s    ,y_short_s    )",vnl_math::remainder_floored(x_short_s    ,y_short_s    ),-1);
     TEST("vnl_math::remainder_floored(x_int_s      ,y_int_s      )",vnl_math::remainder_floored(x_int_s      ,y_int_s      ),-1);
     TEST("vnl_math::remainder_floored(x_long_s     ,y_long_s     )",vnl_math::remainder_floored(x_long_s     ,y_long_s     ),-1);
     TEST("vnl_math::remainder_floored(x_float      ,y_float      )",vnl_math::remainder_floored(x_float      ,y_float      ),-1);
     TEST("vnl_math::remainder_floored(x_double     ,y_double     )",vnl_math::remainder_floored(x_double     ,y_double     ),-1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_floored(x_long_double,y_long_double)",vnl_math::remainder_floored(x_long_double,y_long_double),-1);
+#endif
 
-    vcl_cout << "- -" << vcl_endl;
+    std::cout << "- -" << std::endl;
 
     x_short_s     *= -1;
     x_int_s       *= -1;
     x_long_s      *= -1;
     x_float       *= -1;
     x_double      *= -1;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     x_long_double *= -1;
+#endif
 
     TEST("vnl_math::remainder_floored(x_short_s    ,y_short_s    )",vnl_math::remainder_floored(x_short_s    ,y_short_s    ),-1);
     TEST("vnl_math::remainder_floored(x_int_s      ,y_int_s      )",vnl_math::remainder_floored(x_int_s      ,y_int_s      ),-1);
     TEST("vnl_math::remainder_floored(x_long_s     ,y_long_s     )",vnl_math::remainder_floored(x_long_s     ,y_long_s     ),-1);
     TEST("vnl_math::remainder_floored(x_float      ,y_float      )",vnl_math::remainder_floored(x_float      ,y_float      ),-1);
     TEST("vnl_math::remainder_floored(x_double     ,y_double     )",vnl_math::remainder_floored(x_double     ,y_double     ),-1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_floored(x_long_double,y_long_double)",vnl_math::remainder_floored(x_long_double,y_long_double),-1);
+#endif
 
-    vcl_cout << "- +" << vcl_endl;
+    std::cout << "- +" << std::endl;
 
     y_short_s     *= -1;
     y_int_s       *= -1;
     y_long_s      *= -1;
     y_float       *= -1;
     y_double      *= -1;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     y_long_double *= -1;
+#endif
 
     TEST("vnl_math::remainder_floored(x_short_s    ,y_short_s    )",vnl_math::remainder_floored(x_short_s    ,y_short_s    ),+1);
     TEST("vnl_math::remainder_floored(x_int_s      ,y_int_s      )",vnl_math::remainder_floored(x_int_s      ,y_int_s      ),+1);
     TEST("vnl_math::remainder_floored(x_long_s     ,y_long_s     )",vnl_math::remainder_floored(x_long_s     ,y_long_s     ),+1);
     TEST("vnl_math::remainder_floored(x_float      ,y_float      )",vnl_math::remainder_floored(x_float      ,y_float      ),+1);
     TEST("vnl_math::remainder_floored(x_double     ,y_double     )",vnl_math::remainder_floored(x_double     ,y_double     ),+1);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     TEST("vnl_math::remainder_floored(x_long_double,y_long_double)",vnl_math::remainder_floored(x_long_double,y_long_double),+1);
+#endif
     }
 
 }

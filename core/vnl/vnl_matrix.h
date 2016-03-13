@@ -36,7 +36,8 @@
 //   18-Jan-2011 - Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 
-#include <vcl_iosfwd.h>
+#include <iosfwd>
+#include <vcl_compiler.h>
 #include <vnl/vnl_tag.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h>
@@ -68,8 +69,8 @@ template <class T> m element_quotient(m const&, m const&);
 template <class T> T dot_product(m const&, m const&);
 template <class T> T inner_product(m const&, m const&);
 template <class T> T cos_angle(m const&, m const& );
-template <class T> vcl_ostream& operator<<(vcl_ostream&, m const&);
-template <class T> vcl_istream& operator>>(vcl_istream&, m&);
+template <class T> std::ostream& operator<<(std::ostream&, m const&);
+template <class T> std::istream& operator>>(std::istream&, m&);
 #undef v
 #undef m
 
@@ -594,11 +595,11 @@ class vnl_matrix
 
   ////----------------------- Input/Output ----------------------------
 
-  //: Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  static vnl_matrix<T> read(vcl_istream& s);
+  //: Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  static vnl_matrix<T> read(std::istream& s);
 
-  // : Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  bool read_ascii(vcl_istream& s);
+  // : Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  bool read_ascii(std::istream& s);
 
   //--------------------------------------------------------------------------------
 
@@ -655,7 +656,7 @@ class vnl_matrix
   bool operator!=(vnl_matrix<T> const &that) const { return !this->operator_eq(that); }
 
   //: Print matrix to os in some hopefully sensible format
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
   //: Make the matrix as if it had been default-constructed.
   void clear();
@@ -694,8 +695,8 @@ class vnl_matrix
   friend T dot_product       VCL_NULL_TMPL_ARGS (m const&, m const&);
   friend T inner_product     VCL_NULL_TMPL_ARGS (m const&, m const&);
   friend T cos_angle         VCL_NULL_TMPL_ARGS (m const&, m const&);
-  friend vcl_ostream& operator<< VCL_NULL_TMPL_ARGS (vcl_ostream&, m const&);
-  friend vcl_istream& operator>> VCL_NULL_TMPL_ARGS (vcl_istream&, m&);
+  friend std::ostream& operator<< VCL_NULL_TMPL_ARGS (std::ostream&, m const&);
+  friend std::istream& operator>> VCL_NULL_TMPL_ARGS (std::istream&, m&);
 # undef v
 # undef m
 #endif

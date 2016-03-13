@@ -8,7 +8,7 @@
 #include <vcl_cassert.h>
 
 template <int D, class T>
-void vnl_fft_base<D, T>::transform(vcl_complex<T> *signal, int dir)
+void vnl_fft_base<D, T>::transform(std::complex<T> *signal, int dir)
 {
   assert((dir == +1) || (dir == -1));
 

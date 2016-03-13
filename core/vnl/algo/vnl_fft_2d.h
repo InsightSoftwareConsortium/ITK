@@ -26,15 +26,15 @@ struct vnl_fft_2d : public vnl_fft_base<2, T>
   }
 
   //: dir = +1/-1 according to direction of transform.
-  void transform(vnl_matrix<vcl_complex<T> > &signal, int dir)
+  void transform(vnl_matrix<std::complex<T> > &signal, int dir)
   { base::transform(signal.data_block(), dir); }
 
   //: forward FFT
-  void fwd_transform(vnl_matrix<vcl_complex<T> > &signal)
+  void fwd_transform(vnl_matrix<std::complex<T> > &signal)
   { transform(signal, +1); }
 
   //: backward (inverse) FFT
-  void bwd_transform(vnl_matrix<vcl_complex<T> > &signal)
+  void bwd_transform(vnl_matrix<std::complex<T> > &signal)
   { transform(signal, -1); }
 
   //: return size of signal.

@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_real_npolynomial_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_real_npolynomial.h>
@@ -9,7 +10,7 @@
 
 void test_real_npolynomial_io()
 {
-  vcl_cout << "************************\n"
+  std::cout << "************************\n"
            << "test_real_npolynomial_io\n"
            << "************************\n";
   //// test constructors, accessors
@@ -32,7 +33,7 @@ void test_real_npolynomial_io()
 
   coeffs2 = coeffs*2.0;
 
-  //vsl_print_summary(vcl_cout, coeffs);
+  //vsl_print_summary(std::cout, coeffs);
 
   vnl_real_npolynomial poly_out(coeffs, exponents), poly_in0,poly_in1(coeffs2,exponents);
 
@@ -58,8 +59,8 @@ void test_real_npolynomial_io()
   TEST ("poly_out.coefficients() == poly_in1.coefficients()",
         poly_out.coefficients() == poly_in1.coefficients(), true);
 
-  vsl_print_summary(vcl_cout, poly_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, poly_out);
+  std::cout << std::endl;
 }
 
 TESTMAIN(test_real_npolynomial_io);

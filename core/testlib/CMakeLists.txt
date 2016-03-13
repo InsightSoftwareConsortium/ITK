@@ -13,7 +13,7 @@ if(TESTLIB_VCL_WHERE_ROOT_DIR_H)
   add_definitions(-DVCL_WHERE_ROOT_DIR_H_EXISTS)
 endif()
 
-set( testlib_sources
+set(testlib_sources
 
   # Useful utilities for the tests
   testlib_test.h                testlib_test.cxx
@@ -28,8 +28,10 @@ set( testlib_sources
   testlib_root_dir.h            testlib_root_dir.cxx
 )
 
-vxl_add_library( LIBNAME ${VXL_LIB_PREFIX}testlib LIBSRCS ${testlib_sources} )
-target_link_libraries( ${VXL_LIB_PREFIX}testlib ${VXL_LIB_PREFIX}vcl )
+vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}testlib
+  LIBRARY_SOURCES ${testlib_sources}
+  HEADER_INSTALL_DIR core/testlib)
+target_link_libraries(${VXL_LIB_PREFIX}testlib ${VXL_LIB_PREFIX}vcl)
 
 if( BUILD_TESTING )
   add_subdirectory(tests)

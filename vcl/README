@@ -9,9 +9,6 @@ vcl_compiler.h
   if you include <vcl_iostream.h> you *don't* need to include
   <vcl_compiler.h> even if you need the macros defined in there.
 
-vcl_complex_fwd.h
-  This is deprecated
-
 vcl_rel_ops.h
   This is the (deprecated) vcl form of the ISO incantation
   #include <utility>

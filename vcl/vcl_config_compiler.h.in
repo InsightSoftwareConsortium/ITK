@@ -92,11 +92,8 @@
  * and is benificial in other cases where
  * a value can be constant. */
 #if  __cplusplus >= 201103L
-# define VCL_CONSTEXPR constexpr
 # define VCL_CAN_STATIC_CONST_INIT_INT 1
 # define VCL_CAN_STATIC_CONST_INIT_FLOAT 1
-#else
-# define VCL_CONSTEXPR const
 #endif
 
 //: VCL_STATIC_CONST_INIT_INT_DECL(x)

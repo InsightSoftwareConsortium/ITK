@@ -7,8 +7,9 @@
 // Created: 02 Oct 96
 //-----------------------------------------------------------------------------
 
+#include <iostream>
 #include "vnl_scatter_3x3.h"
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
 template <class T>
@@ -92,7 +93,7 @@ void vnl_scatter_3x3<T>::compute_eigensystem()
     vnl_symmetric_eigensystem_compute(M, V_.as_ref().non_const(), D.as_ref().non_const());
   }
   else {
-    vcl_cerr << "Asymmetric scatter not handled now\n";
+    std::cerr << "Asymmetric scatter not handled now\n";
   }
 
   eigenvectors_currentp = true;

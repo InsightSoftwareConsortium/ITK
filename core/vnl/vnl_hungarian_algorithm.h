@@ -7,7 +7,8 @@
 // Refactored by Nicolas Rannou (Harvard), Oct 2010, such that the algorithm
 // presents itself in a templated and more object-oriented manner.
 
-#include <vcl_vector.h>
+#include <vector>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 
 //: Find the best column to row assignment given a cost matrix.
@@ -51,7 +52,7 @@ class vnl_hungarian_algorithm
   };
 
   typedef vnl_matrix< int >    AssignmentMatrixType;
-  typedef vcl_vector<unsigned> AssignmentVectorType;
+  typedef std::vector<unsigned> AssignmentVectorType;
 
   vnl_hungarian_algorithm() : m_TotalCost(0) {}
 
@@ -59,7 +60,7 @@ class vnl_hungarian_algorithm
 
   //: This constructor (and the following cast operator) is provided for backward compatibility with the original function implementation
   vnl_hungarian_algorithm(vnl_matrix<T> const& cost) { SetCostMatrix(cost); StartAssignment(); }
-  operator vcl_vector<unsigned>() { return GetAssignmentVector(); }
+  operator std::vector<unsigned>() { return GetAssignmentVector(); }
 
   //: Starts the assignment
   void SetCostMatrix( vnl_matrix< T > const& );
@@ -134,7 +135,7 @@ class vnl_hungarian_algorithm
   void        Step_done();
 
   //: Sets all the values in the input bool vector to false.
-  void clear_vector( vcl_vector<bool>& );
+  void clear_vector( std::vector<bool>& );
 
   vnl_matrix<T> m_Cost;
   vnl_matrix<T> m_Cost_in;
@@ -151,10 +152,10 @@ class vnl_hungarian_algorithm
   AssignmentMatrixType m_M;
 
   //: m_R_cov[i] = true  => row i is covered
-  vcl_vector<bool> m_R_cov;
+  std::vector<bool> m_R_cov;
 
   //: m_C_cov[j] = true  => column j is covered
-  vcl_vector<bool> m_C_cov;
+  std::vector<bool> m_C_cov;
 
   //: Total cost of the assignment
   T m_TotalCost;

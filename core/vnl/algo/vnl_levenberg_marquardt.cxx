@@ -9,10 +9,11 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <iostream>
 #include "vnl_levenberg_marquardt.h"
 
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
@@ -86,7 +87,7 @@ void vnl_levenberg_marquardt::lmdif_lsqfun(long* n,     // I   Number of residua
 
   if (*iflag == 0) {
     if (self->trace)
-      vcl_cerr << "lmdif: iter " << self->num_iterations_ << " err ["
+      std::cerr << "lmdif: iter " << self->num_iterations_ << " err ["
                << x[0] << ", " << x[1] << ", " << x[2] << ", " << x[3] << ", "
                << x[4] << ", ... ] = " << ref_fx.magnitude() << '\n';
 
@@ -127,7 +128,7 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
 {
   //fsm
   if (f_->has_gradient()) {
-    vcl_cerr << __FILE__ " : WARNING. calling minimize_without_gradient(), but f_ has gradient.\n";
+    std::cerr << __FILE__ " : WARNING. calling minimize_without_gradient(), but f_ has gradient.\n";
   }
 
   // e04fcf
@@ -135,13 +136,13 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
   long n = f_->get_number_of_unknowns();  // I  Number of unknowns
 
   if (m < n) {
-    vcl_cerr << "vnl_levenberg_marquardt: Number of unknowns("<<n<<") greater than number of data ("<<m<<")\n";
+    std::cerr << "vnl_levenberg_marquardt: Number of unknowns("<<n<<") greater than number of data ("<<m<<")\n";
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
   }
 
   if (int(x.size()) != n) {
-    vcl_cerr << "vnl_levenberg_marquardt: Input vector length ("<<x.size()<<") not equal to num unknowns ("<<n<<")\n";
+    std::cerr << "vnl_levenberg_marquardt: Input vector length ("<<x.size()<<") not equal to num unknowns ("<<n<<")\n";
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
   }
@@ -159,7 +160,7 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
   vnl_vector<double> wa4(m, 0);
 
 #ifdef DEBUG
-  vcl_cerr << "STATUS: " << failure_code_ << '\n';
+  std::cerr << "STATUS: " << failure_code_ << '\n';
 #endif
 
   num_iterations_ = 0;
@@ -222,7 +223,7 @@ void vnl_levenberg_marquardt::lmder_lsqfun(long* n,     // I   Number of residua
 
   if (*iflag == 0) {
     if (self->trace)
-      vcl_cerr << "lmder: iter " << self->num_iterations_ << " err ["
+      std::cerr << "lmder: iter " << self->num_iterations_ << " err ["
                << x[0] << ", " << x[1] << ", " << x[2] << ", " << x[3] << ", "
                << x[4] << ", ... ] = " << ref_fx.magnitude() << '\n';
     f->trace(self->num_iterations_, ref_x, ref_fx);
@@ -264,7 +265,7 @@ void vnl_levenberg_marquardt::lmder_lsqfun(long* n,     // I   Number of residua
           diff = ref_fJ(j,i) - finite_jac(j,i);
           diff = diff*diff;
           if ( diff > self->epsfcn ) {
-            vcl_cout << "Jac(" << i << ", " << j << ") diff: " << ref_fJ(j,i)
+            std::cout << "Jac(" << i << ", " << j << ") diff: " << ref_fJ(j,i)
                      << "  " << finite_jac(j,i)
                      << "  " << ref_fJ(j,i)-finite_jac(j,i) << '\n';
           }
@@ -284,7 +285,7 @@ bool vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double>& x)
 {
   //fsm
   if (! f_->has_gradient()) {
-    vcl_cerr << __FILE__ ": called method minimize_using_gradient(), but f_ has no gradient.\n";
+    std::cerr << __FILE__ ": called method minimize_using_gradient(), but f_ has no gradient.\n";
     return false;
   }
 
@@ -292,7 +293,7 @@ bool vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double>& x)
   long n = f_->get_number_of_unknowns();  // I  Number of unknowns
 
   if (m < n) {
-    vcl_cerr << __FILE__ ": Number of unknowns("<<n<<") greater than number of data ("<<m<<")\n";
+    std::cerr << __FILE__ ": Number of unknowns("<<n<<") greater than number of data ("<<m<<")\n";
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
   }
@@ -365,12 +366,12 @@ bool vnl_levenberg_marquardt::minimize_using_gradient(vnl_vector<double>& x)
 
 void vnl_levenberg_marquardt::diagnose_outcome() const
 {
-  diagnose_outcome(vcl_cerr);
+  diagnose_outcome(std::cerr);
 }
 
 // fsm: should this function be a method on vnl_nonlinear_minimizer?
 // if not, the return codes should be moved into LM.
-void vnl_levenberg_marquardt::diagnose_outcome(vcl_ostream& s) const
+void vnl_levenberg_marquardt::diagnose_outcome(std::ostream& s) const
 {
 #define whoami "vnl_levenberg_marquardt"
   //if (!verbose_) return;
@@ -415,7 +416,7 @@ void vnl_levenberg_marquardt::diagnose_outcome(vcl_ostream& s) const
   unsigned int m = f_->get_number_of_residuals();
   s << whoami ": " << num_iterations_ << " iterations, "
     << num_evaluations_ << " evaluations, "<< m <<" residuals.  RMS error start/end "
-    << get_start_error() << '/' << get_end_error() << vcl_endl;
+    << get_start_error() << '/' << get_end_error() << std::endl;
 #undef whoami
 }
 
@@ -440,7 +441,7 @@ vnl_matrix<double> const& vnl_levenberg_marquardt::get_JtJ()
 {
   if (!set_covariance_)
   {
-    vcl_cerr << __FILE__ ": get_covariance() not confirmed tested  yet\n";
+    std::cerr << __FILE__ ": get_covariance() not confirmed tested  yet\n";
     unsigned int n = fdjac_.rows();
 
     // matrix in FORTRAN is column-wise.

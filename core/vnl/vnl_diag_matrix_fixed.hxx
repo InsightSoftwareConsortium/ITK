@@ -4,9 +4,10 @@
 //:
 // \file
 
+#include <iostream>
 #include "vnl_diag_matrix_fixed.h"
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 
 //: Return inv(D) * b.
@@ -29,7 +30,7 @@ void vnl_diag_matrix_fixed<T,N>::solve(vnl_vector_fixed<T,N> const& b, vnl_vecto
 
 //: Print in MATLAB diag([1 2 3]) form.
 template <class T, unsigned int N>
-vcl_ostream& operator<< (vcl_ostream& s, const vnl_diag_matrix_fixed<T,N>& D)
+std::ostream& operator<< (std::ostream& s, const vnl_diag_matrix_fixed<T,N>& D)
 {
   s << "diag([ ";
   for (unsigned i=0; i<N; ++i)
@@ -40,7 +41,7 @@ vcl_ostream& operator<< (vcl_ostream& s, const vnl_diag_matrix_fixed<T,N>& D)
 #undef VNL_DIAG_MATRIX_FIXED_INSTANTIATE
 #define VNL_DIAG_MATRIX_FIXED_INSTANTIATE(T , N ) \
 template class vnl_diag_matrix_fixed<T , N >; \
-template vcl_ostream& operator<< (vcl_ostream& s, vnl_diag_matrix_fixed<T , N > const &)
+template std::ostream& operator<< (std::ostream& s, vnl_diag_matrix_fixed<T , N > const &)
 
 //template bool epsilon_equals (vnl_diag_matrix_fixed<T > const & , vnl_diag_matrix_fixed<T > const & , double)
 

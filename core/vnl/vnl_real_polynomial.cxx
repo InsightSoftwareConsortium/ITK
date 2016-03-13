@@ -10,10 +10,11 @@
 // Modifications
 // IMS (Manchester) 14/03/2001: Added Manchester IO scheme
 
+#include <iostream>
+#include <complex>
+#include <cmath>
 #include "vnl_real_polynomial.h"
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
-#include <vcl_cmath.h>
+#include <vcl_compiler.h>
 
 // This is replacing a member template...
 template <class T>
@@ -42,8 +43,8 @@ T vnl_real_polynomial_evaluate(double const *a, int n, T const& x)
 //: Instantiate templates before use
 template double vnl_real_polynomial_evaluate SELECT(double )
       (double const*,int,double const&);
-template vcl_complex<double> vnl_real_polynomial_evaluate SELECT(vcl_complex<double>)
-      (double const*,int,vcl_complex<double> const&);
+template std::complex<double> vnl_real_polynomial_evaluate SELECT(std::complex<double>)
+      (double const*,int,std::complex<double> const&);
 
 //: Evaluate polynomial at value x
 double vnl_real_polynomial::evaluate(double x) const
@@ -53,9 +54,9 @@ double vnl_real_polynomial::evaluate(double x) const
 
 
 //: Evaluate polynomial at complex value x
-vcl_complex<double> vnl_real_polynomial::evaluate(vcl_complex<double> const& x) const
+std::complex<double> vnl_real_polynomial::evaluate(std::complex<double> const& x) const
 {
-  return vnl_real_polynomial_evaluate SELECT(vcl_complex<double>)
+  return vnl_real_polynomial_evaluate SELECT(std::complex<double>)
      (coeffs_.data_block(), coeffs_.size(), x);
 }
 #endif // DOXYGEN_SHOULD_SKIP_THIS
@@ -68,7 +69,7 @@ double vnl_real_polynomial::devaluate(double x) const
 
 
 //: Evaluate derivative at complex value x. Not implemented.
-vcl_complex<double> vnl_real_polynomial::devaluate(vcl_complex<double> const& x) const
+std::complex<double> vnl_real_polynomial::devaluate(std::complex<double> const& x) const
 {
   return derivative().evaluate(x);
 }
@@ -180,13 +181,13 @@ vnl_real_polynomial& vnl_real_polynomial::operator*=(vnl_real_polynomial const& 
 double vnl_rms_difference(const vnl_real_polynomial& f1, const vnl_real_polynomial& f2,
                           double x1, double x2)
 {
-  double dx = vcl_fabs(x2-x1);
+  double dx = std::fabs(x2-x1);
   if (dx==0.0) return 0;
 
   vnl_real_polynomial df = f2-f1;
   vnl_real_polynomial df2 = df*df;
-  double area = vcl_fabs(df2.evaluate_integral(x1,x2));
-  return vcl_sqrt(area/dx);
+  double area = std::fabs(df2.evaluate_integral(x1,x2));
+  return std::sqrt(area/dx);
 }
 
 //: Return derivative of this polynomial
@@ -211,7 +212,7 @@ vnl_real_polynomial vnl_real_polynomial::primitive() const
   return vnl_real_polynomial(cd);
 }
 
-void vnl_real_polynomial::print(vcl_ostream& os) const
+void vnl_real_polynomial::print(std::ostream& os) const
 {
   int d = degree();
   bool first_coeff = true; // to avoid '+' in front of equation

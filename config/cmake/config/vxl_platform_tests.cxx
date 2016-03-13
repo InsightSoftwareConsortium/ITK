@@ -6,9 +6,9 @@
  * and is benificial in other cases where
  * a value can be constant. */
 #if  __cplusplus >= 201103L
-# define VCL_CONSTEXPR constexpr
+# define PLTFMTEST_CONSTEXPR constexpr
 #else
-# define VCL_CONSTEXPR const
+# define PLTFMTEST_CONSTEXPR const
 #endif
 
 #ifdef VCL_HAS_BOOL
@@ -250,8 +250,8 @@ int main() { return 0; }
 
 class A {
  public:
-  static VCL_CONSTEXPR int x = 27;
-  static VCL_CONSTEXPR bool y = false;
+  static PLTFMTEST_CONSTEXPR int x = 27;
+  static PLTFMTEST_CONSTEXPR bool y = false;
 };
 
 int main() { return A::x == 27 && !A::y ? 0 : 1; }
@@ -269,7 +269,7 @@ int main() { return A::x == 27 && !A::y ? 0 : 1; }
 class A
 {
  public:
-  static VCL_CONSTEXPR int x = 27;
+  static PLTFMTEST_CONSTEXPR int x = 27;
 };
 
 int f(const void* x) { return x?1:0; }
@@ -285,8 +285,8 @@ int main() { return f(&A::x); }
 #if  __cplusplus >= 201103L
 class A {
  public:
-  static VCL_CONSTEXPR float x = 27.0f;
-  static VCL_CONSTEXPR double y = 27.0;
+  static PLTFMTEST_CONSTEXPR float x = 27.0f;
+  static PLTFMTEST_CONSTEXPR double y = 27.0;
 };
 int main() { return A::x == 27.0f && A::y == 27.0 ? 0 : 1; }
 #else

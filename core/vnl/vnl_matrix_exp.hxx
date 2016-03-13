@@ -4,10 +4,11 @@
 //:
 // \file
 // \author fsm
+#include <iostream>
 #include "vnl_matrix_exp.h"
 #include <vcl_cassert.h>
 #ifdef DEBUG
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #endif
 
 template <class Matrix>
@@ -20,7 +21,7 @@ bool vnl_matrix_exp(Matrix const &X, Matrix &expX, double max_err)
 
   double norm_X = X.operator_inf_norm();
 #ifdef DEBUG
-  vcl_cerr << "norm_X = " << norm_X << vcl_endl;
+  std::cerr << "norm_X = " << norm_X << std::endl;
 #endif
 
   // exponential series
@@ -30,13 +31,13 @@ bool vnl_matrix_exp(Matrix const &X, Matrix &expX, double max_err)
   for (unsigned n=1; true; ++n) {
     expX += acc;
 #ifdef DEBUG
-    vcl_cerr << "n=" << n << vcl_endl;
+    std::cerr << "n=" << n << std::endl;
 #endif
 
     if (norm_X < n) {
       double err_bound = norm_acc_bound / (1 - norm_X/n);
 #ifdef DEBUG
-      vcl_cerr << "err_bound = " << err_bound << vcl_endl;
+      std::cerr << "err_bound = " << err_bound << std::endl;
 #endif
       if (err_bound < max_err)
         break;

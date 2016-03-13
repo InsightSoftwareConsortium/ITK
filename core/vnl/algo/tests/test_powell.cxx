@@ -3,9 +3,10 @@
 //  \brief Program to test operation of vnl_powell minimizer.
 //  \note Adapted from test_amoeba.cxx
 
-#include <vcl_iostream.h>
+#include <iostream>
+#include <cmath>
 #include <vcl_cassert.h>
-#include <vcl_cmath.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_double_2.h>
@@ -65,7 +66,7 @@ class vnl_test_powell_rosenbrock : public vnl_cost_function
 //-------------------------------------------------------------------------
 static void test_quadratic_2d()
 {
-  vcl_cout << "---------------------\n"
+  std::cout << "---------------------\n"
            << " test_quadratic_2d()\n"
            << "---------------------\n";
 
@@ -81,9 +82,9 @@ static void test_quadratic_2d()
     powell.minimize(x);
 
     double err=0;
-    for (unsigned i=0; i<n; ++i) err += vcl_fabs(x[i]-i);
+    for (unsigned i=0; i<n; ++i) err += std::fabs(x[i]-i);
     TEST_NEAR("Starting at (1,1,1...)", err, 0.0, 1e-5);
-    vcl_cout<<"Number of evaluations: "<<powell.get_num_evaluations()<<vcl_endl;
+    std::cout<<"Number of evaluations: "<<powell.get_num_evaluations()<<std::endl;
   }
 
   // Start at x[i]=n-i
@@ -95,11 +96,11 @@ static void test_quadratic_2d()
     powell.minimize(x);
 
     double err=0;
-    for (unsigned i=0; i<n; ++i) err += vcl_fabs(x[i]-i);
+    for (unsigned i=0; i<n; ++i) err += std::fabs(x[i]-i);
     TEST_NEAR("Starting at (1,1,1...)", err, 0.0, 1e-5);
-    vcl_cout<<"Number of evaluations: "<<powell.get_num_evaluations()<<vcl_endl;
+    std::cout<<"Number of evaluations: "<<powell.get_num_evaluations()<<std::endl;
   }
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 }
 
 
@@ -112,7 +113,7 @@ static void test_quadratic_nd()
   const unsigned max_n = 16;
   for (unsigned n=1; n<max_n; ++n)
   {
-    vcl_cout << "-------------------\n"
+    std::cout << "-------------------\n"
              << " test_quadratic_" << n << "d\n"
              << "-------------------\n";
 
@@ -124,10 +125,10 @@ static void test_quadratic_nd()
     powell.minimize(x);
 
     double err=0;
-    for (unsigned i=0; i<n; ++i) err+=vcl_fabs(x[i]-i);
+    for (unsigned i=0; i<n; ++i) err+=std::fabs(x[i]-i);
     TEST_NEAR("Starting at (1,1,1...)", err, 0.0, 1e-5);
-    vcl_cout << "Number of evaluations: " << powell.get_num_evaluations()
-             << vcl_endl << vcl_endl;
+    std::cout << "Number of evaluations: " << powell.get_num_evaluations()
+             << std::endl << std::endl;
   }
 }
 
@@ -137,7 +138,7 @@ static void test_quadratic_nd()
 //-------------------------------------------------------------------------
 static void test_rosenbrock_2d()
 {
-  vcl_cout << "----------------------\n"
+  std::cout << "----------------------\n"
            << " test_rosenbrock_2d()\n"
            << "----------------------\n";
   vnl_test_powell_rosenbrock c;
@@ -149,8 +150,8 @@ static void test_rosenbrock_2d()
   powell.minimize(x);
   double r = (x-xmin).magnitude();
   TEST_NEAR("test_rosenbrock_2d", r, 0, 1e-6);
-  vcl_cout << "Number of evaluations: " << powell.get_num_evaluations()
-           << vcl_endl << vcl_endl;
+  std::cout << "Number of evaluations: " << powell.get_num_evaluations()
+           << std::endl << std::endl;
 }
 
 

@@ -1,6 +1,0 @@
-@basic_stringbuf
-@stringbuf
-@wstringbuf
-@stringstream
-@istringstream
-@ostringstream

@@ -13,9 +13,9 @@
 //    only getting/putting elements, and multiply by vector or another
 //    sparse matrix.
 //
-//    Each row is stored as a vector of vcl_pair<unsigned int,T>, where the first
+//    Each row is stored as a vector of std::pair<unsigned int,T>, where the first
 //    of the pair indicates the column index, and the second the
-//    value.  All rows are stored, as vcl_vector< row >;
+//    value.  All rows are stored, as std::vector< row >;
 //
 //  \author Rupert W. Curwen, GE CR&D
 //  \date   20 Oct 98
@@ -55,9 +55,10 @@
 //   Peter Vanroose - Mar.2011 - Added transpose() and conjugate_transpose()
 // \endverbatim
 
-#include <vcl_vector.h>
+#include <vector>
+#include <functional>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
-#include <vcl_functional.h>
 
 //: Stores elements of sparse matrix
 //  Only those values which
@@ -65,9 +66,9 @@
 //  only getting/putting elements, and multiply by vector or another
 //  sparse matrix.
 //
-//  Each row is stored as a vector of vcl_pair<unsigned int,T>, where the first
+//  Each row is stored as a vector of std::pair<unsigned int,T>, where the first
 //  of the pair indicates the column index, and the second the
-//  value.  All rows are stored, as vcl_vector< row >;
+//  value.  All rows are stored, as std::vector< row >;
 //
 template <class T>
 class vnl_sparse_matrix_pair
@@ -92,7 +93,7 @@ class vnl_sparse_matrix_pair
     return *this;
   }
 
-  struct less : public vcl_binary_function<vnl_sparse_matrix_pair, vnl_sparse_matrix_pair, bool>
+  struct less : public std::binary_function<vnl_sparse_matrix_pair, vnl_sparse_matrix_pair, bool>
   {
     bool operator() (vnl_sparse_matrix_pair const& p1, vnl_sparse_matrix_pair const& p2) {
       return p1.first < p2.first;
@@ -108,8 +109,8 @@ class vnl_sparse_matrix
 {
  public:
   typedef vnl_sparse_matrix_pair<T> pair_t;
-  typedef vcl_vector < pair_t > row;
-  typedef vcl_vector < row > vnl_sparse_matrix_elements;
+  typedef std::vector < pair_t > row;
+  typedef std::vector < row > vnl_sparse_matrix_elements;
 
   //: Construct an empty matrix
   vnl_sparse_matrix();
@@ -151,8 +152,8 @@ class vnl_sparse_matrix
 
   //: Set a whole row at once. Much faster. Returns *this.
   vnl_sparse_matrix& set_row(unsigned int r,
-                             vcl_vector<int> const& cols,
-                             vcl_vector<T> const& vals);
+                             std::vector<int> const& cols,
+                             std::vector<T> const& vals);
 
   //: Return row as vector of pairs
   //  Added to aid binary I/O

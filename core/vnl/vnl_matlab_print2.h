@@ -11,7 +11,7 @@
 // \code
 //   vnl_matrix<double> foo(3, 14);
 //  ....
-//   vcl_cerr << "and the blasted matrix is :" << endl
+//   std::cerr << "and the blasted matrix is :" << endl
 //            << vnl_matlab_print(foo)
 //            << vnl_matlab_print(foo, "foo")
 //            << vnl_matlab_print(foo, 0, vnl_matlab_fmt_long);
@@ -19,16 +19,17 @@
 // instead of
 // \code
 //  ....
-//   vcl_cerr << "and the blasted matrix is :" << endl;
-//   vnl_matlab_print(vcl_cerr, foo);
-//   vnl_matlab_print(vcl_cerr, foo, "foo");
-//   vnl_matlab_print(vcl_cerr, foo, 0, vnl_matlab_fmt_long);
+//   std::cerr << "and the blasted matrix is :" << endl;
+//   vnl_matlab_print(std::cerr, foo);
+//   vnl_matlab_print(std::cerr, foo, "foo");
+//   vnl_matlab_print(std::cerr, foo, 0, vnl_matlab_fmt_long);
 // \endcode
 //
 // \author fsm
 
+#include <iosfwd>
 #include <vnl/vnl_matlab_print.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 // The proxy classes.
 template <class T>
@@ -47,7 +48,7 @@ struct vnl_matlab_print_proxy
 // Output operator for the proxies.
 template <class T>
 inline
-vcl_ostream &operator<<(vcl_ostream &os, vnl_matlab_print_proxy<T> const &mp)
+std::ostream &operator<<(std::ostream &os, vnl_matlab_print_proxy<T> const &mp)
 {
   return vnl_matlab_print(os, mp.obj, mp.name, mp.format);
 }
@@ -67,8 +68,8 @@ vnl_matlab_print(T const &obj,
 
 #define VNL_MATLAB_PRINT2_INSTANTIATE(T) \
 template struct vnl_matlab_print_proxy<T >; \
-VCL_INSTANTIATE_INLINE(vcl_ostream& \
-                       operator<<(vcl_ostream&, vnl_matlab_print_proxy<T > const&)); \
+VCL_INSTANTIATE_INLINE(std::ostream& \
+                       operator<<(std::ostream&, vnl_matlab_print_proxy<T > const&)); \
 VCL_INSTANTIATE_INLINE(vnl_matlab_print_proxy<T > \
                        vnl_matlab_print(T const&, char const*, vnl_matlab_print_format))
 

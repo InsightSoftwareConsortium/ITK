@@ -12,7 +12,7 @@
 # Root vxl
 #
 #   vxl-maintainers@lists.sf.net
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 2.8.7)
 
 # Set policies for cmake
 if( POLICY CMP0003 )
@@ -55,12 +55,9 @@ endif()
 
 
 #-----------------------------------------------------------------------------
-set( CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib CACHE PATH
-     "Output directory for the vxl module libraries" )
-set( CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib CACHE PATH
-     "Output directory for the vxl static libraries" )
-set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin CACHE PATH
-     "Output directory for the vxl executables" )
+SETIFEMPTY(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
+SETIFEMPTY(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/lib)
+SETIFEMPTY(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
 #-----------------------------------------------------------------------------
 SETIFEMPTY(CMAKE_INSTALL_LIBRARY_DESTINATION lib)
@@ -72,15 +69,10 @@ if(NOT VXL_NO_EXPORT)
   SETIFEMPTY(VXL_INSTALL_EXPORT_NAME VXLTargets)
 endif()
 
-if(NOT VXL_INSTALL_RUNTIME_DIR)
-  set(VXL_INSTALL_RUNTIME_DIR bin)
-endif()
-if(NOT VXL_INSTALL_LIBRARY_DIR)
-  set(VXL_INSTALL_LIBRARY_DIR lib)
-endif()
-if(NOT VXL_INSTALL_ARCHIVE_DIR)
-  set(VXL_INSTALL_ARCHIVE_DIR lib)
-endif()
+SETIFEMPTY(VXL_INSTALL_RUNTIME_DIR bin)
+SETIFEMPTY(VXL_INSTALL_LIBRARY_DIR lib)
+SETIFEMPTY(VXL_INSTALL_ARCHIVE_DIR lib)
+SETIFEMPTY(VXL_INSTALL_INCLUDE_DIR include/vxl)
 if(NOT VXL_LIB_PREFIX)
   set( VXL_LIB_PREFIX "") # This is typically empty
 endif()

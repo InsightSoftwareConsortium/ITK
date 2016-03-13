@@ -1,4 +1,5 @@
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_fortran_copy.hxx>
 
-VNL_FORTRAN_COPY_INSTANTIATE(vcl_complex<long double>);
+VNL_FORTRAN_COPY_INSTANTIATE(std::complex<long double>);

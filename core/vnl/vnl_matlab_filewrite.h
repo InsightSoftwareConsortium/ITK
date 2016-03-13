@@ -15,9 +15,10 @@
 //   Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 // \endverbatim
 
-#include <vcl_string.h>
-#include <vcl_fstream.h>
-#include <vcl_complex.h>
+#include <string>
+#include <fstream>
+#include <complex>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
@@ -37,21 +38,21 @@ class vnl_matlab_filewrite
   void write(double v, char const* variable_name = VXL_NULLPTR);
 
   void write(vnl_vector<double> const & v, char const* variable_name = VXL_NULLPTR);
-  void write(vnl_vector<vcl_complex<double> > const & v, char const* variable_name = VXL_NULLPTR);
+  void write(vnl_vector<std::complex<double> > const & v, char const* variable_name = VXL_NULLPTR);
 
   void write(vnl_matrix<float> const & M, char const* variable_name = VXL_NULLPTR);
   void write(vnl_matrix<double> const & M, char const* variable_name = VXL_NULLPTR);
-  void write(vnl_matrix<vcl_complex<float> > const & M, char const* variable_name = VXL_NULLPTR);
-  void write(vnl_matrix<vcl_complex<double> > const & M, char const* variable_name = VXL_NULLPTR);
+  void write(vnl_matrix<std::complex<float> > const & M, char const* variable_name = VXL_NULLPTR);
+  void write(vnl_matrix<std::complex<double> > const & M, char const* variable_name = VXL_NULLPTR);
 
   void write(double const * const *M, int rows, int cols, char const* variable_name = VXL_NULLPTR);
 
  protected:
-  vcl_string basename_;
+  std::string basename_;
   int variable_int_;
-  vcl_fstream out_;
+  std::fstream out_;
 
-  vcl_string make_var_name(char const* variable_name);
+  std::string make_var_name(char const* variable_name);
 };
 
 #endif // vnl_matlab_filewrite_h_

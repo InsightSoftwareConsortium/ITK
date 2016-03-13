@@ -20,7 +20,7 @@ include(${VXL_CMAKE_DIR}/FindZLIB.cmake)
 CMAKE_DEPENDENT_OPTION( VXL_FORCE_V3P_ZLIB "Use V3P instead of any native ZLIB library?" OFF
                         "BUILD_CORE_IMAGING" OFF)
 mark_as_advanced( VXL_FORCE_V3P_ZLIB )
-if (VXL_FORCE_V3P_ZLIB OR ( NOT VXL_USING_NATIVE_ZLIB ) AND EXISTS zlib)
+if (VXL_FORCE_V3P_ZLIB OR ( NOT VXL_USING_NATIVE_ZLIB ) AND IS_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/zlib)
   add_subdirectory(zlib)
 endif()
 

@@ -10,7 +10,6 @@ macro(INSTALL_NOBASE_HEADER_FILES prefix)
     if(${file} MATCHES "\\.(h|hxx|txx)?$")
       string(REGEX REPLACE "\\.in$" "" install_file ${file})
       get_filename_component(dir ${install_file} PATH)
-      # message("install_file=${prefix}/${dir}/${install_file}")
       install(FILES ${install_file}
               DESTINATION ${prefix}/${dir}
               PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
@@ -19,7 +18,6 @@ macro(INSTALL_NOBASE_HEADER_FILES prefix)
     if(${file} MATCHES "\\.in?$")
       string(REGEX REPLACE "\\.in$" "" install_file ${file})
       if(EXISTS ${CMAKE_CURRENT_BINARY_DIR}/${install_file})
-        # message("install_file=${CMAKE_CURRENT_BINARY_DIR}/${install_file}")
         install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${install_file}
                 DESTINATION ${prefix}
                 COMPONENT Development )
@@ -59,23 +57,34 @@ endmacro()
 # vxl for adding a library, setting it's properties, and
 # setting it's install location
 #
-#  LIBNAME (required) is the name of the library to create
-#  LIBSRC  (required) is a list of sources needed to create the library
+#  LIBRARY_NAME        (required) is the name of the library to create
+#  LIBRARY_SOURCES     (required) is a list of sources needed to create the
+#                      library. It should also contain headers to install for
+#i                     building against the library.
+#  HEADER_INSTALL_DIR  (optional) directory to install headers relative to
+#                      VXL_INSTALL_INCLUDE_DIR if VXL_INSTALL_INCLUDE_DIR is
+#                      not its default value; otherwise, the relative path in
+#                      the vxl source tree is used.
 #
 macro( vxl_add_library )
   unset(lib_srcs)
+  unset(header_install_dir)
   unset(_doing)
   foreach(arg ${ARGN})
     ### Parse itk_module named options
-    if("${arg}" MATCHES "^LIBNAME$")
+    if("${arg}" MATCHES "^LIBRARY_NAME$")
       set(_doing "${arg}")
-    elseif("${arg}" MATCHES "^LIBSRCS$")
+    elseif("${arg}" MATCHES "^LIBRARY_SOURCES$")
+      set(_doing "${arg}")
+    elseif("${arg}" MATCHES "^HEADER_INSTALL_DIR$")
       set(_doing "${arg}")
     ### Parse named option parameters
-    elseif("${_doing}" MATCHES "^LIBNAME$")
+    elseif("${_doing}" MATCHES "^LIBRARY_NAME$")
       set(lib_name "${arg}")
-    elseif("${_doing}" MATCHES "^LIBSRCS$")
+    elseif("${_doing}" MATCHES "^LIBRARY_SOURCES$")
       list(APPEND lib_srcs "${arg}")
+    elseif("${_doing}" MATCHES "^HEADER_INSTALL_DIR$")
+      set(header_install_dir "${arg}")
     endif()
   endforeach()
 
@@ -99,9 +108,16 @@ macro( vxl_add_library )
     endif()
   endif()
   if(NOT VXL_INSTALL_NO_DEVELOPMENT)
-    ## Identify the relative path for installing the header files and txx files
-    string(REPLACE ${VXL_ROOT_SOURCE_DIR} "include/vxl" relative_install_path ${CMAKE_CURRENT_SOURCE_DIR})
-    # message(STATUS "${CMAKE_CURRENT_SOURCE_DIR}\n${VXL_ROOT_SOURCE_DIR}\n${relative_install_path}")
+    # If VXL_INSTALL_INCLUDE_DIR is the default value
+    if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+      ## Identify the relative path for installing the header files and txx files
+      string(REPLACE ${VXL_ROOT_SOURCE_DIR} "${VXL_INSTALL_INCLUDE_DIR}" relative_install_path ${CMAKE_CURRENT_SOURCE_DIR})
+    else()
+      set(relative_install_path "${VXL_INSTALL_INCLUDE_DIR}")
+      if(DEFINED header_install_dir)
+        set(relative_install_path "${relative_install_path}/${header_install_dir}")
+      endif()
+    endif()
     ## Added in 2.8.11 http://stackoverflow.com/questions/19460707/how-to-set-include-directories-from-a-cmakelists-txt-file
     if(${CMAKE_VERSION} VERSION_GREATER 2.8.10)
       target_include_directories(${lib_name}
@@ -113,6 +129,7 @@ macro( vxl_add_library )
     INSTALL_NOBASE_HEADER_FILES(${relative_install_path} ${lib_srcs})
   endif()
   unset(lib_srcs)
+  unset(header_install_dir)
   unset(_doing)
 endmacro()
 

@@ -19,21 +19,22 @@
 //   29 July 2011 - Peter Vanroose - added documentation, tests, and x_write_tree()
 // \endverbatim
 
+#include <string>
+#include <iosfwd>
 #include <vnl/vnl_vector.h>
-#include <vcl_string.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 //: XML save vnl_vector to stream.
 // \relatesalso vnl_vector
 template <class T>
-void x_write(vcl_ostream & os, vnl_vector<T> const& v,
-             vcl_string name="vnl_vector");
+void x_write(std::ostream & os, vnl_vector<T> const& v,
+             std::string name="vnl_vector");
 
 //: XML save vnl_vector as a 2-level tree to stream.
 // \relatesalso vnl_vector
 template <class T>
-void x_write_tree(vcl_ostream & os, vnl_vector<T> const& v,
-                  vcl_string name="vnl_vector");
+void x_write_tree(std::ostream & os, vnl_vector<T> const& v,
+                  std::string name="vnl_vector");
 
 #define VNL_XIO_VECTOR_INSTANTIATE(T) extern "Please #include <vnl/xio/vnl_xio_vector.hxx> first"
 

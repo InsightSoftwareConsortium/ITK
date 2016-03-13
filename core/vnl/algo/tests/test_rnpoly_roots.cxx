@@ -1,5 +1,6 @@
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h>
+#include <iostream>
+#include <iomanip>
+#include <vcl_compiler.h>
 #include <vnl/vnl_real_npolynomial.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_rnpoly_solve.h>
@@ -7,20 +8,20 @@
 
 static void print_roots(vnl_rnpoly_solve& solver)
 {
-  vcl_vector<vnl_vector<double>*> re = solver.real();
-  vcl_vector<vnl_vector<double>*> im = solver.imag();
+  std::vector<vnl_vector<double>*> re = solver.real();
+  std::vector<vnl_vector<double>*> im = solver.imag();
   const unsigned int dim = re[0]->size();
-  vcl_cout<<"Roots are:"<<vcl_endl;
-  vcl_vector<vnl_vector<double>*>::iterator rp, ip;
+  std::cout<<"Roots are:"<<std::endl;
+  std::vector<vnl_vector<double>*>::iterator rp, ip;
   for (rp=re.begin(),ip=im.begin(); rp!=re.end(); ++rp,++ip)
   {
     for (unsigned int i=0; i<dim; ++i)
     {
       vnl_vector<double>& rootr = *(*rp);
       vnl_vector<double>& rooti = *(*ip);
-      vcl_cout<<"\t "<<rootr[i] <<" +"<<rooti[i]<<" i";
+      std::cout<<"\t "<<rootr[i] <<" +"<<rooti[i]<<" i";
     }
-    vcl_cout << vcl_endl;
+    std::cout << std::endl;
   }
 }
 
@@ -31,11 +32,11 @@ static void unit_circles_intersect()
 
   double f1_data[] = {1.0,1.0,-1.0}; vnl_vector<double> f1(f1_data, 3);
   vnl_matrix<unsigned int> p1(3,dim, 0); p1(0,0) = 2; p1(1,1) = 2;
-  vnl_real_npolynomial poly1(f1,p1); vcl_cout << poly1; // X^2 +Y^2 -1
+  vnl_real_npolynomial poly1(f1,p1); std::cout << poly1; // X^2 +Y^2 -1
 
   double f2_data[] = {1.0,-1.0}; vnl_vector<double> f2(f2_data, 2);
   vnl_matrix<unsigned int> p2(2,2, 0); p2(0,0) = 1;
-  vnl_real_npolynomial monom1(f2,p2); vcl_cout << monom1; // X-1
+  vnl_real_npolynomial monom1(f2,p2); std::cout << monom1; // X-1
 
   vnl_real_npolynomial poly2 = monom1 * monom1; // (X-1)^2
   poly2 = poly2 - 1;
@@ -44,24 +45,24 @@ static void unit_circles_intersect()
   vnl_matrix<unsigned int> p3(1,dim, 0); p3(0,1) = 2;
   vnl_real_npolynomial monom3(f3,p3); // Y^2
 
-  poly2 = poly2 + monom3; vcl_cout << poly2; // (X-1)^2 +Y^2 -1 = X^2 -2X +Y^2
+  poly2 = poly2 + monom3; std::cout << poly2; // (X-1)^2 +Y^2 -1 = X^2 -2X +Y^2
 
-  vcl_vector<vnl_vector<double>*>::iterator rp, ip;
+  std::vector<vnl_vector<double>*>::iterator rp, ip;
 
-  vcl_vector<vnl_real_npolynomial*> l(1, &poly1); l.push_back(&poly2);
+  std::vector<vnl_real_npolynomial*> l(1, &poly1); l.push_back(&poly2);
   vnl_rnpoly_solve solver(l);
 
-  vcl_vector<vnl_vector<double>*> r = solver.realroots();
+  std::vector<vnl_vector<double>*> r = solver.realroots();
   TEST("There should be two real roots", r.size(), 2);
   TEST("Dimensions should match", r[0]->size(), dim);
   for (rp = r.begin(); rp != r.end(); ++rp) {
     vnl_vector<double>& root = *(*rp);
-    vcl_cout << root << vcl_endl;
+    std::cout << root << std::endl;
     TEST_NEAR("x==0.5", root[0], 0.5, 1e-9);
     TEST_NEAR("y==sqrt(0.75)", root[1]*root[1], 0.75, 1e-9);
   }
-  vcl_vector<vnl_vector<double>*> roots_r = solver.real();
-  vcl_vector<vnl_vector<double>*> roots_i = solver.imag();
+  std::vector<vnl_vector<double>*> roots_r = solver.real();
+  std::vector<vnl_vector<double>*> roots_i = solver.imag();
   TEST("and no more finite imaginary roots", roots_r.size(), 2);
   TEST("and equally many imaginary parts", roots_i.size(), 2);
   print_roots(solver);
@@ -74,28 +75,28 @@ static void ellipses_intersect()
 
   double f1_data[] = {1.0,2.0,-1.0}; vnl_vector<double> f1(f1_data, 3);
   vnl_matrix<unsigned int> p1(3,dim, 0); p1(0,0) = 2; p1(1,1) = 2;
-  vnl_real_npolynomial poly3(f1,p1); vcl_cout << poly3; // X^2 +2 Y^2 -1
+  vnl_real_npolynomial poly3(f1,p1); std::cout << poly3; // X^2 +2 Y^2 -1
 
   f1(0) = 2;   f1(1) = 1;
-  vnl_real_npolynomial poly4(f1,p1); vcl_cout << poly4; // 2 X^2 +Y^2 -1
+  vnl_real_npolynomial poly4(f1,p1); std::cout << poly4; // 2 X^2 +Y^2 -1
 
-  vcl_vector<vnl_vector<double>*>::iterator rp, ip;
+  std::vector<vnl_vector<double>*>::iterator rp, ip;
 
-  vcl_vector<vnl_real_npolynomial*> l(1, &poly3); l.push_back(&poly4);
+  std::vector<vnl_real_npolynomial*> l(1, &poly3); l.push_back(&poly4);
   vnl_rnpoly_solve solver(l);
 
-  vcl_vector<vnl_vector<double>*> r = solver.realroots();
+  std::vector<vnl_vector<double>*> r = solver.realroots();
   TEST("There should be four real roots", r.size(), 4);
   TEST("Dimensions should match", r[0]->size(), dim);
   for (rp = r.begin(); rp != r.end(); ++rp)
   {
     vnl_vector<double>& root = *(*rp);
-    vcl_cout << root << vcl_endl;
+    std::cout << root << std::endl;
     TEST_NEAR("x==sqrt(1/3)", 3*root[0]*root[0], 1.0, 1e-9);
     TEST_NEAR("y==sqrt(1/3)", 3*root[1]*root[1], 1.0, 1e-9);
   }
-  vcl_vector<vnl_vector<double>*> roots_r = solver.real();
-  vcl_vector<vnl_vector<double>*> roots_i = solver.imag();
+  std::vector<vnl_vector<double>*> roots_r = solver.real();
+  std::vector<vnl_vector<double>*> roots_i = solver.imag();
   TEST("and no more imaginary roots", roots_r.size(), 4);
   TEST("and equally many imaginary parts", roots_i.size(), 4);
   TEST("Dimensions should match", r[0]->size(), dim);
@@ -104,7 +105,7 @@ static void ellipses_intersect()
   // Imaginary intersection of two ellipses, both centered in (0,0):
 
   f1(0) = 2;   f1(1) = 3;
-  vnl_real_npolynomial poly5(f1,p1); vcl_cout << poly5; // 2 X^2 +3 Y^2 -1
+  vnl_real_npolynomial poly5(f1,p1); std::cout << poly5; // 2 X^2 +3 Y^2 -1
 
   l.clear(); l.push_back(&poly3); l.push_back(&poly5);
   vnl_rnpoly_solve solver3(l);
@@ -134,22 +135,22 @@ static void single_fourth_degree()
   vnl_matrix<unsigned int> pol(5,dim, 0);
   pol(0,0) = 4; pol(1,0) = 3;  pol(2,0) = 2;  pol(3,0) = 1;  pol(4,0) = 0;
   vnl_real_npolynomial monom1(coeffs,pol);
-  vcl_vector<vnl_real_npolynomial*> l(1, &monom1);
+  std::vector<vnl_real_npolynomial*> l(1, &monom1);
   vnl_rnpoly_solve solver(l);
-  vcl_vector<vnl_vector<double>*> realVal = solver.real();
-  vcl_vector<vnl_vector<double>*> imagVal = solver.imag();
+  std::vector<vnl_vector<double>*> realVal = solver.real();
+  std::vector<vnl_vector<double>*> imagVal = solver.imag();
 
   TEST("Real part of roots has size 4", realVal.size(), 4);
   TEST("Imag part of roots has size 4", imagVal.size(), 4);
   TEST("Dimensions should match", realVal[0]->size(), dim);
 
-  vcl_cout << vcl_setprecision(2) << vcl_fixed;
+  std::cout << std::setprecision(2) << std::fixed;
   print_roots(solver);
-  vcl_cout<<"Actual roots should be\n"
+  std::cout<<"Actual roots should be\n"
           "\t-4457.60 +0.00 i\n"
           "\t-4554.60 +0.00 i\n"
           "\t 4454.60 +0.00 i\n"
-          "\t 4557.60 +0.00 i"<<vcl_endl;
+          "\t 4557.60 +0.00 i"<<std::endl;
 }
 
 static void scaled_fourth_degree()
@@ -167,7 +168,7 @@ static void scaled_fourth_degree()
   coeffs[4]=4121959965347122688.0;
 
   // Scale before computing roots:
-  double factor = vcl_sqrt(vcl_sqrt(coeffs[4]/coeffs[0]));
+  double factor = std::sqrt(std::sqrt(coeffs[4]/coeffs[0]));
   // this is the 4th root of the scale difference between first and last coef
   double mfactor = 1.0;
   for (int i=0; i<=4; ++i) coeffs[i]/=mfactor, mfactor*=factor;
@@ -175,13 +176,13 @@ static void scaled_fourth_degree()
   vnl_matrix<unsigned int> pol(5,dim, 0);
   pol(0,0) = 4; pol(1,0) = 3;  pol(2,0) = 2;  pol(3,0) = 1;  pol(4,0) = 0;
   vnl_real_npolynomial monom1(coeffs,pol);
-  vcl_vector<vnl_real_npolynomial*> l(1, &monom1);
+  std::vector<vnl_real_npolynomial*> l(1, &monom1);
   vnl_rnpoly_solve solver(l);
-  vcl_vector<vnl_vector<double>*> realVal = solver.real();
-  vcl_vector<vnl_vector<double>*> imagVal = solver.imag();
+  std::vector<vnl_vector<double>*> realVal = solver.real();
+  std::vector<vnl_vector<double>*> imagVal = solver.imag();
 
   // Scale back the roots:
-  vcl_vector<vnl_vector<double>*>::iterator rp, ip;
+  std::vector<vnl_vector<double>*>::iterator rp, ip;
   for (rp=realVal.begin(),ip=imagVal.begin(); rp!=realVal.end(); ++rp,++ip)
   {
     for (unsigned int i=0; i<dim; ++i)
@@ -195,25 +196,25 @@ static void scaled_fourth_degree()
   TEST("Imag part of roots has size 4", imagVal.size(), 4);
   TEST("Dimensions should match", realVal[0]->size(), dim);
 
-  vcl_cout << vcl_setprecision(2) << vcl_fixed;
+  std::cout << std::setprecision(2) << std::fixed;
   print_roots(solver);
-  vcl_cout<<"Actual roots should be\n"
+  std::cout<<"Actual roots should be\n"
           "\t-44576.0 +0.00 i\n"
           "\t-45546.0 +0.00 i\n"
           "\t 44546.0 +0.00 i\n"
-          "\t 45576.0 +0.00 i"<<vcl_endl;
+          "\t 45576.0 +0.00 i"<<std::endl;
 }
 
 
 static void test_rnpoly_roots()
 {
-  vcl_cout << "=========================== unit_circles_intersect ===========================\n";
+  std::cout << "=========================== unit_circles_intersect ===========================\n";
   unit_circles_intersect();
-  vcl_cout << "============================= ellipses_intersect =============================\n";
+  std::cout << "============================= ellipses_intersect =============================\n";
   ellipses_intersect();
-  vcl_cout << "============================ single_fourth_degree ============================\n";
+  std::cout << "============================ single_fourth_degree ============================\n";
   single_fourth_degree();
-  vcl_cout << "============================ scaled_fourth_degree ============================\n";
+  std::cout << "============================ scaled_fourth_degree ============================\n";
   scaled_fourth_degree();
 }
 

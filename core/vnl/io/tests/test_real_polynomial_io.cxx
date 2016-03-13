@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_real_polynomial_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_real_polynomial.h>
 #include <vnl/io/vnl_io_real_polynomial.h>
 #include <testlib/testlib_test.h>
@@ -7,7 +8,7 @@
 
 void test_real_polynomial_io()
 {
-  vcl_cout << "******************************\n"
+  std::cout << "******************************\n"
            << "Testing vnl_real_polynomial io\n"
            << "******************************\n";
   //// test constructors, accessors
@@ -42,8 +43,8 @@ void test_real_polynomial_io()
   TEST("poly_out.coefficients() == poly_in1.coefficients()",
        poly_out.coefficients() == poly_in1.coefficients(), true);
 
-  vsl_print_summary(vcl_cout, poly_in0);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, poly_in0);
+  std::cout << std::endl;
 }
 
 

@@ -38,9 +38,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_vector_fixed<T,n> & p)
     if ( n == stream_n ) {
       vsl_b_read_block_old(is, p.begin(), n);
     } else {
-      vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_vector_fixed<T,n>&)\n"
+      std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_vector_fixed<T,n>&)\n"
                << "           Expected n="<<n<<", got "<<stream_n<<'\n';
-      is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+      is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
       return;
     }
     break;
@@ -50,17 +50,17 @@ void vsl_b_read(vsl_b_istream &is, vnl_vector_fixed<T,n> & p)
     if ( n == stream_n ) {
       vsl_block_binary_read(is, p.data_block(), n);
     } else {
-      vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_vector_fixed<T,n>&)\n"
+      std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_vector_fixed<T,n>&)\n"
                << "           Expected n="<<n<<", got "<<stream_n<<'\n';
-      is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+      is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
       return;
     }
     break;
 
    default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_vector_fixed<T,n>&)\n"
+    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_vector_fixed<T,n>&)\n"
              << "           Unknown version number "<< ver << '\n';
-    is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }
 }
@@ -68,7 +68,7 @@ void vsl_b_read(vsl_b_istream &is, vnl_vector_fixed<T,n> & p)
 //====================================================================================
 //: Output a human readable summary to the stream
 template<class T, unsigned int n>
-void vsl_print_summary(vcl_ostream & os,const vnl_vector_fixed<T,n> & p)
+void vsl_print_summary(std::ostream & os,const vnl_vector_fixed<T,n> & p)
 {
   os<<"Len: "<<p.size()<<" [fixed] (";
   for ( unsigned int i =0; i < p.size() && i < 5; ++i )
@@ -78,7 +78,7 @@ void vsl_print_summary(vcl_ostream & os,const vnl_vector_fixed<T,n> & p)
 }
 
 #define VNL_IO_VECTOR_FIXED_INSTANTIATE(T,n) \
-template void vsl_print_summary(vcl_ostream &, const vnl_vector_fixed<T,n > &); \
+template void vsl_print_summary(std::ostream &, const vnl_vector_fixed<T,n > &); \
 template void vsl_b_read(vsl_b_istream &, vnl_vector_fixed<T,n > &); \
 template void vsl_b_write(vsl_b_ostream &, const vnl_vector_fixed<T,n > &)
 

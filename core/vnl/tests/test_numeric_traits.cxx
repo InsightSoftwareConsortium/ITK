@@ -1,8 +1,9 @@
 // This is core/vnl/tests/test_numeric_traits.cxx
+#include <complex>
+#include <iostream>
 #include <vnl/vnl_numeric_traits.h>
 #include <testlib/testlib_test.h>
-#include <vcl_complex.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vxl_config.h> // for VXL_BIG_ENDIAN
 
 static
@@ -39,16 +40,22 @@ void test_static_const_definition()
   ALL(unsigned long);
   ALL(float);
   ALL(double);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
   ALL(long double);
-  ONE_ZERO( vcl_complex<float> );
-  ONE_ZERO( vcl_complex<double> );
-  ONE_ZERO( vcl_complex<long double> );
+#endif
+  ONE_ZERO( std::complex<float> );
+  ONE_ZERO( std::complex<double> );
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+  ONE_ZERO( std::complex<long double> );
+#endif
 
 #undef ONE_ZERO
 #undef ALL
 }
 
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
 extern "C" { long double increment(long double x) { return x+1; } }
+#endif
 
 void test_numeric_traits()
 {
@@ -85,21 +92,24 @@ void test_numeric_traits()
   TEST("vnl_numeric_traits<float>::one", vnl_numeric_traits<float>::one, 1.0f);
   TEST("vnl_numeric_traits<double>::zero", vnl_numeric_traits<double>::zero, 0.0);
   TEST("vnl_numeric_traits<double>::one", vnl_numeric_traits<double>::one, 1.0);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
   TEST("vnl_numeric_traits<long double>::zero", vnl_numeric_traits<long double>::zero, 0.0);
   TEST("vnl_numeric_traits<long double>::one", vnl_numeric_traits<long double>::one, 1.0);
-  TEST("vnl_numeric_traits<vcl_complex<float> >::zero",
-       vnl_numeric_traits<vcl_complex<float> >::zero, vcl_complex<float>(0.0f));
-  TEST("vnl_numeric_traits<vcl_complex<float> >::one",
-       vnl_numeric_traits<vcl_complex<float> >::one, vcl_complex<float>(1.0f));
-  TEST("vnl_numeric_traits<vcl_complex<double> >::zero",
-       vnl_numeric_traits<vcl_complex<double> >::zero, vcl_complex<double>(0.0));
-  TEST("vnl_numeric_traits<vcl_complex<double> >::one",
-       vnl_numeric_traits<vcl_complex<double> >::one, vcl_complex<double>(1.0));
-  TEST("vnl_numeric_traits<vcl_complex<long double> >::zero",
-       vnl_numeric_traits<vcl_complex<long double> >::zero, vcl_complex<long double>(0.0));
-  TEST("vnl_numeric_traits<vcl_complex<long double> >::one",
-       vnl_numeric_traits<vcl_complex<long double> >::one, vcl_complex<long double>(1.0));
-
+#endif
+  TEST("vnl_numeric_traits<std::complex<float> >::zero",
+       vnl_numeric_traits<std::complex<float> >::zero, std::complex<float>(0.0f));
+  TEST("vnl_numeric_traits<std::complex<float> >::one",
+       vnl_numeric_traits<std::complex<float> >::one, std::complex<float>(1.0f));
+  TEST("vnl_numeric_traits<std::complex<double> >::zero",
+       vnl_numeric_traits<std::complex<double> >::zero, std::complex<double>(0.0));
+  TEST("vnl_numeric_traits<std::complex<double> >::one",
+       vnl_numeric_traits<std::complex<double> >::one, std::complex<double>(1.0));
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+  TEST("vnl_numeric_traits<std::complex<long double> >::zero",
+       vnl_numeric_traits<std::complex<long double> >::zero, std::complex<long double>(0.0));
+  TEST("vnl_numeric_traits<std::complex<long double> >::one",
+       vnl_numeric_traits<std::complex<long double> >::one, std::complex<long double>(1.0));
+#endif
   // Testing maxval values
 
   char cm = vnl_numeric_traits<char>::maxval;
@@ -113,9 +123,11 @@ void test_numeric_traits()
   unsigned long ulm = vnl_numeric_traits<unsigned long>::maxval;
   float fm = vnl_numeric_traits<float>::maxval;
   double dm = vnl_numeric_traits<double>::maxval;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
   long double ldm = vnl_numeric_traits<long double>::maxval;
+#endif
 
-  vcl_cout << " vnl_numeric_traits<bool>::maxval = " << vnl_numeric_traits<bool>::maxval << '\n'
+  std::cout << " vnl_numeric_traits<bool>::maxval = " << vnl_numeric_traits<bool>::maxval << '\n'
            << " vnl_numeric_traits<char>::maxval = " << (int)cm << '\n'
            << " vnl_numeric_traits<signed char>::maxval = " << (int)scm << '\n'
            << " vnl_numeric_traits<unsigned char>::maxval = " << (int)ucm << '\n'
@@ -127,7 +139,10 @@ void test_numeric_traits()
            << " vnl_numeric_traits<unsigned long>::maxval = " << ulm << '\n'
            << " vnl_numeric_traits<float>::maxval = " << fm << '\n'
            << " vnl_numeric_traits<double>::maxval = " << dm << '\n'
-           << " vnl_numeric_traits<long double>::maxval = " << ldm << '\n';
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+           << " vnl_numeric_traits<long double>::maxval = " << ldm << '\n'
+#endif
+           << '\n';
 
   // Verify that these values are positive and satisfy certain constraints:
   TEST("vnl_numeric_traits<char>::maxval must be at least 127", cm >= 127, true);
@@ -141,35 +156,37 @@ void test_numeric_traits()
   TEST("vnl_numeric_traits<unsigned long>::maxval must be larger than that", ulm>(unsigned long)lm, true);
   TEST("vnl_numeric_traits<float>::maxval must be at least 1e33", fm>1e33, true);
   TEST("vnl_numeric_traits<double>::maxval must be larger than that", dm>fm, true);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
   TEST("vnl_numeric_traits<long double>::maxval must be at least as large", ldm>=dm, true);
+#endif
 
   // Verify that there is nothing larger than these maxval values:
   // unsigned cases:
   ++ucm; TEST("vnl_numeric_traits<unsigned char>::maxval must be the largest possible", ucm==0, true);
-  if (ucm > 0) vcl_cout << ucm << " is larger\n";
+  if (ucm > 0) std::cout << ucm << " is larger\n";
   ++usm; TEST("vnl_numeric_traits<unsigned short>::maxval must be the largest possible", usm==0, true);
-  if (usm > 0) vcl_cout << usm << " is larger\n";
+  if (usm > 0) std::cout << usm << " is larger\n";
   ++uim; TEST("vnl_numeric_traits<unsigned int>::maxval must be the largest possible", uim==0, true);
-  if (uim > 0) vcl_cout << uim << " is larger\n";
+  if (uim > 0) std::cout << uim << " is larger\n";
   ++ulm; TEST("vnl_numeric_traits<unsigned long>::maxval must be the largest possible", ulm==0, true);
-  if (ulm > 0) vcl_cout << ulm << " is larger\n";
+  if (ulm > 0) std::cout << ulm << " is larger\n";
 #ifdef TEST_SIGNED_OVERFLOW // "signed overflow" might give compiler warnings or even worse ...
   // signed cases:
   ++scm; TEST("vnl_numeric_traits<signed char>::maxval must be the largest possible", scm<0, true);
-  if (scm > 0) vcl_cout << scm << " is larger\n";
+  if (scm > 0) std::cout << scm << " is larger\n";
   ++cm;  TEST("vnl_numeric_traits<char>::maxval must be the largest possible", cm<=0, true);
-  if (cm > 0) vcl_cout << cm << " is larger\n";
+  if (cm > 0) std::cout << cm << " is larger\n";
   ++sm;  TEST("vnl_numeric_traits<short>::maxval must be the largest possible", sm<0, true);
-  if (sm > 0) vcl_cout << sm << " is larger\n";
+  if (sm > 0) std::cout << sm << " is larger\n";
   im = increment(im); TEST("vnl_numeric_traits<int>::maxval must be the largest possible", im<0, true);
-  if (im > 0) vcl_cout << im << " is larger\n";
+  if (im > 0) std::cout << im << " is larger\n";
   lm=increment(lm);  TEST("vnl_numeric_traits<long>::maxval must be the largest possible", lm<0, true);
-  if (lm > 0) vcl_cout << lm << " is larger\n";
+  if (lm > 0) std::cout << lm << " is larger\n";
 #endif // TEST_SIGNED_OVERFLOW
 
   unsigned char* x = (unsigned char*)(&fm);
   int nr_of_ones = 0;
-  vcl_cout << "vnl_numeric_traits<float>::maxval has internal representation ";
+  std::cout << "vnl_numeric_traits<float>::maxval has internal representation ";
 #if VXL_BIG_ENDIAN
   for (unsigned int i=0; i<sizeof(float); ++i)
 #else
@@ -178,15 +195,15 @@ void test_numeric_traits()
     for (int j=7; j>=0; --j) {
       int n = int(((x[i])>>j)&1);
       nr_of_ones += n;
-      vcl_cout << n;
+      std::cout << n;
     }
-  vcl_cout << '\n';
+  std::cout << '\n';
   // there should only be 2 zeros in the representation: the sign bits of mantissa and of exponent:
   TEST("vnl_numeric_traits<float>::maxval must be the largest possible", nr_of_ones, 8*sizeof(float)-2);
 
   x = (unsigned char*)(&dm);
   nr_of_ones = 0;
-  vcl_cout << "vnl_numeric_traits<double>::maxval has internal representation ";
+  std::cout << "vnl_numeric_traits<double>::maxval has internal representation ";
 #if VXL_BIG_ENDIAN
   for (unsigned int i=0; i<sizeof(double); ++i)
 #else
@@ -195,14 +212,15 @@ void test_numeric_traits()
     for (int j=7; j>=0; --j) {
       int n = int(((x[i])>>j)&1);
       nr_of_ones += n;
-      vcl_cout << n;
+      std::cout << n;
     }
-  vcl_cout << '\n';
+  std::cout << '\n';
   // there should only be 2 zeros in the representation: the sign bits of mantissa and of exponent:
   TEST("vnl_numeric_traits<double>::maxval must be the largest possible", nr_of_ones, 8*sizeof(double)-2);
 
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
   x = (unsigned char*)(&ldm);
-  vcl_cout << "vnl_numeric_traits<long double>::maxval has internal representation ";
+  std::cout << "vnl_numeric_traits<long double>::maxval has internal representation ";
 #if VXL_BIG_ENDIAN
   for (unsigned int i=0; i<sizeof(long double); ++i)
 #else
@@ -210,9 +228,10 @@ void test_numeric_traits()
 #endif
     for (int j=7; j>=0; --j) {
       int n = int(((x[i])>>j)&1);
-      vcl_cout << n;
+      std::cout << n;
     }
-  vcl_cout << '\n';
+  std::cout << '\n';
+#endif
 }
 
 TESTMAIN(test_numeric_traits);

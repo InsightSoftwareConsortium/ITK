@@ -2,10 +2,11 @@
 #ifndef vnl_convolve_hxx_
 #define vnl_convolve_hxx_
 
+#include <iostream>
 #include "vnl_convolve.h"
-#include <vnl/algo/vnl_fft_1d.h> // this #includes <vcl_complex.h>
+#include <vnl/algo/vnl_fft_1d.h> // this #includes <std::complex.h>
 #include <vcl_cassert.h>
-#include <vcl_iostream.h> // for warning messages
+#include <vcl_compiler.h>
 
 template <class T1, class T2, class U>
 inline
@@ -14,7 +15,7 @@ vnl_vector<U> vnl_convolve_cyclic_using_fft(vnl_vector<T1> const& v1, vnl_vector
   assert (v1.size() == v2.size());
   unsigned int n = v1.size();
 
-  typedef vcl_complex<double> C;
+  typedef std::complex<double> C;
   vnl_vector<C> w1(n, C(0)); for (unsigned i=0; i<n; ++i) w1[i]=v1[i];
   vnl_vector<C> w2(n, C(0)); for (unsigned i=0; i<n; ++i) w2[i]=v2[i];
 
@@ -22,15 +23,15 @@ vnl_vector<U> vnl_convolve_cyclic_using_fft(vnl_vector<T1> const& v1, vnl_vector
   for (unsigned int i=0; i<n; ++i) w1[i] *= w2[i];
   fft.bwd_transform(w1);
 #ifdef DEBUG
-  vcl_cout << w1 << vcl_endl;
+  std::cout << w1 << std::endl;
 #endif
 
   vnl_vector<U> r(n);
   for (unsigned int i = 0; i<n; ++i)
-    r[i] = U(vcl_real(w1[i]) / n); // the imaginary part is certainly zero
+    r[i] = U(std::real(w1[i]) / n); // the imaginary part is certainly zero
 #ifdef DEBUG
   for (unsigned int i = 0; i<n; ++i)
-    assert(vcl_imag(w1[i]) == 0);
+    assert(std::imag(w1[i]) == 0);
 #endif
   return r;
 }

@@ -1,4 +1,5 @@
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_real_npolynomial.h>
@@ -19,7 +20,7 @@ void test_real_npolynomial()
 
   vnl_real_npolynomial f0(coef_0,expo_0), f1(coef_1,expo_1), f2(coef_2,expo_2);
 
-  vcl_cout << "f0 = " << f0 << "f1 = " << f1 << "f2 = " << f2;
+  std::cout << "f0 = " << f0 << "f1 = " << f1 << "f2 = " << f2;
   TEST("f0 has total degree 1", f0.degree(), 1);
   TEST("f0 has maximal degree 1", f0.maxdegree(), 1);
   TEST("f0 has degree 1 in X", f0.degrees()[0], 1);
@@ -39,7 +40,7 @@ void test_real_npolynomial()
   vnl_vector<double> vec3(2); vec3(0)=vec3(1)=2.5;
 
   vnl_real_npolynomial f3 = f1+f2;
-  vcl_cout << "f1+f2 = " << f3;
+  std::cout << "f1+f2 = " << f3;
   TEST("f1+f2=f3",f1.eval(vec3)+f2.eval(vec3), f3.eval(vec3));
 
   TEST("f3 has total degree 4", f3.degree(), 4);
@@ -48,7 +49,7 @@ void test_real_npolynomial()
   TEST("f3 has degree 3 in Y", f3.degrees()[1], 3);
 
   vnl_real_npolynomial f4 = f1-f2;
-  vcl_cout << "f1-f2 = " << f4;
+  std::cout << "f1-f2 = " << f4;
   TEST("f1-f2=f4",f1.eval(vec3)-f2.eval(vec3), f4.eval(vec3));
 
   TEST("f4 has total degree 4", f4.degree(), 4);
@@ -57,7 +58,7 @@ void test_real_npolynomial()
   TEST("f4 has degree 3 in Y", f4.degrees()[1], 3);
 
   vnl_real_npolynomial f5 = f1*f2;
-  vcl_cout << "f1*f2 = " << f5;
+  std::cout << "f1*f2 = " << f5;
   TEST("f1*f2=f5",f1.eval(vec3)*f2.eval(vec3), f5.eval(vec3));
 
   TEST("f5 has total degree 7", f5.degree(), 7);

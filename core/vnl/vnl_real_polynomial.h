@@ -19,9 +19,10 @@
 // 12/22/2004 Kongbin Kang - add structured comment for operator==()
 // \endverbatim
 
+#include <complex>
+#include <iosfwd>
 #include <vnl/vnl_vector.h>
-#include <vcl_complex.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 //:Evaluation of real polynomials at real and complex points.
@@ -76,11 +77,11 @@ class vnl_real_polynomial
   double devaluate(double x) const;
 
   //: Evaluate polynomial at complex value x
-  vcl_complex<double> evaluate(vcl_complex<double> const& x) const;
+  std::complex<double> evaluate(std::complex<double> const& x) const;
 
 
   //: Evaluate derivative at complex value x
-  vcl_complex<double> devaluate(vcl_complex<double> const& x) const;
+  std::complex<double> devaluate(std::complex<double> const& x) const;
 
   //: Return derivative of this polynomial
   vnl_real_polynomial derivative() const;
@@ -116,7 +117,7 @@ class vnl_real_polynomial
   void set_coefficients(vnl_vector<double> const& coeffs) {coeffs_ = coeffs;}
 
   //: Print this polynomial to stream
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
  protected:
   //: The coefficients of the polynomial.

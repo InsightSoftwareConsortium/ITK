@@ -65,8 +65,9 @@
 //  Peter Vanroose, June 2009: finally fixed this long standing divide bug
 // \endverbatim
 
-#include <vcl_iostream.h>
-#include <vcl_string.h>
+#include <iostream>
+#include <string>
+#include <vcl_compiler.h>
 
 class vnl_bignum;
 
@@ -88,11 +89,11 @@ void increment (vnl_bignum& bnum);
 
 //: formatted output
 // \relatesalso vnl_bignum
-vcl_ostream& operator<<(vcl_ostream& s, vnl_bignum const& r);
+std::ostream& operator<<(std::ostream& s, vnl_bignum const& r);
 
 //: simple input
 // \relatesalso vnl_bignum
-vcl_istream& operator>>(vcl_istream& s, vnl_bignum& r);
+std::istream& operator>>(std::istream& s, vnl_bignum& r);
 
 //: Infinite precision integers
 //
@@ -230,7 +231,7 @@ class vnl_bignum
   inline bool is_plus_infinity() const { return is_infinity() && sign==1; }
   inline bool is_minus_infinity() const { return is_infinity() && sign==-1; }
 
-  void dump(vcl_ostream& = vcl_cout) const;     // Dump contents of vnl_bignum
+  void dump(std::ostream& = std::cout) const;     // Dump contents of vnl_bignum
 
   friend int magnitude_cmp(const vnl_bignum&, const vnl_bignum&);
   friend void add(const vnl_bignum&, const vnl_bignum&, vnl_bignum&);
@@ -245,10 +246,10 @@ class vnl_bignum
   friend void divide(const vnl_bignum&, const vnl_bignum&, vnl_bignum&, vnl_bignum&);
   friend vnl_bignum left_shift(const vnl_bignum& b1, int l);
   friend vnl_bignum right_shift(const vnl_bignum& b1, int l);
-  friend vcl_ostream& operator<< (vcl_ostream&, const vnl_bignum&);
-  friend vcl_istream& operator>> (vcl_istream&, vnl_bignum&);
-  friend vcl_string& vnl_bignum_to_string (vcl_string& s, const vnl_bignum& b);
-  friend vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const vcl_string& s);
+  friend std::ostream& operator<< (std::ostream&, const vnl_bignum&);
+  friend std::istream& operator>> (std::istream&, vnl_bignum&);
+  friend std::string& vnl_bignum_to_string (std::string& s, const vnl_bignum& b);
+  friend vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const std::string& s);
 
  private:
   void xtoBigNum(const char *s);       // convert hex to vnl_bignum
@@ -263,11 +264,11 @@ class vnl_bignum
 
 //: Convert the number to a decimal representation in a string.
 // \relatesalso vnl_bignum
-vcl_string& vnl_bignum_to_string (vcl_string& s, const vnl_bignum& b);
+std::string& vnl_bignum_to_string (std::string& s, const vnl_bignum& b);
 
 //: Convert the number from a decimal representation in a string.
 // \relatesalso vnl_bignum
-vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const vcl_string& s);
+vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const std::string& s);
 
 //: Returns the sum of two bignum numbers.
 // \relatesalso vnl_bignum

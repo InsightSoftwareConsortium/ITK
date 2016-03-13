@@ -19,9 +19,10 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vcl_iosfwd.h>
+#include <iosfwd>
+#include <cmath>
+#include <vcl_compiler.h>
 #include <vnl/vnl_numeric_traits.h>
-#include <vcl_cmath.h> // for vcl_sqrt
 
 // avoid messing about with aux_* functions for gcc 2.7 -- fsm
 template <class T, class S> void vnl_c_na_vector_one_norm(T const *p, unsigned n, S *out);
@@ -58,6 +59,6 @@ class vnl_c_na_vector
 //: Input & output
 // \relatesalso vnl_c_na_vector
 template <class T>
-vcl_ostream& print_na_vector(vcl_ostream&, T const*, unsigned);
+std::ostream& print_na_vector(std::ostream&, T const*, unsigned);
 
 #endif // vnl_c_na_vector_h_

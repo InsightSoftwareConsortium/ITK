@@ -42,7 +42,7 @@
 #if defined(VCL_GCC)
 // With attribute always_inline, gcc can give an error if a function
 // cannot be inlined, so it is disabled.  Problem seen on 64 bit
-// platforms with vcl_vector<vnl_rational>.
+// platforms with std::vector<vnl_rational>.
 # define VNL_SSE_FORCE_INLINE /* __attribute__((always_inline)) */ inline
 # define VNL_SSE_STACK_ALIGNED(x)  __attribute__((aligned(x)))
 #elif defined VCL_VC
@@ -71,7 +71,7 @@
 #elif VNL_CONFIG_ENABLE_SSE2 && VXL_HAS_POSIX_MEMALIGN
 # include <vcl_cstdlib.h>
 # define VNL_SSE_ALLOC(n,s,a) memalign(a,n*s)
-# define VNL_SSE_FREE(v,n,s) vcl_free(v)
+# define VNL_SSE_FREE(v,n,s) std::free(v)
 #else // sse2 disabled or could not get memory alignment support, use slower unaligned based intrinsics
 # define VNL_SSE_HEAP_STORE(pf) _mm_storeu_##pf
 # define VNL_SSE_HEAP_LOAD(pf) _mm_loadu_##pf
@@ -97,13 +97,13 @@
 #endif
 
 //: Custom memory allocation function to force 16 byte alignment of data
-VNL_SSE_FORCE_INLINE void* vnl_sse_alloc(vcl_size_t n, unsigned size)
+VNL_SSE_FORCE_INLINE void* vnl_sse_alloc(std::size_t n, unsigned size)
 {
   return VNL_SSE_ALLOC(n,size,16);
 }
 
 //: Custom memory deallocation function to free 16 byte aligned of data
-VNL_SSE_FORCE_INLINE void vnl_sse_dealloc(void* mem, vcl_size_t n, unsigned size)
+VNL_SSE_FORCE_INLINE void vnl_sse_dealloc(void* mem, std::size_t n, unsigned size)
 {
   VNL_SSE_FREE(mem,n,size);
 }
@@ -270,7 +270,7 @@ class vnl_sse<double>
 
     // load, multiply and store two doubles at a time
     // loop unroll to handle 4
-    if (vcl_ptrdiff_t(x)%16 || vcl_ptrdiff_t(y)%16  || vcl_ptrdiff_t(r)%16)
+    if (std::ptrdiff_t(x)%16 || std::ptrdiff_t(y)%16  || std::ptrdiff_t(r)%16)
           // unaligned case
       for (int i = n-4; i >= 0; i-=4)
       {
@@ -297,7 +297,7 @@ class vnl_sse<double>
     else
       sum = _mm_setzero_pd();
 
-    if (vcl_ptrdiff_t(x)%16 || vcl_ptrdiff_t(y)%16)
+    if (std::ptrdiff_t(x)%16 || std::ptrdiff_t(y)%16)
          // unaligned case
       for (int i = n-2; i >= 0; i-=2)
         sum = _mm_add_pd(_mm_mul_pd(_mm_loadu_pd(x+i), _mm_loadu_pd(y+i)),sum);
@@ -325,7 +325,7 @@ class vnl_sse<double>
     else
       sum = _mm_setzero_pd();
 
-    if (vcl_ptrdiff_t(x)%16 || vcl_ptrdiff_t(y)%16)
+    if (std::ptrdiff_t(x)%16 || std::ptrdiff_t(y)%16)
          // unaligned case
       for ( int i = n-2; i >= 0; i-=2 )
       {

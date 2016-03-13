@@ -1,4 +1,7 @@
 // This is core/vnl/algo/tests/test_symmetric_eigensystem.cxx
+#include <iostream>
+#include <algorithm>
+#include <ctime>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -9,12 +12,10 @@
 //-----------------------------------------------------------------------------
 
 
-#include <vcl_iostream.h>
-#include <vcl_algorithm.h>
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_random.h>
-#include <vcl_ctime.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
@@ -34,14 +35,14 @@ void test_symmetric_eigensystem()
   {
     vnl_symmetric_eigensystem<double> eig(S);
     vnl_matrix<double> res = eig.recompose() - S;
-    vcl_cout << "V'*D*V - S = " << res << vcl_endl
-             << "residual = " << res.fro_norm() << vcl_endl;
+    std::cout << "V'*D*V - S = " << res << std::endl
+             << "residual = " << res.fro_norm() << std::endl;
     TEST_NEAR("recompose residual", res.fro_norm(), 0.0, 1e-12);
 
-    vcl_cout<<"Eigenvalues: ";
+    std::cout<<"Eigenvalues: ";
     for (int i=0;i<6;++i)
-      vcl_cout << eig.get_eigenvalue(i) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << eig.get_eigenvalue(i) << ' ';
+    std::cout << std::endl;
   }
 
   double Cdata[36] = {
@@ -58,14 +59,14 @@ void test_symmetric_eigensystem()
   {
     vnl_symmetric_eigensystem<double> eig(C);
     vnl_matrix<double> res = eig.recompose() - C;
-    vcl_cout << "V'*D*V - C = " << res << vcl_endl
-             << "residual = " << res.fro_norm() << vcl_endl;
+    std::cout << "V'*D*V - C = " << res << std::endl
+             << "residual = " << res.fro_norm() << std::endl;
     TEST_NEAR("recompose residual", res.fro_norm(), 0.0, 1e-12);
 
-    vcl_cout<<"Eigenvalues: ";
+    std::cout<<"Eigenvalues: ";
     for (int i=0;i<6;++i)
-      vcl_cout << eig.get_eigenvalue(i) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << eig.get_eigenvalue(i) << ' ';
+    std::cout << std::endl;
   }
 
   {
@@ -82,8 +83,8 @@ void test_symmetric_eigensystem()
     vnl_matrix<double> evecs(n,n);
     vnl_vector<double> evals(n);
     vnl_symmetric_eigensystem_compute(S,evecs,evals);
-    vcl_cout << "Testing random system:\n"
-             << "evals: "<<evals<<vcl_endl;
+    std::cout << "Testing random system:\n"
+             << "evals: "<<evals<<std::endl;
     for (int i=1;i<n;++i)
     {
       TEST("Eigenvalue increases", evals(i) >= evals(i-1), true);
@@ -94,7 +95,7 @@ void test_symmetric_eigensystem()
     double l1, l2, l3;
     vnl_symmetric_eigensystem_compute_eigenvals(1.0, 0.0, 0.0, 1.0, 0.0, 1.0,
                                                 l1, l2, l3);
-    vcl_cout << "Eigenvals: " << l1 << ' ' << l2 << ' ' << l3 << vcl_endl;
+    std::cout << "Eigenvals: " << l1 << ' ' << l2 << ' ' << l3 << std::endl;
     TEST("Correct eigenvalues for I", l1==1.0 && l2==1.0 && l3 ==1.0, true);
   }
 
@@ -109,7 +110,7 @@ void test_symmetric_eigensystem()
       // Generate a random system
       vnl_random rng(5);
 
-      const vcl_clock_t timer_01 = vcl_clock();
+      const std::clock_t timer_01 = std::clock();
       for (unsigned c = 0; c < n; ++c)
       {
         M11 = rng.drand64()*10.0-5.0; M12 = rng.drand64()*10.0-5.0; M13 = rng.drand64()*10.0-5.0;
@@ -118,7 +119,7 @@ void test_symmetric_eigensystem()
         vnl_symmetric_eigensystem_compute_eigenvals(M11, M12, M13, M22, M23, M33,
                                                     fixed_data[c][0], fixed_data[c][1], fixed_data[c][2]);
       }
-      const vcl_clock_t timer_02 = vcl_clock();
+      const std::clock_t timer_02 = std::clock();
       fixed_time = ( timer_02 - timer_01)/ (CLOCKS_PER_SEC/1000);
     }
 
@@ -129,7 +130,7 @@ void test_symmetric_eigensystem()
       vnl_double_3x3 M, evecs;
       vnl_double_3 evals;
 
-      const vcl_clock_t timer_03 = vcl_clock();
+      const std::clock_t timer_03 = std::clock();
       for (unsigned c = 0; c < n; ++c)
       {
         M(0,0)=rng.drand64()*10.0-5.0; M(1,0)=M(0,1)=rng.drand64()*10.0-5.0; M(2,0)=M(0,2)= rng.drand64()*10.0-5.0;
@@ -141,11 +142,11 @@ void test_symmetric_eigensystem()
         netlib_data[c][1] = evals[1];
         netlib_data[c][2] = evals[2];
       }
-      const vcl_clock_t timer_04 = vcl_clock();
+      const std::clock_t timer_04 = std::clock();
       netlib_time = ( timer_04 - timer_03)/ (CLOCKS_PER_SEC/1000);
     }
 
-    vcl_cout << "Fixed Time: " << fixed_time << "   netlib time: " <<netlib_time<<vcl_endl;
+    std::cout << "Fixed Time: " << fixed_time << "   netlib time: " <<netlib_time<<std::endl;
     TEST("Specialised version is faster", fixed_time < netlib_time, true);
 
     double sum_dsq=0.0;
@@ -153,10 +154,10 @@ void test_symmetric_eigensystem()
     for (unsigned c = 0; c < n; ++c)
     {
       const double dsq = vnl_c_vector<double>::euclid_dist_sq(netlib_data[c], fixed_data[c],3);
-      max_dsq = vcl_max(dsq,max_dsq);
+      max_dsq = std::max(dsq,max_dsq);
       sum_dsq += dsq;
     }
-    vcl_cout << "max_dsq: " <<max_dsq<<"  mean_dsq: "<<sum_dsq/static_cast<double>(n)<<vcl_endl;
+    std::cout << "max_dsq: " <<max_dsq<<"  mean_dsq: "<<sum_dsq/static_cast<double>(n)<<std::endl;
     TEST("Specialised version gives similar results", max_dsq < 1e-8, true);
   }
 

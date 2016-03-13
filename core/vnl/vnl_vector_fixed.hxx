@@ -3,13 +3,14 @@
 #define vnl_vector_fixed_hxx_
 //:
 // \file
+#include <algorithm>
+#include <iostream>
+#include <cstdlib>
 #include "vnl_vector_fixed.h"
 #include "vnl_matrix_fixed.h"
 
 #include <vcl_cassert.h>
-#include <vcl_algorithm.h> // for vcl_swap
-#include <vcl_iostream.h>  // for vcl_cerr
-#include <vcl_cstdlib.h>   // for vcl_abort
+#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>  // for vnl_math::isfinite
 
 template<class T, unsigned int n>
@@ -57,7 +58,7 @@ vnl_vector_fixed<T,n>&
 vnl_vector_fixed<T,n>::flip()
 {
   for ( unsigned int i=0; 2*i+1 < n; ++i )
-    vcl_swap( data_[i], data_[n-1-i] );
+    std::swap( data_[i], data_[n-1-i] );
   return *this;
 }
 
@@ -88,7 +89,7 @@ vnl_vector_fixed<T,n>::is_zero() const
 
 template <class T, unsigned int n>
 bool
-vnl_vector_fixed<T,n>::read_ascii(vcl_istream& s)
+vnl_vector_fixed<T,n>::read_ascii(std::istream& s)
 {
   for (unsigned i = 0; i < this->size(); ++i)
     s >> (*this)(i);
@@ -103,13 +104,13 @@ vnl_vector_fixed<T,n>::assert_finite_internal() const
   if (this->is_finite())
     return;
 
-  vcl_cerr << __FILE__ ": *** NAN FEVER **\n" << *this;
-  vcl_abort();
+  std::cerr << __FILE__ ": *** NAN FEVER **\n" << *this;
+  std::abort();
 }
 
 template <class T, unsigned int n>
 void
-vnl_vector_fixed<T,n>::print(vcl_ostream& s) const
+vnl_vector_fixed<T,n>::print(std::ostream& s) const
 {
   if (this->size() > 0)
     s << (*this)[0];

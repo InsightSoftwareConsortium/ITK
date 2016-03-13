@@ -1,15 +1,16 @@
 // This is core/vnl/algo/vnl_complex_eigensystem.cxx
+#include <iostream>
 #include "vnl_complex_eigensystem.h"
 // \author fsm
 
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/vnl_complexify.h>
 #include <vnl/algo/vnl_netlib.h> // zgeev_()
 
-void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A,
+void vnl_complex_eigensystem::compute(vnl_matrix<std::complex<double> > const & A,
                                       bool right,
                                       bool left)
 {
@@ -32,10 +33,10 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
   // eigenvector storage and vice versa.
   // But then we also have to conjugate our R after calling the routine.
   //
-  vnl_matrix<vcl_complex<double> > tmp(A);
+  vnl_matrix<std::complex<double> > tmp(A);
 
   long work_space=10*N;
-  vnl_vector<vcl_complex<double> > work(work_space);
+  vnl_vector<std::complex<double> > work(work_space);
 
   long rwork_space=2*N;
   vnl_vector<double> rwork(rwork_space);
@@ -64,21 +65,21 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
     // conjugate all elements of R :
     for (unsigned int i=0;i<N;i++)
       for (unsigned int j=0;j<N;j++)
-        R(i,j) = vcl_conj( R(i,j) );
+        R(i,j) = std::conj( R(i,j) );
   }
 
   if (info == 0) {
     // success
   }
   else if (info < 0) {
-    vcl_cerr << __FILE__ ": info = " << info << vcl_endl
+    std::cerr << __FILE__ ": info = " << info << std::endl
              << __FILE__ ": " << (-info) << "th argument has illegal value\n";
     assert(false);
   }
   else /* if (info > 0) */ {
-    vcl_cerr << __FILE__ ": info = " << info << vcl_endl
+    std::cerr << __FILE__ ": info = " << info << std::endl
              << __FILE__ ": QR algorithm failed to compute all eigenvalues.\n";
-    vnl_matlab_print(vcl_cerr, A, "A", vnl_matlab_print_format_long);
+    vnl_matlab_print(std::cerr, A, "A", vnl_matlab_print_format_long);
     assert(false);
   }
 }
@@ -86,7 +87,7 @@ void vnl_complex_eigensystem::compute(vnl_matrix<vcl_complex<double> > const & A
 //--------------------------------------------------------------------------------
 
 //
-vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<vcl_complex<double> > const &A,
+vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<std::complex<double> > const &A,
                                                  bool right,
                                                  bool left)
   : N(A.rows())
@@ -108,7 +109,7 @@ vnl_complex_eigensystem::vnl_complex_eigensystem(vnl_matrix<double> const &A_rea
   A_real.assert_size(N,N);
   A_imag.assert_size(N,N);
 
-  vnl_matrix<vcl_complex<double> > A(N,N);
+  vnl_matrix<std::complex<double> > A(N,N);
   vnl_complexify(A_real.begin(), A_imag.begin(), A.begin(), A.size());
 
   compute(A, right, left);

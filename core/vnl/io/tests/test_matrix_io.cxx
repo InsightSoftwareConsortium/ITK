@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_matrix_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/io/vnl_io_matrix.h>
 #include <vsl/vsl_binary_io.h>
@@ -8,7 +9,7 @@
 
 void test_matrix_double_io()
 {
-  vcl_cout << "*****************************\n"
+  std::cout << "*****************************\n"
            << "Testing vnl_matrix<double> io\n"
            << "*****************************\n";
   //// test constructors, accessors
@@ -46,8 +47,8 @@ void test_matrix_double_io()
   // m_in2 empty
   TEST("m_out == m_in2", m_out, m_in2);
 
-  vsl_print_summary(vcl_cout, m_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, m_out);
+  std::cout << std::endl;
 }
 
 

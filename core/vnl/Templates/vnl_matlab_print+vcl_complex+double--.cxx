@@ -1,4 +1,5 @@
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matlab_print.hxx>
 
-VNL_MATLAB_PRINT_INSTANTIATE(vcl_complex<double>);
+VNL_MATLAB_PRINT_INSTANTIATE(std::complex<double>);

@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_rational_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_rational.h>
 #include <vnl/io/vnl_io_rational.h>
 #include <vsl/vsl_binary_io.h>
@@ -8,7 +9,7 @@
 
 void test_rational_io()
 {
-  vcl_cout << "****************\n"
+  std::cout << "****************\n"
            << "test_rational_io\n"
            << "****************\n";
 
@@ -38,10 +39,10 @@ void test_rational_io()
   TEST ("equality inf", inf, r2);
   TEST ("equality one", one, r3);
 
-  vsl_print_summary(vcl_cout, nil);
-  vsl_print_summary(vcl_cout, inf);
-  vsl_print_summary(vcl_cout, one);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, nil);
+  vsl_print_summary(std::cout, inf);
+  vsl_print_summary(std::cout, one);
+  std::cout << std::endl;
 }
 
 TESTMAIN(test_rational_io);

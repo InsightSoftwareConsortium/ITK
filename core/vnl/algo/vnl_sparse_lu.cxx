@@ -4,9 +4,10 @@
 #endif
 //:
 // \file
+#include <iostream>
 #include "vnl_sparse_lu.h"
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <sparse/spMatrix.h>
 
@@ -27,7 +28,7 @@ vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode
   pmatrix_ = spCreate(n, 0, &error);
   if (error!=spOKAY)
   {
-    vcl_cout << "In vnl_sparse_lu::vnl_sparse_lu - error in creating matrix\n";
+    std::cout << "In vnl_sparse_lu::vnl_sparse_lu - error in creating matrix\n";
     return;
   }
   // fill the internal sparse matrix from A_
@@ -40,7 +41,7 @@ vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode
     pelement = spGetElement(pmatrix_, r+1, c+1);
     if (pelement == VXL_NULLPTR)
     {
-      vcl_cout<< "In vnl_sparse_lu::vnl_sparse_lu - error in getting element\n";
+      std::cout<< "In vnl_sparse_lu::vnl_sparse_lu - error in getting element\n";
       return;
     }
     *pelement = v;
@@ -49,7 +50,7 @@ vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode
   {
     largest_ = spLargestElement(pmatrix_);
     if (mode_==estimate_condition_verbose)
-      vcl_cout << " Largest element in matrix = " << largest_ << '\n';
+      std::cout << " Largest element in matrix = " << largest_ << '\n';
     norm_ = spNorm(pmatrix_);
   }
 }
@@ -61,7 +62,7 @@ bool vnl_sparse_lu::est_condition()
   rcond_ = spCondition(pmatrix_, norm_, &error);
   if (error!=spOKAY)
   {
-    vcl_cout << "In vnl_sparse_lu::est_condition(..) - error in condition number calculation\n";
+    std::cout << "In vnl_sparse_lu::est_condition(..) - error in condition number calculation\n";
     return false;
   }
   condition_computed_ = true;
@@ -73,7 +74,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
 {
   if (!pmatrix_)
   {
-    vcl_cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
+    std::cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
     return;
   }
   unsigned n = b.size();
@@ -83,7 +84,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
     rhs[i+1]=b[i];
   if (mode_==verbose || mode_==estimate_condition_verbose)
   {
-    vcl_cout << "Matrix before ordering\n";
+    std::cout << "Matrix before ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 
@@ -96,7 +97,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
                              absolute_thresh_, diag_pivoting_);
     if (error != spOKAY)
     {
-      vcl_cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
+      std::cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
       return;
     }
     if (mode_==estimate_condition || mode_==estimate_condition_verbose)
@@ -107,7 +108,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
 
   if (mode_==verbose || mode_==estimate_condition_verbose)
   {
-    vcl_cout << "Matrix after ordering\n";
+    std::cout << "Matrix after ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 
@@ -132,7 +133,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
 {
   if (!pmatrix_)
   {
-    vcl_cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
+    std::cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
     return;
   }
   unsigned n = b.size();
@@ -143,7 +144,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
   int error = 0;
   if (mode_== verbose || mode_== estimate_condition_verbose)
   {
-    vcl_cout << "Matrix before ordering\n";
+    std::cout << "Matrix before ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 
@@ -155,7 +156,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
                              absolute_thresh_, diag_pivoting_);
     if (error != spOKAY)
     {
-      vcl_cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
+      std::cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
       return;
     }
     if (mode_==estimate_condition || mode_==estimate_condition_verbose)
@@ -166,7 +167,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
 
   if (mode_==verbose || mode_== estimate_condition_verbose)
   {
-    vcl_cout << "Matrix after ordering\n";
+    std::cout << "Matrix after ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 

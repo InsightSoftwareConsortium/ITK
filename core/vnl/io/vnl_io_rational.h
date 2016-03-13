@@ -9,9 +9,10 @@
 // \author Peter Vanroose
 // \date 10-Oct-2001
 
+#include <iosfwd>
 #include <vsl/vsl_fwd.h>
 #include <vnl/vnl_rational.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 //: Binary save vnl_rational to stream.
 //  \relatesalso vnl_rational
@@ -23,6 +24,6 @@ void vsl_b_read(vsl_b_istream & is, vnl_rational & v);
 
 //: Print human readable summary of object to a stream
 //  \relatesalso vnl_rational
-void vsl_print_summary(vcl_ostream & os, vnl_rational const& b);
+void vsl_print_summary(std::ostream & os, vnl_rational const& b);
 
 #endif // vnl_io_rational_h

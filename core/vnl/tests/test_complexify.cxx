@@ -1,8 +1,9 @@
 #include <cstdlib>
+#include <iostream>
+#include <complex>
 #include <testlib/testlib_test.h>
 
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_complexify.h>
 #include <vnl/vnl_real.h>
 #include <vnl/vnl_imag.h>
@@ -26,13 +27,13 @@ test_complexify_instance(const ValueType &re, const ValueType &im)
 
   const unsigned int length = 2;
 
-  vcl_cout << "##################" << vcl_endl;
-  vcl_cout << "Testing vnl_vector" << vcl_endl;
-  vcl_cout << "##################" << vcl_endl;
+  std::cout << "##################" << std::endl;
+  std::cout << "Testing vnl_vector" << std::endl;
+  std::cout << "##################" << std::endl;
 
   vnl_vector<ValueType> r_vector(length,re);
   vnl_vector<ValueType> i_vector(length,im);
-  vnl_vector<vcl_complex<ValueType> > c_vector
+  vnl_vector<std::complex<ValueType> > c_vector
     = vnl_complexify(r_vector);
   for (unsigned int i = 0; i < length; ++i)
     {
@@ -54,13 +55,13 @@ test_complexify_instance(const ValueType &re, const ValueType &im)
     TEST("vnl_vector vnl_imag",im,r_vector.get(i));
     }
 
-  vcl_cout << "########################" << vcl_endl;
-  vcl_cout << "Testing vnl_vector_fixed" << vcl_endl;
-  vcl_cout << "########################" << vcl_endl;
+  std::cout << "########################" << std::endl;
+  std::cout << "Testing vnl_vector_fixed" << std::endl;
+  std::cout << "########################" << std::endl;
 
   vnl_vector_fixed<ValueType,length> r_vector_fixed(re);
   vnl_vector_fixed<ValueType,length> i_vector_fixed(im);
-  vnl_vector_fixed<vcl_complex<ValueType>,length > c_vector_fixed
+  vnl_vector_fixed<std::complex<ValueType>,length > c_vector_fixed
     = vnl_complexify(r_vector_fixed);
   for (unsigned int i = 0; i < length; ++i)
     {
@@ -82,13 +83,13 @@ test_complexify_instance(const ValueType &re, const ValueType &im)
     TEST("vnl_vector_fixed vnl_imag",im,r_vector_fixed.get(i));
     }
 
-  vcl_cout << "##################" << vcl_endl;
-  vcl_cout << "Testing vnl_matrix" << vcl_endl;
-  vcl_cout << "##################" << vcl_endl;
+  std::cout << "##################" << std::endl;
+  std::cout << "Testing vnl_matrix" << std::endl;
+  std::cout << "##################" << std::endl;
 
   vnl_matrix<ValueType> r_matrix(length,length,re);
   vnl_matrix<ValueType> i_matrix(length,length,im);
-  vnl_matrix<vcl_complex<ValueType> > c_matrix
+  vnl_matrix<std::complex<ValueType> > c_matrix
     = vnl_complexify(r_matrix);
   for (unsigned int c = 0; c < length; ++c)
     {
@@ -119,13 +120,13 @@ test_complexify_instance(const ValueType &re, const ValueType &im)
       }
     }
 
-  vcl_cout << "########################" << vcl_endl;
-  vcl_cout << "Testing vnl_matrix_fixed" << vcl_endl;
-  vcl_cout << "########################" << vcl_endl;
+  std::cout << "########################" << std::endl;
+  std::cout << "Testing vnl_matrix_fixed" << std::endl;
+  std::cout << "########################" << std::endl;
 
   vnl_matrix_fixed<ValueType,length,length> r_matrix_fixed(re);
   vnl_matrix_fixed<ValueType,length,length> i_matrix_fixed(im);
-  vnl_matrix_fixed<vcl_complex<ValueType>,length,length > c_matrix_fixed
+  vnl_matrix_fixed<std::complex<ValueType>,length,length > c_matrix_fixed
     = vnl_complexify(r_matrix_fixed);
   for (unsigned int c = 0; c < length; ++c)
     {
@@ -156,13 +157,13 @@ test_complexify_instance(const ValueType &re, const ValueType &im)
       }
     }
 
-  vcl_cout << "#######################" << vcl_endl;
-  vcl_cout << "Testing vnl_diag_matrix" << vcl_endl;
-  vcl_cout << "#######################" << vcl_endl;
+  std::cout << "#######################" << std::endl;
+  std::cout << "Testing vnl_diag_matrix" << std::endl;
+  std::cout << "#######################" << std::endl;
 
   vnl_diag_matrix<ValueType> r_diag_matrix(length,re);
   vnl_diag_matrix<ValueType> i_diag_matrix(length,im);
-  vnl_diag_matrix<vcl_complex<ValueType> > c_diag_matrix
+  vnl_diag_matrix<std::complex<ValueType> > c_diag_matrix
     = vnl_complexify(r_diag_matrix);
   for (unsigned int i = 0; i < length; ++i)
     {
@@ -184,13 +185,13 @@ test_complexify_instance(const ValueType &re, const ValueType &im)
     TEST("vnl_diag_matrix vnl_imag",im,r_diag_matrix.get(i,i));
     }
 
-  vcl_cout << "#############################" << vcl_endl;
-  vcl_cout << "Testing vnl_diag_matrix_fixed" << vcl_endl;
-  vcl_cout << "#############################" << vcl_endl;
+  std::cout << "#############################" << std::endl;
+  std::cout << "Testing vnl_diag_matrix_fixed" << std::endl;
+  std::cout << "#############################" << std::endl;
 
   vnl_diag_matrix_fixed<ValueType,length> r_diag_matrix_fixed(re);
   vnl_diag_matrix_fixed<ValueType,length> i_diag_matrix_fixed(im);
-  vnl_diag_matrix_fixed<vcl_complex<ValueType>,length > c_diag_matrix_fixed
+  vnl_diag_matrix_fixed<std::complex<ValueType>,length > c_diag_matrix_fixed
     = vnl_complexify(r_diag_matrix_fixed);
   for (unsigned int i = 0; i < length; ++i)
     {
@@ -212,13 +213,13 @@ test_complexify_instance(const ValueType &re, const ValueType &im)
     TEST("vnl_diag_matrix_fixed vnl_imag",im,r_diag_matrix_fixed.get(i,i));
     }
 
-  vcl_cout << "######################" << vcl_endl;
-  vcl_cout << "Testing vnl_sym_matrix" << vcl_endl;
-  vcl_cout << "######################" << vcl_endl;
+  std::cout << "######################" << std::endl;
+  std::cout << "Testing vnl_sym_matrix" << std::endl;
+  std::cout << "######################" << std::endl;
 
   vnl_sym_matrix<ValueType> r_sym_matrix(length,re);
   vnl_sym_matrix<ValueType> i_sym_matrix(length,im);
-  vnl_sym_matrix<vcl_complex<ValueType> > c_sym_matrix
+  vnl_sym_matrix<std::complex<ValueType> > c_sym_matrix
     = vnl_complexify(r_sym_matrix);
   for (unsigned int c = 0; c < length; ++c)
     {

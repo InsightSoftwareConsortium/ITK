@@ -39,7 +39,7 @@
 // The parameterized vnl_matrix<T> class implements two dimensional arithmetic
 // matrices of a user specified type. The only constraint placed on the type is
 // that it must overload the following operators: +, -,  *,  and /. Thus, it
-// will be possible to have a vnl_matrix over vcl_complex<T>. The vnl_matrix<T>
+// will be possible to have a vnl_matrix over std::complex<T>. The vnl_matrix<T>
 // class is static in size, that is once a vnl_matrix<T> of a particular size
 // has been created, there is no dynamic growth method available. You can
 // resize the matrix, with the loss of any existing data using set_size().
@@ -78,15 +78,16 @@
 
 //--------------------------------------------------------------------------------
 
+#include <cstdio>
+#include <cstdlib>
+#include <cctype>
+#include <iostream>
+#include <vector>
+#include <algorithm>
 #include "vnl_matrix.h"
 
 #include <vcl_cassert.h>
-#include <vcl_cstdio.h>   // EOF
-#include <vcl_cstdlib.h>  // abort()
-#include <vcl_cctype.h>   // isspace()
-#include <vcl_iostream.h>
-#include <vcl_vector.h>
-#include <vcl_algorithm.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_vector.h>
@@ -152,7 +153,7 @@ vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz, T const& value)
 {
   vnl_matrix_construct_hack();
   vnl_matrix_alloc_blah();
-  vcl_fill_n( this->data[0], rowz * colz, value );
+  std::fill_n( this->data[0], rowz * colz, value );
 }
 
 //: r rows, c cols, special type.  Currently implements "identity" and "null".
@@ -170,7 +171,7 @@ vnl_matrix<T>::vnl_matrix(unsigned r, unsigned c, vnl_matrix_type t)
         this->data[i][j] = (i==j) ? T(1) : T(0);
     break;
    case vnl_matrix_null:
-    vcl_fill_n( this->data[0], r * c, T(0) );
+    std::fill_n( this->data[0], r * c, T(0) );
     break;
    default:
     assert(false);
@@ -189,7 +190,7 @@ vnl_matrix<T>::vnl_matrix (unsigned rowz, unsigned colz, unsigned n, T const val
   vnl_matrix_alloc_blah();
   if (n > rowz*colz)
     n = rowz*colz;
-  vcl_copy( values, values + n, this->data[0] );
+  std::copy( values, values + n, this->data[0] );
 }
 #endif
 
@@ -202,7 +203,7 @@ vnl_matrix<T>::vnl_matrix (T const* datablck, unsigned rowz, unsigned colz)
 {
   vnl_matrix_construct_hack();
   vnl_matrix_alloc_blah();
-  vcl_copy( datablck, datablck + rowz * colz, this->data[0] );
+  std::copy( datablck, datablck + rowz * colz, this->data[0] );
 }
 
 
@@ -217,7 +218,7 @@ vnl_matrix<T>::vnl_matrix (vnl_matrix<T> const& from)
   if (from.data && from.data[0]) {
     vnl_matrix_alloc_blah();
     T const *src = from.data[0];
-    vcl_copy( src, src + this->num_rows * this->num_cols, this->data[0] );
+    std::copy( src, src + this->num_rows * this->num_cols, this->data[0] );
   }
   else {
     num_rows = 0;
@@ -427,7 +428,7 @@ vnl_matrix<T>& vnl_matrix<T>::fill (T const& value)
 {
   // not safe if data == NULL, due to data[0] call
   if (data && data[0])
-    vcl_fill_n( this->data[0], this->num_rows * this->num_cols, value );
+    std::fill_n( this->data[0], this->num_rows * this->num_cols, value );
   return *this;
 }
 
@@ -467,7 +468,7 @@ vnl_matrix<T>& vnl_matrix<T>::operator= (vnl_matrix<T> const& rhs)
     if (rhs.data) {
       this->set_size(rhs.num_rows, rhs.num_cols);
       if (rhs.data[0]) {
-        vcl_copy( rhs.data[0], rhs.data[0] + this->num_rows * this->num_cols, this->data[0] );
+        std::copy( rhs.data[0], rhs.data[0] + this->num_rows * this->num_cols, this->data[0] );
       }
     }
     else {
@@ -479,7 +480,7 @@ vnl_matrix<T>& vnl_matrix<T>::operator= (vnl_matrix<T> const& rhs)
 }
 
 template <class T>
-void vnl_matrix<T>::print(vcl_ostream& os) const
+void vnl_matrix<T>::print(std::ostream& os) const
 {
   for (unsigned int i = 0; i < this->rows(); i++) {
     for (unsigned int j = 0; j < this->columns(); j++)
@@ -492,7 +493,7 @@ void vnl_matrix<T>::print(vcl_ostream& os) const
 // O(m*n).
 
 template <class T>
-vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix<T> const& m)
+std::ostream& operator<< (std::ostream& os, vnl_matrix<T> const& m)
 {
   for (unsigned int i = 0; i < m.rows(); ++i) {
     for (unsigned int j = 0; j < m.columns(); ++j)
@@ -502,10 +503,10 @@ vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix<T> const& m)
   return os;
 }
 
-//: Read a vnl_matrix from an ascii vcl_istream.
+//: Read a vnl_matrix from an ascii std::istream.
 // Automatically determines file size if the input matrix has zero size.
 template <class T>
-vcl_istream& operator>>(vcl_istream& s, vnl_matrix<T>& M)
+std::istream& operator>>(std::istream& s, vnl_matrix<T>& M)
 {
   M.read_ascii(s);
   return s;
@@ -778,7 +779,7 @@ T cos_angle (vnl_matrix<T> const& a, vnl_matrix<T> const& b)
   typedef typename vnl_numeric_traits<Abs_t>::real_t abs_r;
 
   T ab = inner_product(a,b);
-  Abs_t a_b = (Abs_t)vcl_sqrt( (abs_r)vnl_math::abs(inner_product(a,a) * inner_product(b,b)) );
+  Abs_t a_b = (Abs_t)std::sqrt( (abs_r)vnl_math::abs(inner_product(a,a) * inner_product(b,b)) );
 
   return T( ab / a_b);
 }
@@ -826,7 +827,7 @@ vnl_matrix<T> element_quotient (vnl_matrix<T> const& m1,
 template <class T>
 vnl_matrix<T>& vnl_matrix<T>::copy_in(T const *p)
 {
-  vcl_copy( p, p + this->num_rows * this->num_cols, this->data[0] );
+  std::copy( p, p + this->num_rows * this->num_cols, this->data[0] );
   return *this;
 }
 
@@ -835,7 +836,7 @@ vnl_matrix<T>& vnl_matrix<T>::copy_in(T const *p)
 template <class T>
 void vnl_matrix<T>::copy_out(T *p) const
 {
-  vcl_copy( this->data[0], this->data[0] + this->num_rows * this->num_cols, p );
+  std::copy( this->data[0], this->data[0] + this->num_rows * this->num_cols, p );
 }
 
 //: Fill this matrix with a matrix having 1s on the main diagonal and 0s elsewhere.
@@ -862,7 +863,7 @@ vnl_matrix<T>& vnl_matrix<T>::normalize_rows()
       norm += vnl_math::squared_magnitude(this->data[i][j]);
 
     if (norm != 0) {
-      abs_real_t scale = abs_real_t(1)/(vcl_sqrt((abs_real_t)norm));
+      abs_real_t scale = abs_real_t(1)/(std::sqrt((abs_real_t)norm));
       for (unsigned int j = 0; j < this->num_cols; ++j)
         this->data[i][j] = T(Real_t(this->data[i][j]) * scale);
     }
@@ -884,7 +885,7 @@ vnl_matrix<T>& vnl_matrix<T>::normalize_columns()
       norm += vnl_math::squared_magnitude(this->data[i][j]);
 
     if (norm != 0) {
-      abs_real_t scale = abs_real_t(1)/(vcl_sqrt((abs_real_t)norm));
+      abs_real_t scale = abs_real_t(1)/(std::sqrt((abs_real_t)norm));
       for (unsigned int i = 0; i < this->num_rows; i++)
         this->data[i][j] = T(Real_t(this->data[i][j]) * scale);
     }
@@ -1217,23 +1218,23 @@ void vnl_matrix<T>::assert_finite_internal() const
   if (is_finite())
     return;
 
-  vcl_cerr << "\n\n" __FILE__ ": " << __LINE__ << ": matrix has non-finite elements\n";
+  std::cerr << "\n\n" __FILE__ ": " << __LINE__ << ": matrix has non-finite elements\n";
 
   if (rows() <= 20 && cols() <= 20) {
-    vcl_cerr << __FILE__ ": here it is:\n" << *this;
+    std::cerr << __FILE__ ": here it is:\n" << *this;
   }
   else {
-    vcl_cerr << __FILE__ ": it is quite big (" << rows() << 'x' << cols() << ")\n"
+    std::cerr << __FILE__ ": it is quite big (" << rows() << 'x' << cols() << ")\n"
              << __FILE__ ": in the following picture '-' means finite and '*' means non-finite:\n";
 
     for (unsigned int i=0; i<rows(); ++i) {
       for (unsigned int j=0; j<cols(); ++j)
-        vcl_cerr << char(vnl_math::isfinite((*this)(i, j)) ? '-' : '*');
-      vcl_cerr << '\n';
+        std::cerr << char(vnl_math::isfinite((*this)(i, j)) ? '-' : '*');
+      std::cerr << '\n';
     }
   }
-  vcl_cerr << __FILE__ ": calling abort()\n";
-  vcl_abort();
+  std::cerr << __FILE__ ": calling abort()\n";
+  std::abort();
 }
 
 //: Abort unless M has the given size.
@@ -1241,19 +1242,19 @@ template <class T>
 void vnl_matrix<T>::assert_size_internal(unsigned rs,unsigned cs) const
 {
   if (this->rows()!=rs || this->cols()!=cs) {
-    vcl_cerr << __FILE__ ": size is " << this->rows() << 'x' << this->cols()
-             << ". should be " << rs << 'x' << cs << vcl_endl;
-    vcl_abort();
+    std::cerr << __FILE__ ": size is " << this->rows() << 'x' << this->cols()
+             << ". should be " << rs << 'x' << cs << std::endl;
+    std::abort();
   }
 }
 
-//: Read a vnl_matrix from an ascii vcl_istream.
+//: Read a vnl_matrix from an ascii std::istream.
 // Automatically determines file size if the input matrix has zero size.
 template <class T>
-bool vnl_matrix<T>::read_ascii(vcl_istream& s)
+bool vnl_matrix<T>::read_ascii(std::istream& s)
 {
   if (!s.good()) {
-    vcl_cerr << __FILE__ ": vnl_matrix<T>::read_ascii: Called with bad stream\n";
+    std::cerr << __FILE__ ": vnl_matrix<T>::read_ascii: Called with bad stream\n";
     return false;
   }
 
@@ -1269,9 +1270,9 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
 
   bool debug = false;
 
-  vcl_vector<T> first_row_vals;
+  std::vector<T> first_row_vals;
   if (debug)
-    vcl_cerr << __FILE__ ": vnl_matrix<T>::read_ascii: Determining file dimensions: ";
+    std::cerr << __FILE__ ": vnl_matrix<T>::read_ascii: Determining file dimensions: ";
 
   for (;;) {
     // Clear whitespace, looking for a newline
@@ -1280,9 +1281,9 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
       int c = s.get();
       if (c == EOF)
         goto loademup;
-      if (!vcl_isspace(c)) {
+      if (!std::isspace(c)) {
         if (!s.putback(char(c)).good())
-          vcl_cerr << "vnl_matrix<T>::read_ascii: Could not push back '" << c << "'\n";
+          std::cerr << "vnl_matrix<T>::read_ascii: Could not push back '" << c << "'\n";
 
         goto readfloat;
       }
@@ -1300,16 +1301,16 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
       goto loademup;
   }
  loademup:
-  vcl_size_t colz = first_row_vals.size();
+  std::size_t colz = first_row_vals.size();
 
-  if (debug) vcl_cerr << colz << " cols, ";
+  if (debug) std::cerr << colz << " cols, ";
 
   if (colz == 0)
     return false;
 
   // need to be careful with resizing here as will often be reading humungous files
   // So let's just build an array of row pointers
-  vcl_vector<T*> row_vals;
+  std::vector<T*> row_vals;
   row_vals.reserve(1000);
   {
     // Copy first row.  Can't use first_row_vals, as may be a vector of bool...
@@ -1323,8 +1324,8 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
   {
     T* row = vnl_c_vector<T>::allocate_T(colz);
     if (row == VXL_NULLPTR) {
-      vcl_cerr << "vnl_matrix<T>::read_ascii: Error, Out of memory on row "
-               << row_vals.size() << vcl_endl;
+      std::cerr << "vnl_matrix<T>::read_ascii: Error, Out of memory on row "
+               << row_vals.size() << std::endl;
       return false;
     }
     s >> row[0];
@@ -1335,25 +1336,25 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
     }
     for (unsigned int k = 1; k < colz; ++k) {
       if (s.eof()) {
-        vcl_cerr << "vnl_matrix<T>::read_ascii: Error, EOF on row "
-                 << row_vals.size() << ", column " << k << vcl_endl;
+        std::cerr << "vnl_matrix<T>::read_ascii: Error, EOF on row "
+                 << row_vals.size() << ", column " << k << std::endl;
 
         return false;
       }
       s >> row[k];
       if (s.fail()) {
-        vcl_cerr << "vnl_matrix<T>::read_ascii: Error, row "
-                 << row_vals.size() << " failed on column " << k << vcl_endl;
+        std::cerr << "vnl_matrix<T>::read_ascii: Error, row "
+                 << row_vals.size() << " failed on column " << k << std::endl;
         return false;
       }
     }
     row_vals.push_back(row);
   }
 
-  vcl_size_t rowz = row_vals.size();
+  std::size_t rowz = row_vals.size();
 
   if (debug)
-    vcl_cerr << rowz << " rows.\n";
+    std::cerr << rowz << " rows.\n";
 
   set_size((unsigned int)rowz, (unsigned int)colz);
 
@@ -1367,7 +1368,7 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
   return true;
 }
 
-//: Read a vnl_matrix from an ascii vcl_istream.
+//: Read a vnl_matrix from an ascii std::istream.
 // Automatically determines file size if the input matrix has zero size.
 // This is a static method so you can type
 // <verb>
@@ -1375,7 +1376,7 @@ bool vnl_matrix<T>::read_ascii(vcl_istream& s)
 // </verb>
 // which many people prefer to the ">>" alternative.
 template <class T>
-vnl_matrix<T> vnl_matrix<T>::read(vcl_istream& s)
+vnl_matrix<T> vnl_matrix<T>::read(std::istream& s)
 {
   vnl_matrix<T> M;
   s >> M;
@@ -1385,9 +1386,9 @@ vnl_matrix<T> vnl_matrix<T>::read(vcl_istream& s)
 template <class T>
 void vnl_matrix<T>::swap(vnl_matrix<T> &that)
 {
-  vcl_swap(this->num_rows, that.num_rows);
-  vcl_swap(this->num_cols, that.num_cols);
-  vcl_swap(this->data, that.data);
+  std::swap(this->num_rows, that.num_rows);
+  std::swap(this->num_cols, that.num_cols);
+  std::swap(this->data, that.data);
 }
 
 //: Reverse order of rows.  Name is from Matlab, meaning "flip upside down".
@@ -1587,11 +1588,11 @@ vnl_matrix<T>& vnl_matrix<T>::inplace_transpose()
   unsigned m = rows();
   unsigned n = columns();
   unsigned iwrk = (m+n)/2;
-  vcl_vector<char> move(iwrk);
+  std::vector<char> move(iwrk);
 
   int iok = ::vnl_inplace_transpose(data_block(), n, m, &move[0], iwrk);
   if (iok != 0)
-    vcl_cerr << __FILE__ " : inplace_transpose() -- iok = " << iok << '\n';
+    std::cerr << __FILE__ " : inplace_transpose() -- iok = " << iok << '\n';
 
   this->num_rows = n;
   this->num_cols = m;
@@ -1621,7 +1622,7 @@ template T cos_angle(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template vnl_matrix<T > element_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template vnl_matrix<T > element_quotient(vnl_matrix<T > const &, vnl_matrix<T > const &); \
 template int vnl_inplace_transpose(T*, unsigned, unsigned, char*, unsigned); \
-template vcl_ostream & operator<<(vcl_ostream &, vnl_matrix<T > const &); \
-template vcl_istream & operator>>(vcl_istream &, vnl_matrix<T >       &)
+template std::ostream & operator<<(std::ostream &, vnl_matrix<T > const &); \
+template std::istream & operator>>(std::istream &, vnl_matrix<T >       &)
 
 #endif // vnl_matrix_hxx_

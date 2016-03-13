@@ -1,4 +1,9 @@
 // This is core/testlib/testlib_test.cxx
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
+#include <iomanip>
+#include <complex>
 #include "testlib_test.h"
 //
 // Copyright (C) 1991 Texas Instruments Incorporated.
@@ -14,11 +19,7 @@
 // Created: 11-Mar-2001: TFC Copy of vnl_test
 // Created: 25-Apr-2002: AGAP Modified copy of testlib_test
 //
-#include <vcl_cmath.h>
-#include <vcl_cstdlib.h> // for abs(long)
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h> // for setfill, setw
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 
 static int num_test;
 static int tests_passed;
@@ -31,18 +32,18 @@ void testlib_test_start(const char* name)
   tests_passed = 0;
   tests_failed = 0;
   test_name = name;
-  vcl_cout << "-----------------------------------------------------------------------------\n"
+  std::cout << "-----------------------------------------------------------------------------\n"
            << "Start Testing";
-  if (test_name != VXL_NULLPTR) vcl_cout << ' ' << test_name;
-  vcl_cout << ":\n-----------------------------------------------------------------------------\n" << vcl_flush;
+  if (test_name != VXL_NULLPTR) std::cout << ' ' << test_name;
+  std::cout << ":\n-----------------------------------------------------------------------------\n" << std::flush;
  }
 
 void testlib_test_begin(const char* msg)
 {
   num_test++;
-  vcl_cout <<" Test "<< vcl_setw(3) << vcl_right << vcl_setfill('0') << num_test
-           <<": "<< vcl_setw(53) << vcl_left << vcl_setfill(' ')<< msg <<" --> "
-           << vcl_flush;
+  std::cout <<" Test "<< std::setw(3) << std::right << std::setfill('0') << num_test
+           <<": "<< std::setw(53) << std::left << std::setfill(' ')<< msg <<" --> "
+           << std::flush;
 }
 
 // NOTE: We don't pass in the message (see test_begin) because
@@ -53,115 +54,115 @@ void testlib_test_perform(bool success)
 {
   if (success) {
     tests_passed++;
-    vcl_cout << "  PASSED\n" << vcl_flush;
+    std::cout << "  PASSED\n" << std::flush;
   } else {
     tests_failed++;
-    vcl_cout << "**FAILED**\n" << vcl_flush;
+    std::cout << "**FAILED**\n" << std::flush;
   }
 }
 
 int testlib_test_summary()
 {
-  vcl_cout << "-----------------------------------------------------------------------------\n";
-  if (test_name) vcl_cout << test_name << ' ';
-  vcl_cout << "Test Summary: ";
+  std::cout << "-----------------------------------------------------------------------------\n";
+  if (test_name) std::cout << test_name << ' ';
+  std::cout << "Test Summary: ";
   if (tests_failed > 0)
   {
     if (tests_passed == 0)
-      vcl_cout << "No tests succeeded";
+      std::cout << "No tests succeeded";
     else if (tests_passed == 1)
-      vcl_cout << "1 test succeeded";
+      std::cout << "1 test succeeded";
     else
-      vcl_cout << tests_passed <<" tests succeeded";
+      std::cout << tests_passed <<" tests succeeded";
     if (tests_failed == 1)
-      vcl_cout <<", 1 test failed";
+      std::cout <<", 1 test failed";
     else
-      vcl_cout <<", "<< tests_failed <<" tests failed";
-    vcl_cout<<"\t\t*****";
+      std::cout <<", "<< tests_failed <<" tests failed";
+    std::cout<<"\t\t*****";
   }
   else
   {
     if (tests_passed > 1)
-      vcl_cout << "All "<< tests_passed <<" tests succeeded";
+      std::cout << "All "<< tests_passed <<" tests succeeded";
     else if (tests_passed == 1)
-      vcl_cout << "1 test succeeded";
+      std::cout << "1 test succeeded";
     else
-      vcl_cout << "Test succeeded";
+      std::cout << "Test succeeded";
   }
-  vcl_cout << "\n-----------------------------------------------------------------------------\n" << vcl_flush;
+  std::cout << "\n-----------------------------------------------------------------------------\n" << std::flush;
   return tests_failed;
 }
 
-void testlib_test_assert(const vcl_string& msg, bool expr)
+void testlib_test_assert(const std::string& msg, bool expr)
 {
-  vcl_cout << msg << " - " << vcl_flush;
+  std::cout << msg << " - " << std::flush;
   testlib_test_perform(expr);
 }
 
-void testlib_test_assert_near(const vcl_string& msg, double expr, double target, double tol)
+void testlib_test_assert_near(const std::string& msg, double expr, double target, double tol)
 {
-  vcl_cout << msg << " should be " << target << ", is " << expr << ", " << vcl_flush;
-  double diff = vcl_abs(expr - target);
+  std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
+  double diff = std::abs(expr - target);
   if (target != 0.0 && diff != 0.0)
-    vcl_cout << "difference " << diff << ", " << vcl_flush;
+    std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
 }
 
-void testlib_test_assert_near(const vcl_string& msg, vcl_complex<double> expr, vcl_complex<double> target, double tol)
+void testlib_test_assert_near(const std::string& msg, std::complex<double> expr, std::complex<double> target, double tol)
 {
-  vcl_cout << msg << " should be " << target << ", is " << expr << ", " << vcl_flush;
-  double diff = vcl_abs(expr - target);
-  if (target != vcl_complex<double>(0,0) && diff != 0.0)
-    vcl_cout << "difference " << diff << ", " << vcl_flush;
+  std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
+  double diff = std::abs(expr - target);
+  if (target != std::complex<double>(0,0) && diff != 0.0)
+    std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
 }
 
-void testlib_test_assert_near_relative(const vcl_string& msg, double expr, double target, double tol)
+void testlib_test_assert_near_relative(const std::string& msg, double expr, double target, double tol)
 {
-  vcl_cout << msg << " should be " << target << ", is " << expr << ", " << vcl_flush;
-  double max = vcl_abs(target); if (vcl_abs(expr) > max) max = vcl_abs(expr);
+  std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
+  double max = std::abs(target); if (std::abs(expr) > max) max = std::abs(expr);
   if (max==0.0 || target==0.0) max=1.0;
-  double diff = vcl_abs(expr - target) / max;
+  double diff = std::abs(expr - target) / max;
   if (target != 0.0 && diff != 0.0)
-    vcl_cout << "relative difference " << diff << ", " << vcl_flush;
+    std::cout << "relative difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
 }
 
-void testlib_test_assert_near_relative(const vcl_string& msg, vcl_complex<double> expr, vcl_complex<double> target, double tol)
+void testlib_test_assert_near_relative(const std::string& msg, std::complex<double> expr, std::complex<double> target, double tol)
 {
-  vcl_cout << msg << " should be " << target << ", is " << expr << ", " << vcl_flush;
-  double max = vcl_abs(target); if (vcl_abs(expr) > max) max = vcl_abs(expr);
-  if (max==0.0 || target==vcl_complex<double>(0,0)) max=1.0;
-  double diff = vcl_abs(expr - target) / max;
-  if (target != vcl_complex<double>(0,0) && diff != 0.0)
-    vcl_cout << "relative difference " << diff << ", " << vcl_flush;
+  std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
+  double max = std::abs(target); if (std::abs(expr) > max) max = std::abs(expr);
+  if (max==0.0 || target==std::complex<double>(0,0)) max=1.0;
+  double diff = std::abs(expr - target) / max;
+  if (target != std::complex<double>(0,0) && diff != 0.0)
+    std::cout << "relative difference " << diff << ", " << std::flush;
   testlib_test_perform(diff <= tol);
 }
 
-void testlib_test_assert_far(const vcl_string& msg, double expr, double target, double tol)
+void testlib_test_assert_far(const std::string& msg, double expr, double target, double tol)
 {
-  vcl_cout << msg << " should not be " << target << ", is " << expr << ", " << vcl_flush;
-  double diff = vcl_abs(expr - target);
+  std::cout << msg << " should not be " << target << ", is " << expr << ", " << std::flush;
+  double diff = std::abs(expr - target);
   if (target != 0.0 && diff != 0.0)
-    vcl_cout << "difference " << diff << ", " << vcl_flush;
+    std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff > tol);
 }
 
-void testlib_test_assert_far(const vcl_string& msg, vcl_complex<double> expr, vcl_complex<double> target, double tol)
+void testlib_test_assert_far(const std::string& msg, std::complex<double> expr, std::complex<double> target, double tol)
 {
-  vcl_cout << msg << " should not be " << target << ", is " << expr << ", " << vcl_flush;
-  double diff = vcl_abs(expr - target);
-  if (target != vcl_complex<double>(0,0) && diff != 0.0)
-    vcl_cout << "difference " << diff << ", " << vcl_flush;
+  std::cout << msg << " should not be " << target << ", is " << expr << ", " << std::flush;
+  double diff = std::abs(expr - target);
+  if (target != std::complex<double>(0,0) && diff != 0.0)
+    std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff > tol);
 }
 
-void testlib_test_assert_equal(const vcl_string& msg, long expr, long target)
+void testlib_test_assert_equal(const std::string& msg, long expr, long target)
 {
-  vcl_cout << msg << " should be " << target << ", is " << expr << ", " << vcl_flush;
-  long diff = vcl_abs(expr - target);
+  std::cout << msg << " should be " << target << ", is " << expr << ", " << std::flush;
+  long diff = std::abs(expr - target);
   if (target != 0 && diff != 0)
-    vcl_cout << "difference " << diff << ", " << vcl_flush;
+    std::cout << "difference " << diff << ", " << std::flush;
   testlib_test_perform(diff == 0);
 }
 

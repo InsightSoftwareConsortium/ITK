@@ -8,7 +8,7 @@
 
 //=================================================================================
 template<class T>
-void x_write(vcl_ostream & os, vnl_quaternion<T> const& q, vcl_string name)
+void x_write(std::ostream & os, vnl_quaternion<T> const& q, std::string name)
 {
   vsl_basic_xml_element element(name);
   element.add_attribute("x", q.x());
@@ -20,7 +20,7 @@ void x_write(vcl_ostream & os, vnl_quaternion<T> const& q, vcl_string name)
 
 //=================================================================================
 template<class T>
-void x_write_tree(vcl_ostream & os, vnl_quaternion<T> const& q, vcl_string name)
+void x_write_tree(std::ostream & os, vnl_quaternion<T> const& q, std::string name)
 {
   vsl_basic_xml_element element(name);
   element.append_cdata("<x>"); element.append_cdata(q.x()); element.append_cdata("</x>");
@@ -32,7 +32,7 @@ void x_write_tree(vcl_ostream & os, vnl_quaternion<T> const& q, vcl_string name)
 
 #undef VNL_XIO_QUATERNION_INSTANTIATE
 #define VNL_XIO_QUATERNION_INSTANTIATE(T) \
-template void x_write(vcl_ostream &, vnl_quaternion<T > const&, vcl_string); \
-template void x_write_tree(vcl_ostream &, vnl_quaternion<T > const&, vcl_string)
+template void x_write(std::ostream &, vnl_quaternion<T > const&, std::string); \
+template void x_write_tree(std::ostream &, vnl_quaternion<T > const&, std::string)
 
 #endif // vnl_xio_quaternion_hxx_

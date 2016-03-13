@@ -6,10 +6,11 @@
 // \author Andrew W. Fitzgibbon, Oxford RRG
 // \date   08 Dec 1996
 
+#include <iostream>
+#include <complex>
 #include "vnl_qr.h"
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex.h>  // vnl_math::squared_magnitude()
 #include <vnl/vnl_matlab_print.h>
@@ -25,8 +26,8 @@ inline void vnl_linpack_qrsl(vnl_netlib_qrsl_proto(T)) \
 { v3p_netlib_##p##qrsl_(vnl_netlib_qrsl_params); }
 macro(s, float);
 macro(d, double);
-macro(c, vcl_complex<float>);
-macro(z, vcl_complex<double>);
+macro(c, std::complex<float>);
+macro(z, std::complex<double>);
 #undef macro
 #endif
 
@@ -74,7 +75,7 @@ vnl_qr<T>::~vnl_qr()
 template <class T>
 T vnl_qr<T>::determinant() const
 {
-  int m = vnl_math::min((int)qrdc_out_.columns(), (int)qrdc_out_.rows());
+  int m = std::min((int)qrdc_out_.columns(), (int)qrdc_out_.rows());
   T det = qrdc_out_(0,0);
 
   for (int i = 1; i < m; ++i)
@@ -96,7 +97,7 @@ vnl_matrix<T> const& vnl_qr<T>::Q() const
     Q_ = new vnl_matrix<T>(m,m);
     // extract Q.
     if (verbose) {
-      vcl_cerr << __FILE__ ": vnl_qr<T>::Q()\n"
+      std::cerr << __FILE__ ": vnl_qr<T>::Q()\n"
                << " m,n = " << m << ", " << n << '\n'
                << " qr0 = [" << qrdc_out_ << "];\n"
                << " aux = [" << qraux_ << "];\n";
@@ -120,7 +121,7 @@ vnl_matrix<T> const& vnl_qr<T>::Q() const
         v[j] = qrdc_out_(k,j);
         sq += vnl_math::squared_magnitude(v[j]);
       }
-      if (verbose) vnl_matlab_print(vcl_cerr, v, "v");
+      if (verbose) vnl_matlab_print(std::cerr, v, "v");
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 # define c vnl_complex_traits<T>::conjugate
 #endif
@@ -135,7 +136,7 @@ vnl_matrix<T> const& vnl_qr<T>::Q() const
           for (int j = k; j < m; ++j)
             w[i] += scale * c(v[j]) * matrQ(j, i);
         }
-        if (verbose) vnl_matlab_print(vcl_cerr, w, "w");
+        if (verbose) vnl_matlab_print(std::cerr, w, "w");
 
         // Q -= v w
         for (int i = k; i < m; ++i)
@@ -206,7 +207,7 @@ vnl_vector<T> vnl_qr<T>::solve(const vnl_vector<T>& b) const
                    &info);
 
   if (info > 0)
-    vcl_cerr << __FILE__ ": vnl_qr<T>::solve() : matrix is rank-deficient by "
+    std::cerr << __FILE__ ": vnl_qr<T>::solve() : matrix is rank-deficient by "
              << info << '\n';
 
   return x;
@@ -238,7 +239,7 @@ vnl_vector<T> vnl_qr<T>::QtB(const vnl_vector<T>& b) const
                    &info);
 
   if (info > 0)
-    vcl_cerr << __FILE__ ": vnl_qr<T>::QtB() -- matrix is rank-deficient by "
+    std::cerr << __FILE__ ": vnl_qr<T>::QtB() -- matrix is rank-deficient by "
              << info << '\n';
 
   return Qt_B;

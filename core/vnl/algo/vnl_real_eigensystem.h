@@ -16,7 +16,8 @@
 // \endverbatim
 //
 
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
 
@@ -33,10 +34,10 @@ class vnl_real_eigensystem
   vnl_matrix<double> Vreal;
 
   //: Output matrix of eigenvectors, which will in general be complex.
-  vnl_matrix<vcl_complex<double> > V;
+  vnl_matrix<std::complex<double> > V;
 
   //: Output diagonal matrix of eigenvalues.
-  vnl_diag_matrix<vcl_complex<double> > D;
+  vnl_diag_matrix<std::complex<double> > D;
 };
 
 #endif // vnl_real_eigensystem_h_

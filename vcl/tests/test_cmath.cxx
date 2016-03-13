@@ -17,7 +17,9 @@ int test_cmath_main(int /*argc*/,char* /*argv*/[])
     long   xl = 314159265L;
     float  xf = 13.14159265358979323846f;
     double xd = 23.14159265358979323846;
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     long double ld = xd;
+#endif
     vcl_complex<double> xc(xd,0.0);
 
 #define macro(var, type) \
@@ -31,7 +33,9 @@ do { \
     macro(xl, long);
     macro(xf, float);
     macro(xd, double);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
     macro(ld, long double);
+#endif
     macro(xc, vcl_complex<double>);
 #undef macro
   }
@@ -61,7 +65,9 @@ do { \
   } while (false)
   macro(float, 1e-6);        // actually sqrtf()
   macro(double, 1e-14);
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
   macro(long double, 1e-14); // actually sqrtl()
+#endif
 #undef macro
 
   return 0;

@@ -10,7 +10,8 @@
 //    dac (Manchester) 26/03/2001: tidied up documentation
 //  \endverbatim
 
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 
@@ -39,27 +40,27 @@ class vnl_complex_eigensystem
  public:
   // please do not add underscores to my members - they are publicly accessible
   unsigned int const N;
-  vnl_matrix<vcl_complex<double> > L; // left evecs
-  vnl_matrix<vcl_complex<double> > R; // right evecs
-  vnl_vector<vcl_complex<double> > W; // evals
+  vnl_matrix<std::complex<double> > L; // left evecs
+  vnl_matrix<std::complex<double> > R; // right evecs
+  vnl_vector<std::complex<double> > W; // evals
 
   // constructors
   vnl_complex_eigensystem(vnl_matrix<double> const& A_real,
                           vnl_matrix<double> const& A_imag,
                           bool right=true, bool left=false);
 
-  vnl_complex_eigensystem(vnl_matrix<vcl_complex<double> > const& A,
+  vnl_complex_eigensystem(vnl_matrix<std::complex<double> > const& A,
                           bool right=true, bool left=false);
 
   // convenience methods
-  vcl_complex<double> eigen_value(unsigned i) const { return W[i]; }
-  vnl_vector<vcl_complex<double> > left_eigen_vector(unsigned i)
+  std::complex<double> eigen_value(unsigned i) const { return W[i]; }
+  vnl_vector<std::complex<double> > left_eigen_vector(unsigned i)
       const { return L.get_row(i); }
-  vnl_vector<vcl_complex<double> > right_eigen_vector(unsigned i)
+  vnl_vector<std::complex<double> > right_eigen_vector(unsigned i)
       const { return R.get_row(i); }
 
  private:
-  void compute(vnl_matrix<vcl_complex<double> > const&,bool,bool);
+  void compute(vnl_matrix<std::complex<double> > const&,bool,bool);
 };
 
 #endif // vnl_complex_eigensystem_h_

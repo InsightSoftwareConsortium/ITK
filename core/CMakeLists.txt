@@ -20,7 +20,13 @@ set(global_sources
  vxl_copyright.h
  vxl_version.h
 )
-INSTALL_NOBASE_HEADER_FILES(include/vxl/core ${global_sources})
+# If VXL_INSTALL_INCLUDE_DIR is the default value
+if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+  set(prefix "${VXL_INSTALL_INCLUDE_DIR}/core")
+else()
+  set(prefix "${VXL_INSTALL_INCLUDE_DIR}")
+endif()
+INSTALL_NOBASE_HEADER_FILES(${prefix} ${global_sources})
 
 if(BUILD_CORE_UTILITIES)
   # POSIX layer

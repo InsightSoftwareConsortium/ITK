@@ -1,4 +1,5 @@
-// not used? #include <vcl_iostream.h>
+// not used? #include <vcl_compiler.h>
+#include <iostream>
 #include <vnl/vnl_integrant_fnct.h>
 #include <testlib/testlib_test.h>
 
