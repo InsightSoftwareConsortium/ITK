@@ -16,9 +16,10 @@
 //   Mar.2009 - Peter Vanroose - added arg_min() and arg_max()
 //   Oct.2010 - Peter Vanroose - mutators and setters now return *this
 // \endverbatim
+#include <iosfwd>
 # include <vnl/vnl_error.h>
 
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_tag.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h>
@@ -257,7 +258,7 @@ class vnl_vector
 
   //: Type defs for iterators
   typedef T element_type;
-  typedef unsigned  size_type;
+  typedef size_t  size_type;
 
   //: Type defs for iterators
   typedef T       *iterator;
@@ -437,10 +438,10 @@ class vnl_vector
   void clear();
 
   //: Read from text stream
-  bool read_ascii(vcl_istream& s);
+  bool read_ascii(std::istream& s);
 
   //: Read from text stream
-  static vnl_vector<T> read(vcl_istream& s);
+  static vnl_vector<T> read(std::istream& s);
 
  protected:
   unsigned num_elmts;           // Number of elements (length)
@@ -567,11 +568,11 @@ inline T vnl_vector_ssd(vnl_vector<T> const& v1, vnl_vector<T> const& v2)
 
 // Non-vector functions which are nevertheless very useful.
 
-//: Write vector to a vcl_ostream
+//: Write vector to a std::ostream
 // \relatesalso vnl_vector
-VCL_TEMPLATE_EXPORT template <class T> vcl_ostream& operator<<(vcl_ostream &, vnl_vector<T> const&);
-//: Read vector from a vcl_istream
+VCL_TEMPLATE_EXPORT template <class T> std::ostream& operator<<(std::ostream &, vnl_vector<T> const&);
+//: Read vector from a std::istream
 // \relatesalso vnl_vector
-VCL_TEMPLATE_EXPORT template <class T> vcl_istream& operator>>(vcl_istream &, vnl_vector<T>      &);
+VCL_TEMPLATE_EXPORT template <class T> std::istream& operator>>(std::istream &, vnl_vector<T>      &);
 
 #endif // vnl_vector_h_

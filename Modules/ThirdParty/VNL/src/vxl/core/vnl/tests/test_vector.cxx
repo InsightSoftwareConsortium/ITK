@@ -1,6 +1,8 @@
 // This is core/vnl/tests/test_vector.cxx
-#include <vcl_iostream.h>
-#include <vcl_sstream.h>
+#include <iostream>
+#include <sstream>
+#include <exception>
+#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_float_3.h>
@@ -9,12 +11,11 @@
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_cross.h>
 #include <testlib/testlib_test.h>
-#include <vcl_exception.h>
 
 void vnl_vector_test_int()
 {
 
-  vcl_cout << "***********************\n"
+  std::cout << "***********************\n"
            << "Testing vnl_vector<int>\n"
            << "***********************\n";
 
@@ -55,13 +56,13 @@ void vnl_vector_test_int()
 
   {
   bool exceptionThrownAndCaught = false;
-  vcl_try { v0.get(25); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { v0.get(25); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds get()", exceptionThrownAndCaught, true);
   
   exceptionThrownAndCaught = false;
-  vcl_try { v0.put(25,0); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { v0.put(25,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds put()", exceptionThrownAndCaught, true);
   }
 
@@ -221,7 +222,7 @@ void vnl_vector_test_int()
   v_temp = v.roll(v.size());
   TEST("v.roll(v.size())",
        (0 == v_temp[0] && 1 == v_temp[1] && 2 == v_temp[2] && 3 == v_temp[3]), true);
-  v_temp = v.roll(-v.size());
+  v_temp = v.roll(-1*static_cast<long signed int>(v.size()));
   TEST("v.roll(-v.size())",
        (0 == v_temp[0] && 1 == v_temp[1] && 2 == v_temp[2] && 3 == v_temp[3]), true);
 
@@ -268,7 +269,7 @@ void vnl_vector_test_int()
   v.roll_inplace(v.size());
   TEST("v.roll_inplace(v.size())",
        (0 == v[0] && 1 == v[1] && 2 == v[2] && 3 == v[3]), true);
-  v.roll_inplace(-v.size());
+  v.roll_inplace(-1*static_cast<long signed int>(v.size()));
   TEST("v.roll_inplace(-v.size())",
        (0 == v[0] && 1 == v[1] && 2 == v[2] && 3 == v[3]), true);
 
@@ -297,12 +298,12 @@ void vnl_vector_test_int()
 
 bool float_equal(const float& f1, const float& f2)
 {
-  return vcl_fabs(f1 - f2) < 1.0e-6;
+  return std::fabs(f1 - f2) < 1.0e-6;
 }
 
 void vnl_vector_test_float()
 {
-  vcl_cout << "*************************\n"
+  std::cout << "*************************\n"
            << "Testing vnl_vector<float>\n"
            << "*************************\n";
   //// test constructors, accessors
@@ -331,7 +332,7 @@ void vnl_vector_test_float()
   vnl_vector<float> v4(v3);
   TEST("vnl_vector<float> v4(v3)", v3, v4);
   TEST("v0=v2", (v0=v2, (v0==v2)), true);
-  vcl_cout << &v0 << " == " << v0 << vcl_endl;
+  std::cout << &v0 << " == " << v0 << std::endl;
   TEST("<<", 1, 1);
 
   //// test additions and subtractions
@@ -432,25 +433,25 @@ void vnl_vector_test_float()
     TEST("v[1]=2 and v[1]", v[1], 2);
     TEST("v[2]=3 and v[2]", v[2], 3);
     vnl_vector<float> v1(3, 0.f); v1[0]=1.f;
-    vcl_cout << "v1 = " << v1 << vcl_endl;
+    std::cout << "v1 = " << v1 << std::endl;
     vnl_vector<float> v2(3, 0.f); v2[1]=1.f;
-    vcl_cout << "v2 = " << v2 << vcl_endl;
+    std::cout << "v2 = " << v2 << std::endl;
     vnl_vector<float> v3(3, 0.f); v3[0]=-0.5f; v3[2]=0.5f;
-    vcl_cout << "v3 = " << v3 << vcl_endl
-             << "v1 - v2 = " << v1 - v2 << vcl_endl;
+    std::cout << "v3 = " << v3 << std::endl
+             << "v1 - v2 = " << v1 - v2 << std::endl;
     double ang = angle(v1,v2);
-    vcl_cout << "angle(v1,v2) = " << ang << vcl_endl;
+    std::cout << "angle(v1,v2) = " << ang << std::endl;
     ang *= vnl_math::deg_per_rad; // == 180/pi
-    vcl_cout << "angle(v1,v2) in degrees = " << ang << vcl_endl
-             << "v1.size()=" << v1.size() << vcl_endl
-             << "v2.size()=" << v2.size() << vcl_endl
-             << "vnl_cross_2d(v1,v2) = " << vnl_cross_2d(v1,v2) << vcl_endl
-             << "vnl_cross_3d(v1,v2) = " << vnl_cross_3d(v1,v2) << vcl_endl;
+    std::cout << "angle(v1,v2) in degrees = " << ang << std::endl
+             << "v1.size()=" << v1.size() << std::endl
+             << "v2.size()=" << v2.size() << std::endl
+             << "vnl_cross_2d(v1,v2) = " << vnl_cross_2d(v1,v2) << std::endl
+             << "vnl_cross_3d(v1,v2) = " << vnl_cross_3d(v1,v2) << std::endl;
     TEST_NEAR("angle(v1,v2)", ang, 90.0, 1e-15);
     double ang2 = angle(v1,v3);
-    vcl_cout << "angle(v1,v3) = " << ang << vcl_endl;
+    std::cout << "angle(v1,v3) = " << ang << std::endl;
     ang2 *= vnl_math::deg_per_rad; // == 180/pi
-    vcl_cout << "angle(v1,v3) in degrees = " << ang2 << vcl_endl;
+    std::cout << "angle(v1,v3) in degrees = " << ang2 << std::endl;
     TEST_NEAR("angle(v1,v3)", ang2, 135.0, 1e-6);
     TEST_NEAR("mean", vnl_c_vector<float>::mean(v.begin(), v.size()), 2.0, 1e-6);
     TEST_NEAR("std", vnl_c_vector<float>::std(v.begin(), v.size()), 1.0, 1e-6);
@@ -468,8 +469,8 @@ void vnl_vector_test_float()
     TEST("v.magnitude", v.magnitude(), 1);
 // Trying to track down test failure in Intel 10.0 compiler
     vd = 4.0 * v;
-    vcl_cout << "vd.normalize() is " << vd.normalize() << " and v is " << v << "\n" << vcl_flush;
-    vcl_cout << "vd.normalize() - v is " << vd.normalize() - v << "\n" << vcl_flush;
+    std::cout << "vd.normalize() is " << vd.normalize() << " and v is " << v << "\n" << std::flush;
+    std::cout << "vd.normalize() - v is " << vd.normalize() - v << "\n" << std::flush;
     TEST("v.normalize", (vd = 4.0 * v, vd.normalize(), vd), v);
   }
 
@@ -641,42 +642,42 @@ static void vnl_vector_test_io()
   double expected_data[] = {1.0, 2.0, 3.0};
   vnl_vector<double> expected(expected_data, 3);
   {
-    vcl_stringstream ss;
+    std::stringstream ss;
     ss << "";
     vnl_vector<double> p;
     ss >> p;
     TEST("number of values read from stream, empty", p.size(), 0);
   }
   {
-    vcl_stringstream ss;
+    std::stringstream ss;
     ss << "\n ";
     vnl_vector<double> p;
     ss >> p;
     TEST("number of values read from stream, just WS", p.size(), 0);
   }
   {
-    vcl_stringstream ss;
+    std::stringstream ss;
     ss << "1 2 3.0";
     vnl_vector<double> p;
     ss >> p;
     TEST("number of values read from stream, no newline", p, expected);
   }
   {
-    vcl_stringstream ss;
+    std::stringstream ss;
     ss << "1 2 3.0\n";
     vnl_vector<double> p;
     ss >> p;
     TEST("number of values read from stream, newline", p, expected);
   }
   {
-    vcl_stringstream ss;
+    std::stringstream ss;
     ss << "1 2 3.0\n ";
     vnl_vector<double> p;
     ss >> p;
     TEST("number of values read from stream, newline + WS", p, expected);
   }
   {
-    vcl_stringstream ss;
+    std::stringstream ss;
     ss << "5";
     vnl_vector<double> p;
     ss >> p;
@@ -701,7 +702,7 @@ void vnl_vector_test_two_nrm2_timing(unsigned size, unsigned long num)
   for (unsigned i = 0; i <num;i++)
     c+= vnl_c_vector<double>::two_nrm2(a.begin(), size);
   double time = t.real();
-  vcl_cout <<" Time for finding the two_nrm2 of " << size
+  std::cout <<" Time for finding the two_nrm2 of " << size
            <<"-D vectors " << num << "times  = " << time / 1000.0 << "s.\n";
 }
 
@@ -720,7 +721,7 @@ void vnl_vector_test_euclid_dist_sq_timing(unsigned size, unsigned long num)
   for (unsigned i = 0; i <num;i++)
     c+= vnl_c_vector<double>::euclid_dist_sq(a.begin(), b.begin(), size);
   double time = t.real();
-  vcl_cout <<" Time for finding the euclid_dist_sq of " << size
+  std::cout <<" Time for finding the euclid_dist_sq of " << size
            <<"-D vectors " << num << "times  = " << time / 1000.0 << "s.\n";
 }
 

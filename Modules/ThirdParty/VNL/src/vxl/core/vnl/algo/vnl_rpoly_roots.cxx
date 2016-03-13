@@ -10,11 +10,12 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cmath>
+#include <iostream>
+#include <complex>
 #include "vnl_rpoly_roots.h"
 
-#include <vcl_cmath.h> // for fabs()
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_netlib.h> // rpoly_()
 #include <vnl/vnl_real_polynomial.h>
 
@@ -43,11 +44,11 @@ vnl_rpoly_roots::vnl_rpoly_roots(const vnl_real_polynomial& poly)
 }
 
 // - Complex vector of all roots.
-vnl_vector<vcl_complex<double> > vnl_rpoly_roots::roots() const
+vnl_vector<std::complex<double> > vnl_rpoly_roots::roots() const
 {
-  vnl_vector<vcl_complex<double> > ret(num_roots_found_);
+  vnl_vector<std::complex<double> > ret(num_roots_found_);
   for (int i = 0; i < num_roots_found_; ++i)
-    ret[i] = vcl_complex<double>(r_[i], i_[i]);
+    ret[i] = std::complex<double>(r_[i], i_[i]);
   return ret;
 }
 
@@ -58,13 +59,13 @@ vnl_vector<double> vnl_rpoly_roots::realroots(double tol) const
 {
   int c = 0;
   for (int i = 0; i < num_roots_found_; ++i)
-    if (vcl_fabs(i_[i]) < tol)
+    if (std::fabs(i_[i]) < tol)
       ++c;
 
   vnl_vector<double> ret(c);
   c = 0;
   {for (int i = 0; i < num_roots_found_; ++i)
-    if (vcl_fabs(i_[i]) < tol)
+    if (std::fabs(i_[i]) < tol)
       ret[c++] = r_[i];}
 
   return ret;
@@ -88,9 +89,9 @@ bool vnl_rpoly_roots::compute()
   num_roots_found_ = n;
 
   if (coeffs_[0] == 0.0)
-    vcl_cerr << "vnl_rpoly_roots: Leading coefficient is zero.  Not allowed.\n";
+    std::cerr << "vnl_rpoly_roots: Leading coefficient is zero.  Not allowed.\n";
   else
-    vcl_cerr << "vnl_rpoly_roots: Calculation failed, only " << n << " roots found\n";
+    std::cerr << "vnl_rpoly_roots: Calculation failed, only " << n << " roots found\n";
 
   return false;
 }

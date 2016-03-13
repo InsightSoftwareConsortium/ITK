@@ -1,10 +1,11 @@
 // This is core/vnl/algo/tests/test_svd_fixed.cxx
+#include <iostream>
+#include <complex>
+#include <ctime>
 #include "test_util.h"
 //:
 // \file
 #include <testlib/testlib_test.h>
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
 
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matrix_fixed.h>
@@ -13,13 +14,13 @@
 #include <vnl/algo/vnl_svd_fixed.h>
 #include <vnl/algo/vnl_svd.h>
 
-#include <vcl_ctime.h>
+#include <vcl_compiler.h>
 
 
 template <class T, class S> static
 void test_hilbert(T /*dummy*/, char const* type, S residual)
 {
-  vcl_cout << "----- Testing svd_fixed<"<<type<<">(Hilbert_3x3) -----" << vcl_endl;
+  std::cout << "----- Testing svd_fixed<"<<type<<">(Hilbert_3x3) -----" << std::endl;
   typedef typename vnl_numeric_traits<T>::abs_t abs_t;
   // Test inversion and recomposition of 3x3 hilbert matrix
   vnl_matrix_fixed<T,3,3> H;
@@ -27,17 +28,17 @@ void test_hilbert(T /*dummy*/, char const* type, S residual)
     for (int j = 0; j < 3; ++j)
       H(i,j) = T(1) / T(abs_t(i+j+1)); // sic, because i,j are zero based
 
-  vcl_cout << "H = <"<<type<<">[ " << H << "]\n";
+  std::cout << "H = <"<<type<<">[ " << H << "]\n";
 
   vnl_svd_fixed<T,3,3> svd(H);
 
-  vcl_cout << "rcond(H) = " << svd.well_condition() << vcl_endl;
+  std::cout << "rcond(H) = " << svd.well_condition() << std::endl;
 
   vnl_matrix_fixed<T,3,3> Hinv = svd.inverse();
 
   vnl_matrix_fixed<T,3,3> X = Hinv * H;
 
-  vcl_cout << "H*inv(H) = " << X << vcl_endl;
+  std::cout << "H*inv(H) = " << X << std::endl;
 
   vnl_matrix_fixed<T,3,3> I;
   I = 0.0;
@@ -51,7 +52,7 @@ void test_hilbert(T /*dummy*/, char const* type, S residual)
 //: Test nullspace extraction of rank=2 3x4 matrix.
 static void test_pmatrix()
 {
-  vcl_cout << "----- Testing nullspace extraction of rank=2 3x4 matrix -----" << vcl_endl;
+  std::cout << "----- Testing nullspace extraction of rank=2 3x4 matrix -----" << std::endl;
 
   double pdata[] = {
     2, 0, 0, 0,
@@ -63,30 +64,30 @@ static void test_pmatrix()
 
   vnl_matrix_fixed<double, 3, 4> res = svd.recompose() - P;
   TEST_NEAR("PMatrix recomposition residual", res.fro_norm(), 0, 1e-12);
-  vcl_cout << " Inv = " << svd.inverse() << vcl_endl;
+  std::cout << " Inv = " << svd.inverse() << std::endl;
 
   TEST("singularities = 2", svd.singularities(), 2);
   TEST("rank = 2", svd.rank(), 2);
 
   vnl_matrix<double> N = svd.nullspace();
   TEST("nullspace dimension", N.columns(), 2);
-  vcl_cout << "null(P) =\n" << N << vcl_endl;
+  std::cout << "null(P) =\n" << N << std::endl;
 
   vnl_matrix<double> PN = P*N;
-  vcl_cout << "P * null(P) =\n" << PN << vcl_endl;
+  std::cout << "P * null(P) =\n" << PN << std::endl;
   TEST_NEAR("P nullspace residual", PN.fro_norm(), 0, 1e-12);
 
   vnl_vector_fixed<double, 4> n = svd.nullvector();
   TEST_NEAR("P nullvector residual", (P*n).magnitude(), 0, 1e-12);
 
   vnl_vector_fixed<double, 3> l = svd.left_nullvector();
-  vcl_cout << "left_nullvector(P) = " << l << vcl_endl;
+  std::cout << "left_nullvector(P) = " << l << std::endl;
   TEST_NEAR("P left nullvector residual", (l*P).magnitude(), 0, 1e-12);
 }
 
 static void test_I()
 {
-  vcl_cout << "----- testing vnl_svd(I) -----\n";
+  std::cout << "----- testing vnl_svd(I) -----\n";
   double Idata[] = {
     1, 0, 0, 0,
     0, 1, 0, 0,
@@ -94,7 +95,7 @@ static void test_I()
   };
   vnl_matrix_fixed<double, 3, 4> P(Idata);
   vnl_svd_fixed<double, 3, 4> svd(P);
-  vcl_cout << svd;
+  std::cout << svd;
 
   vnl_vector_fixed<double, 4> w_expected(1, 1, 1, 0);
   TEST_NEAR ("Singular values", vnl_vector_ssd(w_expected, svd.W().diagonal().as_ref()), 0, 1e-16);
@@ -105,16 +106,16 @@ void test_svd_recomposition(char const *type, double maxres, T* /* tag */, vnl_r
 {
   const unsigned int n = 3;
   // Test inversion of 3x3 matrix of T :
-  vcl_cout << "----- Testing vnl_svd_fixed<" << type << "> recomposition -----" << vcl_endl;
+  std::cout << "----- Testing vnl_svd_fixed<" << type << "> recomposition -----" << std::endl;
 
   vnl_matrix_fixed<T,n,n> A;
   test_util_fill_random(A.begin(), A.end(), rng);
 
-  vcl_cout << "A = [\n" << A << "]\n";
+  std::cout << "A = [\n" << A << "]\n";
   vnl_svd_fixed<T,n,n> svd(A);
 
   vnl_matrix_fixed<T,n,n> B=svd.recompose();
-  vcl_cout << "B = [\n" << B << "]\n";
+  std::cout << "B = [\n" << B << "]\n";
 
   double residual=(A - B).fro_norm();
   TEST_NEAR("vnl_svd<float> recomposition residual", residual, 0, maxres);
@@ -125,16 +126,16 @@ void test_svd_recomposition(char const *type, double maxres, T* /* tag */, vnl_r
 template <class T> static
 void test_nullvector(char const *type, double max_err, T *, vnl_random &rng)
 {
-  vcl_cout << "----- Testing vnl_svd_fixed<" << type << "> null vector -----" << vcl_endl;
+  std::cout << "----- Testing vnl_svd_fixed<" << type << "> null vector -----" << std::endl;
   const int n = 3;
   vnl_matrix_fixed<T,n,n+1> A;
   test_util_fill_random(A.begin(), A.end(), rng);
   vnl_svd_fixed<T,n,n+1> svd(A);
   vnl_vector_fixed<T,n+1>  x = svd.nullvector();
   vnl_vector_fixed<T,n> Ax = A*x;
-  vnl_matlab_print(vcl_cout, A, "A", vnl_matlab_print_format_long);
-  vcl_cout << "|| x|| = " <<  x.two_norm() << vcl_endl
-           << "||Ax|| = " << Ax.two_norm() << vcl_endl;
+  vnl_matlab_print(std::cout, A, "A", vnl_matlab_print_format_long);
+  std::cout << "|| x|| = " <<  x.two_norm() << std::endl
+           << "||Ax|| = " << Ax.two_norm() << std::endl;
   TEST_NEAR("||Ax||", Ax.two_norm(), 0.0, max_err);
 }
 
@@ -146,7 +147,7 @@ static void test_speed(vnl_random& rng)
   int ms_heap;
   {
     double sum=0;
-    const vcl_clock_t timer_01 = vcl_clock();
+    const std::clock_t timer_01 = std::clock();
     vnl_matrix<double> A(3,3);
     for (unsigned count=0; count<10000; ++count)
     {
@@ -154,14 +155,14 @@ static void test_speed(vnl_random& rng)
       vnl_svd<double> svd(A);
       sum += svd.inverse().fro_norm();
     }
-    const vcl_clock_t timer_02 = vcl_clock();
+    const std::clock_t timer_02 = std::clock();
     ms_heap =  ( ( timer_02 - timer_01)*1000 ) /CLOCKS_PER_SEC;
-    vcl_cout << "vnl_svd time for 10000 3x3 inversions: " << ms_heap << "ms." << vcl_endl;
+    std::cout << "vnl_svd time for 10000 3x3 inversions: " << ms_heap << "ms." << std::endl;
   }
   int ms_stack;
   {
     double sum=0;
-    const vcl_clock_t timer_03 = vcl_clock();
+    const std::clock_t timer_03 = std::clock();
     vnl_matrix_fixed<double,3,3> A;
     for (unsigned count=0; count<10000; ++count)
     {
@@ -169,25 +170,25 @@ static void test_speed(vnl_random& rng)
       vnl_svd_fixed<double,3,3> svd(A);
       sum += svd.inverse().fro_norm();
     }
-    const vcl_clock_t timer_04 = vcl_clock();
+    const std::clock_t timer_04 = std::clock();
     ms_stack = ( ( timer_04 - timer_03)*1000 ) /CLOCKS_PER_SEC;
-    vcl_cout << "vnl_svd_fixed time for 10000 3x3 inversions: " << ms_stack << "ms." << vcl_endl;
+    std::cout << "vnl_svd_fixed time for 10000 3x3 inversions: " << ms_stack << "ms." << std::endl;
   }
   int ms_nosvd;
   {
     double sum=0;
-    const vcl_clock_t timer_05 = vcl_clock();
+    const std::clock_t timer_05 = std::clock();
     vnl_matrix_fixed<double,3,3> A;
     for (unsigned count=0; count<10000; ++count)
     {
       test_util_fill_random(A.begin(), A.end(), rng);
       sum += vnl_inverse(A).fro_norm();
     }
-    const vcl_clock_t timer_06 = vcl_clock();
+    const std::clock_t timer_06 = std::clock();
     ms_nosvd = ( ( timer_06 - timer_05)*1000 ) /CLOCKS_PER_SEC;
-    vcl_cout << "(c.f. vnl_inverse no-SVD time for 10000 3x3 inversions: " << ms_nosvd << "ms.)" << vcl_endl;
+    std::cout << "(c.f. vnl_inverse no-SVD time for 10000 3x3 inversions: " << ms_nosvd << "ms.)" << std::endl;
   }
-  vcl_cout << "Stack Memory Time: " << ms_stack << " vs. Heap Memory Time: " << ms_heap << vcl_endl;
+  std::cout << "Stack Memory Time: " << ms_stack << " vs. Heap Memory Time: " << ms_heap << std::endl;
   // This test should be allowed to fail.  The timing test above is not very good.  It
   // confounds the random number generation and compares computations of different matricies.
   // TEST("Stack memory SVD is faster than heap memory SVD", ms_stack <= ms_heap, true);
@@ -199,20 +200,20 @@ void test_svd_fixed()
   vnl_random rng(9667566);
 //  test_hilbert(float(), "float", float(0.025));
   test_hilbert(double(), "double", 1.1e-10);
-//  test_hilbert(vcl_complex<double>(), "vcl_complex<double>", double(4.4e-10));
-//  test_hilbert(vcl_complex<float>(), "vcl_complex<float>", float(0.04));
+//  test_hilbert(std::complex<double>(), "std::complex<double>", double(4.4e-10));
+//  test_hilbert(std::complex<float>(), "std::complex<float>", float(0.04));
   test_pmatrix();
   test_I();
 
 //  test_svd_recomposition("float",              1e-5 , (float*)0, rng);
   test_svd_recomposition("double",             1e-10, (double*)VXL_NULLPTR, rng);
-//  test_svd_recomposition("vcl_complex<float>",  1e-5 , (vcl_complex<float>*)0, rng);
-//  test_svd_recomposition("vcl_complex<double>", 1e-10, (vcl_complex<double>*)0, rng);
+//  test_svd_recomposition("std::complex<float>",  1e-5 , (std::complex<float>*)0, rng);
+//  test_svd_recomposition("std::complex<double>", 1e-10, (std::complex<double>*)0, rng);
 
 //  test_nullvector("float",               5e-7,  (float*)0, rng);
   test_nullvector("double",              5e-15, (double*)VXL_NULLPTR, rng);
-//  test_nullvector("vcl_complex<float>",  5e-7,  (vcl_complex<float>*)0, rng);
-//  test_nullvector("vcl_complex<double>", 5e-15, (vcl_complex<double>*)0, rng);
+//  test_nullvector("std::complex<float>",  5e-7,  (std::complex<float>*)0, rng);
+//  test_nullvector("std::complex<double>", 5e-15, (std::complex<double>*)0, rng);
 
   test_speed(rng);
 }

@@ -19,21 +19,22 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <limits>
 #include "vnl_unary_function.h"
-#include <vcl_limits.h>
+#include <vcl_compiler.h>
 
 //: Return bounding cube of range (outputs)
 template <class RETURN, class ARGUMENT>
 RETURN vnl_unary_function<RETURN, ARGUMENT>::get_range_min() const
 {
-  return vcl_numeric_limits<RETURN>::min();
+  return std::numeric_limits<RETURN>::min();
 }
 
 //: Return bounding cube of range (outputs)
 template <class RETURN, class ARGUMENT>
 RETURN vnl_unary_function<RETURN, ARGUMENT>::get_range_max() const
 {
-  return vcl_numeric_limits<RETURN>::max();
+  return std::numeric_limits<RETURN>::max();
 }
 
 #define VNL_UNARY_FUNCTION_INSTANTIATE(S,T) \

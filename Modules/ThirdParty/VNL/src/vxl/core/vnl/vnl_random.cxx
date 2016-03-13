@@ -5,9 +5,10 @@
 //:
 //  \file
 
+#include <ctime>
+#include <cmath>
 #include "vnl_random.h"
-#include <vcl_ctime.h>
-#include <vcl_cmath.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 unsigned long vnl_random::linear_congruential_lrand32()
@@ -68,7 +69,7 @@ vnl_random::~vnl_random()
 
 void vnl_random::reseed()
 {
-  reseed((unsigned long)vcl_time(VXL_NULLPTR));
+  reseed((unsigned long)std::time(VXL_NULLPTR));
 }
 
 void vnl_random::reseed(unsigned long seed)
@@ -127,7 +128,7 @@ double vnl_random::normal()
       r2 = x*x+y*y;
     }
     while (r2 >=1.0 || r2 == 0.0);
-    double fac = vcl_sqrt(-2.0*vcl_log(r2)/r2);
+    double fac = std::sqrt(-2.0*std::log(r2)/r2);
     mz_previous_normal = x*fac;
     mz_previous_normal_flag = 1;
     return y*fac;
@@ -157,7 +158,7 @@ double vnl_random::normal64()
       r2 = x*x+y*y;
     }
     while (r2 >=1.0 || r2 == 0.0);
-    double fac = vcl_sqrt(-2.0*vcl_log(r2)/r2);
+    double fac = std::sqrt(-2.0*std::log(r2)/r2);
     mz_previous_normal = x*fac;
     mz_previous_normal_flag = 1;
     return y*fac;

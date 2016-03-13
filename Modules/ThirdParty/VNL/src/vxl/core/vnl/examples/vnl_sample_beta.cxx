@@ -16,26 +16,27 @@
 // \date   November 2009
 //-----------------------------------------------------------------------------
 
+#include <cmath>
+#include <cstdlib>
+#include <iostream>
 #include <vnl/vnl_sample.h>
 #include <vnl/vnl_math.h>
-#include <vcl_cmath.h>
-#include <vcl_cstdlib.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 int main(int argc, char* argv[])
 {
   if (argc != 3)
   {
-    vcl_cout << "This program generates n samples drawn from a Beta(a,a) distribution\n"
+    std::cout << "This program generates n samples drawn from a Beta(a,a) distribution\n"
              << "for given a (first command line argument), and where n is the second argument.\n";
     return -1;
   }
-  double a = vcl_atof(argv[1]);
-  int n = vcl_atoi(argv[2]);
+  double a = std::atof(argv[1]);
+  int n = std::atoi(argv[2]);
   while (n--) {
     double u = vnl_sample_uniform(0,1);
     double v = vnl_sample_uniform(0,vnl_math::twopi);
-    vcl_cout << 0.5+0.5*vcl_sin(v)*vcl_sqrt(1.0-vcl_pow(u,1.0/(a-0.5))) << '\n';
+    std::cout << 0.5+0.5*std::sin(v)*std::sqrt(1.0-std::pow(u,1.0/(a-0.5))) << '\n';
   }
   return 0;
 }

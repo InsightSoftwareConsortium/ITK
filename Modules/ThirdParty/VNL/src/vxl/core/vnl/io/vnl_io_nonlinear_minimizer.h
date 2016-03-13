@@ -9,9 +9,10 @@
 // \author dac
 // \date 21-Mar-2001
 
+#include <string>
 #include <vsl/vsl_binary_io.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
-#include <vcl_string.h>
+#include <vcl_compiler.h>
 
 //: Base for objects which provide IO
 //  for classes derived from vnl_nonlinear_minimizer
@@ -37,14 +38,14 @@ class vnl_io_nonlinear_minimizer
 
   //: Print summary of derived class to os
   //  using vnl_nonlinear_minimizer reference
-  virtual void print_summary_by_base(vcl_ostream& os,
+  virtual void print_summary_by_base(std::ostream& os,
                                      const vnl_nonlinear_minimizer& base) const;
 
   //: Copy this object onto the heap and return a pointer
   virtual vnl_io_nonlinear_minimizer* clone() const;
 
   //: Return name of class for which this object provides IO
-  virtual vcl_string target_classname() const { return "vnl_nonlinear_minimizer"; }
+  virtual std::string target_classname() const { return "vnl_nonlinear_minimizer"; }
 
   //: Return true if b is of class target_classname()
   //  Typically this will just be "return b.is_a()==target_classname()"
@@ -66,7 +67,7 @@ void vsl_b_write(vsl_b_ostream &os, const vnl_nonlinear_minimizer * b);
 void vsl_b_read(vsl_b_istream &is, vnl_nonlinear_minimizer* &b);
 
 //: Print summary to stream by vnl_nonlinear_minimizer pointer
-void vsl_print_summary(vcl_ostream &os, const vnl_nonlinear_minimizer * b);
+void vsl_print_summary(std::ostream &os, const vnl_nonlinear_minimizer * b);
 
 //: Binary save vnl_real_polynomial to stream.
 void vsl_b_write(vsl_b_ostream &os, const vnl_nonlinear_minimizer & v);
@@ -75,6 +76,6 @@ void vsl_b_write(vsl_b_ostream &os, const vnl_nonlinear_minimizer & v);
 void vsl_b_read(vsl_b_istream &is, vnl_nonlinear_minimizer & v);
 
 //: Print human readable summary of object to a stream
-void vsl_print_summary(vcl_ostream& os,const vnl_nonlinear_minimizer & b);
+void vsl_print_summary(std::ostream& os,const vnl_nonlinear_minimizer & b);
 
 #endif // vnl_io_nonlinear_minimizer_h

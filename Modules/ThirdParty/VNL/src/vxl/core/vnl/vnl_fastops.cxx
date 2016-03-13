@@ -9,11 +9,12 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
 #include "vnl_fastops.h"
 
-#include <vcl_cstdlib.h> // abort()
-#include <vcl_cstring.h> // memset()
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 //: Compute $A^\top A$.
 void vnl_fastops::AtA(vnl_matrix<double>& out, const vnl_matrix<double>& A)
@@ -38,7 +39,7 @@ void vnl_fastops::AtA(vnl_matrix<double>& out, const vnl_matrix<double>& A)
       }
  Next is 5 times faster on 600 Mhz Pentium III for m = 10000, n = 50
 */
-    vcl_memset(ata[0], 0, n * n * sizeof ata[0][0]);
+    std::memset(ata[0], 0, n * n * sizeof ata[0][0]);
     for (unsigned int k = 0; k < m; ++k)
       for (unsigned int i = 0; i < n; ++i) {
         const double aki = a[k][i];
@@ -61,8 +62,8 @@ void vnl_fastops::AB(vnl_matrix<double>& out, const vnl_matrix<double>& A, const
 
   // Verify matrices compatible
   if (na != mb) {
-    vcl_cerr << "vnl_fastops::AB: argument sizes do not match: " << na << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::AB: argument sizes do not match: " << na << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int ma = A.rows();
@@ -93,8 +94,8 @@ void vnl_fastops::AtB(vnl_matrix<double>& out, const vnl_matrix<double>& A, cons
 
   // Verify matrices compatible
   if (ma != mb) {
-    vcl_cerr << "vnl_fastops::AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int na = A.columns();
@@ -125,8 +126,8 @@ void vnl_fastops::AtB(vnl_vector<double>& out, const vnl_matrix<double>& A, cons
 
   // Verify matrices compatible
   if (m != l) {
-    vcl_cerr << "vnl_fastops::AtB: argument sizes do not match: " << m << " != " << l << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::AtB: argument sizes do not match: " << m << " != " << l << '\n';
+    std::abort();
   }
 
   const unsigned int n = A.columns();
@@ -155,8 +156,8 @@ void vnl_fastops::Ab(vnl_vector<double>& out, const vnl_matrix<double>& A, const
 
   // Verify matrices compatible
   if (m != l) {
-    vcl_cerr << "vnl_fastops::Ab: argument sizes do not match: " << m << " != " << l << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::Ab: argument sizes do not match: " << m << " != " << l << '\n';
+    std::abort();
   }
 
   const unsigned int n = A.rows();
@@ -185,8 +186,8 @@ void vnl_fastops::ABt(vnl_matrix<double>& out, const vnl_matrix<double>& A, cons
 
   // Verify matrices compatible
   if (na != nb) {
-    vcl_cerr << "vnl_fastops::ABt: argument sizes do not match: " << na << " != " << nb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::ABt: argument sizes do not match: " << na << " != " << nb << '\n';
+    std::abort();
   }
 
   const unsigned int ma = A.rows();
@@ -217,8 +218,8 @@ void vnl_fastops::ABAt(vnl_matrix<double>& out, const vnl_matrix<double>& A, con
 
   // Verify matrices compatible
   if (na != mb) {
-    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int ma = A.rows();
@@ -226,8 +227,8 @@ void vnl_fastops::ABAt(vnl_matrix<double>& out, const vnl_matrix<double>& A, con
 
   // Verify matrices compatible
   if (na != nb) {
-    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << nb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << nb << '\n';
+    std::abort();
   }
 
   // Verify output is the right size
@@ -263,12 +264,12 @@ double vnl_fastops::btAb(const vnl_matrix<double>& A, const vnl_vector<double>& 
 
   // Verify matrices compatible
   if (m != l ) {
-    vcl_cerr << "vnl_fastops::btAb: argument sizes do not match: " << m << " != " << l << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::btAb: argument sizes do not match: " << m << " != " << l << '\n';
+    std::abort();
   }
   if ( m != n ) {
-    vcl_cerr << "vnl_fastops::btAb: not a square matrix: " << m << " != " << n << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::btAb: not a square matrix: " << m << " != " << n << '\n';
+    std::abort();
   }
 
 
@@ -291,8 +292,8 @@ void vnl_fastops::inc_X_by_AtA(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (m != n || m != A.columns()) {
-    vcl_cerr << "vnl_fastops::inc_X_by_AtA: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_AtA: argument sizes do not match\n";
+    std::abort();
   }
 
   const unsigned int l = A.rows();
@@ -330,8 +331,8 @@ void vnl_fastops::inc_X_by_AB(vnl_matrix<double>& X, const vnl_matrix<double>& A
 
   // Verify matrices compatible
   if (na != mb) {
-    vcl_cerr << "vnl_fastops::inc_X_by_AB: argument sizes do not match: " << na << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_AB: argument sizes do not match: " << na << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int ma = A.rows();
@@ -341,8 +342,8 @@ void vnl_fastops::inc_X_by_AB(vnl_matrix<double>& X, const vnl_matrix<double>& A
 
   // Verify output is the right size
   if (mx != ma || nx != nb) {
-    vcl_cerr << "vnl_fastops::inc_X_by_AB: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_AB: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -363,8 +364,8 @@ void vnl_fastops::dec_X_by_AB(vnl_matrix<double>& X, const vnl_matrix<double>& A
 
   // Verify matrices compatible
   if (na != mb) {
-    vcl_cerr << "vnl_fastops::dec_X_by_AB: argument sizes do not match: " << na << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_AB: argument sizes do not match: " << na << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int ma = A.rows();
@@ -374,8 +375,8 @@ void vnl_fastops::dec_X_by_AB(vnl_matrix<double>& X, const vnl_matrix<double>& A
 
   // Verify output is the right size
   if (mx != ma || nx != nb) {
-    vcl_cerr << "vnl_fastops::dec_X_by_AB: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_AB: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -396,8 +397,8 @@ void vnl_fastops::inc_X_by_AtB(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify matrices compatible
   if (ma != mb) {
-    vcl_cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int na = A.columns();
@@ -407,8 +408,8 @@ void vnl_fastops::inc_X_by_AtB(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (mx != na || nx != nb) {
-    vcl_cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -432,8 +433,8 @@ void vnl_fastops::dec_X_by_AtB(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify matrices compatible
   if (ma != mb) {
-    vcl_cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int na = A.columns();
@@ -443,8 +444,8 @@ void vnl_fastops::dec_X_by_AtB(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (mx != na || nx != nb) {
-    vcl_cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -468,8 +469,8 @@ void vnl_fastops::inc_X_by_AtB(vnl_vector<double>& X, const vnl_matrix<double>& 
 
   // Verify matrices compatible
   if (ma != mb) {
-    vcl_cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int mx = X.size();
@@ -477,8 +478,8 @@ void vnl_fastops::inc_X_by_AtB(vnl_vector<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (mx != na) {
-    vcl_cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_AtB: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -501,8 +502,8 @@ void vnl_fastops::dec_X_by_AtB(vnl_vector<double>& X, const vnl_matrix<double>& 
 
   // Verify matrices compatible
   if (ma != mb) {
-    vcl_cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match: " << ma << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int mx = X.size();
@@ -510,8 +511,8 @@ void vnl_fastops::dec_X_by_AtB(vnl_vector<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (mx != na) {
-    vcl_cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_AtB: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -534,8 +535,8 @@ void vnl_fastops::dec_X_by_AtA(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (m != n || m != A.columns()) {
-    vcl_cerr << "vnl_fastops::dec_X_by_AtA: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_AtA: argument sizes do not match\n";
+    std::abort();
   }
 
   const unsigned int l = A.rows();
@@ -600,8 +601,8 @@ void vnl_fastops::inc_X_by_ABt(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify matrices compatible
   if (na != nb) {
-    vcl_cerr << "vnl_fastops::inc_X_by_ABt: argument sizes do not match: " << na << " != " << nb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_ABt: argument sizes do not match: " << na << " != " << nb << '\n';
+    std::abort();
   }
 
   const unsigned int mx = X.rows();
@@ -611,8 +612,8 @@ void vnl_fastops::inc_X_by_ABt(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (mx != ma || nx != mb) {
-    vcl_cerr << "vnl_fastops::inc_X_by_ABt: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::inc_X_by_ABt: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -649,8 +650,8 @@ void vnl_fastops::dec_X_by_ABt(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify matrices compatible
   if (na != nb) {
-    vcl_cerr << "vnl_fastops::dec_X_by_ABt: argument sizes do not match: " << na << " != " << nb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_ABt: argument sizes do not match: " << na << " != " << nb << '\n';
+    std::abort();
   }
 
   const unsigned int mx = X.rows();
@@ -660,8 +661,8 @@ void vnl_fastops::dec_X_by_ABt(vnl_matrix<double>& X, const vnl_matrix<double>& 
 
   // Verify output is the right size
   if (mx != ma || nx != mb) {
-    vcl_cerr << "vnl_fastops::dec_X_by_ABt: argument sizes do not match\n";
-    vcl_abort();
+    std::cerr << "vnl_fastops::dec_X_by_ABt: argument sizes do not match\n";
+    std::abort();
   }
 
   double const* const* a = A.data_array();
@@ -699,8 +700,8 @@ void vnl_fastops::inc_X_by_ABAt(vnl_matrix<double>& X, const vnl_matrix<double>&
 
   // Verify matrices compatible
   if (na != mb) {
-    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << mb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << mb << '\n';
+    std::abort();
   }
 
   const unsigned int ma = A.rows();
@@ -708,8 +709,8 @@ void vnl_fastops::inc_X_by_ABAt(vnl_matrix<double>& X, const vnl_matrix<double>&
 
   // Verify matrices compatible
   if (na != nb) {
-    vcl_cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << nb << '\n';
-    vcl_abort();
+    std::cerr << "vnl_fastops::ABAt: argument sizes do not match: " << na << " != " << nb << '\n';
+    std::abort();
   }
 
   // Verify output is the right size

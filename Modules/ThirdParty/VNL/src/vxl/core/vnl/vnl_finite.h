@@ -31,10 +31,11 @@
 //  16 Dec 2007 - Peter Vanroose - more efficient implementation of Ntothe()
 // \endverbatim
 
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vector>
+#include <cstddef>
 #include <vcl_cassert.h>
-#include <vcl_vector.h>
-#include <vcl_cstddef.h>
+#include <vcl_compiler.h>
 
 //: finite modulo-N arithmetic
 //
@@ -117,7 +118,7 @@ class vnl_finite_int
   static unsigned int totient() {
     static unsigned int t_ = 0; // cached value
     if (t_ != 0) return t_;
-    vcl_vector<unsigned int> d = decompose();
+    std::vector<unsigned int> d = decompose();
     t_ = 1; unsigned int p = 1;
     for (unsigned int i=0; i<d.size(); ++i)
     {
@@ -158,8 +159,8 @@ class vnl_finite_int
   inline Base operator--(int) {Base b=*this; mo_=lp1_=0; if (val_==0) val_=N; --val_; return b;}
 
   //: Write N as the unique product of prime factors.
-  static vcl_vector<unsigned int> decompose() {
-    static vcl_vector<unsigned int> decomposition_ = vcl_vector<unsigned int>(); // cached value
+  static std::vector<unsigned int> decompose() {
+    static std::vector<unsigned int> decomposition_ = std::vector<unsigned int>(); // cached value
     if (decomposition_.size() > 0) return decomposition_;
     unsigned int r = N;
     for (unsigned int d=2; d*d<=r; ++d)
@@ -170,7 +171,7 @@ class vnl_finite_int
 
   //: Return true when N is a prime number, i.e., when this ring is a field
   static inline bool is_field() {
-    vcl_vector<unsigned int> d = Base::decompose();
+    std::vector<unsigned int> d = Base::decompose();
     return d.size() == 1;
   }
 
@@ -264,7 +265,7 @@ class vnl_finite_int
 //: formatted output
 // \relatesalso vnl_finite_int
 template <int N>
-inline vcl_ostream& operator<< (vcl_ostream& s, vnl_finite_int<N> const& r)
+inline std::ostream& operator<< (std::ostream& s, vnl_finite_int<N> const& r)
 {
   return s << int(r);
 }
@@ -272,7 +273,7 @@ inline vcl_ostream& operator<< (vcl_ostream& s, vnl_finite_int<N> const& r)
 //: simple input
 // \relatesalso vnl_finite_int
 template <int N>
-inline vcl_istream& operator>> (vcl_istream& s, vnl_finite_int<N>& r)
+inline std::istream& operator>> (std::istream& s, vnl_finite_int<N>& r)
 {
   int n; s >> n; r=n; return s;
 }
@@ -428,7 +429,7 @@ class vnl_finite_int_poly
   typedef vnl_finite_int_poly<N,M> Base;
   typedef vnl_finite_int<N> Scalar;
 
-  vcl_vector<Scalar> val_; //!< M-tuple (or degree M-1 polynomial) representing this
+  std::vector<Scalar> val_; //!< M-tuple (or degree M-1 polynomial) representing this
 
   // This essentially implements std::pow(N,int) which is not always available
   static unsigned int Ntothe(unsigned int m) { return m==0?1:m==1?N:Ntothe(m/2)*Ntothe((m+1)/2); }
@@ -437,18 +438,18 @@ class vnl_finite_int_poly
   static unsigned int cardinality() { return Ntothe(M); }
 
   //: Creates a general finite_int_poly.
-  inline vnl_finite_int_poly(vcl_vector<Scalar> const& p) : val_(p) { assert(N>1); assert(M>0); assert(p.size()<=M); }
+  inline vnl_finite_int_poly(std::vector<Scalar> const& p) : val_(p) { assert(N>1); assert(M>0); assert(p.size()<=M); }
   //: Creates a degree 0 finite_int_poly.
-  inline vnl_finite_int_poly(Scalar const& n) : val_(vcl_vector<Scalar>(1)) { assert(N>1); assert(M>0); val_[0]=n; }
+  inline vnl_finite_int_poly(Scalar const& n) : val_(std::vector<Scalar>(1)) { assert(N>1); assert(M>0); val_[0]=n; }
   //: Default constructor. Creates a degree 0 finite_int_poly equal to 0.
-  inline vnl_finite_int_poly() : val_(vcl_vector<Scalar>(1)) { assert(N>1); assert(M>0); val_[0]=0; }
+  inline vnl_finite_int_poly() : val_(std::vector<Scalar>(1)) { assert(N>1); assert(M>0); val_[0]=0; }
   //  Copy constructor
   inline vnl_finite_int_poly(Base const& x) : val_(x.val_) {}
   //  Destructor
   inline ~vnl_finite_int_poly() {}
 
   //: Formal degree of this polynomial
-  inline vcl_size_t deg() const { return val_.size() - 1; }
+  inline std::size_t deg() const { return val_.size() - 1; }
 
   //: Effective degree of this polynomial; equals -1 when this polynomial is 0.
   int degree() const { for (int i=deg(); i>=0; --i) if (val_[i]!=0) return i; return -1; }
@@ -458,7 +459,7 @@ class vnl_finite_int_poly
 
   //: Assignment
   inline Base& operator=(Base const& x) { val_ = x.val_; return *this; }
-  inline Base& operator=(Scalar const& n) { val_ = vcl_vector<Scalar>(1); val_[0] = n; return *this; }
+  inline Base& operator=(Scalar const& n) { val_ = std::vector<Scalar>(1); val_[0] = n; return *this; }
 
   //: Comparison of finite int polys.
   bool operator==(Base const& x) const {
@@ -477,7 +478,7 @@ class vnl_finite_int_poly
   inline bool operator!=(Scalar const& x) const { return !operator==(x); }
 
   //: Unary minus - returns the additive inverse
-  Base operator-() const { vcl_vector<Scalar> p = val_; for (unsigned int i=0; i<p.size(); ++i) p[i]=-p[i]; return p; }
+  Base operator-() const { std::vector<Scalar> p = val_; for (unsigned int i=0; i<p.size(); ++i) p[i]=-p[i]; return p; }
   //: Unary plus - returns the current polynomial
   inline Base operator+() const { return *this; }
   //: Unary not - returns true if finite int poly is equal to zero.
@@ -512,9 +513,9 @@ class vnl_finite_int_poly
   //: get/set the (irreducible) modulo polynomial of degree M
   //  Note that this polynomial has to be set only once, i.e., once set,
   //  it applies to all vnl_finite_int_polys with the same N and M.
-  static vcl_vector<Scalar>& modulo_polynomial(vcl_vector<Scalar> p = vcl_vector<Scalar>())
+  static std::vector<Scalar>& modulo_polynomial(std::vector<Scalar> p = std::vector<Scalar>())
   {
-    static vcl_vector<Scalar> poly_(M+1, Scalar(0));
+    static std::vector<Scalar> poly_(M+1, Scalar(0));
     if (p.size() == 0) { // retrieval
       assert(poly_[M] != 0); // cannot retrieve before having set
     }
@@ -552,7 +553,7 @@ class vnl_finite_int_poly
   static inline bool is_field() {
     if (!Scalar::is_field()) return false;
 
-    vcl_vector<Scalar> mod_p = Base::modulo_polynomial();
+    std::vector<Scalar> mod_p = Base::modulo_polynomial();
     mod_p.pop_back(); // remove the "-1" coefficient of X^M
     return Base(mod_p).multiplicative_order()+1 == Base::cardinality();
   }
@@ -563,7 +564,7 @@ class vnl_finite_int_poly
   //  Note that the multiplication group of a finite \e field is always cyclic.
   static Base smallest_generator() {
     if (!Base::is_field()) return Scalar(1);
-    vcl_vector<Scalar> mod_p = Base::modulo_polynomial();
+    std::vector<Scalar> mod_p = Base::modulo_polynomial();
     mod_p.pop_back(); // remove the "-1" coefficient of X^M
     return Base(mod_p);
   }
@@ -574,7 +575,7 @@ class vnl_finite_int_poly
   {
     if (m < M) val_[m] += x;
     else {
-      vcl_vector<Scalar> p = modulo_polynomial(); // where p[M] == -1
+      std::vector<Scalar> p = modulo_polynomial(); // where p[M] == -1
       for (int k=0; k<M; ++k) add_modulo_poly(m-M+k, x*p[k]); // recursive call
     }
   }
@@ -627,7 +628,7 @@ inline vnl_finite_int_poly<N,M> operator* (vnl_finite_int_poly<N,M> const& r1, v
 //: formatted output
 // \relatesalso vnl_finite_int_poly
 template <int N, int M>
-inline vcl_ostream& operator<< (vcl_ostream& s, vnl_finite_int_poly<N,M> const& r)
+inline std::ostream& operator<< (std::ostream& s, vnl_finite_int_poly<N,M> const& r)
 {
   bool out = false;
   for (unsigned int i=0; i<=r.deg(); ++i) {

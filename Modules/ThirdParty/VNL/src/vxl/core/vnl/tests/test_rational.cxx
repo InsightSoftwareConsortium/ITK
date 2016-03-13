@@ -1,8 +1,9 @@
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h>
+#include <iostream>
+#include <iomanip>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_rational.h>
 #include <vnl/vnl_rational_traits.h>
-#include <vcl_complex.h>
 #ifdef NEED_COMPLEX_RATIONAL
 # include <vnl/vnl_complex.h>
 #endif
@@ -12,7 +13,7 @@
 #include <vnl/vnl_det.h>
 #include <vxl_config.h> // for VXL_INT_64_IS_LONG
 
-inline vnl_rational vnl_sqrt(vnl_rational x) { return vnl_rational(vcl_sqrt(double(x))); }
+inline vnl_rational vnl_sqrt(vnl_rational x) { return vnl_rational(std::sqrt(double(x))); }
 
 static void test_operators()
 {
@@ -76,15 +77,15 @@ static void test_operators()
   a *= b;
   a /= b;
   a %= b;
-  vcl_cout << vcl_setprecision(20)
+  std::cout << std::setprecision(20)
            << "a=" << a << '=' << (double)a << '\n'
            << "b=" << b << '=' << (double)b << '\n'
            << "c=" << c << '=' << (double)c << '\n'
            << "d=" << d << '=' << (double)d << '\n'
-           << "e=" << e << vcl_endl; // (double)d ==> floating exception
+           << "e=" << e << std::endl; // (double)d ==> floating exception
   d = -7;
   d = -7L;
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 }
 
 static void test_infinite()
@@ -167,10 +168,10 @@ static void test_approx()
   vnl_rational pi = vnl_rational(vnl_math::pi);
   double pi_a = double(pi);
   TEST("pi", pi_a-vnl_math::pi < 1e-18 && vnl_math::pi-pi_a < 1e-18, true);
-  vcl_cout << "Best rational approximation of pi: " << pi << " = "
+  std::cout << "Best rational approximation of pi: " << pi << " = "
            << pi_a << '\n'
            << "Compare this with pi in 20 decimals:                     "
-           << vnl_math::pi << vcl_endl;
+           << vnl_math::pi << std::endl;
 }
 
 static void test_determinant()
@@ -185,8 +186,8 @@ static void test_determinant()
   m[2][0] = vnl_rational(2,3);
   m[2][1] = vnl_rational(1,5);
   m[2][2] = vnl_rational(5,2);
-  vcl_cout << "rational matrix:\n" << m
-           << "determinant = " << vnl_det(m[0], m[1], m[2]) << vcl_endl;
+  std::cout << "rational matrix:\n" << m
+           << "determinant = " << vnl_det(m[0], m[1], m[2]) << std::endl;
   TEST("determinant", vnl_det(m[0], m[1], m[2]), vnl_rational(16609,29400));
 }
 
@@ -195,28 +196,28 @@ static void test_sqrt()
   vnl_rational d(16,9);
   TEST("sqrt", vnl_sqrt(d), vnl_rational(4,3));
   d = vnl_sqrt(vnl_rational(2L));
-  double sqrt2 = vcl_sqrt(2.0), sqrt_2 = double(d);
-  vcl_cout << "Best rational approximation of sqrt(2): " << d << " = "
+  double sqrt2 = std::sqrt(2.0), sqrt_2 = double(d);
+  std::cout << "Best rational approximation of sqrt(2): " << d << " = "
            << sqrt_2 << '\n'
            << "Compare this with sqrt(2) in 20 decimals:                     "
-           << sqrt2 << vcl_endl;
+           << sqrt2 << std::endl;
   TEST("sqrt(2)", sqrt2-sqrt_2 < 1e-18 && sqrt_2-sqrt2 < 1e-18, true);
 }
 
 static void test_zero_one()
 {
   vnl_rational n = vnl_numeric_traits<vnl_rational>::zero;
-  vcl_cout << "zero = " << n << '\n';
+  std::cout << "zero = " << n << '\n';
   TEST("zero", n, 0L);
   vnl_rational u = vnl_numeric_traits<vnl_rational>::one;
-  vcl_cout << "one  = " << u << '\n';
+  std::cout << "one  = " << u << '\n';
   TEST("one", u, 1L);
 }
 
 #ifdef NEED_COMPLEX_RATIONAL // see vnl_complex.h
 static void test_complex()
 {
-  vcl_complex<vnl_rational> c(0L,1L);
+  std::complex<vnl_rational> c(0L,1L);
   vnl_rational cc(-1L);
   TEST("complex square", c*c, cc);
   TEST("complex abs", vnl_math::abs(c), 1);
@@ -227,12 +228,12 @@ static void test_complex()
 
 static void test_complex_zero_one()
 {
-  vcl_complex<vnl_rational> n = vnl_numeric_traits<vcl_complex<vnl_rational> >::zero;
-  vcl_cout << "zero = " << n << '\n';
-  TEST("zero", n, vcl_complex<vnl_rational>(0L,0L));
-  vcl_complex<vnl_rational> u = vnl_numeric_traits<vcl_complex<vnl_rational> >::one;
-  vcl_cout << "one  = " << u << '\n';
-  TEST("one", u, vcl_complex<vnl_rational>(1L,0L));
+  std::complex<vnl_rational> n = vnl_numeric_traits<std::complex<vnl_rational> >::zero;
+  std::cout << "zero = " << n << '\n';
+  TEST("zero", n, std::complex<vnl_rational>(0L,0L));
+  std::complex<vnl_rational> u = vnl_numeric_traits<std::complex<vnl_rational> >::one;
+  std::cout << "one  = " << u << '\n';
+  TEST("one", u, std::complex<vnl_rational>(1L,0L));
 }
 #endif // NEED_COMPLEX_RATIONAL
 

@@ -6,7 +6,8 @@
 #endif
 
 
-#include <vcl_iosfwd.h>
+#include <iosfwd>
+#include <vcl_compiler.h>
 
 //:
 // \file
@@ -67,24 +68,24 @@ float vnl_na_nan_to_na(float v);
 //: Read a floating point number or "NA" from a stream.
 // Should behave exactly like a>>x, if the extraction operator was aware of the
 // character sequence \code NA.
-void vnl_na_extract(vcl_istream &is, double& x);
+void vnl_na_extract(std::istream &is, double& x);
 
 
 //: Write a floating point number or "NA" to a stream.
 // Should behave exactly like a<<x, if the insertion operator was aware of the
 // character sequence \code NA.
-void vnl_na_insert(vcl_ostream &is, double x);
+void vnl_na_insert(std::ostream &is, double x);
 
 //: Read a floating point number or "NA" from a stream.
 // Should behave exactly like a>>x, if the extraction operator was aware of the
 // character sequence \code NA.
-void vnl_na_extract(vcl_istream &is, float& x);
+void vnl_na_extract(std::istream &is, float& x);
 
 
 //: Write a floating point number or "NA" to a stream.
 // Should behave exactly like a<<x, if the insertion operator was aware of the
 // character sequence \code NA.
-void vnl_na_insert(vcl_ostream &is, float x);
+void vnl_na_insert(std::ostream &is, float x);
 
 
 //: Wrapper around a double or float that handles streaming NA.
@@ -114,21 +115,21 @@ template <class T> inline vnl_na_stream_const_t<T> vnl_na_stream(const T& x)
 }
 
 //: Insert wrapped double or float into stream, whilst handling NA.
-template <class T> inline vcl_ostream& operator <<(vcl_ostream &os, const vnl_na_stream_t<T>& ns)
+template <class T> inline std::ostream& operator <<(std::ostream &os, const vnl_na_stream_t<T>& ns)
 {
   vnl_na_insert(os, ns.x_);
   return os;
 }
 
 //: Insert wrapped double or float into stream, whilst handling NA.
-template <class T> inline vcl_ostream& operator <<(vcl_ostream &os, const vnl_na_stream_const_t<T>& ns)
+template <class T> inline std::ostream& operator <<(std::ostream &os, const vnl_na_stream_const_t<T>& ns)
 {
   vnl_na_insert(os, ns.x_);
   return os;
 }
 
 //: Extract wrapped double or float from stream, whilst handling NA.
-template <class T> inline vcl_istream& operator >>(vcl_istream &is, const vnl_na_stream_t<T>& ns)
+template <class T> inline std::istream& operator >>(std::istream &is, const vnl_na_stream_t<T>& ns)
 {
   vnl_na_extract(is, ns.x_);
   return is;

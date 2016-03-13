@@ -22,7 +22,8 @@
 // \endcode
 // See the vxl tests for further examples (such as vil/tests).
 
-#include <vcl_string.h>
+#include <string>
+#include <vcl_compiler.h>
 
 typedef int (*TestMainFunction)( int, char*[] );
 
@@ -34,7 +35,7 @@ typedef int (*TestMainFunction)( int, char*[] );
 #define DECLARE( testname )  int testname ## _main ( int argc, char* argv[] )
 #endif
 
-void testlib_register_test(const vcl_string &, TestMainFunction);
+void testlib_register_test(const std::string &, TestMainFunction);
 
 //: Register the test with the driver.
 // \param testname should be the same as one of the tests declared with DECLARE.

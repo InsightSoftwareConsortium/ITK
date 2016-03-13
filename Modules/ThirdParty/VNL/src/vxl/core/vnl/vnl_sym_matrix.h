@@ -10,8 +10,9 @@
 // \author Ian Scott (Manchester ISBE)
 // \date   6 Dec 2001
 
+#include <iosfwd>
 #include <vcl_cassert.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_c_vector.h>
@@ -180,7 +181,7 @@ class vnl_sym_matrix
 
 //:
 // \relatesalso vnl_sym_matrix
-template <class T> vcl_ostream& operator<< (vcl_ostream&, vnl_sym_matrix<T> const&);
+template <class T> std::ostream& operator<< (std::ostream&, vnl_sym_matrix<T> const&);
 
 
 template <class T>

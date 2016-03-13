@@ -5,6 +5,7 @@
 //:
 // \file
 
+#include <iostream>
 #include "vnl_io_real_polynomial.h"
 #include <vsl/vsl_binary_io.h>
 #include <vnl/io/vnl_io_vector.h>
@@ -38,16 +39,16 @@ void vsl_b_read(vsl_b_istream &is, vnl_real_polynomial & p)
     break;
 
    default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_real_polynomial&)\n"
+    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_real_polynomial&)\n"
              << "           Unknown version number "<< ver << '\n';
-    is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }
 }
 
 //==============================================================================
 //: Output a human readable summary to the stream
-void vsl_print_summary(vcl_ostream & os,const vnl_real_polynomial & p)
+void vsl_print_summary(std::ostream & os,const vnl_real_polynomial & p)
 {
   p.print(os);
 }

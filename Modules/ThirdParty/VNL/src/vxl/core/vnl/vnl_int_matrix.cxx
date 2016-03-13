@@ -11,8 +11,9 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <fstream>
 #include "vnl_int_matrix.h"
-#include <vcl_fstream.h>
+#include <vcl_compiler.h>
 
 //: Construct from matrix of double.
 //  The double-to-int conversion is simply the standard (int) cast.
@@ -30,6 +31,6 @@ vnl_int_matrix::vnl_int_matrix(const vnl_matrix<double>& d):
 //: Load from disk
 vnl_int_matrix::vnl_int_matrix(char const* filename)
 {
-  vcl_ifstream s(filename);
+  std::ifstream s(filename);
   read_ascii(s);
 }

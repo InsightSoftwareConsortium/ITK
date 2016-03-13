@@ -1,5 +1,6 @@
-// not used? #include <vcl_iostream.h>
-#include <vcl_cmath.h>
+// not used? #include <iostream>
+#include <cmath>
+#include <vcl_compiler.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_analytic_integrant.h>
@@ -31,11 +32,11 @@ class gaussian_integrant : public vnl_analytic_integrant
 
   double f_(double rho)
   {
-    double x2 = vcl_pow( p0_.get(0) + rho * vcl_sin(theta_) * vcl_cos(phi_), 2 );
-    double y2 = vcl_pow( p0_.get(1) + rho * vcl_sin(theta_) * vcl_sin(phi_), 2 );
-    double z2 = vcl_pow( p0_.get(2) + rho * vcl_cos(theta_), 2 );
+    double x2 = std::pow( p0_.get(0) + rho * std::sin(theta_) * std::cos(phi_), 2 );
+    double y2 = std::pow( p0_.get(1) + rho * std::sin(theta_) * std::sin(phi_), 2 );
+    double z2 = std::pow( p0_.get(2) + rho * std::cos(theta_), 2 );
     double term1 = oneoversr2_ * ((x2 + y2) * oneoversr2_ - 2);
-    double term2 = vcl_exp(-(x2+y2)*oneoversr2_/2) * vcl_exp(-z2*oneoversz2_/2);
+    double term2 = std::exp(-(x2+y2)*oneoversr2_/2) * std::exp(-z2*oneoversz2_/2);
     return normalizer_ * term1 * term2;
   }
 
@@ -65,12 +66,12 @@ void test_integral()
   double b = 1;
 
   TEST_NEAR("simpson integral of x/(1+x^2) from  0 to 1 is: ",
-            simpson_integral.integral(&f, a, b, 100), 0.5*vcl_log(2.0), 1e-6);
+            simpson_integral.integral(&f, a, b, 100), 0.5*std::log(2.0), 1e-6);
 
   vnl_adaptsimpson_integral adaptsimpson_integral;
 
   TEST_NEAR("adaptive simpson integral of x/(1+x^2) from 0 to 1 is: ",
-            adaptsimpson_integral.integral(&f, a, b, 1e-11f), 0.5*vcl_log(2.0), 1e-6);
+            adaptsimpson_integral.integral(&f, a, b, 1e-11f), 0.5*std::log(2.0), 1e-6);
 
   gaussian_integrant filter_fnct(0.04, 0.1, vnl_double_3(0,0,0));
   filter_fnct.set_varying_params(0, 0);

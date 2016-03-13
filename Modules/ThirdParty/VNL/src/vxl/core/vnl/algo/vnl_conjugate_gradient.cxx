@@ -8,9 +8,10 @@
 // \date   15 Feb 99
 //
 //-----------------------------------------------------------------------------
+#include <iostream>
 #include "vnl_conjugate_gradient.h"
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_vector_ref.h>
@@ -123,11 +124,11 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
     {
       switch (error_code)
       {
-        case 1:  vcl_cout << "UNABLE TO OBTAIN DESCENT DIRECTION\n"; break;
-        case 2:  vcl_cout << "THE FUNCTION DECREASES WITH NO MINIMUM\n"; break;
-        case 3:  vcl_cout << "PRECONDITIONER NOT POSITIVE DEFINITE\n"; break;
-        case 4:  vcl_cout << "UNABLE TO SATISFY ARMIJO CONDITION\n"; break;
-        default: vcl_cout << "UNKNOWN ERROR CODE\n"; break;
+        case 1:  std::cout << "UNABLE TO OBTAIN DESCENT DIRECTION\n"; break;
+        case 2:  std::cout << "THE FUNCTION DECREASES WITH NO MINIMUM\n"; break;
+        case 3:  std::cout << "PRECONDITIONER NOT POSITIVE DEFINITE\n"; break;
+        case 4:  std::cout << "UNABLE TO SATISFY ARMIJO CONDITION\n"; break;
+        default: std::cout << "UNKNOWN ERROR CODE\n"; break;
       }
     }
   }
@@ -140,7 +141,7 @@ bool vnl_conjugate_gradient::minimize( vnl_vector<double> &x)
 }
 
 
-void vnl_conjugate_gradient::diagnose_outcome(vcl_ostream& os) const
+void vnl_conjugate_gradient::diagnose_outcome(std::ostream& os) const
 {
   os << "vnl_conjugate_gradient: "
      << num_iterations_
@@ -151,10 +152,10 @@ void vnl_conjugate_gradient::diagnose_outcome(vcl_ostream& os) const
      << '/'
      << f_->reported_error(end_error_)
      << " . Final step size = " << final_step_size_
-     << vcl_endl;
+     << std::endl;
 }
 
 void vnl_conjugate_gradient::diagnose_outcome() const
 {
-  diagnose_outcome(vcl_cout);
+  diagnose_outcome(std::cout);
 }

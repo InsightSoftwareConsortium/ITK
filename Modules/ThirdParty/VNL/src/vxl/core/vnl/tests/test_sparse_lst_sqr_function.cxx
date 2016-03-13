@@ -1,7 +1,8 @@
+#include <iostream>
+#include <limits>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_sparse_lst_sqr_function.h>
-#include <vcl_iostream.h>
-#include <vcl_limits.h>
+#include <vcl_compiler.h>
 
 
 // all ai.size() == 2, all bj.size() == 3, c.size() == 2, all eij.size() == 2
@@ -9,7 +10,7 @@ class test_func1 : public vnl_sparse_lst_sqr_function
 {
  public:
   test_func1(unsigned int num_a, unsigned int num_b,
-             const vcl_vector<vcl_vector<bool> >& xmask,
+             const std::vector<std::vector<bool> >& xmask,
              UseGradient g = use_gradient,
              UseWeights w = use_weights)
    : vnl_sparse_lst_sqr_function(num_a,2,num_b,3,2,xmask,2,g,w) {}
@@ -76,8 +77,8 @@ class test_func1 : public vnl_sparse_lst_sqr_function
 
 static void test_sparse_lst_sqr_function()
 {
-   vcl_vector<bool> null_row(4,false);
-   vcl_vector<vcl_vector<bool> > mask(3,null_row);
+   std::vector<bool> null_row(4,false);
+   std::vector<std::vector<bool> > mask(3,null_row);
 
    //        |1 1 0 0|
    // mask = |1 1 1 1|
@@ -134,7 +135,7 @@ static void test_sparse_lst_sqr_function()
    const double step = 0.001;
 
    my_func.fij(0,0,ai,bj,c,e);
-   vcl_cout << "e  = " << e << vcl_endl;
+   std::cout << "e  = " << e << std::endl;
    vnl_matrix<double> Aij(2,2), Bij(2,3), Cij(2,2);
    vnl_matrix<double> fd_Aij(2,2), fd_Bij(2,3), fd_Cij(2,2);
    my_func.jac_Aij(0,0,ai,bj,c,Aij);
@@ -144,14 +145,14 @@ static void test_sparse_lst_sqr_function()
    my_func.jac_Cij(0,0,ai,bj,c,Cij);
    my_func.fd_jac_Cij(0,0,ai,bj,c,fd_Cij,step);
 
-   vcl_cout << "Aij =\n" << Aij << vcl_endl
-            << "fd Aij =\n" << fd_Aij << vcl_endl;
+   std::cout << "Aij =\n" << Aij << std::endl
+            << "fd Aij =\n" << fd_Aij << std::endl;
    TEST("finite difference Aij", (Aij-fd_Aij).absolute_value_max()<0.001,true);
-   vcl_cout << "Bij =\n" << Bij << vcl_endl
-            << "fd Bij =\n" << fd_Bij << vcl_endl;
+   std::cout << "Bij =\n" << Bij << std::endl
+            << "fd Bij =\n" << fd_Bij << std::endl;
    TEST("finite difference Bij", (Bij-fd_Bij).absolute_value_max()<0.001,true);
-   vcl_cout << "Cij =\n" << Cij << vcl_endl
-            << "fd Cij =\n" << fd_Cij << vcl_endl;
+   std::cout << "Cij =\n" << Cij << std::endl
+            << "fd Cij =\n" << fd_Cij << std::endl;
    TEST("finite difference Cij", (Cij-fd_Cij).absolute_value_max()<0.001,true);
 
 
@@ -165,9 +166,9 @@ static void test_sparse_lst_sqr_function()
    b[6] = -2.0;
 
    vnl_vector<double> f(my_func.index_e(my_func.number_of_e()));
-   vcl_vector<vnl_matrix<double> > A(my_func.number_of_e(),vnl_matrix<double>(2,2,0.0));
-   vcl_vector<vnl_matrix<double> > B(my_func.number_of_e(),vnl_matrix<double>(2,3,0.0));
-   vcl_vector<vnl_matrix<double> > C(my_func.number_of_e(),vnl_matrix<double>(2,2,0.0));
+   std::vector<vnl_matrix<double> > A(my_func.number_of_e(),vnl_matrix<double>(2,2,0.0));
+   std::vector<vnl_matrix<double> > B(my_func.number_of_e(),vnl_matrix<double>(2,3,0.0));
+   std::vector<vnl_matrix<double> > C(my_func.number_of_e(),vnl_matrix<double>(2,2,0.0));
    my_func.f(a,b,c,f);
    my_func.jac_blocks(a,b,c,A,B,C);
 
@@ -178,7 +179,7 @@ static void test_sparse_lst_sqr_function()
 
    // apply weights
    vnl_vector<double> wf(f);
-   vcl_vector<vnl_matrix<double> > wA(A), wB(B), wC(C);
+   std::vector<vnl_matrix<double> > wA(A), wB(B), wC(C);
    my_func.apply_weights(weights,wf);
    my_func.apply_weights(weights,wA,wB,wC);
 

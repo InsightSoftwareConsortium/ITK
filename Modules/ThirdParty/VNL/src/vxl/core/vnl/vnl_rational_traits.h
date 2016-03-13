@@ -5,9 +5,10 @@
 // \file
 // \brief numeric traits for vnl_rational
 
+#include <iosfwd>
 #include <vnl/vnl_rational.h>
 #include <vnl/vnl_numeric_traits.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_export.h>
 
 VCL_DEFINE_SPECIALIZATION
@@ -38,37 +39,37 @@ class vnl_numeric_traits<vnl_rational const> : public vnl_numeric_traits<vnl_rat
 };
 #endif
 
-vcl_ostream& operator<<(vcl_ostream&, vcl_complex<vnl_rational>);
+std::ostream& operator<<(std::ostream&, std::complex<vnl_rational>);
 
 VCL_DEFINE_SPECIALIZATION
-class vnl_numeric_traits<vcl_complex<vnl_rational> >
+class vnl_numeric_traits<std::complex<vnl_rational> >
 {
  public:
   //: Additive identity
-  static const vcl_complex<vnl_rational> zero; // = vcl_complex<vnl_rational>(0L,0L)
+  static const std::complex<vnl_rational> zero; // = std::complex<vnl_rational>(0L,0L)
   //: Multiplicative identity
-  static const vcl_complex<vnl_rational> one; // = vcl_complex<vnl_rational>(1L,0L)
+  static const std::complex<vnl_rational> one; // = std::complex<vnl_rational>(1L,0L)
   //: Maximum value which this type can assume; makes no sense for this type
-  static const vcl_complex<vnl_rational> maxval;
+  static const std::complex<vnl_rational> maxval;
   //: Return value of abs()
   typedef vnl_rational abs_t;
   //: Name of a type twice as long as this one for accumulators and products.
-  typedef vcl_complex<vnl_rational> double_t;
+  typedef std::complex<vnl_rational> double_t;
   //: Name of type which results from multiplying this type with a double
-  typedef vcl_complex<vnl_rational> real_t; // should be vcl_complex<double>, but that gives casting problems
+  typedef std::complex<vnl_rational> real_t; // should be std::complex<double>, but that gives casting problems
 };
 
 #if !VCL_CANNOT_SPECIALIZE_CV
 VCL_DEFINE_SPECIALIZATION
-class vnl_numeric_traits<vcl_complex<vnl_rational> const> : public vnl_numeric_traits<vcl_complex<vnl_rational> >
+class vnl_numeric_traits<std::complex<vnl_rational> const> : public vnl_numeric_traits<std::complex<vnl_rational> >
 {
 };
 #endif
 
 namespace vnl_math
 {
-  vnl_rational squared_magnitude(vcl_complex<vnl_rational> const& );
-  vnl_rational abs(vcl_complex<vnl_rational> const& );
+  vnl_rational squared_magnitude(std::complex<vnl_rational> const& );
+  vnl_rational abs(std::complex<vnl_rational> const& );
 }
 
 #endif // vnl_rational_traits_h_

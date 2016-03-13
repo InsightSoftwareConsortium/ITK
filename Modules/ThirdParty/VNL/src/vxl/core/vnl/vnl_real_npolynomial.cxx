@@ -9,10 +9,11 @@
 //
 //  Implements a polynomial with N variables
 
+#include <iostream>
+#include <sstream>
 #include "vnl_real_npolynomial.h"
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
-#include <vcl_sstream.h>
+#include <vcl_compiler.h>
 
 //: Constructor
 // \verbatim
@@ -142,9 +143,9 @@ unsigned int vnl_real_npolynomial::degree() const
   return d;
 }
 
-vcl_vector<unsigned int> vnl_real_npolynomial::degrees() const
+std::vector<unsigned int> vnl_real_npolynomial::degrees() const
 {
-  vcl_vector<unsigned int> d(nvar_);
+  std::vector<unsigned int> d(nvar_);
   for (unsigned int j=0; j<nvar_; ++j)
   {
     d[j]=0;
@@ -250,9 +251,9 @@ vnl_real_npolynomial vnl_real_npolynomial::operator*(double P) const
   return vnl_real_npolynomial(coef, poly);
 }
 
-vcl_ostream& operator<<(vcl_ostream& os, vnl_real_npolynomial const& P)
+std::ostream& operator<<(std::ostream& os, vnl_real_npolynomial const& P)
 {
-  return os << P.asString() << vcl_endl;
+  return os << P.asString() << std::endl;
 }
 vnl_real_npolynomial& vnl_real_npolynomial::operator+=(vnl_real_npolynomial const& rhs){
   *this = (*this) + rhs;
@@ -266,9 +267,9 @@ vnl_real_npolynomial& vnl_real_npolynomial::operator*=(vnl_real_npolynomial cons
   *this = (*this) * rhs;
   return *this;
 }
-vcl_string vnl_real_npolynomial::asString() const
+std::string vnl_real_npolynomial::asString() const
 {
-  vcl_ostringstream os;
+  std::ostringstream os;
   if (nvar_ <= 3)
     for (unsigned int i=0; i<nterms_; ++i)
     {

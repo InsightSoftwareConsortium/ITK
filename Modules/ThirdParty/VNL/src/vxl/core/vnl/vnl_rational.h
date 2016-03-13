@@ -45,7 +45,8 @@
 //                                (actually a full re-implementation, using gcd)
 // \endverbatim
 
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 //: High-precision rational numbers
@@ -274,14 +275,14 @@ class vnl_rational
 
 //: formatted output
 // \relatesalso vnl_rational
-inline vcl_ostream& operator<<(vcl_ostream& s, vnl_rational const& r)
+inline std::ostream& operator<<(std::ostream& s, vnl_rational const& r)
 {
   return s << r.numerator() << '/' << r.denominator();
 }
 
 //: simple input
 // \relatesalso vnl_rational
-inline vcl_istream& operator>>(vcl_istream& s, vnl_rational& r)
+inline std::istream& operator>>(std::istream& s, vnl_rational& r)
 {
   long n, d; s >> n >> d;
   r.set(n,d); return s;

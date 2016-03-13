@@ -1,23 +1,24 @@
+#include <iostream>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_crs_index.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 
-void display_mask(const vcl_vector<vcl_vector<bool> >& mask)
+void display_mask(const std::vector<std::vector<bool> >& mask)
 {
   for (unsigned int i=0; i<mask.size(); ++i) {
     for (unsigned int j=0; j<mask[i].size(); ++j) {
-      vcl_cout << (mask[i][j]?'1':'0') << ' ';
+      std::cout << (mask[i][j]?'1':'0') << ' ';
     }
-    vcl_cout << '\n';
+    std::cout << '\n';
   }
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 }
 
 static void test_crs_index()
 {
-  vcl_vector<bool> null_col(8,false);
-  vcl_vector<vcl_vector<bool> > mask(10,null_col);
+  std::vector<bool> null_col(8,false);
+  std::vector<std::vector<bool> > mask(10,null_col);
 
   mask[0][1] = true;
   mask[0][2] = true;
@@ -53,9 +54,9 @@ static void test_crs_index()
       int idx = crs(i,j);
       if (((idx<0) == mask[i][j]) && idx!=curr++)
         valid = false;
-      vcl_cout << crs(i,j) << ' ';
+      std::cout << crs(i,j) << ' ';
     }
-    vcl_cout << vcl_endl;
+    std::cout << std::endl;
   }
   TEST("operator ()",valid,true);
 

@@ -2,6 +2,7 @@
 #ifndef vnl_polynomial_hxx_
 #define vnl_polynomial_hxx_
 
+#include <iostream>
 #include "vnl_polynomial.h"
 //:
 // \file
@@ -11,14 +12,14 @@
 // \author Peter Vanroose, ABIS Leuven.
 // \date  August 2011
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 //: Evaluate polynomial at value x
 template <class T>
 T vnl_polynomial<T>::evaluate(T const& x) const
 {
-  typename vcl_vector<T>::const_iterator i = coeffs_.begin();
+  typename std::vector<T>::const_iterator i = coeffs_.begin();
   if (i == coeffs_.end()) return T(0);
   T acc = *i;
   T xi = x; // will be x^i
@@ -33,8 +34,8 @@ T vnl_polynomial<T>::evaluate(T const& x) const
 template <class T>
 vnl_polynomial<T> vnl_polynomial<T>::operator-() const
 {
-  vcl_vector<T> neg = coeffs_;
-  typename vcl_vector<T>::iterator i = neg.begin();
+  std::vector<T> neg = coeffs_;
+  typename std::vector<T>::iterator i = neg.begin();
   for (; i!=neg.end(); ++i) *i = - *i;
   return vnl_polynomial<T>(neg);
 }
@@ -45,7 +46,7 @@ vnl_polynomial<T> vnl_polynomial<T>::operator+(vnl_polynomial<T> const& f) const
 {
   // Degree of result is (at most) the maximum of the two input degrees:
   int d=degree(), d2=f.degree(); // any or both of these might be -1 !
-  vcl_vector<T> sum = coeffs_;
+  std::vector<T> sum = coeffs_;
   for (int i=0;i<=d&&i<=d2;++i) sum[i]+=f[i];
   for (int i=d+1;i<=d2;++i) sum.push_back(f[i]);
   // normalise the result, viz. such that the highest order coefficient is zero:
@@ -59,7 +60,7 @@ vnl_polynomial<T> vnl_polynomial<T>::operator*(vnl_polynomial<T> const& f) const
 {
   int d1=degree(), d2=f.degree(), d = d1+d2;
   if (d1<0 || d2<0) return vnl_polynomial<T>(); // one of the factors is zero
-  vcl_vector<T> prod(d+1, T(0));
+  std::vector<T> prod(d+1, T(0));
   for (int i=0;i<=d1;++i)
     for (int j=0;j<=d2;++j)
       prod[i+j] += coeffs_[i]*f[j];
@@ -75,7 +76,7 @@ vnl_polynomial<T> vnl_polynomial<T>::operator/(vnl_polynomial<T> const& f) const
   int d1=degree(), d2=f.degree(), d=d1-d2; // d will be the degree of the quotient
   assert (d2 >= 0 && f[d2] != T(0)); // denominator should not be zero
   if (d<0) return vnl_polynomial<T>(); // nominator is zero, or denominator has higher degree than nominator
-  vcl_vector<T> quot;
+  std::vector<T> quot;
   for (int i=0;i<=d;++i) {
     T acc = coeffs_[d1-i];
     for (int j=0;j<d2&&j<i;++j) acc -= quot[j] * f[d2-j-1];
@@ -94,7 +95,7 @@ vnl_polynomial<T> vnl_polynomial<T>::operator%(vnl_polynomial<T> const& f) const
   if (quot.degree() < 0) return *this;
   vnl_polynomial<T> prod = f * quot;
   int n=f.degree(); // size of the result, i.e., one more than degree of the result
-  vcl_vector<T> diff;
+  std::vector<T> diff;
   for (int i=0; i<n; ++i) diff.push_back(coeffs_[i] - prod[i]);
   // normalise the result, viz. such that the highest order coefficient is zero:
   while (diff.end() != diff.begin() && diff.back() == T(0)) diff.pop_back();
@@ -105,8 +106,8 @@ vnl_polynomial<T> vnl_polynomial<T>::operator%(vnl_polynomial<T> const& f) const
 template <class T>
 vnl_polynomial<T> vnl_polynomial<T>::derivative() const
 {
-  vcl_vector<T> cd; // will be one shorter than coeffs_
-  typename vcl_vector<T>::const_iterator i = coeffs_.begin();
+  std::vector<T> cd; // will be one shorter than coeffs_
+  typename std::vector<T>::const_iterator i = coeffs_.begin();
   T n = T(1);
   for (++i; i!=coeffs_.end(); ++i,++n)
     cd.push_back(*i * n);
@@ -119,17 +120,17 @@ vnl_polynomial<T> vnl_polynomial<T>::derivative() const
 template <class T>
 vnl_polynomial<T> vnl_polynomial<T>::primitive() const
 {
-  vcl_vector<T> cd; // will be one longer than coeffs_
+  std::vector<T> cd; // will be one longer than coeffs_
   T n = T(0);
   cd.push_back(n);
-  typename vcl_vector<T>::const_iterator i = coeffs_.begin();
+  typename std::vector<T>::const_iterator i = coeffs_.begin();
   for (++n; i!=coeffs_.end(); ++i,++n)
     cd.push_back(*i / n);
   return vnl_polynomial<T>(cd);
 }
 
 template <class T>
-void vnl_polynomial<T>::print(vcl_ostream& os) const
+void vnl_polynomial<T>::print(std::ostream& os) const
 {
   bool first_coeff = true;
 
@@ -150,6 +151,6 @@ void vnl_polynomial<T>::print(vcl_ostream& os) const
 #undef VNL_POLYNOMIAL_INSTANTIATE
 #define VNL_POLYNOMIAL_INSTANTIATE(T) \
 template class vnl_polynomial<T >; \
-template vcl_ostream& operator<<(vcl_ostream& os, vnl_polynomial<T > const&)
+template std::ostream& operator<<(std::ostream& os, vnl_polynomial<T > const&)
 
 #endif // vnl_polynomial_hxx_

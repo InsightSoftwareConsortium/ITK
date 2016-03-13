@@ -2,13 +2,14 @@
 #ifndef vnl_matrix_fixed_ref_hxx_
 #define vnl_matrix_fixed_ref_hxx_
 
+#include <cmath>
+#include <iostream>
+#include <cstdlib>
 #include "vnl_matrix_fixed_ref.h"
 //:
 // \file
 
-#include <vcl_cmath.h>
-#include <vcl_iostream.h>
-#include <vcl_cstdlib.h> // for abort
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 #include <vnl/vnl_error.h>
@@ -53,7 +54,7 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::set_diagonal(vnl_vector<T> const& diag) con
 
 template<class T, unsigned nrows, unsigned ncols>
 void
-vnl_matrix_fixed_ref_const<T,nrows,ncols>::print(vcl_ostream& os) const
+vnl_matrix_fixed_ref_const<T,nrows,ncols>::print(std::ostream& os) const
 {
   for (unsigned int i = 0; i < nrows; i++)
   {
@@ -197,7 +198,7 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::normalize_rows() const
     if (norm != 0)
     {
       typedef typename vnl_numeric_traits<Abs_t>::real_t real_t;
-      real_t scale = real_t(1)/vcl_sqrt((real_t)norm);
+      real_t scale = real_t(1)/std::sqrt((real_t)norm);
       for (unsigned int j = 0; j < ncols; j++)
       {
         // FIXME need correct rounding here
@@ -222,7 +223,7 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::normalize_columns() const
     if (norm != 0)
     {
       typedef typename vnl_numeric_traits<Abs_t>::real_t real_t;
-      real_t scale = real_t(1)/vcl_sqrt((real_t)norm);
+      real_t scale = real_t(1)/std::sqrt((real_t)norm);
       for (unsigned int i = 0; i < nrows; i++)
       {
         // FIXME need correct rounding here
@@ -482,24 +483,24 @@ vnl_matrix_fixed_ref_const<T,nrows,ncols>::assert_finite_internal() const
   if (is_finite())
     return;
 
-  vcl_cerr << "\n\n" << __FILE__ " : " << __LINE__ << ": matrix has non-finite elements\n";
+  std::cerr << "\n\n" << __FILE__ " : " << __LINE__ << ": matrix has non-finite elements\n";
 
   if (rows() <= 20 && cols() <= 20)
-    vcl_cerr << __FILE__ ": here it is:\n" << *this << '\n';
+    std::cerr << __FILE__ ": here it is:\n" << *this << '\n';
   else
   {
-    vcl_cerr << __FILE__ ": it is quite big (" << rows() << 'x' << cols() << ")\n"
+    std::cerr << __FILE__ ": it is quite big (" << rows() << 'x' << cols() << ")\n"
              << __FILE__ ": in the following picture '-' means finite and '*' means non-finite:\n";
 
     for (unsigned int i=0; i<rows(); ++i)
     {
       for (unsigned int j=0; j<cols(); ++j)
-        vcl_cerr << char(vnl_math::isfinite((*this)(i, j)) ? '-' : '*');
-      vcl_cerr << '\n';
+        std::cerr << char(vnl_math::isfinite((*this)(i, j)) ? '-' : '*');
+      std::cerr << '\n';
     }
   }
-  vcl_cerr << __FILE__ ": calling abort()\n";
-  vcl_abort();
+  std::cerr << __FILE__ ": calling abort()\n";
+  std::abort();
 }
 
 //: Abort unless M has the given size.
@@ -509,19 +510,19 @@ vnl_matrix_fixed_ref_const<T,nrows,ncols>::assert_size_internal(unsigned rs,unsi
 {
   if (nrows!=rs || ncols!=cs)
   {
-    vcl_cerr << __FILE__ ": size is " << nrows << 'x' << ncols
-             << ". should be " << rs << 'x' << cs << vcl_endl;
-    vcl_abort();
+    std::cerr << __FILE__ ": size is " << nrows << 'x' << ncols
+             << ". should be " << rs << 'x' << cs << std::endl;
+    std::abort();
   }
 }
 
 template <class T, unsigned nrows, unsigned ncols>
 bool
-vnl_matrix_fixed_ref<T,nrows,ncols>::read_ascii(vcl_istream& s) const
+vnl_matrix_fixed_ref<T,nrows,ncols>::read_ascii(std::istream& s) const
 {
   if (!s.good())
   {
-    vcl_cerr << __FILE__ ": vnl_matrix_fixed_ref_const<T,nrows,ncols>::read_ascii: Called with bad stream\n";
+    std::cerr << __FILE__ ": vnl_matrix_fixed_ref_const<T,nrows,ncols>::read_ascii: Called with bad stream\n";
     return false;
   }
 

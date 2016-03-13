@@ -4,6 +4,4 @@
 
 #include "vcl_iterator.h"
 
-#include "iso/vcl_iterator.hxx"
-
 #endif

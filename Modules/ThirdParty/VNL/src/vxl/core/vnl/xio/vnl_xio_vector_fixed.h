@@ -19,22 +19,23 @@
 //   29 July 2011 - Peter Vanroose - added documentation, tests, and x_write_tree()
 // \endverbatim
 
+#include <iosfwd>
+#include <string>
 #include <vsl/vsl_fwd.h>
 #include <vnl/vnl_vector_fixed.h>
-#include <vcl_iosfwd.h>
-#include <vcl_string.h>
+#include <vcl_compiler.h>
 
 //: XML save vnl_vector_fixed to stream.
 // \relatesalso vnl_vector_fixed
 template <class T, unsigned n>
-void x_write(vcl_ostream & os, vnl_vector_fixed<T,n> const& v,
-             vcl_string name="vnl_vector_fixed");
+void x_write(std::ostream & os, vnl_vector_fixed<T,n> const& v,
+             std::string name="vnl_vector_fixed");
 
 //: XML save vnl_vector_fixed as a 2-level tree to stream.
 // \relatesalso vnl_vector_fixed
 template <class T, unsigned n>
-void x_write_tree(vcl_ostream & os, vnl_vector_fixed<T,n> const& v,
-                  vcl_string name="vnl_vector_fixed");
+void x_write_tree(std::ostream & os, vnl_vector_fixed<T,n> const& v,
+                  std::string name="vnl_vector_fixed");
 
 #define VNL_XIO_VECTOR_FIXED_INSTANTIATE(T) extern "Please #include <vnl/xio/vnl_xio_vector_fixed.hxx> first"
 

@@ -10,6 +10,7 @@
 // \author fsm, Oxford RRG
 // \date   2 Oct 2001
 
+#include <algorithm>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
 
@@ -54,7 +55,7 @@ bool vnl_generalized_schur(vnl_matrix<double> *A,
                            vnl_matrix<double> *L,
                            vnl_matrix<double> *R);
 
-#include <vcl_algorithm.h>
+#include <vcl_compiler.h>
 
 template <class T>
 T vnl_generalized_schur_convert_cast(double a) { return static_cast<T>(a); }
@@ -70,8 +71,8 @@ inline bool vnl_generalized_schur(vnl_matrix<T> *A,
 {
   vnl_matrix<double> A_(A->rows(), A->cols());
   vnl_matrix<double> B_(B->rows(), B->cols());
-  vcl_copy(A->begin(), A->end(), A_.begin());
-  vcl_copy(B->begin(), B->end(), B_.begin());
+  std::copy(A->begin(), A->end(), A_.begin());
+  std::copy(B->begin(), B->end(), B_.begin());
 
   vnl_vector<double> alphar_;
   vnl_vector<double> alphai_;
@@ -82,23 +83,23 @@ inline bool vnl_generalized_schur(vnl_matrix<T> *A,
   if (! vnl_generalized_schur/*<double>*/(&A_, &B_, &alphar_, &alphai_, &beta_, &L_, &R_))
     return false;
 
-  vcl_transform(A_.begin(), A_.end(), A->begin(), vnl_generalized_schur_convert_cast<T>);
-  vcl_transform(B_.begin(), B_.end(), B->begin(), vnl_generalized_schur_convert_cast<T>);
+  std::transform(A_.begin(), A_.end(), A->begin(), vnl_generalized_schur_convert_cast<T>);
+  std::transform(B_.begin(), B_.end(), B->begin(), vnl_generalized_schur_convert_cast<T>);
 
   alphar->set_size(alphar_.size());
-  vcl_transform(alphar_.begin(), alphar_.end(), alphar->begin(), vnl_generalized_schur_convert_cast<T>);
+  std::transform(alphar_.begin(), alphar_.end(), alphar->begin(), vnl_generalized_schur_convert_cast<T>);
 
   alphai->set_size(alphai_.size());
-  vcl_transform(alphai_.begin(), alphai_.end(), alphai->begin(), vnl_generalized_schur_convert_cast<T>);
+  std::transform(alphai_.begin(), alphai_.end(), alphai->begin(), vnl_generalized_schur_convert_cast<T>);
 
   beta  ->set_size(beta_  .size());
-  vcl_transform(beta_  .begin(), beta_  .end(), beta  ->begin(), vnl_generalized_schur_convert_cast<T>);
+  std::transform(beta_  .begin(), beta_  .end(), beta  ->begin(), vnl_generalized_schur_convert_cast<T>);
 
   L->set_size(L_.rows(), L_.cols());
-  vcl_transform(L_.begin(), L_.end(), L->begin(), vnl_generalized_schur_convert_cast<T>);
+  std::transform(L_.begin(), L_.end(), L->begin(), vnl_generalized_schur_convert_cast<T>);
 
   R->set_size(R_.rows(), R_.cols());
-  vcl_transform(R_.begin(), R_.end(), R->begin(), vnl_generalized_schur_convert_cast<T>);
+  std::transform(R_.begin(), R_.end(), R->begin(), vnl_generalized_schur_convert_cast<T>);
 
   return true;
 }

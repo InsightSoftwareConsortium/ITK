@@ -8,13 +8,14 @@
 // \author Tim Cootes
 // \date   Feb 2007
 
+#include <cmath>
+#include <algorithm>
 #include "vnl_bracket_minimum.h"
 #include <vnl/algo/vnl_fit_parabola.h>
-#include <vcl_cmath.h>
-#include <vcl_algorithm.h>
-// not used? #include <vcl_iostream.h>
+#include <vcl_compiler.h>
+// not used? #include <iostream>
 
-static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(vcl_sqrt(5)-1);
+static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(std::sqrt(5)-1);
 static const double EPS   = 1e-7;  // Loose tolerance
 static const double EPSqr = 1e-14;
 inline void swap(double& a, double& b)
@@ -71,7 +72,7 @@ void vnl_bracket_minimum(vnl_cost_function& fn,
     // For true quadratic function, minima is at b+p/q
     double du = p/q;
 
-    double tol = EPS*(1.0+vcl_max(vcl_fabs(b),vcl_fabs(c)));
+    double tol = EPS*(1.0+std::max(std::fabs(b),std::fabs(c)));
 
     // Don't evaluate too close to b
     if (du>=0 && du<tol)       du=tol;

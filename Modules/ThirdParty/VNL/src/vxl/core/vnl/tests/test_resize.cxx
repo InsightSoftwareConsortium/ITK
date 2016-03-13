@@ -1,7 +1,8 @@
 // This is core/vnl/tests/test_resize.cxx
+#include <iostream>
 #include <testlib/testlib_test.h>
 // \author fsm
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 
@@ -11,7 +12,7 @@ static void test_size()
 
   X.fill(2);
   TEST("fill 2", X(0)+X(1)+X(2), 6.0);
-  vcl_cout << "X = " << X << vcl_endl;
+  std::cout << "X = " << X << std::endl;
 
   X.set_size(5);
   TEST("size", X.size(), 5);
@@ -23,7 +24,7 @@ static void test_rows_cols()
 
   M.fill(2);
   TEST("fill 2", M(0,0)+M(1,1)+M(2,2)+M(2,3), 8.0);
-  vcl_cout << "M =\n" << M << vcl_endl;
+  std::cout << "M =\n" << M << std::endl;
 
   M.set_size(5,7);
   TEST("size: rows", M.rows(), 5);

@@ -8,8 +8,9 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cmath>
 #include "vnl_c_na_vector.h"
-#include <vcl_cmath.h>     // vcl_sqrt()
+#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_na.h>
 #include <vnl/vnl_complex_traits.h>
@@ -80,7 +81,7 @@ void vnl_c_na_vector_rms_norm(T const *p, unsigned n, S *out)
     }
   }
   typedef typename vnl_numeric_traits<S>::real_t real_t;
-  *out = n_finite ? S(vcl_sqrt(real_t(val/n_finite))) : vnl_na(T());
+  *out = n_finite ? S(std::sqrt(real_t(val/n_finite))) : vnl_na(T());
 }
 
 template <class T, class S>
@@ -104,7 +105,7 @@ void vnl_c_na_vector_two_norm(T const *p, unsigned n, S *out)
 {
   vnl_c_na_vector_two_norm_squared(p, n, out);
   typedef typename vnl_numeric_traits<S>::real_t real_t;
-  *out = S(vcl_sqrt(real_t(*out)));
+  *out = S(std::sqrt(real_t(*out)));
 }
 
 
@@ -129,7 +130,7 @@ void vnl_c_na_vector_inf_norm(T const *p, unsigned n, S *out)
 //---------------------------------------------------------------------------
 
 template<class T>
-vcl_ostream& print_na_vector(vcl_ostream& s, T const* v, unsigned size)
+std::ostream& print_na_vector(std::ostream& s, T const* v, unsigned size)
 {
   if (size != 0) vnl_na_insert(s, *v++);
   for (T const* end = v+size-1; v != end; v++)
@@ -153,7 +154,7 @@ template void vnl_c_na_vector_inf_norm(T const *, unsigned, S *)
 #define VNL_C_NA_VECTOR_INSTANTIATE_ordered(T) \
 VNL_C_NA_VECTOR_INSTANTIATE_norm(T, vnl_c_na_vector<T >::abs_t); \
 template class vnl_c_na_vector<T >; \
-template vcl_ostream& print_na_vector(vcl_ostream &,T const *,unsigned)
+template std::ostream& print_na_vector(std::ostream &,T const *,unsigned)
 
 
 #undef VNL_C_NA_VECTOR_INSTANTIATE_unordered

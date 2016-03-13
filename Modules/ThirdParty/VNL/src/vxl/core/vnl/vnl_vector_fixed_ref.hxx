@@ -4,11 +4,12 @@
 // Author: Paul P. Smyth, Vicon Motion Systems Ltd.
 // Created: 02 May 2001
 //
+#include <algorithm>
+#include <iostream>
+#include <cstdlib>
 #include "vnl_vector_fixed_ref.h"
 #include <vcl_cassert.h>
-#include <vcl_algorithm.h> // for vcl_swap
-#include <vcl_iostream.h>  // for vcl_cerr
-#include <vcl_cstdlib.h>   // for vcl_abort
+#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>  // for vnl_math::isfinite
 
 
@@ -59,7 +60,7 @@ vnl_vector_fixed_ref<T,n> const&
 vnl_vector_fixed_ref<T,n>::flip() const
 {
   for ( unsigned int i=0; 2*i+1 < n; ++i )
-    vcl_swap( data_block()[i], data_block()[n-1-i] );
+    std::swap( data_block()[i], data_block()[n-1-i] );
   return *this;
 }
 
@@ -90,7 +91,7 @@ vnl_vector_fixed_ref_const<T,n>::is_zero() const
 
 template <class T, unsigned int n>
 bool
-vnl_vector_fixed_ref<T,n>::read_ascii(vcl_istream& s) const
+vnl_vector_fixed_ref<T,n>::read_ascii(std::istream& s) const
 {
   for (unsigned i = 0; i < this->size(); ++i)
     s >> (*this)(i);
@@ -105,13 +106,13 @@ vnl_vector_fixed_ref_const<T,n>::assert_finite_internal() const
   if (this->is_finite())
     return;
 
-  vcl_cerr << __FILE__ ": *** NAN FEVER **\n" << *this;
-  vcl_abort();
+  std::cerr << __FILE__ ": *** NAN FEVER **\n" << *this;
+  std::abort();
 }
 
 template <class T, unsigned int n>
 void
-vnl_vector_fixed_ref_const<T,n>::print( vcl_ostream& s ) const
+vnl_vector_fixed_ref_const<T,n>::print( std::ostream& s ) const
 {
   if ( this->size() > 0 )
     s << (*this)[0];

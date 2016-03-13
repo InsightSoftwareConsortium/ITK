@@ -9,11 +9,12 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <algorithm>
+#include <cmath>
+#include <iostream>
 #include "vnl_symmetric_eigensystem.h"
 #include <vcl_cassert.h>
-#include <vcl_algorithm.h> // for swap
-#include <vcl_cmath.h> // for sqrt(double), acos, etc.
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_copy.h>
 #include <vnl/vnl_math.h>
 #include <vnl/algo/vnl_netlib.h> // rs_()
@@ -50,7 +51,7 @@ void vnl_symmetric_eigensystem_compute_eigenvals(
 
   const T f3 = f*f*f;
   const T g2 = g*g;
-  const T sqrt_f = -vcl_sqrt(f);
+  const T sqrt_f = -std::sqrt(f);
 
   // deal explicitly with repeated root and treat
   // complex conjugate roots as numerically inaccurate repeated roots.
@@ -75,17 +76,17 @@ void vnl_symmetric_eigensystem_compute_eigenvals(
 
 
   const T sqrt_f3 = sqrt_f * sqrt_f * sqrt_f;
-  const T k = vcl_acos(g / sqrt_f3) / 3;
+  const T k = std::acos(g / sqrt_f3) / 3;
   const T j = 2 * sqrt_f;
-  l1 = j * vcl_cos(k) - b_3;
-  l2 = j * vcl_cos(k + T(vnl_math::twopi / 3.0)) - b_3;
-  l3 = j * vcl_cos(k - T(vnl_math::twopi / 3.0)) - b_3;
+  l1 = j * std::cos(k) - b_3;
+  l2 = j * std::cos(k + T(vnl_math::twopi / 3.0)) - b_3;
+  l3 = j * std::cos(k - T(vnl_math::twopi / 3.0)) - b_3;
 
-  if (l2 < l1) vcl_swap(l2, l1);
+  if (l2 < l1) std::swap(l2, l1);
   if (l3 < l2)
   {
-    vcl_swap(l2, l3);
-    if (l2 < l1) vcl_swap(l2, l1);
+    std::swap(l2, l3);
+    if (l2 < l1) std::swap(l2, l1);
   }
 }
 
@@ -116,7 +117,7 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<T> const & A,
   vnl_copy(Dd, D);
 
   if (ierr) {
-    vcl_cerr << "vnl_symmetric_eigensystem: ierr = " << ierr << '\n';
+    std::cerr << "vnl_symmetric_eigensystem: ierr = " << ierr << '\n';
     return false;
   }
 
@@ -189,7 +190,7 @@ vnl_matrix<T> vnl_symmetric_eigensystem<T>::pinverse() const
   vnl_diag_matrix<T> invD(n);
   for (unsigned i=0; i<n; ++i)
     if (D(i, i) == 0) {
-      vcl_cerr << __FILE__ ": pinverse(): eigenvalue " << i << " is zero.\n";
+      std::cerr << __FILE__ ": pinverse(): eigenvalue " << i << " is zero.\n";
       invD(i, i) = 0;
     }
     else
@@ -204,12 +205,12 @@ vnl_matrix<T> vnl_symmetric_eigensystem<T>::square_root() const
   vnl_diag_matrix<T> sqrtD(n);
   for (unsigned i=0; i<n; ++i)
     if (D(i, i) < 0) {
-      vcl_cerr << __FILE__ ": square_root(): eigenvalue " << i << " is negative (" << D(i, i) << ").\n";
-      sqrtD(i, i) = (T)vcl_sqrt((typename vnl_numeric_traits<T>::real_t)(-D(i, i)));
+      std::cerr << __FILE__ ": square_root(): eigenvalue " << i << " is negative (" << D(i, i) << ").\n";
+      sqrtD(i, i) = (T)std::sqrt((typename vnl_numeric_traits<T>::real_t)(-D(i, i)));
                     // gives square root of the absolute value of T.
     }
     else
-      sqrtD(i, i) = (T)vcl_sqrt((typename vnl_numeric_traits<T>::real_t)(D(i, i)));
+      sqrtD(i, i) = (T)std::sqrt((typename vnl_numeric_traits<T>::real_t)(D(i, i)));
   return V * sqrtD * V.transpose();
 }
 
@@ -220,11 +221,11 @@ vnl_matrix<T> vnl_symmetric_eigensystem<T>::inverse_square_root() const
   vnl_diag_matrix<T> inv_sqrtD(n);
   for (unsigned i=0; i<n; ++i)
     if (D(i, i) <= 0) {
-      vcl_cerr << __FILE__ ": square_root(): eigenvalue " << i << " is non-positive (" << D(i, i) << ").\n";
-      inv_sqrtD(i, i) = (T)vcl_sqrt(-1.0/(typename vnl_numeric_traits<T>::real_t)(D(i, i))); // ??
+      std::cerr << __FILE__ ": square_root(): eigenvalue " << i << " is non-positive (" << D(i, i) << ").\n";
+      inv_sqrtD(i, i) = (T)std::sqrt(-1.0/(typename vnl_numeric_traits<T>::real_t)(D(i, i))); // ??
     }
     else
-      inv_sqrtD(i, i) = (T)vcl_sqrt(1.0/(typename vnl_numeric_traits<T>::real_t)(D(i, i)));
+      inv_sqrtD(i, i) = (T)std::sqrt(1.0/(typename vnl_numeric_traits<T>::real_t)(D(i, i)));
   return V * inv_sqrtD * V.transpose();
 }
 

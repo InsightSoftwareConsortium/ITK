@@ -104,7 +104,7 @@ class vnl_random
 
     //: Generates a random unsigned integer in [0,n)
     // This function allows the random number generator to be used as
-    // a functor, e.g. with vcl_random_shuffle()
+    // a functor, e.g. with std::random_shuffle()
     unsigned long operator()(unsigned n) { return lrand32(0, n-1); }
 
     //:  Generates a random double in the range 0 <= x <= b with 32 bit randomness.

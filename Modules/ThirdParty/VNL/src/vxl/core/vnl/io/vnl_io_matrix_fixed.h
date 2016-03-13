@@ -22,6 +22,6 @@ void vsl_b_read(vsl_b_istream & is, vnl_matrix_fixed<T,m,n> & v);
 //: Print human readable summary of object to a stream
 //  \relatesalso vnl_matrix_fixed
 template <class T, unsigned m, unsigned n>
-void vsl_print_summary(vcl_ostream & os,const vnl_matrix_fixed<T,m,n> & b);
+void vsl_print_summary(std::ostream & os,const vnl_matrix_fixed<T,m,n> & b);
 
 #endif // vnl_io_matrix_fixed_h

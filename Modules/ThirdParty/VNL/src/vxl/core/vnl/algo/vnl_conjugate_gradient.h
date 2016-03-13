@@ -19,7 +19,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vcl_iosfwd.h>
+#include <iosfwd>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
@@ -50,8 +51,8 @@ class vnl_conjugate_gradient : public vnl_nonlinear_minimizer
 
   // Operations----------------------------------------------------------------
 
-  void diagnose_outcome(vcl_ostream&) const;
-  void diagnose_outcome(/*vcl_ostream& = vcl_cout*/) const;
+  void diagnose_outcome(std::ostream&) const;
+  void diagnose_outcome(/*std::ostream& = std::cout*/) const;
 
   // Computations--------------------------------------------------------------
 

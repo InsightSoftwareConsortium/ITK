@@ -6,9 +6,10 @@
 // \file
 // \author fsm
 
+#include <complex>
 #include "vnl_copy.h"
 #include <vcl_cassert.h>
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
@@ -44,10 +45,10 @@ VNL_COPY_INSTANTIATE0(long double, double);
 
 #define vnl_copy_macro(S, D) \
 VCL_DEFINE_SPECIALIZATION \
-void vnl_copy(vcl_complex<S> const *src, vcl_complex<D> *dst, unsigned n) \
+void vnl_copy(std::complex<S> const *src, std::complex<D> *dst, unsigned n) \
 { \
   for (unsigned int i=0; i<n; ++i) \
-    dst[i] = vcl_complex<D>((D)vcl_real(src[i]), (D)vcl_imag(src[i])); \
+    dst[i] = std::complex<D>((D)std::real(src[i]), (D)std::imag(src[i])); \
 }
 
 vnl_copy_macro(float, double);
@@ -82,8 +83,8 @@ VNL_COPY_INSTANTIATE(S, T); \
 VNL_COPY_INSTANTIATE(T, S)
 
 VNL_COPY_INSTANTIATE_twoway(float, double);
-VNL_COPY_INSTANTIATE_twoway(vcl_complex<float>, vcl_complex<double>);
+VNL_COPY_INSTANTIATE_twoway(std::complex<float>, std::complex<double>);
 #ifndef __hppa // assembler bug on HP?
 VNL_COPY_INSTANTIATE_twoway(double, long double);
-VNL_COPY_INSTANTIATE_twoway(vcl_complex<double>, vcl_complex<long double>);
+VNL_COPY_INSTANTIATE_twoway(std::complex<double>, std::complex<long double>);
 #endif

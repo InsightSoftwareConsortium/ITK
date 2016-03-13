@@ -2,8 +2,9 @@
 // \file
 // \author fsm, Oxford RRG
 // \date    7 September 1999
-#include <vcl_complex.h>
-#include <vcl_iostream.h>
+#include <complex>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_complex_eigensystem.h>
 
 #include <testlib/testlib_test.h>
@@ -31,24 +32,24 @@ void test_complex_eigensystem1()
   };
   vnl_matrix<double> A_imag(a_imag,N,N);
 
-  vnl_matrix<vcl_complex<double> > A(N,N);
+  vnl_matrix<std::complex<double> > A(N,N);
   for (unsigned i=0;i<N;i++)
     for (unsigned j=0;j<N;j++)
-      A(i,j) = vcl_complex<double>(A_real(i,j), A_imag(i,j));
+      A(i,j) = std::complex<double>(A_real(i,j), A_imag(i,j));
 
   vnl_complex_eigensystem eig(A,     // compute both
                               true,  // left and right
                               true); // eigenvectors
   TEST("vnl_complex_eigensystem constructor", eig.N, N);
   for (unsigned i=0;i<N;i++) {
-    vcl_complex<double> w = eig.W[i];
-    vcl_cout << "  W[" << i << "] = " << w << '\n';
+    std::complex<double> w = eig.W[i];
+    std::cout << "  W[" << i << "] = " << w << '\n';
     //
-    vnl_vector<vcl_complex<double> > l = eig.left_eigen_vector(i);
-    vnl_vector<vcl_complex<double> > err = l*A - l*w;
+    vnl_vector<std::complex<double> > l = eig.left_eigen_vector(i);
+    vnl_vector<std::complex<double> > err = l*A - l*w;
     testlib_test_assert_near("  Left  eigenvalue residue", err.magnitude());
     //
-    vnl_vector<vcl_complex<double> > r = eig.right_eigen_vector(i);
+    vnl_vector<std::complex<double> > r = eig.right_eigen_vector(i);
     err = A*r - w*r;
     testlib_test_assert_near("  Right eigenvalue residue", err.magnitude());
   }
@@ -67,14 +68,14 @@ void test_complex_eigensystem2()
     { 0.004993323929, -0.155932510596, -0.140831520110,  3.504603640364,  6.856177569090, -0.455504863942},
     { 0.001854338541, -0.027249736525, -0.107516848058,  0.400438282672,  1.579973514772,  6.233960176641}
   };
-  vnl_matrix<vcl_complex<double> > A(6, 6);
+  vnl_matrix<std::complex<double> > A(6, 6);
   for (int i=0; i<6; ++i)
     for (int j=0; j<6; ++j)
       A[i][j] = Adata[i][j]; //(0.77+i) + (0.1+j)*(0.33+j);
   vnl_complex_eigensystem eig(A);
   TEST("vnl_complex_eigensystem constructor", eig.N, 6);
   for (int i=0; i<6; ++i)
-    vcl_cout << "  W[" << i << "] = " << eig.eigen_value(i) << '\n';
+    std::cout << "  W[" << i << "] = " << eig.eigen_value(i) << '\n';
 }
 
 void test_complex_eigensystem()

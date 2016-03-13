@@ -18,7 +18,7 @@ void test_rpoly_roots()
   // Evaluate results
   vnl_real_polynomial p(a);
   for (int i = 0; i < p.degree(); ++i)
-    TEST_NEAR("Root residual", vcl_abs(p.evaluate(roots[i])), 0.0, 1e-12);
+    TEST_NEAR("Root residual", std::abs(p.evaluate(roots[i])), 0.0, 1e-12);
 }
 
 TESTMAIN(test_rpoly_roots);

@@ -6,9 +6,10 @@
 // \file
 // \author fsm
 
+#include <iostream>
 #include "vnl_generalized_schur.h"
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 #include <vnl/vnl_vector.h>
@@ -82,24 +83,24 @@ bool vnl_generalized_schur(vnl_matrix<double> *A,
     //*                      longer satisfy DELZTG=.TRUE.  This could also
     //*                      be caused due to scaling.
     //*                =N+3: reordering failed in DTGSEN.
-    vcl_cerr << __FILE__ ": info = " << info << ", something went wrong:\n";
+    std::cerr << __FILE__ ": info = " << info << ", something went wrong:\n";
     if (info < 0) {
-      vcl_cerr << __FILE__ ": (internal error) the " << (-info) << "th argument had an illegal value\n";
+      std::cerr << __FILE__ ": (internal error) the " << (-info) << "th argument had an illegal value\n";
     }
     else if (1 <= info && info <= n) {
-      vcl_cerr << __FILE__ ": the QZ iteration failed, but the last " << (n - info) << " eigenvalues may be correct\n";
+      std::cerr << __FILE__ ": the QZ iteration failed, but the last " << (n - info) << " eigenvalues may be correct\n";
     }
     else if (info == n+1) {
-      vcl_cerr << __FILE__ ": something went wrong in DHGEQZ\n";
+      std::cerr << __FILE__ ": something went wrong in DHGEQZ\n";
     }
     else if (info == n+2) {
-      vcl_cerr << __FILE__ ": roundoff error -- maybe due to poor scaling\n";
+      std::cerr << __FILE__ ": roundoff error -- maybe due to poor scaling\n";
     }
     else if (info == n+3) {
-      vcl_cerr << __FILE__ ": reordering failed in DTGSEN\n";
+      std::cerr << __FILE__ ": reordering failed in DTGSEN\n";
     }
     else {
-      vcl_cerr << __FILE__ ": unknown error\n";
+      std::cerr << __FILE__ ": unknown error\n";
     }
     return false;
   }

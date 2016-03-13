@@ -1,11 +1,12 @@
 // This is core/vnl/vnl_gamma.cxx
+#include <iostream>
 #include "vnl_gamma.h"
 //:
 // \file
 // \brief Complete and incomplete gamma function approximations
 // \author Tim Cootes
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 #if defined(__INTEL_COMPILER)
@@ -27,7 +28,7 @@ double vnl_log_gamma(double x)
 
   double x1 = x+4.65;
 
-  return vcl_log(zp)+(x-0.5)*vcl_log(x1)-x1;
+  return std::log(zp)+(x-0.5)*std::log(x1)-x1;
 }
 
 const int MAX_ITS = 100;
@@ -47,12 +48,12 @@ static double vnl_gamma_series(double a, double x)
       a_i+=1;
       term_i *= x/a_i;
       sum += term_i;
-      if (vcl_fabs(term_i) < vcl_fabs(sum)*MaxRelError)
-        return sum*vcl_exp(-x+a*vcl_log(x)-vnl_log_gamma(a));
+      if (std::fabs(term_i) < std::fabs(sum)*MaxRelError)
+        return sum*std::exp(-x+a*std::log(x)-vnl_log_gamma(a));
     }
-    vcl_cerr<<"vnl_gamma_series : Failed to converge in "<<MAX_ITS<<" steps\n"
+    std::cerr<<"vnl_gamma_series : Failed to converge in "<<MAX_ITS<<" steps\n"
             <<"a = "<<a<<"   x= "<< x <<"\nReturning best guess.\n";
-    return sum*vcl_exp(-x+a*vcl_log(x)-vnl_log_gamma(a));
+    return sum*std::exp(-x+a*std::log(x)-vnl_log_gamma(a));
   }
   else if (x < 0.0)
     assert(!"vnl_gamma_series - x less than 0");
@@ -75,19 +76,19 @@ static double vnl_gamma_cont_frac(double a, double x)
     double a_i = i*(a-i);
     b_i += 2.0;
     d=a_i*d+b_i;
-    if (vcl_fabs(d) < vnl_very_small) d=vnl_very_small;
+    if (std::fabs(d) < vnl_very_small) d=vnl_very_small;
     c=b_i+a_i/c;
-    if (vcl_fabs(c) < vnl_very_small) c=vnl_very_small;
+    if (std::fabs(c) < vnl_very_small) c=vnl_very_small;
     d=1.0/d;
     double delta=d*c;
     cf *= delta;
-    if (vcl_fabs(delta-1.0) < MaxRelError)
-      return vcl_exp(-x+a*vcl_log(x)-vnl_log_gamma(a))*cf;
+    if (std::fabs(delta-1.0) < MaxRelError)
+      return std::exp(-x+a*std::log(x)-vnl_log_gamma(a))*cf;
   }
 
-  vcl_cerr<<"vnl_gamma_cont_frac : Failed to converge in "<<MAX_ITS<<" steps\n"
-          <<"a = "<<a<<"   x= "<<x<<vcl_endl;
-  return vcl_exp(-x+a*vcl_log(x)-vnl_log_gamma(a))*cf;
+  std::cerr<<"vnl_gamma_cont_frac : Failed to converge in "<<MAX_ITS<<" steps\n"
+          <<"a = "<<a<<"   x= "<<x<<std::endl;
+  return std::exp(-x+a*std::log(x)-vnl_log_gamma(a))*cf;
 }
 
 double vnl_gamma_p(double a, double x)
@@ -115,7 +116,7 @@ double vnl_gamma_q(double a, double x)
 double vnl_digamma(double z)
 {
   double t0 = (z-0.5)/(z+4.65)-1.0;
-  double tlg = vcl_log(4.65+z);
+  double tlg = std::log(4.65+z);
   double tc = 2.50662827563479526904;
   double t1 = 225.525584619175212544/z;
   double t2 = -268.295973841304927459/(1+z);

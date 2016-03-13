@@ -1,4 +1,5 @@
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_brent_minimizer.h>
 
@@ -30,12 +31,12 @@ void test_brent_minimizer()
 
   double x = brent1.minimize(77);
   TEST_NEAR("f1 minimize(77)",x,2,1e-6);
-  vcl_cout<<"Number of evaluations: "<<f1.n_evals<<vcl_endl;
+  std::cout<<"Number of evaluations: "<<f1.n_evals<<std::endl;
 
   f1.n_evals=0;
   x = brent1.minimize(13);
   TEST_NEAR("f1 minimize(13)",x,2,1e-6);
-  vcl_cout<<"Number of evaluations: "<<f1.n_evals<<vcl_endl;
+  std::cout<<"Number of evaluations: "<<f1.n_evals<<std::endl;
 
   brent_f2 f2;
   vnl_brent_minimizer brent2(f2);
@@ -43,19 +44,19 @@ void test_brent_minimizer()
   f2.n_evals=0;
   x = brent2.minimize(77);
   TEST_NEAR("f2 minimize(77)",x,2,1e-3);
-  vcl_cout<<"Number of evaluations: "<<f2.n_evals<<vcl_endl;
+  std::cout<<"Number of evaluations: "<<f2.n_evals<<std::endl;
 
   f2.n_evals=0;
   x = brent2.minimize(13);
   TEST_NEAR("f2 minimize(13)",x,2,1e-3);
-  vcl_cout<<"Number of evaluations: "<<f2.n_evals<<vcl_endl;
+  std::cout<<"Number of evaluations: "<<f2.n_evals<<std::endl;
 
   vnl_vector<double> v(1);
   v[0]=2;
   double f2_a = f2.f(v);
   v[0]=x;
   double f2_b = f2.f(v);
-  vcl_cout<<"f2(2)-f2(x)="<<f2_a-f2_b<<vcl_endl;
+  std::cout<<"f2(2)-f2(x)="<<f2_a-f2_b<<std::endl;
 
 }
 

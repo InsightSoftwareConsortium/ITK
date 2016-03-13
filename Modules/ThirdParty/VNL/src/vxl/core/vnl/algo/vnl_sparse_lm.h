@@ -16,8 +16,9 @@
 // \endverbatim
 //
 
-#include <vcl_iosfwd.h>
-#include <vcl_vector.h>
+#include <iosfwd>
+#include <vector>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
@@ -55,9 +56,9 @@ class vnl_sparse_lm : public vnl_nonlinear_minimizer
 
   // Coping with failure-------------------------------------------------------
 
-  //: Provide an ASCII diagnosis of the last minimization on vcl_ostream.
-  void diagnose_outcome(/*vcl_cerr*/) const;
-  void diagnose_outcome(vcl_ostream&) const;
+  //: Provide an ASCII diagnosis of the last minimization on std::ostream.
+  void diagnose_outcome(/*std::cerr*/) const;
+  void diagnose_outcome(std::ostream&) const;
 
   //: Return J'*J computed at last minimum.
   //  it is an approximation of inverse of covariance
@@ -136,19 +137,19 @@ private:
   const int size_e_;
 
   //: Storage for each of the Jacobians A_ij, B_ij, and C_ij
-  vcl_vector<vnl_matrix<double> > A_;
-  vcl_vector<vnl_matrix<double> > B_;
-  vcl_vector<vnl_matrix<double> > C_;
+  std::vector<vnl_matrix<double> > A_;
+  std::vector<vnl_matrix<double> > B_;
+  std::vector<vnl_matrix<double> > C_;
 
   //: Storage for normal equation blocks
   // diagonals of JtJ
-  vcl_vector<vnl_matrix<double> > U_;
-  vcl_vector<vnl_matrix<double> > V_;
+  std::vector<vnl_matrix<double> > U_;
+  std::vector<vnl_matrix<double> > V_;
   vnl_matrix<double>              T_;
   // off-diagonals of JtJ
-  vcl_vector<vnl_matrix<double> > W_;
-  vcl_vector<vnl_matrix<double> > R_;
-  vcl_vector<vnl_matrix<double> > Q_;
+  std::vector<vnl_matrix<double> > W_;
+  std::vector<vnl_matrix<double> > R_;
+  std::vector<vnl_matrix<double> > Q_;
   // vectors Jte
   vnl_vector<double> ea_;
   vnl_vector<double> eb_;
@@ -161,11 +162,11 @@ private:
   vnl_vector<double> weights_;
 
   // Storage for intermediate results
-  vcl_vector<vnl_matrix<double> > inv_V_;
-  vcl_vector<vnl_matrix<double> > Y_;
-  vcl_vector<vnl_matrix<double> > Z_;
-  vcl_vector<vnl_matrix<double> > Ma_;
-  vcl_vector<vnl_matrix<double> > Mb_;
+  std::vector<vnl_matrix<double> > inv_V_;
+  std::vector<vnl_matrix<double> > Y_;
+  std::vector<vnl_matrix<double> > Z_;
+  std::vector<vnl_matrix<double> > Ma_;
+  std::vector<vnl_matrix<double> > Mb_;
 
 };
 

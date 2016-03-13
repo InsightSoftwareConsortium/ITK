@@ -4,18 +4,19 @@
 #endif
 //:
 // \file
+#include <cmath>
+#include <iostream>
+#include <algorithm>
 #include "vnl_brent_minimizer.h"
 
-#include <vcl_cmath.h>
-#include <vcl_iostream.h>
-#include <vcl_algorithm.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_bracket_minimum.h>
 
-static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(vcl_sqrt(5)-1);
-static const double COMPL_GOLD   = 0.381966011250105152; // = 0.5*(3-vcl_sqrt(5));
+static const double GOLDEN_RATIO = 1.618033988749894848; // = 0.5*(std::sqrt(5)-1);
+static const double COMPL_GOLD   = 0.381966011250105152; // = 0.5*(3-std::sqrt(5));
 static const double EPS          = 1e-8;
 
 // Wrapper to make it easy to evaluate the cost function
@@ -82,18 +83,18 @@ double vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx
   double fu;
 
   double m = 0.5*(ax+cx);  // Midpoint of (a,c)
-  double tol = EPS*vcl_fabs(x)+xtol;  // Tolerance to use
+  double tol = EPS*std::fabs(x)+xtol;  // Tolerance to use
   double tol2 = 2*tol;                // Twice the tolerance
 
   double d=0.0;  // Record of last p/q
   double e=0.0;  // Value of p/q in 2nd-to-last cycle of parabolic interp.
 
   // Loop until bracket sufficiently small
-  while (vcl_fabs(x-m)>(tol2-0.5*(cx-ax)))
+  while (std::fabs(x-m)>(tol2-0.5*(cx-ax)))
   {
     // Variables for parabolic interpolation
     double p=0.0,q=0.0,r=0.0;
-    if (vcl_fabs(e)>tol)
+    if (std::fabs(e)>tol)
     {
       // Fit a parabola
       r = (x-w)*(fx-fv);
@@ -104,7 +105,7 @@ double vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx
       r = e; e = d;
     }
 
-    if (vcl_fabs(p)<vcl_fabs(0.5*q*r) &&
+    if (std::fabs(p)<std::fabs(0.5*q*r) &&
         p>(q*(ax-x)) && p<(q*(cx-x)) )  // So that ax<x+p/q<cx
     {
       // Parabolic interpolation - set u to estimate of minimum
@@ -122,7 +123,7 @@ double vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx
     }
 
     // Do not evaluate too close to current x
-    if (vcl_fabs(d)>=tol)
+    if (std::fabs(d)>=tol)
       u = x+d;
     else
     {
@@ -154,7 +155,7 @@ double vnl_brent_minimizer::minimize_given_bounds_and_one_f(double ax, double bx
 
     // Recompute mid-point and suitable tolerances
     m = 0.5*(ax+cx);  // Midpoint of (a,c)
-    tol = EPS*vcl_fabs(x)+xtol;  // Tolerance to use
+    tol = EPS*std::fabs(x)+xtol;  // Tolerance to use
     tol2 = 2*tol;                // Twice the tolerance
   }
 
@@ -193,18 +194,18 @@ double vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx
   double u, fu;  // Most recently evaluated point and its value
 
   double m = 0.5*(ax+cx);  // Midpoint of (a,c)
-  double tol = EPS*vcl_fabs(x)+xtol;  // Tolerance to use
+  double tol = EPS*std::fabs(x)+xtol;  // Tolerance to use
   double tol2 = 2*tol;                // Twice the tolerance
 
-  double d=vcl_min(bx-ax,cx-bx);  // Record of last p/q
-  double e=vcl_max(bx-ax,cx-bx);  // Value of p/q in 2nd-to-last cycle of parabolic interp.
+  double d=std::min(bx-ax,cx-bx);  // Record of last p/q
+  double e=std::max(bx-ax,cx-bx);  // Value of p/q in 2nd-to-last cycle of parabolic interp.
 
   // Loop until bracket sufficiently small
-  while (vcl_fabs(x-m)>(tol2-0.5*(cx-ax)))
+  while (std::fabs(x-m)>(tol2-0.5*(cx-ax)))
   {
     // Variables for parabolic interpolation
     double p=0.0,q=0.0,r=0.0;
-    if (vcl_fabs(e)>tol)
+    if (std::fabs(e)>tol)
     {
       // Fit a parabola
       r = (x-w)*(fx-fv);
@@ -215,7 +216,7 @@ double vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx
       r = e; e = d;
     }
 
-    if (vcl_fabs(p)<vcl_fabs(0.5*q*r) &&
+    if (std::fabs(p)<std::fabs(0.5*q*r) &&
         p>(q*(ax-x)) && p<(q*(cx-x)) )  // So that ax<x+p/q<cx
     {
       // Parabolic interpolation - set u to estimate of minimum
@@ -233,7 +234,7 @@ double vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx
     }
 
     // Do not evaluate too close to current x
-    if (vcl_fabs(d)>=tol)
+    if (std::fabs(d)>=tol)
       u = x+d;
     else
     {
@@ -265,7 +266,7 @@ double vnl_brent_minimizer::minimize_given_bounds_and_all_f(double ax, double bx
 
     // Recompute mid-point and suitable tolerances
     m = 0.5*(ax+cx);  // Midpoint of (a,c)
-    tol = EPS*vcl_fabs(x)+xtol;  // Tolerance to use
+    tol = EPS*std::fabs(x)+xtol;  // Tolerance to use
     tol2 = 2*tol;                // Twice the tolerance
   }
 

@@ -1,4 +1,5 @@
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_svd.hxx>
 
-VNL_SVD_INSTANTIATE(vcl_complex<float>);
+VNL_SVD_INSTANTIATE(std::complex<float>);

@@ -1,9 +1,10 @@
 // This is core/vnl/tests/test_vector_fixed_ref.cxx
+#include <algorithm>
+#include <cstdlib>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector_fixed_ref.h>
 
-#include <vcl_algorithm.h> // for vcl_generate()
-#include <vcl_cstdlib.h> // for vcl_rand()
+#include <vcl_compiler.h>
 #include <testlib/testlib_test.h>
 
 void test_vector_fixed_ref()
@@ -45,11 +46,11 @@ void test_vector_fixed_ref()
 
   //    assign from vec
   vf other;
-  vcl_generate(other.begin(),other.end(),vcl_rand);
+  std::generate(other.begin(),other.end(),std::rand);
 
   {
   //    assign from const vfr
-  vcl_generate(other.begin(),other.end(),vcl_rand);
+  std::generate(other.begin(),other.end(),std::rand);
   vfrc cref(other);
   ref = cref;
   TEST("assign_const_ref", ref, other);
@@ -61,8 +62,8 @@ void test_vector_fixed_ref()
   {
     // plus
     vf a,b;
-    vcl_generate(a.begin(),a.end(),vcl_rand);
-    vcl_generate(b.begin(),b.end(),vcl_rand);
+    std::generate(a.begin(),a.end(),std::rand);
+    std::generate(b.begin(),b.end(),std::rand);
     vfrc arefc(a), brefc(b);
     vf mc = arefc + brefc;
 
@@ -78,8 +79,8 @@ void test_vector_fixed_ref()
   {
     // times
     vf a,b;
-    vcl_generate(a.begin(),a.end(),vcl_rand);
-    vcl_generate(b.begin(),b.end(),vcl_rand);
+    std::generate(a.begin(),a.end(),std::rand);
+    std::generate(b.begin(),b.end(),std::rand);
     vfrc arefc(a), brefc(b);
     vf mc = arefc + brefc;
 

@@ -1,3 +1,4 @@
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_svd_economy.hxx>
-VNL_SVD_ECONOMY_INSTANTIATE(vcl_complex<float>);
+VNL_SVD_ECONOMY_INSTANTIATE(std::complex<float>);

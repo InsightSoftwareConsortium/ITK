@@ -8,8 +8,9 @@
 // \date   April 13, 2005
 
 
+#include <iostream>
 #include "vnl_sparse_lst_sqr_function.h"
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 #include <vnl/vnl_vector_ref.h>
 
@@ -17,7 +18,7 @@ void vnl_sparse_lst_sqr_function::dim_warning(unsigned int nr_of_unknowns,
                                               unsigned int nr_of_residuals)
 {
   if (nr_of_unknowns > nr_of_residuals)
-    vcl_cerr << "vnl_sparse_lst_sqr_function: WARNING: "
+    std::cerr << "vnl_sparse_lst_sqr_function: WARNING: "
              << "unknowns(" << nr_of_unknowns << ") > "
              << "residuals("<< nr_of_residuals << ")\n";
 }
@@ -74,7 +75,7 @@ vnl_sparse_lst_sqr_function::vnl_sparse_lst_sqr_function(
                                  unsigned int num_b,
                                  unsigned int num_params_per_b,
                                  unsigned int num_params_c,
-                                 const vcl_vector<vcl_vector<bool> >& xmask,
+                                 const std::vector<std::vector<bool> >& xmask,
                                  unsigned int num_residuals_per_e,
                                  UseGradient g,
                                  UseWeights w)
@@ -114,11 +115,11 @@ vnl_sparse_lst_sqr_function::vnl_sparse_lst_sqr_function(
 // The optional argument should be no_gradient if the gradf function has not
 // been implemented.  Default is use_gradient.
 vnl_sparse_lst_sqr_function::vnl_sparse_lst_sqr_function(
-                                 const vcl_vector<unsigned int>& a_sizes,
-                                 const vcl_vector<unsigned int>& b_sizes,
+                                 const std::vector<unsigned int>& a_sizes,
+                                 const std::vector<unsigned int>& b_sizes,
                                  unsigned int num_params_c,
-                                 const vcl_vector<unsigned int>& e_sizes,
-                                 const vcl_vector<vcl_vector<bool> >& xmask,
+                                 const std::vector<unsigned int>& e_sizes,
+                                 const std::vector<std::vector<bool> >& xmask,
                                  UseGradient g,
                                  UseWeights w)
  : failure(false),
@@ -194,9 +195,9 @@ void
 vnl_sparse_lst_sqr_function::jac_blocks(vnl_vector<double> const& a,
                                         vnl_vector<double> const& b,
                                         vnl_vector<double> const& c,
-                                        vcl_vector<vnl_matrix<double> >& A,
-                                        vcl_vector<vnl_matrix<double> >& B,
-                                        vcl_vector<vnl_matrix<double> >& C)
+                                        std::vector<vnl_matrix<double> >& A,
+                                        std::vector<vnl_matrix<double> >& B,
+                                        std::vector<vnl_matrix<double> >& C)
 {
   typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
@@ -234,9 +235,9 @@ void
 vnl_sparse_lst_sqr_function::fd_jac_blocks(vnl_vector<double> const& a,
                                            vnl_vector<double> const& b,
                                            vnl_vector<double> const& c,
-                                           vcl_vector<vnl_matrix<double> >& A,
-                                           vcl_vector<vnl_matrix<double> >& B,
-                                           vcl_vector<vnl_matrix<double> >& C,
+                                           std::vector<vnl_matrix<double> >& A,
+                                           std::vector<vnl_matrix<double> >& B,
+                                           std::vector<vnl_matrix<double> >& C,
                                            double stepsize)
 {
   typedef vnl_crs_index::sparse_vector::iterator sv_itr;
@@ -330,9 +331,9 @@ vnl_sparse_lst_sqr_function::apply_weights(vnl_vector<double> const& weights,
 //  a more specialized implementation for your problem.
 void
 vnl_sparse_lst_sqr_function::apply_weights(vnl_vector<double> const& weights,
-                                           vcl_vector<vnl_matrix<double> >& A,
-                                           vcl_vector<vnl_matrix<double> >& B,
-                                           vcl_vector<vnl_matrix<double> >& C)
+                                           std::vector<vnl_matrix<double> >& A,
+                                           std::vector<vnl_matrix<double> >& B,
+                                           std::vector<vnl_matrix<double> >& C)
 {
   typedef vnl_crs_index::sparse_vector::iterator sv_itr;
   for (unsigned int i=0; i<number_of_a(); ++i)
@@ -358,7 +359,7 @@ vnl_sparse_lst_sqr_function::fij(int /*i*/, int /*j*/,
                                  vnl_vector<double> const& /*c*/,
                                  vnl_vector<double>      & /*f_i_j*/)
 {
-  vcl_cerr << "Warning: fij() called but not implemented in derived class\n";
+  std::cerr << "Warning: fij() called but not implemented in derived class\n";
 }
 
 //: Calculate the Jacobian A_ij, given the parameter vectors a_i, b_j, and c.
@@ -369,7 +370,7 @@ vnl_sparse_lst_sqr_function::jac_Aij(int /*i*/, int /*j*/,
                                      vnl_vector<double> const& /*c*/,
                                      vnl_matrix<double>      & /*Aij*/)
 {
-  vcl_cerr << "Warning: jac_Aij() called but not implemented in derived class\n";
+  std::cerr << "Warning: jac_Aij() called but not implemented in derived class\n";
 }
 
 //: Calculate the Jacobian B_ij, given the parameter vectors a_i, b_j, and c.
@@ -380,7 +381,7 @@ vnl_sparse_lst_sqr_function::jac_Bij(int /*i*/, int /*j*/,
                                      vnl_vector<double> const& /*c*/,
                                      vnl_matrix<double>      & /*Bij*/)
 {
-  vcl_cerr << "Warning: jac_Bij() called but not implemented in derived class\n";
+  std::cerr << "Warning: jac_Bij() called but not implemented in derived class\n";
 }
 
 //: Calculate the Jacobian C_ij, given the parameter vectors a_i, b_j, and c.
@@ -392,7 +393,7 @@ vnl_sparse_lst_sqr_function::jac_Cij(int /*i*/, int /*j*/,
                                      vnl_matrix<double>      & /*Cij*/)
 {
   if (num_params_c_ > 0)
-    vcl_cerr << "Warning: jac_Cij() called but not implemented in derived class\n";
+    std::cerr << "Warning: jac_Cij() called but not implemented in derived class\n";
 }
 
 //: Use this to compute a finite-difference Jacobian A_ij

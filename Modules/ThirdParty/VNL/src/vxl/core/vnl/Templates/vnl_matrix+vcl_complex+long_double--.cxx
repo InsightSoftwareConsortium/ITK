@@ -1,4 +1,4 @@
 #include <vnl/vnl_complex.h>
 #include <vnl/vnl_matrix.hxx>
 
-VNL_MATRIX_INSTANTIATE(vcl_complex<long double>);
+VNL_MATRIX_INSTANTIATE(std::complex<long double>);

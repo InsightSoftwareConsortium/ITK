@@ -20,7 +20,8 @@
 // \endverbatim
 //
 
-#include <vcl_iosfwd.h>
+#include <iosfwd>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix.h>
@@ -69,9 +70,9 @@ class vnl_levenberg_marquardt : public vnl_nonlinear_minimizer
 
   // Coping with failure-------------------------------------------------------
 
-  //: Provide an ASCII diagnosis of the last minimization on vcl_ostream.
-  void diagnose_outcome(/*vcl_cerr*/) const;
-  void diagnose_outcome(vcl_ostream&) const;
+  //: Provide an ASCII diagnosis of the last minimization on std::ostream.
+  void diagnose_outcome(/*std::cerr*/) const;
+  void diagnose_outcome(std::ostream&) const;
 
   //: Return J'*J computed at last minimum.
   //  it is an approximation of inverse of covariance

@@ -10,10 +10,11 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cmath>
+#include <iostream>
+#include <iomanip>
 #include "vnl_lbfgs.h"
-#include <vcl_cmath.h>
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h> // for setw (replaces cout.form())
+#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_netlib.h> // lbfgs_()
 
@@ -66,14 +67,14 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
   vnl_vector<double> w(n * (2*m+1)+2*m);
 
   if (verbose_)
-    vcl_cerr << "vnl_lbfgs: n = "<< n <<", memory = "<< m <<", Workspace = "
+    std::cerr << "vnl_lbfgs: n = "<< n <<", memory = "<< m <<", Workspace = "
              << w.size() << "[ "<< ( w.size() / 128.0 / 1024.0) <<" MB], ErrorScale = "
-             << f_->reported_error(1) <<", xnorm = "<< x.magnitude() << vcl_endl;
+             << f_->reported_error(1) <<", xnorm = "<< x.magnitude() << std::endl;
 
   bool we_trace = (verbose_ && !trace);
 
   if (we_trace)
-    vcl_cerr << "vnl_lbfgs: ";
+    std::cerr << "vnl_lbfgs: ";
 
   double best_f = 0;
   vnl_vector<double> best_x;
@@ -103,12 +104,12 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
       best_f = f;
     }
 
-#define print_(i,a,b,c,d) vcl_cerr<<vcl_setw(6)<<i<<' '<<vcl_setw(20)<<a<<' '\
-           <<vcl_setw(20)<<b<<' '<<vcl_setw(20)<<c<<' '<<vcl_setw(20)<<d<<'\n'
+#define print_(i,a,b,c,d) std::cerr<<std::setw(6)<<i<<' '<<std::setw(20)<<a<<' '\
+           <<std::setw(20)<<b<<' '<<std::setw(20)<<c<<' '<<std::setw(20)<<d<<'\n'
 
     if (check_derivatives_)
     {
-      vcl_cerr << "vnl_lbfgs: f = " << f_->reported_error(f) << ", computing FD gradient\n";
+      std::cerr << "vnl_lbfgs: f = " << f_->reported_error(f) << ", computing FD gradient\n";
       vnl_vector<double> fdg = f_->fdgradf(x);
       if (verbose_)
       {
@@ -116,7 +117,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
         int limit = 100;
         int limit_tail = 10;
         if (l > limit + limit_tail) {
-          vcl_cerr << " [ Showing only first " <<limit<< " components ]\n";
+          std::cerr << " [ Showing only first " <<limit<< " components ]\n";
           l = limit;
         }
         print_("i","x","g","fdg","dg");
@@ -124,12 +125,12 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
         for (int i = 0; i < l; ++i)
           print_(i, x[i], g[i], fdg[i], g[i]-fdg[i]);
         if (n > limit) {
-          vcl_cerr << "   ...\n";
+          std::cerr << "   ...\n";
           for (int i = n - limit_tail; i < n; ++i)
             print_(i, x[i], g[i], fdg[i], g[i]-fdg[i]);
         }
       }
-      vcl_cerr << "   ERROR = " << (fdg - g).squared_magnitude() / vcl_sqrt(double(n)) << "\n";
+      std::cerr << "   ERROR = " << (fdg - g).squared_magnitude() / std::sqrt(double(n)) << "\n";
     }
 
     iprint[0] = trace ? 1 : -1; // -1 no o/p, 0 start and end, 1 every iter.
@@ -148,7 +149,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     }
 
     if (we_trace)
-      vcl_cerr << iflag << ":" << f_->reported_error(f) << " ";
+      std::cerr << iflag << ":" << f_->reported_error(f) << " ";
 
     if (iflag == 0) {
       // Successful return
@@ -160,7 +161,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
 
     if (iflag < 0) {
       // Netlib routine lbfgs failed
-      vcl_cerr << "vnl_lbfgs: Error. Netlib routine lbfgs failed.\n";
+      std::cerr << "vnl_lbfgs: Error. Netlib routine lbfgs failed.\n";
       ok = false;
       x = best_x;
       break;
@@ -174,7 +175,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     }
 
   }
-  if (we_trace) vcl_cerr << "done\n";
+  if (we_trace) std::cerr << "done\n";
 
   return ok;
 }

@@ -8,12 +8,13 @@
 // \date   23 Oct 97
 //-----------------------------------------------------------------------------
 
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
+#include <vector>
 #include "vnl_amoeba.h"
 
-#include <vcl_cstdio.h> // for sprintf()
-#include <vcl_cstdlib.h> // for vcl_qsort
-#include <vcl_iostream.h>
-#include <vcl_vector.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_cost_function.h>
@@ -42,11 +43,11 @@ struct vnl_amoebaFit : public vnl_amoeba
   }
 
   //: Initialise the simplex given one corner, x (scale each element to get other corners)
-  void set_up_simplex_relative(vcl_vector<vnl_amoeba_SimplexCorner>& simplex,
+  void set_up_simplex_relative(std::vector<vnl_amoeba_SimplexCorner>& simplex,
                                const vnl_vector<double>& x);
 
   //: Initialise the simplex given one corner, x and displacements of others
-  void set_up_simplex_absolute(vcl_vector<vnl_amoeba_SimplexCorner>& simplex,
+  void set_up_simplex_absolute(std::vector<vnl_amoeba_SimplexCorner>& simplex,
                                const vnl_vector<double>& x,
                                const vnl_vector<double>& dx);
 
@@ -57,7 +58,7 @@ struct vnl_amoebaFit : public vnl_amoeba
   void amoeba(vnl_vector<double>& x, const vnl_vector<double>& dx);
 
   //: Perform optimisation, given simplex to start
-  void amoeba(vnl_vector<double>& x, vcl_vector<vnl_amoeba_SimplexCorner>& simplex);
+  void amoeba(vnl_vector<double>& x, std::vector<vnl_amoeba_SimplexCorner>& simplex);
 
   double f(const vnl_vector<double>& x) {
     return fptr->f(x);
@@ -95,9 +96,9 @@ int compare_aux(const void * s1, const void * s2)
 }
 
 static
-void sort_simplex(vcl_vector<vnl_amoeba_SimplexCorner>& simplex)
+void sort_simplex(std::vector<vnl_amoeba_SimplexCorner>& simplex)
 {
-  vcl_qsort(&simplex[0], simplex.size(), sizeof simplex[0], compare_aux);
+  std::qsort(&simplex[0], simplex.size(), sizeof simplex[0], compare_aux);
 }
 
 static
@@ -113,13 +114,13 @@ double maxabsdiff(const vnl_vector<double>& a, const vnl_vector<double>& b)
 }
 
 static
-double sorted_simplex_fdiameter(const vcl_vector<vnl_amoeba_SimplexCorner>& simplex)
+double sorted_simplex_fdiameter(const std::vector<vnl_amoeba_SimplexCorner>& simplex)
 {
   return simplex[simplex.size()-1].fv - simplex[0].fv;
 }
 
 static
-double simplex_diameter(const vcl_vector<vnl_amoeba_SimplexCorner>& simplex)
+double simplex_diameter(const std::vector<vnl_amoeba_SimplexCorner>& simplex)
 {
   double max = 0;
   for (unsigned i = 0; i < simplex.size() - 1; i++) {
@@ -131,13 +132,13 @@ double simplex_diameter(const vcl_vector<vnl_amoeba_SimplexCorner>& simplex)
 }
 
 
-vcl_ostream& operator<<(vcl_ostream& s, const vnl_amoeba_SimplexCorner& simplex)
+std::ostream& operator<<(std::ostream& s, const vnl_amoeba_SimplexCorner& simplex)
 {
   s << 'S' << simplex.fv << ' ';
   return s;
 }
 
-vcl_ostream& operator<<(vcl_ostream& s, const vcl_vector<vnl_amoeba_SimplexCorner>& simplex)
+std::ostream& operator<<(std::ostream& s, const std::vector<vnl_amoeba_SimplexCorner>& simplex)
 {
   for (unsigned i = 0; i < simplex.size(); ++i)
     s << simplex[i].fv << ' ';
@@ -151,7 +152,7 @@ bool operator==(const vnl_amoeba_SimplexCorner& a, const vnl_amoeba_SimplexCorne
 }
 
 //: Initialise the simplex given one corner, x
-void vnl_amoebaFit::set_up_simplex_relative(vcl_vector<vnl_amoeba_SimplexCorner>& simplex,
+void vnl_amoebaFit::set_up_simplex_relative(std::vector<vnl_amoeba_SimplexCorner>& simplex,
                                             const vnl_vector<double>& x)
 {
   int n = x.size();
@@ -178,7 +179,7 @@ void vnl_amoebaFit::set_up_simplex_relative(vcl_vector<vnl_amoeba_SimplexCorner>
 }
 
 //: Initialise the simplex given one corner, x and displacements of others
-void vnl_amoebaFit::set_up_simplex_absolute(vcl_vector<vnl_amoeba_SimplexCorner>& simplex,
+void vnl_amoebaFit::set_up_simplex_absolute(std::vector<vnl_amoeba_SimplexCorner>& simplex,
                                             const vnl_vector<double>& x,
                                             const vnl_vector<double>& dx)
 {
@@ -228,7 +229,7 @@ void vnl_amoebaFit::amoeba(vnl_vector<double>& x)
 {
 // Set up a simplex near the initial guess.
   int n = x.size();
-  vcl_vector<vnl_amoeba_SimplexCorner> simplex(n+1, vnl_amoeba_SimplexCorner(n));
+  std::vector<vnl_amoeba_SimplexCorner> simplex(n+1, vnl_amoeba_SimplexCorner(n));
 
   set_up_simplex_relative(simplex,x);
   amoeba(x,simplex);
@@ -238,7 +239,7 @@ void vnl_amoebaFit::amoeba(vnl_vector<double>& x, const vnl_vector<double>& dx)
 {
 // Set up a simplex near the initial guess.
   int n = x.size();
-  vcl_vector<vnl_amoeba_SimplexCorner> simplex(n+1, vnl_amoeba_SimplexCorner(n));
+  std::vector<vnl_amoeba_SimplexCorner> simplex(n+1, vnl_amoeba_SimplexCorner(n));
 
   set_up_simplex_absolute(simplex,x,dx);
   amoeba(x,simplex);
@@ -246,16 +247,16 @@ void vnl_amoebaFit::amoeba(vnl_vector<double>& x, const vnl_vector<double>& dx)
 
     //: Perform optimisation, given simplex to start
 void vnl_amoebaFit::amoeba(vnl_vector<double>& x,
-                           vcl_vector<vnl_amoeba_SimplexCorner>& simplex)
+                           std::vector<vnl_amoeba_SimplexCorner>& simplex)
 {
   int n = x.size();
   sort_simplex(simplex);
 
   if (verbose > 1) {
-    vcl_cerr << "initial\n" << simplex;
+    std::cerr << "initial\n" << simplex;
   }
   else if (verbose) {
-    vcl_cerr << "initial: " << simplex << '\n';
+    std::cerr << "initial: " << simplex << '\n';
   }
 
   // Iterate until the diameter of the simplex is less than X_tolerance.
@@ -328,18 +329,18 @@ void vnl_amoebaFit::amoeba(vnl_vector<double>& x,
     // Print debugging info
     if (verbose) {
       char buf[16383];
-      vcl_sprintf(buf, "iter %5d: %s ", cnt, how);
-      vcl_cerr << buf;
+      std::sprintf(buf, "iter %5d: %s ", cnt, how);
+      std::cerr << buf;
       if (verbose ==2)
-        vcl_cerr << "\nFirst corner: " << simplex[0].v;
+        std::cerr << "\nFirst corner: " << simplex[0].v;
       if (verbose > 1)
       {
-        vcl_streamsize a = vcl_cerr.width(10);
-        vcl_cerr << '\n' << simplex << '\n';
-        vcl_cerr.width(a);
+        std::streamsize a = std::cerr.width(10);
+        std::cerr << '\n' << simplex << '\n';
+        std::cerr.width(a);
       }
       else if (verbose)
-        vcl_cerr << simplex << '\n';
+        std::cerr << simplex << '\n';
     }
   }
   num_evaluations_ = cnt;

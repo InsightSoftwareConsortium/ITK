@@ -9,8 +9,9 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <complex>
 #include "vnl_numeric_traits.h"
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 #include <vxl_config.h>
 
 static const long s16 = 0x7fffL;
@@ -79,32 +80,32 @@ const unsigned long long vnl_numeric_traits<unsigned long long>::maxval = sizeof
 #endif
 
 #if !VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN
-VCL_CONSTEXPR float vnl_numeric_traits<float>::zero VCL_STATIC_CONST_INIT_FLOAT_DEFN(0.0F);
-VCL_CONSTEXPR double vnl_numeric_traits<double>::zero VCL_STATIC_CONST_INIT_FLOAT_DEFN(0.0);
-VCL_CONSTEXPR long double vnl_numeric_traits<long double>::zero VCL_STATIC_CONST_INIT_FLOAT_DEFN(0.0);
+VXL_CONSTEXPR float vnl_numeric_traits<float>::zero VCL_STATIC_CONST_INIT_FLOAT_DEFN(0.0F);
+VXL_CONSTEXPR double vnl_numeric_traits<double>::zero VCL_STATIC_CONST_INIT_FLOAT_DEFN(0.0);
+VXL_CONSTEXPR long double vnl_numeric_traits<long double>::zero VCL_STATIC_CONST_INIT_FLOAT_DEFN(0.0);
 
-VCL_CONSTEXPR float vnl_numeric_traits<float>::one VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.0F);
-VCL_CONSTEXPR double vnl_numeric_traits<double>::one VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.0);
-VCL_CONSTEXPR long double vnl_numeric_traits<long double>::one VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.0);
+VXL_CONSTEXPR float vnl_numeric_traits<float>::one VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.0F);
+VXL_CONSTEXPR double vnl_numeric_traits<double>::one VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.0);
+VXL_CONSTEXPR long double vnl_numeric_traits<long double>::one VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.0);
 
-VCL_CONSTEXPR float vnl_numeric_traits<float>::maxval VCL_STATIC_CONST_INIT_FLOAT_DEFN(3.40282346638528860e+38F);
-VCL_CONSTEXPR double vnl_numeric_traits<double>::maxval VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.7976931348623157E+308);
-VCL_CONSTEXPR long double vnl_numeric_traits<long double>::maxval VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.7976931348623157E+308);
+VXL_CONSTEXPR float vnl_numeric_traits<float>::maxval VCL_STATIC_CONST_INIT_FLOAT_DEFN(3.40282346638528860e+38F);
+VXL_CONSTEXPR double vnl_numeric_traits<double>::maxval VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.7976931348623157E+308);
+VXL_CONSTEXPR long double vnl_numeric_traits<long double>::maxval VCL_STATIC_CONST_INIT_FLOAT_DEFN(1.7976931348623157E+308);
 #endif
 
 // Must use constructor-call syntax for initialization of complex
 // specializations for Borland compiler.
-const vcl_complex<float> vnl_numeric_traits<vcl_complex<float> >::zero(0.0f);
-const vcl_complex<double> vnl_numeric_traits<vcl_complex<double> >::zero(0.0);
-const vcl_complex<long double> vnl_numeric_traits<vcl_complex<long double> >::zero(0.0);
+const std::complex<float> vnl_numeric_traits<std::complex<float> >::zero(0.0f);
+const std::complex<double> vnl_numeric_traits<std::complex<double> >::zero(0.0);
+const std::complex<long double> vnl_numeric_traits<std::complex<long double> >::zero(0.0);
 
-const vcl_complex<float> vnl_numeric_traits<vcl_complex<float> >::one(1.0f);
-const vcl_complex<double> vnl_numeric_traits<vcl_complex<double> >::one(1.0);
-const vcl_complex<long double> vnl_numeric_traits<vcl_complex<long double> >::one(1.0);
+const std::complex<float> vnl_numeric_traits<std::complex<float> >::one(1.0f);
+const std::complex<double> vnl_numeric_traits<std::complex<double> >::one(1.0);
+const std::complex<long double> vnl_numeric_traits<std::complex<long double> >::one(1.0);
 
 // Unknown, so undefined. Will cause link errors if someone refers to it.
-//const vcl_complex<float> vnl_numeric_traits<vcl_complex<float> >::maxval;
-//const vcl_complex<double> vnl_numeric_traits<vcl_complex<double> >::maxval;
-//const vcl_complex<long double> vnl_numeric_traits<vcl_complex<long double> >::maxval;
+//const std::complex<float> vnl_numeric_traits<std::complex<float> >::maxval;
+//const std::complex<double> vnl_numeric_traits<std::complex<double> >::maxval;
+//const std::complex<long double> vnl_numeric_traits<std::complex<long double> >::maxval;
 
 //--------------------------------------------------------------------------------

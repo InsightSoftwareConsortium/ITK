@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_bignum_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_bignum.h>
 #include <vnl/io/vnl_io_bignum.h>
 #include <vsl/vsl_binary_io.h>
@@ -8,7 +9,7 @@
 
 void test_bignum_io()
 {
-  vcl_cout << "**************\n"
+  std::cout << "**************\n"
            << "test_bignum_io\n"
            << "**************\n";
 
@@ -45,17 +46,17 @@ void test_bignum_io()
   TEST ("equality +Infinity", p_inf, r4);
   TEST ("equality -Infinity", m_inf, r5);
 
-  vcl_cout << "\n0 summary: ";
-  vsl_print_summary(vcl_cout, nil);
-  vcl_cout << "\n-3245444 summary: ";
-  vsl_print_summary(vcl_cout, r2);
-  vcl_cout << "\n4235702934875938745092384750293845 summary: ";
-  vsl_print_summary(vcl_cout, verybig);
-  vcl_cout << "\n+Infinity summary: ";
-  vsl_print_summary(vcl_cout, r4);
-  vcl_cout << "\n-Infinity summary: ";
-  vsl_print_summary(vcl_cout, m_inf);
-  vcl_cout << vcl_endl;
+  std::cout << "\n0 summary: ";
+  vsl_print_summary(std::cout, nil);
+  std::cout << "\n-3245444 summary: ";
+  vsl_print_summary(std::cout, r2);
+  std::cout << "\n4235702934875938745092384750293845 summary: ";
+  vsl_print_summary(std::cout, verybig);
+  std::cout << "\n+Infinity summary: ";
+  vsl_print_summary(std::cout, r4);
+  std::cout << "\n-Infinity summary: ";
+  vsl_print_summary(std::cout, m_inf);
+  std::cout << std::endl;
 }
 
 TESTMAIN(test_bignum_io);

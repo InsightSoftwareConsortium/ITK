@@ -1,11 +1,12 @@
 // This is core/vnl/tests/test_matrix.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <cmath>
+#include <exception>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h> // necessary for tests of methods set_diagonal() and get_diagonal()
 #include <vnl/vnl_copy.h>
 #include <testlib/testlib_test.h>
-#include <vcl_cmath.h> // sqrt()
-#include <vcl_exception.h>
+#include <vcl_compiler.h>
 
 // This function is used in testing later.
 template< typename T >
@@ -14,9 +15,9 @@ T sum_vector(const vnl_vector<T> &v) { return v.sum(); }
 static
 void test_int()
 {
-  vcl_cout << "***********************\n"
+  std::cout << "***********************\n"
            << "Testing vnl_matrix<int>\n"
-           << "***********************" << vcl_endl;
+           << "***********************" << std::endl;
 
   //////////////////
   // CONSTRUCTORS //
@@ -58,34 +59,34 @@ void test_int()
   {
   // Get
   bool exceptionThrownAndCaught = false;
-  vcl_try { m0.get(0,25); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { m0.get(0,25); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds get(0,25)", exceptionThrownAndCaught, true);
   
   exceptionThrownAndCaught = false;
-  vcl_try { m0.get(25,0); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { m0.get(25,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds get(25,0)", exceptionThrownAndCaught, true);
 
   exceptionThrownAndCaught = false;
-  vcl_try { m0.get(25,25); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { m0.get(25,25); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds get(25,25)", exceptionThrownAndCaught, true);
 
   // Put
   exceptionThrownAndCaught = false;
-  vcl_try { m0.put(0,25,0); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { m0.put(0,25,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds put(0,25,0)", exceptionThrownAndCaught, true);
 
   exceptionThrownAndCaught = false;
-  vcl_try { m0.put(25,0,0); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { m0.put(25,0,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds put(25,0,0)", exceptionThrownAndCaught, true);
 
   exceptionThrownAndCaught = false;
-  vcl_try { m0.put(25,25,0); }  // Raise out of bounds exception.
-  vcl_catch_all { exceptionThrownAndCaught = true; }
+  try { m0.put(25,25,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds put(25,25,0)", exceptionThrownAndCaught, true);
 
   }
@@ -293,9 +294,9 @@ void test_int()
 
 void test_float()
 {
-  vcl_cout << "*************************\n"
+  std::cout << "*************************\n"
            << "Testing vnl_matrix<float>\n"
-           << "*************************" << vcl_endl;
+           << "*************************" << std::endl;
   vnl_matrix<float> d0(2,2);
   TEST("vnl_matrix<float> d0(2,2)", (d0.rows()==2 && d0.columns()==2), true);
   vnl_matrix<float> d1(3,4);
@@ -424,9 +425,9 @@ void test_float()
 
 void test_double()
 {
-  vcl_cout << "**************************\n"
+  std::cout << "**************************\n"
            << "Testing vnl_matrix<double>\n"
-           << "**************************" << vcl_endl;
+           << "**************************" << std::endl;
   vnl_matrix<double> d0(2,2);
   TEST("vnl_matrix<double> d0(2,2)", (d0.rows()==2 && d0.columns()==2), true);
   vnl_matrix<double> d1(3,4);
@@ -501,7 +502,7 @@ void test_double()
   // apply sqrt to every element
   double d8values [] = {0.0, 1.0, 9.0, 16.0};
   vnl_matrix<double> d8(2,2,4,d8values);
-  d8 = d8.apply(vcl_sqrt);
+  d8 = d8.apply(std::sqrt);
   TEST("apply(sqrt)", d8[0][0]==0 && d8[0][1]==1 && d8[1][0]==3 && d8[1][1]==4, true);
 
   // normalizations
@@ -554,11 +555,11 @@ namespace {
     vnl_matrix<T> m( 2, 5 );
     m(0,0)=1; m(0,1)=2; m(0,2)=3; m(0,3)=4; m(0,4)=5;
     m(1,0)=6; m(1,1)=7; m(1,2)=8; m(1,3)=9; m(1,4)=0;
-    vcl_cout << "m=\n" << m << '\n';
+    std::cout << "m=\n" << m << '\n';
 
     vnl_matrix<T> r( 1, 3 );
     m.extract( r, 1, 2 );
-    vcl_cout << "r=\n" << r << '\n';
+    std::cout << "r=\n" << r << '\n';
     TEST( "extract into existing matrix", r(0,0)==8 && r(0,1)==9 && r(0,2)==0, true );
   }
 } // end anonymous namespace

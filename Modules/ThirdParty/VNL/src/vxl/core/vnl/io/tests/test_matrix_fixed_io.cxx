@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_matrix_fixed_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/io/vnl_io_matrix_fixed.h>
 #include <testlib/testlib_test.h>
@@ -7,7 +8,7 @@
 
 void test_matrix_fixed_double_2_2_io()
 {
-  vcl_cout << "***************************************\n"
+  std::cout << "***************************************\n"
            << "Testing vnl_matrix_fixed<double,2,2> io\n"
            << "***************************************\n";
   //// test constructors, accessors
@@ -21,14 +22,14 @@ void test_matrix_fixed_double_2_2_io()
   m_in1 = m_out * 2.0;
 
   vsl_b_ofstream bfs_out("vnl_matrix_fixed_io.bvl.tmp",
-                         vcl_ios_out | vcl_ios_binary);
+                         std::ios::out | std::ios::binary);
   TEST ("vnl_matrix_fixed_io.bvl.tmp for writing", (!bfs_out), false);
   vsl_b_write(bfs_out, m_out);
   vsl_b_write(bfs_out, m_out);
   bfs_out.close();
 
   vsl_b_ifstream bfs_in("vnl_matrix_fixed_io.bvl.tmp",
-                        vcl_ios_in | vcl_ios_binary);
+                        std::ios::in | std::ios::binary);
   TEST ("vnl_matrix_fixed_io.bvl.tmp for reading", (!bfs_in), false);
   vsl_b_read(bfs_in, m_in0);
   vsl_b_read(bfs_in, m_in1);
@@ -41,8 +42,8 @@ void test_matrix_fixed_double_2_2_io()
   // m_in1 has content
   TEST ("m_out == m_in1", m_out, m_in1);
 
-  vsl_print_summary(vcl_cout, m_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, m_out);
+  std::cout << std::endl;
 }
 
 

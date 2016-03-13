@@ -7,10 +7,11 @@
 //   20 jan 2008 - Peter Vanroose - added tests on "large" divisions
 // \endverbatim
 
-#include <vcl_iostream.h>
-#include <vcl_limits.h> // for vcl_numeric_limits<double>::infinity()
-#include <vcl_sstream.h>
-#include <vcl_iomanip.h>
+#include <iostream>
+#include <limits>
+#include <sstream>
+#include <iomanip>
+#include <vcl_compiler.h>
 #include <vnl/vnl_bignum.h>
 #include <vnl/vnl_bignum_traits.h>
 #include <vnl/vnl_numeric_traits.h> // for vnl_numeric_traits<double>::maxval
@@ -42,9 +43,9 @@ static vnl_bignum Combinations(int n, int k)
 
 static void run_constructor_tests()
 {
-  vcl_cout << "\nbignum constructor tests:\n";
+  std::cout << "\nbignum constructor tests:\n";
 
-  vcl_cout << "long constructor:\n";
+  std::cout << "long constructor:\n";
   {vnl_bignum b(0L); TEST("vnl_bignum b(0L);", b, 0L);}
   {vnl_bignum b(1L); TEST("vnl_bignum b(1L);", b, 1L);}
   {vnl_bignum b(-1L); TEST("vnl_bignum b(-1L);", b, -1L);}
@@ -54,7 +55,7 @@ static void run_constructor_tests()
   {vnl_bignum b(-0x7fffffffL); TEST("vnl_bignum b(-0x7fffffffL);", b, -0x7fffffffL);}
   {vnl_bignum b(0xf00000L); TEST("vnl_bignum b(0xf00000L);", b, 0xf00000);}
 
-  vcl_cout << "double constructor:\n";
+  std::cout << "double constructor:\n";
   {vnl_bignum b(0.0); TEST("vnl_bignum b(0.0);", (double)b, 0.0);}
   {vnl_bignum b(1.0); TEST("vnl_bignum b(1.0);", (double)b, 1.0);}
   {vnl_bignum b(-1.0); TEST("vnl_bignum b(-1.0);", (double)b, -1.0);}
@@ -68,7 +69,8 @@ static void run_constructor_tests()
   {vnl_bignum b(-1234567e3); TEST("vnl_bignum b(-1234567e3);", (double)b, -1234567e3);}
   {vnl_bignum b(double(0xf00000)); TEST("vnl_bignum b(double(0xf00000));", b, 0xf00000);}
 
-  vcl_cout << "long double constructor:\n";
+#ifdef INCLUDE_LONG_DOUBLE_TESTS
+  std::cout << "long double constructor:\n";
   {vnl_bignum b(0.0L); TEST("vnl_bignum b(0.0L);", (long double)b, 0.0L);}
   {vnl_bignum b(1.0L); TEST("vnl_bignum b(1.0L);", (long double)b, 1.0L);}
   {vnl_bignum b(-1.0L); TEST("vnl_bignum b(-1.0L);", (long double)b, -1.0L);}
@@ -77,8 +79,9 @@ static void run_constructor_tests()
   {vnl_bignum b(1234567e3L); TEST("vnl_bignum b(1234567e3L);", (long double)b, 1234567e3L);}
   {vnl_bignum b(-1234567e3L); TEST("vnl_bignum b(-1234567e3L);", (long double)b, -1234567e3L);}
   {vnl_bignum b((long double)(0xf00000)); TEST("vnl_bignum b((long double)(0xf00000));", (long double)b, (long double)0xf00000);}
+#endif
 
-  vcl_cout << "char* constructor:\n";
+  std::cout << "char* constructor:\n";
   {vnl_bignum b("-1"); TEST("vnl_bignum b(\"-1\");", b, -1L);}
   {vnl_bignum b("+1"); TEST("vnl_bignum b(\"+1\");", b, 1L);}
   {vnl_bignum b("1"); TEST("vnl_bignum b(\"1\");", b, 1L);}
@@ -86,7 +89,7 @@ static void run_constructor_tests()
   {vnl_bignum b("123e5"); TEST("vnl_bignum b(\"123e5\");", b, 12300000L);}
   {vnl_bignum b("-123e+4"); TEST("vnl_bignum b(\"-123e+4\");", b, -1230000L);}
   {vnl_bignum b("123e12"); TEST("vnl_bignum b(\"123e12\");", (double)b, 123e12);}
-  {vnl_bignum b("-1e120"); vcl_stringstream s; s << b; vcl_cout << b << '\n';
+  {vnl_bignum b("-1e120"); std::stringstream s; s << b; std::cout << b << '\n';
    // verify that b outputs as  "-1000...00" (120 zeros)
    bool t = s.str()[0] == '-' && s.str()[1] == '1';
    for (int i=0; i<120; ++i) t = t && s.str()[i+2] == '0';
@@ -97,7 +100,7 @@ static void run_constructor_tests()
    // but the stringstream then reports its size as something else
    // on some systems. - FWW
    TEST("vnl_bignum b(\"-1e120\") outputs a length 122 string", s.str().length(), 122);
-   vcl_cout << "length of string: " << s.str().length() << vcl_endl;
+   std::cout << "length of string: " << s.str().length() << std::endl;
   }
   {vnl_bignum b("0x0"); TEST("vnl_bignum b(\"0x0\");", b, 0x0);}
   {vnl_bignum b("0x9"); TEST("vnl_bignum b(\"0x9\");", b, 0x9);}
@@ -116,43 +119,43 @@ static void run_constructor_tests()
   {vnl_bignum b("Infinity"); TEST("vnl_bignum b(\"Infinity\");", b.is_plus_infinity(), true);}
   {vnl_bignum b("-Infin"); TEST("vnl_bignum b(\"-Infin\");", b.is_minus_infinity(), true);}
 
-  vcl_cout << "reading from istream:\n";
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  std::cout << "reading from istream:\n";
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "+1"; is >> b; TEST("\"+1\" >> b;", b, 1L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "-1"; is >> b; TEST("\"-1\" >> b;", b, -1L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "123"; is >> b; TEST("\"123\" >> b;", b, 123L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "123e5"; is >> b; TEST("\"123e5\" >> b;", b, 12300000L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "123e+4"; is >> b; TEST("\"123e+4\" >> b;", b, 1230000L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "0x0"; is >> b; TEST("\"0x0\" >> b;", b, 0x0);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "0x9"; is >> b; TEST("\"0x9\" >> b;", b, 0x9);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "0xa"; is >> b; TEST("\"0xa\" >> b;", b, 0xa);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "0xf"; is >> b; TEST("\"0xf\" >> b;", b, 0xf);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "0xA"; is >> b; TEST("\"0xA\" >> b;", b, 0xa);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "0xF"; is >> b; TEST("\"0xF\" >> b;", b, 0xf);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "0x1aF"; is >> b; TEST("\"0x1aF\" >> b;", b, 0x1af);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << '0'; is >> b; TEST("\"0\" >> b;", b, 0L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "00"; is >> b; TEST("\"00\" >> b;", b, 0L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << "012334567"; is >> b; TEST("\"012334567\" >> b;", b, 012334567);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << '9'; is >> b; TEST("\"9\" >> b;", b, 9L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_bignum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_bignum b;
    is << " 9"; is >> b; TEST("\" 9\" >> b;", b, 9L);}
 
-  vcl_cout << "vnl_bignum& constructor:\n";
+  std::cout << "vnl_bignum& constructor:\n";
   {vnl_bignum b50(vnl_bignum(0L));
   TEST("vnl_bignum b50(vnl_bignum(0L));", (long)b50, 0L);}
 
@@ -162,20 +165,20 @@ static void run_constructor_tests()
 
 static void run_conversion_operator_tests()
 {
-  vcl_cout << "\nConversion operator tests:\n";
+  std::cout << "\nConversion operator tests:\n";
 
-  vcl_cout << "short conversion operator:\n";
+  std::cout << "short conversion operator:\n";
   TEST("short(vnl_bignum(0L)) == 0", short(vnl_bignum(0L)), 0);
   TEST("short(vnl_bignum(0x7fffL)) == 0x7fff", short(vnl_bignum(0x7fffL)), 0x7fff);
   TEST("short(vnl_bignum(-0x7fffL)) == -0x7fff", short(vnl_bignum(-0x7fffL)), -0x7fff);
   TEST("short(vnl_bignum(-0x8000L)) == short(-0x8000)", short(vnl_bignum(-0x8000L)), short(-0x8000));
 
-  vcl_cout << "int conversion operator:\n";
+  std::cout << "int conversion operator:\n";
   TEST("int(vnl_bignum(0L)) == 0", int(vnl_bignum(0L)), 0);
   TEST("int(vnl_bignum(0x7fffffffL)) == 0x7fffffff", int(vnl_bignum(0x7fffffffL)), 0x7fffffff);
   TEST("int(vnl_bignum(-0x7fffffffL)) == -0x7fffffff", int(vnl_bignum(-0x7fffffffL)), -0x7fffffff);
 
-  vcl_cout << "long conversion operator:\n";
+  std::cout << "long conversion operator:\n";
   vnl_bignum b(0x7fffffffL);
   ++b;
   // Two casts are used here instead of a direct cast to unsigned long
@@ -191,7 +194,7 @@ static void run_conversion_operator_tests()
   ++b; b = -b;
   TEST("vnl_bignum b(0x7fffffffL); ++b; b=-b; long(b) == -0x7fffffffL-0x1L", long(b), -0x7fffffffL-0x1L);
 
-  vcl_cout << "float conversion operator:\n";
+  std::cout << "float conversion operator:\n";
   TEST("float(vnl_bignum(0.0)) == 0.0", (float) vnl_bignum(0.0), 0.0);
   TEST("float(vnl_bignum(99999.0)) == 99999.0",
        ((float) vnl_bignum(99999.0)), 99999.0);
@@ -199,13 +202,13 @@ static void run_conversion_operator_tests()
        (vnl_numeric_traits<float>::maxval), (float) vnl_bignum(vnl_numeric_traits<float>::maxval));
   TEST("float(vnl_bignum(-vnl_numeric_traits<float>::maxval)) == -vnl_numeric_traits<float>::maxval",
        (-vnl_numeric_traits<float>::maxval), float(vnl_bignum(-vnl_numeric_traits<float>::maxval)));
-  TEST("float(vnl_bignum(\"+Inf\")) == +Inf", (float) vnl_bignum("+Inf"), vcl_numeric_limits<float>::infinity());
+  TEST("float(vnl_bignum(\"+Inf\")) == +Inf", (float) vnl_bignum("+Inf"), std::numeric_limits<float>::infinity());
 
   b = vnl_numeric_traits<double>::maxval;
   ++b;
   TEST("vnl_numeric_traits<double>::maxval + 1 is valid", b.is_infinity(), false);
 
-  vcl_cout << "double conversion operator:\n";
+  std::cout << "double conversion operator:\n";
   TEST("double(vnl_bignum(0.0)) == 0.0", (double) vnl_bignum(0.0), 0.0);
   TEST("double(vnl_bignum(99999.0)) == 99999.0",
        (double) vnl_bignum(99999.0), 99999.0);
@@ -221,7 +224,7 @@ static void run_conversion_operator_tests()
        (double) vnl_bignum(vnl_numeric_traits<double>::maxval), vnl_numeric_traits<double>::maxval);
   TEST("double(vnl_bignum(-vnl_numeric_traits<double>::maxval)) == -vnl_numeric_traits<double>::maxval",
        (double) vnl_bignum(-vnl_numeric_traits<double>::maxval), -vnl_numeric_traits<double>::maxval);
-  TEST("double(vnl_bignum(\"+Inf\")) == +Inf", (double) vnl_bignum("+Inf"), vcl_numeric_limits<double>::infinity());
+  TEST("double(vnl_bignum(\"+Inf\")) == +Inf", (double) vnl_bignum("+Inf"), std::numeric_limits<double>::infinity());
 
   // Test for bug in bignum::dtobignum()
   // it wasn't resetting the value at the start.
@@ -233,7 +236,7 @@ static void run_conversion_operator_tests()
 
 static void run_assignment_tests()
 {
-  vcl_cout << "\nStarting assignment tests:\n";
+  std::cout << "\nStarting assignment tests:\n";
   vnl_bignum b1;
 
   TEST_RUN ("vnl_bignum b1; b1 = 0xffff;", b1 = 0xffffL, long(b1), 0xffffL);
@@ -256,7 +259,7 @@ static void run_assignment_tests()
 
 static void run_logical_comparison_tests()
 {
-  vcl_cout << "\nStarting logical comparison tests:\n";
+  std::cout << "\nStarting logical comparison tests:\n";
   vnl_bignum b0(0L);
   vnl_bignum b1(1L);
   vnl_bignum b2(0x7fffL);
@@ -353,13 +356,13 @@ static void run_logical_comparison_tests()
   TEST("b3 >= b2", b3 >= b2, false);
   TEST("b3 >= b3", b3 >= b3, true);
   TEST("b2 >= b2", b2 >= b2, true);
-  vcl_cout << b2 << " == " << &b2 << vcl_endl;
+  std::cout << b2 << " == " << &b2 << std::endl;
   TEST("<<", 1, 1);
 }
 
 static void run_division_tests()
 {
-  vcl_cout << "\nStarting division tests:\n";
+  std::cout << "\nStarting division tests:\n";
 
   TEST("long(vnl_bignum(0L)/vnl_bignum(1L))", long(vnl_bignum(0L)/vnl_bignum(1L)), 0L);
   TEST("long(vnl_bignum(-1L)/vnl_bignum(1L))", long(vnl_bignum(-1L)/vnl_bignum(1L)), -1L);
@@ -371,13 +374,13 @@ static void run_division_tests()
   long div_errors = 0;
   long mod_errors = 0;
 
-  vcl_cout << " for (i = 0xffffff; i > 0; i /= 0x10)\n"
+  std::cout << " for (i = 0xffffff; i > 0; i /= 0x10)\n"
            << "   for (j = 0x7ffffff; j > 0; j /= 0x10)\n"
            << "     for (k = 1; k < 17; ++k)\n"
            << "       for (l = 1; l < 17; ++l)\n         ";
   for (i = 0xffffff; i > 0; i /= 0x10) {
-    vcl_cout.put('.');
-    vcl_cout.flush();
+    std::cout.put('.');
+    std::cout.flush();
     for (j = 0x7ffffff; j > 0; j /= 0x10) {
       for (k = 1; k < 17; ++k) {
         for (l = 1; l < 17; ++l) {
@@ -386,15 +389,15 @@ static void run_division_tests()
           vnl_bignum b3(long((i+k)/(j+l)));
           if (b1/b2 != b3) {
             TEST("(vnl_bignum(i+k)/vnl_bignum(j+l)) == vnl_bignum(long((i+k)/(j+l)))", false, true);
-            vcl_cout<<vcl_hex<< "i=0x"<<i<<", j=0x"<<j<<", k=0x"<<k<<", l="<<l
-                    <<vcl_dec<<", b1="<<b1<<", b2="<<b2<<", b3="<<b3<<'\n';
+            std::cout<<std::hex<< "i=0x"<<i<<", j=0x"<<j<<", k=0x"<<k<<", l="<<l
+                    <<std::dec<<", b1="<<b1<<", b2="<<b2<<", b3="<<b3<<'\n';
             ++div_errors;
           }
           b3 = vnl_bignum(long((i+k)%(j+l)));
           if (b1%b2 != b3) {
             TEST("(vnl_bignum(i+k)%vnl_bignum(j+l)) == vnl_bignum(long((i+k)%(j+l)))", false, true);
-            vcl_cout<<vcl_hex<< "i=0x"<<i<<", j=0x"<<j<<", k=0x"<<k<<", l="<<l
-                    <<vcl_dec<<", b1="<<b1<<", b2="<<b2<<", b3="<<b3<<'\n';
+            std::cout<<std::hex<< "i=0x"<<i<<", j=0x"<<j<<", k=0x"<<k<<", l="<<l
+                    <<std::dec<<", b1="<<b1<<", b2="<<b2<<", b3="<<b3<<'\n';
             ++mod_errors;
           }
         }
@@ -402,7 +405,7 @@ static void run_division_tests()
     }
   }
 
-  vcl_cout << '\n';
+  std::cout << '\n';
   TEST("(vnl_bignum(i+k)/vnl_bignum(j+l)) == vnl_bignum(long((i+k)/(j+l)))",
        div_errors, 0);
   TEST("(vnl_bignum(i+k)%vnl_bignum(j+l)) == vnl_bignum(long((i+k)%(j+l)))",
@@ -413,89 +416,89 @@ static void run_division_tests()
   vnl_bignum b,r;
 
   while (true) {
-    vcl_cout << "Enter next numerator:  ";
-    vcl_cin >> num;
-    vcl_cout << "Enter next denominator:  ";
-    vcl_cin >> den;
+    std::cout << "Enter next numerator:  ";
+    std::cin >> num;
+    std::cout << "Enter next denominator:  ";
+    std::cin >> den;
 
     b = vnl_bignum(num)/vnl_bignum(den);
     r = vnl_bignum(num) % vnl_bignum(den);
-    vcl_cout <<   "\nquotient  = " << b
+    std::cout <<   "\nquotient  = " << b
              <<   "\n            "; b.dump();
-    vcl_cout << "\n\nremainder = " << r
+    std::cout << "\n\nremainder = " << r
              <<   "\n            "; r.dump();
-    vcl_cout << '\n';
+    std::cout << '\n';
   }
 #endif
 }
 
 static void run_large_division_tests()
 {
-  vcl_cout << "\nStarting large division tests:\n";
+  std::cout << "\nStarting large division tests:\n";
 
   vnl_bignum a("10000000"), b("10000001"); b *= a; vnl_bignum c = b/10000001;
-  vcl_cout << b << " / 10000001 = " << c << ", must be 10000000\n";
+  std::cout << b << " / 10000001 = " << c << ", must be 10000000\n";
   TEST("100000010000000 / 10000001", c, a);
 
   // these are the same numbers, now written in hexadecimal:
   a = "0X989680"; b = "0X989681"; b *= a; c = b/vnl_bignum("0X989681");
-  vcl_cout << b << " / 0X989681 = " << c << ", must be " << a << vcl_endl;
+  std::cout << b << " / 0X989681 = " << c << ", must be " << a << std::endl;
   TEST("0x5AF31112D680 / 0x989681", c, a);
 
   // an other decimal example:
   a = "111111"; b = "111111"; b *= a; c = b/111111;
-  vcl_cout << b << " / 111111 = " << c << ", must be 111111\n";
+  std::cout << b << " / 111111 = " << c << ", must be 111111\n";
   TEST("12345654321 / 111111", c, a);
 
   // these are the same numbers, now written in hexadecimal:
   a = "0X2B67"; b = "0X2B67"; b *= a; c = b/vnl_bignum("0X2B67");
-  vcl_cout << b << " / 0X2B67 = " << c << ", must be " << a << vcl_endl;
+  std::cout << b << " / 0X2B67 = " << c << ", must be " << a << std::endl;
   TEST("12345654321 / 0X2B67", c, a);
 
   a = "98789"; b = "98789"; b *= a; c = b/98789;
-  vcl_cout << b << " / 98789 = " << c << ", must be 98789\n";
+  std::cout << b << " / 98789 = " << c << ", must be 98789\n";
   TEST("9759266521 / 98789", c, a);
 
   a = "1e100"; b = "1e200"; c = b/a;
-  vcl_cout << "1e200 / 1e100 = " << c << ", must be 1e100\n";
+  std::cout << "1e200 / 1e100 = " << c << ", must be 1e100\n";
   TEST("1e200 / 1e100", c, a);
 
   a = "-1e100"; b = "1e200"; c = b/a;
-  vcl_cout << "1e200 / -1e100 = " << c << ", must be -1e100\n";
+  std::cout << "1e200 / -1e100 = " << c << ", must be -1e100\n";
   TEST("1e200 / -1e100", c, a);
 
   a = "1e100"; b = "-1e200"; c = b/a;
-  vcl_cout << "-1e200 / 1e100 = " << c << ", must be -1e100\n";
+  std::cout << "-1e200 / 1e100 = " << c << ", must be -1e100\n";
   TEST("-1e200 / 1e100", c, -a);
 
   a = "-1e100"; b = "-1e200"; c = b/a;
-  vcl_cout << "-1e200 / -1e100 = " << c << ", must be 1e100\n";
+  std::cout << "-1e200 / -1e100 = " << c << ", must be 1e100\n";
   TEST("-1e200 / -1e100", c, -a);
 
   a = "1e100"; b = "1e200"; c = b%a;
-  vcl_cout << "1e200 % 1e100 = " << c << ", must be 0\n";
+  std::cout << "1e200 % 1e100 = " << c << ", must be 0\n";
   TEST("1e100^2 % 1e100", c, 0);
 
-  vcl_cout << "C(16,8) = " << Combinations(16,8) << vcl_endl;
+  std::cout << "C(16,8) = " << Combinations(16,8) << std::endl;
   TEST("16 choose 8 = 12870", Combinations(16,8), 12870);
-  vcl_cout << "C(18,9) = " << Combinations(18,9) << vcl_endl;
+  std::cout << "C(18,9) = " << Combinations(18,9) << std::endl;
   TEST("18 choose 9 = 48620", Combinations(18,9), 48620);
-  vcl_cout << "C(20,10) = " << Combinations(20,10) << vcl_endl;
+  std::cout << "C(20,10) = " << Combinations(20,10) << std::endl;
   TEST("20 choose 10 = 184756", Combinations(20,10), 184756);
-  vcl_cout << "C(100,44) = " << Combinations(100,44) << vcl_endl;
+  std::cout << "C(100,44) = " << Combinations(100,44) << std::endl;
   TEST("100 choose 44 = 49378235797073715747364762200",
        Combinations(100,44), "49378235797073715747364762200");
 }
 
 static void run_multiplication_division_tests()
 {
-  vcl_cout << "\nCheck example in book:\n";
+  std::cout << "\nCheck example in book:\n";
 
   vnl_bignum b2 = "0xffffffff";                 // Create vnl_bignum object
   vnl_bignum b3 = "12345e30";                   // Create vnl_bignum object
 
-  vcl_cout << "b2 = " << b2 << vcl_endl
-           << "b3 = " << b3 << vcl_endl;
+  std::cout << "b2 = " << b2 << std::endl
+           << "b3 = " << b3 << std::endl;
 
   TEST("(b2*b3) / b3 = b2", ((b2*b3) / b3 == b2), 1);
   TEST("(b2*b3) / b2 = b3", ((b2*b3) / b2 == b3), 1);
@@ -504,37 +507,37 @@ static void run_multiplication_division_tests()
 
 static void run_addition_subtraction_tests()
 {
-  vcl_cout << "\nStarting addition, subtraction tests:\n";
+  std::cout << "\nStarting addition, subtraction tests:\n";
 
   long i,j;
   long add_errors = 0;
   long sub_errors = 0;
   vnl_bignum bi,bj,bij;
 
-  vcl_cout << " for (i = 1; i < 0xfffffff;  i *= 3)\n"
+  std::cout << " for (i = 1; i < 0xfffffff;  i *= 3)\n"
            << "   for (j = 1; j < 0xfffffff; j *= 3)\n      ";
 
   {for (i = 1; i < 0xfffffff;  i *= 3) {
-    vcl_cout.put('.');
-    vcl_cout.flush();
+    std::cout.put('.');
+    std::cout.flush();
     for (j = 1; j < 0xfffffff; j *= 3) {
       bi = i;
       bj = j;
       bij = vnl_bignum(i+j);
       if (bi + bj != bij) {
         TEST("bi + bj == vnl_bignum(i + j)", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<vcl_endl;
+        std::cout << "i = "<<i<<", j = "<<j<<std::endl;
         ++add_errors;
       }
       bij = vnl_bignum(i-j);
       if (bi - bj != bij) {
         TEST("bi - bj == vnl_bignum(i - j)", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<vcl_endl;
+        std::cout << "i = "<<i<<", j = "<<j<<std::endl;
         ++sub_errors;
       }
     }
   }}
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
   TEST("bi + bj == vnl_bignum(i + j)", add_errors, 0);
   TEST("bi - bj == vnl_bignum(i - j)", sub_errors, 0);
 
@@ -604,7 +607,7 @@ static void run_addition_subtraction_tests()
 
 static void run_increment_tests()
 {
-  vcl_cout << "increment special cases:\n";
+  std::cout << "increment special cases:\n";
   vnl_bignum b1;
   TEST("b1     ==  0", b1, 0);
   ++b1;
@@ -673,7 +676,7 @@ static void run_increment_tests()
 
 static void run_multiplication_tests()
 {
-  vcl_cout << "\nStarting multiplication tests:\n";
+  std::cout << "\nStarting multiplication tests:\n";
 
   vnl_bignum b0(0L), b1000(1000L), b1000000(1000000L),
   zillion("1000000000000000000");
@@ -798,7 +801,7 @@ static void run_right_shift_tests()
 
 static void run_shift_tests()
 {
-  vcl_cout << "\nStarting shift tests:\n";
+  std::cout << "\nStarting shift tests:\n";
 
   run_left_shift_tests();
   run_right_shift_tests();
@@ -808,12 +811,12 @@ static void run_shift_tests()
   int sh;
 
   while (true) {
-    vcl_cout << "Enter next vnl_bignum:  ";
-    vcl_cin >> s;
+    std::cout << "Enter next vnl_bignum:  ";
+    std::cin >> s;
     b = s;
-    vcl_cout << "Enter shift amount: ";
-    vcl_cin >> sh;
-    vcl_cout << "Shift == " << sh << vcl_endl;
+    std::cout << "Enter shift amount: ";
+    std::cin >> sh;
+    std::cout << "Shift == " << sh << std::endl;
 
     b = b << sh;
   }

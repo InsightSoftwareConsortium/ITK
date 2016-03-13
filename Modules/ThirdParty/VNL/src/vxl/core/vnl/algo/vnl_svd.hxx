@@ -4,13 +4,14 @@
 //:
 // \file
 
+#include <cstdlib>
+#include <complex>
+#include <iostream>
+#include <algorithm>
 #include "vnl_svd.h"
 
 #include <vcl_cassert.h>
-#include <vcl_cstdlib.h>
-#include <vcl_complex.h>
-#include <vcl_iostream.h>
-#include <vcl_algorithm.h> // min()
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_fortran_copy.h>
@@ -22,8 +23,8 @@ inline void vnl_linpack_svdc(vnl_netlib_svd_proto(T)) \
 { v3p_netlib_##p##svdc_(vnl_netlib_svd_params); }
 macro(s, float);
 macro(d, double);
-macro(c, vcl_complex<float>);
-macro(z, vcl_complex<double>);
+macro(c, std::complex<float>);
+macro(z, std::complex<double>);
 #undef macro
 
 //--------------------------------------------------------------------------------
@@ -46,7 +47,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
   {
     long n = M.rows();
     long p = M.columns();
-    long mm = vcl_min(n+1L,p);
+    long mm = std::min(n+1L,p);
 
     // Copy source matrix into fortran storage
     // SVD is slow, don't worry about the cost of this transpose.
@@ -100,10 +101,10 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
       // if this is the cause, core/vnl/tests/test_svd should have failed.
       //
       // You may be able to diagnose the problem here by printing a warning message.
-      vcl_cerr << __FILE__ ": suspicious return value (" << info << ") from SVDC\n"
-               << __FILE__ ": M is " << M.rows() << 'x' << M.cols() << vcl_endl;
+      std::cerr << __FILE__ ": suspicious return value (" << info << ") from SVDC\n"
+               << __FILE__ ": M is " << M.rows() << 'x' << M.cols() << std::endl;
 
-      vnl_matlab_print(vcl_cerr, M, "M", vnl_matlab_print_format_long);
+      vnl_matlab_print(std::cerr, M, "M", vnl_matlab_print_format_long);
       valid_ = false;
     }
     else
@@ -118,7 +119,7 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
     }
 
     for (int j = 0; j < mm; ++j)
-      W_(j, j) = vcl_abs(wspace(j)); // we get rid of complexness here.
+      W_(j, j) = std::abs(wspace(j)); // we get rid of complexness here.
 
     for (int j = mm; j < n_; ++j)
       W_(j, j) = 0;
@@ -135,18 +136,18 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
   {
     // Test that recomposed matrix == M
     typedef typename vnl_numeric_traits<T>::abs_t abs_t;
-    abs_t recomposition_residual = vcl_abs((recompose() - M).fro_norm());
-    abs_t n = vcl_abs(M.fro_norm());
+    abs_t recomposition_residual = std::abs((recompose() - M).fro_norm());
+    abs_t n = std::abs(M.fro_norm());
     abs_t thresh = abs_t(m_) * abs_t(vnl_math::eps) * n;
     if (recomposition_residual > thresh)
     {
-      vcl_cerr << "vnl_svd<T>::vnl_svd<T>() -- Warning, recomposition_residual = "
-               << recomposition_residual << vcl_endl
-               << "fro_norm(M) = " << n << vcl_endl
-               << "eps*fro_norm(M) = " << thresh << vcl_endl
+      std::cerr << "vnl_svd<T>::vnl_svd<T>() -- Warning, recomposition_residual = "
+               << recomposition_residual << std::endl
+               << "fro_norm(M) = " << n << std::endl
+               << "eps*fro_norm(M) = " << thresh << std::endl
                << "Press return to continue\n";
       char x;
-      vcl_cin.get(&x, 1, '\n');
+      std::cin.get(&x, 1, '\n');
     }
   }
 
@@ -159,14 +160,14 @@ vnl_svd<T>::vnl_svd(vnl_matrix<T> const& M, double zero_out_tol):
 }
 
 template <class T>
-vcl_ostream& operator<<(vcl_ostream& s, const vnl_svd<T>& svd)
+std::ostream& operator<<(std::ostream& s, const vnl_svd<T>& svd)
 {
   s << "vnl_svd<T>:\n"
 //  << "M = [\n" << M << "]\n"
     << "U = [\n" << svd.U() << "]\n"
     << "W = " << svd.W() << '\n'
     << "V = [\n" << svd.V() << "]\n"
-    << "rank = " << svd.rank() << vcl_endl;
+    << "rank = " << svd.rank() << std::endl;
   return s;
 }
 
@@ -183,7 +184,7 @@ vnl_svd<T>::zero_out_absolute(double tol)
   for (unsigned k = 0; k < W_.rows(); k++)
   {
     singval_t& weight = W_(k, k);
-    if (vcl_abs(weight) <= tol)
+    if (std::abs(weight) <= tol)
     {
       Winverse_(k,k) = 0;
       weight = 0;
@@ -199,7 +200,7 @@ vnl_svd<T>::zero_out_absolute(double tol)
 //: find weights below tol*max(w) and zero them out
 template <class T> void vnl_svd<T>::zero_out_relative(double tol) // sqrt(machine epsilon)
 {
-  zero_out_absolute(tol * vcl_abs(sigma_max()));
+  zero_out_absolute(tol * std::abs(sigma_max()));
 }
 
 static bool w=false;
@@ -210,7 +211,7 @@ template <class T>
 typename vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 {
   if (!vnl_svn_warned() && m_ != n_)
-    vcl_cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n"
+    std::cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n"
              << "(This warning is displayed only once)\n";
   singval_t product = W_(0, 0);
   for (unsigned long k = 1; k < W_.columns(); k++)
@@ -222,7 +223,7 @@ typename vnl_svd<T>::singval_t vnl_svd<T>::determinant_magnitude() const
 template <class T>
 typename vnl_svd<T>::singval_t vnl_svd<T>::norm() const
 {
-  return vcl_abs(sigma_max());
+  return std::abs(sigma_max());
 }
 
 //: Recompose SVD to U*W*V'
@@ -297,7 +298,7 @@ vnl_vector<T> vnl_svd<T>::solve(vnl_vector<T> const& y)  const
   // fsm sanity check :
   if (y.size() != U_.rows())
   {
-    vcl_cerr << __FILE__ << ": size of rhs is incompatible with no. of rows in U_\n"
+    std::cerr << __FILE__ << ": size of rhs is incompatible with no. of rows in U_\n"
              << "y =" << y << '\n'
              << "m_=" << m_ << '\n'
              << "n_=" << n_ << '\n'
@@ -310,8 +311,8 @@ vnl_vector<T> vnl_svd<T>::solve(vnl_vector<T> const& y)  const
   if (U_.rows() < U_.columns()) {               // Augment y with extra rows of
     vnl_vector<T> yy(U_.rows(), T(0));          // zeros, so that it matches
     if (yy.size()<y.size()) { // fsm
-      vcl_cerr << "yy=" << yy << vcl_endl
-               << "y =" << y  << vcl_endl;
+      std::cerr << "yy=" << yy << std::endl
+               << "y =" << y  << std::endl;
       // the update() call on the next line will abort...
     }
     yy.update(y);                               // cols of u.transpose.
@@ -343,7 +344,7 @@ void vnl_svd<T>::solve_preinverted(vnl_vector<T> const& y, vnl_vector<T>* x_out)
 {
   vnl_vector<T> x;              // solution matrix
   if (U_.rows() < U_.columns()) {               // augment y with extra rows of
-    vcl_cout << "vnl_svd<T>::solve_preinverted() -- Augmenting y\n";
+    std::cout << "vnl_svd<T>::solve_preinverted() -- Augmenting y\n";
     vnl_vector<T> yy(U_.rows(), T(0));     // zeros, so that it match
     yy.update(y);                               // cols of u.transpose. ??
     x = U_.conjugate_transpose() * yy;
@@ -363,7 +364,7 @@ vnl_matrix <T> vnl_svd<T>::nullspace()  const
 {
   int k = rank();
   if (k == n_)
-    vcl_cerr << "vnl_svd<T>::nullspace() -- Matrix is full rank." << last_tol_ << vcl_endl;
+    std::cerr << "vnl_svd<T>::nullspace() -- Matrix is full rank." << last_tol_ << std::endl;
   return nullspace(n_-k);
 }
 
@@ -382,7 +383,7 @@ vnl_matrix <T> vnl_svd<T>::left_nullspace()  const
 {
   int k = rank();
   if (k == n_)
-    vcl_cerr << "vnl_svd<T>::left_nullspace() -- Matrix is full rank." << last_tol_ << vcl_endl;
+    std::cerr << "vnl_svd<T>::left_nullspace() -- Matrix is full rank." << last_tol_ << std::endl;
   return U_.extract(U_.rows(), n_-k, 0, k);
 }
 
@@ -415,7 +416,7 @@ template <class T>
 vnl_vector <T> vnl_svd<T>::left_nullvector()  const
 {
   vnl_vector<T> ret(m_);
-  int col = vcl_min(m_, n_) - 1;
+  int col = std::min(m_, n_) - 1;
   for (int i = 0; i < m_; ++i)
     ret(i) = U_(i, col);
   return ret;
@@ -426,6 +427,6 @@ vnl_vector <T> vnl_svd<T>::left_nullvector()  const
 #undef VNL_SVD_INSTANTIATE
 #define VNL_SVD_INSTANTIATE(T) \
 template class vnl_svd<T >; \
-template vcl_ostream& operator<<(vcl_ostream &, vnl_svd<T > const &)
+template std::ostream& operator<<(std::ostream &, vnl_svd<T > const &)
 
 #endif // vnl_svd_hxx_
