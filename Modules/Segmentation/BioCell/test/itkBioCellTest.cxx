@@ -42,8 +42,6 @@ public:
   typedef typename itk::bio::Cell< NSpaceDimension >::VectorType
     VectorType;
 
-  itkTypeMacro( BioCellHelper, itk::bio::Cell );
-
 
   static int Exercise(VectorType forceVector,
     double itkNotUsed(radius),
