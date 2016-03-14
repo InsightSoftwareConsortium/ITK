@@ -19,7 +19,7 @@
 #define itkSymmetricEigenAnalysis_hxx
 
 #include "itkSymmetricEigenAnalysis.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -137,7 +137,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
     /*     .......... scale row (algol tol then not needed) .......... */
     for ( k = 0; k <= l; ++k )
       {
-      scale += vnl_math_abs(d[k]);
+      scale += itk::Math::abs(d[k]);
       }
 
     if ( scale == 0. )
@@ -161,7 +161,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ReduceToTridiagonalMat
     e2[i] = scale * scale * h;
     f = d[l];
     d__1 = std::sqrt(h);
-    g = ( -1.0 ) * vnl_math_sgn0(f) * vnl_math_abs(d__1);
+    g = ( -1.0 ) * itk::Math::sgn0(f) * itk::Math::abs(d__1);
     e[i] = scale * g;
     h -= f * g;
     d[l] = f - g;
@@ -258,7 +258,7 @@ const
     /*     .......... scale row (algol tol then not needed) .......... */
     for ( k = 0; k <= l; ++k )
       {
-      scale += vnl_math_abs(d[k]);
+      scale += itk::Math::abs(d[k]);
       }
 
     if ( scale == 0.0 )
@@ -282,7 +282,7 @@ const
 
       f = d[l];
       d__1 = std::sqrt(h);
-      g = ( -1.0 ) * vnl_math_sgn0(f) * vnl_math_abs(d__1);
+      g = ( -1.0 ) * itk::Math::sgn0(f) * itk::Math::abs(d__1);
       e[i] = scale * g;
       h -= f * g;
       d[l] = f - g;
@@ -423,7 +423,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
   for ( l = 0; l < m_Order; ++l )
     {
     j = 0;
-    h = vnl_math_abs(d[l]) + vnl_math_abs(e[l]);
+    h = itk::Math::abs(d[l]) + itk::Math::abs(e[l]);
     if ( tst1 < h )
       {
       tst1 = h;
@@ -431,7 +431,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
     /*     .......... look for small sub-diagonal element .......... */
     for ( m = l; m < m_Order - 1; ++m )
       {
-      const double abs_e_m = vnl_math_abs(e[m]);
+      const double abs_e_m = itk::Math::abs(e[m]);
       tst2 = tst1 + abs_e_m;
       if ( ! ( abs_e_m  > 0 ) )
         {
@@ -456,9 +456,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
         /*     .......... form shift .......... */
         g = d[l];
         p = ( d[l + 1] - g ) / ( e[l] * 2. );
-        r = vnl_math_hypot(p, c_b10);
-        d[l] = e[l] / ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
-        d[l + 1] = e[l] * ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
+        r = itk::Math::hypot(p, c_b10);
+        d[l] = e[l] / ( p + itk::Math::sgn0(p) * itk::Math::abs(r) );
+        d[l + 1] = e[l] * ( p + itk::Math::sgn0(p) * itk::Math::abs(r) );
         dl1 = d[l + 1];
         h = g - d[l];
 
@@ -481,7 +481,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
           s2 = s;
           g = c * e[i];
           h = c * p;
-          r = vnl_math_hypot(p, e[i]);
+          r = itk::Math::hypot(p, e[i]);
           e[i + 1] = s * r;
           s = e[i] / r;
           c = p / r;
@@ -496,7 +496,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
         p = -s * s2 * c3 * el1 * e[l] / dl1;
         e[l] = s * p;
         d[l] = c * p;
-        tst2 = tst1 + vnl_math_abs(e[l]);
+        tst2 = tst1 + itk::Math::abs(e[l]);
         }
       while ( tst2 > tst1 );
       }
@@ -521,7 +521,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
       // Order by magnitude.. make eigen values positive
       for ( i = l; i > 0; --i )
         {
-        if ( vnl_math_abs(p) >= vnl_math_abs(d[i - 1]) )
+        if ( itk::Math::abs(p) >= itk::Math::abs(d[i - 1]) )
           {
           break;
           }
@@ -573,7 +573,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
   for ( l = 0; l < m_Order; ++l )
     {
     j = 0;
-    h = vnl_math_abs(d[l]) + vnl_math_abs(e[l]);
+    h = itk::Math::abs(d[l]) + itk::Math::abs(e[l]);
     if ( tst1 < h )
       {
       tst1 = h;
@@ -582,7 +582,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
     /*     .......... look for small sub-diagonal element .......... */
     for ( m = l; m < m_Order - 1; ++m )
       {
-      const double abs_e_m = vnl_math_abs(e[m]);
+      const double abs_e_m = itk::Math::abs(e[m]);
       tst2 = tst1 + abs_e_m;
       if ( ! (abs_e_m > 0 ) )
         {
@@ -608,9 +608,9 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
         /*     .......... form shift .......... */
         g = d[l];
         p = ( d[l + 1] - g ) / ( e[l] * 2. );
-        r = vnl_math_hypot(p, c_b10);
-        d[l] = e[l] / ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
-        d[l + 1] = e[l] * ( p + vnl_math_sgn0(p) * vnl_math_abs(r) );
+        r = itk::Math::hypot(p, c_b10);
+        d[l] = e[l] / ( p + itk::Math::sgn0(p) * itk::Math::abs(r) );
+        d[l + 1] = e[l] * ( p + itk::Math::sgn0(p) * itk::Math::abs(r) );
         dl1 = d[l + 1];
         h = g - d[l];
 
@@ -634,7 +634,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
           s2 = s;
           g = c * e[i];
           h = c * p;
-          r = vnl_math_hypot(p, e[i]);
+          r = itk::Math::hypot(p, e[i]);
           e[i + 1] = s * r;
           s = e[i] / r;
           c = p / r;
@@ -657,7 +657,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
         p = -s * s2 * c3 * el1 * e[l] / dl1;
         e[l] = s * p;
         d[l] = c * p;
-        tst2 = tst1 + vnl_math_abs(e[l]);
+        tst2 = tst1 + itk::Math::abs(e[l]);
         }
       while ( tst2 > tst1 );
       }
@@ -709,7 +709,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
 
       for ( j = i + 1; j < m_Order; ++j )
         {
-        if ( vnl_math_abs(d[j]) >= vnl_math_abs(p) )
+        if ( itk::Math::abs(d[j]) >= itk::Math::abs(p) )
           {
           continue;
           }

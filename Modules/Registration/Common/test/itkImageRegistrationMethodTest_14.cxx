@@ -149,7 +149,7 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
    * One image rotated (xy plane) and shifted with respect to the other.
    **********************************************************/
   double displacement[dimension] = {7,3,2};
-  double angle = 10.0 / 180.0 * vnl_math::pi;
+  double angle = 10.0 / 180.0 * itk::Math::pi;
 
   FixedImageType::SizeType size = {{100,100,40}};
   FixedImageType::IndexType index = {{0,0,0}};
@@ -327,14 +327,14 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
 
   for( j = 0; j < 4; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 0.025 )
+    if( itk::Math::abs( solution[j] - trueParameters[j] ) > 0.025 )
       {
       pass = false;
       }
     }
   for( j = 4; j < 7; j++ )
     {
-    if( vnl_math_abs( solution[j] - trueParameters[j] ) > 1.0 )
+    if( itk::Math::abs( solution[j] - trueParameters[j] ) > 1.0 )
       {
       pass = false;
       }
@@ -428,9 +428,9 @@ double F( itk::Vector<double,3> & v )
   double r = std::sqrt( x*x + y*y + z*z );
   if( r > 35 )
     {
-    value = 2 * ( vnl_math_abs( x ) +
-      0.8 * vnl_math_abs( y ) +
-      0.5 * vnl_math_abs( z ) );
+    value = 2 * ( itk::Math::abs( x ) +
+      0.8 * itk::Math::abs( y ) +
+      0.5 * itk::Math::abs( z ) );
     }
   if( r < 4 )
     {

@@ -199,8 +199,8 @@ VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
       for ( i = 0; i < ImageDimension; i++ )
         {
         propagation_gradient +=
-          vnl_math_sqr( std::min(dx_backward[i][k], ScalarValueTypeZero) )
-          + vnl_math_sqr( std::max(dx_forward[i][k],  ScalarValueTypeZero) );
+          itk::Math::sqr( std::min(dx_backward[i][k], ScalarValueTypeZero) )
+          + itk::Math::sqr( std::max(dx_forward[i][k],  ScalarValueTypeZero) );
         }
       }
     else
@@ -208,8 +208,8 @@ VectorCurvatureNDAnisotropicDiffusionFunction< TImage >
       for ( i = 0; i < ImageDimension; i++ )
         {
         propagation_gradient +=
-          vnl_math_sqr( std::max(dx_backward[i][k], ScalarValueTypeZero) )
-          + vnl_math_sqr( std::min(dx_forward[i][k],  ScalarValueTypeZero) );
+          itk::Math::sqr( std::max(dx_backward[i][k], ScalarValueTypeZero) )
+          + itk::Math::sqr( std::min(dx_forward[i][k],  ScalarValueTypeZero) );
         }
       }
 

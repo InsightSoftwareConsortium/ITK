@@ -20,8 +20,8 @@
 #define itkLevelSetEquationTermBase_hxx
 
 #include "itkLevelSetEquationTermBase.h"
-
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -79,7 +79,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP )
 {
-  if( vnl_math_abs( this->m_Coefficient ) > NumericTraits< LevelSetOutputRealType >::epsilon() )
+  if( itk::Math::abs( this->m_Coefficient ) > NumericTraits< LevelSetOutputRealType >::epsilon() )
     {
     return this->m_Coefficient * this->Value( iP );
     }
@@ -99,7 +99,7 @@ LevelSetEquationTermBase< TInputImage, TLevelSetContainer >
 ::Evaluate( const LevelSetInputIndexType& iP,
             const LevelSetDataType& iData )
 {
-  if( vnl_math_abs( this->m_Coefficient ) > NumericTraits< LevelSetOutputRealType >::epsilon() )
+  if( itk::Math::abs( this->m_Coefficient ) > NumericTraits< LevelSetOutputRealType >::epsilon() )
     {
     return this->m_Coefficient * this->Value( iP, iData );
     }

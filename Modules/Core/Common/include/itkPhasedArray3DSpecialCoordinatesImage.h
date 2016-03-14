@@ -20,7 +20,7 @@
 
 #include "itkSpecialCoordinatesImage.h"
 #include "itkPoint.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -340,9 +340,9 @@ protected:
   PhasedArray3DSpecialCoordinatesImage()
   {
     m_RadiusSampleSize = 1;
-    m_AzimuthAngularSeparation   =  1 * ( 2.0 * vnl_math::pi / 360.0 ); // 1
+    m_AzimuthAngularSeparation   =  1 * ( 2.0 * itk::Math::pi / 360.0 ); // 1
                                                                         // degree
-    m_ElevationAngularSeparation =  1 * ( 2.0 * vnl_math::pi / 360.0 ); // 1
+    m_ElevationAngularSeparation =  1 * ( 2.0 * itk::Math::pi / 360.0 ); // 1
                                                                         // degree
     m_FirstSampleDistance = 0;
   }

@@ -370,7 +370,7 @@ BinaryContourImageFilter< TInputImage, TOutputImage >
   // axis
   for ( unsigned int i = 1; i < ImageDimension; i++ )
     {
-    if ( vnl_math_abs( A[i] - B[i] ) > 1 )
+    if ( itk::Math::abs( A[i] - B[i] ) > 1 )
       {
       return ( false );
       }

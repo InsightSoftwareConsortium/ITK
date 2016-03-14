@@ -19,7 +19,7 @@
 #define itkBinaryMinMaxCurvatureFlowFunction_hxx
 #include "itkBinaryMinMaxCurvatureFlowFunction.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkNeighborhoodInnerProduct.h"
 
 namespace itk

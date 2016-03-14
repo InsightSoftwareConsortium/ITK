@@ -662,8 +662,8 @@ int itkHistogramTest(int, char* [] )
         HistogramType::MeasurementType minA = binMinimums[dim][k];
         HistogramType::MeasurementType minB = binDimensionMinimums[k];
         HistogramType::MeasurementType minC = histogram->GetBinMin( dim, k );
-        if( ( vnl_math_abs( minA - minB ) > epsilon ) ||
-            ( vnl_math_abs( minA - minC ) > epsilon )    )
+        if( ( itk::Math::abs( minA - minB ) > epsilon ) ||
+            ( itk::Math::abs( minA - minC ) > epsilon )    )
           {
           std::cerr << "Error in Get Bin Mins methods" << std::endl;
           std::cerr << "dim = " << dim << " k = " << k << std::endl;
@@ -685,8 +685,8 @@ int itkHistogramTest(int, char* [] )
         HistogramType::MeasurementType maxA = binMaximums[dim][k];
         HistogramType::MeasurementType maxB = binDimensionMaximums[k];
         HistogramType::MeasurementType maxC = histogram->GetBinMax( dim, k );
-        if( ( vnl_math_abs( maxA - maxB ) > epsilon ) ||
-            ( vnl_math_abs( maxA - maxC ) > epsilon )    )
+        if( ( itk::Math::abs( maxA - maxB ) > epsilon ) ||
+            ( itk::Math::abs( maxA - maxC ) > epsilon )    )
           {
           std::cerr << "Error in Get Bin Maxs methods" << std::endl;
           std::cerr << "dim = " << dim << " k = " << k << std::endl;

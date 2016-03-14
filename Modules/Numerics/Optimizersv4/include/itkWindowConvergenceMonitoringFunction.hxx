@@ -55,7 +55,7 @@ WindowConvergenceMonitoringFunction<TScalar>
     {
     this->m_EnergyValues.pop_front();
     }
-  this->m_TotalEnergy += vnl_math_abs( value );
+  this->m_TotalEnergy += itk::Math::abs( value );
 
   this->Modified();
 }

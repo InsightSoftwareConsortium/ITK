@@ -21,7 +21,7 @@
 #include "itkHistogramToTextureFeaturesFilter.h"
 
 #include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkMath.h"
 
 namespace itk

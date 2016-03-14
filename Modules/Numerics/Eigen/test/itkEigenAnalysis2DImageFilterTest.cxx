@@ -138,9 +138,9 @@ int itkEigenAnalysis2DImageFilterTest(int, char* [] )
   myImageType::Pointer inputImageYY  = myImageType::New();
 
 
-  InitializeImage( inputImageXX, std::cos( vnl_math::pi / 6.0 ) );
-  InitializeImage( inputImageXY, std::sin( vnl_math::pi / 6.0 ) );
-  InitializeImage( inputImageYY, std::cos( vnl_math::pi / 6.0 ) );
+  InitializeImage( inputImageXX, std::cos( itk::Math::pi / 6.0 ) );
+  InitializeImage( inputImageXY, std::sin( itk::Math::pi / 6.0 ) );
+  InitializeImage( inputImageYY, std::cos( itk::Math::pi / 6.0 ) );
 
 
   // Create a  Filter

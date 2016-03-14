@@ -224,7 +224,7 @@ CellularAggregate< NSpaceDimension >
     }
 
   const double norm = perturbationVector.GetNorm();
-  if ( vnl_math_abs(norm) > 1e-10 )
+  if ( itk::Math::abs(norm) > 1e-10 )
     {
     perturbationVector *= perturbationLength / norm;
     }

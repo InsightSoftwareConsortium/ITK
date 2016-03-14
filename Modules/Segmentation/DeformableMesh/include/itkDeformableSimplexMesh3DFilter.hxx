@@ -294,7 +294,7 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
     double tmpNormalProd = dot_product( tmp.GetVnlVector(), data->normal.GetVnlVector() );
 
-    double sinphi =  2 *data->circleRadius *D *vnl_math_sgn(tmpNormalProd);
+    double sinphi =  2 *data->circleRadius *D *itk::Math::sgn(tmpNormalProd);
     double phi = std::asin(sinphi);
 
     data->phi = phi;
@@ -578,7 +578,7 @@ bool DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
 
   double eps = 1.0;
 
-  if ( phi * vnl_math_sgn(phi) > vnl_math::pi_over_2 )
+  if ( phi * itk::Math::sgn(phi) > itk::Math::pi_over_2 )
     {
     eps = -1.0;
     }

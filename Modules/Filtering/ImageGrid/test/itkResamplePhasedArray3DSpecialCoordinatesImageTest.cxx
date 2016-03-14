@@ -48,8 +48,8 @@ int itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   region.SetIndex( index );
   image->SetLargestPossibleRegion( region );
   image->SetBufferedRegion( region );
-  image->SetAzimuthAngularSeparation( 5.0*2.0*vnl_math::pi/360.0 );
-  image->SetElevationAngularSeparation( 5.0*2.0*vnl_math::pi/360.0 );
+  image->SetAzimuthAngularSeparation( 5.0*2.0*itk::Math::pi/360.0 );
+  image->SetElevationAngularSeparation( 5.0*2.0*itk::Math::pi/360.0 );
   image->SetRadiusSampleSize( 0.5 );
   image->SetFirstSampleDistance( 2 );
   image->Allocate();
@@ -140,8 +140,8 @@ int itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   // ResampleImageFilter was not designed for special-coordinates images, so we
   // MUST provide the physical-spacing parameters ourselves before calling Update.
   image2 = backResample->GetOutput();
-  image2->SetAzimuthAngularSeparation( 5.0*2.0*vnl_math::pi/360.0 );
-  image2->SetElevationAngularSeparation( 5.0*2.0*vnl_math::pi/360.0 );
+  image2->SetAzimuthAngularSeparation( 5.0*2.0*itk::Math::pi/360.0 );
+  image2->SetElevationAngularSeparation( 5.0*2.0*itk::Math::pi/360.0 );
   image2->SetRadiusSampleSize( 0.5 );
   image2->SetFirstSampleDistance( 2 );
 

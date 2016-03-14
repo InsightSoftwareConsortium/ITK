@@ -145,9 +145,9 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
 
   MeasurementVectorRealType    standardDeviation2 = standardDeviationFilter->GetStandardDeviationPerComponent();
 
-  if ( ( vnl_math_abs( standardDeviation[0] - standardDeviation2[0]) > epsilon )  ||
-       ( vnl_math_abs( standardDeviation[1] - standardDeviation2[1]) > epsilon )  ||
-       ( vnl_math_abs( standardDeviation[2] - standardDeviation2[2]) > epsilon ) )
+  if ( ( itk::Math::abs( standardDeviation[0] - standardDeviation2[0]) > epsilon )  ||
+       ( itk::Math::abs( standardDeviation[1] - standardDeviation2[1]) > epsilon )  ||
+       ( itk::Math::abs( standardDeviation[2] - standardDeviation2[2]) > epsilon ) )
     {
     std::cerr << "Standard Deviation value retrieved using Get() and the decorator\
                   are not the same:: " <<  standardDeviation << "," << standardDeviation2 << std::endl;
@@ -170,9 +170,9 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
 
   CovarianceSampleFilterType::MeasurementVectorRealType meanCalculatedUsingCovarianceSampleFilter = covarianceFilter->GetMean();
 
-  if ( ( vnl_math_abs( meanCalculatedUsingCovarianceSampleFilter[0] - mean[0]) > epsilon )  ||
-       ( vnl_math_abs( meanCalculatedUsingCovarianceSampleFilter[1] - mean[1]) > epsilon )  ||
-       ( vnl_math_abs( meanCalculatedUsingCovarianceSampleFilter[2] - mean[2]) > epsilon ) )
+  if ( ( itk::Math::abs( meanCalculatedUsingCovarianceSampleFilter[0] - mean[0]) > epsilon )  ||
+       ( itk::Math::abs( meanCalculatedUsingCovarianceSampleFilter[1] - mean[1]) > epsilon )  ||
+       ( itk::Math::abs( meanCalculatedUsingCovarianceSampleFilter[2] - mean[2]) > epsilon ) )
     {
     std::cerr << "Mean calculated using the CovarianceSampleFilter is different from\
                  the one calculated using the StandardDeviationPerComponentSampleFilter " << std::endl;
@@ -186,7 +186,7 @@ int itkStandardDeviationPerComponentSampleFilterTest(int, char* [] )
     const double variance = covarianceCalculatedUsingCovarianceSampleFilter(k,k);
     const double standardDeviationValue = std::sqrt( variance );
 
-    if ( ( vnl_math_abs( standardDeviationValue - standardDeviation[k] ) > epsilon ) )
+    if ( ( itk::Math::abs( standardDeviationValue - standardDeviation[k] ) > epsilon ) )
       {
       std::cerr << "Standard deviation calculated using the CovarianceSampleFilter";
       std::cerr << " (as the square root of the diagonal) is different from ";

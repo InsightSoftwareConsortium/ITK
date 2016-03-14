@@ -510,14 +510,14 @@ KdTree<TSample>
 ::BoundsOverlapBall( const MeasurementVectorType &query, MeasurementVectorType
   &lowerBound, MeasurementVectorType &upperBound, double radius ) const
 {
-  double squaredSearchRadius = vnl_math_sqr( radius );
+  double squaredSearchRadius = itk::Math::sqr( radius );
 
   double sum = 0.0;
   for( unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
     if( query[d] <= lowerBound[d] )
       {
-      sum += vnl_math_sqr( this->m_DistanceMetric->Evaluate( query[d],
+      sum += itk::Math::sqr( this->m_DistanceMetric->Evaluate( query[d],
         lowerBound[d] ) );
       if( sum < squaredSearchRadius )
         {
@@ -526,7 +526,7 @@ KdTree<TSample>
       }
     else if( query[d] >= upperBound[d] )
       {
-      sum += vnl_math_sqr( this->m_DistanceMetric->Evaluate( query[d],
+      sum += itk::Math::sqr( this->m_DistanceMetric->Evaluate( query[d],
         upperBound[d] ) );
       if( sum < squaredSearchRadius )
         {

@@ -21,7 +21,7 @@
 
 #include "itkFastMarchingQuadEdgeMeshFilterBase.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkVector.h"
 #include "itkMatrix.h"
 
@@ -380,7 +380,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
 
   if( delta >= 0. )
     {
-    if( vnl_math_abs( f2 ) > epsilon )
+    if( itk::Math::abs( f2 ) > epsilon )
       {
       t = ( -f1 - std::sqrt( delta ) ) / f2;
 
@@ -394,7 +394,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
       }
     else
       {
-      if( vnl_math_abs( f1 ) > epsilon )
+      if( itk::Math::abs( f1 ) > epsilon )
         {
         t = -f0 / f1;
         }

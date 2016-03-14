@@ -64,7 +64,7 @@ RGBImageTotalAbsDifference(
 
     for( unsigned int i = 0; i < 3; i++ )
       {
-      localDiff += vnl_math_abs(validPx[i] - testPx[i]);
+      localDiff += itk::Math::abs(validPx[i] - testPx[i]);
       }
 
     if( localDiff != itk::NumericTraits< TPixelValue >::ZeroValue() )

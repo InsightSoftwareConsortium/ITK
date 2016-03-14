@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "itkNormalVariateGenerator.h"
 

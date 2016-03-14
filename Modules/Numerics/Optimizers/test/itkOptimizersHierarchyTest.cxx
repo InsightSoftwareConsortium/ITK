@@ -63,7 +63,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
 
   for(unsigned int i=0; i<spaceDimension; i++)
   {
-    if( vnl_math_abs( parameterScaleGot[i] - parameterScale[i] ) > tolerance )
+    if( itk::Math::abs( parameterScaleGot[i] - parameterScale[i] ) > tolerance )
       {
       std::cout << "Test failed." << std::endl;
       std::cout << "Scale parameters are damaged after being set." << std::endl;
@@ -78,7 +78,7 @@ int itkOptimizersHierarchyTest(int, char* [] )
 
   for(unsigned int i=0; i<spaceDimension; i++)
   {
-    if( vnl_math_abs( initialPositionGot[i] - initialPosition[i] ) > tolerance )
+    if( itk::Math::abs( initialPositionGot[i] - initialPosition[i] ) > tolerance )
       {
       std::cout << "Test failed." << std::endl;
       std::cout << "InitialPosition parameters are damaged after being set." << std::endl;

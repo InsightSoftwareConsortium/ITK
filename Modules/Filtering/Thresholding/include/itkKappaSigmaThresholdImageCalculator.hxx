@@ -102,7 +102,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
         const InputPixelType & v = iIt.Get();
         if ( v <= threshold )
           {
-          sigma += vnl_math_sqr(v - mean);
+          sigma += itk::Math::sqr(v - mean);
           }
         }
       ++iIt;

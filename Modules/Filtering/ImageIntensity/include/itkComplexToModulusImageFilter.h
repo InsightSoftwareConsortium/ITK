@@ -19,7 +19,7 @@
 #define itkComplexToModulusImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

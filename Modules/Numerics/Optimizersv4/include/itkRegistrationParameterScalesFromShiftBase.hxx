@@ -113,7 +113,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
           parameterScales[i] *= parameterScales[i];
           }
         //normalize to unit variation
-        parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::OneValue() / vnl_math_sqr( this->m_SmallParameterVariation );
+        parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::OneValue() / itk::Math::sqr( this->m_SmallParameterVariation );
         }
       }
     }

@@ -87,7 +87,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest( int argc, char 
 /*
   // Having trouble with these, as soon as there's a slight rotation added.
   unsigned long count = 0;
-  for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
+  for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
     float radius = 100.0;
     PointType fixedPoint;
@@ -96,8 +96,8 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest( int argc, char 
     fixedPoints->SetPoint( count, fixedPoint );
 
     PointType movingPoint;
-    movingPoint[0] = 2 * radius * std::cos( theta + (0.02 * vnl_math::pi) ) + 2.0;
-    movingPoint[1] = radius * std::sin( theta + (0.02 * vnl_math::pi) ) + 2.0;
+    movingPoint[0] = 2 * radius * std::cos( theta + (0.02 * itk::Math::pi) ) + 2.0;
+    movingPoint[1] = radius * std::sin( theta + (0.02 * itk::Math::pi) ) + 2.0;
     movingPoints->SetPoint( count, movingPoint );
 
     count++;
@@ -111,7 +111,7 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest( int argc, char 
     offset[d] = 2.0;
     }
   unsigned long count = 0;
-  for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
+  for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
     PointType fixedPoint;
     float radius = 100.0;

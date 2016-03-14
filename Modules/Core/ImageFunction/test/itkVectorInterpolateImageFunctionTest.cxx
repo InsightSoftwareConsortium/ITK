@@ -67,7 +67,7 @@ OutputType trueValue )
 
     for( k = 0; k < VectorDimension; k++ )
       {
-      if( vnl_math_abs( value[k] - trueValue[k] ) > 1e-9 )
+      if( itk::Math::abs( value[k] - trueValue[k] ) > 1e-9 )
         {
         break;
         }
@@ -127,7 +127,7 @@ OutputType trueValue )
 
     for( k = 0; k < VectorDimension; k++ )
       {
-      if( vnl_math_abs( value[k] - trueValue[k] ) > 1e-9 )
+      if( itk::Math::abs( value[k] - trueValue[k] ) > 1e-9 )
         {
         break;
         }

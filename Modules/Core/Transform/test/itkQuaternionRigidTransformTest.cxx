@@ -410,7 +410,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
 
     parameters.Fill( 0.0 );
 
-    double angle = 0.62 / 180.0 * vnl_math::pi;
+    double angle = 0.62 / 180.0 * itk::Math::pi;
 
     parameters[0] =  2.0 * std::sin( 0.5 * angle );
     parameters[1] =  5.0 * std::sin( 0.5 * angle );
@@ -455,7 +455,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+        if( itk::Math::abs( approxDerivative - computedDerivative ) > 1e-5 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -492,7 +492,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     // pOut should equate pInit
     for( unsigned int j = 0; j < 3; j++ )
       {
-      if( vnl_math_abs( pOut[j] - pInit[j] ) > 1e-5 )
+      if( itk::Math::abs( pOut[j] - pInit[j] ) > 1e-5 )
         {
         std::cerr << "Error computing back transform" << std::endl;
         std::cerr << "Result should be: " << pInit << std::endl;
@@ -793,7 +793,7 @@ int itkQuaternionRigidTransformTest(int, char * [] )
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    double a = 1.0 / 180.0 * vnl_math::pi;
+    double a = 1.0 / 180.0 * itk::Math::pi;
     matrix[0][0] =        std::cos( a );
     matrix[0][1] = -1.0 * std::sin( a );
     matrix[1][0] =        std::sin( a );

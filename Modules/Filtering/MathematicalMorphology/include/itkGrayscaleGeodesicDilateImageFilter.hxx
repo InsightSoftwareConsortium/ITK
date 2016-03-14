@@ -29,7 +29,7 @@
 #include "itkIterationReporter.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

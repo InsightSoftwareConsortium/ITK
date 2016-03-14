@@ -28,7 +28,7 @@
 #include "itkConnectedComponentAlgorithm.h"
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <deque>
 #include <map>
 
@@ -534,7 +534,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       no[0] = 0;
       for( unsigned int i=0; i<ImageDimension-1; i++ )
         {
-        no[i+1] = vnl_math_abs(lno[i]);
+        no[i+1] = itk::Math::abs(lno[i]);
         }
       OffsetType dno = no; // offset for the diagonal
       dno[0] = 1;

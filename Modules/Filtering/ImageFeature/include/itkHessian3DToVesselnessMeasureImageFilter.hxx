@@ -20,7 +20,7 @@
 
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -86,12 +86,12 @@ Hessian3DToVesselnessMeasureImageFilter< TPixel >
       if ( eigenValue[2] <= 0 )
         {
         lineMeasure =
-          std::exp( -0.5 * vnl_math_sqr( eigenValue[2] / ( m_Alpha1 * normalizeValue ) ) );
+          std::exp( -0.5 * itk::Math::sqr( eigenValue[2] / ( m_Alpha1 * normalizeValue ) ) );
         }
       else
         {
         lineMeasure =
-          std::exp( -0.5 * vnl_math_sqr( eigenValue[2] / ( m_Alpha2 * normalizeValue ) ) );
+          std::exp( -0.5 * itk::Math::sqr( eigenValue[2] / ( m_Alpha2 * normalizeValue ) ) );
         }
 
       lineMeasure *= normalizeValue;

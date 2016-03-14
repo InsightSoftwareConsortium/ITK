@@ -234,7 +234,7 @@ int itkLevelSetFunctionTest(int, char* [] )
   // Squash level sets everywhere but near the zero set.
   for (itr.GoToBegin(); ! itr.IsAtEnd(); ++itr)
     {
-    itr.Value() = itr.Value() /std::sqrt((5.0f +vnl_math_sqr(itr.Value())));
+    itr.Value() = itr.Value() /std::sqrt((5.0f +itk::Math::sqr(itr.Value())));
 
     }
 

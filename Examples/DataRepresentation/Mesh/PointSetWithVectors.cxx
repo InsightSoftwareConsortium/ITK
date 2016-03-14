@@ -102,7 +102,7 @@ int main(int, char *[])
 
   for(unsigned int i=0; i<360; i++)
     {
-    const double angle = i * vnl_math::pi / 180.0;
+    const double angle = i * itk::Math::pi / 180.0;
     point[0] = radius * std::sin( angle );
     point[1] = radius * std::cos( angle );
     point[2] = 1.0;   // flat on the Z plane

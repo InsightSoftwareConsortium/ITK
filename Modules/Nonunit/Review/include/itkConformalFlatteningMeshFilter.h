@@ -22,7 +22,7 @@
 #include "itkMeshToMeshFilter.h"
 
 // vnl headers
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/vnl_sparse_matrix.h"
 
 

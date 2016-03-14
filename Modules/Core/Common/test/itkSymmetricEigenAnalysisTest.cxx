@@ -62,13 +62,13 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   double tolerance = 0.01;
   for( unsigned int i=0; i<6; i++ )
     {
-    if (vnl_math_abs( eigvals[i] - eigenvalues[i] ) > tolerance)
+    if (itk::Math::abs( eigvals[i] - eigenvalues[i] ) > tolerance)
       {
       std::cout << "Eigen value computation failed" << std::endl;
       return EXIT_FAILURE;
       }
 
-    if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )*eigenvectors[2][i] ) > tolerance)
+    if (itk::Math::abs( eigvec3[i] - itk::Math::sgn0( eigenvectors[2][0] )*eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -122,13 +122,13 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   double tolerance = 0.01;
   for( unsigned int i=0; i<6; i++ )
     {
-    if (vnl_math_abs( eigvals[i] - eigenvalues[i] ) > tolerance)
+    if (itk::Math::abs( eigvals[i] - eigenvalues[i] ) > tolerance)
       {
       std::cout << "Eigen value computation failed" << std::endl;
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
+     if (itk::Math::abs( eigvec3[i] - itk::Math::sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -182,13 +182,13 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   double tolerance = 0.01;
   for( unsigned int i=0; i<6; i++ )
     {
-    if (vnl_math_abs( eigvals[i] - eigenvalues[i] ) > tolerance)
+    if (itk::Math::abs( eigvals[i] - eigenvalues[i] ) > tolerance)
       {
       std::cout << "Eigen value computation failed" << std::endl;
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
+     if (itk::Math::abs( eigvec3[i] - itk::Math::sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -239,13 +239,13 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   double tolerance = 0.01;
   for( unsigned int i=0; i<3; i++ )
     {
-    if (vnl_math_abs( eigvals[i] - eigenvalues[i] ) > tolerance)
+    if (itk::Math::abs( eigvals[i] - eigenvalues[i] ) > tolerance)
       {
       std::cout << "Eigen value computation failed" << std::endl;
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec3[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
+     if (itk::Math::abs( eigvec3[i] - itk::Math::sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << "Eigen vector computation failed" << std::endl;
       return EXIT_FAILURE;
@@ -297,13 +297,13 @@ int itkSymmetricEigenAnalysisTest(int, char* [] )
   float tolerance = 0.01;
   for( unsigned int i=0; i<3; i++ )
     {
-    if (vnl_math_abs( eigvals[i] - eigenvalues[i] ) > tolerance)
+    if (itk::Math::abs( eigvals[i] - eigenvalues[i] ) > tolerance)
       {
       std::cout << "Eigen value computation failed" << std::endl;
       return EXIT_FAILURE;
       }
 
-     if (vnl_math_abs( eigvec2[i] - vnl_math_sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
+     if (itk::Math::abs( eigvec2[i] - itk::Math::sgn0( eigenvectors[2][0] )* eigenvectors[2][i] ) > tolerance)
       {
       std::cout << eigenvectors[2][i] << " "  << eigvec2[i]  << std::endl;
       std::cout << "Eigen vector computation failed" << std::endl;

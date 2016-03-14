@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkMaximumRatioDecisionRule.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -71,7 +71,7 @@ MaximumRatioDecisionRule
     for (pit = p.begin(), it = m_PriorProbabilities.begin();
          pit != p.end(); ++pit, ++it)
       {
-      if ( fabs( *pit - *it ) > vnl_math::eps )
+      if ( fabs( *pit - *it ) > itk::Math::eps )
         {
         break;
         }

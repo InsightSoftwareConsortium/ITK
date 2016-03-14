@@ -105,7 +105,7 @@ int itkScatterMatrixImageFunctionTest(int, char* [] )
     {
     for( unsigned int iy=0; iy<VectorDimension; iy++ )
       {
-      if( vnl_math_abs( initialValue[ix] * initialValue[iy] - scatterMatrix[ix][iy] ) > 10e-7 )
+      if( itk::Math::abs( initialValue[ix] * initialValue[iy] - scatterMatrix[ix][iy] ) > 10e-7 )
         {
         std::cerr << "Error in scatterMatrix computation" << std::endl;
         return EXIT_FAILURE;

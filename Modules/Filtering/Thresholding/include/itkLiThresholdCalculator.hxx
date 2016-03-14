@@ -21,7 +21,7 @@
 
 #include "itkLiThresholdCalculator.h"
 #include "itkProgressReporter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

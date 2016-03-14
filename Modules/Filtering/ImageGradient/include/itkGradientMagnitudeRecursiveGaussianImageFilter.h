@@ -182,7 +182,7 @@ private:
 
     inline InternalRealType operator()(const InternalRealType & a, const InternalRealType & b)
     {
-      return a + vnl_math_sqr(b / m_Spacing);
+      return a + itk::Math::sqr(b / m_Spacing);
     }
 
     double m_Spacing;

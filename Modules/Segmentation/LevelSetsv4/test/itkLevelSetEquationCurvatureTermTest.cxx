@@ -164,9 +164,9 @@ int itkLevelSetEquationCurvatureTermTest( int argc, char* argv[] )
   index[1] = 20;
 
   CurvatureTermType::LevelSetOutputRealType value = term->Evaluate( index );
-  if( vnl_math_abs( value ) >  5e-2 )
+  if( itk::Math::abs( value ) >  5e-2 )
     {
-    std::cerr << "( vnl_math_abs( " << value << " ) >  5e-2 )" << std::endl;
+    std::cerr << "( itk::Math::abs( " << value << " ) >  5e-2 )" << std::endl;
     return EXIT_FAILURE;
     }
 

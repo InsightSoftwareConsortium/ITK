@@ -287,7 +287,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
       RealType cidx = ( static_cast<RealType>( pixel ) - binMinimum ) /
         histogramSlope;
-      unsigned int idx = vnl_math_floor( cidx );
+      unsigned int idx = itk::Math::floor( cidx );
       RealType     offset = cidx - static_cast<RealType>( idx );
 
       if( offset == 0.0 )
@@ -332,9 +332,9 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   // Create the Gaussian filter.
 
   RealType scaledFWHM = this->m_BiasFieldFullWidthAtHalfMaximum / histogramSlope;
-  RealType expFactor = 4.0 * std::log( 2.0 ) / vnl_math_sqr( scaledFWHM );
+  RealType expFactor = 4.0 * std::log( 2.0 ) / itk::Math::sqr( scaledFWHM );
   RealType scaleFactor = 2.0 * std::sqrt( std::log( 2.0 )
-                                         / vnl_math::pi ) / scaledFWHM;
+                                         / itk::Math::pi ) / scaledFWHM;
 
   vnl_vector< std::complex<RealType> > F( paddedHistogramSize,
                                          std::complex<RealType>( 0.0, 0.0 ) );
@@ -345,12 +345,12 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( unsigned int n = 1; n <= halfSize; n++ )
     {
     F[n] = F[paddedHistogramSize - n] = std::complex<RealType>( scaleFactor *
-      std::exp( -vnl_math_sqr( static_cast<RealType>( n ) ) * expFactor ), 0.0 );
+      std::exp( -itk::Math::sqr( static_cast<RealType>( n ) ) * expFactor ), 0.0 );
     }
   if( paddedHistogramSize % 2 == 0 )
     {
     F[halfSize] = std::complex<RealType>( scaleFactor * std::exp( 0.25 *
-      -vnl_math_sqr( static_cast<RealType>( paddedHistogramSize ) ) *
+      -itk::Math::sqr( static_cast<RealType>( paddedHistogramSize ) ) *
       expFactor ), 0.0 );
     }
 
@@ -448,7 +448,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
              confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
       RealType     cidx = ( ItU.Get() - binMinimum ) / histogramSlope;
-      unsigned int idx = vnl_math_floor( cidx );
+      unsigned int idx = itk::Math::floor( cidx );
 
       RealType correctedPixel = 0;
       if( idx < E.size() - 1 )
@@ -680,7 +680,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
       if( N > 1.0 )
         {
-        sigma = sigma + vnl_math_sqr( pixel - mu ) * ( N - 1.0 ) / N;
+        sigma = sigma + itk::Math::sqr( pixel - mu ) * ( N - 1.0 ) / N;
         }
       mu = mu * ( 1.0 - 1.0 / N ) + pixel / N;
       }

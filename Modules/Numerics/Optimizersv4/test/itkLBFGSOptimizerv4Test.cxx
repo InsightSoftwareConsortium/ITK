@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkLBFGSOptimizerv4.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/algo/vnl_lbfgs.h"
 #include "itkTestingMacros.h"
 #include "itkMath.h"

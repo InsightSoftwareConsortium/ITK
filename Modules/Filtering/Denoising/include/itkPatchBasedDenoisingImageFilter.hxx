@@ -987,7 +987,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   RealTensorValueT               lambda1, lambda2, lambda3;
   lambda1 = I1div3 + 2 * sqrtn * std::cos(phi);
-  lambda2 = I1div3 - 2*sqrtn *   std::cos(vnl_math::pi/3 + phi);
+  lambda2 = I1div3 - 2*sqrtn *   std::cos(itk::Math::pi/3 + phi);
   lambda3 = I1 - lambda1 - lambda2;
 
   eigenVals[0] = lambda1;
@@ -1548,7 +1548,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       {
       if (!m_SigmaConverged[ic])
         {
-        if (vnl_math_abs(sigmaUpdate[ic]) <
+        if (itk::Math::abs(sigmaUpdate[ic]) <
             m_KernelBandwidthSigma[ic] * m_SigmaUpdateConvergenceTolerance)
           {
           m_SigmaConverged[ic] = 1;
@@ -1838,7 +1838,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         const RealValueType distanceJointEntropy = std::sqrt(squaredNorm[ic]);
 
         const RealValueType gaussianJointEntropy
-          = exp(-vnl_math_sqr(distanceJointEntropy / sigmaKernel) / 2.0);
+          = exp(-itk::Math::sqr(distanceJointEntropy / sigmaKernel) / 2.0);
 
         probJointEntropy[ic] += gaussianJointEntropy;
 
@@ -1847,14 +1847,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
         probJointEntropyFirstDerivative[ic] += gaussianJointEntropy * factorJoint;
         probJointEntropySecondDerivative[ic] += gaussianJointEntropy *
-          (vnl_math_sqr(factorJoint) + (lengthPatch * 1 / vnl_math_sqr(sigmaKernel) ) -
+          (itk::Math::sqr(factorJoint) + (lengthPatch * 1 / itk::Math::sqr(sigmaKernel) ) -
            (3.0 * squaredNorm[ic] / pow(sigmaKernel, 4.0) ) );
         if (m_ComputeConditionalDerivatives)
           {
           const RealValueType distancePatchEntropySquared = squaredNorm[ic] - centerPatchSquaredNorm[ic];
           const RealValueType distancePatchEntropy = std::sqrt(distancePatchEntropySquared);
           const RealValueType gaussianPatchEntropy
-            = exp(-vnl_math_sqr(distancePatchEntropy / sigmaKernel) / 2.0);
+            = exp(-itk::Math::sqr(distancePatchEntropy / sigmaKernel) / 2.0);
           probPatchEntropy[ic] += gaussianPatchEntropy;
           const RealValueType factorPatch
             = distancePatchEntropySquared / pow(sigmaKernel, 3.0)
@@ -1863,8 +1863,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
           probPatchEntropyFirstDerivative[ic] += gaussianPatchEntropy * factorPatch;
           probPatchEntropySecondDerivative[ic]
             += gaussianPatchEntropy
-              * (vnl_math_sqr(factorPatch) +
-                 ( (lengthPatch-1) / vnl_math_sqr(sigmaKernel) ) -
+              * (itk::Math::sqr(factorPatch) +
+                 ( (lengthPatch-1) / itk::Math::sqr(sigmaKernel) ) -
                  (3.0*distancePatchEntropySquared / pow(sigmaKernel, 4.0) ) );
           }
         } // end for each independent pixel component
@@ -1887,7 +1887,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
           -= probJointEntropyFirstDerivative[ic] / probJointEntropy[ic];
         jointEntropySecondDerivative[ic]
           -= probJointEntropySecondDerivative[ic] / probJointEntropy[ic]
-            - vnl_math_sqr(probJointEntropyFirstDerivative[ic] / probJointEntropy[ic]);
+            - itk::Math::sqr(probJointEntropyFirstDerivative[ic] / probJointEntropy[ic]);
 
         if (m_ComputeConditionalDerivatives)
           {
@@ -1904,7 +1904,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
             -= probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic];
           nbhdEntropySecondDerivative[ic]
             -= probPatchEntropySecondDerivative[ic] / probPatchEntropy[ic]
-              - vnl_math_sqr(probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic]);
+              - itk::Math::sqr(probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic]);
           }
         } // end if independent component hasn't converged yet
       }   // end for each independent component
@@ -1977,11 +1977,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
     // if second derivative is zero or negative, compute update using gradient
     // descent
-    if ( (Math::ExactlyEquals(vnl_math_abs(secondDerivative), NumericTraits<RealValueType>::ZeroValue())) ||
+    if ( (Math::ExactlyEquals(itk::Math::abs(secondDerivative), NumericTraits<RealValueType>::ZeroValue())) ||
          (secondDerivative < 0) )
       {
       itkDebugMacro( << "** Second derivative NOT POSITIVE" );
-      sigmaUpdate[ic] = -vnl_math_sgn(firstDerivative) * kernelSigma * 0.3;
+      sigmaUpdate[ic] = -itk::Math::sgn(firstDerivative) * kernelSigma * 0.3;
       }
     else
       {
@@ -1992,10 +1992,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     itkDebugMacro( << "update: " << sigmaUpdate[ic] );
 
     // avoid very large updates to prevent instabilities in Newton-Raphson
-    if (vnl_math_abs(sigmaUpdate[ic]) > kernelSigma * 0.3)
+    if (itk::Math::abs(sigmaUpdate[ic]) > kernelSigma * 0.3)
       {
       itkDebugMacro( << "** Restricting large updates \n");
-      sigmaUpdate[ic] = vnl_math_sgn(sigmaUpdate[ic]) * kernelSigma * 0.3;
+      sigmaUpdate[ic] = itk::Math::sgn(sigmaUpdate[ic]) * kernelSigma * 0.3;
 
       itkDebugMacro( << "update: " << sigmaUpdate[ic] );
       }
@@ -2478,7 +2478,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       {
       RealValueType kernelSigma = m_KernelBandwidthSigma[ic];
 
-      distanceJointEntropy += squaredNorm[ic] / vnl_math_sqr(kernelSigma);
+      distanceJointEntropy += squaredNorm[ic] / itk::Math::sqr(kernelSigma);
 
       gaussianJointEntropy = exp( -distanceJointEntropy / 2.0);
       sumOfGaussiansJointEntropy += gaussianJointEntropy;

@@ -208,7 +208,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
     int counter;
     for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
       {
-      if ( vnl_math_abs(expectedMeans[counter] - mIt.Value()) > 0.0001 )
+      if ( itk::Math::abs(expectedMeans[counter] - mIt.Value()) > 0.0001 )
         {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() <<
         ", expected " << expectedMeans[counter] << "." << std::endl;
@@ -218,7 +218,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
 
     for (counter = 0, sIt = stds->Begin(); sIt != stds->End(); ++sIt, counter ++)
       {
-      if ( vnl_math_abs(expectedDeviations[counter] - sIt.Value()) > 0.0001 )
+      if ( itk::Math::abs(expectedDeviations[counter] - sIt.Value()) > 0.0001 )
         {
         std::cerr << "Error. Deiviation for feature " << counter << " is " << sIt.Value() <<
         ", expected " << expectedDeviations[counter] << "." << std::endl;
@@ -237,7 +237,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
 
     for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
       {
-      if ( vnl_math_abs(expectedMeans2[counter] - mIt.Value()) > 0.0001 )
+      if ( itk::Math::abs(expectedMeans2[counter] - mIt.Value()) > 0.0001 )
         {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() <<
         ", expected " << expectedMeans2[counter] << "." << std::endl;
@@ -247,7 +247,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
 
     for (counter = 0, sIt = stds->Begin(); sIt != stds->End(); ++sIt, counter ++)
       {
-      if ( vnl_math_abs(expectedDeviations2[counter] - sIt.Value() ) > 0.0001 )
+      if ( itk::Math::abs(expectedDeviations2[counter] - sIt.Value() ) > 0.0001 )
         {
         std::cerr << "Error. Deiviation for feature " << counter << " is " << sIt.Value() <<
         ", expected " << expectedDeviations2[counter] << "." << std::endl;
@@ -291,7 +291,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
 
     for (counter = 0, mIt = means->Begin(); mIt != means->End(); ++mIt, counter++)
       {
-      if ( vnl_math_abs(expectedMeans3[counter] - mIt.Value()) > 0.0001 )
+      if ( itk::Math::abs(expectedMeans3[counter] - mIt.Value()) > 0.0001 )
         {
         std::cerr << "Error. Mean for feature " << counter << " is " << mIt.Value() <<
         ", expected " << expectedMeans3[counter] << "." << std::endl;
@@ -301,7 +301,7 @@ int itkScalarImageToTextureFeaturesFilterTest(int, char* [] )
 
     for (counter = 0, sIt = stds->Begin(); sIt != stds->End(); ++sIt, counter ++)
       {
-      if ( vnl_math_abs(expectedDeviations3[counter] - sIt.Value() ) > 0.0001 )
+      if ( itk::Math::abs(expectedDeviations3[counter] - sIt.Value() ) > 0.0001 )
         {
         std::cerr << "Error. Deiviation for feature " << counter << " is " << sIt.Value() <<
         ", expected " << expectedDeviations3[counter] << "." << std::endl;

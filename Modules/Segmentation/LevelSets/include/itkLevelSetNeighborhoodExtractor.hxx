@@ -21,7 +21,7 @@
 #include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include <algorithm>
 
@@ -214,7 +214,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
       }
 
     node = pointsIter.Value();
-    if ( vnl_math_abs( node.GetValue() ) <= maxValue )
+    if ( itk::Math::abs( node.GetValue() ) <= maxValue )
       {
       this->CalculateDistance( node.GetIndex() );
       }
@@ -312,7 +312,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
       break;
       }
 
-    distance += 1.0 / vnl_math_sqr( (double)neighNode.GetValue() );
+    distance += 1.0 / itk::Math::sqr( (double)neighNode.GetValue() );
     }
 
   if ( distance == 0.0 )

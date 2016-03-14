@@ -21,7 +21,7 @@
 
 #include "itkMeshToMeshFilter.h"
 #include "vnl/vnl_matrix_fixed.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkMesh.h"
 #include "itkTriangleCell.h"
 #include "itkImage.h"

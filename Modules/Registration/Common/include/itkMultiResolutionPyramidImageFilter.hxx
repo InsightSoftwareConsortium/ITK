@@ -27,7 +27,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkIdentityTransform.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -309,7 +309,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
     for ( idim = 0; idim < ImageDimension; idim++ )
       {
       factors[idim] = m_Schedule[ilevel][idim];
-      variance[idim] = vnl_math_sqr( 0.5
+      variance[idim] = itk::Math::sqr( 0.5
                                      * static_cast< float >( factors[idim] ) );
       }
 
@@ -571,7 +571,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   for ( idim = 0; idim < TInputImage::ImageDimension; idim++ )
     {
     oper->SetDirection(idim);
-    oper->SetVariance( vnl_math_sqr( 0.5 * static_cast< float >(
+    oper->SetVariance( itk::Math::sqr( 0.5 * static_cast< float >(
                                        m_Schedule[refLevel][idim] ) ) );
     oper->SetMaximumError(m_MaximumError);
     oper->CreateDirectional();

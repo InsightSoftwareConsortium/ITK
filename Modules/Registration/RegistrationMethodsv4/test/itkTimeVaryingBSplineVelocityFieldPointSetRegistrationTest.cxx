@@ -53,7 +53,7 @@ int itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest( int itkNotUsed( 
     offset[d] = 2.0;
     }
   unsigned long count = 0;
-  for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
+  for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
     unsigned int label = static_cast<unsigned int>( 1.5 + count / 100 );
 

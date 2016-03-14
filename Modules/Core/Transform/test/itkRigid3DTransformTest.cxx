@@ -57,7 +57,7 @@ bool TestSettingTranslation(void)
 
     itk::Matrix<double, 3, 3> R;
     R.SetIdentity();
-    const double alpha = vnl_math::pi / 180.0;
+    const double alpha = itk::Math::pi / 180.0;
     R[0][0] =        std::cos( alpha );
     R[0][1] =        std::sin( alpha );
     R[1][0] = -1.0 * std::sin( alpha );
@@ -499,7 +499,7 @@ int itkRigid3DTransformTest(int ,char * [] )
      for( j = 0; j < t->GetNumberOfParameters(); j++ )
       {
       p[j] = static_cast<double>( j + 1 );
-      p[j] = vnl_math_sqr( p[j] );
+      p[j] = itk::Math::sqr( p[j] );
       }
 
      Ok = false;
@@ -529,7 +529,7 @@ int itkRigid3DTransformTest(int ,char * [] )
     MatrixType matrix;
     matrix.GetVnlMatrix().set_identity();
 
-    double a = 1.0 / 180.0 * vnl_math::pi;
+    double a = 1.0 / 180.0 * itk::Math::pi;
     matrix[0][0] =        std::cos( a );
     matrix[0][1] =        std::sin( a );
     matrix[1][0] = -1.0 * std::sin( a );
@@ -590,7 +590,7 @@ int itkRigid3DTransformTest(int ,char * [] )
     Ok = true;
     for( unsigned int par = 0; par < t->GetNumberOfParameters(); par++ )
       {
-      if( vnl_math_abs( p[par] - pIdeal[par] ) > epsilon )
+      if( itk::Math::abs( p[par] - pIdeal[par] ) > epsilon )
         {
         std::cerr << "Expected parameters: " << pIdeal << std::endl;
         std::cerr << "Actual parameters: " << p << std::endl;
@@ -677,7 +677,7 @@ int itkRigid3DTransformTest(int ,char * [] )
       // attempt to set an orthogonal matrix
       matrix.GetVnlMatrix().set_identity();
 
-      double a = 1.0 / 180.0 * vnl_math::pi;
+      double a = 1.0 / 180.0 * itk::Math::pi;
       matrix[0][0] =        std::cos( a );
       matrix[0][1] =        std::sin( a );
       matrix[1][0] = -1.0 * std::sin( a );

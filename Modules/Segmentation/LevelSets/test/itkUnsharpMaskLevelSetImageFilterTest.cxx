@@ -28,8 +28,8 @@ const unsigned int WIDTH  = (128);
 float square(unsigned x, unsigned y)
 {
     float X, Y;
-    X = vnl_math_abs(x - (float)WIDTH/2.0);
-    Y = vnl_math_abs(y - (float)HEIGHT/2.0);
+    X = itk::Math::abs(x - (float)WIDTH/2.0);
+    Y = itk::Math::abs(y - (float)HEIGHT/2.0);
     float dis;
     if (!((X > RADIUS)&&(Y > RADIUS)))
       {

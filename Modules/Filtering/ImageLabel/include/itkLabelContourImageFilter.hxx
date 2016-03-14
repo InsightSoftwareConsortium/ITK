@@ -328,7 +328,7 @@ LabelContourImageFilter< TInputImage, TOutputImage >
 
   for ( unsigned int i = 1; i < ImageDimension; i++ )
     {
-    if ( vnl_math_abs(Off[i]) > 1 )
+    if ( itk::Math::abs(Off[i]) > 1 )
       {
       return ( false );
       }

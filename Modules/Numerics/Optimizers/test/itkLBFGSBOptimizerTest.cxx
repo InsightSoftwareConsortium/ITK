@@ -18,7 +18,7 @@
 
 #include "itkLBFGSBOptimizer.h"
 #include "itkTextOutput.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <iostream>
 
 /**
@@ -289,21 +289,21 @@ int itkLBFGSBOptimizerTest(int, char *[])
   double trueParameters[2] = { 4.0/3.0, -1.0 };
   for( unsigned int j = 0; j < 2; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       {
       pass = false;
       errorIn = "solution";
       }
     }
 
-  if( vnl_math_abs( itkOptimizer->GetValue() - -7.66667 ) > 0.01 )
+  if( itk::Math::abs( itkOptimizer->GetValue() - -7.66667 ) > 0.01 )
     {
     pass = false;
     errorIn = "final function value";
     }
 
 
-  if( vnl_math_abs( itkOptimizer->GetInfinityNormOfProjectedGradient()
+  if( itk::Math::abs( itkOptimizer->GetInfinityNormOfProjectedGradient()
       -  1.77636e-15 ) > 0.01 )
     {
     pass = false;

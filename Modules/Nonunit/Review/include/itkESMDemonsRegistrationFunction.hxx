@@ -20,7 +20,7 @@
 
 #include "itkESMDemonsRegistrationFunction.h"
 #include "itkExceptionObject.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -404,7 +404,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     usedGradientTimes2.GetSquaredNorm();
 
   const double speedValue = fixedValue - movingValue;
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold )
+  if ( itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold )
     {
     update.Fill(0.0);
     }
@@ -414,7 +414,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     if (  m_Normalizer > 0.0 )
       {
       // "ITK-Thirion" normalization
-      denom =  usedGradientTimes2SquaredMagnitude + ( vnl_math_sqr(speedValue) / m_Normalizer );
+      denom =  usedGradientTimes2SquaredMagnitude + ( itk::Math::sqr(speedValue) / m_Normalizer );
       }
     else
       {
@@ -446,7 +446,7 @@ ESMDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   // if we could, this would be an often unnecessary time-consuming task.
   if ( globalData )
     {
-    globalData->m_SumOfSquaredDifference += vnl_math_sqr(speedValue);
+    globalData->m_SumOfSquaredDifference += itk::Math::sqr(speedValue);
     globalData->m_NumberOfPixelsProcessed += 1;
     globalData->m_SumOfSquaredChange += update.GetSquaredNorm();
     }

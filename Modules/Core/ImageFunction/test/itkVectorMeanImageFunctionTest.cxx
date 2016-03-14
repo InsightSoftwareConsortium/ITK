@@ -102,7 +102,7 @@ int itkVectorMeanImageFunctionTest(int, char* [] )
   // the should be equal to the initial value
   for( unsigned int ii=0; ii<VectorDimension; ii++ )
     {
-    if( vnl_math_abs( initialValue[ii] - mean[ii] ) > 10e-7 )
+    if( itk::Math::abs( initialValue[ii] - mean[ii] ) > 10e-7 )
       {
       std::cerr << "Error in mean computation" << std::endl;
       return EXIT_FAILURE;

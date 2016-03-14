@@ -21,7 +21,7 @@
 #include "itkScalarImageToCooccurrenceMatrixFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -162,7 +162,7 @@ ScalarImageToCooccurrenceMatrixFilter< TImageType,
     {
     for ( unsigned int i = 0; i < offsets.Value().GetOffsetDimension(); i++ )
       {
-      unsigned int distance = vnl_math_abs(offsets.Value()[i]);
+      unsigned int distance = itk::Math::abs(offsets.Value()[i]);
       if ( distance > minRadius )
         {
         minRadius = distance;

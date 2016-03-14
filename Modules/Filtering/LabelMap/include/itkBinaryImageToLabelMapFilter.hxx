@@ -450,7 +450,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // axis
   for ( unsigned i = 1; i < OutputImageDimension; i++ )
     {
-    if ( vnl_math_abs(A[i] - B[i]) > 1 )
+    if ( itk::Math::abs(A[i] - B[i]) > 1 )
       {
       return false;
       }

@@ -200,7 +200,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
     TransformType::ParametersType parameters2( t1->GetNumberOfParameters() );
     TransformType::InputPointType center;
 
-    parameters2[0] = -21.0 / 180.0 * vnl_math::pi;
+    parameters2[0] = -21.0 / 180.0 * itk::Math::pi;
     parameters2[1] = 67.8;
     parameters2[2] = -0.2;
 
@@ -271,7 +271,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
     // Test compose
     TransformType::Pointer t4 = TransformType::New();
 
-    parameters2[0] = 14.7 / 180.0 * vnl_math::pi;
+    parameters2[0] = 14.7 / 180.0 * itk::Math::pi;
     parameters2[1] = 67.1;
     parameters2[2] = 67.1;
 
@@ -337,7 +337,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         double computedDerivative = jacobian2[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-4 )
+        if( itk::Math::abs( approxDerivative - computedDerivative ) > 1e-4 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -368,7 +368,7 @@ int itkEuler2DTransformTest(int argc, char *argv[] )
       {
       parameters3[j] = static_cast<double>( j ) + 1.0;
       }
-    parameters3[0] *= vnl_math::pi / 180.0;
+    parameters3[0] *= itk::Math::pi / 180.0;
 
     t1->SetCenter( center );
     t1->SetParameters( parameters3 );

@@ -19,7 +19,7 @@
 #define itkCovariantVector_hxx
 
 #include "itkCovariantVector.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkNumericTraits.h"
 
 namespace itk

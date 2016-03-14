@@ -20,7 +20,7 @@
 
 #include "itkTriangleThresholdCalculator.h"
 #include "itkProgressReporter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include <algorithm>
 

@@ -86,7 +86,7 @@ public:
     RealType squaredSum = NumericTraits< RealType >::ZeroValue();
     for ( it = m_Values.begin(); it != m_Values.end(); it++ )
       {
-      squaredSum += vnl_math_sqr(*it - mean);
+      squaredSum += itk::Math::sqr(*it - mean);
       }
     return std::sqrt( squaredSum / ( m_Size - 1 ) );
   }

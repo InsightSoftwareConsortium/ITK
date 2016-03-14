@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkLevenbergMarquardtOptimizer.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 typedef vnl_matrix<double> MatrixType;
 typedef vnl_vector<double> VectorType;
@@ -347,7 +347,7 @@ int itkRunLevenbergMarquardOptimization( bool useGradient,
   double trueParameters[3] = { ra,rb,rc };
   for( unsigned int j = 0; j < LMCostFunction::SpaceDimension; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       pass = false;
     }
 

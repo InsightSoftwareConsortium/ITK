@@ -19,7 +19,7 @@
 #define itkSimilarity2DTransform_hxx
 
 #include "itkSimilarity2DTransform.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -151,8 +151,8 @@ void
 Similarity2DTransform<TParametersValueType>
 ::ComputeMatrixParameters()
 {
-  m_Scale = std::sqrt( vnl_math_sqr(this->GetMatrix()[0][0])
-                      + vnl_math_sqr(this->GetMatrix()[0][1]) );
+  m_Scale = std::sqrt( itk::Math::sqr(this->GetMatrix()[0][0])
+                      + itk::Math::sqr(this->GetMatrix()[0][1]) );
 
   this->SetVarAngle( std::acos(this->GetMatrix()[0][0] / m_Scale) );
 

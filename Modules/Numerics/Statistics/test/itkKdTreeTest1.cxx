@@ -119,8 +119,8 @@ int itkKdTreeTest1(int argc , char * argv [] )
       const double distanceFromMetric =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i] ));
 
-      if( distanceFromMetric > vnl_math::eps ||
-          searchDistance[i] > vnl_math::eps ||
+      if( distanceFromMetric > itk::Math::eps ||
+          searchDistance[i] > itk::Math::eps ||
           itk::Math::NotAlmostEquals( distanceFromMetric, searchDistance[i]  ) )
         {
         std::cerr << "kd-tree knn search result:" << std::endl

@@ -615,7 +615,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         {
         fixedImageSmoothingFilter->SetUseImageSpacingOff();
         }
-      fixedImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
+      fixedImageSmoothingFilter->SetVariance( itk::Math::sqr( this->m_SmoothingSigmasPerLevel[level] ) );
       fixedImageSmoothingFilter->SetMaximumError( 0.01 );
       fixedImageSmoothingFilter->SetInput( this->GetFixedImage( n ) );
 
@@ -633,7 +633,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         {
         movingImageSmoothingFilter->SetUseImageSpacingOff();
         }
-      movingImageSmoothingFilter->SetVariance( vnl_math_sqr( this->m_SmoothingSigmasPerLevel[level] ) );
+      movingImageSmoothingFilter->SetVariance( itk::Math::sqr( this->m_SmoothingSigmasPerLevel[level] ) );
       movingImageSmoothingFilter->SetMaximumError( 0.01 );
       movingImageSmoothingFilter->SetInput( this->GetMovingImage( n ) );
 

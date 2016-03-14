@@ -20,7 +20,7 @@
 
 #include "itkManifoldParzenWindowsPointSetFunction.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -145,7 +145,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
         }
       for( unsigned int m = 0; m < PointDimension; m++ )
         {
-        Cout(m, m) += vnl_math_sqr( this->m_RegularizationSigma );
+        Cout(m, m) += itk::Math::sqr( this->m_RegularizationSigma );
         }
 
       this->m_Gaussians[index]->SetCovariance( Cout );
@@ -155,7 +155,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>
       typename GaussianType::CovarianceMatrixType covariance
         ( PointDimension, PointDimension );
       covariance.SetIdentity();
-      covariance *= vnl_math_sqr( this->m_RegularizationSigma );
+      covariance *= itk::Math::sqr( this->m_RegularizationSigma );
       this->m_Gaussians[index]->SetCovariance( covariance );
       }
     ++It;

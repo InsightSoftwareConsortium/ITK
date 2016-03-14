@@ -401,7 +401,7 @@ SPSAOptimizer::ComputeGradient(
   /** Apply scaling (see below) and divide by the NumberOfPerturbations */
   for ( unsigned int j = 0; j < spaceDimension; j++ )
     {
-    gradient[j] /= ( vnl_math_sqr(scales[j]) * static_cast< double >( m_NumberOfPerturbations ) );
+    gradient[j] /= ( itk::Math::sqr(scales[j]) * static_cast< double >( m_NumberOfPerturbations ) );
     }
   /**
    * Scaling was still needed, because the gradient

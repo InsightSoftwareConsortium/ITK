@@ -130,7 +130,7 @@ int runGPUDiscreteGaussianImageFilterTest(const std::string& inFile, const std::
         //   a threshold of 1.2e-5 worked on linux and Mac, but not Windows
         //   why?
         double RMSThreshold = 1.7e-5;
-        if (vnl_math_isnan(RMSError))
+        if (itk::Math::isnan(RMSError))
         {
           std::cout << "RMS Error is NaN! nPix: " << nPix << std::endl;
           return EXIT_FAILURE;

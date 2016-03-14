@@ -72,7 +72,7 @@ OutputType trueValue )
     OutputType value = interp->Evaluate( point );
     std::cout << " Value: " << value << std::endl;
 
-    if( vnl_math_abs( value - trueValue ) > 1e-9 )
+    if( itk::Math::abs( value - trueValue ) > 1e-9 )
       {
       std::cout << " *** Error: Value is " << value << " but should be: ";
       std::cout << trueValue << std::endl;
@@ -111,7 +111,7 @@ OutputType trueValue )
     OutputType value = interp->EvaluateAtContinuousIndex( index );
     std::cout << " Value: " << value << std::endl;
 
-    if( vnl_math_abs( value - trueValue ) > 1e-9 )
+    if( itk::Math::abs( value - trueValue ) > 1e-9 )
       {
       std::cout << " *** Error: Value is " << value << " but should be: " << trueValue << std::endl;
       }

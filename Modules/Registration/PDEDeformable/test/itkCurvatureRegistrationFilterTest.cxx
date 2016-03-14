@@ -27,7 +27,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkCommand.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "itkImageFileWriter.h"
 
@@ -61,7 +61,7 @@ typename TImage::PixelType backgnd )
   it.Begin();
 
   typename TImage::IndexType index;
-  double r2 = vnl_math_sqr( radius );
+  double r2 = itk::Math::sqr( radius );
 
   while( !it.IsAtEnd() )
     {
@@ -69,7 +69,7 @@ typename TImage::PixelType backgnd )
     double distance = 0;
     for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
       {
-      distance += vnl_math_sqr((double) index[j] - center[j]);
+      distance += itk::Math::sqr((double) index[j] - center[j]);
       }
     if( distance <= r2 ) it.Set( foregnd );
     else it.Set( backgnd );

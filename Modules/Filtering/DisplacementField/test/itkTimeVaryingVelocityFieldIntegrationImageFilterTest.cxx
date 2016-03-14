@@ -75,7 +75,7 @@ int itkTimeVaryingVelocityFieldIntegrationImageFilterTest( int, char* [] )
   displacement = inverseField->GetPixel( index );
 
   std::cout << "Estimated inverse displacement vector: " << displacement << std::endl;
-  if( vnl_math_abs( displacement[0] + 0.101852 ) > 0.01 )
+  if( itk::Math::abs( displacement[0] + 0.101852 ) > 0.01 )
     {
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;
@@ -93,7 +93,7 @@ int itkTimeVaryingVelocityFieldIntegrationImageFilterTest( int, char* [] )
   displacement = displacementField->GetPixel( index );
 
   std::cout << "Estimated forward displacement vector: " << displacement << std::endl;
-  if( vnl_math_abs( displacement[0] - 0.045 ) > 0.0001 )
+  if( itk::Math::abs( displacement[0] - 0.045 ) > 0.0001 )
     {
     std::cerr << "Failed to produce the correct forward integration." << std::endl;
     return EXIT_FAILURE;

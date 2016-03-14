@@ -166,7 +166,7 @@ TRealValueType
 CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 ::Evaluate( const TRealValueType &u ) const
 {
-  const TRealValueType absValue = vnl_math_abs( u );
+  const TRealValueType absValue = itk::Math::abs( u );
 
   unsigned int which;
   if( this->m_SplineOrder % 2 == 0 )
@@ -202,7 +202,7 @@ TRealValueType
 CoxDeBoorBSplineKernelFunction<VSplineOrder,TRealValueType>
 ::EvaluateNthDerivative( const TRealValueType & u, const unsigned int n ) const
 {
-  const TRealValueType absValue = vnl_math_abs( u );
+  const TRealValueType absValue = itk::Math::abs( u );
 
   unsigned int which;
   if( this->m_SplineOrder % 2 == 0 )

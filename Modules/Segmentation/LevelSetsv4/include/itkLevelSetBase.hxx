@@ -111,7 +111,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 
   OutputRealType gradNorm = grad.GetNorm();
 
-  if( gradNorm > vnl_math::eps )
+  if( gradNorm > itk::Math::eps )
     {
     oValue /= ( gradNorm * gradNorm * gradNorm );
     }
@@ -165,7 +165,7 @@ LevelSetBase< TInput, VDimension, TOutput, TDomain >
 
     OutputRealType temp = ioData.GradientNorm.m_Value;
 
-    if( temp > vnl_math::eps )
+    if( temp > itk::Math::eps )
       {
       ioData.MeanCurvature.m_Value /= ( temp * temp * temp );
       }

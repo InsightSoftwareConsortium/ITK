@@ -166,7 +166,7 @@ WeightedCovarianceSampleFilter< TSample >
 
   const double normalizationFactor = ( totalWeight - ( totalSquaredWeight / totalWeight ) );
 
-  if( normalizationFactor > vnl_math::eps )
+  if( normalizationFactor > itk::Math::eps )
     {
     const double inverseNormalizationFactor = 1.0 / normalizationFactor;
 
@@ -269,7 +269,7 @@ WeightedCovarianceSampleFilter< TSample >
 
   const double normalizationFactor = ( totalWeight - ( totalSquaredWeight / totalWeight ) );
 
-  if( normalizationFactor > vnl_math::eps )
+  if( normalizationFactor > itk::Math::eps )
     {
     const double inverseNormalizationFactor = 1.0 / normalizationFactor;
 

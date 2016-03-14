@@ -21,7 +21,7 @@
 #include "itkMeanSquareRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkMath.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -121,7 +121,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    fixedGradientSquaredMagnitude += vnl_math_sqr(fixedGradient[j]) * m_FixedImageSpacing[j];
+    fixedGradientSquaredMagnitude += itk::Math::sqr(fixedGradient[j]) * m_FixedImageSpacing[j];
     }
 
   // Get moving image related information
@@ -154,7 +154,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     denominator = 1.0;
     }
   PixelType update;
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold
+  if ( itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold
        || denominator < m_DenominatorThreshold )
     {
     update.Fill(0.0);
@@ -163,7 +163,7 @@ MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
 
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    update[j] = speedValue * fixedGradient[j] * vnl_math_sqr(m_FixedImageSpacing[j])
+    update[j] = speedValue * fixedGradient[j] * itk::Math::sqr(m_FixedImageSpacing[j])
                 / denominator * this->m_GradientStep;
     }
   return update;

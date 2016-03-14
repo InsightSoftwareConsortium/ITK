@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "VNLSparseLUSolverTraits.h"
-#include "vnl/vnl_math.h" // vnl_math_abs
+#include "itkMath.h" // itk::Math::abs
 
 #include <iostream>
 #include <cstdlib>
@@ -35,9 +35,9 @@ bool VectorsEquals( const TVector & v1,
 
   for( unsigned int i=0; i<v1.size(); i++ )
     {
-    if( vnl_math_abs( v1(i) - v2(i) ) > tolerance )
+    if( itk::Math::abs( v1(i) - v2(i) ) > tolerance )
       {
-      std::cerr << "Error: vnl_math_abs( v1(" << i << ") - v2(" << i << ") ) > " << tolerance << std::endl;
+      std::cerr << "Error: itk::Math::abs( v1(" << i << ") - v2(" << i << ") ) > " << tolerance << std::endl;
       return false;
       }
     }
