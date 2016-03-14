@@ -71,7 +71,7 @@ public:
     return "Primitive Cell";
   }
 
-  bool CheckPointApoptosis()
+  virtual bool CheckPointApoptosis() ITK_OVERRIDE
     { return CellBase::CheckPointApoptosis(); }
 
   static Cell * CreateEgg();
