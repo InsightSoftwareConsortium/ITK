@@ -42,7 +42,10 @@
     }                                              \
 
 
-#include "vcl_limits.h" // for std::numeric_limits
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "vcl_limits.h"
+#endif
+#include <limits> // for std::numeric_limits
 #include <complex>
 
 namespace itk
