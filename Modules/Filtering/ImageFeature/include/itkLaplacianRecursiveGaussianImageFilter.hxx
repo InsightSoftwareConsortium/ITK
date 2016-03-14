@@ -152,7 +152,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   progress->SetMiniPipelineFilter(this);
 
   // dim^2 recursive gaussians + dim add filters + cast filter
-  const unsigned int numberOfFilters = itk::Math::sqr( ImageDimension ) +  ImageDimension + 1;
+  const unsigned int numberOfFilters = ( ImageDimension * ImageDimension ) +  ImageDimension + 1;
 
   // register (most) filters with the progress accumulator
   for ( unsigned int i = 0; i < NumberOfSmoothingFilters; i++ )
