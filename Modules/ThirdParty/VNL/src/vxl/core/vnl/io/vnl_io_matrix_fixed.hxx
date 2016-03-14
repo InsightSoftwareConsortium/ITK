@@ -41,9 +41,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
     vsl_b_read(is, stream_m);
     vsl_b_read(is, stream_n);
     if ( stream_n != n || stream_m != m ) {
-      vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
+      std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
                << "           Expected size " << m << ',' << n << "; got " << stream_m << ',' << stream_n << '\n';
-      is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+      is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
       return;
     }
     // Calling begin() on empty matrix_fixed causes segfault
@@ -55,9 +55,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
     vsl_b_read(is, stream_m);
     vsl_b_read(is, stream_n);
     if ( stream_n != n || stream_m != m ) {
-      vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
+      std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
                << "           Expected size " << m << ',' << n << "; got " << stream_m << ',' << stream_n << '\n';
-      is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+      is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
       return;
     }
     // Calling begin() on empty matrix_fixed causes segfault
@@ -66,9 +66,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
     break;
 
    default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
+    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_matrix_fixed<T>&)\n"
              << "           Unknown version number "<< v << '\n';
-    is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }
 }
@@ -76,9 +76,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
 //====================================================================================
 //: Output a human readable summary to the stream
 template<class T, unsigned nrows, unsigned ncols>
-void vsl_print_summary(vcl_ostream & os,const vnl_matrix_fixed<T,nrows,ncols> & p)
+void vsl_print_summary(std::ostream & os,const vnl_matrix_fixed<T,nrows,ncols> & p)
 {
-  os<<"Size: "<<p.rows()<<" x "<<p.cols()<<vcl_endl;
+  os<<"Size: "<<p.rows()<<" x "<<p.cols()<<std::endl;
 
   unsigned int m = 5; unsigned int n = 5;
 
@@ -102,7 +102,7 @@ void vsl_print_summary(vcl_ostream & os,const vnl_matrix_fixed<T,nrows,ncols> & 
 
 
 #define VNL_IO_MATRIX_FIXED_INSTANTIATE(T,m,n) \
-template void vsl_print_summary(vcl_ostream &, const vnl_matrix_fixed<T,m,n > &); \
+template void vsl_print_summary(std::ostream &, const vnl_matrix_fixed<T,m,n > &); \
 template void vsl_b_read(vsl_b_istream &, vnl_matrix_fixed<T,m,n > &); \
 template void vsl_b_write(vsl_b_ostream &, const vnl_matrix_fixed<T,m,n > &)
 

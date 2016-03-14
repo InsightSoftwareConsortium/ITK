@@ -7,15 +7,16 @@
 // \author Andrew W. Fitzgibbon, Oxford RRG
 // \date   31 Aug 96
 
+#include <iostream>
 #include "vnl_least_squares_function.h"
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 void vnl_least_squares_function::dim_warning(unsigned int number_of_unknowns,
                                              unsigned int number_of_residuals)
 {
   if (number_of_unknowns > number_of_residuals)
-    vcl_cerr << "vnl_least_squares_function: WARNING: "
+    std::cerr << "vnl_least_squares_function: WARNING: "
              << "unknowns(" << number_of_unknowns << ") > "
              << "residuals("<< number_of_residuals << ")\n";
 }
@@ -23,7 +24,7 @@ void vnl_least_squares_function::dim_warning(unsigned int number_of_unknowns,
 void vnl_least_squares_function::gradf(vnl_vector<double> const& /*x*/,
                                        vnl_matrix<double>& /*jacobian*/)
 {
-  vcl_cerr << "Warning: gradf() called but not implemented in derived class\n";
+  std::cerr << "Warning: gradf() called but not implemented in derived class\n";
 }
 
 //: Compute finite differences gradient using central differences.

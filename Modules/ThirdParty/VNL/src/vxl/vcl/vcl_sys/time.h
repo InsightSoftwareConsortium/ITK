@@ -3,6 +3,10 @@
 
 #include <vcl_compiler.h>
 
+#ifndef VCL_WIN32
+#include <sys/times.h>
+#endif
+
 #if defined(VCL_WIN32) && !defined(__CYGWIN__)
 # include <sys/timeb.h>
 extern "C" int gettimeofday(struct timeval*, struct timezone*);

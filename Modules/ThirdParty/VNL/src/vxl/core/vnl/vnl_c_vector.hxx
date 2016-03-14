@@ -8,8 +8,9 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cmath>
+#include <new>
 #include "vnl_c_vector.h"
-#include <vcl_cmath.h>     // vcl_sqrt()
 #include <vcl_cassert.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex_traits.h>
@@ -33,7 +34,7 @@ void vnl_c_vector<T>::normalize(T* v, unsigned n)
     tmp += vnl_math::squared_magnitude(v[i]);
   if (tmp!=0)
   {
-    tmp = abs_t(real_t(1) / vcl_sqrt(real_t(tmp)));
+    tmp = abs_t(real_t(1) / std::sqrt(real_t(tmp)));
     for (unsigned i = 0; i < n; ++i)
       v[i] = T(tmp*v[i]);
   }
@@ -317,7 +318,7 @@ void vnl_c_vector_rms_norm(T const *p, unsigned n, S *out)
   vnl_c_vector_two_norm_squared(p, n, out);
   *out /= n;
   typedef typename vnl_numeric_traits<S>::real_t real_t;
-  *out = S(vcl_sqrt(real_t(*out)));
+  *out = S(std::sqrt(real_t(*out)));
 }
 
 template <class T, class S>
@@ -334,7 +335,7 @@ void vnl_c_vector_two_norm(T const *p, unsigned n, S *out)
 {
   vnl_c_vector_two_norm_squared(p, n, out);
   typedef typename vnl_numeric_traits<S>::real_t real_t;
-  *out = S(vcl_sqrt(real_t(*out)));
+  *out = S(std::sqrt(real_t(*out)));
 }
 
 template <class T, class S>
@@ -353,59 +354,59 @@ void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out)
 //---------------------------------------------------------------------------
 
 
-inline void* vnl_c_vector_alloc(vcl_size_t n, unsigned size)
+inline void* vnl_c_vector_alloc(std::size_t n, unsigned size)
 {
   return vnl_sse_alloc(n,size);
 }
 
 
-inline void vnl_c_vector_dealloc(void* v, vcl_size_t n, unsigned size)
+inline void vnl_c_vector_dealloc(void* v, std::size_t n, unsigned size)
 {
   vnl_sse_dealloc(v,n,size);
 }
 
 template<class T>
-T** vnl_c_vector<T>::allocate_Tptr(vcl_size_t n)
+T** vnl_c_vector<T>::allocate_Tptr(std::size_t n)
 {
   return (T**)vnl_c_vector_alloc(n, sizeof (T*));
 }
 
 template<class T>
-void vnl_c_vector<T>::deallocate(T** v, vcl_size_t n)
+void vnl_c_vector<T>::deallocate(T** v, std::size_t n)
 {
   vnl_c_vector_dealloc(v, n, sizeof (T*));
 }
 
 // "T *" is POD, but "T" might not be.
-#include <vcl_new.h>
-template <class T> inline void vnl_c_vector_construct(T *p, vcl_size_t n)
+#include <vcl_compiler.h>
+template <class T> inline void vnl_c_vector_construct(T *p, std::size_t n)
 {
-  for (vcl_size_t i=0; i<n; ++i)
+  for (std::size_t i=0; i<n; ++i)
     new (p+i) T();
 }
 
-inline void vnl_c_vector_construct(float *, vcl_size_t) { }
-inline void vnl_c_vector_construct(double *, vcl_size_t) { }
-inline void vnl_c_vector_construct(long double *, vcl_size_t) { }
-inline void vnl_c_vector_construct(vcl_complex<float> *, vcl_size_t) { }
-inline void vnl_c_vector_construct(vcl_complex<double> *, vcl_size_t) { }
-inline void vnl_c_vector_construct(vcl_complex<long double> *, vcl_size_t) { }
+inline void vnl_c_vector_construct(float *, std::size_t) { }
+inline void vnl_c_vector_construct(double *, std::size_t) { }
+inline void vnl_c_vector_construct(long double *, std::size_t) { }
+inline void vnl_c_vector_construct(std::complex<float> *, std::size_t) { }
+inline void vnl_c_vector_construct(std::complex<double> *, std::size_t) { }
+inline void vnl_c_vector_construct(std::complex<long double> *, std::size_t) { }
 
-template <class T> inline void vnl_c_vector_destruct(T *p, vcl_size_t n)
+template <class T> inline void vnl_c_vector_destruct(T *p, std::size_t n)
 {
-  for (vcl_size_t i=0; i<n; ++i)
+  for (std::size_t i=0; i<n; ++i)
     (p+i)->~T();
 }
 
-inline void vnl_c_vector_destruct(float *, vcl_size_t) { }
-inline void vnl_c_vector_destruct(double *, vcl_size_t) { }
-inline void vnl_c_vector_destruct(long double *, vcl_size_t) { }
-inline void vnl_c_vector_destruct(vcl_complex<float> *, vcl_size_t) { }
-inline void vnl_c_vector_destruct(vcl_complex<double> *, vcl_size_t) { }
-inline void vnl_c_vector_destruct(vcl_complex<long double> *, vcl_size_t) { }
+inline void vnl_c_vector_destruct(float *, std::size_t) { }
+inline void vnl_c_vector_destruct(double *, std::size_t) { }
+inline void vnl_c_vector_destruct(long double *, std::size_t) { }
+inline void vnl_c_vector_destruct(std::complex<float> *, std::size_t) { }
+inline void vnl_c_vector_destruct(std::complex<double> *, std::size_t) { }
+inline void vnl_c_vector_destruct(std::complex<long double> *, std::size_t) { }
 
 template<class T>
-T* vnl_c_vector<T>::allocate_T(vcl_size_t n)
+T* vnl_c_vector<T>::allocate_T(std::size_t n)
 {
   T *p = (T*)vnl_c_vector_alloc(n, sizeof (T));
   vnl_c_vector_construct(p, n);
@@ -413,14 +414,14 @@ T* vnl_c_vector<T>::allocate_T(vcl_size_t n)
 }
 
 template<class T>
-void vnl_c_vector<T>::deallocate(T* p, vcl_size_t n)
+void vnl_c_vector<T>::deallocate(T* p, std::size_t n)
 {
   vnl_c_vector_destruct(p, n);
   vnl_c_vector_dealloc(p, n, sizeof (T));
 }
 
 template<class T>
-vcl_ostream& print_vector(vcl_ostream& s, T const* v, unsigned size)
+std::ostream& print_vector(std::ostream& s, T const* v, unsigned size)
 {
   if (size != 0) s << v[0];
   for (unsigned i = 1; i < size; ++i)   // For each index in vector
@@ -441,7 +442,7 @@ template void vnl_c_vector_inf_norm(T const *, unsigned, S *)
 #define VNL_C_VECTOR_INSTANTIATE_ordered(T) \
 VNL_C_VECTOR_INSTANTIATE_norm(T, vnl_c_vector<T >::abs_t); \
 template class vnl_c_vector<T >; \
-template vcl_ostream& print_vector(vcl_ostream &,T const *,unsigned)
+template std::ostream& print_vector(std::ostream &,T const *,unsigned)
 
 #undef VNL_C_VECTOR_INSTANTIATE_unordered
 #define VNL_C_VECTOR_INSTANTIATE_unordered(T) \

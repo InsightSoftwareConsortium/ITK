@@ -32,8 +32,9 @@
 //   20 Aug 2011 - Peter Vanroose - internal repr change: coeff vector reversed
 // \endverbatim
 
-#include <vcl_vector.h>
-#include <vcl_iosfwd.h>
+#include <vector>
+#include <iosfwd>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 //: Evaluation of polynomials.
@@ -58,7 +59,7 @@ class vnl_polynomial
   // as opposed to the C array constructor!
   // An assertion makes sure that the input vector is in normalised form, i.e.,
   // that it is either empty or that the highest order coefficient is nonzero.
-  vnl_polynomial(vcl_vector<T> const& a): coeffs_(a) { assert(a.begin()==a.end() || a.back() != T(0)); }
+  vnl_polynomial(std::vector<T> const& a): coeffs_(a) { assert(a.begin()==a.end() || a.back() != T(0)); }
 
   //: Initialize polynomial from C array, highest order first.
   // The parameter \p len is the number of coefficients passed in,
@@ -147,24 +148,24 @@ class vnl_polynomial
   T  operator [] (unsigned int i) const { assert(int(i)<=degree()); return coeffs_[i]; }
 
   //: Return the vector of coefficients
-  const vcl_vector<T>& coefficients() const { return coeffs_; }
+  const std::vector<T>& coefficients() const { return coeffs_; }
   //: Return the vector of coefficients
-        vcl_vector<T>& coefficients()       { return coeffs_; }
+        std::vector<T>& coefficients()       { return coeffs_; }
 
-  void set_coefficients(vcl_vector<T> const& coeffs) {coeffs_ = coeffs;}
+  void set_coefficients(std::vector<T> const& coeffs) {coeffs_ = coeffs;}
 
   //: Print this polynomial to stream
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
  protected:
   //: The coefficients of the polynomial.
   // coeffs_.front() is the const term.
   // coeffs_[n] is the coefficient of the $X^n$ term
-  vcl_vector<T> coeffs_;
+  std::vector<T> coeffs_;
 };
 
 template <class T>
-vcl_ostream& operator<<(vcl_ostream& os, vnl_polynomial<T> const& p) { p.print(os); return os; }
+std::ostream& operator<<(std::ostream& os, vnl_polynomial<T> const& p) { p.print(os); return os; }
 
 #define VNL_POLYNOMIAL_INSTANTIATE(T) extern "please #include vnl/vnl_polynomial.hxx instead"
 

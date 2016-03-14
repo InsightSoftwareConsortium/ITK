@@ -97,7 +97,7 @@ T vnl_determinant(vnl_matrix<T> const &M, bool balance)
         }
       }
       T balanced_det = vnl_qr<T>(tmp).determinant();
-      //vcl_clog << __FILE__ ": scalings, balanced_det = " << scalings << ", " << balanced_det << vcl_endl;
+      //std::clog << __FILE__ ": scalings, balanced_det = " << scalings << ", " << balanced_det << std::endl;
       return T(scalings) * balanced_det;
     }
     else

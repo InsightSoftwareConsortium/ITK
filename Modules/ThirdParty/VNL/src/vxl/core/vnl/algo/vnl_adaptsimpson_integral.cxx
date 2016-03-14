@@ -1,6 +1,7 @@
+#include <iostream>
+#include <cmath>
 #include "vnl_adaptsimpson_integral.h"
-#include <vcl_iostream.h>
-#include <vcl_cmath.h>
+#include <vcl_compiler.h>
 
 double vnl_adaptsimpson_integral::int_fnct_(double* x)
 {
@@ -33,11 +34,11 @@ double vnl_adaptsimpson_integral::adaptivesimpson(double(*f)(double*),
   /* Check for level */
   if (level+1 >= level_max) {
     result = two_simpson;
-    vcl_cerr<< "Maximum level reached\n";
+    std::cerr<< "Maximum level reached\n";
   }
   else {
     /* Check for desired accuracy */
-    if (vcl_fabs(two_simpson-one_simpson) < 15.0*eps)
+    if (std::fabs(two_simpson-one_simpson) < 15.0*eps)
       result = two_simpson + (two_simpson-one_simpson)/15.0;
     /* Divide further */
     else {

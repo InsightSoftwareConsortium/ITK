@@ -2,7 +2,8 @@
 /*
   fsm
 */
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
@@ -19,44 +20,44 @@
 void test_fft_1d(unsigned int N)
 {
   vnl_random rng;
-  vnl_vector<vcl_complex<double> > signal(N);
+  vnl_vector<std::complex<double> > signal(N);
   test_util_fill_random(signal.begin(), signal.end(), rng);
 
   vnl_fft_1d<double> fft(N);
 
-  vnl_vector<vcl_complex<double> > tmp = signal;
-  vnl_matlab_print(vcl_cout, tmp, "tmp");
+  vnl_vector<std::complex<double> > tmp = signal;
+  vnl_matlab_print(std::cout, tmp, "tmp");
 
   fft.fwd_transform(tmp);
-  vnl_matlab_print(vcl_cout, tmp, "tmp");
+  vnl_matlab_print(std::cout, tmp, "tmp");
 
   fft.bwd_transform(tmp); tmp /= N;
-  vnl_matlab_print(vcl_cout, tmp, "tmp");
+  vnl_matlab_print(std::cout, tmp, "tmp");
 
   double err = (tmp - signal).two_norm();
-  vcl_cout << "err = " << err << vcl_endl;
+  std::cout << "err = " << err << std::endl;
   TEST_NEAR("test fwd-bwd", err, 0.0, 1e-10);
 }
 
 void test_fft_2d(unsigned int M, unsigned int N)
 {
   vnl_random rng;
-  vnl_matrix<vcl_complex<double> > signal(M, N);
+  vnl_matrix<std::complex<double> > signal(M, N);
   test_util_fill_random(signal.begin(), signal.end(), rng);
 
   vnl_fft_2d<double> fft(M, N);
 
-  vnl_matrix<vcl_complex<double> > tmp = signal;
-  vnl_matlab_print(vcl_cout, tmp, "tmp");
+  vnl_matrix<std::complex<double> > tmp = signal;
+  vnl_matlab_print(std::cout, tmp, "tmp");
 
   fft.fwd_transform(tmp);
-  vnl_matlab_print(vcl_cout, tmp, "tmp");
+  vnl_matlab_print(std::cout, tmp, "tmp");
 
   fft.bwd_transform(tmp); tmp /= (M*N);
-  vnl_matlab_print(vcl_cout, tmp, "tmp");
+  vnl_matlab_print(std::cout, tmp, "tmp");
 
   double err = (tmp - signal).fro_norm();
-  vcl_cout << "err = " << err << vcl_endl;
+  std::cout << "err = " << err << std::endl;
   TEST_NEAR("test fwd-bwd", err, 0.0, 1e-10);
 }
 

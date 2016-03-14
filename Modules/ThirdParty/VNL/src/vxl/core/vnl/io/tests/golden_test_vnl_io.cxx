@@ -10,8 +10,10 @@
 //    golden_test_vnl_io create
 // \endverbatim
 
-#include <vcl_string.h>
-#include <vcl_cstdlib.h> // for vcl_exit()
+#include <string>
+#include <iostream>
+#include <cstdlib>
+#include <vcl_compiler.h>
 #include <vsl/vsl_binary_io.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/io/vnl_io_vector.h>
@@ -28,7 +30,7 @@
 
 static void golden_test_vnl_io(bool save_file)
 {
-  vcl_cout << "***********************************************************\n"
+  std::cout << "***********************************************************\n"
            << " Testing a golden data file for cross platform consistency\n"
            << "***********************************************************\n";
 
@@ -98,9 +100,9 @@ static void golden_test_vnl_io(bool save_file)
 
   // vnl_sparse_matrix
   vnl_sparse_matrix<double>  m_sparse_out(3,3), m_sparse_in(3,3);
-  vcl_vector<int> col_1(3);
-  vcl_vector<int> col_2(2);
-  vcl_vector<int> col_3(1);
+  std::vector<int> col_1(3);
+  std::vector<int> col_2(2);
+  std::vector<int> col_3(1);
 
   col_1[0]=1;
   col_1[1]=2;
@@ -109,9 +111,9 @@ static void golden_test_vnl_io(bool save_file)
   col_2[1]=3;
   col_3[0]=2;
 
-  vcl_vector<double> val_1(3);
-  vcl_vector<double> val_2(2);
-  vcl_vector<double> val_3(1);
+  std::vector<double> val_1(3);
+  std::vector<double> val_2(2);
+  std::vector<double> val_3(1);
 
   val_1[0]=1.1;
   val_1[1]=1.2;
@@ -135,8 +137,8 @@ static void golden_test_vnl_io(bool save_file)
     TEST ("Opened golden_test_vnl_io.bvl for writing ", ! bfs_out, false);
     if (!bfs_out)
     {
-      vcl_cerr<<"Problems opening file for output - exiting\n";
-      vcl_exit(1);
+      std::cerr<<"Problems opening file for output - exiting\n";
+      std::exit(1);
     }
     vsl_b_write(bfs_out, v_out);
     vsl_b_write(bfs_out, m_out);
@@ -150,7 +152,7 @@ static void golden_test_vnl_io(bool save_file)
   }
 
   // Read in file to each class in turn
-  vcl_string gold_path=testlib_root_dir()+"/core/vnl/io/tests/golden_test_vnl_io.bvl";
+  std::string gold_path=testlib_root_dir()+"/core/vnl/io/tests/golden_test_vnl_io.bvl";
   vsl_b_ifstream bfs_in(gold_path.c_str());
   TEST ("Opened golden_test_vnl_io.bvl for reading ", ! bfs_in, false);
   vsl_b_read(bfs_in, v_in);
@@ -196,7 +198,7 @@ static void golden_test_vnl_io(bool save_file)
 
 static void golden_test_vnl_io(int argc, char* argv[])
 {
-  golden_test_vnl_io(argc==2 && vcl_string(argv[1])==vcl_string("create"));
+  golden_test_vnl_io(argc==2 && std::string(argv[1])==std::string("create"));
 }
 
 TESTMAIN_ARGS(golden_test_vnl_io);

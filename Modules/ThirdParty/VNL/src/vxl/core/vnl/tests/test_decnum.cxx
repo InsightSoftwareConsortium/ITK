@@ -1,6 +1,7 @@
-#include <vcl_iostream.h>
-#include <vcl_sstream.h>
-#include <vcl_iomanip.h>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+#include <vcl_compiler.h>
 #include <vnl/vnl_decnum.h>
 #include <testlib/testlib_test.h>
 
@@ -29,9 +30,9 @@ static vnl_decnum binom(unsigned long n, unsigned long k)
 
 static void run_constructor_tests()
 {
-  vcl_cout << "\ndecnum constructor tests:\n";
+  std::cout << "\ndecnum constructor tests:\n";
 
-  vcl_cout << "long constructor:\n";
+  std::cout << "long constructor:\n";
   {vnl_decnum b(0L); TEST("vnl_decnum b(0L);", b, 0L);}
   {vnl_decnum b(1L); TEST("vnl_decnum b(1L);", b, 1L);}
   {vnl_decnum b(-1L); TEST("vnl_decnum b(-1L);", b, -1L);}
@@ -41,7 +42,7 @@ static void run_constructor_tests()
   {vnl_decnum b(-0x7fffffffL); TEST("vnl_decnum b(-0x7fffffffL);", b, -0x7fffffffL);}
   {vnl_decnum b(0xf00000L); TEST("vnl_decnum b(0xf00000L);", b, 0xf00000);}
 
-  vcl_cout << "double constructor:\n";
+  std::cout << "double constructor:\n";
   {vnl_decnum b(0.0); TEST("vnl_decnum b(0.0);", b, 0L);}
   {vnl_decnum b(1.0); TEST("vnl_decnum b(1.0);", b, 1L);}
   {vnl_decnum b(-1.0); TEST("vnl_decnum b(-1.0);", b, -1L);}
@@ -52,14 +53,14 @@ static void run_constructor_tests()
   {vnl_decnum b(1234e-3); TEST("vnl_decnum(1234e-3)", long(b*"1000"), 1234L);}
   {vnl_decnum b(1.234); TEST("vnl_decnum(1.234)", long(b*"1000"), 1234L);}
 
-  vcl_cout << "char* constructor:\n";
+  std::cout << "char* constructor:\n";
   {vnl_decnum b("-1"); TEST("vnl_decnum b(\"-1\");", b, -1L);}
   {vnl_decnum b("+1"); TEST("vnl_decnum b(\"+1\");", b, 1L);}
   {vnl_decnum b("1"); TEST("vnl_decnum b(\"1\");", b, 1L);}
   {vnl_decnum b("123"); TEST("vnl_decnum b(\"123\");", b, 123L);}
   {vnl_decnum b("123e5"); TEST("vnl_decnum b(\"123e5\");", b, 12300000L);}
   {vnl_decnum b("-123e+4"); TEST("vnl_decnum b(\"-123e+4\");", b, -1230000L);}
-  {vnl_decnum b("-1e120"); vcl_stringstream s; s << b << ' ';
+  {vnl_decnum b("-1e120"); std::stringstream s; s << b << ' ';
    // verify that b outputs as  "-1e120"
    bool t = s.str()[0] == '-' && s.str()[1] == '1' && s.str()[2] == 'e'
          && s.str()[3] == '1' && s.str()[4] == '2' && s.str()[5] == '0' && s.str()[6] == ' ';
@@ -83,21 +84,21 @@ static void run_constructor_tests()
   {vnl_decnum b("-Infin"); TEST("vnl_decnum(\"-Infin\")", vnl_math::isfinite(b), false);}
   {vnl_decnum b("Inf"); TEST("isnan(Inf)", vnl_math::isnan(b), false);}
 
-  vcl_cout << "reading from istream:\n";
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_decnum b;
+  std::cout << "reading from istream:\n";
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_decnum b;
    is << "+1"; is >> b; TEST("\"+1\" >> b;", b, 1L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_decnum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_decnum b;
    is << "-1"; is >> b; TEST("\"-1\" >> b;", b, -1L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_decnum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_decnum b;
    is << "123"; is >> b; TEST("\"123\" >> b;", b, 123L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_decnum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_decnum b;
    is << "123e5"; is >> b; TEST("\"123e5\" >> b;", b, 12300000L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_decnum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_decnum b;
    is << "-123e+4"; is >> b; TEST("\"-123e+4\" >> b;", b, -1230000L);}
-  {vcl_stringstream is(vcl_ios_in | vcl_ios_out); vnl_decnum b;
+  {std::stringstream is(std::ios::in | std::ios::out); vnl_decnum b;
    is << " 9"; is >> b; TEST("\" 9\" >> b;", b, 9L);}
 
-  vcl_cout << "vnl_decnum& constructor:\n";
+  std::cout << "vnl_decnum& constructor:\n";
   {vnl_decnum b50(vnl_decnum(0L));
    TEST("vnl_decnum b50(vnl_decnum(0L));", b50, 0L);}
 
@@ -107,14 +108,14 @@ static void run_constructor_tests()
 
 static void run_conversion_operator_tests()
 {
-  vcl_cout << "\nConversion operator tests:\n";
+  std::cout << "\nConversion operator tests:\n";
 
-  vcl_cout << "int conversion operator:\n";
+  std::cout << "int conversion operator:\n";
   TEST("int(vnl_decnum(0L)) == 0", int(vnl_decnum(0L)), 0);
   TEST("int(vnl_decnum(0x7fffffffL)) == 0x7fffffff", int(vnl_decnum(0x7fffffffL)), 0x7fffffff);
   TEST("int(vnl_decnum(-0x7fffffffL)) == -0x7fffffff", int(vnl_decnum(-0x7fffffffL)), -0x7fffffff);
 
-  vcl_cout << "long conversion operator:\n";
+  std::cout << "long conversion operator:\n";
   vnl_decnum b(0x7fffffffL); ++b;
   TEST("vnl_decnum b(0x7fffffffL); ++b; (unsigned long)b == 0x80000000UL", (unsigned long)b, 0x80000000UL);
   --b;
@@ -123,7 +124,7 @@ static void run_conversion_operator_tests()
 
 static void run_assignment_tests()
 {
-  vcl_cout << "\nStarting assignment tests:\n";
+  std::cout << "\nStarting assignment tests:\n";
   vnl_decnum b1;
 
   TEST_RUN ("vnl_decnum b1; b1 = 0xffff;", b1 = 0xffffL, long(b1), 0xffffL);
@@ -142,7 +143,7 @@ static void run_assignment_tests()
 
 static void run_logical_comparison_tests()
 {
-  vcl_cout << "\nStarting logical comparison tests:\n";
+  std::cout << "\nStarting logical comparison tests:\n";
   vnl_decnum b0(0L);
   vnl_decnum b1(1L);
   vnl_decnum b2(0x7fffL);
@@ -243,7 +244,7 @@ static void run_logical_comparison_tests()
 
 static void run_division_tests()
 {
-  vcl_cout << "\nStarting division tests:\n";
+  std::cout << "\nStarting division tests:\n";
 
   TEST("long(vnl_decnum(0L)/vnl_decnum(1L))", long(vnl_decnum(0L)/vnl_decnum(1L)), 0L);
   TEST("long(vnl_decnum(-1L)/vnl_decnum(1L))", long(vnl_decnum(-1L)/vnl_decnum(1L)), -1L);
@@ -259,10 +260,10 @@ static void run_division_tests()
       for (long l = -4; l < 9; l+=3) { // avoid division by zero...
        vnl_decnum bj(j+l);
        vnl_decnum bij(long((i+k)/(j+l)));
-       {vcl_stringstream s; s << bi << " / " << bj << " == " << bi/bj << " == " << bij << " ?";
+       {std::stringstream s; s << bi << " / " << bj << " == " << bi/bj << " == " << bij << " ?";
         TEST(s.str().c_str(), bi/bj, bij);}
        bij = long((i+k)%(j+l));
-       {vcl_stringstream s; s << bi << " % " << bj << " == " << bi%bj << " == " << bij << " ?";
+       {std::stringstream s; s << bi << " % " << bj << " == " << bi%bj << " == " << bij << " ?";
         TEST(s.str().c_str(), bi%bj, bij);}
      }}
   }}
@@ -270,78 +271,78 @@ static void run_division_tests()
 
 static void run_large_division_tests()
 {
-  vcl_cout << "\nStarting large division tests:\n";
+  std::cout << "\nStarting large division tests:\n";
 
   vnl_decnum a("10000000"), b("10000001"); b *= a; vnl_decnum c = b/10000001;
-  vcl_cout << b << " / 10000001 = " << c << ", must be 10000000\n";
+  std::cout << b << " / 10000001 = " << c << ", must be 10000000\n";
   TEST("100000010000000 / 10000001", c, a);
 
   // an other example:
   a = "111111"; b = "111111"; b *= a; c = b/111111;
-  vcl_cout << b << " / 111111 = " << c << ", must be 111111\n";
+  std::cout << b << " / 111111 = " << c << ", must be 111111\n";
   TEST("12345654321 / 111111", c, a);
 
   a = "98789"; b = "98789"; b *= a; c = b/98789;
-  vcl_cout << b << " / 98789 = " << c << ", must be 98789\n";
+  std::cout << b << " / 98789 = " << c << ", must be 98789\n";
   TEST("9759266521 / 98789", c, a);
 
   a = "1e100"; b = "1e200"; c = b/a;
-  vcl_cout << "1e200 / 1e100 = "
+  std::cout << "1e200 / 1e100 = "
            << c << ", must be 1e100\n";
   TEST("1e200 / 1e100", c, a);
 
   a = "-1e100"; b = "1e200"; c = b/a;
-  vcl_cout << "1e200 / -1e100 = "
+  std::cout << "1e200 / -1e100 = "
            << c << ", must be -1e100\n";
   TEST("1e200 / -1e100", c, a);
 
   a = "1e100"; b = "-1e200"; c = b/a;
-  vcl_cout << "-1e200 / 1e100 = "
+  std::cout << "-1e200 / 1e100 = "
            << c << ", must be -1e100\n";
   TEST("-1e200 / 1e100", c, -a);
 
   a = "-1e100"; b = "-1e200"; c = b/a;
-  vcl_cout << "-1e200 / -1e100 = "
+  std::cout << "-1e200 / -1e100 = "
            << c << ", must be 1e100\n";
   TEST("-1e200 / -1e100", c, -a);
 
   a = "1e100"; b = "1e200"; c = b%a;
-  vcl_cout << "1e200 % 1e100 = "
+  std::cout << "1e200 % 1e100 = "
            << c << ", must be 0\n";
   TEST("1e200 % 1e100", c, 0);
 
-  vcl_cout << "C(16,8) = " << binom(16,8) << vcl_endl;
+  std::cout << "C(16,8) = " << binom(16,8) << std::endl;
   TEST("16 choose 8 = 12870", binom(16,8), 12870);
-  vcl_cout << "C(18,9) = " << binom(18,9) << vcl_endl;
+  std::cout << "C(18,9) = " << binom(18,9) << std::endl;
   TEST("18 choose 9 = 48620", binom(18,9), 48620);
-  vcl_cout << "C(20,10) = " << binom(20,10) << vcl_endl;
+  std::cout << "C(20,10) = " << binom(20,10) << std::endl;
   TEST("20 choose 10 = 184756", binom(20,10), 184756);
-  vcl_cout << "C(100,44) = " << binom(100,44) << vcl_endl;
+  std::cout << "C(100,44) = " << binom(100,44) << std::endl;
   TEST("100 choose 44 = 49378235797073715747364762200",
        binom(100,44), "49378235797073715747364762200");
 }
 
 static void run_multiplication_division_tests()
 {
-  vcl_cout << "\nCheck example in book:\n";
+  std::cout << "\nCheck example in book:\n";
 
   vnl_decnum b2 = "4294967295"; // == 0xffffffff         // Create vnl_decnum object
   vnl_decnum b3 = "12345e30";   // Create vnl_decnum object
 
-  vcl_cout << "b2 = " << b2 << '\n'
-           << "b3 = " << b3 << vcl_endl;
+  std::cout << "b2 = " << b2 << '\n'
+           << "b3 = " << b3 << std::endl;
 
   TEST("(b2*b3) / b3 = b2", (b2*b3) / b3, b2);
-  vcl_cout << "(b2*b3) / b3 = " << (b2*b3) / b3 << vcl_endl;
+  std::cout << "(b2*b3) / b3 = " << (b2*b3) / b3 << std::endl;
   TEST("(b2*b3) / b2 = b3", (b2*b3) / b2, b3);
-  vcl_cout << "(b2*b3) / b2 = " << (b2*b3) / b2 << vcl_endl;
+  std::cout << "(b2*b3) / b2 = " << (b2*b3) / b2 << std::endl;
   TEST("((b3/b2) * b2) + (b3%b2) = b3", ((b3/b2) * b2) + (b3%b2), b3);
-  vcl_cout << "((b3/b2) * b2) + (b3%b2) = " << ((b3/b2) * b2) + (b3%b2) << vcl_endl;
+  std::cout << "((b3/b2) * b2) + (b3%b2) = " << ((b3/b2) * b2) + (b3%b2) << std::endl;
 }
 
 static void run_addition_subtraction_tests()
 {
-  vcl_cout << "\nStarting addition, subtraction tests:\n";
+  std::cout << "\nStarting addition, subtraction tests:\n";
 
   long i,j;
   vnl_decnum bi,bj,bij;
@@ -351,10 +352,10 @@ static void run_addition_subtraction_tests()
     for (j = 1; j < 0xffff; j *= -3) {
       bj = j;
       bij = vnl_decnum(i+j);
-      {vcl_stringstream s; s << bi << " + " << bj << " == " << bi+bj << " == " << i+j << " ?";
+      {std::stringstream s; s << bi << " + " << bj << " == " << bi+bj << " == " << i+j << " ?";
        TEST(s.str().c_str(), bi+bj, bij);}
       bij = vnl_decnum(i-j);
-      {vcl_stringstream s; s << bi << " - " << bj << " == " << bi-bj << " == " << i-j << " ?";
+      {std::stringstream s; s << bi << " - " << bj << " == " << bi-bj << " == " << i-j << " ?";
        TEST(s.str().c_str(), bi-bj, bij);}
     }
   }}
@@ -418,14 +419,14 @@ static void run_addition_subtraction_tests()
   vnl_decnum b3 = "12345e30";   // Create vnl_decnum object
   TEST("(b2+b3) - b2 = b3", (b2+b3) - b2 == b3, 1);
   TEST("(b2+b3) - b3 = b2", (b2+b3) - b3 == b2, 1);
-  vcl_cout << b3 << '\n';
+  std::cout << b3 << '\n';
   TEST("cout << b3", 1, 1);
 }
 
 
 static void run_increment_tests()
 {
-  vcl_cout << "increment special cases:\n";
+  std::cout << "increment special cases:\n";
   vnl_decnum b1;
   TEST("b1     ==  0", b1, 0);
   ++b1;
@@ -480,7 +481,7 @@ static void run_increment_tests()
 
 static void run_multiplication_tests()
 {
-  vcl_cout << "\nStarting multiplication tests:\n";
+  std::cout << "\nStarting multiplication tests:\n";
 
   vnl_decnum b0(0L), b1000(1000L), b1000000(1000000L),
   zillion("1000000000000000000");
@@ -556,7 +557,7 @@ static void run_right_shift_tests()
 
 static void run_shift_tests()
 {
-  vcl_cout << "\nStarting shift tests:\n";
+  std::cout << "\nStarting shift tests:\n";
 
   run_left_shift_tests();
   run_right_shift_tests();
@@ -564,7 +565,7 @@ static void run_shift_tests()
 
 static void run_normalisation_tests()
 {
-  vcl_cout << "\nStarting normalisation tests:\n";
+  std::cout << "\nStarting normalisation tests:\n";
 
   vnl_decnum a("-1e10"), b=a;
   TEST("a stored as -1e10", a.data(), "1");

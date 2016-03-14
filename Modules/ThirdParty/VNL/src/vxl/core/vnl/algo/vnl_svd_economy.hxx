@@ -2,11 +2,12 @@
 #ifndef vnl_svd_economy_hxx_
 #define vnl_svd_economy_hxx_
 
+#include <iostream>
+#include <algorithm>
+#include <cmath>
 #include "vnl_svd_economy.h"
 
-#include <vcl_iostream.h>
-#include <vcl_algorithm.h>
-#include <vcl_cmath.h> // for std::abs(double)
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/algo/vnl_netlib.h> // dsvdc_()
@@ -17,8 +18,8 @@ inline void vnl_linpack_svdc_economy(vnl_netlib_svd_proto(T)) \
 { v3p_netlib_##p##svdc_(vnl_netlib_svd_params); }
 macro(s, float);
 macro(d, double);
-macro(c, vcl_complex<float>);
-macro(z, vcl_complex<double>);
+macro(c, std::complex<float>);
+macro(z, std::complex<double>);
 #undef macro
 
 template <class real_t>
@@ -29,7 +30,7 @@ vnl_svd_economy<real_t>::vnl_svd_economy( vnl_matrix<real_t> const& M ) :
 {
   vnl_fortran_copy<real_t> X(M);
 
-  int mm = vcl_min(m_+1L,n_);
+  int mm = std::min(m_+1L,n_);
 
   // Make workspace vectors.
   vnl_vector<real_t> work(m_, real_t(0));
@@ -79,15 +80,15 @@ vnl_svd_economy<real_t>::vnl_svd_economy( vnl_matrix<real_t> const& M ) :
     // if this is the cause, core/vnl/tests/test_svd should have failed.
     //
     // You may be able to diagnose the problem here by printing a warning message.
-    vcl_cerr << __FILE__ ": suspicious return value (" << info << ") from SVDC\n"
-             << __FILE__ ": M is " << M.rows() << 'x' << M.cols() << vcl_endl;
+    std::cerr << __FILE__ ": suspicious return value (" << info << ") from SVDC\n"
+             << __FILE__ ": M is " << M.rows() << 'x' << M.cols() << std::endl;
 
-    vnl_matlab_print(vcl_cerr, M, "M", vnl_matlab_print_format_long);
+    vnl_matlab_print(std::cerr, M, "M", vnl_matlab_print_format_long);
     //    valid_ = false;
   }
 
   for (int j = 0; j < mm; ++j)
-    sv_[j] = vcl_abs(wspace(j)); // we get rid of complexness here.
+    sv_[j] = std::abs(wspace(j)); // we get rid of complexness here.
 
   for (int j = mm; j < n_; ++j)
     sv_[j] = 0;

@@ -1,6 +1,7 @@
 // This is core/vnl/algo/tests/test_solve_qp.cxx
+#include <iostream>
 #include "test_util.h"
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <testlib/testlib_test.h>
 #include <vnl/algo/vnl_solve_qp.h>
 
@@ -24,7 +25,7 @@ void test_solve_qp_with_non_neg_constraints1()
 
   vnl_vector<double> sol(n,1.0/n);
 
-  vcl_cout<<"Solution: "<<x<<vcl_endl;
+  std::cout<<"Solution: "<<x<<std::endl;
   TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 
@@ -48,7 +49,7 @@ void test_solve_qp_with_non_neg_constraints2()
   vnl_vector<double> sol(n,1.0/3);
   sol[1]=0.0;
 
-  vcl_cout<<"Solution: "<<x<<vcl_endl;
+  std::cout<<"Solution: "<<x<<std::endl;
   TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 
@@ -69,7 +70,7 @@ void test_solve_qp_non_neg_sum_one1()
 
   vnl_vector<double> sol(n,1.0/n);
 
-  vcl_cout<<"Solution: "<<x<<vcl_endl;
+  std::cout<<"Solution: "<<x<<std::endl;
   TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 
@@ -92,7 +93,7 @@ void test_solve_qp_non_neg_sum_one2()
   vnl_vector<double> sol(n,1.0/3);
   sol[1]=0.0;
 
-  vcl_cout<<"Solution: "<<x<<vcl_endl;
+  std::cout<<"Solution: "<<x<<std::endl;
   TEST_NEAR("|x-x_true|^2", vnl_vector_ssd(x,sol), 0, 1e-5);
 }
 

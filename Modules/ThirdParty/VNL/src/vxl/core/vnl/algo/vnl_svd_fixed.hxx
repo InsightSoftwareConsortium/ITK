@@ -4,13 +4,14 @@
 //:
 // \file
 
+#include <cstdlib>
+#include <complex>
+#include <iostream>
+#include <algorithm>
 #include "vnl_svd_fixed.h"
 
 #include <vcl_cassert.h>
-#include <vcl_cstdlib.h>
-#include <vcl_complex.h>
-#include <vcl_iostream.h>
-#include <vcl_algorithm.h> // min()
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_fortran_copy_fixed.h>
@@ -22,8 +23,8 @@ inline void vnl_linpack_svdc_fixed(vnl_netlib_svd_proto(T)) \
 { v3p_netlib_##p##svdc_(vnl_netlib_svd_params); }
 macro(s, float);
 macro(d, double);
-macro(c, vcl_complex<float>);
-macro(z, vcl_complex<double>);
+macro(c, std::complex<float>);
+macro(z, std::complex<double>);
 #undef macro
 
 //--------------------------------------------------------------------------------
@@ -36,7 +37,7 @@ vnl_svd_fixed<T,R,C>::vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const& M, double zer
 {
   {
     const long n=R, p=C;
-    const unsigned mm = vcl_min(R+1u,C);
+    const unsigned mm = std::min(R+1u,C);
 
     // Copy source matrix into fortran storage
     // SVD is slow, don't worry about the cost of this transpose.
@@ -90,10 +91,10 @@ vnl_svd_fixed<T,R,C>::vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const& M, double zer
       // if this is the cause, core/vnl/tests/test_svd should have failed.
       //
       // You may be able to diagnose the problem here by printing a warning message.
-      vcl_cerr << __FILE__ ": suspicious return value (" << info << ") from SVDC\n"
-               << __FILE__ ": M is " << M.rows() << 'x' << M.cols() << vcl_endl;
+      std::cerr << __FILE__ ": suspicious return value (" << info << ") from SVDC\n"
+               << __FILE__ ": M is " << M.rows() << 'x' << M.cols() << std::endl;
 
-      vnl_matlab_print(vcl_cerr, M, "M", vnl_matlab_print_format_long);
+      vnl_matlab_print(std::cerr, M, "M", vnl_matlab_print_format_long);
       valid_ = false;
     }
     else
@@ -108,7 +109,7 @@ vnl_svd_fixed<T,R,C>::vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const& M, double zer
     }
 
     for (unsigned j = 0; j < mm; ++j)
-      W_(j, j) = vcl_abs(wspace(j)); // we get rid of complexness here.
+      W_(j, j) = std::abs(wspace(j)); // we get rid of complexness here.
 
     for (unsigned j = mm; j < C; ++j)
       W_(j, j) = 0;
@@ -125,18 +126,18 @@ vnl_svd_fixed<T,R,C>::vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const& M, double zer
   {
     // Test that recomposed matrix == M
     typedef typename vnl_numeric_traits<T>::abs_t abs_t;
-    abs_t recomposition_residual = vcl_abs((recompose() - M).fro_norm());
-    abs_t n = vcl_abs(M.fro_norm());
+    abs_t recomposition_residual = std::abs((recompose() - M).fro_norm());
+    abs_t n = std::abs(M.fro_norm());
     abs_t thresh = abs_t(R) * abs_t(vnl_math::eps) * n;
     if (recomposition_residual > thresh)
     {
-      vcl_cerr << "vnl_svd_fixed<T>::vnl_svd_fixed<T>() -- Warning, recomposition_residual = "
-               << recomposition_residual << vcl_endl
-               << "fro_norm(M) = " << n << vcl_endl
-               << "eps*fro_norm(M) = " << thresh << vcl_endl
+      std::cerr << "vnl_svd_fixed<T>::vnl_svd_fixed<T>() -- Warning, recomposition_residual = "
+               << recomposition_residual << std::endl
+               << "fro_norm(M) = " << n << std::endl
+               << "eps*fro_norm(M) = " << thresh << std::endl
                << "Press return to continue\n";
       char x;
-      vcl_cin.get(&x, 1, '\n');
+      std::cin.get(&x, 1, '\n');
     }
   }
 
@@ -149,13 +150,13 @@ vnl_svd_fixed<T,R,C>::vnl_svd_fixed(vnl_matrix_fixed<T,R,C> const& M, double zer
 }
 
 template <class T, unsigned int R, unsigned int C>
-vcl_ostream& operator<<(vcl_ostream& s, const vnl_svd_fixed<T,R,C>& svd)
+std::ostream& operator<<(std::ostream& s, const vnl_svd_fixed<T,R,C>& svd)
 {
   s << "vnl_svd_fixed<T,R,C>:\n"
     << "U = [\n" << svd.U() << "]\n"
     << "W = " << svd.W() << '\n'
     << "V = [\n" << svd.V() << "]\n"
-    << "rank = " << svd.rank() << vcl_endl;
+    << "rank = " << svd.rank() << std::endl;
   return s;
 }
 
@@ -171,7 +172,7 @@ void vnl_svd_fixed<T,R,C>::zero_out_absolute(double tol)
   for (unsigned k = 0; k < C; k++)
   {
     singval_t& weight = W_(k, k);
-    if (vcl_abs(weight) <= tol)
+    if (std::abs(weight) <= tol)
     {
       Winverse_(k,k) = 0;
       weight = 0;
@@ -188,7 +189,7 @@ void vnl_svd_fixed<T,R,C>::zero_out_absolute(double tol)
 template <class T, unsigned int R, unsigned int C>
 void vnl_svd_fixed<T,R,C>::zero_out_relative(double tol) // sqrt(machine epsilon)
 {
-  zero_out_absolute(tol * vcl_abs(sigma_max()));
+  zero_out_absolute(tol * std::abs(sigma_max()));
 }
 
 static bool wf=false;
@@ -199,7 +200,7 @@ template <class T, unsigned int R, unsigned int C>
 typename vnl_svd_fixed<T,R,C>::singval_t vnl_svd_fixed<T,R,C>::determinant_magnitude() const
 {
   if (!warned_f() && R != C)
-    vcl_cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n"
+    std::cerr << __FILE__ ": called determinant_magnitude() on SVD of non-square matrix\n"
              << "(This warning is displayed only once)\n";
   singval_t product = W_(0, 0);
   for (unsigned long k = 1; k < C; k++)
@@ -211,7 +212,7 @@ typename vnl_svd_fixed<T,R,C>::singval_t vnl_svd_fixed<T,R,C>::determinant_magni
 template <class T, unsigned int R, unsigned int C>
 typename vnl_svd_fixed<T,R,C>::singval_t vnl_svd_fixed<T,R,C>::norm() const
 {
-  return vcl_abs(sigma_max());
+  return std::abs(sigma_max());
 }
 
 //: Recompose SVD to U*W*V'
@@ -319,7 +320,7 @@ vnl_matrix<T> vnl_svd_fixed<T,R,C>::nullspace()  const
 {
   int k = rank();
   if (k == C)
-    vcl_cerr << "vnl_svd_fixed<T>::nullspace() -- Matrix is full rank." << last_tol_ << vcl_endl;
+    std::cerr << "vnl_svd_fixed<T>::nullspace() -- Matrix is full rank." << last_tol_ << std::endl;
   return nullspace(C-k);
 }
 
@@ -338,7 +339,7 @@ vnl_matrix<T> vnl_svd_fixed<T,R,C>::left_nullspace()  const
 {
   int k = rank();
   if (k == C)
-    vcl_cerr << "vnl_svd_fixed<T>::left_nullspace() -- Matrix is full rank." << last_tol_ << vcl_endl;
+    std::cerr << "vnl_svd_fixed<T>::left_nullspace() -- Matrix is full rank." << last_tol_ << std::endl;
   return U_.extract(U_.rows(), C-k, 0, k);
 }
 
@@ -371,7 +372,7 @@ template <class T, unsigned int R, unsigned int C>
 vnl_vector_fixed <T,R> vnl_svd_fixed<T,R,C>::left_nullvector()  const
 {
   vnl_vector_fixed<T,R> ret;
-  const unsigned col = vcl_min(R, C) - 1;
+  const unsigned col = std::min(R, C) - 1;
   for (unsigned i = 0; i < R; ++i)
     ret(i) = U_(i, col);
   return ret;
@@ -382,6 +383,6 @@ vnl_vector_fixed <T,R> vnl_svd_fixed<T,R,C>::left_nullvector()  const
 #undef VNL_SVD_FIXED_INSTANTIATE
 #define VNL_SVD_FIXED_INSTANTIATE(T , R , C ) \
 template class vnl_svd_fixed<T, R, C >; \
-template vcl_ostream& operator<<(vcl_ostream &, vnl_svd_fixed<T, R, C > const &)
+template std::ostream& operator<<(std::ostream &, vnl_svd_fixed<T, R, C > const &)
 
 #endif // vnl_svd_fixed_hxx_

@@ -5,9 +5,15 @@
 //:
 // \file
 
+#include <limits>
 #include "vnl_math.h"
 #include <vxl_config.h>
-#include <vcl_limits.h>
+#include <vcl_compiler.h>
+
+#if  __cplusplus >= 201103L
+// Nothing to do for isnan,isfinite,isinf,isnormal
+// or hypot here
+#else
 
 #if defined(VCL_VC) || defined(__MINGW32__)
 // I don't think we need this, because <ieeefp.h> is available -- fsm
@@ -88,18 +94,18 @@ bool isnan(long double x) { return x != x; }
 static inline unsigned int bMp(void*x,unsigned int y,int p=0) {return ((((unsigned int*)x)[p])&y);}
 static inline bool bMe(void*x,unsigned int y,int p=0) {return ((((unsigned int*)x)[p])&y)==y;}
 # else
-# include <vcl_iostream.h>
+# include <std::iostream.h>
 static inline unsigned int bMp(void* x, unsigned int y, int p=0)
 {
   unsigned char* v=(unsigned char*)x;
-  vcl_cout<<int(v[4*p])<<' '<<int(v[4*p+1])<<' '<<int(v[4*p+2])<<' '<<int(v[4*p+3])<<" & ";
+  std::cout<<int(v[4*p])<<' '<<int(v[4*p+1])<<' '<<int(v[4*p+2])<<' '<<int(v[4*p+3])<<" & ";
   v=(unsigned char*)(&y);
-  vcl_cout<<int(v[0])<<' '<<int(v[1])<<' '<<int(v[2])<<' '<<int(v[3])<<" = ";
+  std::cout<<int(v[0])<<' '<<int(v[1])<<' '<<int(v[2])<<' '<<int(v[3])<<" = ";
   unsigned int z = ((((unsigned int*)x)[p]) & y);
   v=(unsigned char*)(&z);
-  vcl_cout<<int(v[0])<<' '<<int(v[1])<<' '<<int(v[2])<<' '<<int(v[3]);
-  if (z == y) vcl_cout<<" ==";
-  vcl_cout << '\n';
+  std::cout<<int(v[0])<<' '<<int(v[1])<<' '<<int(v[2])<<' '<<int(v[3]);
+  if (z == y) std::cout<<" ==";
+  std::cout << '\n';
   return z;
 }
 
@@ -204,24 +210,6 @@ bool isnormal(long double x) { return vnl_math::isfinite(x) && (x != 0.0 ); }
 } // end namespace vnl_math
 
 //----------------------------------------------------------------------
-
-//: Type-accessible infinities for use in templates.
-template <class T> T vnl_huge_val(T);
-float  vnl_huge_val(float)  { return vcl_numeric_limits<float>::infinity(); }
-double  vnl_huge_val(double)  { return vcl_numeric_limits<double>::infinity(); }
-long double vnl_huge_val(long double) { return vcl_numeric_limits<long double>::infinity(); }
-
-#ifdef _INT_64BIT_
-long int vnl_huge_val(long int) { return 0x7fffffffffffffffL; }
-int    vnl_huge_val(int)    { return 0x7fffffffffffffffL; }
-#else
-int    vnl_huge_val(int)    { return 0x7fffffff; }
-#endif
-short  vnl_huge_val(short)  { return 0x7fff; }
-char   vnl_huge_val(char)   { return 0x7f; }
-
-
-//----------------------------------------------------------------------
 namespace vnl_math
 {
 
@@ -281,6 +269,24 @@ long double hypot(long double x, long double y)
 }
 } // end namespace vnl_math
 
+#endif
+
+//----------------------------------------------------------------------
+
+//: Type-accessible infinities for use in templates.
+template <class T> T vnl_huge_val(T);
+float  vnl_huge_val(float)  { return std::numeric_limits<float>::infinity(); }
+double  vnl_huge_val(double)  { return std::numeric_limits<double>::infinity(); }
+long double vnl_huge_val(long double) { return std::numeric_limits<long double>::infinity(); }
+
+#ifdef _INT_64BIT_
+long int vnl_huge_val(long int) { return 0x7fffffffffffffffL; }
+int    vnl_huge_val(int)    { return 0x7fffffffffffffffL; }
+#else
+int    vnl_huge_val(int)    { return 0x7fffffff; }
+#endif
+short  vnl_huge_val(short)  { return 0x7fff; }
+char   vnl_huge_val(char)   { return 0x7f; }
 
 
 //----------------------------------------------------------------------
@@ -288,7 +294,7 @@ namespace vnl_math
 {
 double angle_0_to_2pi(double angle)
 {
-  angle = vcl_fmod(angle, vnl_math::twopi);
+  angle = std::fmod(angle, vnl_math::twopi);
   if (angle >= 0) return angle;
   double a = angle + vnl_math::twopi;
   if (a > 0 && a < vnl_math::twopi) return a;
@@ -301,7 +307,7 @@ double angle_0_to_2pi(double angle)
 
 double angle_minuspi_to_pi(double angle)
 {
-  angle = vcl_fmod(angle, vnl_math::twopi);
+  angle = std::fmod(angle, vnl_math::twopi);
   if (angle> vnl_math::pi) angle -= vnl_math::twopi;
   if (angle<-vnl_math::pi) angle += vnl_math::twopi;
   return angle;

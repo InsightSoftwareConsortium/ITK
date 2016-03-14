@@ -8,9 +8,10 @@
 // Created: 29 Aug 96
 //
 
+#include <iostream>
 #include "vnl_generalized_eigensystem.h"
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/vnl_matlab_print.h>
@@ -47,10 +48,10 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
     const double THRESH = 1e-8;
     vnl_symmetric_eigensystem<double> eig(B);
     if (eig.D(0,0) < -THRESH) {
-      vcl_cerr << "**** vnl_generalized_eigensystem: ERROR\n"
+      std::cerr << "**** vnl_generalized_eigensystem: ERROR\n"
                << "Matrix B is not nonneg-definite\n";
-      vnl_matlab_print(vcl_cerr, B, "B");
-      vcl_cerr << "**** eigenvalues(B) = " << eig.D << vcl_endl;
+      vnl_matlab_print(std::cerr, B, "B");
+      std::cerr << "**** eigenvalues(B) = " << eig.D << std::endl;
       return;
     }
     return;
@@ -67,9 +68,9 @@ vnl_generalized_eigensystem::vnl_generalized_eigensystem(const vnl_matrix<double
   // Diagnose errors
   if (ierr) {
     if (ierr == 10*n)
-      vcl_cerr << "vnl_generalized_eigensystem: N is greater than NM.  Bug in interface to rsg.f\n";
+      std::cerr << "vnl_generalized_eigensystem: N is greater than NM.  Bug in interface to rsg.f\n";
     else {
-      vcl_cerr << "vnl_generalized_eigensystem: The "
+      std::cerr << "vnl_generalized_eigensystem: The "
                << ierr << "-th eigenvalue has not been determined after 30 iterations.\n"
                << "The eigenvalues should be correct for indices 1.." << ierr-1
                << ", but no eigenvectors are computed.\n"

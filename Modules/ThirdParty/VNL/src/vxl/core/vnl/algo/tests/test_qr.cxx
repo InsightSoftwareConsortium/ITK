@@ -1,7 +1,8 @@
 // This is core/vnl/algo/tests/test_qr.cxx
+#include <iostream>
+#include <complex>
 #include "test_util.h"
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_random.h>
@@ -14,7 +15,7 @@ void test_matrix(char const* name, const vnl_matrix<double>& A, double det = 0)
 {
   vnl_qr<double> qr(A);
 
-  vcl_string n(name); n+= ": ";
+  std::string n(name); n+= ": ";
   TEST_NEAR((n+"Q * R residual").c_str(), (qr.Q() * qr.R() - A).fro_norm(), 0.0, 1e-12);
   TEST((n+"Q * Q = I").c_str(), (qr.Q().transpose() * qr.Q()).is_identity(1e-12), true);
 
@@ -46,8 +47,8 @@ void double_test()
   vnl_vector<double> b(b_data, 4);
   vnl_qr<double> qr(A);
 
-  vnl_matlab_print(vcl_cout, qr.Q(), "Q");
-  vnl_matlab_print(vcl_cout, qr.R(), "R");
+  vnl_matlab_print(std::cout, qr.Q(), "Q");
+  vnl_matlab_print(std::cout, qr.R(), "R");
 
   vnl_vector<double> x = qr.solve(b);
 
@@ -71,8 +72,8 @@ void double_test()
 
 inline float  eps(float *) { return 1e-5f; }
 inline double eps(double *) { return 1e-12; }
-inline float  eps(vcl_complex<float> *) { return 1e-5f; }
-inline double eps(vcl_complex<double> *) { return 1e-12; }
+inline float  eps(std::complex<float> *) { return 1e-5f; }
+inline double eps(std::complex<double> *) { return 1e-12; }
 #define rounding_epsilon(T) ::eps((T*)0)
 
 template <class T>
@@ -84,23 +85,23 @@ void new_test(T *)
 
   vnl_matrix<T> A(m, n);
   test_util_fill_random(A.begin(), A.end(), rng);
-  vnl_matlab_print(vcl_cout, A, "A");
+  vnl_matlab_print(std::cout, A, "A");
 
   vnl_vector<T> b(m);
   test_util_fill_random(b.begin(), b.end(), rng);
-  vnl_matlab_print(vcl_cout, b, "b");
+  vnl_matlab_print(std::cout, b, "b");
 
   vnl_qr<T> qr(A);
   vnl_matrix<T> const &Q = qr.Q();
   vnl_matrix<T> const &R = qr.R();
   vnl_vector<T> x = qr.solve(b);
 
-  vnl_matlab_print(vcl_cout, Q, "Q");
-  vnl_matlab_print(vcl_cout, R, "R");
-  vnl_matlab_print(vcl_cout, x, "x");
+  vnl_matlab_print(std::cout, Q, "Q");
+  vnl_matlab_print(std::cout, R, "R");
+  vnl_matlab_print(std::cout, x, "x");
 
   vnl_matrix<T> QR(Q * R);
-  vnl_matlab_print(vcl_cout, QR, "QR");
+  vnl_matlab_print(std::cout, QR, "QR");
 
   vnl_matrix<T> I(m, m); I.set_identity();
   TEST_NEAR("||Q'Q - 1||", (Q.conjugate_transpose()*Q - I).fro_norm(), 0, rounding_epsilon(T));
@@ -112,13 +113,13 @@ void new_test(T *)
 template void new_test(T *);
 inst(float);
 inst(double);
-inst(vcl_complex<float>);
-inst(vcl_complex<double>);
+inst(std::complex<float>);
+inst(std::complex<double>);
 #undef inst
 
 void complex_test()
 {
-  typedef vcl_complex<double> ct;
+  typedef std::complex<double> ct;
 
   vnl_matrix<ct> A(5,4); // #rows must be >= #cols when using netlib QR decomposition
   vnl_vector<ct> b(5);
@@ -149,11 +150,11 @@ void complex_test()
   b(2)=ct(-0.2385,0.4884);
   b(3)=ct( 0.0538,0.0402);
   b(4)=ct( 1.8634,.64558);
-                                    vnl_matlab_print(vcl_cout, b, "b");
-  vnl_qr<ct> qr(A);                 vnl_matlab_print(vcl_cout, A, "A");
-  const vnl_matrix<ct>& Q = qr.Q(); vnl_matlab_print(vcl_cout, Q, "Q");
-  const vnl_matrix<ct>& R = qr.R(); vnl_matlab_print(vcl_cout, R, "R");
-  vnl_vector<ct> x = qr.solve(b);   vnl_matlab_print(vcl_cout, x, "solve");
+                                    vnl_matlab_print(std::cout, b, "b");
+  vnl_qr<ct> qr(A);                 vnl_matlab_print(std::cout, A, "A");
+  const vnl_matrix<ct>& Q = qr.Q(); vnl_matlab_print(std::cout, Q, "Q");
+  const vnl_matrix<ct>& R = qr.R(); vnl_matlab_print(std::cout, R, "R");
+  vnl_vector<ct> x = qr.solve(b);   vnl_matlab_print(std::cout, x, "solve");
   TEST_NEAR("||Ax - b||", (A*x - b).two_norm(), 0, 1e-5);
 }
 
@@ -161,19 +162,19 @@ void complex_test()
 
 extern "C" void test_qr()
 {
-  vcl_cout << "-------------------- double_complex\n";
+  std::cout << "-------------------- double_complex\n";
   complex_test();
-  vcl_cout << "-------------------- double\n";
+  std::cout << "-------------------- double\n";
   double_test();
 
-  vcl_cout << "-------------------- float\n";
+  std::cout << "-------------------- float\n";
   new_test((float*)VXL_NULLPTR);
-  vcl_cout << "-------------------- double\n";
+  std::cout << "-------------------- double\n";
   new_test((double*)VXL_NULLPTR);
-  vcl_cout << "-------------------- float_complex\n";
-  new_test((vcl_complex<float>*)VXL_NULLPTR);
-  vcl_cout << "-------------------- double_complex\n";
-  new_test((vcl_complex<double>*)VXL_NULLPTR);
+  std::cout << "-------------------- float_complex\n";
+  new_test((std::complex<float>*)VXL_NULLPTR);
+  std::cout << "-------------------- double_complex\n";
+  new_test((std::complex<double>*)VXL_NULLPTR);
 }
 
 TESTMAIN(test_qr);

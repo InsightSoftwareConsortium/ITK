@@ -2257,8 +2257,10 @@ char **argv;
   hints.flags = PMinSize | PSize | PResizeInc;
   XSetStandardProperties(display, mainwindow, "Show Me", "showme", None,
                          argv, argc, &hints);
+
+  static const unsigned char temp_show_me_achimedes_local[18] = {'s','h','o','w','m','e','\0','A','r','c','h','i','m','e','d','e','s','\0'};
   XChangeProperty(display, mainwindow, XA_WM_CLASS, XA_STRING, 8,
-                  PropModeReplace, "showme\0Archimedes", 18U);
+                  PropModeReplace, temp_show_me_achimedes_local, 18U);
   XClearWindow(display, mainwindow);
   XMapWindow(display, mainwindow);
   if ((windowdepth > 1) &&

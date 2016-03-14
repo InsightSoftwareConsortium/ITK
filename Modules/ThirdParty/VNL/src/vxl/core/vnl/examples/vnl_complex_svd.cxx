@@ -5,8 +5,9 @@
 // Converted to vxl by Peter Vanroose, February 2000
 //-----------------------------------------------------------------------------
 
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
+#include <iostream>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matlab_print.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
@@ -28,24 +29,24 @@ int main()
     6,     5,     4
   };
 
-  vcl_complex<double> cmplx[12];
-  for (int k=0; k<12; ++k) cmplx[k] = vcl_complex<double>(r[k],i[k]);
+  std::complex<double> cmplx[12];
+  for (int k=0; k<12; ++k) cmplx[k] = std::complex<double>(r[k],i[k]);
 
-  vnl_matrix<vcl_complex<double> > C(cmplx, 4, 3);
+  vnl_matrix<std::complex<double> > C(cmplx, 4, 3);
 
-  vcl_cout << "C = " << C << vcl_endl;
+  std::cout << "C = " << C << std::endl;
 
-  vnl_svd<vcl_complex<double> > C_svd(C);
+  vnl_svd<std::complex<double> > C_svd(C);
 
-  vnl_matlab_print(vcl_cout, C_svd.U(), "U");
-  vnl_matlab_print(vcl_cout, C_svd.W(), "W");
-  vnl_matlab_print(vcl_cout, C_svd.V(), "V");
+  vnl_matlab_print(std::cout, C_svd.U(), "U");
+  vnl_matlab_print(std::cout, C_svd.W(), "W");
+  vnl_matlab_print(std::cout, C_svd.V(), "V");
 
-  vcl_complex<double> rhs[4]; rhs[0]=3; rhs[1]=9; rhs[2]=-2; rhs[3]=-8;
-  vnl_vector<vcl_complex<double> > b(rhs, 4);
+  std::complex<double> rhs[4]; rhs[0]=3; rhs[1]=9; rhs[2]=-2; rhs[3]=-8;
+  vnl_vector<std::complex<double> > b(rhs, 4);
 
   // From "C x = b" find x:
-  vcl_cout << "x = " << C_svd.solve(b) << vcl_endl;
+  std::cout << "x = " << C_svd.solve(b) << std::endl;
 
   return 0;
 }

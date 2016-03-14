@@ -11,10 +11,11 @@
 // \date   9 Jan 2011
 // Adapted from vnl_generalized_schur.h/.cxx
 
+#include <complex>
+#include <algorithm>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
 
-#include <vcl_complex.h>
 
 //:
 // For a scalar type T, this function uses orthogonal matrices L, R
@@ -30,61 +31,61 @@
 // to complex matrices since they will be overwritten by they (complex) upper
 // triangular decomposition.
 template <class T>
-bool vnl_generalized_schur(vnl_matrix<vcl_complex<T> > *A,
-                           vnl_matrix<vcl_complex<T> > *B,
-                           vnl_vector<vcl_complex<T> > *alpha,
-                           vnl_vector<vcl_complex<T> > *beta,
-                           vnl_matrix<vcl_complex<T> > *L,
-                           vnl_matrix<vcl_complex<T> > *R);
+bool vnl_generalized_schur(vnl_matrix<std::complex<T> > *A,
+                           vnl_matrix<std::complex<T> > *B,
+                           vnl_vector<std::complex<T> > *alpha,
+                           vnl_vector<std::complex<T> > *beta,
+                           vnl_matrix<std::complex<T> > *L,
+                           vnl_matrix<std::complex<T> > *R);
 
 VCL_DEFINE_SPECIALIZATION
-bool vnl_generalized_schur(vnl_matrix<vcl_complex<double> > *A,
-                           vnl_matrix<vcl_complex<double> > *B,
-                           vnl_vector<vcl_complex<double> > *alpha,
-                           vnl_vector<vcl_complex<double> > *beta,
-                           vnl_matrix<vcl_complex<double> > *L,
-                           vnl_matrix<vcl_complex<double> > *R);
+bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
+                           vnl_matrix<std::complex<double> > *B,
+                           vnl_vector<std::complex<double> > *alpha,
+                           vnl_vector<std::complex<double> > *beta,
+                           vnl_matrix<std::complex<double> > *L,
+                           vnl_matrix<std::complex<double> > *R);
 
-#include <vcl_algorithm.h>
-
-template <class T>
-vcl_complex<T> vnl_complex_generalized_schur_convert_cast(vcl_complex<double> a) { return static_cast<vcl_complex<T> >(a); }
+#include <vcl_compiler.h>
 
 template <class T>
-inline bool vnl_generalized_schur(vnl_matrix<vcl_complex<T> > *A,
-                                  vnl_matrix<vcl_complex<T> > *B,
-                                  vnl_vector<vcl_complex<T> > *alpha,
-                                  vnl_vector<vcl_complex<T> > *beta,
-                                  vnl_matrix<vcl_complex<T> > *L,
-                                  vnl_matrix<vcl_complex<T> > *R)
+std::complex<T> vnl_complex_generalized_schur_convert_cast(std::complex<double> a) { return static_cast<std::complex<T> >(a); }
+
+template <class T>
+inline bool vnl_generalized_schur(vnl_matrix<std::complex<T> > *A,
+                                  vnl_matrix<std::complex<T> > *B,
+                                  vnl_vector<std::complex<T> > *alpha,
+                                  vnl_vector<std::complex<T> > *beta,
+                                  vnl_matrix<std::complex<T> > *L,
+                                  vnl_matrix<std::complex<T> > *R)
 {
-  vnl_matrix<vcl_complex<double> > A_(A->rows(), A->cols());
-  vnl_matrix<vcl_complex<double> > B_(B->rows(), B->cols());
-  vcl_copy(A->begin(), A->end(), A_.begin());
-  vcl_copy(B->begin(), B->end(), B_.begin());
+  vnl_matrix<std::complex<double> > A_(A->rows(), A->cols());
+  vnl_matrix<std::complex<double> > B_(B->rows(), B->cols());
+  std::copy(A->begin(), A->end(), A_.begin());
+  std::copy(B->begin(), B->end(), B_.begin());
 
-  vnl_vector<vcl_complex<double> > alpha_;
-  vnl_vector<vcl_complex<double> > beta_;
-  vnl_matrix<vcl_complex<double> > L_;
-  vnl_matrix<vcl_complex<double> > R_;
+  vnl_vector<std::complex<double> > alpha_;
+  vnl_vector<std::complex<double> > beta_;
+  vnl_matrix<std::complex<double> > L_;
+  vnl_matrix<std::complex<double> > R_;
 
-  if (! vnl_generalized_schur/*<vcl_complex<double> >*/(&A_, &B_, &alpha_, &beta_, &L_, &R_))
+  if (! vnl_generalized_schur/*<std::complex<double> >*/(&A_, &B_, &alpha_, &beta_, &L_, &R_))
     return false;
 
-  vcl_transform(A_.begin(), A_.end(), A->begin(), vnl_complex_generalized_schur_convert_cast<T>);
-  vcl_transform(B_.begin(), B_.end(), B->begin(), vnl_complex_generalized_schur_convert_cast<T>);
+  std::transform(A_.begin(), A_.end(), A->begin(), vnl_complex_generalized_schur_convert_cast<T>);
+  std::transform(B_.begin(), B_.end(), B->begin(), vnl_complex_generalized_schur_convert_cast<T>);
 
   alpha->set_size(alpha_.size());
-  vcl_transform(alpha_.begin(), alpha_.end(), alpha->begin(), vnl_complex_generalized_schur_convert_cast<T>);
+  std::transform(alpha_.begin(), alpha_.end(), alpha->begin(), vnl_complex_generalized_schur_convert_cast<T>);
 
   beta->set_size(beta_.size());
-  vcl_transform(beta_.begin(), beta_.end(), beta->begin(), vnl_complex_generalized_schur_convert_cast<T>);
+  std::transform(beta_.begin(), beta_.end(), beta->begin(), vnl_complex_generalized_schur_convert_cast<T>);
 
   L->set_size(L_.rows(), L_.cols());
-  vcl_transform(L_.begin(), L_.end(), L->begin(), vnl_complex_generalized_schur_convert_cast<T>);
+  std::transform(L_.begin(), L_.end(), L->begin(), vnl_complex_generalized_schur_convert_cast<T>);
 
   R->set_size(R_.rows(), R_.cols());
-  vcl_transform(R_.begin(), R_.end(), R->begin(), vnl_complex_generalized_schur_convert_cast<T>);
+  std::transform(R_.begin(), R_.end(), R->begin(), vnl_complex_generalized_schur_convert_cast<T>);
 
   return true;
 }

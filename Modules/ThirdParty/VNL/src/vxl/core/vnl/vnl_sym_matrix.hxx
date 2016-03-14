@@ -4,8 +4,9 @@
 //:
 // \file
 
+#include <iostream>
 #include "vnl_sym_matrix.h"
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 
 // ==========================================================================
@@ -75,7 +76,7 @@ void vnl_sym_matrix<T>::set_half_row (const vnl_vector<T> &half_row, unsigned i)
 // ==========================================================================
 //: print in lower triangular form
 template <class T>
-vcl_ostream& operator<< (vcl_ostream& s, const vnl_sym_matrix<T>& M)
+std::ostream& operator<< (std::ostream& s, const vnl_sym_matrix<T>& M)
 {
   for (unsigned i=0; i<M.rows(); ++i)
   {
@@ -130,7 +131,7 @@ bool operator==(const vnl_matrix<T> &a, const vnl_sym_matrix<T> &b)
 #undef VNL_SYM_MATRIX_INSTANTIATE
 #define VNL_SYM_MATRIX_INSTANTIATE(T) \
 template class vnl_sym_matrix<T >; \
-template vcl_ostream& operator<< (vcl_ostream& s, vnl_sym_matrix<T > const &); \
+template std::ostream& operator<< (std::ostream& s, vnl_sym_matrix<T > const &); \
 template bool operator==(const vnl_sym_matrix<T > &a, const vnl_sym_matrix<T > &b); \
 template bool operator==(const vnl_sym_matrix<T > &a, const vnl_matrix<T > &b); \
 template bool operator==(const vnl_matrix<T > &a, const vnl_sym_matrix<T > &b)

@@ -1,16 +1,17 @@
 #ifndef vnl_hungarian_algorithm_hxx_
 #define vnl_hungarian_algorithm_hxx_
 
+#include <vector>
+#include <limits>
+#include <algorithm>
+#include <iostream>
 #include "vnl_hungarian_algorithm.h"
 
 #include <vnl/vnl_matrix.h>
-#include <vcl_vector.h>
-#include <vcl_limits.h>
-#include <vcl_algorithm.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 #ifdef DEBUG
-#include <vcl_iostream.h>
 #endif
 
 //-----------------------------------------------------------------------------
@@ -29,7 +30,7 @@ SetCostMatrix( vnl_matrix<T> const& cost_in )
   // constant cost.
 
   // Get Max size of the matrix
-  m_N = vcl_max( cost_in.rows(), cost_in.cols() );
+  m_N = std::max( cost_in.rows(), cost_in.cols() );
 
   m_Cost.set_size( m_N, m_N);
   m_Cost.fill( static_cast<T>(0) );
@@ -45,9 +46,9 @@ SetCostMatrix( vnl_matrix<T> const& cost_in )
 template <class T>
 void
 vnl_hungarian_algorithm<T>::
-clear_vector( vcl_vector<bool>& v )
+clear_vector( std::vector<bool>& v )
 {
-  typedef vcl_vector<bool>::iterator iter;
+  typedef std::vector<bool>::iterator iter;
   iter end = v.end();
   for ( iter i = v.begin(); i != end; ++i )
   {
@@ -288,7 +289,7 @@ vnl_hungarian_algorithm<T>::Step_4()
         for ( j = 0; j < m_N; ++j )
         {
 #ifdef DEBUG
-          vcl_cout << m_Cost(i,j) << vcl_endl;
+          std::cout << m_Cost(i,j) << std::endl;
 #endif
           if ( m_Cost(i,j) == 0 && ! m_C_cov[j] )
           {
@@ -342,7 +343,7 @@ vnl_hungarian_algorithm<T>::Step_5()
 {
   unsigned i = m_Z0_r;
   unsigned j = m_Z0_c;
-  vcl_vector<unsigned> rows, cols;
+  std::vector<unsigned> rows, cols;
 
   while ( true )
   {
@@ -430,7 +431,7 @@ typename vnl_hungarian_algorithm<T>::STEP_TYPE
 vnl_hungarian_algorithm<T>::Step_6()
 {
   // The value found in step 4 is the smallest uncovered value. Find it now.
-  T minval = vcl_numeric_limits<T>::max();
+  T minval = std::numeric_limits<T>::max();
   for ( unsigned i = 0; i < m_N; ++i )
   {
     if ( ! m_R_cov[i] )
@@ -475,7 +476,7 @@ template <class T>
 void
 vnl_hungarian_algorithm<T>::Step_done()
 {
-  vcl_vector<unsigned> assign( m_Cost_in.rows(), (unsigned int)(-1) );
+  std::vector<unsigned> assign( m_Cost_in.rows(), (unsigned int)(-1) );
   m_AssignmentVector = assign;
 
   // Find the stars and generate the resulting assignment. Only

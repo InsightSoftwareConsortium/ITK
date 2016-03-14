@@ -1,3 +1,4 @@
+#include <sstream>
 #include <vnl/xio/vnl_xio_matrix_fixed.h>
 #include <vnl/xio/vnl_xio_matrix.h>
 #include <vnl/xio/vnl_xio_vector_fixed.h>
@@ -5,11 +6,11 @@
 #include <vnl/xio/vnl_xio_quaternion.h>
 
 #include <testlib/testlib_test.h>
-#include <vcl_sstream.h>
+#include <vcl_compiler.h>
 
 static void test_xtreeio_matrix_fixed()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
   vnl_matrix_fixed<double,2,4> m(data_m);
@@ -20,7 +21,7 @@ static void test_xtreeio_matrix_fixed()
 
 static void test_xtreeio_matrix()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
   vnl_matrix<double> m(data_m,2,4);
@@ -31,7 +32,7 @@ static void test_xtreeio_matrix()
 
 static void test_xtreeio_vector_fixed()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   vnl_vector_fixed<double,3> vf(10.0,20.0,5.0);
   x_write_tree(s, vf);
@@ -41,7 +42,7 @@ static void test_xtreeio_vector_fixed()
 
 static void test_xtreeio_vector()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   double data_v[9] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
   vnl_vector<double> v(data_v,9);
@@ -52,7 +53,7 @@ static void test_xtreeio_vector()
 
 static void test_xtreeio_quaternion()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   vnl_quaternion<double> q(1,2,3,4);
   x_write_tree(s, q);
@@ -62,7 +63,7 @@ static void test_xtreeio_quaternion()
 
 static void test_xio_matrix_fixed()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
   vnl_matrix_fixed<double,2,4> m(data_m);
@@ -73,7 +74,7 @@ static void test_xio_matrix_fixed()
 
 static void test_xio_matrix()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   double data_m[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
   vnl_matrix<double> m(data_m,2,4);
@@ -84,7 +85,7 @@ static void test_xio_matrix()
 
 static void test_xio_vector_fixed()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   vnl_vector_fixed<double,3> vf(10.0,20.0,5.0);
   x_write(s, vf);
@@ -94,7 +95,7 @@ static void test_xio_vector_fixed()
 
 static void test_xio_vector()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   double data_v[9] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
   vnl_vector<double> v(data_v,9);
@@ -105,7 +106,7 @@ static void test_xio_vector()
 
 static void test_xio_quaternion()
 {
-  vcl_stringstream s;
+  std::stringstream s;
 
   vnl_quaternion<double> q(1,2,3,4);
   x_write(s, q);

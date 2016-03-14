@@ -4,11 +4,12 @@
 //:
 // \file
 
+#include <algorithm>
+#include <iostream>
 #include "vnl_sparse_matrix.h"
 
 #include <vcl_cassert.h>
-#include <vcl_algorithm.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_complex_traits.h>
@@ -172,13 +173,13 @@ void vnl_sparse_matrix<T>::mult(unsigned int prows, unsigned int pcols,
     for (int cc = 0; cc<pcols; cc++)
       pd(rr,cc) = p[rr + cc*prows];
 
-  vcl_cout << "Initial p:\n";
+  std::cout << "Initial p:\n";
   for (int rr = 0; rr<prows; rr++) {
     for (int cc = 0; cc<pcols; cc++) {
       T pval = p[rr + cc*prows];
-      vcl_cout << pval << ' ';
+      std::cout << pval << ' ';
     }
-    vcl_cout << '\n';
+    std::cout << '\n';
   }
 #endif
 
@@ -221,15 +222,15 @@ void vnl_sparse_matrix<T>::mult(unsigned int prows, unsigned int pcols,
   }
 
 #ifdef DEBUG_SPARSE
-  vcl_cout << "Final q:\n";
+  std::cout << "Final q:\n";
   for (int rr = 0; rr<prows; rr++) {
     for (int cc = 0; cc<pcols; cc++) {
       T pval = q[rr + cc*prows];
-      vcl_cout << pval << ' ';
+      std::cout << pval << ' ';
     }
-    vcl_cout << '\n';
+    std::cout << '\n';
   }
-  vcl_cout << "nonsparse: " << md*pd << '\n';
+  std::cout << "nonsparse: " << md*pd << '\n';
 #endif
 }
 
@@ -245,7 +246,7 @@ void vnl_sparse_matrix<T>::mult(vnl_vector<T> const& rhs, vnl_vector<T>& result)
   result.fill(T(0));
 
   int rhs_row_id =0;
-  typename vcl_vector<row>::const_iterator lhs_row_iter = elements.begin();
+  typename std::vector<row>::const_iterator lhs_row_iter = elements.begin();
   for ( ; lhs_row_iter != elements.end(); ++lhs_row_iter, rhs_row_id++ ) {
     row const & lhs_row = *lhs_row_iter;
     if (lhs_row.empty()) continue;
@@ -273,7 +274,7 @@ void vnl_sparse_matrix<T>::pre_mult(const vnl_vector<T>& lhs, vnl_vector<T>& res
 
   // Now, iterate over lhs values and rows of rhs
   unsigned lhs_col_id = 0;
-  for (typename vcl_vector<row>::const_iterator rhs_row_iter = elements.begin();
+  for (typename std::vector<row>::const_iterator rhs_row_iter = elements.begin();
        rhs_row_iter != elements.end();
        ++rhs_row_iter, lhs_col_id++ )
   {
@@ -315,7 +316,7 @@ void vnl_sparse_matrix<T>::add(const vnl_sparse_matrix<T>& rhs,
 
   // Now, iterate over non-zero rows of this.
   unsigned int row_id = 0;
-  for (typename vcl_vector<row>::const_iterator row_iter = elements.begin();
+  for (typename std::vector<row>::const_iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter, ++row_id)
   {
@@ -368,7 +369,7 @@ void vnl_sparse_matrix<T>::subtract(const vnl_sparse_matrix<T>& rhs,
 
   // Now, iterate over non-zero rows of this.
   unsigned int row_id = 0;
-  for (typename vcl_vector<row>::const_iterator row_iter = elements.begin();
+  for (typename std::vector<row>::const_iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter, ++row_id)
   {
@@ -480,7 +481,7 @@ void vnl_sparse_matrix<T>::diag_AtA(vnl_vector<T> & result) const
   result.set_size( columns() );
   result.fill(T(0));
 
-  typename vcl_vector<row>::const_iterator row_iter = elements.begin();
+  typename std::vector<row>::const_iterator row_iter = elements.begin();
   for ( ; row_iter != elements.end(); ++row_iter) {
     row const& this_row = *row_iter;
     typename row::const_iterator col_iter = this_row.begin();
@@ -498,8 +499,8 @@ void vnl_sparse_matrix<T>::diag_AtA(vnl_vector<T> & result) const
 template <class T>
 vnl_sparse_matrix<T>&
 vnl_sparse_matrix<T>::set_row(unsigned int r,
-                              vcl_vector<int> const& colz,
-                              vcl_vector<T> const& vals)
+                              std::vector<int> const& colz,
+                              std::vector<T> const& vals)
 {
   assert (r < rows());
   assert (colz.size() == vals.size());
@@ -509,7 +510,7 @@ vnl_sparse_matrix<T>::set_row(unsigned int r,
   for (unsigned int i=0; i < colz.size(); ++i)
     rw[i] = vnl_sparse_matrix_pair<T>(colz[i], vals[i]);
   typedef typename vnl_sparse_matrix_pair<T>::less less;
-  vcl_sort(rw.begin(), rw.end(), less());
+  std::sort(rw.begin(), rw.end(), less());
   return *this;
 }
 
@@ -684,14 +685,14 @@ bool vnl_sparse_matrix<T>::operator==(vnl_sparse_matrix<T> const& rhs) const
   // first of all, sizes must match:
   if (rhs.rows() != rows() || rhs.columns() != columns()) {
 #ifdef DEBUG_SPARSE
-    vcl_cerr << "Sizes are different: " << rows() << 'x' << columns() << ' ' << rhs.rows() << 'x' << rhs.columns() << '\n';
+    std::cerr << "Sizes are different: " << rows() << 'x' << columns() << ' ' << rhs.rows() << 'x' << rhs.columns() << '\n';
 #endif
     return false;
   }
 
   // Now, iterate over non-zero rows of this and of rhs.
   unsigned int row_id = 0;
-  for (typename vcl_vector<row>::const_iterator row_iter = elements.begin();
+  for (typename std::vector<row>::const_iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter, ++row_id)
   {
@@ -732,7 +733,7 @@ vnl_sparse_matrix<T> vnl_sparse_matrix<T>::operator-() const
 
   // Iterate over non-zero rows of this matrix.
   unsigned int row_id = 0;
-  for (typename vcl_vector<row>::const_iterator row_iter = elements.begin();
+  for (typename std::vector<row>::const_iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter, ++row_id)
   {
@@ -784,7 +785,7 @@ template <class T>
 vnl_sparse_matrix<T>& vnl_sparse_matrix<T>::operator*=(T const& rhs)
 {
   // Iterate over non-zero rows of this matrix.
-  for (typename vcl_vector<row>::iterator row_iter = elements.begin();
+  for (typename std::vector<row>::iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter)
   {
@@ -808,7 +809,7 @@ template <class T>
 vnl_sparse_matrix<T>& vnl_sparse_matrix<T>::operator/=(T const& rhs)
 {
   // Iterate over non-zero rows of this matrix.
-  for (typename vcl_vector<row>::iterator row_iter = elements.begin();
+  for (typename std::vector<row>::iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter)
   {
@@ -874,7 +875,7 @@ vnl_sparse_matrix<T>& vnl_sparse_matrix<T>::normalize_rows()
   typedef typename vnl_numeric_traits<Real_t>::abs_t abs_real_t;
 
   // Iterate through the matrix rows, and normalize one at a time:
-  for (typename vcl_vector<row>::iterator row_iter = elements.begin();
+  for (typename std::vector<row>::iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter)
   {
@@ -892,7 +893,7 @@ vnl_sparse_matrix<T>& vnl_sparse_matrix<T>::normalize_rows()
       norm += vnl_math::squared_magnitude(entry.second);
     }
     if (norm != 0) {
-      abs_real_t scale = abs_real_t(1)/(vcl_sqrt((abs_real_t)norm));
+      abs_real_t scale = abs_real_t(1)/(std::sqrt((abs_real_t)norm));
       // Iterate again over the row
       for (typename row::iterator col_iter = this_row.begin();
            col_iter != this_row.end();
@@ -912,7 +913,7 @@ vnl_sparse_matrix<T>& vnl_sparse_matrix<T>::set_identity()
 {
   // Iterate through the matrix rows, and set one at a time:
   unsigned int rownum = 0;
-  for (typename vcl_vector<row>::iterator row_iter = elements.begin();
+  for (typename std::vector<row>::iterator row_iter = elements.begin();
        row_iter != elements.end() && rownum < cols();
        ++row_iter, ++rownum)
   {
@@ -931,7 +932,7 @@ vnl_sparse_matrix<T> vnl_sparse_matrix<T>::transpose() const
   unsigned int rownum = 0; // row number in this matrix
   // iterate through the rows of this matrix,
   // and add every element thus found to the new result matrix
-  for (typename vcl_vector<row>::const_iterator row_iter = elements.begin();
+  for (typename std::vector<row>::const_iterator row_iter = elements.begin();
        row_iter != elements.end();
        ++row_iter, ++rownum)
   {
@@ -954,7 +955,7 @@ template<class T>
 vnl_sparse_matrix<T> vnl_sparse_matrix<T>::conjugate_transpose() const
 {
   vnl_sparse_matrix<T> result(transpose());
-  for (typename vcl_vector<row>::iterator row_iter = result.elements.begin();
+  for (typename std::vector<row>::iterator row_iter = result.elements.begin();
        row_iter != result.elements.end();
        ++row_iter)
   {

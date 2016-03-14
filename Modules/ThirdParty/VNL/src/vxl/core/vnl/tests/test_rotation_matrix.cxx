@@ -5,8 +5,9 @@
 //  \brief Program to test vnl_rotation_matrix() functions
 
 
-#include <vcl_iostream.h>
-#include <vcl_limits.h>
+#include <iostream>
+#include <limits>
+#include <vcl_compiler.h>
 
 #include <testlib/testlib_test.h>
 
@@ -20,7 +21,7 @@
 
 //: Tolerance between doubles. This was inferred by trial and error.
 // Could be derived mathematically?
-const double dtol = 4*vcl_numeric_limits<double>::epsilon();
+const double dtol = 4*std::numeric_limits<double>::epsilon();
 
 
 //: Local enum to indicate choice of x,y or z-axis.
@@ -47,11 +48,11 @@ static void get_rotation_matrix_euler_angle(
 {
   R.set_identity();
 
-  if (vcl_fabs(phi)<vcl_numeric_limits<double>::epsilon())
+  if (std::fabs(phi)<std::numeric_limits<double>::epsilon())
     return;
 
-  double cos_phi = vcl_cos(phi);
-  double sin_phi = vcl_sin(phi);
+  double cos_phi = std::cos(phi);
+  double sin_phi = std::sin(phi);
 
   switch (axis)
   {
@@ -101,9 +102,9 @@ static bool calc_and_test_matrix(const vnl_vector<double>& axis,
 #ifndef NDEBUG
   if (max_err>dtol)
   {
-    vcl_cout << "Warning: max_err=" << max_err
-             << "  eps=" << vcl_numeric_limits<double>::epsilon()
-             << vcl_endl;
+    std::cout << "Warning: max_err=" << max_err
+             << "  eps=" << std::numeric_limits<double>::epsilon()
+             << std::endl;
   }
 #endif
 

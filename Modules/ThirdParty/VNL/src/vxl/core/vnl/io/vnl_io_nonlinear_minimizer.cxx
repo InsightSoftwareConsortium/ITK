@@ -30,7 +30,7 @@ void vnl_io_nonlinear_minimizer::b_read_by_base(vsl_b_istream& is,
 }
 
 //: Print summary of derived class to os using vnl_nonlinear_minimizer reference
-void vnl_io_nonlinear_minimizer::print_summary_by_base(vcl_ostream& os,
+void vnl_io_nonlinear_minimizer::print_summary_by_base(std::ostream& os,
                                                        const vnl_nonlinear_minimizer& base) const
 {
   vsl_print_summary(os,base);
@@ -98,16 +98,16 @@ void vsl_b_read(vsl_b_istream &is, vnl_nonlinear_minimizer & p)
     break;
 
    default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_nonlinear_minimizer&)\n"
+    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_nonlinear_minimizer&)\n"
              << "           Unknown version number "<< ver << '\n';
-    is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }
 }
 
 //==============================================================================
 //: Output a human readable summary to the stream
-void vsl_print_summary(vcl_ostream & os,const vnl_nonlinear_minimizer & p)
+void vsl_print_summary(std::ostream & os,const vnl_nonlinear_minimizer & p)
 {
   os<<"Tolerance of {F, X, G}: {"<<p.get_f_tolerance() << ", "
     << p.get_x_tolerance()<<", "<<p.get_g_tolerance() << "}\n"
@@ -143,7 +143,7 @@ void vsl_b_read(vsl_b_istream &is, vnl_nonlinear_minimizer* &b)
 }
 
 //: Print summary to stream by vnl_nonlinear_minimizer pointer
-void vsl_print_summary(vcl_ostream &os, const vnl_nonlinear_minimizer * b)
+void vsl_print_summary(std::ostream &os, const vnl_nonlinear_minimizer * b)
 {
     vsl_clipon_binary_loader<vnl_nonlinear_minimizer,
                              vnl_io_nonlinear_minimizer>::instance().print_object_summary(os,b);

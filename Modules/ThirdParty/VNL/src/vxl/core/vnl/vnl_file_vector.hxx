@@ -4,10 +4,12 @@
 //:
 // \file
 
+#include <fstream>
+#include <iostream>
+#include <cstring>
 #include "vnl_file_vector.h"
 
-#include <vcl_fstream.h>
-#include <vcl_cstring.h> // for strcmp()
+#include <vcl_compiler.h>
 
 //: Load vector from filename.
 template <class T>
@@ -15,19 +17,19 @@ vnl_file_vector<T>::vnl_file_vector(char const* filename)
   : vnl_vector<T>() // makes an empty vector.
 {
 #ifdef DEBUG
-  vcl_cerr << "filename=" << filename << "\nsize=" << this->size() << '\n';
+  std::cerr << "filename=" << filename << "\nsize=" << this->size() << '\n';
 #endif
-  if (filename && vcl_strcmp(filename, "-")) {
-    vcl_ifstream o(filename);
+  if (filename && std::strcmp(filename, "-")) {
+    std::ifstream o(filename);
     ok_ = this->read_ascii(o);
   }
   else
-    ok_ = this->read_ascii(vcl_cin);
+    ok_ = this->read_ascii(std::cin);
 #ifdef DEBUG
-    vcl_cerr << "size=" << this->size() << '\n';
+    std::cerr << "size=" << this->size() << '\n';
 #endif
   if (!ok_)
-    vcl_cerr << "vnl_file_vector: ERROR loading from " << filename << '\n';
+    std::cerr << "vnl_file_vector: ERROR loading from " << filename << '\n';
 }
 
 //--------------------------------------------------------------------------------

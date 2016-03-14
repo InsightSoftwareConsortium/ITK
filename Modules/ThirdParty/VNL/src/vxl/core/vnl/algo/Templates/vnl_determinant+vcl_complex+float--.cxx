@@ -1,3 +1,4 @@
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_determinant.hxx>
-VNL_DETERMINANT_INSTANTIATE(vcl_complex<float>);
+VNL_DETERMINANT_INSTANTIATE(std::complex<float>);

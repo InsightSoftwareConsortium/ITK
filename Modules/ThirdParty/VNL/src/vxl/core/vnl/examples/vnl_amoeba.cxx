@@ -4,7 +4,8 @@
 // Created: 31 Aug 96
 // Converted to vxl by Peter Vanroose, February 2000
 //-----------------------------------------------------------------------------
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_double_2.h>
 #include <vnl/vnl_cost_function.h>
 #include <vnl/algo/vnl_amoeba.h>
@@ -36,7 +37,7 @@ int main()
   vnl_amoeba::minimize(f, x);
 
   // Summarize the results
-  vcl_cout << "Rosenbrock min at " << x << '\n';
+  std::cout << "Rosenbrock min at " << x << '\n';
 
   return 0;
 }

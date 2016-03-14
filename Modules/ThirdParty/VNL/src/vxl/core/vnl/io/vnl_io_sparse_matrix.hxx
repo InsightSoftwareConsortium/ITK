@@ -4,6 +4,7 @@
 //:
 // \file
 
+#include <iostream>
 #include "vnl_io_sparse_matrix.h"
 #include <vnl/vnl_sparse_matrix.h>
 #include <vsl/vsl_binary_io.h>
@@ -42,9 +43,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix_pair<T> & p)
     break;
 
    default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sparse_matrix_pair<T>&)\n"
+    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sparse_matrix_pair<T>&)\n"
              << "           Unknown version number "<< ver << '\n';
-    is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }
 }
@@ -52,7 +53,7 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix_pair<T> & p)
 //================================================================================
 //: Output a human readable summary to the stream
 template<class T>
-void vsl_print_summary(vcl_ostream& os,const vnl_sparse_matrix_pair<T>& p)
+void vsl_print_summary(std::ostream& os,const vnl_sparse_matrix_pair<T>& p)
 {
   os<< "Sparse matrix pair ( " << p.first << ',' << p.second << " )\n";
 }
@@ -65,8 +66,8 @@ template<class T>
 void vsl_b_write(vsl_b_ostream & os, const vnl_sparse_matrix<T> & p)
 {
   typedef vnl_sparse_matrix_pair<T> pair_t;
-  typedef vcl_vector < pair_t > row;
-  typedef vcl_vector < row > vnl_sparse_matrix_elements;
+  typedef std::vector < pair_t > row;
+  typedef std::vector < row > vnl_sparse_matrix_elements;
 
   row rw;
   vnl_sparse_matrix<T> v=p;
@@ -95,8 +96,8 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
   if (!is) return;
 
   typedef vnl_sparse_matrix_pair<T> pair_t;
-  typedef vcl_vector < pair_t > row;
-  typedef vcl_vector < row > vnl_sparse_matrix_elements;
+  typedef std::vector < pair_t > row;
+  typedef std::vector < row > vnl_sparse_matrix_elements;
 
   short ver;
   unsigned n_rows;
@@ -104,8 +105,8 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
   unsigned row_size=0;
   vsl_b_read(is, ver);
 
-  vcl_vector<int> indexes(row_size);
-  vcl_vector<T> values(row_size);
+  std::vector<int> indexes(row_size);
+  std::vector<T> values(row_size);
   switch (ver)
   {
    case 1:
@@ -132,9 +133,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
     break;
 
    default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sparse_matrix<T>&)\n"
+    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_sparse_matrix<T>&)\n"
              << "           Unknown version number "<< ver << '\n';
-    is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }
 }
@@ -142,9 +143,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
 //====================================================================================
 //: Output a human readable summary to the stream
 template<class T>
-void vsl_print_summary(vcl_ostream & os,const vnl_sparse_matrix<T> & p)
+void vsl_print_summary(std::ostream & os,const vnl_sparse_matrix<T> & p)
 {
-  os<<"Rows x Columns: "<<p.rows()<<" x "<<p.columns()<<vcl_endl;
+  os<<"Rows x Columns: "<<p.rows()<<" x "<<p.columns()<<std::endl;
   vnl_sparse_matrix<T> v=p;
   v.reset();
   v.next();
@@ -156,7 +157,7 @@ void vsl_print_summary(vcl_ostream & os,const vnl_sparse_matrix<T> & p)
 }
 
 #define VNL_IO_SPARSE_MATRIX_INSTANTIATE(T) \
-  template void vsl_print_summary(vcl_ostream &, const vnl_sparse_matrix<T > &); \
+  template void vsl_print_summary(std::ostream &, const vnl_sparse_matrix<T > &); \
   template void vsl_b_read(vsl_b_istream &, vnl_sparse_matrix<T > &); \
   template void vsl_b_write(vsl_b_ostream &, const vnl_sparse_matrix<T > &)
 

@@ -9,11 +9,12 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <iostream>
+#include <iomanip>
+#include <algorithm>
 #include "vnl_sparse_lm.h"
 
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h>
-#include <vcl_algorithm.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
@@ -122,14 +123,14 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
   }
 
   double sqr_error = e_.squared_magnitude();
-  start_error_ = vcl_sqrt(sqr_error/e_.size()); // RMS error
+  start_error_ = std::sqrt(sqr_error/e_.size()); // RMS error
 
   for (num_iterations_=0; num_iterations_<(unsigned int)maxfev; ++num_iterations_)
   {
     if (verbose_)
-      vcl_cout << "iteration "<<vcl_setw(4)<<num_iterations_
-               << " RMS error = "<< vcl_setprecision(6)<< vcl_setw(12)<<vcl_sqrt(sqr_error/e_.size())
-               << " mu = "<<vcl_setprecision(6)<< vcl_setw(12) <<mu<< " nu = "<< nu << vcl_endl;
+      std::cout << "iteration "<<std::setw(4)<<num_iterations_
+               << " RMS error = "<< std::setprecision(6)<< std::setw(12)<<std::sqrt(sqr_error/e_.size())
+               << " mu = "<<std::setprecision(6)<< std::setw(12) <<mu<< " nu = "<< nu << std::endl;
     if (trace)
       f_->trace(num_iterations_,a,b,c,e_);
 
@@ -149,7 +150,7 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
     compute_normal_equations();
 
     // check for convergence in gradient
-    if (vcl_max(vcl_max(ea_.inf_norm(),eb_.inf_norm()),ec_.inf_norm()) <= gtol)
+    if (std::max(std::max(ea_.inf_norm(),eb_.inf_norm()),ec_.inf_norm()) <= gtol)
     {
       failure_code_ = CONVERGED_GTOL;
       break;
@@ -228,7 +229,7 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
         compute_Sa_sea(Sa,sea);
 
 #ifdef DEBUG
-        vcl_cout << "singular values = "<< vnl_svd<double>(Sa).W() <<vcl_endl;
+        std::cout << "singular values = "<< vnl_svd<double>(Sa).W() <<std::endl;
 #endif
         // We could use a faster solver here, maybe conjugate gradients?
         // Solve the system  Sa*da = sea  for da
@@ -278,7 +279,7 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
                  +dot_product(dc,(mu*dc+ec_));
       if (dF>0.0 && dL>0.0) {
         double tmp = 2.0*dF/dL-1.0;
-        mu *= vcl_max(1.0/3.0, 1.0 - tmp*tmp*tmp);
+        mu *= std::max(1.0/3.0, 1.0 - tmp*tmp*tmp);
         nu = 2.0;
         a.swap(new_a);
         b.swap(new_b);
@@ -293,15 +294,15 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
       nu *= 2.0;
 
       if (verbose_)
-        vcl_cout <<"               RMS error = "<< vcl_setprecision(6)
-                 << vcl_setw(12) << vcl_sqrt(sqr_error/e_.size())
-                 << " mu = " << vcl_setprecision(6) << vcl_setw(12) << mu
-                 << " nu = " << nu << vcl_endl;
+        std::cout <<"               RMS error = "<< std::setprecision(6)
+                 << std::setw(12) << std::sqrt(sqr_error/e_.size())
+                 << " mu = " << std::setprecision(6) << std::setw(12) << mu
+                 << " nu = " << nu << std::endl;
     }
   }
 
 
-  end_error_ = vcl_sqrt(sqr_error/e_.size()); // RMS error
+  end_error_ = std::sqrt(sqr_error/e_.size()); // RMS error
 
   if ((int)num_iterations_ >= maxfev) {
     failure_code_ = TOO_MANY_ITERATIONS;
@@ -327,28 +328,28 @@ bool vnl_sparse_lm::check_vector_sizes(vnl_vector<double> const& a,
                                        vnl_vector<double> const& c)
 {
   if (size_a_+size_b_ > size_e_) {
-    vcl_cerr << "vnl_sparse_lm: Number of unknowns("<<size_a_+size_b_<<')'
+    std::cerr << "vnl_sparse_lm: Number of unknowns("<<size_a_+size_b_<<')'
              << " greater than number of data ("<<size_e_<<")\n";
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
   }
 
   if (int(a.size()) != size_a_) {
-    vcl_cerr << "vnl_sparse_lm: Input vector \"a\" length ("<<a.size()<<')'
+    std::cerr << "vnl_sparse_lm: Input vector \"a\" length ("<<a.size()<<')'
              << " not equal to num parameters in \"a\" ("<<size_a_<<")\n";
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
   }
 
   if (int(b.size()) != size_b_) {
-    vcl_cerr << "vnl_sparse_lm: Input vector \"b\" length ("<<b.size()<<')'
+    std::cerr << "vnl_sparse_lm: Input vector \"b\" length ("<<b.size()<<')'
              << " not equal to num parameters in \"b\" ("<<size_b_<<")\n";
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
   }
 
   if (int(c.size()) != size_c_) {
-    vcl_cerr << "vnl_sparse_lm: Input vector \"c\" length ("<<c.size()<<')'
+    std::cerr << "vnl_sparse_lm: Input vector \"c\" length ("<<c.size()<<')'
              << " not equal to num parameters in \"c\" ("<<size_c_<<")\n";
     failure_code_ = ERROR_DODGY_INPUT;
     return false;
@@ -806,12 +807,12 @@ void vnl_sparse_lm::backsolve_db(vnl_vector<double> const& da,
 
 void vnl_sparse_lm::diagnose_outcome() const
 {
-  diagnose_outcome(vcl_cerr);
+  diagnose_outcome(std::cerr);
 }
 
 // fsm: should this function be a method on vnl_nonlinear_minimizer?
 // if not, the return codes should be moved into LM.
-void vnl_sparse_lm::diagnose_outcome(vcl_ostream& s) const
+void vnl_sparse_lm::diagnose_outcome(std::ostream& s) const
 {
 #define whoami "vnl_sparse_lm"
   //if (!verbose_) return;
@@ -854,7 +855,7 @@ void vnl_sparse_lm::diagnose_outcome(vcl_ostream& s) const
   unsigned int num_e = f_->number_of_e();
   s << whoami ": " << num_iterations_ << " iterations, "
     << num_evaluations_ << " evaluations, "<< num_e <<" residuals.  RMS error start/end "
-    << get_start_error() << '/' << get_end_error() << vcl_endl;
+    << get_start_error() << '/' << get_end_error() << std::endl;
 #undef whoami
 }
 

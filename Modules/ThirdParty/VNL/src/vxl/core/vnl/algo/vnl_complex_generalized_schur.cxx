@@ -6,9 +6,10 @@
 // \file
 // \author fsm
 
+#include <iostream>
 #include "vnl_complex_generalized_schur.h"
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
 
 #include <vnl/vnl_vector.h>
@@ -16,12 +17,12 @@
 #include <vnl/algo/vnl_netlib.h> // zgges_()
 
 VCL_DEFINE_SPECIALIZATION
-bool vnl_generalized_schur(vnl_matrix<vcl_complex<double> > *A,
-                           vnl_matrix<vcl_complex<double> > *B,
-                           vnl_vector<vcl_complex<double> > *alpha,
-                           vnl_vector<vcl_complex<double> > *beta,
-                           vnl_matrix<vcl_complex<double> > *L,
-                           vnl_matrix<vcl_complex<double> > *R)
+bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
+                           vnl_matrix<std::complex<double> > *B,
+                           vnl_vector<std::complex<double> > *alpha,
+                           vnl_vector<std::complex<double> > *beta,
+                           vnl_matrix<std::complex<double> > *L,
+                           vnl_matrix<std::complex<double> > *R)
 {
   // Both input matrices should be square and of the same size:
   assert(A->rows() == A->cols());
@@ -36,7 +37,7 @@ bool vnl_generalized_schur(vnl_matrix<vcl_complex<double> > *A,
 
   long sdim = 0;
   long lwork = 1000 + (8*n + 16);
-  vcl_complex<double> *work = new vcl_complex<double>[lwork];
+  std::complex<double> *work = new std::complex<double>[lwork];
   double *rwork = new double[2*n + 1];
   v3p_netlib_logical *bwork = new v3p_netlib_logical[n + 1];
   long info = 0;
@@ -84,24 +85,24 @@ bool vnl_generalized_schur(vnl_matrix<vcl_complex<double> > *A,
     //*                      longer satisfy SELCTG=.TRUE.  This could also
     //*                      be caused due to scaling.
     //*                =N+3: reordering falied in ZTGSEN.
-    vcl_cerr << __FILE__ ": info = " << info << ", something went wrong:\n";
+    std::cerr << __FILE__ ": info = " << info << ", something went wrong:\n";
     if (info < 0) {
-      vcl_cerr << __FILE__ ": (internal error) the " << (-info) << "th argument had an illegal value\n";
+      std::cerr << __FILE__ ": (internal error) the " << (-info) << "th argument had an illegal value\n";
     }
     else if (1 <= info && info <= n) {
-      vcl_cerr << __FILE__ ": the QZ iteration failed, but the last " << (n - info) << " eigenvalues may be correct\n";
+      std::cerr << __FILE__ ": the QZ iteration failed, but the last " << (n - info) << " eigenvalues may be correct\n";
     }
     else if (info == n+1) {
-      vcl_cerr << __FILE__ ": something went wrong in ZHGEQZ\n";
+      std::cerr << __FILE__ ": something went wrong in ZHGEQZ\n";
     }
     else if (info == n+2) {
-      vcl_cerr << __FILE__ ": roundoff error -- maybe due to poor scaling\n";
+      std::cerr << __FILE__ ": roundoff error -- maybe due to poor scaling\n";
     }
     else if (info == n+3) {
-      vcl_cerr << __FILE__ ": reordering failed in ZTGSEN\n";
+      std::cerr << __FILE__ ": reordering failed in ZTGSEN\n";
     }
     else {
-      vcl_cerr << __FILE__ ": unknown error\n";
+      std::cerr << __FILE__ ": unknown error\n";
     }
     return false;
   }

@@ -9,23 +9,24 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <fstream>
+#include <iostream>
 #include "vnl_file_matrix.h"
-#include <vcl_fstream.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 //: Load matrix from filename.
 template <class T>
 vnl_file_matrix<T>::vnl_file_matrix(char const* filename)
 {
   if (filename && filename[0]=='-' && filename[1]=='\0')
-    ok_ = this->read_ascii(vcl_cin);
+    ok_ = this->read_ascii(std::cin);
   else {
-    vcl_ifstream o(filename);
+    std::ifstream o(filename);
     ok_ = this->read_ascii(o);
   }
 
   if (!ok_)
-    vcl_cerr << "vnl_file_matrix: ERROR loading " << filename << '\n';
+    std::cerr << "vnl_file_matrix: ERROR loading " << filename << '\n';
 }
 
 //--------------------------------------------------------------------------------

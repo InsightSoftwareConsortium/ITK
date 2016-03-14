@@ -10,10 +10,11 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cmath>
+#include <iostream>
 #include "vnl_cholesky.h"
-#include <vcl_cmath.h> // pow()
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
 #include <vnl/algo/vnl_netlib.h> // dpofa_(), dposl_(), dpoco_(), dpodi_()
 
 //: Cholesky decomposition.
@@ -32,26 +33,26 @@ vnl_cholesky::vnl_cholesky(vnl_matrix<double> const & M, Operation mode):
   long n = M.columns();
   assert(n == (int)(M.rows()));
   num_dims_rank_def_ = -1;
-  if (vcl_fabs(M(0,n-1) - M(n-1,0)) > 1e-8) {
-    vcl_cerr << "vnl_cholesky: WARNING: non-symmetric: " << M << vcl_endl;
+  if (std::fabs(M(0,n-1) - M(n-1,0)) > 1e-8) {
+    std::cerr << "vnl_cholesky: WARNING: non-symmetric: " << M << std::endl;
   }
 
   if (mode != estimate_condition) {
     // Quick factorization
     v3p_netlib_dpofa_(A_.data_block(), &n, &n, &num_dims_rank_def_);
     if (mode == verbose && num_dims_rank_def_ != 0)
-      vcl_cerr << "vnl_cholesky: " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
+      std::cerr << "vnl_cholesky: " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
   }
   else {
     vnl_vector<double> nullvec(n);
     v3p_netlib_dpoco_(A_.data_block(), &n, &n, &rcond_, nullvec.data_block(), &num_dims_rank_def_);
     if (num_dims_rank_def_ != 0)
-      vcl_cerr << "vnl_cholesky: rcond=" << rcond_ << " so " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
+      std::cerr << "vnl_cholesky: rcond=" << rcond_ << " so " << num_dims_rank_def_ << " dimensions of non-posdeffness\n";
   }
 }
 
 //: Solve least squares problem M x = b.
-//  The right-hand-side vcl_vector x may be b,
+//  The right-hand-side std::vector x may be b,
 //  which will give a fractional increase in speed.
 void vnl_cholesky::solve(vnl_vector<double> const& b, vnl_vector<double>* x) const
 {
@@ -81,14 +82,14 @@ double vnl_cholesky::determinant() const
   double det[2];
   long job = 10;
   v3p_netlib_dpodi_(I.data_block(), &n, &n, det, &job);
-  return det[0] * vcl_pow(10.0, det[1]);
+  return det[0] * std::pow(10.0, det[1]);
 }
 
 // : Compute inverse.  Not efficient.
 vnl_matrix<double> vnl_cholesky::inverse() const
 {
   if (num_dims_rank_def_) {
-    vcl_cerr << "vnl_cholesky: Calling inverse() on rank-deficient matrix\n";
+    std::cerr << "vnl_cholesky: Calling inverse() on rank-deficient matrix\n";
     return vnl_matrix<double>();
   }
 

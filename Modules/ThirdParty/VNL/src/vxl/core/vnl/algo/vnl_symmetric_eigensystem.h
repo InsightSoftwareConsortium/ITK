@@ -97,7 +97,7 @@ class vnl_symmetric_eigensystem
 
   //: Public eigenvalues.
   //  After construction,  D contains the eigenvalues, sorted as described above.
-  //  Note that D is a vnl_diag_matrix, and is therefore stored as a vcl_vector while behaving as a matrix.
+  //  Note that D is a vnl_diag_matrix, and is therefore stored as a std::vector while behaving as a matrix.
   vnl_diag_matrix<T> D;
 
   //: Recover specified eigenvector after computation.

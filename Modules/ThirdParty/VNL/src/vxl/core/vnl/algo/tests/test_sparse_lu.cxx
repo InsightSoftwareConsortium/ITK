@@ -1,6 +1,7 @@
 // This is core/vnl/algo/tests/test_sparse_lu.cxx
+#include <iostream>
 #include <testlib/testlib_test.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vnl/algo/vnl_sparse_lu.h>
 #include "test_util.h"
@@ -9,8 +10,8 @@ static void test_sparse_lu()
 {
   //mat0 of Kenneth S. Kunder's Sparse 1.3a release
   vnl_sparse_matrix<double> A(4,4);
-  vcl_vector<int> cols0(2), cols1(3), cols2(3), cols3(2);
-  vcl_vector<double> vals0(2), vals1(3), vals2(3), vals3(2);
+  std::vector<int> cols0(2), cols1(3), cols2(3), cols3(2);
+  std::vector<double> vals0(2), vals1(3), vals2(3), vals3(2);
   cols0[0]=0;   cols0[1]=1;
   vals0[0]=2.0; vals0[1]=-1.0;
   A.set_row(0, cols0, vals0);
@@ -24,22 +25,22 @@ static void test_sparse_lu()
   vals3[0]=-1.0; vals3[1]=3.0;
   A.set_row(3, cols3, vals3);
   for (A.reset(); A.next();)
-    vcl_cout << "A[" << A.getrow() << "][" << A.getcolumn()
+    std::cout << "A[" << A.getrow() << "][" << A.getcolumn()
              << "]= " << A.value() << '\n';
   vnl_vector<double> b(4, 0.0), x(4);
   b[0]=34.0;
   vnl_sparse_lu lu(A,vnl_sparse_lu::verbose);
   lu.solve(b, &x);
   for (unsigned i = 0; i<4; ++i)
-    vcl_cout << "x[" << i << "]= " << x[i] << '\n';
+    std::cout << "x[" << i << "]= " << x[i] << '\n';
   TEST_NEAR("solution of mat0 example", x[0], 21, 1.e-03);
    double det = lu.determinant();
-  vcl_cout << "determinant = " << det << '\n';
+  std::cout << "determinant = " << det << '\n';
   TEST_NEAR("determinant of mat0 example", det, 34, 1.e-03);
   lu.solve_transpose(b,&x);
-  vcl_cout << "transpose solution\n";
+  std::cout << "transpose solution\n";
   for (unsigned i = 0; i<4; ++i)
-  vcl_cout << "x[" << i << "]= " << x[i] << '\n';
+  std::cout << "x[" << i << "]= " << x[i] << '\n';
   TEST_NEAR("transpose solution of mat0 example", x[2], 3, 1.e-03);
   //mat5 of sparse test data
   vnl_sparse_matrix<double> Ap(3,3);
@@ -49,7 +50,7 @@ static void test_sparse_lu()
   vnl_sparse_lu lup(Ap,vnl_sparse_lu::verbose);
   lup.solve(bp, &xp);
   for (unsigned i = 0; i<3; ++i)
-    vcl_cout << "xp[" << i << "]= " << xp[i] << '\n';
+    std::cout << "xp[" << i << "]= " << xp[i] << '\n';
   TEST_NEAR("solution of mat5 example", xp[2], 3, 1.e-03);
 
   //test matrix derived from Poisson birth-death queue
@@ -66,15 +67,15 @@ static void test_sparse_lu()
   vnl_sparse_lu lubd(S,vnl_sparse_lu::estimate_condition_verbose);
   lubd.solve(bbd, &xbd);
   for (unsigned i = 0; i<6; ++i)
-    vcl_cout << "xbd[" << i << "]= " << xbd[i] << '\n';
+    std::cout << "xbd[" << i << "]= " << xbd[i] << '\n';
   TEST_NEAR("test solution of birth-death matrix", xbd[2], 1.06622, 1.e-04);
   det = lubd.determinant();
-  vcl_cout << "birth-death determinant = " << det << '\n';
+  std::cout << "birth-death determinant = " << det << '\n';
   double cond = lubd.rcond();
-  vcl_cout << "birth-death condition number = " << cond << '\n';
+  std::cout << "birth-death condition number = " << cond << '\n';
   TEST_NEAR("birth-death matrix condition number", cond, 0.03756, 1.e-04);
   double upbnd = lubd.max_error_bound();
-  vcl_cout << "birth-death upper error bound = " << upbnd << '\n';
+  std::cout << "birth-death upper error bound = " << upbnd << '\n';
   TEST_NEAR("birth-death upper error", upbnd, 5.923e-015, 1.e-016);
 }
 

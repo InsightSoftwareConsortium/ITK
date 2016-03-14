@@ -79,3 +79,30 @@ if(VXL_USE_LFS)
   endif()
 endif()
 
+# Taken from ITK build environment
+# On Visual Studio 8 MS deprecated C. This removes many security warnings
+if(WIN32)
+       if(NOT MINGW)
+         if(NOT VXL_ENABLE_VISUAL_STUDIO_DEPRECATED_C_WARNINGS)
+           add_definitions(
+             -D_CRT_FAR_MAPPINGS_NO_DEPRECATE
+             -D_CRT_IS_WCTYPE_NO_DEPRECATE
+             -D_CRT_MANAGED_FP_NO_DEPRECATE
+             -D_CRT_NONSTDC_NO_DEPRECATE
+             -D_CRT_SECURE_NO_DEPRECATE
+             -D_CRT_SECURE_NO_DEPRECATE_GLOBALS
+             -D_CRT_SETERRORMODE_BEEP_SLEEP_NO_DEPRECATE
+             -D_CRT_TIME_FUNCTIONS_NO_DEPRECATE
+             -D_CRT_VCCLRIT_NO_DEPRECATE
+             -D_SCL_SECURE_NO_DEPRECATE
+             )
+         endif()
+         # With MS compilers on Win64, we need the /bigobj switch, else generated
+         # code results in objects with number of sections exceeding object file
+         # format.
+         # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
+         if(MSVC_VERSION GREATER 1310)
+           set(VXL_REQUIRED_CXX_FLAGS "${VXL_REQUIRED_CXX_FLAGS} /bigobj")
+         endif()
+       endif()
+endif()

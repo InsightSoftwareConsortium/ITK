@@ -1,6 +1,6 @@
 # vxl/config/cmake/config/vxl_shared_link_test/CMakeLists.txt
 #
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.7 FATAL_ERROR)
 if(POLICY CMP0025)
   cmake_policy(SET CMP0025 NEW)
 endif()

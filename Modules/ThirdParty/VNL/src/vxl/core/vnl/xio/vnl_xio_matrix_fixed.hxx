@@ -8,7 +8,7 @@
 
 //=================================================================================
 template<class T, unsigned m, unsigned n>
-void x_write(vcl_ostream & os, vnl_matrix_fixed<T,m,n> const& M, vcl_string name)
+void x_write(std::ostream & os, vnl_matrix_fixed<T,m,n> const& M, std::string name)
 {
   vsl_basic_xml_element element(name);
   element.add_attribute("rows", (int) m);
@@ -22,7 +22,7 @@ void x_write(vcl_ostream & os, vnl_matrix_fixed<T,m,n> const& M, vcl_string name
 
 //=================================================================================
 template<class T, unsigned m, unsigned n>
-void x_write_tree(vcl_ostream & os, vnl_matrix_fixed<T,m,n> const& M, vcl_string name)
+void x_write_tree(std::ostream & os, vnl_matrix_fixed<T,m,n> const& M, std::string name)
 {
   vsl_basic_xml_element element(name);
   element.add_attribute("rows", (int) m);
@@ -41,7 +41,7 @@ void x_write_tree(vcl_ostream & os, vnl_matrix_fixed<T,m,n> const& M, vcl_string
 
 #undef VNL_XIO_MATRIX_FIXED_INSTANTIATE
 #define VNL_XIO_MATRIX_FIXED_INSTANTIATE(T,m,n) \
-template void x_write(vcl_ostream &, vnl_matrix_fixed<T,m,n > const&, vcl_string); \
-template void x_write_tree(vcl_ostream &, vnl_matrix_fixed<T,m,n > const&, vcl_string)
+template void x_write(std::ostream &, vnl_matrix_fixed<T,m,n > const&, std::string); \
+template void x_write_tree(std::ostream &, vnl_matrix_fixed<T,m,n > const&, std::string)
 
 #endif // vnl_xio_matrix_fixed_hxx_

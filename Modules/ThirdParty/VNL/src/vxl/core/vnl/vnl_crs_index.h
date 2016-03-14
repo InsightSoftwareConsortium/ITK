@@ -14,8 +14,9 @@
 //  Modifications
 // \endverbatim
 //
-#include <vcl_vector.h>
-#include <vcl_utility.h>
+#include <vector>
+#include <utility>
+#include <vcl_compiler.h>
 
 
 //: Represents the configuration of a sparse matrix but not the data
@@ -26,14 +27,14 @@
 class vnl_crs_index
 {
  public:
-  typedef vcl_pair<int,int> idx_pair;
-  typedef vcl_vector<idx_pair> sparse_vector;
+  typedef std::pair<int,int> idx_pair;
+  typedef std::vector<idx_pair> sparse_vector;
 
   //: Constructor - default
   vnl_crs_index() : num_cols_(0), col_idx_(), row_ptr_() {}
 
   //: Constructor - from a binary mask
-  vnl_crs_index(const vcl_vector<vcl_vector<bool> >& mask);
+  vnl_crs_index(const std::vector<std::vector<bool> >& mask);
 
   //: Destructor
   ~vnl_crs_index(){}
@@ -62,9 +63,9 @@ class vnl_crs_index
   //: The number of columns in the matrix
   unsigned int num_cols_;
   //: The column for each non-zero element
-  vcl_vector<int> col_idx_;
+  std::vector<int> col_idx_;
   //: The index of the first non-zero element in each row
-  vcl_vector<int> row_ptr_;
+  std::vector<int> row_ptr_;
 };
 
 #endif // vnl_crs_index_h_

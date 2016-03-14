@@ -1,4 +1,5 @@
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_diag_matrix.hxx>
 
-VNL_DIAG_MATRIX_INSTANTIATE(vcl_complex<double>);
+VNL_DIAG_MATRIX_INSTANTIATE(std::complex<double>);

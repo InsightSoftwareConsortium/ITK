@@ -17,7 +17,7 @@
 //  Modifications
 //   Peter Vanroose   1999-10-10  added simplify();
 //                                determine nterms_ nvar_ ideg_ automatically
-//   Peter Vanroose   1999-10-20  Added operator+(), - * and vcl_ostream <<
+//   Peter Vanroose   1999-10-20  Added operator+(), - * and std::ostream <<
 //   dac, Manchester  2001-03-15  Tidied up the documentation + added binary_io
 //   Lee Worden, Berkeley 2006-06-22 Minor fixes to simplify() and operator<<()
 //   Peter Vanroose   2006-06-24  Added method asString implementing oper<<()
@@ -28,11 +28,12 @@
 
 //-----------------------------------------------------------------------------
 
+#include <vector>
+#include <string>
+#include <iosfwd>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-#include <vcl_vector.h>
-#include <vcl_string.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 //: real polynomial in N variables.
 //    vnl_real_npolynomial represents a polynomial in multiple variables.
@@ -98,7 +99,7 @@ class vnl_real_npolynomial
   vnl_real_npolynomial& operator*=(double P) { coeffs_ *= P; return *this; }
   vnl_real_npolynomial operator/(double P) const { return operator*(1.0/P); }
   vnl_real_npolynomial& operator/=(double P) { return operator*=(1.0/P); }
-  friend vcl_ostream& operator<<(vcl_ostream& , vnl_real_npolynomial const& );
+  friend std::ostream& operator<<(std::ostream& , vnl_real_npolynomial const& );
 
   // nb also added functions to access the coeffs_ member variable
 
@@ -111,7 +112,7 @@ class vnl_real_npolynomial
   unsigned int maxdegree() const { return ideg_; }
 
   //: Return the degrees (highest power of all terms) in each of the variables.
-  vcl_vector<unsigned int> degrees() const;
+  std::vector<unsigned int> degrees() const;
 
   //: Access to the polynomial coefficients
   double& operator [] (unsigned int i)       { return coeffs_[i]; }
@@ -134,7 +135,7 @@ class vnl_real_npolynomial
   vnl_matrix<unsigned int>& polyn() { return polyn_; }
 
   //: Return the textual representation of this polynomial
-  vcl_string asString() const;
+  std::string asString() const;
 
  private:
   void simplify();

@@ -26,9 +26,10 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
-#include <vcl_cstring.h> // memcpy()
+#include <cstring>
+#include <iosfwd>
 #include <vcl_cassert.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 #include "vnl_matrix.h"
 #include "vnl_matrix_ref.h"
@@ -105,7 +106,7 @@ class vnl_matrix_fixed
 
  public:
   typedef vnl_matrix_fixed<T,num_rows,num_cols> self;
-  typedef unsigned int size_type;
+  typedef size_t size_type;
 
   //: Construct an empty num_rows*num_cols matrix
   vnl_matrix_fixed() {}
@@ -133,14 +134,14 @@ class vnl_matrix_fixed
   //: Construct an m*n Matrix and copy data into it row-wise.
   explicit vnl_matrix_fixed(const T* datablck)
   {
-    vcl_memcpy(data_[0], datablck, num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], datablck, num_rows*num_cols*sizeof(T));
   }
 
   //: Construct an m*n Matrix and copy rhs into it.
   //  Abort if rhs is not the same size.
   vnl_matrix_fixed(const vnl_matrix_fixed& rhs)
   {
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
   }
 
   //: Construct an m*n Matrix and copy rhs into it.
@@ -148,7 +149,7 @@ class vnl_matrix_fixed
   vnl_matrix_fixed(const vnl_matrix<T>& rhs)
   {
     assert(rhs.rows() == num_rows && rhs.columns() == num_cols);
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
   }
 
   //  Destruct the m*n matrix.
@@ -166,14 +167,14 @@ class vnl_matrix_fixed
   vnl_matrix_fixed& operator=(const vnl_matrix<T>& rhs)
   {
     assert(rhs.rows() == num_rows && rhs.columns() == num_cols);
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
     return *this;
   }
 
   //: Copy another vnl_matrix_fixed<T,m,n> into this.
   vnl_matrix_fixed& operator=(const vnl_matrix_fixed& rhs)
   {
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
     return *this;
   }
 
@@ -404,6 +405,12 @@ class vnl_matrix_fixed
 
   //: Make a new matrix by applying function to each element.
   vnl_matrix_fixed apply(T (*f)(T const&)) const;
+
+  //: Make a vector by applying a function across rows.
+  vnl_vector_fixed<T,num_rows> apply_rowwise(T (*f)(vnl_vector_fixed<T,num_cols> const&)) const;
+
+  //: Make a vector by applying a function across columns.
+  vnl_vector_fixed<T,num_cols> apply_columnwise(T (*f)(vnl_vector_fixed<T,num_rows> const&)) const;
 
   //: Return transpose
   vnl_matrix_fixed<T,num_cols,num_rows> transpose() const;
@@ -642,8 +649,8 @@ class vnl_matrix_fixed
 
   ////----------------------- Input/Output ----------------------------
 
-  // : Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  bool read_ascii(vcl_istream& s);
+  // : Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  bool read_ascii(std::istream& s);
 
   //--------------------------------------------------------------------------------
 
@@ -726,7 +733,7 @@ class vnl_matrix_fixed
   bool operator!=(vnl_matrix<T> const &that) const { return !this->operator_eq(that); }
 
   //: Print matrix to os in some hopefully sensible format
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
 //--------------------------------------------------------------------------------
 
@@ -1011,7 +1018,7 @@ inline vnl_vector<T> operator*( const vnl_matrix<T>& a, const vnl_vector_fixed<T
 
 template <class T, unsigned m, unsigned n>
 inline
-vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed<T,m,n> const& mat)
+std::ostream& operator<< (std::ostream& os, vnl_matrix_fixed<T,m,n> const& mat)
 {
   mat.print(os);
   return os;
@@ -1019,7 +1026,7 @@ vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed<T,m,n> const& mat)
 
 template <class T, unsigned m, unsigned n>
 inline
-vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed<T,m,n>& mat)
+std::istream& operator>> (std::istream& is, vnl_matrix_fixed<T,m,n>& mat)
 {
   mat.read_ascii(is);
   return is;

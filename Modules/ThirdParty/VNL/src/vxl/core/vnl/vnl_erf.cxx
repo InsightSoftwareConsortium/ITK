@@ -138,7 +138,7 @@ double vnl_erfc(double x)
   //
   //  Latest modification: March 19, 1990
 
-  y = vcl_abs(x);
+  y = std::abs(x);
   // ------------------------------------------------------------------
   //  Evaluate  erfc  for  |X| <= 0.46875
   // ------------------------------------------------------------------
@@ -158,9 +158,9 @@ double vnl_erfc(double x)
       xden = (xden + d[i]) * y;
     }
     result = (xnum + c[7]) / (xden + d[7]);
-    ysq = vcl_floor(y * 16.0) / 16.0;
+    ysq = std::floor(y * 16.0) / 16.0;
     del = (y - ysq) * (y + ysq);
-    result = vcl_exp(-ysq * ysq) * vcl_exp(-del) * result;
+    result = std::exp(-ysq * ysq) * std::exp(-del) * result;
 
     // ------------------------------------------------------------------
     //  Evaluate  erfc  for |X| > 4.0
@@ -189,9 +189,9 @@ double vnl_erfc(double x)
       }
       result = ysq * (xnum + p[4]) / (xden + q[4]);
       result = (sqrpi - result) / y;
-      ysq = vcl_floor(y * 16.0) / 16.0;
+      ysq = std::floor(y * 16.0) / 16.0;
       del = (y - ysq) * (y + ysq);
-      result = vcl_exp(-ysq * ysq) * vcl_exp(-del) * result;
+      result = std::exp(-ysq * ysq) * std::exp(-del) * result;
     }
   }
   // ------------------------------------------------------------------

@@ -1,11 +1,13 @@
-// This is core/vnl/algo/Templates/vnl_qr+vcl_complex+float--.cxx
-#include <vcl_complex.h>
+// This is core/vnl/algo/Templates/vnl_qr+std::complex+float--.cxx
+#include <complex>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_qr.hxx>
 //:
 // \file
 
 #if 1
-VNL_QR_INSTANTIATE(vcl_complex<float>);
+VNL_QR_INSTANTIATE(std::complex<float>);
 
 #else
 // the netlib qrsl routine seems to have a bug
@@ -15,30 +17,29 @@ VNL_QR_INSTANTIATE(vcl_complex<float>);
 // hmm... that still doesn't work.
 
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_copy.h>
 
 VCL_DEFINE_SPECIALIZATION
-vnl_vector<vcl_complex<float>> vnl_qr<vcl_complex<float>>::solve(const vnl_vector<vcl_complex<float>>& b) const
+vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::solve(const vnl_vector<std::complex<float>>& b) const
 {
   assert(!"this does not work");
   int n = qrdc_out_.columns();
   int p = qrdc_out_.rows();
 
-  vnl_matrix<vcl_complex<double>> DOUBLE_qrdc_out_(qrdc_out_.rows(), qrdc_out_.cols());
+  vnl_matrix<std::complex<double>> DOUBLE_qrdc_out_(qrdc_out_.rows(), qrdc_out_.cols());
   vnl_copy(qrdc_out_, DOUBLE_qrdc_out_);
 
-  vnl_vector<vcl_complex<double>> DOUBLE_qraux_(qraux_.size());
+  vnl_vector<std::complex<double>> DOUBLE_qraux_(qraux_.size());
   vnl_copy(qraux_, DOUBLE_qraux_);
 
-  vnl_vector<vcl_complex<double>> DOUBLE_b(b.size());
+  vnl_vector<std::complex<double>> DOUBLE_b(b.size());
   vnl_copy(b, DOUBLE_b);
 
-  const vcl_complex<double> * DOUBLE_b_data = DOUBLE_b.data_block();
-  vnl_vector<vcl_complex<double>> DOUBLE_QtB(n);
-  vnl_vector<vcl_complex<double>> DOUBLE_x(p);
+  const std::complex<double> * DOUBLE_b_data = DOUBLE_b.data_block();
+  vnl_vector<std::complex<double>> DOUBLE_QtB(n);
+  vnl_vector<std::complex<double>> DOUBLE_x(p);
 
   // see comment above
   int JOB = 100;
@@ -55,9 +56,9 @@ vnl_vector<vcl_complex<float>> vnl_qr<vcl_complex<float>>::solve(const vnl_vecto
                    &info);
 
   if (info > 0)
-    vcl_cerr << "vnl_qr<T>::solve() : A is rank-deficient by " << info << '\n';
+    std::cerr << "vnl_qr<T>::solve() : A is rank-deficient by " << info << '\n';
 
-  vnl_vector<vcl_complex<float>> x(p);
+  vnl_vector<std::complex<float>> x(p);
   vnl_copy(DOUBLE_x, x);
 
   return x;
@@ -65,23 +66,23 @@ vnl_vector<vcl_complex<float>> vnl_qr<vcl_complex<float>>::solve(const vnl_vecto
 
 //: Return residual vector d of M x = b -> d = Q'b
 VCL_DEFINE_SPECIALIZATION
-vnl_vector<vcl_complex<float>> vnl_qr<vcl_complex<float>>::QtB(const vnl_vector<vcl_complex<float>>& b) const
+vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::QtB(const vnl_vector<std::complex<float>>& b) const
 {
   assert(!"this does not work");
   int n = qrdc_out_.columns();
   int p = qrdc_out_.rows();
 
-  vnl_matrix<vcl_complex<double>> DOUBLE_qrdc_out_(qrdc_out_.rows(), qrdc_out_.cols());
+  vnl_matrix<std::complex<double>> DOUBLE_qrdc_out_(qrdc_out_.rows(), qrdc_out_.cols());
   vnl_copy(qrdc_out_, DOUBLE_qrdc_out_);
 
-  vnl_vector<vcl_complex<double>> DOUBLE_qraux_(qraux_.size());
+  vnl_vector<std::complex<double>> DOUBLE_qraux_(qraux_.size());
   vnl_copy(qraux_, DOUBLE_qraux_);
 
-  vnl_vector<vcl_complex<double>> DOUBLE_b(b.size());
+  vnl_vector<std::complex<double>> DOUBLE_b(b.size());
   vnl_copy(b, DOUBLE_b);
 
-  const vcl_complex<double> * DOUBLE_b_data = DOUBLE_b.data_block();
-  vnl_vector<vcl_complex<double>> DOUBLE_QtB(n);
+  const std::complex<double> * DOUBLE_b_data = DOUBLE_b.data_block();
+  vnl_vector<std::complex<double>> DOUBLE_QtB(n);
 
   // see comment above
   int JOB = 1000;
@@ -100,10 +101,10 @@ vnl_vector<vcl_complex<float>> vnl_qr<vcl_complex<float>>::QtB(const vnl_vector<
                    &info);
 
   if (info > 0) {
-    vcl_cerr << "vnl_qr<T>::QtB() -- A is rank-def by " << info << '\n';
+    std::cerr << "vnl_qr<T>::QtB() -- A is rank-def by " << info << '\n';
   }
 
-  vnl_vector<vcl_complex<float>> QtB(n);
+  vnl_vector<std::complex<float>> QtB(n);
   vnl_copy(DOUBLE_QtB, QtB);
 
   return QtB;

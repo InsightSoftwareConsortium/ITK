@@ -12,8 +12,9 @@
 //   Sep.2004, Peter Vanroose: added testlib_test_assert_near_relative().
 // \endverbatim
 
-#include <vcl_string.h>
-#include <vcl_complex.h>
+#include <string>
+#include <complex>
+#include <vcl_compiler.h>
 
 //: initialise test counters, check test name 'name' exists
 void testlib_test_start(const char* name = VXL_NULLPTR);
@@ -25,29 +26,29 @@ void testlib_test_perform(bool success);
 int  testlib_test_summary();
 
 //: output msg, then perform test in expr
-void testlib_test_assert(const vcl_string& msg, bool expr);
+void testlib_test_assert(const std::string& msg, bool expr);
 //: output msg, then perform test to see if expr is within tol of target
-void testlib_test_assert_near(const vcl_string& msg, double expr,
+void testlib_test_assert_near(const std::string& msg, double expr,
                               double target = 0, double tol = 1e-12);
 //: output msg, then perform test to see if expr is within tol of target
-void testlib_test_assert_near(const vcl_string& msg, vcl_complex<double> expr,
-                              vcl_complex<double> target, double tol = 1e-12);
+void testlib_test_assert_near(const std::string& msg, std::complex<double> expr,
+                              std::complex<double> target, double tol = 1e-12);
 //: output msg, then test to see if expr is within relative tol of target
-void testlib_test_assert_near_relative(const vcl_string& msg, double expr,
+void testlib_test_assert_near_relative(const std::string& msg, double expr,
                                        double target = 0, double tol = 1e-12);
 //: output msg, then test to see if expr is within relative tol of target
-void testlib_test_assert_near_relative(const vcl_string& msg,
-                                       vcl_complex<double> expr,
-                                       vcl_complex<double> target,
+void testlib_test_assert_near_relative(const std::string& msg,
+                                       std::complex<double> expr,
+                                       std::complex<double> target,
                                        double tol = 1e-12);
 //: output msg, then perform test to see if expr is not within tol of target
-void testlib_test_assert_far(const vcl_string& msg, double expr,
+void testlib_test_assert_far(const std::string& msg, double expr,
                              double target = 0, double tol = 1e-12);
 //: output msg, then perform test to see if expr is not within tol of target
-void testlib_test_assert_far(const vcl_string& msg, vcl_complex<double> expr,
-                             vcl_complex<double> target, double tol = 1e-12);
+void testlib_test_assert_far(const std::string& msg, std::complex<double> expr,
+                             std::complex<double> target, double tol = 1e-12);
 //: output msg, then perform test to see if expr is equal to target
-void testlib_test_assert_equal(const vcl_string& msg, long expr, long target);
+void testlib_test_assert_equal(const std::string& msg, long expr, long target);
 
 #define Assert testlib_test_assert
 #define AssertNear testlib_test_assert_near

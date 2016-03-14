@@ -140,9 +140,10 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <iosfwd>
+#include <cstring>
 #include <vcl_cassert.h>
-#include <vcl_iosfwd.h>
-#include <vcl_cstring.h> // memcpy()
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector_fixed_ref.h>
@@ -247,7 +248,7 @@ class vnl_matrix_fixed_ref_const
   unsigned size()    const { return num_rows*num_cols; }
 
   //: Print matrix to os in some hopefully sensible format
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
   void copy_out(T *) const;
 
@@ -412,7 +413,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //: Copy another vnl_matrix_fixed<T,m,n> into this.
   vnl_matrix_fixed_ref const & operator=(const vnl_matrix_fixed_ref_const<T,num_rows,num_cols>& rhs) const
   {
-    vcl_memcpy(data_block(), rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_block(), rhs.data_block(), num_rows*num_cols*sizeof(T));
     return *this;
   }
 
@@ -692,8 +693,8 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
 
   ////----------------------- Input/Output ----------------------------
 
-  // : Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  bool read_ascii(vcl_istream& s) const;
+  // : Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  bool read_ascii(std::istream& s) const;
 
   //----------------------------------------------------------------------
   // Conversion to vnl_matrix_ref.
@@ -983,7 +984,7 @@ inline vnl_vector<T> operator*( const vnl_matrix<T>& a, const vnl_vector_fixed_r
 
 template<class T, unsigned m, unsigned n>
 inline
-vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed_ref_const<T,m,n> const& mat)
+std::ostream& operator<< (std::ostream& os, vnl_matrix_fixed_ref_const<T,m,n> const& mat)
 {
   mat.print(os);
   return os;
@@ -991,7 +992,7 @@ vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed_ref_const<T,m,n> cons
 
 template<class T, unsigned m, unsigned n>
 inline
-vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed_ref<T,m,n> const& mat)
+std::istream& operator>> (std::istream& is, vnl_matrix_fixed_ref<T,m,n> const& mat)
 {
   mat.read_ascii(is);
   return is;

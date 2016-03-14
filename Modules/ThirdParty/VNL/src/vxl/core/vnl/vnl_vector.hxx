@@ -10,7 +10,7 @@
 // The parameterized vnl_vector<T> class implements 1D arithmetic vectors of a
 // user specified type. The only constraint placed on the type is that
 // it must overload the following operators: +, -, *, and /. Thus, it will
-// be possible to have a vnl_vector over vcl_complex<T>.  The vnl_vector<T>
+// be possible to have a vnl_vector over std::complex<T>.  The vnl_vector<T>
 // class is static in size, that is once a vnl_vector<T> of a particular
 // size has been declared, elements cannot be added or removed. Using the
 // set_size() method causes the vector to resize, but the contents will be
@@ -34,13 +34,14 @@
 // v*m, vnl_vector is implicitly a row matrix.
 //
 
+#include <cstdlib>
+#include <vector>
+#include <iostream>
+#include <algorithm>
 #include "vnl_vector.h"
 
-#include <vcl_cstdlib.h> // abort()
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
-#include <vcl_vector.h>
-#include <vcl_iostream.h>
-#include <vcl_algorithm.h>
 
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_matrix.h>
@@ -95,7 +96,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& value)
   vnl_vector_alloc_blah(len);
   if (this->data) //VS2012 Runtime Library's std::fill_n has debug assertion when data is null
   {
-    vcl_fill_n( this->data, len, value );
+    std::fill_n( this->data, len, value );
   }
 }
 
@@ -159,7 +160,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const& v)
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(v.num_elmts);
   if ( v.data ) {
-     vcl_copy( v.data, v.data + v.num_elmts, this->data );
+     std::copy( v.data, v.data + v.num_elmts, this->data );
   }
 }
 
@@ -171,7 +172,7 @@ vnl_vector<T>::vnl_vector (T const* datablck, unsigned len)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
-  vcl_copy( datablck, datablck + len, this->data );
+  std::copy( datablck, datablck + len, this->data );
 }
 
 //------------------------------------------------------------
@@ -314,11 +315,11 @@ bool vnl_vector<T>::set_size(unsigned n)
 
 //------------------------------------------------------------
 
-//: Read a vnl_vector from an ascii vcl_istream.
+//: Read a vnl_vector from an ascii std::istream.
 // If the vector has nonzero size on input, read that many values.
 // Otherwise, read to EOF.
 template <class T>
-bool vnl_vector<T>::read_ascii(vcl_istream& s)
+bool vnl_vector<T>::read_ascii(std::istream& s)
 {
   bool size_known = (this->size() != 0);
   if (size_known) {
@@ -331,7 +332,7 @@ bool vnl_vector<T>::read_ascii(vcl_istream& s)
   }
 
   // Just read until EOF
-  vcl_vector<T> allvals;
+  std::vector<T> allvals;
   unsigned n = 0;
   T value;
   while ( s >> value ) {
@@ -345,7 +346,7 @@ bool vnl_vector<T>::read_ascii(vcl_istream& s)
 }
 
 template <class T>
-vnl_vector<T> vnl_vector<T>::read(vcl_istream& s)
+vnl_vector<T> vnl_vector<T>::read(std::istream& s)
 {
   vnl_vector<T> V;
   V.read_ascii(s);
@@ -360,7 +361,7 @@ vnl_vector<T>::fill (T const& value)
 {
   if (this->data) //VS2012 Runtime Library's std::fill_n has debug assertion when data is null
   {
-    vcl_fill_n( this->data, this->num_elmts, value );
+    std::fill_n( this->data, this->num_elmts, value );
   }
   return *this;
 }
@@ -371,7 +372,7 @@ template<class T>
 vnl_vector<T>&
 vnl_vector<T>::copy_in (T const *ptr)
 {
-  vcl_copy( ptr, ptr + this->num_elmts, this->data );
+  std::copy( ptr, ptr + this->num_elmts, this->data );
   return *this;
 }
 
@@ -380,7 +381,7 @@ vnl_vector<T>::copy_in (T const *ptr)
 template<class T>
 void vnl_vector<T>::copy_out (T *ptr) const
 {
-  vcl_copy( this->data, this->data + this->num_elmts, ptr );
+  std::copy( this->data, this->data + this->num_elmts, ptr );
 }
 
 //: Copies rhs vector into lhs vector. O(n).
@@ -393,7 +394,7 @@ vnl_vector<T>& vnl_vector<T>::operator= (vnl_vector<T> const& rhs)
     if (rhs.data) {
       if (this->num_elmts != rhs.num_elmts)
         this->set_size(rhs.size());
-      vcl_copy( rhs.data, rhs.data + this->num_elmts, this->data );
+      std::copy( rhs.data, rhs.data + this->num_elmts, this->data );
     }
     else {
       // rhs is default-constructed.
@@ -529,7 +530,7 @@ vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start)
   if ( stop > this->num_elmts)
     vnl_error_vector_dimension ("update", stop-start, v.size());
 #endif
-  //vcl_copy_n( v.data, stop - start, this->data + start );
+  //std::copy_n( v.data, stop - start, this->data + start );
   for (unsigned i = start; i < stop; i++)
     this->data[i] = v.data[i-start];
   return *this;
@@ -547,7 +548,7 @@ vnl_vector<T> vnl_vector<T>::extract (unsigned len, unsigned start) const
     vnl_error_vector_dimension ("extract", stop-start, len);
 #endif
   vnl_vector<T> result(len);
-  //vcl_copy_n( this->data + start, len, result.data );
+  //std::copy_n( this->data + start, len, result.data );
   for (unsigned i = 0; i < len; i++)
     result.data[i] = data[start+i];
   return result;
@@ -723,8 +724,8 @@ vnl_vector<T>::roll_inplace(const int &shift)
 template <class T>
 void vnl_vector<T>::swap(vnl_vector<T> &that)
 {
-  vcl_swap(this->num_elmts, that.num_elmts);
-  vcl_swap(this->data, that.data);
+  std::swap(this->num_elmts, that.num_elmts);
+  std::swap(this->data, that.data);
 }
 
 //--------------------------------------------------------------------------------
@@ -747,7 +748,7 @@ T cos_angle(vnl_vector<T> const& a, vnl_vector<T> const& b)
 
   real_t ab = inner_product(a,b);
   real_t a_b = static_cast<real_t>(
-    vcl_sqrt( abs_r(a.squared_magnitude() * b.squared_magnitude()) ));
+    std::sqrt( abs_r(a.squared_magnitude() * b.squared_magnitude()) ));
   return T( ab / a_b);
 }
 
@@ -763,10 +764,10 @@ double angle (vnl_vector<T> const& a, vnl_vector<T> const& b)
   typedef typename vnl_numeric_traits<T>::abs_t abs_t;
   typedef typename vnl_numeric_traits<abs_t>::real_t abs_r;
   const abs_r c = abs_r( cos_angle(a, b) );
-  // IMS: sometimes cos_angle returns 1+eps, which can mess up vcl_acos.
+  // IMS: sometimes cos_angle returns 1+eps, which can mess up std::acos.
   if (c >= 1.0) return 0;
   if (c <= -1.0) return vnl_math::pi;
-  return vcl_acos( c );
+  return std::acos( c );
 }
 
 template <class T>
@@ -796,16 +797,16 @@ void vnl_vector<T>::assert_finite_internal() const
   if (this->is_finite())
     return;
 
-  vcl_cerr << __FILE__ ": *** NAN FEVER **\n" << *this;
-  vcl_abort();
+  std::cerr << __FILE__ ": *** NAN FEVER **\n" << *this;
+  std::abort();
 }
 
 template <class T>
 void vnl_vector<T>::assert_size_internal(unsigned sz) const
 {
   if (this->size() != sz) {
-    vcl_cerr << __FILE__ ": Size is " << this->size() << ". Should be " << sz << '\n';
-    vcl_abort();
+    std::cerr << __FILE__ ": Size is " << this->size() << ". Should be " << sz << '\n';
+    std::abort();
   }
 }
 
@@ -844,7 +845,7 @@ bool vnl_vector<T>::operator_eq (vnl_vector<T> const& rhs) const
 //: Overloads the output operator to print a vector. O(n).
 
 template<class T>
-vcl_ostream& operator<< (vcl_ostream& s, vnl_vector<T> const& v)
+std::ostream& operator<< (std::ostream& s, vnl_vector<T> const& v)
 {
   for (unsigned i = 0; i+1 < v.size(); ++i)   // For each index in vector
     s << v[i] << ' ';                              // Output data element
@@ -852,11 +853,11 @@ vcl_ostream& operator<< (vcl_ostream& s, vnl_vector<T> const& v)
   return s;
 }
 
-//: Read a vnl_vector from an ascii vcl_istream.
+//: Read a vnl_vector from an ascii std::istream.
 // If the vector has nonzero size on input, read that many values.
 // Otherwise, read to EOF.
 template <class T>
-vcl_istream& operator>>(vcl_istream& s, vnl_vector<T>& M)
+std::istream& operator>>(std::istream& s, vnl_vector<T>& M)
 {
   M.read_ascii(s); return s;
 }
@@ -893,8 +894,8 @@ template T dot_product(vnl_vector<T > const &, vnl_vector<T > const &); \
 template T bracket(vnl_vector<T > const &, vnl_matrix<T > const &, vnl_vector<T > const &); \
 template vnl_matrix<T > outer_product(vnl_vector<T > const &,vnl_vector<T > const &); \
 /* I/O */ \
-template vcl_ostream & operator<<(vcl_ostream &, vnl_vector<T > const &); \
-template vcl_istream & operator>>(vcl_istream &, vnl_vector<T >       &)
+template std::ostream & operator<<(std::ostream &, vnl_vector<T > const &); \
+template std::istream & operator>>(std::istream &, vnl_vector<T >       &)
 
 #define VNL_VECTOR_INSTANTIATE(T) \
 VNL_VECTOR_INSTANTIATE_COMMON(T); \

@@ -149,8 +149,8 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef std::complex<double>             FFTCoefficientType;
-  typedef vcl_vector< FFTCoefficientType > FFTSpectrumType;
+  typedef std::complex<double>              FFTCoefficientType;
+  typedef std::vector< FFTCoefficientType > FFTSpectrumType;
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

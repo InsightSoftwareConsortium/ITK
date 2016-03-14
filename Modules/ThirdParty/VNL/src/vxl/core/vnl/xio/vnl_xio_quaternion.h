@@ -18,21 +18,22 @@
 //   29 July 2011 - Peter Vanroose - added documentation, tests, and x_write_tree()
 // \endverbatim
 
+#include <string>
+#include <iosfwd>
 #include <vnl/vnl_quaternion.h>
-#include <vcl_string.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 //: XML save vnl_quaternion to stream.
 // \relatesalso vnl_quaternion
 template <class T>
-void x_write(vcl_ostream & os, vnl_quaternion<T> const& v,
-             vcl_string name="vnl_quaternion");
+void x_write(std::ostream & os, vnl_quaternion<T> const& v,
+             std::string name="vnl_quaternion");
 
 //: XML save vnl_quaternion as a 2-level tree to stream.
 // \relatesalso vnl_quaternion
 template <class T>
-void x_write_tree(vcl_ostream & os, vnl_quaternion<T> const& v,
-                  vcl_string name="vnl_quaternion");
+void x_write_tree(std::ostream & os, vnl_quaternion<T> const& v,
+                  std::string name="vnl_quaternion");
 
 #define VNL_XIO_QUATERNION_INSTANTIATE(T) extern "Please #include <vnl/xio/vnl_xio_quaternion.hxx> first"
 

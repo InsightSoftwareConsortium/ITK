@@ -30,7 +30,7 @@ template <class Return, class Argument>
 class vnl_unary_function
 {
  public:
-//  typedef vcl_numeric_limits<Return> limits;
+//  typedef std::numeric_limits<Return> limits;
 
   //: Apply the function.
   // The name is "f" rather than operator(), as the function will generally be

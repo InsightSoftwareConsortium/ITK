@@ -34,15 +34,16 @@
 // Note that containers built on different allocator instances have
 // different types, limiting the utility of this approach.
 
-#include <vcl_cstddef.h> // size_t lives here
+#include <cstddef>
+#include <vcl_compiler.h>
 
 const int VNL_ALLOC_ALIGN = 8;
-const vcl_size_t VNL_ALLOC_MAX_BYTES = 256;
-const vcl_size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES/VNL_ALLOC_ALIGN;
+const std::size_t VNL_ALLOC_MAX_BYTES = 256;
+const std::size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES/VNL_ALLOC_ALIGN;
 
 class vnl_alloc
 {
-  static vcl_size_t ROUND_UP(vcl_size_t bytes) {
+  static std::size_t ROUND_UP(std::size_t bytes) {
     return (bytes + VNL_ALLOC_ALIGN-1) & ~(VNL_ALLOC_ALIGN - 1);
   }
   union obj;
@@ -57,20 +58,20 @@ class vnl_alloc
 # else
   static obj * free_list[VNL_ALLOC_NFREELISTS];
 # endif
-  static  vcl_size_t FREELIST_INDEX(vcl_size_t bytes) {
+  static  std::size_t FREELIST_INDEX(std::size_t bytes) {
     return (bytes + VNL_ALLOC_ALIGN-1)/VNL_ALLOC_ALIGN - 1;
   }
 
   // Returns an object of size n, and optionally adds to size n free li*st.
-  static void *refill(vcl_size_t n);
+  static void *refill(std::size_t n);
   // Allocates a chunk for nobjs of size size.  nobjs may be reduced
   // if it is inconvenient to allocate the requested number.
-  static char *chunk_alloc(vcl_size_t size, int &nobjs);
+  static char *chunk_alloc(std::size_t size, int &nobjs);
 
   // Chunk allocation state.
   static char *start_free;
   static char *end_free;
-  static vcl_size_t heap_size;
+  static std::size_t heap_size;
 
   class lock
   {
@@ -85,7 +86,7 @@ class vnl_alloc
   typedef char value_type;
 
   /* n must be > 0      */
-  static void * allocate(vcl_size_t n) {
+  static void * allocate(std::size_t n) {
     obj * * my_free_list;
     obj *  result;
 
@@ -106,7 +107,7 @@ class vnl_alloc
   };
 
   /* p may not be 0 */
-  static void deallocate(void *p, vcl_size_t n)
+  static void deallocate(void *p, std::size_t n)
   {
     obj *q = (obj *)p;
     obj *  * my_free_list;
@@ -120,7 +121,7 @@ class vnl_alloc
     *my_free_list = q;
   }
 
-  static void * reallocate(void *p, vcl_size_t old_sz, vcl_size_t new_sz);
+  static void * reallocate(void *p, std::size_t old_sz, std::size_t new_sz);
 };
 
 # endif // vnl_alloc_h_

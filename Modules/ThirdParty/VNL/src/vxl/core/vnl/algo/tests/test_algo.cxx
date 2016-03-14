@@ -1,4 +1,5 @@
 // This is core/vnl/algo/tests/test_algo.cxx
+#include <complex>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -23,7 +24,7 @@
 // \author Peter Vanroose, KULeuven/ESAT.
 // \date 20 September 2003
 
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_adjugate.h>
 #include <vnl/algo/vnl_conjugate_gradient.h>
@@ -66,10 +67,10 @@ static void test_matrix_inverse()
 
 static void test_fft()
 {
-  vcl_vector<vcl_complex<double> > v(256); for (int i=0; i<256; ++i) v[i]=0.5+i;
+  std::vector<std::complex<double> > v(256); for (int i=0; i<256; ++i) v[i]=0.5+i;
   vnl_fft_1d<double> fft1d(256); fft1d.fwd_transform(v); fft1d.bwd_transform(v);
   TEST_NEAR("vnl_fft_1d", v[10], 256*10.5, 1e-6);
-  vnl_matrix<vcl_complex<double> > m(10,9);
+  vnl_matrix<std::complex<double> > m(10,9);
   for (int i=0; i<10; ++i) for (int j=0; j<9; ++j) m[i][j]=0.5+i+j;
   vnl_fft_2d<double> fft2d(10,9); fft2d.fwd_transform(m); fft2d.bwd_transform(m);
   TEST_NEAR("vnl_fft_2d", m[5][5], 10*9*10.5, 1e-6);

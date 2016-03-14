@@ -17,13 +17,14 @@
 // \date   August 2011
 //-----------------------------------------------------------------------------
 
+#include <iostream>
+#include <sstream>
+#include <cstring>
+#include <vector>
 #include <vnl/vnl_polynomial.h>
-#include <vcl_iostream.h>
-#include <vcl_sstream.h>
-#include <vcl_cstring.h>
-#include <vcl_vector.h>
+#include <vcl_compiler.h>
 
-vcl_vector<vnl_polynomial<double> > stack;
+std::vector<vnl_polynomial<double> > stack;
 
 vnl_polynomial<double> operation(char op) {
   if (op == '.') { return stack.back(); }
@@ -35,14 +36,14 @@ vnl_polynomial<double> operation(char op) {
   else if (op == '*') p *= p2;
   else if (op == '/') p /= p2;
   else if (op == '%') p %= p2;
-  else { vcl_cerr << "Unknown operator " << op << vcl_endl; return p; }
+  else { std::cerr << "Unknown operator " << op << std::endl; return p; }
   if (stack.size()) stack.pop_back();
   return p;
 }
 
 vnl_polynomial<double> polynomial(char* txt) {
-  vcl_vector<double> coef;
-  vcl_stringstream ss(txt);
+  std::vector<double> coef;
+  std::stringstream ss(txt);
   double onecoef;
   while (ss >> onecoef) coef.insert(coef.begin(), 1, onecoef);
   while (coef.size() && coef.back() == 0.0) coef.pop_back(); // highest order coeff should not be zero!
@@ -53,8 +54,8 @@ int main()
 {
   char l[65000];
   vnl_polynomial<double> p;
-  while (vcl_cin.getline(l, 65000)) {
-    int n = vcl_strlen(l) - 1;
+  while (std::cin.getline(l, 65000)) {
+    int n = std::strlen(l) - 1;
     // strip trailing blanks:
     while (l[n] == ' ' || l[n] == '\t' || l[n] == '\r' || l[n] == '\n') l[n--] = '\0';
     if (n<0) continue;
@@ -62,7 +63,7 @@ int main()
     else if (n == 0) p=operation(l[0]);
     else p=polynomial(l);
     stack.push_back(p);
-    vcl_cout << p << vcl_endl;
+    std::cout << p << std::endl;
   }
   return 0;
 }

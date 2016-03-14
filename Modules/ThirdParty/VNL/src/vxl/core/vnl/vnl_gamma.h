@@ -6,7 +6,8 @@
 //  \brief Complete and incomplete gamma function approximations
 //  \author Tim Cootes
 
-#include <vcl_cmath.h>
+#include <cmath>
+#include <vcl_compiler.h>
 
 //: Approximate log of gamma function
 //  Uses 6 parameter Lanczos approximation as described by Toth
@@ -18,7 +19,7 @@ double vnl_log_gamma(double x);
 //  Uses 6 parameter Lanczos approximation as described by Toth
 //  (http://www.rskey.org/gamma.htm)
 //  Accurate to about one part in 3e-11.
-inline double vnl_gamma(double x) { return vcl_exp(vnl_log_gamma(x)); }
+inline double vnl_gamma(double x) { return std::exp(vnl_log_gamma(x)); }
 
 //: Normalised Incomplete gamma function, P(a,x)
 // $P(a,x)=\frac{1}{\Gamma(a)}\int_0^x e^{-t}t^{a-1}dt$

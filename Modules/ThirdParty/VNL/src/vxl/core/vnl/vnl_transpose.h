@@ -15,7 +15,8 @@
 //  LSB (Manchester) 19/3/01 Tidied documentation
 // \endverbatim
 
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_fastops.h>
 
 //: Efficient matrix transpose
@@ -44,7 +45,7 @@ class vnl_transpose
 
   //: Noisily convert a vnl_transpose to a matrix
   operator vnl_matrix<double> () const {
-    vcl_cerr << "vnl_transpose being converted to matrix -- help! I don't wanna go!\n";
+    std::cerr << "vnl_transpose being converted to matrix -- help! I don't wanna go!\n";
     return M_.transpose();
   }
 

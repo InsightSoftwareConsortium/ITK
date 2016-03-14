@@ -53,7 +53,6 @@
 #include <vcl_vector.h>
 #include <vcl_functional.h>
 
-#include <vcl_complex_fwd.h>
 #include <vcl_stlfwd.h>
 #include <vcl_where_root_dir.h>
 #include <vcl_compiler.h>

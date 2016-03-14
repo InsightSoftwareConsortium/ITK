@@ -9,8 +9,9 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cmath>
 #include "vnl_gaussian_kernel_1d.h"
-#include <vcl_cmath.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
 
 // G(x) = 1/(sigma * sqrt(2*pi)) * exp(-0.5 * (x/sigma)^2)
@@ -20,13 +21,13 @@
 static inline
 double compute_width(double sigma, double cutoff)
 {
-  return sigma * vcl_sqrt(-2 * vcl_log(cutoff * sigma * vnl_math::sqrt2pi));
+  return sigma * std::sqrt(-2 * std::log(cutoff * sigma * vnl_math::sqrt2pi));
 }
 
 //: Construct a sampled 1D gaussian of standard deviation sigma.
 // The vector is normalized so that its sum is 0.5.
 vnl_gaussian_kernel_1d::vnl_gaussian_kernel_1d(double sigma, double cutoff):
-  vec_((int)vcl_ceil(compute_width(sigma, cutoff)))
+  vec_((int)std::ceil(compute_width(sigma, cutoff)))
 {
   int wid = vec_.size();
   inscale_ = 0.5/(sigma * sigma);
@@ -41,5 +42,5 @@ vnl_gaussian_kernel_1d::vnl_gaussian_kernel_1d(double sigma, double cutoff):
 
 double vnl_gaussian_kernel_1d::G(double x) const
 {
-  return vcl_exp(-x*x * inscale_);
+  return std::exp(-x*x * inscale_);
 }

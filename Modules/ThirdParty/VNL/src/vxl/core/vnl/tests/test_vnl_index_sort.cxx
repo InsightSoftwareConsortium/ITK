@@ -4,6 +4,8 @@
 
 #ifdef STANDALONE // if running as a stand-alone (test) program,
                   // options -n and -m (matrix sizes) are available
+#include <algorithm>
+#include <iostream>
 #include <getopt.h>
 #else             // else, this program follows the testlib style mechanism
 #include <testlib/testlib_test.h>
@@ -13,8 +15,7 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_random.h>
-#include <vcl_algorithm.h> // for std::sort()
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 // The following defaults can be overridden with options -n and -m of the standalone version
 const int cNumElRows = 10;
@@ -26,7 +27,7 @@ static int numelcols;
 #ifdef STANDALONE
 static void showUsage(const char* programName)
 {
-  vcl_cerr << "USAGE: " << programName << " [OPTIONS]\n"
+  std::cerr << "USAGE: " << programName << " [OPTIONS]\n"
            << "\t\t-h --help : print this message\n"
            << "\t\t-n --numelrows <numelrows>: number of elements to sort (def = " << cNumElRows << ").\n"
            << "\t\t-m --numelcols <numelcols>: number of elements to sort (def = " << cNumElCols << ").\n";
@@ -71,13 +72,13 @@ int main( int argc, char *argv[] )
 
   int r = test_vnl_index_sort();
   if (r)
-    vcl_cerr << "******* " << r << " SORT TESTS FAILED******\n";
+    std::cerr << "******* " << r << " SORT TESTS FAILED******\n";
   return r;
 }
 
 #define TEST(t,a,b) \
-  if (a != b) vcl_cerr << t << " FAILED.\n"; \
-  else        vcl_cout << t << " check PASSED." << vcl_endl;
+  if (a != b) std::cerr << t << " FAILED.\n"; \
+  else        std::cout << t << " check PASSED." << std::endl;
 
 #define TESTMAIN(x) // no-op
 
@@ -110,9 +111,9 @@ int test_vnl_index_sort()
   indexSort.vector_sort(randomVals, sortedVals, sortIndices);
 
   MeasurementVectorType vclSortedVals(randomVals);
-  vcl_sort(vclSortedVals.begin(), vclSortedVals.end());
+  std::sort(vclSortedVals.begin(), vclSortedVals.end());
 
-  // check against vcl_sort
+  // check against std::sort
   TEST("Random Vector Sort", vclSortedVals, sortedVals);
   if (vclSortedVals!=sortedVals) ++caughtError;
 
@@ -160,11 +161,11 @@ int test_vnl_index_sort()
   {
     MeasurementVectorType unsortedVectCheck = randomValM.get_row(rx);
     MeasurementVectorType vclSortedVectCheck(unsortedVectCheck);
-    vcl_sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
+    std::sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
     MeasurementVectorType sortedVectCheck = sortedValM.get_row(rx);
     IndexVectorType indexVectCheck = sortedIndicesM.get_row(rx);
 
-    // check against vcl_sort
+    // check against std::sort
     sortCheckFail = (vclSortedVectCheck != sortedVectCheck);
 
     // check indices
@@ -186,11 +187,11 @@ int test_vnl_index_sort()
   {
     MeasurementVectorType unsortedVectCheck = randomValM.get_column(rx);
     MeasurementVectorType vclSortedVectCheck(unsortedVectCheck);
-    vcl_sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
+    std::sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
     MeasurementVectorType sortedVectCheck = sortedValM.get_column(rx);
     IndexVectorType indexVectCheck = sortedIndicesM.get_column(rx);
 
-    // check against vcl_sort
+    // check against std::sort
     sortCheckFail = (vclSortedVectCheck != sortedVectCheck);
 
     // check indices
@@ -220,11 +221,11 @@ int test_vnl_index_sort()
   {
     MeasurementVectorType unsortedVectCheck = randomValM.get_row(rx);
     MeasurementVectorType vclSortedVectCheck(unsortedVectCheck);
-    vcl_sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
+    std::sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
     MeasurementVectorType sortedVectCheck = sortedValM.get_row(rx);
     IndexVectorType indexVectCheck = sortedIndicesM.get_row(rx);
 
-    // check against vcl_sort
+    // check against std::sort
     sortCheckFail = (vclSortedVectCheck != sortedVectCheck);
 
     // check indices
@@ -247,11 +248,11 @@ int test_vnl_index_sort()
   {
     MeasurementVectorType unsortedVectCheck = randomValM.get_column(rx);
     MeasurementVectorType vclSortedVectCheck(unsortedVectCheck);
-    vcl_sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
+    std::sort(vclSortedVectCheck.begin(), vclSortedVectCheck.end());
     MeasurementVectorType sortedVectCheck = sortedValM.get_column(rx);
     IndexVectorType indexVectCheck = sortedIndicesM.get_column(rx);
 
-    // check against vcl_sort
+    // check against std::sort
     sortCheckFail = (vclSortedVectCheck != sortedVectCheck);
 
     // check indices

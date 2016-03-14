@@ -2,41 +2,42 @@
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma implementation
 #endif
+#include <ios>
+#include <iostream>
+#include <cstring>
+#include <complex>
+#include <cstdlib>
 #include "vnl_matlab_read.h"
 //:
 // \file
 // \author fsm
 #include <vxl_config.h>
-#include <vcl_ios.h> // for vcl_ios_cur
-#include <vcl_iostream.h>
-#include <vcl_cstring.h> // memset()
-#include <vcl_complex.h>
 #include <vnl/vnl_c_vector.h>
 
 //--------------------------------------------------------------------------------
 
-void vnl_read_bytes(vcl_istream &s, void *p, unsigned bytes)
+void vnl_read_bytes(std::istream &s, void *p, unsigned bytes)
 {
   s.read((char *)p, bytes);
 }
 
 VCL_DEFINE_SPECIALIZATION
-void vnl_matlab_read_data(vcl_istream &s, float *p, unsigned n)
+void vnl_matlab_read_data(std::istream &s, float *p, unsigned n)
 { ::vnl_read_bytes(s, p, n*sizeof(*p)); }
 
 VCL_DEFINE_SPECIALIZATION
-void vnl_matlab_read_data(vcl_istream &s, double *p, unsigned n)
+void vnl_matlab_read_data(std::istream &s, double *p, unsigned n)
 { ::vnl_read_bytes(s, p, n*sizeof(*p)); }
 
 #define implement_read_complex_data(T) \
 VCL_DEFINE_SPECIALIZATION \
-void vnl_matlab_read_data(vcl_istream &s, vcl_complex<T > *ptr, unsigned n) { \
+void vnl_matlab_read_data(std::istream &s, std::complex<T > *ptr, unsigned n) { \
   T *re = vnl_c_vector<T >::allocate_T(n); \
   T *im = vnl_c_vector<T >::allocate_T(n); \
   ::vnl_read_bytes(s, re, n*sizeof(T)); \
   ::vnl_read_bytes(s, im, n*sizeof(T)); \
   for (unsigned i=0; i<n; ++i) \
-    ptr[i] = vcl_complex<T >(re[i], im[i]); \
+    ptr[i] = std::complex<T >(re[i], im[i]); \
   vnl_c_vector<T >::deallocate(re, n); \
   vnl_c_vector<T >::deallocate(im, n); \
 }
@@ -48,7 +49,7 @@ implement_read_complex_data(double)
 
 //--------------------------------------------------------------------------------
 
-vnl_matlab_readhdr::vnl_matlab_readhdr(vcl_istream &s_) : s(s_), varname(VXL_NULLPTR), data_read(false), need_swap(false)
+vnl_matlab_readhdr::vnl_matlab_readhdr(std::istream &s_) : s(s_), varname(VXL_NULLPTR), data_read(false), need_swap(false)
 {
   read_hdr();
 }
@@ -89,7 +90,7 @@ bool vnl_matlab_readhdr::is_bigendian() const
 // increment 'current', record the file position and read the header.
 void vnl_matlab_readhdr::read_hdr()
 {
-  vcl_memset(&hdr, 0, sizeof hdr);
+  std::memset(&hdr, 0, sizeof hdr);
   ::vnl_read_bytes(s, &hdr, sizeof(hdr));
 
   // determine if data needs swapping when read
@@ -134,11 +135,11 @@ void vnl_matlab_readhdr::read_hdr()
     delete [] varname;
   varname = new char[hdr.namlen+1];
 #ifdef DEBUG
-  vcl_cerr << "type:" << hdr.type << vcl_endl
-           << "rows:" << hdr.rows << vcl_endl
-           << "cols:" << hdr.cols << vcl_endl
-           << "imag:" << hdr.imag << vcl_endl
-           << "namlen:" << hdr.namlen << vcl_endl;
+  std::cerr << "type:" << hdr.type << std::endl
+           << "rows:" << hdr.rows << std::endl
+           << "cols:" << hdr.cols << std::endl
+           << "imag:" << hdr.imag << std::endl
+           << "namlen:" << hdr.namlen << std::endl;
 #endif
   ::vnl_read_bytes(s, varname, hdr.namlen);
   varname[hdr.namlen] = '\0';
@@ -157,7 +158,7 @@ void vnl_matlab_readhdr::read_next()
 
     if (is_complex())
       n *= 2;
-    s.seekg(n, vcl_ios_cur);
+    s.seekg(n, std::ios::cur);
   }
 
   read_hdr();
@@ -167,13 +168,13 @@ void vnl_matlab_readhdr::read_next()
 
 bool vnl_matlab_readhdr::type_chck(float &) { return is_single() && !is_complex(); }
 bool vnl_matlab_readhdr::type_chck(double &) { return !is_single() && !is_complex(); }
-bool vnl_matlab_readhdr::type_chck(vcl_complex<float> &) { return is_single() && is_complex(); }
-bool vnl_matlab_readhdr::type_chck(vcl_complex<double> &) { return !is_single() && is_complex(); }
+bool vnl_matlab_readhdr::type_chck(std::complex<float> &) { return is_single() && is_complex(); }
+bool vnl_matlab_readhdr::type_chck(std::complex<double> &) { return !is_single() && is_complex(); }
 
 #define fsm_define_methods(T) \
 bool vnl_matlab_readhdr::read_data(T &v) { \
-  if (!type_chck(v)) { vcl_cerr << "type_check\n"; return false; }\
-  if (rows()!=1U || cols()!=1U) { vcl_cerr << "size0\n"; return false; } \
+  if (!type_chck(v)) { std::cerr << "type_check\n"; return false; }\
+  if (rows()!=1U || cols()!=1U) { std::cerr << "size0\n"; return false; } \
   vnl_matlab_read_data(s, &v, 1); \
   if (need_swap) { \
     if (sizeof(v) == 4U) byteswap::swap32(&v); else byteswap::swap64(&v); \
@@ -181,8 +182,8 @@ bool vnl_matlab_readhdr::read_data(T &v) { \
   data_read = true; return *this; \
 } \
 bool vnl_matlab_readhdr::read_data(T *p) { \
-  if (!type_chck(p[0])) { vcl_cerr << "type_check\n"; return false; } \
-  if (rows()!=1U && cols()!=1U) { vcl_cerr << "size1\n"; return false; } \
+  if (!type_chck(p[0])) { std::cerr << "type_check\n"; return false; } \
+  if (rows()!=1U && cols()!=1U) { std::cerr << "size1\n"; return false; } \
   vnl_matlab_read_data(s, p, rows()*cols()); \
   if (need_swap) { \
     for (long i = 0; i < rows()*cols(); ++i) { \
@@ -192,7 +193,7 @@ bool vnl_matlab_readhdr::read_data(T *p) { \
   data_read = true; return *this; \
 } \
 bool vnl_matlab_readhdr::read_data(T * const *m) { \
-  if (!type_chck(m[0][0])) { vcl_cerr << "type_check\n"; return false; } \
+  if (!type_chck(m[0][0])) { std::cerr << "type_check\n"; return false; } \
   T *tmp = vnl_c_vector<T >::allocate_T(rows()*cols()); \
   vnl_matlab_read_data(s, tmp, rows()*cols()); \
   if (need_swap) { \
@@ -212,19 +213,19 @@ bool vnl_matlab_readhdr::read_data(T * const *m) { \
 
 fsm_define_methods(float);
 fsm_define_methods(double);
-fsm_define_methods(vcl_complex<float>);
-fsm_define_methods(vcl_complex<double>);
+fsm_define_methods(std::complex<float>);
+fsm_define_methods(std::complex<double>);
 #undef fsm_define_methods
 
 //--------------------------------------------------------------------------------
 
-#include <vcl_cstdlib.h>
+#include <vcl_compiler.h>
 #include <vcl_new.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 
 template <class T>
-bool vnl_matlab_read_or_die(vcl_istream &s,
+bool vnl_matlab_read_or_die(std::istream &s,
                             vnl_vector<T> &v,
                             char const *name)
 {
@@ -232,9 +233,9 @@ bool vnl_matlab_read_or_die(vcl_istream &s,
   if (!s) // eof?
     return false;
   if (name && *name) {
-    if (vcl_strcmp(name, h.name())!=0) { /*wrong name?*/
-      vcl_cerr << "vnl_matlab_read_or_die: names do not match\n";
-      vcl_abort();
+    if (std::strcmp(name, h.name())!=0) { /*wrong name?*/
+      std::cerr << "vnl_matlab_read_or_die: names do not match\n";
+      std::abort();
     }
   }
   if (v.size() != (unsigned long)(h.rows()*h.cols()))
@@ -243,14 +244,14 @@ bool vnl_matlab_read_or_die(vcl_istream &s,
     new (&v) vnl_vector<T>(h.rows()*h.cols());
   }
   if ( ! h.read_data(v.begin()) ) { /*wrong type?*/
-    vcl_cerr << "vnl_matlab_read_or_die: failed to read data\n";
-    vcl_abort();
+    std::cerr << "vnl_matlab_read_or_die: failed to read data\n";
+    std::abort();
   }
   return true;
 }
 
 template <class T>
-bool vnl_matlab_read_or_die(vcl_istream &s,
+bool vnl_matlab_read_or_die(std::istream &s,
                             vnl_matrix<T> &M,
                             char const *name)
 {
@@ -258,9 +259,9 @@ bool vnl_matlab_read_or_die(vcl_istream &s,
   if (!s) // eof?
     return false;
   if (name && *name) {
-    if (vcl_strcmp(name, h.name())!=0) { /*wrong name?*/
-      vcl_cerr << "vnl_matlab_read_or_die: names do not match\n";
-      vcl_abort();
+    if (std::strcmp(name, h.name())!=0) { /*wrong name?*/
+      std::cerr << "vnl_matlab_read_or_die: names do not match\n";
+      std::abort();
     }
   }
   if (M.rows() != (unsigned long)(h.rows()) || M.cols() != (unsigned long)(h.cols()))
@@ -269,15 +270,15 @@ bool vnl_matlab_read_or_die(vcl_istream &s,
     new (&M) vnl_matrix<T>(h.rows(), h.cols());
   }
   if ( ! h.read_data(M.data_array()) ) { /*wrong type?*/
-    vcl_cerr << "vnl_matlab_read_or_die: failed to read data\n";
-    vcl_abort();
+    std::cerr << "vnl_matlab_read_or_die: failed to read data\n";
+    std::abort();
   }
   return true;
 }
 
 #define inst(T) \
-template bool vnl_matlab_read_or_die(vcl_istream &, vnl_vector<T> &, char const *); \
-template bool vnl_matlab_read_or_die(vcl_istream &, vnl_matrix<T> &, char const *);
+template bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *); \
+template bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *);
 
 inst(double);
 inst(float);
