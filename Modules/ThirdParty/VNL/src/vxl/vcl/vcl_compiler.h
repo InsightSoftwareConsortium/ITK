@@ -478,13 +478,50 @@ typedef int saw_VCL_FOR_SCOPE_HACK;
 #define vcl_vprintf std::vprintf
 #define vcl_vsprintf std::vsprintf
 #define vcl_vfprintf std::vfprintf
+
+// Adapted from
+// http://stackoverflow.com/questions/2915672/snprintf-and-visual-studio-2010
+//
+// Microsoft has finally implemented snprintf in Visual Studio 2015. On earlier
+// versions you can simulate it as below.
+#if defined(_MSC_VER) && _MSC_VER < 1900
+#include <cstdarg>
+#include <stdio.h> //From Microsoft VS2008 documentation these are needed.
+#include <stdarg.h>
+__inline int c99_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap)
+{
+    int count = -1;
+
+    if (size != 0)
+        count = _vsnprintf_s(outBuf, size, _TRUNCATE, format, ap);
+    if (count == -1)
+        count = _vscprintf(format, ap);
+
+    return count;
+}
+
+__inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
+{
+    int count;
+    va_list ap;
+
+    va_start(ap, format);
+    count = c99_vsnprintf(outBuf, size, format, ap);
+    va_end(ap);
+
+    return count;
+}
+#else
 #define vcl_snprintf std::snprintf
+#endif
+
 #define vcl_scanf std::scanf
 #define vcl_sscanf std::sscanf
 #define vcl_fscanf std::fscanf
 #define vcl_vscanf std::vscanf
 #define vcl_vsscanf std::vsscanf
 #define vcl_vfscanf std::vfscanf
+
 #define vcl_div std::div
 #define vcl_labs std::labs
 #define vcl_ldiv std::ldiv
@@ -888,6 +925,36 @@ typedef int saw_VCL_FOR_SCOPE_HACK;
 #define vcl_indirect_array std::indirect_array
 #define vcl_vector std::vector
 
+#if __cplusplus >= 201103L
+#define vcl_bad_weak_ptr std::bad_weak_ptr
+#define vcl_shared_ptr std::shared_ptr
+#define vcl_static_pointer_cast std::static_pointer_cast
+#define vcl_dynamic_pointer_cast std::dynamic_pointer_cast
+#define vcl_const_pointer_cast std::const_pointer_cast
+#define vcl_get_deleter std::get_deleter
+#define vcl_weak_ptr std::weak_ptr
+#define vcl_enable_shared_from_this std::enable_shared_from_this
 #endif
+#if VCL_INCLUDE_CXX_0X
+// [20.6] lib.memory (additions in 0x draft: 2006-11-06)
+#include <tr1/memory>
+/* The following includes are needed to preserve backwards
+   compatilibility for external applications.  Previously
+   definitions were defined in multiple headers with conditional
+   ifndef guards, but we now include a reference header
+   instead */
+//no dependancies remove comment above
+//vcl alias names to std names
+#define vcl_bad_weak_ptr std::tr1::bad_weak_ptr
+#define vcl_shared_ptr std::tr1::shared_ptr
+#define vcl_static_pointer_cast std::tr1::static_pointer_cast
+#define vcl_dynamic_pointer_cast std::tr1::dynamic_pointer_cast
+#define vcl_const_pointer_cast std::tr1::const_pointer_cast
+#define vcl_get_deleter std::tr1::get_deleter
+#define vcl_weak_ptr std::tr1::weak_ptr
+#define vcl_enable_shared_from_this std::tr1::enable_shared_from_this
+#endif //VCL_INCLUDE_CXX_0X
+
+#endif //VXL_LEGACY_FUTURE_REMOVE
 
 #endif // vcl_compiler_h_
