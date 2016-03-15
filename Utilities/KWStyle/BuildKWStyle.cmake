@@ -8,11 +8,18 @@ if(CMAKE_BUILD_TYPE)
   set(_build_configuration_arg -DCMAKE_BUILD_TYPE=Release)
 endif()
 
-configure_file("${ITK_SOURCE_DIR}/CMake/ITKKWStyleConfig.cmake.in"
+configure_file("${ITK_CMAKE_DIR}/ITKKWStyleConfig.cmake.in"
                "${CMAKE_CURRENT_BINARY_DIR}/ITKKWStyleConfig.cmake" @ONLY)
 
-itk_download_attempt_check(KWStyle)
+# XXX Implementation of the itk_download_attempt_check macro copied from the
+#     ITK main CMakeLists.txt. This allows external modules to use the logic
+#     which is not defined when building against an ITK build tree.
+#     Equivalent to "itk_download_attempt_check(KWStyle)".
+if(ITK_FORBID_DOWNLOADS)
+  message(SEND_ERROR "Attempted to download KWStyle when ITK_FORBID_DOWNLOADS is ON")
+endif()
 
+if(NOT TARGET KWStyle)
 ExternalProject_add(KWStyle
   GIT_REPOSITORY "${git_protocol}://github.com/Kitware/KWStyle.git"
   GIT_TAG ef373a1ece313e9d096948e639bfb575f052f581
@@ -40,3 +47,4 @@ ExternalProject_add(KWStyle
     -DBUILD_TESTING:BOOL=OFF
   INSTALL_COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/ITKKWStyleConfig.cmake
   )
+endif()
