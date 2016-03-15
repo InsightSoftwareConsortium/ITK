@@ -19,35 +19,47 @@
 
 namespace itk
 {
-const bool NumericTraits< bool >:: Zero = false;
-const bool NumericTraits< bool >:: One = true;
 
-const unsigned char NumericTraits< unsigned char >:: Zero = 0;
-const unsigned char NumericTraits< unsigned char >:: One = 1;
+// If not C++11, then no constexpr and declaration is needed
+#if !(__cplusplus >= 201103L)
 
-const signed char NumericTraits< signed char >:: Zero = 0;
-const signed char NumericTraits< signed char >:: One = 1;
+const bool NumericTraits< bool >:: Zero;
+const bool NumericTraits< bool >:: One;
 
-const char NumericTraits< char >:: Zero = 0;
-const char NumericTraits< char >:: One = 1;
+const unsigned char NumericTraits< unsigned char >:: Zero;
+const unsigned char NumericTraits< unsigned char >:: One;
 
-const unsigned short NumericTraits< unsigned short >:: Zero = 0;
-const unsigned short NumericTraits< unsigned short >:: One = 1;
+const signed char NumericTraits< signed char >:: Zero;
+const signed char NumericTraits< signed char >:: One;
 
-const short NumericTraits< short >:: Zero = 0;
-const short NumericTraits< short >:: One = 1;
+const char NumericTraits< char >:: Zero;
+const char NumericTraits< char >:: One;
 
-const unsigned int NumericTraits< unsigned int >:: Zero = 0;
-const unsigned int NumericTraits< unsigned int >:: One = 1;
+const unsigned short NumericTraits< unsigned short >:: Zero;
+const unsigned short NumericTraits< unsigned short >:: One;
 
-const int NumericTraits< int >:: Zero = 0;
-const int NumericTraits< int >:: One = 1;
+const short NumericTraits< short >:: Zero;
+const short NumericTraits< short >:: One;
 
-const unsigned long NumericTraits< unsigned long >:: Zero = 0UL;
-const unsigned long NumericTraits< unsigned long >:: One = 1UL;
+const unsigned int NumericTraits< unsigned int >:: Zero;
+const unsigned int NumericTraits< unsigned int >:: One;
 
-const long NumericTraits< long >:: Zero = 0L;
-const long NumericTraits< long >:: One = 1L;
+const int NumericTraits< int >:: Zero;
+const int NumericTraits< int >:: One;
+
+const unsigned long NumericTraits< unsigned long >:: Zero;
+const unsigned long NumericTraits< unsigned long >:: One;
+
+const long NumericTraits< long >:: Zero;
+const long NumericTraits< long >:: One;
+
+const long long NumericTraits< long long >:: Zero;
+const long long NumericTraits< long long >:: One;
+
+const unsigned long long NumericTraits< unsigned long long >:: Zero;
+const unsigned long long NumericTraits< unsigned long long >:: One;
+
+#endif
 
 const float NumericTraits< float >:: Zero = 0.0F;
 const float NumericTraits< float >:: One = 1.0F;
@@ -91,9 +103,4 @@ const std::complex< double >  NumericTraits< std::complex< double > >:: One  = s
 const std::complex< long double >  NumericTraits< std::complex< long double > >:: Zero = std::complex< long double >(0.0, 0.0);
 const std::complex< long double >  NumericTraits< std::complex< long double > >:: One  = std::complex< long double >(1.0, 0.0);
 
-const long long NumericTraits< long long >:: Zero = 0LL;
-const long long NumericTraits< long long >:: One = 1LL;
-
-const unsigned long long NumericTraits< unsigned long long >:: Zero = 0ULL;
-const unsigned long long NumericTraits< unsigned long long >:: One = 1ULL;
 } // end namespace itk
