@@ -486,6 +486,8 @@ typedef int saw_VCL_FOR_SCOPE_HACK;
 // versions you can simulate it as below.
 #if defined(_MSC_VER) && _MSC_VER < 1900
 #include <cstdarg>
+#include <stdio.h> //From Microsoft VS2008 documentation these are needed.
+#include <stdarg.h>
 __inline int c99_vsnprintf(char *outBuf, size_t size, const char *format, va_list ap)
 {
     int count = -1;
