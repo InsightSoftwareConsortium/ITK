@@ -59,8 +59,6 @@ const long long NumericTraits< long long >:: One;
 const unsigned long long NumericTraits< unsigned long long >:: Zero;
 const unsigned long long NumericTraits< unsigned long long >:: One;
 
-#endif
-
 const float NumericTraits< float >:: Zero = 0.0F;
 const float NumericTraits< float >:: One = 1.0F;
 
@@ -69,6 +67,8 @@ const double NumericTraits< double >:: One = 1.0;
 
 const long double NumericTraits< long double >:: Zero = 0.0;
 const long double NumericTraits< long double >:: One = 1.0;
+
+#endif
 
 const std::complex< char >  NumericTraits< std::complex< char > >:: Zero = std::complex< char >(0, 0);
 const std::complex< char >  NumericTraits< std::complex< char > >:: One  = std::complex< char >(1, 0);
