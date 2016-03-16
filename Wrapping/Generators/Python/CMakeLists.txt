@@ -544,12 +544,6 @@ macro(itk_wrap_one_type_python wrap_method wrap_class swig_name template_params)
   if(NOT "${wrap_class}" STREQUAL "MetaEvent" AND NOT "${wrap_method}" MATCHES "ENUM")
     ADD_PYTHON_CONFIG_TEMPLATE("${base_name}" "${wrap_class}" "${swig_name}" "${template_params}")
   endif()
-
-  # std::complex and vcl_complex are the same classes, but python don't know that
-  if("${wrap_class}" STREQUAL "vcl_complex")
-    ADD_PYTHON_CONFIG_TEMPLATE("complex" "std::complex" "${swig_name}" "${template_params}")
-  endif()
-
 endmacro()
 
 
@@ -654,8 +648,8 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
 
   # and now, generate the typemaps and other customizations
 
-  if("${cpp_name}" STREQUAL "vcl_complex")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_VCL_COMPLEX_CLASS(${swig_name})\n")
+  if("${cpp_name}" STREQUAL "std::complex")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_STD_COMPLEX_CLASS(${swig_name})\n")
   endif()
 
   if("${swig_name}" STREQUAL "itkLightObject")
