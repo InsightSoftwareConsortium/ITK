@@ -28,6 +28,9 @@
 #include <utility>
 #include <algorithm>
 #include <queue>
+#include <thread>
+#include <future>
+#include <chrono>
 
 // DEBUG
 #include <iostream>
@@ -43,6 +46,7 @@ WriteDebug(typename TImage::Pointer out, const char * filename)
   return; // tests run much faster
   typedef ImageFileWriter<TImage> WriterType;
   typename WriterType::Pointer    w = WriterType::New();
+  w->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   w->SetInput(out);
   w->SetFileName(filename);
   try
@@ -62,6 +66,7 @@ WriteDebug(Image<bool, 3>::Pointer out, const char * filename)
   typedef Image<unsigned char, 3>                        ucharImageType;
   typedef CastImageFilter<BoolImageType, ucharImageType> CastType;
   CastType::Pointer                                      caster = CastType::New();
+  caster->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   caster->SetInput(out);
   WriteDebug<ucharImageType>(caster->GetOutput(), filename);
 }
@@ -104,10 +109,6 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   m_MaxAlignIters(256)
   , m_LabeledSlices(TImage::ImageDimension) // initialize with empty sets
 {
-  m_Or = OrType::New();
-  m_Dilator = DilateType::New(); // structuring element in InterpolateAlong
-  m_And = AndFilterType::New();
-
   // set up pipeline for regioned connected components
   m_RoI = RoiType::New();
   m_Binarizer = BinarizerType::New();
@@ -306,8 +307,23 @@ MorphologicalContourInterpolator<TImage>::Extrapolate(int                       
 template <typename TImage>
 typename MorphologicalContourInterpolator<TImage>::BoolImageType::Pointer
 MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolImageType::Pointer seed,
-                                                  typename BoolImageType::Pointer mask)
+                                                  typename BoolImageType::Pointer mask,
+                                                  int                             axis)
 {
+  thread_local typename DilateType::Pointer m_Dilator = DilateType::New();
+  m_Dilator->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
+  // set up structuring element for dilation
+  typedef Size<TImage::ImageDimension> SizeType;
+  SizeType                             size;
+  size.Fill(1);
+  size[axis] = 0;
+  thread_local StructuringElementType m_StructuringElement;
+  m_StructuringElement.SetRadius(size);
+  m_StructuringElement.CreateStructuringElement();
+  m_Dilator->SetKernel(m_StructuringElement);
+
+  thread_local typename AndFilterType::Pointer m_And = AndFilterType::New();
+  m_And->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   m_Dilator->SetInput(seed);
   m_Dilator->GetOutput()->SetRegions(seed->GetRequestedRegion());
   m_Dilator->Update();
@@ -331,7 +347,8 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolImageType::Pointe
 template <typename TImage>
 std::vector<typename MorphologicalContourInterpolator<TImage>::BoolImageType::Pointer>
 MorphologicalContourInterpolator<TImage>::GenerateDilationSequence(typename BoolImageType::Pointer begin,
-                                                                   typename BoolImageType::Pointer end)
+                                                                   typename BoolImageType::Pointer end,
+                                                                   int                             axis)
 {
   // typedef Testing::HashImageFilter<BoolImageType> HashType;
   // HashType::Pointer hasher = HashType::New();
@@ -339,11 +356,11 @@ MorphologicalContourInterpolator<TImage>::GenerateDilationSequence(typename Bool
   // std::vector<std::string> hashes;
   // TODO: optimization: replace ImagesEqual call with hash comparison?
   std::vector<typename BoolImageType::Pointer> seq;
-  seq.push_back(Dilate1(begin, end));
+  seq.push_back(Dilate1(begin, end, axis));
   do
   {
     seq.back()->DisconnectPipeline();
-    seq.push_back(Dilate1(seq.back(), end));
+    seq.push_back(Dilate1(seq.back(), end, axis));
   } while (!ImagesEqual<BoolImageType>(seq.back(), seq[seq.size() - 2]));
   seq.pop_back(); // remove duplicate image
   return seq;
@@ -415,6 +432,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   MatchesID                                                         matchesIDj(jRegionId);
   typedef UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
   typename CastType::Pointer                                        caster = CastType::New();
+  caster->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   caster->SetFunctor(matchesIDi);
   caster->SetInput(iConnT);
   caster->Update();
@@ -427,6 +445,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   jMask->DisconnectPipeline();
 
   // generate sequence
+  thread_local typename AndFilterType::Pointer m_And = AndFilterType::New();
+  m_And->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   WriteDebug(iMask, "C:\\iMask.nrrd");
   WriteDebug(jMask, "C:\\jMask.nrrd");
   m_And->SetInput(0, iMask);
@@ -436,14 +456,16 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   typename BoolImageType::Pointer intersection = m_And->GetOutput();
   intersection->DisconnectPipeline();
   WriteDebug(intersection, "C:\\intersection.nrrd");
-  std::vector<typename BoolImageType::Pointer> iSeq = GenerateDilationSequence(intersection, iMask);
-  std::vector<typename BoolImageType::Pointer> jSeq = GenerateDilationSequence(intersection, jMask);
+  std::vector<typename BoolImageType::Pointer> iSeq = GenerateDilationSequence(intersection, iMask, axis);
+  std::vector<typename BoolImageType::Pointer> jSeq = GenerateDilationSequence(intersection, jMask, axis);
   std::reverse(iSeq.begin(), iSeq.end()); // we want to start from i and end at intersection
   if (iSeq.size() < jSeq.size())
   {
     iSeq.swap(jSeq); // swap so iSeq.size() >= jSeq.size()
   }
-  float                                        ratio = float(jSeq.size()) / iSeq.size();
+  float                                 ratio = float(jSeq.size()) / iSeq.size();
+  thread_local typename OrType::Pointer m_Or = OrType::New();
+  m_Or->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   std::vector<typename BoolImageType::Pointer> seq;
   for (unsigned x = 0; x < iSeq.size(); x++)
   {
@@ -500,6 +522,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   {
     typedef CastImageFilter<BoolImageType, TImage> InvertCastType;
     typename InvertCastType::Pointer               invCaster = InvertCastType::New();
+    invCaster->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
     invCaster->SetInput(seq[minIndex]);
     invCaster->Update();
     typename TImage::Pointer midConn = invCaster->GetOutput();
@@ -542,6 +565,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
 
   typedef UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
   typename CastType::Pointer                                        caster = CastType::New();
+  caster->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   caster->SetFunctor(matchesID);
   caster->SetInput(iConn);
   caster->Update();
@@ -612,7 +636,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
   {
     for (unsigned x = 0; x < jRegionIds.size(); x++)
     {
-      blobs[x] = Dilate1(blobs[x], mask);
+      blobs[x] = Dilate1(blobs[x], mask, axis);
       WriteDebug(blobs[x], (std::string("C:\\blob") + char('0' + x) + ".nrrd").c_str());
       blobs[x]->DisconnectPipeline();
       // TODO: save these in a sequence so we don't have to recalculate it!
@@ -968,37 +992,15 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
                                                                 TImage *                        out,
                                                                 typename TImage::PixelType      label,
                                                                 typename TImage::IndexValueType i,
-                                                                typename TImage::IndexValueType j)
+                                                                typename TImage::IndexValueType j,
+                                                                typename TImage::Pointer        iconn,
+                                                                typename TImage::Pointer        jconn)
 {
-  if (i > j)
-  {
-    std::swap(i, j);
-  }
-  if (i == j || i + 1 == j)
-  {
-    return; // nothing to do
-  }
-
-  // determine inter-slice region correspondences
-  typename TImage::RegionType ri;
-  ri = m_BoundingBoxes[label];
-  ri.SetSize(axis, 1);
-  ri.SetIndex(axis, i);
-  typename TImage::RegionType rj = ri;
-  rj.SetIndex(axis, j);
-
-  // execute connected components
-  IdentifierType           iCount, jCount;
-  typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, label, iCount);
-  iconn->DisconnectPipeline();
-  typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, label, jCount);
-  jconn->DisconnectPipeline();
-  WriteDebug<TImage>(iconn, "C:\\iconn.nrrd");
-  WriteDebug<TImage>(jconn, "C:\\jconn.nrrd");
-
   // go through comparison image and create correspondence pairs
   typedef std::set<std::pair<typename TImage::PixelType, typename TImage::PixelType>> PairSet;
   PairSet                          pairs, unwantedPairs, uncleanPairs;
+  typename TImage::RegionType      ri = iconn->GetRequestedRegion();
+  typename TImage::RegionType      rj = jconn->GetRequestedRegion();
   ImageRegionConstIterator<TImage> iti(iconn, ri);
   ImageRegionConstIterator<TImage> itj(jconn, rj);
   while (!iti.IsAtEnd())
@@ -1184,18 +1186,54 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
 } // void MorphologicalContourInterpolator::InterpolateBetweenTwo()
 
 
+// a crude way to limit the number of threads to number of cores
+void
+join1(std::list<std::future<void>> & threads, int slack = std::thread::hardware_concurrency())
+{
+  auto it = threads.begin();
+  int  count = 0;
+  auto zeroDuration = std::chrono::microseconds(0);
+  auto sleepDuration = std::chrono::microseconds(100);
+  while (it != threads.end())
+  {
+    if (it->wait_for(zeroDuration) == std::future_status::ready)
+    {
+      threads.erase(it);
+      return;
+    }
+    else
+    {
+      ++it; // check next
+      count++;
+    }
+  }
+
+  if (count > slack) // we really need to wait
+  {
+    do
+    {
+      std::this_thread::sleep_for(sleepDuration);
+      it = threads.begin();
+      while (it != threads.end())
+      {
+        if (it->wait_for(zeroDuration) == std::future_status::ready)
+        {
+          threads.erase(it);
+          return;
+        }
+        ++it;
+      }
+    } while (true);
+  }
+}
+
 template <typename TImage>
 void
 MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * out)
 {
-  // set up structuring element for dilation
-  typedef Size<TImage::ImageDimension> SizeType;
-  SizeType                             size;
-  size.Fill(1);
-  size[axis] = 0;
-  m_StructuringElement.SetRadius(size);
-  m_StructuringElement.CreateStructuringElement();
-  m_Dilator->SetKernel(m_StructuringElement);
+  // do multithreading by paralellizing for different labels
+  // and different inter-slice segments [C++11 threads]
+  std::list<std::future<void>> threadResults;
 
   for (typename LabeledSlicesType::iterator it = m_LabeledSlices[axis].begin(); it != m_LabeledSlices[axis].end(); ++it)
   {
@@ -1204,16 +1242,52 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
       typename SliceSetType::iterator prev = it->second.begin();
       if (prev == it->second.end())
       {
-        return; // nothing to do
+        continue; // nothing to do for this label
       }
+
+      typename TImage::RegionType ri;
+      ri = m_BoundingBoxes[it->first];
+      ri.SetSize(axis, 1);
+      ri.SetIndex(axis, *prev);
+      IdentifierType           xCount;
+      typename TImage::Pointer iconn = this->RegionedConnectedComponents(ri, it->first, xCount);
+      iconn->DisconnectPipeline();
+
       typename SliceSetType::iterator next = it->second.begin();
       for (++next; next != it->second.end(); ++next)
       {
-        InterpolateBetweenTwo(axis, out, it->first, *prev, *next);
+        typename TImage::RegionType rj = ri;
+        rj.SetIndex(axis, *next);
+        typename TImage::Pointer jconn = this->RegionedConnectedComponents(rj, it->first, xCount);
+        jconn->DisconnectPipeline();
+
+        WriteDebug<TImage>(iconn, "C:\\iconn.nrrd");
+        WriteDebug<TImage>(jconn, "C:\\jconn.nrrd");
+
+        if (*prev + 1 < *next) // only if they are not adjacent slices
+        {
+          threadResults.push_back(std::async(std::launch::async,
+                                             &MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo,
+                                             this,
+                                             axis,
+                                             out,
+                                             it->first,
+                                             *prev,
+                                             *next,
+                                             iconn,
+                                             jconn));
+          join1(threadResults); // wait for one thread to finish
+          // in case there is more threads than processing cores
+          // InterpolateBetweenTwo(axis, out, it->first, *prev, *next, iconn, jconn); //sequential
+        }
+        iconn = jconn;
         prev = next;
       }
     }
   }
+
+  // wait for leftover threads
+  join1(threadResults, 0);
 }
 
 
