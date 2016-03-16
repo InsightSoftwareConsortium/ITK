@@ -76,7 +76,7 @@ MultipleValuedVnlCostFunctionAdaptor
     }
   else
     {
-    parameters.SetData( const_cast< double * >( inparameters.data_block() ) );
+    parameters.SetDataSameSize( const_cast< double * >( inparameters.data_block() ), false );
     }
 
   measures = this->m_CostFunction->GetValue(parameters);
@@ -114,7 +114,7 @@ MultipleValuedVnlCostFunctionAdaptor
     }
   else
     {
-    parameters.SetData( const_cast< double * >( inparameters.data_block() ) );
+    parameters.SetDataSameSize( const_cast< double * >( inparameters.data_block() ), false );
     }
 
   this->m_CostFunction->GetDerivative(parameters, externalGradient);
@@ -142,7 +142,7 @@ MultipleValuedVnlCostFunctionAdaptor
     }
   else
     {
-    parameters.SetData( const_cast< double * >( x.data_block() ) );
+    parameters.SetDataSameSize( const_cast< double * >( x.data_block() ), false );
     }
 
   *ff = static_cast< InternalMeasureType >(

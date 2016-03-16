@@ -58,7 +58,7 @@ SingleValuedVnlCostFunctionAdaptorv4
     }
   else
     {
-    parameters.SetData( const_cast< double * >( inparameters.data_block() ) );
+    parameters.SetDataSameSize( const_cast< double * >( inparameters.data_block() ), false );
     }
 
   this->m_ObjectMetric->SetParameters( parameters );
@@ -92,7 +92,7 @@ SingleValuedVnlCostFunctionAdaptorv4
     }
   else
     {
-    parameters.SetData( const_cast< double * >( inparameters.data_block() ) );
+    parameters.SetDataSameSize( const_cast< double * >( inparameters.data_block() ), false );
     }
 
   // Delegate computation of the gradient to the ObjectMetric
@@ -125,7 +125,7 @@ SingleValuedVnlCostFunctionAdaptorv4
     }
   else
     {
-    parameters.SetData( const_cast< double * >( x.data_block() ) );
+    parameters.SetDataSameSize( const_cast< double * >( x.data_block() ), false );
     }
 
   this->m_ObjectMetric->SetParameters( parameters );
