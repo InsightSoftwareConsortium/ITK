@@ -219,6 +219,8 @@ public:
     // is zero, the region is not valid and we set the EndOffset
     // to be same as BeginOffset so that iterator end condition is met
     // immediately.
+    IndexType ind( m_Region.GetIndex() );
+    SizeType  size( m_Region.GetSize() );
     if ( m_Region.GetNumberOfPixels() == 0 )
       {
       // region is empty, probably has a size of 0 along one dimension
@@ -226,8 +228,6 @@ public:
       }
     else
       {
-      IndexType ind( m_Region.GetIndex() );
-      SizeType  size( m_Region.GetSize() );
       for ( unsigned int i = 0; i < TImage::ImageDimension; ++i )
         {
         ind[i] += ( static_cast< IndexValueType >( size[i] ) - 1 );
