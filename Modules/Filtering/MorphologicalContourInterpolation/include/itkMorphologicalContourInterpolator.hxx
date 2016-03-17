@@ -106,6 +106,7 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   , m_Axis(-1)
   , m_HeuristicAlignment(true)
   , m_UseDistanceTransform(true)
+  , m_ThreadPool(nullptr)
   , m_MinAlignIters(10)
   , // smaller of this and max pixel count of the search image
   m_MaxAlignIters(256)
@@ -1233,54 +1234,13 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
 } // void MorphologicalContourInterpolator::InterpolateBetweenTwo()
 
 
-// a crude way to limit the number of threads to number of cores
-void
-join1(std::list<std::future<void>> & threads, int slack = std::thread::hardware_concurrency())
-{
-  auto it = threads.begin();
-  int  count = 0;
-  auto zeroDuration = std::chrono::microseconds(0);
-  auto sleepDuration = std::chrono::microseconds(100);
-  while (it != threads.end())
-  {
-    if (it->wait_for(zeroDuration) == std::future_status::ready)
-    {
-      threads.erase(it);
-      return;
-    }
-    else
-    {
-      ++it; // check next
-      count++;
-    }
-  }
-
-  if (count > slack) // we really need to wait
-  {
-    do
-    {
-      std::this_thread::sleep_for(sleepDuration);
-      it = threads.begin();
-      while (it != threads.end())
-      {
-        if (it->wait_for(zeroDuration) == std::future_status::ready)
-        {
-          threads.erase(it);
-          return;
-        }
-        ++it;
-      }
-    } while (true);
-  }
-}
-
 template <typename TImage>
 void
 MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * out)
 {
   // do multithreading by paralellizing for different labels
-  // and different inter-slice segments [C++11 threads]
-  std::list<std::future<void>> threadResults;
+  // and different inter-slice segments [thread pool of C++11 threads]
+  m_ThreadPool = new ::ThreadPool(std::thread::hardware_concurrency());
 
   for (typename LabeledSlicesType::iterator it = m_LabeledSlices[axis].begin(); it != m_LabeledSlices[axis].end(); ++it)
   {
@@ -1313,18 +1273,15 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
 
         if (*prev + 1 < *next) // only if they are not adjacent slices
         {
-          threadResults.push_back(std::async(std::launch::async,
-                                             &MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo,
-                                             this,
-                                             axis,
-                                             out,
-                                             it->first,
-                                             *prev,
-                                             *next,
-                                             iconn,
-                                             jconn));
-          join1(threadResults); // wait for one thread to finish
-          // in case there is more threads than processing cores
+          m_ThreadPool->enqueue(&MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo,
+                                this,
+                                axis,
+                                out,
+                                it->first,
+                                *prev,
+                                *next,
+                                iconn,
+                                jconn);
           // InterpolateBetweenTwo(axis, out, it->first, *prev, *next, iconn, jconn); //sequential
         }
         iconn = jconn;
@@ -1333,8 +1290,9 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
     }
   }
 
-  // wait for leftover threads
-  join1(threadResults, 0);
+  // wait for leftover threads by invoking destructor
+  delete m_ThreadPool;
+  m_ThreadPool = nullptr;
 }
 
 

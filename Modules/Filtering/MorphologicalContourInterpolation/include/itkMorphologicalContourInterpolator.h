@@ -28,6 +28,7 @@
 #include "itkBinaryBallStructuringElement.h"
 #include "itkAndImageFilter.h"
 #include "itkOrImageFilter.h"
+#include "ThreadPool.h"
 
 
 namespace itk
@@ -101,6 +102,7 @@ protected:
   bool                       m_UseDistanceTransform;
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
+  ::ThreadPool *             m_ThreadPool;    // avoid name conflict
 
   // grafted input and output to prevent unnecessary pipeline modification checks
   typename TImage::Pointer m_Input;
