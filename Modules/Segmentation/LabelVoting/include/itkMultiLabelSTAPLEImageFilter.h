@@ -261,7 +261,7 @@ public:
 
   /** Get confusion matrix for the i-th input segmentation.
     */
-  const ConfusionMatrixType & GetConfusionMatrix( const unsigned int i ) const
+  ConfusionMatrixType GetConfusionMatrix( const unsigned int i ) const
   {
     return this->m_ConfusionMatrixArray[i];
   }
