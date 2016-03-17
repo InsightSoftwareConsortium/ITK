@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkMorphologicalContourInterpolator.h"
 #include <cstdlib>
+#include <string>
 
 long int
 string2int(char * number)
@@ -34,7 +35,8 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " inputImage outputImage [axis] [label]\n";
+    std::cerr << " inputImage outputImage [algo] [axis] [label]\n";
+    std::cerr << " algo: RD (repeated dilations ) or DT (distance transform [default])";
     std::cerr << " defaults: axis == -1 (all axes), label == 0 (all labels)";
     std::cerr << std::endl;
     return EXIT_FAILURE;
@@ -55,11 +57,20 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   mci->SetInput(reader->GetOutput());
   if (argc >= 4)
   {
-    mci->SetAxis(strtol(argv[3], NULL, 10));
+    std::string algo = argv[3];
+    for (auto & c : algo)
+    {
+      c = toupper(c);
+    }
+    mci->SetUseDistanceTransform(algo != "RD");
   }
   if (argc >= 5)
   {
-    mci->SetLabel(strtol(argv[4], NULL, 10));
+    mci->SetAxis(strtol(argv[4], NULL, 10));
+  }
+  if (argc >= 6)
+  {
+    mci->SetLabel(strtol(argv[5], NULL, 10));
   }
 
   typedef itk::ImageFileWriter<ImageType> WriterType;

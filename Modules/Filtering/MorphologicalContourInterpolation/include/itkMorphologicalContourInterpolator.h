@@ -76,6 +76,18 @@ public:
   itkGetConstMacro(HeuristicAlignment, bool);
 
 
+  /** Using distance transform instead of repeated dilations to calculate median contour is faster.
+   *   Default is to use distance transform. */
+  itkSetMacro(UseDistanceTransform, bool);
+
+  /** Using distance transform instead of repeated dilations to calculate median contour is faster.
+   *   Default is to use distance transform. */
+  itkGetMacro(UseDistanceTransform, bool);
+
+  /** Using distance transform instead of repeated dilations to calculate median contour is faster.
+   *   Default is to use distance transform. */
+  itkGetConstMacro(UseDistanceTransform, bool);
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MorphologicalContourInterpolator, ImageToImageFilter);
 
@@ -86,6 +98,7 @@ protected:
   typename TImage::PixelType m_Label;
   int                        m_Axis;
   bool                       m_HeuristicAlignment;
+  bool                       m_UseDistanceTransform;
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
 
@@ -137,6 +150,14 @@ protected:
   begin and end must cover the same region (size and index the same) */
   std::vector<typename BoolImageType::Pointer>
   GenerateDilationSequence(typename BoolImageType::Pointer begin, typename BoolImageType::Pointer end, int axis);
+
+  /** Finds an interpolating mask for these two aligned masks */
+  typename BoolImageType::Pointer
+  FindMedianImageDilations(int axis, typename BoolImageType::Pointer iMask, typename BoolImageType::Pointer jMask);
+
+  /** Finds an interpolating mask for these two aligned masks */
+  typename BoolImageType::Pointer
+  FindMedianImageDistances(int axis, typename BoolImageType::Pointer iMask, typename BoolImageType::Pointer jMask);
 
   /** Build transition sequence and pick the median */
   void

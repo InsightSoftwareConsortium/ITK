@@ -10,6 +10,7 @@ itk_module(
     ITKCommon
     ITKBinaryMathematicalMorphology
     ITKIOImageBase # typename
+    ITKDistanceMap
   TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
