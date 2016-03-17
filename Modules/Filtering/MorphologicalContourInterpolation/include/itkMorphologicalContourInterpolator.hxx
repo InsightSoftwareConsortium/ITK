@@ -115,6 +115,8 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   m_Binarizer->SetInput(m_RoI->GetOutput());
   m_ConnectedComponents = ConnectedComponentsType::New();
   m_ConnectedComponents->SetInput(m_Binarizer->GetOutput());
+  // FullyConnected is related to structuring element used
+  // true for ball, false for cross
   m_ConnectedComponents->SetFullyConnected(true);
 }
 
