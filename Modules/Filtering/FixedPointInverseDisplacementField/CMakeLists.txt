@@ -2,6 +2,8 @@
 if(COMMAND CMAKE_POLICY)
 endif()
 
+project(ITKUtils)
+
 # Find ITK.
 find_package(ITK REQUIRED)
 include(${ITK_USE_FILE})
