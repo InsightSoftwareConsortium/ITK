@@ -102,33 +102,20 @@ Array< TValue >
     }
 }
 
-/** Set the pointer from which the data is imported.
- * If "LetArrayManageMemory" is false, then the application retains
- * the responsibility of freeing the memory for this data.  If
- * "LetArrayManageMemory" is true, then this class will free the
- * memory when this object is destroyed. */
 template< typename TValue >
 void
 Array< TValue >
-::SetData(TValue *datain, bool LetArrayManageMemory)
+::SetDataSameSize(TValue *datain, bool LetArrayManageMemory)
 {
   if ( m_LetArrayManageMemory )
     {
     vnl_vector< TValue >::destroy();
     }
   vnl_vector< TValue >::data = datain;
+  // NOTE: Required to have same size vnl_vector< TValue >::num_elmts = sz;
   m_LetArrayManageMemory = LetArrayManageMemory;
 }
 
-/** Similar to the previous method. In the above method, the size must be
- * separately set prior to using user-supplied data. This introduces an
- * unnecessary allocation step to be performed. This method avoids it
- * and should be used to import data wherever possible to avoid this.
- * Set the pointer from which the data is imported.
- * If "LetArrayManageMemory" is false, then the application retains
- * the responsibility of freeing the memory for this data.  If
- * "LetArrayManageMemory" is true, then this class will free the
- * memory when this object is destroyed. */
 template< typename TValue >
 void
 Array< TValue >
