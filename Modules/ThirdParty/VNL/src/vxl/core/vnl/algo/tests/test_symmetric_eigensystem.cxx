@@ -14,7 +14,7 @@
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_3.h>
 #include <vnl/vnl_random.h>
-#include <vul/vul_timer.h>
+#include <vcl_ctime.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
 
@@ -99,18 +99,17 @@ void test_symmetric_eigensystem()
   }
 
   { // compare speed and values of specialised 3x3 version with nxn version
-    vul_timer timer;
-    int netlib_time, fixed_time;
     const unsigned n = 20000;
     double fixed_data[n][3];
     double netlib_data[n][3];
 
+    int fixed_time;
     {
       double M11, M12, M13, M22, M23, M33;
       // Generate a random system
       vnl_random rng(5);
 
-      timer.mark();
+      const vcl_clock_t timer_01 = vcl_clock();
       for (unsigned c = 0; c < n; ++c)
       {
         M11 = rng.drand64()*10.0-5.0; M12 = rng.drand64()*10.0-5.0; M13 = rng.drand64()*10.0-5.0;
@@ -119,16 +118,18 @@ void test_symmetric_eigensystem()
         vnl_symmetric_eigensystem_compute_eigenvals(M11, M12, M13, M22, M23, M33,
                                                     fixed_data[c][0], fixed_data[c][1], fixed_data[c][2]);
       }
-      fixed_time = timer.user();
+      const vcl_clock_t timer_02 = vcl_clock();
+      fixed_time = ( timer_02 - timer_01)/ (CLOCKS_PER_SEC/1000);
     }
 
+    int netlib_time;
     {
       // Generate same random system
       vnl_random rng(5);
       vnl_double_3x3 M, evecs;
       vnl_double_3 evals;
 
-      timer.mark();
+      const vcl_clock_t timer_03 = vcl_clock();
       for (unsigned c = 0; c < n; ++c)
       {
         M(0,0)=rng.drand64()*10.0-5.0; M(1,0)=M(0,1)=rng.drand64()*10.0-5.0; M(2,0)=M(0,2)= rng.drand64()*10.0-5.0;
@@ -140,7 +141,8 @@ void test_symmetric_eigensystem()
         netlib_data[c][1] = evals[1];
         netlib_data[c][2] = evals[2];
       }
-      netlib_time = timer.user();
+      const vcl_clock_t timer_04 = vcl_clock();
+      netlib_time = ( timer_04 - timer_03)/ (CLOCKS_PER_SEC/1000);
     }
 
     vcl_cout << "Fixed Time: " << fixed_time << "   netlib time: " <<netlib_time<<vcl_endl;

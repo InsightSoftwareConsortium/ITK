@@ -34,14 +34,14 @@ static doublecomplex c_b5 = {1.,0.};
     /* Local variables */
     integer j, knt;
     doublereal beta, alphi, alphr;
-    extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
+    extern /* Subroutine */ int zscal_(integer *, doublecomplex *,
             doublecomplex *, integer *);
     doublereal xnorm;
-    extern doublereal dlapy3_(doublereal *, doublereal *, doublereal *), 
-            dznrm2_(integer *, doublecomplex *, integer *), dlamch_(char *, 
+    extern doublereal dlapy3_(doublereal *, doublereal *, doublereal *),
+            dznrm2_(integer *, doublecomplex *, integer *), dlamch_(char *,
             ftnlen);
     doublereal safmin;
-    extern /* Subroutine */ int zdscal_(integer *, doublereal *, 
+    extern /* Subroutine */ int zdscal_(integer *, doublereal *,
             doublecomplex *, integer *);
     doublereal rsafmn;
     extern /* Double Complex */ VOID zladiv_(doublecomplex *, doublecomplex *,

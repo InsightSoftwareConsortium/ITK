@@ -29,7 +29,7 @@
 
 namespace itk
 {
-static const char GE_PROD_STR[] = "SIGNA";
+static ITK_CONSTEXPR char GE_PROD_STR[] = "SIGNA";
 // Default constructor
 GE5ImageIO::GE5ImageIO()
 {}

@@ -17,12 +17,12 @@ unsigned long vnl_random::linear_congruential_lrand32()
 
 //: Construct with seed
 vnl_random::vnl_random(unsigned long seed)
-  : linear_congruential_previous(seed), mz_array_position(0L), mz_borrow(0), mz_previous_normal_flag(0)
+  : linear_congruential_previous(seed), mz_array_position(0UL), mz_borrow(0), mz_previous_normal_flag(0)
 {reseed(seed);}
 
 //: Construct with seed
 vnl_random::vnl_random(unsigned long seed[vnl_random_array_size])
-  : mz_array_position(0L), mz_borrow(0), mz_previous_normal_flag(0)
+  : mz_array_position(0UL), mz_borrow(0), mz_previous_normal_flag(0)
 {reseed(seed);}
 
 vnl_random::vnl_random(const vnl_random& r)
@@ -31,7 +31,7 @@ vnl_random::vnl_random(const vnl_random& r)
   , mz_borrow(r.mz_borrow)
   , mz_previous_normal_flag(r.mz_previous_normal_flag)
 {
-  for (int i=0;i<vnl_random_array_size;++i)
+  for (unsigned int i=0;i<vnl_random_array_size;++i)
   {
     mz_seed_array[i] = r.mz_seed_array[i];
     mz_array[i] = r.mz_array[i];
@@ -44,7 +44,7 @@ vnl_random& vnl_random::operator=(const vnl_random& r)
   mz_array_position=r.mz_array_position;
   mz_borrow=r.mz_borrow;
   mz_previous_normal_flag=r.mz_previous_normal_flag;
-  for (int i=0;i<vnl_random_array_size;++i)
+  for (unsigned int i=0;i<vnl_random_array_size;++i)
   {
     mz_seed_array[i] = r.mz_seed_array[i];
     mz_array[i] = r.mz_array[i];
@@ -52,14 +52,14 @@ vnl_random& vnl_random::operator=(const vnl_random& r)
   return *this;
 }
 
-vnl_random::vnl_random() : mz_array_position(0), mz_borrow(0), mz_previous_normal_flag(0)
+vnl_random::vnl_random() : mz_array_position(0UL), mz_borrow(0), mz_previous_normal_flag(0)
 {
   reseed();
 }
 
 vnl_random::~vnl_random()
 {
-  for (int i=0;i<vnl_random_array_size;++i)
+  for (unsigned int i=0;i<vnl_random_array_size;++i)
   {
     mz_seed_array[i] = 0;
     mz_array[i] = 0;
@@ -68,17 +68,17 @@ vnl_random::~vnl_random()
 
 void vnl_random::reseed()
 {
-  reseed((unsigned long)vcl_time(NULL));
+  reseed((unsigned long)vcl_time(VXL_NULLPTR));
 }
 
 void vnl_random::reseed(unsigned long seed)
 {
-  mz_array_position = 0L;
-  mz_borrow = 0L;
+  mz_array_position = 0UL;
+  mz_borrow = 0;
 
   linear_congruential_previous = seed;
   // Use the lc generator to fill the array
-  for (int i=0;i<vnl_random_array_size;++i)
+  for (unsigned int i=0;i<vnl_random_array_size;++i)
   {
     mz_seed_array[i] = linear_congruential_lrand32();
     mz_array[i] = mz_seed_array[i];
@@ -90,10 +90,10 @@ void vnl_random::reseed(unsigned long seed)
 
 void vnl_random::reseed(unsigned long seed[vnl_random_array_size])
 {
-  mz_array_position = 0L;
+  mz_array_position = 0UL;
   mz_borrow = 0L;
 
-  for (int i=0;i<vnl_random_array_size;++i)
+  for (unsigned int i=0;i<vnl_random_array_size;++i)
   {
     mz_array[i] = seed[i];
     mz_seed_array[i] = seed[i];
@@ -102,9 +102,9 @@ void vnl_random::reseed(unsigned long seed[vnl_random_array_size])
 
 void vnl_random::restart()
 {
-  mz_array_position = 0L;
+  mz_array_position = 0UL;
 
-  for (int i=0;i<vnl_random_array_size;++i)
+  for (unsigned int i=0;i<vnl_random_array_size;++i)
   {
     mz_array[i] = mz_seed_array[i];
   }
@@ -171,7 +171,7 @@ unsigned long vnl_random::lrand32()
   if (p2 < p1) mz_borrow = 0;
   if (p2 > p1) mz_borrow = 1;
   mz_array[mz_array_position] = p2;
-  mz_array_position = (++mz_array_position)%vnl_random_array_size;
+  mz_array_position = (mz_array_position+1)%vnl_random_array_size;
   return p2;
 }
 

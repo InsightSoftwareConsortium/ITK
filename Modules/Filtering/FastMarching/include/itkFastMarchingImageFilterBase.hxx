@@ -452,9 +452,9 @@ CheckTopology( OutputImageType* oImage, const NodeType& iNode )
                 }
               else
                 {
-                minLabel = vnl_math_min( ItC.GetNext( d ),
+                minLabel = std::min( ItC.GetNext( d ),
                                          ItC.GetPrevious( d ) );
-                otherLabel = vnl_math_max( ItC.GetNext( d ),
+                otherLabel = std::max( ItC.GetNext( d ),
                                            ItC.GetPrevious( d ) );
                 }
               break;

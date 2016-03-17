@@ -51,7 +51,7 @@ class vnl_alloc
     union obj * free_list_link;
     char client_data[1];    /* The client sees this.        */
   };
-# if defined ( __SUNPRO_CC ) || defined ( _AIX )
+# if defined ( _AIX )
   static obj * free_list[];
   // Specifying a size results in duplicate def for 4.1
 # else
@@ -97,7 +97,7 @@ class vnl_alloc
     // This ensures that it is released in exit or during stack
     // unwinding.
     result = *my_free_list;
-    if (result == 0) {
+    if (result == VXL_NULLPTR) {
       void *r = refill(ROUND_UP(n));
       return r;
     }

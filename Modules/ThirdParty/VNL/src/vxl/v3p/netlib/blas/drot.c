@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine  drot (n,dx,incx,dy,incy,c,s) >*/
-/* Subroutine */ int drot_(integer *n, doublereal *dx, integer *incx, 
+/* Subroutine */ int drot_(integer *n, doublereal *dx, integer *incx,
         doublereal *dy, integer *incy, doublereal *c__, doublereal *s)
 {
     /* System generated locals */

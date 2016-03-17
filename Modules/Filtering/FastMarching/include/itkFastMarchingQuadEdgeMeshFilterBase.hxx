@@ -215,7 +215,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
                             id2, q2, IsFar2, val2 );
 
             outputPixel =
-                vnl_math_min( outputPixel,
+                std::min( outputPixel,
                               static_cast< OutputPixelType >( temp ) );
             }
           }
@@ -330,7 +330,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
         OutputVectorRealType t2 = ComputeUpdate( iVal2, val3, norm3, t_sq_norm3,
                                                 norm2, sq_norm2, dot2, iF );
 
-        return vnl_math_min( t1, t2 );
+        return std::min( t1, t2 );
         }
       else
         {
@@ -418,7 +418,7 @@ FastMarchingQuadEdgeMeshFilterBase< TInput, TOutput >
     }
   else
     {
-    return vnl_math_min( iNorm2 * iF + iVal1, iNorm1 * iF + iVal2 );
+    return std::min( iNorm2 * iF + iVal1, iNorm1 * iF + iVal2 );
     }
 }
 

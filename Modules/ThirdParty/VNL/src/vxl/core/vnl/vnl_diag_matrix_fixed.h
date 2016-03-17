@@ -35,6 +35,7 @@ template <class T, unsigned int N> vnl_vector_fixed<T,N> operator*(vnl_diag_matr
 //  operations (currently *, + and -) are overloaded to use more efficient
 //  algorithms.
 
+VCL_TEMPLATE_EXPORT
 template <class T, unsigned int N>
 class vnl_diag_matrix_fixed
 {
@@ -45,7 +46,7 @@ class vnl_diag_matrix_fixed
 
 
   //: Construct a diagonal matrix with diagonal elements equal to value.
-  vnl_diag_matrix_fixed(T const& value) : diagonal_(N, value) {}
+  vnl_diag_matrix_fixed(T const& value) : diagonal_(value) {}
 
   //: Construct a diagonal matrix from a vnl_vector_fixed.
   //  The vector elements become the diagonal elements.
@@ -87,18 +88,6 @@ class vnl_diag_matrix_fixed
   inline T& operator[] (unsigned i) { return diagonal_[i]; }
   inline T const& operator[] (unsigned i) const { return diagonal_[i]; }
 
-  //: set element with boundary checks.
-  inline void put (unsigned r, unsigned c, T const& v) {
-    assert(r == c); (void)c;
-    assert (r<size()); diagonal_[r] = v;
-  }
-
-  //: get element with boundary checks.
-  inline T get (unsigned r, unsigned c) const {
-    assert(r == c); (void)c;
-    assert (r<size()); return diagonal_[r];
-  }
-
   //: Return a vector (copy) with the content of the (main) diagonal
   inline vnl_vector_fixed<T,N> get_diagonal() const { return diagonal_; }
 
@@ -120,10 +109,45 @@ class vnl_diag_matrix_fixed
   inline const_iterator begin() const { return diagonal_.begin(); }
   inline const_iterator end() const { return diagonal_.end(); }
 
-  inline unsigned size() const { return diagonal_.size(); }
-  inline unsigned rows() const { return diagonal_.size(); }
-  inline unsigned cols() const { return diagonal_.size(); }
-  inline unsigned columns() const { return diagonal_.size(); }
+  //: Return the total number of elements stored by the matrix.
+  // Since vnl_diag_matrix_fixed only stores values on the diagonal
+  // and must be square, size() == rows() == cols().
+  inline unsigned int size() const { return diagonal_.size(); }
+
+  //: Return the number of rows.
+  inline unsigned int rows() const { return diagonal_.size(); }
+
+  //: Return the number of columns.
+  // A synonym for columns().
+  inline unsigned int cols() const { return diagonal_.size(); }
+
+  //: Return the number of columns.
+  // A synonym for cols().
+  inline unsigned int columns() const { return diagonal_.size(); }
+
+  //: set element with boundary checks.
+  inline void put (unsigned r, unsigned c, T const& v)
+  {
+    assert(r == c);
+    (void)c;
+#if VNL_CONFIG_CHECK_BOUNDS
+    if (r >= this->size())                  // If invalid size specified
+      vnl_error_matrix_row_index("put", r); // Raise exception
+#endif
+    diagonal_[r] = v;
+  }
+
+  //: get element with boundary checks.
+  inline T get (unsigned r, unsigned c) const
+  {
+    assert(r == c);
+    (void)c;
+#if VNL_CONFIG_CHECK_BOUNDS
+    if (r >= this->size())                  // If invalid size specified
+      vnl_error_matrix_row_index("get", r); // Raise exception
+#endif
+    return diagonal_[r];
+  }
 
   // Need this until we add a vnl_diag_matrix_fixed ctor to vnl_matrix;
   inline vnl_matrix_fixed<T,N,N> as_matrix_fixed() const;

@@ -39,13 +39,13 @@ class vnl_crs_index
   ~vnl_crs_index(){}
 
   //: number of rows in the sparse matrix
-  int num_rows() const { return row_ptr_.size()-1; }
+  int num_rows() const { return int(row_ptr_.size())-1; }
 
   //: number of columns in the sparse matrix
   int num_cols() const { return num_cols_; }
 
   //: number of non-zero elements
-  int num_non_zero() const { return col_idx_.size(); }
+  int num_non_zero() const { return int(col_idx_.size()); }
 
   //: returns row \p i as a vector of index-column pairs
   sparse_vector sparse_row(int i) const;

@@ -38,7 +38,7 @@ namespace Function
  *
  * "Meeting Andy Warhol Somewhere Over the Rainbow: RGB Colormapping and ITK"
  * http://www.insight-journal.org/browse/publication/285
- * http://hdl.handle.net/1926/1452
+ * https://hdl.handle.net/1926/1452
  *
  * \ingroup ITKColormap
  */
@@ -109,8 +109,8 @@ protected:
     RealType value = ( static_cast< RealType >( v ) -
       static_cast< RealType >( minInputValue ) ) / d;
 
-    value = vnl_math_max(0.0, value);
-    value = vnl_math_min(1.0, value);
+    value = std::max(0.0, value);
+    value = std::min(1.0, value);
     return value;
     }
 

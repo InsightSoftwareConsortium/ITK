@@ -18,7 +18,7 @@
 //
 //    Uses the EISPACK routine RS, which in turn calls TRED2 to reduce A
 //    to tridiagonal form, followed by TQL2, to find the eigensystem.
-//    This is summarized in Golub and van Loan, \S8.2.  The following are
+//    This is summarized in Golub and van Loan, pgf 8.2.  The following are
 //    the original subroutine headers:
 //
 // \remark TRED2 is a translation of the Algol procedure tred2,
@@ -77,7 +77,7 @@ bool vnl_symmetric_eigensystem_compute(vnl_matrix<T> const & A,
 
 //: Computes and stores the eigensystem decomposition of a symmetric matrix.
 
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 class vnl_symmetric_eigensystem
 {
  public:
@@ -140,6 +140,6 @@ class vnl_symmetric_eigensystem
 };
 
 #define VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE(T) \
-extern "please include vnl/algo/vnl_symmetric_eigensystem.txx first"
+extern "please include vnl/algo/vnl_symmetric_eigensystem.hxx first"
 
 #endif // vnl_symmetric_eigensystem_h_

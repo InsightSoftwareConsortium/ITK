@@ -19,7 +19,7 @@ extern "C" {
 /* *********************************************************************** */
 
 /*<       SUBROUTINE DLAGER(N, NBAND, NSTART, A, TMIN, TMAX) >*/
-/* Subroutine */ int dlager_(integer *n, integer *nband, integer *nstart, 
+/* Subroutine */ int dlager_(integer *n, integer *nband, integer *nstart,
         doublereal *a, doublereal *tmin, doublereal *tmax)
 {
     /* System generated locals */

@@ -28,7 +28,7 @@ extern "C" {
 /*<       SUBROUTINE AdaptQuad(F,A,B,Tol,SRmat,Integral,ErrBdd,M,State) >*/
 /* Subroutine */ int adaptquad_(
   v3p_netlib_doublereal (*f)(v3p_netlib_doublereal*),
-  doublereal *a, doublereal *b, 
+  doublereal *a, doublereal *b,
         doublereal *tol, doublereal *srmat, doublereal *integral, doublereal *
         errbdd, integer *m, integer *state)
 {
@@ -43,7 +43,7 @@ extern "C" {
     doublereal srvec[11];
     extern /* Subroutine */ int srule_(
       v3p_netlib_doublereal (*f)(v3p_netlib_doublereal*),
-            doublereal *, doublereal *, 
+            doublereal *, doublereal *,
             doublereal *, doublereal *),
       refine_(v3p_netlib_doublereal (*f)(v3p_netlib_doublereal*),
               integer *, doublereal * , integer *, integer *);
@@ -61,7 +61,7 @@ extern "C" {
     /* Function Body */
     iterating = 0;
 /*<       Done = 1 >*/
-    done = 1;
+//    done = 1;
 /*<       CALL Srule(F,A,B,Tol,SRvec) >*/
     srule_(f, a, b, tol, srvec);
 /*<       DO K=1,11 >*/
@@ -128,7 +128,7 @@ extern "C" {
     doublereal check;
     extern /* Subroutine */ int srule_(
       v3p_netlib_doublereal (*f)(v3p_netlib_doublereal*),
-      doublereal *, doublereal *, 
+      doublereal *, doublereal *,
             doublereal *, doublereal *);
     doublereal sr0vec[11], sr1vec[11], sr2vec[11];
 
@@ -163,17 +163,17 @@ extern "C" {
 /*<       B = SR0vec(3) >*/
     b = sr0vec[2];
 /*<       Fa = SR0vec(4) >*/
-    fa = sr0vec[3];
+//    fa = sr0vec[3];
 /*<       Fc = SR0vec(5) >*/
-    fc = sr0vec[4];
+//    fc = sr0vec[4];
 /*<       Fb = SR0vec(6) >*/
-    fb = sr0vec[5];
+//    fb = sr0vec[5];
 /*<       S = SR0vec(7) >*/
-    s = sr0vec[6];
+//    s = sr0vec[6];
 /*<       S2 = SR0vec(8) >*/
-    s2 = sr0vec[7];
+//    s2 = sr0vec[7];
 /*<       Err = SR0vec(9) >*/
-    err = sr0vec[8];
+//    err = sr0vec[8];
 /*<       Tol = SR0vec(10) >*/
     tol = sr0vec[9];
 /*<       Check = SR0vec(11) >*/

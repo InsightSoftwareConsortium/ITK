@@ -38,7 +38,7 @@ struct VnlFFTCommon
   template< typename TSizeValue >
   static bool IsDimensionSizeLegal(TSizeValue n);
 
-  static const SizeValueType GREATEST_PRIME_FACTOR = 5;
+  static ITK_CONSTEXPR SizeValueType GREATEST_PRIME_FACTOR = 5;
 
   /** Convenience struct for computing the discrete Fourier
   Transform. */

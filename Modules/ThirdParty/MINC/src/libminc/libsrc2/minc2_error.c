@@ -91,6 +91,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 
+#include "minc_config.h"
 #include "minc2.h"
 #include "minc2_private.h"
 
@@ -241,6 +242,7 @@ static struct {
 
 /** Simple function to read a user's .mincrc file, if present.
  */
+/*
 static int mi2read_cfg(const char *name, char *buffer, int maxlen)
 {
     FILE *fp;
@@ -310,13 +312,14 @@ static char * mi2get_cfg_str(const char *name)
     }
     return (strdup(buffer));
 }
+*/
 
 void mi2log_init ( const char *name )
 {
-  char *fname_str = mi2get_cfg_str ( MICFG_LOGFILE );
-  int level = mi2get_cfg_int ( MICFG_LOGLEVEL );
+  const char *fname_str = miget_cfg_str ( MICFG_LOGFILE );
+  int level = miget_cfg_int ( MICFG_LOGLEVEL );
 
-  if ( fname_str == NULL ) {
+  if ( !strlen(fname_str) ) {
     _MI2_log.fp = stderr;
   } else if ( !strcmp ( fname_str, "stdout" ) || !strcmp ( fname_str, "-" ) ) {
     _MI2_log.fp = stdout;
@@ -334,9 +337,6 @@ void mi2log_init ( const char *name )
 
   strncpy ( _MI2_log.prog, name, sizeof ( _MI2_log.prog ) );
 
-  if ( fname_str != NULL ) {
-    free ( fname_str );
-  }
 }
 
 int mi2log_set_verbosity ( int lvl )

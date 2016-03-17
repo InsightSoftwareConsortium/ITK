@@ -75,6 +75,10 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt)
       )
     mark_as_advanced(ITK_USE_KWSTYLE)
   endif()
+else()
+  if(NOT DEFINED BUILD_TESTING)
+    set(BUILD_TESTING 0)
+  endif()
 endif()
 
 include(ITKModuleMacros)
@@ -132,4 +136,6 @@ endif()
 
 # Create target to download data from the ITKData group.  This must come after
 # all tests have been added that reference the group, so we put it last.
-ExternalData_Add_Target(ITKData)
+if(NOT TARGET ITKData)
+  ExternalData_Add_Target(ITKData)
+endif()

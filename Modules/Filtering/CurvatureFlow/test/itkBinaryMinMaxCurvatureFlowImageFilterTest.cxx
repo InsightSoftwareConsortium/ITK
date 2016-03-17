@@ -148,8 +148,8 @@ int testBinaryMinMaxCurvatureFlow(
 
     if ( vnl_sample_uniform( 0.0, 1.0 ) < fractionNoise )
       {
-      value = vnl_sample_uniform( vnl_math_min(foreground,background),
-        vnl_math_max(foreground,background) );
+      value = vnl_sample_uniform( std::min(foreground,background),
+        std::max(foreground,background) );
       }
     circleIter.Set( value );
     }

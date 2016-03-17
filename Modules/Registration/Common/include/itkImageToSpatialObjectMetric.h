@@ -151,6 +151,9 @@ public:
                                      MeasureType & Value,
                                      DerivativeType  & Derivative) const ITK_OVERRIDE = 0;
 
+  /** Return the number of parameters required by the Transform */
+  virtual unsigned int GetNumberOfParameters( void ) const ITK_OVERRIDE;
+
   /** Initialize the metric */
   virtual void Initialize(void)
   throw ( ExceptionObject );

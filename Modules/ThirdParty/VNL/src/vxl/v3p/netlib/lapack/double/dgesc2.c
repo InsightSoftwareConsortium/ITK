@@ -21,7 +21,7 @@ static integer c__1 = 1;
 static integer c_n1 = -1;
 
 /*<       SUBROUTINE DGESC2( N, A, LDA, RHS, IPIV, JPIV, SCALE ) >*/
-/* Subroutine */ int dgesc2_(integer *n, doublereal *a, integer *lda, 
+/* Subroutine */ int dgesc2_(integer *n, doublereal *a, integer *lda,
         doublereal *rhs, integer *ipiv, integer *jpiv, doublereal *scale)
 {
     /* System generated locals */
@@ -31,12 +31,12 @@ static integer c_n1 = -1;
     /* Local variables */
     integer i__, j;
     doublereal eps, temp;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *), dlabad_(doublereal *, doublereal *);
     extern doublereal dlamch_(char *, ftnlen);
     extern integer idamax_(integer *, doublereal *, integer *);
     doublereal bignum;
-    extern /* Subroutine */ int dlaswp_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dlaswp_(integer *, doublereal *, integer *,
             integer *, integer *, integer *, integer *);
     doublereal smlnum;
 
@@ -177,7 +177,7 @@ static integer c_n1 = -1;
 /*<       I = IDAMAX( N, RHS, 1 ) >*/
     i__ = idamax_(n, &rhs[1], &c__1);
 /*<       IF( TWO*SMLNUM*ABS( RHS( I ) ).GT.ABS( A( N, N ) ) ) THEN >*/
-    if (smlnum * 2. * (d__1 = rhs[i__], abs(d__1)) > (d__2 = a[*n + *n * 
+    if (smlnum * 2. * (d__1 = rhs[i__], abs(d__1)) > (d__2 = a[*n + *n *
             a_dim1], abs(d__2))) {
 /*<          TEMP = ( ONE / TWO ) / ABS( RHS( I ) ) >*/
         temp = .5 / (d__1 = rhs[i__], abs(d__1));

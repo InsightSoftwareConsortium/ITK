@@ -9,59 +9,59 @@
 # will issue an error. In the DCMTK, the prototypes are used in a C++
 # context, so we use the C++ compiler to check.
 #
-MACRO(CHECK_PROTOTYPE_EXISTS_CXX FUNC INCLUDE VARIABLE)
-  IF(NOT DEFINED "${VARIABLE}")
-    SET( CHECK_PROTOTYPE_EXISTS_CXX_FILE_IN "${VXL_CMAKE_DIR}/CheckPrototypeExists.cxx.in" )
-    SET( CHECK_PROTOTYPE_EXISTS_CXX_FILE "${CMAKE_BINARY_DIR}/CMakeTmp/CheckPrototypeExists.cxx" )
-    SET( CHECK_PROTOTYPE_EXISTS_CXX_EXTERNC_BEGIN "extern \"C\" {\n" )
-    SET( CHECK_PROTOTYPE_EXISTS_CXX_EXTERNC_END "}\n" )
+macro(CHECK_PROTOTYPE_EXISTS_CXX FUNC INCLUDE VARIABLE)
+  if(NOT DEFINED "${VARIABLE}")
+    set( CHECK_PROTOTYPE_EXISTS_CXX_FILE_IN "${VXL_CMAKE_DIR}/CheckPrototypeExists.cxx.in" )
+    set( CHECK_PROTOTYPE_EXISTS_CXX_FILE "${CMAKE_BINARY_DIR}/CMakeTmp/CheckPrototypeExists.cxx" )
+    set( CHECK_PROTOTYPE_EXISTS_CXX_EXTERNC_BEGIN "extern \"C\" {\n" )
+    set( CHECK_PROTOTYPE_EXISTS_CXX_EXTERNC_END "}\n" )
 
-    SET(MACRO_CHECK_PROTOTYPE_EXISTS_CXX_FLAGS ${CMAKE_REQUIRED_FLAGS})
-    MESSAGE(STATUS "Looking for prototype for ${FUNC} in ${INCLUDE}")
+    set(MACRO_CHECK_PROTOTYPE_EXISTS_CXX_FLAGS ${CMAKE_REQUIRED_FLAGS})
+    message(STATUS "Looking for prototype for ${FUNC} in ${INCLUDE}")
 
-    SET( ${VARIABLE} 0 )
-    FOREACH(FILE ${INCLUDE})
+    set( ${VARIABLE} 0 )
+    foreach(FILE ${INCLUDE})
 
       # First check if the header exists. Cache the result in a variable named after
       # the header, so that we don't re-do the effort
-      STRING( REGEX REPLACE "\\.|/" "_" CLEAN_FILE ${FILE} )
-      SET( CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE "CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE_${CLEAN_FILE}" )
+      string( REGEX REPLACE "\\.|/" "_" CLEAN_FILE ${FILE} )
+      set( CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE "CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE_${CLEAN_FILE}" )
       CHECK_INCLUDE_FILE( ${FILE} ${CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE} )
-      IF( CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE )
+      if( CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE )
 
-        FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log "Trying struct with ${FILE}\n" )
-        CONFIGURE_FILE( ${CHECK_PROTOTYPE_EXISTS_CXX_FILE_IN}
-                        ${CHECK_PROTOTYPE_EXISTS_CXX_FILE} IMMEDIATE )
+        file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log "Trying struct with ${FILE}\n" )
+        configure_file( ${CHECK_PROTOTYPE_EXISTS_CXX_FILE_IN}
+                        ${CHECK_PROTOTYPE_EXISTS_CXX_FILE} @ONLY)
 
-        TRY_COMPILE( CHECK_PROTOTYPE_EXISTS_CXX_RESULT
+        try_compile( CHECK_PROTOTYPE_EXISTS_CXX_RESULT
           ${CMAKE_BINARY_DIR}
           ${CHECK_PROTOTYPE_EXISTS_CXX_FILE}
-          CMAKE_FLAGS 
+          CMAKE_FLAGS
           -DCOMPILE_DEFINITIONS:STRING=${MACRO_CHECK_PROTOTYPE_EXISTS_CXX_FLAGS}
           OUTPUT_VARIABLE OUTPUT)
-        IF( CHECK_PROTOTYPE_EXISTS_CXX_RESULT ) 
-          FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log 
+        if( CHECK_PROTOTYPE_EXISTS_CXX_RESULT )
+          file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
             "Determining if prototype ${FUNC} exists in ${FILE} "
             "failed with the following output:\n"
             "${OUTPUT}\n\n")
-        ELSE( CHECK_PROTOTYPE_EXISTS_CXX_RESULT ) 
-          FILE(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log 
+        else()
+          file(APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
             "Determining if prototype ${FUNC} exists in ${FILE} "
             "passed with the following output:\n"
             "${OUTPUT}\n\n")
-          MESSAGE(STATUS "    Found in ${FILE}")
-          SET( ${VARIABLE} 1 )
-        ENDIF( CHECK_PROTOTYPE_EXISTS_CXX_RESULT )
+          message(STATUS "    Found in ${FILE}")
+          set( ${VARIABLE} 1 )
+        endif()
 
-      ENDIF( CHECK_PROTOTYPE_EXISTS_CXX_INCLUDE )
-    ENDFOREACH(FILE)
+      endif()
+    endforeach()
 
-    IF( ${VARIABLE} )
-      MESSAGE(STATUS "Looking for prototype of ${FUNC} - found")
-      SET(${VARIABLE} 1 CACHE INTERNAL "Have prototype ${VARIABLE}")
-    ELSE(${VARIABLE})
-      MESSAGE(STATUS "Looking for prototype of ${FUNC} - not found")
-      SET(${VARIABLE} "" CACHE INTERNAL "Have prototype ${VARIABLE}")
-    ENDIF(${VARIABLE})
-  ENDIF()
-ENDMACRO(CHECK_PROTOTYPE_EXISTS_CXX)
+    if( ${VARIABLE} )
+      message(STATUS "Looking for prototype of ${FUNC} - found")
+      set(${VARIABLE} 1 CACHE INTERNAL "Have prototype ${VARIABLE}")
+    else()
+      message(STATUS "Looking for prototype of ${FUNC} - not found")
+      set(${VARIABLE} "" CACHE INTERNAL "Have prototype ${VARIABLE}")
+    endif()
+  endif()
+endmacro()

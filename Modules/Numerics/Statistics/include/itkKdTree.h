@@ -535,7 +535,7 @@ public:
   {
   public:
     /** Constructor */
-    NearestNeighbors() : m_FarthestNeighborIndex(0) {}
+    NearestNeighbors( std::vector<double> & cache_vector) : m_FarthestNeighborIndex(0), m_Distances(cache_vector)  {}
 
     /** Destructor */
     ~NearestNeighbors() {}
@@ -588,22 +588,18 @@ public:
       return m_Identifiers[index];
     }
 
-    /** Returns the vector of k-neighbors' instance identifiers */
-    const std::vector<double> & GetDistances() const
-    {
-      return m_Distances;
-    }
-
   private:
+    NearestNeighbors() ITK_DELETE_FUNCTION;
     /** The index of the farthest neighbor among k-neighbors */
     unsigned int m_FarthestNeighborIndex;
 
     /** Storage for the instance identifiers of k-neighbors */
     InstanceIdentifierVectorType m_Identifiers;
 
-    /** Storage for the distance values of k-neighbors from the query
-     * point */
-    std::vector<double> m_Distances;
+    /** External storage for the distance values of k-neighbors
+     * from the query point. This is a reference to external
+     * vector to avoid unnecessary memory copying. */
+    std::vector<double> & m_Distances;
   };
 
   /** Sets the number of measurement vectors that can be stored in a

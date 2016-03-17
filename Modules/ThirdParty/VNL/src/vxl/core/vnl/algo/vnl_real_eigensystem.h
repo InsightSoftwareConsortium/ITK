@@ -22,7 +22,7 @@
 
 //: Extract eigensystem of asymmetric matrix M, using the EISPACK routine
 //  vnl_eigensystem is a full-bore real eigensystem.  If your matrix
-//  is symmetric, it is *much* better to use vnl_symmetric_eigensystem.
+//  is symmetric, it is \e much better to use \sa vnl_symmetric_eigensystem.
 
 class vnl_real_eigensystem
 {

@@ -151,7 +151,6 @@ bool PhotometricInterpretation::IsLossless() const
   switch ( PIField )
     {
   case MONOCHROME1:
-  /* technically MPEG-2 is lossy however the PI is set to MONOCHROME2 */
   case MONOCHROME2:
   case PALETTE_COLOR:
   case RGB:

@@ -13,13 +13,6 @@
 // of Paige and Saunders (ACM TOMS 583). The sparse system is encapsulated
 // by a vnl_linear_system.
 //
-// The LSQR code from netlib was copyrighted by ACM, therefore it had to 
-// be removed, and has been replaced with code taken from 
-// http://www.stanford.edu/group/SOL/software.html
-// Thas was distributed under a BSD license. The Fortran90 files were
-// manually translated to C++ to create the solverBase class.
-//
-//
 // \author David Capel, capes@robots
 // \date   July 2000
 //

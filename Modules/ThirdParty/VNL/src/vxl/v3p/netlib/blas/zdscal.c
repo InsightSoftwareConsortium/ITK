@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine  zdscal(n,da,zx,incx) >*/
-/* Subroutine */ int zdscal_(integer *n, doublereal *da, doublecomplex *zx, 
+/* Subroutine */ int zdscal_(integer *n, doublereal *da, doublecomplex *zx,
         integer *incx)
 {
     /* System generated locals */
@@ -60,7 +60,7 @@ extern "C" {
         i__2 = ix;
         z__2.r = *da, z__2.i = 0.;
         i__3 = ix;
-        z__1.r = z__2.r * zx[i__3].r - z__2.i * zx[i__3].i, z__1.i = z__2.r * 
+        z__1.r = z__2.r * zx[i__3].r - z__2.i * zx[i__3].i, z__1.i = z__2.r *
                 zx[i__3].i + z__2.i * zx[i__3].r;
         zx[i__2].r = z__1.r, zx[i__2].i = z__1.i;
 /*<         ix = ix + incx >*/
@@ -81,7 +81,7 @@ L20:
         i__2 = i__;
         z__2.r = *da, z__2.i = 0.;
         i__3 = i__;
-        z__1.r = z__2.r * zx[i__3].r - z__2.i * zx[i__3].i, z__1.i = z__2.r * 
+        z__1.r = z__2.r * zx[i__3].r - z__2.i * zx[i__3].i, z__1.i = z__2.r *
                 zx[i__3].i + z__2.i * zx[i__3].r;
         zx[i__2].r = z__1.r, zx[i__2].i = z__1.i;
 /*<    30 continue >*/

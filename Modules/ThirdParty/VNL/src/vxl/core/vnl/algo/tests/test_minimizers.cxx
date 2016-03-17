@@ -15,7 +15,6 @@ struct cubic : public vnl_cost_function {
 
 void test_minimizers()
 {
-#if NUMERICAL_RECIPES_CODE_HAS_BEEN_REMOVED
   cubic c;
   vnl_brent b(&c);
   double x = 77;
@@ -28,10 +27,6 @@ void test_minimizers()
   x = b.minimize(x);
   vcl_cout << vcl_endl;
   TEST_NEAR("brent2", x, 2, 1e-5);
-#else
-  vcl_cout<<"test_minimizers has been removed until Numerical Recipes code is removed."<<vcl_endl;
-#endif
-
 }
 
 TESTMAIN(test_minimizers);

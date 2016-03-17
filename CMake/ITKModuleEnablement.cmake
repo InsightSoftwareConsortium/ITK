@@ -3,7 +3,7 @@
 
 # Load the module DAG.
 set(ITK_MODULES_ALL)
-file(GLOB meta RELATIVE "${ITK_SOURCE_DIR}"
+file(GLOB_RECURSE meta RELATIVE "${ITK_SOURCE_DIR}"
    "${ITK_SOURCE_DIR}/*/*/*/itk-module.cmake" # grouped modules
   )
 foreach(f ${meta})

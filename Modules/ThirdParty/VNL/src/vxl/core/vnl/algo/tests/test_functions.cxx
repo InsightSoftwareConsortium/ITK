@@ -69,15 +69,14 @@ double cdf_baseline[] =
 
 int test_functions()
 {
-  int n;
-  double chisq;
   int idx = 0;
-  for (n=1; n<100; n+=5)
+  for (unsigned int n=1; n<100; n+=5)
   {
-    for (chisq = 0; chisq < 200; chisq+=20)
+    for (unsigned int chisq_int = 0; chisq_int < 200; chisq_int += 20)
     {
-      double cdf = vnl_chi_squared_cumulative(chisq,n);
-      double err = vcl_fabs(cdf - cdf_baseline[idx++]);
+      const double chisq = static_cast<double>(chisq_int);
+      const double cdf = vnl_chi_squared_cumulative(chisq,n);
+      const double err = vcl_fabs(cdf - cdf_baseline[idx++]);
       vcl_cout << "vnl_chi_squared_cumulative(" << chisq << ',' << n << ')';
       TEST_NEAR(" CDF", err, 0.0, 2e-15);
       if (err >= 2e-15)
@@ -98,7 +97,7 @@ int test_functions()
 
   // rand() is not always a good random number generator,
   // so use the following congruential random number generator - PVr
-  static unsigned long sample_seed = (unsigned long)vcl_time(0);
+  static unsigned long sample_seed = (unsigned long)vcl_time(VXL_NULLPTR);
 
   double hist1[20];
   for (int i=0; i<20; i++)
@@ -107,7 +106,7 @@ int test_functions()
     double u = double(sample_seed)/0x7fffffff; // 0x7fffffff == 2147483711L
     hist1[i] = 10.0+20.0*(u-0.5); // uniform in the interval 0 - 20
   }
-  chisq = 0;
+  double chisq = 0;
   for (int i=0; i<20; i++)
   {
     vcl_cout << i << ' ' << hist1[i] << vcl_endl;

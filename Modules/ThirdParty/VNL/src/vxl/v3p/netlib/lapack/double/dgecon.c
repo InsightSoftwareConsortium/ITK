@@ -35,7 +35,7 @@ static integer c__1 = 1;
     integer kase, kase1;
     doublereal scale;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int drscl_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int drscl_(integer *, doublereal *, doublereal *,
             integer *);
     extern doublereal dlamch_(char *, ftnlen);
     extern /* Subroutine */ int dlacon_(integer *, doublereal *, doublereal *,
@@ -43,8 +43,8 @@ static integer c__1 = 1;
     extern integer idamax_(integer *, doublereal *, integer *);
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
     doublereal ainvnm;
-    extern /* Subroutine */ int dlatrs_(char *, char *, char *, char *, 
-            integer *, doublereal *, integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlatrs_(char *, char *, char *, char *,
+            integer *, doublereal *, integer *, doublereal *, doublereal *,
             doublereal *, integer *, ftnlen, ftnlen, ftnlen, ftnlen);
     logical onenrm;
     char normin[1];
@@ -231,7 +231,7 @@ L10:
 /*           Multiply by inv(L). */
 
 /*<    >*/
-            dlatrs_("Lower", "No transpose", "Unit", normin, n, &a[a_offset], 
+            dlatrs_("Lower", "No transpose", "Unit", normin, n, &a[a_offset],
                     lda, &work[1], &sl, &work[(*n << 1) + 1], info, (ftnlen)5,
                      (ftnlen)12, (ftnlen)4, (ftnlen)1);
 
@@ -254,7 +254,7 @@ L10:
 /*           Multiply by inv(L'). */
 
 /*<    >*/
-            dlatrs_("Lower", "Transpose", "Unit", normin, n, &a[a_offset], 
+            dlatrs_("Lower", "Transpose", "Unit", normin, n, &a[a_offset],
                     lda, &work[1], &sl, &work[(*n << 1) + 1], info, (ftnlen)5,
                      (ftnlen)9, (ftnlen)4, (ftnlen)1);
 /*<          END IF >*/
@@ -271,7 +271,7 @@ L10:
 /*<             IX = IDAMAX( N, WORK, 1 ) >*/
             ix = idamax_(n, &work[1], &c__1);
 /*<    >*/
-            if (scale < (d__1 = work[ix], abs(d__1)) * smlnum || scale == 0.) 
+            if (scale < (d__1 = work[ix], abs(d__1)) * smlnum || scale == 0.)
                     {
                 goto L20;
             }

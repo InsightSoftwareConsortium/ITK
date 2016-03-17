@@ -33,7 +33,7 @@ void testlib_test_start(const char* name)
   test_name = name;
   vcl_cout << "-----------------------------------------------------------------------------\n"
            << "Start Testing";
-  if (test_name != NULL) vcl_cout << ' ' << test_name;
+  if (test_name != VXL_NULLPTR) vcl_cout << ' ' << test_name;
   vcl_cout << ":\n-----------------------------------------------------------------------------\n" << vcl_flush;
  }
 

@@ -16,19 +16,13 @@
 
 #include <vnl/algo/vnl_netlib.h> // dnlaso_() dseupd_() dsaupd_()
 
-static vnl_sparse_symmetric_eigensystem * current_system = 0;
-
-#ifdef VCL_SUNPRO_CC
-# define FUNCTION extern "C"
-#else
-# define FUNCTION static
-#endif
+static vnl_sparse_symmetric_eigensystem * current_system = VXL_NULLPTR;
 
 //------------------------------------------------------------
 //: Callback for multiplying our matrix by a number of vectors.
 //  The input is p, which is an NxM matrix.
 //  This function returns q = A p, where A is the current sparse matrix.
-FUNCTION
+static
 void sse_op_callback(const long* n,
                      const long* m,
                      const double* p,
@@ -44,7 +38,7 @@ void sse_op_callback(const long* n,
 // If k=0, save the m columns of q as the (j-m+1)th through jth
 // vectors.  If k=1 then return the (j-m+1)th through jth vectors in
 // q.
-FUNCTION
+static
 void sse_iovect_callback(const long* n,
                          const long* m,
                          double* q,
@@ -60,14 +54,14 @@ void sse_iovect_callback(const long* n,
 }
 
 vnl_sparse_symmetric_eigensystem::vnl_sparse_symmetric_eigensystem()
-  : nvalues(0), vectors(0), values(0)
+  : nvalues(0), vectors(VXL_NULLPTR), values(VXL_NULLPTR)
 {
 }
 
 vnl_sparse_symmetric_eigensystem::~vnl_sparse_symmetric_eigensystem()
 {
-  delete[] vectors; vectors = 0;
-  delete[] values; values = 0;
+  delete[] vectors; vectors = VXL_NULLPTR;
+  delete[] values; values = VXL_NULLPTR;
   for (unsigned i=0; i<temp_store.size(); ++i)
     delete temp_store[i];
   temp_store.clear();
@@ -89,8 +83,8 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
 
   // Clear current vectors.
   if (vectors) {
-    delete[] vectors; vectors = 0;
-    delete[] values; values = 0;
+    delete[] vectors; vectors = VXL_NULLPTR;
+    delete[] values; values = VXL_NULLPTR;
   }
   nvalues = 0;
 
@@ -186,10 +180,6 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   values = new double[n];
   for (int i=0; i<n; ++i) {
     values[i] = temp_vals[i];
-#if 0
-    vcl_cout << "value " << temp_vals[i]
-             << " accuracy " << temp_vals[i+n*2] << vcl_endl;
-#endif
     vnl_vector<double> vec(dim,0.0);
     for (int j=0; j<dim; ++j)
       vec[j] = temp_vecs[j + dim*i];
@@ -226,8 +216,8 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
 
   // Clear current vectors.
   if (vectors) {
-    delete[] vectors; vectors = NULL;
-    delete[] values; values = NULL;
+    delete[] vectors; vectors = VXL_NULLPTR;
+    delete[] values; values = VXL_NULLPTR;
   }
   nvalues = 0;
 
@@ -338,12 +328,9 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
   // Double precision work array of length at least NCV**2 + 8*NCV
   double *workl = new double[lworkl + 1];
 
-  // start from scratch
-  bool basisCalculated = false;
-
   vnl_vector<double> workVector;
 
-  while (!basisCalculated)
+  while (true)
   {
     // Calling arpack routine dsaupd.
     v3p_netlib_dsaupd_(
@@ -356,7 +343,6 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
     if (ido==DONE)
     {
       nconv = iParam[5];
-      basisCalculated = true;
       break;
     }
     else

@@ -2,6 +2,7 @@
 #include <vcl_iostream.h>
 #include <vnl/vnl_sym_matrix.h>
 #include <testlib/testlib_test.h>
+#include <vcl_exception.h>
 
 static
 void test_int()
@@ -9,6 +10,11 @@ void test_int()
   vcl_cout << "*****************************\n"
            << "Testing Symmetric Matrix<int>\n"
            << "*****************************\n";
+
+  //////////////////
+  // CONSTRUCTORS //
+  //////////////////
+
   vnl_sym_matrix<int> sm1(2);
   TEST("\n\nvnl_sym_matrix<int> m1(2)", (sm1.rows()==2 && sm1.columns()==2), true);
   vnl_sym_matrix<int> sm2(2,2);
@@ -63,6 +69,49 @@ void test_int()
         sm5(1,0)==5 && sm5(1,1)==5 && sm5(1,2)==2 &&
         sm5(2,0)==0 && sm5(2,1)==2 && sm5(2,2)==3), true);
   vcl_cout << "sm5\n" << sm5 << vcl_endl << vcl_endl;
+
+  ///////////////
+  // ACCESSORS //
+  ///////////////
+
+#if VNL_CONFIG_CHECK_BOUNDS
+
+  {
+  // Get
+  bool exceptionThrownAndCaught = false;
+  vcl_try { sm1.get(0,25); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds get(0,25)", exceptionThrownAndCaught, true);
+  
+  exceptionThrownAndCaught = false;
+  vcl_try { sm1.get(25,0); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds get(25,0)", exceptionThrownAndCaught, true);
+
+  exceptionThrownAndCaught = false;
+  vcl_try { sm1.get(25,25); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds get(25,25)", exceptionThrownAndCaught, true);
+
+  // Put
+  exceptionThrownAndCaught = false;
+  vcl_try { sm1.put(0,25,0); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds put(0,25,0)", exceptionThrownAndCaught, true);
+
+  exceptionThrownAndCaught = false;
+  vcl_try { sm1.put(25,0,0); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds put(25,0,0)", exceptionThrownAndCaught, true);
+
+  exceptionThrownAndCaught = false;
+  vcl_try { sm1.put(25,25,0); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds put(25,25,0)", exceptionThrownAndCaught, true);
+
+  }
+
+#endif
 }
 
 

@@ -104,7 +104,7 @@ perhaps simplest to add "-DREAL=float" to CFLAGS in the makefile.
 7.      CALL SIGNAL(n,func), where n is an INTEGER and func is an
         EXTERNAL procedure, arranges for func to be invoked when n
         occurs (on systems where this makes sense).
-        
+
 If your compiler complains about the signal calls in main.c, s_paus.c,
 and signal_.c, you may need to adjust signal1.h suitably.  See the
 comments in signal1.h.

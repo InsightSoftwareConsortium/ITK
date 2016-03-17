@@ -8,9 +8,7 @@
 #include <vcl_exception.h>
 #endif
 
-#  include <stdlib.h>
-
-#if defined(VCL_VC) || defined(VCL_BORLAND)
+#if defined(VCL_VC)
 #  include <crtdbg.h>
 #  include <windows.h>
 #  include <vcl_cstdio.h>
@@ -46,11 +44,6 @@ LONG WINAPI vxl_exception_filter( struct _EXCEPTION_POINTERS *ExceptionInfo )
   return EXCEPTION_EXECUTE_HANDLER;
 }
 #endif // defined(VCL_WIN32)
-
-#if defined(VCL_BORLAND)
-# include <math.h>
-# include <float.h> // for _control87()
-#endif // defined(VCL_BORLAND)
 
 static vcl_vector<TestMainFunction> testlib_test_func_;
 static vcl_vector<vcl_string>       testlib_test_name_;
@@ -89,12 +82,8 @@ testlib_enter_stealth_mode()
 #endif //defined(VCL_VC)
 
     // Disable Borland's floating point exceptions.
-#if defined(VCL_BORLAND)
-    _control87(MCW_EM, MCW_EM);
-#endif // defined(VCL_BORLAND)
   }
 }
-
 
 int testlib_run_test_unit(vcl_vector<vcl_string>::size_type i, int argc, char *argv[])
 {

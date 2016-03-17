@@ -108,14 +108,8 @@ class vnl_sparse_matrix
 {
  public:
   typedef vnl_sparse_matrix_pair<T> pair_t;
-#if defined(VCL_SUNPRO_CC)
-  // SunPro is the broken one.
-  typedef vcl_vector < typename pair_t > row;
-  typedef vcl_vector < typename row > vnl_sparse_matrix_elements;
-#else
   typedef vcl_vector < pair_t > row;
   typedef vcl_vector < row > vnl_sparse_matrix_elements;
-#endif
 
   //: Construct an empty matrix
   vnl_sparse_matrix();

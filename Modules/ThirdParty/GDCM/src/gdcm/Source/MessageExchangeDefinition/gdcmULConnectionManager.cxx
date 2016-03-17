@@ -403,136 +403,27 @@ void ULConnectionManager::SendFind(const BaseRootQuery* inRootQuery, ULConnectio
   RunEventLoop(theEvent, mConnection, inCallback, false);
 }
 
-std::vector<DataSet> ULConnectionManager::SendStore(const File &file, std::istream * pStream /*= NULL*/, std::streampos dataSetOffset/*=0*/ )
+std::vector<DataSet> ULConnectionManager::SendStore(const File &file)
 {
   ULBasicCallback theCallback;
-  SendStore(file, &theCallback, pStream, dataSetOffset );
+  SendStore(file, &theCallback);
   return theCallback.GetResponses();
 }
 
-void ULConnectionManager::SendStore(const File & file, ULConnectionCallback* inCallback, std::istream * pStream /*= NULL*/, std::streampos dataSetOffset/*=0*/ )
+void ULConnectionManager::SendStore(const File & file, ULConnectionCallback* inCallback)
 {
   if (mConnection == NULL)
     {
     return;
     }
-  bool writeDataSet = pStream == NULL ;
-  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateCStoreRQPDU(*mConnection, file, writeDataSet);
+  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateCStoreRQPDU(*mConnection, file);
   const DataSet* inDataSet = &file.GetDataSet();
   DataSetEvent dse( inDataSet );
   this->InvokeEvent( dse );
 
-  ULEvent theEvent(ePDATArequest, theDataPDU, pStream, dataSetOffset );
+  ULEvent theEvent(ePDATArequest, theDataPDU);
   EStateID theState = RunEventLoop(theEvent, mConnection, inCallback, false);
   assert( theState == eSta6TransferReady || theState == eStaDoesNotExist ); (void)theState;
-}
-
-std::vector<DataSet> ULConnectionManager::SendNEventReport	(const BaseQuery* inQuery)
-{
-  ULBasicCallback theCallback;
-  SendNEventReport(inQuery, &theCallback);
-  return theCallback.GetDataSets();
-}
-
-void ULConnectionManager::SendNEventReport	(const BaseQuery* inQuery, ULConnectionCallback* inCallback)
-{
-  if (mConnection == NULL)
-    {
-    return;
-    }
-  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateNEventReportPDU( *mConnection, inQuery );
-  ULEvent theEvent(ePDATArequest, theDataPDU);
-  RunEventLoop(theEvent, mConnection, inCallback, false);
-}
-
-std::vector<DataSet> ULConnectionManager::SendNGet			(const BaseQuery* inQuery)
-{
-  ULBasicCallback theCallback;
-  SendNGet(inQuery, &theCallback);
-  return theCallback.GetDataSets();
-}
-
-void ULConnectionManager::SendNGet			(const BaseQuery* inQuery, ULConnectionCallback* inCallback)
-{
-  if (mConnection == NULL)
-    {
-    return;
-    }
-  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateNGetPDU( *mConnection, inQuery );
-  ULEvent theEvent(ePDATArequest, theDataPDU);
-  RunEventLoop(theEvent, mConnection, inCallback, false);
-}
-
-std::vector<DataSet> ULConnectionManager::SendNSet			(const BaseQuery* inQuery)
-{
-  ULBasicCallback theCallback;
-  SendNSet(inQuery, &theCallback);
-  return theCallback.GetDataSets();
-}
-
-void ULConnectionManager::SendNSet			(const BaseQuery* inQuery, ULConnectionCallback* inCallback)
-{
-  if (mConnection == NULL)
-    {
-    return;
-    }
-  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateNSetPDU( *mConnection, inQuery );
-  ULEvent theEvent(ePDATArequest, theDataPDU);
-  RunEventLoop(theEvent, mConnection, inCallback, false);
-}
-
-std::vector<DataSet> ULConnectionManager::SendNAction		(const BaseQuery* inQuery)
-{
-  ULBasicCallback theCallback;
-  SendNAction(inQuery, &theCallback);
-  return theCallback.GetDataSets();
-}
-
-void ULConnectionManager::SendNAction		(const BaseQuery* inQuery, ULConnectionCallback* inCallback)
-{
-  if (mConnection == NULL)
-    {
-    return;
-    }
-  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateNActionPDU( *mConnection, inQuery );
-  ULEvent theEvent(ePDATArequest, theDataPDU);
-  RunEventLoop(theEvent, mConnection, inCallback, false);
-}
-
-std::vector<DataSet> ULConnectionManager::SendNCreate		(const BaseQuery* inQuery)
-{
-  ULBasicCallback theCallback;
-  SendNCreate(inQuery, &theCallback);
-  return theCallback.GetDataSets();
-}
-
-void ULConnectionManager::SendNCreate		(const BaseQuery* inQuery, ULConnectionCallback* inCallback)
-{
-  if (mConnection == NULL)
-    {
-    return;
-    }
-  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateNCreatePDU( *mConnection, inQuery );
-  ULEvent theEvent(ePDATArequest, theDataPDU);
-  RunEventLoop(theEvent, mConnection, inCallback, false);
-}
-
-std::vector<DataSet> ULConnectionManager::SendNDelete		(const BaseQuery* inQuery)
-{
-  ULBasicCallback theCallback;
-  SendNDelete(inQuery, &theCallback);
-  return theCallback.GetDataSets();
-}
-
-void ULConnectionManager::SendNDelete		(const BaseQuery* inQuery, ULConnectionCallback* inCallback)
-{
-  if (mConnection == NULL)
-    {
-    return;
-    }
-  std::vector<BasePDU*> theDataPDU = PDUFactory::CreateNDeletePDU( *mConnection, inQuery );
-  ULEvent theEvent(ePDATArequest, theDataPDU);
-  RunEventLoop(theEvent, mConnection, inCallback, false);
 }
 
 bool ULConnectionManager::BreakConnection(const double& inTimeOut){

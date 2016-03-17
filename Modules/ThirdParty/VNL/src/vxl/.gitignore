@@ -1,0 +1,42 @@
+contrib/brl/bseg/boxm2/pyscripts/*pyc
+contrib/brl/bseg/bstm/pyscripts/*pyc
+contrib/brl/bseg/bvxm/pyscripts/*pyc
+contrib/brl/bseg/bvxm/pyscripts/*pyc
+
+# Do not add ExternalData module staging files
+.ExternalData*
+
+# back-up files
+*~
+*.bak
+# vim swp files
+*.swp
+## Ignore files that are used for auto_completion with clang
+*.clang_complete
+## YouCompleteMe vim plugin configuration file
+.ycm_extra_conf.py
+
+
+# KWStyle hook output
+*.kws
+
+# compiled python files
+*.pyc
+
+# Binary directory
+BUILD*
+build*
+
+# qtcreator
+CMakeLists.txt.user*
+
+# kdevelop
+*.kdev*
+.kdev*
+
+# back-up files when conflicts occur
+*.orig
+*.rej
+
+# Clion editor internal project information
+.idea

@@ -7,10 +7,7 @@
 // certainly in those cases where b is relatively small.
 // Negative exponents make of course no sense since the result must be int.
 // Beware of overflow!
-#if !(defined(__GNUC__) && defined(__OPTIMIZE__))
-inline // breaks test "Power of 2 with overflow" with gcc -O3
-#endif
-static int int_pow(int a, unsigned int b)
+inline static int int_pow(int a, unsigned int b)
 {
   if (b==0) return 1;
   else if (b==1) return a;
@@ -55,8 +52,10 @@ static void test_int_pow()
   TEST("Even exponent of -1", int_pow(-1, 12346U), 1);
   TEST("Odd exponent of -1", int_pow(-1, 12345U), -1);
   TEST("Large power of 2", int_pow(2, 30U), 0x40000000);
+#ifdef TEST_SIGNED_OVERFLOW // "signed overflow" might give compiler warnings or even worse ...
   TEST("Power of 2 with overflow", int_pow(2, 31U), (int)(-0x80000000L));
   TEST("Power of 2 with even more overflow", int_pow(2, 32U), 0);
+#endif // TEST_SIGNED_OVERFLOW
   TEST("Just a \"random\" case...", int_pow(-19, 7U), -893871739);
 }
 
@@ -69,9 +68,7 @@ static void test_dbl_pow()
   TEST("Odd exponent of -1", int_pow(-1.0, 12345), -1.0);
   TEST("Just a small \"random\" case...", int_pow(-23.0, 7), -3404825447.0);
   // for small x: (1+x)^a = 1 + ax + a(a-1)/2 x^2 + ...
-  // Note tolerance increased from 1e-13 to 1.075e-13 to meet olerance of the Fedora12-gcc4.4.4 optimized compilation.
-  // where the failing case was due to a difference of 1.05249e-13
-  TEST_NEAR("And a larger example...", int_pow(1.00000001, 900), 1.000009000040455, 1.075e-13);
+  TEST_NEAR("And a larger example...", int_pow(1.00000001, 900), 1.000009000040455, 1e-13);
   TEST_NEAR("And a large example...", int_pow(-10.0, 300), 1e300, 1e285);
   TEST_NEAR("Negative exponent", int_pow(-10.0, -300), 1e-300, 1e-313);
 }

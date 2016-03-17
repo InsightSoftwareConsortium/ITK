@@ -69,9 +69,6 @@ vnl_levenberg_marquardt::~vnl_levenberg_marquardt()
 
 //--------------------------------------------------------------------------------
 
-#ifdef VCL_SUNPRO_CC
-extern "C"
-#endif
 void vnl_levenberg_marquardt::lmdif_lsqfun(long* n,     // I   Number of residuals
                                            long* p,     // I   Number of unknowns
                                            double* x,  // I   Solution vector, size n
@@ -191,13 +188,6 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
                &info, this);
   end_error_ = fx.rms();
 
-#ifdef _SGI_CC_6_
-  // Something fundamentally odd about the switch below on SGI native... FIXME
-  vcl_cerr << "vnl_levenberg_marquardt: termination code = " << failure_code_ << vcl_endl;
-  // diagnose_outcome(vcl_cerr);
-  return 1;
-#endif
-
   // Translate status code
   switch ((int)failure_code_) {
   case 1: // ftol
@@ -212,9 +202,6 @@ bool vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double>& x)
 
 //--------------------------------------------------------------------------------
 
-#ifdef VCL_SUNPRO_CC
-extern "C"
-#endif
 void vnl_levenberg_marquardt::lmder_lsqfun(long* n,     // I   Number of residuals
                                            long* p,     // I   Number of unknowns
                                            double* x,  // I   Solution vector, size n
@@ -277,7 +264,7 @@ void vnl_levenberg_marquardt::lmder_lsqfun(long* n,     // I   Number of residua
           diff = ref_fJ(j,i) - finite_jac(j,i);
           diff = diff*diff;
           if ( diff > self->epsfcn ) {
-            vcl_cout << "Jac(" << i << ", " << j << ") diff: " << ref_fJ(j,i) 
+            vcl_cout << "Jac(" << i << ", " << j << ") diff: " << ref_fJ(j,i)
                      << "  " << finite_jac(j,i)
                      << "  " << ref_fJ(j,i)-finite_jac(j,i) << '\n';
           }

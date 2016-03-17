@@ -16,7 +16,7 @@
 // moved here because gcc 2.7 choked
 static vnl_matlab_print_format the_format = vnl_matlab_print_format_short;
 //: the rest of the stack is stored in this vector.
-static vcl_vector<int> *format_stack = 0;
+static vcl_vector<int> *format_stack = VXL_NULLPTR;
 //: call this to initialize the format stack.
 static void vnl_matlab_print_format_init()
 { if (!format_stack) format_stack = new vcl_vector<int>; }

@@ -36,16 +36,16 @@ HSVColormapFunction< TScalar, TRGBPixel >
   // Apply the color mapping.
   RealType red = vnl_math_abs( 5.0 * ( value - 0.5 ) ) - 5.0 / 6.0;
 
-  red = vnl_math_min(red, 1.0);
-  red = vnl_math_max(0.0, red);
+  red = std::min(red, 1.0);
+  red = std::max(0.0, red);
 
   RealType green = -vnl_math_abs( 5.0 * ( value - 11.0 / 30.0 ) ) + 11.0 / 6.0;
-  green = vnl_math_min(green, 1.0);
-  green = vnl_math_max(0.0, green);
+  green = std::min(green, 1.0);
+  green = std::max(0.0, green);
 
   RealType blue = -vnl_math_abs( 5.0 * ( value - 19.0 / 30.0 ) ) + 11.0 / 6.0;
-  blue = vnl_math_min(blue, 1.0);
-  blue = vnl_math_max(0.0, blue);
+  blue = std::min(blue, 1.0);
+  blue = std::max(0.0, blue);
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

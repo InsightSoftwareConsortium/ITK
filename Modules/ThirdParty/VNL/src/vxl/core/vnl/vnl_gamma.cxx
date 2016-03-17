@@ -124,5 +124,5 @@ double vnl_digamma(double z)
   double t5 = 0.0114684895434781459556/(4+z);
   double neu = t1/z + t2/(1+z) + t3/(2+z) + t4/(3+z) + t5/(4+z);
   double den = tc + t1 + t2 + t3 + t4 + t5;
-  return (t0 -(neu/den) + tlg);
+  return t0 -(neu/den) + tlg;
 }

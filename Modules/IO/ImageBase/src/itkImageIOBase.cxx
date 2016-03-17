@@ -500,6 +500,10 @@ std::string ImageIOBase::GetPixelTypeAsString(IOPixelType t)
       return std::string( "diffusion_tensor_3D" );
     case COMPLEX:
       return std::string( "complex" );
+    case FIXEDARRAY:
+      return std::string( "fixed_array" );
+    case MATRIX:
+      return std::string( "matrix" );
     case UNKNOWNPIXELTYPE:
       return std::string( "unknown" );
     default:
@@ -548,6 +552,14 @@ ImageIOBase::IOPixelType ImageIOBase::GetPixelTypeFromString(const std::string &
   else if(pixelString.compare("complex") == 0)
     {
     return COMPLEX;
+    }
+  else if(pixelString.compare("fixed_array") == 0)
+    {
+    return FIXEDARRAY;
+    }
+  else if(pixelString.compare("matrix") == 0)
+    {
+    return MATRIX;
     }
   else
     {

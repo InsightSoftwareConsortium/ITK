@@ -81,7 +81,7 @@ namespace Statistics
  * gray-level run-length distributions. Pattern Recognition Letters, 12:490-502,
  * 1991.
  *
- * IJ article: http://hdl.handle.net/1926/1374
+ * IJ article: https://hdl.handle.net/1926/1374
  *
  * \sa ScalarImageToRunLengthFeaturesFilter
  * \sa ScalarImageToRunLengthMatrixFilter

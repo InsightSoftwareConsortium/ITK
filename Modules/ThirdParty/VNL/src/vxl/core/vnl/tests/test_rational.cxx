@@ -68,19 +68,19 @@ static void test_operators()
   TEST("floor", floor(-d-1L), -2L);
   TEST("ceil", ceil(1L+d), 2L);
   TEST("ceil", ceil(-d-1L), -1L);
-  TEST("abs", vnl_math_abs(d), d);
-  TEST("abs", vnl_math_abs(b), -b);
-  TEST("sqr mag", vnl_math_squared_magnitude(d), vnl_rational(9,49));
+  TEST("abs", vnl_math::abs(d), d);
+  TEST("abs", vnl_math::abs(b), -b);
+  TEST("sqr mag", vnl_math::squared_magnitude(d), vnl_rational(9,49));
   a += b;
   a -= b;
   a *= b;
   a /= b;
   a %= b;
   vcl_cout << vcl_setprecision(20)
-           << "a=" << a << '=' << (double)a << vcl_endl
-           << "b=" << b << '=' << (double)b << vcl_endl
-           << "c=" << c << '=' << (double)c << vcl_endl
-           << "d=" << d << '=' << (double)d << vcl_endl
+           << "a=" << a << '=' << (double)a << '\n'
+           << "b=" << b << '=' << (double)b << '\n'
+           << "c=" << c << '=' << (double)c << '\n'
+           << "d=" << d << '=' << (double)d << '\n'
            << "e=" << e << vcl_endl; // (double)d ==> floating exception
   d = -7;
   d = -7L;
@@ -93,15 +93,15 @@ static void test_infinite()
   TEST("Inf+1", Inf.numerator() == 1 && Inf.denominator() == 0, true);
   Inf = -Inf;
   TEST("-Inf", Inf.numerator() == -1 && Inf.denominator() == 0, true);
-  TEST("vnl_math_isfinite", vnl_math_isfinite(Inf), false);
-  TEST("vnl_math_isnan", vnl_math_isnan(Inf), false);
+  TEST("vnl_math::isfinite", vnl_math::isfinite(Inf), false);
+  TEST("vnl_math::isnan", vnl_math::isnan(Inf), false);
 }
 
 static void test_frac()
 {
   vnl_rational r(-15,-20), s(1234321L,-1111111L), p;
-  TEST("vnl_math_isfinite", vnl_math_isfinite(r), true);
-  TEST("vnl_math_isnan", vnl_math_isnan(r), false);
+  TEST("vnl_math::isfinite", vnl_math::isfinite(r), true);
+  TEST("vnl_math::isnan", vnl_math::isnan(r), false);
   TEST("simplify", r.numerator() == 3 && r.denominator() == 4, true);
   TEST("sign in numerator", s.numerator() == -1234321L && s.denominator() == 1111111L, true);
   // All 5-digit numbers below are prime numbers, and small enough so that the multiplications in the constructors do not overflow
@@ -129,8 +129,8 @@ static void test_long_64()
 {
   long l1 = 1234321234321L, l2 = 2*l1, l3 = 123456787654321L, l4 = l3+1;
   vnl_rational r(-l1,-l2) /* denom = 2*num */, s(l3,-l4) /* relatively prime */, p;
-  TEST("vnl_math_isfinite", vnl_math_isfinite(r), true);
-  TEST("vnl_math_isnan", vnl_math_isnan(s), false);
+  TEST("vnl_math::isfinite", vnl_math::isfinite(r), true);
+  TEST("vnl_math::isnan", vnl_math::isnan(s), false);
   TEST("simplify", r.numerator() == 1 && r.denominator() == 2, true);
   TEST("sign in numerator", s.numerator() == -l3 && s.denominator() == l4, true);
   // The 10-digit numbers below are prime numbers, and small enough so that the multiplications in the constructors do not overflow (at least, on systems where "long" is 64 bit)
@@ -168,7 +168,7 @@ static void test_approx()
   double pi_a = double(pi);
   TEST("pi", pi_a-vnl_math::pi < 1e-18 && vnl_math::pi-pi_a < 1e-18, true);
   vcl_cout << "Best rational approximation of pi: " << pi << " = "
-           << pi_a << vcl_endl
+           << pi_a << '\n'
            << "Compare this with pi in 20 decimals:                     "
            << vnl_math::pi << vcl_endl;
 }
@@ -197,7 +197,7 @@ static void test_sqrt()
   d = vnl_sqrt(vnl_rational(2L));
   double sqrt2 = vcl_sqrt(2.0), sqrt_2 = double(d);
   vcl_cout << "Best rational approximation of sqrt(2): " << d << " = "
-           << sqrt_2 << vcl_endl
+           << sqrt_2 << '\n'
            << "Compare this with sqrt(2) in 20 decimals:                     "
            << sqrt2 << vcl_endl;
   TEST("sqrt(2)", sqrt2-sqrt_2 < 1e-18 && sqrt_2-sqrt2 < 1e-18, true);
@@ -219,10 +219,10 @@ static void test_complex()
   vcl_complex<vnl_rational> c(0L,1L);
   vnl_rational cc(-1L);
   TEST("complex square", c*c, cc);
-  TEST("complex abs", vnl_math_abs(c), 1);
-  TEST("complex sqr mag", vnl_math_squared_magnitude(c), 1);
-  TEST("complex vnl_math_isfinite", vnl_math_isfinite(c), true);
-  TEST("complex vnl_math_isnan", vnl_math_isnan(c), false);
+  TEST("complex abs", vnl_math::abs(c), 1);
+  TEST("complex sqr mag", vnl_math::squared_magnitude(c), 1);
+  TEST("complex vnl_math::isfinite", vnl_math::isfinite(c), true);
+  TEST("complex vnl_math::isnan", vnl_math::isnan(c), false);
 }
 
 static void test_complex_zero_one()

@@ -23,9 +23,9 @@ static integer c__1 = 1;
 /* *********************************************************************** */
 
 /*<    >*/
-/* Subroutine */ int dlabcm_(integer *n, integer *nband, integer *nl, integer 
+/* Subroutine */ int dlabcm_(integer *n, integer *nband, integer *nl, integer
         *nr, doublereal *a, doublereal *eigval, integer *lde, doublereal *
-        eigvec, doublereal *atol, doublereal *artol, doublereal *bound, 
+        eigvec, doublereal *atol, doublereal *artol, doublereal *bound,
         doublereal *atemp, doublereal *d__, doublereal *vtemp)
 {
     /* System generated locals */
@@ -37,21 +37,21 @@ static integer c__1 = 1;
     doublereal rq, gap;
     logical flag__;
     doublereal errb;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
     integer nval, numl;
     extern doublereal dnrm2_(integer *, doublereal *, integer *);
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     doublereal sigma, resid;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
-            doublereal *, integer *), daxpy_(integer *, doublereal *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
+            doublereal *, integer *), daxpy_(integer *, doublereal *,
             doublereal *, integer *, doublereal *, integer *);
     doublereal vnorm;
-    extern /* Subroutine */ int dlabfc_(integer *, integer *, doublereal *, 
-            doublereal *, integer *, integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dlabfc_(integer *, integer *, doublereal *,
+            doublereal *, integer *, integer *, doublereal *, integer *,
             integer *, doublereal *, doublereal *, doublereal *), dlabax_(
-            integer *, integer *, doublereal *, doublereal *, doublereal *), 
+            integer *, integer *, doublereal *, doublereal *, doublereal *),
             dlaran_(integer *, doublereal *);
     integer numvec;
 
@@ -109,7 +109,7 @@ static integer c__1 = 1;
     i__1 = nval;
     for (i__ = 1; i__ <= i__1; ++i__) {
 /*<    >*/
-        if (ddot_(n, &eigvec[i__ * eigvec_dim1 + 1], &c__1, &eigvec[i__ * 
+        if (ddot_(n, &eigvec[i__ * eigvec_dim1 + 1], &c__1, &eigvec[i__ *
                 eigvec_dim1 + 1], &c__1) == 0.) {
             dlaran_(n, &eigvec[i__ * eigvec_dim1 + 1]);
         }
@@ -168,7 +168,7 @@ L20:
 
 /*<    >*/
 L30:
-        rq = sigma + ddot_(n, &eigvec[j * eigvec_dim1 + 1], &c__1, &vtemp[1], 
+        rq = sigma + ddot_(n, &eigvec[j * eigvec_dim1 + 1], &c__1, &vtemp[1],
                 &c__1) / vnorm / vnorm;
 /*<             CALL DAXPY(N, SIGMA-RQ, EIGVEC(1,J), 1, VTEMP, 1) >*/
         d__1 = sigma - rq;
@@ -216,7 +216,7 @@ L30:
             goto L40;
         }
 /*<    >*/
-        if (rq - errb > bound[(j << 1) + 2] && rq + errb < bound[((j + 2) << 1) 
+        if (rq - errb > bound[(j << 1) + 2] && rq + errb < bound[((j + 2) << 1)
                 + 1]) {
             goto L310;
         }
@@ -272,7 +272,7 @@ L50:
 
 /*<    70       CALL DCOPY(N, EIGVEC(1,J), 1, EIGVEC(1,I), 1) >*/
 L70:
-        dcopy_(n, &eigvec[j * eigvec_dim1 + 1], &c__1, &eigvec[i__ * 
+        dcopy_(n, &eigvec[j * eigvec_dim1 + 1], &c__1, &eigvec[i__ *
                 eigvec_dim1 + 1], &c__1);
 
 /*<    80       CALL DLARAN(N, EIGVEC(1,J)) >*/
@@ -327,7 +327,7 @@ L220:
         dcopy_(n, &eigvec[j * eigvec_dim1 + 1], &c__1, &vtemp[1], &c__1);
 /*<    >*/
         i__2 = (*nband << 1) - 1;
-        dlabfc_(n, nband, &a[a_offset], &sigma, &numvec, lde, &eigvec[j * 
+        dlabfc_(n, nband, &a[a_offset], &sigma, &numvec, lde, &eigvec[j *
                 eigvec_dim1 + 1], &numl, &i__2, &atemp[1], &d__[1], atol);
 
 /*  PARTIALLY SCALE EXTRA VECTORS TO PREVENT UNDERFLOW OR OVERFLOW */
@@ -403,7 +403,7 @@ L305:
         rq = (bound[((j + 1) << 1) + 1] + bound[((j + 1) << 1) + 2]) * .5;
 /*<    >*/
         i__2 = (*nband << 1) - 1;
-        dlabfc_(n, nband, &a[a_offset], &rq, &numvec, lde, &eigvec[j * 
+        dlabfc_(n, nband, &a[a_offset], &rq, &numvec, lde, &eigvec[j *
                 eigvec_dim1 + 1], &numl, &i__2, &atemp[1], &d__[1], atol);
 /*<          VNORM = DNRM2(N, EIGVEC(1,J), 1) >*/
         vnorm = dnrm2_(n, &eigvec[j * eigvec_dim1 + 1], &c__1);
@@ -428,9 +428,9 @@ L310:
         i__2 = m;
         for (i__ = 1; i__ <= i__2; ++i__) {
 /*<    >*/
-            d__1 = -ddot_(n, &eigvec[i__ * eigvec_dim1 + 1], &c__1, &eigvec[j 
+            d__1 = -ddot_(n, &eigvec[i__ * eigvec_dim1 + 1], &c__1, &eigvec[j
                     * eigvec_dim1 + 1], &c__1);
-            daxpy_(n, &d__1, &eigvec[i__ * eigvec_dim1 + 1], &c__1, &eigvec[j 
+            daxpy_(n, &d__1, &eigvec[i__ * eigvec_dim1 + 1], &c__1, &eigvec[j
                     * eigvec_dim1 + 1], &c__1);
 /*<   320    CONTINUE >*/
 /* L320: */
@@ -462,9 +462,9 @@ L330:
         i__2 = nval;
         for (i__ = m; i__ <= i__2; ++i__) {
 /*<    >*/
-            d__1 = -ddot_(n, &eigvec[j * eigvec_dim1 + 1], &c__1, &eigvec[i__ 
+            d__1 = -ddot_(n, &eigvec[j * eigvec_dim1 + 1], &c__1, &eigvec[i__
                     * eigvec_dim1 + 1], &c__1);
-            daxpy_(n, &d__1, &eigvec[j * eigvec_dim1 + 1], &c__1, &eigvec[i__ 
+            daxpy_(n, &d__1, &eigvec[j * eigvec_dim1 + 1], &c__1, &eigvec[i__
                     * eigvec_dim1 + 1], &c__1);
 /*<   340    CONTINUE >*/
 /* L340: */

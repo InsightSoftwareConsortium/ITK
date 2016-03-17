@@ -82,7 +82,7 @@ extern "C" {
 /*     |________________________________________________________| */
 
 /*<       SUBROUTINE CG(X,E,IT,STEP,T,LIMIT,N,M,VALUE,GRAD,BOTH,PRE,H) >*/
-/* Subroutine */ int cg_(doublereal *x, doublereal *e, integer *it, 
+/* Subroutine */ int cg_(doublereal *x, doublereal *e, integer *it,
         doublereal *step, doublereal *t, integer *limit, integer *n, integer *
         m,
         double (*value)(double*,void*),
@@ -110,7 +110,7 @@ extern "C" {
     /* Builtin functions */
     double log(doublereal), exp(doublereal), d_sign(doublereal *, doublereal *
             ), sqrt(doublereal);
-    integer s_wsle(cilist *), do_lio(integer *, integer *, char *, ftnlen), 
+    integer s_wsle(cilist *), do_lio(integer *, integer *, char *, ftnlen),
             e_wsle();
     /* Subroutine */ int s_stop(char *, ftnlen);
 
@@ -126,10 +126,10 @@ extern "C" {
                           double (*value)(double*,void*), void*);
     extern /* Subroutine */ int cub_(doublereal *, doublereal *, doublereal *,
              doublereal *, doublereal *, doublereal *, doublereal *), fvd_(
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *, integer *, void (*)(double*,double*,double*,void*), void*),
-            ins_(doublereal *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+            ins_(doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *, doublereal *, integer *, doublereal *, doublereal *)
             ;
 
@@ -283,7 +283,7 @@ L90:
 /*<       NB = 0 >*/
     nb = 0;
 /*<       NC = 0 >*/
-    nc = 0;
+//    nc = 0;
 /*<       ND = 0 >*/
     nd = 0;
 /*<       Q = (D+(F-F0)/C0)/C0 >*/
@@ -327,7 +327,7 @@ L110:
         goto L120;
     }
 /*<       F1 = F0 >*/
-    f1 = f0;
+//    f1 = f0;
 /*<       C1 = C0 >*/
     c1 = c0;
 /*<       F0 = P >*/
@@ -338,7 +338,7 @@ L110:
     goto L130;
 /*< 120   F1 = P >*/
 L120:
-    f1 = p;
+//    f1 = p;
 /*<       C1 = Q >*/
     c1 = q;
 /*< 130   CALL INS(Q,P,A,B,C,FA,FB,FC,J,Y,Z) >*/
@@ -1090,7 +1090,7 @@ L620:
 /*< 630   Q = Q*A3**25 >*/
 L630:
 /* Computing 25th power */
-    d__1 = a3, d__2 = d__1, d__1 *= d__1, d__1 *= d__1, d__1 *= d__1, d__2 *= 
+    d__1 = a3, d__2 = d__1, d__1 *= d__1, d__1 *= d__1, d__1 *= d__1, d__2 *=
             d__1;
     q *= d__2 * (d__1 * d__1);
 /*<       ND = 0 >*/
@@ -1135,7 +1135,7 @@ L660:
 } /* cg_ */
 
 /*<       DOUBLE PRECISION FUNCTION FV(A,X,H,N,VALUE) >*/
-doublereal fv_(doublereal *a, doublereal *x, doublereal *h__, integer *n, 
+doublereal fv_(doublereal *a, doublereal *x, doublereal *h__, integer *n,
                double (*value)(double*,void*), void* userdata)
 {
     /* System generated locals */
@@ -1169,7 +1169,7 @@ doublereal fv_(doublereal *a, doublereal *x, doublereal *h__, integer *n,
 } /* fv_ */
 
 /*<       DOUBLE PRECISION FUNCTION FD(A,X,H,N,GRAD) >*/
-doublereal fd_(doublereal *a, doublereal *x, doublereal *h__, integer *n, 
+doublereal fd_(doublereal *a, doublereal *x, doublereal *h__, integer *n,
         void (*grad)(double*,double*,void*), void* userdata)
 {
     /* System generated locals */
@@ -1215,7 +1215,7 @@ doublereal fd_(doublereal *a, doublereal *x, doublereal *h__, integer *n,
 } /* fd_ */
 
 /*<       SUBROUTINE FVD(V,D,A,X,H,N,BOTH) >*/
-/* Subroutine */ int fvd_(doublereal *v, doublereal *d__, doublereal *a, 
+/* Subroutine */ int fvd_(doublereal *v, doublereal *d__, doublereal *a,
                           doublereal *x, doublereal *h__, integer *n,
                           void (*both)(double*,double*,double*,void*),
                           void* userdata)
@@ -1259,7 +1259,7 @@ doublereal fd_(doublereal *a, doublereal *x, doublereal *h__, integer *n,
 } /* fvd_ */
 
 /*<       SUBROUTINE CUB(X,A,B,C,D,E,F) >*/
-/* Subroutine */ int cub_(doublereal *x, doublereal *a, doublereal *b, 
+/* Subroutine */ int cub_(doublereal *x, doublereal *a, doublereal *b,
         doublereal *c__, doublereal *d__, doublereal *e, doublereal *f)
 {
     /* System generated locals */
@@ -1344,8 +1344,8 @@ L50:
 } /* cub_ */
 
 /*<       SUBROUTINE INS(S,F,A,B,C,FA,FB,FC,J,Y,Z) >*/
-/* Subroutine */ int ins_(doublereal *s, doublereal *f, doublereal *a, 
-        doublereal *b, doublereal *c__, doublereal *fa, doublereal *fb, 
+/* Subroutine */ int ins_(doublereal *s, doublereal *f, doublereal *a,
+        doublereal *b, doublereal *c__, doublereal *fa, doublereal *fb,
         doublereal *fc, integer *j, doublereal *y, doublereal *z__)
 {
 /*<       REAL*8 A,B,C,F,FA,FB,FC,S,Y(1),Z(1) >*/

@@ -93,13 +93,6 @@ void test_matrix_fixed_ref()
   //    assign from mat
   mf other;
   vcl_generate(other.begin(),other.end(),vcl_rand);
-#if 0 // cannot assign to a vnl_matrix_fixed_ref_const
-  ref = other;
-  TEST("assign_mf", ref, other);
-  // test different addresses
-  TEST("assign_mf", (ref.begin() != other.begin()), true);
-#endif // 0
-
   {
     //    assign from const mfr
     vcl_generate(other.begin(),other.end(),vcl_rand);
@@ -110,17 +103,6 @@ void test_matrix_fixed_ref()
     TEST("assign_const_ref", (ref.begin() != other.begin()), true);
   }
 
-  {
-#if 0 // cannot assign to a vnl_matrix_fixed_ref_const
-    //    assign from mfr
-    vcl_generate(other.begin(),other.end(),vcl_rand);
-    mfr ref2(other);
-    ref = ref2;
-    TEST("assign_ref", ref, other);
-    // test different addresses
-    TEST("assign_ref", (ref.begin() != other.begin()), true);
-#endif // 0
-  }
   // arithmetic
   {
     // plus

@@ -5,24 +5,7 @@
 #include <vnl/algo/vnl_sparse_lu.h>
 #include "test_util.h"
 
-//for debugging purposes
-#if 0
-static void print_sparse(vnl_sparse_matrix<double>& M)
-{
-  typedef vnl_sparse_matrix_pair<double> pair_t;
-  unsigned n = M.rows();
-  for (unsigned r = 0; r<n; r++)
-  {
-    vcl_vector < pair_t > rr = M.get_row(r);
-    for (vcl_vector<pair_t>::const_iterator cit = rr.begin();
-         cit != rr.end(); cit++)
-      vcl_cout << "M[" <<  r << "][" << (*cit).first << "]= "
-               << (*cit).second << '\n';
-  }
-}
-#endif
-
-void test_sparse_lu()
+static void test_sparse_lu()
 {
   //mat0 of Kenneth S. Kunder's Sparse 1.3a release
   vnl_sparse_matrix<double> A(4,4);
@@ -93,49 +76,6 @@ void test_sparse_lu()
   double upbnd = lubd.max_error_bound();
   vcl_cout << "birth-death upper error bound = " << upbnd << '\n';
   TEST_NEAR("birth-death upper error", upbnd, 5.923e-015, 1.e-016);
-#if 0
-  //Test a large matrix
-  unsigned n = 10000;
-  s = -0.001;
-   vcl_cout << '\n' << '\n';
-  for (unsigned k = 0; k<10; ++k)
-  {
-    s *= 0.1;
-    vcl_cout << "s = " << s << '\n'<< '\n';
-    vnl_sparse_matrix<double> SL(n,n);
-    for (unsigned i = 1; i<(n/2-1); i++)
-    {
-      SL(i,i-1)=-m;
-      SL(i,i)=s+l+m;
-      SL(i,i+1)=-l;
-    }
-    for (unsigned i = (n/2+1); i<(n-1); i++)
-    {
-      SL(i,i-1)=-m;
-      SL(i,i)=s+l+m;
-      SL(i,i+1)=-l;
-    }
-    SL(0,0)=s+l; SL(0,1)=-l;
-    SL((n/2-1),(n/2-2))=-m; SL((n/2-1),(n/2-1))= s+l+m;
-    SL(n/2,n/2)= s+l+m; SL(n/2,(n/2+1))=-l;
-    SL(n-1,n-2)=-m;   SL(n-1,n-1)= s+m;
-    vnl_sparse_lu lubdl(SL,vnl_sparse_lu::estimate_condition);
-    vnl_vector<double> blarge(n,0.0), xlarge(n);
-    blarge[n/2-1]=l; blarge[n/2]=m;
-
-    lubdl.set_pivot_thresh(0);
-    lubdl.solve(blarge, &xlarge);
-
-    vcl_cout << "xlarge[0] = " << xlarge[0] << "    xlarge[n/2-1] = " << xlarge[n/2-1] << '\n';
-    upbnd = lubdl.max_error_bound();
-    vcl_cout << "birth-death upper error bound = " << upbnd << '\n'
-             << "mean passage time from adjacent state = " << -(xlarge[n/2-1]-1)/s << '\n'
-             << "mean passage time from S0 = " << -(xlarge[0]-1)/s << '\n'
-             << "ratio =" << (1.0-xlarge[0])/(1-xlarge[n/2-1])<< '\n';
-    cond = lubdl.rcond();
-    vcl_cout << "large matrix birth-death condition number = " << cond << '\n';
-  }
-#endif
 }
 
 TESTMAIN(test_sparse_lu);

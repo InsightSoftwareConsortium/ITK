@@ -196,7 +196,6 @@ GiftiMeshIO
           break;
         default:
           itkExceptionMacro(<< "Unknown point component type");
-          break;
         }
 
       // get coord system
@@ -267,7 +266,6 @@ GiftiMeshIO
         default:
           gifti_free_image( m_GiftiImage );
           itkExceptionMacro(<< "Unknown cell component type");
-          break;
         }
       }
     else if ( m_GiftiImage->darray[ii]->intent == NIFTI_INTENT_SHAPE )
@@ -376,7 +374,6 @@ GiftiMeshIO
             default:
               gifti_free_image( m_GiftiImage );
               itkExceptionMacro(<< "Unknown data attribute component type");
-              break;
             }
           }
         else if ( this->m_NumberOfCellPixels == static_cast< SizeValueType >( m_GiftiImage->darray[ii]->dims[0] ) )
@@ -555,7 +552,6 @@ GiftiMeshIO
               default:
                 gifti_free_image( m_GiftiImage );
                 itkExceptionMacro(<< "Unknown data attribute component type");
-                break;
               }
             }
           }
@@ -771,7 +767,6 @@ GiftiMeshIO
             default:
               gifti_free_image( m_GiftiImage );
               itkExceptionMacro(<< "Unknown data attribute component type");
-              break;
             }
           }
         else if ( this->m_NumberOfCellPixels == static_cast< SizeValueType >( m_GiftiImage->darray[ii]->dims[0] ) )

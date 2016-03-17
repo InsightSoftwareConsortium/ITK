@@ -324,7 +324,7 @@ void OPJ_CALLCONV opj_set_default_decoder_parameters(opj_dparameters_t *paramete
   }
 }
 
-bool OPJ_CALLCONV opj_setup_decoder(opj_codec_t *p_info, opj_dparameters_t *parameters) {
+OPJ_API bool OPJ_CALLCONV opj_setup_decoder(opj_codec_t *p_info, opj_dparameters_t *parameters) {
   if
     (p_info && parameters)
   {
@@ -728,7 +728,7 @@ opj_stream_t* OPJ_CALLCONV opj_stream_create_file_stream (FILE * p_file,OPJ_UINT
 }
 
 
-bool OPJ_CALLCONV opj_setup_encoder(opj_codec_t *p_info, opj_cparameters_t *parameters, opj_image_t *image)
+OPJ_API bool OPJ_CALLCONV opj_setup_encoder(opj_codec_t *p_info, opj_cparameters_t *parameters, opj_image_t *image)
 {
   if
     (p_info && parameters && image)

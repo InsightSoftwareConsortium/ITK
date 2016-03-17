@@ -190,7 +190,7 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
   //Now fill the principal component outputs
   unsigned int kthLargestPrincipalComp = m_NumberOfTrainingImages;
   unsigned int numberOfValidOutputs =
-    vnl_math_min(numberOfOutputs, m_NumberOfTrainingImages + 1);
+    std::min(numberOfOutputs, m_NumberOfTrainingImages + 1);
 
   for ( j = 1; j < numberOfValidOutputs; j++ )
     {

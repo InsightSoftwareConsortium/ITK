@@ -20,8 +20,8 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       SUBROUTINE ZGEBAL( JOB, N, A, LDA, ILO, IHI, SCALE, INFO ) >*/
-/* Subroutine */ int zgebal_(char *job, integer *n, doublecomplex *a, integer 
-        *lda, integer *ilo, integer *ihi, doublereal *scale, integer *info, 
+/* Subroutine */ int zgebal_(char *job, integer *n, doublecomplex *a, integer
+        *lda, integer *ilo, integer *ihi, doublereal *scale, integer *info,
         ftnlen job_len)
 {
     /* System generated locals */
@@ -37,7 +37,7 @@ static integer c__1 = 1;
     doublereal r__, s, ca, ra;
     integer ica, ira, iexc;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *, 
+    extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *,
             doublecomplex *, integer *);
     doublereal sfmin1, sfmin2, sfmax1, sfmax2;
     extern doublereal dlamch_(char *, ftnlen);
@@ -196,7 +196,7 @@ static integer c__1 = 1;
     *info = 0;
 /*<    >*/
     if (! lsame_(job, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(job, "P", (
-            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1) 
+            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1)
             && ! lsame_(job, "B", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = -1 >*/
         *info = -1;

@@ -1,4 +1,4 @@
-#include <vnl/vnl_math.h> // vnl_math_abs()
+#include <vnl/vnl_math.h> // vnl_math::abs()
 #include <testlib/testlib_test.h>
 #undef printf // to work around a bug in libintl.h
 #include <vcl_cstdio.h>
@@ -35,14 +35,14 @@ void test_qsvd()
              AA[0], AA[3], AA[6], AA[1], AA[4], AA[7], AA[2], AA[5], AA[8]);
 
   TEST("D1 must be (0.6,0.8,0.6)",
-       vnl_math_abs(Alpha[0]-0.6)<1e-6 &&
-       vnl_math_abs(Alpha[1]-0.8)<1e-6 &&
-       vnl_math_abs(Alpha[2]-0.6)<1e-6, true);
+       vnl_math::abs(Alpha[0]-0.6)<1e-6 &&
+       vnl_math::abs(Alpha[1]-0.8)<1e-6 &&
+       vnl_math::abs(Alpha[2]-0.6)<1e-6, true);
 
   TEST("D2 must be (0.8,0.6,0.8)",
-       vnl_math_abs(Beta[0]-0.8)<1e-6 &&
-       vnl_math_abs(Beta[1]-0.6)<1e-6 &&
-       vnl_math_abs(Beta[2]-0.8)<1e-6, true);
+       vnl_math::abs(Beta[0]-0.8)<1e-6 &&
+       vnl_math::abs(Beta[1]-0.6)<1e-6 &&
+       vnl_math::abs(Beta[2]-0.8)<1e-6, true);
 }
 
 TESTMAIN(test_qsvd);

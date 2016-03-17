@@ -34,6 +34,19 @@ ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
   m_Interpolator        = ITK_NULLPTR; // has to be provided by the user.
 }
 
+/** Return the number of parameters required by the Transform */
+template< typename TFixedImage, typename TMovingSpatialObject >
+unsigned int
+ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
+::GetNumberOfParameters( void ) const
+{
+  if ( !m_Transform )
+    {
+    itkExceptionMacro(<< "Transform is not present");
+    }
+  return m_Transform->GetNumberOfParameters();
+}
+
 /**
  * Initialize
  */

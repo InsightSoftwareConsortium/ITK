@@ -40,10 +40,10 @@ namespace network {
     return theEchoRQ.ConstructPDV(inConnection,NULL);
     }
 
-  std::vector<PresentationDataValue> CompositeMessageFactory::ConstructCStoreRQ(const ULConnection& inConnection, const File &file, bool writeDataSet /*= true*/ )
+  std::vector<PresentationDataValue> CompositeMessageFactory::ConstructCStoreRQ(const ULConnection& inConnection, const File &file)
     {
     CStoreRQ theStoreRQ;
-    return theStoreRQ.ConstructPDV( inConnection, file, writeDataSet );
+    return theStoreRQ.ConstructPDV(inConnection,file);
     }
   std::vector<PresentationDataValue> CompositeMessageFactory::ConstructCStoreRSP(const DataSet *inDataSet, const BasePDU* inPDU) {
     CStoreRSP theStoreRSP;

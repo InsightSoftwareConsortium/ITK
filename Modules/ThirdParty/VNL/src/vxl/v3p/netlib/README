@@ -7,19 +7,6 @@ The old netlib library has been almost completely removed.  All code
 but triangle.c and related code belong to the newer v3p_netlib
 library.
 
-
---------------------------------------------------------------
-NOTE: 
-Luis Ibanez September 23 2006: The following files were 
-removed because their license precludes commercial use:
-
-        triangle.c
-        triangle.h
-        triangle.README
-
---------------------------------------------------------------
-
-
 The v3p_netlib library contains updated netlib code converted with f2c
 in a thread-safe manner.  Sources have been modified to use the
 v3p_*.h headers in this directory.  Types and function names have been

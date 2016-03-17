@@ -110,7 +110,6 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
   // mu is initialized now because the compiler produces warnings -MM
   double mu=0; // damping term (initialized later)
   double nu=2.0;
-  bool stop = false;
   // compute the initial residual
   f_->f(a,b,c,e_);
   num_evaluations_ = 1;
@@ -125,7 +124,7 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
   double sqr_error = e_.squared_magnitude();
   start_error_ = vcl_sqrt(sqr_error/e_.size()); // RMS error
 
-  for (num_iterations_=0; num_iterations_<(unsigned int)maxfev && !stop; ++num_iterations_)
+  for (num_iterations_=0; num_iterations_<(unsigned int)maxfev; ++num_iterations_)
   {
     if (verbose_)
       vcl_cout << "iteration "<<vcl_setw(4)<<num_iterations_
@@ -153,7 +152,6 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
     if (vcl_max(vcl_max(ea_.inf_norm(),eb_.inf_norm()),ec_.inf_norm()) <= gtol)
     {
       failure_code_ = CONVERGED_GTOL;
-      stop = true;
       break;
     }
 
@@ -187,7 +185,7 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
         // this large inverse is the bottle neck of this algorithm
         vnl_matrix<double> H;
         vnl_cholesky Sa_cholesky(Sa,vnl_cholesky::quiet);
-        vnl_svd<double> *Sa_svd = 0;
+        vnl_svd<double> *Sa_svd = VXL_NULLPTR;
         // use SVD as a backup if Cholesky is deficient
         if ( Sa_cholesky.rank_deficiency() > 0 )
         {
@@ -256,7 +254,6 @@ bool vnl_sparse_lm::minimize(vnl_vector<double>& a,
       sqr_delta += dc.squared_magnitude();
       if (sqr_delta < xtol*xtol*sqr_params) {
         failure_code_ = CONVERGED_XTOL;
-        stop = true;
         break;
       }
 

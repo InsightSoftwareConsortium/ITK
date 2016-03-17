@@ -38,9 +38,12 @@
 #include "itkImageHelper.h"
 #include "itkFloatTypes.h"
 
-//HACK:  vnl/vnl_matrix_fixed.txx is needed here?
-//      to avoid undefined symbol vnl_matrix_fixed<double, 8u, 8u>::set_identity()", referenced from
-#include "vnl/vnl_matrix_fixed.txx"
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL < 20160229
+#include "vnl/vnl_matrix_fixed.txx" // Get the templates
+#else
+#include "vnl/vnl_matrix_fixed.hxx" // Get the templates
+#endif
 
 #include "itkImageTransformHelper.h"
 

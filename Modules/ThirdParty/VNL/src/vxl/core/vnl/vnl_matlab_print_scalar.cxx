@@ -46,7 +46,7 @@ void vnl_matlab_print_scalar(float v,
   case vnl_matlab_print_format_short_e:
     vcl_sprintf(buf, "%8.4e ", v);
     break;
-  default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
+  default:/*vnl_matlab_print_format_default:*/ vcl_abort();
   }
 }
 
@@ -75,7 +75,8 @@ void vnl_matlab_print_scalar(double v,
   case vnl_matlab_print_format_short_e:
     vcl_sprintf(buf, "%10.4e ", v);
     break;
-  default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
+  default:/*vnl_matlab_print_format_default:*/
+    vcl_abort();
   }
 }
 
@@ -107,7 +108,7 @@ void vnl_matlab_print_scalar(vcl_complex<double> v,
     width = 8;
     precision = 4;
     break;
-  default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
+  default:/*vnl_matlab_print_format_default:*/ vcl_abort();
   }
 
   switch (format) {
@@ -119,7 +120,7 @@ void vnl_matlab_print_scalar(vcl_complex<double> v,
   case vnl_matlab_print_format_short_e:
     conv = 'e';
     break;
-  default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
+  default:/*vnl_matlab_print_format_default:*/ vcl_abort();
   }
 
   double r = vcl_real(v);
@@ -174,7 +175,7 @@ void vnl_matlab_print_scalar(vcl_complex<float> v,
     width = 8;
     precision = 4;
     break;
-  default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
+  default:/*vnl_matlab_print_format_default:*/ vcl_abort();
   }
 
   switch (format) {
@@ -186,7 +187,7 @@ void vnl_matlab_print_scalar(vcl_complex<float> v,
   case vnl_matlab_print_format_short_e:
     conv = 'e';
     break;
-  default:/*vnl_matlab_print_format_default:*/ vcl_abort(); break;
+  default:/*vnl_matlab_print_format_default:*/ vcl_abort();
   }
 
   float r = vcl_real(v);

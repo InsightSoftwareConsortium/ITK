@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       complex function cdotc(n,cx,incx,cy,incy) >*/
-/* Complex */ VOID cdotc_(complex * ret_val, integer *n, complex *cx, integer 
+/* Complex */ VOID cdotc_(complex * ret_val, integer *n, complex *cx, integer
         *incx, complex *cy, integer *incy)
 {
     /* System generated locals */
@@ -78,7 +78,7 @@ extern "C" {
 /*<         ctemp = ctemp + conjg(cx(ix))*cy(iy) >*/
         r_cnjg(&q__3, &cx[ix]);
         i__2 = iy;
-        q__2.r = q__3.r * cy[i__2].r - q__3.i * cy[i__2].i, q__2.i = q__3.r * 
+        q__2.r = q__3.r * cy[i__2].r - q__3.i * cy[i__2].i, q__2.i = q__3.r *
                 cy[i__2].i + q__3.i * cy[i__2].r;
         q__1.r = ctemp.r + q__2.r, q__1.i = ctemp.i + q__2.i;
         ctemp.r = q__1.r, ctemp.i = q__1.i;
@@ -103,7 +103,7 @@ L20:
 /*<         ctemp = ctemp + conjg(cx(i))*cy(i) >*/
         r_cnjg(&q__3, &cx[i__]);
         i__2 = i__;
-        q__2.r = q__3.r * cy[i__2].r - q__3.i * cy[i__2].i, q__2.i = q__3.r * 
+        q__2.r = q__3.r * cy[i__2].r - q__3.i * cy[i__2].i, q__2.i = q__3.r *
                 cy[i__2].i + q__3.i * cy[i__2].r;
         q__1.r = ctemp.r + q__2.r, q__1.i = ctemp.i + q__2.i;
         ctemp.r = q__1.r, ctemp.i = q__1.i;

@@ -33,14 +33,14 @@
 //    These are further partitioned into subsets {a_1, a_2, ... a_m} and
 //    {b_1, b_2, ... b_n}.  Likewise, the residual vector X is partitioned into
 //    {x_11, x_12, ... x_mn} (not all x_ij are required).  We further assume that
-//    dx_ij/da_k = 0 for all i != k and dx_ij/db_k = 0 for all j != k.  
+//    dx_ij/da_k = 0 for all i != k and dx_ij/db_k = 0 for all j != k.
 //
-//    This implementation further generalizes the concept by allowing for a 
+//    This implementation further generalizes the concept by allowing for a
 //    third set of parameters C that are non-sparse.  That is, dx_ij/dC != 0
 //    for all i and j (in general).
 //
-//    An example use case is bundle adjustment where each a_i is the parameters 
-//    for one of m cameras, each b_j is the parameters of a 3D point, and x_ij 
+//    An example use case is bundle adjustment where each a_i is the parameters
+//    for one of m cameras, each b_j is the parameters of a 3D point, and x_ij
 //    is the projection error of the jth point by the ith camera.  If type
 //    C parameters are used, they might represent the unknown intrinic camera
 //    parameters that are assumed to be fixed over all images.
@@ -127,12 +127,12 @@ class vnl_sparse_lst_sqr_function
                  vnl_vector<double>& f);
 
   //: Compute the sparse Jacobian in block form.
-  //  Given the parameter vectors a, b, and c, compute the set of block 
+  //  Given the parameter vectors a, b, and c, compute the set of block
   //  Jacobians Aij, Bij, and Cij.
   //  All Aij, Bij, and Cij have been sized appropriately before the call.
   //  The default implementation computes A, B, and C by calling
   //  jac_Aij, jac_Bij, and jac_Cij for each valid pair of i and j.
-  //  You do not need to overload this method unless you want to provide 
+  //  You do not need to overload this method unless you want to provide
   //  a more efficient implementation for your problem.
   virtual void jac_blocks(vnl_vector<double> const& a,
                           vnl_vector<double> const& b,
@@ -142,10 +142,10 @@ class vnl_sparse_lst_sqr_function
                           vcl_vector<vnl_matrix<double> >& C);
 
   //: Compute the sparse Jacobian in block form using a finite difference approximation.
-  //  Given the parameter vectors a, b and c, compute the set of block Jacobians 
-  //  Aij, Bij, and Cij.  The finite difference approximation is done independently 
+  //  Given the parameter vectors a, b and c, compute the set of block Jacobians
+  //  Aij, Bij, and Cij.  The finite difference approximation is done independently
   //  at each block.  All Aij, Bij, and Cij have been sized appropriately before the call.
-  //  The default implementation computes A, B, and C by calling 
+  //  The default implementation computes A, B, and C by calling
   //  jac_Aij, jac_Bij, and jac_Cij for each valid pair of i and j.
   //  You do not need to overload this method unless you want to provide
   //  a more efficient implementation for your problem.
@@ -245,11 +245,11 @@ class vnl_sparse_lst_sqr_function
   //  Return the weight in \a weight.
   //  The default implementation sets weight = 1
   virtual void compute_weight_ij(int i, int j,
-                               vnl_vector<double> const& ai,
-                               vnl_vector<double> const& bj,
-                               vnl_vector<double> const& c,
-                               vnl_vector<double> const& fij,
-                               double& weight);
+                                 vnl_vector<double> const& ai,
+                                 vnl_vector<double> const& bj,
+                                 vnl_vector<double> const& c,
+                                 vnl_vector<double> const& fij,
+                                 double& weight);
 
   //: If using weighted least squares, apply the weight to fij.
   //  The default implementation multiplies fij by weight.
@@ -289,7 +289,7 @@ class vnl_sparse_lst_sqr_function
   {
     int k = residual_indices_(i,j);
     if (k<0) return 0;
-    else return number_of_residuals(k); 
+    else return number_of_residuals(k);
   }
 
   //: return the index of aj in a
@@ -302,13 +302,13 @@ class vnl_sparse_lst_sqr_function
   unsigned int index_e(int k) const { return indices_e_[k]; }
 
   //: Return the number of subsets in \p a
-  unsigned int number_of_a() const { return indices_a_.size()-1; }
+  unsigned int number_of_a() const { return (unsigned int)(indices_a_.size()-1); }
 
   //: Return the number of subsets in \p b
-  unsigned int number_of_b() const { return indices_b_.size()-1; }
+  unsigned int number_of_b() const { return (unsigned int)(indices_b_.size()-1); }
 
   //: Return the number of residual vectors
-  unsigned int number_of_e() const { return indices_e_.size()-1; }
+  unsigned int number_of_e() const { return (unsigned int)(indices_e_.size()-1); }
 
   //: Return true if the derived class has indicated that gradf has been implemented
   bool has_gradient() const { return use_gradient_; }

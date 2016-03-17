@@ -71,6 +71,9 @@ public:
     return "Primitive Cell";
   }
 
+  bool CheckPointApoptosis()
+    { return CellBase::CheckPointApoptosis(); }
+
   static Cell * CreateEgg();
 
   static unsigned int GetDimension()

@@ -3,7 +3,6 @@
 #include <testlib/testlib_test.h>
 #include <vcl_complex.h>
 #include <vcl_iostream.h>
-#include <vcl_cstring.h>
 #include <vxl_config.h> // for VXL_BIG_ENDIAN
 
 static
@@ -27,9 +26,7 @@ void test_static_const_definition()
     check_pointer( &vnl_numeric_traits< Type >::maxval );\
     check_pointer( &vnl_numeric_traits< const Type >::maxval );\
   } while (false)
-  // The Intel compiler has problems resolving static consts with this test
-  // as it stands
-#if !defined(__INTEL_COMPILER)
+
   ALL(bool);
   ALL(char);
   ALL(unsigned char);
@@ -46,7 +43,6 @@ void test_static_const_definition()
   ONE_ZERO( vcl_complex<float> );
   ONE_ZERO( vcl_complex<double> );
   ONE_ZERO( vcl_complex<long double> );
-#endif
 
 #undef ONE_ZERO
 #undef ALL
@@ -148,24 +144,28 @@ void test_numeric_traits()
   TEST("vnl_numeric_traits<long double>::maxval must be at least as large", ldm>=dm, true);
 
   // Verify that there is nothing larger than these maxval values:
-  ++cm;  TEST("vnl_numeric_traits<char>::maxval must be the largest possible", cm<=0, true);
-  if (cm > 0) vcl_cout << cm << " is larger\n";
-  ++scm; TEST("vnl_numeric_traits<signed char>::maxval must be the largest possible", scm<0, true);
-  if (scm > 0) vcl_cout << scm << " is larger\n";
+  // unsigned cases:
   ++ucm; TEST("vnl_numeric_traits<unsigned char>::maxval must be the largest possible", ucm==0, true);
   if (ucm > 0) vcl_cout << ucm << " is larger\n";
-  ++sm;  TEST("vnl_numeric_traits<short>::maxval must be the largest possible", sm<0, true);
-  if (sm > 0) vcl_cout << sm << " is larger\n";
   ++usm; TEST("vnl_numeric_traits<unsigned short>::maxval must be the largest possible", usm==0, true);
   if (usm > 0) vcl_cout << usm << " is larger\n";
-  im = increment(im); TEST("vnl_numeric_traits<int>::maxval must be the largest possible", im<0, true);
-  if (im > 0) vcl_cout << im << " is larger\n";
   ++uim; TEST("vnl_numeric_traits<unsigned int>::maxval must be the largest possible", uim==0, true);
   if (uim > 0) vcl_cout << uim << " is larger\n";
-  lm=increment(lm);  TEST("vnl_numeric_traits<long>::maxval must be the largest possible", lm<0, true);
-  if (lm > 0) vcl_cout << lm << " is larger\n";
   ++ulm; TEST("vnl_numeric_traits<unsigned long>::maxval must be the largest possible", ulm==0, true);
   if (ulm > 0) vcl_cout << ulm << " is larger\n";
+#ifdef TEST_SIGNED_OVERFLOW // "signed overflow" might give compiler warnings or even worse ...
+  // signed cases:
+  ++scm; TEST("vnl_numeric_traits<signed char>::maxval must be the largest possible", scm<0, true);
+  if (scm > 0) vcl_cout << scm << " is larger\n";
+  ++cm;  TEST("vnl_numeric_traits<char>::maxval must be the largest possible", cm<=0, true);
+  if (cm > 0) vcl_cout << cm << " is larger\n";
+  ++sm;  TEST("vnl_numeric_traits<short>::maxval must be the largest possible", sm<0, true);
+  if (sm > 0) vcl_cout << sm << " is larger\n";
+  im = increment(im); TEST("vnl_numeric_traits<int>::maxval must be the largest possible", im<0, true);
+  if (im > 0) vcl_cout << im << " is larger\n";
+  lm=increment(lm);  TEST("vnl_numeric_traits<long>::maxval must be the largest possible", lm<0, true);
+  if (lm > 0) vcl_cout << lm << " is larger\n";
+#endif // TEST_SIGNED_OVERFLOW
 
   unsigned char* x = (unsigned char*)(&fm);
   int nr_of_ones = 0;
@@ -201,23 +201,7 @@ void test_numeric_traits()
   // there should only be 2 zeros in the representation: the sign bits of mantissa and of exponent:
   TEST("vnl_numeric_traits<double>::maxval must be the largest possible", nr_of_ones, 8*sizeof(double)-2);
 
-  typedef union {
-    long double ld;
-    char lc[sizeof(long double)];
-    } longdoublewithbackup;
-
-  longdoublewithbackup ldwb;
-
-  // initialize the full set of bytes under the long double type
-  vcl_memset( ldwb.lc, 0, sizeof(long double) );
-
-  ldwb.ld = ldm;
-
-  x = (unsigned char*)(&(ldwb.ld));
-#if 0
-      // See TODO below.  Do not set if not used.
-  nr_of_ones = 0;
-#endif
+  x = (unsigned char*)(&ldm);
   vcl_cout << "vnl_numeric_traits<long double>::maxval has internal representation ";
 #if VXL_BIG_ENDIAN
   for (unsigned int i=0; i<sizeof(long double); ++i)
@@ -226,17 +210,9 @@ void test_numeric_traits()
 #endif
     for (int j=7; j>=0; --j) {
       int n = int(((x[i])>>j)&1);
-#if 0
-      // See TODO below.  Do not set if not used.
-      nr_of_ones += n;
-#endif
       vcl_cout << n;
     }
   vcl_cout << '\n';
-#if 0 // TODO - long double has non-standard length on different platforms
-  // there should only be 2 zeros in the representation: the sign bits of mantissa and of exponent:
-  TEST("vnl_numeric_traits<long double>::maxval must be the largest possible", nr_of_ones, 8*sizeof(long double)-2);
-#endif
 }
 
 TESTMAIN(test_numeric_traits);

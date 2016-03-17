@@ -35,7 +35,7 @@ namespace itk
  * This class was contribtued to the Insight Journal by
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
- *      http://hdl.handle.net/1926/153
+ *      https://hdl.handle.net/1926/153
  *
  * RegionalMaximaImageFilter
  * MathematicalMorphologyImageFilters

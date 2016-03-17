@@ -18,14 +18,17 @@ const vcl_complex<vnl_rational> vnl_numeric_traits<vcl_complex<vnl_rational> >::
 const vcl_complex<vnl_rational> vnl_numeric_traits<vcl_complex<vnl_rational> >::one
   = vcl_complex<vnl_rational>(vnl_rational(1L,1L),vnl_rational(0L,1L));
 
-vnl_rational vnl_math_squared_magnitude(vcl_complex<vnl_rational> const& x)
+namespace vnl_math
 {
-  return x.real()*x.real()+x.imag()*x.imag();
-}
+  vnl_rational squared_magnitude(vcl_complex<vnl_rational> const& x)
+  {
+    return x.real()*x.real()+x.imag()*x.imag();
+  }
 
-vnl_rational vnl_math_abs(vcl_complex<vnl_rational> const& x)
-{
-  return vnl_rational(vcl_sqrt(double(x.real()*x.real()+x.imag()*x.imag())));
+  vnl_rational abs(vcl_complex<vnl_rational> const& x)
+  {
+    return vnl_rational(vcl_sqrt(double(x.real()*x.real()+x.imag()*x.imag())));
+  }
 }
 
 vcl_ostream& operator<<(vcl_ostream& os, vcl_complex<vnl_rational> x)

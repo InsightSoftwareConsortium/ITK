@@ -9,6 +9,7 @@
 #include <vnl/vnl_diag_matrix_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_vector_fixed.h>
+#include <vcl_exception.h>
 
 void test_diag_matrix_fixed()
 {
@@ -99,6 +100,29 @@ void test_diag_matrix_fixed()
   TEST("matrix product", p2(0,0) ==  0.0  && p2(0,1) == 0.0 && p2(0,2) == -0.75
                       && p2(1,0) == -1.5  && p2(1,1) == 0.0 && p2(1,2) == -0.5
                       && p2(2,0) == -0.75 && p2(2,1) == 0.0 && p2(2,2) ==  0.0, true);
+
+  ///////////////
+  // ACCESSORS //
+  ///////////////
+
+#if VNL_CONFIG_CHECK_BOUNDS
+
+  {
+  // Get
+  bool exceptionThrownAndCaught = false;
+  vcl_try { m1.get(25,25); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds get(25,25)", exceptionThrownAndCaught, true);
+
+  // Put
+  exceptionThrownAndCaught = false;
+  vcl_try { m1.put(25,25,0); }  // Raise out of bounds exception.
+  vcl_catch_all { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds put(25,25,0)", exceptionThrownAndCaught, true);
+  }
+
+#endif
+
 }
 
 TESTMAIN(test_diag_matrix_fixed);

@@ -48,7 +48,7 @@ public:
   typedef typename VideoStreamType::FrameType FrameType;
   typedef ::itk::SizeValueType                FrameOffsetType;
   typedef typename FrameType::PixelType       PixelType;
-  static const unsigned int Dimensions =      FrameType::ImageDimension;
+  static ITK_CONSTEXPR unsigned int Dimensions =      FrameType::ImageDimension;
 
   /** Constructor - default */
   vidl_itk_istream();

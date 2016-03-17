@@ -6,7 +6,7 @@
 // \file
 #include "vnl_rnpoly_solve.h"
 
-#include <vnl/vnl_math.h> // for vnl_math::pi
+#include <vnl/vnl_math.h> // for vnl_math::twopi
 #include <vcl_cmath.h>
 #include <vcl_cassert.h>
 #ifdef DEBUG
@@ -50,7 +50,7 @@ class vnl_rnpoly_solve_cmplx
   { return *this = operator/(Y); }
 };
 
-static const double twopi = 2.0*vnl_math::pi;
+static const double twopi = vnl_math::twopi;
 
 static const double epsilonB  = 2.e-03;
 static const vnl_rnpoly_solve_cmplx  epsilonZ  = vnl_rnpoly_solve_cmplx(1.e-04,1.e-04);

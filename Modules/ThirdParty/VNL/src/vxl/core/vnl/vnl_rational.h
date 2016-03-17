@@ -90,7 +90,7 @@ class vnl_rational
     : num_((long)num), den_((long)den) { assert(num!=0||den!=0); normalize(); }
   //: Creates a rational from a double.
   //  This is done by computing the continued fraction approximation for d.
-  //  Note that this is explicitly *not* an automatic type conversion.
+  //  Note that this is explicitly \e not an automatic type conversion.
   explicit vnl_rational(double d);
   //  Copy constructor
   inline vnl_rational(vnl_rational const& from)
@@ -183,16 +183,16 @@ class vnl_rational
            den_ *= r.denominator()/c; }
     normalize(); return *this;
   }
-  inline vnl_rational& operator%=(long r){assert(r);num_%=den_*r;normalize();return *this;}
+  inline vnl_rational& operator%=(long r) {assert(r);num_%=den_*r;normalize();return *this;}
 
   //: Pre-increment (++r).  No-op when +-Inf.
   inline vnl_rational& operator++() { num_ += den_; return *this; }
   //: Pre-decrement (--r).  No-op when +-Inf.
   inline vnl_rational& operator--() { num_ -= den_; return *this; }
   //: Post-increment (r++).  No-op when +-Inf.
-  inline vnl_rational operator++(int){vnl_rational b=*this;num_+=den_;return b;}
+  inline vnl_rational operator++(int) {vnl_rational b=*this;num_+=den_;return b;}
   //: Post-decrement (r--).  No-op when +-Inf.
-  inline vnl_rational operator--(int){vnl_rational b=*this;num_-=den_;return b;}
+  inline vnl_rational operator--(int) {vnl_rational b=*this;num_-=den_;return b;}
 
   inline bool operator<(vnl_rational const& rhs) const {
     if (den_ == rhs.denominator())   // If same denominator
@@ -440,10 +440,13 @@ inline long floor(vnl_rational const& r) { return r.floor(); }
 inline long ceil(vnl_rational const& r) { return r.ceil(); }
 inline long round(vnl_rational const& r) { return r.round(); }
 
-inline vnl_rational vnl_math_abs(vnl_rational const& x) { return x<0L ? -x : x; }
-inline vnl_rational vnl_math_squared_magnitude(vnl_rational const& x) { return x*x; }
-inline vnl_rational vnl_math_sqr(vnl_rational const& x) { return x*x; }
-inline bool vnl_math_isnan(vnl_rational const& ){return false;}
-inline bool vnl_math_isfinite(vnl_rational const& x){return x.denominator() != 0L;}
+namespace vnl_math
+{
+  inline vnl_rational abs(vnl_rational const& x) { return x<0L ? -x : x; }
+  inline vnl_rational squared_magnitude(vnl_rational const& x) { return x*x; }
+  inline vnl_rational sqr(vnl_rational const& x) { return x*x; }
+  inline bool isnan(vnl_rational const& ) {return false;}
+  inline bool isfinite(vnl_rational const& x) {return x.denominator() != 0L;}
+}
 
 #endif // vnl_rational_h_

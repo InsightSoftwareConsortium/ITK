@@ -25,9 +25,9 @@ extern "C" {
     /* Local variables */
     integer i__, k;
     doublereal aii;
-    extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, doublereal *, integer *, 
-            doublereal *, ftnlen), dlarfg_(integer *, doublereal *, 
+    extern /* Subroutine */ int dlarf_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, ftnlen), dlarfg_(integer *, doublereal *,
             doublereal *, integer *, doublereal *), xerbla_(char *, integer *,
              ftnlen);
 
@@ -162,7 +162,7 @@ extern "C" {
 
 /*<    >*/
         i__1 = *n - k + i__;
-        dlarfg_(&i__1, &a[*m - k + i__ + (*n - k + i__) * a_dim1], &a[*m - k 
+        dlarfg_(&i__1, &a[*m - k + i__ + (*n - k + i__) * a_dim1], &a[*m - k
                 + i__ + a_dim1], lda, &tau[i__]);
 
 /*        Apply H(i) to A(1:m-k+i-1,1:n-k+i) from the right */

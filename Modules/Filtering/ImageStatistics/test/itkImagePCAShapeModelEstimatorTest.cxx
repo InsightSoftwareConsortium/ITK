@@ -174,7 +174,7 @@ int itkImagePCAShapeModelEstimatorTest(int, char* [] )
     applyPCAShapeEstimator->GetNumberOfPrincipalComponentsRequired() <<
     " largest eigen values are:" << std::endl;
 
-  for(unsigned int i= 0; i< vnl_math_min( numEigVal, NUMLARGESTPC ); i++ )
+  for(unsigned int i= 0; i< std::min( numEigVal, NUMLARGESTPC ); i++ )
     {
     std::cout << eigenValues[ i ] << std::endl;
     }

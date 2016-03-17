@@ -24,7 +24,7 @@ static integer c__1 = 1;
 /* *********************************************************************** */
 
 /*<       SUBROUTINE DLABAX(N, NBAND, A, X, Y) >*/
-/* Subroutine */ int dlabax_(integer *n, integer *nband, doublereal *a, 
+/* Subroutine */ int dlabax_(integer *n, integer *nband, doublereal *a,
         doublereal *x, doublereal *y)
 {
     /* System generated locals */
@@ -33,7 +33,7 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__, k, l, m;
     doublereal zero[1];
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
             doublereal *, integer *);
 
 

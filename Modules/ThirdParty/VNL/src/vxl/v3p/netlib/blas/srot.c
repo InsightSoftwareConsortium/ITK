@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine srot (n,sx,incx,sy,incy,c,s) >*/
-/* Subroutine */ int srot_(integer *n, real *sx, integer *incx, real *sy, 
+/* Subroutine */ int srot_(integer *n, real *sx, integer *incx, real *sy,
         integer *incy, real *c__, real *s)
 {
     /* System generated locals */

@@ -46,7 +46,7 @@ public:
   }
 
   inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  { return (TOutput)( A * B ); }
+  { return static_cast<TOutput>( A * B ); }
 };
 }
 /** \class MultiplyImageFilter

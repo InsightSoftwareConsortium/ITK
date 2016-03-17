@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int sormr2_(char *side, char *trans, integer *m, integer *n, 
+/* Subroutine */ int sormr2_(char *side, char *trans, integer *m, integer *n,
         integer *k, real *a, integer *lda, real *tau, real *c__, integer *ldc,
          real *work, integer *info, ftnlen side_len, ftnlen trans_len)
 {
@@ -28,7 +28,7 @@ extern "C" {
     real aii;
     logical left;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *, 
+    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *,
             integer *, real *, real *, integer *, real *, ftnlen), xerbla_(
             char *, integer *, ftnlen);
     logical notran;

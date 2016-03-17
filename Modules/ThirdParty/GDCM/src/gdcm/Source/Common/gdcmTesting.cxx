@@ -433,6 +433,7 @@ static const LossyFile gdcmLossyFilenames[] = {
 { 0, "JPEGInvalidSecondFrag.dcm" },
 { 0, "SC16BitsAllocated_8BitsStoredJ2K.dcm" },
 { 0, "SC16BitsAllocated_8BitsStoredJPEG.dcm" },
+{ 0, "SIEMENS_SYNGO-12-MONO2-LUTWrongLength512.dcm" },
 { 0, NULL }
 };
 

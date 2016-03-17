@@ -52,7 +52,7 @@ public:
   /** typedef for superclass */
   typedef QuaternionOrientationAdapter Self;
 
-  typedef OrientationAdapterBase< QuaternionOrientationAdapterClasses::TransformPointerType, VDimension > SuperClass;
+  typedef OrientationAdapterBase< QuaternionOrientationAdapterClasses::TransformPointerType, VDimension > Superclass;
   typedef QuaternionRigidTransform< double >
   OrientationRootType;
   typedef QuaternionOrientationAdapterClasses::TransformPointerType
@@ -63,7 +63,7 @@ public:
                    ( Concept::SameDimension< VDimension, 3 > ) );
 
   /** typedef for direction cosines */
-  typedef typename SuperClass::DirectionType DirectionType;
+  typedef typename Superclass::DirectionType DirectionType;
 
   /** convert from direction cosines. */
   virtual OrientationType FromDirectionCosines(const DirectionType & Dir)

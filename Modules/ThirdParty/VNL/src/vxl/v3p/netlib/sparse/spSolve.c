@@ -31,11 +31,6 @@
  *  Copyright (c) 1985-2003
  *  by Kenneth S. Kundert
  */
-#if 0
-static char copyright[] =
-    "Sparse1.4: Copyright (c) 1985-2003 by Kenneth S. Kundert";
-#endif
-
 
 /*
  *  IMPORTS
@@ -186,7 +181,7 @@ void SolveComplexMatrix();
 
 /* Forward elimination. Solves Lc = b.*/
     for (I = 1; I <= Size; I++)
-    {   
+    {
 /* This step of the elimination is skipped if Temp equals zero. */
         if ((Temp = Intermediate[I]) != 0.0)
         {   pPivot = Matrix->Diag[I];
@@ -498,7 +493,7 @@ void SolveComplexTransposedMatrix();
 
 /* Forward elimination. */
     for (I = 1; I <= Size; I++)
-    {   
+    {
 /* This step of the elimination is skipped if Temp equals zero. */
         if ((Temp = Intermediate[I]) != 0.0)
         {   pElement = Matrix->Diag[I]->NextInRow;

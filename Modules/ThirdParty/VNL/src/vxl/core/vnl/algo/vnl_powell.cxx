@@ -136,7 +136,7 @@ vnl_powell::minimize(vnl_vector<double>& p)
     report_eval(fret);
     if (fptt < fp)
     {
-      double t=2.0*(fp-2.0*fret+fptt)*vnl_math_sqr(fp-fret-del)-del*vnl_math_sqr(fp-fptt);
+      double t=2.0*(fp-2.0*fret+fptt)*vnl_math::sqr(fp-fret-del)-del*vnl_math::sqr(fp-fptt);
       if (t < 0.0)
       {
         f1d.init(p, xit);

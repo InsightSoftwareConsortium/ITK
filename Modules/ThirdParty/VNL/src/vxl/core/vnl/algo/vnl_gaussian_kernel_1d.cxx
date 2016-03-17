@@ -20,7 +20,7 @@
 static inline
 double compute_width(double sigma, double cutoff)
 {
-  return sigma * vcl_sqrt(-2 * vcl_log(cutoff * sigma * vcl_sqrt(2*vnl_math::pi)));
+  return sigma * vcl_sqrt(-2 * vcl_log(cutoff * sigma * vnl_math::sqrt2pi));
 }
 
 //: Construct a sampled 1D gaussian of standard deviation sigma.

@@ -183,12 +183,12 @@ vnl_sparse_lst_sqr_function::f(vnl_vector<double> const& a,
 
 
 //: Compute the sparse Jacobian in block form.
-//  Given the parameter vectors a, b, and c, compute the set of block 
+//  Given the parameter vectors a, b, and c, compute the set of block
 //  Jacobians Aij, Bij, and Cij.
 //  All Aij, Bij, and Cij have been sized appropriately before the call.
 //  The default implementation computes A, B, and C by calling
 //  jac_Aij, jac_Bij, and jac_Cij for each valid pair of i and j.
-//  You do not need to overload this method unless you want to provide 
+//  You do not need to overload this method unless you want to provide
 //  a more efficient implementation for your problem.
 void
 vnl_sparse_lst_sqr_function::jac_blocks(vnl_vector<double> const& a,
@@ -223,10 +223,10 @@ vnl_sparse_lst_sqr_function::jac_blocks(vnl_vector<double> const& a,
 
 
 //: Compute the sparse Jacobian in block form using a finite difference approximation.
-//  Given the parameter vectors a, b and c, compute the set of block Jacobians 
-//  Aij, Bij, and Cij.  The finite difference approximation is done independently 
+//  Given the parameter vectors a, b and c, compute the set of block Jacobians
+//  Aij, Bij, and Cij.  The finite difference approximation is done independently
 //  at each block.  All Aij, Bij, and Cij have been sized appropriately before the call.
-//  The default implementation computes A, B, and C by calling 
+//  The default implementation computes A, B, and C by calling
 //  jac_Aij, jac_Bij, and jac_Cij for each valid pair of i and j.
 //  You do not need to overload this method unless you want to provide
 //  a more efficient implementation for your problem.
@@ -352,46 +352,46 @@ vnl_sparse_lst_sqr_function::apply_weights(vnl_vector<double> const& weights,
 //  Given the parameter vectors ai, bj, and c, compute the vector of residuals fij.
 //  fij has been sized appropriately before the call.
 void
-vnl_sparse_lst_sqr_function::fij(int i, int j, 
-                                 vnl_vector<double> const& ai,
-                                 vnl_vector<double> const& bj,
-                                 vnl_vector<double> const& c,
-                                 vnl_vector<double>& f_i_j)
+vnl_sparse_lst_sqr_function::fij(int /*i*/, int /*j*/,
+                                 vnl_vector<double> const& /*ai*/,
+                                 vnl_vector<double> const& /*bj*/,
+                                 vnl_vector<double> const& /*c*/,
+                                 vnl_vector<double>      & /*f_i_j*/)
 {
   vcl_cerr << "Warning: fij() called but not implemented in derived class\n";
 }
 
 //: Calculate the Jacobian A_ij, given the parameter vectors a_i, b_j, and c.
 void
-vnl_sparse_lst_sqr_function::jac_Aij(int i, int j, 
-                                     vnl_vector<double> const& ai,
-                                     vnl_vector<double> const& bj,
-                                     vnl_vector<double> const& c,
-                                     vnl_matrix<double>& Aij)
+vnl_sparse_lst_sqr_function::jac_Aij(int /*i*/, int /*j*/,
+                                     vnl_vector<double> const& /*ai*/,
+                                     vnl_vector<double> const& /*bj*/,
+                                     vnl_vector<double> const& /*c*/,
+                                     vnl_matrix<double>      & /*Aij*/)
 {
   vcl_cerr << "Warning: jac_Aij() called but not implemented in derived class\n";
 }
 
 //: Calculate the Jacobian B_ij, given the parameter vectors a_i, b_j, and c.
 void
-vnl_sparse_lst_sqr_function::jac_Bij(int i, int j, 
-                                     vnl_vector<double> const& ai,
-                                     vnl_vector<double> const& bj,
-                                     vnl_vector<double> const& c,
-                                     vnl_matrix<double>& Bij)
+vnl_sparse_lst_sqr_function::jac_Bij(int /*i*/, int /*j*/,
+                                     vnl_vector<double> const& /*ai*/,
+                                     vnl_vector<double> const& /*bj*/,
+                                     vnl_vector<double> const& /*c*/,
+                                     vnl_matrix<double>      & /*Bij*/)
 {
   vcl_cerr << "Warning: jac_Bij() called but not implemented in derived class\n";
 }
 
 //: Calculate the Jacobian C_ij, given the parameter vectors a_i, b_j, and c.
 void
-vnl_sparse_lst_sqr_function::jac_Cij(int i, int j, 
-                                     vnl_vector<double> const& ai,
-                                     vnl_vector<double> const& bj,
-                                     vnl_vector<double> const& c,
-                                     vnl_matrix<double>& Cij)
+vnl_sparse_lst_sqr_function::jac_Cij(int /*i*/, int /*j*/,
+                                     vnl_vector<double> const& /*ai*/,
+                                     vnl_vector<double> const& /*bj*/,
+                                     vnl_vector<double> const& /*c*/,
+                                     vnl_matrix<double>      & /*Cij*/)
 {
-  if(num_params_c_ > 0)
+  if (num_params_c_ > 0)
     vcl_cerr << "Warning: jac_Cij() called but not implemented in derived class\n";
 }
 
@@ -401,7 +401,7 @@ vnl_sparse_lst_sqr_function::fd_jac_Aij(int i, int j,
                                         vnl_vector<double> const& ai,
                                         vnl_vector<double> const& bj,
                                         vnl_vector<double> const& c,
-                                        vnl_matrix<double>& Aij,
+                                        vnl_matrix<double>      & Aij,
                                         double stepsize)
 {
   const unsigned int dim = ai.size();
@@ -441,7 +441,7 @@ vnl_sparse_lst_sqr_function::fd_jac_Bij(int i, int j,
                                         vnl_vector<double> const& ai,
                                         vnl_vector<double> const& bj,
                                         vnl_vector<double> const& c,
-                                        vnl_matrix<double>& Bij,
+                                        vnl_matrix<double>      & Bij,
                                         double stepsize)
 {
   const unsigned int dim = bj.size();
@@ -481,12 +481,16 @@ vnl_sparse_lst_sqr_function::fd_jac_Cij(int i, int j,
                                         vnl_vector<double> const& ai,
                                         vnl_vector<double> const& bj,
                                         vnl_vector<double> const& c,
-                                        vnl_matrix<double>& Cij,
+                                        vnl_matrix<double>      & Cij,
                                         double stepsize)
 {
   const unsigned int dim = c.size();
-  const unsigned int n = Cij.rows();
   assert(dim == number_of_params_c());
+  // if there are no C parameters, return early
+  if(dim == 0)
+    return;
+
+  const unsigned int n = Cij.rows();
   assert(n == number_of_residuals(i,j));
   assert(dim == Cij.columns());
 

@@ -587,6 +587,7 @@ static  VIO_Status  transform_or_invert_point_with_input_steps(
                                          z_transformed );
         }
         break;
+
     case GRID_TRANSFORM:
         if( !transform->displacement_volume ) {
           handle_internal_error( "Not initialized grid transform, make sure you have MINC1" );
@@ -608,6 +609,7 @@ static  VIO_Status  transform_or_invert_point_with_input_steps(
                                   z_transformed );
         }
         break;
+
     case USER_TRANSFORM:
         if( inverse_flag )
         {

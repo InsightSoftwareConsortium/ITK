@@ -167,13 +167,13 @@ extern "C" void test_qr()
   double_test();
 
   vcl_cout << "-------------------- float\n";
-  new_test((float*)0);
+  new_test((float*)VXL_NULLPTR);
   vcl_cout << "-------------------- double\n";
-  new_test((double*)0);
+  new_test((double*)VXL_NULLPTR);
   vcl_cout << "-------------------- float_complex\n";
-  new_test((vcl_complex<float>*)0);
+  new_test((vcl_complex<float>*)VXL_NULLPTR);
   vcl_cout << "-------------------- double_complex\n";
-  new_test((vcl_complex<double>*)0);
+  new_test((vcl_complex<double>*)VXL_NULLPTR);
 }
 
 TESTMAIN(test_qr);

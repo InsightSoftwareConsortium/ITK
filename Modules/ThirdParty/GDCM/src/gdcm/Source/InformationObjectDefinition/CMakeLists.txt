@@ -37,6 +37,7 @@ include_directories(
   "${GDCM_SOURCE_DIR}/Source/DataStructureAndEncodingDefinition"
   "${GDCM_SOURCE_DIR}/Source/DataDictionary"
   "${GDCM_SOURCE_DIR}/Utilities"
+  "${GDCM_BINARY_DIR}/Utilities/gdcmexpat" # expat_mangle.h
   )
 if(GDCM_USE_SYSTEM_EXPAT)
   include_directories(

@@ -91,13 +91,13 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest( int argc, char 
     {
     float radius = 100.0;
     PointType fixedPoint;
-    fixedPoint[0] = 2 * radius * vcl_cos( theta );
-    fixedPoint[1] = radius * vcl_sin( theta );
+    fixedPoint[0] = 2 * radius * std::cos( theta );
+    fixedPoint[1] = radius * std::sin( theta );
     fixedPoints->SetPoint( count, fixedPoint );
 
     PointType movingPoint;
-    movingPoint[0] = 2 * radius * vcl_cos( theta + (0.02 * vnl_math::pi) ) + 2.0;
-    movingPoint[1] = radius * vcl_sin( theta + (0.02 * vnl_math::pi) ) + 2.0;
+    movingPoint[0] = 2 * radius * std::cos( theta + (0.02 * vnl_math::pi) ) + 2.0;
+    movingPoint[1] = radius * std::sin( theta + (0.02 * vnl_math::pi) ) + 2.0;
     movingPoints->SetPoint( count, movingPoint );
 
     count++;
@@ -115,11 +115,11 @@ int itkJensenHavrdaCharvatTsallisPointSetMetricRegistrationTest( int argc, char 
     {
     PointType fixedPoint;
     float radius = 100.0;
-    fixedPoint[0] = radius * vcl_cos( theta );
-    fixedPoint[1] = radius * vcl_sin( theta );
+    fixedPoint[0] = radius * std::cos( theta );
+    fixedPoint[1] = radius * std::sin( theta );
     if( Dimension > 2 )
       {
-      fixedPoint[2] = radius * vcl_sin( theta );
+      fixedPoint[2] = radius * std::sin( theta );
       }
     fixedPoints->SetPoint( count, fixedPoint );
 

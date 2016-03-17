@@ -65,42 +65,39 @@ NrrdImageIO::NrrdToITKComponentType(const int nrrdComponentType) const
     case nrrdTypeUnknown:
     case nrrdTypeBlock:
       return UNKNOWNCOMPONENTTYPE;
-      break;
+
     case nrrdTypeChar:
       return CHAR;
-      break;
+
     case nrrdTypeUChar:
       return UCHAR;
-      break;
+
     case nrrdTypeShort:
       return SHORT;
-      break;
+
     case nrrdTypeUShort:
       return USHORT;
-      break;
+
     // "long" is a silly type because it basically guaranteed not to be
     // cross-platform across 32-vs-64 bit machines, but we'll use it
     // where possible.
     case nrrdTypeLLong:
       return (4 == sizeof(long) ) ? UNKNOWNCOMPONENTTYPE : LONG;
-      break;
+
     case nrrdTypeULLong:
       return (4 == sizeof(long) ) ? UNKNOWNCOMPONENTTYPE : ULONG;
-      break;
+
     case nrrdTypeInt:
       return INT;
-      break;
+
     case nrrdTypeUInt:
       return UINT;
-      break;
+
     case nrrdTypeFloat:
       return FLOAT;
-      break;
+
     case nrrdTypeDouble:
       return DOUBLE;
-      break;
-    default:
-      break;
     }
   // Strictly to avoid compiler warning regarding "control may reach end of
   // non-void function":
@@ -114,42 +111,39 @@ NrrdImageIO::ITKToNrrdComponentType(const ImageIOBase::IOComponentType itkCompon
     {
     case UNKNOWNCOMPONENTTYPE:
       return nrrdTypeUnknown;
-      break;
+
     case CHAR:
       return nrrdTypeChar;
-      break;
+
     case UCHAR:
       return nrrdTypeUChar;
-      break;
+
     case SHORT:
       return nrrdTypeShort;
-      break;
+
     case USHORT:
       return nrrdTypeUShort;
-      break;
+
     // "long" is a silly type because it basically guaranteed not to be
     // cross-platform across 32-vs-64 bit machines, but we can figure out
     // a cross-platform way of storing the information.
     case LONG:
       return (4 == sizeof(long) ) ? nrrdTypeInt : nrrdTypeLLong;
-      break;
+
     case ULONG:
       return (4 == sizeof(long) ) ? nrrdTypeUInt : nrrdTypeULLong;
-      break;
+
     case INT:
       return nrrdTypeInt;
-      break;
+
     case UINT:
       return nrrdTypeUInt;
-      break;
+
     case FLOAT:
       return nrrdTypeFloat;
-      break;
+
     case DOUBLE:
       return nrrdTypeDouble;
-      break;
-    default:
-      break;
     }
   // Strictly to avoid compiler warning regarding "control may reach end of
   // non-void function":
@@ -337,7 +331,7 @@ void NrrdImageIO::ReadImageInformation()
           itkExceptionMacro("ReadImageInformation: range axis kind ("
                             << airEnumStr(nrrdKind, kind) << ") seems more "
                             "like a domain axis than a range axis");
-          break;
+
         case nrrdKindStub:
         case nrrdKindScalar:
           this->SetPixelType(ImageIOBase::SCALAR);
@@ -402,7 +396,6 @@ void NrrdImageIO::ReadImageInformation()
         default:
           itkExceptionMacro("ReadImageInformation: nrrdKind " << kind
                                                               << " not known!");
-          break;
         }
       }
     else
@@ -476,11 +469,9 @@ void NrrdImageIO::ReadImageInformation()
         case nrrdSpacingStatusUnknown:
           itkExceptionMacro("ReadImageInformation: Error interpreting "
                             "nrrd spacing (nrrdSpacingStatusUnknown)");
-          break;
         case nrrdSpacingStatusScalarWithSpace:
           itkExceptionMacro("ReadImageInformation: Error interpreting "
                             "nrrd spacing (nrrdSpacingStatusScalarWithSpace)");
-          break;
         }
       }
 
@@ -541,7 +532,6 @@ void NrrdImageIO::ReadImageInformation()
           case nrrdOriginStatusDirection:
             itkExceptionMacro("ReadImageInformation: Error interpreting "
                               "nrrd origin status");
-            break;
           }
         }
       }

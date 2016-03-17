@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine  zscal(n,za,zx,incx) >*/
-/* Subroutine */ int zscal_(integer *n, doublecomplex *za, doublecomplex *zx, 
+/* Subroutine */ int zscal_(integer *n, doublecomplex *za, doublecomplex *zx,
         integer *incx)
 {
     /* System generated locals */

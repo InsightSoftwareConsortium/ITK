@@ -84,12 +84,12 @@ public:
   typedef SpatialOrientationAdapter Self;
 
   typedef OrientationAdapterBase< SpatialOrientation::ValidCoordinateOrientationFlags, 3 >
-  SuperClass;
+  Superclass;
 
   typedef SpatialOrientation::ValidCoordinateOrientationFlags OrientationType;
 
   /** typedef for direction cosines */
-  typedef SuperClass::DirectionType DirectionType;
+  typedef Superclass::DirectionType DirectionType;
 
   /** Constructor */
   SpatialOrientationAdapter() {}

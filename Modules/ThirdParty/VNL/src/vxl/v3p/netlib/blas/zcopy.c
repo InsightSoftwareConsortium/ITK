@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine  zcopy(n,zx,incx,zy,incy) >*/
-/* Subroutine */ int zcopy_(integer *n, doublecomplex *zx, integer *incx, 
+/* Subroutine */ int zcopy_(integer *n, doublecomplex *zx, integer *incx,
         doublecomplex *zy, integer *incy)
 {
     /* System generated locals */

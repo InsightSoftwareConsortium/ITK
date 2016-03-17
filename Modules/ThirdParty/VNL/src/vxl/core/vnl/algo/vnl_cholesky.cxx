@@ -95,7 +95,7 @@ vnl_matrix<double> vnl_cholesky::inverse() const
   long n = A_.columns();
   vnl_matrix<double> I = A_;
   long job = 01;
-  v3p_netlib_dpodi_(I.data_block(), &n, &n, 0, &job);
+  v3p_netlib_dpodi_(I.data_block(), &n, &n, VXL_NULLPTR, &job);
 
   // Copy lower triangle into upper
   for (int i = 0; i < n; ++i)

@@ -14,6 +14,7 @@
 
 #cmakedefine HAVE_MINC1 1 
 #cmakedefine HAVE_MINC2 1
+#cmakedefine LIBMINC_NIFTI_SUPPORT 1
 
 #ifndef H5Acreate_vers
 #define H5Acreate_vers 2

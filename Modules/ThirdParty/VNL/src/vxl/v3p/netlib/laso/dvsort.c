@@ -23,8 +23,8 @@ static integer c__1 = 1;
 /* ------------------------------------------------------------------- */
 
 /*<       SUBROUTINE DVSORT(NUM, VAL, RES, IFLAG, V, NMVEC, N, VEC) >*/
-/* Subroutine */ int dvsort_(integer *num, doublereal *val, doublereal *res, 
-        integer *iflag, doublereal *v, integer *nmvec, integer *n, doublereal 
+/* Subroutine */ int dvsort_(integer *num, doublereal *val, doublereal *res,
+        integer *iflag, doublereal *v, integer *nmvec, integer *n, doublereal
         *vec)
 {
     /* System generated locals */
@@ -33,7 +33,7 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__, k, m;
     doublereal temp;
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *,
             doublereal *, integer *);
 
 /*<       INTEGER NUM, IFLAG, NMVEC, N  >*/
@@ -81,7 +81,7 @@ static integer c__1 = 1;
 /*<             RES(K+1) = TEMP >*/
             res[k + 1] = temp;
 /*<             CALL DSWAP(N, VEC(1,K), 1, VEC(1,K+1), 1) >*/
-            dswap_(n, &vec[k * vec_dim1 + 1], &c__1, &vec[(k + 1) * vec_dim1 
+            dswap_(n, &vec[k * vec_dim1 + 1], &c__1, &vec[(k + 1) * vec_dim1
                     + 1], &c__1);
 /*<             IF(IFLAG .EQ. 0) GO TO 10 >*/
             if (*iflag == 0) {

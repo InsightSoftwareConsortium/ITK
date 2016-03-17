@@ -41,7 +41,7 @@ namespace itk
  *
  * This class was contributed to the Insight Journal by  Raghu Venkatram
  * The original paper can be found at
- *   http://hdl.handle.net/1926/203
+ *   https://hdl.handle.net/1926/203
  *
  *
  * \author Raghu Venkatram

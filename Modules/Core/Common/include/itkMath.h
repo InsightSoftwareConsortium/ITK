@@ -39,38 +39,38 @@ namespace Math
 {
 // These constants originate from VXL's vnl_math.h. They have been
 // moved here to improve visibility, and to ensure that the constants
-// are available during compile time ( as opposed to static const
+// are available during compile time ( as opposed to static ITK_CONSTEXPR
 // member vaiables ).
 
 
 /** \brief \f[e\f] The base of the natural logarithm or Euler's number */
-static const double e                = 2.7182818284590452354;
+static ITK_CONSTEXPR double e                = 2.7182818284590452354;
 /** \brief  \f[ \log_2 e \f] */
-static const double log2e            = 1.4426950408889634074;
+static ITK_CONSTEXPR double log2e            = 1.4426950408889634074;
 /** \brief \f[ \log_{10} e \f] */
-static const double log10e           = 0.43429448190325182765;
+static ITK_CONSTEXPR double log10e           = 0.43429448190325182765;
 /** \brief \f[ \log_e 2 \f] */
-static const double ln2              = 0.69314718055994530942;
+static ITK_CONSTEXPR double ln2              = 0.69314718055994530942;
 /** \brief \f[ \log_e 10 \f] */
-static const double ln10             = 2.30258509299404568402;
+static ITK_CONSTEXPR double ln10             = 2.30258509299404568402;
 /** \brief \f[ \pi \f]  */
-static const double pi               = 3.14159265358979323846;
+static ITK_CONSTEXPR double pi               = 3.14159265358979323846;
 /** \brief \f[ \frac{\pi}{2} \f]  */
-static const double pi_over_2        = 1.57079632679489661923;
+static ITK_CONSTEXPR double pi_over_2        = 1.57079632679489661923;
 /** \brief \f[ \frac{\pi}{4} \f]  */
-static const double pi_over_4        = 0.78539816339744830962;
+static ITK_CONSTEXPR double pi_over_4        = 0.78539816339744830962;
 /** \brief \f[ \frac{1}{\pi} \f]  */
-static const double one_over_pi      = 0.31830988618379067154;
+static ITK_CONSTEXPR double one_over_pi      = 0.31830988618379067154;
 /** \brief \f[ \frac{2}{\pi} \f]  */
-static const double two_over_pi      = 0.63661977236758134308;
+static ITK_CONSTEXPR double two_over_pi      = 0.63661977236758134308;
 /** \brief \f[ \frac{2}{\sqrt{\pi}} \f]  */
-static const double two_over_sqrtpi  = 1.12837916709551257390;
+static ITK_CONSTEXPR double two_over_sqrtpi  = 1.12837916709551257390;
 /** \brief \f[ \frac{2}{\sqrt{2\pi}} \f]  */
-static const double one_over_sqrt2pi = 0.39894228040143267794;
+static ITK_CONSTEXPR double one_over_sqrt2pi = 0.39894228040143267794;
 /** \brief \f[ \sqrt{2} \f]  */
-static const double sqrt2            = 1.41421356237309504880;
+static ITK_CONSTEXPR double sqrt2            = 1.41421356237309504880;
 /** \brief \f[ \sqrt{ \frac{1}{2}} \f] */
-static const double sqrt1_2          = 0.70710678118654752440;
+static ITK_CONSTEXPR double sqrt1_2          = 0.70710678118654752440;
 
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32
@@ -462,10 +462,10 @@ struct AlmostEqualsFunctionSelector<true, false, true, false>
 template<typename TInputType1, typename TInputType2>
 struct AlmostEqualsScalarImplementer
 {
-  static const bool TInputType1IsInteger = itk::NumericTraits<TInputType1>::IsInteger;
-  static const bool TInputType1IsSigned  = itk::NumericTraits<TInputType1>::IsSigned;
-  static const bool TInputType2IsInteger = itk::NumericTraits<TInputType2>::IsInteger;
-  static const bool TInputType2IsSigned  = itk::NumericTraits<TInputType2>::IsSigned;
+  static ITK_CONSTEXPR bool TInputType1IsInteger = itk::NumericTraits<TInputType1>::IsInteger;
+  static ITK_CONSTEXPR bool TInputType1IsSigned  = itk::NumericTraits<TInputType1>::IsSigned;
+  static ITK_CONSTEXPR bool TInputType2IsInteger = itk::NumericTraits<TInputType2>::IsInteger;
+  static ITK_CONSTEXPR bool TInputType2IsSigned  = itk::NumericTraits<TInputType2>::IsSigned;
 
   typedef typename AlmostEqualsFunctionSelector< TInputType1IsInteger, TInputType1IsSigned,
                                                  TInputType2IsInteger, TInputType2IsSigned >::SelectedVersion SelectedVersion;
@@ -569,8 +569,8 @@ struct AlmostEqualsComplexChooser< true, false>
 template <typename T1, typename T2>
 struct AlmostEqualsComplexImplementer
 {
-  static const bool T1IsComplex = NumericTraits< T1 >::IsComplex;
-  static const bool T2IsComplex = NumericTraits< T2 >::IsComplex;
+  static ITK_CONSTEXPR bool T1IsComplex = NumericTraits< T1 >::IsComplex;
+  static ITK_CONSTEXPR bool T2IsComplex = NumericTraits< T2 >::IsComplex;
 
   typedef typename AlmostEqualsComplexChooser< T1IsComplex, T2IsComplex >::ChosenVersion ChosenVersion;
 };

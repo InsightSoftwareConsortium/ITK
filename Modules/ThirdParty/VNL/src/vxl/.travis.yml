@@ -1,0 +1,28 @@
+#Travis CI configuration for VXL
+# See http://travis-ci.org/vxl/vxl
+
+sudo: false
+
+language: cpp
+compiler:
+  - gcc
+  - clang
+
+cache:
+  directories:
+  - $HOME/deps
+
+before_script:
+  - bash .travis/install-deps.sh
+
+script:
+  - export PATH=$HOME/deps/bin:$PATH
+  - mkdir build
+  - mkdir $HOME/install
+  - cd build
+  - cmake -DCMAKE_INSTALL_PREFIX=$HOME/install
+          -DCMAKE_CXX_STANDARD=98
+          ../
+  - make -j2
+  - ctest
+  - make install

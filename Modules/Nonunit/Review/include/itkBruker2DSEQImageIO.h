@@ -29,7 +29,7 @@
  *         The Pennsylvania State University 2004
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/1381
+ * https://hdl.handle.net/1926/1381
  *
  */
 
@@ -113,8 +113,6 @@ namespace itk
 class Bruker2DSEQImageIO:public ImageIOBase
 {
 public:
-  typedef ImageIOBase SuperClass;
-
   /** Standard class typedefs. */
   typedef Bruker2DSEQImageIO   Self;
   typedef ImageIOBase          Superclass;

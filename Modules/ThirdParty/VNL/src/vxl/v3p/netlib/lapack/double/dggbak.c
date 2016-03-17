@@ -16,9 +16,9 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int dggbak_(char *job, char *side, integer *n, integer *ilo, 
-        integer *ihi, doublereal *lscale, doublereal *rscale, integer *m, 
-        doublereal *v, integer *ldv, integer *info, ftnlen job_len, ftnlen 
+/* Subroutine */ int dggbak_(char *job, char *side, integer *n, integer *ilo,
+        integer *ihi, doublereal *lscale, doublereal *rscale, integer *m,
+        doublereal *v, integer *ldv, integer *info, ftnlen job_len, ftnlen
         side_len)
 {
     /* System generated locals */
@@ -26,10 +26,10 @@ extern "C" {
 
     /* Local variables */
     integer i__, k;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *,
             doublereal *, integer *);
     logical leftv;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
@@ -148,7 +148,7 @@ extern "C" {
     *info = 0;
 /*<    >*/
     if (! lsame_(job, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(job, "P", (
-            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1) 
+            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1)
             && ! lsame_(job, "B", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = -1 >*/
         *info = -1;
@@ -211,7 +211,7 @@ extern "C" {
 /*     Backward balance */
 
 /*<       IF( LSAME( JOB, 'S' ) .OR. LSAME( JOB, 'B' ) ) THEN >*/
-    if (lsame_(job, "S", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1, 
+    if (lsame_(job, "S", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1,
             (ftnlen)1)) {
 
 /*        Backward transformation on right eigenvectors */
@@ -251,7 +251,7 @@ extern "C" {
 /*<    30 CONTINUE >*/
 L30:
 /*<       IF( LSAME( JOB, 'P' ) .OR. LSAME( JOB, 'B' ) ) THEN >*/
-    if (lsame_(job, "P", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1, 
+    if (lsame_(job, "P", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1,
             (ftnlen)1)) {
 
 /*        Backward permutation on right eigenvectors */

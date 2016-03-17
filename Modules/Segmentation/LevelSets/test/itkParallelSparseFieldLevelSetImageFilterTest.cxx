@@ -40,7 +40,7 @@ const unsigned int HEIGHT = (64);
 const unsigned int WIDTH  = (64);
 const unsigned int DEPTH  = (64);
 
-const int RADIUS= (vnl_math_min (vnl_math_min(HEIGHT, WIDTH), DEPTH) / 4);
+const int RADIUS= (std::min (std::min(HEIGHT, WIDTH), DEPTH) / 4);
 
 // Distance transform function for a sphere
 float sphere(unsigned int x, unsigned int y, unsigned int z)
@@ -64,7 +64,7 @@ float cube(unsigned int x, unsigned int y, unsigned int z)
   float dis;
   if (!((X > RADIUS)&&(Y > RADIUS)&&(Z>RADIUS)))
     {
-    dis = RADIUS - (vnl_math_max (vnl_math_max(X, Y), Z));
+    dis = RADIUS - (std::max (std::max(X, Y), Z));
     }
   else
     {

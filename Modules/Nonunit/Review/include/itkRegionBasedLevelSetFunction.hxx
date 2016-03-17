@@ -163,7 +163,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     {
     if ( d->m_MaxAdvectionChange > vnl_math::eps )
       {
-      dt = vnl_math_min( ( m_WaveDT / d->m_MaxAdvectionChange ),
+      dt = std::min( ( m_WaveDT / d->m_MaxAdvectionChange ),
                          ( this->m_DT / d->m_MaxCurvatureChange ) );
       }
     else
@@ -316,7 +316,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
                      * this->CurvatureSpeed(it, offset, gd) * dh;
 
     gd->m_MaxCurvatureChange =
-      vnl_math_max( gd->m_MaxCurvatureChange, vnl_math_abs(curvature_term) );
+      std::max( gd->m_MaxCurvatureChange, vnl_math_abs(curvature_term) );
     }
 
   // Computing the laplacian term
@@ -348,7 +348,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
         }
 
       gd->m_MaxAdvectionChange =
-        vnl_math_max( gd->m_MaxAdvectionChange, vnl_math_abs(x_energy) );
+        std::max( gd->m_MaxAdvectionChange, vnl_math_abs(x_energy) );
       }
     advection_term *= m_AdvectionWeight * dh;
     }

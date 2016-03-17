@@ -18,11 +18,6 @@ double vnl_erfc(double x)
   const double xbig = 26.543;
   const double xhuge = 6.71e7;
   const double xmax = 2.53e307;
-#if 0 // unused:
-  const double xneg = -26.628;
-  const double xsmall = 1.11e-16;
-  const double xinf = 1.79e308;
-#endif // 0
 
   const double c[9] = { .564188496988670089,8.88314979438837594,
     66.1191906371416295,298.635138197400131,881.95222124176909,

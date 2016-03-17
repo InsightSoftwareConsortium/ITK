@@ -57,6 +57,7 @@ static struct m2_file {
     int comp_param;             /* Compression parameter */
     int chunk_type;             /* Chunking enabled */
     int chunk_param;            /* Chunk length */
+    int checksum;               /* Enable file checksumming */
 } *_m2_list;
 
 
@@ -80,21 +81,22 @@ hdf_id_add(int fd)
 
     new = (struct m2_file *) malloc(sizeof (struct m2_file));
     if (new != NULL) {
-	new->fd = fd;
-	new->resolution = 0;
-	new->nvars = 0;
-	new->ndims = 0;
-	new->link =_m2_list;
+        new->fd = fd;
+        new->resolution = 0;
+        new->nvars = 0;
+        new->ndims = 0;
+        new->link =_m2_list;
         new->grp_id = H5Gopen1(fd, MI2_GRPNAME);
         new->comp_type = MI2_COMP_UNKNOWN;
         new->comp_param = 0;
         new->chunk_type = MI2_CHUNK_UNKNOWN;
         new->chunk_param = 0;
-	_m2_list = new;
+        new->checksum = miget_cfg_bool(MICFG_MINC_CHECKSUM);
+        _m2_list = new;
     }
     else {
-	milog_message(MI_MSG_OUTOFMEM, sizeof(struct m2_file));
-	exit(-1);
+      milog_message(MI_MSG_OUTOFMEM, sizeof(struct m2_file));
+      exit(-1);
     }
     return (new);
 }
@@ -1376,10 +1378,15 @@ hdf_vardef(int fd, const char *varnm, nc_type vartype, int ndims,
                     }
                 }
             }
-
+            
             H5Pset_deflate(prp_id, comp_level);
             H5Pset_chunk(prp_id, ndims, chkdims);
+            
+            if ( file->checksum ) {
+              H5Pset_fletcher32(prp_id);
+            }
         }
+        
     }
 
     if (spc_id < 0) {
@@ -2202,9 +2209,16 @@ hdf_open(const char *path, int mode)
     hsize_t dims[MAX_NC_DIMS];
     int ndims;
     struct m2_var *var;
-
+    hid_t fpid;
+    
+    /*Set cachine parameters*/
+    fpid=H5Pcreate( H5P_FILE_ACCESS );
+    
+    /*setup a bigger cache to work with typical chunking ( MI_MAX_VAR_BUFFER_SIZE )*/
+    H5Pset_cache(fpid, 0, 2503, miget_cfg_present(MICFG_MINC_FILE_CACHE)?miget_cfg_int(MICFG_MINC_FILE_CACHE)*100000:MI_MAX_VAR_BUFFER_SIZE*10, 1.0);
+    
     H5E_BEGIN_TRY {
-#if HDF5_MMAP_TEST
+#ifdef HDF5_MMAP_TEST
         if (mode & 0x8000) {
             hid_t prp_id;
 
@@ -2214,12 +2228,13 @@ hdf_open(const char *path, int mode)
             H5Pclose(prp_id);
         }
         else {
-            fd = H5Fopen(path, mode, H5P_DEFAULT);
+            fd = H5Fopen(path, mode, fpid);
         }
 #else
-        fd = H5Fopen(path, mode, H5P_DEFAULT);
+        fd = H5Fopen(path, mode, fpid);
 #endif
     } H5E_END_TRY;
+    H5Pclose( fpid );
 
     if (fd < 0) {
       return (MI_ERROR);
@@ -2227,7 +2242,7 @@ hdf_open(const char *path, int mode)
 
     file = hdf_id_add(fd);	/* Add it to the list */
     file->wr_ok = (mode & H5F_ACC_RDWR) != 0;
-
+    
     /* Open the image variables.
      */
     H5E_BEGIN_TRY {
@@ -2304,8 +2319,13 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
     hid_t hdf_gpid;
     hid_t fpid;
   
+    /*Set cachine parameters*/
     fpid = H5Pcreate (H5P_FILE_ACCESS);
-  
+    
+    /*setup a bigger cache to work with typical chunking ( MI_MAX_VAR_BUFFER_SIZE )*/
+    H5Pset_cache(fpid, 0, 2503, miget_cfg_present(MICFG_MINC_FILE_CACHE)?miget_cfg_int(MICFG_MINC_FILE_CACHE)*100000:MI_MAX_VAR_BUFFER_SIZE*10, 1.0);
+    
+   
     /* Convert the MINC (NetCDF) mode to a HDF5 mode.
      */
     if (cmode & NC_NOCLOBBER) {
@@ -2383,6 +2403,7 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
         file->comp_param = opts_ptr->comp_param;
         file->chunk_type = opts_ptr->chunk_type;
         file->chunk_param = opts_ptr->chunk_param;
+        file->checksum = opts_ptr->checksum;
     }
     return ((int) fd);
 }

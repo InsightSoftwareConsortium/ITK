@@ -4,7 +4,6 @@
 #include <vcl_limits.h>
 
 
-
 // all ai.size() == 2, all bj.size() == 3, c.size() == 2, all eij.size() == 2
 class test_func1 : public vnl_sparse_lst_sqr_function
 {
@@ -15,7 +14,7 @@ class test_func1 : public vnl_sparse_lst_sqr_function
              UseWeights w = use_weights)
    : vnl_sparse_lst_sqr_function(num_a,2,num_b,3,2,xmask,2,g,w) {}
 
-  void fij(int /*i*/, int /*j*/, 
+  void fij(int /*i*/, int /*j*/,
            vnl_vector<double> const& ai,
            vnl_vector<double> const& bj,
            vnl_vector<double> const& c,
@@ -183,44 +182,21 @@ static void test_sparse_lst_sqr_function()
    my_func.apply_weights(weights,wf);
    my_func.apply_weights(weights,wA,wB,wC);
 
-   bool weights_valid = true;
-   bool weights_applied = true;
-   double epsilon = vcl_numeric_limits<double>::epsilon() * 4.0;
-
    double w_norm = my_func.number_of_a()*my_func.number_of_b();
    for (unsigned int i=0; i<my_func.number_of_a(); ++i) {
      for (unsigned int j=0; j<my_func.number_of_b(); ++j) {
        int k = my_func.residual_indices()(i,j);
        if (k<0)
          continue;
-       if (vcl_abs(weights[k] - (double((i+1)*(j+1))/w_norm)) > epsilon)
-         weights_valid = false;
-
-       vnl_matrix<double> D;
-       D = wA[k] - A[k]*weights[k];
-       weights_applied = weights_applied &&
-         (D.absolute_value_max()) <= epsilon;
-
-       D = wB[k] - B[k]*weights[k];
-       weights_applied = weights_applied &&
-         (D.absolute_value_max()) <= epsilon;
-
-       D = wC[k] - C[k]*weights[k];
-       weights_applied = weights_applied &&
-         (D.absolute_value_max()) <= epsilon;
-
-       D = wf[2*k] - f[2*k]*weights[k];
-       weights_applied = weights_applied &&
-         (D.absolute_value_max()) <= epsilon;
-
-       D = wf[2*k+1] - f[2*k+1]*weights[k];
-       weights_applied = weights_applied &&
-         (D.absolute_value_max()) <= epsilon;
+       TEST_NEAR("valid weights", weights[k], double((i+1)*(j+1))/w_norm, 1e-10);
+       TEST("computed weight wA", wA[k], A[k]*weights[k]);
+       TEST("computed weight wB", wB[k], B[k]*weights[k]);
+       TEST("computed weight wC", wC[k], C[k]*weights[k]);
+       TEST_NEAR("computed weight wf", wf[2*k], f[2*k]*weights[k], 1e-10);
+       TEST_NEAR("computed weight wf", wf[2*k+1], f[2*k+1]*weights[k], 1e-10);
      }
    }
    TEST("has weights", my_func.has_weights(), true);
-   TEST("compute weights", weights_valid, true);
-   TEST("apply weights", weights_applied, true);
 }
 
 TESTMAIN(test_sparse_lst_sqr_function);

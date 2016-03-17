@@ -32,7 +32,7 @@ namespace itk
  * ClassifierBase is the base class for classifier objects. It provides
  * the basic function definitions that are inherent to classifier objects.
  *
- * This is the SuperClass for the classifier framework. This is an
+ * This is the Superclass for the classifier framework. This is an
  * abstract class defining an interface for all the classification objects
  * available through the classifier framework in the ITK toolkit.
  *

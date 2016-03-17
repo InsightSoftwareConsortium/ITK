@@ -58,7 +58,7 @@
 // return by value in arithmetic expressions like: q1 * q2 * q3 *...
 //
 
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 class vnl_quaternion : public vnl_vector_fixed<T, 4>
 {
   typedef vnl_vector_fixed<T,4> Base;
@@ -171,11 +171,23 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
 //: operator<<
 // \relatesalso vnl_quaternion
 template <class T>
+vcl_istream& operator>> (vcl_istream& is, vnl_quaternion<T> &q)
+{
+  vnl_vector_fixed<T,4> v;
+  is >> v;
+  q = vnl_quaternion<T>(v);
+  return is;
+}
+
+
+//: operator<<
+// \relatesalso vnl_quaternion
+template <class T>
 inline vcl_ostream& operator<< (vcl_ostream& os, vnl_quaternion<T> const& q)
 {
   return os << *((const vnl_vector_fixed<T,4>*) &q);
 }
 
-#define VNL_QUATERNION_INSTANTIATE(T) extern "Please #include <vnl/vnl_quaternion.txx> first"
+#define VNL_QUATERNION_INSTANTIATE(T) extern "Please #include <vnl/vnl_quaternion.hxx> first"
 
 #endif // vnl_quaternion_h_

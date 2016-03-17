@@ -122,17 +122,17 @@ public:
   /** Is a given type signed? -- default is no.
       For uniform array data types in ITK, the value of IsSigned
       is determined by the component elements of the array.*/
-  static const bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
 
   /** Is a given type an integer? -- default is no.
       For uniform array data types in ITK, the value of IsInteger
       is determined by the component elements of the array.*/
-  static const bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsInteger = false;
 
   /** Is a given type complex? -- default is no.
       For uniform array data types in ITK, the value of IsComplex
       is determined by the component elements of the array.*/
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsComplex = false;
 
   /** Return zero value. This function should be used to support
    *  RGBPixel type and standard types (not vectors) */
@@ -249,9 +249,9 @@ public:
   static bool IsNonpositive(bool val) { return !val; }
   static bool IsNegative(bool val) { return val ? false : false; }
   static bool IsNonnegative(bool val) { return val ? true : true; }
-  static const bool IsSigned = false;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static bool ZeroValue() { return Zero; }
   static bool OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -309,14 +309,14 @@ public:
 #if VCL_CHAR_IS_SIGNED
   static bool IsNegative(char val) { return val < Zero; }
   static bool IsNonnegative(char val) { return val >= Zero; }
-  static const bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsSigned = true;
 #else
   static bool IsNegative(char) { return false; }
   static bool IsNonnegative(char) { return true; }
-  static const bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
 #endif
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static char ZeroValue() { return Zero; }
   static char OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -370,9 +370,9 @@ public:
   static bool IsNonpositive(signed char val) { return val <= Zero; }
   static bool IsNegative(signed char val) { return val < Zero; }
   static bool IsNonnegative(signed char val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static signed char  ZeroValue() { return Zero; }
   static signed char OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -424,9 +424,9 @@ public:
   static bool IsNonpositive(unsigned char val) { return val == Zero; }
   static bool IsNegative(unsigned char val) { return val ? false : false; }
   static bool IsNonnegative(unsigned char val) { return val ? true : true; }
-  static const bool IsSigned = false;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static unsigned char  ZeroValue() { return Zero; }
   static unsigned char OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -476,9 +476,9 @@ public:
   static bool IsNonpositive(short val) { return val <= Zero; }
   static bool IsNegative(short val) { return val < Zero; }
   static bool IsNonnegative(short val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static short  ZeroValue() { return Zero; }
   static short OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -529,9 +529,9 @@ public:
   static bool IsNonpositive(unsigned short val) { return val == Zero; }
   static bool IsNegative(unsigned short val) { return val ? false : false; }
   static bool IsNonnegative(unsigned short val) { return val ? true : true; }
-  static const bool IsSigned = false;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static unsigned short ZeroValue() { return Zero; }
   static unsigned short OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -581,9 +581,9 @@ public:
   static bool IsNonpositive(int val) { return val <= Zero; }
   static bool IsNegative(int val) { return val < Zero; }
   static bool IsNonnegative(int val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static int  ZeroValue() { return Zero; }
   static int OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -637,9 +637,9 @@ public:
   static bool IsNonpositive(unsigned int val) { return val == Zero; }
   static bool IsNegative(unsigned int val) { return val ? false : false; }
   static bool IsNonnegative(unsigned int val) { return val ? true : true; }
-  static const bool IsSigned = false;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static unsigned int  ZeroValue() { return Zero; }
   static unsigned int OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -690,9 +690,9 @@ public:
   static bool IsNonpositive(long val) { return val <= Zero; }
   static bool IsNegative(long val) { return val < Zero; }
   static bool IsNonnegative(long val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static long  ZeroValue() { return Zero; }
   static long OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -743,9 +743,9 @@ public:
   static bool IsNonpositive(unsigned long val) { return val == Zero; }
   static bool IsNegative(unsigned long) { return false; }
   static bool IsNonnegative(unsigned long) { return true; }
-  static const bool IsSigned = false;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static unsigned long  ZeroValue() { return Zero; }
   static unsigned long  OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -796,9 +796,9 @@ public:
   static bool IsNonpositive(float val) { return val <= Zero; }
   static bool IsNegative(float val) { return val < Zero; }
   static bool IsNonnegative(float val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = false;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static float  ZeroValue() { return Zero; }
   static float  OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -849,9 +849,9 @@ public:
   static bool IsNonpositive(double val) { return val <= Zero; }
   static bool IsNegative(double val) { return val < Zero; }
   static bool IsNonnegative(double val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = false;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static double  ZeroValue() { return Zero; }
   static double  OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -910,9 +910,9 @@ public:
   static bool IsNonpositive(long double val) { return val <= Zero; }
   static bool IsNegative(long double val) { return val < Zero; }
   static bool IsNonnegative(long double val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = false;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static long double ZeroValue() { return Zero; }
   static long double OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -979,9 +979,9 @@ public:
   static bool IsNegative(Self) { return false; }
   static bool IsNonnegative(Self) { return true; }
 #endif
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1042,9 +1042,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() == 0; }
   static bool IsNegative(Self) { return false; }
   static bool IsNonnegative(Self) { return true; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1105,9 +1105,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() <= 0; }
   static bool IsNegative(Self val) { return val.real() < 0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1168,9 +1168,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() == 0; }
   static bool IsNegative(Self) { return false; }
   static bool IsNonnegative(Self) { return true; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1231,9 +1231,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() <= 0; }
   static bool IsNegative(Self val) { return val.real() < 0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1294,9 +1294,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() == 0; }
   static bool IsNegative(Self) { return false; }
   static bool IsNonnegative(Self) { return true; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1357,9 +1357,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() <= 0; }
   static bool IsNegative(Self val) { return val.real() < 0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1420,9 +1420,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() == 0; }
   static bool IsNegative(Self) { return false; }
   static bool IsNonnegative(Self) { return true; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1483,9 +1483,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() <= 0.0; }
   static bool IsNegative(Self val) { return val.real() < 0.0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0.0; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1546,9 +1546,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() <= 0.0; }
   static bool IsNegative(Self val) { return val.real() < 0.0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0.0; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1609,9 +1609,9 @@ public:
   static bool IsNonpositive(Self val) { return val.real() <= 0.0; }
   static bool IsNegative(Self val) { return val.real() < 0.0; }
   static bool IsNonnegative(Self val) { return val.real() >= 0.0; }
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = false;
-  static const bool IsComplex = true;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = false;
+  static ITK_CONSTEXPR bool IsComplex = true;
   static Self ZeroValue() { return Zero; }
   static Self OneValue() { return One; }
   static unsigned int GetLength(const Self &) { return 2; }
@@ -1663,9 +1663,9 @@ public:
   static bool IsNonpositive(ValueType val) { return val <= Zero; }
   static bool IsNegative(ValueType val) { return val < Zero; }
   static bool IsNonnegative(ValueType val) { return val >= Zero; }
-  static const bool IsSigned = true;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = true;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static ValueType  ZeroValue() { return Zero; }
   static ValueType  OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }
@@ -1717,9 +1717,9 @@ public:
   static bool IsNonpositive(ValueType val) { return val == Zero; }
   static bool IsNegative(ValueType) { return false; }
   static bool IsNonnegative(ValueType) { return true; }
-  static const bool IsSigned = false;
-  static const bool IsInteger = true;
-  static const bool IsComplex = false;
+  static ITK_CONSTEXPR bool IsSigned = false;
+  static ITK_CONSTEXPR bool IsInteger = true;
+  static ITK_CONSTEXPR bool IsComplex = false;
   static ValueType ZeroValue() { return Zero; }
   static ValueType OneValue() { return One; }
   static unsigned int GetLength(const ValueType &) { return 1; }

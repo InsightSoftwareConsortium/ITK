@@ -15,7 +15,7 @@
 //: Minor version number.
 // This increments between versions. There is no
 // "even = release, odd = development" pattern, or anything like that.
-#define VXL_VERSION_MINOR 15
+#define VXL_VERSION_MINOR 17
 
 //: Patch number.
 // This is only likely to be non-zero if a serious bug is found soon after the
@@ -26,12 +26,9 @@
 
 //: Version date.  This is updated every day.
 // Formats are year=CCYY, month=MM, day=DD
-#define VXL_VERSION_DATE_YEAR 2011
-#define VXL_VERSION_DATE_MONTH 04
-#define VXL_VERSION_DATE_DAY 28
-
-//: ITK Modification: Defined to indicate this vxl is in ITK.
-#define VXL_VERSION_ITK
+#define VXL_VERSION_DATE_YEAR 2016
+#define VXL_VERSION_DATE_MONTH 03
+#define VXL_VERSION_DATE_DAY 02
 
 //: Helper macros to create strings with the preprocessor.
 #define VXL_VERSION_TO_STRING(s) VXL_VERSION_TO_STRING0(s)

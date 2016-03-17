@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int sgemv_(char *trans, integer *m, integer *n, real *alpha, 
-        real *a, integer *lda, real *x, integer *incx, real *beta, real *y, 
+/* Subroutine */ int sgemv_(char *trans, integer *m, integer *n, real *alpha,
+        real *a, integer *lda, real *x, integer *incx, real *beta, real *y,
         integer *incy, ftnlen trans_len)
 {
     /* System generated locals */

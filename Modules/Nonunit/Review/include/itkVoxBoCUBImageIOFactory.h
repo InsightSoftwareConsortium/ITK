@@ -30,7 +30,7 @@ namespace itk
  * \author Burstein, Pablo D.; Yushkevich, Paul; Gee, James C.
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/303
+ * https://hdl.handle.net/1926/303
  *
  * \ingroup ITKReview
  */

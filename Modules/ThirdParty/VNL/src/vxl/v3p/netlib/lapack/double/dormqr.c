@@ -23,14 +23,14 @@ static integer c__2 = 2;
 static integer c__65 = 65;
 
 /*<    >*/
-/* Subroutine */ int dormqr_(char *side, char *trans, integer *m, integer *n, 
+/* Subroutine */ int dormqr_(char *side, char *trans, integer *m, integer *n,
         integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *
-        c__, integer *ldc, doublereal *work, integer *lwork, integer *info, 
+        c__, integer *ldc, doublereal *work, integer *lwork, integer *info,
         ftnlen side_len, ftnlen trans_len)
 {
     /* System generated locals */
     address a__1[2];
-    integer a_dim1, a_offset, c_dim1, c_offset, i__1, i__2, i__3[2], i__4, 
+    integer a_dim1, a_offset, c_dim1, c_offset, i__1, i__2, i__3[2], i__4,
             i__5;
     char ch__1[2];
 
@@ -44,16 +44,16 @@ static integer c__65 = 65;
     logical left;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer nbmin, iinfo;
-    extern /* Subroutine */ int dorm2r_(char *, char *, integer *, integer *, 
-            integer *, doublereal *, integer *, doublereal *, doublereal *, 
-            integer *, doublereal *, integer *, ftnlen, ftnlen), dlarfb_(char 
-            *, char *, char *, char *, integer *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
-            integer *, doublereal *, integer *, ftnlen, ftnlen, ftnlen, 
-            ftnlen), dlarft_(char *, char *, integer *, integer *, doublereal 
-            *, integer *, doublereal *, doublereal *, integer *, ftnlen, 
+    extern /* Subroutine */ int dorm2r_(char *, char *, integer *, integer *,
+            integer *, doublereal *, integer *, doublereal *, doublereal *,
+            integer *, doublereal *, integer *, ftnlen, ftnlen), dlarfb_(char
+            *, char *, char *, char *, integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            integer *, doublereal *, integer *, ftnlen, ftnlen, ftnlen,
+            ftnlen), dlarft_(char *, char *, integer *, integer *, doublereal
+            *, integer *, doublereal *, doublereal *, integer *, ftnlen,
             ftnlen), xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
     logical notran;
     integer ldwork, lwkopt=0;
@@ -328,7 +328,7 @@ static integer c__65 = 65;
 /*<       ELSE >*/
     } else {
 /*<          IWS = NW >*/
-        iws = nw;
+//        iws = nw;
 /*<       END IF >*/
     }
 
@@ -393,7 +393,7 @@ static integer c__65 = 65;
 
 /*<    >*/
             i__4 = nq - i__ + 1;
-            dlarft_("Forward", "Columnwise", &i__4, &ib, &a[i__ + i__ * 
+            dlarft_("Forward", "Columnwise", &i__4, &ib, &a[i__ + i__ *
                     a_dim1], lda, &tau[i__], t, &c__65, (ftnlen)7, (ftnlen)10)
                     ;
 /*<             IF( LEFT ) THEN >*/
@@ -421,7 +421,7 @@ static integer c__65 = 65;
 
 /*<    >*/
             dlarfb_(side, trans, "Forward", "Columnwise", &mi, &ni, &ib, &a[
-                    i__ + i__ * a_dim1], lda, t, &c__65, &c__[ic + jc * 
+                    i__ + i__ * a_dim1], lda, t, &c__65, &c__[ic + jc *
                     c_dim1], ldc, &work[1], &ldwork, (ftnlen)1, (ftnlen)1, (
                     ftnlen)7, (ftnlen)10);
 /*<    10    CONTINUE >*/

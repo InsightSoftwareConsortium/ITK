@@ -149,7 +149,7 @@ int main(int argc, char * argv[] )
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  typedef vcl_complex<double>              FFTCoefficientType;
+  typedef std::complex<double>             FFTCoefficientType;
   typedef vcl_vector< FFTCoefficientType > FFTSpectrumType;
   // Software Guide : EndCodeSnippet
 

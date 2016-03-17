@@ -39,7 +39,7 @@ class CosineWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)std::cos(A * m_Factor); }
+  { return static_cast<TOutput>(std::cos(A * m_Factor)); }
 
 private:
   /** Equal to \f$ \frac{\pi}{2 m} \f$ */
@@ -59,7 +59,7 @@ class HammingWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)0.54 + 0.46 * std::cos(A * m_Factor); }
+  { return static_cast<TOutput>(0.54 + 0.46 * std::cos(A * m_Factor) ); }
 
 private:
   /** Equal to \f$ \frac{\pi}{m} \f$ */
@@ -79,7 +79,7 @@ class WelchWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)( 1.0 - A * m_Factor * A ); }
+  { return static_cast<TOutput>( 1.0 - A * m_Factor * A ); }
 
 private:
   /** Equal to \f$ \frac{1}{m^2} \f$ */
@@ -102,9 +102,9 @@ class LanczosWindowFunction
 public:
   inline TOutput operator()(const TInput & A) const
   {
-    if ( A == 0.0 ) { return (TOutput)1.0; }
+    if ( A == 0.0 ) { return static_cast<TOutput>(1.0); }
     double z = m_Factor * A;
-    return (TOutput)( std::sin(z) / z );
+    return static_cast<TOutput>( std::sin(z) / z );
   }
 
 private:
@@ -126,7 +126,7 @@ class BlackmanWindowFunction
 public:
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)
+    return static_cast<TOutput>
            ( 0.42 + 0.5 * std::cos(A * m_Factor1) + 0.08 * std::cos(A * m_Factor2) );
   }
 

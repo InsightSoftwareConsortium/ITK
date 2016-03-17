@@ -9,7 +9,7 @@ if your compiler is compliant you can do
 ...
 #endif
 
-If you try this and it doesn't work, then your 
+If you try this and it doesn't work, then your
 compiler is not ISO and you are not allowed to
 modify the files in this directory to make them
 work with your non-ISO compiler.

@@ -295,7 +295,8 @@ MersenneTwisterRandomVariateGenerator::reload()
     }
   *p = twist(p[index], p[0], state[0]);
 
-  left = MersenneTwisterRandomVariateGenerator::StateVectorLength, pNext = state;
+  left = MersenneTwisterRandomVariateGenerator::StateVectorLength;
+  pNext = state;
 }
 
 inline void

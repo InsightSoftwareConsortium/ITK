@@ -254,7 +254,18 @@ vcl_ostream& operator<<(vcl_ostream& os, vnl_real_npolynomial const& P)
 {
   return os << P.asString() << vcl_endl;
 }
-
+vnl_real_npolynomial& vnl_real_npolynomial::operator+=(vnl_real_npolynomial const& rhs){
+  *this = (*this) + rhs;
+  return *this;
+}
+vnl_real_npolynomial& vnl_real_npolynomial::operator-=(vnl_real_npolynomial const& rhs){
+  *this = (*this) - rhs;
+  return *this;
+}
+vnl_real_npolynomial& vnl_real_npolynomial::operator*=(vnl_real_npolynomial const& rhs){
+  *this = (*this) * rhs;
+  return *this;
+}
 vcl_string vnl_real_npolynomial::asString() const
 {
   vcl_ostringstream os;

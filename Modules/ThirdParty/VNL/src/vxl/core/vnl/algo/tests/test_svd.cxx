@@ -84,24 +84,6 @@ static void test_ls()
   TEST_NEAR("Least squares residual", (A - T).squared_magnitude(), 0, 0.005);
 }
 
-#if 0 // temporarily unused
-static double test_fmatrix()
-{
-  double pdata[] = {
-    2, 0, 0, 0,
-    3, 10, 5, 5,
-    5, 12, 6, 6,
-  };
-  vnl_matrix<double> P(pdata, 3,4);
-  vnl_svd<double> svd(P);
-  vnl_matrix<double> N = svd.nullspace();
-  vcl_cout << "null(P) = " << N << vcl_endl
-           << "P * null(P) = " << P*N << vcl_endl;
-
-  return dot_product(P*N, P*N);
-}
-#endif // 0
-
 //: Test nullspace extraction of rank=2 3x4 matrix.
 static void test_pmatrix()
 {
@@ -199,15 +181,15 @@ void test_svd()
   test_ls();
   test_pmatrix();
   test_I();
-  test_svd_recomposition("float",              1e-5 , (float*)0, rng);
-  test_svd_recomposition("double",             1e-10, (double*)0, rng);
-  test_svd_recomposition("vcl_complex<float>",  1e-5 , (vcl_complex<float>*)0, rng);
-  test_svd_recomposition("vcl_complex<double>", 1e-10, (vcl_complex<double>*)0, rng);
+  test_svd_recomposition("float",              1e-5 , (float*)VXL_NULLPTR, rng);
+  test_svd_recomposition("double",             1e-10, (double*)VXL_NULLPTR, rng);
+  test_svd_recomposition("vcl_complex<float>",  1e-5 , (vcl_complex<float>*)VXL_NULLPTR, rng);
+  test_svd_recomposition("vcl_complex<double>", 1e-10, (vcl_complex<double>*)VXL_NULLPTR, rng);
 
-  test_nullvector("float",               5e-7,  (float*)0, rng);
-  test_nullvector("double",              5e-15, (double*)0, rng);
-  test_nullvector("vcl_complex<float>",  5e-7,  (vcl_complex<float>*)0, rng);
-  test_nullvector("vcl_complex<double>", 5e-15, (vcl_complex<double>*)0, rng);
+  test_nullvector("float",               5e-7,  (float*)VXL_NULLPTR, rng);
+  test_nullvector("double",              5e-15, (double*)VXL_NULLPTR, rng);
+  test_nullvector("vcl_complex<float>",  5e-7,  (vcl_complex<float>*)VXL_NULLPTR, rng);
+  test_nullvector("vcl_complex<double>", 5e-15, (vcl_complex<double>*)VXL_NULLPTR, rng);
 }
 
 TESTMAIN(test_svd);

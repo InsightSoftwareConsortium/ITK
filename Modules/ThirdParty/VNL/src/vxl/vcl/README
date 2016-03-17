@@ -6,7 +6,7 @@ There's a list of ISO headers in headers.iso; each ISO header <blah> becomes
 vcl_compiler.h
   Every other header file in this directory should include this file.
   That's a requirement and it's service which clients can rely on; thus
-  if you include <vcl_iostream.h> you *don't* need to include 
+  if you include <vcl_iostream.h> you *don't* need to include
   <vcl_compiler.h> even if you need the macros defined in there.
 
 vcl_complex_fwd.h
@@ -34,7 +34,7 @@ vcl_deprecated_header.h
 
 tests directory
 ---------------
-It is important to have a test program for every vcl feature as early 
+It is important to have a test program for every vcl feature as early
 detection of problems can save hours of recompilation time if a vcl
 header has to be modified.
 
@@ -48,7 +48,7 @@ Peter Vanroose.
 -       is for > in templates
 .       is for the commas between template arguments
 +-      is for the :: in nested classes
-The abbreviations uchar, ushort, uint, ulong stand for unsigned versions of 
+The abbreviations uchar, ushort, uint, ulong stand for unsigned versions of
 integer types. Use 's' as a prefix for signed versions. Beware that 'char'
 can be either signed or unsigned and may or may not be the same type as the
 qualified form.

@@ -747,7 +747,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
 
       // Insert in the update buffer
       sparsePtr->m_UpdateBuffer.push_back(
-        vnl_math_min (vnl_math_max (-MIN_NORM, distance),
+        std::min (std::max (-MIN_NORM, distance),
                       MIN_NORM) );
       ++activeIt;
       }
@@ -905,7 +905,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage,
           {
           // Irrespective of negative/positive region, select the lowest
           // absolute minimum
-          //value = delta * vnl_math_min( vnl_math_abs( value_temp ),
+          //value = delta * std::min( vnl_math_abs( value_temp ),
           // vnl_math_abs( value ) );
           if ( InOrOut == 1 ) // inward
             {
@@ -1138,7 +1138,7 @@ MultiphaseSparseFiniteDifferenceImageFilter< TInputImage, TFeatureImage, TOutput
 
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    maxSpacing = vnl_math_max( maxSpacing, static_cast< float >( spacing[i] ) );
+    maxSpacing = std::max( maxSpacing, static_cast< float >( spacing[i] ) );
     }
 
   // Assign background pixels OUTSIDE the sparse field layers to a new level

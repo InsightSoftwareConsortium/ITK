@@ -43,7 +43,7 @@ namespace itk
  *  a BSpline deformable transform by using an image as reference"
  *
  *    http://www.insight-journal.org/browse/publication/216
- *    http://hdl.handle.net/1926/1338
+ *    https://hdl.handle.net/1926/1338
  *
  * \ingroup ITKTransform
  */

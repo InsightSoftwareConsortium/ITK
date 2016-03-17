@@ -1,3 +1,4 @@
+itk_wrap_include("itkFlatStructuringElement.h")
 itk_wrap_class("itk::BinaryOpeningByReconstructionImageFilter" POINTER)
   itk_wrap_filter_dims(restricted_dims 2+)
   foreach(d ${restricted_dims})

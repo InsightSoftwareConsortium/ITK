@@ -43,7 +43,7 @@ namespace itk
  * \sa StreamReadBufferAsBinary StreamWriteBufferAsBinary
  *
  * This implementation was taken fron the Insight Joural:
- * http://hdl.handle.net/10380/3171
+ * https://hdl.handle.net/10380/3171
  *
  * \sa itk::ImageFileReader itk::ImageFileWriter
  * \ingroup IOFilters

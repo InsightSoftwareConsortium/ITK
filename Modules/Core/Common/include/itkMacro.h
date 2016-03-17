@@ -201,11 +201,15 @@ namespace itk
 #define ITK_NOEXCEPT noexcept
 #define ITK_HAS_CXX11_STATIC_ASSERT
 #define ITK_HAS_CXX11_RVREF
+#define ITK_CONSTEXPR constexpr
+#define ITK_CONSTEXPR_FUNC constexpr
 #else
 #define ITK_OVERRIDE
 #define ITK_DELETE_FUNCTION
 #define ITK_NULLPTR  NULL
 #define ITK_NOEXCEPT throw()
+#define ITK_CONSTEXPR const
+#define ITK_CONSTEXPR_FUNC
 #endif
 
 
@@ -491,8 +495,10 @@ itkTypeMacro(newexcp, parentexcp);                                              
 // Define itkLegacyMacro to mark legacy methods where they are
 // declared in their class.  Example usage:
 //
-//   // @deprecated Replaced by MyOtherMethod() as of ITK 2.0.
+//   // \deprecated Replaced by MyOtherMethod() as of ITK 2.0.
 //   itkLegacyMacro(void MyMethod());
+//
+// See below for what to do for the method definition.
 #if defined( ITK_LEGACY_REMOVE )
 #define itkLegacyMacro(method) /* no ';' */
 #elif defined( ITK_LEGACY_SILENT ) || defined( ITK_LEGACY_TEST ) || defined( ITK_WRAPPING_PARSER )
@@ -513,6 +519,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 // Macros to create runtime deprecation warning messages in function
 // bodies.  Example usage:
 //
+//   #if !defined( ITK_LEGACY_REMOVE )
 //   void itkMyClass::MyOldMethod()
 //     {
 //     itkLegacyBodyMacro(itkMyClass::MyOldMethod, 2.0);
@@ -523,6 +530,7 @@ itkTypeMacro(newexcp, parentexcp);                                              
 //     itkLegacyReplaceBodyMacro(itkMyClass::MyMethod, 2.0,
 //                               itkMyClass::MyOtherMethod);
 //     }
+//   #endif
 #if defined( ITK_LEGACY_REMOVE ) || defined( ITK_LEGACY_SILENT )
 #define itkLegacyBodyMacro(method, version)
 #define itkLegacyReplaceBodyMacro(method, version, replace)
@@ -755,12 +763,10 @@ TTarget itkDynamicCastInDebugMode(TSource x)
  * and is beneficial in other cases where a value can be constant.
  *
  * \ingroup ITKCommon */
-#if __cplusplus >= 201103L
-#  define itkStaticConstMacro(name,type,value) static constexpr type name = value
-#elif defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
+#if defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
 #  define itkStaticConstMacro(name,type,value) enum { name = value }
 #else
-#  define itkStaticConstMacro(name,type,value) static const type name = value
+#  define itkStaticConstMacro(name,type,value) static ITK_CONSTEXPR type name = value
 #endif
 
 #define itkGetStaticConstMacro(name) (Self::name)

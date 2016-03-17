@@ -271,7 +271,6 @@ cl_int GPUKernelManager::GetKernelWorkGroupInfo(int kernelIdx,
       break;
     default:
       itkGenericExceptionMacro (<< "Unknown type of work goup information");
-      break;
     }
 
   cl_int errid = clGetKernelWorkGroupInfo(m_KernelContainer[kernelIdx], m_Manager->GetDeviceId(0),
@@ -296,7 +295,6 @@ cl_int GPUKernelManager::GetDeviceInfo(
       break;
     default:
       itkGenericExceptionMacro (<< "Unknown type of device info");
-      break;
     }
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
 

@@ -15,7 +15,6 @@
 
 //--------------------------------------------------------------------------------
 
-// SGI needs??
 void vnl_read_bytes(vcl_istream &s, void *p, unsigned bytes)
 {
   s.read((char *)p, bytes);
@@ -49,7 +48,7 @@ implement_read_complex_data(double)
 
 //--------------------------------------------------------------------------------
 
-vnl_matlab_readhdr::vnl_matlab_readhdr(vcl_istream &s_) : s(s_), varname(0), data_read(false), need_swap(false)
+vnl_matlab_readhdr::vnl_matlab_readhdr(vcl_istream &s_) : s(s_), varname(VXL_NULLPTR), data_read(false), need_swap(false)
 {
   read_hdr();
 }
@@ -58,12 +57,12 @@ vnl_matlab_readhdr::~vnl_matlab_readhdr()
 {
   if (varname)
     delete [] varname;
-  varname = 0;
+  varname = VXL_NULLPTR;
 }
 
 vnl_matlab_readhdr::operator vnl_matlab_readhdr::safe_bool () const
 {
-  return (s.good() && !s.eof())? VCL_SAFE_BOOL_TRUE : 0; // FIXME
+  return (s.good() && !s.eof())? VCL_SAFE_BOOL_TRUE : VXL_NULLPTR; // FIXME
 }
 
 bool vnl_matlab_readhdr::operator!() const

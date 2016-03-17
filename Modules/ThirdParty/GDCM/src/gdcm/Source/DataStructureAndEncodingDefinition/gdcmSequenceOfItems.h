@@ -74,9 +74,6 @@ public:
 
   /// \brief Appends an Item to the already added ones
   void AddItem(Item const &item);
-    
-  /// \brief Appends an Item to the already added ones
-  Item & AddNewUndefinedLengthItem();
 
   /// Remove an Item as specified by its index, if index > size, false is returned
   /// Index starts at 1 not 0

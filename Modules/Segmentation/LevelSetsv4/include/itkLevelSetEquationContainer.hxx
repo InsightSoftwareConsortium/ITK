@@ -165,7 +165,7 @@ LevelSetEquationContainer< TTermContainer >
        it != this->m_Container.end();
        ++it )
     {
-    oValue = vnl_math_min( oValue, ( it->second )->ComputeCFLContribution() );
+    oValue = std::min( oValue, ( it->second )->ComputeCFLContribution() );
     }
 
   return oValue;
