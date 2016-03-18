@@ -50,9 +50,9 @@ public:
     double growthRadiusLimit,
     double nutrientSelfRepairLevel,
     double energySelfRepairLevel,
-    double growthMaximumLatencyTime,
-    double divisionMaximumLatencyTime,
-    double maximumGenerationLimit,
+    itk::SizeValueType growthMaximumLatencyTime,
+    itk::SizeValueType divisionMaximumLatencyTime,
+    itk::SizeValueType maximumGenerationLimit,
     double chemoAttractantLowThreshold,
     double chemoAttractantHighThreshold,
     double itkNotUsed(chemoAttractantLevel))
@@ -170,9 +170,9 @@ int itkBioCellTest( int argc, char * argv[] )
   double growthRadiusLimit = atof(argv[4]);
   double nutrientSelfRepairLevel = atof(argv[5]);
   double energySelfRepairLevel = atof(argv[6]);
-  double growthMaximumLatencyTime = atof(argv[7]);
-  double divisionMaximumLatencyTime = atof(argv[8]);
-  double maximumGenerationLimit = atof(argv[9]);
+  itk::SizeValueType growthMaximumLatencyTime = atoi(argv[7]);
+  itk::SizeValueType divisionMaximumLatencyTime = atoi(argv[8]);
+  itk::SizeValueType maximumGenerationLimit = atoi(argv[9]);
   double chemoAttractantLowThreshold = atof(argv[10]);
   double chemoAttractantHighThreshold = atof(argv[11]);
   double chemoAttractantLevel = atof(argv[12]);
