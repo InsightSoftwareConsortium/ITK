@@ -107,6 +107,7 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   , m_HeuristicAlignment(true)
   , m_UseDistanceTransform(true)
   , m_ThreadPool(nullptr)
+  , m_StopSpawning(false)
   , m_MinAlignIters(10)
   , // smaller of this and max pixel count of the search image
   m_MaxAlignIters(256)
@@ -580,15 +581,35 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     PixelList regionIDs;
     regionIDs.push_back(1);
 
-    if (abs(i - mid) > 1)
+    bool first = abs(i - mid) > 1;  // interpolate i-mid?
+    bool second = abs(j - mid) > 1; // interpolate j-mid?
+
+    if (first && second && !m_StopSpawning) // then first in new thread
     {
-      // typename TImage::IndexType tRecurse = Align(axis, iConn, iRegionId, midConn, regionIDs);
-      Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, 1, iTrans);
-    }
-    if (abs(j - mid) > 1)
-    {
-      // typename TImage::IndexType tRecurse = Align(axis, jConn, jRegionId, midConn, regionIDs);
+      m_ThreadPool->enqueue(&MorphologicalContourInterpolator<TImage>::Interpolate1to1,
+                            this,
+                            axis,
+                            out,
+                            label,
+                            i,
+                            mid,
+                            iConn,
+                            iRegionId,
+                            midConn,
+                            1,
+                            iTrans);
       Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans);
+    }
+    else // sequential
+    {
+      if (first)
+      {
+        Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, 1, iTrans);
+      }
+      if (second)
+      {
+        Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans);
+      }
     }
   }
   WriteDebug<TImage>(out, "C:\\intermediateResult.nrrd");
@@ -1241,6 +1262,10 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
   // do multithreading by paralellizing for different labels
   // and different inter-slice segments [thread pool of C++11 threads]
   m_ThreadPool = new ::ThreadPool(std::thread::hardware_concurrency());
+  std::vector<decltype(m_ThreadPool->enqueue(
+    &MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo, this, axis, out, 0, 0, 0, out, out))>
+    results; // so we can wait for all the results
+  m_StopSpawning = false;
 
   for (typename LabeledSlicesType::iterator it = m_LabeledSlices[axis].begin(); it != m_LabeledSlices[axis].end(); ++it)
   {
@@ -1273,16 +1298,15 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
 
         if (*prev + 1 < *next) // only if they are not adjacent slices
         {
-          m_ThreadPool->enqueue(&MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo,
-                                this,
-                                axis,
-                                out,
-                                it->first,
-                                *prev,
-                                *next,
-                                iconn,
-                                jconn);
-          // InterpolateBetweenTwo(axis, out, it->first, *prev, *next, iconn, jconn); //sequential
+          results.push_back(m_ThreadPool->enqueue(&MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo,
+                                                  this,
+                                                  axis,
+                                                  out,
+                                                  it->first,
+                                                  *prev,
+                                                  *next,
+                                                  iconn,
+                                                  jconn));
         }
         iconn = jconn;
         prev = next;
@@ -1290,7 +1314,12 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
     }
   }
 
-  // wait for leftover threads by invoking destructor
+  for (int i = 0; i < results.size(); i++)
+  {
+    results[i].get(); // wait for thread
+  }
+  m_StopSpawning = true;
+  // invoking destructor waits for any leftover threads created by Interpolate1to1
   delete m_ThreadPool;
   m_ThreadPool = nullptr;
 }

@@ -51,6 +51,15 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   typedef itk::ImageFileReader<ImageType> ReaderType;
   ReaderType::Pointer                     reader = ReaderType::New();
   reader->SetFileName(inputImageFileName);
+  try
+  {
+    reader->Update();
+  }
+  catch (itk::ExceptionObject & error)
+  {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+  }
 
   typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
   mciType::Pointer                                         mci = mciType::New();

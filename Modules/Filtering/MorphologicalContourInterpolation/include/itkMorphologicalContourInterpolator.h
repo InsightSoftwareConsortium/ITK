@@ -100,6 +100,7 @@ protected:
   int                        m_Axis;
   bool                       m_HeuristicAlignment;
   bool                       m_UseDistanceTransform;
+  bool                       m_StopSpawning;  // stop spawning new threads
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
   ::ThreadPool *             m_ThreadPool;    // avoid name conflict
