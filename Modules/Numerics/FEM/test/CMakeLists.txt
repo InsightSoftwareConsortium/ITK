@@ -30,6 +30,7 @@ itkFEMLoadBCMFCTest.cxx
 itkFEMLoadBCMFCTestUser.cxx
 itkFEMLoadEdgeTest.cxx
 itkFEMLoadGravConstTest.cxx
+itkFEMLoadPointTestUser.cxx
 itkFEMLandmarkLoadImplementationTest.cxx
 # itkFEMSolverTest2D.cxx
 itkFEMSolverTest3D.cxx
@@ -262,6 +263,9 @@ itk_add_test(NAME itkFEMLoadGravConstTest ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkFEMLoadGravConstTest
          DATA{Input/LoadGravConstTest.meta}
          ${ITK_TEST_OUTPUT_DIR}/LoadGravConstWrite.meta)
+
+itk_add_test(NAME itkFEMLoadPointTestUser ${FEM_TESTS3}
+         COMMAND ITKFEMTestDriver itkFEMLoadPointTestUser)
 
 itk_add_test(NAME itkFEMLandmarkLoadImplementationTest ${FEM_TESTS3}
          COMMAND ITKFEMTestDriver itkFEMLandmarkLoadImplementationTest

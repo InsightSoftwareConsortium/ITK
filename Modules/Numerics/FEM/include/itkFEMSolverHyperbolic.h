@@ -43,20 +43,20 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(SolverHyperbolic, Solver<TDimension> );
 
   typedef Element::Float Float;
 
-  /** Get/Set Gamma  */
+  /** Get/Set Gamma. */
   itkSetMacro(Gamma, Float);
   itkGetMacro(Gamma, Float);
 
-  /** Get/Set Beta  */
+  /** Get/Set Beta. */
   itkSetMacro(Beta, Float);
   itkGetMacro(Beta, Float);
 
-  /** Get/Set Number of Iterations  */
+  /** Get/Set Number of Iterations. */
   itkSetMacro(NumberOfIterations, unsigned int);
   itkGetMacro(NumberOfIterations, unsigned int);
 
@@ -81,9 +81,7 @@ protected:
   virtual ~SolverHyperbolic() { }
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  /**
-   * Initialize the linear system wrapper.
-   */
+  /** Initialize the linear system wrapper. */
   virtual void InitializeLinearSystemWrapper(void) ITK_OVERRIDE;
 
   /**
@@ -92,13 +90,11 @@ protected:
    */
   virtual void AssembleElementMatrix(Element::Pointer e) ITK_OVERRIDE;
 
-  /**
-   * Initializes the storasge for all master matrices.
-   */
+  /** Initialize the storage for all master matrices. */
   virtual void InitializeMatrixForAssembly(unsigned int N) ITK_OVERRIDE;
 
   /**
-   * Combines the M, C and K matrices into one big system of linear
+   * Combine the M, C and K matrices into one big system of linear
    * equations.
    */
   virtual void FinalizeMatrixAfterAssembly( void ) ITK_OVERRIDE;
@@ -107,24 +103,17 @@ protected:
   /** Method invoked by the pipeline in order to trigger the computation. */
   void  GenerateData() ITK_OVERRIDE;
 
-  /**
-   * Solve for the displacement vector u at a given time.  Update the total solution as well.
-   */
+  /** Solve for the displacement vector u at a given time.
+  * Update the total solution as well. */
   virtual void RunSolver(void) ITK_OVERRIDE;
 
-  /**
-   * Solve for the displacement vector u for one iteration
-   */
+  /** Solve for the displacement vector u for one iteration. */
   void Solve();
 
-  /**
-   * Constants that specify, where matrices are strored.
-   */
+  /** Constants that specify where matrices are strored. */
   enum { matrix_K=1, matrix_M=2, matrix_C=3, matrix_tmp=4 };
 
-  /**
-   * Constants that specify, where vectors are strored.
-   */
+  /** Constants that specify where vectors are strored. */
   enum { solution_d=0, solution_v=1, solution_a=2};
   enum { vector_dhat=2, vector_vhat=3, vector_ahat=4, vector_tmp=5 };
 
