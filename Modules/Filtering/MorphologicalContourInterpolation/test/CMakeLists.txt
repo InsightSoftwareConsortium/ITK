@@ -192,3 +192,11 @@ regressiontest(FaceRoI nrrd RD)
 regressiontest(FaceRoI nrrd RD 0)
 regressiontest(FaceRoI nrrd RD 1)
 regressiontest(FaceRoI nrrd RD 2)
+
+# Non-3D tests
+regressiontest(TwoD png RD)
+regressiontest(TwoD png RD -1 255) # same as regular
+regressiontest(TwoD png RD 0) # same as regular
+regressiontest(TwoD png RD -1 1) # does not modify image
+regressiontest(TwoD png RD 1) # does not modify image
+regressiontest(FourD nrrd RD)
