@@ -103,7 +103,7 @@ set( vcl_sources
 #aux_source_directory(Templates vcl_sources)
 vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}vcl
   LIBRARY_SOURCES ${vcl_sources}
-  HEADER_INSTALL_DIR vcl)
+  )
 if(UNIX)
   target_link_libraries(${VXL_LIB_PREFIX}vcl m)
 endif()
