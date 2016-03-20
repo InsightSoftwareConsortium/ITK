@@ -20,8 +20,6 @@
 namespace itk
 {
 
-// If not C++11, then no constexpr and declaration is needed
-#if !(__cplusplus >= 201103L)
 
 const bool NumericTraits< bool >:: Zero;
 const bool NumericTraits< bool >:: One;
@@ -59,6 +57,9 @@ const long long NumericTraits< long long >:: One;
 const unsigned long long NumericTraits< unsigned long long >:: Zero;
 const unsigned long long NumericTraits< unsigned long long >:: One;
 
+// If not C++11, then use static initialization for real types
+#if !(__cplusplus >= 201103L)
+
 const float NumericTraits< float >:: Zero = 0.0F;
 const float NumericTraits< float >:: One = 1.0F;
 
@@ -67,6 +68,18 @@ const double NumericTraits< double >:: One = 1.0;
 
 const long double NumericTraits< long double >:: Zero = 0.0;
 const long double NumericTraits< long double >:: One = 1.0;
+
+#else
+
+const float NumericTraits< float >:: Zero;
+const float NumericTraits< float >:: One;
+
+const double NumericTraits< double >:: Zero;
+const double NumericTraits< double >:: One;
+
+const long double NumericTraits< long double >:: Zero;
+const long double NumericTraits< long double >:: One;
+
 
 #endif
 
