@@ -925,35 +925,29 @@ __inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
 #define vcl_indirect_array std::indirect_array
 #define vcl_vector std::vector
 
-#if __cplusplus >= 201103L
-#define vcl_bad_weak_ptr std::bad_weak_ptr
-#define vcl_shared_ptr std::shared_ptr
-#define vcl_static_pointer_cast std::static_pointer_cast
-#define vcl_dynamic_pointer_cast std::dynamic_pointer_cast
-#define vcl_const_pointer_cast std::const_pointer_cast
-#define vcl_get_deleter std::get_deleter
-#define vcl_weak_ptr std::weak_ptr
-#define vcl_enable_shared_from_this std::enable_shared_from_this
-#endif
-#if VCL_INCLUDE_CXX_0X
-// [20.6] lib.memory (additions in 0x draft: 2006-11-06)
-#include <tr1/memory>
-/* The following includes are needed to preserve backwards
+#if __cplusplus >= 201103L || VCL_MEMORY_HAS_SHARED_PTR
+# define vcl_memory_prefix std
+#elif VCL_TR1_MEMORY_HAS_SHARED_PTR
+  // [20.6] lib.memory (additions in 0x draft: 2006-11-06)
+  /* The following includes are needed to preserve backwards
    compatilibility for external applications.  Previously
    definitions were defined in multiple headers with conditional
    ifndef guards, but we now include a reference header
    instead */
-//no dependancies remove comment above
-//vcl alias names to std names
-#define vcl_bad_weak_ptr std::tr1::bad_weak_ptr
-#define vcl_shared_ptr std::tr1::shared_ptr
-#define vcl_static_pointer_cast std::tr1::static_pointer_cast
-#define vcl_dynamic_pointer_cast std::tr1::dynamic_pointer_cast
-#define vcl_const_pointer_cast std::tr1::const_pointer_cast
-#define vcl_get_deleter std::tr1::get_deleter
-#define vcl_weak_ptr std::tr1::weak_ptr
-#define vcl_enable_shared_from_this std::tr1::enable_shared_from_this
-#endif //VCL_INCLUDE_CXX_0X
+# include <tr1/memory>
+# define vcl_memory_prefix std::tr1
+#else
+# error "Missing definition for SHARED_PTR"
+#endif
+
+#define vcl_bad_weak_ptr            vcl_memory_prefix::bad_weak_ptr
+#define vcl_shared_ptr              vcl_memory_prefix::shared_ptr
+#define vcl_static_pointer_cast     vcl_memory_prefix::static_pointer_cast
+#define vcl_dynamic_pointer_cast    vcl_memory_prefix::dynamic_pointer_cast
+#define vcl_const_pointer_cast      vcl_memory_prefix::const_pointer_cast
+#define vcl_get_deleter             vcl_memory_prefix::get_deleter
+#define vcl_weak_ptr                vcl_memory_prefix::weak_ptr
+#define vcl_enable_shared_from_this vcl_memory_prefix::enable_shared_from_this
 
 #endif //VXL_LEGACY_FUTURE_REMOVE
 

@@ -75,7 +75,7 @@ else()
 endif()
 
 vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vnl_config.h.in
-               ${PROJECT_BINARY_DIR}/vnl_config.h include/vxl/core/vnl)
+               ${PROJECT_BINARY_DIR}/vnl_config.h ${VXL_INSTALL_INCLUDE_DIR}/vnl)
 
 set( vnl_sources
   dll.h
