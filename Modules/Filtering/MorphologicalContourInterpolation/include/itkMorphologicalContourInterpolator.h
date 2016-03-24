@@ -173,7 +173,8 @@ protected:
                   typename TImage::PixelType      iRegionId,
                   typename TImage::Pointer        jConn,
                   typename TImage::PixelType      jRegionId,
-                  typename TImage::IndexType      translation);
+                  typename TImage::IndexType      translation,
+                  bool                            recursive);
 
   typedef std::vector<typename TImage::PixelType> PixelList;
 
