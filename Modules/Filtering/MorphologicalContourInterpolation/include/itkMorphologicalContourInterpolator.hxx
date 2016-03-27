@@ -26,6 +26,7 @@
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
+#include <climits>
 #include <utility>
 #include <algorithm>
 #include <queue>
@@ -442,15 +443,15 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(int          
 
 
 template <typename TImage>
-itk::SmartPointer<TImage>
-MaurerDM(itk::SmartPointer<TImage> inImage)
+typename MorphologicalContourInterpolator<TImage>::FloatImageType::Pointer
+MorphologicalContourInterpolator<TImage>::MaurerDM(typename BoolImageType::Pointer mask)
 {
-  typedef itk::SignedMaurerDistanceMapImageFilter<TImage, TImage> FilterType;
-  thread_local typename FilterType::Pointer                       filter = FilterType::New();
-  filter->SetInput(inImage);
-  filter->SetUseImageSpacing(false);
-  filter->SetSquaredDistance(true);
-  filter->SetNumberOfThreads(1);
+  typedef itk::SignedMaurerDistanceMapImageFilter<BoolImageType, FloatImageType> FilterType;
+  thread_local typename FilterType::Pointer                                      filter = FilterType::New();
+  filter->SetInput(mask);
+  filter->SetUseImageSpacing(false); // interpolation algorithm calls for working in index space
+  filter->SetNumberOfThreads(1);     // otherwise conflicts with C++11 threads
+  filter->GetOutput()->SetRequestedRegion(mask->GetRequestedRegion());
   filter->Update();
   return filter->GetOutput();
 }
@@ -461,7 +462,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(int          
                                                                    typename BoolImageType::Pointer iMask,
                                                                    typename BoolImageType::Pointer jMask)
 {
-  // generate sequence
+  // create intersection
   thread_local typename AndFilterType::Pointer m_And = AndFilterType::New();
   m_And->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   WriteDebug(iMask, "C:\\iMask.nrrd");
@@ -473,8 +474,114 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(int          
   typename BoolImageType::Pointer intersection = m_And->GetOutput();
   intersection->DisconnectPipeline();
   WriteDebug(intersection, "C:\\intersection.nrrd");
-  itkExceptionMacro("Not implemented yet.");
-  return intersection;
+
+  // calculate distance field
+  typename FloatImageType::Pointer sdf = MaurerDM(intersection);
+  WriteDebug(sdf, "C:\\sdf.nrrd");
+
+  // create histograms of distances and union
+  typename BoolImageType::Pointer orImage = BoolImageType::New();
+  orImage->CopyInformation(intersection);
+  orImage->SetRegions(iMask->GetRequestedRegion());
+  orImage->Allocate(true);
+  std::vector<long long>                   iHist;
+  std::vector<long long>                   jHist;
+  ImageRegionConstIterator<BoolImageType>  iti(iMask, iMask->GetRequestedRegion());
+  ImageRegionConstIterator<BoolImageType>  itj(jMask, iMask->GetRequestedRegion());
+  ImageRegionIterator<BoolImageType>       ito(orImage, iMask->GetRequestedRegion());
+  ImageRegionConstIterator<FloatImageType> itsdf(sdf, iMask->GetRequestedRegion());
+  while (!itsdf.IsAtEnd())
+  {
+    ;
+    bool                       iM = iti.Get();
+    bool                       jM = itj.Get();
+    typename TImage::PixelType dist = itsdf.Get();
+    if (iM && !jM)
+    {
+      if (dist >= iHist.size())
+      {
+        iHist.resize(dist + 1, 0);
+      }
+      iHist[dist]++;
+      ito.Set(true);
+    }
+    else if (jM && !iM)
+    {
+      if (dist >= jHist.size())
+      {
+        jHist.resize(dist + 1, 0);
+      }
+      jHist[dist]++;
+      ito.Set(true);
+    }
+    else if (iM && jM)
+    {
+      ito.Set(true);
+    }
+
+    ++iti;
+    ++itj;
+    ++ito;
+    ++itsdf;
+  }
+  WriteDebug(orImage, "C:\\orImage.nrrd");
+
+  // sum of histogram bins for i and j and
+  auto maxSize = std::max(iHist.size(), jHist.size());
+  if (maxSize == 0)
+  {
+    return intersection;
+  }
+  iHist.resize(maxSize, 0);
+  jHist.resize(maxSize, 0);
+  assert(iHist[0] == 0);
+  assert(jHist[0] == 0);
+  std::vector<long long> iSum(maxSize, 0);
+  std::vector<long long> jSum(maxSize, 0);
+  iSum[0] = iHist[0];
+  jSum[0] = jHist[0];
+  for (int b = 1; b < maxSize; b++)
+  {
+    iSum[b] = iSum[b - 1] + iHist[b];
+    jSum[b] = jSum[b - 1] + jHist[b];
+  }
+  long long iTotal = iSum[maxSize - 1];
+  long long jTotal = jSum[maxSize - 1];
+
+  // find minimum of differences of sums
+  int       bestBin = 0;
+  long long bestDiff = LLONG_MAX;
+  for (int b = 0; b < maxSize; b++)
+  {
+    long long iS = std::abs(iTotal - iSum[b] + jSum[b]);
+    long long jS = std::abs(jTotal - jSum[b] + iSum[b]);
+    // long long jS = std::abs(jTotal - jSum[maxSize - b - 1] + iSum[b]);
+    long long diff = std::abs(iS - jS);
+    if (diff < bestDiff)
+    {
+      bestDiff = diff;
+      bestBin = b;
+    }
+  }
+
+  // threshold at distance bestBin is the median intersection
+  typedef BinaryThresholdImageFilter<FloatImageType, BoolImageType> FloatBinarizerType;
+  thread_local FloatBinarizerType::Pointer                          threshold = FloatBinarizerType::New();
+  threshold->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
+  threshold->SetInput(sdf);
+  threshold->SetUpperThreshold(bestBin);
+  threshold->GetOutput()->SetRequestedRegion(sdf->GetRequestedRegion());
+  threshold->Update();
+
+  thread_local AndFilterType::Pointer and = AndFilterType::New();
+  and->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
+  and->SetInput(threshold->GetOutput());
+  and->SetInput(1, orImage);
+  and->GetOutput()->SetRequestedRegion(orImage->GetRequestedRegion());
+  and->Update();
+  BoolImageType::Pointer median = and->GetOutput();
+  WriteDebug(median, "C:\\median.nrrd");
+  return median;
 }
 
 
@@ -581,6 +688,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   WriteDebug(jConnT, "C:\\jConnTb.nrrd");
 
   // convert to binary masks
+  // TODO: do this by iterators and reduce dimension by one
   MatchesID                                                         matchesIDi(iRegionId);
   MatchesID                                                         matchesIDj(jRegionId);
   typedef UnaryFunctorImageFilter<TImage, BoolImageType, MatchesID> CastType;
@@ -657,6 +765,10 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
                             1,
                             iTrans,
                             true);
+      ////now give this thread a chance to start by yielding
+      // auto oneMS = std::chrono::microseconds(1000);
+      // std::this_thread::sleep_for(oneMS);
+      ////now continue by recursion in this thread
       Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans, true);
     }
     else // sequential

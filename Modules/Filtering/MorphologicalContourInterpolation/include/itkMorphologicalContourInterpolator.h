@@ -147,7 +147,13 @@ protected:
               typename TImage::Pointer        iConn,
               typename TImage::PixelType      iRegionId);
 
-  typedef Image<bool, TImage::ImageDimension> BoolImageType;
+  typedef Image<bool, TImage::ImageDimension>                           BoolImageType;
+  typedef Image<float, TImage::ImageDimension>                          FloatImageType;
+  typedef Image<typename TImage::PixelType, TImage::ImageDimension - 1> SliceType;
+  typedef Image<bool, TImage::ImageDimension - 1>                       BoolSliceType;
+
+  typename FloatImageType::Pointer
+  MaurerDM(typename BoolImageType::Pointer inImage);
 
   /** A sequence of conditional dilations starting with begin and reaching end.
   begin and end must cover the same region (size and index the same) */
