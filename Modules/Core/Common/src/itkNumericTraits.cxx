@@ -20,43 +20,6 @@
 namespace itk
 {
 
-
-ITK_CONSTEXPR bool NumericTraits< bool >:: Zero;
-ITK_CONSTEXPR bool NumericTraits< bool >:: One;
-
-ITK_CONSTEXPR unsigned char NumericTraits< unsigned char >:: Zero;
-ITK_CONSTEXPR unsigned char NumericTraits< unsigned char >:: One;
-
-ITK_CONSTEXPR signed char NumericTraits< signed char >:: Zero;
-ITK_CONSTEXPR signed char NumericTraits< signed char >:: One;
-
-ITK_CONSTEXPR char NumericTraits< char >:: Zero;
-ITK_CONSTEXPR char NumericTraits< char >:: One;
-
-ITK_CONSTEXPR unsigned short NumericTraits< unsigned short >:: Zero;
-ITK_CONSTEXPR unsigned short NumericTraits< unsigned short >:: One;
-
-ITK_CONSTEXPR short NumericTraits< short >:: Zero;
-ITK_CONSTEXPR short NumericTraits< short >:: One;
-
-ITK_CONSTEXPR unsigned int NumericTraits< unsigned int >:: Zero;
-ITK_CONSTEXPR unsigned int NumericTraits< unsigned int >:: One;
-
-ITK_CONSTEXPR int NumericTraits< int >:: Zero;
-ITK_CONSTEXPR int NumericTraits< int >:: One;
-
-ITK_CONSTEXPR unsigned long NumericTraits< unsigned long >:: Zero;
-ITK_CONSTEXPR unsigned long NumericTraits< unsigned long >:: One;
-
-ITK_CONSTEXPR long NumericTraits< long >:: Zero;
-ITK_CONSTEXPR long NumericTraits< long >:: One;
-
-ITK_CONSTEXPR long long NumericTraits< long long >:: Zero;
-ITK_CONSTEXPR long long NumericTraits< long long >:: One;
-
-ITK_CONSTEXPR unsigned long long NumericTraits< unsigned long long >:: Zero;
-ITK_CONSTEXPR unsigned long long NumericTraits< unsigned long long >:: One;
-
 // If not C++11, then use static initialization for real types
 #if !(__cplusplus >= 201103L)
 
