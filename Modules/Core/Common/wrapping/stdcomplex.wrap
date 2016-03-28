@@ -1,0 +1,5 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("complex")
+itk_wrap_class("std::complex" )
+  set(WRAPPER_TEMPLATES "${itk_Wrap_std_complex}")
+itk_end_wrap_class()
