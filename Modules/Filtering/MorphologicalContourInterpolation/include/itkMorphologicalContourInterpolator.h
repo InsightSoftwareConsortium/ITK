@@ -24,7 +24,7 @@
 #include "itkExtractImageFilter.h"
 #include "itksys/hash_map.hxx"
 #include "itkBinaryDilateImageFilter.h"
-// #include "itkBinaryCrossStructuringElement.h"
+#include "itkBinaryCrossStructuringElement.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkAndImageFilter.h"
 #include "itkOrImageFilter.h"
@@ -76,7 +76,6 @@ public:
    *   Default is heuristic. */
   itkGetConstMacro(HeuristicAlignment, bool);
 
-
   /** Using distance transform instead of repeated dilations to calculate median contour is faster.
    *   Default is to use distance transform. */
   itkSetMacro(UseDistanceTransform, bool);
@@ -89,6 +88,20 @@ public:
    *   Default is to use distance transform. */
   itkGetConstMacro(UseDistanceTransform, bool);
 
+  /** Use ball instead of default cross structuring element for repeated dilations. */
+  void
+  SetUseBallStructuringElement(bool useBall)
+  {
+    m_UseBallStructuringElement = useBall;
+    m_ConnectedComponents->SetFullyConnected(useBall);
+  }
+
+  /** Use ball instead of default cross structuring element for repeated dilations. */
+  itkGetMacro(UseBallStructuringElement, bool);
+
+  /** Use ball instead of default cross structuring element for repeated dilations. */
+  itkGetConstMacro(UseBallStructuringElement, bool);
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MorphologicalContourInterpolator, ImageToImageFilter);
 
@@ -100,6 +113,7 @@ protected:
   int                        m_Axis;
   bool                       m_HeuristicAlignment;
   bool                       m_UseDistanceTransform;
+  bool                       m_UseBallStructuringElement;
   bool                       m_StopSpawning;  // stop spawning new threads
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
@@ -280,10 +294,11 @@ protected:
   typedef ConnectedComponentImageFilter<BoolImageType, TImage> ConnectedComponentsType;
   typename ConnectedComponentsType::Pointer                    m_ConnectedComponents;
 
-  // typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
-  typedef BinaryBallStructuringElement<bool, TImage::ImageDimension> StructuringElementType;
+  typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> CrossStructuringElementType;
+  typedef BinaryBallStructuringElement<bool, TImage::ImageDimension>  BallStructuringElementType;
 
-  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, StructuringElementType> DilateType;
+  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, CrossStructuringElementType> CrossDilateType;
+  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, BallStructuringElementType>  BallDilateType;
 
   typedef AndImageFilter<BoolImageType, BoolImageType, BoolImageType> AndFilterType;
 
