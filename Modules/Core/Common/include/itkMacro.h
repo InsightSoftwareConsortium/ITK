@@ -209,7 +209,7 @@ namespace itk
 #define ITK_NULLPTR  NULL
 #define ITK_NOEXCEPT throw()
 #define ITK_CONSTEXPR const
-#define ITK_CONSTEXPR_FUNC
+#define ITK_CONSTEXPR_FUNC inline
 #endif
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
