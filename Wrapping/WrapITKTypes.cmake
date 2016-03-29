@@ -41,12 +41,9 @@ macro(END_WRAP_TYPE)
         # no namespaces
         set(swig_name "${itk_Wrap_Class}")
       endif()
-      message("wrapTpl: ${wrapTpl} wrapType: ${wrapType} swig_name: ${swig_name}")
       set(ITKT_${itk_Wrap_Prefix}${wrapTpl} "${itk_Wrap_Class}< ${wrapType} >")
       set(ITKM_${itk_Wrap_Prefix}${wrapTpl} "${itk_Wrap_Prefix}${wrapTpl}")
       set(ITKN_${itk_Wrap_Prefix}${wrapTpl} "${swig_name}${wrapTpl}")
-      message("ITKT_${itk_Wrap_Prefix}${wrapTpl} ${ITKT_${itk_Wrap_Prefix}${wrapTpl}}")
-      message("ITKM_${itk_Wrap_Prefix}${wrapTpl} ${ITKM_${itk_Wrap_Prefix}${wrapTpl}}")
    endforeach()
 endmacro()
 
