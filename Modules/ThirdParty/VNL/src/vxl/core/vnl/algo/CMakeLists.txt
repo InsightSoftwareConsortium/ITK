@@ -34,7 +34,6 @@ if(NETLIB_FOUND)
   include_directories( ${NETLIB_INCLUDE_DIR} )
 
   set( vnl_algo_sources
-    vnl_algo_export.h
     vnl_algo_fwd.h
     vnl_netlib.h
 
@@ -106,6 +105,10 @@ if(NETLIB_FOUND)
   target_link_libraries( ${VXL_LIB_PREFIX}vnl_algo ${NETLIB_LIBRARIES} ${VXL_LIB_PREFIX}vnl )
   include(GenerateExportHeader)
   generate_export_header(${VXL_LIB_PREFIX}vnl_algo BASE_NAME vnl_algo)
+  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/vnl_algo_export.h
+      DESTINATION ${VXL_INSTALL_INCLUDE_DIR}/core/vnl/algo
+      PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
+      COMPONENT Development )
 
   if( BUILD_TESTING )
     add_subdirectory(tests)
