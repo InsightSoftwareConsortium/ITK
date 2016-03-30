@@ -31,7 +31,7 @@ if( NOT CLIPPER_FOUND )
   #
 
   if( NOT CLIPPER_FOUND )
-    if(EXISTS ${CMAKE_SOURCE_DIR}/v3p/clipper/clipper.hpp)
+    if(EXISTS ${VXL_ROOT_SOURCE_DIR}/v3p/clipper/clipper.hpp)
 
       set( CLIPPER_FOUND "YES" )
       set( CLIPPER_INCLUDE_DIR ${clipper_BINARY_DIR} ${clipper_SOURCE_DIR})
