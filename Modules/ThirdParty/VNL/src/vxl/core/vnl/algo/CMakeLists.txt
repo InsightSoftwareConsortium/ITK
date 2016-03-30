@@ -106,7 +106,7 @@ if(NETLIB_FOUND)
   include(GenerateExportHeader)
   generate_export_header(${VXL_LIB_PREFIX}vnl_algo BASE_NAME vnl_algo)
   install(FILES ${CMAKE_CURRENT_BINARY_DIR}/vnl_algo_export.h
-      DESTINATION ${VXL_INSTALL_INCLUDE_DIR}/core/vnl/algo
+      DESTINATION ${VXL_INSTALL_INCLUDE_DIR}/vnl/algo
       PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
       COMPONENT Development )
 
