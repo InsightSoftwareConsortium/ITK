@@ -19,15 +19,11 @@
 #define itkMorphologicalContourInterpolator_h
 
 #include "itkImageToImageFilter.h"
+#include "itksys/hash_map.hxx"
+#include "itkExtractImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
-#include "itkExtractImageFilter.h"
-#include "itksys/hash_map.hxx"
-#include "itkBinaryDilateImageFilter.h"
-#include "itkBinaryCrossStructuringElement.h"
-#include "itkBinaryBallStructuringElement.h"
-#include "itkAndImageFilter.h"
-#include "itkOrImageFilter.h"
+
 #include "ThreadPool.h"
 
 
@@ -162,25 +158,31 @@ protected:
               typename TImage::PixelType      iRegionId);
 
   typedef Image<bool, TImage::ImageDimension>                           BoolImageType;
-  typedef Image<float, TImage::ImageDimension>                          FloatImageType;
+  typedef Image<float, TImage::ImageDimension - 1>                      FloatSliceType;
   typedef Image<typename TImage::PixelType, TImage::ImageDimension - 1> SliceType;
   typedef Image<bool, TImage::ImageDimension - 1>                       BoolSliceType;
 
-  typename FloatImageType::Pointer
-  MaurerDM(typename BoolImageType::Pointer inImage);
+  typename FloatSliceType::Pointer
+  MaurerDM(typename BoolSliceType::Pointer inImage);
 
   /** A sequence of conditional dilations starting with begin and reaching end.
   begin and end must cover the same region (size and index the same) */
-  std::vector<typename BoolImageType::Pointer>
-  GenerateDilationSequence(typename BoolImageType::Pointer begin, typename BoolImageType::Pointer end, int axis);
+  std::vector<typename BoolSliceType::Pointer>
+  GenerateDilationSequence(typename BoolSliceType::Pointer begin, typename BoolSliceType::Pointer end, int axis);
 
   /** Finds an interpolating mask for these two aligned masks */
-  typename BoolImageType::Pointer
-  FindMedianImageDilations(int axis, typename BoolImageType::Pointer iMask, typename BoolImageType::Pointer jMask);
+  typename BoolSliceType::Pointer
+  FindMedianImageDilations(int                             axis,
+                           typename BoolSliceType::Pointer intersection,
+                           typename BoolSliceType::Pointer iMask,
+                           typename BoolSliceType::Pointer jMask);
 
   /** Finds an interpolating mask for these two aligned masks */
-  typename BoolImageType::Pointer
-  FindMedianImageDistances(int axis, typename BoolImageType::Pointer iMask, typename BoolImageType::Pointer jMask);
+  typename BoolSliceType::Pointer
+  FindMedianImageDistances(int                             axis,
+                           typename BoolSliceType::Pointer intersection,
+                           typename BoolSliceType::Pointer iMask,
+                           typename BoolSliceType::Pointer jMask);
 
   /** Build transition sequence and pick the median */
   void
@@ -219,7 +221,7 @@ protected:
   /** The returns cardingal of the symmetric distance between images.
   The images must cover the same region */
   IdentifierType
-  CardSymDifference(typename BoolImageType::Pointer shape1, typename BoolImageType::Pointer shape2);
+  CardSymDifference(typename BoolSliceType::Pointer shape1, typename BoolSliceType::Pointer shape2);
 
   /** Writes into m_Output.
   Copies non-zeroes from m_Input, and fills zeroes from interpolate. */
@@ -272,6 +274,9 @@ protected:
   SliceSetType
   GetLabeledSliceIndices(unsigned int axis);
 
+  typename TImage::RegionType
+  BoundingBox(itk::SmartPointer<TImage> image);
+
   // assumes both valid region and valid index
   void
   ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
@@ -282,8 +287,9 @@ protected:
                               IdentifierType &                  objectCount);
 
   /** seed and mask must cover the same region (size and index the same) */
-  typename BoolImageType::Pointer
-  Dilate1(typename BoolImageType::Pointer seed, typename BoolImageType::Pointer mask, int axis);
+  template <typename T2>
+  SmartPointer<T2>
+  Dilate1(SmartPointer<T2> seed, SmartPointer<T2> mask, bool useBall, int axis);
 
   typedef ExtractImageFilter<TImage, TImage> RoiType;
   typename RoiType::Pointer                  m_RoI;
@@ -294,15 +300,6 @@ protected:
   typedef ConnectedComponentImageFilter<BoolImageType, TImage> ConnectedComponentsType;
   typename ConnectedComponentsType::Pointer                    m_ConnectedComponents;
 
-  typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> CrossStructuringElementType;
-  typedef BinaryBallStructuringElement<bool, TImage::ImageDimension>  BallStructuringElementType;
-
-  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, CrossStructuringElementType> CrossDilateType;
-  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, BallStructuringElementType>  BallDilateType;
-
-  typedef AndImageFilter<BoolImageType, BoolImageType, BoolImageType> AndFilterType;
-
-  typedef OrImageFilter<BoolImageType> OrType;
 
   class MatchesID
   {
