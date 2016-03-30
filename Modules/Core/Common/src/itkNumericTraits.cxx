@@ -20,7 +20,7 @@
 namespace itk
 {
 
-#if !defined(_WIN32) || (__cplusplus >= 201103L)
+#if !defined(_WIN32) || (ITK_COMPILED_CXX_VERSION >= 201103L)
 ITK_CONSTEXPR bool NumericTraits< bool >:: Zero;
 ITK_CONSTEXPR bool NumericTraits< bool >:: One;
 
@@ -59,7 +59,7 @@ ITK_CONSTEXPR unsigned long long NumericTraits< unsigned long long >:: One;
 #endif
 
 // If not C++11, then use static initialization for real types
-#if !(__cplusplus >= 201103L)
+#if !(ITK_COMPILED_CXX_VERSION >= 201103L)
 
 const float NumericTraits< float >:: Zero = 0.0F;
 const float NumericTraits< float >:: One = 1.0F;

@@ -41,7 +41,7 @@
     return std::numeric_limits< ValueType >::max(); \
     }                                              \
 
-#if (__cplusplus >= 201103L)
+#if (ITK_COMPILED_CXX_VERSION >= 201103L)
 #define itkNUMERIC_TRAITS_C11_ASSINMENT(x) = x
 #else
 #define itkNUMERIC_TRAITS_C11_ASSINMENT(x)
