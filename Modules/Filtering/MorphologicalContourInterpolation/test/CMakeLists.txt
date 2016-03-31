@@ -194,9 +194,4 @@ regressiontest(FaceRoI nrrd ${MCI_Algorithm} 1)
 regressiontest(FaceRoI nrrd ${MCI_Algorithm} 2)
 
 # Non-3D tests
-regressiontest(TwoD png ${MCI_Algorithm})
-regressiontest(TwoD png ${MCI_Algorithm} -1 255) # same as regular
-regressiontest(TwoD png ${MCI_Algorithm} 0) # same as regular
-regressiontest(TwoD png ${MCI_Algorithm} -1 1) # does not modify image
-regressiontest(TwoD png ${MCI_Algorithm} 1) # does not modify image
 regressiontest(FourD nrrd ${MCI_Algorithm})
