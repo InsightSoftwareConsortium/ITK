@@ -19,7 +19,7 @@ import sys
 
 import pydas
 
-def connect_to_midas(email=None, api_key=None, midas_url='http://midas3.kitware.com/midas/'):
+def connect_to_midas(email=None, api_key=None, midas_url='https://midas3.kitware.com/midas/'):
     if not api_key:
         print('Please enter your login information for ' + midas_url)
         pydas.login(url=midas_url, email=email)
@@ -101,7 +101,7 @@ def upload_to_midas(content_link, externaldata_object_store,
 
 
 def run(itk_source_dir, externaldata_object_store,
-        email=None, api_key=None, midas_url='http://midas3.kitware.com/midas/'):
+        email=None, api_key=None, midas_url='https://midas3.kitware.com/midas/'):
     session, communicator = connect_to_midas(email, api_key, midas_url)
 
     md5files = []
@@ -158,7 +158,7 @@ if __name__ == '__main__':
             + 'ExternalData/Objects/ in a build tree.')
     parser.add_argument('--midas-url', '-u',
             help='URL of the Midas server.',
-            default='http://midas3.kitware.com/midas/')
+            default='https://midas3.kitware.com/midas/')
     args = parser.parse_args()
 
     if args.api_key_file:
