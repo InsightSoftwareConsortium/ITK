@@ -39,7 +39,7 @@ namespace itk
  * \ingroup DataAccess
  * \ingroup ITKCommon
  */
-#if __cplusplus >= 201103L
+#if ITK_COMPILED_CXX_VERSION >= 201103L
 // In c++11 there is an explicit nullptr type that introduces a new keyword to
 // serve as a distinguished null pointer constant: nullptr. It is of type
 // nullptr_t, which is implicitly convertible and comparable to any pointer type
