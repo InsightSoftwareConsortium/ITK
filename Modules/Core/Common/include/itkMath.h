@@ -708,9 +708,9 @@ NotExactlyEquals( const TInput1 & x1, const TInput2 & x2 )
 }
 
 
-/** Return whether the number in a prime number or not.
+/** Return whether the number is a prime number or not.
  *
- * \note Negative numbers can not be prime.
+ * \note Negative numbers cannot be prime.
  */
 ITKCommon_EXPORT bool IsPrime( unsigned short n );
 ITKCommon_EXPORT bool IsPrime( unsigned int n );
@@ -718,7 +718,7 @@ ITKCommon_EXPORT bool IsPrime( unsigned long n );
 ITKCommon_EXPORT bool IsPrime( unsigned long long n );
 
 
-/** Return the greatest factor of the decomposition in prime numbers */
+/** Return the greatest factor of the decomposition in prime numbers. */
 ITKCommon_EXPORT unsigned short     GreatestPrimeFactor( unsigned short n );
 ITKCommon_EXPORT unsigned int       GreatestPrimeFactor( unsigned int n );
 ITKCommon_EXPORT unsigned long      GreatestPrimeFactor( unsigned long n );
@@ -726,8 +726,8 @@ ITKCommon_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
 
 
 /*==========================================
- * alias the vnl_math functions in the itk::Math
- * namespace.  If possible, use the std:: equivalents
+ * Alias the vnl_math functions in the itk::Math
+ * namespace. If possible, use the std:: equivalents
  */
 #if  __cplusplus >= 201103L
 
