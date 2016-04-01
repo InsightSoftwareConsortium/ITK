@@ -90,7 +90,7 @@ void ImageIOBase::Resize(const unsigned int numDimensions,
     }
 }
 
-void ImageIOBase::SetDimensions(unsigned int i, unsigned int dim)
+void ImageIOBase::SetDimensions(unsigned int i, SizeValueType dim)
 {
   if ( i >= m_Dimensions.size() )
     {
