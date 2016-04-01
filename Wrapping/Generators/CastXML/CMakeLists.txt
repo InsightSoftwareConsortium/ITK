@@ -25,14 +25,14 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz)
     set(_castxml_hash_or_tag 52e5429fa7c0cc42bf2dbd06ce5cb930)
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip)
     set(_castxml_hash_or_tag 9c317c45c93f94619f0879da6af058b0)
     set(_download_castxml_binaries 1)
 
@@ -89,7 +89,7 @@ else()
       endif()
       set(llvm_version 3.7.0)
       ExternalProject_Add(llvm
-        URL http://midas3.kitware.com/midas/download/bitstream/457222/llvm-${llvm_version}.src.tar.gz
+        URL https://midas3.kitware.com/midas/download/bitstream/457222/llvm-${llvm_version}.src.tar.gz
         URL_MD5 255939e1ba0a40d687a683e41323baca
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
         CMAKE_ARGS -Wno-dev
@@ -107,7 +107,7 @@ else()
         # This is the upstream source code repackages in a .tar.gz for
         # compatibility with older CMake. Also the tests/ and doc/ directories
         # are removed to remove symlink files and save space.
-        URL http://midas3.kitware.com/midas/download/bitstream/457221/cfe-${llvm_version}.src.tar.gz
+        URL https://midas3.kitware.com/midas/download/bitstream/457221/cfe-${llvm_version}.src.tar.gz
         URL_MD5 d4290cab76f44be2d38631f819b8c2ec
         DEPENDS llvm
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
