@@ -224,10 +224,13 @@ protected:
   IdentifierType
   CardSymDifference(typename BoolSliceType::Pointer shape1, typename BoolSliceType::Pointer shape2);
 
-  /** Writes into m_Output.
-  Copies non-zeroes from m_Input, and fills zeroes from interpolate. */
+  /** Copied from ImageSource and changed to allocate a cleared buffer. */
+  virtual void
+  AllocateOutputs() ITK_OVERRIDE;
+
+  /** Overwrites m_Output with non non-zeroes from m_Input. */
   void
-  CombineInputAndInterpolate(typename TImage::Pointer interpolate);
+  OverlayInput();
 
   /** Returns the centroid of given regions */
   typename SliceType::IndexType
