@@ -308,11 +308,11 @@ int HDF5ReadWriteTest(const char *fileName)
   itk::ImageRegionIterator<ImageType> it2(im2,im2->GetLargestPossibleRegion());
   for(it.GoToBegin(),it2.GoToBegin(); !it.IsAtEnd() && !it2.IsAtEnd(); ++it,++it2)
     {
-    if(itk::Math::NotAlmostEquals( it.Get(), it2.Get()) )
+    if(itk::Math::NotAlmostEquals( it.Value(), it2.Value()) )
       {
-      std::cout << "Original Pixel (" << it.Get()
+      std::cout << "Original Pixel (" << it.Value()
                 << ") doesn't match read-in Pixel ("
-                << it2.Get() << std::endl;
+                << it2.Value() << std::endl;
       success = EXIT_FAILURE;
       break;
       }
