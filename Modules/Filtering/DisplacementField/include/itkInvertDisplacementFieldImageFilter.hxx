@@ -225,7 +225,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>
       RealType scaledNorm = 0.0;
       for( unsigned int d = 0; d < ImageDimension; ++d )
         {
-        scaledNorm += vnl_math_sqr( displacement[d] * inverseSpacing[d] );
+        scaledNorm += itk::Math::sqr( displacement[d] * inverseSpacing[d] );
         }
       scaledNorm = std::sqrt( scaledNorm );
 

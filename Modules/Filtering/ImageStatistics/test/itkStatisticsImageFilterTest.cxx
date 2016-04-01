@@ -103,7 +103,7 @@ int itkStatisticsImageFilterTest(int, char* [] )
   double expectedSigma = std::sqrt((maxValue-minValue)*(maxValue-minValue)/12.0);
   double epsilon = (maxValue - minValue) * .001;
 
-  if (vnl_math_abs(filter->GetSigma() - expectedSigma) > epsilon)
+  if (itk::Math::abs(filter->GetSigma() - expectedSigma) > epsilon)
     {
     std::cerr << "GetSigma failed! Got " << filter->GetSigma() << " but expected " << expectedSigma << std::endl;
     }
@@ -137,17 +137,17 @@ int itkStatisticsImageFilterTest(int, char* [] )
   dfilter->UpdateLargestPossibleRegion();
   double testMean = dfilter->GetMean();
   double testVariance = dfilter->GetVariance();
-  double diff = vnl_math_abs(testMean - knownMean);
+  double diff = itk::Math::abs(testMean - knownMean);
   if ((diff != 0.0 && knownMean != 0.0) &&
-      diff / vnl_math_abs(knownMean) > .01)
+      diff / itk::Math::abs(knownMean) > .01)
     {
     std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
     return EXIT_FAILURE;
     }
   std::cout << "Expected mean is " << knownMean << ", computed mean is " << testMean << std::endl;
-  diff = vnl_math_abs(testVariance - knownVariance);
+  diff = itk::Math::abs(testVariance - knownVariance);
   if ((diff != 0.0 && knownVariance != 0.0) &&
-      diff / vnl_math_abs(knownVariance) > .1)
+      diff / itk::Math::abs(knownVariance) > .1)
     {
     std::cout << "Expected variance is " << knownVariance << ", computed variance is " << testVariance << std::endl;
     return EXIT_FAILURE;

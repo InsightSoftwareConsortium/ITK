@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DSPR  ( UPLO, N, ALPHA, X, INCX, AP ) >*/
-/* Subroutine */ int dspr_(char *uplo, integer *n, doublereal *alpha, 
+/* Subroutine */ int dspr_(char *uplo, integer *n, doublereal *alpha,
         doublereal *x, integer *incx, doublereal *ap, ftnlen uplo_len)
 {
     /* System generated locals */

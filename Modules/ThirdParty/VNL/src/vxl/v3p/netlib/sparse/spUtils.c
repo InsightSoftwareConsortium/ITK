@@ -43,11 +43,6 @@
  *
  *  Copyright (c) 1985-2003 by Kenneth S. Kundert
  */
-#if 0
-static char copyright[] =
-    "Sparse1.4: Copyright (c) 1985-2003 by Kenneth S. Kundert";
-#endif
-
 
 /*
  *  IMPORTS
@@ -170,7 +165,7 @@ static RealNumber ComplexCondition( MatrixPtr, RealNumber, int* );
  *  The algorithm used in this function was developed by Ken Kundert and
  *  Tom Quarles.
  *
- *  \param *  eMatrix 
+ *  \param *  eMatrix
  *      Pointer to the matrix to be preordered.
  */
 /*  >>> Local variables;
@@ -233,7 +228,8 @@ BOOLEAN  Swapped, AnotherPassNeeded;
         if (AnotherPassNeeded)
         {   for (J = StartAt; NOT Swapped AND (J <= Size); J++)
             {   if (Matrix->Diag[J] == NULL)
-                {   Twins = CountTwins( Matrix, J, &pTwin1, &pTwin2 );
+                {  // Twins = CountTwins( Matrix, J, &pTwin1, &pTwin2 );
+                    CountTwins( Matrix, J, &pTwin1, &pTwin2 );
                     SwapCols( Matrix, pTwin1, pTwin2 );
                     Swapped = YES;
                 }
@@ -1076,7 +1072,7 @@ ComplexNumber Pivot, cDeterminant;
         }
         if (Matrix->NumberOfInterchangesIsOdd)
             CMPLX_NEGATE( cDeterminant );
-        
+
         *pDeterminant = cDeterminant.Real;
         *piDeterminant = cDeterminant.Imag;
     }
@@ -1422,14 +1418,14 @@ spPseudoCondition( spMatrix eMatrix )
  *  A.K. Cline, C.B. Moler, G.W. Stewart, J.H. Wilkinson.  An estimate
  *  for the condition number of a matrix.  SIAM Journal on Numerical
  *  Analysis.  Vol. 16, No. 2, pages 368-375, April 1979.
- *  
+ *
  *  J.J. Dongarra, C.B. Moler, J.R. Bunch, G.W. Stewart.  LINPACK
  *  User's Guide.  SIAM, 1979.
- *  
+ *
  *  Roger G. Grimes, John G. Lewis.  Condition number estimation for
  *  sparse matrices.  SIAM Journal on Scientific and Statistical
  *  Computing.  Vol. 2, No. 4, pages 384-388, December 1981.
- *  
+ *
  *  Dianne Prost O'Leary.  Estimating matrix condition numbers.  SIAM
  *  Journal on Scientific and Statistical Computing.  Vol. 1, No. 2,
  *  pages 205-209, June 1980.
@@ -1449,7 +1445,7 @@ spPseudoCondition( spMatrix eMatrix )
  */
 
 spREAL
-spCondition( 
+spCondition(
     spMatrix eMatrix,
     spREAL NormOfMatrix,
     int *pError
@@ -1934,7 +1930,7 @@ RealNumber Max = 0.0, AbsRowSum;
  *
  *  Using only the size of the matrix as an upper bound on \f$ m_{ij} \f$ and
  *  Barlow's bound, the user can estimate the size of the matrix error
- *  terms \f$ e_{ij} \f$ using the bound of Erisman and Reid.  spRoundoff() 
+ *  terms \f$ e_{ij} \f$ using the bound of Erisman and Reid.  spRoundoff()
  *  computes a tighter bound (with more work) based on work by Gear
  *  [3], \f$ |e_{ij}| < 1.01 u \rho (t c^3 + (1 + t)c^2) \f$ where
  *  \f$ t \f$ is the threshold and \f$ c \f$ is the maximum number of
@@ -2086,7 +2082,7 @@ register ElementPtr pElement, pDiag;
  */
 
 spREAL
-spRoundoff( 
+spRoundoff(
     spMatrix eMatrix,
     spREAL Rho
 )
@@ -2143,67 +2139,11 @@ RealNumber Reid, Gear;
  *  The error state is cleared.
  *
  *  \param eMatrix
- *      Matrix for which the error message is to be printed.
+ *        Matrix for which the error message is to be printed.
  *  \param Stream
- *      Stream to which the error message is to be printed.
+ *        Stream to which the error message is to be printed.
  *  \param Originator
- *      Name of originator of error message.  If NULL, `sparse' is used.
- *      If zero-length string, no originator is printed.
+ *        Name of originator of error message.  If NULL, `sparse' is used.
+ *        If zero-length string, no originator is printed.
  */
-#if 0 //Remove Borland Error
-void
-spErrorMessage(
-    spMatrix eMatrix,
-    FILE *Stream,
-    char *Originator
-)
-{
-int Row, Col, Error;
-
-/* Begin `spErrorMessage'. */
-    if (eMatrix == NULL)
-        Error = spNO_MEMORY;
-    else
-    {   ASSERT_IS_SPARSE( (MatrixPtr)eMatrix );
-        Error = ((MatrixPtr)eMatrix)->Error;
-    }
-
-    if (Error == spOKAY) return;
-    if (Originator == NULL) Originator = "sparse";
-    if (Stream == NULL) Stream = stderr;
-    if (Originator[0] != '\0') fprintf( Stream, "%s: ", Originator );
-    if (Error >= spFATAL)
-        fprintf( Stream, "fatal error: ");
-    else
-        fprintf( Stream, "warning: ");
-/*
- * Print particular error message.
- * Do not use switch statement because error codes may not be unique.
- */
-    if (Error == spPANIC)
-        fprintf( Stream, "Sparse called improperly.\n");
-    else if (Error == spNO_MEMORY)
-        fprintf( Stream, "insufficient memory available.\n");
-    else if (Error == spMANGLED)
-        fprintf( Stream, "matrix is mangled.\n");
-    else if (Error == spSINGULAR)
-    {   spWhereSingular( eMatrix, &Row, &Col );
-        fprintf( Stream, "singular matrix detected at row %d and column %d.\n",
-                 Row, Col);
-    }
-    else if (Error == spZERO_DIAG)
-    {   spWhereSingular( eMatrix, &Row, &Col );
-        fprintf( Stream, "zero diagonal detected at row %d and column %d.\n",
-                 Row, Col);
-    }
-    else if (Error == spSMALL_PIVOT)
-    {   fprintf( Stream,
-            "unable to find a pivot that is larger than absolute threshold.\n");
-    }
-    else ABORT();
-
-    ((MatrixPtr)eMatrix)->Error = spOKAY;
-    return;
-}
-#endif //Remove Borland Error
 #endif /* DOCUMENTATION */

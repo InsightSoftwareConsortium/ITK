@@ -60,10 +60,10 @@ SphereMeshSource< TOutputMesh >
   numpts = m_ResolutionX * m_ResolutionY + 2;
 
   // calculate the steps using resolution
-  ustep = vnl_math::pi / ( m_ResolutionX + 1 );
-  vstep = 2.0 * vnl_math::pi / m_ResolutionY;
-  ubeg = ( -vnl_math::pi / 2.0 ) + ustep;
-  vbeg = -vnl_math::pi;
+  ustep = itk::Math::pi / ( m_ResolutionX + 1 );
+  vstep = 2.0 * itk::Math::pi / m_ResolutionY;
+  ubeg = ( -itk::Math::pi / 2.0 ) + ustep;
+  vbeg = -itk::Math::pi;
 
   ///////////////////////////////////////////////////////////////////////////
   // nodes allocation
@@ -140,21 +140,21 @@ SphereMeshSource< TOutputMesh >
       }
 
     // calculate the south pole node
-    p1[0] = ( m_Scale[0] * ( std::pow( (float)( std::fabs( std::cos(-vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[0] = ( m_Scale[0] * ( std::pow( (float)( std::fabs( std::cos(-itk::Math::pi / 2) ) ), 1.0f ) )
               * ( std::pow( (float)( std::fabs( std::cos(0.0) ) ), 1.0f ) ) + m_Center[0] );
-    p1[1] = ( m_Scale[1] * ( std::pow( (float)( std::fabs( std::cos(-vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[1] = ( m_Scale[1] * ( std::pow( (float)( std::fabs( std::cos(-itk::Math::pi / 2) ) ), 1.0f ) )
               * ( std::pow( (float)( std::fabs( std::sin(0.0) ) ), 1.0f ) ) + m_Center[1] );
-    p1[2] = ( m_Scale[2] * -1 * ( std::pow( (float)( std::fabs( std::sin(-vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[2] = ( m_Scale[2] * -1 * ( std::pow( (float)( std::fabs( std::sin(-itk::Math::pi / 2) ) ), 1.0f ) )
               + m_Center[2] );
     point.Value() = p1;
     ++point;
 
     // calculate the north pole node
-    p1[0] = ( m_Scale[0] * ( std::pow( (float)( std::fabs( std::cos(vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[0] = ( m_Scale[0] * ( std::pow( (float)( std::fabs( std::cos(itk::Math::pi / 2) ) ), 1.0f ) )
               * ( std::pow(std::fabs( std::cos(0.0) ), 1.0) ) + m_Center[0] );
-    p1[1] = ( m_Scale[1] * ( std::pow( (float)( std::fabs( std::cos(vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[1] = ( m_Scale[1] * ( std::pow( (float)( std::fabs( std::cos(itk::Math::pi / 2) ) ), 1.0f ) )
               * ( std::pow(std::fabs( std::sin(0.0) ), 1.0) ) + m_Center[1] );
-    p1[2] = ( m_Scale[2] * ( std::pow( (float)( std::fabs( std::sin(vnl_math::pi / 2) ) ), 1.0f ) )
+    p1[2] = ( m_Scale[2] * ( std::pow( (float)( std::fabs( std::sin(itk::Math::pi / 2) ) ), 1.0f ) )
               + m_Center[2] );
     point.Value() = p1;
     ++point;

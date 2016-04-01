@@ -20,7 +20,7 @@
 
 #include "itkQuadEdgeMesh.h"
 #include "itkTriangleHelper.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -163,7 +163,7 @@ public:
       oValue += TriangleHelper< InputPointType >::Cotangent(pt1, ptB, pt2);
       }
 
-    return vnl_math_max( NumericTraits< InputCoordRepType >::ZeroValue(), oValue);
+    return std::max( NumericTraits< InputCoordRepType >::ZeroValue(), oValue);
   }
 };
 

@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       double complex function zdotu(n,zx,incx,zy,incy) >*/
-/* Double Complex */ VOID zdotu_(doublecomplex * ret_val, integer *n, 
+/* Double Complex */ VOID zdotu_(doublecomplex * ret_val, integer *n,
         doublecomplex *zx, integer *incx, doublecomplex *zy, integer *incy)
 {
     /* System generated locals */
@@ -73,7 +73,7 @@ extern "C" {
 /*<         ztemp = ztemp + zx(ix)*zy(iy) >*/
         i__2 = ix;
         i__3 = iy;
-        z__2.r = zx[i__2].r * zy[i__3].r - zx[i__2].i * zy[i__3].i, z__2.i = 
+        z__2.r = zx[i__2].r * zy[i__3].r - zx[i__2].i * zy[i__3].i, z__2.i =
                 zx[i__2].r * zy[i__3].i + zx[i__2].i * zy[i__3].r;
         z__1.r = ztemp.r + z__2.r, z__1.i = ztemp.i + z__2.i;
         ztemp.r = z__1.r, ztemp.i = z__1.i;
@@ -98,7 +98,7 @@ L20:
 /*<         ztemp = ztemp + zx(i)*zy(i) >*/
         i__2 = i__;
         i__3 = i__;
-        z__2.r = zx[i__2].r * zy[i__3].r - zx[i__2].i * zy[i__3].i, z__2.i = 
+        z__2.r = zx[i__2].r * zy[i__3].r - zx[i__2].i * zy[i__3].i, z__2.i =
                 zx[i__2].r * zy[i__3].i + zx[i__2].i * zy[i__3].r;
         z__1.r = ztemp.r + z__2.r, z__1.i = ztemp.i + z__2.i;
         ztemp.r = z__1.r, ztemp.i = z__1.i;

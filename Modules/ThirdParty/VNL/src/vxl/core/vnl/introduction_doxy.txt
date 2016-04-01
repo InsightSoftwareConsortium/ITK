@@ -64,7 +64,8 @@
 * - vnl_complex, vnl_complexify, vnl_real, vnl_imag : represent and manipulate complex numbers
 * - vnl_quaternion<T>
 * - vnl_rational : numbers represented as the quotient of two integers
-* - vnl_bignum : arbitrary size integers
+* - vnl_bignum : arbitrary size integers, binary representation
+* - vnl_decnum : arbitrary size integers, decimal representation and arithmetic
 * - vnl_finite<N> : modulo-N arithmetic, e.g. for finite fields
 *
 * Mapping functionality

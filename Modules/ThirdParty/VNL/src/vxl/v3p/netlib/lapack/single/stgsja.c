@@ -23,22 +23,22 @@ static integer c__1 = 1;
 static real c_b43 = (float)-1.;
 
 /*<    >*/
-/* Subroutine */ int stgsja_(const char *jobu, const char *jobv, const char *jobq, integer *m, 
+/* Subroutine */ int stgsja_(const char *jobu, const char *jobv, const char *jobq, integer *m,
         integer *p, integer *n, integer *k, integer *l, real *a, integer *lda,
          real *b, integer *ldb, real *tola, real *tolb, real *alpha, real *
         beta, real *u, integer *ldu, real *v, integer *ldv, real *q, integer *
-        ldq, real *work, integer *ncycle, integer *info, ftnlen jobu_len, 
+        ldq, real *work, integer *ncycle, integer *info, ftnlen jobu_len,
         ftnlen jobv_len, ftnlen jobq_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1,
             u_offset, v_dim1, v_offset, i__1, i__2, i__3, i__4;
     real r__1;
 
     /* Local variables */
     integer i__, j;
     real a1, a2, a3, b1, b2, b3, csq, csu, csv, snq, rwk, snu, snv;
-    extern /* Subroutine */ int srot_(integer *, real *, integer *, real *, 
+    extern /* Subroutine */ int srot_(integer *, real *, integer *, real *,
             integer *, real *, real *);
     real gamma;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
@@ -46,8 +46,8 @@ static real c_b43 = (float)-1.;
     logical initq, initu, initv, wantq, upper;
     real error, ssmin;
     logical wantu, wantv;
-    extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *, 
-            integer *), slags2_(logical *, real *, real *, real *, real *, 
+    extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *,
+            integer *), slags2_(logical *, real *, real *, real *, real *,
             real *, real *, real *, real *, real *, real *, real *, real *);
     integer kcycle;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen), slapll_(
@@ -380,12 +380,12 @@ static real c_b43 = (float)-1.;
 /*<          INFO = -1 >*/
         *info = -1;
 /*<       ELSE IF( .NOT.( INITV .OR. WANTV .OR. LSAME( JOBV, 'N' ) ) ) THEN >*/
-    } else if (! (initv || wantv || lsame_(jobv, "N", (ftnlen)1, (ftnlen)1))) 
+    } else if (! (initv || wantv || lsame_(jobv, "N", (ftnlen)1, (ftnlen)1)))
             {
 /*<          INFO = -2 >*/
         *info = -2;
 /*<       ELSE IF( .NOT.( INITQ .OR. WANTQ .OR. LSAME( JOBQ, 'N' ) ) ) THEN >*/
-    } else if (! (initq || wantq || lsame_(jobq, "N", (ftnlen)1, (ftnlen)1))) 
+    } else if (! (initq || wantq || lsame_(jobq, "N", (ftnlen)1, (ftnlen)1)))
             {
 /*<          INFO = -3 >*/
         *info = -3;
@@ -512,7 +512,7 @@ static real c_b43 = (float)-1.;
 
 /*<    >*/
                 if (*k + j <= *m) {
-                    srot_(l, &a[*k + j + (*n - *l + 1) * a_dim1], lda, &a[*k 
+                    srot_(l, &a[*k + j + (*n - *l + 1) * a_dim1], lda, &a[*k
                             + i__ + (*n - *l + 1) * a_dim1], lda, &csu, &snu);
                 }
 
@@ -533,7 +533,7 @@ static real c_b43 = (float)-1.;
                         l + i__) * a_dim1 + 1], &c__1, &csq, &snq);
 
 /*<    >*/
-                srot_(l, &b[(*n - *l + j) * b_dim1 + 1], &c__1, &b[(*n - *l + 
+                srot_(l, &b[(*n - *l + j) * b_dim1 + 1], &c__1, &b[(*n - *l +
                         i__) * b_dim1 + 1], &c__1, &csq, &snq);
 
 /*<                IF( UPPER ) THEN >*/
@@ -565,7 +565,7 @@ static real c_b43 = (float)-1.;
 
 /*<    >*/
                 if (wantv) {
-                    srot_(p, &v[j * v_dim1 + 1], &c__1, &v[i__ * v_dim1 + 1], 
+                    srot_(p, &v[j * v_dim1 + 1], &c__1, &v[i__ * v_dim1 + 1],
                             &c__1, &csv, &snv);
                 }
 
@@ -693,7 +693,7 @@ L50:
 /*<    >*/
                 i__2 = *l - i__ + 1;
                 r__1 = (float)1. / alpha[*k + i__];
-                sscal_(&i__2, &r__1, &a[*k + i__ + (*n - *l + i__) * a_dim1], 
+                sscal_(&i__2, &r__1, &a[*k + i__ + (*n - *l + i__) * a_dim1],
                         lda);
 /*<             ELSE >*/
             } else {
@@ -703,7 +703,7 @@ L50:
                 sscal_(&i__2, &r__1, &b[i__ + (*n - *l + i__) * b_dim1], ldb);
 /*<    >*/
                 i__2 = *l - i__ + 1;
-                scopy_(&i__2, &b[i__ + (*n - *l + i__) * b_dim1], ldb, &a[*k 
+                scopy_(&i__2, &b[i__ + (*n - *l + i__) * b_dim1], ldb, &a[*k
                         + i__ + (*n - *l + i__) * a_dim1], lda);
 /*<             END IF >*/
             }
@@ -717,7 +717,7 @@ L50:
             beta[*k + i__] = (float)1.;
 /*<    >*/
             i__2 = *l - i__ + 1;
-            scopy_(&i__2, &b[i__ + (*n - *l + i__) * b_dim1], ldb, &a[*k + 
+            scopy_(&i__2, &b[i__ + (*n - *l + i__) * b_dim1], ldb, &a[*k +
                     i__ + (*n - *l + i__) * a_dim1], lda);
 
 /*<          END IF >*/

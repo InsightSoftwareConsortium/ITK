@@ -26,7 +26,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "itkMath.h"
 
@@ -38,7 +38,7 @@ namespace itk
  * This code was contributed in the Insight Journal paper:
  * "N-D C^k B-Spline Scattered Data Approximation"
  * by Nicholas J. Tustison, James C. Gee
- * http://hdl.handle.net/1926/140
+ * https://hdl.handle.net/1926/140
  * http://www.insight-journal.org/browse/publication/57
  *
  */
@@ -882,7 +882,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         P = ItD.Get() / ItO.Get();
         for( unsigned int i = 0; i < P.Size(); i++ )
           {
-          if( vnl_math_isnan( P[i] ) || vnl_math_isinf( P[i] ) )
+          if( itk::Math::isnan( P[i] ) || itk::Math::isinf( P[i] ) )
             {
             P[i] = 0;
             }

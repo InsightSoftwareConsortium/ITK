@@ -22,7 +22,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkMinimumMaximumImageCalculator.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -124,7 +124,7 @@ OtsuThresholdImageCalculator< TInputImage >
   double meanRight = ( totalMean - freqLeft ) / ( 1.0 - freqLeft );
 
   double maxVarBetween = freqLeft * ( 1.0 - freqLeft )
-                         * vnl_math_sqr(meanLeft - meanRight);
+                         * itk::Math::sqr(meanLeft - meanRight);
   int maxBinNumber = 0;
 
   double freqLeftOld = freqLeft;
@@ -145,7 +145,7 @@ OtsuThresholdImageCalculator< TInputImage >
                   / ( 1.0 - freqLeft );
       }
     double varBetween = freqLeft * ( 1.0 - freqLeft )
-                        * vnl_math_sqr(meanLeft - meanRight);
+                        * itk::Math::sqr(meanLeft - meanRight);
 
     if ( varBetween > maxVarBetween )
       {

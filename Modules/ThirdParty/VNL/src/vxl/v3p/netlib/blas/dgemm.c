@@ -17,12 +17,12 @@ extern "C" {
 
 /*<    >*/
 /* Subroutine */ int dgemm_(char *transa, char *transb, integer *m, integer *
-        n, integer *k, doublereal *alpha, doublereal *a, integer *lda, 
-        doublereal *b, integer *ldb, doublereal *beta, doublereal *c__, 
+        n, integer *k, doublereal *alpha, doublereal *a, integer *lda,
+        doublereal *b, integer *ldb, doublereal *beta, doublereal *c__,
         integer *ldc, ftnlen transa_len, ftnlen transb_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2, 
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, i__1, i__2,
             i__3;
 
     /* Local variables */
@@ -206,13 +206,13 @@ extern "C" {
 /*<          NROWA = M >*/
         nrowa = *m;
 /*<          NCOLA = K >*/
-        ncola = *k;
+//        ncola = *k;
 /*<       ELSE >*/
     } else {
 /*<          NROWA = K >*/
         nrowa = *k;
 /*<          NCOLA = M >*/
-        ncola = *m;
+//        ncola = *m;
 /*<       END IF >*/
     }
 /*<       IF( NOTB )THEN >*/
@@ -236,7 +236,7 @@ extern "C" {
 /*<          INFO = 1 >*/
         info = 1;
 /*<    >*/
-    } else if (! notb && ! lsame_(transb, "C", (ftnlen)1, (ftnlen)1) && ! 
+    } else if (! notb && ! lsame_(transb, "C", (ftnlen)1, (ftnlen)1) && !
             lsame_(transb, "T", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = 2 >*/
         info = 2;
@@ -370,7 +370,7 @@ extern "C" {
                         i__3 = *m;
                         for (i__ = 1; i__ <= i__3; ++i__) {
 /*<                         C( I, J ) = C( I, J ) + TEMP*A( I, L ) >*/
-                            c__[i__ + j * c_dim1] += temp * a[i__ + l * 
+                            c__[i__ + j * c_dim1] += temp * a[i__ + l *
                                     a_dim1];
 /*<    70                CONTINUE >*/
 /* L70: */
@@ -466,7 +466,7 @@ extern "C" {
                         i__3 = *m;
                         for (i__ = 1; i__ <= i__3; ++i__) {
 /*<                         C( I, J ) = C( I, J ) + TEMP*A( I, L ) >*/
-                            c__[i__ + j * c_dim1] += temp * a[i__ + l * 
+                            c__[i__ + j * c_dim1] += temp * a[i__ + l *
                                     a_dim1];
 /*<   150                CONTINUE >*/
 /* L150: */

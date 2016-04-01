@@ -1,7 +1,7 @@
 itk_wrap_module(ITKCommon)
 
 set(WRAPPER_SUBMODULE_ORDER
-  vcl_complex
+  stdcomplex
   vnl_matrix
   vnl_vector
   vnl_unary_function

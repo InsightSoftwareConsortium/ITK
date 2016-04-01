@@ -52,8 +52,8 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
     {
     itkExceptionMacro("m_PointSetSigma is too small. <= epsilon");
     }
-  this->m_PreFactor = 1.0 / ( std::sqrt( 2 * vnl_math::pi ) * this->m_PointSetSigma );
-  this->m_Denominator = 2.0 * vnl_math_sqr( this->m_PointSetSigma );
+  this->m_PreFactor = 1.0 / ( std::sqrt( 2 * itk::Math::pi ) * this->m_PointSetSigma );
+  this->m_Denominator = 2.0 * itk::Math::sqr( this->m_PointSetSigma );
 }
 
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>

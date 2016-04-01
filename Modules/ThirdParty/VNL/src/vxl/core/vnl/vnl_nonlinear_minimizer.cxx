@@ -6,9 +6,10 @@
 // \file
 // \author Andrew W. Fitzgibbon, Oxford RRG, 22 Aug 99
 
+#include <iostream>
+#include <iomanip>
 #include "vnl_nonlinear_minimizer.h"
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h>
+#include <vcl_compiler.h>
 
 //: Default ctor sets verbosity etc.
 vnl_nonlinear_minimizer::vnl_nonlinear_minimizer()
@@ -64,23 +65,23 @@ bool vnl_nonlinear_minimizer::report_iter()
 {
   ++num_iterations_;
   if (verbose_)
-    vcl_cerr << "Iter " << vcl_setw(4) << num_iterations_ << ", Eval "
-             << vcl_setw(4) << num_evaluations_ << ": Best F = "
-             << vcl_setw(10) << end_error_ << '\n';
+    std::cerr << "Iter " << std::setw(4) << num_iterations_ << ", Eval "
+             << std::setw(4) << num_evaluations_ << ": Best F = "
+             << std::setw(10) << end_error_ << '\n';
   return false;
 }
 
 //: Return the name of the class
 //  Used by polymorphic IO
-vcl_string vnl_nonlinear_minimizer::is_a() const
+std::string vnl_nonlinear_minimizer::is_a() const
 {
-  static const vcl_string class_name_="vnl_nonlinear_minimizer";
+  static const std::string class_name_="vnl_nonlinear_minimizer";
   return class_name_;
 }
 
 //: Return true if the name of the class matches the argument
 //  Used by polymorphic IO
-bool vnl_nonlinear_minimizer::is_class(vcl_string const& s) const
+bool vnl_nonlinear_minimizer::is_class(std::string const& s) const
 {
   return s==vnl_nonlinear_minimizer::is_a();
 }

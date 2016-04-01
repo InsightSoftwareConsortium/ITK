@@ -16,9 +16,4 @@
  *
  *=========================================================================*/
 #include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20120316
-#include "vnl/vnl_vector.txx"
-VNL_VECTOR_INSTANTIATE(long long);
-#else
 void vnl_vector_longlong_dummy(void) {}
-#endif

@@ -38,7 +38,8 @@
 //
 //-----------------------------------------------------------------------------
 
-#include <vcl_list.h>
+#include <list>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 
 template <class T>
@@ -72,12 +73,12 @@ class vnl_scalar_join_iterator
  protected:
   unsigned n1;
   unsigned n2;
-  vcl_list<vnl_scalar_join_iterator_indexed_pair<T> >* pI1;
-  vcl_list<vnl_scalar_join_iterator_indexed_pair<T> >* pI2;
-  vcl_list<vnl_scalar_join_iterator_indexed_pair<T> >& I1;
-  vcl_list<vnl_scalar_join_iterator_indexed_pair<T> >& I2;
-  typename vcl_list<vnl_scalar_join_iterator_indexed_pair<T> >::iterator index1;
-  typename vcl_list<vnl_scalar_join_iterator_indexed_pair<T> >::iterator index2;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T> >* pI1;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T> >* pI2;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T> >& I1;
+  std::list<vnl_scalar_join_iterator_indexed_pair<T> >& I2;
+  typename std::list<vnl_scalar_join_iterator_indexed_pair<T> >::iterator index1;
+  typename std::list<vnl_scalar_join_iterator_indexed_pair<T> >::iterator index2;
 
  public:
 
@@ -114,10 +115,6 @@ class vnl_scalar_join_iterator
   // Postfix ++ is private as it would be costly to implement.
   vnl_scalar_join_iterator<T> operator++ (int);
 
-#if 0
-  T object1() const { return *I1[index1].object; }
-  T object2() const { return *I2[index2].object; }
-#endif
 };
 
 //: Helper class to hold the sorted arrays of indices.

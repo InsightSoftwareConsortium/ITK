@@ -46,7 +46,7 @@ namespace itk
  * Note that the VTK images are assumed to be of 1, 2, or 3 dimensions.
  * Scalar value types can be one of: float, double, char, unsigned char,
  * short, unsigned short, int, unsigned int, long, unsigned long. The
- * images must have pixel types with one component.
+ * images can also have pixel types with more than one component.
  *
  * \ingroup IOFilters
  * \sa VTKImageImport

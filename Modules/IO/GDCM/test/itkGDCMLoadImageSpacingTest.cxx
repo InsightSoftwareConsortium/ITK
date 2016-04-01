@@ -65,8 +65,8 @@ int itkGDCMLoadImageSpacingTest(int argc, char *argv[])
   ImageType::Pointer image = reader->GetOutput();
   std::cout << image << std::endl;
   ImageType::SpacingType spacing = image->GetSpacing();
-  if(vcl_abs( spacing[0]- spacing0 ) >= 0.000001 ||
-     vcl_abs( spacing[1]- spacing1 ) >= 0.000001 )
+  if(std::abs( spacing[0]- spacing0 ) >= 0.000001 ||
+     std::abs( spacing[1]- spacing1 ) >= 0.000001 )
     {
     return EXIT_FAILURE;
     }

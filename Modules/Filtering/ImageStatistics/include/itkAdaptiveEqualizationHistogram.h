@@ -20,7 +20,7 @@
 
 #include "itksys/hash_map.hxx"
 #include "itkStructHashFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <cmath>
 namespace itk
 {
@@ -115,8 +115,8 @@ private:
   RealType CumulativeFunction(RealType u, RealType v)
   {
     // Calculate cumulative function
-    const RealType s = vnl_math_sgn(u - v);
-    const RealType ad = vnl_math_abs( 2.0 * ( u - v ) );
+    const RealType s = itk::Math::sgn(u - v);
+    const RealType ad = itk::Math::abs( 2.0 * ( u - v ) );
 
     return 0.5 * s * std::pow(ad, m_Alpha) - m_Beta * 0.5 * s * ad + m_Beta * u;
   }

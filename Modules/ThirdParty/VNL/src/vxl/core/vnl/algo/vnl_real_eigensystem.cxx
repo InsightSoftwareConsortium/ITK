@@ -10,9 +10,10 @@
 
 //-----------------------------------------------------------------------------
 
+#include <iostream>
 #include "vnl_real_eigensystem.h"
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_fortran_copy.h>
 #include <vnl/algo/vnl_netlib.h> // rg_()
 
@@ -43,26 +44,26 @@ vnl_real_eigensystem::vnl_real_eigensystem(vnl_matrix<double> const & M):
                  &ierr);
 
   if (ierr != 0) {
-    vcl_cerr << " *** vnl_real_eigensystem: Failed on " << ierr << "th eigenvalue\n"
-             << M << vcl_endl;
+    std::cerr << " *** vnl_real_eigensystem: Failed on " << ierr << "th eigenvalue\n"
+             << M << std::endl;
   }
 
   // Copy out eigenvalues and eigenvectors
   for (int c = 0; c < n; ++c) {
-    D(c,c) = vcl_complex<double>(wr[c], wi[c]);
+    D(c,c) = std::complex<double>(wr[c], wi[c]);
     if (wi[c] != 0) {
       // Complex - copy conjugates and inc c.
-      D(c+1, c+1) = vcl_complex<double>(wr[c], -wi[c]);
+      D(c+1, c+1) = std::complex<double>(wr[c], -wi[c]);
       for (int r = 0; r < n; ++r) {
-        V(r, c) = vcl_complex<double>(devout(c,r), devout(c+1,r));
-        V(r, c+1) = vcl_complex<double>(devout(c,r), -devout(c+1,r));
+        V(r, c) = std::complex<double>(devout(c,r), devout(c+1,r));
+        V(r, c+1) = std::complex<double>(devout(c,r), -devout(c+1,r));
       }
 
       ++c;
     }
     else
       for (int r = 0; r < n; ++r) {
-        V(r, c) = vcl_complex<double>(devout(c,r), 0);
+        V(r, c) = std::complex<double>(devout(c,r), 0);
         Vreal(r,c) = devout(c,r);
       }
   }

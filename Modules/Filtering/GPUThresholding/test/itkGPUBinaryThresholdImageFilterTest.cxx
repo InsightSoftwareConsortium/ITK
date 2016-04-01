@@ -134,7 +134,7 @@ int runGPUBinaryThresholdImageFilterTest(const std::string& inFile, const std::s
         // execute pipeline filter and write output
         writer->Update();
 
-        if (vnl_math_isnan(RMSError))
+        if (itk::Math::isnan(RMSError))
         {
           std::cout << "RMS Error is NaN! nPix: " << nPix << std::endl;
           return EXIT_FAILURE;

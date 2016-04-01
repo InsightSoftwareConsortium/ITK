@@ -93,7 +93,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     double sigmaMinimum = atof( argv[4] );
     multiScaleEnhancementFilter->SetSigmaMinimum( sigmaMinimum );
 
-    if( vnl_math_abs( multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum ) > tolerance )
+    if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMinimum() - sigmaMinimum ) > tolerance )
       {
       std::cerr << " Error in Set/GetSigmaMinimum() " << std::endl;
       return EXIT_FAILURE;
@@ -105,7 +105,7 @@ int itkMultiScaleHessianBasedMeasureImageFilterTest( int argc, char *argv[] )
     double sigmaMaximum = atof( argv[5] );
     multiScaleEnhancementFilter->SetSigmaMaximum( sigmaMaximum );
 
-    if( vnl_math_abs( multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum ) > tolerance )
+    if( itk::Math::abs( multiScaleEnhancementFilter->GetSigmaMaximum() - sigmaMaximum ) > tolerance )
       {
       std::cerr << " Error in Set/GetSigmaMaximum() " << std::endl;
       return EXIT_FAILURE;

@@ -49,6 +49,61 @@ inline int TestIntegersAreSame(const T1 & v1, const T2 & v2)
   return passed;
 }
 
+
+template< typename T >
+int ExerciseIsPrime()
+{
+  int testPassStatus = EXIT_SUCCESS;
+
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(0)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(1)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(2))), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(3))), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(4)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(5))), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(6)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(7))), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(8)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(9)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(10)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(11))), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(12)) == false), testPassStatus );
+  TEST_EXPECT_TRUE_STATUS_VALUE(
+    (itk::Math::IsPrime(static_cast< T >(13))), testPassStatus );
+
+  return testPassStatus;
+}
+
+
+template< typename T >
+int ExerciseGreatestPrimeFactor()
+{
+  int testPassStatus = EXIT_SUCCESS;
+
+  TEST_EXPECT_EQUAL_STATUS_VALUE(
+    itk::Math::GreatestPrimeFactor(static_cast< T >(12)), 3, testPassStatus );
+  TEST_EXPECT_EQUAL_STATUS_VALUE(
+    itk::Math::GreatestPrimeFactor(static_cast< T >(75)), 5, testPassStatus );
+  TEST_EXPECT_EQUAL_STATUS_VALUE(
+    itk::Math::GreatestPrimeFactor(static_cast< T >(1024)), 2, testPassStatus );
+
+  return testPassStatus;
+}
+
+
 int main( int, char *[] )
 {
   int testPassStatus = EXIT_SUCCESS;
@@ -79,7 +134,7 @@ int main( int, char *[] )
     itk::Math::sqrt1_2 << std::endl;
 
 
-  std::cout << "\n\n\n===Testing FloatAlmostEqual===\n" << std::endl;
+  std::cout << "Testing itk::Math::FloatAlmostEqual" << std::endl;
   union FloatRepresentationF
     {
     float asFloat;
@@ -663,24 +718,90 @@ int main( int, char *[] )
       }
     }
 
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(0u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(1u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(2u)), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(3u)), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(4u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(5u)), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(6u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(7u)), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(8u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(9u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(10u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(11u)), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(12u) == false), testPassStatus );
-  TEST_EXPECT_TRUE_STATUS_VALUE( (itk::Math::IsPrime(13u)), testPassStatus );
+  // Test the itk::Math::IsPrime methods
+  std::cout << "Testing itk::Math::IsPrime" << std::endl;
+  if( ExerciseIsPrime<unsigned short>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
 
-  TEST_EXPECT_EQUAL_STATUS_VALUE( itk::Math::GreatestPrimeFactor(12u), 3, testPassStatus );
-  TEST_EXPECT_EQUAL_STATUS_VALUE( itk::Math::GreatestPrimeFactor(75u), 5, testPassStatus );
-  TEST_EXPECT_EQUAL_STATUS_VALUE( itk::Math::GreatestPrimeFactor(1024u), 2, testPassStatus );
+  if( ExerciseIsPrime<unsigned int>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+
+  if( ExerciseIsPrime<unsigned long>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+
+  if( ExerciseIsPrime<unsigned long long>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+
+  // Test the itk::Math::GreatestPrimeFactor methods
+  std::cout << "Testing itk::Math::GreatestPrimeFactor" << std::endl;
+  if( ExerciseGreatestPrimeFactor<unsigned short>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+
+  if( ExerciseGreatestPrimeFactor<unsigned int>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+
+  if( ExerciseGreatestPrimeFactor<unsigned long>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+
+  if( ExerciseGreatestPrimeFactor<unsigned long long>() )
+    {
+    std::cout << "Test FAILED!!" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << "Test passed" << std::endl;
+    }
+
 
   return testPassStatus;
 }

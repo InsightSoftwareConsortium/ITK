@@ -391,7 +391,7 @@ Versor< T >
   //Keep the epsilon value large enough so that the alternate routes of
   //computing the quaternion are used to within floating point precision of the
   //math to be used.  Using 1e-30 results in degenerate matries for rotations
-  //near vnl_math::pi due to imprecision of the math.  0.5/std::sqrt(trace) is
+  //near itk::Math::pi due to imprecision of the math.  0.5/std::sqrt(trace) is
   //not accurate to 1e-30, so the resulting matrices would have very large
   //errors.  By decreasing this epsilon value to a higher tolerance, the
   //alternate stable methods for conversion are used.

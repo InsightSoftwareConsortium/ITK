@@ -199,7 +199,7 @@ CovarianceSampleFilter< TSample >
   const double normalizationFactor =
     ( static_cast< MeasurementRealType >( totalFrequency ) - 1.0 );
 
-  if( normalizationFactor > vnl_math::eps )
+  if( normalizationFactor > itk::Math::eps )
     {
     const double inverseNormalizationFactor = 1.0 / normalizationFactor;
 

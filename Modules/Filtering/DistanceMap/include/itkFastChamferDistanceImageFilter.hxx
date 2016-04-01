@@ -37,8 +37,10 @@ FastChamferDistanceImageFilter< TInputImage, TOutputImage >
     // Note the fall through the cases to set all the components
     case 3:
       m_Weights[--dim] = 1.65849;
+      ITK_FALLTHROUGH;
     case 2:
       m_Weights[--dim] = 1.34065;
+      ITK_FALLTHROUGH;
     case 1:
       m_Weights[--dim] = 0.92644;
       break;

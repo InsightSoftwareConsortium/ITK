@@ -60,10 +60,10 @@ int itkSymmetricEigenSystemTest(int , char* [] )
     {
       temp = (*(eigen->GetEigenValues()))[i];
       std::cout << "eigen value = " << temp << std::endl;
-      if ( vnl_math_abs(1 - vnl_math_abs(temp / eigenValues[i])) > precision )
+      if ( itk::Math::abs(1 - itk::Math::abs(temp / eigenValues[i])) > precision )
         {
           std::cout << "wrong eigen value "
-                    << vnl_math_abs(1 - (temp / eigenValues[i]))
+                    << itk::Math::abs(1 - (temp / eigenValues[i]))
                     << std::endl;
           return EXIT_FAILURE;
         }
@@ -81,7 +81,7 @@ int itkSymmetricEigenSystemTest(int , char* [] )
           dotProduct += temp * eigenVectors[i][j];
         }
 
-      if ( vnl_math_abs(vnl_math_abs(dotProduct) - 1 ) > precision )
+      if ( itk::Math::abs(itk::Math::abs(dotProduct) - 1 ) > precision )
         {
           std::cout << "wrong eigen vector " << dotProduct << std::endl;
           return EXIT_FAILURE;

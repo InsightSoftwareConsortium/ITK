@@ -27,7 +27,7 @@ static integer c__2 = 2;
 /* ------------------------------------------------------------------- */
 
 /*<       subroutine gpfa2f(a,b,trigs,inc,jump,n,mm,lot,isign) >*/
-/* Subroutine */ int gpfa2f_(real *a, real *b, real *trigs, integer *inc, 
+/* Subroutine */ int gpfa2f_(real *a, real *b, real *trigs, integer *inc,
         integer *jump, integer *n, integer *mm, integer *lot, integer *isign)
 {
     /* Initialized data */
@@ -46,13 +46,13 @@ static integer c__2 = 2;
     real s, c1, c2, c3;
     integer m2, n2;
     real t0, t1, t2, t3, u0, u1, u2, u3;
-    integer m8, ja, jb, la, jc, jd, nb, je, jf, jg, jh, mh, kk, ji, ll, jj, 
+    integer m8, ja, jb, la, jc, jd, nb, je, jf, jg, jh, mh, kk, ji, ll, jj,
             jk, jl, jm, jn, jo, jp, mu, nu;
-    real ss, co1, co2, co3, co4, co5, co6, co7, si1, si2, si3, si4, si5, si6, 
-            si7, aja, ajb, ajc, ajd, bja, bjc, bjb, bjd, aje, ajg, ajf, ajh, 
-            bje, bjg, bjf, bjh, aji, bjm, ajj, bjj, ajk, ajl, bji, bjk, ajo, 
+    real ss, co1, co2, co3, co4, co5, co6, co7, si1, si2, si3, si4, si5, si6,
+            si7, aja, ajb, ajc, ajd, bja, bjc, bjb, bjd, aje, ajg, ajf, ajh,
+            bje, bjg, bjf, bjh, aji, bjm, ajj, bjj, ajk, ajl, bji, bjk, ajo,
             bjl, bjo, ajm, ajn, ajp, bjn, bjp;
-    integer inq, ink, jjj, ninc, left, nvex, ipass, nblox, jstep, laincl, 
+    integer inq, ink, jjj, ninc, left, nvex, ipass, nblox, jstep, laincl,
             jstepl, istart, jstepx;
 
 /*<       real a(*), b(*), trigs(*) >*/
@@ -321,7 +321,7 @@ static integer c__2 = 2;
 /*<       do 140 jjj = k , (n-1)*inc , 4*jstep >*/
                 i__5 = (*n - 1) * *inc;
                 i__6 = jstep << 2;
-                for (jjj = k; i__6 < 0 ? jjj >= i__5 : jjj <= i__5; jjj += 
+                for (jjj = k; i__6 < 0 ? jjj >= i__5 : jjj <= i__5; jjj +=
                         i__6) {
 /*<       ja = istart + jjj >*/
                     ja = istart + jjj;
@@ -1301,7 +1301,7 @@ L400:
 /*<       do 420 jjj = ll , (n-1)*inc , 4*la*ink >*/
                 i__4 = (*n - 1) * *inc;
                 i__5 = (la << 2) * ink;
-                for (jjj = ll; i__5 < 0 ? jjj >= i__4 : jjj <= i__4; jjj += 
+                for (jjj = ll; i__5 < 0 ? jjj >= i__4 : jjj <= i__4; jjj +=
                         i__5) {
 /*<       ja = istart + jjj >*/
                     ja = istart + jjj;
@@ -1691,7 +1691,7 @@ L400:
 /*<       do 450 jjj = ll , (n-1)*inc , 4*la*ink >*/
                     i__7 = (*n - 1) * *inc;
                     i__8 = (la << 2) * ink;
-                    for (jjj = ll; i__8 < 0 ? jjj >= i__7 : jjj <= i__7; jjj 
+                    for (jjj = ll; i__8 < 0 ? jjj >= i__7 : jjj <= i__7; jjj
                             += i__8) {
 /*<       ja = istart + jjj >*/
                         ja = istart + jjj;

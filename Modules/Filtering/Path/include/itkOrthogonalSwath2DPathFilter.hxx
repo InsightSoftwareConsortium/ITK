@@ -19,7 +19,7 @@
 #define itkOrthogonalSwath2DPathFilter_hxx
 
 #include "itkOrthogonalSwath2DPathFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkNumericTraits.h"
 
 namespace itk
@@ -113,7 +113,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
     for ( L = 0; L < m_SwathSize[1]; L++ )
       {
       // find merit for x=1
-      if ( vnl_math_abs(F - L) <= 1 )
+      if ( itk::Math::abs(F - L) <= 1 )
         {
         IndexType index2; // we need a second index here
         index[0] = 0;
@@ -159,7 +159,7 @@ OrthogonalSwath2DPathFilter< TParametricPath, TSwathMeritImage >
     {
     for ( L = 0; L < m_SwathSize[1]; L++ )
       {
-      if ( vnl_math_abs(F - L) <= 1 ) // only accept closed paths
+      if ( itk::Math::abs(F - L) <= 1 ) // only accept closed paths
         {
         meritTemp = MeritValue(F, L, m_SwathSize[0] - 1);
         if ( meritTemp > meritMax )

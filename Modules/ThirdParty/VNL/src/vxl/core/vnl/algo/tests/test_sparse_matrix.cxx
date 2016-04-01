@@ -1,6 +1,7 @@
 // This is core/vnl/algo/tests/test_sparse_matrix.cxx
-#include <vcl_ctime.h>
-#include <vcl_iostream.h>
+#include <ctime>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vnl/algo/vnl_sparse_symmetric_eigensystem.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
@@ -19,11 +20,11 @@ void doTest1()
     m1(i,(i+3)%n) = 1.0;
   }
 
-  vcl_cout << "m1:\n";
+  std::cout << "m1:\n";
   for (unsigned i=0; i<n; i++) {
     for (unsigned j=0; j<n; j++)
-      vcl_cout << m1(i,j) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << m1(i,j) << ' ';
+    std::cout << std::endl;
   }
 
   vnl_sparse_matrix<double> m2(n,n);
@@ -32,44 +33,44 @@ void doTest1()
     m2(i,(i+n-3)%n) = 1.0;
   }
 
-  vcl_cout << "m2:\n";
+  std::cout << "m2:\n";
   for (unsigned i=0; i<n; i++) {
     for (unsigned j=0; j<n; j++)
-      vcl_cout << m2(i,j) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << m2(i,j) << ' ';
+    std::cout << std::endl;
   }
 
   vnl_sparse_matrix<double> prod = m1*m2;
 
-  vcl_cout << "prod:\n";
+  std::cout << "prod:\n";
   for (unsigned i=0; i<n; i++) {
     for (unsigned j=0; j<n; j++)
-      vcl_cout << prod(i,j) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << prod(i,j) << ' ';
+    std::cout << std::endl;
   }
 
   vnl_sparse_matrix<double> sum = m1+m2;
 
-  vcl_cout << "sum:\n";
+  std::cout << "sum:\n";
   for (unsigned i=0; i<n; i++) {
     for (unsigned j=0; j<n; j++)
-      vcl_cout << sum(i,j) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << sum(i,j) << ' ';
+    std::cout << std::endl;
   }
 
   vnl_sparse_matrix<double> diff = m1-m2;
 
-  vcl_cout << "diff:\n";
+  std::cout << "diff:\n";
   for (unsigned i=0; i<n; i++) {
     for (unsigned j=0; j<n; j++)
-      vcl_cout << diff(i,j) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << diff(i,j) << ' ';
+    std::cout << std::endl;
   }
 }
 
 void doTest2()
 {
-  vcl_clock_t t = vcl_clock();
+  std::clock_t t = std::clock();
   for (unsigned int n = 1000; n<4000; n+=1000)
   {
     vnl_sparse_matrix<double> m1(n,n);
@@ -86,8 +87,8 @@ void doTest2()
 
     vnl_sparse_matrix<double> prod = m1*m2;
 
-    vcl_clock_t tn = vcl_clock();
-    vcl_cout << n << ' ' << tn - t << vcl_endl;
+    std::clock_t tn = std::clock();
+    std::cout << n << ' ' << tn - t << std::endl;
     t = tn;
   }
 }
@@ -106,13 +107,13 @@ void doTest3()
     // ms(i,i) = md(i,i) = 1.0*(i+1)*(i+1);
   }
 
-  vcl_cout << "ms:\n";
+  std::cout << "ms:\n";
   for (unsigned i=0; i<n; i++) {
     for (unsigned j=0; j<n; j++)
-      vcl_cout << ms(i,j) << ' ';
-    vcl_cout << vcl_endl;
+      std::cout << ms(i,j) << ' ';
+    std::cout << std::endl;
   }
-  vcl_cout << "md:\n" << md << vcl_endl;
+  std::cout << "md:\n" << md << std::endl;
 
   const unsigned int nvals = 2;
   vnl_symmetric_eigensystem<double> ed(md);
@@ -122,10 +123,10 @@ void doTest3()
 
   // Report 'em.
   for (unsigned i=0; i<nvals; i++) {
-    vcl_cout << "Dense[" << i << "] : " << ed.D(i,i) << " -> "
+    std::cout << "Dense[" << i << "] : " << ed.D(i,i) << " -> "
              << ed.get_eigenvector(i) << '\n'
              << "Sparse[" << i << "]: " << es.get_eigenvalue(i) << " -> "
-             << es.get_eigenvector(i) << vcl_endl;
+             << es.get_eigenvector(i) << std::endl;
   }
 }
 
@@ -154,8 +155,8 @@ void doTest4()
   {
     double dense = ed.D(i,i);
     double sparse = es.get_eigenvalue(i);
-    vcl_cout << "Dense[" << i << "] : " << dense << '\n'
-             << "Sparse[" << i << "]: " << sparse << vcl_endl;
+    std::cout << "Dense[" << i << "] : " << dense << '\n'
+             << "Sparse[" << i << "]: " << sparse << std::endl;
     double err = sparse - dense;
     TEST_NEAR("vnl_sparse_symmetric_eigensystem eigenvalue difference", err, 0.0, 1e-10);
   }
@@ -192,8 +193,8 @@ void doTest5()
   {
     double dense = ed.D(i,i);
     double sparse = es.get_eigenvalue(i);
-    vcl_cout << "Dense[" << i << "] : " << dense << '\n'
-             << "Sparse[" << i << "]: " << sparse << vcl_endl;
+    std::cout << "Dense[" << i << "] : " << dense << '\n'
+             << "Sparse[" << i << "]: " << sparse << std::endl;
     double err = sparse - dense;
     TEST_NEAR("vnl_sparse_symmetric_eigensystem eigenvalue difference", err, 0.0, 1e-10);
   }
@@ -236,8 +237,8 @@ void doTest6()
 
   vnl_generalized_eigensystem gev(C, S);
 
-  vcl_cout << "V = " << gev.V << '\n'
-           << "D = " << gev.D << '\n' << vcl_endl;
+  std::cout << "V = " << gev.V << '\n'
+           << "D = " << gev.D << '\n' << std::endl;
 
   vnl_sparse_symmetric_eigensystem sse;
 
@@ -250,21 +251,21 @@ void doTest6()
                            true, false), 0);
 
   // write the output
-  vcl_cout << "Eigenvalues:" << vcl_endl;
+  std::cout << "Eigenvalues:" << std::endl;
   for (int evIx = 0; evIx < evCount; evIx++)
   {
-    vcl_cout << sse.get_eigenvalue(evIx) << "  ";
+    std::cout << sse.get_eigenvalue(evIx) << "  ";
   }
-  vcl_cout << '\n' << vcl_endl;
+  std::cout << '\n' << std::endl;
 
-  vcl_cout << "Eigenvectors:" << vcl_endl;
+  std::cout << "Eigenvectors:" << std::endl;
   for (int pntIx = 0; pntIx < matOrd; pntIx++)
   {
     for (int evIx = 0; evIx < evCount; evIx++)
     {
-      vcl_cout << sse.get_eigenvector(evIx).get(pntIx) << "  ";
+      std::cout << sse.get_eigenvector(evIx).get(pntIx) << "  ";
     }
-    vcl_cout << vcl_endl;
+    std::cout << std::endl;
   }
 
   // Report eVals.
@@ -277,7 +278,7 @@ void doTest6()
   }
 
   // Report eVecs.
-  vcl_cout << "Eigenvectors:" << vcl_endl;
+  std::cout << "Eigenvectors:" << std::endl;
   for (int evIx = 0; evIx < evCount; evIx++)
   {
     double errSameSign = (sse.get_eigenvector(evIx) - gev.V.get_column(evIx)).two_norm();
@@ -289,12 +290,12 @@ void doTest6()
 
 static void test_sparse_matrix()
 {
-  vcl_cout << "Starting test 1\n"; doTest1();
-  vcl_cout << "Starting test 2\n"; doTest2();
-  vcl_cout << "Starting test 3\n"; doTest3();
-  vcl_cout << "Starting test 4\n"; doTest4();
-  vcl_cout << "Starting test 5\n"; doTest5();
-  vcl_cout << "Starting test 6\n"; doTest6();
+  std::cout << "Starting test 1\n"; doTest1();
+  std::cout << "Starting test 2\n"; doTest2();
+  std::cout << "Starting test 3\n"; doTest3();
+  std::cout << "Starting test 4\n"; doTest4();
+  std::cout << "Starting test 5\n"; doTest5();
+  std::cout << "Starting test 6\n"; doTest6();
 }
 
 TESTMAIN(test_sparse_matrix);

@@ -1,4 +1,5 @@
 itk_wrap_include("itkNodePair.h")
+itk_wrap_include("itkLevelSetNode.h")
 
 itk_wrap_class("itk::VectorContainer" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})

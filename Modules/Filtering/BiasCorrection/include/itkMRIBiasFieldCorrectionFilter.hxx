@@ -375,7 +375,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
       //  schedule[level-1] );
       if ( level > 0 )
         {
-        m_Schedule[level][dim] = vnl_math_min(m_Schedule[level][dim],
+        m_Schedule[level][dim] = std::min(m_Schedule[level][dim],
                                               m_Schedule[level - 1][dim]);
         }
 

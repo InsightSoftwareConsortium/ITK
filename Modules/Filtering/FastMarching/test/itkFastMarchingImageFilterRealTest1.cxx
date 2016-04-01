@@ -182,11 +182,11 @@ int itkFastMarchingImageFilterRealTest1(int argc, char* argv[] )
     //std::cout << iterator.GetIndex() <<" ** " <<outputValue <<std::endl;
     if (distance > itk::NumericTraits< double >::epsilon() )
       {
-      if ( vnl_math_abs( outputValue ) / distance > 1.42 )
+      if ( itk::Math::abs( outputValue ) / distance > 1.42 )
         {
         std::cout << iterator.GetIndex() << " ";
-        std::cout << vnl_math_abs( outputValue ) / distance << " ";
-        std::cout << vnl_math_abs( outputValue ) << " " << distance << std::endl;
+        std::cout << itk::Math::abs( outputValue ) / distance << " ";
+        std::cout << itk::Math::abs( outputValue ) << " " << distance << std::endl;
         passed = false;
         }
       }

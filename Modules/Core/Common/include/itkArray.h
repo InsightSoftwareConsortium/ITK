@@ -143,8 +143,11 @@ public:
    * If "LetArrayManageMemory" is false, then the application retains
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
-   * memory when this object is destroyed. */
-  void SetData(TValue *data, bool LetArrayManageMemory = false);
+   * memory when this object is destroyed.
+   * NOTE: This signature requires that internal array is being
+   *       replaced by data array of exactly the same size
+    */
+  void SetDataSameSize(TValue *data, bool LetArrayManageMemory = false);
 
   /** Similar to the previous method. In the above method, the size must be
    * separately set prior to using user-supplied data. This introduces an
@@ -155,9 +158,7 @@ public:
    * the responsibility of freeing the memory for this data.  If
    * "LetArrayManageMemory" is true, then this class will free the
    * memory when this object is destroyed. */
-  void SetData(TValue *data, SizeValueType sz,
-               bool LetArrayManageMemory = false);
-
+  void SetData(TValue *data, SizeValueType sz, bool LetArrayManageMemory = false);
 
 #ifdef __INTEL_COMPILER
 #pragma warning disable 444 //destructor for base class "itk::Array<>" is not virtual

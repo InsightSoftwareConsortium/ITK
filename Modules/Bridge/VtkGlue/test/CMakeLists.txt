@@ -3,6 +3,7 @@ set(ITKVtkGlueTests
 itkVtkConnectedComponentImageFilterTest
 itkVtkMedianFilterTest.cxx
 itkImageToVTKImageFilterTest.cxx
+itkImageToVTKImageFilterRGBTest.cxx
 itkVTKImageToImageFilterTest.cxx
 QuickViewTest.cxx
 )
@@ -19,6 +20,12 @@ itk_add_test(
   NAME itkImageToVTKImageFilterTest
   COMMAND ITKVtkGlueTestDriver
     itkImageToVTKImageFilterTest)
+
+itk_add_test(
+  NAME itkImageToVTKImageFilterRGBTest
+  COMMAND ITKVtkGlueTestDriver
+    itkImageToVTKImageFilterRGBTest
+      DATA{${ITK_DATA_ROOT}/Input/VisibleWomanEyeSlice.png})
 
 itk_add_test(
   NAME itkVTKImageToImageFilterTest

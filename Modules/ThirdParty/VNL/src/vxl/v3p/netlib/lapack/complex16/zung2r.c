@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       SUBROUTINE ZUNG2R( M, N, K, A, LDA, TAU, WORK, INFO ) >*/
-/* Subroutine */ int zung2r_(integer *m, integer *n, integer *k, 
+/* Subroutine */ int zung2r_(integer *m, integer *n, integer *k,
         doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *
         work, integer *info)
 {
@@ -30,10 +30,10 @@ static integer c__1 = 1;
 
     /* Local variables */
     integer i__, j, l;
-    extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
-            doublecomplex *, integer *), zlarf_(char *, integer *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
-            integer *, doublecomplex *, ftnlen), xerbla_(char *, integer *, 
+    extern /* Subroutine */ int zscal_(integer *, doublecomplex *,
+            doublecomplex *, integer *), zlarf_(char *, integer *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
+            integer *, doublecomplex *, ftnlen), xerbla_(char *, integer *,
             ftnlen);
 
 

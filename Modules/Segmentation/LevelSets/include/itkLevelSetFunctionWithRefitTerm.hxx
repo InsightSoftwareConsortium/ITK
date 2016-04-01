@@ -68,7 +68,7 @@ LevelSetFunctionWithRefitTerm< TImageType, TSparseImageType >
 {
   TimeStepType dt = Superclass::ComputeGlobalTimeStep (GlobalData);
 
-  dt = vnl_math_min (dt, this->m_WaveDT);
+  dt = std::min (dt, this->m_WaveDT);
 
   return dt;
 }

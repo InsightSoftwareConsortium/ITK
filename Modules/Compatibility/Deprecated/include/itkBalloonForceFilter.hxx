@@ -303,8 +303,8 @@ BalloonForceFilter< TInputMesh, TOutputMesh >
     }
   m_K = ( vnl_matrix_fixed< double, 4, 4 > ** )malloc(sizeof( vnl_matrix_fixed< double, 4, 4 > * ) * m_NumberOfCells);
 
-  float us = vnl_math::pi / 1;
-  float vs = 2.0 * vnl_math::pi / m_Resolution;
+  float us = itk::Math::pi / 1;
+  float vs = 2.0 * itk::Math::pi / m_Resolution;
   float a = us * us, b = vs * vs;
   float area = us * vs / 2, k00, k01, k02, k11, k12, k22;
 

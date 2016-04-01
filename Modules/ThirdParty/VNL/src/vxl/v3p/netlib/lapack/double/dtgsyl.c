@@ -28,15 +28,15 @@ static doublereal c_b54 = 1.;
 
 /*<    >*/
 /* Subroutine */ int dtgsyl_(char *trans, integer *ijob, integer *m, integer *
-        n, doublereal *a, integer *lda, doublereal *b, integer *ldb, 
-        doublereal *c__, integer *ldc, doublereal *d__, integer *ldd, 
+        n, doublereal *a, integer *lda, doublereal *b, integer *ldb,
+        doublereal *c__, integer *ldc, doublereal *d__, integer *ldd,
         doublereal *e, integer *lde, doublereal *f, integer *ldf, doublereal *
         scale, doublereal *dif, doublereal *work, integer *lwork, integer *
         iwork, integer *info, ftnlen trans_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1, 
-            d_offset, e_dim1, e_offset, f_dim1, f_offset, i__1, i__2, i__3, 
+    integer a_dim1, a_offset, b_dim1, b_offset, c_dim1, c_offset, d_dim1,
+            d_offset, e_dim1, e_offset, f_dim1, f_offset, i__1, i__2, i__3,
             i__4;
 
     /* Builtin functions */
@@ -46,26 +46,26 @@ static doublereal c_b54 = 1.;
     integer i__, j, k, p, q, ie, je, mb, nb, is, js, pq;
     doublereal dsum;
     integer ppqq;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *), dgemm_(char *, char *, integer *, integer *, integer *
-            , doublereal *, doublereal *, integer *, doublereal *, integer *, 
+            , doublereal *, doublereal *, integer *, doublereal *, integer *,
             doublereal *, doublereal *, integer *, ftnlen, ftnlen);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     integer ifunc, linfo;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
             doublereal *, integer *);
     integer lwmin;
     doublereal scale2=0;
-    extern /* Subroutine */ int dtgsy2_(char *, integer *, integer *, integer 
+    extern /* Subroutine */ int dtgsy2_(char *, integer *, integer *, integer
             *, doublereal *, integer *, doublereal *, integer *, doublereal *,
-             integer *, doublereal *, integer *, doublereal *, integer *, 
+             integer *, doublereal *, integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *, doublereal *,
              integer *, integer *, integer *, ftnlen);
     doublereal dscale, scaloc;
-    extern /* Subroutine */ int dlacpy_(char *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, ftnlen), 
+    extern /* Subroutine */ int dlacpy_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, integer *, ftnlen),
             xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
     integer iround;
     logical notran;
@@ -449,15 +449,15 @@ static doublereal c_b54 = 1.;
             pq = 0;
 /*<    >*/
             dtgsy2_(trans, &ifunc, m, n, &a[a_offset], lda, &b[b_offset], ldb,
-                     &c__[c_offset], ldc, &d__[d_offset], ldd, &e[e_offset], 
-                    lde, &f[f_offset], ldf, scale, &dsum, &dscale, &iwork[1], 
+                     &c__[c_offset], ldc, &d__[d_offset], ldd, &e[e_offset],
+                    lde, &f[f_offset], ldf, scale, &dsum, &dscale, &iwork[1],
                     &pq, info, (ftnlen)1);
 /*<             IF( DSCALE.NE.ZERO ) THEN >*/
             if (dscale != 0.) {
 /*<                IF( IJOB.EQ.1 .OR. IJOB.EQ.3 ) THEN >*/
                 if (*ijob == 1 || *ijob == 3) {
 /*<                   DIF = SQRT( DBLE( 2*M*N ) ) / ( DSCALE*SQRT( DSUM ) ) >*/
-                    *dif = sqrt((doublereal) ((*m << 1) * *n)) / (dscale * 
+                    *dif = sqrt((doublereal) ((*m << 1) * *n)) / (dscale *
                             sqrt(dsum));
 /*<                ELSE >*/
                 } else {
@@ -627,9 +627,9 @@ L70:
 /*<                   PPQQ = 0 >*/
                     ppqq = 0;
 /*<    >*/
-                    dtgsy2_(trans, &ifunc, &mb, &nb, &a[is + is * a_dim1], 
-                            lda, &b[js + js * b_dim1], ldb, &c__[is + js * 
-                            c_dim1], ldc, &d__[is + is * d_dim1], ldd, &e[js 
+                    dtgsy2_(trans, &ifunc, &mb, &nb, &a[is + is * a_dim1],
+                            lda, &b[js + js * b_dim1], ldb, &c__[is + js *
+                            c_dim1], ldc, &d__[is + is * d_dim1], ldd, &e[js
                             + js * e_dim1], lde, &f[is + js * f_dim1], ldf, &
                             scaloc, &dsum, &dscale, &iwork[q + 2], &ppqq, &
                             linfo, (ftnlen)1);
@@ -670,7 +670,7 @@ L70:
                         for (k = js; k <= i__3; ++k) {
 /*<                         CALL DSCAL( M-IE, SCALOC, C( IE+1, K ), 1 ) >*/
                             i__4 = *m - ie;
-                            dscal_(&i__4, &scaloc, &c__[ie + 1 + k * c_dim1], 
+                            dscal_(&i__4, &scaloc, &c__[ie + 1 + k * c_dim1],
                                     &c__1);
 /*<                         CALL DSCAL( M-IE, SCALOC, F( IE+1, K ), 1 ) >*/
                             i__4 = *m - ie;
@@ -701,15 +701,15 @@ L70:
                     if (i__ > 1) {
 /*<    >*/
                         i__3 = is - 1;
-                        dgemm_("N", "N", &i__3, &nb, &mb, &c_b53, &a[is * 
+                        dgemm_("N", "N", &i__3, &nb, &mb, &c_b53, &a[is *
                                 a_dim1 + 1], lda, &c__[is + js * c_dim1], ldc,
                                  &c_b54, &c__[js * c_dim1 + 1], ldc, (ftnlen)
                                 1, (ftnlen)1);
 /*<    >*/
                         i__3 = is - 1;
-                        dgemm_("N", "N", &i__3, &nb, &mb, &c_b53, &d__[is * 
+                        dgemm_("N", "N", &i__3, &nb, &mb, &c_b53, &d__[is *
                                 d_dim1 + 1], ldd, &c__[is + js * c_dim1], ldc,
-                                 &c_b54, &f[js * f_dim1 + 1], ldf, (ftnlen)1, 
+                                 &c_b54, &f[js * f_dim1 + 1], ldf, (ftnlen)1,
                                 (ftnlen)1);
 /*<                   END IF >*/
                     }
@@ -718,14 +718,14 @@ L70:
 /*<    >*/
                         i__3 = *n - je;
                         dgemm_("N", "N", &mb, &i__3, &nb, &c_b54, &f[is + js *
-                                 f_dim1], ldf, &b[js + (je + 1) * b_dim1], 
-                                ldb, &c_b54, &c__[is + (je + 1) * c_dim1], 
+                                 f_dim1], ldf, &b[js + (je + 1) * b_dim1],
+                                ldb, &c_b54, &c__[is + (je + 1) * c_dim1],
                                 ldc, (ftnlen)1, (ftnlen)1);
 /*<    >*/
                         i__3 = *n - je;
                         dgemm_("N", "N", &mb, &i__3, &nb, &c_b54, &f[is + js *
-                                 f_dim1], ldf, &e[js + (je + 1) * e_dim1], 
-                                lde, &c_b54, &f[is + (je + 1) * f_dim1], ldf, 
+                                 f_dim1], ldf, &e[js + (je + 1) * e_dim1],
+                                lde, &c_b54, &f[is + (je + 1) * f_dim1], ldf,
                                 (ftnlen)1, (ftnlen)1);
 /*<                   END IF >*/
                     }
@@ -740,7 +740,7 @@ L70:
 /*<                IF( IJOB.EQ.1 .OR. IJOB.EQ.3 ) THEN >*/
                 if (*ijob == 1 || *ijob == 3) {
 /*<                   DIF = SQRT( DBLE( 2*M*N ) ) / ( DSCALE*SQRT( DSUM ) ) >*/
-                    *dif = sqrt((doublereal) ((*m << 1) * *n)) / (dscale * 
+                    *dif = sqrt((doublereal) ((*m << 1) * *n)) / (dscale *
                             sqrt(dsum));
 /*<                ELSE >*/
                 } else {
@@ -819,7 +819,7 @@ L70:
 /*<    >*/
                 dtgsy2_(trans, &ifunc, &mb, &nb, &a[is + is * a_dim1], lda, &
                         b[js + js * b_dim1], ldb, &c__[is + js * c_dim1], ldc,
-                         &d__[is + is * d_dim1], ldd, &e[js + js * e_dim1], 
+                         &d__[is + is * d_dim1], ldd, &e[js + js * e_dim1],
                         lde, &f[is + js * f_dim1], ldf, &scaloc, &dsum, &
                         dscale, &iwork[q + 2], &ppqq, &linfo, (ftnlen)1);
 /*<    >*/
@@ -885,12 +885,12 @@ L70:
                 if (j > p + 2) {
 /*<    >*/
                     i__3 = js - 1;
-                    dgemm_("N", "T", &mb, &i__3, &nb, &c_b54, &c__[is + js * 
+                    dgemm_("N", "T", &mb, &i__3, &nb, &c_b54, &c__[is + js *
                             c_dim1], ldc, &b[js * b_dim1 + 1], ldb, &c_b54, &
                             f[is + f_dim1], ldf, (ftnlen)1, (ftnlen)1);
 /*<    >*/
                     i__3 = js - 1;
-                    dgemm_("N", "T", &mb, &i__3, &nb, &c_b54, &f[is + js * 
+                    dgemm_("N", "T", &mb, &i__3, &nb, &c_b54, &f[is + js *
                             f_dim1], ldf, &e[js * e_dim1 + 1], lde, &c_b54, &
                             f[is + f_dim1], ldf, (ftnlen)1, (ftnlen)1);
 /*<                END IF >*/
@@ -905,7 +905,7 @@ L70:
                              (ftnlen)1);
 /*<    >*/
                     i__3 = *m - ie;
-                    dgemm_("T", "N", &i__3, &nb, &mb, &c_b53, &d__[is + (ie + 
+                    dgemm_("T", "N", &i__3, &nb, &mb, &c_b53, &d__[is + (ie +
                             1) * d_dim1], ldd, &f[is + js * f_dim1], ldf, &
                             c_b54, &c__[ie + 1 + js * c_dim1], ldc, (ftnlen)1,
                              (ftnlen)1);

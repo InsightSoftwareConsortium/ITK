@@ -22,7 +22,7 @@
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 

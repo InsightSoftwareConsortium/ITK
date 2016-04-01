@@ -20,7 +20,7 @@
 
 #include "itkDemonsRegistrationFunction.h"
 #include "itkMacro.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -209,7 +209,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   double gradientSquaredMagnitude = 0;
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
-    gradientSquaredMagnitude += vnl_math_sqr(gradient[j]);
+    gradientSquaredMagnitude += itk::Math::sqr(gradient[j]);
     }
 
   /**
@@ -224,7 +224,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
    * where K = mean square spacing to compensate for the mismatch in units.
    */
   const double speedValue = fixedValue - movingValue;
-  const double sqr_speedValue = vnl_math_sqr(speedValue);
+  const double sqr_speedValue = itk::Math::sqr(speedValue);
 
   // update the metric
   GlobalDataStruct *globalData = (GlobalDataStruct *)gd;
@@ -237,7 +237,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   const double denominator = sqr_speedValue / m_Normalizer
                              + gradientSquaredMagnitude;
 
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold
+  if ( itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold
        || denominator < m_DenominatorThreshold )
     {
     return m_ZeroUpdateReturn;
@@ -249,7 +249,7 @@ DemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
     update[j] = speedValue * gradient[j] / denominator;
     if ( globalData )
       {
-      globalData->m_SumOfSquaredChange += vnl_math_sqr(update[j]);
+      globalData->m_SumOfSquaredChange += itk::Math::sqr(update[j]);
       }
     }
   return update;

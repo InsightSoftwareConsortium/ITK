@@ -22,7 +22,7 @@
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
 #include "itkIntTypes.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <climits>
 #include <ctime>
 
@@ -295,7 +295,8 @@ MersenneTwisterRandomVariateGenerator::reload()
     }
   *p = twist(p[index], p[0], state[0]);
 
-  left = MersenneTwisterRandomVariateGenerator::StateVectorLength, pNext = state;
+  left = MersenneTwisterRandomVariateGenerator::StateVectorLength;
+  pNext = state;
 }
 
 inline void
@@ -422,7 +423,7 @@ MersenneTwisterRandomVariateGenerator::GetNormalVariate(
   // Return a real number from a normal (Gaussian) distribution with given
   // mean and variance by Box-Muller method
   double r = std::sqrt(-2.0 * std::log( 1.0 - GetVariateWithOpenRange() ) * variance);
-  double phi = 2.0 * vnl_math::pi
+  double phi = 2.0 * itk::Math::pi
                * GetVariateWithOpenUpperRange();
 
   return mean + r *std::cos(phi);

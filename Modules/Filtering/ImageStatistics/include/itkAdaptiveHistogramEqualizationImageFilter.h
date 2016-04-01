@@ -120,7 +120,7 @@ public:
 #ifndef ITK_FUTURE_LEGACY_REMOVE
   /** Set/Get whether an optimized lookup table for the intensity
    * mapping function is used.  Default is off.
-   *  @deprecated
+   * \deprecated
    */
   virtual void SetUseLookupTable( const bool _arg )
     {

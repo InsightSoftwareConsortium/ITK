@@ -22,7 +22,7 @@
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkStatisticsImageFilter.h"
 
 #include "vnl/vnl_vector.h"

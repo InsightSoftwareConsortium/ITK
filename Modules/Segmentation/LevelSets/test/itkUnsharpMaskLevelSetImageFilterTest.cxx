@@ -22,18 +22,18 @@
 const unsigned int HEIGHT = (128);
 const unsigned int WIDTH  = (128);
 
-#define RADIUS (vnl_math_min(HEIGHT, WIDTH)/4)
+#define RADIUS (std::min(HEIGHT, WIDTH)/4)
 
 // Distance transform function for square
 float square(unsigned x, unsigned y)
 {
     float X, Y;
-    X = vnl_math_abs(x - (float)WIDTH/2.0);
-    Y = vnl_math_abs(y - (float)HEIGHT/2.0);
+    X = itk::Math::abs(x - (float)WIDTH/2.0);
+    Y = itk::Math::abs(y - (float)HEIGHT/2.0);
     float dis;
     if (!((X > RADIUS)&&(Y > RADIUS)))
       {
-      dis = RADIUS - vnl_math_max(X, Y);
+      dis = RADIUS - std::max(X, Y);
       }
     else
       {

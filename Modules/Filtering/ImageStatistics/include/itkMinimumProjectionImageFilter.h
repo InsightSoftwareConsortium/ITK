@@ -28,7 +28,7 @@ namespace itk
  *
  * This class was contributed to the Insight Journal by Gaetan Lehmann.
  * The original paper can be found at
- *      http://hdl.handle.net/1926/164
+ *      https://hdl.handle.net/1926/164
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
@@ -58,7 +58,7 @@ public:
 
   inline void operator()(const TInputPixel & input)
   {
-    m_Minimum = vnl_math_min(m_Minimum, input);
+    m_Minimum = std::min(m_Minimum, input);
   }
 
   inline TInputPixel GetValue()

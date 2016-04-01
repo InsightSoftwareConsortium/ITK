@@ -71,6 +71,9 @@ public:
     return "Primitive Cell";
   }
 
+  virtual bool CheckPointApoptosis() ITK_OVERRIDE
+    { return CellBase::CheckPointApoptosis(); }
+
   static Cell * CreateEgg();
 
   static unsigned int GetDimension()

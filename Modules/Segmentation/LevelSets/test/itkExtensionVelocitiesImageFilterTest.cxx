@@ -51,7 +51,7 @@ SimpleSignedDistance( const TPoint & p )
   double accum = 0.0;
   for( unsigned int j = 0; j < TPoint::PointDimension; j++ )
     {
-    accum += vnl_math_sqr( p[j] - center[j] );
+    accum += itk::Math::sqr( p[j] - center[j] );
     }
   accum = std::sqrt( accum );
   return ( accum - radius );
@@ -78,18 +78,18 @@ SimpleVelocity( const TPoint & p )
       }
     else
       {
-      value = vnl_math::pi;
+      value = itk::Math::pi;
       }
     }
   else if ( x == 0.0 )
     {
     if ( y > 0.0 )
       {
-      value = vnl_math::pi_over_2;
+      value = itk::Math::pi_over_2;
       }
     else // if ( y < 0.0 )
       {
-      value = vnl_math::pi + vnl_math::pi_over_2;
+      value = itk::Math::pi + itk::Math::pi_over_2;
       }
     }
   else
@@ -97,12 +97,12 @@ SimpleVelocity( const TPoint & p )
     value = std::atan( y / x );
     if ( value < 0.0 )
       {
-      value += vnl_math::pi;
+      value += itk::Math::pi;
       }
 
     if ( y <= 0.0 )
       {
-      value += vnl_math::pi;
+      value += itk::Math::pi;
       }
     }
 
@@ -276,7 +276,7 @@ int itkExtensionVelocitiesImageFilterTest(int, char* [] )
   while( nodeIter != nodeEnd )
     {
     ImageType::IndexType nodeIndex = nodeIter.Value().GetIndex();
-    double absDiff = vnl_math_abs( aux2->GetPixel( nodeIndex ) -
+    double absDiff = itk::Math::abs( aux2->GetPixel( nodeIndex ) -
       reinitializer->GetOutputVelocityImage( 1 )->GetPixel( nodeIndex ) );
     if ( absDiff > 0.6 )
       {

@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE SLAPLL( N, X, INCX, Y, INCY, SSMIN ) >*/
-/* Subroutine */ int slapll_(integer *n, real *x, integer *incx, real *y, 
+/* Subroutine */ int slapll_(integer *n, real *x, integer *incx, real *y,
         integer *incy, real *ssmin)
 {
     /* System generated locals */
@@ -28,8 +28,8 @@ extern "C" {
     extern /* Subroutine */ int slas2_(real *, real *, real *, real *, real *)
             ;
     real ssmax;
-    extern /* Subroutine */ int saxpy_(integer *, real *, real *, integer *, 
-            real *, integer *), slarfg_(integer *, real *, real *, integer *, 
+    extern /* Subroutine */ int saxpy_(integer *, real *, real *, integer *,
+            real *, integer *), slarfg_(integer *, real *, real *, integer *,
             real *);
 
 

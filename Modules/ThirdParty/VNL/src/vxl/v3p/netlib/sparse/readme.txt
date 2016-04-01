@@ -4,7 +4,7 @@
 #
 #                     Kenneth S. Kundert
 #              Alberto Sangiovanni-Vincentelli
-#           University of California, Berkeley
+#            University of California, Berkeley
 #
 #
 #      Sparse1.3 is a flexible package of subroutines  written
@@ -18,7 +18,7 @@
 # provides a test program that is able read  matrix  equations
 # from  a file, solve them, and print useful information about
 # the equation and its solution.
-# 
+#
 #      Sparse1.3 is generally as fast  or  faster  than  other
 # popular sparse matrix packages when solving many matrices of
 # similar structure.  Sparse does not require or  assume  sym-
@@ -27,7 +27,7 @@
 # memory allocation, which allows the user to forgo the hassle
 # of providing adequate memory.  It also has a natural, flexi-
 # ble, and efficient interface to the calling program.
-# 
+#
 #      Sparse was originally written for use in circuit  simu-
 # lators  and  is  particularly  apt  at  handling  node-  and
 # modified-node admittance matrices.  The  systems  of  linear
@@ -38,12 +38,12 @@
 # one  in  particular  is  solving  the  very large systems of
 # linear equations resulting from the  numerical  solution  of
 # partial differential equations.
-# 
+#
 #tion Solver
 #
 #                     Kenneth S. Kundert
 #              Alberto Sangiovanni-Vincentelli
-#           University of California, Berkeley
+#            University of California, Berkeley
 #
 #
 #      Sparse1.3 is a flexible package of subroutines  written
@@ -57,7 +57,7 @@
 # provides a test program that is able read  matrix  equations
 # from  a file, solve them, and print useful information about
 # the equation and its solution.
-# 
+#
 #      Sparse1.3 is generally as fast  or  faster  than  other
 # popular sparse matrix packages when solving many matrices of
 # similar structure.  Sparse does not require or  assume  sym-
@@ -66,7 +66,7 @@
 # memory allocation, which allows the user to forgo the hassle
 # of providing adequate memory.  It also has a natural, flexi-
 # ble, and efficient interface to the calling program.
-# 
+#
 #      Sparse was originally written for use in circuit  simu-
 # lators  and  is  particularly  apt  at  handling  node-  and
 # modified-node admittance matrices.  The  systems  of  linear
@@ -77,5 +77,5 @@
 # one  in  particular  is  solving  the  very large systems of
 # linear equations resulting from the  numerical  solution  of
 # partial differential equations.
-# 
+#
 #

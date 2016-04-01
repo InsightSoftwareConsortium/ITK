@@ -79,7 +79,7 @@ GaborImageSource< TOutputImage >
     double sum = 0.0;
     for ( unsigned int i = 1; i < ImageDimension; ++i )
       {
-      sum += vnl_math_sqr( ( evalPoint[i] - this->m_Mean[i] ) / this->m_Sigma[i] );
+      sum += itk::Math::sqr( ( evalPoint[i] - this->m_Mean[i] ) / this->m_Sigma[i] );
       }
     const double value = std::exp(-0.5 * sum) * gabor->Evaluate(evalPoint[0] - this->m_Mean[0]);
 

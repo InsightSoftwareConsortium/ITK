@@ -20,7 +20,7 @@ extern "C" {
 static doublereal c_b10 = 1.;
 
 /*<       subroutine tql2(nm,n,d,e,z,ierr) >*/
-/* Subroutine */ int tql2_(integer *nm, integer *n, doublereal *d__, 
+/* Subroutine */ int tql2_(integer *nm, integer *n, doublereal *d__,
         doublereal *e, doublereal *z__, integer *ierr)
 {
     /* System generated locals */
@@ -255,7 +255,7 @@ L145:
 /*<                h = z(k,i+1) >*/
                 h__ = z__[k + (i__ + 1) * z_dim1];
 /*<                z(k,i+1) = s * z(k,i) + c * h >*/
-                z__[k + (i__ + 1) * z_dim1] = s * z__[k + i__ * z_dim1] + c__ 
+                z__[k + (i__ + 1) * z_dim1] = s * z__[k + i__ * z_dim1] + c__
                         * h__;
 /*<                z(k,i) = c * z(k,i) - s * h >*/
                 z__[k + i__ * z_dim1] = c__ * z__[k + i__ * z_dim1] - s * h__;

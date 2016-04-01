@@ -233,9 +233,9 @@ static integer c__1 = 1;
 /*<       M = LDST >*/
     m = 2;
 /*<       WEAK = .FALSE. >*/
-    weak = FALSE_;
+//    weak = FALSE_;
 /*<       DTRONG = .FALSE. >*/
-    dtrong = FALSE_;
+//    dtrong = FALSE_;
 
 /*     Make a local copy of selected block in (A, B) */
 

@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_vector_fixed_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/io/vnl_io_vector_fixed.h>
 #include <vsl/vsl_binary_io.h>
@@ -8,7 +9,7 @@
 
 void test_vector_fixed_double_3_io()
 {
-  vcl_cout << "*************************************\n"
+  std::cout << "*************************************\n"
            << "Testing vnl_vector_fixed<double,3> io\n"
            << "*************************************\n";
   //// test constructors, accessors
@@ -29,8 +30,8 @@ void test_vector_fixed_double_3_io()
 
   TEST ("m_out == m_in", m_out, m_in);
 
-  vsl_print_summary(vcl_cout, m_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, m_out);
+  std::cout << std::endl;
 }
 
 

@@ -21,7 +21,7 @@ static doublereal c_b3 = 2.;
 static doublereal c_b4 = 1.;
 
 /*<       SUBROUTINE DLASV2( F, G, H, SSMIN, SSMAX, SNR, CSR, SNL, CSL ) >*/
-/* Subroutine */ int dlasv2_(doublereal *f, doublereal *g, doublereal *h__, 
+/* Subroutine */ int dlasv2_(doublereal *f, doublereal *g, doublereal *h__,
         doublereal *ssmin, doublereal *ssmax, doublereal *snr, doublereal *
         csr, doublereal *snl, doublereal *csl)
 {
@@ -32,7 +32,7 @@ static doublereal c_b4 = 1.;
     double sqrt(doublereal), d_sign(doublereal *, doublereal *);
 
     /* Local variables */
-    doublereal a, d__, l, m, r__, s, t, fa, ga, ha, ft, gt, ht, mm, tt, clt=0, 
+    doublereal a, d__, l, m, r__, s, t, fa, ga, ha, ft, gt, ht, mm, tt, clt=0,
             crt=0, slt=0, srt=0;
     integer pmax;
     doublereal temp;

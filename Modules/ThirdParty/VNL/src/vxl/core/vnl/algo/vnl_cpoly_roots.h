@@ -11,7 +11,8 @@
 //  dac (Manchester) March 28th 2001: Tidied documentation
 // \endverbatim
 
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 
 //: Find all the roots of a univariate polynomial with complex coefficients.
@@ -26,17 +27,17 @@
 class vnl_cpoly_roots
 {
 public:
-  vnl_cpoly_roots(vnl_vector<vcl_complex<double> > const & a);
+  vnl_cpoly_roots(vnl_vector<std::complex<double> > const & a);
   vnl_cpoly_roots(vnl_vector<double> const & a_real,
                   vnl_vector<double> const & a_imag);
 
   // the roots can be found in here :
-  vnl_vector<vcl_complex<double> > solns;
+  vnl_vector<std::complex<double> > solns;
 
 private:
   unsigned N; //degree
   //: does the actual work
-  void compute(vnl_vector<vcl_complex<double> > const & a);
+  void compute(vnl_vector<std::complex<double> > const & a);
 };
 
 #endif // vnl_cpoly_roots_h_

@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE ZTRMV ( UPLO, TRANS, DIAG, N, A, LDA, X, INCX ) >*/
-/* Subroutine */ int ztrmv_(char *uplo, char *trans, char *diag, integer *n, 
-        doublecomplex *a, integer *lda, doublecomplex *x, integer *incx, 
+/* Subroutine */ int ztrmv_(char *uplo, char *trans, char *diag, integer *n,
+        doublecomplex *a, integer *lda, doublecomplex *x, integer *incx,
         ftnlen uplo_len, ftnlen trans_len, ftnlen diag_len)
 {
     /* System generated locals */
@@ -169,13 +169,13 @@ extern "C" {
 /*<          INFO = 1 >*/
         info = 1;
 /*<    >*/
-    } else if (! lsame_(trans, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(trans, 
+    } else if (! lsame_(trans, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(trans,
             "T", (ftnlen)1, (ftnlen)1) && ! lsame_(trans, "C", (ftnlen)1, (
             ftnlen)1)) {
 /*<          INFO = 2 >*/
         info = 2;
 /*<    >*/
-    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag, 
+    } else if (! lsame_(diag, "U", (ftnlen)1, (ftnlen)1) && ! lsame_(diag,
             "N", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = 3 >*/
         info = 3;
@@ -256,10 +256,10 @@ extern "C" {
                             i__3 = i__;
                             i__4 = i__;
                             i__5 = i__ + j * a_dim1;
-                            z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i, 
+                            z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i,
                                     z__2.i = temp.r * a[i__5].i + temp.i * a[
                                     i__5].r;
-                            z__1.r = x[i__4].r + z__2.r, z__1.i = x[i__4].i + 
+                            z__1.r = x[i__4].r + z__2.r, z__1.i = x[i__4].i +
                                     z__2.i;
                             x[i__3].r = z__1.r, x[i__3].i = z__1.i;
 /*<    10                CONTINUE >*/
@@ -271,7 +271,7 @@ extern "C" {
                             i__3 = j;
                             i__4 = j + j * a_dim1;
                             z__1.r = x[i__3].r * a[i__4].r - x[i__3].i * a[
-                                    i__4].i, z__1.i = x[i__3].r * a[i__4].i + 
+                                    i__4].i, z__1.i = x[i__3].r * a[i__4].i +
                                     x[i__3].i * a[i__4].r;
                             x[i__2].r = z__1.r, x[i__2].i = z__1.i;
                         }
@@ -302,10 +302,10 @@ extern "C" {
                             i__3 = ix;
                             i__4 = ix;
                             i__5 = i__ + j * a_dim1;
-                            z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i, 
+                            z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i,
                                     z__2.i = temp.r * a[i__5].i + temp.i * a[
                                     i__5].r;
-                            z__1.r = x[i__4].r + z__2.r, z__1.i = x[i__4].i + 
+                            z__1.r = x[i__4].r + z__2.r, z__1.i = x[i__4].i +
                                     z__2.i;
                             x[i__3].r = z__1.r, x[i__3].i = z__1.i;
 /*<                         IX      = IX      + INCX >*/
@@ -319,7 +319,7 @@ extern "C" {
                             i__3 = jx;
                             i__4 = j + j * a_dim1;
                             z__1.r = x[i__3].r * a[i__4].r - x[i__3].i * a[
-                                    i__4].i, z__1.i = x[i__3].r * a[i__4].i + 
+                                    i__4].i, z__1.i = x[i__3].r * a[i__4].i +
                                     x[i__3].i * a[i__4].r;
                             x[i__2].r = z__1.r, x[i__2].i = z__1.i;
                         }
@@ -351,10 +351,10 @@ extern "C" {
                             i__2 = i__;
                             i__3 = i__;
                             i__4 = i__ + j * a_dim1;
-                            z__2.r = temp.r * a[i__4].r - temp.i * a[i__4].i, 
+                            z__2.r = temp.r * a[i__4].r - temp.i * a[i__4].i,
                                     z__2.i = temp.r * a[i__4].i + temp.i * a[
                                     i__4].r;
-                            z__1.r = x[i__3].r + z__2.r, z__1.i = x[i__3].i + 
+                            z__1.r = x[i__3].r + z__2.r, z__1.i = x[i__3].i +
                                     z__2.i;
                             x[i__2].r = z__1.r, x[i__2].i = z__1.i;
 /*<    50                CONTINUE >*/
@@ -366,7 +366,7 @@ extern "C" {
                             i__2 = j;
                             i__3 = j + j * a_dim1;
                             z__1.r = x[i__2].r * a[i__3].r - x[i__2].i * a[
-                                    i__3].i, z__1.i = x[i__2].r * a[i__3].i + 
+                                    i__3].i, z__1.i = x[i__2].r * a[i__3].i +
                                     x[i__2].i * a[i__3].r;
                             x[i__1].r = z__1.r, x[i__1].i = z__1.i;
                         }
@@ -398,10 +398,10 @@ extern "C" {
                             i__2 = ix;
                             i__3 = ix;
                             i__4 = i__ + j * a_dim1;
-                            z__2.r = temp.r * a[i__4].r - temp.i * a[i__4].i, 
+                            z__2.r = temp.r * a[i__4].r - temp.i * a[i__4].i,
                                     z__2.i = temp.r * a[i__4].i + temp.i * a[
                                     i__4].r;
-                            z__1.r = x[i__3].r + z__2.r, z__1.i = x[i__3].i + 
+                            z__1.r = x[i__3].r + z__2.r, z__1.i = x[i__3].i +
                                     z__2.i;
                             x[i__2].r = z__1.r, x[i__2].i = z__1.i;
 /*<                         IX      = IX      - INCX >*/
@@ -415,7 +415,7 @@ extern "C" {
                             i__2 = jx;
                             i__3 = j + j * a_dim1;
                             z__1.r = x[i__2].r * a[i__3].r - x[i__2].i * a[
-                                    i__3].i, z__1.i = x[i__2].r * a[i__3].i + 
+                                    i__3].i, z__1.i = x[i__2].r * a[i__3].i +
                                     x[i__2].i * a[i__3].r;
                             x[i__1].r = z__1.r, x[i__1].i = z__1.i;
                         }
@@ -449,7 +449,7 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             i__1 = j + j * a_dim1;
-                            z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i, 
+                            z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i,
                                     z__1.i = temp.r * a[i__1].i + temp.i * a[
                                     i__1].r;
                             temp.r = z__1.r, temp.i = z__1.i;
@@ -460,9 +460,9 @@ extern "C" {
                             i__1 = i__ + j * a_dim1;
                             i__2 = i__;
                             z__2.r = a[i__1].r * x[i__2].r - a[i__1].i * x[
-                                    i__2].i, z__2.i = a[i__1].r * x[i__2].i + 
+                                    i__2].i, z__2.i = a[i__1].r * x[i__2].i +
                                     a[i__1].i * x[i__2].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<    90                CONTINUE >*/
@@ -473,8 +473,8 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             d_cnjg(&z__2, &a[j + j * a_dim1]);
-                            z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                    z__1.i = temp.r * z__2.i + temp.i * 
+                            z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                    z__1.i = temp.r * z__2.i + temp.i *
                                     z__2.r;
                             temp.r = z__1.r, temp.i = z__1.i;
                         }
@@ -483,10 +483,10 @@ extern "C" {
 /*<                         TEMP = TEMP + DCONJG( A( I, J ) )*X( I ) >*/
                             d_cnjg(&z__3, &a[i__ + j * a_dim1]);
                             i__1 = i__;
-                            z__2.r = z__3.r * x[i__1].r - z__3.i * x[i__1].i, 
+                            z__2.r = z__3.r * x[i__1].r - z__3.i * x[i__1].i,
                                     z__2.i = z__3.r * x[i__1].i + z__3.i * x[
                                     i__1].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<   100                CONTINUE >*/
@@ -516,7 +516,7 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             i__1 = j + j * a_dim1;
-                            z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i, 
+                            z__1.r = temp.r * a[i__1].r - temp.i * a[i__1].i,
                                     z__1.i = temp.r * a[i__1].i + temp.i * a[
                                     i__1].r;
                             temp.r = z__1.r, temp.i = z__1.i;
@@ -529,9 +529,9 @@ extern "C" {
                             i__1 = i__ + j * a_dim1;
                             i__2 = ix;
                             z__2.r = a[i__1].r * x[i__2].r - a[i__1].i * x[
-                                    i__2].i, z__2.i = a[i__1].r * x[i__2].i + 
+                                    i__2].i, z__2.i = a[i__1].r * x[i__2].i +
                                     a[i__1].i * x[i__2].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<   120                CONTINUE >*/
@@ -542,8 +542,8 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             d_cnjg(&z__2, &a[j + j * a_dim1]);
-                            z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                    z__1.i = temp.r * z__2.i + temp.i * 
+                            z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                    z__1.i = temp.r * z__2.i + temp.i *
                                     z__2.r;
                             temp.r = z__1.r, temp.i = z__1.i;
                         }
@@ -554,10 +554,10 @@ extern "C" {
 /*<                         TEMP = TEMP + DCONJG( A( I, J ) )*X( IX ) >*/
                             d_cnjg(&z__3, &a[i__ + j * a_dim1]);
                             i__1 = ix;
-                            z__2.r = z__3.r * x[i__1].r - z__3.i * x[i__1].i, 
+                            z__2.r = z__3.r * x[i__1].r - z__3.i * x[i__1].i,
                                     z__2.i = z__3.r * x[i__1].i + z__3.i * x[
                                     i__1].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<   130                CONTINUE >*/
@@ -590,7 +590,7 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             i__2 = j + j * a_dim1;
-                            z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i, 
+                            z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i,
                                     z__1.i = temp.r * a[i__2].i + temp.i * a[
                                     i__2].r;
                             temp.r = z__1.r, temp.i = z__1.i;
@@ -602,9 +602,9 @@ extern "C" {
                             i__3 = i__ + j * a_dim1;
                             i__4 = i__;
                             z__2.r = a[i__3].r * x[i__4].r - a[i__3].i * x[
-                                    i__4].i, z__2.i = a[i__3].r * x[i__4].i + 
+                                    i__4].i, z__2.i = a[i__3].r * x[i__4].i +
                                     a[i__3].i * x[i__4].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<   150                CONTINUE >*/
@@ -615,8 +615,8 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             d_cnjg(&z__2, &a[j + j * a_dim1]);
-                            z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                    z__1.i = temp.r * z__2.i + temp.i * 
+                            z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                    z__1.i = temp.r * z__2.i + temp.i *
                                     z__2.r;
                             temp.r = z__1.r, temp.i = z__1.i;
                         }
@@ -626,10 +626,10 @@ extern "C" {
 /*<                         TEMP = TEMP + DCONJG( A( I, J ) )*X( I ) >*/
                             d_cnjg(&z__3, &a[i__ + j * a_dim1]);
                             i__3 = i__;
-                            z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i, 
+                            z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i,
                                     z__2.i = z__3.r * x[i__3].i + z__3.i * x[
                                     i__3].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<   160                CONTINUE >*/
@@ -660,7 +660,7 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             i__2 = j + j * a_dim1;
-                            z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i, 
+                            z__1.r = temp.r * a[i__2].r - temp.i * a[i__2].i,
                                     z__1.i = temp.r * a[i__2].i + temp.i * a[
                                     i__2].r;
                             temp.r = z__1.r, temp.i = z__1.i;
@@ -674,9 +674,9 @@ extern "C" {
                             i__3 = i__ + j * a_dim1;
                             i__4 = ix;
                             z__2.r = a[i__3].r * x[i__4].r - a[i__3].i * x[
-                                    i__4].i, z__2.i = a[i__3].r * x[i__4].i + 
+                                    i__4].i, z__2.i = a[i__3].r * x[i__4].i +
                                     a[i__3].i * x[i__4].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<   180                CONTINUE >*/
@@ -687,8 +687,8 @@ extern "C" {
 /*<    >*/
                         if (nounit) {
                             d_cnjg(&z__2, &a[j + j * a_dim1]);
-                            z__1.r = temp.r * z__2.r - temp.i * z__2.i, 
-                                    z__1.i = temp.r * z__2.i + temp.i * 
+                            z__1.r = temp.r * z__2.r - temp.i * z__2.i,
+                                    z__1.i = temp.r * z__2.i + temp.i *
                                     z__2.r;
                             temp.r = z__1.r, temp.i = z__1.i;
                         }
@@ -700,10 +700,10 @@ extern "C" {
 /*<                         TEMP = TEMP + DCONJG( A( I, J ) )*X( IX ) >*/
                             d_cnjg(&z__3, &a[i__ + j * a_dim1]);
                             i__3 = ix;
-                            z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i, 
+                            z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i,
                                     z__2.i = z__3.r * x[i__3].i + z__3.i * x[
                                     i__3].r;
-                            z__1.r = temp.r + z__2.r, z__1.i = temp.i + 
+                            z__1.r = temp.r + z__2.r, z__1.i = temp.i +
                                     z__2.i;
                             temp.r = z__1.r, temp.i = z__1.i;
 /*<   190                CONTINUE >*/

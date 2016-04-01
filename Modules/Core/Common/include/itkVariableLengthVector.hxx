@@ -19,7 +19,7 @@
 #define itkVariableLengthVector_hxx
 
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <cstring>
 #include <cstdlib>
 #include "itkIsBaseOf.h"

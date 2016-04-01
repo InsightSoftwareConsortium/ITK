@@ -10,17 +10,12 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <cstring>
+#include <iostream>
 #include "vnl_lbfgsb.h"
-#include <vcl_cstring.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_netlib.h> // setulb_()
-
-//----------------------------------------------------------------------------
-vnl_lbfgsb::vnl_lbfgsb(): f_(0)
-{
-  init_parameters();
-}
 
 //----------------------------------------------------------------------------
 vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function& f): f_(&f)
@@ -31,12 +26,12 @@ vnl_lbfgsb::vnl_lbfgsb(vnl_cost_function& f): f_(&f)
 //----------------------------------------------------------------------------
 void vnl_lbfgsb::init_parameters()
 {
-  long n = this->f_->get_number_of_unknowns();
-  this->bound_selection_.set_size(n);
-  this->bound_selection_.fill(0);
-  this->max_corrections_ = 5;
-  this->convergence_factor_ = 1e+7;
-  this->projected_gradient_tolerance_ = 1e-5;
+    long n = this->f_->get_number_of_unknowns();
+    this->bound_selection_.set_size(n);
+    this->bound_selection_.fill(0);
+    this->max_corrections_ = 5;
+    this->convergence_factor_ = 1e+7;
+    this->projected_gradient_tolerance_ = 1e-5;
 }
 
 //----------------------------------------------------------------------------
@@ -107,7 +102,7 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
       );
 
     // Check the current task.
-    if (vcl_strncmp("FG", task, 2) == 0)
+    if (std::strncmp("FG", task, 2) == 0)
     {
       // Evaluate the function and gradient.
       this->f_->compute(x, &f, &gradient);
@@ -125,7 +120,7 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
       }
       this->report_eval(f);
     }
-    else if (vcl_strncmp("NEW_X", task, 5) == 0)
+    else if (std::strncmp("NEW_X", task, 5) == 0)
     {
       // dsave[12] = the infinity norm of the projected gradient
       this->inf_norm_projected_gradient_ = dsave[12];
@@ -138,14 +133,14 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
         break;
       }
     }
-    else if (vcl_strncmp("ERROR", task, 5) == 0)
+    else if (std::strncmp("ERROR", task, 5) == 0)
     {
       // some error
       this->failure_code_ = ERROR_FAILURE;
       ok = false;
       break;
     }
-    else if (vcl_strncmp("CONVERGENCE", task, 11) == 0)
+    else if (std::strncmp("CONVERGENCE", task, 11) == 0)
     {
       // convergence has been reached
       if (f < this->end_error_)
@@ -154,13 +149,13 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
         this->end_error_ = f;
       }
 
-      if (vcl_strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
+      if (std::strncmp("CONVERGENCE: REL_REDUCTION_OF_F <= FACTR*EPSMCH",
                       task, 47) == 0)
       {
         // function tolerance reached
         this->failure_code_ = CONVERGED_FTOL;
       }
-      else if (vcl_strncmp("CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
+      else if (std::strncmp("CONVERGENCE: NORM_OF_PROJECTED_GRADIENT_<=_PGTOL",
                            task, 48) == 0)
       {
         // gradient tolerance reached
@@ -171,7 +166,7 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
         this->failure_code_ = ERROR_FAILURE;
         if (trace)
         {
-          vcl_cerr << "Unknown convergence type: " << task << vcl_endl;
+          std::cerr << "Unknown convergence type: " << task << std::endl;
         }
       }
       break;
@@ -182,7 +177,7 @@ bool vnl_lbfgsb::minimize(vnl_vector<double>& x)
       this->failure_code_ = ERROR_FAILURE;
       if (trace)
       {
-        vcl_cerr << "Unknown failure with task: " << task << vcl_endl;
+        std::cerr << "Unknown failure with task: " << task << std::endl;
       }
       ok = false;
       break;

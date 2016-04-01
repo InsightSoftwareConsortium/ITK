@@ -591,7 +591,7 @@ unsigned int VXLVideoIO::GetSizeFromPixelFormat(vidl_pixel_format fmt)
 bool VXLVideoIO::PixelFormatSupported(vidl_pixel_format fmt)
 {
   // Get a string representation of the format
-  vcl_string s = vidl_pixel_format_to_string(fmt);
+  std::string s = vidl_pixel_format_to_string(fmt);
   vul_reg_exp reRGB(".*_RGB_.*");
   if (reRGB.find(s))
     {

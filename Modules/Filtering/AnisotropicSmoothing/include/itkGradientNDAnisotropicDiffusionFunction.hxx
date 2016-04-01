@@ -133,8 +133,8 @@ GradientNDAnisotropicDiffusionFunction< TImage >
         dx_dim = ( it.GetPixel(m_Center - m_Stride[i] + m_Stride[j])
                    - it.GetPixel(m_Center - m_Stride[i] - m_Stride[j]) ) / 2.0f;
         dx_dim *= this->m_ScaleCoefficients[j];
-        accum += 0.25f * vnl_math_sqr(dx[j] + dx_aug);
-        accum_d += 0.25f * vnl_math_sqr(dx[j] + dx_dim);
+        accum += 0.25f * itk::Math::sqr(dx[j] + dx_aug);
+        accum_d += 0.25f * itk::Math::sqr(dx[j] + dx_dim);
         }
       }
 
@@ -145,8 +145,8 @@ GradientNDAnisotropicDiffusionFunction< TImage >
       }
     else
       {
-      Cx = std::exp( ( vnl_math_sqr(dx_forward) + accum )  / m_K );
-      Cxd = std::exp( ( vnl_math_sqr(dx_backward) + accum_d ) / m_K );
+      Cx = std::exp( ( itk::Math::sqr(dx_forward) + accum )  / m_K );
+      Cxd = std::exp( ( itk::Math::sqr(dx_backward) + accum_d ) / m_K );
       }
 
     // Conductance modified first order derivatives.

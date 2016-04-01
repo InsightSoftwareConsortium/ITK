@@ -19,7 +19,7 @@
 #define itkGaussianSpatialFunction_hxx
 
 #include <cmath>
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkGaussianSpatialFunction.h"
 
 namespace itk
@@ -54,7 +54,7 @@ GaussianSpatialFunction< TOutput, VImageDimension, TInput >
 
   if ( m_Normalized )
     {
-    const double squareRootOfTwoPi = std::sqrt(2.0 * vnl_math::pi);
+    const double squareRootOfTwoPi = std::sqrt(2.0 * itk::Math::pi);
 
     for ( unsigned int i = 0; i < VImageDimension; ++i )
       {

@@ -140,7 +140,7 @@ protected:
           area = 1. / area;
           Laplace *= 0.25 * area;
           m_Mean = Laplace * normal;
-          m_Gaussian = ( 2. * vnl_math::pi - sum_theta ) * area;
+          m_Gaussian = ( 2. * itk::Math::pi - sum_theta ) * area;
           }
         }
       }
@@ -148,7 +148,7 @@ protected:
 
   virtual OutputCurvatureType ComputeDelta()
   {
-    return vnl_math_max( static_cast<OutputCurvatureType>( 0. ),
+    return std::max( static_cast<OutputCurvatureType>( 0. ),
                          m_Mean * m_Mean - m_Gaussian );
   }
 

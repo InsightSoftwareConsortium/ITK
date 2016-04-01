@@ -26,10 +26,10 @@
 #include "itksys/SystemTools.hxx"
 #include "itkDisplacementFieldTransform.h"
 #include "itkIOTestHelper.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 
-static const int    point_counter=1000;
+static ITK_CONSTEXPR int    point_counter=1000;
 
 
 template<typename T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,
@@ -67,7 +67,7 @@ static int check_linear(const char *linear_transform)
   rot_axis[1]=1.0;
   rot_axis[2]=0.0;
   // Set it's parameters
-  affine->Rotate3D(rot_axis,vnl_math::pi/6);
+  affine->Rotate3D(rot_axis,itk::Math::pi/6);
 
   AffineTransformType::OutputVectorType offset;
 

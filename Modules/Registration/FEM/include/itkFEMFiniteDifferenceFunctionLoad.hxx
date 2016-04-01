@@ -254,7 +254,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
   bool         inimage = true;
   for( k = 0; k < ImageDimension; k++ )
     {
-    if( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k]) || std::fabs(Gpos[k]) > 1.e33 )
+    if( itk::Math::isnan(Gpos[k])  || itk::Math::isinf(Gpos[k]) || std::fabs(Gpos[k]) > 1.e33 )
       {
       return femVec;
       }
@@ -284,7 +284,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
   OutVec = m_DifferenceFunction->ComputeUpdate(nD, globalData);
   for( k = 0; k < ImageDimension; k++ )
     {
-    if( vnl_math_isnan(OutVec[k])  || vnl_math_isinf(OutVec[k] ) )
+    if( itk::Math::isnan(OutVec[k])  || itk::Math::isinf(OutVec[k] ) )
       {
       femVec[k] = 0.0;
       }

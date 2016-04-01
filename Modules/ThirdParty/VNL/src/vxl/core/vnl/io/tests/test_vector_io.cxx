@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_vector_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/io/vnl_io_vector.h>
 #include <vsl/vsl_binary_io.h>
 #include <testlib/testlib_test.h>
@@ -7,7 +8,7 @@
 
 void test_vector_double_io()
 {
-  vcl_cout << "*****************************\n"
+  std::cout << "*****************************\n"
            << "Testing vnl_vector<double> io\n"
            << "*****************************\n";
   //// test constructors, accessors
@@ -19,7 +20,7 @@ void test_vector_double_io()
     v_out(i) = (double)(i*i);
   }
 
-  vcl_cout << "before saving:\t"; vsl_print_summary(vcl_cout, v_out);
+  std::cout << "before saving:\t"; vsl_print_summary(std::cout, v_out);
 
   vsl_b_ofstream bfs_out("vnl_vector_test_double_io.bvl.tmp");
   TEST ("Created vnl_vector_test_double_io.bvl.tmp for writing",
@@ -27,7 +28,7 @@ void test_vector_double_io()
   vsl_b_write(bfs_out, v_out);
   bfs_out.close();
 
-  vcl_cout << "after saving:\t"; vsl_print_summary(vcl_cout, v_out);
+  std::cout << "after saving:\t"; vsl_print_summary(std::cout, v_out);
 
   vsl_b_ifstream bfs_in("vnl_vector_test_double_io.bvl.tmp");
   TEST ("Opened vnl_vector_test_double_io.bvl.tmp for reading",
@@ -36,14 +37,14 @@ void test_vector_double_io()
   TEST ("Finished reading file successfully", (!bfs_in), false);
   bfs_in.close();
 
-  vcl_cout << "after reading in:\t"; vsl_print_summary(vcl_cout, v_in);
+  std::cout << "after reading in:\t"; vsl_print_summary(std::cout, v_in);
 
   vpl_unlink ("vnl_vector_test_double_io.bvl.tmp");
 
   TEST ("v_out == v_in", v_out, v_in);
 
-  vsl_print_summary(vcl_cout, v_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, v_out);
+  std::cout << std::endl;
 }
 
 

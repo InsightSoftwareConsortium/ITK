@@ -20,7 +20,7 @@ extern "C" {
 static doublereal c_b11 = 1.;
 
 /*<       subroutine tqlrat(n,d,e2,ierr) >*/
-/* Subroutine */ int tqlrat_(integer *n, doublereal *d__, doublereal *e2, 
+/* Subroutine */ int tqlrat_(integer *n, doublereal *d__, doublereal *e2,
         integer *ierr)
 {
     /* System generated locals */
@@ -35,7 +35,7 @@ static doublereal c_b11 = 1.;
     integer i__, j, l, m;
     doublereal p, r__, s, t;
     integer l1, ii, mml;
-    extern doublereal pythag_(doublereal *, doublereal *), epslon_(doublereal 
+    extern doublereal pythag_(doublereal *, doublereal *), epslon_(doublereal
             *);
 
 

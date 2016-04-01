@@ -217,7 +217,7 @@ int itkVectorGeometryTest(int, char* [] )
     {
     FloatVectorType::ValueType val =
         static_cast< FloatVectorType::ValueType >( dp[i] );
-    if( vnl_math_abs( val - fp[i] ) > tolerance )
+    if( itk::Math::abs( val - fp[i] ) > tolerance )
       {
         std::cout << "Test failed at component " << i << std::endl;
         return EXIT_FAILURE;

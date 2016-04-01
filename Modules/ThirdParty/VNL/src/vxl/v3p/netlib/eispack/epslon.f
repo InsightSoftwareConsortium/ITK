@@ -9,11 +9,11 @@ c     this program should function properly on all systems
 c     satisfying the following two assumptions,
 c        1.  the base used in representing floating point
 c            numbers is not a power of three.
-c        2.  the quantity  a  in statement 10 is represented to 
+c        2.  the quantity  a  in statement 10 is represented to
 c            the accuracy used in floating point variables
 c            that are stored in memory.
 c     the statement number 10 and the go to 10 are intended to
-c     force optimizing compilers to generate code satisfying 
+c     force optimizing compilers to generate code satisfying
 c     assumption 2.
 c     under these assumptions, it should be true that,
 c            a  is not exactly equal to four-thirds,

@@ -35,7 +35,7 @@ namespace itk
  * the basic function definitions that are inherent to an image classifier
  * objects.
  *
- * This is the SuperClass for the image classifier tree of the classifier
+ * This is the Superclass for the image classifier tree of the classifier
  * framework. This is the class for all the classification objects available
  * through the classifier framework in the ITK toolkit that hold the input
  * image and the classified image data.

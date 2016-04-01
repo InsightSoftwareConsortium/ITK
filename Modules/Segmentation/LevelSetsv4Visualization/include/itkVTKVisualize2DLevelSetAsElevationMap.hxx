@@ -20,7 +20,7 @@
 
 #include "itkVTKVisualize2DLevelSetAsElevationMap.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "vtkVersion.h"
 
@@ -174,8 +174,8 @@ VTKVisualize2DLevelSetAsElevationMap< TInputImage, TLevelSet >
       }
     }
 
-  double den = vnl_math_max( vnl_math_abs( m_MinValue ),
-                             vnl_math_abs( m_MaxValue ) );
+  double den = std::max( itk::Math::abs( m_MinValue ),
+                             itk::Math::abs( m_MaxValue ) );
 
   inputImage->TransformIndexToPhysicalPoint( start, itkPoint );
 

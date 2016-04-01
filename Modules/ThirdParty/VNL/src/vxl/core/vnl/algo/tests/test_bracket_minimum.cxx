@@ -1,4 +1,5 @@
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/algo/vnl_bracket_minimum.h>
 
@@ -29,8 +30,8 @@ void test_bracket_minimum()
 
   vnl_bracket_minimum(f1,a,b,c,fa,fb,fc);
 
-  vcl_cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<vcl_endl
-          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<vcl_endl;
+  std::cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<std::endl
+          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<std::endl;
 
   TEST("a<b",a<b,true);
   TEST("a<c",a<c,true);
@@ -39,8 +40,8 @@ void test_bracket_minimum()
 
   a = -10; b=-9;
   vnl_bracket_minimum(f1,a,b,c,fa,fb,fc);
-  vcl_cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<vcl_endl
-          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<vcl_endl;
+  std::cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<std::endl
+          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<std::endl;
 
   TEST("a<b",a<b,true);
   TEST("a<c",a<c,true);
@@ -51,8 +52,8 @@ void test_bracket_minimum()
   a=5; b=6;
   vnl_bracket_minimum(f2,a,b,c,fa,fb,fc);
 
-  vcl_cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<vcl_endl
-          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<vcl_endl;
+  std::cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<std::endl
+          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<std::endl;
 
   TEST("a<b",a<b,true);
   TEST("a<c",a<c,true);
@@ -61,8 +62,8 @@ void test_bracket_minimum()
 
   a = -10; b=-9;
   vnl_bracket_minimum(f2,a,b,c,fa,fb,fc);
-  vcl_cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<vcl_endl
-          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<vcl_endl;
+  std::cout<<"Bracket: ("<<a<<','<<b<<','<<c<<')'<<std::endl
+          <<"fn: ("<<fa<<','<<fb<<','<<fc<<')'<<std::endl;
 
   TEST("a<b",a<b,true);
   TEST("a<c",a<c,true);

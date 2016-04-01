@@ -5,7 +5,7 @@
 //:
 // \file
 // \author fsm
-#include <vcl_compiler.h> // required to check for VCL_VC_6
+#include <vcl_compiler.h>
 
 template <class T> struct vnl_complex_traits;
 template <class T> class vnl_numeric_traits;
@@ -17,21 +17,12 @@ template <class T> class vnl_vector_ref;
 template <class T> class vnl_matrix;
 template <class T> class vnl_matrix_ref;
 
-#ifdef VCL_VC_6
-// VC 6.0 can't forward declare these without barfing.
-// Thereby missing the whole point....
-# include <vnl/vnl_vector_fixed.h>
-# include <vnl/vnl_matrix_fixed.h>
-// Could not make #including vec_fixed_ref.h and matrix_fixed_ref.h work under VC6 - compiler error
-// Just have to leave them out of vnl_fwd.h
-#else
-  template <class T, unsigned int n> class vnl_vector_fixed;
-  template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
-  template <class T, unsigned int n> class vnl_vector_fixed_ref;
-  template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed_ref;
-  template <class T, unsigned int n> class vnl_vector_fixed_ref_const;
-  template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed_ref_const;
-#endif
+template <class T, unsigned int n> class vnl_vector_fixed;
+template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
+template <class T, unsigned int n> class vnl_vector_fixed_ref;
+template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed_ref;
+template <class T, unsigned int n> class vnl_vector_fixed_ref_const;
+template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed_ref_const;
 
 template <class T> class vnl_quaternion;
 template <class Return, class Argument> class vnl_unary_function;

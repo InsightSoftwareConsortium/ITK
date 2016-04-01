@@ -35,16 +35,16 @@ void vsl_b_read(vsl_b_istream &is, vnl_rational & p)
     break;
 
    default:
-    vcl_cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_rational&)\n"
+    std::cerr << "I/O ERROR: vsl_b_read(vsl_b_istream&, vnl_rational&)\n"
              << "           Unknown version number "<< ver << '\n';
-    is.is().clear(vcl_ios::badbit); // Set an unrecoverable IO error on stream
+    is.is().clear(std::ios::badbit); // Set an unrecoverable IO error on stream
     return;
   }
 }
 
 //====================================================================================
 //: Output a human readable summary to the stream
-void vsl_print_summary(vcl_ostream & os,const vnl_rational & p)
+void vsl_print_summary(std::ostream & os,const vnl_rational & p)
 {
   os<<p;
 }

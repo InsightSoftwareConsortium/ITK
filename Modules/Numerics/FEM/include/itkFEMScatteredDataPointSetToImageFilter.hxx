@@ -26,10 +26,13 @@
 #include "itkCastImageFilter.h"
 #include "itkNumericTraits.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "vnl/vnl_vector.h"
-#include "vcl_limits.h"
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "vcl_limits.h"
+#endif
+#include <limits>
 
 namespace itk
 {

@@ -127,9 +127,9 @@ public:
     return b;
   }
 
-  static const bool IsSigned = NumericTraits< ValueType >::IsSigned;
-  static const bool IsInteger = NumericTraits< ValueType >::IsInteger;
-  static const bool IsComplex = NumericTraits< ValueType >::IsComplex;
+  static ITK_CONSTEXPR bool IsSigned = NumericTraits< ValueType >::IsSigned;
+  static ITK_CONSTEXPR bool IsInteger = NumericTraits< ValueType >::IsInteger;
+  static ITK_CONSTEXPR bool IsComplex = NumericTraits< ValueType >::IsComplex;
 
   /** Resize the input vector to the specified size */
   static void SetLength(std::vector< T > & m, const unsigned int s)

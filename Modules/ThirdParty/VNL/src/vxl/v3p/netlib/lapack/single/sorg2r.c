@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       SUBROUTINE SORG2R( M, N, K, A, LDA, TAU, WORK, INFO ) >*/
-/* Subroutine */ int sorg2r_(integer *m, integer *n, integer *k, real *a, 
+/* Subroutine */ int sorg2r_(integer *m, integer *n, integer *k, real *a,
         integer *lda, real *tau, real *work, integer *info)
 {
     /* System generated locals */
@@ -29,9 +29,9 @@ static integer c__1 = 1;
 
     /* Local variables */
     integer i__, j, l;
-    extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *), 
-            slarf_(char *, integer *, integer *, real *, integer *, real *, 
-            real *, integer *, real *, ftnlen), xerbla_(char *, integer *, 
+    extern /* Subroutine */ int sscal_(integer *, real *, real *, integer *),
+            slarf_(char *, integer *, integer *, real *, integer *, real *,
+            real *, integer *, real *, ftnlen), xerbla_(char *, integer *,
             ftnlen);
 
 

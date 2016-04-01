@@ -34,7 +34,7 @@ namespace itk {
  * m_Lambda (for all constraints), or for one particular constraint by using
  * SetLocalLambda
  *
- * For details, see http://hdl.handle.net/10380/3410
+ * For details, see https://hdl.handle.net/10380/3410
  *
  *  \ingroup ITKQuadEdgeMeshFiltering
  */

@@ -404,7 +404,7 @@ int itkScaleVersor3DTransformTest(int, char * [] )
       {
       for( unsigned int jj = 0; jj < 9; jj++ )
         {
-        if( vnl_math_abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
+        if( itk::Math::abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
           {
           std::cerr << "Jacobian components differ from expected values ";
           std::cerr << std::endl << std::endl;

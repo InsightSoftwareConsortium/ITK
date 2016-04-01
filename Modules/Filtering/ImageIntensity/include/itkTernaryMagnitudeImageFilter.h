@@ -48,7 +48,7 @@ public:
   inline TOutput operator()(const TInput1 & A,
                             const TInput2 & B,
                             const TInput3 & C) const
-  { return (TOutput)std::sqrt( (double)( A * A + B * B + C * C ) ); }
+  { return static_cast<TOutput>(std::sqrt( static_cast<double>( A * A + B * B + C * C ) ) ); }
 };
 }
 /** \class TernaryMagnitudeImageFilter

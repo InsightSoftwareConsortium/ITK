@@ -20,7 +20,7 @@
 
 #include "itkScalarImageToCooccurrenceMatrixFilter.h"
 #include "itkHistogramToTextureFeaturesFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 int itkHistogramToTextureFeaturesFilterNaNTest( int, char * [])
 {
@@ -54,7 +54,7 @@ int itkHistogramToTextureFeaturesFilterNaNTest( int, char * [])
 
   TextureFilterType::MeasurementType correlation = filter->GetCorrelation();
   std::cout << "Correlation: " << correlation << std::endl;
-  if( vnl_math_isnan( correlation ) )
+  if( itk::Math::isnan( correlation ) )
     {
     return EXIT_FAILURE;
     }

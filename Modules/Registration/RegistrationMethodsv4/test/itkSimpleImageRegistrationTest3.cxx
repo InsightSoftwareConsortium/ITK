@@ -337,10 +337,10 @@ int itkSimpleImageRegistrationTest3( int argc, char *argv[] )
     {
     case 2:
       return PerformCompositeImageRegistration<2>( argc, argv );
-      break;
+
     case 3:
       return PerformCompositeImageRegistration<3>( argc, argv );
-      break;
+
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       exit( EXIT_FAILURE );

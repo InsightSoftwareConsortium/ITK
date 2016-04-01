@@ -23,7 +23,7 @@
 #include <queue>
 #include "itkMRASlabIdentifier.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -148,7 +148,7 @@ MRASlabIdentifier< TInputImage >
     {
     avgMinValue = *am_iter;
     double sign = avgMinValue - average;
-    if ( ( sign * prevSign < 0 ) && ( vnl_math_abs(sign) > m_Tolerance ) )
+    if ( ( sign * prevSign < 0 ) && ( itk::Math::abs(sign) > m_Tolerance ) )
       {
       slabIndex[m_SlicingDirection] = slabBegin;
       slabSize[m_SlicingDirection] = slabLength;

@@ -40,6 +40,14 @@ GDCMSeriesFileNames::~GDCMSeriesFileNames()
   delete m_SerieHelper;
 }
 
+#if !defined( ITK_LEGACY_REMOVE )
+gdcm::SerieHelper * GDCMSeriesFileNames::GetSeriesHelper(void)
+{
+  itkLegacyBodyMacro(GDCMSeriesFileNames::GetSeriesHelper, 4.9);
+  return m_SerieHelper;
+}
+#endif
+
 void GDCMSeriesFileNames::SetInputDirectory(const char *name)
 {
   if ( !name )

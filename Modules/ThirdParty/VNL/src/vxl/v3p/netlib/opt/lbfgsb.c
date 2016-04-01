@@ -4711,36 +4711,11 @@ L1000:
 /* timer.f -- translated by f2c (version 20100827). */
 /* Subroutine */ int timer_(doublereal *ttime)
 {
-#if 0 //HACK that will likely only work on unix
-    extern /* Subroutine */ int cpu_time__(real *);
-    static real temp;
-
-
-
-/*     This routine computes cpu time in double precision; it makes use of */
-/*     the intrinsic f90 cpu_time therefore a conversion type is */
-/*     needed. */
-
-/*           J.L Morales  Departamento de Matematicas, */
-/*                        Instituto Tecnologico Autonomo de Mexico */
-/*                        Mexico D.F. */
-
-/*           J.L Nocedal  Department of Electrical Engineering and */
-/*                        Computer Science. */
-/*                        Northwestern University. Evanston, IL. USA */
-
-/*                        January 21, 2011 */
-    temp = (real) (*ttime);
-    cpu_time__(&temp);
-    *ttime = (doublereal) temp;
-    return 0;
-#else
   //struct timeval t;
   //gettimeofday(&t, 0);
   //*ttime=1.0*double(t.tv_sec)+ 0.000001*double(t.tv_usec);
   *ttime = 0.0;
   return 0;
-#endif
 } /* timer_ */
 
 

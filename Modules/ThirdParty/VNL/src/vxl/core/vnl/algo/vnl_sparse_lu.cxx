@@ -4,9 +4,10 @@
 #endif
 //:
 // \file
+#include <iostream>
 #include "vnl_sparse_lu.h"
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <sparse/spMatrix.h>
 
@@ -19,7 +20,7 @@ vnl_sparse_lu::~vnl_sparse_lu()
 
 //: constructor - controls if condition information is computed
 vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode):
-  A_(M), factored_(false),condition_computed_(false), mode_(mode),norm_(0), rcond_(0), largest_(0), pivot_thresh_(0),absolute_thresh_(0),diag_pivoting_(1),pmatrix_(0)
+  A_(M), factored_(false),condition_computed_(false), mode_(mode),norm_(0), rcond_(0), largest_(0), pivot_thresh_(0),absolute_thresh_(0),diag_pivoting_(1),pmatrix_(VXL_NULLPTR)
 {
   int n = (int)M.columns();
   assert(n == (int)(M.rows()));
@@ -27,20 +28,20 @@ vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode
   pmatrix_ = spCreate(n, 0, &error);
   if (error!=spOKAY)
   {
-    vcl_cout << "In vnl_sparse_lu::vnl_sparse_lu - error in creating matrix\n";
+    std::cout << "In vnl_sparse_lu::vnl_sparse_lu - error in creating matrix\n";
     return;
   }
   // fill the internal sparse matrix from A_
-  spElement* pelement = 0;
+  spElement* pelement = VXL_NULLPTR;
   for (A_.reset(); A_.next();)
   {
     int r = A_.getrow();
     int c = A_.getcolumn();
     double v = A_.value();
     pelement = spGetElement(pmatrix_, r+1, c+1);
-    if (pelement == 0)
+    if (pelement == VXL_NULLPTR)
     {
-      vcl_cout<< "In vnl_sparse_lu::vnl_sparse_lu - error in getting element\n";
+      std::cout<< "In vnl_sparse_lu::vnl_sparse_lu - error in getting element\n";
       return;
     }
     *pelement = v;
@@ -49,7 +50,7 @@ vnl_sparse_lu::vnl_sparse_lu(vnl_sparse_matrix<double> const & M, operation mode
   {
     largest_ = spLargestElement(pmatrix_);
     if (mode_==estimate_condition_verbose)
-      vcl_cout << " Largest element in matrix = " << largest_ << '\n';
+      std::cout << " Largest element in matrix = " << largest_ << '\n';
     norm_ = spNorm(pmatrix_);
   }
 }
@@ -61,7 +62,7 @@ bool vnl_sparse_lu::est_condition()
   rcond_ = spCondition(pmatrix_, norm_, &error);
   if (error!=spOKAY)
   {
-    vcl_cout << "In vnl_sparse_lu::est_condition(..) - error in condition number calculation\n";
+    std::cout << "In vnl_sparse_lu::est_condition(..) - error in condition number calculation\n";
     return false;
   }
   condition_computed_ = true;
@@ -73,7 +74,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
 {
   if (!pmatrix_)
   {
-    vcl_cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
+    std::cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
     return;
   }
   unsigned n = b.size();
@@ -83,7 +84,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
     rhs[i+1]=b[i];
   if (mode_==verbose || mode_==estimate_condition_verbose)
   {
-    vcl_cout << "Matrix before ordering\n";
+    std::cout << "Matrix before ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 
@@ -96,7 +97,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
                              absolute_thresh_, diag_pivoting_);
     if (error != spOKAY)
     {
-      vcl_cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
+      std::cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
       return;
     }
     if (mode_==estimate_condition || mode_==estimate_condition_verbose)
@@ -107,7 +108,7 @@ void vnl_sparse_lu::solve(vnl_vector<double> const& b, vnl_vector<double>* x)
 
   if (mode_==verbose || mode_==estimate_condition_verbose)
   {
-    vcl_cout << "Matrix after ordering\n";
+    std::cout << "Matrix after ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 
@@ -132,7 +133,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
 {
   if (!pmatrix_)
   {
-    vcl_cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
+    std::cout << "In vnl_sparse_lu::solve(..) - matrix not defined\n";
     return;
   }
   unsigned n = b.size();
@@ -143,7 +144,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
   int error = 0;
   if (mode_== verbose || mode_== estimate_condition_verbose)
   {
-    vcl_cout << "Matrix before ordering\n";
+    std::cout << "Matrix before ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 
@@ -155,7 +156,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
                              absolute_thresh_, diag_pivoting_);
     if (error != spOKAY)
     {
-      vcl_cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
+      std::cout << "In vnl_sparse_lu::solve(..) - error in factoring\n";
       return;
     }
     if (mode_==estimate_condition || mode_==estimate_condition_verbose)
@@ -166,7 +167,7 @@ void vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b, vnl_vector<doub
 
   if (mode_==verbose || mode_== estimate_condition_verbose)
   {
-    vcl_cout << "Matrix after ordering\n";
+    std::cout << "Matrix after ordering\n";
     spPrint(pmatrix_,1,1,1);
   }
 
@@ -185,61 +186,6 @@ vnl_vector<double> vnl_sparse_lu::solve_transpose(vnl_vector<double> const& b)
   this->solve_transpose(b, &ret);
   return ret;
 }
-
-// This routine might be eventually useful if other operations are to be done
-// after the factoring. Note that the routine spRowColOrder was
-// added to the sparse library (in spoutput.c).
-#if 0
-//: copy the matrix into a vnl_sparse_matrix
-vnl_sparse_matrix<double> vnl_sparse_lu::lu_matrix()
-{
-  unsigned n = A_.rows();
-  vnl_sparse_matrix<double> temp(n, n);
-  int error = 0;
-  spElement* pelement = 0;
-  if (!factored_)
-  {
-    error = spFactor(pmatrix_);
-    if (error != spOKAY)
-    {
-      vcl_cout << "In vnl_sparse_lu::lu_matrix() - factoring failed\n";
-      return temp;
-    }
-    factored_=true;
-  }
-  // get the row and column maps
-  int* row_map = new int[n+1];
-  int* col_map = new int[n+1];
-  spRowColOrder(pmatrix_, row_map, col_map);
-
-  // create inverse maps
-  int* inv_row_map = new int[n+1];
-  int* inv_col_map = new int[n+1];
-  for (unsigned i = 1; i<=n; ++i)
-  {
-    inv_row_map[row_map[i]]=i;
-    inv_col_map[col_map[i]]=i;
-  }
-
-  if (mode_==verbose || mode_==estimate_condition_verbose)
-    for (unsigned i = 1; i<=n; ++i)
-      vcl_cout << "inv_row_map[" << i << "]= " << inv_row_map[i]
-               << "    inv_col_map[" << i << "]= " << inv_col_map[i] << '\n';
-  for (unsigned r = 0; r<n; r++)
-    for (unsigned c = 0; c<n; c++)
-    {
-      pelement = spGetElement(pmatrix_, inv_row_map[r+1], inv_col_map[c+1]);
-      if (pelement)
-      {
-        double v = *pelement;
-        temp(r,c)= v;
-      }
-    }
-  delete [] row_map;
-  delete [] col_map;
-  return temp;
-}
-#endif
 
 //: Compute determinant.
 double vnl_sparse_lu::determinant()

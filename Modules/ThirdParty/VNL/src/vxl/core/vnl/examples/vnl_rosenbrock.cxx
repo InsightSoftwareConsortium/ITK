@@ -5,7 +5,8 @@
 // Converted to vxl by Peter Vanroose, February 2000
 //-----------------------------------------------------------------------------
 
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_double_2.h>
 #include <vnl/vnl_least_squares_function.h>
 #include <vnl/vnl_least_squares_cost_function.h>
@@ -72,10 +73,10 @@ int main()
   levmarq.minimize(x);
 
   // Summarize the results, by querying the levmarq object.
-  vcl_cout << "** LevenbergMarquardt default **\n"
+  std::cout << "** LevenbergMarquardt default **\n"
            << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << '\n'
            << "Iterations: " << levmarq.get_num_iterations()
-           << "    Evaluations: " << levmarq.get_num_evaluations() << vcl_endl;
+           << "    Evaluations: " << levmarq.get_num_evaluations() << std::endl;
 
   levmarq.diagnose_outcome();
 
@@ -87,52 +88,52 @@ int main()
 
   // Summarize the results. It has taken fewer iterations to reach the same
   // answer.
-  vcl_cout << "** LevenbergMarquardt xtol=0.1 **\n"
+  std::cout << "** LevenbergMarquardt xtol=0.1 **\n"
            << "Rosenbrock min of " << levmarq.get_end_error() << " at " << x << '\n'
            << "Iterations: " << levmarq.get_num_iterations()
-           << "    Evaluations: " << levmarq.get_num_evaluations() << vcl_endl;
+           << "    Evaluations: " << levmarq.get_num_evaluations() << std::endl;
   levmarq.diagnose_outcome();
 
   {
     // Make a vnl_cost_function, and use vnl_amoeba
-    vcl_cout << "** Amoeba (Nelder Meade downhill simplex)  **\n";
+    std::cout << "** Amoeba (Nelder Meade downhill simplex)  **\n";
     vnl_least_squares_cost_function cf(&f);
     vnl_amoeba amoeba(cf);
     x = x0.as_ref();
     amoeba.minimize(x);
-    vcl_cout << "Rosenbrock min of " << cf.f(x) << " at " << x << '\n'
-             << "Evaluations: " << amoeba.get_num_evaluations() << vcl_endl;
+    std::cout << "Rosenbrock min of " << cf.f(x) << " at " << x << '\n'
+             << "Evaluations: " << amoeba.get_num_evaluations() << std::endl;
   }
   {
-    vcl_cout << "** Conjugate Gradient **\n";
+    std::cout << "** Conjugate Gradient **\n";
     vnl_rosenbrock_grad_cost_fun rcf;
     vnl_conjugate_gradient cg(rcf);
     x = x0.as_ref();
     cg.minimize(x);
-    vcl_cout << "CG min of " << rcf.f(x) << " at " << x << vcl_endl;
+    std::cout << "CG min of " << rcf.f(x) << " at " << x << std::endl;
     cg.diagnose_outcome();
   }
 
   {
-    vcl_cout << "** LBFGS (Limited memory Broyden Fletcher Goldfarb Shanno) **\n";
+    std::cout << "** LBFGS (Limited memory Broyden Fletcher Goldfarb Shanno) **\n";
     vnl_rosenbrock_grad_cost_fun rcf;
     vnl_lbfgs lbfgs(rcf);
     x = x0.as_ref();
     lbfgs.minimize(x);
     //    assert(lbfgs.get_end_error() == rcf.f(x));
-    vcl_cout << "L-BFGS min of " << lbfgs.get_end_error() << " at " << x << '\n'
-             << "Evaluations: " << lbfgs.get_num_evaluations() << vcl_endl;
+    std::cout << "L-BFGS min of " << lbfgs.get_end_error() << " at " << x << '\n'
+             << "Evaluations: " << lbfgs.get_num_evaluations() << std::endl;
   }
 
   {
-    vcl_cout << "** Powell (Powell's direction set method) **\n";
+    std::cout << "** Powell (Powell's direction set method) **\n";
     vnl_rosenbrock_grad_cost_fun rcf;
     vnl_powell powell(&rcf);
     x = x0.as_ref();
     powell.minimize(x);
     //    assert(lbfgs.get_end_error() == rcf.f(x));
-    vcl_cout << "Powell min of " << powell.get_end_error() << " at " << x << '\n'
-             << "Evaluations: " << powell.get_num_evaluations() << vcl_endl;
+    std::cout << "Powell min of " << powell.get_end_error() << " at " << x << '\n'
+             << "Evaluations: " << powell.get_num_evaluations() << std::endl;
   }
   return 0;
 }

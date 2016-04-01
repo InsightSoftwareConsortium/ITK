@@ -27,7 +27,7 @@
 #include "itkGaussianOperator.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkMath.h"
 
 namespace itk
@@ -424,7 +424,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
     {
     // smooth along this dimension
     oper->SetDirection(j);
-    double variance = vnl_math_sqr(m_StandardDeviations[j]);
+    double variance = itk::Math::sqr(m_StandardDeviations[j]);
     oper->SetVariance(variance);
     oper->SetMaximumError(m_MaximumError);
     oper->SetMaximumKernelWidth(m_MaximumKernelWidth);
@@ -477,8 +477,8 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
     {
     // smooth along this dimension
     opers[j].SetDirection(j);
-    double variance = vnl_math_sqr(this->GetUpdateFieldStandardDeviations()[j]);
-    //double variance = vnl_math_sqr( 1.0 );
+    double variance = itk::Math::sqr(this->GetUpdateFieldStandardDeviations()[j]);
+    //double variance = itk::Math::sqr( 1.0 );
     opers[j].SetVariance(variance);
     opers[j].SetMaximumError( this->GetMaximumError() );
     opers[j].SetMaximumKernelWidth( this->GetMaximumKernelWidth() );

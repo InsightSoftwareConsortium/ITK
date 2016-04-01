@@ -43,7 +43,7 @@ LogSigmoidTransferFunction<TScalar>
 ::Evaluate(const ScalarType& input)  const
 {
   const ScalarType v = static_cast< ScalarType >( 1.0 /
-    ( 1.0 + std::exp( static_cast< typename NumericTraits< ScalarType >::RealType >(-input)) ) );
+    (1.0 + std::exp(-1 * static_cast< typename NumericTraits< ScalarType >::RealType >(input))) );
   return v;
 }
 

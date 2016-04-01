@@ -190,7 +190,7 @@ int itkShrinkImagePreserveObjectPhysicalLocations(int, char* [] )
   double variance[2];
   for( unsigned int idim = 0; idim < TImageType::ImageDimension; idim++ )
     {
-    variance[idim] = vnl_math_sqr( 0.5 * static_cast<float>( 4 ) );
+    variance[idim] = itk::Math::sqr( 0.5 * static_cast<float>( 4 ) );
     }
   smoother->SetVariance( variance );
   smoother->Update();

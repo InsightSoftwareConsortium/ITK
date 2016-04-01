@@ -21,7 +21,7 @@
 #include "itkMIRegistrationFunction.h"
 #include "itkImageRandomIteratorWithIndex.h"
 #include "itkMacro.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkNeighborhoodIterator.h"
 
 #include "vnl/vnl_matrix.h"
@@ -535,7 +535,7 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   this->m_Energy += value;
 
   derivative /= nsamp;
-  derivative /= vnl_math_sqr(m_FixedImageStandardDeviation);
+  derivative /= itk::Math::sqr(m_FixedImageStandardDeviation);
 
   double updatenorm = 0.0;
   for ( unsigned int tt = 0; tt < ImageDimension; tt++ )

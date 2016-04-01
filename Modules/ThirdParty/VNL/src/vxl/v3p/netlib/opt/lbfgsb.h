@@ -344,7 +344,7 @@ extern int v3p_netlib_dcstep_(
   v3p_netlib_doublereal *stpmax
   );
 extern v3p_netlib_doublereal v3p_netlib_dpmeps_(
-  
+
   );
 extern int v3p_netlib_dtrsl_(
   v3p_netlib_doublereal *t,

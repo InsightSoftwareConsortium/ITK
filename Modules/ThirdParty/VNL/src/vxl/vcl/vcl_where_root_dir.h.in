@@ -10,9 +10,6 @@
 // If we supply a default vcl_where_root_dir.h, it would be changed by cmake, and
 // may get checked back into the repository by accident.
 
-#ifndef __vcl_where_root_dir_h_
-#define __vcl_where_root_dir_h_
 #ifndef VCL_SOURCE_ROOT_DIR // file guard
-#define VCL_SOURCE_ROOT_DIR "${vxl_SOURCE_DIR}"
+#define VCL_SOURCE_ROOT_DIR "@VXL_ROOT_SOURCE_DIR@"
 #endif
-#endif // __vcl_where_root_dir_h_

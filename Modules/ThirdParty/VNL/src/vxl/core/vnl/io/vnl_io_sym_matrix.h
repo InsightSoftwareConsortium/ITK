@@ -22,6 +22,6 @@ void vsl_b_read(vsl_b_istream & is, vnl_sym_matrix<T> & v);
 //: Print human readable summary of object to a stream
 //  \relatesalso vnl_sym_matrix
 template <class T>
-void vsl_print_summary(vcl_ostream & os,const vnl_sym_matrix<T> & b);
+void vsl_print_summary(std::ostream & os,const vnl_sym_matrix<T> & b);
 
 #endif // vnl_io_sym_matrix_h

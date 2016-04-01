@@ -293,7 +293,7 @@ VIOAPI  void  set_volume_type(
 
 
 /* ----------------------------- MNI Header -----------------------------------
-@NAME       : set_volume_type
+@NAME       : set_volume_type2
 @INPUT      : volume
               minc2_data_type
               voxel_min
@@ -779,10 +779,10 @@ VIOAPI  void  set_volume_sizes(
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
 
-VIOAPI  unsigned int  get_volume_total_n_voxels(
+VIOAPI  size_t  get_volume_total_n_voxels(
     VIO_Volume    volume )
 {
-    unsigned  int  n;
+    size_t    n;
     int       i, sizes[VIO_MAX_DIMENSIONS];
 
     n = 1;
@@ -790,7 +790,7 @@ VIOAPI  unsigned int  get_volume_total_n_voxels(
     get_volume_sizes( volume, sizes );
 
     for_less( i, 0, get_volume_n_dimensions( volume ) )
-        n *= (unsigned int) sizes[i];
+        n *= (size_t) sizes[i];
 
     return( n );
 }
@@ -2652,9 +2652,21 @@ VIOAPI  VIO_Volume   copy_volume_definition(
 VIOAPI  VIO_Volume  copy_volume(
     VIO_Volume   volume )
 {
-    VIO_Volume   copy;
-    void     *src = NULL, *dest = NULL;
-    int      d, n_voxels, sizes[VIO_MAX_DIMENSIONS];
+    return copy_volume_new_type( volume, MI_ORIGINAL_TYPE, FALSE );
+}
+
+VIOAPI  VIO_Volume  copy_volume_new_type(
+    VIO_Volume volume,  
+    nc_type    new_data_type,
+    VIO_BOOL   new_signed_flag)
+{
+    VIO_Volume copy;
+    void       *src = NULL;
+    void       *dst = NULL;
+    size_t     n_voxels;
+    nc_type    old_data_type;
+    VIO_BOOL   old_signed_flag;
+    VIO_Real   min_voxel, max_voxel;
 
     if( volume->is_cached_volume )
     {
@@ -2664,29 +2676,137 @@ VIOAPI  VIO_Volume  copy_volume(
         return( NULL );
     }
 
-    copy = copy_volume_definition( volume, MI_ORIGINAL_TYPE, FALSE, 0.0, 0.0 );
-    if( !copy ) {
-      return( NULL );
+    get_volume_voxel_range( volume, &min_voxel, &max_voxel );
+    copy = copy_volume_definition( volume, new_data_type, new_signed_flag,
+                                   min_voxel, max_voxel );
+    if( copy == NULL )
+    {
+        return( NULL );
     }
 
     /* --- find out how many voxels are in the volume */
 
-    get_volume_sizes( volume, sizes );
-    n_voxels = 1;
-    for_less( d, 0, get_volume_n_dimensions(volume) )
-        n_voxels *= sizes[d];
+    n_voxels = get_volume_total_n_voxels( volume );
 
     /* --- get a pointer to the beginning of the voxels */
 
+    if (!volume_is_alloced( volume ))
+        return copy;
+
     GET_VOXEL_PTR( src, volume, 0, 0, 0, 0, 0 );
-    GET_VOXEL_PTR( dest, copy, 0, 0, 0, 0, 0 );
+    GET_VOXEL_PTR( dst, copy, 0, 0, 0, 0, 0 );
 
     /* --- assuming voxels are contiguous, copy them in one chunk */
 
-    (void) memcpy( dest, src, (size_t) n_voxels *
-                              (size_t) get_type_size(
-                                         get_volume_data_type(volume)) );
+    old_data_type = get_volume_nc_data_type( volume, &old_signed_flag);
 
+    if (new_data_type == MI_ORIGINAL_TYPE || new_data_type == old_data_type)
+    {
+        /* We can safely ignore the signed_flag here, it doesn't matter whether
+         * we copy the data as two's complement or unsigned.
+         */
+        (void) memcpy( dst, src, (size_t) n_voxels *
+                       (size_t) get_type_size( get_volume_data_type(volume)) );
+    }
+    else
+    {
+      size_t i = n_voxels;
+      double value;
+
+      while (i-- != 0)
+      {
+        switch (old_data_type)
+        {
+        case NC_BYTE:
+            if (old_signed_flag)
+            {
+                value = ((signed char *) src)[i];
+            }
+            else
+            {
+                value = ((unsigned char *) src)[i];
+            }
+            break;
+        case NC_SHORT:
+            if (old_signed_flag)
+            {
+                value = ((signed short *) src)[i];
+            }
+            else
+            {
+                value = ((unsigned short *) src)[i];
+            }
+            break;
+        case NC_INT:
+            if (old_signed_flag)
+            {
+                value = ((signed int *) src)[i];
+            }
+            else
+            {
+                value = ((unsigned int *) src)[i];
+            }
+            break;
+        case NC_FLOAT:
+            value = ((float *) src)[i];
+            break;
+
+        case NC_DOUBLE:
+            value = ((double *) src)[i];
+            break;
+
+        default:
+            print_error("Unhandled type code: %d.\n", old_data_type);
+            delete_volume( copy );
+            return NULL;
+        }
+
+        switch (new_data_type)
+        {
+        case NC_BYTE:
+            if (new_signed_flag)
+            {
+                ((signed char *) dst)[i] = value;
+            }
+            else
+            {
+                ((unsigned char *) dst)[i] = value;
+            }
+            break;
+        case NC_SHORT:
+            if (new_signed_flag)
+            {
+                ((signed short *) dst)[i] = value;
+            }
+            else
+            {
+                ((unsigned short *) dst)[i] = value;
+            }
+            break;
+        case NC_INT:
+            if (new_signed_flag)
+            {
+                ((signed int *) dst)[i] = value;
+            }
+            else
+            {
+                ((unsigned int *) dst)[i] = value;
+            }
+            break;
+        case NC_FLOAT:
+            ((float *) dst)[i] = value;
+            break;
+        case NC_DOUBLE:
+            ((double *) dst)[i] = value;
+            break;
+
+        default:
+            print_error("Unhandled type code: %d.\n", new_data_type);
+            delete_volume( copy );
+            return NULL;
+        }
+      }
+    }
     return( copy );
 }
 

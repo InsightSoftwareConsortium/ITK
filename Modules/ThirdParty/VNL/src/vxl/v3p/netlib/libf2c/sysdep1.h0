@@ -25,10 +25,6 @@
 #define USE_LARGEFILE
 #endif /*__hpux*/
 
-#ifdef __sgi
-#define USE_LARGEFILE
-#endif /*__sgi*/
-
 #ifdef __FreeBSD__
 #define OFF_T off_t
 #define FSEEK fseeko

@@ -2,29 +2,30 @@
 // \file
 // Tests for vnl_finite.h, written by Peter Vanroose, 6 May 2002.
 
-#include <vcl_iostream.h>
-#include <vcl_cstdlib.h> // for atoi()
+#include <iostream>
+#include <cstdlib>
+#include <vcl_compiler.h>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_finite.h>
 
 template <int N>
 void test_finite_int(vnl_finite_int<N>)
 {
-  vcl_cout << "\n --- Testing vnl_finite_int<" << N << "> ---\n";
+  std::cout << "\n --- Testing vnl_finite_int<" << N << "> ---\n";
 
-  vcl_cout << "Phi(" << N << ") = " << vnl_finite_int<N>::totient() << '\n';
+  std::cout << "Phi(" << N << ") = " << vnl_finite_int<N>::totient() << '\n';
   vnl_finite_int<N> g = vnl_finite_int<N>::smallest_generator();
   if (g != 1) {
-    vcl_cout << "Smallest multiplicative generator of Z_" << N << " is " << g << '\n';
+    std::cout << "Smallest multiplicative generator of Z_" << N << " is " << g << '\n';
     TEST("g^(Phi(N)/2) == -1", g.pow(vnl_finite_int<N>::totient()/2), -1);
   }
   if (N <= 1000) { // calculating multiplicative order is time consuming
     unsigned int m = vnl_finite_int<N>(2).multiplicative_order();
-    vcl_cout << "Order of 2 in Z_" << N << " is ";
-    if (m==(unsigned int)(-1)) vcl_cout << "invalid\n"; else vcl_cout << m << '\n';
+    std::cout << "Order of 2 in Z_" << N << " is ";
+    if (m==(unsigned int)(-1)) std::cout << "invalid\n"; else std::cout << m << '\n';
   }
 
-  vcl_cout << "\nStarting constructor tests:\n";
+  std::cout << "\nStarting constructor tests:\n";
 
   {vnl_finite_int<N> b(0); TEST("vnl_finite_int<N> b(0);", b, 0);}
   {vnl_finite_int<N> b(1); TEST("vnl_finite_int<N> b(1);", b, 1);}
@@ -33,7 +34,7 @@ void test_finite_int(vnl_finite_int<N>)
   {vnl_finite_int<N> b(111); TEST("vnl_finite_int<N> b(111);", b, 111);}
   {vnl_finite_int<N> b(-99); TEST("vnl_finite_int<N> b(-99);", b, -99);}
 
-  vcl_cout << "\nStarting assignment tests:\n";
+  std::cout << "\nStarting assignment tests:\n";
   vnl_finite_int<N> b1; b1 = 2;
   TEST("vnl_finite_int<N> b1; b1 = 2;", b1, 2);
   b1 = 10;
@@ -45,17 +46,17 @@ void test_finite_int(vnl_finite_int<N>)
   TEST("b1 = b5", b1, b5);
 
   testlib_test_begin("<<");
-  vcl_cout << "b1 = " << b1 << vcl_endl
-           << "b5 = " << b5 << vcl_endl;
+  std::cout << "b1 = " << b1 << std::endl
+           << "b5 = " << b5 << std::endl;
   testlib_test_perform(true);
 
   TEST("unary plus", +b5, b5);
 
-  vcl_cout << "\nStarting logical comparison tests:\n";
-  vnl_finite_int<N> b0=0; vcl_cout << "b0=" << b0 << '\n';
-  b1=1; vcl_cout << "b1=" << b1 << '\n';
-  vnl_finite_int<N> b2=2; vcl_cout << "b2=" << b2 << '\n';
-  vnl_finite_int<N> b3=-2; vcl_cout << "b3=" << b3 << '\n';
+  std::cout << "\nStarting logical comparison tests:\n";
+  vnl_finite_int<N> b0=0; std::cout << "b0=" << b0 << '\n';
+  b1=1; std::cout << "b1=" << b1 << '\n';
+  vnl_finite_int<N> b2=2; std::cout << "b2=" << b2 << '\n';
+  vnl_finite_int<N> b3=-2; std::cout << "b3=" << b3 << '\n';
 
   TEST("b0 == b0", b0 == b0, true);
   TEST("b0 == b1", b0 == b1, false);
@@ -76,10 +77,10 @@ void test_finite_int(vnl_finite_int<N>)
   TEST("b3 != b2", b3 != b2, N!=2 && N!=4);
   TEST("b3 != b3", b3 != b3, false);
 
-  vcl_cout << "\nStarting addition, subtraction tests:\n";
+  std::cout << "\nStarting addition, subtraction tests:\n";
 
   vnl_finite_int<N> bi,bj,bij;
-  vcl_cout << " for (i = 1; i < 1000; i *= 3)\n"
+  std::cout << " for (i = 1; i < 1000; i *= 3)\n"
            << "   for (j = 1; j < 1000; j *= 3)\n      ";
 
   for (int i = 1; i < 1000;  i *= 3) {
@@ -88,16 +89,16 @@ void test_finite_int(vnl_finite_int<N>)
       bij = vnl_finite_int<N>(i+j);
       if (bi + bj != bij) {
         TEST("bi + bj == vnl_finite_int<N>(i + j)", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<'\n';
+        std::cout << "i = "<<i<<", j = "<<j<<'\n';
       }
       bij = vnl_finite_int<N>(i-j);
       if (bi - bj != bij) {
         TEST("bi - bj == vnl_finite_int<N>(i - j)", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<'\n';
+        std::cout << "i = "<<i<<", j = "<<j<<'\n';
       }
     }
   }
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 
   vnl_finite_int<N> b1000(1000);
 
@@ -124,7 +125,7 @@ void test_finite_int(vnl_finite_int<N>)
   TEST("(b2+b3) - b2 = b3", (b2+b3) - b2, b3);
   TEST("(b2+b3) - b3 = b2", (b2+b3) - b3, b2);
 
-  vcl_cout << "\nStarting multiplication tests:\n";
+  std::cout << "\nStarting multiplication tests:\n";
 
   TEST("b0*b0 == b0", b0*b0, b0);
   TEST("b0*b1000 == b0", b0*b1000, b0);
@@ -139,7 +140,7 @@ void test_finite_int(vnl_finite_int<N>)
     TEST("b1000^Phi(N) == 1", bb, 1);
   }
 
-  vcl_cout << "\nStarting division tests:\n";
+  std::cout << "\nStarting division tests:\n";
 
   TEST("b0/b1", b0/b1, 0);
   TEST("(-b1)/b1", (-b1)/b1, -1);
@@ -150,7 +151,7 @@ void test_finite_int(vnl_finite_int<N>)
   // Do not continue when N is too large, since that would take too long
   if (N > 1000) return;
 
-  vcl_cout << " for (i = 10000; i > 0; i /= 3)\n"
+  std::cout << " for (i = 10000; i > 0; i /= 3)\n"
            << "   for (j = 10000; j > 0; j /= 3)\n"
            << "     for (k = 1; k < 17; ++k)\n"
            << "       for (l = 1; l < 17; ++l)\n         ";
@@ -165,44 +166,44 @@ void test_finite_int(vnl_finite_int<N>)
           int r = int(b3); r = r*(j+l)-(i+k);
           if (r%N) {
             TEST("(vnl_finite_int<N>(i+k)/vnl_finite_int<N>(j+l))", false, true);
-            vcl_cout<< "i="<<i<<", j="<<j<<", k="<<k<<", l="<<l<<'\n'
+            std::cout<< "i="<<i<<", j="<<j<<", k="<<k<<", l="<<l<<'\n'
                     << "b1="<<int(b1)<<", b2="<<int(b2)<<", b3="<<int(b3)<<'\n';
           }
         }
       }
     }
   }
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 }
 
 template <int N, int M>
-void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s)
+void test_finite_poly(vnl_finite_int_poly<N,M>, std::string s)
 {
-  vcl_cout << "\n --- Testing vnl_finite_int_poly<" << N << ',' << M << "> ---\n";
+  std::cout << "\n --- Testing vnl_finite_int_poly<" << N << ',' << M << "> ---\n";
 
-  vcl_cout << "\nStarting constructor tests:\n";
+  std::cout << "\nStarting constructor tests:\n";
 
-  vnl_finite_int_poly<N,M> b0; vcl_cout << b0 << '\n';
+  vnl_finite_int_poly<N,M> b0; std::cout << b0 << '\n';
   TEST("vnl_finite_int_poly<N,M> b0;", b0, 0);
-  vcl_vector<vnl_finite_int<N> > p(1); p[0]=1;
-  vnl_finite_int_poly<N,M> b(p); vcl_cout << b << '\n';
+  std::vector<vnl_finite_int<N> > p(1); p[0]=1;
+  vnl_finite_int_poly<N,M> b(p); std::cout << b << '\n';
   TEST("vnl_finite_int_poly<N,M> b(p);", b, 1);
 
-  vcl_cout << "\nStarting assignment tests:\n";
+  std::cout << "\nStarting assignment tests:\n";
   vnl_finite_int<N> b1 = 2; b = b1;
   TEST("vnl_finite_int<N> b1; b = b1;", b, 2);
 
   TEST("unary plus", +b, b);
   TEST("unary minus", -b, N-2);
 
-  vcl_cout << "\nStarting addition, subtraction tests:\n";
+  std::cout << "\nStarting addition, subtraction tests:\n";
 
-  vcl_cout << " for (i = 1; i < 1000; i *= 3)\n"
+  std::cout << " for (i = 1; i < 1000; i *= 3)\n"
            << "   for (j = 1; j < 1000; j *= 3)\n      ";
 
   for (int i = 1000; i > 0;  i /= 3) {
     for (int j = 1000; j > 0; j /= 3) {
-      vcl_vector<vnl_finite_int<N> > v1(M), v2(M), v3(M);
+      std::vector<vnl_finite_int<N> > v1(M), v2(M), v3(M);
       for (int m = 0; m < M;  ++m) {
         v1[m] = i+m; v2[m] = j+m, v3[m] = i+j+2*m;
       }
@@ -210,24 +211,24 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s)
       vnl_finite_int_poly<N,M> p2(v2);
       vnl_finite_int_poly<N,M> p3(v3);
 #ifdef DEBUG
-      vcl_cout << p3 << "\n      ";
+      std::cout << p3 << "\n      ";
 #endif
       if (p1 + p2 != p3) {
         TEST("p1 + p2", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<'\n';
+        std::cout << "i = "<<i<<", j = "<<j<<'\n';
       }
       if (p3 - p2 != p1) {
         TEST("p3 - p2", false, true);
-        vcl_cout << "i = "<<i<<", j = "<<j<<'\n';
+        std::cout << "i = "<<i<<", j = "<<j<<'\n';
       }
     }
   }
 
-  vcl_cout << "\nStarting multiplication tests:\n";
+  std::cout << "\nStarting multiplication tests:\n";
 
-  vcl_vector<vnl_finite_int<N> > mod_p(M+1);
+  std::vector<vnl_finite_int<N> > mod_p(M+1);
   for (int m=0; m<=M; ++m)
-    mod_p[m] = vcl_atoi(s.c_str()+2*m);
+    mod_p[m] = std::atoi(s.c_str()+2*m);
 
   testlib_test_begin("Setting modulo polynomial");
   mod_p = vnl_finite_int_poly<N,M>::modulo_polynomial(mod_p);
@@ -235,19 +236,19 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s)
 
   mod_p.pop_back();
   vnl_finite_int_poly<N,M> irred = mod_p;
-  vcl_cout << "X^" << M << " = " << irred << '\n';
+  std::cout << "X^" << M << " = " << irred << '\n';
 
-  vcl_vector<vnl_finite_int<N> > v(M);
+  std::vector<vnl_finite_int<N> > v(M);
   for (int m = 0; m < M;  ++m) v[m] = m+1+m*m;
   vnl_finite_int_poly<N,M> f(v);
-  vcl_cout << "f(X) = " << f << '\n';
+  std::cout << "f(X) = " << f << '\n';
   for (int m = 0; m < M;  ++m) v[m] = m+1-m*m;
   vnl_finite_int_poly<N,M> g(v);
-  vcl_cout << "g(X) = " << g << '\n';
+  std::cout << "g(X) = " << g << '\n';
   testlib_test_begin("multiplying g with f");
   g *= f;
   testlib_test_perform(true);
-  vcl_cout << "g(X) * f(X) = " << g << vcl_endl;
+  std::cout << "g(X) * f(X) = " << g << std::endl;
 
   // Is irred indeed a polynomial of maximal multiplicative order?
   testlib_test_begin("constructing vnl_finite_int_poly from vnl_finite_int");
@@ -257,13 +258,13 @@ void test_finite_poly(vnl_finite_int_poly<N,M>, vcl_string s)
   testlib_test_begin("multiplicative order");
   do t *= irred; while (t != vnl_finite_int<N>(1) && ++order < t.cardinality());
   testlib_test_perform(order != 0 && order < t.cardinality());
-  vcl_cout << "Multiplicative order of " << irred << " is " << order << '\n';
+  std::cout << "Multiplicative order of " << irred << " is " << order << '\n';
   TEST("multiplicative order", irred.multiplicative_order(), order);
   if (order+1 == t.cardinality())
-    vcl_cout << "This is a Galois field of cardinality " << order+1 << '\n';
+    std::cout << "This is a Galois field of cardinality " << order+1 << '\n';
   TEST("Field?", t.is_field(), order+1 == t.cardinality());
 
-  vcl_cout << vcl_endl;
+  std::cout << std::endl;
 }
 
 void test_finite()

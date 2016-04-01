@@ -37,10 +37,10 @@ itk.force_load()
 
 fileName = sys.argv[1]
 
-PType = itk.UC
+PixelType = itk.UC
 dim = 2
-IType = itk.Image[PType, dim]
-ReaderType = itk.ImageFileReader[IType]
+ImageType = itk.Image[PixelType, dim]
+ReaderType = itk.ImageFileReader[ImageType]
 reader = ReaderType.New(FileName=fileName)
 
 
@@ -53,8 +53,8 @@ assert itk.class_(reader) == ReaderType
 assert itk.class_("dummy") == str
 
 # test template
-assert itk.template(ReaderType) == (itk.ImageFileReader, (IType,))
-assert itk.template(reader) == (itk.ImageFileReader, (IType,))
+assert itk.template(ReaderType) == (itk.ImageFileReader, (ImageType,))
+assert itk.template(reader) == (itk.ImageFileReader, (ImageType,))
 try:
     itk.template(str)
     raise Exception("unknown class should send an exception")

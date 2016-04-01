@@ -227,7 +227,7 @@ static void create_image_variable(Minc_file file)
 {
     int old_ncopts;
 
-    old_ncopts = ncopts;
+    old_ncopts =get_ncopts();
 
     /* Create the variable */
     file->img_var_id = micreate_std_variable( file->cdfid, MIimage,
@@ -238,14 +238,14 @@ static void create_image_variable(Minc_file file)
     /* Copy all attributes if required */
     if( file->src_img_var != MI_ERROR )
     {
-        ncopts = 0;
+        set_ncopts(0);
         (void) micopy_all_atts( file->src_cdfid, file->src_img_var,
                                 file->cdfid, file->img_var_id );
         (void) ncattdel( file->cdfid, file->img_var_id, MIvalid_max );
         (void) ncattdel( file->cdfid, file->img_var_id, MIvalid_min );
         (void) ncattdel( file->cdfid, file->img_var_id, MIvalid_range );
 
-        ncopts = old_ncopts;
+        set_ncopts(old_ncopts);
     }
 
     (void) miattputstr( file->cdfid, file->img_var_id, MIcomplete, MI_FALSE );
@@ -473,7 +473,7 @@ VIOAPI  Minc_file  initialize_minc_output(
 
     /*--- create the file */
 
-    ncopts = NC_VERBOSE;
+    set_ncopts(NC_VERBOSE);
 
     file->cdfid =  micreate( file->filename, NC_CLOBBER );
 
@@ -537,7 +537,7 @@ VIOAPI  Minc_file  initialize_minc_output(
                                               file->image_dims );
     }
 
-    ncopts = NC_VERBOSE | NC_FATAL;
+    set_ncopts(NC_VERBOSE | NC_FATAL);
 
     file->end_def_done = FALSE;
     file->variables_written = FALSE;
@@ -573,7 +573,7 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_minc_file(
     if( file->ignoring_because_cached )
         return( VIO_OK );
 
-    ncopts = NC_VERBOSE;
+    set_ncopts(NC_VERBOSE);
 
     expanded = expand_filename( filename );
 
@@ -592,7 +592,7 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_minc_file(
 
     (void) miclose( src_cdfid );
 
-    ncopts = NC_VERBOSE | NC_FATAL;
+    set_ncopts(NC_VERBOSE | NC_FATAL);
 
     return( status );
 }
@@ -642,7 +642,7 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_open_minc_file(
         return( VIO_ERROR );
     }
 
-    ncopts = 0;
+    set_ncopts(0);
 
     n_excluded = 0;
 
@@ -661,7 +661,7 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_open_minc_file(
     if( (src_root_id = ncvarid(src_cdfid, MIrootvariable )) != MI_ERROR )
         excluded_vars[n_excluded++] = src_root_id;
 
-    ncopts = NC_VERBOSE;
+    set_ncopts(NC_VERBOSE);
 
     (void) micopy_all_var_defs( src_cdfid, file->cdfid, n_excluded,
                                 excluded_vars );
@@ -716,7 +716,7 @@ VIOAPI  VIO_Status  copy_auxiliary_data_from_open_minc_file(
                                       n_excluded, excluded_vars );
     }
 
-    ncopts = NC_VERBOSE | NC_FATAL;
+    set_ncopts(NC_VERBOSE | NC_FATAL);
 
     return( status );
 }
@@ -753,7 +753,7 @@ VIOAPI  VIO_Status  add_minc_history(
         return( VIO_ERROR );
     }
 
-    ncopts = 0;
+    set_ncopts(0);
 
     if( ncattinq(file->cdfid, NC_GLOBAL, MIhistory, &datatype, &old_att_length)
                                                           == MI_ERROR ||
@@ -784,7 +784,7 @@ VIOAPI  VIO_Status  add_minc_history(
 
     concat_to_string( &new_history, history_string );
 
-    ncopts = NC_VERBOSE | NC_FATAL;
+    set_ncopts(NC_VERBOSE | NC_FATAL);
     (void) miattputstr( file->cdfid, NC_GLOBAL, MIhistory, new_history );
 
     delete_string( new_history );
@@ -883,9 +883,9 @@ static  VIO_Status  check_minc_output_variables(
     {
         /* --- Get into data mode */
 
-        ncopts = NC_VERBOSE;
+        set_ncopts(NC_VERBOSE);
         status = end_file_def( file );
-        ncopts = NC_VERBOSE | NC_FATAL;
+        set_ncopts(NC_VERBOSE | NC_FATAL);
         file->end_def_done = TRUE;
 
         if( status != VIO_OK )
@@ -901,7 +901,7 @@ static  VIO_Status  check_minc_output_variables(
 
         file->variables_written = TRUE;
 
-        ncopts = NC_VERBOSE;
+        set_ncopts(NC_VERBOSE);
         for_less( d, 0, file->n_file_dimensions )
             mindex[d] = 0;
 
@@ -958,7 +958,7 @@ static  VIO_Status  check_minc_output_variables(
             (void) mivarput1( file->cdfid, file->max_id, &start_index,
                               NC_DOUBLE, MI_SIGNED, &file->image_range[1] );
         }
-        ncopts = NC_VERBOSE | NC_FATAL;
+        set_ncopts(NC_VERBOSE | NC_FATAL);
     }
 
     return( VIO_OK );

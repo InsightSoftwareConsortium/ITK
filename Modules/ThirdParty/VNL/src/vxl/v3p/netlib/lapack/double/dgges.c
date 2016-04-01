@@ -26,14 +26,14 @@ static doublereal c_b34 = 1.;
 /*<    >*/
 /* Subroutine */ int dgges_(char *jobvsl, char *jobvsr, char *sort,
         logical (*delctg)(doublereal*,doublereal*,doublereal*),
-        integer *n, doublereal *a, integer *lda, doublereal *b, 
-        integer *ldb, integer *sdim, doublereal *alphar, doublereal *alphai, 
-        doublereal *beta, doublereal *vsl, integer *ldvsl, doublereal *vsr, 
-        integer *ldvsr, doublereal *work, integer *lwork, logical *bwork, 
+        integer *n, doublereal *a, integer *lda, doublereal *b,
+        integer *ldb, integer *sdim, doublereal *alphar, doublereal *alphai,
+        doublereal *beta, doublereal *vsl, integer *ldvsl, doublereal *vsr,
+        integer *ldvsr, doublereal *work, integer *lwork, logical *bwork,
         integer *info, ftnlen jobvsl_len, ftnlen jobvsr_len, ftnlen sort_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, vsl_dim1, vsl_offset, 
+    integer a_dim1, a_offset, b_dim1, b_offset, vsl_dim1, vsl_offset,
             vsr_dim1, vsr_offset, i__1, i__2;
     doublereal d__1;
 
@@ -52,52 +52,52 @@ static doublereal c_b34 = 1.;
     logical cursl, ilvsl, ilvsr;
     integer irows;
     extern /* Subroutine */ int dlabad_(doublereal *, doublereal *), dggbak_(
-            char *, char *, integer *, integer *, integer *, doublereal *, 
-            doublereal *, integer *, doublereal *, integer *, integer *, 
-            ftnlen, ftnlen), dggbal_(char *, integer *, doublereal *, integer 
-            *, doublereal *, integer *, integer *, integer *, doublereal *, 
+            char *, char *, integer *, integer *, integer *, doublereal *,
+            doublereal *, integer *, doublereal *, integer *, integer *,
+            ftnlen, ftnlen), dggbal_(char *, integer *, doublereal *, integer
+            *, doublereal *, integer *, integer *, integer *, doublereal *,
             doublereal *, doublereal *, integer *, ftnlen);
     logical lst2sl;
-    extern doublereal dlamch_(char *, ftnlen), dlange_(char *, integer *, 
+    extern doublereal dlamch_(char *, ftnlen), dlange_(char *, integer *,
             integer *, doublereal *, integer *, doublereal *, ftnlen);
-    extern /* Subroutine */ int dgghrd_(char *, char *, integer *, integer *, 
-            integer *, doublereal *, integer *, doublereal *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, integer *, 
-            ftnlen, ftnlen), dlascl_(char *, integer *, integer *, doublereal 
-            *, doublereal *, integer *, integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dgghrd_(char *, char *, integer *, integer *,
+            integer *, doublereal *, integer *, doublereal *, integer *,
+            doublereal *, integer *, doublereal *, integer *, integer *,
+            ftnlen, ftnlen), dlascl_(char *, integer *, integer *, doublereal
+            *, doublereal *, integer *, integer *, doublereal *, integer *,
             integer *, ftnlen);
     logical ilascl, ilbscl;
-    extern /* Subroutine */ int dgeqrf_(integer *, integer *, doublereal *, 
-            integer *, doublereal *, doublereal *, integer *, integer *), 
-            dlacpy_(char *, integer *, integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dgeqrf_(integer *, integer *, doublereal *,
+            integer *, doublereal *, doublereal *, integer *, integer *),
+            dlacpy_(char *, integer *, integer *, doublereal *, integer *,
             doublereal *, integer *, ftnlen);
     doublereal safmin;
-    extern /* Subroutine */ int dlaset_(char *, integer *, integer *, 
+    extern /* Subroutine */ int dlaset_(char *, integer *, integer *,
             doublereal *, doublereal *, doublereal *, integer *, ftnlen);
     doublereal safmax;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
     doublereal bignum;
-    extern /* Subroutine */ int dhgeqz_(char *, char *, char *, integer *, 
-            integer *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dhgeqz_(char *, char *, char *, integer *,
+            integer *, integer *, doublereal *, integer *, doublereal *,
             integer *, doublereal *, doublereal *, doublereal *, doublereal *,
-             integer *, doublereal *, integer *, doublereal *, integer *, 
+             integer *, doublereal *, integer *, doublereal *, integer *,
             integer *, ftnlen, ftnlen, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
-    extern /* Subroutine */ int dtgsen_(integer *, logical *, logical *, 
-            logical *, integer *, doublereal *, integer *, doublereal *, 
+    extern /* Subroutine */ int dtgsen_(integer *, logical *, logical *,
+            logical *, integer *, doublereal *, integer *, doublereal *,
             integer *, doublereal *, doublereal *, doublereal *, doublereal *,
-             integer *, doublereal *, integer *, integer *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, integer *, integer *, 
+             integer *, doublereal *, integer *, integer *, doublereal *,
+            doublereal *, doublereal *, doublereal *, integer *, integer *,
             integer *, integer *);
     integer ijobvl, iright, ijobvr;
-    extern /* Subroutine */ int dorgqr_(integer *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, doublereal *, integer *, 
+    extern /* Subroutine */ int dorgqr_(integer *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
             integer *);
     doublereal anrmto, bnrmto;
     logical lastsl;
-    extern /* Subroutine */ int dormqr_(char *, char *, integer *, integer *, 
-            integer *, doublereal *, integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dormqr_(char *, char *, integer *, integer *,
+            integer *, doublereal *, integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *, integer *, ftnlen, ftnlen);
     integer minwrk, maxwrk=0;
     doublereal smlnum;
@@ -434,7 +434,7 @@ static doublereal c_b34 = 1.;
 /*<          MINWRK = 7*( N+1 ) + 16 >*/
         minwrk = (*n + 1) * 7 + 16;
 /*<    >*/
-        maxwrk = (*n + 1) * 7 + *n * ilaenv_(&c__1, "DGEQRF", " ", n, &c__1, 
+        maxwrk = (*n + 1) * 7 + *n * ilaenv_(&c__1, "DGEQRF", " ", n, &c__1,
                 n, &c__0, (ftnlen)6, (ftnlen)1) + 16;
 /*<          IF( ILVSL ) THEN >*/
         if (ilvsl) {
@@ -595,7 +595,7 @@ static doublereal c_b34 = 1.;
 /*<    >*/
         i__1 = irows - 1;
         i__2 = irows - 1;
-        dlacpy_("L", &i__1, &i__2, &b[ilo + 1 + ilo * b_dim1], ldb, &vsl[ilo 
+        dlacpy_("L", &i__1, &i__2, &b[ilo + 1 + ilo * b_dim1], ldb, &vsl[ilo
                 + 1 + ilo * vsl_dim1], ldvsl, (ftnlen)1);
 /*<    >*/
         i__1 = *lwork + 1 - iwrk;
@@ -616,7 +616,7 @@ static doublereal c_b34 = 1.;
 /*     (Workspace: none needed) */
 
 /*<    >*/
-    dgghrd_(jobvsl, jobvsr, n, &ilo, &ihi, &a[a_offset], lda, &b[b_offset], 
+    dgghrd_(jobvsl, jobvsr, n, &ilo, &ihi, &a[a_offset], lda, &b[b_offset],
             ldb, &vsl[vsl_offset], ldvsl, &vsr[vsr_offset], ldvsr, &ierr, (
             ftnlen)1, (ftnlen)1);
 
@@ -665,16 +665,16 @@ static doublereal c_b34 = 1.;
 /*<          IF( ILASCL ) THEN >*/
         if (ilascl) {
 /*<    >*/
-            dlascl_("G", &c__0, &c__0, &anrmto, &anrm, n, &c__1, &alphar[1], 
+            dlascl_("G", &c__0, &c__0, &anrmto, &anrm, n, &c__1, &alphar[1],
                     n, &ierr, (ftnlen)1);
 /*<    >*/
-            dlascl_("G", &c__0, &c__0, &anrmto, &anrm, n, &c__1, &alphai[1], 
+            dlascl_("G", &c__0, &c__0, &anrmto, &anrm, n, &c__1, &alphai[1],
                     n, &ierr, (ftnlen)1);
 /*<          END IF >*/
         }
 /*<    >*/
         if (ilbscl) {
-            dlascl_("G", &c__0, &c__0, &bnrmto, &bnrm, n, &c__1, &beta[1], n, 
+            dlascl_("G", &c__0, &c__0, &bnrmto, &bnrm, n, &c__1, &beta[1], n,
                     &ierr, (ftnlen)1);
         }
 
@@ -733,7 +733,7 @@ static doublereal c_b34 = 1.;
                 if (alphar[i__] / safmax > anrmto / anrm || safmin / alphar[
                         i__] > anrm / anrmto) {
 /*<                   WORK( 1 ) = ABS( A( I, I ) / ALPHAR( I ) ) >*/
-                    work[1] = (d__1 = a[i__ + i__ * a_dim1] / alphar[i__], 
+                    work[1] = (d__1 = a[i__ + i__ * a_dim1] / alphar[i__],
                             abs(d__1));
 /*<                   BETA( I ) = BETA( I )*WORK( 1 ) >*/
                     beta[i__] *= work[1];
@@ -742,7 +742,7 @@ static doublereal c_b34 = 1.;
 /*<                   ALPHAI( I ) = ALPHAI( I )*WORK( 1 ) >*/
                     alphai[i__] *= work[1];
 /*<    >*/
-                } else if (alphai[i__] / safmax > anrmto / anrm || safmin / 
+                } else if (alphai[i__] / safmax > anrmto / anrm || safmin /
                         alphai[i__] > anrm / anrmto) {
 /*<                   WORK( 1 ) = ABS( A( I, I+1 ) / ALPHAI( I ) ) >*/
                     work[1] = (d__1 = a[i__ + (i__ + 1) * a_dim1] / alphai[
@@ -771,7 +771,7 @@ static doublereal c_b34 = 1.;
 /*<             IF( ALPHAI( I ).NE.ZERO ) THEN >*/
             if (alphai[i__] != 0.) {
 /*<    >*/
-                if (beta[i__] / safmax > bnrmto / bnrm || safmin / beta[i__] 
+                if (beta[i__] / safmax > bnrmto / bnrm || safmin / beta[i__]
                         > bnrm / bnrmto) {
 /*<                   WORK( 1 ) = ABS( B( I, I ) / BETA( I ) ) >*/
                     work[1] = (d__1 = b[i__ + i__ * b_dim1] / beta[i__], abs(

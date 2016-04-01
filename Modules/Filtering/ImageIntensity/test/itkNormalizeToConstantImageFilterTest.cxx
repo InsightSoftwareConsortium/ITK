@@ -64,7 +64,7 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
     sum += it.Value();
     }
 
-  if ( vnl_math_abs( constant - sum ) > 1e-5 )
+  if ( itk::Math::abs( constant - sum ) > 1e-5 )
     {
     std::cout << "First sum (" << sum << ") does not equal constant ("
               << constant << ")" << std::endl;
@@ -81,7 +81,7 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
     sum += it.Value();
     }
 
-  if ( vnl_math_abs( constant - sum ) > 1e-3 )
+  if ( itk::Math::abs( constant - sum ) > 1e-3 )
     {
     std::cout << "Second sum (" << sum << ") does not equal constant ("
               << constant << ")" << std::endl;

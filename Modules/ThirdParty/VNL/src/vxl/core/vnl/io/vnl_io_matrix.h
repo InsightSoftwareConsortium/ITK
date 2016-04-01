@@ -6,9 +6,10 @@
 // \author Louise Butcher
 // \date 20-Mar-2001
 
+#include <iosfwd>
 #include <vsl/vsl_fwd.h>
 #include <vnl/vnl_matrix.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 //: Binary save vnl_matrix to stream.
 //  \relatesalso vnl_matrix
@@ -23,6 +24,6 @@ void vsl_b_read(vsl_b_istream & is, vnl_matrix<T> & v);
 //: Print human readable summary of object to a stream
 //  \relatesalso vnl_matrix
 template <class T>
-void vsl_print_summary(vcl_ostream & os,const vnl_matrix<T> & b);
+void vsl_print_summary(std::ostream & os,const vnl_matrix<T> & b);
 
 #endif // vnl_io_matrix_h

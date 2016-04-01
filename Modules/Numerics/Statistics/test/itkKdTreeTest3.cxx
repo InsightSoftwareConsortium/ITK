@@ -123,7 +123,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
       const double distance =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors1[i] ) );
 
-      max_distance = vnl_math_max( distance, max_distance );
+      max_distance = std::max( distance, max_distance );
       }
 
     max_distance += itk::NumericTraits<double>::epsilon() * 10.0;
@@ -181,7 +181,7 @@ int itkKdTreeTest3( int argc , char * argv [] )
       const double distance =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors1[i] ) );
 
-      max_distance = vnl_math_max( distance, max_distance );
+      max_distance = std::max( distance, max_distance );
       }
 
     max_distance += itk::NumericTraits<double>::epsilon() * 10.0;

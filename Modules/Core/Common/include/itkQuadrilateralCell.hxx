@@ -293,9 +293,9 @@ QuadrilateralCell< TCellInterface >
                    double *dist2,
                    InterpolationWeightType *weight)
 {
-  static const int    ITK_QUAD_MAX_ITERATION = 10;
-  static const double ITK_QUAD_CONVERGED = 1.e-03;
-  static const double ITK_DIVERGED = 1.e6;
+  static ITK_CONSTEXPR int    ITK_QUAD_MAX_ITERATION = 10;
+  static ITK_CONSTEXPR double ITK_QUAD_CONVERGED = 1.e-03;
+  static ITK_CONSTEXPR double ITK_DIVERGED = 1.e6;
 
   int                     iteration, converged;
   double                  params[CellDimension];

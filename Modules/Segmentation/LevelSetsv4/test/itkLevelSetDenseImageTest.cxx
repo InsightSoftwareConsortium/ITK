@@ -36,7 +36,7 @@ public:
   bool IsOutsideTolerance( const RealType & value, const RealType & theoreticalValue ) const
     {
     // ignore if they are both effectively zero
-    if( vnl_math_max( vnl_math_abs( value ), vnl_math_abs( theoreticalValue ) ) <  50 * vnl_math::eps )
+    if( std::max( itk::Math::abs( value ), itk::Math::abs( theoreticalValue ) ) <  50 * itk::Math::eps )
       {
       return false;
       }
@@ -49,8 +49,8 @@ public:
 
   RealType GetFractionalError( const RealType & value, const RealType & theoreticalValue ) const
     {
-    RealType fractionalError = vnl_math_abs( theoreticalValue - value ) /
-      ( vnl_math_abs( theoreticalValue ) + 20* vnl_math::eps );
+    RealType fractionalError = itk::Math::abs( theoreticalValue - value ) /
+      ( itk::Math::abs( theoreticalValue ) + 20* itk::Math::eps );
     return fractionalError;
     }
 
@@ -197,10 +197,10 @@ int itkLevelSetDenseImageTest( int , char* [] )
   LevelSetType::HessianType hessian = level_set->EvaluateHessian( idx );
   std::cout << "hessian = " << std::endl << hessian << std::endl;
 
-  if ( vnl_math_abs( vnl_math_abs( hessian[0][0] ) - 499.998 ) / 499.998 > 5e-2 )
+  if ( itk::Math::abs( itk::Math::abs( hessian[0][0] ) - 499.998 ) / 499.998 > 5e-2 )
     {
-    std::cout << idx << " *HessianTestFail* " << vnl_math_abs( hessian[0][0] ) << " != "
-              << vnl_math_abs( hessian[1][1] ) << std::endl;
+    std::cout << idx << " *HessianTestFail* " << itk::Math::abs( hessian[0][0] ) << " != "
+              << itk::Math::abs( hessian[1][1] ) << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -210,7 +210,7 @@ int itkLevelSetDenseImageTest( int , char* [] )
   LevelSetType::OutputRealType gradientnorm = level_set->EvaluateGradientNorm( idx );
   std::cout <<"gradient norm = " << gradientnorm << std::endl;
 
-  if( vnl_math_abs( 1 - gradientnorm ) > 5e-2 )
+  if( itk::Math::abs( 1 - gradientnorm ) > 5e-2 )
     {
     std::cout << idx << " *GradientNormFail* " << gradientnorm << " != "
               << 1 << std::endl;

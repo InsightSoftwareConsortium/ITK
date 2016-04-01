@@ -143,7 +143,7 @@ def physical_size(imageOrFilter):
 
     This method take care of updating the needed informations
     """
-    # required because range is overladed in this module
+    # required because range is overloaded in this module
     import sys
     if sys.version_info >= (3, 0):
       from builtins import range
@@ -518,7 +518,7 @@ class templated_class:
 
     """This class is used to mimic the behavior of the templated C++ classes.
 
-    It is used that way:
+    It is used this way:
 
     class CustomClass:
         # class definition here

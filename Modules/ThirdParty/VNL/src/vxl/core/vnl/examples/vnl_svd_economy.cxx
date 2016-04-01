@@ -1,4 +1,5 @@
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vul/vul_timer.h>
 #include <vnl/vnl_random.h>
 #include <vnl/vnl_matrix.h>
@@ -18,18 +19,18 @@ int main()
     vnl_svd<double> svd( M );
     vnl_svd_economy<double> svd_e( M );
 
-    vnl_matlab_print( vcl_cerr, svd.V() );
-    vcl_cerr << vcl_endl;
-    vnl_matlab_print( vcl_cerr, svd_e.V() );
-    vcl_cerr << vcl_endl << vcl_endl;
+    vnl_matlab_print( std::cerr, svd.V() );
+    std::cerr << std::endl;
+    vnl_matlab_print( std::cerr, svd_e.V() );
+    std::cerr << std::endl << std::endl;
 
-    vnl_matlab_print( vcl_cerr, svd.W().diagonal() );
-    vcl_cerr << vcl_endl;
-    vnl_matlab_print( vcl_cerr, svd_e.lambdas() );
+    vnl_matlab_print( std::cerr, svd.W().diagonal() );
+    std::cerr << std::endl;
+    vnl_matlab_print( std::cerr, svd_e.lambdas() );
 
-    vcl_cerr << "\n( svd.V() - svd_e.V() ).fro_norm() = " << ( svd.V() - svd_e.V() ).fro_norm()
+    std::cerr << "\n( svd.V() - svd_e.V() ).fro_norm() = " << ( svd.V() - svd_e.V() ).fro_norm()
              << "\n( svd.W().diagonal() - svd_e.lambdas() ).two_norm() = "
-             << ( svd.W().diagonal() - svd_e.lambdas() ).two_norm() << vcl_endl;
+             << ( svd.W().diagonal() - svd_e.lambdas() ).two_norm() << std::endl;
   }
 
   {
@@ -48,7 +49,7 @@ int main()
 
     int t2 = timer.user();
 
-    vcl_cerr << "time for 1000*svd(1000x10) : vnl_svd = " << t1 << " msec, "
+    std::cerr << "time for 1000*svd(1000x10) : vnl_svd = " << t1 << " msec, "
              << "vnl_svd_economy = " << t2 << " msec.\n";
   }
 

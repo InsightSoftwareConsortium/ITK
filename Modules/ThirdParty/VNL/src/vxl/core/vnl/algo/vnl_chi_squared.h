@@ -63,6 +63,6 @@ double vnl_chi_squared_statistic_12(T const *A, T const *B,
                                     int n, bool normalize);
 
 #define VNL_CHI_SQUARED_INSTANTIATE(T) \
-extern "please include vnl/algo/vnl_chi_squared.txx first"
+extern "please include vnl/algo/vnl_chi_squared.hxx first"
 
 #endif // vnl_chi_squared_h_

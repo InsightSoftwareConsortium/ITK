@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkImage.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkIntTypes.h"
 #include "itkTestingMacros.h"
 #include "itkCentralDifferenceImageFunction.h"

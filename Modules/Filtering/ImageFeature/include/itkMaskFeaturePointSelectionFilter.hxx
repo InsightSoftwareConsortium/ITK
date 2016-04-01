@@ -295,7 +295,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
         const double trace = vnl_trace( tensor.GetVnlMatrix() );
 
         // trace should be non-zero
-        if ( vnl_math_abs(trace) < TRACE_EPSILON )
+        if ( itk::Math::abs(trace) < TRACE_EPSILON )
           {
             rit++;
             numberOfPointsInserted--;

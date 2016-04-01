@@ -20,14 +20,14 @@
 
 #include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 /*
  *
  * This code was contributed in the Insight Journal paper:
  * "Efficient implementation of kernel filtering"
  * by Beare R., Lehmann G
- * http://hdl.handle.net/1926/576
+ * https://hdl.handle.net/1926/576
  * http://www.insight-journal.org/browse/publication/175
  *
  */
@@ -321,14 +321,14 @@ MultiScaleHessianBasedMeasureImageFilter
     {
     case Self::EquispacedSigmaSteps:
       {
-      const double stepSize = vnl_math_max( 1e-10, ( m_SigmaMaximum - m_SigmaMinimum ) / ( m_NumberOfSigmaSteps - 1 ) );
+      const double stepSize = std::max( 1e-10, ( m_SigmaMaximum - m_SigmaMinimum ) / ( m_NumberOfSigmaSteps - 1 ) );
       sigmaValue = m_SigmaMinimum + stepSize * scaleLevel;
       break;
       }
     case Self::LogarithmicSigmaSteps:
       {
       const double stepSize =
-        vnl_math_max( 1e-10, ( std::log(m_SigmaMaximum) - std::log(m_SigmaMinimum) ) / ( m_NumberOfSigmaSteps - 1 ) );
+        std::max( 1e-10, ( std::log(m_SigmaMaximum) - std::log(m_SigmaMinimum) ) / ( m_NumberOfSigmaSteps - 1 ) );
       sigmaValue = std::exp(std::log (m_SigmaMinimum) + stepSize * scaleLevel);
       break;
       }

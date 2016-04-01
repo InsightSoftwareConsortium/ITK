@@ -16,10 +16,10 @@
 
 /* Modify the interface for C++.  */
 #ifdef __cplusplus
+#include <complex>
 # undef complex
-# include <vcl_complex.h>
-# define v3p_netlib_complex vcl_complex<float>
-# define v3p_netlib_doublecomplex vcl_complex<double>
+# define v3p_netlib_complex std::complex<float>
+# define v3p_netlib_doublecomplex std::complex<double>
 #endif
 
 /* Include the netlib interface.  */

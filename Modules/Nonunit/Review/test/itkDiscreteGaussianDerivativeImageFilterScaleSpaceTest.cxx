@@ -36,7 +36,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
                                                          // then it
                                                          // should be!
 
-  double frequency = frequencyPerImage * 2.0 * vnl_math::pi / ( imageSize * pixelSpacing );
+  double frequency = frequencyPerImage * 2.0 * itk::Math::pi / ( imageSize * pixelSpacing );
 
   // The theoretical maximal value should occur at this sigma
   double sigma_max = std::sqrt( double( order ) ) / frequency;
@@ -72,12 +72,12 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
     ++iter;
     }
 
-  std::cout << "variance: " << vnl_math_sqr( sigma_max ) << std::endl;
+  std::cout << "variance: " << itk::Math::sqr( sigma_max ) << std::endl;
 
   typedef itk::DiscreteGaussianDerivativeImageFilter<ImageType, ImageType> GaussianFilterType;
   GaussianFilterType::Pointer filter = GaussianFilterType::New();
   filter->SetInput( image );
-  filter->SetVariance( vnl_math_sqr( sigma_max ) );
+  filter->SetVariance( itk::Math::sqr( sigma_max ) );
   filter->SetOrder( order );
   filter->SetUseImageSpacing( true );
   filter->SetMaximumError( .0005 );
@@ -99,7 +99,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
     }
 
   // check if the maximal is obtained with a little bit smaller Gaussian
-  filter->SetVariance( vnl_math_sqr( sigma_max*0.95 ) );
+  filter->SetVariance( itk::Math::sqr( sigma_max*0.95 ) );
   outputImage->Update();
   oiter.GoToBegin();
 
@@ -118,7 +118,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
     }
 
   // check if the maximal is obtained with a little bit bigger Gaussian
-  filter->SetVariance( vnl_math_sqr( sigma_max*1.05 ) );
+  filter->SetVariance( itk::Math::sqr( sigma_max*1.05 ) );
   outputImage->Update();
   oiter.GoToBegin();
 

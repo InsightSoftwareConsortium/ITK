@@ -1343,33 +1343,80 @@ void miinit ( void )
                 mi2_dbl_to_int ),"H5Tregister")
 }
 
-/** HDF5 type conversion function for converting an arbitrary integer type to
-* an arbitrary enumerated type.  The beauty part of this is that it is
-* not necessary to actually perform any real conversion!
-*/
-static herr_t mi2_null_conv ( hid_t src_id,
-                              hid_t dst_id,
-                              H5T_cdata_t *cdata,
-                              size_t nelements,
-                              size_t buf_stride,
-                              size_t bkg_stride,
-                              void *buf_ptr,
-                              void *bkg_ptr,
-                              hid_t dset_xfer_plist )
+/** HDF5 type conversion function for converting among integer types.
+ * This handles byte-swapping for enumerated types where needed.
+ */
+static herr_t mi2_int_to_int ( hid_t src_id,
+			       hid_t dst_id,
+			       H5T_cdata_t *cdata,
+			       size_t nelements,
+			       size_t buf_stride,
+			       size_t bkg_stride,
+			       void *buf_ptr,
+			       void *bkg_ptr,
+			       hid_t dset_xfer_plist )
 {
+  unsigned char *dst_ptr;
+  size_t dst_cnt;
+  size_t dst_sz;
+
   switch ( cdata->command ) {
   case H5T_CONV_INIT:
     break;
   case H5T_CONV_CONV:
+    dst_ptr = ( unsigned char * ) buf_ptr;
+    dst_sz = H5Tget_size( dst_id );
+
+    if (dst_sz != H5Tget_size( src_id )) {
+      return -1;		/* Can't change size for now. */
+    }
+    if ( H5Tget_order ( dst_id ) == H5Tget_order ( src_id ) ) {
+      return 0;			/* Nothing to do. */
+    }
+
+    /* The logic of HDF5 seems to be that if a stride is specified,
+    * both the source and destination pointers should advance by that
+    * amount.  This seems wrong to me, but I've examined the HDF5 sources
+    * and that's what their own type converters do.
+    */
+    if ( buf_stride == 0 ) {
+      dst_cnt = dst_sz;
+    } else {
+      dst_cnt = buf_stride;
+    }
+
+    switch ( dst_sz ) {
+    case 8:
+      while ( nelements-- > 0 ) {
+	miswap8 ( dst_ptr );
+	dst_ptr += dst_cnt;
+      }
+      break;
+    case 4:
+      while ( nelements-- > 0 ) {
+	miswap4 ( dst_ptr );
+	dst_ptr += dst_cnt;
+      }
+      break;
+    case 2:
+      while ( nelements-- > 0 ) {
+	miswap2 ( dst_ptr );
+	dst_ptr += dst_cnt;
+      }
+      break;
+    case 1:
+      break;
+    default:
+      return (-1);
+    }
     break;
+
   case H5T_CONV_FREE:
     break;
 
   default:
-    /* Unknown command */
-    return ( -1 );
+    return (-1);                /* Unknown command. */
   }
-
   return ( 0 );
 }
 
@@ -1380,9 +1427,9 @@ in order to facilitate conversions from the integer to the enumerated type.
 void miinit_enum ( hid_t type_id )
 {
   H5Tregister ( H5T_PERS_SOFT, "i2e", H5T_NATIVE_INT, type_id,
-                mi2_null_conv );
+                mi2_int_to_int );
   H5Tregister ( H5T_PERS_SOFT, "e2i", type_id, H5T_NATIVE_INT,
-                mi2_null_conv );
+                mi2_int_to_int );
   H5Tregister ( H5T_PERS_SOFT, "d2e", H5T_NATIVE_DOUBLE, type_id,
                 mi2_dbl_to_int );
   H5Tregister ( H5T_PERS_SOFT, "e2d", type_id, H5T_NATIVE_DOUBLE,

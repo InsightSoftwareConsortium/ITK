@@ -83,76 +83,50 @@ class SwigInputGenerator(object):
 
     notWrappedRegExp = re.compile("|".join(["^" + s + "$" for s in notWrapped]))
 
-    # vcl_complex code
+    # stdcomplex code
 
-    vcl_complex_headers = {
-        "D": """ class vcl_complexD {
+    stdcomplex_headers = {
+        "D": """ class stdcomplexD {
        public:
-         ~vcl_complexD();
-         vcl_complexD & operator=(vcl_complexD const & arg0);
-         vcl_complexD(vcl_complexD const & arg0);
-         vcl_complexD(vcl_complexD __z);
-         vcl_complexD(double __r = 0.0, double __i = 0.0);
-         vcl_complexD(vcl_complexF const & __z);
-         vcl_complexD(vcl_complexLD const & __z);
+         ~stdcomplexD();
+         stdcomplexD & operator=(stdcomplexD const & arg0);
+         stdcomplexD(stdcomplexD const & arg0);
+         stdcomplexD(stdcomplexD __z);
+         stdcomplexD(double __r = 0.0, double __i = 0.0);
+         stdcomplexD(stdcomplexF const & __z);
          double real();
          double const real() const;
          double imag();
          double const imag() const;
-         vcl_complexD & operator=(double __d);
-         vcl_complexD & operator+=(double __d);
-         vcl_complexD & operator-=(double __d);
-         vcl_complexD & operator*=(double __d);
-         vcl_complexD & operator/=(double __d);
-         // vcl_complexD const & __rep() const;
+         stdcomplexD & operator=(double __d);
+         stdcomplexD & operator+=(double __d);
+         stdcomplexD & operator-=(double __d);
+         stdcomplexD & operator*=(double __d);
+         stdcomplexD & operator/=(double __d);
+         // stdcomplexD const & __rep() const;
        private:
        protected:
      };
     """,
 
-        "F": """class vcl_complexF {
+        "F": """class stdcomplexF {
        public:
-         ~vcl_complexF();
-         vcl_complexF & operator=(vcl_complexF const & arg0);
-         vcl_complexF(vcl_complexF const & arg0);
-         vcl_complexF(vcl_complexF __z);
-         vcl_complexF(float r = 0.0f, float i = 0.0f);
-         vcl_complexF(vcl_complexD const & __z);
-         vcl_complexF(vcl_complexLD const & __z);
+         ~stdcomplexF();
+         stdcomplexF & operator=(stdcomplexF const & arg0);
+         stdcomplexF(stdcomplexF const & arg0);
+         stdcomplexF(stdcomplexF __z);
+         stdcomplexF(float r = 0.0f, float i = 0.0f);
+         stdcomplexF(stdcomplexD const & __z);
          float real();
          float const real() const;
          float imag();
          float const imag() const;
-         vcl_complexF & operator=(float __f);
-         vcl_complexF & operator+=(float __f);
-         vcl_complexF & operator-=(float __f);
-         vcl_complexF & operator*=(float __f);
-         vcl_complexF & operator/=(float __f);
-         // vcl_complexF const & __rep() const;
-       private:
-       protected:
-     };
-    """,
-
-        "LD": """ class vcl_complexLD {
-       public:
-         ~vcl_complexLD();
-         vcl_complexLD & operator=(vcl_complexLD const & arg0);
-         vcl_complexLD(vcl_complexLD const & arg0);
-         vcl_complexLD(vcl_complexLD __z);
-         vcl_complexLD(long double __r = 0.0l, long double __i = 0.0l);
-         vcl_complexLD(vcl_complexF const & __z);
-         vcl_complexLD(vcl_complexD const & __z);
-         long double real();
-         long double const real() const;
-         long double imag();
-         long double const imag() const;
-         vcl_complexLD & operator=(long double __r);
-         vcl_complexLD & operator+=(long double __r);
-         vcl_complexLD & operator-=(long double __r);
-         vcl_complexLD & operator*=(long double __r);
-         vcl_complexLD & operator/=(long double __r);
-         // vcl_complexLD const & __rep() const;
+         stdcomplexF & operator=(float __f);
+         stdcomplexF & operator+=(float __f);
+         stdcomplexF & operator-=(float __f);
+         stdcomplexF & operator*=(float __f);
+         stdcomplexF & operator/=(float __f);
+         // stdcomplexF const & __rep() const;
        private:
        protected:
      };
@@ -381,7 +355,7 @@ class SwigInputGenerator(object):
 
         decls = pygccxml.declarations
 
-        if not typedef.name.startswith("vcl_complex"):
+        if not typedef.name.startswith("stdcomplex"):
             super_classes = []
             for super_class in getType(typedef).bases:
                 super_classes.append(
@@ -459,14 +433,13 @@ class SwigInputGenerator(object):
             self.outputFile.write("  " * indent)
             self.outputFile.write("};\n\n\n")
 
-        elif typedef.name == "vcl_complexD":
-            self.outputFile.write(self.vcl_complex_headers["D"] + '\n')
-        elif typedef.name == "vcl_complexF":
-            self.outputFile.write(self.vcl_complex_headers["F"] + '\n')
-        elif typedef.name == "vcl_complexLD":
-            self.outputFile.write(self.vcl_complex_headers["LD"] + '\n')
+        elif typedef.name == "stdcomplexD":
+            self.outputFile.write(self.stdcomplex_headers["D"] + '\n')
+        elif typedef.name == "stdcomplexF":
+            self.outputFile.write(self.stdcomplex_headers["F"] + '\n')
         else:
-            # vcl_complex is too difficult to wrap in some cases. Only wrap the
+            print('stdcomplex', typedef.name)
+            # stdcomplex is too difficult to wrap in some cases. Only wrap the
             # constructor.
             self.outputFile.write("  " * indent)
             self.outputFile.write("class %s%s {\n" % (typedef.name, s))

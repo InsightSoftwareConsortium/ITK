@@ -22,7 +22,7 @@
 #include "itkFastMarchingBase.h"
 
 #include "itkProgressReporter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkMath.h"
 
 namespace itk
@@ -87,11 +87,11 @@ Initialize( OutputDomainType* oDomain )
     {
     itkExceptionMacro( <<"No Stopping Criterion Set" );
     }
-  if( m_NormalizationFactor < vnl_math::eps )
+  if( m_NormalizationFactor < itk::Math::eps )
     {
     itkExceptionMacro( <<"Normalization Factor is null or negative" );
     }
-  if( m_SpeedConstant < vnl_math::eps )
+  if( m_SpeedConstant < itk::Math::eps )
     {
     itkExceptionMacro( <<"SpeedConstant is null or negative" );
     }

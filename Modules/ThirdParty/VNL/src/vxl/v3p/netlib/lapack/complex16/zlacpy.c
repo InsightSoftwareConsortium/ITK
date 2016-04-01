@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE ZLACPY( UPLO, M, N, A, LDA, B, LDB ) >*/
-/* Subroutine */ int zlacpy_(char *uplo, integer *m, integer *n, 
-        doublecomplex *a, integer *lda, doublecomplex *b, integer *ldb, 
+/* Subroutine */ int zlacpy_(char *uplo, integer *m, integer *n,
+        doublecomplex *a, integer *lda, doublecomplex *b, integer *ldb,
         ftnlen uplo_len)
 {
     /* System generated locals */

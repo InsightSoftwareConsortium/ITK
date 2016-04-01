@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine zaxpy(n,za,zx,incx,zy,incy) >*/
-/* Subroutine */ int zaxpy_(integer *n, doublecomplex *za, doublecomplex *zx, 
+/* Subroutine */ int zaxpy_(integer *n, doublecomplex *za, doublecomplex *zx,
         integer *incx, doublecomplex *zy, integer *incy)
 {
     /* System generated locals */

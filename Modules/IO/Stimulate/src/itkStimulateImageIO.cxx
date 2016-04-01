@@ -224,7 +224,7 @@ void StimulateImageIO::InternalReadImageInformation(std::ifstream & file)
   bool fov_specified = false;
   bool origin_specified = false;
   bool spacing_specified = false;
-  while ( ( file.getline(line, 255), file.gcount() > 0 ) )
+  while ( ( static_cast<void>(file.getline(line, 255)), file.gcount() > 0 ) )
     {
     text = line;
 

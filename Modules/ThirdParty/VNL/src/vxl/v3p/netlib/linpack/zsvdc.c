@@ -22,13 +22,13 @@ static doublecomplex c_b10 = {1.,0.};
 static doublecomplex c_b60 = {-1.,0.};
 
 /*<       subroutine zsvdc(x,ldx,n,p,s,e,u,ldu,v,ldv,work,job,info) >*/
-/* Subroutine */ int zsvdc_(doublecomplex *x, integer *ldx, integer *n, 
-        integer *p, doublecomplex *s, doublecomplex *e, doublecomplex *u, 
-        integer *ldu, doublecomplex *v, integer *ldv, doublecomplex *work, 
+/* Subroutine */ int zsvdc_(doublecomplex *x, integer *ldx, integer *n,
+        integer *p, doublecomplex *s, doublecomplex *e, doublecomplex *u,
+        integer *ldu, doublecomplex *v, integer *ldv, doublecomplex *work,
         integer *job, integer *info)
 {
     /* System generated locals */
-    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2, 
+    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2,
             i__3, i__4, i__5;
     doublereal d__1, d__2, d__3, d__4;
     doublecomplex z__1, z__2, z__3;
@@ -56,21 +56,21 @@ static doublecomplex c_b60 = {-1.,0.};
     doublereal test;
     integer nctp1, nrtp1;
     doublereal scale;
-    extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
+    extern /* Subroutine */ int zscal_(integer *, doublecomplex *,
             doublecomplex *, integer *);
     doublereal shift;
-    extern /* Subroutine */ int drotg_(doublereal *, doublereal *, doublereal 
+    extern /* Subroutine */ int drotg_(doublereal *, doublereal *, doublereal
             *, doublereal *);
     integer maxit;
-    extern /* Double Complex */ VOID zdotc_(doublecomplex *, integer *, 
+    extern /* Double Complex */ VOID zdotc_(doublecomplex *, integer *,
             doublecomplex *, integer *, doublecomplex *, integer *);
     logical wantu, wantv;
-    extern /* Subroutine */ int zdrot_(integer *, doublecomplex *, integer *, 
+    extern /* Subroutine */ int zdrot_(integer *, doublecomplex *, integer *,
             doublecomplex *, integer *, doublereal *, doublereal *), zswap_(
             integer *, doublecomplex *, integer *, doublecomplex *, integer *)
             ;
     doublereal ztest;
-    extern /* Subroutine */ int zaxpy_(integer *, doublecomplex *, 
+    extern /* Subroutine */ int zaxpy_(integer *, doublecomplex *,
             doublecomplex *, integer *, doublecomplex *, integer *);
     extern doublereal dznrm2_(integer *, doublecomplex *, integer *);
 
@@ -278,18 +278,18 @@ static doublecomplex c_b60 = {-1.,0.};
 /*<             if (cabs1(s(l)) .eq. 0.0d0) go to 10 >*/
         i__2 = l;
         i__3 = l;
-        z__1.r = s[i__3].r * 0. - s[i__3].i * -1., z__1.i = s[i__3].i * 0. + 
+        z__1.r = s[i__3].r * 0. - s[i__3].i * -1., z__1.i = s[i__3].i * 0. +
                 s[i__3].r * -1.;
-        if ((d__1 = s[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) 
+        if ((d__1 = s[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.)
                 {
             goto L10;
         }
 /*<                if (cabs1(x(l,l)) .ne. 0.0d0) s(l) = csign(s(l),x(l,l)) >*/
         i__2 = l + l * x_dim1;
         i__3 = l + l * x_dim1;
-        z__1.r = x[i__3].r * 0. - x[i__3].i * -1., z__1.i = x[i__3].i * 0. + 
+        z__1.r = x[i__3].r * 0. - x[i__3].i * -1., z__1.i = x[i__3].i * 0. +
                 x[i__3].r * -1.;
-        if ((d__1 = x[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.) 
+        if ((d__1 = x[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.)
                 {
             i__4 = l;
             d__3 = z_abs(&s[l]);
@@ -331,9 +331,9 @@ L20:
 /*<             if (cabs1(s(l)) .eq. 0.0d0) go to 30 >*/
             i__3 = l;
             i__4 = l;
-            z__1.r = s[i__4].r * 0. - s[i__4].i * -1., z__1.i = s[i__4].i * 
+            z__1.r = s[i__4].r * 0. - s[i__4].i * -1., z__1.i = s[i__4].i *
                     0. + s[i__4].r * -1.;
-            if ((d__1 = s[i__3].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 
+            if ((d__1 = s[i__3].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) ==
                     0.) {
                 goto L30;
             }
@@ -403,18 +403,18 @@ L70:
 /*<             if (cabs1(e(l)) .eq. 0.0d0) go to 80 >*/
         i__2 = l;
         i__3 = l;
-        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. + 
+        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. +
                 e[i__3].r * -1.;
-        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) 
+        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.)
                 {
             goto L80;
         }
 /*<                if (cabs1(e(lp1)) .ne. 0.0d0) e(l) = csign(e(l),e(lp1)) >*/
         i__2 = lp1;
         i__3 = lp1;
-        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. + 
+        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. +
                 e[i__3].r * -1.;
-        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.) 
+        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.)
                 {
             i__4 = l;
             d__3 = z_abs(&e[l]);
@@ -443,7 +443,7 @@ L80:
 /*<             if (lp1 .gt. n .or. cabs1(e(l)) .eq. 0.0d0) go to 120 >*/
         i__2 = l;
         i__3 = l;
-        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. + 
+        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. +
                 e[i__3].r * -1.;
         if (lp1 > *n || (d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(
                 d__2)) == 0.) {
@@ -589,9 +589,9 @@ L200:
 /*<             if (cabs1(s(l)) .eq. 0.0d0) go to 250 >*/
         i__2 = l;
         i__3 = l;
-        z__1.r = s[i__3].r * 0. - s[i__3].i * -1., z__1.i = s[i__3].i * 0. + 
+        z__1.r = s[i__3].r * 0. - s[i__3].i * -1., z__1.i = s[i__3].i * 0. +
                 s[i__3].r * -1.;
-        if ((d__1 = s[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) 
+        if ((d__1 = s[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.)
                 {
             goto L250;
         }
@@ -692,9 +692,9 @@ L300:
 /*<             if (cabs1(e(l)) .eq. 0.0d0) go to 320 >*/
         i__2 = l;
         i__3 = l;
-        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. + 
+        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. +
                 e[i__3].r * -1.;
-        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) 
+        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.)
                 {
             goto L320;
         }
@@ -703,14 +703,14 @@ L300:
         for (j = lp1; j <= i__2; ++j) {
 /*<                   t = -zdotc(p-l,v(lp1,l),1,v(lp1,j),1)/v(lp1,l) >*/
             i__3 = *p - l;
-            zdotc_(&z__3, &i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            zdotc_(&z__3, &i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1);
             z__2.r = -z__3.r, z__2.i = -z__3.i;
             z_div(&z__1, &z__2, &v[lp1 + l * v_dim1]);
             t.r = z__1.r, t.i = z__1.i;
 /*<                   call zaxpy(p-l,t,v(lp1,l),1,v(lp1,j),1) >*/
             i__3 = *p - l;
-            zaxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            zaxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1);
 /*<   310          continue >*/
 /* L310: */
@@ -743,9 +743,9 @@ L350:
 /*<          if (cabs1(s(i)) .eq. 0.0d0) go to 360 >*/
         i__2 = i__;
         i__3 = i__;
-        z__1.r = s[i__3].r * 0. - s[i__3].i * -1., z__1.i = s[i__3].i * 0. + 
+        z__1.r = s[i__3].r * 0. - s[i__3].i * -1., z__1.i = s[i__3].i * 0. +
                 s[i__3].r * -1.;
-        if ((d__1 = s[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) 
+        if ((d__1 = s[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.)
                 {
             goto L360;
         }
@@ -779,9 +779,9 @@ L360:
 /*<          if (cabs1(e(i)) .eq. 0.0d0) go to 370 >*/
         i__2 = i__;
         i__3 = i__;
-        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. + 
+        z__1.r = e[i__3].r * 0. - e[i__3].i * -1., z__1.i = e[i__3].i * 0. +
                 e[i__3].r * -1.;
-        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) 
+        if ((d__1 = e[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.)
                 {
             goto L370;
         }
@@ -798,7 +798,7 @@ L360:
 /*<             s(i+1) = s(i+1)*r >*/
         i__2 = i__ + 1;
         i__3 = i__ + 1;
-        z__1.r = s[i__3].r * r__.r - s[i__3].i * r__.i, z__1.i = s[i__3].r * 
+        z__1.r = s[i__3].r * r__.r - s[i__3].i * r__.i, z__1.i = s[i__3].r *
                 r__.i + s[i__3].i * r__.r;
         s[i__2].r = z__1.r, s[i__2].i = z__1.i;
 /*<             if (wantv) call zscal(p,r,v(1,i+1),1) >*/
@@ -1084,8 +1084,8 @@ L580:
 
 /*<    >*/
 /* Computing MAX */
-    d__1 = z_abs(&s[m]), d__2 = z_abs(&s[m - 1]), d__1 = max(d__1,d__2), d__2 
-            = z_abs(&e[m - 1]), d__1 = max(d__1,d__2), d__2 = z_abs(&s[l]), 
+    d__1 = z_abs(&s[m]), d__2 = z_abs(&s[m - 1]), d__1 = max(d__1,d__2), d__2
+            = z_abs(&e[m - 1]), d__1 = max(d__1,d__2), d__2 = z_abs(&s[l]),
             d__1 = max(d__1,d__2), d__2 = z_abs(&e[l]);
     scale = max(d__1,d__2);
 /*<             sm = dreal(s(m))/scale >*/

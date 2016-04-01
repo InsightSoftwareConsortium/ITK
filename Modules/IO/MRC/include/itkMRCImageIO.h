@@ -50,7 +50,7 @@ namespace itk
  * "A Streaming IO Base Class and Support for Streaming the MRC and VTK File Format"
  * by Lowekamp B., Chen D.
  * http://www.insight-journal.org/browse/publication/729
- * http://hdl.handle.net/10380/3171
+ * https://hdl.handle.net/10380/3171
  *
  * \sa ImageFileWriter ImageFileReader ImageIOBase
  * \ingroup ITKIOMRC

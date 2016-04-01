@@ -15,5 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include <vxl_version.h>
+#if VXL_VERSION_DATE_FULL < 20160229
 #include "vnl/vnl_c_vector.txx"
+#else
+#include "vnl/vnl_c_vector.hxx"
+#endif
 VNL_C_VECTOR_INSTANTIATE_ordered(unsigned short);

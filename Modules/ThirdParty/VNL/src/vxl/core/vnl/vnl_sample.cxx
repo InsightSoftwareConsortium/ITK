@@ -3,10 +3,12 @@
 #pragma implementation
 #endif
 
+#include <cmath>
+#include <ctime>
 #include "vnl_sample.h"
 #include <vnl/vnl_math.h>
 
-#include <vcl_cmath.h>
+#include <vcl_compiler.h>
 #include <vxl_config.h>
 
 #include <stdlib.h> // dont_vxl_filter
@@ -17,14 +19,13 @@
 static unsigned long vnl_sample_seed = 12345;
 #endif
 
-# include <vcl_ctime.h>
 
 void vnl_sample_reseed()
 {
 #if VXL_STDLIB_HAS_SRAND48
-  srand48( vcl_time(0) );
+  srand48( std::time(VXL_NULLPTR) );
 #elif !VXL_STDLIB_HAS_DRAND48
-  vnl_sample_seed = (unsigned long)vcl_time(0);
+  vnl_sample_seed = (unsigned long)std::time(0);
 #endif
 }
 
@@ -53,18 +54,18 @@ double vnl_sample_uniform(double a, double b)
 void vnl_sample_normal_2(double *x, double *y)
 {
   double u     = vnl_sample_uniform(1, 0); // not (0,1): should not return 0
-  double theta = vnl_sample_uniform(0, 2 * vnl_math::pi);
+  double theta = vnl_sample_uniform(0, vnl_math::twopi);
 
-  double r = vcl_sqrt(-2*vcl_log(u));
+  double r = std::sqrt(-2*std::log(u));
 
-  if (x) *x = r * vcl_cos(theta);
-  if (y) *y = r * vcl_sin(theta);
+  if (x) *x = r * std::cos(theta);
+  if (y) *y = r * std::sin(theta);
 }
 
 double vnl_sample_normal(double mean, double sigma)
 {
   double x;
-  vnl_sample_normal_2(&x, 0);
+  vnl_sample_normal_2(&x, VXL_NULLPTR);
   return mean + sigma * x;
 }
 

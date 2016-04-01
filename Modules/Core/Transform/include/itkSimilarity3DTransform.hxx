@@ -19,7 +19,7 @@
 #define itkSimilarity3DTransform_hxx
 
 #include "itkSimilarity3DTransform.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/vnl_det.h"
 
 namespace itk
@@ -103,7 +103,7 @@ Similarity3DTransform<TParametersValueType>
   // It will imply a reflection of the coordinate system.
   //
 
-  double s = vnl_math_cuberoot(det);
+  double s = itk::Math::cbrt(det);
 
   //
   // A negative scale is not acceptable
@@ -309,7 +309,7 @@ Similarity3DTransform<TParametersValueType>
 {
   MatrixType matrix = this->GetMatrix();
 
-  m_Scale = vnl_math_cuberoot( vnl_det( matrix.GetVnlMatrix() ) );
+  m_Scale = itk::Math::cbrt( vnl_det( matrix.GetVnlMatrix() ) );
 
   matrix /= m_Scale;
 

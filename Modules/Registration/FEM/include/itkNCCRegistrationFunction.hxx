@@ -21,7 +21,7 @@
 #include "itkNCCRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkNeighborhoodIterator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -158,7 +158,7 @@ NCCRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
       double                    fixedGradientSquaredMagnitude = 0;
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
-        fixedGradientSquaredMagnitude += vnl_math_sqr(fixedGradient[j]) * m_FixedImageSpacing[j];
+        fixedGradientSquaredMagnitude += itk::Math::sqr(fixedGradient[j]) * m_FixedImageSpacing[j];
         }
 
       // Get moving image related information

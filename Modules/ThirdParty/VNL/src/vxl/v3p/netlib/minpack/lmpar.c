@@ -20,9 +20,9 @@ extern "C" {
 static integer c__2 = 2;
 
 /*<    >*/
-/* Subroutine */ int lmpar_(integer *n, doublereal *r__, integer *ldr, 
-        integer *ipvt, doublereal *diag, doublereal *qtb, doublereal *delta, 
-        doublereal *par, doublereal *x, doublereal *sdiag, doublereal *wa1, 
+/* Subroutine */ int lmpar_(integer *n, doublereal *r__, integer *ldr,
+        integer *ipvt, doublereal *diag, doublereal *qtb, doublereal *delta,
+        doublereal *par, doublereal *x, doublereal *sdiag, doublereal *wa1,
         doublereal *wa2)
 {
     /* Initialized data */
@@ -50,7 +50,7 @@ static integer c__2 = 2;
     doublereal gnorm;
     extern doublereal dpmpar_(integer *);
     doublereal dxnorm;
-    extern /* Subroutine */ int qrsolv_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int qrsolv_(integer *, doublereal *, integer *,
             integer *, doublereal *, doublereal *, doublereal *, doublereal *,
              doublereal *);
 

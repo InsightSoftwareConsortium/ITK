@@ -22,6 +22,12 @@
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
+// Macro to check that two arrays have the same size at compile time. It doesn't compile if they don't
+// as it tries to create an array of size(-1)
+// https://scaryreasoner.wordpress.com/2009/02/28/checking-sizeof-at-compile-time/
+#define CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(array1, array2)\
+ ((void)sizeof(char[1 - 2*!!( sizeof(array1) / sizeof(*array1) - sizeof(array2) / sizeof(*array2) )]))
+
 int itkImageIOBaseTest( int , char * [] )
 {
   itk::MetaImageIO::Pointer reader = itk::MetaImageIO::New();
@@ -119,81 +125,119 @@ int itkImageIOBaseTest( int , char * [] )
               << std::endl;
     return EXIT_FAILURE;
     }
+  { // Test string <-> type conversions
+  itk::ImageIOBase::IOComponentType listComponentType[] = {itk::ImageIOBase::UNKNOWNCOMPONENTTYPE,
+                                                           itk::ImageIOBase::UCHAR, itk::ImageIOBase::CHAR,
+                                                           itk::ImageIOBase::USHORT, itk::ImageIOBase::SHORT,
+                                                           itk::ImageIOBase::UINT, itk::ImageIOBase::INT,
+                                                           itk::ImageIOBase::ULONG, itk::ImageIOBase::LONG,
+                                                           itk::ImageIOBase::FLOAT, itk::ImageIOBase::DOUBLE};
+  const char* listComponentTypeString[] = {"unknown", "unsigned_char", "char", "unsigned_short", "short", "unsigned_int", "int",
+                                           "unsigned_long", "long", "float", "double"};
+  itk::ImageIOBase::IOPixelType listIOPixelType[] = {itk::ImageIOBase::UNKNOWNPIXELTYPE,itk::ImageIOBase::SCALAR,
+                                                     itk::ImageIOBase::RGB, itk::ImageIOBase::RGBA,
+                                                     itk::ImageIOBase::OFFSET, itk::ImageIOBase::VECTOR,
+                                                     itk::ImageIOBase::POINT, itk::ImageIOBase::COVARIANTVECTOR,
+                                                     itk::ImageIOBase::SYMMETRICSECONDRANKTENSOR,
+                                                     itk::ImageIOBase::DIFFUSIONTENSOR3D, itk::ImageIOBase::COMPLEX,
+                                                     itk::ImageIOBase::FIXEDARRAY, itk::ImageIOBase::MATRIX};
+  const char* listIOPixelTypeString[] = {"unknown", "scalar", "rgb", "rgba", "offset", "vector", "point", "covariant_vector",
+                                         "symmetric_second_rank_tensor", "diffusion_tensor_3D", "complex",
+                                         "fixed_array", "matrix"};
+  CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(listComponentTypeString, listComponentType);
+  CHECK_ARRAYS_HAVE_SAME_SIZE_AT_COMPILE_TIME(listIOPixelType, listIOPixelTypeString);
+  size_t listComponentSize = sizeof(listComponentType) / sizeof(*listComponentType);
+  size_t listPixelSize = sizeof(listIOPixelType) / sizeof(*listIOPixelType);
+    {  // Test the static version of the string <-> type conversions
+    for(size_t i = 0; i < listComponentSize; ++i)
+      {
+      std::string componentTypeString = itk::ImageIOBase::GetComponentTypeAsString(listComponentType[i]);
+      if(componentTypeString.compare(listComponentTypeString[i]) != 0)
+        {
+        std::cerr << "GetComponentTypeAsString("<<listComponentType[i]<<") should return '"<<listComponentTypeString[i]<<"'"
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    for(size_t i = 0; i < listPixelSize; ++i)
+      {
+      std::string pixelTypeString = itk::ImageIOBase::GetPixelTypeAsString(listIOPixelType[i]);
+      if(pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
+        {
+        std::cerr << "GetPixelTypeAsString("<< listIOPixelType[i] <<") should return '"<< listIOPixelTypeString[i] <<"'"
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    for(size_t i = 0; i < listComponentSize; ++i)
+      {
+      itk::ImageIOBase::IOComponentType componentType = itk::ImageIOBase::GetComponentTypeFromString(listComponentTypeString[i]);
+      if(componentType != listComponentType[i])
+        {
+        std::cerr << "GetComponentTypeFromString('"<< listComponentTypeString[i] <<"') should return " << listComponentType[i]
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    for(size_t i = 0; i < listPixelSize; ++i)
+      {
+      itk::ImageIOBase::IOPixelType pixelType = itk::ImageIOBase::GetPixelTypeFromString(listIOPixelTypeString[i]);
+      if(pixelType != listIOPixelType[i])
+        {
+        std::cerr << "GetPixelTypeFromString('"<< listIOPixelTypeString[i] << "') should return " << listIOPixelType[i]
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    }// end Test the static version of the string <-> type conversions
 
-  // Test the static version of the string <-> type conversions
-  {
-  std::string componentTypeString = itk::ImageIOBase::GetComponentTypeAsString(itk::ImageIOBase::UCHAR);
-  if(componentTypeString.compare("unsigned_char") != 0)
+    // Test the non-static version of the string <-> type conversions
     {
-    std::cerr << "GetComponentTypeAsString(UCHAR) should return 'unsigned_char'"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  std::string pixelTypeString = itk::ImageIOBase::GetPixelTypeAsString(itk::ImageIOBase::SCALAR);
-  if(pixelTypeString.compare("scalar") != 0)
-    {
-    std::cerr << "GetPixelTypeAsString(SCALAR) should return 'scalar'"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  itk::ImageIOBase::IOComponentType componentType = itk::ImageIOBase::GetComponentTypeFromString("unsigned_char");
-  if(componentType != itk::ImageIOBase::UCHAR)
-    {
-    std::cerr << "GetComponentTypeFromString('unsigned_char') should return UCHAR"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  itk::ImageIOBase::IOPixelType pixelType = itk::ImageIOBase::GetPixelTypeFromString("scalar");
-  if(pixelType != itk::ImageIOBase::SCALAR)
-    {
-    std::cerr << "GetPixelTypeFromString('scalar') should return SCALAR"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-  }// end Test the static version of the string <-> type conversions
-
-  // Test the non-static version of the string <-> type conversions
-  {
-  // Create an instance of ImageIOBase. It does not matter that 'test' is not a valid image to read,
-  // we just want the ImageIOBase object.
-  itk::ImageIOBase::Pointer imageIOBase = itk::ImageIOFactory::CreateImageIO(
-    "test", itk::ImageIOFactory::ReadMode);
-
-  std::string componentTypeString = imageIOBase->GetComponentTypeAsString(itk::ImageIOBase::UCHAR);
-  if(componentTypeString.compare("unsigned_char") != 0)
-    {
-    std::cerr << "GetComponentTypeAsString(UCHAR) should return 'unsigned_char'"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  std::string pixelTypeString = imageIOBase->GetPixelTypeAsString(itk::ImageIOBase::SCALAR);
-  if(pixelTypeString.compare("scalar") != 0)
-    {
-    std::cerr << "GetPixelTypeAsString(SCALAR) should return 'scalar'"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  itk::ImageIOBase::IOComponentType componentType = imageIOBase->GetComponentTypeFromString("unsigned_char");
-  if(componentType != itk::ImageIOBase::UCHAR)
-    {
-    std::cerr << "GetComponentTypeFromString('unsigned_char') should return UCHAR"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  itk::ImageIOBase::IOPixelType pixelType = imageIOBase->GetPixelTypeFromString("scalar");
-  if(pixelType != itk::ImageIOBase::SCALAR)
-    {
-    std::cerr << "GetPixelTypeFromString('scalar') should return SCALAR"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-  }// end Test the non-static version of the string <-> type conversions
-
+    // Create an instance of ImageIOBase. It does not matter that 'test' is not a valid image to read,
+    // we just want the ImageIOBase object.
+    itk::ImageIOBase::Pointer imageIOBase = itk::ImageIOFactory::CreateImageIO(
+      "test", itk::ImageIOFactory::ReadMode);
+    for(size_t i = 0; i < listComponentSize; ++i)
+      {
+      std::string componentTypeString = imageIOBase->GetComponentTypeAsString(listComponentType[i]);
+      if(componentTypeString.compare(listComponentTypeString[i]) != 0)
+        {
+        std::cerr << "GetComponentTypeAsString("<< listComponentType[i] <<") should return '" << listComponentTypeString[i] <<"'"
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    for(size_t i = 0; i < listPixelSize; ++i)
+      {
+      std::string pixelTypeString = imageIOBase->GetPixelTypeAsString(listIOPixelType[i]);
+      if(pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
+        {
+        std::cerr << "GetPixelTypeAsString("<< listIOPixelType[i] <<") should return " << listIOPixelTypeString[i]
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    for(size_t i = 0; i < listComponentSize; ++i)
+      {
+      itk::ImageIOBase::IOComponentType componentType = imageIOBase->GetComponentTypeFromString(listComponentTypeString[i]);
+      if(componentType != listComponentType[i])
+        {
+        std::cerr << "GetComponentTypeFromString('" << listComponentTypeString[i] << "') should return " << listComponentType[i]
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    for(size_t i = 0; i < listPixelSize; ++i)
+      {
+      itk::ImageIOBase::IOPixelType pixelType = imageIOBase->GetPixelTypeFromString(listIOPixelTypeString[i]);
+      if(pixelType != listIOPixelType[i])
+        {
+        std::cerr << "GetPixelTypeFromString('"<< listIOPixelTypeString[i] <<"') should return " << listIOPixelType[i]
+                  << std::endl;
+        return EXIT_FAILURE;
+        }
+      }
+    }// end Test the non-static version of the string <-> type conversions
+  }
   return EXIT_SUCCESS;
 }

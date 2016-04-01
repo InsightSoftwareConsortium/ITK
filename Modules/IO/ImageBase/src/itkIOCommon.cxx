@@ -56,37 +56,36 @@ std::string IOCommon
     {
     case ITK_UCHAR:
       return "unsigned char";
-      break;
+
     case ITK_CHAR:
       return "char";
-      break;
+
     case ITK_USHORT:
       return "unsigned short";
-      break;
+
     case ITK_SHORT:
       return "short";
-      break;
+
     case ITK_UINT:
       return "unsigned int";
-      break;
+
     case ITK_INT:
       return "int";
-      break;
+
     case ITK_ULONG:
       return "unsigned long";
-      break;
+
     case ITK_LONG:
       return "long";
-      break;
+
     case ITK_FLOAT:
       return "float";
-      break;
+
     case ITK_DOUBLE:
       return "double";
-      break;
+
     default:
       return "unknown";
-      break;
     }
 }
 
@@ -97,37 +96,37 @@ unsigned int IOCommon
     {
     case ITK_CHAR:
       return static_cast< unsigned int >( sizeof( char ) );
-      break;
+
     case ITK_UCHAR:
       return static_cast< unsigned int >( sizeof( unsigned char ) );
-      break;
+
     case ITK_SHORT:
       return static_cast< unsigned int >( sizeof( short ) );
-      break;
+
     case ITK_USHORT:
       return static_cast< unsigned int >( sizeof( unsigned short ) );
-      break;
+
     case ITK_INT:
       return static_cast< unsigned int >( sizeof( int ) );
-      break;
+
     case ITK_UINT:
       return static_cast< unsigned int >( sizeof( unsigned int ) );
-      break;
+
     case ITK_LONG:
       return static_cast< unsigned int >( sizeof( long ) );
-      break;
+
     case ITK_ULONG:
       return static_cast< unsigned int >( sizeof( unsigned long ) );
-      break;
+
     case ITK_FLOAT:
       return static_cast< unsigned int >( sizeof( float ) );
-      break;
+
     case ITK_DOUBLE:
       return static_cast< unsigned int >( sizeof( double ) );
-      break;
+
     default:
       return static_cast< unsigned int >( sizeof( char ) );
-      break;
+
     }
 }
 } // namespace itk

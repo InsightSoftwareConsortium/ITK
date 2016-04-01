@@ -1,11 +1,13 @@
 // This is core/vnl/tests/test_matlab.cxx
+#include <iostream>
+#include <cstring>
+#include <fstream>
 #include <testlib/testlib_test.h>
 //:
 // \file
 // \author fsm
 
-#include <vcl_cstring.h>
-#include <vcl_fstream.h>
+#include <vcl_compiler.h>
 
 #include <vpl/vpl.h>
 
@@ -29,7 +31,7 @@
 // this duplicates code from vnl_matlab_write, but it's the only way to
 // get a byte-swapped file, short of reading in a native file and swapping it
 // and writing it back out, and that isn't any easier.
-void matlab_write_swapped(vcl_ostream &f,
+void matlab_write_swapped(std::ostream &f,
                           float *array,
                           unsigned size,
                           char const *name)
@@ -41,14 +43,14 @@ void matlab_write_swapped(vcl_ostream &f,
   hdr.rows = (long)size;
   hdr.cols = 1;
   hdr.imag = 0;                 // not complex
-  hdr.namlen = (unsigned long)vcl_strlen(name)+1L;
+  hdr.namlen = (unsigned long)std::strlen(name)+1L;
   byteswap::swap32(&hdr.type);
   byteswap::swap32(&hdr.rows);
   byteswap::swap32(&hdr.cols);
   byteswap::swap32(&hdr.imag);
   byteswap::swap32(&hdr.namlen);
   f.write((char const *)&hdr, sizeof(hdr));
-  f.write((char const *)name, vcl_strlen(name)+1);
+  f.write((char const *)name, std::strlen(name)+1);
   for (unsigned i = 0; i < size; ++i)
   {
     float dummy = array[i];
@@ -59,7 +61,7 @@ void matlab_write_swapped(vcl_ostream &f,
 
 static void fsm_assert_(int lineno, bool pass, char const *expr)
 {
-  vcl_cout << __FILE__ " : " << lineno << vcl_endl;
+  std::cout << __FILE__ " : " << lineno << std::endl;
   testlib_test_assert(expr, pass);
 }
 #define fsm_assert(c) fsm_assert_(__LINE__, c, #c);
@@ -78,27 +80,27 @@ static void test_matlab()
       Mf(i,j) = M(i,j) = 0.1*i*j;
 
   { // vnl_matlab_print
-    vcl_cout << v << vcl_endl;
-    vnl_matlab_print(vcl_cout, v, "v");
+    std::cout << v << std::endl;
+    vnl_matlab_print(std::cout, v, "v");
 
-    vcl_cout << vf << vcl_endl;
-    vnl_matlab_print(vcl_cout, vf, "vf");
+    std::cout << vf << std::endl;
+    vnl_matlab_print(std::cout, vf, "vf");
 
-    vcl_cout << M << vcl_endl;
-    vnl_matlab_print(vcl_cout, M, "M") << vcl_endl;
+    std::cout << M << std::endl;
+    vnl_matlab_print(std::cout, M, "M") << std::endl;
 
-    vcl_cout << Mf << vcl_endl;
-    vnl_matlab_print(vcl_cout, Mf, "Mf") << vcl_endl;
+    std::cout << Mf << std::endl;
+    vnl_matlab_print(std::cout, Mf, "Mf") << std::endl;
   }
 
   // vnl_matlab_write, vnl_matlab_read
   {
-    vcl_string tmp_nam = vul_temp_filename(),
+    std::string tmp_nam = vul_temp_filename(),
                tmp_nam2 = vul_temp_filename();
     char const *file = tmp_nam!="" ? tmp_nam.c_str() : "smoo.mat";
     char const *file2 = tmp_nam2!="" ? tmp_nam2.c_str() : "smoo2.mat";
     {
-      vcl_ofstream f(file);
+      std::ofstream f(file);
 #ifdef LEAVE_IMAGES_BEHIND
       vpl_chmod(file, 0666); // -rw-rw-rw-
 #endif
@@ -106,11 +108,11 @@ static void test_matlab()
       vnl_matlab_write(f, (double const * const *)M.data_array(), M.rows(), M.cols(), (char const *)"M");
 
       // write swapped matlab file
-      vcl_ofstream f2(file2);
+      std::ofstream f2(file2);
       matlab_write_swapped(f2, v.begin(), v.size(), "v");
     }
     {
-      vcl_ifstream f(file);
+      std::ifstream f(file);
 
       vnl_matlab_readhdr vh(f);
       fsm_assert( vh?true:false );
@@ -118,19 +120,19 @@ static void test_matlab()
       fsm_assert( vh.rows() == (int)v.size());
       fsm_assert( vh.cols() == 1);
       fsm_assert(!vh.is_complex());
-      fsm_assert(vcl_strcmp(vh.name(), "v")==0);
+      fsm_assert(std::strcmp(vh.name(), "v")==0);
       vnl_vector<float> v_(v.size());
       fsm_assert( vh.read_data(v_.begin()));
       fsm_assert(v_ == v);
 
-      vcl_ifstream f2(file2);
+      std::ifstream f2(file2);
       vnl_matlab_readhdr vh2(f2);
       fsm_assert( vh2?true:false );
       fsm_assert( vh2.is_single());
       fsm_assert( vh2.rows() == (int)v.size());
       fsm_assert( vh2.cols() == 1);
       fsm_assert(!vh2.is_complex());
-      fsm_assert(vcl_strcmp(vh2.name(), "v")==0);
+      fsm_assert(std::strcmp(vh2.name(), "v")==0);
       vnl_vector<float> v_2(v.size());
       fsm_assert( vh2.read_data(v_2.begin()));
       fsm_assert( v_2 == v);
@@ -142,7 +144,7 @@ static void test_matlab()
       fsm_assert( Mh.cols() == (int)M.cols());
       fsm_assert( Mh.is_rowwise());
       fsm_assert(!Mh.is_complex());
-      fsm_assert(vcl_strcmp(Mh.name(), "M")==0);
+      fsm_assert(std::strcmp(Mh.name(), "M")==0);
       vnl_matrix<double> M_( M.rows(), M.cols());
       fsm_assert( Mh.read_data(M_.data_array()));
       fsm_assert(M_ == M);

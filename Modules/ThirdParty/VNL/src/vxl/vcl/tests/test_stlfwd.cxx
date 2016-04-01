@@ -2,14 +2,6 @@
 #include <vcl_functional.h>
 #include <vcl_string.h> // C++ specific includes first
 
-#if defined(TEST) && TEST == 1
-// STL included later - this does not work with vcl/emulation because of "redefinition of default argument"
-#include <vcl_stlfwd.h>
-#include <vcl_map.h>
-#include <vcl_set.h>
-#include <vcl_list.h>
-
-#else
 #if defined(TEST) && TEST == 2
 // stl included first
 
@@ -22,7 +14,6 @@
 // Normal
 #include <vcl_stlfwd.h>
 
-#endif
 #endif
 
 void f(vcl_map<int, vcl_string,vcl_less<int> >*,

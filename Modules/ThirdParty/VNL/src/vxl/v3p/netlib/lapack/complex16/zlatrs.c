@@ -22,8 +22,8 @@ static doublereal c_b36 = .5;
 
 /*<    >*/
 /* Subroutine */ int zlatrs_(char *uplo, char *trans, char *diag, char *
-        normin, integer *n, doublecomplex *a, integer *lda, doublecomplex *x, 
-        doublereal *scale, doublereal *cnorm, integer *info, ftnlen uplo_len, 
+        normin, integer *n, doublecomplex *a, integer *lda, doublecomplex *x,
+        doublereal *scale, doublereal *cnorm, integer *info, ftnlen uplo_len,
         ftnlen trans_len, ftnlen diag_len, ftnlen normin_len)
 {
     /* System generated locals */
@@ -44,21 +44,21 @@ static doublereal c_b36 = .5;
     doublereal tmax;
     doublecomplex tjjs;
     doublereal xmax, grow;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal tscal;
     doublecomplex uscal;
     integer jlast;
     doublecomplex csumj;
-    extern /* Double Complex */ VOID zdotc_(doublecomplex *, integer *, 
+    extern /* Double Complex */ VOID zdotc_(doublecomplex *, integer *,
             doublecomplex *, integer *, doublecomplex *, integer *);
     logical upper;
-    extern /* Double Complex */ VOID zdotu_(doublecomplex *, integer *, 
+    extern /* Double Complex */ VOID zdotu_(doublecomplex *, integer *,
             doublecomplex *, integer *, doublecomplex *, integer *);
-    extern /* Subroutine */ int zaxpy_(integer *, doublecomplex *, 
+    extern /* Subroutine */ int zaxpy_(integer *, doublecomplex *,
             doublecomplex *, integer *, doublecomplex *, integer *), ztrsv_(
-            char *, char *, char *, integer *, doublecomplex *, integer *, 
+            char *, char *, char *, integer *, doublecomplex *, integer *,
             doublecomplex *, integer *, ftnlen, ftnlen, ftnlen), dlabad_(
             doublereal *, doublereal *);
     extern doublereal dlamch_(char *, ftnlen);
@@ -304,7 +304,7 @@ static doublereal c_b36 = .5;
 /*<          INFO = -1 >*/
         *info = -1;
 /*<    >*/
-    } else if (! notran && ! lsame_(trans, "T", (ftnlen)1, (ftnlen)1) && ! 
+    } else if (! notran && ! lsame_(trans, "T", (ftnlen)1, (ftnlen)1) && !
             lsame_(trans, "C", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = -2 >*/
         *info = -2;
@@ -430,7 +430,7 @@ static doublereal c_b36 = .5;
 /*<          XMAX = MAX( XMAX, CABS2( X( J ) ) ) >*/
 /* Computing MAX */
         i__2 = j;
-        d__3 = xmax, d__4 = (d__1 = x[i__2].r / 2., abs(d__1)) + (d__2 = 
+        d__3 = xmax, d__4 = (d__1 = x[i__2].r / 2., abs(d__1)) + (d__2 =
                 d_imag(&x[j]) / 2., abs(d__2));
         xmax = max(d__3,d__4);
 /*<    30 CONTINUE >*/
@@ -762,7 +762,7 @@ L90:
 
 /*<                XJ = CABS1( X( J ) ) >*/
                 i__3 = j;
-                xj = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = d_imag(&x[j]), 
+                xj = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = d_imag(&x[j]),
                         abs(d__2));
 /*<                IF( NOUNIT ) THEN >*/
                 if (nounit) {
@@ -984,7 +984,7 @@ L110:
 
 /*<                XJ = CABS1( X( J ) ) >*/
                 i__3 = j;
-                xj = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = d_imag(&x[j]), 
+                xj = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = d_imag(&x[j]),
                         abs(d__2));
 /*<                USCAL = TSCAL >*/
                 uscal.r = tscal, uscal.i = 0.;
@@ -1011,7 +1011,7 @@ L110:
 /*<                   END IF >*/
                     }
 /*<                   TJJ = CABS1( TJJS ) >*/
-                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs), 
+                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs),
                             abs(d__2));
 /*<                   IF( TJJ.GT.ONE ) THEN >*/
                     if (tjj > 1.) {
@@ -1076,14 +1076,14 @@ L110:
                         for (i__ = 1; i__ <= i__3; ++i__) {
 /*<                         CSUMJ = CSUMJ + ( A( I, J )*USCAL )*X( I ) >*/
                             i__4 = i__ + j * a_dim1;
-                            z__3.r = a[i__4].r * uscal.r - a[i__4].i * 
+                            z__3.r = a[i__4].r * uscal.r - a[i__4].i *
                                     uscal.i, z__3.i = a[i__4].r * uscal.i + a[
                                     i__4].i * uscal.r;
                             i__5 = i__;
-                            z__2.r = z__3.r * x[i__5].r - z__3.i * x[i__5].i, 
+                            z__2.r = z__3.r * x[i__5].r - z__3.i * x[i__5].i,
                                     z__2.i = z__3.r * x[i__5].i + z__3.i * x[
                                     i__5].r;
-                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i + 
+                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i +
                                     z__2.i;
                             csumj.r = z__1.r, csumj.i = z__1.i;
 /*<   130                CONTINUE >*/
@@ -1096,14 +1096,14 @@ L110:
                         for (i__ = j + 1; i__ <= i__3; ++i__) {
 /*<                         CSUMJ = CSUMJ + ( A( I, J )*USCAL )*X( I ) >*/
                             i__4 = i__ + j * a_dim1;
-                            z__3.r = a[i__4].r * uscal.r - a[i__4].i * 
+                            z__3.r = a[i__4].r * uscal.r - a[i__4].i *
                                     uscal.i, z__3.i = a[i__4].r * uscal.i + a[
                                     i__4].i * uscal.r;
                             i__5 = i__;
-                            z__2.r = z__3.r * x[i__5].r - z__3.i * x[i__5].i, 
+                            z__2.r = z__3.r * x[i__5].r - z__3.i * x[i__5].i,
                                     z__2.i = z__3.r * x[i__5].i + z__3.i * x[
                                     i__5].r;
-                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i + 
+                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i +
                                     z__2.i;
                             csumj.r = z__1.r, csumj.i = z__1.i;
 /*<   140                CONTINUE >*/
@@ -1124,7 +1124,7 @@ L110:
 /*<                   X( J ) = X( J ) - CSUMJ >*/
                     i__3 = j;
                     i__4 = j;
-                    z__1.r = x[i__4].r - csumj.r, z__1.i = x[i__4].i - 
+                    z__1.r = x[i__4].r - csumj.r, z__1.i = x[i__4].i -
                             csumj.i;
                     x[i__3].r = z__1.r, x[i__3].i = z__1.i;
 /*<                   XJ = CABS1( X( J ) ) >*/
@@ -1152,7 +1152,7 @@ L110:
 /*                    Compute x(j) = x(j) / A(j,j), scaling if necessary. */
 
 /*<                   TJJ = CABS1( TJJS ) >*/
-                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs), 
+                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs),
                             abs(d__2));
 /*<                   IF( TJJ.GT.SMLNUM ) THEN >*/
                     if (tjj > smlnum) {
@@ -1249,7 +1249,7 @@ L160:
 /*<                XMAX = MAX( XMAX, CABS1( X( J ) ) ) >*/
 /* Computing MAX */
                 i__3 = j;
-                d__3 = xmax, d__4 = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = 
+                d__3 = xmax, d__4 = (d__1 = x[i__3].r, abs(d__1)) + (d__2 =
                         d_imag(&x[j]), abs(d__2));
                 xmax = max(d__3,d__4);
 /*<   170       CONTINUE >*/
@@ -1271,7 +1271,7 @@ L160:
 
 /*<                XJ = CABS1( X( J ) ) >*/
                 i__3 = j;
-                xj = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = d_imag(&x[j]), 
+                xj = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = d_imag(&x[j]),
                         abs(d__2));
 /*<                USCAL = TSCAL >*/
                 uscal.r = tscal, uscal.i = 0.;
@@ -1297,7 +1297,7 @@ L160:
 /*<                   END IF >*/
                     }
 /*<                   TJJ = CABS1( TJJS ) >*/
-                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs), 
+                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs),
                             abs(d__2));
 /*<                   IF( TJJ.GT.ONE ) THEN >*/
                     if (tjj > 1.) {
@@ -1362,14 +1362,14 @@ L160:
                         for (i__ = 1; i__ <= i__3; ++i__) {
 /*<    >*/
                             d_cnjg(&z__4, &a[i__ + j * a_dim1]);
-                            z__3.r = z__4.r * uscal.r - z__4.i * uscal.i, 
-                                    z__3.i = z__4.r * uscal.i + z__4.i * 
+                            z__3.r = z__4.r * uscal.r - z__4.i * uscal.i,
+                                    z__3.i = z__4.r * uscal.i + z__4.i *
                                     uscal.r;
                             i__4 = i__;
-                            z__2.r = z__3.r * x[i__4].r - z__3.i * x[i__4].i, 
+                            z__2.r = z__3.r * x[i__4].r - z__3.i * x[i__4].i,
                                     z__2.i = z__3.r * x[i__4].i + z__3.i * x[
                                     i__4].r;
-                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i + 
+                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i +
                                     z__2.i;
                             csumj.r = z__1.r, csumj.i = z__1.i;
 /*<   180                CONTINUE >*/
@@ -1382,14 +1382,14 @@ L160:
                         for (i__ = j + 1; i__ <= i__3; ++i__) {
 /*<    >*/
                             d_cnjg(&z__4, &a[i__ + j * a_dim1]);
-                            z__3.r = z__4.r * uscal.r - z__4.i * uscal.i, 
-                                    z__3.i = z__4.r * uscal.i + z__4.i * 
+                            z__3.r = z__4.r * uscal.r - z__4.i * uscal.i,
+                                    z__3.i = z__4.r * uscal.i + z__4.i *
                                     uscal.r;
                             i__4 = i__;
-                            z__2.r = z__3.r * x[i__4].r - z__3.i * x[i__4].i, 
+                            z__2.r = z__3.r * x[i__4].r - z__3.i * x[i__4].i,
                                     z__2.i = z__3.r * x[i__4].i + z__3.i * x[
                                     i__4].r;
-                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i + 
+                            z__1.r = csumj.r + z__2.r, z__1.i = csumj.i +
                                     z__2.i;
                             csumj.r = z__1.r, csumj.i = z__1.i;
 /*<   190                CONTINUE >*/
@@ -1410,7 +1410,7 @@ L160:
 /*<                   X( J ) = X( J ) - CSUMJ >*/
                     i__3 = j;
                     i__4 = j;
-                    z__1.r = x[i__4].r - csumj.r, z__1.i = x[i__4].i - 
+                    z__1.r = x[i__4].r - csumj.r, z__1.i = x[i__4].i -
                             csumj.i;
                     x[i__3].r = z__1.r, x[i__3].i = z__1.i;
 /*<                   XJ = CABS1( X( J ) ) >*/
@@ -1437,7 +1437,7 @@ L160:
 /*                    Compute x(j) = x(j) / A(j,j), scaling if necessary. */
 
 /*<                   TJJ = CABS1( TJJS ) >*/
-                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs), 
+                    tjj = (d__1 = tjjs.r, abs(d__1)) + (d__2 = d_imag(&tjjs),
                             abs(d__2));
 /*<                   IF( TJJ.GT.SMLNUM ) THEN >*/
                     if (tjj > smlnum) {
@@ -1534,7 +1534,7 @@ L210:
 /*<                XMAX = MAX( XMAX, CABS1( X( J ) ) ) >*/
 /* Computing MAX */
                 i__3 = j;
-                d__3 = xmax, d__4 = (d__1 = x[i__3].r, abs(d__1)) + (d__2 = 
+                d__3 = xmax, d__4 = (d__1 = x[i__3].r, abs(d__1)) + (d__2 =
                         d_imag(&x[j]), abs(d__2));
                 xmax = max(d__3,d__4);
 /*<   220       CONTINUE >*/

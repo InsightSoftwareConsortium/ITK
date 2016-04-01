@@ -16,7 +16,8 @@
 //      Feb.2002 - Peter Vanroose - brief doxygen comment placed on single line
 // \endverbatim
 
-#include <vcl_string.h>
+#include <string>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 
 
@@ -122,11 +123,11 @@ class vnl_nonlinear_minimizer
 
   //: Return the name of the class.
   //  Used by polymorphic IO
-  virtual vcl_string is_a() const;
+  virtual std::string is_a() const;
 
   //: Return true if the name of the class matches the argument.
   //  Used by polymorphic IO
-  virtual bool is_class(vcl_string const& s) const;
+  virtual bool is_class(std::string const& s) const;
 
   //:Return the failure code of the last minimization
   ReturnCodes get_failure_code() const { return failure_code_; }

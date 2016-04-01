@@ -33,7 +33,7 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   const unsigned int imageSize = 1024;
   const double tol = std::pow( .000001, 1.0 / order );
 
-  double frequency = frequencyPerImage * 2.0 * vnl_math::pi / ( imageSize * pixelSpacing );
+  double frequency = frequencyPerImage * 2.0 * itk::Math::pi / ( imageSize * pixelSpacing );
 
   // The theoretical maximal value should occur at this sigma
   double sigma_max = std::sqrt( double( order ) ) / frequency;

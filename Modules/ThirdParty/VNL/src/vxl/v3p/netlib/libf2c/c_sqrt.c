@@ -22,21 +22,21 @@ void c_sqrt(complex *r, complex *z)
         double zi = z->i, zr = z->r;
 
         if( (mag = f__cabs(zr, zi)) == 0.)
-                r->r = r->i = 0.0f;
+                r->r = r->i = 0.;
         else if(zr > 0)
                 {
-                r->r = (real)(t = sqrt(0.5 * (mag + zr) ));
+                r->r = t = sqrt(0.5 * (mag + zr) );
                 t = zi / t;
-                r->i = (real)( 0.5 * t);
+                r->i = 0.5 * t;
                 }
         else
                 {
                 t = sqrt(0.5 * (mag - zr) );
                 if(zi < 0)
                         t = -t;
-                r->i = (real)t;
+                r->i = t;
                 t = zi / t;
-                r->r = (real)(0.5 * t);
+                r->r = 0.5 * t;
                 }
         }
 #ifdef __cplusplus

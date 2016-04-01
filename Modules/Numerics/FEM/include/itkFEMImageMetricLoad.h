@@ -30,7 +30,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include <itkMutualInformationImageToImageMetric.h>
 #include <itkMattesMutualInformationImageToImageMetric.h>

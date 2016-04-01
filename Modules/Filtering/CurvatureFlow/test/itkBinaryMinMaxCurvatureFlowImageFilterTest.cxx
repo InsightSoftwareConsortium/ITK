@@ -110,7 +110,7 @@ int testBinaryMinMaxCurvatureFlow(
    * Create an image containing a circle/sphere with intensity of 0
    * and background of 255 with added salt and pepper noise.
    */
-  double sqrRadius = vnl_math_sqr( radius );  // radius of the circle/sphere
+  double sqrRadius = itk::Math::sqr( radius );  // radius of the circle/sphere
   double fractionNoise = 0.30;              // salt & pepper noise fraction
   PixelType foreground = 0.0;               // intensity value of the foreground
   PixelType background = 255.0;             // intensity value of the background
@@ -135,7 +135,7 @@ int testBinaryMinMaxCurvatureFlow(
     double lhs = 0.0;
     for ( j = 0; j < ImageDimension; j++ )
       {
-      lhs += vnl_math_sqr( (double) index[j] - (double) size[j] * 0.5 );
+      lhs += itk::Math::sqr( (double) index[j] - (double) size[j] * 0.5 );
       }
     if ( lhs < sqrRadius )
       {
@@ -148,8 +148,8 @@ int testBinaryMinMaxCurvatureFlow(
 
     if ( vnl_sample_uniform( 0.0, 1.0 ) < fractionNoise )
       {
-      value = vnl_sample_uniform( vnl_math_min(foreground,background),
-        vnl_math_max(foreground,background) );
+      value = vnl_sample_uniform( std::min(foreground,background),
+        std::max(foreground,background) );
       }
     circleIter.Set( value );
     }
@@ -207,7 +207,7 @@ int testBinaryMinMaxCurvatureFlow(
    * pixels is less than the original noise fraction.
    */
   std::cout << "Checking the output..." << std::endl;
-  const PixelType tolerance = vnl_math_abs( foreground - background ) * 0.1;
+  const PixelType tolerance = itk::Math::abs( foreground - background ) * 0.1;
 
   unsigned long numPixelsWrong = 0;
   for (IteratorType outIter( swapPointer, swapPointer->GetBufferedRegion() );
@@ -219,16 +219,16 @@ int testBinaryMinMaxCurvatureFlow(
     double lhs = 0.0;
     for ( j = 0; j < ImageDimension; j++ )
       {
-      lhs += vnl_math_sqr( (double) index[j] - (double) size[j] * 0.5 );
+      lhs += itk::Math::sqr( (double) index[j] - (double) size[j] * 0.5 );
       }
     if ( lhs < sqrRadius )
       {
-      if ( vnl_math_abs( foreground - value ) > tolerance )
+      if ( itk::Math::abs( foreground - value ) > tolerance )
         {
         numPixelsWrong++;
         }
       }
-    else if ( vnl_math_abs( background - value ) > tolerance )
+    else if ( itk::Math::abs( background - value ) > tolerance )
       {
       numPixelsWrong++;
       }

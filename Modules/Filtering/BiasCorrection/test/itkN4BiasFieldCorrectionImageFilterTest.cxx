@@ -171,7 +171,6 @@ int N4( int argc, char *argv[] )
   typedef itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType,
                                                 ImageType> CorrecterType;
   typename CorrecterType::Pointer correcter = CorrecterType::New();
-  correcter->SetMaskLabel( 1 );
   correcter->SetSplineOrder( 3 );
   correcter->SetWienerFilterNoise( 0.01 );
   correcter->SetBiasFieldFullWidthAtHalfMaximum( 0.15 );
@@ -345,10 +344,10 @@ int itkN4BiasFieldCorrectionImageFilterTest( int argc, char *argv[] )
     {
     case 2:
       return N4<2>( argc, argv );
-      break;
+
     case 3:
       return N4<3>( argc, argv );
-      break;
+
     default:
       std::cerr << "Unsupported dimension" << std::endl;
       exit( EXIT_FAILURE );

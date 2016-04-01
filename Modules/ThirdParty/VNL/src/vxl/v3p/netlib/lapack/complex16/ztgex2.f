@@ -85,7 +85,7 @@
 *           =0:  Successful exit.
 *           =1:  The transformed matrix pair (A, B) would be too far
 *                from generalized Schur form; the problem is ill-
-*                conditioned. 
+*                conditioned.
 *
 *
 *  Further Details
@@ -174,7 +174,7 @@
       CALL ZLASSQ( 2*M*M, WORK, 1, SCALE, SUM )
       SA = SCALE*SQRT( SUM )
 *
-*     THRES has been changed from 
+*     THRES has been changed from
 *        THRESH = MAX( TEN*EPS*SA, SMLNUM )
 *     to
 *        THRESH = MAX( TWENTY*EPS*SA, SMLNUM )

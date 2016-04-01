@@ -28,7 +28,7 @@ namespace itk
  *
  * This class was contributed to the Insight Journal by Gaetan Lehmann.
  * The original paper can be found at
- *   http://hdl.handle.net/1926/164
+ *   https://hdl.handle.net/1926/164
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
  * INRA de Jouy-en-Josas, France.
@@ -86,7 +86,7 @@ public:
     RealType squaredSum = NumericTraits< RealType >::ZeroValue();
     for ( it = m_Values.begin(); it != m_Values.end(); it++ )
       {
-      squaredSum += vnl_math_sqr(*it - mean);
+      squaredSum += itk::Math::sqr(*it - mean);
       }
     return std::sqrt( squaredSum / ( m_Size - 1 ) );
   }

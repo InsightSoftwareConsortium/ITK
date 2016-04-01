@@ -1,4 +1,8 @@
 // This is core/vnl/algo/tests/test_functions.cxx
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <ctime>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -16,10 +20,7 @@
 // For readability reasons, the rows are split in 2x 5 rows, with an extra
 // indentation for the second half of each row.
 
-#include <vcl_iostream.h>
-#include <vcl_iomanip.h>
-#include <vcl_cmath.h>
-#include <vcl_ctime.h>
+#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_chi_squared.h>
 
@@ -69,23 +70,22 @@ double cdf_baseline[] =
 
 int test_functions()
 {
-  int n;
-  double chisq;
   int idx = 0;
-  for (n=1; n<100; n+=5)
+  for (unsigned int n=1; n<100; n+=5)
   {
-    for (chisq = 0; chisq < 200; chisq+=20)
+    for (unsigned int chisq_int = 0; chisq_int < 200; chisq_int += 20)
     {
-      double cdf = vnl_chi_squared_cumulative(chisq,n);
-      double err = vcl_fabs(cdf - cdf_baseline[idx++]);
-      vcl_cout << "vnl_chi_squared_cumulative(" << chisq << ',' << n << ')';
+      const double chisq = static_cast<double>(chisq_int);
+      const double cdf = vnl_chi_squared_cumulative(chisq,n);
+      const double err = std::fabs(cdf - cdf_baseline[idx++]);
+      std::cout << "vnl_chi_squared_cumulative(" << chisq << ',' << n << ')';
       TEST_NEAR(" CDF", err, 0.0, 2e-15);
       if (err >= 2e-15)
-        vcl_cout << "Error = " << vcl_setprecision(16) << err << vcl_endl;
+        std::cout << "Error = " << std::setprecision(16) << err << std::endl;
     }
   }
 
-  vcl_cout << "cdf(7.88,1) = " << vnl_chi_squared_cumulative(7.88,1)
+  std::cout << "cdf(7.88,1) = " << vnl_chi_squared_cumulative(7.88,1)
            << " should be about 0.995\n"
            << "cdf(14.8,12) = " << vnl_chi_squared_cumulative(14.8,12)
            << " should be about 0.75\n"
@@ -98,7 +98,7 @@ int test_functions()
 
   // rand() is not always a good random number generator,
   // so use the following congruential random number generator - PVr
-  static unsigned long sample_seed = (unsigned long)vcl_time(0);
+  static unsigned long sample_seed = (unsigned long)std::time(VXL_NULLPTR);
 
   double hist1[20];
   for (int i=0; i<20; i++)
@@ -107,17 +107,17 @@ int test_functions()
     double u = double(sample_seed)/0x7fffffff; // 0x7fffffff == 2147483711L
     hist1[i] = 10.0+20.0*(u-0.5); // uniform in the interval 0 - 20
   }
-  chisq = 0;
+  double chisq = 0;
   for (int i=0; i<20; i++)
   {
-    vcl_cout << i << ' ' << hist1[i] << vcl_endl;
+    std::cout << i << ' ' << hist1[i] << std::endl;
     double delta = hist1[i] - 10.0;
     chisq += delta*delta/(hist1[i] + 10.0);
   }
-  vcl_cout << "cdf(" << chisq << ",20) = "
+  std::cout << "cdf(" << chisq << ",20) = "
            << vnl_chi_squared_cumulative(chisq,20)
            << " so P(same dist) = " << (1.0 - vnl_chi_squared_cumulative(chisq,20))
-           << vcl_endl;
+           << std::endl;
   return 0;
 }
 

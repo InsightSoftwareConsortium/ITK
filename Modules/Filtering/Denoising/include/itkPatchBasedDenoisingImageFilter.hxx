@@ -276,12 +276,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       (Math::Round<double>(1.0 / m_KernelBandwidthFractionPixelsForEstimation) );
   // For automatic sigma estimation, use at least 1% of pixels.
   m_SigmaUpdateDecimationFactor
-    = vnl_math_min(m_SigmaUpdateDecimationFactor,
+    = std::min(m_SigmaUpdateDecimationFactor,
                    static_cast<unsigned int>
                    (Math::Round<double>(m_TotalNumberPixels / 100.0) ) );
   // For automatic sigma estimation, can't use more than 100% of pixels.
   m_SigmaUpdateDecimationFactor
-    = vnl_math_max(m_SigmaUpdateDecimationFactor, 1u);
+    = std::max(m_SigmaUpdateDecimationFactor, 1u);
 
   itkDebugMacro(  <<"m_KernelBandwidthFractionPixelsForEstimation: "
                   << m_KernelBandwidthFractionPixelsForEstimation << ", "
@@ -581,7 +581,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       const float        weight
         = (-2.0 / pow (interval, 3.0) ) * pow ( (patchRadius + 1) - distanceFromCenter, 3.0f)
           + ( 3.0 / pow (interval, 2.0) ) * pow ( (patchRadius + 1) - distanceFromCenter, 2.0f);
-      pwIt.Set(vnl_math_max (static_cast<float>(0), vnl_math_min (static_cast<float>(1), weight) ) );
+      pwIt.Set(std::max (static_cast<float>(0), std::min (static_cast<float>(1), weight) ) );
       }
     }
 
@@ -622,9 +622,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   for ( vwIt.GoToBegin(), pos = 0; !vwIt.IsAtEnd(); ++vwIt, ++pos )
     {
     patchWeights[pos]
-      = vnl_math_max ( static_cast<float>(0),                // ensure weight >=
+      = std::max ( static_cast<float>(0),                // ensure weight >=
                                                              // 0
-                       vnl_math_min ( static_cast<float>(1), // ensure weight <=
+                       std::min ( static_cast<float>(1), // ensure weight <=
                                                              // 1
                                       vwIt.Get() ) );
     itkDebugMacro( "patchWeights[ " << pos << " ]: " << patchWeights[pos] );
@@ -987,7 +987,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   RealTensorValueT               lambda1, lambda2, lambda3;
   lambda1 = I1div3 + 2 * sqrtn * std::cos(phi);
-  lambda2 = I1div3 - 2*sqrtn *   std::cos(vnl_math::pi/3 + phi);
+  lambda2 = I1div3 - 2*sqrtn *   std::cos(itk::Math::pi/3 + phi);
   lambda3 = I1 - lambda1 - lambda2;
 
   eigenVals[0] = lambda1;
@@ -1085,7 +1085,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       }
     for (unsigned int ii = 0; ii < 3; ++ii)
       {
-      eigenVals[ii] = vnl_math_max(PixelValueType(1e-15), eigenVals[ii]);
+      eigenVals[ii] = std::max(PixelValueType(1e-15), eigenVals[ii]);
       }
 
     if (cacheIndex >= eigenValsCache.size() )
@@ -1165,7 +1165,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   //  these calculations can be optimized as follows.
   for (unsigned int ii = 0; ii < 3; ++ii)
     {
-    YEigenVals[ii] = std::log(vnl_math_max(RealValueType(1e-15),YEigenVals[ii]) );
+    YEigenVals[ii] = std::log(std::max(RealValueType(1e-15),YEigenVals[ii]) );
     }
   const RealValueType eigVal0 = std::sqrt(eigenVals[0]);
   const RealValueType eigVal1 = std::sqrt(eigenVals[1]);
@@ -1259,7 +1259,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   for (unsigned int ii = 0; ii < 3; ++ii)
     {
-    eigenVals[ii] = vnl_math_max(RealValueType(1e-15), eigenVals[ii]);
+    eigenVals[ii] = std::max(RealValueType(1e-15), eigenVals[ii]);
     }
 
   // note that the ComputeEigenAnalysis returns a row vector for each
@@ -1548,7 +1548,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       {
       if (!m_SigmaConverged[ic])
         {
-        if (vnl_math_abs(sigmaUpdate[ic]) <
+        if (itk::Math::abs(sigmaUpdate[ic]) <
             m_KernelBandwidthSigma[ic] * m_SigmaUpdateConvergenceTolerance)
           {
           m_SigmaConverged[ic] = 1;
@@ -1709,9 +1709,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     typename OutputImageType::SizeType   rSize = region.GetSize();
     for (unsigned int dim = 0; dim < OutputImageType::ImageDimension; ++dim)
       {
-      rIndex[dim] = vnl_math_min(nIndex[dim],
+      rIndex[dim] = std::min(nIndex[dim],
                                  static_cast<IndexValueType>(radius[dim]) );
-      rSize[dim]  = vnl_math_max(nIndex[dim],
+      rSize[dim]  = std::max(nIndex[dim],
                                  static_cast<IndexValueType>(rSize[dim] - radius[dim] - 1) ) - rIndex[dim] + 1;
       }
     region.SetIndex(rIndex);
@@ -1838,7 +1838,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         const RealValueType distanceJointEntropy = std::sqrt(squaredNorm[ic]);
 
         const RealValueType gaussianJointEntropy
-          = exp(-vnl_math_sqr(distanceJointEntropy / sigmaKernel) / 2.0);
+          = exp(-itk::Math::sqr(distanceJointEntropy / sigmaKernel) / 2.0);
 
         probJointEntropy[ic] += gaussianJointEntropy;
 
@@ -1847,14 +1847,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
         probJointEntropyFirstDerivative[ic] += gaussianJointEntropy * factorJoint;
         probJointEntropySecondDerivative[ic] += gaussianJointEntropy *
-          (vnl_math_sqr(factorJoint) + (lengthPatch * 1 / vnl_math_sqr(sigmaKernel) ) -
+          (itk::Math::sqr(factorJoint) + (lengthPatch * 1 / itk::Math::sqr(sigmaKernel) ) -
            (3.0 * squaredNorm[ic] / pow(sigmaKernel, 4.0) ) );
         if (m_ComputeConditionalDerivatives)
           {
           const RealValueType distancePatchEntropySquared = squaredNorm[ic] - centerPatchSquaredNorm[ic];
           const RealValueType distancePatchEntropy = std::sqrt(distancePatchEntropySquared);
           const RealValueType gaussianPatchEntropy
-            = exp(-vnl_math_sqr(distancePatchEntropy / sigmaKernel) / 2.0);
+            = exp(-itk::Math::sqr(distancePatchEntropy / sigmaKernel) / 2.0);
           probPatchEntropy[ic] += gaussianPatchEntropy;
           const RealValueType factorPatch
             = distancePatchEntropySquared / pow(sigmaKernel, 3.0)
@@ -1863,8 +1863,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
           probPatchEntropyFirstDerivative[ic] += gaussianPatchEntropy * factorPatch;
           probPatchEntropySecondDerivative[ic]
             += gaussianPatchEntropy
-              * (vnl_math_sqr(factorPatch) +
-                 ( (lengthPatch-1) / vnl_math_sqr(sigmaKernel) ) -
+              * (itk::Math::sqr(factorPatch) +
+                 ( (lengthPatch-1) / itk::Math::sqr(sigmaKernel) ) -
                  (3.0*distancePatchEntropySquared / pow(sigmaKernel, 4.0) ) );
           }
         } // end for each independent pixel component
@@ -1887,7 +1887,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
           -= probJointEntropyFirstDerivative[ic] / probJointEntropy[ic];
         jointEntropySecondDerivative[ic]
           -= probJointEntropySecondDerivative[ic] / probJointEntropy[ic]
-            - vnl_math_sqr(probJointEntropyFirstDerivative[ic] / probJointEntropy[ic]);
+            - itk::Math::sqr(probJointEntropyFirstDerivative[ic] / probJointEntropy[ic]);
 
         if (m_ComputeConditionalDerivatives)
           {
@@ -1904,7 +1904,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
             -= probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic];
           nbhdEntropySecondDerivative[ic]
             -= probPatchEntropySecondDerivative[ic] / probPatchEntropy[ic]
-              - vnl_math_sqr(probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic]);
+              - itk::Math::sqr(probPatchEntropyFirstDerivative[ic] / probPatchEntropy[ic]);
           }
         } // end if independent component hasn't converged yet
       }   // end for each independent component
@@ -1977,11 +1977,11 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
     // if second derivative is zero or negative, compute update using gradient
     // descent
-    if ( (Math::ExactlyEquals(vnl_math_abs(secondDerivative), NumericTraits<RealValueType>::ZeroValue())) ||
+    if ( (Math::ExactlyEquals(itk::Math::abs(secondDerivative), NumericTraits<RealValueType>::ZeroValue())) ||
          (secondDerivative < 0) )
       {
       itkDebugMacro( << "** Second derivative NOT POSITIVE" );
-      sigmaUpdate[ic] = -vnl_math_sgn(firstDerivative) * kernelSigma * 0.3;
+      sigmaUpdate[ic] = -itk::Math::sgn(firstDerivative) * kernelSigma * 0.3;
       }
     else
       {
@@ -1992,10 +1992,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     itkDebugMacro( << "update: " << sigmaUpdate[ic] );
 
     // avoid very large updates to prevent instabilities in Newton-Raphson
-    if (vnl_math_abs(sigmaUpdate[ic]) > kernelSigma * 0.3)
+    if (itk::Math::abs(sigmaUpdate[ic]) > kernelSigma * 0.3)
       {
       itkDebugMacro( << "** Restricting large updates \n");
-      sigmaUpdate[ic] = vnl_math_sgn(sigmaUpdate[ic]) * kernelSigma * 0.3;
+      sigmaUpdate[ic] = itk::Math::sgn(sigmaUpdate[ic]) * kernelSigma * 0.3;
 
       itkDebugMacro( << "update: " << sigmaUpdate[ic] );
       }
@@ -2205,7 +2205,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
               const RealValueType noiseVal = fidelityWeight * ( stepSizeFidelity * gradientFidelity );
               // ensure that the result is nonnegative
               SetComponent(result, pc,
-                           vnl_math_max(GetComponent(result, pc) + noiseVal, static_cast<RealValueType>(0.0) ) );
+                           std::max(GetComponent(result, pc) + noiseVal, static_cast<RealValueType>(0.0) ) );
               }
             break;
             }
@@ -2219,12 +2219,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
               const RealValueType gradientFidelity = (inVal - outVal) / (outVal + 0.00001);
               // prevent large unstable updates when out[pc] less than 1
               const RealValueType stepSizeFidelity
-                = vnl_math_min(outVal, static_cast<PixelValueType>(0.99999) ) + 0.00001;
+                = std::min(outVal, static_cast<PixelValueType>(0.99999) ) + 0.00001;
               // update
               const RealValueType noiseVal = fidelityWeight * ( stepSizeFidelity * gradientFidelity );
               // ensure that the result is positive
               SetComponent(result, pc,
-                           vnl_math_max(GetComponent(result, pc) + noiseVal, static_cast<RealValueType>(0.00001) ) );
+                           std::max(GetComponent(result, pc) + noiseVal, static_cast<RealValueType>(0.00001) ) );
 
               }
             break;
@@ -2285,8 +2285,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   const PatchRadiusType radius = this->GetPatchRadiusInVoxels();
   for (unsigned int dim = 0; dim < OutputImageType::ImageDimension; ++dim)
     {
-    rIndex[dim] = vnl_math_min(nIndex[dim], static_cast<IndexValueType>(radius[dim]) );
-    rSize[dim]  = vnl_math_max(nIndex[dim], static_cast<IndexValueType>(rSize[dim] - radius[dim] - 1) )
+    rIndex[dim] = std::min(nIndex[dim], static_cast<IndexValueType>(radius[dim]) );
+    rSize[dim]  = std::max(nIndex[dim], static_cast<IndexValueType>(rSize[dim] - radius[dim] - 1) )
       - rIndex[dim] + 1;
     }
   region.SetIndex(rIndex);
@@ -2478,7 +2478,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       {
       RealValueType kernelSigma = m_KernelBandwidthSigma[ic];
 
-      distanceJointEntropy += squaredNorm[ic] / vnl_math_sqr(kernelSigma);
+      distanceJointEntropy += squaredNorm[ic] / itk::Math::sqr(kernelSigma);
 
       gaussianJointEntropy = exp( -distanceJointEntropy / 2.0);
       sumOfGaussiansJointEntropy += gaussianJointEntropy;

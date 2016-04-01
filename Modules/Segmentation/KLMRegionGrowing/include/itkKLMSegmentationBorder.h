@@ -23,7 +23,7 @@
 #include "itkMacro.h"
 #include "ITKKLMRegionGrowingExport.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/vnl_vector.h"
 #include "itkMath.h"
 
@@ -67,11 +67,11 @@ public:
         // constant C, allowing a single region to be repeatedly
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
-        double v1 = vnl_math_max(
+        double v1 = std::max(
           static_cast< double >( m_Pointer->GetRegion1()->GetRegionBorderSize() ),
           static_cast< double >( m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 
-        double v2 = vnl_math_max(
+        double v2 = std::max(
           static_cast< double >( rhs.m_Pointer->GetRegion1()->GetRegionBorderSize() ),
           static_cast< double >( rhs.m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 
@@ -97,11 +97,11 @@ public:
         // constant C, allowing a single region to be repeatedly
         // merged so that it gains many borders will result in
         // pathologically slow behavior.
-        double v1 = vnl_math_max(
+        double v1 = std::max(
           static_cast< double >( m_Pointer->GetRegion1()->GetRegionBorderSize() ),
           static_cast< double >( m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 
-        double v2 = vnl_math_max(
+        double v2 = std::max(
           static_cast< double >( rhs->m_Pointer->GetRegion1()->GetRegionBorderSize() ),
           static_cast< double >( rhs->m_Pointer->GetRegion2()->GetRegionBorderSize() ) );
 

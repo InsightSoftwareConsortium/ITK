@@ -28,32 +28,32 @@ static integer c__1 = 1;
         void (*op)(integer*,integer*,doublereal*,doublereal*),
         void (*iovect)(integer*,integer*,doublereal*,integer*,integer*),
         integer *n, integer *nperm,
-        integer *nop, integer *nmval, doublereal *val, integer *nmvec, 
-        doublereal *vec, integer *nblock, doublereal *h__, doublereal *hv, 
-        doublereal *p, doublereal *q, doublereal *bound, doublereal *d__, 
+        integer *nop, integer *nmval, doublereal *val, integer *nmvec,
+        doublereal *vec, integer *nblock, doublereal *h__, doublereal *hv,
+        doublereal *p, doublereal *q, doublereal *bound, doublereal *d__,
         doublereal *delta, logical *small, logical *raritz, doublereal *eps)
 {
     /* System generated locals */
-    integer val_dim1, val_offset, vec_dim1, vec_offset, h_dim1, h_offset, 
-            hv_dim1, hv_offset, p_dim1, p_offset, q_dim1, q_offset, i__1, 
+    integer val_dim1, val_offset, vec_dim1, vec_offset, h_dim1, h_offset,
+            hv_dim1, hv_offset, p_dim1, p_offset, q_dim1, q_offset, i__1,
             i__2, i__3, i__4;
     doublereal d__1;
 
     /* Local variables */
     integer i__, j, k, l, m, jj, kk;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
     doublereal hmin, hmax, temp;
     extern doublereal dnrm2_(integer *, doublereal *, integer *);
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
             doublereal *, integer *);
     doublereal dzero[1];
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *), dlaeig_(integer *, integer *,
-             integer *, integer *, doublereal *, doublereal *, integer *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+             integer *, integer *, doublereal *, doublereal *, integer *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *, doublereal *, doublereal *, doublereal *), dlager_(
-            integer *, integer *, integer *, doublereal *, doublereal *, 
+            integer *, integer *, integer *, doublereal *, doublereal *,
             doublereal *);
 
 
@@ -217,7 +217,7 @@ L90:
 /*<       CALL DLAGER(NPERM, NPERM, 1, H, HMIN, HMAX) >*/
     dlager_(nperm, nperm, &c__1, &h__[h_offset], &hmin, &hmax);
 /*<    >*/
-    dlaeig_(nperm, nperm, &c__1, nperm, &h__[h_offset], &val[val_offset], 
+    dlaeig_(nperm, nperm, &c__1, nperm, &h__[h_offset], &val[val_offset],
             nperm, &hv[hv_offset], &bound[1], &p[p_offset], &d__[1], &q[
             q_offset], eps, &hmin, &hmax);
 
@@ -322,7 +322,7 @@ L190:
     i__1 = m;
     for (i__ = 1; i__ <= i__1; ++i__) {
 /*<          VAL(I,1) = DDOT(N,P(1,I),1,Q(1,I),1) >*/
-        val[i__ + val_dim1] = ddot_(n, &p[i__ * p_dim1 + 1], &c__1, &q[i__ * 
+        val[i__ + val_dim1] = ddot_(n, &p[i__ * p_dim1 + 1], &c__1, &q[i__ *
                 q_dim1 + 1], &c__1);
 /*<          CALL DAXPY(N, -VAL(I,1), P(1,I), 1, Q(1,I), 1) >*/
         d__1 = -val[i__ + val_dim1];
@@ -365,7 +365,7 @@ L220:
 /*<             L = I - 1 + J >*/
             l = i__ - 1 + j;
 /*<             VAL(L,1) = DDOT(N,P(1,J),1,Q(1,J),1) >*/
-            val[l + val_dim1] = ddot_(n, &p[j * p_dim1 + 1], &c__1, &q[j * 
+            val[l + val_dim1] = ddot_(n, &p[j * p_dim1 + 1], &c__1, &q[j *
                     q_dim1 + 1], &c__1);
 /*<             CALL DAXPY(N, -VAL(L,1), P(1,J), 1, Q(1,J), 1) >*/
             d__1 = -val[l + val_dim1];

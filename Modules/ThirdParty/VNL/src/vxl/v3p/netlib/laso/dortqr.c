@@ -23,7 +23,7 @@ static integer c__1 = 1;
 /* ------------------------------------------------------------------ */
 
 /*<       SUBROUTINE DORTQR(NZ, N, NBLOCK, Z, B) >*/
-/* Subroutine */ int dortqr_(integer *nz, integer *n, integer *nblock, 
+/* Subroutine */ int dortqr_(integer *nz, integer *n, integer *nblock,
         doublereal *z__, doublereal *b)
 {
     /* System generated locals */
@@ -36,14 +36,14 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__, j, k, m;
     doublereal tau;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
     doublereal temp;
     extern doublereal dnrm2_(integer *, doublereal *, integer *);
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     doublereal sigma;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
     integer length;
 
@@ -104,10 +104,10 @@ static integer c__1 = 1;
                 goto L10;
             }
 /*<             TEMP = -DDOT(LENGTH,Z(I,I),1,Z(I,K),1)/TAU >*/
-            temp = -ddot_(&length, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__ 
+            temp = -ddot_(&length, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__
                     + k * z_dim1], &c__1) / tau;
 /*<             CALL DAXPY(LENGTH, TEMP, Z(I,I), 1, Z(I,K), 1) >*/
-            daxpy_(&length, &temp, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__ 
+            daxpy_(&length, &temp, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__
                     + k * z_dim1], &c__1);
 /*<    10       B(I,K) = Z(I,K) >*/
 L10:
@@ -155,10 +155,10 @@ L30:
         i__2 = *nblock;
         for (k = j; k <= i__2; ++k) {
 /*<             TEMP = -DDOT(LENGTH,Z(I,I),1,Z(I,K),1)/TAU >*/
-            temp = -ddot_(&length, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__ 
+            temp = -ddot_(&length, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__
                     + k * z_dim1], &c__1) / tau;
 /*<             CALL DAXPY(LENGTH, TEMP, Z(I,I), 1, Z(I,K), 1) >*/
-            daxpy_(&length, &temp, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__ 
+            daxpy_(&length, &temp, &z__[i__ + i__ * z_dim1], &c__1, &z__[i__
                     + k * z_dim1], &c__1);
 /*<    40    CONTINUE >*/
 /* L40: */

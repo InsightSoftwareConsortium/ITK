@@ -65,14 +65,6 @@ class vnl_brent_minimizer : public vnl_nonlinear_minimizer
    //: Function evaluation at value returned by minimize(x)
   double f_at_last_minimum() const { return f_at_last_minimum_; }
 
-  //: Find the minimum x of f(x) within a<= x <= c using pure golden section
-  // \retval The position,x, of the minimum x.
-  // You need to provide a bracket for the minimum (a<b<c s.t. f(a)>f(b)<f(c).
-  // The tolerance can be set using prior call to set_x_tolerance(tol).
-  // Use f_at_last_minimum() to get function evaluation at the returned minima.
-  double minimize_golden(double ax, double bx, double cx,
-                         double fa, double fb, double fc);
-
   //: Find the minimum value of f(x) within a<= x <= c.
   // \retval The position,x, of the minimum x.
   // You need to provide a bracket for the minimum (a<b<c s.t. f(a)>f(b)<f(c).

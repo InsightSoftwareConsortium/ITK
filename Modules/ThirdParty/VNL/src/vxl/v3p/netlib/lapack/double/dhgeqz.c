@@ -23,15 +23,15 @@ static integer c__1 = 1;
 static integer c__3 = 3;
 
 /*<    >*/
-/* Subroutine */ int dhgeqz_(char *job, char *compq, char *compz, integer *n, 
+/* Subroutine */ int dhgeqz_(char *job, char *compq, char *compz, integer *n,
         integer *ilo, integer *ihi, doublereal *a, integer *lda, doublereal *
         b, integer *ldb, doublereal *alphar, doublereal *alphai, doublereal *
-        beta, doublereal *q, integer *ldq, doublereal *z__, integer *ldz, 
-        doublereal *work, integer *lwork, integer *info, ftnlen job_len, 
+        beta, doublereal *q, integer *ldq, doublereal *z__, integer *ldz,
+        doublereal *work, integer *lwork, integer *info, ftnlen job_len,
         ftnlen compq_len, ftnlen compz_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1,
             z_offset, i__1, i__2, i__3, i__4;
     doublereal d__1, d__2, d__3, d__4;
 
@@ -41,7 +41,7 @@ static integer c__3 = 3;
     /* Local variables */
     doublereal c__;
     integer j;
-    doublereal s, t, v[3], s1, s2, u1, u2, a11, a12, a21, a22, b11, b22, c12, 
+    doublereal s, t, v[3], s1, s2, u1, u2, a11, a12, a21, a22, b11, b22, c12,
             c21;
     integer jc;
     doublereal an, bn, cl, cq, cr;
@@ -55,12 +55,12 @@ static integer c__3 = 3;
     logical ilq=0;
     doublereal tau, sqi;
     logical ilz=0;
-    doublereal ulp, sqr, szi, szr, ad11l, ad12l, ad21l, ad22l, ad32l, wabs, 
+    doublereal ulp, sqr, szi, szr, ad11l, ad12l, ad21l, ad22l, ad32l, wabs,
             atol, btol, temp;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *), dlag2_(
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *);
     doublereal temp2, s1inv, scale;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
@@ -68,22 +68,22 @@ static integer c__3 = 3;
     doublereal anorm, bnorm;
     integer maxit;
     doublereal tempi, tempr;
-    extern doublereal dlapy2_(doublereal *, doublereal *), dlapy3_(doublereal 
+    extern doublereal dlapy2_(doublereal *, doublereal *), dlapy3_(doublereal
             *, doublereal *, doublereal *);
-    extern /* Subroutine */ int dlasv2_(doublereal *, doublereal *, 
-            doublereal *, doublereal *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlasv2_(doublereal *, doublereal *,
+            doublereal *, doublereal *, doublereal *, doublereal *,
             doublereal *, doublereal *, doublereal *);
     logical ilazr2;
     doublereal ascale, bscale;
     extern doublereal dlamch_(char *, ftnlen);
     extern /* Subroutine */ int dlarfg_(integer *, doublereal *, doublereal *,
              integer *, doublereal *);
-    extern doublereal dlanhs_(char *, integer *, doublereal *, integer *, 
+    extern doublereal dlanhs_(char *, integer *, doublereal *, integer *,
             doublereal *, ftnlen);
-    extern /* Subroutine */ int dlaset_(char *, integer *, integer *, 
+    extern /* Subroutine */ int dlaset_(char *, integer *, integer *,
             doublereal *, doublereal *, doublereal *, integer *, ftnlen);
     doublereal safmin;
-    extern /* Subroutine */ int dlartg_(doublereal *, doublereal *, 
+    extern /* Subroutine */ int dlartg_(doublereal *, doublereal *,
             doublereal *, doublereal *, doublereal *);
     doublereal safmax;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);
@@ -846,7 +846,7 @@ static integer c__3 = 3;
                                 ;
 /*<    >*/
                         if (ilz) {
-                            drot_(n, &z__[jch * z_dim1 + 1], &c__1, &z__[(jch 
+                            drot_(n, &z__[jch * z_dim1 + 1], &c__1, &z__[(jch
                                     - 1) * z_dim1 + 1], &c__1, &c__, &s);
                         }
 /*<    50             CONTINUE >*/
@@ -889,21 +889,21 @@ L70:
 /*<          TEMP = A( ILAST, ILAST ) >*/
         temp = a[ilast + ilast * a_dim1];
 /*<    >*/
-        dlartg_(&temp, &a[ilast + (ilast - 1) * a_dim1], &c__, &s, &a[ilast + 
+        dlartg_(&temp, &a[ilast + (ilast - 1) * a_dim1], &c__, &s, &a[ilast +
                 ilast * a_dim1]);
 /*<          A( ILAST, ILAST-1 ) = ZERO >*/
         a[ilast + (ilast - 1) * a_dim1] = 0.;
 /*<    >*/
         i__2 = ilast - ifrstm;
-        drot_(&i__2, &a[ifrstm + ilast * a_dim1], &c__1, &a[ifrstm + (ilast - 
+        drot_(&i__2, &a[ifrstm + ilast * a_dim1], &c__1, &a[ifrstm + (ilast -
                 1) * a_dim1], &c__1, &c__, &s);
 /*<    >*/
         i__2 = ilast - ifrstm;
-        drot_(&i__2, &b[ifrstm + ilast * b_dim1], &c__1, &b[ifrstm + (ilast - 
+        drot_(&i__2, &b[ifrstm + ilast * b_dim1], &c__1, &b[ifrstm + (ilast -
                 1) * b_dim1], &c__1, &c__, &s);
 /*<    >*/
         if (ilz) {
-            drot_(n, &z__[ilast * z_dim1 + 1], &c__1, &z__[(ilast - 1) * 
+            drot_(n, &z__[ilast * z_dim1 + 1], &c__1, &z__[(ilast - 1) *
                     z_dim1 + 1], &c__1, &c__, &s);
         }
 
@@ -1012,8 +1012,8 @@ L110:
 /*           (Single shift only.) */
 
 /*<    >*/
-            if ((doublereal) maxit * safmin * (d__1 = a[ilast - 1 + ilast * 
-                    a_dim1], abs(d__1)) < (d__2 = b[ilast - 1 + (ilast - 1) * 
+            if ((doublereal) maxit * safmin * (d__1 = a[ilast - 1 + ilast *
+                    a_dim1], abs(d__1)) < (d__2 = b[ilast - 1 + (ilast - 1) *
                     b_dim1], abs(d__2))) {
 /*<    >*/
                 eshift += a[ilast - 1 + ilast * a_dim1] / b[ilast - 1 + (
@@ -1093,7 +1093,7 @@ L110:
 /*<             TEMP = ABS( S1*A( J, J-1 ) ) >*/
             temp = (d__1 = s1 * a[j + (j - 1) * a_dim1], abs(d__1));
 /*<             TEMP2 = ABS( S1*A( J, J )-WR*B( J, J ) ) >*/
-            temp2 = (d__1 = s1 * a[j + j * a_dim1] - wr * b[j + j * b_dim1], 
+            temp2 = (d__1 = s1 * a[j + j * a_dim1] - wr * b[j + j * b_dim1],
                     abs(d__1));
 /*<             TEMPR = MAX( TEMP, TEMP2 ) >*/
             tempr = max(temp,temp2);
@@ -1106,7 +1106,7 @@ L110:
 /*<             END IF >*/
             }
 /*<    >*/
-            if ((d__1 = ascale * a[j + 1 + j * a_dim1] * temp, abs(d__1)) <= 
+            if ((d__1 = ascale * a[j + 1 + j * a_dim1] * temp, abs(d__1)) <=
                     ascale * atol * temp2) {
                 goto L130;
             }
@@ -1124,7 +1124,7 @@ L130:
 /*        Initial Q */
 
 /*<          TEMP = S1*A( ISTART, ISTART ) - WR*B( ISTART, ISTART ) >*/
-        temp = s1 * a[istart + istart * a_dim1] - wr * b[istart + istart * 
+        temp = s1 * a[istart + istart * a_dim1] - wr * b[istart + istart *
                 b_dim1];
 /*<          TEMP2 = S1*A( ISTART+1, ISTART ) >*/
         temp2 = s1 * a[istart + 1 + istart * a_dim1];
@@ -1141,7 +1141,7 @@ L130:
 /*<                TEMP = A( J, J-1 ) >*/
                 temp = a[j + (j - 1) * a_dim1];
 /*<                CALL DLARTG( TEMP, A( J+1, J-1 ), C, S, A( J, J-1 ) ) >*/
-                dlartg_(&temp, &a[j + 1 + (j - 1) * a_dim1], &c__, &s, &a[j + 
+                dlartg_(&temp, &a[j + 1 + (j - 1) * a_dim1], &c__, &s, &a[j +
                         (j - 1) * a_dim1]);
 /*<                A( J+1, J-1 ) = ZERO >*/
                 a[j + 1 + (j - 1) * a_dim1] = 0.;
@@ -1154,14 +1154,14 @@ L130:
 /*<                TEMP = C*A( J, JC ) + S*A( J+1, JC ) >*/
                 temp = c__ * a[j + jc * a_dim1] + s * a[j + 1 + jc * a_dim1];
 /*<                A( J+1, JC ) = -S*A( J, JC ) + C*A( J+1, JC ) >*/
-                a[j + 1 + jc * a_dim1] = -s * a[j + jc * a_dim1] + c__ * a[j 
+                a[j + 1 + jc * a_dim1] = -s * a[j + jc * a_dim1] + c__ * a[j
                         + 1 + jc * a_dim1];
 /*<                A( J, JC ) = TEMP >*/
                 a[j + jc * a_dim1] = temp;
 /*<                TEMP2 = C*B( J, JC ) + S*B( J+1, JC ) >*/
                 temp2 = c__ * b[j + jc * b_dim1] + s * b[j + 1 + jc * b_dim1];
 /*<                B( J+1, JC ) = -S*B( J, JC ) + C*B( J+1, JC ) >*/
-                b[j + 1 + jc * b_dim1] = -s * b[j + jc * b_dim1] + c__ * b[j 
+                b[j + 1 + jc * b_dim1] = -s * b[j + jc * b_dim1] + c__ * b[j
                         + 1 + jc * b_dim1];
 /*<                B( J, JC ) = TEMP2 >*/
                 b[j + jc * b_dim1] = temp2;
@@ -1174,7 +1174,7 @@ L130:
                 i__3 = *n;
                 for (jr = 1; jr <= i__3; ++jr) {
 /*<                   TEMP = C*Q( JR, J ) + S*Q( JR, J+1 ) >*/
-                    temp = c__ * q[jr + j * q_dim1] + s * q[jr + (j + 1) * 
+                    temp = c__ * q[jr + j * q_dim1] + s * q[jr + (j + 1) *
                             q_dim1];
 /*<                   Q( JR, J+1 ) = -S*Q( JR, J ) + C*Q( JR, J+1 ) >*/
                     q[jr + (j + 1) * q_dim1] = -s * q[jr + j * q_dim1] + c__ *
@@ -1190,7 +1190,7 @@ L130:
 /*<             TEMP = B( J+1, J+1 ) >*/
             temp = b[j + 1 + (j + 1) * b_dim1];
 /*<             CALL DLARTG( TEMP, B( J+1, J ), C, S, B( J+1, J+1 ) ) >*/
-            dlartg_(&temp, &b[j + 1 + j * b_dim1], &c__, &s, &b[j + 1 + (j + 
+            dlartg_(&temp, &b[j + 1 + j * b_dim1], &c__, &s, &b[j + 1 + (j +
                     1) * b_dim1]);
 /*<             B( J+1, J ) = ZERO >*/
             b[j + 1 + j * b_dim1] = 0.;
@@ -1234,7 +1234,7 @@ L130:
                     temp = c__ * z__[jr + (j + 1) * z_dim1] + s * z__[jr + j *
                              z_dim1];
 /*<                   Z( JR, J ) = -S*Z( JR, J+1 ) + C*Z( JR, J ) >*/
-                    z__[jr + j * z_dim1] = -s * z__[jr + (j + 1) * z_dim1] + 
+                    z__[jr + j * z_dim1] = -s * z__[jr + (j + 1) * z_dim1] +
                             c__ * z__[jr + j * z_dim1];
 /*<                   Z( JR, J+1 ) = TEMP >*/
                     z__[jr + (j + 1) * z_dim1] = temp;
@@ -1271,7 +1271,7 @@ L200:
 /*                       (  0  B22 ) */
 
 /*<    >*/
-            dlasv2_(&b[ilast - 1 + (ilast - 1) * b_dim1], &b[ilast - 1 + 
+            dlasv2_(&b[ilast - 1 + (ilast - 1) * b_dim1], &b[ilast - 1 +
                     ilast * b_dim1], &b[ilast + ilast * b_dim1], &b22, &b11, &
                     sr, &cr, &sl, &cl);
 
@@ -1290,11 +1290,11 @@ L200:
 
 /*<    >*/
             i__2 = ilastm + 1 - ifirst;
-            drot_(&i__2, &a[ilast - 1 + (ilast - 1) * a_dim1], lda, &a[ilast 
+            drot_(&i__2, &a[ilast - 1 + (ilast - 1) * a_dim1], lda, &a[ilast
                     + (ilast - 1) * a_dim1], lda, &cl, &sl);
 /*<    >*/
             i__2 = ilast + 1 - ifrstm;
-            drot_(&i__2, &a[ifrstm + (ilast - 1) * a_dim1], &c__1, &a[ifrstm 
+            drot_(&i__2, &a[ifrstm + (ilast - 1) * a_dim1], &c__1, &a[ifrstm
                     + ilast * a_dim1], &c__1, &cr, &sr);
 
 /*<    >*/
@@ -1312,12 +1312,12 @@ L200:
 
 /*<    >*/
             if (ilq) {
-                drot_(n, &q[(ilast - 1) * q_dim1 + 1], &c__1, &q[ilast * 
+                drot_(n, &q[(ilast - 1) * q_dim1 + 1], &c__1, &q[ilast *
                         q_dim1 + 1], &c__1, &cl, &sl);
             }
 /*<    >*/
             if (ilz) {
-                drot_(n, &z__[(ilast - 1) * z_dim1 + 1], &c__1, &z__[ilast * 
+                drot_(n, &z__[(ilast - 1) * z_dim1 + 1], &c__1, &z__[ilast *
                         z_dim1 + 1], &c__1, &cr, &sr);
             }
 
@@ -1598,15 +1598,15 @@ L200:
             ad21 = ascale * a[ilast + (ilast - 1) * a_dim1] / (bscale * b[
                     ilast - 1 + (ilast - 1) * b_dim1]);
 /*<    >*/
-            ad12 = ascale * a[ilast - 1 + ilast * a_dim1] / (bscale * b[ilast 
+            ad12 = ascale * a[ilast - 1 + ilast * a_dim1] / (bscale * b[ilast
                     + ilast * b_dim1]);
 /*<    >*/
-            ad22 = ascale * a[ilast + ilast * a_dim1] / (bscale * b[ilast + 
+            ad22 = ascale * a[ilast + ilast * a_dim1] / (bscale * b[ilast +
                     ilast * b_dim1]);
 /*<             U12 = B( ILAST-1, ILAST ) / B( ILAST, ILAST ) >*/
             u12 = b[ilast - 1 + ilast * b_dim1] / b[ilast + ilast * b_dim1];
 /*<    >*/
-            ad11l = ascale * a[ifirst + ifirst * a_dim1] / (bscale * b[ifirst 
+            ad11l = ascale * a[ifirst + ifirst * a_dim1] / (bscale * b[ifirst
                     + ifirst * b_dim1]);
 /*<    >*/
             ad21l = ascale * a[ifirst + 1 + ifirst * a_dim1] / (bscale * b[
@@ -1621,14 +1621,14 @@ L200:
             ad32l = ascale * a[ifirst + 2 + (ifirst + 1) * a_dim1] / (bscale *
                      b[ifirst + 1 + (ifirst + 1) * b_dim1]);
 /*<             U12L = B( IFIRST, IFIRST+1 ) / B( IFIRST+1, IFIRST+1 ) >*/
-            u12l = b[ifirst + (ifirst + 1) * b_dim1] / b[ifirst + 1 + (ifirst 
+            u12l = b[ifirst + (ifirst + 1) * b_dim1] / b[ifirst + 1 + (ifirst
                     + 1) * b_dim1];
 
 /*<    >*/
-            v[0] = (ad11 - ad11l) * (ad22 - ad11l) - ad12 * ad21 + ad21 * u12 
+            v[0] = (ad11 - ad11l) * (ad22 - ad11l) - ad12 * ad21 + ad21 * u12
                     * ad11l + (ad12l - ad11l * u12l) * ad21l;
 /*<    >*/
-            v[1] = (ad22l - ad11l - ad21l * u12l - (ad11 - ad11l) - (ad22 - 
+            v[1] = (ad22l - ad11l - ad21l * u12l - (ad11 - ad11l) - (ad22 -
                     ad11l) + ad21 * u12) * ad21l;
 /*<             V( 3 ) = AD32L*AD21L >*/
             v[2] = ad32l * ad21l;
@@ -1676,7 +1676,7 @@ L200:
                 i__3 = ilastm;
                 for (jc = j; jc <= i__3; ++jc) {
 /*<    >*/
-                    temp = tau * (a[j + jc * a_dim1] + v[1] * a[j + 1 + jc * 
+                    temp = tau * (a[j + jc * a_dim1] + v[1] * a[j + 1 + jc *
                             a_dim1] + v[2] * a[j + 2 + jc * a_dim1]);
 /*<                   A( J, JC ) = A( J, JC ) - TEMP >*/
                     a[j + jc * a_dim1] -= temp;
@@ -1685,7 +1685,7 @@ L200:
 /*<                   A( J+2, JC ) = A( J+2, JC ) - TEMP*V( 3 ) >*/
                     a[j + 2 + jc * a_dim1] -= temp * v[2];
 /*<    >*/
-                    temp2 = tau * (b[j + jc * b_dim1] + v[1] * b[j + 1 + jc * 
+                    temp2 = tau * (b[j + jc * b_dim1] + v[1] * b[j + 1 + jc *
                             b_dim1] + v[2] * b[j + 2 + jc * b_dim1]);
 /*<                   B( J, JC ) = B( J, JC ) - TEMP2 >*/
                     b[j + jc * b_dim1] -= temp2;
@@ -1702,7 +1702,7 @@ L200:
                     i__3 = *n;
                     for (jr = 1; jr <= i__3; ++jr) {
 /*<    >*/
-                        temp = tau * (q[jr + j * q_dim1] + v[1] * q[jr + (j + 
+                        temp = tau * (q[jr + j * q_dim1] + v[1] * q[jr + (j +
                                 1) * q_dim1] + v[2] * q[jr + (j + 2) * q_dim1]
                                 );
 /*<                      Q( JR, J ) = Q( JR, J ) - TEMP >*/
@@ -1804,7 +1804,7 @@ L200:
 /*<                W22 = W22 - TEMP*W12 >*/
                 w22 -= temp * w12;
 /*<                W21 = ZERO >*/
-                w21 = 0.;
+//                w21 = 0.;
 
 /*              Compute SCALE */
 
@@ -1915,7 +1915,7 @@ L250:
                     for (jr = 1; jr <= i__3; ++jr) {
 /*<    >*/
                         temp = tau * (z__[jr + j * z_dim1] + v[1] * z__[jr + (
-                                j + 1) * z_dim1] + v[2] * z__[jr + (j + 2) * 
+                                j + 1) * z_dim1] + v[2] * z__[jr + (j + 2) *
                                 z_dim1]);
 /*<                      Z( JR, J ) = Z( JR, J ) - TEMP >*/
                         z__[jr + j * z_dim1] -= temp;
@@ -1945,7 +1945,7 @@ L250:
 /*<             TEMP = A( J, J-1 ) >*/
             temp = a[j + (j - 1) * a_dim1];
 /*<             CALL DLARTG( TEMP, A( J+1, J-1 ), C, S, A( J, J-1 ) ) >*/
-            dlartg_(&temp, &a[j + 1 + (j - 1) * a_dim1], &c__, &s, &a[j + (j 
+            dlartg_(&temp, &a[j + 1 + (j - 1) * a_dim1], &c__, &s, &a[j + (j
                     - 1) * a_dim1]);
 /*<             A( J+1, J-1 ) = ZERO >*/
             a[j + 1 + (j - 1) * a_dim1] = 0.;
@@ -1956,14 +1956,14 @@ L250:
 /*<                TEMP = C*A( J, JC ) + S*A( J+1, JC ) >*/
                 temp = c__ * a[j + jc * a_dim1] + s * a[j + 1 + jc * a_dim1];
 /*<                A( J+1, JC ) = -S*A( J, JC ) + C*A( J+1, JC ) >*/
-                a[j + 1 + jc * a_dim1] = -s * a[j + jc * a_dim1] + c__ * a[j 
+                a[j + 1 + jc * a_dim1] = -s * a[j + jc * a_dim1] + c__ * a[j
                         + 1 + jc * a_dim1];
 /*<                A( J, JC ) = TEMP >*/
                 a[j + jc * a_dim1] = temp;
 /*<                TEMP2 = C*B( J, JC ) + S*B( J+1, JC ) >*/
                 temp2 = c__ * b[j + jc * b_dim1] + s * b[j + 1 + jc * b_dim1];
 /*<                B( J+1, JC ) = -S*B( J, JC ) + C*B( J+1, JC ) >*/
-                b[j + 1 + jc * b_dim1] = -s * b[j + jc * b_dim1] + c__ * b[j 
+                b[j + 1 + jc * b_dim1] = -s * b[j + jc * b_dim1] + c__ * b[j
                         + 1 + jc * b_dim1];
 /*<                B( J, JC ) = TEMP2 >*/
                 b[j + jc * b_dim1] = temp2;
@@ -1976,7 +1976,7 @@ L250:
                 i__2 = *n;
                 for (jr = 1; jr <= i__2; ++jr) {
 /*<                   TEMP = C*Q( JR, J ) + S*Q( JR, J+1 ) >*/
-                    temp = c__ * q[jr + j * q_dim1] + s * q[jr + (j + 1) * 
+                    temp = c__ * q[jr + j * q_dim1] + s * q[jr + (j + 1) *
                             q_dim1];
 /*<                   Q( JR, J+1 ) = -S*Q( JR, J ) + C*Q( JR, J+1 ) >*/
                     q[jr + (j + 1) * q_dim1] = -s * q[jr + j * q_dim1] + c__ *
@@ -1994,7 +1994,7 @@ L250:
 /*<             TEMP = B( J+1, J+1 ) >*/
             temp = b[j + 1 + (j + 1) * b_dim1];
 /*<             CALL DLARTG( TEMP, B( J+1, J ), C, S, B( J+1, J+1 ) ) >*/
-            dlartg_(&temp, &b[j + 1 + j * b_dim1], &c__, &s, &b[j + 1 + (j + 
+            dlartg_(&temp, &b[j + 1 + j * b_dim1], &c__, &s, &b[j + 1 + (j +
                     1) * b_dim1]);
 /*<             B( J+1, J ) = ZERO >*/
             b[j + 1 + j * b_dim1] = 0.;
@@ -2036,7 +2036,7 @@ L250:
                     temp = c__ * z__[jr + (j + 1) * z_dim1] + s * z__[jr + j *
                              z_dim1];
 /*<                   Z( JR, J ) = -S*Z( JR, J+1 ) + C*Z( JR, J ) >*/
-                    z__[jr + j * z_dim1] = -s * z__[jr + (j + 1) * z_dim1] + 
+                    z__[jr + j * z_dim1] = -s * z__[jr + (j + 1) * z_dim1] +
                             c__ * z__[jr + j * z_dim1];
 /*<                   Z( JR, J+1 ) = TEMP >*/
                     z__[jr + (j + 1) * z_dim1] = temp;

@@ -533,7 +533,7 @@ int miget_volume_real_range(mihandle_t volume, double real_range[])
     H5Dread(volume->imin_id, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT,
             buffer);
 
-    real_range[0] = FLT_MAX;
+    real_range[0] = DBL_MAX;
 
     for (i = 0; i < n; i++) {
         if (buffer[i] < real_range[0]) {
@@ -559,7 +559,7 @@ int miget_volume_real_range(mihandle_t volume, double real_range[])
     H5Dread(volume->imax_id, H5T_NATIVE_DOUBLE, H5S_ALL, H5S_ALL, H5P_DEFAULT,
             buffer);
 
-    real_range[1] = FLT_MIN;
+    real_range[1] = -DBL_MAX;
 
     for (i = 0; i < n; i++) {
         if (buffer[i] > real_range[1]) {

@@ -58,8 +58,17 @@ http://graphviz.sourcearchive.com/documentation/2.16/gvrender__pango_8c-source.h
 #include <stdio.h> // needed on Solaris
 #include <fenv.h>
 
-#define DEFINED_PPC      (defined(__ppc__) || defined(__ppc64__))
-#define DEFINED_INTEL    (defined(__i386__) || defined(__x86_64__))
+#if defined(__ppc__) || defined(__ppc64__)
+#define DEFINED_PPC 1
+#else
+#define DEFINED_PPC 0
+#endif
+
+#if defined(__i386__) || defined(__x86_64__)
+#define DEFINED_INTEL 1
+#else
+#define DEFINED_INTEL 0
+#endif
 
 #if defined(__sun) || defined(__EMSCRIPTEN__)
 

@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkRegularStepGradientDescentOptimizerv4.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 /**
  *  The objectif function is the quadratic form:

@@ -20,9 +20,9 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<    >*/
-/* Subroutine */ int dorm2r_(char *side, char *trans, integer *m, integer *n, 
+/* Subroutine */ int dorm2r_(char *side, char *trans, integer *m, integer *n,
         integer *k, doublereal *a, integer *lda, doublereal *tau, doublereal *
-        c__, integer *ldc, doublereal *work, integer *info, ftnlen side_len, 
+        c__, integer *ldc, doublereal *work, integer *info, ftnlen side_len,
         ftnlen trans_len)
 {
     /* System generated locals */
@@ -32,8 +32,8 @@ static integer c__1 = 1;
     integer i__, i1, i2, i3, ic=0, jc=0, mi, ni, nq;
     doublereal aii;
     logical left;
-    extern /* Subroutine */ int dlarf_(char *, integer *, integer *, 
-            doublereal *, integer *, doublereal *, doublereal *, integer *, 
+    extern /* Subroutine */ int dlarf_(char *, integer *, integer *,
+            doublereal *, integer *, doublereal *, doublereal *, integer *,
             doublereal *, ftnlen);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen);

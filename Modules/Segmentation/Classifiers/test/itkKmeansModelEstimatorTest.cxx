@@ -200,7 +200,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
 
     for(int i = 0; i < NUMBANDS; i++)
       {
-      error += vnl_math_abs(errorForClass[i]/referenceCodebookForClass[i]);
+      error += itk::Math::abs(errorForClass[i]/referenceCodebookForClass[i]);
       meanCDBKvalue += referenceCodebookForClass[i];
       }
 
@@ -264,7 +264,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
 
     for(int i = 0; i < NUMBANDS; i++)
       {
-      error += vnl_math_abs(errorForClass[i]/referenceCodebookForClass[i]);
+      error += itk::Math::abs(errorForClass[i]/referenceCodebookForClass[i]);
       meanCDBKvalue += referenceCodebookForClass[i];
       }
     }

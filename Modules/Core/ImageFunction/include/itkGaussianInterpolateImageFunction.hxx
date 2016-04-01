@@ -69,7 +69,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     {
     this->m_BoundingBoxStart[d] = -0.5;
     this->m_BoundingBoxEnd[d] = static_cast<RealType>( size[d] ) - 0.5;
-    this->m_ScalingFactor[d] = 1.0 / ( vnl_math::sqrt2 * this->m_Sigma[d] / spacing[d] );
+    this->m_ScalingFactor[d] = 1.0 / ( itk::Math::sqrt2 * this->m_Sigma[d] / spacing[d] );
     this->m_CutoffDistance[d] = this->m_Sigma[d] * this->m_Alpha / spacing[d];
     }
 }
@@ -111,9 +111,9 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     {
     int boundingBoxSize = static_cast<int>(
       this->m_BoundingBoxEnd[d] - this->m_BoundingBoxStart[d] + 0.5 );
-    int begin = vnl_math_max( 0, static_cast<int>( std::floor( cindex[d] -
+    int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
       this->m_BoundingBoxStart[d] - this->m_CutoffDistance[d] ) ) );
-    int end = vnl_math_min( boundingBoxSize, static_cast<int>( std::ceil(
+    int end = std::min( boundingBoxSize, static_cast<int>( std::ceil(
       cindex[d] - this->m_BoundingBoxStart[d] + this->m_CutoffDistance[d] ) ) );
     region.SetIndex( d, begin );
     region.SetSize( d, end - begin );
@@ -171,7 +171,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     for( unsigned int q = 0; q < ImageDimension; q++ )
       {
       grad[q] = ( dsum_me[q] - rc * dsum_m[q] ) / sum_m;
-      grad[q] /= -vnl_math::sqrt2 * this->m_Sigma[q];
+      grad[q] /= -itk::Math::sqrt2 * this->m_Sigma[q];
       }
     }
 
@@ -189,10 +189,10 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   int boundingBoxSize = static_cast<int>(
     this->m_BoundingBoxEnd[dimension] - this->m_BoundingBoxStart[dimension] +
     0.5 );
-  int begin = vnl_math_max( 0, static_cast<int>( std::floor( cindex -
+  int begin = std::max( 0, static_cast<int>( std::floor( cindex -
     this->m_BoundingBoxStart[dimension] -
     this->m_CutoffDistance[dimension] ) ) );
-  int end = vnl_math_min( boundingBoxSize, static_cast<int>( std::ceil( cindex -
+  int end = std::min( boundingBoxSize, static_cast<int>( std::ceil( cindex -
     this->m_BoundingBoxStart[dimension] +
     this->m_CutoffDistance[dimension] ) ) );
 
@@ -206,7 +206,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   RealType g_last = 0.0;
   if( evaluateGradient )
     {
-    g_last = vnl_math::two_over_sqrtpi * std::exp( -vnl_math_sqr( t ) );
+    g_last = itk::Math::two_over_sqrtpi * std::exp( -itk::Math::sqr( t ) );
     }
 
   for( int i = begin; i < end; i++ )
@@ -216,7 +216,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     erfArray[i] = e_now - e_last;
     if( evaluateGradient )
       {
-      RealType g_now = vnl_math::two_over_sqrtpi * std::exp( -vnl_math_sqr( t ) );
+      RealType g_now = itk::Math::two_over_sqrtpi * std::exp( -itk::Math::sqr( t ) );
       gerfArray[i] = g_now - g_last;
       g_last = g_now;
       }

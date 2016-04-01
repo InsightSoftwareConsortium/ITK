@@ -20,15 +20,15 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<    >*/
-/* Subroutine */ int sggsvd_(const char *jobu, const char *jobv, const char *jobq, integer *m, 
+/* Subroutine */ int sggsvd_(const char *jobu, const char *jobv, const char *jobq, integer *m,
         integer *n, integer *p, integer *k, integer *l, real *a, integer *lda,
          real *b, integer *ldb, real *alpha, real *beta, real *u, integer *
-        ldu, real *v, integer *ldv, real *q, integer *ldq, real *work, 
-        integer *iwork, integer *info, ftnlen jobu_len, ftnlen jobv_len, 
+        ldu, real *v, integer *ldv, real *q, integer *ldq, real *work,
+        integer *iwork, integer *info, ftnlen jobu_len, ftnlen jobv_len,
         ftnlen jobq_len)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, u_dim1,
             u_offset, v_dim1, v_offset, i__1, i__2;
 
     /* Local variables */
@@ -41,19 +41,19 @@ static integer c__1 = 1;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     real anorm, bnorm;
     logical wantq;
-    extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *, 
+    extern /* Subroutine */ int scopy_(integer *, real *, integer *, real *,
             integer *);
     logical wantu, wantv;
-    extern doublereal slamch_(char *, ftnlen), slange_(char *, integer *, 
+    extern doublereal slamch_(char *, ftnlen), slange_(char *, integer *,
             integer *, real *, integer *, real *, ftnlen);
     integer ncycle;
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen), stgsja_(
             const char *, const char *, const char *, integer *, integer *, integer *, integer *
             , integer *, real *, integer *, real *, integer *, real *, real *,
-             real *, real *, real *, integer *, real *, integer *, real *, 
-            integer *, real *, integer *, integer *, ftnlen, ftnlen, ftnlen), 
-            sggsvp_(const char *, const char *, const char *, integer *, integer *, integer *, 
-            real *, integer *, real *, integer *, real *, real *, integer *, 
+             real *, real *, real *, integer *, real *, integer *, real *,
+            integer *, real *, integer *, integer *, ftnlen, ftnlen, ftnlen),
+            sggsvp_(const char *, const char *, const char *, integer *, integer *, integer *,
+            real *, integer *, real *, integer *, real *, real *, integer *,
             integer *, real *, integer *, real *, integer *, real *, integer *
             , integer *, real *, real *, integer *, ftnlen, ftnlen, ftnlen);
     (void)jobu_len;
@@ -417,7 +417,7 @@ static integer c__1 = 1;
 /*     Compute the GSVD of two upper "triangular" matrices */
 
 /*<    >*/
-    stgsja_(jobu, jobv, jobq, m, p, n, k, l, &a[a_offset], lda, &b[b_offset], 
+    stgsja_(jobu, jobv, jobq, m, p, n, k, l, &a[a_offset], lda, &b[b_offset],
             ldb, &tola, &tolb, &alpha[1], &beta[1], &u[u_offset], ldu, &v[
             v_offset], ldv, &q[q_offset], ldq, &work[1], &ncycle, info, (
             ftnlen)1, (ftnlen)1, (ftnlen)1);

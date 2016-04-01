@@ -400,7 +400,10 @@ KernelTransform<TParametersValueType, NDimensions>
   // Save parameters. Needed for proper operation of TransformUpdateParameters.
   if( &parameters != &(this->m_Parameters) )
     {
-    this->m_Parameters = parameters;
+    const size_t parameterSize = this->GetParameters().Size();
+    const NumberOfParametersType offset = NumericTraits< NumberOfParametersType >::ZeroValue();
+    this->CopyInParameters( &( parameters.data_block() )[offset],
+                              &( parameters.data_block() )[offset] + parameterSize );
     }
 
   typename PointsContainer::Pointer landmarks = PointsContainer::New();

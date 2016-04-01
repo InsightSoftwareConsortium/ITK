@@ -85,7 +85,7 @@ namespace itk {
  * \tparam TOutputMesh Output Mesh Type
  * \tparam TSolverTraits Linear Sparse Solver Traits see VNLIterativeSparseSolverTraits and VNLSparseLUSolverTraits
  *
- *  For details, see http://hdl.handle.net/10380/3410
+ *  For details, see https://hdl.handle.net/10380/3410
  *
  *  \ingroup ITKQuadEdgeMeshFiltering
  */

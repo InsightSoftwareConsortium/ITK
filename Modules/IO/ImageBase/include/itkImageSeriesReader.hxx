@@ -22,7 +22,7 @@
 
 #include "itkImageAlgorithm.h"
 #include "itkArray.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkProgressReporter.h"
 #include "itkMetaDataObject.h"
 
@@ -220,7 +220,7 @@ void ImageSeriesReader< TOutputImage >
       float interSliceSpacing = 0.0f;
       for ( j = 0; j < position1.size(); ++j )
         {
-        interSliceSpacing += vnl_math_sqr(position2[j] - position1[j]);
+        interSliceSpacing += itk::Math::sqr(position2[j] - position1[j]);
         }
       interSliceSpacing = static_cast< float >( std::sqrt(interSliceSpacing) );
 

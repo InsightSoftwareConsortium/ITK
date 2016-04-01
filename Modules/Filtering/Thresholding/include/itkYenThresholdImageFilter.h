@@ -37,7 +37,7 @@ namespace itk {
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/10380/3279  or
+ * https://hdl.handle.net/10380/3279  or
  * http://www.insight-journal.org/browse/publication/811
  *
  * \sa HistogramThresholdImageFilter

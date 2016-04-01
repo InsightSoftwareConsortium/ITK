@@ -35,7 +35,7 @@ namespace itk
  * twice will not produce the same image as the original one without
  * using SetInverse(true) on one (and only one) of the two filters.
  *
- * http://hdl.handle.net/1926/321
+ * https://hdl.handle.net/1926/321
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *

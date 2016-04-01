@@ -137,7 +137,7 @@ int itkSignedMaurerDistanceMapImageFilterTest11(int, char* [] )
   const double distance2 = outputDistance2D->GetPixel( index );
   std::cout<<"distance2: "<<distance2<< std::endl;
   const myImageType2D2::PixelType epsilon = 1e-5;
-  if( vcl_fabs( distance2 - distance1 * distance1 ) > epsilon )
+  if( std::fabs( distance2 - distance1 * distance1 ) > epsilon )
     {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
     return EXIT_FAILURE;

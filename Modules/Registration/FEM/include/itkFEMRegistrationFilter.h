@@ -43,7 +43,7 @@
 #include "itkFEMLoadLandmark.h"
 
 #include "vnl/vnl_vector.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/vnl_vector_fixed.h"
 
 #include <iostream>

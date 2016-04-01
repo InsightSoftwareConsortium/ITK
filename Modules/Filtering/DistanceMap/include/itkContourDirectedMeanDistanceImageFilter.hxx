@@ -240,7 +240,7 @@ ContourDirectedMeanDistanceImageFilter< TInputImage1, TInputImage2 >
         if ( bIsOnContour )
           {
           const RealType value = it2.Get();
-          m_MeanDistance[threadId] += vnl_math_abs(value);
+          m_MeanDistance[threadId] += itk::Math::abs(value);
           m_Count[threadId]++;
           }
         }

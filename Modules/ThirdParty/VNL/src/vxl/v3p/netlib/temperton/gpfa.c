@@ -68,7 +68,7 @@ static integer c__3 = 3;
 /* ---------------------------------------------------------------------- */
 
 /*<       SUBROUTINE GPFA(A,B,TRIGS,INC,JUMP,N,LOT,ISIGN,NPQR) >*/
-/* Subroutine */ int gpfa_(real *a, real *b, real *trigs, integer *inc, 
+/* Subroutine */ int gpfa_(real *a, real *b, real *trigs, integer *inc,
         integer *jump, integer *n, integer *lot, integer *isign, integer *
         npqr)
 {
@@ -77,7 +77,7 @@ static integer c__3 = 3;
 
     /* Local variables */
     integer i__, ip, iq, ir;
-    extern /* Subroutine */ int gpfa2f_(real *, real *, real *, integer *, 
+    extern /* Subroutine */ int gpfa2f_(real *, real *, real *, integer *,
             integer *, integer *, integer *, integer *, integer *), gpfa3f_(
             real *, real *, real *, integer *, integer *, integer *, integer *
             , integer *, integer *), gpfa5f_(real *, real *, real *, integer *

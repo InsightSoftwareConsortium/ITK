@@ -48,7 +48,7 @@ int itkBlockMatchingImageFilterTest( int argc, char * argv[] )
 
   typedef unsigned char                  InputPixelType;
   typedef itk::RGBPixel<InputPixelType>  OutputPixelType;
-  static const unsigned int Dimension = 3;
+  static ITK_CONSTEXPR unsigned int Dimension = 3;
 
   typedef itk::Image< InputPixelType,  Dimension >  InputImageType;
   typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;

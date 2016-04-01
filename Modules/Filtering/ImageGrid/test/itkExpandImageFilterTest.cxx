@@ -167,7 +167,7 @@ int itkExpandImageFilterTest(int, char* [] )
       input->TransformPhysicalPointToIndex(point, inputIndex );
       double trueValue = pattern.Evaluate( inputIndex );
 
-      if( vnl_math_abs( trueValue - value ) > 1e-4 )
+      if( itk::Math::abs( trueValue - value ) > 1e-4 )
         {
         testPassed = false;
         std::cout << "Error at Index: " << index << " ";

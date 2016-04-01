@@ -20,7 +20,7 @@
 #define itkIsoDataThresholdCalculator_hxx
 
 #include "itkIsoDataThresholdCalculator.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkProgressReporter.h"
 
 namespace itk
@@ -87,7 +87,7 @@ IsoDataThresholdCalculator<THistogram, TOutput>
       h += static_cast< double >( histogram->GetMeasurement(i, 0) ) * static_cast< double >( histogram->GetFrequency(i, 0) );
       }
     // a test to avoid a potential division by 0
-    if( ( totl > vnl_math::eps ) && ( toth > vnl_math::eps ) )
+    if( ( totl > itk::Math::eps ) && ( toth > itk::Math::eps ) )
       {
       l /= totl;
       h /= toth;

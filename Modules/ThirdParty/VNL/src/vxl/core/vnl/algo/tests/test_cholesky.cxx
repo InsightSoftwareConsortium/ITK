@@ -1,6 +1,7 @@
 // This is core/vnl/algo/tests/test_cholesky.cxx
+#include <iostream>
 #include <testlib/testlib_test.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/algo/vnl_cholesky.h>
 #include <vnl/vnl_inverse.h>
@@ -20,7 +21,7 @@ void test_cholesky()
 
   {
     vnl_cholesky chol(A);
-    vcl_cout << "cholesky inverse:\n" << chol.inverse() << '\n'
+    std::cout << "cholesky inverse:\n" << chol.inverse() << '\n'
              << "direct inverse:\n" << vnl_inverse(A) << '\n';
     testlib_test_assert_near("vnl_inverse() ~= cholesky.inverse()",
                              (chol.inverse() - vnl_inverse(A)).fro_norm());

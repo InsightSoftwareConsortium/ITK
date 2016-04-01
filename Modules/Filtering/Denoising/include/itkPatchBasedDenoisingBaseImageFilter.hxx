@@ -268,7 +268,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   radius.Fill(m_PatchRadius);
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
-    radius[dim] = vnl_math_ceil (maxSpacing * radius[dim] / spacing[dim]);
+    radius[dim] = itk::Math::ceil (maxSpacing * radius[dim] / spacing[dim]);
     }
   return radius;
 }

@@ -260,7 +260,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 
   const PDFValueType nFactor = 1.0 / ( this->m_MovingImageBinSize * this->GetNumberOfValidPoints() );
 
-  static const PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
+  static ITK_CONSTEXPR PDFValueType closeToZero = std::numeric_limits<PDFValueType>::epsilon();
   for( unsigned int fixedIndex = 0; fixedIndex < this->m_NumberOfHistogramBins; ++fixedIndex )
     {
     const PDFValueType fixedImagePDFValue = this->m_ThreaderFixedImageMarginalPDF[0][fixedIndex];

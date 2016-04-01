@@ -29,7 +29,6 @@
 namespace gdcm {
   class File;
   class BaseRootQuery;
-  class BaseQuery;
 
   namespace network {
 
@@ -44,7 +43,7 @@ namespace gdcm {
  */
   class GDCM_EXPORT ULConnectionManager : public Subject
   {
-    protected:
+    private:
       ULConnection* mConnection;
       ULConnection* mSecondaryConnection;
       ULTransitionTable mTransitions;
@@ -68,7 +67,7 @@ namespace gdcm {
 
     public:
       ULConnectionManager();
-      virtual ~ULConnectionManager();
+      ~ULConnectionManager();
 
       // NOTE: (MM) The following two functions are difficults to use, therefore marking
       // them as internal for now.
@@ -127,30 +126,16 @@ namespace gdcm {
 
       // \internal
       // API will change...
-      std::vector<DataSet> SendStore(const File &file, std::istream * pStream = NULL, std::streampos dataSetOffset = 0  );
+      std::vector<DataSet> SendStore(const File &file);
       std::vector<DataSet> SendFind(const BaseRootQuery* inRootQuery);
       std::vector<DataSet> SendMove(const BaseRootQuery* inRootQuery);
-
-	  std::vector<DataSet> SendNEventReport	(const BaseQuery* inQuery);
-      std::vector<DataSet> SendNGet			(const BaseQuery* inQuery);
-      std::vector<DataSet> SendNSet			(const BaseQuery* inQuery);
-      std::vector<DataSet> SendNAction		(const BaseQuery* inQuery);
-      std::vector<DataSet> SendNCreate		(const BaseQuery* inQuery);
-      std::vector<DataSet> SendNDelete		(const BaseQuery* inQuery);
       // \endinternal
 
       ///callback based API
-      void SendStore(const File & file, ULConnectionCallback* inCallback, std::istream * pStream = NULL , std::streampos dataSetOffset = 0 );
+      void SendStore(const File & file, ULConnectionCallback* inCallback);
       void SendFind(const BaseRootQuery* inRootQuery, ULConnectionCallback* inCallback);
       /// return false upon error
       bool SendMove(const BaseRootQuery* inRootQuery, ULConnectionCallback* inCallback);
-
-      void SendNEventReport	(const BaseQuery* inQuery, ULConnectionCallback* inCallback);
-      void SendNGet			(const BaseQuery* inQuery, ULConnectionCallback* inCallback);
-      void SendNSet			(const BaseQuery* inQuery, ULConnectionCallback* inCallback);
-      void SendNAction		(const BaseQuery* inQuery, ULConnectionCallback* inCallback);
-      void SendNCreate		(const BaseQuery* inQuery, ULConnectionCallback* inCallback);
-      void SendNDelete		(const BaseQuery* inQuery, ULConnectionCallback* inCallback);
 
     };
   }

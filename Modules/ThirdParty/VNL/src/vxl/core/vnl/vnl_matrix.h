@@ -36,13 +36,14 @@
 //   18-Jan-2011 - Peter Vanroose - added methods set_diagonal() & get_diagonal()
 // \endverbatim
 
-#include <vcl_iosfwd.h>
+#include <iosfwd>
+#include <vcl_compiler.h>
 #include <vnl/vnl_tag.h>
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h>
+#include <vnl/vnl_error.h>
 #ifndef NDEBUG
 # if VNL_CONFIG_CHECK_BOUNDS
-#  include <vnl/vnl_error.h>
 #  include <vcl_cassert.h>
 # endif
 #else
@@ -51,8 +52,8 @@
 # undef ERROR_CHECKING
 #endif
 
-template <class T> class vnl_vector;
-template <class T> class vnl_matrix;
+VCL_TEMPLATE_EXPORT template <class T> class vnl_vector;
+VCL_TEMPLATE_EXPORT template <class T> class vnl_matrix;
 
 //--------------------------------------------------------------------------------
 
@@ -68,8 +69,8 @@ template <class T> m element_quotient(m const&, m const&);
 template <class T> T dot_product(m const&, m const&);
 template <class T> T inner_product(m const&, m const&);
 template <class T> T cos_angle(m const&, m const& );
-template <class T> vcl_ostream& operator<<(vcl_ostream&, m const&);
-template <class T> vcl_istream& operator>>(vcl_istream&, m&);
+template <class T> std::ostream& operator<<(std::ostream&, m const&);
+template <class T> std::istream& operator>>(std::istream&, m&);
 #undef v
 #undef m
 
@@ -115,7 +116,7 @@ class vnl_matrix
   vnl_matrix() :
     num_rows(0),
     num_cols(0),
-    data(0)
+    data(VXL_NULLPTR)
   {
   }
 
@@ -160,7 +161,7 @@ class vnl_matrix
   vnl_matrix(vnl_matrix<T> const &, vnl_matrix<T> const &, vnl_tag_mul); // M * M
   vnl_matrix(vnl_matrix<T> &that, vnl_tag_grab)
     : num_rows(that.num_rows), num_cols(that.num_cols), data(that.data)
-  { that.num_cols=that.num_rows=0; that.data=0; } // "*this" now uses "that"'s data.
+  { that.num_cols=that.num_rows=0; that.data=VXL_NULLPTR; } // "*this" now uses "that"'s data.
 // </internal>
 #endif
 
@@ -169,26 +170,26 @@ class vnl_matrix
 
 // Basic 2D-Array functionality-------------------------------------------
 
-  //: Return number of rows
-  unsigned rows()    const { return num_rows; }
-
-  //: Return number of columns
-  // A synonym for cols()
-  unsigned columns()  const { return num_cols; }
-
-  //: Return number of columns
-  // A synonym for columns()
-  unsigned cols()    const { return num_cols; }
-
-  //: Return number of elements
+  //: Return the total number of elements stored by the matrix.
   // This equals rows() * cols()
-  unsigned size()    const { return rows()*cols(); }
+  inline unsigned int size() const { return this->num_rows*this->num_cols; }
+
+  //: Return the number of rows.
+  inline unsigned int rows() const { return this->num_rows; }
+
+  //: Return the number of columns.
+  // A synonym for columns().
+  inline unsigned int cols() const { return this->num_cols; }
+
+  //: Return the number of columns.
+  // A synonym for cols().
+  inline unsigned int columns() const { return this->num_cols; }
 
   //: set element with boundary checks if error checking is on.
-  void put(unsigned r, unsigned c, T const&);
+  inline void put(unsigned r, unsigned c, T const&);
 
   //: get element with boundary checks if error checking is on.
-  T    get(unsigned r, unsigned c) const;
+  inline T get(unsigned r, unsigned c) const;
 
   //: return pointer to given row
   // No boundary checking here.
@@ -343,6 +344,12 @@ class vnl_matrix
   //: Make a new matrix by applying function to each element.
   vnl_matrix<T> apply(T (*f)(T const&)) const;
 
+  //: Make a vector by applying a function across rows.
+  vnl_vector<T> apply_rowwise(T (*f)(vnl_vector<T> const&)) const;
+
+  //: Make a vector by applying a function across columns.
+  vnl_vector<T> apply_columnwise(T (*f)(vnl_vector<T> const&)) const;
+
   //: Return transpose
   vnl_matrix<T> transpose() const;
 
@@ -401,6 +408,12 @@ class vnl_matrix
 
   //: Return a vector with the content of the (main) diagonal
   vnl_vector<T> get_diagonal() const;
+
+  //: Flatten row-major (C-style)
+  vnl_vector<T> flatten_row_major() const;
+
+  //: Flatten column-major (Fortran-style)
+  vnl_vector<T> flatten_column_major() const;
 
   // ==== mutators ====
 
@@ -565,12 +578,9 @@ class vnl_matrix
 
   //: abort if size is not as expected
   // This function does or tests nothing if NDEBUG is defined
-#ifdef NDEBUG
-  void assert_size(unsigned, unsigned ) const
+  void assert_size(unsigned VXL_USED_IN_DEBUG(r), unsigned VXL_USED_IN_DEBUG(c)) const
   {
-#else
-  void assert_size(unsigned r, unsigned c) const
-  {
+#ifndef NDEBUG
     assert_size_internal(r, c);
 #endif
   }
@@ -585,11 +595,11 @@ class vnl_matrix
 
   ////----------------------- Input/Output ----------------------------
 
-  //: Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  static vnl_matrix<T> read(vcl_istream& s);
+  //: Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  static vnl_matrix<T> read(std::istream& s);
 
-  // : Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  bool read_ascii(vcl_istream& s);
+  // : Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  bool read_ascii(std::istream& s);
 
   //--------------------------------------------------------------------------------
 
@@ -614,16 +624,16 @@ class vnl_matrix
   //: Iterators
   typedef T       *iterator;
   //: Iterator pointing to start of data
-  iterator       begin() { return data?data[0]:0; }
+  iterator       begin() { return data?data[0]:VXL_NULLPTR; }
   //: Iterator pointing to element beyond end of data
-  iterator       end() { return data?data[0]+num_rows*num_cols:0; }
+  iterator       end() { return data?data[0]+num_rows*num_cols:VXL_NULLPTR; }
 
   //: Const iterators
   typedef T const *const_iterator;
   //: Iterator pointing to start of data
-  const_iterator begin() const { return data?data[0]:0; }
+  const_iterator begin() const { return data?data[0]:VXL_NULLPTR; }
   //: Iterator pointing to element beyond end of data
-  const_iterator end() const { return data?data[0]+num_rows*num_cols:0; }
+  const_iterator end() const { return data?data[0]+num_rows*num_cols:VXL_NULLPTR; }
 
   //: Return a reference to this.
   // Useful in code which would prefer not to know if its argument
@@ -646,7 +656,7 @@ class vnl_matrix
   bool operator!=(vnl_matrix<T> const &that) const { return !this->operator_eq(that); }
 
   //: Print matrix to os in some hopefully sensible format
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
   //: Make the matrix as if it had been default-constructed.
   void clear();
@@ -685,8 +695,8 @@ class vnl_matrix
   friend T dot_product       VCL_NULL_TMPL_ARGS (m const&, m const&);
   friend T inner_product     VCL_NULL_TMPL_ARGS (m const&, m const&);
   friend T cos_angle         VCL_NULL_TMPL_ARGS (m const&, m const&);
-  friend vcl_ostream& operator<< VCL_NULL_TMPL_ARGS (vcl_ostream&, m const&);
-  friend vcl_istream& operator>> VCL_NULL_TMPL_ARGS (vcl_istream&, m&);
+  friend std::ostream& operator<< VCL_NULL_TMPL_ARGS (std::ostream&, m const&);
+  friend std::istream& operator>> VCL_NULL_TMPL_ARGS (std::istream&, m&);
 # undef v
 # undef m
 #endif
@@ -703,30 +713,32 @@ class vnl_matrix
 // Checks for valid range of indices.
 
 template<class T>
-inline T vnl_matrix<T>::get(unsigned row, unsigned column) const
+inline T vnl_matrix<T>
+::get(unsigned r, unsigned c) const
 {
-#ifdef ERROR_CHECKING
-  if (row >= this->num_rows)                   // If invalid size specified
-    vnl_error_matrix_row_index("get", row);    // Raise exception
-  if (column >= this->num_cols)                // If invalid size specified
-    vnl_error_matrix_col_index("get", column); // Raise exception
+#if VNL_CONFIG_CHECK_BOUNDS
+  if (r >= this->num_rows)                // If invalid size specified
+    vnl_error_matrix_row_index("get", r); // Raise exception
+  if (c >= this->num_cols)                // If invalid size specified
+    vnl_error_matrix_col_index("get", c); // Raise exception
 #endif
-  return this->data[row][column];
+  return this->data[r][c];
 }
 
 //: Puts value into element at specified row and column. O(1).
 // Checks for valid range of indices.
 
 template<class T>
-inline void vnl_matrix<T>::put(unsigned row, unsigned column, T const& value)
+inline void vnl_matrix<T>
+::put(unsigned r, unsigned c, T const& v)
 {
-#ifdef ERROR_CHECKING
-  if (row >= this->num_rows)                   // If invalid size specified
-    vnl_error_matrix_row_index("put", row);    // Raise exception
-  if (column >= this->num_cols)                // If invalid size specified
-    vnl_error_matrix_col_index("put", column); // Raise exception
+#if VNL_CONFIG_CHECK_BOUNDS
+  if (r >= this->num_rows)                // If invalid size specified
+    vnl_error_matrix_row_index("put", r); // Raise exception
+  if (c >= this->num_cols)                // If invalid size specified
+    vnl_error_matrix_col_index("put", c); // Raise exception
 #endif
-  this->data[row][column] = value;             // Assign data value
+  this->data[r][c] = v;             // Assign data value
 }
 
 

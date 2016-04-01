@@ -61,20 +61,7 @@ void sleep(unsigned milliseconds)
 
 static VIO_Real  get_clock_ticks_per_second( void )
 {
-    static  VIO_BOOL  initialized = FALSE;
-    static  VIO_Real     clock_ticks_per_second;
-
-    if( !initialized )
-    {
-        initialized = TRUE;
-#if HAVE_SYSCONF
-        clock_ticks_per_second = (VIO_Real) sysconf( _SC_CLK_TCK );
-#else
-        clock_ticks_per_second = (VIO_Real) CLK_TCK;
-#endif
-    }
-
-    return( clock_ticks_per_second );
+    return( (VIO_Real) CLOCKS_PER_SEC );
 }
 
 /* ----------------------------- MNI Header -----------------------------------
@@ -101,13 +88,9 @@ VIOAPI VIO_Real  current_cpu_seconds( void )
     {
         first_call = FALSE;
         first = clock();
-        secs = (VIO_Real) first / get_clock_ticks_per_second();
     }
-    else
-    {
-        current = clock();
-        secs = (VIO_Real) (current - first) / get_clock_ticks_per_second();
-    }
+    current = clock();
+    secs = (VIO_Real) (current - first) / get_clock_ticks_per_second();
     return (secs);
 }
 

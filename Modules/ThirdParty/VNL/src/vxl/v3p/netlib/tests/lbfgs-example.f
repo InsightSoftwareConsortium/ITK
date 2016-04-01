@@ -4,7 +4,7 @@ C     SIMPLE DRIVER FOR LBFGS
 C     ***********************
 C
 C     Example of driver for LBFGS routine, using a
-C     simple test problem. The solution point is at 
+C     simple test problem. The solution point is at
 C     X=(1,...,1) and the optimal function value of 0.
 C
 C                          JORGE NOCEDAL
@@ -27,7 +27,7 @@ C
       IPRINT(1)= 1
       IPRINT(2)= 0
 C
-C     We do not wish to provide the diagonal matrices Hk0, and 
+C     We do not wish to provide the diagonal matrices Hk0, and
 C     therefore set DIAGCO to FALSE.
 C
       DIAGCO= .FALSE.

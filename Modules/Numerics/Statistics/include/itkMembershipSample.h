@@ -120,7 +120,7 @@ public:
    *   this container. */
   const ClassLabelHolderType GetClassLabelHolder() const;
 
-  /** retunrs the measurement of the instance which is identified
+  /** returns the measurement of the instance which is identified
    * by the 'id' */
   const MeasurementVectorType & GetMeasurementVector(const InstanceIdentifier & id) const;
 

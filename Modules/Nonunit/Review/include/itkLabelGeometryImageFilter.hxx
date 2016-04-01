@@ -431,7 +431,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
     RealType orientation = std::atan2(eig.get_eigenvector(ImageDimension-1)[1], eig.get_eigenvector(ImageDimension-1)[0]);
     // Change the orientation from being between -pi to pi to being from 0 to pi.
     // We can add pi because the orientation of the major axis is symmetric about the origin.
-    ( *mapIt ).second.m_Orientation = orientation < 0.0 ? orientation + vnl_math::pi : orientation;
+    ( *mapIt ).second.m_Orientation = orientation < 0.0 ? orientation + itk::Math::pi : orientation;
 
     if ( m_CalculateOrientedBoundingBox == true )
       {

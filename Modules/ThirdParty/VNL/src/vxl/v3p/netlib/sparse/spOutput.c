@@ -32,10 +32,6 @@
  *  Copyright (c) 1985-2003
  *  by Kenneth S. Kundert
  */
-#if 0
-static char copyright[] =
-    "Sparse1.4: Copyright (c) 1985-2003 by Kenneth S. Kundert";
-#endif
 /*
 Removed File IO routines to get rid of fopen warnings - JLM
 */
@@ -155,16 +151,9 @@ int  *PrintOrdToIntRowMap, *PrintOrdToIntColMap;
     Top = Matrix->AllocatedSize;
 #endif
     CALLOC( PrintOrdToIntRowMap, int, Top + 1 );
-    if ( PrintOrdToIntRowMap == NULL)
-    {
-        Matrix->Error = spNO_MEMORY;
-        return;
-    }
     CALLOC( PrintOrdToIntColMap, int, Top + 1 );
-    if ( PrintOrdToIntColMap == NULL)
-    {
-        Matrix->Error = spNO_MEMORY;
-        FREE(PrintOrdToIntRowMap);
+    if ( PrintOrdToIntRowMap == NULL OR PrintOrdToIntColMap == NULL)
+    {   Matrix->Error = spNO_MEMORY;
         return;
     }
     for (I = 1; I <= Size; I++)
@@ -195,12 +184,7 @@ int  *PrintOrdToIntRowMap, *PrintOrdToIntColMap;
         else
             printf("Matrix before factorization:\n");
     }
-    if (Size == 0)
-    {
-      FREE(PrintOrdToIntColMap);
-      FREE(PrintOrdToIntRowMap);
-      return;
-    }
+    if (Size == 0) return;
 
 /* Determine how many columns to use. */
     Columns = PRINTER_WIDTH;

@@ -19,7 +19,7 @@
 #define itkComplexToPhaseImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -49,7 +49,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)( std::atan2( A.imag(), A.real() ) );
+    return static_cast<TOutput>( std::atan2( A.imag(), A.real() ) );
   }
 };
 }

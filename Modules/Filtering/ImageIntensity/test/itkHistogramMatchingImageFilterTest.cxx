@@ -140,7 +140,7 @@ int itkHistogramMatchingImageFilterTest()
   while( !outIter.IsAtEnd() )
     {
     PixelType diff = refIter.Get() - outIter.Get();
-    if ( vnl_math_abs( diff ) > 1 )
+    if ( itk::Math::abs( diff ) > 1 )
       {
       passed = false;
       std::cout << "Test failed at: " << outIter.GetIndex() << " ";

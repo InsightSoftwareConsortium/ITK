@@ -52,7 +52,7 @@ VIOAPI  int   get_minc_file_n_dimensions(
     nc_type   file_datatype;
     VIO_STR    expanded;
 
-    ncopts = NC_VERBOSE;
+    set_ncopts(NC_VERBOSE);
 
     expanded = expand_filename( filename );
 
@@ -160,14 +160,6 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
     ncvarinq( file->cdfid, file->img_var, (char *) NULL, &file_datatype,
               &file->n_file_dimensions, dim_vars, (int *) NULL );
 
-    /* Set the number of dimensions iff the file has fewer dimensions
-     * than the initially created volume.
-     */
-    if (get_volume_n_dimensions( volume ) > file->n_file_dimensions)
-    {
-        set_volume_n_dimensions( volume, file->n_file_dimensions );
-    }
-
     for_less( d, 0, file->n_file_dimensions )
     {
         (void) ncdiminq( file->cdfid, dim_vars[d], dim_name, &long_size );
@@ -210,6 +202,14 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
             delete_string( file->dim_names[file->n_file_dimensions-1] );
             --file->n_file_dimensions;
         }
+    }
+
+    /* Set the number of dimensions iff the file has fewer dimensions
+     * than the initially created volume.
+     */
+    if (get_volume_n_dimensions( volume ) > file->n_file_dimensions)
+    {
+        set_volume_n_dimensions( volume, file->n_file_dimensions );
     }
 
     n_vol_dims = get_volume_n_dimensions( volume );
@@ -594,7 +594,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
 
     file->end_volume_flag = FALSE;
 
-    ncopts = NC_VERBOSE | NC_FATAL;
+    set_ncopts(NC_VERBOSE | NC_FATAL);
 
     /* --- decide how many full dimensions to read in at a time 
        to max out the read/write buffer and make it like the 
@@ -662,7 +662,7 @@ VIOAPI  Minc_file  initialize_minc_input(
     int          minc_id;
     VIO_STR       expanded;
 
-    ncopts = 0;
+    set_ncopts(0);
 
     expanded = expand_filename( filename );
 

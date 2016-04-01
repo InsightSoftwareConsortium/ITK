@@ -81,7 +81,7 @@ int itkEuclideanDistancePointSetMetricRegistrationTestRun(
 
   // Create a few points and apply a small rotation to make the moving point set
 
-  float theta = vnl_math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
+  float theta = itk::Math::pi / static_cast<float>(180.0) * static_cast<float>(1.0);
   PointType fixedPoint;
   fixedPoint[0] = static_cast<CoordRepType>( 0.0 );
   fixedPoint[1] = static_cast<CoordRepType>( 0.0 );

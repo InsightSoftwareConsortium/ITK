@@ -22,7 +22,7 @@ static doublecomplex c_b2 = {0.,0.};
 static integer c__1 = 1;
 
 /*<       SUBROUTINE ZLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK ) >*/
-/* Subroutine */ int zlarf_(char *side, integer *m, integer *n, doublecomplex 
+/* Subroutine */ int zlarf_(char *side, integer *m, integer *n, doublecomplex
         *v, integer *incv, doublecomplex *tau, doublecomplex *c__, integer *
         ldc, doublecomplex *work, ftnlen side_len)
 {
@@ -32,10 +32,10 @@ static integer c__1 = 1;
 
     /* Local variables */
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int zgerc_(integer *, integer *, doublecomplex *, 
-            doublecomplex *, integer *, doublecomplex *, integer *, 
-            doublecomplex *, integer *), zgemv_(char *, integer *, integer *, 
-            doublecomplex *, doublecomplex *, integer *, doublecomplex *, 
+    extern /* Subroutine */ int zgerc_(integer *, integer *, doublecomplex *,
+            doublecomplex *, integer *, doublecomplex *, integer *,
+            doublecomplex *, integer *), zgemv_(char *, integer *, integer *,
+            doublecomplex *, doublecomplex *, integer *, doublecomplex *,
             integer *, doublecomplex *, doublecomplex *, integer *, ftnlen);
     (void)side_len;
 
@@ -147,7 +147,7 @@ static integer c__1 = 1;
 
 /*<             CALL ZGERC( M, N, -TAU, V, INCV, WORK, 1, C, LDC ) >*/
             z__1.r = -tau->r, z__1.i = -tau->i;
-            zgerc_(m, n, &z__1, &v[1], incv, &work[1], &c__1, &c__[c_offset], 
+            zgerc_(m, n, &z__1, &v[1], incv, &work[1], &c__1, &c__[c_offset],
                     ldc);
 /*<          END IF >*/
         }
@@ -162,14 +162,14 @@ static integer c__1 = 1;
 /*           w := C * v */
 
 /*<    >*/
-            zgemv_("No transpose", m, n, &c_b1, &c__[c_offset], ldc, &v[1], 
+            zgemv_("No transpose", m, n, &c_b1, &c__[c_offset], ldc, &v[1],
                     incv, &c_b2, &work[1], &c__1, (ftnlen)12);
 
 /*           C := C - w * v' */
 
 /*<             CALL ZGERC( M, N, -TAU, WORK, 1, V, INCV, C, LDC ) >*/
             z__1.r = -tau->r, z__1.i = -tau->i;
-            zgerc_(m, n, &z__1, &work[1], &c__1, &v[1], incv, &c__[c_offset], 
+            zgerc_(m, n, &z__1, &work[1], &c__1, &v[1], incv, &c__[c_offset],
                     ldc);
 /*<          END IF >*/
         }

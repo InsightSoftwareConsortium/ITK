@@ -18,7 +18,7 @@
 
 #include "itkLBFGSBOptimizerv4.h"
 #include "itkTextOutput.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 #include <iostream>

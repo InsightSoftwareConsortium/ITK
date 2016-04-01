@@ -174,7 +174,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
         if ( signs[i] == 0 )
           {
           const LabelType difference =
-            static_cast< LabelType >( vnl_math_abs(m_LowPoint[rgb] - neighbors[i]) );
+            static_cast< LabelType >( itk::Math::abs(m_LowPoint[rgb] - neighbors[i]) );
           if ( difference < m_BoundaryGradient )
             {
             numx++;
@@ -192,7 +192,7 @@ RGBGibbsPriorFilter< TInputImage, TClassifiedImage >
         if ( signs[i] == 1 )
           {
           const LabelType difference =
-            static_cast< LabelType >( vnl_math_abs(m_LowPoint[rgb] - neighbors[i]) );
+            static_cast< LabelType >( itk::Math::abs(m_LowPoint[rgb] - neighbors[i]) );
           if ( difference > m_BoundaryGradient )
             {
             numx--;

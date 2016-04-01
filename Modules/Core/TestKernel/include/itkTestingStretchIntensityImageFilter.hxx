@@ -106,7 +106,7 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
     ++it;
     }
 
-  if ( vcl_abs( m_InputMaximum - m_InputMinimum ) > NumericTraits< InputPixelType >::epsilon() )
+  if ( std::abs( m_InputMaximum - m_InputMinimum ) > NumericTraits< InputPixelType >::epsilon() )
     {
     m_Scale =
       ( static_cast< RealType >( m_OutputMaximum )

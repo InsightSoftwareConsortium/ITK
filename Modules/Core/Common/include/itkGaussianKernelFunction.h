@@ -19,7 +19,7 @@
 #define itkGaussianKernelFunction_h
 
 #include "itkKernelFunctionBase.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <cmath>
 
 namespace itk
@@ -55,10 +55,10 @@ public:
 
   /** Evaluate the function. */
   inline TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
-  { return ( std::exp( static_cast< TRealValueType >(-0.5) * vnl_math_sqr(u) ) * m_Factor ); }
+  { return ( std::exp( static_cast< TRealValueType >(-0.5) * itk::Math::sqr(u) ) * m_Factor ); }
 
 protected:
-  GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::OneValue() / std::sqrt(static_cast< TRealValueType >(2.0 * vnl_math::pi )) ) {};
+  GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::OneValue() / std::sqrt(static_cast< TRealValueType >(2.0 * itk::Math::pi )) ) {};
   virtual ~GaussianKernelFunction() {};
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }

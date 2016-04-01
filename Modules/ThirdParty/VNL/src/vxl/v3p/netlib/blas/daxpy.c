@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine daxpy(n,da,dx,incx,dy,incy) >*/
-/* Subroutine */ int daxpy_(integer *n, doublereal *da, doublereal *dx, 
+/* Subroutine */ int daxpy_(integer *n, doublereal *da, doublereal *dx,
         integer *incx, doublereal *dy, integer *incy)
 {
     /* System generated locals */

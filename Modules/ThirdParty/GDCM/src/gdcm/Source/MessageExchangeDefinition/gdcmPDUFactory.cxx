@@ -33,7 +33,6 @@ class to construct specific instances of PDUs, and return the BasePDU class.
 #include "gdcmAReleaseRQPDU.h"
 #include "gdcmPDataTFPDU.h"
 #include "gdcmCompositeMessageFactory.h"
-#include "gdcmNormalizedMessageFactory.h"
 #include "gdcmBaseRootQuery.h"
 #include "gdcmBasePDU.h"
 
@@ -179,10 +178,10 @@ std::vector<BasePDU*> PDUFactory::CreateCMovePDU(const ULConnection&
 }
 
 std::vector<BasePDU*> PDUFactory::CreateCStoreRQPDU(const ULConnection& inConnection,
-  const File& file, bool writeDataSet /*= true*/ )
+  const File& file)
 {
   std::vector<PresentationDataValue> pdv =
-    CompositeMessageFactory::ConstructCStoreRQ(inConnection, file, writeDataSet );
+    CompositeMessageFactory::ConstructCStoreRQ(inConnection, file);
   std::vector<PresentationDataValue>::iterator pdvItor;
   std::vector<BasePDU*> outVector;
   for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)
@@ -216,109 +215,6 @@ std::vector<BasePDU*> PDUFactory::CreateCFindPDU(const ULConnection& inConnectio
 //still have to build this!
   std::vector<PresentationDataValue> pdv =
     CompositeMessageFactory::ConstructCFindRQ(inConnection, inRootQuery );
-  std::vector<PresentationDataValue>::iterator pdvItor;
-  std::vector<BasePDU*> outVector;
-  for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)
-    {
-    PDataTFPDU* thePDataTFPDU = new PDataTFPDU();
-    thePDataTFPDU->AddPresentationDataValue( *pdvItor );
-    outVector.push_back(thePDataTFPDU);
-    }
-  return outVector;
-
-
-}
-
-std::vector<BasePDU*> PDUFactory::CreateNEventReportPDU		(const ULConnection& inConnection, const BaseQuery *inQuery)
-{
-//still have to build this!
-  std::vector<PresentationDataValue> pdv =
-	  NormalizedMessageFactory::ConstructNEventReport(inConnection, inQuery );
-  std::vector<PresentationDataValue>::iterator pdvItor;
-  std::vector<BasePDU*> outVector;
-  for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)
-    {
-    PDataTFPDU* thePDataTFPDU = new PDataTFPDU();
-    thePDataTFPDU->AddPresentationDataValue( *pdvItor );
-    outVector.push_back(thePDataTFPDU);
-    }
-  return outVector;
-
-
-}
-std::vector<BasePDU*> PDUFactory::CreateNGetPDU				(const ULConnection& inConnection, const BaseQuery *inQuery)
-{
-//still have to build this!
-  std::vector<PresentationDataValue> pdv =
-    NormalizedMessageFactory::ConstructNGet(inConnection, inQuery );
-  std::vector<PresentationDataValue>::iterator pdvItor;
-  std::vector<BasePDU*> outVector;
-  for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)
-    {
-    PDataTFPDU* thePDataTFPDU = new PDataTFPDU();
-    thePDataTFPDU->AddPresentationDataValue( *pdvItor );
-    outVector.push_back(thePDataTFPDU);
-    }
-  return outVector;
-
-
-}
-std::vector<BasePDU*> PDUFactory::CreateNSetPDU				(const ULConnection& inConnection, const BaseQuery *inQuery)
-{
-//still have to build this!
-  std::vector<PresentationDataValue> pdv =
-    NormalizedMessageFactory::ConstructNSet(inConnection, inQuery );
-  std::vector<PresentationDataValue>::iterator pdvItor;
-  std::vector<BasePDU*> outVector;
-  for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)
-    {
-    PDataTFPDU* thePDataTFPDU = new PDataTFPDU();
-    thePDataTFPDU->AddPresentationDataValue( *pdvItor );
-    outVector.push_back(thePDataTFPDU);
-    }
-  return outVector;
-
-
-}
-std::vector<BasePDU*> PDUFactory::CreateNActionPDU			(const ULConnection& inConnection, const BaseQuery *inQuery)
-{
-//still have to build this!
-  std::vector<PresentationDataValue> pdv =
-    NormalizedMessageFactory::ConstructNAction(inConnection, inQuery );
-  std::vector<PresentationDataValue>::iterator pdvItor;
-  std::vector<BasePDU*> outVector;
-  for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)
-    {
-    PDataTFPDU* thePDataTFPDU = new PDataTFPDU();
-    thePDataTFPDU->AddPresentationDataValue( *pdvItor );
-    outVector.push_back(thePDataTFPDU);
-    }
-  return outVector;
-
-
-}
-std::vector<BasePDU*> PDUFactory::CreateNCreatePDU			(const ULConnection& inConnection, const BaseQuery *inQuery)
-{
-//still have to build this!
-  std::vector<PresentationDataValue> pdv =
-	  NormalizedMessageFactory::ConstructNCreate(inConnection, inQuery );
-  std::vector<PresentationDataValue>::iterator pdvItor;
-  std::vector<BasePDU*> outVector;
-  for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)
-    {
-    PDataTFPDU* thePDataTFPDU = new PDataTFPDU();
-    thePDataTFPDU->AddPresentationDataValue( *pdvItor );
-    outVector.push_back(thePDataTFPDU);
-    }
-  return outVector;
-
-
-}
-std::vector<BasePDU*> PDUFactory::CreateNDeletePDU			(const ULConnection& inConnection, const BaseQuery *inQuery)
-{
-//still have to build this!
-  std::vector<PresentationDataValue> pdv =
-    NormalizedMessageFactory::ConstructNDelete(inConnection, inQuery );
   std::vector<PresentationDataValue>::iterator pdvItor;
   std::vector<BasePDU*> outVector;
   for (pdvItor = pdv.begin(); pdvItor < pdv.end(); pdvItor++)

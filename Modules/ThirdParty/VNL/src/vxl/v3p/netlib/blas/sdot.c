@@ -117,7 +117,7 @@ L40:
     for (i__ = mp1; i__ <= i__1; i__ += 5) {
 /*<    >*/
         stemp = stemp + sx[i__] * sy[i__] + sx[i__ + 1] * sy[i__ + 1] + sx[
-                i__ + 2] * sy[i__ + 2] + sx[i__ + 3] * sy[i__ + 3] + sx[i__ + 
+                i__ + 2] * sy[i__ + 2] + sx[i__ + 3] * sy[i__ + 3] + sx[i__ +
                 4] * sy[i__ + 4];
 /*<    50 continue >*/
 /* L50: */

@@ -1,4 +1,5 @@
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_matrix.h>
@@ -13,17 +14,17 @@ void test_transpose()
 
   vnl_matrix<double> old_X(X);
 
-  vnl_matlab_print(vcl_cout, X, "X");
+  vnl_matlab_print(std::cout, X, "X");
 
   X.inplace_transpose();
 
-  vnl_matlab_print(vcl_cout, X, "X");
+  vnl_matlab_print(std::cout, X, "X");
 
   TEST ("X == old_X.transpose()", X == old_X.transpose(), true);
 
   X.inplace_transpose();
 
-  vnl_matlab_print(vcl_cout, X, "X");
+  vnl_matlab_print(std::cout, X, "X");
 
   TEST ("X == old_X", X == old_X, true);
 }

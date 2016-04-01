@@ -20,7 +20,7 @@
 
 #include "itkStandardDeviationPerComponentSampleFilter.h"
 #include "itkMeasurementVectorTraits.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

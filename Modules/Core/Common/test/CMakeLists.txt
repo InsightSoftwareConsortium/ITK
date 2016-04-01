@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKCommon1Tests
+itkImageRegionExplicitTest.cxx
 itkAbortProcessObjectTest.cxx
 itkCommandObserverObjectTest.cxx
 itkAdaptorComparisonTest.cxx
@@ -11,6 +12,7 @@ itkExtractImageTest.cxx
 itkFilterDispatchTest.cxx
 itkFloodFilledSpatialFunctionTest.cxx
 itkFloodFillIteratorTest.cxx
+itkGaussianDerivativeOperatorTest.cxx
 itkMapContainerTest.cxx
 itkIteratorTests.cxx
 itkImageReverseIteratorTest.cxx
@@ -259,6 +261,8 @@ itk_add_test(NAME itkByteSwapTest COMMAND ITKCommon1TestDriver itkByteSwapTest)
 itk_add_test(NAME itkBSplineInterpolationWeightFunctionTest COMMAND ITKCommon2TestDriver itkBSplineInterpolationWeightFunctionTest)
 itk_add_test(NAME itkBSplineKernelFunctionTest COMMAND ITKCommon1TestDriver itkBSplineKernelFunctionTest)
 itk_add_test(NAME VNLSparseLUSolverTraitsTest COMMAND ITKCommon1TestDriver VNLSparseLUSolverTraitsTest)
+itk_add_test(NAME itkGaussianDerivativeOperatorTest
+  COMMAND ITKCommon1TestDriver itkGaussianDerivativeOperatorTest)
 
 itk_add_test(NAME itkConstNeighborhoodIteratorTest
       COMMAND ITKCommon2TestDriver --redirectOutput ${TEMP}/itkConstNeighborhoodIteratorTest.txt

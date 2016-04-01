@@ -1,6 +1,6 @@
 # This is core/testlib/tests/CMakeLists.txt
 
-ADD_EXECUTABLE( testlib_test_all
+add_executable( testlib_test_all
    test_driver.cxx
 
    test_assert.cxx
@@ -8,20 +8,20 @@ ADD_EXECUTABLE( testlib_test_all
    test_args.cxx
    test_root_dir.cxx
 )
-TARGET_LINK_LIBRARIES( testlib_test_all itktestlib )
+target_link_libraries( testlib_test_all ${VXL_LIB_PREFIX}testlib )
 
-itk_add_test( NAME testlib_assert     COMMAND testlib_test_all test_assert )
-itk_add_test( NAME testlib_macros     COMMAND testlib_test_all test_macros )
-itk_add_test( NAME testlib_args       COMMAND testlib_test_all test_args one two )
-itk_add_test( NAME testlib_root_dir   COMMAND testlib_test_all test_root_dir )
-itk_add_test( NAME testlib_all        COMMAND testlib_test_all all one two )
+add_test( NAME testlib_assert COMMAND $<TARGET_FILE:testlib_test_all> test_assert )
+add_test( NAME testlib_macros COMMAND $<TARGET_FILE:testlib_test_all> test_macros )
+add_test( NAME testlib_args COMMAND $<TARGET_FILE:testlib_test_all> test_args one two )
+add_test( NAME testlib_root_dir COMMAND $<TARGET_FILE:testlib_test_all> test_root_dir )
+add_test( NAME testlib_all COMMAND $<TARGET_FILE:testlib_test_all> all one two )
 
-ADD_EXECUTABLE( testlib_test_link
+add_executable( testlib_test_link
    test_link.cxx
 )
-TARGET_LINK_LIBRARIES( testlib_test_link itktestlib )
+target_link_libraries( testlib_test_link ${VXL_LIB_PREFIX}testlib )
 
-itk_add_test( NAME testlib_test_link  COMMAND testlib_test_link )
+add_test( NAME testlib_test_link COMMAND $<TARGET_FILE:testlib_test_link> )
 
-ADD_EXECUTABLE( testlib_test_include test_include.cxx )
-TARGET_LINK_LIBRARIES( testlib_test_include itktestlib )
+add_executable( testlib_test_include test_include.cxx )
+target_link_libraries( testlib_test_include ${VXL_LIB_PREFIX}testlib )

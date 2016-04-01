@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE SLASSQ( N, X, INCX, SCALE, SUMSQ ) >*/
-/* Subroutine */ int slassq_(integer *n, real *x, integer *incx, real *scale, 
+/* Subroutine */ int slassq_(integer *n, real *x, integer *incx, real *scale,
         real *sumsq)
 {
     /* System generated locals */

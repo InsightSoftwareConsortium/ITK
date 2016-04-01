@@ -22,7 +22,7 @@ static integer c__1 = 1;
 static doublereal c_b11 = 1.;
 
 /*<       SUBROUTINE DLACON( N, V, X, ISGN, EST, KASE ) >*/
-/* Subroutine */ int dlacon_(integer *n, doublereal *v, doublereal *x, 
+/* Subroutine */ int dlacon_(integer *n, doublereal *v, doublereal *x,
         integer *isgn, doublereal *est, integer *kase)
 {
     /* System generated locals */
@@ -39,7 +39,7 @@ static doublereal c_b11 = 1.;
     static integer jump;
     extern doublereal dasum_(integer *, doublereal *, integer *);
     static integer jlast;
-    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dcopy_(integer *, doublereal *, integer *,
             doublereal *, integer *);
     extern integer idamax_(integer *, doublereal *, integer *);
     static doublereal altsgn, estold;
@@ -317,7 +317,7 @@ L120:
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
 /*<          X( I ) = ALTSGN*( ONE+DBLE( I-1 ) / DBLE( N-1 ) ) >*/
-        x[i__] = altsgn * ((doublereal) (i__ - 1) / (doublereal) (*n - 1) + 
+        x[i__] = altsgn * ((doublereal) (i__ - 1) / (doublereal) (*n - 1) +
                 1.);
 /*<          ALTSGN = -ALTSGN >*/
         altsgn = -altsgn;

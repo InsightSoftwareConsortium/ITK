@@ -1,4 +1,6 @@
 // This is core/vnl/algo/tests/test_real_eigensystem.cxx
+#include <iostream>
+#include <complex>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -6,8 +8,7 @@
 // \date   23 Jan 96
 //
 //-----------------------------------------------------------------------------
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_complexify.h>
 #include <vnl/algo/vnl_real_eigensystem.h>
 
@@ -24,19 +25,19 @@ static void test_6x6()
   vnl_matrix<double> S(Sdata, 6,6);
 
   vnl_real_eigensystem eig(S);
-  vnl_diag_matrix<vcl_complex<double> > D(eig.D.rows());
+  vnl_diag_matrix<std::complex<double> > D(eig.D.rows());
   for (unsigned i = 0; i < eig.D.rows(); ++i)
   {
-    TEST("All real", vcl_imag(eig.D(i,i)) < 1e-15, true);
-    D(i,i) = vcl_real(eig.D(i,i));
+    TEST("All real", std::imag(eig.D(i,i)) < 1e-15, true);
+    D(i,i) = std::real(eig.D(i,i));
   }
 
-  vcl_cout << "D = " << eig.D << vcl_endl
-           << "V = " << eig.V << vcl_endl;
+  std::cout << "D = " << eig.D << std::endl
+           << "V = " << eig.V << std::endl;
 
-  vnl_matrix<vcl_complex<double> > diff = vnl_complexify(S*eig.Vreal) - vnl_complexify(eig.Vreal)*D;
-  vcl_cout << "X*V - V*D = " << diff << vcl_endl
-           << "residual = " << diff.fro_norm() << vcl_endl;
+  vnl_matrix<std::complex<double> > diff = vnl_complexify(S*eig.Vreal) - vnl_complexify(eig.Vreal)*D;
+  std::cout << "X*V - V*D = " << diff << std::endl
+           << "residual = " << diff.fro_norm() << std::endl;
   TEST_NEAR("recompose residual", diff.fro_norm(), 0.0, 1e-12);
 }
 
@@ -53,14 +54,14 @@ static void test_4x4()
 
   vnl_real_eigensystem eig(X);
 
-  vcl_cout << "D = " << eig.D << vcl_endl
-           << "V = " << eig.V << vcl_endl;
+  std::cout << "D = " << eig.D << std::endl
+           << "V = " << eig.V << std::endl;
 
-  vnl_matrix<vcl_complex<double> > XC = vnl_complexify(X);
+  vnl_matrix<std::complex<double> > XC = vnl_complexify(X);
 
-  vnl_matrix<vcl_complex<double> > diff = XC*eig.V - eig.V*eig.D;
-  vcl_cout << "X*V - V*D = " << diff << vcl_endl
-           << "residual = " << diff.fro_norm() << vcl_endl;
+  vnl_matrix<std::complex<double> > diff = XC*eig.V - eig.V*eig.D;
+  std::cout << "X*V - V*D = " << diff << std::endl
+           << "residual = " << diff.fro_norm() << std::endl;
   TEST_NEAR("recompose residual", diff.fro_norm(), 0.0, 1e-11);
 }
 

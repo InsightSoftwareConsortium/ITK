@@ -19,7 +19,7 @@
 #define itkCurvatureFlowFunction_hxx
 #include "itkCurvatureFlowFunction.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -90,7 +90,7 @@ CurvatureFlowFunction< TImage >
 
     // compute second order derivatives
     secderiv[i] = ( it.GetPixel(center + stride[i])
-                    - 2 * it.GetPixel(center) + it.GetPixel(center - stride[i]) ) * vnl_math_sqr(neighborhoodScales[i]);
+                    - 2 * it.GetPixel(center) + it.GetPixel(center - stride[i]) ) * itk::Math::sqr(neighborhoodScales[i]);
 
     // compute cross derivatives
     for ( j = i + 1; j < ImageDimension; j++ )
@@ -104,7 +104,7 @@ CurvatureFlowFunction< TImage >
       }
 
     // accumlate the gradient magnitude squared
-    magnitudeSqr += vnl_math_sqr( (double)firstderiv[i] );
+    magnitudeSqr += itk::Math::sqr( (double)firstderiv[i] );
     }
 
   if ( magnitudeSqr < 1e-9 )
@@ -126,7 +126,7 @@ CurvatureFlowFunction< TImage >
       temp += secderiv[j];
       }
 
-    update += temp * vnl_math_sqr( (double)firstderiv[i] );
+    update += temp * itk::Math::sqr( (double)firstderiv[i] );
     }
 
   // accumlate -2 * dx * dy * dxy terms

@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       DOUBLE PRECISION FUNCTION DLANHS( NORM, N, A, LDA, WORK ) >*/
-doublereal dlanhs_(char *norm, integer *n, doublereal *a, integer *lda, 
+doublereal dlanhs_(char *norm, integer *n, doublereal *a, integer *lda,
         doublereal *work, ftnlen norm_len)
 {
     /* System generated locals */
@@ -35,7 +35,7 @@ doublereal dlanhs_(char *norm, integer *n, doublereal *a, integer *lda,
     doublereal sum, scale;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal value=0;
-    extern /* Subroutine */ int dlassq_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dlassq_(integer *, doublereal *, integer *,
             doublereal *, doublereal *);
     (void)norm_len;
 

@@ -349,7 +349,7 @@ int itkVersorTransformTest(int, char * [] )
       {
       for( unsigned int jj = 0; jj < 3; jj++ )
         {
-        if( vnl_math_abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
+        if( itk::Math::abs( TheoreticalJacobian[ii][jj] - jacobian[ii][jj] ) > 1e-5 )
           {
           std::cerr << "Jacobian components differ from expected values ";
           std::cerr << std::endl << std::endl;
@@ -411,7 +411,7 @@ int itkVersorTransformTest(int, char * [] )
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    double a = 1.0 / 180.0 * vnl_math::pi;
+    double a = 1.0 / 180.0 * itk::Math::pi;
     matrix[0][0] =        std::cos( a );
     matrix[0][1] = -1.0 * std::sin( a );
     matrix[1][0] =        std::sin( a );

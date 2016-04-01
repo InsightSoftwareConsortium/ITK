@@ -19,7 +19,7 @@
 #define itkNormalQuadEdgeMeshFilter_hxx
 
 #include "itkNormalQuadEdgeMeshFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -196,14 +196,14 @@ NormalQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
                 break;
               }
             typename OutputVectorType::RealValueType norm_u = u.GetNorm();
-            if ( norm_u > vnl_math::eps )
+            if ( norm_u > itk::Math::eps )
               {
               norm_u = 1. / norm_u;
               u *= norm_u;
               }
 
             typename OutputVectorType::RealValueType norm_v = v.GetNorm();
-            if ( norm_v > vnl_math::eps )
+            if ( norm_v > itk::Math::eps )
               {
               norm_v = 1. / norm_v;
               v *= norm_v;

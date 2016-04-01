@@ -23,6 +23,7 @@
 //  It makes use of the GDCM library
 //
 
+#define ITK_LEGACY_TEST
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -38,6 +39,7 @@ int itkGDCMSeriesMissingDicomTagTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+#if ! defined ( ITK_LEGACY_REMOVE )
   typedef itk::Image<unsigned short,3>            ImageType;
   typedef itk::ImageSeriesReader< ImageType >     ReaderType;
   typedef itk::GDCMImageIO                        ImageIOType;
@@ -105,6 +107,7 @@ int itkGDCMSeriesMissingDicomTagTest( int argc, char* argv[] )
               << "found in second slice where it should be missing" << std::endl;
     return EXIT_FAILURE;
     }
+#endif
 
   return EXIT_SUCCESS;
 }

@@ -23,7 +23,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -68,7 +68,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
     IteratorType          it( inputImage, inputImage->GetBufferedRegion() );
     for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
       {
-      maxLabel = vnl_math_max( maxLabel, it.Get() );
+      maxLabel = std::max( maxLabel, it.Get() );
       }
     }
 

@@ -13,8 +13,8 @@
 //  Actually, this implementation refers to vnl_log_gamma,
 //  since this involves just a single call to std::exp instead of three.
 template <class T>
-inline double vnl_beta(T x, T y) {return vcl_exp(vnl_log_gamma(x)+vnl_log_gamma(y)-vnl_log_gamma(x+y)); }
-#else // implementation via vnl_gamma; less efficient since it needs 3x vcl_exp
+inline double vnl_beta(T x, T y) {return std::exp(vnl_log_gamma(x)+vnl_log_gamma(y)-vnl_log_gamma(x+y)); }
+#else // implementation via vnl_gamma; less efficient since it needs 3x std::exp
 //: Computation of beta function in terms of gamma function.
 template <class T>
 inline double vnl_beta(T x, T y) {return (vnl_gamma(x)*vnl_gamma(y))/vnl_gamma(x+y); }

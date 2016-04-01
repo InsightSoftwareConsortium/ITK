@@ -205,8 +205,8 @@ MNCAPI int miget_datatype(int cdfid, int imgid,
       MI_RETURN(MI_ERROR);
 
    /* Save the ncopts value */
-   old_ncopts = ncopts;
-   ncopts = 0;
+   old_ncopts =get_ncopts();
+   set_ncopts(0);
 
    /* Get the sign information */
    if ((miattgetstr(cdfid, imgid, MIsigntype, 
@@ -233,7 +233,7 @@ MNCAPI int miget_datatype(int cdfid, int imgid,
    }
 
    /* Restore ncopts */
-   ncopts = old_ncopts;
+   set_ncopts(old_ncopts);
 
    MI_RETURN(MI_NOERROR);
 }
@@ -320,8 +320,8 @@ MNCAPI int miget_valid_range(int cdfid, int imgid, double valid_range[])
       MI_RETURN(MI_ERROR);
 
    /* Save the ncopts value */
-   old_ncopts = ncopts;
-   ncopts = 0;
+   old_ncopts =get_ncopts();
+   set_ncopts(0);
 
    /* Get the sign string for the attribute */
    if (is_signed)
@@ -353,7 +353,7 @@ MNCAPI int miget_valid_range(int cdfid, int imgid, double valid_range[])
    }
 
    /* Restore the ncopts value */
-   ncopts = old_ncopts;
+   set_ncopts(old_ncopts);
 
    /* Make sure that the first element is the minimum */
    if (valid_range[1] < valid_range[0]) {
@@ -483,10 +483,10 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
    image_range[1] = MI_DEFAULT_MAX;
 
    /* Get the image-min/max variable ids */
-   oldncopts=ncopts; ncopts=0;
+   oldncopts=get_ncopts(); set_ncopts(0);
    vid[0] = ncvarid(cdfid, MIimagemin);
    vid[1] = ncvarid(cdfid, MIimagemax);
-   ncopts = oldncopts;
+   set_ncopts(oldncopts);
 
    /* Get the type information for the image variable */
    if ( ((imgid = ncvarid(cdfid, MIimage)) == MI_ERROR) ||
@@ -599,10 +599,10 @@ MNCAPI int mivar_exists(int cdfid, const char *varname)
 
    MI_SAVE_ROUTINE_NAME("mivar_exists");
 
-   oldncopts = ncopts;
-   ncopts = 0;
+   oldncopts =get_ncopts();
+   set_ncopts(0);
    exists = (ncvarid(cdfid, varname) != MI_ERROR);
-   ncopts = oldncopts;
+   set_ncopts(oldncopts);
 
    MI_RETURN(exists);
 }
@@ -732,10 +732,10 @@ MNCAPI int miadd_child(int cdfid, int parent_varid, int child_varid)
 
    /* Get the size of the child list in the parent. Handle the case where the
       child list does not exist. */
-   oldncopts=ncopts; ncopts=0;
+   oldncopts=get_ncopts(); set_ncopts(0);
    status=ncattinq(cdfid, parent_varid, MIchildren, &datatype, 
                    &child_list_size);
-   ncopts=oldncopts;
+   set_ncopts(oldncopts);
    if ((status == MI_ERROR) || (datatype != NC_CHAR)) 
       child_list_size=0;
 
@@ -1039,10 +1039,10 @@ PRIVATE int MI_create_image_variable(int cdfid, const char *name, nc_type dataty
 
    /* Look to see if MIimagemax or MIimagemin exist for dimension checking 
       and pointers */
-   oldncopts=ncopts; ncopts=0;
+   oldncopts=get_ncopts(); set_ncopts(0);
    max_varid=ncvarid(cdfid, MIimagemax);
    min_varid=ncvarid(cdfid, MIimagemin);
-   ncopts=oldncopts;
+   set_ncopts(oldncopts);
    if (max_varid != MI_ERROR) {
       /* Get MIimagemax dimensions */
       MI_CHK_ERR(ncvarinq(cdfid, max_varid, NULL, NULL, &maxmin_ndims,
@@ -1115,9 +1115,9 @@ PRIVATE int MI_create_imaxmin_variable(int cdfid, const char *name, nc_type data
    MI_SAVE_ROUTINE_NAME("MI_create_imaxmin_variable");
 
    /* Look to see if MIimage exists for dimension checking and pointers */
-   oldncopts=ncopts; ncopts=0;
+   oldncopts=get_ncopts(); set_ncopts(0);
    image_varid=ncvarid(cdfid, MIimage);
-   ncopts=oldncopts;
+   set_ncopts(oldncopts);
    if (image_varid != MI_ERROR) {
       /* Get image dimensions */
       MI_CHK_ERR(ncvarinq(cdfid, image_varid, NULL, NULL, &image_ndims,
@@ -1292,9 +1292,9 @@ PRIVATE int MI_add_stdgroup(int cdfid, int varid)
    MI_SAVE_ROUTINE_NAME("MI_add_stdgroup");
 
    /* Check for root variable, and add it if it is not there */
-   oldncopts=ncopts; ncopts=0;
+   oldncopts=get_ncopts(); set_ncopts(0);
    root_varid=ncvarid(cdfid, MIrootvariable);
-   ncopts=oldncopts;
+   set_ncopts(oldncopts);
    if (root_varid==MI_ERROR) {
       MI_CHK_ERR(root_varid=MI_create_root_variable(cdfid, MIrootvariable))
    }
@@ -1361,15 +1361,15 @@ miappend_history(int fd, const char *tm_stamp)
     char *att_val;
     int old_ncopts;
 
-    old_ncopts = ncopts;
-    ncopts = 0;
+    old_ncopts =get_ncopts();
+    set_ncopts(0);
 
     r = ncattinq(fd, NC_GLOBAL, MIhistory, &att_type, &att_len);
     if (r < 0 || att_type != NC_CHAR) {
         att_len = 0;
     }
 
-    ncopts = old_ncopts;
+    set_ncopts(old_ncopts);
 
     /* Allocate enough bytes for the existing attribute, the string which 
      * will be appended, a terminating null character, and a possible
