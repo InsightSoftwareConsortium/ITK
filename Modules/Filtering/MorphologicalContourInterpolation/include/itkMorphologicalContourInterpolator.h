@@ -39,10 +39,7 @@ namespace itk
  *  The output has all in-between slices also segmented.
  *
  *  Memory required by the filter is a bit higher than
- *  outputImageSize*(1+numberOfInterpolatedAxes).
- *  If interpolation is done along just one axis, memory used is reduced to
- *  just outputImageSize*1, since interpolations along multiple axes
- *  do not need to be calculated separately and then combined.
+ *  outputImageSize*(max(1,numberOfInterpolatedAxes)).
  *
  *  \par Parameters
  *  Slices are detected at positions where a pixel exists with same labeled

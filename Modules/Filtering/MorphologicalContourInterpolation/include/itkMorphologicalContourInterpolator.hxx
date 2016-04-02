@@ -1516,11 +1516,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
 {
   // do multithreading by paralellizing for different labels
   // and different inter-slice segments [thread pool of C++11 threads]
-#ifdef _DEBUG
-  m_ThreadPool = new ::ThreadPool(1); // single threading makes tracing easier
-#else
   m_ThreadPool = new ::ThreadPool(std::thread::hardware_concurrency());
-#endif
   typename SliceType::Pointer sliceVar;
   std::vector<decltype(m_ThreadPool->enqueue(
     &MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo, this, axis, out, 0, 0, 0, sliceVar, sliceVar))>
@@ -1666,65 +1662,61 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
       aggregate = m_Orientations[m_Label]; // we only care about this label
     }
 
+    bool                                  outputUsed = false;
     std::vector<typename TImage::Pointer> perAxisInterpolates;
     for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
     {
       if (aggregate[a])
       {
-        typename TImage::Pointer imageA = TImage::New();
-        imageA->CopyInformation(m_Output);
-        imageA->SetRegions(m_Output->GetRequestedRegion());
-        imageA->Allocate(true);
-        this->InterpolateAlong(a, imageA);
-        perAxisInterpolates.push_back(imageA);
-      }
-    }
-
-    if (perAxisInterpolates.size() == 0) // nothing to process
-    {
-      ImageAlgorithm::Copy<TImage, TImage>(
-        m_Input.GetPointer(), m_Output.GetPointer(), m_Output->GetRequestedRegion(), m_Output->GetRequestedRegion());
-      return;
-    }
-    if (perAxisInterpolates.size() == 1)
-    {
-      ImageAlgorithm::Copy<TImage, TImage>(perAxisInterpolates[0].GetPointer(),
-                                           m_Output.GetPointer(),
-                                           m_Output->GetRequestedRegion(),
-                                           m_Output->GetRequestedRegion());
-      OverlayInput();
-      return;
-    }
-    // else
-    std::vector<ImageRegionConstIterator<TImage>> iterators;
-
-    for (int i = 0; i < perAxisInterpolates.size(); ++i)
-    {
-      ImageRegionConstIterator<TImage> it(perAxisInterpolates[i], m_Output->GetRequestedRegion());
-      iterators.push_back(it);
-    }
-
-    std::vector<typename TImage::PixelType> values;
-    values.reserve(perAxisInterpolates.size());
-
-    ImageRegionIterator<TImage> it(m_Output, m_Output->GetRequestedRegion());
-    while (!it.IsAtEnd())
-    {
-      values.clear();
-      for (int i = 0; i < perAxisInterpolates.size(); ++i)
-      {
-        typename TImage::PixelType val = iterators[i].Get();
-        if (val != 0)
+        if (outputUsed)
         {
-          it.Set(val); // last written value stays
+          typename TImage::Pointer imageA = TImage::New();
+          imageA->CopyInformation(m_Output);
+          imageA->SetRegions(m_Output->GetRequestedRegion());
+          imageA->Allocate(true);
+          this->InterpolateAlong(a, imageA);
+          perAxisInterpolates.push_back(imageA);
+        }
+        else // output not yet used
+        {
+          this->InterpolateAlong(a, m_Output);
+          outputUsed = true;
         }
       }
+    }
 
-      // next pixel
-      ++it;
+    if (perAxisInterpolates.size() > 0) // something to combine
+    {
+      std::vector<ImageRegionConstIterator<TImage>> iterators;
+
       for (int i = 0; i < perAxisInterpolates.size(); ++i)
       {
-        ++(iterators[i]);
+        ImageRegionConstIterator<TImage> it(perAxisInterpolates[i], m_Output->GetRequestedRegion());
+        iterators.push_back(it);
+      }
+
+      std::vector<typename TImage::PixelType> values;
+      values.reserve(perAxisInterpolates.size());
+
+      ImageRegionIterator<TImage> it(m_Output, m_Output->GetRequestedRegion());
+      while (!it.IsAtEnd())
+      {
+        values.clear();
+        for (int i = 0; i < perAxisInterpolates.size(); ++i)
+        {
+          typename TImage::PixelType val = iterators[i].Get();
+          if (val != 0)
+          {
+            it.Set(val); // last written value stays
+          }
+        }
+
+        // next pixel
+        ++it;
+        for (int i = 0; i < perAxisInterpolates.size(); ++i)
+        {
+          ++(iterators[i]);
+        }
       }
     }
   } // interpolate along all axes
