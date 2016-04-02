@@ -77,7 +77,7 @@ else()
 
     set(_fftw_target_version 3.3.4)
     set(_fftw_url_md5 "2edab8c06b24feeb3b82bbb3ebf3e7b3")
-    set(_fftw_url "http://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_fftw_url_md5}&name=fftw-${_fftw_target_version}.tar.gz")
+    set(_fftw_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_fftw_url_md5}&name=fftw-${_fftw_target_version}.tar.gz")
 
     if(ITK_USE_FFTWF)
       itk_download_attempt_check(FFTW)

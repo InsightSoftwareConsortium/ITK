@@ -23,7 +23,7 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz
+      URL https://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz
       URL_MD5 52e5429fa7c0cc42bf2dbd06ce5cb930
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
@@ -35,7 +35,7 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip
+      URL https://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip
       URL_MD5 9c317c45c93f94619f0879da6af058b0
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
@@ -47,7 +47,7 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL http://midas3.kitware.com/midas/download/bitstream/457654/castxml-macosx.tar.gz
+      URL https://midas3.kitware.com/midas/download/bitstream/457654/castxml-macosx.tar.gz
       URL_MD5 05dc4e70084f66e9c86f0659b784a36f
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
@@ -83,7 +83,7 @@ else()
       endif()
       set(llvm_version 3.7.0)
       ExternalProject_Add(llvm
-        URL http://midas3.kitware.com/midas/download/bitstream/457222/llvm-${llvm_version}.src.tar.gz
+        URL https://midas3.kitware.com/midas/download/bitstream/457222/llvm-${llvm_version}.src.tar.gz
         URL_MD5 255939e1ba0a40d687a683e41323baca
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
         CMAKE_ARGS -Wno-dev
@@ -101,7 +101,7 @@ else()
         # This is the upstream source code repackages in a .tar.gz for
         # compatibility with older CMake. Also the tests/ and doc/ directories
         # are removed to remove symlink files and save space.
-        URL http://midas3.kitware.com/midas/download/bitstream/457221/cfe-${llvm_version}.src.tar.gz
+        URL https://midas3.kitware.com/midas/download/bitstream/457221/cfe-${llvm_version}.src.tar.gz
         URL_MD5 d4290cab76f44be2d38631f819b8c2ec
         DEPENDS llvm
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
