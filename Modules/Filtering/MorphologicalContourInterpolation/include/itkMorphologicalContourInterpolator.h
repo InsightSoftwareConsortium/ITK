@@ -35,7 +35,7 @@ namespace itk
  *
  *  \par Inputs and Outputs
  *  This is an image-to-image filter. The dimensionality is 3D or higher.
- *  Input contains an image with some slices segmented (manually).
+ *  Input contains an image with some slices segmented, usually manually.
  *  The output has all in-between slices also segmented.
  *
  *  Memory required by the filter is a bit higher than
@@ -43,8 +43,9 @@ namespace itk
  *
  *  \par Parameters
  *  Slices are detected at positions where a pixel exists with same labeled
- *  neighbors in slice and only 0 neighbors perpendicular to the slice.
- *  If default behaviour is unwanted, contour indices can be set for each axis.
+ *  neighbors in slice and only clear (0) neighbors perpendicular to the slice.
+ *  If default behaviour is unwanted, contour indices can be set for each axis
+ *  by enabling UseCustomSlicePositions and calling SetLabeledSliceIndices.
  *
  *  Filter can be restricted to run along only one axis, and/or to interpolate
  *  just one label.
@@ -130,6 +131,18 @@ public:
    *   Default is OFF (that is, use repeated dilations). */
   itkGetConstMacro(UseDistanceTransform, bool);
 
+  /** Use custom slice positions (not slice auto-detection).
+   *   SetLabeledSliceIndices has to be called prior to Update(). */
+  itkSetMacro(UseCustomSlicePositions, bool);
+
+  /** Use custom slice positions (not slice auto-detection).
+   *   SetLabeledSliceIndices has to be called prior to Update(). */
+  itkGetMacro(UseCustomSlicePositions, bool);
+
+  /** Use custom slice positions (not slice auto-detection).
+   *   SetLabeledSliceIndices has to be called prior to Update(). */
+  itkGetConstMacro(UseCustomSlicePositions, bool);
+
   /** Use ball instead of default cross structuring element for repeated dilations. */
   void
   SetUseBallStructuringElement(bool useBall)
@@ -156,6 +169,7 @@ protected:
   bool                       m_HeuristicAlignment;
   bool                       m_UseDistanceTransform;
   bool                       m_UseBallStructuringElement;
+  bool                       m_UseCustomSlicePositions;
   bool                       m_StopSpawning;  // stop spawning new threads
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method

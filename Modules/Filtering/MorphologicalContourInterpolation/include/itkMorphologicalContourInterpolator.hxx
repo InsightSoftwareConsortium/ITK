@@ -115,6 +115,7 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   , m_HeuristicAlignment(true)
   , m_UseDistanceTransform(true)
   , m_UseBallStructuringElement(false)
+  , m_UseCustomSlicePositions(false)
   , m_ThreadPool(nullptr)
   , m_StopSpawning(false)
   , m_MinAlignIters(pow(2, TImage::ImageDimension))
@@ -1633,7 +1634,21 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   m_Output = TImage::New();
   m_Output->Graft(this->GetOutput());
 
-  this->DetermineSliceOrientations();
+  std::vector<LabeledSlicesType> labeledSlices;
+  if (m_UseCustomSlicePositions)
+  {
+    labeledSlices.swap(m_LabeledSlices);
+  }
+  this->DetermineSliceOrientations(); // calculates bounding boxes
+  if (m_UseCustomSlicePositions)
+  {
+    m_LabeledSlices.swap(labeledSlices);
+    labeledSlices.clear();
+    for (int i = 0; i < m_LabeledSlices.size(); i++)
+    {
+      m_Orientations[i] = (m_LabeledSlices[i].size() > 0); // non-zero
+    }
+  }
 
   if (m_BoundingBoxes.size() == 0) // no contours detected
   {
