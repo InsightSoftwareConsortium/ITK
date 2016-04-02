@@ -194,6 +194,9 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   m_BoundingBoxes.clear();
   m_Orientations.clear();
 
+  typename TImage::ConstPointer m_Input = this->GetInput();
+  typename TImage::Pointer      m_Output = this->GetOutput();
+
   typename TImage::RegionType               region = m_Output->GetRequestedRegion();
   ImageRegionConstIteratorWithIndex<TImage> it(m_Input, region);
 
@@ -757,7 +760,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   }
 
   // finally write it out into the output image pointer
-  typename TImage::RegionType    outRegion = m_Input->GetLargestPossibleRegion();
+  typename TImage::RegionType    outRegion = this->GetOutput()->GetRequestedRegion();
   typename SliceType::RegionType sliceRegion;
   for (int d = 0; d < TImage::ImageDimension - 1; d++)
   {
@@ -1302,7 +1305,7 @@ MorphologicalContourInterpolator<TImage>::RegionedConnectedComponents(const type
                                                                       IdentifierType &                  objectCount)
 {
   m_RoI->SetExtractionRegion(region);
-  m_RoI->SetInput(m_Input);
+  m_RoI->SetInput(this->GetInput());
   m_Binarizer->SetLowerThreshold(label);
   m_Binarizer->SetUpperThreshold(label);
   m_ConnectedComponents->Update();
@@ -1586,8 +1589,8 @@ template <typename TImage>
 void
 MorphologicalContourInterpolator<TImage>::OverlayInput()
 {
-  ImageRegionIterator<TImage>      itO(m_Output, m_Output->GetBufferedRegion());
-  ImageRegionConstIterator<TImage> itI(m_Input, m_Output->GetBufferedRegion());
+  ImageRegionIterator<TImage>      itO(this->GetOutput(), this->GetOutput()->GetBufferedRegion());
+  ImageRegionConstIterator<TImage> itI(this->GetInput(), this->GetOutput()->GetBufferedRegion());
   while (!itI.IsAtEnd())
   {
     typename TImage::PixelType val = itI.Get();
@@ -1599,10 +1602,6 @@ MorphologicalContourInterpolator<TImage>::OverlayInput()
     ++itI;
     ++itO;
   }
-
-  // put the output data back into the regular pipeline
-  this->GraftOutput(m_Output);
-  this->m_Output = ITK_NULLPTR;
 }
 
 
@@ -1628,11 +1627,9 @@ template <typename TImage>
 void
 MorphologicalContourInterpolator<TImage>::GenerateData()
 {
-  m_Input = TImage::New();
-  m_Input->Graft(const_cast<TImage *>(this->GetInput()));
+  typename TImage::ConstPointer m_Input = this->GetInput();
+  typename TImage::Pointer      m_Output = this->GetOutput();
   this->AllocateOutputs();
-  m_Output = TImage::New();
-  m_Output->Graft(this->GetOutput());
 
   std::vector<LabeledSlicesType> labeledSlices;
   if (m_UseCustomSlicePositions)

@@ -179,9 +179,6 @@ protected:
   bool
   ImagesEqual(typename BoolSliceType::Pointer a, typename BoolSliceType::Pointer b);
 
-  // grafted input and output to prevent unnecessary pipeline modification checks
-  typename TImage::Pointer m_Input;
-  typename TImage::Pointer m_Output;
 
   /** Does the real work. */
   virtual void
