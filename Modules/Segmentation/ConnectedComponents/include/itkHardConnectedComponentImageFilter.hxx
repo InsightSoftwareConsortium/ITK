@@ -64,11 +64,11 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
     {
     if ( Math::NotExactlyEquals(it.Get(), itk::NumericTraits< typename itk::ImageRegionConstIterator< TInputImage >::PixelType >::ZeroValue()) )
       {
-      ot.Set( NumericTraits< unsigned short >::max() );
+      ot.Set( itk::NumericTraits< typename TOutputImage::PixelType >::max() );
       }
     else
       {
-      ot.Set(0);
+      ot.Set( itk::NumericTraits< typename TOutputImage::PixelType >::ZeroValue() );
       }
     }
   eq_tab[0] = 0;
