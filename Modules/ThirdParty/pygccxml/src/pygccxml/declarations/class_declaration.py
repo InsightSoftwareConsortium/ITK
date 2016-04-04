@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -13,14 +13,13 @@ This modules contains definition for next C++ declarations:
 """
 
 from . import scopedef
-from . import compilers
 from . import algorithm
 from . import declaration
 from . import dependencies
 from pygccxml import utils
 
 
-class ACCESS_TYPES:
+class ACCESS_TYPES(object):
 
     """class that defines "access" constants"""
     PUBLIC = "public"
@@ -29,7 +28,7 @@ class ACCESS_TYPES:
     ALL = [PUBLIC, PRIVATE, PROTECTED]
 
 
-class CLASS_TYPES:
+class CLASS_TYPES(object):
 
     """class that defines "class" type constants"""
     CLASS = "class"
@@ -182,6 +181,7 @@ class class_t(scopedef.scopedef_t):
 
     """describes class definition"""
 
+    # Can be set from outside
     USE_DEMANGLED_AS_NAME = True
 
     def __init__(
@@ -207,12 +207,23 @@ class class_t(scopedef.scopedef_t):
         self._container_traits_set = False
         self._recursive_bases = None
         self._recursive_derived = None
+        self._use_demangled_as_name = False
+
+    @property
+    def use_demangled_as_name(self):
+        if "GCC" in utils.xml_generator:
+            return class_t.USE_DEMANGLED_AS_NAME
+        elif "CastXML" in utils.xml_generator:
+            return False
+
+    @use_demangled_as_name.setter
+    def use_demangled_as_name(self, use_demangled_as_name):
+        self._use_demangled_as_name = use_demangled_as_name
 
     def _get_name_impl(self):
         if not self._name:  # class with empty name
             return self._name
-        elif class_t.USE_DEMANGLED_AS_NAME and self.demangled and \
-                'GCC' in self.compiler:
+        elif self.use_demangled_as_name and self.demangled:
 
             if not self.cache.demangled_name:
                 fname = algorithm.full_name(self.parent)
@@ -464,7 +475,7 @@ class class_t(scopedef.scopedef_t):
         :param decl: declaration to be removed
         :type decl: :class:`declaration_t`
         """
-        container = None
+
         access_type = self.find_out_member_access_type(decl)
         if access_type == ACCESS_TYPES.PUBLIC:
             container = self.public_members
@@ -486,7 +497,6 @@ class class_t(scopedef.scopedef_t):
         """
         assert member.parent is self
         if not member.cache.access_type:
-            access_type = None
             if member in self.public_members:
                 access_type = ACCESS_TYPES.PUBLIC
             elif member in self.protected_members:
@@ -513,14 +523,13 @@ class class_t(scopedef.scopedef_t):
         return answer
 
     def i_depend_on_them(self, recursive=True):
-        report_dependency = lambda * \
-            args: dependencies.dependency_info_t(self, *args)
 
         answer = []
 
         for base in self.bases:
             answer.append(
-                report_dependency(
+                dependencies.dependency_info_t(
+                    self,
                     base.related_class,
                     base.access_type,
                     "base class"))
@@ -576,7 +585,7 @@ class class_t(scopedef.scopedef_t):
         from . import type_traits as tt  # prevent cyclic dependencies
 
         logger = utils.loggers.cxx_parser
-        mvars = self.vars(
+        mvars = self.variables(
             lambda v: not v.type_qualifiers.has_static,
             recursive=False,
             allow_empty=True)
@@ -625,8 +634,8 @@ class class_t(scopedef.scopedef_t):
         from . import calldef
         return bool(
             self.calldefs(
-                lambda f: isinstance(f, calldef.member_function_t)
-                and f.virtuality != calldef.VIRTUALITY_TYPES.NOT_VIRTUAL,
+                lambda f: isinstance(f, calldef.member_function_t) and
+                f.virtuality != calldef.VIRTUALITY_TYPES.NOT_VIRTUAL,
                 recursive=False,
                 allow_empty=True))
 

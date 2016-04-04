@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -8,7 +8,6 @@ defines class, that describes C++ `enum`
 """
 
 import copy
-from . import compilers
 from . import declaration
 
 
@@ -65,7 +64,7 @@ class enumeration_t(declaration.declaration_t):
     def values(self, values):
         self._values = []
         # None is treated like an empty list
-        if (values is None):
+        if values is None:
             return
         # Check that we have indeed a list...
         if not isinstance(values, list):
@@ -102,7 +101,7 @@ class enumeration_t(declaration.declaration_t):
         """
         # No number given? Then use the previous one + 1
         if valuenum is None:
-            if len(self._values) == 0:
+            if not self._values:
                 valuenum = 0
             else:
                 valuenum = self._values[-1][1] + 1

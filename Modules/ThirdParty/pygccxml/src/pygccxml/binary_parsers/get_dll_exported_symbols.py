@@ -9,8 +9,8 @@ import os
 if os.name != "nt":
     raise Exception("Wrong OS")
 
-import ctypes as ctypes
-import ctypes.wintypes as wintypes
+import ctypes as ctypes  # nopep8
+import ctypes.wintypes as wintypes  # nopep8
 
 
 def convert_cdef_to_pydef(line):

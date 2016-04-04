@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -19,14 +19,14 @@ This modules contains definition for next C++ declarations:
 import re
 from . import cpptypes
 from . import algorithm
-from . import templates
 from . import declaration
 # from . import type_traits # moved below to fix a cyclic dependency problem
 from . import dependencies
 from . import call_invocation
+from .. import utils
 
 
-class VIRTUALITY_TYPES:
+class VIRTUALITY_TYPES(object):
 
     """class that defines "virtuality" constants"""
     NOT_VIRTUAL = 'not virtual'
@@ -37,7 +37,7 @@ class VIRTUALITY_TYPES:
 FUNCTION_VIRTUALITY_TYPES = VIRTUALITY_TYPES
 
 
-class CALLING_CONVENTION_TYPES:
+class CALLING_CONVENTION_TYPES(object):
 
     """class that defines "calling convention" constants"""
     UNKNOWN = ''
@@ -190,7 +190,8 @@ class calldef_t(declaration.declaration_t):
             exceptions=None,
             return_type=None,
             has_extern=False,
-            does_throw=True):
+            does_throw=True,
+            mangled=None):
         declaration.declaration_t.__init__(self, name)
         if not arguments:
             arguments = []
@@ -204,40 +205,74 @@ class calldef_t(declaration.declaration_t):
         self._demangled_name = None
         self._calling_convention = None
         self._has_inline = None
+        self._mangled = mangled
 
     def _get__cmp__call_items(self):
-        """implementation details"""
+        """
+        Implementation detail.
+
+        """
+
         raise NotImplementedError()
 
     def _get__cmp__items(self):
-        """implementation details"""
-        items = [
-            self.arguments,
-            self.return_type,
-            self.has_extern,
-            self.does_throw,
-            self._sorted_list(
-                self.exceptions),
-            self.demangled_name,
-            self.has_inline]
+        """
+        Implementation detail.
+
+        """
+
+        if "GCC" in utils.xml_generator:
+            items = [
+                self.arguments,
+                self.return_type,
+                self.has_extern,
+                self.does_throw,
+                self._sorted_list(self.exceptions),
+                self.demangled_name,
+                self.has_inline]
+        elif "CastXML" in utils.xml_generator:
+            # No demangled name
+            items = [
+                self.arguments,
+                self.return_type,
+                self.has_extern,
+                self.does_throw,
+                self._sorted_list(self.exceptions),
+                self.has_inline]
         items.extend(self._get__cmp__call_items())
         return items
 
     def __eq__(self, other):
         if not declaration.declaration_t.__eq__(self, other):
             return False
-        return self.return_type == other.return_type \
-            and self.arguments == other.arguments \
-            and self.has_extern == other.has_extern \
-            and self.does_throw == other.does_throw \
-            and self._sorted_list(self.exceptions) == \
-            other._sorted_list(other.exceptions) \
-            and self.demangled_name == other.demangled_name
+
+        if "GCC" in utils.xml_generator:
+            return self.return_type == other.return_type \
+                and self.arguments == other.arguments \
+                and self.has_extern == other.has_extern \
+                and self.does_throw == other.does_throw \
+                and self._sorted_list(self.exceptions) == \
+                other._sorted_list(other.exceptions) \
+                and self.demangled_name == other.demangled_name
+        elif "CastXML" in utils.xml_generator:
+            # Do not check for demangled name
+            return self.return_type == other.return_type \
+                and self.arguments == other.arguments \
+                and self.has_extern == other.has_extern \
+                and self.does_throw == other.does_throw \
+                and self._sorted_list(self.exceptions) == \
+                other._sorted_list(other.exceptions)
 
     def __hash__(self):
-        return (super.__hash__(self) ^
-                hash(self.return_type) ^
-                hash(self.demangled_name))
+        if "GCC" in utils.xml_generator:
+            return (super.__hash__(self) ^
+                    hash(self.return_type) ^
+                    hash(self.demangled_name))
+        elif "CastXML" in utils.xml_generator:
+            # No demangled name with castxml. Use the normal name.
+            return (super.__hash__(self) ^
+                    hash(self.return_type) ^
+                    hash(self.name))
 
     @property
     def arguments(self):
@@ -319,8 +354,7 @@ class calldef_t(declaration.declaration_t):
         # finding all functions with the same name
         return self.parent.calldefs(
             name=self.name,
-            function=lambda decl: not (
-                decl is self),
+            function=lambda decl: decl is not self,
             allow_empty=True,
             recursive=False)
 
@@ -358,6 +392,9 @@ class calldef_t(declaration.declaration_t):
 
         """returns function demangled name. It can help you to deal with
             function template instantiations"""
+
+        if "CastXML" in utils.xml_generator:
+            raise Exception("Demangled name is not available with CastXML.")
 
         from . import type_traits
 
@@ -414,19 +451,18 @@ class calldef_t(declaration.declaration_t):
         self._demangled_name = ''
         return self.name
 
+    def _report(self, *args, **keywd):
+        return dependencies.dependency_info_t(self, *args, **keywd)
+
     def i_depend_on_them(self, recursive=True):
-        report_dependency = lambda * \
-            args, **keywd: dependencies.dependency_info_t(self, *args, **keywd)
         answer = []
         if self.return_type:
             answer.append(
-                report_dependency(
-                    self.return_type,
-                    hint="return type"))
+                self._report(self.return_type, hint="return type"))
         for arg in self.arguments:
-            answer.append(report_dependency(arg.type))
+            answer.append(self._report(arg.type))
         for exc in self.exceptions:
-            answer.append(report_dependency(exc, hint="exception"))
+            answer.append(self._report(exc, hint="exception"))
         return answer
 
     def guess_calling_convention(self):
@@ -448,6 +484,22 @@ class calldef_t(declaration.declaration_t):
     @calling_convention.setter
     def calling_convention(self, cc):
         self._calling_convention = cc
+
+    @property
+    def mangled(self):
+        """
+        Unique declaration name generated by the compiler.
+
+        :return: the mangled name
+        :rtype: str
+
+        """
+
+        return self.get_mangled_name()
+
+    @mangled.setter
+    def mangled(self, mangled):
+        self._mangled = mangled
 
 
 # Second level in hierarchy of calldef
@@ -684,22 +736,54 @@ class constructor_t(member_calldef_t):
 
     @property
     def is_copy_constructor(self):
-        """returns True if described declaration is copy constructor,
-        otherwise False"""
+        """
+        Returns True if described declaration is copy constructor,
+        otherwise False.
+
+        """
+
         from . import type_traits
+
         args = self.arguments
-        if 1 != len(args):
+
+        # A copy constructor has only one argument
+        if len(args) != 1:
             return False
+
+        # We have only one argument, get it
         arg = args[0]
+
+        if not isinstance(arg.type, cpptypes.compound_t):
+            # An argument of type declarated_t (a typedef) could be passed to
+            # the constructor; and it could be a reference.
+            # But in c++ you can NOT write :
+            #    "typedef class MyClass { MyClass(const MyClass & arg) {} }"
+            # If the argument is a typedef, this is not a copy constructor.
+            # See the hierarchy of declarated_t and coumpound_t. They both
+            # inherit from type_t but are not related so we can discriminate
+            # between them.
+            return False
+
+        # The argument needs to be passed by reference in a copy constructor
         if not type_traits.is_reference(arg.type):
             return False
+
+        # The argument needs to be const for a copy constructor
         if not type_traits.is_const(arg.type.base):
             return False
-        unaliased = type_traits.remove_alias(arg.type.base)
-        # unaliased now refers to const_t instance
-        if not isinstance(unaliased.base, cpptypes.declarated_t):
+
+        un_aliased = type_traits.remove_alias(arg.type.base)
+        # un_aliased now refers to const_t instance
+        if not isinstance(un_aliased.base, cpptypes.declarated_t):
+            # We are looking for a declaration
+            # If "class MyClass { MyClass(const int & arg) {} }" is used,
+            # this is not copy constructor, so we return False here.
+            # -> un_aliased.base == cpptypes.int_t (!= cpptypes.declarated_t)
             return False
-        return id(unaliased.base.declaration) == id(self.parent)
+
+        # Final check: compare the parent (the class declaration for example)
+        # with the declaration of the type passed as argument.
+        return id(un_aliased.base.declaration) == id(self.parent)
 
     @property
     def is_trivial_constructor(self):
