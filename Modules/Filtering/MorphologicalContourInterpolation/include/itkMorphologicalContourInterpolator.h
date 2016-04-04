@@ -65,8 +65,7 @@ namespace itk
  *  This work is supported by NIH grant R01 EB014346, "Continued development
  *  and maintenance of the ITK-SNAP 3D image segmentation software."
  *
- * \ingroup Filtering
- * \ingroup Segmentation
+ * \ingroup MorphologicalContourInterpolation
  */
 template <typename TImage>
 class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImage>
