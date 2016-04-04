@@ -24,8 +24,6 @@
 #include "itkConnectedComponentImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 
-#include "ThreadPool.h"
-
 
 namespace itk
 {
@@ -70,11 +68,15 @@ namespace itk
 template <typename TImage>
 class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImage>
 {
+  template <typename Any>
+  friend class MorphologicalContourInterpolatorParallelInvoker;
+
 public:
   /** Standard class typedefs. */
-  typedef MorphologicalContourInterpolator   Self;
-  typedef ImageToImageFilter<TImage, TImage> Superclass;
-  typedef SmartPointer<Self>                 Pointer;
+  typedef MorphologicalContourInterpolator                              Self;
+  typedef ImageToImageFilter<TImage, TImage>                            Superclass;
+  typedef SmartPointer<Self>                                            Pointer;
+  typedef Image<typename TImage::PixelType, TImage::ImageDimension - 1> SliceType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -189,13 +191,11 @@ protected:
   bool                       m_StopSpawning;  // stop spawning new threads
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
-  ::ThreadPool *             m_ThreadPool;    // avoid name conflict
 
   /** Derived image typedefs. */
-  typedef Image<bool, TImage::ImageDimension>                           BoolImageType;
-  typedef Image<float, TImage::ImageDimension - 1>                      FloatSliceType;
-  typedef Image<typename TImage::PixelType, TImage::ImageDimension - 1> SliceType;
-  typedef Image<bool, TImage::ImageDimension - 1>                       BoolSliceType;
+  typedef Image<bool, TImage::ImageDimension>      BoolImageType;
+  typedef Image<float, TImage::ImageDimension - 1> FloatSliceType;
+  typedef Image<bool, TImage::ImageDimension - 1>  BoolSliceType;
 
   /** Are these two slices equal? */
   bool
