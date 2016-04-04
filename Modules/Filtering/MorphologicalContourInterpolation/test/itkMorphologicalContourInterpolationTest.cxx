@@ -111,11 +111,6 @@ itkMorphologicalContourInterpolationTest(int argc, char * argv[])
   try
   {
     // unused cases are not instantiated because they greatly increase compile time
-    if (numDimensions == 2 && pixelType == ScalarPixelType::UCHAR)
-    {
-      doTest<itk::Image<unsigned char, 2>>(inputImageFileName, outputImageFileName, dt, ball, axis, label);
-      return EXIT_SUCCESS;
-    }
     if (numDimensions == 3 && (pixelType == ScalarPixelType::SHORT || pixelType == ScalarPixelType::USHORT))
     {
       doTest<itk::Image<short, 3>>(inputImageFileName, outputImageFileName, dt, ball, axis, label);

@@ -19,21 +19,54 @@
 #define itkMorphologicalContourInterpolator_h
 
 #include "itkImageToImageFilter.h"
+#include "itksys/hash_map.hxx"
+#include "itkExtractImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
-#include "itkExtractImageFilter.h"
-#include "itksys/hash_map.hxx"
-#include "itkBinaryDilateImageFilter.h"
-#include "itkBinaryCrossStructuringElement.h"
-#include "itkBinaryBallStructuringElement.h"
-#include "itkAndImageFilter.h"
-#include "itkOrImageFilter.h"
+
 #include "ThreadPool.h"
 
 
 namespace itk
 {
-
+/** \class MorphologicalContourInterpolator
+ *
+ *  \brief Interpolates contours between slices. Based on a paper by Albu et al.
+ *
+ *  \par Inputs and Outputs
+ *  This is an image-to-image filter. The dimensionality is 3D or higher.
+ *  Input contains an image with some slices segmented, usually manually.
+ *  The output has all in-between slices also segmented.
+ *
+ *  Memory required by the filter is a bit higher than
+ *  outputImageSize*(max(1,numberOfInterpolatedAxes)).
+ *
+ *  \par Parameters
+ *  Slices are detected at positions where a pixel exists with same labeled
+ *  neighbors in slice and only clear (0) neighbors perpendicular to the slice.
+ *  If default behaviour is unwanted, contour indices can be set for each axis
+ *  by enabling UseCustomSlicePositions and calling SetLabeledSliceIndices.
+ *
+ *  Filter can be restricted to run along only one axis, and/or to interpolate
+ *  just one label.
+ *
+ *  Since optimal alignment between slices would require exhaustive search,
+ *  the default is to use heuristic (breadth first search startin from centroid).
+ *
+ *  There is also an alternative algorithm based on distance transform approach.
+ *  It is slightly faster, but it can jump across a twisty shape (not geodesic).
+ *
+ *  Reference:
+ *  Albu AB, Beugeling T, Laurendeau D. "A morphology-based approach for
+ *  interslice interpolation of anatomical slices from volumetric images."
+ *  IEEE Trans Biomed Eng. 2008 Aug;55(8):2022-38. DOI:10.1109/TBME.2008.921158
+ *
+ *  Acknowledgement:
+ *  This work is supported by NIH grant R01 EB014346, "Continued development
+ *  and maintenance of the ITK-SNAP 3D image segmentation software."
+ *
+ * \ingroup MorphologicalContourInterpolation
+ */
 template <typename TImage>
 class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImage>
 {
@@ -76,24 +109,43 @@ public:
    *   Default is heuristic. */
   itkGetConstMacro(HeuristicAlignment, bool);
 
-  /** Using distance transform instead of repeated dilations to calculate median contour is faster.
-   *   Default is to use distance transform. */
+  /** Using distance transform instead of repeated dilations to calculate
+   *   the median contour is slightly faster, but produces lower quality interpolations.
+   *   Default is OFF (that is, use repeated dilations). */
   itkSetMacro(UseDistanceTransform, bool);
 
-  /** Using distance transform instead of repeated dilations to calculate median contour is faster.
-   *   Default is to use distance transform. */
+  /** Using distance transform instead of repeated dilations to calculate
+   *   the median contour is slightly faster, but produces lower quality interpolations.
+   *   Default is OFF (that is, use repeated dilations). */
   itkGetMacro(UseDistanceTransform, bool);
 
-  /** Using distance transform instead of repeated dilations to calculate median contour is faster.
-   *   Default is to use distance transform. */
+  /** Using distance transform instead of repeated dilations to calculate
+   *   the median contour is slightly faster, but produces lower quality interpolations.
+   *   Default is OFF (that is, use repeated dilations). */
   itkGetConstMacro(UseDistanceTransform, bool);
+
+  /** Use custom slice positions (not slice auto-detection).
+   *   SetLabeledSliceIndices has to be called prior to Update(). */
+  itkSetMacro(UseCustomSlicePositions, bool);
+
+  /** Use custom slice positions (not slice auto-detection).
+   *   SetLabeledSliceIndices has to be called prior to Update(). */
+  itkGetMacro(UseCustomSlicePositions, bool);
+
+  /** Use custom slice positions (not slice auto-detection).
+   *   SetLabeledSliceIndices has to be called prior to Update(). */
+  itkGetConstMacro(UseCustomSlicePositions, bool);
 
   /** Use ball instead of default cross structuring element for repeated dilations. */
   void
   SetUseBallStructuringElement(bool useBall)
   {
-    m_UseBallStructuringElement = useBall;
-    m_ConnectedComponents->SetFullyConnected(useBall);
+    if (useBall != m_UseBallStructuringElement)
+    {
+      m_UseBallStructuringElement = useBall;
+      m_ConnectedComponents->SetFullyConnected(useBall);
+      this->Modified();
+    }
   }
 
   /** Use ball instead of default cross structuring element for repeated dilations. */
@@ -102,6 +154,24 @@ public:
   /** Use ball instead of default cross structuring element for repeated dilations. */
   itkGetConstMacro(UseBallStructuringElement, bool);
 
+  /** An std::set of slice indices which need to be interpolated. */
+  typedef std::set<typename TImage::IndexValueType> SliceSetType;
+
+  /** If default slice detection is not wanted, slice indices
+   *   between which interpolation is done can be set using this method. */
+  void
+  SetLabeledSliceIndices(unsigned int axis, std::vector<typename TImage::IndexValueType> indices);
+
+  /** If default slice detection is not wanted, slice indices
+   *   between which interpolation is done can be set using this method. */
+  void
+  SetLabeledSliceIndices(unsigned int axis, SliceSetType indices);
+
+  /** If default slice detection is not wanted, slice indices
+   *   between which interpolation is done can be set using this method. */
+  SliceSetType
+  GetLabeledSliceIndices(unsigned int axis);
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(MorphologicalContourInterpolator, ImageToImageFilter);
 
@@ -109,19 +179,27 @@ protected:
   MorphologicalContourInterpolator();
   ~MorphologicalContourInterpolator() {}
 
+  SliceSetType               m_SliceSets[TImage::ImageDimension];
   typename TImage::PixelType m_Label;
   int                        m_Axis;
   bool                       m_HeuristicAlignment;
   bool                       m_UseDistanceTransform;
   bool                       m_UseBallStructuringElement;
+  bool                       m_UseCustomSlicePositions;
   bool                       m_StopSpawning;  // stop spawning new threads
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
   ::ThreadPool *             m_ThreadPool;    // avoid name conflict
 
-  // grafted input and output to prevent unnecessary pipeline modification checks
-  typename TImage::Pointer m_Input;
-  typename TImage::Pointer m_Output;
+  /** Derived image typedefs. */
+  typedef Image<bool, TImage::ImageDimension>                           BoolImageType;
+  typedef Image<float, TImage::ImageDimension - 1>                      FloatSliceType;
+  typedef Image<typename TImage::PixelType, TImage::ImageDimension - 1> SliceType;
+  typedef Image<bool, TImage::ImageDimension - 1>                       BoolSliceType;
+
+  /** Are these two slices equal? */
+  bool
+  ImagesEqual(typename BoolSliceType::Pointer a, typename BoolSliceType::Pointer b);
 
   /** Does the real work. */
   virtual void
@@ -134,20 +212,21 @@ protected:
   void
   DetermineSliceOrientations();
 
+  /** Determines correspondances between two slices and calls apropriate methods. */
   void
   InterpolateBetweenTwo(int                             axis,
                         TImage *                        out,
                         typename TImage::PixelType      label,
                         typename TImage::IndexValueType i,
                         typename TImage::IndexValueType j,
-                        typename TImage::Pointer        iconn,
-                        typename TImage::Pointer        jconn);
+                        typename SliceType::Pointer     iconn,
+                        typename SliceType::Pointer     jconn);
 
   /** If interpolation is done along more than one axis,
   the interpolations are merged using a modified "or" rule:
   -if all interpolated images have 0 for a given pixel, the output is 0
   -if just one image has a non-zero label, then that label is chosen
-  -if more than one image has a non-zero label, median label is chosen */
+  -if more than one image has a non-zero label, last written label is chosen */
   void
   InterpolateAlong(int axis, TImage * out);
 
@@ -158,29 +237,30 @@ protected:
               typename TImage::PixelType      label,
               typename TImage::IndexValueType i,
               typename TImage::IndexValueType j,
-              typename TImage::Pointer        iConn,
+              typename SliceType::Pointer     iConn,
               typename TImage::PixelType      iRegionId);
 
-  typedef Image<bool, TImage::ImageDimension>                           BoolImageType;
-  typedef Image<float, TImage::ImageDimension>                          FloatImageType;
-  typedef Image<typename TImage::PixelType, TImage::ImageDimension - 1> SliceType;
-  typedef Image<bool, TImage::ImageDimension - 1>                       BoolSliceType;
 
-  typename FloatImageType::Pointer
-  MaurerDM(typename BoolImageType::Pointer inImage);
+  /** Creates a signed distance field image. */
+  typename FloatSliceType::Pointer
+  MaurerDM(typename BoolSliceType::Pointer inImage);
 
   /** A sequence of conditional dilations starting with begin and reaching end.
   begin and end must cover the same region (size and index the same) */
-  std::vector<typename BoolImageType::Pointer>
-  GenerateDilationSequence(typename BoolImageType::Pointer begin, typename BoolImageType::Pointer end, int axis);
+  std::vector<typename BoolSliceType::Pointer>
+  GenerateDilationSequence(typename BoolSliceType::Pointer begin, typename BoolSliceType::Pointer end);
 
   /** Finds an interpolating mask for these two aligned masks */
-  typename BoolImageType::Pointer
-  FindMedianImageDilations(int axis, typename BoolImageType::Pointer iMask, typename BoolImageType::Pointer jMask);
+  typename BoolSliceType::Pointer
+  FindMedianImageDilations(typename BoolSliceType::Pointer intersection,
+                           typename BoolSliceType::Pointer iMask,
+                           typename BoolSliceType::Pointer jMask);
 
   /** Finds an interpolating mask for these two aligned masks */
-  typename BoolImageType::Pointer
-  FindMedianImageDistances(int axis, typename BoolImageType::Pointer iMask, typename BoolImageType::Pointer jMask);
+  typename BoolSliceType::Pointer
+  FindMedianImageDistances(typename BoolSliceType::Pointer intersection,
+                           typename BoolSliceType::Pointer iMask,
+                           typename BoolSliceType::Pointer jMask);
 
   /** Build transition sequence and pick the median */
   void
@@ -189,11 +269,11 @@ protected:
                   typename TImage::PixelType      label,
                   typename TImage::IndexValueType i,
                   typename TImage::IndexValueType j,
-                  typename TImage::Pointer        iConn,
+                  typename SliceType::Pointer     iConn,
                   typename TImage::PixelType      iRegionId,
-                  typename TImage::Pointer        jConn,
+                  typename SliceType::Pointer     jConn,
                   typename TImage::PixelType      jRegionId,
-                  typename TImage::IndexType      translation,
+                  typename SliceType::IndexType   translation,
                   bool                            recursive);
 
   typedef std::vector<typename TImage::PixelType> PixelList;
@@ -205,53 +285,56 @@ protected:
                   typename TImage::PixelType      label,
                   typename TImage::IndexValueType i,
                   typename TImage::IndexValueType j,
-                  typename TImage::Pointer        iConn,
+                  typename SliceType::Pointer     iConn,
                   typename TImage::PixelType      iRegionId,
-                  typename TImage::Pointer        jConn,
+                  typename SliceType::Pointer     jConn,
                   PixelList                       jRegionIds,
-                  typename TImage::IndexType      translation);
+                  typename SliceType::IndexType   translation);
 
-  typename TImage::Pointer
-  TranslateImage(typename TImage::Pointer    image,
-                 typename TImage::IndexType  translation,
-                 typename TImage::RegionType newRegion);
+  /** Crates a translated copy of part of the image which fits in the newRegion. */
+  typename SliceType::Pointer
+  TranslateImage(typename SliceType::Pointer    image,
+                 typename SliceType::IndexType  translation,
+                 typename SliceType::RegionType newRegion);
 
   /** The returns cardingal of the symmetric distance between images.
   The images must cover the same region */
   IdentifierType
-  CardSymDifference(typename BoolImageType::Pointer shape1, typename BoolImageType::Pointer shape2);
+  CardSymDifference(typename BoolSliceType::Pointer shape1, typename BoolSliceType::Pointer shape2);
 
-  /** Writes into m_Output.
-  Copies non-zeroes from m_Input, and fills zeroes from interpolate. */
+  /** Copied from ImageSource and changed to allocate a cleared buffer. */
+  virtual void
+  AllocateOutputs() ITK_OVERRIDE;
+
+  /** Overwrites m_Output with non non-zeroes from m_Input. */
   void
-  CombineInputAndInterpolate(typename TImage::Pointer interpolate);
+  OverlayInput();
 
   /** Returns the centroid of given regions */
-  typename TImage::IndexType
-  Centroid(typename TImage::Pointer conn, PixelList regionIds);
+  typename SliceType::IndexType
+  Centroid(typename SliceType::Pointer conn, PixelList regionIds);
 
   /** Calculates maximum intersection region for both slices given a translation.
   Both inputs are modified so that jRegion is a translated version of iRegion. */
   void
-  IntersectionRegions(typename TImage::IndexType    translation,
-                      typename TImage::RegionType & iRegion,
-                      typename TImage::RegionType & jRegion);
+  IntersectionRegions(typename SliceType::IndexType    translation,
+                      typename SliceType::RegionType & iRegion,
+                      typename SliceType::RegionType & jRegion);
 
   /** Returns number of intersecting pixels */
   IdentifierType
-  Intersection(typename TImage::Pointer   iConn,
-               typename TImage::PixelType iRegionId,
-               typename TImage::Pointer   jConn,
-               PixelList                  jRegionIds,
-               typename TImage::IndexType translation);
+  Intersection(typename SliceType::Pointer   iConn,
+               typename TImage::PixelType    iRegionId,
+               typename SliceType::Pointer   jConn,
+               PixelList                     jRegionIds,
+               typename SliceType::IndexType translation);
 
   /** How much j needs to be translated to best align with i */
-  typename TImage::IndexType
-  Align(int                        axis,
-        typename TImage::Pointer   iConn,
-        typename TImage::PixelType iRegionId,
-        typename TImage::Pointer   jConn,
-        PixelList                  jRegionIds);
+  typename SliceType::IndexType
+  Align(typename SliceType::Pointer iConn,
+        typename TImage::PixelType  iRegionId,
+        typename SliceType::Pointer jConn,
+        PixelList                   jRegionIds);
 
   typedef FixedArray<bool, TImage::ImageDimension>                      OrientationType;
   typedef itksys::hash_map<typename TImage::PixelType, OrientationType> OrientationsType;
@@ -261,74 +344,38 @@ protected:
   BoundingBoxesType m_BoundingBoxes; // bounding box for each label
 
   // each label gets a set of slices in which it is present
-  typedef std::set<typename TImage::IndexValueType>                  SliceSetType;
   typedef itksys::hash_map<typename TImage::PixelType, SliceSetType> LabeledSlicesType;
   std::vector<LabeledSlicesType>                                     m_LabeledSlices; // one for each axis
 
-  void
-  SetLabeledSliceIndices(unsigned int axis, std::vector<typename TImage::IndexValueType> indices);
-  void
-  SetLabeledSliceIndices(unsigned int axis, SliceSetType indices);
-  SliceSetType
-  GetLabeledSliceIndices(unsigned int axis);
+  /** Calculates a bounding box of non-zero pixels. */
+  typename SliceType::RegionType
+  BoundingBox(itk::SmartPointer<SliceType> image);
 
-  // assumes both valid region and valid index
+  /** Expands a region to incorporate the provided index.
+   *   Assumes both a valid region and a valid index.
+   *   It can be invoked with 2D or 3D region, hence the additional template parameter. */
+  template <typename T2>
   void
-  ExpandRegion(typename TImage::RegionType & region, typename TImage::IndexType index);
+  ExpandRegion(typename T2::RegionType & region, typename T2::IndexType index);
 
-  typename TImage::Pointer
+  /** Connected components of a specified region. */
+  typename SliceType::Pointer
   RegionedConnectedComponents(const typename TImage::RegionType region,
                               typename TImage::PixelType        label,
                               IdentifierType &                  objectCount);
 
-  /** seed and mask must cover the same region (size and index the same) */
-  typename BoolImageType::Pointer
-  Dilate1(typename BoolImageType::Pointer seed, typename BoolImageType::Pointer mask, int axis);
+  /** Seed and mask must cover the same region (size and index the same). */
+  typename BoolSliceType::Pointer
+  Dilate1(typename BoolSliceType::Pointer seed, typename BoolSliceType::Pointer mask);
 
-  typedef ExtractImageFilter<TImage, TImage> RoiType;
-  typename RoiType::Pointer                  m_RoI;
+  typedef ExtractImageFilter<TImage, SliceType> RoiType;
+  typename RoiType::Pointer                     m_RoI;
 
-  typedef BinaryThresholdImageFilter<TImage, BoolImageType> BinarizerType;
-  typename BinarizerType::Pointer                           m_Binarizer;
+  typedef BinaryThresholdImageFilter<SliceType, BoolSliceType> BinarizerType;
+  typename BinarizerType::Pointer                              m_Binarizer;
 
-  typedef ConnectedComponentImageFilter<BoolImageType, TImage> ConnectedComponentsType;
-  typename ConnectedComponentsType::Pointer                    m_ConnectedComponents;
-
-  typedef BinaryCrossStructuringElement<bool, TImage::ImageDimension> CrossStructuringElementType;
-  typedef BinaryBallStructuringElement<bool, TImage::ImageDimension>  BallStructuringElementType;
-
-  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, CrossStructuringElementType> CrossDilateType;
-  typedef BinaryDilateImageFilter<BoolImageType, BoolImageType, BallStructuringElementType>  BallDilateType;
-
-  typedef AndImageFilter<BoolImageType, BoolImageType, BoolImageType> AndFilterType;
-
-  typedef OrImageFilter<BoolImageType> OrType;
-
-  class MatchesID
-  {
-    typename TImage::PixelType m_ID;
-
-  public:
-    MatchesID() {}
-    MatchesID(typename TImage::PixelType id)
-      : m_ID(id)
-    {}
-    bool
-    operator!=(const MatchesID & other)
-    {
-      return m_ID != other.m_ID;
-    }
-    bool
-    operator==(const MatchesID & other)
-    {
-      return m_ID == other.m_ID;
-    }
-    inline bool
-    operator()(const typename TImage::PixelType & val) const
-    {
-      return val == m_ID;
-    }
-  };
+  typedef ConnectedComponentImageFilter<BoolSliceType, SliceType> ConnectedComponentsType;
+  typename ConnectedComponentsType::Pointer                       m_ConnectedComponents;
 
 private:
   MorphologicalContourInterpolator(const Self &) ITK_DELETE_FUNCTION;
