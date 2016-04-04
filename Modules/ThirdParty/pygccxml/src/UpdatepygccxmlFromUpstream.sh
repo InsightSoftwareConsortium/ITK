@@ -19,15 +19,16 @@ fi
 
 # Update the git tag for the version you are merging
 git_url="https://github.com/gccxml/pygccxml"
-git_tag="v1.6.2"
+git_tag="v1.7.3"
+upstream_sha="cd1c87f0d17fd44032d5a4dac63ff3b368479ed8"
 
 #
 # Once the merge has been done
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge done July 24, 2014
-git branch pygccxml-upstream d4624a99ea62221f251e8e77d813289ad441d513
+# This merge was done on: April 04, 2016
+git branch pygccxml-upstream ebfc4fd7e842016863dfe4b8aa90c540e70800a4
 
 #
 # Make a temp directory to handle the import of the upstream source
@@ -42,27 +43,19 @@ git pull .. pygccxml-upstream
 #
 # empty out all existing source
 rm -rf *
-#
-# download and copy the necessary double-conversion source
-echo Cloning upstream HEAD from https://github.com/gccxml/pygccxml
-echo NOTE: to check out a particular revision for merging
-echo you have to add a git checkout '<hash>'
-echo or git checkout '<branchname>'
-echo after the git clone command
-git clone ${git_url}
+# clone into the pygccxml-upstream branch
+git clone ${git_url} tmp-pygccxml-upstream
 #
 # recover the upstream commit date.
-cd pygccxml
+cd tmp-pygccxml-upstream
+git checkout ${upstream_sha}
 upstream_date="$(git log -n 1 --format='%cd')"
-upstream_sha="$(git rev-parse HEAD)"
 cd ..
 
-mkdir pgccxml-tmp2
-cp -r pygccxml/pygccxml/* pgccxml-tmp2/
+# Copy only the source code, which is located in the pygccxml subfolder
+cp -r tmp-pygccxml-upstream/pygccxml/* .
 # get rid of pygccxml clone
-rm -fr pygccxml
-# Move the files to the pygccxml folder
-mv pgccxml-tmp2 pygccxml
+rm -fr tmp-pygccxml-upstream
 # add upstream files in Git
 git add --all
 
@@ -91,8 +84,9 @@ cd ..
 #
 # get rid of temporary repository
 rm -fr pygccxml-Tmp
+
 #
-# checkout a new update branch off of the master.
+# checkout a new update branch off master
 git checkout -b pygccxml-update master
 #
 # use subtree merge to bring in upstream changes
@@ -101,7 +95,7 @@ echo "---------------------------------"
 echo NOW Fix all conflicts and test new code.
 echo "---------------------------------"
 echo Commit the merged/fixed/verified code and run this command
-echo git rev-parse --short=16 pygccxml-upstream
+echo git rev-parse pygccxml-upstream
 echo "---------------------------------"
 echo to get the commit hash from which the pygccxml-upstream
 echo branch must be started on the next update.
