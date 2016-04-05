@@ -6,4 +6,4 @@
 set(VERSION_MIN "5.10.0")
 
 # Look for VTK
-find_package(VTK NO_MODULE REQUIRED COMPONENTS vtkCommonCore)
+find_package(VTK NO_MODULE REQUIRED)
