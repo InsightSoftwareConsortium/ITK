@@ -128,7 +128,7 @@ BSplineTransformInitializer<TTransform, TImage>
   ContinuousIndexType startIndex;
   for( unsigned int i = 0; i < SpaceDimension; i++ )
     {
-    startIndex[i] = this->m_Image->GetRequestedRegion().GetIndex()[i] - 0.5 -
+    startIndex[i] = this->m_Image->GetLargestPossibleRegion().GetIndex()[i] - 0.5 -
       BSplineTransformDomainEpsilon;
     }
 
@@ -138,7 +138,7 @@ BSplineTransformInitializer<TTransform, TImage>
     for( unsigned int i = 0; i < SpaceDimension; i++ )
       {
       whichIndex[i] = startIndex[i] + static_cast<CoordRepType>( ( ( d >> i ) &
-        1 ) * ( this->m_Image->GetRequestedRegion().GetSize()[i] + 2.0 *
+        1 ) * ( this->m_Image->GetLargestPossibleRegion().GetSize()[i] + 2.0 *
         BSplineTransformDomainEpsilon ) );
       }
     ImagePointType point;
