@@ -26,7 +26,7 @@ namespace Statistics
 {
 
 // Static/Global variables
-MersenneTwisterRandomVariateGenerator::Pointer  MersenneTwisterRandomVariateGenerator::m_StaticInstance = ITK_NULLPTR;
+MersenneTwisterRandomVariateGenerator::Pointer MersenneTwisterRandomVariateGenerator::m_StaticInstance = ITK_NULLPTR;
 SimpleFastMutexLock MersenneTwisterRandomVariateGenerator::m_StaticInstanceLock;
 MersenneTwisterRandomVariateGenerator::IntegerType MersenneTwisterRandomVariateGenerator::m_StaticDiffer = 0;
 
@@ -35,8 +35,9 @@ MersenneTwisterRandomVariateGenerator
 ::CreateInstance()
 {
   // Try the factory first
-  MersenneTwisterRandomVariateGenerator::Pointer obj  = ObjectFactory< Self >::Create();
-  // if the factory did not provide one, then create it here
+  MersenneTwisterRandomVariateGenerator::Pointer obj =
+    ObjectFactory< Self >::Create();
+  // If the factory did not provide one, then create it here
   if ( !obj )
     {
       obj = new MersenneTwisterRandomVariateGenerator;
@@ -51,14 +52,12 @@ MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator
 ::New()
 {
-  MersenneTwisterRandomVariateGenerator::Pointer obj  = MersenneTwisterRandomVariateGenerator::CreateInstance();
+  MersenneTwisterRandomVariateGenerator::Pointer obj =
+    MersenneTwisterRandomVariateGenerator::CreateInstance();
   obj->SetSeed ( GetInstance()->GetSeed() );
   return obj;
 }
 
-/**
- * Return the single instance of the MersenneTwisterRandomVariateGenerator
- */
 MersenneTwisterRandomVariateGenerator::Pointer
 MersenneTwisterRandomVariateGenerator
 ::GetInstance()
@@ -69,9 +68,7 @@ MersenneTwisterRandomVariateGenerator
     {
     m_StaticInstance  = MersenneTwisterRandomVariateGenerator::CreateInstance();
     }
-  /**
-   * return the instance
-   */
+
   return m_StaticInstance;
 }
 
@@ -88,7 +85,7 @@ MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator
 ::hash(time_t t, clock_t c)
 {
-  // Get a IntegerType from t and c
+  // Get an IntegerType from t and c
   // Better than IntegerType(x) in case x is floating point in [0,1]
   // Based on code by Lawrence Kirby: fred at genesis dot demon dot co dot uk
 
@@ -123,16 +120,16 @@ MersenneTwisterRandomVariateGenerator
   os << indent << "State vector: " << state << std::endl;
   os << indent;
   const IntegerType *s = state;
-  int                         i = StateVectorLength;
+  int i = StateVectorLength;
   for (; i--; os << *s++ << "\t" ) {}
   os << std::endl;
 
   //Print next value to be gotten from state
-  os << indent << "Next value to be gotten from state: " << pNext << std::endl;
+  os << indent << "Next value to be gotten from state: " << m_PNext << std::endl;
 
   //Number of values left before reload
-  os << indent << "Values left before next reload: " << left << std::endl;
+  os << indent << "Values left before next reload: " << m_Left << std::endl;
 }
 
-}
-}
+}  // end namespace Statistics
+}  // end namespace itk

@@ -123,23 +123,23 @@ public:
 
   /** \brief Method for creation through the object factory.
    *
-   *  This method allocates a new instance of a Mersenne Twister,
-   *  and initializes it with the seed from the global instance.
+   * This method allocates a new instance of a Mersenne Twister,
+   * and initializes it with the seed from the global instance.
    */
   static Pointer New();
 
-  /** returns the global Merseene Twister instance
+  /** Return the global Mersenne Twister instance.
    *
-   *   This method returns a Singleton of the Mersenne Twister.
-   *   The seed is initialized from the wall clock, but can be
-   *   set using SetSeed().
+   * This method returns a Singleton of the Mersenne Twister.
+   * The seed is initialized from the wall clock, but can be
+   * set using SetSeed().
    */
   static Pointer GetInstance();
 
   /** Length of state vector */
   itkStaticConstMacro(StateVectorLength, IntegerType, 624);
 
-  /** initialize with a simple IntegerType */
+  /** Initialize with a simple IntegerType */
   void Initialize(const IntegerType oneSeed);
 
   /* Initialize with clock time */
@@ -182,7 +182,7 @@ public:
    * TODO: Compare with vnl_sample_uniform */
   double GetUniformVariate(const double & a, const double & b);
 
-  /** get a variate in the range [0, 1]
+  /** Get a variate in the range [0, 1]
    * Do NOT use for CRYPTOGRAPHY without securely hashing several returned
    * values together, otherwise the generator state can be learned after
    * reading 624 consecutive values.
@@ -210,16 +210,22 @@ protected:
   virtual ~MersenneTwisterRandomVariateGenerator();
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  // period parameter
-  itkStaticConstMacro (M, unsigned int, 397);
+  /** Period parameter */
+  itkStaticConstMacro(M, unsigned int, 397);
 
-  IntegerType  state[StateVectorLength]; // internal state
-  IntegerType *pNext;                    // next value to get from state
-  int          left;                     // number of values left before reload
-                                         // needed
-  IntegerType  m_Seed;                   // Seed value
+  /** Internal state. */
+  IntegerType  state[StateVectorLength];
 
-  /* Reload array with N new values */
+  /** Next value to get from state. */
+  IntegerType *m_PNext;
+
+  /** Number of values left before reload is needed. */
+  int          m_Left;
+
+  /** Seed value. */
+  IntegerType  m_Seed;
+
+  /** Reload array with N new values. */
   void reload();
 
   IntegerType hiBit(const IntegerType & u) const { return u & 0x80000000; }
@@ -295,8 +301,8 @@ MersenneTwisterRandomVariateGenerator::reload()
     }
   *p = twist(p[index], p[0], state[0]);
 
-  left = MersenneTwisterRandomVariateGenerator::StateVectorLength;
-  pNext = state;
+  m_Left = MersenneTwisterRandomVariateGenerator::StateVectorLength;
+  m_PNext = state;
 }
 
 inline void
@@ -324,10 +330,10 @@ MersenneTwisterRandomVariateGenerator::SetSeed()
 inline MersenneTwisterRandomVariateGenerator::IntegerType
 MersenneTwisterRandomVariateGenerator::GetIntegerVariate()
 {
-  if ( left == 0 ) { reload(); }
-  --left;
+  if ( m_Left == 0 ) { reload(); }
+  --m_Left;
 
-  IntegerType s1 = *pNext++;
+  IntegerType s1 = *m_PNext++;
   s1 ^= ( s1 >> 11 );
   s1 ^= ( s1 <<  7 ) & 0x9d2c5680;
   s1 ^= ( s1 << 15 ) & 0xefc60000;
@@ -383,7 +389,6 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate(
   const IntegerType & n)
 {
   // Find which bits are used in n
-  // Optimized by Magnus Jonsson magnus at smartelectronix dot com
   IntegerType used = n;
 
   used |= used >> 1;
@@ -396,7 +401,7 @@ MersenneTwisterRandomVariateGenerator::GetIntegerVariate(
   IntegerType i;
   do
     {
-    i = GetIntegerVariate() & used;  // toss unused bits to shorten search
+    i = GetIntegerVariate() & used; // toss unused bits to shorten search
     }
   while ( i > n );
 
@@ -414,7 +419,7 @@ MersenneTwisterRandomVariateGenerator::Get53BitVariate()
                                                                  // Wada
 }
 
-/* Access to a normal random number distribution */
+/** Access to a normal random number distribution. */
 // TODO: Compare with vnl_sample_normal
 inline double
 MersenneTwisterRandomVariateGenerator::GetNormalVariate(
@@ -429,7 +434,7 @@ MersenneTwisterRandomVariateGenerator::GetNormalVariate(
   return mean + r *std::cos(phi);
 }
 
-/* Access to a uniform random number distribution */
+/** Access to a uniform random number distribution */
 // TODO: Compare with vnl_sample_uniform
 inline double
 MersenneTwisterRandomVariateGenerator::GetUniformVariate(
@@ -492,7 +497,7 @@ MersenneTwisterRandomVariateGenerator::operator()()
 //      - Fixed out-of-range number generation on 64-bit machines
 //      - Improved portability by substituting literal constants for long enum's
 //      - Changed license from GNU LGPL to BSD
-} // end of namespace Statistics
-} // end of namespace itk
+} // end namespace Statistics
+} // end namespace itk
 
 #endif
