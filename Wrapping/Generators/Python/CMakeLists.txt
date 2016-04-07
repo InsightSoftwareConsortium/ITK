@@ -424,6 +424,13 @@ macro(itk_end_wrap_module_python)
       target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
     endif()
 
+    if(CMAKE_VERSION VERSION_GREATER 2.8.12 AND USE_COMPILER_HIDDEN_VISIBILITY)
+      # Prefer to use target properties supported by newer cmake
+      set_target_properties(${lib} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+      set_target_properties(${lib} PROPERTIES C_VISIBILITY_PRESET hidden)
+      set_target_properties(${lib} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+    endif()
+
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
     if(ITK_WRAP_DOC)
       add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
