@@ -32,7 +32,7 @@ const double DIFF_TOLERENCE = 0.001;
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
   m_NumberOfSeeds( 0 ),
-  m_OutputVD( this->GetOutput() ),
+  m_OutputVD( Self::GetOutput() ), // Note: this line is suspicious
   m_Pxmin( 0.0 ),
   m_Pxmax( 0.0 ),
   m_Pymin( 0.0 ),

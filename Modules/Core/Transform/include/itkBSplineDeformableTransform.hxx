@@ -30,11 +30,11 @@ namespace itk
 // Constructor with default arguments
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>
-::BSplineDeformableTransform() : Superclass( ),
-  m_GridRegion(this->m_CoefficientImages[0]->GetLargestPossibleRegion() ),
-  m_GridOrigin(this->m_CoefficientImages[0]->GetOrigin() ),
-  m_GridSpacing(this->m_CoefficientImages[0]->GetSpacing() ),
-  m_GridDirection(this->m_CoefficientImages[0]->GetDirection() )
+::BSplineDeformableTransform() :
+  m_GridRegion(Superclass::m_CoefficientImages[0]->GetLargestPossibleRegion() ),
+  m_GridOrigin(Superclass::m_CoefficientImages[0]->GetOrigin() ),
+  m_GridSpacing(Superclass::m_CoefficientImages[0]->GetSpacing() ),
+  m_GridDirection(Superclass::m_CoefficientImages[0]->GetDirection() )
 {
 
   // Instantiate an identity transform

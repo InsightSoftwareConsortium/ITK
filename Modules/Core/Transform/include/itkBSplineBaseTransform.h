@@ -367,7 +367,7 @@ private:
   BSplineBaseTransform( const Self & ) ITK_DELETE_FUNCTION;
   void operator=( const Self & ) ITK_DELETE_FUNCTION;
 
-  CoefficientImageArray ArrayOfImagePointerGeneratorHelper() const;
+  static CoefficientImageArray ArrayOfImagePointerGeneratorHelper();
 }; // class BSplineBaseTransform
 }  // namespace itk
 
