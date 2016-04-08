@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -50,13 +50,13 @@ class mdecl_wrapper_t(object):
     .. code-block:: python
 
        for c in global_namespace.classes():
-           c.compiler = "GCCXML 1.127"
+           c.attribute = "xxxx"
 
     you can write:
 
     .. code-block:: python
 
-       global_namespace.classes().compiler = "GCCXML 1.127"
+       global_namespace.classes().attribute = "xxxx"
 
     The same functionality could be applied on "set" methods too.
     """

@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -27,7 +27,7 @@ except ImportError:
 from . import declarations_cache
 
 
-class index_entry_t:
+class index_entry_t(object):
 
     """
     Entry of the index table in the directory cache index.
@@ -49,7 +49,7 @@ class index_entry_t:
         self.configsig = configsig
 
     def __getstate__(self):
-        return (self.filesigs, self.configsig)
+        return self.filesigs, self.configsig
 
     def __setstate__(self, state):
         self.filesigs, self.configsig = state
@@ -68,15 +68,15 @@ class directory_cache_t (declarations_cache.cache_base_t):
     modified since the last run).
     """
 
-    def __init__(self, dir="cache", compression=False, md5_sigs=True):
+    def __init__(self, dir="cache", compression=False, sha1_sigs=True):
         """
         :param dir: cache directory path, it is created, if it does not exist
 
         :param compression: if `True`, the cache files will be compressed
                             using `gzip`
 
-        :param md5_sigs: `md5_sigs` determines whether file modifications is
-                         checked by computing a `md5` digest or by checking
+        :param sha1_sigs: `sha1_sigs` determines whether file modifications is
+                         checked by computing a `sha1` digest or by checking
                          the modification date
         """
 
@@ -88,13 +88,13 @@ class directory_cache_t (declarations_cache.cache_base_t):
         # Flag that determines whether the cache files will be compressed
         self.__compression = compression
 
-        # Flag that determines whether the signature is a md5 digest or
+        # Flag that determines whether the signature is a sha1 digest or
         # the modification time
         # (this flag is passed to the filename_repository_t class)
-        self.__md5_sigs = md5_sigs
+        self.__sha1_sigs = sha1_sigs
 
         # Filename repository
-        self.__filename_rep = filename_repository_t(self.__md5_sigs)
+        self.__filename_rep = filename_repository_t(self.__sha1_sigs)
 
         # Index dictionary (Key is the value returned by _create_cache_key()
         # (which is based on the header file name) and value is an
@@ -127,7 +127,7 @@ class directory_cache_t (declarations_cache.cache_base_t):
         :param source_file: a C++ source file name.
         :type source_file: str
         :param configuration: configuration  object.
-        :type configuration: :class:`gccxml_configuration_t`
+        :type configuration: :class:`xml_generator_configuration_t`
         :param declarations: declarations contained in the `source_file`
         :type declarations: pickable object
         :param included_files: included files
@@ -174,7 +174,7 @@ class directory_cache_t (declarations_cache.cache_base_t):
         :param source_file: Header file name
         :type source_file: str
         :param configuration: Configuration object
-        :type configuration: :class:`parser.gccxml_configuration_t`
+        :type configuration: :class:`parser.xml_generator_configuration_t`
         :rtype: Cached declarations or None
         """
 
@@ -228,15 +228,15 @@ class directory_cache_t (declarations_cache.cache_base_t):
             data = self._read_file(indexfilename)
             self.__index = data[0]
             self.__filename_rep = data[1]
-            if self.__filename_rep._md5_sigs != self.__md5_sigs:
+            if self.__filename_rep._sha1_sigs != self.__sha1_sigs:
                 print((
-                    "CACHE: Warning: md5_sigs stored in the cache is set " +
-                    "to %s.") % self.__filename_rep._md5_sigs)
+                    "CACHE: Warning: sha1_sigs stored in the cache is set " +
+                    "to %s.") % self.__filename_rep._sha1_sigs)
                 print("Please remove the cache to change this setting.")
-                self.__md5_sigs = self.__filename_rep._md5_sigs
+                self.__sha1_sigs = self.__filename_rep._sha1_sigs
         else:
             self.__index = {}
-            self.__filename_rep = filename_repository_t(self.__md5_sigs)
+            self.__filename_rep = filename_repository_t(self.__sha1_sigs)
 
         self.__modified_flag = False
 
@@ -355,15 +355,15 @@ class directory_cache_t (declarations_cache.cache_base_t):
         """
         return the signature for a config object.
 
-        The signature is computed as md5 digest of the contents of
+        The signature is computed as sha1 digest of the contents of
         working_directory, include_paths, define_symbols and
         undefine_symbols.
 
         :param config: Configuration object
-        :type config: :class:`parser.gccxml_configuration_t`
+        :type config: :class:`parser.xml_generator_configuration_t`
         :rtype: str
         """
-        m = hashlib.md5()
+        m = hashlib.sha1()
         m.update(config.working_directory)
         for p in config.include_paths:
             m.update(p)
@@ -376,7 +376,7 @@ class directory_cache_t (declarations_cache.cache_base_t):
         return m.digest()
 
 
-class filename_entry_t:
+class filename_entry_t(object):
 
     """This is a record stored in the filename_repository_t class.
 
@@ -404,7 +404,7 @@ class filename_entry_t:
 
     def __getstate__(self):
         # Only pickle filename and refcount
-        return (self.filename, self.refcount)
+        return self.filename, self.refcount
 
     def __setstate__(self, state):
         self.filename, self.refcount = state
@@ -423,7 +423,7 @@ class filename_entry_t:
         return self.refcount
 
 
-class filename_repository_t:
+class filename_repository_t(object):
 
     """File name repository.
 
@@ -436,14 +436,14 @@ class filename_repository_t:
     called so that the entry can be removed from the repository.
     """
 
-    def __init__(self, md5_sigs):
+    def __init__(self, sha1_sigs):
         """Constructor.
         """
 
-        # Flag that determines whether the signature is a md5 digest or
+        # Flag that determines whether the signature is a sha1 digest or
         # the modification time
         # (this flag is passed to the filename_repository_t class)
-        self._md5_sigs = md5_sigs
+        self._sha1_sigs = sha1_sigs
 
         # ID lookup table (key: filename / value: id_)
         self.__id_lut = {}
@@ -515,7 +515,7 @@ class filename_repository_t:
         """Update the `id_` counter so that it doesn't grow forever.
         """
 
-        if len(self.__entries) == 0:
+        if not self.__entries:
             self.__next_id = 1
         else:
             self.__next_id = max(self.__entries.keys()) + 1
@@ -524,23 +524,23 @@ class filename_repository_t:
         """Return the signature of the file stored in entry.
         """
 
-        if self._md5_sigs:
-            # return md5 digest of the file content...
+        if self._sha1_sigs:
+            # return sha1 digest of the file content...
             if not os.path.exists(entry.filename):
                 return None
             try:
                 f = open(entry.filename)
             except IOError as e:
-                print("Cannot determine md5 digest:", e)
+                print("Cannot determine sha1 digest:", e)
                 return None
             data = f.read()
             f.close()
-            return hashlib.md5(data).digest()
+            return hashlib.sha1(data).digest()
         else:
             # return file modification date...
             try:
                 return os.path.getmtime(entry.filename)
-            except OSError as e:
+            except OSError:
                 return None
 
     def _dump(self):

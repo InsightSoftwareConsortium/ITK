@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -21,7 +21,7 @@ import ctypes
 from .. import declarations
 
 
-class UNDECORATE_NAME_OPTIONS:
+class UNDECORATE_NAME_OPTIONS(object):
 
     """defines few constants for `UnDecorateSymbolName` function"""
 
@@ -76,7 +76,7 @@ class UNDECORATE_NAME_OPTIONS:
         | UNDNAME_NO_ACCESS_SPECIFIERS | UNDNAME_NO_ECSU
 
 
-class undname_creator_t:
+class undname_creator_t(object):
 
     """implementation details - should not be used directly
 
@@ -182,14 +182,14 @@ class undname_creator_t:
             else:
                 return ''
         else:
-            formater = lambda type_: self.__format_type_as_undecorated(
-                type_, True, hint)
             argsep = ','
             if hint == 'nm':
                 # ugly hack, later, I will replace ', ' with ',', so single
                 # space will still exist
                 argsep = ',  '
-            return argsep.join(map(formater, argtypes))
+            return argsep.join(
+                map(lambda type_: self.__format_type_as_undecorated(
+                    type_, True, hint), argtypes))
 
     def format_calldef(self, calldef, hint):
         calldef_type = calldef.function_type()
@@ -254,7 +254,7 @@ class undname_creator_t:
         could be mapped later to the blobs.
         The valid options are: "msvc" and "nm".
         """
-        name = None
+
         if hint is None:
             if 'nt' == os.name:
                 hint = 'msvc'

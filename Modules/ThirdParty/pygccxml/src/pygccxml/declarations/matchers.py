@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -423,7 +423,7 @@ class calldef_matcher_t(declaration_matcher_t):
                 if len(self.arg_types) != len(decl.arguments):
                     return False
                 for type_or_str, arg in zip(self.arg_types, decl.arguments):
-                    if None == type_or_str:
+                    if type_or_str is None:
                         continue
                     else:
                         if not self.__compare_types(type_or_str, arg.type):
@@ -449,13 +449,11 @@ class calldef_matcher_t(declaration_matcher_t):
         if self.return_type is not None:
             msg.append('(return type==%s)' % str(self.return_type))
         if self.arg_types:
-            for i in range(len(self.arg_types)):
-                if self.arg_types[i] is None:
+            for i, arg_type in enumerate(self.arg_types):
+                if arg_type is None:
                     msg.append('(arg %d type==any)' % i)
                 else:
-                    msg.append(
-                        '(arg %d type==%s)' %
-                        (i, str(self.arg_types[i])))
+                    msg.append('(arg %d type==%s)' % (i, str(arg_type)))
         if not msg:
             msg.append('any')
         return ' and '.join(msg)
@@ -537,7 +535,7 @@ class regex_matcher_t(matcher_base_t):
         matcher_base_t.__init__(self)
         self.regex = re.compile(regex)
         self.function = function
-        if None is self.function:
+        if self.function is None:
             self.function = lambda decl: decl.name
 
     def __call__(self, decl):

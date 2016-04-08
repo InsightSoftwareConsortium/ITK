@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -31,23 +31,23 @@ class etree_saxifier_t(object):
 
 class etree_scanner_t(scanner.scanner_t):
 
-    def __init__(self, gccxml_file, decl_factory, *args):
-        scanner.scanner_t.__init__(self, gccxml_file, decl_factory, *args)
+    def __init__(self, xml_file, decl_factory, *args):
+        scanner.scanner_t.__init__(self, xml_file, decl_factory, *args)
 
     def read(self):
-        tree = ElementTree.parse(self.gccxml_file)
+        tree = ElementTree.parse(self.xml_file)
         saxifier = etree_saxifier_t(tree, self)
         saxifier.saxify()
 
 
 class ietree_scanner_t(scanner.scanner_t):
 
-    def __init__(self, gccxml_file, decl_factory, *args):
-        scanner.scanner_t.__init__(self, gccxml_file, decl_factory, *args)
+    def __init__(self, xml_file, decl_factory, *args):
+        scanner.scanner_t.__init__(self, xml_file, decl_factory, *args)
 
     def read(self):
         context = ElementTree.iterparse(
-            self.gccxml_file,
+            self.xml_file,
             events=(
                 "start",
                 "end"))

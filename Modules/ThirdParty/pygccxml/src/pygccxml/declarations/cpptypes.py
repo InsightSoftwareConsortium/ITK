@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -7,7 +7,6 @@
 defines classes, that describe C++ types
 """
 
-from . import compilers
 from . import algorithms_cache
 
 
@@ -20,7 +19,6 @@ class type_t(object):
         self.cache = algorithms_cache.type_algs_cache_t()
         self._byte_size = 0
         self._byte_align = 0
-        self.compiler = None
 
     def __str__(self):
         res = self.decl_string
@@ -478,8 +476,17 @@ defines a mapping between fundamental type name and its synonym to the instance
 of class that describes the type
 """
 
+
+def _f(x, with_defaults):
+    """
+    A small helper function.
+
+    """
+
+    return x.build_decl_string(with_defaults)
+
 ##########################################################################
-# Compaund types:
+# Compound types:
 
 
 class compound_t(type_t):
@@ -672,22 +679,22 @@ class free_function_type_t(type_t, calldef_type_t):
         calldef_type_t.__init__(self, return_type, arguments_types)
 
     @staticmethod
-    def create_decl_string(return_type, arguments_types, with_defaults=True):
+    def create_decl_string(
+            return_type, arguments_types, with_defaults=True):
         """
-        returns free function type
+        Returns free function type
 
         :param return_type: function return type
         :type return_type: :class:`type_t`
         :param arguments_types: list of argument :class:`type <type_t>`
         :rtype: :class:`free_function_type_t`
+
         """
-        f = lambda x: x.build_decl_string(with_defaults)
+
         return free_function_type_t.NAME_TEMPLATE % {
             'return_type': return_type.build_decl_string(with_defaults),
             'arguments': ','.join(
-                map(
-                    f,
-                    arguments_types))}
+                [_f(x, with_defaults) for x in arguments_types])}
 
     def build_decl_string(self, with_defaults=True):
         return self.create_decl_string(
@@ -710,12 +717,12 @@ class free_function_type_t(type_t, calldef_type_t):
 
         :param name: the desired name of typedef
         """
-        # unused argument simplifies user code
-        f = lambda x: x.build_decl_string(with_defaults)
+
         return free_function_type_t.TYPEDEF_NAME_TEMPLATE % {
             'typedef_name': typedef_name,
             'return_type': self.return_type.build_decl_string(with_defaults),
-            'arguments': ','.join(map(f, self.arguments_types))}
+            'arguments': ','.join(
+                [_f(x, with_defaults) for x in self.arguments_types])}
 
 
 class member_function_type_t(type_t, calldef_type_t):
@@ -775,15 +782,13 @@ class member_function_type_t(type_t, calldef_type_t):
                 class_alias = self.class_inst.decl_string
             else:
                 class_alias = self.class_inst.partial_decl_string
-        f = lambda x: x.build_decl_string(with_defaults)
+
         return member_function_type_t.TYPEDEF_NAME_TEMPLATE % {
             'typedef_name': typedef_name,
             'return_type': self.return_type.build_decl_string(with_defaults),
             'class': class_alias,
             'arguments': ','.join(
-                map(
-                    f,
-                    self.arguments_types)),
+                [_f(x, with_defaults) for x in self.arguments_types]),
             'has_const': has_const_str}
 
     def create(self):
@@ -807,14 +812,12 @@ class member_function_type_t(type_t, calldef_type_t):
         if return_type:
             return_type_decl_string = return_type.build_decl_string(
                 with_defaults)
-        f = lambda x: x.build_decl_string(with_defaults)
+
         return member_function_type_t.NAME_TEMPLATE % {
             'return_type': return_type_decl_string,
             'class': class_decl_string,
             'arguments': ','.join(
-                map(
-                    f,
-                    arguments_types)),
+                [_f(x, with_defaults) for x in arguments_types]),
             'has_const': has_const_str}
 
     def build_decl_string(self, with_defaults=True):

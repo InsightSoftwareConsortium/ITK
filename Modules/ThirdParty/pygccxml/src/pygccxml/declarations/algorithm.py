@@ -1,21 +1,26 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-"""defines few unrelated algorithms, that works on declarations"""
+"""
+Define few unrelated algorithms that work on declarations.
+
+"""
 
 
 def declaration_path(decl, with_defaults=True):
     """
-    returns a list of parent declarations names
+    Returns a list of parent declarations names.
 
     :param decl: declaration for which declaration path should be calculated
     :type decl: :class:`declaration_t`
 
     :rtype: [names], where first item contains top parent name and last item
              contains the `decl` name
+
     """
+
     if not decl:
         return []
     if not decl.cache.declaration_path:
@@ -39,15 +44,17 @@ def declaration_path(decl, with_defaults=True):
 
 def partial_declaration_path(decl):
     """
-    returns a list of parent declarations names without template arguments that
-    have default value
+    Returns a list of parent declarations names without template arguments that
+    have default value.
 
     :param decl: declaration for which declaration path should be calculated
     :type decl: :class:`declaration_t`
 
     :rtype: [names], where first item contains top parent name and last item
              contains the `decl` name
+
     """
+
     # TODO:
     # If parent declaration cache already has declaration_path, reuse it for
     # calculation.
@@ -74,13 +81,15 @@ def partial_declaration_path(decl):
 
 def get_named_parent(decl):
     """
-    returns a reference to a named parent declaration
+    Returns a reference to a named parent declaration.
 
     :param decl: the child declaration
     :type decl: :class:`declaration_t`
 
     :rtype: reference to :class:`declaration_t` or None if not found
+
     """
+
     if not decl:
         return None
 
@@ -101,14 +110,16 @@ def full_name_from_declaration_path(dpath):
 
 def full_name(decl, with_defaults=True):
     """
-    returns declaration full qualified name
+    Returns declaration full qualified name.
 
     If `decl` belongs to anonymous namespace or class, the function will return
     C++ illegal qualified name.
     :param decl: :class:`declaration_t`
     :type decl: :class:`declaration_t`
     :rtype: full name of declarations.
+
     """
+
     if None is decl:
         raise RuntimeError("Unable to generate full name for None object!")
     if with_defaults:
@@ -125,13 +136,15 @@ def full_name(decl, with_defaults=True):
 
 def make_flatten(decl_or_decls):
     """
-    converts tree representation of declarations to flatten one.
+    Converts tree representation of declarations to flatten one.
 
     :param decl_or_decls: reference to list of declaration's or single
         declaration
     :type decl_or_decls: :class:`declaration_t` or [ :class:`declaration_t` ]
     :rtype: [ all internal declarations ]
+
     """
+
     import pygccxml.declarations  # prevent cyclic import
 
     def proceed_single(decl):
@@ -158,13 +171,14 @@ def make_flatten(decl_or_decls):
 
 def __make_flatten_generator(decl_or_decls):
     """
-    converts tree representation of declarations to flatten one.
+    Converts tree representation of declarations to flatten one.
 
     :param decl_or_decls: reference to list of declaration's or single
     declaration
     :type decl_or_decls: :class:`declaration_t` or [ :class:`declaration_t` ]
 
     :rtype: [ all internal declarations ]
+
     """
 
     import pygccxml.declarations
@@ -191,17 +205,17 @@ def __make_flatten_generator(decl_or_decls):
 
 def get_global_namespace(decls):
     import pygccxml.declarations
-    found = [decl for decl in make_flatten(decls) if decl.name == '::'
-             and isinstance(decl, pygccxml.declarations.namespace_t)]
+    found = [
+        decl for decl in make_flatten(decls) if decl.name == '::' and
+        isinstance(decl, pygccxml.declarations.namespace_t)]
     if len(found) == 1:
         return found[0]
     raise RuntimeError("Unable to find global namespace.")
 
 
-class match_declaration_t:
-
+class match_declaration_t(object):
     """
-    helper class for different search algorithms.
+    Helper class for different search algorithms.
 
     This class will help developer to match declaration by:
         - declaration type, for example :class:`class_t` or
@@ -209,6 +223,7 @@ class match_declaration_t:
         - declaration name
         - declaration full name
         - reference to parent declaration
+
     """
 
     def __init__(self, type=None, name=None, fullname=None, parent=None):
@@ -219,21 +234,23 @@ class match_declaration_t:
 
     def does_match_exist(self, inst):
         """
-        returns True if inst do match one of specified criteria
+        Returns True if inst does match one of specified criteria.
 
         :param inst: declaration instance
         :type inst: :class:`declaration_t`
 
         :rtype: bool
+
         """
+
         answer = True
-        if None != self.type:
+        if self.type is not None:
             answer &= isinstance(inst, self.type)
-        if None != self.name:
+        if self.name is not None:
             answer &= inst.name == self.name
-        if None != self.parent:
+        if self.parent is not None:
             answer &= self.parent is inst.parent
-        if None != self.fullname:
+        if self.fullname is not None:
             if inst.name:
                 answer &= self.fullname == full_name(inst)
             else:
@@ -245,7 +262,9 @@ class match_declaration_t:
         .. code-block:: python
 
            return self.does_match_exist(inst)
+
         """
+
         return self.does_match_exist(inst)
 
 
@@ -257,15 +276,16 @@ def find_all_declarations(
         recursive=True,
         fullname=None):
     """
-    returns a list of all declarations that match criteria, defined by
-    developer
+    Returns a list of all declarations that match criteria, defined by
+    developer.
 
     For more information about arguments see :class:`match_declaration_t`
     class.
 
     :rtype: [ matched declarations ]
+
     """
-    decls = []
+
     if recursive:
         decls = make_flatten(declarations)
     else:
@@ -289,14 +309,16 @@ def find_declaration(
         recursive=True,
         fullname=None):
     """
-    returns single declaration that match criteria, defined by developer.
+    Returns single declaration that match criteria, defined by developer.
     If more the one declaration was found None will be returned.
 
     For more information about arguments see :class:`match_declaration_t`
     class.
 
     :rtype: matched declaration :class:`declaration_t` or None
+
     """
+
     decl = find_all_declarations(
         declarations,
         type=type,
@@ -316,13 +338,15 @@ def find_first_declaration(
         recursive=True,
         fullname=None):
     """
-    returns first declaration that match criteria, defined by developer
+    Returns first declaration that match criteria, defined by developer.
 
     For more information about arguments see :class:`match_declaration_t`
     class.
 
     :rtype: matched declaration :class:`declaration_t` or None
+
     """
+
     matcher = match_declaration_t(type, name, fullname, parent)
     if recursive:
         decls = make_flatten(declarations)
@@ -336,7 +360,7 @@ def find_first_declaration(
 
 def declaration_files(decl_or_decls):
     """
-    returns set of files
+    Returns set of files
 
     Every declaration is declared in some file. This function returns set, that
     contains all file names of declarations.
@@ -345,7 +369,9 @@ def declaration_files(decl_or_decls):
         declaration
     :type decl_or_decls: :class:`declaration_t` or [:class:`declaration_t`]
     :rtype: set(declaration file names)
+
     """
+
     files = set()
     decls = make_flatten(decl_or_decls)
     for decl in decls:
@@ -355,7 +381,6 @@ def declaration_files(decl_or_decls):
 
 
 class visit_function_has_not_been_found_t(RuntimeError):
-
     """
     Exception that is raised, from :func:`apply_visitor`, when a visitor could
     not be applied.
@@ -375,11 +400,13 @@ class visit_function_has_not_been_found_t(RuntimeError):
 
 def apply_visitor(visitor, decl_inst):
     """
-    applies a visitor on declaration instance
+    Applies a visitor on declaration instance.
 
     :param visitor: instance
     :type visitor: :class:`type_visitor_t` or :class:`decl_visitor_t`
+
     """
+
     fname = 'visit_' + \
         decl_inst.__class__.__name__[:-2]  # removing '_t' from class name
     if not hasattr(visitor, fname):

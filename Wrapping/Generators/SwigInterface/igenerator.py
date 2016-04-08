@@ -924,7 +924,8 @@ if __name__ == '__main__':
     pygccxml.declarations.scopedef_t.ALLOW_EMPTY_MDECL_WRAPPER = True
 
     pygccxml_config = pygccxml.parser.config.gccxml_configuration_t(
-        gccxml_path=options.castxml_path)
+        xml_generator_path=options.castxml_path,
+        xml_generator="castxml")
 
     moduleNames = []
     # The first mdx file is the master index file for this module.

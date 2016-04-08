@@ -1,8 +1,9 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
+import re
 from pygccxml import utils
 from pygccxml import declarations
 
@@ -22,9 +23,7 @@ class default_argument_patcher_t(object):
                 arg.default_value = fixer(decl, arg)
 
     def __find_fixer(self, func, arg):
-        if not arg.default_value:
-            return False
-        elif self.__is_unqualified_enum(func, arg):
+        if self.__is_unqualified_enum(func, arg):
             return self.__fix_unqualified_enum
         elif self.__is_double_call(func, arg):
             return self.__fix_double_call
@@ -46,14 +45,18 @@ class default_argument_patcher_t(object):
         if not declarations.is_enum(type_):
             return False
         enum_type = declarations.enum_declaration(type_)
-        return enum_type.has_value_name(arg.default_value)
+        # GCCXML does not qualify an enum value in the default argument
+        # but CastXML does. Split the default value and use only the
+        # enum value for fixing it.
+        return enum_type.has_value_name(
+            arg.default_value.split('::')[-1])
 
     def __fix_unqualified_enum(self, func, arg):
         type_ = declarations.remove_reference(declarations.remove_cv(arg.type))
         enum_type = declarations.enum_declaration(type_)
         return self.__join_names(
             enum_type.parent.decl_string,
-            arg.default_value)
+            arg.default_value.split('::')[-1])
 
     def __is_invalid_integral(self, func, arg):
         type_ = declarations.remove_reference(declarations.remove_cv(arg.type))
@@ -104,6 +107,27 @@ class default_argument_patcher_t(object):
                                        arg.default_value))
             else:
                 parent = parent.parent
+
+        # check if we have an unqualified integral constant
+        # only do patching in cases where we have a bare variable name
+        c_var = re.compile("[a-z_][a-z0-9_]*", re.IGNORECASE)
+        m = c_var.match(arg.default_value)
+        if m:
+            parent = func.parent
+            while parent:
+                try:
+                    found = parent.variable(arg.default_value,
+                                            recursive=False)
+                except declarations.matcher.declaration_not_found_t:
+                    # ignore exceptions if a match is not found
+                    found = None
+                if found:
+                    if declarations.is_fundamental(arg.type):
+                        return "%s" % self.__join_names(
+                                        found.parent.decl_string,
+                                        arg.default_value)
+                parent = parent.parent
+
         return arg.default_value
 
     def __find_enum(self, scope, default_value):
@@ -139,7 +163,7 @@ class default_argument_patcher_t(object):
         return call_invocation.join(dv[:found1[0]], args2)
 
     def __is_constructor_call(self, func, arg):
-        # if '0.9' in func.compiler:
+        # if '0.9' in utils.xml_generator:
         #    return False
         call_invocation = declarations.call_invocation
         dv = arg.default_value
@@ -150,9 +174,10 @@ class default_argument_patcher_t(object):
         if not isinstance(base_type, declarations.declarated_t):
             return False
         decl = base_type.declaration
-        return decl.name == name \
-            or (isinstance(decl, declarations.class_t)
-                and name in [typedef.name for typedef in decl.aliases])
+        return (
+            decl.name == name or
+            (isinstance(decl, declarations.class_t) and
+                name in [typedef.name for typedef in decl.aliases]))
 
     def __fix_constructor_call(self, func, arg):
         call_invocation = declarations.call_invocation
