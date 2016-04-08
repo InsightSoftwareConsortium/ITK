@@ -23,7 +23,6 @@ namespace itk
 namespace fem
 {
 
-// Overload the CreateAnother() method.
 ::itk::LightObject::Pointer LoadPoint::CreateAnother(void) const
 {
   ::itk::LightObject::Pointer smartPtr;
@@ -58,7 +57,6 @@ vnl_vector<itk::fem::Element::Float> LoadPoint::GetForce()
   return this->m_ForcePoint;
 }
 
-/* Method modified from the Landmark Load version */
 void LoadPoint::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe)
 {
   const unsigned int NnDOF = element->GetNumberOfDegreesOfFreedomPerNode();

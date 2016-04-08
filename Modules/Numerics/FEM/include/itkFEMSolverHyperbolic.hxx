@@ -41,11 +41,11 @@ void
 SolverHyperbolic<VDimension>
 ::InitializeLinearSystemWrapper(void)
 {
-  // set the maximum number of matrices and vectors that
+  // Set the maximum number of matrices and vectors that
   // we will need to store inside.
-  this->m_ls->SetNumberOfMatrices(5);
-  this->m_ls->SetNumberOfVectors(6);
-  this->m_ls->SetNumberOfSolutions(3);
+  this->m_LinearSystem->SetNumberOfMatrices(5);
+  this->m_LinearSystem->SetNumberOfVectors(6);
+  this->m_LinearSystem->SetNumberOfSolutions(3);
 }
 
 template <unsigned int VDimension>
@@ -62,10 +62,10 @@ SolverHyperbolic<VDimension>
   // ... same for number of DOF
   int Ne=e->GetNumberOfDegreesOfFreedom();
 
-  // step over all rows in element matrix
+  // Step over all rows in element matrix
   for(int j=0; j<Ne; j++)
     {
-    // step over all columns in element matrix
+    // Step over all columns in element matrix
     for(int k=0; k<Ne; k++)
       {
       // error checking. all GFN should be =>0 and <NGFN
@@ -75,19 +75,19 @@ SolverHyperbolic<VDimension>
         throw FEMExceptionSolution(__FILE__,__LINE__,"Solver::AssembleElementMatrix()","Illegal GFN!");
         }
 
-      /**
-       * Here we finally update the corresponding element
-       * in the master stiffness matrix. We first check if
-       * element in Ke is zero, to prevent zeros from being
-       * allocated in sparse matrix.
-       */
+      //
+      // Here we finally update the corresponding element
+      // in the master stiffness matrix. We first check if
+      // element in Ke is zero, to prevent zeros from being
+      // allocated in sparse matrix.
+      //
       if ( Math::NotExactlyEquals(Ke[j][k],Float(0.0)) )
         {
-        this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k], matrix_K );
+        this->m_LinearSystem->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Ke[j][k], matrix_K );
         }
       if ( Math::NotExactlyEquals(Me[j][k],Float(0.0)) )
         {
-        this->m_ls->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Me[j][k], matrix_M );
+        this->m_LinearSystem->AddMatrixValue( e->GetDegreeOfFreedom(j), e->GetDegreeOfFreedom(k), Me[j][k], matrix_M );
         }
       }
     }
@@ -99,14 +99,14 @@ void
 SolverHyperbolic<VDimension>
 ::InitializeMatrixForAssembly(unsigned int N)
 {
-  this->m_ls->SetSystemOrder(N);
-  this->m_ls->InitializeMatrix();
-  this->m_ls->InitializeMatrix(matrix_K);
-  this->m_ls->InitializeMatrix(matrix_M);
-  this->m_ls->InitializeMatrix(matrix_C);
+  this->m_LinearSystem->SetSystemOrder(N);
+  this->m_LinearSystem->InitializeMatrix();
+  this->m_LinearSystem->InitializeMatrix(matrix_K);
+  this->m_LinearSystem->InitializeMatrix(matrix_M);
+  this->m_LinearSystem->InitializeMatrix(matrix_C);
   for(unsigned int i=0; i<N; i++)
     {
-    this->m_ls->SetMatrixValue(i,i,1.0,matrix_C);
+    this->m_LinearSystem->SetMatrixValue(i,i,1.0,matrix_C);
     }
 }
 
@@ -123,31 +123,31 @@ SolverHyperbolic<VDimension>
   // Calculate initial values of vector_a
   // M*a0=F - C*v0 - K*d0
   // FIXME: take into account the d0 and v0.
-  this->m_ls->InitializeSolution(0);
-  this->m_ls->InitializeSolution(solution_a);
+  this->m_LinearSystem->InitializeSolution(0);
+  this->m_LinearSystem->InitializeSolution(solution_a);
 
-  this->m_ls->CopyMatrix(matrix_M,0);
+  this->m_LinearSystem->CopyMatrix(matrix_M,0);
   this->AssembleF();
-  this->m_ls->Solve();
-  this->m_ls->InitializeVector(vector_tmp);
-  this->m_ls->CopySolution2Vector(0,vector_tmp);
-  this->m_ls->InitializeSolution(solution_a);
-  this->m_ls->CopyVector2Solution(vector_tmp,solution_a);
-  this->m_ls->DestroyVector(vector_tmp);
+  this->m_LinearSystem->Solve();
+  this->m_LinearSystem->InitializeVector(vector_tmp);
+  this->m_LinearSystem->CopySolution2Vector(0,vector_tmp);
+  this->m_LinearSystem->InitializeSolution(solution_a);
+  this->m_LinearSystem->CopyVector2Solution(vector_tmp,solution_a);
+  this->m_LinearSystem->DestroyVector(vector_tmp);
 
-  this->m_ls->InitializeSolution(solution_d);
-  this->m_ls->InitializeSolution(solution_v);
+  this->m_LinearSystem->InitializeSolution(solution_d);
+  this->m_LinearSystem->InitializeSolution(solution_v);
 
   // Compose the lhs of system of lin. eq.
-  this->m_ls->InitializeMatrix(matrix_tmp);
-  this->m_ls->CopyMatrix(matrix_C,matrix_tmp);
-  this->m_ls->ScaleMatrix(this->m_Gamma*this->m_TimeStep, matrix_tmp);
-  this->m_ls->AddMatrixMatrix(0,matrix_tmp);
+  this->m_LinearSystem->InitializeMatrix(matrix_tmp);
+  this->m_LinearSystem->CopyMatrix(matrix_C,matrix_tmp);
+  this->m_LinearSystem->ScaleMatrix(this->m_Gamma*this->m_TimeStep, matrix_tmp);
+  this->m_LinearSystem->AddMatrixMatrix(0,matrix_tmp);
 
-  this->m_ls->CopyMatrix(matrix_K,matrix_tmp);
-  this->m_ls->ScaleMatrix(this->m_Beta*this->m_TimeStep*this->m_TimeStep, matrix_tmp);
-  this->m_ls->AddMatrixMatrix(0,matrix_tmp);
-  this->m_ls->DestroyMatrix(matrix_tmp);
+  this->m_LinearSystem->CopyMatrix(matrix_K,matrix_tmp);
+  this->m_LinearSystem->ScaleMatrix(this->m_Beta*this->m_TimeStep*this->m_TimeStep, matrix_tmp);
+  this->m_LinearSystem->AddMatrixMatrix(0,matrix_tmp);
+  this->m_LinearSystem->DestroyMatrix(matrix_tmp);
 }
 
 template <unsigned int VDimension>
@@ -155,58 +155,58 @@ void
 SolverHyperbolic<VDimension>
 ::Solve()
 {
-  this->m_ls->InitializeVector(vector_tmp);
-  this->m_ls->InitializeVector(vector_dhat);
-  this->m_ls->InitializeVector(vector_vhat);
-  this->m_ls->InitializeVector(vector_ahat);
+  this->m_LinearSystem->InitializeVector(vector_tmp);
+  this->m_LinearSystem->InitializeVector(vector_dhat);
+  this->m_LinearSystem->InitializeVector(vector_vhat);
+  this->m_LinearSystem->InitializeVector(vector_ahat);
 
   // We're using the Newmark method to obtain the solution
   // Assume that vectors solution_a solution_v and solution_d contain
   // solutions obtained at the previous time step.
 
   // Calculate the predictors
-  for(unsigned int i=0; i<this->m_ls->GetSystemOrder(); i++)
+  for(unsigned int i=0; i<this->m_LinearSystem->GetSystemOrder(); i++)
     {
-    Float d0=this->m_ls->GetSolutionValue(i,solution_d);
-    Float v0=this->m_ls->GetSolutionValue(i,solution_v);
-    Float a0=this->m_ls->GetSolutionValue(i,solution_a);
-    this->m_ls->SetVectorValue( i, -(d0+this->m_TimeStep*v0+0.5*this->m_TimeStep*this->m_TimeStep*(1.0-2.0*this->m_Beta)*a0), vector_dhat);
-    this->m_ls->SetVectorValue( i, -(v0+this->m_TimeStep*(1.0-this->m_Gamma)*a0), vector_vhat);
+    Float d0=this->m_LinearSystem->GetSolutionValue(i,solution_d);
+    Float v0=this->m_LinearSystem->GetSolutionValue(i,solution_v);
+    Float a0=this->m_LinearSystem->GetSolutionValue(i,solution_a);
+    this->m_LinearSystem->SetVectorValue( i, -(d0+this->m_TimeStep*v0+0.5*this->m_TimeStep*this->m_TimeStep*(1.0-2.0*this->m_Beta)*a0), vector_dhat);
+    this->m_LinearSystem->SetVectorValue( i, -(v0+this->m_TimeStep*(1.0-this->m_Gamma)*a0), vector_vhat);
     }
 
   // Calculate the rhs of master equation
-  this->m_ls->MultiplyMatrixVector(vector_tmp,matrix_C,vector_vhat);
-  this->m_ls->AddVectorVector(0,vector_tmp);
-  this->m_ls->MultiplyMatrixVector(vector_tmp,matrix_K,vector_dhat);
-  this->m_ls->AddVectorVector(0,vector_tmp);
+  this->m_LinearSystem->MultiplyMatrixVector(vector_tmp,matrix_C,vector_vhat);
+  this->m_LinearSystem->AddVectorVector(0,vector_tmp);
+  this->m_LinearSystem->MultiplyMatrixVector(vector_tmp,matrix_K,vector_dhat);
+  this->m_LinearSystem->AddVectorVector(0,vector_tmp);
 
   // Solve the system of linear equations for accelerations
-  this->m_ls->Solve();
+  this->m_LinearSystem->Solve();
 
   // move the solution for a to the correct vector
-  this->m_ls->CopySolution2Vector(0,vector_tmp);
-  this->m_ls->CopyVector2Solution(vector_tmp,solution_a);
+  this->m_LinearSystem->CopySolution2Vector(0,vector_tmp);
+  this->m_LinearSystem->CopyVector2Solution(vector_tmp,solution_a);
 
   // Calculate displacements and velocities
-  for(unsigned int i=0; i<this->m_ls->GetSystemOrder(); i++)
+  for(unsigned int i=0; i<this->m_LinearSystem->GetSystemOrder(); i++)
     {
-    Float dhat=-this->m_ls->GetVectorValue(i,vector_dhat);
-    Float vhat=-this->m_ls->GetVectorValue(i,vector_vhat);
-    Float a1=this->m_ls->GetSolutionValue(i,solution_a);
+    Float dhat=-this->m_LinearSystem->GetVectorValue(i,vector_dhat);
+    Float vhat=-this->m_LinearSystem->GetVectorValue(i,vector_vhat);
+    Float a1=this->m_LinearSystem->GetSolutionValue(i,solution_a);
 
-    this->m_ls->SetSolutionValue(i, dhat +
+    this->m_LinearSystem->SetSolutionValue(i, dhat +
                            this->m_Beta*this->m_TimeStep*this->m_TimeStep*a1
                            , solution_d);
 
-    this->m_ls->SetSolutionValue(i, vhat +
+    this->m_LinearSystem->SetSolutionValue(i, vhat +
                            this->m_Gamma*this->m_TimeStep*a1
                            , solution_v);
     }
 
-  this->m_ls->DestroyVector(vector_tmp);
-  this->m_ls->DestroyVector(vector_dhat);
-  this->m_ls->DestroyVector(vector_vhat);
-  this->m_ls->DestroyVector(vector_ahat);
+  this->m_LinearSystem->DestroyVector(vector_tmp);
+  this->m_LinearSystem->DestroyVector(vector_dhat);
+  this->m_LinearSystem->DestroyVector(vector_vhat);
+  this->m_LinearSystem->DestroyVector(vector_ahat);
 
 }
 
@@ -216,13 +216,10 @@ void
 SolverHyperbolic<VDimension>
 ::GenerateData()
 {
-  /* Call Solver */
+  // Call Solver
   this->RunSolver();
 }
 
-/**
- * Solve for the displacement vector u
- */
 template <unsigned int VDimension>
 void
 SolverHyperbolic<VDimension>
@@ -238,9 +235,6 @@ SolverHyperbolic<VDimension>
     }
 }
 
-/**
- * PrintSelf
- */
 template <unsigned int VDimension>
 void
 SolverHyperbolic<VDimension>

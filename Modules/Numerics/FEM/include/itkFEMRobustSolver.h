@@ -40,19 +40,19 @@ namespace fem
  * This solver takes a FEMObject as input and outputs a deformed FEMObject.
  *
  * \code
- *       typedef itk::fem::FEMObject<3>    FEMObjectType;
+ *       typedef itk::fem::FEMObject<3> FEMObjectType;
  *       FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
  *       ...
- *       typedef itk::fem::RobustSolver<3>    FEMSolverType;
+ *       typedef itk::fem::RobustSolver<3> FEMSolverType;
  *       FEMSolverType::Pointer solver = FEMSolverType::New();
  *
  *       solver->SetInput( fem );
- *       solver->Update( );
- *       FEMSolverType::Pointer defem = solver->GetOutput( );
+ *       solver->Update();
+ *       FEMSolverType::Pointer defem = solver->GetOutput();
  *   ...
  * \endcode
  *
- * For the purpose of easy-of-use, a FEMScatteredDataPointSetToImageFilter is
+ * For simplicity reasons, a FEMScatteredDataPointSetToImageFilter is
  * developed to facilitate the use of this solver by hiding the details about
  * the FEMObject.
  * FEMScatteredDataPointSetToImageFilter takes a mesh and a feature point set as
@@ -174,14 +174,10 @@ protected:
    * the registration. */
   virtual void GenerateData() ITK_OVERRIDE;
 
-  /**
-   * Run the solver and produce a warped FEM object
-   */
+  /** Run the solver and produce a warped FEM object. */
   virtual void RunSolver(void) ITK_OVERRIDE;
 
-  /**
-   * Initialize matrix, vector, solution, interpolation grid, and landmark.
-   */
+  /** Initialize matrix, vector, solution, interpolation grid, and landmark. */
   void Initialization();
 
   /**
@@ -216,14 +212,10 @@ protected:
    */
   void AssembleLandmarkStiffnessMatrix();
 
-  /**
-   * Add global stiffness matrix with landmark stiffness matrix
-   */
+  /** Add global stiffness matrix with landmark stiffness matrix. */
   void AssembleGlobalMatrixFromLandmarksAndMeshMatrices();
 
-  /**
-  * Assemble right side F vector based on the landmarks
-  */
+  /** Assemble right side F vector based on the landmarks. */
   void AssembleF();
 
   /**
@@ -238,9 +230,7 @@ protected:
    */
   void IncrementalSolverWithoutOutlierRejection();
 
-  /**
-   * Solve LS
-   */
+  /** Solve LS. */
   void SolveSystem();
 
   /**
@@ -256,9 +246,7 @@ protected:
    */
   void ComputeLandmarkTensor();
 
-  /**
-   * Get scaling factor
-   */
+  /** Get scaling factor. */
   float GetLandmarkTensorPonderation() const;
 
   /**
@@ -288,9 +276,7 @@ protected:
    */
   void DeleteFromLandmarkBeginning(unsigned int numberOfRejectedLandmarksPerStep);
 
-  /**
-   * Delete landmarks whose coordinates land outside of the mesh.
-   */
+  /** Delete landmarks whose coordinates land outside of the mesh. */
   void DeleteLandmarksOutOfMesh();
 
   /**
@@ -331,9 +317,7 @@ private:
   unsigned int m_ApproximationSteps;
 
 
-  /**
-   * This type represents the index of the vector and matrix.
-   */
+  /** Represents the index of the vector and matrix. */
   typedef unsigned int FEMIndexType;
 
   FEMIndexType m_ForceIndex;
@@ -380,9 +364,8 @@ public:
     }
 };
 
-}
-
-}  // end namespace itk::fem
+}  // end namespace fem
+}  // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFEMRobustSolver.hxx"

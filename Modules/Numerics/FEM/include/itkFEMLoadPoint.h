@@ -52,50 +52,37 @@ public:
    * including its internal member variables. */
   virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
-  /**
-   * Default constructor
-   */
+  /** Default constructor. */
   LoadPoint() :
     m_Point(2), m_ForcePoint(2)
   {
-    /** Default Initialization of 2D point and force vector */
+    // Default initialization of 2D point and force vector
   }
 
-/**
-   * Set the point where the load acts
-   */
+  /** Set the point where the load acts. */
   void SetPoint(const vnl_vector<Float> p);
 
-  /**
-   * Get the point where the load acts
-   */
+  /** Get the point where the load acts. */
   vnl_vector<Float> GetPoint();
 
-/**
-   * Set the force vector
-   */
+  /** Set the force vector. */
   void SetForce(const vnl_vector<Float> f);
 
-  /**
-   * Get the force vector
-   */
+  /** Get the force vector. */
   vnl_vector<Float> GetForce();
 
-  /** Apply the load to the specified element */
+  /** Apply the load to the specified element.
+  * Modified version from the one in itk::fem::LoadLandmark. */
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
 
 protected:
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
-  /**
-  * Point of which the load acts in global coord. sys.
-  */
+  /** Point of which the load acts in global the coordinate system. */
   vnl_vector<Float> m_Point;
 
-  /**
-   * the actual load vector
-   */
+  /** The actual load vector. */
   vnl_vector<Float> m_ForcePoint;
 
 };

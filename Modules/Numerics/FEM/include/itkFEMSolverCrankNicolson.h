@@ -84,15 +84,11 @@ public:
 
   typedef Element::Float Float;
 
-  /**
-   * Get/Set the use of the Mass Matrix for the solution
-   */
+  /** Get/Set the use of the Mass Matrix for the solution. */
   itkSetMacro(UseMassMatrix, bool);
   itkGetMacro(UseMassMatrix, bool);
 
-  /**
-   * Get the number of iterations run for the solver
-   */
+  /** Get the number of iterations run for the solver. */
   itkGetConstMacro(Iterations, unsigned int);
 
   /**
@@ -108,7 +104,7 @@ public:
 
   /**
    * Add solution vector u to the corresponding nodal values, which are
-   * stored in node objects). This is standard post processing of the solution
+   * stored in node objects. This is standard post processing of the solution
    */
   void AddToDisplacements(Float optimum = 1.0);
 
@@ -120,13 +116,13 @@ public:
 
   void PrintForce();
 
-  /** Get the index for the current solution */
+  /** Get the index for the current solution. */
   itkGetMacro(TotalSolutionIndex, unsigned int);
 
-  /** Get the index for the previous solution */
+  /** Get the index for the previous solution. */
   itkGetMacro(SolutionTMinus1Index, unsigned int);
 
-  /** Set stability step for the solution.  Initialized to 0.5 */
+  /** Set stability step for the solution. Initialized to 0.5. */
   itkSetMacro(Alpha, Float);
   itkGetMacro(Alpha, Float);
 
@@ -150,14 +146,13 @@ public:
     m_TimeStep = dt;
   }
 
-  /** compute the current state of the right hand side and store the current force
-   *  for the next iteration.
+  /** Compute the current state of the right hand side and store the current force
+   * for the next iteration.
    */
   void RecomputeForceVector(unsigned int index);
 
-
-  /* Finds a triplet that brackets the energy minimum.  From Numerical
-    Recipes.*/
+  /** Finds a triplet that brackets the energy minimum. From Numerical
+  * Recipes.*/
   void FindBracketingTriplet(Float *a, Float *b, Float *c);
 
   /** Finds the optimum value between the last two solutions
@@ -183,9 +178,9 @@ public:
 
   void SetEnergyToMin(Float xmin);
 
-  inline LinearSystemWrapper * GetLS()
+  inline LinearSystemWrapper * GetLinearSystem()
   {
-    return this->m_ls;
+    return this->m_LinearSystem;
   }
 
   Float GetCurrentMaxSolution()
@@ -194,17 +189,21 @@ public:
   }
 
   /** Compute and print the minimum and maximum of the total solution
-   * and the last solution. */
+   * and the last solution values. */
   void PrintMinMaxOfSolution();
 
 protected:
 
+  /**
+  * Default constructor. Sets the indices for the matrix and vector storage.
+  * Time step and other parameters are also initialized.
+  */
   SolverCrankNicolson();
   ~SolverCrankNicolson() { }
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  void  GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /**
    * Solve for the displacement vector u at a given time.  Update the total solution as well.
@@ -212,13 +211,14 @@ protected:
   virtual void RunSolver(void) ITK_OVERRIDE;
 
   /**
-   * helper initialization function before assembly but after generate GFN.
+   * Helper initialization function before assembly but after generate GFN.
    */
   void InitializeForSolution();
 
   /**
-   * Assemble the master stiffness and mass matrix.  We actually assemble
+   * Assemble the master stiffness and mass matrix. We actually assemble
    * the right hand side and left hand side of the implicit scheme equation.
+   * MFCs are applied to K.
    */
   void AssembleKandM();
 
