@@ -69,17 +69,19 @@ public:
   /** Standard part of every itk Object. */
   itkTypeMacro(Version, Object);
 
-  /** Return the version of itk this object is a part of.
-   * A variety of methods are included. GetITKSourceVersion returns a string
-   * with an identifier which timestamps a particular source tree.  */
+  /** Return the version of itk this object is a part of. */
   static const char * GetITKVersion();
 
+  /** Get the itk major version. */
   static int GetITKMajorVersion();
 
+  /** Get the itk minor version. */
   static int GetITKMinorVersion();
 
+  /** Get the itk build version. */
   static int GetITKBuildVersion();
 
+  /** Get a string with an identifier which timestamps a particular source tree. */
   static const char * GetITKSourceVersion();
 
 protected:

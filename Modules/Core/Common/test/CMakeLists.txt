@@ -101,6 +101,7 @@ itkNumberToStringTest.cxx
 itkTimeProbeTest.cxx
 itkTimeProbeTest2.cxx
 itkStdStreamStateSaveTest.cxx
+itkVersionTest.cxx
 VNLSparseLUSolverTraitsTest.cxx
 )
 
@@ -201,6 +202,8 @@ add_executable(itkSystemInformation itkSystemInformation.cxx)
 itk_module_target_label(itkSystemInformation)
 target_link_libraries(itkSystemInformation LINK_PUBLIC ${ITKCommon_LIBRARIES})
 itk_add_test(NAME SystemInformation COMMAND itkSystemInformation)
+
+itk_add_test(NAME itkVersionTest COMMAND ITKCommon1TestDriver itkVersionTest)
 
 if(ITK_BUILD_SHARED_LIBS)
   ## Create a library to test ITK loadable factories
