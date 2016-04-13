@@ -299,7 +299,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
       }
 
     // Compute upwind finite differences
-    if ( std::max(dx_backward, -dx_forward) < ZERO )
+    if ( std::max<LevelSetPixelType>(dx_backward, -dx_forward) < ZERO )
       {
       gradientPixel[j] = ZERO;
       }
