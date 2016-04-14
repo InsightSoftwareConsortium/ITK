@@ -164,7 +164,7 @@ typename RingBuffer< TElement >::SizeValueType
 RingBuffer< TElement >
 ::GetNumberOfBuffers()
 {
-  return this->m_PointerVector.size();
+  return static_cast<typename RingBuffer< TElement >::SizeValueType>(this->m_PointerVector.size());
 }
 
 

@@ -121,7 +121,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   TOutputImage * output = this->GetOutput();
   const TInputImage * input = this->GetInput();
 
-  const SizeValueType nbOfThreads = this->m_NumberOfLabels.size();
+  const SizeValueType nbOfThreads = static_cast<const SizeValueType>( this->m_NumberOfLabels.size() );
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;

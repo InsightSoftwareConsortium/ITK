@@ -318,8 +318,8 @@ void NrrdImageIO::ReadImageInformation()
     else if ( 1 == rangeAxisNum )
       {
       this->SetNumberOfDimensions(nrrd->dim - 1);
-      unsigned int kind = nrrd->axis[rangeAxisIdx[0]].kind;
-      unsigned int size = nrrd->axis[rangeAxisIdx[0]].size;
+      int kind = nrrd->axis[rangeAxisIdx[0]].kind;
+      size_t size = nrrd->axis[rangeAxisIdx[0]].size;
       // NOTE: it is the NRRD readers responsibility to make sure that
       // the size (#of components) associated with a specific kind is
       // matches the actual size of the axis.
@@ -419,7 +419,7 @@ void NrrdImageIO::ReadImageInformation()
     for ( unsigned int axii = 0; axii < domainAxisNum; axii++ )
       {
       unsigned int naxi = domainAxisIdx[axii];
-      this->SetDimensions(axii, nrrd->axis[naxi].size);
+      this->SetDimensions(axii, static_cast<unsigned int>( nrrd->axis[naxi].size ) );
       spacingStatus = nrrdSpacingCalculate(nrrd, naxi, &spacing, spaceDir);
 
       switch ( spacingStatus )

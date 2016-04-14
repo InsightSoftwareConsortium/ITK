@@ -72,7 +72,7 @@ MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::AddLayer(LayerInterfaceType* layer)
 {
   //Automatically set the layer Id based on position in the layer vector.
-  layer->SetLayerId(m_Layers.size());
+  layer->SetLayerId(static_cast<const unsigned int>( m_Layers.size()));
   m_Layers.push_back(layer);
 //#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
 #ifdef __USE_OLD_INTERFACE
@@ -125,7 +125,7 @@ void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::BackwardPropagate(NetworkOutputType errors)
 {
-  unsigned int i = this->m_Layers.size();
+  size_t i = this->m_Layers.size();
   i--;
   this->m_Layers[i]->BackwardPropagate(errors);
   i--;
@@ -141,8 +141,8 @@ void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::InitializeWeights()
 {
-  unsigned int num_wts = this->m_Weights.size();
-  for(unsigned int i=0; i<num_wts; i++)
+  size_t numberOfWeights = this->m_Weights.size();
+  for(unsigned int i=0; i<numberOfWeights; i++)
     {
     this->m_Weights[i]->InitializeWeights();
     }
@@ -153,7 +153,7 @@ void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::UpdateWeights(ValueType itkNotUsed(lr))
 {
-  unsigned int i = this->m_Layers.size();
+  size_t i = this->m_Layers.size();
   while(i>1)
     {
     i--;
@@ -167,7 +167,7 @@ void
 MultilayerNeuralNetworkBase<TMeasurementVector,TTargetVector,TLearningLayer>
 ::AddWeightSet(typename LayerInterfaceType::WeightSetInterfaceType* weightset)
 {
-  weightset->SetWeightSetId(m_Weights.size());
+  weightset->SetWeightSetId(static_cast<unsigned int>( m_Weights.size() ) );
   m_Weights.push_back(weightset);
   //#define __USE_OLD_INTERFACE  Comment out to ensure that new interface works
 #ifdef __USE_OLD_INTERFACE

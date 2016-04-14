@@ -66,7 +66,7 @@ itk::SizeValueType
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
 ::GetNumberOfMetrics() const
 {
-  return this->m_MetricQueue.size();
+  return static_cast<itk::SizeValueType>( this->m_MetricQueue.size() );
 }
 
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
@@ -159,10 +159,10 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
       SizeValueType count = 0;
       for( size_t n = 0; n < composite->GetNumberOfTransforms(); n++ )
         {
-        if( composite->GetNthTransformToOptimize( n ) )
+        if( composite->GetNthTransformToOptimize( static_cast<SizeValueType>( n ) ) )
           {
           count++;
-          transform = composite->GetNthTransformConstPointer( n );
+          transform = composite->GetNthTransformConstPointer(static_cast<SizeValueType>( n ) );
           }
         }
       if( count != 1 )

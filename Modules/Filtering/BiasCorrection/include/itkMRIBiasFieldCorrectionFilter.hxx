@@ -622,7 +622,9 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
   bool                          cleanCoeffs = false;
   BiasFieldType::DomainSizeType biasSize;
   this->GetBiasFieldSize(region, biasSize);
-  BiasFieldType bias(biasSize.size(), degree, biasSize);
+  BiasFieldType bias(static_cast<unsigned int>( biasSize.size() ),
+                     degree,
+                     biasSize);
 
   /*
   std::cout << "New bias field being computed = "
@@ -868,7 +870,9 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
   BiasFieldType::DomainSizeType biasSize;
   this->GetBiasFieldSize(*iter, biasSize);
-  BiasFieldType bias(biasSize.size(), m_BiasFieldDegree, biasSize);
+  BiasFieldType bias(static_cast<unsigned int> ( biasSize.size() ),
+                     m_BiasFieldDegree,
+                     biasSize);
 
   int                   nCoef = bias.GetNumberOfCoefficients();
   std::vector< double > lastBiasCoef;

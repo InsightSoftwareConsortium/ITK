@@ -72,9 +72,9 @@ NaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
     }
 
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
-  const unsigned int numberOfValidInputImages = inputItrVector.size();
+  const unsigned int numberOfValidInputImages = static_cast<const unsigned int>( inputItrVector.size() );
 
   if ( numberOfValidInputImages == 0 )
     {

@@ -196,7 +196,7 @@ ImageClassifierFilter< TSample, TInputImage, TOutputImage >
       }
 
     unsigned int classIndex;
-    classIndex = m_DecisionRule->Evaluate(discriminantScores);
+    classIndex = static_cast<unsigned int>( m_DecisionRule->Evaluate(discriminantScores) );
 
     OutputPixelType value = static_cast< OutputPixelType >( classLabels[classIndex] );
     outItr.Set(value);

@@ -167,7 +167,7 @@ MetaSurfaceConverter< NDimensions >
     {
     surfaceMO->ParentID( surfaceSO->GetParent()->GetId() );
     }
-  surfaceMO->NPoints( surfaceMO->GetPoints().size() );
+  surfaceMO->NPoints(static_cast<int>( surfaceMO->GetPoints().size() ) );
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {

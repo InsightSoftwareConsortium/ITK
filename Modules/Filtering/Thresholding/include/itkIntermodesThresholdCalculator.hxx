@@ -145,7 +145,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
         }
       }
     }
-  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( tt, 0 ) ) );
+  this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( static_cast<InstanceIdentifier>( tt ), 0 ) ) );
 }
 
 template<typename THistogram, typename TOutput>

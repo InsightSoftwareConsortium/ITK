@@ -719,7 +719,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    * set, less the cell through which the request was made.
    */
   currentCells->erase(cellId);
-  CellIdentifier numberOfNeighboringCells = currentCells->size();
+  CellIdentifier numberOfNeighboringCells = static_cast<CellIdentifier>( currentCells->size() );
   if ( cellSet != ITK_NULLPTR )
     {
     *cellSet = *currentCells;
@@ -868,7 +868,7 @@ Mesh< TPixelType, VDimension, TMeshTraits >
    * the original cell determined by cellId.  We simply need to copy
    * this set to the output cell set.
    */
-  CellIdentifier numberOfNeighboringCells = currentCells->size();
+  CellIdentifier numberOfNeighboringCells = static_cast<CellIdentifier>( currentCells->size() );
   if ( cellSet != ITK_NULLPTR )
     {
     *cellSet = *currentCells;

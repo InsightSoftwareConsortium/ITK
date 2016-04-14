@@ -124,7 +124,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   biasSize[0] = imageSize[0];
   biasSize[1] = imageSize[1];
   biasSize[2] = imageSize[2];
-  BiasFieldType bias(biasSize.size(),
+  BiasFieldType bias(static_cast<unsigned int> ( biasSize.size() ),
                      biasDegree, // bias field degree
                      biasSize);
 

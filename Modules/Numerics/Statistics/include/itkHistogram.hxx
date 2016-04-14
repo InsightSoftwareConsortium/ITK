@@ -282,9 +282,9 @@ bool Histogram< TMeasurement, TFrequencyContainer >
     index.SetSize( this->GetMeasurementVectorSize() );
     }
 
-  int begin;
-  int mid;
-  int end;
+  IndexValueType begin;
+  IndexValueType mid;
+  IndexValueType end;
 
   MeasurementType median;
   MeasurementType tempMeasurement;
@@ -309,7 +309,7 @@ bool Histogram< TMeasurement, TFrequencyContainer >
         }
       }
 
-    end = m_Min[dim].size() - 1;
+    end = static_cast<IndexValueType>( m_Min[dim].size() ) - 1;
     if ( tempMeasurement >= m_Max[dim][end] )
       {
       // one of measurement is above the maximum

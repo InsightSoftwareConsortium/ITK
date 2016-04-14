@@ -107,14 +107,14 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
     // Possible byte swap so we always calculate on little endian data
     if ( Swapper::SystemIsBigEndian() )
       {
-      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, numberOfValues );
+      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, static_cast<typename Swapper::BufferSizeType> ( numberOfValues ) );
       }
 
-    itksysMD5_Append( md5, (unsigned char*)buffer, numberOfValues*sizeof(ValueType) );
+    itksysMD5_Append( md5, (unsigned char*)buffer, static_cast<int>( numberOfValues*sizeof(ValueType) ) );
 
     if ( Swapper::SystemIsBigEndian() )
       {
-      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, numberOfValues );
+      Swapper::SwapRangeFromSystemToLittleEndian ( buffer, static_cast<typename Swapper::BufferSizeType> ( numberOfValues ) );
       }
 
     ////////

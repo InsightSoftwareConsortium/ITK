@@ -89,7 +89,7 @@ DOMNodeXMLReader::Update( std::istream& is )
   XML_SetCharacterDataHandler( parser, &itkXMLParserCharacterDataHandler );
   XML_SetUserData( parser, this );
 
-  bool ok = XML_Parse( parser, s.data(), s.size(), false );
+  bool ok = XML_Parse( parser, s.data(), static_cast<int>( s.size() ), false );
   if ( !ok )
     {
     ExceptionObject e( __FILE__, __LINE__ );

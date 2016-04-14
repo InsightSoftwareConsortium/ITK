@@ -167,7 +167,7 @@ UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 
   this->CallCopyOutputRegionToInputRegion(inputRegionForThread, outputRegionForThread);
 
-  const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
+  const SizeValueType numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
   ProgressReporter progress( this, threadId, numberOfLinesToProcess );
 
   // Define the iterators

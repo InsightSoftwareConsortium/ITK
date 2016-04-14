@@ -141,8 +141,8 @@ PipelineMonitorImageFilter<TImageType>
   // to match the requested region at the end of propagation
   //
   bool ret = true;
-  unsigned int i = m_UpdatedBufferedRegions.size();
-  unsigned int j = m_InputRequestedRegions.size();
+  size_t i = m_UpdatedBufferedRegions.size();
+  size_t j = m_InputRequestedRegions.size();
 
   while(i != 0 && j != 0)
     {

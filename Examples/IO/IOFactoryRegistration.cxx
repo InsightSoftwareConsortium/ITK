@@ -25,7 +25,7 @@ int main()
 {
   std::list<itk::ObjectFactoryBase *> factories =
     itk::ObjectFactoryBase::GetRegisteredFactories();
-  const unsigned int numFactories = factories.size();
+  const std::size_t numFactories = factories.size();
 
   std::cout << numFactories << " Image IO factories registered:" << std::endl;
 

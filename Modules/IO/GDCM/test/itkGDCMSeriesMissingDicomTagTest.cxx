@@ -60,7 +60,7 @@ int itkGDCMSeriesMissingDicomTagTest( int argc, char* argv[] )
   ReaderType::Pointer reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
-  const unsigned int numberOfFileNames =  fileNames.size();
+  const size_t numberOfFileNames = fileNames.size();
   std::cout << numberOfFileNames << std::endl;
   for(unsigned int fni = 0; fni < numberOfFileNames; ++fni)
     {
@@ -85,7 +85,7 @@ int itkGDCMSeriesMissingDicomTagTest( int argc, char* argv[] )
 
   ReaderType::DictionaryArrayRawPointer dictArray =
     reader->GetMetaDataDictionaryArray();
-  unsigned dictSize = dictArray->size();
+  unsigned dictSize = static_cast<unsigned>( dictArray->size() );
   if(dictSize != 2)
     {
     std::cerr << "Expected 2 elements in MetaDataDictionary array, found "

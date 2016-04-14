@@ -846,7 +846,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 ::ResolveRiemannianMinMax()
 {
-  const unsigned int numThreads = m_ThreadData.size();
+  const size_t numThreads = m_ThreadData.size();
 
   m_ImageMin.Fill(NumericTraits<PixelValueType>::max() );
   m_ImageMax.Fill(NumericTraits<PixelValueType>::min() );
@@ -1406,7 +1406,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   m_Sampler->SetSample(m_SearchSpaceList);
 
   // re-initialize thread data struct, especially validity flags
-  const unsigned int structSize = m_ThreadData.size();
+  const size_t structSize = m_ThreadData.size();
   for (unsigned int thread = 0; thread < structSize; ++thread)
     {
     // reset entropy derivatives that are used to compute optimal sigma
@@ -1959,7 +1959,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     const RealValueType kernelSigma = m_KernelBandwidthSigma[ic];
     RealValueType       firstDerivative = 0;
     RealValueType       secondDerivative = 0;
-    const unsigned int  numThreads = m_ThreadData.size();
+    const size_t numThreads = m_ThreadData.size();
     for (unsigned int threadNum = 0; threadNum < numThreads; ++threadNum)
       {
       if (m_ThreadData[threadNum].validDerivatives[ic] > 0)

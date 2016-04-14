@@ -245,7 +245,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
         {
         // Create a Line Spatial Object
         CirclePointer Circle = CircleType::New();
-        Circle->SetId(circles);
+        Circle->SetId(static_cast<int>( circles ));
         Circle->SetRadius( m_RadiusImage->GetPixel( it_input.GetIndex() ) );
 
         CircleType::VectorType center;

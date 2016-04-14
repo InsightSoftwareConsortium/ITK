@@ -55,7 +55,7 @@ QuadEdgeMeshTopologyChecker< TMesh >
   // Number of Boundaries
   typename BoundaryEdges::OutputType
   listOfBoundaries = boundaryEdges->Evaluate( ( *m_Mesh ) );
-  CellIdentifier numBounds = listOfBoundaries->size();
+  CellIdentifier numBounds = static_cast<CellIdentifier>( listOfBoundaries->size() );
   delete listOfBoundaries;
 
   /**

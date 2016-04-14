@@ -46,7 +46,9 @@ public:
   { m_Files.clear(); }
 
   unsigned int GetNumberOfFiles() const
-  { return m_Files.size(); }
+  {
+    return static_cast<unsigned int>( m_Files.size() );
+  }
 
   virtual double GetSensitivity( unsigned int ) = 0;
   virtual double GetSpecificity( unsigned int ) = 0;
@@ -108,13 +110,13 @@ private:
 template< unsigned int VDimension >
 int Stapler<VDimension>::Execute()
 {
-  int i;
+  size_t i;
 
   typename itk::ImageFileReader<InputImageType>::Pointer  reader;
   typename itk::ImageFileWriter<OutputImageType>::Pointer writer
     = itk::ImageFileWriter<OutputImageType>::New();
 
-  int number_of_files = m_Files.size();
+  size_t number_of_files = m_Files.size();
 
   // Set the inputs
   for (i = 0; i < number_of_files; i++)
@@ -124,7 +126,7 @@ int Stapler<VDimension>::Execute()
       reader = itk::ImageFileReader<InputImageType>::New();
       reader->SetFileName( m_Files[i].c_str() );
       reader->Update();
-      m_Stapler->SetInput(i, reader->GetOutput());
+      m_Stapler->SetInput(itk::Math::CastWithRangeCheck<unsigned int>(i), reader->GetOutput());
       }
     catch (itk::ExceptionObject &e)
       {

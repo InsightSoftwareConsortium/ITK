@@ -808,7 +808,7 @@ CompositeTransform<TParametersValueType, NDimensions>
         const size_t parameterSize = (*it)->GetParameters().Size();
         (*it)->CopyInParameters(&(inputParameters.data_block() )[offset],
                                 &(inputParameters.data_block() )[offset]+parameterSize );
-        offset += parameterSize;
+        offset += static_cast<NumberOfParametersType>(parameterSize);
         }
 
       }
@@ -876,7 +876,7 @@ CompositeTransform<TParametersValueType, NDimensions>
     const size_t fixedParameterSize=(*it)->GetFixedParameters().Size();
     (*it)->CopyInFixedParameters(&(this->m_FixedParameters.data_block() )[offset],
               &(this->m_FixedParameters.data_block() )[offset]+fixedParameterSize);
-    offset += fixedParameterSize;
+    offset += static_cast<NumberOfParametersType>(fixedParameterSize);
     }
   while( it != transforms.begin() );
 }
@@ -1029,9 +1029,9 @@ CompositeTransform<TParametersValueType, NDimensions>
     for( size_t n = 0; n < this->m_TransformQueue.size(); n++ )
       {
       /* Return them in the same order as they're found in the main list */
-      if( this->GetNthTransformToOptimize( n ) )
+      if( this->GetNthTransformToOptimize(static_cast<SizeValueType>( n ) ) )
         {
-        this->m_TransformsToOptimizeQueue.push_back( this->GetNthTransformModifiablePointer(n) );
+        this->m_TransformsToOptimizeQueue.push_back( this->GetNthTransformModifiablePointer(static_cast<SizeValueType>( n ) ) );
         }
       }
     this->m_PreviousTransformsToOptimizeUpdateTime = this->GetMTime();

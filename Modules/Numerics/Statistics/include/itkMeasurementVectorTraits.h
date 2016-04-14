@@ -365,7 +365,7 @@ public:
       }
     else if ( l == 0 )
       {
-      return a.size();
+      return static_cast<MeasurementVectorLength>( a.size() );
       }
     return 0;
   }

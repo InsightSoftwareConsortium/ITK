@@ -55,7 +55,7 @@ MembershipSample< TSample >
   if ( classIndex == -1 )
     {
     m_UniqueClassLabels.push_back(classLabel);
-    classIndex = m_UniqueClassLabels.size() - 1;
+    classIndex = static_cast<int>( m_UniqueClassLabels.size() ) - 1;
     }
 
   ( m_ClassSamples[classIndex] )->AddInstance(id);

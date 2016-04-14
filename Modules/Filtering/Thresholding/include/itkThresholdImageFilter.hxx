@@ -157,7 +157,7 @@ ThresholdImageFilter< TImage >
 
   // support progress methods/callbacks
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+  ProgressReporter progress( this, threadId, static_cast<SizeValueType>(  numberOfLinesToProcess ) );
 
   // walk the regions, threshold each pixel
   while ( !outIt.IsAtEnd() )

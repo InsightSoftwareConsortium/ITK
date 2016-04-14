@@ -186,7 +186,7 @@ private:
     b_it.GoToBegin();
 
     TPixel zero_value = NumericTraits< TPixel >::ZeroValue();
-    size_t NumberOfPoints = 0;
+    typename NodeContainer::ElementIdentifier NumberOfPoints = 0;
 
     NodeType node;
     node.SetValue( 0. );

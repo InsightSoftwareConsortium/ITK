@@ -445,7 +445,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateOutputRequestedRegion(refOutput);
 
   // find the index for this output
-  unsigned int refLevel = refOutput->GetSourceOutputIndex();
+  unsigned int refLevel = static_cast<unsigned int>( refOutput->GetSourceOutputIndex() );
 
   // compute baseIndex and baseSize
   typedef typename OutputImageType::SizeType   SizeType;

@@ -47,7 +47,7 @@ void LoadElement::AddNextElementInternal(const Element *e)
 
 unsigned int LoadElement::GetNumberOfElements(void)
 {
-  return this->m_Element.size();
+  return static_cast<unsigned int>( this->m_Element.size() );
 }
 
 Element::ConstPointer LoadElement::GetElement(int i)
