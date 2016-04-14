@@ -9,7 +9,7 @@ itk_wrap_class("vnl_vector_ref" EXPLICIT_SPECIALIZATION)
     itk_wrap_template("${ITKM_${t}}"  "${ITKT_${t}}")
   endforeach()
 
-  foreach(t ${ITK_WRAP_PYTHON_COMPLEX_REAL})
+  foreach(t ${WRAP_ITK_COMPLEX_REAL})
     itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
   endforeach()
 itk_end_wrap_class()

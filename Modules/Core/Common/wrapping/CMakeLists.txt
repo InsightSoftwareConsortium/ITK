@@ -4,10 +4,11 @@ set(WRAPPER_SUBMODULE_ORDER
   itkFixedArray
   itkVector
   itkCovariantVector
-  itkTriangleHelper
   itkPoint
+  itkTriangleHelper
   itkVariableSizeMatrix
   itkVersor
+  stdcomplex
   vnl_c_vector
   vnl_cost_function
   vnl_diag_matrix
@@ -19,7 +20,6 @@ set(WRAPPER_SUBMODULE_ORDER
   vnl_matrix_fixed_ref
   vnl_matrix_ref
   vnl_vector_ref
-  stdcomplex
   vnl_matrix
   vnl_vector
   vnl_unary_function
@@ -29,6 +29,7 @@ set(WRAPPER_SUBMODULE_ORDER
   itkArray
   itkIndex
   itkContinuousIndex
+  itkMatrix
   itkVectorContainer
   itkMapContainer
   itkBoundingBox
