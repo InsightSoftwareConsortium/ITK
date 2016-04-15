@@ -84,7 +84,7 @@ ImagePCADecompositionCalculator< TInputImage, TBasisImage >
     m_NumPixels *= m_Size[i];
     }
 
-  m_BasisMatrix = BasisMatrixType(static_cast<typename TInputImage::PixelType>( m_BasisImages.size() ), m_NumPixels);
+  m_BasisMatrix = BasisMatrixType(static_cast<unsigned int>( m_BasisImages.size() ), m_NumPixels);
 
   int i = 0;
   for ( typename BasisImagePointerVector::const_iterator basis_it = m_BasisImages.begin();
