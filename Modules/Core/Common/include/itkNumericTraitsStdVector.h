@@ -19,7 +19,7 @@
 #ifndef itkNumericTraitsStdVector_h
 #define itkNumericTraitsStdVector_h
 
-#include "itkNumericTraits.h"
+#include "itkMath.h"
 #include <vector>
 
 // This work is part of the National Alliance for Medical Image Computing
