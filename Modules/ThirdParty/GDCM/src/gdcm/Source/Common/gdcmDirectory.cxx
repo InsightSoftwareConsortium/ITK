@@ -31,6 +31,18 @@
 namespace gdcm
 {
 
+unsigned int Directory::Load(FilenameType const &name, bool recursive)
+{
+  Filenames.clear(); // clear previous
+  Directories.clear(); // clear previous
+  if( System::FileIsDirectory( name.c_str() ) )
+      {
+      Toplevel = name;
+      return Explore( Toplevel, recursive );
+      }
+  return false;
+}
+
 unsigned int Directory::Explore(FilenameType const &name, bool recursive)
 {
   unsigned int nFiles = 0;

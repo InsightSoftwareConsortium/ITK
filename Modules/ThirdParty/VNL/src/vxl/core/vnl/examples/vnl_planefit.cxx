@@ -5,7 +5,8 @@
 // Converted to vxl by Peter Vanroose, February 2000
 //-----------------------------------------------------------------------------
 
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_fastops.h>
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_symmetric_eigensystem.h>
@@ -14,7 +15,7 @@ int main()
 {
   // Read points from stdin
   vnl_matrix<double> pts;
-  vcl_cin >> pts;
+  std::cin >> pts;
 
   // Build design matrix D
   int npts = pts.rows();
@@ -29,7 +30,7 @@ int main()
   {
     vnl_svd<double> svd(D);
     vnl_vector<double> a = svd.nullvector();
-    vcl_cout << "SVD residual = " << (D * a).magnitude() << vcl_endl;
+    std::cout << "SVD residual = " << (D * a).magnitude() << std::endl;
   }
 
   // 2. Compute using eigensystem of D'*D
@@ -37,7 +38,7 @@ int main()
     vnl_matrix<double> m; vnl_fastops::AtA(m,D);
     vnl_symmetric_eigensystem<double> eig(m);
     vnl_vector<double> a = eig.get_eigenvector(0);
-    vcl_cout << "Eig residual = " << (D * a).magnitude() << vcl_endl;
+    std::cout << "Eig residual = " << (D * a).magnitude() << std::endl;
   }
 
   return 0;

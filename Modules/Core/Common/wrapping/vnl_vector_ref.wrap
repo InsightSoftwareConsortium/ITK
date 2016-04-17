@@ -9,8 +9,7 @@ itk_wrap_class("vnl_vector_ref" EXPLICIT_SPECIALIZATION)
     itk_wrap_template("${ITKM_${t}}"  "${ITKT_${t}}")
   endforeach()
 
-  # not sure why we didn't use the standard names - keep them anyway
-  itk_wrap_template("_vcl_complex${ITKM_D}" "vcl_complex<${ITKT_D}>")
-  itk_wrap_template("_vcl_complex${ITKM_F}" "vcl_complex<${ITKT_F}>")
-  itk_wrap_template("_vcl_complex${ITKM_LD}" "vcl_complex<${ITKT_LD}>")
+  foreach(t ${WRAP_ITK_COMPLEX_REAL})
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  endforeach()
 itk_end_wrap_class()

@@ -143,7 +143,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>
 {
   itkDebugMacro("StartOptimization");
 
-  this->m_NumberOfIterations=this->m_ParametersList.size();
+  this->m_NumberOfIterations= static_cast<SizeValueType>( this->m_ParametersList.size() );
   this->m_MetricValuesList.clear();
   this->m_BestParametersIndex = static_cast<ParameterListSizeType>(0);
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;

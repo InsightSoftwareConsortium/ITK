@@ -272,7 +272,7 @@ FastMarchingExtensionImageFilterBase< TInput, TOutput, TAuxValue, VAuxDimension 
         denom += outputPixel - temp_node.m_Value;
         }
 
-      if ( denom > vnl_math::eps )
+      if ( denom > itk::Math::eps )
         {
         auxVal = static_cast< AuxValueType >( numer / denom );
         }

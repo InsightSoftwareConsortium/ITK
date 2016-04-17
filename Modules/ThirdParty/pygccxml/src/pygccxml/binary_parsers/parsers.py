@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -120,17 +120,18 @@ class formated_mapping_parser_t(libparser_t):
         self.__formated_decls = {}
         self.undname_creator = undname.undname_creator_t()
 
-        formatter = lambda decl: self.undname_creator.format_decl(decl, hint)
-
         for f in self.global_ns.calldefs(allow_empty=True, recursive=True):
-            self.__formated_decls[formatter(f)] = f
+            self.__formated_decls[self.formatter(f, hint)] = f
 
         for v in self.global_ns.variables(allow_empty=True, recursive=True):
-            self.__formated_decls[formatter(v)] = v
+            self.__formated_decls[self.formatter(v, hint)] = v
 
     @property
     def formated_decls(self):
         return self.__formated_decls
+
+    def formatter(self, decl, hint):
+        return self.undname_creator.format_decl(decl, hint)
 
 
 class map_file_parser_t(formated_mapping_parser_t):
@@ -317,7 +318,7 @@ class so_file_parser_t(formated_mapping_parser_t):
                 f.calling_convention = CCTS.CDECL
                 return decorated, f
             except self.global_ns.declaration_not_found_t:
-                v = self.global_ns.vars(
+                v = self.global_ns.variables(
                     decorated,
                     allow_empty=True,
                     recursive=False)
@@ -406,7 +407,7 @@ class dylib_file_parser_t(formated_mapping_parser_t):
                 f.calling_convention = CCTS.CDECL
                 return decorated, f
             except self.global_ns.declaration_not_found_t:
-                v = self.global_ns.vars(
+                v = self.global_ns.variables(
                     decorated,
                     allow_empty=True,
                     recursive=False)
@@ -429,7 +430,7 @@ def merge_information(global_ns, fname, runs_under_unittest=False):
     """high level function - select the appropriate binary file parser and
     integrates the information from the file to the declarations tree. """
     ext = os.path.splitext(fname)[1]
-    parser = None
+
     if '.dll' == ext:
         parser = dll_file_parser_t(global_ns, fname)
     elif '.map' == ext:

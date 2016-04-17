@@ -86,7 +86,7 @@ TDistribution
   double pdf;
 
   pdf = ( dgamma_(&dofplusoneon2) / dgamma_(&dofon2) )
-        / ( std::sqrt(dof * vnl_math::pi) * std::pow(1.0 + ( ( x * x ) / dof ), dofplusoneon2) );
+        / ( std::sqrt(dof * itk::Math::pi) * std::pow(1.0 + ( ( x * x ) / dof ), dofplusoneon2) );
 
   return pdf;
 }

@@ -60,7 +60,7 @@ cd "$toplevel_path"
 
 
 ## Validate ##
-local required_commands=( git grep sed egrep tar dirname basename )
+local required_commands=( git grep sed egrep tar dirname basename tr )
 for required_command in ${required_commands[@]}; do
   type -p $required_command >/dev/null 2>&1
   if [[ $? -ne 0 ]]; then
@@ -110,7 +110,7 @@ local upstream_new_date=$(echo "$upstream_new_datetime" | grep -o "$regex_date")
 if [[ -n "$snapshot_old_sha" ]]; then
   local upstream_old_sha_short=$(
     git cat-file commit $snapshot_old_sha |
-    sed -n '/'"$snapshot_old_regex"'/ {s/.*(//;s/)//;p}' |
+    sed -n '/'"$snapshot_old_regex"'/ {s/.*(//;s/)//;p;}' |
     egrep '^[0-9a-f]+$'
   )
   local upstream_old_sha=$(git rev-parse --verify -q "$upstream_old_sha_short")
@@ -122,7 +122,7 @@ fi
 
 
 ## New shapshot tree ##
-local snapshot_branch_name="upstream-${thirdparty_module_name,,}"
+local snapshot_branch_name=`echo "upstream-${thirdparty_module_name}" | tr '[:upper:]' '[:lower:]'` # make string lowercase
 local snapshot_temp_dir="$snapshot_branch_name"
 local snapshot_temp_path="$toplevel_path/$snapshot_temp_dir/"
 local snapshot_temp_index="$toplevel_path/$snapshot_branch_name.index"

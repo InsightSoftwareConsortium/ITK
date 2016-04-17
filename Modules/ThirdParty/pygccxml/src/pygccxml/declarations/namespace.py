@@ -1,23 +1,29 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-"""defines class, that describes C++ namespace declaration"""
+"""
+Describe a C++ namespace declaration.
 
-from . import declaration
+"""
+
 from . import scopedef
 from . import algorithm
 
 
 class namespace_t(scopedef.scopedef_t):
-
     """
-    describes C++ namespace
+    Describes C++ namespace.
+
     """
 
     def __init__(self, name='', declarations=None):
-        """creates class that describes C++ namespace declaration"""
+        """
+        Creates an object that describes a C++ namespace declaration.
+
+        """
+
         scopedef.scopedef_t.__init__(self, name)
         if not declarations:
             declarations = []
@@ -31,7 +37,11 @@ class namespace_t(scopedef.scopedef_t):
         return "%s [namespace]" % name
 
     def _get__cmp__scope_items(self):
-        """implementation details"""
+        """
+        Implementation detail.
+
+        """
+
         return [self._sorted_list(self.declarations)]
 
     def _get_declarations_impl(self):
@@ -39,12 +49,21 @@ class namespace_t(scopedef.scopedef_t):
 
     @scopedef.scopedef_t.declarations.setter
     def declarations(self, declarations):
-        """Getter is defined in scopedef.scopedef_t"""
-        """list of all declarations, defined in the namespace"""
+        """
+        List of all declarations defined in the namespace.
+
+        The getter is defined in scopedef.scopedef_t.
+
+        """
+
         self._declarations = declarations
 
     def take_parenting(self, inst):
-        """Takes parenting from inst and transfers it to self"""
+        """
+        Takes parenting from inst and transfers it to self.
+
+        """
+
         if self is inst:
             return
         for decl in inst.declarations:
@@ -59,11 +78,13 @@ class namespace_t(scopedef.scopedef_t):
 
     def remove_declaration(self, decl):
         """
-        removes decl from  members list
+        Removes declaration from members list.
 
         :param decl: declaration to be removed
         :type decl: :class:`declaration_t`
+
         """
+
         del self.declarations[self.declarations.index(decl)]
         decl.cache.reset()
         # add more comment about this.
@@ -71,12 +92,15 @@ class namespace_t(scopedef.scopedef_t):
         #    decl.parent=None
 
     def namespace(self, name=None, function=None, recursive=None):
-        """returns reference to namespace declaration, that is matched
-        defined criteria"""
+        """
+        Returns reference to namespace declaration that matches
+        a defined criteria.
+
+        """
+
         return (
             self._find_single(
-                scopedef.scopedef_t._impl_matchers[
-                    namespace_t.namespace],
+                scopedef.scopedef_t._impl_matchers[namespace_t.namespace],
                 name=name,
                 function=function,
                 recursive=recursive)
@@ -89,12 +113,15 @@ class namespace_t(scopedef.scopedef_t):
             function=None,
             recursive=None,
             allow_empty=None):
-        """returns a set of namespace declarations, that are matched
-        defined criteria"""
+        """
+        Returns a set of namespace declarations that match
+        a defined criteria.
+
+        """
+
         return (
             self._find_multiple(
-                scopedef.scopedef_t._impl_matchers[
-                    namespace_t.namespace],
+                scopedef.scopedef_t._impl_matchers[namespace_t.namespace],
                 name=name,
                 function=function,
                 recursive=recursive,
@@ -111,15 +138,18 @@ class namespace_t(scopedef.scopedef_t):
             header_dir=None,
             header_file=None,
             recursive=None):
-        """returns reference to free function declaration, that is matched
-        defined criteria"""
+        """
+        Returns reference to free function declaration that matches
+        a defined criteria.
+
+        """
+
         return (
             self._find_single(
                 scopedef.scopedef_t._impl_matchers[namespace_t.free_function],
                 name=name,
                 function=function,
-                decl_type=self._impl_decl_types[
-                    namespace_t.free_function],
+                decl_type=self._impl_decl_types[namespace_t.free_function],
                 return_type=return_type,
                 arg_types=arg_types,
                 header_dir=header_dir,
@@ -138,15 +168,18 @@ class namespace_t(scopedef.scopedef_t):
             header_file=None,
             recursive=None,
             allow_empty=None):
-        """returns a set of free function declarations, that are matched
-        defined criteria"""
+        """
+        Returns a set of free function declarations that match
+        a defined criteria.
+
+        """
+
         return (
             self._find_multiple(
                 scopedef.scopedef_t._impl_matchers[namespace_t.free_function],
                 name=name,
                 function=function,
-                decl_type=self._impl_decl_types[
-                    namespace_t.free_function],
+                decl_type=self._impl_decl_types[namespace_t.free_function],
                 return_type=return_type,
                 arg_types=arg_types,
                 header_dir=header_dir,
@@ -166,17 +199,17 @@ class namespace_t(scopedef.scopedef_t):
             header_dir=None,
             header_file=None,
             recursive=None):
-        """returns reference to free operator declaration, that is matched
-        defined criteria"""
+        """
+        Returns reference to free operator declaration that matches
+        a defined criteria.
+
+        """
         return (
             self._find_single(
                 scopedef.scopedef_t._impl_matchers[namespace_t.free_operator],
-                name=self._build_operator_name(name,
-                                               function,
-                                               symbol),
+                name=self._build_operator_name(name, function, symbol),
                 symbol=symbol,
-                function=self._build_operator_function(name,
-                                                       function),
+                function=self._build_operator_function(name, function),
                 decl_type=self._impl_decl_types[namespace_t.free_operator],
                 return_type=return_type,
                 arg_types=arg_types,
@@ -196,17 +229,18 @@ class namespace_t(scopedef.scopedef_t):
             header_file=None,
             recursive=None,
             allow_empty=None):
-        """returns a set of free operator declarations, that are matched
-        defined criteria"""
+        """
+        Returns a set of free operator declarations that match
+        a defined criteria.
+
+        """
+
         return (
             self._find_multiple(
                 scopedef.scopedef_t._impl_matchers[namespace_t.free_operator],
-                name=self._build_operator_name(name,
-                                               function,
-                                               symbol),
+                name=self._build_operator_name(name, function, symbol),
                 symbol=symbol,
-                function=self._build_operator_function(name,
-                                                       function),
+                function=self._build_operator_function(name, function),
                 decl_type=self._impl_decl_types[namespace_t.free_operator],
                 return_type=return_type,
                 arg_types=arg_types,

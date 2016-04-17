@@ -134,10 +134,14 @@ public:
   typedef typename MetricType::Pointer                                MetricPointer;
   typedef typename Superclass::PointSetMetricType                     PointSetMetricType;
 
-  typedef typename ImageMetricType::FixedImageMaskType                FixedImageMaskType;
-  typedef typename ImageMetricType::MovingImageMaskType               MovingImageMaskType;
   typedef ImageMaskSpatialObject<ImageDimension>                      ImageMaskSpatialObjectType;
   typedef typename ImageMaskSpatialObjectType::ImageType              MaskImageType;
+  typedef typename Superclass::FixedImageMaskType                     FixedImageMaskType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              FixedMaskImageType;
+  typedef typename Superclass::FixedImageMasksContainerType           FixedImageMasksContainerType;
+  typedef typename Superclass::MovingImageMaskType                    MovingImageMaskType;
+  typedef typename ImageMaskSpatialObjectType::ImageType              MovingMaskImageType;
+  typedef typename Superclass::MovingImageMasksContainerType          MovingImageMasksContainerType;
 
   typedef typename Superclass::InitialTransformType                                            InitialTransformType;
   typedef TOutputTransform                                                                     OutputTransformType;
@@ -213,7 +217,7 @@ protected:
   void AttachMetricGradientPointSetAtSpecificTimePoint( const RealType,
     VelocityFieldPointSetType *, WeightsContainerType *, const FixedImagesContainerType,
     const PointSetsContainerType, const TransformBaseType *, const MovingImagesContainerType,
-    const PointSetsContainerType, const TransformBaseType *, const FixedImageMaskType * );
+    const PointSetsContainerType, const TransformBaseType *, const FixedImageMasksContainerType );
 
 private:
   TimeVaryingBSplineVelocityFieldImageRegistrationMethod( const Self & ) ITK_DELETE_FUNCTION;

@@ -20,7 +20,7 @@
 #include <vnl/vnl_matrix.h>
 
 //: Class to load a matrix from a file.
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 class vnl_file_matrix : public vnl_matrix<T>
 {
   VCL_SAFE_BOOL_DEFINE;

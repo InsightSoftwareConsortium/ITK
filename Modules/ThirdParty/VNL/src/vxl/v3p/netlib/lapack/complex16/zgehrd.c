@@ -25,7 +25,7 @@ static integer c__2 = 2;
 static integer c__65 = 65;
 
 /*<       SUBROUTINE ZGEHRD( N, ILO, IHI, A, LDA, TAU, WORK, LWORK, INFO ) >*/
-/* Subroutine */ int zgehrd_(integer *n, integer *ilo, integer *ihi, 
+/* Subroutine */ int zgehrd_(integer *n, integer *ilo, integer *ihi,
         doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *
         work, integer *lwork, integer *info)
 {
@@ -39,20 +39,20 @@ static integer c__65 = 65;
     integer ib;
     doublecomplex ei;
     integer nb, nh, nx=0, iws, nbmin, iinfo;
-    extern /* Subroutine */ int zgemm_(char *, char *, integer *, integer *, 
-            integer *, doublecomplex *, doublecomplex *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
-            integer *, ftnlen, ftnlen), zgehd2_(integer *, integer *, integer 
-            *, doublecomplex *, integer *, doublecomplex *, doublecomplex *, 
+    extern /* Subroutine */ int zgemm_(char *, char *, integer *, integer *,
+            integer *, doublecomplex *, doublecomplex *, integer *,
+            doublecomplex *, integer *, doublecomplex *, doublecomplex *,
+            integer *, ftnlen, ftnlen), zgehd2_(integer *, integer *, integer
+            *, doublecomplex *, integer *, doublecomplex *, doublecomplex *,
             integer *), xerbla_(char *, integer *, ftnlen);
-    extern integer ilaenv_(integer *, char *, char *, integer *, integer *, 
+    extern integer ilaenv_(integer *, char *, char *, integer *, integer *,
             integer *, integer *, ftnlen, ftnlen);
-    extern /* Subroutine */ int zlarfb_(char *, char *, char *, char *, 
-            integer *, integer *, integer *, doublecomplex *, integer *, 
-            doublecomplex *, integer *, doublecomplex *, integer *, 
-            doublecomplex *, integer *, ftnlen, ftnlen, ftnlen, ftnlen), 
-            zlahrd_(integer *, integer *, integer *, doublecomplex *, integer 
-            *, doublecomplex *, doublecomplex *, integer *, doublecomplex *, 
+    extern /* Subroutine */ int zlarfb_(char *, char *, char *, char *,
+            integer *, integer *, integer *, doublecomplex *, integer *,
+            doublecomplex *, integer *, doublecomplex *, integer *,
+            doublecomplex *, integer *, ftnlen, ftnlen, ftnlen, ftnlen),
+            zlahrd_(integer *, integer *, integer *, doublecomplex *, integer
+            *, doublecomplex *, doublecomplex *, integer *, doublecomplex *,
             integer *);
     integer ldwork, lwkopt;
     logical lquery;

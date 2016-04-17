@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       SUBROUTINE SGEQR2( M, N, A, LDA, TAU, WORK, INFO ) >*/
-/* Subroutine */ int sgeqr2_(integer *m, integer *n, real *a, integer *lda, 
+/* Subroutine */ int sgeqr2_(integer *m, integer *n, real *a, integer *lda,
         real *tau, real *work, integer *info)
 {
     /* System generated locals */
@@ -29,9 +29,9 @@ static integer c__1 = 1;
     /* Local variables */
     integer i__, k;
     real aii;
-    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *, 
+    extern /* Subroutine */ int slarf_(char *, integer *, integer *, real *,
             integer *, real *, real *, integer *, real *, ftnlen), xerbla_(
-            char *, integer *, ftnlen), slarfg_(integer *, real *, real *, 
+            char *, integer *, ftnlen), slarfg_(integer *, real *, real *,
             integer *, real *);
 
 

@@ -21,7 +21,7 @@
 #include "itkBresenhamLine.h"
 #include "itkPoint.h"
 #include "itkMath.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -69,7 +69,7 @@ typename BresenhamLine< VDimension >::OffsetArray BresenhamLine< VDimension >
   unsigned int   maxDistanceDimension = 0;
   for ( unsigned i = 0; i < VDimension; i++ )
     {
-    IndexValueType distance = static_cast<long>(vnl_math_abs(LastIndex[i]));
+    IndexValueType distance = static_cast<long>(itk::Math::abs(LastIndex[i]));
     if ( distance > maxDistance )
       {
       maxDistance = distance;

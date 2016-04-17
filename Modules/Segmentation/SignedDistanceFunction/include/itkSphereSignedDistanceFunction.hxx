@@ -19,7 +19,7 @@
 #define itkSphereSignedDistanceFunction_hxx
 
 #include "itkSphereSignedDistanceFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -80,7 +80,7 @@ SphereSignedDistanceFunction< TCoordRep, VSpaceDimension >
 
   for ( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    output += vnl_math_sqr( ( point[j] - m_Translation[j] ) );
+    output += itk::Math::sqr( ( point[j] - m_Translation[j] ) );
     }
 
   output = std::sqrt(output) - m_Radius;

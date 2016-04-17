@@ -73,7 +73,7 @@ int itkAtanImageFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double value = vnl_math::pi / 6.0;
+  const double value = itk::Math::pi / 6.0;
   std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() )

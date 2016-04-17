@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkGeometryUtilities.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -55,7 +55,7 @@ GeometryUtilities
     }
   else
     {
-    return std::sqrt(vnl_math::pi) * DoubleFactorial(n) / std::pow(2, ( n + 1 ) / 2.0);
+    return std::sqrt(itk::Math::pi) * DoubleFactorial(n) / std::pow(2, ( n + 1 ) / 2.0);
     }
 }
 
@@ -65,7 +65,7 @@ GeometryUtilities
 {
   const double dbldim = static_cast< double >( dim );
 
-  return std::pow(vnl_math::pi, dbldim * 0.5) * std::pow(radius, dbldim) / GammaN2p1(dim);
+  return std::pow(itk::Math::pi, dbldim * 0.5) * std::pow(radius, dbldim) / GammaN2p1(dim);
 }
 
 double
@@ -79,7 +79,7 @@ double
 GeometryUtilities
 ::HyperSphereRadiusFromVolume(const int dim, const double volume)
 {
-  return std::pow(volume * GammaN2p1(dim) / std::pow(vnl_math::pi, dim * 0.5), 1.0 / dim);
+  return std::pow(volume * GammaN2p1(dim) / std::pow(itk::Math::pi, dim * 0.5), 1.0 / dim);
 }
 
 } // end of itk namespace

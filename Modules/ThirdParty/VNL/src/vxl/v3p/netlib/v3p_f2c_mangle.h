@@ -5,9 +5,6 @@
 /* Functions */
 #define F77_aloc v3p_netlib_F77_aloc
 #define exit_ v3p_netlib_exit_
-#if defined(c_abs)
-#undef c_abs
-#endif
 #define c_abs v3p_netlib_c_abs
 #define c_div v3p_netlib_c_div
 #define c_sqrt v3p_netlib_c_sqrt
@@ -55,12 +52,7 @@
 #define alist v3p_netlib_alist
 #define cilist v3p_netlib_cilist
 #define cllist v3p_netlib_cllist
-
-#if defined(complex)
-#undef complex
-#endif
 #define complex v3p_netlib_complex
-
 #define doublecomplex v3p_netlib_doublecomplex
 #define doublereal v3p_netlib_doublereal
 #define flag v3p_netlib_flag

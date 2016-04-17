@@ -93,7 +93,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   const double obtainedMinimum = calculator->GetMinimum();
   const double obtainedMaximum = calculator->GetMaximum();
 
-  if( vnl_math_abs( obtainedMinimum - desiredMinimum ) > tolerance )
+  if( itk::Math::abs( obtainedMinimum - desiredMinimum ) > tolerance )
     {
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
@@ -101,7 +101,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( vnl_math_abs( obtainedMaximum - desiredMaximum ) > tolerance )
+  if( itk::Math::abs( obtainedMaximum - desiredMaximum ) > tolerance )
     {
     std::cerr << "Error in maximum" << std::endl;
     std::cerr << "Expected maximum = " << desiredMaximum  << std::endl;
@@ -136,7 +136,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   const double obtainedMinimum2 = calculator->GetMinimum();
   const double obtainedMaximum2 = calculator->GetMaximum();
 
-  if( vnl_math_abs( obtainedMinimum2 - desiredMinimum ) > tolerance )
+  if( itk::Math::abs( obtainedMinimum2 - desiredMinimum ) > tolerance )
     {
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
@@ -144,7 +144,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( vnl_math_abs( obtainedMaximum2 - desiredMaximum ) > tolerance )
+  if( itk::Math::abs( obtainedMaximum2 - desiredMaximum ) > tolerance )
     {
     std::cerr << "Error in maximum" << std::endl;
     std::cerr << "Expected maximum = " << desiredMaximum  << std::endl;

@@ -21,7 +21,7 @@
 #include "itkFastMarchingUpwindGradientImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <algorithm>
 
 namespace itk
@@ -299,7 +299,7 @@ FastMarchingUpwindGradientImageFilter< TLevelSet, TSpeedImage >
       }
 
     // Compute upwind finite differences
-    if ( vnl_math_max(dx_backward, -dx_forward) < ZERO )
+    if ( std::max<LevelSetPixelType>(dx_backward, -dx_forward) < ZERO )
       {
       gradientPixel[j] = ZERO;
       }

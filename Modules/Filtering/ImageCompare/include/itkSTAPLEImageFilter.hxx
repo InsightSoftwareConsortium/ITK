@@ -47,7 +47,8 @@ STAPLEImageFilter< TInputImage, TOutputImage >
 
   const double min_rms_error = 1.0e-14; // 7 digits of precision
 
-  unsigned int i, iter, number_of_input_files;
+  unsigned int i, iter;
+  ProcessObject::DataObjectPointerArraySizeType number_of_input_files;
 
   // Allocate the output "fuzzy" image.
   this->GetOutput()->SetBufferedRegion( this->GetOutput()->GetRequestedRegion() );

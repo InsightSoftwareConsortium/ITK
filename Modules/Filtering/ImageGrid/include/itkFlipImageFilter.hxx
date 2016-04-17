@@ -200,7 +200,7 @@ FlipImageFilter< TImage >
   // support progress methods/callbacks
   const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
-  ProgressReporter progress( this, threadId, numberOfLinesToProcess );
+  ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
 
   const typename TImage::SizeType & outputLargestPossibleSize =
     outputPtr->GetLargestPossibleRegion().GetSize();

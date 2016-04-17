@@ -35,7 +35,7 @@ SimpleSignedDistance( const TPoint & p )
   double accum = 0.0;
   for( unsigned int j = 0; j < TPoint::PointDimension; j++ )
     {
-    accum += vnl_math_sqr( p[j] - center[j] );
+    accum += itk::Math::sqr( p[j] - center[j] );
     }
   accum = std::sqrt( accum );
   return ( accum - radius );
@@ -140,7 +140,7 @@ int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
     PointType point;
     image->TransformIndexToPhysicalPoint( oiter.GetIndex(), point );
     OutputPixelType deviation =
-      vnl_math_abs(oiter.Get() - SimpleSignedDistance(point) );
+      itk::Math::abs(oiter.Get() - SimpleSignedDistance(point) );
     if (deviation > maxDeviation )
       {
       maxDeviation = deviation;

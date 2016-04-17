@@ -91,7 +91,7 @@ int itkMedianImageFunctionTest(int, char* [] )
 
   // since the input image is constant
   // the should be equal to the initial value
-  if( vnl_math_abs( initialValue - median ) > 10e-7 )
+  if( itk::Math::abs( initialValue - median ) > 10e-7 )
     {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;
@@ -132,7 +132,7 @@ int itkMedianImageFunctionTest(int, char* [] )
 
   // since the input image is constant
   // the should be equal to the initial value
-  if( vnl_math_abs( initialValue - median ) > 10e-7 )
+  if( itk::Math::abs( initialValue - median ) > 10e-7 )
     {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;
@@ -147,7 +147,7 @@ int itkMedianImageFunctionTest(int, char* [] )
   // Since we've changed the image outside the default neighborhood
   // for the MedianImageFunction, it would be an error for the median
   // to be the same
-  if( vnl_math_abs( initialValue - median ) < 10e-7 )
+  if( itk::Math::abs( initialValue - median ) < 10e-7 )
     {
     std::cerr << "Error in mean computation" << std::endl;
     return EXIT_FAILURE;

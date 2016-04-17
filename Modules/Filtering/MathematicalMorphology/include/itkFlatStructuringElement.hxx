@@ -17,13 +17,13 @@
  *=========================================================================*/
 #ifndef itkFlatStructuringElement_hxx
 #define itkFlatStructuringElement_hxx
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkFlatStructuringElement.h"
 #include <cmath>
 #include <vector>
 
 #ifndef M_PI
-#define M_PI vnl_math::pi
+#define M_PI itk::Math::pi
 #endif
 
 #include "itkImage.h"

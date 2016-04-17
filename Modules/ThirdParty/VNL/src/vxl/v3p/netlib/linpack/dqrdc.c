@@ -37,15 +37,15 @@ static integer c__1 = 1;
     doublereal tt;
     integer lp1, lup;
     logical negj;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
     integer maxj;
     extern doublereal dnrm2_(integer *, doublereal *, integer *);
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
-            integer *), dswap_(integer *, doublereal *, integer *, doublereal 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
+            integer *), dswap_(integer *, doublereal *, integer *, doublereal
             *, integer *);
     logical swapj;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
     doublereal nrmxl, maxnrm;
 

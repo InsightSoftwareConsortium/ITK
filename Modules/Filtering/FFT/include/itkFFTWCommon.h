@@ -40,7 +40,7 @@ namespace fftw
  * \brief Wrapper for FFTW API
  *
  * This implementation was taken from the Insight Journal paper:
- * http://hdl.handle.net/10380/3154
+ * https://hdl.handle.net/10380/3154
  * or http://insight-journal.com/browse/publication/717
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
@@ -69,7 +69,7 @@ public:
   typedef Proxy<float>  Self;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
-  static const SizeValueType GREATEST_PRIME_FACTOR = 13;
+  static ITK_CONSTEXPR SizeValueType GREATEST_PRIME_FACTOR = 13;
 
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,
@@ -93,7 +93,7 @@ public:
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_c2r(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -111,7 +111,7 @@ public:
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_c2r(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -184,7 +184,7 @@ public:
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_r2c(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -202,7 +202,7 @@ public:
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_r2c(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -277,7 +277,7 @@ public:
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft(2, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -296,7 +296,7 @@ public:
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft(3, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -373,7 +373,7 @@ public:
   typedef Proxy<double> Self;
 
   // FFTW works with any data size, but is optimized for size decomposition with prime factors up to 13.
-  static const SizeValueType GREATEST_PRIME_FACTOR = 13;
+  static ITK_CONSTEXPR SizeValueType GREATEST_PRIME_FACTOR = 13;
 
   static PlanType Plan_dft_c2r_1d(int n,
                                   ComplexType *in,
@@ -397,7 +397,7 @@ public:
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_c2r(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -415,7 +415,7 @@ public:
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_c2r(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -488,7 +488,7 @@ public:
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_r2c(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -506,7 +506,7 @@ public:
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_r2c(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -580,7 +580,7 @@ public:
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft(2, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 
@@ -599,7 +599,7 @@ public:
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft(3, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete sizes;
+    delete [] sizes;
     return plan;
   }
 

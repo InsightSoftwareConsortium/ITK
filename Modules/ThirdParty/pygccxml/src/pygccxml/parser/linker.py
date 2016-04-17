@@ -1,17 +1,20 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-from pygccxml.declarations import *
+from pygccxml import declarations
 from .. import utils
 
 
-class linker_t(decl_visitor_t, type_visitor_t, object):
+class linker_t(
+        declarations.decl_visitor_t,
+        declarations.type_visitor_t,
+        object):
 
     def __init__(self, decls, types, access, membership, files):
-        decl_visitor_t.__init__(self)
-        type_visitor_t.__init__(self)
+        declarations.decl_visitor_t.__init__(self)
+        declarations.type_visitor_t.__init__(self)
         object.__init__(self)
 
         self.__decls = decls
@@ -21,22 +24,25 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
         self.__files = files
         self.__inst = None
 
-        self.__compiler = None
-        if self.__decls:
-            for d in self.__decls.values():
-                self.__compiler = d.compiler
-                break
-
     @property
     def instance(self):
         return self.__inst
 
     @instance.setter
     def instance(self, inst):
+        """
+        Called by __parse_xml_file in source_reader.
+
+        """
+
         self.__inst = inst
+
         # use inst, to reduce attribute access time
-        if isinstance(inst, declaration_t) and inst.location:
-            inst.location.file_name = self.__files[inst.location.file_name]
+        if isinstance(inst, declarations.declaration_t) and inst.location:
+            if inst.location.file_name == '':
+                inst.location.file_name = ''
+            else:
+                inst.location.file_name = self.__files[inst.location.file_name]
 
     def __link_type(self, type_id):
         if type_id is None:
@@ -46,13 +52,13 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
         elif type_id in self.__types:
             return self.__types[type_id]
         elif type_id in self.__decls:
-            base = declarated_t(declaration=self.__decls[type_id])
+            base = declarations.declarated_t(declaration=self.__decls[type_id])
             self.__types[type_id] = base
             return base
         elif '...' == type_id:
-            return ellipsis_t()
+            return declarations.ellipsis_t()
         else:
-            return unknown_t()
+            return declarations.unknown_t()
 
     def __link_compound_type(self):
         self.__inst.base = self.__link_type(self.__inst.base)
@@ -67,27 +73,25 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
             if member not in self.__decls:
                 continue
             decl = self.__decls[member]
-            if isinstance(self.__inst, class_t):
+            if isinstance(self.__inst, declarations.class_t):
                 self.__inst.adopt_declaration(decl, access)
             else:
                 self.__inst.adopt_declaration(decl)
 
     def __link_calldef(self):
         self.__inst.return_type = self.__link_type(self.__inst.return_type)
-        if isinstance(self.__inst, type_t):
+        if isinstance(self.__inst, declarations.type_t):
             linked_args = [
                 self.__link_type(arg) for arg in self.__inst.arguments_types]
             self.__inst.arguments_types = linked_args
         else:
             for arg in self.__inst.arguments:
                 arg.type = self.__link_type(arg.type)
-            for index in range(len(self.__inst.exceptions)):
+            for i, exception in enumerate(self.__inst.exceptions):
                 try:
-                    self.__inst.exceptions[index] = self.__decls[
-                        self.__inst.exceptions[index]]
+                    self.__inst.exceptions[i] = self.__decls[exception]
                 except KeyError:
-                    self.__inst.exceptions[index] = self.__link_type(
-                        self.__inst.exceptions[index])
+                    self.__inst.exceptions[i] = self.__link_type(exception)
 
     def visit_member_function(self):
         self.__link_calldef()
@@ -124,11 +128,11 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
         # with Brad
 
         new_name = self.__inst._name
-        if templates.is_instantiation(new_name):
-            new_name = templates.name(new_name)
+        if declarations.templates.is_instantiation(new_name):
+            new_name = declarations.templates.name(new_name)
 
         for decl in self.__inst.declarations:
-            if not isinstance(decl, constructor_t):
+            if not isinstance(decl, declarations.constructor_t):
                 continue
             if '.' in decl._name or '$' in decl._name:
                 decl._name = new_name
@@ -139,11 +143,13 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
             # it could be "_5" or "protected:_5"
             data = base.split(':')
             base_decl = self.__decls[data[-1]]
-            access = ACCESS_TYPES.PUBLIC
+            access = declarations.ACCESS_TYPES.PUBLIC
             if 2 == len(data):
                 access = data[0]
-            self.__inst.bases.append(hierarchy_info_t(base_decl, access))
-            base_decl.derived.append(hierarchy_info_t(self.__inst, access))
+            self.__inst.bases.append(
+                declarations.hierarchy_info_t(base_decl, access))
+            base_decl.derived.append(
+                declarations.hierarchy_info_t(self.__inst, access))
 
     def visit_enumeration(self):
         pass
@@ -248,7 +254,7 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
         pass
 
     def visit_volatile(self):
-        if isinstance(self.__inst.base, const_t):
+        if isinstance(self.__inst.base, declarations.const_t):
             const_type_inst = self.__inst.base
             const_type_inst.base = self.__link_type(const_type_inst.base)
         else:
@@ -258,8 +264,9 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
         self.__link_compound_type()
 
     def visit_pointer(self):
-        if '0.9' in self.__compiler and \
-                isinstance(self.__inst.base, member_variable_type_t):
+        if ('0.9' in utils.xml_generator or 'CastXML' in utils.xml_generator) \
+                and isinstance(
+                    self.__inst.base, declarations.member_variable_type_t):
             original_inst = self.__inst
             self.__inst = self.__inst.base
             self.visit_member_variable_type()
@@ -278,7 +285,7 @@ class linker_t(decl_visitor_t, type_visitor_t, object):
 
     def visit_member_function_type(self):
         self.__link_calldef()
-        if isinstance(self.__inst, type_t):
+        if isinstance(self.__inst, declarations.type_t):
             self.__inst.class_inst = self.__link_type(self.__inst.class_inst)
 
     def visit_member_variable_type(self):

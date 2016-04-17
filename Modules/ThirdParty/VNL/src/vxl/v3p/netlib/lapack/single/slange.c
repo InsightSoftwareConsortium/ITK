@@ -20,7 +20,7 @@ extern "C" {
 static integer c__1 = 1;
 
 /*<       REAL             FUNCTION SLANGE( NORM, M, N, A, LDA, WORK ) >*/
-doublereal slange_(char *norm, integer *m, integer *n, real *a, integer *lda, 
+doublereal slange_(char *norm, integer *m, integer *n, real *a, integer *lda,
         real *work, ftnlen norm_len)
 {
     /* System generated locals */
@@ -35,7 +35,7 @@ doublereal slange_(char *norm, integer *m, integer *n, real *a, integer *lda,
     real sum, scale;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     real value=0;
-    extern /* Subroutine */ int slassq_(integer *, real *, integer *, real *, 
+    extern /* Subroutine */ int slassq_(integer *, real *, integer *, real *,
             real *);
     (void)norm_len;
 

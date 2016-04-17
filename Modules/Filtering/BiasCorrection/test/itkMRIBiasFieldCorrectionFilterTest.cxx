@@ -124,7 +124,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   biasSize[0] = imageSize[0];
   biasSize[1] = imageSize[1];
   biasSize[2] = imageSize[2];
-  BiasFieldType bias(biasSize.size(),
+  BiasFieldType bias(static_cast<unsigned int> ( biasSize.size() ),
                      biasDegree, // bias field degree
                      biasSize);
 
@@ -176,7 +176,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   ib_iter.GoToBegin();
   while ( !i_iter.IsAtEnd() )
     {
-    sumOfError += vnl_math_abs( ib_iter.Get() - i_iter.Get() );
+    sumOfError += itk::Math::abs( ib_iter.Get() - i_iter.Get() );
     ++i_iter;
     ++ib_iter;
     }
@@ -217,7 +217,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   i_iter.GoToBegin();
   while ( !i_iter.IsAtEnd() )
     {
-    sumOfError += vnl_math_abs( o_iter.Get() - i_iter.Get() );
+    sumOfError += itk::Math::abs( o_iter.Get() - i_iter.Get() );
     ++i_iter;
     ++o_iter;
     }
@@ -273,7 +273,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   i_iter.GoToBegin();
   while ( !i_iter.IsAtEnd() )
     {
-    sumOfError += vnl_math_abs( o2_iter.Get() - i_iter.Get() );
+    sumOfError += itk::Math::abs( o2_iter.Get() - i_iter.Get() );
     ++i_iter;
     ++o2_iter;
     }
@@ -312,7 +312,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   i_iter.GoToBegin();
   while ( !i_iter.IsAtEnd() )
     {
-    sumOfError += vnl_math_abs( o3_iter.Get() - i_iter.Get() );
+    sumOfError += itk::Math::abs( o3_iter.Get() - i_iter.Get() );
     ++i_iter;
     ++o3_iter;
     }
@@ -349,7 +349,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   i_iter.GoToBegin();
   while ( !i_iter.IsAtEnd() )
     {
-    sumOfError += vnl_math_abs( o4_iter.Get() - i_iter.Get() );
+    sumOfError += itk::Math::abs( o4_iter.Get() - i_iter.Get() );
     ++i_iter;
     ++o4_iter;
     }
@@ -381,7 +381,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   i_iter.GoToBegin();
   while ( !i_iter.IsAtEnd() )
     {
-    sumOfErrorFinal += vnl_math_abs( o5_iter.Get() - i_iter.Get() );
+    sumOfErrorFinal += itk::Math::abs( o5_iter.Get() - i_iter.Get() );
     ++i_iter;
     ++o5_iter;
     }

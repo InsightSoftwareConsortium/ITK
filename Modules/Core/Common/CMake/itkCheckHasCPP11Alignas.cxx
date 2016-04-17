@@ -16,7 +16,7 @@ struct alignas(64) B
 // This structure will generate a compiler error if the template
 // argument is false
 template<bool t> struct OnlyTrue;
-template<> struct OnlyTrue<true> { static const bool Result = true; };
+template<> struct OnlyTrue<true> { static ITK_CONSTEXPR bool Result = true; };
 
 
 int main(void)

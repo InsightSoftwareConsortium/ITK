@@ -20,7 +20,7 @@
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include <iostream>
 
 /**
@@ -333,7 +333,7 @@ int AmoebaTest1()
 
   for( unsigned int j = 0; j < 2; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
+    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
       pass = false;
     }
 
@@ -408,7 +408,7 @@ int AmoebaTest1()
 
   for( unsigned int j = 0; j < 2; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
+    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > xTolerance )
       pass = false;
     }
 

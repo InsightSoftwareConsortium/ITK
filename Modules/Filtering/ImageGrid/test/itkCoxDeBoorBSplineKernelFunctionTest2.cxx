@@ -42,7 +42,7 @@ int itkCoxDeBoorBSplineKernelFunctionTest2( int argc, char * argv [] )
     for( double t = 0.0; t < static_cast<double>( 0.5*( order+1 ) ); t += 0.1 )
       {
       KernelType::RealType derivative = kernel->EvaluateDerivative( t );
-      if( vnl_math_abs( derivative - ( kernelOrderMinus1->Evaluate( t + 0.5 )
+      if( itk::Math::abs( derivative - ( kernelOrderMinus1->Evaluate( t + 0.5 )
            - kernelOrderMinus1->Evaluate( t - 0.5 ) ) ) > 1e-10 )
         {
         return EXIT_FAILURE;

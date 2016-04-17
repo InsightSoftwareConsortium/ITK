@@ -21,7 +21,7 @@ static integer c__1 = 1;
 static complex c_b26 = {(float)1.,(float)0.};
 
 /*<       subroutine cqrdc(x,ldx,n,p,qraux,jpvt,work,job) >*/
-/* Subroutine */ int cqrdc_(complex *x, integer *ldx, integer *n, integer *p, 
+/* Subroutine */ int cqrdc_(complex *x, integer *ldx, integer *n, integer *p,
         complex *qraux, integer *jpvt, complex *work, integer *job)
 {
     /* System generated locals */
@@ -41,14 +41,14 @@ static complex c_b26 = {(float)1.,(float)0.};
     integer lp1, lup;
     logical negj;
     integer maxj;
-    extern /* Subroutine */ int cscal_(integer *, complex *, complex *, 
+    extern /* Subroutine */ int cscal_(integer *, complex *, complex *,
             integer *);
-    extern /* Complex */ VOID cdotc_(complex *, integer *, complex *, integer 
+    extern /* Complex */ VOID cdotc_(complex *, integer *, complex *, integer
             *, complex *, integer *);
-    extern /* Subroutine */ int cswap_(integer *, complex *, integer *, 
+    extern /* Subroutine */ int cswap_(integer *, complex *, integer *,
             complex *, integer *);
     logical swapj;
-    extern /* Subroutine */ int caxpy_(integer *, complex *, complex *, 
+    extern /* Subroutine */ int caxpy_(integer *, complex *, complex *,
             integer *, complex *, integer *);
     complex nrmxl;
     extern doublereal scnrm2_(integer *, complex *, integer *);

@@ -125,7 +125,7 @@ MahalanobisDistanceMetric< TVector >
     {
     for ( unsigned int band_y = 0; band_y < m_Covariance.rows(); band_y++ )
       {
-      cov_sum += vnl_math_abs(m_Covariance[band_x][band_y]);
+      cov_sum += itk::Math::abs(m_Covariance[band_x][band_y]);
       }
     }
   // check if it is a zero covariance, if it is, we make its

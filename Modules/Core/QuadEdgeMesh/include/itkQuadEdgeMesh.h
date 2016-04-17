@@ -18,7 +18,10 @@
 #ifndef itkQuadEdgeMesh_h
 #define itkQuadEdgeMesh_h
 
-#include "vcl_cstdarg.h"
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "vcl_cstdarg.h"
+#endif
+#include <cstdarg>
 #include <queue>
 #include <vector>
 #include <list>
@@ -104,7 +107,7 @@ namespace itk
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/306
+ * https://hdl.handle.net/1926/306
  *
  * \ingroup ITKQuadEdgeMesh
  */

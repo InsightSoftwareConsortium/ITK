@@ -26,7 +26,7 @@
 #include "itkProgressAccumulator.h"
 #include "itkMath.h"
 #include "vnl/vnl_vector.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -289,7 +289,7 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
       // cast to a real type is required on some platforms
       const OutputPixelType outputValue =
         static_cast< OutputPixelType >(
-          std::sqrt( static_cast< OutputRealType >( vnl_math_abs( Ot.Get() ) ) ) );
+          std::sqrt( static_cast< OutputRealType >( itk::Math::abs( Ot.Get() ) ) ) );
 
       if ( Math::NotExactlyEquals( It.Get(), this->m_BackgroundValue ) )
         {
@@ -402,12 +402,12 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
       iw = static_cast< OutputPixelType >( i );
       }
 
-    OutputPixelType d1 = vnl_math_abs( g(l) ) + ( h(l) - iw ) * ( h(l) - iw );
+    OutputPixelType d1 = itk::Math::abs( g(l) ) + ( h(l) - iw ) * ( h(l) - iw );
 
     while ( l < ns )
       {
       // be sure to compute d2 *only* if l < ns
-      OutputPixelType d2 = vnl_math_abs( g(l + 1) ) + ( h(l + 1) - iw ) * ( h(l + 1) - iw );
+      OutputPixelType d2 = itk::Math::abs( g(l + 1) ) + ( h(l + 1) - iw ) * ( h(l + 1) - iw );
       // then compare d1 and d2
       if ( d1 <= d2 )
         {
@@ -454,8 +454,8 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   OutputPixelType c = xf - x1;
 
   OutputPixelType value =
-      ( c * vnl_math_abs(d2) - b * vnl_math_abs(d1)
-       - a * vnl_math_abs(df) - a * b * c );
+      ( c * itk::Math::abs(d2) - b * itk::Math::abs(d1)
+       - a * itk::Math::abs(df) - a * b * c );
 
   return ( value > 0 );
 }

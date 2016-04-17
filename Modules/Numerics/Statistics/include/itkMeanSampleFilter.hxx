@@ -170,7 +170,7 @@ MeanSampleFilter< TSample >
     }
 
   // compute the mean if the total frequency is different from zero
-  if ( totalFrequency > vnl_math::eps )
+  if ( totalFrequency > itk::Math::eps )
     {
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {

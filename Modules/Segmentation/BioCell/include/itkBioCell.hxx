@@ -19,7 +19,7 @@
 #define itkBioCell_hxx
 
 #include "itkBioCell.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/vnl_sample.h"
 #include <new>
 

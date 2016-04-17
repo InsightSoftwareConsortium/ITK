@@ -62,7 +62,7 @@ VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 
     PixelPool.clear();
     this->GetPixelIndexFromPolygon(VertList, &PixelPool);
-    this->m_NumberOfPixels[i] = PixelPool.size();
+    this->m_NumberOfPixels[i] = static_cast<SizeValueType>( PixelPool.size() );
     this->m_Label[i] = this->TestHomogeneity(PixelPool);
 
     // when partitioning the NumberOfBoundary is the number of regions that
@@ -169,8 +169,8 @@ bool
 VoronoiPartitioningImageFilter< TInputImage, TOutputImage >
 ::TestHomogeneity(IndexList & Plist)
 {
-  int    num = Plist.size();
-  int    i;
+  SizeValueType num = static_cast<SizeValueType>( Plist.size());
+  SizeValueType i;
   double getp;
   double addp = 0;
   double addpp = 0;

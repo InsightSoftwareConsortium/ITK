@@ -360,8 +360,8 @@ MNCAPI void voxel_loop(int num_input_files, char *input_files[],
    //(void)fprintf(stderr, "About to loop, max_buffer is %d\n", loop_options->total_copy_space);
    
    /* Save ncopts and set it to default value */
-   old_ncopts = ncopts;
-   ncopts = NC_OPTS_VAL;
+   old_ncopts =get_ncopts();
+   set_ncopts(NC_OPTS_VAL);
 
    /* Check that there is at least one input file */
    if (num_input_files < 1) {
@@ -413,7 +413,7 @@ MNCAPI void voxel_loop(int num_input_files, char *input_files[],
    }
 
    /* Restore ncopts */
-   ncopts = old_ncopts;
+   set_ncopts(old_ncopts);
                  
 }
 
@@ -442,9 +442,9 @@ PRIVATE int get_loop_dim_size(int inmincid, Loop_Options *loop_options)
    /* Look for dimension */
    dimid = MI_ERROR;
    if (loop_options->loop_dimension != NULL) {
-      ncopts = 0;
+      set_ncopts(0);
       dimid = ncdimid(inmincid, loop_options->loop_dimension);
-      ncopts = NC_OPTS_VAL;
+      set_ncopts(NC_OPTS_VAL);
    }
    if (dimid == MI_ERROR) return 1;
    (void) ncdiminq(inmincid, dimid, NULL, &dim_length);
@@ -501,9 +501,9 @@ PRIVATE void translate_input_coords(int inmincid,
    /* Look for dimension */
    dimid = MI_ERROR;
    if (loop_options->loop_dimension != NULL) {
-      ncopts = 0;
+      set_ncopts(0);
       dimid = ncdimid(inmincid, loop_options->loop_dimension);
-      ncopts = NC_OPTS_VAL;
+      set_ncopts(NC_OPTS_VAL);
    }
 
    /* Get image variable info */
@@ -713,9 +713,9 @@ PRIVATE int input_image_varinq(int mincid, int imgid, char *name,
    /* Get loop dimension id */
    dimid = MI_ERROR;
    if (loop_options->loop_dimension != NULL) {
-      old_ncopts = ncopts; ncopts = 0;
+      old_ncopts =get_ncopts(); set_ncopts(0);
       dimid = ncdimid(mincid, loop_options->loop_dimension);
-      ncopts = old_ncopts;
+      set_ncopts(old_ncopts);
    }
 
    /* Call ncvarinq. If there is no loop dim, or an error occurred, then
@@ -827,7 +827,7 @@ PRIVATE void get_dim_info(int mincid, int *ndims, long size[],
          is_regular[idim] = TRUE;
 
       /* Get the coordinate info */
-      old_ncopts = ncopts; ncopts = 0;
+      old_ncopts =get_ncopts(); set_ncopts(0);
       varid = ncvarid(mincid, thename);
       if (varid != MI_ERROR) {
          if (start != NULL)
@@ -847,7 +847,7 @@ PRIVATE void get_dim_info(int mincid, int *ndims, long size[],
             }
          }
       }
-      ncopts = old_ncopts;
+      set_ncopts(old_ncopts);
    }
    
 }
@@ -1012,7 +1012,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
          /* Copy the dimension variables if we are not copying the 
             whole header */
          if (!loop_options->copy_all_header_info) {
-            ncopts = 0;
+            set_ncopts(0);
             for (ivar=0; ivar < 2; ivar++) {
                if (ivar == 1) 
                   (void) strncat(dimname, "_width", MAX_NC_NAME);
@@ -1022,7 +1022,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
                   nvars++;
                }
             }
-            ncopts = NC_OPTS_VAL;
+            set_ncopts(NC_OPTS_VAL);
          }
          
          odim++;
@@ -1038,7 +1038,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
    /* Copy other variables in file, if appropriate */
    if (loop_options->copy_all_header_info) {
       nvars = 0;
-      ncopts = 0;
+      set_ncopts(0);
       varlist[nvars] = inimgid;
       if (varlist[nvars] != MI_ERROR) nvars++;
       varlist[nvars] = ncvarid(inmincid, MIimagemax);
@@ -1055,7 +1055,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
       }
       (void) micopy_all_var_defs(inmincid, outmincid, 
                                  nvars, varlist);
-      ncopts = NC_OPTS_VAL;
+      set_ncopts(NC_OPTS_VAL);
    }
 
    /* Add the time stamp to the history */
@@ -1074,12 +1074,12 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
                                  out_ndims-out_nimgdims, outdim);
    minid = micreate_std_variable(outmincid, MIimagemin, NC_DOUBLE, 
                                  out_ndims-out_nimgdims, outdim);
-   ncopts = 0;
+   set_ncopts(0);
    (void) micopy_all_atts(inmincid, ncvarid(inmincid, MIimagemax),
                           outmincid, maxid);
    (void) micopy_all_atts(inmincid, ncvarid(inmincid, MIimagemin),
                           outmincid, minid);
-   ncopts = NC_OPTS_VAL;
+   set_ncopts(NC_OPTS_VAL);
 
    /* Create the image variable */
    if (loop_options->datatype != MI_ORIGINAL_TYPE) {
@@ -1091,9 +1091,9 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
                                     out_ndims, outdim);
    (void) micopy_all_atts(inmincid, inimgid, outmincid, outimgid);
    if (loop_options->is_floating_type) {
-      ncopts = 0;
+      set_ncopts(0);
       (void) ncattdel(outmincid, outimgid, MIsigntype);
-      ncopts = NC_OPTS_VAL;
+      set_ncopts(NC_OPTS_VAL);
       valid_range[0] = 0;
       valid_range[1] = 1;
       (void) miset_valid_range(outmincid, outimgid, valid_range);
@@ -1108,9 +1108,9 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
                                   loop_options->valid_range);
       }
       else {
-         ncopts = 0;
+         set_ncopts(0);
          (void) ncattdel(outmincid, outimgid, MIvalid_range);
-         ncopts = NC_OPTS_VAL;
+         set_ncopts(NC_OPTS_VAL);
       }
    }
    (void) miattputstr(outmincid, outimgid, MIcomplete, MI_FALSE);
@@ -1120,7 +1120,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
    (void) ncendef(outmincid);
 
    /* Copy over variable values */
-   ncopts = 0;
+   set_ncopts(0);
    if (loop_options->copy_all_header_info) {
       (void) micopy_all_var_values(inmincid, outmincid, nvars, varlist);
    }
@@ -1135,7 +1135,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
          }
       }
    }
-   ncopts = NC_OPTS_VAL;
+   set_ncopts(NC_OPTS_VAL);
          
 
 }
@@ -1163,7 +1163,7 @@ PRIVATE void update_history(int mincid, char *arg_string)
    if (arg_string == NULL) return;
 
    /* Get the history attribute length */
-   ncopts=0;
+   set_ncopts(0);
    if ((ncattinq(mincid, NC_GLOBAL, MIhistory, &datatype,
                  &att_length) == MI_ERROR) ||
        (datatype != NC_CHAR))
@@ -1175,7 +1175,7 @@ PRIVATE void update_history(int mincid, char *arg_string)
    string[0] = '\0';
    (void) miattgetstr(mincid, NC_GLOBAL, MIhistory, att_length, 
                       string);
-   ncopts = NC_OPTS_VAL;
+   set_ncopts(NC_OPTS_VAL);
 
    /* Add the new command and put the new history. */
    (void) strcat(string, arg_string);

@@ -183,7 +183,7 @@ VideoStream<TFrameType>
 ::SetFrameDirection(SizeValueType frameNumber, typename TFrameType::DirectionType direction)
 {
   // Determinant is non-zero
-  if (vnl_math_abs(vnl_determinant(direction.GetVnlMatrix())) <= vnl_math::eps)
+  if (itk::Math::abs(vnl_determinant(direction.GetVnlMatrix())) <= itk::Math::eps)
     {
     itkExceptionMacro("Bad direction, determinant is 0. Direction is " << direction);
     }

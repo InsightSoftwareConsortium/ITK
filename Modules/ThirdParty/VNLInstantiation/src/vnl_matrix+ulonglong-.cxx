@@ -16,9 +16,4 @@
  *
  *=========================================================================*/
 #include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20120316
-#include <vnl/vnl_matrix.txx>
-VNL_MATRIX_INSTANTIATE(unsigned long long);
-#else
 void vnl_matrix_ulonglong_dummy(void) {}
-#endif

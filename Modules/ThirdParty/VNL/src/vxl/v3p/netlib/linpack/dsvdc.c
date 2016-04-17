@@ -24,10 +24,6 @@
     few  programs  rely  on  the precise definition of IEEE floating
     point.  Use `-ffloat-store' for such programs.  */
 
-#ifdef __INTEL_COMPILER
-# pragma optimize("", off)
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -40,12 +36,12 @@ static doublereal c_b44 = -1.;
 
 /*<       subroutine dsvdc(x,ldx,n,p,s,e,u,ldu,v,ldv,work,job,info) >*/
 /* Subroutine */ int dsvdc_(doublereal *x, integer *ldx, integer *n, integer *
-        p, doublereal *s, doublereal *e, doublereal *u, integer *ldu, 
+        p, doublereal *s, doublereal *e, doublereal *u, integer *ldu,
         doublereal *v, integer *ldv, doublereal *work, integer *job, integer *
         info)
 {
     /* System generated locals */
-    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2, 
+    integer x_dim1, x_offset, u_dim1, u_offset, v_dim1, v_offset, i__1, i__2,
             i__3;
     doublereal d__1, d__2, d__3, d__4, d__5, d__6, d__7;
 
@@ -65,22 +61,22 @@ static doublereal c_b44 = -1.;
     integer lm1, mm1, lp1, mp1, nct, ncu, lls, nrt;
     doublereal emm1, smm1;
     integer kase;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
     integer jobu, iter;
-    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int drot_(integer *, doublereal *, integer *,
             doublereal *, integer *, doublereal *, doublereal *);
     doublereal test;
     extern doublereal dnrm2_(integer *, doublereal *, integer *);
     integer nctp1, nrtp1;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     doublereal scale, shift;
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
-            doublereal *, integer *), drotg_(doublereal *, doublereal *, 
+    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *,
+            doublereal *, integer *), drotg_(doublereal *, doublereal *,
             doublereal *, doublereal *);
     integer maxit;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
     logical wantu, wantv;
     doublereal ztest;
@@ -604,11 +600,11 @@ L300:
         for (j = lp1; j <= i__2; ++j) {
 /*<                   t = -ddot(p-l,v(lp1,l),1,v(lp1,j),1)/v(lp1,l) >*/
             i__3 = *p - l;
-            t = -ddot_(&i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            t = -ddot_(&i__3, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1) / v[lp1 + l * v_dim1];
 /*<                   call daxpy(p-l,t,v(lp1,l),1,v(lp1,j),1) >*/
             i__3 = *p - l;
-            daxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j * 
+            daxpy_(&i__3, &t, &v[lp1 + l * v_dim1], &c__1, &v[lp1 + j *
                     v_dim1], &c__1);
 /*<   310          continue >*/
 /* L310: */
@@ -881,7 +877,7 @@ L540:
 
 /*<    >*/
 /* Computing MAX */
-    d__6 = (d__1 = s[m], abs(d__1)), d__7 = (d__2 = s[m - 1], abs(d__2)), 
+    d__6 = (d__1 = s[m], abs(d__1)), d__7 = (d__2 = s[m - 1], abs(d__2)),
             d__6 = max(d__6,d__7), d__7 = (d__3 = e[m - 1], abs(d__3)), d__6 =
              max(d__6,d__7), d__7 = (d__4 = s[l], abs(d__4)), d__6 = max(d__6,
             d__7), d__7 = (d__5 = e[l], abs(d__5));

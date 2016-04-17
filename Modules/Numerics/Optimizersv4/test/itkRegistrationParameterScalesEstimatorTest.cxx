@@ -148,7 +148,7 @@ public:
 
     ParametersType norms(numPara);
 
-    itk::SizeValueType numSamples = this->m_SamplePoints.size();
+    itk::SizeValueType numSamples = static_cast<itk::SizeValueType>( this->m_SamplePoints.size() );
 
     norms.Fill(0.0);
     parameterScales.Fill(1.0);

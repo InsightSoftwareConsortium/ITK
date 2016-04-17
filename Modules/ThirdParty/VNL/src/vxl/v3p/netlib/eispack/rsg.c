@@ -17,21 +17,21 @@ extern "C" {
 
 /*<       subroutine rsg(nm,n,a,b,w,matz,z,fv1,fv2,ierr) >*/
 /* Subroutine */ int rsg_(integer *nm, integer *n, doublereal *a, doublereal *
-        b, doublereal *w, integer *matz, doublereal *z__, doublereal *fv1, 
+        b, doublereal *w, integer *matz, doublereal *z__, doublereal *fv1,
         doublereal *fv2, integer *ierr)
 {
     /* System generated locals */
     integer a_dim1, a_offset, b_dim1, b_offset, z_dim1, z_offset;
 
     /* Local variables */
-    extern /* Subroutine */ int tql2_(integer *, integer *, doublereal *, 
-            doublereal *, doublereal *, integer *), tred1_(integer *, integer 
-            *, doublereal *, doublereal *, doublereal *, doublereal *), 
-            tred2_(integer *, integer *, doublereal *, doublereal *, 
-            doublereal *, doublereal *), rebak_(integer *, integer *, 
+    extern /* Subroutine */ int tql2_(integer *, integer *, doublereal *,
+            doublereal *, doublereal *, integer *), tred1_(integer *, integer
+            *, doublereal *, doublereal *, doublereal *, doublereal *),
+            tred2_(integer *, integer *, doublereal *, doublereal *,
+            doublereal *, doublereal *), rebak_(integer *, integer *,
             doublereal *, doublereal *, integer *, doublereal *), reduc_(
-            integer *, integer *, doublereal *, doublereal *, doublereal *, 
-            integer *), tqlrat_(integer *, doublereal *, doublereal *, 
+            integer *, integer *, doublereal *, doublereal *, doublereal *,
+            integer *), tqlrat_(integer *, doublereal *, doublereal *,
             integer *);
 
 

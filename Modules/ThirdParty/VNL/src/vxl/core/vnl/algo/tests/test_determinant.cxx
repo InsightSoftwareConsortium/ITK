@@ -12,33 +12,6 @@ void test_determinant()
 {
   double eps = 1e-14;
 
-#if 0 // commented out
-  {
-    double M1[1][1] = {
-      { 0.95012928514718 }
-    };
-    vnl_matrix<double> m1(&M1[0][0],1,1);
-    double d1 = M1[0][0];
-    TEST_NEAR("1x1 vnl_determinant(vnl_matrix<double>)", vnl_determinant(m1), d1, eps);
-    TEST_NEAR("1x1 qr_det(vnl_matrix<double>)", qr_det(m1), d1, eps);
-    TEST_NEAR("1x1 vnl_determinant(double, ...)", vnl_determinant(M1[0]), d1, eps);
-    vnl_matrix_fixed<double,1,1> m_1 = m1;
-    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,1,1>)", vnl_det(m_1), d1, eps);
-  }
-
-  {
-    double N1[1][1] = {
-      { -0.95012928514718 }
-    };
-    vnl_matrix<double> n1(&N1[0][0],1,1);
-    double d1 = N1[0][0];
-    TEST_NEAR("1x1 vnl_determinant(vnl_matix<double>)", vnl_determinant(n1), d1, eps);
-    TEST_NEAR("1x1 qr_det(vnl_matrix<double>)", qr_det(n1), d1, eps);
-    TEST_NEAR("1x1 vnl_determinant(double, ...)", vnl_determinant(N1[0]), d1, eps);
-    vnl_matrix_fixed<double,1,1> n_1 = n1;
-    TEST_NEAR("vnl_det(vnl_matrix_fixed<double,1,1>)", vnl_det(n_1), d1, eps);
-  }
-#endif
   {
     double M2[2][2] = {
       { 0.60684258354179,   0.89129896614890 },

@@ -39,7 +39,7 @@ namespace itk
  * for a basic discussion including additional references.
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/500
+ * https://hdl.handle.net/1926/500
  *
  * \sa KernelFunctionBase
  *
@@ -64,9 +64,9 @@ public:
   /** Evaluate the function. */
   inline TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
   {
-    TRealValueType parameter = vnl_math_sqr(u / this->m_Sigma);
+    TRealValueType parameter = itk::Math::sqr(u / this->m_Sigma);
     TRealValueType envelope = std::exp(static_cast< TRealValueType >(-0.5) * parameter);
-    TRealValueType phase = static_cast< TRealValueType >(2.0 * vnl_math::pi) * this->m_Frequency * u
+    TRealValueType phase = static_cast< TRealValueType >(2.0 * itk::Math::pi) * this->m_Frequency * u
                    + this->m_PhaseOffset;
 
     if ( this->m_CalculateImaginaryPart )

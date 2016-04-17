@@ -5,5 +5,5 @@
 # pragma warning(disable:4146)
 #endif //VCL_VC_DOTNET
 
-#include <vnl/vnl_vector.txx>
+#include <vnl/vnl_vector.hxx>
 VNL_VECTOR_INSTANTIATE(unsigned long);

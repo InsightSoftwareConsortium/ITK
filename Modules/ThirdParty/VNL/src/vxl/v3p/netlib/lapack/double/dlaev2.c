@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DLAEV2( A, B, C, RT1, RT2, CS1, SN1 ) >*/
-/* Subroutine */ int dlaev2_(doublereal *a, doublereal *b, doublereal *c__, 
+/* Subroutine */ int dlaev2_(doublereal *a, doublereal *b, doublereal *c__,
         doublereal *rt1, doublereal *rt2, doublereal *cs1, doublereal *sn1)
 {
     /* System generated locals */

@@ -222,7 +222,7 @@ MetaVesselTubeConverter< NDimensions >
     vesselTubeMO->ParentID( vesselTubeSO->GetParent()->GetId() );
     }
   vesselTubeMO->ParentPoint( vesselTubeSO->GetParentPoint() );
-  vesselTubeMO->NPoints( vesselTubeMO->GetPoints().size() );
+  vesselTubeMO->NPoints(static_cast<int>( vesselTubeMO->GetPoints().size() ) );
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {

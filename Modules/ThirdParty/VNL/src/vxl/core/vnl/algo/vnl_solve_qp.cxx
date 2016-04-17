@@ -1,3 +1,5 @@
+#include <vector>
+#include <iostream>
 #include "vnl_solve_qp.h"
 //:
 // \file
@@ -6,9 +8,8 @@
 
 #include <vnl/algo/vnl_svd.h>
 #include <vnl/algo/vnl_cholesky.h>
-#include <vcl_vector.h>
+#include <vcl_compiler.h>
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
 
 //: Solve Sx=b for symmetric S
 static void vnl_solve_symmetric_le(const vnl_matrix<double>& S,
@@ -97,11 +98,11 @@ bool vnl_solve_qp_zero_sum(const vnl_matrix<double>& H,
   // Sum of elements in H_inv  (= 1'*H_inv*1)
   double H_inv_sum = vnl_c_vector<double>::sum(H_inv.begin(),H_inv.size());
 
-  if (vcl_fabs(H_inv_sum)<1e-8)
+  if (std::fabs(H_inv_sum)<1e-8)
   {
-    vcl_cerr<<"Uh-oh. H_inv.sum()="<<H_inv_sum<<vcl_endl
-            <<"H="<<H<<vcl_endl
-            <<"H_inv="<<H_inv<<vcl_endl;
+    std::cerr<<"Uh-oh. H_inv.sum()="<<H_inv_sum<<std::endl
+            <<"H="<<H<<std::endl
+            <<"H_inv="<<H_inv<<std::endl;
   }
 
   // Solve for lagrange multiplier, lambda
@@ -120,7 +121,7 @@ bool vnl_solve_qp_zero_sum(const vnl_matrix<double>& H,
 static bool vnl_solve_qp_update_x(vnl_vector<double>& x,
                                   const vnl_vector<double>& x1,
                                   vnl_vector<double>& dx,
-                                  vcl_vector<bool>& valid,
+                                  std::vector<bool>& valid,
                                   unsigned& n_valid)
 {
   unsigned n=x.size();
@@ -168,7 +169,7 @@ bool vnl_solve_qp_non_neg_step(const vnl_matrix<double>& H,
                                const vnl_matrix<double>& A,
                                const vnl_vector<double>& b,
                                vnl_vector<double>& x,
-                               vcl_vector<bool>& valid,
+                               std::vector<bool>& valid,
                                unsigned& n_valid)
 {
   // Find solution to H1(x+dx)+g1=0, subject to A1(x1+dx)=b
@@ -226,7 +227,7 @@ bool vnl_solve_qp_non_neg_step(const vnl_matrix<double>& H,
 bool vnl_solve_qp_non_neg_sum_one_step(const vnl_matrix<double>& H,
                                        const vnl_vector<double>& g,
                                        vnl_vector<double>& x,
-                                       vcl_vector<bool>& valid,
+                                       std::vector<bool>& valid,
                                        unsigned& n_valid)
 {
   // Find solution to H1(x+dx)+g1=0, subject to sum(dx)=0.0
@@ -301,7 +302,7 @@ bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
   if (vnl_vector_ssd(A*x,b)>con_tol)
   {
     if (verbose)
-      vcl_cerr<<"Supplied x does not satisfy equality constraints\n";
+      std::cerr<<"Supplied x does not satisfy equality constraints\n";
     return false;
   }
   for (unsigned i=0;i<n;++i)
@@ -309,13 +310,13 @@ bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
     if (x[i]<0)
     {
       if (verbose)
-        vcl_cerr<<"Element "<<i<<" of x is negative.  Must be >=0 on input.\n";
+        std::cerr<<"Element "<<i<<" of x is negative.  Must be >=0 on input.\n";
       return false;
     }
   }
 
   // Indicate which elements of x are non-zero and to be optimised
-  vcl_vector<bool> valid(n,true);
+  std::vector<bool> valid(n,true);
   unsigned n_valid=n;
 
   while (!vnl_solve_qp_non_neg_step(H,g,A,b,x,valid,n_valid)) {}
@@ -323,7 +324,7 @@ bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
   if (vnl_vector_ssd(A*x,b)>con_tol)
   {
     if (verbose)
-      vcl_cerr<<"Oops: Final x does not satisfy equality constraints\n";
+      std::cerr<<"Oops: Final x does not satisfy equality constraints\n";
     return false;
   }
   else
@@ -351,10 +352,10 @@ bool vnl_solve_qp_non_neg_sum_one(const vnl_matrix<double>& H,
   assert(H.cols()==n);
   assert(g.size()==n);
 
-  if (vcl_fabs(x.sum()-1.0)>1e-8)
+  if (std::fabs(x.sum()-1.0)>1e-8)
   {
     if (verbose)
-      vcl_cerr<<"Supplied x does not sum to unity.\n";
+      std::cerr<<"Supplied x does not sum to unity.\n";
     return false;
   }
   for (unsigned i=0;i<n;++i)
@@ -362,21 +363,21 @@ bool vnl_solve_qp_non_neg_sum_one(const vnl_matrix<double>& H,
     if (x[i]<0)
     {
       if (verbose)
-        vcl_cerr<<"Element "<<i<<" of x is negative.  Must be >=0 on input.\n";
+        std::cerr<<"Element "<<i<<" of x is negative.  Must be >=0 on input.\n";
       return false;
     }
   }
 
   // Indicate which elements of x are non-zero and to be optimised
-  vcl_vector<bool> valid(n,true);
+  std::vector<bool> valid(n,true);
   unsigned n_valid=n;
 
   while (!vnl_solve_qp_non_neg_sum_one_step(H,g,x,valid,n_valid)) {}
 
-  if (vcl_fabs(x.sum()-1.0)>1e-8)
+  if (std::fabs(x.sum()-1.0)>1e-8)
   {
     if (verbose)
-      vcl_cerr<<"Oops. Final x does not sum to unity.\n";
+      std::cerr<<"Oops. Final x does not sum to unity.\n";
     return false;
   }
   else

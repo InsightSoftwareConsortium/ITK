@@ -157,10 +157,10 @@ void IconImageFilter::ExtractIconImages()
               (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
             //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
-            unsigned long check =
-              (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
-              * el_us3.GetValue(2) / 8;
-            assert( check == lut_raw->GetLength() ); (void)check;
+            //unsigned long check =
+            //  (el_us3.GetValue(0) ? el_us3.GetValue(0) : 65536)
+            //  * el_us3.GetValue(2) / 8;
+            //assert( check == lut_raw->GetLength() ); (void)check;
             }
           else if( ds.FindDataElement( seglut ) )
             {

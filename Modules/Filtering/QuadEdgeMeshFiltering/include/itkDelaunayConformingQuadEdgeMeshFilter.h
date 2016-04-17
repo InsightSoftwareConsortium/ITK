@@ -22,7 +22,7 @@
 #include "itkPriorityQueueContainer.h"
 #include "itkQuadEdgeMeshToQuadEdgeMeshFilter.h"
 #include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -200,7 +200,7 @@ protected:
       dotB = -1.;
       }
 
-    return ( std::acos(dotA) + std::acos(dotB) - vnl_math::pi );
+    return ( std::acos(dotA) + std::acos(dotB) - itk::Math::pi );
   }
 
 private:

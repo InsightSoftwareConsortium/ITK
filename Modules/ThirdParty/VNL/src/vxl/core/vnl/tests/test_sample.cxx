@@ -1,14 +1,15 @@
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <testlib/testlib_test.h>
 #include <vnl/vnl_math.h>
 #include <vnl/vnl_sample.h>
-#include <vcl_ctime.h>
+#include <vul/vul_get_timestamp.h> // to generate a random number
 
 static double eps = 0.02;
 
 static void test_sample_uniform()
 {
-  vcl_cout << "*************** sample uniform ***************\n";
+  std::cout << "*************** sample uniform ***************\n";
   unsigned const N = 100000;
   double a = 123.456;
   double b = 543.210;
@@ -28,12 +29,12 @@ static void test_sample_uniform()
   // sample standard deviation
   double sigma_bar = 0;
   for (unsigned i=0; i<N; ++i)
-    sigma_bar += vnl_math_sqr(X[i] - X_bar);
-  sigma_bar = vcl_sqrt(sigma_bar / (N-1));
-  TEST_NEAR("sample stddev", sigma_bar, (b-a)/vcl_sqrt(12.0), eps*a);
+    sigma_bar += vnl_math::sqr(X[i] - X_bar);
+  sigma_bar = std::sqrt(sigma_bar / (N-1));
+  TEST_NEAR("sample stddev", sigma_bar, (b-a)/std::sqrt(12.0), eps*a);
 
-  int seed = static_cast<int>(vcl_time(0));
-  vcl_cout << "seed is " << seed << vcl_endl;
+  int seed; vul_get_timestamp(seed,seed);
+  std::cout << "seed is " << seed << std::endl;
   vnl_sample_reseed(seed);
   double uval0 = vnl_sample_uniform(0.0, 1.0);
   vnl_sample_reseed(seed);
@@ -44,17 +45,17 @@ static void test_sample_uniform()
   vnl_sample_uniform(X, X+N, a, b);
   X_bar=0; for (unsigned i=0; i<N; ++i) X_bar += X[i]; X_bar /= N;
   TEST_NEAR("sample mean", X_bar, (a+b)*0.5, eps*a);
-  sigma_bar=0; for (unsigned i=0; i<N; ++i) sigma_bar += vnl_math_sqr(X[i] - X_bar);
-  TEST_NEAR("sample stddev", vcl_sqrt(sigma_bar/(N-1)), (b-a)/vcl_sqrt(12.0), eps*a);
+  sigma_bar=0; for (unsigned i=0; i<N; ++i) sigma_bar += vnl_math::sqr(X[i] - X_bar);
+  TEST_NEAR("sample stddev", std::sqrt(sigma_bar/(N-1)), (b-a)/std::sqrt(12.0), eps*a);
 }
 
 static void test_sample_normal()
 {
-  vcl_cout << "*************** sample normal ***************\n";
+  std::cout << "*************** sample normal ***************\n";
   unsigned const N = 100000;
   double mu = 1.552;
   double sigma = 3.729;
-  vnl_sample_reseed( static_cast<int>(vcl_time(0))); // for quasi-random initialization
+  vnl_sample_reseed(); // initialise the random seed in a random way
 
   double X[N];
   for (unsigned i=0; i<N; ++i)
@@ -70,12 +71,12 @@ static void test_sample_normal()
   // sample standard deviation
   double sigma_bar = 0;
   for (unsigned i=0; i<N; ++i)
-    sigma_bar += vnl_math_sqr(X[i] - X_bar);
-  sigma_bar = vcl_sqrt(sigma_bar / (N-1));
+    sigma_bar += vnl_math::sqr(X[i] - X_bar);
+  sigma_bar = std::sqrt(sigma_bar / (N-1));
   TEST_NEAR("sample stddev", sigma_bar, sigma, eps*sigma);
 
-  int seed = static_cast<int>(vcl_time(0));
-  vcl_cout << "seed is " << seed << vcl_endl;
+  int seed; vul_get_timestamp(seed,seed);
+  std::cout << "seed is " << seed << std::endl;
   vnl_sample_reseed(seed);
   double nval0 = vnl_sample_normal(0.0, 1.0);
   vnl_sample_reseed(seed);
@@ -86,13 +87,13 @@ static void test_sample_normal()
   vnl_sample_normal(X, X+N, mu, sigma);
   X_bar=0; for (unsigned i=0; i<N; ++i) X_bar += X[i]; X_bar /= N;
   TEST_NEAR("sample mean", X_bar, mu, eps*sigma);
-  sigma_bar=0; for (unsigned i=0; i<N; ++i) sigma_bar += vnl_math_sqr(X[i] - X_bar);
-  TEST_NEAR("sample stddev", vcl_sqrt(sigma_bar/(N-1)), sigma, eps*sigma);
+  sigma_bar=0; for (unsigned i=0; i<N; ++i) sigma_bar += vnl_math::sqr(X[i] - X_bar);
+  TEST_NEAR("sample stddev", std::sqrt(sigma_bar/(N-1)), sigma, eps*sigma);
 }
 
 static void test_sample_binomial()
 {
-  vcl_cout << "*************** sample binomial ***************\n";
+  std::cout << "*************** sample binomial ***************\n";
   unsigned const N = 100000;
   int n = 10;
   double p = 0.4;
@@ -112,7 +113,7 @@ static void test_sample_binomial()
   // sample standard deviation
   double sigma_bar_sqr = 0;
   for (unsigned i=0; i<N; ++i)
-    sigma_bar_sqr += vnl_math_sqr(X[i] - X_bar);
+    sigma_bar_sqr += vnl_math::sqr(X[i] - X_bar);
   sigma_bar_sqr /= N-1;
   TEST_NEAR("sample stddev squared", sigma_bar_sqr, p*(1-p)*n, eps*n);
 
@@ -120,13 +121,13 @@ static void test_sample_binomial()
   vnl_sample_binomial(X, X+N, n, p);
   X_bar=0; for (unsigned i=0; i<N; ++i) X_bar += X[i]; X_bar /= N;
   TEST_NEAR("sample mean", X_bar, n*(1-p), eps*n);
-  sigma_bar_sqr=0; for (unsigned i=0; i<N; ++i) sigma_bar_sqr += vnl_math_sqr(X[i] - X_bar);
+  sigma_bar_sqr=0; for (unsigned i=0; i<N; ++i) sigma_bar_sqr += vnl_math::sqr(X[i] - X_bar);
   TEST_NEAR("sample stddev squared", sigma_bar_sqr /= N-1, p*(1-p)*n, eps*n);
 }
 
 static void test_sample_bernoulli()
 {
-  vcl_cout << "*************** sample Bernoulli ***************\n";
+  std::cout << "*************** sample Bernoulli ***************\n";
   unsigned const N = 100000;
   double p = 0.7;
   vnl_sample_reseed(); // initialise the random seed in a random way
@@ -145,7 +146,7 @@ static void test_sample_bernoulli()
   // sample standard deviation
   double sigma_bar_sqr = 0;
   for (unsigned i=0; i<N; ++i)
-    sigma_bar_sqr += vnl_math_sqr(X[i] - X_bar);
+    sigma_bar_sqr += vnl_math::sqr(X[i] - X_bar);
   sigma_bar_sqr /= N-1;
   TEST_NEAR("sample stddev squared", sigma_bar_sqr, p*(1-p), eps);
 
@@ -153,7 +154,7 @@ static void test_sample_bernoulli()
   vnl_sample_bernoulli(X, X+N, p);
   X_bar=0; for (unsigned i=0; i<N; ++i) X_bar += X[i]; X_bar /= N;
   TEST_NEAR("sample mean", X_bar, 1-p, eps);
-  sigma_bar_sqr=0; for (unsigned i=0; i<N; ++i) sigma_bar_sqr += vnl_math_sqr(X[i] - X_bar);
+  sigma_bar_sqr=0; for (unsigned i=0; i<N; ++i) sigma_bar_sqr += vnl_math::sqr(X[i] - X_bar);
   TEST_NEAR("sample stddev squared", sigma_bar_sqr /= N-1, p*(1-p), eps);
 }
 

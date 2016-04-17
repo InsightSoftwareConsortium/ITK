@@ -58,11 +58,11 @@ ArrowSpatialObject< 3 >
     {
     if ( m_Direction[1] > 0.0 )
       {
-      anglez = vnl_math::pi / 2;
+      anglez = itk::Math::pi / 2;
       }
     else if ( m_Direction[1] < 0.0 )
       {
-      anglez = -vnl_math::pi / 2;
+      anglez = -itk::Math::pi / 2;
       }
     //NOTE: else if m_Direction[1] == 0, anglez = 0;
     }
@@ -70,7 +70,7 @@ ArrowSpatialObject< 3 >
     {
     if ( m_Direction[0] < 0.0 )
       {
-      anglez = vnl_math::pi + std::atan(m_Direction[1] / m_Direction[0]);
+      anglez = itk::Math::pi + std::atan(m_Direction[1] / m_Direction[0]);
       }
     else
       {

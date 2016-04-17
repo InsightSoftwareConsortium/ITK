@@ -196,7 +196,8 @@ template<typename TSample>
 void
 KdTree<TSample>
 ::Search( const MeasurementVectorType & query,
-  unsigned int numberOfNeighborsRequested, InstanceIdentifierVectorType &result, std::vector<double> &distances ) const
+  unsigned int numberOfNeighborsRequested, InstanceIdentifierVectorType &result,
+  std::vector<double> &distances ) const
 {
   if( numberOfNeighborsRequested > this->Size() )
     {
@@ -205,13 +206,18 @@ KdTree<TSample>
       << "the measurement vectors." );
     }
 
-  NearestNeighbors nearestNeighbors;
+  /* 'distances' is the storage container used internally for the
+   * NearestNeighbors class.  The 'distances' vector is modified
+   * by the NearestNeighbors class.  By passing in
+   * the 'distances' vector here, we can avoid unnecessary memory
+   * duplications and copy operations.*/
+  NearestNeighbors nearestNeighbors(distances);
   nearestNeighbors.resize( numberOfNeighborsRequested );
 
   MeasurementVectorType lowerBound;
-  MeasurementVectorType upperBound;
   NumericTraits<MeasurementVectorType>::SetLength( lowerBound,
     this->m_MeasurementVectorSize );
+  MeasurementVectorType upperBound;
   NumericTraits<MeasurementVectorType>::SetLength( upperBound,
     this->m_MeasurementVectorSize );
 
@@ -227,7 +233,6 @@ KdTree<TSample>
     nearestNeighbors );
 
   result = nearestNeighbors.GetNeighbors();
-  distances = nearestNeighbors.GetDistances();
 }
 
 template<typename TSample>
@@ -505,14 +510,14 @@ KdTree<TSample>
 ::BoundsOverlapBall( const MeasurementVectorType &query, MeasurementVectorType
   &lowerBound, MeasurementVectorType &upperBound, double radius ) const
 {
-  double squaredSearchRadius = vnl_math_sqr( radius );
+  double squaredSearchRadius = itk::Math::sqr( radius );
 
   double sum = 0.0;
   for( unsigned int d = 0; d < this->m_MeasurementVectorSize; ++d )
     {
     if( query[d] <= lowerBound[d] )
       {
-      sum += vnl_math_sqr( this->m_DistanceMetric->Evaluate( query[d],
+      sum += itk::Math::sqr( this->m_DistanceMetric->Evaluate( query[d],
         lowerBound[d] ) );
       if( sum < squaredSearchRadius )
         {
@@ -521,7 +526,7 @@ KdTree<TSample>
       }
     else if( query[d] >= upperBound[d] )
       {
-      sum += vnl_math_sqr( this->m_DistanceMetric->Evaluate( query[d],
+      sum += itk::Math::sqr( this->m_DistanceMetric->Evaluate( query[d],
         upperBound[d] ) );
       if( sum < squaredSearchRadius )
         {

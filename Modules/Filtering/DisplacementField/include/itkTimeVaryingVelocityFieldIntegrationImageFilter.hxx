@@ -223,7 +223,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter
   inputField->TransformIndexToPhysicalPoint( lastIndex, spaceTimeEnd );
 
   // Calculate the delta time used for integration
-  const RealType deltaTime = vnl_math_abs( this->m_UpperTimeBound - this->m_LowerTimeBound ) /
+  const RealType deltaTime = itk::Math::abs( this->m_UpperTimeBound - this->m_LowerTimeBound ) /
     static_cast<RealType>( this->m_NumberOfIntegrationSteps );
 
   if( deltaTime == 0.0 )

@@ -339,9 +339,9 @@ Solve( OutputImageType* oImage,
     cc = static_cast< double >( m_InputCache->GetPixel(iNode) ) /
         this->m_NormalizationFactor;
 #if defined(__APPLE__) && (__clang_major__ == 3) && (__clang_minor__ == 0) && defined(NDEBUG) && defined(__x86_64__)
-    cc = -1.0 * vnl_math_sqr(1.0 / (cc + vnl_math::eps) );
+    cc = -1.0 * itk::Math::sqr(1.0 / (cc + itk::Math::eps) );
 #else
-    cc = -1.0 * vnl_math_sqr(1.0 / cc);
+    cc = -1.0 * itk::Math::sqr(1.0 / cc);
 #endif
     }
 
@@ -362,15 +362,15 @@ Solve( OutputImageType* oImage,
       axis = n_it->m_Axis;
 
       // spaceFactor = \frac{1}{spacing[axis]^2}
-      spaceFactor = vnl_math_sqr(1.0 / m_OutputSpacing[axis]);
+      spaceFactor = itk::Math::sqr(1.0 / m_OutputSpacing[axis]);
 
       aa += spaceFactor;
       bb += value * spaceFactor;
-      cc += vnl_math_sqr(value) * spaceFactor;
+      cc += itk::Math::sqr(value) * spaceFactor;
 
-      discrim = vnl_math_sqr(bb) - aa * cc;
+      discrim = itk::Math::sqr(bb) - aa * cc;
 
-      if ( discrim < vnl_math::eps )
+      if ( discrim < itk::Math::eps )
         {
         // Discriminant of quadratic eqn. is negative
         itkExceptionMacro(
@@ -452,9 +452,9 @@ CheckTopology( OutputImageType* oImage, const NodeType& iNode )
                 }
               else
                 {
-                minLabel = vnl_math_min( ItC.GetNext( d ),
+                minLabel = std::min( ItC.GetNext( d ),
                                          ItC.GetPrevious( d ) );
-                otherLabel = vnl_math_max( ItC.GetNext( d ),
+                otherLabel = std::max( ItC.GetNext( d ),
                                            ItC.GetPrevious( d ) );
                 }
               break;

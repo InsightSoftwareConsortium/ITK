@@ -13,13 +13,7 @@ foreach(p
 endforeach()
 
 project(ITK NONE)
-# Set a default build type if none was specified
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to 'Release' as none was specified.")
-  set(CMAKE_BUILD_TYPE Release CACHE STRING "Choose the type of build." FORCE)
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
-endif()
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
 enable_language(C)
 enable_language(CXX)
 
@@ -51,35 +45,6 @@ if( CMAKE_HOST_WIN32 )
 endif()
 
 #-----------------------------------------------------------------------------
-# Forbid downloading resources from the network during a build. This helps
-# when building on systems without network connectivity to determine which
-# resources much be obtained manually and made available to the build.
-option(ITK_FORBID_DOWNLOADS "Do not download source code or data from the network" OFF)
-mark_as_advanced(ITK_FORBID_DOWNLOADS)
-macro(itk_download_attempt_check _name)
-  if(ITK_FORBID_DOWNLOADS)
-    message(SEND_ERROR "Attempted to download ${_name} when ITK_FORBID_DOWNLOADS is ON")
-  endif()
-endmacro()
-
-#-----------------------------------------------------------------------------
-if(NOT ITK_FORBID_DOWNLOADS)
-  find_package(Git)
-  set(ITK_USE_GIT_PROTOCOL_default "OFF")
-  if (GIT_VERSION_STRING VERSION_LESS "1.7.10")
-    # minimum version for https support
-    set(ITK_USE_GIT_PROTOCOL_default "ON")
-  endif()
-  option(ITK_USE_GIT_PROTOCOL "If behind a firewall turn this off to use https instead." ${ITK_USE_GIT_PROTOCOL_default})
-  mark_as_advanced(ITK_USE_GIT_PROTOCOL)
-  set(git_protocol "https")
-  if(ITK_USE_GIT_PROTOCOL)
-    set(git_protocol "git")
-  endif()
-endif()
-
-
-#-----------------------------------------------------------------------------
 if(NOT EXISTS "${ITK_SOURCE_DIR}/.ExternalData/README.rst")
   # This file is always present in version-controlled source trees
   # so we must have been extracted from a source tarball with no
@@ -93,6 +58,7 @@ mark_as_advanced(CLEAR BUILD_TESTING)
 
 set(ITK_CMAKE_DIR ${ITK_SOURCE_DIR}/CMake)
 set(CMAKE_MODULE_PATH ${ITK_CMAKE_DIR} ${CMAKE_MODULE_PATH})
+include(ITKDownloadSetup)
 include(PreventInSourceBuilds)
 include(PreventInBuildInstalls)
 include(ITKModuleMacros)
@@ -100,13 +66,14 @@ include(ITKExternalData)
 include(ITKModuleTest)
 include(itkCheckSourceTree)
 
+
 set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 
 #-----------------------------------------------------------------------------
 # ITK version number.
 set(ITK_VERSION_MAJOR "4")
-set(ITK_VERSION_MINOR "9")
-set(ITK_VERSION_PATCH "1")
+set(ITK_VERSION_MINOR "10")
+set(ITK_VERSION_PATCH "0")
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)
   set(ITK_INSTALL_RUNTIME_DIR bin)
@@ -194,6 +161,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
 set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} ${ITK_REQUIRED_LINK_FLAGS}")
+if(NOT CMAKE_POSITION_INDEPENDENT_CODE)
+  set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+endif()
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)

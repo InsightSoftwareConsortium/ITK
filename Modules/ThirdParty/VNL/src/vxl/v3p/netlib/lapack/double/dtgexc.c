@@ -21,20 +21,20 @@ static integer c__1 = 1;
 static integer c__2 = 2;
 
 /*<    >*/
-/* Subroutine */ int dtgexc_(logical *wantq, logical *wantz, integer *n, 
+/* Subroutine */ int dtgexc_(logical *wantq, logical *wantz, integer *n,
         doublereal *a, integer *lda, doublereal *b, integer *ldb, doublereal *
-        q, integer *ldq, doublereal *z__, integer *ldz, integer *ifst, 
+        q, integer *ldq, doublereal *z__, integer *ldz, integer *ifst,
         integer *ilst, doublereal *work, integer *lwork, integer *info)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1, 
+    integer a_dim1, a_offset, b_dim1, b_offset, q_dim1, q_offset, z_dim1,
             z_offset, i__1, i__2;
 
     /* Local variables */
     integer nbf, nbl, here, lwmin;
-    extern /* Subroutine */ int dtgex2_(logical *, logical *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, doublereal *, 
-            integer *, doublereal *, integer *, integer *, integer *, integer 
+    extern /* Subroutine */ int dtgex2_(logical *, logical *, integer *,
+            doublereal *, integer *, doublereal *, integer *, doublereal *,
+            integer *, doublereal *, integer *, integer *, integer *, integer
             *, doublereal *, integer *, integer *), xerbla_(char *, integer *,
              ftnlen);
     integer nbnext;
@@ -451,7 +451,7 @@ L10:
 /*                 2-by-2 block did not split. */
 
 /*<    >*/
-                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset], 
+                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset],
                             ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &
                             here, &c__1, &nbnext, &work[1], lwork, info);
 /*<                   IF( INFO.NE.0 ) THEN >*/
@@ -470,7 +470,7 @@ L10:
 /*                 2-by-2 block did split. */
 
 /*<    >*/
-                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset], 
+                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset],
                             ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &
                             here, &c__1, &c__1, &work[1], lwork, info);
 /*<                   IF( INFO.NE.0 ) THEN >*/
@@ -484,7 +484,7 @@ L10:
 /*<                   HERE = HERE + 1 >*/
                     ++here;
 /*<    >*/
-                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset], 
+                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset],
                             ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &
                             here, &c__1, &c__1, &work[1], lwork, info);
 /*<                   IF( INFO.NE.0 ) THEN >*/
@@ -624,7 +624,7 @@ L20:
 
 /*<    >*/
                     i__1 = here - 1;
-                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset], 
+                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset],
                             ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &
                             i__1, &c__2, &c__1, &work[1], lwork, info);
 /*<                   IF( INFO.NE.0 ) THEN >*/
@@ -643,7 +643,7 @@ L20:
 /*                 2-by-2 block did split. */
 
 /*<    >*/
-                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset], 
+                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset],
                             ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &
                             here, &c__1, &c__1, &work[1], lwork, info);
 /*<                   IF( INFO.NE.0 ) THEN >*/
@@ -657,7 +657,7 @@ L20:
 /*<                   HERE = HERE - 1 >*/
                     --here;
 /*<    >*/
-                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset], 
+                    dtgex2_(wantq, wantz, n, &a[a_offset], lda, &b[b_offset],
                             ldb, &q[q_offset], ldq, &z__[z_offset], ldz, &
                             here, &c__1, &c__1, &work[1], lwork, info);
 /*<                   IF( INFO.NE.0 ) THEN >*/

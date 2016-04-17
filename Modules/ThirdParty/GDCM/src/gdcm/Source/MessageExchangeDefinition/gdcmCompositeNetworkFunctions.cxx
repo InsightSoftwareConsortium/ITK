@@ -106,7 +106,7 @@ bool CompositeNetworkFunctions::CEcho(const char *remote, uint16_t portno,
 // note that the caller is responsible for deleting the constructed query.
 // used to build both a move and a find query (true for inMove if it's move, false if it's find)
 BaseRootQuery* CompositeNetworkFunctions::ConstructQuery( ERootType inRootType,
-  EQueryLevel inQueryLevel, const KeyValuePairArrayType& keys, EQueryType queryType /*= eFind*/ )
+  EQueryLevel inQueryLevel, const KeyValuePairArrayType& keys, bool inMove)
 {
   KeyValuePairArrayType::const_iterator it = keys.begin();
   DataSet ds;
@@ -118,20 +118,17 @@ BaseRootQuery* CompositeNetworkFunctions::ConstructQuery( ERootType inRootType,
     ds.Insert( de );
     }
   return CompositeNetworkFunctions::ConstructQuery( inRootType,
-    inQueryLevel, ds, queryType);
+    inQueryLevel, ds, inMove);
 }
 
 BaseRootQuery* CompositeNetworkFunctions::ConstructQuery( ERootType inRootType,
-  EQueryLevel inQueryLevel, const DataSet& ds, EQueryType queryType /*= eFind*/ )
+  EQueryLevel inQueryLevel, const DataSet& ds, bool inMove)
 {
   BaseRootQuery* outQuery = NULL;
-  if( queryType == eMove )
+  if( inMove )
     outQuery = QueryFactory::ProduceQuery(inRootType, eMove, inQueryLevel);
-  else if( queryType == eFind )
+  else
     outQuery = QueryFactory::ProduceQuery(inRootType, eFind, inQueryLevel);
-  else if( queryType == eWLMFind )
-    outQuery = QueryFactory::ProduceQuery(inRootType, eWLMFind, inQueryLevel);
-
   if (!outQuery)
     {
     gdcmErrorMacro( "Specify the query" );

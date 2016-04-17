@@ -95,7 +95,9 @@ public:
 
   /** Return the number of points in the list */
   virtual SizeValueType GetNumberOfPoints(void) const ITK_OVERRIDE
-  { return m_Points.size(); }
+  {
+    return static_cast<SizeValueType>(m_Points.size());
+  }
 
   /** Set the type of tube end-type: 0 = flat, 1 = rounded */
   itkSetMacro(EndType, unsigned int);

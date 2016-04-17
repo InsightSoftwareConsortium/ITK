@@ -23,6 +23,7 @@
 //  It makes use of the GDCM library
 //
 
+#define ITK_LEGACY_TEST
 #include "itkImageSeriesReader.h"
 #include "itkImageSeriesWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -38,6 +39,7 @@ int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+#if ! defined ( ITK_LEGACY_REMOVE )
   typedef itk::Image<unsigned short,3>            ImageType;
   typedef itk::ImageSeriesReader< ImageType >     ReaderType;
   typedef itk::GDCMImageIO                        ImageIOType;
@@ -58,7 +60,7 @@ int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
   ReaderType::Pointer reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
-  const unsigned int numberOfFileNames =  fileNames.size();
+  const size_t numberOfFileNames = fileNames.size();
   std::cout << numberOfFileNames << std::endl;
   for( unsigned int fni = 0; fni < numberOfFileNames; ++fni )
     {
@@ -134,5 +136,7 @@ int itkGDCMSeriesReadImageWriteTest( int argc, char* argv[] )
     std::cerr << e << std::endl;
     return EXIT_FAILURE;
     }
+#endif
+
   return EXIT_SUCCESS;
 }

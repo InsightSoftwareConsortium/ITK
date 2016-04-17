@@ -112,7 +112,7 @@ int itkWeightedCentroidKdTreeGeneratorTest1(int argc , char * argv [] )
       const double distance =
         distanceMetric->Evaluate( tree->GetMeasurementVector( neighbors[i] ));
 
-      if( distance > vnl_math::eps )
+      if( distance > itk::Math::eps )
         {
         std::cout << "kd-tree knn search result:" << std::endl
                   << "query point = [" << queryPoint << "]" << std::endl

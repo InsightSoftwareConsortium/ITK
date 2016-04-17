@@ -38,7 +38,7 @@ namespace itk
  * The output image may be of any dimension.
  *
  * This implementation was contributed as a paper to the Insight Journal
- * http://hdl.handle.net/1926/500
+ * https://hdl.handle.net/1926/500
  *
  * \ingroup DataSources
  * \ingroup ITKImageSources

@@ -99,14 +99,14 @@ template <>
 bool
 Equal<double>(double &a, double &b)
 {
-  double diff(vnl_math_abs(a - b));
+  double diff(itk::Math::abs(a - b));
   if(diff == 0.0)
     {
     return true;
     }
   // base test roughly on magnitude of
   // arguments.
-  diff /= vnl_math_abs(a)+vnl_math_abs(b);
+  diff /= itk::Math::abs(a)+itk::Math::abs(b);
   if(diff > 0.000001)
     {
     return false;

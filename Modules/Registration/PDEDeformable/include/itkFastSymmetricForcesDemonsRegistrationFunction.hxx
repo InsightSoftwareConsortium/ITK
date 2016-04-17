@@ -20,7 +20,7 @@
 
 #include "itkFastSymmetricForcesDemonsRegistrationFunction.h"
 #include "itkMacro.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -217,14 +217,14 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
   double fixedPlusMovingGradientSquaredMagnitude = 0;
   for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
     {
-    fixedPlusMovingGradientSquaredMagnitude += vnl_math_sqr(fixedGradient[dim] + movingGradient[dim]);
+    fixedPlusMovingGradientSquaredMagnitude += itk::Math::sqr(fixedGradient[dim] + movingGradient[dim]);
     }
 
   const double speedValue = fixedValue - movingValue;
-  const double denominator = vnl_math_sqr(speedValue) / m_Normalizer + fixedPlusMovingGradientSquaredMagnitude;
+  const double denominator = itk::Math::sqr(speedValue) / m_Normalizer + fixedPlusMovingGradientSquaredMagnitude;
 
   PixelType update;
-  if ( vnl_math_abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold )
+  if ( itk::Math::abs(speedValue) < m_IntensityDifferenceThreshold || denominator < m_DenominatorThreshold )
     {
     update.Fill(0.0);
     }
@@ -243,7 +243,7 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
     {
     if ( globalData )
       {
-      globalData->m_SumOfSquaredChange += vnl_math_sqr(update[j]);
+      globalData->m_SumOfSquaredChange += itk::Math::sqr(update[j]);
       newMappedCenterPoint[j] = mappedCenterPoint[j] + update[j];
       if ( index[j] < ( FirstIndex[j] + 2 ) || index[j] > ( LastIndex[j] - 3 ) )
         {
@@ -269,7 +269,7 @@ FastSymmetricForcesDemonsRegistrationFunction< TFixedImage, TMovingImage, TDispl
         {
         newMovingValue = 0;
         }
-      globalData->m_SumOfSquaredDifference += vnl_math_sqr(fixedValue - newMovingValue);
+      globalData->m_SumOfSquaredDifference += itk::Math::sqr(fixedValue - newMovingValue);
       globalData->m_NumberOfPixelsProcessed += 1;
       }
     }

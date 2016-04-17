@@ -29,7 +29,7 @@
 #define itkImageTransformer_hxx
 #include "itkImageTransformer.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {

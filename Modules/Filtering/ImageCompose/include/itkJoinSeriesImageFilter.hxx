@@ -112,8 +112,8 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
                                            inputPtr->GetLargestPossibleRegion() );
 
   // for the new dimension, assuming the index has been set 0.
-  outputLargestPossibleRegion.SetSize( InputImageDimension,
-                                       this->GetNumberOfIndexedInputs() );
+  outputLargestPossibleRegion.SetSize( static_cast<unsigned int>( InputImageDimension ),
+                                       static_cast<SizeValueType>( this->GetNumberOfIndexedInputs() ) );
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 

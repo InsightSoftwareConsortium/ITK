@@ -241,7 +241,7 @@ public:
       sure we have enough layers to do what we need. */
   virtual void SetNumberOfLayers(const unsigned int n) ITK_OVERRIDE
   {
-    unsigned int nm = vnl_math_max (this->GetMinimumNumberOfLayers (), n);
+    unsigned int nm = std::max (this->GetMinimumNumberOfLayers (), n);
 
     if ( nm != this->GetNumberOfLayers() )
       {

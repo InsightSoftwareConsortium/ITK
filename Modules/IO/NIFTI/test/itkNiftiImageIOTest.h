@@ -38,7 +38,7 @@
 #include "itkRandomImageSource.h"
 
 #include "vnl/vnl_random.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "nifti1_io.h"
 

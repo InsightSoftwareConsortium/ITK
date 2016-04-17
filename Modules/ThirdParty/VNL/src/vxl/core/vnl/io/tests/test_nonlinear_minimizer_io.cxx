@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_nonlinear_minimizer_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
 #include <vnl/io/vnl_io_nonlinear_minimizer.h>
 #include <testlib/testlib_test.h>
@@ -7,7 +8,7 @@
 
 void test_nonlinear_minimizer_io()
 {
-  vcl_cout << "**********************************\n"
+  std::cout << "**********************************\n"
            << "Testing vnl_nonlinear_minimizer_io\n"
            << "**********************************\n";
 
@@ -33,8 +34,8 @@ void test_nonlinear_minimizer_io()
   minimizer_out.set_verbose(verbose_out);
   minimizer_out.set_check_derivatives(cd_out);
 
-  vsl_print_summary(vcl_cout, minimizer_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, minimizer_out);
+  std::cout << std::endl;
 
   vsl_b_ofstream bfs_out("vnl_nonlinear_minimizer_io.bvl.tmp");
   TEST("Created vnl_nonlinear_minimizer_test_io.bvl.tmp for writing", (!bfs_out), false);
@@ -67,8 +68,8 @@ void test_nonlinear_minimizer_io()
   TEST("verbose_in == verbose_out", verbose_in == verbose_out, true);
   TEST("cd_in == cd_out", cd_in == cd_out, true);
 
-  vsl_print_summary(vcl_cout, minimizer_in);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, minimizer_in);
+  std::cout << std::endl;
 }
 
 TESTMAIN(test_nonlinear_minimizer_io);

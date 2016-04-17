@@ -57,9 +57,9 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
     {
     const int boundingBoxSize = static_cast<int>(
       this->m_BoundingBoxEnd[d] - this->m_BoundingBoxStart[d] + 0.5 );
-    const int begin = vnl_math_max( 0, static_cast<int>( std::floor( cindex[d] -
+    const int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
       this->m_BoundingBoxStart[d] - this->m_CutoffDistance[d] ) ) );
-    const int end = vnl_math_min( boundingBoxSize, static_cast<int>( std::ceil(
+    const int end = std::min( boundingBoxSize, static_cast<int>( std::ceil(
       cindex[d] - this->m_BoundingBoxStart[d] + this->m_CutoffDistance[d] ) ) );
     region.SetIndex( d, begin );
     region.SetSize( d, end - begin );

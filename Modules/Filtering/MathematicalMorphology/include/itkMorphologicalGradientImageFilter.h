@@ -100,9 +100,9 @@ public:
 
   /** Kernel typedef. */
   typedef TKernel KernelType;
-//   typedef typename KernelType::Superclass KernelSuperClass;
+//   typedef typename KernelType::Superclass KernelSuperclass;
 //   typedef Neighborhood< typename KernelType::PixelType, ImageDimension >
-// KernelSuperClass;
+// KernelSuperclass;
 
   /** Set kernel (structuring element). */
   void SetKernel(const KernelType & kernel) ITK_OVERRIDE;

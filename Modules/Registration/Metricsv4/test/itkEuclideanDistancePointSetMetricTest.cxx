@@ -43,7 +43,7 @@ int itkEuclideanDistancePointSetMetricTestRun()
     }
   unsigned long count = 0;
   float pointSetRadius = 100.0;
-  for( float theta = 0; theta < 2.0 * vnl_math::pi; theta += 0.1 )
+  for( float theta = 0; theta < 2.0 * itk::Math::pi; theta += 0.1 )
     {
     PointType fixedPoint;
     fixedPoint[0] = pointSetRadius * std::cos( theta );

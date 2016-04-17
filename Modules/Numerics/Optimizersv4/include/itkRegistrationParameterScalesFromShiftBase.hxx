@@ -113,7 +113,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
           parameterScales[i] *= parameterScales[i];
           }
         //normalize to unit variation
-        parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::OneValue() / vnl_math_sqr( this->m_SmallParameterVariation );
+        parameterScales[i] *= NumericTraits< typename ScalesType::ValueType >::OneValue() / itk::Math::sqr( this->m_SmallParameterVariation );
         }
       }
     }
@@ -188,7 +188,7 @@ RegistrationParameterScalesFromShiftBase< TMetric >
   localStepScales.SetSize(numLocals);
   localStepScales.Fill(NumericTraits<typename ScalesType::ValueType>::ZeroValue());
 
-  const SizeValueType numSamples = this->m_SamplePoints.size();
+  const SizeValueType numSamples = static_cast< const SizeValueType >( this->m_SamplePoints.size() );
   for (SizeValueType c=0; c<numSamples; c++)
     {
     VirtualPointType &point = this->m_SamplePoints[c];

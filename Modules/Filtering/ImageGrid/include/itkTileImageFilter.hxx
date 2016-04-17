@@ -195,7 +195,7 @@ TileImageFilter< TInputImage, TOutputImage >
       {
       used *= m_Layout[d];
       }
-    outputSize[OutputImageDimension - 1] = ( this->GetNumberOfIndexedInputs() - 1 ) / used + 1;
+    outputSize[OutputImageDimension - 1] = ( static_cast<SizeValueType>( this->GetNumberOfIndexedInputs() ) - 1 ) / used + 1;
     if ( outputSize[OutputImageDimension - 1] < 1 )
       {
       outputSize[OutputImageDimension - 1] = 1;

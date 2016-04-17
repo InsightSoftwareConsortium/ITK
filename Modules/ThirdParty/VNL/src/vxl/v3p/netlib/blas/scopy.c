@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine scopy(n,sx,incx,sy,incy) >*/
-/* Subroutine */ int scopy_(integer *n, real *sx, integer *incx, real *sy, 
+/* Subroutine */ int scopy_(integer *n, real *sx, integer *incx, real *sy,
         integer *incy)
 {
     /* System generated locals */

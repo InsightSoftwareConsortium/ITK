@@ -23,16 +23,17 @@
 //                                tinverse(), solve(matrix), extract_q_and_r().
 // \endverbatim
 
+#include <iosfwd>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 //: Extract the Q*R decomposition of matrix M.
 //  The decomposition is stored in a compact and time-efficient
 // packed form, which is most easily used via the "solve" and
 // "determinant" methods.
 
-template <class T>
+VCL_TEMPLATE_EXPORT template <class T>
 class vnl_qr
 {
  public:
@@ -85,7 +86,7 @@ inline T vnl_qr_determinant(vnl_matrix<T> const& m)
   return vnl_qr<T>(m).determinant();
 }
 
-template <class T>
-vcl_ostream& operator<<(vcl_ostream&, vnl_qr<T> const & qr);
+VCL_TEMPLATE_EXPORT template <class T>
+std::ostream& operator<<(std::ostream&, vnl_qr<T> const & qr);
 
 #endif // vnl_qr_h_

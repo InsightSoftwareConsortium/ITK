@@ -352,10 +352,10 @@ int itkSimpleImageRegistrationTest2( int argc, char *argv[] )
    {
    case 2:
      return PerformSimpleImageRegistration2<2>( argc, argv );
-     break;
+
    case 3:
      return PerformSimpleImageRegistration2<3>( argc, argv );
-     break;
+
    default:
       std::cerr << "Unsupported dimension" << std::endl;
       exit( EXIT_FAILURE );

@@ -4,7 +4,7 @@ C     NUMERICAL METHODS for Mathematics, Science and Engineering, 2nd Ed, 1992
 C     Prentice Hall, Englewood Cliffs, New Jersey, 07632, U.S.A.
 C     This free software is complements of the author.
 C
-C     Algorithm 7.2 (Composite Simpson Rule). 
+C     Algorithm 7.2 (Composite Simpson Rule).
 C     Section 7.2, Composite Trapezoidal and Simpson's Rule, Page 365
 C
 
@@ -14,7 +14,7 @@ C     A: lower integration limit
 C     B: higher integration limit
 C     M: number of intervals. Notice, the subintervals used is 2M
 C     Srule: output parameter to store simpson rule result
-      
+
       SUBROUTINE SIMPRU(F,A,B,M,Srule)
       INTEGER K,M
       DOUBLE PRECISION A,B,H,Sum,SumEven,SumOdd,Srule,X

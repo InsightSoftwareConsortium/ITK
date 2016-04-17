@@ -1,11 +1,14 @@
 // This is core/vnl/tests/test_matrix_fixed.cxx
+#include <cstdlib>
+#include <cstddef>
+#include <cmath>
+#include <iostream>
+#include <exception>
+#include <cstdio>
 #ifdef TEST_MALLOC // see note below, at the other #ifdef TEST_MALLOC
 # include <vcl_new.h>
 #endif
-#include <vcl_cstdlib.h>
-#include <vcl_cstddef.h> // for vcl_size_t
-#include <vcl_cmath.h> // for sqrt
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_vector_fixed.h>
@@ -18,20 +21,22 @@
 #include <testlib/testlib_test.h>
 
 #undef printf // to work around a bug in libintl.h
-#include <vcl_cstdio.h> // do not use iostream within operator new - it causes infinite recursion
 
 bool verbose_malloc = false;
 int malloc_count = 0;
 
 // FIXME: Win32 will have different operator new in vnl dll from
 // the one generated here, so this test fails - RWMC.
-// The test also fails for gcc 3.0 - PVr
 # define reset_count malloc_count = 0
-#if !defined(VCL_WIN32) && !defined(GNU_LIBSTDCXX_V3)
-# define check_count TEST("mallocs",malloc_count<=1,true)
-#else
+#if defined(VCL_WIN32)
 # define check_count TEST("mallocs (no test)",true,true)
+#else
+# define check_count TEST("mallocs",malloc_count<=1,true)
 #endif
+
+// This function is used in testing later.
+template< typename T, unsigned int n >
+T sum_vector(const vnl_vector_fixed<T,n> &v) { return v.sum(); }
 
 static
 void
@@ -76,6 +81,14 @@ test_multiply()
 static
 void test_int()
 {
+  std::cout << "*********************************\n"
+           << "Testing vnl_matrix_fixed<int,x,x>\n"
+           << "*********************************" << std::endl;
+
+  //////////////////
+  // CONSTRUCTORS //
+  //////////////////
+
   vnl_matrix_fixed<int,2,2> m0;
   TEST("vnl_matrix_fixed<int,2,2> m0", (m0.rows()==2 && m0.columns()==2), true);
   vnl_matrix_fixed<int,3,4> m1;
@@ -102,6 +115,50 @@ void test_int()
         (m0.get(0,0)==2 && m0.get(0,1)==2 && m0.get(1,0)==2 && m0.get(1,1)==2)), true);
   TEST("m0 == m2", (m0 == m2), true);
   TEST("(m0 == m2)", (m0 == m2), true);
+
+  ///////////////
+  // ACCESSORS //
+  ///////////////
+
+#if VNL_CONFIG_CHECK_BOUNDS
+
+  {
+  // Get
+  bool exceptionThrownAndCaught = false;
+  try { m0.get(0,25); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds get(0,25)", exceptionThrownAndCaught, true);
+
+  exceptionThrownAndCaught = false;
+  try { m0.get(25,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds get(25,0)", exceptionThrownAndCaught, true);
+
+  exceptionThrownAndCaught = false;
+  try { m0.get(25,25); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds get(25,25)", exceptionThrownAndCaught, true);
+
+  // Put
+  exceptionThrownAndCaught = false;
+  try { m0.put(0,25,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds put(0,25,0)", exceptionThrownAndCaught, true);
+
+  exceptionThrownAndCaught = false;
+  try { m0.put(25,0,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds put(25,0,0)", exceptionThrownAndCaught, true);
+
+  exceptionThrownAndCaught = false;
+  try { m0.put(25,25,0); }  // Raise out of bounds exception.
+  catch(...) { exceptionThrownAndCaught = true; }
+  TEST("Out of bounds put(25,25,0)", exceptionThrownAndCaught, true);
+
+  }
+
+#endif
+
   TEST("m2.put(1,1,3)", (m2.put(1,1,3),m2.get(1,1)), 3);
   TEST("m2.get(1,1)", m2.get(1,1), 3);
   int v2_data[] = {2,3};
@@ -181,6 +238,16 @@ void test_int()
        ((m6*=m7),
         (m6.get(0,0)==19 && m6.get(0,1)==22 && m6.get(1,0)==43 && m6.get(1,1)==50)), true);
 
+  // | 19 22 |
+  // | 43 50 |
+  vnl_vector<int> flat;
+  TEST("m6.flatten_row_major()",
+       (flat = m6.flatten_row_major(),
+       (flat.get(0)==19 && flat.get(1)==22 && flat.get(2)==43 && flat.get(3)==50)), true);
+  TEST("m6.flatten_column_major()",
+       (flat = m6.flatten_column_major(),
+       (flat.get(0)==19 && flat.get(1)==43 && flat.get(2)==22 && flat.get(3)==50)), true);
+
   // additional tests
   int mvalues [] = {0,-2,2,0};
   vnl_int_2x2 m(mvalues); m0 = m;
@@ -213,6 +280,9 @@ void test_int()
 static
 void test_float()
 {
+  std::cout << "***********************************\n"
+           << "Testing vnl_matrix_fixed<float,x,x>\n"
+           << "***********************************" << std::endl;
   vnl_matrix_fixed<float,2,2> d0;
   TEST("vnl_matrix_fixed<float,2,2> d0", (d0.rows()==2 && d0.columns()==2), true);
   vnl_matrix_fixed<float,3,4> d1;
@@ -313,6 +383,9 @@ void test_float()
 static
 void test_double()
 {
+  std::cout << "************************************\n"
+           << "Testing vnl_matrix_fixed<double,x,x>\n"
+           << "************************************" << std::endl;
   vnl_matrix_fixed<double,2,2> d0;
   TEST("vnl_matrix_fixed<double,2,2> d0", (d0.rows()==2 && d0.columns()==2), true);
   vnl_matrix_fixed<double,3,4> d1;
@@ -382,8 +455,18 @@ void test_double()
   // apply sqrt to every element
   double d8values [] = {0.0, 1.0, 9.0, 16.0};
   vnl_double_2x2 d8(d8values);
-  d8 = d8.apply(vcl_sqrt);
+  d8 = d8.apply(std::sqrt);
   TEST("apply(sqrt)", d8[0][0]==0 && d8[0][1]==1 && d8[1][0]==3 && d8[1][1]==4, true);
+
+  {
+  vnl_matrix_fixed<double,4,20> m(1.);
+  vnl_vector_fixed<double,4> vr = m.apply_rowwise(sum_vector);
+  for (unsigned int i = 0; i < vr.size(); ++i)
+    TEST("vr.apply_rowwise(sum_vector)", vr.get(i), 20.);
+  vnl_vector_fixed<double,20> vc = m.apply_columnwise(sum_vector);
+  for (unsigned int i = 0; i < vc.size(); ++i)
+    TEST("vc.apply_columnwise(sum_vector)", vc.get(i), 4.);
+  }
 
   // normalizations
   d8.normalize_rows();
@@ -403,11 +486,11 @@ test_extract( T* )
   vnl_matrix_fixed<T,2,6> m;
   m(0,0)=1; m(0,1)=2; m(0,2)=3; m(0,3)=4; m(0,4)=5; m(0,5) = 11;
   m(1,0)=6; m(1,1)=7; m(1,2)=8; m(1,3)=9; m(1,4)=0; m(1,5) = 12;
-  vcl_cout << "m=\n" << m.as_ref() << '\n';
+  std::cout << "m=\n" << m.as_ref() << '\n';
 
   vnl_matrix_fixed<T,1,3> r;
   m.extract( r.as_ref().non_const(), 1, 2 );
-  vcl_cout << "r=\n" << r.as_ref() << '\n';
+  std::cout << "r=\n" << r.as_ref() << '\n';
   TEST( "extract into existing matrix", r(0,0)==8 && r(0,1)==9 && r(0,2)==0, true );
 }
 
@@ -422,33 +505,28 @@ void test_matrix_fixed()
     31, 32, 33,
   };
 
-  vcl_printf("Calling ctor -- should be no mallocs\n");
+  std::printf("Calling ctor -- should be no mallocs\n");
   reset_count;
   vnl_double_3x3 X(datablock);
   check_count;
-  vcl_printf("X = [ %g %g %g\n      %g %g %g\n      %g %g %g ]\n",
+  std::printf("X = [ %g %g %g\n      %g %g %g\n      %g %g %g ]\n",
              X(0,0),X(0,1),X(0,2),X(1,0),X(1,1),X(1,2),X(2,0),X(2,1),X(2,2));
 
   reset_count;
   vnl_double_3 v(10,11,12);
   check_count;
-  vcl_printf("v = [ %g %g %g ]\n", v(0), v(1), v(2));
+  std::printf("v = [ %g %g %g ]\n", v(0), v(1), v(2));
 
   reset_count;
   vnl_double_3 splork = X * (v + v);
   check_count;
-  vcl_printf("splork = [ %g %g %g ]\n", splork(0), splork(1), splork(2));
+  std::printf("splork = [ %g %g %g ]\n", splork(0), splork(1), splork(2));
 
-  // This shouldn't compile...
-#if 0
-  vnl_matrix<double>* base = new vnl_double_3x3(datablock);
-#endif
-
-  vcl_printf("Now watch the mallocs\n");
+  std::printf("Now watch the mallocs\n");
   vnl_matrix_ref<double> CX = X.as_ref();
   vnl_vector_ref<double> cv = v.as_ref();
   vnl_vector<double> Xv = CX * (cv + cv);
-  vcl_printf("X v = [ %g %g %g ]\n", Xv[0], Xv[1], Xv[2]);
+  std::printf("X v = [ %g %g %g ]\n", Xv[0], Xv[1], Xv[2]);
 
   verbose_malloc = false;
 
@@ -468,7 +546,7 @@ void test_matrix_fixed()
   TEST("set_diagonal(7,9,16))",B(0,0)==7 && B(1,1)==9 && B(2,2)==16 && B(1,2)==1, true);
 
   // apply sqrt to every element
-  B = B.apply(vcl_sqrt);
+  B = B.apply(std::sqrt);
   TEST("apply(sqrt)", B(1,1)==3 && B(0,2)==1 && B(2,1)==1 && B(2,2)==4, true);
 
   test_multiply();
@@ -478,7 +556,7 @@ void test_matrix_fixed()
   test_float();
   test_double();
 
-  test_extract( (double*)0 );
+  test_extract( (double*)VXL_NULLPTR );
 }
 
 #ifdef TEST_MALLOC
@@ -488,31 +566,27 @@ void test_matrix_fixed()
 // with gcc 3.0, formatted stream output uses operator
 // new so printing to cout here causes stack overflow.
 
-void* operator new(vcl_size_t s)
+void* operator new(std::size_t s)
   // [18.4.1] lib.new.delete
-#if defined(VCL_SUNPRO_CC_5) || defined(GNU_LIBSTDCXX_V3) || defined(VCL_KAI)
   throw(std::bad_alloc)
-#endif
 {
-  void *r = vcl_malloc(s);
+  void *r = std::malloc(s);
 
   ++malloc_count;
 
   if (verbose_malloc)
-    vcl_printf("malloc: %08lX for %d\n", (unsigned long)r, int(s));
+    std::printf("malloc: %08lX for %d\n", (unsigned long)r, int(s));
 
   return r;
 }
 
 void operator delete(void* s)
-#if defined(GNU_LIBSTDCXX_V3) || defined(VCL_SUNPRO_CC_5)
   throw()
-#endif
 {
   if (verbose_malloc)
-    vcl_printf("delete: %08lX\n", (unsigned long)s);
+    std::printf("delete: %08lX\n", (unsigned long)s);
 
-  vcl_free(s);
+  std::free(s);
 }
 
 #endif // TEST_MALLOC

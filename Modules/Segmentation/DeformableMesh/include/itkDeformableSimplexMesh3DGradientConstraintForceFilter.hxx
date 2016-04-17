@@ -21,7 +21,7 @@
 #include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include <set>
 

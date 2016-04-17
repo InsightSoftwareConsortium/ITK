@@ -40,7 +40,7 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include <list>
 #include "itkCastImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 int main( int argc, char *argv[] )
 {
@@ -227,7 +227,7 @@ int main( int argc, char *argv[] )
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    for(double angle = 0;angle <= 2*vnl_math::pi; angle += vnl_math::pi/60.0 )
+    for(double angle = 0;angle <= 2*itk::Math::pi; angle += itk::Math::pi/60.0 )
       {
       localIndex[0] =
          (long int)((*itCircles)->GetObjectToParentTransform()->GetOffset()[0]

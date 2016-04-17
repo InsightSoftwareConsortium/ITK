@@ -54,7 +54,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
 {
   /* Metric value */
   const InternalComputationValueType speedValue = fixedImageValue - movingImageValue;
-  const InternalComputationValueType sqr_speedValue = vnl_math_sqr( speedValue );
+  const InternalComputationValueType sqr_speedValue = itk::Math::sqr( speedValue );
   metricValueReturn = sqr_speedValue;
 
   if( ! this->GetComputeDerivative() )
@@ -80,7 +80,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
 
   for ( ImageDimensionType j = 0; j < numberOfDimensions; j++ )
     {
-    gradientSquaredMagnitude += vnl_math_sqr( (*gradient)[j] );
+    gradientSquaredMagnitude += itk::Math::sqr( (*gradient)[j] );
     }
 
   /*
@@ -95,7 +95,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
    */
   const InternalComputationValueType denominator = sqr_speedValue / this->m_DemonsAssociate->m_Normalizer + gradientSquaredMagnitude;
 
-  if ( vnl_math_abs(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
+  if ( itk::Math::abs(speedValue) < this->m_DemonsAssociate->GetIntensityDifferenceThreshold() ||
        denominator < this->m_DemonsAssociate->GetDenominatorThreshold() )
     {
     localDerivativeReturn.Fill( NumericTraits<DerivativeValueType>::ZeroValue() );

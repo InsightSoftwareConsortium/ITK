@@ -25,6 +25,7 @@
 #include "itkEuler2DTransform.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkNormalVariateGenerator.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -151,8 +152,6 @@ public:
       std::cout << "Number of points in the metric = " << static_cast<unsigned long>( m_PointList.size() ) << std::endl;
     }
 
-
-  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE {return SpaceDimension;};
 
   /** Get the Derivatives of the Match Measure */
   void GetDerivative(const ParametersType&, DerivativeType&) const ITK_OVERRIDE
@@ -282,6 +281,10 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   typedef itk::Euler2DTransform<> TransformType;
   TransformType::Pointer transform = TransformType::New();
 
+  metric->SetTransform(transform);
+  std::cout << "Number of Parameters  : "<< metric->GetNumberOfParameters() << std::endl;
+  TEST_EXPECT_EQUAL( metric->GetNumberOfParameters(), 3 );
+
   bool catching;
   try
     {
@@ -373,7 +376,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
   initialParameters[1] = 7; // offset
   initialParameters[2] = 6; // offset
 
-  std::cout << "Initial Parameters  : " << initialParameters << std::endl;
+  std::cout << "Initial Parameters  : "<< initialParameters << std::endl;
 
   registration->SetInitialTransformParameters(initialParameters);
   optimizer->MaximizeOn();
@@ -411,6 +414,7 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 
 
   registration->SetTransform(transform);
+
 
   try
     {

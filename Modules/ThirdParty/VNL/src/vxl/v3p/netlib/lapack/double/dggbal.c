@@ -23,7 +23,7 @@ static doublereal c_b70 = .5;
 
 /*<    >*/
 /* Subroutine */ int dggbal_(char *job, integer *n, doublereal *a, integer *
-        lda, doublereal *b, integer *ldb, integer *ilo, integer *ihi, 
+        lda, doublereal *b, integer *ldb, integer *ilo, integer *ihi,
         doublereal *lscale, doublereal *rscale, doublereal *work, integer *
         info, ftnlen job_len)
 {
@@ -48,17 +48,17 @@ static doublereal c_b70 = .5;
     doublereal beta, coef;
     integer irab, lrab;
     doublereal basl, cmax;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
     doublereal coef2, coef5, gamma, alpha;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal sfmin, sfmax;
-    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *, 
+    extern /* Subroutine */ int dswap_(integer *, doublereal *, integer *,
             doublereal *, integer *);
     integer iflow;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
     integer kount;
     extern doublereal dlamch_(char *, ftnlen);
@@ -210,7 +210,7 @@ static doublereal c_b70 = .5;
     *info = 0;
 /*<    >*/
     if (! lsame_(job, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(job, "P", (
-            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1) 
+            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1)
             && ! lsame_(job, "B", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = -1 >*/
         *info = -1;
@@ -713,7 +713,7 @@ L320:
     }
 
 /*<    >*/
-    sum = ddot_(&nr, &work[*ilo + *n], &c__1, &work[*ilo + (*n << 1)], &c__1) 
+    sum = ddot_(&nr, &work[*ilo + *n], &c__1, &work[*ilo + (*n << 1)], &c__1)
             + ddot_(&nr, &work[*ilo], &c__1, &work[*ilo + *n * 3], &c__1);
 /*<       ALPHA = GAMMA / SUM >*/
     alpha = gamma / sum;

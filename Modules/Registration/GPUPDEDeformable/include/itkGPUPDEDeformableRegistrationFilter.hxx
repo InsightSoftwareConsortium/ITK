@@ -27,7 +27,7 @@
 #include "itkGaussianOperator.h"
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 // #define NOT_REORDER_GPU_MEMORY
 
@@ -539,7 +539,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     {
     // for each smoothing direction
     oper.SetDirection(dir);
-    double variance = vnl_math_sqr(this->GetStandardDeviations()[dir]);
+    double variance = itk::Math::sqr(this->GetStandardDeviations()[dir]);
     oper.SetVariance(variance);
     oper.SetMaximumError(this->GetMaximumError() );
     oper.SetMaximumKernelWidth(this->GetMaximumKernelWidth() );
@@ -567,7 +567,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
     {
     // for each smoothing direction
     oper.SetDirection(dir);
-    double variance = vnl_math_sqr(this->GetUpdateFieldStandardDeviations()[dir]);
+    double variance = itk::Math::sqr(this->GetUpdateFieldStandardDeviations()[dir]);
     oper.SetVariance(variance);
     oper.SetMaximumError(this->GetMaximumError() );
     oper.SetMaximumKernelWidth(this->GetMaximumKernelWidth() );

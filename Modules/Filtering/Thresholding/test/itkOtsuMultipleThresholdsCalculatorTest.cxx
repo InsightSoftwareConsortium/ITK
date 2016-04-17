@@ -63,7 +63,7 @@ int itkOtsuMultipleThresholdsCalculatorTest(int, char*[])
     }
 
   // Compute numberOfValues - 1 thresholds.
-  unsigned long numberOfThresholds = values.size() - 1;
+  size_t numberOfThresholds = values.size() - 1;
 
   typedef itk::OtsuMultipleThresholdsCalculator<HistogramType>  OtsuMultipleThresholdCalculatorType;
 

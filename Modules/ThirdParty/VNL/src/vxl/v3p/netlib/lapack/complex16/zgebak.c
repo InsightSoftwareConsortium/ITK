@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int zgebak_(char *job, char *side, integer *n, integer *ilo, 
-        integer *ihi, doublereal *scale, integer *m, doublecomplex *v, 
+/* Subroutine */ int zgebak_(char *job, char *side, integer *n, integer *ilo,
+        integer *ihi, doublereal *scale, integer *m, doublecomplex *v,
         integer *ldv, integer *info, ftnlen job_len, ftnlen side_len)
 {
     /* System generated locals */
@@ -29,8 +29,8 @@ extern "C" {
     integer ii;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     logical leftv;
-    extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *, 
-            doublecomplex *, integer *), xerbla_(char *, integer *, ftnlen), 
+    extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *,
+            doublecomplex *, integer *), xerbla_(char *, integer *, ftnlen),
             zdscal_(integer *, doublereal *, doublecomplex *, integer *);
     logical rightv;
     (void)job_len;
@@ -141,7 +141,7 @@ extern "C" {
     *info = 0;
 /*<    >*/
     if (! lsame_(job, "N", (ftnlen)1, (ftnlen)1) && ! lsame_(job, "P", (
-            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1) 
+            ftnlen)1, (ftnlen)1) && ! lsame_(job, "S", (ftnlen)1, (ftnlen)1)
             && ! lsame_(job, "B", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = -1 >*/
         *info = -1;
@@ -204,7 +204,7 @@ extern "C" {
 /*     Backward balance */
 
 /*<       IF( LSAME( JOB, 'S' ) .OR. LSAME( JOB, 'B' ) ) THEN >*/
-    if (lsame_(job, "S", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1, 
+    if (lsame_(job, "S", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1,
             (ftnlen)1)) {
 
 /*<          IF( RIGHTV ) THEN >*/
@@ -248,7 +248,7 @@ extern "C" {
 /*<    30 CONTINUE >*/
 L30:
 /*<       IF( LSAME( JOB, 'P' ) .OR. LSAME( JOB, 'B' ) ) THEN >*/
-    if (lsame_(job, "P", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1, 
+    if (lsame_(job, "P", (ftnlen)1, (ftnlen)1) || lsame_(job, "B", (ftnlen)1,
             (ftnlen)1)) {
 /*<          IF( RIGHTV ) THEN >*/
         if (rightv) {

@@ -107,6 +107,9 @@ public:
   typedef typename Superclass::InputVnlVectorType  InputVnlVectorType;
   typedef typename Superclass::OutputVnlVectorType OutputVnlVectorType;
 
+   /** The number of parameters defininig this transform. */
+  typedef typename Superclass::NumberOfParametersType NumberOfParametersType;
+
   /** PointList typedef. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
   typedef DefaultStaticMeshTraits<TParametersValueType, NDimensions, NDimensions, TParametersValueType, TParametersValueType> PointSetTraitsType;

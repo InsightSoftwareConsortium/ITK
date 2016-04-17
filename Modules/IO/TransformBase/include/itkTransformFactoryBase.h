@@ -82,6 +82,10 @@ private:
   TransformFactoryBase(const Self &) ITK_DELETE_FUNCTION;
   void operator=(const Self &) ITK_DELETE_FUNCTION;
 
+  // Sub private functions of RegisterDefaultTransforms
+  static void RegisterTransformFactoryDoubleParameters();
+  static void RegisterTransformFactoryFloatParameters();
+
   static TransformFactoryBase *m_Factory;
 };
 } // end namespace itk

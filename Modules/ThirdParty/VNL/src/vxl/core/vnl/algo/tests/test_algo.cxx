@@ -1,4 +1,5 @@
 // This is core/vnl/algo/tests/test_algo.cxx
+#include <complex>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -23,8 +24,7 @@
 // \author Peter Vanroose, KULeuven/ESAT.
 // \date 20 September 2003
 
-#include <vcl_complex.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_adjugate.h>
 #include <vnl/algo/vnl_conjugate_gradient.h>
@@ -67,10 +67,10 @@ static void test_matrix_inverse()
 
 static void test_fft()
 {
-  vcl_vector<vcl_complex<double> > v(256); for (int i=0; i<256; ++i) v[i]=0.5+i;
+  std::vector<std::complex<double> > v(256); for (int i=0; i<256; ++i) v[i]=0.5+i;
   vnl_fft_1d<double> fft1d(256); fft1d.fwd_transform(v); fft1d.bwd_transform(v);
   TEST_NEAR("vnl_fft_1d", v[10], 256*10.5, 1e-6);
-  vnl_matrix<vcl_complex<double> > m(10,9);
+  vnl_matrix<std::complex<double> > m(10,9);
   for (int i=0; i<10; ++i) for (int j=0; j<9; ++j) m[i][j]=0.5+i+j;
   vnl_fft_2d<double> fft2d(10,9); fft2d.fwd_transform(m); fft2d.bwd_transform(m);
   TEST_NEAR("vnl_fft_2d", m[5][5], 10*9*10.5, 1e-6);
@@ -119,26 +119,26 @@ static void test_powell()
 
   F_broken fb;
   vnl_vector<double> x2(1, 0);
-  vnl_conjugate_gradient cg2(f);
+  vnl_conjugate_gradient cg2(fb);
   bool rv=cg2.minimize(x2);
-  TEST("vnl_conjugate_gradient on broken function", rv, false);
+  TEST("vnl_conjugate_gradient on broken function should fail", rv, false);
 
 
   vnl_lbfgs lbfgs(f); x[0]=x[1]=0.0; lbfgs.minimize(x);
   TEST_NEAR("vnl_lbfgs", x[1], 1.0, 1e-6);
 
   {
-  // Local min near (0,0) with (x,y) bounded to [-0.5,+0.5] is
-  //   at (0.25, 0.5) with value 1.25.
-  vnl_lbfgsb lbfgsb(f); x[0]=x[1]=0.0;
-  vnl_vector<double> l(2); l[0] = -0.5; l[1] = -0.5;
-  vnl_vector<double> u(2); u[0] = +0.5; u[1] = +0.5;
-  vnl_vector<long> nbd(2); nbd[0] = 3; nbd[1] = 3;
-  lbfgsb.set_lower_bound(l);
-  lbfgsb.set_upper_bound(u);
-  lbfgsb.set_bound_selection(nbd);
-  lbfgsb.minimize(x);
-  TEST_NEAR("vnl_lbfgsb", x[0], 0.25, 1e-6);
+    // Local min near (0,0) with (x,y) bounded to [-0.5,+0.5] is
+    //   at (0.25, 0.5) with value 1.25.
+    vnl_lbfgsb lbfgsb(f); x[0]=x[1]=0.0;
+    vnl_vector<double> l(2); l[0] = -0.5; l[1] = -0.5;
+    vnl_vector<double> u(2); u[0] = +0.5; u[1] = +0.5;
+    vnl_vector<long> nbd(2); nbd[0] = 3; nbd[1] = 3;
+    lbfgsb.set_lower_bound(l);
+    lbfgsb.set_upper_bound(u);
+    lbfgsb.set_bound_selection(nbd);
+    lbfgsb.minimize(x);
+    TEST_NEAR("vnl_lbfgsb", x[0], 0.25, 1e-6);
   }
 
   vnl_powell powell(&f); x[0]=x[1]=0.0; powell.minimize(x);
@@ -188,11 +188,7 @@ void test_algo()
   test_matrix_inverse();
   test_fft();
   test_orthogonal_complement();
-#if NUMERICAL_RECIPES_CODE_HAS_BEEN_REMOVED
   test_powell();
-#else
-  vcl_cout<<"test_powell has been removed until Numerical Recipes code is removed."<<vcl_endl;
-#endif
   test_lsqr();
   test_discrete_diff();
   test_generalized_schur();

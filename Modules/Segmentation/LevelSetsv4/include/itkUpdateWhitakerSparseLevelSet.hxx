@@ -462,7 +462,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
         LevelSetLayerIterator phiIt = this->m_TempPhi.find( tempIndex );
         itkAssertInDebugAndIgnoreInReleaseMacro( phiIt != this->m_TempPhi.end() );
 
-        max = vnl_math_max( max, phiIt->second );
+        max = std::max( max, phiIt->second );
         }
       } // end for
 
@@ -583,7 +583,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
         LevelSetLayerIterator phiIt = this->m_TempPhi.find( neighborIndex );
         if( phiIt != this->m_TempPhi.end() )
           {
-          max = vnl_math_min( max, phiIt->second );
+          max = std::min( max, phiIt->second );
           }
         else
           {
@@ -704,7 +704,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
         const LevelSetLayerIterator phiIt = this->m_TempPhi.find( neighborIndex );
         itkAssertInDebugAndIgnoreInReleaseMacro( phiIt != this->m_TempPhi.end() );
 
-        max = vnl_math_max( max, phiIt->second );
+        max = std::max( max, phiIt->second );
         }
       } // end for
 
@@ -824,7 +824,7 @@ void UpdateWhitakerSparseLevelSet< VDimension, TLevelSetValueType, TEquationCont
         LevelSetLayerIterator phiIt = this->m_TempPhi.find( neighborIndex );
         if( phiIt != this->m_TempPhi.end() )
           {
-          max = vnl_math_min( max, phiIt->second );
+          max = std::min( max, phiIt->second );
           }
         else
           {

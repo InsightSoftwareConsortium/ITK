@@ -216,7 +216,7 @@ public:
   /** Return the number of sub-transforms. */
   virtual SizeValueType GetNumberOfTransforms() const
   {
-    return this->m_TransformQueue.size();
+    return static_cast<SizeValueType>(this->m_TransformQueue.size());
   }
 
   /** Clear the transform queue. */

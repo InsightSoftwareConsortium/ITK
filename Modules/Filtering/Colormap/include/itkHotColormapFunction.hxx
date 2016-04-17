@@ -35,16 +35,16 @@ HotColormapFunction< TScalar, TRGBPixel >
   // Apply the color mapping.
   RealType red   = 63.0 / 26.0 * value - 1.0 / 13.0;
 
-  red = vnl_math_max(0.0, red);
-  red = vnl_math_min(1.0, red);
+  red = std::max(0.0, red);
+  red = std::min(1.0, red);
 
   RealType green = 63.0 / 26.0 * value - 11.0 / 13.0;
-  green = vnl_math_max(0.0, green);
-  green = vnl_math_min(1.0, green);
+  green = std::max(0.0, green);
+  green = std::min(1.0, green);
 
   RealType blue  = 4.5 * value - 3.5;
-  blue = vnl_math_max(0.0, blue);
-  blue = vnl_math_min(1.0, blue);
+  blue = std::max(0.0, blue);
+  blue = std::min(1.0, blue);
 
   // Set the rgb components after rescaling the values.
   RGBPixelType pixel;

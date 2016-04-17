@@ -77,7 +77,7 @@ int itkRegularSphereMeshSourceTest2(int, char* [] )
       d += ( center[dim] - p[dim] ) * ( center[dim] - p[dim] ) / ( scale[dim] * scale[dim] );
       }
 
-    if( vnl_math_abs( d - 1. ) > 1e-6 )
+    if( itk::Math::abs( d - 1. ) > 1e-6 )
       {
       std::cerr << "too much deviation for vertex " << it->Index() << std::endl;
       std::cerr << "distance: " << d << std::endl;

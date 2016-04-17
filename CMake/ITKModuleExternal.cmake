@@ -46,6 +46,8 @@ if(NOT ITK_INSTALL_PACKAGE_DIR)
   set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 endif()
 
+include(${ITK_CMAKE_DIR}/ITKInitializeBuildType.cmake)
+
 # Use ITK's flags.
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${ITK_REQUIRED_C_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ITK_REQUIRED_CXX_FLAGS}")
@@ -61,21 +63,10 @@ if(ITK_MODULES_DIR)
 endif()
 set(ITK_MODULES_DIR "${ITK_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
+include(CTest)
 include(ITKExternalData)
-if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt)
-  include(CTest)
-  include(ITKModuleTest)
-  if(NOT DEFINED ITK_USE_KWSTYLE)
-    find_package(KWStyle 1.0.1
-      QUIET
-      )
-    option(ITK_USE_KWSTYLE
-      "Enable the use of KWStyle for checking coding style."
-      ${KWSTYLE_FOUND} # default
-      )
-    mark_as_advanced(ITK_USE_KWSTYLE)
-  endif()
-endif()
+include(ITKModuleTest)
+include(ITKDownloadSetup)
 
 include(ITKModuleMacros)
 include(itk-module.cmake)
@@ -92,7 +83,7 @@ if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_N
 endif()
 
 set(ITK_TEST_OUTPUT_DIR "${CMAKE_BINARY_DIR}/Testing/Temporary")
-if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
+if(${BUILD_TESTING} AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
   add_subdirectory(test)
 endif()
 
@@ -132,4 +123,6 @@ endif()
 
 # Create target to download data from the ITKData group.  This must come after
 # all tests have been added that reference the group, so we put it last.
-ExternalData_Add_Target(ITKData)
+if(NOT TARGET ITKData)
+  ExternalData_Add_Target(ITKData)
+endif()

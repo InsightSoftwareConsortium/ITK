@@ -1,5 +1,6 @@
 // This is core/vnl/io/tests/test_diag_matrix_io.cxx
-#include <vcl_iostream.h>
+#include <iostream>
+#include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vsl/vsl_binary_io.h>
 #include <vnl/vnl_diag_matrix.h>
@@ -9,7 +10,7 @@
 
 void test_diag_matrix_double_io()
 {
-  vcl_cout << "*******************\n"
+  std::cout << "*******************\n"
            << "test_diag_matrix_io\n"
            << "*******************\n";
   //// test constructors, accessors
@@ -24,8 +25,8 @@ void test_diag_matrix_double_io()
 
   vnl_diag_matrix<double> diag_mat_out(v_out), diag_mat_in(v_in);
 
-  vsl_print_summary(vcl_cout, diag_mat_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, diag_mat_out);
+  std::cout << std::endl;
 
   vsl_b_ofstream bfs_out("vnl_diag_matrix_test_io.bvl.tmp");
   TEST ("Created vnl_diag_matrix_test_io.bvl.tmp for writing",
@@ -46,8 +47,8 @@ void test_diag_matrix_double_io()
         diag_mat_out.diagonal() == diag_mat_in.diagonal(), true);
 
 
-  vsl_print_summary(vcl_cout, diag_mat_out);
-  vcl_cout << vcl_endl;
+  vsl_print_summary(std::cout, diag_mat_out);
+  std::cout << std::endl;
 }
 
 void test_diag_matrix_io()

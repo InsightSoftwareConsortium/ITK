@@ -133,7 +133,7 @@ WeightedMeanSampleFilter< TSample >
       }
     }
 
-  if ( totalWeight > vnl_math::eps )
+  if ( totalWeight > itk::Math::eps )
     {
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {
@@ -198,7 +198,7 @@ WeightedMeanSampleFilter< TSample >
       }
     }
 
-  if ( totalWeight > vnl_math::eps )
+  if ( totalWeight > itk::Math::eps )
     {
     for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
       {

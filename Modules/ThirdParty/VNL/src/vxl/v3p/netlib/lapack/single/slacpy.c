@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE SLACPY( UPLO, M, N, A, LDA, B, LDB ) >*/
-/* Subroutine */ int slacpy_(char *uplo, integer *m, integer *n, real *a, 
+/* Subroutine */ int slacpy_(char *uplo, integer *m, integer *n, real *a,
         integer *lda, real *b, integer *ldb, ftnlen uplo_len)
 {
     /* System generated locals */

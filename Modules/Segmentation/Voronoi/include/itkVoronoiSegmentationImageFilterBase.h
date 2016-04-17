@@ -115,8 +115,8 @@ public:
   itkGetConstMacro(NumberOfSeeds, int);
 
   /** Set/Get the smallest region to be divided. */
-  itkSetMacro(MinRegion, int);
-  itkGetConstMacro(MinRegion, int);
+  itkSetMacro(MinRegion, SizeValueType);
+  itkGetConstMacro(MinRegion, SizeValueType);
 
   /** Set/Get the number of iterations to run (if set to 0: the classification
   * run process runs until no more cells can be divided). */
@@ -218,16 +218,16 @@ protected:
 
   void GenerateData() ITK_OVERRIDE; //general pipeline function.
 
-  SizeType m_Size;
-  int      m_NumberOfSeeds;
-  int      m_MinRegion;
-  int      m_Steps;
-  int      m_LastStepSeeds;
-  int      m_NumberOfSeedsToAdded;
-  int      m_NumberOfBoundary;
+  SizeType      m_Size;
+  int           m_NumberOfSeeds;
+  SizeValueType m_MinRegion;
+  int           m_Steps;
+  int           m_LastStepSeeds;
+  int           m_NumberOfSeedsToAdded;
+  int           m_NumberOfBoundary;
 
-  std::vector< int >           m_NumberOfPixels;
-  std::vector< unsigned char > m_Label;
+  std::vector< SizeValueType >           m_NumberOfPixels;
+  std::vector< unsigned char >           m_Label;
 
   double m_MeanDeviation;
   bool   m_UseBackgroundInAPrior;

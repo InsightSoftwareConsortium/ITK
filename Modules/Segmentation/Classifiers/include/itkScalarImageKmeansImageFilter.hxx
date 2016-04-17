@@ -88,7 +88,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 
   typename EstimatorType::Pointer estimator = EstimatorType::New();
 
-  const unsigned int numberOfClasses = this->m_InitialMeans.size();
+  const size_t numberOfClasses = this->m_InitialMeans.size();
 
   ParametersType initialMeans(numberOfClasses);
   for ( unsigned int cl = 0; cl < numberOfClasses; cl++ )

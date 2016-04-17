@@ -295,7 +295,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
         const double trace = vnl_trace( tensor.GetVnlMatrix() );
 
         // trace should be non-zero
-        if ( vnl_math_abs(trace) < TRACE_EPSILON )
+        if ( itk::Math::abs(trace) < TRACE_EPSILON )
           {
             rit++;
             numberOfPointsInserted--;
@@ -314,7 +314,7 @@ MaskFeaturePointSelectionFilter< TImage, TMask, TFeatures >
 
       // mark off connected points
       const MapPixelType ineligeblePointCode = 0;
-      for ( SizeValueType j = 0, n = m_NonConnectivityOffsets.size(); j < n; j++ )
+      for ( size_t j = 0, n = m_NonConnectivityOffsets.size(); j < n; j++ )
         {
         IndexType idx = rit->second;
         idx += m_NonConnectivityOffsets[ j ];

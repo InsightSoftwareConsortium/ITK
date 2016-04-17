@@ -1,18 +1,17 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
 import os
 import time
-import types
 from . import source_reader
 from . import declarations_cache
 import pygccxml.declarations
 from .. import utils
 
 
-class COMPILATION_MODE:
+class COMPILATION_MODE(object):
     ALL_AT_ONCE = 'all at once'
     FILE_BY_FILE = 'file by file'
 
@@ -54,7 +53,7 @@ class file_configuration_t(object):
 
     """
 
-    class CONTENT_TYPE:
+    class CONTENT_TYPE(object):
         STANDARD_SOURCE_FILE = 'standard source file'
         CACHED_SOURCE_FILE = 'cached source file'
         GCCXML_GENERATED_FILE = 'gccxml generated file'
@@ -164,14 +163,14 @@ def create_cached_source_fc(header, cached_source_file):
         content_type=file_configuration_t.CONTENT_TYPE.CACHED_SOURCE_FILE)
 
 
-class project_reader_t:
+class project_reader_t(object):
 
     """parses header files and returns the contained declarations"""
 
     def __init__(self, config, cache=None, decl_factory=None):
         """
         :param config: GCCXML configuration
-        :type config: :class:gccxml_configuration_t
+        :type config: :class:xml_generator_configuration_t
 
         :param cache: declaration cache, by default a cache functionality will
                       not be used
@@ -193,7 +192,7 @@ class project_reader_t:
         if not decl_factory:
             self.__decl_factory = pygccxml.declarations.decl_factory_t()
 
-        self.logger = utils.loggers.gccxml
+        self.logger = utils.loggers.cxx_parser
 
     @staticmethod
     def get_os_file_names(files):
@@ -254,9 +253,7 @@ class project_reader_t:
         config = self.__config.clone()
         self.logger.debug("Reading project files: file by file")
         for prj_file in files:
-            reader = None
-            header = None
-            content_type = None
+
             if isinstance(prj_file, file_configuration_t):
                 del config.start_with_declarations[:]
                 config.start_with_declarations.extend(
@@ -268,11 +265,13 @@ class project_reader_t:
                 header = prj_file
                 content_type = \
                     file_configuration_t.CONTENT_TYPE.STANDARD_SOURCE_FILE
+
             reader = source_reader.source_reader_t(
                 config,
                 self.__dcache,
-                self.__decl_factory)
-            decls = None
+                self.__decl_factory,
+                join_decls=False)
+
             if content_type == \
                     file_configuration_t.CONTENT_TYPE.STANDARD_SOURCE_FILE:
                 self.logger.info('Parsing source file "%s" ... ' % header)
@@ -299,6 +298,7 @@ class project_reader_t:
             else:
                 decls = reader.read_string(header)
             namespaces.append(decls)
+
         self.logger.debug("Flushing cache... ")
         start_time = time.clock()
         self.__dcache.flush()
@@ -312,7 +312,7 @@ class project_reader_t:
         self.logger.debug("Joining declarations ...")
         for ns in answer:
             if isinstance(ns, pygccxml.declarations.namespace_t):
-                self._join_declarations(ns)
+                reader.join_declarations(ns)
         leaved_classes = self._join_class_hierarchy(answer)
         types = self.__declarated_types(answer)
         self.logger.debug("Relinking declared types ...")
@@ -390,13 +390,14 @@ class project_reader_t:
             xml_file = open(xml_file_path, 'r')
             xml = xml_file.read()
             xml_file.close()
-            utils.remove_file_no_raise(xml_file_path)
+            utils.remove_file_no_raise(xml_file_path, self.__config)
             return xml
         finally:
             if xml_file_path and delete_xml_file:
-                utils.remove_file_no_raise(xml_file_path)
+                utils.remove_file_no_raise(xml_file_path, self.__config)
 
-    def _join_top_namespaces(self, main_ns_list, other_ns_list):
+    @staticmethod
+    def _join_top_namespaces(main_ns_list, other_ns_list):
         answer = main_ns_list[:]
         for other_ns in other_ns_list:
             main_ns = pygccxml.declarations.find_declaration(
@@ -410,88 +411,29 @@ class project_reader_t:
                 answer.append(other_ns)
         return answer
 
-    def _join_namespaces(self, nsref):
-        assert isinstance(nsref, pygccxml.declarations.namespace_t)
-        # decl.__class__ :  { decl.name : [decls] } double declaration hash
-        ddhash = {}
-        decls = []
-
-        for decl in nsref.declarations:
-            if decl.__class__ not in ddhash:
-                ddhash[decl.__class__] = {decl._name: [decl]}
-                decls.append(decl)
-            else:
-                joined_decls = ddhash[decl.__class__]
-                if decl._name not in joined_decls:
-                    decls.append(decl)
-                    joined_decls[decl._name] = [decl]
-                else:
-                    if isinstance(decl, pygccxml.declarations.calldef_t):
-                        if decl not in joined_decls[decl._name]:
-                            # functions has overloading
-                            decls.append(decl)
-                            joined_decls[decl._name].append(decl)
-                    elif isinstance(decl, pygccxml.declarations.enumeration_t):
-                        # unnamed enums
-                        if not decl.name and decl not in \
-                                joined_decls[decl._name]:
-                            decls.append(decl)
-                            joined_decls[decl._name].append(decl)
-                    elif isinstance(decl, pygccxml.declarations.class_t):
-                        # unnamed classes
-                        if not decl.name and decl not in \
-                                joined_decls[decl._name]:
-                            decls.append(decl)
-                            joined_decls[decl._name].append(decl)
-                    else:
-                        assert 1 == len(joined_decls[decl._name])
-                        if isinstance(decl, pygccxml.declarations.namespace_t):
-                            joined_decls[decl._name][0].take_parenting(decl)
-
-        class_t = pygccxml.declarations.class_t
-        class_declaration_t = pygccxml.declarations.class_declaration_t
-        if class_t in ddhash and class_declaration_t in ddhash:
-            # if there is a class and its forward declaration - get rid of the
-            # second one.
-            class_names = set()
-            for name, same_name_classes in ddhash[class_t].items():
-                if not name:
-                    continue
-                class_names.add(same_name_classes[0].mangled)
-
-            class_declarations = ddhash[class_declaration_t]
-            for name, same_name_class_declarations in \
-                    class_declarations.items():
-                if not name:
-                    continue
-                for class_declaration in same_name_class_declarations:
-                    if class_declaration.mangled and \
-                            class_declaration.mangled in class_names:
-                        decls.remove(class_declaration)
-
-        nsref.declarations = decls
-
-    def _join_class_hierarchy(self, namespaces):
-        create_key = lambda decl: (
+    @staticmethod
+    def _create_key(decl):
+        return (
             decl.location.as_tuple(),
             tuple(pygccxml.declarations.declaration_path(decl)))
+
+    def _join_class_hierarchy(self, namespaces):
         classes = [
             decl for decl in pygccxml.declarations.make_flatten(namespaces)
             if isinstance(decl, pygccxml.declarations.class_t)]
         leaved_classes = {}
         # selecting classes to leave
         for class_ in classes:
-            key = create_key(class_)
+            key = self._create_key(class_)
             if key not in leaved_classes:
                 leaved_classes[key] = class_
         # replacing base and derived classes with those that should be leave
         # also this loop will add missing derived classes to the base
         for class_ in classes:
-            leaved_class = leaved_classes[create_key(class_)]
+            leaved_class = leaved_classes[self._create_key(class_)]
             for base_info in class_.bases:
                 leaved_base = leaved_classes[
-                    create_key(
-                        base_info.related_class)]
+                    self._create_key(base_info.related_class)]
                 # treating base class hierarchy of leaved_class
                 leaved_base_info = pygccxml.declarations.hierarchy_info_t(
                     related_class=leaved_base, access=base_info.access)
@@ -515,7 +457,7 @@ class project_reader_t:
                         leaved_derived_for_base_info.related_class
             for derived_info in class_.derived:
                 leaved_derived = leaved_classes[
-                    create_key(
+                    self._create_key(
                         derived_info.related_class)]
                 # treating derived class hierarchy of leaved_class
                 leaved_derived_info = pygccxml.declarations.hierarchy_info_t(
@@ -531,34 +473,40 @@ class project_reader_t:
                     leaved_derived.bases.append(leaved_base_for_derived_info)
         # this loops remove instance we from parent.declarations
         for class_ in classes:
-            key = create_key(class_)
+            key = self._create_key(class_)
             if id(leaved_classes[key]) == id(class_):
                 continue
             else:
-                declarations = None
                 if class_.parent:
                     declarations = class_.parent.declarations
                 else:
                     # yes, we are talking about global class that doesn't
-                    declarations = namespaces
                     # belong to any namespace. Usually is compiler generated
                     # top level classes
+                    declarations = namespaces
                 declarations_ids = [id(decl) for decl in declarations]
                 del declarations[declarations_ids.index(id(class_))]
         return leaved_classes
 
+    def _create_key2(self, decl):
+        return (
+            decl.location.as_tuple(),
+            tuple(pygccxml.declarations.declaration_path(decl)))
+
+    def _create_name_key(self, decl):
+        # Not all declarations have a mangled name with castxml
+        # we can only rely on the name
+        if "GCC" in utils.xml_generator:
+            return decl.location.as_tuple(), decl.mangled
+        elif "CastXML" in utils.xml_generator:
+            return decl.location.as_tuple(), decl.name
+
     def _relink_declarated_types(self, leaved_classes, declarated_types):
-        create_key = lambda decl: (
-            decl.location.as_tuple(),
-            tuple(
-                pygccxml.declarations.declaration_path(decl)))
-        create_mangled_key = lambda decl: (
-            decl.location.as_tuple(),
-            decl.mangled)
 
         mangled_leaved_classes = {}
-        for cls in leaved_classes.values():
-            mangled_leaved_classes[create_mangled_key(cls)] = cls
+        for leaved_class in leaved_classes.values():
+            mangled_leaved_classes[
+                self._create_name_key(leaved_class)] = leaved_class
 
         for decl_wrapper_type in declarated_types:
             # it is possible, that cache contains reference to dropped class
@@ -567,13 +515,22 @@ class project_reader_t:
             if isinstance(
                     decl_wrapper_type.declaration,
                     pygccxml.declarations.class_t):
-                key = create_key(decl_wrapper_type.declaration)
+                key = self._create_key2(decl_wrapper_type.declaration)
                 if key in leaved_classes:
                     decl_wrapper_type.declaration = leaved_classes[key]
                 else:
-                    if decl_wrapper_type.declaration._name.startswith(
-                            '__vmi_class_type_info_pseudo'):
+
+                    name = decl_wrapper_type.declaration._name
+                    if name == "":
+                        # Happens with gcc5, castxml + std=c++11
+                        # See issue #45
                         continue
+                    if name.startswith("__vmi_class_type_info_pseudo"):
+                        continue
+                    if name == "rebind<std::__tree_node" + \
+                            "<std::basic_string<char>, void *> >":
+                        continue
+
                     msg = []
                     msg.append(
                         "Unable to find out actual class definition: '%s'." %
@@ -588,19 +545,13 @@ class project_reader_t:
                         "    1. There are different preprocessor " +
                         "definitions applied on same file during compilation"))
                     msg.append("    2. Bug in pygccxml.")
-                    self.logger.error(os.linesep.join(msg))
+                    raise Exception(os.linesep.join(msg))
             elif isinstance(
                     decl_wrapper_type.declaration,
                     pygccxml.declarations.class_declaration_t):
-                key = create_mangled_key(decl_wrapper_type.declaration)
+                key = self._create_name_key(decl_wrapper_type.declaration)
                 if key in mangled_leaved_classes:
                     decl_wrapper_type.declaration = mangled_leaved_classes[key]
-
-    def _join_declarations(self, declref):
-        self._join_namespaces(declref)
-        for ns in declref.declarations:
-            if isinstance(ns, pygccxml.declarations.namespace_t):
-                self._join_declarations(ns)
 
     def __declarated_types(self, namespaces):
         def get_from_type(cpptype):

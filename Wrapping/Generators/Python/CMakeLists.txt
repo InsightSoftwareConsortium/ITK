@@ -398,51 +398,60 @@ macro(itk_end_wrap_module_python)
   itk_setup_swig_python("Module" ${base_name} ${interface_file} ${python_file} ${cpp_file} "")
 
   # build all the c++ files from this module in a common lib
-  add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
-  set_target_properties(${lib} PROPERTIES PREFIX "_")
-  # gcc 4.4 complains a lot without this flag when building in release mode
-  if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -w")
-  endif()
-  # extension is not the same on windows
-  if(WIN32)
-    set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
-    if(MSVC)
-      # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
-      set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
+  if(NOT TARGET ${lib})
+    add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
+    set_target_properties(${lib} PROPERTIES PREFIX "_")
+    # gcc 4.4 complains a lot without this flag when building in release mode
+    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+      set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -w")
     endif()
-  endif()
-
-  # Link the modules together
-  if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-    # On OS X, do not link against a specific Python Library and use dynamic_lookup
-    # to be ABI compatible between Python versions.
-    set_target_properties(${lib} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
-  else()
-    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
-  endif()
-
-  add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-  if(ITK_WRAP_DOC)
-    add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
-  endif()
-  if(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKPyBase)
-    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
-    add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
-  endif()
-  install(TARGETS "${lib}"
-    DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
-    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
-    )
-  if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-    # don't depends on the targets from wrapitk in external projects
-    foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-      add_dependencies(${lib} ${dep}Swig)
-      if(ITK_WRAP_DOC)
-        add_dependencies(${lib} ${dep}Doxygen)
+    # extension is not the same on windows
+    if(WIN32)
+      set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
+      if(MSVC)
+        # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
+        set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
       endif()
-    endforeach()
+    endif()
+
+    # Link the modules together
+    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+      # On OS X, do not link against a specific Python Library and use dynamic_lookup
+      # to be ABI compatible between Python versions.
+      set_target_properties(${lib} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
+      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+    else()
+      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
+    endif()
+
+    if(CMAKE_VERSION VERSION_GREATER 2.8.12 AND USE_COMPILER_HIDDEN_VISIBILITY)
+      # Prefer to use target properties supported by newer cmake
+      set_target_properties(${lib} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+      set_target_properties(${lib} PROPERTIES C_VISIBILITY_PRESET hidden)
+      set_target_properties(${lib} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+    endif()
+
+    add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
+    if(ITK_WRAP_DOC)
+      add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
+    endif()
+    if(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKPyBase)
+      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
+      add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
+    endif()
+    install(TARGETS "${lib}"
+      DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
+      COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+      )
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      # don't depends on the targets from wrapitk in external projects
+      foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+        add_dependencies(${lib} ${dep}Swig)
+        if(ITK_WRAP_DOC)
+          add_dependencies(${lib} ${dep}Doxygen)
+        endif()
+      endforeach()
+    endif()
   endif()
 
 endmacro()
@@ -542,12 +551,6 @@ macro(itk_wrap_one_type_python wrap_method wrap_class swig_name template_params)
   if(NOT "${wrap_class}" STREQUAL "MetaEvent" AND NOT "${wrap_method}" MATCHES "ENUM")
     ADD_PYTHON_CONFIG_TEMPLATE("${base_name}" "${wrap_class}" "${swig_name}" "${template_params}")
   endif()
-
-  # std::complex and vcl_complex are the same classes, but python don't know that
-  if("${wrap_class}" STREQUAL "vcl_complex")
-    ADD_PYTHON_CONFIG_TEMPLATE("complex" "std::complex" "${swig_name}" "${template_params}")
-  endif()
-
 endmacro()
 
 
@@ -652,8 +655,8 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
 
   # and now, generate the typemaps and other customizations
 
-  if("${cpp_name}" STREQUAL "vcl_complex")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_VCL_COMPLEX_CLASS(${swig_name})\n")
+  if("${cpp_name}" STREQUAL "std::complex")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_STD_COMPLEX_CLASS(${swig_name})\n")
   endif()
 
   if("${swig_name}" STREQUAL "itkLightObject")
@@ -703,7 +706,7 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
     ADD_PYTHON_CONFIG_TEMPLATE("map" "std::map" "map${swig_name}" "unsigned long, ${cpp_name}< ${template_params} >")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name}_Pointer >;\n")
     ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
- endif()
+  endif()
 
   if("${cpp_name}" STREQUAL "itk::LabelMap" AND NOT "${swig_name}" MATCHES "Pointer$")
       set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_LABELMAP_CLASS(${swig_name})\n")
@@ -715,7 +718,8 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
   endif()
 
   if("${cpp_name}" STREQUAL "itk::ImageRegion")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_IMAGEREGION_CLASS(${swig_name})\n")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_IMAGEREGION_CLASS(${swig_name})%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
+    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
   endif()
 
 

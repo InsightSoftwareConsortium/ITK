@@ -52,7 +52,7 @@ SimpleSignedDistance( const TPoint & p )
   double accum = 0.0;
   for( unsigned int j = 0; j < TPoint::PointDimension; j++ )
     {
-    accum += vnl_math_sqr( p[j] - center[j] );
+    accum += itk::Math::sqr( p[j] - center[j] );
     }
   accum = std::sqrt( accum );
   return ( accum - radius );

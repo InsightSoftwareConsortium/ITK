@@ -192,7 +192,7 @@ int itkGradientDescentOptimizerv4Test2(int, char* [] )
   //
   for( NumberOfParametersType j = 0; j < metric->GetNumberOfParameters(); j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - truth[j] ) > 0.000001 )
+    if( itk::Math::abs( finalPosition[j] - truth[j] ) > 0.000001 )
       {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << truth << std::endl

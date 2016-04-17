@@ -33,7 +33,7 @@ static integer c__1 = 1;
     integer j, k;
     doublereal s, t;
     integer jm1;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
 
 /*<       integer lda,n,info >*/

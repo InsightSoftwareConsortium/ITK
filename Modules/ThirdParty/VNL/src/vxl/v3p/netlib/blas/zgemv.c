@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int zgemv_(char *trans, integer *m, integer *n, 
+/* Subroutine */ int zgemv_(char *trans, integer *m, integer *n,
         doublecomplex *alpha, doublecomplex *a, integer *lda, doublecomplex *
         x, integer *incx, doublecomplex *beta, doublecomplex *y, integer *
         incy, ftnlen trans_len)
@@ -209,7 +209,7 @@ extern "C" {
 /*     Quick return if possible. */
 
 /*<    >*/
-    if (*m == 0 || *n == 0 || (alpha->r == 0. && alpha->i == 0. && (beta->r == 
+    if (*m == 0 || *n == 0 || (alpha->r == 0. && alpha->i == 0. && (beta->r ==
             1. && beta->i == 0.))) {
         return 0;
     }
@@ -283,7 +283,7 @@ extern "C" {
 /*<                   Y( I ) = BETA*Y( I ) >*/
                     i__2 = i__;
                     i__3 = i__;
-                    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i, 
+                    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i,
                             z__1.i = beta->r * y[i__3].i + beta->i * y[i__3]
                             .r;
                     y[i__2].r = z__1.r, y[i__2].i = z__1.i;
@@ -317,7 +317,7 @@ extern "C" {
 /*<                   Y( IY ) = BETA*Y( IY ) >*/
                     i__2 = iy;
                     i__3 = iy;
-                    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i, 
+                    z__1.r = beta->r * y[i__3].r - beta->i * y[i__3].i,
                             z__1.i = beta->r * y[i__3].i + beta->i * y[i__3]
                             .r;
                     y[i__2].r = z__1.r, y[i__2].i = z__1.i;
@@ -353,7 +353,7 @@ extern "C" {
                 if (x[i__2].r != 0. || x[i__2].i != 0.) {
 /*<                   TEMP = ALPHA*X( JX ) >*/
                     i__2 = jx;
-                    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i, 
+                    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i,
                             z__1.i = alpha->r * x[i__2].i + alpha->i * x[i__2]
                             .r;
                     temp.r = z__1.r, temp.i = z__1.i;
@@ -364,10 +364,10 @@ extern "C" {
                         i__3 = i__;
                         i__4 = i__;
                         i__5 = i__ + j * a_dim1;
-                        z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i, 
+                        z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i,
                                 z__2.i = temp.r * a[i__5].i + temp.i * a[i__5]
                                 .r;
-                        z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i + 
+                        z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i +
                                 z__2.i;
                         y[i__3].r = z__1.r, y[i__3].i = z__1.i;
 /*<    50             CONTINUE >*/
@@ -390,7 +390,7 @@ extern "C" {
                 if (x[i__2].r != 0. || x[i__2].i != 0.) {
 /*<                   TEMP = ALPHA*X( JX ) >*/
                     i__2 = jx;
-                    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i, 
+                    z__1.r = alpha->r * x[i__2].r - alpha->i * x[i__2].i,
                             z__1.i = alpha->r * x[i__2].i + alpha->i * x[i__2]
                             .r;
                     temp.r = z__1.r, temp.i = z__1.i;
@@ -403,10 +403,10 @@ extern "C" {
                         i__3 = iy;
                         i__4 = iy;
                         i__5 = i__ + j * a_dim1;
-                        z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i, 
+                        z__2.r = temp.r * a[i__5].r - temp.i * a[i__5].i,
                                 z__2.i = temp.r * a[i__5].i + temp.i * a[i__5]
                                 .r;
-                        z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i + 
+                        z__1.r = y[i__4].r + z__2.r, z__1.i = y[i__4].i +
                                 z__2.i;
                         y[i__3].r = z__1.r, y[i__3].i = z__1.i;
 /*<                      IY      = IY      + INCY >*/
@@ -461,7 +461,7 @@ extern "C" {
 /*<                      TEMP = TEMP + DCONJG( A( I, J ) )*X( I ) >*/
                         d_cnjg(&z__3, &a[i__ + j * a_dim1]);
                         i__3 = i__;
-                        z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i, 
+                        z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i,
                                 z__2.i = z__3.r * x[i__3].i + z__3.i * x[i__3]
                                 .r;
                         z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
@@ -474,7 +474,7 @@ extern "C" {
 /*<                Y( JY ) = Y( JY ) + ALPHA*TEMP >*/
                 i__2 = jy;
                 i__3 = jy;
-                z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i = 
+                z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i =
                         alpha->r * temp.i + alpha->i * temp.r;
                 z__1.r = y[i__3].r + z__2.r, z__1.i = y[i__3].i + z__2.i;
                 y[i__2].r = z__1.r, y[i__2].i = z__1.i;
@@ -518,7 +518,7 @@ extern "C" {
 /*<                      TEMP = TEMP + DCONJG( A( I, J ) )*X( IX ) >*/
                         d_cnjg(&z__3, &a[i__ + j * a_dim1]);
                         i__3 = ix;
-                        z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i, 
+                        z__2.r = z__3.r * x[i__3].r - z__3.i * x[i__3].i,
                                 z__2.i = z__3.r * x[i__3].i + z__3.i * x[i__3]
                                 .r;
                         z__1.r = temp.r + z__2.r, z__1.i = temp.i + z__2.i;
@@ -533,7 +533,7 @@ extern "C" {
 /*<                Y( JY ) = Y( JY ) + ALPHA*TEMP >*/
                 i__2 = jy;
                 i__3 = jy;
-                z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i = 
+                z__2.r = alpha->r * temp.r - alpha->i * temp.i, z__2.i =
                         alpha->r * temp.i + alpha->i * temp.r;
                 z__1.r = y[i__3].r + z__2.r, z__1.i = y[i__3].i + z__2.i;
                 y[i__2].r = z__1.r, y[i__2].i = z__1.i;

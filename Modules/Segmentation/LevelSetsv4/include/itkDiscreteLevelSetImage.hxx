@@ -177,7 +177,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     oHessian[dim1][dim1] = ( valueA + valueB - 2.0 * centerValue )
-        * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
+        * itk::Math::sqr( this->m_NeighborhoodScales[dim1] );
 
     inputIndexAa = inputIndexB;
     inputIndexBa = inputIndexB;
@@ -268,7 +268,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     oLaplacian += ( valueA + valueB - 2.0 * centerValue )
-        * vnl_math_sqr(this->m_NeighborhoodScales[dim1]);
+        * itk::Math::sqr(this->m_NeighborhoodScales[dim1]);
 
     inputIndexA[dim1] = inputIndex[dim1];
     inputIndexB[dim1] = inputIndex[dim1];
@@ -388,7 +388,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     data.Hessian.m_Value[dim1][dim1] =
-        ( valueA + valueB - 2.0 * centerValue ) * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
+        ( valueA + valueB - 2.0 * centerValue ) * itk::Math::sqr( this->m_NeighborhoodScales[dim1] );
 
     if( !backward )
       {
@@ -487,7 +487,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 
   OutputRealType gradNorm = grad.GetNorm();
 
-  if( gradNorm > vnl_math::eps )
+  if( gradNorm > itk::Math::eps )
     {
     oValue /= ( gradNorm * gradNorm * gradNorm );
     }
@@ -540,7 +540,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
     const OutputRealType valueB = static_cast< OutputRealType >( this->Evaluate( inputIndexB ) );
 
     data.Laplacian.m_Value +=
-        ( valueA + valueB - 2.0 * centerValue ) * vnl_math_sqr( this->m_NeighborhoodScales[dim1] );
+        ( valueA + valueB - 2.0 * centerValue ) * itk::Math::sqr( this->m_NeighborhoodScales[dim1] );
 
     inputIndexA[dim1] = inputIndex[dim1];
     inputIndexB[dim1] = inputIndex[dim1];
@@ -591,7 +591,7 @@ DiscreteLevelSetImage< TOutput, VDimension >
 
     OutputRealType temp = data.GradientNorm.m_Value;
 
-    if( temp > vnl_math::eps )
+    if( temp > itk::Math::eps )
       {
       data.MeanCurvature.m_Value /= ( temp * temp * temp );
       }

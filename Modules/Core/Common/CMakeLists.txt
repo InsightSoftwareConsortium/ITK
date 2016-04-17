@@ -55,11 +55,24 @@ if(WIN32 AND NOT MINGW)
   check_symbol_exists(InterlockedAdd "windows.h" ITK_HAS_INTERLOCKEDADD)
 endif()
 
-
 # Check for the new C++11 alignas type specifier for future portable alignment
 try_compile( ITK_HAS_CPP11_ALIGNAS
   ${ITK_BINARY_DIR}/CMakeTmp
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasCPP11Alignas.cxx )
+
+# Identify the version of CXX compiler used when ITK was built. This needs to be
+# identified so that external applications can identify how ITK was built.
+set(ITK_COMPILED_CXX_VERSION 1)
+foreach(CXX_TEST_VERSION 199711L 201103L 201402L)
+  try_compile(ITK_MIN_CXX_LEVEL_TEST
+    ${ITK_BINARY_DIR}/CMakeTmp
+    ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkGetCXXCompilerVersion.cxx
+    COMPILE_DEFINITIONS -DITK_CXX_TEST_VERSION=${CXX_TEST_VERSION}
+    OUTPUT_VARIABLE ITK_COMPILED_CXX_VERSION_LOG )
+  if(ITK_MIN_CXX_LEVEL_TEST)
+     set(ITK_COMPILED_CXX_VERSION ${CXX_TEST_VERSION})
+  endif()
+endforeach()
 
 # check of the optional TR1 type_traits, alternative boost
 # implementation could also be searched for

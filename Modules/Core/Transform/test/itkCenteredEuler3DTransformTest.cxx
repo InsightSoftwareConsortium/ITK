@@ -222,9 +222,9 @@ int itkCenteredEuler3DTransformTest(int, char *[] )
       }
 
     parameters.Fill( 0.0 );
-    parameters[0] = 0.2 / 180.0 * vnl_math::pi;
-    parameters[1] = -1.0 / 180.0 * vnl_math::pi;
-    parameters[2] = 2.4 / 180.0 * vnl_math::pi;
+    parameters[0] = 0.2 / 180.0 * itk::Math::pi;
+    parameters[1] = -1.0 / 180.0 * itk::Math::pi;
+    parameters[2] = 2.4 / 180.0 * itk::Math::pi;
     parameters[3] = 0;
     parameters[4] = 0;
     parameters[5] = 0;
@@ -269,7 +269,7 @@ int itkCenteredEuler3DTransformTest(int, char *[] )
             / ( 2.0 * delta );
           double computedDerivative = jacobian[j][k];
           approxJacobian[j][k] = approxDerivative;
-          if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+          if( itk::Math::abs( approxDerivative - computedDerivative ) > 1e-5 )
             {
             std::cerr << "Error computing Jacobian [" << j << "]["
                       << k << "]" << std::endl;

@@ -27,7 +27,7 @@
 #include "itkShrinkImageFilter.h"
 #include "itkIdentityTransform.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -197,7 +197,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
       //  schedule[level-1] );
       if ( level > 0 )
         {
-        m_Schedule[level][dim] = vnl_math_min(
+        m_Schedule[level][dim] = std::min(
           m_Schedule[level][dim], m_Schedule[level - 1][dim]);
         }
 
@@ -309,7 +309,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
     for ( idim = 0; idim < ImageDimension; idim++ )
       {
       factors[idim] = m_Schedule[ilevel][idim];
-      variance[idim] = vnl_math_sqr( 0.5
+      variance[idim] = itk::Math::sqr( 0.5
                                      * static_cast< float >( factors[idim] ) );
       }
 
@@ -445,7 +445,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateOutputRequestedRegion(refOutput);
 
   // find the index for this output
-  unsigned int refLevel = refOutput->GetSourceOutputIndex();
+  unsigned int refLevel = static_cast<unsigned int>( refOutput->GetSourceOutputIndex() );
 
   // compute baseIndex and baseSize
   typedef typename OutputImageType::SizeType   SizeType;
@@ -571,7 +571,7 @@ MultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
   for ( idim = 0; idim < TInputImage::ImageDimension; idim++ )
     {
     oper->SetDirection(idim);
-    oper->SetVariance( vnl_math_sqr( 0.5 * static_cast< float >(
+    oper->SetVariance( itk::Math::sqr( 0.5 * static_cast< float >(
                                        m_Schedule[refLevel][idim] ) ) );
     oper->SetMaximumError(m_MaximumError);
     oper->CreateDirectional();

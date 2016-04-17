@@ -392,7 +392,7 @@ str = str
 %enddef
 
 
-%define DECL_PYTHON_VCL_COMPLEX_CLASS(swig_name)
+%define DECL_PYTHON_STD_COMPLEX_CLASS(swig_name)
 
 %extend swig_name {
     %pythoncode {

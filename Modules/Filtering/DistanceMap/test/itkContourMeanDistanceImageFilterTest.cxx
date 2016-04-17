@@ -98,7 +98,7 @@ int itkContourMeanDistanceImageFilterTest(int, char* [] )
   std::cout << " True     distance: " << trueDistance << std::endl;
   std::cout << " Computed distance: " << distance << std::endl;
 
-  if ( vnl_math_abs( trueDistance - distance ) > 0.5 )
+  if ( itk::Math::abs( trueDistance - distance ) > 0.5 )
     {
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
@@ -122,7 +122,7 @@ int itkContourMeanDistanceImageFilterTest(int, char* [] )
   std::cout << " True     distance: " << trueDistance << std::endl;
   std::cout << " Computed distance: " << distance << std::endl;
 
-  if ( vnl_math_abs( trueDistance - distance ) > 0.5 )
+  if ( itk::Math::abs( trueDistance - distance ) > 0.5 )
     {
     std::cout << "Test failed. " << std::endl;
     return EXIT_FAILURE;
@@ -155,7 +155,7 @@ int itkContourMeanDistanceImageFilterTest(int, char* [] )
     FilterType::RealType distance = filter->GetMeanDistance();
     std::cout << " True     distance: " << trueDistance << std::endl;
     std::cout << " Computed distance: " << distance << std::endl;
-    if ( vnl_math_abs( trueDistance - distance ) > 0.5 )
+    if ( itk::Math::abs( trueDistance - distance ) > 0.5 )
       {
       std::cout << "Test failed. " << std::endl;
       return EXIT_FAILURE;

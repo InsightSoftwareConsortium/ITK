@@ -20,7 +20,7 @@
 
 #include "itkScalarImageToRunLengthFeaturesFilter.h"
 #include "itkNeighborhood.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -120,19 +120,19 @@ void
 ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 ::FullCompute()
 {
-  int numOffsets = this->m_Offsets->size();
-  int numFeatures = this->m_RequestedFeatures->size();
+  size_t numOffsets = this->m_Offsets->size();
+  size_t numFeatures = this->m_RequestedFeatures->size();
   double **features;
 
   features = new double *[numOffsets];
-  for( int i = 0; i < numOffsets; i++ )
+  for( size_t i = 0; i < numOffsets; i++ )
     {
     features[i] = new double[numFeatures];
     }
 
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
-  int offsetNum, featureNum;
+  size_t offsetNum, featureNum;
   typedef typename RunLengthFeaturesFilterType::RunLengthFeatureName
     InternalRunLengthFeatureName;
 
@@ -214,7 +214,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>
 
   delete[] tempFeatureMeans;
   delete[] tempFeatureDevs;
-  for( int i = 0; i < numOffsets; i++ )
+  for( size_t i = 0; i < numOffsets; i++ )
     {
     delete[] features[i];
     }

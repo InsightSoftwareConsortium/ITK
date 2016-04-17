@@ -83,7 +83,7 @@ public:
 
   /** Return the number of control points in the list */
   SizeValueType GetNumberOfControlPoints(void) const
-  { return m_ControlPoints.size(); }
+  { return static_cast<SizeValueType>( m_ControlPoints.size() ); }
 
   /** Returns a reference to the list of the interpolated points. */
   InterpolatedPointListType & GetInterpolatedPoints();
@@ -104,7 +104,7 @@ public:
 
   /** Return the number of interpolated points in the list */
   SizeValueType GetNumberOfInterpolatedPoints(void) const
-  { return m_InterpolatedPoints.size(); }
+  { return static_cast<SizeValueType>( m_InterpolatedPoints.size() ); }
 
   enum InterpolationType { NO_INTERPOLATION = 0,
                            EXPLICIT_INTERPOLATION, BEZIER_INTERPOLATION,

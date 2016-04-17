@@ -21,14 +21,14 @@ static doublecomplex c_b2 = {1.,0.};
 static integer c__1 = 1;
 
 /*<    >*/
-/* Subroutine */ int ztrevc_(char *side, char *howmny, logical *select, 
-        integer *n, doublecomplex *t, integer *ldt, doublecomplex *vl, 
-        integer *ldvl, doublecomplex *vr, integer *ldvr, integer *mm, integer 
-        *m, doublecomplex *work, doublereal *rwork, integer *info, ftnlen 
+/* Subroutine */ int ztrevc_(char *side, char *howmny, logical *select,
+        integer *n, doublecomplex *t, integer *ldt, doublecomplex *vl,
+        integer *ldvl, doublecomplex *vr, integer *ldvr, integer *mm, integer
+        *m, doublecomplex *work, doublereal *rwork, integer *info, ftnlen
         side_len, ftnlen howmny_len)
 {
     /* System generated locals */
-    integer t_dim1, t_offset, vl_dim1, vl_offset, vr_dim1, vr_offset, i__1, 
+    integer t_dim1, t_offset, vl_dim1, vl_offset, vr_dim1, vr_offset, i__1,
             i__2, i__3, i__4, i__5;
     doublereal d__1, d__2, d__3;
     doublecomplex z__1, z__2;
@@ -47,11 +47,11 @@ static integer c__1 = 1;
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal remax;
     logical leftv, bothv;
-    extern /* Subroutine */ int zgemv_(char *, integer *, integer *, 
-            doublecomplex *, doublecomplex *, integer *, doublecomplex *, 
+    extern /* Subroutine */ int zgemv_(char *, integer *, integer *,
+            doublecomplex *, doublecomplex *, integer *, doublecomplex *,
             integer *, doublecomplex *, doublecomplex *, integer *, ftnlen);
     logical somev;
-    extern /* Subroutine */ int zcopy_(integer *, doublecomplex *, integer *, 
+    extern /* Subroutine */ int zcopy_(integer *, doublecomplex *, integer *,
             doublecomplex *, integer *), dlabad_(doublereal *, doublereal *);
     extern doublereal dlamch_(char *, ftnlen);
     extern /* Subroutine */ int xerbla_(char *, integer *, ftnlen), zdscal_(
@@ -60,9 +60,9 @@ static integer c__1 = 1;
     logical rightv;
     extern doublereal dzasum_(integer *, doublecomplex *, integer *);
     doublereal smlnum;
-    extern /* Subroutine */ int zlatrs_(char *, char *, char *, char *, 
-            integer *, doublecomplex *, integer *, doublecomplex *, 
-            doublereal *, doublereal *, integer *, ftnlen, ftnlen, ftnlen, 
+    extern /* Subroutine */ int zlatrs_(char *, char *, char *, char *,
+            integer *, doublecomplex *, integer *, doublecomplex *,
+            doublereal *, doublereal *, integer *, ftnlen, ftnlen, ftnlen,
             ftnlen);
     (void)side_len;
     (void)howmny_len;
@@ -439,7 +439,7 @@ static integer c__1 = 1;
                 t[i__2].r = z__1.r, t[i__2].i = z__1.i;
 /*<    >*/
                 i__2 = k + k * t_dim1;
-                if ((d__1 = t[i__2].r, abs(d__1)) + (d__2 = d_imag(&t[k + k * 
+                if ((d__1 = t[i__2].r, abs(d__1)) + (d__2 = d_imag(&t[k + k *
                         t_dim1]), abs(d__2)) < smin) {
                     i__3 = k + k * t_dim1;
                     t[i__3].r = smin, t[i__3].i = 0.;
@@ -589,7 +589,7 @@ L80:
                 t[i__3].r = z__1.r, t[i__3].i = z__1.i;
 /*<    >*/
                 i__3 = k + k * t_dim1;
-                if ((d__1 = t[i__3].r, abs(d__1)) + (d__2 = d_imag(&t[k + k * 
+                if ((d__1 = t[i__3].r, abs(d__1)) + (d__2 = d_imag(&t[k + k *
                         t_dim1]), abs(d__2)) < smin) {
                     i__4 = k + k * t_dim1;
                     t[i__4].r = smin, t[i__4].i = 0.;
@@ -603,7 +603,7 @@ L80:
 /*<    >*/
                 i__2 = *n - ki;
                 zlatrs_("Upper", "Conjugate transpose", "Non-unit", "Y", &
-                        i__2, &t[ki + 1 + (ki + 1) * t_dim1], ldt, &work[ki + 
+                        i__2, &t[ki + 1 + (ki + 1) * t_dim1], ldt, &work[ki +
                         1], &scale, &rwork[1], info, (ftnlen)5, (ftnlen)19, (
                         ftnlen)8, (ftnlen)1);
 /*<                WORK( KI ) = SCALE >*/
@@ -647,8 +647,8 @@ L80:
                 if (ki < *n) {
                     i__2 = *n - ki;
                     z__1.r = scale, z__1.i = 0.;
-                    zgemv_("N", n, &i__2, &c_b2, &vl[(ki + 1) * vl_dim1 + 1], 
-                            ldvl, &work[ki + 1], &c__1, &z__1, &vl[ki * 
+                    zgemv_("N", n, &i__2, &c_b2, &vl[(ki + 1) * vl_dim1 + 1],
+                            ldvl, &work[ki + 1], &c__1, &z__1, &vl[ki *
                             vl_dim1 + 1], &c__1, (ftnlen)1);
                 }
 

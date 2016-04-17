@@ -67,11 +67,11 @@ public:
   /// This function is used to build both a move and a find query 
   /// (true for inMove if it's move, false if it's find)
   static BaseRootQuery* ConstructQuery(ERootType inRootType, EQueryLevel inQueryLevel,
-    const DataSet& queryds, EQueryType queryType = eFind );
+    const DataSet& queryds, bool inMove = false );
 
   /// \deprecated
   static BaseRootQuery* ConstructQuery(ERootType inRootType, EQueryLevel inQueryLevel,
-    const KeyValuePairArrayType& keys, EQueryType queryType = eFind );
+    const KeyValuePairArrayType& keys, bool inMove = false );
 
   /// This function will use the provided query to get files from a remote server.
   /// NOTE that this functionality is essentially equivalent to C-GET in the

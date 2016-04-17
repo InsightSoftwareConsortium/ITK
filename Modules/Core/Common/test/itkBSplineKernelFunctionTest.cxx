@@ -100,7 +100,7 @@ const double b3[npoints] = {
     { \
     double results = function->Evaluate( x[j] ); \
     /* compare with external results */\
-    if( vnl_math_abs( results - b##ORDERNUM[j] ) > 1e-6 ) \
+    if( itk::Math::abs( results - b##ORDERNUM[j] ) > 1e-6 ) \
       { \
       std::cout << "Error with " << ORDERNUM << " order BSplineKernelFunction" << std::endl; \
       std::cout << "Expected: " << b##ORDERNUM[j] << " but got " << results; \
@@ -127,7 +127,7 @@ const double b3[npoints] = {
   double expectedValue = 0.0;
   double results = derivFunction->Evaluate( xx );
 
-  if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
+  if ( itk::Math::abs( results - expectedValue ) > 1e-6 )
     {
     std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
       << std::endl;
@@ -154,7 +154,7 @@ const double b3[npoints] = {
       function->Evaluate( xx - 0.5 );
     double results = derivFunction->Evaluate( xx );
 
-    if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
+    if ( itk::Math::abs( results - expectedValue ) > 1e-6 )
       {
       std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
         << std::endl;
@@ -182,7 +182,7 @@ const double b3[npoints] = {
       function->Evaluate( xx - 0.5 );
     double results = derivFunction->Evaluate( xx );
 
-    if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
+    if ( itk::Math::abs( results - expectedValue ) > 1e-6 )
       {
       std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
         << std::endl;
@@ -210,7 +210,7 @@ const double b3[npoints] = {
       function->Evaluate( xx - 0.5 );
     double results = derivFunction->Evaluate( xx );
 
-    if ( vnl_math_abs( results - expectedValue ) > 1e-6 )
+    if ( itk::Math::abs( results - expectedValue ) > 1e-6 )
       {
       std::cout << "Error with " << SplineOrder << " order BSplineDerivativeKernelFunction"
         << std::endl;

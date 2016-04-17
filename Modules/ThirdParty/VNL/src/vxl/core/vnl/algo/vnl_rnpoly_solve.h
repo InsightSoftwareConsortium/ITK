@@ -19,9 +19,10 @@
 //                               now using std::vector throughout instead of C arrays of fixed size
 // \endverbatim
 
+#include <vector>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_real_npolynomial.h>
-#include <vcl_vector.h>
+#include <vcl_compiler.h>
 
 //: Solves for roots of system of real polynomials
 //  Calculates all the roots of a system of N polynomials in N variables
@@ -32,16 +33,16 @@
 class vnl_rnpoly_solve
 {
   // Data Members--------------------------------------------------------------
-  vcl_vector<vnl_real_npolynomial*> ps_;   // the input
-  vcl_vector<vnl_vector<double>*> r_; // the output (real part)
-  vcl_vector<vnl_vector<double>*> i_; // the output (imaginary part)
+  std::vector<vnl_real_npolynomial*> ps_;   // the input
+  std::vector<vnl_vector<double>*> r_; // the output (real part)
+  std::vector<vnl_vector<double>*> i_; // the output (imaginary part)
 
  public:
 
   // Constructor---------------------------------------------------------------
 
   //: The constructor already does all the calculations
-  inline vnl_rnpoly_solve(vcl_vector<vnl_real_npolynomial*> const& ps)
+  inline vnl_rnpoly_solve(std::vector<vnl_real_npolynomial*> const& ps)
     : ps_(ps) { compute(); }
 
   // Destructor----------------------------------------------------------------
@@ -51,15 +52,15 @@ class vnl_rnpoly_solve
   // Operations----------------------------------------------------------------
 
   //: Array of real parts of roots
-  inline vcl_vector<vnl_vector<double>*> real() { return r_; }
+  inline std::vector<vnl_vector<double>*> real() { return r_; }
 
   //: Array of imaginary parts of roots
-  inline vcl_vector<vnl_vector<double>*> imag() { return i_; }
+  inline std::vector<vnl_vector<double>*> imag() { return i_; }
 
   //: Return real roots only.
   //  Roots are real if the absolute value of their imaginary part is less than
   //  the optional argument tol, which defaults to 1e-12 [untested]
-  vcl_vector<vnl_vector<double>*> realroots(double tol = 1e-12);
+  std::vector<vnl_vector<double>*> realroots(double tol = 1e-12);
 
   // Computations--------------------------------------------------------------
 
@@ -67,10 +68,10 @@ class vnl_rnpoly_solve
   //: Compute roots using continuation algorithm.
   bool compute();
 
-  void Read_Input(vcl_vector<unsigned int>& ideg,
-                  vcl_vector<unsigned int>& terms,
-                  vcl_vector<int>& polyn,
-                  vcl_vector<double>& coeff);
+  void Read_Input(std::vector<unsigned int>& ideg,
+                  std::vector<unsigned int>& terms,
+                  std::vector<int>& polyn,
+                  std::vector<double>& coeff);
 };
 
 #endif // vnl_rnpoly_solve_h_

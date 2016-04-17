@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine  zswap (n,zx,incx,zy,incy) >*/
-/* Subroutine */ int zswap_(integer *n, doublecomplex *zx, integer *incx, 
+/* Subroutine */ int zswap_(integer *n, doublecomplex *zx, integer *incx,
         doublecomplex *zy, integer *incy)
 {
     /* System generated locals */

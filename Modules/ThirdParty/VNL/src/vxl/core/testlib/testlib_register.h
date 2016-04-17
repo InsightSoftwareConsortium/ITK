@@ -22,14 +22,10 @@
 // \endcode
 // See the vxl tests for further examples (such as vil/tests).
 
-#include <vcl_string.h>
+#include <string>
+#include <vcl_compiler.h>
 
-#if 0 // ifdef VCL_VC - gives compiler errors - PVr
-typedef int ( (__cdecl *const) TestMainFunction)( int, char*[] );
-#else
 typedef int (*TestMainFunction)( int, char*[] );
-#endif
-
 
 //: Declare the existence of the test.
 // If you DECLARE( x ), then you will need to define a function int x_main(int,char*[]).
@@ -39,7 +35,7 @@ typedef int (*TestMainFunction)( int, char*[] );
 #define DECLARE( testname )  int testname ## _main ( int argc, char* argv[] )
 #endif
 
-void testlib_register_test(const vcl_string &, TestMainFunction);
+void testlib_register_test(const std::string &, TestMainFunction);
 
 //: Register the test with the driver.
 // \param testname should be the same as one of the tests declared with DECLARE.

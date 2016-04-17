@@ -1,18 +1,24 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-"""contains classes that describe different C++ declarations"""
+"""
+Contains classes that describe different C++ declarations
 
-from . import compilers
+"""
+
+# Keep compilers for backward compatibility
+from . import xml_generators as compilers
+from . import xml_generators
 
 from .dependencies import dependency_info_t
-from .declaration import location_t
+from .location import location_t
 from .declaration import declaration_t
 from .scopedef import scopedef_t
 from .enumeration import enumeration_t
 from .namespace import namespace_t
+from .typedef import typedef_t
 
 from .class_declaration import class_t
 from .class_declaration import CLASS_TYPES
@@ -20,8 +26,6 @@ from .class_declaration import ACCESS_TYPES
 from .class_declaration import hierarchy_info_t
 from .class_declaration import class_declaration_t
 from .class_declaration import class_types
-
-from .typedef import typedef_t
 
 from .cpptypes import type_t
 from .cpptypes import dummy_type_t
@@ -162,7 +166,7 @@ from .type_traits import remove_declarated
 from .type_traits import has_destructor
 from .type_traits import has_public_less
 from .type_traits import has_copy_constructor
-has_trivial_copy = has_copy_constructor  # backward comp mode will be removed
+
 from .type_traits import has_public_equal
 from .type_traits import has_public_assign
 from .type_traits import has_public_destructor
@@ -192,24 +196,12 @@ from .container_traits import multiset_traits
 from .container_traits import hash_multiset_traits
 from .container_traits import find_container_traits
 
+from .container_traits import unordered_map_traits
+from .container_traits import unordered_multimap_traits
+from .container_traits import unordered_set_traits
+from .container_traits import unordered_multiset_traits
+
 from .function_traits import is_same_function
-
-all_container_traits = container_traits.container_traits
-"""tuple of all STD container traits classes"""
-
-sequential_container_traits = [
-    list_traits,
-    deque_traits,
-    queue_traits,
-    priority_queue_traits,
-    vector_traits,
-    stack_traits,
-    set_traits,
-    hash_set_traits,
-    multiset_traits,
-    hash_multiset_traits]
-"""list, that contains all STD container traits classes"""
-
 
 from . import templates
 from . import call_invocation
@@ -229,6 +221,32 @@ from .matchers import access_type_matcher_t
 from .matchers import operator_matcher_t
 from .matchers import custom_matcher_t
 from .matchers import virtuality_type_matcher_t
+
+from .matcher import matcher
+
+from .mdecl_wrapper import mdecl_wrapper_t
+
+from .decl_printer import decl_printer_t
+from .decl_printer import dump_declarations
+from .decl_printer import print_declarations
+
+from . import scopedef
+
+all_container_traits = container_traits.container_traits
+"""tuple of all STD container traits classes"""
+
+sequential_container_traits = [
+    list_traits,
+    deque_traits,
+    queue_traits,
+    priority_queue_traits,
+    vector_traits,
+    stack_traits,
+    set_traits,
+    hash_set_traits,
+    multiset_traits,
+    hash_multiset_traits]
+"""list, that contains all STD container traits classes"""
 
 # make matchers to look more like functors
 or_matcher = or_matcher_t
@@ -255,17 +273,6 @@ custom_matcher = custom_matcher_t
 """see :class:`custom_matcher_t` for documentation"""
 virtuality_type_matcher = virtuality_type_matcher_t
 """see :class:`virtuality_type_matcher_t` for documentation"""
-
-from .matcher import matcher
-
-from .mdecl_wrapper import mdecl_wrapper_t
-
-from .decl_printer import decl_printer_t
-from .decl_printer import dump_declarations
-from .decl_printer import print_declarations
-
-
-from . import scopedef
 
 scopedef.scopedef_t._impl_all_decl_types = [
     scopedef.scopedef_t,

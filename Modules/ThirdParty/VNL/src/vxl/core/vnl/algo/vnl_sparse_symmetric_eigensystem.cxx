@@ -5,30 +5,25 @@
 //:
 // \file
 
+#include <cstring>
+#include <cstdlib>
+#include <iostream>
+#include <vector>
 #include "vnl_sparse_symmetric_eigensystem.h"
 #include "vnl_sparse_lu.h"
 #include <vnl/vnl_vector_ref.h>
 #include <vcl_cassert.h>
-#include <vcl_cstring.h>
-#include <vcl_cstdlib.h>
-#include <vcl_iostream.h>
-#include <vcl_vector.h>
+#include <vcl_compiler.h>
 
 #include <vnl/algo/vnl_netlib.h> // dnlaso_() dseupd_() dsaupd_()
 
-static vnl_sparse_symmetric_eigensystem * current_system = 0;
-
-#ifdef VCL_SUNPRO_CC
-# define FUNCTION extern "C"
-#else
-# define FUNCTION static
-#endif
+static vnl_sparse_symmetric_eigensystem * current_system = VXL_NULLPTR;
 
 //------------------------------------------------------------
 //: Callback for multiplying our matrix by a number of vectors.
 //  The input is p, which is an NxM matrix.
 //  This function returns q = A p, where A is the current sparse matrix.
-FUNCTION
+static
 void sse_op_callback(const long* n,
                      const long* m,
                      const double* p,
@@ -44,7 +39,7 @@ void sse_op_callback(const long* n,
 // If k=0, save the m columns of q as the (j-m+1)th through jth
 // vectors.  If k=1 then return the (j-m+1)th through jth vectors in
 // q.
-FUNCTION
+static
 void sse_iovect_callback(const long* n,
                          const long* m,
                          double* q,
@@ -60,14 +55,14 @@ void sse_iovect_callback(const long* n,
 }
 
 vnl_sparse_symmetric_eigensystem::vnl_sparse_symmetric_eigensystem()
-  : nvalues(0), vectors(0), values(0)
+  : nvalues(0), vectors(VXL_NULLPTR), values(VXL_NULLPTR)
 {
 }
 
 vnl_sparse_symmetric_eigensystem::~vnl_sparse_symmetric_eigensystem()
 {
-  delete[] vectors; vectors = 0;
-  delete[] values; values = 0;
+  delete[] vectors; vectors = VXL_NULLPTR;
+  delete[] values; values = VXL_NULLPTR;
   for (unsigned i=0; i<temp_store.size(); ++i)
     delete temp_store[i];
   temp_store.clear();
@@ -89,8 +84,8 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
 
   // Clear current vectors.
   if (vectors) {
-    delete[] vectors; vectors = 0;
-    delete[] values; values = 0;
+    delete[] vectors; vectors = VXL_NULLPTR;
+    delete[] values; values = VXL_NULLPTR;
   }
   nvalues = 0;
 
@@ -101,16 +96,16 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   long nperm = 0;
   long nmval = n;
   long nmvec = dim;
-  vcl_vector<double> temp_vals(n*4);
-  vcl_vector<double> temp_vecs(n*dim);
+  std::vector<double> temp_vals(n*4);
+  std::vector<double> temp_vecs(n*dim);
 
-  // set nblock = vcl_max(10, dim/6) :
+  // set nblock = std::max(10, dim/6) :
   long nblock = (dim<60) ? dim/6 : 10;
 
   // isn't this rather a lot ? -- fsm
   long maxop = dim*10;      // dim*20;
 
-  // set maxj = vcl_max(40, maxop*nblock, 6*nblock+1) :
+  // set maxj = std::max(40, maxop*nblock, 6*nblock+1) :
   long maxj = maxop*nblock; // 2*n+1;
   long t1 = 6*nblock+1;
   if (maxj < t1) maxj = t1;
@@ -122,13 +117,13 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   int t2 = maxj*(2*nblock+3) + 2*n + 6 + (2*nblock+2)*(nblock+1);
   if (work_size < t2) work_size = t2;
   work_size += 2*dim*nblock + maxj*(nblock + n + 2) + 2*nblock*nblock + 3*n;
-  vcl_vector<double> work(work_size+10);
+  std::vector<double> work(work_size+10);
 
   // Set starting vectors to zero.
   for (int i=0; i<dim*nblock; ++i)
     work[i] = 0.0;
 
-  vcl_vector<long> ind(n);
+  std::vector<long> ind(n);
 
   long ierr = 0;
 
@@ -145,38 +140,38 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   if (ierr > 0)
   {
     if (ierr & 0x1)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: N < 6*NBLOCK\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: N < 6*NBLOCK\n";
     if (ierr & 0x2)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NFIG < 0\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NFIG < 0\n";
     if (ierr & 0x4)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NMVEC < N\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NMVEC < N\n";
     if (ierr & 0x8)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NPERM < 0\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NPERM < 0\n";
     if (ierr & 0x10)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: MAXJ < 6*NBLOCK\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: MAXJ < 6*NBLOCK\n";
     if (ierr & 0x20)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL < max(1,NPERM)\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL < max(1,NPERM)\n";
     if (ierr & 0x40)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > NMVAL\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > NMVAL\n";
     if (ierr & 0x80)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXOP\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXOP\n";
     if (ierr & 0x100)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXJ/2\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NVAL > MAXJ/2\n";
     if (ierr & 0x200)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem: NBLOCK < 1\n";
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem: NBLOCK < 1\n";
   }
   else if (ierr < 0)
   {
     if (ierr == -1)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
                << "  poor initial vectors chosen\n";
     else if (ierr == -2)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
                << "  reached maximum operations " << maxop
                << " without finding all eigenvalues,\n"
                << "  found " << nperm << " eigenvalues\n";
     else if (ierr == -8)
-      vcl_cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
+      std::cerr << "Error: vnl_sparse_symmetric_eigensystem:\n"
                << "  disastrous loss of orthogonality - internal error\n";
   }
 
@@ -186,10 +181,6 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(vnl_sparse_matrix<double>&
   values = new double[n];
   for (int i=0; i<n; ++i) {
     values[i] = temp_vals[i];
-#if 0
-    vcl_cout << "value " << temp_vals[i]
-             << " accuracy " << temp_vals[i+n*2] << vcl_endl;
-#endif
     vnl_vector<double> vec(dim,0.0);
     for (int j=0; j<dim; ++j)
       vec[j] = temp_vecs[j + dim*i];
@@ -226,8 +217,8 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
 
   // Clear current vectors.
   if (vectors) {
-    delete[] vectors; vectors = NULL;
-    delete[] values; values = NULL;
+    delete[] vectors; vectors = VXL_NULLPTR;
+    delete[] values; values = VXL_NULLPTR;
   }
   nvalues = 0;
 
@@ -252,7 +243,7 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
   long  nEVL = nEV;    // long number of EVs to calc
 
   double *resid = new double[matSize];
-  vcl_memset((void*) resid, 0, sizeof(double)*matSize);
+  std::memset((void*) resid, 0, sizeof(double)*matSize);
 
   if (maxIterations <= 0)
     maxIterations =  nEVL * 100;
@@ -338,12 +329,9 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
   // Double precision work array of length at least NCV**2 + 8*NCV
   double *workl = new double[lworkl + 1];
 
-  // start from scratch
-  bool basisCalculated = false;
-
   vnl_vector<double> workVector;
 
-  while (!basisCalculated)
+  while (true)
   {
     // Calling arpack routine dsaupd.
     v3p_netlib_dsaupd_(
@@ -356,7 +344,6 @@ int vnl_sparse_symmetric_eigensystem::CalculateNPairs(
     if (ido==DONE)
     {
       nconv = iParam[5];
-      basisCalculated = true;
       break;
     }
     else
@@ -479,9 +466,9 @@ int vnl_sparse_symmetric_eigensystem::SaveVectors(int n, int m,
   }
 
   double* temp = new double[n*m];
-  vcl_memcpy(temp,q,n*m*sizeof(double));
+  std::memcpy(temp,q,n*m*sizeof(double));
 #ifdef DEBUG
-    vcl_cout << "Save vectors " << base << ' ' << temp << '\n';
+    std::cout << "Save vectors " << base << ' ' << temp << '\n';
 #endif
 
   temp_store.push_back(temp);
@@ -502,9 +489,9 @@ int vnl_sparse_symmetric_eigensystem::RestoreVectors(int n, int m,
     read_idx = 0;
 
   double* temp = temp_store[read_idx];
-  vcl_memcpy(q,temp,n*m*sizeof(double));
+  std::memcpy(q,temp,n*m*sizeof(double));
 #ifdef DEBUG
-    vcl_cout << "Restore vectors " << base << ' ' << temp << '\n';
+    std::cout << "Restore vectors " << base << ' ' << temp << '\n';
 #endif
 
   read_idx++;

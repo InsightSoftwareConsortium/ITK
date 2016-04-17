@@ -207,13 +207,13 @@ ComponentToPredType(ImageIOBase::IOComponentType cType)
       return H5::PredType::NATIVE_FLOAT;
     case ImageIOBase::DOUBLE:
       return H5::PredType::NATIVE_DOUBLE;
-    default:
+    case ImageIOBase::UNKNOWNCOMPONENTTYPE:
       itkGenericExceptionMacro(<< "unsupported IOComponentType"
                                << cType);
-      break;
     }
-  // never reached but silences warning.
-  return H5::PredType::NATIVE_UCHAR;
+
+    itkGenericExceptionMacro(<< "unsupported IOComponentType"
+                             << cType);
 }
 
 std::string
@@ -601,7 +601,7 @@ HDF5ImageIO
     // store as itk::Array -- consistent with how
     // metadatadictionary actually is used in ITK
     std::vector<TType> valVec = this->ReadVector<TType>(HDFPath);
-    Array<TType> val(valVec.size());
+    Array<TType> val(static_cast< typename Array<TType>::SizeValueType >( valVec.size()));
     for(unsigned int i = 0; i < val.GetSize(); i++)
       {
       val[i] = valVec[i];
@@ -714,7 +714,7 @@ HDF5ImageIO
     std::vector<std::vector<double> > directions =
       this->ReadDirections(DirectionsName);
 
-    int numDims = directions.size();
+    int numDims = static_cast<int>( directions.size() );
     this->SetNumberOfDimensions(numDims);
 
     //H5::Group instanceGroup(this->m_H5File->openGroup(groupName));

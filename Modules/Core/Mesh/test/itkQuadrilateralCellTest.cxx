@@ -175,8 +175,8 @@ int itkQuadrilateralCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] - 0.5 ) > toleance ) ||
-      ( vnl_math_abs( pcoords[1] - 0.6 ) > toleance )   )
+  if( ( itk::Math::abs( pcoords[0] - 0.5 ) > toleance ) ||
+      ( itk::Math::abs( pcoords[1] - 0.6 ) > toleance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -184,10 +184,10 @@ int itkQuadrilateralCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( weights[0] - 0.2 ) > toleance ) ||
-      ( vnl_math_abs( weights[1] - 0.2 ) > toleance ) ||
-      ( vnl_math_abs( weights[2] - 0.3 ) > toleance ) ||
-      ( vnl_math_abs( weights[3] - 0.3 ) > toleance )   )
+  if( ( itk::Math::abs( weights[0] - 0.2 ) > toleance ) ||
+      ( itk::Math::abs( weights[1] - 0.2 ) > toleance ) ||
+      ( itk::Math::abs( weights[2] - 0.3 ) > toleance ) ||
+      ( itk::Math::abs( weights[3] - 0.3 ) > toleance )   )
     {
     std::cerr << "Error: weights computed incorrectly" << std::endl;
     std::cerr << "weights[0] = " << weights[0] << std::endl;
@@ -213,8 +213,8 @@ int itkQuadrilateralCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] + 0.5 ) > toleance ) ||
-      ( vnl_math_abs( pcoords[1] - 0.6 ) > toleance )   )
+  if( ( itk::Math::abs( pcoords[0] + 0.5 ) > toleance ) ||
+      ( itk::Math::abs( pcoords[1] - 0.6 ) > toleance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -242,8 +242,8 @@ int itkQuadrilateralCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] - 1.5 ) > toleance ) ||
-      ( vnl_math_abs( pcoords[1] - 0.6 ) > toleance )   )
+  if( ( itk::Math::abs( pcoords[0] - 1.5 ) > toleance ) ||
+      ( itk::Math::abs( pcoords[1] - 0.6 ) > toleance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
@@ -269,18 +269,18 @@ int itkQuadrilateralCellTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( ( vnl_math_abs( pcoords[0] - 0.5 ) > toleance ) ||
-      ( vnl_math_abs( pcoords[1] - 0.6 ) > toleance )   )
+  if( ( itk::Math::abs( pcoords[0] - 0.5 ) > toleance ) ||
+      ( itk::Math::abs( pcoords[1] - 0.6 ) > toleance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;
     std::cerr << "pcoords[1] = " << pcoords[1] << std::endl;
     return EXIT_FAILURE;
     }
-  if( ( vnl_math_abs( weights[0] - 0.2 ) > toleance ) ||
-      ( vnl_math_abs( weights[1] - 0.2 ) > toleance ) ||
-      ( vnl_math_abs( weights[2] - 0.3 ) > toleance ) ||
-      ( vnl_math_abs( weights[3] - 0.3 ) > toleance )   )
+  if( ( itk::Math::abs( weights[0] - 0.2 ) > toleance ) ||
+      ( itk::Math::abs( weights[1] - 0.2 ) > toleance ) ||
+      ( itk::Math::abs( weights[2] - 0.3 ) > toleance ) ||
+      ( itk::Math::abs( weights[3] - 0.3 ) > toleance )   )
     {
     std::cerr << "Error: weights computed incorrectly" << std::endl;
     std::cerr << "weights[0] = " << weights[0] << std::endl;
@@ -312,8 +312,8 @@ int itkQuadrilateralCellTest(int, char* [] )
   // With planar assumption, this off-plane point should give:   pcoords[0] = 0.625
   // With proper projection on quad, it should give:             pcoords[0] = 0.4
   // FIXME when projection is implemented in itkQuadrilateralCell::EvaluatePosition
-  if( ( vnl_math_abs( pcoords[0] - 0.625 ) > toleance ) ||
-      ( vnl_math_abs( pcoords[1] - 0.3 ) > toleance )   )
+  if( ( itk::Math::abs( pcoords[0] - 0.625 ) > toleance ) ||
+      ( itk::Math::abs( pcoords[1] - 0.3 ) > toleance )   )
     {
     std::cerr << "Error: pcoords computed incorrectly" << std::endl;
     std::cerr << "pcoords[0] = " << pcoords[0] << std::endl;

@@ -130,7 +130,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     const double weighted = this->m_Gradient[dim];
     compensatedSummation += weighted * weighted;
     }
-  const double gradientMagnitude = vcl_sqrt( compensatedSummation.GetSum() );
+  const double gradientMagnitude = std::sqrt( compensatedSummation.GetSum() );
 
   if( gradientMagnitude < this->m_GradientMagnitudeTolerance )
     {

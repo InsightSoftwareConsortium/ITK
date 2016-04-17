@@ -22,8 +22,8 @@ static doublereal c_b36 = .5;
 
 /*<    >*/
 /* Subroutine */ int dlatrs_(char *uplo, char *trans, char *diag, char *
-        normin, integer *n, doublereal *a, integer *lda, doublereal *x, 
-        doublereal *scale, doublereal *cnorm, integer *info, ftnlen uplo_len, 
+        normin, integer *n, doublereal *a, integer *lda, doublereal *x,
+        doublereal *scale, doublereal *cnorm, integer *info, ftnlen uplo_len,
         ftnlen trans_len, ftnlen diag_len, ftnlen normin_len)
 {
     /* System generated locals */
@@ -34,22 +34,22 @@ static doublereal c_b36 = .5;
     integer i__, j;
     doublereal xj, rec, tjj;
     integer jinc;
-    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *, 
+    extern doublereal ddot_(integer *, doublereal *, integer *, doublereal *,
             integer *);
     doublereal xbnd;
     integer imax;
     doublereal tmax, tjjs=0, xmax, grow, sumj;
-    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int dscal_(integer *, doublereal *, doublereal *,
             integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
     doublereal tscal, uscal;
     extern doublereal dasum_(integer *, doublereal *, integer *);
     integer jlast;
-    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int daxpy_(integer *, doublereal *, doublereal *,
             integer *, doublereal *, integer *);
     logical upper;
-    extern /* Subroutine */ int dtrsv_(char *, char *, char *, integer *, 
-            doublereal *, integer *, doublereal *, integer *, ftnlen, ftnlen, 
+    extern /* Subroutine */ int dtrsv_(char *, char *, char *, integer *,
+            doublereal *, integer *, doublereal *, integer *, ftnlen, ftnlen,
             ftnlen);
     extern doublereal dlamch_(char *, ftnlen);
     extern integer idamax_(integer *, doublereal *, integer *);
@@ -279,7 +279,7 @@ static doublereal c_b36 = .5;
 /*<          INFO = -1 >*/
         *info = -1;
 /*<    >*/
-    } else if (! notran && ! lsame_(trans, "T", (ftnlen)1, (ftnlen)1) && ! 
+    } else if (! notran && ! lsame_(trans, "T", (ftnlen)1, (ftnlen)1) && !
             lsame_(trans, "C", (ftnlen)1, (ftnlen)1)) {
 /*<          INFO = -2 >*/
         *info = -2;
@@ -942,7 +942,7 @@ L100:
                     if (upper) {
 /*<                      SUMJ = DDOT( J-1, A( 1, J ), 1, X, 1 ) >*/
                         i__3 = j - 1;
-                        sumj = ddot_(&i__3, &a[j * a_dim1 + 1], &c__1, &x[1], 
+                        sumj = ddot_(&i__3, &a[j * a_dim1 + 1], &c__1, &x[1],
                                 &c__1);
 /*<                   ELSE IF( J.LT.N ) THEN >*/
                     } else if (j < *n) {

@@ -31,7 +31,7 @@ GaussianMembershipFunction< TMeasurementVector >
   NumericTraits<MeanVectorType>::SetLength(m_Mean, this->GetMeasurementVectorSize());
   m_Mean.Fill( 0.0 );
 
-  m_PreFactor = 1.0 / std::sqrt(2.0 * vnl_math::pi); // default univariate
+  m_PreFactor = 1.0 / std::sqrt(2.0 * itk::Math::pi); // default univariate
 
   m_Covariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
   m_Covariance.SetIdentity();
@@ -137,7 +137,7 @@ GaussianMembershipFunction< TMeasurementVector >
     // calculate coefficient C of multivariate gaussian
     m_PreFactor =
       1.0 / ( std::sqrt(det) *
-        std::pow( std::sqrt(2.0 * vnl_math::pi),
+        std::pow( std::sqrt(2.0 * itk::Math::pi),
                static_cast< double >( this->GetMeasurementVectorSize() ) ) );
     }
   else

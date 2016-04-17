@@ -42,7 +42,7 @@ extern "C"
 {
 static void TagExtender(TIFF *tiff)
 {
-  static const TIFFFieldInfo xtiffFieldInfo[] = {
+  static ITK_CONSTEXPR TIFFFieldInfo xtiffFieldInfo[] = {
           { TIF_CZ_LSMINFO, TIFF_VARIABLE, TIFF_VARIABLE, TIFF_BYTE,
           FIELD_CUSTOM, 0, 1, const_cast< char * >( "LSM Private Tag" ) }
     };
@@ -408,7 +408,6 @@ void LSMImageIO::Write(const void *buffer)
       if ( TIFFWriteScanline(tif, const_cast< unsigned char * >( outPtr ), row, 0) < 0 )
         {
         itkExceptionMacro(<< "TIFFImageIO: error out of disk space");
-        break;
         }
       outPtr += rowLength;
       row++;

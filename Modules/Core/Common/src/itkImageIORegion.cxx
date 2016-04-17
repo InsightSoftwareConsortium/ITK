@@ -245,7 +245,7 @@ ImageIORegion
     numPixels *= m_Size[d];
     }
 
-  return numPixels;
+  return Math::CastWithRangeCheck<ImageIORegion::SizeValueType>(numPixels);
 }
 
 bool

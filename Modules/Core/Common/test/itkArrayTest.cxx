@@ -105,9 +105,10 @@ int itkArrayTest(int, char* [] )
   // Test the case where we construct an array that points
   // to a user allocated buffer where the user wants to
   // maintain responsibility for deleting the array.
-  FloatArrayType objectToCopy(10);
-  float* data = new float[10];
-  objectToCopy.SetData(data); // This implictly means LetArrayManageMemory=false
+  const size_t testSizeForArraySetDataSameSize=10;
+  FloatArrayType objectToCopy(testSizeForArraySetDataSameSize);
+  float* data = new float[testSizeForArraySetDataSameSize];
+  objectToCopy.SetDataSameSize(data); // This implictly means LetArrayManageMemory=false
 
   // Make a copy of the array which is not managing its own memory.
   FloatArrayType copy(objectToCopy);

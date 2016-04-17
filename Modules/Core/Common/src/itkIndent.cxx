@@ -32,7 +32,7 @@
 
 namespace itk
 {
-static const char blanks[ITK_NUMBER_OF_BLANKS + 1] =
+static ITK_CONSTEXPR char blanks[ITK_NUMBER_OF_BLANKS + 1] =
   "                                        ";
 
 /**

@@ -19,7 +19,7 @@
 #define itkGradientVectorFlowImageFilter_h
 
 #include "vnl/vnl_matrix_fixed.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkLaplacianImageFilter.h"

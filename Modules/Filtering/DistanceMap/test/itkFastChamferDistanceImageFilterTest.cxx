@@ -32,10 +32,10 @@ SimpleSignedDistance( const TPoint & p )
   double accum = 0.0;
   for( unsigned int j = 0; j < TPoint::PointDimension; j++ )
     {
-    accum += static_cast< double >( vnl_math_sqr( p[j] - center[j] ) );
+    accum += static_cast< double >( itk::Math::sqr( p[j] - center[j] ) );
     }
   accum = std::sqrt( accum );
-  if (vnl_math_abs(accum - radius) > 1)
+  if (itk::Math::abs(accum - radius) > 1)
     {
     if((accum - radius) > 0)
       {

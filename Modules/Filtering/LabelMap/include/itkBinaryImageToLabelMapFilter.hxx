@@ -88,7 +88,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   SizeValueType nbOfThreads = this->GetNumberOfThreads();
   if ( itk::MultiThreader::GetGlobalMaximumNumberOfThreads() != 0 )
     {
-    nbOfThreads = vnl_math_min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
+    nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
     }
 
   // number of threads can be constrained by the region size, so call the
@@ -121,7 +121,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   TOutputImage * output = this->GetOutput();
   const TInputImage * input = this->GetInput();
 
-  const SizeValueType nbOfThreads = this->m_NumberOfLabels.size();
+  const SizeValueType nbOfThreads = static_cast<const SizeValueType>( this->m_NumberOfLabels.size() );
 
   // create a line iterator
   typedef itk::ImageLinearConstIteratorWithIndex< InputImageType > InputLineIteratorType;
@@ -450,7 +450,7 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   // axis
   for ( unsigned i = 1; i < OutputImageDimension; i++ )
     {
-    if ( vnl_math_abs(A[i] - B[i]) > 1 )
+    if ( itk::Math::abs(A[i] - B[i]) > 1 )
       {
       return false;
       }

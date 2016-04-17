@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine reduc(nm,n,a,b,dl,ierr) >*/
-/* Subroutine */ int reduc_(integer *nm, integer *n, doublereal *a, 
+/* Subroutine */ int reduc_(integer *nm, integer *n, doublereal *a,
         doublereal *b, doublereal *dl, integer *ierr)
 {
     /* System generated locals */

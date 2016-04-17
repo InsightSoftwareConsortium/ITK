@@ -31,7 +31,7 @@
 #include "itkDerivativeOperator.h"
 #include "itkForwardDifferenceOperator.h"
 #include "itkLinearInterpolateImageFunction.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 #include "itkDemonsRegistrationFunction.h"
 #include "itkMeanSquareRegistrationFunction.h"

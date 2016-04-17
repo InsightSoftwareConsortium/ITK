@@ -21,7 +21,7 @@
 #include "itkCompensatedSummation.h"
 #include "itkRayCastInterpolateImageFunction.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 // Put the helper class in an anonymous namespace so that it is not
 // exposed to the user

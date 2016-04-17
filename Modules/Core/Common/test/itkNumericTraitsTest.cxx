@@ -195,12 +195,12 @@ bool CheckSignedAndIntegerTraitsForComplexTypes( const char * const name )
 
 struct UnknownTypeTestCase
 {
-  static const int value = 1;
+  static ITK_CONSTEXPR int value = 1;
 };
 
 struct ForcedFailureTestCase
 {
-  static const int value = 1;
+  static ITK_CONSTEXPR int value = 1;
 };
 
 //test implementation of NumericTraits designed to fail
@@ -212,8 +212,8 @@ class NumericTraits< ForcedFailureTestCase > : public std::numeric_limits< Force
 {
   public:
   typedef ForcedFailureTestCase ValueType;
-  static const bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
-  static const bool IsInteger = true;   //so this should not match and the test should fail.
+  static ITK_CONSTEXPR bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
+  static ITK_CONSTEXPR bool IsInteger = true;   //so this should not match and the test should fail.
 };
 
 template<>
@@ -221,8 +221,8 @@ class NumericTraits< std::complex< ForcedFailureTestCase > >
 {
   public:
   typedef ForcedFailureTestCase ValueType;
-  static const bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
-  static const bool IsInteger = true;  //should match that of their base type, so this should fail
+  static ITK_CONSTEXPR bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
+  static ITK_CONSTEXPR bool IsInteger = true;  //should match that of their base type, so this should fail
 };
 
 }//end namespace itk

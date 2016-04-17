@@ -1,12 +1,13 @@
 // This is core/vnl/tests/test_random.cxx
-#include <vcl_iostream.h>
-#include <vcl_cmath.h> // for vcl_sqrt()
+#include <iostream>
+#include <cmath>
+#include <vcl_compiler.h>
 #include <vnl/vnl_random.h>
 #include <testlib/testlib_test.h>
 
 void test_random()
 {
-  vcl_cout << "********************\n"
+  std::cout << "********************\n"
            << " Testing vnl_random\n"
            << "********************\n";
 
@@ -31,7 +32,7 @@ void test_random()
   }
 
   double mean = sum/n;
-  double var  = vcl_sqrt(sum_sq/n-mean*mean);
+  double var  = std::sqrt(sum_sq/n-mean*mean);
   TEST_NEAR("normal() mean near zero",mean, 0.0, 0.01);
   TEST_NEAR("normal() var near one",var, 1.0, 0.02);
 
@@ -45,7 +46,7 @@ void test_random()
   }
 
   mean = sum/n;
-  var  = vcl_sqrt(sum_sq/n-mean*mean);
+  var  = std::sqrt(sum_sq/n-mean*mean);
   TEST_NEAR("normal64() mean near zero",mean, 0.0, 0.01);
   TEST_NEAR("normal64() var near one",var, 1.0, 0.01);
 }

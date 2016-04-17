@@ -224,7 +224,7 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_VALUE( 11, process->GetNumberOfThreads() );
   process->SetNumberOfThreads( 0 );
   TEST_SET_GET_VALUE( 1, process->GetNumberOfThreads() );
-  process->SetNumberOfThreads( itk::NumericTraits<long>::max() );
+  process->SetNumberOfThreads( itk::NumericTraits<itk::ThreadIdType>::max() );
   TEST_SET_GET_VALUE( itk::MultiThreader::GetGlobalMaximumNumberOfThreads(), process->GetNumberOfThreads() );
   process->SetNumberOfThreads( itk::MultiThreader::GetGlobalDefaultNumberOfThreads() );
   TEST_SET_GET_VALUE( itk::MultiThreader::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfThreads() );

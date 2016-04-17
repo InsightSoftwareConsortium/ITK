@@ -134,19 +134,35 @@ void LookupTable::SetLUT(LookupTableType type, const unsigned char *array,
   // goes like this: 0, 1, 2, 3, 4, 5, 6, 7 ...
   if( BitSample == 8 )
     {
-    const unsigned int mult = Internal->BitSize[type]/8;
-    assert( Internal->Length[type]*mult == length
-      || Internal->Length[type]*mult + 1 == length );
-    unsigned int offset = 0;
-    if( mult == 2 )
+      const unsigned int mult = Internal->BitSize[type]/8;
+      const unsigned int mult2 = length / Internal->Length[type];
+      assert( Internal->Length[type] * mult2 == length );
+      if( Internal->Length[type]*mult == length
+          || Internal->Length[type]*mult + 1 == length )
       {
-      offset = 1;
+        assert( mult2 == 1 || mult2 == 2 );
+        unsigned int offset = 0;
+        if( mult == 2 )
+        {
+          offset = 1;
+        }
+        for( unsigned int i = 0; i < Internal->Length[type]; ++i)
+        {
+          assert( i*mult+offset < length );
+          assert( 3*i+type < Internal->RGB.size() );
+          Internal->RGB[3*i+type] = array[i*mult+offset];
+        }
       }
-    for( unsigned int i = 0; i < Internal->Length[type]; ++i)
+      else
       {
-      assert( i*mult+offset < length );
-      assert( 3*i+type < Internal->RGB.size() );
-      Internal->RGB[3*i+type] = array[i*mult+offset];
+        unsigned int offset = 0;
+        assert( mult2 == 2 );
+        for( unsigned int i = 0; i < Internal->Length[type]; ++i)
+        {
+          assert( i*mult2+offset < length );
+          assert( 3*i+type < Internal->RGB.size() );
+          Internal->RGB[3*i+type] = array[i*mult2+offset];
+        }
       }
     }
   else if( BitSample == 16 )

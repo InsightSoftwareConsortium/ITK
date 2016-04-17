@@ -17,18 +17,18 @@ extern "C" {
 
 /*<       subroutine rs(nm,n,a,w,matz,z,fv1,fv2,ierr) >*/
 /* Subroutine */ int rs_(integer *nm, integer *n, doublereal *a, doublereal *
-        w, integer *matz, doublereal *z__, doublereal *fv1, doublereal *fv2, 
+        w, integer *matz, doublereal *z__, doublereal *fv1, doublereal *fv2,
         integer *ierr)
 {
     /* System generated locals */
     integer a_dim1, a_offset, z_dim1, z_offset;
 
     /* Local variables */
-    extern /* Subroutine */ int tql1_(integer *, doublereal *, doublereal *, 
+    extern /* Subroutine */ int tql1_(integer *, doublereal *, doublereal *,
             integer *), tql2_(integer *, integer *, doublereal *, doublereal *
-            , doublereal *, integer *), tred1_(integer *, integer *, 
+            , doublereal *, integer *), tred1_(integer *, integer *,
             doublereal *, doublereal *, doublereal *, doublereal *), tred2_(
-            integer *, integer *, doublereal *, doublereal *, doublereal *, 
+            integer *, integer *, doublereal *, doublereal *, doublereal *,
             doublereal *);
 
 

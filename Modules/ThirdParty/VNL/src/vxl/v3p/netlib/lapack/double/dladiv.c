@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DLADIV( A, B, C, D, P, Q ) >*/
-/* Subroutine */ int dladiv_(doublereal *a, doublereal *b, doublereal *c__, 
+/* Subroutine */ int dladiv_(doublereal *a, doublereal *b, doublereal *c__,
         doublereal *d__, doublereal *p, doublereal *q)
 {
     doublereal e, f;

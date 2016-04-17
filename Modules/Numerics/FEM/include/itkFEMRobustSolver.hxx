@@ -82,18 +82,18 @@ RobustSolver<VDimension>
 
   this->m_Itpack.SetMaximumNonZeroValuesInMatrix( maxNumberOfNonZeroValues );
 
-  // the NGFN is determined once the FEMObject is finalized
-  this->m_ls->SetSystemOrder(this->m_NGFN);
-  this->m_ls->SetNumberOfVectors(3);
-  this->m_ls->SetNumberOfSolutions(1);
-  this->m_ls->SetNumberOfMatrices(3);
-  this->m_ls->InitializeMatrix(m_MeshStiffnessMatrixIndex);
-  this->m_ls->InitializeMatrix(m_LandmarkStiffnessMatrixIndex);
-  this->m_ls->InitializeMatrix(m_StiffnessMatrixIndex);
-  this->m_ls->InitializeVector(m_ForceIndex);
-  this->m_ls->InitializeVector(m_LandmarkForceIndex);
-  this->m_ls->InitializeVector(m_ExternalForceIndex);
-  this->m_ls->InitializeSolution(m_SolutionIndex);
+  // The NGFN is determined once the FEMObject is finalized
+  this->m_LinearSystem->SetSystemOrder(this->m_NGFN);
+  this->m_LinearSystem->SetNumberOfVectors(3);
+  this->m_LinearSystem->SetNumberOfSolutions(1);
+  this->m_LinearSystem->SetNumberOfMatrices(3);
+  this->m_LinearSystem->InitializeMatrix(m_MeshStiffnessMatrixIndex);
+  this->m_LinearSystem->InitializeMatrix(m_LandmarkStiffnessMatrixIndex);
+  this->m_LinearSystem->InitializeMatrix(m_StiffnessMatrixIndex);
+  this->m_LinearSystem->InitializeVector(m_ForceIndex);
+  this->m_LinearSystem->InitializeVector(m_LandmarkForceIndex);
+  this->m_LinearSystem->InitializeVector(m_ExternalForceIndex);
+  this->m_LinearSystem->InitializeSolution(m_SolutionIndex);
 
   this->InitializeInterpolationGrid();
 
@@ -106,10 +106,8 @@ void
 RobustSolver<VDimension>
 ::InitializeLandmarks()
 {
-  /*
-   * Record the element, in which the landmark is located, and the shape function
-   * value.
-   */
+  // Record the element, in which the landmark is located, and the shape function
+  // value.
   LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
   if(!container)
@@ -137,13 +135,13 @@ RobustSolver<VDimension>
 
     if(this->m_UseInterpolationGrid)
       {
-      // landmark is within the interpolation grid
+      // Landmark is within the interpolation grid
       InterpolationGridIndexType index;
       if( this->m_InterpolationGrid->TransformPhysicalPointToIndex(point, index) )
         {
         const Element * element = this->m_InterpolationGrid->GetPixel(index);
 
-        // landmark is inside the mesh
+        // Landmark is inside the mesh
         if(element != ITK_NULLPTR)
           {
           landmark->SetContainedElement( element );
@@ -157,7 +155,7 @@ RobustSolver<VDimension>
           }
         else
           {
-          // remove the landmark
+          // Remove the landmark
           landmark->SetIsOutOfMesh(true);
           }
 
@@ -173,7 +171,7 @@ RobustSolver<VDimension>
       }
     }
 
-    // remove landmarks outside of the mesh
+    // Remove landmarks outside of the mesh
     this->DeleteLandmarksOutOfMesh();
 }
 
@@ -183,18 +181,18 @@ void
 RobustSolver<VDimension>
 ::GenerateData()
 {
-  // initialize matrix, vector, solution, interpolation grid, and landmark.
+  // Initialize matrix, vector, solution, interpolation grid, and landmark.
   this->Initialization();
 
   // LS solver, which can be a VNL solver or a PETSc solver
   this->RunSolver();
 
-  // copy the input to the output and add the
+  // Copy the input to the output and add the
   // displacements to update the nodal coordinates
   FEMObjectType *femObject = this->GetOutput();
   femObject->DeepCopy(this->GetInput());
 
-  // create DOF
+  // Create DOF
   femObject->FinalizeMesh();
 
   this->UpdateDisplacements();
@@ -247,24 +245,24 @@ RobustSolver<VDimension>
   for (unsigned int outlierRejectionIteration = 0;
        outlierRejectionIteration < m_OutlierRejectionSteps; ++outlierRejectionIteration)
     {
-    // get scaling parameter before outlier rejection
+    // Get scaling parameter before outlier rejection
     const double oldPointTensorPonderation = this->GetLandmarkTensorPonderation();
 
     this->AddExternalForcesToSetMeshZeroEnergy();
     itkDebugMacro("external force added");
 
-    // solve linear system of equations
+    // Solve linear system of equations
     // solver to find possible outliers
     this->SolveSystem();
     itkDebugMacro("System solved");
 
-    // compute simulated error for sorting
+    // Compute simulated error for sorting
     this->ComputeLandmarkSimulatedDisplacementAndWeightedError();
 
-    // sort the points in the *decreasing* order of error norm
+    // Sort the points in the *decreasing* order of error norm
     this->NthElementWRTDisplacementError(numberOfRejectedLandmarksPerStep);
 
-    // set first n to "unselected", and decrease
+    // Set first n to "unselected", and decrease
     // numberOfSelectedBlocks accordingly
     this->UnselectLandmarks(numberOfRejectedLandmarksPerStep);
 
@@ -274,7 +272,7 @@ RobustSolver<VDimension>
     this->DeleteFromLandmarkBeginning(numberOfRejectedLandmarksPerStep);
     itkDebugMacro("unselected points removed from the list");
 
-    // rescale the point stiffness matrix with the new pointTensorPonderation
+    // Rescale the point stiffness matrix with the new pointTensorPonderation
     this->RescaleLandmarkStiffnessMatrix(oldPointTensorPonderation);
     itkDebugMacro("matrix rescaled");
 
@@ -287,7 +285,7 @@ RobustSolver<VDimension>
     this->AddExternalForcesToSetMeshZeroEnergy();
     itkDebugMacro("external force added");
 
-    // solver when some outliers are rejected
+    // Solver when some outliers are rejected
     this->SolveSystem();
     itkDebugMacro("system resolved");
 
@@ -364,7 +362,7 @@ RobustSolver<VDimension>
         for(FEMIndexType dofId = 0; dofId < numberOfDOFs; ++dofId)
           {
           const int degreeOfFreedom = element->GetDegreeOfFreedom(nodeId * numberOfDOFs + dofId);
-          nodeSolution[dofId] = this->m_ls->GetSolutionValue(degreeOfFreedom, m_SolutionIndex);
+          nodeSolution[dofId] = this->m_LinearSystem->GetSolutionValue(degreeOfFreedom, m_SolutionIndex);
           }
 
         error += shape[nodeId] * nodeSolution;
@@ -441,7 +439,7 @@ RobustSolver<VDimension>
             {
             unsigned nx = element->GetDegreeOfFreedom(nodeId * numberOfDOFs + dofXId);
             unsigned ny = element->GetDegreeOfFreedom(nodeId * numberOfDOFs + dofYId);
-            nodeTensor[dofXId][dofYId] = this->m_ls->GetMatrixValue(nx, ny, m_MeshStiffnessMatrixIndex);
+            nodeTensor[dofXId][dofYId] = this->m_LinearSystem->GetMatrixValue(nx, ny, m_MeshStiffnessMatrixIndex);
             }
           }
 
@@ -602,7 +600,7 @@ RobustSolver<VDimension>
     // Empty the load container first.
     container->clear();
 
-    // add the new loads to Load container
+    // Add the new loads to Load container
     for(LoadContainerIterator it = newLoadContainer->Begin(); it != newLoadContainer->End(); ++it)
       {
       this->m_FEMObject->AddNextLoad(it.Value());
@@ -623,7 +621,7 @@ RobustSolver<VDimension>
   double newPointTensorPonderation =
     this->GetLandmarkTensorPonderation() / oldPointTensorPonderation;
 
-  this->m_ls->ScaleMatrix(newPointTensorPonderation, m_LandmarkStiffnessMatrixIndex);
+  this->m_LinearSystem->ScaleMatrix(newPointTensorPonderation, m_LandmarkStiffnessMatrixIndex);
 }
 
 
@@ -634,17 +632,17 @@ RobustSolver<VDimension>
 {
   // Assemble the mechanical stiffness matrix from the mesh
 
-  // if no DOFs exist in a system, we have nothing to do
+  // If no DOFs exist in a system, we have nothing to do
   if( this->m_NGFN <= 0 )
     {
     return;
     }
 
-  // assemble the mechanical matrix by stepping over all elements
+  // Assemble the mechanical matrix by stepping over all elements
   FEMIndexType numberOfElements = this->m_FEMObject->GetNumberOfElements();
   for( FEMIndexType i = 0; i < numberOfElements; i++)
     {
-    // call the function that actually moves the element matrix to the master matrix.
+    // Call the function that actually moves the element matrix to the master matrix.
     Element::Pointer element = this->m_FEMObject->GetElement(i);
 
     this->AssembleElementMatrixWithID(element, this->m_MeshStiffnessMatrixIndex);
@@ -657,21 +655,21 @@ void
 RobustSolver<VDimension>
 ::AssembleElementMatrixWithID(const Element::Pointer & element, unsigned int matrixIndex)
 {
-  // copy the element stiffness matrix for faster access.
+  // Copy the element stiffness matrix for faster access.
   Element::MatrixType Ke;
 
   element->GetStiffnessMatrix(Ke);
 
-  // same for number of DOF
+  // Same for number of DOF
   const FEMIndexType numberOfDOFs = element->GetNumberOfDegreesOfFreedom();
 
-  // step over all rows in element matrix
+  // Step over all rows in element matrix
   for( FEMIndexType j = 0; j < numberOfDOFs; j++ )
     {
-    // step over all columns in element matrix
+    // Step over all columns in element matrix
     for( FEMIndexType k = 0; k < numberOfDOFs; k++ )
       {
-      // error checking. all GFN should be >= 0 and < NGFN
+      // Error checking. all GFN should be >= 0 and < NGFN
       const unsigned int dofj = element->GetDegreeOfFreedom(j);
       const unsigned int dofk = element->GetDegreeOfFreedom(k);
       if( dofj >= this->m_NGFN || dofk >= this->m_NGFN )
@@ -681,7 +679,7 @@ RobustSolver<VDimension>
 
       if( Math::NotExactlyEquals(Ke[j][k], Float(0.0)) )
         {
-        this->m_ls->AddMatrixValue(dofj, dofk, Ke[j][k], matrixIndex);
+        this->m_LinearSystem->AddMatrixValue(dofj, dofk, Ke[j][k], matrixIndex);
         }
       }
     }
@@ -729,7 +727,7 @@ RobustSolver<VDimension>
       const FEMIndexType numberOfDOFs = element->GetNumberOfDegreesOfFreedomPerNode();
       const FEMIndexType numberOfNodes = element->GetNumberOfNodes();
 
-      // fill the diagonal matrices
+      // Fill the diagonal matrices
       for(FEMIndexType k = 0; k < numberOfNodes; ++k)
         {
         const double barCoor = shape[k] * shape[k];
@@ -742,12 +740,12 @@ RobustSolver<VDimension>
             const int dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
             const float value = static_cast<float>( barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation * (tens(n,m)) * confidence );
 
-            this->m_ls->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
+            this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
             }
           }
         }
 
-      // fill the extradiagonal matrices
+      // Fill the extradiagonal matrices
       for(FEMIndexType i = 0; i < numberOfNodes - 1; i++)
         {
         for(FEMIndexType j = i + 1; j < numberOfNodes; j++)
@@ -762,8 +760,8 @@ RobustSolver<VDimension>
               const int dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
               const float value = static_cast<float>( barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation * (tens(n, m)) * confidence );
 
-              this->m_ls->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
-              this->m_ls->AddMatrixValue(dofm, dofn, value, m_LandmarkStiffnessMatrixIndex);
+              this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
+              this->m_LinearSystem->AddMatrixValue(dofm, dofn, value, m_LandmarkStiffnessMatrixIndex);
 
               }
             }
@@ -827,7 +825,7 @@ RobustSolver<VDimension>
             const int dofm = element->GetDegreeOfFreedom(k * numberOfDOFs + m);
             const float value = static_cast<float>( -barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation * (tens(n, m)) * confidence );
 
-            this->m_ls->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
+            this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
 
             }
           }
@@ -847,8 +845,8 @@ RobustSolver<VDimension>
               const int dofm = element->GetDegreeOfFreedom(j * numberOfDOFs + m);
               const float value = static_cast<float>( -barCoor * m_TradeOffImageMeshEnergy * pointTensorPonderation * (tens(n,m)) * confidence );
 
-              this->m_ls->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
-              this->m_ls->AddMatrixValue(dofm, dofn, value, m_LandmarkStiffnessMatrixIndex);
+              this->m_LinearSystem->AddMatrixValue(dofn, dofm, value, m_LandmarkStiffnessMatrixIndex);
+              this->m_LinearSystem->AddMatrixValue(dofm, dofn, value, m_LandmarkStiffnessMatrixIndex);
 
               }
             }
@@ -891,8 +889,8 @@ void
 RobustSolver<VDimension>
 ::AssembleGlobalMatrixFromLandmarksAndMeshMatrices()
 {
-  this->m_ls->CopyMatrix( this->m_MeshStiffnessMatrixIndex, this->m_StiffnessMatrixIndex );
-  this->m_ls->AddMatrixMatrix( this->m_StiffnessMatrixIndex, this->m_LandmarkStiffnessMatrixIndex);
+  this->m_LinearSystem->CopyMatrix( this->m_MeshStiffnessMatrixIndex, this->m_StiffnessMatrixIndex );
+  this->m_LinearSystem->AddMatrixMatrix( this->m_StiffnessMatrixIndex, this->m_LandmarkStiffnessMatrixIndex);
 }
 
 template <unsigned int VDimension>
@@ -902,7 +900,7 @@ RobustSolver<VDimension>
 {
   const double pointTensorPonderation = GetLandmarkTensorPonderation();
 
-  this->m_ls->InitializeVector(m_LandmarkForceIndex);
+  this->m_LinearSystem->InitializeVector(m_LandmarkForceIndex);
 
   LoadContainerType *container = this->m_FEMObject->GetModifiableLoadContainer();
 
@@ -945,7 +943,7 @@ RobustSolver<VDimension>
         for(FEMIndexType j = 0; j < numberOfDOFs; ++j)
           {
           const int index = element->GetDegreeOfFreedom(m * numberOfDOFs + j);
-          this->m_ls->AddVectorValue(index, weightedRealDisplacement[j], this->m_LandmarkForceIndex);
+          this->m_LinearSystem->AddVectorValue(index, weightedRealDisplacement[j], this->m_LandmarkForceIndex);
           }
         }
       }
@@ -958,7 +956,7 @@ void
 RobustSolver<VDimension>
 ::CalculateExternalForces()
 {
-  this->m_ls->MultiplyMatrixSolution( this->m_ExternalForceIndex, this->m_MeshStiffnessMatrixIndex, this->m_SolutionIndex);
+  this->m_LinearSystem->MultiplyMatrixSolution( this->m_ExternalForceIndex, this->m_MeshStiffnessMatrixIndex, this->m_SolutionIndex);
 }
 
 
@@ -969,8 +967,8 @@ RobustSolver<VDimension>
 {
    // Add exteranl force to set the mesh energy to be zero, which
    // is equivalent to starting FEM solver from the deformed mesh
-  this->m_ls->CopyVector( this->m_LandmarkForceIndex, this->m_ForceIndex );
-  this->m_ls->AddVectorVector( this->m_ForceIndex, this->m_ExternalForceIndex );
+  this->m_LinearSystem->CopyVector( this->m_LandmarkForceIndex, this->m_ForceIndex );
+  this->m_LinearSystem->AddVectorVector( this->m_ForceIndex, this->m_ExternalForceIndex );
 }
 
 
@@ -981,8 +979,8 @@ RobustSolver<VDimension>
 {
   // Solve the linear system of equations
 
-  // note that VNL LS solver uses the matrix and vector with index zero to construct the LS
-  this->m_ls->Solve();
+  // Note that VNL LS solver uses the matrix and vector with index zero to construct the LS
+  this->m_LinearSystem->Solve();
 }
 
 
@@ -1008,15 +1006,15 @@ RobustSolver<VDimension>
   this->m_InterpolationGrid->SetRegions( this->GetRegion() );
   this->m_InterpolationGrid->Allocate();
 
-   // initialize all pointers in interpolation grid image to 0
+   // Initialize all pointers in interpolation grid image to 0
   this->m_InterpolationGrid->FillBuffer(ITK_NULLPTR);
 
-  // fill the interpolation grid with proper pointers to elements
+  // Fill the interpolation grid with proper pointers to elements
   FEMIndexType numberOfElements = this->m_FEMObject->GetNumberOfElements();
   for( FEMIndexType index = 0; index < numberOfElements; index++ )
     {
     const Element * element = this->m_FEMObject->GetElement( index );
-    // get square boundary box of an element
+    // Get square boundary box of an element
     VectorType v1 = element->GetNodeCoordinates(0);      // lower left corner
     VectorType v2 = v1;                            // upper right corner
 
@@ -1037,7 +1035,7 @@ RobustSolver<VDimension>
         }
       }
 
-    // convert boundary box corner points into discrete image indexes.
+    // Convert boundary box corner points into discrete image indexes.
     InterpolationGridIndexType vi1;
     InterpolationGridIndexType vi2;
 
@@ -1051,8 +1049,8 @@ RobustSolver<VDimension>
       vp2[i] = v2[i];
       }
 
-    // obtain the Index of BB corner and check whether it is within image.
-    // if it is not, we ignore the entire element.
+    // Obtain the Index of BB corner and check whether it is within image.
+    // If it is not, we ignore the entire element.
     if( !this->m_InterpolationGrid->TransformPhysicalPointToIndex(vp1, vi1) )
       {
       continue;
@@ -1070,19 +1068,19 @@ RobustSolver<VDimension>
 
     InterpolationGridRegionType interRegion(vi1, region_size);
 
-    // initialize the iterator that will step over all grid points within
+    // Initialize the iterator that will step over all grid points within
     // element boundary box.
     ImageRegionIterator<InterpolationGridType> iter(this->m_InterpolationGrid, interRegion);
 
-    // update the element pointers in the points defined within the region.
+    // Update the element pointers in the points defined within the region.
     VectorType global_point(NumberOfDimensions);
 
     VectorType local_point(NumberOfDimensions);
 
-    // step over all points within the region
+    // Step over all points within the region
     for( iter.GoToBegin(); !iter.IsAtEnd(); ++iter )
       {
-      // note: Iteratior is guarantied to be within image, since the
+      // Note: Iteratior is guarantied to be within image, since the
       // elements with BB outside are skipped before.
       this->m_InterpolationGrid->TransformIndexToPhysicalPoint(iter.GetIndex(), pt);
       for( FEMIndexType d = 0; d < NumberOfDimensions; d++ )
@@ -1090,7 +1088,7 @@ RobustSolver<VDimension>
         global_point[d] = pt[d];
         }
 
-      // if the point is within the element, we update the pointer at
+      // If the point is within the element, we update the pointer at
       // this point in the interpolation grid image.
       if( element->GetLocalFromGlobalCoordinates(global_point, local_point) )
         {
@@ -1100,6 +1098,6 @@ RobustSolver<VDimension>
     }   // next element
 }
 
-}
-}  // end namespace itk::fem
+}  // end namespace fem
+}  // end namespace itk
 #endif // itkFEMRobustSolver_hxx

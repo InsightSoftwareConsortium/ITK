@@ -519,8 +519,8 @@ PowellOptimizerv4<TInternalComputationValueType>
     if ( fptt < fp )
       {
       double t = 2.0 * ( fp - 2.0 * fx + fptt )
-                 * vnl_math_sqr(fp - fx - del)
-                 - del *vnl_math_sqr(fp - fptt);
+                 * itk::Math::sqr(fp - fx - del)
+                 - del *itk::Math::sqr(fp - fptt);
       if ( t < 0.0 )
         {
         this->SetLine(p, xit);

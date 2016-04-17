@@ -120,9 +120,9 @@ public:
   /** Set/Get the image dimensions in the x, y, z, etc. directions.
    * GetDimensions() is typically used after reading the data; the
    * SetDimensions() is used prior to writing the data. */
-  virtual void SetDimensions(unsigned int i, unsigned int dim);
+  virtual void SetDimensions(unsigned int i, SizeValueType dim);
 
-  virtual itk::SizeValueType GetDimensions(unsigned int i) const
+  virtual SizeValueType GetDimensions(unsigned int i) const
   { return m_Dimensions[i]; }
 
   /** Set/Get the image origin on a axis-by-axis basis. The SetOrigin() method
@@ -431,7 +431,7 @@ public:
   template <typename TPixel>
     struct MapPixelType
   {
-    static const IOComponentType CType =
+    static ITK_CONSTEXPR IOComponentType CType =
       UNKNOWNCOMPONENTTYPE;
   };
   template <typename TPixel>
@@ -690,7 +690,7 @@ private:
 #define IMAGEIOBASE_TYPEMAP(type,ctype)                         \
   template <> struct ImageIOBase::MapPixelType<type>    \
   {                                                     \
-    static const IOComponentType CType = ctype; \
+    static ITK_CONSTEXPR IOComponentType CType = ctype; \
   }
 
 // the following typemaps are not platform independent

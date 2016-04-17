@@ -302,8 +302,8 @@ ImageMetricLoad<TMoving, TFixed>
   VectorType OutVec;
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
-    if( vnl_math_isnan(Gpos[k])  || vnl_math_isinf(Gpos[k])
-        || vnl_math_isnan(Gsol[k])  || vnl_math_isinf(Gsol[k])
+    if( itk::Math::isnan(Gpos[k])  || itk::Math::isinf(Gpos[k])
+        || itk::Math::isnan(Gsol[k])  || itk::Math::isinf(Gsol[k])
         || std::fabs(Gpos[k]) > 1.e33  || std::fabs(Gsol[k]) > 1.e33  )
       {
       OutVec.set_size(ImageDimension);  OutVec.fill(0.0);  return OutVec;
@@ -376,7 +376,7 @@ ImageMetricLoad<TMoving, TFixed>
   for( unsigned int k = 0; k < ImageDimension; k++ )
     {
     if( lobordercheck < 0 || hibordercheck >= 0
-        || vnl_math_isnan(derivative[k])  || vnl_math_isinf(derivative[k]) )
+        || itk::Math::isnan(derivative[k])  || itk::Math::isinf(derivative[k]) )
       {
       OutVec[k] = 0.0;
       }

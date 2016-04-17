@@ -1,22 +1,21 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-"""Implements few "find" algorithms on declarations tree"""
+"""Implements a few "find" algorithms on declarations tree"""
 
 from . import algorithm
 
 
-class matcher:
+class matcher(object):
 
-    """Class-namespace, contains implementation of few "find" algorithms and
-    definition of related exception classes"""
+    """Class-namespace, contains implementation of a few "find" algorithms
+    and definition of the related exception classes"""
 
     class declaration_not_found_t(RuntimeError):
 
-        """Exception, that will be raised, if the declaration could not be
-        found"""
+        """Exception raised when the declaration could not be found"""
 
         def __init__(self, matcher):
             RuntimeError.__init__(self)
@@ -24,14 +23,13 @@ class matcher:
 
         def __str__(self):
             return (
-                "Unable to find declaration.  matcher: [%s]" % str(
+                "Unable to find declaration. Matcher: [%s]" % str(
                     self.matcher)
             )
 
     class multiple_declarations_found_t(RuntimeError):
 
-        """Exception, that will be raised, if more than one declaration was
-        found"""
+        """Exception raised when more than one declaration was found"""
 
         def __init__(self, matcher):
             RuntimeError.__init__(self)
@@ -39,7 +37,7 @@ class matcher:
 
         def __str__(self):
             return (
-                "Multiple declarations has been found. matcher: [%s]" % str(
+                "Multiple declarations have been found. Matcher: [%s]" % str(
                     self.matcher)
             )
 
@@ -104,7 +102,7 @@ class matcher:
         answer = matcher.find(decl_matcher, decls, recursive)
         if len(answer) == 1:
             return answer[0]
-        elif len(answer) == 0:
+        elif not answer:
             raise matcher.declaration_not_found_t(decl_matcher)
         else:
             raise matcher.multiple_declarations_found_t(decl_matcher)

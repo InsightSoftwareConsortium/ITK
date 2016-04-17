@@ -1,4 +1,5 @@
 // This is core/vnl/algo/tests/test_generalized_eigensystem.cxx
+#include <iostream>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -8,7 +9,7 @@
 
 //-----------------------------------------------------------------------------
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_generalized_eigensystem.h>
 
 void test_generalized_eigensystem()
@@ -35,11 +36,11 @@ void test_generalized_eigensystem()
 
   vnl_generalized_eigensystem gev(C, S);
 
-  vcl_cout << "V = " << gev.V << vcl_endl
-           << "D = " << gev.D << vcl_endl
-           << "residual = " << C * gev.V - S * gev.V * gev.D << vcl_endl;
+  std::cout << "V = " << gev.V << std::endl
+           << "D = " << gev.D << std::endl
+           << "residual = " << C * gev.V - S * gev.V * gev.D << std::endl;
   double err = (C * gev.V - S * gev.V * gev.D).fro_norm();
-  vcl_cout << "Recomposition residual = " << err << vcl_endl;
+  std::cout << "Recomposition residual = " << err << std::endl;
 
   TEST_NEAR("Recomposition residual < 1e-12", err, 0.0, 1e-12);
 }

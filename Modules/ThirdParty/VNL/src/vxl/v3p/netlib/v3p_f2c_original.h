@@ -207,7 +207,6 @@ typedef doublereal E_f; /* real function with -R not specified */
 #undef mc68020
 #undef mips
 #undef pdp11
-#undef sgi
 #undef sparc
 #undef sun
 #undef sun2

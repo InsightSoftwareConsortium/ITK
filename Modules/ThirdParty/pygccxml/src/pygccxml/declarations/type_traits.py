@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -6,7 +6,7 @@
 """
 defines few algorithms, that deals with different C++ type properties
 
-Do you aware of `boost::type_traits <http://www.boost.org/doc/libs/1_37_0/
+Are you aware of `boost::type_traits <http://www.boost.org/doc/libs/1_37_0/
 libs/type_traits/doc/html/boost_typetraits/intro.html>`_
 library? pygccxml implements the same functionality.
 
@@ -14,7 +14,7 @@ This module contains a set of very specific traits functions\\classes, each of
 which encapsulate a single trait from the C++ type system. For example:
 * is a type a pointer or a reference type ?
 * does a type have a trivial constructor ?
-* does a type have a  const-qualifier ?
+* does a type have a const-qualifier ?
 
 """
 
@@ -24,7 +24,6 @@ from . import matchers
 from . import typedef
 from . import calldef
 from . import cpptypes
-from . import variable
 from . import algorithm
 from . import namespace
 from . import templates
@@ -112,8 +111,8 @@ def does_match_definition(given, main, secondary):
     if isinstance(types[0], main):
         return True
     elif 2 <= len(types) and \
-        ((isinstance(types[0], main) and isinstance(types[1], secondary))
-         or (isinstance(types[1], main) and isinstance(types[0], secondary))):
+        ((isinstance(types[0], main) and isinstance(types[1], secondary)) or
+            (isinstance(types[1], main) and isinstance(types[0], secondary))):
         return True
     elif 3 <= len(types):
         classes = set([tp.__class__ for tp in types[:3]])
@@ -366,8 +365,15 @@ def is_fundamental(type):
             (cpptypes.volatile_t, cpptypes.const_t))
 
 
-class declaration_xxx_traits:
+def is_union(type_):
+    """returns True if type represents a C++ union"""
+    if not is_class(type_):
+        return False
+    decl = class_traits.get_declaration(type_)
+    return decl.class_type == class_declaration.CLASS_TYPES.UNION
 
+
+class declaration_xxx_traits(object):
     """this class implements the functionality needed for convenient work with
     declaration classes
 
@@ -494,7 +500,6 @@ def is_base_and_derived(based, derived):
     assert isinstance(based, class_declaration.class_t)
     assert isinstance(derived, (class_declaration.class_t, tuple))
 
-    all_derived = None
     if isinstance(derived, class_declaration.class_t):
         all_derived = ([derived])
     else:  # tuple
@@ -521,7 +526,6 @@ def has_any_non_copyconstructor(type):
 
 def has_public_binary_operator(type_, operator_symbol):
     """returns True, if `type_` has public binary operator, otherwise False"""
-    not_artificial = lambda decl: not decl.is_artificial
     type_ = remove_alias(type_)
     type_ = remove_cv(type_)
     type_ = remove_declarated(type_)
@@ -533,8 +537,9 @@ def has_public_binary_operator(type_, operator_symbol):
         return True
 
     operators = type_.member_operators(
-        function=matchers.custom_matcher_t(not_artificial)
-        & matchers.access_type_matcher_t('public'),
+        function=matchers.custom_matcher_t(
+            lambda decl: not decl.is_artificial) &
+        matchers.access_type_matcher_t('public'),
         symbol=operator_symbol, allow_empty=True, recursive=False)
     if operators:
         return True
@@ -543,9 +548,8 @@ def has_public_binary_operator(type_, operator_symbol):
     t = cpptypes.const_t(t)
     t = cpptypes.reference_t(t)
     operators = type_.top_parent.operators(
-        function=not_artificial,
-        arg_types=[t,
-                   None],
+        function=lambda decl: not decl.is_artificial,
+        arg_types=[t, None],
         symbol=operator_symbol,
         allow_empty=True,
         recursive=True)
@@ -556,8 +560,9 @@ def has_public_binary_operator(type_, operator_symbol):
         if bi.access_type != class_declaration.ACCESS_TYPES.PUBLIC:
             continue
         operators = bi.related_class.member_operators(
-            function=matchers.custom_matcher_t(not_artificial)
-            & matchers.access_type_matcher_t('public'),
+            function=matchers.custom_matcher_t(
+                lambda decl: not decl.is_artificial) &
+            matchers.access_type_matcher_t('public'),
             symbol=operator_symbol, allow_empty=True, recursive=False)
         if operators:
             return True
@@ -636,7 +641,7 @@ def is_binary_operator(oper):
             return False
 
 
-class __is_convertible_t:
+class __is_convertible_t(object):
 
     """implementation details"""
 
@@ -805,6 +810,11 @@ class __is_convertible_t:
             return True  # X => const Y&
         return False
 
+    def _is_both_declarated(self, x, y):
+        return (
+            isinstance(x, cpptypes.declarated_t) and
+            isinstance(y, cpptypes.declarated_t))
+
     def __test_derived_to_based(self, source, target):
         derived = base_type(source)
         base = base_type(target)
@@ -812,56 +822,53 @@ class __is_convertible_t:
                 isinstance(derived, cpptypes.declarated_t) and
                 isinstance(derived.declaration, class_declaration.class_t)):
             return False
-        if not (isinstance(base, cpptypes.declarated_t)
-                and isinstance(base.declaration, class_declaration.class_t)):
+        if not (isinstance(base, cpptypes.declarated_t) and
+                isinstance(base.declaration, class_declaration.class_t)):
             return False
         base = base.declaration
         derived = derived.declaration
         if not is_base_and_derived(base, derived):
             return False
         for b in derived.recursive_bases:
-            if (b.related_class is base) and b.access_type != \
-                    class_declaration.ACCESS_TYPES.PRIVATE:
+            if ((b.related_class is base) and b.access_type !=
+                    class_declaration.ACCESS_TYPES.PRIVATE):
                 break
         else:
             return False
 
         base = target
         derived = source
-        is_both_declarated = \
-            lambda x, y: isinstance(x, cpptypes.declarated_t) \
-            and isinstance(y, cpptypes.declarated_t)
         # d => b
-        if is_both_declarated(base, derived):
+        if self._is_both_declarated(base, derived):
             return True
         # d* => b*
         if is_pointer(derived) and is_pointer(base) \
-           and is_both_declarated(base.base, derived.base):
+           and self._is_both_declarated(base.base, derived.base):
             return True
         # const d* => const b*
         if is_pointer(derived) and is_pointer(base) \
            and is_const(derived.base) and is_const(base.base) \
-           and is_both_declarated(base.base.base, derived.base.base):
+           and self._is_both_declarated(base.base.base, derived.base.base):
             return True
         # d* => const b*
         if is_pointer(derived) and is_pointer(base) \
            and is_const(derived.base)\
-           and is_both_declarated(base.base.base, derived.base):
+           and self._is_both_declarated(base.base.base, derived.base):
             return True
 
         # d& => b&
         if is_reference(derived) and is_reference(base) \
-           and is_both_declarated(base.base, derived.base):
+           and self._is_both_declarated(base.base, derived.base):
             return True
         # const d& => const b&
         if is_reference(derived) and is_reference(base) \
            and is_const(derived.base) and is_const(base.base) \
-           and is_both_declarated(base.base.base, derived.base.base):
+           and self._is_both_declarated(base.base.base, derived.base.base):
             return True
         # d& => const b&
         if is_reference(derived) and is_reference(base) \
            and is_const(derived.base) \
-           and is_both_declarated(base.base.base, derived.base):
+           and self._is_both_declarated(base.base.base, derived.base):
             return True
         return False
 
@@ -985,13 +992,18 @@ def is_noncopyable(class_):
 
     for base_desc in class_.recursive_bases:
         assert isinstance(base_desc, class_declaration.hierarchy_info_t)
+
         if base_desc.related_class.decl_string in \
                 ('::boost::noncopyable', '::boost::noncopyable_::noncopyable'):
             logger.debug(true_header + "derives from boost::noncopyable")
             return True
+
         if not has_copy_constructor(base_desc.related_class):
+
             base_copy_ = base_desc.related_class.find_copy_constructor()
+
             if base_copy_:
+
                 if base_copy_.access_type == 'private':
                     logger.debug(
                         true_header +
@@ -1003,6 +1015,7 @@ def is_noncopyable(class_):
                         true_header +
                         "__is_noncopyable_single returned True")
                     return True
+
         if __is_noncopyable_single(base_desc.related_class):
             logger.debug(
                 true_header +
@@ -1010,7 +1023,7 @@ def is_noncopyable(class_):
             return True
 
     if not has_copy_constructor(class_):
-        logger.debug(true_header + "does not have trival copy constructor")
+        logger.debug(true_header + "does not have trivial copy constructor")
         return True
     elif not has_public_constructor(class_):
         logger.debug(true_header + "does not have a public constructor")
@@ -1050,7 +1063,7 @@ def is_defined_in_xxx(xxx, cls):
     return None is global_ns.parent
 
 
-class impl_details:
+class impl_details(object):
 
     """implementation details"""
     @staticmethod
@@ -1127,7 +1140,7 @@ class impl_details:
             return None
 
 
-class internal_type_traits:
+class internal_type_traits(object):
 
     """small convenience class, which provides access to internal types"""
     # TODO: add exists function
@@ -1152,7 +1165,7 @@ class internal_type_traits:
                 % (name, type_.decl_string))
 
 
-class smart_pointer_traits:
+class smart_pointer_traits(object):
 
     """implements functionality, needed for convenient work with
     smart pointers"""
@@ -1160,7 +1173,7 @@ class smart_pointer_traits:
     @staticmethod
     def is_smart_pointer(type_):
         """returns True, if type represents instantiation of
-        `boost::shared_ptr`, False otherwise"""
+        `boost::shared_ptr` or `std::shared_ptr`, False otherwise"""
         type_ = remove_alias(type_)
         type_ = remove_cv(type_)
         type_ = remove_declarated(type_)
@@ -1168,21 +1181,25 @@ class smart_pointer_traits:
                           (class_declaration.class_declaration_t,
                            class_declaration.class_t)):
             return False
-        if not impl_details.is_defined_in_xxx('boost', type_):
+        if not (impl_details.is_defined_in_xxx('boost', type_) or
+                impl_details.is_defined_in_xxx('std', type_)):
             return False
-        return type_.decl_string.startswith('::boost::shared_ptr<')
+        return type_.decl_string.startswith('::boost::shared_ptr<') or \
+            type_.decl_string.startswith('::std::shared_ptr<')
 
     @staticmethod
     def value_type(type_):
-        """returns reference to `boost::shared_ptr` value type"""
+        """returns reference to `boost::shared_ptr` \
+        or `std::shared_ptr` value type"""
         if not smart_pointer_traits.is_smart_pointer(type_):
             raise TypeError(
-                'Type "%s" is not instantiation of boost::shared_ptr' %
+                'Type "%s" is not an instantiation of \
+                boost::shared_ptr or std::shared_ptr' %
                 type_.decl_string)
         return internal_type_traits.get_by_name(type_, "value_type")
 
 
-class auto_ptr_traits:
+class auto_ptr_traits(object):
 
     """implements functionality, needed for convenient work with
     `std::auto_ptr` pointers"""
@@ -1211,58 +1228,78 @@ class auto_ptr_traits:
                 type_.decl_string)
         return internal_type_traits.get_by_name(type_, "element_type")
 
+string_equivalences = [
+    ('::std::basic_string<char,std::char_traits<char>,' +
+        'std::allocator<char> >'),
+    ('::std::basic_string<char, std::char_traits<char>, ' +
+        'std::allocator<char> >'),
+    '::std::basic_string<char>', '::std::string']
+
+wstring_equivalences = [
+    ('::std::basic_string<wchar_t,std::char_traits<wchar_t>,' +
+        'std::allocator<wchar_t> >'),
+    ('::std::basic_string<wchar_t, std::char_traits<wchar_t>, ' +
+        'std::allocator<wchar_t> >'),
+    '::std::basic_string<wchar_t>', '::std::wstring']
+
+ostream_equivalences = [
+    '::std::basic_ostream<char, std::char_traits<char> >',
+    '::std::basic_ostream<char,std::char_traits<char> >',
+    '::std::basic_ostream<char>', '::std::ostream']
+
+wostream_equivalences = [
+    '::std::basic_ostream<wchar_t, std::char_traits<wchar_t> >',
+    '::std::basic_ostream<wchar_t,std::char_traits<wchar_t> >',
+    '::std::basic_ostream<wchar_t>', '::std::wostream']
+
 
 def is_std_string(type_):
-    """returns True, if type represents C++ `std::string`, False otherwise"""
-    decl_strings = [
-        ('::std::basic_string<char,std::char_traits<char>,' +
-            'std::allocator<char> >'),
-        ('::std::basic_string<char, std::char_traits<char>, ' +
-            'std::allocator<char> >'),
-        '::std::string']
+    """
+    Returns True, if type represents C++ `std::string`, False otherwise.
+
+    """
+
     if utils.is_str(type_):
-        return type_ in decl_strings
+        return type_ in string_equivalences
     else:
         type_ = remove_alias(type_)
-        return remove_cv(type_).decl_string in decl_strings
+        return remove_cv(type_).decl_string in string_equivalences
 
 
 def is_std_wstring(type_):
-    """returns True, if type represents C++ `std::wstring`, False otherwise"""
-    decl_strings = [
-        ('::std::basic_string<wchar_t,std::char_traits<wchar_t>,' +
-            'std::allocator<wchar_t> >'),
-        ('::std::basic_string<wchar_t, std::char_traits<wchar_t>, ' +
-            'std::allocator<wchar_t> >'),
-        '::std::wstring']
+    """
+    Returns True, if type represents C++ `std::wstring`, False otherwise.
+
+    """
+
     if utils.is_str(type_):
-        return type_ in decl_strings
+        return type_ in wstring_equivalences
     else:
         type_ = remove_alias(type_)
-        return remove_cv(type_).decl_string in decl_strings
+        return remove_cv(type_).decl_string in wstring_equivalences
 
 
 def is_std_ostream(type_):
-    """returns True, if type represents C++ std::string, False otherwise"""
-    decl_strings = [
-        '::std::basic_ostream<char, std::char_traits<char> >',
-        '::std::basic_ostream<char,std::char_traits<char> >',
-        '::std::ostream']
+    """
+    Returns True, if type represents C++ std::ostream, False otherwise.
+
+    """
+
     if utils.is_str(type_):
-        return type_ in decl_strings
+        return type_ in ostream_equivalences
     else:
         type_ = remove_alias(type_)
-        return remove_cv(type_).decl_string in decl_strings
+        return remove_cv(type_).decl_string in ostream_equivalences
 
 
 def is_std_wostream(type_):
-    """returns True, if type represents C++ std::string, False otherwise"""
-    decl_strings = [
-        '::std::basic_ostream<wchar_t, std::char_traits<wchar_t> >',
-        '::std::basic_ostream<wchar_t,std::char_traits<wchar_t> >',
-        '::std::wostream']
+    """
+    Returns True, if type represents C++ std::wostream, False otherwise.
+
+    """
+
     if utils.is_str(type_):
-        return type_ in decl_strings
+        return type_ in wostream_equivalences
     else:
         type_ = remove_alias(type_)
-        return remove_cv(type_).decl_string in decl_strings
+        return remove_cv(type_).decl_string in wostream_equivalences

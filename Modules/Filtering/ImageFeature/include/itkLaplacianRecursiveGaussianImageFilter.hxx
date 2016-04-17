@@ -152,7 +152,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   progress->SetMiniPipelineFilter(this);
 
   // dim^2 recursive gaussians + dim add filters + cast filter
-  const unsigned int numberOfFilters = vnl_math_sqr( ImageDimension ) +  ImageDimension + 1;
+  const unsigned int numberOfFilters = ( ImageDimension * ImageDimension ) +  ImageDimension + 1;
 
   // register (most) filters with the progress accumulator
   for ( unsigned int i = 0; i < NumberOfSmoothingFilters; i++ )
@@ -227,7 +227,7 @@ LaplacianRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     GaussianFilterPointer lastFilter = m_SmoothingFilters[ImageDimension - 2];
 
     // scale the new value by the inverse of the spacing squared
-    const RealType spacing2 = vnl_math_sqr( inputImage->GetSpacing()[dim] );
+    const RealType spacing2 = itk::Math::sqr( inputImage->GetSpacing()[dim] );
     addFilter->GetFunctor().m_Value = 1.0/spacing2;
 
     // Cummulate the results on the output image

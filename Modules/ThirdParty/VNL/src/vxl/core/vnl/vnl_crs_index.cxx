@@ -10,12 +10,12 @@
 #include "vnl_crs_index.h"
 
 //: Constructor - from a binary mask
-vnl_crs_index::vnl_crs_index(const vcl_vector<vcl_vector<bool> >& mask)
+vnl_crs_index::vnl_crs_index(const std::vector<std::vector<bool> >& mask)
  : num_cols_(mask[0].size()), col_idx_(), row_ptr_(mask.size()+1,0)
 {
   int k=0;
   for (unsigned int i=0; i<mask.size(); ++i){
-    const vcl_vector<bool>& col = mask[i];
+    const std::vector<bool>& col = mask[i];
     row_ptr_[i] = k;
     for (unsigned int j=0; j<num_cols_; ++j){
       if (col[j]){

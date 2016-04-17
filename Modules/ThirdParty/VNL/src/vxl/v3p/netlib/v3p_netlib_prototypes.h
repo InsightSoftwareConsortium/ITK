@@ -272,7 +272,8 @@
 #include "minpack/qrsolv.h"
 #include "opt/lbfgs.h"
 #include "opt/lbfgsb.h"
-// #include "linalg/lsqr.h"  Removde due to ACM Copyright
+#include "linalg/lsqr.h"
+#include "toms/rpoly.h"
 #include "datapac/camsun.h"
 #include "mathews/adaquad.h"
 #include "mathews/simpson.h"

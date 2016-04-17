@@ -135,14 +135,14 @@ int itkStatisticsAlgorithmTest( int, char * [] )
 
   for(unsigned int j = 0; j < measurementVectorSize; j++ )
     {
-    if( vnl_math_abs( lower[j] - realLower[j] ) > epsilon )
+    if( itk::Math::abs( lower[j] - realLower[j] ) > epsilon )
       {
       std::cerr << "FindSampleBound() failed" << std::endl;
       std::cerr << "Expected lower = " << realLower << std::endl;
       std::cerr << "Computed lower = " << lower << std::endl;
       return EXIT_FAILURE;
       }
-    if( vnl_math_abs( upper[j] - realUpper[j] ) > epsilon )
+    if( itk::Math::abs( upper[j] - realUpper[j] ) > epsilon )
       {
       std::cerr << "FindSampleBound() failed" << std::endl;
       std::cerr << "Expected upper = " << realUpper << std::endl;

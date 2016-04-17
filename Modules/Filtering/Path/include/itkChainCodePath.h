@@ -95,7 +95,7 @@ public:
   /** Where does the path end (what is the last valid input value)? */
   virtual inline InputType EndOfInput() const ITK_OVERRIDE
   {
-    return NumberOfSteps();  // 0 is before the first step, 1 is after it
+    return static_cast<InputType>(NumberOfSteps());  // 0 is before the first step, 1 is after it
   }
 
   /** New() method for dynamic construction */

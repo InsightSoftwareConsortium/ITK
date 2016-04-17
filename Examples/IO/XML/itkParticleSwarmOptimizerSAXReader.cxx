@@ -128,8 +128,8 @@ void ParticleSwarmOptimizerSAXReader::CharacterDataHandler( const char* inData, 
       data.push_back( value );
       }
 
-    Array<double> ptols( data.size() );
-    for ( size_t i = 0; i < data.size(); i++ )
+    Array<double> ptols( static_cast<Array<double>::SizeValueType>( data.size() ) );
+    for ( unsigned int i = 0; i < data.size(); i++ )
       {
       ptols[i] = data[i];
       }

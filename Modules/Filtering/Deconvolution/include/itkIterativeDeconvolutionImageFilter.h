@@ -43,7 +43,7 @@ namespace itk
  *
  * "Deconvolution: infrastructure and reference algorithms"
  * by Gaetan Lehmann
- * http://hdl.handle.net/10380/3207
+ * https://hdl.handle.net/10380/3207
  *
  * \ingroup ITKDeconvolution
  */

@@ -186,14 +186,14 @@ int itkQuadEdgeMeshFrontIteratorTest( int , char *[] )
     }
 
   // Compare with Mesh container iteration version
-  int numberOfPoints = visitedSet.size();
+  size_t numberOfPoints = visitedSet.size();
   int computedNumberOfPoints = mesh->ComputeNumberOfPoints();
 
   std::cout << "numberOfPoints " << numberOfPoints << std::endl;
   std::cout << "computedNumberOfPoints= " << computedNumberOfPoints
     << std::endl;
 
-  if( computedNumberOfPoints == numberOfPoints )
+  if( computedNumberOfPoints == itk::Math::CastWithRangeCheck<int>( numberOfPoints ) )
     {
     std::cout << "Passed" << std::endl;
     }

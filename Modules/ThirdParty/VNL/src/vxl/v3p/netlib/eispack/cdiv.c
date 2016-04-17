@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine cdiv(ar,ai,br,bi,cr,ci) >*/
-/* Subroutine */ int cdiv_(doublereal *ar, doublereal *ai, doublereal *br, 
+/* Subroutine */ int cdiv_(doublereal *ar, doublereal *ai, doublereal *br,
         doublereal *bi, doublereal *cr, doublereal *ci)
 {
     /* System generated locals */

@@ -158,7 +158,7 @@ int main( int argc, char *argv[] )
 
   for( unsigned int i=0; i < numberOfPoints; i++ )
     {
-    const double angle = 2.0 * vnl_math::pi * i / numberOfPoints;
+    const double angle = 2.0 * itk::Math::pi * i / numberOfPoints;
     radial[0] = radius * std::cos( angle );
     radial[1] = radius * std::sin( angle );
     point = center + radial;

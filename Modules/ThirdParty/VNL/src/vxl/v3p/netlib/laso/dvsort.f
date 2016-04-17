@@ -2,7 +2,7 @@ C
 C-------------------------------------------------------------------
 C
       SUBROUTINE DVSORT(NUM, VAL, RES, IFLAG, V, NMVEC, N, VEC)
-      INTEGER NUM, IFLAG, NMVEC, N 
+      INTEGER NUM, IFLAG, NMVEC, N
       DOUBLE PRECISION VAL(1), RES(1), V(1), VEC(NMVEC,1)
 C
 C  THIS SUBROUTINE SORTS THE EIGENVALUES (VAL) IN ASCENDING ORDER

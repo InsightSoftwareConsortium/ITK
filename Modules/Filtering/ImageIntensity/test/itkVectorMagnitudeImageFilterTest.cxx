@@ -95,7 +95,7 @@ int itkVectorMagnitudeImageFilterTest(int, char* [] )
   while( !outputIterator.IsAtEnd() )
     {
     // Check if the magnitude of each pixel is 6.0 (to a small tolerance)
-    if(vnl_math_abs(outputIterator.Get() - 6.0) > 1e-5)
+    if(itk::Math::abs(outputIterator.Get() - 6.0) > 1e-5)
       {
       std::cerr << "Every pixel magnitude should be 6! This pixel is "
                 << imageIterator.Get() << " and has magnitude " << outputIterator.Get() << std::endl;

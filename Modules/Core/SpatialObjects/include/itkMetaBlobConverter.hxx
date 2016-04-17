@@ -154,7 +154,7 @@ MetaBlobConverter< NDimensions >
     {
     Blob->ParentID( spatialObject->GetParent()->GetId() );
     }
-  Blob->NPoints( Blob->GetPoints().size() );
+  Blob->NPoints(Blob->GetPoints().size());
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {

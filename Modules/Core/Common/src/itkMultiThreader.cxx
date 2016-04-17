@@ -29,7 +29,10 @@
 #include "itkNumericTraits.h"
 #include <iostream>
 #include <string>
-#include "vcl_algorithm.h"
+#if !defined( ITK_LEGACY_FUTURE_REMOVE )
+# include "vcl_algorithm.h"
+#endif
+#include <algorithm>
 
 #if defined(ITK_USE_PTHREADS)
 #include "itkMultiThreaderPThreads.cxx"
@@ -110,13 +113,13 @@ void MultiThreader::SetGlobalMaximumNumberOfThreads(ThreadIdType val)
   m_GlobalMaximumNumberOfThreads = val;
 
   // clamp between 1 and ITK_MAX_THREADS
-  m_GlobalMaximumNumberOfThreads = vcl_min( m_GlobalMaximumNumberOfThreads,
+  m_GlobalMaximumNumberOfThreads = std::min( m_GlobalMaximumNumberOfThreads,
                                              (ThreadIdType) ITK_MAX_THREADS );
-  m_GlobalMaximumNumberOfThreads = vcl_max( m_GlobalMaximumNumberOfThreads,
+  m_GlobalMaximumNumberOfThreads = std::max( m_GlobalMaximumNumberOfThreads,
                                              NumericTraits<ThreadIdType>::OneValue() );
 
   // If necessary reset the default to be used from now on.
-  m_GlobalDefaultNumberOfThreads = vcl_min( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads = std::min( m_GlobalDefaultNumberOfThreads,
                                              m_GlobalMaximumNumberOfThreads);
 }
 
@@ -130,9 +133,9 @@ void MultiThreader::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
   m_GlobalDefaultNumberOfThreads = val;
 
   // clamp between 1 and m_GlobalMaximumNumberOfThreads
-  m_GlobalDefaultNumberOfThreads  = vcl_min( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = std::min( m_GlobalDefaultNumberOfThreads,
                                               m_GlobalMaximumNumberOfThreads );
-  m_GlobalDefaultNumberOfThreads  = vcl_max( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = std::max( m_GlobalDefaultNumberOfThreads,
                                               NumericTraits<ThreadIdType>::OneValue() );
 
 }
@@ -148,9 +151,9 @@ void MultiThreader::SetNumberOfThreads(ThreadIdType numberOfThreads)
   m_NumberOfThreads = numberOfThreads;
 
   // clamp between 1 and m_GlobalMaximumNumberOfThreads
-  m_NumberOfThreads  = vcl_min( m_NumberOfThreads,
+  m_NumberOfThreads  = std::min( m_NumberOfThreads,
                                  m_GlobalMaximumNumberOfThreads );
-  m_NumberOfThreads  = vcl_max( m_NumberOfThreads, NumericTraits<ThreadIdType>::OneValue() );
+  m_NumberOfThreads  = std::max( m_NumberOfThreads, NumericTraits<ThreadIdType>::OneValue() );
 
 }
 
@@ -223,11 +226,11 @@ ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
     }
 
   // limit the number of threads to m_GlobalMaximumNumberOfThreads
-  m_GlobalDefaultNumberOfThreads  = vcl_min( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = std::min( m_GlobalDefaultNumberOfThreads,
                                               m_GlobalMaximumNumberOfThreads );
 
   // verify that the default number of threads is larger than zero
-  m_GlobalDefaultNumberOfThreads  = vcl_max( m_GlobalDefaultNumberOfThreads,
+  m_GlobalDefaultNumberOfThreads  = std::max( m_GlobalDefaultNumberOfThreads,
                                               NumericTraits<ThreadIdType>::OneValue() );
 
   return m_GlobalDefaultNumberOfThreads;
@@ -303,7 +306,7 @@ void MultiThreader::SingleMethodExecute()
     }
 
   // obey the global maximum number of threads limit
-  m_NumberOfThreads = vcl_min( m_GlobalMaximumNumberOfThreads, m_NumberOfThreads );
+  m_NumberOfThreads = std::min( m_GlobalMaximumNumberOfThreads, m_NumberOfThreads );
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
   // thrown from a thread will be caught by the SingleMethodProxy. A

@@ -399,7 +399,7 @@ int TestMattesMetricWithAffineTransform(
       << "]\tfirstOrderApproxDerivative[" << firstOrderApproxDerivative
       << "]\tratio: " << ratio;
 
-    const double evalDiff = vnl_math_abs( ratio - 1.0 );
+    const double evalDiff = itk::Math::abs( ratio - 1.0 );
     if ( evalDiff > tolerance )
       {
       std::cout << "\t[FAILED] computed derivative differ from central difference by (" << evalDiff << " > " << tolerance << ")." << std::endl;

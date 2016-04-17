@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -7,7 +7,9 @@
 """
 
 from .config import gccxml_configuration_t
+from .config import xml_generator_configuration_t
 from .config import load_gccxml_configuration
+from .config import load_xml_generator_configuration
 from .config import gccxml_configuration_example
 
 from .project_reader import COMPILATION_MODE
@@ -19,7 +21,6 @@ from .project_reader import create_gccxml_fc
 from .project_reader import create_cached_source_fc
 
 from .source_reader import source_reader_t
-from .source_reader import gccxml_runtime_error_t
 from .declarations_cache import cache_base_t
 from .declarations_cache import file_cache_t
 from .declarations_cache import dummy_cache_t
@@ -39,7 +40,7 @@ def parse(
     :param files: The header files that should be parsed
     :type files: list of str
     :param config: Configuration object or None
-    :type config: :class:`parser.gccxml_configuration_t`
+    :type config: :class:`parser.xml_generator_configuration_t`
     :param compilation_mode: Determines whether the files are parsed
                              individually or as one single chunk
     :type compilation_mode: :class:`parser.COMPILATION_MODE`
@@ -48,7 +49,7 @@ def parse(
     :rtype: list of :class:`declarations.declaration_t`
     """
     if not config:
-        config = gccxml_configuration_t()
+        config = xml_generator_configuration_t()
     parser = project_reader_t(config=config, cache=cache)
     answer = parser.read_files(files, compilation_mode)
     return answer
@@ -56,7 +57,7 @@ def parse(
 
 def parse_string(content, config=None):
     if not config:
-        config = gccxml_configuration_t()
+        config = xml_generator_configuration_t()
     parser = project_reader_t(config)
     return parser.read_string(content)
 

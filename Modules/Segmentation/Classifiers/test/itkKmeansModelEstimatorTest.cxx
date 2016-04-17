@@ -200,7 +200,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
 
     for(int i = 0; i < NUMBANDS; i++)
       {
-      error += vnl_math_abs(errorForClass[i]/referenceCodebookForClass[i]);
+      error += itk::Math::abs(errorForClass[i]/referenceCodebookForClass[i]);
       meanCDBKvalue += referenceCodebookForClass[i];
       }
 
@@ -255,7 +255,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
   //Validation with initial Kmeans estimate provided as input by the user
   error =0;
   meanCDBKvalue = 0;
-  const unsigned int test = membershipFunctions.size();
+  const size_t test = membershipFunctions.size();
   for(unsigned int classIndex=0; classIndex < test; classIndex++ )
     {
     kmeansResultForClass = membershipFunctions[classIndex]->GetCentroid();
@@ -264,7 +264,7 @@ int itkKmeansModelEstimatorTest(int, char* [] )
 
     for(int i = 0; i < NUMBANDS; i++)
       {
-      error += vnl_math_abs(errorForClass[i]/referenceCodebookForClass[i]);
+      error += itk::Math::abs(errorForClass[i]/referenceCodebookForClass[i]);
       meanCDBKvalue += referenceCodebookForClass[i];
       }
     }

@@ -93,7 +93,7 @@ int main( int , char *[] )
 //
 // Software Guide : EndLatex
 // Software Guide : BeginCodeSnippet
-  unsigned int nPoints = landmark->GetPoints().size();
+  size_t nPoints = landmark->GetPoints().size();
   std::cout << "Number of Points in the landmark: " << nPoints << std::endl;
 
   LandmarkType::PointListType::const_iterator it

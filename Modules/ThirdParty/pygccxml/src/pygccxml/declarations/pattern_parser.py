@@ -1,4 +1,4 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -102,7 +102,7 @@ class parser_t(object):
             if -1 == found:
                 return self.NOT_FOUND
             elif text[found] == self.__end:
-                return (first_occurance, found)
+                return first_occurance, found
             else:
                 previous_found = found + 1  # skip found sep
 
@@ -129,7 +129,7 @@ class parser_t(object):
         if None is arg_separator:
             arg_separator = ', '
         args = [_f for _f in args if _f]
-        args_str = ''
+
         if not args:
             args_str = ' '
         elif 1 == len(args):

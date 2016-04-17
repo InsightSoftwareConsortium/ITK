@@ -371,7 +371,7 @@ MetaDTITubeConverter< NDimensions >
     tube->ParentID( DTITubeSO->GetParent()->GetId() );
     }
   tube->ParentPoint( DTITubeSO->GetParentPoint() );
-  tube->NPoints( tube->GetPoints().size() );
+  tube->NPoints(static_cast<int>( tube->GetPoints().size() ) );
 
   for ( unsigned int ii = 0; ii < NDimensions; ii++ )
     {

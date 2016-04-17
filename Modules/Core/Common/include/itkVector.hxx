@@ -18,7 +18,7 @@
 #ifndef itkVector_hxx
 #define itkVector_hxx
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "vnl/vnl_vector.h"
 #include "itkObject.h"
 #include "itkNumericTraitsVectorPixel.h"

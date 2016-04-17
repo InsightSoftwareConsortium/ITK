@@ -101,10 +101,10 @@ AzimuthElevationToCartesianTransform<TParametersValueType,
                                       ::TransformAzElToCartesian(const InputPointType & point) const
 {
   OutputPointType result;
-  ScalarType Azimuth = ( ( 2 * vnl_math::pi ) / 360 )
+  ScalarType Azimuth = ( ( 2 * itk::Math::pi ) / 360 )
                             * ( point[0] * m_AzimuthAngularSeparation
                                 - ( ( m_MaxAzimuth - 1 ) / 2.0 ) );
-  ScalarType Elevation = ( ( 2 * vnl_math::pi ) / 360 )
+  ScalarType Elevation = ( ( 2 * itk::Math::pi ) / 360 )
                            * ( point[1] * m_ElevationAngularSeparation
                                - ( ( m_MaxElevation - 1 ) / 2.0 ) );
   ScalarType r = ( m_FirstSampleDistance + point[2] ) * m_RadiusSampleSize;
@@ -128,9 +128,9 @@ AzimuthElevationToCartesianTransform<TParametersValueType, NDimensions>::Transfo
 {
   InputPointType result;       // Converted point
 
-  result[0] = std::atan2(point[0], point[2]) * (360 / (2 * vnl_math::pi))
+  result[0] = std::atan2(point[0], point[2]) * (360 / (2 * itk::Math::pi))
             + ((m_MaxAzimuth - 1) / 2.0);
-  result[1] = std::atan2(point[1], point[2]) * (360 / (2 * vnl_math::pi))
+  result[1] = std::atan2(point[1], point[2]) * (360 / (2 * itk::Math::pi))
             + ((m_MaxElevation - 1) / 2.0);
   result[2] = ( ( std::sqrt(point[0] * point[0]
                            + point[1] * point[1]

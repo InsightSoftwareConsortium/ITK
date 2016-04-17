@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       subroutine tred1(nm,n,a,d,e,e2) >*/
-/* Subroutine */ int tred1_(integer *nm, integer *n, doublereal *a, 
+/* Subroutine */ int tred1_(integer *nm, integer *n, doublereal *a,
         doublereal *d__, doublereal *e, doublereal *e2)
 {
     /* System generated locals */

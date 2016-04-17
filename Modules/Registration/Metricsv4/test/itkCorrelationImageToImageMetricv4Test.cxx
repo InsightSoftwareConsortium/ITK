@@ -234,7 +234,7 @@ int itkCorrelationImageToImageMetricv4Test(int, char ** const)
     }
 
   double myeps = 1e-8;
-  if (vnl_math_abs(value1 - value2) > 1e-8)
+  if (itk::Math::abs(value1 - value2) > 1e-8)
     {
     std::cerr << "value1: " << value1 << std::endl;
     std::cerr << "value2: " << value2 << std::endl;

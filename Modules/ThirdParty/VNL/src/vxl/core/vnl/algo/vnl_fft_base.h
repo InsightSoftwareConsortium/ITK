@@ -9,18 +9,19 @@
 // \brief In-place n-D fast Fourier transform
 // \author fsm
 
-#include <vcl_complex.h>
+#include <complex>
+#include <vcl_compiler.h>
 #include <vnl/algo/vnl_fft_prime_factors.h>
 
 //: Base class for in-place ND fast Fourier transform.
 
-template <int D, class T>
+VCL_TEMPLATE_EXPORT template <int D, class T>
 struct vnl_fft_base
 {
   vnl_fft_base() { }
 
   //: dir = +1/-1 according to direction of transform.
-  void transform(vcl_complex<T> *signal, int dir);
+  void transform(std::complex<T> *signal, int dir);
 
  protected:
   //: prime factorizations of signal dimensions.

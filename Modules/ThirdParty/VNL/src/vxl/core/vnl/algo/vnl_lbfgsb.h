@@ -28,7 +28,6 @@
 class vnl_lbfgsb : public vnl_nonlinear_minimizer
 {
  public:
-  vnl_lbfgsb();
   vnl_lbfgsb(vnl_cost_function& f);
 
   //: Find a minimum in the feasible region given an initial guess.
@@ -118,6 +117,7 @@ class vnl_lbfgsb : public vnl_nonlinear_minimizer
   double inf_norm_projected_gradient_;
 
  private:
+  vnl_lbfgsb(); // Not implemented
   void init_parameters();
   vnl_cost_function* f_;
 };

@@ -421,7 +421,7 @@ int itkMatrixTest(int, char* [] )
      {
      for ( unsigned int j = 0; j < 3; ++j )
        {
-         if ( vnl_math_isnan(invertedMatrix[i][j]) ) ++num_nans;
+         if ( itk::Math::isnan(invertedMatrix[i][j]) ) ++num_nans;
        }
      }
 

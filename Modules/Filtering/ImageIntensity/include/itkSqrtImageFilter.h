@@ -19,7 +19,7 @@
 #define itkSqrtImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -48,7 +48,7 @@ public:
 
   inline TOutput operator()(const TInput & A) const
   {
-    return (TOutput)std::sqrt( (double)A );
+    return static_cast<TOutput>( std::sqrt( static_cast<double>(A) ) );
   }
 };
 }

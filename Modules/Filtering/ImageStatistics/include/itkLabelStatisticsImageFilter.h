@@ -272,12 +272,12 @@ public:
   /** Get the number of labels used */
   MapSizeType GetNumberOfObjects() const
   {
-    return m_LabelStatistics.size();
+    return static_cast<MapSizeType>( m_LabelStatistics.size() );
   }
 
   MapSizeType GetNumberOfLabels() const
   {
-    return this->GetNumberOfObjects();
+    return static_cast<MapSizeType>( this->GetNumberOfObjects() );
   }
 
   /** Return the computed Minimum for a label. */

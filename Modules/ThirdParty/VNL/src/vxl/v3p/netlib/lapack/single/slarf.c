@@ -22,8 +22,8 @@ static real c_b5 = (float)0.;
 static integer c__1 = 1;
 
 /*<       SUBROUTINE SLARF( SIDE, M, N, V, INCV, TAU, C, LDC, WORK ) >*/
-/* Subroutine */ int slarf_(char *side, integer *m, integer *n, real *v, 
-        integer *incv, real *tau, real *c__, integer *ldc, real *work, ftnlen 
+/* Subroutine */ int slarf_(char *side, integer *m, integer *n, real *v,
+        integer *incv, real *tau, real *c__, integer *ldc, real *work, ftnlen
         side_len)
 {
     /* System generated locals */
@@ -31,11 +31,11 @@ static integer c__1 = 1;
     real r__1;
 
     /* Local variables */
-    extern /* Subroutine */ int sger_(integer *, integer *, real *, real *, 
+    extern /* Subroutine */ int sger_(integer *, integer *, real *, real *,
             integer *, real *, integer *, real *, integer *);
     extern logical lsame_(const char *, const char *, ftnlen, ftnlen);
-    extern /* Subroutine */ int sgemv_(char *, integer *, integer *, real *, 
-            real *, integer *, real *, integer *, real *, real *, integer *, 
+    extern /* Subroutine */ int sgemv_(char *, integer *, integer *, real *,
+            real *, integer *, real *, integer *, real *, real *, integer *,
             ftnlen);
     (void)side_len;
 
@@ -143,7 +143,7 @@ static integer c__1 = 1;
 
 /*<             CALL SGER( M, N, -TAU, V, INCV, WORK, 1, C, LDC ) >*/
             r__1 = -(*tau);
-            sger_(m, n, &r__1, &v[1], incv, &work[1], &c__1, &c__[c_offset], 
+            sger_(m, n, &r__1, &v[1], incv, &work[1], &c__1, &c__[c_offset],
                     ldc);
 /*<          END IF >*/
         }
@@ -158,14 +158,14 @@ static integer c__1 = 1;
 /*           w := C * v */
 
 /*<    >*/
-            sgemv_("No transpose", m, n, &c_b4, &c__[c_offset], ldc, &v[1], 
+            sgemv_("No transpose", m, n, &c_b4, &c__[c_offset], ldc, &v[1],
                     incv, &c_b5, &work[1], &c__1, (ftnlen)12);
 
 /*           C := C - w * v' */
 
 /*<             CALL SGER( M, N, -TAU, WORK, 1, V, INCV, C, LDC ) >*/
             r__1 = -(*tau);
-            sger_(m, n, &r__1, &work[1], &c__1, &v[1], incv, &c__[c_offset], 
+            sger_(m, n, &r__1, &work[1], &c__1, &v[1], incv, &c__[c_offset],
                     ldc);
 /*<          END IF >*/
         }

@@ -1,12 +1,19 @@
 # ./vxl/testlib/CMakeLists.txt
 
-SET(TESTLIB_VCL_WHERE_ROOT_DIR_H ${vxl_BINARY_DIR}/vcl/vcl_where_root_dir.h)
+doxygen_add_library(core/testlib
+  PACKAGE core-test
+  DESCRIPTION "Testing Library"
+  )
 
-IF (TESTLIB_VCL_WHERE_ROOT_DIR_H)
-  ADD_DEFINITIONS(-DVCL_WHERE_ROOT_DIR_H_EXISTS)
-ENDIF(TESTLIB_VCL_WHERE_ROOT_DIR_H)
+find_file(TESTLIB_VCL_WHERE_ROOT_DIR_H
+          vcl_where_root_dir.h
+          ${PROJECT_BINARY_DIR} )
 
-SET( testlib_sources
+if(TESTLIB_VCL_WHERE_ROOT_DIR_H)
+  add_definitions(-DVCL_WHERE_ROOT_DIR_H_EXISTS)
+endif()
+
+set(testlib_sources
 
   # Useful utilities for the tests
   testlib_test.h                testlib_test.cxx
@@ -21,9 +28,11 @@ SET( testlib_sources
   testlib_root_dir.h            testlib_root_dir.cxx
 )
 
-ADD_LIBRARY( itktestlib ${testlib_sources} )
-TARGET_LINK_LIBRARIES( itktestlib itkvcl )
+vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}testlib
+  LIBRARY_SOURCES ${testlib_sources}
+  HEADER_INSTALL_DIR core/testlib)
+target_link_libraries(${VXL_LIB_PREFIX}testlib ${VXL_LIB_PREFIX}vcl)
 
-IF( BUILD_TESTING )
-  SUBDIRS( tests )
-ENDIF( BUILD_TESTING )
+if( BUILD_TESTING )
+  add_subdirectory(tests)
+endif()

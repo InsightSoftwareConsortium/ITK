@@ -22,7 +22,7 @@
 
 #include "itkImageAlgorithm.h"
 #include "itkArray.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkProgressReporter.h"
 #include "itkMetaDataObject.h"
 
@@ -173,7 +173,7 @@ void ImageSeriesReader< TOutputImage >
       // dimensions we are going to use
       this->m_NumberOfDimensionsInImage = ComputeMovingDimensionIndex(reader);
 
-      dimSize[this->m_NumberOfDimensionsInImage] = m_FileNames.size();
+      dimSize[this->m_NumberOfDimensionsInImage] = static_cast<typename SizeType::SizeValueType>( m_FileNames.size() );
 
       IndexType start;
       start.Fill(0);
@@ -220,7 +220,7 @@ void ImageSeriesReader< TOutputImage >
       float interSliceSpacing = 0.0f;
       for ( j = 0; j < position1.size(); ++j )
         {
-        interSliceSpacing += vnl_math_sqr(position2[j] - position1[j]);
+        interSliceSpacing += itk::Math::sqr(position2[j] - position1[j]);
         }
       interSliceSpacing = static_cast< float >( std::sqrt(interSliceSpacing) );
 
@@ -398,14 +398,14 @@ void ImageSeriesReader< TOutputImage >
           // if the input image type is a vector image then the number
           // of components needs to be set for the size
           readerOutput->GetPixelContainer()->SetImportPointer( outputSliceBuffer,
-                                                               numberOfPixelsInSlice*numberOfInternalComponentsPerPixel,
+                                                               static_cast<unsigned long>( numberOfPixelsInSlice*numberOfInternalComponentsPerPixel ),
                                                                bufferDelete );
           }
         else
           {
           // otherwise the actual number of pixels needs to be passed
           readerOutput->GetPixelContainer()->SetImportPointer( outputSliceBuffer,
-                                                               numberOfPixelsInSlice,
+                                                               static_cast<unsigned long>( numberOfPixelsInSlice ),
                                                                bufferDelete );
           }
         readerOutput->UpdateOutputData();

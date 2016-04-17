@@ -26,7 +26,7 @@
 #include "itkProgressReporter.h"
 #include "itkVectorCastImageFilter.h"
 
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -294,7 +294,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   // s are not necessarily sorted, and int is the number of distinct roots
   // found in s.
   int          num;
-  const double dpi = vnl_math::pi;
+  const double dpi = itk::Math::pi;
   const double epsilon = 1.0e-11;
 
   // Substitution of  x = y - c[2]/3 eliminate the quadric term  x^3 +px + q = 0
@@ -326,7 +326,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
       }
     else
       {
-      double u = vnl_math_cuberoot(-q);
+      double u = itk::Math::cbrt(-q);
       s[0] = 2 * u;
       s[1] = -u;
       num = 2;
@@ -336,8 +336,8 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
        // occasions with very large char eqn coefficients.
     {
     double sqrt_D = std::sqrt(D);
-    double u = vnl_math_cuberoot(sqrt_D - q);
-    double v = -vnl_math_cuberoot(sqrt_D + q);
+    double u = itk::Math::cbrt(sqrt_D - q);
+    double v = -itk::Math::cbrt(sqrt_D + q);
 
     s[0] = u + v;
     num = 1;

@@ -169,7 +169,7 @@ int GradientDescentOptimizerv4RunTest( itk::GradientDescentOptimizerv4::Pointer 
   //
   for( unsigned int j = 0; j < 2; j++ )
     {
-    if( vnl_math_abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
+    if( itk::Math::abs( finalPosition[j] - trueParameters[j] ) > 0.01 )
       {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << trueParameters << std::endl

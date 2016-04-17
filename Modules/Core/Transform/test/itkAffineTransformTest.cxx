@@ -618,7 +618,7 @@ int itkAffineTransformTest(int, char *[])
   Affine3DType::ParametersType parameters1( paff->GetNumberOfParameters() );
   Affine3DType::ParametersType fixed_parameters = paff->GetFixedParameters();
   const size_t fixed_params_size = fixed_parameters.Size();
-  for(size_t q=0; q < fixed_params_size; ++q)
+  for(unsigned int q=0; q < fixed_params_size; ++q)
   {
    fixed_parameters[q] = 100.0+q;
   }
@@ -658,7 +658,7 @@ int itkAffineTransformTest(int, char *[])
     Affine3DType::ParametersType parameters1_inv_inv = paff_inv_inv->GetParameters();
     // Check that Inv(Inv(T)) ~= T
     double mag_error = 0;
-    for( size_t q = 0; q < parameters1_inv_inv.size(); ++q)
+    for( unsigned int q = 0; q < parameters1_inv_inv.size(); ++q)
       {
       const double v = ( parameters1[q] - parameters1_inv_inv[q]);
       mag_error += sqrt(v);
@@ -674,7 +674,7 @@ int itkAffineTransformTest(int, char *[])
     {
     Affine3DType::ParametersType fixed_parameters_inv_inv = paff_inv_inv->GetFixedParameters();
     double mag_error = 0;
-    for( size_t q = 0; q < fixed_parameters_inv_inv.size(); ++q)
+    for( unsigned int q = 0; q < fixed_parameters_inv_inv.size(); ++q)
       {
       const double v = ( fixed_parameters[q] - fixed_parameters_inv_inv[q]);
       mag_error += sqrt(v);

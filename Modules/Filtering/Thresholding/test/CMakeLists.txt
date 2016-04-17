@@ -34,6 +34,8 @@ itkRenyiEntropyMaskedThresholdImageFilterTest.cxx
 itkShanbhagMaskedThresholdImageFilterTest.cxx
 itkTriangleMaskedThresholdImageFilterTest.cxx
 itkYenMaskedThresholdImageFilterTest.cxx
+itkKappaSigmaThresholdImageCalculatorTest.cxx
+itkKappaSigmaThresholdImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKThresholding  "${ITKThresholding-Test_LIBRARIES}" "${ITKThresholdingTests}")
@@ -312,3 +314,21 @@ itk_add_test(NAME itkYenThresholdImageFilterTestShort
     --compare DATA{Baseline/itkYenThresholdImageFilterTestShort.png}
               ${ITK_TEST_OUTPUT_DIR}/itkYenThresholdImageFilterTestShort.png
     itkYenThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkYenThresholdImageFilterTestShort.png)
+
+itk_add_test(NAME itkKappaSigmaThresholdImageCalculatorTest01
+      COMMAND ITKThresholdingTestDriver itkKappaSigmaThresholdImageCalculatorTest
+              DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} 10 3.5 19)
+
+itk_add_test(NAME itkKappaSigmaThresholdImageCalculatorTest02
+      COMMAND ITKThresholdingTestDriver itkKappaSigmaThresholdImageCalculatorTest
+              DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence2.png} 10 3.0 19)
+
+itk_add_test(NAME itkKappaSigmaThresholdImageFilterTest01
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkKappaSigmaThresholdImageFilterTest01.png} ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest01.png
+    itkKappaSigmaThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence1.png} ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest01.png 2 3.5)
+
+itk_add_test(NAME itkKappaSigmaThresholdImageFilterTest02
+      COMMAND ITKThresholdingTestDriver
+    --compare DATA{Baseline/itkKappaSigmaThresholdImageFilterTest02.png} ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.png
+    itkKappaSigmaThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/CellsFluorescence2.png} ${ITK_TEST_OUTPUT_DIR}/itkKappaSigmaThresholdImageFilterTest02.png 2 3.0)

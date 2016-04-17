@@ -140,9 +140,10 @@
 //
 //-----------------------------------------------------------------------------
 
+#include <iosfwd>
+#include <cstring>
 #include <vcl_cassert.h>
-#include <vcl_iosfwd.h>
-#include <vcl_cstring.h> // memcpy()
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector_fixed_ref.h>
@@ -247,7 +248,7 @@ class vnl_matrix_fixed_ref_const
   unsigned size()    const { return num_rows*num_cols; }
 
   //: Print matrix to os in some hopefully sensible format
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
   void copy_out(T *) const;
 
@@ -349,13 +350,10 @@ class vnl_matrix_fixed_ref_const
 
   //: abort if size is not as expected
   // This function does or tests nothing if NDEBUG is defined
-#ifdef NDEBUG
-  void assert_size(unsigned, unsigned ) const
+  void assert_size(unsigned rowz, unsigned colz) const
   {
-#else
-  void assert_size(unsigned r, unsigned c) const
-  {
-    assert_size_internal(r, c);
+#ifndef NDEBUG
+    assert_size_internal(rowz, colz);
 #endif
   }
   //: abort if matrix contains any INFs or NANs.
@@ -415,7 +413,7 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
   //: Copy another vnl_matrix_fixed<T,m,n> into this.
   vnl_matrix_fixed_ref const & operator=(const vnl_matrix_fixed_ref_const<T,num_rows,num_cols>& rhs) const
   {
-    vcl_memcpy(data_block(), rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_block(), rhs.data_block(), num_rows*num_cols*sizeof(T));
     return *this;
   }
 
@@ -587,19 +585,6 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
     return *this;
   }
 
-#ifdef VCL_VC_6
-  template<unsigned o>
-  vnl_matrix_fixed<T,num_rows,o> operator*( vnl_matrix_fixed_fake_base<o,num_cols,T> const& mat ) const
-  {
-    vnl_matrix_fixed<T,num_cols,o> const& b = static_cast<vnl_matrix_fixed<T,num_cols,o> const&>(mat);
-    return vnl_matrix_fixed_mat_mat_mult<T,num_rows,num_cols,o>( *this, b );
-  }
-  vnl_vector_fixed<T, num_rows> operator*( vnl_vector_fixed_ref_const<T, num_cols> const& b) const
-  {
-    return vnl_matrix_fixed_mat_vec_mult<T,num_rows,num_cols>(*this,b);
-  }
-#endif
-
   //: Set values of this matrix to those of M, starting at [top,left]
   vnl_matrix_fixed_ref const & update (vnl_matrix<T> const&, unsigned top=0, unsigned left=0) const;
 
@@ -708,8 +693,8 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
 
   ////----------------------- Input/Output ----------------------------
 
-  // : Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  bool read_ascii(vcl_istream& s) const;
+  // : Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  bool read_ascii(std::istream& s) const;
 
   //----------------------------------------------------------------------
   // Conversion to vnl_matrix_ref.
@@ -768,8 +753,6 @@ class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_co
 
 //--------------------------------------------------------------------------------
 };
-
-#undef VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   // Helper routines for arithmetic. These routines know the size from
   // the template parameters. The vector-vector operations are
@@ -923,7 +906,6 @@ vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed_ref_const<T, M, N>& a,
   return out;
 }
 
-#ifndef VCL_VC_6
 // The version for correct compilers
 
 //: Multiply  conformant vnl_matrix_fixed (M x N) and vector_fixed (N)
@@ -944,8 +926,6 @@ vnl_matrix_fixed<T, M, O> operator*(const vnl_matrix_fixed_ref_const<T, M, N>& a
 {
   return vnl_matrix_fixed_mat_mat_mult(a,b);
 }
-#endif // ! VCL_VC_6
-
 
 // These overloads for the common case of mixing a fixed with a
 // non-fixed. Because the operator* are templated, the fixed will not
@@ -1004,7 +984,7 @@ inline vnl_vector<T> operator*( const vnl_matrix<T>& a, const vnl_vector_fixed_r
 
 template<class T, unsigned m, unsigned n>
 inline
-vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed_ref_const<T,m,n> const& mat)
+std::ostream& operator<< (std::ostream& os, vnl_matrix_fixed_ref_const<T,m,n> const& mat)
 {
   mat.print(os);
   return os;
@@ -1012,7 +992,7 @@ vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed_ref_const<T,m,n> cons
 
 template<class T, unsigned m, unsigned n>
 inline
-vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed_ref<T,m,n> const& mat)
+std::istream& operator>> (std::istream& is, vnl_matrix_fixed_ref<T,m,n> const& mat)
 {
   mat.read_ascii(is);
   return is;

@@ -87,7 +87,7 @@ public:
  *
  * "Deconvolution: infrastructure and reference algorithms"
  * by Gaetan Lehmann
- * http://hdl.handle.net/10380/3207
+ * https://hdl.handle.net/10380/3207
  *
  * \author Gaetan Lehmann, Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France
  * \author Cory Quammen, The University of North Carolina at Chapel Hill

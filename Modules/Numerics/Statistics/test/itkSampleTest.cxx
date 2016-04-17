@@ -55,7 +55,7 @@ public:
   /** Get the size of the sample (number of measurements) */
   virtual InstanceIdentifier Size() const ITK_OVERRIDE
     {
-    return m_Values.size();
+    return static_cast<InstanceIdentifier>( m_Values.size() );
     }
 
   /** Get the measurement associated with a particular

@@ -6,84 +6,84 @@
 #   FFMPEG_INCLUDE_DIR
 #   FFMPEG_LIBRARIES
 
-SET( FFMPEG_FOUND "NO" )
+set( FFMPEG_FOUND "NO" )
 
-FIND_PATH( FFMPEG_INCLUDE1_DIR ffmpeg/avcodec.h
+find_path( FFMPEG_INCLUDE1_DIR ffmpeg/avcodec.h
   /usr/include
   /usr/local/include
 )
-FIND_PATH( FFMPEG_INCLUDE2_DIR libavcodec/avcodec.h
+find_path( FFMPEG_INCLUDE2_DIR libavcodec/avcodec.h
   /usr/include
   /usr/local/include
-)   
-IF( FFMPEG_INCLUDE1_DIR)
-  SET (FFMPEG_INCLUDE_DIR ${FFMPEG_INCLUDE1_DIR} )
-  SET( FFMPEG_FOUND_SEVERAL "NO" )
-ENDIF ( FFMPEG_INCLUDE1_DIR)
+)
+if( FFMPEG_INCLUDE1_DIR)
+  set(FFMPEG_INCLUDE_DIR ${FFMPEG_INCLUDE1_DIR} )
+  set( FFMPEG_FOUND_SEVERAL "NO" )
+endif()
 
-IF( FFMPEG_INCLUDE2_DIR)
-  SET (FFMPEG_INCLUDE_DIR ${FFMPEG_INCLUDE2_DIR} )
-  SET( FFMPEG_FOUND_SEVERAL "YES" )
-ENDIF ( FFMPEG_INCLUDE2_DIR)
+if( FFMPEG_INCLUDE2_DIR)
+  set(FFMPEG_INCLUDE_DIR ${FFMPEG_INCLUDE2_DIR} )
+  set( FFMPEG_FOUND_SEVERAL "YES" )
+endif()
 
-IF( FFMPEG_INCLUDE_DIR )
+if( FFMPEG_INCLUDE_DIR )
 
-FIND_PROGRAM( FFMPEG_CONFIG ffmpeg-config
+find_program( FFMPEG_CONFIG ffmpeg-config
   /usr/bin
   /usr/local/bin
   ${HOME}/bin
 )
 
-IF( FFMPEG_CONFIG )
-  EXEC_PROGRAM( ${FFMPEG_CONFIG} ARGS "--libs avformat" OUTPUT_VARIABLE FFMPEG_LIBS )
-  SET( FFMPEG_FOUND "YES" )
-  SET( FFMPEG_LIBRARIES "${FFMPEG_LIBS}" )
-  
-ELSE( FFMPEG_CONFIG )
+if( FFMPEG_CONFIG )
+  exec_program( ${FFMPEG_CONFIG} ARGS "--libs avformat" OUTPUT_VARIABLE FFMPEG_LIBS )
+  set( FFMPEG_FOUND "YES" )
+  set( FFMPEG_LIBRARIES "${FFMPEG_LIBS}" )
 
-  FIND_LIBRARY( FFMPEG_avcodec_LIBRARY avcodec
+else()
+
+  find_library( FFMPEG_avcodec_LIBRARY avcodec
     /usr/lib
     /usr/local/lib
     /usr/lib64
     /usr/local/lib64
   )
 
-  FIND_LIBRARY( FFMPEG_avformat_LIBRARY avformat
-    /usr/lib
-    /usr/local/lib
-    /usr/lib64
-    /usr/local/lib64
-  )
-  
-  FIND_LIBRARY( FFMPEG_avutil_LIBRARY avutil
+  find_library( FFMPEG_avformat_LIBRARY avformat
     /usr/lib
     /usr/local/lib
     /usr/lib64
     /usr/local/lib64
   )
 
-  FIND_LIBRARY( FFMPEG_swscale_LIBRARY swscale
+  find_library( FFMPEG_avutil_LIBRARY avutil
     /usr/lib
     /usr/local/lib
     /usr/lib64
     /usr/local/lib64
   )
-  
-  IF( FFMPEG_avcodec_LIBRARY )
-  IF( FFMPEG_avformat_LIBRARY )
 
-    SET( FFMPEG_FOUND "YES" )
-    SET( FFMPEG_LIBRARIES ${FFMPEG_avformat_LIBRARY} ${FFMPEG_avcodec_LIBRARY} )
-    IF( FFMPEG_avutil_LIBRARY )
-       SET( FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_avutil_LIBRARY} )
-    ENDIF( FFMPEG_avutil_LIBRARY )
-    IF( FFMPEG_swscale_LIBRARY )
-       SET( FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_swscale_LIBRARY} )
-    ENDIF( FFMPEG_swscale_LIBRARY )
+  find_library( FFMPEG_swscale_LIBRARY swscale
+    /usr/lib
+    /usr/local/lib
+    /usr/lib64
+    /usr/local/lib64
+  )
 
-  ENDIF( FFMPEG_avformat_LIBRARY )
-  ENDIF( FFMPEG_avcodec_LIBRARY )
+  if( FFMPEG_avcodec_LIBRARY )
+  if( FFMPEG_avformat_LIBRARY )
 
-ENDIF( FFMPEG_CONFIG )
+    set( FFMPEG_FOUND "YES" )
+    set( FFMPEG_LIBRARIES ${FFMPEG_avformat_LIBRARY} ${FFMPEG_avcodec_LIBRARY} )
+    if( FFMPEG_avutil_LIBRARY )
+       set( FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_avutil_LIBRARY} )
+    endif()
+    if( FFMPEG_swscale_LIBRARY )
+       set( FFMPEG_LIBRARIES ${FFMPEG_LIBRARIES} ${FFMPEG_swscale_LIBRARY} )
+    endif()
 
-ENDIF( FFMPEG_INCLUDE_DIR )
+  endif()
+  endif()
+
+endif()
+
+endif()

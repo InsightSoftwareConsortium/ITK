@@ -19,7 +19,7 @@
 #define itkSinImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -47,7 +47,7 @@ public:
   }
 
   inline TOutput operator()(const TInput & A) const
-  { return (TOutput)std::sin( (double)A ); }
+  { return static_cast<TOutput>(std::sin( static_cast<double>( A ) ) ); }
 };
 }
 /** \class SinImageFilter

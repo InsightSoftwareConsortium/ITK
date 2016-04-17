@@ -1,3 +1,4 @@
+#include <iostream>
 #include "vnl_discrete_diff.h"
 #include <vnl/vnl_least_squares_function.h>
 #include <vcl_cassert.h>
@@ -103,7 +104,7 @@ bool vnl_discrete_diff_sym(vnl_least_squares_function *lsf,
 
 //----------------------------------------------------------------------
 
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 void vnl_discrete_diff_test_lsf(vnl_least_squares_function *lsf, vnl_vector<double> const &x)
 {
@@ -122,6 +123,6 @@ void vnl_discrete_diff_test_lsf(vnl_least_squares_function *lsf, vnl_vector<doub
   double t = cos_angle(J1, J2);
   //assert(t >= 0.99);
 
-  vcl_cerr << __FILE__ ": e = " << e << vcl_endl
-           << __FILE__ ": t = " << t << vcl_endl;
+  std::cerr << __FILE__ ": e = " << e << std::endl
+           << __FILE__ ": t = " << t << std::endl;
 }

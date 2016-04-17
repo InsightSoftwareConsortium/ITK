@@ -104,7 +104,7 @@ int itkCovarianceImageFunctionTest(int, char* [] )
     for( unsigned int iy=0; iy<VectorDimension; iy++ )
       {
       // covariance must be zero in this image with constant values
-      if( vnl_math_abs( covariance[ix][iy] ) > 10e-7 )
+      if( itk::Math::abs( covariance[ix][iy] ) > 10e-7 )
         {
         std::cerr << "Error in covariance computation" << std::endl;
         return EXIT_FAILURE;

@@ -14,29 +14,29 @@
 # VXL_USING_NATIVE_JPEG  - True if we are using a JPEG library provided outside vxl (or v3p)
 
 # If this FORCE variable is unset or is FALSE, try to find a native library.
-IF( VXL_FORCE_V3P_JPEG )
-ELSE( VXL_FORCE_V3P_JPEG )
-  FIND_PACKAGE( JPEG QUIET )
-ENDIF( VXL_FORCE_V3P_JPEG )
+if( VXL_FORCE_V3P_JPEG )
+else()
+  find_package( JPEG QUIET )
+endif()
 
-IF(JPEG_FOUND)
+if(JPEG_FOUND)
 
-  SET(VXL_USING_NATIVE_JPEG "YES")
+  set(VXL_USING_NATIVE_JPEG "YES")
 
-ELSE(JPEG_FOUND)
+else()
 
   #
   # At some point, in a "release" version, it is possible that someone
   # will not have the v3p jpeg library
   #
 
-  IF(EXISTS ${vxl_SOURCE_DIR}/v3p/jpeg/jpeglib.h)
+  if(EXISTS ${VXL_ROOT_SOURCE_DIR}/v3p/jpeg/jpeglib.h)
 
-    SET( JPEG_FOUND "YES" )
-    SET( JPEG_LIBRARIES jpeg )  
-    SET( JPEG_INCLUDE_DIR ${vxl_SOURCE_DIR}/v3p/jpeg)
-    SET( JPEG_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/jpeg)
-        
-  ENDIF(EXISTS ${vxl_SOURCE_DIR}/v3p/jpeg/jpeglib.h)
+    set( JPEG_FOUND "YES" )
+    set( JPEG_LIBRARIES jpeg )
+    set( JPEG_INCLUDE_DIR ${VXL_ROOT_SOURCE_DIR}/v3p/jpeg)
+    set( JPEG_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/v3p/jpeg)
 
-ENDIF(JPEG_FOUND)
+  endif()
+
+endif()

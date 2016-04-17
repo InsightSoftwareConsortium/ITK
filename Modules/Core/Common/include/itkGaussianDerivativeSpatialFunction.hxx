@@ -19,7 +19,7 @@
 #define itkGaussianDerivativeSpatialFunction_hxx
 
 #include <cmath>
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 #include "itkGaussianDerivativeSpatialFunction.h"
 
 namespace itk
@@ -59,7 +59,7 @@ GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
       prefixDenom *= m_Sigma[i];
       }
 
-    prefixDenom *= 2 * std::pow(2 * vnl_math::pi, VImageDimension / 2.0);
+    prefixDenom *= 2 * std::pow(2 * itk::Math::pi, VImageDimension / 2.0);
     }
   else
     {
@@ -78,7 +78,7 @@ GaussianDerivativeSpatialFunction< TOutput, VImageDimension, TInput >
   double value = -2 * ( position[m_Direction] - m_Mean[m_Direction] ) * m_Scale * ( 1 / prefixDenom ) * std::exp(
     -1 * suffixExp);
 
-  return (TOutput)value;
+  return static_cast<TOutput>(value);
 }
 
 /** Evaluate the function at a given position and return a vector */

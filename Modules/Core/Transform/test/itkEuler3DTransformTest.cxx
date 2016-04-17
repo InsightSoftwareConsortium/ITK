@@ -209,9 +209,9 @@ int itkEuler3DTransformTest(int, char *[] )
       }
 
     parameters.Fill( 0.0 );
-    parameters[0] = 0.2 / 180.0 * vnl_math::pi;
-    parameters[1] = -1.0 / 180.0 * vnl_math::pi;
-    parameters[2] = 2.4 / 180.0 * vnl_math::pi;
+    parameters[0] = 0.2 / 180.0 * itk::Math::pi;
+    parameters[1] = -1.0 / 180.0 * itk::Math::pi;
+    parameters[2] = 2.4 / 180.0 * itk::Math::pi;
     parameters[3] = 5.0;
     parameters[4] = 6.0;
     parameters[5] = 8.0;
@@ -249,7 +249,7 @@ int itkEuler3DTransformTest(int, char *[] )
         double approxDerivative = ( plusPoint[j] - minusPoint[j] ) / ( 2.0 * delta );
         double computedDerivative = jacobian[j][k];
         approxJacobian[j][k] = approxDerivative;
-        if( vnl_math_abs( approxDerivative - computedDerivative ) > 1e-5 )
+        if( itk::Math::abs( approxDerivative - computedDerivative ) > 1e-5 )
           {
           std::cerr << "Error computing Jacobian [" << j << "][" << k << "]" << std::endl;
           std::cerr << "Result should be: " << approxDerivative << std::endl;
@@ -349,7 +349,7 @@ int itkEuler3DTransformTest(int, char *[] )
     // attempt to set an orthogonal matrix
     matrix.GetVnlMatrix().set_identity();
 
-    double a = 1.0 / 180.0 * vnl_math::pi;
+    double a = 1.0 / 180.0 * itk::Math::pi;
     matrix[0][0] =        std::cos( a );
     matrix[0][1] = -1.0 * std::sin( a );
     matrix[1][0] =        std::sin( a );

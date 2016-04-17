@@ -180,7 +180,7 @@ ParameterizationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 
   this->ComputeListOfInteriorVertices();
 
-  InputPointIdentifier NbOfInteriorPts = m_InternalPtMap.size();
+  InputPointIdentifier NbOfInteriorPts = static_cast<InputPointIdentifier>( m_InternalPtMap.size() );
 
   MatrixType Matrix = SolverTraits::InitializeSparseMatrix(NbOfInteriorPts);
   VectorType Bx = SolverTraits::InitializeVector(NbOfInteriorPts);

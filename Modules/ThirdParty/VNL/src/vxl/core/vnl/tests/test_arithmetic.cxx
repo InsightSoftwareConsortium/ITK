@@ -1,3 +1,4 @@
+#include <iostream>
 #include <testlib/testlib_test.h>
 
 #include <vnl/vnl_vector.h>
@@ -8,7 +9,7 @@
 #include <vnl/vnl_matrix_fixed.h>
 
 #include <vcl_cassert.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 
 
 // --- dynamic ------------------------------
@@ -71,11 +72,11 @@ test_arithmetic_fixed()
 
 void test_arithmetic()
 {
-  vcl_cout << "---- dynamic ----\n";
+  std::cout << "---- dynamic ----\n";
   test_arithmetic_dynamic();
-  vcl_cout << "---- reference ----\n";
+  std::cout << "---- reference ----\n";
   test_arithmetic_ref();
-  vcl_cout << "---- fixed ----\n";
+  std::cout << "---- fixed ----\n";
   test_arithmetic_fixed();
 }
 

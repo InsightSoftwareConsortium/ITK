@@ -16,8 +16,8 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<       SUBROUTINE DGER  ( M, N, ALPHA, X, INCX, Y, INCY, A, LDA ) >*/
-/* Subroutine */ int dger_(integer *m, integer *n, doublereal *alpha, 
-        doublereal *x, integer *incx, doublereal *y, integer *incy, 
+/* Subroutine */ int dger_(integer *m, integer *n, doublereal *alpha,
+        doublereal *x, integer *incx, doublereal *y, integer *incy,
         doublereal *a, integer *lda)
 {
     /* System generated locals */

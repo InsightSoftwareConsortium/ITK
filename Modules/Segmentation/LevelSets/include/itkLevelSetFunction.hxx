@@ -107,13 +107,13 @@ LevelSetFunction< TImageType >
   //Eigensystem
   vnl_symmetric_eigensystem< ScalarValueType > eig(Curve);
 
-  mincurve = vnl_math_abs( eig.get_eigenvalue(ImageDimension - 1) );
+  mincurve = itk::Math::abs( eig.get_eigenvalue(ImageDimension - 1) );
   for ( i = 0; i < ImageDimension; i++ )
     {
-    if ( vnl_math_abs( eig.get_eigenvalue(i) ) < mincurve
-         && vnl_math_abs( eig.get_eigenvalue(i) ) > MIN_EIG )
+    if ( itk::Math::abs( eig.get_eigenvalue(i) ) < mincurve
+         && itk::Math::abs( eig.get_eigenvalue(i) ) > MIN_EIG )
       {
-      mincurve = vnl_math_abs( eig.get_eigenvalue(i) );
+      mincurve = itk::Math::abs( eig.get_eigenvalue(i) );
       }
     }
 
@@ -230,11 +230,11 @@ LevelSetFunction< TImageType >
 
   d->m_MaxAdvectionChange += d->m_MaxPropagationChange;
 
-  if ( vnl_math_abs(d->m_MaxCurvatureChange) > 0.0 )
+  if ( itk::Math::abs(d->m_MaxCurvatureChange) > 0.0 )
     {
     if ( d->m_MaxAdvectionChange > 0.0 )
       {
-      dt = vnl_math_min( ( m_WaveDT / d->m_MaxAdvectionChange ),
+      dt = std::min( ( m_WaveDT / d->m_MaxAdvectionChange ),
                          (    m_DT / d->m_MaxCurvatureChange ) );
       }
     else
@@ -257,7 +257,7 @@ LevelSetFunction< TImageType >
   double maxScaleCoefficient = 0.0;
   for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
-    maxScaleCoefficient = vnl_math_max(this->m_ScaleCoefficients[i], maxScaleCoefficient);
+    maxScaleCoefficient = std::max(this->m_ScaleCoefficients[i], maxScaleCoefficient);
     }
   dt /= maxScaleCoefficient;
 
@@ -323,7 +323,7 @@ LevelSetFunction< TImageType >
                           - it.GetPixel(positionB) ) * neighborhoodScales[i];
     gd->m_dxy[i][i] = ( it.GetPixel(positionA)
                         + it.GetPixel(positionB) - 2.0 * center_value )
-                      * vnl_math_sqr(neighborhoodScales[i]);
+                      * itk::Math::sqr(neighborhoodScales[i]);
 
     gd->m_dx_forward[i]  = ( it.GetPixel(positionA) - center_value ) * neighborhoodScales[i];
 
@@ -355,8 +355,8 @@ LevelSetFunction< TImageType >
     curvature_term = this->ComputeCurvatureTerm(it, offset, gd) * m_CurvatureWeight
                      * this->CurvatureSpeed(it, offset);
 
-    gd->m_MaxCurvatureChange = vnl_math_max( gd->m_MaxCurvatureChange,
-                                             vnl_math_abs(curvature_term) );
+    gd->m_MaxCurvatureChange = std::max( gd->m_MaxCurvatureChange,
+                                             itk::Math::abs(curvature_term) );
     }
   else
     {
@@ -388,7 +388,7 @@ LevelSetFunction< TImageType >
         }
 
       gd->m_MaxAdvectionChange =
-        vnl_math_max( gd->m_MaxAdvectionChange, vnl_math_abs(x_energy) );
+        std::max( gd->m_MaxAdvectionChange, itk::Math::abs(x_energy) );
       }
     advection_term *= m_AdvectionWeight;
     }
@@ -415,24 +415,24 @@ LevelSetFunction< TImageType >
       {
       for ( i = 0; i < ImageDimension; i++ )
         {
-        propagation_gradient += vnl_math_sqr( vnl_math_max(gd->m_dx_backward[i], ZERO) )
-                                + vnl_math_sqr( vnl_math_min(gd->m_dx_forward[i],  ZERO) );
+        propagation_gradient += itk::Math::sqr( std::max(gd->m_dx_backward[i], ZERO) )
+                                + itk::Math::sqr( std::min(gd->m_dx_forward[i],  ZERO) );
         }
       }
     else
       {
       for ( i = 0; i < ImageDimension; i++ )
         {
-        propagation_gradient += vnl_math_sqr( vnl_math_min(gd->m_dx_backward[i], ZERO) )
-                                + vnl_math_sqr( vnl_math_max(gd->m_dx_forward[i],  ZERO) );
+        propagation_gradient += itk::Math::sqr( std::min(gd->m_dx_backward[i], ZERO) )
+                                + itk::Math::sqr( std::max(gd->m_dx_forward[i],  ZERO) );
         }
       }
 
     // Collect energy change from propagation term.  This will be used in
     // calculating the maximum time step that can be taken for this iteration.
     gd->m_MaxPropagationChange =
-      vnl_math_max( gd->m_MaxPropagationChange,
-                    vnl_math_abs(propagation_term) );
+      std::max( gd->m_MaxPropagationChange,
+                    itk::Math::abs(propagation_term) );
 
     propagation_term *= std::sqrt(propagation_gradient);
     }

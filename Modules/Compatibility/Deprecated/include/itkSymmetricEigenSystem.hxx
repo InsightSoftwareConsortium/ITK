@@ -99,7 +99,7 @@ SymmetricEigenSystem< TMatrixElement, VNumberOfRows >
     for ( j = i + 1; j < VNumberOfRows; j++ )
       {
       if ( ( m_EigenValues[j] > m_EigenValues[i] && !m_UseAbsoluteOrder )
-           || ( ( vnl_math_abs(m_EigenValues[j]) > vnl_math_abs(m_EigenValues[i]) )
+           || ( ( itk::Math::abs(m_EigenValues[j]) > itk::Math::abs(m_EigenValues[i]) )
                 && m_UseAbsoluteOrder ) )
         {
         temp = m_EigenValues[i];

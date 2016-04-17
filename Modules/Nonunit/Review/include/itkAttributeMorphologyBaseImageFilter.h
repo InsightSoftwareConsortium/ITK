@@ -51,7 +51,7 @@ namespace itk
  *
  * "Grayscale morphological attribute operations"
  * by Beare R.
- * http://hdl.handle.net/1926/1316
+ * https://hdl.handle.net/1926/1316
  * http://www.insight-journal.org/browse/publication/203
  *
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.

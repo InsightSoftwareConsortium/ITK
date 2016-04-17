@@ -26,7 +26,7 @@ static integer c__5 = 5;
 /* ------------------------------------------------------------------- */
 
 /*<       subroutine gpfa5f(a,b,trigs,inc,jump,n,mm,lot,isign) >*/
-/* Subroutine */ int gpfa5f_(real *a, real *b, real *trigs, integer *inc, 
+/* Subroutine */ int gpfa5f_(real *a, real *b, real *trigs, integer *inc,
         integer *jump, integer *n, integer *mm, integer *lot, integer *isign)
 {
     /* Initialized data */
@@ -46,19 +46,19 @@ static integer c__5 = 5;
     integer j, k, l, m;
     real s, c1, c2, c3;
     integer n5;
-    real t1, t2, t3, t4, t5, t6, t7, t8, t9, u1, u2, u3, u4, u5, u6, u7, u8, 
+    real t1, t2, t3, t4, t5, t6, t7, t8, t9, u1, u2, u3, u4, u5, u6, u7, u8,
             u9;
     integer ja, jb, la, jc, jd, nb, je, jf, jg, jh;
     real t10, t11, u10, u11, ax, bx;
-    integer mh, kk, ll, ji, jj, jk, mu, nu, jl, jm, jn, jo, jp, jq, jr, js, 
+    integer mh, kk, ll, ji, jj, jk, mu, nu, jl, jm, jn, jo, jp, jq, jr, js,
             jt, ju, jv, jw, jx, jy;
     real co1=0, co2=0, co3=0, co4=0, si1=0, si2=0, si3=0, si4=0,
       aja, ajb, ajc, ajd, aje, bjb,
-            bje, bjc, bjd, bja, ajf, ajk, bjf, bjk, ajg, ajj, ajh, aji, ajl, 
-            ajq, bjg, bjj, bjh, bji, bjl, bjq, ajo, ajm, ajn, ajr, ajw, bjo, 
-            bjm, bjn, bjr, bjw, ajt, ajs, ajx, ajp, bjt, bjs, bjx, bjp, ajv, 
+            bje, bjc, bjd, bja, ajf, ajk, bjf, bjk, ajg, ajj, ajh, aji, ajl,
+            ajq, bjg, bjj, bjh, bji, bjl, bjq, ajo, ajm, ajn, ajr, ajw, bjo,
+            bjm, bjn, bjr, bjw, ajt, ajs, ajx, ajp, bjt, bjs, bjx, bjp, ajv,
             ajy, aju, bjv, bjy, bju;
-    integer inq, ink, jjj, ninc, left, nvex, ipass, nblox, jstep, laincl, 
+    integer inq, ink, jjj, ninc, left, nvex, ipass, nblox, jstep, laincl,
             jstepl, istart, jstepx;
 
 /*<       real a(*), b(*), trigs(*) >*/
@@ -113,7 +113,7 @@ static integer c__5 = 5;
 /*<       mh = (m+1)/2 >*/
     mh = (m + 1) / 2;
 /*<       s = float(isign) >*/
-    s = (real) (*isign);
+//    s = (real) (*isign);
 /*<       c1 = qrt5 >*/
     c1 = qrt5;
 /*<       c2 = sin72 >*/
@@ -221,7 +221,7 @@ static integer c__5 = 5;
 /*<       do 140 jjj = k , (n-1)*inc , 5*jstep >*/
                 i__5 = (*n - 1) * *inc;
                 i__6 = jstep * 5;
-                for (jjj = k; i__6 < 0 ? jjj >= i__5 : jjj <= i__5; jjj += 
+                for (jjj = k; i__6 < 0 ? jjj >= i__5 : jjj <= i__5; jjj +=
                         i__6) {
 /*<       ja = istart + jjj >*/
                     ja = istart + jjj;
@@ -433,28 +433,28 @@ static integer c__5 = 5;
 /*<       u11 = c2 * u3 + c3 * u4 >*/
                                 u11 = c2 * u3 + c3 * u4;
 /*<       a(jb+j) = co1*(t8-u11) - si1*(u8+t11) >*/
-                                a[jb + j] = co1 * (t8 - u11) - si1 * (u8 + 
+                                a[jb + j] = co1 * (t8 - u11) - si1 * (u8 +
                                         t11);
 /*<       b(jb+j) = si1*(t8-u11) + co1*(u8+t11) >*/
-                                b[jb + j] = si1 * (t8 - u11) + co1 * (u8 + 
+                                b[jb + j] = si1 * (t8 - u11) + co1 * (u8 +
                                         t11);
 /*<       a(je+j) = co4*(t8+u11) - si4*(u8-t11) >*/
-                                a[je + j] = co4 * (t8 + u11) - si4 * (u8 - 
+                                a[je + j] = co4 * (t8 + u11) - si4 * (u8 -
                                         t11);
 /*<       b(je+j) = si4*(t8+u11) + co4*(u8-t11) >*/
-                                b[je + j] = si4 * (t8 + u11) + co4 * (u8 - 
+                                b[je + j] = si4 * (t8 + u11) + co4 * (u8 -
                                         t11);
 /*<       a(jc+j) = co2*(t9-u10) - si2*(u9+t10) >*/
-                                a[jc + j] = co2 * (t9 - u10) - si2 * (u9 + 
+                                a[jc + j] = co2 * (t9 - u10) - si2 * (u9 +
                                         t10);
 /*<       b(jc+j) = si2*(t9-u10) + co2*(u9+t10) >*/
-                                b[jc + j] = si2 * (t9 - u10) + co2 * (u9 + 
+                                b[jc + j] = si2 * (t9 - u10) + co2 * (u9 +
                                         t10);
 /*<       a(jd+j) = co3*(t9+u10) - si3*(u9-t10) >*/
-                                a[jd + j] = co3 * (t9 + u10) - si3 * (u9 - 
+                                a[jd + j] = co3 * (t9 + u10) - si3 * (u9 -
                                         t10);
 /*<       b(jd+j) = si3*(t9+u10) + co3*(u9-t10) >*/
-                                b[jd + j] = si3 * (t9 + u10) + co3 * (u9 - 
+                                b[jd + j] = si3 * (t9 + u10) + co3 * (u9 -
                                         t10);
 /*<       j = j + jump >*/
                                 j += *jump;
@@ -553,7 +553,7 @@ static integer c__5 = 5;
 /*<       do 450 jjj = ll , (n-1)*inc , 5*la*ink >*/
                     i__7 = (*n - 1) * *inc;
                     i__8 = la * 5 * ink;
-                    for (jjj = ll; i__8 < 0 ? jjj >= i__7 : jjj <= i__7; jjj 
+                    for (jjj = ll; i__8 < 0 ? jjj >= i__7 : jjj <= i__7; jjj
                             += i__8) {
 /*<       ja = istart + jjj >*/
                         ja = istart + jjj;
@@ -1289,20 +1289,20 @@ static integer c__5 = 5;
 /*<       u11 = c2 * u3 + c3 * u4 >*/
                                     u11 = c2 * u3 + c3 * u4;
 /*<       a(jf+j) = co1*(t8-u11) - si1*(u8+t11) >*/
-                                    a[jf + j] = co1 * (t8 - u11) - si1 * (u8 
+                                    a[jf + j] = co1 * (t8 - u11) - si1 * (u8
                                             + t11);
 /*<       b(jf+j) = si1*(t8-u11) + co1*(u8+t11) >*/
-                                    b[jf + j] = si1 * (t8 - u11) + co1 * (u8 
+                                    b[jf + j] = si1 * (t8 - u11) + co1 * (u8
                                             + t11);
 /*<       aje =  co4*(t8+u11) - si4*(u8-t11) >*/
                                     aje = co4 * (t8 + u11) - si4 * (u8 - t11);
 /*<       bje =  si4*(t8+u11) + co4*(u8-t11) >*/
                                     bje = si4 * (t8 + u11) + co4 * (u8 - t11);
 /*<       a(jk+j) = co2*(t9-u10) - si2*(u9+t10) >*/
-                                    a[jk + j] = co2 * (t9 - u10) - si2 * (u9 
+                                    a[jk + j] = co2 * (t9 - u10) - si2 * (u9
                                             + t10);
 /*<       b(jk+j) = si2*(t9-u10) + co2*(u9+t10) >*/
-                                    b[jk + j] = si2 * (t9 - u10) + co2 * (u9 
+                                    b[jk + j] = si2 * (t9 - u10) + co2 * (u9
                                             + t10);
 /*<       ajd =  co3*(t9+u10) - si3*(u9-t10) >*/
                                     ajd = co3 * (t9 + u10) - si3 * (u9 - t10);
@@ -1390,26 +1390,26 @@ static integer c__5 = 5;
 /*<       u11 = c2 * u3 + c3 * u4 >*/
                                     u11 = c2 * u3 + c3 * u4;
 /*<       a(jg+j) = co1*(t8-u11) - si1*(u8+t11) >*/
-                                    a[jg + j] = co1 * (t8 - u11) - si1 * (u8 
+                                    a[jg + j] = co1 * (t8 - u11) - si1 * (u8
                                             + t11);
 /*<       b(jg+j) = si1*(t8-u11) + co1*(u8+t11) >*/
-                                    b[jg + j] = si1 * (t8 - u11) + co1 * (u8 
+                                    b[jg + j] = si1 * (t8 - u11) + co1 * (u8
                                             + t11);
 /*<       ajj =  co4*(t8+u11) - si4*(u8-t11) >*/
                                     ajj = co4 * (t8 + u11) - si4 * (u8 - t11);
 /*<       bjj =  si4*(t8+u11) + co4*(u8-t11) >*/
                                     bjj = si4 * (t8 + u11) + co4 * (u8 - t11);
 /*<       a(jl+j) = co2*(t9-u10) - si2*(u9+t10) >*/
-                                    a[jl + j] = co2 * (t9 - u10) - si2 * (u9 
+                                    a[jl + j] = co2 * (t9 - u10) - si2 * (u9
                                             + t10);
 /*<       b(jl+j) = si2*(t9-u10) + co2*(u9+t10) >*/
-                                    b[jl + j] = si2 * (t9 - u10) + co2 * (u9 
+                                    b[jl + j] = si2 * (t9 - u10) + co2 * (u9
                                             + t10);
 /*<       a(jq+j) = co3*(t9+u10) - si3*(u9-t10) >*/
-                                    a[jq + j] = co3 * (t9 + u10) - si3 * (u9 
+                                    a[jq + j] = co3 * (t9 + u10) - si3 * (u9
                                             - t10);
 /*<       b(jq+j) = si3*(t9+u10) + co3*(u9-t10) >*/
-                                    b[jq + j] = si3 * (t9 + u10) + co3 * (u9 
+                                    b[jq + j] = si3 * (t9 + u10) + co3 * (u9
                                             - t10);
 /* ---------------------- */
 /*<       ajo = a(jo+j) >*/
@@ -1489,28 +1489,28 @@ static integer c__5 = 5;
 /*<       u11 = c2 * u3 + c3 * u4 >*/
                                     u11 = c2 * u3 + c3 * u4;
 /*<       a(jh+j) = co1*(t8-u11) - si1*(u8+t11) >*/
-                                    a[jh + j] = co1 * (t8 - u11) - si1 * (u8 
+                                    a[jh + j] = co1 * (t8 - u11) - si1 * (u8
                                             + t11);
 /*<       b(jh+j) = si1*(t8-u11) + co1*(u8+t11) >*/
-                                    b[jh + j] = si1 * (t8 - u11) + co1 * (u8 
+                                    b[jh + j] = si1 * (t8 - u11) + co1 * (u8
                                             + t11);
 /*<       a(jw+j) = co4*(t8+u11) - si4*(u8-t11) >*/
-                                    a[jw + j] = co4 * (t8 + u11) - si4 * (u8 
+                                    a[jw + j] = co4 * (t8 + u11) - si4 * (u8
                                             - t11);
 /*<       b(jw+j) = si4*(t8+u11) + co4*(u8-t11) >*/
-                                    b[jw + j] = si4 * (t8 + u11) + co4 * (u8 
+                                    b[jw + j] = si4 * (t8 + u11) + co4 * (u8
                                             - t11);
 /*<       a(jm+j) = co2*(t9-u10) - si2*(u9+t10) >*/
-                                    a[jm + j] = co2 * (t9 - u10) - si2 * (u9 
+                                    a[jm + j] = co2 * (t9 - u10) - si2 * (u9
                                             + t10);
 /*<       b(jm+j) = si2*(t9-u10) + co2*(u9+t10) >*/
-                                    b[jm + j] = si2 * (t9 - u10) + co2 * (u9 
+                                    b[jm + j] = si2 * (t9 - u10) + co2 * (u9
                                             + t10);
 /*<       a(jr+j) = co3*(t9+u10) - si3*(u9-t10) >*/
-                                    a[jr + j] = co3 * (t9 + u10) - si3 * (u9 
+                                    a[jr + j] = co3 * (t9 + u10) - si3 * (u9
                                             - t10);
 /*<       b(jr+j) = si3*(t9+u10) + co3*(u9-t10) >*/
-                                    b[jr + j] = si3 * (t9 + u10) + co3 * (u9 
+                                    b[jr + j] = si3 * (t9 + u10) + co3 * (u9
                                             - t10);
 /* ---------------------- */
 /*<       ajt = a(jt+j) >*/
@@ -1590,28 +1590,28 @@ static integer c__5 = 5;
 /*<       b(jd+j) = bx >*/
                                     b[jd + j] = bx;
 /*<       a(ji+j) = co1*(t8-u11) - si1*(u8+t11) >*/
-                                    a[ji + j] = co1 * (t8 - u11) - si1 * (u8 
+                                    a[ji + j] = co1 * (t8 - u11) - si1 * (u8
                                             + t11);
 /*<       b(ji+j) = si1*(t8-u11) + co1*(u8+t11) >*/
-                                    b[ji + j] = si1 * (t8 - u11) + co1 * (u8 
+                                    b[ji + j] = si1 * (t8 - u11) + co1 * (u8
                                             + t11);
 /*<       a(jx+j) = co4*(t8+u11) - si4*(u8-t11) >*/
-                                    a[jx + j] = co4 * (t8 + u11) - si4 * (u8 
+                                    a[jx + j] = co4 * (t8 + u11) - si4 * (u8
                                             - t11);
 /*<       b(jx+j) = si4*(t8+u11) + co4*(u8-t11) >*/
-                                    b[jx + j] = si4 * (t8 + u11) + co4 * (u8 
+                                    b[jx + j] = si4 * (t8 + u11) + co4 * (u8
                                             - t11);
 /*<       a(jn+j) = co2*(t9-u10) - si2*(u9+t10) >*/
-                                    a[jn + j] = co2 * (t9 - u10) - si2 * (u9 
+                                    a[jn + j] = co2 * (t9 - u10) - si2 * (u9
                                             + t10);
 /*<       b(jn+j) = si2*(t9-u10) + co2*(u9+t10) >*/
-                                    b[jn + j] = si2 * (t9 - u10) + co2 * (u9 
+                                    b[jn + j] = si2 * (t9 - u10) + co2 * (u9
                                             + t10);
 /*<       a(js+j) = co3*(t9+u10) - si3*(u9-t10) >*/
-                                    a[js + j] = co3 * (t9 + u10) - si3 * (u9 
+                                    a[js + j] = co3 * (t9 + u10) - si3 * (u9
                                             - t10);
 /*<       b(js+j) = si3*(t9+u10) + co3*(u9-t10) >*/
-                                    b[js + j] = si3 * (t9 + u10) + co3 * (u9 
+                                    b[js + j] = si3 * (t9 + u10) + co3 * (u9
                                             - t10);
 /* ---------------------- */
 /*<       ajv = a(jv+j) >*/
@@ -1687,28 +1687,28 @@ static integer c__5 = 5;
 /*<       b(je+j) = bx >*/
                                     b[je + j] = bx;
 /*<       a(jj+j) = co1*(t8-u11) - si1*(u8+t11) >*/
-                                    a[jj + j] = co1 * (t8 - u11) - si1 * (u8 
+                                    a[jj + j] = co1 * (t8 - u11) - si1 * (u8
                                             + t11);
 /*<       b(jj+j) = si1*(t8-u11) + co1*(u8+t11) >*/
-                                    b[jj + j] = si1 * (t8 - u11) + co1 * (u8 
+                                    b[jj + j] = si1 * (t8 - u11) + co1 * (u8
                                             + t11);
 /*<       a(jy+j) = co4*(t8+u11) - si4*(u8-t11) >*/
-                                    a[jy + j] = co4 * (t8 + u11) - si4 * (u8 
+                                    a[jy + j] = co4 * (t8 + u11) - si4 * (u8
                                             - t11);
 /*<       b(jy+j) = si4*(t8+u11) + co4*(u8-t11) >*/
-                                    b[jy + j] = si4 * (t8 + u11) + co4 * (u8 
+                                    b[jy + j] = si4 * (t8 + u11) + co4 * (u8
                                             - t11);
 /*<       a(jo+j) = co2*(t9-u10) - si2*(u9+t10) >*/
-                                    a[jo + j] = co2 * (t9 - u10) - si2 * (u9 
+                                    a[jo + j] = co2 * (t9 - u10) - si2 * (u9
                                             + t10);
 /*<       b(jo+j) = si2*(t9-u10) + co2*(u9+t10) >*/
-                                    b[jo + j] = si2 * (t9 - u10) + co2 * (u9 
+                                    b[jo + j] = si2 * (t9 - u10) + co2 * (u9
                                             + t10);
 /*<       a(jt+j) = co3*(t9+u10) - si3*(u9-t10) >*/
-                                    a[jt + j] = co3 * (t9 + u10) - si3 * (u9 
+                                    a[jt + j] = co3 * (t9 + u10) - si3 * (u9
                                             - t10);
 /*<       b(jt+j) = si3*(t9+u10) + co3*(u9-t10) >*/
-                                    b[jt + j] = si3 * (t9 + u10) + co3 * (u9 
+                                    b[jt + j] = si3 * (t9 + u10) + co3 * (u9
                                             - t10);
 /*<       j = j + jump >*/
                                     j += *jump;

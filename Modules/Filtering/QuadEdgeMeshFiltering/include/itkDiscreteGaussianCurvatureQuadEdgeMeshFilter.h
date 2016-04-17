@@ -19,7 +19,7 @@
 #define itkDiscreteGaussianCurvatureQuadEdgeMeshFilter_h
 
 #include "itkDiscreteCurvatureQuadEdgeMeshFilter.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 
 namespace itk
@@ -110,7 +110,7 @@ protected:
         }
       while ( qe_it != qe );
 
-      return ( 2.0 * vnl_math::pi - sum_theta ) / area;
+      return ( 2.0 * itk::Math::pi - sum_theta ) / area;
       }
 
     return 0.;

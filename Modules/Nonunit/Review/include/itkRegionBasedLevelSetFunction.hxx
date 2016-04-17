@@ -159,11 +159,11 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
 
   GlobalDataStruct *d = (GlobalDataStruct *)GlobalData;
 
-  if ( vnl_math_abs(d->m_MaxCurvatureChange) > vnl_math::eps )
+  if ( itk::Math::abs(d->m_MaxCurvatureChange) > itk::Math::eps )
     {
-    if ( d->m_MaxAdvectionChange > vnl_math::eps )
+    if ( d->m_MaxAdvectionChange > itk::Math::eps )
       {
-      dt = vnl_math_min( ( m_WaveDT / d->m_MaxAdvectionChange ),
+      dt = std::min( ( m_WaveDT / d->m_MaxAdvectionChange ),
                          ( this->m_DT / d->m_MaxCurvatureChange ) );
       }
     else
@@ -173,7 +173,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     }
   else
     {
-    if ( d->m_MaxAdvectionChange > vnl_math::eps )
+    if ( d->m_MaxAdvectionChange > itk::Math::eps )
       {
       //NOTE: What's the difference between this->m_WaveDT and this->m_DT?
       dt = this->m_WaveDT / d->m_MaxAdvectionChange;
@@ -215,7 +215,7 @@ RegionBasedLevelSetFunction< TInput,
       }
     }
 
-  if ( gd->m_GradMag > vnl_math::eps )
+  if ( gd->m_GradMag > itk::Math::eps )
     {
     curvature /= gd->m_GradMag * gd->m_GradMag * gd->m_GradMag;
     }
@@ -316,7 +316,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
                      * this->CurvatureSpeed(it, offset, gd) * dh;
 
     gd->m_MaxCurvatureChange =
-      vnl_math_max( gd->m_MaxCurvatureChange, vnl_math_abs(curvature_term) );
+      std::max( gd->m_MaxCurvatureChange, itk::Math::abs(curvature_term) );
     }
 
   // Computing the laplacian term
@@ -348,7 +348,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
         }
 
       gd->m_MaxAdvectionChange =
-        vnl_math_max( gd->m_MaxAdvectionChange, vnl_math_abs(x_energy) );
+        std::max( gd->m_MaxAdvectionChange, itk::Math::abs(x_energy) );
       }
     advection_term *= m_AdvectionWeight * dh;
     }
@@ -366,7 +366,7 @@ RegionBasedLevelSetFunction< TInput, TFeature, TSharedData >
     static_cast< PixelType >( curvature_term + laplacian_term + globalTerm + advection_term );
 
   /* If MaxGlobalChange recorded is lower than the current globalTerm */
-  if ( vnl_math_abs(gd->m_MaxGlobalChange) < vnl_math_abs(globalTerm) )
+  if ( itk::Math::abs(gd->m_MaxGlobalChange) < itk::Math::abs(globalTerm) )
     {
     gd->m_MaxGlobalChange = globalTerm;
     }

@@ -55,3 +55,6 @@ endif()
 # end in a (test) number that is not part of any series numbering.
 set(ExternalData_SERIES_PARSE "()(\\.[^./]*)$")
 set(ExternalData_SERIES_MATCH "(\\.[0-9]+)?")
+
+# Sometimes we want to download very large files.
+set(ExternalData_TIMEOUT_ABSOLUTE 900)

@@ -1,4 +1,7 @@
 // This is core/vnl/algo/tests/test_fft2d.cxx
+#include <cstdlib>
+#include <iostream>
+#include <complex>
 #include <testlib/testlib_test.h>
 //:
 // \file
@@ -16,9 +19,7 @@
 // \endverbatim
 
 //-----------------------------------------------------------------------------
-#include <vcl_cstdlib.h>
-#include <vcl_iostream.h>
-#include <vcl_complex.h>
+#include <vcl_compiler.h>
 
 #include <vnl/vnl_complexify.h>
 #include <vnl/vnl_matrix.h>
@@ -28,10 +29,10 @@ inline static double function(unsigned i, unsigned j) { return i * j; }
 
 void test_cplx(vnl_fft_prime_factors<double> const &/*prx*/,
                vnl_fft_prime_factors<double> const &/*pry*/,
-               vnl_matrix<vcl_complex<double> > const &M,
+               vnl_matrix<std::complex<double> > const &M,
                int dir)
 {
-  vnl_matrix<vcl_complex<double> > fft_matrix = M;
+  vnl_matrix<std::complex<double> > fft_matrix = M;
   vnl_fft_2d<double> fft(M.rows(), M.cols()); fft.transform(fft_matrix, dir);
   TEST("test rows", fft.rows(), M.rows());
   TEST("test cols", fft.cols(), M.cols());
@@ -48,12 +49,12 @@ void test_fft2d ()
   vnl_fft_prime_factors<double> pry (cols);
 
   if (!prx) {
-    vcl_cerr << "cannot decompose X-size " << rows << ") into the form (2^P)(3^Q)(5^R)\n";
-    vcl_abort();
+    std::cerr << "cannot decompose X-size " << rows << ") into the form (2^P)(3^Q)(5^R)\n";
+    std::abort();
   }
   if (!pry) {
-    vcl_cerr << "cannot decompose Y-size (" << cols << ") into the form (2^P)(3^Q)(5^R)\n";
-    vcl_abort();
+    std::cerr << "cannot decompose Y-size (" << cols << ") into the form (2^P)(3^Q)(5^R)\n";
+    std::abort();
   }
 
   // create arrays for testing the transform
@@ -71,11 +72,11 @@ void test_fft2d ()
   }
 
   // complexify :
-  vcl_complex<double> cplx_array[rows*cols];
+  std::complex<double> cplx_array[rows*cols];
   vnl_complexify(real_array, imag_array, cplx_array, rows*cols);
 
   // data as matrices :
-  vnl_matrix<vcl_complex<double> > cplx_matrix(cplx_array, rows,cols);
+  vnl_matrix<std::complex<double> > cplx_matrix(cplx_array, rows,cols);
 
   //--------------------------------------------------------------------------------
 
@@ -86,13 +87,13 @@ void test_fft2d ()
 
   // verify that backwards * forwards is multiplication by .size().
 
-  vnl_matrix<vcl_complex<double> > fft_matrix = cplx_matrix;
+  vnl_matrix<std::complex<double> > fft_matrix = cplx_matrix;
   vnl_fft_2d<double> fft(cplx_matrix.rows(), cplx_matrix.cols());
   fft.fwd_transform(fft_matrix);
   fft.bwd_transform(fft_matrix);
 
-  double error = (fft_matrix - vcl_complex<double>(cplx_matrix.size())*cplx_matrix).fro_norm();
-  vcl_cout << "error = " << error << vcl_endl;
+  double error = (fft_matrix - std::complex<double>(cplx_matrix.size())*cplx_matrix).fro_norm();
+  std::cout << "error = " << error << std::endl;
   TEST_NEAR("fwd-bwd error", error, 0.0, 1e-7); // increase for float
 }
 

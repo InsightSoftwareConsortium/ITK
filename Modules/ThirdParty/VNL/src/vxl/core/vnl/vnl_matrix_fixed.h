@@ -26,9 +26,10 @@
 // \endverbatim
 //-----------------------------------------------------------------------------
 
-#include <vcl_cstring.h> // memcpy()
+#include <cstring>
+#include <iosfwd>
 #include <vcl_cassert.h>
-#include <vcl_iosfwd.h>
+#include <vcl_compiler.h>
 
 #include "vnl_matrix.h"
 #include "vnl_matrix_ref.h"
@@ -37,7 +38,7 @@
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 
-template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
+VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
 // This mess is for a MSVC6 workaround.
 //
@@ -89,16 +90,6 @@ vnl_vector_fixed<T, M> vnl_matrix_fixed_mat_vec_mult(const vnl_matrix_fixed<T, M
 template <class T, unsigned M, unsigned N, unsigned O>
 inline
 vnl_matrix_fixed<T, M, O> vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T, M, N>& a, const vnl_matrix_fixed<T, N, O>& b);
-#ifdef VCL_VC_6
-template <unsigned num_cols, unsigned num_rows, class T>
-class vnl_matrix_fixed_fake_base
-{
-};
-
-#define VNL_MATRIX_FIXED_VCL60_WORKAROUND : public vnl_matrix_fixed_fake_base<num_cols,num_rows,T>
-#else
-#define VNL_MATRIX_FIXED_VCL60_WORKAROUND /* no workaround. Phew. */
-#endif
 
 //: Fixed size, stack-stored, space-efficient matrix.
 // vnl_matrix_fixed is a fixed-length, stack storage vector. It has
@@ -109,13 +100,13 @@ class vnl_matrix_fixed_fake_base
 // Read the overview documentation of vnl_vector_fixed.
 // The text there applies here.
 template <class T, unsigned int num_rows, unsigned int num_cols>
-class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
+class vnl_matrix_fixed
 {
   T data_[num_rows][num_cols]; // Local storage
 
  public:
   typedef vnl_matrix_fixed<T,num_rows,num_cols> self;
-  typedef unsigned int size_type;
+  typedef size_t size_type;
 
   //: Construct an empty num_rows*num_cols matrix
   vnl_matrix_fixed() {}
@@ -126,14 +117,9 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   // vnl_matrix, so that algorithms can template over the matrix type
   // itself.  It is illegal to call this constructor without
   // <tt>n==num_rows</tt> and <tt>m==num_cols</tt>.
-  vnl_matrix_fixed( unsigned n, unsigned m )
+  vnl_matrix_fixed( unsigned VXL_USED_IN_DEBUG(n), unsigned VXL_USED_IN_DEBUG(m) )
   {
-#ifdef NDEBUG
-    (void)n;
-    (void)m;
-#else
     assert( n == num_rows && m == num_cols );
-#endif
   }
 
   //: Construct an m*n matrix and fill with value
@@ -148,14 +134,14 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   //: Construct an m*n Matrix and copy data into it row-wise.
   explicit vnl_matrix_fixed(const T* datablck)
   {
-    vcl_memcpy(data_[0], datablck, num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], datablck, num_rows*num_cols*sizeof(T));
   }
 
   //: Construct an m*n Matrix and copy rhs into it.
   //  Abort if rhs is not the same size.
   vnl_matrix_fixed(const vnl_matrix_fixed& rhs)
   {
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
   }
 
   //: Construct an m*n Matrix and copy rhs into it.
@@ -163,7 +149,7 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   vnl_matrix_fixed(const vnl_matrix<T>& rhs)
   {
     assert(rhs.rows() == num_rows && rhs.columns() == num_cols);
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
   }
 
   //  Destruct the m*n matrix.
@@ -181,42 +167,60 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   vnl_matrix_fixed& operator=(const vnl_matrix<T>& rhs)
   {
     assert(rhs.rows() == num_rows && rhs.columns() == num_cols);
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
     return *this;
   }
 
   //: Copy another vnl_matrix_fixed<T,m,n> into this.
   vnl_matrix_fixed& operator=(const vnl_matrix_fixed& rhs)
   {
-    vcl_memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
+    std::memcpy(data_[0], rhs.data_block(), num_rows*num_cols*sizeof(T));
     return *this;
   }
 
 // Basic 2D-Array functionality-------------------------------------------
 
-  //: Return number of rows
-  unsigned rows()    const { return num_rows; }
-
-  //: Return number of columns
-  // A synonym for cols()
-  unsigned columns()  const { return num_cols; }
-
-  //: Return number of columns
-  // A synonym for columns()
-  unsigned cols()    const { return num_cols; }
-
-  //: Return number of elements
+  //: Return the total number of elements stored by the matrix.
   // This equals rows() * cols()
-  unsigned size()    const { return num_rows*num_cols; }
+  inline unsigned int size() const { return num_rows*num_cols; }
+
+  //: Return the number of rows.
+  inline unsigned int rows() const { return num_rows; }
+
+  //: Return the number of columns.
+  // A synonym for columns().
+  inline unsigned int cols() const { return num_cols; }
+
+  //: Return the number of columns.
+  // A synonym for cols().
+  inline unsigned int columns() const { return num_cols; }
 
   //: set element
-  void put (unsigned r, unsigned c, T const& v) { (*this)(r,c) = v; }
+  inline void put (unsigned r, unsigned c, T const& v)
+  {
+#if VNL_CONFIG_CHECK_BOUNDS
+    if (r >= num_rows)                // If invalid size specified
+      vnl_error_matrix_row_index("put", r); // Raise exception
+    if (c >= num_cols)                // If invalid size specified
+      vnl_error_matrix_col_index("put", c); // Raise exception
+#endif
+    this->data_[r][c] = v;
+  }
+
+  //: get element
+  inline T get (unsigned r, unsigned c) const
+  {
+#if VNL_CONFIG_CHECK_BOUNDS
+    if (r >= num_rows)                // If invalid size specified
+      vnl_error_matrix_row_index("get", r); // Raise exception
+    if (c >= num_cols)                // If invalid size specified
+      vnl_error_matrix_col_index("get", c); // Raise exception
+#endif
+    return this->data_[r][c];
+  }
 
   //: set element, and return *this
   vnl_matrix_fixed& set (unsigned r, unsigned c, T const& v) { (*this)(r,c) = v; return *this; }
-
-  //: get element
-  T    get (unsigned r, unsigned c) const { return (*this)(r,c); }
 
   //: return pointer to given row
   // No boundary checking here.
@@ -394,19 +398,6 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
     return *this = out;
   }
 
-#ifdef VCL_VC_6
-  template <unsigned o>
-  vnl_matrix_fixed<T,num_rows,o> operator*( vnl_matrix_fixed_fake_base<o,num_cols,T> const& mat ) const
-  {
-    vnl_matrix_fixed<T,num_cols,o> const& b = static_cast<vnl_matrix_fixed<T,num_cols,o> const&>(mat);
-    return vnl_matrix_fixed_mat_mat_mult<T,num_rows,num_cols,o>( *this, b );
-  }
-  vnl_vector_fixed<T, num_rows> operator*( vnl_vector_fixed<T, num_cols> const& b) const
-  {
-    return vnl_matrix_fixed_mat_vec_mult<T,num_rows,num_cols>(*this,b);
-  }
-#endif
-
   ////--------------------------- Additions ----------------------------
 
   //: Make a new matrix by applying function to each element.
@@ -414,6 +405,12 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   //: Make a new matrix by applying function to each element.
   vnl_matrix_fixed apply(T (*f)(T const&)) const;
+
+  //: Make a vector by applying a function across rows.
+  vnl_vector_fixed<T,num_rows> apply_rowwise(T (*f)(vnl_vector_fixed<T,num_cols> const&)) const;
+
+  //: Make a vector by applying a function across columns.
+  vnl_vector_fixed<T,num_cols> apply_columnwise(T (*f)(vnl_vector_fixed<T,num_rows> const&)) const;
 
   //: Return transpose
   vnl_matrix_fixed<T,num_cols,num_rows> transpose() const;
@@ -478,6 +475,12 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   //: Return a vector with the content of the (main) diagonal
   vnl_vector<T> get_diagonal() const;
+
+  //: Flatten row-major (C-style)
+  vnl_vector_fixed<T,num_rows*num_cols> flatten_row_major() const;
+
+  //: Flatten column-major (Fortran-style)
+  vnl_vector_fixed<T,num_rows*num_cols> flatten_column_major() const;
 
   // ==== mutators ====
 
@@ -601,8 +604,7 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   unsigned arg_max() const { return vnl_c_vector<T>::arg_max(begin(), size()); }
 
   //: Return mean of all matrix elements
-  T mean() const { return vnl_c_vector<T>::mean(begin(), num_rows*num_cols /*size()*/); }
-  // size() call in this method causes an ICE for MSVC when instantating 1x1 matrix
+  T mean() const { return vnl_c_vector<T>::mean(begin(), size()); }
 
   // predicates
 
@@ -629,12 +631,9 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   //: abort if size is not as expected
   // This function does or tests nothing if NDEBUG is defined
-#ifdef NDEBUG
-  void assert_size(unsigned, unsigned ) const
+  void assert_size(unsigned VXL_USED_IN_DEBUG(nr_rows), unsigned VXL_USED_IN_DEBUG(nr_cols) ) const
   {
-#else
-  void assert_size(unsigned nr_rows, unsigned nr_cols) const
-  {
+#ifndef NDEBUG
     assert_size_internal(nr_rows, nr_cols);
 #endif
   }
@@ -650,8 +649,8 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   ////----------------------- Input/Output ----------------------------
 
-  // : Read a vnl_matrix from an ascii vcl_istream, automatically determining file size if the input matrix has zero size.
-  bool read_ascii(vcl_istream& s);
+  // : Read a vnl_matrix from an ascii std::istream, automatically determining file size if the input matrix has zero size.
+  bool read_ascii(std::istream& s);
 
   //--------------------------------------------------------------------------------
 
@@ -734,7 +733,7 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
   bool operator!=(vnl_matrix<T> const &that) const { return !this->operator_eq(that); }
 
   //: Print matrix to os in some hopefully sensible format
-  void print(vcl_ostream& os) const;
+  void print(std::ostream& os) const;
 
 //--------------------------------------------------------------------------------
 
@@ -760,9 +759,6 @@ class vnl_matrix_fixed  VNL_MATRIX_FIXED_VCL60_WORKAROUND
 
   void assert_size_internal(unsigned, unsigned) const;
 };
-
-#undef VNL_MATRIX_FIXED_VCL60_WORKAROUND
-
 
 // Make the operators below inline because (1) they are small and
 // (2) we then have less explicit instantiation trouble.
@@ -933,7 +929,6 @@ vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T, M, N>& a,
   return out;
 }
 
-#ifndef VCL_VC_6
 // The version for correct compilers
 
 //: Multiply  conformant vnl_matrix_fixed (M x N) and vector_fixed (N)
@@ -964,7 +959,6 @@ vnl_matrix_fixed<T, M, O> operator*(const vnl_matrix_fixed<T, M, N>& a, const vn
 {
   return vnl_matrix_fixed_mat_mat_mult(a, b);
 }
-#endif // VCL_VC_6
 
 
 // These overloads for the common case of mixing a fixed with a
@@ -1024,7 +1018,7 @@ inline vnl_vector<T> operator*( const vnl_matrix<T>& a, const vnl_vector_fixed<T
 
 template <class T, unsigned m, unsigned n>
 inline
-vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed<T,m,n> const& mat)
+std::ostream& operator<< (std::ostream& os, vnl_matrix_fixed<T,m,n> const& mat)
 {
   mat.print(os);
   return os;
@@ -1032,52 +1026,18 @@ vcl_ostream& operator<< (vcl_ostream& os, vnl_matrix_fixed<T,m,n> const& mat)
 
 template <class T, unsigned m, unsigned n>
 inline
-vcl_istream& operator>> (vcl_istream& is, vnl_matrix_fixed<T,m,n>& mat)
+std::istream& operator>> (std::istream& is, vnl_matrix_fixed<T,m,n>& mat)
 {
   mat.read_ascii(is);
   return is;
 }
-
-// More workarounds for Visual C++ 6.0. The problem is that VC6 cannot
-// automatically determine the m of the second parameter, for some
-// reason. Also, VC6 can't figure out that vector_fixed::SIZE is a
-// compile time constant when used in the return parameter. So, we
-// have to introduce a helper class to do it.
-//
-#if defined(VCL_VC_6) && !defined(ITK_WRAPPING_PARSER)
-
-template<class T, unsigned m, class FixedVector>
-struct outer_product_fixed_type_helper
-{
-  typedef vnl_matrix_fixed<T,m,FixedVector::SIZE> result_matrix;
-};
-
-template<class V1, class V2, class RM>
-struct outer_product_fixed_calc_helper
-{
-  static RM calc( V1 const& a, V2 const& b );
-};
-
-template <class T, unsigned m, class SecondFixedVector>
-outer_product_fixed_type_helper<T,m,SecondFixedVector>::result_matrix
-outer_product(vnl_vector_fixed<T,m> const& a, SecondFixedVector const& b)
-{
-  typedef vnl_vector_fixed<T,m> VecA;
-  typedef vnl_vector_fixed<T,SecondFixedVector::SIZE> VecB;
-  typedef outer_product_fixed_type_helper<T,m,SecondFixedVector>::result_matrix ResultMat;
-  return outer_product_fixed_calc_helper<VecA,VecB,ResultMat>::calc(a,b);
-}
-
-#else // no need for VC6 workaround for outer_product
 
 //:
 // \relatesalso vnl_vector_fixed
 template <class T, unsigned m, unsigned n>
 vnl_matrix_fixed<T,m,n> outer_product(vnl_vector_fixed<T,m> const& a, vnl_vector_fixed<T,n> const& b);
 
-#endif // VC6 workaround for outer_product
-
 #define VNL_MATRIX_FIXED_INSTANTIATE(T, M, N) \
-extern "please include vnl/vnl_matrix_fixed.txx instead"
+extern "please include vnl/vnl_matrix_fixed.hxx instead"
 
 #endif // vnl_matrix_fixed_h_

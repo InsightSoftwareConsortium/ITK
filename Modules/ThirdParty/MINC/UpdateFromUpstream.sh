@@ -16,6 +16,7 @@ snapshot_paths='
 ./libsrc
 ./libsrc/minc_compat.h
 ./libsrc/minc_config.h
+./libsrc/minc_config.c
 ./libsrc/minc_format_convert.c
 ./libsrc/value_conversion.c
 ./libsrc/hdf_convenience.c

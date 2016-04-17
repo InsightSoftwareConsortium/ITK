@@ -20,7 +20,7 @@
 
 #include "itkScalarImageToTextureFeaturesFilter.h"
 #include "itkNeighborhood.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -104,19 +104,19 @@ template< typename TImage, typename THistogramFrequencyContainer >
 void
 ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::FullCompute(void)
 {
-  int      numOffsets = m_Offsets->size();
-  int      numFeatures = m_RequestedFeatures->size();
+  size_t   numOffsets = m_Offsets->size();
+  size_t   numFeatures = m_RequestedFeatures->size();
   double **features;
 
   features = new double *[numOffsets];
-  for ( int i = 0; i < numOffsets; i++ )
+  for ( size_t i = 0; i < numOffsets; i++ )
     {
     features[i] = new double[numFeatures];
     }
 
   // For each offset, calculate each feature
   typename OffsetVector::ConstIterator offsetIt;
-  int offsetNum, featureNum;
+  size_t offsetNum, featureNum;
   typedef typename TextureFeaturesFilterType::TextureFeatureName InternalTextureFeatureName;
 
   for ( offsetIt = m_Offsets->Begin(), offsetNum = 0;
@@ -158,7 +158,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
   // Run through the recurrence (k = 2 ... N)
   for ( offsetNum = 1; offsetNum < numOffsets; offsetNum++ )
     {
-    int k = offsetNum + 1;
+    size_t k = offsetNum + 1;
     for ( featureNum = 0; featureNum < numFeatures; featureNum++ )
       {
       double M_k_minus_1 = tempFeatureMeans[featureNum];
@@ -190,7 +190,7 @@ ScalarImageToTextureFeaturesFilter< TImage, THistogramFrequencyContainer >::Full
 
   delete[] tempFeatureMeans;
   delete[] tempFeatureDevs;
-  for ( int i = 0; i < numOffsets; i++ )
+  for ( size_t i = 0; i < numOffsets; i++ )
     {
     delete[] features[i];
     }

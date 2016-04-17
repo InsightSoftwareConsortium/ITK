@@ -1,11 +1,14 @@
-# Copyright 2014 Insight Software Consortium.
+# Copyright 2014-2015 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
 """
-defines class that will keep results of different calculations.
+Defines classes that will keep results of different calculations.
+
 """
+
+from .. import utils
 
 
 class declaration_algs_cache_t(object):
@@ -64,13 +67,19 @@ class declaration_algs_cache_t(object):
 
     @property
     def demangled_name(self):
-        return self._demangled_name
+        if "GCC" in utils.xml_generator:
+            return self._demangled_name
+        elif "CastXML" in utils.xml_generator:
+            raise Exception("Demangled name is not available with CastXML.")
 
     @demangled_name.setter
     def demangled_name(self, demangled_name):
         if not self.enabled:
             demangled_name = None
-        self._demangled_name = demangled_name
+        if "GCC" in utils.xml_generator:
+            self._demangled_name = demangled_name
+        elif "CastXML" in utils.xml_generator:
+            raise Exception("Demangled name is not available with CastXML.")
 
     @property
     def declaration_path(self):
@@ -116,7 +125,8 @@ class declaration_algs_cache_t(object):
         self.full_name = None
         self.full_partial_name = None
         self.access_type = None
-        self.demangled_name = None
+        if "GCCXML" in utils.xml_generator:
+            self.demangled_name = None
         self.declaration_path = None
         self.partial_declaration_path = None
         self.container_key_type = None
@@ -125,7 +135,8 @@ class declaration_algs_cache_t(object):
     def reset_name_based(self):
         self.full_name = None
         self.full_partial_name = None
-        self.demangled_name = None
+        if "GCCXML" in utils.xml_generator:
+            self.demangled_name = None
         self.declaration_path = None
         self.partial_declaration_path = None
         self.container_key_type = None

@@ -104,7 +104,7 @@ typename TImage::PixelType backgnd )
  it.GoToBegin();
 
  typename TImage::IndexType index;
- double r2 = vnl_math_sqr( radius );
+ double r2 = itk::Math::sqr( radius );
 
  while( !it.IsAtEnd() )
   {
@@ -112,7 +112,7 @@ typename TImage::PixelType backgnd )
     double distance = 0;
     for( unsigned int j = 0; j < TImage::ImageDimension; j++ )
       {
-      distance += vnl_math_sqr((double) index[j] - center[j]);
+      distance += itk::Math::sqr((double) index[j] - center[j]);
       }
     if( distance <= r2 ) it.Set( foregnd );
     else it.Set( backgnd );
@@ -316,8 +316,8 @@ int itkMultiResolutionPDEDeformableRegistrationTest(int argc, char* argv[] )
   unsigned int numPixelsDifferent = 0;
   while( !fixedIter.IsAtEnd() )
     {
-    if( vnl_math_abs( fixedIter.Get() - warpedIter.Get() ) >
-        0.1 * vnl_math_abs( fgnd - bgnd ) )
+    if( itk::Math::abs( fixedIter.Get() - warpedIter.Get() ) >
+        0.1 * itk::Math::abs( fgnd - bgnd ) )
       {
       numPixelsDifferent++;
       }

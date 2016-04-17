@@ -22,28 +22,28 @@ static doublecomplex c_b2 = {1.,0.};
 static integer c__1 = 1;
 
 /*<       SUBROUTINE ZLAHRD( N, K, NB, A, LDA, TAU, T, LDT, Y, LDY ) >*/
-/* Subroutine */ int zlahrd_(integer *n, integer *k, integer *nb, 
-        doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *t, 
+/* Subroutine */ int zlahrd_(integer *n, integer *k, integer *nb,
+        doublecomplex *a, integer *lda, doublecomplex *tau, doublecomplex *t,
         integer *ldt, doublecomplex *y, integer *ldy)
 {
     /* System generated locals */
-    integer a_dim1, a_offset, t_dim1, t_offset, y_dim1, y_offset, i__1, i__2, 
+    integer a_dim1, a_offset, t_dim1, t_offset, y_dim1, y_offset, i__1, i__2,
             i__3;
     doublecomplex z__1;
 
     /* Local variables */
     integer i__;
     doublecomplex ei;
-    extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
-            doublecomplex *, integer *), zgemv_(char *, integer *, integer *, 
-            doublecomplex *, doublecomplex *, integer *, doublecomplex *, 
-            integer *, doublecomplex *, doublecomplex *, integer *, ftnlen), 
-            zcopy_(integer *, doublecomplex *, integer *, doublecomplex *, 
-            integer *), zaxpy_(integer *, doublecomplex *, doublecomplex *, 
-            integer *, doublecomplex *, integer *), ztrmv_(char *, char *, 
-            char *, integer *, doublecomplex *, integer *, doublecomplex *, 
-            integer *, ftnlen, ftnlen, ftnlen), zlarfg_(integer *, 
-            doublecomplex *, doublecomplex *, integer *, doublecomplex *), 
+    extern /* Subroutine */ int zscal_(integer *, doublecomplex *,
+            doublecomplex *, integer *), zgemv_(char *, integer *, integer *,
+            doublecomplex *, doublecomplex *, integer *, doublecomplex *,
+            integer *, doublecomplex *, doublecomplex *, integer *, ftnlen),
+            zcopy_(integer *, doublecomplex *, integer *, doublecomplex *,
+            integer *), zaxpy_(integer *, doublecomplex *, doublecomplex *,
+            integer *, doublecomplex *, integer *), ztrmv_(char *, char *,
+            char *, integer *, doublecomplex *, integer *, doublecomplex *,
+            integer *, ftnlen, ftnlen, ftnlen), zlarfg_(integer *,
+            doublecomplex *, doublecomplex *, integer *, doublecomplex *),
             zlacgv_(integer *, doublecomplex *, integer *);
 
 
@@ -200,7 +200,7 @@ static integer c__1 = 1;
 /*<    >*/
             i__2 = i__ - 1;
             z__1.r = -1., z__1.i = -0.;
-            zgemv_("No transpose", n, &i__2, &z__1, &y[y_offset], ldy, &a[*k 
+            zgemv_("No transpose", n, &i__2, &z__1, &y[y_offset], ldy, &a[*k
                     + i__ - 1 + a_dim1], lda, &c_b2, &a[i__ * a_dim1 + 1], &
                     c__1, (ftnlen)12);
 /*<             CALL ZLACGV( I-1, A( K+I-1, 1 ), LDA ) >*/
@@ -219,11 +219,11 @@ static integer c__1 = 1;
 
 /*<             CALL ZCOPY( I-1, A( K+1, I ), 1, T( 1, NB ), 1 ) >*/
             i__2 = i__ - 1;
-            zcopy_(&i__2, &a[*k + 1 + i__ * a_dim1], &c__1, &t[*nb * t_dim1 + 
+            zcopy_(&i__2, &a[*k + 1 + i__ * a_dim1], &c__1, &t[*nb * t_dim1 +
                     1], &c__1);
 /*<    >*/
             i__2 = i__ - 1;
-            ztrmv_("Lower", "Conjugate transpose", "Unit", &i__2, &a[*k + 1 + 
+            ztrmv_("Lower", "Conjugate transpose", "Unit", &i__2, &a[*k + 1 +
                     a_dim1], lda, &t[*nb * t_dim1 + 1], &c__1, (ftnlen)5, (
                     ftnlen)19, (ftnlen)4);
 
@@ -232,7 +232,7 @@ static integer c__1 = 1;
 /*<    >*/
             i__2 = *n - *k - i__ + 1;
             i__3 = i__ - 1;
-            zgemv_("Conjugate transpose", &i__2, &i__3, &c_b2, &a[*k + i__ + 
+            zgemv_("Conjugate transpose", &i__2, &i__3, &c_b2, &a[*k + i__ +
                     a_dim1], lda, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b2, &
                     t[*nb * t_dim1 + 1], &c__1, (ftnlen)19);
 
@@ -251,7 +251,7 @@ static integer c__1 = 1;
             i__3 = i__ - 1;
             z__1.r = -1., z__1.i = -0.;
             zgemv_("No transpose", &i__2, &i__3, &z__1, &a[*k + i__ + a_dim1],
-                     lda, &t[*nb * t_dim1 + 1], &c__1, &c_b2, &a[*k + i__ + 
+                     lda, &t[*nb * t_dim1 + 1], &c__1, &c_b2, &a[*k + i__ +
                     i__ * a_dim1], &c__1, (ftnlen)12);
 
 /*           b1 := b1 - V1*w */
@@ -264,7 +264,7 @@ static integer c__1 = 1;
 /*<             CALL ZAXPY( I-1, -ONE, T( 1, NB ), 1, A( K+1, I ), 1 ) >*/
             i__2 = i__ - 1;
             z__1.r = -1., z__1.i = -0.;
-            zaxpy_(&i__2, &z__1, &t[*nb * t_dim1 + 1], &c__1, &a[*k + 1 + i__ 
+            zaxpy_(&i__2, &z__1, &t[*nb * t_dim1 + 1], &c__1, &a[*k + 1 + i__
                     * a_dim1], &c__1);
 
 /*<             A( K+I-1, I-1 ) = EI >*/
@@ -293,19 +293,19 @@ static integer c__1 = 1;
 
 /*<    >*/
         i__2 = *n - *k - i__ + 1;
-        zgemv_("No transpose", n, &i__2, &c_b2, &a[(i__ + 1) * a_dim1 + 1], 
-                lda, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b1, &y[i__ * 
+        zgemv_("No transpose", n, &i__2, &c_b2, &a[(i__ + 1) * a_dim1 + 1],
+                lda, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b1, &y[i__ *
                 y_dim1 + 1], &c__1, (ftnlen)12);
 /*<    >*/
         i__2 = *n - *k - i__ + 1;
         i__3 = i__ - 1;
-        zgemv_("Conjugate transpose", &i__2, &i__3, &c_b2, &a[*k + i__ + 
+        zgemv_("Conjugate transpose", &i__2, &i__3, &c_b2, &a[*k + i__ +
                 a_dim1], lda, &a[*k + i__ + i__ * a_dim1], &c__1, &c_b1, &t[
                 i__ * t_dim1 + 1], &c__1, (ftnlen)19);
 /*<    >*/
         i__2 = i__ - 1;
         z__1.r = -1., z__1.i = -0.;
-        zgemv_("No transpose", n, &i__2, &z__1, &y[y_offset], ldy, &t[i__ * 
+        zgemv_("No transpose", n, &i__2, &z__1, &y[y_offset], ldy, &t[i__ *
                 t_dim1 + 1], &c__1, &c_b2, &y[i__ * y_dim1 + 1], &c__1, (
                 ftnlen)12);
 /*<          CALL ZSCAL( N, TAU( I ), Y( 1, I ), 1 ) >*/
@@ -320,7 +320,7 @@ static integer c__1 = 1;
         zscal_(&i__2, &z__1, &t[i__ * t_dim1 + 1], &c__1);
 /*<    >*/
         i__2 = i__ - 1;
-        ztrmv_("Upper", "No transpose", "Non-unit", &i__2, &t[t_offset], ldt, 
+        ztrmv_("Upper", "No transpose", "Non-unit", &i__2, &t[t_offset], ldt,
                 &t[i__ * t_dim1 + 1], &c__1, (ftnlen)5, (ftnlen)12, (ftnlen)8)
                 ;
 /*<          T( I, I ) = TAU( I ) >*/

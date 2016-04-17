@@ -141,7 +141,7 @@ BoxSpatialObject< TDimension >
     typedef typename BoundingBoxType::PointsContainer PointsContainer;
     const PointsContainer *corners = bb->GetCorners();
     typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
-    transformedCorners->Reserve(corners->size());
+    transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>( corners->size() ));
 
     typename PointsContainer::const_iterator it = corners->begin();
     typename PointsContainer::iterator itTrans = transformedCorners->begin();

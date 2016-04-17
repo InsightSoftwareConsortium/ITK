@@ -84,7 +84,7 @@ ParticleSwarmOptimizerBase
       }
     this->m_Particles.insert( m_Particles.begin(),
       initialSwarm.begin(), initialSwarm_END );
-    this->m_NumberOfParticles = m_Particles.size();
+    this->m_NumberOfParticles = static_cast<NumberOfParticlesType>( m_Particles.size() );
     }
   Modified();
 }

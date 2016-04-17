@@ -77,7 +77,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   InputIteratorType it1( sinImage, sinImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double sinValue = std::sin( vnl_math::pi / 6.0 );
+  const double sinValue = std::sin( itk::Math::pi / 6.0 );
   std::cout << "Content of the Input " << std::endl;
 
   it1.GoToBegin();
@@ -94,7 +94,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   InputIteratorType it2( cosImage, cosImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  const double cosValue = std::cos( vnl_math::pi / 6.0 );
+  const double cosValue = std::cos( itk::Math::pi / 6.0 );
   std::cout << "Content of the Input " << std::endl;
 
   it2.GoToBegin();

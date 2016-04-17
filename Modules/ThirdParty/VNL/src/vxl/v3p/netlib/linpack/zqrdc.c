@@ -21,8 +21,8 @@ static integer c__1 = 1;
 static doublecomplex c_b28 = {1.,0.};
 
 /*<       subroutine zqrdc(x,ldx,n,p,qraux,jpvt,work,job) >*/
-/* Subroutine */ int zqrdc_(doublecomplex *x, integer *ldx, integer *n, 
-        integer *p, doublecomplex *qraux, integer *jpvt, doublecomplex *work, 
+/* Subroutine */ int zqrdc_(doublecomplex *x, integer *ldx, integer *n,
+        integer *p, doublecomplex *qraux, integer *jpvt, doublecomplex *work,
         integer *job)
 {
     /* System generated locals */
@@ -43,14 +43,14 @@ static doublecomplex c_b28 = {1.,0.};
     integer lp1, lup;
     logical negj;
     integer maxj;
-    extern /* Subroutine */ int zscal_(integer *, doublecomplex *, 
+    extern /* Subroutine */ int zscal_(integer *, doublecomplex *,
             doublecomplex *, integer *);
-    extern /* Double Complex */ VOID zdotc_(doublecomplex *, integer *, 
+    extern /* Double Complex */ VOID zdotc_(doublecomplex *, integer *,
             doublecomplex *, integer *, doublecomplex *, integer *);
     logical swapj;
     doublecomplex nrmxl;
-    extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *, 
-            doublecomplex *, integer *), zaxpy_(integer *, doublecomplex *, 
+    extern /* Subroutine */ int zswap_(integer *, doublecomplex *, integer *,
+            doublecomplex *, integer *), zaxpy_(integer *, doublecomplex *,
             doublecomplex *, integer *, doublecomplex *, integer *);
     extern doublereal dznrm2_(integer *, doublecomplex *, integer *);
     doublereal maxnrm;
@@ -348,7 +348,7 @@ L120:
         z__1.r = d__1, z__1.i = 0.;
         nrmxl.r = z__1.r, nrmxl.i = z__1.i;
 /*<             if (cabs1(nrmxl) .eq. 0.0d0) go to 180 >*/
-        z__1.r = nrmxl.r * 0. - nrmxl.i * -1., z__1.i = nrmxl.i * 0. + 
+        z__1.r = nrmxl.r * 0. - nrmxl.i * -1., z__1.i = nrmxl.i * 0. +
                 nrmxl.r * -1.;
         if ((d__1 = nrmxl.r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) == 0.) {
             goto L180;
@@ -356,9 +356,9 @@ L120:
 /*<    >*/
         i__2 = l + l * x_dim1;
         i__3 = l + l * x_dim1;
-        z__1.r = x[i__3].r * 0. - x[i__3].i * -1., z__1.i = x[i__3].i * 0. + 
+        z__1.r = x[i__3].r * 0. - x[i__3].i * -1., z__1.i = x[i__3].i * 0. +
                 x[i__3].r * -1.;
-        if ((d__1 = x[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.) 
+        if ((d__1 = x[i__2].r, abs(d__1)) + (d__2 = z__1.r, abs(d__2)) != 0.)
                 {
             d__3 = z_abs(&nrmxl);
             i__4 = l + l * x_dim1;

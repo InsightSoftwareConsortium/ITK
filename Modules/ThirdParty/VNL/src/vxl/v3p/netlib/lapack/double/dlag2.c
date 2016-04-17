@@ -16,7 +16,7 @@ extern "C" {
 #include "v3p_netlib.h"
 
 /*<    >*/
-/* Subroutine */ int dlag2_(doublereal *a, integer *lda, doublereal *b, 
+/* Subroutine */ int dlag2_(doublereal *a, integer *lda, doublereal *b,
         integer *ldb, doublereal *safmin, doublereal *scale1, doublereal *
         scale2, doublereal *wr1, doublereal *wr2, doublereal *wi)
 {
@@ -28,9 +28,9 @@ extern "C" {
     double sqrt(doublereal), d_sign(doublereal *, doublereal *);
 
     /* Local variables */
-    doublereal r__, c1, c2, c3, c4, c5, s1, s2, a11, a12, a21, a22, b11, b12, 
-            b22, pp, qq, ss, as11, as12, as22, sum, abi22, diff, bmin, wbig, 
-            wabs, wdet, binv11, binv22, discr, anorm, bnorm, bsize, shift, 
+    doublereal r__, c1, c2, c3, c4, c5, s1, s2, a11, a12, a21, a22, b11, b12,
+            b22, pp, qq, ss, as11, as12, as22, sum, abi22, diff, bmin, wbig,
+            wabs, wdet, binv11, binv22, discr, anorm, bnorm, bsize, shift,
             rtmin, rtmax, wsize, ascale, bscale, wscale, safmax, wsmall;
 
 
@@ -163,7 +163,7 @@ extern "C" {
 /*<    >*/
 /* Computing MAX */
     d__5 = (d__1 = a[a_dim1 + 1], abs(d__1)) + (d__2 = a[a_dim1 + 2], abs(
-            d__2)), d__6 = (d__3 = a[(a_dim1 << 1) + 1], abs(d__3)) + (d__4 = 
+            d__2)), d__6 = (d__3 = a[(a_dim1 << 1) + 1], abs(d__3)) + (d__4 =
             a[(a_dim1 << 1) + 2], abs(d__4)), d__5 = max(d__5,d__6);
     anorm = max(d__5,*safmin);
 /*<       ASCALE = ONE / ANORM >*/
@@ -187,7 +187,7 @@ extern "C" {
     b22 = b[(b_dim1 << 1) + 2];
 /*<       BMIN = RTMIN*MAX( ABS( B11 ), ABS( B12 ), ABS( B22 ), RTMIN ) >*/
 /* Computing MAX */
-    d__1 = abs(b11), d__2 = abs(b12), d__1 = max(d__1,d__2), d__2 = abs(b22), 
+    d__1 = abs(b11), d__2 = abs(b12), d__1 = max(d__1,d__2), d__2 = abs(b22),
             d__1 = max(d__1,d__2);
     bmin = rtmin * max(d__1,rtmin);
 /*<    >*/
@@ -409,7 +409,7 @@ extern "C" {
 /* Computing MAX */
 /* Computing MIN */
     d__3 = c4, d__4 = max(wabs,c5) * .5;
-    d__1 = max(*safmin,c1), d__2 = (wabs * c2 + c3) * 1.0000100000000001, 
+    d__1 = max(*safmin,c1), d__2 = (wabs * c2 + c3) * 1.0000100000000001,
             d__1 = max(d__1,d__2), d__2 = min(d__3,d__4);
     wsize = max(d__1,d__2);
 /*<       IF( WSIZE.NE.ONE ) THEN >*/
@@ -457,7 +457,7 @@ extern "C" {
 /* Computing MAX */
         d__5 = abs(*wr2);
         d__3 = c4, d__4 = max(d__5,c5) * .5;
-        d__1 = max(*safmin,c1), d__2 = (abs(*wr2) * c2 + c3) * 
+        d__1 = max(*safmin,c1), d__2 = (abs(*wr2) * c2 + c3) *
                 1.0000100000000001, d__1 = max(d__1,d__2), d__2 = min(d__3,
                 d__4);
         wsize = max(d__1,d__2);

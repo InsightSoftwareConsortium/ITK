@@ -1,6 +1,7 @@
 // This is core/vnl/algo/tests/test_ldl_cholesky.cxx
+#include <iostream>
 #include <testlib/testlib_test.h>
-#include <vcl_iostream.h>
+#include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
 #include <vnl/algo/vnl_ldl_cholesky.h>
@@ -52,7 +53,7 @@ void test_ldl_cholesky()
     test_util_fill_random(W.begin(), W.end(), rng);
     vnl_ldl_cholesky chol(A);
     chol.update(W);
-    vcl_cout<<"Adding: "<<W*W.transpose()<<vcl_endl;
+    std::cout<<"Adding: "<<W*W.transpose()<<std::endl;
     vnl_matrix<double> A2 = A + W*W.transpose();
     vnl_matrix<double> A3 = chol.lower_triangle() * vnl_diag_matrix<double>(chol.diagonal()) * chol.upper_triangle();
     TEST_NEAR("Rank 2 update",(A2-A3).fro_norm(), 0.0, 1e-12);
@@ -60,7 +61,7 @@ void test_ldl_cholesky()
 
   {
     vnl_ldl_cholesky chol(A);
-    vcl_cout << "cholesky inverse:\n" << chol.inverse() << '\n'
+    std::cout << "cholesky inverse:\n" << chol.inverse() << '\n'
              << "vnl_inverse:\n" << vnl_inverse(A) << '\n';
     TEST_NEAR("vnl_inverse() ~= cholesky.inverse()", (chol.inverse() - vnl_inverse(A)).fro_norm(), 0.0, 1e-12);
   }
