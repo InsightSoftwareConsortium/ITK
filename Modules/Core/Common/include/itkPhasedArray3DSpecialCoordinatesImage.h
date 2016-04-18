@@ -183,14 +183,19 @@ public:
     const Point< TCoordRep, 3 > & point,
     ContinuousIndex< TIndexRep, 3 > & index) const
   {
-    RegionType region = this->GetLargestPossibleRegion();
-    double     maxAzimuth =    region.GetSize(0) - 1;
-    double     maxElevation =  region.GetSize(1) - 1;
+    const RegionType region = this->GetLargestPossibleRegion();
+    const double maxAzimuth = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth   = std::atan(point[0] / point[2]);
-    TCoordRep elevation = std::atan(point[1] / point[2]);
-    TCoordRep radius    = std::sqrt(point[0] * point[0]
+    TCoordRep azimuth   = NumericTraits< TCoordRep >::Zero;
+    TCoordRep elevation = NumericTraits< TCoordRep >::Zero;
+    if( point[2] != 0.0 )
+      {
+      azimuth   = std::atan(point[0] / point[2]);
+      elevation = std::atan(point[1] / point[2]);
+      }
+    const TCoordRep radius  = std::sqrt(point[0] * point[0]
                                    + point[1] * point[1]
                                    + point[2] * point[2]);
 
@@ -217,14 +222,19 @@ public:
     const Point< TCoordRep, 3 > & point,
     IndexType & index) const
   {
-    RegionType region = this->GetLargestPossibleRegion();
-    double     maxAzimuth =    region.GetSize(0) - 1;
-    double     maxElevation =  region.GetSize(1) - 1;
+    const RegionType region = this->GetLargestPossibleRegion();
+    const double maxAzimuth   = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth   = std::atan(point[0] / point[2]);
-    TCoordRep elevation = std::atan(point[1] / point[2]);
-    TCoordRep radius    = std::sqrt(point[0] * point[0]
+    TCoordRep azimuth   = NumericTraits< TCoordRep >::Zero;
+    TCoordRep elevation = NumericTraits< TCoordRep >::Zero;
+    if( point[2] != 0.0 )
+      {
+      azimuth   = std::atan(point[0] / point[2]);
+      elevation = std::atan(point[1] / point[2]);
+      }
+    const TCoordRep radius = std::sqrt(point[0] * point[0]
                                    + point[1] * point[1]
                                    + point[2] * point[2]);
 
@@ -254,20 +264,20 @@ public:
     const ContinuousIndex< TIndexRep, 3 > & index,
     Point< TCoordRep, 3 > & point) const
   {
-    RegionType region = this->GetLargestPossibleRegion();
-    double     maxAzimuth =    region.GetSize(0) - 1;
-    double     maxElevation =  region.GetSize(1) - 1;
+    const RegionType region = this->GetLargestPossibleRegion();
+    const double maxAzimuth   = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert the index into proper angular coordinates
-    TCoordRep azimuth   = ( index[0] - ( maxAzimuth / 2.0 ) )
+    const TCoordRep azimuth   = ( index[0] - ( maxAzimuth / 2.0 ) )
                           * m_AzimuthAngularSeparation;
-    TCoordRep elevation = ( index[1] - ( maxElevation / 2.0 ) )
+    const TCoordRep elevation = ( index[1] - ( maxElevation / 2.0 ) )
                           * m_ElevationAngularSeparation;
-    TCoordRep radius    = ( index[2] * m_RadiusSampleSize ) + m_FirstSampleDistance;
+    const TCoordRep radius    = ( index[2] * m_RadiusSampleSize ) + m_FirstSampleDistance;
 
     // Convert the angular coordinates into Cartesian coordinates
-    TCoordRep tanOfAzimuth    = std::tan(azimuth);
-    TCoordRep tanOfElevation  = std::tan(elevation);
+    const TCoordRep tanOfAzimuth   = std::tan(azimuth);
+    const TCoordRep tanOfElevation = std::tan(elevation);
 
     point[2] = static_cast< TCoordRep >( radius
                                          / std::sqrt(1
@@ -287,24 +297,24 @@ public:
     const IndexType & index,
     Point< TCoordRep, 3 > & point) const
   {
-    RegionType region = this->GetLargestPossibleRegion();
-    double     maxAzimuth =    region.GetSize(0) - 1;
-    double     maxElevation =  region.GetSize(1) - 1;
+    const RegionType region = this->GetLargestPossibleRegion();
+    const double maxAzimuth   = region.GetSize(0) - 1;
+    const double maxElevation = region.GetSize(1) - 1;
 
     // Convert the index into proper angular coordinates
-    TCoordRep azimuth =
+    const TCoordRep azimuth =
       ( static_cast< double >( index[0] ) - ( maxAzimuth / 2.0 ) )
       * m_AzimuthAngularSeparation;
-    TCoordRep elevation =
+    const TCoordRep elevation =
       ( static_cast< double >( index[1] ) - ( maxElevation / 2.0 ) )
       * m_ElevationAngularSeparation;
-    TCoordRep radius =
+    const TCoordRep radius =
       ( static_cast< double >( index[2] ) * m_RadiusSampleSize )
       + m_FirstSampleDistance;
 
     // Convert the angular coordinates into Cartesian coordinates
-    TCoordRep tanOfAzimuth    = std::tan(azimuth);
-    TCoordRep tanOfElevation  = std::tan(elevation);
+    const TCoordRep tanOfAzimuth   = std::tan(azimuth);
+    const TCoordRep tanOfElevation = std::tan(elevation);
 
     point[2] = static_cast< TCoordRep >(
       radius / std::sqrt(
