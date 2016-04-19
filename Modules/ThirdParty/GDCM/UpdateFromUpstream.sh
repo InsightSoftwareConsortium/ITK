@@ -3,7 +3,7 @@
 thirdparty_module_name='GDCM'
 
 upstream_git_url='http://git.code.sf.net/p/gdcm/gdcm.git'
-upstream_git_branch='release-2-4'
+upstream_git_branch='release'
 
 snapshot_author_name='GDCM Upstream'
 snapshot_author_email='gdcm-developers@lists.sourceforge.net'
