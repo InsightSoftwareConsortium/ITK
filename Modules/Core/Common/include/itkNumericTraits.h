@@ -302,8 +302,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR char Zero = 0;
-  static ITK_CONSTEXPR char One = 1;
+  static ITK_CONSTEXPR char ITKCommon_EXPORT Zero = 0;
+  static ITK_CONSTEXPR char ITKCommon_EXPORT One = 1;
 
   static ITK_CONSTEXPR_FUNC char min() { return char(255) < char(0) ? char(-128) : char(0); }
   static ITK_CONSTEXPR_FUNC char max() { return char(255) < char(0) ? char(127) : char(255); }
@@ -366,8 +366,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR signed char Zero = 0;
-  static ITK_CONSTEXPR signed char One = 1;
+  static ITK_CONSTEXPR signed char ITKCommon_EXPORT Zero = 0;
+  static ITK_CONSTEXPR signed char ITKCommon_EXPORT One = 1;
 
   static ITK_CONSTEXPR_FUNC signed char min() { return -128; }
   static ITK_CONSTEXPR_FUNC signed char max() { return 127; }
@@ -422,8 +422,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR unsigned char Zero = 0;
-  static ITK_CONSTEXPR unsigned char One = 1;
+  static ITK_CONSTEXPR unsigned char ITKCommon_EXPORT Zero = 0;
+  static ITK_CONSTEXPR unsigned char ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
 
@@ -475,8 +475,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR short Zero = 0;
-  static ITK_CONSTEXPR short One = 1;
+  static ITK_CONSTEXPR short ITKCommon_EXPORT Zero = 0;
+  static ITK_CONSTEXPR short ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ITK_CONSTEXPR_FUNC short NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
@@ -528,8 +528,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR unsigned short Zero = 0;
-  static ITK_CONSTEXPR unsigned short One = 1;
+  static ITK_CONSTEXPR unsigned short ITKCommon_EXPORT Zero = 0;
+  static ITK_CONSTEXPR unsigned short ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ITK_CONSTEXPR_FUNC unsigned short NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
@@ -580,8 +580,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR int Zero = 0;
-  static ITK_CONSTEXPR int One = 1;
+  static ITK_CONSTEXPR int ITKCommon_EXPORT Zero = 0;
+  static ITK_CONSTEXPR int ITKCommon_EXPORT One = 1;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ITK_CONSTEXPR_FUNC int NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
@@ -633,8 +633,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR unsigned int Zero = 0;
-  static ITK_CONSTEXPR unsigned int One = 1;
+  static ITK_CONSTEXPR unsigned int ITKCommon_EXPORT Zero = 0;
+  static ITK_CONSTEXPR unsigned int ITKCommon_EXPORT One = 1;
 
   static ITK_CONSTEXPR_FUNC unsigned int min(void) { return 0; }
   static ITK_CONSTEXPR_FUNC unsigned int max(void) { return static_cast< unsigned int >( -1 ); }
@@ -689,8 +689,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR long Zero = 0L;
-  static ITK_CONSTEXPR long One = 1L;
+  static ITK_CONSTEXPR long ITKCommon_EXPORT Zero = 0L;
+  static ITK_CONSTEXPR long ITKCommon_EXPORT One = 1L;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ITK_CONSTEXPR_FUNC long NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
@@ -742,8 +742,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR unsigned long Zero = 0UL;
-  static ITK_CONSTEXPR unsigned long One = 1UL;
+  static ITK_CONSTEXPR unsigned long ITKCommon_EXPORT Zero = 0UL;
+  static ITK_CONSTEXPR unsigned long ITKCommon_EXPORT One = 1UL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ITK_CONSTEXPR_FUNC unsigned long NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
