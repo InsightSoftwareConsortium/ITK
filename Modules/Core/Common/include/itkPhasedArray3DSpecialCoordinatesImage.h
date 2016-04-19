@@ -188,8 +188,8 @@ public:
     const double maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth   = NumericTraits< TCoordRep >::Zero;
-    TCoordRep elevation = NumericTraits< TCoordRep >::Zero;
+    TCoordRep azimuth   = Math::pi_over_2;
+    TCoordRep elevation = Math::pi_over_2;
     if( point[2] != 0.0 )
       {
       azimuth   = std::atan(point[0] / point[2]);
@@ -227,8 +227,8 @@ public:
     const double maxElevation = region.GetSize(1) - 1;
 
     // Convert Cartesian coordinates into angular coordinates
-    TCoordRep azimuth   = NumericTraits< TCoordRep >::Zero;
-    TCoordRep elevation = NumericTraits< TCoordRep >::Zero;
+    TCoordRep azimuth   = Math::pi_over_2;
+    TCoordRep elevation = Math::pi_over_2;
     if( point[2] != 0.0 )
       {
       azimuth   = std::atan(point[0] / point[2]);
