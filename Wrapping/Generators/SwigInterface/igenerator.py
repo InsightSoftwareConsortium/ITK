@@ -8,7 +8,7 @@ from __future__ import print_function
 import sys
 import os
 import re
-from optparse import OptionParser
+from argparse import ArgumentParser
 
 try:
     # Python 3
@@ -823,22 +823,22 @@ class SwigInputGenerator(object):
 
 
 if __name__ == '__main__':
-    optionParser = OptionParser()
-    optionParser.add_option(
+    argParser = ArgumentParser()
+    argParser.add_argument(
         "--mdx",
         action="append",
         dest="mdx",
         default=[],
         metavar="FILE",
         help="master idx file to be used.")
-    optionParser.add_option(
+    argParser.add_argument(
         "--import",
         action="append",
         dest="imports",
         default=[],
         metavar="FILE",
         help="File to be imported in the generated interface file.")
-    optionParser.add_option(
+    argParser.add_argument(
         "--swig-include",
         action="append",
         dest="swig_includes",
@@ -847,7 +847,7 @@ if __name__ == '__main__':
         help=(
             "File to be included by swig (%include) in the generated "
             "interface file."))
-    optionParser.add_option(
+    argParser.add_argument(
         "-w",
         "--disable-warning",
         action="append",
@@ -855,7 +855,7 @@ if __name__ == '__main__':
         default=[],
         metavar="WARNING",
         help="Warning to be disabled.")
-    optionParser.add_option(
+    argParser.add_argument(
         "-A",
         "--disable-access-warning",
         action="append",
@@ -865,55 +865,55 @@ if __name__ == '__main__':
         help=(
             "Access level where warnings are disabled "
             "(public, protected, private)."))
-    optionParser.add_option(
+    argParser.add_argument(
         "-W",
         "--warning-error",
         action="store_true",
         dest="warningError",
         help="Treat warnings as errors.")
-    optionParser.add_option(
+    argParser.add_argument(
         "-v",
         "--verbose",
         action="store_true",
         dest="verbose",
         help="Log what is currently done.")
-    optionParser.add_option(
+    argParser.add_argument(
         "-k",
         "--keep",
         action="store_true",
         dest="keep",
         help="Don't rewrite the output file if the content is unchanged.")
-    optionParser.add_option(
+    argParser.add_argument(
         "-p",
         "--pygccxml-path",
         action="store",
         dest="pygccxml_path",
         help="Path to pygccxml")
-    optionParser.add_option(
+    argParser.add_argument(
         "-g",
         "--castxml-path",
         action="store",
         dest="castxml_path",
         help="Path to castxml")
-    optionParser.add_option(
+    argParser.add_argument(
         "-o",
         "--interface-output-dir",
         action="store",
         dest="interface_output_dir",
         help="Directory to write the Swig input files")
-    optionParser.add_option(
+    argParser.add_argument(
         "-l",
         "--library-output-dir",
         action="store",
         dest="library_output_dir",
         help="Directory to read the xml abstract syntax tree input files")
-    optionParser.add_option(
+    argParser.add_argument(
         "-s",
         "--submodule-order",
         action="store",
         dest="submodule_order",
         help="List of submodules that must be wrapped in the given order")
-    options, args = optionParser.parse_args()
+    options = argParser.parse_args()
 
     sys.path.insert(1, options.pygccxml_path)
     import pygccxml
