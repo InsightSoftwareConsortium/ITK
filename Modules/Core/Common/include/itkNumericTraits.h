@@ -965,8 +965,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR ValueType Zero = 0LL;
-  static ITK_CONSTEXPR ValueType One = 1LL;
+  static ITK_CONSTEXPR ValueType ITKCommon_EXPORT Zero = 0LL;
+  static ITK_CONSTEXPR ValueType ITKCommon_EXPORT One = 1LL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ITK_CONSTEXPR_FUNC ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
@@ -1019,8 +1019,8 @@ public:
   typedef float                    FloatType;
   typedef FixedArray<ValueType, 1> MeasurementVectorType;
 
-  static ITK_CONSTEXPR ValueType Zero = 0ULL;
-  static ITK_CONSTEXPR ValueType One = 1ULL;
+  static ITK_CONSTEXPR ValueType ITKCommon_EXPORT Zero = 0ULL;
+  static ITK_CONSTEXPR ValueType ITKCommon_EXPORT One = 1ULL;
 
   itkNUMERIC_TRAITS_MIN_MAX_MACRO();
   static ITK_CONSTEXPR_FUNC ValueType NonpositiveMin() { return std::numeric_limits< ValueType >::min(); }
