@@ -163,7 +163,9 @@ public:
     return static_cast<const MaskImageType*>( this->ProcessObject::GetInput( 1 ) );
     }
 
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   /**
+   * \deprecated
    * Set/Get mask label value. If a binary mask image is specified and if
    * UseMaskValue is true, only those input image voxels corresponding
    * with mask image values equal to MaskLabel are used in estimating the
@@ -174,11 +176,13 @@ public:
   itkSetMacro( MaskLabel, MaskPixelType );
   itkGetConstMacro( MaskLabel, MaskPixelType );
 
-  /** Use a mask label for identifying mask functionality. See SetMaskLabel.
+  /**
+   * Use a mask label for identifying mask functionality. See SetMaskLabel.
    * Defaults to true. */
   itkSetMacro( UseMaskLabel, bool );
   itkGetConstMacro( UseMaskLabel, bool );
   itkBooleanMacro( UseMaskLabel );
+#endif
 
   /**
    * Set confidence image function.  If a confidence image is specified,
@@ -414,8 +418,10 @@ private:
    */
   RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
 
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   MaskPixelType m_MaskLabel;
   bool          m_UseMaskLabel;
+#endif
 
   // Parameters for deconvolution with Wiener filter
 
