@@ -55,9 +55,12 @@ namespace itk {
  *      on a downsampled version of the original image.
  *  3. A binary mask or a weighted image can be supplied.  If a binary mask
  *     is specified, those voxels in the input image which correspond to the
- *     voxels in the mask image are used to estimate the bias field.  If a
- *     confidence image is specified, the input voxels are weighted in the
- *     b-spline fitting routine according to the confidence voxel values.
+ *     voxels in the mask image are used to estimate the bias field. If a
+ *     UseMaskLabel value is set to true, only voxels in the MaskImage that match
+ *     the MaskLabel will be used; otherwise, all non-zero voxels in the
+ *     MaskImage will be masked. If a confidence image is specified, the
+ *     input voxels are weighted in the b-spline fitting routine according
+ *     to the confidence voxel values.
  *  4. The filter returns the corrected image.  If the bias field is wanted, one
  *     can reconstruct it using the class itkBSplineControlPointImageFilter.
  *     See the IJ article and the test file for an example.
@@ -159,6 +162,23 @@ public:
     {
     return static_cast<const MaskImageType*>( this->ProcessObject::GetInput( 1 ) );
     }
+
+  /**
+   * Set/Get mask label value. If a binary mask image is specified and if
+   * UseMaskValue is true, only those input image voxels corresponding
+   * with mask image values equal to MaskLabel are used in estimating the
+   * bias field. If a MaskImage is specified and UseMaskLabel is false, all
+   * input image voxels corresponding to non-zero voxels in the MaskImage
+   * are used in estimating the bias field. Default = 1.
+   */
+  itkSetMacro( MaskLabel, MaskPixelType );
+  itkGetConstMacro( MaskLabel, MaskPixelType );
+
+  /** Use a mask label for identifying mask functionality. See SetMaskLabel.
+   * Defaults to true. */
+  itkSetMacro( UseMaskLabel, bool );
+  itkGetConstMacro( UseMaskLabel, bool );
+  itkBooleanMacro( UseMaskLabel );
 
   /**
    * Set confidence image function.  If a confidence image is specified,
@@ -393,6 +413,9 @@ private:
    * image between the current bias field estimate and the previous estimate.
    */
   RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
+
+  MaskPixelType m_MaskLabel;
+  bool          m_UseMaskLabel;
 
   // Parameters for deconvolution with Wiener filter
 

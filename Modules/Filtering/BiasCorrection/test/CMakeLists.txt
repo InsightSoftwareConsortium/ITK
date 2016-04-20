@@ -36,3 +36,18 @@ itk_add_test(NAME itkN4BiasFieldCorrectionImageFilterTest2
     none                                                               # mask
     150                                                                # spline distance
     )
+
+itk_add_test(NAME itkN4BiasFieldCorrectionImageFilterTest3
+      COMMAND ITKBiasCorrectionTestDriver
+      --compare DATA{Baseline/N4ControlPoints_3D.nii.gz}
+               ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D.nii.gz
+    itkN4BiasFieldCorrectionImageFilterTest
+    3
+    DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeCompressed.mha}            # input
+    ${ITK_TEST_OUTPUT_DIR}//N4ControlPoints_3D.nii.gz                  # control point lattice
+    3                                                                  # shrink factor
+    10x10x10                                                           # number of iterations
+    none                                                               # mask
+    150                                                                # spline distance
+    1                                                                  # mask label
+    )

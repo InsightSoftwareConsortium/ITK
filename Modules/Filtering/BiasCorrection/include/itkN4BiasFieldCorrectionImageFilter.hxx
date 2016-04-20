@@ -43,6 +43,8 @@ namespace itk {
 template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 ::N4BiasFieldCorrectionImageFilter() :
+  m_MaskLabel( NumericTraits< MaskPixelType >::OneValue() ),
+  m_UseMaskLabel( true ),
   m_NumberOfHistogramBins( 200 ),
   m_WienerFilterNoise( 0.01 ),
   m_BiasFieldFullWidthAtHalfMaximum( 0.15 ),
@@ -95,13 +97,16 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   const MaskImageType * maskImage = this->GetMaskImage();
   const RealImageType * confidenceImage = this->GetConfidenceImage();
+  const MaskPixelType maskLabel = this->GetMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
   ImageRegionIteratorWithIndex<RealImageType> It( logInputImage, inputRegion );
 
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( It.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
+          ( useMaskLabel && maskImage->GetPixel( It.GetIndex() ) == maskLabel ) ||
+            maskImage->GetPixel( It.GetIndex() ) != NumericTraits< MaskPixelType >::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
@@ -238,6 +243,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   const MaskImageType * maskImage = this->GetMaskImage();
   const RealImageType * confidenceImage = this->GetConfidenceImage();
+  const MaskPixelType maskLabel = this->GetMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
   // Build the histogram for the uncorrected image.  Store copy
   // in a vnl_vector to utilize vnl FFT routines.  Note that variables
@@ -253,7 +260,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
+          ( useMaskLabel && maskImage->GetPixel( ItU.GetIndex() ) == maskLabel ) ||
+            maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits< MaskPixelType >::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
@@ -279,7 +287,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( ItU.GoToBegin(); !ItU.IsAtEnd(); ++ItU )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
+          ( useMaskLabel && maskImage->GetPixel( ItU.GetIndex() ) == maskLabel ) ||
+            maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits< MaskPixelType >::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
@@ -443,7 +452,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( ItU.GoToBegin(), ItC.GoToBegin(); !ItU.IsAtEnd(); ++ItU, ++ItC )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
+          ( useMaskLabel && maskImage->GetPixel( ItU.GetIndex() ) == maskLabel ) ||
+            maskImage->GetPixel( ItU.GetIndex() ) != NumericTraits< MaskPixelType >::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( ItU.GetIndex() ) > 0.0 ) )
       {
@@ -503,6 +513,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   const MaskImageType * maskImage = this->GetMaskImage();
   const RealImageType * confidenceImage = this->GetConfidenceImage();
+  const MaskPixelType maskLabel = this->GetMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
   ImageRegionConstIteratorWithIndex<RealImageType>
     It( parametricFieldEstimate, parametricFieldEstimate->GetRequestedRegion() );
@@ -511,7 +523,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for ( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( It.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
+          ( useMaskLabel && maskImage->GetPixel( It.GetIndex() ) == maskLabel ) ||
+            maskImage->GetPixel( It.GetIndex() ) != NumericTraits< MaskPixelType >::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
@@ -663,6 +676,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 
   const MaskImageType * maskImage = this->GetMaskImage();
   const RealImageType * confidenceImage = this->GetConfidenceImage();
+  const MaskPixelType maskLabel = this->GetMaskLabel();
+  const bool useMaskLabel = this->GetUseMaskLabel();
 
   ImageRegionConstIteratorWithIndex<RealImageType> It(
     subtracter->GetOutput(),
@@ -671,7 +686,8 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   for( It.GoToBegin(); !It.IsAtEnd(); ++It )
     {
     if( ( !maskImage ||
-          maskImage->GetPixel( It.GetIndex() ) != NumericTraits<MaskPixelType>::ZeroValue() )
+          ( useMaskLabel && maskImage->GetPixel( It.GetIndex() ) == maskLabel ) ||
+            maskImage->GetPixel( It.GetIndex() ) != NumericTraits< MaskPixelType >::ZeroValue() )
         && ( !confidenceImage ||
              confidenceImage->GetPixel( It.GetIndex() ) > 0.0 ) )
       {
@@ -697,6 +713,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
 {
   Superclass::PrintSelf( os, indent );
 
+  os << indent << "Mask label: " << this->m_MaskLabel << std::endl;
   os << indent << "Number of histogram bins: "
      << this->m_NumberOfHistogramBins << std::endl;
   os << indent << "Wiener filter noise: "
