@@ -37,6 +37,49 @@
 #include "itkNumericTraitsTensorPixel.h"
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
 
+namespace
+{
+
+struct UnknownTypeTestCase
+{
+};
+
+struct ForcedFailureTestCase
+{
+};
+
+}
+
+
+//test implementation of NumericTraits designed to fail
+namespace itk
+{
+
+template<>
+class NumericTraits< ForcedFailureTestCase > : public std::numeric_limits< ForcedFailureTestCase >
+{
+  public:
+  typedef ForcedFailureTestCase ValueType;
+  static ITK_CONSTEXPR bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
+  static ITK_CONSTEXPR bool IsInteger = true;   //so this should not match and the test should fail.
+};
+
+template<>
+class NumericTraits< std::complex< ForcedFailureTestCase > >
+{
+  public:
+  typedef ForcedFailureTestCase ValueType;
+  static ITK_CONSTEXPR bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
+  static ITK_CONSTEXPR bool IsInteger = true;  //should match that of their base type, so this should fail
+};
+
+}//end namespace itk
+
+
+namespace
+{
+
+void CheckPointer( const void *) {}
 
 template<typename T> void CheckVariableLengthArrayTraits(const T &t)
 {
@@ -77,14 +120,17 @@ template<typename T> void CheckFixedArrayTraits(const T &t)
 
   // check std::numeric_limits members
   std::cout << "itk::NumericTraits<" << name << ">" << std::endl;
-  std::cout << "\tZero: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue()) << std::endl;
-  std::cout << "\tOne: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue()) << std::endl;
+  std::cout << "\tZero: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::Zero) << std::endl;
+  std::cout << "\tOne: " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::One) << std::endl;
   std::cout << "\tmin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::min()) << std::endl;
   std::cout << "\tNonpositiveMin(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::NonpositiveMin()) << std::endl;
   std::cout << "\tmax(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::max()) << std::endl;
   std::cout << "\tZeroValue(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::ZeroValue()) << std::endl;
   std::cout << "\tOneValue(): " << static_cast<typename itk::NumericTraits<T>::PrintType>(itk::NumericTraits<T>::OneValue()) << std::endl;
   std::cout << "\tGetLength(): " << itk::NumericTraits<T>::GetLength() << std::endl;
+
+  CheckPointer(&itk::NumericTraits<T>::One);
+  CheckPointer(&itk::NumericTraits<T>::Zero);
 
  CheckVariableLengthArrayTraits(t);
 }
@@ -193,40 +239,6 @@ bool CheckSignedAndIntegerTraitsForComplexTypes( const char * const name )
   return didTestPass;
 }
 
-struct UnknownTypeTestCase
-{
-  static ITK_CONSTEXPR int value = 1;
-};
-
-struct ForcedFailureTestCase
-{
-  static ITK_CONSTEXPR int value = 1;
-};
-
-//test implementation of NumericTraits designed to fail
-namespace itk
-{
-
-template<>
-class NumericTraits< ForcedFailureTestCase > : public std::numeric_limits< ForcedFailureTestCase >
-{
-  public:
-  typedef ForcedFailureTestCase ValueType;
-  static ITK_CONSTEXPR bool IsSigned = true;    //the default (for unknown classes) in std::numeric_limits is false, false.
-  static ITK_CONSTEXPR bool IsInteger = true;   //so this should not match and the test should fail.
-};
-
-template<>
-class NumericTraits< std::complex< ForcedFailureTestCase > >
-{
-  public:
-  typedef ForcedFailureTestCase ValueType;
-  static ITK_CONSTEXPR bool IsSigned = false;  //Complex values are never integers, and their IsSigned property
-  static ITK_CONSTEXPR bool IsInteger = true;  //should match that of their base type, so this should fail
-};
-
-}//end namespace itk
-
 // the types that are to be checked for correct IsSigned and IsInteger values are set here
 bool CheckAllSignedAndIntegerTraits()
 {
@@ -316,6 +328,8 @@ bool CheckIsComplexTraits()
     }
   return didTestsPass;
 } // End CheckIsComplexTraits()
+
+} // end anonymous namespace
 
 int itkNumericTraitsTest(int, char* [] )
 {
