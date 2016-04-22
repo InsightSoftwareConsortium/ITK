@@ -5,7 +5,7 @@ if(NOT WIN32 OR MINGW)
   elseif(NOT DEFINED ITK_HAVE_SYNC_BUILTINS)
     message(STATUS "Checking for builtin __sync_add_and_fetch")
     try_compile(ITK_TEST_SYNC_BUILTINS_COMPILED
-      ${ITK_BINARY_DIR}/CMakeTmp
+      ${ITK_BINARY_DIR}
       ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckSyncBuiltins.cxx
       OUTPUT_VARIABLE OUTPUT)
     if(ITK_TEST_SYNC_BUILTINS_COMPILED)
