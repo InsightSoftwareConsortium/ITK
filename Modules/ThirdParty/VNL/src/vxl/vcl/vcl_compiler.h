@@ -189,7 +189,7 @@ typedef int saw_VCL_FOR_SCOPE_HACK;
 
 //----------------------------------------------------------------------------
 // Check if the compiler (claims to) support C++11.
-#if __cplusplus >= 201103L
+#if VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
 # define VXL_CXX11 1
   // In c++11 the override keyword allows you to explicity define that a function
   // is intended to override the base-class version.  This makes the code more
@@ -925,7 +925,7 @@ __inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
 #define vcl_indirect_array std::indirect_array
 #define vcl_vector std::vector
 
-#if __cplusplus >= 201103L || VCL_MEMORY_HAS_SHARED_PTR
+#if VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L || VCL_MEMORY_HAS_SHARED_PTR
 # define vcl_memory_prefix std
 #elif VCL_TR1_MEMORY_HAS_SHARED_PTR
   // [20.6] lib.memory (additions in 0x draft: 2006-11-06)

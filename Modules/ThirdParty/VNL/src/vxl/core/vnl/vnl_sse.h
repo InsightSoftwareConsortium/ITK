@@ -105,6 +105,9 @@ VNL_SSE_FORCE_INLINE void* vnl_sse_alloc(std::size_t n, unsigned size)
 //: Custom memory deallocation function to free 16 byte aligned of data
 VNL_SSE_FORCE_INLINE void vnl_sse_dealloc(void* mem, std::size_t n, unsigned size)
 {
+  // Variables n and size are not used in all versions of the VNL_SSE_FREE macro.
+  // Cast to void here to avoid unused variable warnings.
+  (void)n,(void)size;
   VNL_SSE_FREE(mem,n,size);
 }
 
