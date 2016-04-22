@@ -7,6 +7,18 @@
 //----------------------------------------------------------------------
 // syntax-like things.
 
+/* The version of the CXX compiler used when VXL was built */
+#define VXL_COMPILED_CXX_STANDARD_VERSION @VXL_COMPILED_CXX_STANDARD_VERSION@
+
+/* Test external applications to ensure that compatible compiler C++ standard API are used
+ * by assuming that compiler standards are backwards (but not forwards) compatible with each
+ * other.  Strange behaviors may occur if external applications do not use the same compiler
+ * and compiler language featues (i.e. compiler flags). */
+#if VXL_COMPILED_CXX_STANDARD_VERSION > __cplusplus
+  #warning "WARNING:  The current project is configured to use a C++ standard version older than the C++ standard used for this build of VXL"
+#endif
+
+
 //: VCL_HAS_BOOL
 // Set to 1 if "bool" is accepted by the compiler as a built-in type.
 #define VCL_HAS_BOOL @VCL_HAS_BOOL@
@@ -91,7 +103,7 @@
  * may be necessary for static const float initialization
  * and is benificial in other cases where
  * a value can be constant. */
-#if  __cplusplus >= 201103L
+#if  VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
 # define VCL_CAN_STATIC_CONST_INIT_INT 1
 # define VCL_CAN_STATIC_CONST_INIT_FLOAT 1
 #endif

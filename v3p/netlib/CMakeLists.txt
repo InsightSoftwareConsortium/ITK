@@ -406,27 +406,6 @@ set(v3p_netlib_sources
 
 # Adjust the compiler flags to avoid problems with f2c-generated code.
 if(CMAKE_COMPILER_IS_GNUCC)
-  # Hide warnings in f2c-generated code.
-  #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -w")
-
-  # CMake versions before 2.4 did not put the source-file-specific flags
-  # after the directory-level flags.  Remove optimization flags from the
-  # CMAKE_C_FLAGS* variables so they can be overridden.
-  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" LESS 2.4)
-    foreach(c "" "_DEBUG" "_RELEASE" "_MINSIZEREL" "_RELWITHDEBINFO")
-      string(REGEX REPLACE
-        "-O[^ ]*( |$)" "" CMAKE_C_FLAGS${c} "${CMAKE_C_FLAGS${c}}")
-    endforeach()
-  endif()
-
-  # Disable buggy optimization on some source files.
-  #set_source_files_properties(
-  #  temperton/gpfa5f.c
-  #  temperton/dgpfa5f.c
-  #  laso/dnlaso.c
-  #  PROPERTIES COMPILE_FLAGS -O0
-  #  )
-
   # Adjust optimization of floating point computation for some sources.
   # See comments in the sources for details.
   set_source_files_properties(

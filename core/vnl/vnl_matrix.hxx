@@ -978,6 +978,30 @@ vnl_vector<T> vnl_matrix<T>::get_column(unsigned column_index) const
   return v;
 }
 
+//: Create a vector out of row[row_index].
+template <class T>
+vnl_matrix<T>
+vnl_matrix<T>
+::get_rows(vnl_vector<unsigned int> i) const
+{
+  vnl_matrix<T> m(i.size(), this->num_cols);
+  for (unsigned int j = 0; j < i.size(); ++j)
+    m.set_row(j, this->get_row(i.get(j)));
+  return m;
+}
+
+//: Create a vector out of column[column_index].
+template <class T>
+vnl_matrix<T>
+vnl_matrix<T>
+::get_columns(vnl_vector<unsigned int> i) const
+{
+  vnl_matrix<T> m(this->num_rows, i.size());
+  for (unsigned int j = 0; j < i.size(); ++j)
+    m.set_column(j, this->get_column(i.get(j)));
+  return m;
+}
+
 //: Return a vector with the content of the (main) diagonal
 template <class T>
 vnl_vector<T> vnl_matrix<T>::get_diagonal() const

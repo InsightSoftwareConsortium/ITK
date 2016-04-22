@@ -95,6 +95,51 @@ void test_int()
 
   TEST("m2.put(1,1,3)", (m2.put(1,1,3),m2.get(1,1)), 3);
   TEST("m2.get(1,1)", m2.get(1,1), 3);
+
+  ///////////////////////////////
+  // Row and Column Operations //
+  ///////////////////////////////
+
+  {
+    int some_data[2*3] = { 1, 2, 3,
+                           4, 5, 6 };
+    vnl_matrix<int> mrc(some_data, 2, 3);
+    vnl_vector<int> v;
+
+    TEST("v = mrc.get_row(0)",
+         (v = mrc.get_row(0),
+          (v.get(0)==1 && v.get(1)==2 && v.get(2)==3)), true);
+    TEST("v = mrc.get_row(1)",
+         (v = mrc.get_row(1),
+          (v.get(0)==4 && v.get(1)==5 && v.get(2)==6)), true);
+
+    TEST("v = mrc.get_column(0)",
+         (v = mrc.get_column(0),
+          (v.get(0)==1 && v.get(1)==4)), true);
+    TEST("v = mrc.get_column(1)",
+         (v = mrc.get_column(1),
+          (v.get(0)==2 && v.get(1)==5)), true);
+    TEST("v = mrc.get_column(2)",
+         (v = mrc.get_column(2),
+          (v.get(0)==3 && v.get(1)==6)), true);
+
+    // Indices: {1, 0, 1}
+    vnl_vector<unsigned int> indices(3, 1);
+    indices.put(1,0);
+    vnl_matrix<int> mi;
+
+    TEST("mi = mrc.get_rows(indices)",
+         (mi = mrc.get_rows(indices),
+         (mi.get_row(0)==mrc.get_row(1)
+       && mi.get_row(1)==mrc.get_row(0)
+       && mi.get_row(2)==mrc.get_row(1))), true);
+    TEST("mi = mrc.get_columns(indices)",
+         (mi = mrc.get_columns(indices),
+         (mi.get_column(0)==mrc.get_column(1)
+       && mi.get_column(1)==mrc.get_column(0)
+       && mi.get_column(2)==mrc.get_column(1))), true);
+  }
+
   int v2_data[] = {2,3};
   TEST("m2.get_diagonal()", m2.get_diagonal(), vnl_vector<int>(2,2,v2_data));
   TEST("m0 == m2", (m0 == m2), false);
