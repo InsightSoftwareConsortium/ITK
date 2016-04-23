@@ -32,7 +32,7 @@ template<typename TParametersValueType, unsigned int NDimensions, unsigned int V
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::BSplineBaseTransform() :
   Superclass( 0 ),
-  m_CoefficientImages( this->ArrayOfImagePointerGeneratorHelper() )
+  m_CoefficientImages( Self::ArrayOfImagePointerGeneratorHelper() )
 {
   this->m_InternalParametersBuffer = ParametersType( 0 );
 
@@ -318,7 +318,7 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::CoefficientImageArray
 BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>
-::ArrayOfImagePointerGeneratorHelper(void) const
+::ArrayOfImagePointerGeneratorHelper(void)
 {
   CoefficientImageArray tempArrayOfPointers;
 
