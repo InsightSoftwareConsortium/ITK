@@ -400,6 +400,12 @@ class vnl_matrix
   //: Get a vector equal to the given column
   vnl_vector<T> get_column(unsigned c) const;
 
+  //: Get a matrix composed of rows from the indices specified in the supplied vector.
+  vnl_matrix<T> get_rows(vnl_vector<unsigned int> i) const;
+
+  //: Get a matrix composed of columns from the indices specified in the supplied vector.
+  vnl_matrix<T> get_columns(vnl_vector<unsigned int> i) const;
+
   //: Get n rows beginning at rowstart
   vnl_matrix<T> get_n_rows(unsigned rowstart, unsigned n) const;
 

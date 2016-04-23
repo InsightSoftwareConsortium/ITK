@@ -10,7 +10,7 @@
 #include <vxl_config.h>
 #include <vcl_compiler.h>
 
-#if  __cplusplus >= 201103L
+#if VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
 // Nothing to do for isnan,isfinite,isinf,isnormal
 // or hypot here
 #else
