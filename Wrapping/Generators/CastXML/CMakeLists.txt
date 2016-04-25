@@ -25,22 +25,22 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz)
-    set(_castxml_hash_or_tag 52e5429fa7c0cc42bf2dbd06ce5cb930)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460402/castxml-linux.tar.gz)
+    set(_castxml_hash_or_tag 96e57af29a29967f216fa3329d8105b4)
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip)
-    set(_castxml_hash_or_tag 9c317c45c93f94619f0879da6af058b0)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460268/castxml-windows.zip)
+    set(_castxml_hash_or_tag a39df49a23f3c739afe3a0f0beba1bcd)
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/457654/castxml-macosx.tar.gz)
-    set(_castxml_hash_or_tag 05dc4e70084f66e9c86f0659b784a36f)
+    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/460403/castxml-macosx.tar.gz)
+    set(_castxml_hash_or_tag 4493e16825babceea30e682f9f53a9e3)
     set(_download_castxml_binaries 1)
 
   endif()
@@ -132,8 +132,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2016-01-28
-      GIT_TAG fc71eb983ff8e5665d7fc24818993d43b7137b39
+      # CastXML master, 2016-04-25
+      GIT_TAG 41581dbb55b7df7f72b5c8e03d116c2663d2da1c
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
