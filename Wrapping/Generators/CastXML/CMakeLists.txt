@@ -23,8 +23,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL https://midas3.kitware.com/midas/download/bitstream/457776/castxml-linux.tar.gz
-      URL_MD5 52e5429fa7c0cc42bf2dbd06ce5cb930
+      URL https://midas3.kitware.com/midas/download/bitstream/460402/castxml-linux.tar.gz
+      URL_MD5 96e57af29a29967f216fa3329d8105b4
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -35,8 +35,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL https://midas3.kitware.com/midas/download/bitstream/457652/castxml-windows.zip
-      URL_MD5 9c317c45c93f94619f0879da6af058b0
+      URL https://midas3.kitware.com/midas/download/bitstream/460268/castxml-windows.zip
+      URL_MD5 a39df49a23f3c739afe3a0f0beba1bcd
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -47,8 +47,8 @@ else()
       itk_download_attempt_check(CastXML)
     endif()
     ExternalProject_Add(castxml
-      URL https://midas3.kitware.com/midas/download/bitstream/457654/castxml-macosx.tar.gz
-      URL_MD5 05dc4e70084f66e9c86f0659b784a36f
+      URL http://midas3.kitware.com/midas/download/bitstream/460403/castxml-macosx.tar.gz
+      URL_MD5 4493e16825babceea30e682f9f53a9e3
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -126,8 +126,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2016-01-28
-      GIT_TAG fc71eb983ff8e5665d7fc24818993d43b7137b39
+      # CastXML master, 2016-04-25
+      GIT_TAG 41581dbb55b7df7f72b5c8e03d116c2663d2da1c
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
