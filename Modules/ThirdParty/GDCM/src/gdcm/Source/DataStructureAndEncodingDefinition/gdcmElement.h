@@ -263,6 +263,9 @@ public:
     }
 };
 
+#define VRDS16ILLEGAL
+
+#ifdef VRDS16ILLEGAL
 template < typename Float >
 std::string to_string ( Float data ) {
   std::stringstream in;
@@ -270,13 +273,51 @@ std::string to_string ( Float data ) {
   int const digits =
     static_cast< int >(
     - std::log( std::numeric_limits<Float>::epsilon() )
-    / std::log( 10.0 ) );
+    / static_cast< Float >( std::log( 10.0 ) ) );
   if ( in << std::dec << std::setprecision(/*2+*/digits) << data ) {
     return ( in.str() );
   } else {
     throw "Impossible Conversion"; // should not happen ...
   }
 }
+#else
+// http://stackoverflow.com/questions/32631178/writing-ieee-754-1985-double-as-ascii-on-a-limited-16-bytes-string
+static size_t shrink(char *fp_buffer) {
+  int lead, expo;
+  long long mant;
+  int n0, n1;
+  int n = sscanf(fp_buffer, "%d.%n%lld%ne%d", &lead, &n0, &mant, &n1, &expo);
+  assert(n == 3);
+  return sprintf(fp_buffer, "%d%0*llde%d", lead, n1 - n0, mant,
+          expo - (n1 - n0));
+}
+
+template < typename Float >
+static int x16printf(char *dest, size_t width, Float value) {
+  if (!std::isfinite(value)) return 1;
+
+  if (width < 5) return 2;
+  if (std::signbit(value)) {
+    value = -value;
+    strcpy(dest++, "-");
+    width--;
+  }
+  int precision = width - 2;
+  while (precision > 0) {
+    char buffer[width + 10];
+    // %.*e prints 1 digit, '.' and then `precision - 1` digits
+    snprintf(buffer, sizeof buffer, "%.*e", precision - 1, value);
+    size_t n = shrink(buffer);
+    if (n <= width) {
+      strcpy(dest, buffer);
+      return 0;
+    }
+    if (n > width + 1) precision -= n - width - 1;
+    else precision--;
+  }
+  return 3;
+}
+#endif
 
 /* Writing VR::DS is not that easy after all */
 // http://groups.google.com/group/comp.lang.c++/browse_thread/thread/69ccd26f000a0802
@@ -284,10 +325,21 @@ template<> inline void EncodingImplementation<VR::VRASCII>::Write(const float * 
     assert( data );
     assert( length );
     assert( _os );
+#ifdef VRDS16ILLEGAL
     _os << to_string(data[0]);
+#else
+    char buf[16+1];
+    x16printf(buf, sizeof buf, data[0]);
+    _os << buf;
+#endif
     for(unsigned long i=1; i<length; ++i) {
       assert( _os );
+#ifdef VRDS16ILLEGAL
       _os << "\\" << to_string(data[i]);
+#else
+      x16printf(buf, sizeof buf, data[i]);
+      _os << "\\" << buf;
+#endif
       }
     }
 
@@ -295,10 +347,21 @@ template<> inline void EncodingImplementation<VR::VRASCII>::Write(const double* 
     assert( data );
     assert( length );
     assert( _os );
+#ifdef VRDS16ILLEGAL
     _os << to_string(data[0]);
+#else
+    char buf[16+1];
+    x16printf(buf, sizeof buf, data[0]);
+    _os << buf;
+#endif
     for(unsigned long i=1; i<length; ++i) {
       assert( _os );
+#ifdef VRDS16ILLEGAL
       _os << "\\" << to_string(data[i]);
+#else
+      x16printf(buf, sizeof buf, data[i]);
+      _os << "\\" << buf;
+#endif
       }
     }
 

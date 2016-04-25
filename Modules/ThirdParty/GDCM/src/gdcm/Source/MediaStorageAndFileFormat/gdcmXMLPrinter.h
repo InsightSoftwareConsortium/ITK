@@ -113,8 +113,8 @@ public:
   
   //void PrintUID(std::ostream &os);
 
-  /// Virtual function mecanism to allow application programmer to
-  /// override the default mecanism for BulkData handling. By default
+  /// Virtual function mechanism to allow application programmer to
+  /// override the default mechanism for BulkData handling. By default
   /// GDCM will simply discard the BulkData and only write the UUID
   virtual void HandleBulkData(const char *uuid, const TransferSyntax &ts,
     const char *bulkdata, size_t bulklen);

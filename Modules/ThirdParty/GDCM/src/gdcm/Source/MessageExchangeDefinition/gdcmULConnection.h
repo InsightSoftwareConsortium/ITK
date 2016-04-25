@@ -54,7 +54,7 @@ namespace gdcm{
  * this class) without a wrapper.
  *
  */
-class ULConnection
+class GDCM_EXPORT ULConnection
 {
       ULConnectionInfo mInfo;
       //this is a dirty dirty hack

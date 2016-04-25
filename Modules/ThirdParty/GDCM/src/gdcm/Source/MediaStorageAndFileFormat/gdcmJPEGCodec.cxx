@@ -241,7 +241,7 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
       }
     }
   //assert( pos == len );
-  const size_t sizeOfOs = os.tellp();
+  const size_t sizeOfOs = (size_t)os.tellp();
   os.seekp( 0, std::ios::beg );
   ByteValue * bv = new ByteValue;
   bv->SetLength( (uint32_t)sizeOfOs );
@@ -573,8 +573,8 @@ bool JPEGCodec::DecodeExtent(
       {
       //std::streamoff relstart = is.tellg();
       //assert( relstart - thestart == 8 );
-      std::streamoff off = frag.GetVL();
-      offsets.push_back( off );
+      const std::streamoff off = frag.GetVL();
+      offsets.push_back( (size_t)off );
       is.seekg( off, std::ios::cur );
       ++numfrags;
       }

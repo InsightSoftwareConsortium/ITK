@@ -52,17 +52,36 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
   const Tag tipp(0x0020,0x0032); // Image Position (Patient)
   const Tag tiop(0x0020,0x0037); // Image Orientation (Patient)
   const Tag tframe(0x0020,0x0052); // Frame of Reference UID
+  const Tag tgantry(0x0018,0x1120); // Gantry/Detector Tilt
   // Temporal Position Identifier (0020,0100) 3 Temporal order of a dynamic or functional set of Images.
   //const Tag tpi(0x0020,0x0100);
   scanner.AddTag( tipp );
   scanner.AddTag( tiop );
   scanner.AddTag( tframe );
+  scanner.AddTag( tgantry );
   bool b = scanner.Scan( filenames );
   if( !b )
     {
     gdcmDebugMacro( "Scanner failed" );
     return false;
     }
+  Scanner::ValuesType gantry = scanner.GetValues(tgantry);
+  if( gantry.size() > 1 )
+  {
+    gdcmDebugMacro( "More than one Gantry/Detector Tilt" );
+    return false;
+  }
+  if( gantry.size() == 1 )
+  {
+    std::stringstream ss( *gantry.begin() );
+    double tilt;
+    ss >> tilt;
+    if( tilt != 0.0 )
+    {
+      gdcmDebugMacro( "Gantry/Detector Tilt is not 0" );
+      return false;
+    }
+  }
   Scanner::ValuesType iops = scanner.GetValues(tiop);
   Scanner::ValuesType frames = scanner.GetValues(tframe);
   if( DirCosTolerance == 0. )

@@ -6,6 +6,7 @@
 #ifndef CHARLS_CONTEXT
 #define CHARLS_CONTEXT
 
+#include <cstdlib>
 
 //
 // JlsContext: a JPEG-LS context with it's current statistics.
@@ -44,7 +45,7 @@ public:
 
 		// For performance work on copies of A,B,N (compiler will use registers).
 		int b = B + errorValue * (2 * NEAR + 1); 
-		int a = A + abs(errorValue);
+		int a = A + std::abs(errorValue);
 		int n = N;
 
 		ASSERT(a < 65536 * 256);

@@ -82,9 +82,9 @@
     <uid value="1.2.840.10008.3.1.2.2.1" name="Detached Visit Management SOP Class" type="SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.3.1.2.3.1" name="Detached Study Management SOP Class" type="SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.3.1.2.3.2" name="Study Component Management SOP Class" type="SOP Class" part="PS 3.4" retired="true"/>
-    <uid value="1.­2.840.10008.3.1.2.3.3" name="Modality Performed Procedure Step SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.­2.840.10008.3.1.2.3.4" name="Modality Performed Procedure Step Retrieve SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
-    <uid value="1.­2.840.10008.3.1.2.3.5" name="Modality Performed Procedure Step Notification SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.3.1.2.3.3" name="Modality Performed Procedure Step SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.3.1.2.3.4" name="Modality Performed Procedure Step Retrieve SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
+    <uid value="1.2.840.10008.3.1.2.3.5" name="Modality Performed Procedure Step Notification SOP Class" type="SOP Class" part="PS 3.4" retired="false"/>
     <uid value="1.2.840.10008.3.1.2.5.1" name="Detached Results Management SOP Class" type="SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.3.1.2.5.4" name="Detached Results Management Meta SOP Class" type="Meta SOP Class" part="PS 3.4" retired="true"/>
     <uid value="1.2.840.10008.3.1.2.5.5" name="Detached Study Management Meta SOP Class" type="Meta SOP Class" part="PS 3.4" retired="true"/>

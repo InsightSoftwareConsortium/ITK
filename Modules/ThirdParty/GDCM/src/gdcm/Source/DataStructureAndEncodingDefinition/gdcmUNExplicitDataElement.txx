@@ -149,7 +149,7 @@ std::istream &UNExplicitDataElement::ReadValue(std::istream &is, bool readvalues
   //assert( ValueField == 0 );
   if( VRField == VR::SQ )
     {
-    // Check wether or not this is an undefined length sequence
+    // Check whether or not this is an undefined length sequence
     assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new SequenceOfItems;
     }
@@ -226,7 +226,8 @@ std::istream &UNExplicitDataElement::ReadValue(std::istream &is, bool readvalues
 template <typename TSwap>
 std::istream &UNExplicitDataElement::ReadWithLength(std::istream &is, VL & length)
 {
-  return Read<TSwap>(is); (void)length;
+  (void)length;
+  return Read<TSwap>(is);
 }
 
 

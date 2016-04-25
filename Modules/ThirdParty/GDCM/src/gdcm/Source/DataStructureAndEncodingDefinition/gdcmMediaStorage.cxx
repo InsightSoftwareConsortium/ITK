@@ -304,7 +304,7 @@ static const MSModalityType MSModalityTypes[] = {
   {"XA", 3, 0},// Enhanced XA Image Storage
   {"  ", 2, 0},// RTIonBeamsTreatmentRecordStorage
   {"SEG", 3, 0},// Surface Segmentation Storage
-  {"SM", 2, 0},// VLWholeSlideMicroscopyImageStorage
+  {"SM", 3, 0},// VLWholeSlideMicroscopyImageStorage
   {"RTRECORD", 2, 0},//RTTreatmentSummaryRecordStorage
   {"US", 3, 0},// EnhancedUSVolumeStorage
   {"  ", 2, 0},// XRayRadiationDoseSR
@@ -484,7 +484,9 @@ void MediaStorage::SetFromSourceImageSequence(DataSet const &ds)
 bool MediaStorage::SetFromModality(DataSet const &ds)
 {
   // Ok let's try againg with little luck it contains a pixel data...
-  if( ds.FindDataElement( Tag(0x7fe0,0x0010) ) )
+  // technically GDCM is called with a template DataSet before Pixel Data
+  // is even set, so do not check for presence of this attribute at this point
+  //if( ds.FindDataElement( Tag(0x7fe0,0x0010) ) )
     {
     // Pixel Data found !
     // Attempt to recover from the modality (0008,0060):
@@ -510,8 +512,9 @@ bool MediaStorage::SetFromModality(DataSet const &ds)
       MSField = MediaStorage::SecondaryCaptureImageStorage;
       return false;
       }
+    return true;
     }
-  return true;
+  //return false;
 }
 
 bool MediaStorage::SetFromFile(File const &file)

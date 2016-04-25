@@ -106,7 +106,7 @@ private:
 #  define GDCM_FUNCTION __FUNCTION__
 #endif //__GNUC__
 #else
-#  define GDCM_FUNCTION "<unknow>"
+#  define GDCM_FUNCTION "<unknown>"
 #endif //GDCM_CXX_HAS_FUNCTION
 
 /**

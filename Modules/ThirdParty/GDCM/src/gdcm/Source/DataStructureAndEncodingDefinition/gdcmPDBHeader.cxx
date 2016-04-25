@@ -33,16 +33,16 @@ namespace gdcm
  *
  * Skip the binary length (little endian encoding):
  *
- *   $ dd bs=4 skip=1 if=output.raw of=foo
+ *   $ dd bs=4 skip=1 if=output.raw of=foo.gz
  *
  * Check file type:
  *
- *   $ file foo
+ *   $ file foo.gz
  *   foo: gzip compressed data, was "Ex421Ser8Scan1", from Unix
  *
  * Gunzip !
- *   $ gzip -dc < foo > bar
- *   $ cat bar
+ *   $ gunzip foo.gz
+ *   $ cat foo
  *
  * THANKS to: John Reiser (BitWagon.com) for hints
  *
@@ -192,22 +192,38 @@ int PDBHeader::readprotocoldatablock(const char *input, size_t inputlen, bool ve
 //    }
 
   std::string out;
-  //while( gzis >> out )
-  while( std::getline(gzis , out ) )
+  // We need to handle the old format and the new XML format here:
+  // test:
+  // <?xml version="1.0" encoding="UTF-8"?>
+  static const char xmlstr[] = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+  bool isxml = false;
+  while( std::getline(gzis, out) )
     {
-    PDBElement pdbel;
-    //std::cout << out << std::endl;
-    std::istringstream is2( out );
-    std::string name, value;
-    is2 >> name;
-    std::getline(is2, value);
-    pdbel.SetName( name.c_str() );
-    // remove the first space character and the first & last " character
-    std::string value2( value.begin()+2, value.end()-1);
-    pdbel.SetValue( value2.c_str() );
-    InternalPDBDataSet.push_back( pdbel );
+    if( !isxml && strncmp(out.c_str(), xmlstr, strlen(xmlstr)) == 0 )
+      {
+      isxml = true;
+      }
+    if( isxml )
+      {
+      xmltxt.append( out );
+      xmltxt.append( "\n" );
+      }
+    else
+      {
+      PDBElement pdbel;
+      std::istringstream is2( out );
+      std::string name, value;
+      is2 >> name;
+      std::getline(is2, value);
+      pdbel.SetName( name.c_str() );
+      // remove the first space character and the first & last " character
+      std::string value2( value.begin()+2, value.end()-1);
+      pdbel.SetValue( value2.c_str() );
+      InternalPDBDataSet.push_back( pdbel );
+      }
     }
   //std::cout << out.size();
+  IsXML = isxml;
 
   return 0;
 }
@@ -256,37 +272,50 @@ bool PDBHeader::LoadFromDataElement(DataElement const &protocoldatablock)
 
 void PDBHeader::Print(std::ostream &os) const
 {
-  std::vector<PDBElement>::const_iterator it = InternalPDBDataSet.begin();
-
-  for(; it != InternalPDBDataSet.end(); ++it)
+  if( IsXML )
     {
-    os << *it << std::endl;
+    os << xmltxt << std::endl;
+    }
+  else
+    {
+    std::vector<PDBElement>::const_iterator it = InternalPDBDataSet.begin();
+
+    for(; it != InternalPDBDataSet.end(); ++it)
+      {
+      os << *it << std::endl;
+      }
     }
 }
 
 const PDBElement &PDBHeader::GetPDBElementByName(const char *name)
 {
-  std::vector<PDBElement>::const_iterator it = InternalPDBDataSet.begin();
-  for(; it != InternalPDBDataSet.end(); ++it)
+  if( !IsXML )
     {
-    const char *itname = it->GetName();
-    if( strcmp(name, itname) == 0 )
+    std::vector<PDBElement>::const_iterator it = InternalPDBDataSet.begin();
+    for(; it != InternalPDBDataSet.end(); ++it)
       {
-      return *it;
+      const char *itname = it->GetName();
+      if( strcmp(name, itname) == 0 )
+        {
+        return *it;
+        }
       }
     }
-    return GetPDBEEnd();
+  return GetPDBEEnd();
 }
 
 bool PDBHeader::FindPDBElementByName(const char *name)
 {
-  std::vector<PDBElement>::const_iterator it = InternalPDBDataSet.begin();
-  for(; it != InternalPDBDataSet.end(); ++it)
+  if( !IsXML )
     {
-    const char *itname = it->GetName();
-    if( strcmp(name, itname) == 0 )
+    std::vector<PDBElement>::const_iterator it = InternalPDBDataSet.begin();
+    for(; it != InternalPDBDataSet.end(); ++it)
       {
-      return true;
+      const char *itname = it->GetName();
+      if( strcmp(name, itname) == 0 )
+        {
+        return true;
+        }
       }
     }
   return false;

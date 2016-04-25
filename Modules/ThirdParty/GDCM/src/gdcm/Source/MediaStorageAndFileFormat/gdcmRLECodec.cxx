@@ -557,7 +557,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
 // Endif
 // Endloop
 
-size_t RLECodec::DecodeFragment(Fragment const & frag, char *buffer, unsigned long llen)
+size_t RLECodec::DecodeFragment(Fragment const & frag, char *buffer, size_t llen)
 {
 
   std::stringstream is;
@@ -585,7 +585,7 @@ size_t RLECodec::DecodeFragment(Fragment const & frag, char *buffer, unsigned lo
     std::streamoff check = bv.GetLength() - p;
     // check == 2 for gdcmDataExtra/gdcmSampleData/US_DataSet/GE_US/2929J686-breaker
     //assert( check == 0 || check == 1 || check == 2 );
-    if( check ) gdcmWarningMacro( "tiny offset detected in between RLE segments: " << check );
+    if( check ) gdcmDebugMacro( "tiny offset detected in between RLE segments: " << check );
     }
   else
     {
@@ -628,7 +628,7 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
     const unsigned long len = GetBufferLength();
     unsigned long pos = 0;
     // Each RLE Frame store a 2D frame. len is the 3d length
-    const unsigned long nframes = sf->GetNumberOfFragments();
+    const size_t nframes = sf->GetNumberOfFragments();
     const size_t zdim = Dimensions[2];
     if( nframes != zdim )
     {
@@ -636,7 +636,7 @@ bool RLECodec::Decode(DataElement const &in, DataElement &out)
       return false;
     }
     char *buffer = new char[len];
-    const unsigned long llen = len / nframes;
+    const std::size_t llen = len / nframes;
     // assert( GetNumberOfDimensions() == 2
     //      || GetDimension(2) == sf->GetNumberOfFragments() );
     bool corruption = false;
@@ -699,13 +699,13 @@ bool RLECodec::DecodeExtent(
 
     // handle DICOM padding
     std::streampos end = is.tellg();
-    size_t numberOfReadBytes = end - start;
+    size_t numberOfReadBytes = (size_t)(end - start);
     if( numberOfReadBytes > frag.GetVL() )
       {
       // Special handling for ALOKA_SSD-8-MONO2-RLE-SQ.dcm
       size_t diff = numberOfReadBytes - frag.GetVL();
       assert( diff == 1 );
-      os.seekp( -diff, std::ios::cur );
+      os.seekp( 0 - (int)diff, std::ios::cur );
       os.put( 0 );
       end = (size_t)end - 1;
       }
@@ -919,6 +919,7 @@ private:
 
 bool RLECodec::AppendRowEncode( std::ostream & os, const char * data, size_t datalen)
 {
+  (void)os; (void)data; (void)datalen;
   assert(0);
   return false;
 }

@@ -117,7 +117,7 @@ Retrieved from: http://en.literateprograms.org/Median_cut_algorithm_(C_Plus_Plus
     Point* points;
     int pointsLength;
   public:
-    Block(Point* points, int pointsLength);
+    Block(Point* points, std::ptrdiff_t pointsLength);
     Point * getPoints();
     int numPoints() const;
     int longestSideIndex() const;
@@ -138,11 +138,11 @@ Retrieved from: http://en.literateprograms.org/Median_cut_algorithm_(C_Plus_Plus
 
   //std::list<Point> medianCut(Point* image, int numPoints, unsigned int desiredSize);
 
-  Block::Block(Point* pts, int ptslen)
+  Block::Block(Point* pts, std::ptrdiff_t ptslen)
     {
     assert( ptslen > 0 );
     this->points = pts;
-    this->pointsLength = ptslen;
+    this->pointsLength = (int)ptslen;
     for(int i=0; i < NUM_DIMENSIONS; i++)
       {
       minCorner.x[i] = std::numeric_limits<unsigned char>::min();
@@ -294,7 +294,7 @@ Retrieved from: http://en.literateprograms.org/Median_cut_algorithm_(C_Plus_Plus
       for(int i = 0; i < numPoints; i++)
         {
         const unsigned char *currentcolor = inbuffer + 3 * i;
-        for(size_t j = 0; j < block.numPoints(); j++)
+        for(size_t j = 0; j < (size_t)block.numPoints(); j++)
           {
           assert( currentcolor < inbuffer + bvlen );
           assert( currentcolor + 3 <= inbuffer + bvlen );

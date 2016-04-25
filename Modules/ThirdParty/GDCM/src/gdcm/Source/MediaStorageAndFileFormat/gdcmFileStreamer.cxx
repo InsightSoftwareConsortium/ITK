@@ -111,7 +111,7 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
       off64_t read_start_offset = offset;
       while (bytes_to_move != 0)
         {
-        const size_t bytes_this_time = std::min((off64_t)BUFFERSIZE, bytes_to_move);
+        const size_t bytes_this_time = static_cast<size_t>(std::min((off64_t)BUFFERSIZE, bytes_to_move));
         const off64_t rd_off = read_start_offset;
         const off64_t wr_off = rd_off + inslen;
         if( FSeeko(pFile, rd_off, SEEK_SET) )
@@ -147,11 +147,11 @@ static bool prepare_file( FILE * pFile, const off64_t offset, const off64_t insl
 #endif
       if (sb.st_size > offset)
         {
-        size_t bytes_to_move = sb.st_size - offset;
+        off64_t bytes_to_move = sb.st_size - offset;
         off64_t read_end_offset = sb.st_size;
         while (bytes_to_move != 0)
           {
-          const size_t bytes_this_time = std::min(BUFFERSIZE, bytes_to_move);
+          const size_t bytes_this_time = static_cast<size_t>(std::min((off64_t)BUFFERSIZE, bytes_to_move));
           const off64_t rd_off = read_end_offset - bytes_this_time;
           assert( (off64_t)rd_off >= offset );
           const off64_t wr_off = rd_off + inslen;

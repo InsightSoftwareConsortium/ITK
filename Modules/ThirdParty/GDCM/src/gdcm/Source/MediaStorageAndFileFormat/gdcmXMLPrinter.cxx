@@ -53,7 +53,6 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
 
   const ByteValue *bv = de.GetByteValue();
   const SequenceOfItems *sqi = 0;
-  const Value &value = de.GetValue();
   const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
 
   std::string strowner;
@@ -114,6 +113,9 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
   assert( refvr != VR::US_SS );
   assert( refvr != VR::OB_OW );
 
+  if( !de.IsEmpty() )
+  {
+  const Value &value = de.GetValue();
   if( dynamic_cast<const SequenceOfItems*>( &value ) )
     {
     sqi = de.GetValueAsSQ();
@@ -128,6 +130,7 @@ VR XMLPrinter::PrintDataElement(std::ostream &os, const Dicts &dicts, const Data
     assert( refvr == VR::SQ );
     }
 #endif
+  }
 
   if( (vr_read == VR::INVALID || vr_read == VR::UN ) && vl_read.IsUndefined() )
     {
@@ -496,6 +499,7 @@ void XMLPrinter::PrintDataSet(const DataSet &ds, const TransferSyntax & ts, std:
         	}        
         }
       */
+      delete[] bulkData;
       }
     else
       {

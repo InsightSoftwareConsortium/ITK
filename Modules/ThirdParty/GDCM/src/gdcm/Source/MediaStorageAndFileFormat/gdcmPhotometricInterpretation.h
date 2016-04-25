@@ -29,7 +29,7 @@ class GDCM_EXPORT PhotometricInterpretation
 {
 public:
   typedef enum {
-    UNKNOW = 0,
+    UNKNOWN = 0,
     MONOCHROME1,
     MONOCHROME2,
     PALETTE_COLOR,
@@ -49,7 +49,7 @@ public:
     PI_END  // Helpfull for internal implementation
   } PIType; // PhotometricInterpretationType
 
-  PhotometricInterpretation(PIType pi = UNKNOW):PIField(pi) {}
+  PhotometricInterpretation(PIType pi = UNKNOWN):PIField(pi) {}
 
   static const char *GetPIString(PIType pi);
 

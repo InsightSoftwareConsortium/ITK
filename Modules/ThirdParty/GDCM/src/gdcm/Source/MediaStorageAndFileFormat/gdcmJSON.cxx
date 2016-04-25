@@ -21,6 +21,16 @@
 #include <json.h>
 #endif
 
+#ifdef GDCM_HAVE_JSON_OBJECT_OBJECT_GET_EX
+// https://github.com/json-c/json-c/issues/142
+static inline json_object * json_object_object_get_old(json_object * obj, const char * name) {
+    json_object * sub;
+    return json_object_object_get_ex(obj, name, & sub) ? sub : NULL;
+}
+#else
+#define json_object_object_get_old json_object_object_get
+#endif
+
 /*
  * Implementation is done based on Sup166, which may change in the future.
  */
@@ -576,14 +586,14 @@ static void ProcessJSONElement( const char *tag_str, json_object * obj, DataElem
 {
   json_type jtype = json_object_get_type( obj );
   assert( jtype == json_type_object );
-  json_object * jvr = json_object_object_get(obj, "VR");
+  json_object * jvr = json_object_object_get_old(obj, "VR");
 
   const char * vr_str = json_object_get_string ( jvr );
   de.GetTag().ReadFromContinuousString( tag_str );
   const char * pc_str = 0;
   if( de.GetTag().IsPrivate() && !de.GetTag().IsPrivateCreator() )
     {
-    json_object * jprivatecreator = json_object_object_get(obj, "PrivateCreator");
+    json_object * jprivatecreator = json_object_object_get_old(obj, "PrivateCreator");
     pc_str = json_object_get_string ( jprivatecreator );
     assert( pc_str );
     }
@@ -595,11 +605,11 @@ static void ProcessJSONElement( const char *tag_str, json_object * obj, DataElem
 
   if( vrtype == VR::SQ )
     {
-    json_object * jvalue = json_object_object_get(obj, "Value");
+    json_object * jvalue = json_object_object_get_old(obj, "Value");
     json_type jvaluetype = json_object_get_type( jvalue );
     assert( jvaluetype != json_type_null && jvaluetype == json_type_array  );
 #ifndef NDEBUG
-    json_object * jseq = json_object_object_get(obj, "Sequence");
+    json_object * jseq = json_object_object_get_old(obj, "Sequence");
     json_type jsqtype = json_object_get_type( jseq );
     assert( jsqtype == json_type_null );
 #endif
@@ -655,9 +665,9 @@ static void ProcessJSONElement( const char *tag_str, json_object * obj, DataElem
     with the value of "null". For example:
     "Value": [ null ]
 */
-    json_object * jvalue = json_object_object_get(obj, "Value");
+    json_object * jvalue = json_object_object_get_old(obj, "Value");
 #ifndef NDEBUG
-    json_object * jpn = json_object_object_get(obj, "PersonName");
+    json_object * jpn = json_object_object_get_old(obj, "PersonName");
     json_type jpntype = json_object_get_type( jpn );
     assert( jpntype == json_type_null );
 #endif
@@ -686,9 +696,9 @@ static void ProcessJSONElement( const char *tag_str, json_object * obj, DataElem
           case VR::PN:
               {
               json_object * jopn[3];
-              jopn[0] = json_object_object_get(value, "Alphabetic");
-              jopn[1]= json_object_object_get(value, "Ideographic");
-              jopn[2]= json_object_object_get(value, "Phonetic");
+              jopn[0] = json_object_object_get_old(value, "Alphabetic");
+              jopn[1]= json_object_object_get_old(value, "Ideographic");
+              jopn[2]= json_object_object_get_old(value, "Phonetic");
               for( int i = 0; i < 3; ++i )
                 {
                 const char *tmp = json_object_get_string ( jopn[i] );
@@ -740,9 +750,9 @@ static void ProcessJSONElement( const char *tag_str, json_object * obj, DataElem
     }
   else
     {
-    json_object * jvaluebin = json_object_object_get(obj, "InlineBinary");
+    json_object * jvaluebin = json_object_object_get_old(obj, "InlineBinary");
     json_type jvaluebintype = json_object_get_type( jvaluebin );
-    json_object * jvalue = json_object_object_get(obj, "Value");
+    json_object * jvalue = json_object_object_get_old(obj, "Value");
     json_type jvaluetype = json_object_get_type( jvalue );
     //const char * dummy = json_object_to_json_string ( jvalue );
     assert( jvaluetype == json_type_array || jvaluetype == json_type_null );

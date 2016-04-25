@@ -64,6 +64,30 @@ bool PresentationContextGenerator::GenerateFromUID(UIDs::TSName asname)
   return true;
 }
 
+bool PresentationContextGenerator::AddFromFile(const File &file)
+{
+  Tag sopclass(0x8,0x16);
+  DataSet const & ds = file.GetDataSet();
+  if( ds.FindDataElement( sopclass ) )
+    {
+    // by design gdcmscu will not send/retrieve a dataset that cannot be read
+    // this should not be too restricitive
+    const TransferSyntax &fmits = file.GetHeader().GetDataSetTransferSyntax();
+    const char *tsuidvalue = fmits.GetString();
+
+    const DataElement &tsde = ds.GetDataElement( sopclass );
+    // Passing pointer directly. We do not try to analyze what Media Storage
+    // it is. We should be able to support to send/receive unknwon media storage
+    const ByteValue *bv = tsde.GetByteValue();
+    std::string buffer( bv->GetPointer(), bv->GetLength() );
+    const char *sopclassvalue = buffer.c_str();
+
+    AddPresentationContext( sopclassvalue, tsuidvalue );
+    return true;
+    }
+  return false;
+}
+
 bool PresentationContextGenerator::GenerateFromFilenames(const Directory::FilenamesType &filenames)
 {
   PresContext.clear();
@@ -75,17 +99,6 @@ bool PresentationContextGenerator::GenerateFromFilenames(const Directory::Filena
   Tag tsuid(0x2,0x10);
   Tag mediasopclass(0x2,0x2);
   Tag sopclass(0x8,0x16);
-#if 0
-  Scanner sc;
-  sc.AddTag( tsuid );
-  sc.AddTag( mediasopclass );
-  sc.AddTag( sopclass );
-  if( !sc.Scan( filenames ) )
-    {
-    gdcmErrorMacro( "Could not scan filenames" );
-    return 1;
-    }
-#endif
 
   Directory::FilenamesType::const_iterator file = filenames.begin();
   std::set<Tag> skiptags;
@@ -101,26 +114,7 @@ bool PresentationContextGenerator::GenerateFromFilenames(const Directory::Filena
     // TS encoded file. We should not need to read up to tag 8,16 ...
     if( reader.ReadUpToTag( sopclass, skiptags ) )
       {
-      DataSet const & ds = reader.GetFile().GetDataSet();
-      if( ds.FindDataElement( sopclass ) )
-        {
-        // by design gdcmscu will not send/retrieve a dataset that cannot be read
-        // this should not be too restricitive
-        const TransferSyntax &fmits = reader.GetFile().GetHeader().GetDataSetTransferSyntax();
-        //const char *tsuidvalue = sc.GetValue(fn, tsuid);
-        const char *tsuidvalue = fmits.GetString();
-        //const char *sopclassvalue = sc.GetValue(fn, sopclass );
-
-        const DataElement &tsde = ds.GetDataElement( sopclass );
-        //const char *sopclassvalue = sc.GetValue(fn, sopclass );
-        // Passing pointer directly. We do not try to analyze what Media Storage
-        // it is. We should be able to support to send/receive unknwon media storage
-        const ByteValue *bv = tsde.GetByteValue();
-        std::string buffer( bv->GetPointer(), bv->GetLength() );
-        const char *sopclassvalue = buffer.c_str();
-
-        AddPresentationContext( sopclassvalue, tsuidvalue );
-        }
+      AddFromFile( reader.GetFile() );
       }
     else
       {

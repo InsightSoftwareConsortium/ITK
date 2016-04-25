@@ -704,7 +704,7 @@ bool Reader::InternalReadCommon(const T_Caller &caller)
         }
       }
 #else
-    gdcmDebugMacro( ex.what() );
+    gdcmDebugMacro( ex.what() ); (void)ex;
     success = false;
 #endif /* GDCM_SUPPORT_BROKEN_IMPLEMENTATION */
     }
@@ -1017,7 +1017,7 @@ void Reader::SetFileName(const char *filename)
 
 size_t Reader::GetStreamCurrentPosition() const
 {
-  return GetStreamPtr()->tellg();
+  return static_cast<size_t>(GetStreamPtr()->tellg());
 }
 
 

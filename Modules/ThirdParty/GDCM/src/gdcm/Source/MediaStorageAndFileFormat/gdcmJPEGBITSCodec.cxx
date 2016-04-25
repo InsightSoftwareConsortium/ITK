@@ -1238,7 +1238,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
   case PhotometricInterpretation::ARGB:
   case PhotometricInterpretation::CMYK:
     // TODO !
-  case PhotometricInterpretation::UNKNOW:
+  case PhotometricInterpretation::UNKNOWN:
   case PhotometricInterpretation::PI_END: // To please compiler
     return false;
     }
@@ -1451,7 +1451,7 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
     case PhotometricInterpretation::ARGB:
     case PhotometricInterpretation::CMYK:
       // TODO !
-    case PhotometricInterpretation::UNKNOW:
+    case PhotometricInterpretation::UNKNOWN:
     case PhotometricInterpretation::PI_END: // To please compiler
       return false;
       }

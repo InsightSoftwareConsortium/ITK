@@ -45,7 +45,7 @@ public:
 namespace network{
 
 std::vector<PresentationDataValue> CStoreRQ::ConstructPDV(
-const ULConnection &inConnection, File const & file )
+const ULConnection &inConnection, File const & file, bool writeDataSet /*=true*/ )
 {
 const DataSet* inDataSet = &file.GetDataSet();
 
@@ -213,6 +213,8 @@ static uint32_t messageid = 1;
   thePDVs.push_back(thePDV);
 }
 
+if( !writeDataSet )
+	return thePDVs ;
   // now let's chunk'ate the dataset:
 {
   std::stringstream ss;

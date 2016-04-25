@@ -2,7 +2,7 @@
 
   Program: GDCM (Grassroots DICOM). A DICOM library
 
-  Copyright (c) 2006-2011 Mathieu Malaterre
+  Copyright (c) 2006-2016 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -43,9 +43,7 @@
 #define snprintf _snprintf
 #endif
 #ifdef __APPLE__
-#include <CoreFoundation/CFBase.h>
-#include <CoreFoundation/CFBundle.h>
-#include <CoreFoundation/CFURL.h>
+#include <CoreFoundation/CoreFoundation.h>
 #endif // __APPLE__
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__WATCOMC__) ||defined(__BORLANDC__) || defined(__MINGW32__))
@@ -398,51 +396,6 @@ size_t System::FileSize(const char* filename)
   return size2;
 }
 
-#if 0
-const char *System::GetCurrentDataDirectory()
-{
-#ifdef _WIN32
-  static char path[MAX_PATH];
-  gdcm::Filename fn( GetCurrentProcessFileName() );
-  if ( !fn.IsEmpty() )
-    {
-    std::string str = fn.GetPath();
-    str += "/../" GDCM_INSTALL_DATA_DIR;
-    strcpy(path, str.c_str());
-    return path;
-    }
-#else
-
-  static char path[PATH_MAX];
-
-#ifdef __APPLE__
-  Boolean success = false;
-  CFURLRef pathURL = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
-  if (pathURL != NULL)
-    {
-    success = CFURLGetFileSystemRepresentation(pathURL, true /*resolveAgainstBase*/, (unsigned char*) path, PATH_MAX);
-    CFRelease(pathURL);
-    }
-  if (success)
-    {
-    strncat(path, "/" GDCM_INSTALL_DATA_DIR, PATH_MAX);
-    return path;
-    }
-#endif
-
-  gdcm::Filename fn( GetCurrentProcessFileName() );
-  if ( !fn.IsEmpty() )
-    {
-    std::string str = fn.GetPath();
-    str += "/../" GDCM_INSTALL_DATA_DIR;
-    strcpy(path, str.c_str());
-    return path;
-    }
-#endif
-  return 0;
-}
-#endif
-
 /*
  * TODO:
  * check cygwin
@@ -450,9 +403,6 @@ const char *System::GetCurrentDataDirectory()
  * check solaris
  * check hpux
  * check os2: DosGetInfoBlocks / DosQueryModuleName
- * check macosx :
- *  ProcessSerialNumber psn = {kNoProcess, kCurrentProcess};
- *  GetProcessInformation -> FSMakeFSSpec
  * ...
  */
 const char *System::GetCurrentProcessFileName()
@@ -464,7 +414,6 @@ const char *System::GetCurrentProcessFileName()
     return buf;
     }
 #elif defined(__APPLE__)
-  //  _NSGetExecutablePath()
   static char buf[PATH_MAX];
   Boolean success = false;
   CFURLRef pathURL = CFBundleCopyExecutableURL(CFBundleGetMainBundle());
@@ -544,7 +493,7 @@ const char *System::GetCurrentResourcesDirectory()
     }
   if (success)
     {
-    strncat(path, "/" GDCM_INSTALL_DATA_DIR, PATH_MAX);
+    strlcat(path, "/" GDCM_INSTALL_DATA_DIR, PATH_MAX);
     return path;
     }
 #endif

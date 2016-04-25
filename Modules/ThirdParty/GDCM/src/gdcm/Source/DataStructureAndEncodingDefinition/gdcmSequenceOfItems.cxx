@@ -25,6 +25,14 @@ void SequenceOfItems::AddItem(Item const &item)
     }
 }
 
+Item & SequenceOfItems::AddNewUndefinedLengthItem()
+{
+	Item itemToAdd ;
+	itemToAdd.SetVLToUndefined();
+	this->AddItem( itemToAdd );
+	return GetItem( this->GetNumberOfItems() );
+}
+
 void SequenceOfItems::Clear()
 {
   Items.clear();

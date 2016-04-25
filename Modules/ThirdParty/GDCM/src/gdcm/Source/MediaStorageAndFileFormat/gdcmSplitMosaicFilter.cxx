@@ -81,11 +81,14 @@ bool SplitMosaicFilter::ComputeMOSAICDimensions( unsigned int dims[3] )
     PrivateTag t2 (0x0019,0x0a, "SIEMENS MR HEADER");
     const DataElement &de = ds.GetDataElement( t2 );
     const ByteValue * bv = de.GetByteValue();
-    Element<VR::US, VM::VM1> el1 = {};
-    std::istringstream is;
-    is.str( std::string( bv->GetPointer(), bv->GetLength() ) );
-    el1.Read( is );
-    numberOfImagesInMosaic = el1.GetValue();
+    if( bv )
+    {
+      Element<VR::US, VM::VM1> el1 = {{0}};
+      std::istringstream is;
+      is.str( std::string( bv->GetPointer(), bv->GetLength() ) );
+      el1.Read( is );
+      numberOfImagesInMosaic = el1.GetValue();
+    }
   }
   if( !numberOfImagesInMosaic )
   {

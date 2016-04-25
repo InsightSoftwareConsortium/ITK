@@ -40,6 +40,9 @@ public:
   /// Write
   bool Write(); // Execute()
 
+  /// internal function used to compute a target MediaStorage the most appropriate
+  /// User may want to call this function ahead of time (before Write)
+  MediaStorage ComputeTargetMediaStorage();
 protected:
 
 private:

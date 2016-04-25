@@ -37,7 +37,8 @@ namespace gdcm {
 class ULEvent {
       EEventID mEvent;
       std::vector<BasePDU*> mBasePDU;
-
+	  std::istream * m_pStream ;
+	  std::streampos m_posDataSet ;
       void DeletePDUVector(){
         std::vector<BasePDU*>::iterator baseItor;
         for (baseItor = mBasePDU.begin(); baseItor < mBasePDU.end(); baseItor++){
@@ -49,13 +50,17 @@ class ULEvent {
       }
 
     public:
-      ULEvent(const EEventID& inEventID, std::vector<BasePDU*> const & inBasePDU){
+      ULEvent(const EEventID& inEventID, std::vector<BasePDU*> inBasePDU, std::istream * iStream = NULL, std::streampos posDataSet = 0 ){
         mEvent = inEventID;
         mBasePDU = inBasePDU;
+ 		m_pStream = iStream ;
+ 		m_posDataSet = posDataSet ; 
       }
-      ULEvent(const EEventID& inEventID, BasePDU* inBasePDU){
+      ULEvent(const EEventID& inEventID, BasePDU* inBasePDU, std::istream * iStream = NULL, std::streampos posDataSet = 0 ){
         mEvent = inEventID;
         mBasePDU.push_back(inBasePDU);
+ 		m_pStream = iStream ;
+ 		m_posDataSet = posDataSet ; 
       }
       ~ULEvent(){
         DeletePDUVector();
@@ -63,6 +68,8 @@ class ULEvent {
 
       EEventID GetEvent() const { return mEvent; }
       std::vector<BasePDU*> const & GetPDUs() const { return mBasePDU; }
+ 	  std::istream * GetIStream() const { return m_pStream; }
+ 	  std::streampos GetDataSetPos() const { return m_posDataSet; }
 
       void SetEvent(const EEventID& inEvent) { mEvent = inEvent; }
       void SetPDU(std::vector<BasePDU*> const & inPDU) {
