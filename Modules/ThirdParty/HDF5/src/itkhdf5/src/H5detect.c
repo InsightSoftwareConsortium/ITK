@@ -58,6 +58,20 @@ static const char *FileHeader = "\n\
 #include "H5Tpublic.h"
 #include "H5Rpublic.h"
 
+/* This file performs several undefined behaviors, suppress Undefined
+ * Behavior Sanitizer (UBSan) from warning.
+ */
+#if defined(__clang__)
+    #if __has_attribute(no_sanitize)
+        #define HDF_NO_UBSAN __attribute__((no_sanitize("undefined")))
+    #else
+        #define HDF_NO_UBSAN
+    #endif
+#else
+     #define HDF_NO_UBSAN
+#endif
+
+
 #define MAXDETECT 64
 
 /* The ALIGNMENT test code may generate the SIGBUS or SIGSEGV signals. We use
@@ -1278,7 +1292,7 @@ bit.\n";
  *-------------------------------------------------------------------------
  */
 static void
-detect_C89_integers(void)
+detect_C89_integers(void) HDF_NO_UBSAN
 {
     DETECT_I(signed char,	  SCHAR,        d_g[nd_g]); nd_g++;
     DETECT_I(unsigned char,	  UCHAR,        d_g[nd_g]); nd_g++;
@@ -1306,7 +1320,7 @@ detect_C89_integers(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_C89_floats(void)
+detect_C89_floats(void) HDF_NO_UBSAN
 {
     DETECT_F(float,		  FLOAT,        d_g[nd_g]); nd_g++;
     DETECT_F(double,		  DOUBLE,       d_g[nd_g]); nd_g++;
@@ -1328,7 +1342,7 @@ detect_C89_floats(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_C99_integers8(void)
+detect_C99_integers8(void) HDF_NO_UBSAN
 {
 #if H5_SIZEOF_INT8_T>0
     DETECT_I(int8_t, 		  INT8,         d_g[nd_g]); nd_g++;
@@ -1366,7 +1380,7 @@ detect_C99_integers8(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_C99_integers16(void)
+detect_C99_integers16(void) HDF_NO_UBSAN
 {
 #if H5_SIZEOF_INT16_T>0
     DETECT_I(int16_t, 		  INT16,        d_g[nd_g]); nd_g++;
@@ -1404,7 +1418,7 @@ detect_C99_integers16(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_C99_integers32(void)
+detect_C99_integers32(void) HDF_NO_UBSAN
 {
 #if H5_SIZEOF_INT32_T>0
     DETECT_I(int32_t, 		  INT32,        d_g[nd_g]); nd_g++;
@@ -1442,7 +1456,7 @@ detect_C99_integers32(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_C99_integers64(void)
+detect_C99_integers64(void) HDF_NO_UBSAN
 {
 #if H5_SIZEOF_INT64_T>0
     DETECT_I(int64_t, 		  INT64,        d_g[nd_g]); nd_g++;
@@ -1493,7 +1507,7 @@ detect_C99_integers64(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_C99_integers(void)
+detect_C99_integers(void) HDF_NO_UBSAN
 {
     /* break it down to more subroutines so that each module subroutine */
     /* is smaller and takes less time to compile with optimization on.  */
@@ -1519,7 +1533,7 @@ detect_C99_integers(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_C99_floats(void)
+detect_C99_floats(void) HDF_NO_UBSAN
 {
 #if H5_SIZEOF_DOUBLE == H5_SIZEOF_LONG_DOUBLE
     /*
@@ -1550,7 +1564,7 @@ detect_C99_floats(void)
  *-------------------------------------------------------------------------
  */
 static void
-detect_alignments(void)
+detect_alignments(void) HDF_NO_UBSAN
 {
     /* Detect structure alignment for pointers, hvl_t, hobj_ref_t, hdset_reg_ref_t */
     DETECT_M(void *,              POINTER,      m_g[na_g]); na_g++;
@@ -1568,6 +1582,13 @@ detect_alignments(void)
  */
 static int verify_signal_handlers(int signum, void (*handler)(int))
 {						      
+    /* Under Address Sanitizer, don't raise any signals. */
+#if defined(__has_feature)
+#if __has_feature(address_sanitizer)
+    return 0;
+#endif
+#endif
+
     void	(*save_handler)(int) = HDsignal(signum, handler);    
     int i, val;
     int ntries=5;
