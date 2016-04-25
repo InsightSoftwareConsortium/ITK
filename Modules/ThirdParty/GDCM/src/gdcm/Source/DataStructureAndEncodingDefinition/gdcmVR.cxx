@@ -223,8 +223,9 @@ unsigned int VR::GetSizeof() const
 
 int VR::GetIndex(VRType vr)
 {
-  assert( vr <= VR_END );
+  if( vr == VR::VL32 ) return 0;
   int l;
+  assert( vr <= VR_END );
   switch(vr)
     {
   case INVALID:
@@ -306,6 +307,15 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
     std::lower_bound(start, end, vr, MySort());
   if( (*p)[0] != vr[0] || (*p)[1] != vr[1] )
     {
+    // https://groups.google.com/d/msg/comp.protocols.dicom/0ata_3lpjF4/xlkjOKRGBwAJ
+    // http://dicom.nema.org/medical/dicom/current/output/chtml/part05/chapter_E.html
+    if( vr[0] >= ' ' && vr[0] <= '~'
+     && vr[1] >= ' ' && vr[1] <= '~' ) // FIXME Control Char LF/FF/CR TAB and ESC should be accepted
+      {
+      // newly added VR ?
+      // we are not capable of preserving the original VR. this is accepted behavior
+      return VR::UN;
+      }
     return VR::INVALID;
     }
   assert( (*p)[0] == vr[0] && (*p)[1] == vr[1] );

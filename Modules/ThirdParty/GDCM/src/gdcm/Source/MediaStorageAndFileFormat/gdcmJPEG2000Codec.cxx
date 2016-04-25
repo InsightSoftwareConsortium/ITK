@@ -233,7 +233,7 @@ void JPEG2000Codec::SetRate(unsigned int idx, double rate)
 
 double JPEG2000Codec::GetRate(unsigned int idx ) const
 {
-  return Internals->coder_param.tcp_rates[idx];
+  return (double)Internals->coder_param.tcp_rates[idx];
 }
 
 void JPEG2000Codec::SetQuality(unsigned int idx, double q)
@@ -248,7 +248,7 @@ void JPEG2000Codec::SetQuality(unsigned int idx, double q)
 
 double JPEG2000Codec::GetQuality(unsigned int idx) const
 {
-  return Internals->coder_param.tcp_distoratio[idx];
+  return (double)Internals->coder_param.tcp_distoratio[idx];
 }
 
 void JPEG2000Codec::SetTileSize(unsigned int tx, unsigned int ty)
@@ -320,10 +320,10 @@ bool JPEG2000Codec::Decode(DataElement const &in, DataElement &out)
       std::stringstream is;
       size_t j2kbv_len = j2kbv->GetLength();
       char *mybuffer = new char[j2kbv_len];
-      bool b = j2kbv->GetBuffer(mybuffer, j2kbv_len);
-      assert( b );
+      bool b = j2kbv->GetBuffer(mybuffer, (unsigned long)j2kbv_len);
       if( b ) is.write(mybuffer, j2kbv_len);
       delete[] mybuffer;
+      if( !b ) return false;
 
       try {
         sf_bug->Read<SwapperNoOp>(is,true);
@@ -371,7 +371,7 @@ bool JPEG2000Codec::Decode(DataElement const &in, DataElement &out)
       const Fragment &frag = sf->GetFragment(i);
       if( frag.IsEmpty() ) return false;
       const ByteValue *bv = frag.GetByteValue();
-      assert( bv );
+      if( !bv ) return false;
       size_t bv_len = bv->GetLength();
       char *mybuffer = new char[bv_len];
       bv->GetBuffer(mybuffer, bv->GetLength());
@@ -1307,6 +1307,7 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
 #endif // OPENJPEG_MAJOR_VERSION == 1
 
   int reversible;
+  int mct;
 #if OPENJPEG_MAJOR_VERSION == 1
   opj_j2k_t* j2k = NULL;
   opj_jp2_t* jp2 = NULL;
@@ -1317,11 +1318,13 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     j2k = (opj_j2k_t*)dinfo->j2k_handle;
     assert( j2k );
     reversible = j2k->cp->tcps->tccps->qmfbid;
+    mct = j2k->cp->tcps->mct;
     break;
   case JP2_CFMT:
     jp2 = (opj_jp2_t*)dinfo->jp2_handle;
     assert( jp2 );
     reversible = jp2->j2k->cp->tcps->tccps->qmfbid;
+    mct = jp2->j2k->cp->tcps->mct;
     break;
   default:
     gdcmErrorMacro( "Impossible happen" );
@@ -1330,6 +1333,8 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
 #else
   reversible = opj_get_reversible(dinfo, &parameters );
   assert( reversible == 0 || reversible == 1 );
+  // FIXME
+  assert( mct == 0 || mct == 1 );
 #endif // OPENJPEG_MAJOR_VERSION == 1
   LossyFlag = !reversible;
 
@@ -1421,7 +1426,10 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     profiles. Note in particular that the JP2 file header is not sent in the JPEG
     2000 bitstream that is encapsulated in DICOM.
      */
-    PI = PhotometricInterpretation::YBR_RCT;
+    if( mct )
+      PI = PhotometricInterpretation::YBR_RCT;
+    else
+      PI = PhotometricInterpretation::RGB;
     this->PF.SetSamplesPerPixel( 3 );
     }
   else if( image->numcomps == 4 )
@@ -1440,10 +1448,10 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
     return false;
     }
 
-  assert( PI != PhotometricInterpretation::UNKNOW );
+  assert( PI != PhotometricInterpretation::UNKNOWN );
 
-  bool mct = false;
-  if( mct )
+  bool bmct = false;
+  if( bmct )
     {
     if( reversible )
       {
@@ -1602,7 +1610,7 @@ bool JPEG2000Codec::DecodeExtent(
       //std::streamoff relstart = is.tellg();
       //assert( relstart - thestart == 8 );
       std::streamoff off = frag.GetVL();
-      offsets.push_back( off );
+      offsets.push_back( (size_t)off );
       is.seekg( off, std::ios::cur );
       ++numfrags;
       }

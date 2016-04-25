@@ -990,6 +990,13 @@ bool CSAHeader::LoadFromDataElement(DataElement const &de)
     gdcmErrorMacro( "Too short" );
     return false;
     }
+  // Some silly software consider the tag to be OW, therefore they byteswap it !!! sigh
+  if( strcmp( signature, "VS01" ) == 0 )
+  {
+    SwapperDoOp::SwapArray( (unsigned short*)s.c_str(), (s.size() + 1) / 2 );
+    ss.str( s );
+    ss.read(signature, 4);
+  }
   //std::cout << signature << std::endl;
   // 1. NEW FORMAT
   // 2. OLD FORMAT

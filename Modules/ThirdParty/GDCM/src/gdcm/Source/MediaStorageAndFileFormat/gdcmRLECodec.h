@@ -79,7 +79,7 @@ private:
   RLEInternals *Internals;
   unsigned long Length;
   unsigned long BufferLength;
-  size_t DecodeFragment(Fragment const & frag, char *buffer, unsigned long llen);
+  size_t DecodeFragment(Fragment const & frag, char *buffer, size_t llen);
 };
 
 } // end namespace gdcm

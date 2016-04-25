@@ -70,7 +70,7 @@ int source::read_into_segments( char * out, int len, image_info const & ii )
     else
       {
       assert( 0 ); // not implemented
-      throw std::invalid_argument(" not implemented" );
+      //throw std::invalid_argument(" not implemented" );
       return -1;
       }
     }

@@ -83,7 +83,7 @@ struct fnv_hash
 
     while( pFirst < pLast )
       {
-      nHashVal ^= *pFirst++,
+      nHashVal ^= *pFirst++;
       nHashVal *= nMagicPrime;
       }
 
@@ -212,6 +212,7 @@ bool UIDGenerator::IsValid(const char *uid_)
    * this is considered as a separator for components
    */
 
+  if( !uid_ ) return false;
   std::string uid = uid_;
   if( uid.size() > 64 || uid.empty() )
     {

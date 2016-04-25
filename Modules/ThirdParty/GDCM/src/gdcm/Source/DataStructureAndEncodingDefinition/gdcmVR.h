@@ -152,8 +152,19 @@ public:
     is.read(vr, 2);
     VRField = GetVRTypeFromFile(vr);
     assert( VRField != VR::VR_END );
-    //assert( VRField != VR::INVALID );
-    if( VRField == VR::INVALID ) throw Exception( "INVALID VR" );
+    if( VRField == VR::INVALID )
+    {
+      // \0\2 Data/TheralysGDCM120Bug.dcm
+      // \0\0 Data/MR_Philips_Intera_PrivateSequenceExplicitVR_in_SQ_2001_e05f_item_wrong_lgt_use_NOSHADOWSEQ.dcm
+      // \0\4 Data/BugGDCM2_UndefItemWrongVL.dcm
+      // \44\0 Data/gdcm-MR-PHILIPS-16-Multi-Seq.dcm
+      // \0\20 Data/ExplicitVRforPublicElementsImplicitVRforShadowElements.dcm
+      // \0\3 Data/DMCPACS_ExplicitImplicit_BogusIOP.dcm
+      // \0\4 Data/THERALYS-12-MONO2-Uncompressed-Even_Length_Tag.dcm
+      // \0\4 Data/PrivateGEImplicitVRBigEndianTransferSyntax16Bits.dcm
+      // \0\4 Data/GE_DLX-8-MONO2-PrivateSyntax.dcm
+      throw Exception( "INVALID VR" );
+    }
     if( VRField & VL32 )
       {
 #if 0

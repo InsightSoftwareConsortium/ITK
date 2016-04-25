@@ -59,7 +59,10 @@ public:
     { return Pointer; }
 
   ObjectType& operator * () const
-    { return *Pointer; }
+    {
+    assert( Pointer );
+    return *Pointer; 
+    }
 
   /// Return pointer to object.
   operator ObjectType * () const

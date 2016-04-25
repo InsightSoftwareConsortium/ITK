@@ -79,7 +79,7 @@ void Image::SetOrigin(const float *ori)
   Origin.resize( NumberOfDimensions );
   for(unsigned int i = 0; i < NumberOfDimensions; ++i)
     {
-    Origin[i] = ori[i];
+    Origin[i] = static_cast<double>(ori[i]);
     }
 }
 
@@ -119,7 +119,7 @@ void Image::SetDirectionCosines(const float *dircos)
   DirectionCosines.resize( 6 );
   for(int i = 0; i < 6; ++i)
     {
-    DirectionCosines[i] = dircos[i];
+    DirectionCosines[i] = static_cast<double>(dircos[i]);
     }
 }
 

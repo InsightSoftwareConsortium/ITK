@@ -78,6 +78,8 @@ private:
   int readprotocoldatablock(const char *input, size_t inputlen, bool verbose);
   std::vector<PDBElement> InternalPDBDataSet;
   static PDBElement PDBEEnd;
+  bool IsXML;
+  std::string xmltxt;
 };
 //-----------------------------------------------------------------------------
 inline std::ostream& operator<<(std::ostream &os, const PDBHeader &d)

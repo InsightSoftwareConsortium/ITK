@@ -21,6 +21,16 @@
 #include <map>
 #include <algorithm> // sort
 
+#ifdef _MSC_VER
+#pragma warning (disable : 4068 ) /* disable unknown pragma warnings */
+#endif
+// See : POD value-init, see GCC #36750
+/* Test for GCC < 5.1.1 */
+/* GCC 4.2 reports: error: #pragma GCC diagnostic not allowed inside functions */
+#if GCC_VERSION < 50101
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#endif
+
 namespace gdcm
 {
 
@@ -412,7 +422,6 @@ bool FileAnonymizer::ComputeEmptyTagPosition()
 
   return true;
 }
-
 bool FileAnonymizer::Write()
 {
   if( Internals->OutputFilename.empty() ) return false;

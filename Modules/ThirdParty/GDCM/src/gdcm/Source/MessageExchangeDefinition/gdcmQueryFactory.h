@@ -58,6 +58,8 @@ namespace gdcm{
 class GDCM_EXPORT QueryFactory
 {
 public:
+	
+	static BaseQuery* ProduceQuery( const std::string & sopInstanceUID, ENQueryType inQueryType );
   /// this function will produce a query (basically, a wrapper to a dataset that
   /// can validate whether or not the query is a valid cfind/cmove query) and the
   /// level of the query (patient, study, series, image). If the user provides

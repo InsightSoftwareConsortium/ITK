@@ -29,7 +29,7 @@ SurfaceReader::~SurfaceReader()
 
 unsigned long SurfaceReader::GetNumberOfSurfaces() const
 {
-  return Segments.size();
+  return (unsigned long)Segments.size();
 }
 
 bool SurfaceReader::Read()

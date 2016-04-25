@@ -70,7 +70,7 @@ public:
   //typedef TagToStringMap TagToValue;
   typedef TagToValue::value_type TagToValueValueType;
 
-  /// Add a tag that will need to be read. Those are root level skip tags
+  /// Add a tag that will need to be read. Those are root level tags
   void AddTag( Tag const & t );
   void ClearTags();
 

@@ -136,7 +136,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
   const char subdelim[] = "[]@='";
 
   char *str1, *str2, *token, *subtoken;
-  char *saveptr1, *saveptr2;
+  char *saveptr1= NULL, *saveptr2;
   int j;
 
   //bool dicomnativemodel = false;//unused
@@ -221,6 +221,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
     }
   if( state != 2 )
     {
+    free( query );
     return false;
     }
   free( query );
@@ -495,6 +496,7 @@ std::string StringFilter::FromString(const Tag&t, const char * value, VL const &
       } \
     break
 
+#if 0
 static inline size_t count_backslash(const char *s, size_t len)
 {
   assert( s );
@@ -508,6 +510,7 @@ static inline size_t count_backslash(const char *s, size_t len)
     }
   return c;
 }
+#endif
 
 std::string StringFilter::FromString(const Tag&t, const char * value, size_t len)
 {

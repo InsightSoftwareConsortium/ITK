@@ -36,7 +36,7 @@ ImageCodec::ImageCodec()
   PlanarConfiguration = 0;
   RequestPlanarConfiguration = false;
   RequestPaddedCompositePixelCode = false;
-  PI = PhotometricInterpretation::UNKNOW;
+  PI = PhotometricInterpretation::UNKNOWN;
   //LUT = LookupTable(LookupTable::UNKNOWN);
   LUT = new LookupTable;
   NeedByteSwap = false;
@@ -466,7 +466,7 @@ bool ImageCodec::Decode(DataElement const &, DataElement &)
 bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 {
   assert( PlanarConfiguration == 0 || PlanarConfiguration == 1);
-  assert( PI != PhotometricInterpretation::UNKNOW );
+  assert( PI != PhotometricInterpretation::UNKNOWN );
   std::stringstream bs_os; // ByteSwap
   std::stringstream pcpc_os; // Padded Composite Pixel Code
   std::stringstream pi_os; // PhotometricInterpretation

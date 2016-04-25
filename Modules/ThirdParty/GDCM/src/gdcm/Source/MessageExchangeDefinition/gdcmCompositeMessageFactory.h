@@ -43,7 +43,7 @@ class CompositeMessageFactory
       //this approach without a base class (but done internally) is useful.
       static std::vector<PresentationDataValue> ConstructCEchoRQ(const ULConnection& inConnection);
 
-      static std::vector<PresentationDataValue> ConstructCStoreRQ(const ULConnection& inConnection,const File &file);
+      static std::vector<PresentationDataValue> ConstructCStoreRQ(const ULConnection& inConnection,const File &file, bool writeDataSet = true );
       static std::vector<PresentationDataValue> ConstructCStoreRSP(const DataSet *inDataSet, const BasePDU* inPC);
 
       static  std::vector<PresentationDataValue> ConstructCFindRQ(const ULConnection& inConnection, const BaseRootQuery* inRootQuery);

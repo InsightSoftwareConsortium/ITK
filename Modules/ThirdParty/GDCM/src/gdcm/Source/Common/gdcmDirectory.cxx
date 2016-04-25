@@ -52,8 +52,8 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
   Directories.push_back( dirName );
 #ifdef _MSC_VER
   WIN32_FIND_DATA fileData;
-  dirName.append("/");
-  assert( dirName[dirName.size()-1] == '/' );
+  if ('/' != dirName[dirName.size()-1]) dirName.push_back('/');
+  assert( '/' == dirName[dirName.size()-1] );
   const FilenameType firstfile = dirName+"*";
   HANDLE hFile = FindFirstFile(firstfile.c_str(), &fileData);
 
@@ -104,8 +104,8 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
 
   struct stat buf;
   dirent *d;
-  dirName.append("/");
-  assert( dirName[dirName.size()-1] == '/' );
+  if ('/' != dirName[dirName.size()-1]) dirName.push_back('/');
+  assert( '/' == dirName[dirName.size()-1] );
   for (d = readdir(dir); d; d = readdir(dir))
     {
     fileName = dirName + d->d_name;

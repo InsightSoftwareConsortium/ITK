@@ -148,7 +148,7 @@ void SerieHelper::AddFileName(std::string const &filename)
     }
 }
 
-bool CompareDicomString(const std::string &s1, const char *s2, int op)
+static bool CompareDicomString(const std::string &s1, const char *s2, int op)
 {
   // s2 is the string from the DICOM reference e.g. : 'MONOCHROME1'
   std::string s1_even = s1; //Never change input parameter

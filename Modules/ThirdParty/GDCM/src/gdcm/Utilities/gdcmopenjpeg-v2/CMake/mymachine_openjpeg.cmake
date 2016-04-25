@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8.9)
+cmake_minimum_required(VERSION 2.8.7)
 # simply copy this file anywhere on your system and execute like this:
 # ctest -S mymachine_openjpeg.cmake -V
 # This will retrieve/compile/run tests/upload to cdash OpenJPEG

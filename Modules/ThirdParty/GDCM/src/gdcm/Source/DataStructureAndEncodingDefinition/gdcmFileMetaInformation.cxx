@@ -82,7 +82,7 @@ void FileMetaInformation::SetImplementationVersionName(const char * version)
   if( version )
     {
     // Simply override the value since we cannot have more than 16bytes...
-    assert( strlen(version) <= 16 );
+    gdcmAssertAlwaysMacro( strlen(version) <= 16 );
     //ImplementationVersionName = GetGDCMImplementationVersionName();
     //ImplementationVersionName += "-";
     //ImplementationVersionName += version;
@@ -526,6 +526,7 @@ std::istream &FileMetaInformation::Read(std::istream &is)
   //ExplicitAttribute<0x0002,0x0000> metagl;
   //metagl.Read(is);
 
+  std::streampos start = is.tellg();
   // TODO: Can now load data from std::ios::cur to std::ios::cur + metagl.GetValue()
 
   ExplicitDataElement xde;
@@ -545,10 +546,36 @@ std::istream &FileMetaInformation::Read(std::istream &is)
 //#endif
   Insert( xde );
   // See PS 3.5, Data Element Structure With Explicit VR
+  try {
+  // GDCM is a hack, so let's read all possible group 2 element, until the last one
+  // and leave the group length value aside.
   while( ReadExplicitDataElement<SwapperNoOp>(is, xde ) )
     {
     Insert( xde );
     }
+  }
+  catch( std::exception & ex )
+  {
+(void)ex;
+    // we've read a little bit too much. We are possibly in the case where an
+    // implicit dataelement with group 2 (technically impossible) was found
+    // (first dataelement). Let's start over again, but this time use group
+    // length as the sentinel for the last group 2 element:
+  is.seekg(start,std::ios::beg);
+  // Group Length:
+  ReadExplicitDataElement<SwapperNoOp>(is, xde );
+
+  Attribute<0x0002, 0x0000> filemetagrouplength;
+  filemetagrouplength.SetFromDataElement( xde );
+  const unsigned int glen = filemetagrouplength.GetValue();
+
+  unsigned int cur_len = 0;
+    while( cur_len < glen && ReadExplicitDataElement<SwapperNoOp>(is, xde ) )
+   {
+    Insert( xde );
+    cur_len += xde.GetLength();
+    }
+  }
 
   // Now is a good time to compute the transfer syntax:
   ComputeDataSetTransferSyntax();
@@ -844,7 +871,7 @@ MediaStorage FileMetaInformation::GetMediaStorage() const
   MediaStorage ms = MediaStorage::GetMSType(ts.c_str());
   if( ms == MediaStorage::MS_END )
     {
-    gdcmWarningMacro( "Media Storage Class UID: " << ts << " is unknow" );
+    gdcmWarningMacro( "Media Storage Class UID: " << ts << " is unknown" );
     }
   return ms;
 }

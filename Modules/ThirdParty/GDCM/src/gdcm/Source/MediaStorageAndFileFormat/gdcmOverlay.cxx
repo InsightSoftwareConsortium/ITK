@@ -270,6 +270,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     if( !bv )
       {
       // XA_GE_JPEG_02_with_Overlays.dcm
+      gdcmWarningMacro("Could not extract overlay from encapsulated stream." );
       return false;
       }
     assert( bv );
@@ -283,6 +284,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     assert( 8 * ovlength == (unsigned int)Internal->Rows * Internal->Columns );
     if( Internal->Data.empty() )
       {
+      gdcmWarningMacro("Internal Data is empty." );
       return false;
       }
     unsigned char * overlay = (unsigned char*)&Internal->Data[0];

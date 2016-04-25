@@ -459,7 +459,6 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
 {
   const ByteValue *bv = de.GetByteValue();
   const SequenceOfItems *sqi = 0; //de.GetSequenceOfItems();
-  const Value &value = de.GetValue();
   const SequenceOfFragments *sqf = de.GetSequenceOfFragments();
 
   std::string strowner;
@@ -506,6 +505,9 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
   assert( refvr != VR::US_SS );
   assert( refvr != VR::OB_OW );
 
+  if( !de.IsEmpty() )
+  {
+  const Value &value = de.GetValue();
   if( dynamic_cast<const SequenceOfItems*>( &value ) )
     {
     sqi = de.GetValueAsSQ();
@@ -520,6 +522,7 @@ VR Printer::PrintDataElement(std::ostringstream &os, const Dicts &dicts, const D
     assert( refvr == VR::SQ );
     }
 #endif
+  }
 
   if( (vr_read == VR::INVALID || vr_read == VR::UN ) && vl_read.IsUndefined() )
     {
@@ -895,7 +898,7 @@ void Printer::PrintDataSet(const DataSet &ds, std::ostream &out, std::string con
     if( refvr == VR::SQ /*|| sqi*/ )
       {
       //SmartPointer<SequenceOfItems> sqi2 = DataSetHelper::ComputeSQFromByteValue( *F, ds, de.GetTag() );
-      SmartPointer<SequenceOfItems> sqi2 = de.GetValueAsSQ();
+      SmartPointer<SequenceOfItems> sqi2 = de.GetValueAsSQ(); // may throw
       PrintSQ(sqi2, os, indent);
       /*
       const SequenceOfItems *sqi = de.GetSequenceOfItems();
