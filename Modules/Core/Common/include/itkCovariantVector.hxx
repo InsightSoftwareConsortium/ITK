@@ -24,9 +24,6 @@
 
 namespace itk
 {
-/**
- * Constructor to initialize entire vector to one value.
- */
 template< typename T, unsigned int TVectorDimension >
 CovariantVector< T, TVectorDimension >
 ::CovariantVector(const ValueType & r)
@@ -55,9 +52,6 @@ CovariantVector< T, NVectorDimension >
   return *this;
 }
 
-/**
- *
- */
 template< typename T, unsigned int NVectorDimension >
 const typename CovariantVector< T, NVectorDimension >::Self &
 CovariantVector< T, NVectorDimension >
@@ -70,9 +64,6 @@ CovariantVector< T, NVectorDimension >
   return *this;
 }
 
-/**
- *
- */
 template< typename T, unsigned int NVectorDimension >
 const typename CovariantVector< T, NVectorDimension >::Self &
 CovariantVector< T, NVectorDimension >
@@ -85,9 +76,6 @@ CovariantVector< T, NVectorDimension >
   return *this;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T, unsigned int NVectorDimension >
 CovariantVector< T, NVectorDimension >
 CovariantVector< T, NVectorDimension >
@@ -102,9 +90,6 @@ CovariantVector< T, NVectorDimension >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::Self
 CovariantVector< T, NVectorDimension >
@@ -119,9 +104,6 @@ CovariantVector< T, NVectorDimension >
   return result;
 }
 
-/**
- * Returns a temporary copy of a vector
- */
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::Self
 CovariantVector< T, NVectorDimension >
@@ -136,9 +118,6 @@ CovariantVector< T, NVectorDimension >
   return result;
 }
 
-/**
- *
- */
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::ValueType
 CovariantVector< T, NVectorDimension >
@@ -152,9 +131,6 @@ CovariantVector< T, NVectorDimension >
   return static_cast< ValueType >( value );
 }
 
-/**
- *
- */
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::ValueType
 CovariantVector< T, NVectorDimension >
@@ -168,9 +144,6 @@ CovariantVector< T, NVectorDimension >
   return value;
 }
 
-/**
- * Returns vector's Squared Euclidean Norm
- */
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
@@ -186,9 +159,6 @@ CovariantVector< T, NVectorDimension >
   return sum;
 }
 
-/**
- * Returns vector's Euclidean Norm
- */
 template< typename T, unsigned int NVectorDimension >
 typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
@@ -197,11 +167,8 @@ CovariantVector< T, NVectorDimension >
   return std::sqrt( this->GetSquaredNorm() );
 }
 
-/**
- * Divide vector's components by vector's norm
- */
 template< typename T, unsigned int NVectorDimension >
-void
+typename CovariantVector< T, NVectorDimension >::RealValueType
 CovariantVector< T, NVectorDimension >
 ::Normalize(void)
 {
@@ -211,11 +178,10 @@ CovariantVector< T, NVectorDimension >
     {
     ( *this )[i] /= norm;
     }
+
+  return norm;
 }
 
-/**
- * Set a vnl_vector
- */
 template< typename T, unsigned int NVectorDimension >
 void
 CovariantVector< T, NVectorDimension >
@@ -227,9 +193,6 @@ CovariantVector< T, NVectorDimension >
     }
 }
 
-/**
- * Return a vnl_vector_ref
- */
 template< typename T, unsigned int NVectorDimension >
 vnl_vector_ref< T >
 CovariantVector< T, NVectorDimension >
@@ -238,9 +201,6 @@ CovariantVector< T, NVectorDimension >
   return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
 }
 
-/**
- * Return a vnl_vector const
- */
 template< typename T, unsigned int NVectorDimension >
 vnl_vector< T >
 CovariantVector< T, NVectorDimension >
@@ -255,9 +215,6 @@ CovariantVector< T, NVectorDimension >
 }
 
 #if !defined(ITK_LEGACY_REMOVE)
-/**
- * Set a vnl_vector
- */
 template< typename T, unsigned int NVectorDimension >
 void
 CovariantVector< T, NVectorDimension >
@@ -269,9 +226,6 @@ CovariantVector< T, NVectorDimension >
     }
 }
 
-/**
- * Return a vnl_vector_ref
- */
 template< typename T, unsigned int NVectorDimension >
 vnl_vector_ref< T >
 CovariantVector< T, NVectorDimension >
@@ -280,9 +234,6 @@ CovariantVector< T, NVectorDimension >
   return vnl_vector_ref< T >( NVectorDimension, this->GetDataPointer() );
 }
 
-/**
- * Return a vnl_vector const
- */
 template< typename T, unsigned int NVectorDimension >
 vnl_vector< T >
 CovariantVector< T, NVectorDimension >
