@@ -568,6 +568,10 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
   {
     // Compute normal vector
     normal = m_GradientInterpolator->Evaluate(vertex);
+    if (normal.GetSquaredNorm() == 0)
+    {
+      break;
+    }
     normal.Normalize();
 
     // Compute whether vertex is close enough to iso-surface value
