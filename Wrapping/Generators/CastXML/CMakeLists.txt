@@ -230,6 +230,12 @@ macro(itk_end_wrap_submodule_castxml module)
         "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
     )
   endif()
+
+  set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include)
+  if(EXISTS ${_include})
+    file(GLOB_RECURSE _hdrs ${_include}/*.h)
+  endif()
+
   add_custom_command(
     OUTPUT ${xml_file}
     COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE}
@@ -243,7 +249,7 @@ macro(itk_end_wrap_submodule_castxml module)
           @${castxml_inc_file}
           ${cxx_file}
           VERBATIM
-    DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file}
+    DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs}
   )
 
   list(APPEND CastXML_OUTPUT_FILES ${xml_file})
