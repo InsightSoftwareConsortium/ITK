@@ -113,8 +113,12 @@ public:
    * \deprecated Use GetVnlVector() instead. */
   itkLegacyMacro(vnl_vector< T > Get_vnl_vector(void) const);
 
-  /** Default constructor and copy constructors. */
+  /** Default constructor. */
   CovariantVector():BaseArray() {}
+
+  /**
+  * Constructor to initialize entire vector to one value.
+  */
   CovariantVector(const ValueType & r);
 
   /** Pass-through constructor for the Array base class. Implicit casting is
@@ -218,8 +222,8 @@ public:
   /** Returns the number of components in this vector type */
   static unsigned int GetNumberOfComponents() { return NVectorDimension; }
 
-  /** Divides the covariant vector componets by the norm */
-  void Normalize();
+  /** Divides the covariant vector componets by the norm and return the norm */
+  RealValueType Normalize();
 
   /** Returns vector's Squared Euclidean Norm  */
   RealValueType GetSquaredNorm() const;

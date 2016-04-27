@@ -88,6 +88,15 @@ int itkCovariantVectorGeometryTest(int, char* [] )
   std::cout << "vg norm = ";
   std::cout << norm << std::endl;
 
+  ValueType normX = vg.Normalize();
+  std::cout << "vg after normalizing: " << vg << std::endl;
+  if (norm != normX)
+  {
+      std::cout << "Norms from GetNorm() and from Normalize() are different" << std::endl;
+      return EXIT_FAILURE;
+  }
+
+
   // Test for vnl interface
 
   // Test the no const version that returns an vnl_vector_ref
