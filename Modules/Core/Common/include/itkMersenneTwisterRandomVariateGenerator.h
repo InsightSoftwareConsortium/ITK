@@ -213,18 +213,6 @@ protected:
   /** Period parameter */
   itkStaticConstMacro(M, unsigned int, 397);
 
-  /** Internal state. */
-  IntegerType  state[StateVectorLength];
-
-  /** Next value to get from state. */
-  IntegerType *m_PNext;
-
-  /** Number of values left before reload is needed. */
-  int          m_Left;
-
-  /** Seed value. */
-  IntegerType  m_Seed;
-
   /** Reload array with N new values. */
   void reload();
 
@@ -242,6 +230,18 @@ protected:
   }
 
   static IntegerType hash(time_t t, clock_t c);
+
+  // Internal state
+  IntegerType  state[StateVectorLength];
+
+  // Next value to get from state
+  IntegerType *m_PNext;
+
+  // Number of values left before reload is needed
+  int          m_Left;
+
+  // Seed value
+  IntegerType  m_Seed;
 
 private:
 

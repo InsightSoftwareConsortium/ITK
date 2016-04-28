@@ -36,7 +36,8 @@ int itkMersenneTwisterRandomVariateGeneratorTest( int, char* [] )
 
   Twister::Pointer twister = Twister::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( twister, Twister );
+  EXERCISE_BASIC_OBJECT_METHODS( twister, MersenneTwisterRandomVariateGenerator,
+    RandomVariateGeneratorBase );
 
   // Does the new instance have the same seed?
   if ( Twister::GetInstance()->GetSeed() != twister->GetSeed() )

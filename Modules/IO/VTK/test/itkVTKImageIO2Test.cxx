@@ -806,7 +806,8 @@ int itkVTKImageIO2Test(int argc, char* argv[])
   //
   typedef itk::VTKImageIO IOType;
   IOType::Pointer vtkIO = IOType::New();
-  EXERCISE_BASIC_OBJECT_METHODS( vtkIO, IOType );
+
+  EXERCISE_BASIC_OBJECT_METHODS( vtkIO, VTKImageIO, StreamingImageIOBase );
 
 
   //

@@ -48,6 +48,11 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
   reader->SetFileName( infname );
 
   typename FilterType::Pointer filter = FilterType::New();
+
+#if __GNUC__ != 4 && __GNUC_MINOR__ < 8
+  EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );
+#endif
+
   filter->SetInput( reader->GetOutput() );
 
   typename FilterType::InputSizeType R;
@@ -59,20 +64,17 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
   filter->SetBirthThreshold( birthThreshold );
   filter->SetSurvivalThreshold( survivalThreshold );
 
-  typename WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( outfname );
-  writer->SetNumberOfStreamDivisions( 5 );
-  writer->Update();
-
-  // excersie some methods to improve coverage
-  EXERCISE_BASIC_OBJECT_METHODS( filter, FilterType );
-
   TEST_SET_GET_VALUE( R, filter->GetRadius() );
   TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( foregroundValue ), filter->GetForegroundValue() );
   TEST_SET_GET_VALUE( itk::Math::CastWithRangeCheck<InputPixelType>( backgroundValue ), filter->GetBackgroundValue() );
   TEST_SET_GET_VALUE( birthThreshold, filter->GetBirthThreshold() );
   TEST_SET_GET_VALUE( survivalThreshold, filter->GetSurvivalThreshold() );
+
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( outfname );
+  writer->SetNumberOfStreamDivisions( 5 );
+  writer->Update();
 
   std::cout << filter;
 

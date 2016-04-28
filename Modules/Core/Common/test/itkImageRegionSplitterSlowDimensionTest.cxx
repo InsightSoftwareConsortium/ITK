@@ -24,16 +24,17 @@
 int itkImageRegionSplitterSlowDimensionTest(int, char*[])
 {
 
-  itk::ImageRegionSplitterSlowDimension::Pointer splitter = itk::ImageRegionSplitterSlowDimension::New();
+  itk::ImageRegionSplitterSlowDimension::Pointer splitter =
+    itk::ImageRegionSplitterSlowDimension::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( splitter,ImageRegionSplitterSlowDimension );
-
+  EXERCISE_BASIC_OBJECT_METHODS( splitter,
+    ImageRegionSplitterSlowDimension, ImageRegionSplitterBase );
 
   itk::ImageRegion<2> region;
   region.SetSize(0, 10);
   region.SetSize(1, 11);
 
-  region.SetIndex(0,1);
+  region.SetIndex(0, 1);
   region.SetIndex(1, 10);
 
   const itk::ImageRegion<2> lpRegion = region;

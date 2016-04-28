@@ -67,9 +67,6 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
 
-  /** Standard class typedefs. */
-  typedef GradientImageFilter Self;
-
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage                       InputImageType;
   typedef typename InputImageType::Pointer  InputImagePointer;
@@ -77,6 +74,7 @@ public:
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
   /** Standard class typedefs. */
+  typedef GradientImageFilter                                   Self;
   typedef ImageToImageFilter< InputImageType, OutputImageType > Superclass;
   typedef SmartPointer< Self >                                  Pointer;
   typedef SmartPointer< const Self >                            ConstPointer;
