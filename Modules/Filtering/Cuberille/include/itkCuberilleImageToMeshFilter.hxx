@@ -466,7 +466,10 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
   {
     // Compute normal vector
     GradientPixelType normal = m_GradientInterpolator->Evaluate(vertex);
-    normal.Normalize();
+    if (normal.Normalize() == 0.0) // old norm was zero
+    {
+      break;
+    }
 
     // Step along both directions of normal
     for (i = 0; i < InputImageType::ImageDimension; ++i)
@@ -525,7 +528,10 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
 
   // Compute normal vector
   normal = m_GradientInterpolator->Evaluate(vertex);
-  normal.Normalize();
+  if (normal.Normalize() == 0.0) // old norm was zero
+  {
+    break;
+  }
 
   // Search on both sides of the line
   for (sign = -1.0; sign <= 1.0; sign += 2.0)
@@ -568,7 +574,10 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::ProjectVert
   {
     // Compute normal vector
     normal = m_GradientInterpolator->Evaluate(vertex);
-    normal.Normalize();
+    if (normal.Normalize() == 0.0) // old norm was zero
+    {
+      break;
+    }
 
     // Compute whether vertex is close enough to iso-surface value
     value = m_Interpolator->Evaluate(vertex);
