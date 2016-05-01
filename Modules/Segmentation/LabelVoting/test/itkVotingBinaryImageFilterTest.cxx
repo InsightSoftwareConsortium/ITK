@@ -49,7 +49,7 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
 
   typename FilterType::Pointer filter = FilterType::New();
 
-#if __GNUC__ != 4 && __GNUC_MINOR__ < 8
+#if ! defined ( __GNUC__ )
   EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );
 #endif
 

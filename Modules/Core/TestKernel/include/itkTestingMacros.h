@@ -37,7 +37,7 @@ namespace itk
 #define EXERCISE_BASIC_OBJECT_METHODS( object, Class, SuperClass )        \
     object->Print( std::cout );                                           \
     std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl; \
-    std::cout << "Name of Superclass = " << object->Class::Superclass::GetNameOfClass() << std::endl; \
+    std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl; \
     if( !std::strcmp(object->GetNameOfClass(), #Class) )                  \
       {                                                                   \
       std::cout << "Class name is correct" << std::endl;                  \
@@ -47,7 +47,7 @@ namespace itk
       std::cerr << "Class name provided does not match object's NameOfClass" << std::endl; \
       return EXIT_FAILURE;                                                \
       }                                                                   \
-    if( !std::strcmp(object->Class::Superclass::GetNameOfClass(), #SuperClass) ) \
+    if( !std::strcmp(object->Superclass::GetNameOfClass(), #SuperClass) ) \
       {                                                                   \
       std::cout << "Superclass name is correct" << std::endl;             \
       }                                                                   \

@@ -42,7 +42,7 @@ int DoIt( const std::string &infname,
   typedef itk::GradientImageFilter<InputImageType > FilterType;
   typename FilterType::Pointer filter = FilterType::New();
 
-#if __GNUC__ != 4 && __GNUC_MINOR__ < 8
+#if ! defined( __GNUC__ )
   EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
 #endif
 
