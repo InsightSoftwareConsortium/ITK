@@ -4,14 +4,14 @@ ITK: The Insight Toolkit for Segmentation and Registration
 Links
 -----
 
-* Homepage: http://itk.org
-* Download: http://itk.org/ITK/resources/software.html
-* Mailing List: http://itk.org/ITK/help/mailing.html
-* Book: http://itk.org/ITK/help/book.html
-* Help: http://itk.org/ITK/help/help.html
-* Examples: http://itk.org/ITKExamples/
+* Homepage: https://itk.org
+* Download: https://itk.org/ITK/resources/software.html
+* Mailing List: https://itk.org/ITK/help/mailing.html
+* Book: https://itk.org/ITK/help/book.html
+* Help: https://itk.org/ITK/help/help.html
+* Examples: https://itk.org/ITKExamples/
 * Bugtracker: https://issues.itk.org/
-* Submit a patch: http://itk.org/Wiki/ITK/Git/Develop
+* Submit a patch: https://itk.org/Wiki/ITK/Git/Develop
 
 
 About

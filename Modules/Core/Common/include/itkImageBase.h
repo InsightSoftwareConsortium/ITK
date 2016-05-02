@@ -206,7 +206,7 @@ public:
    *
    * For details, please see:
    *
-   * http://www.itk.org/Wiki/Proposals:Orientation#Some_notes_on_the_DICOM_convention_and_current_ITK_usage
+   * https://www.itk.org/Wiki/Proposals:Orientation#Some_notes_on_the_DICOM_convention_and_current_ITK_usage
    *
    * \sa GetDirection() */
   virtual void SetDirection(const DirectionType & direction);

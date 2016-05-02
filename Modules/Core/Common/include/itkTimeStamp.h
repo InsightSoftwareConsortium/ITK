@@ -49,7 +49,7 @@ namespace itk
  * instance of the class can lead to some unexpected behavior. The
  * global counter will always be correct but the local m_ModifiedTime
  * might not (see
- * http://www.itk.org/mailman/private/insight-developers/2009-February/011732.html
+ * https://www.itk.org/mailman/private/insight-developers/2009-February/011732.html
  * for more detail).
  *
  * \ingroup ITKSystemObjects

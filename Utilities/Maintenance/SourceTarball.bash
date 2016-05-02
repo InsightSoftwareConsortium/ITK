@@ -56,7 +56,7 @@ validate_MD5() {
 download_object() {
   algo="$1" ; hash="$2" ; path="$3"
   mkdir -p $(dirname "$path") &&
-  if wget "http://www.itk.org/files/ExternalData/$algo/$hash" -O "$path.tmp$$" 1>&2 || \
+  if wget "https://www.itk.org/files/ExternalData/$algo/$hash" -O "$path.tmp$$" 1>&2 || \
      wget "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${hash}&algorithm=${algo}" -O "$path.tmp$$" 1>&2; then
     mv "$path.tmp$$" "$path"
   else

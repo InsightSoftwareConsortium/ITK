@@ -30,7 +30,7 @@ namespace itk
  *
  *   \par CREDITS
  *   This class was contributed to ITK by Stefan Lindenau
- *   http://www.itk.org/pipermail/insight-users/2003-December/005969.html
+ *   https://www.itk.org/pipermail/insight-users/2003-December/005969.html
  *
  * \par  SegmentationLevelSetFunction is a subclass of the generic LevelSetFunction.
  * It useful for segmentations based on intensity values in an image.  It works

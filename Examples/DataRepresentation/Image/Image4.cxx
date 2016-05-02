@@ -18,7 +18,7 @@
 
 // Software Guide : BeginLatex
 //
-// Even though \href{http://www.itk.org}{ITK} can be used to perform
+// Even though \href{https://www.itk.org}{ITK} can be used to perform
 // general image processing tasks, the primary purpose of the toolkit is the
 // processing of medical image data. In that respect, additional
 // information about the images is considered mandatory. In particular the

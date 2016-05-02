@@ -60,7 +60,7 @@ ImportImageContainer< TElementIdentifier, TElement >
 {
   // Reserve has a Resize semantics. We keep it that way for
   // backwards compatibility .
-  // See http://www.itk.org/Bug/view.php?id=2893 for details
+  // See https://www.itk.org/Bug/view.php?id=2893 for details
   if ( m_ImportPointer )
     {
     if ( size > m_Capacity )

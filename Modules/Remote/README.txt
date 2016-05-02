@@ -8,7 +8,7 @@ module in the current directory.  For more information on adding a new module to
 the list of new modules, see the page that describes the policy and procedures
 for adding a new module:
 
-  http://www.itk.org/Wiki/ITK/Policy_and_Procedures_for_Adding_Remote_Modules
+  https://www.itk.org/Wiki/ITK/Policy_and_Procedures_for_Adding_Remote_Modules
 
 
 **Note that in each <remote module name>.remote.cmake, the first argument of the

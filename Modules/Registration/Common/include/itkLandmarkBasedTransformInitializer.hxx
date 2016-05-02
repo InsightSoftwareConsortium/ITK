@@ -327,7 +327,7 @@ LandmarkBasedTransformInitializer< TTransform, TFixedImage, TMovingImage >
 
   // [Solve Qa=C]
   // :: Solving code is from
-  // http://www.itk.org/pipermail/insight-users/2008-December/028207.html
+  // https://www.itk.org/pipermail/insight-users/2008-December/028207.html
   vnl_matrix<ParametersValueType> transposeAffine =
     vnl_qr<ParametersValueType> ( Q ).solve( C );
   vnl_matrix<ParametersValueType> Affine= transposeAffine.transpose();

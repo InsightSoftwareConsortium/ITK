@@ -203,8 +203,8 @@ TAB_SIZE              = 8
 
 ALIASES                = "wikimainaddress{1}=<a href=\"\1\">All Examples</a>" \
                          "wikiexamplemaintitle=\par Wiki Examples:\n\n" \
-                         "wikiexample{2}=\li http://www.itk.org/Wiki/ITK/Examples/\1 -- \2\n" \
-                         "wiki=\wikiexamplemaintitle \li \wikimainaddress{http://www.itk.org/Wiki/ITK/Examples}\n" \
+                         "wikiexample{2}=\li https://www.itk.org/Wiki/ITK/Examples/\1 -- \2\n" \
+                         "wiki=\wikiexamplemaintitle \li \wikimainaddress{https://www.itk.org/Wiki/ITK/Examples}\n" \
                          "endwiki=\n\n\n"
 
 # The IMAGE_PATH tag can be used to specify one or more files or
