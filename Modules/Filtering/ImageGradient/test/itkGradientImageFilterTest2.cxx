@@ -42,10 +42,6 @@ int DoIt( const std::string &infname,
   typedef itk::GradientImageFilter<InputImageType > FilterType;
   typename FilterType::Pointer filter = FilterType::New();
 
-#if ! defined( __GNUC__ )
-  EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
-#endif
-
   filter->SetInput( reader->GetOutput() );
 
   typedef typename FilterType::OutputImageType  OutputImageType;
@@ -120,6 +116,12 @@ int itkGradientImageFilterTest2(int argc, char * argv[] )
     {
     itkGenericExceptionMacro( "Unable to determine ImageIO reader for \"" << infname << "\"" );
     }
+
+  typedef itk::Image<short,3>                      TestImageType;
+  typedef itk::GradientImageFilter<TestImageType > FilterType;
+
+  FilterType::Pointer filter = FilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
 
   const unsigned int dimension = iobase->GetNumberOfDimensions();
 

@@ -49,10 +49,6 @@ int itkVotingBinaryImageFilterTestImp( const std::string &infname,
 
   typename FilterType::Pointer filter = FilterType::New();
 
-#if ! defined ( __GNUC__ )
-  EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );
-#endif
-
   filter->SetInput( reader->GetOutput() );
 
   typename FilterType::InputSizeType R;
@@ -114,6 +110,11 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
   const itk::ImageIOBase::IOComponentType componentType = iobase->GetComponentType();
   const unsigned int dimension = iobase->GetNumberOfDimensions();
 
+  typedef itk::Image<short,3>                                     TestImageType;
+  typedef itk::VotingBinaryImageFilter<TestImageType, TestImageType> FilterType;
+
+  FilterType::Pointer filter = FilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, VotingBinaryImageFilter, ImageToImageFilter );
 
   switch(componentType)
     {
