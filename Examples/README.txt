@@ -55,4 +55,4 @@ found in them.
 To learn the software from these examples, you may wish to refer to the
 "ITK Software Guide" found in the ITKSoftwareGuide/SoftwareGuide
 directory. (Note: ITKSoftwareGuide is a separate Git clone found at
-http://itk.org/ITKSoftwareGuide.git).
+https://itk.org/ITKSoftwareGuide.git).

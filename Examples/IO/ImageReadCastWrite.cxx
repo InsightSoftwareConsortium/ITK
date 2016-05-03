@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Given that \href{http://www.itk.org}{ITK} is based on the Generic
+//  Given that \href{https://www.itk.org}{ITK} is based on the Generic
 //  Programming paradigm, most of the types are defined at compilation
 //  time. It is sometimes important to anticipate conversion between different
 //  types of images. The following example illustrates the common case of

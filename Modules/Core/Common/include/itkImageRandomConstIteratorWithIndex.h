@@ -79,7 +79,7 @@ namespace itk
  * \par MORE INFORMATION
  * For a complete description of the ITK Image Iterators and their API, please
  * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
- * is available in print and as a free .pdf download from http://www.itk.org.
+ * is available in print and as a free .pdf download from https://www.itk.org.
  *
  * \ingroup ImageIterators
  *

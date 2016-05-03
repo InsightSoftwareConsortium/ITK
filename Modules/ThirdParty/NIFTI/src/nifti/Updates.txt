@@ -82,7 +82,7 @@ Updated in version 1.1.0 August 28, 2008
     - RR added new tests to nifti_regress_test/commands
     - RR added ANALYZE 7.5 support for swapping
     - HJ addressed CMake bug listed by ITK at
-         http://www.itk.org/Bug/view.php?id=7530
+         https://www.itk.org/Bug/view.php?id=7530
          having to do with ITK version numbers for znzlib.
 
 

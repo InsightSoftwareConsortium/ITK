@@ -22,7 +22,7 @@
 #
 # The third party name used should be same as the directory name in
 # ITK/Modules/ThirdParty/
-third_party_contrib_urls=( "KWSys:http://www.itk.org/Wiki/KWSys/Git/Develop"
+third_party_contrib_urls=( "KWSys:https://www.itk.org/Wiki/KWSys/Git/Develop"
   "MetaIO:https://github.com/Kitware/MetaIO/blob/master/CONTRIBUTING.rst"
   "GDCM:http://gdcm.sourceforge.net/wiki/index.php/Git"
   "VNL:https://github.com/vxl/vxl" )

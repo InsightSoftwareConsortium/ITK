@@ -21,7 +21,7 @@
 
 //
 // This test does next to nothing, but in response to
-// http://www.itk.org/Bug/view.php?id=7455 -- it is a test that
+// https://www.itk.org/Bug/view.php?id=7455 -- it is a test that
 // fails if the offending header itkSpatialObjectTreecontainer.h
 // isn't fixed
 int

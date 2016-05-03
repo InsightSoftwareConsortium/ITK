@@ -169,7 +169,7 @@ ImageFileWriter< TInputImage >
     else
       {
       msg << "  There are no registered IO factories." << std::endl;
-      msg << "  Please visit http://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
+      msg << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
       }
     e.SetDescription( msg.str().c_str() );
     e.SetLocation(ITK_LOCATION);

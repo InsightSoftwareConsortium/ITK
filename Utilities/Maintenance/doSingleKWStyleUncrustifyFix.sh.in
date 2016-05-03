@@ -23,7 +23,7 @@
 ## and format testing such that if uncrustify is run, then the code will pass
 ## the KWStyle format checker
 
-## http://www.itk.org/Wiki/ITKv4_StyleChangeProposal
+## https://www.itk.org/Wiki/ITKv4_StyleChangeProposal
 
 if [ -f stop ]; then
   echo "Quitting because stop function given"

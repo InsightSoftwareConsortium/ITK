@@ -33,7 +33,7 @@ namespace itk
  *
  *   \par CREDITS
  *   This class was contributed to ITK by Stefan Lindenau
- *   http://www.itk.org/pipermail/insight-users/2003-December/005969.html
+ *   https://www.itk.org/pipermail/insight-users/2003-December/005969.html
  *
  *    \par OVERVIEW
  *    This class is a level set method segmentation filter.  It constructs a

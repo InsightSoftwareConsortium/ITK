@@ -161,7 +161,7 @@ public:
    * ~FixedArray();
    *
    * For a full discussion, see
-   * http://www.itk.org/mailman/private/insight-developers/2008-June/010480.html
+   * https://www.itk.org/mailman/private/insight-developers/2008-June/010480.html
    *
    */
 

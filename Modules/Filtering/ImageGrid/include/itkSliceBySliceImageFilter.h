@@ -49,7 +49,7 @@ namespace itk
  * of output images. The input images are passed with the same input number
  * to the input filter - if SetInput( 3, img ) is used on the SliceBySliceImageFilter
  * the corresponding slice will be passed to the input filter with SetInput( 3, img ).
- * See http://www.itk.org/pipermail/insight-users/2008-May/026112.html for an
+ * See https://www.itk.org/pipermail/insight-users/2008-May/026112.html for an
  * example of usage of that feature with MaskImageFilter.
  *
  * The input requested region is enlarged to cover whole slices,
