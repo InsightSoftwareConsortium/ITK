@@ -17,6 +17,7 @@ endif()
 mark_as_advanced(PYTHON_EXECUTABLE)
 include_directories(${PYTHON_INCLUDE_PATH})
 
+include(itkTargetLinkLibrariesWithDynamicLookup)
 
 ###############################################################################
 # store the current dir, so it can be reused later
@@ -415,14 +416,8 @@ macro(itk_end_wrap_module_python)
     endif()
 
     # Link the modules together
-    if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
-      # On OS X, do not link against a specific Python Library and use dynamic_lookup
-      # to be ABI compatible between Python versions.
-      set_target_properties(${lib} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
-      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
-    else()
-      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES} ${PYTHON_LIBRARY})
-    endif()
+    target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+    itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${PYTHON_LIBRARY})
 
     if(CMAKE_VERSION VERSION_GREATER 2.8.12 AND USE_COMPILER_HIDDEN_VISIBILITY AND BUILD_SHARED_LIBS)
       # Prefer to use target properties supported by newer cmake
