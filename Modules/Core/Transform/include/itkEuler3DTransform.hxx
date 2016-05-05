@@ -30,6 +30,8 @@ Euler3DTransform<TParametersValueType>
 {
   m_ComputeZYX = false;
   m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
+  this->m_FixedParameters.SetSize(SpaceDimension+1);
+  this->m_FixedParameters.Fill(0.0);
 }
 
 // Constructor with default arguments
@@ -45,6 +47,8 @@ Euler3DTransform<TParametersValueType>
   off[1] = offset[1];
   off[2] = offset[2];
   this->SetOffset(off);
+  this->m_FixedParameters.SetSize(SpaceDimension+1);
+  this->m_FixedParameters.Fill(0.0);
 }
 
 // Constructor with arguments
@@ -55,6 +59,8 @@ Euler3DTransform<TParametersValueType>
 {
   m_ComputeZYX = false;
   m_AngleX = m_AngleY = m_AngleZ = NumericTraits<ScalarType>::ZeroValue();
+  this->m_FixedParameters.SetSize(SpaceDimension+1);
+  this->m_FixedParameters.Fill(0.0);
 }
 
 // Set Angles
@@ -118,6 +124,40 @@ const typename Euler3DTransform<TParametersValueType>::ParametersType
 
   return this->m_Parameters;
   }
+
+template<typename TParametersValueType>
+const typename Euler3DTransform<TParametersValueType>::FixedParametersType &
+Euler3DTransform<TParametersValueType>
+::GetFixedParameters() const
+{
+  // Call the superclass GetFixedParameters so that it fills the
+  // array, we ignore the returned data and add the additional
+  // information to the updated array.
+  Superclass::GetFixedParameters();
+  this->m_FixedParameters[3] = this-> m_ComputeZYX;
+  return this->m_FixedParameters;
+}
+
+template<typename TParametersValueType>
+void
+Euler3DTransform<TParametersValueType>
+::SetFixedParameters(const FixedParametersType & parameters)
+{
+  InputPointType c;
+  for( unsigned int i = 0; i < InputSpaceDimension; i++ )
+    {
+    c[i] = this->m_FixedParameters[i] = parameters[i];
+    }
+  this->SetCenter(c);
+  //conditional is here for backwards compatibility: the
+  //m_ComputeZYX flag was not serialized so it may or may
+  //not be included as part of the fixed parameters
+  if( parameters.Size() == 4 )
+    {
+    this->m_FixedParameters[3] = parameters[3];
+    this->SetComputeZYX(this->m_FixedParameters[3]);
+    }
+}
 
 // Set Rotational Part
 template<typename TParametersValueType>
@@ -296,6 +336,21 @@ Euler3DTransform<TParametersValueType>
   for( unsigned int dim = 0; dim < SpaceDimension; dim++ )
     {
     jacobian[dim][blockOffset + dim] = 1.0;
+    }
+}
+
+template<typename TParametersValueType>
+void
+Euler3DTransform<TParametersValueType>
+::SetComputeZYX (const bool flag)
+{
+  if( this->m_ComputeZYX != flag )
+    {
+    this->m_ComputeZYX = flag;
+    this->ComputeMatrix();
+    // The meaning of the parameters has changed so the transform
+    // has been modified even if the parameter values have not.
+    this->Modified();
     }
 }
 

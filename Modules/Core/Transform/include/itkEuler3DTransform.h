@@ -95,6 +95,9 @@ public:
 
   const ParametersType & GetParameters(void) const ITK_OVERRIDE;
 
+  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  virtual void SetFixedParameters(const FixedParametersType & parameters) ITK_OVERRIDE;
+
   /** Set the rotational part of the transform. */
   void SetRotation(ScalarType angleX, ScalarType angleY, ScalarType angleZ);
 
@@ -108,8 +111,13 @@ public:
    * transform is invertible at this point. */
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
-  /** Set/Get the order of the computation. Default ZXY */
-  itkSetMacro(ComputeZYX, bool);
+  /** The Euler angle representation of a rotation is not unique and
+   * depends on the order of rotations. In general there are 12
+   * options. This class supports two of them, ZXY and ZYX. The
+   * default is ZXY. These functions set and get the value which
+   * indicates whether the rotation is ZYX or ZXY.
+   */
+  virtual void SetComputeZYX (const bool flag);
   itkGetConstMacro(ComputeZYX, bool);
 
   virtual void SetIdentity(void) ITK_OVERRIDE;
