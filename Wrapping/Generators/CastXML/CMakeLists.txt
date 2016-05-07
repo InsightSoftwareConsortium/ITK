@@ -25,8 +25,8 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460402/castxml-linux.tar.gz)
-    set(_castxml_hash_or_tag 96e57af29a29967f216fa3329d8105b4)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460468/castxml-linux.tar.gz)
+    set(_castxml_hash_or_tag aa83669b620ab233620b721a421f5a78)
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
