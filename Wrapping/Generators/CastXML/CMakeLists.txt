@@ -39,7 +39,7 @@ else()
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_url http://midas3.kitware.com/midas/download/bitstream/460403/castxml-macosx.tar.gz)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460403/castxml-macosx.tar.gz)
     set(_castxml_hash_or_tag 4493e16825babceea30e682f9f53a9e3)
     set(_download_castxml_binaries 1)
 
