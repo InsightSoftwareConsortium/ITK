@@ -111,6 +111,40 @@ int itkEuler3DTransformTest(int, char *[] )
     std::cout << " [ PASSED ] " << std::endl;
     }
 
+  std::cout << "Testing Rotation Change from ZXY to ZYX consistency:";
+
+  EulerTransformType::Pointer eulerTransform2 = EulerTransformType::New();
+  EulerTransformType::OutputPointType r1, r2;
+
+  //rotation angles already set above
+  eulerTransform->SetComputeZYX(true);
+
+  eulerTransform2->SetComputeZYX(true);
+  eulerTransform2->SetRotation(angleX, angleY, angleZ);
+
+  r1 = eulerTransform->TransformPoint( p );
+  r2 = eulerTransform2->TransformPoint( p );
+  for( unsigned int i = 0; i < N; i++ )
+    {
+    if( std::fabs( r1[i] - r2[i] ) > epsilon )
+      {
+      Ok = false;
+      break;
+      }
+    }
+  if( !Ok )
+    {
+    std::cout << "[ FAILED ]" << std::endl;
+    std::cerr << "Setting rotation parameters followed by change in "
+              << "Euler angle representation is not consistent with "
+              << "operations performed in reverse order." << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
+    std::cout << " [ PASSED ] " << std::endl;
+    }
+
   std::cout << "Testing Translation:";
 
   eulerTransform->SetRotation(0, 0, 0);
@@ -163,6 +197,37 @@ int itkEuler3DTransformTest(int, char *[] )
       || parameters_result[5] != 5.0
       )
     {
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << " [ PASSED ] " << std::endl;
+
+  //Testing fixed parameters
+  std::cout << "Testing Set/Get Fixed Parameters: ";
+  EulerTransformType::FixedParametersType oldVersion(3), newVersion(4), res(4);
+  oldVersion.Fill(0);
+  newVersion.Fill(0);
+  eulerTransform->SetFixedParameters( oldVersion );
+  eulerTransform->SetComputeZYX( true );
+  res = eulerTransform->GetFixedParameters();
+  if( res[0] != 0 ||
+      res[1] != 0 ||
+      res[2] != 0 ||
+      res[3] != 1 )
+    {
+    std::cout<<"Setting/Getting fixed parameters failed."<< std::endl;
+    std::cout << " [ FAILED ] " << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  eulerTransform->SetFixedParameters( newVersion );
+  res = eulerTransform->GetFixedParameters();
+  if( res[0] != 0 ||
+      res[1] != 0 ||
+      res[2] != 0 ||
+      res[3] != 0 )
+    {
+    std::cout<<"Setting/Getting fixed parameters failed."<< std::endl;
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
     }
