@@ -261,7 +261,12 @@ if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
 endif()
 
 if(NOT ITKV3_COMPATIBILITY)
-  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64 bits integers to index pixels. This is needed for managing images larger than 4Gb in some platforms." OFF)
+  set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
+  # Note WIN32 is true when targeting any windows system
+  if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)
+    set(ITK_USE_64BITS_IDS_DEFAULT "ON")
+  endif()
+  option(ITK_USE_64BITS_IDS "When ON, ITK will use 64-bit integer types instead of long types for sizes and indexes. This is needed for managing images larger than 4Gb in some platforms." "${ITK_USE_64BITS_IDS_DEFAULT}")
   mark_as_advanced(ITK_USE_64BITS_IDS)
 endif()
 
@@ -277,10 +282,6 @@ mark_as_advanced(ITK_USE_STRICT_CONCEPT_CHECKING)
 # In this case we need to tell the user that he has to change the flags manually to the right values.
 if(ITK_WRAPPING)
   set(CMAKE_POSITION_INDEPENDENT_CODE 1)
-
-  if(ITK_USE_64BITS_IDS AND WIN32)
-    message(FATAL_ERROR "Wrapping with ITK_USE_64BITS_IDS is not supported on Windows, please set ITK_USE_64BITS_IDS=OFF")
-  endif()
 
   if(NOT ITK_LEGACY_SILENT)
     message(FATAL_ERROR "Wrapping requires to disable legacy code, please set ITK_LEGACY_SILENT=ON")
