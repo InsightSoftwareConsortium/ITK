@@ -20,30 +20,28 @@ import itk
 import sys
 itk.auto_progress(2)
 
-reader = itk.ImageFileReader.IF2.New()
+PixelType = itk.ctype('float')
+Dimension = 2
+ImageType = itk.Image[PixelType, Dimension]
+reader = itk.ImageFileReader[ImageType].New()
 reader.SetFileName(sys.argv[1])
 
-diffusion = itk.GradientAnisotropicDiffusionImageFilter.IF2IF2.New()
-diffusion.SetInput(reader.GetOutput())
+diffusion = itk.GradientAnisotropicDiffusionImageFilter.New(Input=reader.GetOutput())
 diffusion.SetTimeStep(0.0625)
 diffusion.SetConductanceParameter(9.0)
 diffusion.SetNumberOfIterations(5)
 
-gradient = itk.GradientMagnitudeImageFilter.IF2IF2.New()
-gradient.SetInput(diffusion.GetOutput())
+gradient = itk.GradientMagnitudeImageFilter.New(Input=diffusion.GetOutput())
 
-watershed = itk.WatershedImageFilter.IF2.New()
-watershed.SetInput(gradient.GetOutput())
+watershed = itk.WatershedImageFilter.New(Input=gradient.GetOutput())
 watershed.SetThreshold(0.01)
 watershed.SetLevel(0.2)
 
-relabel = itk.RelabelComponentImageFilter.IUL2ISS2.New()
-relabel.SetInput(watershed.GetOutput())
+relabel = itk.RelabelComponentImageFilter.New(Input=watershed.GetOutput())
 
-cast = itk.CastImageFilter.ISS2IUC2.New()
-cast.SetInput(relabel.GetOutput())
+cast = itk.CastImageFilter[relabel.GetOutput().__class__,
+  itk.Image[itk.ctype('unsigned char'), Dimension]].New(Input=relabel.GetOutput())
 
-writer = itk.ImageFileWriter.IUC2.New()
+writer = itk.ImageFileWriter.New(Input=cast.GetOutput())
 writer.SetFileName(sys.argv[2])
-writer.SetInput(cast.GetOutput())
 writer.Update()

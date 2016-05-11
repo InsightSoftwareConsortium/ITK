@@ -15,6 +15,9 @@ set(ITKM_UI "UI")             # Mangle
 set(ITKT_UL "unsigned long")  # Type
 set(ITKM_UL "UL")             # Mangle
 
+set(ITKT_ULL "unsigned long long") # Type
+set(ITKM_ULL "ULL")           # Mangle
+
 set(ITKT_SC "signed char")    # Type
 set(ITKM_SC "SC")             # Mangle
 
@@ -26,6 +29,9 @@ set(ITKM_SI "SI")             # Mangle
 
 set(ITKT_SL "signed long")    # Type
 set(ITKM_SL "SL")             # Mangle
+
+set(ITKT_SLL "signed long long") # Type
+set(ITKM_SLL "SLL")           # Mangle
 
 set(ITKT_F  "float")          # Type
 set(ITKM_F  "F")              # Mangle
@@ -163,3 +169,20 @@ INTERSECTION(SMALLER_THAN_UL "US;UC;SL;SS;SC" "${WRAP_ITK_INT}")
 INTERSECTION(SMALLER_THAN_US "UC;SC" "${WRAP_ITK_INT}")
 INTERSECTION(SMALLER_THAN_SL "US;UC;SS;SC" "${WRAP_ITK_INT}")
 INTERSECTION(SMALLER_THAN_SS "UC;SC" "${WRAP_ITK_INT}")
+
+# Types that correspond itk::SizeValueType, itk::IdentifierType, and itk::OffsetValueType
+if(WIN32 AND ITK_USE_64BITS_IDS)
+  set(ITKM_ST ${ITKM_ULL})
+  set(ITKT_ST "${ITKT_ULL}")
+  set(ITKM_IT ${ITKM_ULL})
+  set(ITKT_IT "${ITKT_ULL}")
+  set(ITKM_OT ${ITKM_SLL})
+  set(ITKT_OT "${ITKT_SLL}")
+else()
+  set(ITKM_ST ${ITKM_UL})
+  set(ITKT_ST "${ITKT_UL}")
+  set(ITKM_IT ${ITKM_UL})
+  set(ITKT_IT "${ITKT_UL}")
+  set(ITKM_OT ${ITKM_SL})
+  set(ITKT_OT "${ITKT_SL}")
+endif()

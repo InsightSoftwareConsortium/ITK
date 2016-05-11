@@ -6,7 +6,7 @@ itk_wrap_class("itk::InPlaceImageFilter" POINTER)
   # Wrap from ulong to other integral types, even if ulong isn't wrapped. This
   # is needed for the relabel components image filter.
   if(NOT ITK_WRAP_unsigned_long)
-    itk_wrap_image_filter_combinations("UL" "${WRAP_ITK_INT}")
+    itk_wrap_image_filter_combinations("${ITKM_IT}" "${WRAP_ITK_INT}")
   endif(NOT ITK_WRAP_unsigned_long)
 
   # Vector types
