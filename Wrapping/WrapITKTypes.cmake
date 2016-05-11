@@ -106,6 +106,10 @@ WRAP_TYPE("itk::Array" "A" "itkArray.h")
   ADD_TEMPLATE("${ITKM_F}" "${ITKT_F}")
   ADD_TEMPLATE("${ITKM_UL}" "${ITKT_UL}")
   ADD_TEMPLATE("${ITKM_SL}" "${ITKT_SL}")
+  if(WIN32 AND ITK_USE_64BITS_IDS)
+    ADD_TEMPLATE("${ITKM_ULL}" "${ITKT_ULL}")
+    ADD_TEMPLATE("${ITKM_SLL}" "${ITKT_SLL}")
+  endif()
 END_WRAP_TYPE()
 set(itk_Wrap_Array ${WRAPPER_TEMPLATES})
 
@@ -203,7 +207,7 @@ WRAP_TYPE("itk::Image" "I" "itkImage.h")
   # Make a list of all of the selected image pixel types and also double (for
   # BSplineDeformableTransform), uchar (for 8-bit image output), ulong
   # (for the watershed and relabel filters), bool for (FlatStructuringElement)
-  UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC;VD;B")
+  UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};D;UC;UL;RGBUC;RGBAUC;VD;B;${ITKM_IT}")
 
   set(defined_vector_list )
   foreach(d ${ITK_WRAP_IMAGE_DIMS})

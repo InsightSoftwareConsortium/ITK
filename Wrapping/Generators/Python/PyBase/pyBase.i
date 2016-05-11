@@ -765,9 +765,11 @@ str = str
 %template(setUC)         std::set< unsigned char, std::less< unsigned char > >;
 %template(setUS)         std::set< unsigned short, std::less< unsigned short > >;
 %template(setUL)         std::set< unsigned long, std::less< unsigned long > >;
+%template(setULL)        std::set< unsigned long long, std::less< unsigned long long > >;
 %template(setSC)         std::set< signed char, std::less< signed char > >;
 %template(setSS)         std::set< signed short, std::less< signed short > >;
 %template(setSL)         std::set< signed long, std::less< signed long > >;
+%template(setSLL)        std::set< signed long long, std::less< signed long long > >;
 %template(setF)          std::set< float, std::less< float > >;
 %template(setD)          std::set< double, std::less< double > >;
 

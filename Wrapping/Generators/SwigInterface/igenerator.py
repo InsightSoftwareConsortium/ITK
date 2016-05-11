@@ -376,8 +376,10 @@ class SwigInputGenerator(object):
     def normalize(name):
         name = name.replace("short unsigned int", "unsigned short")
         name = name.replace("long unsigned int", "unsigned long")
+        name = name.replace("long long unsigned int", "unsigned long long")
         name = name.replace("short int", "short")
         name = name.replace("long int", "long")
+        name = name.replace("long long int", "long long")
     #  name = name.replace("unsigned int", "unsigned")
         # normalize spaces
         name = " ".join(name.replace(',', ', ').split())
