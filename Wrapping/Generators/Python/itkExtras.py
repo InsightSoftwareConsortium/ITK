@@ -200,6 +200,16 @@ def region(imageOrFilter):
     img = output(imageOrFilter)
     return img.GetLargestPossibleRegion()
 
+def GetArrayFromImage(imageOrFilter):
+    """Get an Array with the content of the image buffer
+    """
+    import itk
+    keys = [k for k in itk.PyBuffer.keys() if k[0] == output(imageOrFilter).__class__]
+    if len(keys ) == 0:
+        raise RuntimeError("No suitable template parameter can be found.")
+    ImageType = keys[0]
+    return itk.PyBuffer[keys[0]].GetArrayFromImage(output(imageOrFilter))
+
 
 # return an image
 from itkTemplate import image, output
