@@ -31,22 +31,20 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
    * Some typedefs to make things easier.
    */
 
-  // A mesh with no pixel data.
-  typedef itk::Mesh< int >  MeshType;
-
+  typedef itk::Mesh< int >                                   MeshType;
   typedef itk::ConnectedRegionsMeshFilter<MeshType,MeshType> ConnectFilterType;
   typedef itk::Point<float,3>                                PointType;
 
   // Define a simple mesh of three connected pieces. The mesh consists
   // of several different cell types.
-  //
-  MeshType::Pointer inMesh  = MeshType::New();
+
+  MeshType::Pointer inMesh = MeshType::New();
 
   // Pass the mesh through the filter in a variety of ways.
   //
   PointType::ValueType pInit[3] = {1,2,3};
   PointType p = pInit;
-  ConnectFilterType::Pointer connect(ConnectFilterType::New());
+  ConnectFilterType::Pointer connect = ConnectFilterType::New();
 
   connect->SetInput(inMesh);
   connect->SetClosestPoint(p);
@@ -55,6 +53,25 @@ int itkExtractMeshConnectedRegionsTest(int, char* [])
   connect->AddSeed(1);
   connect->AddSeed(2);
   connect->DeleteSeed(1);
+  connect->Update();
+
+  // Test with each of the extraction modes
+  connect->SetExtractionModeToAllRegions();
+  connect->Update();
+
+  connect->SetExtractionModeToCellSeededRegions();
+  connect->Update();
+
+  connect->SetExtractionModeToClosestPointRegion();
+  connect->Update();
+
+  connect->SetExtractionModeToLargestRegion();
+  connect->Update();
+
+  connect->SetExtractionModeToPointSeededRegions();
+  connect->Update();
+
+  connect->SetExtractionModeToSpecifiedRegions();
   connect->Update();
 
   // Create a Sphere for running the filter on real input data.
