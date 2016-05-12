@@ -200,15 +200,64 @@ def region(imageOrFilter):
     img = output(imageOrFilter)
     return img.GetLargestPossibleRegion()
 
+HAVE_NUMPY = True
+try:
+    import numpy
+except ImportError:
+    HAVE_NUMPY = False
+
+def _get_itk_pixelid(numpy_array_type):
+    """Returns a ITK PixelID given a numpy array."""
+
+    if not HAVE_NUMPY:
+        raise ImportError('Numpy not available.')
+    import itk
+    # This is a Mapping from numpy array types to itk pixel types.
+    _np_itk = {numpy.uint8:itk.UC,
+                numpy.uint16:itk.US,
+                numpy.uint32:itk.UI,
+                numpy.uint64:itk.UL,
+                numpy.int8:itk.SC,
+                numpy.int16:itk.SS,
+                numpy.int32:itk.SI,
+                numpy.int64:itk.SL,
+                numpy.float32:itk.F,
+                numpy.float64:itk.D,
+                numpy.complex64:itk.complex[itk.F],
+                numpy.complex128:itk.complex[itk.D]
+                }
+    try:
+        return _np_itk[numpy_array_type.dtype.type]
+    except KeyError as e:
+        for key in _np_itk:
+            if numpy.issubdtype(numpy_array_type.dtype.type, key):
+                return _np_itk[key]
+            raise e
+
 def GetArrayFromImage(imageOrFilter):
     """Get an Array with the content of the image buffer
     """
+    # Check for numpy
+    if not HAVE_NUMPY:
+        raise ImportError('Numpy not available.')
+    # Finds the image type
     import itk
     keys = [k for k in itk.PyBuffer.keys() if k[0] == output(imageOrFilter).__class__]
     if len(keys ) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
     ImageType = keys[0]
+    # Create a numpy array of the type of the input image
     return itk.PyBuffer[keys[0]].GetArrayFromImage(output(imageOrFilter))
+
+def GetImageFromArray(arr):
+    """Get an ITK image from a Python array.
+    """
+    if not HAVE_NUMPY:
+        raise ImportError('Numpy not available.')
+    import itk
+    PixelType = _get_itk_pixelid(arr)
+    ImageType = itk.Image[PixelType,arr.ndim]
+    return itk.PyBuffer[ImageType].GetImageFromArray(arr)
 
 
 # return an image
