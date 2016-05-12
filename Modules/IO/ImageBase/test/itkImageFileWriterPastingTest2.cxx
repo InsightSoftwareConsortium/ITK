@@ -80,7 +80,7 @@ int itkImageFileWriterPastingTest2(int argc, char* argv[])
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice
-  reader->GenerateOutputInformation();
+  reader->UpdateOutputInformation();
 
   ImageType::RegionType largestRegion;
   largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();

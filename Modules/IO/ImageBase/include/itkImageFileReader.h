@@ -111,17 +111,6 @@ public:
   void  SetImageIO(ImageIOBase *imageIO);
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
 
-  /** Prepare the allocation of the output image during the first back
-   * propagation of the pipeline. */
-  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
-
-  /** Give the reader a chance to indicate that it will produce more
-   * output than it was requested to produce. ImageFileReader cannot
-   * currently read a portion of an image (since the ImageIO objects
-   * cannot read a portion of an image), so the ImageFileReader must
-   * enlarge the RequestedRegion to the size of the image on disk. */
-  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
-
   /** Set the stream On or Off */
   itkSetMacro(UseStreaming, bool);
   itkGetConstReferenceMacro(UseStreaming, bool);
@@ -141,6 +130,17 @@ protected:
     * or it is not readable, and exception with an approriate message
     * will be thrown. */
   void TestFileExistanceAndReadability();
+
+  /** Prepare the allocation of the output image during the first back
+   * propagation of the pipeline. */
+  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
+
+  /** Give the reader a chance to indicate that it will produce more
+   * output than it was requested to produce. ImageFileReader cannot
+   * currently read a portion of an image (since the ImageIO objects
+   * cannot read a portion of an image), so the ImageFileReader must
+   * enlarge the RequestedRegion to the size of the image on disk. */
+  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   /** Does the real work. */
   virtual void GenerateData() ITK_OVERRIDE;
