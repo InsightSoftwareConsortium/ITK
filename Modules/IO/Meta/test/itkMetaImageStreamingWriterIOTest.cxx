@@ -55,7 +55,7 @@ int itkMetaImageStreamingWriterIOTest(int argc, char*  argv[])
 
   // We decide how we want to read the image and we split accordingly
   // The image is read slice by slice
-  reader->GenerateOutputInformation();
+  reader->UpdateOutputInformation();
   fullsize = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   index.Fill(0);

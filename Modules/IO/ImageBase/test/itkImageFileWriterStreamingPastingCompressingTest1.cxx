@@ -122,7 +122,7 @@ ActualTest(
   reader->SetUseStreaming( true );
 
   // read the region info
-  reader->GenerateOutputInformation();
+  reader->UpdateOutputInformation();
 
   ImageType::RegionType largestRegion;
   largestRegion = reader->GetOutput()->GetLargestPossibleRegion().GetSize();
