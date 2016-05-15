@@ -8,7 +8,9 @@ if(ITK_USE_SYSTEM_VXL)
   find_package(VXL REQUIRED)
   set(ITKVNL_SYSTEM_INCLUDE_DIRS
     ${VXL_NETLIB_INCLUDE_DIR}
+    ${VXL_VCL_INCLUDE_DIRS}
     ${VXL_VCL_INCLUDE_DIR}
+    ${VXL_CORE_INCLUDE_DIRS}
     ${VXL_CORE_INCLUDE_DIR}
     )
   set(ITKVNL_LIBRARIES vnl_algo vnl v3p_netlib netlib vcl)
