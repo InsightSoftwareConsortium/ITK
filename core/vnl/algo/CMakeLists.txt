@@ -103,12 +103,14 @@ if(NETLIB_FOUND)
     LIBRARY_SOURCES ${vnl_algo_sources}
     HEADER_INSTALL_DIR vnl/algo)
   target_link_libraries( ${VXL_LIB_PREFIX}vnl_algo ${NETLIB_LIBRARIES} ${VXL_LIB_PREFIX}vnl )
-  include(GenerateExportHeader)
-  generate_export_header(${VXL_LIB_PREFIX}vnl_algo BASE_NAME vnl_algo)
-  install(FILES ${CMAKE_CURRENT_BINARY_DIR}/vnl_algo_export.h
-      DESTINATION ${VXL_INSTALL_INCLUDE_DIR}/core/vnl/algo
-      PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
-      COMPONENT Development )
+  set(CURR_LIB_NAME vnl_algo)
+  set_vxl_library_properties(
+     TARGET_NAME ${VXL_LIB_PREFIX}${CURR_LIB_NAME}
+     BASE_NAME ${CURR_LIB_NAME}
+     EXPORT_HEADER_FILE ${VXLCORE_BINARY_INCLUDE_DIR}/vnl/algo/${CURR_LIB_NAME}_export.h
+     INSTALL_DIR   ${VXL_INSTALL_INCLUDE_DIR}/core/${CURR_LIB_NAME}
+     #USE_HIDDEN_VISIBILITY
+  )
 
   if( BUILD_TESTING )
     add_subdirectory(tests)

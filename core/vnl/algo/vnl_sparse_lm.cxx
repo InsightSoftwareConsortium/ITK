@@ -644,9 +644,6 @@ void vnl_sparse_lm::compute_Mb()
 //: solve for dc
 void vnl_sparse_lm::solve_dc(vnl_vector<double>& dc)
 {
-  // sparse vector iterator
-  typedef vnl_crs_index::sparse_vector::iterator sv_itr;
-
   vnl_matrix<double> Sc(T_); // start with a copy of T
   vnl_vector<double> sec(ec_); // start with a copy of ec
 

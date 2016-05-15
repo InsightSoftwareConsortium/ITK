@@ -36,6 +36,7 @@
 #include <iosfwd>
 #include <vcl_compiler.h>
 #include <vcl_cassert.h>
+#include "vnl/vnl_export.h"
 
 //: Evaluation of polynomials.
 //  vnl_polynomial<T> represents a univariate polynomial with
@@ -50,7 +51,7 @@
 //  the constant term. Hence coeffs_[n] is the coefficient of $X^n$,
 
 template <class T>
-class vnl_polynomial
+class VNL_EXPORT vnl_polynomial
 {
  public:
   //: Initialize the polynomial from its coefficients, lowest order first.
@@ -164,7 +165,7 @@ class vnl_polynomial
   std::vector<T> coeffs_;
 };
 
-template <class T>
+template <class T> VNL_EXPORT
 std::ostream& operator<<(std::ostream& os, vnl_polynomial<T> const& p) { p.print(os); return os; }
 
 #define VNL_POLYNOMIAL_INSTANTIATE(T) extern "please #include vnl/vnl_polynomial.hxx instead"

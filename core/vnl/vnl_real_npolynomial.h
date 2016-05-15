@@ -34,6 +34,7 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
 //: real polynomial in N variables.
 //    vnl_real_npolynomial represents a polynomial in multiple variables.
@@ -52,8 +53,9 @@
 //    [1 2].
 //  \endverbatim
 
-class vnl_real_npolynomial
+class VNL_EXPORT vnl_real_npolynomial
 {
+ private:
   //: coefficients
   vnl_vector<double>       coeffs_;
   //: degrees of every term for every variable
@@ -141,5 +143,7 @@ class vnl_real_npolynomial
   void simplify();
   double eval(const vnl_matrix<double>& xn);
 };
+
+VNL_EXPORT std::ostream& operator<<(std::ostream& , vnl_real_npolynomial const& );
 
 #endif // vnl_real_npolynomial_h_

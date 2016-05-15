@@ -48,6 +48,7 @@
 #include <iostream>
 #include <vcl_compiler.h>
 #include <vcl_cassert.h>
+#include "vnl/vnl_export.h"
 
 //: High-precision rational numbers
 //
@@ -67,8 +68,9 @@
 // conversion from e.g. double 1.0/3.0 to the rational number 1/3, hence no more
 // rounding errors.  This is implemented with continued fraction approximations.
 //
-class vnl_rational
+class VNL_EXPORT vnl_rational
 {
+ private:
   long num_; //!< Numerator portion
   long den_; //!< Denominator portion
 

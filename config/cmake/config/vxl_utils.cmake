@@ -141,6 +141,77 @@ macro( vxl_add_library )
   unset(_doing)
 endmacro()
 
+include(CMakeParseArguments)
+# This macro sets a targets visibility to
+# hidden, and configures the header that
+# contains the proper export defines
+# and configures the install location
+#  SET_VXL_LIBRARY_PROPERTIES(
+#     COMPILE_FLAGS "-fPIC -Wall"  # Extra compiler flags
+#     TARGET_NAME ${_TARGET_NAME}  # Library target name to modify
+#     BASE_NAME ${_BASE_NAME}      # Prefix for export macros ${BASE_NAME}_EXPORT used in headers
+#                                  # #include "${BASE_NAME}_export.h"
+#     EXPORT_HEADER_FILE ${_export_header_file}  # Where to generate the ${BASE_NAME}_export.h file
+#     INSTALL_DIR ${_INSTALL_DIR}  # Where to install the ${EXPORT_HEADER_FILE}
+#     USE_HIDDEN_VISIBILITY        # If set, then use hidden visibility for exports by default
+#  )
+#
+macro(SET_VXL_LIBRARY_PROPERTIES)
+  set(options USE_HIDDEN_VISIBILITY)
+  set(oneValueArgs TARGET_NAME BASE_NAME INSTALL_DIR EXPORT_HEADER_FILE)
+  set(multiValueArgs COMPILE_FLAGS)
+  cmake_parse_arguments(LSLHVP
+       "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN} )
+
+  if(LSLHVP_UNPARSED_ARGUMENTS)
+    message(FATAL_ERROR "Unknown keywords given to SET_LIBRARY_HIDDEN_VISIBILITY_PROPERTIES(): \"${LSLHVP_UNPARSED_ARGUMENTS}\"")
+  endif()
+  if(LSLHVP_COMPILE_FLAGS)
+     set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES COMPILE_FLAGS "${LSLHVP_COMPILE_FLAGS}")
+  endif()
+
+  if(LSLHVP_USE_HIDDEN_VISIBILITY)
+    if(NOT LSLHVP_BASE_NAME)
+        message(FATAL_ERROR "BASE_NAME REQUIRED when using USE_HIDDEN_VISIBILITY")
+    endif()
+    if(NOT LSLHVP_EXPORT_HEADER_FILE)
+        message(FATAL_ERROR "EXPORT_HEADER_FILE REQUIRED when using USE_HIDDEN_VISIBILITY")
+    endif()
+    if(NOT LSLHVP_INSTALL_DIR)
+        message(FATAL_ERROR "INSTALL_DIR REQUIRED when using USE_HIDDEN_VISIBILITY")
+    endif()
+
+    if (BUILD_SHARED_LIBS)
+      # export flags are only added when building shared libs, they cause
+      # mismatched visibility warnings when building statically.
+      if(CMAKE_VERSION VERSION_LESS 2.8.12)
+        # future DEPRECATION notice from cmake:
+        #      "The add_compiler_export_flags function is obsolete.
+        #       Use the CXX_VISIBILITY_PRESET and VISIBILITY_INLINES_HIDDEN
+        #       target properties instead."
+        add_compiler_export_flags(my_abi_flags)
+        set_property(TARGET ${LSLHVP_TARGET_NAME} APPEND PROPERTY COMPILE_FLAGS "${my_abi_flags}")
+      else()
+        if (USE_COMPILER_HIDDEN_VISIBILITY)
+          # Prefer to use target properties supported by newer cmake
+          set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+          set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES C_VISIBILITY_PRESET hidden)
+          set_target_properties(${LSLHVP_TARGET_NAME} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+          endif()
+      endif()
+    endif()
+  endif()
+
+  generate_export_header(${LSLHVP_TARGET_NAME}
+       BASE_NAME ${LSLHVP_BASE_NAME}
+       EXPORT_FILE_NAME ${LSLHVP_EXPORT_HEADER_FILE}
+  )
+  install(FILES ${LSLHVP_EXPORT_HEADER_FILE}
+      DESTINATION ${LSLHVP_INSTALL_DIR}
+      PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
+      COMPONENT Development )
+endmacro()
+
 #---------------------------------------------------------------------
 # GENERATE_TEST_DRIVER(<lib> <sources> [<lib1> <lib2> ...])
 #
@@ -211,3 +282,5 @@ macro(GENERATE_TEST_INCLUDE LIB SOURCES PREFIX)
   add_executable(${LIB}_test_include ${CMAKE_CURRENT_BINARY_DIR}/test_include.cxx)
   target_link_libraries(${LIB}_test_include ${LIB})
 endmacro()
+
+

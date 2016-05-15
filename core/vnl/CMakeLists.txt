@@ -269,12 +269,14 @@ vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}vnl
   LIBRARY_SOURCES ${vnl_sources}
   HEADER_INSTALL_DIR vnl)
 target_link_libraries( ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PREFIX}vcl )
-include(GenerateExportHeader)
-generate_export_header(${VXL_LIB_PREFIX}vnl BASE_NAME vnl)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/vnl_export.h
-    DESTINATION ${VXL_INSTALL_INCLUDE_DIR}/core/vnl
-    PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
-    COMPONENT Development )
+set(CURR_LIB_NAME vnl)
+set_vxl_library_properties(
+     TARGET_NAME ${VXL_LIB_PREFIX}${CURR_LIB_NAME}
+     BASE_NAME ${CURR_LIB_NAME}
+     EXPORT_HEADER_FILE ${VXLCORE_BINARY_INCLUDE_DIR}/${CURR_LIB_NAME}/${CURR_LIB_NAME}_export.h
+     INSTALL_DIR   ${VXL_INSTALL_INCLUDE_DIR}/core/${CURR_LIB_NAME}
+     USE_HIDDEN_VISIBILITY
+)
 
 if( BUILD_TESTING )
   add_subdirectory(tests)

@@ -20,11 +20,12 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
 
 //: Collection of C-style matrix functions for the most time-critical applications.
 // In general, however one should consider using the vnl_transpose envelope-letter
 // class to achieve the same results with about a 10% speed penalty.
-class vnl_fastops
+class VNL_EXPORT vnl_fastops
 {
  public:
   static void AtA(vnl_matrix<double>& out, const vnl_matrix<double>& A);

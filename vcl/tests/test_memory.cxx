@@ -73,7 +73,7 @@ int test_memory_main(int /*argc*/,char* /*argv*/[])
   ASSERT(instances == 0, "auto_ptr leaked an object");
 
   // Test parts of <memory> related to C++ 0x (if available)
-#if ( VCL_INCLUDE_CXX_0X == 1) || ( VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L )
+#if ( VCL_INCLUDE_CXX_0X == 1) || (VXL_FULLCXX11SUPPORT == 1 )
   // reset instance count for shared pointer tests
   instances = 0;
   {

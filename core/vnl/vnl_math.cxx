@@ -10,7 +10,7 @@
 #include <vxl_config.h>
 #include <vcl_compiler.h>
 
-#if VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
+#if VXL_FULLCXX11SUPPORT
 // Nothing to do for isnan,isfinite,isinf,isnormal
 // or hypot here
 #else
@@ -74,7 +74,7 @@ namespace vnl_math
 {
  //--------------------------------------------------------------------------------
  //: Return true iff x is "Not a Number"
-#if VXL_CXX11 || VXL_HAS_STD_ISNAN
+#if VXL_FULLCXX11SUPPORT || VXL_HAS_STD_ISNAN
  //: Return true iff x is "Not a Number"
  bool isnan(float x) { return std::isnan(x); }
  //: Return true iff x is "Not a Number"
@@ -138,7 +138,7 @@ bool isnan(long double x)
 }
 #endif
 
-#if VXL_CXX11 || VXL_HAS_STD_ISFINITE
+#if VXL_FULLCXX11SUPPORT || VXL_HAS_STD_ISFINITE
 //: Return true if x is neither NaN nor Inf.
 bool isfinite(float x) { return std::isfinite(x); }
 //: Return true if x is neither NaN nor Inf.
@@ -165,7 +165,7 @@ bool isfinite(long double x)
 #endif
 
 
-#if VXL_CXX11 || VXL_HAS_STD_ISINF
+#if VXL_FULLCXX11SUPPORT || VXL_HAS_STD_ISINF
 //: Return true if x is inf
 bool isinf(float x) { return std::isinf(x); }
 //: Return true if x is inf
@@ -191,7 +191,7 @@ bool isinf(long double x)
 }
 #endif
 
-#if VXL_CXX11 || VXL_HAS_STD_ISNORMAL
+#if VXL_FULLCXX11SUPPORT || VXL_HAS_STD_ISNORMAL
 //: Return true if x is inf
 bool isnormal(float x) { return std::isnormal(x); }
 //: Return true if x is inf

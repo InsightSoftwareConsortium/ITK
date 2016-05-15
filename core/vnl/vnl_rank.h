@@ -14,6 +14,7 @@
 //  and then counting the number of non-zero rows (or columns).
 
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
 
 typedef enum { vnl_rank_row, vnl_rank_column, vnl_rank_both } vnl_rank_type;
 typedef enum { vnl_rank_pivot_one, vnl_rank_pivot_all } vnl_rank_pivot_type;
@@ -23,7 +24,7 @@ typedef enum { vnl_rank_pivot_one, vnl_rank_pivot_all } vnl_rank_pivot_type;
 //  Specify vnl_rank_column to obtain the column rank.
 //
 // \relatesalso vnl_matrix
-template <class T>
+template <class T> VNL_EXPORT
 unsigned int vnl_rank(vnl_matrix<T> const& mat, vnl_rank_type = vnl_rank_both);
 
 //: Row reduce a matrix.
@@ -41,7 +42,7 @@ unsigned int vnl_rank(vnl_matrix<T> const& mat, vnl_rank_type = vnl_rank_both);
 //
 // \relatesalso vnl_matrix
 //
-template <class T>
+template <class T> VNL_EXPORT
 vnl_matrix<T> vnl_rank_row_reduce(vnl_matrix<T> const& mat,
                                   vnl_rank_pivot_type = vnl_rank_pivot_all);
 
@@ -49,7 +50,7 @@ vnl_matrix<T> vnl_rank_row_reduce(vnl_matrix<T> const& mat,
 //
 // \relatesalso vnl_matrix
 //
-template <class T>
+template <class T> VNL_EXPORT
 vnl_matrix<T> vnl_rank_column_reduce(vnl_matrix<T> const& mat,
                                      vnl_rank_pivot_type = vnl_rank_pivot_all);
 
@@ -62,7 +63,7 @@ vnl_matrix<T> vnl_rank_column_reduce(vnl_matrix<T> const& mat,
 //
 // \relatesalso vnl_matrix
 //
-template <class T>
+template <class T> VNL_EXPORT
 vnl_matrix<T> vnl_rank_row_column_reduce(vnl_matrix<T> const& mat,
                                          vnl_rank_pivot_type = vnl_rank_pivot_all);
 

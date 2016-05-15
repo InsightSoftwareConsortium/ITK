@@ -118,7 +118,7 @@ vnl_vector<T>::vnl_vector (unsigned len, int n, T const values[])
 template<class T>
 vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py)
 {
-  VXL_DEPRECATED("vnl_vector<T>::vnl_vector(2, T const& px, T const& py)");
+  VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(2, T const& px, T const& py)");
   assert(len==2);
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(2);
@@ -129,7 +129,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py)
 template<class T>
 vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz)
 {
-  VXL_DEPRECATED("vnl_vector<T>::vnl_vector(3, T const& px, T const& py, T const& pz)");
+  VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(3, T const& px, T const& py, T const& pz)");
   assert(len==3);
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(3);
@@ -141,7 +141,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz)
 template<class T>
 vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz, T const& pw)
 {
-  VXL_DEPRECATED("vnl_vector<T>::vnl_vector(4, T const& px, T const& py, T const& pz, T const& pt)");
+  VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(4, T const& px, T const& py, T const& pz, T const& pt)");
   assert(len==4);
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(4);

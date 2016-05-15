@@ -19,7 +19,7 @@
 #include <string>
 #include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
-
+#include "vnl/vnl_export.h"
 
 //: vnl_nonlinear_minimizer is a base class for nonlinear optimization.
 // It defines a few common abilities such as get_num_evaluations.
@@ -29,7 +29,7 @@
 // -  vnl_conjugate_gradient
 // -  vnl_brent
 // -  vnl_powell
-class vnl_nonlinear_minimizer
+class VNL_EXPORT vnl_nonlinear_minimizer
 {
  public:
   vnl_nonlinear_minimizer();

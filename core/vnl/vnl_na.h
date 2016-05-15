@@ -8,6 +8,7 @@
 
 #include <iosfwd>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
 //:
 // \file
@@ -42,61 +43,61 @@
 //: qNaN to indicate value Not Available.
 // Don't assume that any VXL functions will do something sensible in the face of NA, unless
 // explicitly documented.
-double vnl_na(double dummy);
+VNL_EXPORT double vnl_na(double dummy);
 
 //: qNaN to indicate value Not Available.
 // Don't assume that any VXL functions will do something sensible in the face of NA, unless
 // explicitly documented.
-float vnl_na(float dummy);
+VNL_EXPORT float vnl_na(float dummy);
 
 //: True if parameter is specific NA qNaN.
 // Tests for bit pattern 0x7ff00000000007a2, as used by Octave and R
-bool vnl_na_isna(double);
+VNL_EXPORT bool vnl_na_isna(double);
 
 //: True if parameter is specific NA qNaN.
 // Tests for bit pattern 0x7f8007a2
-bool vnl_na_isna(float);
+VNL_EXPORT bool vnl_na_isna(float);
 
 
 //: Replace NaNs with NA, leave other values alone.
-double vnl_na_nan_to_na(double v);
+VNL_EXPORT double vnl_na_nan_to_na(double v);
 
 //: Replace NaNs with NA, leave other values alone.
-float vnl_na_nan_to_na(float v);
+VNL_EXPORT float vnl_na_nan_to_na(float v);
 
 
 //: Read a floating point number or "NA" from a stream.
 // Should behave exactly like a>>x, if the extraction operator was aware of the
 // character sequence \code NA.
-void vnl_na_extract(std::istream &is, double& x);
+VNL_EXPORT void vnl_na_extract(std::istream &is, double& x);
 
 
 //: Write a floating point number or "NA" to a stream.
 // Should behave exactly like a<<x, if the insertion operator was aware of the
 // character sequence \code NA.
-void vnl_na_insert(std::ostream &is, double x);
+VNL_EXPORT void vnl_na_insert(std::ostream &is, double x);
 
 //: Read a floating point number or "NA" from a stream.
 // Should behave exactly like a>>x, if the extraction operator was aware of the
 // character sequence \code NA.
-void vnl_na_extract(std::istream &is, float& x);
+VNL_EXPORT void vnl_na_extract(std::istream &is, float& x);
 
 
 //: Write a floating point number or "NA" to a stream.
 // Should behave exactly like a<<x, if the insertion operator was aware of the
 // character sequence \code NA.
-void vnl_na_insert(std::ostream &is, float x);
+VNL_EXPORT void vnl_na_insert(std::ostream &is, float x);
 
 
 //: Wrapper around a double or float that handles streaming NA.
-template <class T> struct vnl_na_stream_t
+template <class T> struct VNL_EXPORT vnl_na_stream_t
 {
   T& x_;
   vnl_na_stream_t(T& x): x_(x) {}
 };
 
 //: Wrapper around a double or float that handles streaming NA.
-template <class T> struct vnl_na_stream_const_t
+template <class T> struct VNL_EXPORT vnl_na_stream_const_t
 {
   const T& x_;
   vnl_na_stream_const_t(const T& x): x_(x) {}
@@ -134,6 +135,5 @@ template <class T> inline std::istream& operator >>(std::istream &is, const vnl_
   vnl_na_extract(is, ns.x_);
   return is;
 }
-
 
 #endif // vnl_na_h_
