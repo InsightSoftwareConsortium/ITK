@@ -58,12 +58,19 @@ extern int bar(void);
 int foo(void) {return bar()+1;}
 ")
 
+    if(APPLE AND ${CMAKE_VERSION} VERSION_GREATER 2.8.11)
+      set( _rpath_arg  "-DCMAKE_MACOSX_RPATH='${CMAKE_MACOSX_RPATH}'" )
+    else()
+      set( _rpath_arg )
+    endif()
+
     try_compile(${VARIABLE}
       "${test_project_dir}"
       "${test_project_dir}"
       undefined
       CMAKE_FLAGS
         "-DCMAKE_SHARED_LINKER_FLAGS='${CMAKE_SHARED_LINKER_FLAGS}'"
+        ${_rpath_arg}
       OUTPUT_VARIABLE output)
 
     set(${cache_var} "${cmake_flags_hash}" CACHE INTERNAL  "hashed try_compile flags")
