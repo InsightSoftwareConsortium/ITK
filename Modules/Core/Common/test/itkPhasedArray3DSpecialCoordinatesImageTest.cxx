@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkPhasedArray3DSpecialCoordinatesImage.h"
+#include "itkWindowedSincInterpolateImageFunction.h"
 
 int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
 {
@@ -91,6 +92,10 @@ int itkPhasedArray3DSpecialCoordinatesImageTest(int, char* [] )
   {
     passed = false;
   }
+
+  typedef itk::WindowedSincInterpolateImageFunction< Image, 3 > WindowedSincInterpolatorType;
+  WindowedSincInterpolatorType::Pointer interpolator = WindowedSincInterpolatorType::New();
+  interpolator->SetInputImage( image );
 
   std::cout<<std::endl;
 

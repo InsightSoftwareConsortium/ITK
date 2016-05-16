@@ -21,6 +21,8 @@
 #include "itkSpecialCoordinatesImage.h"
 #include "itkPoint.h"
 #include "itkMath.h"
+#include "itkDefaultPixelAccessor.h"
+#include "itkNeighborhoodAccessorFunctor.h"
 
 namespace itk
 {
@@ -130,6 +132,10 @@ public:
    * the Image, and DefaultVectorPixelAccessor for the vector image. The
    * functor provides a generic API between the two accessors. */
   typedef DefaultPixelAccessorFunctor< Self > AccessorFunctorType;
+
+  /** Typedef for the functor used to access a neighborhood of pixel
+   * pointers. */
+  typedef NeighborhoodAccessorFunctor< Self > NeighborhoodAccessorFunctorType;
 
   /** Dimension of the image.  This constant is used by functions that are
    * templated over image type (as opposed to being templated over pixel type
@@ -345,6 +351,22 @@ public:
     const FixedArray< TCoordRep, 3 > & ,
     FixedArray< TCoordRep, 3 > & ) const
     {}
+
+  /** Return the Pixel Accessor object */
+  AccessorType GetPixelAccessor(void)
+  { return AccessorType(); }
+
+  /** Return the Pixel Accesor object */
+  const AccessorType GetPixelAccessor(void) const
+  { return AccessorType(); }
+
+  /** Return the NeighborhoodAccessor functor */
+  NeighborhoodAccessorFunctorType GetNeighborhoodAccessor()
+  { return NeighborhoodAccessorFunctorType(); }
+
+  /** Return the NeighborhoodAccessor functor */
+  const NeighborhoodAccessorFunctorType GetNeighborhoodAccessor() const
+  { return NeighborhoodAccessorFunctorType(); }
 
 protected:
   PhasedArray3DSpecialCoordinatesImage()
