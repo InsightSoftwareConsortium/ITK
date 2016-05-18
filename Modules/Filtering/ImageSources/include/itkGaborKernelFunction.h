@@ -46,8 +46,8 @@ namespace itk
  * \ingroup Functions
  * \ingroup ITKImageSources
  */
-template< typename TRealValueType>
-class GaborKernelFunction:public KernelFunctionBase<TRealValueType>
+template< typename TRealValueType >
+class GaborKernelFunction : public KernelFunctionBase< TRealValueType >
 {
 public:
   /** Standard class typedefs. */
