@@ -314,7 +314,7 @@ macro(itk_end_wrap_module_swig_interface)
     list(APPEND typedef_in_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
     list(APPEND typedef_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}SwigInterface.h")
 
-    if(ITK_WRAP_EXPLICIT)
+    if(${module_prefix}_WRAP_EXPLICIT)
       list(APPEND opts --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
     endif()
   endforeach()
