@@ -18,12 +18,20 @@
 
 #include "itkHardConnectedComponentImageFilter.h"
 #include "itkFilterWatcher.h"
+#include "itkImageFileWriter.h"
 
 const int HEIGHT = 20;
 const int WIDTH = 20;
 
-int itkHardConnectedComponentImageFilterTest(int, char* [] )
+int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Usage: " << argv[0] << " outputImage" << std::endl;
+    return EXIT_FAILURE;
+    }
+  const char * outputImageFileName = argv[1];
+
   typedef itk::Image<bool,2>           InputImageType;
   typedef itk::Image<unsigned short,2> OutputImageType;
   typedef InputImageType::IndexType    IndexType;
@@ -125,6 +133,20 @@ int itkHardConnectedComponentImageFilterTest(int, char* [] )
     }
 
   std::cout<<std::endl;
+
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( outputImageFileName );
+  writer->SetInput( filter->GetOutput() );
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & error )
+    {
+    std::cerr << "Error: " << error << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
