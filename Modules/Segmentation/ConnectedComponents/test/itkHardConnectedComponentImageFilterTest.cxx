@@ -20,9 +20,6 @@
 #include "itkFilterWatcher.h"
 #include "itkImageFileWriter.h"
 
-const int HEIGHT = 20;
-const int WIDTH = 20;
-
 int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
 {
   if( argc < 2 )
@@ -32,22 +29,25 @@ int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
     }
   const char * outputImageFileName = argv[1];
 
-  typedef itk::Image<bool,2>           InputImageType;
-  typedef itk::Image<unsigned short,2> OutputImageType;
-  typedef InputImageType::IndexType    IndexType;
+  const int height = 20;
+  const int width = 20;
 
-  itk::HardConnectedComponentImageFilter<InputImageType, OutputImageType>::Pointer
-    filter = itk::HardConnectedComponentImageFilter<InputImageType, OutputImageType>::New();
+  const unsigned int Dimension = 2;
+
+  typedef itk::Image< bool, Dimension >           InputImageType;
+  typedef itk::Image< unsigned short, Dimension > OutputImageType;
+  typedef InputImageType::IndexType               IndexType;
+
   InputImageType::Pointer inputimg = InputImageType::New();
   IndexType index;
   index.Fill(0);
   InputImageType::RegionType region;
 
-  itk::Size<2> sz;
-  sz[0] = WIDTH;
-  sz[1] = HEIGHT;
+  InputImageType::SizeType size;
+  size[0] = width;
+  size[1] = height;
 
-  region.SetSize(sz);
+  region.SetSize(size);
   region.SetIndex(index);
 
   inputimg->SetLargestPossibleRegion( region );
@@ -95,6 +95,9 @@ int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
     }
   //InputImageType::IndexType Seed = {10,2};
 
+  typedef itk::HardConnectedComponentImageFilter< InputImageType, OutputImageType > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+
   FilterWatcher watcher(filter);
 
   filter->SetInput(inputimg);
@@ -106,33 +109,33 @@ int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
 
   std::cout << "Input Image" << std::endl;
   it.GoToBegin();
-  for(int i = 0;i < HEIGHT*WIDTH; i++)
+  for(int i = 0;i < height*width; i++)
     {
-    if((i%WIDTH) == 0)
+    if((i%width) == 0)
       {
-      std::cout<<std::endl;
+      std::cout << std::endl;
       }
     std::cout << ( it.Get() ? 1 : 0 );
     ++it;
     }
-  std::cout<<std::endl;
+  std::cout << std::endl;
 
   typedef itk::ImageRegionIterator<OutputImageType> outputIterator;
   outputIterator ot = outputIterator(filter->GetOutput(), region);
 
   std::cout << std::endl << "Output Image" << std::endl;
   ot.GoToBegin();
-  for(int i = 0;i < HEIGHT*WIDTH; i++)
+  for(int i = 0;i < height*width; i++)
     {
-    if((i%WIDTH) == 0)
+    if((i%width) == 0)
       {
-      std::cout<<std::endl;
+      std::cout << std::endl;
       }
-    std::cout<<ot.Get();
+    std::cout << ot.Get();
     ++ot;
     }
 
-  std::cout<<std::endl;
+  std::cout << std::endl;
 
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
