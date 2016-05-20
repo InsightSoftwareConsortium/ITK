@@ -20,11 +20,12 @@
 #include "itkFilterWatcher.h"
 #include "itkImageFileWriter.h"
 
-int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
+template< typename TPixel >
+int DoIt( int argc, char* argv[], const std::string pixelType )
 {
   if( argc < 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " outputImage" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " outputImagePrefix" << std::endl;
     return EXIT_FAILURE;
     }
   const char * outputImageFileName = argv[1];
@@ -34,9 +35,10 @@ int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
 
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< bool, Dimension >           InputImageType;
-  typedef itk::Image< unsigned short, Dimension > OutputImageType;
-  typedef InputImageType::IndexType               IndexType;
+  typedef TPixel                             PixelType;
+  typedef itk::Image< bool, Dimension >      InputImageType;
+  typedef itk::Image< PixelType, Dimension > OutputImageType;
+  typedef InputImageType::IndexType          IndexType;
 
   InputImageType::Pointer inputimg = InputImageType::New();
   IndexType index;
@@ -96,7 +98,7 @@ int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
   //InputImageType::IndexType Seed = {10,2};
 
   typedef itk::HardConnectedComponentImageFilter< InputImageType, OutputImageType > FilterType;
-  FilterType::Pointer filter = FilterType::New();
+  typename FilterType::Pointer filter = FilterType::New();
 
   FilterWatcher watcher(filter);
 
@@ -138,8 +140,8 @@ int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
   std::cout << std::endl;
 
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( outputImageFileName );
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( std::string( outputImageFileName ) + pixelType + ".png" );
   writer->SetInput( filter->GetOutput() );
   try
     {
@@ -152,4 +154,10 @@ int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
     }
 
   return EXIT_SUCCESS;
+}
+
+int itkHardConnectedComponentImageFilterTest(int argc, char* argv[] )
+{
+  return DoIt< unsigned char >( argc, argv, "UnsignedChar" )
+   || DoIt< unsigned short >( argc, argv, "UnsignedShort" );
 }

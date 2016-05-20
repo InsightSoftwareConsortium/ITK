@@ -96,7 +96,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
           }
         if ( label )
           {
-          if ( ot.Get() == NumericTraits< LabelType >::max() )
+          if ( ot.Get() == NumericTraits< OutputPixelType >::max() )
             {
             ot.Set(label);
             }
@@ -129,7 +129,7 @@ HardConnectedComponentImageFilter< TInputImage, TOutputImage >
             }
           }
         }
-      if ( ot.Get() == NumericTraits< LabelType >::max() )
+      if ( ot.Get() == NumericTraits< OutputPixelType >::max() )
         {
         ++maxLabel;
         equivalenceTable[maxLabel] = maxLabel;
