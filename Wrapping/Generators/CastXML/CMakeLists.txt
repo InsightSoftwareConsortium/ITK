@@ -25,22 +25,22 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460468/castxml-linux.tar.gz)
-    set(_castxml_hash_or_tag aa83669b620ab233620b721a421f5a78)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460535/castxml-linux.tar.gz)
+    set(_castxml_hash_or_tag edae937f8a6e42db64f54365b3f0d9e9)
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460268/castxml-windows.zip)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460537/castxml-windows.zip)
     set(_castxml_hash_or_tag a39df49a23f3c739afe3a0f0beba1bcd)
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460403/castxml-macosx.tar.gz)
-    set(_castxml_hash_or_tag 4493e16825babceea30e682f9f53a9e3)
+    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460536/castxml-macosx.tar.gz)
+    set(_castxml_hash_or_tag a4d0904608d3bb77421d5cdb7de19184)
     set(_download_castxml_binaries 1)
 
   endif()
@@ -132,8 +132,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2016-04-25
-      GIT_TAG 41581dbb55b7df7f72b5c8e03d116c2663d2da1c
+      # CastXML master, 2016-05-18
+      GIT_TAG 9a834141a84c4839949826c7f70b944ffea07b80
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
