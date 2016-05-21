@@ -20,6 +20,7 @@
 #include "itkIsolatedWatershedImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
 {
@@ -30,15 +31,19 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
     }
 
   typedef unsigned char            PixelType;
-  typedef itk::Image<PixelType, 2> myImage;
-  itk::ImageFileReader<myImage>::Pointer input
-    = itk::ImageFileReader<myImage>::New();
+  typedef itk::Image<PixelType, 2> InputImageType;
+
+  itk::ImageFileReader<InputImageType>::Pointer input =
+    itk::ImageFileReader<InputImageType>::New();
+
   input->SetFileName(av[1]);
 
   // Create a filter
-  typedef itk::IsolatedWatershedImageFilter<myImage,myImage> FilterType;
+  typedef itk::IsolatedWatershedImageFilter<InputImageType, InputImageType> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, IsolatedWatershedImageFilter, ImageToImageFilter );
 
   filter->SetInput(input->GetOutput());
 
@@ -80,7 +85,6 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
             << static_cast<itk::NumericTraits<PixelType>::PrintType>(replaceValue2)
             << std::endl;
 
-
   try
     {
     input->Update();
@@ -97,8 +101,8 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
     }
 
   // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer;
-  writer = itk::ImageFileWriter<myImage>::New();
+  itk::ImageFileWriter<InputImageType>::Pointer writer;
+  writer = itk::ImageFileWriter<InputImageType>::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( av[2] );
   writer->Update();
@@ -137,7 +141,6 @@ int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
     std::cerr << "Exception detected: "  << e.GetDescription();
     return EXIT_FAILURE;
     }
-
 
   return EXIT_SUCCESS;
 }
