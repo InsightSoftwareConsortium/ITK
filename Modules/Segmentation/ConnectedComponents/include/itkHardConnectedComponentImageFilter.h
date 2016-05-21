@@ -36,7 +36,7 @@ namespace itk
  * label to indicate the equivalence of the labels stored in the table. After
  * the forward pass goes through the entire image, we merge the different
  * connected components corresponding to the equivalence labels in the table.
- * We implement this strategy in function GenerateData().
+ * We implement this strategy in the function GenerateData().
  *
  * There are two options in the program.
  * 1. Take an nD binary image as input, and produce an nD gray image, where intensity indicates label assigned to a connected component.
@@ -51,10 +51,12 @@ class HardConnectedComponentImageFilter:
 {
 public:
   /**
-   * Standard "Self" & Superclass typedef.
+   * Standard class typedef's
    */
   typedef HardConnectedComponentImageFilter               Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /**
    * Extract some information from the image types.  Dimensionality
@@ -72,17 +74,12 @@ public:
   /**
    * Image typedef support
    */
-  typedef TInputImage                         InputImageType;
-  typedef TOutputImage                        OutputImageType;
-  typedef   typename TInputImage::IndexType   IndexType;
-  typedef   typename TInputImage::SizeType    SizeType;
-  typedef   typename TOutputImage::RegionType RegionType;
-  typedef   std::list< IndexType >            ListType;
-  /**
-   * Smart pointer typedef support
-   */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef TInputImage                       InputImageType;
+  typedef TOutputImage                      OutputImageType;
+  typedef typename TInputImage::IndexType   IndexType;
+  typedef typename TInputImage::SizeType    SizeType;
+  typedef typename TOutputImage::RegionType RegionType;
+  typedef std::list< IndexType >            ListType;
 
   /**
    * Run-time type information (and related methods)
