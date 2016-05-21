@@ -21,49 +21,16 @@
 namespace itk
 {
 
-///////////////////////////////////////////////////////////////////////////////
-// Constructor, Destructor, and Print
-//
-
-//
-// Constructor
-//
 OpenCVVideoIO::OpenCVVideoIO()
 {
   this->ResetMembers();
 }
 
-//
-// Destructor
-//
 OpenCVVideoIO::~OpenCVVideoIO()
 {
   this->FinishReadingOrWriting();
 }
 
-
-//
-// PrintSelf
-//
-void OpenCVVideoIO::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  if (this->m_CVImage != ITK_NULLPTR)
-    {
-    os << indent << "Image dimensions : ["<<this->m_CVImage->width<<","
-        <<this->m_CVImage->height<<"]"<<std::endl;
-    os << indent << "Origin : "<<this->m_CVImage->origin<<std::endl;
-    os << indent << "Image spacing (in bits) : "<< this->m_CVImage->depth
-       << std::endl;
-    os << indent << "Image Size : "<<this->m_CVImage->imageSize<<std::endl;
-    os << indent << "Color model : "<<this->m_CVImage->colorModel
-        <<" ("<<this->m_NumberOfComponents<<" channels)"<<std::endl;
-    }
-}
-
-//
-// FinishReadingOrWriting
-//
 void OpenCVVideoIO::FinishReadingOrWriting()
 {
   if (this->m_Writer != ITK_NULLPTR)
@@ -83,92 +50,51 @@ void OpenCVVideoIO::FinishReadingOrWriting()
 
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-// Member Accessors
-//
-
-
-//
-// GetPositionInMSec
-//
 OpenCVVideoIO::TemporalOffsetType OpenCVVideoIO::GetPositionInMSec() const
 {
   return this->m_PositionInMSec;
 }
 
-//
-// GetRatio
-//
 OpenCVVideoIO::TemporalRatioType OpenCVVideoIO::GetRatio() const
 {
   return this->m_Ratio;
 }
 
-//
-// GetFrameTotal
-//
 OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetFrameTotal() const
 {
   return this->m_FrameTotal;
 }
 
-//
-// GetFpS
-//
 OpenCVVideoIO::TemporalRatioType OpenCVVideoIO::GetFramesPerSecond() const
 {
   return this->m_FramesPerSecond;
 }
 
-//
-// GetCurrentFrame
-//
 OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetCurrentFrame() const
 {
   return this->m_CurrentFrame;
 }
 
-//
-// GetIFrameInterval
-//
 OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetIFrameInterval() const
 {
   return this->m_IFrameInterval;
 }
 
-//
-// GetLastIFrame
-//
 OpenCVVideoIO::FrameOffsetType OpenCVVideoIO::GetLastIFrame() const
 {
   return this->m_LastIFrame;
 }
 
-//
-// SetCameraIndex
-//
 void OpenCVVideoIO::SetCameraIndex(CameraIDType idx)
 {
   this->m_CameraIndex = idx;
 }
 
-//
-// GetCameraIndex
-//
 OpenCVVideoIO::CameraIDType OpenCVVideoIO::GetCameraIndex() const
 {
   return this->m_CameraIndex;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Read related methods
-//
-
-
-//
-// SetReadFromFile
-//
 void OpenCVVideoIO::SetReadFromFile()
 {
   if (!this->m_ReaderOpen && !this->m_WriterOpen)
@@ -181,9 +107,6 @@ void OpenCVVideoIO::SetReadFromFile()
     }
 }
 
-//
-// SetReadFromCamera
-//
 void OpenCVVideoIO::SetReadFromCamera()
 {
   if (!this->m_ReaderOpen && !this->m_WriterOpen)
@@ -196,9 +119,6 @@ void OpenCVVideoIO::SetReadFromCamera()
     }
 }
 
-//
-// CanReadFile
-//
 bool OpenCVVideoIO::CanReadFile(const char* filename)
 {
   // Make sure filename is specified
@@ -231,7 +151,6 @@ bool OpenCVVideoIO::CanReadFile(const char* filename)
     return false;
     }
 
-
   // Try opening to read
   CvCapture* localCapture = cvCaptureFromFile( filename );
   if (!localCapture)
@@ -244,9 +163,6 @@ bool OpenCVVideoIO::CanReadFile(const char* filename)
   return true;
 }
 
-//
-// CanReadCamera
-//
 bool OpenCVVideoIO::CanReadCamera( CameraIDType cameraID ) const
 {
   // Try capture from current camera index
@@ -261,10 +177,6 @@ bool OpenCVVideoIO::CanReadCamera( CameraIDType cameraID ) const
   return true;
 }
 
-
-//
-// ReadImageInformation
-//
 void OpenCVVideoIO::ReadImageInformation()
 {
 
@@ -280,9 +192,8 @@ void OpenCVVideoIO::ReadImageInformation()
     std::string filename = this->GetFileName();
     if (!this->CanReadFile(filename.c_str()))
       {
-      itkExceptionMacro(<< "Cannot Read File: " << filename);
+      itkExceptionMacro(<< "Cannot read file: " << filename);
       }
-
 
     // Open the video file
     localCapture = cvCaptureFromFile( filename.c_str() );
@@ -299,6 +210,7 @@ void OpenCVVideoIO::ReadImageInformation()
       // Try setting frame to 1 and see what actually gets set
       cvSetCaptureProperty(localCapture, CV_CAP_PROP_POS_FRAMES, 1);
       tempImage = cvQueryFrame(localCapture);
+
       this->m_IFrameInterval = cvGetCaptureProperty(localCapture, CV_CAP_PROP_POS_FRAMES);
 
       if (this->m_IFrameInterval == 0)
@@ -332,8 +244,17 @@ void OpenCVVideoIO::ReadImageInformation()
       itkExceptionMacro(<< "Cannot read from camera " << this->m_CameraIndex);
       }
 
-    // Query the frame and set the frame total to 1
+    // Query the frame
     tempImage = cvQueryFrame(localCapture);
+
+    // Make sure the image is not empty
+    if (!tempImage)
+      {
+      cvReleaseCapture(&localCapture);
+      itkExceptionMacro(<< "Empty image got from camera " << this->m_CameraIndex);
+      }
+
+    // Set the frame total to 1
     this->m_FrameTotal = 1;
     }
 
@@ -377,9 +298,6 @@ void OpenCVVideoIO::ReadImageInformation()
 
 }
 
-//
-// Read
-//
 void OpenCVVideoIO::Read(void *buffer)
 {
   // Make sure we've already called ReadImageInformation (dimensions are non-zero)
@@ -423,10 +341,6 @@ void OpenCVVideoIO::Read(void *buffer)
   memcpy(buffer, tempBuffer, bufferSize);
 }
 
-
-//
-// SetNextFrameToRead
-//
 bool OpenCVVideoIO::SetNextFrameToRead(OpenCVVideoIO::FrameOffsetType frameNumber)
 {
   // If the capture isn't open, open it
@@ -453,13 +367,6 @@ bool OpenCVVideoIO::SetNextFrameToRead(OpenCVVideoIO::FrameOffsetType frameNumbe
   return false;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Write related methods
-//
-
-//
-// CanWriteFile
-//
 bool OpenCVVideoIO::CanWriteFile(const char* filename)
 {
 
@@ -503,17 +410,11 @@ bool OpenCVVideoIO::CanWriteFile(const char* filename)
   return true;
 }
 
-//
-// WriteImageInformation
-//
 void OpenCVVideoIO::WriteImageInformation()
 {
   // Don't do anything
 }
 
-//
-// SetWriterParameters
-//
 void OpenCVVideoIO::SetWriterParameters( TemporalRatioType fps,
                                          const std::vector<SizeValueType>& dim,
                                          const char* fourCC,
@@ -560,9 +461,6 @@ void OpenCVVideoIO::SetWriterParameters( TemporalRatioType fps,
     }
 }
 
-//
-// Write
-//
 void OpenCVVideoIO::Write(const void *buffer)
 {
   // Make sure parameters are specified
@@ -620,31 +518,21 @@ void OpenCVVideoIO::Write(const void *buffer)
 
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-// Protected methods
-//
-
-//
-// UpdateReaderProperties
-//
 void OpenCVVideoIO::UpdateReaderProperties()
 {
-  this->m_CurrentFrame = //0-based index of the frame tobe decoded/captured next
-    cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_FRAMES);
+  // 0-based index of the frame tobe decoded/captured next
+  this->m_CurrentFrame =
+    cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_FRAMES);
   this->m_PositionInMSec =
-    cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_MSEC);
+    cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_MSEC);
   this->m_FramesPerSecond = static_cast<double>
     (cvGetCaptureProperty( this->m_Capture, CV_CAP_PROP_FPS ));
   this->m_Ratio =
-    cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_POS_AVI_RATIO);
+    cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_POS_AVI_RATIO);
   this->m_FourCC =
-    cvGetCaptureProperty(this->m_Capture,CV_CAP_PROP_FOURCC);
+    cvGetCaptureProperty(this->m_Capture, CV_CAP_PROP_FOURCC);
 }
 
-//
-// OpenReader
-//
 void OpenCVVideoIO::OpenReader()
 {
   if (this->m_ReaderOpen)
@@ -684,9 +572,6 @@ void OpenCVVideoIO::OpenReader()
     }
 }
 
-//
-// OpenWriter
-//
 void OpenCVVideoIO::OpenWriter()
 {
   if (this->m_WriterOpen)
@@ -705,9 +590,6 @@ void OpenCVVideoIO::OpenWriter()
   this->m_WriterOpen = true;
 }
 
-//
-// ResetMembers
-//
 void OpenCVVideoIO::ResetMembers()
 {
   this->m_CVImage = 0;
@@ -739,5 +621,21 @@ void OpenCVVideoIO::ResetMembers()
   this->m_Origin[1] = 0.0;
 }
 
+void OpenCVVideoIO::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os,indent);
+
+  if (this->m_CVImage != ITK_NULLPTR)
+    {
+    os << indent << "Image dimensions : ["<< this->m_CVImage->width << ","
+      << this->m_CVImage->height << "]" << std::endl;
+    os << indent << "Origin : "<<this->m_CVImage->origin << std::endl;
+    os << indent << "Image spacing (in bits) : "<< this->m_CVImage->depth
+      << std::endl;
+    os << indent << "Image Size : " << this->m_CVImage->imageSize << std::endl;
+    os << indent << "Color model : " << this->m_CVImage->colorModel
+      << " (" << this->m_NumberOfComponents << " channels)" << std::endl;
+    }
+}
 
 } // end namespace itk
