@@ -194,7 +194,7 @@ bool videosMatch(char* file1, char* file2)
   return true;
 }
 
-// /////////////////////////////////////////////////////////////////////////////
+//
 // This tests all of the functionality of the OpenCVVideoIO
 //
 // Usage: [Video Input] [Non-Video Input] [Video Output] [Width] [Height]
@@ -210,9 +210,9 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   // Create the VideoIO
   itk::OpenCVVideoIO::Pointer opencvIO = itk::OpenCVVideoIO::New();
 
-  // ////
+  //
   // CanReadFile
-  // ////
+  //
   std::cout << "OpenCVVideoIO::CanReadFile..." << std::endl;
 
   // Test CanReadFile on good file
@@ -237,9 +237,9 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
     ret = EXIT_FAILURE;
     }
 
-  // ////
+  //
   // ReadImageInformation
-  // ////
+  //
   std::cout << "OpenCVVideoIO::ReadImageInformation..." << std::endl;
 
   opencvIO->SetFileName(input);
@@ -278,9 +278,9 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
     ret = EXIT_FAILURE;
     }
 
-  // ////
+  //
   // Read
-  // ////
+  //
   std::cout << "OpenCVVideoIO::Read..." << std::endl;
   std::cout << "Comparing all " << opencvIO->GetFrameTotal() << " frames" << std::endl;
 
@@ -300,9 +300,9 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   // Release capture
   cvReleaseCapture(&capture);
 
-  // ////
+  //
   // SetNextFrameToRead
-  // ////
+  //
   std::cout << "OpenCVVideoIO::SetNextFrameToRead" << std::endl;
 
   // Set up the buffer for the frame data so Read can be called
@@ -332,7 +332,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   if( opencvIO->GetIFrameInterval() > 1 )
     {
 
-    // try seeking in-between I-Frames
+    // Try seeking in-between I-Frames
     seekFrame = opencvIO->GetIFrameInterval() / 2;
     if( !opencvIO->SetNextFrameToRead(seekFrame) )
       {
@@ -367,10 +367,10 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
   // Reset the VideoIO
   opencvIO->FinishReadingOrWriting();
 
-  // ////
+  //
   // Test reading from camera -- If webcam 0 can be opened, it will, otherwise
   // this will be skipped
-  // ////
+  //
 
   // Check to see if camera is available
   if( opencvIO->CanReadCamera( 0 ) )
@@ -389,13 +389,14 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
     catch( itk::ExceptionObject & e )
       {
       std::cerr << "Could not read information from the camera" << std::endl;
+      std::cerr << "If a camera is present, this test requires it to be on with OpenCV 2" << std::endl;
       std::cerr << e << std::endl;
-      ret = EXIT_FAILURE;
+      return EXIT_FAILURE;
       }
 
-    // set up buffer for camera
-    itk::SizeValueType  camBufferSize = opencvIO->GetImageSizeInBytes();
-    PixelType  * camBuffer = new PixelType[camBufferSize];
+    // Set up buffer for camera
+    itk::SizeValueType camBufferSize = opencvIO->GetImageSizeInBytes();
+    PixelType * camBuffer = new PixelType[camBufferSize];
 
     // Read from the camera
     try
@@ -419,7 +420,7 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
     writer->SetInput(cameraFrame);
     writer->Update();
 
-    // Overwirte the file right away so we're not saving pictures of the tester!
+    // Overwrite the file right away so we're not saving pictures of the tester!
     std::ofstream fs;
     fs.open(cameraOutput);
     fs << "EMPTY... deleted picture from webcam\n";
@@ -430,13 +431,13 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
 
     }
 
-  // ///////////////////////////////////////////////////////////////////////////
+  //
   // Test Writing
   //
 
-  // ////
+  //
   // SetWriterParameters
-  // ////
+  //
   std::cout << "OpenCVVIdeoIO::SetWriterParameters..." << std::endl;
 
   // Reset the saved parameters
@@ -457,9 +458,9 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
     ret = EXIT_FAILURE;
     }
 
-  // ////
+  //
   // CanWriteFile
-  // ////
+  //
   std::cout << "OpenCVVideoIO::CanWriteFile..." << std::endl;
 
   // Test CanWriteFile on good filename
@@ -476,9 +477,9 @@ int test_OpenCVVideoIO( char* input, char* nonVideoInput, char* output, char* ca
     ret = EXIT_FAILURE;
     }
 
-  // ////
+  //
   // Write
-  // ////
+  //
   std::cout << "OpenCVVIdeoIO::Write..." << std::endl;
 
   // Set output filename

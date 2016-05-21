@@ -54,7 +54,9 @@ public:
   /** Close the reader and writer and reset members */
   virtual void FinishReadingOrWriting();
 
-  /*-------- This part of the interface deals with reading data. ------ */
+  //
+  // Data reading-related methods
+  //
 
   /** Set to reading from file */
   virtual void SetReadFromFile();
@@ -76,10 +78,10 @@ public:
   virtual void Read(void *buffer);
 
   /** Set the next frame that should be read. Return true if you operation
-   * successful */
+   * successful. */
   virtual bool SetNextFrameToRead( FrameOffsetType frameNumber );
 
-  /** Virtual accessor functions to be implemented in each derived class */
+  /** Virtual accessor functions to be implemented in each derived class. */
   virtual TemporalOffsetType GetPositionInMSec() const;
   virtual TemporalRatioType GetRatio() const;
   virtual FrameOffsetType GetFrameTotal() const;
@@ -88,9 +90,11 @@ public:
   virtual FrameOffsetType GetIFrameInterval() const;
   virtual FrameOffsetType GetLastIFrame() const;
 
-  /*-------- This part of the interfaces deals with writing data. ----- */
+  //
+  // Data writing-related methods
+  //
 
-  /** Get/Set the camera index */
+  /** Get/Set the device index for reading from a camera. */
   virtual void SetCameraIndex(CameraIDType idx);
   virtual CameraIDType GetCameraIndex() const;
 
@@ -115,7 +119,7 @@ public:
    * that the IORegion has been set properly. */
   virtual void Write(const void *buffer);
 
-  /** Set Writer Parameters */
+  /** Set Writer parameters. */
   virtual void SetWriterParameters( TemporalRatioType fps,
                                     const std::vector<SizeValueType>& dim,
                                     const char* fourCC,
@@ -128,32 +132,30 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** Update the local members from the internal capture */
+  /** Update the local members from the internal capture. */
   void UpdateReaderProperties();
 
-  /** Reset member variables to empty state closed */
+  /** Reset member variables to empty state closed. */
   void ResetMembers();
 
-  /** Open the reader iff the writer is not open */
+  /** Open the reader if the writer is not open. */
   void OpenReader();
 
-  /** Open the writer iff the reader is not open */
+  /** Open the writer if the reader is not open. */
   void OpenWriter();
 
 private:
   OpenCVVideoIO(const Self &) ITK_DELETE_FUNCTION;
   void operator=(const Self &) ITK_DELETE_FUNCTION;
 
-  /** Member Variables */
+private:
   IplImage*           m_CVImage;
   IplImage*           m_TempImage;
   CvCapture*          m_Capture;
   CvVideoWriter*      m_Writer;
   int                 m_FourCC;
 
-  /** device index for reading from a camera (may move to base class) */
   int                 m_CameraIndex;
-
 
 };
 } // end namespace itk
