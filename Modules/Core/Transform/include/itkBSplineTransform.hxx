@@ -478,7 +478,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
       * static_cast<ScalarType>( SplineOrder - 1 ) - 1.0;
     if(Math::AlmostEquals( index[j], maxLimit ))
       {
-      index[j] -= 1e-6;
+      index[j] = Math::FloatAddULP( index[j], -6 );
       }
     else if( index[j] >= maxLimit )
       {
