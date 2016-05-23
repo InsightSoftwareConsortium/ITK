@@ -442,6 +442,7 @@ if(BUILD_TESTING)
   add_subdirectory(tests)
 endif()
 
-if(BUILD_EXAMPLES)
+# Disabled in ITK to avoid find_package(X11)
+if(BUILD_EXAMPLES AND 0)
   add_subdirectory(examples)
 endif()
