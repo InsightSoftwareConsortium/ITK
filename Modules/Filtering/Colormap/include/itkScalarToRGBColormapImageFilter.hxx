@@ -50,9 +50,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TOutputImage >
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
 ::ScalarToRGBColormapImageFilter()
@@ -68,9 +66,6 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
   this->SetColormap(greyColormap);
 }
 
-/**
- * BeforeThreadedGenerateData
- */
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
@@ -102,9 +97,6 @@ ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * ThreadedGenerateData performs the pixel-wise mapping
- */
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarToRGBColormapImageFilter< TInputImage, TOutputImage >
