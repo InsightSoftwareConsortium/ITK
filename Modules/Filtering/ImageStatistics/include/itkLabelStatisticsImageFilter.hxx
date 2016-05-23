@@ -478,9 +478,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
     IndexType       index;
     SizeType        size;
 
-    unsigned int dimension = static_cast<unsigned int>( bbox.size() ) / 2;
-
-    for ( unsigned int i = 0; i < dimension; i++ )
+    for ( unsigned int i = 0; i < ImageDimension; ++i )
       {
       index[i] = bbox[2 * i];
       size[i] = bbox[2 * i + 1] - bbox[2 * i] + 1;
