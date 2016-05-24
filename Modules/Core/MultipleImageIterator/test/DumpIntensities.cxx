@@ -21,6 +21,7 @@
 #include <string>
 #include <cstdlib>
 #include <itkImageFileReader.h>
+#include <itkImageFileWriter.h>
 #include "itkMultipleImageIterator.h"
 
 // Dumps random samples from files into a csv file
@@ -29,19 +30,20 @@ using namespace std;
 int
 DumpIntensities(int argc, char * argv[])
 {
-  if (argc < 2)
+  if (argc < 3)
   {
-    cerr << "Usage: DumpIntensities file [file ...]" << endl;
+    cerr << "Usage: DumpIntensities outfile inImage [inImage ...]" << endl;
     return 1;
   }
-  typedef itk::Image<float, 3>            ImageType;
+  typedef unsigned short                  PixelType;
+  typedef itk::Image<PixelType, 3>        ImageType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
 
   typedef itk::ImageRegionIterator<ImageType> IteratorType;
   itk::MultipleImageIterator<IteratorType>    it;
 
   vector<ImageType::Pointer> images; // Need to keep a reference as iterators only have weak references
-  for (int i = 1; i < argc; ++i)
+  for (int i = 2; i < argc; ++i)
   {
     ReaderType::Pointer r = ReaderType::New();
     r->SetFileName(argv[i]);
@@ -53,19 +55,42 @@ DumpIntensities(int argc, char * argv[])
   }
 
   srand(42);
-  ofstream f("output.txt");
+  typedef itk::FixedArray<PixelType, 3> Vec3;
+  vector<Vec3>                          values;
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
-    if (((float)rand()) / RAND_MAX < 0.1)
+    if (((float)rand()) / RAND_MAX < 0.1f)
     {
+      Vec3 v;
       for (unsigned int i = 0; i < it.Size(); ++i)
       {
-        if (i != 0)
-          f << ";";
-        f << it[i].Get();
+        v[i] = it[i].Get();
       }
-      f << endl;
+      values.push_back(v);
     }
   }
+
+  typedef itk::Image<Vec3, 1> Image1D;
+  Image1D::RegionType         region;
+  region.SetIndex(0, 0);
+  region.SetSize(0, values.size());
+  Image1D::Pointer randImage = Image1D::New();
+  randImage->SetRegions(region);
+  randImage->Allocate();
+
+  int                               index = 0;
+  itk::ImageRegionIterator<Image1D> oIt(randImage, randImage->GetLargestPossibleRegion());
+  while (!oIt.IsAtEnd())
+  {
+    oIt.Set(values[index++]);
+    ++oIt;
+  }
+
+  typedef itk::ImageFileWriter<Image1D> WriterType;
+  WriterType::Pointer                   writer = WriterType::New();
+  writer->SetInput(randImage);
+  writer->SetFileName(argv[1]);
+  writer->Update();
+
   return 0;
 }
