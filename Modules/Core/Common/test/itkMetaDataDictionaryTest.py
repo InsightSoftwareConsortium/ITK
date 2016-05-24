@@ -16,7 +16,17 @@
 #
 #==========================================================================*/
 
-import itk
-itk.auto_progress(2)
+from __future__ import print_function
 
-s = itk.Object.New()
+import itk
+
+md = itk.MetaDataDictionary()
+# one way of setting and retrieving double value in the dictionary
+dv = itk.MetaDataObject.D.New()
+dv.SetMetaDataObjectValue(10.0)
+md.Set("double", dv)
+print(md.Get("double"))
+# other way of setting and retrieving double value (leverages Python's
+# weak type system)
+md['double'] = 10.0
+print(md['double'])
