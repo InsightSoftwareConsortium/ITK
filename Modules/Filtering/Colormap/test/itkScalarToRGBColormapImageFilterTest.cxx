@@ -63,7 +63,8 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
   typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> RGBFilterType;
   RGBFilterType::Pointer rgbfilter = RGBFilterType::New();
 
-  rgbfilter->Print( std::cout );
+  EXERCISE_BASIC_OBJECT_METHODS( rgbfilter, ScalarToRGBColormapImageFilter,
+    ImageToImageFilter );
 
   rgbfilter->SetInput( reader->GetOutput() );
   vfilter->SetInput( reader->GetOutput() );
@@ -125,33 +126,13 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     }
   else if ( colormapString == "jet"  )
     {
-    typedef itk::Function::JetColormapFunction<
-      ImageType::PixelType, RGBImageType::PixelType> ColormapType;
-
-    ColormapType::Pointer colormap = ColormapType::New();
-
-    rgbfilter->SetColormap( colormap );
-
-    typedef itk::Function::JetColormapFunction<
-      ImageType::PixelType, VectorImageType::PixelType> VectorColormapType;
-
-    VectorColormapType::Pointer vcolormap = VectorColormapType::New();
-
-    vfilter->SetColormap( vcolormap );
+    rgbfilter->SetColormap( RGBFilterType::Jet );
+    vfilter->SetColormap( VectorFilterType::Jet );
     }
   else if ( colormapString == "hsv"  )
     {
-    typedef itk::Function::HSVColormapFunction<
-      ImageType::PixelType, RGBImageType::PixelType> ColormapType;
-
-    ColormapType::Pointer colormap = ColormapType::New();
-    rgbfilter->SetColormap( colormap );
-
-    typedef itk::Function::HSVColormapFunction<
-      ImageType::PixelType, VectorImageType::PixelType> VectorColormapType;
-
-    VectorColormapType::Pointer vcolormap = VectorColormapType::New();
-    vfilter->SetColormap( vcolormap );
+    rgbfilter->SetColormap( RGBFilterType::HSV );
+    vfilter->SetColormap( VectorFilterType::HSV );
     }
   else if ( colormapString == "overunder"  )
     {
