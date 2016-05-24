@@ -9,11 +9,11 @@ itk_add_test(
   COMMAND
     MultipleImageIteratorTestDriver
     --compare
-    ${CMAKE_SOURCE_DIR}/test/randImage.nrrd
-    randImage.nrrd
+    DATA{randBase.nrrd}
+    "${ITK_TEST_OUTPUT_DIR}/randOut.nrrd"
     DumpIntensities
-    randImage.nrrd
-    ${CMAKE_SOURCE_DIR}/test/img1.png
-    ${CMAKE_SOURCE_DIR}/test/img2.png
-    ${CMAKE_SOURCE_DIR}/test/img3.png
+    "${ITK_TEST_OUTPUT_DIR}/randOut.nrrd"
+    DATA{img1.png}
+    DATA{img2.png}
+    DATA{img3.png}
 )
