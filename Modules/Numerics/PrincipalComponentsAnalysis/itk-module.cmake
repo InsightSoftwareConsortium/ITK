@@ -16,6 +16,7 @@ itk_module(
     ITKIOMesh
     ITKIOMRC
     ITKIOStimulate
+    ITKTestKernel
     SCIFIO
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Module ingested from upstream."
