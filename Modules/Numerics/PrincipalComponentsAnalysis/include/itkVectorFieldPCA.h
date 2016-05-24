@@ -16,8 +16,8 @@
  *
 =========================================================================*/
 
-#ifndef __itkVectorFieldPCA_h
-#define __itkVectorFieldPCA_h
+#ifndef itkVectorFieldPCA_h
+#define itkVectorFieldPCA_h
 
 #include "itkObject.h"
 #include "itkPointSet.h"
