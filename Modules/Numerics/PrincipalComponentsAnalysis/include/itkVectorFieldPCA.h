@@ -48,6 +48,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/878
  *
  * \ingroup ITKStatistics
+ * \ingroup PrincipalComponentsAnalysis
  */
 
 template <typename TRealValueType = double>
