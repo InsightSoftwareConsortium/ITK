@@ -135,14 +135,8 @@ int itkDoubleThresholdImageFilterTest( int argc, char * argv[] )
     std::cerr << "Thresholds aren't monotonically ascending" << std::endl;
     error = EXIT_FAILURE;
     }
-  if (threshold->GetFullyConnected() != false)
-    {
-    threshold->SetFullyConnected(false);
-    }
-  else
-    {
-    threshold->SetFullyConnected(false);
-    }
+
+  threshold->SetFullyConnected(false);
 
   // Run the filter
   rescaler->SetInput( threshold->GetOutput() );
