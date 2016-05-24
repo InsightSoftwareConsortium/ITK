@@ -41,14 +41,14 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
 
 
 /** \class ImageAlgorithm
- * \brief A container of static functions which can operate on Images
- * with Iterators.
+ *  \brief A container of static functions which can operate on Images
+ *  with Iterators.
  *
- * These methods are modeled after the STL algorithms. They may use
- * special optimization techniques to implement enhanced versions of
- * the methods.
+ *  These methods are modeled after the STL algorithms. They may use
+ *  special optimization techniques to implement enhanced versions of
+ *  the methods.
  *
- * \ingroup ITKCommon
+ *  \ingroup ITKCommon
  */
 struct ImageAlgorithm
 {
@@ -104,12 +104,12 @@ struct ImageAlgorithm
                                    , ITK_STD_TR1_NAMESPACE::is_convertible<typename _ImageType1::PixelType,
                                    typename _ImageType2::PixelType>()
 #else
-                                    // note the above trait is
-                                    // primarily used to get a better
-                                    // error message
-                                    , TrueType()
+                                   // note the above trait is
+                                   // primarily used to get a better
+                                   // error message
+                                   , TrueType()
 #endif
-      );
+                                   );
   }
 
   template<typename TPixel1, typename TPixel2, unsigned int VImageDimension>
@@ -125,9 +125,9 @@ struct ImageAlgorithm
                                    , ITK_STD_TR1_NAMESPACE::is_convertible<typename _ImageType1::PixelType,
                                    typename _ImageType2::PixelType>()
 #else
-                                    , TrueType()
+                                   , TrueType()
 #endif
-      );
+                                   );
   }
 
 /// \endcond
@@ -169,9 +169,9 @@ private:
   struct PixelSize
   {
     static size_t Get( const TImageType *)
-    {
+      {
       return 1;
-    }
+      }
   };
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
@@ -180,10 +180,10 @@ private:
   {
     typedef VectorImage<TPixelType, VImageDimension> ImageType;
     static size_t Get( const  ImageType * i )
-    {
+      {
       const size_t vectorLength = ImageType::AccessorFunctorType::GetVectorLength(i);
       return vectorLength;
-    }
+      }
   };
 /// \endcond
 
@@ -191,26 +191,26 @@ private:
   template<typename TInputType, typename TOutputType>
   struct StaticCast
     : public std::unary_function<TInputType,TOutputType>
-  {
+    {
     TOutputType operator() (const TInputType i) { return static_cast<TOutputType>(i); }
-  };
+    };
 
 
   /** Function to dispatch to std::copy or std::transform. */
   template<typename TType>
   static TType* CopyHelper(const TType *first, const TType *last, TType *result)
     {
-      // Note: On some MS compilers the following may generate a
-      // warning. Please include itkMacro.h before <algorithm> or
-      // another stl header to avoid.
-      return std::copy(first, last, result);
+    // Note: On some MS compilers the following may generate a
+    // warning. Please include itkMacro.h before <algorithm> or
+    // another stl header to avoid.
+    return std::copy(first, last, result);
     }
 
 /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
   template<typename TInputType, typename TOutputType>
   static TOutputType* CopyHelper(const TInputType *first, const TInputType *last, TOutputType *result)
     {
-      return std::transform(first, last, result, StaticCast<TInputType,TOutputType>());
+    return std::transform(first, last, result, StaticCast<TInputType,TOutputType>());
     }
 /// \endcond
 

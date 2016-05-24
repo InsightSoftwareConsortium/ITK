@@ -93,7 +93,11 @@ bool TestCastFromTo()
     /** Warning:
      * expectedValue == static_cast< TOutputPixelType( inValue ) is
      * false on some systems and compilers with some values of inValue. */
+#if defined(__MINGW32__)
+    if ( itk::Math::NotAlmostEquals(outValue, expectedValue) )
+#else
     if ( itk::Math::NotExactlyEquals(outValue, expectedValue) )
+#endif
       {
       success = false;
       break;
@@ -125,13 +129,9 @@ bool TestCastFrom()
     TestCastFromTo< TInputPixelType, short >() &&
     TestCastFromTo< TInputPixelType, unsigned short >() &&
     TestCastFromTo< TInputPixelType, int >() &&
-#if !(defined __MINGW32__ || defined __MINGW64__)
     TestCastFromTo< TInputPixelType, unsigned int >() &&
-#endif
     TestCastFromTo< TInputPixelType, long >() &&
-#if !(defined __MINGW32__ || defined __MINGW64__)
     TestCastFromTo< TInputPixelType, unsigned long >() &&
-#endif
     TestCastFromTo< TInputPixelType, long long >() &&
     TestCastFromTo< TInputPixelType, unsigned long long >() &&
     TestCastFromTo< TInputPixelType, float >() &&
