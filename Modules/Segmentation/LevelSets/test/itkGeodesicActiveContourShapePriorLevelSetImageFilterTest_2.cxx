@@ -29,7 +29,7 @@
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
-
+#include "itkTestingMacros.h"
 
 /* Uncomment to write out image files */
 /*
@@ -84,6 +84,8 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
 
   SphereFunctionType::Pointer sphere     = SphereFunctionType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
+    ShapePriorSegmentationLevelSetImageFilter );
 
   ImageType::SizeType imageSize;
   imageSize[0] = 128;

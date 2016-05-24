@@ -28,7 +28,7 @@
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
-
+#include "itkTestingMacros.h"
 
 /* Uncomment to write out image files */
 /*
@@ -80,6 +80,8 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
   OptimizerType::Pointer  optimizer      = OptimizerType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
+    ShapePriorSegmentationLevelSetImageFilter );
 
   ImageType::SizeType imageSize;
   imageSize[0] = 128;
@@ -366,25 +368,6 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[])
     return EXIT_FAILURE;
     }
 
-  /**
-   * Exercise other methods for coverage
-   */
-  filter->Print( std::cout );
-  filter->GetSegmentationFunction()->Print( std::cout );
-
-  typedef FilterType::Superclass GenericFilterType;
-  std::cout << filter->GenericFilterType::GetNameOfClass() << std::endl;
-
-  std::cout << "ShapeFunction: ";
-  std::cout << filter->GetShapeFunction() << std::endl;
-  std::cout << "CostFunction: ";
-  std::cout << filter->GetCostFunction() << std::endl;
-  std::cout << "Optimizer: ";
-  std::cout << filter->GetOptimizer() << std::endl;
-  std::cout << "InitialParameters: ";
-  std::cout << filter->GetInitialParameters() << std::endl;
-  std::cout << "ShapePriorSegmentationFunction: ";
-  std::cout << filter->GetShapePriorSegmentationFunction() << std::endl;
 
   // Repeat Update for zero propagation weight
   filter->SetPropagationScaling( 0.0 );

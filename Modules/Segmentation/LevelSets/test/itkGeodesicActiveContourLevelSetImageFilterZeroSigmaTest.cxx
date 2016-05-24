@@ -24,6 +24,7 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
+#include "itkTestingMacros.h"
 
 /* Uncomment to write out image files */
 /*
@@ -135,6 +136,9 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
     InternalImageType, InternalImageType > ShapeDetectionFilterType;
 
   ShapeDetectionFilterType::Pointer shapeDetection = ShapeDetectionFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( shapeDetection, GeodesicActiveContourLevelSetImageFilter,
+    SegmentationLevelSetImageFilter );
 
   // set the initial level set
   shapeDetection->SetInput( fastMarching->GetOutput() );
