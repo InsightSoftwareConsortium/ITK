@@ -13,3 +13,14 @@ IF (NOT ITK_SOURCE_DIR)
 ELSE()
   itk_module_impl()
 ENDIF()
+
+OPTION(BUILD_EXAMPLES "Build the examples" OFF)
+IF(BUILD_EXAMPLES)
+  ADD_SUBDIRECTORY( Examples )
+ENDIF()
+
+
+OPTION(GENERATE_REPORT "Generate the PDF report from latex files, source code examples and result screenshots" OFF)
+IF(GENERATE_REPORT)
+  ADD_SUBDIRECTORY( Documents )
+ENDIF()
