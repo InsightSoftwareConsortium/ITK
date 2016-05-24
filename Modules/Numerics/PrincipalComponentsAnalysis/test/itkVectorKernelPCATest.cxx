@@ -32,7 +32,7 @@ showUsage(const char * programName)
 }
 
 int
-main(int argc, char * argv[])
+itkVectorKernelPCATest(int argc, char * argv[])
 {
 #define MIN_ARG_COUNT 6
 #define FIRST_VECTOR_FIELD_ARG 2
