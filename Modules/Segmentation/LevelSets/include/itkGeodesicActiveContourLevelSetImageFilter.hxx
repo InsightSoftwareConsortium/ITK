@@ -40,15 +40,6 @@ GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputTyp
 template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 void
 GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer();
-}
-
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
-void
-GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GenerateData()
 {
   // Make sure the SpeedImage is setup for the case when PropagationScaling
@@ -63,6 +54,18 @@ GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputTyp
   // Continue with Superclass implementation
   Superclass::GenerateData();
 }
+
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+void
+GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer()
+    << std::endl;
+}
+
 } // end namespace itk
 
 #endif
