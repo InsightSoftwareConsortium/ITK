@@ -42,7 +42,7 @@ class VideoFileReader : public VideoSource< TOutputVideoStream >
 {
 public:
 
-  /**-TYPEDEFS---------------------------------------------------------------*/
+  /** Standard class typedefs. */
   typedef VideoFileReader                          Self;
   typedef VideoSource< TOutputVideoStream >        Superclass;
   typedef SmartPointer<Self>                       Pointer;
@@ -73,7 +73,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoFileReader, VideoSource);
 
-  /**-PUBLIC METHODS---------------------------------------------------------*/
 
   /** Specify the file to read. This is forwarded to the IO instance. */
   itkSetStringMacro(FileName);
@@ -106,7 +105,6 @@ public:
 
 protected:
 
-  /**-PROTECTED METHODS------------------------------------------------------*/
   VideoFileReader();
   virtual ~VideoFileReader();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
@@ -122,8 +120,6 @@ protected:
   /** Set up the VideoIO using VideoIOFactory
    * Warning: this will overwrite any currently set VideoIO */
   void InitializeVideoIO();
-
-  /**-PROTECTED MEMBERS------------------------------------------------------*/
 
   /** The file to read */
   std::string m_FileName;
