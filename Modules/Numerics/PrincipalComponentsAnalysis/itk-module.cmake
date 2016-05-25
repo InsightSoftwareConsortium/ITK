@@ -9,15 +9,8 @@ itk_module(
   DEPENDS
     ITKCommon
   TEST_DEPENDS
-    ITKIOBioRad
-    ITKIOGE
-    ITKIOHDF5
-    ITKIOLSM
     ITKIOMesh
-    ITKIOMRC
-    ITKIOStimulate
     ITKTestKernel
-    SCIFIO
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Module ingested from upstream."
 )
