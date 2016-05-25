@@ -474,11 +474,11 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   bool inside = true;
   for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    ScalarType maxLimit = static_cast<ScalarType>( gridSize[j] ) - 0.5
+    const ScalarType maxLimit = static_cast<ScalarType>( gridSize[j] ) - 0.5
       * static_cast<ScalarType>( SplineOrder - 1 ) - 1.0;
-    if(Math::AlmostEquals( index[j], maxLimit ))
+    if( Math::FloatAlmostEqual( index[j], maxLimit, 4 ) )
       {
-      index[j] = Math::FloatAddULP( index[j], -6 );
+      index[j] = Math::FloatAddULP( maxLimit, -6 );
       }
     else if( index[j] >= maxLimit )
       {
