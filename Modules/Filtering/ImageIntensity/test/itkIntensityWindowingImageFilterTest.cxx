@@ -20,6 +20,7 @@
 
 #include "itkIntensityWindowingImageFilter.h"
 #include "itkRandomImageSource.h"
+#include "itkTestingMacros.h"
 
 int itkIntensityWindowingImageFilterTest(int, char* [] )
 {
@@ -41,6 +42,9 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
 
   typedef itk::IntensityWindowingImageFilter< TestInputImage, TestOutputImage > FilterType;
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, IntensityWindowingImageFilter,
+    UnaryFunctorImageFilter );
 
   // Now generate a real image
 
