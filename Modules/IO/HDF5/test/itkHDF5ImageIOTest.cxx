@@ -21,6 +21,7 @@
 #include "itkIOTestHelper.h"
 #include "itkMetaDataObject.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 template <typename TPixel>
 int HDF5ReadWriteTest(const char *fileName)
@@ -317,7 +318,7 @@ int HDF5ReadWriteTest(const char *fileName)
       break;
       }
     }
-  // Remove(fileName);
+
   return success;
 }
 
@@ -332,6 +333,9 @@ itkHDF5ImageIOTest(int ac, char * av [] )
     itksys::SystemTools::ChangeDirectory(prefix.c_str());
     }
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5ImageIOFactory::New() );
+
+  itk::HDF5ImageIO::Pointer imageio = itk::HDF5ImageIO::New();
+  EXERCISE_BASIC_OBJECT_METHODS( imageio, HDF5ImageIO, StreamingImageIOBase );
 
   int result(0);
   result += HDF5ReadWriteTest<unsigned char>("UCharImage.hdf5");

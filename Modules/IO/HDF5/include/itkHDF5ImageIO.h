@@ -83,19 +83,19 @@ class MetaDataDictionary;
  *
  */
 
-class ITKIOHDF5_EXPORT HDF5ImageIO:public StreamingImageIOBase
+class ITKIOHDF5_EXPORT HDF5ImageIO: public StreamingImageIOBase
 {
 public:
   /** Standard class typedefs. */
   typedef HDF5ImageIO          Self;
-  typedef ImageIOBase          Superclass;
+  typedef StreamingImageIOBase Superclass;
   typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HDF5ImageIO, Superclass);
+  itkTypeMacro(HDF5ImageIO, StreamingImageIOBase);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
