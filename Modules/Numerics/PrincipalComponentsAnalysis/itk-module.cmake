@@ -10,6 +10,7 @@ itk_module(
     ITKCommon
   TEST_DEPENDS
     ITKIOMesh
+    ITKMesh
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Module ingested from upstream."
