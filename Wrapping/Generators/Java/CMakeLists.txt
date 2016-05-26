@@ -140,7 +140,7 @@ macro(itk_end_wrap_module_java)
 
   target_link_libraries(${lib} ${WRAPPER_LIBRARY_LINK_LIBRARIES})
 
-  if(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
+  if(${module_prefix}_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKJavaBase)
     target_link_libraries(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
   endif()
 
