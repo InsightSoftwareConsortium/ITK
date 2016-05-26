@@ -31,12 +31,10 @@
 #include "itkSimilarityIndexImageFilter.h"
 
 
-/* Uncomment to write out image files */
-/*
-*/
-
-/** \class This class is used to support callbacks
- * on the segmentation filter in this test. */
+/** \class ShowIterationObject
+ * This class is used to support callbacks
+ * on the segmentation filter in this test.
+ */
 namespace {
 template<typename TFilter>
 class ShowIterationObject
@@ -55,32 +53,32 @@ public:
 };
 }
 
-int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
+int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[] )
 {
-  /* Typedefs of components. */
+  // Typedefs of components
   const unsigned int    ImageDimension = 2;
   typedef unsigned char PixelType;
   typedef float         InternalPixelType;
 
-  typedef itk::Image<PixelType,ImageDimension>         ImageType;
-  typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
+  typedef itk::Image<PixelType, ImageDimension>         ImageType;
+  typedef itk::Image<InternalPixelType, ImageDimension> InternalImageType;
 
-  typedef itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType,InternalImageType>
+  typedef itk::GeodesicActiveContourShapePriorLevelSetImageFilter<InternalImageType, InternalImageType>
                                      FilterType;
-  typedef itk::PCAShapeSignedDistanceFunction<double,ImageDimension>
+  typedef itk::PCAShapeSignedDistanceFunction<double, ImageDimension>
                                      ShapeFunctionType;
-  typedef itk::ShapePriorMAPCostFunction<InternalImageType,InternalPixelType>
+  typedef itk::ShapePriorMAPCostFunction<InternalImageType, InternalPixelType>
                                      CostFunctionType;
   typedef itk::AmoebaOptimizer       OptimizerType;
   typedef FilterType::ParametersType ParametersType;
 
 
-  typedef itk::SphereSignedDistanceFunction<double,ImageDimension> SphereFunctionType;
+  typedef itk::SphereSignedDistanceFunction<double, ImageDimension> SphereFunctionType;
 
-  FilterType::Pointer  filter            = FilterType::New();
+  FilterType::Pointer filter             = FilterType::New();
   ShapeFunctionType::Pointer shape       = ShapeFunctionType::New();
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
-  OptimizerType::Pointer  optimizer      = OptimizerType::New();
+  OptimizerType::Pointer optimizer       = OptimizerType::New();
 
   SphereFunctionType::Pointer sphere     = SphereFunctionType::New();
 
@@ -92,19 +90,19 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   ImageType::RegionType imageRegion;
   imageRegion.SetSize( imageSize );
 
-  /**
-   * Create an input image.
-   * A light circle with a rectangle through it on a dark background.
-   * The circle is centered at {50,57} with radius 30.
-   * The rectangle starts at {10,50} with size {80,10}.
-   *
-   * The true shape is just the circle.
-   */
+  //
+  // Create an input image.
+  // A light circle with a rectangle through it on a dark background.
+  // The circle is centered at {50,57} with radius 30.
+  // The rectangle starts at {10,50} with size {80,10}.
+  //
+  // The true shape is just the circle.
+  //
 
   PixelType background = 0;
   PixelType foreground = 190;
 
-  // fill in the background
+  // Fill in the background
   ImageType::Pointer inputImage = ImageType::New();
   inputImage->SetRegions( imageRegion );
   inputImage->Allocate();
@@ -115,7 +113,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   trueShape->Allocate();
   trueShape->FillBuffer( background );
 
-  // draw in the rectangle
+  // Draw in the rectangle
   ImageType::IndexType rectStart;
   rectStart[0] = 10;
   rectStart[1] = 50;
@@ -135,7 +133,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
     ++it;
     }
 
-  // draw in the circle
+  // Draw in the circle
   sphere->Initialize();
   ParametersType trueParameters( sphere->GetNumberOfParameters() );
   trueParameters[0] = 30.0;
@@ -163,11 +161,11 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   ++it2;
   }
 
-  /**
-   * Create an edge potential map.
-   * First compute the image gradient magnitude using a derivative of gaussian filter.
-   * Then apply a sigmoid function to the gradient magnitude.
-   */
+  //
+  // Create an edge potential map.
+  // First compute the image gradient magnitude using a derivative of gaussian filter.
+  // Then apply a sigmoid function to the gradient magnitude.
+  //
   typedef itk::CastImageFilter< ImageType, InternalImageType > CastFilterType;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput( inputImage );
@@ -188,10 +186,10 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   sigmoid->SetBeta( 2.5 );
   sigmoid->SetInput( gradMagnitude->GetOutput() );
 
-  /**
-   * Create an initial level.
-   * Use fast marching to create an signed distance from a seed point.
-   */
+  //
+  // Create an initial level.
+  // Use fast marching to create an signed distance from a seed point.
+  //
   typedef itk::FastMarchingImageFilter<InternalImageType> FastMarchingFilterType;
   FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
 
@@ -218,11 +216,11 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   fastMarching->SetOutputSize( imageSize );
 
 
-  /**
-   * Set up the components of the shape prior segmentation filter
-   */
+  //
+  // Set up the components of the shape prior segmentation filter.
+  //
 
-  // Set up the shape function
+  // Set up the shape function.
   //
   // Use the sphere function to create the mean image with center
   // at the center of the image and radius of 0.
@@ -336,9 +334,9 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   filter->SetMaximumRMSError( 0.01 );
   filter->SetNumberOfIterations( 400 );
 
-  /**
-   * Connect an observer to the filter
-   */
+  //
+  // Connect an observer to the filter.
+  //
   typedef ShowIterationObject<FilterType> WatcherType;
   WatcherType iterationWatcher(filter);
   itk::SimpleMemberCommand<WatcherType>::Pointer command =
@@ -347,9 +345,9 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
                                 &WatcherType::ShowIteration );
   filter->AddObserver( itk::IterationEvent(), command );
 
-  /**
-   * Threshold the output level set to display the final contour.
-   */
+  //
+  // Threshold the output level set to display the final contour.
+  //
   typedef itk::BinaryThresholdImageFilter< InternalImageType, ImageType >
     ThresholdFilterType;
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
@@ -361,9 +359,9 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   thresholder->SetInsideValue( 255 );
   thresholder->Update();
 
-  /**
-   * Compute overlap between the true shape and the segmented shape
-   */
+  //
+  // Compute overlap between the true shape and the segmented shape.
+  //
   typedef itk::SimilarityIndexImageFilter< ImageType, ImageType >
     OverlapCalculatorType;
   OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
@@ -371,7 +369,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   overlap->SetInput1( trueShape );
   overlap->SetInput2( thresholder->GetOutput() );
 
-  // run the pipeline
+  // Run the pipeline
   try
     {
     overlap->Update();
@@ -384,14 +382,14 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
     return EXIT_FAILURE;
     }
 
-  /** Printout useful information from the shape detection filter. */
+  // Print useful information from the shape detection filter
   std::cout << "Max. no. iterations: " << filter->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << filter->GetMaximumRMSError() << std::endl;
   std::cout << "No. elpased iterations: " << filter->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << filter->GetRMSChange() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
-  /* Uncomment to write out images */
+  // Uncomment to write out images
 /*
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -434,6 +432,7 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2( int, char *[])
   writer->SetFileName( "mean.png" );
   writer->Update();
 */
+
   // Check if overlap is above threshold
   if ( overlap->GetSimilarityIndex() > 0.93 )
     {
