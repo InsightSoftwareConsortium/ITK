@@ -26,6 +26,7 @@
 #define itkHDF5ImageIO_h
 #include "ITKIOHDF5Export.h"
 
+#include "itkAutoPointer.h"
 
 // itk namespace first suppresses
 // kwstyle error for the H5 namespace below
@@ -187,6 +188,9 @@ private:
                        unsigned long numElements);
   void SetupStreaming(H5::DataSpace *imageSpace,
                       H5::DataSpace *slabSpace);
+
+  void CloseH5File();
+
   H5::H5File  *m_H5File;
   H5::DataSet *m_VoxelDataSet;
   bool         m_ImageInformationWritten;
