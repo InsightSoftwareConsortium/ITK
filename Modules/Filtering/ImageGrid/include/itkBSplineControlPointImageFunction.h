@@ -68,6 +68,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( BSplineControlPointImageFunction, ImageFunction );
+
   /** Extract dimension from input image. */
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 

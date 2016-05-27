@@ -234,12 +234,13 @@ public:
   virtual void TransformPoint( const InputPointType & inputPoint, OutputPointType & outputPoint,
     WeightsType & weights, ParameterIndexArrayType & indices, bool & inside ) const ITK_OVERRIDE;
 
+  /** Compute the Jacobian in one position. */
   virtual void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const ITK_OVERRIDE;
 
-  /** Return the number of parameters that completely define the Transfom */
+  /** Return the number of parameters that completely define the Transfom. */
   virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
 
-  /** Return the number of parameters per dimension */
+  /** Return the number of parameters per dimension. */
   NumberOfParametersType GetNumberOfParametersPerDimension() const ITK_OVERRIDE;
 
   typedef typename Superclass::SpacingType   PhysicalDimensionsType;
@@ -280,19 +281,19 @@ protected:
 
 private:
 
-  /** Construct control point grid size from transform domain information */
+  /** Construct control point grid size from transform domain information. */
   virtual void SetFixedParametersGridSizeFromTransformDomainInformation() const ITK_OVERRIDE;
 
-  /** Construct control point grid origin from transform domain information */
+  /** Construct control point grid origin from transform domain information. */
   virtual void SetFixedParametersGridOriginFromTransformDomainInformation() const ITK_OVERRIDE;
 
-  /** Construct control point grid spacing from transform domain information */
+  /** Construct control point grid spacing from transform domain information. */
   virtual void SetFixedParametersGridSpacingFromTransformDomainInformation() const ITK_OVERRIDE;
 
-  /** Construct control point grid direction from transform domain information */
+  /** Construct control point grid direction from transform domain information. */
   virtual void SetFixedParametersGridDirectionFromTransformDomainInformation() const ITK_OVERRIDE;
 
-  /** Construct control point grid size from transform domain information */
+  /** Construct control point grid size from transform domain information. */
   virtual void SetCoefficientImageInformationFromFixedParameters() ITK_OVERRIDE;
 
   BSplineTransform( const Self & ) ITK_DELETE_FUNCTION;
@@ -300,6 +301,8 @@ private:
 
   /** Check if a continuous index is inside the valid region. */
   virtual bool InsideValidRegion( ContinuousIndexType & ) const ITK_OVERRIDE;
+
+private:
 
   OriginType             m_TransformDomainOrigin;
   PhysicalDimensionsType m_TransformDomainPhysicalDimensions;

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFlatStructuringElement.h"
+#include "itkTestingMacros.h"
 
 // Helper function
 template< class SEType>
@@ -31,6 +32,11 @@ int itkFlatStructuringElementTest(int, char *[])
   typedef itk::FlatStructuringElement< 2 > SE2Type;
   SE2Type::RadiusType r2;
   r2.Fill( scalarRadius );
+
+  SE2Type::Self result2 = SE2Type::Self();
+  result2.RadiusIsParametricOn();
+  TEST_SET_GET_VALUE( true, result2.GetRadiusIsParametric() );
+
   SE2Type k2;
 
   k2 = SE2Type::Box( r2 );
@@ -70,6 +76,11 @@ int itkFlatStructuringElementTest(int, char *[])
 
   typedef itk::FlatStructuringElement< 3 > SE3Type;
   SE3Type::RadiusType r3;
+
+  SE3Type::Self result3 = SE3Type::Self();
+  result3.RadiusIsParametricOff();
+  TEST_SET_GET_VALUE( false, result3.GetRadiusIsParametric() );
+
   r3.Fill( scalarRadius );
   SE3Type k3;
 
@@ -127,6 +138,11 @@ int itkFlatStructuringElementTest(int, char *[])
 
   typedef itk::FlatStructuringElement< 4 > SE4Type;
   SE4Type::RadiusType r4;
+
+  SE4Type::Self result4 = SE4Type::Self();
+  result4.RadiusIsParametricOn();
+  TEST_SET_GET_VALUE( true, result4.GetRadiusIsParametric() );
+
   r4.Fill( scalarRadius );
   SE4Type k4;
 

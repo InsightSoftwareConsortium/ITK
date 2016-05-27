@@ -32,6 +32,8 @@ template< typename TImage, typename TFeatureImage >
 StatisticsLabelMapFilter< TImage, TFeatureImage >
 ::StatisticsLabelMapFilter()
 {
+  m_Minimum = NumericTraits< FeatureImagePixelType >::ZeroValue();
+  m_Maximum = NumericTraits< FeatureImagePixelType >::ZeroValue();
   m_NumberOfBins = 128;
   m_ComputeHistogram = true;
   this->SetNumberOfRequiredInputs(2);

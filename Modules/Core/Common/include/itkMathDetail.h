@@ -406,6 +406,7 @@ union FloatIEEE
   UIntType asUInt;
 
   FloatIEEE(FloatType f): asFloat(f) {}
+  FloatIEEE(IntType i): asInt(i) {}
   bool Sign() const
     {
     return (asUInt >> (sizeof(asUInt)*8-1)) != 0;

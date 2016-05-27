@@ -27,7 +27,6 @@
 namespace itk
 {
 
-// Constructor with default arguments
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::BSplineTransform() : Superclass( )
@@ -63,31 +62,28 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   this->SetCoefficientImageInformationFromFixedParameters();
 }
 
-// Destructor
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::~BSplineTransform()
 {
 }
 
-// Get the number of parameters
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::GetNumberOfParameters() const
 {
-  // The number of parameters equal SpaceDimension * number of
+  // The number of parameters equals SpaceDimension * number of
   // of pixels in the grid region.
   return SpaceDimension * this->GetNumberOfParametersPerDimension();
 }
 
-// Get the number of parameters per dimension
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::GetNumberOfParametersPerDimension() const
 {
-  // The number of parameters per dimension equal number of
+  // The number of parameters per dimension equals the number of
   // of pixels in the grid region.
   NumberOfParametersType numberOfParametersPerDimension = 1;
 
@@ -98,7 +94,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
   return numberOfParametersPerDimension;
 }
 
-// Set the transform origin
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
@@ -114,7 +109,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
 }
 
-// Set the transform dimensions
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
@@ -130,7 +124,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
 }
 
-// Set the transform
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
@@ -147,7 +140,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
 }
 
-// Set the transform domain mesh size
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
@@ -191,7 +183,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
   this->m_CoefficientImages[0]->SetRegions( gridSize );
 
-//  // Set the origin parameters
+  // Set the origin parameters
   OriginType origin;
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
@@ -199,7 +191,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
   this->m_CoefficientImages[0]->SetOrigin( origin );
 
-//  // Set the spacing parameters
+  // Set the spacing parameters
   SpacingType spacing;
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
@@ -207,7 +199,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
   this->m_CoefficientImages[0]->SetSpacing( spacing );
 
-//  // Set the direction parameters
+  // Set the direction parameters
   DirectionType direction;
   for( unsigned int di = 0; di < NDimensions; di++ )
     {
@@ -299,14 +291,12 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
 }
 
-
-// Set the Fixed Parameters
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::SetFixedParameters( const FixedParametersType & passedParameters )
 {
-  // check if the number of passedParameters match the
+  // Check if the number of passedParameters match the
   // expected number of this->m_FixedParameters
   if( passedParameters.Size() == this->m_FixedParameters.Size() )
     {
@@ -331,7 +321,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
   this->m_CoefficientImages[0]->SetRegions( gridSize );
 
-//  // Set the origin parameters
+  // Set the origin parameters
   OriginType origin;
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
@@ -339,7 +329,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
   this->m_CoefficientImages[0]->SetOrigin( origin );
 
-//  // Set the spacing parameters
+  // Set the spacing parameters
   SpacingType spacing;
   for( unsigned int i = 0; i < NDimensions; i++ )
     {
@@ -347,7 +337,7 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
   this->m_CoefficientImages[0]->SetSpacing( spacing );
 
-//  // Set the direction parameters
+  // Set the direction parameters
   DirectionType direction;
   for( unsigned int di = 0; di < NDimensions; di++ )
     {
@@ -368,7 +358,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
 }
 
-// Set the B-Spline coefficients using input images
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
@@ -433,32 +422,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
 }
 
-// Print self
-template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
-void
-BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
-::PrintSelf( std::ostream & os, Indent indent ) const
-{
-  this->Superclass::PrintSelf(os, indent);
-
-  os << indent << "TransformDomainOrigin: "
-     << this->m_TransformDomainOrigin << std::endl;
-  os << indent << "TransformDomainPhysicalDimensions: "
-     << this->m_TransformDomainPhysicalDimensions << std::endl;
-  os << indent << "TransformDomainDirection: "
-     << this->m_TransformDomainDirection << std::endl;
-
-  os << indent << "GridSize: "
-     << this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize()
-     << std::endl;
-  os << indent << "GridOrigin: "
-     << this->m_CoefficientImages[0]->GetOrigin() << std::endl;
-  os << indent << "GridSpacing: "
-     << this->m_CoefficientImages[0]->GetSpacing() << std::endl;
-  os << indent << "GridDirection: "
-     << this->m_CoefficientImages[0]->GetDirection() << std::endl;
-}
-
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 bool
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
@@ -469,16 +432,15 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 
   const ScalarType minLimit = 0.5 * static_cast<ScalarType>( SplineOrder - 1 );
 
-  //Needed so that index can be changed.
-
+  // Needed so that index can be changed
   bool inside = true;
   for( unsigned int j = 0; j < SpaceDimension; j++ )
     {
-    ScalarType maxLimit = static_cast<ScalarType>( gridSize[j] ) - 0.5
+    const ScalarType maxLimit = static_cast<ScalarType>( gridSize[j] ) - 0.5
       * static_cast<ScalarType>( SplineOrder - 1 ) - 1.0;
-    if(Math::AlmostEquals( index[j], maxLimit ))
+    if( Math::FloatAlmostEqual( index[j], maxLimit, 4 ) )
       {
-      index[j] -= 1e-6;
+      index[j] = Math::FloatAddULP( maxLimit, -6 );
       }
     else if( index[j] >= maxLimit )
       {
@@ -544,17 +506,17 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
       {
        while( !coeffIterator[0].IsAtEndOfLine() )
          {
-         // multiply weigth with coefficient
+         // Multiply weigth with coefficient
          for( unsigned int j = 0; j < SpaceDimension; j++ )
            {
            outputPoint[j] += static_cast<ScalarType>(
              weights[counter] * coeffIterator[j].Get() );
            }
 
-         // populate the indices array
+         // Populate the indices array
          indices[counter] = &( coeffIterator[0].Value() ) - basePointer;
 
-         // go to next coefficient in the support region
+         // Go to next coefficient in the support region
          ++counter;
          for( unsigned int j = 0; j < SpaceDimension; j++ )
            {
@@ -567,7 +529,8 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
          coeffIterator[j].NextLine();
          }
       }
-    // return results
+
+    // Return results
     for( unsigned int j = 0; j < SpaceDimension; j++ )
       {
       outputPoint[j] += point[j];
@@ -583,7 +546,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
     }
 }
 
-// Compute the Jacobian in one position
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
@@ -648,6 +610,31 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
       }
     counter++;
     }
+}
+
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
+BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
+::PrintSelf( std::ostream & os, Indent indent ) const
+{
+  this->Superclass::PrintSelf(os, indent);
+
+  os << indent << "TransformDomainOrigin: "
+     << this->m_TransformDomainOrigin << std::endl;
+  os << indent << "TransformDomainPhysicalDimensions: "
+     << this->m_TransformDomainPhysicalDimensions << std::endl;
+  os << indent << "TransformDomainDirection: "
+     << this->m_TransformDomainDirection << std::endl;
+
+  os << indent << "GridSize: "
+     << this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetSize()
+     << std::endl;
+  os << indent << "GridOrigin: "
+     << this->m_CoefficientImages[0]->GetOrigin() << std::endl;
+  os << indent << "GridSpacing: "
+     << this->m_CoefficientImages[0]->GetSpacing() << std::endl;
+  os << indent << "GridDirection: "
+     << this->m_CoefficientImages[0]->GetDirection() << std::endl;
 }
 
 } // namespace

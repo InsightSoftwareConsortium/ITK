@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKImageSourcesTests
+  itkGaborKernelFunctionTest.cxx
   itkGaborImageSourceTest.cxx
   itkGaussianImageSourceTest.cxx
   itkGridImageSourceTest.cxx
@@ -8,6 +9,8 @@ set(ITKImageSourcesTests
 
 CreateTestDriver(ITKImageSources "${ITKImageSources-Test_LIBRARIES}" "${ITKImageSourcesTests}")
 
+itk_add_test(NAME itkGaborKernelFunctionTest
+      COMMAND ITKImageSourcesTestDriver itkGaborKernelFunctionTest)
 itk_add_test(NAME itkGaborImageSourceTest0
       COMMAND ITKImageSourcesTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/GaborImageSourceTest0.mha}

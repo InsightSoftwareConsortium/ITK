@@ -105,7 +105,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods) */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(GeodesicActiveContourShapePriorLevelSetFunction,
                ShapePriorSegmentationLevelSetFunction);
 
@@ -167,11 +167,7 @@ protected:
   GeodesicActiveContourShapePriorLevelSetFunction(const Self &) ITK_DELETE_FUNCTION;
   void operator=(const Self &) ITK_DELETE_FUNCTION;
 
-  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
-  {
-    Superclass::PrintSelf(os, indent);
-    os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
-  }
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   double m_DerivativeSigma;

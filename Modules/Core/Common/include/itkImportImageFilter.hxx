@@ -40,8 +40,6 @@ ImportImageFilter< TPixel, VImageDimension >
     }
   m_Direction.SetIdentity();
 
-  m_ImportPointer = ITK_NULLPTR;
-  m_FilterManageMemory = false;
   m_Size = 0;
 }
 
@@ -52,10 +50,6 @@ template< typename TPixel, unsigned int VImageDimension >
 ImportImageFilter< TPixel, VImageDimension >
 ::~ImportImageFilter()
 {
-  if ( m_FilterManageMemory )
-    {
-    delete[] m_ImportPointer;
-    }
 }
 
 /**
@@ -70,17 +64,17 @@ ImportImageFilter< TPixel, VImageDimension >
 
   Superclass::PrintSelf(os, indent);
 
-  if ( m_ImportPointer )
+  if( m_ImportImageContainer )
     {
-    os << indent << "Imported pointer: (" << m_ImportPointer  << ")" << std::endl;
+      os << indent << "ImportImageContainer pointer: (" << m_ImportImageContainer << ")" << std::endl;
     }
   else
     {
-    os << indent << "Imported pointer: (None)" << std::endl;
+    os << indent << "ImportImageContainer pointer: (None)" << std::endl;
     }
   os << indent << "Import buffer size: " << m_Size << std::endl;
   os << indent << "Import buffer size: " << m_Size << std::endl;
-  os << indent << "Filter manages memory: " << ( m_FilterManageMemory ? "true" : "false" ) << std::endl;
+  os << indent << "ImageContainer manages memory: " << ( m_ImportImageContainer->GetContainerManageMemory() ? "true" : "false" ) << std::endl;
 
   os << indent << "Spacing: [";
   for ( i = 0; i < static_cast< int >( VImageDimension ) - 1; i++ )
@@ -104,18 +98,15 @@ ImportImageFilter< TPixel, VImageDimension >
 template< typename TPixel, unsigned int VImageDimension >
 void
 ImportImageFilter< TPixel, VImageDimension >
-::SetImportPointer(TPixel *ptr, SizeValueType num, bool LetFilterManageMemory)
+::SetImportPointer(TPixel *ptr, SizeValueType num, bool LetImageContainerManageMemory)
 {
-  if ( ptr != m_ImportPointer )
+  if (!m_ImportImageContainer || ptr != m_ImportImageContainer->GetImportPointer())
     {
-    if ( m_FilterManageMemory )
-      {
-      delete[] m_ImportPointer;
-      }
-    m_ImportPointer = ptr;
+    m_ImportImageContainer = ImportImageContainerType::New();
+    m_ImportImageContainer->SetImportPointer(ptr,
+        m_Size, LetImageContainerManageMemory);
     this->Modified();
     }
-  m_FilterManageMemory = LetFilterManageMemory;
   m_Size = num;
 }
 
@@ -127,7 +118,7 @@ TPixel *
 ImportImageFilter< TPixel, VImageDimension >
 ::GetImportPointer()
 {
-  return m_ImportPointer;
+  return m_ImportImageContainer->GetImportPointer();
 }
 
 /**
@@ -195,8 +186,7 @@ ImportImageFilter< TPixel, VImageDimension >
   // pointer.  Note that we tell the container NOT to manage the
   // memory itself.  This filter will properly manage the memory (as
   // opposed to the container) if the user wants it to.
-  outputPtr->GetPixelContainer()->SetImportPointer(m_ImportPointer,
-                                                   m_Size, false);
+  outputPtr->SetPixelContainer(m_ImportImageContainer);
 }
 
 //----------------------------------------------------------------------------

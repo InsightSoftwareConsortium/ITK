@@ -26,19 +26,16 @@
 #include "itkSimilarityIndexImageFilter.h"
 #include "itkTestingMacros.h"
 
-/* Uncomment to write out image files */
-/*
-*/
 
-int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
+int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest( int, char* [] )
 {
 
   const   unsigned int    ImageDimension = 2;
   typedef unsigned char   PixelType;
   typedef float           InternalPixelType;
 
-  typedef itk::Image<PixelType,ImageDimension>         ImageType;
-  typedef itk::Image<InternalPixelType,ImageDimension> InternalImageType;
+  typedef itk::Image<PixelType, ImageDimension>         ImageType;
+  typedef itk::Image<InternalPixelType, ImageDimension> InternalImageType;
 
   ImageType::SizeType imageSize;
   imageSize[0] = 128;
@@ -47,10 +44,9 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
   ImageType::RegionType imageRegion;
   imageRegion.SetSize( imageSize );
 
-  /**
-   * Create an input image.
-   * A light square on a dark background.
-   */
+  //
+  // Create an input image: a light square on a dark background.
+  //
   PixelType background = 0;
   PixelType foreground = 190;
 
@@ -76,11 +72,11 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
     ++it;
     }
 
-  /**
-   * Create an edge potential map.
-   * First compute the image gradient magnitude using a derivative of gaussian filter.
-   * Then apply a sigmoid function to the gradient magnitude.
-   */
+  //
+  // Create an edge potential map.
+  // First compute the image gradient magnitude using a derivative of gaussian filter.
+  // Then apply a sigmoid function to the gradient magnitude.
+  //
   typedef itk::CastImageFilter< ImageType, InternalImageType > CastFilterType;
   CastFilterType::Pointer caster = CastFilterType::New();
   caster->SetInput( inputImage );
@@ -101,10 +97,10 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
   sigmoid->SetBeta( 2.5 );
   sigmoid->SetInput( gradMagnitude->GetOutput() );
 
-  /**
-   * Create an initial level.
-   * Use fast marching to create an signed distance from a seed point.
-   */
+  //
+  // Create an initial level.
+  // Use fast marching to create an signed distance from a seed point.
+  //
   typedef itk::FastMarchingImageFilter<InternalImageType> FastMarchingFilterType;
   FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
 
@@ -129,9 +125,9 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
   fastMarching->SetSpeedConstant( 1.0 );
   fastMarching->SetOutputSize( imageSize );
 
-  /**
-   * Set up and run the shape detection filter
-   */
+  //
+  // Set up and run the shape detection filter.
+  //
   typedef itk::GeodesicActiveContourLevelSetImageFilter<
     InternalImageType, InternalImageType > ShapeDetectionFilterType;
 
@@ -143,24 +139,24 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
   // set the initial level set
   shapeDetection->SetInput( fastMarching->GetOutput() );
 
-  // set the edge potential image
+  // Set the edge potential image
   shapeDetection->SetFeatureImage( sigmoid->GetOutput() );
 
-  // set the weights between the propagation, curvature and advection terms
+  // Set the weights between the propagation, curvature and advection terms
   shapeDetection->SetPropagationScaling( 1.0 );
   shapeDetection->SetCurvatureScaling( 0.1 );
   shapeDetection->SetAdvectionScaling( 0.5 );
 
-  // use finite differences instead of derivative of Gaussian to build advection
+  // Use finite differences instead of derivative of Gaussian to build advection
   shapeDetection->SetDerivativeSigma( 0.0 );
 
-  // set the convergence criteria
+  // Set the convergence criteria
   shapeDetection->SetMaximumRMSError( 0.03 );
   shapeDetection->SetNumberOfIterations( 200 );
 
-  /**
-   * Threshold the output level set to display the final contour.
-   */
+  //
+  // Threshold the output level set to display the final contour.
+  //
   typedef itk::BinaryThresholdImageFilter< InternalImageType, ImageType >
     ThresholdFilterType;
   ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
@@ -171,9 +167,9 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
   thresholder->SetOutsideValue( 0 );
   thresholder->SetInsideValue( 255 );
 
-  /**
-   * Compute overlap between the true shape and the segmented shape
-   */
+  //
+  // Compute overlap between the true shape and the segmented shape.
+  //
   typedef itk::SimilarityIndexImageFilter< ImageType, ImageType >
     OverlapCalculatorType;
   OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
@@ -182,16 +178,15 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
   overlap->SetInput2( thresholder->GetOutput() );
   overlap->Update();
 
-  /** Printout useful information from the shape detection filter. */
+  // Print useful information from the shape detection filter
   std::cout << "Max. no. iterations: " << shapeDetection->GetNumberOfIterations() << std::endl;
   std::cout << "Max. RMS error: " << shapeDetection->GetMaximumRMSError() << std::endl;
   std::cout << "No. elpased iterations: " << shapeDetection->GetElapsedIterations() << std::endl;
   std::cout << "RMS change: " << shapeDetection->GetRMSChange() << std::endl;
   std::cout << "Overlap: " << overlap->GetSimilarityIndex() << std::endl;
 
-  /**
-   * Uncomment to write out image files.
-   */
+
+  // Uncomment to write out image files
 /*
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -243,7 +238,7 @@ int itkGeodesicActiveContourLevelSetImageFilterZeroSigmaTest(int, char* [] )
   shapeDetection->SetAdvectionScaling( 0.0 );
   shapeDetection->Update();
 
-  std::cout << "Test Passed. " << std::endl;
+  std::cout << "Test Passed." << std::endl;
   return EXIT_SUCCESS;
 
 }

@@ -148,8 +148,8 @@ int main( int, char *[] )
   std::cout << "floatRepresentationfx1.asInt:   " << floatRepresentationfx1.asInt << std::endl;
 
   FloatRepresentationF floatRepresentationfx2;
-  floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
-  floatRepresentationfx2.asInt -= 1; // makes it 1 *higher* because it is a negative sign-magnitude integer!
+  floatRepresentationfx2.asFloat = itk::Math::FloatAddULP( floatRepresentationfx1.asFloat, -1 );
+  //floatRepresentationfx2.asInt -= 1; // makes it 1 *higher* because it is a negative sign-magnitude integer!
   std::cout << "floatRepresentationfx2.asFloat: " << floatRepresentationfx2.asFloat << std::endl;
   std::cout << "floatRepresentationfx2.asInt:   " << floatRepresentationfx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
@@ -169,8 +169,8 @@ int main( int, char *[] )
     testPassStatus = EXIT_FAILURE;
     }
 
-  floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
-  floatRepresentationfx2.asInt += 1; // makes it 1 *lower* because it is a negative sign-magnitude integer!
+  floatRepresentationfx2.asFloat = itk::Math::FloatAddULP( floatRepresentationfx1.asFloat, 1 );
+  //floatRepresentationfx2.asInt += 1; // makes it 1 *lower* because it is a negative sign-magnitude integer!
   std::cout << "floatRepresentationfx2.asFloat: " << floatRepresentationfx2.asFloat << std::endl;
   std::cout << "floatRepresentationfx2.asInt:   " << floatRepresentationfx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
@@ -194,8 +194,7 @@ int main( int, char *[] )
   std::cout << "floatRepresentationfx1.asFloat: " << floatRepresentationfx1.asFloat << std::endl;
   std::cout << "floatRepresentationfx1.asInt:   " << floatRepresentationfx1.asInt << std::endl;
 
-  floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
-  floatRepresentationfx2.asInt += 1;
+  floatRepresentationfx2.asFloat = itk::Math::FloatAddULP( floatRepresentationfx1.asFloat, 1 );
   std::cout << "floatRepresentationfx2.asFloat: " << floatRepresentationfx2.asFloat << std::endl;
   std::cout << "floatRepresentationfx2.asInt:   " << floatRepresentationfx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
@@ -216,8 +215,7 @@ int main( int, char *[] )
     testPassStatus = EXIT_FAILURE;
     }
 
-  floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
-  floatRepresentationfx2.asInt -= 1;
+  floatRepresentationfx2.asFloat = itk::Math::FloatAddULP( floatRepresentationfx1.asFloat, -1 );
   std::cout << "floatRepresentationfx2.asFloat: " << floatRepresentationfx2.asFloat << std::endl;
   std::cout << "floatRepresentationfx2.asInt:   " << floatRepresentationfx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
@@ -237,9 +235,8 @@ int main( int, char *[] )
     testPassStatus = EXIT_FAILURE;
     }
 
-  // The default maxUlps is 4, so this should be considered almost equals.
-  floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
-  floatRepresentationfx2.asInt += 6;
+  // The default maxUlps is 4, so this should not be considered almost equals.
+  floatRepresentationfx2.asFloat = itk::Math::FloatAddULP( floatRepresentationfx1.asFloat, 6 );
   std::cout << "floatRepresentationfx2.asFloat: " << floatRepresentationfx2.asFloat << std::endl;
   std::cout << "floatRepresentationfx2.asInt:   " << floatRepresentationfx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
@@ -259,8 +256,7 @@ int main( int, char *[] )
     std::cout << "floatRepresentationfx1 is NOT almost equal to floatRepresentationfx2\n" << std::endl;
     }
 
-  floatRepresentationfx2.asFloat = floatRepresentationfx1.asFloat;
-  floatRepresentationfx2.asInt -= 6;
+  floatRepresentationfx2.asFloat = itk::Math::FloatAddULP( floatRepresentationfx1.asFloat, -6 );
   std::cout << "floatRepresentationfx2.asFloat: " << floatRepresentationfx2.asFloat << std::endl;
   std::cout << "floatRepresentationfx2.asInt:   " << floatRepresentationfx2.asInt << std::endl;
   std::cout << "Distance: " << itk::Math::FloatDifferenceULP( floatRepresentationfx1.asFloat, floatRepresentationfx2.asFloat ) << std::endl;
@@ -373,8 +369,8 @@ int main( int, char *[] )
   std::cout << "floatRepresentationdx1.asInt:   " << floatRepresentationdx1.asInt << std::endl;
 
   FloatRepresentationF floatRepresentationdx2;
-  floatRepresentationdx2.asFloat = floatRepresentationdx1.asFloat;
-  floatRepresentationdx2.asInt -= 1; // makes it 1 *higher* because it is a negative sign-magnitude integer!
+  floatRepresentationdx2.asFloat = itk::Math::FloatAddULP( floatRepresentationdx1.asFloat, -1 );
+  //floatRepresentationdx2.asInt -= 1; // makes it 1 *higher* because it is a negative sign-magnitude integer!
 
   std::cout << "floatRepresentationdx2.asFloat: " << floatRepresentationdx2.asFloat << std::endl;
   std::cout << "floatRepresentationdx2.asInt:   " << floatRepresentationdx2.asInt << std::endl;
@@ -394,8 +390,8 @@ int main( int, char *[] )
     testPassStatus = EXIT_FAILURE;
     }
 
-  floatRepresentationdx2.asFloat = floatRepresentationdx1.asFloat;
-  floatRepresentationdx2.asInt += 1; // makes it 1 *lower* because it is a negative sign-magnitude integer!
+  floatRepresentationdx2.asFloat = itk::Math::FloatAddULP( floatRepresentationdx1.asFloat, 1 );
+  //floatRepresentationdx2.asInt += 1; // makes it 1 *lower* because it is a negative sign-magnitude integer!
   std::cout << "floatRepresentationdx2.asFloat: " << floatRepresentationdx2.asFloat << std::endl;
   std::cout << "floatRepresentationdx2.asInt:   " << floatRepresentationdx2.asInt << std::endl;
 
@@ -414,9 +410,9 @@ int main( int, char *[] )
     testPassStatus = EXIT_FAILURE;
     }
 
-  // The default maxUlps is 4, so this should be considered almost equals.
-  floatRepresentationdx2.asFloat = floatRepresentationdx1.asFloat;
-  floatRepresentationdx2.asInt -= 6; // makes it 6 *higher* because it is a negative sign-magnitude integer!
+  // The default maxUlps is 4, so this should not be considered almost equals.
+  floatRepresentationdx2.asFloat = itk::Math::FloatAddULP( floatRepresentationdx1.asFloat, -6 );
+  //floatRepresentationdx2.asInt -= 6; // makes it 6 *higher* because it is a negative sign-magnitude integer!
   std::cout << "floatRepresentationdx2.asFloat: " << floatRepresentationdx2.asFloat << std::endl;
   std::cout << "floatRepresentationdx2.asInt:   " << floatRepresentationdx2.asInt << std::endl;
 
@@ -435,8 +431,8 @@ int main( int, char *[] )
     std::cout << "floatRepresentationdx1 is NOT almost equal to floatRepresentationdx2\n" << std::endl;
     }
 
-  floatRepresentationdx2.asFloat = floatRepresentationdx1.asFloat;
-  floatRepresentationdx2.asInt += 6; // makes it 6 *lower* because it is a negative sign-magnitude integer!
+  floatRepresentationdx2.asFloat = itk::Math::FloatAddULP( floatRepresentationdx1.asFloat, 6 );
+  //floatRepresentationdx2.asInt += 6; // makes it 6 *lower* because it is a negative sign-magnitude integer!
   std::cout << "floatRepresentationdx2.asFloat: " << floatRepresentationdx2.asFloat << std::endl;
   std::cout << "floatRepresentationdx2.asInt:   " << floatRepresentationdx2.asInt << std::endl;
 
