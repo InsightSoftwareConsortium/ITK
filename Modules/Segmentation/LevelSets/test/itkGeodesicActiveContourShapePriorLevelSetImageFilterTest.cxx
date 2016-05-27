@@ -28,7 +28,7 @@
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
-
+#include "itkTestingMacros.h"
 
 /** \class ShowIterationObject
  * This class is used to support callbacks
@@ -76,6 +76,8 @@ int itkGeodesicActiveContourShapePriorLevelSetImageFilterTest( int, char *[] )
   CostFunctionType::Pointer costFunction = CostFunctionType::New();
   OptimizerType::Pointer optimizer       = OptimizerType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, GeodesicActiveContourShapePriorLevelSetImageFilter,
+    ShapePriorSegmentationLevelSetImageFilter );
 
   ImageType::SizeType imageSize;
   imageSize[0] = 128;

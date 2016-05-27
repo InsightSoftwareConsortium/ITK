@@ -24,6 +24,7 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkGeodesicActiveContourLevelSetImageFilterTest( int, char* [] )
@@ -130,7 +131,10 @@ int itkGeodesicActiveContourLevelSetImageFilterTest( int, char* [] )
 
   GeodesicActiveContourFilterType::Pointer geodesicActiveContour = GeodesicActiveContourFilterType::New();
 
-  // Set the initial level set
+  EXERCISE_BASIC_OBJECT_METHODS( geodesicActiveContour, GeodesicActiveContourLevelSetImageFilter,
+    SegmentationLevelSetImageFilter );
+
+  // set the initial level set
   geodesicActiveContour->SetInput( fastMarching->GetOutput() );
 
   // Set the edge potential image
