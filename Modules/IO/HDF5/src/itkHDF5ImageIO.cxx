@@ -38,11 +38,7 @@ HDF5ImageIO::~HDF5ImageIO()
     m_VoxelDataSet->close();
     delete m_VoxelDataSet;
     }
-  if(this->m_H5File != ITK_NULLPTR)
-    {
-    this->m_H5File->close();
-    delete this->m_H5File;
-    }
+  this->CloseH5File();
 }
 
 void
@@ -692,10 +688,23 @@ HDF5ImageIO
 
 void
 HDF5ImageIO
+::CloseH5File()
+{
+  if(this->m_H5File != ITK_NULLPTR)
+    {
+    this->m_H5File->close();
+    delete this->m_H5File;
+    }
+}
+
+
+void
+HDF5ImageIO
 ::ReadImageInformation()
 {
   try
     {
+    this->CloseH5File();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_RDONLY);
 
@@ -1052,6 +1061,7 @@ HDF5ImageIO
 
   try
     {
+    this->CloseH5File();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_TRUNC);
     this->WriteString(ItkVersion,
