@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkGaussianDerivativeImageFunction.h"
+#include "itkTestingMacros.h"
 
 
 template< typename TPixel >
@@ -144,6 +145,21 @@ int TestGaussianDerivativeImageFunction()
 
 int itkGaussianDerivativeImageFunctionTest( int, char* [] )
 {
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  const unsigned int Dimension = 2;
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+  typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
+
+  DoGFunctionType::Pointer DoG = DoGFunctionType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( DoG, GaussianDerivativeImageFunction, ImageFunction );
+
+
   std::cout << "\nTesting derivative of Gaussian image function for float" << std::endl;
   if( TestGaussianDerivativeImageFunction< float >() == EXIT_FAILURE )
     {
