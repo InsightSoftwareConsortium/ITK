@@ -19,6 +19,7 @@
 #include "itkMeshFileWriter.h"
 #include "itkVTKPolyDataMeshIO.h"
 #include "itkSymmetricSecondRankTensor.h"
+#include "itkTestingMacros.h"
 
 int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
 {
@@ -57,6 +58,9 @@ int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
   mesh2d->SetPointData( 0, pixel2d );
 
   MeshWriter2dType::Pointer mesh2dWriter = MeshWriter2dType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( mesh2dWriter, MeshFileWriter, ProcessObject );
+
   mesh2dWriter->SetMeshIO( itk::VTKPolyDataMeshIO::New() );
   mesh2dWriter->SetInput( mesh2d );
   mesh2dWriter->SetFileName( outputMesh2D );
@@ -86,6 +90,9 @@ int itkMeshFileWriteReadTensorTest( int argc, char* argv[] )
   mesh3d->SetPointData( 0, pixel3d );
 
   MeshWriter3dType::Pointer mesh3dWriter = MeshWriter3dType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( mesh3dWriter, MeshFileWriter, ProcessObject );
+
   mesh3dWriter->SetMeshIO( itk::VTKPolyDataMeshIO::New() );
   mesh3dWriter->SetInput( mesh3d );
   mesh3dWriter->SetFileName( outputMesh3D );
