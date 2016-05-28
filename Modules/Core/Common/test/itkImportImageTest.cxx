@@ -20,6 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
 #include "itkImportImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkImportImageTest(int, char* [] )
 {
@@ -32,6 +33,10 @@ int itkImportImageTest(int, char* [] )
   // typdefs to simplify the syntax
   typedef itk::ImportImageFilter<short, 2> ImportImageFilter;
   typedef itk::Image<short, 2>             ShortImage;
+  // Create an ImportImageFilter filter
+  ImportImageFilter::Pointer basicImport = ImportImageFilter::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( basicImport, ImportImageFilter, ImageSource );
 
   ShortImage::Pointer image;
   itk::ImageRegion<2>         region;
@@ -126,6 +131,5 @@ int itkImportImageTest(int, char* [] )
     std::cout << "ImportImageFilter test failed." << std::endl;
     return EXIT_FAILURE;
     }
-
 
 }

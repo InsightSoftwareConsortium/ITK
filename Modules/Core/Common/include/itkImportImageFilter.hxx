@@ -74,7 +74,10 @@ ImportImageFilter< TPixel, VImageDimension >
     }
   os << indent << "Import buffer size: " << m_Size << std::endl;
   os << indent << "Import buffer size: " << m_Size << std::endl;
-  os << indent << "ImageContainer manages memory: " << ( m_ImportImageContainer->GetContainerManageMemory() ? "true" : "false" ) << std::endl;
+  if( m_ImportImageContainer )
+    {
+    os << indent << "ImageContainer manages memory: " << ( m_ImportImageContainer->GetContainerManageMemory() ? "true" : "false" ) << std::endl;
+    }
 
   os << indent << "Spacing: [";
   for ( i = 0; i < static_cast< int >( VImageDimension ) - 1; i++ )
