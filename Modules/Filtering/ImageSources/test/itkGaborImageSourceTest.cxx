@@ -15,8 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkGaborImageSource.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
+
 
 int itkGaborImageSourceTest0( int, char *argv[] )
 {
@@ -124,11 +127,6 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
     {
     test = itkGaborImageSourceTest1( argc, argv );
     }
-
-  // The following is just to improve coverate
-  typedef itk::GaborKernelFunction<double> KernelFunctionType;
-  KernelFunctionType::Pointer gabor = KernelFunctionType::New();
-  std::cout << gabor;
 
   return test;
 }

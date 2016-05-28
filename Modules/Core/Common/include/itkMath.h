@@ -245,6 +245,7 @@ inline TReturn CastWithRangeCheck(TInput x)
  * This is the signed distance, i.e., if x1 > x2, then the result is positive.
  *
  * \sa FloatAlmostEqual
+ * \sa FloatAddULP
  */
 template <typename T>
 inline typename Detail::FloatIEEE<T>::IntType
@@ -253,6 +254,22 @@ FloatDifferenceULP( T x1, T x2 )
   Detail::FloatIEEE<T> x1f(x1);
   Detail::FloatIEEE<T> x2f(x2);
   return x1f.AsULP() - x2f.AsULP();
+}
+
+/** \brief Add the given ULPs (units in the last place) to a float.
+ *
+ * If the given ULPs can are negative, they are subtracted.
+ *
+ * \sa FloatAlmostEqual
+ * \sa FloatDifferenceULP
+ */
+template <typename T>
+inline T
+FloatAddULP( T x, typename Detail::FloatIEEE<T>::IntType ulps )
+{
+  Detail::FloatIEEE<T> representInput( x );
+  Detail::FloatIEEE<T> representOutput( representInput.asInt + ulps );
+  return representOutput.asFloat;
 }
 
 /** \brief Compare two floats and return if they are effectively equal.

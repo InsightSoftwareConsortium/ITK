@@ -27,22 +27,13 @@ template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GeodesicActiveContourShapePriorLevelSetImageFilter()
 {
-  /* Instantiate a geodesic active contour function and set it as the
-    segmentation function. */
+  // Instantiate a geodesic active contour function and set it as the
+  // segmentation function.
   m_GeodesicActiveContourFunction = GeodesicActiveContourFunctionType::New();
   this->SetShapePriorSegmentationFunction(m_GeodesicActiveContourFunction);
 
-  /* Turn off interpolation. */
+  // Turn off interpolation
   this->InterpolateSurfaceLocationOff();
-}
-
-template< typename TInputImage, typename TFeatureImage, typename TOutputType >
-void
-GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer();
 }
 
 template< typename TInputImage, typename TFeatureImage, typename TOutputType >
@@ -62,6 +53,18 @@ GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, 
   // Continue with Superclass implementation
   Superclass::GenerateData();
 }
+
+template< typename TInputImage, typename TFeatureImage, typename TOutputType >
+void
+GeodesicActiveContourShapePriorLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << "GeodesicActiveContourFunction: " << m_GeodesicActiveContourFunction.GetPointer()
+    << std::endl;
+}
+
 } // end namespace itk
 
 #endif

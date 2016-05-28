@@ -36,11 +36,8 @@ void
 HilbertPath<TIndexValue, VDimension>
 ::ConstructHilbertPath()
 {
-  SizeValueType numberOfPathVertices = ( 1 << this->m_HilbertOrder );
-  for( unsigned int d = 1; d < Dimension; d++ )
-    {
-    numberOfPathVertices *= static_cast<SizeValueType>( 1 << this->m_HilbertOrder );
-    }
+  const SizeValueType numberOfPathVertices (
+    static_cast< SizeValueType >( 1 ) << static_cast< SizeValueType >( Dimension * this->m_HilbertOrder ) );
   this->m_HilbertPath.resize( numberOfPathVertices );
 
   SizeValueType counter = 0;

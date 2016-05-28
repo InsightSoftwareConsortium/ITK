@@ -16,15 +16,14 @@
  *
  *=========================================================================*/
 #include "itkBSplineControlPointImageFunction.h"
-
+#include "itkTestingMacros.h"
 
 int itkBSplineControlPointImageFunctionTest( int, char * [] )
 {
 
-
-//   We construct a B-spline parametric curve equal to f(u) = 0.5 * u^2 - 0.5 * u
-//   + 1/6.  This is done using a cubic order spline with controls points
-//   (1, 0, 0, 1)
+  // We construct a B-spline parametric curve equal to f(u) = 0.5 * u^2 - 0.5 * u
+  // + 1/6.  This is done using a cubic order spline with controls points
+  // (1, 0, 0, 1)
 
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 1;
@@ -63,6 +62,9 @@ int itkBSplineControlPointImageFunctionTest( int, char * [] )
   typedef itk::BSplineControlPointImageFunction<VectorImageType>
     BSplinerType;
   BSplinerType::Pointer bspliner = BSplinerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFunction,
+    ImageFunction );
 
   // Define the parametric domain [0, 1).
   origin.Fill( 0 );

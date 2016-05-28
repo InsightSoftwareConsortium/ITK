@@ -46,7 +46,7 @@ def IncludesToPaths(path):
         for f in files:
             if prog.match(f):
                 includeFile = prog.findall(f)[0]
-                parts = root.split("/")
+                parts = root.split(os.sep)
                 module = parts[len(parts)-3] + parts[len(parts)-2]
                 includeToPath[includeFile] = module
     return includeToPath
@@ -59,12 +59,12 @@ def FindModules(path):
     for root, dirs, files in os.walk(path):
         for f in files:
             if fileProg.match(f):
-                fid = open(root + "/" + f,"r")
+                fid = open(root + os.sep + f,"r")
                 contents = fid.read()
                 m = moduleProg.match(contents)
                 if m:
                     moduleName = m.group(1)
-                    parts = root.split("/")
+                    parts = root.split(os.sep)
                     pathToModule[parts[len(parts)-2] + parts[len(parts)-1]] = moduleName
                 fid.close()
     return pathToModule
@@ -83,8 +83,8 @@ def FindIncludes(path):
 # Start the program
 
 # Generate dict's for mapping includes to modules
-includesToPaths = IncludesToPaths(sys.argv[1] + "/Modules")
-pathsToModules = FindModules(sys.argv[1] + "/Modules")
+includesToPaths = IncludesToPaths(os.path.join(sys.argv[1],  "Modules"))
+pathsToModules = FindModules(os.path.join(sys.argv[1], "Modules"))
 
 # Test to see if ITK source is provided
 if len(pathsToModules) == 0:

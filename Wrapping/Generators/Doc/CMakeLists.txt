@@ -1,6 +1,6 @@
 find_package(Doxygen REQUIRED)
 
-option(ITK_WRAP_DOC_MAN "Generate unix manual pages." ON)
+option(${module_prefix}_WRAP_DOC_MAN "Generate unix manual pages." ON)
 
 ###############################################################################
 # store the current dir, so it can be reused later
@@ -43,7 +43,7 @@ macro(itk_wrap_named_class_DOC class swig_name)
       set(page "${CMAKE_CURRENT_BINARY_DIR}/Doc/man3/${base_name}.3")
       set(ITK_WRAP_DOC_DOXYGEN_PAGES "${ITK_WRAP_DOC_DOXYGEN_PAGES};${page}")
       # and in install the manpage, if requested, and if not yet installed from another dir
-      if(ITK_WRAP_DOC_MAN AND NOT "${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES}" MATCHES "(^|;)${base_name}\\.3(;|$)")
+      if(${module_prefix}_WRAP_DOC_MAN AND NOT "${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES}" MATCHES "(^|;)${base_name}\\.3(;|$)")
         WRAP_ITK_INSTALL(/Doc/man3 "${page}")
         set(ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES ${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES} "${base_name}.3" CACHE INTERNAL "man pages produced by doxygen and already installed")
       endif()
@@ -85,7 +85,7 @@ macro(itk_end_wrap_module_DOC)
       set(ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED "${ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED}           \"${header}\"\\\n")
     endforeach()
     set(ITK_WRAP_DOC_GENERATE_MAN "NO")
-    if(ITK_WRAP_DOC_MAN)
+    if(${module_prefix}_WRAP_DOC_MAN)
       set(ITK_WRAP_DOC_GENERATE_MAN "YES")
     endif()
     set(ITK_WRAP_DOC_LIBRARY_DIR "${library_doc_build_dir}")
@@ -95,7 +95,7 @@ macro(itk_end_wrap_module_DOC)
 
     # which files are produced?
     set(outputs ${ITK_WRAP_DOC_DOXYGEN_XML_FILES})
-    if(ITK_WRAP_DOC_MAN)
+    if(${module_prefix}_WRAP_DOC_MAN)
       list(APPEND outputs ${ITK_WRAP_DOC_DOXYGEN_PAGES})
     endif()
 

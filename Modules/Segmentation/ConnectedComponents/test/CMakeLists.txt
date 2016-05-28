@@ -20,7 +20,13 @@ itk_add_test(NAME itkRelabelComponentImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png
     itkRelabelComponentImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/RelabelComponentImageFilterTest.png 130 145)
 itk_add_test(NAME itkHardConnectedComponentImageFilterTest
-      COMMAND ITKConnectedComponentsTestDriver itkHardConnectedComponentImageFilterTest)
+      COMMAND ITKConnectedComponentsTestDriver
+    --compare DATA{Baseline/HardConnectedComponentImageFilterTest.png}
+      ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTestUnsignedChar.png
+    --compare DATA{Baseline/HardConnectedComponentImageFilterTest.png}
+      ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTestUnsignedShort.png
+    itkHardConnectedComponentImageFilterTest
+      ${ITK_TEST_OUTPUT_DIR}/HardConnectedComponentImageFilterTest)
 itk_add_test(NAME itkConnectedComponentImageFilterTestRGB
       COMMAND ITKConnectedComponentsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ConnectedComponentImageFilterTest.png,:}

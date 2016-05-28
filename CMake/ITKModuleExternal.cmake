@@ -1,7 +1,6 @@
 # This file ensures the appropriate variables are set up for a project extending
 # ITK before including ITKModuleMacros. This is the preferred way to build an
 # ITK module outside of the ITK source tree.
-
 if(NOT ITK_FOUND)
   message(FATAL_ERROR "ITK must be found before module macros can be used.")
 endif()
@@ -11,6 +10,9 @@ endif()
 if(NOT EXISTS ${ITK_CMAKE_DIR}/ITKModuleMacros.cmake)
   message(FATAL_ERROR "Modules can only be built against an ITK build tree; they cannot be built against an ITK install tree.")
 endif()
+
+# To hide dependent variables
+include( CMakeDependentOption )
 
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
@@ -87,40 +89,52 @@ if(${BUILD_TESTING} AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt"
   add_subdirectory(test)
 endif()
 
-option(ITK_WRAP_PYTHON "Build Python support" OFF)
-option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
-option(ITK_WRAP_RUBY "Build Ruby support (Currently not supported)" OFF)
-option(ITK_WRAP_PERL "Build Perl support (Currently not supported)" OFF)
-option(ITK_WRAP_TCL "Build Tcl support (Currently not supported)" OFF)
-option(ITK_WRAP_EXPLICIT "Build explicit instantiation support (Currently not supported)" OFF)
-option(ITK_WRAP_DOC "Build swig Doc wrapper support (Currently not supported in external builds)" OFF)
-option(ITK_WRAP_DOC_MAN "Generate unix manual pages (Currently not supported in external builds)" OFF)
-mark_as_advanced(
-  ITK_WRAP_CASTXML
-  ITK_WRAP_SWIG_INTERFACE
-  ITK_WRAP_JAVA
-  ITK_WRAP_RUBY
-  ITK_WRAP_PERL
-  ITK_WRAP_TCL
-  ITK_WRAP_EXPLICIT
-  )
-if(ITK_WRAPPING AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wrapping/CMakeLists.txt")
-  set(EXTERNAL_WRAP_ITK_PROJECT ON)
-  set(WRAP_ITK_CMAKE_DIR "${ITK_CMAKE_DIR}/../Wrapping")
-  include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
-  # Build tree
-  if(EXISTS "${ITK_CMAKE_DIR}/../Wrapping/CMakeLists.txt")
-    add_subdirectory("${ITK_CMAKE_DIR}/../Wrapping"
-      ${CMAKE_CURRENT_BINARY_DIR}/Wrapping)
-  # Install tree
-  elseif(EXISTS"${ITK_CMAKE_DIR}/Wrapping/CMakeLists.txt")
-    add_subdirectory("${ITK_CMAKE_DIR}/Wrapping"
-      ${CMAKE_CURRENT_BINARY_DIR}/Wrapping)
-  else()
-    message(FATAL_ERROR "Could not find wrapping infrastructure.")
+if(ITK_WRAPPING)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_PYTHON "Build Python support." ${ITK_WRAP_PYTHON}
+                       "ITK_WRAP_PYTHON" OFF)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_JAVA "Build Java support." ${ITK_WRAP_JAVA}
+                       "ITK_WRAP_JAVA" OFF)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_RUBY "Build Ruby support." ${ITK_WRAP_RUBY}
+                       "ITK_WRAP_RUBY" OFF)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_PERL "Build Perl support." ${ITK_WRAP_PERL}
+                       "ITK_WRAP_PERL" OFF)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_TCL "Build Tcl support." ${ITK_WRAP_TCL}
+                       "ITK_WRAP_TCL" OFF)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_EXPLICIT "Build Explicit support." OFF
+                       "ITK_WRAP_EXPLICIT" OFF)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_DOC "Build Doxygen support." OFF
+                       "ITK_WRAP_DOC" OFF)
+  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_DOC_MAN "Build man pages support." OFF
+                       "ITK_WRAP_DOC_MAN" OFF)
+  set(${itk-module}_WRAP_CASTXML ${ITK_WRAPPING})
+  set(${itk-module}_WRAP_SWIGINTERFACE ${ITK_WRAPPING})
+  if( (${itk-module}_WRAP_PYTHON OR
+       ${itk-module}_WRAP_JAVA OR
+       ${itk-module}_WRAP_RUBY OR
+       ${itk-module}_WRAP_PERL OR
+       ${itk-module}_WRAP_TCL OR
+       ${itk-module}_WRAP_EXPLICIT OR
+       ${itk-module}_WRAP_DOC OR
+       ${itk-module}_WRAP_DOC_MAN
+      )
+    AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wrapping/CMakeLists.txt"
+    )
+    set(EXTERNAL_WRAP_ITK_PROJECT ON)
+    set(WRAP_ITK_CMAKE_DIR "${ITK_CMAKE_DIR}/../Wrapping")
+    include("${WRAP_ITK_CMAKE_DIR}/TypedefMacros.cmake")
+    # Build tree
+    if(EXISTS "${ITK_CMAKE_DIR}/../Wrapping/CMakeLists.txt")
+      add_subdirectory("${ITK_CMAKE_DIR}/../Wrapping"
+        ${CMAKE_CURRENT_BINARY_DIR}/Wrapping)
+    # Install tree
+    elseif(EXISTS"${ITK_CMAKE_DIR}/Wrapping/CMakeLists.txt")
+      add_subdirectory("${ITK_CMAKE_DIR}/Wrapping"
+        ${CMAKE_CURRENT_BINARY_DIR}/Wrapping)
+    else()
+      message(FATAL_ERROR "Could not find wrapping infrastructure.")
+    endif()
   endif()
 endif()
-
 # Create target to download data from the ITKData group.  This must come after
 # all tests have been added that reference the group, so we put it last.
 if(NOT TARGET ITKData)
