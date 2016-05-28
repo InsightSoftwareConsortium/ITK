@@ -253,15 +253,14 @@ ResourceProbe< ValueType, MeanType >
   os << "Processor:           " << m_ProcessorName << std::endl;
   os << "    Cache:           " << m_ProcessorCacheSize << std::endl;
   os << "    Clock:           " << m_ProcessorClockFrequency << std::endl;
-  os << "    Cores:           " << m_NumberOfPhysicalCPU
-     << " cpus x " << m_NumberOfLogicalCPU
-     << " Cores = "<< m_NumberOfAvailableCore << std::endl;
+  os << "    Physical CPUs:   " << m_NumberOfPhysicalCPU << std::endl;
+  os << "    Logical CPUs:    " << m_NumberOfLogicalCPU << std::endl;
   // Retrieve memory information in megabyte.
   os << "    Virtual Memory:  Total: "
-     << m_TotalVirtualMemory
+     << std::left << std::setw( tabwidth ) << m_TotalVirtualMemory
      <<" Available: "<< m_AvailableVirtualMemory << std::endl;
-  os << "    Physical Memory: Total:"
-     << m_TotalPhysicalMemory
+  os << "    Physical Memory: Total: "
+     << std::left << std::setw( tabwidth ) << m_TotalPhysicalMemory
      <<" Available: "<< m_AvailablePhysicalMemory << std::endl;
 
   os << "OSName:              "<< m_OSName << std::endl;
@@ -380,13 +379,13 @@ ResourceProbe< ValueType, MeanType >
 ::PrintReportHead(std::ostream & os)
 {
   std::stringstream ss;
-  ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe(")+this->m_TypeString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Iteration"
-     << std::left << std::setw( tabwidth    ) << std::string("Total(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Min(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Mean(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Max(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Std(") + this->m_UnitString + std::string(")");
+  ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (")+this->m_TypeString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << "Iterations"
+     << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
 
   os << ss.str() << std::endl;
 }
@@ -398,18 +397,18 @@ ResourceProbe< ValueType, MeanType >
 ::PrintExpandedReportHead(std::ostream & os)
 {
   std::stringstream ss;
-  ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe(") + this->m_TypeString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Iteration"
-     << std::left << std::setw( tabwidth    ) << std::string("Total(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Min(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Mean-Min(diff)"
-     << std::left << std::setw( tabwidth    ) << "Mean/Min(%)"
-     << std::left << std::setw( tabwidth    ) << std::string("Mean(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Max-Mean(diff)"
-     << std::left << std::setw( tabwidth    ) << "Max/Mean(%)"
-     << std::left << std::setw( tabwidth    ) << std::string("Max(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Total Diff(") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Std(") + this->m_UnitString + std::string(")");
+  ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << "Iterations"
+     << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << "Mean-Min (diff)"
+     << std::left << std::setw( tabwidth    ) << "Mean/Min (%)"
+     << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << "Max-Mean (diff)"
+     << std::left << std::setw( tabwidth    ) << "Max/Mean (%)"
+     << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << std::string("Total Diff (") + this->m_UnitString + std::string(")")
+     << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
 
   os << ss.str() << std::endl;
 }
@@ -431,7 +430,6 @@ ResourceProbe< ValueType, MeanType >
   m_ProcessorClockFrequency = systeminfo.GetProcessorClockFrequency();
   m_NumberOfPhysicalCPU     = systeminfo.GetNumberOfPhysicalCPU();
   m_NumberOfLogicalCPU      = systeminfo.GetNumberOfLogicalCPU();
-  m_NumberOfAvailableCore   = m_NumberOfPhysicalCPU*m_NumberOfLogicalCPU;
 
   m_OSName                  = systeminfo.GetOSName();
   m_OSRelease               = systeminfo.GetOSRelease();
