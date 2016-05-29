@@ -148,8 +148,7 @@ LabelStatisticsImageFilter< TInputImage, TLabelImage >
         }
 
       //bounding box is min,max pairs
-      int dimension = static_cast<int>( labelStats.m_BoundingBox.size() ) / 2;
-      for ( int ii = 0; ii < ( dimension * 2 ); ii += 2 )
+      for ( unsigned int ii = 0; ii < ( ImageDimension * 2 ); ii += 2 )
         {
         if ( labelStats.m_BoundingBox[ii] > ( *threadIt ).second.m_BoundingBox[ii] )
           {

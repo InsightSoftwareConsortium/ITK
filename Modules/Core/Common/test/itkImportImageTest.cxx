@@ -20,6 +20,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkShrinkImageFilter.h"
 #include "itkImportImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkImportImageTest( int, char* [] )
 {
@@ -29,7 +30,6 @@ int itkImportImageTest( int, char* [] )
     {
     rawImage[i] = i;
     }
-
   // typdefs to simplify the syntax
   const unsigned int Dimension = 2;
   typedef short PixelType;
@@ -38,24 +38,52 @@ int itkImportImageTest( int, char* [] )
   typedef itk::Image< PixelType, Dimension >             ShortImage;
 
   // Create an ImportImageFilter filter
-  ImportImageFilter::Pointer import;
-  import = ImportImageFilter::New();
+  ImportImageFilter::Pointer basicImport = ImportImageFilter::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( basicImport, ImportImageFilter, ImageSource );
+
+  ShortImage::Pointer image;
   itk::ImageRegion< Dimension > region;
   itk::ImageRegion< Dimension >::IndexType  index = {{0, 0}};
   itk::ImageRegion< Dimension >::SizeType    size = {{8, 12}};
-
-  region.SetSize( size );
   region.SetIndex( index );
+  region.SetSize( size );
+  //local scope to make sure that imported data is not deleted with ImportImageFilter
+  // but with the ImportImageContainer is creates.
+    {
+    // Create an ImportImageFilter filter
+    ImportImageFilter::Pointer import;
+    import = ImportImageFilter::New();
 
-  import->SetRegion( region );
-  import->SetImportPointer( rawImage, 8*12, true );
+    // Test the SetVectorMacros and GetVectorMacros
+    const itk::SpacePrecisionType data[2] = { 1.0, 1.0 };
+    import->SetSpacing(data);
 
+    const float data2[2] = { 1.0, 1.0 };
+    import->SetSpacing(data2);
+
+    const itk::SpacePrecisionType * spacingValue = import->GetSpacing().GetDataPointer();
+    std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
+
+    const double data3[2] = { 1.0, 1.0 };
+    import->SetOrigin(data3);
+
+    const float data4[2] = { 1.0, 1.0 };
+    import->SetOrigin(data4);
+
+    const itk::SpacePrecisionType * originValue = import->GetOrigin().GetDataPointer();
+    std::cout << "import->GetOrigin(): " << originValue << std::endl;
+
+    import->SetRegion( region );
+    import->SetImportPointer( rawImage, 8 * 12, true );
+    import->Update();
+    image = import->GetOutput();
+    }
   // Create another filter
   itk::ShrinkImageFilter< ImportImageFilter::OutputImageType, ShortImage >::Pointer shrink =
     itk::ShrinkImageFilter< ImportImageFilter::OutputImageType, ShortImage >::New();
 
-  shrink->SetInput( import->GetOutput() );
+  shrink->SetInput( image );
   shrink->SetShrinkFactors(2); // Also tested with factors 3 and 4, with 12x12 image
   try
     {
@@ -66,25 +94,6 @@ int itkImportImageTest( int, char* [] )
     std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
     }
-
-  // Test the SetVectorMacros and GetVectorMacros
-  const itk::SpacePrecisionType data[2] = {1.0, 1.0};
-  import->SetSpacing(data);
-
-  const float data2[2] = {1.0, 1.0};
-  import->SetSpacing(data2);
-
-  const itk::SpacePrecisionType * spacingValue = import->GetSpacing().GetDataPointer();
-  std::cout << "import->GetSpacing(): " << spacingValue << std::endl;
-
-  const double data3[2] = {1.0, 1.0};
-  import->SetOrigin(data3);
-
-  const float data4[2] = {1.0, 1.0};
-  import->SetOrigin(data4);
-
-  const itk::SpacePrecisionType * originValue = import->GetOrigin().GetDataPointer();
-  std::cout << "import->GetOrigin(): " << originValue << std::endl;
 
   //
   // The rest of this code determines whether the shrink code produced
@@ -126,6 +135,5 @@ int itkImportImageTest( int, char* [] )
     std::cout << "ImportImageFilter test failed." << std::endl;
     return EXIT_FAILURE;
     }
-
 
 }

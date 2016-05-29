@@ -57,7 +57,8 @@ int itkTransformFileWriterTest( int argc, char *argv[] )
     }
   catch(itk::ExceptionObject &excp)
     {
-    std::cerr << "Expected exception (no transformio that can write file)"
+
+    std::cerr << "Expected exception (no transformio that can write garbage and no transformio should be registered)"
               << excp << std::endl;
     }
 

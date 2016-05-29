@@ -17,5 +17,5 @@ A more detailed description can be found in the Insight Journal article:
 http://www.insight-journal.org/browse/publication/213
 "
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKCuberille.git
-  GIT_TAG 077b6b14683bc7352020a2c7f9a3c39f7a953997
+  GIT_TAG 7c703ada7854478d8938e13efb860596b948c6c0
   )

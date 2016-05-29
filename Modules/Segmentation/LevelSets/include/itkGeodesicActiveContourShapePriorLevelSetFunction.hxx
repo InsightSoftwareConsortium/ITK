@@ -26,24 +26,19 @@
 
 namespace itk
 {
-/**
- * Calculate the speed image.
- */
+
 template< typename TImageType, typename TFeatureImageType >
 void
 GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {
-  /* copy the feature image into the speed image */
+  // Copy the feature image into the speed image
   ImageAlgorithm::Copy( this->GetFeatureImage(),
                         this->GetSpeedImage(),
                         this->GetFeatureImage()->GetRequestedRegion(),
                         this->GetFeatureImage()->GetRequestedRegion() );
 }
 
-/**
- * Calculate the advection speed image
- */
 template< typename TImageType, typename TFeatureImageType >
 void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateAdvectionImage()
@@ -53,7 +48,7 @@ void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageT
 
   if ( Math::NotExactlyEquals(m_DerivativeSigma, NumericTraits< double >::ZeroValue()) )
   {
-    /* compute the gradient of the feature image. */
+    // Compute the gradient of the feature image
     typedef GradientRecursiveGaussianImageFilter< FeatureImageType, VectorImageType >
     DerivativeFilterType;
 
@@ -83,7 +78,7 @@ void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageT
     gradientImage = caster->GetOutput();
   }
 
-  /* copy negative gradient into the advection image. */
+  // Copy negative gradient into the advection image
   ImageRegionIterator< VectorImageType >
   dit( gradientImage, this->GetFeatureImage()->GetRequestedRegion() );
   ImageRegionIterator< VectorImageType >
@@ -99,6 +94,16 @@ void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageT
     ait.Set(v);
     }
 }
+
+template< typename TImageType, typename TFeatureImageType >
+void GeodesicActiveContourShapePriorLevelSetFunction< TImageType, TFeatureImageType >
+::PrintSelf( std::ostream & os, Indent indent ) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
+}
+
 } // end namespace itk
 
 #endif

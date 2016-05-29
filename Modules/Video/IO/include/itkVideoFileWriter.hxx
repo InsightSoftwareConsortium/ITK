@@ -28,11 +28,6 @@
 namespace itk
 {
 
-//-CONSTRUCTOR DESTRUCTOR PRINT------------------------------------------------
-
-//
-// Constructor
-//
 template< typename TInputVideoStream >
 VideoFileWriter< TInputVideoStream >
 ::VideoFileWriter() :
@@ -49,10 +44,6 @@ VideoFileWriter< TInputVideoStream >
   this->TemporalProcessObject::m_InputStencilCurrentFrameIndex = 0;
 }
 
-
-//
-// Destructor
-//
 template< typename TInputVideoStream >
 VideoFileWriter< TInputVideoStream >
 ::~VideoFileWriter()
@@ -60,30 +51,6 @@ VideoFileWriter< TInputVideoStream >
   this->FinishWriting();
 }
 
-
-//
-// PrintSelf
-//
-template< typename TInputVideoStream >
-void
-VideoFileWriter< TInputVideoStream >
-::PrintSelf(std::ostream &os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "FileName: " << m_FileName << std::endl;
-  if (!m_VideoIO.IsNull())
-    {
-    os << indent << "VideoIO:" << std::endl;
-    m_VideoIO->Print(os, indent.GetNextIndent());
-    }
-}
-
-//-PUBLIC METHODS--------------------------------------------------------------
-
-//
-// SetInput
-//
 template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
@@ -92,9 +59,6 @@ VideoFileWriter< TInputVideoStream >
   this->ProcessObject::SetNthInput(0, const_cast<VideoStreamType*>(input));
 }
 
-//
-// GetInput
-//
 template< typename TInputVideoStream >
 const typename VideoFileWriter< TInputVideoStream >::VideoStreamType*
 VideoFileWriter< TInputVideoStream >
@@ -108,10 +72,6 @@ VideoFileWriter< TInputVideoStream >
   return static_cast<VideoStreamType*>(this->ProcessObject::GetInput(0));
 }
 
-
-//
-// SetVideoIO
-//
 template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
@@ -120,10 +80,6 @@ VideoFileWriter< TInputVideoStream >
   m_VideoIO = videoIO;
 }
 
-
-//
-// Write
-//
 template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
@@ -237,10 +193,6 @@ VideoFileWriter< TInputVideoStream >
   this->FinishWriting();
 }
 
-
-//
-// FinishWriting
-//
 template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
@@ -252,9 +204,6 @@ VideoFileWriter< TInputVideoStream >
     }
 }
 
-//
-// Update
-//
 template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
@@ -263,9 +212,6 @@ VideoFileWriter< TInputVideoStream >
   this->Write();
 }
 
-//
-// UpdateLargestPossibleRegion
-//
 template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
@@ -280,12 +226,6 @@ VideoFileWriter< TInputVideoStream >
   this->Write();
 }
 
-
-//-PROTECTED METHODS-----------------------------------------------------------
-
-//
-// TemporalStreamingGenerateData
-//
 template< typename TInputVideoStream >
 void
 VideoFileWriter< TInputVideoStream >
@@ -311,9 +251,6 @@ VideoFileWriter< TInputVideoStream >
   m_VideoIO->Write(static_cast<const void*>(frame->GetBufferPointer()));
 }
 
-//
-// InitializeOutputParameters
-//
 template< typename TInputVideoStream >
 bool
 VideoFileWriter< TInputVideoStream >
@@ -348,10 +285,6 @@ VideoFileWriter< TInputVideoStream >
   return true;
 }
 
-
-//
-// InitializeVideoIO
-//
 template< typename TInputVideoStream >
 bool
 VideoFileWriter< TInputVideoStream >
@@ -378,6 +311,21 @@ VideoFileWriter< TInputVideoStream >
   else
     {
     return false;
+    }
+}
+
+template< typename TInputVideoStream >
+void
+VideoFileWriter< TInputVideoStream >
+::PrintSelf(std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FileName: " << this->m_FileName << std::endl;
+  if (!m_VideoIO.IsNull())
+    {
+    os << indent << "VideoIO:" << std::endl;
+   this->m_VideoIO->Print(os, indent.GetNextIndent());
     }
 }
 

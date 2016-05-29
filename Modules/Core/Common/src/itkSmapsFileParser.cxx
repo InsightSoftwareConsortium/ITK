@@ -482,7 +482,7 @@ std::istream & operator>>(std::istream & stream, VMMapData_10_2 & data)
       {
       record = new VMMapSummaryRecord;
       // parse each line of the Smaps file and fill the record vector.
-      while ( stream >> *dynamic_cast< VMMapSummaryRecord * >( record ) )
+      while ( stream >> *static_cast< VMMapSummaryRecord * >( record ) )
         {
         if ( record->m_RecordName.empty() )
           {

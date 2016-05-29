@@ -26,6 +26,7 @@
 #define itkHDF5ImageIO_h
 #include "ITKIOHDF5Export.h"
 
+#include "itkAutoPointer.h"
 
 // itk namespace first suppresses
 // kwstyle error for the H5 namespace below
@@ -83,19 +84,19 @@ class MetaDataDictionary;
  *
  */
 
-class ITKIOHDF5_EXPORT HDF5ImageIO:public StreamingImageIOBase
+class ITKIOHDF5_EXPORT HDF5ImageIO: public StreamingImageIOBase
 {
 public:
   /** Standard class typedefs. */
   typedef HDF5ImageIO          Self;
-  typedef ImageIOBase          Superclass;
+  typedef StreamingImageIOBase Superclass;
   typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HDF5ImageIO, Superclass);
+  itkTypeMacro(HDF5ImageIO, StreamingImageIOBase);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -187,6 +188,9 @@ private:
                        unsigned long numElements);
   void SetupStreaming(H5::DataSpace *imageSpace,
                       H5::DataSpace *slabSpace);
+
+  void CloseH5File();
+
   H5::H5File  *m_H5File;
   H5::DataSet *m_VoxelDataSet;
   bool         m_ImageInformationWritten;
