@@ -109,6 +109,10 @@ public:
    *  of the probe. */
   virtual ValueType GetStandardDeviation();
 
+  /** Returns the standard deviation value changes between the starts and stops
+   *  of the probe. */
+  virtual ValueType GetStandardError();
+
   /** Set name of probe */
   virtual void SetNameOfProbe(const char* nameOfProbe);
 
@@ -147,6 +151,7 @@ private:
   ValueType                  m_MaximumValue;
   MeanType                   m_MeanValue;
   ValueType                  m_StandardDeviation;
+  ValueType                  m_StandardError;
 
   CountType                  m_NumberOfStarts;
   CountType                  m_NumberOfStops;
