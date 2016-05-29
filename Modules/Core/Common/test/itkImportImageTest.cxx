@@ -22,26 +22,32 @@
 #include "itkImportImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkImportImageTest(int, char* [] )
+int itkImportImageTest( int, char* [] )
 {
   // Create a C-array to hold an image
   short *rawImage = new short[8*12];
-  for (int i=0; i < 8*12; i++)
+  for (unsigned int i = 0; i < 8*12; ++i)
     {
     rawImage[i] = i;
     }
   // typdefs to simplify the syntax
-  typedef itk::ImportImageFilter<short, 2> ImportImageFilter;
-  typedef itk::Image<short, 2>             ShortImage;
+  const unsigned int Dimension = 2;
+  typedef short PixelType;
+
+  typedef itk::ImportImageFilter< PixelType, Dimension > ImportImageFilter;
+  typedef itk::Image< PixelType, Dimension >             ShortImage;
+
   // Create an ImportImageFilter filter
   ImportImageFilter::Pointer basicImport = ImportImageFilter::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( basicImport, ImportImageFilter, ImageSource );
 
   ShortImage::Pointer image;
-  itk::ImageRegion<2>         region;
-  itk::ImageRegion<2>::IndexType  index = { { 0, 0 } };
-  itk::ImageRegion<2>::SizeType   size = { { 8, 12 } };
+  itk::ImageRegion< Dimension > region;
+  itk::ImageRegion< Dimension >::IndexType  index = {{0, 0}};
+  itk::ImageRegion< Dimension >::SizeType    size = {{8, 12}};
+  region.SetIndex( index );
+  region.SetSize( size );
   //local scope to make sure that imported data is not deleted with ImportImageFilter
   // but with the ImportImageContainer is creates.
     {
@@ -68,26 +74,24 @@ int itkImportImageTest(int, char* [] )
     const itk::SpacePrecisionType * originValue = import->GetOrigin().GetDataPointer();
     std::cout << "import->GetOrigin(): " << originValue << std::endl;
 
-    region.SetSize(size);
-    region.SetIndex(index);
-
-    import->SetRegion(region);
-    import->SetImportPointer(rawImage, 8 * 12, true);
+    import->SetRegion( region );
+    import->SetImportPointer( rawImage, 8 * 12, true );
     import->Update();
     image = import->GetOutput();
     }
   // Create another filter
-  itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage >::Pointer shrink;
-  shrink = itk::ShrinkImageFilter<ImportImageFilter::OutputImageType, ShortImage>::New();
+  itk::ShrinkImageFilter< ImportImageFilter::OutputImageType, ShortImage >::Pointer shrink =
+    itk::ShrinkImageFilter< ImportImageFilter::OutputImageType, ShortImage >::New();
+
   shrink->SetInput( image );
-  shrink->SetShrinkFactors(2); //Also tested with factors 3 and 4, with 12x12 image
+  shrink->SetShrinkFactors(2); // Also tested with factors 3 and 4, with 12x12 image
   try
     {
     shrink->Update();
     }
   catch (itk::ExceptionObject& e)
     {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+    std::cerr << "Exception detected: " << e.GetDescription();
     return EXIT_FAILURE;
     }
 
@@ -111,7 +115,7 @@ int itkImportImageTest(int, char* [] )
             (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1]/2) +
                                     (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1]))))))
       {
-         std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() <<  " " << iterator2.Get()
+         std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() << " " << iterator2.Get()
                    << " compare value " << itk::Math::RoundHalfIntegerUp<short>(
             static_cast<float>( (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] +
                                  shrink->GetShrinkFactors()[0]/2) +
