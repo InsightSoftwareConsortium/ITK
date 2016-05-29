@@ -26,11 +26,6 @@
 namespace itk
 {
 
-//-CONSTRUCTOR DESTRUCTOR PRINT------------------------------------------------
-
-//
-// Constructor
-//
 template< typename TOutputVideoStream >
 VideoFileReader< TOutputVideoStream >
 ::VideoFileReader()
@@ -47,39 +42,13 @@ VideoFileReader< TOutputVideoStream >
   this->SetInputStencilCurrentFrameIndex(0);
 }
 
-
-//
-// Destructor
-//
 template< typename TOutputVideoStream >
 VideoFileReader< TOutputVideoStream >
 ::~VideoFileReader()
-{}
-
-
-//
-// PrintSelf
-//
-template< typename TOutputVideoStream >
-void
-VideoFileReader< TOutputVideoStream >
-::PrintSelf(std::ostream &os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << m_FileName << std::endl;
-  if (m_VideoIO)
-    {
-    os << indent << "VideoIO:" << std::endl;
-    m_VideoIO->Print(os, indent.GetNextIndent());
-    }
 }
 
-//-PUBLIC METHODS--------------------------------------------------------------
-
-//
-// GenerateOutputInformation
-//
 template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
@@ -156,9 +125,6 @@ VideoFileReader< TOutputVideoStream >
   output->SetAllFramesDirection(direction);
 }
 
-//
-// GetCurrentPositionFrame
-//
 template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::FrameOffsetType
 VideoFileReader< TOutputVideoStream >
@@ -171,10 +137,6 @@ VideoFileReader< TOutputVideoStream >
   return m_VideoIO->GetCurrentFrame();
 }
 
-
-//
-// GetCurrentPositionRatio
-//
 template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
 VideoFileReader< TOutputVideoStream >
@@ -187,10 +149,6 @@ VideoFileReader< TOutputVideoStream >
   return m_VideoIO->GetRatio();
 }
 
-
-//
-// GetCurrentPositionMSec
-//
 template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
 VideoFileReader< TOutputVideoStream >
@@ -203,10 +161,6 @@ VideoFileReader< TOutputVideoStream >
   return m_VideoIO->GetPositionInMSec();
 }
 
-
-//
-// GetNumberOfFrames
-//
 template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::FrameOffsetType
 VideoFileReader< TOutputVideoStream >
@@ -219,10 +173,6 @@ VideoFileReader< TOutputVideoStream >
   return m_VideoIO->GetFrameTotal();
 }
 
-
-//
-// GetFramesPerSecond
-//
 template< typename TOutputVideoStream >
 typename VideoFileReader<TOutputVideoStream>::TemporalRatioType
 VideoFileReader< TOutputVideoStream >
@@ -235,12 +185,6 @@ VideoFileReader< TOutputVideoStream >
   return m_VideoIO->GetFramesPerSecond();
 }
 
-
-//-PROTECTED METHODS-----------------------------------------------------------
-
-//
-// InitializeVideoIO
-//
 template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
@@ -287,10 +231,6 @@ VideoFileReader< TOutputVideoStream >
     }
 }
 
-
-//
-// TemporalStreamingGenerateData
-//
 template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >
@@ -337,10 +277,6 @@ VideoFileReader< TOutputVideoStream >
   this->Modified();
 }
 
-
-//
-// DoConvertBuffer (much borrowed from itkImageFileReader)
-//
 template< typename TOutputVideoStream >
 void
 VideoFileReader< TOutputVideoStream >::
@@ -420,6 +356,21 @@ DoConvertBuffer(void* inputData, FrameOffsetType frameNumber)
     }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
 
+}
+
+template< typename TOutputVideoStream >
+void
+VideoFileReader< TOutputVideoStream >
+::PrintSelf(std::ostream &os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FileName: " << this->m_FileName << std::endl;
+  if (m_VideoIO)
+    {
+    os << indent << "VideoIO:" << std::endl;
+    this->m_VideoIO->Print(os, indent.GetNextIndent());
+    }
 }
 
 } // end namespace itk

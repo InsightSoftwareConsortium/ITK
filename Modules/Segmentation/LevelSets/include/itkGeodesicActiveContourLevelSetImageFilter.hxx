@@ -27,13 +27,13 @@ template< typename TInputImage, typename TFeatureImage, typename TOutputType >
 GeodesicActiveContourLevelSetImageFilter< TInputImage, TFeatureImage, TOutputType >
 ::GeodesicActiveContourLevelSetImageFilter()
 {
-  /* Instantiate a geodesic active contour function and set it as the
-    segmentation function. */
+  // Instantiate a geodesic active contour function and set it as the
+  // segmentation function
   m_GeodesicActiveContourFunction = GeodesicActiveContourFunctionType::New();
 
   this->SetSegmentationFunction(m_GeodesicActiveContourFunction);
 
-  /* Turn off interpolation. */
+  // Turn off interpolation
   this->InterpolateSurfaceLocationOff();
 }
 

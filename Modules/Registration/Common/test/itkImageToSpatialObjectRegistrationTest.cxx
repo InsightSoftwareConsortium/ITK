@@ -204,7 +204,7 @@ private:
 
 
 /** test */
-int itkSpatialObjectToImageRegistrationTest(int, char* [] )
+int itkImageToSpatialObjectRegistrationTest(int, char* [] )
 {
   typedef itk::GroupSpatialObject<2>   GroupType;
   typedef itk::EllipseSpatialObject<2> EllipseType;
@@ -266,6 +266,9 @@ int itkSpatialObjectToImageRegistrationTest(int, char* [] )
 
   typedef itk::ImageToSpatialObjectRegistrationMethod<ImageType,GroupType>  RegistrationType;
   RegistrationType::Pointer registration = RegistrationType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( registration, ImageToSpatialObjectRegistrationMethod,
+    ProcessObject );
 
   typedef itk::SimpleImageToSpatialObjectMetric<ImageType,GroupType> MetricType;
   MetricType::Pointer metric = MetricType::New();

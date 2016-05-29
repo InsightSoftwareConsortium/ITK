@@ -319,6 +319,11 @@ int HDF5ReadWriteTest(const char *fileName)
       }
     }
 
+  itk::HDF5ImageIO::Pointer io = itk::HDF5ImageIO::New();
+  io->SetFileName( fileName );
+  io->ReadImageInformation();
+  // Ensure there are no memory leaks
+  io->ReadImageInformation();
   return success;
 }
 

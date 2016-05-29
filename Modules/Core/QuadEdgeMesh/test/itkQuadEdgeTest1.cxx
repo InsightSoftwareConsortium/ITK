@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkAutoPointer.h"
 #include "itkQuadEdge.h"
 #include <iostream>
 
@@ -23,11 +24,21 @@ int itkQuadEdgeTest1( int , char* [] )
 {
   typedef itk::QuadEdge        QuadEdgeType;
 
+  // Throughout the tests, create AutoPointers to manage the lifetimes of
+  // QuadEdgeType instances. The AutoPointers are created in addition to the raw
+  // pointers. This avoids the need to call GetPointer() in every comparison.
+  typedef itk::AutoPointer< QuadEdgeType > QuadEdgeTypePointer;
+
   // Tests for the GetRot() SetRot() methods
     { // create a local scope for these tests
     QuadEdgeType * quadEdge1 = new QuadEdgeType;
     QuadEdgeType * quadEdge2 = new QuadEdgeType;
     QuadEdgeType * quadEdge3 = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
     quadEdge1->GetRot(); // testing null case
@@ -61,16 +72,15 @@ int itkQuadEdgeTest1( int , char* [] )
       }
 
     std::cout << "GetRot()/SetRot() Test passed ! " << std::endl;
-
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
     } // end of local scope for tests
 
     // Tests for the GetOnext() SetOnext() methods
     { // create a local scope for these tests
     QuadEdgeType * quadEdge1 = new QuadEdgeType;
     QuadEdgeType * quadEdge2 = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -81,8 +91,6 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1->GetOnext() != quadEdge2 )
       {
       std::cerr << "Error in SetOnext() / GetOnext() " << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
       return EXIT_FAILURE;
       }
 
@@ -90,21 +98,18 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1c->GetOnext() != quadEdge2 )
       {
       std::cerr << "Error in const GetOnext() " << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
       return EXIT_FAILURE;
       }
 
     // Verify that it can be changed.
     QuadEdgeType * quadEdge3 = new QuadEdgeType;
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+
     quadEdge1->SetOnext( quadEdge3 );
 
     if( quadEdge1->GetOnext() != quadEdge3 )
       {
       std::cerr << "Error in changing SetOnext() / GetOnext() " << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
-      delete quadEdge3;
       return EXIT_FAILURE;
       }
 
@@ -112,17 +117,10 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1c->GetOnext() != quadEdge3 )
       {
       std::cerr << "Error changed const GetOnext() " << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
-      delete quadEdge3;
       return EXIT_FAILURE;
       }
 
     std::cout << "GetOnext()/SetOnext() Test passed ! " << std::endl;
-
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
     } // end of local scope for tests
 
     // Tests for the GetSym() methods
@@ -131,6 +129,12 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdge2 = new QuadEdgeType;
     QuadEdgeType * quadEdge3 = new QuadEdgeType;
     QuadEdgeType * quadEdge4 = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
     const QuadEdgeType * quadEdge1c = quadEdge1;
     const QuadEdgeType * quadEdge2c = quadEdge2;
     const QuadEdgeType * quadEdge3c = quadEdge3;
@@ -203,11 +207,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
     std::cout << "GetSym()   Test passed ! " << std::endl;
     }
 
@@ -221,6 +220,14 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdge4 = new QuadEdgeType;
     QuadEdgeType * quadEdgeA = new QuadEdgeType;
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
 #ifndef NDEBUG
@@ -280,13 +287,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-    delete quadEdgeA;
-    delete quadEdgeB;
-
     std::cout << "GetLnext() Test passed ! " << std::endl;
     }
 
@@ -299,6 +299,14 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdge4 = new QuadEdgeType;
     QuadEdgeType * quadEdgeA = new QuadEdgeType;
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+
     const QuadEdgeType * quadEdgeAc = quadEdgeA;
 
 #ifndef NDEBUG
@@ -333,12 +341,6 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1->GetRnext() || quadEdge1c->GetRnext( ) )
       {
       std::cerr << "Error in GetRnext()" << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
-      delete quadEdge3;
-      delete quadEdge4;
-      delete quadEdgeA;
-      delete quadEdgeB;
       return EXIT_FAILURE;
       }
 #endif
@@ -349,40 +351,22 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1->GetRnext() || quadEdge1c->GetRnext( ) )
       {
       std::cerr << "Error in GetRnext()" << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
-      delete quadEdge3;
-      delete quadEdge4;
-      delete quadEdgeA;
-      delete quadEdgeB;
       return EXIT_FAILURE;
       }
 #endif
 
-    bool quadEdgeError = false;
     quadEdgeA->SetRot( quadEdgeB );
 
     if( quadEdgeA->GetRnext() != quadEdge1 )
       {
       std::cerr << "Error in GetRnext()" << std::endl;
-      quadEdgeError = true;
+      return EXIT_FAILURE;
       }
-    else if( quadEdgeAc->GetRnext() != quadEdge1 )
+
+    if( quadEdgeAc->GetRnext() != quadEdge1 )
       {
       std::cerr << "Error in const GetRnext()" << std::endl;
-      quadEdgeError = true;
-      }
-
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-    delete quadEdgeA;
-    delete quadEdgeB;
-
-    if( quadEdgeError )
-      {
-        return EXIT_FAILURE;
+      return EXIT_FAILURE;
       }
 
     std::cout << "GetRnext() Test passed ! " << std::endl;
@@ -401,6 +385,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -462,16 +456,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetDnext() Test passed ! " << std::endl;
     }
 
@@ -489,6 +473,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -551,16 +545,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetOprev() Test passed ! " << std::endl;
     }
 
@@ -577,6 +561,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -631,16 +625,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetLprev() Test passed ! " << std::endl;
     }
 
@@ -657,6 +641,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -712,16 +706,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetRprev() Test passed ! " << std::endl;
     }
 
@@ -739,6 +723,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -801,16 +795,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetDprev() Test passed ! " << std::endl;
     }
 
@@ -820,6 +804,11 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdge2 = new QuadEdgeType;
     QuadEdgeType * quadEdge3 = new QuadEdgeType;
     QuadEdgeType * quadEdge4 = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -870,11 +859,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
     std::cout << "GetInvRot() Test passed ! " << std::endl;
     }
 
@@ -891,6 +875,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -934,16 +928,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetInvOnext() Test passed ! " << std::endl;
     }
 
@@ -959,6 +943,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1001,16 +995,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetInvLnext() Test passed ! " << std::endl;
     }
 
@@ -1026,6 +1010,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1068,16 +1062,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetInvRnext() Test passed ! " << std::endl;
     }
 
@@ -1094,6 +1078,16 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeB = new QuadEdgeType;
     QuadEdgeType * quadEdgeC = new QuadEdgeType;
     QuadEdgeType * quadEdgeD = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
+    QuadEdgeTypePointer quadEdgeBp(quadEdgeB, true);
+    QuadEdgeTypePointer quadEdgeCp(quadEdgeC, true);
+    QuadEdgeTypePointer quadEdgeDp(quadEdgeD, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1136,16 +1130,6 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-
-    delete quadEdgeA;
-    delete quadEdgeB;
-    delete quadEdgeC;
-    delete quadEdgeD;
-
     std::cout << "GetInvDnext() Test passed ! " << std::endl;
     }
 
@@ -1155,6 +1139,10 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdge1 = new QuadEdgeType;
     QuadEdgeType * quadEdge2 = new QuadEdgeType;
     QuadEdgeType * quadEdgeA = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdgeAp(quadEdgeA, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1188,16 +1176,13 @@ int itkQuadEdgeTest1( int , char* [] )
       return EXIT_FAILURE;
       }
 
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdgeA;
-
     std::cout << "IsHalfEdge() Test passed ! " << std::endl;
     }
 
     // Tests for the IsIsolated() method
     { // create a local scope for these tests
     QuadEdgeType * quadEdge1 = new QuadEdgeType;
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
     if( quadEdge1c->IsIsolated() != true )
@@ -1208,13 +1193,13 @@ int itkQuadEdgeTest1( int , char* [] )
       }
 
     QuadEdgeType * quadEdge2 = new QuadEdgeType;
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+
     quadEdge1->SetOnext( quadEdge2 );
 
     if( quadEdge1c->IsIsolated() != false )
       {
       std::cerr << "Error in IsIsolated() B" << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
       return EXIT_FAILURE;
       }
 
@@ -1223,13 +1208,8 @@ int itkQuadEdgeTest1( int , char* [] )
     if( quadEdge1c->IsIsolated() != true )
       {
       std::cerr << "Error in IsIsolated() C" << std::endl;
-      delete quadEdge1;
-      delete quadEdge2;
       return EXIT_FAILURE;
       }
-
-    delete quadEdge1;
-    delete quadEdge2;
 
     std::cout << "IsIsolated() Test passed ! " << std::endl;
     }
@@ -1242,6 +1222,13 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdge4 = new QuadEdgeType;
     QuadEdgeType * quadEdge5 = new QuadEdgeType;
     QuadEdgeType * quadEdge6 = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdge1p(quadEdge1, true);
+    QuadEdgeTypePointer quadEdge2p(quadEdge2, true);
+    QuadEdgeTypePointer quadEdge3p(quadEdge3, true);
+    QuadEdgeTypePointer quadEdge4p(quadEdge4, true);
+    QuadEdgeTypePointer quadEdge5p(quadEdge5, true);
+    QuadEdgeTypePointer quadEdge6p(quadEdge6, true);
 
     const QuadEdgeType * quadEdge1c = quadEdge1;
 
@@ -1276,13 +1263,6 @@ int itkQuadEdgeTest1( int , char* [] )
       std::cerr << "Error in IsEdgeInOnextRing() C" << std::endl;
       return EXIT_FAILURE;
       }
-
-    delete quadEdge1;
-    delete quadEdge2;
-    delete quadEdge3;
-    delete quadEdge4;
-    delete quadEdge5;
-    delete quadEdge6;
 
     std::cout << "IsEdgeInOnextRing() Test passed ! " << std::endl;
     } // end of local scope for tests
@@ -1322,6 +1302,21 @@ int itkQuadEdgeTest1( int , char* [] )
     QuadEdgeType * quadEdgeC2 = new QuadEdgeType;
     QuadEdgeType * quadEdgeC3 = new QuadEdgeType;
     QuadEdgeType * quadEdgeC4 = new QuadEdgeType;
+
+    QuadEdgeTypePointer quadEdgeA1p(quadEdgeA1, true);
+    QuadEdgeTypePointer quadEdgeA2p(quadEdgeA2, true);
+    QuadEdgeTypePointer quadEdgeA3p(quadEdgeA3, true);
+    QuadEdgeTypePointer quadEdgeA4p(quadEdgeA4, true);
+
+    QuadEdgeTypePointer quadEdgeB1p(quadEdgeB1, true);
+    QuadEdgeTypePointer quadEdgeB2p(quadEdgeB2, true);
+    QuadEdgeTypePointer quadEdgeB3p(quadEdgeB3, true);
+    QuadEdgeTypePointer quadEdgeB4p(quadEdgeB4, true);
+
+    QuadEdgeTypePointer quadEdgeC1p(quadEdgeC1, true);
+    QuadEdgeTypePointer quadEdgeC2p(quadEdgeC2, true);
+    QuadEdgeTypePointer quadEdgeC3p(quadEdgeC3, true);
+    QuadEdgeTypePointer quadEdgeC4p(quadEdgeC4, true);
 
     const QuadEdgeType * quadEdgeA1c = quadEdgeA1;
     const QuadEdgeType * quadEdgeB1c = quadEdgeB1;
@@ -1434,21 +1429,6 @@ int itkQuadEdgeTest1( int , char* [] )
       std::cerr << "Error in IsLnextGivenSizeCyclic() C" << std::endl;
       return EXIT_FAILURE;
       }
-
-    delete quadEdgeA1;
-    delete quadEdgeA2;
-    delete quadEdgeA3;
-    delete quadEdgeA4;
-
-    delete quadEdgeB1;
-    delete quadEdgeB2;
-    delete quadEdgeB3;
-    delete quadEdgeB4;
-
-    delete quadEdgeC1;
-    delete quadEdgeC2;
-    delete quadEdgeC3;
-    delete quadEdgeC4;
 
     std::cout << "IsLnextGivenSizeCyclic() Test passed ! " << std::endl;
     } // end of local scope for tests

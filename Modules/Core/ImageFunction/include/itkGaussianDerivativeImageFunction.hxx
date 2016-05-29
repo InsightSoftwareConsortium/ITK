@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/** Set the Input Image */
+
 template< typename TInputImage, typename TOutput >
 GaussianDerivativeImageFunction< TInputImage, TOutput >
 ::GaussianDerivativeImageFunction()
@@ -47,30 +47,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   this->RecomputeGaussianKernel();
 }
 
-/** Print self method */
-template< typename TInputImage, typename TOutput >
-void
-GaussianDerivativeImageFunction< TInputImage, TOutput >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
-
-  os << indent << "Sigma: " << m_Sigma << std::endl;
-  os << indent << "Extent: " << m_Extent << std::endl;
-
-  os << indent << "OperatorArray: " << m_OperatorArray << std::endl;
-  os << indent << "ContinuousOperatorArray: "
-     << m_ContinuousOperatorArray << std::endl;
-  os << indent << "OperatorImageFunction: "
-     << m_OperatorImageFunction << std::endl;
-  os << indent << "GaussianDerivativeFunction: "
-     << m_GaussianDerivativeFunction << std::endl;
-  os << indent << "GaussianFunction: "
-     << m_GaussianFunction << std::endl;
-}
-
-/** Set the input image */
 template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -80,7 +56,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   m_OperatorImageFunction->SetInputImage(ptr);
 }
 
-/** Set the variance of the gaussian in each direction */
 template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -105,7 +80,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Set the variance of the gaussian in each direction */
 template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -130,7 +104,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Set the extent of the gaussian in each direction */
 template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -155,7 +128,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Set the extent of the gaussian in each direction */
 template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -180,9 +152,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Recompute the gaussian kernel used to evaluate indexes
- *  This should use a fastest Derivative Gaussian operator
- */
 template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -192,7 +161,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
   for ( unsigned int op = 0; op < itkGetStaticConstMacro(ImageDimension2); ++op )
     {
-    // Set the derivative of the gaussian first
+    // Set the derivative of the Gaussian first
     OperatorNeighborhoodType dogNeighborhood;
     typename GaussianDerivativeFunctionType::InputType pt;
     typename NeighborhoodType::SizeType size;
@@ -229,7 +198,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
     m_OperatorArray[op * 2] = dogNeighborhood;
 
-    // Set the gaussian operator
+    // Set the Gaussian operator
     m_GaussianFunction->SetSigma(s);
     OperatorNeighborhoodType gaussianNeighborhood;
     gaussianNeighborhood.SetRadius(size);
@@ -274,7 +243,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Evaluate the function at the specifed index */
 template< typename TInputImage, typename TOutput >
 typename GaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -284,16 +252,16 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
   for ( unsigned int ii = 0; ii < itkGetStaticConstMacro(ImageDimension2); ++ii )
     {
-    // Apply each gaussian kernel to a subset of the image
+    // Apply each Gaussian kernel to a subset of the image
     typedef typename OutputType::RealValueType OutputRealValueType;
     OutputRealValueType value = static_cast< OutputRealValueType >( this->GetInputImage()->GetPixel(index) );
 
-    // gaussian blurring first
+    // Gaussian blurring first
     for ( unsigned int direction = 0; direction < itkGetStaticConstMacro(ImageDimension2); ++direction )
       {
       if ( ii != direction )
         {
-        const unsigned int idx = 2 * direction + 1; // select only gaussian kernel;
+        const unsigned int idx = 2 * direction + 1; // select only Gaussian kernel
         const unsigned int center = (unsigned int)( ( m_OperatorArray[idx].GetSize()[direction] - 1 ) / 2 );
         TOutput      centerval = m_OperatorArray[idx].GetCenterValue();
         m_OperatorArray[idx][center] = 0;
@@ -316,8 +284,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   return gradient;
 }
 
-/** Recompute the gaussian kernel used to evaluate indexes
- *  The variance should be uniform */
 template< typename TInputImage, typename TOutput >
 void
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -328,7 +294,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
   for ( unsigned int op = 0; op < itkGetStaticConstMacro(ImageDimension2); ++op )
     {
-    // Set the derivative of the gaussian first
+    // Set the derivative of the Gaussian first
     OperatorNeighborhoodType dogNeighborhood;
     typename GaussianDerivativeFunctionType::InputType pt;
     typename OperatorNeighborhoodType::SizeType size;
@@ -365,7 +331,7 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
 
     m_ContinuousOperatorArray[op * 2] = dogNeighborhood;
 
-    // Set the gaussian operator
+    // Set the Gaussian operator
     m_GaussianFunction->SetSigma(s);
     OperatorNeighborhoodType gaussianNeighborhood;
     gaussianNeighborhood.SetRadius(size);
@@ -410,7 +376,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
     }
 }
 
-/** Evaluate the function at the specifed point */
 template< typename TInputImage, typename TOutput >
 typename GaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -422,7 +387,6 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   return this->EvaluateAtIndex (index);
 }
 
-/** Evaluate the function at specified ContinuousIndex position.*/
 template< typename TInputImage, typename TOutput >
 typename GaussianDerivativeImageFunction< TInputImage, TOutput >::OutputType
 GaussianDerivativeImageFunction< TInputImage, TOutput >
@@ -433,6 +397,29 @@ GaussianDerivativeImageFunction< TInputImage, TOutput >
   this->ConvertContinuousIndexToNearestIndex(cindex, index);
   return this->EvaluateAtIndex(index);
 }
+
+template< typename TInputImage, typename TOutput >
+void
+GaussianDerivativeImageFunction< TInputImage, TOutput >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os, indent);
+  os << indent << "UseImageSpacing: " << m_UseImageSpacing << std::endl;
+
+  os << indent << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "Extent: " << m_Extent << std::endl;
+
+  os << indent << "OperatorArray: " << m_OperatorArray << std::endl;
+  os << indent << "ContinuousOperatorArray: "
+     << m_ContinuousOperatorArray << std::endl;
+  os << indent << "OperatorImageFunction: "
+     << m_OperatorImageFunction << std::endl;
+  os << indent << "GaussianDerivativeFunction: "
+     << m_GaussianDerivativeFunction << std::endl;
+  os << indent << "GaussianFunction: "
+     << m_GaussianFunction << std::endl;
+}
+
 } // end namespace itk
 
 #endif
