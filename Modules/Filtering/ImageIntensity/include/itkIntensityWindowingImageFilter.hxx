@@ -33,26 +33,21 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::IntensityWindowingImageFilter()
 {
-  m_OutputMaximum   = NumericTraits< OutputPixelType >::max();
-  m_OutputMinimum   = NumericTraits< OutputPixelType >::NonpositiveMin();
+  this->m_OutputMaximum = NumericTraits< OutputPixelType >::max();
+  this->m_OutputMinimum = NumericTraits< OutputPixelType >::NonpositiveMin();
 
-  m_WindowMaximum   = NumericTraits< InputPixelType >::max();
-  m_WindowMinimum   = NumericTraits< InputPixelType >::NonpositiveMin();
+  this->m_WindowMaximum = NumericTraits< InputPixelType >::max();
+  this->m_WindowMinimum = NumericTraits< InputPixelType >::NonpositiveMin();
 
-  m_Scale = 1.0;
-  m_Shift = 0.0;
+  this->m_Scale = 1.0;
+  this->m_Shift = 0.0;
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
@@ -75,35 +70,53 @@ IntensityWindowingImageFilter< TInputImage, TOutputImage >
     tmp2 = NumericTraits< InputPixelType >::max();
     }
 
-  m_WindowMinimum = static_cast< InputPixelType >( tmp1 );
-  m_WindowMaximum = static_cast< InputPixelType >( tmp2 );
+  this->m_WindowMinimum = static_cast< InputPixelType >( tmp1 );
+  this->m_WindowMaximum = static_cast< InputPixelType >( tmp2 );
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 typename IntensityWindowingImageFilter< TInputImage, TOutputImage >::InputPixelType
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::GetWindow() const
 {
-  return m_WindowMaximum - m_WindowMinimum;
+  return this->m_WindowMaximum - this->m_WindowMinimum;
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 typename IntensityWindowingImageFilter< TInputImage, TOutputImage >::InputPixelType
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
 ::GetLevel() const
 {
-  return ( m_WindowMaximum + m_WindowMinimum ) / 2;
+  return ( this->m_WindowMaximum + this->m_WindowMinimum ) / 2;
 }
 
-/**
- *
- */
+template< typename TInputImage, typename TOutputImage >
+void
+IntensityWindowingImageFilter< TInputImage, TOutputImage >
+::BeforeThreadedGenerateData()
+{
+  this->m_Scale =
+    ( static_cast< RealType >( this->m_OutputMaximum )
+      - static_cast< RealType >( this->m_OutputMinimum ) )
+    / ( static_cast< RealType >( this->m_WindowMaximum )
+        - static_cast< RealType >( this->m_WindowMinimum ) );
+
+  this->m_Shift =
+    static_cast< RealType >( this->m_OutputMinimum )
+    - static_cast< RealType >( this->m_WindowMinimum ) * this->m_Scale;
+
+  // set up the functor values
+  this->GetFunctor().SetOutputMinimum( this->m_OutputMinimum );
+  this->GetFunctor().SetOutputMaximum( this->m_OutputMaximum );
+
+  this->GetFunctor().SetWindowMinimum( this->m_WindowMinimum );
+  this->GetFunctor().SetWindowMaximum( this->m_WindowMaximum );
+
+  this->GetFunctor().SetFactor( this->m_Scale );
+  this->GetFunctor().SetOffset( this->m_Shift );
+}
+
+
 template< typename TInputImage, typename TOutputImage >
 void
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
@@ -112,53 +125,25 @@ IntensityWindowingImageFilter< TInputImage, TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Output Minimum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMinimum )
+     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->m_OutputMinimum )
      << std::endl;
   os << indent << "Output Maximum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMaximum )
+     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->m_OutputMaximum )
      << std::endl;
   os << indent << "Window Minimum: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_WindowMinimum )
+     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( this->m_WindowMinimum )
      << std::endl;
   os << indent << "Window Maximum: "
-     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_WindowMaximum )
+     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( this->m_WindowMaximum )
      << std::endl;
   os << indent << "Scale Factor: "
-     << static_cast< typename NumericTraits< RealType >::PrintType >( m_Scale )
+     << static_cast< typename NumericTraits< RealType >::PrintType >( this->m_Scale )
      << std::endl;
   os << indent << "Shift offset: "
-     << static_cast< typename NumericTraits< RealType >::PrintType >( m_Shift )
+     << static_cast< typename NumericTraits< RealType >::PrintType >( this->m_Shift )
      << std::endl;
 }
 
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-void
-IntensityWindowingImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
-{
-  m_Scale =
-    ( static_cast< RealType >( m_OutputMaximum )
-      - static_cast< RealType >( m_OutputMinimum ) )
-    / ( static_cast< RealType >( m_WindowMaximum )
-        - static_cast< RealType >( m_WindowMinimum ) );
-
-  m_Shift =
-    static_cast< RealType >( m_OutputMinimum )
-    - static_cast< RealType >( m_WindowMinimum ) * m_Scale;
-
-  // set up the functor values
-  this->GetFunctor().SetOutputMinimum(m_OutputMinimum);
-  this->GetFunctor().SetOutputMaximum(m_OutputMaximum);
-
-  this->GetFunctor().SetWindowMinimum(m_WindowMinimum);
-  this->GetFunctor().SetWindowMaximum(m_WindowMaximum);
-
-  this->GetFunctor().SetFactor(m_Scale);
-  this->GetFunctor().SetOffset(m_Shift);
-}
 } // end namespace itk
 
 #endif
