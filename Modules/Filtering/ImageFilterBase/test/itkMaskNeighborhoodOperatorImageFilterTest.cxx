@@ -22,6 +22,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSobelOperator.h"
+#include "itkTestingMacros.h"
 
 int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 {
@@ -53,12 +54,10 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 
   region = input->GetOutput()->GetBufferedRegion();
   mask1->SetRegions( region );
-  mask1->Allocate(true); // initialize buffer
-                                                // to zero
+  mask1->Allocate(true); // initialize buffer to zero
 
   mask2->SetRegions( region );
-  mask2->Allocate(true); // initialize buffer
-                                                // to zero
+  mask2->Allocate(true); // initialize buffer to zero
 
 
   size = region.GetSize();
@@ -102,12 +101,19 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
 
   FilterType::Pointer filter1 = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter1, MaskNeighborhoodOperatorImageFilter,
+    NeighborhoodOperatorImageFilter );
+
   filter1->SetInput(input->GetOutput());
   filter1->SetMaskImage( mask1.GetPointer() );
   filter1->SetOperator( sobelHorizontal );
   filter1->UseDefaultValueOff();
 
   FilterType::Pointer filter2 = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter2, MaskNeighborhoodOperatorImageFilter,
+    NeighborhoodOperatorImageFilter );
+
   filter2->SetInput(filter1->GetOutput());
   filter2->SetMaskImage( mask2.GetPointer() );
   filter2->SetOperator( sobelVertical );
@@ -132,7 +138,7 @@ int itkMaskNeighborhoodOperatorImageFilterTest(int ac, char* av[] )
     }
   catch (itk::ExceptionObject& e)
     {
-    std::cerr << "Exception detected: "  << e.GetDescription();
+    std::cerr << "Exception detected: " << e.GetDescription();
     return -1;
     }
   catch (...)
