@@ -120,21 +120,21 @@ public:
 
   /** Print Probe Results. */
   virtual void Report(std::ostream & os = std::cout, bool printSystemInfo = true,
-                      bool printReportHead = true);
+                      bool printReportHead = true, bool useTabs = false);
 
   /** Print Probe Results. */
   virtual void ExpandedReport(std::ostream & os = std::cout, bool printSystemInfo = true,
-                              bool printReportHead = true);
+                              bool printReportHead = true, bool useTabs = false);
 
 protected:
   /** Update the Min and Max values with an input value */
   virtual void UpdateMinimumMaximumMeasuredValue(ValueType value);
 
   /** Print Probe Results. */
-  virtual void PrintReportHead(std::ostream & os = std::cout);
+  virtual void PrintReportHead(std::ostream & os = std::cout, bool useTabs = false);
 
   /** Print Probe Results. */
-  virtual void PrintExpandedReportHead(std::ostream & os = std::cout);
+  virtual void PrintExpandedReportHead(std::ostream & os = std::cout, bool useTabs = false);
 
   /** Get System information */
   virtual void GetSystemInformation();

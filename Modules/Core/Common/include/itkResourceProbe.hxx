@@ -279,7 +279,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::Report(std::ostream & os, bool printSystemInfo, bool printReportHead )
+::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs )
 {
   if(printSystemInfo)
     {
@@ -288,17 +288,30 @@ ResourceProbe< ValueType, MeanType >
 
   if(printReportHead)
     {
-    this->PrintReportHead(os);
+    this->PrintReportHead(os, useTabs);
     }
 
   std::stringstream ss;
-  ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
-     << std::left << std::setw( tabwidth    ) << this->m_NumberOfIteration
-     << std::left << std::setw( tabwidth    ) << this->GetTotal()
-     << std::left << std::setw( tabwidth    ) << this->GetMinimum()
-     << std::left << std::setw( tabwidth    ) << this->GetMean()
-     << std::left << std::setw( tabwidth    ) << this->GetMaximum()
-     << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation();
+  if( useTabs )
+    {
+    ss << std::left << '\t' << this->m_NameOfProbe
+       << std::left << '\t' << this->m_NumberOfIteration
+       << std::left << '\t' << this->GetTotal()
+       << std::left << '\t' << this->GetMinimum()
+       << std::left << '\t' << this->GetMean()
+       << std::left << '\t' << this->GetMaximum()
+       << std::left << '\t' << this->GetStandardDeviation();
+    }
+  else
+    {
+    ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
+       << std::left << std::setw( tabwidth    ) << this->m_NumberOfIteration
+       << std::left << std::setw( tabwidth    ) << this->GetTotal()
+       << std::left << std::setw( tabwidth    ) << this->GetMinimum()
+       << std::left << std::setw( tabwidth    ) << this->GetMean()
+       << std::left << std::setw( tabwidth    ) << this->GetMaximum()
+       << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation();
+    }
   os << ss.str() << std::endl;
 }
 
@@ -306,7 +319,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead )
+::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs )
 {
   if(printSystemInfo)
     {
@@ -315,7 +328,7 @@ ResourceProbe< ValueType, MeanType >
 
   if(printReportHead)
     {
-    this->PrintExpandedReportHead(os);
+    this->PrintExpandedReportHead(os, useTabs);
     }
 
   std::stringstream ss;
@@ -325,7 +338,7 @@ ResourceProbe< ValueType, MeanType >
     {
     ratioOfMeanToMinimum = NumericTraits<ValueType>::ZeroValue();
     }
- else
+  else
     {
     ratioOfMeanToMinimum = static_cast<ValueType>(this->GetMean())/this->GetMinimum();
     }
@@ -335,23 +348,41 @@ ResourceProbe< ValueType, MeanType >
     {
     ratioOfMaximumToMean = NumericTraits<ValueType>::ZeroValue();
     }
- else
+  else
     {
     ratioOfMaximumToMean = this->GetMaximum()/static_cast<ValueType>(this->GetMean());
     }
 
-  ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
-     << std::left << std::setw( tabwidth    ) << this->m_NumberOfIteration
-     << std::left << std::setw( tabwidth    ) << this->GetTotal()
-     << std::left << std::setw( tabwidth    ) << this->GetMinimum()
-     << std::left << std::setw( tabwidth    ) << this->GetMean() - this->GetMinimum()
-     << std::left << std::setw( tabwidth    ) << ratioOfMeanToMinimum*100
-     << std::left << std::setw( tabwidth    ) << this->GetMean()
-     << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMean()
-     << std::left << std::setw( tabwidth    ) << ratioOfMaximumToMean*100
-     << std::left << std::setw( tabwidth    ) << this->GetMaximum()
-     << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMinimum()
-     << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation();
+ if( useTabs )
+    {
+    ss << std::left << '\t' << this->m_NameOfProbe
+       << std::left << '\t' << this->m_NumberOfIteration
+       << std::left << '\t' << this->GetTotal()
+       << std::left << '\t' << this->GetMinimum()
+       << std::left << '\t' << this->GetMean() - this->GetMinimum()
+       << std::left << '\t' << ratioOfMeanToMinimum*100
+       << std::left << '\t' << this->GetMean()
+       << std::left << '\t' << this->GetMaximum() - this->GetMean()
+       << std::left << '\t' << ratioOfMaximumToMean*100
+       << std::left << '\t' << this->GetMaximum()
+       << std::left << '\t' << this->GetMaximum() - this->GetMinimum()
+       << std::left << '\t' << this->GetStandardDeviation();
+    }
+ else
+    {
+    ss << std::left << std::setw( tabwidth *2 ) << this->m_NameOfProbe
+       << std::left << std::setw( tabwidth    ) << this->m_NumberOfIteration
+       << std::left << std::setw( tabwidth    ) << this->GetTotal()
+       << std::left << std::setw( tabwidth    ) << this->GetMinimum()
+       << std::left << std::setw( tabwidth    ) << this->GetMean() - this->GetMinimum()
+       << std::left << std::setw( tabwidth    ) << ratioOfMeanToMinimum*100
+       << std::left << std::setw( tabwidth    ) << this->GetMean()
+       << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMean()
+       << std::left << std::setw( tabwidth    ) << ratioOfMaximumToMean*100
+       << std::left << std::setw( tabwidth    ) << this->GetMaximum()
+       << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMinimum()
+       << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation();
+    }
   os << ss.str() << std::endl;
 }
 
@@ -376,16 +407,29 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::PrintReportHead(std::ostream & os)
+::PrintReportHead(std::ostream & os, bool useTabs)
 {
   std::stringstream ss;
-  ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (")+this->m_TypeString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Iterations"
-     << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
+  if( useTabs )
+    {
+    ss << std::left << '\t' << std::string("Name Of Probe (")+this->m_TypeString + std::string(")")
+       << std::left << '\t' << "Iterations"
+       << std::left << '\t' << std::string("Total (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("Min (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("Mean (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("Max (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("StdDev (") + this->m_UnitString + std::string(")");
+    }
+  else
+    {
+    ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (")+this->m_TypeString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << "Iterations"
+       << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
+    }
 
   os << ss.str() << std::endl;
 }
@@ -394,21 +438,39 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::PrintExpandedReportHead(std::ostream & os)
+::PrintExpandedReportHead(std::ostream & os, bool useTabs)
 {
   std::stringstream ss;
-  ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Iterations"
-     << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Mean-Min (diff)"
-     << std::left << std::setw( tabwidth    ) << "Mean/Min (%)"
-     << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << "Max-Mean (diff)"
-     << std::left << std::setw( tabwidth    ) << "Max/Mean (%)"
-     << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("Total Diff (") + this->m_UnitString + std::string(")")
-     << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
+  if( useTabs )
+    {
+    ss << std::left << '\t' << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
+       << std::left << '\t' << "Iterations"
+       << std::left << '\t' << std::string("Total (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("Min (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << "Mean-Min (diff)"
+       << std::left << '\t' << "Mean/Min (%)"
+       << std::left << '\t' << std::string("Mean (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << "Max-Mean (diff)"
+       << std::left << '\t' << "Max/Mean (%)"
+       << std::left << '\t' << std::string("Max (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("Total Diff (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("StdDev (") + this->m_UnitString + std::string(")");
+    }
+  else
+    {
+    ss << std::left << std::setw( tabwidth *2 ) << std::string("Name Of Probe (") + this->m_TypeString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << "Iterations"
+       << std::left << std::setw( tabwidth    ) << std::string("Total (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("Min (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << "Mean-Min (diff)"
+       << std::left << std::setw( tabwidth    ) << "Mean/Min (%)"
+       << std::left << std::setw( tabwidth    ) << std::string("Mean (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << "Max-Mean (diff)"
+       << std::left << std::setw( tabwidth    ) << "Max/Mean (%)"
+       << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("Total Diff (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
+    }
 
   os << ss.str() << std::endl;
 }
