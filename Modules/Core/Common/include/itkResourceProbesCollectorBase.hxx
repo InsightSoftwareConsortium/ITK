@@ -61,7 +61,7 @@ ResourceProbesCollectorBase< TProbe >
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
-::Report(std::ostream & os, bool printSystemInfo, bool printReportHead)
+::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
   typename MapType::iterator probe = this->m_Probes.begin();
   typename MapType::const_iterator end   = this->m_Probes.end();
@@ -77,7 +77,7 @@ ResourceProbesCollectorBase< TProbe >
     {
     if(firstProbe)
       {
-      probe->second.Report(os, printSystemInfo, printReportHead);
+      probe->second.Report(os, printSystemInfo, printReportHead, useTabs);
       firstProbe = false;
       }
     else
@@ -93,7 +93,7 @@ ResourceProbesCollectorBase< TProbe >
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
-::Report(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead)
+::Report(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
   const IdType tid = name;
 
@@ -104,7 +104,7 @@ ResourceProbesCollectorBase< TProbe >
     return;
     }
 
-  pos->second.Report(os, printSystemInfo, printReportHead);
+  pos->second.Report(os, printSystemInfo, printReportHead, useTabs);
 
 }
 
@@ -112,7 +112,7 @@ ResourceProbesCollectorBase< TProbe >
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
-::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead)
+::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
   typename MapType::iterator probe = this->m_Probes.begin();
   typename MapType::const_iterator end = this->m_Probes.end();
@@ -128,12 +128,12 @@ ResourceProbesCollectorBase< TProbe >
     {
     if(firstProbe)
       {
-      probe->second.ExpandedReport(os, printSystemInfo, printReportHead);
+      probe->second.ExpandedReport(os, printSystemInfo, printReportHead, useTabs);
       firstProbe = false;
       }
     else
       {
-      probe->second.ExpandedReport(os, false, false);
+      probe->second.ExpandedReport(os, false, false, useTabs);
       }
 
     ++probe;
@@ -144,7 +144,7 @@ ResourceProbesCollectorBase< TProbe >
 template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
-::ExpandedReport(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead)
+::ExpandedReport(const char *name, std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
   const IdType tid = name;
 
@@ -155,7 +155,7 @@ ResourceProbesCollectorBase< TProbe >
     return;
     }
 
-  pos->second.ExpandedReport(os, printSystemInfo, printReportHead);
+  pos->second.ExpandedReport(os, printSystemInfo, printReportHead, useTabs);
 
 }
 
