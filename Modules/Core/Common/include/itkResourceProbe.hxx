@@ -228,6 +228,17 @@ ResourceProbe< ValueType, MeanType >
 
 
 template< typename ValueType, typename MeanType >
+ValueType
+ResourceProbe< ValueType, MeanType >
+::GetStandardError()
+{
+  const ValueType standardDeviation = this->GetStandardDeviation();
+  this->m_StandardError = static_cast< ValueType >( standardDeviation / std::sqrt( static_cast< double >( this->m_ProbeValueList.size() ) ) );
+  return this->m_StandardError;
+}
+
+
+template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
 ::SetNameOfProbe(const char* nameOfProbe)
@@ -366,7 +377,8 @@ ResourceProbe< ValueType, MeanType >
        << std::left << '\t' << ratioOfMaximumToMean*100
        << std::left << '\t' << this->GetMaximum()
        << std::left << '\t' << this->GetMaximum() - this->GetMinimum()
-       << std::left << '\t' << this->GetStandardDeviation();
+       << std::left << '\t' << this->GetStandardDeviation()
+       << std::left << '\t' << this->GetStandardError();
     }
  else
     {
@@ -381,7 +393,8 @@ ResourceProbe< ValueType, MeanType >
        << std::left << std::setw( tabwidth    ) << ratioOfMaximumToMean*100
        << std::left << std::setw( tabwidth    ) << this->GetMaximum()
        << std::left << std::setw( tabwidth    ) << this->GetMaximum() - this->GetMinimum()
-       << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation();
+       << std::left << std::setw( tabwidth    ) << this->GetStandardDeviation()
+       << std::left << std::setw( tabwidth    ) << this->GetStandardError();
     }
   os << ss.str() << std::endl;
 }
@@ -454,7 +467,8 @@ ResourceProbe< ValueType, MeanType >
        << std::left << '\t' << "Max/Mean (%)"
        << std::left << '\t' << std::string("Max (") + this->m_UnitString + std::string(")")
        << std::left << '\t' << std::string("Total Diff (") + this->m_UnitString + std::string(")")
-       << std::left << '\t' << std::string("StdDev (") + this->m_UnitString + std::string(")");
+       << std::left << '\t' << std::string("StdDev (") + this->m_UnitString + std::string(")")
+       << std::left << '\t' << std::string("StdErr (") + this->m_UnitString + std::string(")");
     }
   else
     {
@@ -469,7 +483,8 @@ ResourceProbe< ValueType, MeanType >
        << std::left << std::setw( tabwidth    ) << "Max/Mean (%)"
        << std::left << std::setw( tabwidth    ) << std::string("Max (") + this->m_UnitString + std::string(")")
        << std::left << std::setw( tabwidth    ) << std::string("Total Diff (") + this->m_UnitString + std::string(")")
-       << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")");
+       << std::left << std::setw( tabwidth    ) << std::string("StdDev (") + this->m_UnitString + std::string(")")
+       << std::left << std::setw( tabwidth    ) << std::string("StdErr (") + this->m_UnitString + std::string(")");
     }
 
   os << ss.str() << std::endl;
