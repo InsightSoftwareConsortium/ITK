@@ -661,7 +661,7 @@ protected:
   /** \deprecated use RemoveOutput(unsigned int) instead */
   itkLegacyMacro(virtual void RemoveOutput(DataObject *output));
 
-  /** \deprecated use SetNumberOfIndexedInputs() instead */
+  /** \deprecated use SetNumberOfIndexedOutputs() instead */
   itkLegacyMacro(void SetNumberOfOutputs(DataObjectPointerArraySizeType num));
 
   /** Remove an indexed input.
