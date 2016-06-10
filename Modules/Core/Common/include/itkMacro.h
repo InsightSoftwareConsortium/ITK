@@ -180,37 +180,35 @@ namespace itk
 #endif
 
 #if ITK_COMPILED_CXX_VERSION >= 201103L
-// In c++11 the override keyword allows you to explicity define that a function
-// is intended to override the base-class version.  This makes the code more
-// managable and fixes a set of common hard-to-find bugs.
-#define ITK_OVERRIDE override
-// In functions that should not be implemented, use the C++11 mechanism
-// to ensure that thye are purposely not implemented
-#define ITK_DELETE_FUNCTION =delete
-// In c++11 there is an explicit nullptr type that introduces a new keyword to
-// serve as a distinguished null pointer constant: nullptr. It is of type
-// nullptr_t, which is implicitly convertible and comparable to any pointer type
-// or pointer-to-member type. It is not implicitly convertible or comparable to
-// integral types, except for bool.
-#define ITK_NULLPTR  nullptr
-// In C++11 the throw-list specification has been deprecated,
-// replaces with the noexcept specifier. Using this function
-// specification adds the run-time check that the method does not
-// throw, if it does throw then std::terminate will be called.
-// Use cautiously.
-#define ITK_NOEXCEPT noexcept
-#define ITK_HAS_CXX11_STATIC_ASSERT
-#define ITK_HAS_CXX11_RVREF
-#define ITK_CONSTEXPR constexpr
-#define ITK_CONSTEXPR_FUNC constexpr
-#else
-#define ITK_OVERRIDE
-#define ITK_DELETE_FUNCTION
-#define ITK_NULLPTR  NULL
-#define ITK_NOEXCEPT throw()
-#define ITK_CONSTEXPR const
-#define ITK_CONSTEXPR_FUNC inline
+  #define ITK_HAS_CXX11_RVREF
 #endif
+
+#if ! defined( ITK_FUTURE_LEGACY_REMOVE )
+  #if ITK_COMPILER_CXX_STATIC_ASSERT
+    #define ITK_HAS_CXX11_STATIC_ASSERT //NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
+  #endif
+
+  #if ITK_COMPILER_CXX_DELETED_FUNCTIONS
+    #define ITK_DELETE_FUNCTION =delete //NOTE DEPRECATED!  should be ITK_DELETED_FUNCTION
+  #else
+    #define ITK_DELETE_FUNCTION
+  #endif
+#endif
+
+#if ITK_COMPILER_CXX_NOEXCEPT
+  #define ITK_NOEXCEPT_OR_THROW noexcept
+#else
+  #define ITK_NOEXCEPT_OR_THROW throw()
+#endif
+
+#if ITK_COMPILER_CXX_CONSTEXPR
+  #define ITK_CONSTEXPR_FUNC constexpr
+  #define ITK_CONSTEXPR_VAR constexpr
+#else
+  #define ITK_CONSTEXPR_FUNC inline
+  #define ITK_CONSTEXPR_VAR const
+#endif
+
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
 // use it analogously to "break;".  The trailing semi-colon is required.
