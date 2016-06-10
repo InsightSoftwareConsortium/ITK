@@ -93,6 +93,7 @@ try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
 set(ITK_WINDOWS_EXPORT_ALL_SYMBOLS ${CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS})
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 
+
 set(ITKCommon_INCLUDE_DIRS
   ${ITKCommon_BINARY_DIR}
   )
@@ -105,3 +106,9 @@ install(FILES
   DESTINATION ${ITKCommon_INSTALL_INCLUDE_DIR}
   COMPONENT Development
   )
+
+# configure and install compiler feature header files
+# that have fine granular support of C++11 features
+# identified in a way consistent with CMake 3.1.0 and
+# greater
+include(CMake/itkGenerateNewCompilerFeatureDetectionHeaders.cmake)
