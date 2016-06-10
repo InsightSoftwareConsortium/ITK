@@ -101,7 +101,7 @@ public:
 
   /** Decrease the reference count (release by another object).
     * Delegates the counting to its LightObject superclass  */
-  virtual void UnRegister() const ITK_NOEXCEPT ITK_OVERRIDE
+  virtual void UnRegister() const ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE
   {
     this->LightObject::UnRegister();
   }
@@ -155,7 +155,7 @@ ExceptionObject::ExceptionObject(const ExceptionObject & orig):
   // pointer.
 }
 
-ExceptionObject::~ExceptionObject() ITK_NOEXCEPT
+ExceptionObject::~ExceptionObject() ITK_NOEXCEPT_OR_THROW
 {
   // During destruction, the reference count of the
   // ReferenceCountedExceptionData will be decreased
@@ -296,7 +296,7 @@ ExceptionObject::GetLine() const
 }
 
 const char *
-ExceptionObject::what() const ITK_NOEXCEPT
+ExceptionObject::what() const ITK_NOEXCEPT_OR_THROW
 {
   const ExceptionData *const thisData = this->GetExceptionData();
 
@@ -342,23 +342,23 @@ ExceptionObject
   os << indent << std::endl;
 }
 
-MemoryAllocationError::~MemoryAllocationError() ITK_NOEXCEPT
+MemoryAllocationError::~MemoryAllocationError() ITK_NOEXCEPT_OR_THROW
 {
 }
 
-RangeError::~RangeError() ITK_NOEXCEPT
+RangeError::~RangeError() ITK_NOEXCEPT_OR_THROW
 {
 }
 
-InvalidArgumentError::~InvalidArgumentError() ITK_NOEXCEPT
+InvalidArgumentError::~InvalidArgumentError() ITK_NOEXCEPT_OR_THROW
 {
 }
 
-IncompatibleOperandsError::~IncompatibleOperandsError() ITK_NOEXCEPT
+IncompatibleOperandsError::~IncompatibleOperandsError() ITK_NOEXCEPT_OR_THROW
 {
 }
 
-ProcessAborted::~ProcessAborted() ITK_NOEXCEPT
+ProcessAborted::~ProcessAborted() ITK_NOEXCEPT_OR_THROW
 {
 }
 

@@ -209,7 +209,6 @@ namespace itk
   #define ITK_CONSTEXPR_VAR const
 #endif
 
-
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
 // use it analogously to "break;".  The trailing semi-colon is required.
 #if ITK_COMPILED_CXX_VERSION >= 201103L && defined(__has_warning)
