@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(GPUImageDataManager, GPUDataManager);
 
-  static ITK_CONSTEXPR unsigned int        ImageDimension = ImageType::ImageDimension;
+  static ITK_CONSTEXPR_VAR unsigned int        ImageDimension = ImageType::ImageDimension;
 
   itkGetModifiableObjectMacro(GPUBufferedRegionIndex, GPUDataManager);
   itkGetModifiableObjectMacro(GPUBufferedRegionSize, GPUDataManager);

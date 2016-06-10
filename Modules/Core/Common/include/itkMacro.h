@@ -774,7 +774,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 #if defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
 #  define itkStaticConstMacro(name,type,value) enum { name = value }
 #else
-#  define itkStaticConstMacro(name,type,value) static ITK_CONSTEXPR type name = value
+#  define itkStaticConstMacro(name,type,value) static ITK_CONSTEXPR_VAR type name = value
 #endif
 
 #define itkGetStaticConstMacro(name) (Self::name)
