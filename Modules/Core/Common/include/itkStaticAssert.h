@@ -21,7 +21,7 @@
 
 #include "itkMacro.h"
 
-#if defined(ITK_HAS_CXX11_STATIC_ASSERT)
+#if ITK_COMPILER_CXX_STATIC_ASSERT
 //  Use the C++11 static_assert if available
 
 /** Static assertion.
