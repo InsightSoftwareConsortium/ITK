@@ -100,8 +100,7 @@ protected:
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  PathAndImageToPathFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PathAndImageToPathFilter);
 };
 } // end namespace itk
 

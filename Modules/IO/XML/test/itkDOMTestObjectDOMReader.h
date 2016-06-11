@@ -50,8 +50,7 @@ protected:
   virtual void GenerateData( const DOMNodeType* inputdom, const void* ) ITK_OVERRIDE;
 
 private:
-  DOMTestObjectDOMReader(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObjectDOMReader);
 };
 
 inline void

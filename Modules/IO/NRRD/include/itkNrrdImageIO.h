@@ -88,8 +88,7 @@ protected:
   ImageIOBase::IOComponentType NrrdToITKComponentType(const int) const;
 
 private:
-  NrrdImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIO);
 };
 } // end namespace itk
 

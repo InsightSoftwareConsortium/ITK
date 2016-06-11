@@ -108,8 +108,7 @@ protected:
 
 private:
 
-  MeanSquaresImageToImageMetric(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetric);
 
   inline bool GetValueThreadProcessSample(ThreadIdType threadId,
                                           SizeValueType fixedImageSample,

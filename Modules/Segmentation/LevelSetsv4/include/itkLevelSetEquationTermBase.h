@@ -185,8 +185,7 @@ protected:
   RequiredDataType          m_RequiredData;
 
 private:
-  LevelSetEquationTermBase( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationTermBase);
 };
 }
 

@@ -105,8 +105,7 @@ protected:
   ~LiThresholdImageFilter(){};
 
 private:
-  LiThresholdImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LiThresholdImageFilter);
 }; // end of class
 
 } // end namespace itk

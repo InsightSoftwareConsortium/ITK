@@ -154,8 +154,7 @@ protected:
   }
 
 private:
-  ChainCodePath2D(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath2D);
 
   ChainCode2DType m_Chain2D;    // the Freeman-encoded chain code
 

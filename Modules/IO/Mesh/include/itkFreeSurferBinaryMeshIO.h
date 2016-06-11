@@ -175,8 +175,7 @@ protected:
   void CloseFile();
 
 private:
-  FreeSurferBinaryMeshIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FreeSurferBinaryMeshIO);
 
   StreamOffsetType m_FilePosition;
   itk::uint32_t    m_FileTypeIdentifier;

@@ -143,8 +143,7 @@ protected:
   virtual void InitializeIteration() ITK_OVERRIDE;
 
 private:
-  MinMaxCurvatureFlowImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinMaxCurvatureFlowImageFilter);
 
   RadiusValueType m_StencilRadius;
 };

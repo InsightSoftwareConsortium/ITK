@@ -140,8 +140,7 @@ protected:
   itkGetModifiableObjectMacro(Transform, TransformType);
 
 private:
-  CenteredTransformInitializer(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredTransformInitializer);
 
   TransformPointer m_Transform;
 

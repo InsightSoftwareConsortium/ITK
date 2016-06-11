@@ -285,8 +285,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  Subsample(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Subsample);
 
   const TSample *            m_Sample;
   InstanceIdentifierHolder   m_IdHolder;

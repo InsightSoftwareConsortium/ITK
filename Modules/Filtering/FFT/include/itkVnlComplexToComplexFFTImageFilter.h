@@ -71,8 +71,7 @@ protected:
   virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) ) ITK_OVERRIDE;
 
 private:
-  VnlComplexToComplexFFTImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VnlComplexToComplexFFTImageFilter);
 };
 
 } // end namespace itk

@@ -92,8 +92,7 @@ protected:
   virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 
 private:
-  LabelMapToLabelImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToLabelImageFilter);
   OutputImageType *m_OutputImage;
 };                                          // end of class
 } // end namespace itk

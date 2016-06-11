@@ -350,7 +350,7 @@ protected:
   using Superclass::SetPixel;
   using Superclass::SetCenterPixel;
   /** Copy constructor */
-  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) ITK_DELETE_FUNCTION;
+  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) ITK_DELETED_FUNCTION;
 
   friend struct ConstIterator;
 

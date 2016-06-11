@@ -155,8 +155,8 @@ protected:
   void ComputeConnectivityOffsets( void ) throw ( ExceptionObject );
 
 private:
-  MaskFeaturePointSelectionFilter(const MaskFeaturePointSelectionFilter &) ITK_DELETE_FUNCTION;
-  void operator=(const MaskFeaturePointSelectionFilter &) ITK_DELETE_FUNCTION;
+  MaskFeaturePointSelectionFilter(const MaskFeaturePointSelectionFilter &) ITK_DELETED_FUNCTION;
+  void operator=(const MaskFeaturePointSelectionFilter &) ITK_DELETED_FUNCTION;
 
   unsigned                   m_NonConnectivity;
   std::vector< OffsetType >  m_NonConnectivityOffsets;

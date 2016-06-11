@@ -249,8 +249,7 @@ private:
 
   typename ImageBaseType::ConstPointer m_RealValuedInputImage;
 
-  DisplacementFieldJacobianDeterminantFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldJacobianDeterminantFilter);
 
   RadiusType m_NeighborhoodRadius;
 };

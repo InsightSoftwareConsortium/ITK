@@ -153,8 +153,7 @@ protected:
                      const IndexType currentIdx);
 
 private:
-  MovingHistogramImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramImageFilter);
 };                                          // end of class
 } // end namespace itk
 

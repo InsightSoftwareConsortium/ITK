@@ -100,8 +100,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  GaborImageSource(const GaborImageSource &) ITK_DELETE_FUNCTION;
-  void operator=(const GaborImageSource &) ITK_DELETE_FUNCTION;
+  GaborImageSource(const GaborImageSource &) ITK_DELETED_FUNCTION;
+  void operator=(const GaborImageSource &) ITK_DELETED_FUNCTION;
 
   /** Parameters for the Gabor. */
 

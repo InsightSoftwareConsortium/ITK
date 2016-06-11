@@ -88,8 +88,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  VnlRealToHalfHermitianForwardFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VnlRealToHalfHermitianForwardFFTImageFilter);
 
   typedef vnl_vector< std::complex< InputPixelType > > SignalVectorType;
 };

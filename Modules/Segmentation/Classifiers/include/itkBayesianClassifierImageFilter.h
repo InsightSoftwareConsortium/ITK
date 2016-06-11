@@ -226,8 +226,7 @@ protected:
 
 private:
 
-  BayesianClassifierImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierImageFilter);
 
   /** Boolean flag indicating that the user defined the Priors optional input */
   bool m_UserProvidedPriors;

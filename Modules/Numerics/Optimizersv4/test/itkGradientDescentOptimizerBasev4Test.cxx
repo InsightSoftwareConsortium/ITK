@@ -84,8 +84,7 @@ protected:
 
 private:
   GradientDescentOptimizerBasev4TestMetric() {}
-  GradientDescentOptimizerBasev4TestMetric( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestMetric);
 
   ParametersType m_Parameters;
 };
@@ -139,8 +138,7 @@ protected:
   ~GradientDescentOptimizerBasev4TestOptimizer(){}
 
 private:
-  GradientDescentOptimizerBasev4TestOptimizer(const Self& ) ITK_DELETE_FUNCTION;
-  void operator = (const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestOptimizer);
 
 };
 

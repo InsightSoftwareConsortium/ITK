@@ -123,8 +123,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  GaussianImageSource(const GaussianImageSource &) ITK_DELETE_FUNCTION;
-  void operator=(const GaussianImageSource &) ITK_DELETE_FUNCTION;
+  GaussianImageSource(const GaussianImageSource &) ITK_DELETED_FUNCTION;
+  void operator=(const GaussianImageSource &) ITK_DELETED_FUNCTION;
 
   /** Parameters for the Gaussian. */
 

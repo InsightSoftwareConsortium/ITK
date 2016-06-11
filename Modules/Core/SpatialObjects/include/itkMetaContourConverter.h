@@ -72,8 +72,7 @@ protected:
   ~MetaContourConverter() {}
 
 private:
-  MetaContourConverter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaContourConverter);
 
 };
 } // end namespace itk

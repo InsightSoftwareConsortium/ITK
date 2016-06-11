@@ -102,8 +102,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  FrustumSpatialFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrustumSpatialFunction);
 
   /** The apex of the pyramid (of the same type as Input) */
   InputType m_Apex;

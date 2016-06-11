@@ -405,7 +405,7 @@ public:
     }
 
 protected:
-    ConstIterator() ITK_DELETE_FUNCTION;
+    ConstIterator() ITK_DELETED_FUNCTION;
 
     ConstIterator(InstanceIdentifier id, const Self *histogram):
       m_Id(id), m_Histogram(histogram)
@@ -493,8 +493,7 @@ protected:
   SizeType m_Size;
 
 private:
-  Histogram(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Histogram);
 
   typedef std::vector< InstanceIdentifier > OffsetTableType;
   OffsetTableType           m_OffsetTable;

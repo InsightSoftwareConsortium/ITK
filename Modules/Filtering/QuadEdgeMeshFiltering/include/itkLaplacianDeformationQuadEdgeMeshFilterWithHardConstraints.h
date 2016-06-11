@@ -99,8 +99,7 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);
 };
 } // end namespace itk
 

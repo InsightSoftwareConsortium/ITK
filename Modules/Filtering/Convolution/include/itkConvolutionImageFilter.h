@@ -125,8 +125,7 @@ protected:
   KernelSizeType GetKernelRadius(const TImage *kernelImage) const;
 
 private:
-  ConvolutionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConvolutionImageFilter);
 
   template< typename TImage >
   void ComputeConvolution( const TImage *kernelImage,

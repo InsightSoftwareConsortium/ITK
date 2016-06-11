@@ -167,8 +167,7 @@ private:
   virtual bool TestHomogeneity(IndexList & Plist) ITK_OVERRIDE;
 
 private:
-  VoronoiSegmentationRGBImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiSegmentationRGBImageFilter);
 };
 } //end namespace
 

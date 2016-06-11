@@ -203,8 +203,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  HistogramImageToImageMetric(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramImageToImageMetric);
 
   /** The padding value. */
   FixedImagePixelType m_PaddingValue;

@@ -65,8 +65,7 @@ protected:
   IdentifierType m_NumberOfLevelSetFunctions;
 
 private:
-  LevelSetDomainPartitionBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionBase);
 };
 } //end namespace itk
 

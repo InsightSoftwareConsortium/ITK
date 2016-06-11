@@ -157,8 +157,7 @@ private:
   /** The isotropic/anisotropic filtering choice parameter. */
   int m_NormalProcessType;
 
-  NormalVectorDiffusionFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorDiffusionFunction);
 };
 } // end namespace itk
 

@@ -126,8 +126,7 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  AccumulateImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AccumulateImageFilter);
 
   unsigned int m_AccumulateDimension;
   bool         m_Average;

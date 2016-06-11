@@ -152,8 +152,7 @@ protected:
     }
 
 private:
-  BinaryNotImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryNotImageFilter);
 
   PixelType m_ForegroundValue;
   PixelType m_BackgroundValue;

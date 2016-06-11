@@ -164,8 +164,7 @@ protected:
                       TOutputImage::ImageDimension);
 
 private:
-  KappaSigmaThresholdImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(KappaSigmaThresholdImageFilter);
 
   MaskPixelType   m_MaskValue;
   double          m_SigmaFactor;

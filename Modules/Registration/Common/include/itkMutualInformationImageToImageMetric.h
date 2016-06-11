@@ -197,8 +197,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  MutualInformationImageToImageMetric(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MutualInformationImageToImageMetric);
 
   /** \class SpatialSample
    * A spatial sample consists of the fixed domain point, the fixed

@@ -93,8 +93,7 @@ protected:
   virtual ~Log10ImageAdaptor() {}
 
 private:
-  Log10ImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Log10ImageAdaptor);
 };
 } // end namespace itk
 

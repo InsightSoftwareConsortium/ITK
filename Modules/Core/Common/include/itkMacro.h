@@ -314,6 +314,17 @@ namespace itk
     return smartPtr;                                           \
     }
 
+//
+// A macro to disallow the copy constructor and operator= functions
+// This should be used in the private: declarations for a class
+//
+// ITK's paradigm for smart pointer and pipeline consistency
+// prohibits the use of copy construction and operator= functions.
+//
+#define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName)         \
+  TypeName(const TypeName&) ITK_DELETED_FUNCTION;      \
+  void operator=(const TypeName&) ITK_DELETED_FUNCTION
+
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
 #define itkTypeMacro(thisClass, superclass)  \

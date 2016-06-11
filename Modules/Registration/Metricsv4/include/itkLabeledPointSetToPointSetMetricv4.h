@@ -126,8 +126,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  LabeledPointSetToPointSetMetricv4(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabeledPointSetToPointSetMetricv4);
 
   /**
    * Private function to find the common label set for the moving

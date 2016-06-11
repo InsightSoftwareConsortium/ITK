@@ -139,8 +139,7 @@ protected:
   std::vector< HistogramMeasurementVectorType > m_Maximums;
 
 private:
-  ImageToHistogramFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToHistogramFilter);
 
   void ApplyMarginalScale( HistogramMeasurementVectorType & min, HistogramMeasurementVectorType & max, HistogramSizeType & size );
   typename Barrier::Pointer                     m_Barrier;

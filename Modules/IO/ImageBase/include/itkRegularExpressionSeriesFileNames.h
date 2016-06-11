@@ -118,8 +118,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  RegularExpressionSeriesFileNames(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularExpressionSeriesFileNames);
 
   std::string  m_Directory;
   unsigned int m_SubMatch;

@@ -398,8 +398,7 @@ protected:
 
 private:
 
-  ImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageAdaptor);
 
   // a specialized method to update PixelAccessors for VectorImages,
   // to have the correct vector length of the image.

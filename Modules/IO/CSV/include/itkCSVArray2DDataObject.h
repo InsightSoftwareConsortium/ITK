@@ -159,8 +159,7 @@ private:
   bool                   m_HasRowHeaders;
   bool                   m_HasColumnHeaders;
 
-  CSVArray2DDataObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CSVArray2DDataObject);
 };
 
 } //end namespace itk

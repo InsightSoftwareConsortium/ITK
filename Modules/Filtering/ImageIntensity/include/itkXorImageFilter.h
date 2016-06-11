@@ -123,8 +123,7 @@ protected:
   virtual ~XorImageFilter() {}
 
 private:
-  XorImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(XorImageFilter);
 };
 } // end namespace itk
 

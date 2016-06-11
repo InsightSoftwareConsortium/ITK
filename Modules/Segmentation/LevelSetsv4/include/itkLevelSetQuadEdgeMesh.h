@@ -107,8 +107,7 @@ protected:
   virtual ~LevelSetQuadEdgeMesh();
 
 private:
-  LevelSetQuadEdgeMesh( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetQuadEdgeMesh);
 
   MeshPointer m_Mesh;
 };

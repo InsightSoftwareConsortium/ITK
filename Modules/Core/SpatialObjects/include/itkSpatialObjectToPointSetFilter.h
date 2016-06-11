@@ -99,8 +99,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  SpatialObjectToPointSetFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);
 
   unsigned int m_SamplingFactor; //default 1
 };

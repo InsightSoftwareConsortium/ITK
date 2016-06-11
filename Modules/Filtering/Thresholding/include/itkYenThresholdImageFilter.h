@@ -104,8 +104,7 @@ protected:
   ~YenThresholdImageFilter(){};
 
 private:
-  YenThresholdImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(YenThresholdImageFilter);
 }; // end of class
 
 } // end namespace itk

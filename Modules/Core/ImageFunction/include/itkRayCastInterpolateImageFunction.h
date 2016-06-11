@@ -188,8 +188,7 @@ protected:
   InterpolatorPointer m_Interpolator;
 
 private:
-  RayCastInterpolateImageFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RayCastInterpolateImageFunction);
 };
 } // namespace itk
 

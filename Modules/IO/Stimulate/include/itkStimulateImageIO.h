@@ -128,8 +128,7 @@ private:
   float m_DisplayRange[2];
   char m_FidName[256];
 
-  StimulateImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(StimulateImageIO);
 };
 } // end namespace itk
 

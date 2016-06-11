@@ -71,8 +71,7 @@ protected:
   ~MetaLandmarkConverter() {}
 
 private:
-  MetaLandmarkConverter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaLandmarkConverter);
 
 };
 

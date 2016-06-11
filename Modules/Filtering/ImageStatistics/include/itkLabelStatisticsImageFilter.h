@@ -350,8 +350,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
-  LabelStatisticsImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsImageFilter);
 
   std::vector< MapType >        m_LabelStatisticsPerThread;
   MapType                       m_LabelStatistics;

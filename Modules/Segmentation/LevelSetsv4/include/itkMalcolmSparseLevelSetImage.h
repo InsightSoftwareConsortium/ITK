@@ -113,8 +113,7 @@ protected:
   virtual void InitializeInternalLabelList() ITK_OVERRIDE;
 
 private:
-  MalcolmSparseLevelSetImage( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MalcolmSparseLevelSetImage);
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -118,8 +118,7 @@ protected:
   }
 
 private:
-  VanilaImageToImageMetricv4GetValueAndDerivativeThreader( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VanilaImageToImageMetricv4GetValueAndDerivativeThreader);
 };
 
 /* \class VanillaImageToImageMetricv4
@@ -193,8 +192,7 @@ protected:
   VanillaSparseGetValueAndDerivativeThreaderType;
 
 private:
-  VanillaImageToImageMetricv4( const Self & ) ITK_DELETE_FUNCTION;
-  void operator =( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VanillaImageToImageMetricv4);
 };
 
 }

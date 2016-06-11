@@ -413,8 +413,7 @@ protected:
 
 
 private:
-  PointSetToPointSetMetricv4( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToPointSetMetricv4);
 
   mutable bool m_MovingTransformPointLocatorsNeedInitialization;
   mutable bool m_FixedTransformPointLocatorsNeedInitialization;

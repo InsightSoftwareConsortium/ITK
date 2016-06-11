@@ -128,8 +128,7 @@ protected:
   unsigned char *m_ImageDataBuffer;
 
 private:
-  DICOMImageIO2(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DICOMImageIO2);
 };
 } // end namespace itk
 

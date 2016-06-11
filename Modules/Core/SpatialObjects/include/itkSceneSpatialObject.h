@@ -108,8 +108,7 @@ public:
   void Clear();
 
 protected:
-  SceneSpatialObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SceneSpatialObject);
 
   /** List of the children object plug to the SceneSpatialObject
    *  spatial object. */

@@ -49,7 +49,7 @@ protected:
     }
 
 private:
-  void operator=(const ExceptionData &) ITK_DELETE_FUNCTION;
+  void operator=(const ExceptionData &) ITK_DELETED_FUNCTION;
 
   friend class ExceptionObject;
 
@@ -121,8 +121,7 @@ private:
   ~ReferenceCountedExceptionData()
          {}
 
-  ReferenceCountedExceptionData(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
 };
 
 ExceptionObject::ExceptionObject()

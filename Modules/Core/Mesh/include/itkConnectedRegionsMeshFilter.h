@@ -236,8 +236,7 @@ protected:
 
 private:
 
-  ConnectedRegionsMeshFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedRegionsMeshFilter);
 
   int                            m_ExtractionMode;
   InputMeshPointType             m_ClosestPoint;

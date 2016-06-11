@@ -147,8 +147,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  DoubleThresholdImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DoubleThresholdImageFilter);
 
   InputPixelType m_Threshold1;
   InputPixelType m_Threshold2;

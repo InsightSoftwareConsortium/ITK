@@ -168,8 +168,7 @@ protected:
   std::string m_FileName;                    // The file to be read
 
 private:
-  MeshFileReader(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileReader);
 
   std::string m_ExceptionMessage;
 };

@@ -64,8 +64,7 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  GaussianKernelFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianKernelFunction);
 
   const TRealValueType m_Factor;
 };

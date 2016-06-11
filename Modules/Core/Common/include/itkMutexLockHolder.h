@@ -79,8 +79,7 @@ protected:
   MutexType & m_Mutex;
   bool        m_LockCaptured;
 private:
-  MutexLockHolder(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MutexLockHolder);
 
 };
 

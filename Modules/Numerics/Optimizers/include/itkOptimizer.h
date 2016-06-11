@@ -100,8 +100,7 @@ protected:
   ParametersType m_CurrentPosition;
 
 private:
-  Optimizer(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Optimizer);
 
   ParametersType m_InitialPosition;
   ScalesType     m_Scales;

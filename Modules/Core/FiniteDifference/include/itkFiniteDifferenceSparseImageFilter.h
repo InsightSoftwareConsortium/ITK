@@ -196,8 +196,7 @@ private:
       which are passed to each thread for parallel processing. */
   typename NodeListType::RegionListType m_RegionList;
 
-  FiniteDifferenceSparseImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FiniteDifferenceSparseImageFilter);
 };
 } // end namespace itk
 

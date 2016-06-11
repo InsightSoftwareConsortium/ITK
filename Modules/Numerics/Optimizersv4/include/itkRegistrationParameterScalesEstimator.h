@@ -261,8 +261,7 @@ protected:
   static ITK_CONSTEXPR_VAR SizeValueType    SizeOfSmallDomain = 1000;
 
 private:
-  RegistrationParameterScalesEstimator(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimator);
 
   /** m_TransformForward specifies which transform scales to be estimated.
    * m_TransformForward = true (default) for the moving transform parameters.

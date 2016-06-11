@@ -56,8 +56,7 @@ protected:
   }
 
 private:
-  DicomImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DicomImageIO);
 };
 } // end namespace itk
 

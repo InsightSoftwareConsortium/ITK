@@ -164,8 +164,8 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  PhysicsBasedNonRigidRegistrationMethod( const PhysicsBasedNonRigidRegistrationMethod & ) ITK_DELETE_FUNCTION;
-  void operator=( const PhysicsBasedNonRigidRegistrationMethod & ) ITK_DELETE_FUNCTION;
+  PhysicsBasedNonRigidRegistrationMethod( const PhysicsBasedNonRigidRegistrationMethod & ) ITK_DELETED_FUNCTION;
+  void operator=( const PhysicsBasedNonRigidRegistrationMethod & ) ITK_DELETED_FUNCTION;
 
   // algorithm parameters
   double         m_SelectFraction;

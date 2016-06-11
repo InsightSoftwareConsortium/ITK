@@ -105,8 +105,7 @@ protected:
   ~ShanbhagThresholdImageFilter(){};
 
 private:
-  ShanbhagThresholdImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdImageFilter);
 }; // end of class
 
 } // end namespace itk

@@ -186,8 +186,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  GrayscaleGeodesicErodeImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleGeodesicErodeImageFilter);
 
   bool          m_RunOneIteration;
   unsigned long m_NumberOfIterationsUsed;

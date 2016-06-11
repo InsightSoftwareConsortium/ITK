@@ -118,8 +118,7 @@ protected:
   virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  LabelImageToLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelImageToLabelMapFilter);
 
   OutputImagePixelType m_BackgroundValue;
 

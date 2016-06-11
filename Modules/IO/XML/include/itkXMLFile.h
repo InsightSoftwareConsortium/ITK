@@ -77,8 +77,7 @@ protected:
   std::string m_Filename;
 
 private:
-  XMLReaderBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReaderBase);
 };
 
 /** \class XMLReader
@@ -113,8 +112,7 @@ protected:
   T *m_OutputObject;
 
 private:
-  XMLReader(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(XMLReader);
 };
 
 /** \class XMLWriterBase
@@ -193,8 +191,7 @@ protected:
   std::string m_Filename;       // name of file to write.
 
 private:
-  XMLWriterBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(XMLWriterBase);
 };
 }
 #endif

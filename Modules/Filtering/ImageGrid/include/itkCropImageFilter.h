@@ -112,8 +112,7 @@ protected:
   void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  CropImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CropImageFilter);
 
   SizeType m_UpperBoundaryCropSize;
   SizeType m_LowerBoundaryCropSize;
