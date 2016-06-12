@@ -46,13 +46,13 @@
 #define ITK_SIZEOF_VOID_P @CMAKE_SIZEOF_VOID_P@
 
 /* The CXX standard version used when ITK was built */
-#define ITK_COMPILED_CXX_VERSION @ITK_COMPILED_CXX_VERSION@
+#define ITK_COMPILED_CXX_STANDARD_VERSION @ITK_COMPILED_CXX_STANDARD_VERSION@
 
 /* Test external applications to ensure that compatible compiler C++ standard API are used
  * by assuming that compiler standards are backwards (but not forwards) compatible with each
  * other.  Strange behaviors may occur if external applications do not use the same compiler
  * and compiler language featues (i.e. compiler flags). */
-#if ITK_COMPILED_CXX_VERSION > __cplusplus
+#if ITK_COMPILED_CXX_STANDARD_VERSION > __cplusplus
   #warning "WARNING:  The current project is configured to use a C++ standard version older than the C++ standard used for this build of ITK"
 #endif
 

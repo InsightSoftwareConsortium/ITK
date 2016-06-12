@@ -179,7 +179,7 @@ namespace itk
   #endif
 #endif
 
-#if ITK_COMPILED_CXX_VERSION >= 201103L
+#if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
   #define ITK_HAS_CXX11_RVREF
 #endif
 
@@ -211,7 +211,7 @@ namespace itk
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
 // use it analogously to "break;".  The trailing semi-colon is required.
-#if ITK_COMPILED_CXX_VERSION >= 201103L && defined(__has_warning)
+#if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L && defined(__has_warning)
 # if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
 #  define ITK_FALLTHROUGH [[clang::fallthrough]]
 # endif

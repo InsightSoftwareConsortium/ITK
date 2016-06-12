@@ -746,7 +746,7 @@ ITKCommon_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
  * Alias the vnl_math functions in the itk::Math
  * namespace. If possible, use the std:: equivalents
  */
-#if  ITK_COMPILED_CXX_VERSION >= 201103L
+#if  ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
 
 /** A macro to allow perfect forwarding of functions using
   * C++11 or greater features
