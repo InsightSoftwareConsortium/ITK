@@ -55,11 +55,6 @@ if(WIN32 AND NOT MINGW)
   check_symbol_exists(InterlockedAdd "windows.h" ITK_HAS_INTERLOCKEDADD)
 endif()
 
-# Check for the new C++11 alignas type specifier for future portable alignment
-try_compile( ITK_HAS_CPP11_ALIGNAS
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasCPP11Alignas.cxx )
-
 if(CMAKE_CXX_STANDARD)
    set(TRY_COMP_CXX_STANDARD
        -DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD})

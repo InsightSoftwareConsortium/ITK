@@ -193,6 +193,14 @@ namespace itk
   #else
     #define ITK_DELETE_FUNCTION
   #endif
+  #if ITK_COMPILER_CXX_ALIGNAS //NOTE DEPRECATED! should use ITK_COMPILER_CXX_ALIGNAS
+     // defined if the compiler supports C++11 alignas type specifier
+     #define ITK_HAS_CPP11_ALIGNAS
+  #else
+     #ifdef ITK_HAS_CPP11_ALIGNAS
+       #undef ITK_HAS_CPP11_ALIGNAS
+     #endif
+  #endif
 #endif
 
 #if ITK_COMPILER_CXX_NOEXCEPT
