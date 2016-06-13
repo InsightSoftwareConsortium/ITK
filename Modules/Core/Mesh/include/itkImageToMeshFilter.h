@@ -87,8 +87,7 @@ protected:
   ~ImageToMeshFilter();
 
 private:
-  ImageToMeshFilter(const ImageToMeshFilter &) ITK_DELETED_FUNCTION;
-  void operator=(const ImageToMeshFilter &) ITK_DELETED_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToMeshFilter);
 };
 } // end namespace itk
 

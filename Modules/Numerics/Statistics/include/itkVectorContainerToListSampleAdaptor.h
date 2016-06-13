@@ -165,8 +165,8 @@ public:
       this->m_InstanceIdentifier = iid;
     }
 
-    ConstIterator() ITK_DELETED_FUNCTION;
   private:
+    ConstIterator() ITK_DELETED_FUNCTION;
     VectorContainerConstIterator      m_Iter;
     InstanceIdentifier                m_InstanceIdentifier;
   };
@@ -192,6 +192,11 @@ public:
     }
 
   protected:
+    Iterator( VectorContainerIterator iter, InstanceIdentifier iid )
+      :ConstIterator( iter, iid )
+    {}
+
+  private:
     // To ensure const-correctness these method must not be in the public API.
     // The are not implemented, since they should never be called.
     Iterator() ITK_DELETED_FUNCTION;
@@ -199,12 +204,6 @@ public:
     Iterator( VectorContainerConstIterator iter, InstanceIdentifier iid ) ITK_DELETED_FUNCTION;
     Iterator( const ConstIterator & it) ITK_DELETED_FUNCTION;
     ConstIterator & operator=( const ConstIterator & it ) ITK_DELETED_FUNCTION;
-
-    Iterator( VectorContainerIterator iter, InstanceIdentifier iid )
-      :ConstIterator( iter, iid )
-    {}
-
-  private:
   };
 
   /** returns an iterator that points to the beginning of the container */

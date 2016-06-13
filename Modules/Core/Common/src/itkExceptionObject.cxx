@@ -49,7 +49,7 @@ protected:
     }
 
 private:
-  void operator=(const ExceptionData &) ITK_DELETED_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExceptionData);
 
   friend class ExceptionObject;
 
