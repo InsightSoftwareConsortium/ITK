@@ -11,9 +11,9 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 # Minimal swig version
 set(swig_version_min 3.0.0)
 
-set(ITK_SWIG_VERSION 3.0.8)
-set(swig_md5     c96a1d5ecb13d38604d7e92148c73c97)
-set(swigwin_md5  07bc00f7511b7d57516c50f59d705efa)
+set(ITK_SWIG_VERSION 3.0.9)
+set(swig_md5     4bc5f46a6cdedbd8f579b25fafc96fd6)
+set(swigwin_md5  811adf794d26a0cf54da578c2b9a14a3)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
@@ -56,7 +56,7 @@ else()
         itk_download_attempt_check(SWIG)
       endif()
       ExternalProject_Add(swig
-        URL https://midas3.kitware.com/midas/download/bitstream/458374/swigwin-3.0.8.zip
+        URL "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${swigwin_md5}&name=swigwin-${ITK_SWIG_VERSION}.zip"
         URL_MD5 ${swigwin_md5}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION}
         CONFIGURE_COMMAND ""
@@ -231,7 +231,7 @@ message(STATUS \"Swig configure successfully completed.\")
       endif()
 
       ExternalProject_Add(swig
-        URL https://midas3.kitware.com/midas/download/bitstream/458373/swig-3.0.8.tar.gz
+        URL "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${swig_md5}&name=swig-${ITK_SWIG_VERSION}.tar.gz"
         URL_MD5 ${swig_md5}
         CONFIGURE_COMMAND
           ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
