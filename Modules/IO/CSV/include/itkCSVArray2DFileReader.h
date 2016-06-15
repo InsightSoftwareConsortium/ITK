@@ -88,7 +88,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(Self,Superclass);
+  itkTypeMacro(CSVArray2DFileReader, CSVFileReaderBase);
 
   /** DataFrame Object types */
   typedef typename itk::CSVArray2DDataObject<TData>    Array2DDataObjectType;
