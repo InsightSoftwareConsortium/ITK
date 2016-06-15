@@ -187,7 +187,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 
   std::cout << "Computing bias correction without mask, 2 classes 10,10 - 200,20" << std::endl;
   filter->SetInput( imageWithBias.GetPointer() );
-  filter->IsBiasFieldMultiplicative( true ); // correct with multiplicative bias
+  filter->SetBiasFieldMultiplicative( true ); // correct with multiplicative bias
   filter->SetBiasFieldDegree( biasDegree ); // default value = 3
   filter->SetTissueClassStatistics( classMeans, classSigmas );
   //filter->SetOptimizerGrowthFactor( 1.01 ); // default value
