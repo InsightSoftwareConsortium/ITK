@@ -17,8 +17,10 @@
  *=========================================================================*/
 
 #include "itkCSVNumericObjectFileWriter.h"
+#include "itkLightProcessObject.h"
+#include "itkTestingMacros.h"
 
-int itkCSVNumericObjectFileWriterTest (int argc, char *argv[])
+int itkCSVNumericObjectFileWriterTest( int argc, char *argv[] )
 {
   if ( argc < 2 )
     {
@@ -54,6 +56,8 @@ int itkCSVNumericObjectFileWriterTest (int argc, char *argv[])
   typedef itk::CSVNumericObjectFileWriter
                           <double, ARows, ACols > Array2DWriterType;
   Array2DWriterType::Pointer array_writer = Array2DWriterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( array_writer, CSVNumericObjectFileWriter, LightProcessObject );
 
   // should throw an exception as there is no input file nor any object
   // to write out
