@@ -60,8 +60,7 @@ protected:
   virtual void GenerateData( const DOMNodeType* inputdom, const void* ) ITK_OVERRIDE;
 
 private:
-  ParticleSwarmOptimizerDOMReader(const Self &); //purposely not implemented
-  void operator=(const Self &); //purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParticleSwarmOptimizerDOMReader);
 };
 
 } // namespace itk

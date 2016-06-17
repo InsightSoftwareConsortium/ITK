@@ -168,8 +168,7 @@ protected:
   virtual void StartOptimization();
 
 private:
-  TimeVaryingVelocityFieldImageRegistrationMethodv4( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldImageRegistrationMethodv4);
 
   RealType                                                        m_LearningRate;
 

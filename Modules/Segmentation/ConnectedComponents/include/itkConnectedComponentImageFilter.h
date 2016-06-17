@@ -196,8 +196,7 @@ protected:
   bool m_FullyConnected;
 
 private:
-  ConnectedComponentImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedComponentImageFilter);
 
   LabelType            m_ObjectCount;
   OutputImagePixelType m_BackgroundValue;

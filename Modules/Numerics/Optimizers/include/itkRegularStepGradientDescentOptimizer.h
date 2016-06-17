@@ -65,8 +65,7 @@ protected:
     const DerivativeType & transformedGradient) ITK_OVERRIDE;
 
 private:
-  RegularStepGradientDescentOptimizer(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizer);
 };
 } // end namespace itk
 

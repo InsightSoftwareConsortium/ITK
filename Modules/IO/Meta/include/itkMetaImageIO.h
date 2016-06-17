@@ -159,8 +159,7 @@ private:
 
   MetaImage m_MetaImage;
 
-  MetaImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIO);
 
   unsigned int m_SubSamplingFactor;
 };

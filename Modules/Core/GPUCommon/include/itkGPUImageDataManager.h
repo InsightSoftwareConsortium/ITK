@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
   itkTypeMacro(GPUImageDataManager, GPUDataManager);
 
-  static ITK_CONSTEXPR unsigned int        ImageDimension = ImageType::ImageDimension;
+  static ITK_CONSTEXPR_VAR unsigned int        ImageDimension = ImageType::ImageDimension;
 
   itkGetModifiableObjectMacro(GPUBufferedRegionIndex, GPUDataManager);
   itkGetModifiableObjectMacro(GPUBufferedRegionSize, GPUDataManager);
@@ -78,8 +78,7 @@ protected:
   virtual ~GPUImageDataManager() {}
 
 private:
-  GPUImageDataManager(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&);
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUImageDataManager);
 
   WeakPointer<ImageType>            m_Image;   // WeakPointer has to be used here
                                                // to avoid SmartPointer loop

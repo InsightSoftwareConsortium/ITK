@@ -249,8 +249,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  WarpVectorImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(WarpVectorImageFilter);
 
   PixelType     m_EdgePaddingValue;
   SpacingType   m_OutputSpacing;

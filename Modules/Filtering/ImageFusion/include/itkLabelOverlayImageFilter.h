@@ -139,8 +139,7 @@ protected:
   void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  LabelOverlayImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelOverlayImageFilter);
 
   double         m_Opacity;
   LabelPixelType m_BackgroundValue;

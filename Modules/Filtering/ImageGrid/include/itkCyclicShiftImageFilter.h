@@ -102,8 +102,7 @@ protected:
   OffsetType m_Shift;
 
 private:
-  CyclicShiftImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CyclicShiftImageFilter);
 
 }; // end of class
 } // end namespace itk

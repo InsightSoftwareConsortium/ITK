@@ -198,8 +198,7 @@ public:
   virtual PointIdInternalConstIterator InternalPointIdsEnd() const;
 
 private:
-  QuadEdgeMeshLineCell(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshLineCell);
 
   /**
    * In order to have constant time access at the itk level instead of

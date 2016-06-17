@@ -86,8 +86,7 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  VectorAnisotropicDiffusionFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorAnisotropicDiffusionFunction);
 };
 } // end namespace itk
 

@@ -174,8 +174,7 @@ protected:
   typename VectorInterpolatorType::Pointer m_VectorInterpolator;
 
 private:
-  SegmentationLevelSetFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SegmentationLevelSetFunction);
 };
 } // end namespace
 

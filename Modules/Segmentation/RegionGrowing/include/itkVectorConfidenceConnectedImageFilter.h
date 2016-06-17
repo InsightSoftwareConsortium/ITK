@@ -158,8 +158,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  VectorConfidenceConnectedImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorConfidenceConnectedImageFilter);
 
   SeedsContainerType   m_Seeds;
   double               m_Multiplier;

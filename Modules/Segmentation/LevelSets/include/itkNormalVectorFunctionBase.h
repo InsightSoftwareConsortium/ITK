@@ -107,8 +107,7 @@ private:
   /** The time step for normal vector finite difference computations. */
   TimeStepType m_TimeStep;
 
-  NormalVectorFunctionBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(NormalVectorFunctionBase);
 };
 } // end namespace itk
 

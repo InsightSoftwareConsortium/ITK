@@ -138,8 +138,7 @@ protected:
   virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
 private:
-  SymmetricForcesDemonsRegistrationFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricForcesDemonsRegistrationFilter);
 };
 } // end namespace itk
 

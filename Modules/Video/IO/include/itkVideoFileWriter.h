@@ -140,8 +140,7 @@ protected:
   ImageIOBase::IOComponentType m_ComponentType;
 
 private:
-  VideoFileWriter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
 
 };
 

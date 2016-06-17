@@ -82,8 +82,7 @@ protected:
   typename TransformType::Pointer m_Transform;
 
 private:
-  TransformMeshFilter(const TransformMeshFilter &) ITK_DELETE_FUNCTION;
-  void operator=(const TransformMeshFilter &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformMeshFilter);
 };
 } // end namespace itk
 

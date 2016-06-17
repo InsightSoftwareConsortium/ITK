@@ -51,8 +51,7 @@ public:
 private:
   DOMTestObject() {}
 
-  DOMTestObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMTestObject);
 
   std::string m_FooValue;
   std::string m_FooFileName;

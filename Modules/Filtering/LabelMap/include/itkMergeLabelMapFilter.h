@@ -114,8 +114,7 @@ protected:
   MethodChoice m_Method;
 
 private:
-  MergeLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MergeLabelMapFilter);
 
   void MergeWithKeep();
 

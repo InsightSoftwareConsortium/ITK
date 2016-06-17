@@ -123,8 +123,7 @@ protected:
                             ThreadIdType threadId);
 
 private:
-  TwoOutputExampleImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TwoOutputExampleImageFilter);
 
   PixelType m_OutsideValue;
   PixelType m_Lower;

@@ -122,11 +122,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-
-  GPUDataManager(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&);
-
-protected:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDataManager);
 
   unsigned int m_BufferSize;   // # of bytes
 

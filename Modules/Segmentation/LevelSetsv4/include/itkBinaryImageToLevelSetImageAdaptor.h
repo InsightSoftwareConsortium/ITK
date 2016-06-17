@@ -111,8 +111,7 @@ protected:
   virtual ~BinaryImageToLevelSetImageAdaptor();
 
 private:
-  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
 
   SignedDistanceTransformFilterPointer   m_SignedDistanceTransformFilter;
 };
@@ -269,8 +268,7 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
 
   /** Fill layer adjacent (OutputLayer) to the layer (LayerToBeScanned) */
   void PropagateToOuterLayers( LayerIdType LayerToBeScanned, LayerIdType OutputLayer, LayerIdType TestValue );
@@ -364,8 +362,7 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
 };
 
 
@@ -451,8 +448,7 @@ protected:
 
 private:
 
-  BinaryImageToLevelSetImageAdaptor( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
 };
 
 }

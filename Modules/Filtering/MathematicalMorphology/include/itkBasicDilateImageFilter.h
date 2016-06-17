@@ -118,8 +118,7 @@ protected:
                      const KernelIteratorType kernelEnd) ITK_OVERRIDE;
 
 private:
-  BasicDilateImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BasicDilateImageFilter);
 
   // Default boundary condition for dilation filter, defaults to
   // NumericTraits<PixelType>::NonpositiveMin()

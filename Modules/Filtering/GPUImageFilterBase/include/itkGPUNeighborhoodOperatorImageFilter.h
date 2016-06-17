@@ -175,8 +175,7 @@ protected:
   }
 
 private:
-  GPUNeighborhoodOperatorImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUNeighborhoodOperatorImageFilter);
 
   /** Internal operator used to filter the image.
   OutputNeighborhoodType m_Operator;*/

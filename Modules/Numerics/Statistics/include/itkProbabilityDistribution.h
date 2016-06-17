@@ -153,8 +153,7 @@ protected:
   ParametersType m_Parameters;
 
 private:
-  ProbabilityDistribution(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProbabilityDistribution);
 };                                       // end of class
 } // end of namespace Statistics
 } // end namespace itk

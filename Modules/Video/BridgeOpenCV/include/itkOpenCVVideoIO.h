@@ -145,8 +145,7 @@ protected:
   void OpenWriter();
 
 private:
-  OpenCVVideoIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(OpenCVVideoIO);
 
 private:
   IplImage*           m_CVImage;

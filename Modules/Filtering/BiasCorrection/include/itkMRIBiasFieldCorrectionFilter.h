@@ -166,8 +166,7 @@ private:
   /** Sampling factors */
   SamplingFactorType m_SamplingFactor;
 
-  MRIBiasEnergyFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
 };                                     // end of class
 
 /** \class MRIBiasFieldCorrectionFilter
@@ -521,8 +520,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  MRIBiasFieldCorrectionFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasFieldCorrectionFilter);
 
   /** Energy function object pointer. */
   EnergyFunctionPointer m_EnergyFunction;

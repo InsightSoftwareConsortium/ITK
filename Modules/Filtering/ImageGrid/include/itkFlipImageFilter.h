@@ -129,8 +129,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  FlipImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FlipImageFilter);
 
   FlipAxesArrayType m_FlipAxes;
   bool              m_FlipAboutOrigin;

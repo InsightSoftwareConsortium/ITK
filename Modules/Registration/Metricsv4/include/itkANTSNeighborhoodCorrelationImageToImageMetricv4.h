@@ -185,8 +185,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ANTSNeighborhoodCorrelationImageToImageMetricv4( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ANTSNeighborhoodCorrelationImageToImageMetricv4);
 
   // Radius of the neighborhood window centered at each pixel
   RadiusType m_Radius;

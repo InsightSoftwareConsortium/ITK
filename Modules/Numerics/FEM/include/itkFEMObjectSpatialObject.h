@@ -75,8 +75,7 @@ public:
   ModifiedTimeType GetMTime( void ) const ITK_OVERRIDE;
 
 protected:
-  FEMObjectSpatialObject(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMObjectSpatialObject);
 
   FEMObjectPointer m_FEMObject;
 

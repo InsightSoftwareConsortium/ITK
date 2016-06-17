@@ -172,8 +172,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  DCMTKSeriesFileNames(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DCMTKSeriesFileNames);
 
   /** internal method for reading out filenames and UID lists */
   void GetDicomData(const std::string &series, bool saveFileNames);

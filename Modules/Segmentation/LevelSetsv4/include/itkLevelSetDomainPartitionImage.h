@@ -101,8 +101,7 @@ protected:
   LevelSetDomainRegionVectorType  m_LevelSetDomainRegionVector;
 
 private:
-  LevelSetDomainPartitionImage(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetDomainPartitionImage);
 };
 } //end namespace itk
 

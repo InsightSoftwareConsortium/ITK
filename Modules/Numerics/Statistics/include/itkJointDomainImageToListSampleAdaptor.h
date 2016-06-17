@@ -249,9 +249,8 @@ protected:
       m_InstanceIdentifier = iid;
     }
 
-    ConstIterator() ITK_DELETE_FUNCTION;
-
 private:
+    ConstIterator() ITK_DELETED_FUNCTION;
     mutable MeasurementVectorType              m_MeasurementVectorCache;
     InstanceIdentifier                         m_InstanceIdentifier;
     const JointDomainImageToListSampleAdaptor *m_Adaptor;
@@ -280,19 +279,19 @@ public:
     }
 
 protected:
-    // To ensure const-correctness these method must not be in the public API.
-    // The are purposly not implemented, since they should never be called.
-    Iterator() ITK_DELETE_FUNCTION;
-    Iterator(const Self *adaptor) ITK_DELETE_FUNCTION;
-    Iterator(const ConstIterator & it) ITK_DELETE_FUNCTION;
-    ConstIterator & operator=(const ConstIterator & it) ITK_DELETE_FUNCTION;
-
     Iterator(
       const JointDomainImageToListSampleAdaptor *adaptor,
       InstanceIdentifier iid):ConstIterator(adaptor, iid)
     {}
 
 private:
+    // To ensure const-correctness these method must not be in the public API.
+    // The are purposly not implemented, since they should never be called.
+    Iterator() ITK_DELETED_FUNCTION;
+    Iterator(const Self *adaptor) ITK_DELETED_FUNCTION;
+    Iterator(const ConstIterator & it) ITK_DELETED_FUNCTION;
+    ConstIterator & operator=(const ConstIterator & it) ITK_DELETED_FUNCTION;
+
   };
 
   /** returns an iterator that points to the beginning of the container */
@@ -333,8 +332,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  JointDomainImageToListSampleAdaptor(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(JointDomainImageToListSampleAdaptor);
 
   NormalizationFactorsType                 m_NormalizationFactors;
   mutable MeasurementVectorType            m_TempVector;

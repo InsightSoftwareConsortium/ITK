@@ -133,8 +133,7 @@ protected:
   int m_ApplyUpdateGPUKernelHandle;
 
 private:
-  GPUDenseFiniteDifferenceImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDenseFiniteDifferenceImageFilter);
 
 };
 } // end namespace itk

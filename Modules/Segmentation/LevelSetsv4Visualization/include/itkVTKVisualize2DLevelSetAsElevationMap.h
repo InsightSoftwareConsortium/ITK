@@ -88,8 +88,7 @@ protected:
   void GenerateElevationMap();
 
 private:
-  VTKVisualize2DLevelSetAsElevationMap( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const VTKVisualize2DLevelSetAsElevationMap & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKVisualize2DLevelSetAsElevationMap);
 
   LevelSetPointer           m_LevelSet;
 

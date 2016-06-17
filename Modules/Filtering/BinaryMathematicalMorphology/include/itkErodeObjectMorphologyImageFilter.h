@@ -117,8 +117,7 @@ protected:
                 const KernelType & kernel) ITK_OVERRIDE;
 
 private:
-  ErodeObjectMorphologyImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ErodeObjectMorphologyImageFilter);
 
   PixelType m_BackgroundValue;
 

@@ -100,8 +100,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ImageToParametricSpaceFilter(const ImageToParametricSpaceFilter &) ITK_DELETE_FUNCTION;
-  void operator=(const ImageToParametricSpaceFilter &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToParametricSpaceFilter);
 
   /** This variable defines if the indices of input image pixels
    * will be stored as Data at each one of the mesh points. */

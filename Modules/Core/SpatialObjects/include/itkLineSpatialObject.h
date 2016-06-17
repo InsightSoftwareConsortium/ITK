@@ -113,8 +113,7 @@ public:
   bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
 protected:
-  LineSpatialObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LineSpatialObject);
 
   PointListType m_Points;
 

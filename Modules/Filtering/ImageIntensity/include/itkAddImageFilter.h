@@ -148,8 +148,7 @@ protected:
   virtual ~AddImageFilter() {}
 
 private:
-  AddImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AddImageFilter);
 };
 } // end namespace itk
 

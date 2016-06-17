@@ -137,8 +137,7 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  Hessian3DToVesselnessMeasureImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Hessian3DToVesselnessMeasureImageFilter);
 
   typename EigenAnalysisFilterType::Pointer m_SymmetricEigenValueFilter;
 

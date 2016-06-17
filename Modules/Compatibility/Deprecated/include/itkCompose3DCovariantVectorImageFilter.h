@@ -117,8 +117,7 @@ protected:
   virtual ~Compose3DCovariantVectorImageFilter() {}
 
 private:
-  Compose3DCovariantVectorImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Compose3DCovariantVectorImageFilter);
 };
 } // end namespace itk
 

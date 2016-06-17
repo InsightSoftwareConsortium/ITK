@@ -140,8 +140,7 @@ protected:
   LevelSetOutputRealType m_NeighborhoodScales[ImageDimension];
 
 private:
-  LevelSetEquationAdvectionTerm( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationAdvectionTerm);
 
   LevelSetOutputRealType m_DerivativeSigma;
 

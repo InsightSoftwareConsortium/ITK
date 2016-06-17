@@ -134,8 +134,7 @@ protected:
   InputType m_DefaultInputStepSize;
 
 private:
-  ParametricPath(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricPath);
 };
 
 } // namespace itk

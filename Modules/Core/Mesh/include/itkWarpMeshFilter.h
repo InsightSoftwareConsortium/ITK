@@ -84,8 +84,7 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  WarpMeshFilter(const WarpMeshFilter &) ITK_DELETE_FUNCTION;
-  void operator=(const WarpMeshFilter &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(WarpMeshFilter);
 };
 } // end namespace itk
 

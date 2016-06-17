@@ -405,7 +405,6 @@ public:
     }
 
 protected:
-    ConstIterator() ITK_DELETE_FUNCTION;
 
     ConstIterator(InstanceIdentifier id, const Self *histogram):
       m_Id(id), m_Histogram(histogram)
@@ -416,6 +415,8 @@ protected:
 
     // Pointer of DenseFrequencyContainer
     const Self *m_Histogram;
+private:
+    ConstIterator() ITK_DELETED_FUNCTION;
   };   // end of iterator class
 
   /** \class Iterator
@@ -449,16 +450,14 @@ public:
       return histogram->SetFrequency(this->m_Id, value);
     }
 
-protected:
+private:
     // To ensure const-correctness these method must not be in the public API.
     // The are not implemented, since they should never be called.
-    Iterator(); //purposly not implemented
-    Iterator(const Self *histogram); //purposly not implemented
-    Iterator(InstanceIdentifier id, const Self *histogram); //purposly not implemented
-    Iterator(const ConstIterator & it); //purposly not implemented
-    ConstIterator & operator=(const ConstIterator & it); //purposly not implemented
-
-private:
+    Iterator() ITK_DELETED_FUNCTION;
+    Iterator(const Self *histogram) ITK_DELETED_FUNCTION;
+    Iterator(InstanceIdentifier id, const Self *histogram) ITK_DELETED_FUNCTION;
+    Iterator(const ConstIterator & it) ITK_DELETED_FUNCTION;
+    ConstIterator & operator=(const ConstIterator & it) ITK_DELETED_FUNCTION;
   };   // end of iterator class
 
   Iterator  Begin()
@@ -493,8 +492,7 @@ protected:
   SizeType m_Size;
 
 private:
-  Histogram(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Histogram);
 
   typedef std::vector< InstanceIdentifier > OffsetTableType;
   OffsetTableType           m_OffsetTable;

@@ -128,8 +128,7 @@ protected:
   ChildrenListType m_Children;
 
 private:
-  TreeNode(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TreeNode);
 };
 } // end namespace itk
 

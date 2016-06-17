@@ -145,8 +145,7 @@ protected:
   virtual void InitializeIteration() ITK_OVERRIDE;
 
 private:
-  ScalarChanAndVeseDenseLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarChanAndVeseDenseLevelSetImageFilter);
 };
 } //end namespace itk
 

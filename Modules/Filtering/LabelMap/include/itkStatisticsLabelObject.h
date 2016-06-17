@@ -560,8 +560,7 @@ protected:
   }
 
 private:
-  StatisticsLabelObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsLabelObject);
 
   double    m_Minimum;
   double    m_Maximum;

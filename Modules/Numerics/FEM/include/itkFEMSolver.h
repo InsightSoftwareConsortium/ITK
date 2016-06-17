@@ -400,8 +400,7 @@ protected:
   FEMObjectPointer m_FEMObject;
 
 private:
-  Solver(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Solver);
 
   /** Properties of the interpolation grid. */
   InterpolationGridRegionType       m_Region;

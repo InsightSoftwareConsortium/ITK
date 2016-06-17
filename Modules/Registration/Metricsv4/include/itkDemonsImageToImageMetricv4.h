@@ -142,8 +142,7 @@ private:
   /* Used to normalize derivative calculation. Automatically calculated */
   TInternalComputationValueType   m_Normalizer;
 
-  DemonsImageToImageMetricv4(const Self &) ITK_DELETE_FUNCTION;
-  void operator = (const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DemonsImageToImageMetricv4);
 };
 
 } // end namespace itk

@@ -134,8 +134,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ShapeLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ShapeLabelMapFilter);
 
   bool                   m_ComputeFeretDiameter;
   bool                   m_ComputePerimeter;

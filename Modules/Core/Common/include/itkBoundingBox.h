@@ -177,8 +177,7 @@ protected:
   typedef typename PointsContainer::ConstIterator ConstIterator;
 
 private:
-  BoundingBox(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoundingBox);
 
   PointsContainerConstPointer m_PointsContainer;
   PointsContainerPointer      m_CornersContainer;

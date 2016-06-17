@@ -102,8 +102,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  OtsuThresholdImageCalculator(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(OtsuThresholdImageCalculator);
 
   PixelType         m_Threshold;
   SizeValueType     m_NumberOfHistogramBins;

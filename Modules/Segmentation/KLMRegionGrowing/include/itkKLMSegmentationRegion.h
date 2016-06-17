@@ -219,8 +219,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  KLMSegmentationRegion(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(KLMSegmentationRegion);
 
   RegionBorderVectorType  m_RegionBorderVector;
   MeanRegionIntensityType m_MeanRegionIntensity;

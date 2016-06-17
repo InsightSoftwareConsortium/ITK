@@ -149,8 +149,7 @@ protected:
   int m_AverageGradientMagnitudeSquaredGPUKernelHandle;
 
 private:
-  GPUAnisotropicDiffusionFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUAnisotropicDiffusionFunction);
 
   double       m_AverageGradientMagnitudeSquared;
   double       m_ConductanceParameter;

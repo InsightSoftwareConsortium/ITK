@@ -161,8 +161,7 @@ protected:
   bool VerifyExtensions( const std::vector<std::string>& fileList ) const;
 
 private:
-  FileListVideoIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FileListVideoIO);
 
   /** Member Variables */
   ImageIOBase::Pointer m_ImageIO;

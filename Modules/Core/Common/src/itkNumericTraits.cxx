@@ -26,46 +26,46 @@ namespace itk
  * definitions are defined. Other compilers (GCC) seem not to care, while
  * still others (Clang) require it.
  */
-#if !defined(_MSC_VER) || (ITK_COMPILED_CXX_VERSION >= 201103L)
-ITK_CONSTEXPR bool NumericTraits< bool >:: Zero;
-ITK_CONSTEXPR bool NumericTraits< bool >:: One;
+#if !defined(_MSC_VER) || (ITK_COMPILER_CXX_CONSTEXPR)
+ITK_CONSTEXPR_VAR bool NumericTraits< bool >:: Zero;
+ITK_CONSTEXPR_VAR bool NumericTraits< bool >:: One;
 
-ITK_CONSTEXPR unsigned char NumericTraits< unsigned char >:: Zero;
-ITK_CONSTEXPR unsigned char NumericTraits< unsigned char >:: One;
+ITK_CONSTEXPR_VAR unsigned char NumericTraits< unsigned char >:: Zero;
+ITK_CONSTEXPR_VAR unsigned char NumericTraits< unsigned char >:: One;
 
-ITK_CONSTEXPR signed char NumericTraits< signed char >:: Zero;
-ITK_CONSTEXPR signed char NumericTraits< signed char >:: One;
+ITK_CONSTEXPR_VAR signed char NumericTraits< signed char >:: Zero;
+ITK_CONSTEXPR_VAR signed char NumericTraits< signed char >:: One;
 
-ITK_CONSTEXPR char NumericTraits< char >:: Zero;
-ITK_CONSTEXPR char NumericTraits< char >:: One;
+ITK_CONSTEXPR_VAR char NumericTraits< char >:: Zero;
+ITK_CONSTEXPR_VAR char NumericTraits< char >:: One;
 
-ITK_CONSTEXPR unsigned short NumericTraits< unsigned short >:: Zero;
-ITK_CONSTEXPR unsigned short NumericTraits< unsigned short >:: One;
+ITK_CONSTEXPR_VAR unsigned short NumericTraits< unsigned short >:: Zero;
+ITK_CONSTEXPR_VAR unsigned short NumericTraits< unsigned short >:: One;
 
-ITK_CONSTEXPR short NumericTraits< short >:: Zero;
-ITK_CONSTEXPR short NumericTraits< short >:: One;
+ITK_CONSTEXPR_VAR short NumericTraits< short >:: Zero;
+ITK_CONSTEXPR_VAR short NumericTraits< short >:: One;
 
-ITK_CONSTEXPR unsigned int NumericTraits< unsigned int >:: Zero;
-ITK_CONSTEXPR unsigned int NumericTraits< unsigned int >:: One;
+ITK_CONSTEXPR_VAR unsigned int NumericTraits< unsigned int >:: Zero;
+ITK_CONSTEXPR_VAR unsigned int NumericTraits< unsigned int >:: One;
 
-ITK_CONSTEXPR int NumericTraits< int >:: Zero;
-ITK_CONSTEXPR int NumericTraits< int >:: One;
+ITK_CONSTEXPR_VAR int NumericTraits< int >:: Zero;
+ITK_CONSTEXPR_VAR int NumericTraits< int >:: One;
 
-ITK_CONSTEXPR unsigned long NumericTraits< unsigned long >:: Zero;
-ITK_CONSTEXPR unsigned long NumericTraits< unsigned long >:: One;
+ITK_CONSTEXPR_VAR unsigned long NumericTraits< unsigned long >:: Zero;
+ITK_CONSTEXPR_VAR unsigned long NumericTraits< unsigned long >:: One;
 
-ITK_CONSTEXPR long NumericTraits< long >:: Zero;
-ITK_CONSTEXPR long NumericTraits< long >:: One;
+ITK_CONSTEXPR_VAR long NumericTraits< long >:: Zero;
+ITK_CONSTEXPR_VAR long NumericTraits< long >:: One;
 
-ITK_CONSTEXPR long long NumericTraits< long long >:: Zero;
-ITK_CONSTEXPR long long NumericTraits< long long >:: One;
+ITK_CONSTEXPR_VAR long long NumericTraits< long long >:: Zero;
+ITK_CONSTEXPR_VAR long long NumericTraits< long long >:: One;
 
-ITK_CONSTEXPR unsigned long long NumericTraits< unsigned long long >:: Zero;
-ITK_CONSTEXPR unsigned long long NumericTraits< unsigned long long >:: One;
+ITK_CONSTEXPR_VAR unsigned long long NumericTraits< unsigned long long >:: Zero;
+ITK_CONSTEXPR_VAR unsigned long long NumericTraits< unsigned long long >:: One;
 #endif
 
 // If not C++11, then use static initialization for real types
-#if !(ITK_COMPILED_CXX_VERSION >= 201103L)
+#if !(ITK_COMPILER_CXX_CONSTEXPR)
 
 const float NumericTraits< float >:: Zero = 0.0F;
 const float NumericTraits< float >:: One = 1.0F;
@@ -78,14 +78,14 @@ const long double NumericTraits< long double >:: One = 1.0;
 
 #else
 
-ITK_CONSTEXPR float NumericTraits< float >:: Zero;
-ITK_CONSTEXPR float NumericTraits< float >:: One;
+ITK_CONSTEXPR_VAR float NumericTraits< float >:: Zero;
+ITK_CONSTEXPR_VAR float NumericTraits< float >:: One;
 
-ITK_CONSTEXPR double NumericTraits< double >:: Zero;
-ITK_CONSTEXPR double NumericTraits< double >:: One;
+ITK_CONSTEXPR_VAR double NumericTraits< double >:: Zero;
+ITK_CONSTEXPR_VAR double NumericTraits< double >:: One;
 
-ITK_CONSTEXPR long double NumericTraits< long double >:: Zero;
-ITK_CONSTEXPR long double NumericTraits< long double >:: One;
+ITK_CONSTEXPR_VAR long double NumericTraits< long double >:: Zero;
+ITK_CONSTEXPR_VAR long double NumericTraits< long double >:: One;
 
 
 #endif

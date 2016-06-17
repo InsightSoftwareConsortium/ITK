@@ -179,42 +179,47 @@ namespace itk
   #endif
 #endif
 
-#if ITK_COMPILED_CXX_VERSION >= 201103L
-// In c++11 the override keyword allows you to explicity define that a function
-// is intended to override the base-class version.  This makes the code more
-// managable and fixes a set of common hard-to-find bugs.
-#define ITK_OVERRIDE override
-// In functions that should not be implemented, use the C++11 mechanism
-// to ensure that thye are purposely not implemented
-#define ITK_DELETE_FUNCTION =delete
-// In c++11 there is an explicit nullptr type that introduces a new keyword to
-// serve as a distinguished null pointer constant: nullptr. It is of type
-// nullptr_t, which is implicitly convertible and comparable to any pointer type
-// or pointer-to-member type. It is not implicitly convertible or comparable to
-// integral types, except for bool.
-#define ITK_NULLPTR  nullptr
-// In C++11 the throw-list specification has been deprecated,
-// replaces with the noexcept specifier. Using this function
-// specification adds the run-time check that the method does not
-// throw, if it does throw then std::terminate will be called.
-// Use cautiously.
-#define ITK_NOEXCEPT noexcept
-#define ITK_HAS_CXX11_STATIC_ASSERT
-#define ITK_HAS_CXX11_RVREF
-#define ITK_CONSTEXPR constexpr
-#define ITK_CONSTEXPR_FUNC constexpr
+#if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
+  #define ITK_HAS_CXX11_RVREF
+#endif
+
+#if ! defined( ITK_FUTURE_LEGACY_REMOVE )
+  #if ITK_COMPILER_CXX_STATIC_ASSERT
+    #define ITK_HAS_CXX11_STATIC_ASSERT //NOTE DEPRECATED!  should be ITK_COMPILER_CXX_STATIC_ASSERT
+  #endif
+
+  #if ITK_COMPILER_CXX_DELETED_FUNCTIONS
+    #define ITK_DELETE_FUNCTION =delete //NOTE DEPRECATED!  should be ITK_DELETED_FUNCTION
+  #else
+    #define ITK_DELETE_FUNCTION
+  #endif
+  #if ITK_COMPILER_CXX_ALIGNAS //NOTE DEPRECATED! should use ITK_COMPILER_CXX_ALIGNAS
+     // defined if the compiler supports C++11 alignas type specifier
+     #define ITK_HAS_CPP11_ALIGNAS
+  #else
+     #ifdef ITK_HAS_CPP11_ALIGNAS
+       #undef ITK_HAS_CPP11_ALIGNAS
+     #endif
+  #endif
+#endif
+
+#if ITK_COMPILER_CXX_NOEXCEPT
+  #define ITK_NOEXCEPT_OR_THROW noexcept
 #else
-#define ITK_OVERRIDE
-#define ITK_DELETE_FUNCTION
-#define ITK_NULLPTR  NULL
-#define ITK_NOEXCEPT throw()
-#define ITK_CONSTEXPR const
-#define ITK_CONSTEXPR_FUNC inline
+  #define ITK_NOEXCEPT_OR_THROW throw()
+#endif
+
+#if ITK_COMPILER_CXX_CONSTEXPR
+  #define ITK_CONSTEXPR_FUNC constexpr
+  #define ITK_CONSTEXPR_VAR constexpr
+#else
+  #define ITK_CONSTEXPR_FUNC inline
+  #define ITK_CONSTEXPR_VAR const
 #endif
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
 // use it analogously to "break;".  The trailing semi-colon is required.
-#if ITK_COMPILED_CXX_VERSION >= 201103L && defined(__has_warning)
+#if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L && defined(__has_warning)
 # if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
 #  define ITK_FALLTHROUGH [[clang::fallthrough]]
 # endif
@@ -308,6 +313,17 @@ namespace itk
     smartPtr = x::New().GetPointer();                          \
     return smartPtr;                                           \
     }
+
+//
+// A macro to disallow the copy constructor and operator= functions
+// This should be used in the private: declarations for a class
+//
+// ITK's paradigm for smart pointer and pipeline consistency
+// prohibits the use of copy construction and operator= functions.
+//
+#define ITK_DISALLOW_COPY_AND_ASSIGN(TypeName)         \
+  TypeName(const TypeName&) ITK_DELETED_FUNCTION;      \
+  void operator=(const TypeName&) ITK_DELETED_FUNCTION
 
 /** Macro used to add standard methods to all classes, mainly type
  * information. */
@@ -777,7 +793,7 @@ TTarget itkDynamicCastInDebugMode(TSource x)
 #if defined(__GNUC__) && ((__GNUC__ * 100) + __GNUC_MINOR__ ) < 405 && !defined( __clang__ ) && !defined( __INTEL_COMPILER )
 #  define itkStaticConstMacro(name,type,value) enum { name = value }
 #else
-#  define itkStaticConstMacro(name,type,value) static ITK_CONSTEXPR type name = value
+#  define itkStaticConstMacro(name,type,value) static ITK_CONSTEXPR_VAR type name = value
 #endif
 
 #define itkGetStaticConstMacro(name) (Self::name)

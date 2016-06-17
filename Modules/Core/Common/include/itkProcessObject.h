@@ -489,8 +489,7 @@ protected:
     virtual void DetermineNumberOfThreadsUsed();
 
   private:
-    ProcessObjectDomainThreader( const Self & ) ITK_DELETE_FUNCTION;
-    void operator=( const Self & ) ITK_DELETE_FUNCTION;
+    ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObjectDomainThreader);
    };
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
@@ -788,8 +787,7 @@ protected:
   TimeStamp m_OutputInformationMTime;
 
 private:
-  ProcessObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProcessObject);
 
   DataObjectIdentifierType MakeNameFromIndex( DataObjectPointerArraySizeType ) const;
   DataObjectPointerArraySizeType MakeIndexFromName( const DataObjectIdentifierType & ) const;

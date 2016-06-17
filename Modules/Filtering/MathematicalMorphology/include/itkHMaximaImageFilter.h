@@ -134,8 +134,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  HMaximaImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(HMaximaImageFilter);
 
   InputImagePixelType m_Height;
   unsigned long       m_NumberOfIterationsUsed;

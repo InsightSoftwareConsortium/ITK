@@ -155,8 +155,7 @@ protected:
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  NarrowBandCurvesLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandCurvesLevelSetImageFilter);
 
   /** Overridden from Superclass to handle the case when Propagation
    *  Scaling is zero.*/
