@@ -10,6 +10,7 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matrix_fixed.h>
+#include "vnl/vnl_export.h"
 
 //: Define a complete ordering on vnl_vector
 // This is useful to create a set, or map of vectors.
@@ -19,7 +20,7 @@
 //
 // \relatesalso vnl_vector
 
-template<class T>
+template<class T> VNL_EXPORT
 bool operator<(vnl_vector<T> const& lhs, vnl_vector<T> const& rhs)
 {
   if (&lhs == &rhs)  return false;              // same object => equal.
@@ -43,7 +44,7 @@ bool operator<(vnl_vector<T> const& lhs, vnl_vector<T> const& rhs)
 //
 // \relatesalso vnl_matrix
 
-template<class T>
+template<class T> VNL_EXPORT
 bool operator<(vnl_matrix<T> const& lhs, vnl_matrix<T> const& rhs)
 {
   if (&lhs == &rhs)  return false;              // same object => equal.
@@ -66,7 +67,7 @@ bool operator<(vnl_matrix<T> const& lhs, vnl_matrix<T> const& rhs)
 //
 // \relatesalso vnl_vector_fixed
 
-template<class T, unsigned int n>
+template<class T, unsigned int n> VNL_EXPORT
 bool operator<(vnl_vector_fixed<T,n> const& lhs, vnl_vector_fixed<T,n> const& rhs)
 {
   return lhs.as_ref() < rhs.as_ref();
@@ -77,7 +78,7 @@ bool operator<(vnl_vector_fixed<T,n> const& lhs, vnl_vector_fixed<T,n> const& rh
 //
 // \relatesalso vnl_matrix_fixed
 
-template<class T, unsigned int n, unsigned int m>
+template<class T, unsigned int n, unsigned int m> VNL_EXPORT
 bool operator<(vnl_matrix_fixed<T,n,m> const& lhs, vnl_matrix_fixed<T,n,m> const& rhs)
 {
   return lhs.as_ref() < rhs.as_ref();

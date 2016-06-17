@@ -30,10 +30,11 @@
 #include <iosfwd>
 #include <vnl/vnl_matlab_print.h>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
 // The proxy classes.
 template <class T>
-struct vnl_matlab_print_proxy
+struct VNL_EXPORT vnl_matlab_print_proxy
 {
   T const &obj;
   char const *name;
@@ -67,7 +68,7 @@ vnl_matlab_print(T const &obj,
 }
 
 #define VNL_MATLAB_PRINT2_INSTANTIATE(T) \
-template struct vnl_matlab_print_proxy<T >; \
+template struct VNL_EXPORT vnl_matlab_print_proxy<T >; \
 VCL_INSTANTIATE_INLINE(std::ostream& \
                        operator<<(std::ostream&, vnl_matlab_print_proxy<T > const&)); \
 VCL_INSTANTIATE_INLINE(vnl_matlab_print_proxy<T > \

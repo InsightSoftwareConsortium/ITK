@@ -17,7 +17,7 @@
 //-------------------------------------------------------------------
 
 template <class S, class T>
-void vnl_copy(S const *src, T *dst, unsigned n)
+void vnl_copy(S const * const src, T *const dst, const unsigned n)
 {
   for (unsigned int i=0; i<n; ++i)
     dst[i] = T(src[i]);
@@ -34,7 +34,7 @@ void vnl_copy(S const &src, T &dst)
 
 // C arrays
 #define VNL_COPY_INSTANTIATE0(S, T) \
-template void vnl_copy(S const *, T *, unsigned )
+template void VNL_EXPORT vnl_copy(S const * const, T * const, const unsigned )
 
 VNL_COPY_INSTANTIATE0(float, double);
 VNL_COPY_INSTANTIATE0(double, float);
@@ -45,7 +45,7 @@ VNL_COPY_INSTANTIATE0(long double, double);
 
 #define vnl_copy_macro(S, D) \
 VCL_DEFINE_SPECIALIZATION \
-void vnl_copy(std::complex<S> const *src, std::complex<D> *dst, unsigned n) \
+VNL_EXPORT void vnl_copy(std::complex<S> const * const src, std::complex<D> * const dst, const unsigned n) \
 { \
   for (unsigned int i=0; i<n; ++i) \
     dst[i] = std::complex<D>((D)std::real(src[i]), (D)std::imag(src[i])); \
@@ -59,7 +59,7 @@ vnl_copy_macro(long double, double);
 
 #define vnl_copy_dumb(S) \
 VCL_DEFINE_SPECIALIZATION \
-void vnl_copy(S const *src, S *dst, unsigned n) \
+VNL_EXPORT void vnl_copy(S const * const src, S *const dst, const unsigned n) \
 { \
   for (unsigned int i=0; i<n; ++i) \
     dst[i] = src[i]; \
@@ -71,9 +71,9 @@ vnl_copy_dumb(double);
 
 // vnl_* containers
 #define VNL_COPY_INSTANTIATE(S, T) \
-template void vnl_copy(vnl_vector<S > const &, vnl_vector<T > &); \
-template void vnl_copy(vnl_matrix<S > const &, vnl_matrix<T > &); \
-template void vnl_copy(vnl_diag_matrix<S > const &, vnl_diag_matrix<T > &)
+template VNL_EXPORT void vnl_copy(vnl_vector<S > const &, vnl_vector<T > &); \
+template VNL_EXPORT void vnl_copy(vnl_matrix<S > const &, vnl_matrix<T > &); \
+template VNL_EXPORT void vnl_copy(vnl_diag_matrix<S > const &, vnl_diag_matrix<T > &)
 
 VNL_COPY_INSTANTIATE(float, float);
 VNL_COPY_INSTANTIATE(double, double);

@@ -67,7 +67,6 @@ void vsl_b_write(vsl_b_ostream & os, const vnl_sparse_matrix<T> & p)
 {
   typedef vnl_sparse_matrix_pair<T> pair_t;
   typedef std::vector < pair_t > row;
-  typedef std::vector < row > vnl_sparse_matrix_elements;
 
   row rw;
   vnl_sparse_matrix<T> v=p;
@@ -96,8 +95,6 @@ void vsl_b_read(vsl_b_istream &is, vnl_sparse_matrix<T> & p)
   if (!is) return;
 
   typedef vnl_sparse_matrix_pair<T> pair_t;
-  typedef std::vector < pair_t > row;
-  typedef std::vector < row > vnl_sparse_matrix_elements;
 
   short ver;
   unsigned n_rows;

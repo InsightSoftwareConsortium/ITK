@@ -10,7 +10,7 @@
 #include "vnl/vnl_export.h"
 #include <vcl_compiler.h>
 
-class vnl_definite_integral
+class VNL_EXPORT vnl_definite_integral
 {
  protected:
   static VNL_EXPORT vnl_integrant_fnct *pfnct_;

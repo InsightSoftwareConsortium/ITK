@@ -36,12 +36,13 @@
 
 #include <cstddef>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
-const int VNL_ALLOC_ALIGN = 8;
-const std::size_t VNL_ALLOC_MAX_BYTES = 256;
-const std::size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES/VNL_ALLOC_ALIGN;
+VXL_CONSTEXPR_VAR int VNL_ALLOC_ALIGN = 8;
+VXL_CONSTEXPR_VAR std::size_t VNL_ALLOC_MAX_BYTES = 256;
+VXL_CONSTEXPR_VAR std::size_t VNL_ALLOC_NFREELISTS = VNL_ALLOC_MAX_BYTES/VNL_ALLOC_ALIGN;
 
-class vnl_alloc
+class VNL_EXPORT vnl_alloc
 {
   static std::size_t ROUND_UP(std::size_t bytes) {
     return (bytes + VNL_ALLOC_ALIGN-1) & ~(VNL_ALLOC_ALIGN - 1);

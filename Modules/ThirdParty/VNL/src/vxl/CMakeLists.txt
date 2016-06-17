@@ -12,7 +12,7 @@
 # Root vxl
 #
 #   vxl-maintainers@lists.sf.net
-cmake_minimum_required(VERSION 2.8.7)
+cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 
 # Set policies for cmake
 if( POLICY CMP0003 )
@@ -31,10 +31,16 @@ endif()
 if( POLICY CMP0042 )
   cmake_policy(SET CMP0042 NEW)
 endif()
+# Honor visibility properties for all target
+if( POLICY CMP0063 )
+  cmake_policy(SET CMP0063 NEW)
+endif()
 
 project(vxl)
 
 include(CMakeDependentOption)
+include(GenerateExportHeader)
+
 
 find_program( MEMORYCHECK_COMMAND valgrind )
 if(MEMORYCHECK_COMMAND)
@@ -143,8 +149,8 @@ if(UNIX)
     mark_as_advanced(BUILD_POSITION_DEPENDENT_CODE)
     if(NOT BUILD_POSITION_DEPENDENT_CODE)
       message(STATUS "Adding -fPIC compiler flag to generate position independent code.")
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}-fPIC")
-      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}-fPIC")
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
     endif()
   endif()
 endif()
@@ -169,12 +175,17 @@ else()
 endif()
 
 # Standard include directories.
-set(VXLCORE_INCLUDE_DIR ${PROJECT_BINARY_DIR}/core ${CMAKE_CURRENT_LIST_DIR}/core)
+set(VXLCORE_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/core)    #Source includes
+set(VXLCORE_BINARY_INCLUDE_DIR ${PROJECT_BINARY_DIR}/core) #Generated includes
+set(VXLCORE_INCLUDE_DIRS ${VXLCORE_BINARY_INCLUDE_DIR} ${VXLCORE_INCLUDE_DIR})
 set(VXLCORE_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/core)
-set(VCL_INCLUDE_DIR ${PROJECT_BINARY_DIR}/vcl ${CMAKE_CURRENT_LIST_DIR}/vcl)
+
+set(VCL_INCLUDE_DIR ${CMAKE_CURRENT_LIST_DIR}/vcl)    #Source includes
+set(VCL_BINARY_INCLUDE_DIR ${PROJECT_BINARY_DIR}/vcl) #Generated includes
+set(VCL_INCLUDE_DIRS ${VCL_BINARY_INCLUDE_DIR} ${VCL_INCLUDE_DIR})
 set(VCL_INSTALL_INCLUDE_DIR ${CMAKE_INSTALL_PREFIX}/include/vxl/vcl)
 
-include_directories(${VCL_INCLUDE_DIR} ${VXLCORE_INCLUDE_DIR})
+include_directories(${VCL_INCLUDE_DIRS} ${VXLCORE_INCLUDE_DIRS})
 
 # Do platform-specific configuration.
 include(${CMAKE_CURRENT_LIST_DIR}/config/cmake/config/VXLIntrospectionConfig.cmake)

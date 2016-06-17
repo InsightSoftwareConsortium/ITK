@@ -8,6 +8,7 @@
 
 #include <vnl/vnl_gamma.h>
 #include <vnl/vnl_math.h>
+#include "vnl/vnl_export.h"
 
 //: The Error function.
 // erf(x) = (2/sqrt(pi)) Integral from 0 to x (exp(-t^2) dt)
@@ -19,7 +20,7 @@ inline double vnl_erf(double x)
 // erfc(x) = 1 - erf(x) = 1 - (2/sqrt(pi)) Integral from 0 to x (exp(-t^2) dt)
 // This value is useful for large x, when erf(x) ~= 1 and erfc(x) < eps.
 // \note the output ranges from 0 to 2, and vnl_erfc(0) = 1.
-double vnl_erfc(double x);
+VNL_EXPORT double vnl_erfc(double x);
 
 //: The Scaled Complementary Error function.
 // erfc_scaled(x) = exp(x^2) * erfc(x)

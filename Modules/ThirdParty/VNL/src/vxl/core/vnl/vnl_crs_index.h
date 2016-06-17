@@ -17,14 +17,14 @@
 #include <vector>
 #include <utility>
 #include <vcl_compiler.h>
-
+#include "vnl/vnl_export.h"
 
 //: Represents the configuration of a sparse matrix but not the data
 //  This is essentially a sparse matrix of indices into a data vector
 //  Compressed row storage is used for representation
 //  This class is useful when working with several sparse matrices that
 //  share a common sparse structure.
-class vnl_crs_index
+class VNL_EXPORT vnl_crs_index
 {
  public:
   typedef std::pair<int,int> idx_pair;
