@@ -78,6 +78,7 @@ public:
         (*i)->UnRegister();
         }
       delete ObjectFactoryBasePrivate::m_InternalFactories;
+      ObjectFactoryBasePrivate::m_InternalFactories = ITK_NULLPTR;
       }
   }
 };
