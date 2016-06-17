@@ -121,8 +121,8 @@ protected:
   virtual ~GPUDataManager();
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDataManager);
+protected:
+  /* NOTE: ivars are protected instead of private to improve performance access in child classes*/
 
   unsigned int m_BufferSize;   // # of bytes
 
@@ -143,6 +143,9 @@ private:
 
   /** Mutex lock to prevent r/w hazard for multithreaded code */
   SimpleFastMutexLock m_Mutex;
+
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUDataManager);
 };
 
 } // namespace itk
