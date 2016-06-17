@@ -7,9 +7,10 @@
 
 #include <vnl/vnl_decnum.h>
 #include <vnl/vnl_numeric_traits.h>
+#include "vnl/vnl_export.h"
 
 VCL_DEFINE_SPECIALIZATION
-class vnl_numeric_traits<vnl_decnum>
+class VNL_EXPORT vnl_numeric_traits<vnl_decnum>
 {
  public:
   //: Additive identity

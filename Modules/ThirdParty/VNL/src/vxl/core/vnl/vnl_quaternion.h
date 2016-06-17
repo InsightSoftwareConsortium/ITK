@@ -25,6 +25,7 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_matrix_fixed.h>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
 //: 4-element vector that represents rotation in 3D.
 // vnl_quaternion is a 4-element vector with 1 real and 3 imaginary
@@ -60,8 +61,9 @@
 //
 
 VCL_TEMPLATE_EXPORT template <class T>
-class vnl_quaternion : public vnl_vector_fixed<T, 4>
+class VNL_EXPORT vnl_quaternion : public vnl_vector_fixed<T, 4>
 {
+ private:
   typedef vnl_vector_fixed<T,4> Base;
  public:
 
@@ -171,7 +173,7 @@ class vnl_quaternion : public vnl_vector_fixed<T, 4>
 
 //: operator<<
 // \relatesalso vnl_quaternion
-template <class T>
+template <class T> VNL_EXPORT
 std::istream& operator>> (std::istream& is, vnl_quaternion<T> &q)
 {
   vnl_vector_fixed<T,4> v;

@@ -148,6 +148,7 @@
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_vector_fixed_ref.h>
 #include <vnl/vnl_c_vector.h>
+#include "vnl/vnl_export.h"
 
 //: Fixed size stack-stored vnl_matrix
 // vnl_matrix_fixed_ref is a fixed-size vnl_matrix for which the data space
@@ -167,7 +168,7 @@
 //
 
 template <class T, unsigned num_rows, unsigned num_cols>
-class vnl_matrix_fixed_ref_const
+class VNL_EXPORT vnl_matrix_fixed_ref_const
 {
  protected:
   const T* data_;
@@ -391,7 +392,7 @@ class vnl_matrix_fixed_ref_const
 
 
 template <class T, unsigned num_rows, unsigned num_cols>
-class vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_cols>
+class VNL_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_cols>
 {
   typedef vnl_matrix_fixed_ref_const<T,num_rows,num_cols> base;
 
@@ -997,6 +998,5 @@ std::istream& operator>> (std::istream& is, vnl_matrix_fixed_ref<T,m,n> const& m
   mat.read_ascii(is);
   return is;
 }
-
 
 #endif // vnl_matrix_fixed_ref_h_

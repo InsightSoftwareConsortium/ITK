@@ -38,6 +38,7 @@
 #include <vnl/vnl_matrix.h> // outerproduct
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 #include <vnl/vnl_error.h>
+#include "vnl/vnl_export.h"
 
 VCL_TEMPLATE_EXPORT template <class T, unsigned int n> class vnl_vector_fixed;
 VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
@@ -84,7 +85,7 @@ VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_c
 // vnl_vector_fixed and vnl_vector, however, you will probably get a
 // vnl_vector result, with the corresponding malloc cost.
 template <class T, unsigned int n>
-class vnl_vector_fixed
+class VNL_EXPORT vnl_vector_fixed
 {
  protected:
   T data_[n];

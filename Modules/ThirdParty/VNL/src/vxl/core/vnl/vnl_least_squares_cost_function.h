@@ -20,9 +20,10 @@
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_least_squares_function.h>
+#include "vnl/vnl_export.h"
 
 //: An adaptor that converts a vnl_least_squares_function to a vnl_cost_function
-class vnl_least_squares_cost_function : public vnl_cost_function
+class VNL_EXPORT vnl_least_squares_cost_function : public vnl_cost_function
 {
  public:
   vnl_least_squares_cost_function(vnl_least_squares_function* f);

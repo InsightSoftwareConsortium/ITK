@@ -19,9 +19,10 @@
 
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_error.h>
+#include "vnl/vnl_export.h"
 
 //: Specializes vnl_matrix for integers, adding a vnl_matrix<double> ctor.
-class vnl_int_matrix : public vnl_matrix<int>
+class VNL_EXPORT vnl_int_matrix : public vnl_matrix<int>
 {
   typedef vnl_matrix<int> Base;
  public:

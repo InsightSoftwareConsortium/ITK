@@ -19,6 +19,7 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_crs_index.h>
+#include "vnl/vnl_export.h"
 
 //: Abstract base for sparse least squares functions.
 //    vnl_sparse_lst_sqr_function is an abstract base for functions to be minimized
@@ -44,7 +45,7 @@
 //    is the projection error of the jth point by the ith camera.  If type
 //    C parameters are used, they might represent the unknown intrinic camera
 //    parameters that are assumed to be fixed over all images.
-class vnl_sparse_lst_sqr_function
+class VNL_EXPORT vnl_sparse_lst_sqr_function
 {
  public:
   enum  UseGradient {

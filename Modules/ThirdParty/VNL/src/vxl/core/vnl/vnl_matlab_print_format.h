@@ -1,5 +1,7 @@
 #ifndef vnl_matlab_print_format_h_
 #define vnl_matlab_print_format_h_
+
+#include "vnl/vnl_export.h"
 /*
   fsm
 */
@@ -20,13 +22,13 @@ enum vnl_matlab_print_format
 // -------------------- Setting the default format.
 
 //: get top of stack :
-vnl_matlab_print_format vnl_matlab_print_format_top();
+VNL_EXPORT vnl_matlab_print_format vnl_matlab_print_format_top();
 
 //: set new, get old format at top of stack :
-vnl_matlab_print_format vnl_matlab_print_format_set(vnl_matlab_print_format);
+VNL_EXPORT vnl_matlab_print_format vnl_matlab_print_format_set(vnl_matlab_print_format);
 
 //: push/pop the top of the stack :
-void vnl_matlab_print_format_push(vnl_matlab_print_format);
-void vnl_matlab_print_format_pop ();
+VNL_EXPORT void vnl_matlab_print_format_push(vnl_matlab_print_format);
+VNL_EXPORT void vnl_matlab_print_format_pop ();
 
 #endif

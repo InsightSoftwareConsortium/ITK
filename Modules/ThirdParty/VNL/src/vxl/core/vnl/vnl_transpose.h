@@ -18,6 +18,7 @@
 #include <iostream>
 #include <vcl_compiler.h>
 #include <vnl/vnl_fastops.h>
+#include "vnl/vnl_export.h"
 
 //: Efficient matrix transpose
 //  vnl_transpose is an efficient way to write C = vnl_transpose(A) * B.
@@ -35,7 +36,7 @@
 //
 //  NOTE: This only works for arguments of type vnl_matrix<double>
 
-class vnl_transpose
+class VNL_EXPORT vnl_transpose
 {
   const vnl_matrix<double>& M_;
  public:

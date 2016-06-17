@@ -51,6 +51,7 @@
 # define VNL_CONFIG_CHECK_BOUNDS 0
 # undef ERROR_CHECKING
 #endif
+#include "vnl/vnl_export.h"
 
 VCL_TEMPLATE_EXPORT template <class T> class vnl_vector;
 VCL_TEMPLATE_EXPORT template <class T> class vnl_matrix;
@@ -61,22 +62,22 @@ VCL_TEMPLATE_EXPORT template <class T> class vnl_matrix;
 #define v vnl_vector<T>
 #define m vnl_matrix<T>
 #endif // DOXYGEN_SHOULD_SKIP_THIS
-template <class T> m operator+(T const&, m const&);
-template <class T> m operator-(T const&, m const&);
-template <class T> m operator*(T const&, m const&);
-template <class T> m element_product(m const&, m const&);
-template <class T> m element_quotient(m const&, m const&);
-template <class T> T dot_product(m const&, m const&);
-template <class T> T inner_product(m const&, m const&);
-template <class T> T cos_angle(m const&, m const& );
-template <class T> std::ostream& operator<<(std::ostream&, m const&);
-template <class T> std::istream& operator>>(std::istream&, m&);
+template <class T> VNL_EXPORT m operator+(T const&, m const&);
+template <class T> VNL_EXPORT m operator-(T const&, m const&);
+template <class T> VNL_EXPORT m operator*(T const&, m const&);
+template <class T> VNL_EXPORT m element_product(m const&, m const&);
+template <class T> VNL_EXPORT m element_quotient(m const&, m const&);
+template <class T> VNL_EXPORT T dot_product(m const&, m const&);
+template <class T> VNL_EXPORT T inner_product(m const&, m const&);
+template <class T> VNL_EXPORT T cos_angle(m const&, m const& );
+template <class T> VNL_EXPORT std::ostream& operator<<(std::ostream&, m const&);
+template <class T> VNL_EXPORT std::istream& operator>>(std::istream&, m&);
 #undef v
 #undef m
 
 //--------------------------------------------------------------------------------
 
-enum vnl_matrix_type
+enum VNL_EXPORT vnl_matrix_type
 {
   vnl_matrix_null,
   vnl_matrix_identity
@@ -109,7 +110,7 @@ enum vnl_matrix_type
 // Note: Use a vnl_vector<T> with these matrices.
 
 template<class T>
-class vnl_matrix
+class VNL_EXPORT vnl_matrix
 {
  public:
   //: Default constructor creates an empty matrix of size 0,0.

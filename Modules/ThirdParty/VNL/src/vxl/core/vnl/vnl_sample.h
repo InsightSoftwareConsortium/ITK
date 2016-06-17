@@ -4,6 +4,8 @@
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma interface
 #endif
+
+#include "vnl/vnl_export.h"
 //:
 //  \file
 //  \brief easy ways to sample from various probability distributions
@@ -17,29 +19,29 @@
 // \endverbatim
 
 //: re-seed the random number generator.
-void vnl_sample_reseed();
+VNL_EXPORT void vnl_sample_reseed();
 
 //: re-seed the random number generator given a seed.
-void vnl_sample_reseed(int seed);
+VNL_EXPORT void vnl_sample_reseed(int seed);
 
 //: return a random number uniformly drawn on [a, b)
-double vnl_sample_uniform(double a, double b);
+VNL_EXPORT double vnl_sample_uniform(double a, double b);
 
 //: two independent samples from a standard normal distribution.
-void vnl_sample_normal_2(double *x, double *y);
+VNL_EXPORT void vnl_sample_normal_2(double *x, double *y);
 
 //: Normal distribution with given mean and standard deviation
-double vnl_sample_normal(double mean, double sigma);
+VNL_EXPORT double vnl_sample_normal(double mean, double sigma);
 
 //: Return random k, where P(X = k) = [kth term in binomial expansion of (q + (1-q))^n].
 // The returned value will lie between 0 and n (but will be -1 when input is nonsense).
-int vnl_sample_binomial(int n, double q);
+VNL_EXPORT int vnl_sample_binomial(int n, double q);
 
 //: Bernoulli distribution ("coin toss").
 // The returned value will be 0 (with probability q) or 1 (with probability 1-q).
 // For a "fair" coin toss, use q=0.5.
 // When q does not lie between 0 and 1, the value -1 is returned.
-int vnl_sample_bernoulli(double q);
+VNL_EXPORT int vnl_sample_bernoulli(double q);
 
 // ----------------------------------------
 
