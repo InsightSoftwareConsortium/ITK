@@ -655,7 +655,7 @@ FFTWGlobalConfiguration
     {
     if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
       {// strange but seems ok under VC++
-      ret = fftwf_import_wisdom_from_file( f );
+      ret = fftw_import_wisdom_from_file( f );
       }
     _close(fd);
     }
@@ -732,7 +732,7 @@ FFTWGlobalConfiguration
     {
     if ( (f = _fdopen(fd, "r")) != ITK_NULLPTR )
       {// strange but seems ok under VC++
-      ret = fftwf_import_wisdom_from_file( f );
+      ret = fftw_import_wisdom_from_file( f );
       }
     _close(fd);
     }
