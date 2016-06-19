@@ -32,7 +32,7 @@ namespace itk
  *
  * This class satisfies a common requirement in medical imaging, which
  * is to properly orient a 3 dimensional image with respect to anatomical
- * features.  Due to the wide variety of hardware used to generate 3D images
+ * features. Due to the wide variety of hardware used to generate 3D images
  * of human anatomy, and the even wider variety of image processing software,
  * it is often necessary to re-orient image volume data.
  *
@@ -92,7 +92,8 @@ namespace itk
  *   fileReader->Update();
  *   ImageType::Pointer rval = fileReader->GetOutput();
  *
- * Deprecated -- use direction cosines
+ * // DEPRECATED -- use direction cosines
+ * //
  *  itk::SpatialOrientation::ValidCoordinateOrientationFlags fileOrientation;
  *  itk::ExposeMetaData<itk::SpatialOrientation::ValidCoordinateOrientationFlags>
  *    (rval->GetMetaDataDictionary(),itk::ITK_CoordinateOrientation,fileOrientation);
@@ -199,13 +200,12 @@ public:
       itk::SpatialOrientationAdapter().FromDirectionCosines(DesiredDirection) );
   }
 
-  /**  Controls how the GivenCoordinateOrientation is determined.
-   * If "on", the direction cosines determine the coordinate
-   * orientation. If "off", the user must use the
+  /** Controls how the GivenCoordinateOrientation is determined.
+   * If set to On, the direction cosines determine the coordinate
+   * orientation. If set to Off, the user must use the
    * SetGivenCoordinateOrientation method to establish the
-   * orientation. For compatbility with the original API, the default if
-   * "off".
-   */
+   * orientation. For compatbility with the original API, the default value
+   * is Off. */
   itkBooleanMacro(UseImageDirection);
   itkGetConstMacro(UseImageDirection, bool);
   itkSetMacro(UseImageDirection, bool);
@@ -248,7 +248,7 @@ public:
    * dimensionality than its input image, in general. As such,
    * OrientImageFilter needs to provide an implementation for
    * GenerateOutputInformation() in order to inform the pipeline
-   * execution model.  The original documentation of this method is
+   * execution model. The original documentation of this method is
    * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
@@ -282,11 +282,13 @@ protected:
   void DeterminePermutationsAndFlips(const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
                                      const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient);
 
+  /** Returns true if a permute is required. Returns false otherwise. */
   bool NeedToPermute();
 
+  /** Returns true if flipping is required. Returns false otherwise. */
   bool NeedToFlip();
 
-  /** Single-threaded version of GenerateData.  This filter delegates
+  /** Single-threaded version of GenerateData. This filter delegates
    * to PermuteAxesImageFilter and FlipImageFilter. */
   void GenerateData() ITK_OVERRIDE;
 
