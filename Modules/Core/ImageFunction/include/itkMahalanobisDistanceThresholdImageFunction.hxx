@@ -24,11 +24,10 @@ namespace itk
 {
 template< typename TInputImage, typename TCoordRep >
 MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
-::MahalanobisDistanceThresholdImageFunction()
+::MahalanobisDistanceThresholdImageFunction() :
+  m_Threshold( NumericTraits< double >::ZeroValue() ),
+  m_MahalanobisDistanceMembershipFunction( MahalanobisDistanceFunctionType::New() )
 {
-  m_Threshold = NumericTraits< double >::ZeroValue();
-  m_MahalanobisDistanceMembershipFunction =
-    MahalanobisDistanceFunctionType::New();
 }
 
 template< typename TInputImage, typename TCoordRep >
@@ -61,28 +60,6 @@ MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
   typename MahalanobisDistanceFunctionType::CovarianceMatrixType c;
   c = covariance;
   m_MahalanobisDistanceMembershipFunction->SetCovariance(c);
-}
-
-template< typename TInputImage, typename TCoordRep >
-const typename
-MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >::MeanVectorType &
-MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
-::GetMean() const
-{
-  // return the cache mean (mean set on the membership function
-  // matches by design)
-  return m_Mean;
-}
-
-template< typename TInputImage, typename TCoordRep >
-const typename
-MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >::CovarianceMatrixType &
-MahalanobisDistanceThresholdImageFunction< TInputImage, TCoordRep >
-::GetCovariance() const
-{
-  // return the cache covariance (covariance set on the membership function
-  // matches by design)
-  return m_Covariance;
 }
 
 template< typename TInputImage, typename TCoordRep >

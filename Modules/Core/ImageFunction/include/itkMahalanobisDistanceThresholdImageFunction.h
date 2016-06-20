@@ -80,16 +80,16 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /** Type used to represent the Covariance matrix of the vector population */
+  /** Type used to represent the Covariance matrix of the vector population. */
   typedef vnl_matrix< double > CovarianceMatrixType;
 
-  /** Type used to represent the Mean Vector of the vector population */
+  /** Type used to represent the Mean Vector of the vector population. */
   typedef vnl_vector< double > MeanVectorType;
 
   /** BinaryThreshold the image at a point position
    *
    * Returns true if the image intensity at the specified point position
-   * satisfies the threshold criteria.  The point is assumed to lie within
+   * satisfies the threshold criteria. The point is assumed to lie within
    * the image buffer.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
@@ -99,7 +99,7 @@ public:
   /** BinaryThreshold the image at a continuous index position
    *
    * Returns true if the image intensity at the specified point position
-   * satisfies the threshold criteria.  The point is assumed to lie within
+   * satisfies the threshold criteria. The point is assumed to lie within
    * the image buffer.
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
@@ -117,17 +117,13 @@ public:
    * calling the method. */
   virtual bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
-  /**
-   *
-   * Returns the actual value of the MahalanobisDistance at that point.
+  /** Returns the actual value of the MahalanobisDistance at that point.
    * The point is assumed to lie within the image buffer.
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
   virtual double EvaluateDistance(const PointType & point) const;
 
-  /**
-   *
-   * Returns the actual value of the MahalanobisDistance at that Index.
+  /** Returns the actual value of the MahalanobisDistance at that index.
    * The point is assumed to lie within the image buffer.
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
@@ -137,18 +133,21 @@ public:
   itkGetConstReferenceMacro(Threshold, double);
   itkSetMacro(Threshold, double);
 
-  /** Method to set mean */
+  /** Set the mean.
+   * Set this mean value to the membership function. */
   void SetMean(const MeanVectorType & mean);
 
-  /** Method to get the mean. */
-  const MeanVectorType & GetMean() const;
+  /** Get the mean.
+   * The mean set on the membership function matches this value. */
+  itkGetConstReferenceMacro(Mean, MeanVectorType);
 
-  /**
-   * Method to set covariance matrix **/
+  /** Set the covariance matrix.
+   * Set this covariance matrix to the membership function. */
   void SetCovariance(const CovarianceMatrixType & cov);
 
-  /** Get the covariance matrix **/
-  const CovarianceMatrixType & GetCovariance() const;
+  /** Get the covariance matrix.
+   * The covariance matrix set on the membership function matches this value. */
+  itkGetConstReferenceMacro(Covariance, CovarianceMatrixType);
 
 protected:
   MahalanobisDistanceThresholdImageFunction();
