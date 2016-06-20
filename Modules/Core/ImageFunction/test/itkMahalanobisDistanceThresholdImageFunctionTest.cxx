@@ -19,8 +19,11 @@
 
 #include "itkMahalanobisDistanceThresholdImageFunction.h"
 #include "itkImage.h"
+#include "itkImageFunction.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
-int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
+int itkMahalanobisDistanceThresholdImageFunctionTest( int, char* [] )
 {
 
   const unsigned int                         Dimension = 3;
@@ -59,48 +62,45 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
 
   FunctionType::Pointer function = FunctionType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( function, MahalanobisDistanceThresholdImageFunction,
+    ImageFunction );
+
   function->SetInputImage( image );
 
   const double threshold = 5.0;
   function->SetThreshold( threshold );
 
+  FunctionType::CovarianceMatrixType covariance( Dimension, Dimension );
+  FunctionType::MeanVectorType mean( Dimension );
 
-  FunctionType::CovarianceMatrixType Covariance( Dimension, Dimension );
-  FunctionType::MeanVectorType  Mean( Dimension );
+  mean[0] = 10.0;
+  mean[1] = 20.0;
+  mean[2] = 30.0;
 
-  Mean[0] = 10.0;
-  Mean[1] = 20.0;
-  Mean[2] = 30.0;
+  covariance.fill( 0.0 );
+  covariance[0][0] = 100.0;
+  covariance[1][1] = 200.0;
+  covariance[2][2] = 300.0;
 
-  Covariance.fill( 0.0 );
-  Covariance[0][0] = 100.0;
-  Covariance[1][1] = 200.0;
-  Covariance[2][2] = 300.0;
+  function->SetCovariance( covariance );
+  function->SetMean( mean );
 
-  function->SetCovariance( Covariance );
-  function->SetMean( Mean );
+  TEST_SET_GET_VALUE( covariance, function->GetCovariance() );
+  TEST_SET_GET_VALUE( mean, function->GetMean() );
 
-  ImageType::IndexType    index;
+  ImageType::IndexType index;
 
   index[0] = 25;
   index[1] = 25;
   index[2] = 25;
 
-  FunctionType::OutputType  belongs;
-
-  belongs = function->EvaluateAtIndex( index );
-  std::cout << "function->EvaluateAtIndex( index ): " << belongs << std::endl;
-  if( !belongs )
-    {
-    std::cerr << "Error in EvaluateAtIndex() we were expecting true and got false" << std::endl;
-    return EXIT_FAILURE;
-    }
+  TEST_EXPECT_TRUE( function->EvaluateAtIndex( index ) );
 
   const double distance = function->EvaluateDistanceAtIndex( index );
   std::cout << "function->EvaluateDistanceAtIndex( index ): " << distance << std::endl;
 
   const double expectedDistance = 0.244949;
-  if( std::fabs(distance - expectedDistance) > 1e-5 )
+  if( ! itk::Math::FloatAlmostEqual( distance, expectedDistance, 10, 1e-5 ) )
     {
     std::cerr << "Error in distance computation in EvaluateDistanceAtIndex() !!" << std::endl;
     std::cerr << "Expected distance value = " << expectedDistance << std::endl;
@@ -113,21 +113,13 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
   point[0] = 25;
   point[1] = 25;
   point[2] = 25;
-  FunctionType::OutputType belongs2;
-  belongs2 = function->Evaluate(point);
-  std::cout << "function->Evaluate(point): " << belongs2 << std::endl;
 
-  if( !belongs2 )
-    {
-    std::cerr << "Error in Evaluate() we were expecting true and got false" << std::endl;
-    return EXIT_FAILURE;
-    }
-
+  TEST_EXPECT_TRUE( function->Evaluate( point ) );
 
   const double distance2 = function->EvaluateDistance(point);
   std::cout << "function->EvaluateDistance(point): " << distance2 << std::endl;
 
-  if( std::fabs(distance2 - expectedDistance) > 1e-5 )
+  if( ! itk::Math::FloatAlmostEqual( distance2, expectedDistance, 10, 1e-5 ) )
     {
     std::cerr << "Error in distance computation in EvaluateDistance() !!" << std::endl;
     std::cerr << "Expected distance value = " << expectedDistance << std::endl;
@@ -135,37 +127,22 @@ int itkMahalanobisDistanceThresholdImageFunctionTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
   cindex[0] = 25;
   cindex[1] = 25;
   cindex[2] = 25;
-  FunctionType::OutputType belongs3;
-  belongs3 = function->EvaluateAtContinuousIndex(cindex);
-  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << belongs3 << std::endl;
 
-  if( !belongs3 )
-    {
-    std::cerr << "Error in EvaluateAtContinuousIndex() we were expecting true and got false" << std::endl;
-    return EXIT_FAILURE;
-    }
-
+  TEST_EXPECT_TRUE( function->EvaluateAtContinuousIndex( cindex ) );
 
   // Test GetConstReferenceMacro
   const double & getThreshold = function->GetThreshold();
   std::cout << "function->GetThreshold(): " << getThreshold << std::endl;
-  if( std::fabs( threshold - getThreshold ) > 1e-9 )
+  if( ! itk::Math::FloatAlmostEqual( threshold, getThreshold, 10, 1e-9 ) )
     {
     std::cerr << "Error: Set/Get Threshold do not match" << std::endl;
     return EXIT_FAILURE;
     }
-
-
-  // Exercise GetMean() and GetCovariance()
-  Mean       = function->GetMean();
-  Covariance = function->GetCovariance();
-
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
