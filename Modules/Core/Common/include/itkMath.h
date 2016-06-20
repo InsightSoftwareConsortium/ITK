@@ -28,10 +28,8 @@
 #ifndef itkMath_h
 #define itkMath_h
 
-#include "itkIntTypes.h"
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
-#include "itkNumericTraits.h"
 #include <vnl/vnl_math.h>
 
 /* Only maintain backwards compatibility with old versions
