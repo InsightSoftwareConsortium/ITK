@@ -122,8 +122,10 @@ protected:
   /** Override TemporalStreamingGenerateData to do the actual writing. */
   virtual void TemporalStreamingGenerateData() ITK_OVERRIDE;
 
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
 
-  /** The file to read. */
+  /** The file to write. */
   std::string m_FileName;
 
   /** The VideoIO used for writing. */
@@ -138,10 +140,6 @@ protected:
   std::vector<SizeValueType>   m_Dimensions;
   SizeValueType                m_NumberOfComponents;
   ImageIOBase::IOComponentType m_ComponentType;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
-
 };
 
 } // end namespace itk
