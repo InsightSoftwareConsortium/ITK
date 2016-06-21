@@ -24,6 +24,9 @@
 #include "itkBSplineTransform.h"
 #include "itkBSplineTransformInitializer.h"
 
+#include "itkObject.h"
+#include "itkTestingMacros.h"
+
 #include <fstream>
 
 int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
@@ -33,22 +36,22 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " coefficientsFile fixedImage ";
-    std::cerr << "movingImage deformedMovingImage" << std::endl;
-    std::cerr << "[deformationField]" << std::endl;
+    std::cerr << " coefficientsFile fixedImage";
+    std::cerr << " movingImage deformedMovingImage" << std::endl;
+    std::cerr << " [deformationField]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  const     unsigned int ImageDimension = 2;
+  const   unsigned int ImageDimension = 2;
 
-  typedef   unsigned char                         PixelType;
-  typedef   itk::Image<PixelType, ImageDimension> FixedImageType;
-  typedef   itk::Image<PixelType, ImageDimension> MovingImageType;
+  typedef unsigned char                         PixelType;
+  typedef itk::Image<PixelType, ImageDimension> FixedImageType;
+  typedef itk::Image<PixelType, ImageDimension> MovingImageType;
 
-  typedef   itk::ImageFileReader<FixedImageType>  FixedReaderType;
-  typedef   itk::ImageFileReader<MovingImageType> MovingReaderType;
+  typedef itk::ImageFileReader<FixedImageType>  FixedReaderType;
+  typedef itk::ImageFileReader<MovingImageType> MovingReaderType;
 
-  typedef   itk::ImageFileWriter<MovingImageType> MovingWriterType;
+  typedef itk::ImageFileWriter<MovingImageType> MovingWriterType;
 
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[2] );
@@ -72,8 +75,8 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
 
   FixedImageType::ConstPointer fixedImage = fixedReader->GetOutput();
 
-  typedef itk::ResampleImageFilter<MovingImageType,
-                                   FixedImageType>  FilterType;
+  typedef itk::ResampleImageFilter< MovingImageType, FixedImageType >
+    FilterType;
 
   FilterType::Pointer resampler = FilterType::New();
 
@@ -84,16 +87,16 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
 
   resampler->SetInterpolator( interpolator );
 
-  FixedImageType::SpacingType   fixedSpacing    = fixedImage->GetSpacing();
-  FixedImageType::PointType     fixedOrigin     = fixedImage->GetOrigin();
-  FixedImageType::DirectionType fixedDirection  = fixedImage->GetDirection();
+  FixedImageType::SpacingType   fixedSpacing   = fixedImage->GetSpacing();
+  FixedImageType::PointType     fixedOrigin    = fixedImage->GetOrigin();
+  FixedImageType::DirectionType fixedDirection = fixedImage->GetDirection();
 
   resampler->SetOutputSpacing( fixedSpacing );
-  resampler->SetOutputOrigin(  fixedOrigin  );
-  resampler->SetOutputDirection(  fixedDirection  );
+  resampler->SetOutputOrigin( fixedOrigin );
+  resampler->SetOutputDirection( fixedDirection );
 
   FixedImageType::RegionType fixedRegion = fixedImage->GetBufferedRegion();
-  FixedImageType::SizeType   fixedSize =  fixedRegion.GetSize();
+  FixedImageType::SizeType   fixedSize   = fixedRegion.GetSize();
   resampler->SetSize( fixedSize );
   resampler->SetOutputStartIndex(  fixedRegion.GetIndex() );
 
@@ -105,17 +108,17 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineTransform<
-    CoordinateRepType,
-    SpaceDimension,
-    SplineOrder>     TransformType;
+  typedef itk::BSplineTransform< CoordinateRepType, SpaceDimension,
+    SplineOrder > TransformType;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
-  typedef itk::BSplineTransformInitializer<
-    TransformType,
-    FixedImageType>      InitializerType;
+  typedef itk::BSplineTransformInitializer< TransformType, FixedImageType >
+    InitializerType;
   InitializerType::Pointer transformInitializer = InitializerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
+    Object );
 
   TransformType::MeshSizeType meshSize;
   meshSize.Fill( 4 );
@@ -137,10 +140,10 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   std::ifstream infile;
 
   infile.open( argv[1] );
-  for( unsigned int n = 0; n < numberOfNodes; n++ )
+  for( unsigned int n = 0; n < numberOfNodes; ++n )
     {
-    infile >>  parameters[n];
-    infile >>  parameters[n + numberOfNodes];
+    infile >> parameters[n];
+    infile >> parameters[n + numberOfNodes];
     }
   infile.close();
 
