@@ -27,28 +27,12 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template<typename TImageType, typename TCoordRep>
 GaussianInterpolateImageFunction<TImageType, TCoordRep>
-::GaussianInterpolateImageFunction()
+::GaussianInterpolateImageFunction() :
+  m_Alpha( 1.0 )
 {
-  this->m_Alpha = 1.0;
   this->m_Sigma.Fill( 1.0 );
-}
-
-/**
- * Standard "PrintSelf" method
- */
-template<typename TImageType, typename TCoordRep>
-void
-GaussianInterpolateImageFunction<TImageType, TCoordRep>
-::PrintSelf( std::ostream& os, Indent indent ) const
-{
-  Superclass::PrintSelf( os, indent );
-  os << indent << "Alpha: " << this->m_Alpha << std::endl;
-  os << indent << "Sigma: " << this->m_Sigma << std::endl;
 }
 
 template<typename TImageType, typename TCoordRep>
@@ -70,7 +54,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     this->m_BoundingBoxStart[d] = -0.5;
     this->m_BoundingBoxEnd[d] = static_cast<RealType>( size[d] ) - 0.5;
     this->m_ScalingFactor[d] = 1.0 / ( itk::Math::sqrt2 * this->m_Sigma[d] / spacing[d] );
-    this->m_CutoffDistance[d] = this->m_Sigma[d] * this->m_Alpha / spacing[d];
+    this->m_CutOffDistance[d] = this->m_Sigma[d] * this->m_Alpha / spacing[d];
     }
 }
 
@@ -112,9 +96,9 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     int boundingBoxSize = static_cast<int>(
       this->m_BoundingBoxEnd[d] - this->m_BoundingBoxStart[d] + 0.5 );
     int begin = std::max( 0, static_cast<int>( std::floor( cindex[d] -
-      this->m_BoundingBoxStart[d] - this->m_CutoffDistance[d] ) ) );
+      this->m_BoundingBoxStart[d] - this->m_CutOffDistance[d] ) ) );
     int end = std::min( boundingBoxSize, static_cast<int>( std::ceil(
-      cindex[d] - this->m_BoundingBoxStart[d] + this->m_CutoffDistance[d] ) ) );
+      cindex[d] - this->m_BoundingBoxStart[d] + this->m_CutOffDistance[d] ) ) );
     region.SetIndex( d, begin );
     region.SetSize( d, end - begin );
     }
@@ -191,10 +175,10 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     0.5 );
   int begin = std::max( 0, static_cast<int>( std::floor( cindex -
     this->m_BoundingBoxStart[dimension] -
-    this->m_CutoffDistance[dimension] ) ) );
+    this->m_CutOffDistance[dimension] ) ) );
   int end = std::min( boundingBoxSize, static_cast<int>( std::ceil( cindex -
     this->m_BoundingBoxStart[dimension] +
-    this->m_CutoffDistance[dimension] ) ) );
+    this->m_CutOffDistance[dimension] ) ) );
 
   erfArray.set_size( boundingBoxSize );
   gerfArray.set_size( boundingBoxSize );
@@ -224,6 +208,15 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
     }
 }
 
+template<typename TImageType, typename TCoordRep>
+void
+GaussianInterpolateImageFunction<TImageType, TCoordRep>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf( os, indent );
+  os << indent << "Alpha: " << this->m_Alpha << std::endl;
+  os << indent << "Sigma: " << this->m_Sigma << std::endl;
+}
 } // namespace itk
 
 #endif
