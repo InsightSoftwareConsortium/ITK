@@ -17,18 +17,27 @@
  *=========================================================================*/
 
 #include "itkVoronoiSegmentationImageFilter.h"
+#include "itkVoronoiSegmentationImageFilterBase.h"
+#include "itkTestingMacros.h"
 
-int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
-  const int WIDTH = 256;
-  const int HEIGHT = 256;
+int itkVoronoiSegmentationImageFilterTest( int, char* [] )
+{
+  const int width = 256;
+  const int height = 256;
 
-  typedef itk::Image<unsigned short,2> UShortImage;
-  typedef itk::Image<unsigned char,2>  PriorImage;
-  typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage> VorSeg;
+  typedef itk::Image<unsigned short, 2> UShortImage;
+  typedef itk::Image<unsigned char, 2>  PriorImage;
+  typedef itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage>
+    VoronoiSegmentationImageFilterType;
 
-  VorSeg::Pointer testVorseg(VorSeg::New());
-  UShortImage::Pointer inputIMG = UShortImage::New();
-  UShortImage::SizeType size={{WIDTH,HEIGHT}};
+  VoronoiSegmentationImageFilterType::Pointer voronoiSegmenter =
+    VoronoiSegmentationImageFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( voronoiSegmenter, VoronoiSegmentationImageFilter,
+    VoronoiSegmentationImageFilterBase );
+
+  UShortImage::Pointer inputImage = UShortImage::New();
+  UShortImage::SizeType size = {{width, height}};
   UShortImage::IndexType index;
   index.Fill(0);
 
@@ -38,22 +47,22 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   region.SetIndex(index);
 
   std::cout << "Allocating image" << std::endl;
-  inputIMG->SetLargestPossibleRegion( region );
-  inputIMG->SetBufferedRegion( region );
-  inputIMG->SetRequestedRegion( region );
-  inputIMG->Allocate();
+  inputImage->SetLargestPossibleRegion( region );
+  inputImage->SetBufferedRegion( region );
+  inputImage->SetRequestedRegion( region );
+  inputImage->Allocate();
 
 
-  itk::ImageRegionIteratorWithIndex <UShortImage> it(inputIMG, region);
+  itk::ImageRegionIteratorWithIndex <UShortImage> it(inputImage, region);
 
-  // background: random field with mean: 500, std: 50
+  // Background: random field with mean: 500, std: 50
   std::cout << "Setting background random pattern image" << std::endl;
   while( !it.IsAtEnd()) {
-    it.Set((unsigned short)(vnl_sample_uniform(450,550)) );
+    it.Set((unsigned short)(vnl_sample_uniform(450, 550)) );
     ++it;
   }
 
-  //object (2): random field with mean: 520, std: 20;
+  // Object (2): random field with mean: 520, std: 20
   std::cout << "Defining object #2" << std::endl;
   unsigned int i;
   unsigned int j;
@@ -61,7 +70,7 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
     index[0] = i;
     for (j = 30; j< 94; j++){
       index[1] = j;
-      inputIMG->SetPixel(index, (unsigned short)(vnl_sample_uniform(500,540)) );
+      inputImage->SetPixel(index, (unsigned short)(vnl_sample_uniform(500, 540)) );
     }
   }
 
@@ -69,34 +78,50 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
     index[0] = i;
     for (j = 150; j< 214; j++){
       index[1] = j;
-      inputIMG->SetPixel(index, (unsigned short)(vnl_sample_uniform(500,540)) );
+      inputImage->SetPixel(index, (unsigned short)(vnl_sample_uniform(500, 540)) );
     }
   }
 
   int k;
   unsigned short TestImg[65536];
 
-  testVorseg->SetInput(inputIMG);
-  testVorseg->SetMean(520);
-  testVorseg->SetSTD(20);
-  testVorseg->SetMeanTolerance(10);
-  testVorseg->SetSTDTolerance(20);
-  testVorseg->SetNumberOfSeeds(400);
-  testVorseg->SetSteps(5);
+  voronoiSegmenter->SetInput(inputImage);
+
+  double mean = 520;
+  double std = 20;
+  double meanTolerance = 10;
+  double stdTolerance = 20;
+  double numberOfSeeds = 400;
+  double steps = 5;
+
+  voronoiSegmenter->SetMean( mean );
+  voronoiSegmenter->SetSTD( std );
+  voronoiSegmenter->SetMeanTolerance( meanTolerance );
+  voronoiSegmenter->SetSTDTolerance( stdTolerance );
+  voronoiSegmenter->SetNumberOfSeeds( numberOfSeeds );
+  voronoiSegmenter->SetSteps( steps );
+
+  TEST_SET_GET_VALUE( mean, voronoiSegmenter->GetMean() );
+  TEST_SET_GET_VALUE( std, voronoiSegmenter->GetSTD() );
+  TEST_SET_GET_VALUE( meanTolerance, voronoiSegmenter->GetMeanTolerance() );
+  TEST_SET_GET_VALUE( stdTolerance, voronoiSegmenter->GetSTDTolerance() );
+  TEST_SET_GET_VALUE( numberOfSeeds, voronoiSegmenter->GetNumberOfSeeds() );
+  TEST_SET_GET_VALUE( steps, voronoiSegmenter->GetSteps() );
 
   std::cout << "Running algorithm" << std::endl;
-  testVorseg->Update();
+  voronoiSegmenter->Update();
 
   std::cout << "Walking output" << std::endl;
-  itk::ImageRegionIteratorWithIndex <UShortImage> ot(testVorseg->GetOutput(), region);
+  itk::ImageRegionIteratorWithIndex <UShortImage> ot(voronoiSegmenter->GetOutput(), region);
 
-  k=0;
-  while( !ot.IsAtEnd()){
-    TestImg[k]=ot.Get();
+  k = 0;
+  while( !ot.IsAtEnd() )
+    {
+    TestImg[k] = ot.Get();
     (void)(TestImg[k]); // prevents "set but not used" warning
     k++;
     ++ot;
-  }
+    }
 
   /* Test Ok on local machine.
   FILE *imgfile = fopen("output.raw","wb");
@@ -114,6 +139,6 @@ int itkVoronoiSegmentationImageFilterTest(int, char* [] ){
   fwrite(TestImg,2,65536,imgfile);
   fclose(imgfile);
 */
-  std::cout<<"Test Succeed!"<<std::endl;
+  std::cout<<"Test Succeeded!"<<std::endl;
   return EXIT_SUCCESS;
 }
