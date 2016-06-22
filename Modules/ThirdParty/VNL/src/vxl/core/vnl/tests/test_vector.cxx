@@ -59,7 +59,7 @@ void vnl_vector_test_int()
   try { v0.get(25); }  // Raise out of bounds exception.
   catch(...) { exceptionThrownAndCaught = true; }
   TEST("Out of bounds get()", exceptionThrownAndCaught, true);
-  
+
   exceptionThrownAndCaught = false;
   try { v0.put(25,0); }  // Raise out of bounds exception.
   catch(...) { exceptionThrownAndCaught = true; }
@@ -710,6 +710,12 @@ void vnl_vector_test_euclid_dist_sq_timing(unsigned size, unsigned long num)
 {
   vnl_vector<double> a(size);
   vnl_vector<double> b(size);
+
+  vnl_vector< std::complex<double> > cmpxa(size);
+  vnl_vector< std::complex<double> > cmpxb(size);
+  vnl_vector< std::complex<double> > cmpxc =
+            vnl_c_vector<std::complex<double> >::euclid_dist_sq(cmpxa.begin(), cmpxb.begin(), size);
+
   for (unsigned i= 0; i < size; i++)
   {
     a(i) = i / size;

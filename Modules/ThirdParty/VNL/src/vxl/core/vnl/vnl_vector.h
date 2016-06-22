@@ -464,18 +464,18 @@ class VNL_EXPORT vnl_vector
 # define v vnl_vector<T>
 # define m vnl_matrix<T>
 #endif // DOXYGEN_SHOULD_SKIP_THIS
-  friend T      dot_product      VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend T      inner_product    VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend T      bracket          VCL_NULL_TMPL_ARGS (v const&, m const&, v const&);
-  friend T      cos_angle        VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend double angle            VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend m      outer_product    VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend v      operator+        VCL_NULL_TMPL_ARGS (T const,  v const&);
-  friend v      operator-        VCL_NULL_TMPL_ARGS (T const,  v const&);
-  friend v      operator*        VCL_NULL_TMPL_ARGS (T const,  v const&);
-  friend v      operator*        VCL_NULL_TMPL_ARGS (m const&, v const&);
-  friend v      element_product  VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend v      element_quotient VCL_NULL_TMPL_ARGS (v const&, v const&);
+  friend VNL_EXPORT T      dot_product      VCL_NULL_TMPL_ARGS (v const&, v const&);
+  friend VNL_EXPORT T      inner_product    VCL_NULL_TMPL_ARGS (v const&, v const&);
+  friend VNL_EXPORT T      bracket          VCL_NULL_TMPL_ARGS (v const&, m const&, v const&);
+  friend VNL_EXPORT T      cos_angle        VCL_NULL_TMPL_ARGS (v const&, v const&);
+  friend VNL_EXPORT double angle            VCL_NULL_TMPL_ARGS (v const&, v const&);
+  friend VNL_EXPORT m      outer_product    VCL_NULL_TMPL_ARGS (v const&, v const&);
+  friend VNL_EXPORT v      operator+        VCL_NULL_TMPL_ARGS (T const,  v const&);
+  friend VNL_EXPORT v      operator-        VCL_NULL_TMPL_ARGS (T const,  v const&);
+  friend VNL_EXPORT v      operator*        VCL_NULL_TMPL_ARGS (T const,  v const&);
+  friend VNL_EXPORT v      operator*        VCL_NULL_TMPL_ARGS (m const&, v const&);
+  friend VNL_EXPORT v      element_product  VCL_NULL_TMPL_ARGS (v const&, v const&);
+  friend VNL_EXPORT v      element_quotient VCL_NULL_TMPL_ARGS (v const&, v const&);
 # undef v
 # undef m
 #endif

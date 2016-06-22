@@ -372,13 +372,17 @@ class VNL_EXPORT vnl_vector_fixed
   }
 
   //: Returns a subvector specified by the start index and length. O(n).
-  vnl_vector<T> extract (unsigned int len, unsigned int start=0) const;
+  vnl_vector<T> extract (unsigned int len, unsigned int start=0) const
+  {
+  assert( start < n && start + len <= n );
+  return vnl_vector<T>( data_ + start, len );
+  }
 
   //: Convert to a vnl_vector.
   vnl_vector<T> as_vector() const { return extract(n); }
 
   //: Replaces elements with index beginning at start, by values of v. O(n).
-  vnl_vector_fixed& update (vnl_vector<T> const&, unsigned int start=0);
+  vnl_vector_fixed& VNL_EXPORT update(vnl_vector<T> const&, unsigned int start=0);
 
   // norms etc
   typedef typename vnl_c_vector<T>::abs_t abs_t;
