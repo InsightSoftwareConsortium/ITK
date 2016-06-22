@@ -6,6 +6,6 @@
 
 #undef VNL_FFT_2D_INSTANTIATE
 #define VNL_FFT_2D_INSTANTIATE(T) \
-template struct vnl_fft_2d<T >
+template struct VNL_EXPORT vnl_fft_2d<T >
 
 #endif

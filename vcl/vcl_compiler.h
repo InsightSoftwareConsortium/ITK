@@ -950,6 +950,9 @@ __inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
    instead */
 # include <tr1/memory>
 # define vcl_memory_prefix std::tr1
+#elif VCL_MEMORY_HAS_TR1_SHARED_PTR
+# include <memory>
+# define vcl_memory_prefix std::tr1
 #else
 # error "Missing definition for SHARED_PTR"
 #endif

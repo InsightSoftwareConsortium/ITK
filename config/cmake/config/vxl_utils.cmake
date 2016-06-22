@@ -113,7 +113,7 @@ macro( vxl_add_library )
       ## Identify the relative path for installing the header files and txx files
       string(REPLACE ${VXL_ROOT_SOURCE_DIR} "${VXL_INSTALL_INCLUDE_DIR}" relative_install_path ${CMAKE_CURRENT_SOURCE_DIR})
       ## Added in 2.8.11 http://stackoverflow.com/questions/19460707/how-to-set-include-directories-from-a-cmakelists-txt-file
-      if(${CMAKE_VERSION} VERSION_GREATER 2.8.11)
+      if(${CMAKE_VERSION} VERSION_GREATER 2.8.11.2)
         target_include_directories(${lib_name}
           PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -126,7 +126,7 @@ macro( vxl_add_library )
         set(relative_install_path "${relative_install_path}/${header_install_dir}")
       endif()
       ## Added in 2.8.11 http://stackoverflow.com/questions/19460707/how-to-set-include-directories-from-a-cmakelists-txt-file
-      if(${CMAKE_VERSION} VERSION_GREATER 2.8.11)
+      if(${CMAKE_VERSION} VERSION_GREATER 2.8.11.2)
         target_include_directories(${lib_name}
           PUBLIC
             $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
@@ -282,5 +282,3 @@ macro(GENERATE_TEST_INCLUDE LIB SOURCES PREFIX)
   add_executable(${LIB}_test_include ${CMAKE_CURRENT_BINARY_DIR}/test_include.cxx)
   target_link_libraries(${LIB}_test_include ${LIB})
 endmacro()
-
-

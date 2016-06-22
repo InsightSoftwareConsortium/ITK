@@ -102,6 +102,6 @@ void vnl_scatter_3x3<T>::compute_eigensystem()
 //--------------------------------------------------------------------------------
 
 #define VNL_SCATTER_3X3_INSTANTIATE(T) \
-template class vnl_scatter_3x3<T >
+template class VNL_EXPORT vnl_scatter_3x3<T >
 
 #endif // vnl_scatter_3x3_hxx_

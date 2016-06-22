@@ -33,6 +33,7 @@ vnl_fortran_copy<T>::~vnl_fortran_copy()
 //--------------------------------------------------------------------------------
 
 #undef VNL_FORTRAN_COPY_INSTANTIATE
-#define VNL_FORTRAN_COPY_INSTANTIATE(T) template class vnl_fortran_copy<T >
+#define VNL_FORTRAN_COPY_INSTANTIATE(T) \
+template class VNL_EXPORT vnl_fortran_copy<T >
 
 #endif // vnl_fortran_copy_hxx_

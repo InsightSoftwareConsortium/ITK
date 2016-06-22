@@ -33,15 +33,6 @@ vnl_vector_fixed<T,n>::apply( T (*f)(const T&) )
   return ret;
 }
 
-
-template<class T, unsigned int n>
-vnl_vector<T>
-vnl_vector_fixed<T,n>::extract( unsigned int len, unsigned int start ) const
-{
-  assert( start < n && start + len <= n );
-  return vnl_vector<T>( data_ + start, len );
-}
-
 template<class T, unsigned int n>
 vnl_vector_fixed<T,n>&
 vnl_vector_fixed<T,n>::update( const vnl_vector<T>& v, unsigned int start )

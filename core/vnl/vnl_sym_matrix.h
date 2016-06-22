@@ -52,45 +52,43 @@ class VNL_EXPORT vnl_sym_matrix
   //: Copy constructor
   inline vnl_sym_matrix(vnl_sym_matrix<T> const& that);
 
-  ~vnl_sym_matrix()
-  { vnl_c_vector<T>::deallocate(data_, size());
-    vnl_c_vector<T>::deallocate(index_, nn_);}
+  ~vnl_sym_matrix();
 
   vnl_sym_matrix<T>& operator=(vnl_sym_matrix<T> const& that);
 
   // Operations----------------------------------------------------------------
 
   //: In-place arithmetic operations
-  vnl_sym_matrix<T>& operator*=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), v); return *this; }
+  inline vnl_sym_matrix<T>& operator*=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), v); return *this; }
   //: In-place arithmetic operations
-  vnl_sym_matrix<T>& operator/=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), ((T)1)/v); return *this; }
+  inline vnl_sym_matrix<T>& operator/=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), ((T)1)/v); return *this; }
 
 
   // Data Access---------------------------------------------------------------
 
-  T operator () (unsigned i, unsigned j) const {
+  inline T operator () (unsigned i, unsigned j) const {
     return (i > j) ? index_[i][j] : index_[j][i];
   }
 
-  T& operator () (unsigned i, unsigned j) {
+  inline T& operator () (unsigned i, unsigned j) {
     return (i > j) ? index_[i][j] : index_[j][i];
   }
 
   //: Access a half-row of data.
   // Only the first i+1 values from this pointer are valid.
-  const T* operator [] (unsigned i) const {
+  inline const T* operator [] (unsigned i) const {
     assert (i < nn_);
     return index_[i];
   }
 
   //: fast access, however i >= j
-  T fast (unsigned i, unsigned j) const {
+  inline T fast (unsigned i, unsigned j) const {
     assert (i >= j);
     return index_[i][j];
   }
 
   //: fast access, however i >= j
-  T& fast (unsigned i, unsigned j) {
+  inline T& fast (unsigned i, unsigned j) {
     assert (i >= j);
     return index_[i][j];
   }
@@ -171,10 +169,7 @@ class VNL_EXPORT vnl_sym_matrix
 
  protected:
 //: Set up the index array
-  inline void setup_index() {
-    T * data = data_;
-    for (unsigned i=0; i< nn_; ++i) { index_[i] = data; data += i+1; }
-  }
+  void setup_index();
 
   T* data_;
   T** index_;
@@ -250,8 +245,8 @@ inline void vnl_sym_matrix<T>::set_size(int n)
 {
   if (n == (int)nn_) return;
 
-  vnl_c_vector<T>::deallocate(data_, size());
-  vnl_c_vector<T>::deallocate(index_, nn_);
+  vnl_c_vector<T>::deallocate(data_, static_cast<std::size_t>(size()));
+  vnl_c_vector<T>::deallocate(index_, static_cast<std::size_t>( nn_));
 
   nn_ = n;
   data_ = vnl_c_vector<T>::allocate_T(size());

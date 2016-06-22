@@ -468,6 +468,12 @@ class VNL_EXPORT vnl_matrix_fixed
   //: Get a vector equal to the given column
   vnl_vector_fixed<T,num_rows> get_column(unsigned col) const;
 
+  //: Get a matrix composed of rows from the indices specified in the supplied vector.
+  vnl_matrix<T> get_rows(vnl_vector<unsigned int> i) const;
+
+  //: Get a matrix composed of columns from the indices specified in the supplied vector.
+  vnl_matrix<T> get_columns(vnl_vector<unsigned int> i) const;
+
   //: Get n rows beginning at rowstart
   vnl_matrix<T> get_n_rows   (unsigned rowstart, unsigned n) const;
 
@@ -559,6 +565,9 @@ class VNL_EXPORT vnl_matrix_fixed
   //  \endcode
   vnl_matrix_fixed& scale_column(unsigned col, T value);
 
+  //: Swap this matrix with that matrix
+  void swap(vnl_matrix_fixed<T,num_rows,num_cols> & that);
+
   //: Type def for norms.
   typedef typename vnl_c_vector<T>::abs_t abs_t;
 
@@ -623,6 +632,9 @@ class VNL_EXPORT vnl_matrix_fixed
 
   //: Return true if all elements equal to zero, within given tolerance
   bool is_zero(double tol) const;
+
+  //:  Return true if all elements of both matrices are equal, within given tolerance
+  bool is_equal(vnl_matrix_fixed<T,num_rows,num_cols> const& rhs, double tol) const;
 
   //: Return true if finite
   bool is_finite() const;

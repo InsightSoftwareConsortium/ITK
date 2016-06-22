@@ -17,6 +17,7 @@ add_executable( vnl_test_all
   test_math.cxx
   test_na.cxx
   test_matrix.cxx
+  test_container_interface.cxx
   test_matrix_exp.cxx
   test_matrix_fixed.cxx
   test_vector_fixed_ref.cxx
@@ -82,6 +83,7 @@ add_test( NAME vnl_test_finite COMMAND $<TARGET_FILE:vnl_test_all> test_finite  
 add_test( NAME vnl_test_inverse COMMAND $<TARGET_FILE:vnl_test_all> test_inverse                )
 add_test( NAME vnl_test_math COMMAND $<TARGET_FILE:vnl_test_all> test_math                   )
 add_test( NAME vnl_test_matrix COMMAND $<TARGET_FILE:vnl_test_all> test_matrix                 )
+add_test( NAME vnl_test_container_interface COMMAND $<TARGET_FILE:vnl_test_all> test_container_interface )
 add_test( NAME vnl_test_matrix_exp COMMAND $<TARGET_FILE:vnl_test_all> test_matrix_exp             )
 add_test( NAME vnl_test_matrix_fixed COMMAND $<TARGET_FILE:vnl_test_all> test_matrix_fixed           )
 add_test( NAME vnl_test_vector_fixed_ref COMMAND $<TARGET_FILE:vnl_test_all> test_vector_fixed_ref       )
