@@ -562,7 +562,7 @@ protected:
    */
   virtual ~AnalyzeObjectEntry( void );
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   template <typename TValue>
