@@ -20,7 +20,13 @@
 namespace itk
 {
 
-#if !defined(_WIN32) || (ITK_COMPILED_CXX_VERSION >= 201103L)
+/* Explicit definitions for static inline initialized integer members.
+ *
+ * MSVC gives duplicate symbol definition errors if the explicit
+ * definitions are defined. Other compilers (GCC) seem not to care, while
+ * still others (Clang) require it.
+ */
+#if !defined(_MSC_VER) || (ITK_COMPILED_CXX_VERSION >= 201103L)
 ITK_CONSTEXPR bool NumericTraits< bool >:: Zero;
 ITK_CONSTEXPR bool NumericTraits< bool >:: One;
 
