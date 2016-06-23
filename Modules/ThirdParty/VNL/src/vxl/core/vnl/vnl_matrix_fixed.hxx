@@ -283,9 +283,7 @@ vnl_matrix_fixed<T,nrows,ncols>&
 vnl_matrix_fixed<T,nrows,ncols>::copy_in(T const *p)
 {
   T* dp = this->data_block();
-  unsigned int i = nrows * ncols;
-  while (i--)
-    *dp++ = *p++;
+  std::copy( p, p + nrows * ncols, dp );
   return *this;
 }
 
@@ -293,9 +291,7 @@ template<class T, unsigned nrows, unsigned ncols>
 void vnl_matrix_fixed<T,nrows,ncols>::copy_out(T *p) const
 {
   T const* dp = this->data_block();
-  unsigned int i = nrows*ncols;
-  while (i--)
-    *p++ = *dp++;
+  std::copy( dp, dp + nrows * ncols, p );
 }
 
 template<class T, unsigned nrows, unsigned ncols>
@@ -389,6 +385,14 @@ vnl_matrix_fixed<T,nrows,ncols>::scale_column(unsigned column_index, T value)
   return *this;
 }
 
+template <class T, unsigned int nrows, unsigned int ncols>
+void
+vnl_matrix_fixed<T,nrows,ncols>
+::swap(vnl_matrix_fixed<T,nrows,ncols> &that)
+{
+  std::swap(this->data_, that.data_);
+}
+
 //: Returns a copy of n rows, starting from "row"
 template<class T, unsigned nrows, unsigned ncols>
 vnl_matrix<T>
@@ -449,6 +453,30 @@ vnl_vector_fixed<T,nrows> vnl_matrix_fixed<T,nrows,ncols>::get_column(unsigned c
   return v;
 }
 
+//: Create a vector out of row[row_index].
+template <class T, unsigned int nrows, unsigned int ncols>
+vnl_matrix<T>
+vnl_matrix_fixed<T,nrows,ncols>
+::get_rows(vnl_vector<unsigned int> i) const
+{
+  vnl_matrix<T> m(i.size(), this->cols());
+  for (unsigned int j = 0; j < i.size(); ++j)
+    m.set_row(j, this->get_row(i.get(j)));
+  return m;
+}
+
+//: Create a vector out of column[column_index].
+template <class T, unsigned int nrows, unsigned int ncols>
+vnl_matrix<T>
+vnl_matrix_fixed<T,nrows,ncols>
+::get_columns(vnl_vector<unsigned int> i) const
+{
+  vnl_matrix<T> m(this->rows(), i.size());
+  for (unsigned int j = 0; j < i.size(); ++j)
+    m.set_column(j, this->get_column(i.get(j)));
+  return m;
+}
+
 //: Return a vector with the content of the (main) diagonal
 template<class T, unsigned nrows, unsigned ncols>
 vnl_vector<T> vnl_matrix_fixed<T,nrows,ncols>::get_diagonal() const
@@ -475,7 +503,7 @@ vnl_vector_fixed<T,nrows*ncols> vnl_matrix_fixed<T,nrows,ncols>::flatten_column_
   vnl_vector_fixed<T,nrows*ncols> v;
   for (unsigned int c = 0; c < ncols; ++c)
     for (unsigned int r = 0; r < nrows; ++r)
-      v[c*ncols+r] = this->data_[r][c];
+      v[c*nrows+r] = this->data_[r][c];
   return v;
 }
 
@@ -618,6 +646,24 @@ vnl_matrix_fixed<T,nrows,ncols>::is_zero() const
 }
 
 template <class T, unsigned nrows, unsigned ncols>
+bool vnl_matrix_fixed<T,nrows,ncols>
+::is_equal(vnl_matrix_fixed<T,nrows,ncols> const& rhs, double tol) const
+{
+  if (this == &rhs)                                      // same object => equal.
+    return true;
+
+  if (this->rows() != rhs.rows() || this->cols() != rhs.cols())
+    return false;                                        // different sizes => not equal.
+
+  for (unsigned int i = 0; i < nrows; ++i)
+    for (unsigned int j = 0; j < ncols; ++j)
+      if (vnl_math::abs(this->data_[i][j] - rhs.data_[i][j]) > tol)
+        return false;                                    // difference greater than tol
+
+  return true;
+}
+
+template <class T, unsigned nrows, unsigned ncols>
 bool
 vnl_matrix_fixed<T,nrows,ncols>::is_zero(double tol) const
 {
@@ -718,12 +764,10 @@ vnl_matrix_fixed<T,nrows,ncols>::flipud()
 {
   for (unsigned int r1 = 0; 2*r1+1 < nrows; ++r1)
   {
-    unsigned int r2 = nrows - 1 - r1;
+    const unsigned int r2 = nrows - 1 - r1;
     for (unsigned int c = 0; c < ncols; ++c)
     {
-      T tmp = this->data_[r1][c];
-      this->data_[r1][c] = this->data_[r2][c];
-      this->data_[r2][c] = tmp;
+    std::swap(this->data_[r1][c], this->data_[r2][c]);
     }
   }
   return *this;
@@ -736,12 +780,10 @@ vnl_matrix_fixed<T,nrows,ncols>::fliplr()
 {
   for (unsigned int c1 = 0; 2*c1+1 < ncols; ++c1)
   {
-    unsigned int c2 = ncols - 1 - c1;
+    const unsigned int c2 = ncols - 1 - c1;
     for (unsigned int r = 0; r < nrows; ++r)
     {
-      T tmp = this->data_[r][c1];
-      this->data_[r][c1] = this->data_[r][c2];
-      this->data_[r][c2] = tmp;
+    std::swap(this->data_[r][c1], this->data_[r][c2]);
     }
   }
   return *this;

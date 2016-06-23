@@ -4,6 +4,7 @@
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma interface
 #endif
+#include "vnl/vnl_export.h"
 //:
 // \file
 // \brief Name space for various (mostly templated) chi-squared distribution functions.

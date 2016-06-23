@@ -143,10 +143,10 @@ class VNL_EXPORT vnl_c_vector
   static T euclid_dist_sq(T const *, T const *, unsigned);
 
   //: Memory allocation
-  static T** allocate_Tptr(std::size_t n);
-  static T*  allocate_T(std::size_t n);
-  static void deallocate(T**, std::size_t n_when_allocated);
-  static void deallocate(T*, std::size_t n_when_allocated);
+  static VNL_EXPORT T** allocate_Tptr(const std::size_t n);
+  static VNL_EXPORT T*  allocate_T(const std::size_t n);
+  static VNL_EXPORT void deallocate(T**, const std::size_t n_when_allocated);
+  static VNL_EXPORT void deallocate(T*, const std::size_t n_when_allocated);
 };
 
 //: Input & output

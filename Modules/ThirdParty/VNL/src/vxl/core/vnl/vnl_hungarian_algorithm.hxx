@@ -527,6 +527,6 @@ vnl_hungarian_algorithm<T>::GetAssignmentVector()
 
 #undef VNL_HUNGARIAN_ALGORITHM_INSTANTIATE
 #define VNL_HUNGARIAN_ALGORITHM_INSTANTIATE(T) \
-template class vnl_hungarian_algorithm<T >
+template class VNL_EXPORT vnl_hungarian_algorithm<T >
 
 #endif // vnl_hungarian_algorithm_hxx_

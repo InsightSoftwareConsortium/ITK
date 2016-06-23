@@ -13,6 +13,7 @@
 // \endverbatim
 
 #include <vcl_compiler.h> // for "export" keyword
+#include "vnl/vnl_export.h"
 
 //: Holds prime factor information
 // Helper class used by the vnl_fft_xd<> FFT routines

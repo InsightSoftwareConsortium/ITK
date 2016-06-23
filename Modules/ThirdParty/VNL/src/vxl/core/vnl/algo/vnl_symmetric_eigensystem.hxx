@@ -233,8 +233,8 @@ vnl_matrix<T> vnl_symmetric_eigensystem<T>::inverse_square_root() const
 
 #undef VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE
 #define VNL_SYMMETRIC_EIGENSYSTEM_INSTANTIATE(T) \
-template class vnl_symmetric_eigensystem<T >; \
-template void vnl_symmetric_eigensystem_compute_eigenvals(T,T,T,T,T,T,T&,T&,T&); \
-template bool vnl_symmetric_eigensystem_compute(vnl_matrix<T > const&, vnl_matrix<T > &, vnl_vector<T >&)
+template class VNL_EXPORT vnl_symmetric_eigensystem<T >; \
+template VNL_EXPORT void vnl_symmetric_eigensystem_compute_eigenvals(T,T,T,T,T,T,T&,T&,T&); \
+template VNL_EXPORT bool vnl_symmetric_eigensystem_compute(vnl_matrix<T > const&, vnl_matrix<T > &, vnl_vector<T >&)
 
 #endif // vnl_symmetric_eigensystem_hxx_

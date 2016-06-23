@@ -273,31 +273,31 @@ vnl_sym_matrix<T>
 //-------------------------------------------------------------------------
 
 #define VNL_COMPLEX_OPS_INSTANTIATE(T) \
-template void vnl_complexify(T const *, std::complex<T > *, unsigned); \
-template void vnl_complexify(T const *, T const *, std::complex<T > *, unsigned); \
+template VNL_EXPORT void vnl_complexify(T const *, std::complex<T > *, unsigned); \
+template VNL_EXPORT void vnl_complexify(T const *, T const *, std::complex<T > *, unsigned); \
 \
-template vnl_vector<std::complex<T > > vnl_complexify(vnl_vector<T > const &); \
-template vnl_vector<std::complex<T > > vnl_complexify(vnl_vector<T > const &, vnl_vector<T > const &); \
-template vnl_matrix<std::complex<T > > vnl_complexify(vnl_matrix<T > const &); \
-template vnl_matrix<std::complex<T > > vnl_complexify(vnl_matrix<T > const &, vnl_matrix<T > const &); \
-template vnl_diag_matrix<std::complex<T > > vnl_complexify(vnl_diag_matrix<T > const &); \
-template vnl_diag_matrix<std::complex<T > > vnl_complexify(vnl_diag_matrix<T > const &,vnl_diag_matrix<T > const&); \
-template vnl_sym_matrix<std::complex<T > > vnl_complexify(vnl_sym_matrix<T > const &); \
-template vnl_sym_matrix<std::complex<T > > vnl_complexify(vnl_sym_matrix<T > const &,vnl_sym_matrix<T > const&); \
+template VNL_EXPORT vnl_vector<std::complex<T > > vnl_complexify(vnl_vector<T > const &); \
+template VNL_EXPORT vnl_vector<std::complex<T > > vnl_complexify(vnl_vector<T > const &, vnl_vector<T > const &); \
+template VNL_EXPORT vnl_matrix<std::complex<T > > vnl_complexify(vnl_matrix<T > const &); \
+template VNL_EXPORT vnl_matrix<std::complex<T > > vnl_complexify(vnl_matrix<T > const &, vnl_matrix<T > const &); \
+template VNL_EXPORT vnl_diag_matrix<std::complex<T > > vnl_complexify(vnl_diag_matrix<T > const &); \
+template VNL_EXPORT vnl_diag_matrix<std::complex<T > > vnl_complexify(vnl_diag_matrix<T > const &,vnl_diag_matrix<T > const&); \
+template VNL_EXPORT vnl_sym_matrix<std::complex<T > > vnl_complexify(vnl_sym_matrix<T > const &); \
+template VNL_EXPORT vnl_sym_matrix<std::complex<T > > vnl_complexify(vnl_sym_matrix<T > const &,vnl_sym_matrix<T > const&); \
 \
-template void vnl_real(std::complex<T > const*, T*, unsigned int); \
-template void vnl_imag(std::complex<T > const*, T*, unsigned int); \
+template VNL_EXPORT void vnl_real(std::complex<T > const*, T*, unsigned int); \
+template VNL_EXPORT void vnl_imag(std::complex<T > const*, T*, unsigned int); \
 \
-template vnl_vector<T > vnl_real(vnl_vector<std::complex<T > > const&); \
-template vnl_vector<T > vnl_imag(vnl_vector<std::complex<T > > const&); \
+template VNL_EXPORT vnl_vector<T > vnl_real(vnl_vector<std::complex<T > > const&); \
+template VNL_EXPORT vnl_vector<T > vnl_imag(vnl_vector<std::complex<T > > const&); \
 \
-template vnl_matrix<T > vnl_real(vnl_matrix<std::complex<T > > const&); \
-template vnl_matrix<T > vnl_imag(vnl_matrix<std::complex<T > > const&); \
+template VNL_EXPORT vnl_matrix<T > vnl_real(vnl_matrix<std::complex<T > > const&); \
+template VNL_EXPORT vnl_matrix<T > vnl_imag(vnl_matrix<std::complex<T > > const&); \
 \
-template vnl_diag_matrix<T > vnl_real(vnl_diag_matrix<std::complex<T > > const&); \
-template vnl_diag_matrix<T > vnl_imag(vnl_diag_matrix<std::complex<T > > const&); \
+template VNL_EXPORT vnl_diag_matrix<T > vnl_real(vnl_diag_matrix<std::complex<T > > const&); \
+template VNL_EXPORT vnl_diag_matrix<T > vnl_imag(vnl_diag_matrix<std::complex<T > > const&); \
 \
-template vnl_sym_matrix<T > vnl_real(vnl_sym_matrix<std::complex<T > > const&); \
-template vnl_sym_matrix<T > vnl_imag(vnl_sym_matrix<std::complex<T > > const&)
+template VNL_EXPORT vnl_sym_matrix<T > vnl_real(vnl_sym_matrix<std::complex<T > > const&); \
+template VNL_EXPORT vnl_sym_matrix<T > vnl_imag(vnl_sym_matrix<std::complex<T > > const&)
 
 #endif // vnl_complex_ops_hxx_

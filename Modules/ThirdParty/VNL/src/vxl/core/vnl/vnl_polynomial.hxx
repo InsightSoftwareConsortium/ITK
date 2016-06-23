@@ -150,7 +150,7 @@ void vnl_polynomial<T>::print(std::ostream& os) const
 
 #undef VNL_POLYNOMIAL_INSTANTIATE
 #define VNL_POLYNOMIAL_INSTANTIATE(T) \
-template class vnl_polynomial<T >; \
-template std::ostream& operator<<(std::ostream& os, vnl_polynomial<T > const&)
+template class VNL_EXPORT vnl_polynomial<T >; \
+template VNL_EXPORT std::ostream& operator<<(std::ostream& os, vnl_polynomial<T > const&)
 
 #endif // vnl_polynomial_hxx_
