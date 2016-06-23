@@ -200,7 +200,7 @@ protected:
    */
   AnalyzeObjectMap( const AnalyzeObjectMap & /* rhs */ ); /*Explicitly not allowed*/
 
-  void PrintSelf(std::ostream& os, Indent indent) const;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   /** Number of Objects in the object file */
