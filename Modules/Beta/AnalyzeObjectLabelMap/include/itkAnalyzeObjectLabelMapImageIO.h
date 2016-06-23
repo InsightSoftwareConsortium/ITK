@@ -125,8 +125,7 @@ private:
   std::ifstream m_InputFileStream;
   int           m_LocationOfFile;
   //  int           m_CollapsedDims[8];
-  AnalyzeObjectLabelMapImageIO(const Self &); // purposely not implemented
-  void operator=(const Self &);               // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeObjectLabelMapImageIO);
 
 };
 
