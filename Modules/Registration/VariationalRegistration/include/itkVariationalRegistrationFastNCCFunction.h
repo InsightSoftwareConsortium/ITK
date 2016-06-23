@@ -116,16 +116,16 @@ public:
   virtual PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
                 void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0));
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) ITK_OVERRIDE;
 
   /** Return a pointer to a global data structure that is passed to
    * this object from the solver at each calculation.  */
   virtual void *
-  GetGlobalDataPointer() const;
+  GetGlobalDataPointer() const ITK_OVERRIDE;
 
   /** Release memory for global data structure. */
   virtual void
-  ReleaseGlobalDataPointer(void * GlobalData) const;
+  ReleaseGlobalDataPointer(void * GlobalData) const ITK_OVERRIDE;
 
 protected:
   VariationalRegistrationFastNCCFunction();
@@ -133,7 +133,7 @@ protected:
 
   /** Print information about the filter. */
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::GlobalDataStruct GlobalDataStruct;
 

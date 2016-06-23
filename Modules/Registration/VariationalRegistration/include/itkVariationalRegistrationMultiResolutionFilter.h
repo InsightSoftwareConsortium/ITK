@@ -205,7 +205,7 @@ public:
    *  VariationalRegistrationMultiResolutionFilter can take a third input
    *  as an initial deformation field, this input is not a required input. */
   virtual std::vector<SmartPointer<DataObject>>::size_type
-  GetNumberOfValidRequiredInputs() const;
+  GetNumberOfValidRequiredInputs() const ITK_OVERRIDE;
 
   /** Set the internal registration filter. */
   itkSetObjectMacro(RegistrationFilter, RegistrationType);
@@ -267,18 +267,18 @@ protected:
 
   /** Print information about the filter. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate output data by performing the registration
    *  at each resolution level. */
   virtual void
-  GenerateData();
+  GenerateData() ITK_OVERRIDE;
 
   /** The current implementation of this class does not support
    *  streaming. As such it requires the largest possible region
    *  for the moving, fixed and input deformation field. */
   virtual void
-  GenerateInputRequestedRegion();
+  GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** By default, the output deformation field has the same
    *  spacing, origin and LargestPossibleRegion as the input/initial
@@ -287,13 +287,13 @@ protected:
    *  If the initial deformation field is not set, the output
    *  information is copied from the fixed image. */
   virtual void
-  GenerateOutputInformation();
+  GenerateOutputInformation() ITK_OVERRIDE;
 
   /** The current implementation of this class does not supprot
    *  streaming. As such it produces the output for the largest
    *  possible region. */
   virtual void
-  EnlargeOutputRequestedRegion(DataObject * ptr);
+  EnlargeOutputRequestedRegion(DataObject * ptr) ITK_OVERRIDE;
 
   /** This method returns true to indicate that the registration should
    *  terminate at the current resolution level. */

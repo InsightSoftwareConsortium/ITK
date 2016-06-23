@@ -92,17 +92,17 @@ protected:
 
   /** Print information about the filter. */
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Execute regularization. This method is multi-threaded but does not
    * use ThreadedGenerateData(). */
   virtual void
-  GenerateData();
+  GenerateData() ITK_OVERRIDE;
 
   /** Method for initialization. Buffer images are allocated and the matrices
    * calculated in this method. */
   virtual void
-  Initialize();
+  Initialize() ITK_OVERRIDE;
 
   /** Calculation and LU decomposition of the tridiagonal matrices
    * using the Thomas algorithm (TDMA). */
