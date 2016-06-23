@@ -1,21 +1,13 @@
-# This is the root ITK CMakeLists file.
-if(COMMAND CMAKE_POLICY)
+set(kit FixedPointInverseDeformationField)
+project(${kit})
+
+if(NOT ITK_SOURCE_DIR)
+  find_package(ITK 4.9 REQUIRED)
+  include(${ITK_USE_FILE})
+  list(APPEND CMAKE_MODULE_PATH ${ITK_CMAKE_DIR})
+  include(ITKModuleExternal)
+else()
+  itk_module_impl()
 endif()
 
-project(ITKUtils)
-
-# Find ITK.
-find_package(ITK REQUIRED)
-include(${ITK_USE_FILE})
-
-add_executable(InvertDeformationField InvertDeformationField.cxx)
-
-target_link_libraries(InvertDeformationField ${ITK_LIBRARIES})
-
-set(INSTALL_RUNTIME_DESTINATION bin CACHE STRING "Install destination")
-
-install(
-  TARGETS
-    InvertDeformationField
-  DESTINATION ${INSTALL_RUNTIME_DESTINATION}
-)
+add_subdirectory(examples)
