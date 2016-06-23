@@ -8,9 +8,10 @@ itk_module(
   PrincipalComponentsAnalysis
   DEPENDS
     ITKCommon
-  TEST_DEPENDS
-    ITKIOMesh
     ITKMesh
+    ITKIOMesh
+    ITKIOImageBase
+  TEST_DEPENDS
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "Module ingested from upstream."
