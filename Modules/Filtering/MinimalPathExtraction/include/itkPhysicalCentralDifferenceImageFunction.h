@@ -82,7 +82,7 @@ public:
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
   virtual void
-  SetInputImage(const InputImageType * ptr)
+  SetInputImage(const InputImageType * ptr) ITK_OVERRIDE
   {
     this->Superclass::SetInputImage(ptr);
     if (m_Interpolator.IsNotNull())
@@ -97,7 +97,7 @@ public:
    *  image buffer. ImageFunction::IsInsideBuffer() can be used to check
    *  bounds before calling this method. */
   virtual OutputType
-  EvaluateAtIndex(const IndexType & index) const
+  EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE
   {
     PointType point;
     m_Interpolator->GetInputImage()->TransformIndexToPhysicalPoint(index, point);
@@ -111,7 +111,7 @@ public:
    *  image buffer. ImageFunction::IsInsideBuffer() can be used to check
    *  bounds before calling this method. */
   virtual OutputType
-  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const
+  EvaluateAtContinuousIndex(const ContinuousIndexType & cindex) const ITK_OVERRIDE
   {
     PointType point;
     m_Interpolator->GetInputImage()->TransformContinuousIndexToPhysicalPoint(cindex, point);
@@ -125,13 +125,13 @@ public:
    *  image buffer. ImageFunction::IsInsideBuffer() can be used to check
    *  bounds before calling this method. */
   virtual OutputType
-  Evaluate(const PointType & point) const;
+  Evaluate(const PointType & point) const ITK_OVERRIDE;
 
 protected:
   PhysicalCentralDifferenceImageFunction();
   ~PhysicalCentralDifferenceImageFunction() {};
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   PhysicalCentralDifferenceImageFunction(const Self &); // purposely not implemented

@@ -107,7 +107,7 @@ public:
    *  This method is provided by the superclass, however it is not
    *  used by this subclass. Use AddPathInfo() instead.*/
   void
-  SetPathEndPoint(const PointType &)
+  SetPathEndPoint(const PointType &) ITK_OVERRIDE
   {
     itkWarningMacro("SetPathEndPoint() is not valid for this filter. Use AddPathInfo() instead.");
   }
@@ -117,7 +117,7 @@ public:
    *  This method is provided by the superclass, however it is not
    *  used by this subclass. Use AddPathInfo() instead.*/
   void
-  AddPathEndPoint(const PointType &)
+  AddPathEndPoint(const PointType &) ITK_OVERRIDE
   {
     itkWarningMacro("AddPathEndPoint() is not valid for this filter. Use AddPathInfo() instead.");
   }
@@ -127,7 +127,7 @@ public:
    *  This method is provided by the superclass, however it is not
    *  used by this subclass. Use ClearPathInfo() instead.*/
   void
-  ClearPathEndPoints()
+  ClearPathEndPoints() ITK_OVERRIDE
   {
     itkWarningMacro("ClearPathEndPoints() is not valid for this filter. Use ClearPathInfo() instead.");
   }
@@ -149,29 +149,29 @@ public:
 
   /** Handle optimizer iteration events. */
   virtual void
-  Execute(const itk::Object * object, const itk::EventObject & event);
+  Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE;
 
 protected:
   SpeedFunctionToPathFilter();
   ~SpeedFunctionToPathFilter();
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Implemention of algorithm. */
   void
-  GenerateData(void);
+  GenerateData(void) ITK_OVERRIDE;
 
   /** Get the number of paths which the user has instructed to extracted. */
   virtual unsigned int
-  GetNumberOfPathsToExtract() const;
+  GetNumberOfPathsToExtract() const ITK_OVERRIDE;
 
   /** Compute the arrival function from which to extract the path. */
   virtual InputImageType *
-  ComputeArrivalFunction();
+  ComputeArrivalFunction() ITK_OVERRIDE;
 
   /** Override handling of optimizer iteration events to accomodate way points. */
   virtual const PointType &
-  GetNextEndPoint();
+  GetNextEndPoint() ITK_OVERRIDE;
 
   std::vector<typename PathInformationType::Pointer> m_Information;
   InputImagePointer                                  m_CurrentArrivalFunction;
