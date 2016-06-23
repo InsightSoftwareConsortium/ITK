@@ -41,10 +41,10 @@ public:
 
   /** Class methods used to interface with the registered factories. */
   virtual const char *
-  GetITKSourceVersion(void) const;
+  GetITKSourceVersion(void) const ITK_OVERRIDE;
 
   virtual const char *
-  GetDescription(void) const;
+  GetDescription(void) const ITK_OVERRIDE;
 
   /** Method for class instantiation. */
   itkFactorylessNewMacro(Self);
@@ -66,7 +66,7 @@ protected:
   ~STLMeshIOFactory();
 
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   STLMeshIOFactory(const Self &); // purposely not implemented
