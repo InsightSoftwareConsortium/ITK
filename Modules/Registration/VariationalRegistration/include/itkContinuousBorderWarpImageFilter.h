@@ -108,7 +108,7 @@ protected:
    * As such, it needs to provide and implementation for
    * ThreadedGenerateData(). */
   virtual void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   ContinuousBorderWarpImageFilter(const Self &); // purposely not implemented

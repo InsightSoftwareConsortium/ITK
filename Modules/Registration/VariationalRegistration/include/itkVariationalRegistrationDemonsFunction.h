@@ -104,14 +104,14 @@ public:
 
   /** Set the object's state before each iteration. */
   virtual void
-  InitializeIteration();
+  InitializeIteration() ITK_OVERRIDE;
 
   /** This method is called by a finite difference solver image filter at
    * each pixel that does not lie on a data set boundary */
   virtual PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
                 void *                   globalData,
-                const FloatOffsetType &  offset = FloatOffsetType(0.0));
+                const FloatOffsetType &  offset = FloatOffsetType(0.0)) ITK_OVERRIDE;
 
   /** Select that the fixed image gradient is used for computing the forces. */
   virtual void
@@ -163,7 +163,7 @@ protected:
 
   /** Print information about the filter. */
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Type of available image forces */
   enum GradientType

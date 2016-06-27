@@ -234,10 +234,10 @@ public:
   }
 
   virtual void
-  Execute(itk::Object * caller, const itk::EventObject & event);
+  Execute(itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE;
 
   virtual void
-  Execute(const itk::Object * caller, const itk::EventObject & event);
+  Execute(const itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE;
 
 protected:
   VariationalRegistrationStopCriterion();
@@ -245,7 +245,7 @@ protected:
 
   /** Print information about the filter. */
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Set the flags according to the multi-resolution policy for
    * the next level. */

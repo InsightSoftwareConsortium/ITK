@@ -85,7 +85,7 @@ protected:
 
   /** Print information about the filter. */
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the filter. */
   virtual void

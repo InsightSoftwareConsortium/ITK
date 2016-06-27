@@ -62,14 +62,14 @@ public:
 
   /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
   virtual void
-  Execute(itk::Object * caller, const itk::EventObject & event)
+  Execute(itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE
   {
     Execute((const itk::Object *)caller, event);
   }
 
   /** Print iterations, levels or metric values on IterationEvent or InitializeEvent */
   virtual void
-  Execute(const itk::Object * caller, const itk::EventObject & event);
+  Execute(const itk::Object * caller, const itk::EventObject & event) ITK_OVERRIDE;
 
 protected:
   VariationalRegistrationLogger();
@@ -77,7 +77,7 @@ protected:
 
   /** Print information about the filter. */
   virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   VariationalRegistrationLogger(const Self &); // purposely not implemented
