@@ -1,26 +1,20 @@
 itk_module_test()
 
-set(
-  ${kit}-TestDriver_LIBRARIES
-  ${ITK_LIBRARIES}
-  ${kit}Lib
-)
-set(TestDriverAdditionalSource ${kit}EntryPoint.cxx)
-
-createtestdriver(${kit} "${${kit}-TestDriver_LIBRARIES}" "${TestDriverAdditionalSource}")
+createtestdriver(FixedPointInverseDeformationField "${InverseDeformationField-Test_LIBRARIES}" "FixedPointInverseDeformationFieldTest.cxx")
 
 set(
-  ${kit}TestDriverOutput
+  FixedPointInverseDeformationFieldTestTestDriverOutput
   ${ITK_TEST_OUTPUT_DIR}/InverseDeformationField.nii.gz
 )
+
 itk_add_test(
-  NAME ${kit}Test
+  NAME FixedPointInverseDeformationFieldTest
   COMMAND
-    ${kit}TestDriver
+    FixedPointInverseDeformationFieldTestDriver
     --compare
-    ${${kit}TestDriverOutput}
+    ${FixedPointInverseDeformationFieldTestTestDriverOutput}
     DATA{Baseline/InverseDeformationField.nii.gz}
-    ${kit}EntryPoint
+    FixedPointInverseDeformationFieldTest
     DATA{Input/DeformationField.nii.gz}
-    ${${kit}TestDriverOutput}
+    ${FixedPointInverseDeformationFieldTestTestDriverOutput}
 )

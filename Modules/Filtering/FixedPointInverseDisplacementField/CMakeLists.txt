@@ -1,5 +1,4 @@
-set(kit FixedPointInverseDeformationField)
-project(${kit})
+project(FixedPointInverseDeformationField)
 
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK 4.9 REQUIRED)
@@ -9,5 +8,3 @@ if(NOT ITK_SOURCE_DIR)
 else()
   itk_module_impl()
 endif()
-
-add_subdirectory(examples)
