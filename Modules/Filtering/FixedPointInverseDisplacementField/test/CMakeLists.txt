@@ -1,6 +1,6 @@
 itk_module_test()
 
-createtestdriver(FixedPointInverseDeformationField "${InverseDeformationField-Test_LIBRARIES}" "FixedPointInverseDeformationFieldTest.cxx")
+createtestdriver(FixedPointInverseDeformationField "${FixedPointInverseDeformationField-Test_LIBRARIES}" "FixedPointInverseDeformationFieldTest.cxx")
 
 set(
   FixedPointInverseDeformationFieldTestTestDriverOutput
