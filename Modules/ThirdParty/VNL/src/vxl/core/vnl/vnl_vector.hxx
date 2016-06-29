@@ -80,7 +80,7 @@ do { \
 // Elements are not initialized.
 
 template<class T>
-vnl_vector<T>::vnl_vector (unsigned len)
+vnl_vector<T>::vnl_vector (size_t len)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
@@ -90,7 +90,7 @@ vnl_vector<T>::vnl_vector (unsigned len)
 //: Creates a vector of specified length, and initialize all elements with value. O(n).
 
 template<class T>
-vnl_vector<T>::vnl_vector (unsigned len, T const& value)
+vnl_vector<T>::vnl_vector (size_t len, T const& value)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
@@ -103,12 +103,12 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& value)
 //: Creates a vector of specified length and initialize first n elements with values. O(n).
 
 template<class T>
-vnl_vector<T>::vnl_vector (unsigned len, int n, T const values[])
+vnl_vector<T>::vnl_vector (size_t len, size_t n, T const values[])
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
   if (n > 0) {                                  // If user specified values
-    for (unsigned i = 0; i < len && n; i++, n--)        // Initialize first n elements
+    for (size_t i = 0; i < len && n; i++, n--)        // Initialize first n elements
       this->data[i] = values[i];                // with values
   }
 }
@@ -116,7 +116,7 @@ vnl_vector<T>::vnl_vector (unsigned len, int n, T const values[])
 #if VNL_CONFIG_LEGACY_METHODS // these constructors are deprecated and should not be used
 
 template<class T>
-vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py)
+vnl_vector<T>::vnl_vector (size_t len, T const& px, T const& py)
 {
   VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(2, T const& px, T const& py)");
   assert(len==2);
@@ -127,7 +127,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py)
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz)
+vnl_vector<T>::vnl_vector (size_t len, T const& px, T const& py, T const& pz)
 {
   VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(3, T const& px, T const& py, T const& pz)");
   assert(len==3);
@@ -139,7 +139,7 @@ vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz)
 }
 
 template<class T>
-vnl_vector<T>::vnl_vector (unsigned len, T const& px, T const& py, T const& pz, T const& pw)
+vnl_vector<T>::vnl_vector (size_t len, T const& px, T const& py, T const& pz, T const& pw)
 {
   VXL_DEPRECATED_MACRO("vnl_vector<T>::vnl_vector(4, T const& px, T const& py, T const& pz, T const& pt)");
   assert(len==4);
@@ -168,7 +168,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const& v)
 // Values in datablck are copied. O(n).
 
 template<class T>
-vnl_vector<T>::vnl_vector (T const* datablck, unsigned len)
+vnl_vector<T>::vnl_vector (T const* datablck, size_t len)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(len);
@@ -186,7 +186,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, vnl_t
   if (u.size() != v.size())
     vnl_error_vector_dimension ("vnl_vector<>::vnl_vector(v, v, vnl_vector_add_tag)", u.size(), v.size());
 #endif
-  for (unsigned int i=0; i<num_elmts; ++i)
+  for (size_t i=0; i<num_elmts; ++i)
     data[i] = u[i] + v[i];
 }
 
@@ -199,7 +199,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, vnl_vector<T> const &v, vnl_t
   if (u.size() != v.size())
     vnl_error_vector_dimension ("vnl_vector<>::vnl_vector(v, v, vnl_vector_sub_tag)", u.size(), v.size());
 #endif
-  for (unsigned int i=0; i<num_elmts; ++i)
+  for (size_t i=0; i<num_elmts; ++i)
     data[i] = u[i] - v[i];
 }
 
@@ -208,7 +208,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_mul)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(u.num_elmts);
-  for (unsigned int i=0; i<num_elmts; ++i)
+  for (size_t i=0; i<num_elmts; ++i)
     data[i] = u[i] * s;
 }
 
@@ -217,7 +217,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_div)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(u.num_elmts);
-  for (unsigned int i=0; i<num_elmts; ++i)
+  for (size_t i=0; i<num_elmts; ++i)
     data[i] = u[i] / s;
 }
 
@@ -226,7 +226,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_add)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(u.num_elmts);
-  for (unsigned int i=0; i<num_elmts; ++i)
+  for (size_t i=0; i<num_elmts; ++i)
     data[i] = u[i] + s;
 }
 
@@ -235,7 +235,7 @@ vnl_vector<T>::vnl_vector (vnl_vector<T> const &u, T s, vnl_tag_sub)
 {
   vnl_vector_construct_hack();
   vnl_vector_alloc_blah(u.num_elmts);
-  for (unsigned int i=0; i<num_elmts; ++i)
+  for (size_t i=0; i<num_elmts; ++i)
     data[i] = u[i] - s;
 }
 
@@ -293,7 +293,7 @@ void vnl_vector<T>::clear()
 }
 
 template<class T>
-bool vnl_vector<T>::set_size(unsigned n)
+bool vnl_vector<T>::set_size(size_t n)
 {
   if (this->data) {
     // if no change in size, do not reallocate.
@@ -323,7 +323,7 @@ bool vnl_vector<T>::read_ascii(std::istream& s)
 {
   bool size_known = (this->size() != 0);
   if (size_known) {
-    for (unsigned i = 0; i < this->size(); ++i) {
+    for (size_t i = 0; i < this->size(); ++i) {
       if ( ! (s >> (*this)(i)) ) {
         return false;
       }
@@ -333,14 +333,14 @@ bool vnl_vector<T>::read_ascii(std::istream& s)
 
   // Just read until EOF
   std::vector<T> allvals;
-  unsigned n = 0;
+  size_t n = 0;
   T value;
   while ( s >> value ) {
     allvals.push_back(value);
     ++n;
   }
   this->set_size(n); //*this = vnl_vector<T>(n);
-  for (unsigned i = 0; i < n; ++i)
+  for (size_t i = 0; i < n; ++i)
     (*this)[i] = allvals[i];
   return true;
 }
@@ -409,7 +409,7 @@ vnl_vector<T>& vnl_vector<T>::operator= (vnl_vector<T> const& rhs)
 template<class T>
 vnl_vector<T>& vnl_vector<T>::operator+= (T value)
 {
-  for (unsigned i = 0; i < this->num_elmts; i++)
+  for (size_t i = 0; i < this->num_elmts; i++)
     this->data[i] += value;
   return *this;
 }
@@ -419,7 +419,7 @@ vnl_vector<T>& vnl_vector<T>::operator+= (T value)
 template<class T>
 vnl_vector<T>& vnl_vector<T>::operator*= (T value)
 {
-  for (unsigned i = 0; i < this->num_elmts; i++)
+  for (size_t i = 0; i < this->num_elmts; i++)
     this->data[i] *= value;
   return *this;
 }
@@ -429,7 +429,7 @@ vnl_vector<T>& vnl_vector<T>::operator*= (T value)
 template<class T>
 vnl_vector<T>& vnl_vector<T>::operator/= (T value)
 {
-  for (unsigned i = 0; i < this->num_elmts; i++)
+  for (size_t i = 0; i < this->num_elmts; i++)
     this->data[i] /= value;
   return *this;
 }
@@ -444,7 +444,7 @@ vnl_vector<T>& vnl_vector<T>::operator+= (vnl_vector<T> const& rhs)
   if (this->num_elmts != rhs.num_elmts)
     vnl_error_vector_dimension ("operator+=", this->num_elmts, rhs.num_elmts);
 #endif
-  for (unsigned i = 0; i < this->num_elmts; i++)
+  for (size_t i = 0; i < this->num_elmts; i++)
     this->data[i] += rhs.data[i];
   return *this;
 }
@@ -459,7 +459,7 @@ vnl_vector<T>& vnl_vector<T>::operator-= (vnl_vector<T> const& rhs)
   if (this->num_elmts != rhs.num_elmts)
     vnl_error_vector_dimension ("operator-=", this->num_elmts, rhs.num_elmts);
 #endif
-  for (unsigned i = 0; i < this->num_elmts; i++)
+  for (size_t i = 0; i < this->num_elmts; i++)
     this->data[i] -= rhs.data[i];
   return *this;
 }
@@ -475,9 +475,9 @@ vnl_vector<T>& vnl_vector<T>::pre_multiply (vnl_matrix<T> const& m)
     vnl_error_vector_dimension ("operator*=", this->num_elmts, m.columns());
 #endif
   T* temp= vnl_c_vector<T>::allocate_T(m.rows()); // Temporary
-  for (unsigned i = 0; i < m.rows(); i++) {     // For each index
+  for (size_t i = 0; i < m.rows(); i++) {     // For each index
     temp[i] = (T)0;                             // Initialize element value
-    for (unsigned k = 0; k < this->num_elmts; k++)      // Loop over column values
+    for (size_t k = 0; k < this->num_elmts; k++)      // Loop over column values
       temp[i] += (m.get(i,k) * this->data[k]);  // Multiply
   }
   vnl_c_vector<T>::deallocate(this->data, this->num_elmts); // Free up the data space
@@ -497,9 +497,9 @@ vnl_vector<T>& vnl_vector<T>::post_multiply (vnl_matrix<T> const& m)
     vnl_error_vector_dimension ("operator*=", this->num_elmts, m.rows());
 #endif
   T* temp= vnl_c_vector<T>::allocate_T(m.columns()); // Temporary
-  for (unsigned i = 0; i < m.columns(); i++) {  // For each index
+  for (size_t i = 0; i < m.columns(); i++) {  // For each index
     temp[i] = (T)0;                             // Initialize element value
-    for (unsigned k = 0; k < this->num_elmts; k++) // Loop over column values
+    for (size_t k = 0; k < this->num_elmts; k++) // Loop over column values
       temp[i] += (this->data[k] * m.get(k,i));  // Multiply
   }
   vnl_c_vector<T>::deallocate(this->data, num_elmts); // Free up the data space
@@ -515,7 +515,7 @@ template<class T>
 vnl_vector<T> vnl_vector<T>::operator- () const
 {
   vnl_vector<T> result(this->num_elmts);
-  for (unsigned i = 0; i < this->num_elmts; i++)
+  for (size_t i = 0; i < this->num_elmts; i++)
     result.data[i] = - this->data[i];           // negate element
   return result;
 }
@@ -523,15 +523,15 @@ vnl_vector<T> vnl_vector<T>::operator- () const
 //: Replaces elements with index beginning at start, by values of v. O(n).
 
 template<class T>
-vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start)
+vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, size_t start)
 {
-  unsigned stop = start + v.size();
+  size_t stop = start + v.size();
 #ifndef NDEBUG
   if ( stop > this->num_elmts)
     vnl_error_vector_dimension ("update", stop-start, v.size());
 #endif
   //std::copy_n( v.data, stop - start, this->data + start );
-  for (unsigned i = start; i < stop; i++)
+  for (size_t i = start; i < stop; i++)
     this->data[i] = v.data[i-start];
   return *this;
 }
@@ -540,16 +540,16 @@ vnl_vector<T>& vnl_vector<T>::update (vnl_vector<T> const& v, unsigned start)
 //: Returns a subvector specified by the start index and length. O(n).
 
 template<class T>
-vnl_vector<T> vnl_vector<T>::extract (unsigned len, unsigned start) const
+vnl_vector<T> vnl_vector<T>::extract (size_t len, size_t start) const
 {
 #ifndef NDEBUG
-  unsigned stop = start + len;
+  size_t stop = start + len;
   if (this->num_elmts < stop)
     vnl_error_vector_dimension ("extract", stop-start, len);
 #endif
   vnl_vector<T> result(len);
   //std::copy_n( this->data + start, len, result.data );
-  for (unsigned i = 0; i < len; i++)
+  for (size_t i = 0; i < len; i++)
     result.data[i] = data[start+i];
   return result;
 }
@@ -581,7 +581,7 @@ vnl_vector<T> element_quotient (vnl_vector<T> const& v1, vnl_vector<T> const& v2
     vnl_error_vector_dimension ("element_quotient", v1.size(), v2.size());
 #endif
   vnl_vector<T> result(v1.size());
-  for (unsigned i = 0; i < v1.size(); i++)
+  for (size_t i = 0; i < v1.size(); i++)
     result[i] = v1[i] / v2[i];
   return result;
 }
@@ -644,8 +644,8 @@ T bracket(vnl_vector<T> const &u, vnl_matrix<T> const &A, vnl_vector<T> const &v
     vnl_error_vector_dimension("bracket",A.columns(),v.size());
 #endif
   T brak(0);
-  for (unsigned i=0; i<u.size(); ++i)
-    for (unsigned j=0; j<v.size(); ++j)
+  for (size_t i=0; i<u.size(); ++i)
+    for (size_t j=0; j<v.size(); ++j)
       brak += u[i]*A(i,j)*v[j];
   return brak;
 }
@@ -656,8 +656,8 @@ template<class T>
 vnl_matrix<T> outer_product (vnl_vector<T> const& v1,
                              vnl_vector<T> const& v2) {
   vnl_matrix<T> out(v1.size(), v2.size());
-  for (unsigned i = 0; i < out.rows(); i++)             // v1.column() * v2.row()
-    for (unsigned j = 0; j < out.columns(); j++)
+  for (size_t i = 0; i < out.rows(); i++)             // v1.column() * v2.row()
+    for (size_t j = 0; j < out.columns(); j++)
       out[i][j] = v1[i] * v2[j];
   return out;
 }
@@ -669,7 +669,7 @@ template <class T>
 vnl_vector<T>&
 vnl_vector<T>::flip()
 {
-  for (unsigned i=0;i<num_elmts/2;++i) {
+  for (size_t i=0;i<num_elmts/2;++i) {
     T tmp=data[i];
     data[i]=data[num_elmts-1-i];
     data[num_elmts-1-i]=tmp;
@@ -679,16 +679,16 @@ vnl_vector<T>::flip()
 
 template <class T>
 vnl_vector<T>&
-vnl_vector<T>::flip(const unsigned int &b, const unsigned int &e)
+vnl_vector<T>::flip(const size_t &b, const size_t &e)
 {
 
 #if VNL_CONFIG_CHECK_BOUNDS  && (!defined NDEBUG)
   assert (!(b > this->num_elmts || e > this->num_elmts || b > e));
 #endif
 
-  for (unsigned i=b;i<(e-b)/2+b;++i) {
+  for (size_t i=b;i<(e-b)/2+b;++i) {
     T tmp=data[i];
-    const unsigned int endIndex = e - 1 - (i-b);
+    const size_t endIndex = e - 1 - (i-b);
     data[i]=data[endIndex];
     data[endIndex]=tmp;
   }
@@ -701,10 +701,10 @@ vnl_vector<T>
 vnl_vector<T>::roll(const int &shift) const
 {
   vnl_vector<T> v(this->num_elmts);
-  const unsigned int wrapped_shift = shift % this->num_elmts;
+  const size_t wrapped_shift = shift % this->num_elmts;
   if (0 == wrapped_shift)
     return v.copy_in(this->data_block());
-  for (unsigned int i = 0; i < this->num_elmts; ++i)
+  for (size_t i = 0; i < this->num_elmts; ++i)
     {
     v[(i + wrapped_shift)%this->num_elmts] = this->data_block()[i];
     }
@@ -715,7 +715,7 @@ template <class T>
 vnl_vector<T>&
 vnl_vector<T>::roll_inplace(const int &shift)
 {
-  const unsigned int wrapped_shift = shift % this->num_elmts;
+  const size_t wrapped_shift = shift % this->num_elmts;
   if (0 == wrapped_shift)
     return *this;
   return this->flip().flip(0,wrapped_shift).flip(wrapped_shift,this->num_elmts);
@@ -773,7 +773,7 @@ double angle (vnl_vector<T> const& a, vnl_vector<T> const& b)
 template <class T>
 bool vnl_vector<T>::is_finite() const
 {
-  for (unsigned i = 0; i < this->size();++i)
+  for (size_t i = 0; i < this->size();++i)
     if (!vnl_math::isfinite( (*this)[i] ))
       return false;
 
@@ -784,7 +784,7 @@ template <class T>
 bool vnl_vector<T>::is_zero() const
 {
   T const zero(0);
-  for (unsigned i = 0; i < this->size();++i)
+  for (size_t i = 0; i < this->size();++i)
     if ( !( (*this)[i] == zero) )
       return false;
 
@@ -802,7 +802,7 @@ void vnl_vector<T>::assert_finite_internal() const
 }
 
 template <class T>
-void vnl_vector<T>::assert_size_internal(unsigned sz) const
+void vnl_vector<T>::assert_size_internal(size_t sz) const
 {
   if (this->size() != sz) {
     std::cerr << __FILE__ ": Size is " << this->size() << ". Should be " << sz << '\n';
@@ -818,7 +818,7 @@ bool vnl_vector<T>::is_equal(vnl_vector<T> const& rhs, double tol) const
 
   if (this->size() != rhs.size())                           //Size different ?
     return false;
-  for (unsigned i = 0; i < size(); i++)
+  for (size_t i = 0; i < size(); i++)
     if (vnl_math::abs(this->data[i] - rhs.data[i]) > tol)    //Element different ?
       return false;
 
@@ -833,7 +833,7 @@ bool vnl_vector<T>::operator_eq (vnl_vector<T> const& rhs) const
 
   if (this->size() != rhs.size())                 // Size different ?
     return false;                                 // Then not equal.
-  for (unsigned i = 0; i < size(); i++)           // For each index
+  for (size_t i = 0; i < size(); i++)           // For each index
     if (!(this->data[i] == rhs.data[i]))          // Element different ?
       return false;                               // Then not equal.
 
@@ -847,7 +847,7 @@ bool vnl_vector<T>::operator_eq (vnl_vector<T> const& rhs) const
 template<class T>
 std::ostream& operator<< (std::ostream& s, vnl_vector<T> const& v)
 {
-  for (unsigned i = 0; i+1 < v.size(); ++i)   // For each index in vector
+  for (size_t i = 0; i+1 < v.size(); ++i)   // For each index in vector
     s << v[i] << ' ';                              // Output data element
   if (v.size() > 0)  s << v[v.size()-1];
   return s;
