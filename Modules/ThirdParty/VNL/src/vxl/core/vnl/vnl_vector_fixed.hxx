@@ -82,7 +82,7 @@ template <class T, unsigned int n>
 bool
 vnl_vector_fixed<T,n>::read_ascii(std::istream& s)
 {
-  for (unsigned i = 0; i < this->size(); ++i)
+  for (size_type i = 0; i < this->size(); ++i)
     s >> (*this)(i);
 
   return s.good() || s.eof();

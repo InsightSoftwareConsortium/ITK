@@ -390,7 +390,13 @@ void
 vnl_matrix_fixed<T,nrows,ncols>
 ::swap(vnl_matrix_fixed<T,nrows,ncols> &that)
 {
-  std::swap(this->data_, that.data_);
+  for (unsigned int r = 0; r < nrows; ++r)
+  {
+    for (unsigned int c = 0; c < ncols; ++c)
+    {
+    std::swap(this->data_[r][c], that.data_[r][c]);
+    }
+  }
 }
 
 //: Returns a copy of n rows, starting from "row"
