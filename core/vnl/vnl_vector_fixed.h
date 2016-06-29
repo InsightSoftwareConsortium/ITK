@@ -260,10 +260,10 @@ class VNL_EXPORT vnl_vector_fixed
   }
 
   //: Return the i-th element
-  T& operator[] ( unsigned int i ) { return data_[i]; }
+  T& operator[] ( const size_t i ) { return data_[i]; }
 
   //: Return the i-th element
-  const T& operator[] ( unsigned int i ) const { return data_[i]; }
+  const T& operator[] ( const size_t i ) const { return data_[i]; }
 
   //: Access the contiguous block storing the elements in the vector.
   //  O(1).
