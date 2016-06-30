@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkFixedPointInverseDeformationFieldImageFilter_hxx
-#define itkFixedPointInverseDeformationFieldImageFilter_hxx
+#ifndef itkFixedPointInverseDisplacementFieldImageFilter_hxx
+#define itkFixedPointInverseDisplacementFieldImageFilter_hxx
 
-#include "itkFixedPointInverseDeformationFieldImageFilter.h"
+#include "itkFixedPointInverseDisplacementFieldImageFilter.h"
 #include <iostream>
 
 namespace itk
@@ -26,7 +26,8 @@ namespace itk
 //----------------------------------------------------------------------------
 // Constructor
 template <class TInputImage, class TOutputImage>
-FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::FixedPointInverseDeformationFieldImageFilter()
+FixedPointInverseDisplacementFieldImageFilter<TInputImage,
+                                              TOutputImage>::FixedPointInverseDisplacementFieldImageFilter()
   : m_NumberOfIterations(5)
 {
 
@@ -44,7 +45,7 @@ FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::FixedPo
  */
 template <class TInputImage, class TOutputImage>
 void
-FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::SetOutputSpacing(const double * spacing)
+FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::SetOutputSpacing(const double * spacing)
 {
   OutputImageSpacingType s(spacing);
   this->SetOutputSpacing(s);
@@ -55,7 +56,7 @@ FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::SetOutp
  */
 template <class TInputImage, class TOutputImage>
 void
-FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::SetOutputOrigin(const double * origin)
+FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::SetOutputOrigin(const double * origin)
 {
   OutputImageOriginPointType p(origin);
   this->SetOutputOrigin(p);
@@ -65,7 +66,7 @@ FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::SetOutp
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void
-FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
+FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
 
   const unsigned int ImageDimension = InputImageType::ImageDimension;
@@ -84,8 +85,8 @@ FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::Generat
     itkExceptionMacro("\n Image Dimensions must be the same.");
   }
 
-  // The initial deformation field is simply the negative input deformation field.
-  // Here we create this deformation field.
+  // The initial Displacement field is simply the negative input Displacement field.
+  // Here we create this Displacement field.
   InputImagePointer negField = InputImageType::New();
   negField->SetRegions(inputPtr->GetLargestPossibleRegion());
   negField->SetOrigin(inputPtr->GetOrigin());
@@ -103,7 +104,7 @@ FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::Generat
     ++InputIt;
   }
 
-  // We allocate a deformation field that holds the output
+  // We allocate a Displacement field that holds the output
   // and initialize it to 0
   outputPtr->SetBufferedRegion(outputPtr->GetRequestedRegion());
   outputPtr->Allocate();
@@ -163,7 +164,7 @@ FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::Generat
  */
 template <class TInputImage, class TOutputImage>
 void
-FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
+FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
@@ -191,8 +192,8 @@ FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::Generat
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void
-FixedPointInverseDeformationFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
-                                                                                   Indent         indent) const
+FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
+                                                                                    Indent         indent) const
 {
 
   Superclass::PrintSelf(os, indent);

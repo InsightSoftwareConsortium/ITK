@@ -1,4 +1,4 @@
-project(FixedPointInverseDeformationField)
+project(FixedPointInverseDisplacementField)
 
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK 4.9 REQUIRED)

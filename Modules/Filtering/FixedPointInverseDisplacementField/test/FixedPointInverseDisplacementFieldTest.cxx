@@ -23,11 +23,11 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFixedPointInverseDeformationFieldImageFilter.h"
+#include "itkFixedPointInverseDisplacementFieldImageFilter.h"
 
 
 int
-FixedPointInverseDeformationFieldTest(int argc, char * argv[])
+FixedPointInverseDisplacementFieldTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
@@ -44,7 +44,7 @@ FixedPointInverseDeformationFieldTest(int argc, char * argv[])
   typedef itk::ImageFileReader<InputDFType>  ReaderType;
   typedef itk::ImageFileWriter<OutputDFType> WriterType;
 
-  typedef itk::FixedPointInverseDeformationFieldImageFilter<InputDFType, OutputDFType> FPInverseType;
+  typedef itk::FixedPointInverseDisplacementFieldImageFilter<InputDFType, OutputDFType> FPInverseType;
 
   // read the file
   ReaderType::Pointer reader = ReaderType::New();
@@ -61,7 +61,7 @@ FixedPointInverseDeformationFieldTest(int argc, char * argv[])
     return 1;
   }
 
-  // invert the deformationfield
+  // invert the Displacementfield
   InputDFType::Pointer inputDf = reader->GetOutput();
 
   FPInverseType::Pointer inverter = FPInverseType::New();
