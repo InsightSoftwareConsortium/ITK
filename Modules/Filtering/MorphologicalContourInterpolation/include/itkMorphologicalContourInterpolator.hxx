@@ -39,9 +39,6 @@
 #include <algorithm>
 #include <queue>
 #include <vector>
-#include <thread>
-#include <future>
-#include <chrono>
 
 // DEBUG
 #include <iostream>
@@ -88,7 +85,7 @@ template <typename TImage>
 struct SegmentBetweenTwo
 {
   int                                                                   axis;
-  typename TImage *                                                     out;
+  TImage *                                                              out;
   int                                                                   label, i, j;
   typename MorphologicalContourInterpolator<TImage>::SliceType::Pointer iconn, jconn;
 };
@@ -192,10 +189,9 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   , m_MinAlignIters(pow(2, TImage::ImageDimension))
   , // smaller of this and pixel count of the search image
   m_MaxAlignIters(pow(6, TImage::ImageDimension))
-  , // bigger of this and root of pixel count of the search image
-  m_LabeledSlices(TImage::ImageDimension)
-  ,                 // initialize with empty sets
-  m_SliceSets{ {} } // initialize with empty sets
+  ,                                       // bigger of this and root of pixel count of the search image
+  m_LabeledSlices(TImage::ImageDimension) // initialize with empty sets
+//,m_SliceSets({{}}) //initialize with empty sets
 {
   // set up pipeline for regioned connected components
   m_RoI = RoiType::New();
@@ -270,7 +266,7 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   {
     for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
     {
-      m_SliceSets[a] = {};
+      m_SliceSets[a] = SliceSetType();
     }
   }
 
@@ -417,9 +413,9 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
   typedef BinaryDilateImageFilter<BoolSliceType, BoolSliceType, CrossStructuringElementType> CrossDilateType;
   typedef BinaryDilateImageFilter<BoolSliceType, BoolSliceType, BallStructuringElementType>  BallDilateType;
 
-  thread_local bool                              initialized = false;
-  thread_local typename CrossDilateType::Pointer m_CrossDilator = CrossDilateType::New();
-  thread_local typename BallDilateType::Pointer  m_BallDilator = BallDilateType::New();
+  /*thread_local*/ static bool                              initialized = false;
+  /*thread_local*/ static typename CrossDilateType::Pointer m_CrossDilator = CrossDilateType::New();
+  /*thread_local*/ static typename BallDilateType::Pointer  m_BallDilator = BallDilateType::New();
   if (!initialized) // make sure these non-trivial operations are executed only once per thread
   {
     typedef Size<BoolSliceType::ImageDimension> SizeType;
@@ -427,13 +423,13 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
     size.Fill(1);
 
     m_CrossDilator->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
-    thread_local CrossStructuringElementType m_CrossStructuringElement;
+    /*thread_local*/ static CrossStructuringElementType m_CrossStructuringElement;
     m_CrossStructuringElement.SetRadius(size);
     m_CrossStructuringElement.CreateStructuringElement();
     m_CrossDilator->SetKernel(m_CrossStructuringElement);
 
     m_BallDilator->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
-    thread_local BallStructuringElementType m_BallStructuringElement;
+    /*thread_local*/ static BallStructuringElementType m_BallStructuringElement;
     m_BallStructuringElement.SetRadius(size);
     m_BallStructuringElement.CreateStructuringElement();
     m_BallDilator->SetKernel(m_BallStructuringElement);
@@ -459,7 +455,7 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
   // temp->SetRegions(mask->GetLargestPossibleRegion()); //not needed when seed and mask have same regions
 
   typedef AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType> AndFilterType;
-  thread_local typename AndFilterType::Pointer                        m_And = AndFilterType::New();
+  /*thread_local*/ static typename AndFilterType::Pointer             m_And = AndFilterType::New();
   m_And->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   m_And->SetInput(0, mask);
   m_And->SetInput(1, temp);
@@ -508,8 +504,8 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
   float ratio = float(jSeq.size()) / iSeq.size();
 
   // generate union of transition sequences
-  typedef OrImageFilter<BoolSliceType>  OrType;
-  thread_local typename OrType::Pointer m_Or = OrType::New();
+  typedef OrImageFilter<BoolSliceType>             OrType;
+  /*thread_local*/ static typename OrType::Pointer m_Or = OrType::New();
   m_Or->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   std::vector<typename BoolSliceType::Pointer> seq;
   for (unsigned x = 0; x < iSeq.size(); x++)
@@ -553,7 +549,7 @@ typename MorphologicalContourInterpolator<TImage>::FloatSliceType::Pointer
 MorphologicalContourInterpolator<TImage>::MaurerDM(typename BoolSliceType::Pointer mask)
 {
   typedef itk::SignedMaurerDistanceMapImageFilter<BoolSliceType, FloatSliceType> FilterType;
-  thread_local typename FilterType::Pointer                                      filter = FilterType::New();
+  /*thread_local*/ static typename FilterType::Pointer                           filter = FilterType::New();
   filter->SetInput(mask);
   filter->SetUseImageSpacing(false); // interpolation algorithm calls for working in index space
   filter->SetNumberOfThreads(1);     // otherwise conflicts with C++11 threads
@@ -621,7 +617,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   WriteDebug(orImage, "C:\\orImage.nrrd");
 
   // sum of histogram bins for i and j and
-  auto maxSize = std::max(iHist.size(), jHist.size());
+  std::vector<long long>::size_type maxSize = std::max(iHist.size(), jHist.size());
   if (maxSize == 0)
   {
     return intersection;
@@ -657,7 +653,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
 
   // threshold at distance bestBin is the median intersection
   typedef BinaryThresholdImageFilter<FloatSliceType, BoolSliceType> FloatBinarizerType;
-  thread_local typename FloatBinarizerType::Pointer                 threshold = FloatBinarizerType::New();
+  /*thread_local*/ static typename FloatBinarizerType::Pointer      threshold = FloatBinarizerType::New();
   threshold->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   threshold->SetInput(sdf);
   threshold->SetUpperThreshold(float(bestBin) / fractioning);
@@ -665,7 +661,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   threshold->Update();
 
   typedef AndImageFilter<BoolSliceType, BoolSliceType, BoolSliceType> AndFilterType;
-  thread_local typename AndFilterType::Pointer                        m_And = AndFilterType::New();
+  /*thread_local*/ static typename AndFilterType::Pointer             m_And = AndFilterType::New();
   m_And->SetInput(threshold->GetOutput());
   m_And->SetInput(1, orImage);
   m_And->GetOutput()->SetRequestedRegion(orImage->GetRequestedRegion());
@@ -822,8 +818,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   WriteDebug(jSlice, "C:\\jSlice.nrrd");
 
   // create intersection
-  typedef AndImageFilter<BoolSliceType>       AndSliceType;
-  thread_local typename AndSliceType::Pointer sAnd = AndSliceType::New();
+  typedef AndImageFilter<BoolSliceType>                  AndSliceType;
+  /*thread_local*/ static typename AndSliceType::Pointer sAnd = AndSliceType::New();
   sAnd->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   sAnd->SetInput(0, iSlice);
   sAnd->SetInput(1, jSlice);
@@ -928,6 +924,32 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   WriteDebug<TImage>(out, "C:\\intermediateResult.nrrd");
 }
 
+template <typename TImage>
+class MatchesID
+{
+  typename TImage::PixelType m_ID;
+
+public:
+  MatchesID() {}
+  MatchesID(typename TImage::PixelType id)
+    : m_ID(id)
+  {}
+  bool
+  operator!=(const MatchesID & other)
+  {
+    return m_ID != other.m_ID;
+  }
+  bool
+  operator==(const MatchesID & other)
+  {
+    return m_ID == other.m_ID;
+  }
+  inline bool
+  operator()(const typename TImage::PixelType & val) const
+  {
+    return val == m_ID;
+  }
+};
 
 template <typename TImage>
 void
@@ -943,34 +965,10 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
                                                           typename SliceType::IndexType   translation)
 {
   // first convert iConn into binary mask
-  class MatchesID
-  {
-    typename TImage::PixelType m_ID;
+  MatchesID<TImage> matchesID(iRegionId);
 
-  public:
-    MatchesID() {}
-    MatchesID(typename TImage::PixelType id)
-      : m_ID(id)
-    {}
-    bool
-    operator!=(const MatchesID & other)
-    {
-      return m_ID != other.m_ID;
-    }
-    bool
-    operator==(const MatchesID & other)
-    {
-      return m_ID == other.m_ID;
-    }
-    inline bool
-    operator()(const typename TImage::PixelType & val) const
-    {
-      return val == m_ID;
-    }
-  } matchesID(iRegionId);
-
-  typedef UnaryFunctorImageFilter<SliceType, BoolSliceType, MatchesID> CastType;
-  typename CastType::Pointer                                           caster = CastType::New();
+  typedef UnaryFunctorImageFilter<SliceType, BoolSliceType, MatchesID<TImage>> CastType;
+  typename CastType::Pointer                                                   caster = CastType::New();
   caster->SetNumberOfThreads(1); // otherwise conflicts with C++11 threads
   caster->SetFunctor(matchesID);
   caster->SetInput(iConn);
@@ -1649,7 +1647,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
   typedef MorphologicalContourInterpolatorParallelInvoker<TImage> Parallelizer;
   typename Parallelizer::Pointer                                  parallizer = Parallelizer::New();
   parallizer->SetWorkArray(segments);
-  Parallelizer::DomainType completeDomain;
+  typename Parallelizer::DomainType completeDomain;
   completeDomain[0] = 0;
   completeDomain[1] = std::max(0, int(segments.size()) - 1);
   parallizer->Execute(this, completeDomain);
