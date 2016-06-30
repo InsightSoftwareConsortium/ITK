@@ -135,9 +135,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  SingleImageCostFunction(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(SingleImageCostFunction);
 
   ImageConstPointer                           m_Image;
   typename InterpolatorType::Pointer          m_Interpolator;

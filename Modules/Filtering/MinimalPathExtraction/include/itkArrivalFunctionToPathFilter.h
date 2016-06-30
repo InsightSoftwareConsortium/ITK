@@ -84,9 +84,7 @@ protected:
   ~ArrivalFunctionToPathCommand() {}
 
 private:
-  ArrivalFunctionToPathCommand(const Self &);
-  void
-  operator=(const Self &);
+  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathCommand);
 
   typename FilterType::Pointer m_Filter;
 };
@@ -246,9 +244,7 @@ protected:
   unsigned int                        m_CurrentOutput;
 
 private:
-  ArrivalFunctionToPathFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(ArrivalFunctionToPathFilter);
 };
 
 } // end namespace itk
