@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkOrientImageFilter.h"
+#include "itkImageToImageFilter.h"
+#include "itkTestingMacros.h"
 
 typedef itk::Image<std::string,3> ImageType;
 
@@ -26,7 +28,7 @@ typedef OrientImageFilterType::PermuteOrderArrayType PermuteOrderArrayType;
 static void PrintImg(ImageType::Pointer img,
                      const OrientImageFilterType::PermuteOrderArrayType &permute)
 {
-// Print the volume
+  // Print the volume
   ImageType::IndexType Index;
   for(Index[1] = 0; Index[1] < 4; Index[1]++)
     {
@@ -48,8 +50,8 @@ static void PrintImg(ImageType::Pointer img,
 
 ImageType::Pointer CreateAxialImage()
 {
-  const ImageType::SizeType imageSize = {{4,4,4}};
-  ImageType::IndexType imageIndex = {{0,0,0}};
+  const ImageType::SizeType imageSize = {{4, 4, 4}};
+  ImageType::IndexType imageIndex = {{0, 0, 0}};
   ImageType::RegionType region;
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
@@ -101,8 +103,8 @@ ImageType::Pointer CreateAxialImage()
 
 ImageType::Pointer CreateCoronalImage()
 {
-  const ImageType::SizeType imageSize = {{4,4,4}};
-  ImageType::IndexType imageIndex = {{0,0,0}};
+  const ImageType::SizeType imageSize = {{4, 4, 4}};
+  ImageType::IndexType imageIndex = {{0, 0, 0}};
   ImageType::RegionType region;
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
@@ -165,62 +167,65 @@ ImageType::Pointer CreateCoronalImage()
   return img;
 }
 
-int itkOrientImageFilterTest2(int,char *[])
+int itkOrientImageFilterTest2(int, char *[])
 {
-  ImageType::Pointer axialimage = CreateAxialImage();
+  ImageType::Pointer axialImage = CreateAxialImage();
   std::cerr << "Original" << std::endl;
   OrientImageFilterType::PermuteOrderArrayType permute;
   permute[0] = 0; permute[1] = 1; permute[2] = 2;
-  PrintImg(axialimage, permute);
+  PrintImg(axialImage, permute);
 
   itk::OrientImageFilter<ImageType,ImageType>::Pointer orienter =
     itk::OrientImageFilter<ImageType,ImageType>::New();
 
-  orienter->UseImageDirectionOn();
-  orienter->SetInput(axialimage);
+  EXERCISE_BASIC_OBJECT_METHODS( orienter, OrientImageFilter, ImageToImageFilter );
 
-  // try permuting axes
+  orienter->UseImageDirectionOn();
+  orienter->SetInput(axialImage);
+
+  // Try permuting axes
   orienter->SetDesiredCoordinateOrientationToAxial();
   orienter->Update();
 
-  ImageType::Pointer axial  = orienter->GetOutput();
+  ImageType::Pointer axial = orienter->GetOutput();
   std::cerr << "axial" << std::endl;
   std::cout << "PermuteOrder: " << orienter->GetPermuteOrder() << std::endl;
   std::cout << "FlipAxes: " << orienter->GetFlipAxes() << std::endl;
-  orienter->GetOutput()->Print (std::cout);
+  orienter->GetOutput()->Print(std::cout);
   PrintImg(axial, orienter->GetPermuteOrder());
 
-  // go to coronal
+  // Go to coronal
   orienter = itk::OrientImageFilter<ImageType,ImageType>::New();
   orienter->UseImageDirectionOn();
-  orienter->SetInput(axialimage);
+  orienter->SetInput(axialImage);
   orienter->SetDesiredCoordinateOrientationToCoronal();
   orienter->Update();
 
-  ImageType::Pointer coronal  = orienter->GetOutput();
+  ImageType::Pointer coronal = orienter->GetOutput();
   std::cerr << "coronal" << std::endl;
   orienter->GetOutput()->Print (std::cout);
   std::cout << "PermuteOrder: " << orienter->GetPermuteOrder() << std::endl;
   std::cout << "FlipAxes: " << orienter->GetFlipAxes() << std::endl;
+  orienter->GetOutput()->Print(std::cout);
   PrintImg(coronal, orienter->GetPermuteOrder());
 
-  // go to sagittal
+  // Go to sagittal
   orienter = itk::OrientImageFilter<ImageType,ImageType>::New();
   orienter->UseImageDirectionOn();
-  orienter->SetInput(axialimage);
+  orienter->SetInput(axialImage);
   orienter->SetDesiredCoordinateOrientationToSagittal();
   orienter->Update();
 
-  ImageType::Pointer sagittal  = orienter->GetOutput();
+  ImageType::Pointer sagittal = orienter->GetOutput();
   std::cerr << "sagittal" << std::endl;
   std::cout << "PermuteOrder: " << orienter->GetPermuteOrder() << std::endl;
   std::cout << "FlipAxes: " << orienter->GetFlipAxes() << std::endl;
-  orienter->GetOutput()->Print (std::cout);
+  orienter->GetOutput()->Print(std::cout);
   PrintImg(sagittal, orienter->GetPermuteOrder());
 
-// ----------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
-  orienter->SetInput(axialimage);
+  orienter->SetInput(axialImage);
   std::cout << "RIP" << std::endl;
   orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   orienter->Update();
