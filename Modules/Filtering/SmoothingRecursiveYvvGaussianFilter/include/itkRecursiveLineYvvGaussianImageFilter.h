@@ -176,9 +176,7 @@ protected:
   vnl_matrix<ScalarRealType> m_MMatrix;
 
 private:
-  RecursiveLineYvvGaussianImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(RecursiveLineYvvGaussianImageFilter);
 
   /** Direction in which the filter is to be applied
    * this should be in the range [0,ImageDimension-1]. */
