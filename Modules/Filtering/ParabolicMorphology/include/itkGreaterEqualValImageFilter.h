@@ -102,9 +102,7 @@ protected:
   virtual ~GreaterEqualValImageFilter() {}
 
 private:
-  GreaterEqualValImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(GreaterEqualValImageFilter);
 };
 } // end namespace itk
 

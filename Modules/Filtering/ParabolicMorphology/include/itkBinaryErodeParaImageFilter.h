@@ -146,9 +146,7 @@ protected:
   typedef typename itk::GreaterEqualValImageFilter<InternalIntImageType, OutputImageType>  RCastType;
 
 private:
-  BinaryErodeParaImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeParaImageFilter);
 
   RadiusType m_Radius;
   bool       m_Circular;

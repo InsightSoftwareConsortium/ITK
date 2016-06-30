@@ -142,11 +142,7 @@ protected:
   typedef typename itk::SqrtImageFilter<OutputImageType, OutputImageType>           SqrtType;
 
 private:
-  MorphologicalDistanceTransformImageFilter(const Self &); // purposely not
-                                                           //  implemented
-  void
-  operator=(const Self &); // purposely not
-                           //  implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalDistanceTransformImageFilter);
 
   InputPixelType               m_OutsideValue;
   typename ErodeType::Pointer  m_Erode;

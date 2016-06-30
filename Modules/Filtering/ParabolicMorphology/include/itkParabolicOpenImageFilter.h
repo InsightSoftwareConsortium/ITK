@@ -84,9 +84,7 @@ protected:
   virtual ~ParabolicOpenImageFilter() {}
   //   void PrintSelf(std::ostream& os, Indent indent) const;
 private:
-  ParabolicOpenImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParabolicOpenImageFilter);
 };
 } // end namespace itk
 
