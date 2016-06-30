@@ -6,6 +6,7 @@ foreach(p
     CMP0054 # CMake 3.1
     CMP0056 # CMake 3.2
     CMP0058 # CMake 3.3
+    CMP0063 # CMake 3.3.2
     )
   if(POLICY ${p})
     cmake_policy(SET ${p} NEW)
