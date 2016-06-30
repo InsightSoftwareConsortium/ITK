@@ -21,8 +21,16 @@ from __future__ import print_function
 import inspect
 import os
 import re
+import sys
+import types
+if sys.version_info >= (3, 4):
+    import importlib
+else:
+    import imp
 import warnings
 import itkConfig
+import itkBase
+import itkLazy
 from itkTypes import itkCType
 
 
@@ -248,14 +256,18 @@ class itkTemplate(object):
         try:
             return(self.__template__[tuple(cleanParameters)])
         except:
-            raise KeyError(
-                'itkTemplate : No template %s for the %s class' %
-                (str(parameters), self.__name__))
+            self._LoadModules()
+            try:
+                return(self.__template__[tuple(cleanParameters)])
+            except:
+                raise KeyError(
+                    'itkTemplate : No template %s for the %s class' %
+                    (str(parameters), self.__name__))
 
     def __repr__(self):
         return '<itkTemplate %s>' % self.__name__
 
-    def __getattribute__(self, attr):
+    def __getattr__(self, attr):
         """Support for reading doxygen man pages to produce __doc__ strings."""
         root = itkTemplate.__doxygen_root__
         indoc = (attr == '__doc__')
@@ -286,7 +298,69 @@ class itkTemplate(object):
                     "Cannot display man page for %s due to exception: %s."
                     % (self.__name__, e))
         else:
+            self._LoadModules()
             return object.__getattribute__(self, attr)
+
+    def _LoadModules(self):
+        """Loads all the module that may have not been loaded by the lazy loading system.
+
+        If multiple modules use the same object, the lazy loading system is only going to
+        load the module in which the object belongs. The other modules will be loaded only when necessary.
+        """
+        name=self.__name__.split('::')[-1] # Remove 'itk::' or 'itk::Function::'
+        modules = itkBase.lazy_attributes[name]
+        for module in modules:
+            # find the module's name in sys.modules, or create a new module so named
+            if sys.version_info >= (3, 4):
+                this_module = sys.modules.setdefault(module, types.ModuleType(module))
+            else:
+                this_module = sys.modules.setdefault(module, imp.new_module(module))
+            namespace = {}
+            if not hasattr(this_module, '__templates_loaded'):
+                itkBase.LoadModule(module, namespace)
+
+    def __dir__(self):
+        """Returns the list of the attributes available in the current template.
+
+        This loads all the modules that might be required by this template first,
+        and then returns the list of attributes. It is used when dir() is called
+        or when it tries to autocomplete attribute names.
+        """
+        self._LoadModules()
+
+        def get_attrs(obj):
+            if not hasattr(obj, '__dict__'):
+                return []  # slots only
+            if sys.version_info >= (3, 0):
+              dict_types = (dict, types.MappingProxyType)
+            else:
+              dict_types = (dict, types.DictProxyType)
+            if not isinstance(obj.__dict__, dict_types):
+                raise TypeError("%s.__dict__ is not a dictionary"
+                                "" % obj.__name__)
+            return obj.__dict__.keys()
+
+        def dir2(obj):
+            attrs = set()
+            if not hasattr(obj, '__bases__'):
+                # obj is an instance
+                if not hasattr(obj, '__class__'):
+                    # slots
+                    return sorted(get_attrs(obj))
+                klass = obj.__class__
+                attrs.update(get_attrs(klass))
+            else:
+                # obj is a class
+                klass = obj
+
+            for cls in klass.__bases__:
+                attrs.update(get_attrs(cls))
+                attrs.update(dir2(cls))
+            attrs.update(get_attrs(obj))
+            return list(attrs)
+
+        return dir2(self)
+
 
     def New(self, *args, **kwargs):
         """Instantiate the template with a type implied from its input.
