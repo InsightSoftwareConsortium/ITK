@@ -92,9 +92,7 @@ protected:
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId);
 
 private:
-  SplitComponentsImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(SplitComponentsImageFilter);
 
   ComponentsMaskType m_ComponentsMask;
 };
