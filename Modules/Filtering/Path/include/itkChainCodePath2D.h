@@ -100,7 +100,7 @@ public:
   itkNewMacro(Self);
 
   /** How many steps in the chaincode? */
-  virtual inline ChainCodeSizeType NumberOfSteps() const ITK_OVERRIDE { return m_Chain2D.size(); }
+  virtual ChainCodeSizeType NumberOfSteps() const ITK_OVERRIDE { return m_Chain2D.size(); }
 
   /** Insert a new step into the chaincode at a specified position */
   inline void InsertStep(InputType position, int encodedStep)
@@ -109,7 +109,7 @@ public:
     this->Modified();
   }
 
-  virtual inline void InsertStep(InputType position, OffsetType step) ITK_OVERRIDE
+  virtual void InsertStep(InputType position, OffsetType step) ITK_OVERRIDE
   {
     m_Chain2D.insert( m_Chain2D.begin() + position, EncodeOffset(step) );
     this->Modified();
@@ -122,14 +122,14 @@ public:
     this->Modified();
   }
 
-  virtual inline void ChangeStep(InputType position, OffsetType step) ITK_OVERRIDE
+  virtual void ChangeStep(InputType position, OffsetType step) ITK_OVERRIDE
   {
     m_Chain2D[position] = EncodeOffset(step);
     this->Modified();
   }
 
   /** Remove all steps from the chain code */
-  virtual inline void Clear() ITK_OVERRIDE
+  virtual void Clear() ITK_OVERRIDE
   {
     m_Chain2D.clear();
     this->Modified();

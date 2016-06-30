@@ -62,7 +62,7 @@ public:
   itkTypeMacro(GaborKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
+  TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
   {
     TRealValueType parameter = itk::Math::sqr(u / this->m_Sigma);
     TRealValueType envelope = std::exp(static_cast< TRealValueType >(-0.5) * parameter);

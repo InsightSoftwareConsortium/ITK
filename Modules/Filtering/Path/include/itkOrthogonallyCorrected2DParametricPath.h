@@ -99,12 +99,12 @@ public:
   }
 
   /** These are determined by the original path */
-  virtual inline InputType StartOfInput() const ITK_OVERRIDE
+  virtual InputType StartOfInput() const ITK_OVERRIDE
   {
     return m_OriginalPath->StartOfInput();
   }
 
-  virtual inline InputType EndOfInput() const ITK_OVERRIDE
+  virtual InputType EndOfInput() const ITK_OVERRIDE
   {
     return m_OriginalPath->EndOfInput();
   }

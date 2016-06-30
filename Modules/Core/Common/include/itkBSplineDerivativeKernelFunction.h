@@ -59,7 +59,7 @@ public:
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate( const TRealValueType & u ) const ITK_OVERRIDE
+  TRealValueType Evaluate( const TRealValueType & u ) const ITK_OVERRIDE
     {
     return this->Evaluate( Dispatch< VSplineOrder >(), u );
     }
