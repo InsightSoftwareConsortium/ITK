@@ -102,7 +102,7 @@ public:
     }
 
   /** Where does the path end (what is the last valid input value)? */
-  virtual inline InputType EndOfInput() const ITK_OVERRIDE
+  virtual InputType EndOfInput() const ITK_OVERRIDE
     {
     return static_cast<InputType>( this->NumberOfSteps() );  // 0 is before the first step, 1 is after it
     }

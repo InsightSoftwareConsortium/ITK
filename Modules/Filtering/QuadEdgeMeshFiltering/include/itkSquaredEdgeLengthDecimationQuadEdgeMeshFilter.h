@@ -80,7 +80,7 @@ protected:
    * \param[in] iEdge
    * \return measure value, here the squared edge length
    */
-  inline MeasureType MeasureEdge(OutputQEType *iEdge) ITK_OVERRIDE
+  MeasureType MeasureEdge(OutputQEType *iEdge) ITK_OVERRIDE
     {
     OutputPointIdentifier id_org = iEdge->GetOrigin();
     OutputPointIdentifier id_dest = iEdge->GetDestination();
