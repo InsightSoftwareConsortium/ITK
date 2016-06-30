@@ -90,9 +90,7 @@ protected:
   CriterionPointer         m_SubdivisionCriterion;
 
 private:
-  ConditionalSubdivisionQuadEdgeMeshFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConditionalSubdivisionQuadEdgeMeshFilter);
 };
 } // end namespace itk
 

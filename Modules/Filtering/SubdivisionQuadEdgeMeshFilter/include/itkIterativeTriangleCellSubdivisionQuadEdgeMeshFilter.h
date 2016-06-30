@@ -89,9 +89,7 @@ protected:
   unsigned int                 m_ResolutionLevels;
 
 private:
-  IterativeTriangleCellSubdivisionQuadEdgeMeshFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(IterativeTriangleCellSubdivisionQuadEdgeMeshFilter);
 };
 } // end namespace itk
 

@@ -88,9 +88,7 @@ protected:
   AddNewEdgePoints(InputQEType * edge) ITK_OVERRIDE;
 
 private:
-  ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter(const Self &); // purposely not implement
-  void
-  operator=(const Self &); // purposely not implement
+  ITK_DISALLOW_COPY_AND_ASSIGN(ModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
 };
 } // namespace itk
 

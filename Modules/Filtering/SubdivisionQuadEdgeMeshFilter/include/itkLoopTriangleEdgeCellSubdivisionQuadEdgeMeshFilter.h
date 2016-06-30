@@ -93,9 +93,7 @@ protected:
   AverageOriginOfEdge(InputQEType * edge, const InputPointsContainer * points);
 
 private:
-  LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter(const Self &); // purposely not implement
-  void
-  operator=(const Self &); // purposely not implement
+  ITK_DISALLOW_COPY_AND_ASSIGN(LoopTriangleEdgeCellSubdivisionQuadEdgeMeshFilter);
 };
 } // namespace itk
 

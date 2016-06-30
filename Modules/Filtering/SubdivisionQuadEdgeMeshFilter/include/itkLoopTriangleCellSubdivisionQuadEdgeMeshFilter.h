@@ -121,9 +121,7 @@ protected:
   SmoothingPoint(const InputPointType & ipt, const InputPointsContainer * points);
 
 private:
-  LoopTriangleCellSubdivisionQuadEdgeMeshFilter(const Self &);
-  void
-  operator=(const Self &);
+  ITK_DISALLOW_COPY_AND_ASSIGN(LoopTriangleCellSubdivisionQuadEdgeMeshFilter);
 };
 } // namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
