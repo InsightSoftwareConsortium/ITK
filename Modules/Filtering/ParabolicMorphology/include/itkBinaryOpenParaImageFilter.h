@@ -159,9 +159,7 @@ protected:
   typedef typename itk::BinaryThresholdImageFilter<InternalRealImageType, OutputImageType> RCastTypeB;
 
 private:
-  BinaryOpenParaImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryOpenParaImageFilter);
 
   RadiusType m_Radius;
   bool       m_Circular;
