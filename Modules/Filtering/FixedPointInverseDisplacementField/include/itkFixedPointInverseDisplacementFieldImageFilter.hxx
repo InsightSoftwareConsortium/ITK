@@ -69,8 +69,6 @@ void
 FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
 
-  const unsigned int ImageDimension = InputImageType::ImageDimension;
-
   InputImageConstPointer inputPtr = this->GetInput(0);
   OutputImagePointer     outputPtr = this->GetOutput(0);
 
