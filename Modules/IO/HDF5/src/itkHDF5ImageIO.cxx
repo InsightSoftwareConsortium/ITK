@@ -880,6 +880,20 @@ HDF5ImageIO
                                            name,
                                            metaDataDims[0]);
         }
+      else if(metaDataType == H5::PredType::NATIVE_LLONG)
+        {
+        this->StoreMetaData<long long int>(&metaDict,
+                                           localMetaDataName,
+                                           name,
+                                           metaDataDims[0]);
+        }
+      else if(metaDataType == H5::PredType::NATIVE_ULLONG)
+        {
+        this->StoreMetaData<unsigned long long int>(&metaDict,
+                                           localMetaDataName,
+                                           name,
+                                           metaDataDims[0]);
+        }
       else if(metaDataType == H5::PredType::NATIVE_FLOAT)
         {
         this->StoreMetaData<float>(&metaDict,
@@ -1141,6 +1155,14 @@ HDF5ImageIO
         continue;
         }
       if(this->WriteMeta<unsigned long>(objName,metaObj))
+        {
+        continue;
+        }
+      if(this->WriteMeta<long long int>(objName,metaObj))
+        {
+        continue;
+        }
+      if(this->WriteMeta<unsigned long long int>(objName,metaObj))
         {
         continue;
         }

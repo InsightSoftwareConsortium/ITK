@@ -10,7 +10,7 @@
 #endif
 #include <vcl_compiler.h>
 
-#include <vnl/vnl_matrix_fixed.h>
+#include <vnl/vnl_matrix_fixed.hxx>
 #include <vnl/vnl_vector_fixed.h>
 #include <vnl/vnl_double_3x3.h>
 #include <vnl/vnl_double_3.h>
@@ -238,15 +238,31 @@ void test_int()
        ((m6*=m7),
         (m6.get(0,0)==19 && m6.get(0,1)==22 && m6.get(1,0)==43 && m6.get(1,1)==50)), true);
 
-  // | 19 22 |
-  // | 43 50 |
-  vnl_vector<int> flat;
-  TEST("m6.flatten_row_major()",
-       (flat = m6.flatten_row_major(),
-       (flat.get(0)==19 && flat.get(1)==22 && flat.get(2)==43 && flat.get(3)==50)), true);
-  TEST("m6.flatten_column_major()",
-       (flat = m6.flatten_column_major(),
-       (flat.get(0)==19 && flat.get(1)==43 && flat.get(2)==22 && flat.get(3)==50)), true);
+    /////////////////////////////////////////////////////////////////
+    // Test `flatten_row_major` and `flatten_column_major` Methods //
+    /////////////////////////////////////////////////////////////////
+
+    {
+    int data[16] = { 0,  1,  2,  3,
+                     4,  5,  6,  7,
+                     8,  9, 10, 11,
+                    12, 13, 14, 15};
+
+    vnl_vector<int> flat(data, 16);
+
+    vnl_matrix_fixed<int, 4, 4> sq(data);
+    vnl_matrix_fixed<int, 2, 8> lg(data);
+    vnl_matrix_fixed<int, 8, 2> wd(data);
+
+    TEST("sq.flatten_row_major", flat.is_equal(sq.flatten_row_major().as_vector(), 10e-6), true);
+    TEST("lg.flatten_row_major", flat.is_equal(lg.flatten_row_major().as_vector(), 10e-6), true);
+    TEST("wd.flatten_row_major", flat.is_equal(wd.flatten_row_major().as_vector(), 10e-6), true);
+
+    TEST("sq.flatten_column_major", flat.is_equal(sq.transpose().flatten_column_major().as_vector(), 10e-6), true);
+    TEST("lg.flatten_column_major", flat.is_equal(lg.transpose().flatten_column_major().as_vector(), 10e-6), true);
+    TEST("wd.flatten_column_major", flat.is_equal(wd.transpose().flatten_column_major().as_vector(), 10e-6), true);
+    }
+
 
   // additional tests
   int mvalues [] = {0,-2,2,0};

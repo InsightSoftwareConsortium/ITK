@@ -207,7 +207,7 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   double optimizerGrowthFactor = 1.01;
   bool usingInterSliceIntensityCorrection = true;
 
-  filter->IsBiasFieldMultiplicative( isBiasFieldMultiplicative );
+  filter->SetBiasFieldMultiplicative( isBiasFieldMultiplicative );
   filter->SetUsingSlabIdentification( usingSlabIdentification );
   filter->SetUsingBiasFieldCorrection( usingBiasFieldCorrection );
   filter->SetGeneratingOutput( generatingOutput );
@@ -221,7 +221,7 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   filter->SetOptimizerGrowthFactor( optimizerGrowthFactor );
   filter->SetUsingInterSliceIntensityCorrection( usingInterSliceIntensityCorrection );
 
-  TEST_SET_GET_VALUE( isBiasFieldMultiplicative, filter->IsBiasFieldMultiplicative() );
+  TEST_SET_GET_VALUE( isBiasFieldMultiplicative, filter->GetBiasFieldMultiplicative() );
   TEST_SET_GET_VALUE( usingSlabIdentification, filter->GetUsingSlabIdentification() );
   TEST_SET_GET_VALUE( usingBiasFieldCorrection, filter->GetUsingBiasFieldCorrection() );
   TEST_SET_GET_VALUE( generatingOutput, filter->GetGeneratingOutput() );
@@ -235,6 +235,8 @@ int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
   TEST_SET_GET_VALUE( optimizerGrowthFactor, filter->GetOptimizerGrowthFactor() );
   TEST_SET_GET_VALUE( usingInterSliceIntensityCorrection, filter->GetUsingInterSliceIntensityCorrection() );
 
+  filter->SetBiasFieldMultiplicative( true ); // correct with multiplicative bias
+  filter->SetBiasFieldDegree( biasDegree ); // default value = 3
   filter->SetTissueClassStatistics( classMeans, classSigmas );
   //TEST_SET_GET_VALUE( classMeans, classSigmas, filter->GetTissueClassStatistics() );
 

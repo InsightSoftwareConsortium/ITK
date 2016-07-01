@@ -5,7 +5,6 @@ itk_wrap_include("itkQuadEdgeMeshTraits.h")
 
 itk_wrap_class("itk::MapContainer" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("${ITKM_IT}QEMP${ITKM_F}${d}GQE${ITKM_IT}${ITKM_IT}BBT" "${ITKT_IT}, itk::QuadEdgeMeshPoint< ${ITKT_F}, ${d}, itk::GeometricalQuadEdge< ${ITKT_IT}, ${ITKT_IT},bool,bool,true > >")
     itk_wrap_template("${ITKM_IT}CI${ITKM_D}QEMCTI${d}" "${ITKT_IT}, itk::CellInterface< ${ITKT_D}, itk::QuadEdgeMeshCellTraitsInfo< ${d},${ITKT_F},${ITKT_F},${ITKT_IT},${ITKT_IT},${ITKT_UC},itk::QuadEdgeMeshPoint< ${ITKT_F},${d},itk::GeometricalQuadEdge< ${ITKT_IT}, ${ITKT_IT},bool,bool,true > >,itk::MapContainer< ${ITKT_IT},itk::QuadEdgeMeshPoint< ${ITKT_F},${d},itk::GeometricalQuadEdge< ${ITKT_IT},${ITKT_IT},bool,bool,true > > >,std::set< ${ITKT_IT} >,itk::GeometricalQuadEdge< ${ITKT_IT},${ITKT_IT},bool,bool,true > > >*")
   endforeach()
 itk_end_wrap_class()

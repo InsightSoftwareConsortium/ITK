@@ -1028,7 +1028,7 @@ vnl_vector<T> vnl_matrix<T>::flatten_column_major() const
   vnl_vector<T> v(this->num_rows * this->num_cols);
   for (unsigned int c = 0; c < this->num_cols; ++c)
     for (unsigned int r = 0; r < this->num_rows; ++r)
-      v[c*this->num_cols+r] = this->data[r][c];
+      v[c*this->num_rows+r] = this->data[r][c];
   return v;
 }
 
@@ -1419,15 +1419,15 @@ void vnl_matrix<T>::swap(vnl_matrix<T> &that)
 template <class T>
 vnl_matrix<T>& vnl_matrix<T>::flipud()
 {
-  unsigned int n = this->rows();
-  unsigned int colz = this->columns();
+  const unsigned int n = this->rows();
+  const unsigned int colz = this->columns();
 
-  unsigned int m = n / 2;
+  const unsigned int m = n / 2;
   for (unsigned int r = 0; r < m; ++r) {
-    unsigned int r1 = r;
-    unsigned int r2 = n - 1 - r;
+    const unsigned int r1 = r;
+    const unsigned int r2 = n - 1 - r;
     for (unsigned int c = 0; c < colz; ++c) {
-      T tmp = (*this)(r1, c);
+      const T tmp = (*this)(r1, c);
       (*this)(r1, c) = (*this)(r2, c);
       (*this)(r2, c) = tmp;
     }
@@ -1439,15 +1439,15 @@ vnl_matrix<T>& vnl_matrix<T>::flipud()
 template <class T>
 vnl_matrix<T>& vnl_matrix<T>::fliplr()
 {
-  unsigned int n = this->cols();
-  unsigned int rowz = this->rows();
+  const unsigned int n = this->cols();
+  const unsigned int rowz = this->rows();
 
-  unsigned int m = n / 2;
+  const unsigned int m = n / 2;
   for (unsigned int c = 0; c < m; ++c) {
-    unsigned int c1 = c;
-    unsigned int c2 = n - 1 - c;
+    const unsigned int c1 = c;
+    const unsigned int c2 = n - 1 - c;
     for (unsigned int r = 0; r < rowz; ++r) {
-      T tmp = (*this)(r, c1);
+      const T tmp = (*this)(r, c1);
       (*this)(r, c1) = (*this)(r, c2);
       (*this)(r, c2) = tmp;
     }
@@ -1636,17 +1636,17 @@ vnl_matrix<T>& vnl_matrix<T>::inplace_transpose()
 //------------------------------------------------------------------------------
 
 #define VNL_MATRIX_INSTANTIATE(T) \
-template class vnl_matrix<T >; \
-template vnl_matrix<T > operator-(T const &, vnl_matrix<T > const &); \
+template class VNL_EXPORT vnl_matrix<T >; \
+template VNL_EXPORT vnl_matrix<T > operator-(T const &, vnl_matrix<T > const &); \
 VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator+(T const &, vnl_matrix<T > const &)); \
 VCL_INSTANTIATE_INLINE(vnl_matrix<T > operator*(T const &, vnl_matrix<T > const &)); \
-template T dot_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
-template T inner_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
-template T cos_angle(vnl_matrix<T > const &, vnl_matrix<T > const &); \
-template vnl_matrix<T > element_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
-template vnl_matrix<T > element_quotient(vnl_matrix<T > const &, vnl_matrix<T > const &); \
-template int vnl_inplace_transpose(T*, unsigned, unsigned, char*, unsigned); \
-template std::ostream & operator<<(std::ostream &, vnl_matrix<T > const &); \
-template std::istream & operator>>(std::istream &, vnl_matrix<T >       &)
+template VNL_EXPORT T dot_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
+template VNL_EXPORT T inner_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
+template VNL_EXPORT T cos_angle(vnl_matrix<T > const &, vnl_matrix<T > const &); \
+template VNL_EXPORT vnl_matrix<T > element_product(vnl_matrix<T > const &, vnl_matrix<T > const &); \
+template VNL_EXPORT vnl_matrix<T > element_quotient(vnl_matrix<T > const &, vnl_matrix<T > const &); \
+template VNL_EXPORT int vnl_inplace_transpose(T*, unsigned, unsigned, char*, unsigned); \
+template VNL_EXPORT std::ostream & operator<<(std::ostream &, vnl_matrix<T > const &); \
+template VNL_EXPORT std::istream & operator>>(std::istream &, vnl_matrix<T >       &)
 
 #endif // vnl_matrix_hxx_

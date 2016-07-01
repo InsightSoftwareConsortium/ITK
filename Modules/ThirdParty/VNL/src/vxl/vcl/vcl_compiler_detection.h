@@ -159,11 +159,11 @@
 
 #    include "compilers/VXL_COMPILER_INFO_Clang_CXX.h"
 
-#  elif VXL_COMPILER_IS_GNU
+#  elif VXL_COMPILER_IS_GNU && ((__GNUC__ * 100 + __GNUC_MINOR__) >= 404) //Default to UNKWOWN compiler if < 4.4
 
 #    include "compilers/VXL_COMPILER_INFO_GNU_CXX.h"
 
-#  elif VXL_COMPILER_IS_MSVC
+#  elif VXL_COMPILER_IS_MSVC && (_MSC_VER >= 1600) //Default to UNKOWN compiler if < 1600
 
 #    include "compilers/VXL_COMPILER_INFO_MSVC_CXX.h"
 

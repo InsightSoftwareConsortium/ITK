@@ -110,17 +110,17 @@ private:
 
   ITK_DISALLOW_COPY_AND_ASSIGN(MeanSquaresImageToImageMetric);
 
-  inline bool GetValueThreadProcessSample(ThreadIdType threadId,
-                                          SizeValueType fixedImageSample,
-                                          const MovingImagePointType & mappedPoint,
-                                          double movingImageValue) const ITK_OVERRIDE;
+  bool GetValueThreadProcessSample(ThreadIdType threadId,
+                                   SizeValueType fixedImageSample,
+                                   const MovingImagePointType & mappedPoint,
+                                   double movingImageValue) const ITK_OVERRIDE;
 
-  inline bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId,
-                                                       SizeValueType fixedImageSample,
-                                                       const MovingImagePointType & mappedPoint,
-                                                       double movingImageValue,
-                                                       const ImageDerivativesType &
-                                                       movingImageGradientValue) const ITK_OVERRIDE;
+  bool GetValueAndDerivativeThreadProcessSample(ThreadIdType threadId,
+                                                SizeValueType fixedImageSample,
+                                                const MovingImagePointType & mappedPoint,
+                                                double movingImageValue,
+                                                const ImageDerivativesType &
+                                                movingImageGradientValue) const ITK_OVERRIDE;
 
   struct PerThreadS
   {

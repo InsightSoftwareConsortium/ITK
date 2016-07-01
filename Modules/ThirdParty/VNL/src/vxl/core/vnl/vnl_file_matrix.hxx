@@ -32,6 +32,7 @@ vnl_file_matrix<T>::vnl_file_matrix(char const* filename)
 //--------------------------------------------------------------------------------
 
 #undef VNL_FILE_MATRIX_INSTANTIATE
-#define VNL_FILE_MATRIX_INSTANTIATE(T) template class vnl_file_matrix<T >
+#define VNL_FILE_MATRIX_INSTANTIATE(T) \
+template class VNL_EXPORT vnl_file_matrix<T >
 
 #endif // vnl_file_matrix_hxx_

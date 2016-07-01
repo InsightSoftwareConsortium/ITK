@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self,Superclass);
+  itkTypeMacro(CSVNumericObjectFileWriter, LightProcessObject);
 
   // Matrix types
   typedef vnl_matrix<TValue>                        vnlMatrixType;

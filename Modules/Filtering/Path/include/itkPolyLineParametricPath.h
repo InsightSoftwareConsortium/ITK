@@ -102,7 +102,7 @@ public:
   /** Where does the path end?  This value is necessary for IncrementInput() to
    * know how to go to the end of a path.  Since each line segment covers one
    * unit of input, this is the number of verticies - 1. */
-  virtual inline InputType EndOfInput() const ITK_OVERRIDE
+  virtual InputType EndOfInput() const ITK_OVERRIDE
   {
     return m_VertexList->Size() - 1;
   }

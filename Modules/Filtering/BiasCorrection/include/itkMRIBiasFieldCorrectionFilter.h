@@ -32,7 +32,7 @@
 namespace itk
 {
 /** \class MRIBiasEnergyFunction
- * \brief a cost function for optimization
+ * \brief Represents a cost function for MRI bias field correction optimization.
  *
  * This is a wrapping class which provides interfaces between images,
  * the bias field, the internal energy function (CompositeValleyFunction),
@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKBiasCorrection
  */
 template< typename TImage, typename TImageMask, typename TBiasField >
-class MRIBiasEnergyFunction:public SingleValuedCostFunction
+class MRIBiasEnergyFunction : public SingleValuedCostFunction
 {
 public:
   /** Standard class typedefs. */
@@ -87,7 +87,7 @@ public:
   /** The type of the internal energy function. */
   typedef CompositeValleyFunction InternalEnergyFunction;
 
-  /** The type of the sampling factors */
+  /** The type of the sampling factors. */
   typedef unsigned int SamplingFactorType[SpaceDimension];
 
   /** Specify the input image. */
@@ -125,7 +125,7 @@ public:
   virtual MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
 
   /** Dummy implementation to confirm to the SingleValuedCostFunction
-   * interfaces. It is pure virtual in the superclass */
+   * interfaces. It is pure virtual in the superclass. */
   void GetDerivative( const ParametersType & itkNotUsed(parameters),
                       DerivativeType & itkNotUsed(derivative) ) const ITK_OVERRIDE
   {}
@@ -133,20 +133,21 @@ public:
   /** Set Mean and Sigma for the normal distributions
    *  \warning This method MUST be called before any attempt to
    *   evaluate the Function because it instantiate the internal
-   *   energy function                                     */
+   *   energy function. */
   void InitializeDistributions(Array< double > classMeans,
                                Array< double > classSigmas);
 
   virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE;
 
 protected:
-  /** Constructor: */
+  /** Constructor. */
   MRIBiasEnergyFunction();
 
-  /** Destructor: */
+  /** Destructor. */
   virtual ~MRIBiasEnergyFunction();
 
 private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
 
   /** Bias field object pointer. */
   BiasFieldType        *m_BiasField;
@@ -165,12 +166,10 @@ private:
 
   /** Sampling factors */
   SamplingFactorType m_SamplingFactor;
-
-  ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
 };                                     // end of class
 
 /** \class MRIBiasFieldCorrectionFilter
- * \brief corrects 3D MRI bias field
+ * \brief Corrects 3D MRI bias field.
  *
  * This class is templated over the type of the input image (TInputImage)
  * and the type of the output image (TOutputImage).
@@ -178,11 +177,11 @@ private:
  * In MRI images, intensity inhomogenieties which are caused by
  * magnetic settings, patients' position, and other factors are not
  * unusual. The main purpose of this filter is to reduce such bias field.
- * To estimate the bias field, we use Legendre
- * polynomials. The 1+1 evolutionary optimizer searches for the best
- * parameters of a Legendre polynomial (bias field estimate) which
- * minimizes the total energy value of each image after bias field
- * is eliminated. The default Legendre polynomial degree is 3.
+ * To estimate the bias field, we use Legendre polynomials.
+ * The 1+1 evolutionary optimizer searches for the best parameters of a
+ * Legendre polynomial (bias field estimate) which minimizes the total
+ * energy value of each image after bias field is eliminated.
+ * The default Legendre polynomial degree is 3.
  *
  * The correction performs by default a multiplicative bias field correction
  * by first log-transforming the input image. This log transform only
@@ -199,7 +198,7 @@ private:
  *
  * Only the last process (the actual bias field correction) is implemented in a
  * multiresolution framework (without smoothing). Default is a standard level 2
- * multiresolution schedule (2 2 2 1 1 1)
+ * multiresolution schedule (2 2 2 1 1 1).
  *
  * The bias field correction method was initially developed
  * and implemented by Martin Styner, Univ. of North Carolina at Chapel Hill,
@@ -220,7 +219,7 @@ private:
  * \ingroup ITKBiasCorrection
  */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
-class MRIBiasFieldCorrectionFilter:
+class MRIBiasFieldCorrectionFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -289,9 +288,9 @@ public:
   /** ScheduleType typedef support. */
   typedef Array2D< unsigned int > ScheduleType;
 
-  /** Set/Get the input mask image pointer
+  /** Set/Get the input mask image pointer.
    * Without this mask, this filter calculates the energy value using
-   * all pixels in the input image.  */
+   * all pixels in the input image. */
   void SetInputMask(ImageMaskType *inputMask);
   itkGetModifiableObjectMacro(InputMask, ImageMaskType);
 
@@ -300,29 +299,43 @@ public:
   void SetOutputMask(ImageMaskType *outputMask);
   itkGetModifiableObjectMacro(OutputMask, ImageMaskType);
 
-  /** If you set this true, this filter assumes the bias field is
+#if defined ( ITK_FUTURE_LEGACY_REMOVE )
+  /** If this value is true, the filter assumes the bias field is
    * multiplicative and internally uses log intensity values for
-   * every calculation.  */
+   * every calculation. */
   void IsBiasFieldMultiplicative(bool flag)
-  { m_BiasMultiplicative = flag; }
+  { m_BiasFieldMultiplicative = flag; }
+#endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
 
+  /** Set/Get the multiplicative nature of the filter's bias field: if
+   * true, the filter assumes the bias field is multiplicative and
+   * internally uses log intensity values for every calculation. */
+  itkSetMacro(BiasFieldMultiplicative, bool);
+  itkGetConstMacro(BiasFieldMultiplicative, bool);
+  itkBooleanMacro(BiasFieldMultiplicative);
+
+#if defined ( ITK_FUTURE_LEGACY_REMOVE )
   /** If the bias field is multiplicative, it returns true. */
   bool IsBiasFieldMultiplicative()
-  { return m_BiasMultiplicative; }
+  { return m_BiasFieldMultiplicative; }
+#endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
 
-  /** Set/Gets the intensity correction flag. if the flag is true, inter-slice
+  /** Set/Get the intensity correction flag. If the flag is true, inter-slice
    * intensity correction will be applied before bias field
-   * correction. default - true (3D input image), false (2D input image). */
+   * correction (default value is true for 3D input images, and false for 2D
+   * input images). */
   itkSetMacro(UsingInterSliceIntensityCorrection, bool);
-  itkGetConstReferenceMacro(UsingInterSliceIntensityCorrection, bool);
+  itkGetConstMacro(UsingInterSliceIntensityCorrection, bool);
+  itkBooleanMacro(UsingInterSliceIntensityCorrection);
 
-  /** Set/Gets the slab correction flag. If the flag is true, inter-slice
+  /** Set/Get the slab correction flag. If the flag is true, inter-slice
    * intensity correction and bias field correction will be performed slab by
-   * slab which is identified by the slab identifier. default - false
+   * slab which is identified by the slab identifier (default value is false).
    * NOTE: if users want to slab identification, all the input image data
    * should be buffered. */
   itkSetMacro(UsingSlabIdentification, bool);
-  itkGetConstReferenceMacro(UsingSlabIdentification, bool);
+  itkGetConstMacro(UsingSlabIdentification, bool);
+  itkBooleanMacro(UsingSlabIdentification);
 
   itkSetMacro(SlabBackgroundMinimumThreshold, InputImagePixelType);
   itkGetConstReferenceMacro(SlabBackgroundMinimumThreshold,
@@ -334,22 +347,25 @@ public:
   itkSetMacro(SlabTolerance, double);
   itkGetConstReferenceMacro(SlabTolerance, double);
 
-  /** Set/Gets the bias correction flag. If the flag is true, bias field
+  /** Set/Get the bias correction flag. If the flag is true, bias field
    * correction runs.  This flag sounds odd. But if users want to use only
    * the inter-slice intensity correction without actual bias correction,
-   * disabling bias field correction would be an useful option. default -
-   * true. */
+   * disabling bias field correction would be an useful option (default value
+   * is true). */
   itkSetMacro(UsingBiasFieldCorrection, bool);
-  itkGetConstReferenceMacro(UsingBiasFieldCorrection, bool);
+  itkGetConstMacro(UsingBiasFieldCorrection, bool);
+  itkBooleanMacro(UsingBiasFieldCorrection);
 
-  /** Set/Gets the flag, If the flag is true, the output image (corrected image)
-   * will be created when this filter is updated. default - true */
+  /** Set/Get the flag. If the flag is true, the output image (corrected image)
+   * will be created when this filter is updated (default value is true). */
   itkSetMacro(GeneratingOutput, bool);
-  itkGetConstReferenceMacro(GeneratingOutput, bool);
+  itkGetConstMacro(GeneratingOutput, bool);
+  itkBooleanMacro(GeneratingOutput);
 
   /** Sets the direction of slicing.
    * 0 - x axis, 1 - y axis, 2 - z axis */
   itkSetMacro(SlicingDirection, int);
+  itkGetConstMacro(SlicingDirection, int);
 
   /** Set/Get the degree of the bias field estimate. */
   itkSetMacro(BiasFieldDegree, int);
@@ -364,28 +380,30 @@ public:
 
   /** Get the result bias field coefficients after the bias field
    * estimation (does not apply to the inter-slice intensity
-   * correction) */
+   * correction). */
   BiasFieldType::CoefficientArrayType GetEstimatedBiasFieldCoefficients()
   { return m_EstimatedBiasFieldCoefficients; }
 
   /** Set the tissue class statistics for energy function initialization
    * If the numbers of elements in the means and the sigmas are not equal
-   * it will throw exception    */
+   * it will throw an exception. */
   void SetTissueClassStatistics(const Array< double > & means,
                                 const Array< double > & sigmas)
   throw ( ExceptionObject );
 
-  /** Set/Get the maximum iteration termination condition parameter. */
+  /** Set/Get the maximum iteration termination condition parameter for the
+   * bias field correction. */
   itkSetMacro(VolumeCorrectionMaximumIteration, int);
   itkGetConstMacro(VolumeCorrectionMaximumIteration, int);
+
+  /** Set/Get the maximum iteration termination condition parameter for the
+   * inter-slice intensity inhomogeneity correction. */
   itkSetMacro(InterSliceCorrectionMaximumIteration, int);
   itkGetConstMacro(InterSliceCorrectionMaximumIteration, int);
 
   /** Set/Get the initial search radius. */
-  void SetOptimizerInitialRadius(double initRadius)
-  { m_OptimizerInitialRadius = initRadius; }
-  double GetOptimizerInitialRadius()
-  { return m_OptimizerInitialRadius; }
+  itkSetMacro(OptimizerInitialRadius, double);
+  itkGetConstMacro(OptimizerInitialRadius, double);
 
   /** Set/Get the search radius grow factor. */
   itkSetMacro(OptimizerGrowthFactor, double);
@@ -397,36 +415,36 @@ public:
   itkGetConstMacro(OptimizerShrinkFactor, double);
 
   /** Set the number of multi-resolution levels. The matrix containing the
-   * schedule will be resized accordingly.  The schedule is populated with
-   * default values.  At the coarset (0) level, the shrink factors are set
+   * schedule will be resized accordingly. The schedule is populated with
+   * default values. At the coarsest (0) level, the shrink factors are set
    * 2^(nlevel - 1) for all dimension. These shrink factors are halved for
-   * subsequent levels.  The number of levels is clamped to a minimum value
-   * of 1.  All shrink factors are also clamped to a minimum value of 1. */
+   * subsequent levels. The number of levels is clamped to a minimum value
+   * of 1. All shrink factors are also clamped to a minimum value of 1. */
   void SetNumberOfLevels(unsigned int num);
 
   /** Get the number of multi-resolution levels. */
   itkGetConstMacro(NumberOfLevels, unsigned int);
 
-  /** Set a multi-resolution schedule.  The input schedule must have only
-   * ImageDimension number of columns and NumberOfLevels number of rows.  For
+  /** Set a multi-resolution schedule. The input schedule must have only
+   * ImageDimension number of columns and NumberOfLevels number of rows. For
    * each dimension, the shrink factor must be non-increasing with respect to
    * subsequent levels. This function will clamp shrink factors to satisify
-   * this condition.  All shrink factors less than one will also be clamped
+   * this condition. All shrink factors less than one will also be clamped
    * to the value of 1. */
   void SetSchedule(const ScheduleType & schedule);
 
   /** Get the multi-resolution schedule. */
   itkGetConstReferenceMacro(Schedule, ScheduleType);
 
-  /** Set the starting shrink factor for the coarset (0) resolution
+  /** Set the starting shrink factor for the coarsest (0) resolution
    * level. The schedule is then populated with defaults values obtained by
-   * halving the factors at the previous level.  All shrink factors are
+   * halving the factors at the previous level. All shrink factors are
    * clamped to a minimum value of 1. */
   void SetStartingShrinkFactors(unsigned int factor);
 
   void SetStartingShrinkFactors(unsigned int *factors);
 
-  /** Get the starting shrink factors */
+  /** Get the starting shrink factors. */
   const unsigned int * GetStartingShrinkFactors() const;
 
   /** Test if the schedule is downward divisible. This method returns true if
@@ -465,18 +483,18 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Checks if the mask image's dimensionality and size matches with
-   * those of the input image */
+   * those of the input image. */
   bool CheckMaskImage(ImageMaskType *mask);
 
 protected:
   /** Converts image data from source to target applying std::log(pixel + 1)
    * to all pixels. If the source pixel has negative value, it sets
-   * the value of the corresponding pixel in the targe image as zero.  */
+   * the value of the corresponding pixel in the targe image as zero. */
   void Log1PImage(InternalImageType *source,
                   InternalImageType *target);
 
   /** Converts image data from source to target applying std::exp(pixel) - 1
-   * to all pixels.  */
+   * to all pixels. */
   void ExpImage(InternalImageType *source,
                 InternalImageType *target);
 
@@ -504,10 +522,10 @@ protected:
       }
   }
 
-  /** Converts ImageRegion type (region) to DomainSize type (std::vector)
+  /** Converts ImageRegion type (region) to DomainSize type (std::vector).
    * NOTE: if the size of the last dimension of the image region is one, then
    * the dimension of the resulting domain size will be one less than that of
-   * he image region */
+   * he image region. */
   void GetBiasFieldSize(InputImageRegionType region,
                         BiasFieldType::DomainSizeType & domainSize);
 
@@ -525,7 +543,7 @@ private:
   /** Energy function object pointer. */
   EnergyFunctionPointer m_EnergyFunction;
 
-  /** Normal variate generator smart pointer */
+  /** Normal variate generator smart pointer. */
   NormalVariateGeneratorType::Pointer m_NormalVariateGenerator;
 
   /** Input mask image smart pointer. */
@@ -544,7 +562,7 @@ private:
   int m_SlicingDirection;
 
   /** Bias Field character if true, multiplicative.  if false, additive. */
-  bool m_BiasMultiplicative;
+  bool m_BiasFieldMultiplicative;
 
   /** operation selection flags. */
   bool m_UsingInterSliceIntensityCorrection;
@@ -555,11 +573,13 @@ private:
   unsigned int        m_SlabNumberOfSamples;
   InputImagePixelType m_SlabBackgroundMinimumThreshold;
   double              m_SlabTolerance;
+
   /** The degree of the bias field estimate. */
   int m_BiasFieldDegree;
 
-  /** The number of levels for the multires schedule */
+  /** The number of levels for the multires schedule. */
   unsigned int m_NumberOfLevels;
+
   /** The multires schedule */
   ScheduleType m_Schedule;
 
@@ -571,10 +591,8 @@ private:
    * after optimization. */
   BiasFieldType::CoefficientArrayType m_EstimatedBiasFieldCoefficients;
 
-  /** Storage for the optimizer's maximum iteration number. */
   int m_VolumeCorrectionMaximumIteration;
 
-  /** Storage for the optimizer's maximum iteration number. */
   int m_InterSliceCorrectionMaximumIteration;
 
   /** Storage for the optimizer's initial search radius. */
@@ -593,7 +611,6 @@ private:
   Array< double > m_TissueClassSigmas;
 };
 
-// ==================================
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

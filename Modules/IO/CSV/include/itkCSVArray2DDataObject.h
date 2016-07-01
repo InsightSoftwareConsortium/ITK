@@ -56,7 +56,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self,Superclass);
+  itkTypeMacro(CSVArray2DDataObject, DataObject);
 
   /* Vector typedefs. */
   typedef typename std::vector<TData>              NumericVectorType;
