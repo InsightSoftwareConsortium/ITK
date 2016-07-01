@@ -162,8 +162,7 @@ protected:
                      const IndexType currentIdx);
 
 private:
-  MaskedMovingHistogramImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedMovingHistogramImageFilter);
 
   bool m_GenerateOutputMask;
 

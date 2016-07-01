@@ -355,8 +355,7 @@ protected:
   virtual void ResolveRegions();
 
 private:
-  KLMRegionGrowImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(KLMRegionGrowImageFilter);
 
   typedef typename TInputImage::SizeType          InputImageSizeType;
   typedef typename KLMSegmentationRegion::Pointer KLMSegmentationRegionPtr;

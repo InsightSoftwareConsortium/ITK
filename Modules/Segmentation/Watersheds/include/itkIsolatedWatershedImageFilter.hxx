@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TOutputImage >
 IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 ::IsolatedWatershedImageFilter()
@@ -41,37 +39,6 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
   m_UpperValueLimit = 1.0;
   m_GradientMagnitude = GradientMagnitudeType::New();
   m_Watershed = WatershedType::New();
-}
-
-/**
- * Standard PrintSelf method.
- */
-template< typename TInputImage, typename TOutputImage >
-void
-IsolatedWatershedImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "Threshold: "
-     << m_Threshold
-     << std::endl;
-  os << indent << "UpperValueLimit: "
-     << m_UpperValueLimit
-     << std::endl;
-  os << indent << "ReplaceValue1: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue1 )
-     << std::endl;
-  os << indent << "ReplaceValue2: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue2 )
-     << std::endl;
-  os << indent << "Seed1: " << m_Seed1 << std::endl;
-  os << indent << "Seed2: " << m_Seed2 << std::endl;
-  os << indent << "IsolatedValue: "
-     << m_IsolatedValue
-     << std::endl;
-  os << indent << "IsolatedValueTolerance: "
-     << m_IsolatedValueTolerance
-     << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -108,8 +75,8 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
 
   const InputImageRegionType region = inputImage->GetRequestedRegion();
 
-  // After the input's have had their output information updated, we
-  // check the seeds are valid
+  // Check that the seeds are valid after the input has had its output
+  // information updated
   if ( !region.IsInside(m_Seed1) )
     {
     itkExceptionMacro("Seed1 is not within the input image!");
@@ -120,7 +87,6 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
     }
 
 }
-
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -135,9 +101,9 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
   m_GradientMagnitude->SetInput (inputImage);
 
   // Set up the Watershed
-  m_Watershed->SetInput ( m_GradientMagnitude->GetOutput() );
-  m_Watershed->SetThreshold (m_Threshold);
-  m_Watershed->SetLevel (m_UpperValueLimit);
+  m_Watershed->SetInput( m_GradientMagnitude->GetOutput() );
+  m_Watershed->SetThreshold( m_Threshold );
+  m_Watershed->SetLevel( m_UpperValueLimit );
 
   // Allocate the output
   this->AllocateOutputs();
@@ -186,7 +152,7 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
     m_Watershed->Update ();
     }
 
-  // now produce an output image with the two seeded basins labeled
+  // Now produce an output image with the two seeded basins labeled
 
   ProgressReporter progress(this, 0, region.GetNumberOfPixels(), 100, cumulatedProgress, progressWeight);
 
@@ -223,6 +189,35 @@ IsolatedWatershedImageFilter< TInputImage, TOutputImage >
   m_IsolatedValue = lower;
   iterate.CompletedStep();
 }
+
+template< typename TInputImage, typename TOutputImage >
+void
+IsolatedWatershedImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os, indent);
+  os << indent << "Threshold: "
+     << m_Threshold
+     << std::endl;
+  os << indent << "UpperValueLimit: "
+     << m_UpperValueLimit
+     << std::endl;
+  os << indent << "ReplaceValue1: "
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue1 )
+     << std::endl;
+  os << indent << "ReplaceValue2: "
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue2 )
+     << std::endl;
+  os << indent << "Seed1: " << m_Seed1 << std::endl;
+  os << indent << "Seed2: " << m_Seed2 << std::endl;
+  os << indent << "IsolatedValue: "
+     << m_IsolatedValue
+     << std::endl;
+  os << indent << "IsolatedValueTolerance: "
+     << m_IsolatedValueTolerance
+     << std::endl;
+}
+
 } // end namespace itk
 
 #endif

@@ -275,8 +275,7 @@ protected:
   }
 
 private:
-  Rigid2DTransform(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Rigid2DTransform);
 
   TParametersValueType m_Angle;
 

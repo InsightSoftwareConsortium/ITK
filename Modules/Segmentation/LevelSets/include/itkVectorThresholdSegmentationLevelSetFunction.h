@@ -142,8 +142,7 @@ protected:
 
   virtual ~VectorThresholdSegmentationLevelSetFunction(){}
 
-  VectorThresholdSegmentationLevelSetFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetFunction);
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

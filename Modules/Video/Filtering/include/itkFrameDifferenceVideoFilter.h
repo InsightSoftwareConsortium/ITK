@@ -80,8 +80,7 @@ protected:
                 int threadId) ITK_OVERRIDE;
 
 private:
-  FrameDifferenceVideoFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrameDifferenceVideoFilter);
 
 
 };  // end class FrameDifferenceVideoFilter

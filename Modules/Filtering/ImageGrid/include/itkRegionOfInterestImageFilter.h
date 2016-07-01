@@ -127,8 +127,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  RegionOfInterestImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionOfInterestImageFilter);
 
   RegionType m_RegionOfInterest;
 };

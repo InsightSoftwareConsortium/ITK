@@ -137,8 +137,7 @@ protected:
   void ComputePruneImage();
 
 private:
-  BinaryPruningImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryPruningImageFilter);
 
   unsigned int m_Iteration;
 }; // end of BinaryThinningImageFilter class

@@ -119,8 +119,7 @@ protected:
   virtual ~AsinImageFilter() {}
 
 private:
-  AsinImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageFilter);
 };
 } // end namespace itk
 

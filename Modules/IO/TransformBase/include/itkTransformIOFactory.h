@@ -62,8 +62,7 @@ protected:
   virtual ~TransformIOFactoryTemplate();
 
 private:
-  TransformIOFactoryTemplate(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformIOFactoryTemplate);
 };
 
 /** This helps to meet backward compatibility */

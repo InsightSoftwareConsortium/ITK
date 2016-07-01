@@ -86,8 +86,7 @@ public:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  BMPImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIO);
 
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 

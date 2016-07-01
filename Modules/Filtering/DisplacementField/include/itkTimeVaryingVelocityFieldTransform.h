@@ -127,8 +127,7 @@ protected:
   virtual ~TimeVaryingVelocityFieldTransform();
 
 private:
-  TimeVaryingVelocityFieldTransform( const Self& ) ITK_DELETE_FUNCTION;
-  void operator=( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransform);
 };
 
 } // end namespace itk

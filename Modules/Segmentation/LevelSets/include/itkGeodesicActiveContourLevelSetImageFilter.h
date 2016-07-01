@@ -38,7 +38,7 @@ namespace itk
  * edge potential map.
  *
  * \par INPUTS
- * This filter requires two inputs.  The first input is a initial level set.
+ * This filter requires two inputs. The first input is a initial level set.
  * The initial level set is a real image which contains the initial contour/surface
  * as the zero level set. For example, a signed distance function from the initial
  * contour/surface is typically used. Unlike the simpler ShapeDetectionLevelSetImageFilter
@@ -48,7 +48,7 @@ namespace itk
  * This approach for segmentation follows that of Caselles et al (1997).
  *
  * \par
- * The second input is the feature image.  For this filter, this is the edge
+ * The second input is the feature image. For this filter, this is the edge
  * potential map. General characteristics of an edge potential map is that
  * it has values close to zero in regions near the edges and values close
  * to one inside the shape itself. Typically, the edge potential map is compute
@@ -155,8 +155,7 @@ protected:
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  GeodesicActiveContourLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourLevelSetImageFilter);
 
   /** Overridden from Superclass to handle the case when PropagationScaling is
     zero.*/
@@ -169,7 +168,6 @@ private:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkGeodesicActiveContourLevelSetImageFilter.hxx"
-#include "itkMath.h"
 #endif
 
 #endif

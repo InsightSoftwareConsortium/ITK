@@ -18,9 +18,10 @@
 
 #include "itkMath.h"
 #include "itkHistogram.h"
+#include "itkSample.h"
+#include "itkTestingMacros.h"
 
-
-int itkHistogramTest(int, char* [] )
+int itkHistogramTest( int, char* [] )
 {
   std::cout << "Histogram Test \n \n";
   bool pass = true;
@@ -33,6 +34,8 @@ int itkHistogramTest(int, char* [] )
   typedef itk::Statistics::Histogram< MeasurementType,
           itk::Statistics::DenseFrequencyContainer2 > HistogramType;
   HistogramType::Pointer histogram = HistogramType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( histogram, Histogram, Sample );
 
   typedef HistogramType::MeasurementVectorType MeasurementVectorType;
   typedef HistogramType::InstanceIdentifier    InstanceIdentifier;
@@ -607,6 +610,11 @@ int itkHistogramTest(int, char* [] )
     std::cerr << "Upper bound index = " << aboveUpperIndex << std::endl;
     }
 
+  // Get the mean value for a dimension
+  unsigned int dimension = 0;
+  double mean = histogram->Mean( dimension );
+  std::cout << "Mean value along dimension " << dimension << " : " << mean << std::endl;
+
   HistogramType::Iterator itr = histogram->Begin();
   HistogramType::Iterator end = histogram->End();
 
@@ -830,9 +838,6 @@ int itkHistogramTest(int, char* [] )
       }
 
     }
-
-  // Exercise Print() method
-  histogram->Print( std::cout );
 
   if( !pass )
     {

@@ -44,7 +44,8 @@
 #include "dll.h"
 #include <vxl_config.h>
 #include <vnl/vnl_config.h> // for VNL_CONFIG_ENABLE_SSE2_ROUNDING
-#include <vcl_config_compiler.h> //for VXL_CONSTEXPR definition
+#include <vcl_config_compiler.h> //for VXL_CONSTEXPR_VAR definition
+#include "vnl/vnl_export.h"
 #ifdef VNL_CHECK_FPU_ROUNDING_MODE
 # include <vcl_cassert.h>
 #endif
@@ -80,14 +81,14 @@
 
 
 //: Type-accessible infinities for use in templates.
-template <class T> T vnl_huge_val(T);
-extern long double   vnl_huge_val(long double);
-extern double   vnl_huge_val(double);
-extern float    vnl_huge_val(float);
-extern long int vnl_huge_val(long int);
-extern int      vnl_huge_val(int);
-extern short    vnl_huge_val(short);
-extern char     vnl_huge_val(char);
+template <class T> VNL_EXPORT T vnl_huge_val(T);
+extern VNL_EXPORT long double   vnl_huge_val(long double);
+extern VNL_EXPORT double   vnl_huge_val(double);
+extern VNL_EXPORT float    vnl_huge_val(float);
+extern VNL_EXPORT long int vnl_huge_val(long int);
+extern VNL_EXPORT int      vnl_huge_val(int);
+extern VNL_EXPORT short    vnl_huge_val(short);
+extern VNL_EXPORT char     vnl_huge_val(char);
 
 //: real numerical constants
 // Strictly speaking, the static declaration of the constant variables is
@@ -101,38 +102,38 @@ extern char     vnl_huge_val(char);
 namespace vnl_math
 {
   //: pi, e and all that
-  static VXL_CONSTEXPR double e                = 2.71828182845904523536;
-  static VXL_CONSTEXPR double log2e            = 1.44269504088896340736;
-  static VXL_CONSTEXPR double log10e           = 0.43429448190325182765;
-  static VXL_CONSTEXPR double ln2              = 0.69314718055994530942;
-  static VXL_CONSTEXPR double ln10             = 2.30258509299404568402;
-  static VXL_CONSTEXPR double pi               = 3.14159265358979323846;
-  static VXL_CONSTEXPR double twopi            = 6.28318530717958647692;
-  static VXL_CONSTEXPR double pi_over_2        = 1.57079632679489661923;
-  static VXL_CONSTEXPR double pi_over_4        = 0.78539816339744830962;
-  static VXL_CONSTEXPR double pi_over_180      = 0.01745329251994329577;
-  static VXL_CONSTEXPR double one_over_pi      = 0.31830988618379067154;
-  static VXL_CONSTEXPR double two_over_pi      = 0.63661977236758134308;
-  static VXL_CONSTEXPR double deg_per_rad      = 57.2957795130823208772;
-  static VXL_CONSTEXPR double sqrt2pi          = 2.50662827463100024161;
-  static VXL_CONSTEXPR double two_over_sqrtpi  = 1.12837916709551257390;
-  static VXL_CONSTEXPR double one_over_sqrt2pi = 0.39894228040143267794;
-  static VXL_CONSTEXPR double sqrt2            = 1.41421356237309504880;
-  static VXL_CONSTEXPR double sqrt1_2          = 0.70710678118654752440;
-  static VXL_CONSTEXPR double sqrt1_3          = 0.57735026918962573106;
-  static VXL_CONSTEXPR double euler            = 0.57721566490153286061;
+  static VXL_CONSTEXPR_VAR double e                = 2.71828182845904523536;
+  static VXL_CONSTEXPR_VAR double log2e            = 1.44269504088896340736;
+  static VXL_CONSTEXPR_VAR double log10e           = 0.43429448190325182765;
+  static VXL_CONSTEXPR_VAR double ln2              = 0.69314718055994530942;
+  static VXL_CONSTEXPR_VAR double ln10             = 2.30258509299404568402;
+  static VXL_CONSTEXPR_VAR double pi               = 3.14159265358979323846;
+  static VXL_CONSTEXPR_VAR double twopi            = 6.28318530717958647692;
+  static VXL_CONSTEXPR_VAR double pi_over_2        = 1.57079632679489661923;
+  static VXL_CONSTEXPR_VAR double pi_over_4        = 0.78539816339744830962;
+  static VXL_CONSTEXPR_VAR double pi_over_180      = 0.01745329251994329577;
+  static VXL_CONSTEXPR_VAR double one_over_pi      = 0.31830988618379067154;
+  static VXL_CONSTEXPR_VAR double two_over_pi      = 0.63661977236758134308;
+  static VXL_CONSTEXPR_VAR double deg_per_rad      = 57.2957795130823208772;
+  static VXL_CONSTEXPR_VAR double sqrt2pi          = 2.50662827463100024161;
+  static VXL_CONSTEXPR_VAR double two_over_sqrtpi  = 1.12837916709551257390;
+  static VXL_CONSTEXPR_VAR double one_over_sqrt2pi = 0.39894228040143267794;
+  static VXL_CONSTEXPR_VAR double sqrt2            = 1.41421356237309504880;
+  static VXL_CONSTEXPR_VAR double sqrt1_2          = 0.70710678118654752440;
+  static VXL_CONSTEXPR_VAR double sqrt1_3          = 0.57735026918962573106;
+  static VXL_CONSTEXPR_VAR double euler            = 0.57721566490153286061;
 
   //: IEEE double machine precision
-  static VXL_CONSTEXPR double eps              = 2.2204460492503131e-16;
-  static VXL_CONSTEXPR double sqrteps          = 1.490116119384766e-08;
+  static VXL_CONSTEXPR_VAR double eps              = 2.2204460492503131e-16;
+  static VXL_CONSTEXPR_VAR double sqrteps          = 1.490116119384766e-08;
   //: IEEE single machine precision
-  static VXL_CONSTEXPR float  float_eps        = 1.192092896e-07f;
-  static VXL_CONSTEXPR float  float_sqrteps    = 3.4526698307e-4f;
+  static VXL_CONSTEXPR_VAR float  float_eps        = 1.192092896e-07f;
+  static VXL_CONSTEXPR_VAR float  float_sqrteps    = 3.4526698307e-4f;
 
   //: Convert an angle to [0, 2Pi) range
-  double angle_0_to_2pi(double angle);
+  VNL_EXPORT double angle_0_to_2pi(double angle);
   //: Convert an angle to [-Pi, Pi) range
-  double angle_minuspi_to_pi(double angle);
+  VNL_EXPORT double angle_minuspi_to_pi(double angle);
 }
 
 // We do not want to make assumptions about unknown types that happen
@@ -151,7 +152,7 @@ namespace vnl_math
 
 namespace vnl_math
 {
-#if  VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
+#if VXL_FULLCXX11SUPPORT
   // Prefer to use perfect forwarding to the std library if C++11 features are available.
   //http://stackoverflow.com/questions/9864125/c11-how-to-alias-a-function
   template <typename... Args>
@@ -202,11 +203,11 @@ namespace vnl_math
  inline bool isnan(long long)          { return false; }
  inline bool isnan(unsigned long long) { return false; }
 #endif
- bool isnan(float);
- bool isnan(double);
- bool isnan(long double);
+ VNL_EXPORT bool isnan(float);
+ VNL_EXPORT bool isnan(double);
+ VNL_EXPORT bool isnan(long double);
 #if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> bool isnan(T);
+ template <class T> VNL_EXPORT bool isnan(T);
 #endif
 
 
@@ -224,11 +225,11 @@ namespace vnl_math
  inline bool isinf(long long)          { return false; }
  inline bool isinf(unsigned long long) { return false; }
 #endif
- bool isinf(float);
- bool isinf(double);
- bool isinf(long double);
+ VNL_EXPORT bool isinf(float);
+ VNL_EXPORT bool isinf(double);
+ VNL_EXPORT bool isinf(long double);
 #if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> bool isinf(T);
+ template <class T> VNL_EXPORT bool isinf(T);
 #endif
 
  // isfinite
@@ -245,11 +246,11 @@ namespace vnl_math
  inline bool isfinite(long long)          { return true; }
  inline bool isfinite(unsigned long long) { return true; }
 #endif
- bool isfinite(float);
- bool isfinite(double);
- bool isfinite(long double);
+ VNL_EXPORT bool isfinite(float);
+ VNL_EXPORT bool isfinite(double);
+ VNL_EXPORT bool isfinite(long double);
 #if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> bool isfinite(T);
+ template <class T> VNL_EXPORT bool isfinite(T);
 #endif
 
 // If we must use windows.h, we should at least sanitise it first
@@ -265,10 +266,10 @@ namespace vnl_math
 #endif
 
 // max
-template<class T>
+template<class T> VNL_EXPORT
 const T& max( const T& x, const T& y) { return std::max(x,y); }
 
-template<class T>
+template<class T> VNL_EXPORT
 const T& min( const T& x, const T& y) { return std::min(x,y); }
 
 // cuberoot
@@ -276,10 +277,10 @@ inline float  cuberoot(const float  &a) { return float((a<0) ? -std::exp(std::lo
 inline double cuberoot(const double &a) { return       (a<0) ? -std::exp(std::log(-a)/3) : std::exp(std::log(a)/3); }
 
 // hypotenuse
-extern int         hypot(int         x, int         y);
-extern float       hypot(float       x, float       y);
-extern double      hypot(double      x, double      y);
-extern long double hypot(long double x, long double y);
+extern VNL_EXPORT int         hypot(int         x, int         y);
+extern VNL_EXPORT float       hypot(float       x, float       y);
+extern VNL_EXPORT double      hypot(double      x, double      y);
+extern VNL_EXPORT long double hypot(long double x, long double y);
 
 #endif //If not C++11 features
 

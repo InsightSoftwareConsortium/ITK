@@ -41,6 +41,7 @@
 #include <list>
 #include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
 
 template <class T>
 class vnl_scalar_join_iterator_indexed_pair;
@@ -67,8 +68,9 @@ class vnl_scalar_join_iterator_indexed_pair;
 //  and it doesn't.  Contact awf if you need this to work.
 
 template <class T>
-class vnl_scalar_join_iterator
+class VNL_EXPORT vnl_scalar_join_iterator
 {
+ private:
   VCL_SAFE_BOOL_DEFINE;
  protected:
   unsigned n1;
@@ -119,7 +121,7 @@ class vnl_scalar_join_iterator
 
 //: Helper class to hold the sorted arrays of indices.
 template <class T>
-class vnl_scalar_join_iterator_indexed_pair
+class VNL_EXPORT vnl_scalar_join_iterator_indexed_pair
 {
  public:
   const T* object;

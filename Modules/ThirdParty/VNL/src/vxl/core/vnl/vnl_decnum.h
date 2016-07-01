@@ -77,9 +77,11 @@
 #include <iostream>
 #include <string>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
-class vnl_decnum
+class VNL_EXPORT vnl_decnum
 {
+ private:
   char sign_;      // Sign of vnl_decnum ('+' or '-'; for zero and NaN, the sign is ' ')
   std::string data_;// The decimal mantissa data (absolute value)
                    // data_ consists of decimals (0-9) only, guaranteed without
@@ -391,7 +393,7 @@ inline std::ostream& operator<<(std::ostream& s, vnl_decnum const& r)
 
 //: decimal input
 // \relatesalso vnl_decnum
-std::istream& operator>>(std::istream& s, vnl_decnum& r);
+VNL_EXPORT std::istream& operator>>(std::istream& s, vnl_decnum& r);
 
 inline vnl_decnum ceil(vnl_decnum const& x) { return x.ceil(); }
 inline vnl_decnum floor(vnl_decnum const& x) { return x.floor(); }

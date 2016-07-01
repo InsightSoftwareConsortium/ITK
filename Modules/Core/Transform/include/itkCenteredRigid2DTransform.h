@@ -168,8 +168,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  CenteredRigid2DTransform(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CenteredRigid2DTransform);
 
 };                                        // class CenteredRigid2DTransform
 }  // namespace itk

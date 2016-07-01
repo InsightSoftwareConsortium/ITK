@@ -122,8 +122,7 @@ protected:
   virtual ~HistogramToLogProbabilityImageFilter() {}
 
 private:
-  HistogramToLogProbabilityImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToLogProbabilityImageFilter);
 };
 } // end namespace itk
 

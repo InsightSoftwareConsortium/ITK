@@ -107,8 +107,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  BlackTopHatImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BlackTopHatImageFilter);
 
   bool m_SafeBorder;
 

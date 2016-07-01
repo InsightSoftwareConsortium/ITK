@@ -84,8 +84,7 @@ protected:
   virtual ~NthElementImageAdaptor() {}
 
 private:
-  NthElementImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(NthElementImageAdaptor);
 };
 } // end namespace itk
 

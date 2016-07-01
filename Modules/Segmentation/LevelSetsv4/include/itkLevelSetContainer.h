@@ -85,8 +85,7 @@ protected:
   ~LevelSetContainer() {}
 
 private:
-  LevelSetContainer( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
 };
 
 /**
@@ -185,8 +184,7 @@ protected:
   ~LevelSetContainer() {}
 
 private:
-  LevelSetContainer( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetContainer);
 };
 
 }

@@ -97,8 +97,7 @@ protected:
   bool m_Progressive;
 
 private:
-  JPEGImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIO);
 };
 } // end namespace itk
 

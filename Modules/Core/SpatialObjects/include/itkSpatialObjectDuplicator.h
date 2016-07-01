@@ -73,8 +73,7 @@ protected:
                   InternalSpatialObjectType *destination);
 
 private:
-  SpatialObjectDuplicator(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectDuplicator);
 
   SpatialObjectConstPointer m_Input;
   SpatialObjectPointer      m_Output;

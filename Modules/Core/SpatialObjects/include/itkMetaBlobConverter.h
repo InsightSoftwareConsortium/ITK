@@ -72,8 +72,7 @@ protected:
   ~MetaBlobConverter() {}
 
 private:
-  MetaBlobConverter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaBlobConverter);
 
 };
 } // end namespace itk

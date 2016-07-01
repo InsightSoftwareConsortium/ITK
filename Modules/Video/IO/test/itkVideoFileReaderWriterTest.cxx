@@ -20,6 +20,7 @@
 #include "itkVideoFileReader.h"
 #include "itkVideoFileWriter.h"
 #include "itkFileListVideoIOFactory.h"
+#include "itkTestingMacros.h"
 
 int itkVideoFileReaderWriterTest( int argc, char *argv[] )
 {
@@ -48,6 +49,9 @@ int itkVideoFileReaderWriterTest( int argc, char *argv[] )
       }
     }
   VideoReaderType::Pointer reader = VideoReaderType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( reader, VideoFileReader, VideoSource );
+
   reader->SetFileName(inFile.c_str() );
 
   // I'm still not sure how to handle this right, but for now, just manually
@@ -56,6 +60,9 @@ int itkVideoFileReaderWriterTest( int argc, char *argv[] )
 
   // Set up the writer
   VideoWriterType::Pointer writer = VideoWriterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( writer, VideoFileWriter, TemporalProcessObject );
+
   writer->SetInput(reader->GetOutput() );
   writer->SetFileName(argv[6]);
 

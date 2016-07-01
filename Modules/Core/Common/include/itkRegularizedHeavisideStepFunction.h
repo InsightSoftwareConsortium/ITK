@@ -74,8 +74,7 @@ protected:
   virtual ~RegularizedHeavisideStepFunction();
 
 private:
-  RegularizedHeavisideStepFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegularizedHeavisideStepFunction);
 
   RealType m_Epsilon;
   RealType m_OneOverEpsilon;

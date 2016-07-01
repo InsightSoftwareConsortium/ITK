@@ -56,7 +56,7 @@ int itkTransformFileReaderTest( int argc, char *argv[] )
     }
   catch(itk::ExceptionObject &excp)
     {
-    std::cerr << "Expected exception (no transformio that can read file)"
+    std::cerr << "Expected exception (no transformio that can read garbage and no transformio should be registered)"
               << excp << std::endl;
     }
 

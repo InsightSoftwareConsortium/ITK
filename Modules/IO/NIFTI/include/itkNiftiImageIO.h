@@ -130,8 +130,7 @@ private:
 
   bool m_LegacyAnalyze75Mode;
 
-  NiftiImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(NiftiImageIO);
 };
 } // end namespace itk
 

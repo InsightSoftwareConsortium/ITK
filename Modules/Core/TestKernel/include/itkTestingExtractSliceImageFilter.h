@@ -268,8 +268,7 @@ protected:
   OutputImageRegionType m_OutputImageRegion;
 
 private:
-  ExtractSliceImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExtractSliceImageFilter);
 
   DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy;
 };

@@ -206,8 +206,7 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
 private:
-  ObjectByObjectLabelMapFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectByObjectLabelMapFilter);
 
   bool     m_ConstrainPaddingToImage;
   SizeType m_PadSize;

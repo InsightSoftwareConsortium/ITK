@@ -180,8 +180,7 @@ private:
     ITK_ANALYZE_ORIENTATION_PIL_SAGITTAL_FLIPPED = 5    /**<  */
     } ValidAnalyzeOrientationFlags;
 
-  AnalyzeImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnalyzeImageIO);
 
   void SwapBytesIfNecessary(void *buffer, SizeType numberOfPixels);
 

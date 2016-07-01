@@ -142,8 +142,7 @@ protected:
   virtual ~NaryMaximumImageFilter() {}
 
 private:
-  NaryMaximumImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(NaryMaximumImageFilter);
 };
 } // end namespace itk
 

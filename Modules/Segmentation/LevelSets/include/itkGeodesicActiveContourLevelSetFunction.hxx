@@ -32,7 +32,7 @@ template< typename TImageType, typename TFeatureImageType >
 void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateSpeedImage()
 {
-  /* copy the feature image into the speed image */
+  // Copy the feature image into the speed image
   ImageAlgorithm::Copy( this->GetFeatureImage(),
                         this->GetSpeedImage(),
                         this->GetFeatureImage()->GetRequestedRegion(),
@@ -43,7 +43,7 @@ template< typename TImageType, typename TFeatureImageType >
 void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
 ::CalculateAdvectionImage()
 {
-  /* compute the gradient of the feature image. */
+  // Compute the gradient of the feature image
 
   typename VectorImageType::Pointer gradientImage;
 
@@ -78,7 +78,7 @@ void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
     gradientImage = caster->GetOutput();
     }
 
-  /* copy negative gradient into the advection image. */
+  // Copy negative gradient into the advection image
   ImageRegionIterator< VectorImageType >
   dit( gradientImage, this->GetFeatureImage()->GetRequestedRegion() );
   ImageRegionIterator< VectorImageType >
@@ -94,6 +94,16 @@ void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
     ait.Set(v);
     }
 }
+
+template< typename TImageType, typename TFeatureImageType >
+void GeodesicActiveContourLevelSetFunction< TImageType, TFeatureImageType >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "DerivativeSigma: " << m_DerivativeSigma << std::endl;
+}
+
 } // end namespace itk
 
 #endif

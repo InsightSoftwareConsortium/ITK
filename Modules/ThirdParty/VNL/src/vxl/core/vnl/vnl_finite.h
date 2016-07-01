@@ -36,6 +36,7 @@
 #include <cstddef>
 #include <vcl_cassert.h>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
 //: finite modulo-N arithmetic
 //
@@ -46,8 +47,9 @@
 // but all other operations remain valid.
 //
 template <int N>
-class vnl_finite_int
+class VNL_EXPORT vnl_finite_int
 {
+ private:
   int val_; //!< value of this number (smallest nonnegative representation)
 
   typedef vnl_finite_int<N> Base;
@@ -424,7 +426,7 @@ namespace vnl_math
 // anything more than that.
 //
 template <int N, int M>
-class vnl_finite_int_poly
+class VNL_EXPORT vnl_finite_int_poly
 {
   typedef vnl_finite_int_poly<N,M> Base;
   typedef vnl_finite_int<N> Scalar;

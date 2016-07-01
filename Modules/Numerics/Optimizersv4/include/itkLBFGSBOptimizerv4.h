@@ -168,8 +168,7 @@ protected:
   friend class LBFGSBOptimizerHelperv4;
 
 private:
-  LBFGSBOptimizerv4(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizerv4);
 
   unsigned int m_MaximumNumberOfCorrections;
 

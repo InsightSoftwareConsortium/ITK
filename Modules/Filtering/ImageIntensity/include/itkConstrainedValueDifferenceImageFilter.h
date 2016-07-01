@@ -132,8 +132,7 @@ protected:
   virtual ~ConstrainedValueDifferenceImageFilter() {}
 
 private:
-  ConstrainedValueDifferenceImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConstrainedValueDifferenceImageFilter);
 };
 } // end namespace itk
 

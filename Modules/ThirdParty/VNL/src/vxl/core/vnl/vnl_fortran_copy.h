@@ -21,10 +21,12 @@
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
+
 //:  Convert row-stored matrix to column-stored.
 //  Convert C format (row-stored) matrix to fortran format (column-stored) matrix.
 template <class T>
-class vnl_fortran_copy
+class VNL_EXPORT vnl_fortran_copy
 {
  public:
   // Constructors/Destructors--------------------------------------------------

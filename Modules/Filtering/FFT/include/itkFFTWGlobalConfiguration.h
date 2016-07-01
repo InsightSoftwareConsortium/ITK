@@ -293,8 +293,7 @@ private:
    * the program exits. */
   itkFactorylessNewMacro(Self);
 
-  FFTWGlobalConfiguration(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTWGlobalConfiguration);
 
   static Pointer                m_Instance;
   static SimpleFastMutexLock    m_CreationLock;

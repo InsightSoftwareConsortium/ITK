@@ -237,8 +237,7 @@ protected:
   void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
-  STAPLEImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(STAPLEImageFilter);
 
   InputPixelType m_ForegroundValue;
   unsigned int   m_ElapsedIterations;

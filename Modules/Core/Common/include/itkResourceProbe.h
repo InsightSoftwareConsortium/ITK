@@ -109,6 +109,10 @@ public:
    *  of the probe. */
   virtual ValueType GetStandardDeviation();
 
+  /** Returns the standard deviation value changes between the starts and stops
+   *  of the probe. */
+  virtual ValueType GetStandardError();
+
   /** Set name of probe */
   virtual void SetNameOfProbe(const char* nameOfProbe);
 
@@ -119,22 +123,22 @@ public:
   virtual void PrintSystemInformation(std::ostream & os = std::cout);
 
   /** Print Probe Results. */
-  virtual void Report(std::ostream & os =std::cout, bool printSystemInfo = true,
-                      bool printReportHead = true);
+  virtual void Report(std::ostream & os = std::cout, bool printSystemInfo = true,
+                      bool printReportHead = true, bool useTabs = false);
 
   /** Print Probe Results. */
-  virtual void ExpandedReport(std::ostream & os =std::cout, bool printSystemInfo = true,
-                              bool printReportHead = true);
+  virtual void ExpandedReport(std::ostream & os = std::cout, bool printSystemInfo = true,
+                              bool printReportHead = true, bool useTabs = false);
 
 protected:
   /** Update the Min and Max values with an input value */
   virtual void UpdateMinimumMaximumMeasuredValue(ValueType value);
 
   /** Print Probe Results. */
-  virtual void PrintReportHead(std::ostream & os =std::cout);
+  virtual void PrintReportHead(std::ostream & os = std::cout, bool useTabs = false);
 
   /** Print Probe Results. */
-  virtual void PrintExpandedReportHead(std::ostream & os =std::cout);
+  virtual void PrintExpandedReportHead(std::ostream & os = std::cout, bool useTabs = false);
 
   /** Get System information */
   virtual void GetSystemInformation();
@@ -147,6 +151,7 @@ private:
   ValueType                  m_MaximumValue;
   MeanType                   m_MeanValue;
   ValueType                  m_StandardDeviation;
+  ValueType                  m_StandardError;
 
   CountType                  m_NumberOfStarts;
   CountType                  m_NumberOfStops;
@@ -164,7 +169,6 @@ private:
   float                      m_ProcessorClockFrequency;
   unsigned int               m_NumberOfPhysicalCPU;
   unsigned int               m_NumberOfLogicalCPU;
-  unsigned int               m_NumberOfAvailableCore;
   std::string                m_OSName;
   std::string                m_OSRelease;
   std::string                m_OSVersion;
@@ -176,7 +180,7 @@ private:
   size_t                     m_TotalPhysicalMemory;
   size_t                     m_AvailablePhysicalMemory;
 
-  static ITK_CONSTEXPR unsigned int  tabwidth  = 15;
+  static ITK_CONSTEXPR_VAR unsigned int  tabwidth  = 15;
 };
 } // end namespace itk
 

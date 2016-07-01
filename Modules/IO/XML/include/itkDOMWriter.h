@@ -122,8 +122,7 @@ protected:
   virtual void GenerateData( DOMNodeType* outputdom, const void* userdata ) const = 0;
 
 private:
-  DOMWriter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DOMWriter);
 
   /** Get/Set the intermediate DOM object. */
   itkSetObjectMacro( IntermediateDOM, DOMNodeType );

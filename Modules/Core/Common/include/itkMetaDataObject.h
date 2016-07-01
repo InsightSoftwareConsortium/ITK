@@ -126,8 +126,7 @@ protected:
   virtual ~MetaDataObject();
 
 private:
-  MetaDataObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObject);
 
   /**
    * A variable to store this derived type.

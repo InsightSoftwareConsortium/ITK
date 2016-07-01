@@ -87,8 +87,7 @@ protected:
   virtual void ThreadedComputeHistogram( const RegionType & inputRegionForThread, ThreadIdType threadId, ProgressReporter & progress ) ITK_OVERRIDE;
 
 private:
-  MaskedImageToHistogramFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MaskedImageToHistogramFilter);
 
 };
 } // end of namespace Statistics

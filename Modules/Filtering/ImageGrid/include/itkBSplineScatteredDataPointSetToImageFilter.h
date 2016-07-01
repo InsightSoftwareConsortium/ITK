@@ -351,8 +351,7 @@ protected:
 
 private:
 
-  BSplineScatteredDataPointSetToImageFilter( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineScatteredDataPointSetToImageFilter);
 
   /**
    * Function used to propagate the fitting solution at one fitting level

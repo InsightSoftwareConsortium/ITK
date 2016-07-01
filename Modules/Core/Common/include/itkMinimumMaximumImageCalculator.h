@@ -107,8 +107,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  MinimumMaximumImageCalculator(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumMaximumImageCalculator);
 
   PixelType         m_Minimum;
   PixelType         m_Maximum;

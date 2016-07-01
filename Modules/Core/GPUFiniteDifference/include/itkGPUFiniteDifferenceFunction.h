@@ -122,8 +122,7 @@ protected:
   int m_ComputeUpdateGPUKernelHandle;
 
 private:
-  GPUFiniteDifferenceFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUFiniteDifferenceFunction);
 
 };
 } // end namespace itk

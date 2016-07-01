@@ -90,8 +90,7 @@ public:
   virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
 protected:
-  ImageMaskSpatialObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
   ImageMaskSpatialObject();
   virtual ~ImageMaskSpatialObject();

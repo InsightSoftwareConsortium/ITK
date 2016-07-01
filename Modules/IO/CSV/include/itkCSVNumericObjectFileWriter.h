@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self,Superclass);
+  itkTypeMacro(CSVNumericObjectFileWriter, LightProcessObject);
 
   // Matrix types
   typedef vnl_matrix<TValue>                        vnlMatrixType;
@@ -125,8 +125,7 @@ private:
   StringVectorType          m_ColumnHeaders;
   StringVectorType          m_RowHeaders;
 
-  CSVNumericObjectFileWriter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CSVNumericObjectFileWriter);
 };
 
 } //end namespace itk

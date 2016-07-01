@@ -63,7 +63,8 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
   typedef itk::ScalarToRGBColormapImageFilter<ImageType, RGBImageType> RGBFilterType;
   RGBFilterType::Pointer rgbfilter = RGBFilterType::New();
 
-  rgbfilter->Print( std::cout );
+  EXERCISE_BASIC_OBJECT_METHODS( rgbfilter, ScalarToRGBColormapImageFilter,
+    ImageToImageFilter );
 
   rgbfilter->SetInput( reader->GetOutput() );
   vfilter->SetInput( reader->GetOutput() );
@@ -73,92 +74,72 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     rgbfilter->SetColormap( RGBFilterType::Red );
     vfilter->SetColormap( VectorFilterType::Red );
     }
-  else if ( colormapString == "green"  )
+  else if ( colormapString == "green" )
     {
     rgbfilter->SetColormap( RGBFilterType::Green );
     vfilter->SetColormap( VectorFilterType::Green );
     }
-  else if ( colormapString == "blue"  )
+  else if ( colormapString == "blue" )
     {
     rgbfilter->SetColormap( RGBFilterType::Blue );
     vfilter->SetColormap( VectorFilterType::Blue );
     }
-  else if ( colormapString == "grey"  )
+  else if ( colormapString == "grey" )
     {
     rgbfilter->SetColormap( RGBFilterType::Grey );
     vfilter->SetColormap( VectorFilterType::Grey );
     }
-  else if ( colormapString == "cool"  )
+  else if ( colormapString == "cool" )
     {
     rgbfilter->SetColormap( RGBFilterType::Cool );
     vfilter->SetColormap( VectorFilterType::Cool );
     }
-  else if ( colormapString == "hot"  )
+  else if ( colormapString == "hot" )
     {
     rgbfilter->SetColormap( RGBFilterType::Hot );
     vfilter->SetColormap( VectorFilterType::Hot );
     }
-  else if ( colormapString == "spring"  )
+  else if ( colormapString == "spring" )
     {
     rgbfilter->SetColormap( RGBFilterType::Spring );
     vfilter->SetColormap( VectorFilterType::Spring );
     }
-  else if ( colormapString == "autumn"  )
+  else if ( colormapString == "autumn" )
     {
     rgbfilter->SetColormap( RGBFilterType::Autumn );
     vfilter->SetColormap( VectorFilterType::Autumn );
     }
-  else if ( colormapString == "winter"  )
+  else if ( colormapString == "winter" )
     {
     rgbfilter->SetColormap( RGBFilterType::Winter );
     vfilter->SetColormap( VectorFilterType::Winter );
     }
-  else if ( colormapString == "copper"  )
+  else if ( colormapString == "copper" )
     {
     rgbfilter->SetColormap( RGBFilterType::Copper );
     vfilter->SetColormap( VectorFilterType::Copper );
     }
-  else if ( colormapString == "summer"  )
+  else if ( colormapString == "summer" )
     {
     rgbfilter->SetColormap( RGBFilterType::Summer );
     vfilter->SetColormap( VectorFilterType::Summer );
     }
-  else if ( colormapString == "jet"  )
+  else if ( colormapString == "jet" )
     {
-    typedef itk::Function::JetColormapFunction<
-      ImageType::PixelType, RGBImageType::PixelType> ColormapType;
-
-    ColormapType::Pointer colormap = ColormapType::New();
-
-    rgbfilter->SetColormap( colormap );
-
-    typedef itk::Function::JetColormapFunction<
-      ImageType::PixelType, VectorImageType::PixelType> VectorColormapType;
-
-    VectorColormapType::Pointer vcolormap = VectorColormapType::New();
-
-    vfilter->SetColormap( vcolormap );
+    rgbfilter->SetColormap( RGBFilterType::Jet );
+    vfilter->SetColormap( VectorFilterType::Jet );
     }
-  else if ( colormapString == "hsv"  )
+  else if ( colormapString == "hsv" )
     {
-    typedef itk::Function::HSVColormapFunction<
-      ImageType::PixelType, RGBImageType::PixelType> ColormapType;
-
-    ColormapType::Pointer colormap = ColormapType::New();
-    rgbfilter->SetColormap( colormap );
-
-    typedef itk::Function::HSVColormapFunction<
-      ImageType::PixelType, VectorImageType::PixelType> VectorColormapType;
-
-    VectorColormapType::Pointer vcolormap = VectorColormapType::New();
-    vfilter->SetColormap( vcolormap );
+    rgbfilter->SetColormap( RGBFilterType::HSV );
+    vfilter->SetColormap( VectorFilterType::HSV );
     }
-  else if ( colormapString == "overunder"  )
+  else if ( colormapString == "overunder" )
     {
     rgbfilter->SetColormap( RGBFilterType::OverUnder );
     vfilter->SetColormap( VectorFilterType::OverUnder );
     }
-  else if ( colormapString == "custom"  )
+  else if ( colormapString == "custom" )
     {
     typedef itk::Function::CustomColormapFunction<
       ImageType::PixelType, RGBImageType::PixelType> ColormapType;
@@ -174,7 +155,7 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     std::string line;
 
     float value;
-    ColormapType::ChannelType       channel;
+    ColormapType::ChannelType channel;
 
     // Get red values
     std::getline( str, line );
@@ -195,7 +176,6 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
       }
     colormap->SetGreenChannel( channel );
     vcolormap->SetGreenChannel( channel );
-
 
     // Get blue values
     std::getline( str, line );
@@ -234,7 +214,6 @@ int itkScalarToRGBColormapImageFilterTest( int argc, char *argv[] )
     {
     return EXIT_FAILURE;
     }
-
 
   typedef itk::ImageFileWriter<RGBImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();

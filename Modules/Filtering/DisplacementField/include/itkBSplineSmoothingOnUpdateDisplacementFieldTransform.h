@@ -188,8 +188,7 @@ protected:
    DisplacementFieldPointer BSplineSmoothDisplacementField( const DisplacementFieldType *, const ArrayType & );
 
 private:
-  BSplineSmoothingOnUpdateDisplacementFieldTransform( const Self& ) ITK_DELETE_FUNCTION;
-  void operator=( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineSmoothingOnUpdateDisplacementFieldTransform);
 
   SplineOrderType             m_SplineOrder;
   bool                        m_EnforceStationaryBoundary;

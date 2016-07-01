@@ -114,8 +114,7 @@ protected:
   RealType m_Variance;
 
 private:
-  GaussianRandomSpatialNeighborSubsampler(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianRandomSpatialNeighborSubsampler);
 
 }; // end of class GaussianRandomSpatialNeighborSubsampler
 

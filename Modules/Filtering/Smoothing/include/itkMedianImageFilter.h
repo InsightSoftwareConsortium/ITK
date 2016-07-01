@@ -113,8 +113,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  MedianImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MedianImageFilter);
 };
 } // end namespace itk
 

@@ -152,7 +152,7 @@ public:
     jacobian.Fill(1);
   }
 
-  inline virtual void ComputeJacobianWithRespectToPosition(
+  virtual void ComputeJacobianWithRespectToPosition(
     const InputPointType &,
     JacobianType & jacobian ) const ITK_OVERRIDE
   {

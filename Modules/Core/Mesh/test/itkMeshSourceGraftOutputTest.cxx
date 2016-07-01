@@ -67,8 +67,7 @@ protected:
   typename TransformType::Pointer   m_Transform;
 
 private:
-  MeshSourceGraftOutputFilter(const MeshSourceGraftOutputFilter&) ITK_DELETE_FUNCTION;
-  void operator=(const MeshSourceGraftOutputFilter&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshSourceGraftOutputFilter);
 
 };
 

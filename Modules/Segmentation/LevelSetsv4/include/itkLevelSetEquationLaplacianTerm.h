@@ -124,8 +124,7 @@ protected:
                                         const LevelSetDataType& iData ) ITK_OVERRIDE;
 
 private:
-  LevelSetEquationLaplacianTerm( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationLaplacianTerm);
 };
 
 }

@@ -92,9 +92,9 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual inline OutputType EvaluateAtContinuousIndex(const
-                                                      ContinuousIndexType &
-                                                      index) const ITK_OVERRIDE
+  virtual OutputType EvaluateAtContinuousIndex(const
+                                                ContinuousIndexType &
+                                                index) const ITK_OVERRIDE
   {
     return this->EvaluateOptimized(Dispatch< ImageDimension >(), index);
   }
@@ -105,8 +105,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  LinearInterpolateImageFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LinearInterpolateImageFunction);
 
   /** Number of neighbors used in the interpolation */
   static const unsigned long m_Neighbors;

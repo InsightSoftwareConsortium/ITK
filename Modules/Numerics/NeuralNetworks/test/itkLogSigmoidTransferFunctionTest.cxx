@@ -60,8 +60,6 @@ public:
     TEST_EXPECT_EQUAL( expectedVal, val );
     TEST_EXPECT_EQUAL( expectedDerivVal, deriv );
 
-    logSigmoidTF->Print(std::cout);
-
     std::cout << "Test succeeded." << std::endl;
     return EXIT_SUCCESS;
 
@@ -71,11 +69,21 @@ protected:
 
 };
 
-}
-}
+} // end namespace Statistics
+} // end namespace itk
 
 int itkLogSigmoidTransferFunctionTest( int itkNotUsed(argc), char* itkNotUsed(argv)[] )
 {
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  typedef itk::Statistics::LogSigmoidTransferFunction<unsigned char> LogSigmoidTFType;
+  LogSigmoidTFType::Pointer logSigmoidTF = LogSigmoidTFType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( logSigmoidTF, LogSigmoidTransferFunction,
+    TransferFunctionBase);
+
 
   typedef int ScalarType;
 

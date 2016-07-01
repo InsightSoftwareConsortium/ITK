@@ -972,6 +972,6 @@ vnl_sparse_matrix<T> vnl_sparse_matrix<T>::conjugate_transpose() const
 }
 
 #define VNL_SPARSE_MATRIX_INSTANTIATE(T) \
-template class vnl_sparse_matrix<T >
+template class VNL_EXPORT vnl_sparse_matrix<T >
 
 #endif // vnl_sparse_matrix_hxx_

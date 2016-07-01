@@ -53,19 +53,20 @@ public:
 
   /** Report the summary of results from all probes */
   virtual void Report(std::ostream & os = std::cout,bool printSystemInfo = true,
-                      bool printReportHead = true);
+                      bool printReportHead = true, bool useTabs = false);
 
   /** Report the summary of results from a specific probe */
   virtual void Report(const char *name, std::ostream & os = std::cout,
-                      bool printSystemInfo = true, bool printReportHead = true);
+                      bool printSystemInfo = true, bool printReportHead = true,
+                      bool useTabs = false);
 
   /** Expanded report the summary of results from all  probes */
   virtual void ExpandedReport(std::ostream & os = std::cout,bool printSystemInfo = true,
-                              bool printReportHead = true);
+                              bool printReportHead = true, bool useTabs = false);
 
   /** Expanded report the summary of results from a specific probes */
   virtual void ExpandedReport(const char *name, std::ostream & os = std::cout,
-                              bool printSystemInfo = true, bool printReportHead = true);
+                              bool printSystemInfo = true, bool printReportHead = true, bool useTabs = false);
 
   /** Destroy the set of probes. New probes can be created after invoking this
     method. */

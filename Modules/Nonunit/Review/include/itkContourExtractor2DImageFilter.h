@@ -199,8 +199,7 @@ private:
 
   void FillOutputs();
 
-  ContourExtractor2DImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ContourExtractor2DImageFilter);
 
   InputRealType   m_ContourValue;
   bool            m_ReverseContourOrientation;

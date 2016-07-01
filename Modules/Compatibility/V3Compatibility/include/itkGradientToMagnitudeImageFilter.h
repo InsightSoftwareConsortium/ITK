@@ -79,8 +79,7 @@ protected:
   virtual ~GradientToMagnitudeImageFilter() {}
 
 private:
-  GradientToMagnitudeImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GradientToMagnitudeImageFilter);
 };
 } // end namespace itk
 

@@ -7,11 +7,11 @@
 // \author Amitha Perera
 // \date   27 May 2001
 //
-// To mark a function as deprecated, use the macro VXL_DEPRECATED as
+// To mark a function as deprecated, use the macro VXL_DEPRECATED_MACRO as
 // the first line of that function:
 // \code
 //    void a::f() {
-//       VXL_DEPRECATED( "a::f()" );
+//       VXL_DEPRECATED_MACRO( "a::f()" );
 //       ...
 //    }
 // \endcode
@@ -30,13 +30,13 @@
 // a debugger!
 
 #ifdef VXL_WARN_DEPRECATED
-  void vcl_deprecated_warn( const char* func_name );
-  void vcl_deprecated_abort( const char* func_name );
   #ifdef VXL_WARN_DEPRECATED_ABORT
-    #define VXL_DEPRECATED(f) vcl_deprecated_abort( f )
+    void vcl_deprecated_abort( const char* func_name );
+    #define VXL_DEPRECATED_MACRO(f) vcl_deprecated_abort( f )
   #else
+    void vcl_deprecated_warn( const char* func_name );
     #ifdef VXL_WARN_DEPRECATED_ONCE
-      #define VXL_DEPRECATED(f) \
+      #define VXL_DEPRECATED_MACRO(f) \
         do { \
             static bool vcl_deprecated_flag = true; \
             if( vcl_deprecated_flag ) { \
@@ -45,11 +45,11 @@
             } \
         } while (0)
     #else
-      #define VXL_DEPRECATED(f) vcl_deprecated_warn( f )
+      #define VXL_DEPRECATED_MACRO(f) vcl_deprecated_warn( f )
     #endif
   #endif
 #else
-  #define VXL_DEPRECATED(f) /* suppress deprecation warning */
+  #define VXL_DEPRECATED_MACRO(f) /* suppress deprecation warning */
 #endif
 
 #endif

@@ -107,8 +107,7 @@ protected:
   void ComputeSampleStepScales(const ParametersType &step, ScalesType &sampleScales);
 
 private:
-  RegistrationParameterScalesFromJacobian(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesFromJacobian);
 
 }; //class RegistrationParameterScalesFromJacobian
 

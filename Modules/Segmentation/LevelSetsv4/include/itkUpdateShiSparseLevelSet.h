@@ -136,8 +136,7 @@ protected:
             const LevelSetOutputRealType& currentUpdate ) const;
 
 private:
-  UpdateShiSparseLevelSet( const Self& ) ITK_DELETE_FUNCTION;
-  void operator=( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(UpdateShiSparseLevelSet);
 
   // input
   LevelSetPointer    m_InputLevelSet;

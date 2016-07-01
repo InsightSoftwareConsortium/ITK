@@ -178,8 +178,7 @@ protected:
   virtual void PostProcessOutput() ITK_OVERRIDE;
 
 private:
-  ImplicitManifoldNormalVectorFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImplicitManifoldNormalVectorFilter);
 
   /** The finite difference function. */
   NormalFunctionType *m_NormalFunction;

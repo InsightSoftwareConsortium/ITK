@@ -102,8 +102,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  StochasticFractalDimensionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(StochasticFractalDimensionImageFilter);
 
   RadiusType m_NeighborhoodRadius;
 

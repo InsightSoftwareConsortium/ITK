@@ -58,7 +58,6 @@ MIRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
   this->SetFixedImage(ITK_NULLPTR);
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
-  m_DoInverse = true;
   m_DoInverse = false;
 
   if ( m_DoInverse )

@@ -127,8 +127,7 @@ protected:
   ~DisplacementFieldTransformParametersAdaptor();
 
 private:
-  DisplacementFieldTransformParametersAdaptor( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DisplacementFieldTransformParametersAdaptor);
 
 }; //class DisplacementFieldTransformParametersAdaptor
 }  // namespace itk

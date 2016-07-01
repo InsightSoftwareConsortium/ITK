@@ -22,12 +22,13 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
 
 //: Code to perform MATLAB binary file operations
 //    vnl_matlab_filewrite is a collection of I/O functions for reading/writing
 //    matrices in the compact MATLAB binary format (.mat)
 
-class vnl_matlab_filewrite
+class VNL_EXPORT vnl_matlab_filewrite
 {
  public:
   vnl_matlab_filewrite (char const* file_name, char const *basename = VXL_NULLPTR);

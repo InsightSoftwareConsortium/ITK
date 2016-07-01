@@ -102,7 +102,7 @@ public:
   /** Where does the path end?  This value is necessary for IncrementInput() to
    * know how to go to the end of a path.  Since each line segment covers one
    * unit of input, this is the number of verticies - 1. */
-  virtual inline InputType EndOfInput() const ITK_OVERRIDE
+  virtual InputType EndOfInput() const ITK_OVERRIDE
   {
     return m_VertexList->Size() - 1;
   }
@@ -136,8 +136,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  PolyLineParametricPath(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolyLineParametricPath);
 
   VertexListPointer m_VertexList;
 };

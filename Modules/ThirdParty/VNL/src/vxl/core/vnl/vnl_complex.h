@@ -24,6 +24,7 @@
 #include <iosfwd>
 #include <vcl_compiler.h>
 #include <vnl/vnl_math.h>
+#include "vnl/vnl_export.h"
 
 namespace vnl_math
 {

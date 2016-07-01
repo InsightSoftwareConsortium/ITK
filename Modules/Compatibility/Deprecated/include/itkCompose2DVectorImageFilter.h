@@ -110,8 +110,7 @@ protected:
   virtual ~Compose2DVectorImageFilter() {}
 
 private:
-  Compose2DVectorImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Compose2DVectorImageFilter);
 };
 } // end namespace itk
 

@@ -68,6 +68,9 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( BSplineControlPointImageFunction, ImageFunction );
+
   /** Extract dimension from input image. */
   itkStaticConstMacro( ImageDimension, unsigned int, TInputImage::ImageDimension );
 
@@ -269,8 +272,7 @@ protected:
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  BSplineControlPointImageFunction( const Self& ) ITK_DELETE_FUNCTION;
-  void operator=( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineControlPointImageFunction);
 
   /** Parameters for the B-spline object domain */
   SizeType                                     m_Size;

@@ -146,8 +146,10 @@ ClampImageFilter< TInputImage, TOutputImage >
   {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Lower bound: " << this->GetLowerBound() << std::endl;
-  os << indent << "Upper bound: " << this->GetUpperBound() << std::endl;
+  os << indent << "Lower bound: "
+    << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->GetLowerBound() ) << std::endl;
+  os << indent << "Upper bound: "
+    << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( this->GetUpperBound() ) << std::endl;
   }
 }
 

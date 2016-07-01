@@ -21,7 +21,7 @@ doublereal urand_(integer *iy)
     /* Initialized data */
 
     static integer m2 = 0; /* constant */
-    static integer itwo = 2; /* constant */
+    //UNUSED VAR static integer itwo = 2; /* constant */
 
     /* System generated locals */
     real ret_val;

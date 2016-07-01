@@ -16,6 +16,7 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_c_vector.h>
+#include "vnl/vnl_export.h"
 
 VCL_TEMPLATE_EXPORT template <class T> class vnl_sym_matrix;
 
@@ -24,7 +25,7 @@ VCL_TEMPLATE_EXPORT template <class T> class vnl_sym_matrix;
 //  Specifically, only the diagonal and lower triangular elements are stored.
 
 template <class T>
-class vnl_sym_matrix
+class VNL_EXPORT vnl_sym_matrix
 {
  public:
   //: Construct an empty symmetric matrix.
@@ -51,45 +52,43 @@ class vnl_sym_matrix
   //: Copy constructor
   inline vnl_sym_matrix(vnl_sym_matrix<T> const& that);
 
-  ~vnl_sym_matrix()
-  { vnl_c_vector<T>::deallocate(data_, size());
-    vnl_c_vector<T>::deallocate(index_, nn_);}
+  ~vnl_sym_matrix();
 
   vnl_sym_matrix<T>& operator=(vnl_sym_matrix<T> const& that);
 
   // Operations----------------------------------------------------------------
 
   //: In-place arithmetic operations
-  vnl_sym_matrix<T>& operator*=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), v); return *this; }
+  inline vnl_sym_matrix<T>& operator*=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), v); return *this; }
   //: In-place arithmetic operations
-  vnl_sym_matrix<T>& operator/=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), ((T)1)/v); return *this; }
+  inline vnl_sym_matrix<T>& operator/=(T v) { vnl_c_vector<T>::scale(data_, data_, size(), ((T)1)/v); return *this; }
 
 
   // Data Access---------------------------------------------------------------
 
-  T operator () (unsigned i, unsigned j) const {
+  inline T operator () (unsigned i, unsigned j) const {
     return (i > j) ? index_[i][j] : index_[j][i];
   }
 
-  T& operator () (unsigned i, unsigned j) {
+  inline T& operator () (unsigned i, unsigned j) {
     return (i > j) ? index_[i][j] : index_[j][i];
   }
 
   //: Access a half-row of data.
   // Only the first i+1 values from this pointer are valid.
-  const T* operator [] (unsigned i) const {
+  inline const T* operator [] (unsigned i) const {
     assert (i < nn_);
     return index_[i];
   }
 
   //: fast access, however i >= j
-  T fast (unsigned i, unsigned j) const {
+  inline T fast (unsigned i, unsigned j) const {
     assert (i >= j);
     return index_[i][j];
   }
 
   //: fast access, however i >= j
-  T& fast (unsigned i, unsigned j) {
+  inline T& fast (unsigned i, unsigned j) {
     assert (i >= j);
     return index_[i][j];
   }
@@ -170,10 +169,7 @@ class vnl_sym_matrix
 
  protected:
 //: Set up the index array
-  inline void setup_index() {
-    T * data = data_;
-    for (unsigned i=0; i< nn_; ++i) { index_[i] = data; data += i+1; }
-  }
+  void setup_index();
 
   T* data_;
   T** index_;
@@ -182,7 +178,7 @@ class vnl_sym_matrix
 
 //:
 // \relatesalso vnl_sym_matrix
-template <class T> std::ostream& operator<< (std::ostream&, vnl_sym_matrix<T> const&);
+template <class T> VNL_EXPORT std::ostream& operator<< (std::ostream&, vnl_sym_matrix<T> const&);
 
 
 template <class T>
@@ -249,8 +245,8 @@ inline void vnl_sym_matrix<T>::set_size(int n)
 {
   if (n == (int)nn_) return;
 
-  vnl_c_vector<T>::deallocate(data_, size());
-  vnl_c_vector<T>::deallocate(index_, nn_);
+  vnl_c_vector<T>::deallocate(data_, static_cast<std::size_t>(size()));
+  vnl_c_vector<T>::deallocate(index_, static_cast<std::size_t>( nn_));
 
   nn_ = n;
   data_ = vnl_c_vector<T>::allocate_T(size());
@@ -259,20 +255,19 @@ inline void vnl_sym_matrix<T>::set_size(int n)
   setup_index();
 }
 
-template <class T>
+template <class T> VNL_EXPORT
 bool operator==(const vnl_sym_matrix<T> &a, const vnl_sym_matrix<T> &b);
 
-template <class T>
+template <class T> VNL_EXPORT
 bool operator==(const vnl_sym_matrix<T> &a, const vnl_matrix<T> &b);
 
-template <class T>
+template <class T> VNL_EXPORT
 bool operator==(const vnl_matrix<T> &a, const vnl_sym_matrix<T> &b);
 
 //: Swap the contents of a and b.
 // \relatesalso vnl_sym_matrix
-template <class T>
+template <class T> VNL_EXPORT
 void swap(vnl_sym_matrix<T> &a, vnl_sym_matrix<T> &b)
 { a.swap(b); }
-
 
 #endif // vnl_sym_matrix_h_

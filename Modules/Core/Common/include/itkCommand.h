@@ -66,8 +66,7 @@ protected:
   ~Command();
 
 private:
-  Command(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Command);
 };
 
 // some implementations for several callback types
@@ -148,8 +147,7 @@ protected:
   virtual ~MemberCommand(){}
 
 private:
-  MemberCommand(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MemberCommand);
 };
 
 /** \class ReceptorMemberCommand
@@ -217,8 +215,7 @@ protected:
   virtual ~ReceptorMemberCommand() {}
 
 private:
-  ReceptorMemberCommand(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReceptorMemberCommand);
 };
 
 /** \class SimpleMemberCommand
@@ -284,8 +281,7 @@ protected:
   virtual ~SimpleMemberCommand() {}
 
 private:
-  SimpleMemberCommand(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleMemberCommand);
 };
 
 /** \class SimpleConstMemberCommand
@@ -351,8 +347,7 @@ protected:
   virtual ~SimpleConstMemberCommand() {}
 
 private:
-  SimpleConstMemberCommand(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleConstMemberCommand);
 };
 
 /** \class CStyleCommand

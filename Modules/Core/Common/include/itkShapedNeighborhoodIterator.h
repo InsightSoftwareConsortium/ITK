@@ -262,7 +262,7 @@ public:
 protected:
 
   /** Copy constructor */
-  ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o) ITK_DELETE_FUNCTION;
+  ShapedNeighborhoodIterator(const ShapedNeighborhoodIterator & o) ITK_DELETED_FUNCTION;
 
   typedef typename Superclass::NeighborIndexType NeighborIndexType;
 

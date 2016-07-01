@@ -102,7 +102,7 @@ public:
     }
 
   /** Where does the path end (what is the last valid input value)? */
-  virtual inline InputType EndOfInput() const ITK_OVERRIDE
+  virtual InputType EndOfInput() const ITK_OVERRIDE
     {
     return static_cast<InputType>( this->NumberOfSteps() );  // 0 is before the first step, 1 is after it
     }
@@ -153,8 +153,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  HilbertPath( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(HilbertPath);
 
   void ConstructHilbertPath();
 

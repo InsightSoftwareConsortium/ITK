@@ -96,8 +96,7 @@ protected:
   InputImagePixelType m_Boundary2;
 
 private:
-  AnchorOpenCloseImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnchorOpenCloseImageFilter);
 
   typedef BresenhamLine< itkGetStaticConstMacro(InputImageDimension) > BresType;
   typedef typename BresType::OffsetArray                               BresOffsetArray;

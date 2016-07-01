@@ -93,8 +93,7 @@ protected:
   {  Superclass::PrintSelf(os, indent);   }
 
 private:
-  VectorCurvatureNDAnisotropicDiffusionFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCurvatureNDAnisotropicDiffusionFunction);
 
   /** Inner product function. */
   VectorNeighborhoodInnerProduct< ImageType > m_InnerProduct;

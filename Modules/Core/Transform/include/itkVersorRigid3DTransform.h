@@ -131,8 +131,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  VersorRigid3DTransform(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransform);
 
 };                                      // class VersorRigid3DTransform
 }  // namespace itk

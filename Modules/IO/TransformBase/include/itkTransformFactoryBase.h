@@ -79,8 +79,7 @@ protected:
   virtual ~TransformFactoryBase();
 
 private:
-  TransformFactoryBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformFactoryBase);
 
   // Sub private functions of RegisterDefaultTransforms
   static void RegisterTransformFactoryDoubleParameters();

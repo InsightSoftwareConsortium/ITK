@@ -145,8 +145,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
-  ContourMeanDistanceImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ContourMeanDistanceImageFilter);
 
   RealType  m_MeanDistance;
   bool      m_UseImageSpacing;

@@ -106,8 +106,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  MeanImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeanImageFilter);
 };
 } // end namespace itk
 

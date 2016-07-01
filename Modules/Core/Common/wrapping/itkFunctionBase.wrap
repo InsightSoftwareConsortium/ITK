@@ -1,7 +1,7 @@
 itk_wrap_class("itk::FunctionBase" POINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
 
-     if(ITK_WRAP_float)
+    if(ITK_WRAP_float)
       itk_wrap_template("${ITKM_IF${d}}${ITKM_D}" "${ITKT_IF${d}},${ITKT_D}")
     endif(ITK_WRAP_float)
     if(ITK_WRAP_unsigned_short)
@@ -25,5 +25,7 @@ itk_wrap_class("itk::FunctionBase" POINTER)
 
   endforeach()
 
-  itk_wrap_template("${ITKM_D}${ITKM_D}"     "${ITKT_D},${ITKT_D}")
+  foreach(r ${WRAP_ITK_REAL})
+    itk_wrap_template("${ITKM_${r}}${ITKM_${r}}"     "${ITKT_${r}},${ITKT_${r}}")
+  endforeach()
 itk_end_wrap_class()

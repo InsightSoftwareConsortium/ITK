@@ -23,15 +23,16 @@
 #include <cmath>
 #include <vcl_compiler.h>
 #include <vnl/vnl_numeric_traits.h>
+#include "vnl/vnl_export.h"
 
 // avoid messing about with aux_* functions for gcc 2.7 -- fsm
-template <class T, class S> void vnl_c_na_vector_one_norm(T const *p, unsigned n, S *out);
-template <class T, class S> void vnl_c_na_vector_two_norm(T const *p, unsigned n, S *out);
-template <class T, class S> void vnl_c_na_vector_two_norm_squared(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_na_vector_one_norm(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_na_vector_two_norm(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_na_vector_two_norm_squared(T const *p, unsigned n, S *out);
 
 //: vnl_c_na_vector interfaces to NA-aware lowlevel memory-block operations.
 VCL_TEMPLATE_EXPORT template <class T>
-class vnl_c_na_vector
+class VNL_EXPORT vnl_c_na_vector
 {
  public:
   typedef typename vnl_numeric_traits<T>::abs_t abs_t;
@@ -58,7 +59,7 @@ class vnl_c_na_vector
 
 //: Input & output
 // \relatesalso vnl_c_na_vector
-template <class T>
+template <class T> VNL_EXPORT
 std::ostream& print_na_vector(std::ostream&, T const*, unsigned);
 
 #endif // vnl_c_na_vector_h_
