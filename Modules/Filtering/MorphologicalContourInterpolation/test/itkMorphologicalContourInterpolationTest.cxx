@@ -43,11 +43,11 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
 
   typedef RLEImage<typename ImageType::PixelType, ImageType::ImageDimension> myRLEImage;
   typedef itk::RegionOfInterestImageFilter<ImageType, myRLEImage>            inConverterType;
-  inConverterType::Pointer                                                   inConv = inConverterType::New();
+  typename inConverterType::Pointer                                          inConv = inConverterType::New();
   inConv->SetInput(reader->GetOutput());
   inConv->SetRegionOfInterest(reader->GetOutput()->GetLargestPossibleRegion());
   inConv->Update();
-  myRLEImage::Pointer test = inConv->GetOutput();
+  typename myRLEImage::Pointer test = inConv->GetOutput();
 
   typedef itk::MorphologicalContourInterpolator<myRLEImage> mciType;
   typename mciType::Pointer                                 mci = mciType::New();
@@ -79,7 +79,7 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   // mci2->Update();
 
   typedef itk::RegionOfInterestImageFilter<myRLEImage, ImageType> outConverterType;
-  outConverterType::Pointer                                       outConv = outConverterType::New();
+  typename outConverterType::Pointer                              outConv = outConverterType::New();
   outConv->SetInput(mci->GetOutput());
   outConv->SetRegionOfInterest(mci->GetOutput()->GetLargestPossibleRegion());
   outConv->Update();
