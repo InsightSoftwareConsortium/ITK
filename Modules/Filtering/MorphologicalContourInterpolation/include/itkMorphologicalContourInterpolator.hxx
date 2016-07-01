@@ -921,23 +921,26 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   ImageRegionConstIterator<BoolSliceType> seqIt(median, newRegion);
   ImageRegionIterator<TImage>             outIt(out, outRegion);
   ImageRegionIterator<SliceType>          midIt(midConn, newRegion);
-  static SimpleFastMutexLock              mutex;
+
+  // writing through one RLEImage iterator invalidates all the others
+  // so this whole writing loop needs to be serialized
+  static SimpleFastMutexLock mutex;
+  mutex.Lock();
   while (!outIt.IsAtEnd())
   {
     if (seqIt.Get())
     {
-      mutex.Lock();
       if (outIt.Get() < label)
       {
         outIt.Set(label);
       }
-      mutex.Unlock();
       midIt.Set(1);
     }
     ++seqIt;
     ++outIt;
     ++midIt;
   }
+  mutex.Unlock();
   WriteDebug(midConn, "C:\\midConn.nrrd");
 
   // recurse if needed
