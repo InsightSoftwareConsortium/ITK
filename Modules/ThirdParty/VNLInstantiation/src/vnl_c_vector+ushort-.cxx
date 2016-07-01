@@ -21,4 +21,5 @@
 #else
 #include "vnl/vnl_c_vector.hxx"
 #endif
+#include "vnl_export_override.h"
 VNL_C_VECTOR_INSTANTIATE_ordered(unsigned short);

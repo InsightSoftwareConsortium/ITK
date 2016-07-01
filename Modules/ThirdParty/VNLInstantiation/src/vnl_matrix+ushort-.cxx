@@ -16,4 +16,5 @@
  *
  *=========================================================================*/
 #include "vnl/vnl_matrix.hxx"
+#include "vnl_export_override.h"
 VNL_MATRIX_INSTANTIATE(unsigned short);
