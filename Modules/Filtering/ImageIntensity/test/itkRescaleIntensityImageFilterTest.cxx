@@ -23,7 +23,7 @@
 #include "itkTestingMacros.h"
 #include "itkUnaryFunctorImageFilter.h"
 
-int itkRescaleIntensityImageFilterTest(int, char* [] )
+int itkRescaleIntensityImageFilterTest( int, char* [] )
 {
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 
