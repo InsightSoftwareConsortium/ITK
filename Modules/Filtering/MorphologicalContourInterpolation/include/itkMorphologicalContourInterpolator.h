@@ -188,9 +188,9 @@ protected:
   bool                       m_UseDistanceTransform;
   bool                       m_UseBallStructuringElement;
   bool                       m_UseCustomSlicePositions;
-  bool                       m_StopSpawning;  // stop spawning new threads
   IdentifierType             m_MinAlignIters; // minimum number of iterations in align method
   IdentifierType             m_MaxAlignIters; // maximum number of iterations in align method
+  IdentifierType             m_ThreadCount;   // for thread local instances
 
   /** Derived image typedefs. */
   typedef Image<bool, TImage::ImageDimension>      BoolImageType;
@@ -220,7 +220,8 @@ protected:
                         typename TImage::IndexValueType i,
                         typename TImage::IndexValueType j,
                         typename SliceType::Pointer     iconn,
-                        typename SliceType::Pointer     jconn);
+                        typename SliceType::Pointer     jconn,
+                        ThreadIdType                    threadId);
 
   /** If interpolation is done along more than one axis,
   the interpolations are merged using a modified "or" rule:
@@ -238,29 +239,34 @@ protected:
               typename TImage::IndexValueType i,
               typename TImage::IndexValueType j,
               typename SliceType::Pointer     iConn,
-              typename TImage::PixelType      iRegionId);
+              typename TImage::PixelType      iRegionId,
+              ThreadIdType                    threadId);
 
 
   /** Creates a signed distance field image. */
   typename FloatSliceType::Pointer
-  MaurerDM(typename BoolSliceType::Pointer inImage);
+  MaurerDM(typename BoolSliceType::Pointer inImage, ThreadIdType threadId);
 
   /** A sequence of conditional dilations starting with begin and reaching end.
   begin and end must cover the same region (size and index the same) */
   std::vector<typename BoolSliceType::Pointer>
-  GenerateDilationSequence(typename BoolSliceType::Pointer begin, typename BoolSliceType::Pointer end);
+  GenerateDilationSequence(typename BoolSliceType::Pointer begin,
+                           typename BoolSliceType::Pointer end,
+                           ThreadIdType                    threadId);
 
   /** Finds an interpolating mask for these two aligned masks */
   typename BoolSliceType::Pointer
   FindMedianImageDilations(typename BoolSliceType::Pointer intersection,
                            typename BoolSliceType::Pointer iMask,
-                           typename BoolSliceType::Pointer jMask);
+                           typename BoolSliceType::Pointer jMask,
+                           ThreadIdType                    threadId);
 
   /** Finds an interpolating mask for these two aligned masks */
   typename BoolSliceType::Pointer
   FindMedianImageDistances(typename BoolSliceType::Pointer intersection,
                            typename BoolSliceType::Pointer iMask,
-                           typename BoolSliceType::Pointer jMask);
+                           typename BoolSliceType::Pointer jMask,
+                           ThreadIdType                    threadId);
 
   /** Build transition sequence and pick the median */
   void
@@ -274,7 +280,8 @@ protected:
                   typename SliceType::Pointer     jConn,
                   typename TImage::PixelType      jRegionId,
                   typename SliceType::IndexType   translation,
-                  bool                            recursive);
+                  bool                            recursive,
+                  ThreadIdType                    threadId);
 
   typedef std::vector<typename TImage::PixelType> PixelList;
 
@@ -289,7 +296,8 @@ protected:
                   typename TImage::PixelType      iRegionId,
                   typename SliceType::Pointer     jConn,
                   PixelList                       jRegionIds,
-                  typename SliceType::IndexType   translation);
+                  typename SliceType::IndexType   translation,
+                  ThreadIdType                    threadId);
 
   /** Crates a translated copy of part of the image which fits in the newRegion. */
   typename SliceType::Pointer
@@ -366,7 +374,7 @@ protected:
 
   /** Seed and mask must cover the same region (size and index the same). */
   typename BoolSliceType::Pointer
-  Dilate1(typename BoolSliceType::Pointer seed, typename BoolSliceType::Pointer mask);
+  Dilate1(typename BoolSliceType::Pointer seed, typename BoolSliceType::Pointer mask, ThreadIdType threadId);
 
   typedef ExtractImageFilter<TImage, SliceType> RoiType;
   typename RoiType::Pointer                     m_RoI;
