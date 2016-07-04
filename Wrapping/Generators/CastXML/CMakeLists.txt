@@ -288,7 +288,7 @@ macro(itk_wrap_module_castxml library_name)
 
   set(c)
   foreach(dir ${include_dir_list})
-    set(c "${c}-I${dir}\n")
+    set(c "${c}\"-I${dir}\"\n")
   endforeach()
   set(c "${c}-Qunused-arguments\n")
   set(c "${c}-DITK_WRAPPING_PARSER\n")
