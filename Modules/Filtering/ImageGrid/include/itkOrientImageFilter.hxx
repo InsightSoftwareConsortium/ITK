@@ -32,8 +32,8 @@ OrientImageFilter< TInputImage, TOutputImage >
 ::OrientImageFilter():
   m_GivenCoordinateOrientation  (SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP),
   m_DesiredCoordinateOrientation(SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP),
-  m_UseImageDirection (false)
-
+  m_UseImageDirection (false),
+  m_FlipAxes(false)
 {
   // Map between axis string labels and SpatialOrientation
   m_StringToCode["RIP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
@@ -134,6 +134,11 @@ OrientImageFilter< TInputImage, TOutputImage >
   m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL] = "PSL";
   m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL] = "AIL";
   m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL] = "ASL";
+
+  for( unsigned int dimension = 0; dimension < InputImageDimension; ++dimension )
+    {
+    this->m_PermuteOrder[dimension] = dimension;
+    }
 }
 
 template< typename TInputImage, typename TOutputImage >
