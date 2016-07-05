@@ -233,23 +233,16 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Check whether the input or the output is a
   // SpecialCoordinatesImage.  If either are, then we cannot use the
   // fast path since index mapping will definitely not be linear.
-  typedef SpecialCoordinatesImage< PixelType, ImageDimension >
-  OutputSpecialCoordinatesImageType;
-  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension >
-  InputSpecialCoordinatesImageType;
+  typedef SpecialCoordinatesImage< PixelType, ImageDimension >           OutputSpecialCoordinatesImageType;
+  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
 
-  if ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
-       || dynamic_cast< const OutputSpecialCoordinatesImageType * >
-       ( this->GetOutput() ) )
-    {
-    this->NonlinearThreadedGenerateData(outputRegionForThread, threadId);
-    return;
-    }
+  const bool isSpecialCoordinatesImage = ( dynamic_cast< const InputSpecialCoordinatesImageType * >( this->GetInput() )
+       || dynamic_cast< const OutputSpecialCoordinatesImageType * >( this->GetOutput() ) );
 
   // Check whether we can use a fast path for resampling. Fast path
   // can be used if the transformation is linear. Transform respond
   // to the IsLinear() call.
-  if ( this->GetTransform()->GetTransformCategory() == TransformType::Linear )
+  if ( !isSpecialCoordinatesImage && this->GetTransform()->GetTransformCategory() == TransformType::Linear )
     {
     this->LinearThreadedGenerateData(outputRegionForThread, threadId);
     return;
@@ -320,6 +313,11 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
   // Get this input pointers
   const InputImageType *inputPtr = this->GetInput();
 
+  // Honor the SpecialCoordinatesImage isInside value returned
+  // by TransformPhysicalPointToContinuousIndex
+  typedef SpecialCoordinatesImage< InputPixelType, InputImageDimension > InputSpecialCoordinatesImageType;
+  const bool isSpecialCoordinatesImage = dynamic_cast< const InputSpecialCoordinatesImageType * >( inputPtr );
+
   // Get the input transform
   const TransformType *transformPtr = this->GetTransform();
 
@@ -359,12 +357,12 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
 
     // Compute corresponding input pixel position
     inputPoint = transformPtr->TransformPoint(outputPoint);
-    inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
+    const bool isInsideInput = inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
     PixelType  pixval;
     OutputType value;
     // Evaluate input at right position and copy to the output
-    if ( m_Interpolator->IsInsideBuffer(inputIndex) )
+    if( m_Interpolator->IsInsideBuffer(inputIndex) && ( !isSpecialCoordinatesImage || isInsideInput ) )
       {
       value = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
       pixval = this->CastPixelWithBoundsChecking( value, minOutputValue, maxOutputValue );
@@ -388,6 +386,7 @@ ResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType, TTra
     ++outIt;
     }
 }
+
 
 /**
  * LinearThreadedGenerateData
