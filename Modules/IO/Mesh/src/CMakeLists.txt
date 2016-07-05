@@ -1,5 +1,6 @@
 set(ITKIOMesh_SRC
   itkMeshFileReaderException.cxx
+  itkMeshFileWriterException.cxx
   itkBYUMeshIO.cxx
   itkBYUMeshIOFactory.cxx
   itkFreeSurferAsciiMeshIO.cxx
