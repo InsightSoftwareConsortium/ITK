@@ -16,6 +16,9 @@
  *
  *=========================================================================*/
 
+#include "RLEImage/RLEImageScanlineIterator.h"
+#include "RLEImage/RLEImageRegionIterator.h"
+#include "RLEImage/RLERegionOfInterestImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMorphologicalContourInterpolator.h"
@@ -36,19 +39,55 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   typedef itk::ImageFileReader<ImageType> ReaderType;
   typename ReaderType::Pointer            reader = ReaderType::New();
   reader->SetFileName(inFilename);
+  reader->Update();
 
-  typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
-  typename mciType::Pointer                                mci = mciType::New();
-  mci->SetInput(reader->GetOutput());
+  typedef RLEImage<typename ImageType::PixelType, ImageType::ImageDimension> myRLEImage;
+  typedef itk::RegionOfInterestImageFilter<ImageType, myRLEImage>            inConverterType;
+  typename inConverterType::Pointer                                          inConv = inConverterType::New();
+  inConv->SetInput(reader->GetOutput());
+  inConv->SetRegionOfInterest(reader->GetOutput()->GetLargestPossibleRegion());
+  inConv->Update();
+  typename myRLEImage::Pointer test = inConv->GetOutput();
+
+  typedef itk::MorphologicalContourInterpolator<myRLEImage> mciType;
+  typename mciType::Pointer                                 mci = mciType::New();
+  mci->SetInput(test);
   mci->SetUseDistanceTransform(UseDistanceTransform);
   mci->SetUseBallStructuringElement(ball);
   mci->SetAxis(axis);
   mci->SetLabel(label);
+  mci->Update();
+
+  std::vector<typename mciType::SliceSetType> indices(ImageType::ImageDimension);
+  for (int i = 0; i < ImageType::ImageDimension; i++)
+  {
+    indices[i] = mci->GetLabeledSliceIndices(i);
+  }
+  // reuse the already calculated indices
+
+  typename mciType::Pointer mci2 = mciType::New();
+  mci2->SetInput(test);
+  mci2->SetUseDistanceTransform(UseDistanceTransform);
+  mci2->SetUseBallStructuringElement(ball);
+  mci2->SetAxis(axis);
+  mci2->SetLabel(label);
+  mci2->SetUseCustomSlicePositions(true);
+  for (int i = 0; i < ImageType::ImageDimension; i++)
+  {
+    mci2->SetLabeledSliceIndices(i, indices[i]);
+  }
+  // mci2->Update();
+
+  typedef itk::RegionOfInterestImageFilter<myRLEImage, ImageType> outConverterType;
+  typename outConverterType::Pointer                              outConv = outConverterType::New();
+  outConv->SetInput(mci->GetOutput());
+  outConv->SetRegionOfInterest(mci->GetOutput()->GetLargestPossibleRegion());
+  outConv->Update();
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
   typename WriterType::Pointer            writer = WriterType::New();
   writer->SetFileName(outFilename);
-  writer->SetInput(mci->GetOutput());
+  writer->SetInput(outConv->GetOutput());
   writer->SetUseCompression(true);
   writer->Update();
 }
