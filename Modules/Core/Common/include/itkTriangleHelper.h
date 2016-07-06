@@ -83,9 +83,6 @@ public:
   static CoordRepType ComputeArea(const PointType & iP1, const PointType & iP2, const PointType & iP3);
 
   static CoordRepType ComputeMixedArea( const PointType& iP1, const PointType& iP2, const PointType &iP3 );
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(TriangleHelper);
 };
 }
 
