@@ -31,7 +31,10 @@ if(NETLIB_FOUND)
 # vnl_svd_fixed                    csvdc_ dsvdc_ ssvdc_ zsvdc_
 # vnl_symmetric_eigensystem        rs_
 
-  include_directories( ${NETLIB_INCLUDE_DIR} )
+  include_directories(
+    ${NETLIB_INCLUDE_DIR}
+    ${NETLIB_INCLUDE_DIR}/linalg
+    )
 
   set( vnl_algo_sources
     vnl_algo_fwd.h
