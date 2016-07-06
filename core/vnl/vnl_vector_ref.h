@@ -24,7 +24,7 @@
 //   vnl_vector for which the data space has
 //   been supplied externally.
 VCL_TEMPLATE_EXPORT template <class T>
-class VNL_EXPORT vnl_vector_ref : public vnl_vector<T>
+class VNL_TEMPLATE_EXPORT vnl_vector_ref : public vnl_vector<T>
 {
  public:
   typedef vnl_vector<T> Base;

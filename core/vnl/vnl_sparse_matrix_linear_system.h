@@ -27,7 +27,7 @@
 //: vnl_sparse_matrix -> vnl_linear_system adaptor
 //  An adaptor that converts a vnl_sparse_matrix<T> to a vnl_linear_system
 template <class T>
-class VNL_EXPORT vnl_sparse_matrix_linear_system : public vnl_linear_system
+class VNL_TEMPLATE_EXPORT vnl_sparse_matrix_linear_system : public vnl_linear_system
 {
  public:
   //::Constructor from vnl_sparse_matrix<double> for system Ax = b

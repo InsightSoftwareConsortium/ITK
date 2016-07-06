@@ -25,13 +25,13 @@
 #include <vcl_compiler.h>
 #include "vnl/vnl_export.h"
 
-template <class T> VNL_EXPORT // scalar
+template <class T> VNL_TEMPLATE_EXPORT // scalar
 bool vnl_matlab_write(std::ostream &, T const &, char const *variable_name);
 
-template <class T> VNL_EXPORT // 1D array
+template <class T> VNL_TEMPLATE_EXPORT // 1D array
 bool vnl_matlab_write(std::ostream &, T const *, unsigned size, char const *variable_name);
 
-template <class T> VNL_EXPORT // 2D array
+template <class T> VNL_TEMPLATE_EXPORT // 2D array
 bool vnl_matlab_write(std::ostream &, T const * const *, unsigned rows, unsigned cols, char const *variable_name);
 
 #endif // vnl_matlab_write_h_

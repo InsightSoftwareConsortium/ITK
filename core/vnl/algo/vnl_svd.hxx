@@ -426,7 +426,7 @@ vnl_vector <T> vnl_svd<T>::left_nullvector()  const
 
 #undef VNL_SVD_INSTANTIATE
 #define VNL_SVD_INSTANTIATE(T) \
-template class VNL_EXPORT vnl_svd<T >; \
-template VNL_EXPORT std::ostream& operator<<(std::ostream &, vnl_svd<T > const &)
+template class VNL_ALGO_EXPORT vnl_svd<T >; \
+template VNL_ALGO_EXPORT std::ostream& operator<<(std::ostream &, vnl_svd<T > const &)
 
 #endif // vnl_svd_hxx_

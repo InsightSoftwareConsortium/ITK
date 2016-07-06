@@ -20,6 +20,7 @@
 
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_matrix_fixed.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: direct evaluation for 2x2 matrix
 template <class T> T vnl_determinant(T const *row0,

@@ -2,7 +2,7 @@
 #include <vnl/vnl_bignum_traits.h>
 #include <vnl/vnl_sparse_matrix.hxx>
 
-template class vnl_sparse_matrix<vnl_bignum>;
+template class VNL_EXPORT vnl_sparse_matrix<vnl_bignum>;
 
 static vnl_bignum vnl_sparse_matrix_vnl_bignum_tickler()
 {

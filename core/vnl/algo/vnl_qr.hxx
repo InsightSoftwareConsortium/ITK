@@ -303,7 +303,7 @@ vnl_matrix<T> vnl_qr<T>::solve(vnl_matrix<T> const& rhs) const
 //------------------------------------------------------------------------------
 
 #define VNL_QR_INSTANTIATE(T) \
- template class VNL_EXPORT vnl_qr<T >; \
+ template class VNL_ALGO_EXPORT vnl_qr<T >; \
  VCL_INSTANTIATE_INLINE(T vnl_qr_determinant(vnl_matrix<T > const&))
 
 #endif

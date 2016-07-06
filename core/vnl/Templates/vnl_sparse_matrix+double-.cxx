@@ -1,6 +1,6 @@
 #include <vnl/vnl_sparse_matrix.hxx>
 
-template class vnl_sparse_matrix<double>;
+template class VNL_EXPORT vnl_sparse_matrix<double>;
 
 static double vnl_sparse_matrix_double_tickler()
 {

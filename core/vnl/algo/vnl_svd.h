@@ -23,6 +23,7 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 #include <vcl_compiler.h>
 
 //: Holds the singular value decomposition of a vnl_matrix.

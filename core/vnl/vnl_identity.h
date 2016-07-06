@@ -20,7 +20,7 @@
 #include "vnl/vnl_export.h"
 
 template <class T>
-class VNL_EXPORT vnl_identity : public vnl_unary_function<T,T>
+class VNL_TEMPLATE_EXPORT vnl_identity : public vnl_unary_function<T,T>
 {
  public:
   vnl_unary_function<T,T>* Copy() const {

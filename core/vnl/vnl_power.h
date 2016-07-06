@@ -29,7 +29,7 @@
 //
 //  \relatesalso vnl_matrix_fixed
 
-template <class T, unsigned int d> VNL_EXPORT
+template <class T, unsigned int d> VNL_TEMPLATE_EXPORT
 vnl_matrix_fixed<T,d,d> vnl_power(vnl_matrix_fixed<T,d,d> const& m, int n)
 {
   assert(n >= 0 || d <= 4); // to allow the use of vnl_inverse()
@@ -56,7 +56,7 @@ vnl_matrix_fixed<T,d,d> vnl_power(vnl_matrix_fixed<T,d,d> const& m, int n)
 //
 //  \relatesalso vnl_matrix
 
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 vnl_matrix<T> vnl_power(vnl_matrix<T> const& m, int n)
 {
   assert(m.rows() == m.columns());

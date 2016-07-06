@@ -382,7 +382,7 @@ vnl_vector_fixed <T,R> vnl_svd_fixed<T,R,C>::left_nullvector()  const
 
 #undef VNL_SVD_FIXED_INSTANTIATE
 #define VNL_SVD_FIXED_INSTANTIATE(T , R , C ) \
-template class vnl_svd_fixed<T, R, C >; \
-template std::ostream& operator<<(std::ostream &, vnl_svd_fixed<T, R, C > const &)
+template class VNL_ALGO_EXPORT vnl_svd_fixed<T, R, C >; \
+template VNL_ALGO_EXPORT std::ostream& operator<<(std::ostream &, vnl_svd_fixed<T, R, C > const &)
 
 #endif // vnl_svd_fixed_hxx_

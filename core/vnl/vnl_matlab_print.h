@@ -26,14 +26,14 @@
 //-------------------- "unnamed" forms.
 
 //: print a 1D array.
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               T const *array,
                               unsigned length,
                               vnl_matlab_print_format =vnl_matlab_print_format_default);
 
 //: print a 2D array.
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               T const * const *array,
                               unsigned rows, unsigned cols,
@@ -43,7 +43,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 
 //: print a vnl_diagonal_matrix<T>.
 //  \relatesalso vnl_diag_matrix
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_diag_matrix<T> const&,
                               char const *variable_name =0,
@@ -51,7 +51,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 
 //: print a vnl_matrix<T>.
 //  \relatesalso vnl_matrix
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_matrix<T> const&,
                               char const *variable_name =0,
@@ -59,7 +59,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 
 //: print a vnl_matrix_fixed<T>.
 //  \relatesalso vnl_matrix_fixed
-template <class T, unsigned int n, unsigned int m> VNL_EXPORT
+template <class T, unsigned int n, unsigned int m> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_matrix_fixed<T,n,m> const&,
                               char const *variable_name =0,
@@ -67,7 +67,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 
 //: print a vnl_matrix_ref<T>.
 //  \relatesalso vnl_matrix_ref
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_matrix_ref<T> const &,
                               char const *variable_name =0,
@@ -75,7 +75,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 
 //: print a vnl_vector<T>.
 //  \relatesalso vnl_vector
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_vector<T> const &,
                               char const *variable_name =0,
@@ -83,7 +83,7 @@ std::ostream &vnl_matlab_print(std::ostream &,
 
 //: print a vnl_vector_fixed<T>.
 //  \relatesalso vnl_vector_fixed
-template <class T, unsigned int n> VNL_EXPORT
+template <class T, unsigned int n> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print(std::ostream &,
                               vnl_vector_fixed<T,n> const &,
                               char const *variable_name =0,

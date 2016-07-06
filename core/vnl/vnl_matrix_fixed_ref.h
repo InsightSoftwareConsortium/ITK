@@ -168,7 +168,7 @@
 //
 
 template <class T, unsigned num_rows, unsigned num_cols>
-class VNL_EXPORT vnl_matrix_fixed_ref_const
+class VNL_TEMPLATE_EXPORT vnl_matrix_fixed_ref_const
 {
  protected:
   const T* data_;
@@ -392,7 +392,7 @@ class VNL_EXPORT vnl_matrix_fixed_ref_const
 
 
 template <class T, unsigned num_rows, unsigned num_cols>
-class VNL_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_cols>
+class VNL_TEMPLATE_EXPORT vnl_matrix_fixed_ref : public vnl_matrix_fixed_ref_const<T,num_rows,num_cols>
 {
   typedef vnl_matrix_fixed_ref_const<T,num_rows,num_cols> base;
 

@@ -26,7 +26,7 @@
 
 //: Abstract 1D map between two types (read spaces)
 template <class Return, class Argument>
-class VNL_EXPORT vnl_unary_function
+class VNL_TEMPLATE_EXPORT vnl_unary_function
 {
  public:
 //  typedef std::numeric_limits<Return> limits;

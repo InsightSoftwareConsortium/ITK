@@ -26,7 +26,7 @@
 //:  Convert row-stored matrix to column-stored.
 //  Convert C format (row-stored) matrix to fortran format (column-stored) matrix.
 template <class T>
-class VNL_EXPORT vnl_fortran_copy
+class VNL_TEMPLATE_EXPORT vnl_fortran_copy
 {
  public:
   // Constructors/Destructors--------------------------------------------------

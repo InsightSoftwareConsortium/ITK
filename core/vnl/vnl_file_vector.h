@@ -23,7 +23,7 @@
 
 //: Templated class to load a vector from a file.
 template <class T>
-class VNL_EXPORT vnl_file_vector : public vnl_vector<T>
+class VNL_TEMPLATE_EXPORT vnl_file_vector : public vnl_vector<T>
 {
  private:
   VCL_SAFE_BOOL_DEFINE;

@@ -70,7 +70,7 @@ Matrix vnl_matrix_exp(Matrix const &X)
 
 #undef VNL_MATRIX_EXP_INSTANTIATE
 #define VNL_MATRIX_EXP_INSTANTIATE(Matrix) \
-template bool vnl_matrix_exp(Matrix const&, Matrix &, double); \
-template Matrix vnl_matrix_exp(Matrix const&)
+template VNL_EXPORT bool vnl_matrix_exp(Matrix const&, Matrix &, double); \
+template VNL_EXPORT Matrix vnl_matrix_exp(Matrix const&)
 
 #endif // vnl_matrix_exp_hxx_
