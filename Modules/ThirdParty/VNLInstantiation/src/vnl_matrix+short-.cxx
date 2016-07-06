@@ -21,4 +21,5 @@
 #else
 #include "vnl/vnl_matrix.hxx"
 #endif
+#include "vnl_export_override.h"
 VNL_MATRIX_INSTANTIATE(signed short);

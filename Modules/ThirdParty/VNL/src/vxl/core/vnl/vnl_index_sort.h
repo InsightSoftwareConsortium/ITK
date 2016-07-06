@@ -10,10 +10,10 @@
 #include <vector>
 #include <vnl/vnl_vector.h>
 #include <vcl_compiler.h>
-
+#include "vnl/vnl_export.h"
 
 template <class TValue, class TIndex>
-class vnl_index_sort
+class VNL_TEMPLATE_EXPORT vnl_index_sort
 {
  public:
 

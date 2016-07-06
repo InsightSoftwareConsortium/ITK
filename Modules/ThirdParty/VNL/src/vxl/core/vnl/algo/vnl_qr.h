@@ -26,6 +26,7 @@
 #include <iosfwd>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 #include <vcl_compiler.h>
 
 //: Extract the Q*R decomposition of matrix M.

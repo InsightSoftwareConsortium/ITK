@@ -38,6 +38,7 @@
 #include <vnl/vnl_matrix.h> // outerproduct
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
 #include <vnl/vnl_error.h>
+#include "vnl/vnl_export.h"
 
 VCL_TEMPLATE_EXPORT template <class T, unsigned int n> class vnl_vector_fixed;
 VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
@@ -84,7 +85,7 @@ VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_c
 // vnl_vector_fixed and vnl_vector, however, you will probably get a
 // vnl_vector result, with the corresponding malloc cost.
 template <class T, unsigned int n>
-class vnl_vector_fixed
+class VNL_TEMPLATE_EXPORT vnl_vector_fixed
 {
  protected:
   T data_[n];
@@ -259,10 +260,10 @@ class vnl_vector_fixed
   }
 
   //: Return the i-th element
-  T& operator[] ( unsigned int i ) { return data_[i]; }
+  T& operator[] ( const size_t i ) { return data_[i]; }
 
   //: Return the i-th element
-  const T& operator[] ( unsigned int i ) const { return data_[i]; }
+  const T& operator[] ( const size_t i ) const { return data_[i]; }
 
   //: Access the contiguous block storing the elements in the vector.
   //  O(1).
@@ -371,13 +372,17 @@ class vnl_vector_fixed
   }
 
   //: Returns a subvector specified by the start index and length. O(n).
-  vnl_vector<T> extract (unsigned int len, unsigned int start=0) const;
+  vnl_vector<T> extract (unsigned int len, unsigned int start=0) const
+  {
+  assert( start < n && start + len <= n );
+  return vnl_vector<T>( data_ + start, len );
+  }
 
   //: Convert to a vnl_vector.
   vnl_vector<T> as_vector() const { return extract(n); }
 
   //: Replaces elements with index beginning at start, by values of v. O(n).
-  vnl_vector_fixed& update (vnl_vector<T> const&, unsigned int start=0);
+  vnl_vector_fixed& update(vnl_vector<T> const&, unsigned int start=0);
 
   // norms etc
   typedef typename vnl_c_vector<T>::abs_t abs_t;

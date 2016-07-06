@@ -154,14 +154,6 @@
 # define VCL_INSTANTIATE_INLINE(symbol) /* */
 #endif
 
-//--------------------------------------------------------------------------------
-
-#if VCL_FOR_SCOPE_HACK
-# undef for
-# define for if (false) { } else for
-typedef int saw_VCL_FOR_SCOPE_HACK;
-#endif
-
 // fix to instantiate template functions
 #define VCL_INSTANTIATE_NONINLINE(fn_decl) template fn_decl
 
@@ -187,49 +179,71 @@ typedef int saw_VCL_FOR_SCOPE_HACK;
    struct safe_bool_dummy { void dummy() {} }; \
    typedef void (safe_bool_dummy::* safe_bool)()
 
-//----------------------------------------------------------------------------
-// Check if the compiler (claims to) support C++11.
-#if VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
-# define VXL_CXX11 1
-  // In c++11 the override keyword allows you to explicity define that a function
-  // is intended to override the base-class version.  This makes the code more
-  // managable and fixes a set of common hard-to-find bugs.
-# define VXL_OVERRIDE override
-  // In functions that should not be implemented, use the C++11 mechanism
-  // to ensure that thye are purposely not implemented
-# define VXL_DELETE_FUNCTION =delete
-  // In c++11 there is an explicit nullptr type that introduces a new keyword to
-  // serve as a distinguished null pointer constant: nullptr. It is of type
-  // nullptr_t, which is implicitly convertible and comparable to any pointer type
-  // or pointer-to-member type. It is not implicitly convertible or comparable to
-  // integral types, except for bool.
-# define VXL_NULLPTR  nullptr
-  // In C++11 the throw-list specification has been deprecated,
-  // replaces with the noexcept specifier. Using this function
-  // specification adds the run-time check that the method does not
-  // throw, if it does throw then std::terminate will be called.
-  // Use cautiously.
-# define VXL_NOEXCEPT noexcept
-# define VXL_HAS_CXX11_STATIC_ASSERT
-# define VXL_HAS_CXX11_RVREF
 
-# define VXL_CONSTEXPR constexpr
-# define VXL_CONSTEXPR_FUNC constexpr
+//----------------------------------------------------------------------
+// constant initializer issues.
 
+/* When using C++11 or greater, constexpr
+ * may be necessary for static const float initialization
+ * and is benificial in other cases where
+ * a value can be constant. */
+
+//: VCL_STATIC_CONST_INIT_INT_DECL(x)
+//
+// ANSI allows
+// \code
+//     class A {
+//       static const int x = 27;
+//     };
+// \endcode
+// And there is a speed advantage, so we want to use it where supported.
+// However, the standard also requires (9.4.2/4) that the constant be
+// defined in namespace scope. (That is, space must be allocated.)
+// To make matters worse, some compilers (at least VC 7) mistakenly
+// allocate storage without the definition in namespace scope,
+// which results in multiply defined symbols.
+// To use the macro, use VCL_STATIC_CONST_INIT_INT_DECL in the class
+// definition (header file). This declares the constant.
+// \code
+//     class A {
+//       static VCL_CONSTEXPR int x VCL_STATIC_CONST_INIT_INT_DECL(27);
+//     };
+// \endcode
+// Use VCL_STATIC_CONST_INIT_INT_DEFN in some .cxx file to define
+// the constant.
+//
+#if VXL_COMPILER_CXX_CONSTEXPR //C++11 compliant
+# define VCL_STATIC_CONST_INIT_INT_DECL(x) = x
+# define VCL_STATIC_CONST_INIT_INT_DEFN(x) /* initialized at declaration */
+
+# define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) = x
+# define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) /* initialized at declaration */
+
+# define VXL_CONSTEXPR_FUNC constexpr  //constexpr in C++11, empty in C++98
+# define VXL_CONSTEXPR_VAR  constexpr  //constexpr in C++11, const in C++98
 #else
-//----------------------------------------------------------------------------
-//  C++11 not supported
-# define VXL_CXX11 0
-# define VXL_OVERRIDE
-# define VXL_DELETE_FUNCTION
-# define VXL_NULLPTR  NULL
-# define VXL_NOEXCEPT throw()
+# define VCL_STATIC_CONST_INIT_INT_DECL(x) /* not allowed */
+# define VCL_STATIC_CONST_INIT_INT_DEFN(x) = x
 
-# define VXL_CONSTEXPR const
-# define VXL_CONSTEXPR_FUNC
+# define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) /* not allowed */
+# define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) = x
 
+# define VXL_CONSTEXPR_FUNC           //constexpr in C++11, empty in C++98
+# define VXL_CONSTEXPR_VAR const      //constexpr in C++11, const in C++98
 #endif
 
+#if VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
+# define VXL_FULLCXX11SUPPORT 1
+#else
+//  C++11 not supported
+# define VXL_FULLCXX11SUPPORT 0
+#endif
+
+#if ! VXL_COMPILER_CXX_NOEXCEPT
+//----------------------------------------------------------------------------
+# undef VXL_NOEXCEPT
+# define VXL_NOEXCEPT throw()
+#endif
 
 //----------------------------------------------------------------------------
 // Check if the compiler (claims to) support C++11.
@@ -925,7 +939,7 @@ __inline int vcl_snprintf(char *outBuf, size_t size, const char *format, ...)
 #define vcl_indirect_array std::indirect_array
 #define vcl_vector std::vector
 
-#if VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L || VCL_MEMORY_HAS_SHARED_PTR
+#if VXL_FULLCXX11SUPPORT || VCL_MEMORY_HAS_SHARED_PTR
 # define vcl_memory_prefix std
 #elif VCL_TR1_MEMORY_HAS_SHARED_PTR
   // [20.6] lib.memory (additions in 0x draft: 2006-11-06)

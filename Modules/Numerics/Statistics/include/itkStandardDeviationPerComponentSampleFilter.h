@@ -91,8 +91,7 @@ public:
   const MeasurementVectorRealDecoratedType * GetMeanPerComponentOutput() const;
 
 protected:
-  StandardDeviationPerComponentSampleFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationPerComponentSampleFilter);
 
   StandardDeviationPerComponentSampleFilter();
   virtual ~StandardDeviationPerComponentSampleFilter();

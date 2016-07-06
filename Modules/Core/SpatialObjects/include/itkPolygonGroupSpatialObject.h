@@ -100,8 +100,7 @@ public:
                         char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 
 protected:
-  PolygonGroupSpatialObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObject);
 
   PolygonGroupSpatialObject(void) {}
   ~PolygonGroupSpatialObject(void) {}

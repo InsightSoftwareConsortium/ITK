@@ -92,8 +92,7 @@ protected:
   int m_CompressionLevel;
 
 private:
-  PNGImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIO);
 };
 } // end namespace itk
 

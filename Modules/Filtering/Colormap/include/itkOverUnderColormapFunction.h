@@ -66,8 +66,7 @@ protected:
   ~OverUnderColormapFunction() {}
 
 private:
-  OverUnderColormapFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(OverUnderColormapFunction);
 };
 } // end namespace functor
 } // end namespace itk

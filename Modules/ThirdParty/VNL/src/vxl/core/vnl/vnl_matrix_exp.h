@@ -1,6 +1,9 @@
 // This is core/vnl/vnl_matrix_exp.h
 #ifndef vnl_matrix_exp_h_
 #define vnl_matrix_exp_h_
+
+#include "vnl/vnl_export.h"
+
 //:
 // \file
 // \brief Compute the exponential of a square matrix
@@ -21,13 +24,13 @@
 //: Compute the exponential of a square matrix - fiddly form
 // \relatesalso vnl_matrix
 // \relatesalso vnl_matrix_fixed
-template <class SquareMatrix>
+template <class SquareMatrix> VNL_TEMPLATE_EXPORT
 bool vnl_matrix_exp(SquareMatrix const &X, SquareMatrix &expX, double max_err);
 
 //: Compute the exponential of a square matrix - easy form.
 // \relatesalso vnl_matrix
 // \relatesalso vnl_matrix_fixed
-template <class SquareMatrix>
+template <class SquareMatrix> VNL_TEMPLATE_EXPORT
 SquareMatrix vnl_matrix_exp(SquareMatrix const &X);
 
 

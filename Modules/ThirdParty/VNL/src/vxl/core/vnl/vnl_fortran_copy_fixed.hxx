@@ -23,6 +23,6 @@ vnl_fortran_copy_fixed<T,R,C>::vnl_fortran_copy_fixed(vnl_matrix_fixed<T,R,C> co
 //--------------------------------------------------------------------------------
 
 #undef VNL_FORTRAN_COPY_FIXED_INSTANTIATE
-#define VNL_FORTRAN_COPY_FIXED_INSTANTIATE(T , R , C ) template class vnl_fortran_copy_fixed<T , R , C >
+#define VNL_FORTRAN_COPY_FIXED_INSTANTIATE(T , R , C ) template class VNL_EXPORT vnl_fortran_copy_fixed<T , R , C >
 
 #endif // vnl_fortran_copy_fixed_hxx_

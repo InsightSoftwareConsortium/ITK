@@ -169,8 +169,7 @@ protected:
   void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  AdaptiveHistogramEqualizationImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AdaptiveHistogramEqualizationImageFilter);
 
   /** The beta parameter of the AdaptiveHistogramEqualization. */
   float m_Alpha;

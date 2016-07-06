@@ -166,8 +166,7 @@ public:
   }
 
 private:
-  ImportImageContainerFactory(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageContainerFactory);
 
 #define OverrideTypeMacro(t)       this->RegisterOverride(\
         typeid(itk::ImportImageContainer<unsigned long,t >).name(),\

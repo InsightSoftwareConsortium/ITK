@@ -16,6 +16,7 @@
 // \endverbatim
 
 #include <vnl/vnl_vector.h>
+#include "vnl/vnl_export.h"
 
 //: Abstraction for a linear system of equations.
 //    vnl_linear_system provides an abstraction for a linear system
@@ -26,7 +27,7 @@
 //    be inefficient to store in matrix form.
 //
 //    To solve the system, use an algorithm like vnl_lsqr.
-class vnl_linear_system
+class VNL_EXPORT vnl_linear_system
 {
  public:
 

@@ -774,8 +774,7 @@ protected:
 
 private:
 
-  ParallelSparseFieldLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParallelSparseFieldLevelSetImageFilter);
 
   /** This flag is true when methods need to check boundary conditions and
    *  false when methods do not need to check for boundary conditions. */

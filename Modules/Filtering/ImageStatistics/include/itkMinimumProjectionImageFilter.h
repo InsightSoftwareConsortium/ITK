@@ -107,8 +107,7 @@ protected:
   virtual ~MinimumProjectionImageFilter() {}
 
 private:
-  MinimumProjectionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MinimumProjectionImageFilter);
 };                                            // end
                                               // MinimumProjectionImageFilter
 } //end namespace itk

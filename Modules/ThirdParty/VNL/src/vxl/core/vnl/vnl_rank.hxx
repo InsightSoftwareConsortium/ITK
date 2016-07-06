@@ -211,9 +211,9 @@ unsigned int vnl_rank(vnl_matrix<T> const& mat, vnl_rank_type t)
 
 #undef VNL_RANK_INSTANTIATE
 #define VNL_RANK_INSTANTIATE(T) \
-template vnl_matrix<T > vnl_rank_row_reduce(vnl_matrix<T > const&, vnl_rank_pivot_type);\
-template vnl_matrix<T > vnl_rank_column_reduce(vnl_matrix<T > const&, vnl_rank_pivot_type);\
-template vnl_matrix<T > vnl_rank_row_column_reduce(vnl_matrix<T > const&, vnl_rank_pivot_type);\
-template unsigned int vnl_rank(vnl_matrix<T > const&, vnl_rank_type)
+template VNL_EXPORT vnl_matrix<T > vnl_rank_row_reduce(vnl_matrix<T > const&, vnl_rank_pivot_type);\
+template VNL_EXPORT vnl_matrix<T > vnl_rank_column_reduce(vnl_matrix<T > const&, vnl_rank_pivot_type);\
+template VNL_EXPORT vnl_matrix<T > vnl_rank_row_column_reduce(vnl_matrix<T > const&, vnl_rank_pivot_type);\
+template VNL_EXPORT unsigned int vnl_rank(vnl_matrix<T > const&, vnl_rank_type)
 
 #endif // vnl_rank_hxx_

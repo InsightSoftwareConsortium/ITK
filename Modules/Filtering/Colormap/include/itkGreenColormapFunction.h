@@ -65,8 +65,7 @@ protected:
   ~GreenColormapFunction() {}
 
 private:
-  GreenColormapFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GreenColormapFunction);
 };
 } // end namespace functor
 } // end namespace itk

@@ -55,6 +55,6 @@ void vnl_fft_base<D, T>::transform(std::complex<T> *signal, int dir)
 
 #undef VNL_FFT_BASE_INSTANTIATE
 #define VNL_FFT_BASE_INSTANTIATE(D, T) \
-template struct vnl_fft_base<D, T >
+template struct VNL_ALGO_EXPORT vnl_fft_base<D, T >
 
 #endif

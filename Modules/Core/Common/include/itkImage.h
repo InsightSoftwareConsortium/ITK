@@ -283,8 +283,7 @@ protected:
   virtual void ComputeIndexToPhysicalPointMatrices() ITK_OVERRIDE;
 
 private:
-  Image(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Image);
 
   /** Memory for the current buffer. */
   PixelContainerPointer m_Buffer;

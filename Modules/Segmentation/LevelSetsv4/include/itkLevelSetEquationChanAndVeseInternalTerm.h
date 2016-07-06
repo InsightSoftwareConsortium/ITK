@@ -136,8 +136,7 @@ protected:
   LevelSetOutputRealType  m_TotalH;
 
 private:
-  LevelSetEquationChanAndVeseInternalTerm( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseInternalTerm);
 };
 
 }

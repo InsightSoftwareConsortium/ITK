@@ -110,8 +110,7 @@ protected:
   PixelType m_Boundary;
 
 private:
-  MovingHistogramMorphologyImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramMorphologyImageFilter);
 };                                                    // end of class
 } // end namespace itk
 

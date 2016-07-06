@@ -30,20 +30,18 @@ class LazyITKModule(types.ModuleType):
 
     def __init__(self, name, lazy_attributes):
         types.ModuleType.__init__(self, name)
-        self.__lazy_attributes = lazy_attributes
+        for k, v in lazy_attributes.items():
+            itkBase.lazy_attributes.setdefault(k,set()).update(v)
+        self.__belong_lazy_attributes = dict( (k,v[0]) for k,v in lazy_attributes.items() if len(v) > 0 )
         for k in lazy_attributes:
             setattr(self, k, not_loaded)
 
     def __getattribute__(self, attr):
         value = types.ModuleType.__getattribute__(self, attr)
         if value is not_loaded:
-            module = self.__lazy_attributes[attr]
+            module = self.__belong_lazy_attributes[attr]
             namespace = {}
             itkBase.LoadModule(module, namespace)
-            # Load into 'namespace' first, then self.__dict__ (via setattr) to
-            # prevent the warnings about overwriting the 'NotLoaded' values
-            # already in self.__dict__ we would get if we just passed
-            # self.__dict__ to itkBase.LoadModule.
             for k, v in namespace.items():
                 setattr(self, k, v)
             value = namespace[attr]

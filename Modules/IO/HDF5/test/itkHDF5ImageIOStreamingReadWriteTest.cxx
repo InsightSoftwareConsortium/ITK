@@ -78,8 +78,7 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
     };
 
   private:
-    DemoImageSource(const Self &) ITK_DELETE_FUNCTION;
-    void operator=(const Self &) ITK_DELETE_FUNCTION;
+    ITK_DISALLOW_COPY_AND_ASSIGN(DemoImageSource);
 
     typename TOutputImage::PixelType m_Value;
 };

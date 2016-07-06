@@ -56,14 +56,14 @@ LogSigmoidTransferFunction<TScalar>
   return f * (1 - f);
 }
 
-/** Print the object */
 template<typename TScalar>
 void
 LogSigmoidTransferFunction<TScalar>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  os << indent << "LogSigmoidTransferFunction(" << this << ")" << std::endl;
   Superclass::PrintSelf( os, indent );
+
+  os << indent << "LogSigmoidTransferFunction(" << this << ")" << std::endl;
 }
 
 } // end namespace Statistics

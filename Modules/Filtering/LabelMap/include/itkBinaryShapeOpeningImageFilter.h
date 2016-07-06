@@ -168,8 +168,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  BinaryShapeOpeningImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryShapeOpeningImageFilter);
 
   bool                 m_FullyConnected;
   OutputImagePixelType m_BackgroundValue;

@@ -54,7 +54,7 @@ public:
   itkTypeMacro(GaussianKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
+  TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
   { return ( std::exp( static_cast< TRealValueType >(-0.5) * itk::Math::sqr(u) ) * m_Factor ); }
 
 protected:
@@ -64,8 +64,7 @@ protected:
   { Superclass::PrintSelf(os, indent); }
 
 private:
-  GaussianKernelFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianKernelFunction);
 
   const TRealValueType m_Factor;
 };

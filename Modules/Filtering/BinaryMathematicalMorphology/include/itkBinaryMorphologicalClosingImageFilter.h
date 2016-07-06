@@ -105,8 +105,7 @@ protected:
   void  GenerateData() ITK_OVERRIDE;
 
 private:
-  BinaryMorphologicalClosingImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMorphologicalClosingImageFilter);
 
   InputPixelType m_ForegroundValue;
 

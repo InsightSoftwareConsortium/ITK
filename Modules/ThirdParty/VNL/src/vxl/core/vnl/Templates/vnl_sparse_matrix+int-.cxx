@@ -1,6 +1,6 @@
 #include <vnl/vnl_sparse_matrix.hxx>
 
-template class vnl_sparse_matrix<int>;
+template class VNL_EXPORT vnl_sparse_matrix<int>;
 
 static int vnl_sparse_matrix_float_tickler()
 {

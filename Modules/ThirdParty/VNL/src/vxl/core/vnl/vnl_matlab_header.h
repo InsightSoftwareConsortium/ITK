@@ -18,8 +18,9 @@
 // \endverbatim
 
 #include <vxl_config.h>
+#include "vnl/vnl_export.h"
 
-struct vnl_matlab_header
+struct VNL_EXPORT vnl_matlab_header
 {
   vxl_int_32 type; // sum of one byte order, one storage specifier and one precision specifier
   vxl_int_32 rows;

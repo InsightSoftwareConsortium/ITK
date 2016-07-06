@@ -133,7 +133,7 @@ public:
       m_Sigma = NumericTraits< RealType >::ZeroValue();
       m_Variance = NumericTraits< RealType >::ZeroValue();
 
-      unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
+      const unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
       m_BoundingBox.resize(imageDimension * 2);
       for ( unsigned int i = 0; i < imageDimension * 2; i += 2 )
         {
@@ -160,7 +160,7 @@ public:
       m_Sigma = NumericTraits< RealType >::ZeroValue();
       m_Variance = NumericTraits< RealType >::ZeroValue();
 
-      unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
+      const unsigned int imageDimension = itkGetStaticConstMacro(ImageDimension);
       m_BoundingBox.resize(imageDimension * 2);
       for ( unsigned int i = 0; i < imageDimension * 2; i += 2 )
         {
@@ -350,8 +350,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
-  LabelStatisticsImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LabelStatisticsImageFilter);
 
   std::vector< MapType >        m_LabelStatisticsPerThread;
   MapType                       m_LabelStatistics;

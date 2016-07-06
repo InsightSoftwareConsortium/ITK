@@ -45,10 +45,11 @@ class ImportImageFilter:
 {
 public:
   /** Typedef for the output image.   */
-  typedef Image< TPixel, VImageDimension >      OutputImageType;
-  typedef typename OutputImageType::Pointer     OutputImagePointer;
-  typedef typename OutputImageType::SpacingType SpacingType;
-  typedef typename OutputImageType::PointType   OriginType;
+  typedef Image< TPixel, VImageDimension >              OutputImageType;
+  typedef typename OutputImageType::Pointer             OutputImagePointer;
+  typedef typename OutputImageType::SpacingType         SpacingType;
+  typedef typename OutputImageType::PointType           OriginType;
+  typedef ImportImageContainer< SizeValueType, TPixel > ImportImageContainerType;
 
   /** Standard class typedefs. */
   typedef ImportImageFilter              Self;
@@ -80,13 +81,13 @@ public:
 
   /** Set the pointer from which the image data is imported.  "num" is
    * the number of pixels in the block of memory. If
-   * "LetFilterManageMemory" is false, then the this filter will
+   * "LetImageContainerManageMemory" is false, then the this filter will
    * not free the memory in its destructor and the application providing the
    * buffer retains the responsibility of freeing the memory for this image
-   * data.  If "LetFilterManageMemory" is true, then this class
-   * will free the memory when this object is destroyed. */
+   * data.  If "LetImageContainerManageMemory" is true, then the ImageContainer
+   * will free the memory when it is destroyed. */
   void SetImportPointer(TPixel *ptr, SizeValueType num,
-                        bool LetFilterManageMemory);
+      bool LetImageContainerManageMemory);
 
   /** Set the region object that defines the size and starting index
    * for the imported image. This will serve as the LargestPossibleRegion,
@@ -148,17 +149,15 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
-  ImportImageFilter(const ImportImageFilter &) ITK_DELETE_FUNCTION;
-  void operator=(const ImportImageFilter &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImportImageFilter);
 
   RegionType    m_Region;
   SpacingType   m_Spacing;
   OriginType    m_Origin;
   DirectionType m_Direction;
 
-  TPixel *      m_ImportPointer;
-  bool          m_FilterManageMemory;
-  SizeValueType m_Size;
+  typename ImportImageContainerType::Pointer  m_ImportImageContainer;
+  SizeValueType                               m_Size;
 };
 } // end namespace itk
 

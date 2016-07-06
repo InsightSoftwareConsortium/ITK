@@ -19,11 +19,13 @@
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_vector.h>
+#include "vnl/vnl_export.h"
 
 //: Templated class to load a vector from a file.
 template <class T>
-class vnl_file_vector : public vnl_vector<T>
+class VNL_TEMPLATE_EXPORT vnl_file_vector : public vnl_vector<T>
 {
+ private:
   VCL_SAFE_BOOL_DEFINE;
  public:
   vnl_file_vector(char const* filename);

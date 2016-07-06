@@ -171,8 +171,7 @@ protected:
   virtual void ApplyUpdate(const TimeStepType& dt) ITK_OVERRIDE;
 
 private:
-  DiffeomorphicDemonsRegistrationFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DiffeomorphicDemonsRegistrationFilter);
 
   /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is of the correct type.
    * this method will throw an exception if the function is not of the expected type. */

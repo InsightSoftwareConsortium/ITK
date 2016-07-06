@@ -116,8 +116,7 @@ protected:
 
 private:
 
-  MRCImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIO);
 
   // internal methods to update the min and max in the header based on
   // the data, in the image buffer to be written

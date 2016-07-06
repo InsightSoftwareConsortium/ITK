@@ -260,8 +260,7 @@ protected:
   InputImagePointer         m_Input;
 
 private:
-  LevelSetEquationContainer( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationContainer);
 
 };
 }

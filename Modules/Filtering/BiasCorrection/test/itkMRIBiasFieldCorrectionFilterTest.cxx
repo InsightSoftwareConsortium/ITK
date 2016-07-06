@@ -23,13 +23,16 @@
 #include "itkImageFileWriter.h"
 #include "itkSphereSpatialFunction.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkTestingMacros.h"
 
-int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
+int itkMRIBiasFieldCorrectionFilterTest( int , char* [] )
 {
   const unsigned int ImageDimension = 3;
 
-  typedef itk::Image< float, ImageDimension >            ImageType;
-  typedef itk::Image< float, ImageDimension >            MaskType;
+  typedef float InputImagePixelType;
+
+  typedef itk::Image< InputImagePixelType, ImageDimension >            ImageType;
+  typedef itk::Image< InputImagePixelType, ImageDimension >            MaskType;
   typedef itk::ImageRegionIteratorWithIndex< ImageType > ImageIteratorType;
 
   bool SaveImages = false;
@@ -166,6 +169,7 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, MRIBiasFieldCorrectionFilter, ImageToImageFilter );
 
   // To see the debug output for each iteration, uncomment the
   // following line.
@@ -186,24 +190,61 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   double origSumError = sumOfError;
 
   std::cout << "Computing bias correction without mask, 2 classes 10,10 - 200,20" << std::endl;
+
   filter->SetInput( imageWithBias.GetPointer() );
-  filter->IsBiasFieldMultiplicative( true ); // correct with multiplicative bias
+
+  int slicingDirection = 2;
+  bool isBiasFieldMultiplicative = true;
+  bool usingSlabIdentification = true;
+  bool usingBiasFieldCorrection = true;
+  bool generatingOutput = true;
+  unsigned int slabNumberOfSamples = 10;
+  InputImagePixelType slabBackgroundMinimumThreshold = 0;
+  double slabTolerance = 0.0;
+  int volumeCorrectionMaximumIteration = 200;
+  int interSliceCorrectionMaximumIteration = 100;
+  double optimizerInitialRadius = 0.02;
+  double optimizerGrowthFactor = 1.01;
+  bool usingInterSliceIntensityCorrection = true;
+
+  filter->SetBiasFieldMultiplicative( isBiasFieldMultiplicative );
+  filter->SetUsingSlabIdentification( usingSlabIdentification );
+  filter->SetUsingBiasFieldCorrection( usingBiasFieldCorrection );
+  filter->SetGeneratingOutput( generatingOutput );
+  filter->SetSlabNumberOfSamples( slabNumberOfSamples );
+  filter->SetSlabBackgroundMinimumThreshold( slabBackgroundMinimumThreshold );
+  filter->SetSlabTolerance( slabTolerance );
+  filter->SetBiasFieldDegree( biasDegree );
+  filter->SetVolumeCorrectionMaximumIteration( volumeCorrectionMaximumIteration );
+  filter->SetInterSliceCorrectionMaximumIteration( interSliceCorrectionMaximumIteration );
+  filter->SetOptimizerInitialRadius( optimizerInitialRadius );
+  filter->SetOptimizerGrowthFactor( optimizerGrowthFactor );
+  filter->SetUsingInterSliceIntensityCorrection( usingInterSliceIntensityCorrection );
+
+  TEST_SET_GET_VALUE( isBiasFieldMultiplicative, filter->GetBiasFieldMultiplicative() );
+  TEST_SET_GET_VALUE( usingSlabIdentification, filter->GetUsingSlabIdentification() );
+  TEST_SET_GET_VALUE( usingBiasFieldCorrection, filter->GetUsingBiasFieldCorrection() );
+  TEST_SET_GET_VALUE( generatingOutput, filter->GetGeneratingOutput() );
+  TEST_SET_GET_VALUE( slabNumberOfSamples, filter->GetSlabNumberOfSamples() );
+  TEST_SET_GET_VALUE( slabBackgroundMinimumThreshold, filter->GetSlabBackgroundMinimumThreshold() );
+  TEST_SET_GET_VALUE( slabTolerance, filter->GetSlabTolerance() );
+  TEST_SET_GET_VALUE( biasDegree, filter->GetBiasFieldDegree() );
+  TEST_SET_GET_VALUE( volumeCorrectionMaximumIteration, filter->GetVolumeCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( optimizerInitialRadius, filter->GetOptimizerInitialRadius() );
+  TEST_SET_GET_VALUE( optimizerGrowthFactor, filter->GetOptimizerGrowthFactor() );
+  TEST_SET_GET_VALUE( usingInterSliceIntensityCorrection, filter->GetUsingInterSliceIntensityCorrection() );
+
+  filter->SetBiasFieldMultiplicative( true ); // correct with multiplicative bias
   filter->SetBiasFieldDegree( biasDegree ); // default value = 3
   filter->SetTissueClassStatistics( classMeans, classSigmas );
-  //filter->SetOptimizerGrowthFactor( 1.01 ); // default value
-  //filter->SetOptimizerInitialRadius( 0.02 ); // default value
-  filter->SetUsingInterSliceIntensityCorrection( true ); // default value
-  filter->SetVolumeCorrectionMaximumIteration( 200 ); // default value = 100
-  filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
-  filter->SetUsingSlabIdentification( true ); // default value = false
-  filter->SetSlabBackgroundMinimumThreshold( 0 ); // default value
-  filter->SetSlabNumberOfSamples( 10 ); // default value
-  filter->SetSlabTolerance(0.0); // default value
-  filter->SetSlicingDirection( 2 ); // default value
-  filter->SetUsingBiasFieldCorrection( true ); // default value
-  filter->SetGeneratingOutput( true ); // default value
+  //TEST_SET_GET_VALUE( classMeans, classSigmas, filter->GetTissueClassStatistics() );
 
-  filter->SetInitialBiasFieldCoefficients(initCoefficients); //default value is all zero
+  filter->SetSlicingDirection( slicingDirection );
+  //TEST_SET_GET_VALUE( slicingDirection, filter->GetSlicingDirection() );
+
+  filter->SetInitialBiasFieldCoefficients( initCoefficients );
+  //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
 
   //timing
   long int t1 = time(ITK_NULLPTR);
@@ -258,10 +299,22 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
   filter->SetInput( imageWithBias.GetPointer() );
   filter->SetInputMask( image.GetPointer() );
   filter->SetOutputMask( image.GetPointer() );
-  filter->SetInitialBiasFieldCoefficients(initCoefficients);
-  filter->SetVolumeCorrectionMaximumIteration( 200 ); // default value = 100
-  filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
-  //filter->SetOptimizerInitialRadius( 0.02 ); // default value
+
+  volumeCorrectionMaximumIteration = 200;
+  interSliceCorrectionMaximumIteration = 100;
+  optimizerInitialRadius = 0.02;
+
+  filter->SetVolumeCorrectionMaximumIteration( volumeCorrectionMaximumIteration );
+  filter->SetInterSliceCorrectionMaximumIteration(interSliceCorrectionMaximumIteration);
+  filter->SetOptimizerInitialRadius( optimizerInitialRadius );
+
+  TEST_SET_GET_VALUE( volumeCorrectionMaximumIteration, filter->GetVolumeCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( optimizerInitialRadius, filter->GetOptimizerInitialRadius() );
+
+  filter->SetInitialBiasFieldCoefficients( initCoefficients );
+  //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
+
   t1 = time(ITK_NULLPTR);
   filter->Update();
   t2 = time(ITK_NULLPTR);
@@ -291,16 +344,45 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
 
   // default schedule is 2 2 2 - 1 1 1, let's change this
   std::cout << "Computing bias correction only with 2,2,2 resolution & no interSlice/Slab" << std::endl;
-  filter->SetUsingInterSliceIntensityCorrection( false ); // default value
-  filter->SetUsingSlabIdentification( false ); // default value = false
-  FilterType::ScheduleType schedule ( 1, ImageDimension);
+
+
+  usingInterSliceIntensityCorrection = false;
+  usingSlabIdentification = false;
+  optimizerInitialRadius = 0.02;
+  volumeCorrectionMaximumIteration = 200;
+  interSliceCorrectionMaximumIteration = 100;
+  optimizerInitialRadius = 0.02;
+
+  filter->SetUsingInterSliceIntensityCorrection( usingInterSliceIntensityCorrection );
+  filter->SetUsingSlabIdentification( usingSlabIdentification );
+  filter->SetOptimizerInitialRadius( optimizerInitialRadius );
+  filter->SetVolumeCorrectionMaximumIteration( volumeCorrectionMaximumIteration );
+  filter->SetInterSliceCorrectionMaximumIteration( interSliceCorrectionMaximumIteration );
+  filter->SetOptimizerInitialRadius( optimizerInitialRadius );
+
+  TEST_SET_GET_VALUE( usingInterSliceIntensityCorrection, filter->GetUsingInterSliceIntensityCorrection() );
+  TEST_SET_GET_VALUE( usingSlabIdentification, filter->GetUsingSlabIdentification() );
+  TEST_SET_GET_VALUE( optimizerInitialRadius, filter->GetOptimizerInitialRadius() );
+  TEST_SET_GET_VALUE( volumeCorrectionMaximumIteration, filter->GetVolumeCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( optimizerInitialRadius, filter->GetOptimizerInitialRadius() );
+
+  unsigned int numberOfLevels = 1;
+
+  FilterType::ScheduleType schedule( 1, ImageDimension );
   schedule.Fill( 2 );
-  filter->SetNumberOfLevels( 1 ); // Important to set this first, otherwise the filter rejects the new schedule
+
+  // It is important to set the number of levels first, otherwise the filter rejects
+  // the new schedule
+  filter->SetNumberOfLevels( numberOfLevels );
   filter->SetSchedule( schedule );
-  filter->SetInitialBiasFieldCoefficients(initCoefficients);
-  filter->SetVolumeCorrectionMaximumIteration( 200 ); // default value = 100
-  filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
-  //filter->SetOptimizerInitialRadius( 0.02 ); // default value
+
+  TEST_SET_GET_VALUE( numberOfLevels, filter->GetNumberOfLevels() );
+  TEST_SET_GET_VALUE( schedule, filter->GetSchedule() );
+
+  filter->SetInitialBiasFieldCoefficients( initCoefficients );
+  //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
+
   t1 = time(ITK_NULLPTR);
   filter->Update();
   t2 = time(ITK_NULLPTR);
@@ -329,15 +411,38 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     }
 
   std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab" << std::endl;
-  filter->SetUsingInterSliceIntensityCorrection( false ); // default value
-  filter->SetUsingSlabIdentification( false ); // default value = false
+
   schedule.Fill( 4 );
-  filter->SetNumberOfLevels( 1 );
-  //filter->SetOptimizerInitialRadius( 0.02 ); // default value
+
+  usingInterSliceIntensityCorrection = false;
+  usingSlabIdentification = false;
+  numberOfLevels = 1;
+  optimizerInitialRadius = 0.02;
+  volumeCorrectionMaximumIteration = 200;
+  interSliceCorrectionMaximumIteration = 100;
+
+  filter->SetUsingInterSliceIntensityCorrection( usingInterSliceIntensityCorrection );
+  filter->SetUsingSlabIdentification( usingSlabIdentification );
+  filter->SetOptimizerInitialRadius( optimizerInitialRadius );
+  filter->SetVolumeCorrectionMaximumIteration( volumeCorrectionMaximumIteration );
+  filter->SetInterSliceCorrectionMaximumIteration( interSliceCorrectionMaximumIteration );
+
+  // It is important to set the number of levels first, otherwise the filter rejects
+  // the new schedule
+  filter->SetNumberOfLevels( numberOfLevels );
   filter->SetSchedule( schedule );
-  filter->SetVolumeCorrectionMaximumIteration( 200 ); // default value = 100
-  filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
-  filter->SetInitialBiasFieldCoefficients(initCoefficients);
+
+  TEST_SET_GET_VALUE( usingInterSliceIntensityCorrection, filter->GetUsingInterSliceIntensityCorrection() );
+  TEST_SET_GET_VALUE( usingSlabIdentification, filter->GetUsingSlabIdentification() );
+  TEST_SET_GET_VALUE( numberOfLevels, filter->GetNumberOfLevels() );
+  TEST_SET_GET_VALUE( optimizerInitialRadius, filter->GetOptimizerInitialRadius() );
+  TEST_SET_GET_VALUE( schedule, filter->GetSchedule() );
+  TEST_SET_GET_VALUE( volumeCorrectionMaximumIteration, filter->GetVolumeCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration() );
+
+  filter->SetInitialBiasFieldCoefficients( initCoefficients );
+  //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
+
   t1 = time(ITK_NULLPTR);
   filter->Update();
   t2 = time(ITK_NULLPTR);
@@ -366,10 +471,21 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
     }
 
   std::cout << "Computing bias correction only with 4,4,4 resolution & no interSlice/Slab & more iterations" << std::endl;
+
   initCoefficients = filter->GetEstimatedBiasFieldCoefficients();
-  filter->SetInitialBiasFieldCoefficients(initCoefficients);
-  filter->SetVolumeCorrectionMaximumIteration( 2000 ); // default value = 100
-  filter->SetInterSliceCorrectionMaximumIteration( 100 ); // default value = 100
+
+  volumeCorrectionMaximumIteration = 2000;
+  interSliceCorrectionMaximumIteration = 100;
+
+  filter->SetVolumeCorrectionMaximumIteration( volumeCorrectionMaximumIteration );
+  filter->SetInterSliceCorrectionMaximumIteration( interSliceCorrectionMaximumIteration );
+
+  TEST_SET_GET_VALUE( volumeCorrectionMaximumIteration, filter->GetVolumeCorrectionMaximumIteration() );
+  TEST_SET_GET_VALUE( interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration() );
+
+  filter->SetInitialBiasFieldCoefficients( initCoefficients );
+  //TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
+
   t1 = time(ITK_NULLPTR);
   filter->Update();
   t2 = time(ITK_NULLPTR);
@@ -396,31 +512,6 @@ int itkMRIBiasFieldCorrectionFilterTest ( int , char* [] )
               << std::endl;
     return EXIT_FAILURE;
     }
-
-  std::cout << "Using slab identification: "
-            << filter->GetUsingSlabIdentification() << std::endl;
-  std::cout << "Slab identification background minimum intensity threshold: "
-            << filter->GetSlabBackgroundMinimumThreshold() << std::endl;
-  std::cout << "Slab number of samples per slice: "
-            << filter->GetSlabNumberOfSamples() << std::endl;
-  std::cout << "Slab identification tolerance: "
-            << filter->GetSlabTolerance() << std::endl;
-  std::cout << "Using bias field correction: "
-            << filter->GetUsingBiasFieldCorrection() << std::endl;
-  std::cout << "Generating output: "
-            << filter->GetGeneratingOutput() << std::endl;
-  std::cout << "Bias field degree: "
-            << filter->GetBiasFieldDegree() << std::endl;
-  std::cout << "Volume bias field correction iterations: "
-            << filter->GetVolumeCorrectionMaximumIteration() << std::endl;
-  std::cout << "Interslice bias field correction iterations: "
-            << filter->GetInterSliceCorrectionMaximumIteration() << std::endl;
-  std::cout << "Optimizer initial radius: "
-            << filter->GetOptimizerInitialRadius() << std::endl;
-  std::cout << "Optimizer growth factor: "
-            << filter->GetOptimizerGrowthFactor() << std::endl;
-  std::cout << "Optimizer shrink factor: "
-            << filter->GetOptimizerShrinkFactor() << std::endl;
 
   return EXIT_SUCCESS;
 }

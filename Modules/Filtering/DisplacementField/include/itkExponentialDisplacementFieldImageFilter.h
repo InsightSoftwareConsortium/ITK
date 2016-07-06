@@ -169,8 +169,7 @@ protected:
   typedef typename AdderType::Pointer                AdderPointer;
 
 private:
-  ExponentialDisplacementFieldImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExponentialDisplacementFieldImageFilter);
 
   bool         m_AutomaticNumberOfIterations;
   unsigned int m_MaximumNumberOfIterations;

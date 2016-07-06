@@ -126,8 +126,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  BinaryGrindPeakImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryGrindPeakImageFilter);
 
   InputImagePixelType m_ForegroundValue;
 

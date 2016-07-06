@@ -16,18 +16,15 @@
 #
 #==========================================================================*/
 
-from __future__ import print_function
-
 import itk
-from sys import argv
 
-md = itk.MetaDataDictionary()
-# one way of setting and retrieving double value in the dictionary
-dv = itk.MetaDataObject.D.New()
-dv.SetMetaDataObjectValue(10.0)
-md.Set("double", dv)
-print(md.Get("double"))
-# other way of setting and retrieving double value (levereges on Python's
-# weak type system)
-md['double'] = 10.0
-print(md['double'])
+# To verify that the lazy loading system works, we try to load
+# a float image (declared in the module ITKCommon)
+image=itk.Image.F3
+image=itk.Image[itk.F,3]
+# And a normal band image (declared in the module LevelSets)
+image=itk.Image.NBNIF33
+image=itk.Image[itk.NormalBandNode.IF3,3]
+# The function __dir__ is overridden to load modules that
+# were not loaded by the lazy loading system
+itk.Image.__dir__()

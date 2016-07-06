@@ -128,8 +128,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  SumOfSquaresImageFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SumOfSquaresImageFunction);
 
   unsigned int m_NeighborhoodRadius;
   unsigned int m_NeighborhoodSize;

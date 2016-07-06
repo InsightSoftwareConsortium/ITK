@@ -17,6 +17,8 @@
 //  In contrast to the inverse matrix, however, calculating the adjoint matrix
 //  does not involve divisions, so the adjoint of an integer matrix is integer.
 
+#include <vnl/algo/vnl_algo_export.h>
+
 template <class T> class vnl_matrix;
 
 template <class T>

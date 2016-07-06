@@ -96,8 +96,7 @@ protected:
   void  GenerateData() ITK_OVERRIDE;
 
 private:
-  FFTShiftImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FFTShiftImageFilter);
 
   bool m_Inverse;
 

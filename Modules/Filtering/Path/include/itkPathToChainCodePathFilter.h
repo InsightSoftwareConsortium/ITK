@@ -73,8 +73,7 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  PathToChainCodePathFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PathToChainCodePathFilter);
 
   bool m_MaximallyConnected;
 };

@@ -40,8 +40,8 @@ std::ostream& operator<< (std::ostream& s, const vnl_diag_matrix_fixed<T,N>& D)
 
 #undef VNL_DIAG_MATRIX_FIXED_INSTANTIATE
 #define VNL_DIAG_MATRIX_FIXED_INSTANTIATE(T , N ) \
-template class vnl_diag_matrix_fixed<T , N >; \
-template std::ostream& operator<< (std::ostream& s, vnl_diag_matrix_fixed<T , N > const &)
+template class VNL_EXPORT vnl_diag_matrix_fixed<T , N >; \
+template VNL_EXPORT std::ostream& operator<< (std::ostream& s, vnl_diag_matrix_fixed<T , N > const &)
 
 //template bool epsilon_equals (vnl_diag_matrix_fixed<T > const & , vnl_diag_matrix_fixed<T > const & , double)
 

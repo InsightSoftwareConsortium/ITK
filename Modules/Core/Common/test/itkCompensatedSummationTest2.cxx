@@ -93,8 +93,7 @@ public:
 
     std::vector< itk::CompensatedSummation<double> > m_PerThreadCompensatedSum;
 
-    TestDomainThreader( const Self & ) ITK_DELETE_FUNCTION;
-    void operator=( const Self & ) ITK_DELETE_FUNCTION;
+    ITK_DISALLOW_COPY_AND_ASSIGN(TestDomainThreader);
   }; // end TestDomainThreader class
 
   CompensatedSummationTest2Associate()

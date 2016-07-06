@@ -103,8 +103,7 @@ protected:
   itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 
 private:
-  RealToHalfHermitianForwardFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RealToHalfHermitianForwardFFTImageFilter);
 };
 } // end namespace itk
 

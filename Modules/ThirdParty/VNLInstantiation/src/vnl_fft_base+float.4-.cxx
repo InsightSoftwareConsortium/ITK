@@ -22,4 +22,5 @@ print("%d",VXL_VERSION_DATE_FULL);
 #else
 #include "vnl/algo/vnl_fft_base.hxx"
 #endif
+#include "vnl_algo_export_override.h"
 VNL_FFT_BASE_INSTANTIATE(4, float);

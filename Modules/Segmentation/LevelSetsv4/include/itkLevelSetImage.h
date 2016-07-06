@@ -78,8 +78,7 @@ protected:
 
 private:
 
-  LevelSetImage( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetImage);
 };
 
 } // end namespace itk

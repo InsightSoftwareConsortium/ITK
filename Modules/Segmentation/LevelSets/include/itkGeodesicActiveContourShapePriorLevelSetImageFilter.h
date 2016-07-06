@@ -115,7 +115,7 @@ class GeodesicActiveContourShapePriorLevelSetImageFilter:
                                                     TOutputPixelType >
 {
 public:
-  /** Standard class typedefs */
+  /** Standard class typedefs. */
   typedef GeodesicActiveContourShapePriorLevelSetImageFilter
   Self;
   typedef ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
@@ -141,10 +141,10 @@ public:
   itkTypeMacro(GeodesicActiveContourShapePriorLevelSetImageFilter,
                ShapePriorSegmentationLevelSetImageFilter);
 
-  /** Method for creation through the object factory */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Set the value of sigma used to compute the edge potential map derivatives
+  /** Set the value of sigma used to compute the edge potential map derivatives.
     */
   void SetDerivativeSigma(float value)
   {
@@ -166,20 +166,13 @@ protected:
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  GeodesicActiveContourShapePriorLevelSetImageFilter(const Self &); // purposely
-                                                                    // not
-                                                                    //
-                                                                    // implemented
-  void operator=(const Self &);                                     //purposely
-
-  // not
-  // implemented
 
   /** Overridden from Superclass to handle the case when PropagationScaling is zero
    * and CurvatureScaling is non-zero.*/
   void GenerateData() ITK_OVERRIDE;
 
 private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourShapePriorLevelSetImageFilter);
   GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction;
 };
 } // end namespace itk

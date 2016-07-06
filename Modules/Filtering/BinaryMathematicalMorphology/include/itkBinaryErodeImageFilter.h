@@ -134,8 +134,7 @@ protected:
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
 
 private:
-  BinaryErodeImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryErodeImageFilter);
 };
 } // end namespace itk
 

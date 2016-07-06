@@ -589,7 +589,7 @@ public:
     }
 
   private:
-    NearestNeighbors() ITK_DELETE_FUNCTION;
+    NearestNeighbors() ITK_DELETED_FUNCTION;
     /** The index of the farthest neighbor among k-neighbors */
     unsigned int m_FarthestNeighborIndex;
 
@@ -736,8 +736,7 @@ protected:
     InstanceIdentifierVectorType & ) const;
 
 private:
-  KdTree( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(KdTree);
 
   /** Pointer to the input sample */
   const TSample *m_Sample;

@@ -4,12 +4,13 @@ if(ITK_WRAP_PYTHON)
   INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
 
   if(ITK_WRAP_signed_short AND ITK_WRAP_unsigned_char AND WRAP_2)
-    add_python_test(DicomSliceReadPythonTest
-      ${CMAKE_CURRENT_SOURCE_DIR}/../DicomSliceRead.py
-      DATA{${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm}
-      ${TEMP}/DicomSliceReadPythonOutput.png
-      --compare ${TEMP}/DicomSliceReadPythonOutput.png
-        DATA{${ITK_SOURCE_DIR}/Examples/IO/test/Baseline/DicomSliceReadPythonOutputBaseline.png}
+    itk_python_add_test(NAME DicomSliceReadPythonTest
+      TEST_DRIVER_ARGS
+        --compare ${TEMP}/DicomSliceReadPythonOutput.png
+          DATA{${ITK_SOURCE_DIR}/Examples/IO/test/Baseline/DicomSliceReadPythonOutputBaseline.png}
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/../DicomSliceRead.py
+        DATA{${ITK_DATA_ROOT}/Input/dicom-sc_cs-1.dcm}
+        ${TEMP}/DicomSliceReadPythonOutput.png
       )
   endif()
 endif()

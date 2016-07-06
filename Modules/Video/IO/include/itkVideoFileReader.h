@@ -42,7 +42,7 @@ class VideoFileReader : public VideoSource< TOutputVideoStream >
 {
 public:
 
-  /**-TYPEDEFS---------------------------------------------------------------*/
+  /** Standard class typedefs. */
   typedef VideoFileReader                          Self;
   typedef VideoSource< TOutputVideoStream >        Superclass;
   typedef SmartPointer<Self>                       Pointer;
@@ -73,7 +73,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoFileReader, VideoSource);
 
-  /**-PUBLIC METHODS---------------------------------------------------------*/
 
   /** Specify the file to read. This is forwarded to the IO instance. */
   itkSetStringMacro(FileName);
@@ -106,7 +105,6 @@ public:
 
 protected:
 
-  /**-PROTECTED METHODS------------------------------------------------------*/
   VideoFileReader();
   virtual ~VideoFileReader();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
@@ -123,26 +121,22 @@ protected:
    * Warning: this will overwrite any currently set VideoIO */
   void InitializeVideoIO();
 
-  /**-PROTECTED MEMBERS------------------------------------------------------*/
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileReader);
 
   /** The file to read */
   std::string m_FileName;
 
   /** VideoIOBase used to retrieve images. This may be changed if more
-   * hierarchy is added to support general ImageSet sources */
+   * hierarchy is added to support general ImageSet sources. */
   VideoIOBase::Pointer m_VideoIO;
 
-  /** Flag to store whether or not the pixel type needs to be converted */
+  /** Flag to store whether or not the pixel type needs to be converted. */
   bool m_PixelConversionNeeded;
 
   /** Flag to indicate whether to report the last frame as the last IFrame. On
-   * by default */
+   * by default. */
   bool m_IFrameSafe;
-
-private:
-  VideoFileReader(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
-
 };
 
 } // end namespace itk

@@ -90,8 +90,7 @@ protected:
                             ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
-  SaltAndPepperNoiseImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SaltAndPepperNoiseImageFilter);
 
   double m_Probability;
 

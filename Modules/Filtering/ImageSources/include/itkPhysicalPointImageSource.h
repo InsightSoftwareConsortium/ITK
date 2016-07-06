@@ -70,8 +70,7 @@ protected:
   virtual void ThreadedGenerateData (const RegionType &outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  PhysicalPointImageSource( const PhysicalPointImageSource &) ITK_DELETE_FUNCTION;
-  void operator=( const PhysicalPointImageSource &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalPointImageSource);
 };
 
 }

@@ -535,15 +535,15 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::read_ascii(std::istream& s) const
 
 
 template <class T, unsigned nrows, unsigned ncols>
-vnl_matrix_fixed_ref<T,nrows,ncols> const&
-vnl_matrix_fixed_ref<T,nrows,ncols>::flipud() const
+vnl_matrix_fixed_ref<T,nrows,ncols> &
+vnl_matrix_fixed_ref<T,nrows,ncols>::flipud() 
 {
   for (unsigned int r1 = 0; 2*r1+1 < nrows; ++r1)
   {
-    unsigned int r2 = nrows - 1 - r1;
+    const unsigned int r2 = nrows - 1 - r1;
     for (unsigned int c = 0; c < ncols; ++c)
     {
-      T tmp = (*this)(r1, c);
+      const T tmp = (*this)(r1, c);
       (*this)(r1, c) = (*this)(r2, c);
       (*this)(r2, c) = tmp;
     }
@@ -553,15 +553,15 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::flipud() const
 
 
 template <class T, unsigned nrows, unsigned ncols>
-vnl_matrix_fixed_ref<T,nrows,ncols> const&
-vnl_matrix_fixed_ref<T,nrows,ncols>::fliplr() const
+vnl_matrix_fixed_ref<T,nrows,ncols> &
+vnl_matrix_fixed_ref<T,nrows,ncols>::fliplr()
 {
   for (unsigned int c1 = 0; 2*c1+1 < ncols; ++c1)
   {
-    unsigned int c2 = ncols - 1 - c1;
+    const unsigned int c2 = ncols - 1 - c1;
     for (unsigned int r = 0; r < nrows; ++r)
     {
-      T tmp = (*this)(r, c1);
+      const T tmp = (*this)(r, c1);
       (*this)(r, c1) = (*this)(r, c2);
       (*this)(r, c2) = tmp;
     }
@@ -619,7 +619,7 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::inplace_transpose() const
 
 
 #define VNL_MATRIX_FIXED_REF_INSTANTIATE(T,m,n) \
-template class vnl_matrix_fixed_ref_const<T, m, n >; \
-template class vnl_matrix_fixed_ref<T, m, n >
+template class VNL_EXPORT vnl_matrix_fixed_ref_const<T, m, n >; \
+template class VNL_EXPORT vnl_matrix_fixed_ref<T, m, n >
 
 #endif // vnl_matrix_fixed_ref_hxx_

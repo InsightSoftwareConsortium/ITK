@@ -22,4 +22,5 @@
 #include "vnl/vnl_vector.hxx"
 #endif
 #include "vnl_complex_traits+char-.h"
+#include "vnl_export_override.h"
 VNL_VECTOR_INSTANTIATE(char);

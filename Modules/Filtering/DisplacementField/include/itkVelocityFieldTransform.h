@@ -214,8 +214,7 @@ protected:
   unsigned long m_VelocityFieldSetTime;
 
 private:
-  VelocityFieldTransform( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VelocityFieldTransform);
 
   /**
    * Convenience method which reads the information from the current

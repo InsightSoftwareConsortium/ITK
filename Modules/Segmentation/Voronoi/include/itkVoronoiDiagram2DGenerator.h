@@ -118,8 +118,7 @@ protected:
   void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  VoronoiDiagram2DGenerator(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VoronoiDiagram2DGenerator);
 
   unsigned int m_NumberOfSeeds;
   PointType    m_VorBoundary;

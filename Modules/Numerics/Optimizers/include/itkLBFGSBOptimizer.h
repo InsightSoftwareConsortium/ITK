@@ -186,8 +186,7 @@ protected:
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 
 private:
-  LBFGSBOptimizer(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LBFGSBOptimizer);
 
   // give the helper access to member variables, to update iteration
   // counts, etc.

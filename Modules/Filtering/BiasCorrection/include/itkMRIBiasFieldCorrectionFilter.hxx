@@ -22,19 +22,18 @@
 
 namespace itk
 {
-// =========== MRIBiasEnergyFunction members =================
 
 template< typename TImage, typename TImageMask, typename TBiasField >
 MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
-::MRIBiasEnergyFunction()
+::MRIBiasEnergyFunction() :
+  m_BiasField( ITK_NULLPTR ),
+  m_Image( ITK_NULLPTR ),
+  m_Mask( ITK_NULLPTR )
 {
-  m_BiasField = ITK_NULLPTR;
   for ( unsigned int i = 0; i < SpaceDimension; i++ )
     {
     m_SamplingFactor[i] = 1;
     }
-  m_Mask = ITK_NULLPTR;
-  m_Image = ITK_NULLPTR;
 }
 
 template< typename TImage, typename TImageMask, typename TBiasField >
@@ -77,7 +76,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
     itkExceptionMacro(<< "Image is null");
     }
 
-  if ( !m_InternalEnergyFunction  )
+  if ( !m_InternalEnergyFunction )
     {
     itkExceptionMacro(<< "EnergyFunction is null");
     }
@@ -91,8 +90,8 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
 
   m_BiasField->SetCoefficients(parameters);
 
-  // mask, bias and original image have the same dimensions
-  //   and corresponding indexes
+  // Mask, bias and original image have the same dimensions
+  // and corresponding indexes
 
   if ( m_SamplingFactor[0] == 1
        && m_SamplingFactor[1] == 1
@@ -105,12 +104,12 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
     iIter.GoToBegin();
     total = 0.0;
 
-    // fastest for full sampling
+    // Fastest for full sampling
     if ( !m_Mask )
       {
       while ( !bIter.IsAtEnd() )
         {
-        double          diff = iIter.Get() - bIter.Get();
+        double diff = iIter.Get() - bIter.Get();
         total = total + ( *m_InternalEnergyFunction )( diff );
         ++bIter;
         ++iIter;
@@ -124,7 +123,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
         {
         if ( mIter.Get() > 0.0 )
           {
-          double          diff = iIter.Get() - bIter.Get();
+          double diff = iIter.Get() - bIter.Get();
           total = total + ( *m_InternalEnergyFunction )( diff );
           }
         ++bIter;
@@ -139,7 +138,7 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
     typename ImageType::IndexType curIndex;
     typename TBiasField::IndexType indexBias(SpaceDimension);
     typename ImageType::SizeType size = m_Region.GetSize();
-    // use indexing for incomplete sampling
+    // Use indexing for incomplete sampling
 
     if ( !m_Mask )
       {
@@ -200,31 +199,32 @@ MRIBiasEnergyFunction< TImage, TImageMask, TBiasField >
       }
     }
 
-  //std::cout << "Value  " << total << std::endl;
-
   return total;
 }
 
-// =========== MRIBiasFieldCorrectionFilter members ==================
-
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
-::MRIBiasFieldCorrectionFilter()
+::MRIBiasFieldCorrectionFilter() :
+  m_EnergyFunction( ITK_NULLPTR ),
+  m_NormalVariateGenerator( NormalVariateGeneratorType::New() ),
+  m_InputMask( ITK_NULLPTR ),
+  m_OutputMask( ITK_NULLPTR ),
+  m_InternalInput( InternalImageType::New() ),
+  m_BiasFieldMultiplicative( true ),
+  m_UsingSlabIdentification( false ),
+  m_UsingBiasFieldCorrection( true ),
+  m_GeneratingOutput( true ),
+  m_SlabNumberOfSamples( 200 ),
+  m_SlabBackgroundMinimumThreshold( NumericTraits< InputImagePixelType >::min() ),
+  m_SlabTolerance( 0.0 ),
+  m_BiasFieldDegree( 3 ),
+  m_NumberOfLevels( 0 ),
+  m_VolumeCorrectionMaximumIteration( 2000 ),
+  m_InterSliceCorrectionMaximumIteration( 4000 ),
+  m_OptimizerInitialRadius( 1.01 ),
+  m_OptimizerGrowthFactor( 1.05 ),
+  m_OptimizerShrinkFactor( std::pow(m_OptimizerGrowthFactor, -0.25) )
 {
-  m_InputMask = ITK_NULLPTR;
-  m_OutputMask = ITK_NULLPTR;
-
-  m_BiasMultiplicative = true;
-  m_BiasFieldDegree = 3;
-  m_OptimizerInitialRadius = 1.01;
-  m_VolumeCorrectionMaximumIteration = 2000;
-  m_InterSliceCorrectionMaximumIteration = 4000;
-  m_OptimizerGrowthFactor = 1.05;
-  m_OptimizerShrinkFactor = std::pow(m_OptimizerGrowthFactor, -0.25);
-
-  m_EnergyFunction = ITK_NULLPTR;
-  m_NormalVariateGenerator = NormalVariateGeneratorType::New();
-  //m_NormalVariateGenerator->Initialize(3024);
   m_NormalVariateGenerator->Initialize( time(ITK_NULLPTR) );
 
   if ( ImageDimension == 3 )
@@ -237,22 +237,13 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     m_UsingInterSliceIntensityCorrection = false;
     }
 
-  m_UsingSlabIdentification = false;
-  m_SlabBackgroundMinimumThreshold = NumericTraits< InputImagePixelType >::min();
-  m_SlabNumberOfSamples = 200;
-  m_SlabTolerance = 0.0;
-  m_UsingBiasFieldCorrection = true;
-  m_GeneratingOutput = true;
-
-  m_InternalInput = InternalImageType::New();
-
-  m_NumberOfLevels = 0;
   this->SetNumberOfLevels(2);
+
 }
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
+MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetNumberOfLevels(unsigned int num)
 {
   if ( m_NumberOfLevels == num )
@@ -262,32 +253,29 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
 
   this->Modified();
 
-  // clamp value to be at least one
+  // Clamp value to be at least one
   m_NumberOfLevels = num;
   if ( m_NumberOfLevels < 1 )
     {
     m_NumberOfLevels = 1;
     }
 
-  // resize the schedules
+  // Resize the schedules
   ScheduleType temp(m_NumberOfLevels, ImageDimension);
   temp.Fill(0);
   m_Schedule = temp;
 
-  // determine initial shrink factor
+  // Determine initial shrink factor
   unsigned int startfactor = 1;
   startfactor = startfactor << ( m_NumberOfLevels - 1 );
 
-  // set the starting shrink factors
+  // Set the starting shrink factors
   this->SetStartingShrinkFactors(startfactor);
 }
 
-/**
- * Set the starting shrink factors
- */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
+MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetStartingShrinkFactors(unsigned int factor)
 {
   unsigned int array[ImageDimension];
@@ -300,12 +288,9 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
   this->SetStartingShrinkFactors(array);
 }
 
-/**
- * Set the starting shrink factors
- */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
+MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetStartingShrinkFactors(unsigned int *factors)
 {
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
@@ -332,23 +317,17 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
   this->Modified();
 }
 
-/**
- * Get the starting shrink factors
- */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 const unsigned int *
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
+MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::GetStartingShrinkFactors() const
 {
   return ( m_Schedule.data_block() );
 }
 
-/**
- * Set the multi-resolution schedule
- */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
+MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetSchedule(const ScheduleType & schedule)
 {
   if ( schedule.rows() != m_NumberOfLevels
@@ -387,12 +366,9 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
     }
 }
 
-/*
- * Is the schedule downward divisible ?
- */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 bool
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage,  TMaskImage >
+MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::IsScheduleDownwardDivisible(const ScheduleType & schedule)
 {
   unsigned int ilevel, idim;
@@ -419,104 +395,6 @@ template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::~MRIBiasFieldCorrectionFilter()
 {}
-
-template< typename TInputImage, typename TOutputImage, typename TMaskImage >
-void
-MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "Use interslice intensity correction: ";
-  if ( m_UsingInterSliceIntensityCorrection )
-    {
-    os << "true" << std::endl;
-    }
-  else
-    {
-    os << "false" << std::endl;
-    }
-
-  os << indent << "Use slab identification: ";
-  if ( m_UsingSlabIdentification )
-    {
-    os << "true" << std::endl;
-    }
-  else
-    {
-    os << "false" << std::endl;
-    }
-
-  os << indent << "Use biasfield correction: ";
-  if ( m_UsingBiasFieldCorrection )
-    {
-    os << "true" << std::endl;
-    }
-  else
-    {
-    os << "false" << std::endl;
-    }
-
-  os << indent << "Generate output image: ";
-  if ( m_GeneratingOutput )
-    {
-    os << "true" << std::endl;
-    }
-  else
-    {
-    os << "false" << std::endl;
-    }
-
-  os << indent << "Is bias field multiplicative: ";
-  if ( m_BiasMultiplicative )
-    {
-    os << "true" << std::endl;
-    }
-  else
-    {
-    os << "false" << std::endl;
-    }
-
-  os << indent << "Biasfield degree = " << m_BiasFieldDegree << std::endl;
-  os << indent << "Optimizer initial radius: " << m_OptimizerInitialRadius
-     << std::endl;
-  os << indent << "Optimizer growth factor: " << m_OptimizerGrowthFactor
-     << std::endl;
-  os << indent << "Optimizer shrink factor: " << m_OptimizerShrinkFactor
-     << std::endl;
-  os << indent << "Volume optimizer max iteration: "
-     << m_VolumeCorrectionMaximumIteration << std::endl;
-  os << indent << "Interslice correction optimizer max iteration: "
-     << m_InterSliceCorrectionMaximumIteration << std::endl;
-  os << indent << "Slicing direction: " << m_SlicingDirection << std::endl;
-
-  os << indent << "InputMask: ";
-  if ( m_InputMask.IsNotNull() )
-    {
-    os << m_InputMask << std::endl;
-    }
-  else
-    {
-    os << "not set." << std::endl;
-    }
-
-  os << indent << "OutputMask: ";
-  if ( m_OutputMask.IsNotNull() )
-    {
-    os << m_OutputMask << std::endl;
-    }
-  else
-    {
-    os << "not set." << std::endl;
-    }
-
-  os << indent << "Energy function: " << m_EnergyFunction << std::endl;
-  os << indent << "Normal random variate generator: "
-     << m_NormalVariateGenerator << std::endl;
-  os << indent << "Multires: No. levels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Multires: Schedule: " << std::endl;
-  os << m_Schedule << std::endl;
-}
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
@@ -565,15 +443,15 @@ throw ( ExceptionObject )
   m_InternalInput->SetRegions( this->GetInput()->GetLargestPossibleRegion() );
   m_InternalInput->Allocate();
 
-  // copy the input image to the internal image and cast the type to
+  // Copy the input image to the internal image and cast the type to
   // float (InternalImageType::PixelType)
   CopyAndConvertImage ( this->GetInput(), m_InternalInput.GetPointer(),
                         this->GetInput()->GetLargestPossibleRegion() );
 
-  // if the bias is multiplicative, we will use logarithm
+  // If the bias is multiplicative, we will use logarithm
   // the following section applies logarithm to key parameters and
   // image data
-  if ( this->IsBiasFieldMultiplicative() )
+  if ( this->GetBiasFieldMultiplicative() )
     {
     const unsigned int size = m_TissueClassMeans.Size();
     for ( unsigned int i = 0; i < size; i++ )
@@ -589,7 +467,7 @@ throw ( ExceptionObject )
                       m_InternalInput.GetPointer() );
     }
 
-  // initialize the energy function
+  // Initialize the energy function
   if ( m_TissueClassMeans.Size() < 1 )
     {
     itkExceptionMacro(<< "Tissue Class Means is empty");
@@ -626,22 +504,12 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
                      degree,
                      biasSize);
 
-  /*
-  std::cout << "New bias field being computed = "
-            << biasSize[0] << ", " << biasSize[1];
-  if(biasSize.size() > 2)
-    {
-    std::cout << ", " << biasSize[2];
-    }
-  std::cout << std::endl;
-  */
-
   if ( bias.GetNumberOfCoefficients() == m_BiasFieldCoefficients.size() )
     {
     bias.SetCoefficients(m_BiasFieldCoefficients);
     }
   else
-    { // init ot all zero
+    { // Init all bias field coefficients to zero
     cleanCoeffs = true;
     m_BiasFieldCoefficients.clear();
     for ( unsigned int i = 0; i < bias.GetNumberOfCoefficients(); ++i )
@@ -651,11 +519,11 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     bias.SetCoefficients(m_BiasFieldCoefficients);
     }
 
-  // update the energy function;
+  // Update the energy function;
   m_EnergyFunction->SetBiasField(&bias);
   m_EnergyFunction->SetRegion(region);
 
-  // initialize the 1+1 optimizer
+  // Initialize the 1+1 optimizer
   OptimizerType::Pointer optimizer = OptimizerType::New();
   optimizer->SetDebug( this->GetDebug() );
   optimizer->SetNormalVariateGenerator( m_NormalVariateGenerator.GetPointer() );
@@ -700,7 +568,6 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     initialPosition[i] = bias.GetCoefficients()[i];
     }
   optimizer->SetInitialPosition(initialPosition);
-  //std::cout << "   Initial Position = " << initialPosition << std::endl;
 
   try
     {
@@ -716,10 +583,6 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
       m_EnergyFunction->SetSamplingFactors(energySampling);
       optimizer->MaximizeOff();
       optimizer->StartOptimization();
-      /*
-      std::cout << "      Level Results = " << optimizer->GetCurrentPosition()
-                                            << std::endl;
-      */
       }
     }
   catch ( ExceptionObject & ie )
@@ -730,8 +593,6 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     {
     std::cerr << e.what() << std::endl;
     }
-
-  //std::cout << "   Results = " << optimizer->GetCurrentPosition() <<std::endl;
 
   bias.SetCoefficients( optimizer->GetCurrentPosition() );
   if ( cleanCoeffs )
@@ -842,7 +703,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
     typename MRASlabIdentifier< InputImageType >::Pointer identifier =
       MRASlabIdentifier< InputImageType >::New();
-    // find slabs
+    // Find slabs
     identifier->SetImage( this->GetInput() );
     identifier->SetNumberOfSamples(m_SlabNumberOfSamples);
     identifier->SetBackgroundMinimumThreshold(
@@ -855,7 +716,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
   else
     {
-    // creates a single region which is the largest possible region of
+    // Creates a single region which is the largest possible region of
     // the input image.
     m_Slabs.clear();
     m_Slabs.push_back( this->GetInput()->GetLargestPossibleRegion() );
@@ -884,7 +745,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 
   while ( iter != m_Slabs.end() )
     {
-    // correct inter-slice intensity inhomogeniety
+    // Correct inter-slice intensity inhomogeniety
     // using 0th degree Legendre polynomial
 
     if ( m_UsingInterSliceIntensityCorrection )
@@ -894,7 +755,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
       itkDebugMacro(<< "  Inter-slice intensity corrected.");
       }
 
-    // correct 3D bias
+    // Correct 3D bias
     if ( m_UsingBiasFieldCorrection )
       {
       itkDebugMacro(<< "  Correcting bias...");
@@ -928,11 +789,11 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     iter++;
     }
 
-  if ( this->IsBiasFieldMultiplicative() )
+  if ( this->GetBiasFieldMultiplicative() )
     {
-    // for multiple calls it is necessary to restore the tissue classes
-    //   and the Initial Radius  (i.e. everything that has been
-    //   log-transformed in the initialization)
+    // For multiple calls it is necessary to restore the tissue classes
+    // and the Initial Radius (i.e. everything that has been
+    // log-transformed in the initialization)
     const unsigned int size = m_TissueClassMeans.Size();
     for ( unsigned int i = 0; i < size; i++ )
       {
@@ -948,7 +809,7 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     {
     itkDebugMacro(<< "Generating the output image...");
 
-    if ( this->IsBiasFieldMultiplicative() )
+    if ( this->GetBiasFieldMultiplicative() )
       {
       ExpImage( m_InternalInput.GetPointer(), m_InternalInput.GetPointer() );
       }
@@ -963,7 +824,6 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
     }
 }
 
-// energy function related members
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
@@ -993,7 +853,6 @@ throw ( ExceptionObject )
   m_TissueClassSigmas = sigmas;
 }
 
-// protected members
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 bool
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
@@ -1165,11 +1024,109 @@ MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
       }
     else
       {
-      // no ovelapping, so remove the slab from the vector
+      // No ovelapping, so remove the slab from the vector
       slabs.erase(iter);
       }
     iter++;
     }
+}
+
+template< typename TInputImage, typename TOutputImage, typename TMaskImage >
+void
+MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Use interslice intensity correction: ";
+  if ( m_UsingInterSliceIntensityCorrection )
+    {
+    os << "true" << std::endl;
+    }
+  else
+    {
+    os << "false" << std::endl;
+    }
+
+  os << indent << "Use slab identification: ";
+  if ( m_UsingSlabIdentification )
+    {
+    os << "true" << std::endl;
+    }
+  else
+    {
+    os << "false" << std::endl;
+    }
+
+  os << indent << "Use biasfield correction: ";
+  if ( m_UsingBiasFieldCorrection )
+    {
+    os << "true" << std::endl;
+    }
+  else
+    {
+    os << "false" << std::endl;
+    }
+
+  os << indent << "Generate output image: ";
+  if ( m_GeneratingOutput )
+    {
+    os << "true" << std::endl;
+    }
+  else
+    {
+    os << "false" << std::endl;
+    }
+
+  os << indent << "Is bias field multiplicative: ";
+  if ( m_BiasFieldMultiplicative )
+    {
+    os << "true" << std::endl;
+    }
+  else
+    {
+    os << "false" << std::endl;
+    }
+
+  os << indent << "Biasfield degree = " << m_BiasFieldDegree << std::endl;
+  os << indent << "Optimizer initial radius: " << m_OptimizerInitialRadius
+     << std::endl;
+  os << indent << "Optimizer growth factor: " << m_OptimizerGrowthFactor
+     << std::endl;
+  os << indent << "Optimizer shrink factor: " << m_OptimizerShrinkFactor
+     << std::endl;
+  os << indent << "Volume optimizer max iteration: "
+     << m_VolumeCorrectionMaximumIteration << std::endl;
+  os << indent << "Interslice correction optimizer max iteration: "
+     << m_InterSliceCorrectionMaximumIteration << std::endl;
+  os << indent << "Slicing direction: " << m_SlicingDirection << std::endl;
+
+  os << indent << "InputMask: ";
+  if ( m_InputMask.IsNotNull() )
+    {
+    os << m_InputMask << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl;
+    }
+
+  os << indent << "OutputMask: ";
+  if ( m_OutputMask.IsNotNull() )
+    {
+    os << m_OutputMask << std::endl;
+    }
+  else
+    {
+    os << "not set." << std::endl;
+    }
+
+  os << indent << "Energy function: " << m_EnergyFunction << std::endl;
+  os << indent << "Normal random variate generator: "
+     << m_NormalVariateGenerator << std::endl;
+  os << indent << "Multires: No. levels: " << m_NumberOfLevels << std::endl;
+  os << indent << "Multires: Schedule: " << std::endl;
+  os << m_Schedule << std::endl;
 }
 } // end namespace itk
 

@@ -103,25 +103,19 @@ public:
   typedef Function::ColormapFunction< InputImagePixelType,
                                     OutputImagePixelType >                                ColormapType;
 
-  /**
-   * Set/Get the colormap object.
-   */
+  /** Set/Get the colormap object. */
   itkSetObjectMacro(Colormap, ColormapType);
   itkGetModifiableObjectMacro(Colormap, ColormapType);
 
-  /**
-   * Enum type that provides for an easy interface to existing colormaps.
-   */
+  /** Enum type that provides for an easy interface to existing colormaps. */
   typedef enum { Red, Green, Blue, Grey, Hot, Cool, Spring, Summer,
                  Autumn, Winter, Copper, Jet, HSV, OverUnder } ColormapEnumType;
 
   void SetColormap(ColormapEnumType);
 
-  /**
-   * Set/Get UseInputImageExtremaForScaling.  If 'true', the colormap uses the
-   * min and max values from the image to scale appropriately.  Otherwise,
-   * these values can be set in the colormap manually.
-   */
+  /** Set/Get UseInputImageExtremaForScaling. If true, the colormap uses the
+   * min and max values from the image to scale appropriately. Otherwise,
+   * these values can be set in the colormap manually. */
   itkSetMacro(UseInputImageExtremaForScaling, bool);
   itkGetConstMacro(UseInputImageExtremaForScaling, bool);
   itkBooleanMacro(UseInputImageExtremaForScaling);
@@ -132,11 +126,10 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
+  /** Overloaded method so that if the output image is a VectorImage, then
+   * the correct number of components are set. */
   virtual void GenerateOutputInformation() ITK_OVERRIDE
   {
-    // this methods is overloaded so that if the output image is a
-    // VectorImage then the correct number of components are set.
-
     Superclass::GenerateOutputInformation();
     OutputImageType* output = this->GetOutput();
 
@@ -150,27 +143,28 @@ protected:
       }
   }
 
-  /** ScalarToRGBColormapImageFilter
-   * can be implemented as a multithreaded filter.
+  /** Perform the pixel-wise mapping.
+   * ScalarToRGBColormapImageFilter can be implemented as a multithreaded
+   * filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is
    * allocated automatically by the superclass prior to calling
-   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * ThreadedGenerateData(). ThreadedGenerateData can only write to the
    * portion of the output image specified by the parameter
-   * "outputRegionForThread"
+   * "outputRegionForThread".
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()  */
+   *     ImageToImageFilter::GenerateData() */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) ITK_OVERRIDE;
 
-  /** Process to execute before entering the multithreaded section */
+  /** Process to execute before entering the multithreaded section. */
   void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  ScalarToRGBColormapImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScalarToRGBColormapImageFilter);
 
+private:
   typename ColormapType::Pointer m_Colormap;
 
   bool m_UseInputImageExtremaForScaling;

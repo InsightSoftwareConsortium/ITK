@@ -294,8 +294,7 @@ protected:
   void EnlargeOutputRequestedRegion( DataObject * ) ITK_OVERRIDE;
 
 private:
-  MultiLabelSTAPLEImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiLabelSTAPLEImageFilter);
 
   size_t m_TotalLabelCount;
 

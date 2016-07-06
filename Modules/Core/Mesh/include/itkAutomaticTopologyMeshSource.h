@@ -388,8 +388,7 @@ protected:
                           // are controlled manually
 
 private:
-  AutomaticTopologyMeshSource(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AutomaticTopologyMeshSource);
 
   typedef itksys::hash_map<
     Array< IdentifierType >,

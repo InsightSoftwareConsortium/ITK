@@ -71,8 +71,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  SphereSpatialFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SphereSpatialFunction);
 
   /** The center of the sphere (of the same type as Input). */
   InputType m_Center;

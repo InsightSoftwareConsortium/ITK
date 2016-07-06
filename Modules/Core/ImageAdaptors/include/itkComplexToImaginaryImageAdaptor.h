@@ -98,8 +98,7 @@ protected:
   virtual ~ComplexToImaginaryImageAdaptor() {}
 
 private:
-  ComplexToImaginaryImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToImaginaryImageAdaptor);
 };
 } // end namespace itk
 

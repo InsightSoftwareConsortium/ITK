@@ -121,8 +121,7 @@ protected:
   void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
 private:
-  LaplacianSharpeningImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSharpeningImageFilter);
 
   bool m_UseImageSpacing;
 };

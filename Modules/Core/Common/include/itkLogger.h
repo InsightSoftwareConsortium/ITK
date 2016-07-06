@@ -56,8 +56,7 @@ protected:
   virtual ~Logger();
 
 private:
-  Logger(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Logger);
 };                              // class Logger
 } // namespace itk
 

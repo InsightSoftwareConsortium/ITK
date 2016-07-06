@@ -2,7 +2,7 @@
 #include <vnl/vnl_rational_traits.h>
 #include <vnl/vnl_sparse_matrix.hxx>
 
-template class vnl_sparse_matrix<vnl_rational>;
+template class VNL_EXPORT vnl_sparse_matrix<vnl_rational>;
 
 static vnl_rational vnl_sparse_matrix_vnl_rational_tickler()
 {

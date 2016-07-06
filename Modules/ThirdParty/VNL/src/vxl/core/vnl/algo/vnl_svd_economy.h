@@ -16,6 +16,7 @@
 #include <vnl/vnl_numeric_traits.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 template <class real_t>
 class vnl_svd_economy

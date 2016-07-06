@@ -212,8 +212,7 @@ protected:
   unsigned int                              m_NumberOfIntegrationSteps;
 
 private:
-  ConstantVelocityFieldTransform( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ConstantVelocityFieldTransform);
 
   /**
    * Convenience method which reads the information from the current

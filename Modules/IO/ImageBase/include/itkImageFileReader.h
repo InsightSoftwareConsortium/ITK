@@ -153,8 +153,7 @@ protected:
   bool m_UseStreaming;
 
 private:
-  ImageFileReader(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileReader);
 
   std::string m_ExceptionMessage;
 

@@ -427,10 +427,10 @@ macro(itk_end_wrap_module_python)
     endif()
 
     add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
-    if(ITK_WRAP_DOC)
+    if(${module_prefix}_WRAP_DOC)
       add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
     endif()
-    if(ITK_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKPyBase)
+    if(${module_prefix}_WRAP_EXPLICIT AND NOT ${WRAPPER_LIBRARY_NAME} STREQUAL ITKPyBase)
       target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
       add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
     endif()
@@ -442,7 +442,7 @@ macro(itk_end_wrap_module_python)
       # don't depends on the targets from wrapitk in external projects
       foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
         add_dependencies(${lib} ${dep}Swig)
-        if(ITK_WRAP_DOC)
+        if(${module_prefix}_WRAP_DOC)
           add_dependencies(${lib} ${dep}Doxygen)
         endif()
       endforeach()
@@ -476,7 +476,7 @@ macro(itk_end_wrap_submodule_python group_name)
   endif()
 
   # is there a docstring file?
-  if(ITK_WRAP_DOC AND NOT ITK_WRAP_PYTHON_PROCCESS_SWIG_INPUTS)
+  if(${module_prefix}_WRAP_DOC AND NOT ITK_WRAP_PYTHON_PROCCESS_SWIG_INPUTS)
     # yes. Include the docstring file
     set(doc_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i")
     set(ITK_WRAP_PYTHON_SWIG_EXT "%include ${WRAPPER_MODULE_NAME}_doc.i\n\n${ITK_WRAP_PYTHON_SWIG_EXT}")
@@ -550,12 +550,19 @@ endmacro()
 
 
 macro(ADD_PYTHON_CONFIG_TEMPLATE base_name wrap_class swig_name template_params)
+  # Find if a header file corresponding to 'base_name' can be found in the current include directory
+    set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include/itk${base_name}.h)
+    if(EXISTS ${_include})
+      set(class_in_module "True")
+    else()
+      set(class_in_module "False")
+    endif()
   # build the name - type association list used in *Config.py
 
   if("${template_params}" STREQUAL "")
-    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}'),\n")
+    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', ${class_in_module}),\n")
   else()
-    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', '${template_params}'),\n")
+    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', ${class_in_module}, '${template_params}'),\n")
   endif()
 
 endmacro()

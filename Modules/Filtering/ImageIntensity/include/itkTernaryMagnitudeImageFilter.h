@@ -101,8 +101,7 @@ protected:
   virtual ~TernaryMagnitudeImageFilter() {}
 
 private:
-  TernaryMagnitudeImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TernaryMagnitudeImageFilter);
 };
 } // end namespace itk
 

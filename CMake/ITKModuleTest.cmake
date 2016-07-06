@@ -145,6 +145,98 @@ function(itk_add_test)
 endfunction()
 
 #-----------------------------------------------------------------------------
+# ITK wrapper for add_test that runs the given Python script with a Python
+# executable exposed to ITK's build tree Python wrapping
+#
+# Usage:
+#
+#  itk_python_add_test(NAME testName
+#    TEST_DRIVER_ARGS --compare testOutput.mha testBaseline.mha
+#    SCRIPT testPythonScript.py argv1 argv2 argv3
+#    )
+#
+# where the named arguments are:
+#
+# NAME             - test name
+# TEST_DRIVER_ARGS - additional arguments to the itkTestDriver executable
+# COMMAND          - Python test script and its arguments
+#
+function(itk_python_add_test)
+  # No-op if wrapping is not available
+  if(NOT ITK_WRAP_PYTHON)
+    return()
+  endif()
+
+  set(options )
+  set(oneValueArgs NAME)
+  set(multiValueArgs TEST_DRIVER_ARGS COMMAND)
+  cmake_parse_arguments(PYTHON_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+  set(command "${PYTHON_EXECUTABLE}")
+  # add extra command which may be needed on some systems
+  if(CMAKE_OSX_ARCHITECTURES)
+    list(GET CMAKE_OSX_ARCHITECTURES 0 test_arch)
+    set(command arch -${test_arch} ${command})
+  endif()
+
+  if(ITK_DIR)
+    set(itk_wrap_python_binary_dir "${ITK_DIR}/Wrapping/Generators/Python")
+  else()
+    set(itk_wrap_python_binary_dir "${ITK_BINARY_DIR}/Wrapping/Generators/Python")
+  endif()
+
+  itk_add_test(NAME ${PYTHON_ADD_TEST_NAME}
+    COMMAND itkTestDriver
+    --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}/$<CONFIGURATION>"
+    --add-before-env PYTHONPATH "${itk_wrap_python_binary_dir}"
+    --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-env PYTHONPATH "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+    --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-libpath "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}"
+    --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/$<CONFIGURATION>"
+    --add-before-libpath "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}"
+    ${PYTHON_ADD_TEST_TEST_DRIVER_ARGS}
+    ${command}
+    ${PYTHON_ADD_TEST_COMMAND}
+    WORKING_DIRECTORY "${CMAKE_CURRENT_LIST_DIR}"
+    )
+  set_property(TEST ${name} APPEND PROPERTY LABELS Python)
+endfunction()
+
+#-----------------------------------------------------------------------------
+# ITK wrapper for add_test that runs the given Python expression to test the
+# instantiation of a wrapped ITK Python class
+#
+# Usage:
+#
+#  itk_python_expression_add_test(NAME testName
+#    EXPRESSION "image = itk.Image.New()"
+#    )
+#
+# where the named arguments are:
+#
+# NAME       - test name
+# EXPRESSION - expression to instantiate the object
+#
+function(itk_python_expression_add_test)
+  # No-op if wrapping is not available
+  if(NOT ITK_WRAP_PYTHON)
+    return()
+  endif()
+
+  set(options )
+  set(oneValueArgs NAME EXPRESSION)
+  set(multiValueArgs )
+  cmake_parse_arguments(PYTHON_EXPRESSION_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
+
+  # For $<SEMICOLON>
+  cmake_minimum_required(VERSION 2.8.11)
+  itk_python_add_test(NAME ${PYTHON_EXPRESSION_ADD_TEST_NAME}
+    COMMAND -c "'import itk$<SEMICOLON> itk.auto_progress(2)$<SEMICOLON> ${PYTHON_EXPRESSION_ADD_TEST_EXPRESSION}'"
+    )
+endfunction()
+
+#-----------------------------------------------------------------------------
 # ITK function to ignore a test
 #
 function(itk_tests_ignore)

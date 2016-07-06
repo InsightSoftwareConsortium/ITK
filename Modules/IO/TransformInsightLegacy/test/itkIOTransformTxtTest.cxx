@@ -93,6 +93,19 @@ static int oneTest(const std::string & outputDirectory, const char *goodname,con
       (*lit)->Print ( std::cout );
       ++lit;
       }
+
+    if ( list->size() != 1 )
+      {
+      std::cerr << "Failure: Read too many transforms!" << std::endl;
+      return EXIT_FAILURE;
+      }
+
+    if( dynamic_cast<AffineTransformType*>(list->front().GetPointer()) == ITK_NULLPTR )
+      {
+      std::cerr << "Failure to dynamic_cast read transform!" << std::endl;
+      return EXIT_FAILURE;
+      }
+
     }
   catch( itk::ExceptionObject & excp )
     {
@@ -260,9 +273,8 @@ int itkIOTransformTxtTest(int argc, char* argv[])
 
   const int result5 = templatelessTest( outputDirectory );
 
-  return (
-          ( !( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS) ) &&
-          ( !( result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS) ) &&
-            !( result5 == EXIT_SUCCESS )
-          );
+  return  ( result1 == EXIT_SUCCESS && result2 == EXIT_SUCCESS &&
+            result3 == EXIT_SUCCESS && result4 == EXIT_SUCCESS &&
+            result5 == EXIT_SUCCESS )? EXIT_SUCCESS : EXIT_FAILURE
+          ;
 }

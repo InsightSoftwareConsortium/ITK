@@ -226,8 +226,7 @@ protected:
   ContinuousIndexType m_EndContinuousIndex;
 
 private:
-  ImageFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFunction);
 };
 } // end namespace itk
 

@@ -164,8 +164,7 @@ protected:
   typename LevelSetContainerType::Iterator m_LevelSetUpdateContainerIteratorToProcessWhenThreading;
 
 private:
-  LevelSetEvolutionBase( const Self& ) ITK_DELETE_FUNCTION;
-  void operator = ( const Self& ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionBase);
 };
 }
 

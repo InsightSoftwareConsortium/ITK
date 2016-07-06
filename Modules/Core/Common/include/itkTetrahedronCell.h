@@ -127,8 +127,7 @@ protected:
   PointIdentifier m_PointIds[NumberOfPoints];
 
 private:
-  TetrahedronCell(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(TetrahedronCell);
 };
 } // end namespace itk
 

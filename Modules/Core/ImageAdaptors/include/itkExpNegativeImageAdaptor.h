@@ -92,8 +92,7 @@ protected:
   virtual ~ExpNegativeImageAdaptor() {}
 
 private:
-  ExpNegativeImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ExpNegativeImageAdaptor);
 };
 } // end namespace itk
 

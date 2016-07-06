@@ -107,8 +107,7 @@ protected:
   virtual ~BoundedReciprocalImageFilter() {}
 
 private:
-  BoundedReciprocalImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoundedReciprocalImageFilter);
 };
 } // end namespace itk
 

@@ -84,8 +84,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  EllipsoidInteriorExteriorSpatialFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(EllipsoidInteriorExteriorSpatialFunction);
 
   /** The center of the ellipsoid. */
   InputType m_Center;

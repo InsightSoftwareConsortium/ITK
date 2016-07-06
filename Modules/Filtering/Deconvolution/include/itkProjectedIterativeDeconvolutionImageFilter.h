@@ -82,8 +82,7 @@ protected:
                          float iterationProgressWeight) ITK_OVERRIDE;
 
 private:
-  ProjectedIterativeDeconvolutionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ProjectedIterativeDeconvolutionImageFilter);
 
   typedef ThresholdImageFilter< InternalImageType > ProjectionFilterType;
 

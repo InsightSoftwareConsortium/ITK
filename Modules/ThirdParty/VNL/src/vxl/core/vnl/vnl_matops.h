@@ -20,10 +20,12 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
+
 //:   A collection of vnl_matrix operations, provided as static methods.
 //    Highlights include matrix glueing, and type conversions.
 //    matlab_print has been moved to vnl_matlab_print.h.
-class vnl_matops
+class VNL_EXPORT vnl_matops
 {
  public:
   static double homg_diff(vnl_matrix<double> const& A, vnl_matrix<double> const& B);

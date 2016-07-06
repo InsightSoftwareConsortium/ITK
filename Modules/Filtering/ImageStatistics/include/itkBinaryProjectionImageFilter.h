@@ -193,8 +193,7 @@ protected:
   OutputPixelType m_BackgroundValue;
 
 private:
-  BinaryProjectionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryProjectionImageFilter);
 };                                           // end BinaryProjectionImageFilter
 } //end namespace itk
 

@@ -163,7 +163,7 @@ NNetClassifierTest4(int argc, char* argv[])
   std::cout<<"Network Weights = "<<std::endl;
   std::cout << net1 << std::endl;
 
-  if (double(error1 / 10) > 2 || double(error2 / 10) > 2)
+  if (static_cast< double >(error1) / 10. > 2. || static_cast< double >(error2) / 10. > 2.)
     {
     std::cout << "Test failed." << std::endl;
     return EXIT_FAILURE;

@@ -83,8 +83,7 @@ protected:
   virtual ~VTKImageToImageFilter();
 
 private:
-  VTKImageToImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageToImageFilter);
 
   typedef vtkSmartPointer<vtkImageExport> ImageExportPointer;
   ImageExportPointer m_Exporter;

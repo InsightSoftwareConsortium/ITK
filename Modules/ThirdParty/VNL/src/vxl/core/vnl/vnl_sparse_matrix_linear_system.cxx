@@ -77,6 +77,6 @@ void vnl_sparse_matrix_linear_system<T>::apply_preconditioner(vnl_vector<double>
   px = dot_product(x,jacobi_precond_);
 }
 
-template class vnl_sparse_matrix_linear_system<double>;
-template class vnl_sparse_matrix_linear_system<float>;
+template class VNL_EXPORT vnl_sparse_matrix_linear_system<double>;
+template class VNL_EXPORT vnl_sparse_matrix_linear_system<float>;
 

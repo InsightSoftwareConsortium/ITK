@@ -1,5 +1,8 @@
 #ifndef vcl_config_compiler_h_
 #define vcl_config_compiler_h_
+
+#include "vcl_compiler_detection.h"
+
 //:
 // \file
 // This file either is or was generated from vcl_config_compiler.h.in
@@ -71,12 +74,6 @@
 #define VCL_HAS_EXPLICIT @VCL_HAS_EXPLICIT@
 
 
-//: VCL_FOR_SCOPE_HACK:
-//
-// True if the compiler uses old-style 'for' loop scoping.
-// Setting this nonzero causes the Henderson trick to be used.
-#define VCL_FOR_SCOPE_HACK @VCL_FOR_SCOPE_HACK@
-
 //: VCL_COMPLEX_POW_WORKS
 //
 // It appears several programmers have (independently)
@@ -95,90 +92,6 @@
 //#define VCL_DEFAULT_VALUE(x) = x
 #define VCL_DEFAULT_VALUE(x) @VCL_DEFAULT_VALUE@
 
-
-//----------------------------------------------------------------------
-// constant initializer issues.
-
-/* When using C++11 or greater, constexpr
- * may be necessary for static const float initialization
- * and is benificial in other cases where
- * a value can be constant. */
-#if  VXL_COMPILED_CXX_STANDARD_VERSION >= 201103L
-# define VCL_CAN_STATIC_CONST_INIT_INT 1
-# define VCL_CAN_STATIC_CONST_INIT_FLOAT 1
-#endif
-
-//: VCL_STATIC_CONST_INIT_INT_DECL(x)
-//
-// ANSI allows
-// \code
-//     class A {
-//       static const int x = 27;
-//     };
-// \endcode
-// And there is a speed advantage, so we want to use it where supported.
-// However, the standard also requires (9.4.2/4) that the constant be
-// defined in namespace scope. (That is, space must be allocated.)
-// To make matters worse, some compilers (at least VC 7) mistakenly
-// allocate storage without the definition in namespace scope,
-// which results in multiply defined symbols.
-// To use the macro, use VCL_STATIC_CONST_INIT_INT_DECL in the class
-// definition (header file). This declares the constant.
-// \code
-//     class A {
-//       static const int x VCL_STATIC_CONST_INIT_INT_DECL(27);
-//     };
-// \endcode
-// Use VCL_STATIC_CONST_INIT_INT_DEFN in some .cxx file to define
-// the constant, but only if VCL_STATIC_CONST_INIT_INT_NO_DEFN
-// evaluates to false.
-// \code
-//     #if !VCL_STATIC_CONST_INIT_INT_NO_DEFN
-//     const int A::x VCL_STATIC_CONST_INIT_INT_DEFN(27);
-//     #endif
-// \endcode
-//
-// In order to be able to query the setting of this, one actually must
-// define VCL_CAN_STATIC_CONST_INIT_INT to either 0 or 1.
-
-//#define VCL_CAN_STATIC_CONST_INIT_INT 1 /* allowed */
-//#define VCL_CAN_STATIC_CONST_INIT_INT 0 /* not allowed */
-#ifndef VCL_CAN_STATIC_CONST_INIT_INT
-# define VCL_CAN_STATIC_CONST_INIT_INT @VCL_STATIC_CONST_INIT_INT@
-#endif
-#if VCL_CAN_STATIC_CONST_INIT_INT
-# define VCL_STATIC_CONST_INIT_INT_DECL(x) = x
-# define VCL_STATIC_CONST_INIT_INT_DEFN(x) /* initialized at declaration */
-# define VCL_STATIC_CONST_INIT_INT_NO_DEFN @VCL_STATIC_CONST_INIT_NO_DEFN@
-#else
-# define VCL_STATIC_CONST_INIT_INT_DECL(x) /* not allowed */
-# define VCL_STATIC_CONST_INIT_INT_DEFN(x) = x
-# define VCL_STATIC_CONST_INIT_INT_NO_DEFN 0
-#endif
-
-
-//: VCL_STATIC_CONST_INIT_FLOAT(x)
-//
-// GCC allows the above, but with floating point types, ANSI doesn't.
-// Again, we'll use it if we've got it.
-//
-// In order to be able to query the setting of this, one actually must
-// define VCL_CAN_STATIC_CONST_INIT_FLOAT to either 0 or 1.
-
-//#define VCL_CAN_STATIC_CONST_INIT_FLOAT 1 /* allowed */
-//#define VCL_CAN_STATIC_CONST_INIT_FLOAT 0 /* not allowed */
-#ifndef VCL_CAN_STATIC_CONST_INIT_FLOAT
-# define VCL_CAN_STATIC_CONST_INIT_FLOAT @VCL_STATIC_CONST_INIT_FLOAT@
-#endif
-#if VCL_CAN_STATIC_CONST_INIT_FLOAT
-# define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) = x
-# define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) /* initialized at declaration */
-# define VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN @VCL_STATIC_CONST_INIT_NO_DEFN@
-#else
-# define VCL_STATIC_CONST_INIT_FLOAT_DECL(x) /* not allowed */
-# define VCL_STATIC_CONST_INIT_FLOAT_DEFN(x) = x
-# define VCL_STATIC_CONST_INIT_FLOAT_NO_DEFN 0
-#endif
 
 
 //----------------------------------------------------------------------

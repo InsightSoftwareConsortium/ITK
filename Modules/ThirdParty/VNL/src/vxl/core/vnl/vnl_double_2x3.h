@@ -20,9 +20,11 @@
 
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_double_3.h>
+#include "vnl/vnl_export.h"
 
-class vnl_double_2x3 : public vnl_matrix_fixed<double, 2, 3>
+class VNL_EXPORT vnl_double_2x3 : public vnl_matrix_fixed<double, 2, 3>
 {
+ private:
   typedef vnl_matrix_fixed<double, 2, 3> Base;
  public:
 

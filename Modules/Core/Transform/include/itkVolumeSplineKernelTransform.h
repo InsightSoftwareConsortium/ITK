@@ -97,8 +97,7 @@ protected:
     OutputPointType & result) const ITK_OVERRIDE;
 
 private:
-  VolumeSplineKernelTransform(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VolumeSplineKernelTransform);
 };
 } // namespace itk
 

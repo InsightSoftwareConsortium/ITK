@@ -183,8 +183,7 @@ protected:
   virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const ITK_OVERRIDE;
 
 private:
-  BinaryImageToLabelMapFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLabelMapFilter);
 
   // some additional types
   typedef typename TOutputImage::RegionType::SizeType OutSizeType;
