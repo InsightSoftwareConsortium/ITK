@@ -93,7 +93,7 @@ public:
   virtual OffsetType IncrementInput(InputType & input) const ITK_OVERRIDE;
 
   /** Where does the path end (what is the last valid input value)? */
-  virtual inline InputType EndOfInput() const ITK_OVERRIDE
+  virtual InputType EndOfInput() const ITK_OVERRIDE
   {
     return static_cast<InputType>(NumberOfSteps());  // 0 is before the first step, 1 is after it
   }
@@ -145,8 +145,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ChainCodePath(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ChainCodePath);
 
   IndexType     m_Start;            // origin image index for the path
   ChainCodeType m_Chain;            // the chain code (vector of offsets)

@@ -180,8 +180,7 @@ protected:
 
 private:
 
-  Bruker2DSEQImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2DSEQImageIO);
 
   void SwapBytesIfNecessary(void *buffer, SizeValueType numberOfPixels);
 

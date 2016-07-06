@@ -81,8 +81,7 @@ protected:
   virtual ~VersorRigid3DTransformOptimizer() {}
 
 private:
-  VersorRigid3DTransformOptimizer(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransformOptimizer);
 };
 } // end namespace itk
 

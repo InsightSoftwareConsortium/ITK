@@ -133,8 +133,7 @@ protected:
   typedef typename Superclass::NeighborIndexContainer NeighborIndexContainer;
 
 private:
-  BinaryDilateImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryDilateImageFilter);
 };
 } // end namespace itk
 

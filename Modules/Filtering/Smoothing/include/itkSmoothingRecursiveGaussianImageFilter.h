@@ -169,8 +169,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
-  SmoothingRecursiveGaussianImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SmoothingRecursiveGaussianImageFilter);
 
   InternalGaussianFilterPointer m_SmoothingFilters[ImageDimension - 1];
   FirstGaussianFilterPointer    m_FirstSmoothingFilter;

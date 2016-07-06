@@ -340,8 +340,7 @@ protected:
   OutputImageType      *m_OutputImage;
 
 private:
-  PatchBasedDenoisingBaseImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingBaseImageFilter);
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   FilterStateType m_State;

@@ -25,10 +25,11 @@
 #include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
 
 // forward declarations
 template <class T> class vnl_diag_matrix;
-template <class T> vnl_vector<T> operator*(vnl_diag_matrix<T> const&, vnl_vector<T> const&);
+template <class T> VNL_EXPORT vnl_vector<T> operator*(vnl_diag_matrix<T> const&, vnl_vector<T> const&);
 
 //: stores a diagonal matrix as a single vector.
 //  vnl_diag_matrix stores a diagonal matrix for time and space efficiency.
@@ -37,7 +38,7 @@ template <class T> vnl_vector<T> operator*(vnl_diag_matrix<T> const&, vnl_vector
 //  algorithms.
 
 VCL_TEMPLATE_EXPORT template <class T>
-class vnl_diag_matrix
+class VNL_EXPORT vnl_diag_matrix
 {
   vnl_vector<T> diagonal_;
 
@@ -177,7 +178,7 @@ class vnl_diag_matrix
 
 //:
 // \relatesalso vnl_diag_matrix
-template <class T>
+template <class T> VNL_EXPORT
 std::ostream& operator<< (std::ostream&, vnl_diag_matrix<T> const&);
 
 //: Convert a vnl_diag_matrix to a Matrix.

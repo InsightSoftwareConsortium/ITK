@@ -96,9 +96,9 @@ double vnl_chi_squared_statistic_12(T const *A, T const *B, int n, bool normaliz
 
 #undef VNL_CHI_SQUARED_INSTANTIATE
 #define VNL_CHI_SQUARED_INSTANTIATE(T) \
-template double vnl_chi_squared_cumulative  (T chisq, long dof); \
-template double vnl_chi_squared_statistic_1 (T const *, T const *, int, bool); \
-template double vnl_chi_squared_statistic_2 (T const *, T const *, int, bool); \
-template double vnl_chi_squared_statistic_12(T const *, T const *, int, bool)
+template VNL_EXPORT double vnl_chi_squared_cumulative  (T chisq, long dof); \
+template VNL_EXPORT double vnl_chi_squared_statistic_1 (T const *, T const *, int, bool); \
+template VNL_EXPORT double vnl_chi_squared_statistic_2 (T const *, T const *, int, bool); \
+template VNL_EXPORT double vnl_chi_squared_statistic_12(T const *, T const *, int, bool)
 
 #endif // vnl_chi_squared_hxx_

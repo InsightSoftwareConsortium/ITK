@@ -170,8 +170,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  ZeroCrossingBasedEdgeDetectionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ZeroCrossingBasedEdgeDetectionImageFilter);
 
   /** The variance of the Gaussian Filter used in this filter */
   ArrayType m_Variance;

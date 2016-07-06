@@ -23,16 +23,6 @@
 
 namespace itk
 {
-template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
-void
-SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "m_ReverseExpansionDirection = " << m_ReverseExpansionDirection << std::endl;
-  os << indent << "m_AutoGenerateSpeedAdvection = " << m_AutoGenerateSpeedAdvection << std::endl;
-  os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
-}
 
 template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
@@ -80,7 +70,7 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
     }
 
   // A positive speed value causes surface expansion, the opposite of the
-  // default.  Flip the sign of the propagation and advection weights.
+  // default. Flip the sign of the propagation and advection weights.
   if ( m_ReverseExpansionDirection == true )
     {
     this->GetSegmentationFunction()->ReverseExpansionDirection();
@@ -110,6 +100,19 @@ SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
     this->GetSegmentationFunction()->ReverseExpansionDirection();
     }
 }
+
+template< typename TInputImage, typename TFeatureImage, typename TOutputPixelType >
+void
+SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "m_ReverseExpansionDirection = " << m_ReverseExpansionDirection << std::endl;
+  os << indent << "m_AutoGenerateSpeedAdvection = " << m_AutoGenerateSpeedAdvection << std::endl;
+  os << indent << "m_SegmentationFunction = " << m_SegmentationFunction << std::endl;
+}
+
 } // end namespace itk
 
 #endif

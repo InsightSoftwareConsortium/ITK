@@ -344,8 +344,7 @@ protected:
   };
 
 private:
-  ImageSource(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageSource);
 };
 } // end namespace itk
 

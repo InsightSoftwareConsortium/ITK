@@ -113,8 +113,7 @@ protected:
   virtual ~Compose3DVectorImageFilter() {}
 
 private:
-  Compose3DVectorImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Compose3DVectorImageFilter);
 };
 } // end namespace itk
 

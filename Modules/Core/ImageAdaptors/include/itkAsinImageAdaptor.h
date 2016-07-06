@@ -95,8 +95,7 @@ protected:
   virtual ~AsinImageAdaptor() {}
 
 private:
-  AsinImageAdaptor(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageAdaptor);
 };
 } // end namespace itk
 

@@ -20,8 +20,10 @@
 
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkRandomImageSource.h"
+#include "itkTestingMacros.h"
+#include "itkUnaryFunctorImageFilter.h"
 
-int itkRescaleIntensityImageFilterTest(int, char* [] )
+int itkRescaleIntensityImageFilterTest( int, char* [] )
 {
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 
@@ -39,11 +41,13 @@ int itkRescaleIntensityImageFilterTest(int, char* [] )
   typedef itk::RescaleIntensityImageFilter<TestInputImage,TestOutputImage> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, RescaleIntensityImageFilter, UnaryFunctorImageFilter );
+
   // Now generate a real image
 
   typedef itk::RandomImageSource<TestInputImage> SourceType;
   SourceType::Pointer source = SourceType::New();
-  TestInputImage::SizeValueType  randomSize[3] = {17, 8, 20};
+  TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 
 
   // Set up source
@@ -69,12 +73,12 @@ int itkRescaleIntensityImageFilterTest(int, char* [] )
     }
   catch (itk::ExceptionObject& e)
     {
-    std::cerr << "Exception detected: "  << e;
+    std::cerr << "Exception detected: " << e;
     return -1;
     }
 
   typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
-  CalculatorType::Pointer calculator  =  CalculatorType::New();
+  CalculatorType::Pointer calculator = CalculatorType::New();
 
   calculator->SetImage( filter->GetOutput() );
 

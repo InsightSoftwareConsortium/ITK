@@ -19,6 +19,7 @@
 //-----------------------------------------------------------------------------
 
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
 
 //: vnl_matrix reference to user-supplied storage
 //    vnl_matrix_ref is a vnl_matrix for which the data space has been
@@ -35,7 +36,7 @@
 //    operator new, and are therefore unlikely to be the unwitting subject
 //    of an operator delete.
 template <class T>
-class vnl_matrix_ref : public vnl_matrix<T>
+class VNL_EXPORT vnl_matrix_ref : public vnl_matrix<T>
 {
   typedef vnl_matrix<T> Base;
 

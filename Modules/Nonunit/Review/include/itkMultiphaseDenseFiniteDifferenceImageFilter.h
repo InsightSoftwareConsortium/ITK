@@ -210,8 +210,7 @@ protected:
   // unsigned int m_UpdateCounter;        // FIXME: Should this be a boolean ?
 
 private:
-  MultiphaseDenseFiniteDifferenceImageFilter(const Self &);
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiphaseDenseFiniteDifferenceImageFilter);
 
   /** This method allocates storage in m_UpdateBuffer.  It is called from
    * Superclass::GenerateData(). */

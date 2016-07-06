@@ -365,14 +365,14 @@ inline void vnl_c_vector_dealloc(void* v, std::size_t n, unsigned size)
   vnl_sse_dealloc(v,n,size);
 }
 
-template<class T>
-T** vnl_c_vector<T>::allocate_Tptr(std::size_t n)
+template<class T> VNL_EXPORT
+T** vnl_c_vector<T>::allocate_Tptr(const std::size_t n)
 {
   return (T**)vnl_c_vector_alloc(n, sizeof (T*));
 }
 
-template<class T>
-void vnl_c_vector<T>::deallocate(T** v, std::size_t n)
+template<class T> VNL_EXPORT
+void vnl_c_vector<T>::deallocate(T** v, const std::size_t n)
 {
   vnl_c_vector_dealloc(v, n, sizeof (T*));
 }
@@ -406,7 +406,7 @@ inline void vnl_c_vector_destruct(std::complex<double> *, std::size_t) { }
 inline void vnl_c_vector_destruct(std::complex<long double> *, std::size_t) { }
 
 template<class T>
-T* vnl_c_vector<T>::allocate_T(std::size_t n)
+T* vnl_c_vector<T>::allocate_T(const std::size_t n)
 {
   T *p = (T*)vnl_c_vector_alloc(n, sizeof (T));
   vnl_c_vector_construct(p, n);
@@ -414,7 +414,7 @@ T* vnl_c_vector<T>::allocate_T(std::size_t n)
 }
 
 template<class T>
-void vnl_c_vector<T>::deallocate(T* p, std::size_t n)
+void vnl_c_vector<T>::deallocate(T* p, const std::size_t n)
 {
   vnl_c_vector_destruct(p, n);
   vnl_c_vector_dealloc(p, n, sizeof (T));
@@ -432,17 +432,17 @@ std::ostream& print_vector(std::ostream& s, T const* v, unsigned size)
 //---------------------------------------------------------------------------
 
 #define VNL_C_VECTOR_INSTANTIATE_norm(T, S) \
-template void vnl_c_vector_two_norm_squared(T const *, unsigned, S *); \
-template void vnl_c_vector_rms_norm(T const *, unsigned, S *); \
-template void vnl_c_vector_one_norm(T const *, unsigned, S *); \
-template void vnl_c_vector_two_norm(T const *, unsigned, S *); \
-template void vnl_c_vector_inf_norm(T const *, unsigned, S *)
+template VNL_EXPORT void vnl_c_vector_two_norm_squared(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_vector_rms_norm(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_vector_one_norm(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_vector_two_norm(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_vector_inf_norm(T const *, unsigned, S *)
 
 #undef VNL_C_VECTOR_INSTANTIATE_ordered
 #define VNL_C_VECTOR_INSTANTIATE_ordered(T) \
 VNL_C_VECTOR_INSTANTIATE_norm(T, vnl_c_vector<T >::abs_t); \
-template class vnl_c_vector<T >; \
-template std::ostream& print_vector(std::ostream &,T const *,unsigned)
+template class VNL_EXPORT vnl_c_vector<T >; \
+template VNL_EXPORT std::ostream& print_vector(std::ostream &,T const *,unsigned)
 
 #undef VNL_C_VECTOR_INSTANTIATE_unordered
 #define VNL_C_VECTOR_INSTANTIATE_unordered(T) \
@@ -450,8 +450,8 @@ VCL_DO_NOT_INSTANTIATE(T vnl_c_vector<T >::max_value(T const *, unsigned), T(0))
 VCL_DO_NOT_INSTANTIATE(T vnl_c_vector<T >::min_value(T const *, unsigned), T(0)); \
 VCL_DO_NOT_INSTANTIATE(unsigned vnl_c_vector<T >::arg_max(T const *, unsigned), 0U); \
 VCL_DO_NOT_INSTANTIATE(unsigned vnl_c_vector<T >::arg_min(T const *, unsigned), 0U); \
+template class VNL_EXPORT vnl_c_vector<T >; \
 VNL_C_VECTOR_INSTANTIATE_norm(T, vnl_c_vector<T >::abs_t); \
-template class vnl_c_vector<T >; \
 VCL_UNINSTANTIATE_SPECIALIZATION(T vnl_c_vector<T >::max_value(T const *, unsigned)); \
 VCL_UNINSTANTIATE_SPECIALIZATION(T vnl_c_vector<T >::min_value(T const *, unsigned)); \
 VCL_UNINSTANTIATE_SPECIALIZATION(unsigned vnl_c_vector<T >::arg_max(T const *, unsigned)); \

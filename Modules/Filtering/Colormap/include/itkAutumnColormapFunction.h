@@ -65,8 +65,7 @@ protected:
   ~AutumnColormapFunction() {}
 
 private:
-  AutumnColormapFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AutumnColormapFunction);
 };
 } // end namespace functor
 } // end namespace itk

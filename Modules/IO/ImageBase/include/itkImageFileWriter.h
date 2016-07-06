@@ -201,8 +201,7 @@ protected:
   virtual void GenerateData(void) ITK_OVERRIDE;
 
 private:
-  ImageFileWriter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageFileWriter);
 
   std::string m_FileName;
 

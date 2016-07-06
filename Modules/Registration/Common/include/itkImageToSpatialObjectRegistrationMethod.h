@@ -82,7 +82,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingSpatialObject >
-class ImageToSpatialObjectRegistrationMethod:public ProcessObject
+class ImageToSpatialObjectRegistrationMethod : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -212,8 +212,7 @@ protected:
   ParametersType m_LastTransformParameters;
 
 private:
-  ImageToSpatialObjectRegistrationMethod(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToSpatialObjectRegistrationMethod);
 
   MetricPointer          m_Metric;
   OptimizerType::Pointer m_Optimizer;

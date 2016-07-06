@@ -229,8 +229,7 @@ protected:
   void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  ObjectMorphologyImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectMorphologyImageFilter);
 };                                           // end of class
 } // end namespace itk
 

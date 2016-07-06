@@ -10,6 +10,7 @@
 #include <vector>
 #include <vcl_compiler.h>
 #include <vnl/vnl_matrix.h>
+#include "vnl/vnl_export.h"
 
 //: Find the best column to row assignment given a cost matrix.
 //
@@ -28,7 +29,7 @@
 //
 //  \relatesalso vnl_matrix
 template <class T>
-class vnl_hungarian_algorithm
+class VNL_EXPORT vnl_hungarian_algorithm
 {
  public:
 

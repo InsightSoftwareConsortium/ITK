@@ -55,22 +55,24 @@ if(WIN32 AND NOT MINGW)
   check_symbol_exists(InterlockedAdd "windows.h" ITK_HAS_INTERLOCKEDADD)
 endif()
 
-# Check for the new C++11 alignas type specifier for future portable alignment
-try_compile( ITK_HAS_CPP11_ALIGNAS
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasCPP11Alignas.cxx )
-
+if(CMAKE_CXX_STANDARD)
+   set(TRY_COMP_CXX_STANDARD
+       -DCMAKE_CXX_STANDARD:STRING=${CMAKE_CXX_STANDARD})
+endif()
 # Identify the version of CXX compiler used when ITK was built. This needs to be
 # identified so that external applications can identify how ITK was built.
-set(ITK_COMPILED_CXX_VERSION 1)
+set(ITK_COMPILED_CXX_STANDARD_VERSION 1)
 foreach(CXX_TEST_VERSION 199711L 201103L 201402L)
   try_compile(ITK_MIN_CXX_LEVEL_TEST
-    ${ITK_BINARY_DIR}
-    ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkGetCXXCompilerVersion.cxx
+    ${CMAKE_CURRENT_BINARY_DIR}/CMakeTmp
+    ${CMAKE_CURRENT_LIST_DIR}/CMake/itkGetCXXCompilerVersion.cxx
+    CMAKE_FLAGS
+        ${TRY_COMP_CXX_STANDARD}
     COMPILE_DEFINITIONS -DITK_CXX_TEST_VERSION=${CXX_TEST_VERSION}
-    OUTPUT_VARIABLE ITK_COMPILED_CXX_VERSION_LOG )
+    OUTPUT_VARIABLE ITK_COMPILED_CXX_STANDARD_VERSION_LOG
+  )
   if(ITK_MIN_CXX_LEVEL_TEST)
-     set(ITK_COMPILED_CXX_VERSION ${CXX_TEST_VERSION})
+     set(ITK_COMPILED_CXX_STANDARD_VERSION ${CXX_TEST_VERSION})
   endif()
 endforeach()
 
@@ -93,6 +95,7 @@ try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
 set(ITK_WINDOWS_EXPORT_ALL_SYMBOLS ${CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS})
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 
+
 set(ITKCommon_INCLUDE_DIRS
   ${ITKCommon_BINARY_DIR}
   )
@@ -105,3 +108,9 @@ install(FILES
   DESTINATION ${ITKCommon_INSTALL_INCLUDE_DIR}
   COMPONENT Development
   )
+
+# configure and install compiler feature header files
+# that have fine granular support of C++11 features
+# identified in a way consistent with CMake 3.1.0 and
+# greater
+include(CMake/itkGenerateNewCompilerFeatureDetectionHeaders.cmake)

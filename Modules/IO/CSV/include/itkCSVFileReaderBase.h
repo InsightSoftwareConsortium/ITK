@@ -72,7 +72,7 @@ public:
   typedef LightProcessObject        Superclass;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(Self,Superclass);
+  itkTypeMacro(CSVFileReaderBase, LightProcessObject);
 
   /** Set the name of the file to be read */
   itkSetStringMacro(FileName);
@@ -177,8 +177,7 @@ protected:
   void PrepareForParsing();
 
 private:
-  CSVFileReaderBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CSVFileReaderBase);
 };
 
 } //end namespace itk

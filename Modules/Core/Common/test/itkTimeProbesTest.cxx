@@ -171,11 +171,13 @@ int itkTimeProbesTest(int, char* [] )
   collector.Report( logfile );
   logfile.close();
 
-  // Print to the standar error
+  // Print to the standard error
   std::cout << std::endl << "Print normal reports from all probes to the standard error" << std::endl;
   collector.Report( std::cerr );
 
+  // Use tabs on the output
+  collector.Report( std::cout, true, true, true );
+  collector.ExpandedReport( std::cout, true, true, true );
 
   return EXIT_SUCCESS;
-
 }

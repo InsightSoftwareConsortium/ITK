@@ -570,8 +570,7 @@ public:
   virtual void SynchronizeTransforms() const;
 
 private:
-  ImageToImageMetric(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ImageToImageMetric);
 
   FixedImageRegionType m_FixedImageRegion;
 };

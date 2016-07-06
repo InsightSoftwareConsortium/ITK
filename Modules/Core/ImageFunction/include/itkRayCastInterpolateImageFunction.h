@@ -149,7 +149,7 @@ public:
   /** Check if a point is inside the image buffer.
    * \warning For efficiency, no validity checking of
    * the input image pointer is done. */
-  inline bool IsInsideBuffer(const PointType &) const ITK_OVERRIDE
+  bool IsInsideBuffer(const PointType &) const ITK_OVERRIDE
   {
     return true;
   }
@@ -188,8 +188,7 @@ protected:
   InterpolatorPointer m_Interpolator;
 
 private:
-  RayCastInterpolateImageFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(RayCastInterpolateImageFunction);
 };
 } // namespace itk
 

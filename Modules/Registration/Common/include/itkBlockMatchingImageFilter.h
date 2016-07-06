@@ -192,8 +192,7 @@ protected:
   };
 
 private:
-  BlockMatchingImageFilter( const BlockMatchingImageFilter & ) ITK_DELETE_FUNCTION;
-  void operator=( const BlockMatchingImageFilter & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BlockMatchingImageFilter);
 
   // algorithm parameters
   ImageSizeType  m_BlockRadius;

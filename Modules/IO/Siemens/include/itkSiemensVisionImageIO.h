@@ -412,8 +412,7 @@ private:
     TEXT_START_SEC_LEN = 2,
     HDR_TOTAL_LENGTH = 6144 // Total length of Siemens Header
     } SiemensVisionHeaderInfo;
-  SiemensVisionImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SiemensVisionImageIO);
 };
 } // end namespace itk
 

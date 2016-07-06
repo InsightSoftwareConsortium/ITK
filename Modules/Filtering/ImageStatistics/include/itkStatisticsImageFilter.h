@@ -168,8 +168,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
 
 private:
-  StatisticsImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsImageFilter);
 
   Array< RealType >       m_ThreadSum;
   Array< RealType >       m_SumOfSquares;

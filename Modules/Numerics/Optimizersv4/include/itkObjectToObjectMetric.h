@@ -339,8 +339,7 @@ protected:
   mutable SizeValueType                   m_NumberOfValidPoints;
 
 private:
-  ObjectToObjectMetric(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetric);
 
 };
 } // end namespace itk

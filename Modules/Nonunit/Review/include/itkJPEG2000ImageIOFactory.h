@@ -73,8 +73,7 @@ protected:
   ~JPEG2000ImageIOFactory();
 
 private:
-  JPEG2000ImageIOFactory(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIOFactory);
 };
 } // end namespace itk
 

@@ -156,8 +156,7 @@ protected:
   { m_OutputNarrowBand = ptr; }
 
 private:
-  ReinitializeLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ReinitializeLevelSetImageFilter);
 
   double m_LevelSetValue;
 

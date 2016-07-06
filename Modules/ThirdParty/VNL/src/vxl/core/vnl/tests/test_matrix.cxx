@@ -160,18 +160,30 @@ void test_int()
        (m0.set_diagonal(vnl_vector<int>(2,2,m0values)),
         (m0.get(0,0)==7 && m0.get(1,1)==9 && m0.get(0,1)==2 && m0.get(1,0)==2)), true);
 
-  // Flip the matrix, otherwise it is the same whichever way it is flattened
-  m0.flipud();
-  // | 2 9 |
-  // | 7 2 |
-  vnl_vector<int> flat;
-  TEST("m0.flatten_row_major()",
-       (flat = m0.flatten_row_major(),
-       (flat.get(0)==2 && flat.get(1)==9 && flat.get(2)==7 && flat.get(3)==2)), true);
-  TEST("m0.flatten_column_major()",
-       (flat = m0.flatten_column_major(),
-       (flat.get(0)==2 && flat.get(1)==7 && flat.get(2)==9 && flat.get(3)==2)), true);
-  m0.flipud();
+    /////////////////////////////////////////////////////////////////
+    // Test `flatten_row_major` and `flatten_column_major` Methods //
+    /////////////////////////////////////////////////////////////////
+
+    {
+    int data[16] = { 0,  1,  2,  3,
+                     4,  5,  6,  7,
+                     8,  9, 10, 11,
+                    12, 13, 14, 15};
+
+    vnl_vector<int> flat(data, 16);
+
+    vnl_matrix<int> sq(data, 4, 4);
+    vnl_matrix<int> lg(data, 2, 8);
+    vnl_matrix<int> wd(data, 8, 2);
+
+    TEST("sq.flatten_row_major", flat.is_equal(sq.flatten_row_major(), 10e-6), true);
+    TEST("lg.flatten_row_major", flat.is_equal(lg.flatten_row_major(), 10e-6), true);
+    TEST("wd.flatten_row_major", flat.is_equal(wd.flatten_row_major(), 10e-6), true);
+
+    TEST("sq.flatten_column_major", flat.is_equal(sq.transpose().flatten_column_major(), 10e-6), true);
+    TEST("lg.flatten_column_major", flat.is_equal(lg.transpose().flatten_column_major(), 10e-6), true);
+    TEST("wd.flatten_column_major", flat.is_equal(wd.transpose().flatten_column_major(), 10e-6), true);
+    }
 
   int m3values [] = {1,2,3};
   vnl_matrix<int> m3(1,3,3, m3values);

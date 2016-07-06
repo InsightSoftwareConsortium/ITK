@@ -1,0 +1,5 @@
+itk_wrap_class("itk::KernelFunctionBase" POINTER)
+  foreach(r ${WRAP_ITK_REAL})
+    itk_wrap_template("${ITKM_${r}}" "${ITKT_${r}}")
+  endforeach()
+itk_end_wrap_class()

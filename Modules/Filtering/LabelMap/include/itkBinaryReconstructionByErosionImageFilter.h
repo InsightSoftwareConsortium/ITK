@@ -161,8 +161,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  BinaryReconstructionByErosionImageFilter(const Self&) ITK_DELETE_FUNCTION;
-  void operator=(const Self&) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BinaryReconstructionByErosionImageFilter);
 
   bool                 m_FullyConnected;
   OutputImagePixelType m_BackgroundValue;

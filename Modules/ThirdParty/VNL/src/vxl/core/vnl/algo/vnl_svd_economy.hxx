@@ -109,6 +109,7 @@ vnl_svd_economy<real_t>::nullvector()
 }
 
 #undef VNL_SVD_ECONOMY_INSTANTIATE
-#define VNL_SVD_ECONOMY_INSTANTIATE(T) template class vnl_svd_economy<T >
+#define VNL_SVD_ECONOMY_INSTANTIATE(T) \
+template class VNL_EXPORT vnl_svd_economy<T >
 
 #endif // vnl_svd_economy_hxx_

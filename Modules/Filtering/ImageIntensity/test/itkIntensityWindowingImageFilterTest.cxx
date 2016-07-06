@@ -18,16 +18,19 @@
 
 #include <iostream>
 
-
 #include "itkIntensityWindowingImageFilter.h"
 #include "itkRandomImageSource.h"
+#include "itkTestingMacros.h"
 
 int itkIntensityWindowingImageFilterTest(int, char* [] )
 {
-  std::cout << "itkIntensityWindowingImageFilterTest Start" << std::endl;
+  std::cout << "Testing itk::IntensityWindowingImageFilter class" << std::endl;
 
-  typedef itk::Image<float,3> TestInputImage;
-  typedef itk::Image<float,3> TestOutputImage;
+  const unsigned int Dimension = 3;
+  typedef float PixelType;
+
+  typedef itk::Image< PixelType, Dimension > TestInputImage;
+  typedef itk::Image< PixelType, Dimension > TestOutputImage;
 
   TestInputImage::RegionType region;
   TestInputImage::SizeType   size; size.Fill(64);
@@ -37,8 +40,11 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   region.SetSize (size);
 
 
-  typedef itk::IntensityWindowingImageFilter<TestInputImage,TestOutputImage> FilterType;
+  typedef itk::IntensityWindowingImageFilter< TestInputImage, TestOutputImage > FilterType;
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, IntensityWindowingImageFilter,
+    UnaryFunctorImageFilter );
 
   // Now generate a real image
 
@@ -50,7 +56,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   // Set up source
   source->SetSize(randomSize);
   double minValue = -128.0;
-  double maxValue = 127.0;
+  double maxValue =  127.0;
 
   source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
   source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
@@ -68,7 +74,10 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   filter->SetWindowMinimum( windowMinimum  );
   filter->SetWindowMaximum( windowMaximum  );
 
-  std::cout << "Window minimum:maximum = " << windowMinimum << ":" << windowMaximum << ", equivalent window:level = " << filter->GetWindow() << ":" << filter->GetLevel() << std::endl;
+  std::cout << "Window minimum:maximum = "
+    << windowMinimum << ":" << windowMaximum
+    << ", equivalent window:level = "
+    << filter->GetWindow() << ":" << filter->GetLevel() << std::endl;
 
   try
     {
@@ -77,12 +86,12 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
     }
   catch (itk::ExceptionObject& e)
     {
-    std::cerr << "Exception detected: "  << e;
+    std::cerr << "Exception detected: " << e;
     return -1;
     }
 
   typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
-  CalculatorType::Pointer calculator  =  CalculatorType::New();
+  CalculatorType::Pointer calculator = CalculatorType::New();
 
   calculator->SetImage( filter->GetOutput() );
 
@@ -109,10 +118,10 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  const float  window = 50.0f;
-  const float  level =  50.0f;
+  const float window = 50.0f;
+  const float level  = 50.0f;
 
-  filter->SetWindowLevel( window, level  );
+  filter->SetWindowLevel( window, level );
 
   std::cout << "Window:level = "
             << filter->GetWindow() << ":"
@@ -127,7 +136,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
     }
   catch (itk::ExceptionObject& e)
     {
-    std::cerr << "Exception detected: "  << e;
+    std::cerr << "Exception detected: " << e;
     return -1;
     }
 
@@ -139,7 +148,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   if( itk::Math::abs( obtainedMinimum2 - desiredMinimum ) > tolerance )
     {
     std::cerr << "Error in minimum" << std::endl;
-    std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
+    std::cerr << "Expected minimum = " << desiredMinimum   << std::endl;
     std::cerr << "Obtained minimum = " << obtainedMinimum2 << std::endl;
     return EXIT_FAILURE;
     }
@@ -147,7 +156,7 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   if( itk::Math::abs( obtainedMaximum2 - desiredMaximum ) > tolerance )
     {
     std::cerr << "Error in maximum" << std::endl;
-    std::cerr << "Expected maximum = " << desiredMaximum  << std::endl;
+    std::cerr << "Expected maximum = " << desiredMaximum   << std::endl;
     std::cerr << "Obtained maximum = " << obtainedMaximum2 << std::endl;
     return EXIT_FAILURE;
     }

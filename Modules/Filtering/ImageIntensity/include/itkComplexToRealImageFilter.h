@@ -96,8 +96,7 @@ protected:
   virtual ~ComplexToRealImageFilter() {}
 
 private:
-  ComplexToRealImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ComplexToRealImageFilter);
 };
 } // end namespace itk
 

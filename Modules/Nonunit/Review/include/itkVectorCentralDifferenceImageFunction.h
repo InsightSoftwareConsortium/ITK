@@ -147,8 +147,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  VectorCentralDifferenceImageFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorCentralDifferenceImageFunction);
 
   // flag to take or not the image direction into account
   // when computing the derivatives.

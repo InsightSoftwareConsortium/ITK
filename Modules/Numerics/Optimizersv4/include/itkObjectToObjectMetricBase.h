@@ -201,8 +201,7 @@ protected:
   mutable MeasureType             m_Value;
 
 private:
-  ObjectToObjectMetricBaseTemplate(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ObjectToObjectMetricBaseTemplate);
 };
 
 /** This helps to meet backward compatibility */

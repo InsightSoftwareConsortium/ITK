@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkGaussianDerivativeImageFunction.h"
+#include "itkTestingMacros.h"
+
 
 template< typename TPixel >
 int TestGaussianDerivativeImageFunction()
@@ -55,15 +57,16 @@ int TestGaussianDerivativeImageFunction()
   // Test the derivative of Gaussian image function
   typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
   typename DoGFunctionType::Pointer DoG = DoGFunctionType::New();
+
   DoG->SetInputImage( image );
 
   std::cout << "Testing Set/GetSigma(): ";
 
   DoG->SetSigma(2.0);
   const double* sigma = DoG->GetSigma();
-  for(unsigned int i=0;i<Dimension;i++)
+  for(unsigned int i = 0; i < Dimension; ++i)
     {
-    if( sigma[i] !=  2.0)
+    if( sigma[i] != 2.0)
       {
       std::cerr << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
@@ -78,7 +81,7 @@ int TestGaussianDerivativeImageFunction()
   const double* ext = DoG->GetExtent();
   for( unsigned int i = 0; i < Dimension; ++i )
     {
-    if( ext[i] !=  4.0)
+    if( ext[i] != 4.0)
       {
       std::cerr << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
@@ -87,17 +90,16 @@ int TestGaussianDerivativeImageFunction()
   std::cout << "[PASSED] " << std::endl;
 
   std::cout << "Testing consistency within Index/Point/ContinuousIndex: ";
-  itk::Index<2>   index;
+  itk::Index< Dimension > index;
   index.Fill(25);
   typename DoGFunctionType::OutputType gradientIndex;
   gradientIndex = DoG->EvaluateAtIndex( index );
 
   typename DoGFunctionType::PointType pt;
-  pt[0]=25.0;
-  pt[1]=25.0;
+  pt[0] = 25.0;
+  pt[1] = 25.0;
   typename DoGFunctionType::OutputType gradientPoint;
   gradientPoint = DoG->Evaluate( pt );
-
 
   typename DoGFunctionType::ContinuousIndexType continuousIndex;
   continuousIndex.Fill(25);
@@ -111,12 +113,11 @@ int TestGaussianDerivativeImageFunction()
     }
 
   std::cout << "[PASSED] " << std::endl;
-  gradientPoint.Normalize(); // normalize the vector;
+  gradientPoint.Normalize(); // normalize the vector
 
   std::cout << "Testing Evaluate() : ";
 
-  if( (gradientPoint[0] > 0.1)  || ( std::fabs(gradientPoint[1] + 1.0 ) > 10e-4 )
-    )
+  if( (gradientPoint[0] > 0.1) || ( std::fabs(gradientPoint[1] + 1.0 ) > 10e-4 ) )
     {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -124,15 +125,15 @@ int TestGaussianDerivativeImageFunction()
 
   std::cout << "[PASSED] " << std::endl;
 
-  pt[0]=25.0;
-  pt[1]=26.0;
+  pt[0] = 25.0;
+  pt[1] = 26.0;
   gradientPoint = DoG->Evaluate( pt );
 
   gradientPoint.Normalize(); // normalize the vector;
 
   std::cout << "Testing Evaluate() : ";
 
-  if( (gradientPoint[0] > 0.1)  || ( std::fabs(gradientPoint[1] - 1.0 ) > 10e-4 ))
+  if( (gradientPoint[0] > 0.1) || ( std::fabs(gradientPoint[1] - 1.0 ) > 10e-4 ) )
     {
     std::cerr << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -142,8 +143,23 @@ int TestGaussianDerivativeImageFunction()
   return EXIT_SUCCESS;
 }
 
-int itkGaussianDerivativeImageFunctionTest(int, char* [] )
+int itkGaussianDerivativeImageFunctionTest( int, char* [] )
 {
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  const unsigned int Dimension = 2;
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+  typedef itk::GaussianDerivativeImageFunction< ImageType > DoGFunctionType;
+
+  DoGFunctionType::Pointer DoG = DoGFunctionType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( DoG, GaussianDerivativeImageFunction, ImageFunction );
+
+
   std::cout << "\nTesting derivative of Gaussian image function for float" << std::endl;
   if( TestGaussianDerivativeImageFunction< float >() == EXIT_FAILURE )
     {

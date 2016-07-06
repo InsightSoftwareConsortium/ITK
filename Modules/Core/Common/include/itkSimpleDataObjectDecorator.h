@@ -96,8 +96,7 @@ protected:
 protected:
 
 private:
-  SimpleDataObjectDecorator(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SimpleDataObjectDecorator);
 
   ComponentType m_Component;
   bool          m_Initialized;

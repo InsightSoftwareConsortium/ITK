@@ -291,8 +291,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  MembershipSample(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MembershipSample);
 
   /** Gets the internal continuous class label from the class labels that
    *   are used for AddInstance method. */

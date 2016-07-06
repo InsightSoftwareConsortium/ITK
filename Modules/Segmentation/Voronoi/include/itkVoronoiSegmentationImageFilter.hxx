@@ -23,17 +23,19 @@
 
 namespace itk
 {
-/* constructor: seting the default value of the parameters */
+
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
-::VoronoiSegmentationImageFilter()
+::VoronoiSegmentationImageFilter() :
+  m_Mean( 0.0 ),
+  m_STD( 0.0 ),
+  m_MeanTolerance( 0.0 ),
+  m_STDTolerance( 0.0 ),
+  m_MeanPercentError( 0.10 ),
+  m_STDPercentError( 1.5 )
 {
-  m_MeanPercentError = 0.10;
-  m_STDPercentError = 1.5;
-  m_Mean = m_STD = m_MeanTolerance = m_STDTolerance = 0.0;
 }
 
-/* destructor */
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage >
 VoronoiSegmentationImageFilter< TInputImage, TOutputImage, TBinaryPriorImage >
 ::~VoronoiSegmentationImageFilter()

@@ -4,6 +4,7 @@
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma interface
 #endif
+#include "vnl/vnl_export.h"
 //:
 //   \file
 //   \brief Easy conversion between vectors and matrices templated over different types.
@@ -17,14 +18,14 @@
 //: Easy conversion between vectors and matrices templated over different types.
 // \relatesalso vnl_matrix
 // \relatesalso vnl_vector
-template <class S, class T>
-void vnl_copy(S const *src, T *dst, unsigned n);
+template <class S, class T> VNL_EXPORT
+void vnl_copy(S const * const src, T *const dst, const unsigned n);
 
 
 //: Easy conversion between vectors and matrices templated over different types.
 // \relatesalso vnl_matrix
 // \relatesalso vnl_vector
-template <class S, class T>
+template <class S, class T> VNL_EXPORT
 void vnl_copy(S const &, T &);
 
 #endif // vnl_copy_h_

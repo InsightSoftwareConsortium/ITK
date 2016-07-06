@@ -146,8 +146,7 @@ protected:
   void ComputeMatrixParameters(void) ITK_OVERRIDE;
 
 private:
-  ScaleVersor3DTransform(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ScaleVersor3DTransform);
 
   /**  Vector containing the scale. */
   ScaleVectorType m_Scale;

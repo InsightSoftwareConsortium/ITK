@@ -169,8 +169,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  SignedMaurerDistanceMapImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(SignedMaurerDistanceMapImageFilter);
 
   void Voronoi(unsigned int, OutputIndexType idx, OutputImageType *output );
   bool Remove(OutputPixelType, OutputPixelType, OutputPixelType,

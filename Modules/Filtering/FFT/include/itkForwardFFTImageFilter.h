@@ -89,8 +89,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output);
 
 private:
-  ForwardFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ForwardFFTImageFilter);
 };
 } // end namespace itk
 

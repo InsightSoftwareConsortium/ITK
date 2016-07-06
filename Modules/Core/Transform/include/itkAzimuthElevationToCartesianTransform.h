@@ -216,8 +216,7 @@ protected:
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:
-  AzimuthElevationToCartesianTransform(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AzimuthElevationToCartesianTransform);
 
   long   m_MaxAzimuth;
   long   m_MaxElevation;

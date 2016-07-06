@@ -59,7 +59,7 @@ public:
   itkStaticConstMacro(SplineOrder, unsigned int, VSplineOrder);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate( const TRealValueType & u ) const ITK_OVERRIDE
+  TRealValueType Evaluate( const TRealValueType & u ) const ITK_OVERRIDE
     {
     return this->Evaluate( Dispatch< VSplineOrder >(), u );
     }
@@ -75,8 +75,7 @@ protected:
     }
 
 private:
-  BSplineDerivativeKernelFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDerivativeKernelFunction);
 
   /** Structures to control overloaded versions of Evaluate */
   struct DispatchBase {};

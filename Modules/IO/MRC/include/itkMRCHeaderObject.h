@@ -271,8 +271,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  MRCHeaderObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MRCHeaderObject);
 
   SizeValueType m_ExtendedHeaderSize;
   void *        m_ExtendedHeader;

@@ -37,6 +37,7 @@
 #include <vnl/vnl_vector_fixed.h> // needed for e.g. vnl_matrix_fixed_mat_vec_mult()
 #include <vnl/vnl_c_vector.h>
 #include <vnl/vnl_config.h> // for VNL_CONFIG_CHECK_BOUNDS
+#include "vnl/vnl_export.h"
 
 VCL_TEMPLATE_EXPORT template <class T, unsigned int num_rows, unsigned int num_cols> class vnl_matrix_fixed;
 
@@ -100,7 +101,7 @@ vnl_matrix_fixed<T, M, O> vnl_matrix_fixed_mat_mat_mult(const vnl_matrix_fixed<T
 // Read the overview documentation of vnl_vector_fixed.
 // The text there applies here.
 template <class T, unsigned int num_rows, unsigned int num_cols>
-class vnl_matrix_fixed
+class VNL_EXPORT vnl_matrix_fixed
 {
   T data_[num_rows][num_cols]; // Local storage
 
@@ -467,6 +468,12 @@ class vnl_matrix_fixed
   //: Get a vector equal to the given column
   vnl_vector_fixed<T,num_rows> get_column(unsigned col) const;
 
+  //: Get a matrix composed of rows from the indices specified in the supplied vector.
+  vnl_matrix<T> get_rows(vnl_vector<unsigned int> i) const;
+
+  //: Get a matrix composed of columns from the indices specified in the supplied vector.
+  vnl_matrix<T> get_columns(vnl_vector<unsigned int> i) const;
+
   //: Get n rows beginning at rowstart
   vnl_matrix<T> get_n_rows   (unsigned rowstart, unsigned n) const;
 
@@ -558,6 +565,9 @@ class vnl_matrix_fixed
   //  \endcode
   vnl_matrix_fixed& scale_column(unsigned col, T value);
 
+  //: Swap this matrix with that matrix
+  void swap(vnl_matrix_fixed<T,num_rows,num_cols> & that);
+
   //: Type def for norms.
   typedef typename vnl_c_vector<T>::abs_t abs_t;
 
@@ -622,6 +632,9 @@ class vnl_matrix_fixed
 
   //: Return true if all elements equal to zero, within given tolerance
   bool is_zero(double tol) const;
+
+  //:  Return true if all elements of both matrices are equal, within given tolerance
+  bool is_equal(vnl_matrix_fixed<T,num_rows,num_cols> const& rhs, double tol) const;
 
   //: Return true if finite
   bool is_finite() const;
@@ -1034,7 +1047,7 @@ std::istream& operator>> (std::istream& is, vnl_matrix_fixed<T,m,n>& mat)
 
 //:
 // \relatesalso vnl_vector_fixed
-template <class T, unsigned m, unsigned n>
+template <class T, unsigned m, unsigned n> VNL_EXPORT
 vnl_matrix_fixed<T,m,n> outer_product(vnl_vector_fixed<T,m> const& a, vnl_vector_fixed<T,n> const& b);
 
 #define VNL_MATRIX_FIXED_INSTANTIATE(T, M, N) \

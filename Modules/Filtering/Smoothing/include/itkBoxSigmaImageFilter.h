@@ -90,8 +90,7 @@ protected:
                              ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  BoxSigmaImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BoxSigmaImageFilter);
 };                                   // end of class
 } // end namespace itk
 

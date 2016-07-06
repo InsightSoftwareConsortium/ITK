@@ -14,8 +14,9 @@
 // \endverbatim
 //
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
-void vnl_block_raise_exception(char const *FILE, int LINE, char const *why);
+VNL_EXPORT void vnl_block_raise_exception(char const *FILE, int LINE, char const *why);
 
 //: return sum of elements
 template <class T> inline

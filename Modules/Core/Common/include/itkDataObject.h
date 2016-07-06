@@ -53,7 +53,7 @@ public:
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
   virtual ~DataObjectError()
-  ITK_NOEXCEPT {}
+  ITK_NOEXCEPT_OR_THROW {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
@@ -102,7 +102,7 @@ public:
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
   virtual ~InvalidRequestedRegionError()
-  ITK_NOEXCEPT {}
+  ITK_NOEXCEPT_OR_THROW {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);
@@ -487,8 +487,7 @@ protected:
   virtual void PropagateResetPipeline();
 
 private:
-  DataObject(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(DataObject);
 
   /** Who generated this data? */
   WeakPointer< ProcessObject > m_Source;

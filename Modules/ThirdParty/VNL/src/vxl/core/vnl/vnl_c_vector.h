@@ -27,17 +27,18 @@
 #include <cmath>
 #include <vcl_compiler.h>
 #include <vnl/vnl_numeric_traits.h>
+#include "vnl/vnl_export.h"
 
 // avoid messing about with aux_* functions for gcc 2.7 -- fsm
-template <class T, class S> void vnl_c_vector_one_norm(T const *p, unsigned n, S *out);
-template <class T, class S> void vnl_c_vector_two_norm(T const *p, unsigned n, S *out);
-template <class T, class S> void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out);
-template <class T, class S> void vnl_c_vector_two_norm_squared(T const *p, unsigned n, S *out);
-template <class T, class S> void vnl_c_vector_rms_norm(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_vector_one_norm(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_vector_two_norm(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_vector_inf_norm(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_vector_two_norm_squared(T const *p, unsigned n, S *out);
+template <class T, class S> VNL_EXPORT void vnl_c_vector_rms_norm(T const *p, unsigned n, S *out);
 
 //: vnl_c_vector interfaces to lowlevel memory-block operations.
 VCL_TEMPLATE_EXPORT template <class T>
-class vnl_c_vector
+class VNL_EXPORT vnl_c_vector
 {
  public:
   typedef typename vnl_numeric_traits<T>::abs_t abs_t;
@@ -142,15 +143,15 @@ class vnl_c_vector
   static T euclid_dist_sq(T const *, T const *, unsigned);
 
   //: Memory allocation
-  static T** allocate_Tptr(std::size_t n);
-  static T*  allocate_T(std::size_t n);
-  static void deallocate(T**, std::size_t n_when_allocated);
-  static void deallocate(T*, std::size_t n_when_allocated);
+  static VNL_EXPORT T** allocate_Tptr(const std::size_t n);
+  static VNL_EXPORT T*  allocate_T(const std::size_t n);
+  static VNL_EXPORT void deallocate(T**, const std::size_t n_when_allocated);
+  static VNL_EXPORT void deallocate(T*, const std::size_t n_when_allocated);
 };
 
 //: Input & output
 // \relatesalso vnl_c_vector
-template <class T>
+template <class T> VNL_EXPORT
 std::ostream& print_vector(std::ostream&, T const*, unsigned);
 
 #endif // vnl_c_vector_h_

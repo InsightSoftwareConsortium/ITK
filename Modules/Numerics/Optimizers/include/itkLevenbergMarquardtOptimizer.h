@@ -81,8 +81,7 @@ protected:
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 
 private:
-  LevenbergMarquardtOptimizer(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(LevenbergMarquardtOptimizer);
 
   bool                   m_OptimizerInitialized;
   InternalOptimizerType *m_VnlOptimizer;

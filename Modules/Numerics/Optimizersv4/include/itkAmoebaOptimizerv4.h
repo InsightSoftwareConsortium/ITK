@@ -142,8 +142,7 @@ protected:
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 
 private:
-  AmoebaOptimizerv4(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AmoebaOptimizerv4);
 
   /**Check that the settings are valid. If not throw an exception.*/
   void ValidateSettings();

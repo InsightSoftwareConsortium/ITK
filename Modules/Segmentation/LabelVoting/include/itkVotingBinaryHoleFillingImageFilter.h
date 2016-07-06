@@ -128,8 +128,7 @@ protected:
   void AfterThreadedGenerateData() ITK_OVERRIDE;
 
 private:
-  VotingBinaryHoleFillingImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VotingBinaryHoleFillingImageFilter);
 
   unsigned int m_MajorityThreshold;
 

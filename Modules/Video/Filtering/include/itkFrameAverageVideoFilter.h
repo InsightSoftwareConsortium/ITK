@@ -79,8 +79,7 @@ protected:
                 int threadId) ITK_OVERRIDE;
 
 private:
-  FrameAverageVideoFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrameAverageVideoFilter);
 
 
 };  // end class FrameAverageVideoFilter

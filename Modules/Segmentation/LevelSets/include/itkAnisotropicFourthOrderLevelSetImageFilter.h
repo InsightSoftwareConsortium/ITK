@@ -131,8 +131,7 @@ protected:
   }
 
 private:
-  AnisotropicFourthOrderLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicFourthOrderLevelSetImageFilter);
 
   /** The LevelSetFunctionWithRefitTerm object. */
   typename FunctionType::Pointer m_Function;

@@ -176,8 +176,7 @@ protected:
   void WriteCellData();
 
 private:
-  MeshFileWriter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshFileWriter);
 
   std::string         m_FileName;
   MeshIOBase::Pointer m_MeshIO;

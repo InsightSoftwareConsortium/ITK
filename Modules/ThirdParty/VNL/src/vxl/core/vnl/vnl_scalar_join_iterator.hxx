@@ -15,9 +15,9 @@
 #include <vcl_compiler.h>
 
 #define VNL_SCALAR_JOIN_ITERATOR_INSTANTIATE(T) \
-template class vnl_scalar_join_iterator_indexed_pair<T >;\
-template class vnl_scalar_join_iterator<T >; \
-template std::ostream& operator<<(std::ostream& s, const vnl_scalar_join_iterator_indexed_pair<T >& p);\
+template class VNL_EXPORT vnl_scalar_join_iterator_indexed_pair<T >;\
+template class VNL_EXPORT vnl_scalar_join_iterator<T >; \
+template VNL_EXPORT std::ostream& operator<<(std::ostream& s, const vnl_scalar_join_iterator_indexed_pair<T >& p);\
 
 #include <vcl_cassert.h>
 #include <vnl/vnl_matrix.h>

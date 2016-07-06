@@ -16,6 +16,7 @@
 
 #include <vnl/vnl_config.h> // is SSE enabled
 #include <vnl/vnl_alloc.h>  // is SSE enabled
+#include "vnl/vnl_export.h"
 
 // some caveats...
 // - Due to the way vnl_matrix is represented in memory cannot guarantee 16-byte alignment,
@@ -44,10 +45,10 @@
 // cannot be inlined, so it is disabled.  Problem seen on 64 bit
 // platforms with std::vector<vnl_rational>.
 # define VNL_SSE_FORCE_INLINE /* __attribute__((always_inline)) */ inline
-# define VNL_SSE_STACK_ALIGNED(x)  __attribute__((aligned(x)))
+# define VNL_SSE_STACK_ALIGNED(x)  __attribute__((aligned(x))) VNL_EXPORT
 #elif defined VCL_VC
 # define VNL_SSE_FORCE_INLINE __forceinline
-# define VNL_SSE_STACK_ALIGNED(x)  __declspec(align(x))
+# define VNL_SSE_STACK_ALIGNED(x)  __declspec(align(x)) VNL_EXPORT
 #else
 # define VNL_SSE_FORCE_INLINE inline
 # define VNL_SSE_STACK_ALIGNED(x)
@@ -118,7 +119,7 @@ VNL_SSE_FORCE_INLINE void vnl_sse_dealloc(void* mem, std::size_t n, unsigned siz
 #endif
 
 #if VNL_CONFIG_ENABLE_SSE2
-class vnl_sse_supplement
+class VNL_EXPORT vnl_sse_supplement
 {
 public:
   // SSE2 does not have a native _mm_min_epi32 or _mm_max_epi32 (le sigh-- SSE4.1
@@ -150,7 +151,7 @@ public:
 
 //: Bog standard (no sse) implementation for non sse enabled hardware and any type which doesn't have a template specialisation.
 template <class T>
-class vnl_sse
+class VNL_EXPORT vnl_sse
 {
  public:
   static VNL_SSE_FORCE_INLINE void element_product(const T* x, const T* y, T* r, unsigned n)
@@ -257,7 +258,7 @@ class vnl_sse
 
 //: SSE2 implementation for double precision floating point (64 bit)
 VCL_DEFINE_SPECIALIZATION
-class vnl_sse<double>
+class VNL_EXPORT vnl_sse<double>
 {
  public:
   static VNL_SSE_FORCE_INLINE void element_product(const double* x, const double* y, double* r, unsigned n)
@@ -652,7 +653,7 @@ class vnl_sse<double>
 
 //: SSE2 implementation for single precision floating point (32 bit)
 VCL_DEFINE_SPECIALIZATION
-class vnl_sse<float>
+class VNL_EXPORT vnl_sse<float>
 {
  public:
   static VNL_SSE_FORCE_INLINE void element_product(const float* x, const float* y, float* r, unsigned n)

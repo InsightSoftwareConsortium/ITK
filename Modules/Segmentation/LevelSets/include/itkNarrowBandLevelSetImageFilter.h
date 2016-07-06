@@ -358,11 +358,9 @@ public:
 protected:
   virtual ~NarrowBandLevelSetImageFilter() {}
   NarrowBandLevelSetImageFilter();
-  NarrowBandLevelSetImageFilter(const Self &) ITK_DELETE_FUNCTION;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
 
   /** Overrides parent implementation */
   virtual void InitializeIteration() ITK_OVERRIDE
@@ -398,6 +396,8 @@ protected:
   typename ChamferFilterType::Pointer m_ChamferFilter;
 
 private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(NarrowBandLevelSetImageFilter);
+
   SegmentationFunctionType *m_SegmentationFunction;
 };
 } // end namespace itk

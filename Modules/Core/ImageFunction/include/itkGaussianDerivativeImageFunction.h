@@ -42,17 +42,13 @@ class GaussianDerivativeImageFunction:
 {
 public:
 
-  /**Standard "Self" typedef */
+  /** Standard class typedefs. */
   typedef GaussianDerivativeImageFunction Self;
-
-  /** Standard "Superclass" typedef */
   typedef ImageFunction< TInputImage,
                          Vector< TOutput, TInputImage::ImageDimension >,
-                         TOutput > Superclass;
-
-  /** Smart pointer typedef support. */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+                         TOutput >        Superclass;
+  typedef SmartPointer< Self >            Pointer;
+  typedef SmartPointer< const Self >      ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -92,29 +88,28 @@ public:
   // typedef Point< TOutput, itkGetStaticConstMacro(ImageDimension2) > PointType;
   typedef typename InputImageType::PointType PointType;
 
-  /** Evalutate the  in the given dimension at specified point */
+  /** Evaluate the function at the specifed point. */
   virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
-  /** Evaluate the function at specified Index position */
+  /** Evaluate the function at specified Index position. */
   virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified ContinuousIndex position. */
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 
-  /** The variance for the discrete Gaussian kernel.  Sets the variance
-   * independently for each dimension, but
-   * see also SetVariance(const double v). The default is 0.0 in each
-   * dimension. If UseImageSpacing is true, the units are the physical units
-   * of your image.  If UseImageSpacing is false then the units are
-   * pixels. */
+  /** The variance for the discrete Gaussian kernel. Sets the variance
+   * independently for each dimension, but see also
+   * SetVariance(const double v). The default is 0.0 in each dimension. If
+   * UseImageSpacing is true, the units are the physical units of the image. If
+   * UseImageSpacing is false then the units are pixels. */
   void SetSigma(const double *sigma);
 
   void SetSigma(const double sigma);
 
   const double * GetSigma() const { return m_Sigma; }
 
-  /** Set the extent of the kernel */
+  /** Set the extent of the discrete Gaussian kernel. */
   void SetExtent(const double *extent);
 
   void SetExtent(const double extent);
@@ -137,28 +132,32 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
+  /** Recompute the Gaussian kernel used to evaluate indexes. This should use
+   * a fastest Derivative Gaussian operator. */
   void RecomputeGaussianKernel();
 
+  /** Recompute the Gaussian kernel used to evaluate indexes. The variance
+   * should be uniform. */
   void RecomputeContinuousGaussianKernel(
     const double *offset) const;
 
 private:
 
-  double m_Sigma[ImageDimension2];
+  double                            m_Sigma[ImageDimension2];
 
   /** Array of 1D operators. Contains a derivative kernel and a gaussian kernel for
-   *  each dimension */
-  mutable OperatorArrayType m_OperatorArray;
-  mutable OperatorArrayType m_ContinuousOperatorArray;
+   * each dimension. */
+  mutable OperatorArrayType         m_OperatorArray;
+  mutable OperatorArrayType         m_ContinuousOperatorArray;
 
   /** OperatorImageFunction */
-  OperatorImageFunctionPointer m_OperatorImageFunction;
-  double                       m_Extent[ImageDimension2];
+  OperatorImageFunctionPointer      m_OperatorImageFunction;
+  double                            m_Extent[ImageDimension2];
 
-  /** Flag to indicate whether to use image spacing */
+  /** Flag to indicate whether to use image spacing. */
   bool m_UseImageSpacing;
 
-  /** Neighborhood Image Function */
+  /** Neighborhood Image Function. */
   GaussianDerivativeFunctionPointer m_GaussianDerivativeFunction;
   GaussianFunctionPointer           m_GaussianFunction;
 };

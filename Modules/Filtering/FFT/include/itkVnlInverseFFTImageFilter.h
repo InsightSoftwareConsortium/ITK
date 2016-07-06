@@ -94,8 +94,7 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;  // generates output from input
 
 private:
-  VnlInverseFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(VnlInverseFFTImageFilter);
 
   typedef vnl_vector< InputPixelType  > SignalVectorType;
 };

@@ -46,8 +46,8 @@ namespace itk
  * \ingroup Functions
  * \ingroup ITKImageSources
  */
-template< typename TRealValueType>
-class GaborKernelFunction:public KernelFunctionBase<TRealValueType>
+template< typename TRealValueType >
+class GaborKernelFunction : public KernelFunctionBase< TRealValueType >
 {
 public:
   /** Standard class typedefs. */
@@ -62,7 +62,7 @@ public:
   itkTypeMacro(GaborKernelFunction, KernelFunctionBase);
 
   /** Evaluate the function. */
-  inline TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
+  TRealValueType Evaluate(const TRealValueType & u) const ITK_OVERRIDE
   {
     TRealValueType parameter = itk::Math::sqr(u / this->m_Sigma);
     TRealValueType envelope = std::exp(static_cast< TRealValueType >(-0.5) * parameter);
@@ -112,8 +112,7 @@ protected:
     }
 
 private:
-  GaborKernelFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaborKernelFunction);
 
   /** Standard deviation of the Gaussian envelope */
   TRealValueType m_Sigma;

@@ -121,8 +121,7 @@ protected:
   ~CurvatureNDAnisotropicDiffusionFunction() {}
 
 private:
-  CurvatureNDAnisotropicDiffusionFunction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(CurvatureNDAnisotropicDiffusionFunction);
 
   /** Inner product function. */
   NeighborhoodInnerProduct< ImageType > m_InnerProduct;

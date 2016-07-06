@@ -176,26 +176,26 @@ std::ostream& vnl_matlab_print(std::ostream& s,
 
 #undef  VNL_MATLAB_PRINT_INSTANTIATE
 #define VNL_MATLAB_PRINT_INSTANTIATE(T) \
-template std::ostream &vnl_matlab_print(std::ostream &, T const*, unsigned, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, T const* const*, unsigned, unsigned, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_diag_matrix<T > const&, char const *, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix<T > const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_vector<T > const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_ref<T > const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,2,2> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,2,3> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,3,2> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,3,3> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,2,4> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,3,4> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,4,3> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,4,4> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,6,8> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,2> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,3> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,4> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,5> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,6> const&, char const*, vnl_matlab_print_format); \
-template std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,7> const&, char const*, vnl_matlab_print_format)
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, T const*, unsigned, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, T const* const*, unsigned, unsigned, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_diag_matrix<T > const&, char const *, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix<T > const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_vector<T > const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_ref<T > const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,2,2> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,2,3> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,3,2> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,3,3> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,2,4> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,3,4> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,4,3> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,4,4> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_matrix_fixed<T,6,8> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,2> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,3> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,4> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,5> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,6> const&, char const*, vnl_matlab_print_format); \
+template VNL_EXPORT std::ostream &vnl_matlab_print(std::ostream &, vnl_vector_fixed<T,7> const&, char const*, vnl_matlab_print_format)
 
 #endif // vnl_matlab_print_hxx_

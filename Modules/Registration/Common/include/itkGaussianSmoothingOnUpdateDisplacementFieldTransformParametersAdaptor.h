@@ -72,8 +72,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
 private:
-  GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor( const Self & ) ITK_DELETE_FUNCTION;
-  void operator=( const Self & ) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor);
 
   ScalarType          m_GaussianSmoothingVarianceForTheUpdateField;
   ScalarType          m_GaussianSmoothingVarianceForTheTotalField;

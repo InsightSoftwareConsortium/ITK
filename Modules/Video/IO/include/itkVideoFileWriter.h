@@ -40,7 +40,7 @@ class VideoFileWriter : public TemporalProcessObject
 {
 public:
 
-  /**-TYPEDEFS---------------------------------------------------------------*/
+  /** Standard class typedefs. */
   typedef VideoFileWriter< TInputVideoStream>         Self;
   typedef TemporalProcessObject                       Superclass;
   typedef SmartPointer<Self>                          Pointer;
@@ -61,13 +61,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(VideoFileWriter, TemporalProcessObject);
 
-  /**-PUBLIC METHODS---------------------------------------------------------*/
 
   /** Specify the file to read. This is forwarded to the IO instance. */
   itkSetStringMacro(FileName);
   itkGetStringMacro(FileName);
 
-  /** Specify the output FpS */
+  /** Specify the output FpS. */
   itkSetMacro(FramesPerSecond, TemporalRatioType);
   itkGetMacro(FramesPerSecond, TemporalRatioType);
 
@@ -108,13 +107,11 @@ public:
 
 protected:
 
-  /**-PROTECTED METHODS------------------------------------------------------*/
-
   VideoFileWriter();
   virtual ~VideoFileWriter();
   virtual void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE;
 
-  /** Initialize output parameters */
+  /** Initialize output parameters. */
   bool InitializeOutputParameters();
 
   /** Set up the VideoIO using VideoIOFactory. Returns true if successful, false
@@ -125,28 +122,24 @@ protected:
   /** Override TemporalStreamingGenerateData to do the actual writing. */
   virtual void TemporalStreamingGenerateData() ITK_OVERRIDE;
 
-  /**-PROTECTED MEMBERS------------------------------------------------------*/
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(VideoFileWriter);
 
-  /** The file to read */
+  /** The file to write. */
   std::string m_FileName;
 
-  /** The VideoIO used for writing */
+  /** The VideoIO used for writing. */
   IOBasePointer m_VideoIO;
 
-  /** TemporalRegion to write out */
+  /** TemporalRegion to write out. */
   TemporalRegion     m_OutputTemporalRegion;
 
-  /** Parameters for writing */
+  /** Parameters for writing. */
   TemporalRatioType            m_FramesPerSecond;
   std::string                  m_FourCC;
   std::vector<SizeValueType>   m_Dimensions;
   SizeValueType                m_NumberOfComponents;
   ImageIOBase::IOComponentType m_ComponentType;
-
-private:
-  VideoFileWriter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
-
 };
 
 } // end namespace itk

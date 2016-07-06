@@ -59,6 +59,7 @@
 #include <functional>
 #include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
+#include "vnl/vnl_export.h"
 
 //: Stores elements of sparse matrix
 //  Only those values which
@@ -71,7 +72,7 @@
 //  value.  All rows are stored, as std::vector< row >;
 //
 template <class T>
-class vnl_sparse_matrix_pair
+class VNL_EXPORT vnl_sparse_matrix_pair
 {
  public:
   unsigned int first;
@@ -105,7 +106,7 @@ class vnl_sparse_matrix_pair
 //: Simple sparse matrix
 //  Stores non-zero elements as a sparse_matrix_pair
 template <class T>
-class vnl_sparse_matrix
+class VNL_EXPORT vnl_sparse_matrix
 {
  public:
   typedef vnl_sparse_matrix_pair<T> pair_t;

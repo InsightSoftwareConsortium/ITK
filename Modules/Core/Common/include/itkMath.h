@@ -28,10 +28,8 @@
 #ifndef itkMath_h
 #define itkMath_h
 
-#include "itkIntTypes.h"
 #include "itkMathDetail.h"
 #include "itkConceptChecking.h"
-#include "itkNumericTraits.h"
 #include <vnl/vnl_math.h>
 
 /* Only maintain backwards compatibility with old versions
@@ -55,52 +53,52 @@ namespace Math
 
 
 /** \brief \f[e\f] The base of the natural logarithm or Euler's number */
-static ITK_CONSTEXPR double e                = vnl_math::e;
+static ITK_CONSTEXPR_VAR double e                = vnl_math::e;
 /** \brief  \f[ \log_2 e \f] */
-static ITK_CONSTEXPR double log2e            = vnl_math::log2e;
+static ITK_CONSTEXPR_VAR double log2e            = vnl_math::log2e;
 /** \brief \f[ \log_{10} e \f] */
-static ITK_CONSTEXPR double log10e           = vnl_math::log10e;
+static ITK_CONSTEXPR_VAR double log10e           = vnl_math::log10e;
 /** \brief \f[ \log_e 2 \f] */
-static ITK_CONSTEXPR double ln2              = vnl_math::ln2;
+static ITK_CONSTEXPR_VAR double ln2              = vnl_math::ln2;
 /** \brief \f[ \log_e 10 \f] */
-static ITK_CONSTEXPR double ln10             = vnl_math::ln10;
+static ITK_CONSTEXPR_VAR double ln10             = vnl_math::ln10;
 /** \brief \f[ \pi \f]  */
-static ITK_CONSTEXPR double pi               = vnl_math::pi;
+static ITK_CONSTEXPR_VAR double pi               = vnl_math::pi;
 /** \brief \f[ 2\pi \f]  */
-static ITK_CONSTEXPR double twopi            = vnl_math::twopi;
+static ITK_CONSTEXPR_VAR double twopi            = vnl_math::twopi;
 /** \brief \f[ \frac{\pi}{2} \f]  */
-static ITK_CONSTEXPR double pi_over_2        = vnl_math::pi_over_2;
+static ITK_CONSTEXPR_VAR double pi_over_2        = vnl_math::pi_over_2;
 /** \brief \f[ \frac{\pi}{4} \f]  */
-static ITK_CONSTEXPR double pi_over_4        = vnl_math::pi_over_4;
+static ITK_CONSTEXPR_VAR double pi_over_4        = vnl_math::pi_over_4;
 /** \brief \f[ \frac{\pi}{180} \f]  */
-static ITK_CONSTEXPR double pi_over_180      = vnl_math::pi_over_180;
+static ITK_CONSTEXPR_VAR double pi_over_180      = vnl_math::pi_over_180;
 /** \brief \f[ \frac{1}{\pi} \f]  */
-static ITK_CONSTEXPR double one_over_pi      = vnl_math::one_over_pi;
+static ITK_CONSTEXPR_VAR double one_over_pi      = vnl_math::one_over_pi;
 /** \brief \f[ \frac{2}{\pi} \f]  */
-static ITK_CONSTEXPR double two_over_pi      = vnl_math::two_over_pi;
+static ITK_CONSTEXPR_VAR double two_over_pi      = vnl_math::two_over_pi;
 /** \brief \f[ \frac{180}{\pi} \f]  */
-static ITK_CONSTEXPR double deg_per_rad      = vnl_math::deg_per_rad;
+static ITK_CONSTEXPR_VAR double deg_per_rad      = vnl_math::deg_per_rad;
 /** \brief \f[ \sqrt{2\pi} \f]  */
-static ITK_CONSTEXPR double sqrt2pi          = vnl_math::sqrt2pi;
+static ITK_CONSTEXPR_VAR double sqrt2pi          = vnl_math::sqrt2pi;
 /** \brief \f[ \frac{2}{\sqrt{\pi}} \f]  */
-static ITK_CONSTEXPR double two_over_sqrtpi  = vnl_math::two_over_sqrtpi;
+static ITK_CONSTEXPR_VAR double two_over_sqrtpi  = vnl_math::two_over_sqrtpi;
 /** \brief \f[ \frac{2}{\sqrt{2\pi}} \f]  */
-static ITK_CONSTEXPR double one_over_sqrt2pi = vnl_math::one_over_sqrt2pi;
+static ITK_CONSTEXPR_VAR double one_over_sqrt2pi = vnl_math::one_over_sqrt2pi;
 /** \brief \f[ \sqrt{2} \f]  */
-static ITK_CONSTEXPR double sqrt2            = vnl_math::sqrt2;
+static ITK_CONSTEXPR_VAR double sqrt2            = vnl_math::sqrt2;
 /** \brief \f[ \sqrt{ \frac{1}{2}} \f] */
-static ITK_CONSTEXPR double sqrt1_2          = vnl_math::sqrt1_2;
+static ITK_CONSTEXPR_VAR double sqrt1_2          = vnl_math::sqrt1_2;
 /** \brief \f[ \sqrt{ \frac{1}{3}} \f] */
-static ITK_CONSTEXPR double sqrt1_3          = vnl_math::sqrt1_3;
+static ITK_CONSTEXPR_VAR double sqrt1_3          = vnl_math::sqrt1_3;
 /** \brief euler constant */
-static ITK_CONSTEXPR double euler            = vnl_math::euler;
+static ITK_CONSTEXPR_VAR double euler            = vnl_math::euler;
 
 //: IEEE double machine precision
-static ITK_CONSTEXPR double eps              = vnl_math::eps;
-static ITK_CONSTEXPR double sqrteps          = vnl_math::sqrteps;
+static ITK_CONSTEXPR_VAR double eps              = vnl_math::eps;
+static ITK_CONSTEXPR_VAR double sqrteps          = vnl_math::sqrteps;
 //: IEEE single machine precision
-static ITK_CONSTEXPR float  float_eps        = vnl_math::float_eps;
-static ITK_CONSTEXPR float  float_sqrteps    = vnl_math::float_sqrteps;
+static ITK_CONSTEXPR_VAR float  float_eps        = vnl_math::float_eps;
+static ITK_CONSTEXPR_VAR float  float_sqrteps    = vnl_math::float_sqrteps;
 
 /** A useful macro to generate a template floating point to integer
  *  conversion templated on the return type and using either the 32
@@ -509,10 +507,10 @@ struct AlmostEqualsFunctionSelector<true, false, true, false>
 template<typename TInputType1, typename TInputType2>
 struct AlmostEqualsScalarImplementer
 {
-  static ITK_CONSTEXPR bool TInputType1IsInteger = itk::NumericTraits<TInputType1>::IsInteger;
-  static ITK_CONSTEXPR bool TInputType1IsSigned  = itk::NumericTraits<TInputType1>::IsSigned;
-  static ITK_CONSTEXPR bool TInputType2IsInteger = itk::NumericTraits<TInputType2>::IsInteger;
-  static ITK_CONSTEXPR bool TInputType2IsSigned  = itk::NumericTraits<TInputType2>::IsSigned;
+  static ITK_CONSTEXPR_VAR bool TInputType1IsInteger = itk::NumericTraits<TInputType1>::IsInteger;
+  static ITK_CONSTEXPR_VAR bool TInputType1IsSigned  = itk::NumericTraits<TInputType1>::IsSigned;
+  static ITK_CONSTEXPR_VAR bool TInputType2IsInteger = itk::NumericTraits<TInputType2>::IsInteger;
+  static ITK_CONSTEXPR_VAR bool TInputType2IsSigned  = itk::NumericTraits<TInputType2>::IsSigned;
 
   typedef typename AlmostEqualsFunctionSelector< TInputType1IsInteger, TInputType1IsSigned,
                                                  TInputType2IsInteger, TInputType2IsSigned >::SelectedVersion SelectedVersion;
@@ -616,8 +614,8 @@ struct AlmostEqualsComplexChooser< true, false>
 template <typename T1, typename T2>
 struct AlmostEqualsComplexImplementer
 {
-  static ITK_CONSTEXPR bool T1IsComplex = NumericTraits< T1 >::IsComplex;
-  static ITK_CONSTEXPR bool T2IsComplex = NumericTraits< T2 >::IsComplex;
+  static ITK_CONSTEXPR_VAR bool T1IsComplex = NumericTraits< T1 >::IsComplex;
+  static ITK_CONSTEXPR_VAR bool T2IsComplex = NumericTraits< T2 >::IsComplex;
 
   typedef typename AlmostEqualsComplexChooser< T1IsComplex, T2IsComplex >::ChosenVersion ChosenVersion;
 };
@@ -746,7 +744,7 @@ ITKCommon_EXPORT unsigned long long GreatestPrimeFactor( unsigned long long n );
  * Alias the vnl_math functions in the itk::Math
  * namespace. If possible, use the std:: equivalents
  */
-#if  ITK_COMPILED_CXX_VERSION >= 201103L
+#if  ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
 
 /** A macro to allow perfect forwarding of functions using
   * C++11 or greater features

@@ -145,8 +145,7 @@ protected:
   virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
-  FastMarchingExtensionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilter);
 
   typename AuxValueContainer::Pointer m_AuxAliveValues;
   typename AuxValueContainer::Pointer m_AuxTrialValues;

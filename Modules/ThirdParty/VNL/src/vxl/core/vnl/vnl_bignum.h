@@ -68,32 +68,33 @@
 #include <iostream>
 #include <string>
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
 class vnl_bignum;
 
 // These are all auxiliary functions:
 
-int magnitude_cmp(const vnl_bignum&, const vnl_bignum&);
-void add(const vnl_bignum&, const vnl_bignum&, vnl_bignum&);
-void subtract(const vnl_bignum&, const vnl_bignum&, vnl_bignum&);
-void multiply_aux(const vnl_bignum&, unsigned short d, vnl_bignum&, unsigned short i);
-unsigned short normalize(const vnl_bignum&, const vnl_bignum&, vnl_bignum&, vnl_bignum&);
-void divide_aux(const vnl_bignum&, unsigned short, vnl_bignum&, unsigned short&);
-unsigned short estimate_q_hat(const vnl_bignum&, const vnl_bignum&, unsigned short);
-unsigned short multiply_subtract(vnl_bignum&, const vnl_bignum&, unsigned short, unsigned short);
-void divide(const vnl_bignum&, const vnl_bignum&, vnl_bignum&, vnl_bignum&);
-vnl_bignum left_shift(const vnl_bignum& b1, int l);
-vnl_bignum right_shift(const vnl_bignum& b1, int l);
-void decrement (vnl_bignum& bnum);
-void increment (vnl_bignum& bnum);
+VNL_EXPORT int magnitude_cmp(const vnl_bignum&, const vnl_bignum&);
+VNL_EXPORT void add(const vnl_bignum&, const vnl_bignum&, vnl_bignum&);
+VNL_EXPORT void subtract(const vnl_bignum&, const vnl_bignum&, vnl_bignum&);
+VNL_EXPORT void multiply_aux(const vnl_bignum&, unsigned short d, vnl_bignum&, unsigned short i);
+VNL_EXPORT unsigned short normalize(const vnl_bignum&, const vnl_bignum&, vnl_bignum&, vnl_bignum&);
+VNL_EXPORT void divide_aux(const vnl_bignum&, unsigned short, vnl_bignum&, unsigned short&);
+VNL_EXPORT unsigned short estimate_q_hat(const vnl_bignum&, const vnl_bignum&, unsigned short);
+VNL_EXPORT unsigned short multiply_subtract(vnl_bignum&, const vnl_bignum&, unsigned short, unsigned short);
+VNL_EXPORT void divide(const vnl_bignum&, const vnl_bignum&, vnl_bignum&, vnl_bignum&);
+VNL_EXPORT vnl_bignum left_shift(const vnl_bignum& b1, int l);
+VNL_EXPORT vnl_bignum right_shift(const vnl_bignum& b1, int l);
+VNL_EXPORT void decrement (vnl_bignum& bnum);
+VNL_EXPORT void increment (vnl_bignum& bnum);
 
 //: formatted output
 // \relatesalso vnl_bignum
-std::ostream& operator<<(std::ostream& s, vnl_bignum const& r);
+VNL_EXPORT std::ostream& operator<<(std::ostream& s, vnl_bignum const& r);
 
 //: simple input
 // \relatesalso vnl_bignum
-std::istream& operator>>(std::istream& s, vnl_bignum& r);
+VNL_EXPORT std::istream& operator>>(std::istream& s, vnl_bignum& r);
 
 //: Infinite precision integers
 //
@@ -137,8 +138,9 @@ std::istream& operator>>(std::istream& s, vnl_bignum& r);
 // 1.234e-5          0 (truncated value less than 1)
 // Infinity          +Inf ("maxval", obeying all conventional arithmetic)
 //
-class vnl_bignum
+class VNL_EXPORT vnl_bignum
 {
+ private:
   unsigned short count; // Number of data elements (never 0 except for "0")
   int sign;             // Sign of vnl_bignum (+1 or -1, nothing else!!)
   unsigned short* data; // Pointer to data value
@@ -264,11 +266,11 @@ class vnl_bignum
 
 //: Convert the number to a decimal representation in a string.
 // \relatesalso vnl_bignum
-std::string& vnl_bignum_to_string (std::string& s, const vnl_bignum& b);
+VNL_EXPORT std::string& vnl_bignum_to_string (std::string& s, const vnl_bignum& b);
 
 //: Convert the number from a decimal representation in a string.
 // \relatesalso vnl_bignum
-vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const std::string& s);
+VNL_EXPORT vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const std::string& s);
 
 //: Returns the sum of two bignum numbers.
 // \relatesalso vnl_bignum

@@ -84,19 +84,19 @@ class MetaDataDictionary;
  *
  */
 
-class ITKIOHDF5_EXPORT HDF5ImageIO:public StreamingImageIOBase
+class ITKIOHDF5_EXPORT HDF5ImageIO: public StreamingImageIOBase
 {
 public:
   /** Standard class typedefs. */
   typedef HDF5ImageIO          Self;
-  typedef ImageIOBase          Superclass;
+  typedef StreamingImageIOBase Superclass;
   typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HDF5ImageIO, Superclass);
+  itkTypeMacro(HDF5ImageIO, StreamingImageIOBase);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -140,8 +140,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  HDF5ImageIO(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(HDF5ImageIO);
 
   void WriteString(const std::string &path,
                    const std::string &value);

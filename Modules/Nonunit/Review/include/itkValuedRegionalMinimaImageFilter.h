@@ -99,8 +99,7 @@ protected:
   virtual ~ValuedRegionalMinimaImageFilter() {}
 
 private:
-  ValuedRegionalMinimaImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMinimaImageFilter);
 };                                               // end
                                                  // ValuedRegionalMinimaImageFilter
 } //end namespace itk

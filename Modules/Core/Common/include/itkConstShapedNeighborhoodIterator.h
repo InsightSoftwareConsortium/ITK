@@ -349,8 +349,6 @@ protected:
 protected:
   using Superclass::SetPixel;
   using Superclass::SetCenterPixel;
-  /** Copy constructor */
-  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) ITK_DELETE_FUNCTION;
 
   friend struct ConstIterator;
 
@@ -372,6 +370,9 @@ protected:
   IndexListType m_ActiveIndexList;
   ConstIterator m_ConstEndIterator;
   ConstIterator m_ConstBeginIterator;
+private:
+  /** Copy constructor */
+  ConstShapedNeighborhoodIterator(const ConstShapedNeighborhoodIterator &) ITK_DELETED_FUNCTION;
 };
 } // namespace itk
 

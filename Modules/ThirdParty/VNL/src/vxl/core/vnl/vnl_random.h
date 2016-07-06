@@ -4,12 +4,15 @@
 #ifdef VCL_NEEDS_PRAGMA_INTERFACE
 #pragma interface
 #endif
+#include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
+
 //:
 // \file
 // \author Aaron Kotcheff (Manchester)
 // \brief A superior random number generator
 
-const unsigned int vnl_random_array_size = 37;
+VXL_CONSTEXPR_VAR unsigned int vnl_random_array_size = 37;
 
 //: A superior random number generator.
 // Implements a new random number generator that
@@ -20,7 +23,7 @@ const unsigned int vnl_random_array_size = 37;
 // For the mathematics behind it see:
 // "A New Class of Random Number Generators" G. Marsaglia and A. Zaman,
 // Annals of Applied Probability 1991, Vol. 1, No. 3, 462.
-class vnl_random
+class VNL_EXPORT vnl_random
 {
     enum {linear_congruential_multiplier = 1664525, mz_previous1 = 24};
     unsigned long linear_congruential_previous;

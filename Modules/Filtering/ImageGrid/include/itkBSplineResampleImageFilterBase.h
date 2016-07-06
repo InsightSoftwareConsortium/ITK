@@ -184,8 +184,7 @@ private:
   std::vector< double >       m_Scratch;        // temp storage for processing
                                                 // of Coefficients
 
-  BSplineResampleImageFilterBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFilterBase);
 };
 } // namespace itk
 

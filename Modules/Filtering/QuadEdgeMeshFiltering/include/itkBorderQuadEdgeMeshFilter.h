@@ -169,8 +169,7 @@ protected:
   void ArcLengthSquareTransform();
 
 private:
-  BorderQuadEdgeMeshFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &); //purposely ont implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(BorderQuadEdgeMeshFilter);
 };
 } // end namespace itk
 

@@ -577,8 +577,7 @@ protected:
 
 
 private:
-  Transform(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(Transform);
 
   template <typename TType>
   static std::string GetTransformTypeAsString(TType *)

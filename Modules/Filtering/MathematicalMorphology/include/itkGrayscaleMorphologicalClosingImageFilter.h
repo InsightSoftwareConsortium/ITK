@@ -136,8 +136,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  GrayscaleMorphologicalClosingImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GrayscaleMorphologicalClosingImageFilter);
 
   // the filters used internally
   typename HistogramErodeFilterType::Pointer m_HistogramErodeFilter;

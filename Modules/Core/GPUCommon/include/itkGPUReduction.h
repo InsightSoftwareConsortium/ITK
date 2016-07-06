@@ -107,8 +107,7 @@ protected:
   TElement      m_GPUResult, m_CPUResult;
 
 private:
-  GPUReduction(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(GPUReduction);
 
 };
 } // end namespace itk

@@ -55,6 +55,21 @@ vnl_sym_matrix<T>& vnl_sym_matrix<T>::operator=(vnl_sym_matrix<T> const& that)
   update(that);
   return *this;
 }
+// ==========================================================================
+template <class T>
+vnl_sym_matrix<T>::~vnl_sym_matrix()
+  {
+    vnl_c_vector<T>::deallocate(data_, static_cast<std::size_t>( size() ) );
+    vnl_c_vector<T>::deallocate(index_, static_cast<std::size_t> ( nn_ ) );
+  }
+
+
+template <class T>
+void vnl_sym_matrix<T>::setup_index()
+{
+    T * data = data_;
+    for (unsigned i=0; i< nn_; ++i) { index_[i] = data; data += i+1; }
+}
 
 // ==========================================================================
 //: Set the first i values of row i
@@ -130,10 +145,10 @@ bool operator==(const vnl_matrix<T> &a, const vnl_sym_matrix<T> &b)
 
 #undef VNL_SYM_MATRIX_INSTANTIATE
 #define VNL_SYM_MATRIX_INSTANTIATE(T) \
-template class vnl_sym_matrix<T >; \
-template std::ostream& operator<< (std::ostream& s, vnl_sym_matrix<T > const &); \
-template bool operator==(const vnl_sym_matrix<T > &a, const vnl_sym_matrix<T > &b); \
-template bool operator==(const vnl_sym_matrix<T > &a, const vnl_matrix<T > &b); \
-template bool operator==(const vnl_matrix<T > &a, const vnl_sym_matrix<T > &b)
+template class VNL_EXPORT vnl_sym_matrix<T >; \
+template VNL_EXPORT std::ostream& operator<< (std::ostream& s, vnl_sym_matrix<T > const &); \
+template VNL_EXPORT bool operator==(const vnl_sym_matrix<T > &a, const vnl_sym_matrix<T > &b); \
+template VNL_EXPORT bool operator==(const vnl_sym_matrix<T > &a, const vnl_matrix<T > &b); \
+template VNL_EXPORT bool operator==(const vnl_matrix<T > &a, const vnl_sym_matrix<T > &b)
 
 #endif // vnl_sym_matrix_hxx_

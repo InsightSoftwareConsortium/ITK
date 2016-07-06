@@ -148,8 +148,7 @@ protected:
   bool m_GradientMagnitudeIsFixed;
 
 private:
-  AnisotropicDiffusionImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AnisotropicDiffusionImageFilter);
 
   double       m_ConductanceParameter;
   double       m_ConductanceScalingParameter;

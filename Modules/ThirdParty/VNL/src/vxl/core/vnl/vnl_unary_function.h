@@ -21,13 +21,12 @@
 // \endverbatim
 //
 //-----------------------------------------------------------------------------
-
-
 #include <vcl_compiler.h>
+#include "vnl/vnl_export.h"
 
 //: Abstract 1D map between two types (read spaces)
 template <class Return, class Argument>
-class vnl_unary_function
+class VNL_EXPORT vnl_unary_function
 {
  public:
 //  typedef std::numeric_limits<Return> limits;

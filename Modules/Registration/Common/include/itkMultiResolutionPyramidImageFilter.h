@@ -143,7 +143,7 @@ public:
 
   /** Set the number of multi-resolution levels. The matrix containing the
    * schedule will be resized accordingly.  The schedule is populated with
-   * default values.  At the coarset (0) level, the shrink factors are set
+   * default values.  At the coarsest (0) level, the shrink factors are set
    * 2^(nlevel - 1) for all dimension. These shrink factors are halved for
    * subsequent levels.  The number of levels is clamped to a minimum value
    * of 1.  All shrink factors are also clamped to a minimum value of 1. */
@@ -163,7 +163,7 @@ public:
   /** Get the multi-resolution schedule. */
   itkGetConstReferenceMacro(Schedule, ScheduleType);
 
-  /** Set the starting shrink factor for the coarset (0) resolution
+  /** Set the starting shrink factor for the coarsest (0) resolution
    * level. The schedule is then populated with defaults values obtained by
    * halving the factors at the previous level.  All shrink factors are
    * clamped to a minimum value of 1. */
@@ -233,8 +233,7 @@ protected:
   bool m_UseShrinkImageFilter;
 
 private:
-  MultiResolutionPyramidImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MultiResolutionPyramidImageFilter);
 };
 } // namespace itk
 

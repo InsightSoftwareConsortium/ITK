@@ -48,7 +48,7 @@ vnl_matrix<T> vnl_adjugate(vnl_matrix<T> const &A)
 
 #undef VNL_ADJUGATE_INSTANTIATE
 #define VNL_ADJUGATE_INSTANTIATE(T) \
-template void vnl_adjugate(vnl_matrix<T > const &, vnl_matrix<T > *); \
-template vnl_matrix<T > vnl_adjugate(vnl_matrix<T > const &)
+template VNL_EXPORT void vnl_adjugate(vnl_matrix<T > const &, vnl_matrix<T > *); \
+template VNL_EXPORT vnl_matrix<T > vnl_adjugate(vnl_matrix<T > const &)
 
 #endif

@@ -80,8 +80,7 @@ protected:
   virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
 
 private:
-  ParametricSpaceToImageSpaceMeshFilter(const ParametricSpaceToImageSpaceMeshFilter &) ITK_DELETE_FUNCTION;
-  void operator=(const ParametricSpaceToImageSpaceMeshFilter &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(ParametricSpaceToImageSpaceMeshFilter);
 };
 } // end namespace itk
 

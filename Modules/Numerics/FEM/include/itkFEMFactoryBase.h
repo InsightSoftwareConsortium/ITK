@@ -106,8 +106,7 @@ protected:
   virtual ~FEMFactoryBase();
 
 private:
-  FEMFactoryBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FEMFactoryBase);
 
   static SimpleFastMutexLock m_CreationLock;
   static FEMFactoryBase*     m_Factory;

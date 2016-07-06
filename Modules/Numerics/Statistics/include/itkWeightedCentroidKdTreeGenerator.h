@@ -106,8 +106,7 @@ protected:
                                                    unsigned int level) ITK_OVERRIDE;
 
 private:
-  WeightedCentroidKdTreeGenerator(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(WeightedCentroidKdTreeGenerator);
 
   MeasurementVectorType m_TempLowerBound;
   MeasurementVectorType m_TempUpperBound;

@@ -103,8 +103,7 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  WhiteTopHatImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(WhiteTopHatImageFilter);
 
   bool m_SafeBorder;
 

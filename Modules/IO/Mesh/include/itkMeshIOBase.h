@@ -148,7 +148,7 @@ public:
 
   template< typename T >
   struct MapComponentType {
-    static ITK_CONSTEXPR IOComponentType CType = UNKNOWNCOMPONENTTYPE;
+    static ITK_CONSTEXPR_VAR IOComponentType CType = UNKNOWNCOMPONENTTYPE;
   };
 
   template< typename T >
@@ -751,8 +751,7 @@ protected:
   bool m_UpdateCellData;
 
 private:
-  MeshIOBase(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(MeshIOBase);
 
   ArrayOfExtensionsType m_SupportedReadExtensions;
   ArrayOfExtensionsType m_SupportedWriteExtensions;
@@ -761,7 +760,7 @@ private:
   template< >                                      \
   struct MeshIOBase:: MapComponentType< type >     \
   {                                                \
-    static ITK_CONSTEXPR IOComponentType CType = ctype;    \
+    static ITK_CONSTEXPR_VAR IOComponentType CType = ctype;    \
   }
 
 MESHIOBASE_TYPEMAP(unsigned char, UCHAR);

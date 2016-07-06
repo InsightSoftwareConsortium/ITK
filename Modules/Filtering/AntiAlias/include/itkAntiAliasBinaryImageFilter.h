@@ -167,18 +167,17 @@ protected:
 
   /** Overridden from the parent class to indroduce a constraint on
    *  surface flow under certain conditions. */
-  inline virtual ValueType CalculateUpdateValue(const IndexType & idx,
-                                                const TimeStepType & dt,
-                                                const ValueType & value,
-                                                const ValueType & change) ITK_OVERRIDE;
+  virtual ValueType CalculateUpdateValue(const IndexType & idx,
+                                         const TimeStepType & dt,
+                                         const ValueType & value,
+                                         const ValueType & change) ITK_OVERRIDE;
 
   /** Overridden from ProcessObject to set certain values before starting the
     * finite difference solver and then create an appropriate output */
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  AntiAliasBinaryImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(AntiAliasBinaryImageFilter);
 
   BinaryValueType m_UpperBinaryValue;
   BinaryValueType m_LowerBinaryValue;

@@ -30,8 +30,8 @@
 #include "itkMath.h"
 
 
-static ITK_CONSTEXPR double tolerance = 1e-5;
-static ITK_CONSTEXPR int    point_counter=1000;
+static ITK_CONSTEXPR_VAR double tolerance = 1e-5;
+static ITK_CONSTEXPR_VAR int    point_counter=1000;
 
 
 template<typename T>void RandomPix(vnl_random &randgen,itk::Vector<T,3> &pix,

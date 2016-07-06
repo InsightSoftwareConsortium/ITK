@@ -86,6 +86,7 @@ public:
   /** Get the inverse permutation order. */
   itkGetConstReferenceMacro(InverseOrder, PermuteOrderArrayType);
 
+protected:
   /** PermuteAxesImageFilter produces an image which is a different
    * resolution and with a different pixel spacing than its input
    * image.  As such, PermuteAxesImageFilter needs to provide an
@@ -102,7 +103,6 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-protected:
   PermuteAxesImageFilter();
   ~PermuteAxesImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
@@ -121,8 +121,7 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  PermuteAxesImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(PermuteAxesImageFilter);
 
   PermuteOrderArrayType m_Order;
   PermuteOrderArrayType m_InverseOrder;
