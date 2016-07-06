@@ -27,6 +27,18 @@ import sys
 
 thisModule = sys.modules[__name__]
 
+def _GetLazyAttributes(lazyAttributes):
+    templateNames = [t[0] for t in data['templates']]
+    isInLibrary = [t[3] for t in data['templates'] if len(t) > 3 ]
+    attributes = dict([(n, module) for n in templateNames])
+    attributesInModule = dict([(n, belongs) for n,belongs in zip(templateNames,isInLibrary)])
+    items = attributes.items()
+    for k, v in items:
+        if isInLibrary and attributesInModule[k] is True:
+            lazyAttributes.setdefault(k,[]).insert(0,v)
+        else:
+            lazyAttributes.setdefault(k,[]).append(v)
+
 if itkConfig.LazyLoading:
     # If we are loading lazily (on-demand), make a dict mapping the available
     # classes/functions/etc. (read from the configuration modules) to the
@@ -36,9 +48,7 @@ if itkConfig.LazyLoading:
     # file.
     lazyAttributes = {}
     for module, data in itkBase.module_data.items():
-        templateNames = [t[0] for t in data['templates']]
-        attributes = dict([(n, module) for n in templateNames])
-        lazyAttributes.update(attributes)
+        _GetLazyAttributes(lazyAttributes)
 
     if isinstance(thisModule, itkLazy.LazyITKModule):
         # Handle reload case where we've already done this once.
@@ -65,8 +75,8 @@ for k, v in itkExtras.__dict__.items():
 
 # Populate itk.ITKModuleName
 for module, data in itkBase.module_data.items():
-    templateNames = [t[0] for t in data['templates']]
-    attributes = dict([(n, module) for n in templateNames])
+    attributes = {}
+    _GetLazyAttributes(attributes)
     itkModule = itkLazy.LazyITKModule(module, attributes)
     setattr(thisModule, module, itkModule)
 

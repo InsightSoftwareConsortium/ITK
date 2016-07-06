@@ -158,10 +158,10 @@ def LoadModule(name, namespace=None):
     data = module_data[name]
     if data:
         for template in data['templates']:
-            if len(template) == 4:
+            if len(template) == 5:
                 # This is a template description
-                pyClassName, cppClassName, swigClassName, templateParams = \
-                    template
+                pyClassName, cppClassName, swigClassName, class_in_module, \
+                    templateParams = template
                 # It doesn't matter if an itkTemplate for this class name
                 # already exists since every instance of itkTemplate with the
                 # same name shares the same state. So we just make a new
@@ -187,7 +187,12 @@ def LoadModule(name, namespace=None):
 
             else:
                 # this is a description of a non-templated class
-                pyClassName, cppClassName, swigClassName = template
+                # It may have 3 or 4 arguments, the last one can be a boolean value
+                if len(template) == 4:
+                    pyClassName, cppClassName, swigClassName, class_in_module = \
+                        template
+                else:
+                    pyClassName, cppClassName, swigClassName = template
                 try:
                     swigClass = getattr(module, swigClassName)
                     itkTemplate.registerNoTpl(cppClassName, swigClass)
@@ -260,6 +265,7 @@ class LibraryLoader(object):
 # files.
 dirs = [p for p in itkConfig.path if os.path.isdir(p)]
 module_data = {}
+lazy_attributes = {}
 for d in dirs:
     files = os.listdir(d + os.sep + "Configuration")
     known_modules = sorted([f[:-9] for f in files if f.endswith('Config.py')])

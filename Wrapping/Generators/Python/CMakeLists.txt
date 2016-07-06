@@ -550,12 +550,19 @@ endmacro()
 
 
 macro(ADD_PYTHON_CONFIG_TEMPLATE base_name wrap_class swig_name template_params)
+  # Find if a header file corresponding to 'base_name' can be found in the current include directory
+    set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include/itk${base_name}.h)
+    if(EXISTS ${_include})
+      set(class_in_module "True")
+    else()
+      set(class_in_module "False")
+    endif()
   # build the name - type association list used in *Config.py
 
   if("${template_params}" STREQUAL "")
-    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}'),\n")
+    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', ${class_in_module}),\n")
   else()
-    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', '${template_params}'),\n")
+    set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', ${class_in_module}, '${template_params}'),\n")
   endif()
 
 endmacro()
