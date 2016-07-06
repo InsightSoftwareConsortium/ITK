@@ -16,6 +16,7 @@
 // \endverbatim
 
 #include <vnl/algo/vnl_svd.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Calculates inverse of a matrix (wrapper around vnl_svd<double>)
 //  vnl_matrix_inverse is a wrapper around vnl_svd<double> that allows

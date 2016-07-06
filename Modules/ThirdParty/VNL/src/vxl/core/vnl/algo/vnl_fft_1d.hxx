@@ -6,6 +6,6 @@
 
 #undef VNL_FFT_1D_INSTANTIATE
 #define VNL_FFT_1D_INSTANTIATE(T) \
-template struct VNL_EXPORT vnl_fft_1d<T >
+template struct VNL_ALGO_EXPORT vnl_fft_1d<T >
 
 #endif

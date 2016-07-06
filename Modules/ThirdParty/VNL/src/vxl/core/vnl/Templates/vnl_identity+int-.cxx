@@ -1,2 +1,2 @@
 #include <vnl/vnl_identity.h>
-template class vnl_identity<int>;
+template class VNL_EXPORT vnl_identity<int>;

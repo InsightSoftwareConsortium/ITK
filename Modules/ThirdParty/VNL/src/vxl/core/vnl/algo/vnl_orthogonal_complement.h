@@ -14,6 +14,7 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Return a matrix whose columns span is the orthogonal complement of v.
 //  \relatesalso vnl_matrix

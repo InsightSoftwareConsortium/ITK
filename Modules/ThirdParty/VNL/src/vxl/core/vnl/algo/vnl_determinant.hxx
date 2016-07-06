@@ -109,12 +109,12 @@ T vnl_determinant(vnl_matrix<T> const &M, bool balance)
 //--------------------------------------------------------------------------------
 
 #define VNL_DETERMINANT_INSTANTIATE_1(T) \
-template VNL_EXPORT T vnl_determinant(T const *, T const *); \
-template VNL_EXPORT T vnl_determinant(T const *, T const *, T const *); \
-template VNL_EXPORT T vnl_determinant(T const *, T const *, T const *, T const *)
+template VNL_ALGO_EXPORT T vnl_determinant(T const *, T const *); \
+template VNL_ALGO_EXPORT T vnl_determinant(T const *, T const *, T const *); \
+template VNL_ALGO_EXPORT T vnl_determinant(T const *, T const *, T const *, T const *)
 
 #define VNL_DETERMINANT_INSTANTIATE_2(T) \
-template VNL_EXPORT T vnl_determinant(vnl_matrix<T > const &, bool)
+template VNL_ALGO_EXPORT T vnl_determinant(vnl_matrix<T > const &, bool)
 
 #undef VNL_DETERMINANT_INSTANTIATE
 #define VNL_DETERMINANT_INSTANTIATE(T) \

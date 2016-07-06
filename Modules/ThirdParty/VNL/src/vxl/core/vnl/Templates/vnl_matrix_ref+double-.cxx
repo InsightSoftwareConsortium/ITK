@@ -1,2 +1,2 @@
 #include <vnl/vnl_matrix_ref.h>
-template class vnl_matrix_ref<double>;
+template class VNL_EXPORT vnl_matrix_ref<double>;

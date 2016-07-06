@@ -35,6 +35,6 @@ void vnl_fft_prime_factors<T>::destruct()
 
 #undef VNL_FFT_PRIME_FACTORS_INSTANTIATE
 #define VNL_FFT_PRIME_FACTORS_INSTANTIATE(T) \
-template struct VNL_EXPORT vnl_fft_prime_factors<T >
+template struct VNL_ALGO_EXPORT vnl_fft_prime_factors<T >
 
 #endif

@@ -365,13 +365,13 @@ inline void vnl_c_vector_dealloc(void* v, std::size_t n, unsigned size)
   vnl_sse_dealloc(v,n,size);
 }
 
-template<class T> VNL_EXPORT
+template<class T>
 T** vnl_c_vector<T>::allocate_Tptr(const std::size_t n)
 {
   return (T**)vnl_c_vector_alloc(n, sizeof (T*));
 }
 
-template<class T> VNL_EXPORT
+template<class T>
 void vnl_c_vector<T>::deallocate(T** v, const std::size_t n)
 {
   vnl_c_vector_dealloc(v, n, sizeof (T*));

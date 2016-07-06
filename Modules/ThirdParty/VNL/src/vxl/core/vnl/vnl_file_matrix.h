@@ -22,7 +22,7 @@
 
 //: Class to load a matrix from a file.
 VCL_TEMPLATE_EXPORT template <class T>
-class VNL_EXPORT vnl_file_matrix : public vnl_matrix<T>
+class VNL_TEMPLATE_EXPORT vnl_file_matrix : public vnl_matrix<T>
 {
  private:
   VCL_SAFE_BOOL_DEFINE;

@@ -33,15 +33,15 @@ template <class T> class vnl_matrix;
 // If the data in the file cannot reasonably be read into the destination, abort().
 //
 // The vector/matrix will be resized if necessary.
-template <class T> VNL_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *name =0);
-template <class T> VNL_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *name =0);
+template <class T> VNL_TEMPLATE_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *name =0);
+template <class T> VNL_TEMPLATE_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *name =0);
 
 // ------------------------------ less easy ------------------------------
 
 //: MATLAB stores its data as a real block followed by an imaginary block.
 // This function will read both blocks and interleave them into the area
 // pointed to by ptr. For real T, it is equivalent to s.read(ptr, sizeof(T)*n);
-template <class T> VNL_EXPORT void vnl_matlab_read_data(std::istream &s, T *ptr, unsigned n);
+template <class T> VNL_TEMPLATE_EXPORT void vnl_matlab_read_data(std::istream &s, T *ptr, unsigned n);
 
 class VNL_EXPORT vnl_matlab_readhdr
 {

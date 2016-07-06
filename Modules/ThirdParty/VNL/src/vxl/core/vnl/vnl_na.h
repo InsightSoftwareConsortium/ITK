@@ -90,14 +90,14 @@ VNL_EXPORT void vnl_na_insert(std::ostream &is, float x);
 
 
 //: Wrapper around a double or float that handles streaming NA.
-template <class T> struct VNL_EXPORT vnl_na_stream_t
+template <class T> struct VNL_TEMPLATE_EXPORT vnl_na_stream_t
 {
   T& x_;
   vnl_na_stream_t(T& x): x_(x) {}
 };
 
 //: Wrapper around a double or float that handles streaming NA.
-template <class T> struct VNL_EXPORT vnl_na_stream_const_t
+template <class T> struct VNL_TEMPLATE_EXPORT vnl_na_stream_const_t
 {
   const T& x_;
   vnl_na_stream_const_t(const T& x): x_(x) {}

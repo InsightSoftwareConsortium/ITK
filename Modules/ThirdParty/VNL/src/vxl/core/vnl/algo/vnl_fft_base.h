@@ -11,6 +11,7 @@
 
 #include <complex>
 #include <vcl_compiler.h>
+#include <vnl/algo/vnl_algo_export.h>
 #include <vnl/algo/vnl_fft_prime_factors.h>
 
 //: Base class for in-place ND fast Fourier transform.

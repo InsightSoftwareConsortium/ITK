@@ -855,12 +855,12 @@ outer_product(vnl_vector_fixed<T,m> const& a, vnl_vector_fixed<T,n> const& b)
 }
 
 #define VNL_OUTER_PRODUCT_FIXED_INSTANTIATE( T, M, N ) \
-template vnl_matrix_fixed<T,M,N > outer_product(vnl_vector_fixed<T,M > const&,\
+template VNL_EXPORT vnl_matrix_fixed<T,M,N > outer_product(vnl_vector_fixed<T,M > const&,\
                                                 vnl_vector_fixed<T,N > const& )
 
 #undef VNL_MATRIX_FIXED_INSTANTIATE
 #define VNL_MATRIX_FIXED_INSTANTIATE(T, M, N) \
-template class vnl_matrix_fixed<T,M,N >; \
+template class VNL_EXPORT vnl_matrix_fixed<T,M,N >; \
 VNL_OUTER_PRODUCT_FIXED_INSTANTIATE( T, M, N )
 
 #endif // vnl_matrix_fixed_hxx_

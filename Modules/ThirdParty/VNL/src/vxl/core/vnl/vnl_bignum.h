@@ -250,8 +250,8 @@ class VNL_EXPORT vnl_bignum
   friend vnl_bignum right_shift(const vnl_bignum& b1, int l);
   friend std::ostream& operator<< (std::ostream&, const vnl_bignum&);
   friend std::istream& operator>> (std::istream&, vnl_bignum&);
-  friend std::string& vnl_bignum_to_string (std::string& s, const vnl_bignum& b);
-  friend vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const std::string& s);
+  friend VNL_EXPORT std::string& vnl_bignum_to_string (std::string& s, const vnl_bignum& b);
+  friend VNL_EXPORT vnl_bignum& vnl_bignum_from_string (vnl_bignum& b, const std::string& s);
 
  private:
   void xtoBigNum(const char *s);       // convert hex to vnl_bignum

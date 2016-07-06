@@ -29,7 +29,7 @@
 //
 //  \relatesalso vnl_matrix
 template <class T>
-class VNL_EXPORT vnl_hungarian_algorithm
+class VNL_TEMPLATE_EXPORT vnl_hungarian_algorithm
 {
  public:
 

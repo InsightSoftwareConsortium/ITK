@@ -619,7 +619,7 @@ vnl_matrix_fixed_ref<T,nrows,ncols>::inplace_transpose() const
 
 
 #define VNL_MATRIX_FIXED_REF_INSTANTIATE(T,m,n) \
-template class vnl_matrix_fixed_ref_const<T, m, n >; \
-template class vnl_matrix_fixed_ref<T, m, n >
+template class VNL_EXPORT vnl_matrix_fixed_ref_const<T, m, n >; \
+template class VNL_EXPORT vnl_matrix_fixed_ref<T, m, n >
 
 #endif // vnl_matrix_fixed_ref_hxx_
