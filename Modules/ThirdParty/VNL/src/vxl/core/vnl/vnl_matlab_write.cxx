@@ -110,7 +110,7 @@ bool vnl_matlab_write(std::ostream &s, T const & x, char const *name)
   return s.good() != 0;
 }
 #define scalar_instantiate(T) \
-template bool vnl_matlab_write(std::ostream &, T const &, char const *);
+template VNL_EXPORT bool vnl_matlab_write(std::ostream &, T const &, char const *);
 
 //: 1D array
 template <class T>
@@ -131,7 +131,7 @@ bool vnl_matlab_write(std::ostream &s, T const *v, unsigned n, char const *name)
   return s.good() != 0;
 }
 #define array1D_instantiate(T) \
-template bool vnl_matlab_write(std::ostream &, T const *, unsigned, char const *);
+template VNL_EXPORT bool vnl_matlab_write(std::ostream &, T const *, unsigned, char const *);
 
 //: 2D array
 template <class T>
@@ -157,7 +157,7 @@ bool vnl_matlab_write(std::ostream &s,
   return s.good() != 0;
 }
 #define array2D_instantiate(T) \
-template bool vnl_matlab_write(std::ostream &, T const * const *, unsigned, unsigned, char const *);
+template VNL_EXPORT bool vnl_matlab_write(std::ostream &, T const * const *, unsigned, unsigned, char const *);
 
 //--------------------------------------------------------------------------------
 

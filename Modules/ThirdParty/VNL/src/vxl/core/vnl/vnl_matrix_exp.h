@@ -24,13 +24,13 @@
 //: Compute the exponential of a square matrix - fiddly form
 // \relatesalso vnl_matrix
 // \relatesalso vnl_matrix_fixed
-template <class SquareMatrix> VNL_EXPORT
+template <class SquareMatrix> VNL_TEMPLATE_EXPORT
 bool vnl_matrix_exp(SquareMatrix const &X, SquareMatrix &expX, double max_err);
 
 //: Compute the exponential of a square matrix - easy form.
 // \relatesalso vnl_matrix
 // \relatesalso vnl_matrix_fixed
-template <class SquareMatrix> VNL_EXPORT
+template <class SquareMatrix> VNL_TEMPLATE_EXPORT
 SquareMatrix vnl_matrix_exp(SquareMatrix const &X);
 
 

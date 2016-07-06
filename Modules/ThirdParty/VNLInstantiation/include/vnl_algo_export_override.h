@@ -15,12 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <vxl_version.h>
-#if VXL_VERSION_DATE_FULL < 20160229
-#include "vnl/vnl_vector.txx"
-#else
-#include "vnl/vnl_vector.hxx"
+#ifndef __vnl_algo_export_override__h
+#define __vnl_algo_export_override__h
+
+// Override VNL_ALGO_EXPORT so that templates instantiated in this library are
+// properly exported.
+#if defined(_WIN32) && defined(VNL_ALGO_EXPORT)
+#undef VNL_ALGO_EXPORT
+#define VNL_ALGO_EXPORT
 #endif
-#include "vnl_complex_traits+char-.h"
-#include "vnl_export_override.h"
-VNL_VECTOR_INSTANTIATE(char);
+
+#endif

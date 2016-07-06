@@ -101,7 +101,7 @@ class VNL_EXPORT vnl_real_npolynomial
   vnl_real_npolynomial& operator*=(double P) { coeffs_ *= P; return *this; }
   vnl_real_npolynomial operator/(double P) const { return operator*(1.0/P); }
   vnl_real_npolynomial& operator/=(double P) { return operator*=(1.0/P); }
-  friend std::ostream& operator<<(std::ostream& , vnl_real_npolynomial const& );
+  friend VNL_EXPORT std::ostream& operator<<(std::ostream& , vnl_real_npolynomial const& );
 
   // nb also added functions to access the coeffs_ member variable
 

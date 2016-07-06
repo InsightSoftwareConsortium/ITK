@@ -38,6 +38,6 @@ RETURN vnl_unary_function<RETURN, ARGUMENT>::get_range_max() const
 }
 
 #define VNL_UNARY_FUNCTION_INSTANTIATE(S,T) \
-template class vnl_unary_function<S, T >
+template class VNL_EXPORT vnl_unary_function<S, T >
 
 #endif // vnl_unary_function_hxx_

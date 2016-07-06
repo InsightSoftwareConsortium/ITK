@@ -21,6 +21,7 @@
 
 #include <vnl/vnl_matrix_fixed.h>
 #include <vnl/vnl_vector_fixed.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 template <class T>
 class vnl_scatter_3x3 : public vnl_matrix_fixed<T,3,3>

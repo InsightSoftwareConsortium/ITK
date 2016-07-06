@@ -202,7 +202,7 @@ macro(SET_VXL_LIBRARY_PROPERTIES)
     endif()
   endif()
 
-  generate_export_header(${LSLHVP_TARGET_NAME}
+  vxl_generate_export_header(${LSLHVP_TARGET_NAME}
        BASE_NAME ${LSLHVP_BASE_NAME}
        EXPORT_FILE_NAME ${LSLHVP_EXPORT_HEADER_FILE}
   )

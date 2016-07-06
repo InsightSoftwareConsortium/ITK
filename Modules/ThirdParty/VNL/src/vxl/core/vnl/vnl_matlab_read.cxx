@@ -277,8 +277,8 @@ bool vnl_matlab_read_or_die(std::istream &s,
 }
 
 #define inst(T) \
-template bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *); \
-template bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *);
+template VNL_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_vector<T> &, char const *); \
+template VNL_EXPORT bool vnl_matlab_read_or_die(std::istream &, vnl_matrix<T> &, char const *);
 
 inst(double);
 inst(float);

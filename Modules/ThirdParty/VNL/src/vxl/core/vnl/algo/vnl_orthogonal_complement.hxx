@@ -21,6 +21,6 @@ vnl_matrix<T> vnl_orthogonal_complement(vnl_vector<T> const &v)
 #undef VNL_ORTHOGONAL_COMPLEMENT_INSTANTIATE
 #define VNL_ORTHOGONAL_COMPLEMENT_INSTANTIATE(T) \
 /* template vnl_matrix<T > vnl_orthogonal_complement(vnl_matrix<T > const &); */ \
-template VNL_EXPORT vnl_matrix<T > vnl_orthogonal_complement(vnl_vector<T > const &)
+template VNL_ALGO_EXPORT vnl_matrix<T > vnl_orthogonal_complement(vnl_vector<T > const &)
 
 #endif // vnl_orthogonal_complement_hxx_

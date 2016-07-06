@@ -144,17 +144,17 @@ std::ostream& print_na_vector(std::ostream& s, T const* v, unsigned size)
 //---------------------------------------------------------------------------
 
 #define VNL_C_NA_VECTOR_INSTANTIATE_norm(T, S) \
-template void vnl_c_na_vector_two_norm_squared(T const *, unsigned, S *); \
-template void vnl_c_na_vector_two_norm(T const *, unsigned, S *); \
-template void vnl_c_na_vector_one_norm(T const *, unsigned, S *); \
-template void vnl_c_na_vector_rms_norm(T const *, unsigned, S *); \
-template void vnl_c_na_vector_inf_norm(T const *, unsigned, S *)
+template VNL_EXPORT void vnl_c_na_vector_two_norm_squared(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_na_vector_two_norm(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_na_vector_one_norm(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_na_vector_rms_norm(T const *, unsigned, S *); \
+template VNL_EXPORT void vnl_c_na_vector_inf_norm(T const *, unsigned, S *)
 
 #undef VNL_C_NA_VECTOR_INSTANTIATE_ordered
 #define VNL_C_NA_VECTOR_INSTANTIATE_ordered(T) \
 VNL_C_NA_VECTOR_INSTANTIATE_norm(T, vnl_c_na_vector<T >::abs_t); \
-template class vnl_c_na_vector<T >; \
-template std::ostream& print_na_vector(std::ostream &,T const *,unsigned)
+template class VNL_EXPORT vnl_c_na_vector<T >; \
+template VNL_EXPORT std::ostream& print_na_vector(std::ostream &,T const *,unsigned)
 
 
 #undef VNL_C_NA_VECTOR_INSTANTIATE_unordered

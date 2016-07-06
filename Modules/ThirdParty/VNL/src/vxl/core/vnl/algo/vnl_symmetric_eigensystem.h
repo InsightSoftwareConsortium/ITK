@@ -54,6 +54,7 @@
 
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Find eigenvalues of a symmetric 3x3 matrix
 // Eigenvalues will be returned so that l1 <= l2 <= l3.

@@ -108,8 +108,9 @@ vnl_svd_economy<real_t>::nullvector()
   return V_.get_column( n_ - 1 );
 }
 
+
 #undef VNL_SVD_ECONOMY_INSTANTIATE
 #define VNL_SVD_ECONOMY_INSTANTIATE(T) \
-template class VNL_EXPORT vnl_svd_economy<T >
+template class VNL_ALGO_EXPORT vnl_svd_economy<T >
 
 #endif // vnl_svd_economy_hxx_

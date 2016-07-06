@@ -81,7 +81,7 @@
 
 
 //: Type-accessible infinities for use in templates.
-template <class T> VNL_EXPORT T vnl_huge_val(T);
+template <class T> VNL_TEMPLATE_EXPORT T vnl_huge_val(T);
 extern VNL_EXPORT long double   vnl_huge_val(long double);
 extern VNL_EXPORT double   vnl_huge_val(double);
 extern VNL_EXPORT float    vnl_huge_val(float);
@@ -207,7 +207,7 @@ namespace vnl_math
  VNL_EXPORT bool isnan(double);
  VNL_EXPORT bool isnan(long double);
 #if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> VNL_EXPORT bool isnan(T);
+ template <class T> VNL_TEMPLATE_EXPORT bool isnan(T);
 #endif
 
 
@@ -229,7 +229,7 @@ namespace vnl_math
  VNL_EXPORT bool isinf(double);
  VNL_EXPORT bool isinf(long double);
 #if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> VNL_EXPORT bool isinf(T);
+ template <class T> VNL_TEMPLATE_EXPORT bool isinf(T);
 #endif
 
  // isfinite
@@ -250,7 +250,7 @@ namespace vnl_math
  VNL_EXPORT bool isfinite(double);
  VNL_EXPORT bool isfinite(long double);
 #if !VCL_TEMPLATE_MATCHES_TOO_OFTEN
- template <class T> VNL_EXPORT bool isfinite(T);
+ template <class T> VNL_TEMPLATE_EXPORT bool isfinite(T);
 #endif
 
 // If we must use windows.h, we should at least sanitise it first
@@ -266,10 +266,10 @@ namespace vnl_math
 #endif
 
 // max
-template<class T> VNL_EXPORT
+template<class T> VNL_TEMPLATE_EXPORT
 const T& max( const T& x, const T& y) { return std::max(x,y); }
 
-template<class T> VNL_EXPORT
+template<class T> VNL_TEMPLATE_EXPORT
 const T& min( const T& x, const T& y) { return std::min(x,y); }
 
 // cuberoot

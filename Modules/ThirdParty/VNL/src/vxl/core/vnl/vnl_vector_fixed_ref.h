@@ -27,7 +27,7 @@
 #include "vnl/vnl_export.h"
 
 template <class T, unsigned int n>
-class VNL_EXPORT vnl_vector_fixed_ref_const
+class VNL_TEMPLATE_EXPORT vnl_vector_fixed_ref_const
 {
  protected:
   const T* data_;
@@ -301,7 +301,7 @@ class VNL_EXPORT vnl_vector_fixed_ref_const
 // Non const vector fixed reference
 
 template <class T, unsigned n>
-class VNL_EXPORT vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
+class VNL_TEMPLATE_EXPORT vnl_vector_fixed_ref : public vnl_vector_fixed_ref_const<T,n>
 {
   typedef vnl_vector_fixed_ref_const<T,n> base;
 

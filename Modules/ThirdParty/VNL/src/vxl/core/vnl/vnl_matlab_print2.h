@@ -34,7 +34,7 @@
 
 // The proxy classes.
 template <class T>
-struct VNL_EXPORT vnl_matlab_print_proxy
+struct VNL_TEMPLATE_EXPORT vnl_matlab_print_proxy
 {
   T const &obj;
   char const *name;

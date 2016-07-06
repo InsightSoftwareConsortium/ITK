@@ -31,7 +31,7 @@ vnl_matlab_print_scalar_declare(std::complex<double>);
 vnl_matlab_print_scalar_declare(std::complex<long double>);
 
 //: print scalar to std::ostream.
-VCL_TEMPLATE_EXPORT template <class T> VNL_EXPORT
+VCL_TEMPLATE_EXPORT template <class T> VNL_TEMPLATE_EXPORT
 std::ostream &vnl_matlab_print_scalar(std::ostream &,
                                      T value,
                                      vnl_matlab_print_format =vnl_matlab_print_format_default);

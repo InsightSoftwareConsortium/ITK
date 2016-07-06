@@ -47,7 +47,7 @@
 // but all other operations remain valid.
 //
 template <int N>
-class VNL_EXPORT vnl_finite_int
+class VNL_TEMPLATE_EXPORT vnl_finite_int
 {
  private:
   int val_; //!< value of this number (smallest nonnegative representation)
@@ -426,7 +426,7 @@ namespace vnl_math
 // anything more than that.
 //
 template <int N, int M>
-class VNL_EXPORT vnl_finite_int_poly
+class VNL_TEMPLATE_EXPORT vnl_finite_int_poly
 {
   typedef vnl_finite_int_poly<N,M> Base;
   typedef vnl_finite_int<N> Scalar;

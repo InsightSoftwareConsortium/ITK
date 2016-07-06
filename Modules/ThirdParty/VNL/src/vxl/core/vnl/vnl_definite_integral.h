@@ -13,7 +13,7 @@
 class VNL_EXPORT vnl_definite_integral
 {
  protected:
-  static VNL_EXPORT vnl_integrant_fnct *pfnct_;
+  static vnl_integrant_fnct *pfnct_;
 
  public:
   vnl_definite_integral() { pfnct_ = VXL_NULLPTR; }

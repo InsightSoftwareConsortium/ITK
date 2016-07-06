@@ -25,7 +25,7 @@ VCL_TEMPLATE_EXPORT template <class T> class vnl_sym_matrix;
 //  Specifically, only the diagonal and lower triangular elements are stored.
 
 template <class T>
-class VNL_EXPORT vnl_sym_matrix
+class VNL_TEMPLATE_EXPORT vnl_sym_matrix
 {
  public:
   //: Construct an empty symmetric matrix.
@@ -178,7 +178,7 @@ class VNL_EXPORT vnl_sym_matrix
 
 //:
 // \relatesalso vnl_sym_matrix
-template <class T> VNL_EXPORT std::ostream& operator<< (std::ostream&, vnl_sym_matrix<T> const&);
+template <class T> VNL_TEMPLATE_EXPORT std::ostream& operator<< (std::ostream&, vnl_sym_matrix<T> const&);
 
 
 template <class T>
@@ -255,18 +255,18 @@ inline void vnl_sym_matrix<T>::set_size(int n)
   setup_index();
 }
 
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 bool operator==(const vnl_sym_matrix<T> &a, const vnl_sym_matrix<T> &b);
 
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 bool operator==(const vnl_sym_matrix<T> &a, const vnl_matrix<T> &b);
 
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 bool operator==(const vnl_matrix<T> &a, const vnl_sym_matrix<T> &b);
 
 //: Swap the contents of a and b.
 // \relatesalso vnl_sym_matrix
-template <class T> VNL_EXPORT
+template <class T> VNL_TEMPLATE_EXPORT
 void swap(vnl_sym_matrix<T> &a, vnl_sym_matrix<T> &b)
 { a.swap(b); }
 
