@@ -119,6 +119,8 @@
 #  else
 #   define VCL_GCC_40
 #  endif
+# elif (__GNUC__==5)
+#  define VCL_GCC_50
 # else
 #  error "Dunno about this gcc"
 # endif
