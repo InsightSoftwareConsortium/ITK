@@ -107,7 +107,7 @@ public:
 
 protected:
   VTKPolyDataMeshIO();
-  virtual ~VTKPolyDataMeshIO() {}
+  virtual ~VTKPolyDataMeshIO();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

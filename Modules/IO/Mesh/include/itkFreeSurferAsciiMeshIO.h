@@ -152,8 +152,7 @@ protected:
 
 protected:
   FreeSurferAsciiMeshIO();
-  virtual ~FreeSurferAsciiMeshIO(){}
-
+  virtual ~FreeSurferAsciiMeshIO();
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void OpenFile();

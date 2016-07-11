@@ -41,6 +41,11 @@ VTKPolyDataMeshIO
   EncapsulateMetaData< StringType >(metaDic, "cellTensorDataName", "CellTensorData");
 }
 
+VTKPolyDataMeshIO
+::~VTKPolyDataMeshIO()
+{
+}
+
 bool
 VTKPolyDataMeshIO
 ::CanReadFile(const char *fileName)

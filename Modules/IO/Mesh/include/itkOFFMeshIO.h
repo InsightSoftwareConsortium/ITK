@@ -172,7 +172,7 @@ protected:
 
 protected:
   OFFMeshIO();
-  virtual ~OFFMeshIO(){}
+  virtual ~OFFMeshIO();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -31,6 +31,11 @@ FreeSurferBinaryMeshIO
   this->AddSupportedWriteExtension(".fcv");
 }
 
+FreeSurferBinaryMeshIO
+::~FreeSurferBinaryMeshIO()
+{
+}
+
 bool
 FreeSurferBinaryMeshIO
 ::CanReadFile(const char *fileName)

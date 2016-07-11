@@ -31,6 +31,11 @@ OBJMeshIO
   this->AddSupportedWriteExtension(".obj");
 }
 
+OBJMeshIO
+::~OBJMeshIO()
+{
+}
+
 bool
 OBJMeshIO
 ::CanReadFile(const char *fileName)
