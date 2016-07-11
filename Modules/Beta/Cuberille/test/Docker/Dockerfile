@@ -22,8 +22,8 @@ RUN apt-get update && apt-get install -y \
 RUN mkdir -p /usr/src/ITKCuberille-build
 WORKDIR /usr/src
 
-# 2015-10-19
-ENV ITK_GIT_TAG bec8c1f596a4da63104a14e1040ef4f6f967390f
+# master 2016-07-06
+ENV ITK_GIT_TAG 71a779150ee5797e6ca4bef01906d5c12a18188b
 RUN git clone git://itk.org/ITK.git && \
   cd ITK && \
   git checkout ${ITK_GIT_TAG} && \
@@ -36,7 +36,7 @@ RUN git clone git://itk.org/ITK.git && \
     -DBUILD_EXAMPLES:BOOL=OFF \
     -DBUILD_TESTING:BOOL=OFF \
     -DBUILD_SHARED_LIBS:BOOL=ON \
-    -DITK_WRAP_PYTHON:BOOL=ON \
+    -DITK_WRAP_PYTHON:BOOL=OFF \
     -DCMAKE_POSITION_INDEPENDENT_CODE:BOOL=ON \
     -DITK_LEGACY_REMOVE:BOOL=ON \
     -DITK_BUILD_DEFAULT_MODULES:BOOL=OFF \
