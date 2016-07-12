@@ -60,11 +60,11 @@ static void test_vector()
 
   std::complex<double> i(0,1);
 
-  TEST("inner_product() conjugates correctly", inner_product(i*a,b), i*inner_product(a,b));
-  TEST("inner_product() conjugates correctly", inner_product(a,i*b),-i*inner_product(a,b));
+  TEST_NEAR("inner_product() conjugates correctly", inner_product(i*a,b), i*inner_product(a,b), 1e-12);
+  TEST_NEAR("inner_product() conjugates correctly", inner_product(a,i*b),-i*inner_product(a,b), 1e-12);
 
-  TEST("dot_product() does not conjugate", dot_product(i*a,b), i*dot_product(a,b));
-  TEST("dot_product() does not conjugate", dot_product(a,i*b), i*dot_product(a,b));
+  TEST_NEAR("dot_product() does not conjugate", dot_product(i*a,b), i*dot_product(a,b), 1e-12);
+  TEST_NEAR("dot_product() does not conjugate", dot_product(a,i*b), i*dot_product(a,b), 1e-12);
 
   double norma=0;
   for (unsigned n=0; n<a.size(); ++n)
