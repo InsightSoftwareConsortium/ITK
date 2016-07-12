@@ -17,100 +17,117 @@
  *=========================================================================*/
 
 #include "itkMinimumMaximumImageCalculator.h"
+#include "itkObject.h"
+#include "itkTestingMacros.h"
 
-int
-itkMinimumMaximumImageCalculatorTest(int ,char *[] )
+int itkMinimumMaximumImageCalculatorTest( int, char *[] )
 {
 
-    typedef itk::Size<3>                                SizeType;
-    typedef itk::Image<short, 3>                        ImageType;
+  typedef itk::Size< 3 >                                  SizeType;
+  typedef itk::Image< short, 3 >                          ImageType;
 
-    typedef itk::MinimumMaximumImageCalculator<ImageType>   MinMaxCalculatorType;
+  typedef itk::MinimumMaximumImageCalculator<ImageType>   MinMaxCalculatorType;
 
-    /* Define the image size and physical coordinates */
-    SizeType size = {{20, 20, 20}};
-    double origin [3] = { 0.0, 0.0, 0.0};
-    double spacing[3] = { 1, 1 , 1};
+  /* Define the image size and physical coordinates */
+  SizeType size = {{20, 20, 20}};
+  double origin [3] = {0.0, 0.0, 0.0};
+  double spacing[3] = {1, 1, 1};
 
-    int flag = 0;           /* Did this test program work? */
+  std::cout << "Testing Minimum and Maximum Image Calulator:\n";
 
-    std::cout << "Testing Minimum and Maximum Image Calulator:\n";
+  // Allocate a simple test image
+  ImageType::Pointer image = ImageType::New();
+  ImageType::RegionType region;
+  region.SetSize(size);
+  image->SetLargestPossibleRegion(region);
+  image->SetRequestedRegion(region);
+  image->SetBufferedRegion(region);
+  image->Allocate();
 
-    // Allocate a simple test image
-    ImageType::Pointer image = ImageType::New();
-    ImageType::RegionType region;
-    region.SetSize(size);
-    image->SetLargestPossibleRegion(region);
-    image->SetRequestedRegion(region);
-    image->SetBufferedRegion(region);
-    image->Allocate();
+  // Set origin and spacing of physical coordinates
+  image->SetOrigin(origin);
+  image->SetSpacing(spacing);
 
-    // Set origin and spacing of physical coordinates
-    image->SetOrigin(origin);
-    image->SetSpacing(spacing);
+  short minimum = -52;
+  short maximum = 103;
 
-    short minimum = -52;
-    short maximum = 103;
-
-
-    // Initialize the image contents with the minimum value
-    itk::Index<3> index;
-    for (int slice = 0; slice < 20; slice++) {
-        index[2] = slice;
-        for (int row = 0; row <20; row++) {
-            index[1] = row;
-            for (int col = 0; col < 20; col++) {
-                index[0] = col;
-                image->SetPixel(index, minimum);
-            }
-        }
-    }
-
-    // Set voxel (10,10,10) to maximum value
-    index[0] = 10;
-    index[1] = 10;
-    index[2] = 10;
-    image->SetPixel(index, maximum);
-
-    // Create and initialize the calculator
-    MinMaxCalculatorType::Pointer calculator = MinMaxCalculatorType::New();
-    calculator->SetImage( image );
-    calculator->Compute();
-
-    // Return minimum of intensity
-    short minimumResult = calculator->GetMinimum();
-    std::cout << "The Minimum intensity value is : " << minimumResult << std::endl;
-    std::cout << "Its index position is : " << calculator->GetIndexOfMinimum() << std::endl;
-
-    if(minimumResult != minimum)
-      {
-      std::cout << "Minimum Value is wrong : " << minimumResult;
-      std::cout << " != " << minimum << std::endl;
-      flag = 1;
+  // Initialize the image contents with the minimum value
+  itk::Index<3> index;
+  for (int slice = 0; slice < 20; ++slice) {
+      index[2] = slice;
+      for (int row = 0; row < 20; ++row) {
+          index[1] = row;
+          for (int col = 0; col < 20; ++col) {
+              index[0] = col;
+              image->SetPixel(index, minimum);
+          }
       }
+  }
 
-    // Return maximum of intensity
-    short maximumResult = calculator->GetMaximum();
-    std::cout << "The Maximum intensity value is : " << maximumResult << std::endl;
-    std::cout << "Its index position is : " << calculator->GetIndexOfMaximum() << std::endl;
+  // The minimum intensity index position will contain a single value:
+  // since all pixels have equal value, it will be ther first pixel
+  itk::Index<3> minIntensityValueIndex;
+  minIntensityValueIndex[0] = 0;
+  minIntensityValueIndex[1] = 0;
+  minIntensityValueIndex[2] = 0;
 
-    if(maximumResult != maximum)
-      {
-      std::cout << "Maximum Value is wrong : " << maximumResult;
-      std::cout << " != " << maximum << std::endl;
-      flag = 2;
-      }
+  // Set voxel (10,10,10) to maximum value
+  itk::Index<3> maxIntensityValueIndex;
+  maxIntensityValueIndex[0] = 10;
+  maxIntensityValueIndex[1] = 10;
+  maxIntensityValueIndex[2] = 10;
+  image->SetPixel(maxIntensityValueIndex, maximum);
+
+  // Create and initialize the calculator
+  MinMaxCalculatorType::Pointer calculator = MinMaxCalculatorType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( calculator, MinimumMaximumImageCalculator, Object );
+
+  calculator->SetImage( image );
+  calculator->Compute();
+
+  // Test minimum of intensity
+  TEST_SET_GET_VALUE( minimum, calculator->GetMinimum() );
+  TEST_SET_GET_VALUE( minIntensityValueIndex, calculator->GetIndexOfMinimum() );
+
+  // Test maximum of intensity
+  TEST_SET_GET_VALUE( maximum, calculator->GetMaximum() );
+  TEST_SET_GET_VALUE( maxIntensityValueIndex, calculator->GetIndexOfMaximum() );
+
+  // Set the region over which perform the computations
+  itk::Size<3>  regionSize = {{4, 4, 4}};
+  itk::Index<3> idx = {{0, 0, 0}};
+  MinMaxCalculatorType::RegionType computationRegion;
+  computationRegion.SetSize( regionSize );
+  computationRegion.SetIndex( idx );
+
+  calculator->SetRegion( computationRegion );
+
+  minimum = -102;
+  maximum = 800;
+
+  // Set an index inside the region set
+  maxIntensityValueIndex[0] = 2;
+  maxIntensityValueIndex[1] = 2;
+  maxIntensityValueIndex[2] = 2;
+
+  image->SetPixel( minIntensityValueIndex, minimum );
+  image->SetPixel( maxIntensityValueIndex, maximum );
+
+  calculator->SetImage( image );
+
+  calculator->ComputeMinimum();
+
+  // Test minimum of intensity
+  TEST_SET_GET_VALUE( minimum, calculator->GetMinimum() );
+  TEST_SET_GET_VALUE( minIntensityValueIndex, calculator->GetIndexOfMinimum() );
+
+  calculator->ComputeMaximum();
+
+  // Test maximum of intensity
+  TEST_SET_GET_VALUE( maximum, calculator->GetMaximum() );
+  TEST_SET_GET_VALUE( maxIntensityValueIndex, calculator->GetIndexOfMaximum() );
 
 
-    // Return results of test
-    if (flag != 0)
-      {
-      std::cout << "*** Some tests failed" << std::endl;
-      return flag;
-      }
-    else
-      {
-      std::cout << "All tests successfully passed" << std::endl;
-      return EXIT_SUCCESS;
-      }
+  return EXIT_SUCCESS;
 }
