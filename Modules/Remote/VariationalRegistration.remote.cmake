@@ -5,5 +5,5 @@
 itk_fetch_module(VariationalRegistration
   "A module to perform variational image registration. https://hdl.handle.net/10380/3460"
   GIT_REPOSITORY ${git_protocol}://github.com/VariationalRegistration/VariationalRegistration.git
-  GIT_TAG 706be428e5e90791005a0924fbc3dd8b2428bf11
+  GIT_TAG 71bf23a2ad4b4c0924d3cf041cafa3d617f02f32
   )

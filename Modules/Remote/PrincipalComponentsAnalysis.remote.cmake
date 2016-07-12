@@ -8,5 +8,5 @@ A more detailed description can be found in the Insight Journal article:
     August, 2013.
 "
   GIT_REPOSITORY ${git_protocol}://github.com/vovythevov/ITKPCA.git
-  GIT_TAG 2ef315150aaf44cfef2325c5d75c3b35a367939e
+  GIT_TAG 36120bcc4937f9a9e558280609088755ab180c1e
   )
