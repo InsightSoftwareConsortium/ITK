@@ -53,7 +53,7 @@ public:
     {
     FreeSurferAsciiMeshIOFactory::Pointer freesurferFactory = FreeSurferAsciiMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(freesurferFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(freesurferFactory);
     }
 
 protected:

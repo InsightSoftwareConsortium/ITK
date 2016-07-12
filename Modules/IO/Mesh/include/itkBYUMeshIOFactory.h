@@ -53,7 +53,7 @@ public:
     {
     BYUMeshIOFactory::Pointer byuFactory = BYUMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(byuFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(byuFactory);
     }
 
 protected:

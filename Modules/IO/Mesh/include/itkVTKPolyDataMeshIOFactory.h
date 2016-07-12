@@ -53,7 +53,7 @@ public:
     {
     VTKPolyDataMeshIOFactory::Pointer vtkFactory = VTKPolyDataMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(vtkFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(vtkFactory);
     }
 
 protected:

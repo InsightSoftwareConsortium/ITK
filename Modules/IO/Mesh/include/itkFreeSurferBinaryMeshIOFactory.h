@@ -53,7 +53,7 @@ public:
     {
     FreeSurferBinaryMeshIOFactory::Pointer freesurferFactory = FreeSurferBinaryMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(freesurferFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(freesurferFactory);
     }
 
 protected:

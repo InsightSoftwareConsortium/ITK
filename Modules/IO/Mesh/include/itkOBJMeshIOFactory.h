@@ -53,7 +53,7 @@ public:
     {
     OBJMeshIOFactory::Pointer objFactory = OBJMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(objFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(objFactory);
     }
 
 protected:
