@@ -25,7 +25,7 @@
 // routine. This needs to be done before we load any system headers.
 #ifdef ITK_USE_WIN32_THREADS
 #ifndef _WIN32_WINNT
-#define _WIN32_WINNT 0x0400
+#define _WIN32_WINNT 0x0501 //TBB 4.4 requires WinXP (0x0501 or greater)
 #endif
 #endif
 
