@@ -192,7 +192,6 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   m_MaxAlignIters(pow(6, TImage::ImageDimension))
   ,                                       // bigger of this and root of pixel count of the search image
   m_LabeledSlices(TImage::ImageDimension) // initialize with empty sets
-//,m_SliceSets({{}}) //initialize with empty sets
 {
   // set up pipeline for regioned connected components
   m_RoI = RoiType::New();
@@ -204,33 +203,6 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   // FullyConnected is related to structuring element used
   // true for ball, false for cross
   m_ConnectedComponents->SetFullyConnected(m_UseBallStructuringElement);
-}
-
-
-template <typename TImage>
-typename MorphologicalContourInterpolator<TImage>::SliceSetType
-MorphologicalContourInterpolator<TImage>::GetLabeledSliceIndices(unsigned int axis)
-{
-  return m_SliceSets[axis];
-}
-
-
-template <typename TImage>
-void
-MorphologicalContourInterpolator<TImage>::SetLabeledSliceIndices(unsigned int axis, SliceSetType indices)
-{
-  m_SliceSets[axis] = indices;
-  this->Modified();
-}
-
-
-template <typename TImage>
-void
-MorphologicalContourInterpolator<TImage>::SetLabeledSliceIndices(unsigned int                                 axis,
-                                                                 std::vector<typename TImage::IndexValueType> indices)
-{
-  m_LabeledSlices[axis] = SliceSetType().insert(indices.begin(), indices.end());
-  this->Modified();
 }
 
 
@@ -263,13 +235,6 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   m_LabeledSlices.resize(TImage::ImageDimension); // initialize with empty sets
   m_BoundingBoxes.clear();
   m_Orientations.clear();
-  if (!m_UseCustomSlicePositions)
-  {
-    for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
-    {
-      m_SliceSets[a] = SliceSetType();
-    }
-  }
 
   typename TImage::ConstPointer m_Input = this->GetInput();
   typename TImage::Pointer      m_Output = this->GetOutput();
@@ -338,10 +303,6 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
         if (m_Axis == -1 || m_Axis == axis)
         {
           m_LabeledSlices[axis][val].insert(ind[axis]);
-          if (!m_UseCustomSlicePositions)
-          {
-            m_SliceSets[axis].insert(ind[axis]);
-          }
         }
       }
     }
@@ -1642,13 +1603,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
   {
     if (m_Label == 0 || m_Label == it->first) // label needs to be interpolated
     {
-      typename SliceSetType::iterator prev;
-      if (m_UseCustomSlicePositions && m_Label != 0)
-      {
-        it->second = m_SliceSets[axis];
-      }
-
-      prev = it->second.begin();
+      typename SliceSetType::iterator prev = it->second.begin();
       if (prev == it->second.end())
       {
         continue; // nothing to do for this label
@@ -1748,24 +1703,15 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   typename TImage::Pointer      m_Output = this->GetOutput();
   this->AllocateOutputs();
 
-  this->DetermineSliceOrientations();            // calculates bounding boxes
-  if (m_UseCustomSlicePositions && m_Label == 0) // we need to adjust m_LabeledSlices
+  if (m_UseCustomSlicePositions) // we need to adjust m_LabeledSlices
   {
-    for (int i = 0; i < TImage::ImageDimension; i++)
-    {
-      for (typename LabeledSlicesType::iterator lIt = m_LabeledSlices[i].begin(); lIt != m_LabeledSlices[i].end();
-           ++lIt)
-      {
-        // typename SliceSetType::iterator sIt = lIt->second.begin();
-        SliceSetType newIndices;
-        std::set_intersection(lIt->second.begin(),
-                              lIt->second.end(),
-                              m_SliceSets[i].begin(),
-                              m_SliceSets[i].end(),
-                              std::inserter(newIndices, newIndices.end()));
-        lIt->second = newIndices;
-      }
-    }
+    SliceIndicesType t = m_LabeledSlices;
+    this->DetermineSliceOrientations(); // calculates bounding boxes
+    m_LabeledSlices = t;                // restore custom positions
+  }
+  else
+  {
+    this->DetermineSliceOrientations();
   }
 
   if (m_BoundingBoxes.size() == 0) // no contours detected
@@ -1780,14 +1726,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     OrientationType aggregate = OrientationType();
     aggregate.Fill(false);
 
-    if (m_UseCustomSlicePositions)
-    {
-      for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
-      {
-        aggregate[a] = m_SliceSets[a].size() > 0;
-      }
-    }
-    else if (this->m_Label == 0)
+    if (this->m_Label == 0)
     {
       for (typename OrientationsType::iterator it = m_Orientations.begin(); it != m_Orientations.end(); ++it)
       {

@@ -58,12 +58,8 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   mci->SetLabel(label);
   mci->Update();
 
-  std::vector<typename mciType::SliceSetType> indices(ImageType::ImageDimension);
-  for (int i = 0; i < ImageType::ImageDimension; i++)
-  {
-    indices[i] = mci->GetLabeledSliceIndices(i);
-  }
   // reuse the already calculated indices
+  std::vector<typename mciType::LabeledSlicesType> indices = mci->GetLabeledSliceIndices();
 
   typename mciType::Pointer mci2 = mciType::New();
   mci2->SetInput(test);
@@ -74,14 +70,17 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   mci2->SetUseCustomSlicePositions(true);
   for (int i = 0; i < ImageType::ImageDimension; i++)
   {
-    mci2->SetLabeledSliceIndices(i, indices[i]);
+    for (int l = 0; l < indices[i].size(); l++)
+    {
+      mci2->SetLabeledSliceIndices(i, l, indices[i][l]);
+    }
   }
-  // mci2->Update();
+  mci2->Update();
 
   typedef itk::RegionOfInterestImageFilter<myRLEImage, ImageType> outConverterType;
   typename outConverterType::Pointer                              outConv = outConverterType::New();
-  outConv->SetInput(mci->GetOutput());
-  outConv->SetRegionOfInterest(mci->GetOutput()->GetLargestPossibleRegion());
+  outConv->SetInput(mci2->GetOutput());
+  outConv->SetRegionOfInterest(mci2->GetOutput()->GetLargestPossibleRegion());
   outConv->Update();
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
