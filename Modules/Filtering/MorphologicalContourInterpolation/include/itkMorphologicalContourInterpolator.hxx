@@ -234,7 +234,6 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   m_LabeledSlices.clear();
   m_LabeledSlices.resize(TImage::ImageDimension); // initialize with empty sets
   m_BoundingBoxes.clear();
-  m_Orientations.clear();
 
   typename TImage::ConstPointer m_Input = this->GetInput();
   typename TImage::Pointer      m_Output = this->GetOutput();
@@ -242,15 +241,12 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
   typename TImage::RegionType               region = m_Output->GetRequestedRegion();
   ImageRegionConstIteratorWithIndex<TImage> it(m_Input, region);
 
-  OrientationType orientations = OrientationType();
-  orientations.Fill(false);
-
   for (; !it.IsAtEnd(); ++it)
   {
     typename TImage::IndexType       indPrev, indNext;
     const typename TImage::IndexType ind = it.GetIndex();
     const typename TImage::PixelType val = m_Input->GetPixel(ind);
-    if (val != 0 || (m_Label != 0 && val == m_Label))
+    if (val != 0)
     {
       typename TImage::RegionType boundingBox1;
       boundingBox1.SetIndex(ind);
@@ -265,12 +261,9 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
         ExpandRegion<TImage>(resBB.first->second, ind);
       }
 
-      std::pair<typename OrientationsType::iterator, bool> res =
-        m_Orientations.insert(std::make_pair(val, orientations));
-      typename OrientationsType::iterator oRef = res.first;
-      unsigned int                        cTrue = 0;
-      unsigned int                        cAdjacent = 0;
-      unsigned int                        axis = 0;
+      unsigned int cTrue = 0;
+      unsigned int cAdjacent = 0;
+      unsigned int axis = 0;
       for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
       {
         indPrev = ind;
@@ -299,7 +292,6 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
       }
       if (cTrue == 1 && cAdjacent == TImage::ImageDimension - 1) // slice has empty adjacent space only along one axis
       {
-        oRef->second[axis] = true; // add this dimension for this label
         if (m_Axis == -1 || m_Axis == axis)
         {
           m_LabeledSlices[axis][val].insert(ind[axis]);
@@ -881,31 +873,49 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
 
   ImageRegionConstIterator<BoolSliceType> seqIt(median, newRegion);
   ImageRegionIterator<SliceType>          midIt(midConn, newRegion);
-
-  // writing through one RLEImage iterator invalidates all the others
-  // so this whole writing loop needs to be serialized
-  static SimpleFastMutexLock mutex;
-  mutex.Lock();
+  while (!seqIt.IsAtEnd())
   {
+    if (seqIt.Get())
+    {
+      midIt.Set(1);
+    }
+    ++seqIt;
+    ++midIt;
+  }
+  WriteDebug(midConn, "C:\\midConn.nrrd");
+
+  bool                        withinReq = true;
+  typename TImage::RegionType reqRegion = this->GetOutput()->GetRequestedRegion();
+  for (int d = 0; d < TImage::ImageDimension; d++)
+  {
+    if (outRegion.GetIndex(d) < reqRegion.GetIndex(d) ||
+        outRegion.GetIndex(d) + outRegion.GetSize(d) > reqRegion.GetIndex(d) + reqRegion.GetSize(d))
+    {
+      withinReq = false;
+      break;
+    }
+  }
+
+  static SimpleFastMutexLock mutex;
+  if (withinReq) // else we should not write it
+  {
+    seqIt.GoToBegin();
+    // writing through one RLEImage iterator invalidates all the others
+    // so this whole writing loop needs to be serialized
+    mutex.Lock();
     ImageRegionIterator<TImage> outIt(out, outRegion);
     while (!outIt.IsAtEnd())
     {
-      if (seqIt.Get())
+      if (seqIt.Get() && outIt.Get() < label)
       {
-        if (outIt.Get() < label)
-        {
-          outIt.Set(label);
-        }
-        midIt.Set(1);
+        outIt.Set(label);
       }
       ++seqIt;
       ++outIt;
-      ++midIt;
     }
-    // iterator destroyed here
-  }
-  mutex.Unlock();
-  WriteDebug(midConn, "C:\\midConn.nrrd");
+    mutex.Unlock();
+    WriteDebug(midConn, "C:\\midConn.nrrd");
+  } // iterator destroyed here
 
   // recurse if needed
   if (abs(i - j) > 2)
@@ -913,18 +923,20 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     PixelList regionIDs;
     regionIDs.push_back(1);
 
-    bool first = abs(i - mid) > 1;  // interpolate i-mid?
-    bool second = abs(j - mid) > 1; // interpolate j-mid?
+    int iReq = i < reqRegion.GetIndex(axis) ? -1 : (i > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
+    int jReq = j < reqRegion.GetIndex(axis) ? -1 : (j > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
+    int mReq =
+      mid < reqRegion.GetIndex(axis) ? -1 : (mid > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
+    bool first = abs(i - mid) > 1 && abs(iReq + mReq) <= 1;  // i-mid?
+    bool second = abs(j - mid) > 1 && abs(jReq + mReq) <= 1; // j-mid?
 
+    if (first)
     {
-      if (first)
-      {
-        Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, 1, iTrans, true, threadId);
-      }
-      if (second)
-      {
-        Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans, true, threadId);
-      }
+      Interpolate1to1(axis, out, label, i, mid, iConn, iRegionId, midConn, 1, iTrans, true, threadId);
+    }
+    if (second)
+    {
+      Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans, true, threadId);
     }
   }
   WriteDebug<TImage>(out, "C:\\intermediateResult.nrrd");
@@ -1598,6 +1610,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
 {
   // a list of segments which need to be interpolated
   std::vector<SegmentBetweenTwo<TImage>> segments;
+  typename TImage::RegionType            reqRegion = this->GetOutput()->GetRequestedRegion();
 
   for (typename LabeledSlicesType::iterator it = m_LabeledSlices[axis].begin(); it != m_LabeledSlices[axis].end(); ++it)
   {
@@ -1609,13 +1622,26 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
         continue; // nothing to do for this label
       }
 
-      typename TImage::RegionType ri;
-      ri = m_BoundingBoxes[it->first];
+      typename TImage::RegionType ri = reqRegion;
+      if (!m_UseCustomSlicePositions)
+      {
+        typename BoundingBoxesType::iterator iBB = m_BoundingBoxes.find(it->first);
+        if (iBB == m_BoundingBoxes.end())
+        {
+          continue; // this label not present in requested region
+        }
+        else
+        {
+          ri = iBB->second;
+        }
+      }
       ri.SetSize(axis, 0);
       ri.SetIndex(axis, *prev);
       IdentifierType              xCount;
       typename SliceType::Pointer iconn = this->RegionedConnectedComponents(ri, it->first, xCount);
       iconn->DisconnectPipeline();
+      int iReq =
+        *prev < reqRegion.GetIndex(axis) ? -1 : (*prev > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
 
       typename SliceSetType::iterator next = it->second.begin();
       for (++next; next != it->second.end(); ++next)
@@ -1624,11 +1650,16 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
         rj.SetIndex(axis, *next);
         typename SliceType::Pointer jconn = this->RegionedConnectedComponents(rj, it->first, xCount);
         jconn->DisconnectPipeline();
+        int jReq =
+          *next < reqRegion.GetIndex(axis) ? -1 : (*next > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
+
 
         // WriteDebug(iconn, "C:\\iconn.nrrd");
         // WriteDebug(jconn, "C:\\jconn.nrrd");
 
-        if (*prev + 1 < *next) // only if they are not adjacent slices
+        if (*prev + 1 < *next         // only if they are not adjacent slices
+            && abs(iReq + jReq) <= 1) // and not out of the requested region
+        // unless they are on opposite ends
         {
           SegmentBetweenTwo<TImage> s;
           s.axis = axis;
@@ -1641,6 +1672,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
           segments.push_back(s);
         }
         iconn = jconn;
+        iReq = jReq;
         prev = next;
       }
     }
@@ -1703,7 +1735,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   typename TImage::Pointer      m_Output = this->GetOutput();
   this->AllocateOutputs();
 
-  if (m_UseCustomSlicePositions) // we need to adjust m_LabeledSlices
+  if (m_UseCustomSlicePositions)
   {
     SliceIndicesType t = m_LabeledSlices;
     this->DetermineSliceOrientations(); // calculates bounding boxes
@@ -1714,31 +1746,37 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     this->DetermineSliceOrientations();
   }
 
-  if (m_BoundingBoxes.size() == 0) // no contours detected
+  if (m_BoundingBoxes.size() == 0 && !m_UseCustomSlicePositions)
   {
     ImageAlgorithm::Copy<TImage, TImage>(
       m_Input.GetPointer(), m_Output.GetPointer(), m_Output->GetRequestedRegion(), m_Output->GetRequestedRegion());
-    return;
+    return; // no contours detected
   }
 
   if (m_Axis == -1) // interpolate along all axes
   {
-    OrientationType aggregate = OrientationType();
+    FixedArray<bool, TImage::ImageDimension> aggregate;
     aggregate.Fill(false);
 
-    if (this->m_Label == 0)
+    for (int i = 0; i < TImage::ImageDimension; i++)
     {
-      for (typename OrientationsType::iterator it = m_Orientations.begin(); it != m_Orientations.end(); ++it)
+      if (this->m_Label == 0) // examine all labels
       {
-        for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
+        for (int l = 0; l < m_LabeledSlices[i].size(); l++)
         {
-          aggregate[a] = aggregate[a] || it->second[a]; // any label needs interpolation along this axis
+          if (m_LabeledSlices[i][l].size() > 1)
+          {
+            aggregate[i] = true;
+          }
         }
       }
-    }
-    else
-    {
-      aggregate = m_Orientations[m_Label]; // we only care about this label
+      else // we only care about this label
+      {
+        if (m_LabeledSlices[i][m_Label].size() > 1)
+        {
+          aggregate[i] = true;
+        }
+      }
     }
 
     bool                                  outputUsed = false;
