@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage >
 MinimumMaximumImageCalculator< TInputImage >
 ::MinimumMaximumImageCalculator()
@@ -39,9 +37,6 @@ MinimumMaximumImageCalculator< TInputImage >
   m_RegionSetByUser = false;
 }
 
-/**
- * Compute Min and Max of m_Image
- */
 template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
@@ -73,9 +68,6 @@ MinimumMaximumImageCalculator< TInputImage >
     }
 }
 
-/**
- * Compute the minimum intensity value of the image
- */
 template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
@@ -85,7 +77,7 @@ MinimumMaximumImageCalculator< TInputImage >
     {
     m_Region = m_Image->GetRequestedRegion();
     }
-  ImageRegionConstIteratorWithIndex< TInputImage > it(m_Image,  m_Region);
+  ImageRegionConstIteratorWithIndex< TInputImage > it(m_Image, m_Region);
   m_Minimum = NumericTraits< PixelType >::max();
 
   while ( !it.IsAtEnd() )
@@ -100,9 +92,6 @@ MinimumMaximumImageCalculator< TInputImage >
     }
 }
 
-/**
- * Compute the maximum intensity value of the image
- */
 template< typename TInputImage >
 void
 MinimumMaximumImageCalculator< TInputImage >
@@ -112,7 +101,7 @@ MinimumMaximumImageCalculator< TInputImage >
     {
     m_Region = m_Image->GetRequestedRegion();
     }
-  ImageRegionConstIteratorWithIndex< TInputImage > it(m_Image,  m_Region);
+  ImageRegionConstIteratorWithIndex< TInputImage > it(m_Image, m_Region);
   m_Maximum = NumericTraits< PixelType >::NonpositiveMin();
 
   while ( !it.IsAtEnd() )
