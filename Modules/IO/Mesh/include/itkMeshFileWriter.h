@@ -19,37 +19,12 @@
 #define itkMeshFileWriter_h
 #include "ITKIOMeshExport.h"
 
+#include "itkMeshFileWriterException.h"
 #include "itkProcessObject.h"
 #include "itkMeshIOBase.h"
-#include "itkExceptionObject.h"
 
 namespace itk
 {
-/** \class MeshFileWriterException.
- * \brief Base exception class for IO problems during writing.
- *
- * \ingroup ITKIOMesh
- */
-class ITKIOMesh_HIDDEN MeshFileWriterException:public ExceptionObject
-{
-public:
-  /** Run-time information. */
-  itkTypeMacro(MeshFileWriterException, ExceptionObject);
-
-  /** Constructor. */
-  MeshFileWriterException(const char *file, unsigned int line,
-                          const char *message = "Error in IO",
-                          const char *loc = "Unknown"):
-    ExceptionObject(file, line, message, loc)
-  {}
-
-  /** Constructor. */
-  MeshFileWriterException(const std::string & file, unsigned int line,
-                          const char *message = "Error in IO",
-                          const char *loc = "Unknown"):
-    ExceptionObject(file, line, message, loc)
-  {}
-};
 
 /** \class MeshFileWriter
  * \brief Writes mesh data to a single file.
