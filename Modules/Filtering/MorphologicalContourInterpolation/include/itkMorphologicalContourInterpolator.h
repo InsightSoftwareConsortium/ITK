@@ -36,9 +36,6 @@ namespace itk
  *  Input contains an image with some slices segmented, usually manually.
  *  The output has all in-between slices also segmented.
  *
- *  Memory required by the filter is a bit higher than
- *  outputImageSize*(max(1,numberOfInterpolatedAxes)).
- *
  *  \par Parameters
  *  Slices are detected at positions where a pixel exists with same labeled
  *  neighbors in slice and only clear (0) neighbors perpendicular to the slice.

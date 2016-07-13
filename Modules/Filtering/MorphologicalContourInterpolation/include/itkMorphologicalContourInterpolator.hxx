@@ -1779,61 +1779,11 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
       }
     }
 
-    bool                                  outputUsed = false;
-    std::vector<typename TImage::Pointer> perAxisInterpolates;
     for (unsigned int a = 0; a < TImage::ImageDimension; ++a)
     {
       if (aggregate[a])
       {
-        if (outputUsed)
-        {
-          typename TImage::Pointer imageA = TImage::New();
-          imageA->CopyInformation(m_Output);
-          imageA->SetRegions(m_Output->GetRequestedRegion());
-          imageA->Allocate(true);
-          this->InterpolateAlong(a, imageA);
-          perAxisInterpolates.push_back(imageA);
-        }
-        else // output not yet used
-        {
-          this->InterpolateAlong(a, m_Output);
-          outputUsed = true;
-        }
-      }
-    }
-
-    if (perAxisInterpolates.size() > 0) // something to combine
-    {
-      std::vector<ImageRegionConstIterator<TImage>> iterators;
-
-      for (int i = 0; i < perAxisInterpolates.size(); ++i)
-      {
-        ImageRegionConstIterator<TImage> it(perAxisInterpolates[i], m_Output->GetRequestedRegion());
-        iterators.push_back(it);
-      }
-
-      std::vector<typename TImage::PixelType> values;
-      values.reserve(perAxisInterpolates.size());
-
-      ImageRegionIterator<TImage> it(m_Output, m_Output->GetRequestedRegion());
-      while (!it.IsAtEnd())
-      {
-        values.clear();
-        for (int i = 0; i < perAxisInterpolates.size(); ++i)
-        {
-          typename TImage::PixelType val = iterators[i].Get();
-          if (val != 0)
-          {
-            it.Set(val); // last written value stays
-          }
-        }
-
-        // next pixel
-        ++it;
-        for (int i = 0; i < perAxisInterpolates.size(); ++i)
-        {
-          ++(iterators[i]);
-        }
+        this->InterpolateAlong(a, m_Output);
       }
     }
   } // interpolate along all axes
