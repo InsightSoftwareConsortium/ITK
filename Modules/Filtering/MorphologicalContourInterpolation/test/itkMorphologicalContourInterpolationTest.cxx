@@ -52,11 +52,11 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   // region for partial coverage
   typename myRLEImage::RegionType reg = test->GetLargestPossibleRegion();
   // skip X due to RLE representation constraints
-  for (int i = 1; i < ImageType::ImageDimension; i++)
-  {
-    reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
-    reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
-  }
+  // for (int i = 1; i < ImageType::ImageDimension; i++)
+  //   {
+  //   reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
+  //   reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
+  //   }
 
   typedef itk::MorphologicalContourInterpolator<myRLEImage> mciType;
   typename mciType::Pointer                                 mci = mciType::New();

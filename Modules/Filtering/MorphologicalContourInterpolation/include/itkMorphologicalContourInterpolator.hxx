@@ -1692,26 +1692,6 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
 
 template <typename TImage>
 void
-MorphologicalContourInterpolator<TImage>::OverlayInput()
-{
-  ImageRegionIterator<TImage>      itO(this->GetOutput(), this->GetOutput()->GetBufferedRegion());
-  ImageRegionConstIterator<TImage> itI(this->GetInput(), this->GetOutput()->GetBufferedRegion());
-  while (!itI.IsAtEnd())
-  {
-    typename TImage::PixelType val = itI.Get();
-    if (val != 0)
-    {
-      itO.Set(val);
-    }
-
-    ++itI;
-    ++itO;
-  }
-}
-
-
-template <typename TImage>
-void
 MorphologicalContourInterpolator<TImage>::AllocateOutputs()
 {
   typedef ImageBase<TImage::ImageDimension> ImageBaseType;
@@ -1792,7 +1772,21 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   {
     this->InterpolateAlong(m_Axis, m_Output);
   }
-  OverlayInput();
+
+  // Overwrites m_Output with non non-zeroes from m_Input
+  ImageRegionIterator<TImage>      itO(this->GetOutput(), this->GetOutput()->GetBufferedRegion());
+  ImageRegionConstIterator<TImage> itI(this->GetInput(), this->GetOutput()->GetBufferedRegion());
+  while (!itI.IsAtEnd())
+  {
+    typename TImage::PixelType val = itI.Get();
+    if (val != 0)
+    {
+      itO.Set(val);
+    }
+
+    ++itI;
+    ++itO;
+  }
 }
 
 } // end namespace itk

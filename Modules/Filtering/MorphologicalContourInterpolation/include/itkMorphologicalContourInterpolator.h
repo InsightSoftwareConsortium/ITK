@@ -343,10 +343,6 @@ protected:
   virtual void
   AllocateOutputs() ITK_OVERRIDE;
 
-  /** Overwrites m_Output with non non-zeroes from m_Input. */
-  void
-  OverlayInput();
-
   /** Returns the centroid of given regions */
   typename SliceType::IndexType
   Centroid(typename SliceType::Pointer conn, PixelList regionIds);
