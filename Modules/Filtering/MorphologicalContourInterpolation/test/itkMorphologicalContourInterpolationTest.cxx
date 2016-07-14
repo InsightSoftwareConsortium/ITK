@@ -54,8 +54,8 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   // skip X due to RLE representation constraints
   for (int i = 1; i < ImageType::ImageDimension; i++)
   {
-    reg.GetModifiableIndex()[i] += reg.GetSize(i) / 4;
-    reg.GetModifiableSize()[i] /= 2;
+    reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
+    reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
   }
 
   typedef itk::MorphologicalContourInterpolator<myRLEImage> mciType;

@@ -939,7 +939,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
       Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans, true, threadId);
     }
   }
-  WriteDebug<TImage>(out, "C:\\intermediateResult.nrrd");
+  // does not compile for RLEImage
+  // WriteDebug<TImage>(out, "C:\\intermediateResult.nrrd");
 }
 
 template <typename TImage>
