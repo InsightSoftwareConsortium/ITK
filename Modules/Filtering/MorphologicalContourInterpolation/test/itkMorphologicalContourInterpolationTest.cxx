@@ -65,25 +65,11 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   mci->SetUseBallStructuringElement(ball);
   mci->SetAxis(axis);
   mci->SetLabel(label);
-  mci->GetOutput()->SetRequestedRegion(test->GetLargestPossibleRegion());
-  mci->DetermineSliceOrientations(); // calculates indices
-  typename mciType::SliceIndicesType indices = mci->GetLabeledSliceIndices();
-  // mci->GetOutput()->SetRequestedRegion(reg);
-  mci->SetUseCustomSlicePositions(true);
-  for (int i = 0; i < ImageType::ImageDimension; i++)
-  {
-    for (int l = 0; l < indices[i].size(); l++)
-    {
-      mci->SetLabeledSliceIndices(i, l, indices[i][l]);
-    }
-  }
-  // mci->Update();
 
   typedef itk::RegionOfInterestImageFilter<myRLEImage, ImageType> outConverterType;
   typename outConverterType::Pointer                              outConv = outConverterType::New();
   outConv->SetInput(mci->GetOutput());
   outConv->SetRegionOfInterest(reg);
-  // outConv->SetRegionOfInterest(test->GetLargestPossibleRegion());
   outConv->Update();
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
