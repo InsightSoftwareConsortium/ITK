@@ -49,6 +49,15 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   inConv->Update();
   typename myRLEImage::Pointer test = inConv->GetOutput();
 
+  // region for partial coverage
+  typename myRLEImage::RegionType reg = test->GetLargestPossibleRegion();
+  // skip X due to RLE representation constraints
+  // for (int i = 1; i < ImageType::ImageDimension; i++)
+  //   {
+  //   reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
+  //   reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
+  //   }
+
   typedef itk::MorphologicalContourInterpolator<myRLEImage> mciType;
   typename mciType::Pointer                                 mci = mciType::New();
   mci->SetInput(test);
@@ -56,31 +65,11 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   mci->SetUseBallStructuringElement(ball);
   mci->SetAxis(axis);
   mci->SetLabel(label);
-  mci->Update();
-
-  // reuse the already calculated indices
-  std::vector<typename mciType::LabeledSlicesType> indices = mci->GetLabeledSliceIndices();
-
-  typename mciType::Pointer mci2 = mciType::New();
-  mci2->SetInput(test);
-  mci2->SetUseDistanceTransform(UseDistanceTransform);
-  mci2->SetUseBallStructuringElement(ball);
-  mci2->SetAxis(axis);
-  mci2->SetLabel(label);
-  mci2->SetUseCustomSlicePositions(true);
-  for (int i = 0; i < ImageType::ImageDimension; i++)
-  {
-    for (int l = 0; l < indices[i].size(); l++)
-    {
-      mci2->SetLabeledSliceIndices(i, l, indices[i][l]);
-    }
-  }
-  mci2->Update();
 
   typedef itk::RegionOfInterestImageFilter<myRLEImage, ImageType> outConverterType;
   typename outConverterType::Pointer                              outConv = outConverterType::New();
-  outConv->SetInput(mci2->GetOutput());
-  outConv->SetRegionOfInterest(mci2->GetOutput()->GetLargestPossibleRegion());
+  outConv->SetInput(mci->GetOutput());
+  outConv->SetRegionOfInterest(reg);
   outConv->Update();
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
