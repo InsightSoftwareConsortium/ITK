@@ -9,9 +9,9 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKBinaryMathematicalMorphology
-    ITKIOImageBase # typename
     ITKDistanceMap
   TEST_DEPENDS
+    ITKIOImageBase # typename
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
