@@ -31,6 +31,10 @@ endif()
 if( POLICY CMP0042 )
   cmake_policy(SET CMP0042 NEW)
 endif()
+# Honor visibility properties for static libraries
+if( POLICY CMP0063 )
+  cmake_policy(SET CMP0063 NEW)
+endif()
 
 project(vxl)
 
