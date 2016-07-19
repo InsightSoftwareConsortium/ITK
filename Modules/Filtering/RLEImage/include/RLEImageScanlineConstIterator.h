@@ -7,9 +7,11 @@
 namespace itk
 {
 /** \class ImageScanlineConstIterator
- * \brief A multi-dimensional iterator templated over image type that walks a
- * region of pixels, scanline by scanline or in the direction of the
- * fastest axis.
+ *  \brief A multi-dimensional iterator templated over image type that
+ *  walks a region of pixels, scanline by scanline or in the direction
+ *  of the fastest axis. Specialized for RLEImage.
+ *  \ingroup RLEImage
+ *  \ingroup ITKCommon
  */
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 class ImageScanlineConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>

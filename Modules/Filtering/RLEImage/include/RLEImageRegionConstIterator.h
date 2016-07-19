@@ -14,9 +14,12 @@ namespace itk
  * \brief A multi-dimensional iterator templated over image type that walks a
  * region of pixels.
  *
- * ImageRegionConstIterator provides read-only access to image data.  It is the
- * base class for the read/write access ImageRegionIterator.
+ * ImageRegionConstIterator provides read-only access to image data.
+ * It is the base class for the read/write access ImageRegionIterator.
+ * Specialized for RLEImage.
  *
+ *  \ingroup RLEImage
+ *  \ingroup ITKCommon
  */
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 class ImageRegionConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>

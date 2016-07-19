@@ -10,9 +10,9 @@ namespace itk
  * \class ImageIterator
  * \brief A multi-dimensional iterator templated over image type.
  *
- * This is a base class of ImageConstIterator that adds write-access
- * functionality.  Please see ImageConstIterator for more information.
- *
+ * Read-write access. Specialized for RLEImage.
+ * \ingroup RLEImage
+ * \ingroup ITKCommon
  */
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>

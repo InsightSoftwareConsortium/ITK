@@ -9,8 +9,8 @@
 namespace itk
 {
 /** \class RegionOfInterestImageFilter
- * \brief Extract a region of interest from the input image
- * or convert between itk::Image and RLEImage (a custom region can be used).
+ * \brief Extract a region of interest from the input image or convert
+ *  between itk::Image and itk::RLEImage (a custom region can be used).
  *
  *  This filter produces an output image of the same dimension as the input
  *  image. The user specifies the region of the input image that will be
@@ -21,6 +21,11 @@ namespace itk
  *  will return an identity transform.
  *
  *  The region to extract is set using the method SetRegionOfInterest.
+ *
+ * Specialized for RLEImage.
+ *
+ *  \ingroup RLEImage
+ *  \ingroup ITKCommon
  */
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,

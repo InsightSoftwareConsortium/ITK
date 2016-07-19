@@ -15,7 +15,10 @@ class MultiLabelMeshPipeline;
 namespace itk
 {
 /** \class ImageConstIterator
- * \brief A multi-dimensional image iterator templated over image type.
+ *  \brief A multi-dimensional image iterator templated over image type.
+ *  Specialized for RLEImage.
+ *  \ingroup RLEImage
+ *  \ingroup ITKCommon
  */
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>

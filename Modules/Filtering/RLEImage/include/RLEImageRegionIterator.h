@@ -23,6 +23,10 @@ namespace itk
  *
  * Most of the functionality is inherited from the ImageRegionConstIterator.
  * The current class only adds write access to image pixels.
+ * Specialized for RLEImage.
+ *
+ * \ingroup RLEImage
+ * \ingroup ITKCommon
  */
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
