@@ -1,13 +1,13 @@
 itk_module_test()
 
-set(RLEImageTest ReadWriteTest.cxx)
+set(RLEImageTests itkRLEImageTest.cxx)
 
-createtestdriver( RLEImage "${RLEImage-Test_LIBRARIES}" "${RLEImageTest}" )
+createtestdriver( RLEImage "${RLEImage-Test_LIBRARIES}" "${RLEImageTests}" )
 
 add_executable(
   runFromIDE
   manualTest.cxx
-  ${RLEImageTest}
+  ${RLEImageTests}
 )
 target_link_libraries(runFromIDE ${RLEImage-Test_LIBRARIES})
 
@@ -20,7 +20,7 @@ function(ReadWriteTest ImageName Ext)
       --compare
       DATA{Input/${ImageName}.${Ext}}
       ${outImage}
-      RLEImageTest
+      itkRLEImageTest
       DATA{Input/${ImageName}.${Ext}}
       ${outImage}
   )

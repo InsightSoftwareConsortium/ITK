@@ -10,6 +10,7 @@ itk_module(
   RLEImage
   DEPENDS
     ITKCommon
+    ITKImageGrid
   TEST_DEPENDS
     ITKIOImageBase
     ITKTestKernel

@@ -6,17 +6,28 @@
 #include <itkImageBase.h>
 #include <itkImage.h>
 
-/** Run-Length Encoded image.
- * It saves memory for label images at the expense of processing times.
- * Unsuitable for ordinary images (in which case it is counterproductive).
+/** Class RLEImage
  *
- * BufferedRegion must include complete run-length lines (along X index axis).
- * BufferedRegion can be smaller than LargestPossibleRegion along other axes.
+ *  \brief Run-Length Encoded image.
+ *  It saves memory for label images at the expense of processing times.
+ *  Unsuitable for ordinary images (in which case it is counterproductive).
  *
- * It is best if pixel type and counter type have the same byte size
- * (for memory alignment purposes).
+ *  \par Details
+ *  BufferedRegion must include complete run-length lines (along X index axis).
+ *  BufferedRegion can be smaller than LargestPossibleRegion along other axes.
  *
- * Copied and adapted from itk::Image.
+ *  It is best if pixel type and counter type have the same byte size
+ *  (for memory alignment purposes).
+ *
+ *  \par OnTheFlyCleanup
+ *  Should same-valued segments be merged on the fly?
+ *  On the fly merging usually provides better performance. Default: On.
+ *
+ *  Acknowledgement:
+ *  This work is supported by NIH grant R01 EB014346, "Continued development
+ *  and maintenance of the ITK-SNAP 3D image segmentation software."
+ *
+ * \ingroup RLEImage
  */
 template <typename TPixel, unsigned int VImageDimension = 3, typename CounterType = unsigned short>
 class RLEImage : public itk::ImageBase<VImageDimension>
