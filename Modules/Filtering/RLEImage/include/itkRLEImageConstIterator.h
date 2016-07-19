@@ -93,14 +93,14 @@ public:
    * provide a copy constructor. */
   ImageConstIterator()
     : m_Buffer(0)
-    , rlLine(0)
+    , m_RunLengthLine(0)
   {
     m_Image = ITK_NULLPTR;
     m_Index0 = 0;
     m_BeginIndex0 = 0;
     m_EndIndex0 = 0;
-    realIndex = 0;
-    segmentRemainder = 0;
+    m_RealIndex = 0;
+    m_SegmentRemainder = 0;
   }
 
   /** Default Destructor. */
@@ -111,13 +111,13 @@ public:
   ImageConstIterator(const Self & it)
     : m_Buffer(const_cast<ImageType *>(it.GetImage())->GetBuffer())
   {
-    rlLine = it.rlLine;
+    m_RunLengthLine = it.m_RunLengthLine;
     m_Image = it.m_Image; // copy the smart pointer
     m_Index0 = it.m_Index0;
-    this->bi = it.bi;
+    this->m_BI = it.m_BI;
 
-    realIndex = it.realIndex;
-    segmentRemainder = it.segmentRemainder;
+    m_RealIndex = it.m_RealIndex;
+    m_SegmentRemainder = it.m_SegmentRemainder;
     m_BeginIndex0 = it.m_BeginIndex0;
     m_EndIndex0 = it.m_EndIndex0;
   }
@@ -139,13 +139,13 @@ public:
     if (this != &it)
     {
       m_Buffer = it.m_Buffer;
-      rlLine = it.rlLine;
+      m_RunLengthLine = it.m_RunLengthLine;
       m_Image = it.m_Image; // copy the smart pointer
       m_Index0 = it.m_Index0;
-      bi = it.bi;
+      m_BI = it.m_BI;
 
-      realIndex = it.realIndex;
-      segmentRemainder = it.segmentRemainder;
+      m_RealIndex = it.m_RealIndex;
+      m_SegmentRemainder = it.m_SegmentRemainder;
       m_BeginIndex0 = it.m_BeginIndex0;
       m_EndIndex0 = it.m_EndIndex0;
     }
@@ -165,11 +165,11 @@ public:
                             "Region " << region << " is outside of buffered region " << bufferedRegion);
     }
 
-    bi = BufferIterator(m_Buffer, ImageType::truncateRegion(region));
+    m_BI = BufferIterator(m_Buffer, ImageType::truncateRegion(region));
     m_Index0 = region.GetIndex(0);
     m_BeginIndex0 = m_Index0 - m_Image->GetBufferedRegion().GetIndex(0);
     m_EndIndex0 = m_BeginIndex0 + region.GetSize(0);
-    SetIndexInternal(m_BeginIndex0); // sets realIndex and segmentRemainder
+    SetIndexInternal(m_BeginIndex0); // sets m_RealIndex and m_SegmentRemainder
   }
 
   /** Get the dimension (size) of the index. */
@@ -184,7 +184,7 @@ public:
   bool
   operator!=(const Self & it) const
   {
-    return bi != it.bi || m_Index0 + m_BeginIndex0 != it.m_Index0 + it.m_BeginIndex0;
+    return m_BI != it.m_BI || m_Index0 + m_BeginIndex0 != it.m_Index0 + it.m_BeginIndex0;
   }
 
   /** Comparison operator. Two iterators are the same if they "point to" the
@@ -192,7 +192,7 @@ public:
   bool
   operator==(const Self & it) const
   {
-    return bi == it.bi && m_Index0 + m_BeginIndex0 == it.m_Index0 + it.m_BeginIndex0;
+    return m_BI == it.m_BI && m_Index0 + m_BeginIndex0 == it.m_Index0 + it.m_BeginIndex0;
   }
 
   /** Comparison operator. An iterator is "less than" another if it "points to"
@@ -200,9 +200,9 @@ public:
   bool
   operator<=(const Self & it) const
   {
-    if (bi < it.bi)
+    if (m_BI < it.m_BI)
       return true;
-    else if (bi > it.bi)
+    else if (m_BI > it.m_BI)
       return false;
     return m_Index0 + m_BeginIndex0 <= it.m_Index0 + it.m_BeginIndex0;
   }
@@ -212,9 +212,9 @@ public:
   bool
   operator<(const Self & it) const
   {
-    if (bi < it.bi)
+    if (m_BI < it.m_BI)
       return true;
-    else if (bi > it.bi)
+    else if (m_BI > it.m_BI)
       return false;
     return m_Index0 + m_BeginIndex0 < it.m_Index0 + it.m_BeginIndex0;
   }
@@ -224,9 +224,9 @@ public:
   bool
   operator>=(const Self & it) const
   {
-    if (bi > it.bi)
+    if (m_BI > it.m_BI)
       return true;
-    else if (bi < it.bi)
+    else if (m_BI < it.m_BI)
       return false;
     return m_Index0 + m_BeginIndex0 >= it.m_Index0 + it.m_BeginIndex0;
   }
@@ -236,9 +236,9 @@ public:
   bool
   operator>(const Self & it) const
   {
-    if (bi > it.bi)
+    if (m_BI > it.m_BI)
       return true;
-    else if (bi < it.bi)
+    else if (m_BI < it.m_BI)
       return false;
     return m_Index0 + m_BeginIndex0 > it.m_Index0 + it.m_BeginIndex0;
   }
@@ -249,7 +249,7 @@ public:
   {
     IndexType indR(m_Image->GetBufferedRegion().GetIndex());
     indR[0] += m_Index0;
-    typename BufferType::IndexType bufInd = bi.GetIndex();
+    typename BufferType::IndexType bufInd = m_BI.GetIndex();
     for (IndexValueType i = 1; i < VImageDimension; i++)
       indR[i] = bufInd[i - 1];
     return indR;
@@ -262,7 +262,7 @@ public:
     typename BufferType::IndexType bufInd;
     for (IndexValueType i = 1; i < VImageDimension; i++)
       bufInd[i - 1] = ind[i];
-    bi.SetIndex(bufInd);
+    m_BI.SetIndex(bufInd);
     SetIndexInternal(ind[0] - m_Image->GetBufferedRegion().GetIndex(0));
   }
 
@@ -274,7 +274,7 @@ public:
     RegionType r;
     r.SetIndex(0, m_BeginIndex0 + m_Image->GetBufferedRegion().GetIndex(0));
     r.SetSize(0, m_EndIndex0 - m_BeginIndex0);
-    typename BufferType::RegionType ir = bi.GetRegion();
+    typename BufferType::RegionType ir = m_BI.GetRegion();
     for (IndexValueType i = 1; i < VImageDimension; i++)
     {
       r.SetIndex(i, ir.GetIndex(i - 1));
@@ -303,8 +303,8 @@ public:
   const PixelType &
   Value(void) const
   {
-    RLLine & line = const_cast<Self *>(this)->bi.Value();
-    return line[realIndex].second;
+    RLLine & line = const_cast<Self *>(this)->m_BI.Value();
+    return line[m_RealIndex].second;
   }
 
   /** Move an iterator to the beginning of the region. "Begin" is
@@ -312,7 +312,7 @@ public:
   void
   GoToBegin()
   {
-    bi.GoToBegin();
+    m_BI.GoToBegin();
     SetIndexInternal(m_BeginIndex0);
   }
 
@@ -321,7 +321,7 @@ public:
   void
   GoToEnd()
   {
-    bi.GoToEnd();
+    m_BI.GoToEnd();
     m_Index0 = m_BeginIndex0;
   }
 
@@ -330,7 +330,7 @@ public:
   bool
   IsAtBegin(void) const
   {
-    return m_Index0 == m_BeginIndex0 && bi.IsAtBegin();
+    return m_Index0 == m_BeginIndex0 && m_BI.IsAtBegin();
   }
 
   /** Is the iterator at the end of the region? "End" is defined as one
@@ -338,43 +338,43 @@ public:
   bool
   IsAtEnd(void) const
   {
-    return m_Index0 == m_BeginIndex0 && bi.IsAtEnd();
+    return m_Index0 == m_BeginIndex0 && m_BI.IsAtEnd();
   }
 
 protected: // made protected so other iterators can access
-  /** Set the internal index, realIndex and segmentRemainder. */
+  /** Set the internal index, m_RealIndex and m_SegmentRemainder. */
   virtual void
   SetIndexInternal(const IndexValueType ind0)
   {
     m_Index0 = ind0;
-    rlLine = &bi.Value();
+    m_RunLengthLine = &m_BI.Value();
 
     CounterType   t = 0;
     SizeValueType x = 0;
 
-    for (; x < (*rlLine).size(); x++)
+    for (; x < (*m_RunLengthLine).size(); x++)
     {
-      t += (*rlLine)[x].first;
+      t += (*m_RunLengthLine)[x].first;
       if (t > m_Index0)
         break;
     }
-    realIndex = x;
-    segmentRemainder = t - m_Index0;
+    m_RealIndex = x;
+    m_SegmentRemainder = t - m_Index0;
   }
 
   typename ImageType::ConstWeakPointer m_Image;
 
   IndexValueType m_Index0; // index into the RLLine
 
-  const RLLine * rlLine;
+  const RLLine * m_RunLengthLine;
 
-  mutable IndexValueType realIndex;        // index into line's segment
-  mutable IndexValueType segmentRemainder; // how many pixels remain in current segment
+  mutable IndexValueType m_RealIndex;        // index into line's segment
+  mutable IndexValueType m_SegmentRemainder; // how many pixels remain in current segment
 
   IndexValueType m_BeginIndex0; // index to first pixel in region in relation to buffer start
   IndexValueType m_EndIndex0;   // index to one pixel past last pixel in region in relation to buffer start
 
-  BufferIterator               bi; // iterator over internal buffer image
+  BufferIterator               m_BI; // iterator over internal buffer image
   typename BufferType::Pointer m_Buffer;
 };
 
@@ -392,7 +392,7 @@ public:
   void
   GoToReverseBegin()
   {
-    this->bi.GoToReverseBegin();
+    this->m_BI.GoToReverseBegin();
     this->m_Index0 = this->m_EndIndex0 - 1;
     SetIndexInternal(this->m_Index0);
   }
@@ -400,7 +400,7 @@ public:
   bool
   IsAtReverseEnd()
   {
-    return this->bi.IsAtReverseEnd();
+    return this->m_BI.IsAtReverseEnd();
   }
 
   /** Default Constructor. Need to provide a default constructor since we

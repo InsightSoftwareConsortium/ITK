@@ -122,89 +122,89 @@ template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 int
 RLEImage<TPixel, VImageDimension, CounterType>::SetPixel(RLLine &         line,
                                                          IndexValueType & segmentRemainder,
-                                                         IndexValueType & realIndex,
+                                                         IndexValueType & m_RealIndex,
                                                          const TPixel &   value)
 {
   // complete Run-Length Lines have to be buffered
   itkAssertOrThrowMacro(this->GetBufferedRegion().GetSize(0) == this->GetLargestPossibleRegion().GetSize(0),
                         "BufferedRegion must contain complete run-length lines!");
-  if (line[realIndex].second == value) // already correct value
+  if (line[m_RealIndex].second == value) // already correct value
     return 0;
-  else if (line[realIndex].first == 1) // single pixel segment
+  else if (line[m_RealIndex].first == 1) // single pixel segment
   {
-    line[realIndex].second = value;
+    line[m_RealIndex].second = value;
     if (m_OnTheFlyCleanup) // now see if we can merge it into adjacent segments
     {
-      if (realIndex > 0 && realIndex < line.size() - 1 && line[realIndex + 1].second == value &&
-          line[realIndex - 1].second == value)
+      if (m_RealIndex > 0 && m_RealIndex < line.size() - 1 && line[m_RealIndex + 1].second == value &&
+          line[m_RealIndex - 1].second == value)
       {
         // merge these 3 segments
-        line[realIndex - 1].first += 1 + line[realIndex + 1].first;
-        segmentRemainder += line[realIndex + 1].first;
-        line.erase(line.begin() + realIndex, line.begin() + realIndex + 2);
-        realIndex--;
+        line[m_RealIndex - 1].first += 1 + line[m_RealIndex + 1].first;
+        segmentRemainder += line[m_RealIndex + 1].first;
+        line.erase(line.begin() + m_RealIndex, line.begin() + m_RealIndex + 2);
+        m_RealIndex--;
         return -2;
       }
-      if (realIndex > 0 && line[realIndex - 1].second == value)
+      if (m_RealIndex > 0 && line[m_RealIndex - 1].second == value)
       {
         // merge into previous
-        line[realIndex - 1].first++;
-        line.erase(line.begin() + realIndex);
-        realIndex--;
+        line[m_RealIndex - 1].first++;
+        line.erase(line.begin() + m_RealIndex);
+        m_RealIndex--;
         assert(segmentRemainder == 1);
         return -1;
       }
-      else if (realIndex < line.size() - 1 && line[realIndex + 1].second == value)
+      else if (m_RealIndex < line.size() - 1 && line[m_RealIndex + 1].second == value)
       {
         // merge into next
-        segmentRemainder = ++(line[realIndex + 1].first);
-        line.erase(line.begin() + realIndex);
+        segmentRemainder = ++(line[m_RealIndex + 1].first);
+        line.erase(line.begin() + m_RealIndex);
         return -1;
       }
     }
     return 0;
   }
-  else if (segmentRemainder == 1 && realIndex < line.size() - 1 && line[realIndex + 1].second == value)
+  else if (segmentRemainder == 1 && m_RealIndex < line.size() - 1 && line[m_RealIndex + 1].second == value)
   {
     // shift this pixel to next segment
-    line[realIndex].first--;
-    segmentRemainder = ++(line[realIndex + 1].first);
-    realIndex++;
+    line[m_RealIndex].first--;
+    segmentRemainder = ++(line[m_RealIndex + 1].first);
+    m_RealIndex++;
     return 0;
   }
-  else if (realIndex > 0 && segmentRemainder == line[realIndex].first && line[realIndex - 1].second == value)
+  else if (m_RealIndex > 0 && segmentRemainder == line[m_RealIndex].first && line[m_RealIndex - 1].second == value)
   {
     // shift this pixel to previous segment
-    line[realIndex].first--;
-    line[realIndex - 1].first++;
-    realIndex--;
+    line[m_RealIndex].first--;
+    line[m_RealIndex - 1].first++;
+    m_RealIndex--;
     segmentRemainder = 1;
     return 0;
   }
   else if (segmentRemainder == 1) // insert after
   {
-    line[realIndex].first--;
-    line.insert(line.begin() + realIndex + 1, RLSegment(1, value));
-    realIndex++;
+    line[m_RealIndex].first--;
+    line.insert(line.begin() + m_RealIndex + 1, RLSegment(1, value));
+    m_RealIndex++;
     return +1;
   }
-  else if (segmentRemainder == line[realIndex].first) // insert before
+  else if (segmentRemainder == line[m_RealIndex].first) // insert before
   {
-    line[realIndex].first--;
-    line.insert(line.begin() + realIndex, RLSegment(1, value));
+    line[m_RealIndex].first--;
+    line.insert(line.begin() + m_RealIndex, RLSegment(1, value));
     segmentRemainder = 1;
     return +1;
   }
   else // general case: split a segment into 3 segments
   {
     // first take care of values
-    line.insert(line.begin() + realIndex + 1, 2, RLSegment(1, value));
-    line[realIndex + 2].second = line[realIndex].second;
+    line.insert(line.begin() + m_RealIndex + 1, 2, RLSegment(1, value));
+    line[m_RealIndex + 2].second = line[m_RealIndex].second;
 
     // now take care of counts
-    line[realIndex].first -= segmentRemainder;
-    line[realIndex + 2].first = segmentRemainder - 1;
-    realIndex++;
+    line[m_RealIndex].first -= segmentRemainder;
+    line[m_RealIndex + 2].first = segmentRemainder - 1;
+    m_RealIndex++;
     segmentRemainder = 1;
     return +2;
   }

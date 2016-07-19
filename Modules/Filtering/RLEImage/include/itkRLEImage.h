@@ -176,11 +176,11 @@ public:
   SetPixel(const IndexType & index, const TPixel & value);
 
   /** Set a pixel value in the given line and updates segmentRemainder
-   * and realIndex to refer to the same pixel.
+   * and m_RealIndex to refer to the same pixel.
    * Returns difference in line length which happens due to merging or splitting segments.
    * This method is used by iterators directly. */
   int
-  SetPixel(RLLine & line, IndexValueType & segmentRemainder, IndexValueType & realIndex, const TPixel & value);
+  SetPixel(RLLine & line, IndexValueType & segmentRemainder, IndexValueType & m_RealIndex, const TPixel & value);
 
   /** \brief Get a pixel. SLOW! Better use iterators for pixel access. */
   const TPixel &

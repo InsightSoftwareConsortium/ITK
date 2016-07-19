@@ -75,8 +75,10 @@ public:
   Set(const PixelType & value) const
   {
     const_cast<ImageType *>(this->m_Image.GetPointer())
-      ->SetPixel(
-        *const_cast<typename ImageType::RLLine *>(this->rlLine), this->segmentRemainder, this->realIndex, value);
+      ->SetPixel(*const_cast<typename ImageType::RLLine *>(this->m_RunLengthLine),
+                 this->m_SegmentRemainder,
+                 this->m_RealIndex,
+                 value);
   }
 
   ///** Return a reference to the pixel
@@ -84,7 +86,7 @@ public:
   //* data, but it will NOT support ImageAdaptors. */
   // PixelType & Value(void)
   //{
-  //    return m_Buffer[m_Index[2]][m_Index[1]][realIndex].second;
+  //    return m_Buffer[m_Index[2]][m_Index[1]][m_RealIndex].second;
   //}
 
 protected:

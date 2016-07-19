@@ -89,8 +89,10 @@ public:
   Set(const PixelType & value) const
   {
     const_cast<ImageType *>(this->m_Image.GetPointer())
-      ->SetPixel(
-        *const_cast<typename ImageType::RLLine *>(this->rlLine), this->segmentRemainder, this->realIndex, value);
+      ->SetPixel(*const_cast<typename ImageType::RLLine *>(this->m_RunLengthLine),
+                 this->m_SegmentRemainder,
+                 this->m_RealIndex,
+                 value);
   }
 
 protected:
@@ -133,8 +135,10 @@ public:
   Set(const TPixel & value) const
   {
     const_cast<ImageType *>(this->m_Image.GetPointer())
-      ->SetPixel(
-        *const_cast<typename ImageType::RLLine *>(this->rlLine), this->segmentRemainder, this->realIndex, value);
+      ->SetPixel(*const_cast<typename ImageType::RLLine *>(this->m_RunLengthLine),
+                 this->m_SegmentRemainder,
+                 this->m_RealIndex,
+                 value);
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an

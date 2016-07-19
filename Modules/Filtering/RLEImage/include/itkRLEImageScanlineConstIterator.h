@@ -99,8 +99,8 @@ public:
   GoToBeginOfLine(void)
   {
     this->m_Index0 = this->m_BeginIndex0;
-    this->realIndex = 0;
-    this->segmentRemainder = (*this->rlLine)[this->realIndex].first;
+    this->m_RealIndex = 0;
+    this->m_SegmentRemainder = (*this->m_RunLengthLine)[this->m_RealIndex].first;
   }
 
   /** Go to the past end pixel of the current line. */
@@ -108,8 +108,8 @@ public:
   GoToEndOfLine(void)
   {
     this->m_Index0 = this->m_EndIndex0;
-    this->realIndex = this->rlLine->size() - 1;
-    this->segmentRemainder = 0;
+    this->m_RealIndex = this->m_RunLengthLine->size() - 1;
+    this->m_SegmentRemainder = 0;
   }
 
   /** Test if the index is at the end of line. */
@@ -123,8 +123,8 @@ public:
   inline void
   NextLine(void)
   {
-    ++(this->bi);
-    if (!this->bi.IsAtEnd())
+    ++(this->m_BI);
+    if (!this->m_BI.IsAtEnd())
       this->SetIndexInternal(this->m_BeginIndex0);
     else
       this->m_Index0 = this->m_BeginIndex0; // make this iterator at end too
@@ -142,14 +142,14 @@ public:
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(!this->IsAtEndOfLine());
     this->m_Index0++;
-    this->segmentRemainder--;
-    if (this->segmentRemainder > 0)
+    this->m_SegmentRemainder--;
+    if (this->m_SegmentRemainder > 0)
       return *this;
 
     if (this->IsAtEndOfLine())
       return *this;
-    this->realIndex++;
-    this->segmentRemainder = (*this->rlLine)[this->realIndex].first;
+    this->m_RealIndex++;
+    this->m_SegmentRemainder = (*this->m_RunLengthLine)[this->m_RealIndex].first;
     return *this;
   }
 
@@ -160,12 +160,12 @@ public:
   operator--()
   {
     this->m_Index0--;
-    this->segmentRemainder++;
-    if (this->segmentRemainder <= (*this->rlLine)[this->realIndex].first)
+    this->m_SegmentRemainder++;
+    if (this->m_SegmentRemainder <= (*this->m_RunLengthLine)[this->m_RealIndex].first)
       return *this;
 
-    this->realIndex--;
-    this->segmentRemainder = 1;
+    this->m_RealIndex--;
+    this->m_SegmentRemainder = 1;
     return *this;
   }
 };

@@ -119,20 +119,20 @@ public:
 
     if (this->m_Index0 >= this->m_EndIndex0)
     {
-      ++(this->bi);
-      if (!this->bi.IsAtEnd())
+      ++(this->m_BI);
+      if (!this->m_BI.IsAtEnd())
         this->SetIndexInternal(this->m_BeginIndex0);
       else
         this->m_Index0 = this->m_BeginIndex0;
       return *this;
     }
 
-    this->segmentRemainder--;
-    if (this->segmentRemainder > 0)
+    this->m_SegmentRemainder--;
+    if (this->m_SegmentRemainder > 0)
       return *this;
 
-    this->realIndex++;
-    this->segmentRemainder = (*this->rlLine)[this->realIndex].first;
+    this->m_RealIndex++;
+    this->m_SegmentRemainder = (*this->m_RunLengthLine)[this->m_RealIndex].first;
     return *this;
   }
 
@@ -150,17 +150,17 @@ public:
 
     if (this->m_Index0 < this->m_BeginIndex0)
     {
-      --(this->bi);
+      --(this->m_BI);
       this->SetIndexInternal(this->m_EndIndex0 - 1);
       return *this;
     }
 
-    this->segmentRemainder++;
-    if (this->segmentRemainder <= (*this->rlLine)[this->realIndex].first)
+    this->m_SegmentRemainder++;
+    if (this->m_SegmentRemainder <= (*this->m_RunLengthLine)[this->m_RealIndex].first)
       return *this;
 
-    this->realIndex--;
-    this->segmentRemainder = 1;
+    this->m_RealIndex--;
+    this->m_SegmentRemainder = 1;
     return *this;
   }
 };
@@ -188,8 +188,8 @@ public:
   void
   GoToReverseBegin()
   {
-    this->bi.GoToEnd(); // after last pixel
-    --(this->bi);       // go to last valid pixel
+    this->m_BI.GoToEnd(); // after last pixel
+    --(this->m_BI);       // go to last valid pixel
     this->m_Index0 = this->m_EndIndex0 - 1;
     this->SetIndexInternal(this->m_Index0); // valid index required
   }
@@ -197,7 +197,7 @@ public:
   bool
   IsAtReverseEnd()
   {
-    return (this->m_Index0 == this->m_BeginIndex0) && this->bi.IsAtBegin();
+    return (this->m_Index0 == this->m_BeginIndex0) && this->m_BI.IsAtBegin();
   }
 
   /** Constructor that can be used to cast from an ImageIterator to an
