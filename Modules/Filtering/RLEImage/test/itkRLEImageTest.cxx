@@ -16,9 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkRLEImageScanlineIterator.h"
-#include "itkRLEImageRegionIterator.h"
-#include "itkRLERegionOfInterestImageFilter.h"
+#include "itkRLEImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include <cstdlib>

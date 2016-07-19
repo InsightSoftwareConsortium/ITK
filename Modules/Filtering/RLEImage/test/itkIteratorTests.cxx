@@ -20,7 +20,7 @@
 
 #include "itkImage.h"
 #include "itkVector.h"
-#include "itkRLEImageRegionIterator.h"
+#include "itkRLEImage.h"
 #include <time.h>
 
 int

@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-#include "RLEImageRegionIterator.h"
+#include "itkRLEImage.h"
 
 
 // This routine is used to make sure that we call the "const" version

@@ -19,8 +19,13 @@
 #define itkRLEImage_hxx
 
 #include "itkRLEImage.h"
-#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionConstIterator.h" //for underlying buffer
 
+// include all specializations of iterators and filters
+// so only #include <itkRLEImage.h> is needed in user code
+#include "itkRLEImageScanlineIterator.h"
+#include "itkRLEImageRegionIterator.h"
+#include "itkRLERegionOfInterestImageFilter.h"
 
 namespace itk
 {

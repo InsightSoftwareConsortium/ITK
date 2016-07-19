@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-#include "RLEImageRegionIterator.h"
+#include "itkRLEImage.h"
 
 int
 itkImageIteratorsForwardBackwardTest(int, char *[])

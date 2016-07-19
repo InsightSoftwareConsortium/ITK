@@ -17,8 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkRLERegionOfInterestImageFilter.h"
-#include "itkRLEImageRegionIterator.h"
+#include "itkRLEImage.h"
 #include "itkSimpleFilterWatcher.h"
 
 int
