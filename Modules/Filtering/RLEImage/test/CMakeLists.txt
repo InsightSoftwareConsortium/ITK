@@ -11,6 +11,21 @@ add_executable(
 )
 target_link_libraries(runFromIDE ${RLEImage-Test_LIBRARIES})
 
+add_executable(
+  iteratorTests
+  itkRegionOfInterestImageFilterTest.cxx
+  itkIteratorTests.cxx
+  itkImageIteratorsForwardBackwardTest.cxx
+  itkImageIteratorTest.cxx
+  itkImageIteratorWithIndexTest.cxx
+  itkImageRegionConstIteratorWithOnlyIndexTest.cxx
+  itkImageRegionIteratorTest.cxx
+  itkImageScanlineIteratorTest1.cxx
+  iteratorTests.cxx
+)
+target_link_libraries(iteratorTests ${ITK_LIBRARIES})
+itk_add_test(NAME iteratorTests COMMAND iteratorTests)
+
 function(ReadWriteTest ImageName Ext)
   set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}.${Ext}")
   itk_add_test(
@@ -45,9 +60,10 @@ readwritetest(ManyToMany16 nrrd)
 readwritetest(ManyToMany nrrd)
 readwritetest(GridSeg nrrd)
 readwritetest(GridSeg2 nrrd)
-readwritetest(FaceRoI nrrd)
-readwritetest(BigZ nrrd)
 readwritetest(FourD nrrd)
+readwritetest(2D png)
+readwritetest(BigZ nrrd)
+readwritetest(FaceRoI nrrd)
 
 # Paul's test images
 readwritetest(105769moving nii.gz)
@@ -56,17 +72,3 @@ readwritetest(64816L_amygdala_fin nii.gz)
 readwritetest(64816L_amygdala_int nii.gz)
 readwritetest(65239R_amygdala_fin nii.gz)
 readwritetest(65239R_amygdala_int nii.gz)
-
-add_executable(
-  iteratorTests
-  itkRegionOfInterestImageFilterTest.cxx
-  itkIteratorTests.cxx
-  itkImageIteratorsForwardBackwardTest.cxx
-  itkImageIteratorTest.cxx
-  itkImageIteratorWithIndexTest.cxx
-  itkImageRegionConstIteratorWithOnlyIndexTest.cxx
-  itkImageRegionIteratorTest.cxx
-  itkImageScanlineIteratorTest1.cxx
-  iteratorTests.cxx
-)
-target_link_libraries(iteratorTests ${ITK_LIBRARIES})
