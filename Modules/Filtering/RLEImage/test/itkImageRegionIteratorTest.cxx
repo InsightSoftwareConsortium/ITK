@@ -58,7 +58,7 @@ itkImageRegionIteratorTest(int, char *[])
 
   RLEImage<itk::Vector<unsigned short, 5>>::SizeType imageSize3D = { { 20, 40, 60 } };
   RLEImage<itk::Vector<unsigned short, 5>>::SizeType bufferSize3D = { { 20, 20, 17 } };
-  RLEImage<itk::Vector<unsigned short, 5>>::SizeType regionSize3D = { { 4, 6, 8 } };
+  RLEImage<itk::Vector<unsigned short, 5>>::SizeType regionSize3D = { { 4, 6, 6 } };
 
   RLEImage<itk::Vector<unsigned short, 5>>::IndexType startIndex3D = { { 5, 4, 1 } };
   RLEImage<itk::Vector<unsigned short, 5>>::IndexType bufferStartIndex3D = { { 5, 5, 1 } };
@@ -182,11 +182,15 @@ itkImageRegionIteratorTest(int, char *[])
 
     itk::ImageRegionConstIterator<TestImageType> imageIterator(image, region1);
 
-    std::vector<int> expectedValuesRegion1(4);
+    std::vector<int> expectedValuesRegion1(8);
     expectedValuesRegion1[0] = 0;
     expectedValuesRegion1[1] = 255;
     expectedValuesRegion1[2] = 0;
     expectedValuesRegion1[3] = 255;
+    expectedValuesRegion1[4] = 0;
+    expectedValuesRegion1[5] = 255;
+    expectedValuesRegion1[6] = 0;
+    expectedValuesRegion1[7] = 255;
     unsigned int counter = 0;
     while (!imageIterator.IsAtEnd())
     {
@@ -207,11 +211,15 @@ itkImageRegionIteratorTest(int, char *[])
     imageIterator.SetRegion(region2);
     imageIterator.GoToBegin();
 
-    std::vector<int> expectedValuesRegion2(4);
+    std::vector<int> expectedValuesRegion2(8);
     expectedValuesRegion2[0] = 255;
     expectedValuesRegion2[1] = 255;
     expectedValuesRegion2[2] = 255;
     expectedValuesRegion2[3] = 255;
+    expectedValuesRegion2[4] = 255;
+    expectedValuesRegion2[5] = 255;
+    expectedValuesRegion2[6] = 255;
+    expectedValuesRegion2[7] = 255;
     counter = 0;
     while (!imageIterator.IsAtEnd())
     {
