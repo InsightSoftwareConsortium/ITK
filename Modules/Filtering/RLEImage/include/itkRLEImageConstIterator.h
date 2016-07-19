@@ -373,8 +373,8 @@ protected: // made protected so other iterators can access
 
   IndexValueType m_BeginIndex0; // index to first pixel in region in relation to buffer start
   IndexValueType m_EndIndex0;   // index to one pixel past last pixel in region in relation to buffer start
+  BufferIterator m_BI;          // iterator over internal buffer image
 
-  BufferIterator               m_BI; // iterator over internal buffer image
   typename BufferType::Pointer m_Buffer;
 };
 

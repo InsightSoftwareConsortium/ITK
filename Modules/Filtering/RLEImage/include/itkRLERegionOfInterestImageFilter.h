@@ -139,13 +139,14 @@ class RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixe
 {
 public:
   /** Standard class typedefs. */
-  typedef RegionOfInterestImageFilter                         Self;
   typedef itk::RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
-  typedef Image<TPixel, VImageDimension>                      ImageType;
-  typedef ImageToImageFilter<ImageType, RLEImageType>         Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
-  typedef typename Superclass::InputImageRegionType           InputImageRegionType;
+
+  typedef RegionOfInterestImageFilter                 Self;
+  typedef Image<TPixel, VImageDimension>              ImageType;
+  typedef ImageToImageFilter<ImageType, RLEImageType> Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -226,13 +227,14 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
 {
 public:
   /** Standard class typedefs. */
-  typedef RegionOfInterestImageFilter                         Self;
   typedef itk::RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
-  typedef Image<TPixel, VImageDimension>                      ImageType;
-  typedef ImageToImageFilter<RLEImageType, ImageType>         Superclass;
-  typedef SmartPointer<Self>                                  Pointer;
-  typedef SmartPointer<const Self>                            ConstPointer;
-  typedef typename Superclass::InputImageRegionType           InputImageRegionType;
+
+  typedef RegionOfInterestImageFilter                 Self;
+  typedef Image<TPixel, VImageDimension>              ImageType;
+  typedef ImageToImageFilter<RLEImageType, ImageType> Superclass;
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
+  typedef typename Superclass::InputImageRegionType   InputImageRegionType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
