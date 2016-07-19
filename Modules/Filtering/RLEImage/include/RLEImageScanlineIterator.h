@@ -65,7 +65,7 @@ public:
   //* data, but it will NOT support ImageAdaptors. */
   // PixelType & Value(void)
   //{
-  //    return myBuffer[m_Index[2]][m_Index[1]][realIndex].second;
+  //    return m_Buffer[m_Index[2]][m_Index[1]][realIndex].second;
   //}
 
 protected:

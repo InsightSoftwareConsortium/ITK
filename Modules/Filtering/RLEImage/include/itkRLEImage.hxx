@@ -1,9 +1,29 @@
-#ifndef RLEImage_txx
-#define RLEImage_txx
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkRLEImage_hxx
+#define itkRLEImage_hxx
 
-#include "RLEImage.h"
+#include "itkRLEImage.h"
 #include "itkImageRegionConstIterator.h"
 
+
+namespace itk
+{
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 inline typename RLEImage<TPixel, VImageDimension, CounterType>::BufferType::IndexType
 RLEImage<TPixel, VImageDimension, CounterType>::truncateIndex(const IndexType & index)
@@ -44,13 +64,13 @@ RLEImage<TPixel, VImageDimension, CounterType>::Allocate(bool initialize)
                         "CounterType is not large enough to support image's X dimension!");
   this->ComputeOffsetTable();
   // SizeValueType num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
-  myBuffer->Allocate(false);
+  m_Buffer->Allocate(false);
   // if (initialize) //there is assumption that the image is fully formed after a call to allocate
   {
     RLSegment segment(CounterType(this->GetBufferedRegion().GetSize(0)), TPixel());
     RLLine    line(1);
     line[0] = segment;
-    myBuffer->FillBuffer(line);
+    m_Buffer->FillBuffer(line);
   }
 }
 
@@ -61,7 +81,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::FillBuffer(const TPixel & value)
   RLSegment segment(CounterType(this->GetBufferedRegion().GetSize(0)), value);
   RLLine    line(1);
   line[0] = segment;
-  myBuffer->FillBuffer(line);
+  m_Buffer->FillBuffer(line);
 }
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -84,13 +104,13 @@ template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RLEImage<TPixel, VImageDimension, CounterType>::CleanUp() const
 {
-  assert(!myBuffer.empty());
+  assert(!m_Buffer.empty());
   if (this->GetLargestPossibleRegion().GetSize(0) == 0)
     return;
 #pragma omp parallel for
-  for (CounterType z = 0; z < myBuffer.size(); z++)
-    for (CounterType y = 0; y < myBuffer[0].size(); y++)
-      CleanUpLine(myBuffer[z][y]);
+  for (CounterType z = 0; z < m_Buffer.size(); z++)
+    for (CounterType y = 0; y < m_Buffer[0].size(); y++)
+      CleanUpLine(m_Buffer[z][y]);
 }
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -194,7 +214,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::SetPixel(const IndexType & index
                         "BufferedRegion must contain complete run-length lines!");
   IndexValueType                 bri0 = this->GetBufferedRegion().GetIndex(0);
   typename BufferType::IndexType bi = truncateIndex(index);
-  RLLine &                       line = myBuffer->GetPixel(bi);
+  RLLine &                       line = m_Buffer->GetPixel(bi);
   IndexValueType                 t = 0;
   for (IndexValueType x = 0; x < line.size(); x++)
   {
@@ -218,7 +238,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::GetPixel(const IndexType & index
                         "BufferedRegion must contain complete run-length lines!");
   IndexValueType                 bri0 = this->GetBufferedRegion().GetIndex(0);
   typename BufferType::IndexType bi = truncateIndex(index);
-  RLLine &                       line = myBuffer->GetPixel(bi);
+  RLLine &                       line = m_Buffer->GetPixel(bi);
   IndexValueType                 t = 0;
   for (IndexValueType x = 0; x < line.size(); x++)
   {
@@ -235,10 +255,10 @@ RLEImage<TPixel, VImageDimension, CounterType>::PrintSelf(std::ostream & os, itk
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Internal image (for storage of RLLine-s): " << std::endl;
-  myBuffer->Print(os, indent.GetNextIndent());
+  m_Buffer->Print(os, indent.GetNextIndent());
 
   itk::SizeValueType                        c = 0;
-  itk::ImageRegionConstIterator<BufferType> it(myBuffer, myBuffer->GetBufferedRegion());
+  itk::ImageRegionConstIterator<BufferType> it(m_Buffer, m_Buffer->GetBufferedRegion());
   while (!it.IsAtEnd())
   {
     c += it.Get().capacity();
@@ -257,4 +277,5 @@ RLEImage<TPixel, VImageDimension, CounterType>::PrintSelf(std::ostream & os, itk
   os.precision(prec);
 }
 
-#endif // RLEImage_txx
+} // end namespace itk
+#endif // itkRLEImage_hxx

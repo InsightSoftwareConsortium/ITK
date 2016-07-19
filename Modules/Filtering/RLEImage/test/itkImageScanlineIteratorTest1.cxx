@@ -1,3 +1,20 @@
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
 
 #include <iostream>
 
@@ -7,11 +24,11 @@
 // of GetPixel() (via the operator[])
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
-TestConstPixelAccess(const RLEImage<TPixel, VImageDimension, CounterType> & in,
-                     RLEImage<TPixel, VImageDimension, CounterType> &       out)
+TestConstPixelAccess(const itk::RLEImage<TPixel, VImageDimension, CounterType> & in,
+                     itk::RLEImage<TPixel, VImageDimension, CounterType> &       out)
 {
-  typename RLEImage<TPixel, VImageDimension, CounterType>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
-  typename RLEImage<TPixel, VImageDimension, CounterType>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  typename itk::RLEImage<TPixel, VImageDimension, CounterType>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
+  typename itk::RLEImage<TPixel, VImageDimension, CounterType>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
   TPixel vec;
 
@@ -31,14 +48,14 @@ TestConstPixelAccess(const RLEImage<TPixel, VImageDimension, CounterType> & in,
 int
 itkImageScanlineIteratorTest1(int, char *[])
 {
-  RLEImage<itk::Vector<unsigned short, 5>>::Pointer o3 = RLEImage<itk::Vector<unsigned short, 5>>::New();
+  itk::RLEImage<itk::Vector<unsigned short, 5>>::Pointer o3 = itk::RLEImage<itk::Vector<unsigned short, 5>>::New();
 
   int status = EXIT_SUCCESS;
 
   float origin3D[3] = { 5, 2.1, 8.1 };
   float spacing3D[3] = { 1.5, 2.1, 1 };
 
-  typedef RLEImage<itk::Vector<unsigned short, 5>> ImageType;
+  typedef itk::RLEImage<itk::Vector<unsigned short, 5>> ImageType;
 
   ImageType::SizeType imageSize3D = { { 20, 40, 60 } };
   ImageType::SizeType bufferSize3D = { { 20, 20, 14 } };

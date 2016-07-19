@@ -195,7 +195,7 @@ itkImageRegionConstIteratorWithOnlyIndexTest(int, char *[])
 
   {
     std::cout << "Testing with Image< char, 3 >... " << std::endl;
-    itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<RLEImage<char>> Tester;
+    itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester<itk::RLEImage<char>> Tester;
     if (Tester.TestConstIterator() == false)
     {
       testPassed = false;

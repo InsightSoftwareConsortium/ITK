@@ -33,9 +33,9 @@ doTest(std::string inFilename, std::string outFilename)
   reader->SetFileName(inFilename);
   reader->Update();
 
-  typedef RLEImage<typename ImageType::PixelType, ImageType::ImageDimension> myRLEImage;
-  typedef itk::RegionOfInterestImageFilter<ImageType, myRLEImage>            inConverterType;
-  typename inConverterType::Pointer                                          inConv = inConverterType::New();
+  typedef itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension> myRLEImage;
+  typedef itk::RegionOfInterestImageFilter<ImageType, myRLEImage>                 inConverterType;
+  typename inConverterType::Pointer                                               inConv = inConverterType::New();
   inConv->SetInput(reader->GetOutput());
   inConv->SetRegionOfInterest(reader->GetOutput()->GetLargestPossibleRegion());
   inConv->Update();

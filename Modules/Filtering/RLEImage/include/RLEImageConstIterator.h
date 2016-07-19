@@ -4,7 +4,7 @@
 #include "itkImage.h"
 #include "itkIndex.h"
 #include "itkNumericTraits.h"
-#include "RLEImage.h"
+#include "itkRLEImage.h"
 #include "itkImageConstIterator.h"
 #include "itkImageConstIteratorWithIndex.h"
 #include "itkImageConstIteratorWithOnlyIndex.h"
@@ -37,7 +37,7 @@ public:
   itkTypeMacroNoParent(ImageConstIterator);
 
   /** Image typedef support. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   /** Run-Length Line (we iterate along it). */
   typedef typename ImageType::RLLine RLLine;
@@ -72,7 +72,7 @@ public:
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
   ImageConstIterator()
-    : myBuffer(0)
+    : m_Buffer(0)
     , rlLine(0)
   {
     m_Image = ITK_NULLPTR;
@@ -89,7 +89,7 @@ public:
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageConstIterator(const Self & it)
-    : myBuffer(const_cast<ImageType *>(it.GetImage())->GetBuffer())
+    : m_Buffer(const_cast<ImageType *>(it.GetImage())->GetBuffer())
   {
     rlLine = it.rlLine;
     m_Image = it.m_Image; // copy the smart pointer
@@ -105,7 +105,7 @@ public:
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIterator(const ImageType * ptr, const RegionType & region)
-    : myBuffer(const_cast<ImageType *>(ptr)->GetBuffer())
+    : m_Buffer(const_cast<ImageType *>(ptr)->GetBuffer())
   {
     m_Image = ptr;
     SetRegion(region);
@@ -118,7 +118,7 @@ public:
   {
     if (this != &it)
     {
-      myBuffer = it.myBuffer;
+      m_Buffer = it.m_Buffer;
       rlLine = it.rlLine;
       m_Image = it.m_Image; // copy the smart pointer
       m_Index0 = it.m_Index0;
@@ -145,7 +145,7 @@ public:
                             "Region " << region << " is outside of buffered region " << bufferedRegion);
     }
 
-    bi = BufferIterator(myBuffer, ImageType::truncateRegion(region));
+    bi = BufferIterator(m_Buffer, ImageType::truncateRegion(region));
     m_Index0 = region.GetIndex(0);
     m_BeginIndex0 = m_Index0 - m_Image->GetBufferedRegion().GetIndex(0);
     m_EndIndex0 = m_BeginIndex0 + region.GetSize(0);
@@ -355,7 +355,7 @@ protected: // made protected so other iterators can access
   IndexValueType m_EndIndex0;   // index to one pixel past last pixel in region in relation to buffer start
 
   BufferIterator               bi; // iterator over internal buffer image
-  typename BufferType::Pointer myBuffer;
+  typename BufferType::Pointer m_Buffer;
 };
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -365,7 +365,7 @@ class ImageConstIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>
   // just inherit constructors
 public:
   /** Image typedef support. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
 
@@ -410,7 +410,7 @@ class ImageConstIteratorWithOnlyIndex<RLEImage<TPixel, VImageDimension, CounterT
   // just inherit constructors
 public:
   /** Image typedef support. */
-  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
 

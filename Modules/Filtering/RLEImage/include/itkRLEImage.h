@@ -1,12 +1,31 @@
-#ifndef RLEImage_h
-#define RLEImage_h
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkRLEImage_h
+#define itkRLEImage_h
 
 #include <utility> //std::pair
 #include <vector>
 #include <itkImageBase.h>
 #include <itkImage.h>
 
-/** Class RLEImage
+namespace itk
+{
+/** \class RLEImage
  *
  *  \brief Run-Length Encoded image.
  *  It saves memory for label images at the expense of processing times.
@@ -27,7 +46,7 @@
  *  This work is supported by NIH grant R01 EB014346, "Continued development
  *  and maintenance of the ITK-SNAP 3D image segmentation software."
  *
- * \ingroup RLEImage
+ *  \ingroup RLEImage
  */
 template <typename TPixel, unsigned int VImageDimension = 3, typename CounterType = unsigned short>
 class RLEImage : public itk::ImageBase<VImageDimension>
@@ -119,7 +138,7 @@ public:
     // Call the superclass which should initialize the BufferedRegion ivar.
     Superclass::Initialize();
     m_OnTheFlyCleanup = true;
-    myBuffer = BufferType::New();
+    m_Buffer = BufferType::New();
   }
 
   /** Fill the image buffer with a value.  Be sure to call Allocate()
@@ -131,21 +150,21 @@ public:
   SetLargestPossibleRegion(const RegionType & region)
   {
     Superclass::SetLargestPossibleRegion(region);
-    myBuffer->SetLargestPossibleRegion(truncateRegion(region));
+    m_Buffer->SetLargestPossibleRegion(truncateRegion(region));
   }
 
   virtual void
   SetBufferedRegion(const RegionType & region)
   {
     Superclass::SetBufferedRegion(region);
-    myBuffer->SetBufferedRegion(truncateRegion(region));
+    m_Buffer->SetBufferedRegion(truncateRegion(region));
   }
 
   virtual void
   SetRequestedRegion(const RegionType & region)
   {
     Superclass::SetRequestedRegion(region);
-    myBuffer->SetRequestedRegion(truncateRegion(region));
+    m_Buffer->SetRequestedRegion(truncateRegion(region));
   }
 
   /** \brief Set a pixel value.
@@ -200,14 +219,14 @@ public:
   typename BufferType::Pointer
   GetBuffer()
   {
-    return myBuffer;
+    return m_Buffer;
   }
 
   /** We need to allow itk-style const iterators to be constructed. */
   typename BufferType::Pointer
   GetBuffer() const
   {
-    return myBuffer;
+    return m_Buffer;
   }
 
   /** Returns N-1-dimensional index, the remainder after 0-index is removed. */
@@ -253,7 +272,7 @@ protected:
     : itk::ImageBase<VImageDimension>()
   {
     m_OnTheFlyCleanup = true;
-    myBuffer = BufferType::New();
+    m_Buffer = BufferType::New();
   }
   void
   PrintSelf(std::ostream & os, itk::Indent indent) const;
@@ -283,12 +302,12 @@ private:
   operator=(const Self &); // purposely not implemented
 
   /** Memory for the current buffer. */
-  mutable typename BufferType::Pointer myBuffer;
+  mutable typename BufferType::Pointer m_Buffer;
 };
-
+} // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "RLEImage.txx"
+#  include "itkRLEImage.hxx"
 #endif
 
-#endif // RLEImage_h
+#endif // itkRLEImage_h

@@ -29,7 +29,7 @@ class itkImageIteratorWithIndexTestIteratorTester
 public:
   typedef TPixelType PixelType;
 
-  typedef RLEImage<PixelType> ImageType;
+  typedef itk::RLEImage<PixelType> ImageType;
 
   typedef itk::ImageRegionIteratorWithIndex<ImageType> IteratorType;
 

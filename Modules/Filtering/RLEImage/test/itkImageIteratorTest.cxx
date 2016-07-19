@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "RLEImage.h"
+#include "itkRLEImage.h"
 #include "RLEImageRegionIterator.h"
 
 
@@ -25,10 +25,10 @@
 // of GetPixel() (via the operator[])
 template <typename T>
 void
-TestConstPixelAccess(const RLEImage<T> & in, RLEImage<T> & out)
+TestConstPixelAccess(const itk::RLEImage<T> & in, itk::RLEImage<T> & out)
 {
-  typename RLEImage<T>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
-  typename RLEImage<T>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  typename itk::RLEImage<T>::IndexType regionStartIndex3D = { { 5, 10, 15 } };
+  typename itk::RLEImage<T>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
   T vec;
 
@@ -49,19 +49,19 @@ itkImageIteratorTest(int, char *[])
   const unsigned int ImageDimension = 3;
 
   std::cout << "Creating an image" << std::endl;
-  RLEImage<itk::Vector<unsigned short, 5>>::Pointer o3 = RLEImage<itk::Vector<unsigned short, 5>>::New();
+  itk::RLEImage<itk::Vector<unsigned short, 5>>::Pointer o3 = itk::RLEImage<itk::Vector<unsigned short, 5>>::New();
 
   float origin3D[ImageDimension] = { 5, 2.1, 8.1 };
   float spacing3D[ImageDimension] = { 1.5, 2.1, 1 };
 
-  RLEImage<itk::Vector<unsigned short, 5>>::SizeType imageSize3D = { { 20, 40, 60 } };
+  itk::RLEImage<itk::Vector<unsigned short, 5>>::SizeType imageSize3D = { { 20, 40, 60 } };
 
-  RLEImage<itk::Vector<unsigned short, 5>>::IndexType startIndex3D = { { 5, 4, 1 } };
-  RLEImage<itk::Vector<unsigned short, 5>>::IndexType regionStartIndex3D = { { 6, 10, 12 } };
-  RLEImage<itk::Vector<unsigned short, 5>>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
+  itk::RLEImage<itk::Vector<unsigned short, 5>>::IndexType startIndex3D = { { 5, 4, 1 } };
+  itk::RLEImage<itk::Vector<unsigned short, 5>>::IndexType regionStartIndex3D = { { 6, 10, 12 } };
+  itk::RLEImage<itk::Vector<unsigned short, 5>>::IndexType regionEndIndex3D = { { 8, 15, 17 } };
 
 
-  RLEImage<itk::Vector<unsigned short, 5>>::RegionType region;
+  itk::RLEImage<itk::Vector<unsigned short, 5>>::RegionType region;
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
   o3->SetRegions(region);
@@ -87,7 +87,7 @@ itkImageIteratorTest(int, char *[])
   TestConstPixelAccess(*o3, *o3);
 
   typedef itk::Vector<unsigned short, 5> VectorPixelType;
-  typedef RLEImage<VectorPixelType>      VectorImageType;
+  typedef itk::RLEImage<VectorPixelType> VectorImageType;
 
   typedef itk::ImageIterator<VectorImageType>      VectorImageIterator;
   typedef itk::ImageConstIterator<VectorImageType> VectorImageConstIterator;

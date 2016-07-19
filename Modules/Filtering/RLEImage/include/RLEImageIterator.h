@@ -85,7 +85,7 @@ public:
   // * we would isolate this pixel into its own segment. */
   // PixelType & Value(void)
   //{
-  //    return myBuffer[m_Index[2]][m_Index[1]][realIndex].second;
+  //    return m_Buffer[m_Index[2]][m_Index[1]][realIndex].second;
   //}
 
   /** Get the image that this iterator walks. */
@@ -116,7 +116,7 @@ class ImageIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>>
   : public ImageConstIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
-  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
 
