@@ -1,5 +1,5 @@
-#ifndef RLERegionOfInterestImageFilter_h
-#define RLERegionOfInterestImageFilter_h
+#ifndef itkRLERegionOfInterestImageFilter_h
+#define itkRLERegionOfInterestImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkSmartPointer.h"
@@ -292,7 +292,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "RLERegionOfInterestImageFilter.txx"
+#  include "itkRLERegionOfInterestImageFilter.hxx"
 #endif
 
-#endif // RLERegionOfInterestImageFilter_h
+#endif // itkRLERegionOfInterestImageFilter_h

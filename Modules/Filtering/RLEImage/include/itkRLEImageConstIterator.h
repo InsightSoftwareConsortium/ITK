@@ -1,5 +1,5 @@
-#ifndef RLEImageConstIterator_h
-#define RLEImageConstIterator_h
+#ifndef itkRLEImageConstIterator_h
+#define itkRLEImageConstIterator_h
 
 #include "itkImage.h"
 #include "itkIndex.h"
@@ -440,4 +440,4 @@ public:
 
 } // end namespace itk
 
-#endif // RLEImageConstIterator_h
+#endif // itkRLEImageConstIterator_h

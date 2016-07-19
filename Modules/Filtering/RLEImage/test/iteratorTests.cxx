@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "RLEImageScanlineIterator.h"
+#include "itkRLEImageScanlineIterator.h"
 
 extern int
 itkImageScanlineIteratorTest1(int argc, char * argv[]);

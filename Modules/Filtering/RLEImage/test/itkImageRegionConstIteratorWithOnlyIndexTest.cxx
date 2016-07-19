@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-#include "RLEImageRegionIterator.h"
+#include "itkRLEImageRegionIterator.h"
 
 template <typename TImage>
 class itkImageRegionConstIteratorWithOnlyIndexTestIteratorTester

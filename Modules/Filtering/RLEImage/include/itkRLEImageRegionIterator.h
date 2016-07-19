@@ -1,10 +1,10 @@
-#ifndef RLEImageRegionIterator_h
-#define RLEImageRegionIterator_h
+#ifndef itkRLEImageRegionIterator_h
+#define itkRLEImageRegionIterator_h
 
-#include "RLEImageRegionConstIterator.h"
+#include "itkRLEImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
-#include "RLEImageIterator.h"
+#include "itkRLEImageIterator.h"
 
 namespace itk
 {
@@ -145,4 +145,4 @@ public:
 }; // no additional implementation required
 } // end namespace itk
 
-#endif // RLEImageRegionIterator_h
+#endif // itkRLEImageRegionIterator_h

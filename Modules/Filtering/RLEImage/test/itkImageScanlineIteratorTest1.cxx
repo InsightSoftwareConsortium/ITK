@@ -18,7 +18,7 @@
 
 #include <iostream>
 
-#include "RLEImageScanlineIterator.h"
+#include "itkRLEImageScanlineIterator.h"
 
 // This routine is used to make sure that we call the "const" version
 // of GetPixel() (via the operator[])

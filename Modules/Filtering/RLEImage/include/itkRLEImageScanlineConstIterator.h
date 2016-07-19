@@ -1,7 +1,7 @@
-#ifndef RLEImageScanlineConstIterator_h
-#define RLEImageScanlineConstIterator_h
+#ifndef itkRLEImageScanlineConstIterator_h
+#define itkRLEImageScanlineConstIterator_h
 
-#include "RLEImageRegionConstIterator.h"
+#include "itkRLEImageRegionConstIterator.h"
 #include "itkImageScanlineIterator.h"
 
 namespace itk
@@ -154,4 +154,4 @@ public:
 };
 } // end namespace itk
 
-#endif // RLEImageScanlineConstIterator_h
+#endif // itkRLEImageScanlineConstIterator_h
