@@ -18,26 +18,26 @@
 #ifndef itkMorphologicalContourInterpolator_hxx
 #define itkMorphologicalContourInterpolator_hxx
 
-#include "itkMorphologicalContourInterpolator.h"
-#include "itkObjectFactory.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkImageAlgorithm.h"
-#include "itkUnaryFunctorImageFilter.h"
-#include "itkCastImageFilter.h"
-#include "itkSignedMaurerDistanceMapImageFilter.h"
-#include "itkBinaryDilateImageFilter.h"
-#include "itkBinaryCrossStructuringElement.h"
-#include "itkBinaryBallStructuringElement.h"
 #include "itkAndImageFilter.h"
-#include "itkOrImageFilter.h"
+#include "itkBinaryBallStructuringElement.h"
+#include "itkBinaryCrossStructuringElement.h"
+#include "itkBinaryDilateImageFilter.h"
+#include "itkCastImageFilter.h"
+#include "itkImageAlgorithm.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionIterator.h"
+#include "itkMorphologicalContourInterpolator.h"
 #include "itkMultiThreader.h"
-#include "itkThreadedIndexedContainerPartitioner.h"
+#include "itkObjectFactory.h"
+#include "itkOrImageFilter.h"
+#include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkSimpleFastMutexLock.h"
-#include <climits>
-#include <utility>
+#include "itkThreadedIndexedContainerPartitioner.h"
+#include "itkUnaryFunctorImageFilter.h"
 #include <algorithm>
+#include <climits>
 #include <queue>
+#include <utility>
 #include <vector>
 
 
@@ -94,7 +94,7 @@ private:
   ThreadedExecution(const DomainType & subDomain, const ThreadIdType threadId)
   {
     // Look only at the range of cells by the set of indices in the subDomain.
-    for (itk::IndexValueType ii = subDomain[0]; ii <= subDomain[1] && ii < m_WorkArray.size(); ++ii)
+    for (itk::IndexValueType ii = subDomain[0]; ii <= subDomain[1] && ii < IndexValueType(m_WorkArray.size()); ++ii)
     {
       this->m_Associate->InterpolateBetweenTwo(m_WorkArray[ii].axis,
                                                m_WorkArray[ii].out,
@@ -105,7 +105,7 @@ private:
                                                m_WorkArray[ii].jconn,
                                                threadId);
     }
-  }
+  } // ThreadedExecution
 
   std::vector<SegmentBetweenTwo<TImage>> m_WorkArray;
 };
@@ -137,7 +137,7 @@ MorphologicalContourInterpolator<TImage>::ImagesEqual(typename BoolSliceType::Po
   {
     return false;
   }
-}
+} // >::ImagesEqual
 
 
 template <typename TImage>
@@ -262,7 +262,7 @@ MorphologicalContourInterpolator<TImage>::DetermineSliceOrientations()
       }
     }
   }
-}
+} // >::DetermineSliceOrientations
 
 
 template <typename TImage>
@@ -313,7 +313,7 @@ MorphologicalContourInterpolator<TImage>::Extrapolate(int                       
   phSlice->SetRegions(reg3);
   typename SliceType::IndexType t0 = { 0 };
   Interpolate1to1(axis, out, label, i, j, iConn, iRegionId, phSlice, iRegionId, t0, false, threadId);
-}
+} // >::Extrapolate
 
 
 template <typename TImage>
@@ -386,7 +386,7 @@ MorphologicalContourInterpolator<TImage>::Dilate1(typename BoolSliceType::Pointe
   typename BoolSliceType::Pointer result = m_And[threadId]->GetOutput();
   result->DisconnectPipeline();
   return result;
-}
+} // >::Dilate1
 
 
 template <typename TImage>
@@ -461,7 +461,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
     }
   }
   return seq[minIndex];
-}
+} // >::FindMedianImageDilations
 
 
 template <typename TImage>
@@ -508,7 +508,6 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   const short fractioning = 10; // how many times more precise distance than rounding to int
   while (!itsdf.IsAtEnd())
   {
-    ;
     bool                       iM = iti.Get();
     bool                       jM = itj.Get();
     typename TImage::PixelType dist = fractioning * itsdf.Get();
@@ -601,7 +600,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   m_And[threadId]->Update();
   typename BoolSliceType::Pointer median = m_And[threadId]->GetOutput();
   return median;
-}
+} // >::FindMedianImageDistances
 
 
 template <typename TImage>
@@ -639,7 +638,7 @@ MorphologicalContourInterpolator<TImage>::BoundingBox(itk::SmartPointer<SliceTyp
     newRegion.SetSize(d, maxInd[d] - minInd[d] + 1);
   }
   return newRegion;
-}
+} // >::BoundingBox
 
 template <typename TImage>
 void
@@ -861,10 +860,15 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     PixelList regionIDs;
     regionIDs.push_back(1);
 
-    int iReq = i < reqRegion.GetIndex(axis) ? -1 : (i > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
-    int jReq = j < reqRegion.GetIndex(axis) ? -1 : (j > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
-    int mReq =
-      mid < reqRegion.GetIndex(axis) ? -1 : (mid > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
+    int  iReq = i < reqRegion.GetIndex(axis)
+                  ? -1
+                  : (i > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
+    int  jReq = j < reqRegion.GetIndex(axis)
+                  ? -1
+                  : (j > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
+    int  mReq = mid < reqRegion.GetIndex(axis)
+                  ? -1
+                  : (mid > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
     bool first = abs(i - mid) > 1 && abs(iReq + mReq) <= 1;  // i-mid?
     bool second = abs(j - mid) > 1 && abs(jReq + mReq) <= 1; // j-mid?
 
@@ -877,7 +881,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
       Interpolate1to1(axis, out, label, j, mid, jConn, jRegionId, midConn, 1, jTrans, true, threadId);
     }
   }
-}
+} // >::Interpolate1to1
 
 template <typename TImage>
 class MatchesID
@@ -1072,7 +1076,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
   {
     Interpolate1to1(axis, out, label, i, j, conns[x], iRegionId, jConn, jRegionIds[x], translation, false, threadId);
   }
-}
+} // >::Interpolate1toN
 
 
 template <typename TImage>
@@ -1158,7 +1162,7 @@ MorphologicalContourInterpolator<TImage>::Intersection(typename SliceType::Point
     sum += counts[x];
   }
   return sum;
-}
+} // >::Intersection
 
 template <typename TImage>
 IdentifierType
@@ -1212,7 +1216,7 @@ MorphologicalContourInterpolator<TImage>::Centroid(typename SliceType::Pointer &
     retVal[d] = ind[d] / pixelCount;
   }
   return retVal;
-}
+} // >::Centroid
 
 
 template <typename TImage>
@@ -1298,7 +1302,7 @@ MorphologicalContourInterpolator<TImage>::Align(typename SliceType::Pointer & iC
   }
 
   return bestIndex;
-}
+} // >::Align
 
 
 template <typename TImage>
@@ -1341,7 +1345,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateBetweenTwo(int             
     {
       uncleanPairs.insert(std::make_pair(iti.Get(), itj.Get()));
       // std::cout << " iti:" << iti.GetIndex() << iti.Get() <<
-      //   " itj:" << itj.GetIndex() << itj.Get() << std::endl;
+      //  " itj:" << itj.GetIndex() << itj.Get() << std::endl;
       if (iti.Get() != 0 && itj.Get() != 0)
       {
         unwantedPairs.insert(std::make_pair(0, itj.Get()));
@@ -1554,8 +1558,9 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
       IdentifierType              xCount;
       typename SliceType::Pointer iconn = this->RegionedConnectedComponents(ri, it->first, xCount);
       iconn->DisconnectPipeline();
-      int iReq =
-        *prev < reqRegion.GetIndex(axis) ? -1 : (*prev > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
+      int iReq = *prev < reqRegion.GetIndex(axis)
+                   ? -1
+                   : (*prev > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
 
       typename SliceSetType::iterator next = it->second.begin();
       for (++next; next != it->second.end(); ++next)
@@ -1564,8 +1569,9 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
         rj.SetIndex(axis, *next);
         typename SliceType::Pointer jconn = this->RegionedConnectedComponents(rj, it->first, xCount);
         jconn->DisconnectPipeline();
-        int jReq =
-          *next < reqRegion.GetIndex(axis) ? -1 : (*next > reqRegion.GetIndex(axis) + reqRegion.GetSize(axis) ? +1 : 0);
+        int jReq = *next < reqRegion.GetIndex(axis)
+                     ? -1
+                     : (*next > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
 
         if (*prev + 1 < *next         // only if they are not adjacent slices
             && abs(iReq + jReq) <= 1) // and not out of the requested region
@@ -1596,7 +1602,7 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
   completeDomain[1] = std::max(0, int(segments.size()) - 1);
   parallelizer->Execute(this, completeDomain);
   parallelizer->ClearWorkArray();
-}
+} // >::InterpolateAlong
 
 
 template <typename TImage>
@@ -1696,8 +1702,7 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
     ++itI;
     ++itO;
   }
-}
-
+} // >::GenerateData
 } // end namespace itk
 
 #endif // itkMorphologicalContourInterpolator_hxx

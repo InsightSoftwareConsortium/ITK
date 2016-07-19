@@ -13,6 +13,7 @@ itk_module(
   TEST_DEPENDS
     ITKIOImageBase # typename
     ITKTestKernel
+    RLEImage
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
