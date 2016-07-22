@@ -66,7 +66,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TRegistrationFilter, class TMRFilter>
-class ITK_EXPORT VariationalRegistrationStopCriterion : public Command
+class VariationalRegistrationStopCriterion : public Command
 {
 public:
   /** Standard class typedefs. */

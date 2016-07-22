@@ -44,8 +44,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationGaussianRegularizer
-  : public VariationalRegistrationRegularizer<TDisplacementField>
+class VariationalRegistrationGaussianRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
   /** Standard class typedefs */

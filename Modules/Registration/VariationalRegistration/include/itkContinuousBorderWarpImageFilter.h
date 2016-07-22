@@ -56,7 +56,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TInputImage, class TOutputImage, class TDisplacementField>
-class ITK_EXPORT ContinuousBorderWarpImageFilter : public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
+class ContinuousBorderWarpImageFilter : public WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>
 {
 public:
   /** Standard class typedefs. */

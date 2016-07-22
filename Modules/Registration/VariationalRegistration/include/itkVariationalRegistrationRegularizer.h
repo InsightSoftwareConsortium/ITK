@@ -45,7 +45,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
+class VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   /** Standard class typedefs */

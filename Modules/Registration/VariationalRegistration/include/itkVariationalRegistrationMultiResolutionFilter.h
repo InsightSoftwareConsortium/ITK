@@ -78,8 +78,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType = float>
-class ITK_EXPORT VariationalRegistrationMultiResolutionFilter
-  : public ImageToImageFilter<TDisplacementField, TDisplacementField>
+class VariationalRegistrationMultiResolutionFilter : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   /** Standard class typedefs */
