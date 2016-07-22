@@ -69,9 +69,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  STLMeshIOFactory(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(STLMeshIOFactory);
 };
 } // end namespace itk
 
