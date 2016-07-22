@@ -80,16 +80,3 @@ if( ITK_MANUAL_GENERATE_NEW_COMPILER_DETECTION_HEADERS )
         cxx_template_template_parameters        # Template template parameters, as defined in ISO/IEC 14882:1998.
   )
 endif()
-
-#
-# Install platform-specific compiler detection files
-#
-file(GLOB ITK_COMPILER_DETECTION_FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/compilers/*)
-install(FILES ${ITK_COMPILER_DETECTION_FILES}
-      DESTINATION ${ITKCommon_BINARY_DIR}/compilers
-      PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
-      COMPONENT Development )
-install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/include/itk_compiler_detection.h
-      DESTINATION ${ITKCommon_BINARY_DIR}
-      PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
-      COMPONENT Development )
