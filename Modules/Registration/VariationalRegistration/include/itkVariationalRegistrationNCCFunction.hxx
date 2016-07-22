@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationNCCFunction_hxx
-#define __itkVariationalRegistrationNCCFunction_hxx
+#ifndef itkVariationalRegistrationNCCFunction_hxx
+#define itkVariationalRegistrationNCCFunction_hxx
 
 #include "itkVariationalRegistrationNCCFunction.h"
 #include "itkExceptionObject.h"

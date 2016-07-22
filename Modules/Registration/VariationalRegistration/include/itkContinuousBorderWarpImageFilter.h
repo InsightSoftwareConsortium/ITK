@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkContinuousBorderWarpImageFilter_h
-#define __itkContinuousBorderWarpImageFilter_h
+#ifndef itkContinuousBorderWarpImageFilter_h
+#define itkContinuousBorderWarpImageFilter_h
 
 #include "itkWarpImageFilter.h"
 

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationMultiResolutionFilter_hxx
-#define __itkVariationalRegistrationMultiResolutionFilter_hxx
+#ifndef itkVariationalRegistrationMultiResolutionFilter_hxx
+#define itkVariationalRegistrationMultiResolutionFilter_hxx
 #include "itkVariationalRegistrationMultiResolutionFilter.h"
 
 #include "itkRecursiveGaussianImageFilter.h"

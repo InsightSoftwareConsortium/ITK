@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationLogger_h
-#define __itkVariationalRegistrationLogger_h
+#ifndef itkVariationalRegistrationLogger_h
+#define itkVariationalRegistrationLogger_h
 
 #include "itkCommand.h"
 #include "itkEventObject.h"

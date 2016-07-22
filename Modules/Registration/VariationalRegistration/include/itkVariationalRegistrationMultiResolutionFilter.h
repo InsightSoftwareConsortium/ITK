@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationMultiResolutionFilter_h
-#define __itkVariationalRegistrationMultiResolutionFilter_h
+#ifndef itkVariationalRegistrationMultiResolutionFilter_h
+#define itkVariationalRegistrationMultiResolutionFilter_h
 
 #include "itkImage.h"
 #include "itkMultiResolutionPyramidImageFilter.h"

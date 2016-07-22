@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationRegularizer_h
-#define __itkVariationalRegistrationRegularizer_h
+#ifndef itkVariationalRegistrationRegularizer_h
+#define itkVariationalRegistrationRegularizer_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkMultiThreader.h"

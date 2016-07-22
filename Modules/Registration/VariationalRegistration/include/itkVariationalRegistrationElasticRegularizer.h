@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationElasticRegularizer_h
-#define __itkVariationalRegistrationElasticRegularizer_h
+#ifndef itkVariationalRegistrationElasticRegularizer_h
+#define itkVariationalRegistrationElasticRegularizer_h
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreader.h"

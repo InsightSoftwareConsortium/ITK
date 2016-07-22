@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationFilter_h
-#define __itkVariationalRegistrationFilter_h
+#ifndef itkVariationalRegistrationFilter_h
+#define itkVariationalRegistrationFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationGaussianRegularizer_hxx
-#define __itkVariationalRegistrationGaussianRegularizer_hxx
+#ifndef itkVariationalRegistrationGaussianRegularizer_hxx
+#define itkVariationalRegistrationGaussianRegularizer_hxx
 #include "itkVariationalRegistrationGaussianRegularizer.h"
 
 #include "itkImageRegionConstIterator.h"

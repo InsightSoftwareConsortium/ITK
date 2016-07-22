@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationCurvatureRegularizer_h
-#define __itkVariationalRegistrationCurvatureRegularizer_h
+#ifndef itkVariationalRegistrationCurvatureRegularizer_h
+#define itkVariationalRegistrationCurvatureRegularizer_h
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreader.h"

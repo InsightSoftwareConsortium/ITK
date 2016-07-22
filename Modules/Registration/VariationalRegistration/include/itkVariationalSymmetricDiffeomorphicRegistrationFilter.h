@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
-#define __itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
+#ifndef itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
+#define itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
 
 #include "itkVariationalDiffeomorphicRegistrationFilter.h"
 

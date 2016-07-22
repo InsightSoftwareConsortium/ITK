@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationDemonsFunction_h
-#define __itkVariationalRegistrationDemonsFunction_h
+#ifndef itkVariationalRegistrationDemonsFunction_h
+#define itkVariationalRegistrationDemonsFunction_h
 
 #include "itkVariationalRegistrationFunction.h"
 #include "itkCentralDifferenceImageFunction.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationFunction_h
-#define __itkVariationalRegistrationFunction_h
+#ifndef itkVariationalRegistrationFunction_h
+#define itkVariationalRegistrationFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 // #include "itkWarpImageFilter.h"

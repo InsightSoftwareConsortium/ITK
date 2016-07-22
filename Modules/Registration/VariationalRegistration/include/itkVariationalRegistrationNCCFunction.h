@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationNCCFunction_h
-#define __itkVariationalRegistrationNCCFunction_h
+#ifndef itkVariationalRegistrationNCCFunction_h
+#define itkVariationalRegistrationNCCFunction_h
 
 #include "itkVariationalRegistrationFunction.h"
 #include "itkCovariantVector.h"
