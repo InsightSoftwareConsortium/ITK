@@ -64,9 +64,6 @@
 /* Local Macros */
 /****************/
 
-/* Reserved atoms in for error API IDs */
-#define H5E_RESERVED_ATOMS  0
-
 /* HDF5 error class */
 #define H5E_CLS_NAME         "HDF5"
 #define H5E_CLS_LIB_NAME     "HDF5"
@@ -85,6 +82,18 @@
 /********************/
 /* Local Prototypes */
 /********************/
+/* Static function declarations */
+static H5E_cls_t *H5E_register_class(const char *cls_name, const char *lib_name,
+                                const char *version);
+static herr_t  H5E_unregister_class(H5E_cls_t *cls);
+static ssize_t H5E_get_class_name(const H5E_cls_t *cls, char *name, size_t size);
+static int H5E_close_msg_cb(void *obj_ptr, hid_t obj_id, void *udata);
+static herr_t  H5E_close_msg(H5E_msg_t *err);
+static H5E_msg_t *H5E_create_msg(H5E_cls_t *cls, H5E_type_t msg_type, const char *msg);
+static H5E_t  *H5E_get_current_stack(void);
+static herr_t  H5E_set_current_stack(H5E_t *estack);
+static herr_t  H5E_close_stack(H5E_t *err_stack);
+static ssize_t H5E_get_num(const H5E_t *err_stack);
 
 
 /*********************/
@@ -101,20 +110,6 @@
 /* Local Variables */
 /*******************/
 
-
-/* Static function declarations */
-static H5E_cls_t *H5E_register_class(const char *cls_name, const char *lib_name,
-                                const char *version);
-static herr_t  H5E_unregister_class(H5E_cls_t *cls);
-static ssize_t H5E_get_class_name(const H5E_cls_t *cls, char *name, size_t size);
-static int H5E_close_msg_cb(void *obj_ptr, hid_t obj_id, void *key);
-static herr_t  H5E_close_msg(H5E_msg_t *err);
-static H5E_msg_t *H5E_create_msg(H5E_cls_t *cls, H5E_type_t msg_type, const char *msg);
-static H5E_t  *H5E_get_current_stack(void);
-static herr_t  H5E_set_current_stack(H5E_t *estack);
-static herr_t  H5E_close_stack(H5E_t *err_stack);
-static ssize_t H5E_get_num(const H5E_t *err_stack);
-
 /* Declare a free list to manage the H5E_t struct */
 H5FL_DEFINE_STATIC(H5E_t);
 
@@ -123,6 +118,31 @@ H5FL_DEFINE_STATIC(H5E_cls_t);
 
 /* Declare a free list to manage the H5E_msg_t struct */
 H5FL_DEFINE_STATIC(H5E_msg_t);
+
+/* Error class ID class */
+static const H5I_class_t H5I_ERRCLS_CLS[1] = {{
+    H5I_ERROR_CLASS,		/* ID class value */
+    H5I_CLASS_REUSE_IDS,	/* Class flags */
+    0,				/* # of reserved IDs for class */
+    (H5I_free_t)H5E_unregister_class /* Callback routine for closing objects of this class */
+}};
+
+/* Error message ID class */
+static const H5I_class_t H5I_ERRMSG_CLS[1] = {{
+    H5I_ERROR_MSG,		/* ID class value */
+    H5I_CLASS_REUSE_IDS,	/* Class flags */
+    0,				/* # of reserved IDs for class */
+    (H5I_free_t)H5E_close_msg   /* Callback routine for closing objects of this class */
+}};
+
+/* Error stack ID class */
+static const H5I_class_t H5I_ERRSTK_CLS[1] = {{
+    H5I_ERROR_STACK,		/* ID class value */
+    H5I_CLASS_REUSE_IDS,	/* Class flags */
+    0,				/* # of reserved IDs for class */
+    (H5I_free_t)H5E_close_stack /* Callback routine for closing objects of this class */
+}};
+
 
 
 /*-------------------------------------------------------------------------
@@ -144,7 +164,7 @@ H5E_init(void)
 {
     herr_t ret_value = SUCCEED;   /* Return value */
 
-    FUNC_ENTER_NOAPI(H5E_init, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
     /* FUNC_ENTER() does all the work */
 
 done:
@@ -168,7 +188,7 @@ done:
 static herr_t
 H5E_set_default_auto(H5E_t *stk)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_set_default_auto)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
 #ifndef H5_NO_DEPRECATED_SYMBOLS
 #ifdef H5_USE_16_API_DEFAULT
@@ -210,21 +230,18 @@ H5E_init_interface(void)
     char lib_vers[128];         /* Buffer to constructu library version within */
     herr_t      ret_value = SUCCEED;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5E_init_interface)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Initialize the atom group for the error class IDs */
-    if(H5I_register_type(H5I_ERROR_CLASS, (size_t)H5I_ERRCLS_HASHSIZE, H5E_RESERVED_ATOMS,
-                    (H5I_free_t)H5E_unregister_class) < H5I_FILE)
+    if(H5I_register_type(H5I_ERRCLS_CLS) < 0)
         HGOTO_ERROR(H5E_ATOM, H5E_CANTINIT, FAIL, "unable to initialize ID group")
 
     /* Initialize the atom group for the major error IDs */
-    if(H5I_register_type(H5I_ERROR_MSG, (size_t)H5I_ERRMSG_HASHSIZE, H5E_RESERVED_ATOMS,
-                    (H5I_free_t)H5E_close_msg) < H5I_FILE)
+    if(H5I_register_type(H5I_ERRMSG_CLS) < 0)
         HGOTO_ERROR(H5E_ATOM, H5E_CANTINIT, FAIL, "unable to initialize ID group")
 
     /* Initialize the atom group for the error stacks */
-    if(H5I_register_type(H5I_ERROR_STACK, (size_t)H5I_ERRSTK_HASHSIZE, H5E_RESERVED_ATOMS,
-                    (H5I_free_t)H5E_close_stack) < H5I_FILE)
+    if(H5I_register_type(H5I_ERRSTK_CLS) < 0)
         HGOTO_ERROR(H5E_ATOM, H5E_CANTINIT, FAIL, "unable to initialize ID group")
 
 #ifndef H5_HAVE_THREADSAFE
@@ -268,7 +285,7 @@ H5E_term_interface(void)
 {
     int	n = 0;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_term_interface)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     if(H5_interface_initialize_g) {
         int ncls, nmsg, nstk;
@@ -278,15 +295,14 @@ H5E_term_interface(void)
         nmsg = H5I_nmembers(H5I_ERROR_MSG);
         nstk = H5I_nmembers(H5I_ERROR_STACK);
 
-        n = ncls + nmsg + nstk;
-        if(n > 0) {
+        if((ncls + nmsg + nstk) > 0) {
             /* Clear any outstanding error stacks */
             if(nstk > 0)
-	        H5I_clear_type(H5I_ERROR_STACK, FALSE, FALSE);
+	        (void)H5I_clear_type(H5I_ERROR_STACK, FALSE, FALSE);
 
             /* Clear all the error classes */
 	    if(ncls > 0) {
-	        H5I_clear_type(H5I_ERROR_CLASS, FALSE, FALSE);
+	        (void)H5I_clear_type(H5I_ERROR_CLASS, FALSE, FALSE);
 
                 /* Reset the HDF5 error class, if its been closed */
                 if(H5I_nmembers(H5I_ERROR_CLASS) == 0)
@@ -295,7 +311,7 @@ H5E_term_interface(void)
 
             /* Clear all the error messages */
 	    if(nmsg > 0) {
-	        H5I_clear_type(H5I_ERROR_MSG, FALSE, FALSE);
+	        (void)H5I_clear_type(H5I_ERROR_MSG, FALSE, FALSE);
 
                 /* Reset the HDF5 error messages, if they've been closed */
                 if(H5I_nmembers(H5I_ERROR_MSG) == 0) {
@@ -303,16 +319,21 @@ H5E_term_interface(void)
                     #include "H5Eterm.h"
                 } /* end if */
             } /* end if */
+
+            n++; /*H5I*/
 	} /* end if */
         else {
+            /* Close deprecated interface */
+            n += H5E__term_deprec_interface();
+
 	    /* Destroy the error class, message, and stack id groups */
-	    H5I_dec_type_ref(H5I_ERROR_STACK);
-	    H5I_dec_type_ref(H5I_ERROR_CLASS);
-	    H5I_dec_type_ref(H5I_ERROR_MSG);
+	    (void)H5I_dec_type_ref(H5I_ERROR_STACK);
+	    (void)H5I_dec_type_ref(H5I_ERROR_CLASS);
+	    (void)H5I_dec_type_ref(H5I_ERROR_MSG);
+            n++; /*H5I*/
 
 	    /* Mark closed */
 	    H5_interface_initialize_g = 0;
-	    n = 1; /*H5I*/
 	} /* end else */
     } /* end if */
 
@@ -341,13 +362,17 @@ H5E_get_stack(void)
 {
     H5E_t *estack;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_get_stack)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     estack = (H5E_t *)H5TS_get_thread_local_value(H5TS_errstk_key_g);
 
     if(!estack) {
-        /* no associated value with current thread - create one */
+        /* No associated value with current thread - create one */
+#ifdef H5_HAVE_WIN_THREADS
+        estack = (H5E_t *)LocalAlloc(LPTR, sizeof(H5E_t)); /* Win32 has to use LocalAlloc to match the LocalFree in DllMain */
+#else
         estack = (H5E_t *)H5FL_MALLOC(H5E_t);
+#endif /* H5_HAVE_WIN_THREADS */
         HDassert(estack);
 
         /* Set the thread-specific info */
@@ -382,7 +407,7 @@ H5E_get_stack(void)
 static herr_t
 H5E_free_class(H5E_cls_t *cls)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_free_class)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments */
     HDassert(cls);
@@ -415,7 +440,7 @@ H5Eregister_class(const char *cls_name, const char *lib_name, const char *versio
     H5E_cls_t   *cls;        /* Pointer to error class */
     hid_t       ret_value;   /* Return value */
 
-    FUNC_ENTER_API(H5Eregister_class, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("i", "*s*s*s", cls_name, lib_name, version);
 
     /* Check arguments */
@@ -453,7 +478,7 @@ H5E_register_class(const char *cls_name, const char *lib_name, const char *versi
     H5E_cls_t   *cls = NULL; /* Pointer to error class */
     H5E_cls_t   *ret_value;  /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5E_register_class)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(cls_name);
@@ -501,7 +526,7 @@ H5Eunregister_class(hid_t class_id)
 {
     herr_t       ret_value = SUCCEED;   /* Return value */
 
-    FUNC_ENTER_API(H5Eunregister_class, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", class_id);
 
     /* Check arguments */
@@ -537,14 +562,14 @@ H5E_unregister_class(H5E_cls_t *cls)
 {
     herr_t      ret_value = SUCCEED;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5E_unregister_class)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(cls);
 
     /* Iterate over all the messages and delete those in this error class */
-    /* (Ignore return value, since callback isn't designed to return a particular object) */
-    (void)H5I_search(H5I_ERROR_MSG, H5E_close_msg_cb, cls, FALSE);
+    if(H5I_iterate(H5I_ERROR_MSG, H5E_close_msg_cb, cls, FALSE) < 0)
+        HGOTO_ERROR(H5E_ERROR, H5E_BADITER, FAIL, "unable to free all messages in this error class")
 
     /* Free error class structure */
     if(H5E_free_class(cls) < 0)
@@ -574,7 +599,7 @@ H5Eget_class_name(hid_t class_id, char *name, size_t size)
     H5E_cls_t   *cls;        /* Pointer to error class */
     ssize_t     ret_value;   /* Return value */
 
-    FUNC_ENTER_API(H5Eget_class_name, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("Zs", "i*sz", class_id, name, size);
 
     /* Get the error class */
@@ -608,7 +633,7 @@ H5E_get_class_name(const H5E_cls_t *cls, char *name, size_t size)
 {
     ssize_t       len;          /* Length of error class's name */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_get_class_name)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments */
     HDassert(cls);
@@ -631,7 +656,7 @@ H5E_get_class_name(const H5E_cls_t *cls, char *name, size_t size)
 /*-------------------------------------------------------------------------
  * Function:    H5E_close_msg_cb
  *
- * Purpose:     H5I_search callback function to close error messages in the
+ * Purpose:     H5I_iterate callback function to close error messages in the
  *              error class.
  *
  * Return:	Non-negative value on success/Negative on failure
@@ -642,13 +667,13 @@ H5E_get_class_name(const H5E_cls_t *cls, char *name, size_t size)
  *-------------------------------------------------------------------------
  */
 static int
-H5E_close_msg_cb(void *obj_ptr, hid_t obj_id, void *key)
+H5E_close_msg_cb(void *obj_ptr, hid_t obj_id, void *udata)
 {
     H5E_msg_t   *err_msg = (H5E_msg_t*)obj_ptr;
-    H5E_cls_t   *cls = (H5E_cls_t*)key;
+    H5E_cls_t   *cls = (H5E_cls_t*)udata;
     herr_t      ret_value = SUCCEED;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5E_close_msg_cb)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(err_msg);
@@ -683,7 +708,7 @@ H5Eclose_msg(hid_t err_id)
 {
     herr_t       ret_value = SUCCEED;   /* Return value */
 
-    FUNC_ENTER_API(H5Eclose_msg, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", err_id);
 
     /* Check arguments */
@@ -714,7 +739,7 @@ done:
 static herr_t
 H5E_close_msg(H5E_msg_t *err)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_close_msg)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments */
     HDassert(err);
@@ -747,7 +772,7 @@ H5Ecreate_msg(hid_t class_id, H5E_type_t msg_type, const char *msg_str)
     H5E_msg_t   *msg;           /* Pointer to new error message */
     hid_t       ret_value;      /* Return value */
 
-    FUNC_ENTER_API(H5Ecreate_msg, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("i", "iEt*s", class_id, msg_type, msg_str);
 
     /* Check arguments */
@@ -790,7 +815,7 @@ H5E_create_msg(H5E_cls_t *cls, H5E_type_t msg_type, const char *msg_str)
     H5E_msg_t   *msg = NULL;    /* Pointer to new error message */
     H5E_msg_t   *ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5E_create_msg)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(cls);
@@ -838,7 +863,7 @@ H5Eget_msg(hid_t msg_id, H5E_type_t *type, char *msg_str, size_t size)
     H5E_msg_t   *msg;           /* Pointer to error message */
     ssize_t      ret_value;     /* Return value */
 
-    FUNC_ENTER_API(H5Eget_msg, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE4("Zs", "i*Et*sz", msg_id, type, msg_str, size);
 
     /* Get the message object */
@@ -872,7 +897,7 @@ H5Ecreate_stack(void)
     H5E_t	*stk;           /* Error stack */
     hid_t       ret_value;      /* Return value */
 
-    FUNC_ENTER_API(H5Ecreate_stack, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE0("i","");
 
     /* Allocate a new error stack */
@@ -911,7 +936,7 @@ H5Eget_current_stack(void)
     hid_t       ret_value;   /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Eget_current_stack, FAIL)
+    FUNC_ENTER_API_NOCLEAR(FAIL)
     H5TRACE0("i","");
 
     /* Get the current stack */
@@ -947,7 +972,7 @@ H5E_get_current_stack(void)
     unsigned    u;              /* Local index variable */
     H5E_t      *ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5E_get_current_stack)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Get a pointer to the current error stack */
     if(NULL == (current_stack = H5E_get_my_stack())) /*lint !e506 !e774 Make lint 'constant value Boolean' in non-threaded case */
@@ -1028,7 +1053,7 @@ H5Eset_current_stack(hid_t err_stack)
     H5E_t *estack;
     herr_t ret_value = SUCCEED;   /* Return value */
 
-    FUNC_ENTER_API(H5Eset_current_stack, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", err_stack);
 
     if(err_stack != H5E_DEFAULT) {
@@ -1071,7 +1096,7 @@ H5E_set_current_stack(H5E_t *estack)
     unsigned     u;                     /* Local index variable */
     herr_t       ret_value = SUCCEED;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5E_set_current_stack)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(estack);
@@ -1133,7 +1158,7 @@ H5Eclose_stack(hid_t stack_id)
 {
     herr_t       ret_value = SUCCEED;   /* Return value */
 
-    FUNC_ENTER_API(H5Eclose_stack, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", stack_id);
 
     if(H5E_DEFAULT != stack_id) {
@@ -1169,7 +1194,7 @@ done:
 static herr_t
 H5E_close_stack(H5E_t *estack)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_close_stack)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(estack);
@@ -1203,7 +1228,7 @@ H5Eget_num(hid_t error_stack_id)
     ssize_t ret_value;      /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Eget_num, FAIL)
+    FUNC_ENTER_API_NOCLEAR(FAIL)
     H5TRACE1("Zs", "i", error_stack_id);
 
     /* Need to check for errors */
@@ -1244,7 +1269,7 @@ done:
 static ssize_t
 H5E_get_num(const H5E_t *estack)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5E_get_num)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(estack);
 
@@ -1271,7 +1296,7 @@ H5Epop(hid_t err_stack, size_t count)
     herr_t ret_value = SUCCEED;   /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Epop, FAIL)
+    FUNC_ENTER_API_NOCLEAR(FAIL)
     H5TRACE2("e", "iz", err_stack, count);
 
     /* Need to check for errors */
@@ -1333,11 +1358,13 @@ H5Epush2(hid_t err_stack, const char *file, const char *func, unsigned line,
     int         desc_len;       /* Actual length of description when formatted */
 #endif /* H5_HAVE_VASPRINTF */
     char        *tmp = NULL;      /* Buffer to place formatted description in */
+    hbool_t     va_started = FALSE; /* Whether the variable argument list is open */
     herr_t	ret_value=SUCCEED;      /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Epush2, FAIL)
-    H5TRACE7("e","issIuiis",err_stack,file,func,line,maj_id,min_id,fmt);
+    FUNC_ENTER_API_NOCLEAR(FAIL)
+    H5TRACE8("e", "i*s*sIuiii*s", err_stack, file, func, line, cls_id, maj_id,
+             min_id, fmt);
 
     if(err_stack == H5E_DEFAULT)
     	estack = NULL;
@@ -1350,8 +1377,14 @@ H5Epush2(hid_t err_stack, const char *file, const char *func, unsigned line,
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a error stack ID")
     } /* end else */
 
+/* Note that the variable-argument parsing for the format is identical in
+ *      the H5E_printf_stack() routine - correct errors and make changes in both
+ *      places. -QAK
+ */
+
     /* Format the description */
     va_start(ap, fmt);
+    va_started = TRUE;
 
 #ifdef H5_HAVE_VASPRINTF
     /* Use the vasprintf() routine, since it does what we're trying to do below */
@@ -1364,17 +1397,7 @@ H5Epush2(hid_t err_stack, const char *file, const char *func, unsigned line,
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
 
     /* If the description doesn't fit into the initial buffer size, allocate more space and try again */
-    while((desc_len = HDvsnprintf(tmp, (size_t)tmp_len, fmt, ap))
-#ifdef H5_VSNPRINTF_WORKS
-            >
-#else /* H5_VSNPRINTF_WORKS */
-            >=
-#endif /* H5_VSNPRINTF_WORKS */
-            (tmp_len - 1)
-#ifndef H5_VSNPRINTF_WORKS
-            || (desc_len < 0)
-#endif /* H5_VSNPRINTF_WORKS */
-            ) {
+    while((desc_len = HDvsnprintf(tmp, (size_t)tmp_len, fmt, ap)) > (tmp_len - 1)) {
         /* shutdown & restart the va_list */
         va_end(ap);
         va_start(ap, fmt);
@@ -1383,23 +1406,19 @@ H5Epush2(hid_t err_stack, const char *file, const char *func, unsigned line,
         H5MM_xfree(tmp);
 
         /* Allocate a description of the appropriate length */
-#ifdef H5_VSNPRINTF_WORKS
         tmp_len = desc_len + 1;
-#else /* H5_VSNPRINTF_WORKS */
-        tmp_len = 2 * tmp_len;
-#endif /* H5_VSNPRINTF_WORKS */
         if(NULL == (tmp = H5MM_malloc((size_t)tmp_len)))
             HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
     } /* end while */
 #endif /* H5_HAVE_VASPRINTF */
-
-    va_end(ap);
 
     /* Push the error on the stack */
     if(H5E_push_stack(estack, file, func, line, cls_id, maj_id, min_id, tmp) < 0)
         HGOTO_ERROR(H5E_ERROR, H5E_CANTSET, FAIL, "can't push error on stack")
 
 done:
+    if(va_started)
+        va_end(ap);
     if(tmp)
         H5MM_xfree(tmp);
 
@@ -1426,7 +1445,7 @@ H5Eclear2(hid_t err_stack)
     herr_t ret_value = SUCCEED;   /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Eclear2, FAIL)
+    FUNC_ENTER_API_NOCLEAR(FAIL)
     H5TRACE1("e", "i", err_stack);
 
     /* Need to check for errors */
@@ -1471,7 +1490,7 @@ H5Eprint2(hid_t err_stack, FILE *stream)
     herr_t ret_value = SUCCEED;   /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Eprint2, FAIL)
+    FUNC_ENTER_API_NOCLEAR(FAIL)
     /*NO TRACE*/
 
     /* Need to check for errors */
@@ -1517,7 +1536,7 @@ H5Ewalk2(hid_t err_stack, H5E_direction_t direction, H5E_walk2_t stack_func, voi
     herr_t ret_value = SUCCEED;         /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Ewalk2, FAIL)
+    FUNC_ENTER_API_NOCLEAR(FAIL)
     /*NO TRACE*/
 
     /* Need to check for errors */
@@ -1571,7 +1590,7 @@ H5Eget_auto2(hid_t estack_id, H5E_auto2_t *func, void **client_data)
     H5E_auto_op_t op;           /* Error stack function */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_API(H5Eget_auto2, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "i*x**x", estack_id, func, client_data);
 
     if(estack_id == H5E_DEFAULT) {
@@ -1633,7 +1652,7 @@ H5Eset_auto2(hid_t estack_id, H5E_auto2_t func, void *client_data)
     herr_t ret_value = SUCCEED; /* Return value */
 
     /* Don't clear the error stack! :-) */
-    FUNC_ENTER_API_NOCLEAR(H5Eset_auto2, FAIL)
+    FUNC_ENTER_API_NOCLEAR(FAIL)
     H5TRACE3("e", "ix*x", estack_id, func, client_data);
 
     if(estack_id == H5E_DEFAULT) {
@@ -1690,7 +1709,7 @@ H5Eauto_is_v2(hid_t estack_id, unsigned *is_stack)
     H5E_t   *estack;            /* Error stack to operate on */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_API(H5Eauto_is_v2, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "i*Iu", estack_id, is_stack);
 
     if(estack_id == H5E_DEFAULT) {

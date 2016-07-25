@@ -39,8 +39,9 @@ typedef struct H5E_t H5E_t;
  * (Shouldn't need to be used outside this header file)
  */
 #define HCOMMON_ERROR(maj, min, ...)  				              \
-   HERROR(maj, min, __VA_ARGS__);						      \
-   err_occurred = TRUE;
+   HERROR(maj, min, __VA_ARGS__);					      \
+   err_occurred = TRUE;                                                       \
+   err_occurred = err_occurred;         /* Shut GCC warnings up! */
 
 /*
  * HDONE_ERROR macro, used to facilitate error reporting between a
@@ -112,7 +113,7 @@ extern	int	H5E_mpi_error_str_len;
 
 #define	HMPI_ERROR(mpierr){						      \
     MPI_Error_string(mpierr, H5E_mpi_error_str, &H5E_mpi_error_str_len);      \
-    HERROR(H5E_INTERNAL, H5E_MPIERRSTR, H5E_mpi_error_str);                   \
+    HERROR(H5E_INTERNAL, H5E_MPIERRSTR, "%s", H5E_mpi_error_str);                   \
 }
 #define	HMPI_DONE_ERROR(retcode, str, mpierr){				      \
     HMPI_ERROR(mpierr);							      \

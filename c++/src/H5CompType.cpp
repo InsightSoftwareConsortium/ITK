@@ -20,6 +20,7 @@
 #include "H5IdComponent.h"
 #include "H5PropList.h"
 #include "H5Object.h"
+#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
 #include "H5Alltypes.h"
@@ -123,7 +124,7 @@ H5std_string CompType::getMemberName( unsigned member_num ) const
 		"H5Tget_member_name returns NULL for member name");
     }
     H5std_string member_name = H5std_string(member_name_C); // convert C string to string
-    HDfree(member_name_C); // free the C string
+    H5free_memory(member_name_C); // free the C string
     return( member_name ); // return the member name string
 }
 
@@ -227,11 +228,12 @@ hid_t CompType::p_get_member_type(unsigned member_num) const
 DataType CompType::getMemberDataType( unsigned member_num ) const
 {
    try {
-      DataType datatype(p_get_member_type(member_num));
-      return(datatype);
+	DataType datatype;
+	f_DataType_setId(&datatype, p_get_member_type(member_num));
+	return(datatype);
    }
-   catch (DataTypeIException E) {
-      throw DataTypeIException("CompType::getMemberDataType", E.getDetailMsg());
+   catch (DataTypeIException& E) {
+	throw DataTypeIException("CompType::getMemberDataType", E.getDetailMsg());
    }
 }
 
@@ -247,10 +249,11 @@ DataType CompType::getMemberDataType( unsigned member_num ) const
 ArrayType CompType::getMemberArrayType( unsigned member_num ) const
 {
    try {
-      ArrayType arraytype(p_get_member_type(member_num));
-      return(arraytype);
+	ArrayType arraytype(p_get_member_type(member_num));
+	f_DataType_setId(&arraytype, p_get_member_type(member_num));
+	return(arraytype);
    }
-   catch (DataTypeIException E) {
+   catch (DataTypeIException& E) {
       throw DataTypeIException("CompType::getMemberArrayType", E.getDetailMsg());
    }
 }
@@ -268,9 +271,10 @@ CompType CompType::getMemberCompType( unsigned member_num ) const
 {
    try {
       CompType comptype(p_get_member_type(member_num));
+	f_DataType_setId(&comptype, p_get_member_type(member_num));
       return(comptype);
    }
-   catch (DataTypeIException E) {
+   catch (DataTypeIException& E) {
       throw DataTypeIException("CompType::getMemberCompType", E.getDetailMsg());
    }
 }
@@ -288,9 +292,10 @@ EnumType CompType::getMemberEnumType( unsigned member_num ) const
 {
    try {
       EnumType enumtype(p_get_member_type(member_num));
+	f_DataType_setId(&enumtype, p_get_member_type(member_num));
       return(enumtype);
    }
-   catch (DataTypeIException E) {
+   catch (DataTypeIException& E) {
       throw DataTypeIException("CompType::getMemberEnumType", E.getDetailMsg());
    }
 }
@@ -308,9 +313,10 @@ IntType CompType::getMemberIntType( unsigned member_num ) const
 {
    try {
       IntType inttype(p_get_member_type(member_num));
+	f_DataType_setId(&inttype, p_get_member_type(member_num));
       return(inttype);
    }
-   catch (DataTypeIException E) {
+   catch (DataTypeIException& E) {
       throw DataTypeIException("CompType::getMemberIntType", E.getDetailMsg());
    }
 }
@@ -328,9 +334,10 @@ FloatType CompType::getMemberFloatType( unsigned member_num ) const
 {
    try {
       FloatType floatype(p_get_member_type(member_num));
+	f_DataType_setId(&floatype, p_get_member_type(member_num));
       return(floatype);
    }
-   catch (DataTypeIException E) {
+   catch (DataTypeIException& E) {
       throw DataTypeIException("CompType::getMemberFloatType", E.getDetailMsg());
    }
 }
@@ -348,9 +355,10 @@ StrType CompType::getMemberStrType( unsigned member_num ) const
 {
    try {
       StrType strtype(p_get_member_type(member_num));
+	f_DataType_setId(&strtype, p_get_member_type(member_num));
       return(strtype);
    }
-   catch (DataTypeIException E) {
+   catch (DataTypeIException& E) {
       throw DataTypeIException("CompType::getMemberStrType", E.getDetailMsg());
    }
 }
@@ -368,9 +376,10 @@ VarLenType CompType::getMemberVarLenType( unsigned member_num ) const
 {
    try {
       VarLenType varlentype(p_get_member_type(member_num));
+	f_DataType_setId(&varlentype, p_get_member_type(member_num));
       return(varlentype);
    }
-   catch (DataTypeIException E) {
+   catch (DataTypeIException& E) {
       throw DataTypeIException("CompType::getMemberVarLenType", E.getDetailMsg());
    }
 }
@@ -448,6 +457,25 @@ void CompType::pack() const
    {
       throw DataTypeIException("CompType::pack", "H5Tpack failed");
    }
+}
+
+//--------------------------------------------------------------------------
+// Function:	CompType::setSize
+///\brief	Sets the total size for this compound datatype.
+///\param	size - IN: Size to set
+///\exception	H5::DataTypeIException
+// Note
+//	H5Tset_size works on atom datatypes and compound datatypes only
+// Programmer	Binh-Minh Ribler - 2014
+//--------------------------------------------------------------------------
+void CompType::setSize(size_t size) const
+{
+    // Call C routine H5Tset_size to set the total size
+    herr_t ret_value = H5Tset_size(id, size);
+    if (ret_value < 0)
+    {
+	throw DataTypeIException("CompType::setSize", "H5Tset_size failed");
+    }
 }
 
 //--------------------------------------------------------------------------

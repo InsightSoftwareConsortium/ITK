@@ -13,37 +13,27 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifdef H5_VMS
-#include <iostream>
-#endif /*H5_VMS*/
-
 #include <string>
+
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5Library.h"
 #include "H5IdComponent.h"
 #include "H5DataSpace.h"
+#include "H5private.h"			// for HDmemset
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
 #endif
 
-//--------------------------------------------------------------------------
-// Function:	IdComponent overloaded constructor
-///\brief	Creates an IdComponent object using the id of an existing object.
-///\param	h5_id - IN: Id of an existing object
-///\exception	H5::DataTypeIException
-// Programmer	Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-IdComponent::IdComponent(const hid_t h5_id) {}
+// This flag indicates whether H5Library::initH5cpp has been called to register
+// the terminating functions with atexit()
+bool IdComponent::H5cppinit = false;
 
-//--------------------------------------------------------------------------
-// Function:	IdComponent copy constructor
-///\brief	Copy constructor: makes a copy of the original IdComponent object.
-///\param	original - IN: IdComponent instance to copy
-// Programmer	Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-IdComponent::IdComponent( const IdComponent& original ) {}
+// This flag is used to decide whether H5dont_atexit should be called.
+// Subclasses that have global constants use it.  This is a temporary
+// work-around in 1.8.16.  It will be removed after HDFFV-9540 is fixed.
+bool IdComponent::H5dontAtexit_called = false;
 
 //--------------------------------------------------------------------------
 // Function:	IdComponent::incRefCount
@@ -79,12 +69,14 @@ void IdComponent::decRefCount(const hid_t obj_id) const
 {
     if (p_valid_id(obj_id))
 	if (H5Idec_ref(obj_id) < 0)
+	{
 	    if (H5Iget_ref(obj_id) <= 0)
 		throw IdComponentException(inMemFunc("decRefCount"),
 					"object ref count is 0 or negative");
 	    else
 		throw IdComponentException(inMemFunc("decRefCount"),
 					"decrementing object ref count failed");
+	}
 }
 
 //--------------------------------------------------------------------------
@@ -127,7 +119,7 @@ int IdComponent::getCounter() const
 }
 
 //--------------------------------------------------------------------------
-// Function:	hdfObjectType
+// Function:	getHDFObjType (static)
 ///\brief	Given an id, returns the type of the object.
 ///\return	a valid HDF object type, which may be one of the following:
 ///		\li \c H5I_FILE
@@ -142,11 +134,33 @@ int IdComponent::getCounter() const
 //--------------------------------------------------------------------------
 H5I_type_t IdComponent::getHDFObjType(const hid_t obj_id)
 {
+    if (obj_id <= 0)
+	return H5I_BADID; // invalid
     H5I_type_t id_type = H5Iget_type(obj_id);
     if (id_type <= H5I_BADID || id_type >= H5I_NTYPES)
 	return H5I_BADID; // invalid
     else
 	return id_type; // valid type
+}
+
+//--------------------------------------------------------------------------
+// Function:	getHDFObjType
+///\brief	Returns the type of the object.  It is an overloaded function
+///		of the above function.
+///\return	a valid HDF object type, which may be one of the following:
+///		\li \c H5I_FILE
+///		\li \c H5I_GROUP
+///		\li \c H5I_DATATYPE
+///		\li \c H5I_DATASPACE
+///		\li \c H5I_DATASET
+///		\li \c H5I_ATTR
+///		\li or \c H5I_BADID, if no valid type can be determined or the
+///				input object id is invalid.
+// Programmer   Binh-Minh Ribler - Mar, 2014
+//--------------------------------------------------------------------------
+H5I_type_t IdComponent::getHDFObjType() const
+{
+    return(getHDFObjType(getId()));
 }
 
 //--------------------------------------------------------------------------
@@ -177,7 +191,7 @@ IdComponent& IdComponent::operator=( const IdComponent& rhs )
 	    // Note: a = b, so there are two objects with the same hdf5 id
 	    // that's why incRefCount is needed, and it is called by setId
 	}
-	catch (Exception close_error) {
+	catch (Exception& close_error) {
 	    throw FileIException(inMemFunc("operator="), close_error.getDetailMsg());
 	}
     }
@@ -187,7 +201,7 @@ IdComponent& IdComponent::operator=( const IdComponent& rhs )
 //--------------------------------------------------------------------------
 // Function:	IdComponent::setId
 ///\brief	Sets the identifier of this object to a new value.
-///
+///\param	new_id - IN: New identifier to be set to
 ///\exception	H5::IdComponentException when the attempt to close the HDF5
 ///		object fails
 // Description:
@@ -202,8 +216,8 @@ IdComponent& IdComponent::operator=( const IdComponent& rhs )
 //		C++ API object, which will be destroyed properly, and so
 //		p_setId does not call incRefCount.  On the other hand, the
 //		public version setId is used by other applications, in which
-//		the id passed to setId already has a reference count, so setId
-//		must call incRefCount.
+//		the id passed to setId is that of another C++ API object, so
+//		setId must call incRefCount.
 //--------------------------------------------------------------------------
 void IdComponent::setId(const hid_t new_id)
 {
@@ -241,15 +255,9 @@ IdComponent::~IdComponent() {}
 //--------------------------------------------------------------------------
 H5std_string IdComponent::inMemFunc(const char* func_name) const
 {
-#ifdef H5_VMS
-   H5std_string full_name = fromClass();
-   full_name.append("::");
-   full_name.append(func_name);
-#else
    H5std_string full_name = func_name;
    full_name.insert(0, "::");
    full_name.insert(0, fromClass());
-#endif /*H5_VMS*/
    return (full_name);
 }
 
@@ -258,7 +266,16 @@ H5std_string IdComponent::inMemFunc(const char* func_name) const
 ///\brief	Default constructor.
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-IdComponent::IdComponent() {}
+IdComponent::IdComponent()
+{
+    // initH5cpp will register the terminating functions with atexit().
+    // This should only be done once.
+    if (!H5cppinit)
+    {
+        H5Library::initH5cpp();
+        H5cppinit = true;
+    }
+}
 
 //--------------------------------------------------------------------------
 // Function:	IdComponent::p_get_file_name (protected)
@@ -267,7 +284,7 @@ IdComponent::IdComponent() {}
 // Description:
 // 		This function is protected so that the user applications can
 // 		only have access to its code via allowable classes, namely,
-// 		H5File and H5Object subclasses.
+// 		Attribute and H5Location subclasses.
 // Programmer	Binh-Minh Ribler - Jul, 2004
 //--------------------------------------------------------------------------
 H5std_string IdComponent::p_get_file_name() const
@@ -285,11 +302,14 @@ H5std_string IdComponent::p_get_file_name() const
 
    // Call H5Fget_name again to get the actual file name
    char* name_C = new char[name_size+1];  // temporary C-string for C API
+   HDmemset(name_C, 0, name_size+1); // clear buffer
+
    name_size = H5Fget_name(temp_id, name_C, name_size+1);
 
    // Check for failure again
    if( name_size < 0 )
    {
+      delete []name_C;
       throw IdComponentException("", "H5Fget_name failed");
    }
 
@@ -312,12 +332,23 @@ H5std_string IdComponent::p_get_file_name() const
 //--------------------------------------------------------------------------
 bool IdComponent::p_valid_id(const hid_t obj_id)
 {
+    if (obj_id <= 0)
+	return false;
+
     H5I_type_t id_type = H5Iget_type(obj_id);
     if (id_type <= H5I_BADID || id_type >= H5I_NTYPES)
 	return false;
     else
 	return true;
 }
+
+// Notes about IdComponent::id
+//      May 2008 - BMR
+//              Class hierarchy is revised to address bugzilla 1068...
+//              ...member IdComponent::id is moved into subclasses, and
+//              IdComponent::getId now becomes pure virtual function.
+//              (reasons: 1. encountered problems when adding H5Location;
+//                        2. Scott Meyers, item 33)
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 

@@ -31,7 +31,7 @@
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_copy
+ * Function:	H5T__bit_copy
  *
  * Purpose:	Copies bits from one vector to another.
  *
@@ -43,12 +43,14 @@
  *-------------------------------------------------------------------------
  */
 void
-H5T_bit_copy(uint8_t *dst, size_t dst_offset, const uint8_t *src,
+H5T__bit_copy(uint8_t *dst, size_t dst_offset, const uint8_t *src,
     size_t src_offset, size_t size)
 {
-    unsigned	shift;
-    unsigned mask_lo, mask_hi;
-    unsigned	s_idx, d_idx;
+    size_t  shift;
+    size_t  mask_lo, mask_hi;
+    size_t  s_idx, d_idx;
+
+    FUNC_ENTER_PACKAGE_NOERR
 
     /*
      * Normalize the offset to be a byte number and a bit offset within that
@@ -76,8 +78,8 @@ H5T_bit_copy(uint8_t *dst, size_t dst_offset, const uint8_t *src,
      *           dst[d_idx+1]      dst[d_idx]
      */
     while(src_offset && size > 0) {
-	unsigned nbits = MIN3(size, 8 - dst_offset, 8 - src_offset);
-	unsigned mask = ((unsigned)1 << nbits) - 1;
+	size_t nbits = MIN3(size, 8 - dst_offset, 8 - src_offset);
+	size_t mask = ((size_t)1 << nbits) - 1;
 
 	dst[d_idx] &= (uint8_t)~(mask << dst_offset);
 	dst[d_idx] |= (uint8_t)(((src[s_idx] >> src_offset) & (uint8_t)mask) << dst_offset);
@@ -119,7 +121,7 @@ H5T_bit_copy(uint8_t *dst, size_t dst_offset, const uint8_t *src,
      * to line up with the destination.
      */
     shift = dst_offset;
-    mask_lo = ((unsigned)1 << (8 - shift)) - 1;
+    mask_lo = ((size_t)1 << (8 - shift)) - 1;
     mask_hi = (~mask_lo) & 0xff;
 
     for(/*void*/; size > 8; size -= 8, d_idx++, s_idx++) {
@@ -135,8 +137,8 @@ H5T_bit_copy(uint8_t *dst, size_t dst_offset, const uint8_t *src,
 
     /* Finish up */
     while(size > 0) {
-	unsigned nbits = (unsigned)MIN3 (size, 8 - dst_offset, 8 - src_offset);
-	unsigned mask = ((unsigned)1 << nbits) - 1;
+	size_t nbits = (size_t)MIN3 (size, 8 - dst_offset, 8 - src_offset);
+	size_t mask = ((size_t)1 << nbits) - 1;
 
 	dst[d_idx] &= (uint8_t)(~(mask << dst_offset));
 	dst[d_idx] |= (uint8_t)(((src[s_idx] >> src_offset) & (uint8_t)mask) << dst_offset);
@@ -155,11 +157,13 @@ H5T_bit_copy(uint8_t *dst, size_t dst_offset, const uint8_t *src,
 
 	size -= nbits;
     } /* end while */
-} /* end H5T_bit_copy() */
+
+    FUNC_LEAVE_NOAPI_VOID
+} /* end H5T__bit_copy() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_shift
+ * Function:	H5T__bit_shift
  *
  * Purpose:	Simulation of hardware shifting.  Shifts a bit vector
  *              in a way similar to shifting a variable value, like
@@ -179,13 +183,13 @@ H5T_bit_copy(uint8_t *dst, size_t dst_offset, const uint8_t *src,
  *-------------------------------------------------------------------------
  */
 herr_t
-H5T_bit_shift(uint8_t *buf, ssize_t shift_dist, size_t offset, size_t size)
+H5T__bit_shift(uint8_t *buf, ssize_t shift_dist, size_t offset, size_t size)
 {
     uint8_t tmp_buf[512];       /* Temporary buffer */
     H5WB_t *wb = NULL;          /* Wrapped buffer for temporary buffer */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_bit_shift, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(buf);
@@ -195,7 +199,7 @@ H5T_bit_shift(uint8_t *buf, ssize_t shift_dist, size_t offset, size_t size)
         size_t abs_shift_dist = (size_t)ABS(shift_dist);
 
         if(abs_shift_dist >= size)
-            H5T_bit_set(buf, offset, size, 0);
+            H5T__bit_set(buf, offset, size, 0);
         else {
             size_t buf_size = (size / 8) + 1;   /* Size of shift buffer needed */
             uint8_t *shift_buf;                 /* Pointer to shift buffer */
@@ -211,18 +215,18 @@ H5T_bit_shift(uint8_t *buf, ssize_t shift_dist, size_t offset, size_t size)
             /* Shift vector by making copies */
             if(shift_dist > 0) { /* left shift */
                 /* Copy part to be shifted to a temporary buffer */
-                H5T_bit_copy(shift_buf, (size_t)0, buf, offset, size - abs_shift_dist);
+                H5T__bit_copy(shift_buf, (size_t)0, buf, offset, size - abs_shift_dist);
 
                 /* Copy it back to the original buffer */
-                H5T_bit_copy(buf, offset + abs_shift_dist, shift_buf, (size_t)0, size - abs_shift_dist);
+                H5T__bit_copy(buf, offset + abs_shift_dist, shift_buf, (size_t)0, size - abs_shift_dist);
 
                 /* Zero-set the left part*/
-                H5T_bit_set(buf, offset, abs_shift_dist, 0);
+                H5T__bit_set(buf, offset, abs_shift_dist, 0);
             } /* end if */
             else { /* right shift */
-                H5T_bit_copy(shift_buf, (size_t)0, buf, offset + abs_shift_dist, size - abs_shift_dist);
-                H5T_bit_copy(buf, offset, shift_buf, (size_t)0, size - abs_shift_dist);
-                H5T_bit_set(buf, offset + size - abs_shift_dist, abs_shift_dist, 0);
+                H5T__bit_copy(shift_buf, (size_t)0, buf, offset + abs_shift_dist, size - abs_shift_dist);
+                H5T__bit_copy(buf, offset, shift_buf, (size_t)0, size - abs_shift_dist);
+                H5T__bit_set(buf, offset + size - abs_shift_dist, abs_shift_dist, 0);
             } /* end else */
         } /* end else */
     } /* end if */
@@ -233,11 +237,11 @@ done:
         HDONE_ERROR(H5E_DATATYPE, H5E_CLOSEERROR, FAIL, "can't close wrapped buffer")
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5T_bit_shift() */
+} /* end H5T__bit_shift() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_get_d
+ * Function:	H5T__bit_get_d
  *
  * Purpose:	Return a small bit sequence as a number.  Bit vector starts
  *              at OFFSET and is SIZE bits long.
@@ -253,17 +257,17 @@ done:
  *-------------------------------------------------------------------------
  */
 uint64_t
-H5T_bit_get_d(uint8_t *buf, size_t offset, size_t size)
+H5T__bit_get_d(uint8_t *buf, size_t offset, size_t size)
 {
     uint64_t	val = 0;
     size_t	i, hs;
     uint64_t	ret_value;      /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5T_bit_get_d)
+    FUNC_ENTER_PACKAGE_NOERR
 
     HDassert(8 * sizeof(val) >= size);
 
-    H5T_bit_copy((uint8_t*)&val, (size_t)0, buf, offset, size);
+    H5T__bit_copy((uint8_t*)&val, (size_t)0, buf, offset, size);
     switch(H5T_native_order_g) {
         case H5T_ORDER_LE:
             break;
@@ -290,11 +294,11 @@ H5T_bit_get_d(uint8_t *buf, size_t offset, size_t size)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5T_bit_get_d() */
+} /* end H5T__bit_get_d() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_set_d
+ * Function:	H5T__bit_set_d
  *
  * Purpose:	Sets part of a bit vector to the specified unsigned value.
  *
@@ -306,9 +310,11 @@ done:
  *-------------------------------------------------------------------------
  */
 void
-H5T_bit_set_d(uint8_t *buf, size_t offset, size_t size, uint64_t val)
+H5T__bit_set_d(uint8_t *buf, size_t offset, size_t size, uint64_t val)
 {
     size_t	i, hs;
+
+    FUNC_ENTER_PACKAGE_NOERR
 
     HDassert(8 * sizeof(val) >= size);
 
@@ -332,12 +338,14 @@ H5T_bit_set_d(uint8_t *buf, size_t offset, size_t size, uint64_t val)
             HDabort();
     } /* end switch */
 
-    H5T_bit_copy(buf, offset, (uint8_t*)&val, (size_t)0, size);
-} /* end H5T_bit_set_d() */
+    H5T__bit_copy(buf, offset, (uint8_t*)&val, (size_t)0, size);
+
+    FUNC_LEAVE_NOAPI_VOID
+} /* end H5T__bit_set_d() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_set
+ * Function:	H5T__bit_set
  *
  * Purpose:	Sets or clears bits in a contiguous region of a vector
  *		beginning at bit OFFSET and continuing for SIZE bits.
@@ -352,9 +360,11 @@ H5T_bit_set_d(uint8_t *buf, size_t offset, size_t size, uint64_t val)
  *-------------------------------------------------------------------------
  */
 void
-H5T_bit_set(uint8_t *buf, size_t offset, size_t size, hbool_t value)
+H5T__bit_set(uint8_t *buf, size_t offset, size_t size, hbool_t value)
 {
     int	idx;
+
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Normalize */
     idx = (int)offset / 8;
@@ -385,11 +395,13 @@ H5T_bit_set(uint8_t *buf, size_t offset, size_t size, hbool_t value)
 	else
 	    buf[idx] &= (uint8_t)(~(((unsigned)1 << size) - 1));
     } /* end if */
-} /* end H5T_bit_set() */
+
+    FUNC_LEAVE_NOAPI_VOID
+} /* end H5T__bit_set() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_find
+ * Function:	H5T__bit_find
  *
  * Purpose:	Finds the first bit with the specified VALUE within a region
  *		of a bit vector.  The region begins at OFFSET and continues
@@ -409,7 +421,7 @@ H5T_bit_set(uint8_t *buf, size_t offset, size_t size, hbool_t value)
  *-------------------------------------------------------------------------
  */
 ssize_t
-H5T_bit_find(uint8_t *buf, size_t offset, size_t size, H5T_sdir_t direction,
+H5T__bit_find(uint8_t *buf, size_t offset, size_t size, H5T_sdir_t direction,
 	      hbool_t value)
 {
     ssize_t	base = (ssize_t)offset;
@@ -417,8 +429,8 @@ H5T_bit_find(uint8_t *buf, size_t offset, size_t size, H5T_sdir_t direction,
     size_t	iu;
     ssize_t     ret_value = (-1);         /* Return value */
 
-    /* Use FUNC_ENTER_NOAPI_NOINIT_NOFUNC here to avoid performance issues */
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_bit_find)
+    /* Use FUNC_ENTER_PACKAGE_NOERR here to avoid performance issues */
+    FUNC_ENTER_PACKAGE_NOERR
 
     /* Some functions call this with value=TRUE */
     HDassert(TRUE == 1);
@@ -496,11 +508,11 @@ H5T_bit_find(uint8_t *buf, size_t offset, size_t size, H5T_sdir_t direction,
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5T_bit_find() */
+} /* end H5T__bit_find() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_inc
+ * Function:	H5T__bit_inc
  *
  * Purpose:	Increment part of a bit field by adding 1.  The bit field
  *              starts with bit position START and is SIZE bits long.
@@ -516,14 +528,14 @@ done:
  *-------------------------------------------------------------------------
  */
 htri_t
-H5T_bit_inc(uint8_t *buf, size_t start, size_t size)
+H5T__bit_inc(uint8_t *buf, size_t start, size_t size)
 {
     size_t	idx = start / 8;
     unsigned	carry = 1;
     unsigned	acc, mask;
 
-    /* Use FUNC_ENTER_NOAPI_NOINIT_NOFUNC here to avoid performance issues */
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_bit_inc)
+    /* Use FUNC_ENTER_PACKAGE_NOERR here to avoid performance issues */
+    FUNC_ENTER_PACKAGE_NOERR
 
     HDassert(buf);
 
@@ -566,11 +578,11 @@ H5T_bit_inc(uint8_t *buf, size_t start, size_t size)
     } /* end if */
 
     FUNC_LEAVE_NOAPI(carry ? TRUE : FALSE)
-} /* end H5T_bit_inc() */
+} /* end H5T__bit_inc() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_dec
+ * Function:	H5T__bit_dec
  *
  * Purpose:	decrement part of a bit field by substracting 1.  The bit
  *              field starts with bit position START and is SIZE bits long.
@@ -586,15 +598,15 @@ H5T_bit_inc(uint8_t *buf, size_t start, size_t size)
  *-------------------------------------------------------------------------
  */
 htri_t
-H5T_bit_dec(uint8_t *buf, size_t start, size_t size)
+H5T__bit_dec(uint8_t *buf, size_t start, size_t size)
 {
     size_t	idx = start / 8;
     size_t      pos = start % 8;
     uint8_t     tmp;
     unsigned	borrow = 0;
 
-    /* Use FUNC_ENTER_NOAPI_NOINIT_NOFUNC here to avoid performance issues */
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_bit_dec)
+    /* Use FUNC_ENTER_PACKAGE_NOERR here to avoid performance issues */
+    FUNC_ENTER_PACKAGE_NOERR
 
     HDassert(buf);
     HDassert(size);
@@ -645,11 +657,11 @@ H5T_bit_dec(uint8_t *buf, size_t start, size_t size)
     } /* end else */
 
     FUNC_LEAVE_NOAPI(borrow ? TRUE : FALSE)
-} /* end H5T_bit_dec() */
+} /* end H5T__bit_dec() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_bit_neg
+ * Function:	H5T__bit_neg
  *
  * Purpose:	negate part of a bit sequence.  The bit
  *              field starts with bit position START and is SIZE bits long.
@@ -662,14 +674,14 @@ H5T_bit_dec(uint8_t *buf, size_t start, size_t size)
  *-------------------------------------------------------------------------
  */
 void
-H5T_bit_neg(uint8_t *buf, size_t start, size_t size)
+H5T__bit_neg(uint8_t *buf, size_t start, size_t size)
 {
     size_t	idx = start / 8;
     size_t      pos = start % 8;
     uint8_t     tmp[1];
 
-    /* Use FUNC_ENTER_NOAPI_NOINIT_NOFUNC here to avoid performance issues */
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_bit_neg);
+    /* Use FUNC_ENTER_PACKAGE_NOERR here to avoid performance issues */
+    FUNC_ENTER_PACKAGE_NOERR
 
     HDassert(buf);
     HDassert(size);
@@ -679,7 +691,7 @@ H5T_bit_neg(uint8_t *buf, size_t start, size_t size)
 
     /* Simply copy the negated bit field back to the original byte */
     if((size + start - 1) / 8 > idx) {   /*bit sequence doesn't end in the same byte as starts*/
-        H5T_bit_copy(&(buf[idx]), pos, tmp, pos, (8-pos));
+        H5T__bit_copy(&(buf[idx]), pos, tmp, pos, (8-pos));
         idx++;
         size -= (8 - pos);
 
@@ -694,12 +706,12 @@ H5T_bit_neg(uint8_t *buf, size_t start, size_t size)
         if(size > 0) {
             /* Similar to the first byte case, where sequence ends in the same byte as starts */
             tmp[0] = (uint8_t)~buf[idx];
-            H5T_bit_copy(&(buf[idx]), (size_t)0, tmp, (size_t)0, size);
+            H5T__bit_copy(&(buf[idx]), (size_t)0, tmp, (size_t)0, size);
         } /* end if */
     } /* end if */
     else  /* bit sequence ends in the same byte as starts */
-        H5T_bit_copy(&(buf[idx]), pos, tmp, pos, size);
+        H5T__bit_copy(&(buf[idx]), pos, tmp, pos, size);
 
     FUNC_LEAVE_NOAPI_VOID
-} /* end H5T_bit_neg() */
+} /* end H5T__bit_neg() */
 

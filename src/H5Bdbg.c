@@ -65,7 +65,7 @@ H5B_debug(H5F_t *f, hid_t dxpl_id, haddr_t addr, FILE *stream, int indent, int f
     unsigned	u;                      /* Local index variable */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5B_debug, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /*
      * Check arguments.
@@ -189,7 +189,7 @@ H5B_assert(H5F_t *f, hid_t dxpl_id, haddr_t addr, const H5B_class_t *type, void 
 	struct child_t	       *next;
     } *head = NULL, *tail = NULL, *prev = NULL, *cur = NULL, *tmp = NULL;
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B_assert)
+    FUNC_ENTER_NOAPI_NOINIT
 
     if(0 == ncalls++) {
 	if(H5DEBUG(B))

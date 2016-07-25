@@ -42,6 +42,7 @@ typedef int H5Z_filter_t;
 #define H5Z_FILTER_NBIT         5       /*nbit compression              */
 #define H5Z_FILTER_SCALEOFFSET  6       /*scale+offset compression      */
 #define H5Z_FILTER_RESERVED     256	/*filter ids below this value are reserved for library use */
+
 #define H5Z_FILTER_MAX		65535	/*maximum filter id		*/
 
 /* General macros */

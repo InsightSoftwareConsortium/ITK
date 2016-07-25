@@ -14,29 +14,35 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-// Class ArrayType inherits from DataType and provides wrappers for the
-// HDF5 C's Array Datatypes.
-
-#ifndef _H5ArrayType_H
-#define _H5ArrayType_H
+#ifndef __H5ArrayType_H
+#define __H5ArrayType_H
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
 #endif
 
+/*! \class ArrayType
+    \brief Class ArrayType inherits from DataType and provides wrappers for
+     the HDF5's Array Datatypes.
+*/
 class H5_DLLCPP ArrayType : public DataType {
    public:
 	// Constructor that creates a new array data type based on the
 	// specified base type.
 	ArrayType(const DataType& base_type, int ndims, const hsize_t* dims);
 
+	// Assignment operator
+	ArrayType& operator=(const ArrayType& rhs);
+
 	// Returns the number of dimensions of this array datatype.
-	int getArrayNDims();
+	int getArrayNDims() const;
+	int getArrayNDims(); // deprecated
 
 	// Returns the sizes of dimensions of this array datatype.
-	int getArrayDims(hsize_t* dims);
+	int getArrayDims(hsize_t* dims) const;
+	int getArrayDims(hsize_t* dims); // deprecated
 
-	///\brief Returns this class name
+	///\brief Returns this class name.
 	virtual H5std_string fromClass () const { return("ArrayType"); }
 
 	// Copy constructor: makes copy of the original object.
@@ -48,15 +54,10 @@ class H5_DLLCPP ArrayType : public DataType {
 	// Noop destructor
 	virtual ~ArrayType();
 
-   protected:
 	// Default constructor
 	ArrayType();
-
-   private:
-	int rank;		// Rank of the array
-	hsize_t* dimensions;	// Sizes of the array dimensions
 };
 #ifndef H5_NO_NAMESPACE
 }
 #endif
-#endif
+#endif // __H5ArrayType_H

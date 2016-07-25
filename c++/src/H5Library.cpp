@@ -14,23 +14,31 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include <string>
+#include <cstdlib>
 
-#include "H5CppDoc.h"	// included only for Doxygen to generate part of RM
+#include "H5CppDoc.h"   // included only for Doxygen to generate part of RM
 #include "H5Include.h"
 #include "H5Exception.h"
+#include "H5IdComponent.h"
+#include "H5PropList.h"
+#include "H5FaccProp.h"
+#include "H5FcreatProp.h"
+#include "H5OcreatProp.h"
+#include "H5DxferProp.h"
+#include "H5Object.h"
+#include "H5DataType.h"
+#include "H5DcreatProp.h"
+#include "H5AtomType.h"
+#include "H5PredType.h"
+#include "H5DataSpace.h"
 #include "H5Library.h"
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
 #endif
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-// This static variable will be set to true when dontAtExit is called
-bool H5Library::need_cleanup = false;
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
 //--------------------------------------------------------------------------
-// Function:	H5Library::open
+// Function:	H5Library::open (static)
 ///\brief	Initializes the HDF5 library.
 ///
 ///\exception	H5::LibraryIException
@@ -46,7 +54,7 @@ void H5Library::open()
 }
 
 //--------------------------------------------------------------------------
-// Function:	H5Library::close
+// Function:	H5Library::close (static)
 ///\brief	Flushes all data to disk, closes files, and cleans up memory.
 ///
 ///\exception	H5::LibraryIException
@@ -62,23 +70,22 @@ void H5Library::close()
 }
 
 //--------------------------------------------------------------------------
-// Function:	H5Library::dontAtExit
-///\brief	Instructs library not to install \c atexit cleanup routine
+// Function:	H5Library::dontAtExit (static)
+///\brief	Instructs library not to install the C \c atexit cleanup routine
 ///
 ///\exception	H5::LibraryIException
 // Programmer	Binh-Minh Ribler - 2000
+// Modification
+//		Removed the check for failure returned from H5dont_atexit.
+//		will be fixed to not fail (HDFFV-9540)
 //--------------------------------------------------------------------------
 void H5Library::dontAtExit()
 {
    herr_t ret_value = H5dont_atexit();
-   if( ret_value < 0 )
-   {
-      throw LibraryIException("H5Library::dontAtExit", "H5dont_atexit failed");
-   }
 }
 
 //--------------------------------------------------------------------------
-// Function:	H5Library::getLibVersion
+// Function:	H5Library::getLibVersion (static)
 ///\brief	Returns the HDF library release number.
 ///\param	majnum - OUT: Major version of the library
 ///\param	minnum - OUT: Minor version of the library
@@ -96,7 +103,7 @@ void H5Library::getLibVersion( unsigned& majnum, unsigned& minnum, unsigned& rel
 }
 
 //--------------------------------------------------------------------------
-// Function:	H5Library::checkVersion
+// Function:	H5Library::checkVersion (static)
 ///\brief	Verifies that the arguments match the version numbers
 ///		compiled into the library
 ///\param	majnum - IN: Major version of the library
@@ -119,7 +126,7 @@ void H5Library::checkVersion(unsigned majnum, unsigned minnum, unsigned relnum)
 }
 
 //--------------------------------------------------------------------------
-// Function:	H5Library::garbageCollect
+// Function:	H5Library::garbageCollect (static)
 ///\brief	Walks through all the garbage collection routines for the
 ///		library, which are supposed to free any unused memory they
 ///		have allocated.
@@ -148,7 +155,79 @@ void H5Library::garbageCollect()
 }
 
 //--------------------------------------------------------------------------
-// Function:	H5Library::setFreeListLimits
+// Function:    H5Library::initH5cpp (static)
+///\brief       Initializes C++ library and registers terminating functions at
+///		exit.  Only for the library functions, not for user-defined
+///		functions.
+// Description
+//              initH5cpp registers the following functions with std::atexit():
+//                      termH5cpp() - calls H5close() after all cleanup in
+//                                    the C++ library is done
+//                      <classname>::deleteConstants - deletes all references
+//                                    for <classname> global constants
+///\exception   H5::LibraryIException
+//
+// Programmer   Binh-Minh Ribler - September, 2015
+//--------------------------------------------------------------------------
+void H5Library::initH5cpp()
+{
+    // Register terminating functions with atexit(); they will be invoked in
+    // the reversed order
+    int ret_value = 0;
+    ret_value = std::atexit(termH5cpp);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating termH5cpp failed");
+
+    ret_value = std::atexit(PredType::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating PredType::deleteConstants failed");
+
+    ret_value = std::atexit(PropList::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating PropList::deleteConstants failed");
+
+     ret_value = std::atexit(FileAccPropList::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating FileAccPropList::deleteConstants failed");
+
+     ret_value = std::atexit(FileCreatPropList::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating FileCreatPropList::deleteConstants failed");
+
+     ret_value = std::atexit(DSetMemXferPropList::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating DSetMemXferPropList::deleteConstants failed");
+
+     ret_value = std::atexit(DSetCreatPropList::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating DSetCreatPropList::deleteConstants failed");
+
+     ret_value = std::atexit(ObjCreatPropList::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating ObjCreatPropList::deleteConstants failed");
+
+    ret_value = std::atexit(DataSpace::deleteConstants);
+    if (ret_value != 0)
+        throw LibraryIException("H5Library::initH5cpp", "Registrating DataSpace::deleteConstants failed");
+}
+
+//--------------------------------------------------------------------------
+// Function:    H5Library::termH5cpp (static)
+///\brief       Sends request for the C layer to terminate.
+///\par Description
+///             If the C library fails to terminate, exit with a failure.
+// Programmer   Binh-Minh Ribler - September, 2015
+//--------------------------------------------------------------------------
+void H5Library::termH5cpp()
+{
+    // Close the C library
+    herr_t ret_value = H5close();
+    if (ret_value == -1)
+        exit(-1);
+}
+
+//--------------------------------------------------------------------------
+// Function:	H5Library::setFreeListLimits (static)
 ///\brief	Sets limits on the different kinds of free lists.
 ///\param	reg_global_lim - IN: Limit on all "regular" free list memory used
 ///\param	reg_list_lim   - IN: Limit on memory used in each "regular" free list
@@ -174,6 +253,13 @@ void H5Library::setFreeListLimits(int reg_global_lim, int reg_list_lim,
       throw LibraryIException("H5Library::setFreeListLimits", "H5set_free_list_limits failed");
    }
 }
+
+// Default constructor - private
+H5Library::H5Library(){}
+
+// Destructor - private
+H5Library::~H5Library(){}
+
 #ifndef H5_NO_NAMESPACE
 } // end namespace
 #endif

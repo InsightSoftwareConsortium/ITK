@@ -132,18 +132,20 @@ const H5AC_class_t H5AC_LHEAP_DBLK[1] = {{
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HL_fl_deserialize(H5HL_t *heap, hsize_t free_block)
+H5HL_fl_deserialize(H5HL_t *heap)
 {
     H5HL_free_t *fl = NULL, *tail = NULL;      /* Heap free block nodes */
+    hsize_t free_block;                 /* Offset of free block */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_fl_deserialize)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(heap);
     HDassert(!heap->freelist);
 
     /* Build free list */
+    free_block = heap->free_block;
     while(H5HL_FREE_NULL != free_block) {
         const uint8_t *p;               /* Pointer into image buffer */
 
@@ -206,7 +208,7 @@ H5HL_fl_serialize(const H5HL_t *heap)
 {
     H5HL_free_t	*fl;                    /* Pointer to heap free list node */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HL_fl_serialize)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check arguments */
     HDassert(heap);
@@ -254,9 +256,10 @@ H5HL_prefix_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
     size_t	        spec_read_size; /* Size of buffer to speculatively read in */
     const uint8_t	*p;         /* Pointer into decoding buffer */
     haddr_t             eoa;        /* Relative end of file address */
+    hsize_t min;                    /* temp min value to avoid macro nesting */
     H5HL_prfx_t *ret_value;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_prefix_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -272,7 +275,8 @@ H5HL_prefix_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
         HGOTO_ERROR(H5E_HEAP, H5E_CANTGET, NULL, "unable to determine file size")
 
     /* Compute the size of the speculative local heap prefix buffer */
-    H5_ASSIGN_OVERFLOW(spec_read_size, MIN(eoa - addr, H5HL_SPEC_READ_SIZE), /* From: */ hsize_t, /* To: */ size_t);
+    min = MIN(eoa - addr, H5HL_SPEC_READ_SIZE);
+    H5_CHECKED_ASSIGN(spec_read_size, size_t, min, hsize_t);
     HDassert(spec_read_size >= udata->sizeof_prfx);
 
     /* Attempt to speculatively read both local heap prefix and heap data */
@@ -308,8 +312,8 @@ H5HL_prefix_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
     H5F_DECODE_LENGTH_LEN(p, heap->dblk_size, udata->sizeof_size);
 
     /* Free list head */
-    H5F_DECODE_LENGTH_LEN(p, udata->free_block, udata->sizeof_size);
-    if(udata->free_block != H5HL_FREE_NULL && udata->free_block >= heap->dblk_size)
+    H5F_DECODE_LENGTH_LEN(p, heap->free_block, udata->sizeof_size);
+    if(heap->free_block != H5HL_FREE_NULL && heap->free_block >= heap->dblk_size)
 	HGOTO_ERROR(H5E_HEAP, H5E_BADVALUE, NULL, "bad heap free list")
 
     /* Heap data address */
@@ -343,16 +347,13 @@ H5HL_prefix_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
             } /* end else */
 
             /* Build free list */
-            if(H5HL_fl_deserialize(heap, udata->free_block) < 0)
+            if(H5HL_fl_deserialize(heap) < 0)
                 HGOTO_ERROR(H5E_HEAP, H5E_CANTINIT, NULL, "can't initialize free list")
         } /* end if */
         else
             /* Note that the heap should _NOT_ be a single object in the cache */
             heap->single_cache_obj = FALSE;
     } /* end if */
-
-    /* Set flag to indicate prefix from loaded from file */
-    udata->loaded = TRUE;
 
     /* Set return value */
     ret_value = prfx;
@@ -390,14 +391,14 @@ done:
  */
 static herr_t
 H5HL_prefix_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr,
-    void *thing, unsigned UNUSED *flags_ptr)
+    void *thing, unsigned H5_ATTR_UNUSED *flags_ptr)
 {
     H5HL_prfx_t *prfx = (H5HL_prfx_t *)thing;   /* Local heap prefix to flush */
     H5WB_t *wb = NULL;                  /* Wrapped buffer for heap data */
     uint8_t heap_buf[H5HL_SPEC_READ_SIZE]; /* Buffer for heap */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_prefix_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -406,7 +407,6 @@ H5HL_prefix_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr,
 
     if(prfx->cache_info.is_dirty) {
         H5HL_t *heap = prfx->heap; /* Pointer to the local heap */
-        H5HL_free_t *fl = heap->freelist; /* Pointer to heap's free list */
         uint8_t *buf;           /* Pointer to heap buffer */
         size_t buf_size;        /* Size of buffer for encoding & writing heap info */
         uint8_t *p;             /* Pointer into raw data buffer */
@@ -424,6 +424,9 @@ H5HL_prefix_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr,
         if(NULL == (buf = (uint8_t *)H5WB_actual(wb, buf_size)))
             HGOTO_ERROR(H5E_HEAP, H5E_NOSPACE, FAIL, "can't get actual buffer")
 
+        /* Update the free block value from the free list */
+        heap->free_block = heap->freelist ? heap->freelist->offset : H5HL_FREE_NULL;
+
         /* Serialize the heap prefix */
         p = buf;
         HDmemcpy(p, H5HL_MAGIC, (size_t)H5_SIZEOF_MAGIC);
@@ -433,18 +436,18 @@ H5HL_prefix_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr,
         *p++ = 0;	/*reserved*/
         *p++ = 0;	/*reserved*/
         H5F_ENCODE_LENGTH_LEN(p, heap->dblk_size, heap->sizeof_size);
-        H5F_ENCODE_LENGTH_LEN(p, fl ? fl->offset : H5HL_FREE_NULL, heap->sizeof_size);
+        H5F_ENCODE_LENGTH_LEN(p, heap->free_block, heap->sizeof_size);
         H5F_addr_encode_len(heap->sizeof_addr, &p, heap->dblk_addr);
 
         /* Check if the local heap is a single object in cache */
         if(heap->single_cache_obj) {
-            if((p - buf) < heap->prfx_size) {
+            if((size_t)(p - buf) < heap->prfx_size) {
                 size_t gap;         /* Size of gap between prefix and data block */
 
                 /* Set p to the start of the data block.  This is necessary because
                  * there may be a gap between the used portion of the prefix and the
                  * data block due to alignment constraints. */
-                gap = heap->prfx_size - (p - buf);
+                gap = heap->prfx_size - (size_t)(p - buf);
                 HDmemset(p, 0, gap);
                 p += gap;
             } /* end if */
@@ -496,7 +499,7 @@ H5HL_prefix_dest(H5F_t *f, void *thing)
     H5HL_prfx_t *prfx = (H5HL_prfx_t *)thing;   /* Local heap prefix to destroy */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_prefix_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(prfx);
@@ -547,12 +550,12 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HL_prefix_clear(H5F_t UNUSED *f, void *thing, hbool_t destroy)
+H5HL_prefix_clear(H5F_t H5_ATTR_UNUSED *f, void *thing, hbool_t destroy)
 {
     H5HL_prfx_t *prfx = (H5HL_prfx_t *)thing;   /* The local heap prefix to operate on */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_prefix_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(prfx);
@@ -584,11 +587,11 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HL_prefix_size(const H5F_t UNUSED *f, const void *thing, size_t *size_ptr)
+H5HL_prefix_size(const H5F_t H5_ATTR_UNUSED *f, const void *thing, size_t *size_ptr)
 {
     const H5HL_prfx_t *prfx = (const H5HL_prfx_t *)thing;   /* Pointer to local heap prefix to query */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HL_prefix_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check arguments */
     HDassert(prfx);
@@ -627,7 +630,7 @@ H5HL_datablock_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
     H5HL_cache_dblk_ud_t *udata = (H5HL_cache_dblk_ud_t *)_udata;       /* User data for callback */
     H5HL_dblk_t *ret_value;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_datablock_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -652,7 +655,7 @@ H5HL_datablock_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
             HGOTO_ERROR(H5E_HEAP, H5E_READERROR, NULL, "unable to read local heap data block")
 
         /* Build free list */
-        if(H5HL_fl_deserialize(udata->heap, udata->free_block) < 0)
+        if(H5HL_fl_deserialize(udata->heap) < 0)
             HGOTO_ERROR(H5E_HEAP, H5E_CANTINIT, NULL, "can't initialize free list")
     } /* end if */
 
@@ -688,12 +691,12 @@ done:
  */
 static herr_t
 H5HL_datablock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr,
-    void *_thing, unsigned UNUSED * flags_ptr)
+    void *_thing, unsigned H5_ATTR_UNUSED * flags_ptr)
 {
     H5HL_dblk_t *dblk = (H5HL_dblk_t *)_thing; /* Pointer to the local heap data block */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_datablock_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -704,6 +707,9 @@ H5HL_datablock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr,
 
     if(dblk->cache_info.is_dirty) {
         H5HL_t *heap = dblk->heap;      /* Pointer to the local heap */
+
+        /* Update the free block value from the free list */
+        heap->free_block = heap->freelist ? heap->freelist->offset : H5HL_FREE_NULL;
 
         /* Serialize the free list into the heap data's image */
         H5HL_fl_serialize(heap);
@@ -744,7 +750,7 @@ H5HL_datablock_dest(H5F_t *f, void *_thing)
     H5HL_dblk_t *dblk = (H5HL_dblk_t *)_thing; /* Pointer to the local heap data block */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_datablock_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(dblk);
@@ -794,7 +800,7 @@ H5HL_datablock_clear(H5F_t *f, void *_thing, hbool_t destroy)
     H5HL_dblk_t *dblk = (H5HL_dblk_t *)_thing; /* Pointer to the local heap data block */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HL_datablock_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(dblk);
@@ -826,11 +832,11 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HL_datablock_size(const H5F_t UNUSED *f, const void *_thing, size_t *size_ptr)
+H5HL_datablock_size(const H5F_t H5_ATTR_UNUSED *f, const void *_thing, size_t *size_ptr)
 {
     const H5HL_dblk_t *dblk = (const H5HL_dblk_t *)_thing; /* Pointer to the local heap data block */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HL_datablock_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check arguments */
     HDassert(dblk);

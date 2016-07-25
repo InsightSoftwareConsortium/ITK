@@ -129,7 +129,7 @@ H5G_node_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *udata)
     const uint8_t	   *p;
     H5G_node_t		   *ret_value;	/*for error handling */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5G_node_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -180,7 +180,7 @@ H5G_node_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *udata)
     UINT16DECODE(p, sym->nsyms);
 
     /* entries */
-    if(H5G_ent_decode_vec(f, &p, sym->entry, sym->nsyms) < 0)
+    if(H5G__ent_decode_vec(f, &p, sym->entry, sym->nsyms) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTLOAD, NULL, "unable to decode symbol table entries")
 
     /* Set return value */
@@ -191,7 +191,7 @@ done:
     if(wb && H5WB_unwrap(wb) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CLOSEERROR, NULL, "can't close wrapped buffer")
     if(!ret_value)
-        if(sym && H5G_node_free(sym) < 0)
+        if(sym && H5G__node_free(sym) < 0)
             HDONE_ERROR(H5E_SYM, H5E_CANTFREE, NULL, "unable to destroy symbol table node")
 
     FUNC_LEAVE_NOAPI(ret_value)
@@ -212,13 +212,13 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5G_node_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5G_node_t *sym, unsigned UNUSED * flags_ptr)
+H5G_node_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5G_node_t *sym, unsigned H5_ATTR_UNUSED * flags_ptr)
 {
     H5WB_t     *wb = NULL;     /* Wrapped buffer for node data */
     uint8_t     node_buf[H5G_NODE_BUF_SIZE]; /* Buffer for node */
     herr_t      ret_value = SUCCEED;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5G_node_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -259,7 +259,7 @@ H5G_node_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5G_node_
         UINT16ENCODE(p, sym->nsyms);
 
         /* entries */
-        if(H5G_ent_encode_vec(f, &p, sym->entry, sym->nsyms) < 0)
+        if(H5G__ent_encode_vec(f, &p, sym->entry, sym->nsyms) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTENCODE, FAIL, "can't serialize")
         HDmemset(p, 0, sym->node_size - (size_t)(p - node));
 
@@ -301,12 +301,12 @@ done:
  *
  *-------------------------------------------------------------------------
  */
-herr_t
+static herr_t
 H5G_node_dest(H5F_t *f, H5G_node_t *sym)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5G_node_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -329,7 +329,7 @@ H5G_node_dest(H5F_t *f, H5G_node_t *sym)
     } /* end if */
 
     /* Destroy symbol table node */
-    if(H5G_node_free(sym) < 0)
+    if(H5G__node_free(sym) < 0)
         HGOTO_ERROR(H5E_SYM, H5E_CANTFREE, FAIL, "unable to destroy symbol table node")
 
 done:
@@ -355,7 +355,7 @@ H5G_node_clear(H5F_t *f, H5G_node_t *sym, hbool_t destroy)
 {
     herr_t ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI_NOINIT(H5G_node_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -393,9 +393,9 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5G_node_size(const H5F_t UNUSED *f, const H5G_node_t *sym, size_t *size_ptr)
+H5G_node_size(const H5F_t H5_ATTR_UNUSED *f, const H5G_node_t *sym, size_t *size_ptr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5G_node_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /*
      * Check arguments.

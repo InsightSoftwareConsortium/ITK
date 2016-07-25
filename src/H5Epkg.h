@@ -132,6 +132,7 @@ H5_DLLVAR H5E_t	H5E_stack_g[1];
 /******************************/
 /* Package Private Prototypes */
 /******************************/
+H5_DLL herr_t H5E__term_deprec_interface(void);
 #ifdef H5_HAVE_THREADSAFE
 H5_DLL H5E_t *H5E_get_stack(void);
 #endif /* H5_HAVE_THREADSAFE */
@@ -146,5 +147,5 @@ H5_DLL herr_t H5E_set_auto(H5E_t *estack, const H5E_auto_op_t *op,
     void *client_data);
 H5_DLL herr_t H5E_pop(H5E_t *err_stack, size_t count);
 
-#endif /* _H5HFpkg_H */
+#endif /* _H5Epkg_H */
 

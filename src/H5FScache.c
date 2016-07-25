@@ -38,7 +38,7 @@
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5FSpkg.h"		/* File free space			*/
 #include "H5MFprivate.h"	/* File memory management		*/
-#include "H5Vprivate.h"		/* Vectors and arrays 			*/
+#include "H5VMprivate.h"		/* Vectors and arrays 			*/
 #include "H5WBprivate.h"        /* Wrapped Buffers                      */
 
 /****************/
@@ -75,17 +75,17 @@ typedef struct {
 /********************/
 
 /* Section info routines */
-static herr_t H5FS_sinfo_serialize_sect_cb(void *_item, void UNUSED *key, void *_udata);
-static herr_t H5FS_sinfo_serialize_node_cb(void *_item, void UNUSED *key, void *_udata);
+static herr_t H5FS_sinfo_serialize_sect_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata);
+static herr_t H5FS_sinfo_serialize_node_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata);
 
 /* Metadata cache callbacks */
 static H5FS_t *H5FS_cache_hdr_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *udata);
-static herr_t H5FS_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_t *fspace, unsigned UNUSED * flags_ptr);
+static herr_t H5FS_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_t *fspace, unsigned H5_ATTR_UNUSED * flags_ptr);
 static herr_t H5FS_cache_hdr_dest(H5F_t *f, H5FS_t *fspace);
 static herr_t H5FS_cache_hdr_clear(H5F_t *f, H5FS_t *fspace, hbool_t destroy);
 static herr_t H5FS_cache_hdr_size(const H5F_t *f, const H5FS_t *fspace, size_t *size_ptr);
 static H5FS_sinfo_t *H5FS_cache_sinfo_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *udata);
-static herr_t H5FS_cache_sinfo_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_sinfo_t *sinfo, unsigned UNUSED * flags_ptr);
+static herr_t H5FS_cache_sinfo_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_sinfo_t *sinfo, unsigned H5_ATTR_UNUSED * flags_ptr);
 static herr_t H5FS_cache_sinfo_dest(H5F_t *f, H5FS_sinfo_t *sinfo);
 static herr_t H5FS_cache_sinfo_clear(H5F_t *f, H5FS_sinfo_t *sinfo, hbool_t destroy);
 static herr_t H5FS_cache_sinfo_size(const H5F_t *f, const H5FS_sinfo_t *sinfo, size_t *size_ptr);
@@ -158,7 +158,7 @@ H5FS_cache_hdr_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
     unsigned            nclasses;       /* Number of section classes */
     H5FS_t		*ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_hdr_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(f);
@@ -279,13 +279,13 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FS_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_t *fspace, unsigned UNUSED * flags_ptr)
+H5FS_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_t *fspace, unsigned H5_ATTR_UNUSED * flags_ptr)
 {
     H5WB_t      *wb = NULL;             /* Wrapped buffer for header data */
     uint8_t     hdr_buf[H5FS_HDR_BUF_SIZE]; /* Buffer for header */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_hdr_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -447,7 +447,7 @@ H5FS_cache_hdr_dest(H5F_t *f, H5FS_t *fspace)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_hdr_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(fspace);
@@ -496,7 +496,7 @@ H5FS_cache_hdr_clear(H5F_t *f, H5FS_t *fspace, hbool_t destroy)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_hdr_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -531,9 +531,9 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FS_cache_hdr_size(const H5F_t UNUSED *f, const H5FS_t *fspace, size_t *size_ptr)
+H5FS_cache_hdr_size(const H5F_t H5_ATTR_UNUSED *f, const H5FS_t *fspace, size_t *size_ptr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FS_cache_hdr_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check arguments */
     HDassert(f);
@@ -562,7 +562,7 @@ H5FS_cache_hdr_size(const H5F_t UNUSED *f, const H5FS_t *fspace, size_t *size_pt
  *-------------------------------------------------------------------------
  */
 static H5FS_sinfo_t *
-H5FS_cache_sinfo_load(H5F_t *f, hid_t dxpl_id, haddr_t UNUSED addr, void *_udata)
+H5FS_cache_sinfo_load(H5F_t *f, hid_t dxpl_id, haddr_t H5_ATTR_UNUSED addr, void *_udata)
 {
     H5FS_sinfo_t	*sinfo = NULL;  /* Free space section info */
     H5FS_sinfo_cache_ud_t *udata = (H5FS_sinfo_cache_ud_t *)_udata; /* user data for callback */
@@ -574,7 +574,7 @@ H5FS_cache_sinfo_load(H5F_t *f, hid_t dxpl_id, haddr_t UNUSED addr, void *_udata
     uint32_t            computed_chksum; /* Computed metadata checksum value */
     H5FS_sinfo_t	*ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_sinfo_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(f);
@@ -585,7 +585,7 @@ H5FS_cache_sinfo_load(H5F_t *f, hid_t dxpl_id, haddr_t UNUSED addr, void *_udata
 	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* Allocate space for the buffer to serialize the sections into */
-    H5_ASSIGN_OVERFLOW(/* To: */ old_sect_size, /* From: */ udata->fspace->sect_size, /* From: */ hsize_t, /* To: */ size_t);
+    H5_CHECKED_ASSIGN(old_sect_size, size_t, udata->fspace->sect_size, hsize_t);
     if(NULL == (buf = H5FL_BLK_MALLOC(sect_block, (size_t)udata->fspace->sect_size)))
         HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
@@ -619,7 +619,7 @@ H5FS_cache_sinfo_load(H5F_t *f, hid_t dxpl_id, haddr_t UNUSED addr, void *_udata
         unsigned sect_cnt_size;         /* The size of the section size counts */
 
         /* Compute the size of the section counts */
-        sect_cnt_size = H5V_limit_enc_size((uint64_t)udata->fspace->serial_sect_count);
+        sect_cnt_size = H5VM_limit_enc_size((uint64_t)udata->fspace->serial_sect_count);
 
         /* Reset the section count, the "add" routine will update it */
         old_tot_sect_count = udata->fspace->tot_sect_count;
@@ -724,14 +724,14 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FS_sinfo_serialize_sect_cb(void *_item, void UNUSED *key, void *_udata)
+H5FS_sinfo_serialize_sect_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata)
 {
     H5FS_section_class_t *sect_cls;     /* Class of section */
     H5FS_section_info_t *sect= (H5FS_section_info_t *)_item;   /* Free space section to work on */
     H5FS_iter_ud_t *udata = (H5FS_iter_ud_t *)_udata; /* Callback info */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_sinfo_serialize_sect_cb)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments. */
     HDassert(sect);
@@ -780,13 +780,13 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FS_sinfo_serialize_node_cb(void *_item, void UNUSED *key, void *_udata)
+H5FS_sinfo_serialize_node_cb(void *_item, void H5_ATTR_UNUSED *key, void *_udata)
 {
     H5FS_node_t *fspace_node = (H5FS_node_t *)_item;   /* Free space size node to work on */
     H5FS_iter_ud_t *udata = (H5FS_iter_ud_t *)_udata; /* Callback info */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_sinfo_serialize_node_cb)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments. */
     HDassert(fspace_node);
@@ -826,11 +826,11 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FS_cache_sinfo_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_sinfo_t *sinfo, unsigned UNUSED * flags_ptr)
+H5FS_cache_sinfo_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5FS_sinfo_t *sinfo, unsigned H5_ATTR_UNUSED * flags_ptr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_sinfo_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -869,7 +869,7 @@ H5FS_cache_sinfo_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H
         /* Set up user data for iterator */
         udata.sinfo = sinfo;
         udata.p = &p;
-        udata.sect_cnt_size = H5V_limit_enc_size((uint64_t)sinfo->fspace->serial_sect_count);
+        udata.sect_cnt_size = H5VM_limit_enc_size((uint64_t)sinfo->fspace->serial_sect_count);
 
         /* Iterate over all the bins */
         for(bin = 0; bin < sinfo->nbins; bin++) {
@@ -928,7 +928,7 @@ H5FS_cache_sinfo_dest(H5F_t *f, H5FS_sinfo_t *sinfo)
 {
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_sinfo_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(sinfo);
@@ -974,7 +974,7 @@ H5FS_cache_sinfo_clear(H5F_t *f, H5FS_sinfo_t *sinfo, hbool_t destroy)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5FS_cache_sinfo_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -1009,16 +1009,16 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5FS_cache_sinfo_size(const H5F_t UNUSED *f, const H5FS_sinfo_t *sinfo, size_t *size_ptr)
+H5FS_cache_sinfo_size(const H5F_t H5_ATTR_UNUSED *f, const H5FS_sinfo_t *sinfo, size_t *size_ptr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FS_cache_sinfo_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check arguments */
     HDassert(sinfo);
     HDassert(size_ptr);
 
     /* Set size value */
-    H5_ASSIGN_OVERFLOW(/* To: */ *size_ptr, /* From: */ sinfo->fspace->alloc_sect_size, /* From: */ hsize_t, /* To: */ size_t);
+    H5_CHECKED_ASSIGN(*size_ptr, size_t, sinfo->fspace->alloc_sect_size, hsize_t);
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* H5FS_cache_sinfo_size() */

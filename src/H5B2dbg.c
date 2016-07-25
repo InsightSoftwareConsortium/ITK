@@ -97,7 +97,7 @@ H5B2_hdr_debug(H5F_t *f, hid_t dxpl_id, haddr_t addr, FILE *stream, int indent, 
     H5B2_hdr_cache_ud_t cache_udata;    /* User-data for callback */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5B2_hdr_debug, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /*
      * Check arguments.
@@ -213,7 +213,7 @@ H5B2_int_debug(H5F_t *f, hid_t dxpl_id, haddr_t addr, FILE *stream, int indent, 
     H5B2_hdr_cache_ud_t cache_udata;    /* User-data for callback */
     herr_t      ret_value=SUCCEED;      /* Return value */
 
-    FUNC_ENTER_NOAPI(H5B2_int_debug, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /*
      * Check arguments.
@@ -345,7 +345,7 @@ H5B2_leaf_debug(H5F_t *f, hid_t dxpl_id, haddr_t addr, FILE *stream, int indent,
     char        temp_str[128];          /* Temporary string, for formatting */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5B2_leaf_debug, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /*
      * Check arguments.

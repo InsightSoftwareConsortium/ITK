@@ -40,7 +40,7 @@
 #include "H5HFpkg.h"		/* Fractal heaps			*/
 #include "H5MFprivate.h"	/* File memory management		*/
 #include "H5MMprivate.h"	/* Memory management			*/
-#include "H5Vprivate.h"		/* Vectors and arrays 			*/
+#include "H5VMprivate.h"		/* Vectors and arrays 			*/
 #include "H5WBprivate.h"        /* Wrapped Buffers                      */
 
 
@@ -80,17 +80,17 @@ static herr_t H5HF_dtable_decode(H5F_t *f, const uint8_t **pp, H5HF_dtable_t *dt
 
 /* Metadata cache (H5AC) callbacks */
 static H5HF_hdr_t *H5HF_cache_hdr_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *udata);
-static herr_t H5HF_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_hdr_t *hdr, unsigned UNUSED * flags_ptr);
+static herr_t H5HF_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_hdr_t *hdr, unsigned H5_ATTR_UNUSED * flags_ptr);
 static herr_t H5HF_cache_hdr_dest(H5F_t *f, H5HF_hdr_t *hdr);
 static herr_t H5HF_cache_hdr_clear(H5F_t *f, H5HF_hdr_t *hdr, hbool_t destroy);
 static herr_t H5HF_cache_hdr_size(const H5F_t *f, const H5HF_hdr_t *hdr, size_t *size_ptr);
 static H5HF_indirect_t *H5HF_cache_iblock_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *udata);
-static herr_t H5HF_cache_iblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_indirect_t *iblock, unsigned UNUSED * flags_ptr);
+static herr_t H5HF_cache_iblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_indirect_t *iblock, unsigned H5_ATTR_UNUSED * flags_ptr);
 static herr_t H5HF_cache_iblock_dest(H5F_t *f, H5HF_indirect_t *iblock);
 static herr_t H5HF_cache_iblock_clear(H5F_t *f, H5HF_indirect_t *iblock, hbool_t destroy);
 static herr_t H5HF_cache_iblock_size(const H5F_t *f, const H5HF_indirect_t *iblock, size_t *size_ptr);
 static H5HF_direct_t *H5HF_cache_dblock_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *udata);
-static herr_t H5HF_cache_dblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_direct_t *dblock, unsigned UNUSED * flags_ptr);
+static herr_t H5HF_cache_dblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_direct_t *dblock, unsigned H5_ATTR_UNUSED * flags_ptr);
 static herr_t H5HF_cache_dblock_dest(H5F_t *f, H5HF_direct_t *dblock);
 static herr_t H5HF_cache_dblock_clear(H5F_t *f, H5HF_direct_t *dblock, hbool_t destroy);
 static herr_t H5HF_cache_dblock_size(const H5F_t *f, const H5HF_direct_t *dblock, size_t *size_ptr);
@@ -163,7 +163,7 @@ H5FL_BLK_DEFINE(direct_block);
 static herr_t
 H5HF_dtable_decode(H5F_t *f, const uint8_t **pp, H5HF_dtable_t *dtable)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HF_dtable_decode)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments */
     HDassert(f);
@@ -213,7 +213,7 @@ H5HF_dtable_decode(H5F_t *f, const uint8_t **pp, H5HF_dtable_t *dtable)
 static herr_t
 H5HF_dtable_encode(H5F_t *f, uint8_t **pp, const H5HF_dtable_t *dtable)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HF_dtable_encode)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments */
     HDassert(f);
@@ -274,7 +274,7 @@ H5HF_cache_hdr_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
     uint8_t             heap_flags;     /* Status flags for heap */
     H5HF_hdr_t		*ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_hdr_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(f);
@@ -448,13 +448,13 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_hdr_t *hdr, unsigned UNUSED * flags_ptr)
+H5HF_cache_hdr_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_hdr_t *hdr, unsigned H5_ATTR_UNUSED * flags_ptr)
 {
     H5WB_t *wb = NULL;                  /* Wrapped buffer for header data */
     uint8_t hdr_buf[H5HF_HDR_BUF_SIZE]; /* Buffer for header */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_hdr_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -586,7 +586,7 @@ H5HF_cache_hdr_dest(H5F_t *f, H5HF_hdr_t *hdr)
 {
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_hdr_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -632,7 +632,7 @@ H5HF_cache_hdr_clear(H5F_t *f, H5HF_hdr_t *hdr, hbool_t destroy)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_hdr_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -667,9 +667,9 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_cache_hdr_size(const H5F_t UNUSED *f, const H5HF_hdr_t *hdr, size_t *size_ptr)
+H5HF_cache_hdr_size(const H5F_t H5_ATTR_UNUSED *f, const H5HF_hdr_t *hdr, size_t *size_ptr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HF_cache_hdr_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments */
     HDassert(f);
@@ -714,7 +714,7 @@ H5HF_cache_iblock_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
     unsigned            u;              /* Local index variable */
     H5HF_indirect_t	*ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_iblock_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(f);
@@ -900,13 +900,13 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_cache_iblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_indirect_t *iblock, unsigned UNUSED * flags_ptr)
+H5HF_cache_iblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_indirect_t *iblock, unsigned H5_ATTR_UNUSED * flags_ptr)
 {
     H5WB_t      *wb = NULL;             /* Wrapped buffer for indirect block data */
     uint8_t     iblock_buf[H5HF_IBLOCK_BUF_SIZE]; /* Buffer for indirect block */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_iblock_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -1091,7 +1091,7 @@ H5HF_cache_iblock_dest(H5F_t *f, H5HF_indirect_t *iblock)
 {
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_iblock_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -1142,7 +1142,7 @@ H5HF_cache_iblock_clear(H5F_t *f, H5HF_indirect_t *iblock, hbool_t destroy)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_iblock_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -1177,9 +1177,9 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_cache_iblock_size(const H5F_t UNUSED *f, const H5HF_indirect_t *iblock, size_t *size_ptr)
+H5HF_cache_iblock_size(const H5F_t H5_ATTR_UNUSED *f, const H5HF_indirect_t *iblock, size_t *size_ptr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HF_cache_iblock_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments */
     HDassert(iblock);
@@ -1218,7 +1218,7 @@ H5HF_cache_dblock_load(H5F_t *f, hid_t dxpl_id, haddr_t addr, void *_udata)
     haddr_t             heap_addr;      /* Address of heap header in the file */
     H5HF_direct_t	*ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_dblock_load)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check arguments */
     HDassert(f);
@@ -1385,11 +1385,11 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_cache_dblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_direct_t *dblock, unsigned UNUSED * flags_ptr)
+H5HF_cache_dblock_flush(H5F_t *f, hid_t dxpl_id, hbool_t destroy, haddr_t addr, H5HF_direct_t *dblock, unsigned H5_ATTR_UNUSED * flags_ptr)
 {
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_dblock_flush)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check arguments */
     HDassert(f);
@@ -1662,7 +1662,7 @@ H5HF_cache_dblock_dest(H5F_t *f, H5HF_direct_t *dblock)
 {
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_dblock_dest)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -1714,7 +1714,7 @@ H5HF_cache_dblock_clear(H5F_t *f, H5HF_direct_t *dblock, hbool_t destroy)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_cache_dblock_clear)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -1749,9 +1749,9 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5HF_cache_dblock_size(const H5F_t UNUSED *f, const H5HF_direct_t *dblock, size_t *size_ptr)
+H5HF_cache_dblock_size(const H5F_t H5_ATTR_UNUSED *f, const H5HF_direct_t *dblock, size_t *size_ptr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HF_cache_dblock_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check arguments */
     HDassert(dblock);

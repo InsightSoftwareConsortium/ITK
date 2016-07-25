@@ -42,12 +42,15 @@ public:
      * Opens an existing packet table, which can contain either fixed-length or
      * variable-length packets.
      */
+    PacketTable(hid_t fileID, const char* name);
+
+    /* "Open" Constructor - will be deprecated because of char* name */
     PacketTable(hid_t fileID, char* name);
 
     /* Destructor
      * Cleans up the packet table
      */
-    ~PacketTable();
+    virtual ~PacketTable();
 
     /* IsValid
      * Returns true if this packet table is valid, false otherwise.
@@ -56,14 +59,12 @@ public:
      */
     bool IsValid();
 
-#ifdef VLPT_REMOVED
     /* IsVariableLength
-     * Return 1 if this packet table is a Variable Length packet table,
+     * Return 1 if this packet table uses variable-length datatype,
      * return 0 if it is Fixed Length.  Returns -1 if the table is
      * invalid (not open).
      */
     int IsVariableLength();
-#endif /* VLPT_REMOVED */
 
     /* ResetIndex
      * Sets the "current packet" index to point to the first packet in the
@@ -96,6 +97,35 @@ public:
         return GetPacketCount(ignoreError);
     }
 
+    /* GetTableId
+     * Returns the identifier of the packet table.
+     */
+    hid_t GetTableId();
+
+    /* GetDatatype
+     * Returns the datatype identifier used by the packet table, on success,
+     * or FAIL, on failure.
+     * Note: it is best to avoid using this identifier in applications, unless
+     * the desired functionality cannot be performed via the packet table ID.
+     */
+    hid_t GetDatatype();
+
+    /* GetDataset
+     * Returns the dataset identifier associated with the packet table, on
+     * success, or FAIL, on failure.
+     * Note: it is best to avoid using this identifier in applications, unless
+     * the desired functionality cannot be performed via the packet table ID.
+     */
+    hid_t GetDataset();
+
+    /* FreeBuff
+     * Frees the buffers created when variable-length packets are read.
+     * Takes the number of hvl_t structs to be freed and a pointer to their
+     * location in memory.
+     * Returns 0 on success, negative on error.
+     */
+    int FreeBuff(size_t numStructs, hvl_t * buffer);
+
 protected:
     hid_t table_id;
 };
@@ -104,19 +134,38 @@ class H5_HLCPPDLL FL_PacketTable : virtual public PacketTable
 {
 public:
     /* Constructor
+     * Creates a packet table to store either fixed- or variable-length packets.
+     * Takes the ID of the file the packet table will be created in, the ID of
+     * the property list to specify compression, the name of the packet table,
+     * the ID of the datatype, and the size of a memory chunk used in chunking.
+     */
+    FL_PacketTable(hid_t fileID, const char* name, hid_t dtypeID, hsize_t chunkSize = 0, hid_t plistID = H5P_DEFAULT);
+
+    /* Constructors - deprecated
      * Creates a packet table in which to store fixed length packets.
      * Takes the ID of the file the packet table will be created in, the name of
      * the packet table, the ID of the datatype of the set, the size
      * of a memory chunk used in chunking, and the desired compression level
      * (0-9, or -1 for no compression).
+     * Note: these overloaded constructors will be deprecated in favor of the
+     * constructor above.
      */
-    FL_PacketTable(hid_t fileID, char* name, hid_t dtypeID, hsize_t chunkSize, int compression = -1);
+    FL_PacketTable(hid_t fileID, hid_t plist_id, const char* name, hid_t dtypeID, hsize_t chunkSize);
+    FL_PacketTable(hid_t fileID, char* name, hid_t dtypeID, hsize_t chunkSize, int compression = 0);
 
     /* "Open" Constructor
      * Opens an existing fixed-length packet table.
      * Fails if the packet table specified is variable-length.
      */
+    FL_PacketTable(hid_t fileID, const char* name);
+
+    /* "Open" Constructor - will be deprecated because of char* name */
     FL_PacketTable(hid_t fileID, char* name);
+
+    /* Destructor
+     * Cleans up the packet table
+     */
+    virtual ~FL_PacketTable() {};
 
     /* AppendPacket
      * Adds a single packet to the packet table.  Takes a pointer
@@ -165,80 +214,6 @@ public:
     int GetNextPackets(size_t numPackets, void * data);
 };
 
-#ifdef VLPT_REMOVED
-class H5_HLCPPDLL  VL_PacketTable : virtual public PacketTable
-{
-public:
-    /* Constructor
-     * Creates a packet table in which to store variable length packets.
-     * Takes the ID of the file the packet table will be created in, the name of
-     * the packet table, and the size of a memory chunk used in chunking.
-     */
-    VL_PacketTable(hid_t fileID, char* name, hsize_t chunkSize);
-
-    /* "Open" Constructor
-     * Opens an existing variable-length packet table.
-     * Fails if the packet table specified is fixed-length.
-     */
-    VL_PacketTable(hid_t fileID, char* name);
-
-    /* AppendPacket
-     * Adds a single packet of any length to the packet table.
-     * Takes a pointer to the location of the data in memory and the length of the data
-     * in bytes.
-     * Returns 0 on success, negative on failure.
-     */
-    int AppendPacket(void * data, size_t length);
-
-    /* AppendPackets (multiple packets)
-     * Adds multiple variable-length packets to the packet table.  Takes the
-     * number of packets to be added and a pointer to an array of
-     * hvl_t structs in memory.
-     * Returns 0 on success, negative on failure.
-     */
-    int AppendPackets(size_t numPackets, hvl_t * data);
-
-    /* GetPacket (indexed)
-     * Gets a single variable-length packet from the packet table.  Takes
-     * the index of the packet (with 0 being the first packet) and a pointer
-     * to a hvl_t struct in which to store the packet's size and location.
-     * Returns 0 on success, negative on failure.
-     */
-    int GetPacket(hsize_t index, hvl_t * data);
-
-    /* GetPackets (multiple packets)
-     * Gets multiple variable-length packets at once, all packets between
-     * startIndex and endIndex inclusive.  Takes a pointer to an array
-     * of hvl_t structs in memory in which to store pointers to the packets.
-     * Returns 0 on success, negative on failure.
-     */
-    int GetPackets(hsize_t startIndex, hsize_t endIndex, hvl_t * data);
-
-    /* GetNextPacket (single packet)
-     * Gets the next packet in the packet table.  Takes a pointer to
-     * an hvl_t struct where the packet should be stored.
-     * Returns 0 on success, negative on failure.  Index
-     * is not advanced to the next packet on failure.
-     */
-    int GetNextPacket(hvl_t * data);
-
-    /* GetNextPackets (multiple packets)
-     * Gets the next numPackets packets in the packet table.  Takes a
-     * pointer to an array of hvl_t structs where pointers to the packets
-     * should be stored.
-     * Returns 0 on success, negative on failure.  Index
-     * is not advanced on failure.
-     */
-    int GetNextPackets(size_t numPackets, hvl_t * data);
-
-    /* FreeReadbuff
-     * Frees the buffers created when variable-length packets are read.
-     * Takes the number of hvl_t structs to be freed and a pointer to their
-     * location in memory.
-     * Returns 0 on success, negative on error.
-     */
-    int FreeReadbuff(size_t numStructs, hvl_t * buffer);
-};
-#endif /* VLPT_REMOVED */
+/* Removed "#ifdef VLPT_REMOVED" block.  03/08/2016, -BMR */
 
 #endif /* H5PTWRAP_H */

@@ -87,20 +87,20 @@ const H5O_msg_class_t H5O_MSG_BOGUS[1] = {{
  *-------------------------------------------------------------------------
  */
 static void *
-H5O_bogus_decode(H5F_t UNUSED *f, hid_t UNUSED dxpl_id, H5O_t UNUSED *open_oh,
-    unsigned UNUSED mesg_flags, unsigned UNUSED *ioflags, const uint8_t *p)
+H5O_bogus_decode(H5F_t *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
 {
     H5O_bogus_t *mesg = NULL;
     void *ret_value;            /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5O_bogus_decode)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check args */
     HDassert(f);
     HDassert(p);
 
     /* Allocate the bogus message */
-    if(NULL == (mesg = H5MM_calloc(sizeof(H5O_bogus_t))))
+    if(NULL == (mesg = (H5O_bogus_t *)H5MM_calloc(sizeof(H5O_bogus_t))))
 	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* decode */
@@ -135,9 +135,9 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_bogus_encode(H5F_t UNUSED *f, hbool_t UNUSED disable_shared, uint8_t *p, const void UNUSED *mesg)
+H5O_bogus_encode(H5F_t H5_ATTR_UNUSED *f, hbool_t H5_ATTR_UNUSED disable_shared, uint8_t *p, const void H5_ATTR_UNUSED *mesg)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_bogus_encode)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
     HDassert(f);
@@ -170,9 +170,9 @@ H5O_bogus_encode(H5F_t UNUSED *f, hbool_t UNUSED disable_shared, uint8_t *p, con
  *-------------------------------------------------------------------------
  */
 static size_t
-H5O_bogus_size(const H5F_t UNUSED *f, hbool_t UNUSED disable_shared, const void UNUSED *mesg)
+H5O_bogus_size(const H5F_t H5_ATTR_UNUSED *f, hbool_t H5_ATTR_UNUSED disable_shared, const void H5_ATTR_UNUSED *mesg)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_bogus_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     FUNC_LEAVE_NOAPI(4)
 } /* end H5O_bogus_size() */
@@ -194,12 +194,12 @@ H5O_bogus_size(const H5F_t UNUSED *f, hbool_t UNUSED disable_shared, const void 
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_bogus_debug(H5F_t UNUSED *f, hid_t UNUSED dxpl_id, const void *_mesg, FILE *stream,
+H5O_bogus_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void *_mesg, FILE *stream,
 	       int indent, int fwidth)
 {
     const H5O_bogus_t	*mesg = (const H5O_bogus_t *)_mesg;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_bogus_debug)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
     HDassert(f);

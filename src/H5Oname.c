@@ -84,23 +84,23 @@ const H5O_msg_class_t H5O_MSG_NAME[1] = {{
  *-------------------------------------------------------------------------
  */
 static void *
-H5O_name_decode(H5F_t UNUSED *f, hid_t UNUSED dxpl_id, H5O_t UNUSED *open_oh,
-    unsigned UNUSED mesg_flags, unsigned UNUSED *ioflags, const uint8_t *p)
+H5O_name_decode(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
 {
     H5O_name_t          *mesg;
     void                *ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5O_name_decode)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check args */
     HDassert(f);
     HDassert(p);
 
     /* decode */
-    if(NULL == (mesg = (H5O_name_t *)H5MM_calloc(sizeof(H5O_name_t))) ||
-            NULL == (mesg->s = (char *)H5MM_malloc(HDstrlen((const char *)p) + 1)))
+    if(NULL == (mesg = (H5O_name_t *)H5MM_calloc(sizeof(H5O_name_t))))
 	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
-    HDstrcpy(mesg->s, (const char *)p);
+    if(NULL == (mesg->s = (char *)H5MM_strdup((const char *)p)))
+	HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* Set return value */
     ret_value = mesg;
@@ -131,21 +131,21 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_name_encode(H5F_t UNUSED *f, hbool_t UNUSED disable_shared, uint8_t *p, const void *_mesg)
+H5O_name_encode(H5F_t H5_ATTR_UNUSED *f, hbool_t H5_ATTR_UNUSED disable_shared, uint8_t *p, const void *_mesg)
 {
     const H5O_name_t       *mesg = (const H5O_name_t *) _mesg;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_name_encode);
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
-    assert(f);
-    assert(p);
-    assert(mesg && mesg->s);
+    HDassert(f);
+    HDassert(p);
+    HDassert(mesg && mesg->s);
 
     /* encode */
     HDstrcpy((char*)p, mesg->s);
 
-    FUNC_LEAVE_NOAPI(SUCCEED);
+    FUNC_LEAVE_NOAPI(SUCCEED)
 }
 
 
@@ -174,7 +174,7 @@ H5O_name_copy(const void *_mesg, void *_dest)
     H5O_name_t             *dest = (H5O_name_t *) _dest;
     void                *ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5O_name_copy)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* check args */
     HDassert(mesg);
@@ -220,20 +220,20 @@ done:
  *-------------------------------------------------------------------------
  */
 static size_t
-H5O_name_size(const H5F_t UNUSED *f, hbool_t UNUSED disable_shared, const void *_mesg)
+H5O_name_size(const H5F_t H5_ATTR_UNUSED *f, hbool_t H5_ATTR_UNUSED disable_shared, const void *_mesg)
 {
     const H5O_name_t       *mesg = (const H5O_name_t *) _mesg;
     size_t                  ret_value;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_name_size);
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
-    assert(f);
-    assert(mesg);
+    HDassert(f);
+    HDassert(mesg);
 
     ret_value = mesg->s ? HDstrlen(mesg->s) + 1 : 0;
 
-    FUNC_LEAVE_NOAPI(ret_value);
+    FUNC_LEAVE_NOAPI(ret_value)
 }
 
 
@@ -258,7 +258,7 @@ H5O_name_reset(void *_mesg)
 {
     H5O_name_t             *mesg = (H5O_name_t *) _mesg;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_name_reset)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
     HDassert(mesg);
@@ -286,23 +286,23 @@ H5O_name_reset(void *_mesg)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_name_debug(H5F_t UNUSED *f, hid_t UNUSED dxpl_id, const void *_mesg, FILE *stream,
+H5O_name_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void *_mesg, FILE *stream,
 	       int indent, int fwidth)
 {
     const H5O_name_t	*mesg = (const H5O_name_t *)_mesg;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_name_debug);
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* check args */
-    assert(f);
-    assert(mesg);
-    assert(stream);
-    assert(indent >= 0);
-    assert(fwidth >= 0);
+    HDassert(f);
+    HDassert(mesg);
+    HDassert(stream);
+    HDassert(indent >= 0);
+    HDassert(fwidth >= 0);
 
     fprintf(stream, "%*s%-*s `%s'\n", indent, "", fwidth,
             "Name:",
             mesg->s);
 
-    FUNC_LEAVE_NOAPI(SUCCEED);
+    FUNC_LEAVE_NOAPI(SUCCEED)
 }

@@ -44,19 +44,19 @@
  * field sizes and masks are calculated from TYPE_BITS.
  */
 #define TYPE_BITS	7
-#define TYPE_MASK	((1<<TYPE_BITS)-1)
+#define TYPE_MASK	(((hid_t)1 << TYPE_BITS) - 1)
 
-#define MAX_NUM_TYPES TYPE_MASK
+#define H5I_MAX_NUM_TYPES TYPE_MASK
 
 /*
  * Number of bits to use for the Atom index in each atom (assumes 8-bit
  * bytes). We don't use the sign bit.
  */
-#define ID_BITS		((sizeof(hid_t)*8)-(TYPE_BITS+1))
-#define ID_MASK		((1<<ID_BITS)-1)
+#define ID_BITS		((sizeof(hid_t) * 8) - (TYPE_BITS + 1))
+#define ID_MASK		(((hid_t)1 << ID_BITS) - 1)
 
 /* Map an atom to an ID type number */
-#define H5I_TYPE(a)	((H5I_type_t)(((hid_t)(a)>>ID_BITS) & TYPE_MASK))
+#define H5I_TYPE(a)	((H5I_type_t)(((hid_t)(a) >> ID_BITS) & TYPE_MASK))
 
 
 /****************************/
