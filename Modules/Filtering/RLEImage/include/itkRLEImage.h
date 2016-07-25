@@ -18,10 +18,10 @@
 #ifndef itkRLEImage_h
 #define itkRLEImage_h
 
+#include <itkImage.h>
+#include <itkImageBase.h>
 #include <utility> //std::pair
 #include <vector>
-#include <itkImageBase.h>
-#include <itkImage.h>
 
 namespace itk
 {
@@ -51,7 +51,6 @@ namespace itk
 template <typename TPixel, unsigned int VImageDimension = 3, typename CounterType = unsigned short>
 class RLEImage : public itk::ImageBase<VImageDimension>
 {
-
 public:
   /** Standard class typedefs */
   typedef RLEImage                        Self;
@@ -192,8 +191,8 @@ public:
   ///** \brief Access a pixel. Chaning it changes the whole RLE segment! */
   // TPixel & operator[](const IndexType & index)
   //{
-  //     return this->GetPixel(index);
-  // }
+  //    return this->GetPixel(index);
+  //}
 
   /** \brief Access a pixel. This version can only be an rvalue.
    * SLOW -> Use iterators instead. */
@@ -202,7 +201,6 @@ public:
   {
     return this->GetPixel(index);
   }
-
   virtual unsigned int
   GetNumberOfComponentsPerPixel() const
   {
@@ -279,7 +277,6 @@ protected:
   PrintSelf(std::ostream & os, itk::Indent indent) const;
 
   virtual ~RLEImage() {}
-
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be
    * overloaded in derived classes in order to provide backward compatibility

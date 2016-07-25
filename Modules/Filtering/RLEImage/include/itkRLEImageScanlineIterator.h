@@ -18,9 +18,9 @@
 #ifndef itkRLEImageScanlineIterator_h
 #define itkRLEImageScanlineIterator_h
 
-#include "itkRLEImageScanlineConstIterator.h"
-#include "itkRLEImageIterator.h"
 #include "itkImageScanlineIterator.h"
+#include "itkRLEImageIterator.h"
+#include "itkRLEImageScanlineConstIterator.h"
 
 namespace itk
 {

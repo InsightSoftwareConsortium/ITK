@@ -20,11 +20,11 @@
 
 #include "itkRLERegionOfInterestImageFilter.h"
 
-#include "itkRegionOfInterestImageFilter.h"
+#include "itkImage.h"
 #include "itkImageAlgorithm.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
-#include "itkImage.h"
+#include "itkRegionOfInterestImageFilter.h"
 
 namespace itk
 {

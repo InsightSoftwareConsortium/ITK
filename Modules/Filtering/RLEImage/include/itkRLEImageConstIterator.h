@@ -19,13 +19,13 @@
 #define itkRLEImageConstIterator_h
 
 #include "itkImage.h"
-#include "itkIndex.h"
-#include "itkNumericTraits.h"
-#include "itkRLEImage.h"
 #include "itkImageConstIterator.h"
 #include "itkImageConstIteratorWithIndex.h"
 #include "itkImageConstIteratorWithOnlyIndex.h"
 #include "itkImageRegionIterator.h"
+#include "itkIndex.h"
+#include "itkNumericTraits.h"
+#include "itkRLEImage.h"
 
 class MultiLabelMeshPipeline;
 
@@ -105,7 +105,6 @@ public:
 
   /** Default Destructor. */
   virtual ~ImageConstIterator() {}
-
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageConstIterator(const Self & it)
@@ -415,7 +414,6 @@ public:
   {
     this->ImageConstIterator<ImageType>::operator=(it);
   }
-
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIteratorWithIndex(const ImageType * ptr, const RegionType & region)
@@ -447,7 +445,6 @@ public:
   {
     this->ImageConstIterator<ImageType>::operator=(it);
   }
-
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIteratorWithOnlyIndex(const ImageType * ptr, const RegionType & region)

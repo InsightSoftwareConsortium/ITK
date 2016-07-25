@@ -18,10 +18,10 @@
 #ifndef itkRLEImageRegionConstIterator_h
 #define itkRLEImageRegionConstIterator_h
 
-#include "itkRLEImageConstIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIteratorWithOnlyIndex.h"
+#include "itkRLEImageConstIterator.h"
 
 class MultiLabelMeshPipeline;
 
@@ -104,7 +104,6 @@ public:
   {
     this->ImageConstIterator<ImageType>::operator=(it);
   }
-
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the end of the row of the region
@@ -210,7 +209,6 @@ public:
   {
     this->ImageRegionConstIterator<ImageType>::operator=(it);
   }
-
 }; // no additional implementation required
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -244,7 +242,6 @@ public:
   {
     this->ImageRegionConstIterator<ImageType>::operator=(it);
   }
-
 }; // no additional implementation required
 
 } // end namespace itk

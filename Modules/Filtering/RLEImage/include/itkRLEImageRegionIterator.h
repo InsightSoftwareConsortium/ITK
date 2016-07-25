@@ -18,10 +18,10 @@
 #ifndef itkRLEImageRegionIterator_h
 #define itkRLEImageRegionIterator_h
 
-#include "itkRLEImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkRLEImageIterator.h"
+#include "itkRLEImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -82,7 +82,6 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIterator. */
   ImageRegionIterator(const ImageIterator<ImageType> & it) { this->ImageConstIterator<ImageType>::operator=(it); }
-
   /** Set the pixel value.
    * Changing the RLE structure invalidates all other iterators (except this one). */
   void
@@ -151,7 +150,6 @@ public:
   {
     this->ImageRegionConstIteratorWithIndex<ImageType>::operator=(it);
   }
-
   /** Constructor that can be used to cast from an ImageConstIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionConstIterator.  Rather than
@@ -162,7 +160,6 @@ public:
   {
     this->ImageRegionConstIterator<ImageType>::operator=(it);
   }
-
 }; // no additional implementation required
 } // end namespace itk
 

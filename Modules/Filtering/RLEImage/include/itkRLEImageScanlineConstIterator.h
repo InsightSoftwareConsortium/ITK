@@ -18,8 +18,8 @@
 #ifndef itkRLEImageScanlineConstIterator_h
 #define itkRLEImageScanlineConstIterator_h
 
-#include "itkRLEImageRegionConstIterator.h"
 #include "itkImageScanlineIterator.h"
+#include "itkRLEImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -92,8 +92,6 @@ public:
   {
     this->ImageRegionConstIterator<ImageType>::operator=(it);
   }
-
-
   /** Go to the beginning pixel of the current line. */
   void
   GoToBeginOfLine(void)

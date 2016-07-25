@@ -19,9 +19,9 @@
 #define itkRLERegionOfInterestImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkSmartPointer.h"
-#include "itkRegionOfInterestImageFilter.h"
 #include "itkRLEImage.h"
+#include "itkRegionOfInterestImageFilter.h"
+#include "itkSmartPointer.h"
 
 namespace itk
 {
@@ -87,7 +87,7 @@ public:
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  // End concept checking
+// End concept checking
 #endif
 
 protected:
@@ -175,7 +175,7 @@ public:
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  // End concept checking
+// End concept checking
 #endif
 
 protected:
@@ -263,7 +263,7 @@ public:
   // Begin concept checking
   itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
   itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
-  // End concept checking
+// End concept checking
 #endif
 
 protected:
