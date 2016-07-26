@@ -120,20 +120,26 @@ public:
     {
       ++(this->m_BI);
       if (!this->m_BI.IsAtEnd())
+      {
         this->SetIndexInternal(this->m_BeginIndex0);
+      }
       else
+      {
         this->m_Index0 = this->m_BeginIndex0;
+      }
       return *this;
     }
 
     this->m_SegmentRemainder--;
     if (this->m_SegmentRemainder > 0)
+    {
       return *this;
+    }
 
     this->m_RealIndex++;
     this->m_SegmentRemainder = (*this->m_RunLengthLine)[this->m_RealIndex].first;
     return *this;
-  }
+  } // ++
 
   /** Decrement (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
@@ -156,12 +162,14 @@ public:
 
     this->m_SegmentRemainder++;
     if (this->m_SegmentRemainder <= (*this->m_RunLengthLine)[this->m_RealIndex].first)
+    {
       return *this;
+    }
 
     this->m_RealIndex--;
     this->m_SegmentRemainder = 1;
     return *this;
-  }
+  } // --
 };
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -243,7 +251,6 @@ public:
     this->ImageRegionConstIterator<ImageType>::operator=(it);
   }
 }; // no additional implementation required
-
 } // end namespace itk
 
 #endif // itkRLEImageRegionConstIterator_h

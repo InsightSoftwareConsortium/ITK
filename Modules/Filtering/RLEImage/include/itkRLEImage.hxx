@@ -35,7 +35,9 @@ RLEImage<TPixel, VImageDimension, CounterType>::truncateIndex(const IndexType & 
 {
   typename BufferType::IndexType result;
   for (IndexValueType i = 0; i < VImageDimension - 1; i++)
+  {
     result[i] = index[i + 1];
+  }
   return result;
 }
 
@@ -45,7 +47,9 @@ RLEImage<TPixel, VImageDimension, CounterType>::truncateSize(const SizeType & si
 {
   typename BufferType::SizeType result;
   for (IndexValueType i = 0; i < VImageDimension - 1; i++)
+  {
     result[i] = size[i + 1];
+  }
   return result;
 }
 
@@ -100,7 +104,9 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUpLine(RLLine & line) const
   {
     out.push_back(line[x]);
     while (++x < line.size() && line[x].second == line[x - 1].second)
+    {
       out.back().first += line[x].first;
+    }
   } while (x < line.size());
   out.swap(line);
 }
@@ -111,11 +117,17 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUp() const
 {
   assert(!m_Buffer.empty());
   if (this->GetLargestPossibleRegion().GetSize(0) == 0)
+  {
     return;
+  }
 #pragma omp parallel for
   for (CounterType z = 0; z < m_Buffer.size(); z++)
+  {
     for (CounterType y = 0; y < m_Buffer[0].size(); y++)
+    {
       CleanUpLine(m_Buffer[z][y]);
+    }
+  }
 }
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -129,7 +141,9 @@ RLEImage<TPixel, VImageDimension, CounterType>::SetPixel(RLLine &         line,
   itkAssertOrThrowMacro(this->GetBufferedRegion().GetSize(0) == this->GetLargestPossibleRegion().GetSize(0),
                         "BufferedRegion must contain complete run-length lines!");
   if (line[m_RealIndex].second == value) // already correct value
+  {
     return 0;
+  }
   else if (line[m_RealIndex].first == 1) // single pixel segment
   {
     line[m_RealIndex].second = value;
@@ -208,7 +222,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::SetPixel(RLLine &         line,
     segmentRemainder = 1;
     return +2;
   }
-}
+} // >::SetPixel
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
@@ -232,7 +246,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::SetPixel(const IndexType & index
     }
   }
   throw itk::ExceptionObject(__FILE__, __LINE__, "Reached past the end of Run-Length line!", __FUNCTION__);
-}
+} // >::SetPixel
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 const TPixel &
@@ -249,10 +263,12 @@ RLEImage<TPixel, VImageDimension, CounterType>::GetPixel(const IndexType & index
   {
     t += line[x].first;
     if (t > index[0] - bri0)
+    {
       return line[x].second;
+    }
   }
   throw itk::ExceptionObject(__FILE__, __LINE__, "Reached past the end of Run-Length line!", __FUNCTION__);
-}
+} // >::GetPixel
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
@@ -280,7 +296,6 @@ RLEImage<TPixel, VImageDimension, CounterType>::PrintSelf(std::ostream & os, itk
   int prec = os.precision(3);
   os << indent << "Compressed size in relation to original size: " << cr * 100 << "%" << std::endl;
   os.precision(prec);
-}
-
+} // >::PrintSelf
 } // end namespace itk
 #endif // itkRLEImage_hxx

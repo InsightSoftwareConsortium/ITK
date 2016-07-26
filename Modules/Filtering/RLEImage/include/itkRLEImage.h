@@ -258,10 +258,14 @@ public:
   SetOnTheFlyCleanup(bool value)
   {
     if (value == m_OnTheFlyCleanup)
+    {
       return;
+    }
     m_OnTheFlyCleanup = value;
     if (m_OnTheFlyCleanup)
+    {
       CleanUp(); // put the image into a clean state
+    }
   }
 
 
