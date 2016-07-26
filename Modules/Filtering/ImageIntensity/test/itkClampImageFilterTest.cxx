@@ -19,7 +19,10 @@
 #include <iostream>
 
 #include "itkClampImageFilter.h"
+#include "itkIsSame.h"
 #include "itkRandomImageSource.h"
+#include "itkTestingMacros.h"
+#include "itkUnaryFunctorImageFilter.h"
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
@@ -66,7 +69,14 @@ bool TestClampFromTo()
   source->SetSize( randomSize );
 
   typename FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, ClampImageFilter, UnaryFunctorImageFilter );
+
   filter->SetInput( source->GetOutput() );
+  if ( itk::IsSame< TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType >::Value )
+    {
+    filter->InPlaceOn();
+    }
   filter->UpdateLargestPossibleRegion();
 
   typedef itk::ImageRegionConstIterator< InputImageType >  InputIteratorType;
@@ -171,8 +181,15 @@ bool TestClampFromToWithCustomBounds()
   source->SetSize( randomSize );
 
   typename FilterType::Pointer filter = FilterType::New();
-  filter->SetBounds(static_cast< TOutputPixelType>(5), static_cast< TOutputPixelType>(15));
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, ClampImageFilter, UnaryFunctorImageFilter );
+
+  filter->SetBounds(static_cast< TOutputPixelType >(5), static_cast< TOutputPixelType >(15));
   filter->SetInput( source->GetOutput() );
+  if ( itk::IsSame< TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType >::Value )
+    {
+    filter->InPlaceOn();
+    }
   filter->UpdateLargestPossibleRegion();
 
   typedef itk::ImageRegionConstIterator< InputImageType >  InputIteratorType;
