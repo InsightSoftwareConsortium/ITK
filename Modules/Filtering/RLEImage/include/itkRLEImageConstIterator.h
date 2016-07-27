@@ -389,7 +389,7 @@ protected: // made protected so other iterators can access
 
   const RLLine * m_RunLengthLine;
 
-  mutable IndexValueType m_RealIndex;        // index into line's segment
+  mutable SizeValueType  m_RealIndex;        // index into line's segment
   mutable IndexValueType m_SegmentRemainder; // how many pixels remain in current segment
 
   IndexValueType m_BeginIndex0; // index to first pixel in region in relation to buffer start

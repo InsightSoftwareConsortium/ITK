@@ -133,6 +133,117 @@ private:
   RegionType m_RegionOfInterest;
 };
 
+template <typename TPixelIn,
+          typename TPixelOut,
+          unsigned int VImageDimension,
+          typename CounterTypeIn,
+          typename CounterTypeOut>
+class RegionOfInterestImageFilter<RLEImage<TPixelIn, VImageDimension, CounterTypeIn>,
+                                  RLEImage<TPixelOut, VImageDimension, CounterTypeOut>>
+  : public ImageToImageFilter<RLEImage<TPixelIn, VImageDimension, CounterTypeIn>,
+                              RLEImage<TPixelOut, VImageDimension, CounterTypeOut>>
+{
+public:
+  /** Standard class typedefs. */
+  typedef RegionOfInterestImageFilter                          Self;
+  typedef RLEImage<TPixelIn, VImageDimension, CounterTypeIn>   RLEImageTypeIn;
+  typedef RLEImage<TPixelOut, VImageDimension, CounterTypeOut> RLEImageTypeOut;
+  typedef RLEImageTypeOut                                      ImageType;
+  typedef ImageToImageFilter<RLEImageTypeIn, RLEImageTypeOut>  Superclass;
+  typedef SmartPointer<Self>                                   Pointer;
+  typedef SmartPointer<const Self>                             ConstPointer;
+  typedef typename Superclass::InputImageRegionType            InputImageRegionType;
+
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(RegionOfInterestImageFilter, ImageToImageFilter);
+
+  /** Typedef to describe the input image region types. */
+  typedef typename RLEImageTypeIn::RegionType RegionType;
+  typedef typename RLEImageTypeIn::IndexType  IndexType;
+  typedef typename RLEImageTypeIn::SizeType   SizeType;
+
+  /** Typedef to describe the type of pixel. */
+  typedef typename RLEImageTypeOut::PixelType OutputImagePixelType;
+  typedef typename RLEImageTypeIn::PixelType  InputImagePixelType;
+
+  /** Set/Get the output image region. */
+  itkSetMacro(RegionOfInterest, RegionType);
+  itkGetConstMacro(RegionOfInterest, RegionType);
+
+  /** ImageDimension enumeration */
+  itkStaticConstMacro(ImageDimension, unsigned int, VImageDimension);
+  itkStaticConstMacro(OutputImageDimension, unsigned int, VImageDimension);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro(SameDimensionCheck, (Concept::SameDimension<ImageDimension, OutputImageDimension>));
+  itkConceptMacro(InputConvertibleToOutputCheck, (Concept::Convertible<InputImagePixelType, OutputImagePixelType>));
+// End concept checking
+#endif
+
+protected:
+  RegionOfInterestImageFilter() {}
+  ~RegionOfInterestImageFilter() {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const;
+
+  virtual void
+  GenerateInputRequestedRegion();
+
+  virtual void
+  EnlargeOutputRequestedRegion(DataObject * output);
+
+  /** RegionOfInterestImageFilter can produce an image which is a different
+   * size than its input image.  As such, RegionOfInterestImageFilter
+   * needs to provide an implementation for
+   * GenerateOutputInformation() in order to inform the pipeline
+   * execution model.  The original documentation of this method is
+   * below.
+   *
+   * \sa ProcessObject::GenerateOutputInformaton()  */
+  virtual void
+  GenerateOutputInformation();
+
+  /** RegionOfInterestImageFilter can be implemented as a multithreaded filter.
+   * Therefore, this implementation provides a ThreadedGenerateData()
+   * routine which is called for each processing thread. The output
+   * image data is allocated automatically by the superclass prior to
+   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * write to the portion of the output image specified by the
+   * parameter "outputRegionForThread"
+   * \sa ImageToImageFilter::ThreadedGenerateData(),
+   *     ImageToImageFilter::GenerateData()  */
+  void
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId);
+
+private:
+  RegionOfInterestImageFilter(const Self &); // purposely not implemented
+  void
+  operator=(const Self &); // purposely not implemented
+
+  RegionType m_RegionOfInterest;
+};
+
+// not implemented on purpose, so it will produce a meaningful error message
+template <unsigned int VImageDimensionIn, unsigned int VImageDimensionOut>
+class InputAndOutputImagesMustHaveSameDimension;
+
+// input and output images must have the same dimension (e.g. both 2D or both 3D)
+// so disallow this by inheriting from unimplemented base class
+template <typename TPixelIn,
+          typename TPixelOut,
+          unsigned int VImageDimensionIn,
+          unsigned int VImageDimensionOut,
+          typename CounterTypeIn,
+          typename CounterTypeOut>
+class RegionOfInterestImageFilter<RLEImage<TPixelIn, VImageDimensionIn, CounterTypeIn>,
+                                  RLEImage<TPixelOut, VImageDimensionOut, CounterTypeOut>>
+  : InputAndOutputImagesMustHaveSameDimension<VImageDimensionIn, VImageDimensionOut>
+{};
+
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 class RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VImageDimension, CounterType>>
   : public ImageToImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VImageDimension, CounterType>>
