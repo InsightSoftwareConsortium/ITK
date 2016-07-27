@@ -23,17 +23,13 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMath.h"
-
+#include "itkTestingMacros.h"
+#include "itkVideoIOBase.h"
 
 typedef itk::SizeValueType SizeValueType;
 
-///////////////////////////////////////////////////////////////////////////////
-// This tests all of the functionality of the FileListVideoIO
-//
-// Usage: [Video Input] [Non-Video Input] [Video Output] [Width] [Height]
-//            [Num Frames] [Frames Per Second]
 
-int test_FileListVideoIO ( const char* input,
+int test_FileListVideoIO( const char* input,
                            char* nonVideoInput,
                            char* output,
                            char* itkNotUsed(cameraOutput),
@@ -53,19 +49,12 @@ int test_FileListVideoIO ( const char* input,
   // Create the VideoIO
   itk::FileListVideoIO::Pointer fileListIO = itk::FileListVideoIO::New();
 
-
-  //////
-  // SetFileName
-  //////
+  EXERCISE_BASIC_OBJECT_METHODS( fileListIO, FileListVideoIO, VideoIOBase );
 
   fileListIO->SetFileName(input);
 
 
-  //////
-  // CanReadFile
-  //////
   std::cout << "FileListVideoIO::CanReadFile..." << std::endl;
-
 
   // Test CanReadFile on good file
   if (!fileListIO->CanReadFile(input))
@@ -90,9 +79,6 @@ int test_FileListVideoIO ( const char* input,
     }
 
 
-  //////
-  // ReadImageInformation
-  //////
   std::cout << "FileListVideoIO::ReadImageInformation..." << std::endl;
 
   fileListIO->SetFileName(input);
@@ -112,7 +98,7 @@ int test_FileListVideoIO ( const char* input,
       << fileListIO->GetDimensions(1) << std::endl;
     }
   double epsilon = 0.0001;
-  if (fileListIO->GetFramesPerSecond() < inFpS - epsilon || fileListIO->GetFramesPerSecond() > inFpS + epsilon)
+  if ( !itk::Math::FloatAlmostEqual( fileListIO->GetFramesPerSecond(), inFpS, 10, epsilon) )
     {
     infoSet = false;
     paramMessage << "FpS mismatch: (expected) " << inFpS << " != (got) " << fileListIO->GetFramesPerSecond()
@@ -131,10 +117,11 @@ int test_FileListVideoIO ( const char* input,
     ret = EXIT_FAILURE;
     }
 
+  // Exercise other FileListVideoIO methods
+  std::cout << "PositionInMSec: " << fileListIO->GetPositionInMSec() << std::endl;
+  std::cout << "Ratio: " << fileListIO->GetRatio() << std::endl;
+  std::cout << "IFrameInterval: " << fileListIO->GetIFrameInterval() << std::endl;
 
-  //////
-  // Read
-  //////
   std::cout << "FileListVideoIO::Read..." << std::endl;
   std::cout << "Comparing all " << fileListIO->GetFrameTotal() << " frames" << std::endl;
 
@@ -185,9 +172,6 @@ int test_FileListVideoIO ( const char* input,
     }
 
 
-  //////
-  // SetNextFrameToRead
-  //////
   std::cout << "FileListVideoIO::SetNextFrameToRead" << std::endl;
 
   // try seeking to the end
@@ -209,14 +193,6 @@ int test_FileListVideoIO ( const char* input,
   fileListIO->FinishReadingOrWriting();
 
 
-  /////////////////////////////////////////////////////////////////////////////
-  // Test Writing
-  //
-
-
-  //////
-  // SetWriterParameters
-  //////
   std::cout << "FileListVideoIO::SetWriterParameters..." << std::endl;
 
   // Reset the saved parameters
@@ -241,9 +217,7 @@ int test_FileListVideoIO ( const char* input,
     ret = EXIT_FAILURE;
     }
 
-  //////
-  // CanWriteFile
-  //////
+
   std::cout << "FileListVideoIO::CanWriteFile..." << std::endl;
 
   // Test CanWriteFile on good filename
@@ -261,9 +235,6 @@ int test_FileListVideoIO ( const char* input,
     }
 
 
-  //////
-  // Write
-  //////
   std::cout << "FileListVideoIO::Write..." << std::endl;
 
   // Set output filename
@@ -306,19 +277,22 @@ int test_FileListVideoIO ( const char* input,
   fileListIO2->FinishReadingOrWriting();
   fileListIO->FinishReadingOrWriting();
 
+  std::cout << "Test finished" << std::endl;
 
-  std::cout<<"Done !"<<std::endl;
   return ret;
 }
 
-int itkFileListVideoIOTest ( int argc, char *argv[] )
+int itkFileListVideoIOTest( int argc, char *argv[] )
 {
   if (argc != 13)
     {
-    std::cerr << "Usage: [Video Input] [Non-Video Input] [Video Output] [Webcam Output] "
-      "[Width] [Height] [Num Frames] [FpS]" << std::endl;
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " videoInput(5 files) non-VideoInput videoOutput webcamOutput";
+    std::cerr << " width height numFrames FpS" << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Parse the input video files
   std::string inFile = "";
   for( int i = 1; i <= 5; ++i )
     {
