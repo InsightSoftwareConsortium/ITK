@@ -22,62 +22,29 @@
 namespace itk
 {
 
-///////////////////////////////////////////////////////////////////////////////
-// Constructor, Destructor, and Print
-//
-
-//
-// Constructor
-//
 FileListVideoIO::FileListVideoIO()
 {
   this->ResetMembers();
 }
 
-//
-// Destructor
-//
 FileListVideoIO::~FileListVideoIO()
 {
   this->FinishReadingOrWriting();
 }
 
-//
-// PrintSelf
-//
-void FileListVideoIO::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os,indent);
-  if (!m_ImageIO.IsNull() )
-    {
-    os << indent << "Internal ImageIO:" << std::endl;
-    m_ImageIO->Print(os, indent.GetNextIndent() );
-    }
-}
-
-//
-// FinishReadingOrWriting
-//
 void FileListVideoIO::FinishReadingOrWriting()
 {
   this->ResetMembers();
-
 }
 
-//
-// SetFileName -- Split list based on ';'
-//
 void FileListVideoIO::SetFileName(const std::string& fileList)
 {
-  SetFileName(fileList.c_str() );
+  this->SetFileName(fileList.c_str() );
 }
 
-//
-// SetFileName -- Split list based on ';'
-//
 void FileListVideoIO::SetFileName(const char* fileList)
 {
-  m_FileNames = SplitFileNames(fileList);
+  m_FileNames = this->SplitFileNames(fileList);
 
   // Set the number of frames
   m_FrameTotal = static_cast<SizeValueType>( m_FileNames.size() );
@@ -85,9 +52,6 @@ void FileListVideoIO::SetFileName(const char* fileList)
   this->Modified();
 }
 
-//
-// SplitFileNames ','
-//
 std::vector<std::string>
 FileListVideoIO
 ::SplitFileNames(const std::string& fileList)
@@ -118,13 +82,6 @@ FileListVideoIO
   return out;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Read related methods
-//
-
-//
-// SetReadFromFile
-//
 void FileListVideoIO::SetReadFromFile()
 {
   if (!m_ReaderOpen && !m_WriterOpen)
@@ -137,22 +94,16 @@ void FileListVideoIO::SetReadFromFile()
     }
 }
 
-//
-// SetReadFromCamera
-//
 void FileListVideoIO::SetReadFromCamera()
 {
   itkExceptionMacro("Read From Camera is not supported by this VideoIO");
 }
 
-//
-// CanReadFile
-//
 bool FileListVideoIO::CanReadFile(const char* filename)
 {
   // Make sure file names have been specified
   std::string strFileName = filename;
-  std::vector<std::string> fileList = SplitFileNames(strFileName);
+  std::vector<std::string> fileList = this->SplitFileNames(strFileName);
   if (fileList.empty())
     {
     return false;
@@ -175,17 +126,11 @@ bool FileListVideoIO::CanReadFile(const char* filename)
   return true;
 }
 
-//
-// CanReadCamera
-//
 bool FileListVideoIO::CanReadCamera( itk::SizeValueType itkNotUsed(cameraID) )const
 {
   return false;
 }
 
-//
-// ReadImageInformation
-//
 void FileListVideoIO::ReadImageInformation()
 {
   // Open from a file
@@ -206,21 +151,21 @@ void FileListVideoIO::ReadImageInformation()
       this->OpenReader();
       }
 
-    m_ImageIO->SetFileName(m_FileNames[0].c_str() );
+    m_ImageIO->SetFileName( m_FileNames[0].c_str() );
     m_ImageIO->ReadImageInformation();
 
     // No I-Frame issues to worry about
     m_IFrameInterval = 1;
     m_LastIFrame = m_FrameTotal-1;
 
-    // Fill Dimensions and Origin
+    // Fill dimensions and origin
     unsigned int numberOfDimensions = m_ImageIO->GetNumberOfDimensions();
     this->SetNumberOfDimensions( numberOfDimensions );
 
     for (unsigned int i = 0; i < numberOfDimensions; ++i)
       {
       m_Dimensions[i] = m_ImageIO->GetDimensions(i);
-      m_Origin.push_back(m_ImageIO->GetOrigin(i) );
+      m_Origin.push_back( m_ImageIO->GetOrigin(i) );
       }
 
     // Get other image info
@@ -246,9 +191,6 @@ void FileListVideoIO::ReadImageInformation()
     }
 }
 
-//
-// Read
-//
 void FileListVideoIO::Read(void *buffer)
 {
   // Make sure we've already called ReadImageInformation (dimensions are
@@ -275,12 +217,8 @@ void FileListVideoIO::Read(void *buffer)
     }
 }
 
-//
-// SetNextFrameToRead
-//
 bool FileListVideoIO::SetNextFrameToRead(FrameOffsetType frameNumber)
 {
-
   if (frameNumber >= m_FrameTotal)
     {
     return false;
@@ -290,9 +228,6 @@ bool FileListVideoIO::SetNextFrameToRead(FrameOffsetType frameNumber)
   return true;
 }
 
-//
-// GetSpacing
-//
 double FileListVideoIO::GetSpacing(unsigned int i) const
 {
   if (!m_ReaderOpen)
@@ -302,9 +237,6 @@ double FileListVideoIO::GetSpacing(unsigned int i) const
   return m_ImageIO->GetSpacing(i);
 }
 
-//
-// GetOrigin
-//
 double FileListVideoIO::GetOrigin(unsigned int i) const
 {
   if (!m_ReaderOpen)
@@ -314,9 +246,6 @@ double FileListVideoIO::GetOrigin(unsigned int i) const
   return m_ImageIO->GetOrigin(i);
 }
 
-//
-// GetDirection
-//
 std::vector< double > FileListVideoIO::GetDirection(unsigned int i) const
 {
   if (!m_ReaderOpen)
@@ -326,18 +255,10 @@ std::vector< double > FileListVideoIO::GetDirection(unsigned int i) const
   return m_ImageIO->GetDirection(i);
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Write related methods
-//
-
-//
-// CanWriteFile
-//
 bool FileListVideoIO::CanWriteFile(const char* filename)
 {
-
   // Make sure file names have been specified
-  std::vector<std::string> fileList = SplitFileNames(filename);
+  std::vector<std::string> fileList = this->SplitFileNames(filename);
   if (fileList.empty())
     {
     return false;
@@ -360,9 +281,6 @@ bool FileListVideoIO::CanWriteFile(const char* filename)
   return true;
 }
 
-//
-// WriteImageInformation
-//
 void FileListVideoIO::WriteImageInformation()
 {
   if (!m_WriterOpen)
@@ -373,9 +291,6 @@ void FileListVideoIO::WriteImageInformation()
   m_ImageIO->WriteImageInformation();
 }
 
-//
-// SetWriterParameters
-//
 void FileListVideoIO::SetWriterParameters(
   TemporalRatioType framesPerSecond,
   const std::vector<SizeValueType>& dim,
@@ -397,16 +312,13 @@ void FileListVideoIO::SetWriterParameters(
 
 }
 
-//
-// Write
-//
 void FileListVideoIO::Write(const void *buffer)
 {
 
   // Make sure parameters are specified
   if (m_Dimensions.empty())
     {
-    itkExceptionMacro("Can not write with empty parameters. You probably need to call SetWriterParameters");
+    itkExceptionMacro("Cannot write with empty parameters. You probably need to call SetWriterParameters");
     }
 
   // If the writer isn't open yet, open it
@@ -436,29 +348,22 @@ void FileListVideoIO::Write(const void *buffer)
 
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// Protected methods
-//
-
-//
-// OpenReader
-//
 void FileListVideoIO::OpenReader()
 {
   if (m_ReaderOpen)
     {
-    itkExceptionMacro("Can not open reader while video is already open for reading");
+    itkExceptionMacro("Cannot open reader while video is already open for reading");
     }
 
   if (m_WriterOpen)
     {
-    itkExceptionMacro("Can not open reader while video is already open for writing");
+    itkExceptionMacro("Cannot open reader while video is already open for writing");
     }
 
   // Make sure FileNames have been specified
   if (m_FileNames.empty())
     {
-    itkExceptionMacro("Can not open reader without file names set");
+    itkExceptionMacro("Cannot open reader without file names set");
     }
 
   // If neither reader nor writer is currently open, open the reader
@@ -487,25 +392,22 @@ void FileListVideoIO::OpenReader()
     }
 }
 
-//
-// OpenWriter
-//
 void FileListVideoIO::OpenWriter()
 {
   if (m_WriterOpen)
     {
-    itkExceptionMacro("Can not open writer while video is already open for writing");
+    itkExceptionMacro("Cannot open writer while video is already open for writing");
     }
 
   if (m_ReaderOpen)
     {
-    itkExceptionMacro("Can not open writer while video is already open for reading");
+    itkExceptionMacro("Cannot open writer while video is already open for reading");
     }
 
   // Make sure FileNames have been specified
   if (m_FileNames.size() == 0)
     {
-    itkExceptionMacro("Can not open reader without file names set");
+    itkExceptionMacro("Cannot open reader without file names set");
     }
 
   // If neither reader nor writer is currently open, open the writer
@@ -521,9 +423,6 @@ void FileListVideoIO::OpenWriter()
     }
 }
 
-//
-// ResetMembers
-//
 void FileListVideoIO::ResetMembers()
 {
   m_ImageIO = ITK_NULLPTR;
@@ -576,6 +475,26 @@ FileListVideoIO
       }
     }
   return true;
+}
+
+void FileListVideoIO::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  if ( !m_ImageIO.IsNull() )
+    {
+    os << indent << "Internal ImageIO:" << std::endl;
+    m_ImageIO->Print( os, indent.GetNextIndent() );
+    }
+
+  os << indent << "Image filenames:" << std::endl;
+  std::vector<std::string>::const_iterator it = m_FileNames.begin();
+  while( it != m_FileNames.end() )
+    {
+    os << indent << *it << std::endl;
+    ++it;
+    }
+
 }
 
 } // end namespace itk
