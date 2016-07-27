@@ -15,8 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkLandmarkBasedTransformInitializer.h"
 #include "itkImage.h"
+#include "itkObject.h"
+#include "itkTestingMacros.h"
+
 #include <iostream>
 
 template <typename TTransformInitializer>
@@ -25,76 +29,93 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer &fixedLandma
            typename TTransformInitializer::LandmarkPointContainer &movingLandmarks)
 {
   const double nPI = 4.0 * std::atan( 1.0 );
+
   // Moving Landmarks = Fixed Landmarks rotated by 'angle' degrees and then
-  //    translated by the 'translation'. Offset can be used to move the fixed
-  //    landmarks around.
+  // translated by the 'translation'. Offset can be used to move the fixed
+  // landmarks around.
+
   typename TTransformInitializer::LandmarkPointType point;
   typename TTransformInitializer::LandmarkPointType tmp;
+
   double angle = 10 * nPI / 180.0;
+
   typename TTransformInitializer::LandmarkPointType translation;
   translation[0] = 6;
   translation[1] = 10;
   translation[2] = 7;
+
   typename TTransformInitializer::LandmarkPointType offset;
   offset[0] = 10;
   offset[1] = 1;
   offset[2] = 5;
-  point[0]=2 + offset[0];
-  point[1]=2 + offset[1];
-  point[2]=0 + offset[2];
+  point[0] = 2 + offset[0];
+  point[1] = 2 + offset[1];
+  point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
+
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
   movingLandmarks.push_back(point);
-  point[0]=2 + offset[0];
-  point[1]=-2 + offset[1];
-  point[2]=0 + offset[2];
+
+  point[0] = 2 + offset[0];
+  point[1] = -2 + offset[1];
+  point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
+
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
   movingLandmarks.push_back(point);
-  point[0]=-2 + offset[0];
-  point[1]=2 + offset[1];
-  point[2]=0 + offset[2];
+
+  point[0] = -2 + offset[0];
+  point[1] = 2 + offset[1];
+  point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
+
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
   movingLandmarks.push_back(point);
-  point[0]=-2 + offset[0];
-  point[1]=-2 + offset[1];
-  point[2]=0 + offset[2];
+
+  point[0] = -2 + offset[0];
+  point[1] = -2 + offset[1];
+  point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
+
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   point[2] = point[2] + translation[2];
+
   movingLandmarks.push_back(point);
 }
-//
-// The test specifies a bunch of fixed and moving landmarks and test if the
-// fixed landmarks after transform by the computed transform coincides
-// with the moving landmarks....
 
-int itkLandmarkBasedTransformInitializerTest(int, char * [])
+//
+// The test specifies a bunch of fixed and moving landmarks and tests if the
+// fixed landmarks after transform by the computed transform coincides
+// with the moving landmarks.
+
+int itkLandmarkBasedTransformInitializerTest( int, char * [] )
 {
 
-
   {
-  // Test LandmarkBasedTransformInitializer for Rigid 3D landmark
+  // Test LandmarkBasedTransformInitializer for rigid 3D landmark
   // based alignment
   std::cout << "Testing Landmark alignment with VersorRigid3DTransform" << std::endl;
 
-  typedef  unsigned char  PixelType;
+  typedef unsigned char PixelType;
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  typedef itk::Image< PixelType, Dimension > FixedImageType;
+  typedef itk::Image< PixelType, Dimension > MovingImageType;
 
   FixedImageType::Pointer fixedImage   = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -132,11 +153,13 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
                                                   MovingImageType > TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
+
   // Set fixed and moving landmarks
   TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   TransformInitializerType::LandmarkPointContainer movingLandmarks;
 
-  Init3DPoints<TransformInitializerType>(fixedLandmarks,movingLandmarks);
+  Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks);
 
   initializer->SetFixedLandmarks(fixedLandmarks);
   initializer->SetMovingLandmarks(movingLandmarks);
@@ -164,7 +187,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   while( mitr != movingLandmarks.end() )
     {
-    std::cout << "  Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
+    std::cout << " Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
               << " Transformed fixed Landmark : " <<
       transform->TransformPoint( *fitr ) << std::endl;
 
@@ -180,28 +203,27 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   if( failed )
     {
-    // Hang heads in shame
-    std::cout << "  Fixed landmarks transformed by the transform did not match closely "
-              << " enough with the moving landmarks.  The transform computed was: ";
+    std::cout << " Fixed landmarks transformed by the transform did not match closely "
+              << "enough with the moving landmarks. The transform computed was: ";
     transform->Print(std::cout);
-    std::cout << "  [FAILED]" << std::endl;
+    std::cout << " [FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   else
     {
-    std::cout << "  Landmark alignment using Rigid3D transform [PASSED]" << std::endl;
+    std::cout << " Landmark alignment using Rigid3D transform [PASSED]" << std::endl;
     }
   }
 
   {
-  //Test landmark alignment using Rigid 2D transform in 2 dimensions
+  // Test landmark alignment using Rigid 2D transform in 2 dimensions
   std::cout << "Testing Landmark alignment with Rigid2DTransform" << std::endl;
 
-  typedef  unsigned char  PixelType;
+  typedef unsigned char PixelType;
   const unsigned int Dimension = 2;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  typedef itk::Image< PixelType, Dimension > FixedImageType;
+  typedef itk::Image< PixelType, Dimension > MovingImageType;
 
   FixedImageType::Pointer fixedImage   = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -231,12 +253,15 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   movingImage->SetRequestedRegion( mRegion );
   movingImage->Allocate();
 
-  // Set the transform type..
+  // Set the transform type
   typedef itk::Rigid2DTransform< double > TransformType;
   TransformType::Pointer transform = TransformType::New();
   typedef itk::LandmarkBasedTransformInitializer< TransformType,
                                                   FixedImageType, MovingImageType > TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
+
   initializer->DebugOn();
 
   // Set fixed and moving landmarks
@@ -246,49 +271,60 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   TransformInitializerType::LandmarkPointType tmp;
 
   // Moving Landmarks = Fixed Landmarks rotated by 'angle' degrees and then
-  //    translated by the 'translation'. Offset can be used to move the fixed
-  //    landmarks around.
+  // translated by the 'translation'. Offset can be used to move the fixed
+  // landmarks around.
   const double nPI = 4.0 * std::atan( 1.0 );
   double angle = 10 * nPI / 180.0;
+
   TransformInitializerType::LandmarkPointType translation;
   translation[0] = 6;
   translation[1] = 10;
+
   TransformInitializerType::LandmarkPointType offset;
   offset[0] = 10;
   offset[1] = 1;
+  point[0] = 2 + offset[0];
+  point[1] = 2 + offset[1];
+  fixedLandmarks.push_back(point);
 
-  point[0]=2 + offset[0];
-  point[1]=2 + offset[1];
-  fixedLandmarks.push_back(point);
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
-  point[0]=2 + offset[0];
-  point[1]=-2 + offset[1];
+
+  point[0] = 2 + offset[0];
+  point[1] = -2 + offset[1];
   fixedLandmarks.push_back(point);
+
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
-  point[0]=-2 + offset[0];
-  point[1]=2 + offset[1];
+
+  point[0] = -2 + offset[0];
+  point[1] = 2 + offset[1];
   fixedLandmarks.push_back(point);
+
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
-  point[0]=-2 + offset[0];
-  point[1]=-2 + offset[1];
+
+  point[0] = -2 + offset[0];
+  point[1] = -2 + offset[1];
   fixedLandmarks.push_back(point);
+
   tmp = point;
+
   point[0] = std::cos(angle)*point[0] - std::sin(angle)*point[1] + translation[0];
   point[1] = std::sin(angle)*tmp[0] + std::cos(angle)*point[1] + translation[1];
   movingLandmarks.push_back(point);
 
   initializer->SetFixedLandmarks(fixedLandmarks);
   initializer->SetMovingLandmarks(movingLandmarks);
-
 
   initializer->SetTransform( transform );
   initializer->InitializeTransform();
@@ -313,7 +349,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   while( mitr != movingLandmarks.end() )
     {
-    std::cout << "  Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
+    std::cout << " Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
               << " Transformed fixed Landmark : " <<
       transform->TransformPoint( *fitr ) << std::endl;
 
@@ -329,16 +365,15 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   if( failed )
     {
-    // Hang heads in shame
-    std::cout << "  Fixed landmarks transformed by the transform did not match closely "
-              << " enough with the moving landmarks.  The transform computed was: ";
+    std::cout << " Fixed landmarks transformed by the transform did not match closely "
+              << "enough with the moving landmarks.  The transform computed was: ";
     transform->Print(std::cout);
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   else
     {
-    std::cout << "  Landmark alignment using Rigid2D transform [PASSED]" << std::endl;
+    std::cout << " Landmark alignment using Rigid2D transform [PASSED]" << std::endl;
     }
   }
 
@@ -379,9 +414,12 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   typedef itk::LandmarkBasedTransformInitializer< TransformType,
                                                   ImageType, ImageType > TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
+
   bool pass = false;
 
-  //Test that an exception is thrown if there aren't enough points
+  // Test that an exception is thrown if there aren't enough points
   try {
     initializer->SetTransform(transform);
     initializer->InitializeTransform();
@@ -426,17 +464,19 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     {
       10,1,10,1,1,1,0.001,0.001
     };
+
   { //First Test with working Landmarks
     // These landmark should match properly
   const unsigned int numWorkingLandmark=6;
   TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   TransformInitializerType::LandmarkPointContainer movingLandmarks;
   TransformInitializerType::LandmarkWeightType landmarkWeights;
-  for(unsigned i = 0; i < numWorkingLandmark; i++)
+
+  for(unsigned i = 0; i < numWorkingLandmark; ++i)
     {
     TransformInitializerType::LandmarkPointType fixedPoint, movingPoint;
 
-    for(unsigned j = 0; j < 3; j++)
+    for(unsigned j = 0; j < 3; ++j)
       {
       fixedPoint[j] = fixedLandMarkInit[i][j];
       movingPoint[j] = movingLandmarkInit[i][j];
@@ -468,7 +508,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     {
     TransformInitializerType::LandmarkPointType transformedPoint =
       transform->TransformPoint( *fitr );
-    std::cout << "  Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
+    std::cout << " Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
               << " Transformed fixed Landmark : "
               << transformedPoint;
 
@@ -485,16 +525,15 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   if( failed )
     {
-    // Hang heads in shame
-    std::cout << "  Fixed landmarks transformed by the transform did not match closely "
-              << " enough with the moving landmarks.  The transform computed was: ";
+    std::cout << " Fixed landmarks transformed by the transform did not match closely "
+              << "enough with the moving landmarks.  The transform computed was: ";
     transform->Print(std::cout);
-    std::cout << "  [FAILED]" << std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   else
     {
-    std::cout << "  Landmark alignment using Affine transform [PASSED]" << std::endl;
+    std::cout << " Landmark alignment using Affine transform [PASSED]" << std::endl;
     }
   }
 
@@ -505,11 +544,11 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   TransformInitializerType::LandmarkPointContainer movingLandmarks;
   TransformInitializerType::LandmarkWeightType landmarkWeights;
 
-  for(unsigned i = 0; i < numDummyLandmark; i++)
+  for(unsigned i = 0; i < numDummyLandmark; ++i)
     {
     TransformInitializerType::LandmarkPointType fixedPoint, movingPoint;
 
-    for(unsigned j = 0; j < 3; j++)
+    for(unsigned j = 0; j < 3; ++j)
       {
       fixedPoint[j] = fixedLandMarkInit[i][j];
       movingPoint[j] = movingLandmarkInit[i][j];
@@ -541,7 +580,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     {
     TransformInitializerType::LandmarkPointType transformedPoint =
       transform->TransformPoint( *fitr );
-    std::cout << "  Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
+    std::cout << " Fixed Landmark: " << *fitr << " Moving landmark " << *mitr
               << " Transformed fixed Landmark : "
               << transformedPoint;
 
@@ -558,16 +597,15 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   if( failed > 2)
     {
-    // Hang heads in shame
-    std::cout << "  Fixed landmarks transformed by the transform did not match closely "
-              << " enough with the moving landmarks.  The transform computed was: ";
+    std::cout << " Fixed landmarks transformed by the transform did not match closely "
+              << "enough with the moving landmarks.  The transform computed was: ";
     transform->Print(std::cout);
-    std::cout << "  [FAILED]" << std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   else
     {
-    std::cout << "  Landmark alignment using Affine transform [PASSED]" << std::endl;
+    std::cout << " Landmark alignment using Affine transform [PASSED]" << std::endl;
 
     }
   } // Second test with dummy
@@ -576,11 +614,11 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   {
   std::cout << "\nTesting Landmark alignment with BSplineTransform..." << std::endl;
 
-  typedef  unsigned char  PixelType;
+  typedef unsigned char PixelType;
   const unsigned int Dimension = 3;
 
-  typedef itk::Image< PixelType, Dimension >  FixedImageType;
-  typedef itk::Image< PixelType, Dimension >  MovingImageType;
+  typedef itk::Image< PixelType, Dimension > FixedImageType;
+  typedef itk::Image< PixelType, Dimension > MovingImageType;
 
   FixedImageType::Pointer fixedImage   = FixedImageType::New();
   MovingImageType::Pointer movingImage = MovingImageType::New();
@@ -616,23 +654,23 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   origin[2] = -5;
   fixedImage->SetOrigin( origin );
 
-  // Set the transform type...
+  // Set the transform type
   const unsigned int SplineOrder = 3;
   typedef itk::BSplineTransform< double, FixedImageType::ImageDimension, SplineOrder>  TransformType;
   TransformType::Pointer transform = TransformType::New();
 
-  typedef itk::LandmarkBasedTransformInitializer< TransformType, FixedImageType, MovingImageType > TransformInitializerType;
+  typedef itk::LandmarkBasedTransformInitializer< TransformType, FixedImageType, MovingImageType >
+    TransformInitializerType;
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
 
   TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   TransformInitializerType::LandmarkPointContainer movingLandmarks;
   Init3DPoints<TransformInitializerType>(fixedLandmarks,movingLandmarks);
 
   const unsigned int numLandmarks = 4;
-  double weights[numLandmarks] =
-    {
-    1,3,0.01,0.5
-    };
+  double weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
 
   TransformInitializerType::LandmarkWeightType landmarkWeights;
   for(unsigned i = 0; i < numLandmarks; i++)
@@ -648,7 +686,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   bool pass = false;
 
-  //Test that an exception is thrown if the reference image isn't set
+  // Test that an exception is thrown if the reference image isn't set
   try
     {
     initializer->InitializeTransform();
@@ -665,7 +703,7 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
     return EXIT_FAILURE;
     }
 
-  //Now set the reference image and initialization should work
+  // Now set the reference image and initialization should work
   initializer->SetReferenceImage(fixedImage);
   initializer->InitializeTransform();
 
@@ -700,15 +738,15 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
 
   if( failed )
     {
-    std::cout << "  Fixed landmarks transformed by the transform did not match closely"
-              << " enough with the moving landmarks.  The transform computed was:" << std::endl;
+    std::cout << " Fixed landmarks transformed by the transform did not match closely"
+              << "enough with the moving landmarks.  The transform computed was:" << std::endl;
     transform->Print(std::cout);
-    std::cout << "  [FAILED]" << std::endl;
+    std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
     }
   else
     {
-    std::cout << "  Landmark alignment using BSplineTransform transform [PASSED]" << std::endl;
+    std::cout << "Landmark alignment using BSplineTransform transform [PASSED]" << std::endl;
     }
   }
 
@@ -718,6 +756,8 @@ int itkLandmarkBasedTransformInitializerTest(int, char * [])
   typedef itk::LandmarkBasedTransformInitializer< TransformType > TransformInitializerType;
 
   TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( initializer, LandmarkBasedTransformInitializer, Object );
   }
 
   return EXIT_SUCCESS;
