@@ -23,6 +23,7 @@
 #include "itkRandomImageSource.h"
 #include "itkTestingMacros.h"
 #include "itkUnaryFunctorImageFilter.h"
+#include "itkImageAlgorithm.h"
 
 // Better name demanging for gcc
 #if __GNUC__ > 3 || ( __GNUC__ == 3 && __GNUC_MINOR__ > 0 )
@@ -65,12 +66,19 @@ bool TestClampFromTo()
   typedef itk::RandomImageSource< InputImageType > SourceType;
   typename SourceType::Pointer source = SourceType::New();
 
-  typename InputImageType::SizeValueType randomSize[3] = {18, 17, 23};
+  typename InputImageType::SizeType randomSize = {{18, 17, 23}};
   source->SetSize( randomSize );
+  source->UpdateLargestPossibleRegion();
+  typename InputImageType::Pointer sourceCopy = InputImageType::New();
+  typename InputImageType::RegionType region;
+  region.SetSize( randomSize );
+  sourceCopy->SetRegions( region );
+  sourceCopy->Allocate();
+  // Create a copy to use when InPlaceOn is set
+  itk::ImageAlgorithm::Copy( source->GetOutput(), sourceCopy.GetPointer(), region, region );
+
 
   typename FilterType::Pointer filter = FilterType::New();
-
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ClampImageFilter, UnaryFunctorImageFilter );
 
   filter->SetInput( source->GetOutput() );
   if ( itk::IsSame< TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType >::Value )
@@ -82,8 +90,8 @@ bool TestClampFromTo()
   typedef itk::ImageRegionConstIterator< InputImageType >  InputIteratorType;
   typedef itk::ImageRegionConstIterator< OutputImageType > OutputIteratorType;
 
-  InputIteratorType  it( source->GetOutput(),
-                         source->GetOutput()->GetLargestPossibleRegion() );
+  InputIteratorType  it( sourceCopy,
+                         sourceCopy->GetLargestPossibleRegion() );
   OutputIteratorType ot( filter->GetOutput(),
                          filter->GetOutput()->GetLargestPossibleRegion() );
 
@@ -177,12 +185,18 @@ bool TestClampFromToWithCustomBounds()
   source->SetMin(static_cast< TInputPixelType >(0));
   source->SetMax(static_cast< TInputPixelType >(20));
 
-  typename InputImageType::SizeValueType randomSize[3] = {18, 17, 23};
+  typename InputImageType::SizeType randomSize= {{18, 17, 23}};
   source->SetSize( randomSize );
+  source->UpdateLargestPossibleRegion();
+  typename InputImageType::Pointer sourceCopy = InputImageType::New();
+  typename InputImageType::RegionType region;
+  region.SetSize( randomSize );
+  sourceCopy->SetRegions( region );
+  sourceCopy->Allocate();
+  // Create a copy to use when InPlaceOn is set
+  itk::ImageAlgorithm::Copy( source->GetOutput(), sourceCopy.GetPointer(), region, region );
 
   typename FilterType::Pointer filter = FilterType::New();
-
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ClampImageFilter, UnaryFunctorImageFilter );
 
   filter->SetBounds(static_cast< TOutputPixelType >(5), static_cast< TOutputPixelType >(15));
   filter->SetInput( source->GetOutput() );
@@ -195,8 +209,8 @@ bool TestClampFromToWithCustomBounds()
   typedef itk::ImageRegionConstIterator< InputImageType >  InputIteratorType;
   typedef itk::ImageRegionConstIterator< OutputImageType > OutputIteratorType;
 
-  InputIteratorType  it( source->GetOutput(),
-                         source->GetOutput()->GetLargestPossibleRegion() );
+  InputIteratorType  it( sourceCopy,
+                         sourceCopy->GetLargestPossibleRegion() );
   OutputIteratorType ot( filter->GetOutput(),
                          filter->GetOutput()->GetLargestPossibleRegion() );
 
@@ -278,6 +292,11 @@ bool TestClampFromWithCustomBounds()
 int itkClampImageFilterTest( int, char* [] )
 {
   std::cout << "itkClampImageFilterTest Start" << std::endl;
+
+  typedef itk::Image< unsigned char, 3 >                ImageType;
+  typedef itk::ClampImageFilter< ImageType, ImageType > FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, ClampImageFilter, UnaryFunctorImageFilter );
 
   bool success =
     TestClampFrom< char >() &&
