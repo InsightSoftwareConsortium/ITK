@@ -250,7 +250,10 @@ itk_add_test(NAME itkPolylineMask2DImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkPolylineMask2DImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
 itk_add_test(NAME itkPolylineMaskImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkPolylineMaskImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+      --compare DATA{Baseline/PolylineMaskImageFilterTest.mha}
+                ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
+      itkPolylineMaskImageFilterTest ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha)
 itk_add_test(NAME itkPromoteDimensionImageTest
       COMMAND ITKImageIntensityTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd,PromoteDimensionImageTest.raw}

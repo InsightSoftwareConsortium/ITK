@@ -19,14 +19,22 @@
 #include "itkPolylineMaskImageFilter.h"
 #include "itkPolyLineParametricPath.h"
 #include "itkEllipseSpatialObject.h"
+#include "itkImageFileWriter.h"
 #include "itkImageToImageFilter.h"
 #include "itkSpatialObjectToImageFilter.h"
 #include "itkTestingMacros.h"
 
 #include <iostream>
 
-int itkPolylineMaskImageFilterTest( int , char * [] )
+int itkPolylineMaskImageFilterTest( int argc, char * argv[] )
 {
+
+  if ( argc < 2 )
+    {
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " outputFilename" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Define the dimension of the images
   const unsigned int iDimension = 3;
@@ -79,14 +87,13 @@ int itkPolylineMaskImageFilterTest( int , char * [] )
   imageGenerationFilter->SetOutsideValue(0);
   imageGenerationFilter->Update();
 
-  //Write out the input image
-/*
-  typedef  itk::ImageFileWriter<  inputImageType  > SpatialObjectImageWriterType;
-  SpatialObjectImageWriterType::Pointer spatialObjectImageWriter = SpatialObjectImageWriterType::New();
+  // Write out the input image
+  /*typedef itk::ImageFileWriter< inputImageType > SpatialObjectImageWriterType;
+  SpatialObjectImageWriterType::Pointer spatialObjectImageWriter =
+    SpatialObjectImageWriterType::New();
   spatialObjectImageWriter->SetFileName( argv[1] );
   spatialObjectImageWriter->SetInput( imageGenerationFilter->GetOutput() );
-  spatialObjectImageWriter->Update();
-*/
+  spatialObjectImageWriter->Update(); */
 
   std::cout << "Generating the polyline contour..." << std::endl;
   //Initialize the polyline
@@ -180,18 +187,14 @@ int itkPolylineMaskImageFilterTest( int , char * [] )
 
   TEST_SET_GET_VALUE( focalpoint, polylineMaskFilter->GetFocalPoint() );
 
-
   polylineMaskFilter->Update();
 
-  //Write out the output image
-
-  /*
-  typedef  itk::ImageFileWriter<  outputImageType  > OutputWriterType;
+  // Write out the output image
+  typedef itk::ImageFileWriter< outputImageType > OutputWriterType;
   OutputWriterType::Pointer outputWriter = OutputWriterType::New();
-  outputWriter->SetFileName( argv[2] );
-  outputWriter->SetInput( filter->GetOutput() );
+  outputWriter->SetFileName( argv[1] );
+  outputWriter->SetInput( polylineMaskFilter->GetOutput() );
   outputWriter->Update();
-*/
 
   return EXIT_SUCCESS;
 }
