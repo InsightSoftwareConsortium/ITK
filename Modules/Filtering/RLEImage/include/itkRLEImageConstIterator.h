@@ -19,13 +19,13 @@
 #define itkRLEImageConstIterator_h
 
 #include "itkImage.h"
-#include "itkIndex.h"
-#include "itkNumericTraits.h"
-#include "itkRLEImage.h"
 #include "itkImageConstIterator.h"
 #include "itkImageConstIteratorWithIndex.h"
 #include "itkImageConstIteratorWithOnlyIndex.h"
 #include "itkImageRegionIterator.h"
+#include "itkIndex.h"
+#include "itkNumericTraits.h"
+#include "itkRLEImage.h"
 
 class MultiLabelMeshPipeline;
 
@@ -105,7 +105,6 @@ public:
 
   /** Default Destructor. */
   virtual ~ImageConstIterator() {}
-
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageConstIterator(const Self & it)
@@ -201,9 +200,13 @@ public:
   operator<=(const Self & it) const
   {
     if (m_BI < it.m_BI)
+    {
       return true;
+    }
     else if (m_BI > it.m_BI)
+    {
       return false;
+    }
     return m_Index0 + m_BeginIndex0 <= it.m_Index0 + it.m_BeginIndex0;
   }
 
@@ -213,9 +216,13 @@ public:
   operator<(const Self & it) const
   {
     if (m_BI < it.m_BI)
+    {
       return true;
+    }
     else if (m_BI > it.m_BI)
+    {
       return false;
+    }
     return m_Index0 + m_BeginIndex0 < it.m_Index0 + it.m_BeginIndex0;
   }
 
@@ -225,9 +232,13 @@ public:
   operator>=(const Self & it) const
   {
     if (m_BI > it.m_BI)
+    {
       return true;
+    }
     else if (m_BI < it.m_BI)
+    {
       return false;
+    }
     return m_Index0 + m_BeginIndex0 >= it.m_Index0 + it.m_BeginIndex0;
   }
 
@@ -237,9 +248,13 @@ public:
   operator>(const Self & it) const
   {
     if (m_BI > it.m_BI)
+    {
       return true;
+    }
     else if (m_BI < it.m_BI)
+    {
       return false;
+    }
     return m_Index0 + m_BeginIndex0 > it.m_Index0 + it.m_BeginIndex0;
   }
 
@@ -251,7 +266,9 @@ public:
     indR[0] += m_Index0;
     typename BufferType::IndexType bufInd = m_BI.GetIndex();
     for (IndexValueType i = 1; i < VImageDimension; i++)
+    {
       indR[i] = bufInd[i - 1];
+    }
     return indR;
   }
 
@@ -261,7 +278,9 @@ public:
   {
     typename BufferType::IndexType bufInd;
     for (IndexValueType i = 1; i < VImageDimension; i++)
+    {
       bufInd[i - 1] = ind[i];
+    }
     m_BI.SetIndex(bufInd);
     SetIndexInternal(ind[0] - m_Image->GetBufferedRegion().GetIndex(0));
   }
@@ -356,11 +375,13 @@ protected: // made protected so other iterators can access
     {
       t += (*m_RunLengthLine)[x].first;
       if (t > m_Index0)
+      {
         break;
+      }
     }
     m_RealIndex = x;
     m_SegmentRemainder = t - m_Index0;
-  }
+  } // SetIndexInternal
 
   typename ImageType::ConstWeakPointer m_Image;
 
@@ -415,7 +436,6 @@ public:
   {
     this->ImageConstIterator<ImageType>::operator=(it);
   }
-
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIteratorWithIndex(const ImageType * ptr, const RegionType & region)
@@ -447,14 +467,12 @@ public:
   {
     this->ImageConstIterator<ImageType>::operator=(it);
   }
-
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIteratorWithOnlyIndex(const ImageType * ptr, const RegionType & region)
     : ImageConstIterator<ImageType>(ptr, region)
   {}
 }; // no additional implementation required
-
 } // end namespace itk
 
 #endif // itkRLEImageConstIterator_h

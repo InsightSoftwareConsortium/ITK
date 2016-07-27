@@ -18,8 +18,8 @@
 #ifndef itkRLEImageScanlineConstIterator_h
 #define itkRLEImageScanlineConstIterator_h
 
-#include "itkRLEImageRegionConstIterator.h"
 #include "itkImageScanlineIterator.h"
+#include "itkRLEImageRegionConstIterator.h"
 
 namespace itk
 {
@@ -92,8 +92,6 @@ public:
   {
     this->ImageRegionConstIterator<ImageType>::operator=(it);
   }
-
-
   /** Go to the beginning pixel of the current line. */
   void
   GoToBeginOfLine(void)
@@ -125,9 +123,13 @@ public:
   {
     ++(this->m_BI);
     if (!this->m_BI.IsAtEnd())
+    {
       this->SetIndexInternal(this->m_BeginIndex0);
+    }
     else
+    {
       this->m_Index0 = this->m_BeginIndex0; // make this iterator at end too
+    }
   }
 
   /** Increment (prefix) along the scanline.
@@ -144,14 +146,18 @@ public:
     this->m_Index0++;
     this->m_SegmentRemainder--;
     if (this->m_SegmentRemainder > 0)
+    {
       return *this;
+    }
 
     if (this->IsAtEndOfLine())
+    {
       return *this;
+    }
     this->m_RealIndex++;
     this->m_SegmentRemainder = (*this->m_RunLengthLine)[this->m_RealIndex].first;
     return *this;
-  }
+  } // ++
 
   /** Decrement (prefix) along the scanline.
    *
@@ -162,7 +168,9 @@ public:
     this->m_Index0--;
     this->m_SegmentRemainder++;
     if (this->m_SegmentRemainder <= (*this->m_RunLengthLine)[this->m_RealIndex].first)
+    {
       return *this;
+    }
 
     this->m_RealIndex--;
     this->m_SegmentRemainder = 1;

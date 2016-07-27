@@ -18,8 +18,8 @@
 #ifndef itkRLEImageIterator_h
 #define itkRLEImageIterator_h
 
-#include "itkRLEImageConstIterator.h"
 #include "itkImageIteratorWithIndex.h"
+#include "itkRLEImageConstIterator.h"
 
 namespace itk
 {
@@ -61,10 +61,8 @@ public:
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
   ImageIterator() {}
-
   /** Default Destructor */
   ~ImageIterator() {}
-
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageIterator(const Self & it)
@@ -149,7 +147,6 @@ public:
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageIteratorWithIndex(const ImageIteratorWithIndex & it) { this->ImageIterator<ImageType>::operator=(it); }
-
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageIteratorWithIndex(const ImageType * ptr, const RegionType & region)

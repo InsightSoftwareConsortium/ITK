@@ -20,11 +20,11 @@
 
 #include "itkRLERegionOfInterestImageFilter.h"
 
-#include "itkRegionOfInterestImageFilter.h"
+#include "itkImage.h"
 #include "itkImageAlgorithm.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
-#include "itkImage.h"
+#include "itkRegionOfInterestImageFilter.h"
 
 namespace itk
 {
@@ -115,7 +115,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
   typename Superclass::OutputImageType::PointType outputOrigin;
   inputPtr->TransformIndexToPhysicalPoint(roiStart, outputOrigin);
   outputPtr->SetOrigin(outputOrigin);
-}
+} // >::GenerateOutputInformation
 
 /**
  * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
@@ -163,7 +163,9 @@ RegionOfInterestImageFilter<
   while (!oIt.IsAtEnd())
   {
     if (copyLines)
+    {
       oIt.Set(iIt.Get());
+    }
     else // determine begin and end iterator and copy range
     {
       typename RLEImageType::RLLine & oLine = oIt.Value();
@@ -176,7 +178,9 @@ RegionOfInterestImageFilter<
       {
         t += iLine[x].first;
         if (t > start[0])
+        {
           break;
+        }
       }
       assert(x < iLine.size());
 
@@ -199,10 +203,14 @@ RegionOfInterestImageFilter<
       {
         t += iLine[x].first;
         if (t >= end[0])
+        {
           break;
+        }
       }
       if (t == end[0])
+      {
         oLine.insert(oLine.end(), iLine.begin() + begin, iLine.begin() + x + 1);
+      }
       else // we need to take special care of the last segment
       {
         oLine.insert(oLine.end(), iLine.begin() + begin, iLine.begin() + x);
@@ -212,7 +220,7 @@ RegionOfInterestImageFilter<
     ++iIt;
     ++oIt;
   }
-}
+} // >::ThreadedGenerateData
 
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -301,7 +309,7 @@ RegionOfInterestImageFilter<Image<TPixel, VImageDimension>,
   typename Superclass::OutputImageType::PointType outputOrigin;
   inputPtr->TransformIndexToPhysicalPoint(roiStart, outputOrigin);
   outputPtr->SetOrigin(outputOrigin);
-}
+} // >::GenerateOutputInformation
 
 /**
  * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
@@ -363,7 +371,7 @@ RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VIm
     oIt.Value() = temp;
     ++oIt;
   }
-}
+} // >::ThreadedGenerateData
 
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
@@ -452,7 +460,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
   typename Superclass::OutputImageType::PointType outputOrigin;
   inputPtr->TransformIndexToPhysicalPoint(roiStart, outputOrigin);
   outputPtr->SetOrigin(outputOrigin);
-}
+} // >::GenerateOutputInformation
 
 /**
  * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
@@ -503,7 +511,9 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Imag
     {
       t += iLine[x].first;
       if (t > start[0])
+      {
         break;
+      }
     }
     assert(x < iLine.size());
 
@@ -529,7 +539,9 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Imag
     {
       t += iLine[x].first;
       if (t >= end[0])
+      {
         break;
+      }
       for (SizeValueType i = 0; i < iLine[x].first; i++)
       {
         oIt.Set(iLine[x].second);
@@ -544,7 +556,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Imag
     }
     ++iIt;
   }
-}
+} // >::ThreadedGenerateData
 } // end namespace itk
 
 #endif // itkRLERegionOfInterestImageFilter_hxx
