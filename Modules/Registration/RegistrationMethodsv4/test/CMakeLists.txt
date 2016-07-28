@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKRegistrationMethodsv4Tests
+itkImageRegistrationSamplingTest.cxx
 itkSimpleImageRegistrationTest.cxx
 itkSimpleImageRegistrationTest2.cxx
 itkSimpleImageRegistrationTest3.cxx
@@ -24,6 +25,11 @@ set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 CreateTestDriver(ITKRegistrationMethodsv4  "${ITKRegistrationMethodsv4-Test_LIBRARIES}" "${ITKRegistrationMethodsv4Tests}")
+
+itk_add_test(NAME itkImageRegistrationSamplingTest
+      COMMAND ITKRegistrationMethodsv4TestDriver
+      itkImageRegistrationSamplingTest
+      )
 
 itk_add_test(NAME itkSimpleImageRegistrationTestDouble
       COMMAND ITKRegistrationMethodsv4TestDriver

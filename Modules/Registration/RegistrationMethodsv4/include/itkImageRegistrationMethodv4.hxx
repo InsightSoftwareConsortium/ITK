@@ -1217,5 +1217,25 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->SetMetricSamplingPercentagePerLevel( samplingPercentagePerLevel );
 }
 
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
+::SetMetricSamplingPercentagePerLevel( const MetricSamplingPercentageArrayType  &samplingPercentages )
+{
+  if( this->m_MetricSamplingPercentagePerLevel != samplingPercentages )
+    {
+    for( typename MetricSamplingPercentageArrayType::const_iterator it = samplingPercentages.begin();
+         it != samplingPercentages.end(); it++ )
+      {
+      if( *it <= 0.0 || *it > 1.0 )
+        {
+        itkExceptionMacro("sampling percentage outside expected (0,1] range");
+        }
+      }
+    this->m_MetricSamplingPercentagePerLevel = samplingPercentages;
+    this->Modified();
+    }
+}
+
 } // end namespace itk
 #endif
