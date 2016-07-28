@@ -53,8 +53,8 @@ itkImageRegionIteratorTest(int, char *[])
 
   int status = 0;
 
-  float origin3D[3] = { 5, 2.1, 8.1 };
-  float spacing3D[3] = { 1.5, 2.1, 1 };
+  float origin3D[3] = { 5.f, 2.1f, 8.1f };
+  float spacing3D[3] = { 1.5f, 2.1f, 1.f };
 
   itk::RLEImage<itk::Vector<unsigned short, 5>>::SizeType imageSize3D = { { 20, 40, 60 } };
   itk::RLEImage<itk::Vector<unsigned short, 5>>::SizeType bufferSize3D = { { 20, 20, 17 } };

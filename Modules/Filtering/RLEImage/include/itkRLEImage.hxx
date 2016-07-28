@@ -134,7 +134,7 @@ template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 int
 RLEImage<TPixel, VImageDimension, CounterType>::SetPixel(RLLine &         line,
                                                          IndexValueType & segmentRemainder,
-                                                         IndexValueType & m_RealIndex,
+                                                         SizeValueType &  m_RealIndex,
                                                          const TPixel &   value)
 {
   // complete Run-Length Lines have to be buffered
@@ -235,7 +235,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::SetPixel(const IndexType & index
   typename BufferType::IndexType bi = truncateIndex(index);
   RLLine &                       line = m_Buffer->GetPixel(bi);
   IndexValueType                 t = 0;
-  for (IndexValueType x = 0; x < line.size(); x++)
+  for (SizeValueType x = 0; x < line.size(); x++)
   {
     t += line[x].first;
     if (t > index[0] - bri0)
@@ -259,7 +259,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::GetPixel(const IndexType & index
   typename BufferType::IndexType bi = truncateIndex(index);
   RLLine &                       line = m_Buffer->GetPixel(bi);
   IndexValueType                 t = 0;
-  for (IndexValueType x = 0; x < line.size(); x++)
+  for (SizeValueType x = 0; x < line.size(); x++)
   {
     t += line[x].first;
     if (t > index[0] - bri0)

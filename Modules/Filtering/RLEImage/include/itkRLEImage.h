@@ -69,6 +69,8 @@ public:
    * or other operations. */
   typedef TPixel PixelType;
 
+  typedef CounterType RLCounterType;
+
   /** Typedef alias for PixelType */
   typedef TPixel ValueType;
 
@@ -179,7 +181,7 @@ public:
    * Returns difference in line length which happens due to merging or splitting segments.
    * This method is used by iterators directly. */
   int
-  SetPixel(RLLine & line, IndexValueType & segmentRemainder, IndexValueType & m_RealIndex, const TPixel & value);
+  SetPixel(RLLine & line, IndexValueType & segmentRemainder, SizeValueType & m_RealIndex, const TPixel & value);
 
   /** \brief Get a pixel. SLOW! Better use iterators for pixel access. */
   const TPixel &
