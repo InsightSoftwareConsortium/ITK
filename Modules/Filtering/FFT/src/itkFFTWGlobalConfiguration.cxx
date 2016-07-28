@@ -530,8 +530,6 @@ FFTWGlobalConfiguration
 FFTWGlobalConfiguration
 ::~FFTWGlobalConfiguration()
 {
-  //std::cout << "======== cleanup fftw stuff =========" << std::endl;
-  //std::cout << " ==== " << this->m_WriteWisdomCache << std::endl;
   if( this->m_WriteWisdomCache && this->m_NewWisdomAvailable )
     {
        std::string cachePath = m_WisdomFilenameGenerator->GenerateWisdomFilename(m_WisdomCacheBase);
@@ -566,6 +564,8 @@ FFTWGlobalConfiguration
 ::SetWisdomFilenameGenerator( WisdomFilenameGeneratorBase * wfg)
 {
   GetInstance()->m_WisdomFilenameGenerator=wfg;
+  //Now we need to try to re-read the wisdom file
+  FFTWGlobalConfiguration::ImportDefaultWisdomFile();
 }
 
 std::string
@@ -573,6 +573,35 @@ FFTWGlobalConfiguration
 ::GetWisdomFileDefaultBaseName()
 {
   return GetInstance()->m_WisdomFilenameGenerator->GenerateWisdomFilename(GetInstance()->m_WisdomCacheBase);
+}
+
+bool
+FFTWGlobalConfiguration
+::ImportDefaultWisdomFile()
+{
+  bool all_succeed=true;
+#if defined(ITK_USE_FFTWF)
+  all_succeed &= ImportDefaultWisdomFileFloat();
+#endif
+#if defined(ITK_USE_FFTWD)
+  all_succeed &= ImportDefaultWisdomFileDouble();
+#endif
+  return all_succeed;
+}
+
+bool
+FFTWGlobalConfiguration
+::ExportDefaultWisdomFile()
+{
+  // import the wisdom files again to be sure to not erase the wisdom saved in another process
+  bool all_succeed=true;
+#if defined(ITK_USE_FFTWF)
+  all_succeed &= ExportDefaultWisdomFileFloat();
+#endif
+#if defined(ITK_USE_FFTWD)
+  all_succeed &= ExportDefaultWisdomFileDouble();
+#endif
+  return all_succeed;
 }
 
 bool
@@ -702,6 +731,7 @@ FFTWGlobalConfiguration
     _close(fd);
     }
 #else
+  std::cout << "Trying to write : " << path << std::endl;
   FILE * f = fopen( path.c_str(), "w" );
   if( f )
     {
@@ -737,6 +767,7 @@ FFTWGlobalConfiguration
     _close(fd);
     }
 #else
+  std::cout << "Trying to write : " << path << std::endl;
   FILE * f = fopen( path.c_str(), "w" );
   if( f )
     {
@@ -799,6 +830,10 @@ FFTWGlobalConfiguration
 ::SetReadWisdomCache( const bool & v )
 {
   GetInstance()->m_ReadWisdomCache = v;
+  if(v == true)
+    {
+    ImportDefaultWisdomFile();
+    }
 }
 
 bool
@@ -828,6 +863,8 @@ FFTWGlobalConfiguration
 ::SetWisdomCacheBase( const std::string & v )
 {
   GetInstance()->m_WisdomCacheBase = v;
+  //If resetting the wisdom cache base, we need to re-read the wisdom files
+  ImportDefaultWisdomFile();
 }
 
 std::string
