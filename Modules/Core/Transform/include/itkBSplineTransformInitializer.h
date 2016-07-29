@@ -55,17 +55,17 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro( BSplineTransformInitializer, Object );
 
-  /** Type of the transform to initialize */
+  /** Type of the transform to initialize. */
   typedef TTransform TransformType;
 
-  /** Types defined from the input image traits */
+  /** Types defined from the input image traits. */
   typedef TImage                                   ImageType;
   typedef typename ImageType::ConstPointer         ImagePointer;
   typedef typename ImageType::IndexType            IndexType;
   typedef typename ImageType::PointType            ImagePointType;
   typedef typename ImagePointType::CoordRepType    ImagePointCoordRepType;
 
-  /** Types defined from transform traits */
+  /** Types defined from transform traits. */
   typedef typename TransformType::Pointer                 TransformPointer;
   typedef typename TransformType::RegionType              RegionType;
   typedef typename RegionType::SizeType                   SizeType;
@@ -80,20 +80,18 @@ public:
   itkStaticConstMacro( SpaceDimension, unsigned int,
     TransformType::SpaceDimension );
 
-  /** Set the transform to be initialized */
+  /** Set the transform to be initialized. */
   itkSetObjectMacro( Transform, TransformType );
 
-  /** Set the image to initialize the domain */
+  /** Set the image to initialize the domain. */
   itkSetConstObjectMacro( Image, ImageType );
 
-  /**
-   * Allow the user to set the mesh size of the transform via the initializer
+  /** Allow the user to set the mesh size of the transform via the initializer,
    * even though the initializer does not do anything with that information.
-   * Defeault = 1^ImageDimension.
-   */
+   * Default size is 1^ImageDimension. */
   void SetTransformDomainMeshSize( const MeshSizeType );
 
-  /** Initialize the transform using the specified transformation domain */
+  /** Initialize the transform using the specified transformation domain. */
   virtual void InitializeTransform() const;
 
 protected:
