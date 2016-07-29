@@ -12,6 +12,7 @@ itk_module(
     ITKCommon
     ITKImageGrid
   TEST_DEPENDS
+    ITKCommon
     ITKIOImageBase
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
