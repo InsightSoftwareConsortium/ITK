@@ -82,8 +82,8 @@ BSplineTransformInitializer<TTransform, TImage>
   PhysicalDimensionsType            transformDomainPhysicalDimensions;
   DirectionType                     transformDomainDirection;
 
-  // Determine the image corners.  We keep track of the relative location of
-  // the corners using a binary labeling system.  For example, in a 3-D
+  // Determine the image corners. We keep track of the relative location of
+  // the corners using a binary labeling system. For example, in a 3-D
   // coordinate system aligned with the x,y,z axes, we have 8 points labeled as
   // follows:
   //
@@ -100,8 +100,8 @@ BSplineTransformInitializer<TTransform, TImage>
   // allows us to know the adjacent neighbors of an arbitrary image corner. For
   // example, suppose we locate the transform domain origin at the corner 011
   // the adjacent neighbors which form the rotated coordinate system are
-  // 111, 001, and 010.  Notice that we just change 1 bit at a time from the
-  // origin to determine these axes.  Thus bitwise operators are used
+  // 111, 001, and 010. Notice that we just change 1 bit at a time from the
+  // origin to determine these axes. Thus bitwise operators are used
   // throughout the code so that the initializer is generalized to n-dimensions.
 
   typedef typename ImagePointType::CoordRepType      CoordRepType;
@@ -178,7 +178,7 @@ BSplineTransformInitializer<TTransform, TImage>
       }
     }
 
-  // Now we need to find the transform direction matrix.  This is done
+  // Now we need to find the transform direction matrix. This is done
   // by using the domain origin and its adjacent neighbors to determine a new
   // rotated coordinate system.
 
@@ -234,7 +234,7 @@ BSplineTransformInitializer<TTransform, TImage>
   // Now that we know which image axes corresponds to the unrotated coordinate
   // axes in physical space, we can easily construct the rotation matrix which
   // rotates a point from the unrotated coordinate system to the rotated
-  // coordinate system.  This is done by placing the rotated axis vectors as
+  // coordinate system. This is done by placing the rotated axis vectors as
   // columns in the rotation matrix.
 
   for( unsigned int d = 0; d < SpaceDimension; d++ )

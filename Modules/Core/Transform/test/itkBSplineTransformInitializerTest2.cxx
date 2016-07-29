@@ -23,13 +23,16 @@
 
 #include "itkPermuteAxesImageFilter.h"
 
+#include "itkObject.h"
+#include "itkTestingMacros.h"
+
 #include <fstream>
 
 // This test is meant to demonstrate the transform domain defining issues
 // associated with the current B-spline deformable transform initializer
-// class.  Hans Johnson pointed out that the current initializer class
+// class. Hans Johnson pointed out that the current initializer class
 // uses the image information to construct the B-spline grid in contrast
-// to how the image domain resides in physical space.  So, for example, if
+// to how the image domain resides in physical space. So, for example, if
 // a user initilializes a control point grid from a given image and then
 // constructs a second control point grid from a permuted version of the
 // given image (using the itkPermuteAxesImageFilter class) the second control
@@ -47,12 +50,12 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const     unsigned int   ImageDimension = 2;
+  const   unsigned int ImageDimension = 2;
 
-  typedef   unsigned char                             PixelType;
-  typedef   itk::Image< PixelType, ImageDimension >   FixedImageType;
+  typedef unsigned char                             PixelType;
+  typedef itk::Image< PixelType, ImageDimension >   FixedImageType;
 
-  typedef   itk::ImageFileReader< FixedImageType  >   FixedReaderType;
+  typedef itk::ImageFileReader< FixedImageType > FixedReaderType;
   FixedReaderType::Pointer fixedReader = FixedReaderType::New();
   fixedReader->SetFileName( argv[1] );
 
@@ -76,18 +79,18 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
   const unsigned int SplineOrder = 3;
   typedef double CoordinateRepType;
 
-  typedef itk::BSplineTransform<
-                            CoordinateRepType,
-                            SpaceDimension,
-                            SplineOrder >     TransformType;
+  typedef itk::BSplineTransform< CoordinateRepType, SpaceDimension,
+    SplineOrder > TransformType;
 
   TransformType::Pointer bsplineTransform = TransformType::New();
 
-  typedef itk::BSplineTransformInitializer<
-                  TransformType,
-                  FixedImageType >      InitializerType;
+  typedef itk::BSplineTransformInitializer< TransformType, FixedImageType >
+    InitializerType;
 
   InitializerType::Pointer transformInitializer = InitializerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( transformInitializer, BSplineTransformInitializer,
+    Object );
 
   transformInitializer->SetTransform( bsplineTransform );
   transformInitializer->SetImage( fixedImage );
@@ -106,18 +109,18 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
   std::vector<FixedImageType::PointType> controlPointLocations;
 
   typedef TransformType::ImageType CoefficientImageType;
-  itk::ImageRegionIteratorWithIndex<CoefficientImageType> It(
+  itk::ImageRegionIteratorWithIndex<CoefficientImageType> it(
     coefficientImages[0], coefficientImages[0]->GetLargestPossibleRegion() );
-  for( It.GoToBegin(); !It.IsAtEnd(); ++It )
+  for( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     FixedImageType::PointType point;
-    coefficientImages[0]->TransformIndexToPhysicalPoint(
-      It.GetIndex(), point );
+    coefficientImages[0]->TransformIndexToPhysicalPoint( it.GetIndex(),
+      point );
     controlPointLocations.push_back( point );
     }
 
   // We permute the fixed image and construct the control point grid using
-  // the same grid size.  The idea is that since the two images reside in
+  // the same grid size. The idea is that since the two images reside in
   // physical space precisely the same way, the two sets of control points should
   // be the same.
 
@@ -135,6 +138,9 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
   TransformType::Pointer bsplineTransform2 = TransformType::New();
   InitializerType::Pointer transformInitializer2 = InitializerType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( transformInitializer2, BSplineTransformInitializer,
+    Object );
+
   transformInitializer2->SetTransform( bsplineTransform2 );
   transformInitializer2->SetImage( permuter->GetOutput() );
 
@@ -145,22 +151,22 @@ int itkBSplineTransformInitializerTest2( int argc, char * argv[] )
 
   std::vector<FixedImageType::PointType> controlPointLocations2;
 
-  itk::ImageRegionIteratorWithIndex<CoefficientImageType> It2(
+  itk::ImageRegionIteratorWithIndex<CoefficientImageType> it2(
     coefficientImages[0], coefficientImages[0]->GetLargestPossibleRegion() );
-  for( It2.GoToBegin(); !It2.IsAtEnd(); ++It2 )
+  for( it2.GoToBegin(); !it2.IsAtEnd(); ++it2 )
     {
     FixedImageType::PointType point;
-    coefficientImages[0]->TransformIndexToPhysicalPoint(
-      It2.GetIndex(), point );
+    coefficientImages[0]->TransformIndexToPhysicalPoint( it2.GetIndex(),
+      point );
     controlPointLocations2.push_back( point );
     }
 
-  std::vector<FixedImageType::PointType>::const_iterator it;
-  std::vector<FixedImageType::PointType>::const_iterator it2;
-  for( it = controlPointLocations.begin(), it2 = controlPointLocations2.begin();
-    it != controlPointLocations.end(); ++it, ++it2 )
+  std::vector<FixedImageType::PointType>::const_iterator it3;
+  std::vector<FixedImageType::PointType>::const_iterator it4;
+  for( it3 = controlPointLocations.begin(), it4 = controlPointLocations2.begin();
+    it3 != controlPointLocations.end(); ++it3, ++it4 )
     {
-    if( *it != *it2 )
+    if( *it3 != *it4 )
       {
       std::cerr << "Control point locations are different." << std::endl;
       return EXIT_FAILURE;
