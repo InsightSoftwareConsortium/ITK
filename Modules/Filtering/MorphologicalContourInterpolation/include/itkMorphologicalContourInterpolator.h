@@ -18,11 +18,11 @@
 #ifndef itkMorphologicalContourInterpolator_h
 #define itkMorphologicalContourInterpolator_h
 
+#include "itkBinaryThresholdImageFilter.h"
+#include "itkConnectedComponentImageFilter.h"
+#include "itkExtractImageFilter.h"
 #include "itkImageToImageFilter.h"
 #include "itksys/hash_map.hxx"
-#include "itkExtractImageFilter.h"
-#include "itkConnectedComponentImageFilter.h"
-#include "itkBinaryThresholdImageFilter.h"
 
 
 namespace itk
@@ -65,7 +65,7 @@ namespace itk
 template <typename TImage>
 class MorphologicalContourInterpolator : public ImageToImageFilter<TImage, TImage>
 {
-  template <typename Any>
+  template <typename T>
   friend class MorphologicalContourInterpolatorParallelInvoker;
 
 public:
@@ -216,7 +216,6 @@ public:
 protected:
   MorphologicalContourInterpolator();
   ~MorphologicalContourInterpolator() {}
-
   typename TImage::PixelType m_Label;
   int                        m_Axis;
   bool                       m_HeuristicAlignment;

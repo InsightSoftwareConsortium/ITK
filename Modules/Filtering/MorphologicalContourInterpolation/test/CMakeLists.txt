@@ -8,12 +8,12 @@ set(
 createtestdriver( MorphologicalContourInterpolation "${MorphologicalContourInterpolation-Test_LIBRARIES}" "${MorphologicalContourInterpolationTests}")
 
 add_executable(
-  runFromIDE
+  manualTest
   manualTest.cxx
   ${MorphologicalContourInterpolationTests}
 )
 target_link_libraries(
-  runFromIDE
+  manualTest
   ${MorphologicalContourInterpolation-Test_LIBRARIES}
 )
 
