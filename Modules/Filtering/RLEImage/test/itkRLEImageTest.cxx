@@ -234,6 +234,11 @@ itkRLEImageTest(int argc, char * argv[])
       doTest<itk::Image<short, 3>>(inputImageFileName, outputImageFileName);
       return EXIT_SUCCESS;
     }
+    if (numDimensions == 3) // if not (u)short, then interpret as uint
+    {
+      doTest<itk::Image<unsigned int, 3>>(inputImageFileName, outputImageFileName);
+      return EXIT_SUCCESS;
+    }
     if (numDimensions == 4 && pixelType == itk::ImageIOBase::UCHAR)
     {
       doTest<itk::Image<unsigned char, 4>>(inputImageFileName, outputImageFileName);
