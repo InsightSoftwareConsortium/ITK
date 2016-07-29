@@ -41,7 +41,15 @@ function(ReadWriteTest ImageName Ext)
   )
 endfunction()
 
-# Handcrafted tests
+# RLEImage specific tests
+readwritetest(brainParc mha)
+readwritetest(vb-seg mha)
+readwritetest(ws nrrd)
+readwritetest(wb-crop nrrd)
+readwritetest(wb-seg nrrd)
+readwritetest(wb-seg32 nrrd)
+
+# Handcrafted tests for MorphologicalContourInterpolation
 readwritetest(Empty nrrd)
 readwritetest(NoSlices nrrd)
 readwritetest(Micro1 nrrd)
