@@ -276,21 +276,15 @@ BSplineTransformInitializer<TTransform, TImage>
 {
   Superclass::PrintSelf( os, indent );
 
-  os << indent << "Transform: " << std::endl;
-  if( this->m_Transform )
-    {
-    os << indent << this->m_Transform  << std::endl;
-    }
-  else
-    {
-    os << indent << "None" << std::endl;
-    }
+  itkPrintSelfObjectMacro( Image );
+
+  itkPrintSelfObjectMacro( Transform );
+
   if( this->m_SetTransformDomainMeshSizeViaInitializer == true )
     {
-    os << indent << "Transform domain mesh size:" <<
+    os << indent << "Transform domain mesh size: " <<
       this->m_TransformDomainMeshSize << std::endl;
     }
-  os << indent << "Image: " << this->m_Image << std::endl;
 }
 
 }  // namespace itk
