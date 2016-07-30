@@ -51,7 +51,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(FileListVideoIO, VideoIOBase);
 
-  /** Get the interal ImageIOBase object. */
+  /** Get the internal ImageIOBase object. */
   itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
 
   /** Get the list of files to read. */
