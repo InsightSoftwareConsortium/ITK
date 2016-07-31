@@ -36,6 +36,8 @@ template< typename TInputImage, typename TOperatorValueType, typename TOutputVal
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::GradientImageFilter()
 {
+  // default boundary condition
+  m_BoundaryCondition = new ZeroFluxNeumannBoundaryCondition<TInputImage>();
   this->m_UseImageSpacing   = true;
   this->m_UseImageDirection = true;
 }
@@ -46,7 +48,18 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::~GradientImageFilter()
-{}
+{
+  delete m_BoundaryCondition;
+}
+
+template< typename TInputImage, typename TOperatorValueType, typename TOuputValue , typename TOuputImage >
+void
+GradientImageFilter< TInputImage, TOperatorValueType, TOuputValue, TOuputImage >
+::OverrideBoundaryCondition(ImageBoundaryCondition< TInputImage >* boundaryCondition)
+{
+  delete m_BoundaryCondition;
+  m_BoundaryCondition = boundaryCondition;
+}
 
 template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 void
@@ -173,7 +186,6 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
                              op[i].GetSize()[0], nit.GetStride(i) );
     }
 
-  ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
   CovariantVectorType gradient;
   // Process non-boundary face and then each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
@@ -182,7 +194,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
     nit = ConstNeighborhoodIterator< InputImageType >(radius,
                                                       inputImage, *fit);
     ImageRegionIterator< OutputImageType > it = ImageRegionIterator< OutputImageType >(outputImage, *fit);
-    nit.OverrideBoundaryCondition(&nbc);
+    nit.OverrideBoundaryCondition(m_BoundaryCondition);
     nit.GoToBegin();
 
     while ( !nit.IsAtEnd() )
@@ -240,6 +252,8 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
      << ( this->m_UseImageSpacing ? "On" : "Off" ) << std::endl;
   os << indent << "UseImageDirection = "
      << ( this->m_UseImageDirection ? "On" : "Off" ) << std::endl;
+  os << indent << "BoundaryCondition = \n"
+     << this->m_BoundaryCondition << std::endl;
 }
 } // end namespace itk
 
