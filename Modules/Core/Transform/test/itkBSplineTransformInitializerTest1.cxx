@@ -124,8 +124,14 @@ int itkBSplineTransformInitializerTest1( int argc, char * argv[] )
   meshSize.Fill( 4 );
 
   transformInitializer->SetTransform( bsplineTransform );
+  TEST_SET_GET_VALUE( bsplineTransform, transformInitializer->GetTransform() );
+
   transformInitializer->SetImage( fixedImage );
+  TEST_SET_GET_VALUE( fixedImage, transformInitializer->GetImage() );
+
   transformInitializer->SetTransformDomainMeshSize( meshSize );
+  TEST_SET_GET_VALUE( meshSize, transformInitializer->GetTransformDomainMeshSize() );
+
   transformInitializer->InitializeTransform();
 
   typedef TransformType::ParametersType ParametersType;
