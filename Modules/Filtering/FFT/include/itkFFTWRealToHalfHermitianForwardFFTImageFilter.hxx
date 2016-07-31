@@ -87,7 +87,7 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
     // we must be careful to not destroy it.
     flags = flags | FFTW_PRESERVE_INPUT;
     }
-  int *sizes = new int[ImageDimension];
+  int sizes[ImageDimension];
   for(unsigned int i = 0; i < ImageDimension; i++)
     {
     sizes[(ImageDimension - 1) - i] = inputSize[i];
@@ -95,7 +95,6 @@ FFTWRealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 
   plan = FFTWProxyType::Plan_dft_r2c(ImageDimension, sizes, in, out, flags,
                                     this->GetNumberOfThreads());
-  delete[] sizes;
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
 }

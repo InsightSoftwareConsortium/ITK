@@ -88,7 +88,7 @@ FFTWComplexToComplexFFTImageFilter< TImage >
     flags = flags | FFTW_PRESERVE_INPUT;
     }
 
-  int *sizes = new int[ImageDimension];
+  int sizes[ImageDimension];
   for(unsigned int i = 0; i < ImageDimension; i++)
     {
     sizes[(ImageDimension - 1) - i] = inputSize[i];
@@ -100,7 +100,6 @@ FFTWComplexToComplexFFTImageFilter< TImage >
                                     transformDirection,
                                     flags,
                                     this->GetNumberOfThreads());
-  delete[] sizes;
 
   FFTWProxyType::Execute(plan);
   FFTWProxyType::DestroyPlan(plan);
