@@ -30,12 +30,12 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
-::SimpleContourExtractorImageFilter()
+::SimpleContourExtractorImageFilter() :
+  m_InputForegroundValue( NumericTraits< InputPixelType >::max() ),
+  m_InputBackgroundValue( NumericTraits< InputPixelType >::ZeroValue() ),
+  m_OutputForegroundValue( NumericTraits< OutputPixelType >::max() ),
+  m_OutputBackgroundValue( NumericTraits< OutputPixelType >::ZeroValue() )
 {
-  m_InputBackgroundValue  = NumericTraits< InputPixelType >::ZeroValue();
-  m_InputForegroundValue  = NumericTraits< InputPixelType >::max();
-  m_OutputBackgroundValue  = NumericTraits< OutputPixelType >::ZeroValue();
-  m_OutputForegroundValue  = NumericTraits< OutputPixelType >::max();
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -120,9 +120,6 @@ SimpleContourExtractorImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template< typename TInputImage, typename TOutput >
 void
 SimpleContourExtractorImageFilter< TInputImage, TOutput >
