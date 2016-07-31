@@ -20,14 +20,16 @@
 #include "itkFilterWatcher.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkBoxImageFilter.h"
+#include "itkTestingMacros.h"
 
-int itkSimpleContourExtractorImageFilterTest(int argc, char* argv [] )
+int itkSimpleContourExtractorImageFilterTest( int argc, char* argv [] )
 {
   if( argc < 3 )
     {
     std::cerr << "Missing arguments." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImage outputImage " << std::endl;
+    std::cerr << argv[0] << " inputImage outputImage " << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -46,8 +48,8 @@ int itkSimpleContourExtractorImageFilterTest(int argc, char* argv [] )
 
 
   // Declare the type for the morphology Filter
-  typedef itk::SimpleContourExtractorImageFilter<
-                                           ImageType, ImageType > FilterType;
+  typedef itk::SimpleContourExtractorImageFilter< ImageType, ImageType >
+    FilterType;
 
   // Create the reader and writer
   ReaderType::Pointer reader = ReaderType::New();
@@ -58,14 +60,39 @@ int itkSimpleContourExtractorImageFilterTest(int argc, char* argv [] )
 
   // Create the filter
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, SimpleContourExtractorImageFilter,
+    BoxImageFilter );
+
   FilterWatcher watcher(filter, "filter");
 
   // Connect the pipeline
   filter->SetInput( reader->GetOutput() );
   writer->SetInput( filter->GetOutput() );
 
-  filter->SetInputForegroundValue( 255 );
-  filter->SetInputBackgroundValue(  0  );
+  FilterType::InputPixelType inputForegroundValue = 255;
+  FilterType::InputPixelType inputBackgroundValue = 0;
+  FilterType::OutputPixelType outputForegroundValue =
+    itk::NumericTraits< FilterType::OutputPixelType >::max();
+  FilterType::OutputPixelType outputBackgroundValue =
+    itk::NumericTraits< FilterType::OutputPixelType >::ZeroValue();
+
+  filter->SetInputForegroundValue( inputForegroundValue );
+
+  TEST_SET_GET_VALUE( inputForegroundValue, filter->GetInputForegroundValue() );
+
+  filter->SetInputBackgroundValue( inputBackgroundValue );
+
+  TEST_SET_GET_VALUE( inputBackgroundValue, filter->GetInputBackgroundValue() );
+
+  filter->SetOutputForegroundValue( outputForegroundValue );
+
+  TEST_SET_GET_VALUE( outputForegroundValue, filter->GetOutputForegroundValue() );
+
+  filter->SetOutputBackgroundValue( outputBackgroundValue );
+
+  TEST_SET_GET_VALUE( outputBackgroundValue, filter->GetOutputBackgroundValue() );
+
 
   FilterType::InputSizeType radius;
 
