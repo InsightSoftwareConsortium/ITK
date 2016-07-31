@@ -22,6 +22,7 @@
 
 #include "itkLabelImageToStatisticsLabelMapFilter.h"
 #include "itkStatisticsOpeningLabelMapFilter.h"
+#include "itkShapeOpeningLabelMapFilter.h"
 
 #include "itkTestingMacros.h"
 
@@ -60,24 +61,27 @@ int itkStatisticsOpeningLabelMapFilterTest1(int argc, char * argv[])
   typedef itk::StatisticsOpeningLabelMapFilter< LabelMapType > LabelOpeningType;
   LabelOpeningType::Pointer opening = LabelOpeningType::New();
 
-  //testing get and set macros for Lambda
+  EXERCISE_BASIC_OBJECT_METHODS( opening, StatisticsOpeningLabelMapFilter,
+    ShapeOpeningLabelMapFilter);
+
+  // Testing get and set macros for Lambda
   double lambda = atof( argv[4] );
   opening->SetLambda( lambda );
   TEST_SET_GET_VALUE( lambda , opening->GetLambda() );
 
-  //testing get and set macros for ReverseOrdering
+  // Testing get and set macros for ReverseOrdering
   bool reverseOrdering = atoi( argv[5] );
   opening->SetReverseOrdering( reverseOrdering );
   TEST_SET_GET_VALUE( reverseOrdering , opening->GetReverseOrdering() );
 
-  //testing boolean macro for ReverseOrdering
+  // Testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
   TEST_SET_GET_VALUE( true, opening->GetReverseOrdering() );
 
   opening->ReverseOrderingOff();
   TEST_SET_GET_VALUE( false, opening->GetReverseOrdering() );
 
-  //testing get and set macros for Attribute
+  // Testing get and set macros for Attribute
   LabelOpeningType::AttributeType attribute = atoi( argv[6] );
   opening->SetAttribute( attribute );
   TEST_SET_GET_VALUE( attribute, opening->GetAttribute() );
