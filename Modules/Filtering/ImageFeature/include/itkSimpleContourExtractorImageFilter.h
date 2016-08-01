@@ -71,7 +71,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SimpleContourExtractorImageFilter, ImageToImageFilter);
+  itkTypeMacro(SimpleContourExtractorImageFilter, BoxImageFilter);
 
   /** Image typedef support. */
   typedef typename InputImageType::PixelType                 InputPixelType;
