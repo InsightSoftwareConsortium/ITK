@@ -2,7 +2,7 @@
 #  error This file may only be included from vcl_compiler_detection.h
 #endif
 
-#    if !(((__clang_major__ * 100) + __clang_minor__) >= 304)
+#    if !(((__clang_major__ * 100) + __clang_minor__) >= 300)
 #      error Unsupported compiler version
 #    endif
 
