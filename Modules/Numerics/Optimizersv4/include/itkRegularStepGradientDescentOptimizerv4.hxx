@@ -43,23 +43,11 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 template<typename TInternalComputationValueType>
 void
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Current learning rate relaxation: " << m_CurrentLearningRateRelaxation << std::endl;
-  os << indent << "Relaxation factor: " << this->m_RelaxationFactor << std::endl;
-  os << indent << "Minimum step length: " << this->m_MinimumStepLength << std::endl;
-  os << indent << "Gradient magnitude tolerance: " << this->m_GradientMagnitudeTolerance << std::endl;
-}
-
-template<typename TInternalComputationValueType>
-void
-RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
   this->m_UseConvergenceMonitoring = false;
 
-  /* Must call the grandparent version for basic validation and setup */
+  // Call the grandparent version for basic validation and setup
   GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOptimization( doOnlyInitialization );
 
   if( this->m_ReturnBestParametersAndValue )
@@ -82,7 +70,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
   // validity check for the value of GradientMagnitudeTolerance
   if ( m_GradientMagnitudeTolerance < 0.0 )
     {
-    itkExceptionMacro(<< "Gradient magnitude tolerance must be"
+    itkExceptionMacro(<< "Gradient magnitude tolerance must be "
                          "greater or equal 0.0. Current value is " << m_GradientMagnitudeTolerance);
     }
 
@@ -116,12 +104,14 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 
   if ( this->m_RelaxationFactor >= 1.0 )
     {
-    itkExceptionMacro(<< "Relaxation factor must less than 1.0. Current value is " << this->m_RelaxationFactor);
+    itkExceptionMacro(<< "Relaxation factor must be less than 1.0. Current value is " << this->m_RelaxationFactor);
     }
 
-  /* Begin threaded gradient modification.
-   * Scale gradient and previous gradient by scales.
-   * The m_Gradient and m_PreviousGradient variables are modified in-place. */
+  //
+  // Begin threaded gradient modification.
+  // Scale gradient and previous gradient by scales.
+  // The m_Gradient and m_PreviousGradient variables are modified in-place.
+  //
   this->ModifyGradientByScales();
 
   CompensatedSummationType compensatedSummation;
@@ -147,7 +137,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     }
 
   compensatedSummation.ResetToZero();
-  for ( SizeValueType i = 0; i < this->m_Gradient.Size(); i++ )
+  for ( SizeValueType i = 0; i < this->m_Gradient.Size(); ++i )
     {
     const double weight1 = this->m_Gradient[i];
     const double weight2 = this->m_PreviousGradient[i];
@@ -155,7 +145,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     }
   const double scalarProduct = compensatedSummation.GetSum();
 
-    // If there is a direction change
+  // Check for direction changes
   if ( scalarProduct < 0 )
     {
     this->m_CurrentLearningRateRelaxation *= this->m_RelaxationFactor;
@@ -183,7 +173,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 
   try
     {
-    /* Pass graident to transform and let it do its own updating */
+    // Pass gradient to transform and let it do its own updating
     this->m_Metric->UpdateTransformParameters( this->m_Gradient, factor );
     }
   catch ( ExceptionObject & err )
@@ -192,7 +182,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
 
-      // Pass exception to caller
+    // Pass exception to caller
     throw err;
     }
 
@@ -219,27 +209,27 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 
   if( this->GetWeightsAreIdentity() )
     {
-    for( SizeValueType i=0; i < factor.Size(); i++ )
+    for( SizeValueType i=0; i < factor.Size(); ++i )
       {
       factor[i] = NumericTraits<typename ScalesType::ValueType>::OneValue() / scales[i];
       }
     }
   else
     {
-    for( SizeValueType i=0; i < factor.Size(); i++ )
+    for( SizeValueType i=0; i < factor.Size(); ++i )
       {
       factor[i] = weights[i] / scales[i];
       }
     }
 
-  /* Loop over the range. It is inclusive. */
-  for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
+  // Loop over the range. It is inclusive.
+  for ( IndexValueType j = subrange[0]; j <= subrange[1]; ++j )
     {
-      // scales is checked during StartOptmization for values <=
-      // machine epsilon.
-      // Take the modulo of the index to handle gradients from transforms
-      // with local support. The gradient array stores the gradient of local
-      // parameters at each local index with linear packing.
+    // Scale is checked during StartOptmization for values <=
+    // machine epsilon.
+    // Take the modulo of the index to handle gradients from transforms
+    // with local support. The gradient array stores the gradient of local
+    // parameters at each local index with linear packing.
     IndexValueType index = j % scales.Size();
     this->m_Gradient[j] = this->m_Gradient[j] * factor[index];
     this->m_PreviousGradient[j] = this->m_PreviousGradient[j] * factor[index];
@@ -251,16 +241,13 @@ void
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
 ::ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange )
 {
-  /* Loop over the range. It is inclusive. */
-  for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
+  // Loop over the range. It is inclusive.
+  for ( IndexValueType j = subrange[0]; j <= subrange[1]; ++j )
     {
     this->m_Gradient[j] = this->m_Gradient[j] * this->m_CurrentLearningRateRelaxation*this->m_LearningRate;
     }
 }
 
-/**
-* Estimate the learning rate.
-*/
 template<typename TInternalComputationValueType>
 void
 RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
@@ -273,8 +260,8 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
   if ( this->m_DoEstimateLearningRateAtEachIteration ||
       (this->m_DoEstimateLearningRateOnce && this->m_CurrentIteration == 0) )
     {
-    TInternalComputationValueType stepScale
-    = this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
+    TInternalComputationValueType stepScale =
+      this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
 
     if (stepScale <= NumericTraits<TInternalComputationValueType>::epsilon())
       {
@@ -300,6 +287,19 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
     this->m_LearningRate *= gradientMagnitude;
 
     }
+}
+template<typename TInternalComputationValueType>
+void
+RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Relaxation factor: " << this->m_RelaxationFactor << std::endl;
+  os << indent << "Minimum step length: " << this->m_MinimumStepLength << std::endl;
+  os << indent << "Gradient magnitude tolerance: " << this->m_GradientMagnitudeTolerance << std::endl;
+  os << indent << "Current learning rate relaxation: " << this->m_CurrentLearningRateRelaxation << std::endl;
+
 }
 
 }//namespace itk
