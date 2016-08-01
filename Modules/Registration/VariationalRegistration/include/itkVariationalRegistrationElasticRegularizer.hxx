@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationElasticRegularizer_hxx
-#define __itkVariationalRegistrationElasticRegularizer_hxx
+#ifndef itkVariationalRegistrationElasticRegularizer_hxx
+#define itkVariationalRegistrationElasticRegularizer_hxx
 
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 

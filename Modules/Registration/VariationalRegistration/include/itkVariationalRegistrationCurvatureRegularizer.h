@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationCurvatureRegularizer_h
-#define __itkVariationalRegistrationCurvatureRegularizer_h
+#ifndef itkVariationalRegistrationCurvatureRegularizer_h
+#define itkVariationalRegistrationCurvatureRegularizer_h
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreader.h"
@@ -54,13 +54,13 @@ namespace itk
  *
  *  \note This class was developed with funding from the German Research
  *  Foundation (DFG: EH 224/3-1 and HA 235/9-1).
+ *
  *  \author Alexander Schmidt-Richberg
  *  \author Rene Werner
  *  \author Jan Ehrhardt
  */
 template <class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationCurvatureRegularizer
-  : public VariationalRegistrationRegularizer<TDisplacementField>
+class VariationalRegistrationCurvatureRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
   /** Standard class typedefs */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationIncludeRequiredIOFactories_h
-#define __itkVariationalRegistrationIncludeRequiredIOFactories_h
+#ifndef itkVariationalRegistrationIncludeRequiredIOFactories_h
+#define itkVariationalRegistrationIncludeRequiredIOFactories_h
 
 #include "itkGDCMImageIOFactory.h"
 #include "itkMetaImageIOFactory.h"

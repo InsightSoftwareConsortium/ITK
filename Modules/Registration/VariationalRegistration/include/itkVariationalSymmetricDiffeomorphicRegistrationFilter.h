@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
-#define __itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
+#ifndef itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
+#define itkVariationalSymmetricDiffeomorphicRegistrationFilter_h
 
 #include "itkVariationalDiffeomorphicRegistrationFilter.h"
 
@@ -88,7 +88,7 @@ namespace itk
  *      image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class ITK_EXPORT VariationalSymmetricDiffeomorphicRegistrationFilter
+class VariationalSymmetricDiffeomorphicRegistrationFilter
   : public VariationalDiffeomorphicRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:

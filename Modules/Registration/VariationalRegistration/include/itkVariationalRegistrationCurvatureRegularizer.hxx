@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationCurvatureRegularizer_hxx
-#define __itkVariationalRegistrationCurvatureRegularizer_hxx
+#ifndef itkVariationalRegistrationCurvatureRegularizer_hxx
+#define itkVariationalRegistrationCurvatureRegularizer_hxx
 
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 

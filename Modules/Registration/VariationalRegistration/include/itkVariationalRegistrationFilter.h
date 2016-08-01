@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationFilter_h
-#define __itkVariationalRegistrationFilter_h
+#ifndef itkVariationalRegistrationFilter_h
+#define itkVariationalRegistrationFilter_h
 
 #include "itkDenseFiniteDifferenceImageFilter.h"
 #include "itkMultiThreader.h"
@@ -100,8 +100,7 @@ namespace itk
  *     image registration.</i> IEEE Trans. Med. Imaging, 30(2), 2011
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationFilter
-  : public DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>
+class VariationalRegistrationFilter : public DenseFiniteDifferenceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   /** Standard class typedefs */

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationLogger_h
-#define __itkVariationalRegistrationLogger_h
+#ifndef itkVariationalRegistrationLogger_h
+#define itkVariationalRegistrationLogger_h
 
 #include "itkCommand.h"
 #include "itkEventObject.h"
@@ -44,7 +44,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TRegistrationFilter, class TMRFilter>
-class ITK_EXPORT VariationalRegistrationLogger : public Command
+class VariationalRegistrationLogger : public Command
 {
 public:
   /** Standard class typedefs. */

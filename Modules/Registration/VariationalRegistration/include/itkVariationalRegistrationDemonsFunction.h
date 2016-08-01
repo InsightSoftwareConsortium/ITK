@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationDemonsFunction_h
-#define __itkVariationalRegistrationDemonsFunction_h
+#ifndef itkVariationalRegistrationDemonsFunction_h
+#define itkVariationalRegistrationDemonsFunction_h
 
 #include "itkVariationalRegistrationFunction.h"
 #include "itkCentralDifferenceImageFunction.h"
@@ -54,7 +54,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationDemonsFunction
+class VariationalRegistrationDemonsFunction
   : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:

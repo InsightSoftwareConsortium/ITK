@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationElasticRegularizer_h
-#define __itkVariationalRegistrationElasticRegularizer_h
+#ifndef itkVariationalRegistrationElasticRegularizer_h
+#define itkVariationalRegistrationElasticRegularizer_h
 
 #include "itkVariationalRegistrationRegularizer.h"
 #include "itkMultiThreader.h"
@@ -56,8 +56,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationElasticRegularizer
-  : public VariationalRegistrationRegularizer<TDisplacementField>
+class VariationalRegistrationElasticRegularizer : public VariationalRegistrationRegularizer<TDisplacementField>
 {
 public:
   /** Standard class typedefs */

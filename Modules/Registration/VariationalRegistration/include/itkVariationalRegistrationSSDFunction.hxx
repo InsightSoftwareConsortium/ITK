@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationSSDFunction_hxx
-#define __itkVariationalRegistrationSSDFunction_hxx
+#ifndef itkVariationalRegistrationSSDFunction_hxx
+#define itkVariationalRegistrationSSDFunction_hxx
 
 #include "itkVariationalRegistrationSSDFunction.h"
 #include "vnl/vnl_math.h"

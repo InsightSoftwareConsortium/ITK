@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalDiffeomorphicRegistrationFilter_hxx
-#define __itkVariationalDiffeomorphicRegistrationFilter_hxx
+#ifndef itkVariationalDiffeomorphicRegistrationFilter_hxx
+#define itkVariationalDiffeomorphicRegistrationFilter_hxx
 #include "itkVariationalDiffeomorphicRegistrationFilter.h"
 
 #include "itkImageRegionConstIterator.h"
