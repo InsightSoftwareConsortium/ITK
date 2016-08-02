@@ -327,8 +327,13 @@ public:
 // force gccxml to find the constructors found before the internal upgrade to
 // gcc 4.2
 #if defined( ITK_WRAPPING_PARSER )
-  Index() ITK_DELETED_FUNCTION;
-  ITK_DISALLOW_COPY_AND_ASSIGN(Index);
+  // Do not use c++11 'delete' keyword here.  This code block is here to
+  // explicitly provide the wrapping facilities with handles to the default and
+  // copy constructors, and the assignment operator that are otherwise declared
+  // implicitly.
+  Index();
+  Index(const Self&);
+  void operator=(const Self&);
 
 #endif
 };
