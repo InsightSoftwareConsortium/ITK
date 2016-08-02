@@ -89,7 +89,7 @@ VariationalRegistrationDiffusionRegularizer<TDisplacementField>::Initialize()
     m_BufferImage->Allocate();
 
     // Initialize Matrices for AOS scheme
-    for (int dim = 0; dim < ImageDimension; ++dim)
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       // Allocate all m_V.
       m_V[dim] = BufferImageType::New();
