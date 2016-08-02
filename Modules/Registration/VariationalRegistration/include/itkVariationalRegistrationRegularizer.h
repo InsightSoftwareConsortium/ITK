@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationRegularizer_h
-#define __itkVariationalRegistrationRegularizer_h
+#ifndef itkVariationalRegistrationRegularizer_h
+#define itkVariationalRegistrationRegularizer_h
 
 #include "itkInPlaceImageFilter.h"
 #include "itkMultiThreader.h"
@@ -45,7 +45,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
+class VariationalRegistrationRegularizer : public InPlaceImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   /** Standard class typedefs */

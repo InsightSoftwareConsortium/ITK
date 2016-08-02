@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationSSDFunction_h
-#define __itkVariationalRegistrationSSDFunction_h
+#ifndef itkVariationalRegistrationSSDFunction_h
+#define itkVariationalRegistrationSSDFunction_h
 
 #include "itkVariationalRegistrationFunction.h"
 
@@ -50,7 +50,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationSSDFunction
+class VariationalRegistrationSSDFunction
   : public VariationalRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:

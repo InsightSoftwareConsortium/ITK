@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationFastNCCFunction_h
-#define __itkVariationalRegistrationFastNCCFunction_h
+#ifndef itkVariationalRegistrationFastNCCFunction_h
+#define itkVariationalRegistrationFastNCCFunction_h
 
 #include "itkVariationalRegistrationNCCFunction.h"
 #include "itkCovariantVector.h"
@@ -62,7 +62,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationFastNCCFunction
+class VariationalRegistrationFastNCCFunction
   : public VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField>
 {
 public:

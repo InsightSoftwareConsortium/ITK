@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationStopCriterion_hxx
-#define __itkVariationalRegistrationStopCriterion_hxx
+#ifndef itkVariationalRegistrationStopCriterion_hxx
+#define itkVariationalRegistrationStopCriterion_hxx
 
 #include "itkVariationalRegistrationStopCriterion.h"
 

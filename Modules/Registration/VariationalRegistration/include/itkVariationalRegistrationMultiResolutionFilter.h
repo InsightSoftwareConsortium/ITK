@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationMultiResolutionFilter_h
-#define __itkVariationalRegistrationMultiResolutionFilter_h
+#ifndef itkVariationalRegistrationMultiResolutionFilter_h
+#define itkVariationalRegistrationMultiResolutionFilter_h
 
 #include "itkImage.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
@@ -78,8 +78,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField, class TRealType = float>
-class ITK_EXPORT VariationalRegistrationMultiResolutionFilter
-  : public ImageToImageFilter<TDisplacementField, TDisplacementField>
+class VariationalRegistrationMultiResolutionFilter : public ImageToImageFilter<TDisplacementField, TDisplacementField>
 {
 public:
   /** Standard class typedefs */

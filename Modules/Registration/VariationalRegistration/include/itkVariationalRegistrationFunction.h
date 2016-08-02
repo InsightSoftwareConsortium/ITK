@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkVariationalRegistrationFunction_h
-#define __itkVariationalRegistrationFunction_h
+#ifndef itkVariationalRegistrationFunction_h
+#define itkVariationalRegistrationFunction_h
 
 #include "itkFiniteDifferenceFunction.h"
 // #include "itkWarpImageFilter.h"
@@ -48,7 +48,7 @@ namespace itk
  *  \author Jan Ehrhardt
  */
 template <class TFixedImage, class TMovingImage, class TDisplacementField>
-class ITK_EXPORT VariationalRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
+class VariationalRegistrationFunction : public FiniteDifferenceFunction<TDisplacementField>
 {
 public:
   /** Standard class typedefs. */
