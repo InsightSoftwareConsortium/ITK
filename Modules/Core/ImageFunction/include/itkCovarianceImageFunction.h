@@ -111,7 +111,7 @@ public:
   }
 
   /** Get/Set the radius of the neighborhood over which the
-      statistics are evaluated */
+   *  statistics are evaluated. */
   itkSetMacro(NeighborhoodRadius, unsigned int);
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
 

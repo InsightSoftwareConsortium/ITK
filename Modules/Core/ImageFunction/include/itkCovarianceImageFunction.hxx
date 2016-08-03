@@ -24,31 +24,14 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TCoordRep >
 CovarianceImageFunction< TInputImage, TCoordRep >
-::CovarianceImageFunction()
+::CovarianceImageFunction() :
+  m_NeighborhoodRadius( 1 )
 {
-  m_NeighborhoodRadius = 1;
 }
 
-/**
- *
- */
-template< typename TInputImage, typename TCoordRep >
-void
-CovarianceImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
-}
-
-/**
- *
- */
 template< typename TInputImage, typename TCoordRep >
 typename CovarianceImageFunction< TInputImage, TCoordRep >
 ::RealType
@@ -125,6 +108,16 @@ CovarianceImageFunction< TInputImage, TCoordRep >
     }
 
   return ( covariance );
+}
+
+template< typename TInputImage, typename TCoordRep >
+void
+CovarianceImageFunction< TInputImage, TCoordRep >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 } // end namespace itk
 
