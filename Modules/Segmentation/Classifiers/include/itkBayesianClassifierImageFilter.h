@@ -99,10 +99,10 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(BayesianClassifierImageFilter, ImageToImageFilter);
 
-  /** Input and Output image types */
+  /** Input and Output image types. */
   typedef typename Superclass::InputImageType InputImageType;
 
-  /** Dimension of the input image */
+  /** Dimension of the input image. */
   itkStaticConstMacro(Dimension, unsigned int,
                        InputImageType ::ImageDimension);
 
@@ -112,7 +112,7 @@ public:
   typedef typename OutputImageType::Pointer     OutputImagePointer;
   typedef typename InputImageType::RegionType   ImageRegionType;
 
-  /** Input and Output image iterators */
+  /** Input and Output image iterators. */
   typedef ImageRegionConstIterator< InputImageType > InputImageIteratorType;
   typedef ImageRegionIterator< OutputImageType >     OutputImageIteratorType;
 
@@ -123,7 +123,7 @@ public:
   /** Image Type and Pixel type for the images representing the Prior
    * probability of a pixel belonging to  a particular class. This image has
    * arrays as pixels, the number of elements in the array is the same as the
-   * number of classes to be used.  */
+   * number of classes to be used. */
   typedef VectorImage< TPriorsPrecisionType,
                        itkGetStaticConstMacro(Dimension) >                  PriorsImageType;
   typedef typename PriorsImageType::PixelType         PriorsPixelType;
@@ -132,53 +132,52 @@ public:
 
   /** Image Type and Pixel type for the images representing the membership of a
    *  pixel to a particular class. This image has arrays as pixels, the number of
-   *  elements in the array is the same as the number of classes to be used.    */
+   *  elements in the array is the same as the number of classes to be used. */
   typedef TInputVectorImage                               MembershipImageType;
   typedef typename MembershipImageType::PixelType         MembershipPixelType;
   typedef typename MembershipImageType::Pointer           MembershipImagePointer;
   typedef ImageRegionConstIterator< MembershipImageType > MembershipImageIteratorType;
 
   /** Image Type and Pixel type for the images representing the Posterior
-   * probability of a pixel belonging to  a particular class. This image has
+   * probability of a pixel belonging to a particular class. This image has
    * arrays as pixels, the number of elements in the array is the same as the
-   * number of classes to be used.  */
+   * number of classes to be used. */
   typedef VectorImage< TPosteriorsPrecisionType,
                        itkGetStaticConstMacro(Dimension) >                  PosteriorsImageType;
   typedef typename PosteriorsImageType::PixelType    PosteriorsPixelType;
   typedef typename PosteriorsImageType::Pointer      PosteriorsImagePointer;
   typedef ImageRegionIterator< PosteriorsImageType > PosteriorsImageIteratorType;
 
-  /** Decision rule to use for defining the label */
+  /** Decision rule to use for defining the label. */
   typedef Statistics::MaximumDecisionRule DecisionRuleType;
   typedef DecisionRuleType::Pointer       DecisionRulePointer;
 
   typedef typename Superclass::DataObjectPointer DataObjectPointer;
 
-  /** An image from a single component of the Posterior */
+  /** An image from a single component of the Posterior. */
   typedef itk::Image< TPosteriorsPrecisionType,
                       itkGetStaticConstMacro(Dimension) >                ExtractedComponentImageType;
 
-  /** Optional Smoothing filter that will be applied to the Posteriors */
+  /** Optional Smoothing filter that will be applied to the Posteriors. */
   typedef ImageToImageFilter<
     ExtractedComponentImageType,
     ExtractedComponentImageType  >         SmoothingFilterType;
 
   typedef typename SmoothingFilterType::Pointer SmoothingFilterPointer;
 
-  /** Set/ Get macros for the smoothing filter that may optionally be applied
-   * to the posterior image */
+  /** Set/Get the smoothing filter that may optionally be applied to the
+   *  posterior image. */
   void SetSmoothingFilter(SmoothingFilterType *);
-
   itkGetConstMacro(SmoothingFilter, SmoothingFilterPointer);
 
-  /** Set the priors **/
+  /** Set the priors image. */
   virtual void SetPriors(const PriorsImageType *);
 
-  /** Number of iterations to apply the smoothing filter */
+  /** Number of iterations to apply the smoothing filter. */
   itkSetMacro(NumberOfSmoothingIterations, unsigned int);
   itkGetConstMacro(NumberOfSmoothingIterations, unsigned int);
 
-  /** This is overloaded to create the Posteriors output image */
+  /** This is overloaded to create the Posteriors output image. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
@@ -209,35 +208,35 @@ protected:
   virtual ~BayesianClassifierImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** Here is where the classification is computed. */
   virtual void GenerateData() ITK_OVERRIDE;
 
   virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
 
-  /** Methods for computing the labeled map for all combinations of conditions
-    */
+  /** Compute the posteriors using the Bayes rule. If no priors are available,
+   *  then the posteriors are just a copy of the memberships.
+   *  Computes the labeled map for all combinations of conditions. */
   virtual void ComputeBayesRule();
 
+  /** Normalize the posteriors and smooth them using a user-provided. */
   virtual void NormalizeAndSmoothPosteriors();
 
+  /** Compute the labeled map based on the Maximum rule applied to the posteriors. */
   virtual void ClassifyBasedOnPosteriors();
 
+  /** Get the Posteriors Image. */
   PosteriorsImageType * GetPosteriorImage();
 
 private:
 
   ITK_DISALLOW_COPY_AND_ASSIGN(BayesianClassifierImageFilter);
 
-  /** Boolean flag indicating that the user defined the Priors optional input */
+
   bool m_UserProvidedPriors;
 
-  /** Boolean flag indicating that the user provided a Smoothing filter */
   bool m_UserProvidedSmoothingFilter;
 
-  /** Pointer to optional Smoothing filter */
   SmoothingFilterPointer m_SmoothingFilter;
 
-  /** Number of iterations to apply the smoothing filter */
   unsigned int m_NumberOfSmoothingIterations;
 };
 } // end namespace itk
