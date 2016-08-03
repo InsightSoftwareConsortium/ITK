@@ -20,12 +20,13 @@
 namespace itk
 {
 MetaArrayWriter
-::MetaArrayWriter()
+::MetaArrayWriter() :
+  m_Binary( false ),
+  m_Precision( 6 ),
+  m_FileName( "" ),
+  m_DataFileName( "" ),
+  m_Buffer( ITK_NULLPTR )
 {
-  m_FileName = "";
-  m_Precision = 6;
-  m_Buffer = ITK_NULLPTR;
-  m_Binary = false;
 }
 
 MetaArrayWriter
@@ -43,7 +44,6 @@ void MetaArrayWriter
   m_MetaArray.ConvertElementDataTo(_metaElementType);
 }
 
-/** Update the writer */
 void MetaArrayWriter
 ::Update()
 {
