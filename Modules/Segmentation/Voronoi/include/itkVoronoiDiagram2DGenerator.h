@@ -74,10 +74,8 @@ public:
   itkGetConstMacro(NumberOfSeeds, unsigned int);
 
   /** Set the seed points.
-   *
-   * Specify the number of seeds as "num". Will overwrite if seeds already
-   * exists.
-   */
+   *  The first argument explicits the number of seeds. Will overwrite if seeds
+   *  already exist. */
   void SetSeeds(int num, SeedsIterator begin);
 
   /** Add more seeds. Specify the number of seeds to be added as "num". */
@@ -100,10 +98,7 @@ public:
 
   void SetOrigin(PointType vorsize);
 
-  /** Set the seeds points randomly.
-   *
-   * Specify the number of seeds as "num".
-   */
+  /** Set the seeds points randomly. */
   void SetRandomSeeds(int num);
 
   /** Return the given indexed seed. */
