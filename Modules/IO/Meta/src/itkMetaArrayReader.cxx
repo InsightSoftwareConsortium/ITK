@@ -19,34 +19,30 @@
 
 namespace itk
 {
-/** Constructor */
+
 MetaArrayReader
-::MetaArrayReader()
+::MetaArrayReader() :
+  m_FileName( "" ),
+  m_Buffer( ITK_NULLPTR )
 {
-  m_FileName = "";
-  m_Buffer = ITK_NULLPTR;
 }
 
-/** Destructor */
 MetaArrayReader
 ::~MetaArrayReader()
 {}
 
-/** Update the Reader */
 void MetaArrayReader
 ::SetBuffer(void *_buffer)
 {
   m_Buffer = _buffer;
 }
 
-/** Return a pointer to the metaArray variable */
 MetaArray * MetaArrayReader
 ::GetMetaArrayPointer(void)
 {
   return &m_MetaArray;
 }
 
-/** Update the Reader */
 void MetaArrayReader
 ::Update()
 {
@@ -59,6 +55,7 @@ MetaArrayReader::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << m_FileName << std::endl;
+
 }
 
 } // namespace itk
