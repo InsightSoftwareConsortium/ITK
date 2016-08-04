@@ -79,6 +79,9 @@ if (ITK_USE_FFTWF OR ITK_USE_FFTWD)
   set(ITK_LIBRARY_DIRS ${ITK_LIBRARY_DIRS} "${ITK_FFTW_LIBDIR}")
 endif()
 
+# Add configuration with GPU
+set(ITK_USE_GPU "@ITK_USE_GPU@")
+
 # Wrapping
 set(ITK_WRAPPING "@ITK_WRAPPING@")
 if( NOT DEFINED ITK_WRAP_PYTHON)
