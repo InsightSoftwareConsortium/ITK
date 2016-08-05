@@ -17,10 +17,12 @@
  *=========================================================================*/
 
 #include "itkVoronoiDiagram2DGenerator.h"
+#include "itkMeshSource.h"
 #include "itkMeshFileWriter.h"
+#include "itkTestingMacros.h"
 
-
-int itkVoronoiDiagram2DTest(int argc, char* argv[] ){
+int itkVoronoiDiagram2DTest( int argc, char* argv[] )
+{
 
   if( argc != 2 )
     {
@@ -28,67 +30,86 @@ int itkVoronoiDiagram2DTest(int argc, char* argv[] ){
     return EXIT_FAILURE;
     }
 
-  const double HEI=400;
-  const double WID=400;
-  const int NUMSEEDS=20;
+  const double height = 400;
+  const double width = 400;
+  const int numberOfSeeds = 20;
 
-  typedef itk::VoronoiDiagram2D<double>          Vor;
-  typedef itk::VoronoiDiagram2DGenerator<double> VorGenerator;
+  typedef itk::VoronoiDiagram2D<double>          VoronoiDiagram;
+  typedef itk::VoronoiDiagram2DGenerator<double> VoronoiDiagramGenerator;
 
-  typedef Vor::PointType            PointType;
-  typedef Vor::CellType             CellType;
-  typedef Vor::CellAutoPointer      CellAutoPointer;
-  typedef CellType::PointIdIterator PointIdIterator;
-  typedef Vor::NeighborIdIterator   NeighborIdIterator;
+  typedef VoronoiDiagram::PointType            PointType;
+  typedef VoronoiDiagram::CellType             CellType;
+  typedef VoronoiDiagram::CellAutoPointer      CellAutoPointer;
+  typedef CellType::PointIdIterator            PointIdIterator;
+  typedef VoronoiDiagram::NeighborIdIterator   NeighborIdIterator;
 
-  Vor::Pointer testVor(Vor::New());
-  VorGenerator::Pointer testVorGen(VorGenerator::New());
+  VoronoiDiagram::Pointer voronoiDiagram = VoronoiDiagram::New();
+
+  VoronoiDiagramGenerator::Pointer voronoiDiagramGenerator =
+    VoronoiDiagramGenerator::New();
+  EXERCISE_BASIC_OBJECT_METHODS ( voronoiDiagramGenerator, VoronoiDiagram2DGenerator,
+    MeshSource );
 
   PointType insize;
-  insize[0]=WID;
-  insize[1]=HEI;
-  testVorGen->SetBoundary(insize);
+  insize[0] = width;
+  insize[1] = height;
+  voronoiDiagramGenerator->SetBoundary(insize);
 
-  testVorGen->SetRandomSeeds(NUMSEEDS);
-  testVorGen->Update();
-  testVor=testVorGen->GetOutput();
+  voronoiDiagramGenerator->SetRandomSeeds(numberOfSeeds);
+  TEST_SET_GET_VALUE( numberOfSeeds, voronoiDiagramGenerator->GetNumberOfSeeds() );
 
-  for( int i = 0; i < NUMSEEDS; i++ ){
-    PointType currP=testVor->GetSeed(i);
-    std::cout<<"Seed No."<<i<<": At ("<<currP[0]<<"," <<currP[1]<<")"<<std::endl;
-    std::cout<<"  Boundary Vertices List (in order):";
+  voronoiDiagramGenerator->Update();
+  voronoiDiagram = voronoiDiagramGenerator->GetOutput();
+
+  for( unsigned int i = 0; i < voronoiDiagramGenerator->GetNumberOfSeeds(); ++i )
+    {
+    PointType currP = voronoiDiagram->GetSeed(i);
+    std::cout << "Seed No." << i << ": At (" << currP[0] << "," << currP[1] << ")" << std::endl;
+    std::cout << "Boundary Vertices List (in order): ";
     CellAutoPointer currCell;
-    testVor->GetCellId(i, currCell);
+    voronoiDiagram->GetCellId(i, currCell);
     PointIdIterator currCellP;
     for( currCellP = currCell->PointIdsBegin(); currCellP != currCell->PointIdsEnd(); ++currCellP )
-    {
-      std::cout<<(*currCellP)<<",";
-    }
-    std::cout<<std::endl;
-    std::cout<<"  Neighbors (Seed No.):";
+      {
+      std::cout << *currCellP << ",";
+      }
+    std::cout << std::endl;
+    std::cout << " Neighbors (Seed No.): ";
     NeighborIdIterator currNeibor;
-    for( currNeibor = testVor->NeighborIdsBegin(i); currNeibor != testVor->NeighborIdsEnd(i); ++currNeibor )
-    {
-      std::cout<<(*currNeibor)<<",";
+    for( currNeibor = voronoiDiagram->NeighborIdsBegin(i);
+      currNeibor != voronoiDiagram->NeighborIdsEnd(i); ++currNeibor )
+      {
+      std::cout << *currNeibor << ",";
+      }
+    std::cout << std::endl << std::endl;
     }
-    std::cout<<std::endl<<std::endl;
-  }
 
-  std::cout<<"Vertices Informations:"<<std::endl;
-  Vor::VertexIterator allVerts;
+  std::cout << "Vertices Informations:" << std::endl;
+  VoronoiDiagram::VertexIterator allVerts;
   int j = 0;
-  for( allVerts = testVor->VertexBegin(); allVerts != testVor->VertexEnd(); ++allVerts )
-  {
-    std::cout<<"Vertices No."<<j;
+  for( allVerts = voronoiDiagram->VertexBegin();
+    allVerts != voronoiDiagram->VertexEnd(); ++allVerts )
+    {
+    std::cout << "Vertices No. " << j;
     j++;
-    std::cout<<": At ("<<(allVerts.Value())[0]<<","<<(allVerts.Value())[1]<<")"<<std::endl;
-  }
+    std::cout << ": At (" << allVerts.Value()[0] << ","
+      << allVerts.Value()[1] << ")" << std::endl;
+    }
 
-  typedef itk::MeshFileWriter<Vor> WriterType;
+  typedef itk::MeshFileWriter< VoronoiDiagram > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(testVor);
-  writer->SetFileName(argv[1]);
-  writer->Update();
+  writer->SetInput( voronoiDiagram );
+  writer->SetFileName( argv[1] );
+
+  try
+    {
+    writer->Update();
+    }
+  catch( itk::ExceptionObject & excp )
+    {
+    std::cout << excp << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
