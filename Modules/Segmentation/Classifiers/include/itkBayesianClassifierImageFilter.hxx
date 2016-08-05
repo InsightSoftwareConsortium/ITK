@@ -33,46 +33,23 @@
 
 namespace itk
 {
-/**
- *  Constructor
- */
+
 template< typename TInputVectorImage, typename TLabelsType,
           typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
-::BayesianClassifierImageFilter()
+::BayesianClassifierImageFilter() :
+  m_UserProvidedPriors( false ),
+  m_UserProvidedSmoothingFilter( false ),
+  m_SmoothingFilter( ITK_NULLPTR ),
+  m_NumberOfSmoothingIterations( 0 )
 {
-  m_UserProvidedPriors = false;
-  m_UserProvidedSmoothingFilter = false;
-  this->SetNumberOfRequiredOutputs(2);
-  m_NumberOfSmoothingIterations = 0;
-  m_SmoothingFilter = ITK_NULLPTR;
+  this->SetNumberOfRequiredOutputs( 2 );
   PosteriorsImagePointer p =
     static_cast< PosteriorsImageType * >( this->MakeOutput(1).GetPointer() );
   this->SetNthOutput( 1, p.GetPointer() );
 }
 
-/**
- *  Print Self Method
- */
-template< typename TInputVectorImage, typename TLabelsType,
-          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
-void
-BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
-                               TPosteriorsPrecisionType, TPriorsPrecisionType >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "User provided priors =  " << m_UserProvidedPriors << std::endl;
-  os << indent << "User provided smooting filter =  " << m_UserProvidedSmoothingFilter << std::endl;
-  os << indent << "Smoothing filter pointer =  " << m_SmoothingFilter.GetPointer() << std::endl;
-  os << indent << "Number of smoothing iterations =  " << m_NumberOfSmoothingIterations << std::endl;
-}
-
-/**
- * Generate Data method is where the classification (and smoothing) is performed.
- */
 template< typename TInputVectorImage, typename TLabelsType,
           typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
@@ -80,10 +57,10 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
                                TPosteriorsPrecisionType, TPriorsPrecisionType >
 ::GenerateData()
 {
-  // Setup input image
+  // Set up input image
   const InputImageType *membershipImage = this->GetInput();
 
-  // Setup general parameters
+  // Set up general parameters
   const unsigned int numberOfClasses = membershipImage->GetVectorLength();
 
   if ( numberOfClasses == 0 )
@@ -149,14 +126,11 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     return;
     }
 
-  // the vector length is part of the output information that must be
+  // The vector length is part of the output information that must be
   // updated here
   this->GetPosteriorImage()->SetVectorLength( this->GetInput()->GetVectorLength() );
 }
 
-/**
- * Compute the posteriors using the Bayes rule. If no priors are available,
- * then the posteriors are just a copy of the memberships.  */
 template< typename TInputVectorImage, typename TLabelsType,
           typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
@@ -251,9 +225,6 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   this->Modified();
 }
 
-/**
-  * Set the prior image
-  */
 template< typename TInputVectorImage, typename TLabelsType,
           typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
@@ -266,9 +237,6 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
   this->Modified();
 }
 
-/**
- * Normalize the posteriors and smooth them using an user-provided.
- */
 template< typename TInputVectorImage, typename TLabelsType,
           typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
@@ -348,9 +316,6 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     }
 }
 
-/**
- * Compute the labeled map based on the Maximum rule applied to the posteriors.
- */
 template< typename TInputVectorImage, typename TLabelsType,
           typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
 void
@@ -395,6 +360,21 @@ BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
     ++itrLabelsImage;
     ++itrPosteriorsImage;
     }
+}
+
+template< typename TInputVectorImage, typename TLabelsType,
+          typename TPosteriorsPrecisionType, typename TPriorsPrecisionType >
+void
+BayesianClassifierImageFilter< TInputVectorImage, TLabelsType,
+                               TPosteriorsPrecisionType, TPriorsPrecisionType >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "User provided priors =  " << m_UserProvidedPriors << std::endl;
+  os << indent << "User provided smooting filter =  " << m_UserProvidedSmoothingFilter << std::endl;
+  os << indent << "Smoothing filter pointer =  " << m_SmoothingFilter.GetPointer() << std::endl;
+  os << indent << "Number of smoothing iterations =  " << m_NumberOfSmoothingIterations << std::endl;
 }
 } // end namespace itk
 
