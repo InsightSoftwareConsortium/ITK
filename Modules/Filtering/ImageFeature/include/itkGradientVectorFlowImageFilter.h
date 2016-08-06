@@ -97,7 +97,8 @@ public:
 
   /** Routines. */
 
-  itkSetMacro(LaplacianFilter, LaplacianFilterPointer);
+  itkSetObjectMacro(LaplacianFilter, LaplacianFilterType);
+  itkGetModifiableObjectMacro(LaplacianFilter, LaplacianFilterType);
 
   itkSetMacro(TimeStep, double);
   itkGetConstMacro(TimeStep, double);
