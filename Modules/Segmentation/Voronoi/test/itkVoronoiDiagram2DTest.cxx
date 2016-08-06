@@ -32,10 +32,10 @@ int itkVoronoiDiagram2DTest( int argc, char* argv[] )
 
   const double height = 400;
   const double width = 400;
-  const int numberOfSeeds = 20;
+  const unsigned int numberOfSeeds = 20;
 
-  typedef itk::VoronoiDiagram2D<double>          VoronoiDiagram;
-  typedef itk::VoronoiDiagram2DGenerator<double> VoronoiDiagramGenerator;
+  typedef itk::VoronoiDiagram2D< double >          VoronoiDiagram;
+  typedef itk::VoronoiDiagram2DGenerator< double > VoronoiDiagramGenerator;
 
   typedef VoronoiDiagram::PointType            PointType;
   typedef VoronoiDiagram::CellType             CellType;
