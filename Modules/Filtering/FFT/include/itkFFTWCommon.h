@@ -157,7 +157,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != ITK_NULLPTR );
+    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -249,7 +249,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != ITK_NULLPTR );
+    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -343,7 +343,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != ITK_NULLPTR );
+    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -461,7 +461,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != ITK_NULLPTR );
+    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -552,7 +552,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != ITK_NULLPTR );
+    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
@@ -646,7 +646,7 @@ public:
         }
       FFTWGlobalConfiguration::SetNewWisdomAvailable(true);
       }
-    assert( plan != ITK_NULLPTR );
+    itkAssertOrThrowMacro( plan != ITK_NULLPTR , "PLAN_CREATION_FAILED ");
     return plan;
   }
 
