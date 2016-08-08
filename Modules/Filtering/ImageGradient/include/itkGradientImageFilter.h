@@ -65,7 +65,7 @@ public:
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
+                      TOutputImageType::ImageDimension);
 
   /** Convenient typedefs for simplifying declarations. */
   typedef TInputImage                       InputImageType;
@@ -117,6 +117,9 @@ public:
       image in its calculations */
   itkSetMacro(UseImageSpacing, bool);
   itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+  /** Allows to change the default boundary condition */
+  void OverrideBoundaryCondition(ImageBoundaryCondition< TInputImage >* boundaryCondition);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -201,6 +204,9 @@ private:
   // flag to take or not the image direction into account
   // when computing the derivatives.
   bool m_UseImageDirection;
+
+  // allow setting the the m_BoundaryCondition
+  ImageBoundaryCondition< TInputImage, TInputImage >* m_BoundaryCondition;
 };
 } // end namespace itk
 
