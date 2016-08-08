@@ -27,44 +27,41 @@
 
 namespace itk
 {
-class ITKIOMeta_EXPORT MetaArrayWriter:public LightProcessObject
+class ITKIOMeta_EXPORT MetaArrayWriter : public LightProcessObject
 {
 public:
 
-  /** SmartPointer typedef support */
-  typedef MetaArrayWriter    Self;
-  typedef LightProcessObject Superclass;
+  /** SmartPointer typedef support. */
+  typedef MetaArrayWriter             Self;
+  typedef LightProcessObject          Superclass;
 
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >        Pointer;
+  typedef SmartPointer< const Self >  ConstPointer;
 
-  /** Method for creation through the object factory */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaArrayWriter, LightProcessObject);
 
-  /** Set the filename  */
+  /** Set/Get the filename. */
   itkSetStringMacro(FileName);
-
-  /** Get the filename */
   itkGetStringMacro(FileName);
 
-  /** Set the filename to which the data is written
-   *    Optional param - use if header and data should be
-   *      in separate files.  */
+  /** Set/Get the filename to which the data is written.
+   *  Optional: use if header and data should be in separate files. */
   itkSetStringMacro(DataFileName);
-
-  /** Get the filename to which the data will be written */
   itkGetStringMacro(DataFileName);
 
-  /** Set the writer to store the array as binary data */
+  /** Boolean to set binary mode.
+   *  If set to On, data will be stored in the file in binary format; if set
+   *  to Off, data will be stored in ascci format.
+   *  Default is Off. */
+  itkBooleanMacro(Binary);
   itkSetMacro(Binary, bool);
-  /** Returns true if the file to be produced will store the data in binary
-   *    (instead of ascii) format */
   itkGetConstMacro(Binary, bool);
 
-  /** Set the input itk Array to write */
+  /** Set the input itk Array to write. */
   template< typename TValue >
   void SetInput(MET_ValueEnumType _metaElementType,
                 const Array< TValue > *_array)
@@ -74,7 +71,7 @@ public:
                                     _metaElementType);
   }
 
-  /** Set the input itk FixedArray to write */
+  /** Set the input itk FixedArray to write. */
   template< typename TValue, unsigned int VLength >
   void SetInput(MET_ValueEnumType _metaElementType,
                 const FixedArray< TValue, VLength > *_array)
@@ -84,7 +81,7 @@ public:
                                     _metaElementType);
   }
 
-  /** Set the input itk Vector to write */
+  /** Set the input itk Vector to write. */
   template< typename TValue, unsigned int VLength >
   void SetInput(MET_ValueEnumType _metaElementType,
                 const Vector< TValue, VLength > *_vector)
@@ -94,7 +91,7 @@ public:
                                     _metaElementType);
   }
 
-  /** Set the input itk CovariantVector to write */
+  /** Set the input itk CovariantVector to write. */
   template< typename TValue, unsigned int VLength >
   void SetInput(MET_ValueEnumType _metaElementType,
                 const CovariantVector< TValue, VLength > *_vector)
@@ -104,7 +101,7 @@ public:
                                     _metaElementType);
   }
 
-  /** Set the input itk VariableLengthVector to write */
+  /** Set the input itk VariableLengthVector to write. */
   template< typename TValue >
   void SetInput(MET_ValueEnumType _metaElementType,
                 const VariableLengthVector< TValue > *_vector)
@@ -115,12 +112,12 @@ public:
   }
 
   /** Copies the elements from an array of arrays into the output
-   *    buffer.   Requires all sub-arrays to have the same length.
-   *    length of the major array is the "length" of the array, while
-   *    the length of the sub-arrays is the "number of channels" at each
-   *    array position.   Expected form itk::Array< itk::Array< * > >.
-   *    May work for other sub-array-types that define the [] operator and the
-   *    GetSize() function.  */
+   *  buffer. Requires all sub-arrays to have the same length.
+   *  length of the major array is the "length" of the array, while
+   *  the length of the sub-arrays is the "number of channels" at each
+   *  array position. Expected form itk::Array< itk::Array< * > >.
+   *  May work for othesub-array-types that define the [] operator and the
+   *  GetSize() function. */
   template< typename TValue >
   void SetMultiChannelInput(MET_ValueEnumType _metaElementType,
                             int ,
@@ -145,14 +142,14 @@ public:
       }
   }
 
-  /** Set/Get the precision of the writing */
+  /** Set/Get the precision of the writing. */
   itkSetMacro(Precision, unsigned int);
   itkGetConstMacro(Precision, unsigned int);
 
-  /** Set the data type written to the file */
+  /** Set the data type written to the file. */
   void ConvertTo(MET_ValueEnumType _metaElementType);
 
-  /** Write out the array */
+  /** Write out the array. */
   void Update();
 
 protected:
@@ -163,16 +160,16 @@ protected:
 
 private:
 
-  bool m_Binary;
+  bool          m_Binary;
 
-  unsigned int m_Precision;
+  unsigned int  m_Precision;
 
-  std::string m_FileName;
-  std::string m_DataFileName;
+  std::string   m_FileName;
+  std::string   m_DataFileName;
 
-  MetaArray m_MetaArray;
+  MetaArray     m_MetaArray;
 
-  const void *m_Buffer;
+  const void   *m_Buffer;
 };
 } // namespace itk
 
