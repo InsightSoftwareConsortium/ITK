@@ -129,7 +129,8 @@ public:
 
   typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
 
-  /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
+  /** Configure the histogram.
+   *  Subclasses must override this method. */
   virtual void ConfigureHistogram(THistogram &) {}
 
 protected:
