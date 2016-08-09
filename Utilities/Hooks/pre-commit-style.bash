@@ -24,6 +24,15 @@ do_KWStyle=$(git config --bool hooks.KWStyle) || do_KWStyle=false
 
 do_uncrustify=$(git config --bool hooks.uncrustify) || do_uncrustify=false
 
+if [ "$(uname)" == "Darwin" ]; then
+    console="</dev/tty" # MacOSX
+elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+    console="</dev/tty" # Linuxes
+else
+    echo "uname: "$(uname -a)
+    console="" # Windows (Msys, MinGW, Cygwin etc)
+fi
+
 #-----------------------------------------------------------------------------
 # Check if we want to run the style on a given file.  Uses git attributes.  If
 # the hook.style attribute is set, then all styles are executed.  If the
@@ -141,7 +150,7 @@ Please install uncrustify or set the executable location with
 
   git config hooks.uncrustify.path /path/to/uncrustify
 
-  See http://uncrustify.sourceforge.net/"
+  See https://github.com/uncrustify/uncrustify"
 
   uncrustify_conf=$(git config hooks.uncrustify.conf)
   if ! test -f "$uncrustify_conf"; then
@@ -161,6 +170,7 @@ run_uncrustify_on_file() {
     LOCAL="./$MERGED.STAGED.$ext"
     REMOTE="./$MERGED.UNCRUSTIFY.$ext"
     NEW_MERGED="./$MERGED.NEW.$ext"
+    ERROR_LOG="./$MERGED.$ext.log"
     OLD_MERGED="$MERGED"
 
     mv -- "$MERGED" "$BACKUP"
@@ -171,7 +181,7 @@ run_uncrustify_on_file() {
     cp -- "$BACKUP" "$LOCAL"
 
     if ! "$uncrustify_path" -c "$uncrustify_conf" -f "$LOCAL" \
-      -o "$REMOTE" 2> /dev/null; then
+      -o "$REMOTE" 2> "$ERROR_LOG"; then
       mv -- "$BACKUP" "$OLD_MERGED"
 
       if test "$merge_keep_temporaries" = "false"; then
@@ -182,14 +192,15 @@ run_uncrustify_on_file() {
     fi
 
     if test $(git hash-object -- "$LOCAL") != $(git hash-object -- "$REMOTE") &&
-      ! run_merge_tool "$merge_tool" "false" </dev/tty; then
+      ! run_merge_tool "$merge_tool" "false" $console; then
       mv -- "$BACKUP" "$OLD_MERGED"
 
       if test "$merge_keep_temporaries" = "false"; then
         rm -f -- "$LOCAL" "$REMOTE" "$BACKUP" "$NEW_MERGED"
       fi
 
-      die "uncrustify merge of $OLD_MERGED failed"
+      die "uncrustify merge of $OLD_MERGED failed
+      Error log: $ERROR_LOG"
     fi
 
     mv -- "$NEW_MERGED" "$OLD_MERGED"
@@ -202,7 +213,7 @@ run_uncrustify_on_file() {
     fi
 
     git add -- "$MERGED"
-    rm -f -- "$LOCAL" "$REMOTE" "$BACKUP"
+    rm -f -- "$LOCAL" "$REMOTE" "$BACKUP" "$ERROR_LOG" "$NEW_MERGED"
 
   fi # end if run uncrustify on file
 
