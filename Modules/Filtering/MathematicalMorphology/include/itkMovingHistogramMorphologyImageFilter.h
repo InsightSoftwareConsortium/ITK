@@ -55,7 +55,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(MovingHistogramMorphologyImageFilter,
-               ImageToImageFilter);
+               MovingHistogramImageFilter);
 
   /** Image related typedefs. */
   typedef TInputImage                                InputImageType;
