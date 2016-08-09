@@ -107,3 +107,15 @@ itk_add_test(NAME itkMaskFeaturePointSelectionFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha
     itkMaskFeaturePointSelectionFilterTest
 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha)
+
+itk_python_add_test(NAME itkGradientVectorFlowImageFilterPythonTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestX.png
+                DATA{Baseline/itkGradientVectorFlowImageFilterPythonTestX.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestY.png
+                DATA{Baseline/itkGradientVectorFlowImageFilterPythonTestY.png}
+    COMMAND itkGradientVectorFlowImageFilterTest.py
+      DATA{Input/Contours.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestX.png
+      ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestY.png
+      50 50000.0 0.001)
