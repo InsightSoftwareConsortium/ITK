@@ -1,7 +1,8 @@
 set(
   DOCUMENTATION
   "The modules provides filters to do interpolation
-of manually segmented anatomical contours."
+of manually segmented anatomical contours.
+Enabling testing requires RLEImage module to be enabled."
 )
 
 itk_module(
