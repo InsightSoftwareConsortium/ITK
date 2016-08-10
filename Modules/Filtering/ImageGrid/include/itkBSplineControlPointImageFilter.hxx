@@ -27,33 +27,24 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
 
-/*
- *
- * This code was contributed in the Insight Journal paper:
- * "N-D C^k B-Spline Scattered Data Approximation"
- * by Nicholas J. Tustison, James C. Gee
- * https://hdl.handle.net/1926/140
- * http://www.insight-journal.org/browse/publication/57
- *
- */
 
 namespace itk
 {
 
-/*
- * BSplineControlPointImageFilter class definitions
- */
 template<typename TInputImage, typename TOutputImage>
 BSplineControlPointImageFilter<TInputImage, TOutputImage>
-::BSplineControlPointImageFilter()
+::BSplineControlPointImageFilter() :
+  m_DoMultilevel( false ),
+  m_MaximumNumberOfLevels( 1 ),
+  m_NumberOfLevels( 1 ),
+  m_BSplineEpsilon( 1e-3 )
 {
-  this->m_SplineOrder.Fill( 3 );
-  this->m_DoMultilevel = false;
-  this->m_MaximumNumberOfLevels = 1;
-  this->m_Origin.Fill( 0.0 );
-  this->m_Spacing.Fill( 1.0 );
   this->m_Size.Fill( 0 );
+  this->m_Spacing.Fill( 1.0 );
+  this->m_Origin.Fill( 0.0 );
   this->m_Direction.SetIdentity();
+  this->m_CloseDimension.Fill( 0 );
+  this->m_SplineOrder.Fill( 3 );
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -65,11 +56,6 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>
   this->m_KernelOrder1 = KernelOrder1Type::New();
   this->m_KernelOrder2 = KernelOrder2Type::New();
   this->m_KernelOrder3 = KernelOrder3Type::New();
-
-  this->m_NumberOfLevels.Fill( 1 );
-  this->m_CloseDimension.Fill( 0 );
-
-  this->m_BSplineEpsilon = 1e-3;
 }
 
 template<typename InputImage, typename TOutputImage>
