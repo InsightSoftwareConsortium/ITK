@@ -27,7 +27,7 @@
 #include "H5Eprivate.h"
 #include "H5Iprivate.h"
 #include "H5Spkg.h"
-#include "H5Vprivate.h"
+#include "H5VMprivate.h"
 #include "H5Dprivate.h"
 
 /* Static function prototypes */
@@ -113,10 +113,10 @@ static const H5S_sel_iter_class_t H5S_sel_iter_none[1] = {{
  *
  *-------------------------------------------------------------------------
  */
-herr_t
-H5S_none_iter_init(H5S_sel_iter_t *iter, const H5S_t UNUSED *space)
+static herr_t
+H5S_none_iter_init(H5S_sel_iter_t *iter, const H5S_t H5_ATTR_UNUSED *space)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_none_iter_init)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space && H5S_SEL_NONE==H5S_GET_SELECT_TYPE(space));
@@ -145,9 +145,9 @@ H5S_none_iter_init(H5S_sel_iter_t *iter, const H5S_t UNUSED *space)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5S_none_iter_coords(const H5S_sel_iter_t UNUSED *iter, hsize_t UNUSED *coords)
+H5S_none_iter_coords(const H5S_sel_iter_t H5_ATTR_UNUSED *iter, hsize_t H5_ATTR_UNUSED *coords)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_iter_coords)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(iter);
@@ -173,9 +173,9 @@ H5S_none_iter_coords(const H5S_sel_iter_t UNUSED *iter, hsize_t UNUSED *coords)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5S_none_iter_block(const H5S_sel_iter_t UNUSED *iter, hsize_t UNUSED *start, hsize_t UNUSED *end)
+H5S_none_iter_block(const H5S_sel_iter_t H5_ATTR_UNUSED *iter, hsize_t H5_ATTR_UNUSED *start, hsize_t H5_ATTR_UNUSED *end)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_iter_block)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(iter);
@@ -201,9 +201,9 @@ H5S_none_iter_block(const H5S_sel_iter_t UNUSED *iter, hsize_t UNUSED *start, hs
  *-------------------------------------------------------------------------
  */
 static hsize_t
-H5S_none_iter_nelmts(const H5S_sel_iter_t UNUSED *iter)
+H5S_none_iter_nelmts(const H5S_sel_iter_t H5_ATTR_UNUSED *iter)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_iter_nelmts)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(iter);
@@ -230,9 +230,9 @@ H5S_none_iter_nelmts(const H5S_sel_iter_t UNUSED *iter)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S_none_iter_has_next_block(const H5S_sel_iter_t UNUSED *iter)
+H5S_none_iter_has_next_block(const H5S_sel_iter_t H5_ATTR_UNUSED *iter)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_iter_has_next_block)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(iter);
@@ -260,9 +260,9 @@ H5S_none_iter_has_next_block(const H5S_sel_iter_t UNUSED *iter)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_iter_next(H5S_sel_iter_t UNUSED *iter, size_t UNUSED nelem)
+H5S_none_iter_next(H5S_sel_iter_t H5_ATTR_UNUSED *iter, size_t H5_ATTR_UNUSED nelem)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_iter_next)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(iter);
@@ -290,9 +290,9 @@ H5S_none_iter_next(H5S_sel_iter_t UNUSED *iter, size_t UNUSED nelem)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_iter_next_block(H5S_sel_iter_t UNUSED *iter)
+H5S_none_iter_next_block(H5S_sel_iter_t H5_ATTR_UNUSED *iter)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_iter_next)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(iter);
@@ -319,9 +319,9 @@ H5S_none_iter_next_block(H5S_sel_iter_t UNUSED *iter)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_iter_release(H5S_sel_iter_t UNUSED * iter)
+H5S_none_iter_release(H5S_sel_iter_t H5_ATTR_UNUSED * iter)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_iter_release)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(iter);
@@ -348,9 +348,9 @@ H5S_none_iter_release(H5S_sel_iter_t UNUSED * iter)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_release(H5S_t UNUSED * space)
+H5S_none_release(H5S_t H5_ATTR_UNUSED * space)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_release)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -379,9 +379,9 @@ H5S_none_release(H5S_t UNUSED * space)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_copy(H5S_t *dst, const H5S_t UNUSED *src, hbool_t UNUSED share_selection)
+H5S_none_copy(H5S_t *dst, const H5S_t H5_ATTR_UNUSED *src, hbool_t H5_ATTR_UNUSED share_selection)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_copy)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(src);
     HDassert(dst);
@@ -414,9 +414,9 @@ H5S_none_copy(H5S_t *dst, const H5S_t UNUSED *src, hbool_t UNUSED share_selectio
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S_none_is_valid(const H5S_t UNUSED *space)
+H5S_none_is_valid(const H5S_t H5_ATTR_UNUSED *space)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_is_valid)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
 
@@ -444,9 +444,9 @@ H5S_none_is_valid(const H5S_t UNUSED *space)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static hssize_t
-H5S_none_serial_size(const H5S_t UNUSED *space)
+H5S_none_serial_size(const H5S_t H5_ATTR_UNUSED *space)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_serial_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
 
@@ -480,7 +480,7 @@ H5S_none_serial_size(const H5S_t UNUSED *space)
 static herr_t
 H5S_none_serialize(const H5S_t *space, uint8_t *buf)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_serialize)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
 
@@ -514,11 +514,11 @@ H5S_none_serialize(const H5S_t *space, uint8_t *buf)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_deserialize(H5S_t *space, const uint8_t UNUSED *buf)
+H5S_none_deserialize(H5S_t *space, const uint8_t H5_ATTR_UNUSED *buf)
 {
     herr_t ret_value = SUCCEED;  /* return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5S_none_deserialize)
+    FUNC_ENTER_NOAPI_NOINIT
 
     HDassert(space);
 
@@ -557,9 +557,9 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_bounds(const H5S_t UNUSED *space, hsize_t UNUSED *start, hsize_t UNUSED *end)
+H5S_none_bounds(const H5S_t H5_ATTR_UNUSED *space, hsize_t H5_ATTR_UNUSED *start, hsize_t H5_ATTR_UNUSED *end)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_bounds)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
     HDassert(start);
@@ -589,10 +589,10 @@ H5S_none_bounds(const H5S_t UNUSED *space, hsize_t UNUSED *start, hsize_t UNUSED
  EXAMPLES
  REVISION LOG
 --------------------------------------------------------------------------*/
-herr_t
-H5S_none_offset(const H5S_t UNUSED *space, hsize_t UNUSED *offset)
+static herr_t
+H5S_none_offset(const H5S_t H5_ATTR_UNUSED *space, hsize_t H5_ATTR_UNUSED *offset)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_none_offset)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
     HDassert(offset);
@@ -620,9 +620,9 @@ H5S_none_offset(const H5S_t UNUSED *space, hsize_t UNUSED *offset)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S_none_is_contiguous(const H5S_t UNUSED *space)
+H5S_none_is_contiguous(const H5S_t H5_ATTR_UNUSED *space)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_is_contiguous)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
 
@@ -649,9 +649,9 @@ H5S_none_is_contiguous(const H5S_t UNUSED *space)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S_none_is_single(const H5S_t UNUSED *space)
+H5S_none_is_single(const H5S_t H5_ATTR_UNUSED *space)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_is_single)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
 
@@ -679,9 +679,9 @@ H5S_none_is_single(const H5S_t UNUSED *space)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S_none_is_regular(const H5S_t UNUSED *space)
+H5S_none_is_regular(const H5S_t H5_ATTR_UNUSED *space)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_is_regular)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -708,10 +708,10 @@ H5S_none_is_regular(const H5S_t UNUSED *space)
  EXAMPLES
  REVISION LOG
 --------------------------------------------------------------------------*/
-herr_t
-H5S_none_adjust_u(H5S_t UNUSED *space, const hsize_t UNUSED *offset)
+static herr_t
+H5S_none_adjust_u(H5S_t H5_ATTR_UNUSED *space, const hsize_t H5_ATTR_UNUSED *offset)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_none_adjust_u)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -734,9 +734,9 @@ H5S_none_adjust_u(H5S_t UNUSED *space, const hsize_t UNUSED *offset)
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5S_none_project_scalar(const H5S_t UNUSED *space, hsize_t UNUSED *offset)
+H5S_none_project_scalar(const H5S_t H5_ATTR_UNUSED *space, hsize_t H5_ATTR_UNUSED *offset)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_project_scalar)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space && H5S_SEL_NONE == H5S_GET_SELECT_TYPE(space));
@@ -764,7 +764,7 @@ H5S_none_project_simple(const H5S_t *base_space, H5S_t *new_space, hsize_t *offs
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5S_none_project_simple)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Check args */
     HDassert(base_space && H5S_SEL_NONE == H5S_GET_SELECT_TYPE(base_space));
@@ -802,7 +802,7 @@ H5S_select_none(H5S_t *space)
 {
     herr_t ret_value = SUCCEED;  /* return value */
 
-    FUNC_ENTER_NOAPI(H5S_select_none, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check args */
     HDassert(space);
@@ -845,7 +845,7 @@ H5Sselect_none(hid_t spaceid)
     H5S_t *space;                       /* Dataspace to modify selection of */
     herr_t ret_value = SUCCEED;         /* return value */
 
-    FUNC_ENTER_API(H5Sselect_none, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", spaceid);
 
     /* Check args */
@@ -893,11 +893,11 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_none_get_seq_list(const H5S_t UNUSED *space, unsigned UNUSED flags, H5S_sel_iter_t UNUSED *iter,
-    size_t UNUSED maxseq, size_t UNUSED maxelem, size_t *nseq, size_t *nelem,
-    hsize_t UNUSED *off, size_t UNUSED *len)
+H5S_none_get_seq_list(const H5S_t H5_ATTR_UNUSED *space, unsigned H5_ATTR_UNUSED flags, H5S_sel_iter_t H5_ATTR_UNUSED *iter,
+    size_t H5_ATTR_UNUSED maxseq, size_t H5_ATTR_UNUSED maxelem, size_t *nseq, size_t *nelem,
+    hsize_t H5_ATTR_UNUSED *off, size_t H5_ATTR_UNUSED *len)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_none_get_seq_list)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);

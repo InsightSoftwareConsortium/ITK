@@ -51,6 +51,7 @@ typedef INIT_ONCE H5TS_once_t;
 /* not used on windows side, but need to be defined to something */
 #define H5TS_SCOPE_SYSTEM 0
 #define H5TS_SCOPE_PROCESS 0
+#define H5TS_CALL_CONV WINAPI
 
 /* Functions */
 #define H5TS_get_thread_local_value(key)	TlsGetValue( key )
@@ -63,8 +64,13 @@ typedef INIT_ONCE H5TS_once_t;
 #define H5TS_mutex_lock_simple(mutex) EnterCriticalSection(mutex)
 #define H5TS_mutex_unlock_simple(mutex) LeaveCriticalSection(mutex)
 
-H5_DLL BOOL CALLBACK 
-H5TS_win32_first_thread_init(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *lpContex);
+/* Functions called from DllMain */
+H5_DLL BOOL CALLBACK H5TS_win32_process_enter(PINIT_ONCE InitOnce, PVOID Parameter, PVOID *lpContex);
+H5_DLL void H5TS_win32_process_exit(void);
+H5_DLL herr_t H5TS_win32_thread_enter(void);
+H5_DLL herr_t H5TS_win32_thread_exit(void);
+
+
 
 #else /* H5_HAVE_WIN_THREADS */
 
@@ -86,6 +92,7 @@ typedef pthread_once_t H5TS_once_t;
 /* Scope Definitions */
 #define H5TS_SCOPE_SYSTEM PTHREAD_SCOPE_SYSTEM
 #define H5TS_SCOPE_PROCESS PTHREAD_SCOPE_PROCESS
+#define H5TS_CALL_CONV /* unused - Windows only */
 
 /* Functions */
 #define H5TS_get_thread_local_value(key)	pthread_getspecific( key )
@@ -115,9 +122,7 @@ H5_DLL herr_t H5TS_mutex_lock(H5TS_mutex_t *mutex);
 H5_DLL herr_t H5TS_mutex_unlock(H5TS_mutex_t *mutex);
 H5_DLL herr_t H5TS_cancel_count_inc(void);
 H5_DLL herr_t H5TS_cancel_count_dec(void);
-H5_DLL H5TS_thread_t H5TS_create_thread(void * func, H5TS_attr_t * attr, void *udata);
-
-
+H5_DLL H5TS_thread_t H5TS_create_thread(void *(*func)(void *), H5TS_attr_t * attr, void *udata);
 
 #if defined c_plusplus || defined __cplusplus
 }

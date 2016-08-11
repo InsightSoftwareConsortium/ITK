@@ -20,6 +20,7 @@
 #include "H5IdComponent.h"
 #include "H5PropList.h"
 #include "H5Object.h"
+#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
 #include "H5DataType.h"
@@ -57,10 +58,10 @@ StrType::StrType( const PredType& pred_type ) : AtomType()
 
 //--------------------------------------------------------------------------
 // Function:	StrType overloaded constructor
-///\brief	Creates a string datatype with a specified length
-///\param	pred_type - IN: String predefined type to replicate.
-///\param	size	  - IN: Length of the new string type
-///\exception	H5::DataTypeIException
+// Purpose	Creates a string datatype with a specified length
+// Param 	pred_type - IN: String predefined type to replicate.
+// Param 	size	  - IN: Length of the new string type
+// Exception	H5::DataTypeIException
 // Description
 // 		The 1st argument could have been skipped, but this
 // 		constructor will collide with the one that takes an
@@ -70,10 +71,13 @@ StrType::StrType( const PredType& pred_type ) : AtomType()
 //		avoid the clashing problem, that doesn't eliminate the
 //		the 1st argument but it's simpler for the user to type
 //		a '0' than PredType::C_S1.  - Dec 2, 2005
-///\note
-///		The use of this constructor can be shortened by using
-///		its overloaded below as StrType(0, size).
+// Note
+//		The use of this constructor can be shortened by using
+//		its overloaded below as StrType(0, size).
 // Programmer	Binh-Minh Ribler - 2000
+// Modification
+//		Planned for removal. -BMR, 2005/12/02
+//		Removed from documentation. -BMR, 2016/03/07
 //--------------------------------------------------------------------------
 StrType::StrType( const PredType& pred_type, const size_t& size ) : AtomType()
 {
@@ -95,8 +99,8 @@ StrType::StrType( const PredType& pred_type, const size_t& size ) : AtomType()
 ///		previous constructor, such as:
 ///		StrType atype(0, size) instead of
 ///		StrType atype(PredType::C_S1, size)
-///\note
-///		This constructor may replace the previous one in the future.
+// Note
+//		This constructor replaced the previous one.
 // Programmer	Binh-Minh Ribler - Nov 28, 2005
 //--------------------------------------------------------------------------
 StrType::StrType( const int dummy, const size_t& size ) : AtomType()
@@ -146,6 +150,13 @@ StrType::StrType( const DataSet& dataset ) : AtomType ()
 ///\brief	Retrieves the character set type of this string datatype.
 ///\return	Character set type, which can be:
 ///		\li \c H5T_CSET_ASCII (0) - Character set is US ASCII.
+///\note
+///	ASCII and UTF-8 Unicode are the only currently supported character
+///	encodings. Extended ASCII encodings (for example, ISO 8859) are not
+///	supported. This encoding policy is not enforced by the HDF5 Library.
+///	Using encodings other than ASCII and UTF-8 can lead to compatibility
+///	and usability problems. See the C API entry H5Pset_char_encoding for
+///	more information.
 ///\exception	H5::DataTypeIException
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
@@ -166,6 +177,13 @@ H5T_cset_t StrType::getCset() const
 ///\brief	Sets character set to be used.
 ///\param	cset - IN: character set type, which can be:
 ///		\li \c H5T_CSET_ASCII (0) - Character set is US ASCII.
+///\note
+///	ASCII and UTF-8 Unicode are the only currently supported character
+///	encodings. Extended ASCII encodings (for example, ISO 8859) are not
+///	supported. This encoding policy is not enforced by the HDF5 Library.
+///	Using encodings other than ASCII and UTF-8 can lead to compatibility
+///	and usability problems. See the C API entry H5Pset_char_encoding for
+///	more information.
 ///\exception	H5::DataTypeIException
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------

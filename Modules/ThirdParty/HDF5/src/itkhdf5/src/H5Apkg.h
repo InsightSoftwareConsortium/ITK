@@ -158,29 +158,6 @@ typedef struct {
     H5A_t       **attrs;        /* Pointer to array of attribute pointers */
 } H5A_attr_table_t;
 
-/* Attribute iteration operator for internal library callbacks */
-typedef herr_t (*H5A_lib_iterate_t)(const H5A_t *attr, void *op_data);
-
-/* Describe kind of callback to make for each attribute */
-typedef enum H5A_attr_iter_op_type_t {
-#ifndef H5_NO_DEPRECATED_SYMBOLS
-    H5A_ATTR_OP_APP,                /* Application callback */
-#endif /* H5_NO_DEPRECATED_SYMBOLS */
-    H5A_ATTR_OP_APP2,               /* Revised application callback */
-    H5A_ATTR_OP_LIB                 /* Library internal callback */
-} H5A_attr_iter_op_type_t;
-
-typedef struct H5A_attr_iter_op_t {
-    H5A_attr_iter_op_type_t op_type;
-    union {
-#ifndef H5_NO_DEPRECATED_SYMBOLS
-        H5A_operator1_t app_op;         /* Application callback for each attribute */
-#endif /* H5_NO_DEPRECATED_SYMBOLS */
-        H5A_operator2_t app_op2;        /* Revised application callback for each attribute */
-        H5A_lib_iterate_t lib_op;       /* Library internal callback for each attribute */
-    } u;
-} H5A_attr_iter_op_t;
-
 
 /*****************************/
 /* Package Private Variables */
@@ -208,19 +185,28 @@ H5_DLLVAR const H5B2_class_t H5A_BT2_CORDER[1];
 
 /* Function prototypes for H5A package scope */
 H5_DLL herr_t H5A_init(void);
-H5_DLL hid_t H5A_create(const H5G_loc_t *loc, const char *name,
+H5_DLL herr_t H5A__term_deprec_interface(void);
+H5_DLL H5A_t *H5A_create(const H5G_loc_t *loc, const char *name,
     const H5T_t *type, const H5S_t *space, hid_t acpl_id, hid_t dxpl_id);
-H5_DLL H5A_t * H5A_open_by_name(const H5G_loc_t *loc, const char *obj_name,
+H5_DLL H5A_t *H5A_open_by_name(const H5G_loc_t *loc, const char *obj_name,
     const char *attr_name, hid_t lapl_id, hid_t dxpl_id);
 H5_DLL H5A_t *H5A_open_by_idx(const H5G_loc_t *loc, const char *obj_name,
     H5_index_t idx_type, H5_iter_order_t order, hsize_t n, hid_t lapl_id, hid_t dxpl_id);
+H5_DLL herr_t H5A_open_common(const H5G_loc_t *loc, H5A_t *attr);
+H5_DLL herr_t H5A_write(H5A_t *attr, const H5T_t *mem_type, const void *buf, hid_t dxpl_id);
+H5_DLL herr_t H5A_read(const H5A_t *attr, const H5T_t *mem_type, void *buf, hid_t dxpl_id);
 H5_DLL ssize_t H5A_get_name(H5A_t *attr, size_t buf_size, char *buf);
 H5_DLL H5A_t *H5A_copy(H5A_t *new_attr, const H5A_t *old_attr);
 H5_DLL herr_t H5A_get_info(const H5A_t *attr, H5A_info_t *ainfo);
+H5_DLL hid_t H5A_get_create_plist(H5A_t* attr);
 H5_DLL herr_t H5A_free(H5A_t *attr);
 H5_DLL herr_t H5A_close(H5A_t *attr);
 H5_DLL htri_t H5A_get_ainfo(H5F_t *f, hid_t dxpl_id, H5O_t *oh, H5O_ainfo_t *ainfo);
 H5_DLL herr_t H5A_set_version(const H5F_t *f, H5A_t *attr);
+H5_DLL herr_t H5A_rename_by_name(H5G_loc_t loc, const char *obj_name, const char *old_attr_name,
+    const char *new_attr_name, hid_t lapl_id, hid_t dxpl_id);
+H5_DLL htri_t H5A_exists_by_name(H5G_loc_t loc, const char *obj_name, const char *attr_name,
+    hid_t lapl_id, hid_t dxpl_id);
 
 /* Attribute "dense" storage routines */
 H5_DLL herr_t H5A_dense_create(H5F_t *f, hid_t dxpl_id, H5O_ainfo_t *ainfo);
@@ -268,9 +254,6 @@ H5_DLL herr_t H5O_attr_write(const H5O_loc_t *loc, hid_t dxpl_id,
     H5A_t *attr);
 H5_DLL herr_t H5O_attr_rename(const H5O_loc_t *loc, hid_t dxpl_id,
     const char *old_name, const char *new_name);
-H5_DLL herr_t H5O_attr_iterate(hid_t loc_id, hid_t dxpl_id, H5_index_t idx_type,
-    H5_iter_order_t order, hsize_t skip, hsize_t *last_attr,
-    const H5A_attr_iter_op_t *op, void *op_data);
 H5_DLL herr_t H5O_attr_remove(const H5O_loc_t *loc, const char *name,
     hid_t dxpl_id);
 H5_DLL herr_t H5O_attr_remove_by_idx(const H5O_loc_t *loc, H5_index_t idx_type,
@@ -283,8 +266,6 @@ H5_DLL H5A_t *H5A_attr_copy_file(const H5A_t *attr_src, H5F_t *file_dst, hbool_t
     H5O_copy_t *cpy_info, hid_t dxpl_id);
 H5_DLL herr_t H5A_attr_post_copy_file(const H5O_loc_t *src_oloc, const H5A_t *mesg_src,
     H5O_loc_t *dst_oloc, const H5A_t *mesg_dst, hid_t dxpl_id, H5O_copy_t *cpy_info);
-H5_DLL herr_t H5A_dense_copy_file_all(H5F_t *file_src, H5O_ainfo_t *ainfo_src, H5F_t *file_dst,
-    const H5O_ainfo_t *ainfo_dst, hbool_t *recompute_size, H5O_copy_t *cpy_info, hid_t dxpl_id);
 H5_DLL herr_t H5A_dense_post_copy_file_all(const H5O_loc_t *src_oloc, const H5O_ainfo_t * ainfo_src,
     H5O_loc_t *dst_oloc, H5O_ainfo_t *ainfo_dst, hid_t dxpl_id, H5O_copy_t *cpy_info);
 

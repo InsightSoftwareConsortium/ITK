@@ -14,17 +14,24 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef _H5DSCreatPropList_H
-#define _H5DSCreatPropList_H
+// Class DSetCreatPropList represents the HDF5 dataset creation property list
+// and inherits from PropList.
+
+#ifndef __H5DSCreatPropList_H
+#define __H5DSCreatPropList_H
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
 #endif
 
-class H5_DLLCPP DSetCreatPropList : public PropList {
+/*! \class DSetCreatPropList
+    \brief Class DSetCreatPropList represents the dataset creation property
+    list.
+*/
+class H5_DLLCPP DSetCreatPropList : public ObjCreatPropList {
    public:
-	// Default dataset creation property list.
-	static const DSetCreatPropList DEFAULT;
+	///\brief Default dataset creation property list.
+	static const DSetCreatPropList& DEFAULT;
 
 	// Creates a dataset creation property list.
 	DSetCreatPropList();
@@ -107,7 +114,10 @@ class H5_DLLCPP DSetCreatPropList : public PropList {
 	// Sets SZIP compression method.
 	void setSzip(unsigned int options_mask, unsigned int pixels_per_block) const;
 
-	///\brief Returns this class name
+	// Sets N-bit compression method.
+	void setNbit() const;
+
+	///\brief Returns this class name.
 	virtual H5std_string fromClass () const { return("DSetCreatPropList"); }
 
 	// Copy constructor: creates a copy of a DSetCreatPropList object.
@@ -119,8 +129,21 @@ class H5_DLLCPP DSetCreatPropList : public PropList {
 
 	// Noop destructor.
 	virtual ~DSetCreatPropList();
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+        // Deletes the global constant, should only be used by the library
+        static void deleteConstants();
+
+    private:
+	static DSetCreatPropList* DEFAULT_;
+
+        // Creates the global constant, should only be used by the library
+        static DSetCreatPropList* getConstant();
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 };
 #ifndef H5_NO_NAMESPACE
 }
 #endif
-#endif
+#endif // __H5DSCreatPropList_H

@@ -831,20 +831,20 @@ typedef struct H5C_cache_entry_t
 
 #define H5C__MAX_EPOCH_MARKERS  		10
 
-#define H5C__DEF_AR_UPPER_THRESHHOLD		0.9999
-#define H5C__DEF_AR_LOWER_THRESHHOLD		0.9
+#define H5C__DEF_AR_UPPER_THRESHHOLD		0.9999f
+#define H5C__DEF_AR_LOWER_THRESHHOLD		0.9f
 #define H5C__DEF_AR_MAX_SIZE			((size_t)(16 * 1024 * 1024))
 #define H5C__DEF_AR_INIT_SIZE			((size_t)( 1 * 1024 * 1024))
 #define H5C__DEF_AR_MIN_SIZE			((size_t)( 1 * 1024 * 1024))
-#define H5C__DEF_AR_MIN_CLEAN_FRAC		0.5
-#define H5C__DEF_AR_INCREMENT			2.0
+#define H5C__DEF_AR_MIN_CLEAN_FRAC		0.5f
+#define H5C__DEF_AR_INCREMENT			2.0f
 #define H5C__DEF_AR_MAX_INCREMENT		((size_t)( 2 * 1024 * 1024))
-#define H5C__DEF_AR_FLASH_MULTIPLE              1.0
-#define H5C__DEV_AR_FLASH_THRESHOLD             0.25
-#define H5C__DEF_AR_DECREMENT			0.9
+#define H5C__DEF_AR_FLASH_MULTIPLE              1.0f
+#define H5C__DEV_AR_FLASH_THRESHOLD             0.25f
+#define H5C__DEF_AR_DECREMENT			0.9f
 #define H5C__DEF_AR_MAX_DECREMENT		((size_t)( 1 * 1024 * 1024))
 #define H5C__DEF_AR_EPCHS_B4_EVICT		3
-#define H5C__DEF_AR_EMPTY_RESERVE		0.05
+#define H5C__DEF_AR_EMPTY_RESERVE		0.05f
 #define H5C__MIN_AR_EPOCH_LENGTH		100
 #define H5C__DEF_AR_EPOCH_LENGTH		50000
 #define H5C__MAX_AR_EPOCH_LENGTH		1000000

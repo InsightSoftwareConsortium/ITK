@@ -1,38 +1,5 @@
 #define SIMPLE_TEST(x) int main(){ x; return 0; }
 
-#ifdef CXX_HAVE_OFFSETOF
-  #include <stdio.h>
-#include <stddef.h>
-
-#ifdef FC_DUMMY_MAIN
-#ifndef FC_DUMMY_MAIN_EQ_F77
-#  ifdef __cplusplus
-extern "C"
-#  endif
-int FC_DUMMY_MAIN()
-{ return 1;}
-#endif
-#endif
-int
-main ()
-{
-
-  struct index_st
-  {
-    unsigned char type;
-    unsigned char num;
-    unsigned int len;
-  };
-  typedef struct index_st index_t;
-  int x,y;
-  x = offsetof(struct index_st, len);
-  y = offsetof(index_t, num)
-
-  ;
-  return 0;
-}
-#endif
-
 #ifdef HAVE_C99_DESIGNATED_INITIALIZER
 
 #ifdef FC_DUMMY_MAIN
@@ -106,7 +73,7 @@ int test_vsnprintf(const char *fmt,...)
 
 int main(void)
 {
-    exit(test_vsnprintf("%s","A string that is longer than 16 characters"));
+    return(test_vsnprintf("%s","A string that is longer than 16 characters"));
 }
 #endif
 
@@ -137,27 +104,6 @@ return 0;
 int main() { return 0; }
 #endif /* STDC_HEADERS */
 
-#ifdef HAVE_TM_ZONE
-
-#include <sys/types.h>
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
-#include <time.h>
-SIMPLE_TEST(struct tm tm; tm.tm_zone);
-
-#endif /* HAVE_TM_ZONE */
-
-#ifdef HAVE_STRUCT_TM_TM_ZONE
-
-#include <sys/types.h>
-#ifdef HAVE_SYS_TIME_H
-#include <sys/time.h>
-#endif
-#include <time.h>
-SIMPLE_TEST(struct tm tm; tm.tm_zone);
-
-#endif /* HAVE_STRUCT_TM_TM_ZONE */
 
 #ifdef HAVE_ATTRIBUTE
 
@@ -215,6 +161,16 @@ SIMPLE_TEST(struct tm tm; tm.tm_gmtoff=0);
 
 #endif /* HAVE_TM_GMTOFF */
 
+#ifdef HAVE___TM_GMTOFF
+
+#ifdef HAVE_SYS_TIME_H
+#include <sys/time.h>
+#endif
+#include <time.h>
+SIMPLE_TEST(struct tm tm; tm.__tm_gmtoff=0);
+
+#endif /* HAVE_TM_GMTOFF */
+
 #ifdef HAVE_TIMEZONE
 
 #ifdef HAVE_SYS_TIME_H
@@ -269,10 +225,10 @@ int main(void)
     if (strcmp(s, "1099511627776") == 0)
       {
       printf("PRINTF_LL_WIDTH=[%s]\n", *currentArg);
-      exit(0);
+      return 0;
       }
     }
-  exit(1);
+  return 1;
 }
 
 #endif /* PRINTF_LL_WIDTH */
@@ -288,7 +244,9 @@ int main(void)
 
     pthread_attr_init(&attribute);
     ret=pthread_attr_setscope(&attribute, PTHREAD_SCOPE_SYSTEM);
-    exit(ret==0 ? 0 : 1);
+    if (ret==0)
+        return 0;
+    return 1;
 }
 
 #endif /* SYSTEM_SCOPE_THREADS */
@@ -336,12 +294,87 @@ int main()
 }
 #endif
 
+#ifdef HAVE_STAT64_STRUCT
+#include <sys/types.h>
+#include <sys/stat.h>],
+struct stat64 sb;
+int main()
+{
+  return 0;
+}
+#endif
+
+#ifdef TEST_DIRECT_VFD_WORKS
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+int main(void)
+{
+   int fid;
+   if((fid=open("tst_file", O_CREAT | O_TRUNC | O_DIRECT, 0755))<0)
+       return 1;
+   close(fid);
+   remove("tst_file");
+   return 0;
+}
+#endif
+
+#ifdef HAVE_DIRECT
+       SIMPLE_TEST(posix_memalign());
+#endif
+
+#ifdef HAVE_DEFAULT_SOURCE
+/* check default source */
+#include <features.h>
+
+int
+main(void)
+{
+#ifdef __GLIBC_PREREQ
+  return __GLIBC_PREREQ(2,19);
+#else
+  return 0;
+#endif /* defined(__GLIBC_PREREQ) */
+}
+#endif
+
+#ifdef TEST_LFS_WORKS
+/* Return 0 when LFS is available and 1 otherwise.  */
+#define _LARGEFILE_SOURCE
+#define _LARGEFILE64_SOURCE
+#define _LARGE_FILES
+#define _FILE_OFFSET_BITS 64
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <assert.h>
+#include <stdio.h>
+
+int main(int argc, char **argv)
+{
+  /* check that off_t can hold 2^63 - 1 and perform basic operations... */
+#define OFF_T_64 (((off_t) 1 << 62) - 1 + ((off_t) 1 << 62))
+  if (OFF_T_64 % 2147483647 != 1)
+    return 1;
+
+  /* stat breaks on SCO OpenServer */
+  struct stat buf;
+  stat( argv[0], &buf );
+  if (!S_ISREG(buf.st_mode))
+    return 2;
+
+  FILE *file = fopen( argv[0], "r" );
+  off_t offset = ftello( file );
+  fseek( file, offset, SEEK_CUR );
+  fclose( file );
+  return 0;
+}
+#endif
 
 #ifdef GETTIMEOFDAY_GIVES_TZ
+#include <time.h>
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
-#include <time.h>
 int main(void)
 {
  struct timeval tv;
@@ -351,28 +384,45 @@ int main(void)
  gettimeofday(&tv, &tz);
     /* Check whether the function returned any value at all */
  if(tz.tz_minuteswest == 7777 && tz.tz_dsttime == 7)
-    exit(1);
- else exit (0);
+     return 1;
+ else return 0;
 }
 #endif
 
-#ifdef LONE_COLON
-int main(int argc, char * argv)
+#ifdef CXX_HAVE_OFFSETOF
+
+#include <stdio.h>
+#include <stddef.h>
+
+#ifdef FC_DUMMY_MAIN
+#ifndef FC_DUMMY_MAIN_EQ_F77
+#  ifdef __cplusplus
+extern "C"
+#  endif
+int FC_DUMMY_MAIN()
+{ return 1;}
+#endif
+#endif
+int
+main ()
 {
+
+  struct index_st
+  {
+    unsigned char type;
+    unsigned char num;
+    unsigned int len;
+  };
+  typedef struct index_st index_t;
+  int x,y;
+  x = offsetof(struct index_st, len);
+  y = offsetof(index_t, num)
+
+  ;
   return 0;
 }
+
 #endif
-
-#ifdef HAVE_GPFS
-
-#include <gpfs.h>
-int main ()
-{
-    int fd = 0;
-    gpfs_fcntl(fd, (void *)0);
-}
-
-#endif /* HAVE_GPFS */
 
 #ifdef HAVE_IOEO
 
@@ -382,7 +432,7 @@ int main ()
 {
 	PGNSI pGNSI;
 	pGNSI = (PGNSI) GetProcAddress(
-      GetModuleHandle(TEXT("kernel32.dll")),
+      GetModuleHandle(TEXT("kernel32.dll")), 
       "InitOnceExecuteOnce");
 	if(NULL == pGNSI)
 		return 1;
@@ -392,13 +442,31 @@ int main ()
 
 #endif /* HAVE_IOEO */
 
+#ifdef HAVE_STRUCT_VIDEOCONFIG
 
-#if defined( INLINE_TEST_inline ) || defined( INLINE_TEST___inline__ ) || defined( INLINE_TEST___inline )
+SIMPLE_TEST(struct videoconfig w; w.numtextcols=0);
+
+#endif /* HAVE_TM_GMTOFF */
+
+#ifdef HAVE_STRUCT_TEXT_INFO
+
+SIMPLE_TEST(struct text_info w; w.screenwidth=0);
+
+#endif /* HAVE_TM_GMTOFF */
+
+#if defined( HAVE_INLINE ) || defined( HAVE___INLINE__ ) || defined( HAVE___INLINE )
 #ifndef __cplusplus
+#if defined( HAVE_INLINE )
+#  define INLINE_KW inline
+#elif defined ( HAVE___INLINE__ )
+#  define INLINE_KW __inline__
+#elif defined ( HAVE___INLINE )
+#  define INLINE_KW __inline
+#endif /* HAVE_INLINE */
 typedef int foo_t;
-static INLINE_TEST_INLINE foo_t static_foo () { return 0; }
-INLINE_TEST_INLINE foo_t foo () {return 0; }
-int main() { return 0; }
-#endif
+static INLINE_KW foo_t static_foo () { return 0; }
+INLINE_KW foo_t foo () {return 0; }
+int main(void) { return 0; }
+#endif /* __cplusplus */
+#endif /* defined( HAVE_INLINE ) || defined( HAVE___INLINE__ ) || defined( HAVE___INLINE ) */
 
-#endif /* INLINE_TEST */

@@ -13,10 +13,10 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-/* Programmer:  Quincey Koziol <koziol@ncsa.uiuc.edu>
+/* Programmer:  Quincey Koziol <koziol@hdfgroup.org>
  *              Monday, March  6, 2006
  *
- * Purpose:	v2 B-tree metadata statistics functions.
+ * Purpose:     v2 B-tree metadata statistics functions.
  *
  */
 
@@ -24,15 +24,15 @@
 /* Module Setup */
 /****************/
 
-#define H5B2_PACKAGE		/*suppress error about including H5B2pkg  */
+#define H5B2_PACKAGE        /* Suppress error about including H5B2pkg   */
 
 
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"		/* Generic Functions			*/
-#include "H5B2pkg.h"		/* v2 B-trees				*/
-#include "H5Eprivate.h"		/* Error handling		  	*/
+#include "H5private.h"      /* Generic Functions                        */
+#include "H5B2pkg.h"        /* v2 B-trees                               */
+#include "H5Eprivate.h"     /* Error handling                           */
 
 
 /****************/
@@ -71,14 +71,13 @@
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_stat_info
+ * Function:    H5B2_stat_info
  *
- * Purpose:	Retrieve metadata statistics for a v2 B-tree
+ * Purpose:     Retrieve metadata statistics for a v2 B-tree
  *
- * Return:	Success:	non-negative
- *		Failure:	negative
+ * Return:      SUCCEED (Can't fail)
  *
- * Programmer:	Quincey Koziol
+ * Programmer:  Quincey Koziol
  *              Monday, March  6, 2006
  *
  *-------------------------------------------------------------------------
@@ -86,7 +85,7 @@
 herr_t
 H5B2_stat_info(H5B2_t *bt2, H5B2_stat_t *info)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5B2_stat_info)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check arguments. */
     HDassert(info);
@@ -105,7 +104,7 @@ H5B2_stat_info(H5B2_t *bt2, H5B2_stat_t *info)
  * Purpose:     Iterate over all the records in the B-tree, collecting
  *              storage info.
  *
- * Return:      non-negative on success, negative on error
+ * Return:      SUCCEED/FAIL
  *
  * Programmer:  Vailin Choi
  *              June 19 2007
@@ -115,10 +114,10 @@ H5B2_stat_info(H5B2_t *bt2, H5B2_stat_t *info)
 herr_t
 H5B2_size(H5B2_t *bt2, hid_t dxpl_id, hsize_t *btree_size)
 {
-    H5B2_hdr_t	*hdr;                   /* Pointer to the B-tree header */
+    H5B2_hdr_t  *hdr;                   /* Pointer to the B-tree header */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5B2_size, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check arguments. */
     HDassert(bt2);

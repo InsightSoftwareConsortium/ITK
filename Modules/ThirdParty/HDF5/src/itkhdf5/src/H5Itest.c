@@ -82,7 +82,7 @@ H5I_get_name_test(hid_t id, char *name/*out*/, size_t size, hbool_t *cached)
     H5G_loc_t     loc;          /* Object location */
     ssize_t       ret_value;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5I_get_name_test, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Get object location */
     if(H5G_loc(id, &loc) < 0)

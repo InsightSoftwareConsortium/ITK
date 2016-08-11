@@ -94,7 +94,7 @@ DESCRIPTION
 static herr_t
 H5T_init_order_interface(void)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_init_order_interface)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     FUNC_LEAVE_NOAPI(H5T_init())
 } /* H5T_init_order_interface() */
@@ -121,7 +121,7 @@ H5Tget_order(hid_t type_id)
     H5T_t		*dt;            /* Datatype to query */
     H5T_order_t		ret_value;      /* Return value */
 
-    FUNC_ENTER_API(H5Tget_order, H5T_ORDER_ERROR)
+    FUNC_ENTER_API(H5T_ORDER_ERROR)
     H5TRACE1("To", "i", type_id);
 
     /* Check args */
@@ -155,7 +155,7 @@ H5T_get_order(const H5T_t *dtype)
 {
     H5T_order_t	ret_value = H5T_ORDER_NONE;      /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_get_order, H5T_ORDER_ERROR)
+    FUNC_ENTER_NOAPI(H5T_ORDER_ERROR)
 
     /* Defer to parent */
     while(dtype->shared->parent)
@@ -228,7 +228,7 @@ H5Tset_order(hid_t type_id, H5T_order_t order)
     H5T_t	*dt;                    /* Datatype to modify */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_API(H5Tset_order, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "iTo", type_id, order);
 
     /* Check args */
@@ -265,7 +265,7 @@ H5T_set_order(H5T_t *dtype, H5T_order_t order)
 {
     herr_t      ret_value = SUCCEED;  /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_set_order, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     if(H5T_ENUM == dtype->shared->type && dtype->shared->u.enumer.nmembs > 0)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTSET, FAIL, "operation not allowed after enum members are defined")

@@ -16,13 +16,14 @@
 %{
 #include <stdlib.h>
 #include <string.h>
-#include<hdf5.h>
+#include <hdf5.h>
 #include "H5LTparse.h"
 
 int my_yyinput(char *, int);
 #undef YY_INPUT
 #define YY_INPUT(b, r, ms) (r=my_yyinput(b, ms))
 #define token(x)        (int)x
+#define hid(x)          (hid_t)x
 
 #ifdef  YY_BUF_SIZE
 #undef  YY_BUF_SIZE
@@ -30,7 +31,7 @@ int my_yyinput(char *, int);
 #define YY_BUF_SIZE        262144    /*Define read buffer to be 256K*/
 
 extern char *myinput;
-extern int  input_len;
+extern size_t input_len;
 
 #define STACK_SIZE      16
 
@@ -65,53 +66,49 @@ extern hbool_t is_opq_tag;
 
 hbool_t        first_quote = 1;
 
-/* For Lex and Yacc */
-/*int  input_len;
-char *myinput;*/
-    
 %}
 
 %s TAG_STRING
 
 %%
 
-H5T_STD_I8BE     {return token(H5T_STD_I8BE_TOKEN);}
-H5T_STD_I8LE     {return token(H5T_STD_I8LE_TOKEN);}
-H5T_STD_I16BE    {return token(H5T_STD_I16BE_TOKEN);}
-H5T_STD_I16LE    {return token(H5T_STD_I16LE_TOKEN);}
-H5T_STD_I32BE    {return token(H5T_STD_I32BE_TOKEN);}
-H5T_STD_I32LE    {return token(H5T_STD_I32LE_TOKEN);}
-H5T_STD_I64BE    {return token(H5T_STD_I64BE_TOKEN);}
-H5T_STD_I64LE    {return token(H5T_STD_I64LE_TOKEN);}
+H5T_STD_I8BE     {return hid(H5T_STD_I8BE_TOKEN);}
+H5T_STD_I8LE     {return hid(H5T_STD_I8LE_TOKEN);}
+H5T_STD_I16BE    {return hid(H5T_STD_I16BE_TOKEN);}
+H5T_STD_I16LE    {return hid(H5T_STD_I16LE_TOKEN);}
+H5T_STD_I32BE    {return hid(H5T_STD_I32BE_TOKEN);}
+H5T_STD_I32LE    {return hid(H5T_STD_I32LE_TOKEN);}
+H5T_STD_I64BE    {return hid(H5T_STD_I64BE_TOKEN);}
+H5T_STD_I64LE    {return hid(H5T_STD_I64LE_TOKEN);}
 
-H5T_STD_U8BE     {return token(H5T_STD_U8BE_TOKEN);}
-H5T_STD_U8LE     {return token(H5T_STD_U8LE_TOKEN);}
-H5T_STD_U16BE    {return token(H5T_STD_U16BE_TOKEN);}
-H5T_STD_U16LE    {return token(H5T_STD_U16LE_TOKEN);}
-H5T_STD_U32BE    {return token(H5T_STD_U32BE_TOKEN);}
-H5T_STD_U32LE    {return token(H5T_STD_U32LE_TOKEN);}
-H5T_STD_U64BE    {return token(H5T_STD_U64BE_TOKEN);}
-H5T_STD_U64LE    {return token(H5T_STD_U64LE_TOKEN);}
+H5T_STD_U8BE     {return hid(H5T_STD_U8BE_TOKEN);}
+H5T_STD_U8LE     {return hid(H5T_STD_U8LE_TOKEN);}
+H5T_STD_U16BE    {return hid(H5T_STD_U16BE_TOKEN);}
+H5T_STD_U16LE    {return hid(H5T_STD_U16LE_TOKEN);}
+H5T_STD_U32BE    {return hid(H5T_STD_U32BE_TOKEN);}
+H5T_STD_U32LE    {return hid(H5T_STD_U32LE_TOKEN);}
+H5T_STD_U64BE    {return hid(H5T_STD_U64BE_TOKEN);}
+H5T_STD_U64LE    {return hid(H5T_STD_U64LE_TOKEN);}
 
-H5T_NATIVE_CHAR  {return token(H5T_NATIVE_CHAR_TOKEN);}
-H5T_NATIVE_SCHAR {return token(H5T_NATIVE_SCHAR_TOKEN);}
-H5T_NATIVE_UCHAR {return token(H5T_NATIVE_UCHAR_TOKEN);}
-H5T_NATIVE_SHORT {return token(H5T_NATIVE_SHORT_TOKEN);}
-H5T_NATIVE_USHORT  {return token(H5T_NATIVE_USHORT_TOKEN);}
-H5T_NATIVE_INT   {return token(H5T_NATIVE_INT_TOKEN);}
-H5T_NATIVE_UINT  {return token(H5T_NATIVE_UINT_TOKEN);}
-H5T_NATIVE_LONG  {return token(H5T_NATIVE_LONG_TOKEN);}
-H5T_NATIVE_ULONG {return token(H5T_NATIVE_ULONG_TOKEN);}
-H5T_NATIVE_LLONG   {return token(H5T_NATIVE_LLONG_TOKEN);}
-H5T_NATIVE_ULLONG  {return token(H5T_NATIVE_ULLONG_TOKEN);}
+H5T_NATIVE_CHAR  {return hid(H5T_NATIVE_CHAR_TOKEN);}
+H5T_NATIVE_SCHAR {return hid(H5T_NATIVE_SCHAR_TOKEN);}
+H5T_NATIVE_UCHAR {return hid(H5T_NATIVE_UCHAR_TOKEN);}
+H5T_NATIVE_SHORT {return hid(H5T_NATIVE_SHORT_TOKEN);}
+H5T_NATIVE_USHORT  {return hid(H5T_NATIVE_USHORT_TOKEN);}
+H5T_NATIVE_INT   {return hid(H5T_NATIVE_INT_TOKEN);}
+H5T_NATIVE_UINT  {return hid(H5T_NATIVE_UINT_TOKEN);}
+H5T_NATIVE_LONG  {return hid(H5T_NATIVE_LONG_TOKEN);}
+H5T_NATIVE_ULONG {return hid(H5T_NATIVE_ULONG_TOKEN);}
+H5T_NATIVE_LLONG   {return hid(H5T_NATIVE_LLONG_TOKEN);}
+H5T_NATIVE_ULLONG  {return hid(H5T_NATIVE_ULLONG_TOKEN);}
 
-H5T_IEEE_F32BE   {return token(H5T_IEEE_F32BE_TOKEN);}
-H5T_IEEE_F32LE   {return token(H5T_IEEE_F32LE_TOKEN);}
-H5T_IEEE_F64BE   {return token(H5T_IEEE_F64BE_TOKEN);}
-H5T_IEEE_F64LE   {return token(H5T_IEEE_F64LE_TOKEN);}
-H5T_NATIVE_FLOAT   {return token(H5T_NATIVE_FLOAT_TOKEN);}
-H5T_NATIVE_DOUBLE  {return token(H5T_NATIVE_DOUBLE_TOKEN);}
-H5T_NATIVE_LDOUBLE {return token(H5T_NATIVE_LDOUBLE_TOKEN);}
+H5T_IEEE_F32BE   {return hid(H5T_IEEE_F32BE_TOKEN);}
+H5T_IEEE_F32LE   {return hid(H5T_IEEE_F32LE_TOKEN);}
+H5T_IEEE_F64BE   {return hid(H5T_IEEE_F64BE_TOKEN);}
+H5T_IEEE_F64LE   {return hid(H5T_IEEE_F64LE_TOKEN);}
+H5T_NATIVE_FLOAT   {return hid(H5T_NATIVE_FLOAT_TOKEN);}
+H5T_NATIVE_DOUBLE  {return hid(H5T_NATIVE_DOUBLE_TOKEN);}
+H5T_NATIVE_LDOUBLE {return hid(H5T_NATIVE_LDOUBLE_TOKEN);}
 
 H5T_STRING       {return token(H5T_STRING_TOKEN);}
 STRSIZE          {return token(STRSIZE_TOKEN);}
@@ -157,7 +154,11 @@ OPQ_TAG          {return token(OPQ_TAG_TOKEN);}
                     return token('"');
                  }
 <TAG_STRING>[^\"]+       {
+#ifdef H5_HAVE_WIN32_API
+                    H5LTyylval.sval = _strdup(yytext);
+#else /* H5_HAVE_WIN32_API */
                     H5LTyylval.sval = strdup(yytext);
+#endif  /* H5_HAVE_WIN32_API */
                     BEGIN INITIAL;
                     return STRING;
                  }
@@ -177,13 +178,14 @@ int my_yyinput(char *buf, int max_size)
    int ret;
     
    memcpy(buf, myinput, input_len); 
-   ret = input_len;
+   ret = (int)input_len;
    return ret;
 }
 
-int H5LTyyerror(char *msg)
+int H5LTyyerror(const char *msg)
 {
    printf("ERROR: %s before \"%s\".\n", msg, yytext);
+   return 0;
 }
 
 int yywrap()

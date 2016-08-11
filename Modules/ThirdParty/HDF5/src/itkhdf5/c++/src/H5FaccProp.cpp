@@ -25,10 +25,63 @@
 namespace H5 {
 #endif
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+// This DOXYGEN_SHOULD_SKIP_THIS block is a work-around approach to control
+// the order of creation and deletion of the global constants.  See Design Notes
+// in "H5PredType.cpp" for information.
+
+// Initialize a pointer for the constant
+FileAccPropList* FileAccPropList::DEFAULT_ = 0;
+
 //--------------------------------------------------------------------------
-///\brief	Constant for default property
+// Function:    FileAccPropList::getConstant
+//              Creates a FileAccPropList object representing the HDF5 constant
+//              H5P_FILE_ACCESS, pointed to by FileAccPropList::DEFAULT_
+// exception    H5::PropListIException
+// Description
+//              If FileAccPropList::DEFAULT_ already points to an allocated
+//              object, throw a PropListIException.  This scenario should not
+//              happen.
+// Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
-const FileAccPropList FileAccPropList::DEFAULT;
+FileAccPropList* FileAccPropList::getConstant()
+{
+    // Tell the C library not to clean up, H5Library::termH5cpp will call
+    // H5close - more dependency if use H5Library::dontAtExit()
+    if (!IdComponent::H5dontAtexit_called)
+    {
+        (void) H5dont_atexit();
+        IdComponent::H5dontAtexit_called = true;
+    }
+
+    // If the constant pointer is not allocated, allocate it. Otherwise,
+    // throw because it shouldn't be.
+    if (DEFAULT_ == 0)
+        DEFAULT_ = new FileAccPropList(H5P_FILE_ACCESS);
+    else
+        throw PropListIException("FileAccPropList::getConstant", "FileAccPropList::getConstant is being invoked on an allocated DEFAULT_");
+    return(DEFAULT_);
+}
+
+//--------------------------------------------------------------------------
+// Function:    FileAccPropList::deleteConstants
+// Purpose:     Deletes the constant object that FileAccPropList::DEFAULT_
+//              points to.
+// exception    H5::PropListIException
+// Programmer   Binh-Minh Ribler - 2015
+//--------------------------------------------------------------------------
+void FileAccPropList::deleteConstants()
+{
+    if (DEFAULT_ != 0)
+        delete DEFAULT_;
+}
+
+//--------------------------------------------------------------------------
+// Purpose:	Constant for default property
+//--------------------------------------------------------------------------
+const FileAccPropList& FileAccPropList::DEFAULT = *getConstant();
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
 // Function:	Default Constructor
@@ -40,10 +93,10 @@ FileAccPropList::FileAccPropList() : PropList( H5P_FILE_ACCESS ) {}
 //--------------------------------------------------------------------------
 // Function:	FileAccPropList copy constructor
 ///\brief	Copy Constructor: makes a copy of the original
-///		FileAccPropList object.
+///\param	original - IN: FileAccPropList instance to copy
 // Programmer:	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-FileAccPropList::FileAccPropList(const FileAccPropList& orig) : PropList(orig) {}
+FileAccPropList::FileAccPropList(const FileAccPropList& original) : PropList(original) {}
 
 //--------------------------------------------------------------------------
 // Function:	FileAccPropList overloaded constructor
@@ -263,8 +316,10 @@ FileAccPropList FileAccPropList::getFamily(hsize_t& memb_size) const
 ///		Temporary - For information, please refer to:
 /// http://www.hdfgroup.org/HDF5/doc/RM/RM_H5P.html#Property-SetFaplSplit
 // Programmer:  Binh-Minh Ribler - April, 2004
+// Modification
+//		Replaced the version without const parameter - Apr, 2014
 //--------------------------------------------------------------------------
-void FileAccPropList::setSplit( FileAccPropList& meta_plist, FileAccPropList& raw_plist, const char* meta_ext, const char* raw_ext ) const
+void FileAccPropList::setSplit(const FileAccPropList& meta_plist, const FileAccPropList& raw_plist, const char* meta_ext, const char* raw_ext ) const
 {
    hid_t meta_pid = meta_plist.getId();
    hid_t raw_pid = raw_plist.getId();
@@ -278,64 +333,24 @@ void FileAccPropList::setSplit( FileAccPropList& meta_plist, FileAccPropList& ra
 //--------------------------------------------------------------------------
 // Function:	FileAccPropList::setSplit
 ///\brief	This is an overloaded member function, provided for convenience.
-///		It differs from the above function only in what arguments it
-///		accepts.
+///		It takes character arguments as \c H5std_string.
 ///\param	meta_plist  - IN: File access plist for the metadata file
 ///\param	raw_plist   - IN: File access plist for the raw data file
-///\param	meta_ext    - IN: Metadata filename extension as \c string
-///\param	raw_ext     - IN: Raw data filename extension as \c string
+///\param	meta_ext    - IN: Metadata filename extension as \c H5std_string
+///\param	raw_ext     - IN: Raw data filename extension as \c H5std_string
 ///\exception	H5::PropListIException
 // Programmer:  Binh-Minh Ribler - April, 2004
+// Modification
+//		Replaced the version without const parameter - Apr, 2014
 //--------------------------------------------------------------------------
-void FileAccPropList::setSplit( FileAccPropList& meta_plist, FileAccPropList& raw_plist, const H5std_string& meta_ext, const H5std_string& raw_ext ) const
+void FileAccPropList::setSplit(const FileAccPropList& meta_plist, const FileAccPropList& raw_plist, const H5std_string& meta_ext, const H5std_string& raw_ext ) const
 {
    setSplit( meta_plist, raw_plist, meta_ext.c_str(), raw_ext.c_str() );
 }
 
-#ifdef H5_HAVE_STREAM // for Stream Virtual File Driver
-//--------------------------------------------------------------------------
-// Function:	FileAccPropList::getStream
-// Purpose:	Retrieves the streaming I/O driver settings
-// Return:	The streaming I/O file access property list structure
-// Exception:	H5::PropListIException
-// Description:
-//		This C API seems to be removed from the library; will remove
-//		this wrapper next time, only removed it from the RM in this
-//		release - Oct, 2008
-// Programmer:  Binh-Minh Ribler - April, 2004
-//--------------------------------------------------------------------------
-H5FD_stream_fapl_t FileAccPropList::getStream() const
-{
-   H5FD_stream_fapl_t fapl;
-   herr_t ret_value = H5Pget_fapl_stream(id, &fapl);
-   if( ret_value < 0 )
-   {
-      throw PropListIException("FileAccPropList::getStream", "H5Pget_fapl_stream failed");
-   }
-   return(fapl);
-}
-
-//--------------------------------------------------------------------------
-// Function:	FileAccPropList::setStream
-// Purpose:	Modifies this file access property list to use the Stream
-//		driver.
-// Param:	fapl - IN: The streaming I/O file access property list
-// Exception:	H5::PropListIException
-// Description:
-//		This C API seems to be removed from the library; will remove
-//		this wrapper next time, only removed it from the RM in this
-//		release - Oct, 2008
-// Programmer:  Binh-Minh Ribler - April, 2004
-//--------------------------------------------------------------------------
-void FileAccPropList::setStream(H5FD_stream_fapl_t &fapl) const
-{
-   herr_t ret_value = H5Pset_fapl_stream (id, &fapl);
-   if( ret_value < 0 )
-   {
-      throw PropListIException("FileAccPropList::setStream", "H5Pset_fapl_stream failed");
-   }
-}
-#endif // Stream Virtual File Driver
+// Stream Virtual File Driver had been removed from the main library.
+// FileAccPropList::[s,g]etStream are now removed from the C++ API.
+// -BMR, March, 2012
 
 //--------------------------------------------------------------------------
 // Function:	FileAccPropList::getSieveBufSize
@@ -667,6 +682,67 @@ unsigned FileAccPropList::getGcReferences() const
       throw PropListIException("FileAccPropList::getGcReferences", "H5Pget_gc_references failed");
    }
    return( gc_ref );
+}
+
+//--------------------------------------------------------------------------
+// Function:	FileAccPropList::setLibverBounds
+///\brief	Sets bounds on versions of library format to be used when creating
+///		or writing objects.
+///\param	libver_low  - IN: Earliest version of the library that will be
+///				  used for creating or writing objects
+///\param	libver_high - IN: Latest version of the library that will be
+///\exception	H5::PropListIException
+///\par Description
+///		Valid values of \a libver_low are as follows:
+///		\li \c H5F_LIBVER_EARLIEST   (Default)
+///		\li \c H5F_LIBVER_18
+///		\li \c H5F_LIBVER_LATEST
+///
+///		Valid values of \a libver_high are as follows:
+///		\li \c H5F_LIBVER_18
+///		\li \c H5F_LIBVER_LATEST   (Default)
+///
+///		For more details, please refer to
+/// http://www.hdfgroup.org/HDF5/doc/RM/RM_H5P.html#Property-SetLibverBounds
+// Programmer:  Binh-Minh Ribler - March, 2015
+//--------------------------------------------------------------------------
+void FileAccPropList::setLibverBounds(H5F_libver_t libver_low, H5F_libver_t libver_high) const
+{
+    herr_t ret_value = H5Pset_libver_bounds(id, libver_low, libver_high);
+    if (ret_value < 0)
+    {
+	throw PropListIException("FileAccPropList::setLibverBounds", "H5Pset_libver_bounds failed");
+    }
+}
+
+//--------------------------------------------------------------------------
+// Function:	FileAccPropList::getLibverBounds
+///\brief	Gets the current settings for the library version format bounds
+///		from a file access property list.
+///\param	libver_low  - OUT: Earliest version of the library that will be
+///				   used for creating or writing objects
+///\param	libver_high - OUT: Latest version of the library that will be
+///				   used for creating or writing objects
+///\exception	H5::PropListIException
+///\par Description
+///		On success, the argument \a libver_low can have the following
+///		values:
+///		\li \c H5F_LIBVER_EARLIEST
+///		\li \c H5F_LIBVER_18
+///		\li \c H5F_LIBVER_LATEST
+///
+///		and \a libver_high:
+///		\li \c H5F_LIBVER_18
+///		\li \c H5F_LIBVER_LATEST
+// Programmer:  Binh-Minh Ribler - March, 2015
+//--------------------------------------------------------------------------
+void FileAccPropList::getLibverBounds(H5F_libver_t& libver_low, H5F_libver_t& libver_high) const
+{
+    herr_t ret_value = H5Pget_libver_bounds(id, &libver_low, &libver_high);
+    if( ret_value < 0 )
+    {
+	throw PropListIException("FileAccPropList::getLibverBounds", "H5Pget_libver_bounds failed");
+    }
 }
 
 //--------------------------------------------------------------------------

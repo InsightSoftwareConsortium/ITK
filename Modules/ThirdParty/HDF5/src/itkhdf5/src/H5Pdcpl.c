@@ -65,7 +65,7 @@
 /* Note that the compact & chunked layout initialization values are using the
  *      contiguous layout initialization in the union, because the contiguous
  *      layout is first in the union.  These values are overridden in the
- *      H5P_init_def_layout() routine. -QAK
+ *      H5P__init_def_layout() routine. -QAK
  */
 #define H5D_DEF_LAYOUT_COMPACT  {H5D_COMPACT, H5O_LAYOUT_VERSION_3, NULL, {H5D_DEF_LAYOUT_CHUNK_INIT}, {H5D_CONTIGUOUS, H5D_DEF_STORAGE_CONTIG_INIT}}
 #define H5D_DEF_LAYOUT_CONTIG   {H5D_CONTIGUOUS, H5O_LAYOUT_VERSION_3, NULL, {H5D_DEF_LAYOUT_CHUNK_INIT}, {H5D_CONTIGUOUS, H5D_DEF_STORAGE_CONTIG_INIT}}
@@ -76,7 +76,7 @@
 /* Definitions for storage layout property */
 #define H5D_CRT_LAYOUT_SIZE        sizeof(H5O_layout_t)
 #define H5D_CRT_LAYOUT_DEF         H5D_DEF_LAYOUT_CONTIG
-#define H5D_CRT_LAYOUT_CMP     H5P_dcrt_layout_cmp
+#define H5D_CRT_LAYOUT_CMP         H5P__dcrt_layout_cmp
 /* Definitions for fill value.  size=0 means fill value will be 0 as
  * library default; size=-1 means fill value is undefined. */
 #define H5D_CRT_FILL_VALUE_SIZE    sizeof(H5O_fill_t)
@@ -88,7 +88,7 @@
 /* Definitions for external file list */
 #define H5D_CRT_EXT_FILE_LIST_SIZE sizeof(H5O_efl_t)
 #define H5D_CRT_EXT_FILE_LIST_DEF  {HADDR_UNDEF, 0, 0, NULL}
-#define H5D_CRT_EXT_FILE_LIST_CMP  H5P_dcrt_ext_file_list_cmp
+#define H5D_CRT_EXT_FILE_LIST_CMP  H5P__dcrt_ext_file_list_cmp
 
 
 /******************/
@@ -106,19 +106,19 @@
 /********************/
 
 /* General routines */
-static herr_t H5P_set_layout(H5P_genplist_t *plist, const H5O_layout_t *layout);
+static herr_t H5P__set_layout(H5P_genplist_t *plist, const H5O_layout_t *layout);
 #ifndef H5_HAVE_C99_DESIGNATED_INITIALIZER
-static herr_t H5P_init_def_layout(void);
+static herr_t H5P__init_def_layout(void);
 #endif /* H5_HAVE_C99_DESIGNATED_INITIALIZER */
 
 /* Property class callbacks */
-static herr_t H5P_dcrt_reg_prop(H5P_genclass_t *pclass);
-static herr_t H5P_dcrt_copy(hid_t new_plist_t, hid_t old_plist_t, void *copy_data);
-static herr_t H5P_dcrt_close(hid_t dxpl_id, void *close_data);
+static herr_t H5P__dcrt_reg_prop(H5P_genclass_t *pclass);
+static herr_t H5P__dcrt_copy(hid_t new_plist_t, hid_t old_plist_t, void *copy_data);
+static herr_t H5P__dcrt_close(hid_t dxpl_id, void *close_data);
 
 /* Property callbacks */
-static int H5P_dcrt_layout_cmp(const void *value1, const void *value2, size_t size);
-static int H5P_dcrt_ext_file_list_cmp(const void *value1, const void *value2, size_t size);
+static int H5P__dcrt_layout_cmp(const void *value1, const void *value2, size_t size);
+static int H5P__dcrt_ext_file_list_cmp(const void *value1, const void *value2, size_t size);
 
 
 /*********************/
@@ -128,15 +128,19 @@ static int H5P_dcrt_ext_file_list_cmp(const void *value1, const void *value2, si
 /* Dataset creation property list class library initialization object */
 const H5P_libclass_t H5P_CLS_DCRT[1] = {{
     "dataset create",		/* Class name for debugging     */
-    &H5P_CLS_OBJECT_CREATE_g,	/* Parent class ID              */
-    &H5P_CLS_DATASET_CREATE_g,	/* Pointer to class ID          */
-    &H5P_LST_DATASET_CREATE_g,	/* Pointer to default property list ID */
-    H5P_dcrt_reg_prop,		/* Default property registration routine */
+    H5P_TYPE_DATASET_CREATE,    /* Class type                   */
+
+    &H5P_CLS_OBJECT_CREATE_g,	/* Parent class                 */
+    &H5P_CLS_DATASET_CREATE_g,	/* Pointer to class             */
+    &H5P_CLS_DATASET_CREATE_ID_g,	/* Pointer to class ID          */
+    &H5P_LST_DATASET_CREATE_ID_g,	/* Pointer to default property list ID */
+    H5P__dcrt_reg_prop,		/* Default property registration routine */
+
     NULL,		        /* Class creation callback      */
     NULL,		        /* Class creation callback info */
-    H5P_dcrt_copy,		/* Class copy callback          */
+    H5P__dcrt_copy,		/* Class copy callback          */
     NULL,		        /* Class copy callback info     */
-    H5P_dcrt_close,		/* Class close callback         */
+    H5P__dcrt_close,		/* Class close callback         */
     NULL 		        /* Class close callback info    */
 }};
 
@@ -163,7 +167,7 @@ static hbool_t H5P_dcrt_def_layout_init_g = FALSE;
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5P_dcrt_reg_prop
+ * Function:    H5P__dcrt_reg_prop
  *
  * Purpose:     Register the dataset creation property list class's properties
  *
@@ -174,7 +178,7 @@ static hbool_t H5P_dcrt_def_layout_init_g = FALSE;
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P_dcrt_reg_prop(H5P_genclass_t *pclass)
+H5P__dcrt_reg_prop(H5P_genclass_t *pclass)
 {
     H5O_layout_t layout = H5D_CRT_LAYOUT_DEF;          /* Default storage layout */
     H5O_fill_t fill = H5D_CRT_FILL_VALUE_DEF;           /* Default fill value */
@@ -182,15 +186,15 @@ H5P_dcrt_reg_prop(H5P_genclass_t *pclass)
     H5O_efl_t efl = H5D_CRT_EXT_FILE_LIST_DEF;          /* Default external file list */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5P_dcrt_reg_prop)
+    FUNC_ENTER_STATIC
 
     /* Register the storage layout property */
     if(H5P_register_real(pclass, H5D_CRT_LAYOUT_NAME, H5D_CRT_LAYOUT_SIZE, &layout, NULL, NULL, NULL, NULL, NULL, H5D_CRT_LAYOUT_CMP, NULL) < 0)
-       HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
     /* Register the fill value property */
     if(H5P_register_real(pclass, H5D_CRT_FILL_VALUE_NAME, H5D_CRT_FILL_VALUE_SIZE, &fill, NULL, NULL, NULL, NULL, NULL, H5D_CRT_FILL_VALUE_CMP, NULL) < 0)
-       HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
     /* Register the space allocation time state property */
     if(H5P_register_real(pclass, H5D_CRT_ALLOC_TIME_STATE_NAME, H5D_CRT_ALLOC_TIME_STATE_SIZE, &alloc_time_state, NULL, NULL, NULL, NULL, NULL, NULL, NULL) < 0)
@@ -202,11 +206,11 @@ H5P_dcrt_reg_prop(H5P_genclass_t *pclass)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5P_dcrt_reg_prop() */
+} /* end H5P__dcrt_reg_prop() */
 
 
 /*-------------------------------------------------------------------------
- * Function:       H5P_dcrt_copy
+ * Function:       H5P__dcrt_copy
  *
  * Purpose:        Callback routine which is called whenever any dataset
  *                 creation property list is copied.  This routine copies
@@ -222,7 +226,7 @@ done:
  */
 /* ARGSUSED */
 static herr_t
-H5P_dcrt_copy(hid_t dst_plist_id, hid_t src_plist_id, void UNUSED *copy_data)
+H5P__dcrt_copy(hid_t dst_plist_id, hid_t src_plist_id, void H5_ATTR_UNUSED *copy_data)
 {
     H5O_fill_t     src_fill, dst_fill;          /* Source & destination fill values */
     H5O_efl_t      src_efl, dst_efl;            /* Source & destination external file lists */
@@ -231,7 +235,7 @@ H5P_dcrt_copy(hid_t dst_plist_id, hid_t src_plist_id, void UNUSED *copy_data)
     H5P_genplist_t *dst_plist;                  /* Pointer to destination property list */
     herr_t         ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5P_dcrt_copy)
+    FUNC_ENTER_STATIC
 
     /* Verify property list IDs */
     if(NULL == (dst_plist = (H5P_genplist_t *)H5I_object(dst_plist_id)))
@@ -280,6 +284,8 @@ H5P_dcrt_copy(hid_t dst_plist_id, hid_t src_plist_id, void UNUSED *copy_data)
             dst_layout.storage.u.chunk.ops = NULL;
             break;
 
+        case H5D_LAYOUT_ERROR:
+        case H5D_NLAYOUTS:
         default:
             HDassert(0 && "Unknown layout type!");
     } /* end switch */
@@ -314,11 +320,11 @@ H5P_dcrt_copy(hid_t dst_plist_id, hid_t src_plist_id, void UNUSED *copy_data)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5P_dcrt_copy() */
+} /* end H5P__dcrt_copy() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5P_dcrt_close
+ * Function:	H5P__dcrt_close
  *
  * Purpose:	Callback routine which is called whenever any dataset create
  *              property list is closed.  This routine performs any generic
@@ -334,14 +340,14 @@ done:
  */
 /* ARGSUSED */
 static herr_t
-H5P_dcrt_close(hid_t dcpl_id, void UNUSED *close_data)
+H5P__dcrt_close(hid_t dcpl_id, void H5_ATTR_UNUSED *close_data)
 {
     H5O_fill_t      fill;               /* Fill value */
     H5O_efl_t       efl;                /* External file list */
     H5P_genplist_t *plist;              /* Property list */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5P_dcrt_close)
+    FUNC_ENTER_STATIC
 
     /* Check arguments */
     if(NULL == (plist = (H5P_genplist_t *)H5I_object(dcpl_id)))
@@ -362,11 +368,11 @@ H5P_dcrt_close(hid_t dcpl_id, void UNUSED *close_data)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5P_dcrt_close() */
+} /* end H5P__dcrt_close() */
 
 
 /*-------------------------------------------------------------------------
- * Function:       H5P_dcrt_layout_cmp
+ * Function:       H5P__dcrt_layout_cmp
  *
  * Purpose:        Callback routine which is called whenever the layout
  *                 property in the dataset creation property list is
@@ -382,17 +388,17 @@ done:
  *-------------------------------------------------------------------------
  */
 static int
-H5P_dcrt_layout_cmp(const void *_layout1, const void *_layout2, size_t UNUSED size)
+H5P__dcrt_layout_cmp(const void *_layout1, const void *_layout2, size_t H5_ATTR_UNUSED size)
 {
     const H5O_layout_t *layout1 = (const H5O_layout_t *)_layout1,     /* Create local aliases for values */
         *layout2 = (const H5O_layout_t *)_layout2;
     herr_t ret_value = 0;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5P_dcrt_layout_cmp)
+    FUNC_ENTER_STATIC_NOERR
 
     /* Sanity check */
     HDassert(layout1);
-    HDassert(layout1);
+    HDassert(layout2);
     HDassert(size == sizeof(H5O_layout_t));
 
     /* Check for different layout type */
@@ -425,13 +431,15 @@ H5P_dcrt_layout_cmp(const void *_layout1, const void *_layout2, size_t UNUSED si
             } /* end case */
             break;
 
+        case H5D_LAYOUT_ERROR:
+        case H5D_NLAYOUTS:
         default:
             HDassert(0 && "Unknown layout type!");
     } /* end switch */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5P_dcrt_layout_cmp() */
+} /* end H5P__dcrt_layout_cmp() */
 
 
 /*-------------------------------------------------------------------------
@@ -450,14 +458,14 @@ done:
  *-------------------------------------------------------------------------
  */
 int
-H5P_fill_value_cmp(const void *_fill1, const void *_fill2, size_t UNUSED size)
+H5P_fill_value_cmp(const void *_fill1, const void *_fill2, size_t H5_ATTR_UNUSED size)
 {
     const H5O_fill_t *fill1 = (const H5O_fill_t *)_fill1,     /* Create local aliases for values */
         *fill2 = (const H5O_fill_t *)_fill2;
     int cmp_value;              /* Value from comparison */
     herr_t ret_value = 0;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5P_fill_value_cmp)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(fill1);
@@ -496,7 +504,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:       H5P_dcrt_ext_file_list_cmp
+ * Function:       H5P__dcrt_ext_file_list_cmp
  *
  * Purpose:        Callback routine which is called whenever the external file
  *                 list property in the dataset creation property list is
@@ -512,14 +520,14 @@ done:
  *-------------------------------------------------------------------------
  */
 static int
-H5P_dcrt_ext_file_list_cmp(const void *_efl1, const void *_efl2, size_t UNUSED size)
+H5P__dcrt_ext_file_list_cmp(const void *_efl1, const void *_efl2, size_t H5_ATTR_UNUSED size)
 {
     const H5O_efl_t *efl1 = (const H5O_efl_t *)_efl1,     /* Create local aliases for values */
         *efl2 = (const H5O_efl_t *)_efl2;
     int cmp_value;              /* Value from comparison */
     herr_t ret_value = 0;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5P_dcrt_ext_file_list_cmp)
+    FUNC_ENTER_STATIC_NOERR
 
     /* Sanity check */
     HDassert(efl1);
@@ -573,11 +581,11 @@ H5P_dcrt_ext_file_list_cmp(const void *_efl1, const void *_efl2, size_t UNUSED s
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5P_dcrt_ext_file_list_cmp() */
+} /* end H5P__dcrt_ext_file_list_cmp() */
 
 
 /*-------------------------------------------------------------------------
- * Function:  H5P_set_layout
+ * Function:  H5P__set_layout
  *
  * Purpose:   Sets the layout of raw data in the file.
  *
@@ -589,12 +597,12 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P_set_layout(H5P_genplist_t *plist, const H5O_layout_t *layout)
+H5P__set_layout(H5P_genplist_t *plist, const H5O_layout_t *layout)
 {
     unsigned alloc_time_state;          /* State of allocation time property */
     herr_t ret_value = SUCCEED;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5P_set_layout)
+    FUNC_ENTER_STATIC
 
     /* Get the allocation time state */
     if(H5P_get(plist, H5D_CRT_ALLOC_TIME_STATE_NAME, &alloc_time_state) < 0)
@@ -622,6 +630,8 @@ H5P_set_layout(H5P_genplist_t *plist, const H5O_layout_t *layout)
                 fill.alloc_time = H5D_ALLOC_TIME_INCR;
                 break;
 
+            case H5D_LAYOUT_ERROR:
+            case H5D_NLAYOUTS:
             default:
                 HGOTO_ERROR(H5E_DATASET, H5E_UNSUPPORTED, FAIL, "unknown layout type")
         } /* end switch */
@@ -637,12 +647,12 @@ H5P_set_layout(H5P_genplist_t *plist, const H5O_layout_t *layout)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5P_set_layout() */
+} /* end H5P__set_layout() */
 
 #ifndef H5_HAVE_C99_DESIGNATED_INITIALIZER
 
 /*-------------------------------------------------------------------------
- * Function:  H5P_init_def_layout
+ * Function:  H5P__init_def_layout
  *
  * Purpose:   Set the default layout information for the various types of
  *              dataset layouts
@@ -655,13 +665,13 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5P_init_def_layout(void)
+H5P__init_def_layout(void)
 {
     const H5O_layout_chunk_t def_layout_chunk = H5D_DEF_LAYOUT_CHUNK_INIT;
     const H5O_storage_compact_t def_store_compact = H5D_DEF_STORAGE_COMPACT_INIT;
     const H5O_storage_chunk_t def_store_chunk = H5D_DEF_STORAGE_CHUNK_INIT;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5P_init_def_layout)
+    FUNC_ENTER_STATIC_NOERR
 
     /* Initialize the default layout info for non-contigous layouts */
     H5D_def_layout_compact_g.storage.u.compact = def_store_compact;
@@ -672,7 +682,7 @@ H5P_init_def_layout(void)
     H5P_dcrt_def_layout_init_g = TRUE;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
-} /* end H5P_init_def_layout() */
+} /* end H5P__init_def_layout() */
 #endif /* H5_HAVE_C99_DESIGNATED_INITIALIZER */
 
 
@@ -702,7 +712,7 @@ H5Pset_layout(hid_t plist_id, H5D_layout_t layout_type)
     const H5O_layout_t *layout;         /* Pointer to default layout information for type specified */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_API(H5Pset_layout, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "iDl", plist_id, layout_type);
 
     /* Check arguments */
@@ -718,7 +728,7 @@ H5Pset_layout(hid_t plist_id, H5D_layout_t layout_type)
      *  the default layout structs have been initialized yet or not.  *ick* -QAK
      */
     if(!H5P_dcrt_def_layout_init_g)
-        if(H5P_init_def_layout() < 0)
+        if(H5P__init_def_layout() < 0)
             HGOTO_ERROR(H5E_PLIST, H5E_CANTINIT, FAIL, "can't initialize default layout info")
 #endif /* H5_HAVE_C99_DESIGNATED_INITIALIZER */
 
@@ -736,12 +746,14 @@ H5Pset_layout(hid_t plist_id, H5D_layout_t layout_type)
             layout = &H5D_def_layout_chunk_g;
             break;
 
+        case H5D_LAYOUT_ERROR:
+        case H5D_NLAYOUTS:
         default:
             HGOTO_ERROR(H5E_DATASET, H5E_UNSUPPORTED, FAIL, "unknown layout type")
     } /* end switch */
 
     /* Set value */
-    if(H5P_set_layout(plist, layout) < 0)
+    if(H5P__set_layout(plist, layout) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTINIT, FAIL, "can't set layout")
 
 done:
@@ -777,7 +789,7 @@ H5Pget_layout(hid_t plist_id)
     H5O_layout_t layout;        /* Layout property */
     H5D_layout_t ret_value;     /* Return value */
 
-    FUNC_ENTER_API(H5Pget_layout, H5D_LAYOUT_ERROR)
+    FUNC_ENTER_API(H5D_LAYOUT_ERROR)
     H5TRACE1("Dl", "i", plist_id);
 
     /* Get the plist structure */
@@ -829,7 +841,7 @@ H5Pset_chunk(hid_t plist_id, int ndims, const hsize_t dim[/*ndims*/])
     unsigned u;                 /* Local index variable */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_API(H5Pset_chunk, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "iIs*[a1]h", plist_id, ndims, dim);
 
     /* Check arguments */
@@ -845,7 +857,7 @@ H5Pset_chunk(hid_t plist_id, int ndims, const hsize_t dim[/*ndims*/])
      *  the default layout structs have been initialized yet or not.  *ick* -QAK
      */
     if(!H5P_dcrt_def_layout_init_g)
-        if(H5P_init_def_layout() < 0)
+        if(H5P__init_def_layout() < 0)
             HGOTO_ERROR(H5E_PLIST, H5E_CANTINIT, FAIL, "can't initialize default layout info")
 #endif /* H5_HAVE_C99_DESIGNATED_INITIALIZER */
 
@@ -870,7 +882,7 @@ H5Pset_chunk(hid_t plist_id, int ndims, const hsize_t dim[/*ndims*/])
 
     /* Set chunk information in property list */
     chunk_layout.u.chunk.ndims = (unsigned)ndims;
-    if(H5P_set_layout(plist, &chunk_layout) < 0)
+    if(H5P__set_layout(plist, &chunk_layout) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set layout")
 
 done:
@@ -909,7 +921,7 @@ H5Pget_chunk(hid_t plist_id, int max_ndims, hsize_t dim[]/*out*/)
     H5O_layout_t layout;        /* Layout information */
     int ret_value;              /* Return value */
 
-    FUNC_ENTER_API(H5Pget_chunk, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("Is", "iIsx", plist_id, max_ndims, dim);
 
     /* Get the plist structure */
@@ -959,18 +971,6 @@ done:
  * Programmer:	Robb Matzke
  *		Tuesday, March	3, 1998
  *
- * Modifications:
- *
- *              Raymond Lu
- *              Tuesday, October 2, 2001
- *              Changed the way to check parameter and set property for
- *              generic property list.
- *
- *              Raymond Lu
- *              7 April 2011
- *              Starting from the 1.8.7 release, we allow dataspace to have 
- *              zero dimension size. So the external storage size for 
- *              dataset can be zero.
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -979,16 +979,16 @@ H5Pset_external(hid_t plist_id, const char *name, off_t offset, hsize_t size)
     size_t		idx;
     hsize_t		total, tmp;
     H5O_efl_t           efl;
-    H5P_genplist_t *plist;      /* Property list pointer */
-    herr_t      ret_value = SUCCEED;       /* Return value */
+    H5P_genplist_t *plist;              /* Property list pointer */
+    herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_API(H5Pset_external, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE4("e", "i*soh", plist_id, name, offset, size);
 
     /* Check arguments */
-    if (!name || !*name)
+    if(!name || !*name)
         HGOTO_ERROR (H5E_ARGS, H5E_BADVALUE, FAIL, "no name given")
-    if (offset<0)
+    if(offset < 0)
         HGOTO_ERROR (H5E_ARGS, H5E_BADVALUE, FAIL, "negative external file offset")
 
     /* Get the plist structure */
@@ -997,14 +997,14 @@ H5Pset_external(hid_t plist_id, const char *name, off_t offset, hsize_t size)
 
     if(H5P_get(plist, H5D_CRT_EXT_FILE_LIST_NAME, &efl) < 0)
         HGOTO_ERROR(H5E_PLIST, H5E_CANTGET, FAIL, "can't get external file list")
-    if(efl.nused > 0 && H5O_EFL_UNLIMITED==efl.slot[efl.nused-1].size)
+    if(efl.nused > 0 && H5O_EFL_UNLIMITED == efl.slot[efl.nused - 1].size)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "previous file size is unlimited")
 
-    if (H5O_EFL_UNLIMITED!=size) {
-        for (idx=0, total=size; idx<efl.nused; idx++, total=tmp) {
+    if(H5O_EFL_UNLIMITED != size) {
+        for(idx = 0, total = size; idx < efl.nused; idx++, total = tmp) {
             tmp = total + efl.slot[idx].size;
-            if (tmp <= total)
-                HGOTO_ERROR (H5E_EFL, H5E_OVERFLOW, FAIL, "total external data size overflowed")
+            if(tmp <= total)
+                HGOTO_ERROR(H5E_EFL, H5E_OVERFLOW, FAIL, "total external data size overflowed")
         } /* end for */
     } /* end if */
 
@@ -1015,23 +1015,23 @@ H5Pset_external(hid_t plist_id, const char *name, off_t offset, hsize_t size)
         H5O_efl_entry_t *x = (H5O_efl_entry_t *)H5MM_realloc(efl.slot, na * sizeof(H5O_efl_entry_t));
 
         if(!x)
-            HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, FAIL, "memory allocation failed")
+            HGOTO_ERROR(H5E_RESOURCE, H5E_CANTALLOC, FAIL, "memory allocation failed")
         efl.nalloc = na;
         efl.slot = x;
     } /* end if */
     idx = efl.nused;
     efl.slot[idx].name_offset = 0; /*not entered into heap yet*/
-    efl.slot[idx].name = H5MM_xstrdup (name);
+    efl.slot[idx].name = H5MM_xstrdup(name);
     efl.slot[idx].offset = offset;
     efl.slot[idx].size = size;
     efl.nused++;
 
     if(H5P_set(plist, H5D_CRT_EXT_FILE_LIST_NAME, &efl) < 0)
-        HGOTO_ERROR(H5E_PLIST, H5E_CANTINIT, FAIL, "can't set external file list")
+        HGOTO_ERROR(H5E_PLIST, H5E_CANTSET, FAIL, "can't set external file list")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}
+} /* end H5Pset_external() */
 
 
 /*-------------------------------------------------------------------------
@@ -1062,7 +1062,7 @@ H5Pget_external_count(hid_t plist_id)
     H5P_genplist_t *plist;      /* Property list pointer */
     int ret_value;              /* return value */
 
-    FUNC_ENTER_API(H5Pget_external_count, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("Is", "i", plist_id);
 
     /* Get the plist structure */
@@ -1120,7 +1120,7 @@ H5Pget_external(hid_t plist_id, unsigned idx, size_t name_size, char *name/*out*
     H5P_genplist_t *plist;      /* Property list pointer */
     herr_t ret_value = SUCCEED;   /* return value */
 
-    FUNC_ENTER_API(H5Pget_external, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE6("e", "iIuzxxx", plist_id, idx, name_size, name, offset, size);
 
     /* Get the plist structure */
@@ -1161,13 +1161,6 @@ done:
  * Programmer:	Kent Yang
  *              Tuesday, April 1, 2003
  *
- * Modifications:
- *
- *          Nat Furrer and James Laird
- *          June 30, 2004
- *          Now ensures that SZIP encoding is enabled
- *          SZIP defaults to k13 compression
- *
  *-------------------------------------------------------------------------
  */
 herr_t
@@ -1177,29 +1170,29 @@ H5Pset_szip(hid_t plist_id, unsigned options_mask, unsigned pixels_per_block)
     H5P_genplist_t *plist;      /* Property list pointer */
     unsigned cd_values[2];      /* Filter parameters */
     unsigned int config_flags;
-    herr_t ret_value=SUCCEED;   /* return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_API(H5Pset_szip, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "iIuIu", plist_id, options_mask, pixels_per_block);
 
-    if(H5Zget_filter_info(H5Z_FILTER_SZIP, &config_flags) < 0)
+    if(H5Z_get_filter_info(H5Z_FILTER_SZIP, &config_flags) < 0)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "can't get filter info")
 
-    if(! (config_flags & H5Z_FILTER_CONFIG_ENCODE_ENABLED))
+    if(!(config_flags & H5Z_FILTER_CONFIG_ENCODE_ENABLED))
         HGOTO_ERROR(H5E_PLINE, H5E_NOENCODER, FAIL, "Filter present but encoding is disabled.")
 
     /* Check arguments */
-    if ((pixels_per_block%2)==1)
-        HGOTO_ERROR (H5E_ARGS, H5E_BADVALUE, FAIL, "pixels_per_block is not even")
-    if (pixels_per_block>H5_SZIP_MAX_PIXELS_PER_BLOCK)
-        HGOTO_ERROR (H5E_ARGS, H5E_BADVALUE, FAIL, "pixels_per_block is too large")
+    if((pixels_per_block % 2) == 1)
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "pixels_per_block is not even")
+    if(pixels_per_block > H5_SZIP_MAX_PIXELS_PER_BLOCK)
+        HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "pixels_per_block is too large")
 
     /* Get the plist structure */
     if(NULL == (plist = H5P_object_verify(plist_id,H5P_DATASET_CREATE)))
         HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
 
     /* Always set K13 compression (and un-set CHIP compression) */
-    options_mask &= (~H5_SZIP_CHIP_OPTION_MASK);
+    options_mask &= (unsigned)(~H5_SZIP_CHIP_OPTION_MASK);
     options_mask |= H5_SZIP_ALLOW_K13_OPTION_MASK;
 
     /* Always set "raw" (no szip header) flag for data */
@@ -1207,7 +1200,7 @@ H5Pset_szip(hid_t plist_id, unsigned options_mask, unsigned pixels_per_block)
 
     /* Mask off the LSB and MSB options, if they were given */
     /* (The HDF5 library sets them internally, as needed) */
-    options_mask &= ~(H5_SZIP_LSB_OPTION_MASK|H5_SZIP_MSB_OPTION_MASK);
+    options_mask &= (unsigned)(~(H5_SZIP_LSB_OPTION_MASK | H5_SZIP_MSB_OPTION_MASK));
 
     /* Set the parameters for the filter */
     cd_values[0]=options_mask;
@@ -1249,7 +1242,7 @@ H5Pset_shuffle(hid_t plist_id)
     H5P_genplist_t *plist;      /* Property list pointer */
     herr_t ret_value=SUCCEED;   /* return value */
 
-    FUNC_ENTER_API(H5Pset_shuffle, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", plist_id);
 
     /* Check arguments */
@@ -1295,7 +1288,7 @@ H5Pset_nbit(hid_t plist_id)
     H5P_genplist_t *plist;      /* Property list pointer */
     herr_t ret_value=SUCCEED;   /* return value */
 
-    FUNC_ENTER_API(H5Pset_nbit, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "i", plist_id);
 
     /* Check arguments */
@@ -1358,7 +1351,7 @@ H5Pset_scaleoffset(hid_t plist_id, H5Z_SO_scale_type_t scale_type, int scale_fac
     unsigned cd_values[2];      /* Filter parameters */
     herr_t ret_value=SUCCEED;   /* return value */
 
-    FUNC_ENTER_API(H5Pset_scaleoffset, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "iZaIs", plist_id, scale_type, scale_factor);
 
     /* Check arguments */
@@ -1429,7 +1422,7 @@ H5Pset_fill_value(hid_t plist_id, hid_t type_id, const void *value)
     H5O_fill_t fill;                    /* Fill value to modify */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_API(H5Pset_fill_value, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "ii*x", plist_id, type_id, value);
 
     /* Get the plist structure */
@@ -1523,7 +1516,7 @@ H5P_get_fill_value(H5P_genplist_t *plist, const H5T_t *type, void *value/*out*/,
     hid_t		dst_id = -1;		/*destination datatype id	*/
     herr_t              ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5P_get_fill_value, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /*
      * If no fill value is defined then return an error.  We can't even
@@ -1563,8 +1556,8 @@ H5P_get_fill_value(H5P_genplist_t *plist, const H5T_t *type, void *value/*out*/,
     else {
         if(NULL == (buf = H5MM_malloc(H5T_get_size(fill.type))))
             HGOTO_ERROR(H5E_PLIST, H5E_CANTALLOC, FAIL, "memory allocation failed for type conversion")
-        if(H5T_path_bkg(tpath))
-            bkg = value;
+        if(H5T_path_bkg(tpath) && NULL == (bkg = H5MM_malloc(H5T_get_size(fill.type))))
+            HGOTO_ERROR(H5E_PLIST, H5E_CANTALLOC, FAIL, "memory allocation failed for type conversion")
     } /* end else */
     HDmemcpy(buf, fill.buf, H5T_get_size(fill.type));
 
@@ -1613,7 +1606,7 @@ H5Pget_fill_value(hid_t plist_id, hid_t type_id, void *value/*out*/)
     H5T_t		*type;		        /* Datatype		*/
     herr_t              ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_API(H5Pget_fill_value, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "iix", plist_id, type_id, value);
 
     /* Check arguments */
@@ -1652,7 +1645,7 @@ H5P_is_fill_value_defined(const H5O_fill_t *fill, H5D_fill_value_t *status)
 {
     herr_t ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI(H5P_is_fill_value_defined, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(fill);
     HDassert(status);
@@ -1694,7 +1687,7 @@ H5P_fill_value_defined(H5P_genplist_t *plist, H5D_fill_value_t *status)
     H5O_fill_t	        fill;                   /* Fill value to query */
     herr_t		ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI(H5P_fill_value_defined, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(status);
 
@@ -1729,7 +1722,7 @@ H5Pfill_value_defined(hid_t plist_id, H5D_fill_value_t *status)
     H5P_genplist_t 	*plist;                 /* Property list to query */
     herr_t		ret_value = SUCCEED;
 
-    FUNC_ENTER_API(H5Pfill_value_defined, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "i*DF", plist_id, status);
 
     HDassert(status);
@@ -1772,7 +1765,7 @@ H5Pset_alloc_time(hid_t plist_id, H5D_alloc_time_t alloc_time)
     unsigned alloc_time_state;  /* State of allocation time property */
     herr_t ret_value = SUCCEED; /* return value 	 */
 
-    FUNC_ENTER_API(H5Pset_alloc_time, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "iDa", plist_id, alloc_time);
 
     /* Check arguments */
@@ -1805,6 +1798,8 @@ H5Pset_alloc_time(hid_t plist_id, H5D_alloc_time_t alloc_time)
                 alloc_time = H5D_ALLOC_TIME_INCR;
                 break;
 
+            case H5D_LAYOUT_ERROR:
+            case H5D_NLAYOUTS:
             default:
                 HGOTO_ERROR(H5E_DATASET, H5E_UNSUPPORTED, FAIL, "unknown layout type")
         } /* end switch */
@@ -1853,7 +1848,7 @@ H5Pget_alloc_time(hid_t plist_id, H5D_alloc_time_t *alloc_time/*out*/)
 {
     herr_t ret_value = SUCCEED; /* return value          */
 
-    FUNC_ENTER_API(H5Pget_alloc_time, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "ix", plist_id, alloc_time);
 
     /* Get values */
@@ -1898,7 +1893,7 @@ H5Pset_fill_time(hid_t plist_id, H5D_fill_time_t fill_time)
     H5O_fill_t fill;            /* Fill value property to modify */
     herr_t ret_value = SUCCEED; /* return value          */
 
-    FUNC_ENTER_API(H5Pset_fill_time, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "iDf", plist_id, fill_time);
 
     /* Check arguments */
@@ -1946,7 +1941,7 @@ H5Pget_fill_time(hid_t plist_id, H5D_fill_time_t *fill_time/*out*/)
 {
     herr_t ret_value = SUCCEED; /* return value          */
 
-    FUNC_ENTER_API(H5Pget_fill_time, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "ix", plist_id, fill_time);
 
     /* Set values */

@@ -70,8 +70,6 @@
 #define H5AC__MAX_DIRTY_BYTES_THRESHOLD   	(int32_t) \
 						(H5C__MAX_MAX_CACHE_SIZE / 4)
 
-#define H5AC__DEFAULT_METADATA_WRITE_STRATEGY	\
-				H5AC_METADATA_WRITE_STRATEGY__DISTRIBUTED
 
 /****************************************************************************
  *

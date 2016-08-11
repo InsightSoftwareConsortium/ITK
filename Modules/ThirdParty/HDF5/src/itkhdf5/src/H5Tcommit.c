@@ -99,7 +99,7 @@ DESCRIPTION
 static herr_t
 H5T_init_commit_interface(void)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_init_commit_interface)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     FUNC_LEAVE_NOAPI(H5T_init())
 } /* H5T_init_commit_interface() */
@@ -126,7 +126,7 @@ H5Tcommit2(hid_t loc_id, const char *name, hid_t type_id, hid_t lcpl_id,
     H5T_t	*type;                  /* Datatype for ID */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_API(H5Tcommit2, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE6("e", "i*siiii", loc_id, name, type_id, lcpl_id, tcpl_id, tapl_id);
 
     /* Check arguments */
@@ -159,7 +159,7 @@ H5Tcommit2(hid_t loc_id, const char *name, hid_t type_id, hid_t lcpl_id,
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not datatype access property list")
 
     /* Commit the type */
-    if(H5T_commit_named(&loc, name, type, lcpl_id, tcpl_id, tapl_id, H5AC_dxpl_id) < 0)
+    if(H5T__commit_named(&loc, name, type, lcpl_id, tcpl_id, tapl_id, H5AC_dxpl_id) < 0)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to commit datatype")
 
 done:
@@ -168,7 +168,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_commit_named
+ * Function:	H5T__commit_named
  *
  * Purpose:	Internal routine to save a transient datatype to a file and
  *              turn the type ID into a "named", immutable type.
@@ -181,15 +181,15 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5T_commit_named(const H5G_loc_t *loc, const char *name, H5T_t *dt,
+H5T__commit_named(const H5G_loc_t *loc, const char *name, H5T_t *dt,
     hid_t lcpl_id, hid_t tcpl_id, hid_t tapl_id, hid_t dxpl_id)
 {
     H5O_obj_create_t ocrt_info;             /* Information for object creation */
     H5T_obj_create_t tcrt_info;             /* Information for named datatype creation */
-    H5T_state_t old_state = H5T_STATE_TRANSIENT;        /* The state of the datatype before H5T_commit. */
+    H5T_state_t old_state = H5T_STATE_TRANSIENT;        /* The state of the datatype before H5T__commit. */
     herr_t      ret_value = SUCCEED;        /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_commit_named, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Sanity checks */
     HDassert(loc);
@@ -246,7 +246,7 @@ done:
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5T_commit_named() */
+} /* end H5T__commit_named() */
 
 
 /*-------------------------------------------------------------------------
@@ -275,7 +275,7 @@ H5Tcommit_anon(hid_t loc_id, hid_t type_id, hid_t tcpl_id, hid_t tapl_id)
     H5T_t	*type = NULL;           /* Datatype created */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_API(H5Tcommit_anon, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE4("e", "iiii", loc_id, type_id, tcpl_id, tapl_id);
 
     /* Check arguments */
@@ -299,7 +299,7 @@ H5Tcommit_anon(hid_t loc_id, hid_t type_id, hid_t tcpl_id, hid_t tapl_id)
             HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not datatype access property list")
 
     /* Commit the type */
-    if(H5T_commit(loc.oloc->file, type, tcpl_id, H5AC_dxpl_id) < 0)
+    if(H5T__commit(loc.oloc->file, type, tcpl_id, H5AC_dxpl_id) < 0)
 	HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, FAIL, "unable to commit datatype")
 
     /* Release the datatype's object header */
@@ -321,7 +321,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5T_commit
+ * Function:	H5T__commit
  *
  * Purpose:	Commit a type, giving it a name and causing it to become
  *		immutable.
@@ -334,7 +334,7 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5T_commit(H5F_t *file, H5T_t *type, hid_t tcpl_id, hid_t dxpl_id)
+H5T__commit(H5F_t *file, H5T_t *type, hid_t tcpl_id, hid_t dxpl_id)
 {
     H5O_loc_t   temp_oloc;              /* Temporary object header location */
     H5G_name_t  temp_path;              /* Temporary path */
@@ -342,7 +342,7 @@ H5T_commit(H5F_t *file, H5T_t *type, hid_t tcpl_id, hid_t dxpl_id)
     size_t      dtype_size;             /* Size of the datatype message */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5T_commit)
+    FUNC_ENTER_PACKAGE
 
     HDassert(file);
     HDassert(type);
@@ -439,7 +439,7 @@ done:
     } /* end if */
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* H5T_commit() */
+} /* H5T__commit() */
 
 
 /*-------------------------------------------------------------------------
@@ -462,7 +462,7 @@ H5Tcommitted(hid_t type_id)
     H5T_t	*type;          /* Datatype to query */
     htri_t      ret_value;      /* Return value */
 
-    FUNC_ENTER_API(H5Tcommitted, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("t", "i", type_id);
 
     /* Check arguments */
@@ -493,7 +493,7 @@ htri_t
 H5T_committed(const H5T_t *type)
 {
     /* Use no-init for efficiency */
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_committed)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(type);
 
@@ -520,7 +520,7 @@ H5T_link(const H5T_t *type, int adjust, hid_t dxpl_id)
 {
     int ret_value;      /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_link, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(type);
     HDassert(type->sh_loc.type == H5O_SHARE_TYPE_COMMITTED);
@@ -558,10 +558,10 @@ H5Topen2(hid_t loc_id, const char *name, hid_t tapl_id)
     H5O_type_t   obj_type;              /* Type of object at location */
     H5G_loc_t    type_loc;              /* Group object for datatype */
     hbool_t      obj_found = FALSE;     /* Object at 'name' found */
-    hid_t        dxpl_id = H5AC_dxpl_id; /* dxpl to use to open datatype */
+    hid_t        dxpl_id = H5AC_ind_dxpl_id; /* dxpl to use to open datatype */
     hid_t        ret_value = FAIL;      /* Return value */
 
-    FUNC_ENTER_API(H5Topen2, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("i", "i*si", loc_id, name, tapl_id);
 
     /* Check args */
@@ -643,7 +643,7 @@ H5Tget_create_plist(hid_t dtype_id)
     herr_t              status;         /* Generic status value */
     hid_t		ret_value;      /* Return value */
 
-    FUNC_ENTER_API(H5Tget_create_plist, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("i", "i", dtype_id);
 
     /* Check arguments */
@@ -651,7 +651,7 @@ H5Tget_create_plist(hid_t dtype_id)
 	HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
     /* Copy the default datatype creation property list */
-    if(NULL == (tcpl_plist = (H5P_genplist_t *)H5I_object(H5P_LST_DATATYPE_CREATE_g)))
+    if(NULL == (tcpl_plist = (H5P_genplist_t *)H5I_object(H5P_LST_DATATYPE_CREATE_ID_g)))
          HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get default creation property list")
     if((new_tcpl_id = H5P_copy_plist(tcpl_plist, TRUE)) < 0)
         HGOTO_ERROR(H5E_DATATYPE, H5E_CANTGET, FAIL, "unable to copy the creation property list")
@@ -707,7 +707,7 @@ H5T_open(const H5G_loc_t *loc, hid_t dxpl_id)
     H5T_t          *dt = NULL;
     H5T_t          *ret_value;
 
-    FUNC_ENTER_NOAPI(H5T_open, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     HDassert(loc);
 
@@ -823,7 +823,7 @@ H5T_open_oid(const H5G_loc_t *loc, hid_t dxpl_id)
     H5T_t *dt = NULL;          /* Datatype from the file */
     H5T_t *ret_value;          /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5T_open_oid)
+    FUNC_ENTER_NOAPI_NOINIT
 
     HDassert(loc);
 
@@ -876,7 +876,7 @@ done:
 herr_t
 H5T_update_shared(H5T_t *dt)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_update_shared)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(dt);
 

@@ -20,6 +20,7 @@
 #include "H5IdComponent.h"
 #include "H5PropList.h"
 #include "H5Object.h"
+#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
 #include "H5DataType.h"
@@ -45,7 +46,6 @@ AtomType::AtomType() : DataType() {}
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AtomType::AtomType( const hid_t existing_id ) : DataType( existing_id ) {}
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
 // Function:	AtomType copy constructor
@@ -53,6 +53,7 @@ AtomType::AtomType( const hid_t existing_id ) : DataType( existing_id ) {}
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AtomType::AtomType( const AtomType& original ) : DataType( original ) {}
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
 // Function:	AtomType::setSize
@@ -285,12 +286,14 @@ void AtomType::setPad( H5T_pad_t lsb, H5T_pad_t msb ) const
    }
 }
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------------------
 // Function:	AtomType destructor
 ///\brief	Noop destructor.
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
 AtomType::~AtomType() {}
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 #ifndef H5_NO_NAMESPACE
 } // end namespace

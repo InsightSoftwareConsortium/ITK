@@ -76,13 +76,13 @@ const H5O_msg_class_t H5O_MSG_SHMESG[1] = {{
  *-------------------------------------------------------------------------
  */
 static void *
-H5O_shmesg_decode(H5F_t *f, hid_t UNUSED dxpl_id, H5O_t UNUSED *open_oh,
-    unsigned UNUSED mesg_flags, unsigned UNUSED *ioflags, const uint8_t *p)
+H5O_shmesg_decode(H5F_t *f, hid_t H5_ATTR_UNUSED dxpl_id, H5O_t H5_ATTR_UNUSED *open_oh,
+    unsigned H5_ATTR_UNUSED mesg_flags, unsigned H5_ATTR_UNUSED *ioflags, const uint8_t *p)
 {
     H5O_shmesg_table_t	*mesg;          /* Native message */
     void                *ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5O_shmesg_decode)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(f);
@@ -117,11 +117,11 @@ done:
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_shmesg_encode(H5F_t *f, hbool_t UNUSED disable_shared, uint8_t *p, const void *_mesg)
+H5O_shmesg_encode(H5F_t *f, hbool_t H5_ATTR_UNUSED disable_shared, uint8_t *p, const void *_mesg)
 {
     const H5O_shmesg_table_t *mesg = (const H5O_shmesg_table_t *)_mesg;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_shmesg_encode)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(f);
@@ -129,9 +129,9 @@ H5O_shmesg_encode(H5F_t *f, hbool_t UNUSED disable_shared, uint8_t *p, const voi
     HDassert(mesg);
 
     /* Store version, table address, and number of indexes */
-    *p++ = mesg->version;
+    *p++ = (uint8_t)mesg->version;
     H5F_addr_encode(f, &p, mesg->addr);
-    *p++ = mesg->nindexes;
+    *p++ = (uint8_t)mesg->nindexes;
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5O_shmesg_encode() */
@@ -158,7 +158,7 @@ H5O_shmesg_copy(const void *_mesg, void *_dest)
     H5O_shmesg_table_t		*dest = (H5O_shmesg_table_t *)_dest;
     void			*ret_value;
 
-    FUNC_ENTER_NOAPI_NOINIT(H5O_shmesg_copy)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(mesg);
@@ -192,18 +192,18 @@ done:
  *-------------------------------------------------------------------------
  */
 static size_t
-H5O_shmesg_size(const H5F_t *f, hbool_t UNUSED disable_shared, const void UNUSED *_mesg)
+H5O_shmesg_size(const H5F_t *f, hbool_t H5_ATTR_UNUSED disable_shared, const void H5_ATTR_UNUSED *_mesg)
 {
     size_t                   ret_value;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_shmesg_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(f);
 
-    ret_value = 1 +                     /* Version number        */
+    ret_value = (size_t)(1 +                     /* Version number        */
 		H5F_SIZEOF_ADDR(f) +    /* Table address */
-		1;                      /* Number of indexes */
+		1);                      /* Number of indexes */
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5O_shmesg_size() */
@@ -222,12 +222,12 @@ H5O_shmesg_size(const H5F_t *f, hbool_t UNUSED disable_shared, const void UNUSED
  *-------------------------------------------------------------------------
  */
 static herr_t
-H5O_shmesg_debug(H5F_t UNUSED *f, hid_t UNUSED dxpl_id, const void *_mesg, FILE *stream,
+H5O_shmesg_debug(H5F_t H5_ATTR_UNUSED *f, hid_t H5_ATTR_UNUSED dxpl_id, const void *_mesg, FILE *stream,
     int indent, int fwidth)
 {
     const H5O_shmesg_table_t *mesg = (const H5O_shmesg_table_t *)_mesg;
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5O_shmesg_debug)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(f);

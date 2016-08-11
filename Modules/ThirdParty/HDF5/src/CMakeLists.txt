@@ -51,12 +51,17 @@ endif(HDF5_ENABLE_Z_LIB_SUPPORT)
 
 add_subdirectory(itkhdf5)
 
+if(BUILD_SHARED_LIBS)
+  set(target_extension -shared)
+else()
+  set(target_extension -static)
+endif()
 foreach(lib
-    itkhdf5
-    itkhdf5_cpp
+    hdf5
+    hdf5_cpp
     )
-  itk_module_target(${lib} NO_INSTALL)
+  itk_module_target(${lib}${target_extension} NO_INSTALL)
 endforeach()
 if(ITK_LIBRARY_PROPERTIES)
-  set_target_properties(itkhdf5 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+  set_target_properties(hdf5${target_extension} PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 endif()

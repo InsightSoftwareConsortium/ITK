@@ -20,6 +20,7 @@
 #include "H5IdComponent.h"
 #include "H5PropList.h"
 #include "H5Object.h"
+#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
 #include "H5DataType.h"
@@ -34,12 +35,7 @@ namespace H5 {
 ///\brief	Default constructor: Creates a stub ArrayType
 // Programmer	Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::ArrayType() : DataType()
-{
-   // Initialize members
-   rank = -1;
-   dimensions = NULL;
-}
+ArrayType::ArrayType() : DataType() {}
 
 //--------------------------------------------------------------------------
 // Function:	ArrayType overloaded constructor
@@ -48,35 +44,14 @@ ArrayType::ArrayType() : DataType()
 ///\exception	H5::DataTypeIException
 // Programmer	Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::ArrayType( const hid_t existing_id ) : DataType( existing_id )
-{
-   // Get the rank of the existing array and store it in this array
-   rank = H5Tget_array_ndims(existing_id);
-   if (rank < 0)
-   {
-      throw DataTypeIException("ArrayType overloaded constructor", "H5Tget_array_ndims failed");
-   }
-
-   // Get the dimensions of the existing array and store it in this array
-   dimensions = new hsize_t[rank];
-   //hsize_t rdims2[H5S_MAX_RANK];
-   int ret_value = H5Tget_array_dims2(id, dimensions);
-   if (ret_value < 0)
-      throw DataTypeIException("ArrayType::getArrayDims", "H5Tget_array_dims2 failed");
-}
+ArrayType::ArrayType( const hid_t existing_id ) : DataType( existing_id ) {}
 
 //--------------------------------------------------------------------------
 // Function:	ArrayType copy constructor
 ///\brief	Copy constructor: makes a copy of the original ArrayType object.
 // Programmer	Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::ArrayType( const ArrayType& original ) : DataType( original )
-{
-   rank = original.rank;
-   dimensions = new hsize_t[rank];
-   for (int i = 0; i < rank; i++)
-      dimensions[i] = original.dimensions[i];
-}
+ArrayType::ArrayType(const ArrayType& original) : DataType(original) {}
 
 //--------------------------------------------------------------------------
 // Function:	ArrayType overloaded constructor
@@ -90,14 +65,43 @@ ArrayType::ArrayType( const ArrayType& original ) : DataType( original )
 //--------------------------------------------------------------------------
 ArrayType::ArrayType(const DataType& base_type, int ndims, const hsize_t* dims) : DataType()
 {
-   hid_t new_type_id = H5Tarray_create2(base_type.getId(), ndims, dims);
-   if (new_type_id < 0)
-      throw DataTypeIException("ArrayType constructor", "H5Tarray_create2 failed");
-   id = new_type_id;
-   rank = ndims;
-   dimensions = new hsize_t[rank];
-   for (int i = 0; i < rank; i++)
-      dimensions[i] = dims[i];
+    // Call C API to create an array data type
+    hid_t new_type_id = H5Tarray_create2(base_type.getId(), ndims, dims);
+    if (new_type_id < 0)
+	throw DataTypeIException("ArrayType constructor", "H5Tarray_create2 failed");
+
+    // Set the id for this object
+    id = new_type_id;
+}
+
+//--------------------------------------------------------------------------
+// Function:	ArrayType::operator=
+///\brief	Assignment operator
+///\param	rhs - IN: Reference to the existing array datatype
+///\return	Reference to ArrayType instance
+///\exception	H5::DataTypeIException
+///		std::bad_alloc
+// Description
+// 		Closes the id on the lhs object first with setId, then copies
+//		each data member from the rhs object.
+// Programmer	Binh-Minh Ribler - Mar 2016
+// Modification
+//--------------------------------------------------------------------------
+ArrayType& ArrayType::operator=(const ArrayType& rhs)
+{
+    if (this != &rhs)
+    {
+        // handling references to this id
+        try {
+            setId(rhs.id);
+            // Note: a = b, so there are two objects with the same hdf5 id
+            // that's why incRefCount is needed, and it is called by setId
+        }
+        catch (Exception& close_error) {
+            throw DataTypeIException(inMemFunc("operator="), close_error.getDetailMsg());
+        }
+    }
+    return(*this);
 }
 
 //--------------------------------------------------------------------------
@@ -106,20 +110,37 @@ ArrayType::ArrayType(const DataType& base_type, int ndims, const hsize_t* dims) 
 ///\return	Number of dimensions
 ///\exception	H5::DataTypeIException
 // Programmer	Binh-Minh Ribler - May 2004
+// Modification
+//	Apr, 2016
+//		Became const.
+//--------------------------------------------------------------------------
+int ArrayType::getArrayNDims() const
+{
+    // Get the rank of the array type specified by id from the C API
+    int ndims = H5Tget_array_ndims(id);
+    if (ndims < 0)
+    {
+	throw DataTypeIException("ArrayType::setArrayInfo", "H5Tget_array_ndims failed");
+    }
+
+    return(ndims);
+}
+//---------------------------- Deprecated ----------------------------------
+// Function:	ArrayType::getArrayNDims
+// This non-const version of the above method is here for compatibility
+// purposes and may be removed in the future.
+// -BMR, Apr 2016
 //--------------------------------------------------------------------------
 int ArrayType::getArrayNDims()
 {
-   // If the array's rank has not been stored, i.e. rank is init to -1,
-   // retrieve it via the C API
-   if (rank < 0)
-   {
-      rank = H5Tget_array_ndims(id);
-      if (rank < 0)
-      {
-         throw DataTypeIException("ArrayType::getArrayNDims", "H5Tget_array_ndims failed");
-      }
-   }
-   return(rank);
+    // Get the rank of the array type specified by id from the C API
+    int ndims = H5Tget_array_ndims(id);
+    if (ndims < 0)
+    {
+	throw DataTypeIException("ArrayType::setArrayInfo", "H5Tget_array_ndims failed");
+    }
+
+    return(ndims);
 }
 
 //--------------------------------------------------------------------------
@@ -129,25 +150,35 @@ int ArrayType::getArrayNDims()
 ///\return	Number of dimensions
 ///\exception	H5::DataTypeIException
 // Programmer	Binh-Minh Ribler - May 2004
+// Modification
+//	Apr, 2016
+//		Became const.
+//--------------------------------------------------------------------------
+int ArrayType::getArrayDims(hsize_t* dims) const
+{
+    // Get the dimensions
+    int ndims = H5Tget_array_dims2(id, dims);
+    if (ndims < 0)
+	throw DataTypeIException("ArrayType::setArrayInfo", "H5Tget_array_dims2 failed");
+
+    // Return the number of dimensions
+    return(ndims);
+}
+//---------------------------- Deprecated ----------------------------------
+// Function:	ArrayType::getArrayDims
+// This non-const version of the above method is here for compatibility
+// purposes and may be removed in the future.
+// -BMR, Apr 2016
 //--------------------------------------------------------------------------
 int ArrayType::getArrayDims(hsize_t* dims)
 {
-   // if the array's dimensions have not been stored, retrieve them via C API
-   if (dimensions == NULL)
-   {
-      int ndims = H5Tget_array_dims2(id, dims);
-      if (ndims < 0)
-         throw DataTypeIException("ArrayType::getArrayDims", "H5Tget_array_dims2 failed");
-      // store the array's info in memory
-      rank = ndims;
-      dimensions = new hsize_t[rank];
-      for (int i = 0; i < rank; i++)
-         dimensions[i] = dims[i];
-   }
-   // otherwise, simply copy what's in 'dimensions' to 'dims'
-   for (int i = 0; i < rank; i++)
-      dims[i] = dimensions[i];
-   return(rank);
+    // Get the dimensions
+    int ndims = H5Tget_array_dims2(id, dims);
+    if (ndims < 0)
+	throw DataTypeIException("ArrayType::setArrayInfo", "H5Tget_array_dims2 failed");
+
+    // Return the number of dimensions
+    return(ndims);
 }
 
 //--------------------------------------------------------------------------
@@ -155,12 +186,7 @@ int ArrayType::getArrayDims(hsize_t* dims)
 ///\brief	Properly terminates access to this array datatype.
 // Programmer	Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::~ArrayType()
-{
-   // Free allocated memory
-   if (dimensions != NULL)
-      delete []dimensions;
-}
+ArrayType::~ArrayType() {}
 
 #ifndef H5_NO_NAMESPACE
 } // end namespace
