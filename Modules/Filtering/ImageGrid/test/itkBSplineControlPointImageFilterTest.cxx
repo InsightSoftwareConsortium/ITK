@@ -15,20 +15,23 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkBSplineControlPointImageFilter.h"
 
+#include "itkBSplineControlPointImageFilter.h"
+#include "itkImageToImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
-template<unsigned int ImageDimension>
+
+template< unsigned int ImageDimension >
 int BSpline( int argc, char *argv[] )
 {
-  typedef float                    RealType;
-  typedef itk::Vector<RealType, 1> ScalarPixelType;
+  typedef float                      RealType;
+  typedef itk::Vector< RealType, 1 > ScalarPixelType;
 
-  typedef itk::Image<ScalarPixelType, ImageDimension> ScalarFieldType;
+  typedef itk::Image< ScalarPixelType, ImageDimension > ScalarFieldType;
 
-  typedef itk::ImageFileReader<ScalarFieldType> ReaderType;
+  typedef itk::ImageFileReader< ScalarFieldType > ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   if( argc > 2 )
     {
@@ -41,9 +44,7 @@ int BSpline( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  /*
-   * Reconstruction of the scalar field from the control points.
-   */
+  // Reconstruction of the scalar field from the control points
 
   typename ScalarFieldType::PointType origin;
   origin.Fill( 0 );
@@ -52,15 +53,28 @@ int BSpline( int argc, char *argv[] )
   typename ScalarFieldType::SpacingType spacing;
   spacing.Fill( 1.0 );
 
-  typedef itk::BSplineControlPointImageFilter
-  <ScalarFieldType, ScalarFieldType> BSplinerType;
+  typedef itk::BSplineControlPointImageFilter< ScalarFieldType,
+    ScalarFieldType > BSplinerType;
   typename BSplinerType::Pointer bspliner = BSplinerType::New();
+
   bspliner->SetInput( reader->GetOutput() );
+
+  typename BSplinerType::ArrayType splineOrder = 3;
   bspliner->SetSplineOrder( 3 );
+  TEST_SET_GET_VALUE( splineOrder, bspliner->GetSplineOrder() );
+
   bspliner->SetSize( size );
+  TEST_SET_GET_VALUE( size, bspliner->GetSize() );
+
   bspliner->SetOrigin( origin );
+  TEST_SET_GET_VALUE( origin, bspliner->GetOrigin() );
+
   bspliner->SetSpacing( spacing );
-  bspliner->SetDirection( reader->GetOutput()->GetDirection() );
+  TEST_SET_GET_VALUE( spacing, bspliner->GetSpacing() );
+
+  typename BSplinerType::DirectionType direction = reader->GetOutput()->GetDirection();
+  bspliner->SetDirection( direction );
+  TEST_SET_GET_VALUE( direction, bspliner->GetDirection() );
 
   try
     {
@@ -73,17 +87,17 @@ int BSpline( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  typedef itk::ImageFileWriter<ScalarFieldType> WriterType;
+  typedef itk::ImageFileWriter< ScalarFieldType > WriterType;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
   writer->SetInput( bspliner->GetOutput() );
   writer->Update();
 
-  /*
-   * Test out additional functionality by refining the control point lattice
-   * and seeing if the output is the same.  In this example we double the
-   * resolution twice as the refinement is doubled at every level.
-   */
+  //
+  // Test out additional functionality by refining the control point lattice
+  // and seeing if the output is the same. In this example we double the
+  // resolution twice as the refinement is doubled at every level.
+  //
   typename BSplinerType::ArrayType numberOfRefinementLevels;
   numberOfRefinementLevels.Fill( 3 );
 
@@ -127,6 +141,19 @@ int itkBSplineControlPointImageFilterTest( int argc, char *argv[] )
               << std::endl;
     exit( EXIT_FAILURE );
     }
+
+  const unsigned int                 Dimension = 2;
+  typedef float                      RealType;
+  typedef itk::Vector< RealType, 1 > ScalarPixelType;
+
+  typedef itk::Image< ScalarPixelType, Dimension > ScalarFieldType;
+
+  typedef itk::BSplineControlPointImageFilter< ScalarFieldType,
+    ScalarFieldType > BSplinerType;
+  BSplinerType::Pointer bspliner = BSplinerType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( bspliner, BSplineControlPointImageFilter,
+    ImageToImageFilter );
 
   int successOrFailure = EXIT_FAILURE;
 
