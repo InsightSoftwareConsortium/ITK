@@ -42,7 +42,6 @@
 #include "H5Fprivate.h"         /* File access				*/
 #include "H5FDpkg.h"		/* File Drivers				*/
 #include "H5Iprivate.h"		/* IDs			  		*/
-#include "H5Pprivate.h"		/* Property lists			*/
 
 
 /****************/
@@ -97,10 +96,74 @@ DESCRIPTION
 static herr_t
 H5FD_int_init_interface(void)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5FD_int_init_interface)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     FUNC_LEAVE_NOAPI(H5FD_init())
 } /* H5FD_int_init_interface() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:    H5FD_locate_signature
+ *
+ * Purpose:     Finds the HDF5 superblock signature in a file.  The
+ *              signature can appear at address 0, or any power of two
+ *              beginning with 512.
+ *
+ * Return:      Success:        SUCCEED
+ *              Failure:        FAIL
+ *
+ * Programmer:  Robb Matzke
+ *              Friday, November  7, 1997
+ *
+ *-------------------------------------------------------------------------
+ */
+herr_t
+H5FD_locate_signature(H5FD_t *file, const H5P_genplist_t *dxpl, haddr_t *sig_addr)
+{
+    haddr_t         addr, eoa;
+    uint8_t         buf[H5F_SIGNATURE_LEN];
+    unsigned        n, maxpow;
+    herr_t          ret_value = SUCCEED; /* Return value */
+
+    FUNC_ENTER_NOAPI_NOINIT
+
+    /* Find the least N such that 2^N is larger than the file size */
+    if(HADDR_UNDEF == (addr = H5FD_get_eof(file)) || HADDR_UNDEF == (eoa = H5FD_get_eoa(file, H5FD_MEM_SUPER)))
+        HGOTO_ERROR(H5E_IO, H5E_CANTINIT, FAIL, "unable to obtain EOF/EOA value")
+    for(maxpow = 0; addr; maxpow++)
+        addr >>= 1;
+    maxpow = MAX(maxpow, 9);
+
+    /*
+     * Search for the file signature at format address zero followed by
+     * powers of two larger than 9.
+     */
+    for(n = 8; n < maxpow; n++) {
+        addr = (8 == n) ? 0 : (haddr_t)1 << n;
+        if(H5FD_set_eoa(file, H5FD_MEM_SUPER, addr + H5F_SIGNATURE_LEN) < 0)
+            HGOTO_ERROR(H5E_IO, H5E_CANTINIT, FAIL, "unable to set EOA value for file signature")
+        if(H5FD_read(file, dxpl, H5FD_MEM_SUPER, addr, (size_t)H5F_SIGNATURE_LEN, buf) < 0)
+            HGOTO_ERROR(H5E_IO, H5E_CANTINIT, FAIL, "unable to read file signature")
+        if(!HDmemcmp(buf, H5F_SIGNATURE, (size_t)H5F_SIGNATURE_LEN))
+            break;
+    } /* end for */
+
+    /*
+     * If the signature was not found then reset the EOA value and return
+     * HADDR_UNDEF.
+     */
+    if(n >= maxpow) {
+        if(H5FD_set_eoa(file, H5FD_MEM_SUPER, eoa) < 0)
+            HGOTO_ERROR(H5E_IO, H5E_CANTINIT, FAIL, "unable to reset EOA value")
+        *sig_addr = HADDR_UNDEF;
+    } /* end if */
+    else
+        /* Set return value */
+        *sig_addr = addr;
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5FD_locate_signature() */
 
 
 /*-------------------------------------------------------------------------
@@ -117,16 +180,16 @@ H5FD_int_init_interface(void)
  *-------------------------------------------------------------------------
  */
 herr_t
-H5FD_read(H5FD_t *file, hid_t dxpl_id, H5FD_mem_t type, haddr_t addr,
+H5FD_read(H5FD_t *file, const H5P_genplist_t *dxpl, H5FD_mem_t type, haddr_t addr,
     size_t size, void *buf/*out*/)
 {
+    haddr_t     eoa = HADDR_UNDEF;
     herr_t      ret_value = SUCCEED;       /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_read, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(file && file->cls);
-    HDassert(H5I_GENPROP_LST == H5I_get_type(dxpl_id));
-    HDassert(TRUE == H5P_isa_class(dxpl_id, H5P_DATASET_XFER));
+    HDassert(TRUE == H5P_class_isa(H5P_CLASS(dxpl), H5P_CLS_DATASET_XFER_g));
     HDassert(buf);
 
 #ifndef H5_HAVE_PARALLEL
@@ -137,8 +200,14 @@ H5FD_read(H5FD_t *file, hid_t dxpl_id, H5FD_mem_t type, haddr_t addr,
         HGOTO_DONE(SUCCEED)
 #endif /* H5_HAVE_PARALLEL */
 
+    if(HADDR_UNDEF == (eoa = (file->cls->get_eoa)(file, type)))
+	HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, FAIL, "driver get_eoa request failed")
+    if((addr + file->base_addr + size) > eoa)
+        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow, addr = %llu, size=%llu, eoa=%llu", 
+                    (unsigned long long)(addr+ file->base_addr), (unsigned long long)size, (unsigned long long)eoa)
+
     /* Dispatch to driver */
-    if((file->cls->read)(file, type, dxpl_id, addr + file->base_addr, size, buf) < 0)
+    if((file->cls->read)(file, type, H5P_PLIST_ID(dxpl), addr + file->base_addr, size, buf) < 0)
         HGOTO_ERROR(H5E_VFL, H5E_READERROR, FAIL, "driver read request failed")
 
 done:
@@ -160,16 +229,16 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5FD_write(H5FD_t *file, hid_t dxpl_id, H5FD_mem_t type, haddr_t addr,
+H5FD_write(H5FD_t *file, const H5P_genplist_t *dxpl, H5FD_mem_t type, haddr_t addr,
     size_t size, const void *buf)
 {
+    haddr_t     eoa = HADDR_UNDEF;
     herr_t      ret_value = SUCCEED;       /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_write, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(file && file->cls);
-    HDassert(H5I_GENPROP_LST == H5I_get_type(dxpl_id));
-    HDassert(TRUE == H5P_isa_class(dxpl_id, H5P_DATASET_XFER));
+    HDassert(TRUE == H5P_class_isa(H5P_CLASS(dxpl), H5P_CLS_DATASET_XFER_g));
     HDassert(buf);
 
 #ifndef H5_HAVE_PARALLEL
@@ -180,8 +249,14 @@ H5FD_write(H5FD_t *file, hid_t dxpl_id, H5FD_mem_t type, haddr_t addr,
         HGOTO_DONE(SUCCEED)
 #endif /* H5_HAVE_PARALLEL */
 
+    if(HADDR_UNDEF == (eoa = (file->cls->get_eoa)(file, type)))
+	HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, FAIL, "driver get_eoa request failed")
+    if((addr + file->base_addr + size) > eoa)
+        HGOTO_ERROR(H5E_ARGS, H5E_OVERFLOW, FAIL, "addr overflow, addr = %llu, size=%llu, eoa=%llu", 
+                    (unsigned long long)(addr+ file->base_addr), (unsigned long long)size, (unsigned long long)eoa)
+
     /* Dispatch to driver */
-    if((file->cls->write)(file, type, dxpl_id, addr + file->base_addr, size, buf) < 0)
+    if((file->cls->write)(file, type, H5P_PLIST_ID(dxpl), addr + file->base_addr, size, buf) < 0)
         HGOTO_ERROR(H5E_VFL, H5E_WRITEERROR, FAIL, "driver write request failed")
 
 done:
@@ -212,7 +287,7 @@ H5FD_set_eoa(H5FD_t *file, H5FD_mem_t type, haddr_t addr)
 {
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5FD_set_eoa, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(file && file->cls);
     HDassert(H5F_addr_defined(addr) && addr <= file->maxaddr);
@@ -249,7 +324,7 @@ H5FD_get_eoa(const H5FD_t *file, H5FD_mem_t type)
 {
     haddr_t	ret_value;
 
-    FUNC_ENTER_NOAPI(H5FD_get_eoa, HADDR_UNDEF)
+    FUNC_ENTER_NOAPI(HADDR_UNDEF)
 
     HDassert(file && file->cls);
 
@@ -291,14 +366,14 @@ H5FD_get_eof(const H5FD_t *file)
 {
     haddr_t	ret_value;
 
-    FUNC_ENTER_NOAPI(H5FD_get_eof, HADDR_UNDEF)
+    FUNC_ENTER_NOAPI(HADDR_UNDEF)
 
     HDassert(file && file->cls);
 
     /* Dispatch to driver */
     if(file->cls->get_eof) {
 	if(HADDR_UNDEF == (ret_value = (file->cls->get_eof)(file)))
-	    HGOTO_ERROR(H5E_VFL, H5E_CANTINIT, HADDR_UNDEF, "driver get_eof request failed")
+	    HGOTO_ERROR(H5E_VFL, H5E_CANTGET, HADDR_UNDEF, "driver get_eof request failed")
     } /* end if */
     else
 	ret_value = file->maxaddr;

@@ -97,7 +97,7 @@ H5O_chunk_add(H5F_t *f, hid_t dxpl_id, H5O_t *oh, unsigned idx)
     H5O_chunk_proxy_t *chk_proxy = NULL;       /* Proxy for chunk, to mark it dirty in the cache */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5O_chunk_add, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* check args */
     HDassert(f);
@@ -151,7 +151,7 @@ H5O_chunk_protect(H5F_t *f, hid_t dxpl_id, H5O_t *oh, unsigned idx)
     H5O_chunk_proxy_t *chk_proxy = NULL;        /* Proxy for protected chunk */
     H5O_chunk_proxy_t *ret_value;               /* Return value */
 
-    FUNC_ENTER_NOAPI(H5O_chunk_protect, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     /* check args */
     HDassert(f);
@@ -225,7 +225,7 @@ H5O_chunk_unprotect(H5F_t *f, hid_t dxpl_id, H5O_chunk_proxy_t *chk_proxy,
 {
     herr_t ret_value = SUCCEED;        /* Return value */
 
-    FUNC_ENTER_NOAPI(H5O_chunk_unprotect, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* check args */
     HDassert(f);
@@ -277,7 +277,7 @@ H5O_chunk_resize(H5O_t *oh, H5O_chunk_proxy_t *chk_proxy)
 {
     herr_t ret_value = SUCCEED;        /* Return value */
 
-    FUNC_ENTER_NOAPI(H5O_chunk_resize, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* check args */
     HDassert(oh);
@@ -321,7 +321,7 @@ H5O_chunk_update_idx(H5F_t *f, hid_t dxpl_id, H5O_t *oh, unsigned idx)
     H5O_chk_cache_ud_t chk_udata;       /* User data for loading chunk */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5O_chunk_update_idx, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* check args */
     HDassert(f);
@@ -373,7 +373,7 @@ H5O_chunk_delete(H5F_t *f, hid_t dxpl_id, H5O_t *oh, unsigned idx)
     H5O_chk_cache_ud_t chk_udata;       /* User data for loading chunk */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5O_chunk_delete, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* check args */
     HDassert(f);

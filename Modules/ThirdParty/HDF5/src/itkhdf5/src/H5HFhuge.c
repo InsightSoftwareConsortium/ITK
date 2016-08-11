@@ -108,7 +108,7 @@ H5HF_huge_bt2_create(H5HF_hdr_t *hdr, hid_t dxpl_id)
     H5B2_create_t bt2_cparam;           /* v2 B-tree creation parameters */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_bt2_create)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -185,7 +185,7 @@ done:
 herr_t
 H5HF_huge_init(H5HF_hdr_t *hdr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5HF_huge_init)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /*
      * Check arguments.
@@ -263,7 +263,7 @@ H5HF_huge_new_id(H5HF_hdr_t *hdr)
     hsize_t new_id;             /* New object's ID */
     hsize_t ret_value;          /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_new_id)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -316,7 +316,7 @@ H5HF_huge_insert(H5HF_hdr_t *hdr, hid_t dxpl_id, size_t obj_size, void *obj,
     unsigned filter_mask = 0;           /* Filter mask for object (only used for filtered objects) */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_insert)
+    FUNC_ENTER_NOAPI_NOINIT
 #ifdef QAK
 HDfprintf(stderr, "%s: obj_size = %Zu\n", FUNC, obj_size);
 #endif /* QAK */
@@ -511,7 +511,7 @@ H5HF_huge_get_obj_len(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_get_obj_len)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -607,7 +607,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
     unsigned filter_mask = 0;           /* Filter mask for object (only used for filtered objects) */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_op_real)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -653,7 +653,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 
             /* Retrieve the object's address & length */
             obj_addr = found_rec.addr;
-            H5_ASSIGN_OVERFLOW(/* To: */ obj_size, /* From: */ found_rec.len, /* From: */ hsize_t, /* To: */ size_t);
+            H5_CHECKED_ASSIGN(obj_size, size_t, found_rec.len, hsize_t);
             filter_mask = found_rec.filter_mask;
         } /* end if */
         else {
@@ -669,7 +669,7 @@ H5HF_huge_op_real(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 
             /* Retrieve the object's address & length */
             obj_addr = found_rec.addr;
-            H5_ASSIGN_OVERFLOW(/* To: */ obj_size, /* From: */ found_rec.len, /* From: */ hsize_t, /* To: */ size_t);
+            H5_CHECKED_ASSIGN(obj_size, size_t, found_rec.len, hsize_t);
         } /* end else */
     } /* end else */
 
@@ -752,7 +752,7 @@ H5HF_huge_write(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
     size_t obj_size;                    /* Object's size in the file */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_write)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -797,7 +797,7 @@ H5HF_huge_write(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 
         /* Retrieve the object's address & length */
         obj_addr = found_rec.addr;
-        H5_ASSIGN_OVERFLOW(/* To: */ obj_size, /* From: */ found_rec.len, /* From: */ hsize_t, /* To: */ size_t);
+        H5_CHECKED_ASSIGN(obj_size, size_t, found_rec.len, hsize_t);
     } /* end else */
 
     /* Write the object's data to the file */
@@ -828,7 +828,7 @@ H5HF_huge_read(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id, void *obj)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_read)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -865,7 +865,7 @@ H5HF_huge_op(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id,
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_op)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -899,10 +899,10 @@ done:
 herr_t
 H5HF_huge_remove(H5HF_hdr_t *hdr, hid_t dxpl_id, const uint8_t *id)
 {
-    H5HF_huge_remove_ud1_t udata;       /* User callback data for v2 B-tree remove call */
+    H5HF_huge_remove_ud_t udata;       /* User callback data for v2 B-tree remove call */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_remove)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -1010,7 +1010,7 @@ H5HF_huge_term(H5HF_hdr_t *hdr, hid_t dxpl_id)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_term)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -1072,11 +1072,11 @@ done:
 herr_t
 H5HF_huge_delete(H5HF_hdr_t *hdr, hid_t dxpl_id)
 {
-    H5HF_huge_remove_ud1_t udata;       /* User callback data for v2 B-tree remove call */
+    H5HF_huge_remove_ud_t udata;       /* User callback data for v2 B-tree remove call */
     H5B2_remove_t op;                   /* Callback for v2 B-tree removal */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5HF_huge_delete)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.

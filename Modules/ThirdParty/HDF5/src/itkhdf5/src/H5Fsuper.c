@@ -93,74 +93,10 @@ DESCRIPTION
 static herr_t
 H5F_init_super_interface(void)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5F_init_super_interface)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     FUNC_LEAVE_NOAPI(H5F_init())
 } /* H5F_init_super_interface() */
-
-
-/*-------------------------------------------------------------------------
- * Function:	H5F_locate_signature
- *
- * Purpose:	Finds the HDF5 superblock signature in a file.	The signature
- *		can appear at address 0, or any power of two beginning with
- *		512.
- *
- * Return:	Success:	The absolute format address of the signature.
- *
- *		Failure:	HADDR_UNDEF
- *
- * Programmer:	Robb Matzke
- *		Friday, November  7, 1997
- *
- *-------------------------------------------------------------------------
- */
-haddr_t
-H5F_locate_signature(H5FD_t *file, hid_t dxpl_id)
-{
-    haddr_t	    addr, eoa;
-    uint8_t	    buf[H5F_SIGNATURE_LEN];
-    unsigned	    n, maxpow;
-    haddr_t         ret_value;       /* Return value */
-
-    FUNC_ENTER_NOAPI_NOINIT(H5F_locate_signature)
-
-    /* Find the least N such that 2^N is larger than the file size */
-    if(HADDR_UNDEF == (addr = H5FD_get_eof(file)) || HADDR_UNDEF == (eoa = H5FD_get_eoa(file, H5FD_MEM_SUPER)))
-	HGOTO_ERROR(H5E_IO, H5E_CANTINIT, HADDR_UNDEF, "unable to obtain EOF/EOA value")
-    for(maxpow = 0; addr; maxpow++)
-        addr >>= 1;
-    maxpow = MAX(maxpow, 9);
-
-    /*
-     * Search for the file signature at format address zero followed by
-     * powers of two larger than 9.
-     */
-    for(n = 8; n < maxpow; n++) {
-	addr = (8 == n) ? 0 : (haddr_t)1 << n;
-	if(H5FD_set_eoa(file, H5FD_MEM_SUPER, addr + H5F_SIGNATURE_LEN) < 0)
-	    HGOTO_ERROR(H5E_IO, H5E_CANTINIT, HADDR_UNDEF, "unable to set EOA value for file signature")
-	if(H5FD_read(file, dxpl_id, H5FD_MEM_SUPER, addr, (size_t)H5F_SIGNATURE_LEN, buf) < 0)
-	    HGOTO_ERROR(H5E_IO, H5E_CANTINIT, HADDR_UNDEF, "unable to read file signature")
-	if(!HDmemcmp(buf, H5F_SIGNATURE, (size_t)H5F_SIGNATURE_LEN))
-            break;
-    } /* end for */
-
-    /*
-     * If the signature was not found then reset the EOA value and return
-     * failure.
-     */
-    if(n >= maxpow) {
-	(void)H5FD_set_eoa(file, H5FD_MEM_SUPER, eoa); /* Ignore return value */
-	HGOTO_ERROR(H5E_IO, H5E_CANTINIT, HADDR_UNDEF, "unable to find a valid file signature")
-    } /* end if */
-
-    /* Set return value */
-    ret_value = addr;
-
-done:
-    FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5F_locate_signature() */
 
 
 /*-------------------------------------------------------------------------
@@ -180,7 +116,7 @@ H5F_super_ext_create(H5F_t *f, hid_t dxpl_id, H5O_loc_t *ext_ptr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_super_ext_create)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(f);
@@ -233,7 +169,7 @@ H5F_super_ext_open(H5F_t *f, haddr_t ext_addr, H5O_loc_t *ext_ptr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_super_ext_open)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(f);
@@ -272,7 +208,7 @@ H5F_super_ext_close(H5F_t *f, H5O_loc_t *ext_ptr, hid_t dxpl_id,
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_super_ext_close)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(f);
@@ -320,6 +256,7 @@ done:
 herr_t
 H5F_super_read(H5F_t *f, hid_t dxpl_id)
 {
+    H5P_genplist_t     *dxpl;               /* DXPL object */
     H5F_super_t *       sblock = NULL;      /* superblock structure                         */
     unsigned            sblock_flags = H5AC__NO_FLAGS_SET;       /* flags used in superblock unprotect call      */
     haddr_t             super_addr;         /* Absolute address of superblock */
@@ -327,11 +264,17 @@ H5F_super_read(H5F_t *f, hid_t dxpl_id)
     hbool_t             dirtied = FALSE;    /* Bool for sblock protect call                 */
     herr_t              ret_value = SUCCEED; /* return value                                */
 
-    FUNC_ENTER_NOAPI(H5F_super_read, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
+
+    /* Get the DXPL plist object for DXPL ID */
+    if(NULL == (dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
 
     /* Find the superblock */
-    if(HADDR_UNDEF == (super_addr = H5F_locate_signature(f->shared->lf, dxpl_id)))
-        HGOTO_ERROR(H5E_FILE, H5E_NOTHDF5, FAIL, "unable to find file signature")
+    if(H5FD_locate_signature(f->shared->lf, dxpl, &super_addr) < 0)
+        HGOTO_ERROR(H5E_FILE, H5E_NOTHDF5, FAIL, "unable to locate file signature")
+    if(HADDR_UNDEF == super_addr)
+        HGOTO_ERROR(H5E_FILE, H5E_NOTHDF5, FAIL, "file signature not found")
 
     /* Check for userblock present */
     if(H5F_addr_gt(super_addr, 0)) {
@@ -401,7 +344,7 @@ H5F_super_init(H5F_t *f, hid_t dxpl_id)
     hbool_t         ext_created = FALSE; /* Whether the extension has been created */
     herr_t          ret_value = SUCCEED; /* Return Value                              */
 
-    FUNC_ENTER_NOAPI(H5F_super_init, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Allocate space for the superblock */
     if(NULL == (sblock = H5FL_CALLOC(H5F_super_t)))
@@ -485,7 +428,7 @@ H5F_super_init(H5F_t *f, hid_t dxpl_id)
     superblock_size = (hsize_t)H5F_SUPERBLOCK_SIZE(super_vers, f);
 
     /* Compute the size of the driver information block */
-    H5_ASSIGN_OVERFLOW(driver_size, H5FD_sb_size(f->shared->lf), hsize_t, size_t);
+    H5_CHECKED_ASSIGN(driver_size, size_t, H5FD_sb_size(f->shared->lf), hsize_t);
     if(driver_size > 0) {
         driver_size += H5F_DRVINFOBLOCK_HDR_SIZE;
 
@@ -653,7 +596,7 @@ H5F_super_dirty(H5F_t *f)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5F_super_dirty, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
     HDassert(f);
@@ -685,7 +628,7 @@ done:
 herr_t
 H5F_super_free(H5F_super_t *sblock)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5F_super_free)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(sblock);
@@ -718,7 +661,7 @@ H5F_super_size(H5F_t *f, hid_t dxpl_id, hsize_t *super_size, hsize_t *super_ext_
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5F_super_size, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
     HDassert(f);
@@ -777,7 +720,7 @@ H5F_super_ext_write_msg(H5F_t *f, hid_t dxpl_id, void *mesg, unsigned id, hbool_
     htri_t 	status;       	/* Indicate whether the message exists or not */
     herr_t 	ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5F_super_ext_write_msg, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity checks */
     HDassert(f);

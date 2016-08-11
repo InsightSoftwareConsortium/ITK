@@ -138,7 +138,7 @@ typedef struct H5FL_reg_head_t {
 #else /* H5_NO_REG_FREE_LISTS */
 #include "H5MMprivate.h"
 /* Common macro for H5FL_DEFINE & H5FL_DEFINE_STATIC */
-#define H5FL_DEFINE_COMMON(t) int UNUSED H5FL_REG_NAME(t)
+#define H5FL_DEFINE_COMMON(t) int H5_ATTR_UNUSED H5FL_REG_NAME(t)
 
 #define H5FL_DEFINE(t)  H5_DLL H5FL_DEFINE_COMMON(t)
 #define H5FL_EXTERN(t)  H5_DLLVAR H5FL_DEFINE_COMMON(t)
@@ -208,7 +208,7 @@ typedef struct H5FL_blk_head_t {
 
 #else /* H5_NO_BLK_FREE_LISTS */
 /* Common macro for H5FL_BLK_DEFINE & H5FL_BLK_DEFINE_STATIC */
-#define H5FL_BLK_DEFINE_COMMON(t) int UNUSED H5FL_BLK_NAME(t)
+#define H5FL_BLK_DEFINE_COMMON(t) int H5_ATTR_UNUSED H5FL_BLK_NAME(t)
 
 #define H5FL_BLK_DEFINE(t)      H5_DLL H5FL_BLK_DEFINE_COMMON(t)
 #define H5FL_BLK_EXTERN(t)      H5_DLLVAR H5FL_BLK_DEFINE_COMMON(t)
@@ -337,7 +337,7 @@ typedef struct H5FL_seq_head_t {
 
 #else /* H5_NO_SEQ_FREE_LISTS */
 /* Common macro for H5FL_SEQ_DEFINE & H5FL_SEQ_DEFINE_STATIC */
-#define H5FL_SEQ_DEFINE_COMMON(t) int UNUSED H5FL_SEQ_NAME(t)
+#define H5FL_SEQ_DEFINE_COMMON(t) int H5_ATTR_UNUSED H5FL_SEQ_NAME(t)
 
 #define H5FL_SEQ_DEFINE(t)      H5_DLL H5FL_SEQ_DEFINE_COMMON(t)
 #define H5FL_SEQ_EXTERN(t)      H5_DLLVAR H5FL_SEQ_DEFINE_COMMON(t)

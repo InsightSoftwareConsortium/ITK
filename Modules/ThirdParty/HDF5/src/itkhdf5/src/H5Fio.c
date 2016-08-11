@@ -38,6 +38,7 @@
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5Fpkg.h"             /* File access				*/
 #include "H5FDprivate.h"	/* File drivers				*/
+#include "H5Iprivate.h"		/* IDs			  		*/
 
 
 /****************/
@@ -95,9 +96,10 @@ herr_t
 H5F_block_read(const H5F_t *f, H5FD_mem_t type, haddr_t addr, size_t size,
     hid_t dxpl_id, void *buf/*out*/)
 {
+    H5F_io_info_t fio_info;             /* I/O info for operation */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5F_block_read, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(f);
     HDassert(f->shared);
@@ -108,8 +110,13 @@ H5F_block_read(const H5F_t *f, H5FD_mem_t type, haddr_t addr, size_t size,
     if(H5F_addr_le(f->shared->tmp_addr, (addr + size)))
         HGOTO_ERROR(H5E_IO, H5E_BADRANGE, FAIL, "attempting I/O in temporary file space")
 
+    /* Set up I/O info for operation */
+    fio_info.f = f;
+    if(NULL == (fio_info.dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+
     /* Pass through metadata accumulator layer */
-    if(H5F_accum_read(f, dxpl_id, type, addr, size, buf) < 0)
+    if(H5F__accum_read(&fio_info, type, addr, size, buf) < 0)
         HGOTO_ERROR(H5E_IO, H5E_READERROR, FAIL, "read through metadata accumulator failed")
 
 done:
@@ -136,16 +143,17 @@ herr_t
 H5F_block_write(const H5F_t *f, H5FD_mem_t type, haddr_t addr, size_t size,
     hid_t dxpl_id, const void *buf)
 {
+    H5F_io_info_t fio_info;             /* I/O info for operation */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5F_block_write, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 #ifdef QAK
 HDfprintf(stderr, "%s: write to addr = %a, size = %Zu\n", FUNC, addr, size);
 #endif /* QAK */
 
     HDassert(f);
     HDassert(f->shared);
-    HDassert(f->intent & H5F_ACC_RDWR);
+    HDassert(H5F_INTENT(f) & H5F_ACC_RDWR);
     HDassert(buf);
     HDassert(H5F_addr_defined(addr));
 
@@ -153,8 +161,13 @@ HDfprintf(stderr, "%s: write to addr = %a, size = %Zu\n", FUNC, addr, size);
     if(H5F_addr_le(f->shared->tmp_addr, (addr + size)))
         HGOTO_ERROR(H5E_IO, H5E_BADRANGE, FAIL, "attempting I/O in temporary file space")
 
+    /* Set up I/O info for operation */
+    fio_info.f = f;
+    if(NULL == (fio_info.dxpl = (H5P_genplist_t *)H5I_object(dxpl_id)))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "can't get property list")
+
     /* Pass through metadata accumulator layer */
-    if(H5F_accum_write(f, dxpl_id, type, addr, size, buf) < 0)
+    if(H5F__accum_write(&fio_info, type, addr, size, buf) < 0)
         HGOTO_ERROR(H5E_IO, H5E_WRITEERROR, FAIL, "write through metadata accumulator failed")
 
 done:

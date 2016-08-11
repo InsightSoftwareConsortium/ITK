@@ -37,7 +37,7 @@
 #include "H5B2pkg.h"		/* v2 B-trees				*/
 #include "H5Eprivate.h"		/* Error handling		  	*/
 #include "H5MFprivate.h"	/* File memory management		*/
-#include "H5Vprivate.h"		/* Vectors and arrays 			*/
+#include "H5VMprivate.h"		/* Vectors and arrays 			*/
 
 /****************/
 /* Local Macros */
@@ -115,7 +115,7 @@ H5B2_hdr_init(H5B2_hdr_t *hdr, const H5B2_create_t *cparam, void *ctx_udata,
     unsigned u;                         /* Local index variable */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B2_hdr_init)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -160,13 +160,13 @@ HDmemset(hdr->page, 0, hdr->node_size);
 
     /* Initialize leaf node info */
     sz_max_nrec = H5B2_NUM_LEAF_REC(hdr->node_size, hdr->rrec_size);
-    H5_ASSIGN_OVERFLOW(/* To: */ hdr->node_info[0].max_nrec, /* From: */ sz_max_nrec, /* From: */ size_t, /* To: */ unsigned)
+    H5_CHECKED_ASSIGN(hdr->node_info[0].max_nrec, unsigned, sz_max_nrec, size_t)
     hdr->node_info[0].split_nrec = (hdr->node_info[0].max_nrec * hdr->split_percent) / 100;
     hdr->node_info[0].merge_nrec = (hdr->node_info[0].max_nrec * hdr->merge_percent) / 100;
     hdr->node_info[0].cum_max_nrec = hdr->node_info[0].max_nrec;
     hdr->node_info[0].cum_max_nrec_size = 0;
     if(NULL == (hdr->node_info[0].nat_rec_fac = H5FL_fac_init(hdr->cls->nrec_size * hdr->node_info[0].max_nrec)))
-	HGOTO_ERROR(H5E_BTREE, H5E_CANTINIT, FAIL, "can't create node native key block factory")
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTINIT, FAIL, "can't create node native key block factory")
     hdr->node_info[0].node_ptr_fac = NULL;
 
     /* Allocate array of pointers to internal node native keys */
@@ -181,15 +181,15 @@ HDmemset(hdr->page, 0, hdr->node_size);
 
     /* Compute size to store # of records in each node */
     /* (uses leaf # of records because its the largest) */
-    u_max_nrec_size = H5V_limit_enc_size((uint64_t)hdr->node_info[0].max_nrec);
-    H5_ASSIGN_OVERFLOW(/* To: */ hdr->max_nrec_size, /* From: */ u_max_nrec_size, /* From: */ unsigned, /* To: */ uint8_t)
+    u_max_nrec_size = H5VM_limit_enc_size((uint64_t)hdr->node_info[0].max_nrec);
+    H5_CHECKED_ASSIGN(hdr->max_nrec_size, uint8_t, u_max_nrec_size, unsigned)
     HDassert(hdr->max_nrec_size <= H5B2_SIZEOF_RECORDS_PER_NODE);
 
     /* Initialize internal node info */
     if(depth > 0) {
         for(u = 1; u < (unsigned)(depth + 1); u++) {
             sz_max_nrec = H5B2_NUM_INT_REC(hdr, u);
-            H5_ASSIGN_OVERFLOW(/* To: */ hdr->node_info[u].max_nrec, /* From: */ sz_max_nrec, /* From: */ size_t, /* To: */ unsigned)
+            H5_CHECKED_ASSIGN(hdr->node_info[u].max_nrec, unsigned, sz_max_nrec, size_t)
             HDassert(hdr->node_info[u].max_nrec <= hdr->node_info[u - 1].max_nrec);
 
             hdr->node_info[u].split_nrec = (hdr->node_info[u].max_nrec * hdr->split_percent) / 100;
@@ -197,8 +197,8 @@ HDmemset(hdr->page, 0, hdr->node_size);
 
             hdr->node_info[u].cum_max_nrec = ((hdr->node_info[u].max_nrec + 1) *
                 hdr->node_info[u - 1].cum_max_nrec) + hdr->node_info[u].max_nrec;
-            u_max_nrec_size = H5V_limit_enc_size((uint64_t)hdr->node_info[u].cum_max_nrec);
-            H5_ASSIGN_OVERFLOW(/* To: */ hdr->node_info[u].cum_max_nrec_size, /* From: */ u_max_nrec_size, /* From: */ unsigned, /* To: */ uint8_t)
+            u_max_nrec_size = H5VM_limit_enc_size((uint64_t)hdr->node_info[u].cum_max_nrec);
+            H5_CHECKED_ASSIGN(hdr->node_info[u].cum_max_nrec_size, uint8_t, u_max_nrec_size, unsigned)
 
             if(NULL == (hdr->node_info[u].nat_rec_fac = H5FL_fac_init(hdr->cls->nrec_size * hdr->node_info[u].max_nrec)))
                 HGOTO_ERROR(H5E_BTREE, H5E_CANTINIT, FAIL, "can't create node native key block factory")
@@ -241,7 +241,7 @@ H5B2_hdr_alloc(H5F_t *f)
     H5B2_hdr_t *hdr = NULL;             /* v2 B-tree header */
     H5B2_hdr_t *ret_value;              /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B2_hdr_alloc)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -250,7 +250,7 @@ H5B2_hdr_alloc(H5F_t *f)
 
     /* Allocate space for the shared information */
     if(NULL == (hdr = H5FL_CALLOC(H5B2_hdr_t)))
-	HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, NULL, "memory allocation failed for B-tree header")
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, NULL, "memory allocation failed for B-tree header")
 
     /* Assign non-zero information */
     hdr->f = f;
@@ -288,7 +288,7 @@ H5B2_hdr_create(H5F_t *f, hid_t dxpl_id, const H5B2_create_t *cparam,
     H5B2_hdr_t *hdr = NULL;     /* The new v2 B-tree header information */
     haddr_t ret_value;          /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B2_hdr_create)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -298,19 +298,19 @@ H5B2_hdr_create(H5F_t *f, hid_t dxpl_id, const H5B2_create_t *cparam,
 
     /* Allocate v2 B-tree header */
     if(NULL == (hdr = H5B2_hdr_alloc(f)))
-	HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, HADDR_UNDEF, "allocation failed for B-tree header")
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, HADDR_UNDEF, "allocation failed for B-tree header")
 
     /* Initialize shared B-tree info */
     if(H5B2_hdr_init(hdr, cparam, ctx_udata, (uint16_t)0) < 0)
-	HGOTO_ERROR(H5E_BTREE, H5E_CANTINIT, HADDR_UNDEF, "can't create shared B-tree info")
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTINIT, HADDR_UNDEF, "can't create shared B-tree info")
 
     /* Allocate space for the header on disk */
     if(HADDR_UNDEF == (hdr->addr = H5MF_alloc(f, H5FD_MEM_BTREE, dxpl_id, (hsize_t)hdr->hdr_size)))
-	HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, HADDR_UNDEF, "file allocation failed for B-tree header")
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTALLOC, HADDR_UNDEF, "file allocation failed for B-tree header")
 
     /* Cache the new B-tree node */
     if(H5AC_insert_entry(f, dxpl_id, H5AC_BT2_HDR, hdr->addr, hdr, H5AC__NO_FLAGS_SET) < 0)
-	HGOTO_ERROR(H5E_BTREE, H5E_CANTINSERT, HADDR_UNDEF, "can't add B-tree header to cache")
+        HGOTO_ERROR(H5E_BTREE, H5E_CANTINSERT, HADDR_UNDEF, "can't add B-tree header to cache")
 
     /* Set address of v2 B-tree header to return */
     ret_value = hdr->addr;
@@ -342,7 +342,7 @@ H5B2_hdr_incr(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B2_hdr_incr)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity checks */
     HDassert(hdr);
@@ -378,7 +378,7 @@ H5B2_hdr_decr(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B2_hdr_decr)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(hdr);
@@ -398,22 +398,22 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_fuse_incr
+ * Function:    H5B2_hdr_fuse_incr
  *
- * Purpose:	Increment file reference count on shared v2 B-tree header
+ * Purpose:     Increment file reference count on shared v2 B-tree header
  *
- * Return:	Non-negative on success/Negative on failure
+ * Return:      SUCCEED (Can't fail)
  *
- * Programmer:	Quincey Koziol
- *		koziol@hdfgroup.org
- *		Oct 27 2009
+ * Programmer:  Quincey Koziol
+ *              koziol@hdfgroup.org
+ *              Oct 27 2009
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5B2_hdr_fuse_incr(H5B2_hdr_t *hdr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5B2_hdr_fuse_incr)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(hdr);
@@ -426,22 +426,22 @@ H5B2_hdr_fuse_incr(H5B2_hdr_t *hdr)
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5B2_hdr_fuse_decr
+ * Function:    H5B2_hdr_fuse_decr
  *
- * Purpose:	Decrement file reference count on shared v2 B-tree header
+ * Purpose:     Decrement file reference count on shared v2 B-tree header
  *
- * Return:	Non-negative on success/Negative on failure
+ * Return:      The file's reference count after the decrement. (Can't fail)
  *
- * Programmer:	Quincey Koziol
- *		koziol@hdfgroup.org
- *		Oct 27 2009
+ * Programmer:  Quincey Koziol
+ *              koziol@hdfgroup.org
+ *              Oct 27 2009
  *
  *-------------------------------------------------------------------------
  */
 size_t
 H5B2_hdr_fuse_decr(H5B2_hdr_t *hdr)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5B2_hdr_fuse_decr)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(hdr);
@@ -472,7 +472,7 @@ H5B2_hdr_dirty(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B2_hdr_dirty)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(hdr);
@@ -504,7 +504,7 @@ H5B2_hdr_free(H5B2_hdr_t *hdr)
 {
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5B2_hdr_free)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity check */
     HDassert(hdr);
@@ -542,6 +542,16 @@ H5B2_hdr_free(H5B2_hdr_t *hdr)
         hdr->node_info = H5FL_SEQ_FREE(H5B2_node_info_t, hdr->node_info);
     } /* end if */
 
+    /* Release the min & max record info, if set */
+    if(hdr->min_native_rec) {
+	HDfree(hdr->min_native_rec);
+	hdr->min_native_rec = NULL;
+    } /* end if */
+    if(hdr->max_native_rec) {
+	HDfree(hdr->max_native_rec);
+	hdr->max_native_rec = NULL;
+    } /* end if */
+
     /* Free B-tree header info */
     hdr = H5FL_FREE(H5B2_hdr_t, hdr);
 
@@ -569,7 +579,7 @@ H5B2_hdr_delete(H5B2_hdr_t *hdr, hid_t dxpl_id)
     unsigned cache_flags = H5AC__NO_FLAGS_SET;  /* Flags for unprotecting v2 B-tree header */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5B2_hdr_delete, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity check */
     HDassert(hdr);
@@ -601,6 +611,6 @@ done:
     if(H5AC_unprotect(hdr->f, dxpl_id, H5AC_BT2_HDR, hdr->addr, hdr, cache_flags) < 0)
         HDONE_ERROR(H5E_BTREE, H5E_CANTUNPROTECT, FAIL, "unable to release B-tree header")
 
-    FUNC_LEAVE_NOAPI(SUCCEED)
+    FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5B2_hdr_delete() */
 

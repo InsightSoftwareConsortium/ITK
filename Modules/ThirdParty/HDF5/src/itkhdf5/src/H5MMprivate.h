@@ -33,19 +33,13 @@
 /* Private headers needed by this file */
 #include "H5private.h"
 
-#ifdef NDEBUG
-#define H5MM_malloc(Z)	HDmalloc(Z)
-#define H5MM_calloc(Z)	HDcalloc((size_t)1,Z)
-#endif /* NDEBUG */
 #define H5MM_free(Z)	HDfree(Z)
 
 /*
  * Library prototypes...
  */
-#ifndef NDEBUG
 H5_DLL void *H5MM_malloc(size_t size);
 H5_DLL void *H5MM_calloc(size_t size);
-#endif /* NDEBUG */
 H5_DLL void *H5MM_realloc(void *mem, size_t size);
 H5_DLL char *H5MM_xstrdup(const char *s);
 H5_DLL char *H5MM_strdup(const char *s);

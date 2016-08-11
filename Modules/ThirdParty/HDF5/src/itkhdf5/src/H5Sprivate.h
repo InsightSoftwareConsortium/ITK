@@ -31,6 +31,7 @@
 #include "H5Gprivate.h"		/* Groups				*/
 #include "H5Oprivate.h"		/* Object headers		  	*/
 #include "H5Pprivate.h"		/* Property lists			*/
+#include "H5Tprivate.h"		/* Datatypes				*/
 
 /* Flags for H5S_find */
 #define H5S_CONV_PAR_IO_POSSIBLE        0x0001
@@ -114,6 +115,29 @@ typedef struct H5S_sel_iter_t {
         H5S_all_iter_t all;     /* "All" selection iteration information */
     } u;
 } H5S_sel_iter_t;
+
+/* Selection iteration operator for internal library callbacks */
+typedef herr_t (*H5S_sel_iter_lib_op_t)(void *elem, const H5T_t *type,
+        unsigned ndim, const hsize_t *point, void *op_data);
+
+/* Describe kind of callback to make */
+typedef enum H5S_sel_iter_op_type_t {
+    H5S_SEL_ITER_OP_APP,                /* Application callback */
+    H5S_SEL_ITER_OP_LIB                 /* Library internal callback */
+} H5S_sel_iter_op_type_t;
+
+typedef struct H5S_sel_iter_app_op_t {
+    H5D_operator_t op;                  /* Callback */
+    hid_t type_id;                      /* Type ID to be passed to callback */
+} H5S_sel_iter_app_op_t;
+
+typedef struct H5S_sel_iter_op_t {
+    H5S_sel_iter_op_type_t op_type;
+    union {
+        H5S_sel_iter_app_op_t app_op;   /* Application callback */
+        H5S_sel_iter_lib_op_t lib_op;   /* Library internal callback */
+    } u;
+} H5S_sel_iter_op_t;
 
 /* If the module using this macro is allowed access to the private variables, access them directly */
 #ifdef H5S_PACKAGE
@@ -208,8 +232,8 @@ H5_DLL htri_t H5S_extent_equal(const H5S_t *ds1, const H5S_t *ds2);
 /* Operations on selections */
 H5_DLL herr_t H5S_select_deserialize(H5S_t *space, const uint8_t *buf);
 H5_DLL H5S_sel_type H5S_get_select_type(const H5S_t *space);
-H5_DLL herr_t H5S_select_iterate(void *buf, hid_t type_id, const H5S_t *space,
-    H5D_operator_t op, void *operator_data);
+H5_DLL herr_t H5S_select_iterate(void *buf, const H5T_t *type, const H5S_t *space,
+    const H5S_sel_iter_op_t *op, void *op_data);
 H5_DLL herr_t H5S_select_fill(const void *fill, size_t fill_size,
     const H5S_t *space, void *buf);
 H5_DLL htri_t H5S_select_valid(const H5S_t *space);
@@ -268,16 +292,13 @@ H5_DLL herr_t H5S_select_iter_next(H5S_sel_iter_t *sel_iter, size_t nelem);
 H5_DLL herr_t H5S_select_iter_release(H5S_sel_iter_t *sel_iter);
 
 #ifdef H5_HAVE_PARALLEL
-/* Global vars whose value comes from environment variable */
-/* (Defined in H5S.c) */
-H5_DLLVAR hbool_t		H5S_mpi_opt_types_g;
-
-H5_DLL herr_t
-H5S_mpio_space_type( const H5S_t *space, size_t elmt_size,
-     /* out: */
-     MPI_Datatype *new_type,
-     int *count,
-     hbool_t *is_derived_type );
+H5_DLL herr_t H5S_mpio_space_type(const H5S_t *space, size_t elmt_size,
+    /* out: */  MPI_Datatype *new_type,
+                int *count,
+                hbool_t *is_derived_type,
+                hbool_t do_permute, 
+                hsize_t **permute_map,
+                hbool_t * is_permuted);
 #endif /* H5_HAVE_PARALLEL */
 
 #endif /* _H5Sprivate_H */

@@ -44,6 +44,41 @@
 #include "H5Pprivate.h"         /* Property Lists			*/
 
 
+/****************/
+/* Local Macros */
+/****************/
+
+
+/******************/
+/* Local Typedefs */
+/******************/
+
+
+/********************/
+/* Package Typedefs */
+/********************/
+
+
+/********************/
+/* Local Prototypes */
+/********************/
+
+
+/*********************/
+/* Package Variables */
+/*********************/
+
+
+/*****************************/
+/* Library Private Variables */
+/*****************************/
+
+
+/*******************/
+/* Local Variables */
+/*******************/
+
+
 
 /*-------------------------------------------------------------------------
  * Function:	H5G_rootof
@@ -66,7 +101,7 @@
 H5G_t *
 H5G_rootof(H5F_t *f)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5G_rootof)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(f);
@@ -119,7 +154,7 @@ H5G_mkroot(H5F_t *f, hid_t dxpl_id, hbool_t create_root)
     hbool_t     path_init = FALSE;      /* Whether path was initialized */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_mkroot, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* check args */
     HDassert(f);
@@ -131,7 +166,7 @@ H5G_mkroot(H5F_t *f, hid_t dxpl_id, hbool_t create_root)
         HGOTO_DONE(SUCCEED)
 
     /* Create information needed for group nodes */
-    if(H5G_node_init(f) < 0)
+    if(H5G__node_init(f) < 0)
         HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to create group node info")
 
     /*
@@ -159,7 +194,7 @@ H5G_mkroot(H5F_t *f, hid_t dxpl_id, hbool_t create_root)
         /* (Pass the FCPL which is a sub-class of the group creation property class) */
         gcrt_info.gcpl_id = f->shared->fcpl_id;
         gcrt_info.cache_type = H5G_NOTHING_CACHED;
-	if(H5G_obj_create(f, dxpl_id, &gcrt_info, root_loc.oloc/*out*/) < 0)
+	if(H5G__obj_create(f, dxpl_id, &gcrt_info, root_loc.oloc/*out*/) < 0)
 	    HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to create group entry")
 	if(1 != H5O_link(root_loc.oloc, 1, dxpl_id))
 	    HGOTO_ERROR(H5E_SYM, H5E_LINKCOUNT, FAIL, "internal error (wrong link count)")
@@ -220,7 +255,7 @@ H5G_mkroot(H5F_t *f, hid_t dxpl_id, hbool_t create_root)
 
                 /* Check if the symbol table message is valid, and replace with the
                 * cached symbol table if necessary */
-                if(H5G_stab_valid(root_loc.oloc, dxpl_id, &cached_stab) < 0)
+                if(H5G__stab_valid(root_loc.oloc, dxpl_id, &cached_stab) < 0)
                     HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "unable to verify symbol table")
             } /* end if */
 #endif /* H5_STRICT_FORMAT_CHECKS */
@@ -258,7 +293,7 @@ H5G_mkroot(H5F_t *f, hid_t dxpl_id, hbool_t create_root)
     } /* end if */
 
     /* Create the path names for the root group's entry */
-    H5G_name_init(root_loc.path, "/");
+    H5G__name_init(root_loc.path, "/");
     path_init = TRUE;
 
     f->shared->root_grp->shared->fo_count = 1;
@@ -312,7 +347,7 @@ done:
 herr_t
 H5G_root_free(H5G_t *grp)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5G_root_free)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(grp && grp->shared);
@@ -348,7 +383,7 @@ H5G_root_loc(H5F_t *f, H5G_loc_t *loc)
     H5G_t *root_grp;                    /* Pointer to root group's info */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_root_loc, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(f);
     HDassert(loc);

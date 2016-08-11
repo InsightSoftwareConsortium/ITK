@@ -21,14 +21,11 @@
 #include "H5PropList.h"
 #include "H5Object.h"
 #include "H5AbstractDs.h"
+#include "H5DataSpace.h"
+#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
 #include "H5Alltypes.h"
-
-#include <iostream> // remove when done
-
-    using std::cerr;
-    using std::endl;
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
@@ -45,15 +42,14 @@ AbstractDs::AbstractDs(){}
 // Function:	AbstractDs default constructor
 ///\brief	Creates an AbstractDs instance using an existing id.
 // Programmer	Binh-Minh Ribler - 2000
+//
+// *** Deprecation warning ***
+// This constructor is no longer appropriate because the data member "id" had
+// been moved to the sub-classes.  It will be removed in 1.10 release.  If its
+// removal does not raise any problems in 1.10, it will be removed from 1.8 in
+// subsequent releases.
 //--------------------------------------------------------------------------
-AbstractDs::AbstractDs(const hid_t ds_id){}
-
-//--------------------------------------------------------------------------
-// Function:	AbstractDs copy constructor
-///\brief	Copy constructor: makes a copy of the original AbstractDs object.
-// Programmer	Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-AbstractDs::AbstractDs(const AbstractDs& original){}
+// Mar 2016 -BMR, AbstractDs::AbstractDs(const hid_t ds_id){}
 
 //--------------------------------------------------------------------------
 // Function:	AbstractDs::getTypeClass
@@ -72,10 +68,10 @@ H5T_class_t AbstractDs::getTypeClass() const
    try {
       datatype_id = p_get_type();  // returned value is already validated
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getTypeClass", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getTypeClass", E.getDetailMsg());
    }
 
@@ -118,13 +114,14 @@ DataType AbstractDs::getDataType() const
    // depending on which object invokes getDataType.  Then, create and
    // return the DataType object
    try {
-      DataType datatype(p_get_type());
-      return(datatype);
+	DataType datatype;
+	f_DataType_setId(&datatype, p_get_type());
+	return(datatype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getDataType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getDataType", E.getDetailMsg());
    }
 }
@@ -144,13 +141,16 @@ ArrayType AbstractDs::getArrayType() const
    // depending on which object invokes getArrayType.  Then, create and
    // return the ArrayType object
    try {
-      ArrayType arraytype(p_get_type());
-      return(arraytype);
+	// Create ArrayType and set values this way to work around the
+	// problem described in the JIRA issue HDFFV-7947
+	ArrayType arraytype;
+	f_DataType_setId(&arraytype, p_get_type());
+	return(arraytype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getArrayType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getArrayType", E.getDetailMsg());
    }
 }
@@ -170,13 +170,14 @@ CompType AbstractDs::getCompType() const
    // depending on which object invokes getCompType.  Then, create and
    // return the CompType object
    try {
-      CompType comptype(p_get_type());
-      return(comptype);
+	CompType comptype;
+	f_DataType_setId(&comptype, p_get_type());
+	return(comptype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getCompType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getCompType", E.getDetailMsg());
    }
 }
@@ -196,13 +197,14 @@ EnumType AbstractDs::getEnumType() const
    // depending on which object invokes getEnumType.  Then, create and
    // return the EnumType object
    try {
-      EnumType enumtype(p_get_type());
-      return(enumtype);
+	EnumType enumtype;
+	f_DataType_setId(&enumtype, p_get_type());
+	return(enumtype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getEnumType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getEnumType", E.getDetailMsg());
    }
 }
@@ -222,13 +224,14 @@ IntType AbstractDs::getIntType() const
    // depending on which object invokes getIntType.  Then, create and
    // return the IntType object
    try {
-      IntType inttype(p_get_type());
-      return(inttype);
+	IntType inttype;
+	f_DataType_setId(&inttype, p_get_type());
+	return(inttype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getIntType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getIntType", E.getDetailMsg());
    }
 }
@@ -248,13 +251,14 @@ FloatType AbstractDs::getFloatType() const
    // depending on which object invokes getFloatType.  Then, create and
    // return the FloatType object
    try {
-      FloatType floatype(p_get_type());
-      return(floatype);
+	FloatType floatype;
+	f_DataType_setId(&floatype, p_get_type());
+	return(floatype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getFloatType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getFloatType", E.getDetailMsg());
    }
 }
@@ -274,13 +278,14 @@ StrType AbstractDs::getStrType() const
    // depending on which object invokes getStrType.  Then, create and
    // return the StrType object
    try {
-      StrType strtype(p_get_type());
-      return(strtype);
+	StrType strtype;
+	f_DataType_setId(&strtype, p_get_type());
+	return(strtype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getStrType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getStrType", E.getDetailMsg());
    }
 }
@@ -300,13 +305,14 @@ VarLenType AbstractDs::getVarLenType() const
    // depending on which object invokes getVarLenType.  Then, create and
    // return the VarLenType object
    try {
-      VarLenType varlentype(p_get_type());
-      return(varlentype);
+	VarLenType varlentype;
+	f_DataType_setId(&varlentype, p_get_type());
+	return(varlentype);
    }
-   catch (DataSetIException E) {
+   catch (DataSetIException& E) {
       throw DataTypeIException("DataSet::getVarLenType", E.getDetailMsg());
    }
-   catch (AttributeIException E) {
+   catch (AttributeIException& E) {
       throw DataTypeIException("Attribute::getVarLenType", E.getDetailMsg());
    }
 }

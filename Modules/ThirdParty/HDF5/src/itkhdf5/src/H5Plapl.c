@@ -48,11 +48,13 @@
 /* Definitions for number of soft links to traverse */
 #define H5L_ACS_NLINKS_SIZE        sizeof(size_t)
 #define H5L_ACS_NLINKS_DEF         H5L_NUM_LINKS /*max symlinks to follow per lookup  */
+
 /* Definitions for external link prefix */
 #define H5L_ACS_ELINK_PREFIX_SIZE        sizeof(char *)
 #define H5L_ACS_ELINK_PREFIX_DEF         NULL /*default is no prefix */
 #define H5L_ACS_ELINK_PREFIX_DEL         H5P_lacc_elink_pref_del
 #define H5L_ACS_ELINK_PREFIX_COPY        H5P_lacc_elink_pref_copy
+#define H5L_ACS_ELINK_PREFIX_CMP         H5P_lacc_elink_pref_cmp
 #define H5L_ACS_ELINK_PREFIX_CLOSE       H5P_lacc_elink_pref_close
 
 /* Definitions for setting fapl of external link access */
@@ -60,6 +62,7 @@
 #define H5L_ACS_ELINK_FAPL_DEF         	H5P_DEFAULT
 #define H5L_ACS_ELINK_FAPL_DEL		H5P_lacc_elink_fapl_del
 #define H5L_ACS_ELINK_FAPL_COPY        	H5P_lacc_elink_fapl_copy
+#define H5L_ACS_ELINK_FAPL_CMP        	H5P_lacc_elink_fapl_cmp
 #define H5L_ACS_ELINK_FAPL_CLOSE       	H5P_lacc_elink_fapl_close
 
 /* Definitions for file access flags for external link traversal */
@@ -69,6 +72,7 @@
 /* Definitions for callback function for external link traversal */
 #define H5L_ACS_ELINK_CB_SIZE           sizeof(H5L_elink_cb_t)
 #define H5L_ACS_ELINK_CB_DEF            {NULL,NULL}
+
 
 /******************/
 /* Local Typedefs */
@@ -90,10 +94,11 @@ static herr_t H5P_lacc_reg_prop(H5P_genclass_t *pclass);
 /* Property list callbacks */
 static herr_t H5P_lacc_elink_pref_del(hid_t prop_id, const char* name, size_t size, void* value);
 static herr_t H5P_lacc_elink_pref_copy(const char* name, size_t size, void* value);
+static int H5P_lacc_elink_pref_cmp(const void *value1, const void *value2, size_t size);
 static herr_t H5P_lacc_elink_pref_close(const char* name, size_t size, void* value);
-
 static herr_t H5P_lacc_elink_fapl_del(hid_t prop_id, const char* name, size_t size, void* value);
 static herr_t H5P_lacc_elink_fapl_copy(const char* name, size_t size, void* value);
+static int H5P_lacc_elink_fapl_cmp(const void *value1, const void *value2, size_t size);
 static herr_t H5P_lacc_elink_fapl_close(const char* name, size_t size, void* value);
 
 
@@ -104,10 +109,14 @@ static herr_t H5P_lacc_elink_fapl_close(const char* name, size_t size, void* val
 /* Dataset creation property list class library initialization object */
 const H5P_libclass_t H5P_CLS_LACC[1] = {{
     "link access",		/* Class name for debugging     */
-    &H5P_CLS_ROOT_g,		/* Parent class ID              */
-    &H5P_CLS_LINK_ACCESS_g,	/* Pointer to class ID          */
-    &H5P_LST_LINK_ACCESS_g,	/* Pointer to default property list ID */
+    H5P_TYPE_LINK_ACCESS,       /* Class type                   */
+
+    &H5P_CLS_ROOT_g,		/* Parent class                 */
+    &H5P_CLS_LINK_ACCESS_g,	/* Pointer to class             */
+    &H5P_CLS_LINK_ACCESS_ID_g,	/* Pointer to class ID          */
+    &H5P_LST_LINK_ACCESS_ID_g,	/* Pointer to default property list ID */
     H5P_lacc_reg_prop,		/* Default property registration routine */
+
     NULL,		        /* Class creation callback      */
     NULL,		        /* Class creation callback info */
     NULL,			/* Class copy callback          */
@@ -155,18 +164,18 @@ H5P_lacc_reg_prop(H5P_genclass_t *pclass)
 
     herr_t ret_value = SUCCEED;         	   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5P_lacc_reg_prop)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Register property for number of links traversed */
     if(H5P_register_real(pclass, H5L_ACS_NLINKS_NAME, H5L_ACS_NLINKS_SIZE, &nlinks, NULL, NULL, NULL, NULL, NULL, NULL, NULL) < 0)
          HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
     /* Register property for external link prefix */
-    if(H5P_register_real(pclass, H5L_ACS_ELINK_PREFIX_NAME, H5L_ACS_ELINK_PREFIX_SIZE, &elink_prefix, NULL, NULL, NULL, H5L_ACS_ELINK_PREFIX_DEL, H5L_ACS_ELINK_PREFIX_COPY, NULL, H5L_ACS_ELINK_PREFIX_CLOSE) < 0)
+    if(H5P_register_real(pclass, H5L_ACS_ELINK_PREFIX_NAME, H5L_ACS_ELINK_PREFIX_SIZE, &elink_prefix, NULL, NULL, NULL, H5L_ACS_ELINK_PREFIX_DEL, H5L_ACS_ELINK_PREFIX_COPY, H5L_ACS_ELINK_PREFIX_CMP, H5L_ACS_ELINK_PREFIX_CLOSE) < 0)
          HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
     /* Register fapl for link access */
-    if(H5P_register_real(pclass, H5L_ACS_ELINK_FAPL_NAME, H5L_ACS_ELINK_FAPL_SIZE, &def_fapl_id, NULL, NULL, NULL, H5L_ACS_ELINK_FAPL_DEL, H5L_ACS_ELINK_FAPL_COPY, NULL, H5L_ACS_ELINK_FAPL_CLOSE) < 0)
+    if(H5P_register_real(pclass, H5L_ACS_ELINK_FAPL_NAME, H5L_ACS_ELINK_FAPL_SIZE, &def_fapl_id, NULL, NULL, NULL, H5L_ACS_ELINK_FAPL_DEL, H5L_ACS_ELINK_FAPL_COPY, H5L_ACS_ELINK_FAPL_CMP, H5L_ACS_ELINK_FAPL_CLOSE) < 0)
          HGOTO_ERROR(H5E_PLIST, H5E_CANTINSERT, FAIL, "can't insert property into class")
 
     /* Register property for external link file access flags */
@@ -197,12 +206,12 @@ done:
  */
 /* ARGSUSED */
 static herr_t
-H5P_lacc_elink_fapl_del(hid_t UNUSED prop_id, const char UNUSED *name, size_t UNUSED size, void *value)
+H5P_lacc_elink_fapl_del(hid_t H5_ATTR_UNUSED prop_id, const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *value)
 {
     hid_t          l_fapl_id;
     herr_t         ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI(H5P_lacc_elink_fapl_del, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(value);
 
@@ -231,12 +240,12 @@ done:
  */
 /* ARGSUSED */
 static herr_t
-H5P_lacc_elink_fapl_copy(const char UNUSED *name, size_t UNUSED size, void *value)
+H5P_lacc_elink_fapl_copy(const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *value)
 {
     hid_t          l_fapl_id;
     herr_t         ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI(H5P_lacc_elink_fapl_copy, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     HDassert(value);
 
@@ -257,6 +266,53 @@ done:
 } /* end H5P_lacc_elink_fapl_copy() */
 
 
+/*-------------------------------------------------------------------------
+ * Function:       H5P_lacc_elink_fapl_cmp
+ *
+ * Purpose:        Callback routine which is called whenever the elink FAPL
+ *                 property in the link access property list is
+ *                 compared.
+ *
+ * Return:         zero if VALUE1 and VALUE2 are equal, non zero otherwise.
+ *
+ * Programmer:     Quincey Koziol
+ *                 Wednesday, August 15, 2012
+ *
+ *-------------------------------------------------------------------------
+ */
+static int
+H5P_lacc_elink_fapl_cmp(const void *value1, const void *value2, size_t H5_ATTR_UNUSED size)
+{
+    const hid_t *fapl1 = (const hid_t *)value1;
+    const hid_t *fapl2 = (const hid_t *)value2;
+    H5P_genplist_t *obj1, *obj2;          /* Property lists to compare */
+    int ret_value = 0;
+
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
+
+    /* Check for comparison with default value */
+    if(*fapl1 == 0 && *fapl2 > 0) HGOTO_DONE(1);
+    if(*fapl1 > 0 && *fapl2 == 0) HGOTO_DONE(-1);
+
+    /* Get the property list objects */
+    obj1 = (H5P_genplist_t *)H5I_object(*fapl1);
+    obj2 = (H5P_genplist_t *)H5I_object(*fapl2);
+
+    /* Check for NULL property lists */
+    if(obj1 == NULL && obj2 != NULL) HGOTO_DONE(1);
+    if(obj1 != NULL && obj2 == NULL) HGOTO_DONE(-1);
+    if(obj1 && obj2) {
+        herr_t status;
+
+        status = H5P_cmp_plist(obj1, obj2, &ret_value);
+        HDassert(status >= 0);
+    } /* end if */
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5P_lacc_elink_fapl_cmp() */
+
+
 /*--------------------------------------------------------------------------
  * Function:	H5P_lacc_elink_fapl_close
  *
@@ -272,12 +328,12 @@ done:
  */
 /* ARGSUSED */
 static herr_t
-H5P_lacc_elink_fapl_close(const char UNUSED *name, size_t UNUSED size, void *value)
+H5P_lacc_elink_fapl_close(const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *value)
 {
     hid_t		l_fapl_id;
     herr_t     		ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI_NOINIT(H5P_lacc_elink_fapl_close)
+    FUNC_ENTER_NOAPI_NOINIT
 
     HDassert(value);
 
@@ -302,11 +358,10 @@ done:
  *
  *-------------------------------------------------------------------------
  */
-/* ARGSUSED */
 static herr_t
-H5P_lacc_elink_pref_del(hid_t UNUSED prop_id, const char UNUSED *name, size_t UNUSED size, void *value)
+H5P_lacc_elink_pref_del(hid_t H5_ATTR_UNUSED prop_id, const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *value)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5P_lacc_elink_pref_del)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(value);
 
@@ -330,9 +385,9 @@ H5P_lacc_elink_pref_del(hid_t UNUSED prop_id, const char UNUSED *name, size_t UN
  */
 /* ARGSUSED */
 static herr_t
-H5P_lacc_elink_pref_copy(const char UNUSED *name, size_t UNUSED size, void *value)
+H5P_lacc_elink_pref_copy(const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *value)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5P_lacc_elink_pref_copy)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(value);
 
@@ -340,6 +395,41 @@ H5P_lacc_elink_pref_copy(const char UNUSED *name, size_t UNUSED size, void *valu
 
     FUNC_LEAVE_NOAPI(SUCCEED)
 } /* end H5P_lacc_elink_pref_copy() */
+
+
+/*-------------------------------------------------------------------------
+ * Function:       H5P_lacc_elink_pref_cmp
+ *
+ * Purpose:        Callback routine which is called whenever the elink prefix
+ *                 property in the dataset creation property list is
+ *                 compared.
+ *
+ * Return:         zero if VALUE1 and VALUE2 are equal, non zero otherwise.
+ *
+ * Programmer:     Mohamad Chaarawi
+ *                 Thursday, November 3, 2011
+ *
+ *-------------------------------------------------------------------------
+ */
+static int
+H5P_lacc_elink_pref_cmp(const void *value1, const void *value2, size_t H5_ATTR_UNUSED size)
+{
+    const char *pref1 = *(const char * const *)value1;
+    const char *pref2 = *(const char * const *)value2;
+    int ret_value = 0;
+
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
+
+    if(NULL == pref1 && NULL != pref2)
+        HGOTO_DONE(1);
+    if(NULL != pref1 && NULL == pref2)
+        HGOTO_DONE(-1);
+    if(NULL != pref1 && NULL != pref2)
+        ret_value = HDstrcmp(pref1, pref2);
+
+done:
+    FUNC_LEAVE_NOAPI(ret_value)
+} /* end H5P_lacc_elink_pref_cmp() */
 
 
 /*-------------------------------------------------------------------------
@@ -356,9 +446,9 @@ H5P_lacc_elink_pref_copy(const char UNUSED *name, size_t UNUSED size, void *valu
  */
 /* ARGSUSED */
 static herr_t
-H5P_lacc_elink_pref_close(const char UNUSED *name, size_t UNUSED size, void *value)
+H5P_lacc_elink_pref_close(const char H5_ATTR_UNUSED *name, size_t H5_ATTR_UNUSED size, void *value)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5P_lacc_elink_pref_close)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(value);
 
@@ -395,7 +485,7 @@ H5Pset_nlinks(hid_t plist_id, size_t nlinks)
     H5P_genplist_t *plist;              /* Property list pointer */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_API(H5Pset_nlinks, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "iz", plist_id, nlinks);
 
     if(nlinks <= 0)
@@ -436,7 +526,7 @@ H5Pget_nlinks(hid_t plist_id, size_t *nlinks)
     H5P_genplist_t *plist;              /* Property list pointer */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_API(H5Pget_nlinks, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "i*z", plist_id, nlinks);
 
     if(!nlinks)
@@ -476,7 +566,7 @@ H5Pset_elink_prefix(hid_t plist_id, const char *prefix)
     char *my_prefix;                    /* Copy of prefix string */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_API(H5Pset_elink_prefix, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "i*s", plist_id, prefix);
 
     /* Get the plist structure */
@@ -527,7 +617,7 @@ H5Pget_elink_prefix(hid_t plist_id, char *prefix, size_t size)
     size_t	len;                    /* Length of prefix string */
     ssize_t 	ret_value;              /* Return value */
 
-    FUNC_ENTER_API(H5Pget_elink_prefix, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("Zs", "i*sz", plist_id, prefix, size);
 
     /* Get the plist structure */
@@ -577,7 +667,7 @@ H5Pset_elink_fapl(hid_t lapl_id, hid_t fapl_id)
     hid_t		l_fapl_id, new_fapl_id;
     herr_t 		ret_value = SUCCEED;         		/* Return value */
 
-    FUNC_ENTER_API(H5Pset_elink_fapl, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "ii", lapl_id, fapl_id);
 
     /* Check arguments */
@@ -628,7 +718,7 @@ H5Pget_elink_fapl(hid_t lapl_id)
     hid_t		l_fapl_id;
     hid_t		ret_value=FAIL;		/* Return value */
 
-    FUNC_ENTER_API(H5Pget_elink_fapl, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("i", "i", lapl_id);
 
     /* Get the plist structure */
@@ -672,7 +762,7 @@ H5Pset_elink_acc_flags(hid_t lapl_id, unsigned flags)
     H5P_genplist_t *plist;              /* Property list pointer */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_API(H5Pset_elink_acc_flags, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "iIu", lapl_id, flags);
 
     /* Check that flags are valid */
@@ -711,7 +801,7 @@ H5Pget_elink_acc_flags(hid_t lapl_id, unsigned *flags)
     H5P_genplist_t *plist;              /* Property list pointer */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_API(H5Pget_elink_acc_flags, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "i*Iu", lapl_id, flags);
 
     /* Get the plist structure */
@@ -749,7 +839,7 @@ H5Pset_elink_cb(hid_t lapl_id, H5L_elink_traverse_t func, void *op_data)
     H5L_elink_cb_t  cb_info;                /* Callback info struct */
     herr_t          ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_API(H5Pset_elink_cb, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "ix*x", lapl_id, func, op_data);
 
     /* Check if the callback function is NULL and the user data is non-NULL.
@@ -794,7 +884,7 @@ H5Pget_elink_cb(hid_t lapl_id, H5L_elink_traverse_t *func, void **op_data)
     H5L_elink_cb_t  cb_info;                /* Callback info struct */
     herr_t          ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_API(H5Pget_elink_cb, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "i*x**x", lapl_id, func, op_data);
 
     /* Get the plist structure */
@@ -815,3 +905,4 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5Pget_elink_cb() */
 
+

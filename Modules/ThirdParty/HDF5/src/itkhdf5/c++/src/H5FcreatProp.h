@@ -14,18 +14,18 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef _H5FileCreatPropList_H
-#define _H5FileCreatPropList_H
+#ifndef __H5FileCreatPropList_H
+#define __H5FileCreatPropList_H
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
 #endif
 
-// class for file access properties
+//! Class FileCreatPropList represents the HDF5 file create property list.
 class H5_DLLCPP FileCreatPropList : public PropList {
    public:
-	// Default file creation property list.
-	static const FileCreatPropList DEFAULT;
+	///\brief Default file creation property list.
+	static const FileCreatPropList& DEFAULT;
 
 	// Creates a file create property list.
 	FileCreatPropList();
@@ -60,7 +60,7 @@ class H5_DLLCPP FileCreatPropList : public PropList {
 	// indexing chunked datasets.
 	void setIstorek( unsigned ik ) const;
 
-	///\brief Returns this class name
+	///\brief Returns this class name.
 	virtual H5std_string fromClass () const { return("FileCreatPropList"); }
 
 	// Copy constructor: creates a copy of a FileCreatPropList object.
@@ -72,8 +72,22 @@ class H5_DLLCPP FileCreatPropList : public PropList {
 
 	// Noop destructor
 	virtual ~FileCreatPropList();
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+	// Deletes the global constant, should only be used by the library
+	static void deleteConstants();
+
+    private:
+	static FileCreatPropList* DEFAULT_;
+
+	// Creates the global constant, should only be used by the library
+	static FileCreatPropList* getConstant();
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
+
 };
 #ifndef H5_NO_NAMESPACE
 }
 #endif
-#endif
+#endif // __H5FileCreatPropList_H

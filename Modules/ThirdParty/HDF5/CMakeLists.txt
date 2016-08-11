@@ -30,7 +30,11 @@ else()
     ${ITKHDF5_SOURCE_DIR}/src
     ${ITKHDF5_BINARY_DIR}/src
     )
-  set(ITKHDF5_LIBRARIES itkhdf5_cpp itkhdf5)
+  if(BUILD_SHARED_LIBS)
+    set(ITKHDF5_LIBRARIES hdf5_cpp-shared hdf5-shared)
+  else()
+    set(ITKHDF5_LIBRARIES hdf5_cpp-static hdf5-static)
+  endif()
 endif()
 
 configure_file(src/itk_hdf5.h.in src/itk_hdf5.h)

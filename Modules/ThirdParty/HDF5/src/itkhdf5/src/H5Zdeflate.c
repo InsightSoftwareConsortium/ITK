@@ -51,7 +51,7 @@ const H5Z_class2_t H5Z_DEFLATE[1] = {{
     H5Z_filter_deflate,         /* The actual filter function	*/
 }};
 
-#define H5Z_DEFLATE_SIZE_ADJUST(s) (HDceil(((double)(s))*1.001)+12)
+#define H5Z_DEFLATE_SIZE_ADJUST(s) (HDceil(((double)(s)) * (double)1.001f) + 12)
 
 
 /*-------------------------------------------------------------------------
@@ -79,7 +79,7 @@ H5Z_filter_deflate (unsigned flags, size_t cd_nelmts,
     int		status;                 /* Status from zlib operation */
     size_t	ret_value;              /* Return value */
 
-    FUNC_ENTER_NOAPI(H5Z_filter_deflate, 0)
+    FUNC_ENTER_NOAPI(0)
 
     /* Sanity check */
     HDassert(*buf_size > 0);
@@ -102,9 +102,9 @@ H5Z_filter_deflate (unsigned flags, size_t cd_nelmts,
         /* Set the uncompression parameters */
 	HDmemset(&z_strm, 0, sizeof(z_strm));
 	z_strm.next_in = (Bytef *)*buf;
-        H5_ASSIGN_OVERFLOW(z_strm.avail_in,nbytes,size_t,unsigned);
+        H5_CHECKED_ASSIGN(z_strm.avail_in, unsigned, nbytes, size_t);
 	z_strm.next_out = (Bytef *)outbuf;
-        H5_ASSIGN_OVERFLOW(z_strm.avail_out,nalloc,size_t,unsigned);
+        H5_CHECKED_ASSIGN(z_strm.avail_out, unsigned, nalloc, size_t);
 
         /* Initialize the uncompression routines */
 	if (Z_OK!=inflateInit(&z_strm))
@@ -169,7 +169,7 @@ H5Z_filter_deflate (unsigned flags, size_t cd_nelmts,
         int          aggression;     /* Compression aggression setting */
 
         /* Set the compression aggression level */
-        H5_ASSIGN_OVERFLOW(aggression,cd_values[0],unsigned,int);
+        H5_CHECKED_ASSIGN(aggression, int, cd_values[0], unsigned);
 
         /* Allocate output (compressed) buffer */
 	if(NULL == (outbuf = H5MM_malloc(z_dst_nbytes)))

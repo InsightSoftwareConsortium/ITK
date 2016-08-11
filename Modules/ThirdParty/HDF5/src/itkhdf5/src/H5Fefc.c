@@ -36,7 +36,6 @@
 #include "H5MMprivate.h"        /* Memory management                    */
 #include "H5Pprivate.h"         /* Property lists                       */
 
-
 /* Special values for the "tag" field below */
 #define H5F_EFC_TAG_DEFAULT     -1
 #define H5F_EFC_TAG_LOCK        -2
@@ -95,7 +94,7 @@ H5F_efc_create(unsigned max_nfiles)
     H5F_efc_t   *efc = NULL;            /* EFC object */
     H5F_efc_t   *ret_value;             /* Return value */
 
-    FUNC_ENTER_NOAPI(H5F_efc_create, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     /* Sanity checks */
     HDassert(max_nfiles > 0);
@@ -147,9 +146,9 @@ H5F_efc_open(H5F_t *parent, const char *name, unsigned flags, hid_t fcpl_id,
     H5F_efc_t   *efc = NULL;    /* External file cache for parent file */
     H5F_efc_ent_t *ent = NULL;  /* Entry for target file in efc */
     hbool_t     open_file = FALSE; /* Whether ent->file needs to be closed in case of error */
-    H5F_t       *ret_value;     /* Return value */
+    H5F_t       *ret_value = NULL; /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_efc_open)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity checks */
     HDassert(parent);
@@ -164,7 +163,7 @@ H5F_efc_open(H5F_t *parent, const char *name, unsigned flags, hid_t fcpl_id,
      * on the state of the efc. */
     if(!efc) {
         if(NULL == (ret_value = H5F_open(name, flags, fcpl_id, fapl_id,
-                dxpl_id)))
+                                         dxpl_id)))
             HGOTO_ERROR(H5E_FILE, H5E_CANTOPENFILE, NULL, "can't open file")
 
         /* Increment the number of open objects to prevent the file from being
@@ -184,7 +183,7 @@ H5F_efc_open(H5F_t *parent, const char *name, unsigned flags, hid_t fcpl_id,
     } /* end if */
     else {
         HDassert(efc->nfiles == 0);
-        if(NULL == (efc->slist = H5SL_create(H5SL_TYPE_STR)))
+        if(NULL == (efc->slist = H5SL_create(H5SL_TYPE_STR, NULL)))
             HGOTO_ERROR(H5E_FILE, H5E_CANTCREATE, NULL, "can't create skip list")
     } /* end else */
 
@@ -237,7 +236,7 @@ H5F_efc_open(H5F_t *parent, const char *name, unsigned flags, hid_t fcpl_id,
             else {
                 /* Cannot cache file, just open file and return */
                 if(NULL == (ret_value = H5F_open(name, flags, fcpl_id, fapl_id,
-                        dxpl_id)))
+                                                 dxpl_id)))
                     HGOTO_ERROR(H5E_FILE, H5E_CANTOPENFILE, NULL, "can't open file")
 
                 /* Increment the number of open objects to prevent the file from
@@ -259,7 +258,7 @@ H5F_efc_open(H5F_t *parent, const char *name, unsigned flags, hid_t fcpl_id,
 
         /* Open the file */
         if(NULL == (ent->file = H5F_open(name, flags, fcpl_id, fapl_id,
-                dxpl_id)))
+                                         dxpl_id)))
             HGOTO_ERROR(H5E_FILE, H5E_CANTOPENFILE, NULL, "can't open file")
         open_file = TRUE;
 
@@ -338,7 +337,7 @@ H5F_efc_close(H5F_t *parent, H5F_t *file)
     H5F_efc_ent_t *ent = NULL;  /* Entry for target file in efc */
     herr_t      ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_efc_close)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity checks */
     HDassert(parent);
@@ -396,7 +395,7 @@ done:
 unsigned
 H5F_efc_max_nfiles(H5F_efc_t *efc)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5F_efc_max_nfiles)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(efc);
     HDassert(efc->max_nfiles > 0);
@@ -427,7 +426,7 @@ H5F_efc_release(H5F_efc_t *efc)
     H5F_efc_ent_t *prev_ent = NULL;     /* Previous EFC entry */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_efc_release)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity checks */
     HDassert(efc);
@@ -487,7 +486,7 @@ H5F_efc_destroy(H5F_efc_t *efc)
 {
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_efc_destroy)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity checks */
     HDassert(efc);
@@ -538,7 +537,7 @@ H5F_efc_remove_ent(H5F_efc_t *efc, H5F_efc_ent_t *ent)
 {
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_efc_remove_ent)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity checks */
     HDassert(efc);
@@ -605,7 +604,7 @@ H5F_efc_try_close_tag1(H5F_file_t *sf, H5F_file_t **tail)
     H5F_efc_ent_t       *ent = NULL;    /* EFC entry */
     H5F_file_t          *esf;           /* Convenience pointer to ent->file->shared */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5F_efc_try_close_tag1)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity checks */
     HDassert(sf);
@@ -679,7 +678,7 @@ H5F_efc_try_close_tag2(H5F_file_t *sf, H5F_file_t **tail)
     H5F_efc_ent_t       *ent = NULL;    /* EFC entry */
     H5F_file_t          *esf;           /* Convenience pointer to ent->file->shared */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5F_efc_try_close_tag2)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity checks */
     HDassert(sf);
@@ -790,7 +789,7 @@ H5F_efc_try_close(H5F_t *f)
     H5F_file_t  *next;                  /* Temporary file pointer */
     herr_t      ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5F_efc_try_close)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /* Sanity checks */
     HDassert(f);

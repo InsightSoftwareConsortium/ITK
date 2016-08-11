@@ -14,23 +14,30 @@
  * access to either file, you may request a copy from help@hdfgroup.org.     *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef _H5DataSpace_H
-#define _H5DataSpace_H
+#ifndef __H5DataSpace_H
+#define __H5DataSpace_H
 
 #ifndef H5_NO_NAMESPACE
 namespace H5 {
 #endif
 
+//! Class DataSpace operates on HDF5 dataspaces.
 class H5_DLLCPP DataSpace : public IdComponent {
    public:
-	// Default DataSpace objects
-	static const DataSpace ALL;
+	///\brief Default DataSpace objects
+	static const DataSpace& ALL;
 
 	// Creates a dataspace object given the space type
 	DataSpace(H5S_class_t type = H5S_SCALAR);
 
 	// Creates a simple dataspace
 	DataSpace(int rank, const hsize_t * dims, const hsize_t * maxdims = NULL);
+
+	// Creates a DataSpace object using an existing dataspace id.
+	DataSpace(const hid_t space_id);
+
+	// Copy constructor: makes a copy of the original DataSpace object.
+	DataSpace(const DataSpace& original);
 
 	// Assignment operator
 	DataSpace& operator=( const DataSpace& rhs );
@@ -42,7 +49,7 @@ class H5_DLLCPP DataSpace : public IdComponent {
 	void copy(const DataSpace& like_space);
 
 	// Copies the extent of this dataspace.
-	void extentCopy( DataSpace& dest_space ) const;
+	void extentCopy(const DataSpace& dest_space) const;
 
 	// Gets the bounding box containing the current selection.
 	void getSelectBounds( hsize_t* start, hsize_t* end ) const;
@@ -103,29 +110,42 @@ class H5_DLLCPP DataSpace : public IdComponent {
 	// Sets or resets the size of this dataspace.
 	void setExtentSimple( int rank, const hsize_t *current_size, const hsize_t *maximum_size = NULL ) const;
 
-	///\brief Returns this class name
+	///\brief Returns this class name.
 	virtual H5std_string fromClass () const { return("DataSpace"); }
-
-	// Creates a DataSpace object using an existing dataspace id.
-	DataSpace(const hid_t space_id);
-
-	// Copy constructor: makes a copy of the original DataSpace object.
-	DataSpace(const DataSpace& original);
 
 	// Gets the dataspace id.
 	virtual hid_t getId() const;
 
+	// Deletes the global constant
+	static void deleteConstants();
+
 	// Destructor: properly terminates access to this dataspace.
 	virtual ~DataSpace();
 
-   private:
-	hid_t id;       // HDF5 dataspace id
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
    protected:
 	// Sets the dataspace id.
 	virtual void p_setId(const hid_t new_id);
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
+
+   private:
+	hid_t id;       // HDF5 dataspace id
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
+
+	static DataSpace* ALL_;
+
+	// Creates the global constant
+	static DataSpace* getConstant();
+
+	// Friend function to set DataSpace id.  For library use only.
+	friend void f_DataSpace_setId(DataSpace *dspace, hid_t new_id);
+
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 };
 #ifndef H5_NO_NAMESPACE
 }
 #endif
-#endif
+#endif // __H5DataSpace_H
