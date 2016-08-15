@@ -432,10 +432,7 @@ public:
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ImageConstIteratorWithIndex(const ImageConstIteratorWithIndex & it)
-  {
-    this->ImageConstIterator<ImageType>::operator=(it);
-  }
+  ImageConstIteratorWithIndex(const ImageConstIteratorWithIndex & it) { ImageConstIterator<ImageType>::operator=(it); }
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIteratorWithIndex(const ImageType * ptr, const RegionType & region)
@@ -465,7 +462,7 @@ public:
    * handle to the image is properly reference counted. */
   ImageConstIteratorWithOnlyIndex(const ImageConstIteratorWithOnlyIndex & it)
   {
-    this->ImageConstIterator<ImageType>::operator=(it);
+    ImageConstIterator<ImageType>::operator=(it);
   }
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */

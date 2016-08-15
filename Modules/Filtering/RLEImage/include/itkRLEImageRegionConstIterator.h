@@ -88,11 +88,7 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionConstIterator. */
-  ImageRegionConstIterator(const ImageIterator<ImageType> & it)
-  {
-    this->ImageConstIterator<ImageType>::operator=(it);
-    // this->ImageConstIterator< ImageType >::operator=(static_cast<const ImageConstIterator<ImageType> >(it));
-  }
+  ImageRegionConstIterator(const ImageIterator<ImageType> & it) { ImageConstIterator<ImageType>::operator=(it); }
 
   /** Constructor that can be used to cast from an ImageConstIterator to an
    * ImageRegionConstIterator. Many routines return an ImageIterator, but for a
@@ -100,10 +96,7 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionConstIterator. */
-  ImageRegionConstIterator(const ImageConstIterator<ImageType> & it)
-  {
-    this->ImageConstIterator<ImageType>::operator=(it);
-  }
+  ImageRegionConstIterator(const ImageConstIterator<ImageType> & it) { ImageConstIterator<ImageType>::operator=(it); }
   /** Increment (prefix) the fastest moving dimension of the iterator's index.
    * This operator will constrain the iterator within the region (i.e. the
    * iterator will automatically wrap from the end of the row of the region

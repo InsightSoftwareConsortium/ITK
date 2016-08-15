@@ -219,8 +219,8 @@ RegionOfInterestImageFilter<
   inputRegionForThread.SetIndex(start);
 
   bool copyLines = (in->GetLargestPossibleRegion().GetSize(0) == outputRegionForThread.GetSize(0));
-  typename ImageType::BufferType::RegionType               oReg = ImageType::truncateRegion(outputRegionForThread),
-                                                           iReg = ImageType::truncateRegion(inputRegionForThread);
+  typename ImageType::BufferType::RegionType               oReg = ImageType::truncateRegion(outputRegionForThread);
+  typename ImageType::BufferType::RegionType               iReg = ImageType::truncateRegion(inputRegionForThread);
   ImageRegionConstIterator<typename ImageType::BufferType> iIt(in->GetBuffer(), iReg);
   ImageRegionIterator<typename ImageType::BufferType>      oIt(out->GetBuffer(), oReg);
 

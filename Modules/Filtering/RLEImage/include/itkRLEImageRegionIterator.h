@@ -81,7 +81,7 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIterator. */
-  ImageRegionIterator(const ImageIterator<ImageType> & it) { this->ImageConstIterator<ImageType>::operator=(it); }
+  ImageRegionIterator(const ImageIterator<ImageType> & it) { ImageConstIterator<ImageType>::operator=(it); }
   /** Set the pixel value.
    * Changing the RLE structure invalidates all other iterators (except this one). */
   void
@@ -97,14 +97,11 @@ public:
 protected:
   /** the construction from a const iterator is declared protected
   in order to enforce const correctness. */
-  ImageRegionIterator(const ImageRegionConstIterator<ImageType> & it)
-  {
-    this->ImageConstIterator<ImageType>::operator=(it);
-  }
+  ImageRegionIterator(const ImageRegionConstIterator<ImageType> & it) { ImageConstIterator<ImageType>::operator=(it); }
   Self &
   operator=(const ImageRegionConstIterator<ImageType> & it)
   {
-    this->ImageConstIterator<ImageType>::operator=(it);
+    ImageConstIterator<ImageType>::operator=(it);
   }
 };
 
