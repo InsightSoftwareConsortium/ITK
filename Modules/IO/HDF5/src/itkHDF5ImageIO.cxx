@@ -33,11 +33,7 @@ HDF5ImageIO::HDF5ImageIO() : m_H5File(ITK_NULLPTR),
 
 HDF5ImageIO::~HDF5ImageIO()
 {
-  if(this->m_VoxelDataSet != ITK_NULLPTR)
-    {
-    m_VoxelDataSet->close();
-    delete m_VoxelDataSet;
-    }
+  this->CloseDataSetFile();
   this->CloseH5File();
 }
 
@@ -692,9 +688,21 @@ HDF5ImageIO
     {
     this->m_H5File->close();
     delete this->m_H5File;
+    this->m_H5File = ITK_NULLPTR;
     }
 }
 
+void
+HDF5ImageIO
+::CloseDataSetFile()
+{
+  if(this->m_VoxelDataSet != ITK_NULLPTR)
+    {
+    m_VoxelDataSet->close();
+    delete m_VoxelDataSet;
+    this->m_VoxelDataSet = ITK_NULLPTR;
+    }
+}
 
 void
 HDF5ImageIO
@@ -703,8 +711,10 @@ HDF5ImageIO
   try
     {
     this->CloseH5File();
+    this->CloseDataSetFile();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_RDONLY);
+    this->m_VoxelDataSet = new H5::DataSet();
 
     // not sure what to do with this initially
     //eventually it will be needed if the file versions change
@@ -756,7 +766,8 @@ HDF5ImageIO
 
     std::string VoxelDataName(groupName);
     VoxelDataName += VoxelData;
-    H5::DataSet imageSet = this->m_H5File->openDataSet(VoxelDataName);
+    *(this->m_VoxelDataSet) = this->m_H5File->openDataSet(VoxelDataName);
+    H5::DataSet imageSet = *(this->m_VoxelDataSet);
     H5::DataSpace imageSpace = imageSet.getSpace();
     //
     // set the componentType
@@ -1000,19 +1011,8 @@ HDF5ImageIO
   ImageIORegion::SizeType  size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
-  // HDF5 dimensions listed slowest moving first, ITK are fastest
-  // moving first.
-  std::string VoxelDataName(ImageGroup);
-  VoxelDataName += "/0";
-  VoxelDataName += VoxelData;
-  if(this->m_VoxelDataSet == ITK_NULLPTR)
-    {
-    this->m_VoxelDataSet = new H5::DataSet();
-    *(this->m_VoxelDataSet) = this->m_H5File->openDataSet(VoxelDataName);
-    }
   H5::DataType voxelType = this->m_VoxelDataSet->getDataType();
   H5::DataSpace imageSpace = this->m_VoxelDataSet->getSpace();
-
 
   H5::DataSpace dspace;
   this->SetupStreaming(&imageSpace,&dspace);
@@ -1074,8 +1074,11 @@ HDF5ImageIO
   try
     {
     this->CloseH5File();
+    this->CloseDataSetFile();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_TRUNC);
+    this->m_VoxelDataSet = new H5::DataSet();
+
     this->WriteString(ItkVersion,
                       Version::GetITKVersion());
 
@@ -1106,6 +1109,39 @@ HDF5ImageIO
     std::string typeVal(ComponentToString(this->GetComponentType()));
     this->WriteString(VoxelTypeName,typeVal);
 
+    int numComponents = this->GetNumberOfComponents();
+    int numDims = this->GetNumberOfDimensions();
+    // HDF5 dimensions listed slowest moving first, ITK are fastest
+    // moving first.
+    hsize_t *dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
+
+    for(int i(0), j(numDims-1); i < numDims; i++, j--)
+      {
+      dims[j] = this->m_Dimensions[i];
+      }
+    if(numComponents > 1)
+      {
+      dims[numDims] = numComponents;
+      numDims++;
+      }
+    H5::DataSpace imageSpace(numDims,dims);
+    H5::PredType dataType = ComponentToPredType(this->GetComponentType());
+
+    // set up properties for chunked, compressed writes.
+    // in this case, set the chunk size to be the N-1 dimension
+    // region
+    H5::DSetCreatPropList plist;
+    plist.setDeflate(5);
+    dims[0] = 1;
+    plist.setChunk(numDims,dims);
+    delete[] dims;
+
+    std::string VoxelDataName(ImageGroup);
+    VoxelDataName += "/0";
+    VoxelDataName += VoxelData;
+    *(this->m_VoxelDataSet) = this->m_H5File->createDataSet(VoxelDataName,
+                                                            dataType,
+                                                            imageSpace,plist);
     std::string MetaDataGroupName(groupName);
     MetaDataGroupName += MetaDataName;
     this->m_H5File->createGroup(MetaDataGroupName);
@@ -1300,29 +1336,8 @@ HDF5ImageIO
       dims[numDims] = numComponents;
       numDims++;
       }
-
     H5::DataSpace imageSpace(numDims,dims);
     H5::PredType dataType = ComponentToPredType(this->GetComponentType());
-    std::string VoxelDataName(ImageGroup);
-    VoxelDataName += "/0";
-    VoxelDataName += VoxelData;
-    // set up properties for chunked, compressed writes.
-    // in this case, set the chunk size to be the N-1 dimension
-    // region
-    H5::DSetCreatPropList plist;
-    plist.setDeflate(5);
-    dims[0] = 1;
-    plist.setChunk(numDims,dims);
-
-    //
-    // Create DataSet Once, potentially write to it many times
-    if(this->m_VoxelDataSet == ITK_NULLPTR)
-      {
-      this->m_VoxelDataSet = new H5::DataSet();
-      *(this->m_VoxelDataSet) = this->m_H5File->createDataSet(VoxelDataName,
-                                                              dataType,
-                                                              imageSpace,plist);
-      }
     H5::DataSpace dspace;
     this->SetupStreaming(&imageSpace,&dspace);
     this->m_VoxelDataSet->write(buffer,dataType,dspace,imageSpace);
