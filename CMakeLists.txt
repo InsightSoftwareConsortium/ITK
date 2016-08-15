@@ -23,7 +23,7 @@ include(CMakeDependentOption)
 # use ExternalProject
 include(ExternalProject)
 
-if( CMAKE_HOST_WIN32 )
+if( CMAKE_HOST_WIN32 AND NOT ITK_SKIP_PATH_LENGTH_CHECKS )
 
   string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
   if( n GREATER 50 )
