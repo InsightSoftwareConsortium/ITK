@@ -24,7 +24,6 @@
 #include "itkImageToImageFilter.h"
 #include "itksys/hash_map.hxx"
 
-
 namespace itk
 {
 /** \class MorphologicalContourInterpolator
@@ -270,7 +269,6 @@ protected:
               typename TImage::PixelType      iRegionId,
               ThreadIdType                    threadId);
 
-
   /** Creates a signed distance field image. */
   typename FloatSliceType::Pointer
   MaurerDM(typename BoolSliceType::Pointer & inImage, ThreadIdType threadId);
@@ -407,7 +405,6 @@ private:
   operator=(const Self &) ITK_DELETE_FUNCTION;
 };
 } // namespace itk
-
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkMorphologicalContourInterpolator.hxx"
