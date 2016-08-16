@@ -263,6 +263,7 @@ public:
   GetIndex() const
   {
     IndexType indR(m_Image->GetBufferedRegion().GetIndex());
+
     indR[0] += m_Index0;
     typename BufferType::IndexType bufInd = m_BI.GetIndex();
     for (IndexValueType i = 1; i < VImageDimension; i++)
@@ -291,6 +292,7 @@ public:
   GetRegion() const
   {
     RegionType r;
+
     r.SetIndex(0, m_BeginIndex0 + m_Image->GetBufferedRegion().GetIndex(0));
     r.SetSize(0, m_EndIndex0 - m_BeginIndex0);
     typename BufferType::RegionType ir = m_BI.GetRegion();
@@ -323,6 +325,7 @@ public:
   Value(void) const
   {
     RLLine & line = const_cast<Self *>(this)->m_BI.Value();
+
     return line[m_RealIndex].second;
   }
 
@@ -370,7 +373,6 @@ protected: // made protected so other iterators can access
 
     CounterType   t = 0;
     SizeValueType x = 0;
-
     for (; x < (*m_RunLengthLine).size(); x++)
     {
       t += (*m_RunLengthLine)[x].first;
@@ -404,6 +406,7 @@ class ImageConstIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>
   : public ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>
 {
   // just inherit constructors
+
 public:
   /** Image typedef support. */
   typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
@@ -433,6 +436,7 @@ public:
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageConstIteratorWithIndex(const ImageConstIteratorWithIndex & it) { ImageConstIterator<ImageType>::operator=(it); }
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIteratorWithIndex(const ImageType * ptr, const RegionType & region)
@@ -445,6 +449,7 @@ class ImageConstIteratorWithOnlyIndex<RLEImage<TPixel, VImageDimension, CounterT
   : public ImageConstIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>>
 {
   // just inherit constructors
+
 public:
   /** Image typedef support. */
   typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
@@ -457,13 +462,13 @@ public:
     : ImageConstIterator<ImageType>()
   {}
 
-
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
   ImageConstIteratorWithOnlyIndex(const ImageConstIteratorWithOnlyIndex & it)
   {
     ImageConstIterator<ImageType>::operator=(it);
   }
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageConstIteratorWithOnlyIndex(const ImageType * ptr, const RegionType & region)

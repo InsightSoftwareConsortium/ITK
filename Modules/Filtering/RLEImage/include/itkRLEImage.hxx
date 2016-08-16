@@ -18,7 +18,7 @@
 #ifndef itkRLEImage_hxx
 #define itkRLEImage_hxx
 
-#include "itkImageRegionConstIterator.h" //for underlying buffer
+#include "itkImageRegionConstIterator.h" // for underlying buffer
 #include "itkRLEImage.h"
 
 // include all specializations of iterators and filters
@@ -89,6 +89,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::FillBuffer(const TPixel & value)
 {
   RLSegment segment(CounterType(this->GetBufferedRegion().GetSize(0)), value);
   RLLine    line(1);
+
   line[0] = segment;
   m_Buffer->FillBuffer(line);
 }
@@ -99,7 +100,9 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUpLine(RLLine & line) const
 {
   CounterType x = 0;
   RLLine      out;
+
   out.reserve(this->GetLargestPossibleRegion().GetSize(0));
+
   do
   {
     out.push_back(line[x]);
@@ -108,6 +111,7 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUpLine(RLLine & line) const
       out.back().first += line[x].first;
     }
   } while (x < line.size());
+
   out.swap(line);
 }
 

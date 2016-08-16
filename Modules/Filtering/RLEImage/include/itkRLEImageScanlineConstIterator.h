@@ -90,8 +90,9 @@ public:
    * ImageIterator to a ImageScanlineConstIterator. */
   ImageScanlineConstIterator(const ImageConstIterator<ImageType> & it)
   {
-    this->ImageRegionConstIterator<ImageType>::operator=(it);
+    ImageRegionConstIterator<ImageType>::operator=(it);
   }
+
   /** Go to the beginning pixel of the current line. */
   void
   GoToBeginOfLine(void)

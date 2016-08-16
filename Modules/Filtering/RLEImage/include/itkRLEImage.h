@@ -20,7 +20,7 @@
 
 #include <itkImage.h>
 #include <itkImageBase.h>
-#include <utility> //std::pair
+#include <utility> // std::pair
 #include <vector>
 
 namespace itk
@@ -192,9 +192,9 @@ public:
 
   ///** \brief Access a pixel. Chaning it changes the whole RLE segment! */
   // TPixel & operator[](const IndexType & index)
-  //{
+  // {
   //    return this->GetPixel(index);
-  //}
+  // }
 
   /** \brief Access a pixel. This version can only be an rvalue.
    * SLOW -> Use iterators instead. */
@@ -203,12 +203,14 @@ public:
   {
     return this->GetPixel(index);
   }
+
   virtual unsigned int
   GetNumberOfComponentsPerPixel() const
   {
     // use the GetLength() method which works with variable length arrays,
     // to make it work with as much pixel types as possible
     PixelType p;
+
     return itk::NumericTraits<PixelType>::GetLength(p);
   }
 
@@ -270,7 +272,6 @@ public:
     }
   }
 
-
 protected:
   RLEImage()
     : itk::ImageBase<VImageDimension>()
@@ -279,6 +280,7 @@ protected:
     // m_OnTheFlyCleanup = true;
     m_Buffer = BufferType::New();
   }
+
   void
   PrintSelf(std::ostream & os, itk::Indent indent) const;
 
