@@ -112,6 +112,14 @@ int itkPowImageFilterTest(int, char* [] )
   TEST_EXPECT_EQUAL(  outputImage->GetPixel( idx0 ), 2.0 );
   TEST_EXPECT_EQUAL(  outputImage->GetPixel( idx1 ), 4.0 );
 
+  {
+  typedef itk::PowImageFilter<itk::Image<float>,
+                              itk::Image<std::complex<float> >,
+                              itk::Image<std::complex<float> > > complexFloatFilterType;
+  complexFloatFilterType::Pointer tFilter = complexFloatFilterType::New();
+  TEST_EXPECT_TRUE(!tFilter.IsNull());
+  }
+
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;

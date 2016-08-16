@@ -50,8 +50,9 @@ public:
   inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
   {
 
-    typedef typename NumericTraits< TInput1 >::RealType RealType;
-    return static_cast< TOutput >( std::pow(static_cast<RealType>(A),static_cast<RealType>(B)) );
+    typedef typename NumericTraits< TInput1 >::RealType RealType1;
+    typedef typename NumericTraits< TInput2 >::RealType RealType2;
+    return static_cast< TOutput >( std::pow(static_cast<RealType1>(A),static_cast<RealType2>(B)) );
   }
 };
 }
