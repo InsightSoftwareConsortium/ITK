@@ -81,7 +81,8 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIterator. */
-  ImageRegionIterator(const ImageIterator<ImageType> & it) { this->ImageConstIterator<ImageType>::operator=(it); }
+  ImageRegionIterator(const ImageIterator<ImageType> & it) { ImageConstIterator<ImageType>::operator=(it); }
+
   /** Set the pixel value.
    * Changing the RLE structure invalidates all other iterators (except this one). */
   void
@@ -97,14 +98,12 @@ public:
 protected:
   /** the construction from a const iterator is declared protected
   in order to enforce const correctness. */
-  ImageRegionIterator(const ImageRegionConstIterator<ImageType> & it)
-  {
-    this->ImageConstIterator<ImageType>::operator=(it);
-  }
+  ImageRegionIterator(const ImageRegionConstIterator<ImageType> & it) { ImageConstIterator<ImageType>::operator=(it); }
+
   Self &
   operator=(const ImageRegionConstIterator<ImageType> & it)
   {
-    this->ImageConstIterator<ImageType>::operator=(it);
+    ImageConstIterator<ImageType>::operator=(it);
   }
 };
 
@@ -148,8 +147,9 @@ public:
    * ImageIterator to a ImageRegionConstIterator. */
   ImageRegionIteratorWithIndex(const ImageIterator<ImageType> & it)
   {
-    this->ImageRegionConstIteratorWithIndex<ImageType>::operator=(it);
+    ImageRegionConstIteratorWithIndex<ImageType>::operator=(it);
   }
+
   /** Constructor that can be used to cast from an ImageConstIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
    * particular task, you may want an ImageRegionConstIterator.  Rather than
@@ -158,7 +158,7 @@ public:
    * ImageIterator to a ImageRegionIteratorWithIndex. */
   ImageRegionIteratorWithIndex(const ImageConstIterator<ImageType> & it)
   {
-    this->ImageRegionConstIterator<ImageType>::operator=(it);
+    ImageRegionConstIterator<ImageType>::operator=(it);
   }
 }; // no additional implementation required
 } // end namespace itk

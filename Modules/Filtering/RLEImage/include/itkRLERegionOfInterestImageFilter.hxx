@@ -68,7 +68,6 @@ copyImagePortion(ImageRegionConstIterator<typename RLEImageTypeIn::BufferType> i
       oLine.push_back(typename RLEImageTypeOut::RLSegment(t - start0, iLine[x].second));
       begin++; // start copying from next segment
     }
-
     for (x++; x < iLine.size(); x++)
     {
       t += iLine[x].first;
@@ -206,6 +205,7 @@ RegionOfInterestImageFilter<
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
+
   inputRegionForThread.SetSize(outputRegionForThread.GetSize());
 
   IndexType start, end;
@@ -219,8 +219,8 @@ RegionOfInterestImageFilter<
   inputRegionForThread.SetIndex(start);
 
   bool copyLines = (in->GetLargestPossibleRegion().GetSize(0) == outputRegionForThread.GetSize(0));
-  typename ImageType::BufferType::RegionType               oReg = ImageType::truncateRegion(outputRegionForThread),
-                                                           iReg = ImageType::truncateRegion(inputRegionForThread);
+  typename ImageType::BufferType::RegionType               oReg = ImageType::truncateRegion(outputRegionForThread);
+  typename ImageType::BufferType::RegionType               iReg = ImageType::truncateRegion(inputRegionForThread);
   ImageRegionConstIterator<typename ImageType::BufferType> iIt(in->GetBuffer(), iReg);
   ImageRegionIterator<typename ImageType::BufferType>      oIt(out->GetBuffer(), oReg);
 
@@ -239,7 +239,6 @@ RegionOfInterestImageFilter<
     copyImagePortion<ImageType, ImageType>(iIt, oIt, start[0], end[0]);
   }
 } // >::ThreadedGenerateData
-
 
 template <typename TPixelIn,
           typename TPixelOut,
@@ -375,6 +374,7 @@ RegionOfInterestImageFilter<
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
+
   inputRegionForThread.SetSize(outputRegionForThread.GetSize());
 
   IndexType start, end;
@@ -394,7 +394,6 @@ RegionOfInterestImageFilter<
 
   copyImagePortion<RLEImageTypeIn, RLEImageTypeOut>(iIt, oIt, start[0], end[0]);
 } // >::ThreadedGenerateData
-
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
@@ -507,6 +506,7 @@ RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VIm
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
+
   inputRegionForThread.SetSize(outputRegionForThread.GetSize());
 
   IndexType start, end;
@@ -539,13 +539,14 @@ RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VIm
         s.first++;
         ++(iIt);
       }
+
       temp.push_back(s);
     }
+
     oIt.Value() = temp;
     ++oIt;
   }
 } // >::ThreadedGenerateData
-
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
@@ -658,6 +659,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Imag
 
   // Define the portion of the input to walk for this thread
   InputImageRegionType inputRegionForThread;
+
   inputRegionForThread.SetSize(outputRegionForThread.GetSize());
 
   IndexType start, end;

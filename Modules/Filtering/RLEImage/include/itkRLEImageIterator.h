@@ -80,7 +80,7 @@ public:
   Self &
   operator=(const Self & it)
   {
-    this->ImageConstIterator<ImageType>::operator=(it);
+    ImageConstIterator<ImageType>::operator=(it);
     return *this;
   }
 
@@ -101,9 +101,9 @@ public:
   // * If we wanted to safely enable it,
   // * we would isolate this pixel into its own segment. */
   // PixelType & Value(void)
-  //{
+  // {
   //    return m_Buffer[m_Index[2]][m_Index[1]][m_RealIndex].second;
-  //}
+  // }
 
   /** Get the image that this iterator walks. */
   ImageType *
@@ -123,7 +123,7 @@ protected:
   Self &
   operator=(const ImageConstIterator<ImageType> & it)
   {
-    this->ImageConstIterator<ImageType>::operator=(it);
+    ImageConstIterator<ImageType>::operator=(it);
     return *this;
   }
 };
@@ -143,10 +143,10 @@ public:
     : ImageConstIteratorWithIndex<ImageType>()
   {}
 
-
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
-  ImageIteratorWithIndex(const ImageIteratorWithIndex & it) { this->ImageIterator<ImageType>::operator=(it); }
+  ImageIteratorWithIndex(const ImageIteratorWithIndex & it) { ImageIterator<ImageType>::operator=(it); }
+
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   ImageIteratorWithIndex(const ImageType * ptr, const RegionType & region)
