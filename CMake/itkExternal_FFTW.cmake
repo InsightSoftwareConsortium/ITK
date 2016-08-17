@@ -95,7 +95,7 @@ else()
         CONFIGURE_COMMAND
           env
             "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
             "LDFLAGS=$ENV{LDFLAGS}"
             "LIBS=$ENV{LIBS}"
             "CPP=$ENV{CPP}"
@@ -123,7 +123,7 @@ else()
         CONFIGURE_COMMAND
           env
            "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-           "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+           "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
            "LDFLAGS=$ENV{LDFLAGS}"
            "LIBS=$ENV{LIBS}"
            "CPP=$ENV{CPP}"
