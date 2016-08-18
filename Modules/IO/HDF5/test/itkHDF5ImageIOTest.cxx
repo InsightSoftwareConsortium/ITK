@@ -319,11 +319,30 @@ int HDF5ReadWriteTest(const char *fileName)
       }
     }
 
+  return success;
+}
+
+int HDF5ReuseReadWriteTest(const char *fileName)
+{
+  int success(EXIT_SUCCESS);
+
   itk::HDF5ImageIO::Pointer io = itk::HDF5ImageIO::New();
   io->SetFileName( fileName );
+
+  // Is writing first an image should produce an error?
+  // io->WriteImageInformation();
+
   io->ReadImageInformation();
   // Ensure there are no memory leaks
   io->ReadImageInformation();
+
+  io->WriteImageInformation();
+  // Ensure there are no memory leaks
+  io->WriteImageInformation();
+
+  // Reading after Writing shouldn't produce an error
+  io->ReadImageInformation();
+
   return success;
 }
 
@@ -343,8 +362,12 @@ itkHDF5ImageIOTest(int ac, char * av [] )
   EXERCISE_BASIC_OBJECT_METHODS( imageio, HDF5ImageIO, StreamingImageIOBase );
 
   int result(0);
+
   result += HDF5ReadWriteTest<unsigned char>("UCharImage.hdf5");
   result += HDF5ReadWriteTest<float>("FloatImage.hdf5");
   result += HDF5ReadWriteTest<itk::RGBPixel<unsigned char> >("RGBImage.hdf5");
+
+  result += HDF5ReuseReadWriteTest("UCharImage.hdf5");
+
   return result != 0;
 }
