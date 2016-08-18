@@ -31,6 +31,9 @@ file:///var/bigharddrive/%(algo)/%(hash)")
 mark_as_advanced(ExternalData_URL_TEMPLATES)
 if(NOT ITK_FORBID_DOWNLOADS)
   list(APPEND ExternalData_URL_TEMPLATES
+    # Data published on Girder
+    "https://data.kitware.com:443/api/v1/file/hashsum/%(algo)/%(hash)/download"
+
     # Data published on MIDAS
     "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=%(hash)&algorithm=%(algo)"
 
