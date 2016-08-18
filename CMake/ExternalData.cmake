@@ -1,3 +1,6 @@
+# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+# file Copyright.txt or https://cmake.org/licensing for details.
+
 #.rst:
 # ExternalData
 # ------------
@@ -251,7 +254,8 @@
 # ``DATA{MyDataDir/,REGEX:.*}`` will pass the full path to a ``MyDataDir``
 # directory on the command line and ensure that the directory contains
 # files corresponding to every file or content link in the ``MyDataDir``
-# source directory.
+# source directory.  In order to match associated files in subdirectories,
+# specify a ``RECURSE:`` option, e.g. ``DATA{MyDataDir/,RECURSE:,REGEX:.*}``.
 #
 # Hash Algorithms
 # ^^^^^^^^^^^^^^^
@@ -308,39 +312,6 @@
 #   When a custom fetch script fails to fetch the requested content,
 #   it must set this variable to a short one-line message describing
 #   the reason for failure.
-
-#=============================================================================
-# Copyright 2010-2015 Kitware, Inc.
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# * Redistributions of source code must retain the above copyright
-#   notice, this list of conditions and the following disclaimer.
-#
-# * Redistributions in binary form must reproduce the above copyright
-#   notice, this list of conditions and the following disclaimer in the
-#   documentation and/or other materials provided with the distribution.
-#
-# * Neither the names of Kitware, Inc., the Insight Software Consortium,
-#   nor the names of their contributors may be used to endorse or promote
-#   products derived from this software without specific prior written
-#   permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#=============================================================================
 
 function(ExternalData_add_test target)
   # Expand all arguments as a single string to preserve escaped semicolons.
@@ -510,17 +481,14 @@ endfunction()
 #-----------------------------------------------------------------------------
 # Private helper interface
 
-set(_ExternalData_REGEX_ALGO "MD5")
-set(_ExternalData_REGEX_EXT "md5")
+set(_ExternalData_REGEX_ALGO "MD5|SHA1|SHA224|SHA256|SHA384|SHA512")
+set(_ExternalData_REGEX_EXT "md5|sha1|sha224|sha256|sha384|sha512")
 set(_ExternalData_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_ExternalData_SELF_DIR "${_ExternalData_SELF}" PATH)
 
 function(_ExternalData_compute_hash var_hash algo file)
   if("${algo}" MATCHES "^${_ExternalData_REGEX_ALGO}$")
-    # TODO: Require CMake 2.8.7 to support other hashes with file(${algo} ...)
-    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
-      OUTPUT_VARIABLE output)
-    string(SUBSTRING "${output}" 0 32 hash)
+    file("${algo}" "${file}" hash)
     set("${var_hash}" "${hash}" PARENT_SCOPE)
   else()
     message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
@@ -625,6 +593,7 @@ function(_ExternalData_arg target arg options var_file)
 
   # Process options.
   set(series_option "")
+  set(recurse_option "")
   set(associated_files "")
   set(associated_regex "")
   foreach(opt ${options})
@@ -634,6 +603,9 @@ function(_ExternalData_arg target arg options var_file)
     elseif(opt STREQUAL ":")
       # Activate series matching.
       set(series_option "${opt}")
+    elseif(opt STREQUAL "RECURSE:")
+      # Activate recursive matching in directories.
+      set(recurse_option "${opt}")
     elseif("x${opt}" MATCHES "^[^][:/*?]+$")
       # Specific associated file.
       list(APPEND associated_files "${opt}")
@@ -650,6 +622,9 @@ function(_ExternalData_arg target arg options var_file)
     if(associated_files OR associated_regex)
       message(FATAL_ERROR "Series option \"${series_option}\" not allowed with associated files.")
     endif()
+    if(recurse_option)
+      message(FATAL_ERROR "Recurse option \"${recurse_option}\" allowed only with directories.")
+    endif()
     # Load a whole file series.
     _ExternalData_arg_series()
   elseif(data_is_directory)
@@ -662,6 +637,9 @@ function(_ExternalData_arg target arg options var_file)
         "must list associated files.")
     endif()
   else()
+    if(recurse_option)
+      message(FATAL_ERROR "Recurse option \"${recurse_option}\" allowed only with directories.")
+    endif()
     # Load the named data file.
     _ExternalData_arg_single()
     if(associated_files OR associated_regex)
@@ -709,11 +687,18 @@ macro(_ExternalData_arg_associated)
     set(reldir "${reldir}/")
   endif()
   _ExternalData_exact_regex(reldir_regex "${reldir}")
+  if(recurse_option)
+    set(glob GLOB_RECURSE)
+    set(reldir_regex "${reldir_regex}(.+/)?")
+  else()
+    set(glob GLOB)
+  endif()
 
   # Find files named explicitly.
   foreach(file ${associated_files})
     _ExternalData_exact_regex(file_regex "${file}")
-    _ExternalData_arg_find_files("${reldir}${file}" "${reldir_regex}${file_regex}")
+    _ExternalData_arg_find_files(${glob} "${reldir}${file}"
+      "${reldir_regex}${file_regex}")
   endforeach()
 
   # Find files matching the given regular expressions.
@@ -723,13 +708,13 @@ macro(_ExternalData_arg_associated)
     set(all "${all}${sep}${reldir_regex}${regex}")
     set(sep "|")
   endforeach()
-  _ExternalData_arg_find_files("${reldir}" "${all}")
+  _ExternalData_arg_find_files(${glob} "${reldir}" "${all}")
 endmacro()
 
 macro(_ExternalData_arg_single)
   # Match only the named data by itself.
   _ExternalData_exact_regex(data_regex "${reldata}")
-  _ExternalData_arg_find_files("${reldata}" "${data_regex}")
+  _ExternalData_arg_find_files(GLOB "${reldata}" "${data_regex}")
 endmacro()
 
 macro(_ExternalData_arg_series)
@@ -784,12 +769,15 @@ macro(_ExternalData_arg_series)
   # Then match base, number, and extension.
   _ExternalData_exact_regex(series_base "${relbase}")
   _ExternalData_exact_regex(series_ext "${ext}")
-  _ExternalData_arg_find_files("${relbase}*${ext}"
+  _ExternalData_arg_find_files(GLOB "${relbase}*${ext}"
     "${series_base}${series_match}${series_ext}")
 endmacro()
 
-function(_ExternalData_arg_find_files pattern regex)
-  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
+function(_ExternalData_arg_find_files glob pattern regex)
+  cmake_policy(PUSH)
+  cmake_policy(SET CMP0009 NEW)
+  file(${glob} globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
+  cmake_policy(POP)
   foreach(entry IN LISTS globbed)
     if("x${entry}" MATCHES "^x(.*)(\\.(${_ExternalData_REGEX_EXT}))$")
       set(relname "${CMAKE_MATCH_1}")
