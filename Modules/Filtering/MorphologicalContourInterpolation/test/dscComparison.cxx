@@ -33,7 +33,8 @@ ImageType::Pointer
 createSparseCopy(const ImageType::Pointer & inImage, ImageType::IndexType nth)
 {
   const ImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
-  ImageType::Pointer            outImage = ImageType::New();
+
+  ImageType::Pointer outImage = ImageType::New();
   outImage->CopyInformation(inImage);
   outImage->SetRegions(lpr);
   outImage->Allocate(true);
@@ -48,7 +49,6 @@ createSparseCopy(const ImageType::Pointer & inImage, ImageType::IndexType nth)
     {
       const ImageType::IndexType & ind = oIt.GetIndex();
       bool                         write = false;
-
       for (int axis = 0; axis < dim; axis++)
       {
         if (ind[axis] % nth[axis] == 0)
@@ -77,7 +77,8 @@ calcOverlap(const ImageType::Pointer & autoSeg,
             unsigned long long &       fpCount,
             unsigned long long &       fnCount)
 {
-  const ImageType::RegionType &            lpr = groundTruth->GetLargestPossibleRegion();
+  const ImageType::RegionType & lpr = groundTruth->GetLargestPossibleRegion();
+
   itk::ImageRegionConstIterator<ImageType> itAS(autoSeg, lpr);
   itk::ImageRegionConstIterator<ImageType> itGT(groundTruth, lpr);
   tpCount = 0;
@@ -145,7 +146,6 @@ main(int argc, char * argv[])
     maxInd[axis] = itk::IndexValueType(lpr.GetSize(axis));
   }
   fout << "Image, nth, axis, time, TP, FP, FN, TN\n";
-
   // the big for loop which does the work
   for (int sparsity = 2; sparsity <= 8; sparsity++)
   {
