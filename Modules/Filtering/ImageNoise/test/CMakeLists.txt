@@ -24,7 +24,8 @@ itk_add_test(NAME itkAdditiveGaussianNoiseImageFilterTestPSNR
    20 1)
 set_tests_properties(itkAdditiveGaussianNoiseImageFilterTestPSNR
   PROPERTIES
-   DEPENDS itkAdditiveGaussianNoiseImageFilterTest)
+   DEPENDS itkAdditiveGaussianNoiseImageFilterTest
+   REQUIRED_FILES ${ITK_TEST_OUTPUT_DIR}/itkAdditiveGaussianNoiseImageFilterTest.png)
 itk_add_test(NAME itkShotNoiseImageFilterTest
   COMMAND ITKImageNoiseTestDriver
   itkShotNoiseImageFilterTest
@@ -39,7 +40,8 @@ itk_add_test(NAME itkShotNoiseImageFilterTestPSNR
    20 1)
 set_tests_properties(itkShotNoiseImageFilterTestPSNR
   PROPERTIES
-   DEPENDS itkShotNoiseImageFilterTest)
+   DEPENDS itkShotNoiseImageFilterTest
+   REQUIRED_FILES ${ITK_TEST_OUTPUT_DIR}/itkShotNoiseImageFilterTest.png)
 itk_add_test(NAME itkSpeckleNoiseImageFilterTest
   COMMAND ITKImageNoiseTestDriver
   itkSpeckleNoiseImageFilterTest
@@ -54,7 +56,8 @@ itk_add_test(NAME itkSpeckleNoiseImageFilterTestPSNR
    20 1)
 set_tests_properties(itkSpeckleNoiseImageFilterTestPSNR
   PROPERTIES
-   DEPENDS itkSpeckleNoiseImageFilterTest)
+   DEPENDS itkSpeckleNoiseImageFilterTest
+   REQUIRED_FILES ${ITK_TEST_OUTPUT_DIR}/itkSpeckleNoiseImageFilterTest.png)
 itk_add_test(NAME itkSaltAndPepperNoiseImageFilterTest
   COMMAND ITKImageNoiseTestDriver
   itkSaltAndPepperNoiseImageFilterTest
@@ -69,4 +72,5 @@ itk_add_test(NAME itkSaltAndPepperNoiseImageFilterTestPSNR
    20 1)
 set_tests_properties(itkSaltAndPepperNoiseImageFilterTestPSNR
   PROPERTIES
-   DEPENDS itkSaltAndPepperNoiseImageFilterTest)
+   DEPENDS itkSaltAndPepperNoiseImageFilterTest
+   REQUIRED_FILES ${ITK_TEST_OUTPUT_DIR}/itkSaltAndPepperNoiseImageFilterTest.png)
