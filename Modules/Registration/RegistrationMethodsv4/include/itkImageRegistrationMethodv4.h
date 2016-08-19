@@ -261,11 +261,11 @@ public:
   itkSetMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
   itkGetConstMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
 
-  /** Set the metric sampling percentage. */
+  /** Set the metric sampling percentage. Valid values are in (0.0, 1.0] */
   void SetMetricSamplingPercentage( const RealType );
 
-  /** Set the metric sampling percentage. */
-  itkSetMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
+  /** Set the metric sampling percentage. Valid values are in (0.0,1.0]. */
+  virtual void SetMetricSamplingPercentagePerLevel( const MetricSamplingPercentageArrayType  &samplingPercentages );
   itkGetConstMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
 
   /** Set/Get the initial fixed transform. */
