@@ -17,6 +17,12 @@ target_link_libraries(
   ${MorphologicalContourInterpolation-Test_LIBRARIES}
 )
 
+add_executable(dscComparison dscComparison.cxx)
+target_link_libraries(
+  dscComparison
+  ${MorphologicalContourInterpolation-Test_LIBRARIES}
+)
+
 # used to produce an output which is then taken as a baseline for a regression test
 function(JustInputTest ImageName Ext) #optional: Algo Axis Label
   foreach(f ${ARGN}) #create unique test name
@@ -54,6 +60,20 @@ function(RegressionTest ImageName Ext) #optional: Algo Axis Label
       itkMorphologicalContourInterpolationTest
       DATA{Input/${ImageName}.${Ext}}
       ${outImage}
+      ${ARGN}
+  )
+endfunction()
+
+# functional comparison using Dice Similarity Coefficient
+function(DSCTest ImageName Ext)
+  set(outFilenameBase "${ITK_TEST_OUTPUT_DIR}/${ImageName}")
+
+  itk_add_test(
+    NAME itkMCI_DSC_${ImageName}
+    COMMAND
+      dscComparison
+      DATA{Input/${ImageName}.${Ext}}
+      ${outFilenameBase}
       ${ARGN}
   )
 endfunction()
@@ -195,3 +215,15 @@ regressiontest(FaceRoI nrrd ${MCI_Algorithm} 2)
 
 # Non-3D tests
 regressiontest(FourD nrrd ${MCI_Algorithm})
+
+# dscComparison (crops)
+dsctest(c2l  mha saveImages)
+dsctest(c2b  mha saveImages)
+dsctest(c10l mha saveImages)
+dsctest(c10b mha saveImages)
+
+# dscComparison (full resolution)
+dsctest(case_2_labels  mha saveImages)
+dsctest(case_2_binary  mha saveImages)
+dsctest(case_10_labels mha saveImages)
+dsctest(case_10_binary mha saveImages)
