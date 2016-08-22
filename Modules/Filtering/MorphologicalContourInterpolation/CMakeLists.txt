@@ -5,7 +5,9 @@ set(
   MCI_Algorithm
   "B"
   CACHE STRING
-  "Which algorithm should be used for testing.
+  "Which algorithm should be used for testing
+the module MorphologicalContourInterpolation.
+
 B = repeated dilations with ball structuring element
 C = repeated dilations with cross structuring element
 T = distance transform (not geodesic!)"
