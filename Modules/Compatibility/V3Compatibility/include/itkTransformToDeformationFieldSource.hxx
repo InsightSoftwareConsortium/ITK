@@ -365,11 +365,11 @@ TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
  * Verify if any of the components has been modified.
  */
 template< typename TOutputImage, typename TTransformPrecisionType >
-unsigned long
+ModifiedTimeType
 TransformToDeformationFieldSource< TOutputImage, TTransformPrecisionType >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( this->m_Transform )
     {

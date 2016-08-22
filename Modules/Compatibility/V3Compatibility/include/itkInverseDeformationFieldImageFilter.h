@@ -168,7 +168,7 @@ public:
   virtual void GenerateInputRequestedRegion();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime() const;
+  ModifiedTimeType GetMTime() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
