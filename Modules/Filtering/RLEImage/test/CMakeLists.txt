@@ -23,7 +23,7 @@ add_executable(
   itkImageScanlineIteratorTest1.cxx
   iteratorTests.cxx
 )
-target_link_libraries(iteratorTests ${ITK_LIBRARIES})
+target_link_libraries(iteratorTests "${RLEImage-Test_LIBRARIES}")
 itk_add_test(NAME iteratorTests COMMAND iteratorTests)
 
 function(ReadWriteTest ImageName Ext)
