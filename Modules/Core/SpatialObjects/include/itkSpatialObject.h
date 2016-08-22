@@ -159,10 +159,10 @@ public:
   void ComputeObjectToParentTransform();
 
   /** Return the Modified time of the LocalToWorldTransform */
-  unsigned long GetTransformMTime();
+  ModifiedTimeType GetTransformMTime();
 
   /** Return the Modified time of the WorldToLocalTransform */
-  unsigned long GetWorldTransformMTime();
+  ModifiedTimeType GetWorldTransformMTime();
 
   /** Returns the value at a point */
   virtual bool ValueAt(const PointType & point, double & value,
@@ -206,7 +206,7 @@ public:
 
   /** Returns the latest modified time of the spatial object, but not
    *  the modification time of the children */
-  unsigned long GetObjectMTime(void) const
+  ModifiedTimeType GetObjectMTime(void) const
   {
     return Superclass::GetMTime();
   }

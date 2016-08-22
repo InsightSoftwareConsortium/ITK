@@ -143,7 +143,7 @@ public:
   virtual void GenerateOutputInformation();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime() const;
+  ModifiedTimeType GetMTime() const;
 
 protected:
   DeformationFieldSource();
