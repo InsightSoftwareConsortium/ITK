@@ -47,5 +47,7 @@ main(int argc, char * argv[])
   itkImageRegionConstIteratorWithOnlyIndexTest(argc, argv);
   itkRegionOfInterestImageFilterTest(argc, argv);
   typedef itk::RLEImage<char, 2, char> charred2dType; // test size 256
+  charred2dType::Pointer               t2 = charred2dType::New();
   typedef itk::RLEImage<char, 4>       charred4dType; // test size 65536
+  charred4dType::Pointer               t4 = charred4dType::New();
 }

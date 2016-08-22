@@ -65,11 +65,12 @@ RLEImage<TPixel, VImageDimension, CounterType>::truncateRegion(const RegionType 
 
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
-RLEImage<TPixel, VImageDimension, CounterType>::Allocate(bool initialize)
+RLEImage<TPixel, VImageDimension, CounterType>::Allocate(bool itkNotUsed(initialize))
 {
   itkAssertOrThrowMacro(this->GetBufferedRegion().GetSize(0) == this->GetLargestPossibleRegion().GetSize(0),
                         "BufferedRegion must contain complete run-length lines!");
-  itkAssertOrThrowMacro(this->GetLargestPossibleRegion().GetSize(0) <= std::numeric_limits<CounterType>::max(),
+  itkAssertOrThrowMacro(this->GetLargestPossibleRegion().GetSize(0) <=
+                          itk::SizeValueType(std::numeric_limits<CounterType>::max()),
                         "CounterType is not large enough to support image's X dimension!");
   this->ComputeOffsetTable();
   // SizeValueType num = static_cast<SizeValueType>(this->GetOffsetTable()[VImageDimension]);
@@ -124,7 +125,9 @@ RLEImage<TPixel, VImageDimension, CounterType>::CleanUp() const
   {
     return;
   }
-#pragma omp parallel for
+#ifndef __GNUC__
+#  pragma omp parallel for
+#endif
   for (CounterType z = 0; z < m_Buffer.size(); z++)
   {
     for (CounterType y = 0; y < m_Buffer[0].size(); y++)
