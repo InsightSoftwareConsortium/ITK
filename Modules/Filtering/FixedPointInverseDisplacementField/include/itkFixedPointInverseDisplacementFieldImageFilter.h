@@ -159,6 +159,7 @@ private:
 
 } // end namespace itk
 
-#include "itkFixedPointInverseDisplacementFieldImageFilter.hxx"
-
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkFixedPointInverseDisplacementFieldImageFilter.hxx"
+#endif
 #endif
