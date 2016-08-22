@@ -9,11 +9,8 @@ convert to and from regular itk::Image."
 itk_module(
   RLEImage
   DEPENDS
-    ITKCommon
     ITKImageGrid
   TEST_DEPENDS
-    ITKCommon
-    ITKIOImageBase
     ITKTestKernel
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
