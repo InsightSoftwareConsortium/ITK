@@ -58,14 +58,16 @@ copyImagePortion(ImageRegionConstIterator<typename RLEImageTypeIn::BufferType> i
     SizeValueType begin = x;
     if (t >= end0) // both begin and end are in this segment
     {
-      oLine.push_back(typename RLEImageTypeOut::RLSegment(end0 - start0, iLine[x].second));
+      oLine.push_back(
+        typename RLEImageTypeOut::RLSegment(typename RLEImageTypeOut::RLCounterType(end0 - start0), iLine[x].second));
       ++iIt;
       ++oIt;
       continue; // next line
     }
     else if (t - start0 < iLine[x].first) // not the first pixel in segment
     {
-      oLine.push_back(typename RLEImageTypeOut::RLSegment(t - start0, iLine[x].second));
+      oLine.push_back(
+        typename RLEImageTypeOut::RLSegment(typename RLEImageTypeOut::RLCounterType(t - start0), iLine[x].second));
       begin++; // start copying from next segment
     }
     for (x++; x < iLine.size(); x++)
@@ -83,7 +85,8 @@ copyImagePortion(ImageRegionConstIterator<typename RLEImageTypeIn::BufferType> i
     else // we need to take special care of the last segment
     {
       oLine.insert(oLine.end(), iLine.begin() + begin, iLine.begin() + x);
-      oLine.push_back(typename RLEImageTypeOut::RLSegment(end0 + iLine[x].first - t, iLine[x].second));
+      oLine.push_back(typename RLEImageTypeOut::RLSegment(
+        typename RLEImageTypeOut::RLCounterType(end0 + iLine[x].first - t), iLine[x].second));
     }
 
     ++iIt;
@@ -197,7 +200,7 @@ void
 RegionOfInterestImageFilter<
   RLEImage<TPixel, VImageDimension, CounterType>,
   RLEImage<TPixel, VImageDimension, CounterType>>::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                                                                        ThreadIdType       threadId)
+                                                                        ThreadIdType       itkNotUsed(threadId))
 {
   // Get the input and output pointers
   const RLEImageType * in = this->GetInput();
@@ -366,7 +369,7 @@ void
 RegionOfInterestImageFilter<
   RLEImage<TPixelIn, VImageDimension, CounterTypeIn>,
   RLEImage<TPixelOut, VImageDimension, CounterTypeOut>>::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                                                                              ThreadIdType       threadId)
+                                                                              ThreadIdType       itkNotUsed(threadId))
 {
   // Get the input and output pointers
   const RLEImageTypeIn * in = this->GetInput();
@@ -498,7 +501,7 @@ RegionOfInterestImageFilter<Image<TPixel, VImageDimension>,
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixel, VImageDimension, CounterType>>::
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId)
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType itkNotUsed(threadId))
 {
   // Get the input and output pointers
   const ImageType * in = this->GetInput();
@@ -651,7 +654,7 @@ RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>,
 template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>, Image<TPixel, VImageDimension>>::
-  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId)
+  ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType itkNotUsed(threadId))
 {
   // Get the input and output pointers
   const RLEImageType * in = this->GetInput();

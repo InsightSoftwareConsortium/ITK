@@ -67,7 +67,7 @@ roiTest(itk::SmartPointer<itk::RLEImage<typename ImageType::PixelType, ImageType
 
   typename myRLEImage::RegionType reg = orig->GetLargestPossibleRegion();
   typename myRLEImage::RegionType rNeg = reg;
-  for (int i = 0; i < ImageType::ImageDimension; i++)
+  for (unsigned i = 0; i < ImageType::ImageDimension; i++)
   {
     rNeg.SetIndex(i, -typename myRLEImage::IndexValueType(reg.GetSize(i)) * 3 / 4);
   }
@@ -78,7 +78,7 @@ roiTest(itk::SmartPointer<itk::RLEImage<typename ImageType::PixelType, ImageType
   std::cout << "OK" << std::endl;
 
   // region for partial coverage, skip X due to RLE representation constraints
-  for (int i = 1; i < ImageType::ImageDimension; i++)
+  for (unsigned i = 1; i < ImageType::ImageDimension; i++)
   {
     reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
     rNeg.GetModifiableIndex()[i] += typename myRLEImage::IndexValueType(rNeg.GetSize(i) - 1) / 4;
@@ -188,12 +188,12 @@ doTest(std::string inFilename, std::string outFilename)
 void
 dimTest()
 {
-  typedef itk::RLEImage<short, 2>                          S2Type; // 2D
-  typedef itk::RLEImage<short, 3>                          S3Type; // 2D
-  typedef itk::RegionOfInterestImageFilter<S3Type, S2Type> RoIType;
-
   // instantiation of "RoIType" is dissalowed due to different dimension
-  // uncommenting the line below should give a meaningful error message
+  // uncommenting the lines below should give a meaningful error message
+
+  // typedef itk::RLEImage<short, 2> S2Type; //2D
+  // typedef itk::RLEImage<short, 3> S3Type; //2D
+  // typedef itk::RegionOfInterestImageFilter<S3Type, S2Type> RoIType;
   // typename RoIType::Pointer roi = RoIType::New();
 }
 
