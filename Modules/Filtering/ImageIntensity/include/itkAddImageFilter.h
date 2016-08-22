@@ -34,7 +34,6 @@ template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInpu
 class Add2
 {
 public:
-  typedef typename NumericTraits< TInput1 >::AccumulateType AccumulatorType;
   Add2() {}
   ~Add2() {}
   bool operator!=(const Add2 &) const
@@ -49,9 +48,7 @@ public:
 
   inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
   {
-    const AccumulatorType sum = A;
-
-    return static_cast< TOutput >( sum + B );
+    return static_cast< TOutput >( A + B );
   }
 };
 }
