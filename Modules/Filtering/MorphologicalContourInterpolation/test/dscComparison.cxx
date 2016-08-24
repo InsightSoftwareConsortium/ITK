@@ -49,7 +49,7 @@ createSparseCopy(const ImageType::Pointer & inImage, ImageType::IndexType nth)
     {
       const ImageType::IndexType & ind = oIt.GetIndex();
       bool                         write = false;
-      for (int axis = 0; axis < dim; axis++)
+      for (unsigned axis = 0; axis < dim; axis++)
       {
         if (ind[axis] % nth[axis] == 0)
         {
@@ -125,23 +125,23 @@ main(int argc, char * argv[])
   RegisterRequiredFactories();
 
   typedef itk::ImageFileReader<ImageType> ReaderType;
-  typename ReaderType::Pointer            reader = ReaderType::New();
+  ReaderType::Pointer                     reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
   ImageType::Pointer inImage = reader->GetOutput();
   inImage->DisconnectPipeline();
 
   typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
-  typename mciType::Pointer                                mci = mciType::New();
+  mciType::Pointer                                         mci = mciType::New();
   mci->SetUseBallStructuringElement(true); // test cross?
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
-  typename WriterType::Pointer            writer = WriterType::New();
+  WriterType::Pointer                     writer = WriterType::New();
   writer->SetUseCompression(true);
 
   const ImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
   ImageType::IndexType          maxInd;
-  for (int axis = 0; axis < dim; axis++)
+  for (unsigned axis = 0; axis < dim; axis++)
   {
     maxInd[axis] = itk::IndexValueType(lpr.GetSize(axis));
   }
@@ -156,9 +156,9 @@ main(int argc, char * argv[])
       ImageType::IndexType axisSparsity = maxInd;
       if (axis < 0) // all axes
       {
-        for (int axis = 0; axis < dim; axis++)
+        for (unsigned a = 0; a < dim; a++)
         {
-          axisSparsity[axis] = sparsity;
+          axisSparsity[a] = sparsity;
         }
       }
       else // just one axis
