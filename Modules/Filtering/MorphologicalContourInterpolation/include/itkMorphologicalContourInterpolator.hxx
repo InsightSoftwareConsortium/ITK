@@ -441,7 +441,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
   }
 
   // find median
-  unsigned       minIndex;
+  unsigned       minIndex = 0;
   IdentifierType min = iMask->GetRequestedRegion().GetNumberOfPixels();
   for (unsigned x = 0; x < iSeq.size(); x++)
   {
@@ -506,7 +506,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
     typename TImage::PixelType dist = fractioning * itsdf.Get();
     if (iM && !jM)
     {
-      if (dist >= iHist.size())
+      if (size_t(dist) >= iHist.size())
       {
         iHist.resize(dist + 1, 0);
       }
@@ -545,7 +545,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   assert(jHist[0] == 0);
   std::vector<long long> iSum(maxSize, 0);
   std::vector<long long> jSum(maxSize, 0);
-  for (int b = 1; b < maxSize; b++)
+  for (unsigned b = 1; b < maxSize; b++)
   {
     iSum[b] = iSum[b - 1] + iHist[b];
     jSum[b] = jSum[b - 1] + jHist[b];
@@ -609,7 +609,7 @@ MorphologicalContourInterpolator<TImage>::BoundingBox(itk::SmartPointer<SliceTyp
     if (iIt.Get())
     {
       typename SliceType::IndexType ind = iIt.GetIndex();
-      for (int d = 0; d < SliceType::ImageDimension; d++)
+      for (unsigned d = 0; d < SliceType::ImageDimension; d++)
       {
         if (ind[d] < minInd[d])
         {
@@ -625,7 +625,7 @@ MorphologicalContourInterpolator<TImage>::BoundingBox(itk::SmartPointer<SliceTyp
   }
 
   newRegion.SetIndex(minInd);
-  for (int d = 0; d < SliceType::ImageDimension; d++)
+  for (unsigned d = 0; d < SliceType::ImageDimension; d++)
   {
     newRegion.SetSize(d, maxInd[d] - minInd[d] + 1);
   }
@@ -696,7 +696,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     typename SliceType::RegionType jBB = BoundingBox(jConnT);
     typename SliceType::IndexType  i2 = jBB.GetIndex();
     ExpandRegion<SliceType>(newRegion, i2);
-    for (int d = 0; d < SliceType::ImageDimension; d++)
+    for (unsigned d = 0; d < SliceType::ImageDimension; d++)
     {
       i2[d] += jBB.GetSize(d) - 1;
     }
@@ -764,7 +764,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   // finally write it out into the output image pointer
   typename TImage::RegionType    outRegion = this->GetOutput()->GetRequestedRegion();
   typename SliceType::RegionType sliceRegion;
-  for (int d = 0; d < TImage::ImageDimension - 1; d++)
+  for (int d = 0; d < int(TImage::ImageDimension) - 1; d++)
   {
     if (d < axis)
     {
@@ -777,10 +777,11 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
       sliceRegion.SetSize(d, outRegion.GetSize(d + 1));
     }
   }
-  typename SliceType::IndexType t0 = { 0 };        // no translation
+  typename SliceType::IndexType t0;
+  t0.Fill(0);
   IntersectionRegions(t0, sliceRegion, newRegion); // clips new region to output region
   // sliceRegion possibly shrunk, copy it into outRegion
-  for (int d = 0; d < TImage::ImageDimension - 1; d++)
+  for (int d = 0; d < int(TImage::ImageDimension) - 1; d++)
   {
     if (d < axis)
     {
@@ -1126,7 +1127,7 @@ MorphologicalContourInterpolator<TImage>::Intersection(typename SliceType::Point
   IntersectionRegions(translation, iRegion, jRegion);
 
   std::vector<IdentifierType> counts(jRegionIds.size());
-  for (int x = 0; x < jRegionIds.size(); x++)
+  for (unsigned x = 0; x < jRegionIds.size(); x++)
   {
     counts[x] = 0;
   }
@@ -1148,7 +1149,7 @@ MorphologicalContourInterpolator<TImage>::Intersection(typename SliceType::Point
   }
 
   IdentifierType sum = 0;
-  for (int x = 0; x < jRegionIds.size(); x++)
+  for (unsigned x = 0; x < jRegionIds.size(); x++)
   {
     if (counts[x] == 0)
     {
