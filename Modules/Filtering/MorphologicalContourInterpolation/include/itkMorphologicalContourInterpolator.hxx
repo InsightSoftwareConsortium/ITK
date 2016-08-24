@@ -389,11 +389,13 @@ MorphologicalContourInterpolator<TImage>::GenerateDilationSequence(typename Bool
 {
   std::vector<typename BoolSliceType::Pointer> seq;
   seq.push_back(Dilate1(begin, end, threadId));
+
   do
   {
     seq.back()->DisconnectPipeline();
     seq.push_back(Dilate1(seq.back(), end, threadId));
   } while (!ImagesEqual(seq.back(), seq[seq.size() - 2]));
+
   seq.pop_back(); // remove duplicate image
   return seq;
 }
@@ -651,7 +653,6 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   typename SliceType::RegionType jRegion = jConn->GetLargestPossibleRegion();
   typename SliceType::IndexType  jBottom = jRegion.GetIndex();
   bool                           carry = false;
-
   for (unsigned d = 0; d < SliceType::ImageDimension; d++)
   {
     if (!carry)
@@ -840,6 +841,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
       ++seqIt;
       ++outIt;
     }
+
     mutex.Unlock();
   } // iterator destroyed here
 
@@ -1010,6 +1012,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
             }
             ++x;
           }
+
           if (x < jRegionIds.size()) // covered by a blob, hollow it out
           {
             belongIt.Set(x + 1);
@@ -1173,6 +1176,7 @@ MorphologicalContourInterpolator<TImage>::CardSymDifference(typename BoolSliceTy
     ++iIt;
     ++jIt;
   }
+
   return count;
 }
 
@@ -1644,7 +1648,6 @@ MorphologicalContourInterpolator<TImage>::GenerateData()
   {
     FixedArray<bool, TImage::ImageDimension> aggregate;
     aggregate.Fill(false);
-
     for (int i = 0; i < TImage::ImageDimension; i++)
     {
       if (this->m_Label == 0) // examine all labels
