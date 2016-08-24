@@ -25,31 +25,31 @@
 #include "itkTestDriverIncludeRequiredIOFactories.h"
 #include "itkTimeProbe.h"
 
-typedef unsigned char              PixelType;
-const unsigned int                 dim = 3;
-typedef itk::Image<PixelType, dim> ImageType;
+typedef unsigned char                      TestPixelType;
+const unsigned int                         testDim = 3;
+typedef itk::Image<TestPixelType, testDim> TestImageType;
 
-ImageType::Pointer
-createSparseCopy(const ImageType::Pointer & inImage, ImageType::IndexType nth)
+TestImageType::Pointer
+createSparseCopy(const TestImageType::Pointer & inImage, TestImageType::IndexType nth)
 {
-  const ImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
+  const TestImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
 
-  ImageType::Pointer outImage = ImageType::New();
+  TestImageType::Pointer outImage = TestImageType::New();
   outImage->CopyInformation(inImage);
   outImage->SetRegions(lpr);
   outImage->Allocate(true);
 
-  itk::ImageRegionConstIterator<ImageType>     iIt(inImage, lpr);
-  itk::ImageRegionIteratorWithIndex<ImageType> oIt(outImage, lpr);
+  itk::ImageRegionConstIterator<TestImageType>     iIt(inImage, lpr);
+  itk::ImageRegionIteratorWithIndex<TestImageType> oIt(outImage, lpr);
 
   while (!oIt.IsAtEnd())
   {
-    const PixelType & val = iIt.Get();
+    const TestPixelType & val = iIt.Get();
     if (val)
     {
-      const ImageType::IndexType & ind = oIt.GetIndex();
-      bool                         write = false;
-      for (unsigned axis = 0; axis < dim; axis++)
+      const TestImageType::IndexType & ind = oIt.GetIndex();
+      bool                             write = false;
+      for (unsigned axis = 0; axis < testDim; axis++)
       {
         if (ind[axis] % nth[axis] == 0)
         {
@@ -71,16 +71,16 @@ createSparseCopy(const ImageType::Pointer & inImage, ImageType::IndexType nth)
 }
 
 void
-calcOverlap(const ImageType::Pointer & autoSeg,
-            const ImageType::Pointer & groundTruth,
-            unsigned long long &       tpCount,
-            unsigned long long &       fpCount,
-            unsigned long long &       fnCount)
+calcOverlap(const TestImageType::Pointer & autoSeg,
+            const TestImageType::Pointer & groundTruth,
+            unsigned long long &           tpCount,
+            unsigned long long &           fpCount,
+            unsigned long long &           fnCount)
 {
-  const ImageType::RegionType & lpr = groundTruth->GetLargestPossibleRegion();
+  const TestImageType::RegionType & lpr = groundTruth->GetLargestPossibleRegion();
 
-  itk::ImageRegionConstIterator<ImageType> itAS(autoSeg, lpr);
-  itk::ImageRegionConstIterator<ImageType> itGT(groundTruth, lpr);
+  itk::ImageRegionConstIterator<TestImageType> itAS(autoSeg, lpr);
+  itk::ImageRegionConstIterator<TestImageType> itGT(groundTruth, lpr);
   tpCount = 0;
   fpCount = 0;
   fnCount = 0;
@@ -124,24 +124,24 @@ main(int argc, char * argv[])
   }
   RegisterRequiredFactories();
 
-  typedef itk::ImageFileReader<ImageType> ReaderType;
-  ReaderType::Pointer                     reader = ReaderType::New();
+  typedef itk::ImageFileReader<TestImageType> ReaderType;
+  ReaderType::Pointer                         reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
-  ImageType::Pointer inImage = reader->GetOutput();
+  TestImageType::Pointer inImage = reader->GetOutput();
   inImage->DisconnectPipeline();
 
-  typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
-  mciType::Pointer                                         mci = mciType::New();
+  typedef itk::MorphologicalContourInterpolator<TestImageType> mciType;
+  mciType::Pointer                                             mci = mciType::New();
   mci->SetUseBallStructuringElement(true); // test cross?
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  typedef itk::ImageFileWriter<TestImageType> WriterType;
+  WriterType::Pointer                         writer = WriterType::New();
   writer->SetUseCompression(true);
 
-  const ImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
-  ImageType::IndexType          maxInd;
-  for (unsigned axis = 0; axis < dim; axis++)
+  const TestImageType::RegionType & lpr = inImage->GetLargestPossibleRegion();
+  TestImageType::IndexType          maxInd;
+  for (unsigned axis = 0; axis < testDim; axis++)
   {
     maxInd[axis] = itk::IndexValueType(lpr.GetSize(axis));
   }
@@ -150,13 +150,13 @@ main(int argc, char * argv[])
   for (int sparsity = 2; sparsity <= 8; sparsity++)
   {
     unsigned long long tpCount, fpCount, fnCount;
-    for (int axis = -1; axis < int(dim); axis++)
+    for (int axis = -1; axis < int(testDim); axis++)
     {
       mci->SetAxis(axis);
-      ImageType::IndexType axisSparsity = maxInd;
+      TestImageType::IndexType axisSparsity = maxInd;
       if (axis < 0) // all axes
       {
-        for (unsigned a = 0; a < dim; a++)
+        for (unsigned a = 0; a < testDim; a++)
         {
           axisSparsity[a] = sparsity;
         }
@@ -166,13 +166,13 @@ main(int argc, char * argv[])
         axisSparsity[axis] = sparsity;
       }
 
-      ImageType::Pointer sparseImage = createSparseCopy(inImage, axisSparsity);
+      TestImageType::Pointer sparseImage = createSparseCopy(inImage, axisSparsity);
       mci->SetInput(sparseImage);
       itk::TimeProbe timeProbe;
       timeProbe.Start();
       mci->Update();
       timeProbe.Stop();
-      ImageType::Pointer result = mci->GetOutput();
+      TestImageType::Pointer result = mci->GetOutput();
       result->DisconnectPipeline();
       calcOverlap(result, inImage, tpCount, fpCount, fnCount);
 
