@@ -12,7 +12,6 @@ itk_module(
     ITKDistanceMap
   TEST_DEPENDS
     ITKTestKernel
-    RLEImage
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION "${DOCUMENTATION}"
 )
