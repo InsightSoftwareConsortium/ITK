@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkRLEImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkMorphologicalContourInterpolator.h"
@@ -31,34 +32,47 @@ doTest(std::string inFilename, std::string outFilename, bool UseDistanceTransfor
   reader->SetFileName(inFilename);
   reader->Update();
 
-  typename ImageType::Pointer test = reader->GetOutput();
+  typedef itk::RLEImage<typename ImageType::PixelType, ImageType::ImageDimension> myRLEImage;
+  typedef itk::RegionOfInterestImageFilter<ImageType, myRLEImage>                 inConverterType;
+  typename inConverterType::Pointer                                               inConv = inConverterType::New();
+  inConv->SetInput(reader->GetOutput());
+  inConv->SetRegionOfInterest(reader->GetOutput()->GetLargestPossibleRegion());
+  inConv->Update();
+  typename myRLEImage::Pointer test = inConv->GetOutput();
 
   // region for partial coverage
-  typename ImageType::RegionType reg = test->GetLargestPossibleRegion();
-  // for (int i = 0; i < ImageType::ImageDimension; i++)
+  typename myRLEImage::RegionType reg = test->GetLargestPossibleRegion();
+  // skip X due to RLE representation constraints
+  // for (int i = 1; i < ImageType::ImageDimension; i++)
   //   {
   //   reg.GetModifiableIndex()[i] += (reg.GetSize(i) - 1) / 4;
   //   reg.SetSize(i, (reg.GetSize(i) + 1) / 2);
   //   }
 
-  typedef itk::MorphologicalContourInterpolator<ImageType> mciType;
-  typename mciType::Pointer                                mci = mciType::New();
+  typedef itk::MorphologicalContourInterpolator<myRLEImage> mciType;
+  typename mciType::Pointer                                 mci = mciType::New();
   mci->SetInput(test);
   mci->SetUseDistanceTransform(UseDistanceTransform);
   mci->SetUseBallStructuringElement(ball);
   mci->SetAxis(axis);
   mci->SetLabel(label);
 
+  typedef itk::RegionOfInterestImageFilter<myRLEImage, ImageType> outConverterType;
+  typename outConverterType::Pointer                              outConv = outConverterType::New();
+  outConv->SetInput(mci->GetOutput());
+  outConv->SetRegionOfInterest(reg);
+  outConv->Update();
+
   typedef itk::ImageFileWriter<ImageType> WriterType;
   typename WriterType::Pointer            writer = WriterType::New();
   writer->SetFileName(outFilename);
-  writer->SetInput(mci->GetOutput());
+  writer->SetInput(outConv->GetOutput());
   writer->SetUseCompression(true);
   writer->Update();
 }
 
 int
-itkMorphologicalContourInterpolationTest(int argc, char * argv[])
+itkMorphologicalContourInterpolationTestWithRLEImage(int argc, char * argv[])
 {
   if (argc < 3)
   {

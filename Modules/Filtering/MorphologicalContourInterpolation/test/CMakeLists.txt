@@ -5,6 +5,13 @@ set(
   itkMorphologicalContourInterpolationTest.cxx
 )
 
+if(${MCI_TestWithRLEImage})
+  list(
+    APPEND MorphologicalContourInterpolationTests
+    itkMorphologicalContourInterpolationTestWithRLEImage.cxx
+  )
+endif(${MCI_TestWithRLEImage})
+
 createtestdriver( MorphologicalContourInterpolation "${MorphologicalContourInterpolation-Test_LIBRARIES}" "${MorphologicalContourInterpolationTests}")
 
 add_executable(
@@ -49,19 +56,33 @@ function(RegressionTest ImageName Ext) #optional: Algo Axis Label
   endforeach()
   set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}${optArgs}.${Ext}")
   set(imageNameOpt "${ImageName}${optArgs}")
-
-  itk_add_test(
-    NAME itkMCI_${ImageName}${optArgs}
-    COMMAND
-      MorphologicalContourInterpolationTestDriver
-      --compare
-      DATA{Baseline/${imageNameOpt}.${Ext}}
-      ${outImage}
-      itkMorphologicalContourInterpolationTest
-      DATA{Input/${ImageName}.${Ext}}
-      ${outImage}
-      ${ARGN}
-  )
+  if(${MCI_TestWithRLEImage})
+    itk_add_test(
+      NAME rleMCI_${ImageName}${optArgs}
+      COMMAND
+        MorphologicalContourInterpolationTestDriver
+        --compare
+        DATA{Baseline/${imageNameOpt}.${Ext}}
+        ${outImage}
+        itkMorphologicalContourInterpolationTestWithRLEImage
+        DATA{Input/${ImageName}.${Ext}}
+        ${outImage}
+        ${ARGN}
+    )
+  else(${MCI_TestWithRLEImage})
+    itk_add_test(
+      NAME itkMCI_${ImageName}${optArgs}
+      COMMAND
+        MorphologicalContourInterpolationTestDriver
+        --compare
+        DATA{Baseline/${imageNameOpt}.${Ext}}
+        ${outImage}
+        itkMorphologicalContourInterpolationTest
+        DATA{Input/${ImageName}.${Ext}}
+        ${outImage}
+        ${ARGN}
+    )
+  endif(${MCI_TestWithRLEImage})
 endfunction()
 
 # functional comparison using Dice Similarity Coefficient
