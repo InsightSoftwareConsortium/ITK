@@ -515,7 +515,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
     }
     else if (jM && !iM)
     {
-      if (dist >= jHist.size())
+      if (size_t(dist) >= jHist.size())
       {
         jHist.resize(dist + 1, 0);
       }
@@ -556,7 +556,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   // find minimum of differences of sums
   int       bestBin = 0;
   long long bestDiff = LLONG_MAX;
-  for (int b = 0; b < maxSize; b++)
+  for (unsigned b = 0; b < maxSize; b++)
   {
     long long iS = std::abs(iTotal - iSum[b] + jSum[b]);
     long long jS = std::abs(jTotal - jSum[b] + iSum[b]);
@@ -1033,7 +1033,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1toN(int                   
         {
           for (unsigned x = 0; x < jRegionIds.size(); x++)
           {
-            if (belongIt.Get() != x + 1)
+            if (unsigned(belongIt.Get()) != x + 1)
             {
               // pixel does not belong to this blob
               blobs[x]->SetPixel(jIt2.GetIndex(), false);
