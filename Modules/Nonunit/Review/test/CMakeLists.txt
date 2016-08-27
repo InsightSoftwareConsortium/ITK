@@ -252,7 +252,7 @@ itk_add_test(NAME itkJPEG2000Test03
               ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif ${ITK_TEST_OUTPUT_DIR}/Bretagne1_02.j2k)
 set_tests_properties( itkJPEG2000Test03 PROPERTIES
   DEPENDS itkJPEG2000Test00
-  REQUIRED_FILES "${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif;${ITK_TEST_OUTPUT_DIR}/Bretagne1_02.j2k" )
+  REQUIRED_FILES ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif )
 
 itk_add_test(NAME itkJPEG2000Test05
       COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest05
