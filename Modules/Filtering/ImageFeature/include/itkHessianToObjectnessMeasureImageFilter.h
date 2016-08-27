@@ -50,13 +50,11 @@ namespace itk
  *
  * \sa MultiScaleHessianBasedMeasureImageFilter
  * \sa Hessian3DToVesselnessMeasureImageFilter
- * \sa HessianSmoothedRecursiveGaussianImageFilter
+ * \sa HessianRecursiveGaussianImageFilter
  * \sa SymmetricEigenAnalysisImageFilter
  * \sa SymmetricSecondRankTensor
  *
- * \ingroup IntensityImageFilters TensorObjects
- *
- * \ingroup ITKReview
+ * \ingroup ITKImageFeature
  */
 template< typename TInputImage, typename TOutputImage >
 class HessianToObjectnessMeasureImageFilter:public
@@ -135,7 +133,7 @@ protected:
   ~HessianToObjectnessMeasureImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void VerifyPreconditions() ITK_OVERRIDE;
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
@@ -144,10 +142,8 @@ private:
 
   // functor used to sort the eigenvalues are to be sorted
   // |e1|<=|e2|<=...<=|eN|
-  /** \class AbsLessEqualCompare
-    * \brief Returns ( abs(a) <= abs(b) )
-    * \ingroup ITKReview
-    */
+  //
+  // Returns ( abs(a) <= abs(b) )
   struct AbsLessEqualCompare {
     bool operator()(EigenValueType a, EigenValueType b)
     {
