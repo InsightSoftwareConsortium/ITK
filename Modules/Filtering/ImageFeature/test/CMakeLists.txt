@@ -4,6 +4,7 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
 itkLaplacianImageFilterTest.cxx
 itkSobelEdgeDetectionImageFilterTest.cxx
 itkHessian3DToVesselnessMeasureImageFilterTest.cxx
+itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterScaleSpaceTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
 itkHoughTransform2DCirclesImageTest.cxx
@@ -33,6 +34,24 @@ itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkSobelEdgeDetectionImageFilterTest)
 itk_add_test(NAME itkHessian3DToVesselnessMeasureImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkHessian3DToVesselnessMeasureImageFilterTest)
+itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkHessianToObjectnessMeasureImageFilterTest.mha}
+            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+            --compareIntensityTolerance .01
+  itkHessianToObjectnessMeasureImageFilterTest
+  DATA{${ITK_DATA_ROOT}/Input/DSA.png}
+  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+  1 0)
+itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest2
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkHessianToObjectnessMeasureImageFilterTest2.mha}
+            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
+            --compareIntensityTolerance .01
+  itkHessianToObjectnessMeasureImageFilterTest
+  DATA{${ITK_DATA_ROOT}/Input/DSA.png}
+  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
+  0 0)
 itk_add_test(NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
       COMMAND ITKImageFeatureTestDriver itkHessianRecursiveGaussianFilterScaleSpaceTest)
 

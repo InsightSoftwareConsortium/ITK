@@ -34,24 +34,23 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage >
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
-::HessianToObjectnessMeasureImageFilter()
-{
-  m_Alpha = 0.5;
-  m_Beta = 0.5;
-  m_Gamma = 5.0;
-
-  m_ScaleObjectnessMeasure = true;
-
+::HessianToObjectnessMeasureImageFilter() :
+  m_Alpha(0.5),
+  m_Beta(0.5),
+  m_Gamma(5.0),
   // by default extract bright lines (equivalent to vesselness)
-  m_ObjectDimension = 1;
-  m_BrightObject = true;
+  m_ObjectDimension(1),
+  m_BrightObject(true),
+  m_ScaleObjectnessMeasure(true)
+{
 }
 
 template< typename TInputImage, typename TOutputImage >
 void
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData(void)
+::VerifyPreconditions(void)
 {
+  Superclass::VerifyPreconditions();
   if ( m_ObjectDimension >= ImageDimension )
     {
     itkExceptionMacro("ObjectDimension must be lower than ImageDimension.");
@@ -64,8 +63,8 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  typename OutputImageType::Pointer output = this->GetOutput();
-  typename InputImageType::ConstPointer input = this->GetInput();
+  OutputImageType * output = this->GetOutput();
+  const InputImageType* input = this->GetInput();
 
   // support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels(), 1000 / this->GetNumberOfThreads() );
