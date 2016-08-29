@@ -1,6 +1,12 @@
 # Contact: Dženan Zukić <dzenan.zukic@kitware.com>
 itk_fetch_module(MorphologicalContourInterpolation
-"An ITK-based implementation of morphological contour interpolation based off the paper:
+"nD morphological contour interpolation
+
+Insight Journal article:
+http://www.insight-journal.org/browse/publication/977
+http://hdl.handle.net/10380/3563
+
+An ITK-based implementation of morphological contour interpolation based off the paper:
 Albu AB, Beugeling T, Laurendeau D.
 'A morphology-based approach for interslice interpolation of anatomical slices from volumetric images.'
 IEEE Trans Biomed Eng. 2008 Aug;55(8):2022-38. doi: 10.1109/TBME.2008.921158.
