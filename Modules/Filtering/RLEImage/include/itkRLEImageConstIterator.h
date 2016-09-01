@@ -57,7 +57,7 @@ public:
   itkTypeMacroNoParent(ImageConstIterator);
 
   /** Image typedef support. */
-  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   /** Run-Length Line (we iterate along it). */
   typedef typename ImageType::RLLine RLLine;
@@ -409,7 +409,7 @@ class ImageConstIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>
 
 public:
   /** Image typedef support. */
-  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
 
@@ -452,7 +452,7 @@ class ImageConstIteratorWithOnlyIndex<RLEImage<TPixel, VImageDimension, CounterT
 
 public:
   /** Image typedef support. */
-  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
 

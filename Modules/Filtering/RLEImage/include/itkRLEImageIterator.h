@@ -133,7 +133,7 @@ class ImageIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>>
   : public ImageConstIteratorWithIndex<RLEImage<TPixel, VImageDimension, CounterType>>
 {
 public:
-  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> ImageType;
+  typedef RLEImage<TPixel, VImageDimension, CounterType> ImageType;
 
   typedef typename itk::ImageConstIterator<RLEImage<TPixel, VImageDimension, CounterType>>::RegionType RegionType;
 
