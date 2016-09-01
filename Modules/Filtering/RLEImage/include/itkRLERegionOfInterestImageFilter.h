@@ -27,7 +27,7 @@ namespace itk
 {
 /** \class RegionOfInterestImageFilter
  * \brief Extract a region of interest from the input image or convert
- *  between itk::Image and itk::RLEImage (a custom region can be used).
+ *  between itk::Image and RLEImage (a custom region can be used).
  *
  *  This filter produces an output image of the same dimension as the input
  *  image. The user specifies the region of the input image that will be
@@ -250,7 +250,7 @@ class RegionOfInterestImageFilter<Image<TPixel, VImageDimension>, RLEImage<TPixe
 {
 public:
   /** Standard class typedefs. */
-  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
+  typedef RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
 
   typedef RegionOfInterestImageFilter                 Self;
   typedef Image<TPixel, VImageDimension>              ImageType;
@@ -338,7 +338,7 @@ class RegionOfInterestImageFilter<RLEImage<TPixel, VImageDimension, CounterType>
 {
 public:
   /** Standard class typedefs. */
-  typedef itk::RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
+  typedef RLEImage<TPixel, VImageDimension, CounterType> RLEImageType;
 
   typedef RegionOfInterestImageFilter                 Self;
   typedef Image<TPixel, VImageDimension>              ImageType;
