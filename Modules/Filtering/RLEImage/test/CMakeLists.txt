@@ -11,6 +11,9 @@ add_executable(
 )
 target_link_libraries(runFromIDE ${RLEImage-Test_LIBRARIES})
 
+add_executable(rleStats rleStats.cxx)
+target_link_libraries(rleStats ${RLEImage-Test_LIBRARIES})
+
 add_executable(
   iteratorTests
   itkRegionOfInterestImageFilterTest.cxx
