@@ -1,0 +1,3 @@
+project(ITKTransformFactory)
+set(ITKTransformFactory_LIBRARIES ITKTransformFactory)
+itk_module_impl()

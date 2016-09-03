@@ -28,15 +28,13 @@
 #ifndef itkTransformFactory_h
 #define itkTransformFactory_h
 
-#include "ITKIOTransformBaseExport.h"
-
 #include "itkTransformFactoryBase.h"
 
 namespace itk
 {
 /** \class TransformFactory
  * \brief Create instances of Transforms
- * \ingroup ITKIOTransformBase
+ * \ingroup ITKTransformFactory
  */
 
 template< typename T >

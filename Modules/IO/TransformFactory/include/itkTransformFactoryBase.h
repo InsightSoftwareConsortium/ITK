@@ -28,18 +28,17 @@
 #ifndef itkTransformFactoryBase_h
 #define itkTransformFactoryBase_h
 
-#include "ITKIOTransformBaseExport.h"
-
 #include "itkObjectFactoryBase.h"
 
 namespace itk
 {
 /** \class TransformFactoryBase
  * \brief Create instances of Transforms
- * \ingroup ITKIOTransformBase
+ * \ingroup ITKTransformFactory
  */
 
-class ITKIOTransformBase_EXPORT TransformFactoryBase:public ObjectFactoryBase
+class
+TransformFactoryBase:public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
@@ -71,7 +70,20 @@ public:
                          bool enableFlag,
                          CreateObjectFunctionBase *createFunction)
   {
-    this->RegisterOverride (classOverride, overrideClassName, description, enableFlag, createFunction);
+
+    // Ensure there is only one transform registered by a name, this
+    // may happen on windows where this library is static, and the
+    // global init flag may not be unique.
+    LightObject::Pointer test = this->CreateInstance(classOverride);
+    if ( test.IsNotNull() )
+      {
+      test->UnRegister();
+      itkWarningMacro("Refusing to register transform \"" << classOverride << "\" again!");
+      }
+    else
+      {
+      this->RegisterOverride (classOverride, overrideClassName, description, enableFlag, createFunction);
+      }
   }
 
 protected:
