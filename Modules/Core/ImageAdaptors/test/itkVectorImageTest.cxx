@@ -221,6 +221,12 @@ bool testVectorImageBasicMethods( void )
 
   std::cout << "Testing Get/SetPixel methods [PASSED]" << std::endl;
 
+  // test Graft method
+  typename VectorImageType::Pointer imageGraft = VectorImageType::New();
+  imageGraft->Graft(image);
+  TEST_EXPECT_EQUAL(image->GetPixelContainer(), imageGraft->GetPixelContainer());
+
+  std::cout << "Testing Graft method [PASSED]" << std::endl;
   return EXIT_SUCCESS;
 }
 
@@ -234,7 +240,7 @@ int itkVectorImageTest( int, char* argv[] )
 
   if ( testVectorImageBasicMethods<double, 3>() == EXIT_FAILURE )
     {
-    std::cout << "Testing Get/SetPixel methods [FAILED]" << std::endl;
+    std::cout << "Testing basic methods [FAILED]" << std::endl;
     failed = true;
     }
 

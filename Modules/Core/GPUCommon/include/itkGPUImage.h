@@ -177,6 +177,7 @@ public:
 
   /** Graft the data and information from one GPUImage to another. */
   virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  using Superclass::Graft;
 
 protected:
   GPUImage();

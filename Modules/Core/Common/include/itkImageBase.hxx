@@ -332,12 +332,8 @@ ImageBase< VImageDimension >
 template< unsigned int VImageDimension >
 void
 ImageBase< VImageDimension >
-::Graft(const DataObject *data)
+::Graft(const Self *image)
 {
-  typedef ImageBase< VImageDimension > ImageBaseType;
-
-  const ImageBaseType *image = dynamic_cast< const ImageBaseType * >( data );
-
   if ( !image )
     {
     return;
@@ -350,6 +346,25 @@ ImageBase< VImageDimension >
   // responsible for copying the pixel container.
   this->SetBufferedRegion( image->GetBufferedRegion() );
   this->SetRequestedRegion( image->GetRequestedRegion() );
+}
+
+
+template< unsigned int VImageDimension >
+void
+ImageBase< VImageDimension >
+::Graft(const DataObject *data)
+{
+  typedef ImageBase< VImageDimension > ImageBaseType;
+
+  const ImageBaseType *image = dynamic_cast< const ImageBaseType * >( data );
+
+  if ( !image )
+    {
+    return;
+    }
+
+  // Call Graft() with image input to actually perform the graft operation
+  this->Graft(image);
 }
 
 
