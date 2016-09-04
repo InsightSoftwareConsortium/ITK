@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -7,13 +7,115 @@
 
 import time
 import warnings
+import collections
 from . import algorithm
 from . import templates
 from . import declaration
 from . import mdecl_wrapper
-from pygccxml import utils
-from . import matcher as matcher_module
-import collections
+from .. import utils
+
+
+class matcher(object):
+
+    """Class-namespace, contains implementation of a few "find" algorithms
+    and definition of the related exception classes"""
+
+    class declaration_not_found_t(RuntimeError):
+
+        """Exception raised when the declaration could not be found"""
+
+        def __init__(self, matcher):
+            RuntimeError.__init__(self)
+            self.matcher = matcher
+
+        def __str__(self):
+            return (
+                "Unable to find declaration. Matcher: [%s]" % str(
+                    self.matcher)
+            )
+
+    class multiple_declarations_found_t(RuntimeError):
+
+        """Exception raised when more than one declaration was found"""
+
+        def __init__(self, matcher):
+            RuntimeError.__init__(self)
+            self.matcher = matcher
+
+        def __str__(self):
+            return (
+                "Multiple declarations have been found. Matcher: [%s]" % str(
+                    self.matcher)
+            )
+
+    @staticmethod
+    def find(decl_matcher, decls, recursive=True):
+        """
+        Returns a list of declarations that match `decl_matcher` defined
+        criteria or None
+
+        :param decl_matcher: Python callable object, that takes one argument -
+            reference to a declaration
+        :param decls: the search scope, :class:declaration_t object or
+            :class:declaration_t objects list t
+        :param recursive: boolean, if True, the method will run `decl_matcher`
+            on the internal declarations too
+        """
+
+        where = []
+        if isinstance(decls, list):
+            where.extend(decls)
+        else:
+            where.append(decls)
+        if recursive:
+            where = make_flatten(where)
+        return list(filter(decl_matcher, where))
+
+    @staticmethod
+    def find_single(decl_matcher, decls, recursive=True):
+        """
+        Returns a reference to the declaration, that match `decl_matcher`
+        defined criteria.
+
+        if a unique declaration could not be found the method will return None.
+
+        :param decl_matcher: Python callable object, that takes one argument -
+            reference to a declaration
+        :param decls: the search scope, :class:declaration_t object or
+            :class:declaration_t objects list t
+        :param recursive: boolean, if True, the method will run `decl_matcher`
+            on the internal declarations too
+        """
+        answer = _matcher.find(decl_matcher, decls, recursive)
+        if len(answer) == 1:
+            return answer[0]
+
+    @staticmethod
+    def get_single(decl_matcher, decls, recursive=True):
+        """
+        Returns a reference to declaration, that match `decl_matcher` defined
+        criteria.
+
+        If a unique declaration could not be found, an appropriate exception
+        will be raised.
+
+        :param decl_matcher: Python callable object, that takes one argument -
+            reference to a declaration
+        :param decls: the search scope, :class:declaration_t object or
+            :class:declaration_t objects list t
+        :param recursive: boolean, if True, the method will run `decl_matcher`
+            on the internal declarations too
+        """
+        answer = _matcher.find(decl_matcher, decls, recursive)
+        if len(answer) == 1:
+            return answer[0]
+        elif not answer:
+            raise _matcher.declaration_not_found_t(decl_matcher)
+        else:
+            raise _matcher.multiple_declarations_found_t(decl_matcher)
+
+# FIXME: this is ugly
+_matcher = matcher
 
 
 class scopedef_t(declaration.declaration_t):
@@ -70,9 +172,8 @@ class scopedef_t(declaration.declaration_t):
     RECURSIVE_DEFAULT = True
     ALLOW_EMPTY_MDECL_WRAPPER = False
 
-    declaration_not_found_t = matcher_module.matcher.declaration_not_found_t
-    multiple_declarations_found_t = \
-        matcher_module.matcher.multiple_declarations_found_t
+    declaration_not_found_t = _matcher.declaration_not_found_t
+    multiple_declarations_found_t = _matcher.multiple_declarations_found_t
 
     # this class variable is used to prevent recursive imports
     _impl_matchers = {}
@@ -107,23 +208,22 @@ class scopedef_t(declaration.declaration_t):
         if self._optimized:
             # in this case we don't need to build class internal declarations
             # list
-            items.append(self._sorted_list(self._all_decls_not_recursive))
+            items.append(self._all_decls_not_recursive.sort())
         else:
-            items.append(self._sorted_list(self.declarations))
+            items.append(self.declarations.sort())
         items.extend(self._get__cmp__scope_items())
         return items
 
     def __eq__(self, other):
         if not declaration.declaration_t.__eq__(self, other):
             return False
-        return self._sorted_list(self.declarations[:]) \
-            == other._sorted_list(other.declarations[:])
+        return self.declarations[:].sort() == other.declarations[:].sort()
         # self_decls = self._all_decls_not_recursive
         # if not self._optimized:
-        # self_decls = self._sorted_list(self.declarations[:])
+        # self_decls = self.declarations[:].sort()
         # other_decls = other._all_decls_not_recursive[:]
         # if not other._optimized:
-        # other_decls = other._sorted_list(other.declarations[:])
+        # other_decls = other.declarations[:].sort()
         # else:
         # return self_decls == other_decls
 
@@ -135,11 +235,29 @@ class scopedef_t(declaration.declaration_t):
 
     @property
     def declarations(self):
-        """list of children :class:`declarations <declaration_t>`"""
+        """
+        List of children declarations.
+
+        Returns:
+            List[declarations.declaration_t]
+        """
         if self._optimized:
             return self._all_decls_not_recursive
         else:
             return self._get_declarations_impl()
+
+    @declarations.setter
+    def declarations(self, declarations):
+        """
+        Set list of all declarations defined in the namespace.
+
+        Args:
+            List[declarations.declaration_t]: list of declarations
+
+        Not implemented.
+
+        """
+        raise NotImplementedError()
 
     def remove_declaration(self, decl):
         raise NotImplementedError()
@@ -205,7 +323,7 @@ class scopedef_t(declaration.declaration_t):
             self._type2name2decls_nr[dtype] = {}
 
         self._all_decls_not_recursive = self.declarations
-        self._all_decls = algorithm.make_flatten(
+        self._all_decls = make_flatten(
             self._all_decls_not_recursive)
         for decl in self._all_decls:
             types = self.__decl_types(decl)
@@ -327,7 +445,7 @@ class scopedef_t(declaration.declaration_t):
                 'running non optimized query - optimization has not been done')
             decls = self.declarations
             if recursive:
-                decls = algorithm.make_flatten(self.declarations)
+                decls = make_flatten(self.declarations)
             if decl_type:
                 decls = [d for d in decls if isinstance(d, decl_type)]
             return decls
@@ -338,23 +456,17 @@ class scopedef_t(declaration.declaration_t):
             name = None
 
         if name and decl_type:
-            matcher = scopedef_t._impl_matchers[scopedef_t.decl](name=name)
-            if matcher.is_full_name():
-                name = matcher.decl_name_only
+            impl_match = scopedef_t._impl_matchers[scopedef_t.decl](name=name)
+            if impl_match.is_full_name():
+                name = impl_match.decl_name_only
             if recursive:
                 self._logger.debug(
                     'query has been optimized on type and name')
-                if name in self._type2name2decls[decl_type]:
-                    return self._type2name2decls[decl_type][name]
-                else:
-                    return []
+                return self._type2name2decls[decl_type].get(name, [])
             else:
                 self._logger.debug(
                     'non recursive query has been optimized on type and name')
-                if name in self._type2name2decls_nr[decl_type]:
-                    return self._type2name2decls_nr[decl_type][name]
-                else:
-                    return []
+                return self._type2name2decls_nr[decl_type].get(name, [])
         elif decl_type:
             if recursive:
                 self._logger.debug('query has been optimized on type')
@@ -384,7 +496,7 @@ class scopedef_t(declaration.declaration_t):
         dtype = self.__findout_decl_type(match_class, **norm_keywds)
         recursive_ = self.__findout_recursive(**norm_keywds)
         decls = self.__findout_range(norm_keywds['name'], dtype, recursive_)
-        found = matcher_module.matcher.get_single(matcher, decls, False)
+        found = _matcher.get_single(matcher, decls, False)
         self._logger.debug(
             'find single query execution - done( %f seconds )' %
             (time.clock() - start_time))
@@ -400,7 +512,7 @@ class scopedef_t(declaration.declaration_t):
         recursive_ = self.__findout_recursive(**norm_keywds)
         allow_empty = self.__findout_allow_empty(**norm_keywds)
         decls = self.__findout_range(norm_keywds['name'], dtype, recursive_)
-        found = matcher_module.matcher.find(matcher, decls, False)
+        found = _matcher.find(matcher, decls, False)
         mfound = mdecl_wrapper.mdecl_wrapper_t(found)
         self._logger.debug('%d declaration(s) that match query' % len(mfound))
         self._logger.debug('find single query execution - done( %f seconds )'
@@ -504,18 +616,32 @@ class scopedef_t(declaration.declaration_t):
             name=None,
             function=None,
             type=None,
+            decl_type=None,
             header_dir=None,
             header_file=None,
             recursive=None):
         """returns reference to variable declaration, that is matched defined
         criteria"""
+        if type is not None:
+            # Deprecated since 1.8.0. Will be removed in 1.9.0
+            warnings.warn(
+                "The type argument is deprecated. \n" +
+                "Please use the decl_type argument instead.",
+                DeprecationWarning)
+            if decl_type is not None:
+                raise (
+                    "Please use only either the type or " +
+                    "decl_type argument.")
+            # Still allow to use the old type for the moment.
+            decl_type = type
+
         return (
             self._find_single(
                 self._impl_matchers[
                     scopedef_t.variable],
                 name=name,
                 function=function,
-                type=type,
+                decl_type=decl_type,
                 header_dir=header_dir,
                 header_file=header_file,
                 recursive=recursive)
@@ -528,6 +654,10 @@ class scopedef_t(declaration.declaration_t):
             header_dir=None,
             header_file=None,
             recursive=None):
+        """
+        Deprecated since v1.8.0. Will be removed in v1.9.0
+
+        """
 
         warnings.warn(
             "The var() method is deprecated. \n" +
@@ -542,10 +672,25 @@ class scopedef_t(declaration.declaration_t):
             name=None,
             function=None,
             type=None,
+            decl_type=None,
             header_dir=None,
             header_file=None,
             recursive=None,
             allow_empty=None):
+
+        # Deprecated since 1.8.0. Will be removed in 1.9.0
+        if type is not None:
+            warnings.warn(
+                "The type argument is deprecated. \n" +
+                "Please use the decl_type argument instead.",
+                DeprecationWarning)
+            if decl_type is not None:
+                raise (
+                    "Please use only either the type or " +
+                    "decl_type argument.")
+            # Still allow to use the old type for the moment.
+            decl_type = type
+
         """returns a set of variable declarations, that are matched defined
         criteria"""
         return (
@@ -554,7 +699,7 @@ class scopedef_t(declaration.declaration_t):
                     scopedef_t.variable],
                 name=name,
                 function=function,
-                type=type,
+                decl_type=decl_type,
                 header_dir=header_dir,
                 header_file=header_file,
                 recursive=recursive,
@@ -570,6 +715,10 @@ class scopedef_t(declaration.declaration_t):
             header_file=None,
             recursive=None,
             allow_empty=None):
+        """
+        Deprecated since v1.8.0. Will be removed in v1.9.0
+
+        """
 
         warnings.warn(
             "The vars() method is deprecated. \n" +
@@ -1012,3 +1161,192 @@ class scopedef_t(declaration.declaration_t):
         :param name_or_function:  Name of `decl` to lookup or finder function.
         """
         return self.decls(name_or_function)
+
+
+def make_flatten(decl_or_decls):
+    """
+    Converts tree representation of declarations to flatten one.
+
+    :param decl_or_decls: reference to list of declaration's or single
+        declaration
+    :type decl_or_decls: :class:`declaration_t` or [ :class:`declaration_t` ]
+    :rtype: [ all internal declarations ]
+
+    """
+
+    def proceed_single(decl):
+        answer = [decl]
+        if not isinstance(decl, scopedef_t):
+            return answer
+        for elem in decl.declarations:
+            if isinstance(elem, scopedef_t):
+                answer.extend(proceed_single(elem))
+            else:
+                answer.append(elem)
+        return answer
+
+    decls = []
+    if isinstance(decl_or_decls, list):
+        decls.extend(decl_or_decls)
+    else:
+        decls.append(decl_or_decls)
+    answer = []
+    for decl in decls:
+        answer.extend(proceed_single(decl))
+    return answer
+
+
+def find_all_declarations(
+        declarations,
+        type=None,
+        decl_type=None,
+        name=None,
+        parent=None,
+        recursive=True,
+        fullname=None):
+    """
+    Returns a list of all declarations that match criteria, defined by
+    developer.
+
+    For more information about arguments see :class:`match_declaration_t`
+    class.
+
+    :rtype: [ matched declarations ]
+
+    """
+
+    if type is not None:
+        # Deprecated since 1.8.0. Will be removed in 1.9.0
+        warnings.warn(
+            "The type argument is deprecated. \n" +
+            "Please use the decl_type argument instead.",
+            DeprecationWarning)
+        if decl_type is not None:
+            raise (
+                "Please use only either the type or " +
+                "decl_type argument.")
+        # Still allow to use the old type for the moment.
+        decl_type = type
+
+    if recursive:
+        decls = make_flatten(declarations)
+    else:
+        decls = declarations
+
+    return list(
+        filter(
+            algorithm.match_declaration_t(
+                decl_type=decl_type,
+                name=name,
+                fullname=fullname,
+                parent=parent),
+            decls))
+
+
+def find_declaration(
+        declarations,
+        type=None,
+        decl_type=None,
+        name=None,
+        parent=None,
+        recursive=True,
+        fullname=None):
+    """
+    Returns single declaration that match criteria, defined by developer.
+    If more the one declaration was found None will be returned.
+
+    For more information about arguments see :class:`match_declaration_t`
+    class.
+
+    :rtype: matched declaration :class:`declaration_t` or None
+
+    """
+    if type is not None:
+        # Deprecated since 1.8.0. Will be removed in 1.9.0
+        warnings.warn(
+            "The type argument is deprecated. \n" +
+            "Please use the decl_type argument instead.",
+            DeprecationWarning)
+        if decl_type is not None:
+            raise (
+                "Please use only either the type or " +
+                "decl_type argument.")
+        # Still allow to use the old type for the moment.
+        decl_type = type
+
+    decl = find_all_declarations(
+        declarations,
+        decl_type=decl_type,
+        name=name,
+        parent=parent,
+        recursive=recursive,
+        fullname=fullname)
+    if len(decl) == 1:
+        return decl[0]
+
+
+def find_first_declaration(
+        declarations,
+        type=None,
+        decl_type=None,
+        name=None,
+        parent=None,
+        recursive=True,
+        fullname=None):
+    """
+    Returns first declaration that match criteria, defined by developer.
+
+    For more information about arguments see :class:`match_declaration_t`
+    class.
+
+    :rtype: matched declaration :class:`declaration_t` or None
+
+    """
+    if type is not None:
+        # Deprecated since 1.8.0. Will be removed in 1.9.0
+        warnings.warn(
+            "The type argument is deprecated. \n" +
+            "Please use the decl_type argument instead.",
+            DeprecationWarning)
+        if decl_type is not None:
+            raise (
+                "Please use only either the type or " +
+                "decl_type argument.")
+        # Still allow to use the old type for the moment.
+        decl_type = type
+
+    matcher = algorithm.match_declaration_t(
+        decl_type=decl_type,
+        name=name,
+        fullname=fullname,
+        parent=parent)
+    if recursive:
+        decls = make_flatten(declarations)
+    else:
+        decls = declarations
+    for decl in decls:
+        if matcher(decl):
+            return decl
+    return None
+
+
+def declaration_files(decl_or_decls):
+    """
+    Returns set of files
+
+    Every declaration is declared in some file. This function returns set, that
+    contains all file names of declarations.
+
+    :param decl_or_decls: reference to list of declaration's or single
+        declaration
+    :type decl_or_decls: :class:`declaration_t` or [:class:`declaration_t`]
+    :rtype: set(declaration file names)
+
+    """
+
+    files = set()
+    decls = make_flatten(decl_or_decls)
+    for decl in decls:
+        if decl.location:
+            files.add(decl.location.file_name)
+    return files

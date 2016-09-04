@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -134,7 +134,7 @@ class enumeration_t(declaration.declaration_t):
 
     @property
     def byte_size(self):
-        "Size of this class in bytes @type: int"
+        """Size of this class in bytes @type: int"""
         return self._byte_size
 
     @byte_size.setter
@@ -143,7 +143,7 @@ class enumeration_t(declaration.declaration_t):
 
     @property
     def byte_align(self):
-        "Alignment of this class in bytes @type: int"
+        """Alignment of this class in bytes @type: int"""
         return self._byte_align
 
     @byte_align.setter

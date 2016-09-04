@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko, 2006 Allen Bierbaum, Matthias Baas
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -10,11 +10,12 @@ user friendly format
 
 import os
 import sys
-from . import calldef
+from . import calldef_members
 from . import algorithm
 from . import decl_visitor
 from . import variable_t
 from . import calldef_t
+from . import type_traits_classes
 from .. import utils
 
 
@@ -167,13 +168,12 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                 # Mangled name is only available for functions and variables
                 # when using castxml.
                 print_mangled = False
-                if "GCC" in utils.xml_generator:
-                    if self.__inst.mangled:
-                        print_mangled = True
-                elif "CastXML" in utils.xml_generator:
-                    if isinstance(self.__inst, variable_t) or \
-                            isinstance(self.__inst, calldef_t):
-                        if self.__inst.mangled:
+                if "GCC" in utils.xml_generator and self.__inst.mangled:
+                    print_mangled = True
+                elif "CastXML" in utils.xml_generator and \
+                    (isinstance(self.__inst, variable_t) or
+                        isinstance(self.__inst, calldef_t)) and \
+                        self.__inst.mangled:
                             print_mangled = True
 
                 if print_mangled:
@@ -202,7 +202,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
             retval = decl.return_type.decl_string
         args = []
         for arg in decl.arguments:
-            args.append(arg.type.decl_string + ' ' + arg.name)
+            args.append(arg.decl_type.decl_string + ' ' + arg.name)
         indent = ' ' * (self.level + 1) * self.INDENT_SIZE
         self.writer(indent + "is extern: " + str(decl.has_extern))
         self.writer(indent + "return type: " + str(retval))
@@ -212,7 +212,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
             "calling convention: __%s__" %
             decl.calling_convention +
             os.linesep)
-        if isinstance(decl, calldef.member_calldef_t):
+        if isinstance(decl, calldef_members.member_calldef_t):
             self.writer(indent +
                         "virtual: " +
                         str(decl.virtuality) +
@@ -243,7 +243,8 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
         if self.__print_details:
             self.writer(indent +
                         'copy constructor: ' +
-                        str(self.__inst.is_copy_constructor) +
+                        str(type_traits_classes.is_copy_constructor(
+                            self.__inst)) +
                         os.linesep)
 
     def visit_destructor(self):
@@ -414,7 +415,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
             curr_level *
             self.INDENT_SIZE +
             'alias to: ' +
-            self.__inst.type.decl_string +
+            self.__inst.decl_type.decl_string +
             os.linesep)
 
     def visit_variable(self):
@@ -425,7 +426,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
             curr_level *
             self.INDENT_SIZE +
             'type: %s' %
-            self.__inst.type.decl_string)
+            self.__inst.decl_type.decl_string)
         self.writer(
             ' ' *
             curr_level *
@@ -442,7 +443,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                     bits.ljust(
                         self.JUSTIFY))
 
-            byte_size = 'size: %d' % self.__inst.type.byte_size
+            byte_size = 'size: %d' % self.__inst.decl_type.byte_size
             self.writer(
                 ' ' *
                 curr_level *
@@ -450,7 +451,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                 byte_size.ljust(
                     self.JUSTIFY))
             try:
-                byte_align = 'align: %d' % self.__inst.type.byte_align
+                byte_align = 'align: %d' % self.__inst.decl_type.byte_align
                 self.writer(
                     ' ' *
                     curr_level *

@@ -1,11 +1,14 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-"""implementation details"""
+"""
+Implementation details
 
-from .. import utils
+"""
+
+import re
 
 
 class parser_t(object):
@@ -27,8 +30,15 @@ class parser_t(object):
         self.__escape = '\\'
 
     def has_pattern(self, decl_string):
-        """implementation details"""
-        assert utils.is_str(decl_string)
+        """
+        Implementation detail
+
+        """
+        if self.__begin == "<":
+            # Cleanup parentheses blocks before checking for the pattern
+            # See also the args() method (in this file) for more explanations.
+            decl_string = re.sub("\s\(.*?\)", "", decl_string).strip()
+
         last_part = decl_string.split('::')[-1]
         return (
             -1 != decl_string.find(self.__begin) and -
@@ -37,7 +47,6 @@ class parser_t(object):
 
     def name(self, decl_string):
         """implementation details"""
-        assert utils.is_str(decl_string)
         if not self.has_pattern(decl_string):
             return decl_string
         args_begin = decl_string.find(self.__begin)
@@ -61,30 +70,84 @@ class parser_t(object):
         return -1
 
     def args(self, decl_string):
-        """implementation details"""
+        """
+        Extracts a list of arguments from the provided declaration string.
+
+        Implementation detail. Example usages:
+        Input: myClass<std::vector<int>, std::vector<double>>
+        Output: [std::vector<int>, std::vector<double>]
+
+        Args:
+           decl_string (str): the full declaration string
+
+        Returns:
+            list: list of arguments as strings
+
+        """
         args_begin = decl_string.find(self.__begin)
         args_end = decl_string.rfind(self.__end)
         if -1 in (args_begin, args_end) or args_begin == args_end:
             raise RuntimeError(
-                "%s doesn't valid template instantiation string" %
+                "%s doesn't validate template instantiation string" %
                 decl_string)
 
-        args_only = decl_string[args_begin + 1: args_end]
+        args_only = decl_string[args_begin + 1: args_end].strip()
+
+        # The list of arguments to be returned
         args = []
+
+        parentheses_blocks = []
+        prev_span = 0
+        if self.__begin == "<":
+            # In case where we are splitting template names, there
+            # can be parentheses blocks (for arguments) that need to be taken
+            # care of.
+
+            # Build a regex matching a space (\s)
+            # + something inside parentheses
+            regex = re.compile("\s\(.*?\)")
+            for m in regex.finditer(args_only):
+                # Store the position and the content
+                parentheses_blocks.append([m.start() - prev_span, m.group()])
+                prev_span = m.end() - m.start()
+                # Cleanup the args_only string by removing the parentheses and
+                # their content.
+                args_only = args_only.replace(m.group(), "")
+
+        # Now we are trying to split the args_only string in multiple arguments
         previous_found, found = 0, 0
         while True:
             found = self.__find_args_separator(args_only, previous_found)
             if -1 == found:
-                args.append(args_only[previous_found:])
+                args.append(args_only[previous_found:].strip())
+                # This is the last argument. Break out of the loop.
                 break
-            # elif decl_string[ found ] == self.__end:
-            #    print args
-            #    raise RuntimeError( "unmatched '%s' token has been found."
-            #    % self.__end )
             else:
-                args.append(args_only[previous_found: found])
-            previous_found = found + 1  # skip found sep
-        return [arg.strip() for arg in args]
+                args.append(args_only[previous_found: found].strip())
+            previous_found = found + 1  # skip found separator
+
+        # Get the size and position for each argument
+        absolute_pos_list = []
+        absolute_pos = 0
+        for arg in args:
+            absolute_pos += len(arg)
+            absolute_pos_list.append(absolute_pos)
+
+        for item in parentheses_blocks:
+            # In case where there are parentheses blocks we add them back
+            # to the right argument
+            parentheses_block_absolute_pos = item[0]
+            parentheses_block_string = item[1]
+
+            current_arg_absolute_pos = 0
+            for arg_index, arg_absolute_pos in enumerate(absolute_pos_list):
+                current_arg_absolute_pos += arg_absolute_pos
+                if current_arg_absolute_pos >= parentheses_block_absolute_pos:
+                    # Add the parentheses block back and break out of the loop.
+                    args[arg_index] += parentheses_block_string
+                    break
+
+        return args
 
     NOT_FOUND = (-1, -1)
     """implementation details"""

@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -18,6 +18,7 @@ On Linux:
 import os
 import re
 import ctypes
+import warnings
 from .. import declarations
 
 
@@ -94,6 +95,13 @@ class undname_creator_t(object):
     """
 
     def __init__(self):
+
+        warnings.warn(
+            "undname_creator_t is deprecated.\n" +
+            "Please have a look at the changelog for an explanation " +
+            "(since 1.8.0)",
+            DeprecationWarning)
+
         if 'nt' == os.name:
             import ctypes.wintypes
             self.__undname = ctypes.windll.dbghelp.UnDecorateSymbolName
@@ -234,7 +242,7 @@ class undname_creator_t(object):
             result.append('static ')
         if hint == 'msvc':
             result.append(
-                self.__format_type_as_undecorated(decl.type, False, hint))
+                self.__format_type_as_undecorated(decl.decl_type, False, hint))
             result.append(' ')
         if is_mem_var:
             result.append(

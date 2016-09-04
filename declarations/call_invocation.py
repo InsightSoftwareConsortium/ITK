@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -34,8 +34,6 @@ def is_call_invocation(declaration_string):
     :rtype: bool
 
     """
-
-    global __THE_PARSER
     return __THE_PARSER.has_pattern(declaration_string)
 
 
@@ -47,8 +45,6 @@ def name(declaration_string):
     :rtype: str
 
     """
-
-    global __THE_PARSER
     return __THE_PARSER.name(declaration_string)
 
 
@@ -56,12 +52,10 @@ def args(declaration_string):
     """
     Returns list of function arguments
 
-    :type decl_string: str
+    :type declaration_string: str
     :rtype: [str]
 
     """
-
-    global __THE_PARSER
     return __THE_PARSER.args(declaration_string)
 
 NOT_FOUND = __THE_PARSER.NOT_FOUND
@@ -75,8 +69,6 @@ def find_args(text, start=None):
     :rtype: [ arguments ] or :data:NOT_FOUND if arguments could not be found.
 
     """
-
-    global __THE_PARSER
     return __THE_PARSER.find_args(text, start)
 
 
@@ -85,8 +77,6 @@ def split(declaration_string):
     Returns (name, [arguments] )
 
     """
-
-    global __THE_PARSER
     return __THE_PARSER.split(declaration_string)
 
 
@@ -95,8 +85,6 @@ def split_recursive(declaration_string):
     Returns [(name, [arguments])].
 
     """
-
-    global __THE_PARSER
     return __THE_PARSER.split_recursive(declaration_string)
 
 
@@ -105,6 +93,4 @@ def join(name, args, arg_separator=None):
     Returns name( argument_1, argument_2, ..., argument_n ).
 
     """
-
-    global __THE_PARSER
     return __THE_PARSER.join(name, args, arg_separator)

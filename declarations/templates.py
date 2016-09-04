@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -17,6 +17,7 @@ C++ template instantiations
 """
 
 from . import pattern_parser
+from . import declaration_utils
 
 __THE_PARSER = pattern_parser.parser_t('<', '>', ',')
 
@@ -30,7 +31,6 @@ def is_instantiation(decl_string):
 
     :rtype: bool
     """
-    global __THE_PARSER
     return __THE_PARSER.has_pattern(decl_string)
 
 
@@ -41,7 +41,6 @@ def name(decl_string):
     :type decl_string: str
     :rtype: str
     """
-    global __THE_PARSER
     return __THE_PARSER.name(decl_string)
 
 
@@ -52,25 +51,21 @@ def args(decl_string):
     :type decl_string: `str`
     :rtype: [`str`]
     """
-    global __THE_PARSER
     return __THE_PARSER.args(decl_string)
 
 
 def split(decl_string):
     """returns (name, [arguments] )"""
-    global __THE_PARSER
     return __THE_PARSER.split(decl_string)
 
 
 def split_recursive(decl_string):
     """returns [(name, [arguments])]"""
-    global __THE_PARSER
     return __THE_PARSER.split_recursive(decl_string)
 
 
 def join(name, args):
     """returns name< argument_1, argument_2, ..., argument_n >"""
-    global __THE_PARSER
     return __THE_PARSER.join(name, args)
 
 
@@ -80,5 +75,66 @@ def normalize(decl_string):
     this functionality allows to implement comparison of 2 different string
     which are actually same: x::y< z > and x::y<z>
     """
-    global __THE_PARSER
     return __THE_PARSER.normalize(decl_string)
+
+
+def normalize_name(decl):
+    """
+    Cached variant of normalize
+
+    Args:
+        decl (declaration.declaration_t): the declaration
+
+    Returns:
+        str: normalized name
+    """
+    if decl.cache.normalized_name is None:
+        decl.cache.normalized_name = normalize(decl.name)
+    return decl.cache.normalized_name
+
+
+def normalize_partial_name(decl):
+    """
+    Cached variant of normalize
+
+    Args:
+        decl (declaration.declaration_t): the declaration
+
+    Returns:
+        str: normalized name
+    """
+    if decl.cache.normalized_partial_name is None:
+        decl.cache.normalized_partial_name = normalize(decl.partial_name)
+    return decl.cache.normalized_partial_name
+
+
+def normalize_full_name_true(decl):
+    """
+    Cached variant of normalize
+
+    Args:
+        decl (declaration.declaration_t): the declaration
+
+    Returns:
+        str: normalized name
+    """
+    if decl.cache.normalized_full_name_true is None:
+        decl.cache.normalized_full_name_true = normalize(
+            declaration_utils.full_name(decl, with_defaults=True))
+    return decl.cache.normalized_full_name_true
+
+
+def normalize_full_name_false(decl):
+    """
+    Cached variant of normalize
+
+    Args:
+        decl (declaration.declaration_t): the declaration
+
+    Returns:
+        str: normalized name
+    """
+    if decl.cache.normalized_full_name_false is None:
+        decl.cache.normalized_full_name_false = normalize(
+            declaration_utils.full_name(decl, with_defaults=False))
+    return decl.cache.normalized_full_name_false

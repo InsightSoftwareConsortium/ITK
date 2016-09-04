@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -7,8 +7,8 @@
 defines class that describes C++ global and member variable declaration
 """
 
+import warnings
 from . import declaration
-from . import dependencies
 from . import class_declaration
 
 
@@ -20,13 +20,27 @@ class variable_t(declaration.declaration_t):
             self,
             name='',
             type=None,
+            decl_type=None,
             type_qualifiers=None,
             value=None,
             bits=None,
             mangled=None):
         """creates class that describes C++ global or member variable"""
+
+        if type is not None:
+            warnings.warn(
+                "The type argument is deprecated. \n" +
+                "Please use the decl_type argument instead.",
+                DeprecationWarning)
+            if decl_type is not None:
+                raise (
+                    "Please use only either the type or " +
+                    "decl_type argument.")
+            # Still allow to use the old type for the moment.
+            decl_type = type
+
         declaration.declaration_t.__init__(self, name)
-        self._type = type
+        self._decl_type = decl_type
         self._type_qualifiers = type_qualifiers
         self._value = value
         self._bits = bits
@@ -35,13 +49,13 @@ class variable_t(declaration.declaration_t):
 
     def _get__cmp__items(self):
         """implementation details"""
-        return [self.type, self.type_qualifiers, self.value]
+        return [self.decl_type, self.type_qualifiers, self.value]
 
     def __eq__(self, other):
         """implementation details"""
         if not declaration.declaration_t.__eq__(self, other):
             return False
-        return self.type == other.type \
+        return self.decl_type == other.decl_type \
             and self.type_qualifiers == other.type_qualifiers \
             and self.value == other.value \
             and self.bits == other.bits
@@ -51,12 +65,34 @@ class variable_t(declaration.declaration_t):
 
     @property
     def type(self):
-        """reference to the variable :class:`type <type_t>`"""
-        return self._type
+        """
+        Deprecated since v1.8.0. Will be removed in v1.9.0
+
+        """
+        warnings.warn(
+            "variable_t.type is deprecated.\n" +
+            "Please use variable_t.decl_type instead.", DeprecationWarning)
+        return self._decl_type
 
     @type.setter
-    def type(self, type):
-        self._type = type
+    def type(self, _decl_type):
+        """
+        Deprecated since v1.8.0. Will be removed in v1.9.0
+
+        """
+        warnings.warn(
+            "variable_t.type is deprecated.\n" +
+            "Please use variable_t.decl_type instead.", DeprecationWarning)
+        self._decl_type = _decl_type
+
+    @property
+    def decl_type(self):
+        """reference to the variable :class:`decl_type <type_t>`"""
+        return self._decl_type
+
+    @decl_type.setter
+    def decl_type(self, decl_type):
+        self._decl_type = decl_type
 
     @property
     def type_qualifiers(self):
@@ -120,7 +156,7 @@ class variable_t(declaration.declaration_t):
         self._mangled = mangled
 
     def i_depend_on_them(self, recursive=True):
-        return [dependencies.dependency_info_t(self, self.type)]
+        return [class_declaration.dependency_info_t(self, self.decl_type)]
 
     def get_mangled_name(self):
         if not self._mangled and not self._demangled \
