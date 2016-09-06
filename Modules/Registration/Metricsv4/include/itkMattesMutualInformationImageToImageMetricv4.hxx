@@ -467,7 +467,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
       {
       ReduceBuffer();
       }
-    else
+    else if (m_MaxBufferSize<5000)
       {
       DoubleBufferSize();
       //Attempt to acquire the lock a second time
@@ -476,6 +476,12 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
         {
         ReduceBuffer();
         }
+      }
+    else
+      {
+      // when CPU speed is higher than memory bandwith
+      // the buffer could grow endlessly, so we limit it
+      BlockAndReduce();
       }
     }
 }
