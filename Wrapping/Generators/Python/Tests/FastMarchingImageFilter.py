@@ -39,6 +39,7 @@ from __future__ import print_function
 
 import itk
 from sys import argv, stderr, exit
+import os
 
 
 if(len(argv) < 10):
@@ -156,30 +157,31 @@ writer2 = WriterType.New()
 writer3 = WriterType.New()
 writer4 = WriterType.New()
 
+outputDirectory = os.path.dirname(argv[2])
 caster1.SetInput(smoothing.GetOutput())
 writer1.SetInput(caster1.GetOutput())
-writer1.SetFileName("FastMarchingFilterOutput1.png")
+writer1.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput1.png"))
 caster1.SetOutputMinimum(0)
 caster1.SetOutputMaximum(255)
 writer1.Update()
 
 caster2.SetInput(gradientMagnitude.GetOutput())
 writer2.SetInput(caster2.GetOutput())
-writer2.SetFileName("FastMarchingFilterOutput2.png")
+writer2.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput2.png"))
 caster2.SetOutputMinimum(0)
 caster2.SetOutputMaximum(255)
 writer2.Update()
 
 caster3.SetInput(sigmoid.GetOutput())
 writer3.SetInput(caster3.GetOutput())
-writer3.SetFileName("FastMarchingFilterOutput3.png")
+writer3.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput3.png"))
 caster3.SetOutputMinimum(0)
 caster3.SetOutputMaximum(255)
 writer3.Update()
 
 caster4.SetInput(fastMarching.GetOutput())
 writer4.SetInput(caster4.GetOutput())
-writer4.SetFileName("FastMarchingFilterOutput4.png")
+writer4.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput4.png"))
 caster4.SetOutputMinimum(0)
 caster4.SetOutputMaximum(255)
 
@@ -201,15 +203,15 @@ InternalWriterType = itk.ImageFileWriter[InternalImageType]
 
 mapWriter = InternalWriterType.New()
 mapWriter.SetInput(fastMarching.GetOutput())
-mapWriter.SetFileName("FastMarchingFilterOutput4.mha")
+mapWriter.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput4.mha"))
 mapWriter.Update()
 
 speedWriter = InternalWriterType.New()
 speedWriter.SetInput(sigmoid.GetOutput())
-speedWriter.SetFileName("FastMarchingFilterOutput3.mha")
+speedWriter.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput3.mha"))
 speedWriter.Update()
 
 gradientWriter = InternalWriterType.New()
 gradientWriter.SetInput(gradientMagnitude.GetOutput())
-gradientWriter.SetFileName("FastMarchingFilterOutput2.mha")
+gradientWriter.SetFileName(os.path.join(outputDirectory, "FastMarchingFilterOutput2.mha"))
 gradientWriter.Update()

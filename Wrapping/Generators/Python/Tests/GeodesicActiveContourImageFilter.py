@@ -40,6 +40,7 @@ from __future__ import print_function
 
 import itk
 from sys import argv, stderr
+import os
 itk.auto_progress(2)
 
 
@@ -75,6 +76,8 @@ def main():
     reader = itk.ImageFileReader[InternalImageType].New(FileName=argv[1])
     # needed to give the size to the fastmarching filter
     reader.Update()
+
+    outputDirectory = os.path.dirname(argv[2])
 
     smoothing = itk.CurvatureAnisotropicDiffusionImageFilter[
         InternalImageType,
@@ -152,7 +155,7 @@ def main():
             filter,
             OutputMinimum=0,
             OutputMaximum=255)
-        itk.write(caster, fileName)
+        itk.write(caster, os.path.join(outputDirectory, fileName))
 
     rescaleAndWrite(smoothing, "GeodesicActiveContourImageFilterOutput1.png")
     rescaleAndWrite(
@@ -178,9 +181,12 @@ def main():
         % (geodesicActiveContour.GetElapsedIterations()))
     print("RMS change: %.3f" % (geodesicActiveContour.GetRMSChange()))
 
-    itk.write(fastMarching, "GeodesicActiveContourImageFilterOutput4.mha")
-    itk.write(sigmoid, "GeodesicActiveContourImageFilterOutput3.mha")
-    itk.write(gradientMagnitude, "GeodesicActiveContourImageFilterOutput2.mha")
+    itk.write(fastMarching, os.path.join(outputDirectory,
+        "GeodesicActiveContourImageFilterOutput4.mha"))
+    itk.write(sigmoid, os.path.join(outputDirectory,
+        "GeodesicActiveContourImageFilterOutput3.mha"))
+    itk.write(gradientMagnitude, os.path.join(outputDirectory,
+        "GeodesicActiveContourImageFilterOutput2.mha"))
 
 
 if __name__ == "__main__":
