@@ -32,6 +32,10 @@
 #include "itkStdStreamStateSave.h"
 
 #include "itkGaussianImageSource.h"
+#include "itkImageToImageFilter.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
+
 
   typedef double InputPixelType;
   typedef double CoordValueType;
@@ -52,7 +56,7 @@
 
   void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer);
 
-  //Setup for 3D Images
+  // Setup for 3D Images
   enum { ImageDimension3D = 3 };
 
   typedef itk::Image< InputPixelType, ImageDimension3D > ImageType3D;
@@ -70,12 +74,12 @@
   ImageTypePtr3D set3DData();
 
 
-/*** test2DInterpolateImagePointsFilter() Tests InterpolateImagePointsFilter for
+/** test2DInterpolateImagePointsFilter() Tests InterpolateImagePointsFilter for
    * expected results at a handful of index locations.
    */
 int test2DInterpolateImagePointsFilter()
 {
-  int flag = 0;
+  int testStatus = EXIT_SUCCESS;
 
   std::cout << "Testing 2D InterpolateImagePointsFilter at sample index locations.\n ";
 
@@ -85,20 +89,19 @@ int test2DInterpolateImagePointsFilter()
   // Using Index Coordinates so setting of origin and spacing should
   // not change results.
   double origin [] = { 5.5, 1.0 };
-  double spacing[] = { 5.1, 0.5  };
+  double spacing[] = { 5.1, 0.5 };
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
 
   // Initialize the sample data
   const int NPOINTS2 = 4;  // number of points
-  const double DEFAULTPIXELVALUE =   1.23;  // arb value to test setting
+  const double DEFAULTPIXELVALUE = 1.23;  // Arbitrary value to test setting
 
   double xcoord[NPOINTS2] = { 0.1, 3.4, 4.0, 2.0};
   double ycoord[NPOINTS2] = { 0.2, 5.8, 6.0, 7.0};
   double truth[NPOINTS2] = {151.650316034, 22.411473093, 36.2, DEFAULTPIXELVALUE};
 
-
-  // Place Continuous Index Coordinates into an image data structure
+  // Place continuous index coordinates into an image data structure
   CoordImageType2DPointer index1 = CoordImageType2D::New();
   CoordImageType2DPointer index2 = CoordImageType2D::New();
 
@@ -132,15 +135,22 @@ int test2DInterpolateImagePointsFilter()
     ++j;
     }
 
-
   // Initialize InterpolateImagePointsFilter
   InterpolatorType2D::Pointer resamp = InterpolatorType2D::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( resamp, InterpolateImagePointsFilter, ImageToImageFilter );
+
   unsigned int splineOrder = 3;
   resamp->GetInterpolator()->SetSplineOrder(splineOrder);
   resamp->SetInputImage(image);
   resamp->SetInterpolationCoordinate(index1, 0);
   resamp->SetInterpolationCoordinate(index2, 1);
-  resamp->SetDefaultPixelValue(DEFAULTPIXELVALUE);
+
+  InterpolatorType2D::PixelType defaultPixelValue = DEFAULTPIXELVALUE;
+  resamp->SetDefaultPixelValue( defaultPixelValue );
+
+  TEST_SET_GET_VALUE( defaultPixelValue, resamp->GetDefaultPixelValue() );
+
   resamp->Update();
   resamp->Print(std::cout);
 
@@ -149,31 +159,33 @@ int test2DInterpolateImagePointsFilter()
   outputImage = resamp->GetOutput();
   InputIterator outIter(outputImage,region);
   int i = 0;
+  double epsilon = 1e-9;
   while ( !outIter.IsAtEnd() )
     {
     double value = outIter.Get();
     std::cout.width(10);
-    std::cout << value << std::endl;
-    if( itk::Math::abs( value - truth[i] ) > 1e-9 )
+    std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
+    std::cout << "Checking image value: " << value << std::endl;
+    if( !itk::Math::FloatAlmostEqual( value, truth[i], 10, epsilon ) )
       {
       std::cout << "*** Error: value should be " << truth[i] << std::endl;
-      flag += 1;
+      testStatus = EXIT_FAILURE;
       }
     else
-    {
-    std::cout << "*** test2DInterpolateImagePointsFilter() Passed.\n" << std::endl;
-    }
+      {
+      std::cout << "*** test2DInterpolateImagePointsFilter() Passed.\n" << std::endl;
+      }
     ++outIter;
     ++i;
     }
   std::cout << std::endl;
 
-  return (flag);
+  return testStatus;
 }
 
 int test3DInterpolateImagePointsFilter()
 {
-  int flag = 0;
+  int testStatus = EXIT_SUCCESS;
 
   std::cout << "Testing 3D InterpolateImagePointsFilter.\n ";
 
@@ -182,12 +194,14 @@ int test3DInterpolateImagePointsFilter()
 
   // Initialize InterpolateImagePointsFilter and set input image
   InterpolatorType3D::Pointer resamp = InterpolatorType3D::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( resamp, InterpolateImagePointsFilter, ImageToImageFilter );
+
   unsigned int splineOrder = 3;
   resamp->GetInterpolator()->SetSplineOrder(splineOrder);
   resamp->SetInputImage(image);
 
-
-  // Generate Coordinates at original index locations
+  // Generate coordinates at original index locations
   SizeType3D size = image->GetLargestPossibleRegion().GetSize();
   CoordImageType3DPointer coord[ImageDimension3D]; // = CoordImageType2D::New();
   CoordImageType3D::RegionType region;
@@ -226,11 +240,11 @@ int test3DInterpolateImagePointsFilter()
   resamp->Update();
   resamp->Print(std::cout);
 
-    // Get results and compare for accuracy
+  // Get results and compare for accuracy
   ImageTypePtr3D outputImage;
   outputImage = resamp->GetOutput();
 
-  // Calculate rmse
+  // Calculate RMSE
   // First set up iterators
   typedef itk::ImageRegionIterator<ImageType3D>      InputIterator;
   typedef itk::ImageRegionIterator<CoordImageType3D> OutputIterator;
@@ -249,56 +263,60 @@ int test3DInterpolateImagePointsFilter()
 
   // Write home and let mom & dad know how we're doing.
   std::cout << "rmse of image is " << rmse << "\n ";
-  if (rmse > 1e-7)
+  double epsilon = 1e-7;
+  std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
+  if ( !itk::Math::FloatAlmostEqual( rmse, (double)0 , 10, epsilon ) )
     {
     std::cout << "*** Error: rmse is larger than expected." << std::endl;
-    flag += 1;
+    testStatus = EXIT_FAILURE;
     }
   else
     {
     std::cout << "*** test3DInterpolateImagePointsFilter() Passed.\n" << std::endl;
     }
 
-  return flag;
+  return testStatus;
 }
 
-int
-itkInterpolateImagePointsFilterTest( int, char * [] )
+int itkInterpolateImagePointsFilterTest( int, char * [] )
 {
-// Save the format stream variables for std::cout
-// They will be restored when coutState goes out of scope
-// scope.
+  // Save the format stream variables for std::cout
+  // They will be restored when coutState goes out of scope
+  // scope.
   itk::StdStreamStateSave coutState(std::cout);
 
-  int flag = 0;           /* Did this test program work? */
+  int testStatus = EXIT_SUCCESS;
 
-  std::cout << "Testing B Spline interpolation methods:\n";
+  std::cout << "Testing InterpolateImagePointsFilter class:\n";
 
-  flag += test2DInterpolateImagePointsFilter();
-  flag += test3DInterpolateImagePointsFilter();
+  testStatus += test2DInterpolateImagePointsFilter();
+  testStatus += test3DInterpolateImagePointsFilter();
 
-
-  /* Return results of test */
-  if (flag != 0) {
-    std::cout << "\n*** " << flag << " tests failed" << std::endl;
-
-    return EXIT_FAILURE; }
-  else {
+  // Return results of test
+  if (testStatus != 0)
+    {
+    std::cout << "\n*** " << testStatus << " tests failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+  else
+    {
     std::cout << "\nAll tests successfully passed\n" << std::endl;
-    return EXIT_SUCCESS; }
+    return EXIT_SUCCESS;
+    }
 
 }
 
 void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer imgPtr)
 {
   ImageType2DSizeType size = {{7,7}};
-  double mydata[ 49 ] = {  154.5000,   82.4000,   30.9000,         0,  -10.3000,         0,   30.9000 ,
+  double mydata[ 49 ] = {
+    154.5000,   82.4000,   30.9000,         0,  -10.3000,         0,   30.9000 ,
     117.0000,   62.4000,   23.4000,         0,   -7.8000,         0,   23.4000 ,
-   18.0000,    9.6000,    3.6000,         0,   -1.2000,         0,    3.6000 ,
- -120.0000,  -64.0000,  -24.0000,         0,    8.0000,         0,  -24.0000 ,
- -274.5000, -146.4000,  -54.9000,         0,   18.3000,         0,  -54.9000 ,
- -423.0000, -225.6000,  -84.6000,         0,   28.2000,         0,  -84.6000 ,
- -543.0000, -289.6000, -108.6000,         0,   36.2000,         0, -108.6000  };
+     18.0000,    9.6000,    3.6000,         0,   -1.2000,         0,    3.6000 ,
+   -120.0000,  -64.0000,  -24.0000,         0,    8.0000,         0,  -24.0000 ,
+   -274.5000, -146.4000,  -54.9000,         0,   18.3000,         0,  -54.9000 ,
+   -423.0000, -225.6000,  -84.6000,         0,   28.2000,         0,  -84.6000 ,
+   -543.0000, -289.6000, -108.6000,         0,   36.2000,         0, -108.6000 };
 
   ImageType2D::RegionType region;
   region.SetSize( size );
@@ -318,21 +336,18 @@ void set2DInterpolateImagePointsFilterData(ImageType2D::Pointer imgPtr)
     ++inIter;
     ++j;
     }
-
-
 }
 
 
 ImageTypePtr3D set3DData()
 {
-
-  // Create a gaussian image source
+  // Create a Gaussian image source
   typedef itk::GaussianImageSource< ImageType3D > GaussianSourceType;
   GaussianSourceType::Pointer pSource = GaussianSourceType::New();
 
   ImageType3D::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
   ImageType3D::PointValueType origin[] = { 1.0f, 4.0f, 2.0f };
-  ImageType3D::SizeValueType    size[]  = { 65, 75, 60};
+  ImageType3D::SizeValueType    size[] = { 65, 75, 60};
 
   GaussianSourceType::ArrayType mean;
   mean[0] = size[0]/2.0f + origin[0];
@@ -355,7 +370,7 @@ ImageTypePtr3D set3DData()
 
   // Run the pipeline
   pSource->Update();
-  return (pImage);
 
+  return pImage;
 
 }
