@@ -207,8 +207,6 @@ public:
    * bracketed initializer. */
   SizeValueType m_Size[VDimension];
 
-// force gccxml to find the constructors found before the internal upgrade to
-// gcc 4.2
 #if defined( ITK_WRAPPING_PARSER )
   // Do not use c++11 'delete' keyword here.  This code block is here to
   // explicitly provide the wrapping facilities with handles to the default and
@@ -217,7 +215,6 @@ public:
   Size();
   Size(const Self&);
   void operator=(const Self&);
-
 #endif
 };
 
