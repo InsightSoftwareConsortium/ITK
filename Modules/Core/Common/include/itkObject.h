@@ -88,7 +88,7 @@ public:
   /** Set the value of the debug flag. A non-zero value turns debugging on. */
   void SetDebug(bool debugFlag) const;
 
-  /** Return this objects modified time.  */
+  /** Return this object's modified time.  */
   virtual ModifiedTimeType GetMTime() const;
 
   /** Return this object's time stamp.  */
