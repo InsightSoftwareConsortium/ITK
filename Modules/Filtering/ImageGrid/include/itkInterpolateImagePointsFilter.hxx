@@ -33,9 +33,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::InterpolateImagePointsFilter()
@@ -44,20 +42,6 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   m_DefaultPixelValue = 0;
 
   this->SetNumberOfRequiredInputs(ImageDimension+1);
-}
-
-/**
- * Standard "PrintSelf" method
- */
-template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
-void
-InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
-::PrintSelf(
-  std::ostream & os,
-  Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Default (background) pixel level: " << m_DefaultPixelValue << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
@@ -124,8 +108,7 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     CoordImageIterator temp(this->GetInput(j + 1), coordRegion);
-//    temp.GoToBegin();   //Not sure if this is needed or inappropriate for
-// threading.
+//    temp.GoToBegin();   //Not sure if this is needed or inappropriate for threading.
     coordIter[j] = temp;
     }
 
@@ -145,12 +128,11 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
       {
       outIter.Set( m_Interpolator->EvaluateAtContinuousIndex(index) );
       // TODO: How can we modify the code so that it could also interpolate
-      //  from a set of point coordinates instead of Continuous Index
+      // from a set of point coordinates instead of Continuous Index
       // coordinates?
-      //  If this line is used instead of the above line then this will
-      //  calculate from points. ( PointType point must replace index throughout
-      // this
-      //  function.)
+      // If this line is used instead of the above line then this will
+      // calculate from points. ( PointType point must replace index throughout
+      // this function.)
       // outIter.Set( m_Interpolator->Evaluate( point );
       }
     else
@@ -162,15 +144,12 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
     }
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   if ( !this->GetInput(0) )
@@ -179,35 +158,31 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
     }
 
   // The coordinates may have arbitrary ordering so the entire image must be
-  // available
-  // for the filter.  The coordinates on the other hand have the default
-  // requested
-  // region size.
+  // available for the filter. The coordinates on the other hand have the default
+  // requested region size.
   InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput(0) );
   inputPtr->SetRequestedRegionToLargestPossibleRegion();
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
 void
 InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
 ::GenerateOutputInformation()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
-  //   This sets the largestPossibleRegion to ensure it is the same as
-  //   the coordinates.  While this should be the default behavor, given the
-  //   multiple inputs it may incorrectly default to the image
-  // largestPossibleRegion
-  //   thus this method was explicitly written.
+  // This sets the largestPossibleRegion to ensure it is the same as
+  // the coordinates. While this should be the default behavor, given the
+  // multiple inputs it may incorrectly default to the image
+  // largestPossibleRegion.
+  // Thus this method was explicitly written.
+  //
   CoordImageTypePointer xCoordPtr = const_cast< TInputImage * >( this->GetInput(1) );
   OutputImagePointer    outputPtr = this->GetOutput();
 
-  // we need to compute the output spacing, the output image size, and the
-  // output image start index.  This is all determined by the coordinate data
+  // We need to compute the output spacing, the output image size, and the
+  // output image start index. This is all determined by the coordinate data
 
   const typename TOutputImage::SpacingType &
   outputSpacing = xCoordPtr->GetSpacing();
@@ -223,6 +198,16 @@ InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, Interpolato
   outputLargestPossibleRegion.SetIndex(outputStartIndex);
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+}
+
+template< typename TInputImage, typename TOutputImage, typename TCoordType, typename InterpolatorType >
+void
+InterpolateImagePointsFilter< TInputImage, TOutputImage, TCoordType, InterpolatorType >
+::PrintSelf( std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf( os, indent );
+
+  os << indent << "Default (background) pixel level: " << m_DefaultPixelValue << std::endl;
 }
 } // namespace itk
 
