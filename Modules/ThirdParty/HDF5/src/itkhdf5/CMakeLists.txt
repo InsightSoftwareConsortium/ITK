@@ -563,7 +563,7 @@ include (UserMacros.cmake)
 #-----------------------------------------------------------------------------
 # Include filter (zlib, szip, etc.) macros
 #-----------------------------------------------------------------------------
-#include (CMakeFilters.cmake)
+include (CMakeFilters.cmake)
 
 #-----------------------------------------------------------------------------
 # Option for external libraries on windows

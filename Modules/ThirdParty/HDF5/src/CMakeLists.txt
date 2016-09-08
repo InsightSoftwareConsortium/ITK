@@ -46,8 +46,12 @@ if(HDF5_ENABLE_Z_LIB_SUPPORT)
   # We must tell the main HDF5 library that it depends on our zlib
   set(ZLIB_INCLUDE_DIRS "${ITKZLIB_INCLUDE_DIRS}")
   set(ZLIB_LIBRARIES "${ITKZLIB_LIBRARIES}")
+  if(BUILD_SHARED_LIBS)
+    set(ZLIB_SHARED_LIBRARY ${ITKZLIB_LIBRARIES})
+  endif()
+  set(ZLIB_STATIC_LIBRARY ${ITKZLIB_LIBRARIES})
   set(H5_ZLIB_HEADER "itk_zlib.h")
-endif(HDF5_ENABLE_Z_LIB_SUPPORT)
+endif()
 
 add_subdirectory(itkhdf5)
 
