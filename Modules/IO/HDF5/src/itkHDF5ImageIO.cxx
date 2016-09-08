@@ -33,7 +33,7 @@ HDF5ImageIO::HDF5ImageIO() : m_H5File(ITK_NULLPTR),
 
 HDF5ImageIO::~HDF5ImageIO()
 {
-  this->CloseDataSetFile();
+  this->CloseDataSet();
   this->CloseH5File();
 }
 
@@ -694,7 +694,7 @@ HDF5ImageIO
 
 void
 HDF5ImageIO
-::CloseDataSetFile()
+::CloseDataSet()
 {
   if(this->m_VoxelDataSet != ITK_NULLPTR)
     {
@@ -711,7 +711,7 @@ HDF5ImageIO
   try
     {
     this->CloseH5File();
-    this->CloseDataSetFile();
+    this->CloseDataSet();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_RDONLY);
     this->m_VoxelDataSet = new H5::DataSet();
@@ -1074,7 +1074,7 @@ HDF5ImageIO
   try
     {
     this->CloseH5File();
-    this->CloseDataSetFile();
+    this->CloseDataSet();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_TRUNC);
     this->m_VoxelDataSet = new H5::DataSet();
