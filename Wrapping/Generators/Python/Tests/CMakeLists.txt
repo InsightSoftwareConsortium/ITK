@@ -239,7 +239,7 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
 
 endif()
 
-itk_python_add_test(NAME PythonLazyLoadingImage COMMAND LazyLoadingImage.py)
+add_python_test(PythonLazyLoadingImage ${CMAKE_CURRENT_SOURCE_DIR}/LazyLoadingImage.py)
 
 if(ITK_WRAP_float AND WRAP_2)
   add_python_test(PythonCurvatureAnisotropicDiffusionImageFilter
