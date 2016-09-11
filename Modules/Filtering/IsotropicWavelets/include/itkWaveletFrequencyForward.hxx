@@ -108,7 +108,7 @@ unsigned int
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::ComputeMaxNumberOfLevels(
   typename InputImageType::SizeType & input_size)
 {
-  std::array<unsigned int, ImageDimension> exponent_per_axis;
+  FixedArray<unsigned int, ImageDimension> exponent_per_axis;
   for (unsigned int axis = 0; axis < ImageDimension; ++axis)
   {
     size_t size_axis = input_size[axis];
@@ -130,7 +130,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::ComputeM
     }
   }
   // return the min_element of array (1 if any size is not power of 2)
-  return *std::min_element(exponent_per_axis.begin(), exponent_per_axis.end());
+  return *std::min_element(exponent_per_axis.Begin(), exponent_per_axis.End());
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>

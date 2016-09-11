@@ -18,7 +18,7 @@
 
 #ifndef itkInd2Sub_h
 #define itkInd2Sub_h
-#include <array>
+#include <itkFixedArray.h>
 #include <iostream>
 #include <itkIndex.h>
 #include <itkSize.h>
@@ -34,20 +34,20 @@ namespace itk
  *
  * @tparam N Dimension of the matrix
  * @param linear_index linear index, for example in 3D linear_index = i + nx(j + ny*k)
- * @param ns array containing sizes per dimenstion (nx,ny,...)
+ * @param ns FixedArray containing sizes per dimenstion (nx,ny,...)
  *
- * @return array with subindexes: [i,j,k, ...
+ * @return FixedArray with subindexes: [i,j,k, ...
  */
 template <unsigned int N>
-std::array<unsigned int, N>
-Ind2Sub(const unsigned int & linear_index, const std::array<unsigned int, N> & ns)
+FixedArray<unsigned int, N>
+Ind2Sub(const unsigned int & linear_index, const FixedArray<unsigned int, N> & ns)
 {
   for (unsigned int d = 0; d < N; ++d)
     if (ns[d] == 0)
       throw std::runtime_error("itk::Ind2Sub: input size cannot be zero");
 
   // accumulative product.
-  std::array<unsigned int, N> cumprod;
+  FixedArray<unsigned int, N> cumprod;
   unsigned int                accum = 1;
   cumprod[0] = accum;
   for (unsigned int d = 1; d < N; ++d)
@@ -59,7 +59,7 @@ Ind2Sub(const unsigned int & linear_index, const std::array<unsigned int, N> & n
   if (linear_index > max_index)
     throw std::runtime_error("itk::Ind2Sub: input index is incompatible with the given size");
 
-  std::array<unsigned int, N> out;
+  FixedArray<unsigned int, N> out;
   unsigned int                rem(0), temp_index(linear_index);
   // perfectly defined. i will go to > N instead of -1
   for (unsigned int i = N - 1; i < N; --i)
@@ -80,10 +80,10 @@ template <unsigned int N>
 itk::Index<N>
 Ind2Sub(const unsigned int & linear_index, const itk::Size<N> & ns)
 {
-  std::array<unsigned int, N> ns_array;
+  FixedArray<unsigned int, N> ns_array;
   for (unsigned int d = 0; d < N; ++d)
     ns_array[d] = ns[d];
-  std::array<unsigned int, N> out_array = Ind2Sub<N>(linear_index, ns_array);
+  FixedArray<unsigned int, N> out_array = Ind2Sub<N>(linear_index, ns_array);
   itk::Index<N>               out_index;
   for (unsigned int d = 0; d < N; ++d)
     out_index[d] = out_array[d];

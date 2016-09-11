@@ -93,7 +93,7 @@ itkFrequencyShrinkTest(int argc, char ** argv)
   {
     // Simmetry and hermitian test: ComplexInverseFFT will generate output with zero imaginary part.
     // Test hermitian properties for even Images. Odd real images are not even hermitian after
-    std::array<bool, dimension> inputSizeIsEven;
+    FixedArray<bool, dimension> inputSizeIsEven;
     bool                        imageIsEven(true);
     for (unsigned int dim = 0; dim < dimension; ++dim)
     {

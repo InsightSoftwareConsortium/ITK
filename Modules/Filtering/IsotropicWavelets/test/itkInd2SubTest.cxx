@@ -24,75 +24,77 @@ using namespace itk;
 int
 itkInd2SubTest(int, char **)
 {
+  // Used for  initializing FixedArray.
+  typedef unsigned int                 CArrayT[];
   const unsigned int                   D3 = 3;
-  typedef std::array<unsigned int, D3> array3D;
-  std::array<unsigned int, D3>         sizes3 = { { 2, 2, 2 } };
-  std::vector<array3D>                 storeOutput3D;
+  typedef FixedArray<unsigned int, D3> Array3DType;
+  FixedArray<unsigned int, D3>         sizes3 = CArrayT{ 2, 2, 2 };
+  std::vector<Array3DType>             storeOutput3D;
   std::cout << "sizes: (2,2,2) " << std::endl;
   for (unsigned int n = 0; n < sizes3[0] * sizes3[1] * sizes3[2]; ++n)
   {
     std::cout << "index " << n << " -> ";
-    array3D out = Ind2Sub<D3>(n, sizes3);
+    Array3DType out = Ind2Sub<D3>(n, sizes3);
     storeOutput3D.push_back(out);
     for (unsigned int i = 0; i < D3; ++i)
       std::cout << out[i] << " , ";
     std::cout << '\n';
   }
   // Check results:
-  std::vector<array3D> expectedResult3D = { { { { 0, 0, 0 } },
-                                              { { 1, 0, 0 } },
-                                              { { 0, 1, 0 } },
-                                              { { 1, 1, 0 } },
-                                              { { 0, 0, 1 } },
-                                              { { 1, 0, 1 } },
-                                              { { 0, 1, 1 } },
-                                              { { 1, 1, 1 } } } };
+  std::vector<Array3DType> expectedResult3D = { { CArrayT{ 0, 0, 0 },
+                                                  CArrayT{ 1, 0, 0 },
+                                                  CArrayT{ 0, 1, 0 },
+                                                  CArrayT{ 1, 1, 0 },
+                                                  CArrayT{ 0, 0, 1 },
+                                                  CArrayT{ 1, 0, 1 },
+                                                  CArrayT{ 0, 1, 1 },
+                                                  CArrayT{ 1, 1, 1 } } };
   if (storeOutput3D != expectedResult3D)
     return EXIT_FAILURE;
 
   /*******************************/
 
   const unsigned int                   D2 = 2;
-  typedef std::array<unsigned int, D2> array2D;
-  std::array<unsigned int, D2>         sizes2 = { { 3, 4 } };
-  std::vector<array2D>                 storeOutput2D;
+  typedef FixedArray<unsigned int, D2> Array2DType;
+  FixedArray<unsigned int, D2>         sizes2 = CArrayT{ 3, 4 };
+  std::vector<Array2DType>             storeOutput2D;
   std::cout << "sizes: (" << sizes2[0] << "," << sizes2[1] << ")" << std::endl;
   std::cout << "max_linear_index: (" << sizes2[0] * sizes2[1] - 1 << ")" << std::endl;
   for (unsigned int n = 0; n < sizes2[0] * sizes2[1]; ++n)
   {
     std::cout << "index " << n << " -> ";
-    array2D out = Ind2Sub<D2>(n, sizes2);
+    Array2DType out = Ind2Sub<D2>(n, sizes2);
     storeOutput2D.push_back(out);
     for (unsigned int i = 0; i < D2; ++i)
       std::cout << out[i] << " , ";
     std::cout << '\n';
   }
   // Check results:
-  std::vector<array2D> expectedResult2D = { { { { 0, 0 } },
-                                              { { 1, 0 } },
-                                              { { 2, 0 } },
-                                              { { 0, 1 } },
-                                              { { 1, 1 } },
-                                              { { 2, 1 } },
-                                              { { 0, 2 } },
-                                              { { 1, 2 } },
-                                              { { 2, 2 } },
-                                              { { 0, 3 } },
-                                              { { 1, 3 } },
-                                              { { 2, 3 } } } };
+  std::vector<Array2DType> expectedResult2D = { { CArrayT{ 0, 0 },
+                                                  CArrayT{ 1, 0 },
+                                                  CArrayT{ 2, 0 },
+                                                  CArrayT{ 0, 1 },
+                                                  CArrayT{ 1, 1 },
+                                                  CArrayT{ 2, 1 },
+                                                  CArrayT{ 0, 2 },
+                                                  CArrayT{ 1, 2 },
+                                                  CArrayT{ 2, 2 },
+                                                  CArrayT{ 0, 3 },
+                                                  CArrayT{ 1, 3 },
+                                                  CArrayT{ 2, 3 } } };
   if (storeOutput2D != expectedResult2D)
     return EXIT_FAILURE;
 
   /*******************************/
   // Itk index/size interface:
-  typedef itk::Index<D2> index2D;
-  itk::Size<D2>          sizesItk2 = { { 3, 4 } };
-  std::vector<array2D>   storeOutputIndex2D;
+  typedef itk::Index<D2>   Index2DType;
+  itk::Size<D2>            sizesItk2 = { { 3, 4 } };
+  std::vector<Array2DType> storeOutputIndex2D;
   for (unsigned int n = 0; n < sizesItk2[0] * sizesItk2[1]; ++n)
   {
     std::cout << "indexITK " << n << " -> ";
-    index2D out = Ind2Sub<D2>(n, sizesItk2);
-    storeOutputIndex2D.push_back({ { static_cast<unsigned int>(out[0]), static_cast<unsigned int>(out[1]) } });
+    Index2DType out = Ind2Sub<D2>(n, sizesItk2);
+    storeOutputIndex2D.push_back(CArrayT{ static_cast<unsigned int>(out[0]), static_cast<unsigned int>(out[1]) });
     for (unsigned int i = 0; i < D2; ++i)
       std::cout << out[i] << " , ";
     std::cout << '\n';

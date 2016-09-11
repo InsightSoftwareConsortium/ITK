@@ -27,7 +27,7 @@
 #include "itkImage.h"
 #include "itkImageToVTKImageFilter.h"
 #include "itkStatisticsImageFilter.h"
-#include <array>
+#include <itkFixedArray>
 namespace itk
 {
 template <typename T>
@@ -68,7 +68,7 @@ View3DImage(const T * img, size_t win_x, size_t win_y)
   double window = max_intensity - min_intensity;
   double level = min_intensity + window / 2;
   /** SLICES */
-  std::array<vtkSmartPointer<vtkImagePlaneWidget>, kDimension> slice_planes;
+  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, kDimension> slice_planes;
   for (unsigned i = 0; i < kDimension; ++i)
   {
     slice_planes[i] = vtkSmartPointer<vtkImagePlaneWidget>::New();
@@ -151,7 +151,7 @@ View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x, size_
   double rightWindow = rightMax_intensity - rightMin_intensity;
   double rightLevel = rightMin_intensity + rightWindow / 2;
   /** SLICES (BOTH) */
-  std::array<vtkSmartPointer<vtkImagePlaneWidget>, leftDimension> leftSlice_planes;
+  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, leftDimension> leftSlice_planes;
   for (unsigned i = 0; i < leftDimension; ++i)
   {
     leftSlice_planes[i] = vtkSmartPointer<vtkImagePlaneWidget>::New();
@@ -172,7 +172,7 @@ View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x, size_
     leftSlice_planes[i]->SetWindowLevel(leftWindow, leftLevel);
     leftSlice_planes[i]->On();
   }
-  std::array<vtkSmartPointer<vtkImagePlaneWidget>, rightDimension> rightSlice_planes;
+  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, rightDimension> rightSlice_planes;
   for (unsigned i = 0; i < rightDimension; ++i)
   {
     rightSlice_planes[i] = vtkSmartPointer<vtkImagePlaneWidget>::New();
