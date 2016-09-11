@@ -29,6 +29,9 @@ namespace itk
 
 /** \class RieszFrequencyFilterBankGenerator
  * \brief Generate filter bank of RieszFrequencyFunction.
+ * RieszFrequencyFunction returns a complex value,
+ * but the output of this generator is real , representing the imaginary part
+ * of that complex number (the real part of a Riesz Transform is zero).
  * It is conceptually equivalent to a ImageFilter, but because it is usually used along Wavelets, the
  * FilterBankGenerator interface has been chosen. Check RieszFrecuencyFunction for the spatial function implementation.
  *
@@ -40,7 +43,7 @@ namespace itk
  * \ingroup IsotropicWavelets
  */
 template <typename TOutputImage,
-          typename TRieszFunction = itk::RieszFrequencyFunction<>,
+          typename TRieszFunction = itk::RieszFrequencyFunction<double, TOutputImage::ImageDimension>,
           typename TFrequencyRegionIterator = FrequencyImageRegionIteratorWithIndex<TOutputImage>>
 class RieszFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {

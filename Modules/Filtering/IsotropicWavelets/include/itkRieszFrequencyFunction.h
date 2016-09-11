@@ -19,6 +19,7 @@
 #define itkRieszFrequencyFunction_h
 
 #include "itkFrequencyFunction.h"
+#include <complex>
 
 namespace itk
 {
@@ -49,21 +50,22 @@ public:
   /** Input type for the function. */
   typedef typename Superclass::InputType InputType;
 
-  /** Output type for the function. */
   typedef typename Superclass::OutputType FunctionValueType;
-  typedef typename Superclass::OutputType OutputType;
+  /** Output type for the function. */
+  typedef std::complex<typename Superclass::OutputType>                                   OutputComplexType;
+  typedef itk::FixedArray<std::complex<typename Superclass::OutputType>, VImageDimension> OutputArrayType;
 
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
   Evaluate(const TInput &) const ITK_OVERRIDE
   {
     itkExceptionMacro("Evaluate(TInput&) is not valid for RieszFrequencyFunction."
-                      "Use EvaluateArray instead, returning an array type,"
-                      "or Evaluate(point, dimension) that returns a scalar.");
+                      "Use EvaluateArray instead, returning an OutputArrayType,"
+                      "or Evaluate(point, dimension) that returns a complex value .");
   };
-  FunctionValueType
+  OutputComplexType
   Evaluate(const TInput & frequency_point, const unsigned int & dimension) const;
-  InputType
+  OutputArrayType
   EvaluateArray(const TInput & frequency_point) const;
 
   /** Calculate magnitude (euclidean norm) of input point. **/

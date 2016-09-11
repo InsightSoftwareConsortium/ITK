@@ -27,7 +27,7 @@
 #include "itkImage.h"
 #include "itkImageToVTKImageFilter.h"
 #include "itkStatisticsImageFilter.h"
-#include <itkFixedArray>
+#include <itkFixedArray.h>
 namespace itk
 {
 template <typename T>

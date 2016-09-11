@@ -229,8 +229,8 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     }
 
     // Calculate size of low_pass per level
-    // unsigned int scaleFactorPerLevel = std::pow(this->m_ScaleFactor, level + 1 );
-    // Calculate new Size and Index, per dim.
+    // unsigned int scaleFactorPerLevel = std::pow(static_cast<double>(this->m_ScaleFactor), static_cast<int>(level + 1
+    // ))); Calculate new Size and Index, per dim.
     for (unsigned int idim = 0; idim < OutputImageType::ImageDimension; idim++)
     {
       // Size divided by scale
@@ -278,9 +278,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   Superclass::GenerateOutputRequestedRegion(refOutput);
 
   // find the index for this output
-  unsigned int refIndex = static_cast<unsigned int>(refOutput->GetSourceOutputIndex());
-  unsigned int refLevel, refBand;
-  std::tie(refLevel, refBand) = this->OutputIndexToLevelBand(refIndex);
+  unsigned int                          refIndex = static_cast<unsigned int>(refOutput->GetSourceOutputIndex());
+  std::pair<unsigned int, unsigned int> pairRef = this->OutputIndexToLevelBand(refIndex);
+  unsigned int                          refLevel = pairRef.first;
+  // unsigned int refBand  = pairRef.second;
 
   // compute baseIndex and baseSize
   typedef typename OutputImageType::SizeType   SizeType;
@@ -315,7 +316,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     SizeType   baseSize = ptr->GetRequestedRegion().GetSize();
     RegionType baseRegion;
 
-    unsigned int exponent_factor = refLevel - 1;
+    int exponent_factor = refLevel - 1;
     // if (refIndex != 0)
     //   exponent_factor = refLevel;
     // else
@@ -323,8 +324,9 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
     for (unsigned int idim = 0; idim < TOutputImage::ImageDimension; idim++)
     {
-      baseIndex[idim] *= static_cast<IndexValueType>(std::pow(this->m_ScaleFactor, exponent_factor));
-      baseSize[idim] *= static_cast<SizeValueType>(std::pow(this->m_ScaleFactor, exponent_factor));
+      baseIndex[idim] *=
+        static_cast<IndexValueType>(std::pow(static_cast<double>(this->m_ScaleFactor), exponent_factor));
+      baseSize[idim] *= static_cast<SizeValueType>(std::pow(static_cast<double>(this->m_ScaleFactor), exponent_factor));
     }
     baseRegion.SetIndex(baseIndex);
     baseRegion.SetSize(baseSize);
@@ -344,7 +346,8 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
         // set the requested region
         this->GetOutput(n_output)->SetRequestedRegion(outputRegion);
       }
-      unsigned int scaleFactorPerLevel = std::pow(this->m_ScaleFactor, level + 1);
+      unsigned int scaleFactorPerLevel =
+        std::pow(static_cast<double>(this->m_ScaleFactor), static_cast<int>(level + 1));
       // Update baseRegion size and index for low_pass
       for (unsigned int idim = 0; idim < TOutputImage::ImageDimension; idim++)
       {
