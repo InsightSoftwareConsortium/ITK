@@ -54,44 +54,44 @@ itkFrequencyExpandTest(int argc, char ** argv)
   typedef float                            PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-  typename ReaderType::Pointer             reader = ReaderType::New();
+  ReaderType::Pointer                      reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   /***** Calculate mean value and substract: ****/
   // typedef itk::StatisticsImageFilter<ImageType> StatisticsFilterType;
-  // typename StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
+  // StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
   // statisticsFilter->SetInput(reader->GetOutput());
   // statisticsFilter->Update();
   // typedef itk::SubtractImageFilter<ImageType> SubtractFilterType;
-  // typename SubtractFilterType::Pointer subtractFilter = SubtractFilterType::New();
+  // SubtractFilterType::Pointer subtractFilter = SubtractFilterType::New();
   // subtractFilter->SetInput1(reader->GetOutput());
   // subtractFilter->SetConstant2(statisticsFilter->GetMean());
   // subtractFilter->Update();
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
-  typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
+  ZeroDCFilterType::Pointer                 zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
   zeroDCFilter->Update();
   /**********************************************/
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
+  FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
   // fftFilter->SetInput(subtractFilter->GetOutput());
   fftFilter->SetInput(zeroDCFilter->GetOutput());
-  typedef typename FFTFilterType::OutputImageType ComplexImageType;
+  typedef FFTFilterType::OutputImageType ComplexImageType;
 
   // ExpandFrequency
   typedef itk::FrequencyExpandImageFilter<ComplexImageType> ExpandType;
-  typename ExpandType::Pointer                              expandFilter = ExpandType::New();
+  ExpandType::Pointer                                       expandFilter = ExpandType::New();
   expandFilter->SetInput(fftFilter->GetOutput());
   expandFilter->SetExpandFactors(2);
   expandFilter->Update();
 
   // InverseFFT
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
+  InverseFFTFilterType::Pointer                                   inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(expandFilter->GetOutput());
   inverseFFT->Update();
 
@@ -109,8 +109,9 @@ itkFrequencyExpandTest(int argc, char ** argv)
     }
     // Check that complex part is almost 0 after FFT and complex inverse FFT.
     {
+      std::cout << "Even Image?: " << imageIsEven << std::endl;
       typedef itk::ComplexToComplexFFTImageFilter<ComplexImageType> ComplexFFTType;
-      typename ComplexFFTType::Pointer                              complexInverseFFT = ComplexFFTType::New();
+      ComplexFFTType::Pointer                                       complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(fftFilter->GetOutput());
       complexInverseFFT->Update();
@@ -121,8 +122,8 @@ itkFrequencyExpandTest(int argc, char ** argv)
       unsigned int not_zero_complex_error = 0;
       while (!complexInverseIt.IsAtEnd())
       {
-        bool not_equal = itk::Math::NotAlmostEquals<typename ComplexImageType::PixelType::value_type>(
-          complexInverseIt.Get().imag(), 0.0);
+        bool not_equal =
+          itk::Math::NotAlmostEquals<ComplexImageType::PixelType::value_type>(complexInverseIt.Get().imag(), 0.0);
         if (not_equal)
           ++not_zero_complex_error;
         ++complexInverseIt;
@@ -135,7 +136,7 @@ itkFrequencyExpandTest(int argc, char ** argv)
     // Check that complex part is almost 0 filter is correct after expand
     {
       typedef itk::ComplexToComplexFFTImageFilter<ComplexImageType> ComplexFFTType;
-      typename ComplexFFTType::Pointer                              complexInverseFFT = ComplexFFTType::New();
+      ComplexFFTType::Pointer                                       complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(expandFilter->GetOutput());
       complexInverseFFT->Update();
@@ -146,8 +147,8 @@ itkFrequencyExpandTest(int argc, char ** argv)
       unsigned int not_zero_complex_error = 0;
       while (!complexInverseIt.IsAtEnd())
       {
-        bool not_equal = itk::Math::NotAlmostEquals<typename ComplexImageType::PixelType::value_type>(
-          complexInverseIt.Get().imag(), 0.0);
+        bool not_equal =
+          itk::Math::NotAlmostEquals<ComplexImageType::PixelType::value_type>(complexInverseIt.Get().imag(), 0.0);
         if (not_equal)
           ++not_zero_complex_error;
         ++complexInverseIt;
@@ -184,7 +185,7 @@ itkFrequencyExpandTest(int argc, char ** argv)
   View3DImage(zeroDCFilter->GetOutput());
   // //Compare with regular expand filter.
   typedef itk::ExpandImageFilter<ImageType, ImageType> RegularExpandType;
-  typename RegularExpandType::Pointer                  regularExpandFilter = RegularExpandType::New();
+  RegularExpandType::Pointer                           regularExpandFilter = RegularExpandType::New();
   regularExpandFilter->SetInput(reader->GetOutput());
   regularExpandFilter->SetExpandFactors(2);
   regularExpandFilter->Update();
@@ -193,11 +194,11 @@ itkFrequencyExpandTest(int argc, char ** argv)
 
   // Complex to real
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
-  typename ComplexToRealFilter::Pointer                              complexToRealFilter = ComplexToRealFilter::New();
+  ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
   complexToRealFilter->SetInput(fftFilter->GetOutput());
   complexToRealFilter->Update();
   View3DImage(complexToRealFilter->GetOutput());
-  typename ComplexToRealFilter::Pointer complexToRealFilterExpand = ComplexToRealFilter::New();
+  ComplexToRealFilter::Pointer complexToRealFilterExpand = ComplexToRealFilter::New();
   complexToRealFilterExpand->SetInput(expandFilter->GetOutput());
   complexToRealFilterExpand->Update();
   View3DImage(complexToRealFilterExpand->GetOutput());

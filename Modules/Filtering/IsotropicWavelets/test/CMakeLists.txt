@@ -11,6 +11,7 @@ set(
   itkWaveletFrequencyInverseTest.cxx
   itkWaveletFrequencyFilterBankGeneratorTest.cxx
   itkRieszFrequencyFilterBankGeneratorTest.cxx
+  itkMonogenicSignalFrequencyImageFilterTest.cxx
 )
 
 if(ITKVtkGlue_ENABLED)
@@ -56,6 +57,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest2.tiff
     2
 )
+## Riesz Related
 # RieszGenerator
 itk_add_test(
   NAME itkRieszFrequencyFilterBankGeneratorTest
@@ -65,7 +67,15 @@ itk_add_test(
     DATA{Input/collagen_64x64x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkRieszFrequencyFilterBankGeneratorTest.tiff
 )
-
+# Monogenic Analysis
+itk_add_test(
+  NAME itkMonogenicSignalFrequencyImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkMonogenicSignalFrequencyImageFilterTest
+    DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicSignalFrequencyImageFilterTest.tiff
+)
 #Wavelet Forward / Inverse
 itk_add_test(
   NAME itkWaveletFrequencyForwardTest

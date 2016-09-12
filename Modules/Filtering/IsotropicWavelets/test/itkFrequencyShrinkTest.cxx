@@ -53,18 +53,18 @@ itkFrequencyShrinkTest(int argc, char ** argv)
   typedef float                            PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-  typename ReaderType::Pointer             reader = ReaderType::New();
+  ReaderType::Pointer                      reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   /***** Calculate mean value and substract: ****/
   typedef itk::StatisticsImageFilter<ImageType> StatisticsFilterType;
-  typename StatisticsFilterType::Pointer        statisticsFilter = StatisticsFilterType::New();
+  StatisticsFilterType::Pointer                 statisticsFilter = StatisticsFilterType::New();
   statisticsFilter->SetInput(reader->GetOutput());
   statisticsFilter->Update();
   typedef itk::SubtractImageFilter<ImageType> SubtractFilterType;
-  typename SubtractFilterType::Pointer        subtractFilter = SubtractFilterType::New();
+  SubtractFilterType::Pointer                 subtractFilter = SubtractFilterType::New();
   subtractFilter->SetInput1(reader->GetOutput());
   subtractFilter->SetConstant2(statisticsFilter->GetMean());
   subtractFilter->Update();
@@ -72,20 +72,20 @@ itkFrequencyShrinkTest(int argc, char ** argv)
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
+  FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
   fftFilter->SetInput(subtractFilter->GetOutput());
-  typedef typename FFTFilterType::OutputImageType ComplexImageType;
+  typedef FFTFilterType::OutputImageType ComplexImageType;
 
   // ShinkFrequency
   typedef itk::FrequencyShrinkImageFilter<ComplexImageType> ShrinkType;
-  typename ShrinkType::Pointer                              shrinkFilter = ShrinkType::New();
+  ShrinkType::Pointer                                       shrinkFilter = ShrinkType::New();
   shrinkFilter->SetInput(fftFilter->GetOutput());
   shrinkFilter->SetShrinkFactors(2);
   shrinkFilter->Update();
 
   // InverseFFT
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
+  InverseFFTFilterType::Pointer                                   inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(shrinkFilter->GetOutput());
   inverseFFT->Update();
 
@@ -105,7 +105,7 @@ itkFrequencyShrinkTest(int argc, char ** argv)
     // Check that complex part is almost 0 after FFT and complex inverse FFT.
     {
       typedef itk::ComplexToComplexFFTImageFilter<ComplexImageType> ComplexFFTType;
-      typename ComplexFFTType::Pointer                              complexInverseFFT = ComplexFFTType::New();
+      ComplexFFTType::Pointer                                       complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(fftFilter->GetOutput());
       complexInverseFFT->Update();
@@ -116,8 +116,8 @@ itkFrequencyShrinkTest(int argc, char ** argv)
       unsigned int not_zero_complex_error = 0;
       while (!complexInverseIt.IsAtEnd())
       {
-        bool not_equal = itk::Math::NotAlmostEquals<typename ComplexImageType::PixelType::value_type>(
-          complexInverseIt.Get().imag(), 0.0);
+        bool not_equal =
+          itk::Math::NotAlmostEquals<ComplexImageType::PixelType::value_type>(complexInverseIt.Get().imag(), 0.0);
         if (not_equal)
           ++not_zero_complex_error;
         ++complexInverseIt;
@@ -130,7 +130,7 @@ itkFrequencyShrinkTest(int argc, char ** argv)
     // Check that complex part is almost 0 filter is correct after shrink
     {
       typedef itk::ComplexToComplexFFTImageFilter<ComplexImageType> ComplexFFTType;
-      typename ComplexFFTType::Pointer                              complexInverseFFT = ComplexFFTType::New();
+      ComplexFFTType::Pointer                                       complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(shrinkFilter->GetOutput());
       complexInverseFFT->Update();
@@ -141,8 +141,8 @@ itkFrequencyShrinkTest(int argc, char ** argv)
       unsigned int not_zero_complex_error = 0;
       while (!complexInverseIt.IsAtEnd())
       {
-        bool not_equal = itk::Math::NotAlmostEquals<typename ComplexImageType::PixelType::value_type>(
-          complexInverseIt.Get().imag(), 0.0);
+        bool not_equal =
+          itk::Math::NotAlmostEquals<ComplexImageType::PixelType::value_type>(complexInverseIt.Get().imag(), 0.0);
         if (not_equal)
           ++not_zero_complex_error;
         ++complexInverseIt;
@@ -179,7 +179,7 @@ itkFrequencyShrinkTest(int argc, char ** argv)
   View3DImage(subtractFilter->GetOutput());
   // Compare with regular shrink filter.
   typedef itk::ShrinkImageFilter<ImageType, ImageType> RegularShrinkType;
-  typename RegularShrinkType::Pointer                  regularShrinkFilter = RegularShrinkType::New();
+  RegularShrinkType::Pointer                           regularShrinkFilter = RegularShrinkType::New();
   regularShrinkFilter->SetInput(reader->GetOutput());
   regularShrinkFilter->SetShrinkFactors(2);
   regularShrinkFilter->Update();
@@ -188,11 +188,11 @@ itkFrequencyShrinkTest(int argc, char ** argv)
 
   // Complex to real
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
-  typename ComplexToRealFilter::Pointer                              complexToRealFilter = ComplexToRealFilter::New();
+  ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
   complexToRealFilter->SetInput(fftFilter->GetOutput());
   complexToRealFilter->Update();
   View3DImage(complexToRealFilter->GetOutput());
-  typename ComplexToRealFilter::Pointer complexToRealFilterShrink = ComplexToRealFilter::New();
+  ComplexToRealFilter::Pointer complexToRealFilterShrink = ComplexToRealFilter::New();
   complexToRealFilterShrink->SetInput(shrinkFilter->GetOutput());
   complexToRealFilterShrink->Update();
   View3DImage(complexToRealFilterShrink->GetOutput());

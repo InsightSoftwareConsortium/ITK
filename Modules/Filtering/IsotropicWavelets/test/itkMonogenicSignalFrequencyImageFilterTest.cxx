@@ -15,25 +15,24 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <memory>
 #include <string>
 #include <cmath>
+#include "itkMonogenicSignalFrequencyImageFilter.h"
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
 #include "itkForwardFFTImageFilter.h"
-#include "itkRieszFrequencyFilterBankGenerator.h"
 #include <itkComplexToRealImageFilter.h>
-#include <itkImageRegionConstIterator.h>
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
 #if ITK_VISUALIZE_TESTS != 0
 #  include "itkView3DImage.h"
 #endif
-
 using namespace std;
 using namespace itk;
 
 int
-itkRieszFrequencyFilterBankGeneratorTest(int argc, char ** argv)
+itkMonogenicSignalFrequencyImageFilterTest(int argc, char ** argv)
 {
   if (argc != 3)
   {
@@ -44,7 +43,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char ** argv)
   const string outputImage = argv[2];
 
   const unsigned int                       dimension = 3;
-  typedef double                           PixelType;
+  typedef float                            PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
   ReaderType::Pointer                      reader = ReaderType::New();
@@ -59,24 +58,16 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char ** argv)
   fftFilter->Update();
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
-  // typedef itk::RieszFrequencyFunction<> FunctionType;
-  typedef itk::RieszFrequencyFilterBankGenerator<ComplexImageType> RieszFilterBankType;
-  RieszFilterBankType::Pointer                                     filterBank = RieszFilterBankType::New();
-  filterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
-  filterBank->Update();
+  typedef itk::MonogenicSignalFrequencyImageFilter<ComplexImageType> MonogenicSignalFilterType;
+  MonogenicSignalFilterType::Pointer                                 monoFilter = MonogenicSignalFilterType::New();
+  monoFilter->SetInput(fftFilter->GetOutput());
+  monoFilter->Update();
 
-  // Get real part of complex image for visualization
-  typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
-  ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
-  std::cout << "Real Part of ComplexImage:" << std::endl;
-  for (unsigned int dir = 0; dir < ImageType::ImageDimension; dir++)
+  if (monoFilter->GetOutput()->GetNumberOfComponentsPerPixel() != dimension + 1)
   {
-    std::cout << "Direction: " << dir + 1 << " / " << ImageType::ImageDimension << std::endl;
-    complexToRealFilter->SetInput(filterBank->GetOutput(dir));
-    complexToRealFilter->Update();
-#if ITK_VISUALIZE_TESTS != 0
-    View3DImage(complexToRealFilter->GetOutput());
-#endif
+    std::cout << "Wrong number of components" << std::endl;
+    return EXIT_FAILURE;
   }
+
   return EXIT_SUCCESS;
 }

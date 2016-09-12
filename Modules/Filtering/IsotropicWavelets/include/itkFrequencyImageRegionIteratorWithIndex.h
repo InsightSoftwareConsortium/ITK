@@ -19,59 +19,19 @@
 #define itkFrequencyImageRegionIteratorWithIndex_h
 
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkFrequencyImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
 /** \class FrequencyImageRegionIteratorWithIndex
- * \brief A multi-dimensional iterator templated over image type that walks
- * pixels within a region and is specialized to keep track of its image index
- * location.
- *
- * This class is a specialization of ImageRegionIteratorWithIndex,
- * adding method GetFrequencyIndex to give the frequency bins corresponding to image indices.
- * The frequency bins depends on the image size. The default assumes that the image to iterate over is
- * the output of a forward FFT filter, where the first index corresponds to 0 frequency, and Nyquist Frequencies are
- * in the middle, between positive and negative frequencies.
- *
- * This class can be specialized further to iterate over other frequency layouts, for example shifted images (where 0
- * frequency is in the middle of the image, and Nyquist are in the border). The frequency layout is assumed to be: where
- * fs is frequency sampling, or frequency spacing (1.0 by default).
- *
- * If N is even:
- * Nyquist frequency at index=N/2 is shared between + and - regions.
- * <------------positive f ---------------><------------negative f-------------->
- * 0(DC) fs/N 2*fs/N  ... (N/2 -1)*fs/N  fs/2   -(N/2-1)*fs/N  ...  -2*fs/N  -fs/N
- *
- * Example: Size 6:
- * +    |     -
- * ------------
- *      0       <-- DC Component (0 freq)
- * 1    |     5
- * 2    |     4
- *      3       <-- Shared between regions, unique Nyquist.
- *
- * If N is odd:
- * Nyquist frequency is not represented but there are simmetric largest frequencies at index=N/2, N/2 +1
- * <----------positive f ---------------><------------negative f----------------->
- * 0(DC) fs/N 2*fs/N  ...... fs/2*(N-1)/N    -fs/2*(N-1)/N  ...    -2*fs/N  -fs/N
- *
- * Example: Size 5:
- * +    |     -
- * ------------
- *      0       <-- DC Component (0 freq)
- * 1    |     4
- * 2    |     3 <-- Absolute Largest Frequency bins (+, -)
- *
- * Please see ImageRegionConstIteratorWithIndex for more information.
- * \sa ForwardFFTImageFilter
- *
- * \par MORE INFORMATION
- * For a complete description of the ITK Image Iterators and their API, please
- * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
- * is available in print and as a free .pdf download from https://www.itk.org.
+
+ * Iterator providing method GetFrequencyIndex() to retrieve the frequency associated to an index.
+ * This value is related to the specific layout of frequencies from an image in the dual (frequency) space.
+ * In this case, the layout corresponds to the output of a FastFourierTransform from FFTW library.
+ * This class is a non-const version of FrequencyImageRegionConstIteratorWithIndex.
  *
  * \ingroup ImageIterators
- *
+ * \sa FrequencyImageRegionConstIteratorWithIndex
  * \sa ImageRegionIteratorWithIndex
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
@@ -100,7 +60,7 @@ namespace itk
  *
  */
 template <typename TImage>
-class FrequencyImageRegionIteratorWithIndex : public ImageRegionIteratorWithIndex<TImage>
+class FrequencyImageRegionIteratorWithIndex : public FrequencyImageRegionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */
@@ -123,18 +83,14 @@ public:
   typedef typename ImageType::SpacingValueType FrequencyIndexValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
   FrequencyImageRegionIteratorWithIndex()
-    : ImageRegionIteratorWithIndex<TImage>()
-  {
-    this->InitIndices();
-  };
+    : FrequencyImageRegionConstIteratorWithIndex<TImage>()
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
   FrequencyImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
-    : ImageRegionIteratorWithIndex<TImage>(ptr, region)
-  {
-    this->InitIndices();
-  };
+    : FrequencyImageRegionConstIteratorWithIndex<TImage>(ptr, region)
+  {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -143,92 +99,38 @@ public:
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
   FrequencyImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
-    : ImageRegionIteratorWithIndex<TImage>(it)
-  {
-    this->InitIndices();
-  };
+    : FrequencyImageRegionConstIteratorWithIndex<TImage>(it)
+  {}
 
-  /** Note that this method is independent of the region in the constructor. **/
-  FrequencyIndexType
-  GetFrequencyIndex() const
+  /** Set the pixel value */
+  void
+  Set(const PixelType & value) const
   {
-    FrequencyIndexType freq;
-    freq.Fill(0);
-
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-    {
-      // Origin in a freq image should be always zero, we ignore it.
-      // However spacing has a useful meaning: dF, delta(freq).
-      // Freq: + (from 0 (DC) to largest f (Nyquist if even) in +dF intervals.
-      if (this->m_PositionIndex[dim] <= m_HalfIndex[dim])
-      {
-        freq[dim] = this->m_Image->GetSpacing()[dim] * (this->m_PositionIndex[dim] - this->m_MinIndex[dim]) /
-                    this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
-      }
-      // Freq: -. From -Largest(Nyquist if even) to -dF frequency.
-      else
-      {
-        freq[dim] = this->m_Image->GetSpacing()[dim] * (this->m_PositionIndex[dim] - (this->m_MaxIndex[dim] + 1)) /
-                    this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
-      }
-    }
-    return freq;
+    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
   }
 
-  FrequencyIndexValueType
-  GetFrequencyModuloSquare() const
+  /** Return a reference to the pixel.
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  PixelType &
+  Value(void)
   {
-    FrequencyIndexValueType w2(0);
-    FrequencyIndexType      w(this->GetFrequencyIndex());
-
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-    {
-      w2 += w[dim] * w[dim];
-    }
-    return w2;
+    return *(const_cast<InternalPixelType *>(this->m_Position));
   }
-
-  typename ImageType::IndexType
-  GetHalfIndex() const
-  {
-    typename ImageType::IndexType half_index;
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
-    {
-      half_index[dim] = static_cast<typename ImageType::IndexValueType>(m_HalfIndex[dim]);
-    }
-    return half_index;
-  };
 
 protected:
-  /** Calculate Nyquist frequency index (m_HalfIndex), and Min/Max indices from LargestPossibleRegion.
-   * Called at constructors.  */
-  void
-  InitIndices()
+  /** The construction from a const iterator is declared protected
+      in order to enforce const correctness. */
+  FrequencyImageRegionIteratorWithIndex(const FrequencyImageRegionConstIteratorWithIndex<TImage> & it)
+    : FrequencyImageRegionConstIteratorWithIndex<TImage>(it)
+  {}
+
+  Self &
+  operator=(const FrequencyImageRegionConstIteratorWithIndex<TImage> & it)
   {
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
-    {
-      this->m_MinIndex[dim] = this->m_Image->GetLargestPossibleRegion().GetIndex()[dim];
-      this->m_MaxIndex[dim] = this->m_Image->GetLargestPossibleRegion().GetIndex()[dim] +
-                              (this->m_Image->GetLargestPossibleRegion().GetSize()[dim] - 1);
-      this->m_HalfIndex[dim] = static_cast<FrequencyIndexValueType>(
-        this->m_MinIndex[dim] + std::ceil((this->m_MaxIndex[dim] - this->m_MinIndex[dim]) / 2.0));
-    }
+    this->FrequencyImageRegionConstIteratorWithIndex<TImage>::operator=(it);
+    return *this;
   }
-  /**
-   * Index corresponding to the first highest frequency (Nyquist) after a FFT transform.
-   * If the size of the image is even, the Nyquist frequency = fs/2 is unique and shared
-   * between positive and negative frequencies.
-   * If odd, Nyquist frequency is not represented, but there is still a largest frequency at this index
-   * = fs/2 * (N-1)/N.
-   */
-  FrequencyIndexType m_HalfIndex;
-  FrequencyIndexType m_MinIndex;
-  FrequencyIndexType m_MaxIndex;
 };
 } // end namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkImageRegionIteratorWithIndex.hxx"
-#endif
-
 #endif
