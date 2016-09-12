@@ -43,7 +43,7 @@ namespace itk
  *
  * \ingroup AnisotropicDiffusionLBR
  */
-template< typename TImage, typename TScalar = typename TImage::PixelType >
+template< typename TImage, typename TScalar = typename NumericTraits< typename TImage::PixelType >::RealType >
 class LinearAnisotropicDiffusionLBRImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
