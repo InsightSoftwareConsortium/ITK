@@ -16,17 +16,17 @@
  *
  *=========================================================================*/
 
-#ifndef itkCoherenceEnhancingDiffusionFilter_hxx
-#define itkCoherenceEnhancingDiffusionFilter_hxx
+#ifndef itkCoherenceEnhancingDiffusionImageFilter_hxx
+#define itkCoherenceEnhancingDiffusionImageFilter_hxx
 
-#include "itkCoherenceEnhancingDiffusionFilter.h"
+#include "itkCoherenceEnhancingDiffusionImageFilter.h"
 
 namespace itk
 {
 
 template< typename TImage, typename TScalar >
-CoherenceEnhancingDiffusionFilter< TImage, TScalar >
-::CoherenceEnhancingDiffusionFilter():
+CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
+::CoherenceEnhancingDiffusionImageFilter():
   m_Lambda( 0.05 ),
   m_Exponent( 2 ),
   m_Alpha( 0.01 ),
@@ -36,8 +36,8 @@ CoherenceEnhancingDiffusionFilter< TImage, TScalar >
 
 
 template< typename TImage, typename TScalar >
-typename CoherenceEnhancingDiffusionFilter< TImage, TScalar >::EigenValuesArrayType
-CoherenceEnhancingDiffusionFilter< TImage, TScalar >
+typename CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >::EigenValuesArrayType
+CoherenceEnhancingDiffusionImageFilter< TImage, TScalar >
 ::EigenValuesTransform(const EigenValuesArrayType & ev0) const
 {
   const ScalarType evMin = ev0[0];

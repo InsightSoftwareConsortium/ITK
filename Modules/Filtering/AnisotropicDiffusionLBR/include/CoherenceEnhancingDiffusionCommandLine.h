@@ -26,7 +26,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCoherenceEnhancingDiffusionFilter.h"
+#include "itkCoherenceEnhancingDiffusionImageFilter.h"
 #include "LinearAnisotropicDiffusionCommandLine.h"
 #include "itkTimeProbe.h"
 
@@ -144,7 +144,7 @@ int Execute(int argc, char * argv[])
   const char * outputFileName = argv[2];
   reader->SetFileName(imageFileName);
 
-  typedef CoherenceEnhancingDiffusionFilter<ImageType,ScalarType> DiffusionFilterType;
+  typedef CoherenceEnhancingDiffusionImageFilter<ImageType,ScalarType> DiffusionFilterType;
   typename DiffusionFilterType::Pointer diffusionFilter = DiffusionFilterType::New();
   diffusionFilter->SetInput(reader->GetOutput());
 

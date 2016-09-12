@@ -25,7 +25,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkCoherenceEnhancingDiffusionFilter.h"
+#include "itkCoherenceEnhancingDiffusionImageFilter.h"
 
 namespace LinearAnisotropicDiffusionCommandLine
 {

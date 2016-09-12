@@ -20,8 +20,8 @@
 //
 //
 
-#ifndef itkCoherenceEnhancingDiffusionFilter_h
-#define itkCoherenceEnhancingDiffusionFilter_h
+#ifndef itkCoherenceEnhancingDiffusionImageFilter_h
+#define itkCoherenceEnhancingDiffusionImageFilter_h
 
 #include "itkAnisotropicDiffusionLBRImageFilter.h"
 
@@ -29,7 +29,7 @@
 namespace itk
 {
 /**
- * \class CoherenceEnhancingDiffusionFilter
+ * \class CoherenceEnhancingDiffusionImageFilter
  *
  * \brief Coherence enhanging diffusion and edge enhancing diffusion.
  *
@@ -61,11 +61,11 @@ namespace itk
  * \ingroup AnisotropicDiffusionLBR
  */
 template< typename TImage, typename TScalar = typename NumericTraits< typename TImage::PixelType >::RealType >
-class CoherenceEnhancingDiffusionFilter:
+class CoherenceEnhancingDiffusionImageFilter:
   public AnisotropicDiffusionLBRImageFilter< TImage, TScalar >
 {
 public:
-  typedef CoherenceEnhancingDiffusionFilter                     Self;
+  typedef CoherenceEnhancingDiffusionImageFilter                Self;
   typedef AnisotropicDiffusionLBRImageFilter< TImage, TScalar > Superclass;
   typedef SmartPointer< Self >                                  Pointer;
   typedef SmartPointer< const Self >                            ConstPointer;
@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CoherenceEnhancingDiffusionFilter, Superclass);
+  itkTypeMacro(CoherenceEnhancingDiffusionImageFilter, Superclass);
 
   static const unsigned int Dimension = Superclass::Dimension;
 
@@ -105,13 +105,13 @@ protected:
   ScalarType g_CED(ScalarType s) const {return s<=0 ? m_Alpha : m_Alpha + (1-m_Alpha)*exp(-pow(m_Lambda/s,m_Exponent));}
   ScalarType g_EED(ScalarType s) const {return s<=0 ? 1 : 1 - (1-m_Alpha)*exp(-pow(m_Lambda/s,m_Exponent));}
 
-  CoherenceEnhancingDiffusionFilter();
+  CoherenceEnhancingDiffusionImageFilter();
 };
 
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkCoherenceEnhancingDiffusionFilter.hxx"
+#include "itkCoherenceEnhancingDiffusionImageFilter.hxx"
 #endif
 
 #endif
