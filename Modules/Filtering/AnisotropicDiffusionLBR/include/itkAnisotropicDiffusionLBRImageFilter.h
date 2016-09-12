@@ -38,12 +38,12 @@ namespace itk
  * obtained by computing the image structure tensors, and appropriately
  * modifying their eigenvalues with the method EigenValuesTransform. The
  * latter method is not implemented, and needs to be provided in a subclass,
- * such as CoherenceEnhancingDiffusionFilter.
+ * such as CoherenceEnhancingDiffusionImageFilter.
  *
  * \ingroup AnisotropicDiffusionLBR
  */
-template<typename TImage, typename TScalar = typename TImage::PixelType>
-class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter< TImage, TImage>
+template< typename TImage, typename TScalar = typename NumericTraits< typename TImage::PixelType >::RealType >
+class AnisotropicDiffusionLBRImageFilter : public ImageToImageFilter< TImage, TImage >
 {
 public:
   typedef AnisotropicDiffusionLBRImageFilter   Self;

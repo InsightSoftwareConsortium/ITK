@@ -24,6 +24,7 @@
 #define itkStructureTensorImageFilter_hxx
 
 #include "itkStructureTensorImageFilter.h"
+#include "itkMinimumMaximumImageCalculator.h"
 
 namespace itk
 {
