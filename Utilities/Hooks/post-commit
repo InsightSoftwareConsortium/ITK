@@ -51,13 +51,15 @@ while read upstream_dir; do
     fi
   done
 
+top_level_dir=$(git rev-parse --show-toplevel)
+
 cat << EOF
 Changes were detected to the third party library $lib. If the change is
 relevant to the upstream library, please submit it upstream.
 
 To create a patch file that can be contributed upstream, run:
 
-  git diff -p --relative="$upstream_dir" $sha~1..$sha -- "$upstream_dir" > "$patchfile"
+  git diff -p --relative="$upstream_dir" $sha~1..$sha -- "$top_level_dir/$upstream_dir" > "$patchfile"
 
 EOF
 if test -n "$contrib_url"; then
