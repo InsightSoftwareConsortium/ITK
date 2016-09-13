@@ -18,24 +18,28 @@
 
 #include "itkAbsImageFilter.h"
 #include "itkAbsImageAdaptor.h"
+#include "itkImageAdaptor.h"
+#include "itkMath.h"
 #include "itkSubtractImageFilter.h"
-
+#include "itkUnaryFunctorImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkAbsImageFilterAndAdaptorTest(int, char* [] )
 {
+  int testStatus = EXIT_SUCCESS;
 
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, ImageDimension>  InputImageType;
-  typedef itk::Image<float, ImageDimension>  OutputImageType;
+  typedef itk::Image<float, ImageDimension> InputImageType;
+  typedef itk::Image<float, ImageDimension> OutputImageType;
 
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>   InputIteratorType;
+                                  InputImageType>  InputIteratorType;
   typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType>  OutputIteratorType;
+                                  OutputImageType> OutputIteratorType;
 
   // Declare the type of the index to access images
   typedef itk::Index<ImageDimension>         IndexType;
@@ -47,7 +51,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   typedef itk::ImageRegion<ImageDimension>   RegionType;
 
   // Create two images
-  InputImageType::Pointer inputImage  = InputImageType::New();
+  InputImageType::Pointer inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -86,19 +90,18 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
 
   // Declare the type for the Abs filter
   typedef itk::AbsImageFilter< InputImageType,
-                               OutputImageType  >  FilterType;
-
+                               OutputImageType > FilterType;
 
   // Create an Abs Filter
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, AbsImageFilter, UnaryFunctorImageFilter );
 
   // Connect the input images
   filter->SetInput( inputImage );
 
   // Get the Smart Pointer to the Filter Output
   OutputImageType::Pointer outputImage = filter->GetOutput();
-
 
   // Execute the filter
   filter->Update();
@@ -114,38 +117,42 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   it.GoToBegin();
   while( !ot.IsAtEnd() )
     {
-    std::cout <<  ot.Get() << " = ";
-    std::cout <<  std::fabs( it.Get() )  << std::endl;
+    std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
+    std::cout << ot.Get() << " = ";
+    std::cout << itk::Math::abs( it.Get() ) << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
-    const OutputImageType::PixelType absolute  = std::fabs(input);
-    if( std::fabs( absolute - output ) > epsilon )
+    const OutputImageType::PixelType absolute = itk::Math::abs(input);
+    if( !itk::Math::FloatAlmostEqual( absolute, output, 10, epsilon ) )
       {
+      std::cerr.precision( itk::Math::abs( std::log10( epsilon ) ) );
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
-      std::cerr << " abs( " << input << ") = " << absolute << std::endl;
+      std::cerr << " abs(" << input << ") = " << absolute << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
-      return EXIT_FAILURE;
+      testStatus = EXIT_FAILURE;
       }
     ++ot;
     ++it;
     }
 
-  //---------------------------------------
-  // This section tests for AbsImageAdaptor
-  //---------------------------------------
+  //
+  // Test AbsImageAdaptor
+  //
 
-  typedef itk::AbsImageAdaptor<InputImageType,
-                          OutputImageType::PixelType>  AdaptorType;
+  typedef itk::AbsImageAdaptor< InputImageType,
+                          OutputImageType::PixelType > AdaptorType;
 
   AdaptorType::Pointer absAdaptor = AdaptorType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( absAdaptor, AbsImageAdaptor, ImageAdaptor );
 
   absAdaptor->SetImage( inputImage );
 
   typedef itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType   > DiffFilterType;
+                        OutputImageType > DiffFilterType;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 
@@ -167,20 +174,21 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   dt.GoToBegin();
   while( !dt.IsAtEnd() )
     {
-    std::cout <<  dt.Get() << std::endl;
+    std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
+    std::cout << dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
-    if( std::fabs( diff ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( diff, ( OutputImageType::PixelType )0, 10, epsilon ) )
       {
+      std::cerr.precision( itk::Math::abs( std::log10( epsilon ) ) );
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
-      return EXIT_FAILURE;
+      testStatus = EXIT_FAILURE;
       }
     ++dt;
     }
 
-
-  return EXIT_SUCCESS;
+  return testStatus;
 }
