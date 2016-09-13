@@ -189,7 +189,7 @@ private:
                       H5::DataSpace *slabSpace);
 
   void CloseH5File();
-  void CloseDataSetFile();
+  void CloseDataSet();
 
   H5::H5File  *m_H5File;
   H5::DataSet *m_VoxelDataSet;
