@@ -62,17 +62,32 @@ itk_add_test(NAME itkConvolutionImageFilterDeltaFunctionTest
 # FFT convolution tests
 itk_add_test(NAME itkFFTConvolutionImageFilterTestSobelX
       COMMAND ITKConvolutionTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelX.nrrd}
+      --compare DATA{Baseline/itkFFTConvolutionImageFilterTestSobelX.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelX.nrrd
     itkFFTConvolutionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/sobel_x.nii.gz} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelX.nrrd)
 itk_add_test(NAME itkFFTConvolutionImageFilterTestSobelY
       COMMAND ITKConvolutionTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelY.nrrd}
+      --compare DATA{Baseline/itkFFTConvolutionImageFilterTestSobelY.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelY.nrrd
     itkFFTConvolutionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelY.nrrd)
+itk_add_test(NAME itkFFTConvolutionImageFilterTestSobelYPeriodic
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelYPeriodic.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelYPeriodic.nrrd
+      itkFFTConvolutionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelYPeriodic.nrrd 2 0 SAME PERIODIC)
+itk_add_test(NAME itkFFTConvolutionImageFilterTestSobelXConstant
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelXConstant.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelXConstant.nrrd
+      itkFFTConvolutionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/sobel_x.nii.gz} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelXConstant.nrrd 2 0 SAME CONSTANT)
+itk_add_test(NAME itkFFTConvolutionImageFilterTestSobelXZeroFluxNeumann
+      COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkConvolutionImageFilterTestSobelXZeroFluxNeumann.nrrd}
+              ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelXZeroFluxNeumann.nrrd
+      itkFFTConvolutionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/sobel_x.nii.gz} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTestSobelXZeroFluxNeumann.nrrd 2 0 VALID ZEROFLUXNEUMANN)
 itk_add_test(NAME itkFFTConvolutionImageFilterTest4x4Mean
       COMMAND ITKConvolutionTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTest4x4Mean.png}
+     --compare DATA{Baseline/itkFFTConvolutionImageFilterTest4x4Mean.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x4Mean.png
     itkFFTConvolutionImageFilterTestInt DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{Input/4x4-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x4Mean.png 1 SAME)
 itk_add_test(NAME itkFFTConvolutionImageFilterTest4x5Mean
@@ -87,7 +102,7 @@ itk_add_test(NAME itkFFTConvolutionImageFilterTest5x5Mean
     itkFFTConvolutionImageFilterTestInt DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/5x5-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest5x5Mean.png 1 SAME)
 itk_add_test(NAME itkFFTConvolutionImageFilterTest4x4MeanValidRegion
       COMMAND ITKConvolutionTestDriver
-    --compare DATA{Baseline/itkConvolutionImageFilterTest4x4MeanValidRegion.png}
+    --compare DATA{Baseline/itkFFTConvolutionImageFilterTest4x4MeanValidRegion.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x4MeanValidRegion.png
       itkFFTConvolutionImageFilterTestInt DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{Input/4x4-constant.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterTest4x4MeanValidRegion.png 1 VALID)
 itk_add_test(NAME itkFFTConvolutionImageFilterTest4x5MeanValidRegion
@@ -104,7 +119,7 @@ itk_add_test(NAME itkFFTConvolutionImageFilterDeltaFunctionTest
       COMMAND ITKConvolutionTestDriver
    --compare DATA{${ITK_DATA_ROOT}/Input/level.png}
              ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterDeltaFunctionTest.png
-      itkFFTConvolutionImageFilterDeltaFunctionTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterDeltaFunctionTest.png)
+      itkFFTConvolutionImageFilterDeltaFunctionTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterDeltaFunctionTest.png 5)
 
 # NCC tests
 itk_add_test(NAME itkNormalizedCorrelationImageFilterTest
@@ -137,13 +152,13 @@ itk_add_test(NAME itkMaskedFFTNormalizedCorrelationImageFilterTest4
               ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest4.png
     itkMaskedFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangles.png} DATA{Input/MovingRectanglesCropped.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest4.png 0.1 DATA{Input/FixedRectangleMask3.png})
 # Test with not passing the fixed mask or moving mask.
-# Also test with requiring no minimum overlapping pixels.  This leads to more noise on the borders.
+# Also test with requiring no minimum overlapping pixels. This leads to more noise on the borders.
 itk_add_test(NAME itkMaskedFFTNormalizedCorrelationImageFilterTest5
       COMMAND ITKConvolutionTestDriver
     --compare DATA{Baseline/itkMaskedFFTNormalizedCorrelationImageFilterTest5.png}
               ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest5.png
     itkMaskedFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangles.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedFFTNormalizedCorrelationImageFilterTest5.png 0)
-# Test with not passing the moving mask.  This should be the same as Test3 since the moving mask was set to all ones.
+# Test with not passing the moving mask. This should be the same as Test3 since the moving mask was set to all ones.
 itk_add_test(NAME itkMaskedFFTNormalizedCorrelationImageFilterTest6
       COMMAND ITKConvolutionTestDriver
     --compare DATA{Baseline/itkMaskedFFTNormalizedCorrelationImageFilterTest3.png}
