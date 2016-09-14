@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -47,23 +47,27 @@ class type_t(object):
 
     @property
     def decl_string(self):
-        return self.build_decl_string()
+        if self.cache.decl_string is None:
+            self.cache.decl_string = self.build_decl_string()
+        return self.cache.decl_string
 
     @property
     def partial_decl_string(self):
-        return self.build_decl_string(False)
+        if self.cache.partial_decl_string is None:
+            self.cache.partial_decl_string = self.build_decl_string(False)
+        return self.cache.partial_decl_string
 
     def _clone_impl(self):
         raise NotImplementedError()
 
     def clone(self):
-        "returns new instance of the type"
+        """returns new instance of the type"""
         answer = self._clone_impl()
         return answer
 
     @property
     def byte_size(self):
-        "Size of this type in bytes @type: int"
+        """Size of this type in bytes @type: int"""
         return self._byte_size
 
     @byte_size.setter
@@ -72,7 +76,7 @@ class type_t(object):
 
     @property
     def byte_align(self):
-        "Alignment of this type in bytes @type: int"
+        """Alignment of this type in bytes @type: int"""
         return self._byte_align
 
     @byte_align.setter
@@ -105,8 +109,11 @@ class dummy_type_t(type_t):
 
 
 class unknown_t(type_t):
+    """
+    type, that represents all C++ types,
+    that could not be parsed  by GCC-XML
 
-    "type, that represents all C++ types, that could not be parsed  by GCC-XML"
+    """
 
     def __init__(self):
         type_t.__init__(self)
@@ -499,7 +506,7 @@ class compound_t(type_t):
 
     @property
     def base(self):
-        "reference to internal/base class"
+        """reference to internal/base class"""
         return self._base
 
     @base.setter
@@ -598,7 +605,7 @@ class array_t(compound_t):
 
     @property
     def size(self):
-        "returns array size"
+        """returns array size"""
         return self._size
 
     @size.setter
@@ -881,7 +888,7 @@ class declarated_t(type_t):
 
     @property
     def declaration(self):
-        "reference to :class:`declaration_t`"
+        """reference to :class:`declaration_t`"""
         return self._declaration
 
     @declaration.setter
@@ -899,12 +906,12 @@ class declarated_t(type_t):
 
     @property
     def byte_size(self):
-        "Size of this type in bytes @type: int"
+        """Size of this type in bytes @type: int"""
         return self._declaration.byte_size
 
     @property
     def byte_align(self):
-        "alignment of this type in bytes @type: int"
+        """alignment of this type in bytes @type: int"""
         return self._declaration.byte_align
 
 

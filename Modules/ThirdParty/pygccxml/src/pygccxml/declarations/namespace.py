@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -8,8 +8,9 @@ Describe a C++ namespace declaration.
 
 """
 
+import warnings
 from . import scopedef
-from . import algorithm
+from . import declaration_utils
 
 
 class namespace_t(scopedef.scopedef_t):
@@ -31,7 +32,7 @@ class namespace_t(scopedef.scopedef_t):
         self._declarations = declarations
 
     def __str__(self):
-        name = algorithm.full_name(self)
+        name = declaration_utils.full_name(self)
         if name != "::" and name[:2] == "::":
             name = name[2:]
         return "%s [namespace]" % name
@@ -42,20 +43,30 @@ class namespace_t(scopedef.scopedef_t):
 
         """
 
-        return [self._sorted_list(self.declarations)]
+        return [self.declarations.sort()]
 
     def _get_declarations_impl(self):
         return self._declarations
 
-    @scopedef.scopedef_t.declarations.setter
+    @property
+    def declarations(self):
+        """
+        List of children declarations.
+
+        Returns:
+            List[declarations.declaration_t]
+        """
+        return scopedef.scopedef_t.declarations.fget(self)
+
+    @declarations.setter
     def declarations(self, declarations):
         """
-        List of all declarations defined in the namespace.
+        Set list of all declarations defined in the namespace.
 
-        The getter is defined in scopedef.scopedef_t.
+        Args:
+            List[declarations.declaration_t]: list of declarations
 
         """
-
         self._declarations = declarations
 
     def take_parenting(self, inst):
@@ -105,7 +116,20 @@ class namespace_t(scopedef.scopedef_t):
                 function=function,
                 recursive=recursive)
         )
-    ns = namespace
+
+    def ns(self, name=None, function=None, recursive=None):
+        """
+        Deprecated method. Use the namespace() method instead.
+
+        Deprecated since v1.8.0. Will be removed in v1.9.0
+
+        """
+        warnings.warn(
+            "The ns() method is deprecated. \n" +
+            "Please use the namespace() method instead.",
+            DeprecationWarning)
+
+        return self.namespace(name, function, recursive)
 
     def namespaces(
             self,
@@ -256,3 +280,22 @@ class namespace_t(scopedef.scopedef_t):
             for decl in self.declarations:
                 answer.extend(decl.i_depend_on_them())
         return answer
+
+
+def get_global_namespace(decls):
+    """
+    Get the global namespace (::) from a declaration tree.
+
+    Args:
+        decls (list[declaration_t]): a list of declarations
+
+    Returns:
+        namespace_t: the global namespace_t object (::)
+
+    """
+    found = [
+        decl for decl in scopedef.make_flatten(decls) if decl.name == '::' and
+        isinstance(decl, namespace_t)]
+    if len(found) == 1:
+        return found[0]
+    raise RuntimeError("Unable to find global namespace.")

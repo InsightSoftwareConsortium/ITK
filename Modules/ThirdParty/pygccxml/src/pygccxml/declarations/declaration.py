@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -9,8 +9,7 @@ base class.
 
 """
 
-import warnings
-from . import algorithm
+from . import declaration_utils
 from . import algorithms_cache
 from .. import utils
 
@@ -67,12 +66,6 @@ class declaration_t(object):
 
         return "%s [%s]" % (name, cls)
 
-    @staticmethod
-    def _sorted_list(some_list):
-        """implementation details"""
-        some_list.sort()
-        return some_list
-
     def _get__cmp__items(self):
         """
         Implementation detail.
@@ -92,15 +85,15 @@ class declaration_t(object):
         Implementation detail.
 
         """
+        if self._cache.cmp_data is None:
+            cmp_data = [
+                declaration_utils.declaration_path(self.parent),
+                self.name,
+                self.location]
+            cmp_data.extend(self._get__cmp__items())
+            self._cache.cmp_data = cmp_data
 
-        data = [
-            algorithm.declaration_path(
-                self.parent),
-            self.name,
-            self.location]
-        data.extend(self._get__cmp__items())
-
-        return data
+        return self._cache.cmp_data
 
     def __eq__(self, other):
         """
@@ -117,8 +110,8 @@ class declaration_t(object):
             return False
         return self.name == other.name \
             and self.location == other.location \
-            and algorithm.declaration_path(self.parent) \
-            == algorithm.declaration_path(other.parent)
+            and declaration_utils.declaration_path(self.parent) \
+            == declaration_utils.declaration_path(other.parent)
 
     def __hash__(self):
         return (hash(self.__class__) ^
@@ -340,7 +333,7 @@ class declaration_t(object):
         self._attributes = attributes
 
     def create_decl_string(self, with_defaults=True):
-        return algorithm.full_name(self, with_defaults)
+        return declaration_utils.full_name(self, with_defaults)
 
     @property
     def decl_string(self):
@@ -379,20 +372,3 @@ class declaration_t(object):
 
         print(self)
         raise NotImplementedError()
-
-    @property
-    def compiler(self):
-        """
-        Compiler name + version.
-
-           @type: str
-
-        """
-        warnings.warn(
-            "The compiler attribute is deprecated. \n" +
-            "Please use utils.xml_generator instead.", DeprecationWarning)
-        return self._compiler
-
-    @compiler.setter
-    def compiler(self, compiler):
-        self._compiler = compiler
