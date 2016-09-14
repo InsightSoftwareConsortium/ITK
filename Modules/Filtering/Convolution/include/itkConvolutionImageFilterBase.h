@@ -41,8 +41,8 @@ public:
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
 
-    /** Run-time type information ( and related methods ) */
-  itkTypeMacro(FFTConvolutionImageFilter, ImageToImageFilter);
+  /** Run-time type information ( and related methods ) */
+  itkTypeMacro(ConvolutionImageFilterBase, ImageToImageFilter);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,
