@@ -19,16 +19,16 @@ fi
 
 # Update the git tag for the version you are merging
 git_url="https://github.com/gccxml/pygccxml"
-git_tag="v1.7.3"
-upstream_sha="cd1c87f0d17fd44032d5a4dac63ff3b368479ed8"
+git_tag="v1.8.0"
+upstream_sha="b75c151f4a1867ab1c713010bbd37ee8eb17d206"
 
 #
 # Once the merge has been done
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge was done on: April 04, 2016
-git branch pygccxml-upstream ebfc4fd7e842016863dfe4b8aa90c540e70800a4
+# This merge was done on: September 14, 2016
+git branch pygccxml-upstream ec897c004ad1e836664e3fcf710f014e4d499d4d
 
 #
 # Make a temp directory to handle the import of the upstream source
