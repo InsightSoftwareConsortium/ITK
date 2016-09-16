@@ -235,7 +235,7 @@ protected:
   typedef std::greater< NodePairType >  NodeComparerType;
 
   typedef std::priority_queue<
-    NodeType,
+    NodePairType,
     HeapContainerType,
     NodeComparerType >
     PriorityQueueType;
