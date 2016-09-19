@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -402,7 +402,7 @@ class project_reader_t(object):
         for other_ns in other_ns_list:
             main_ns = pygccxml.declarations.find_declaration(
                 answer,
-                type=pygccxml.declarations.namespace_t,
+                decl_type=pygccxml.declarations.namespace_t,
                 name=other_ns._name,
                 recursive=False)
             if main_ns:
@@ -582,5 +582,5 @@ class project_reader_t(object):
                     decl,
                     (pygccxml.declarations.typedef_t,
                         pygccxml.declarations.variable_t)):
-                types.extend(get_from_type(decl.type))
+                types.extend(get_from_type(decl.decl_type))
         return types

@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -14,6 +14,7 @@ from . import templates
 from . import type_traits
 from . import namespace
 from . import class_declaration
+from . import traits_impl_details
 from .. import utils
 
 std_namespaces = ('std', 'stdext', '__gnu_cxx')
@@ -69,7 +70,6 @@ class defaults_eraser(object):
         return answer
 
     def erase_call(self, cls_name):
-        global find_container_traits
         c_traits = find_container_traits(cls_name)
         if not c_traits:
             return cls_name
@@ -420,7 +420,7 @@ class container_traits_impl_t(object):
                 decl = cls_declaration.parent
 
         for ns in std_namespaces:
-            if type_traits.impl_details.is_defined_in_xxx(ns, decl):
+            if traits_impl_details.impl_details.is_defined_in_xxx(ns, decl):
                 utils.loggers.queries_engine.debug(
                     "Container traits: get_container_or_none() will return " +
                     cls_declaration.name)
@@ -476,11 +476,11 @@ class container_traits_impl_t(object):
         if not result:
             if isinstance(cls_declaration, class_declaration.class_t):
                 xxx_type = cls_declaration.typedef(
-                    xxx_typedef, recursive=False).type
+                    xxx_typedef, recursive=False).decl_type
                 result = type_traits.remove_declarated(xxx_type)
             else:
                 xxx_type_str = templates.args(cls_declaration.name)[xxx_index]
-                result = type_traits.impl_details.find_value_type(
+                result = traits_impl_details.impl_details.find_value_type(
                     cls_declaration.top_parent, xxx_type_str)
                 if None is result:
                     raise RuntimeError(
@@ -686,6 +686,16 @@ container_traits = (
 
 
 def find_container_traits(cls_or_string):
+    """
+    Find the container traits type of a declaration.
+
+    Args:
+        cls_or_string (str | declarations.declaration_t): a string
+
+    Returns:
+        declarations.container_traits: a container traits
+    """
+
     if utils.is_str(cls_or_string):
         if not templates.is_instantiation(cls_or_string):
             return None
@@ -698,6 +708,16 @@ def find_container_traits(cls_or_string):
             if cls_traits.name() == name:
                 return cls_traits
     else:
+
+        if isinstance(cls_or_string, class_declaration.class_types):
+            # Look in the cache.
+            if cls_or_string._container_traits_cache is not None:
+                return cls_or_string._container_traits_cache
+
+        # Look for a container traits
         for cls_traits in container_traits:
             if cls_traits.is_my_case(cls_or_string):
+                # Store in the cache
+                if isinstance(cls_or_string, class_declaration.class_types):
+                    cls_or_string._container_traits_cache = cls_traits
                 return cls_traits

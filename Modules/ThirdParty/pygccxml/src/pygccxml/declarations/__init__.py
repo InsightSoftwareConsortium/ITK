@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -12,13 +12,14 @@ Contains classes that describe different C++ declarations
 from . import xml_generators as compilers
 from . import xml_generators
 
-from .dependencies import dependency_info_t
 from .location import location_t
 from .declaration import declaration_t
 from .scopedef import scopedef_t
 from .enumeration import enumeration_t
-from .namespace import namespace_t
 from .typedef import typedef_t
+
+from .namespace import namespace_t
+from .namespace import get_global_namespace
 
 from .class_declaration import class_t
 from .class_declaration import CLASS_TYPES
@@ -26,6 +27,7 @@ from .class_declaration import ACCESS_TYPES
 from .class_declaration import hierarchy_info_t
 from .class_declaration import class_declaration_t
 from .class_declaration import class_types
+from .class_declaration import dependency_info_t
 
 from .cpptypes import type_t
 from .cpptypes import dummy_type_t
@@ -76,62 +78,54 @@ from .cpptypes import jdouble_t
 from .cpptypes import jchar_t
 from .cpptypes import jboolean_t
 
-
 from .variable import variable_t
 
-from .algorithm import full_name
-from .algorithm import full_name_from_declaration_path
-from .algorithm import make_flatten
-from .algorithm import apply_visitor
-from .algorithm import declaration_path
-from .algorithm import get_named_parent
-from .algorithm import find_declaration
-from .algorithm import match_declaration_t
-from .algorithm import find_all_declarations
-from .algorithm import find_first_declaration
-from .algorithm import declaration_files
-from .algorithm import visit_function_has_not_been_found_t
-from .algorithm import get_global_namespace
+from .declaration_utils import full_name
+from .declaration_utils import full_name_from_declaration_path
+from .declaration_utils import declaration_path
+from .declaration_utils import get_named_parent
 
-from .calldef import VIRTUALITY_TYPES
-from .calldef import FUNCTION_VIRTUALITY_TYPES
-from .calldef import CALLING_CONVENTION_TYPES
+from .scopedef import make_flatten
+from .scopedef import find_declaration
+from .scopedef import find_all_declarations
+from .scopedef import find_first_declaration
+from .scopedef import declaration_files
+from .scopedef import matcher
+
+from .algorithm import apply_visitor
+from .algorithm import match_declaration_t
+from .algorithm import visit_function_has_not_been_found_t
+
+from .calldef_types import VIRTUALITY_TYPES
+from .calldef_types import FUNCTION_VIRTUALITY_TYPES
+from .calldef_types import CALLING_CONVENTION_TYPES
+
 from .calldef import argument_t
 from .calldef import calldef_t
-from .calldef import member_calldef_t
-from .calldef import free_calldef_t
-from .calldef import operator_t
-from .calldef import member_function_t
-from .calldef import constructor_t
-from .calldef import destructor_t
-from .calldef import member_operator_t
-from .calldef import casting_operator_t
-from .calldef import free_function_t
-from .calldef import free_operator_t
+from .calldef_members import member_calldef_t
+from .calldef_members import operator_t
+from .calldef_members import member_function_t
+from .calldef_members import constructor_t
+from .calldef_members import destructor_t
+from .calldef_members import member_operator_t
+from .calldef_members import casting_operator_t
+
+from .free_calldef import free_calldef_t
+from .free_calldef import free_function_t
+from .free_calldef import free_operator_t
 
 from .decl_visitor import decl_visitor_t
 from .type_visitor import type_visitor_t
 
 from .type_traits import decompose_type
 from .type_traits import decompose_class
-
-
-from .type_traits import is_enum
-from .type_traits import enum_declaration
-from .type_traits import enum_traits
-
-from .type_traits import is_class
-from .type_traits import class_traits
-from .type_traits import is_class_declaration
-from .type_traits import class_declaration_traits
-
+from .type_traits import base_type
 
 from .type_traits import is_bool
 from .type_traits import is_same
 from .type_traits import is_void
 from .type_traits import is_void_pointer
 from .type_traits import is_const
-from .type_traits import base_type
 from .type_traits import is_array
 from .type_traits import is_pointer
 from .type_traits import is_volatile
@@ -140,45 +134,60 @@ from .type_traits import is_reference
 from .type_traits import is_arithmetic
 from .type_traits import is_fundamental
 from .type_traits import is_floating_point
-from .type_traits import is_base_and_derived
-from .type_traits import is_convertible
-from .type_traits import is_noncopyable
 from .type_traits import is_std_string
 from .type_traits import is_std_wstring
 from .type_traits import is_std_ostream
 from .type_traits import is_std_wostream
 from .type_traits import is_calldef_pointer
 
-from .type_traits import is_unary_operator
-from .type_traits import is_binary_operator
-
 from .type_traits import array_size
 from .type_traits import array_item_type
 
 from .type_traits import remove_cv
 from .type_traits import remove_const
-from .type_traits import remove_alias
 from .type_traits import remove_pointer
 from .type_traits import remove_volatile
 from .type_traits import remove_reference
 from .type_traits import remove_declarated
+from .type_traits import remove_alias
 
-from .type_traits import has_destructor
-from .type_traits import has_public_less
-from .type_traits import has_copy_constructor
+from .has_operator_matcher import has_public_binary_operator
+from .has_operator_matcher import has_public_equal
+from .has_operator_matcher import has_public_less
 
-from .type_traits import has_public_equal
-from .type_traits import has_public_assign
-from .type_traits import has_public_destructor
-from .type_traits import has_public_constructor
-from .type_traits import has_trivial_constructor
-from .type_traits import find_trivial_constructor
-from .type_traits import has_public_binary_operator
-from .type_traits import has_any_non_copyconstructor
+from .type_traits_classes import is_enum
+from .type_traits_classes import enum_declaration
+from .type_traits_classes import enum_traits
+from .type_traits_classes import is_class
+from .type_traits_classes import class_traits
+from .type_traits_classes import is_class_declaration
+from .type_traits_classes import class_declaration_traits
+from .type_traits_classes import is_base_and_derived
+from .type_traits_classes import is_convertible
+from .type_traits_classes import is_noncopyable
+from .type_traits_classes import is_copy_constructor
+from .type_traits_classes import is_trivial_constructor
+from .type_traits_classes import is_union
 
-from .type_traits import auto_ptr_traits
-from .type_traits import smart_pointer_traits
-from .type_traits import internal_type_traits
+from .type_traits_classes import is_unary_operator
+from .type_traits_classes import is_binary_operator
+
+from .type_traits_classes import has_destructor
+from .type_traits_classes import has_copy_constructor
+
+from .type_traits_classes import has_public_assign
+from .type_traits_classes import has_public_destructor
+from .type_traits_classes import has_public_constructor
+from .type_traits_classes import has_trivial_constructor
+from .type_traits_classes import find_trivial_constructor
+from .type_traits_classes import find_copy_constructor
+from .type_traits_classes import find_noncopyable_vars
+from .type_traits_classes import has_any_non_copyconstructor
+from .type_traits_classes import has_vtable
+
+from .smart_pointer_traits import auto_ptr_traits
+from .smart_pointer_traits import smart_pointer_traits
+from .smart_pointer_traits import internal_type_traits
 
 from .container_traits import list_traits
 from .container_traits import deque_traits
@@ -212,17 +221,16 @@ from .matchers import matcher_base_t
 from .matchers import or_matcher_t
 from .matchers import and_matcher_t
 from .matchers import not_matcher_t
-from .matchers import declaration_matcher_t
-from .matchers import calldef_matcher_t
-from .matchers import namespace_matcher_t
-from .matchers import variable_matcher_t
 from .matchers import regex_matcher_t
-from .matchers import access_type_matcher_t
-from .matchers import operator_matcher_t
 from .matchers import custom_matcher_t
+from .matchers import access_type_matcher_t
 from .matchers import virtuality_type_matcher_t
 
-from .matcher import matcher
+from .declarations_matchers import declaration_matcher_t
+from .declarations_matchers import calldef_matcher_t
+from .declarations_matchers import namespace_matcher_t
+from .declarations_matchers import variable_matcher_t
+from .declarations_matchers import operator_matcher_t
 
 from .mdecl_wrapper import mdecl_wrapper_t
 

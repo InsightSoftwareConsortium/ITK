@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -200,7 +200,7 @@ class file_cache_t(cache_base_t):
 
     @staticmethod
     def __load(file_name):
-        " Load pickled cache from file and return the object. "
+        """ Load pickled cache from file and return the object. """
 
         if os.path.exists(file_name) and not os.path.isfile(file_name):
             raise RuntimeError(
