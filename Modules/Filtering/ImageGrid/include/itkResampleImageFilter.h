@@ -235,7 +235,7 @@ public:
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
-  /** Helper method to set the output parameters based on this image */
+  /** Helper method to set the output parameters based on this image. */
   void SetOutputParametersFromImage(const ImageBaseType *image);
 
   /** Set the start index of the output largest possible region.
@@ -276,15 +276,15 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  /** This method is used to set the state of the filter before
-   * multi-threading. */
+  /** Set up state of filter before multi-threading.
+   * InterpolatorType::SetInputImage is not thread-safe and hence
+   * has to be set up before ThreadedGenerateData */
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  /** This method is used to set the state of the filter after
-   * multi-threading. */
+  /** Set the state of the filter after multi-threading. */
   virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
 
-  /** Method Compute the Modified Time based on changed to the components. */
+  /** Compute the Modified Time based on the changed components. */
   ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -332,6 +332,7 @@ protected:
                                           outputRegionForThread,
                                           ThreadIdType threadId);
 
+  /** Cast pixel from interpolator output to PixelType. */
   virtual PixelType CastPixelWithBoundsChecking( const InterpolatorOutputType value,
                                                  const ComponentType minComponent,
                                                  const ComponentType maxComponent) const;
