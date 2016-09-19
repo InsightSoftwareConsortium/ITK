@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkResampleImageFilter.h"
 #include "itkNearestNeighborExtrapolateImageFunction.h"
+#include "itkTestingMacros.h"
 
 /* Further testing of itkResampleImageFilter
  * Output is compared with baseline image using the cmake itk_add_test
@@ -128,11 +129,22 @@ int itkResampleImageTest2(int argc, char * argv [] )
 
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+
   resample->SetInput( reader1->GetOutput() );
+  TEST_SET_GET_VALUE( reader1->GetOutput(), resample->GetInput() );
+
   resample->SetReferenceImage( reader2->GetOutput() );
+  TEST_SET_GET_VALUE( reader2->GetOutput(), resample->GetReferenceImage() );
+
   resample->UseReferenceImageOn();
+  TEST_EXPECT_TRUE( resample->GetUseReferenceImage() );
+
   resample->SetTransform( affineTransform );
+  TEST_SET_GET_VALUE( affineTransform, resample->GetTransform() );
+
   resample->SetInterpolator( interpolator );
+  TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
 
   writer1->SetInput( resample->GetOutput() );
 

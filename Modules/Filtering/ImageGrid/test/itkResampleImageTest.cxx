@@ -20,6 +20,9 @@
 
 #include "itkAffineTransform.h"
 #include "itkResampleImageFilter.h"
+#include "itkImageFileWriter.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int itkResampleImageTest(int, char* [] )
 {
@@ -68,27 +71,40 @@ int itkResampleImageTest(int, char* [] )
   interp->SetInputImage(image);
 
   // Create and configure a resampling filter
-  itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample;
-  resample = itk::ResampleImageFilter< ImageType, ImageType >::New();
+  itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample =
+    itk::ResampleImageFilter< ImageType, ImageType >::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+
   resample->SetInput(image);
+  TEST_SET_GET_VALUE( image, resample->GetInput() );
+
   resample->SetSize(size);
+  TEST_SET_GET_VALUE( size, resample->GetSize() );
+
   resample->SetTransform(aff);
+  TEST_SET_GET_VALUE( aff, resample->GetTransform() );
+
   resample->SetInterpolator(interp);
+  TEST_SET_GET_VALUE( interp, resample->GetInterpolator() );
 
   index.Fill( 0 );
   resample->SetOutputStartIndex( index );
+  TEST_SET_GET_VALUE( index, resample->GetOutputStartIndex() );
 
   ImageType::PointType origin;
   origin.Fill( 0.0 );
   resample->SetOutputOrigin( origin );
+  TEST_SET_GET_VALUE( origin, resample->GetOutputOrigin() );
 
   ImageType::SpacingType spacing;
   spacing.Fill( 1.0 );
   resample->SetOutputSpacing( spacing );
+  TEST_SET_GET_VALUE( spacing, resample->GetOutputSpacing() );
+
 
   // Run the resampling filter
   resample->Update();
-
 
   // Check if desired results were obtained
   bool passed = true;
@@ -104,7 +120,7 @@ int itkResampleImageTest(int, char* [] )
     value  = iter2.Get();
     pixval = value;
     PixelType expectedValue = static_cast<PixelType>( (index[0] + index[1]) / 2.0 );
-    if ( std::fabs( expectedValue - pixval ) > tolerance )
+    if ( !itk::Math::FloatAlmostEqual( expectedValue, pixval, 10, tolerance ) )
       {
       std::cout << "Error in resampled image: Pixel " << index
                 << "value    = " << value << "  "
@@ -120,17 +136,6 @@ int itkResampleImageTest(int, char* [] )
     std::cout << "Resampling test failed" << std::endl;
     return EXIT_FAILURE;
     }
-
-  // Exercise other member functions
-  resample->Print( std::cout );
-  std::cout << "Transform: " << resample->GetTransform() << std::endl;
-  std::cout << "Interpolator: " << resample->GetInterpolator() << std::endl;
-  std::cout << "Extrapolator: " << resample->GetExtrapolator() << std::endl;
-  std::cout << "Size: " << resample->GetSize() << std::endl;
-  std::cout << "DefaultPixelValue: " << resample->GetDefaultPixelValue() << std::endl;
-  std::cout << "OutputOrigin: " << resample->GetOutputOrigin() << std::endl;
-  std::cout << "OutputSpacing: " << resample->GetOutputSpacing() << std::endl;
-  std::cout << "OutputStartIndex: " << resample->GetOutputStartIndex() << std::endl;
 
   // Exercise error handling
 
@@ -149,10 +154,11 @@ int itkResampleImageTest(int, char* [] )
     resample->SetInterpolator( interp );
     }
 
-  if (!passed) {
+  if (!passed)
+    {
     std::cout << "Resampling test failed" << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
  std::cout << "Test passed." << std::endl;
  return EXIT_SUCCESS;

@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkResampleImageFilter.h"
+#include "itkTestingMacros.h"
 
 /* Further testing of itkResampleImageFilter
  * Test that ResampleImageFilter can handle a ReferenceImage with
@@ -56,8 +57,8 @@ int itkResampleImageTest3(int argc, char * argv [] )
   typedef itk::ResampleImageFilter< ImageType, ImageType > ResampleFilterType;
 
   ReaderType::Pointer reader1 = ReaderType::New();
-    reader1->SetFileName( argv[1] );
-    reader1->Update();
+  reader1->SetFileName( argv[1] );
+  reader1->Update();
 
   // Create an identity transformation
   TransformType::Pointer identityTransform = TransformType::New();
@@ -67,34 +68,46 @@ int itkResampleImageTest3(int argc, char * argv [] )
 
   // Create an image with flipped directions
   ImageType::DirectionType direction;
-    direction[0][0] = -1.0;
-    direction[0][1] = 0.0;
-    direction[1][0] = 0.0;
-    direction[1][1] = -1.0;
+  direction[0][0] = -1.0;
+  direction[0][1] = 0.0;
+  direction[1][0] = 0.0;
+  direction[1][1] = -1.0;
   ImageType::RegionType inputRegion =
-    reader1->GetOutput()->GetLargestPossibleRegion();
+  reader1->GetOutput()->GetLargestPossibleRegion();
   ImageType::PointType origin;
-    origin[0] = inputRegion.GetSize()[0];
-    origin[1] = inputRegion.GetSize()[1];
+  origin[0] = inputRegion.GetSize()[0];
+  origin[1] = inputRegion.GetSize()[1];
 
   ChangeInfoType::Pointer changeInfo = ChangeInfoType::New();
-    changeInfo->ChangeDirectionOn();
-    changeInfo->SetOutputDirection( direction );
-    changeInfo->ChangeOriginOn();
-    changeInfo->SetOutputOrigin( origin );
-    changeInfo->SetInput( reader1->GetOutput() );
+  changeInfo->ChangeDirectionOn();
+  changeInfo->SetOutputDirection( direction );
+  changeInfo->ChangeOriginOn();
+  changeInfo->SetOutputOrigin( origin );
+  changeInfo->SetInput( reader1->GetOutput() );
 
   // Create and configure a resampling filter
   ResampleFilterType::Pointer resample = ResampleFilterType::New();
-    resample->SetInput( reader1->GetOutput() );
-    resample->SetReferenceImage( changeInfo->GetOutput() );
-    resample->UseReferenceImageOn();
-    resample->SetTransform( identityTransform );
-    resample->SetInterpolator( interpolator );
+
+  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+
+  resample->SetInput( reader1->GetOutput() );
+  TEST_SET_GET_VALUE( reader1->GetOutput(), resample->GetInput() );
+
+  resample->SetReferenceImage( changeInfo->GetOutput() );
+  TEST_SET_GET_VALUE( changeInfo->GetOutput(), resample->GetReferenceImage() );
+
+  resample->UseReferenceImageOn();
+  TEST_EXPECT_TRUE( resample->GetUseReferenceImage() );
+
+  resample->SetTransform( identityTransform );
+  TEST_SET_GET_VALUE( identityTransform, resample->GetTransform() );
+
+  resample->SetInterpolator( interpolator );
+  TEST_SET_GET_VALUE( interpolator, resample->GetInterpolator() );
 
   WriterType::Pointer writer1 = WriterType::New();
-    writer1->SetFileName( argv[2] );
-    writer1->SetInput( resample->GetOutput() );
+  writer1->SetFileName( argv[2] );
+  writer1->SetInput( resample->GetOutput() );
 
   // Run the resampling filter
   try
