@@ -25,11 +25,9 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::BinaryFunctorImageFilter()
 {
@@ -37,11 +35,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   this->InPlaceOff();
 }
 
-/**
- * Connect one of the operands for pixel-wise addition
- */
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput1(const TInputImage1 *image1)
@@ -51,7 +46,7 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 }
 
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput1(const DecoratedInput1ImagePixelType * input1)
@@ -61,19 +56,18 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 }
 
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput1(const Input1ImagePixelType & input1)
 {
-  itkDebugMacro("setting input1 to " << input1);
   typename DecoratedInput1ImagePixelType::Pointer newInput = DecoratedInput1ImagePixelType::New();
   newInput->Set(input1);
   this->SetInput1(newInput);
 }
 
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetConstant1(const Input1ImagePixelType & input1)
@@ -82,12 +76,11 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 }
 
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 const typename BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >::Input1ImagePixelType &
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GetConstant1() const
 {
-  itkDebugMacro("Getting constant 1");
   const DecoratedInput1ImagePixelType *input = dynamic_cast< const DecoratedInput1ImagePixelType * >(
       this->ProcessObject::GetInput(0) );
   if( input == ITK_NULLPTR )
@@ -97,12 +90,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   return input->Get();
 }
 
-
-/**
- * Connect one of the operands for pixel-wise addition
- */
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput2(const TInputImage2 *image2)
@@ -127,14 +116,13 @@ void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetInput2(const Input2ImagePixelType & input2)
 {
-  itkDebugMacro("setting input2 to " << input2);
   typename DecoratedInput2ImagePixelType::Pointer newInput = DecoratedInput2ImagePixelType::New();
   newInput->Set(input2);
   this->SetInput2(newInput);
 }
 
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::SetConstant2(const Input2ImagePixelType & input2)
@@ -143,12 +131,11 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 }
 
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 const typename BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >::Input2ImagePixelType &
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GetConstant2() const
 {
-  itkDebugMacro("Getting constant 2");
   const DecoratedInput2ImagePixelType *input = dynamic_cast< const DecoratedInput2ImagePixelType * >(
       this->ProcessObject::GetInput(1) );
   if( input == ITK_NULLPTR )
@@ -158,9 +145,8 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
   return input->Get();
 }
 
-
 template< typename TInputImage1, typename TInputImage2,
-          typename TOutputImage, typename TFunction  >
+          typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::GenerateOutputInformation()
@@ -197,16 +183,13 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
     }
 }
 
-/**
- * ThreadedGenerateData Performs the pixel-wise addition
- */
-template< typename TInputImage1, typename TInputImage2, typename TOutputImage, typename TFunction  >
+template< typename TInputImage1, typename TInputImage2, typename TOutputImage, typename TFunction >
 void
 BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  // We use dynamic_cast since inputs are stored as DataObjects.  The
+  // We use dynamic_cast since inputs are stored as DataObjects. The
   // ImageToImageFilter::GetInput(int) always returns a pointer to a
   // TInputImage1 so it cannot be used for the second input.
   const TInputImage1 *inputPtr1 =
@@ -227,9 +210,7 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
     ImageScanlineConstIterator< TInputImage2 > inputIt2(inputPtr2, outputRegionForThread);
     ImageScanlineIterator< TOutputImage > outputIt(outputPtr, outputRegionForThread);
 
-
     ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
-
 
     while ( !inputIt1.IsAtEnd() )
       {
@@ -275,7 +256,6 @@ BinaryFunctorImageFilter< TInputImage1, TInputImage2, TOutputImage, TFunction >
 
     const Input1ImagePixelType & input1Value = this->GetConstant1();
     ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
-
 
     while ( !inputIt2.IsAtEnd() )
       {
