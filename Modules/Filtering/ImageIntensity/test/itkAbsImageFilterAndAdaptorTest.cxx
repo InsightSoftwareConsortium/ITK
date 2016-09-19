@@ -117,7 +117,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   it.GoToBegin();
   while( !ot.IsAtEnd() )
     {
-    std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
+    std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
     std::cout << ot.Get() << " = ";
     std::cout << itk::Math::abs( it.Get() ) << std::endl;
     const InputImageType::PixelType  input  = it.Get();
@@ -125,7 +125,7 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
     const OutputImageType::PixelType absolute = itk::Math::abs(input);
     if( !itk::Math::FloatAlmostEqual( absolute, output, 10, epsilon ) )
       {
-      std::cerr.precision( itk::Math::abs( std::log10( epsilon ) ) );
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
       std::cerr << " abs(" << input << ") = " << absolute << std::endl;
       std::cerr << " differs from " << output;
@@ -174,12 +174,12 @@ int itkAbsImageFilterAndAdaptorTest(int, char* [] )
   dt.GoToBegin();
   while( !dt.IsAtEnd() )
     {
-    std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
+    std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
     std::cout << dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
     if( !itk::Math::FloatAlmostEqual( diff, ( OutputImageType::PixelType )0, 10, epsilon ) )
       {
-      std::cerr.precision( itk::Math::abs( std::log10( epsilon ) ) );
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
