@@ -19,6 +19,7 @@ paths="
    config/cmake_ext_mod
    CMakeLists.txt
    CMakeInstallation.cmake
+   CMakeFilters.cmake
    COPYING
    src
    c++/CMakeLists.txt
