@@ -24,12 +24,13 @@ namespace itk
 {
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >
 ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
-::ConvolutionImageFilterBase()
+::ConvolutionImageFilterBase() :
+  m_Normalize( false ),
+  m_OutputRegionMode( Self::SAME )
 {
   this->AddRequiredInputName("KernelImage");
-  m_Normalize = false;
+
   m_BoundaryCondition = &m_DefaultBoundaryCondition;
-  m_OutputRegionMode = Self::SAME;
 }
 
 template< typename TInputImage, typename TKernelImage, typename TOutputImage >
