@@ -249,7 +249,10 @@ void LSMImageIO::Write(const void *buffer)
   const unsigned char *outPtr = (const unsigned char *)buffer;
 
   unsigned int width, height, page, pages = 1;
-
+  if ( this->GetNumberOfDimensions() )
+    {
+    itkExceptionMacro("TIFF requires images to have at least 2 dimensions");
+    }
   width =  m_Dimensions[0];
   height = m_Dimensions[1];
   if ( m_NumberOfDimensions == 3 )
