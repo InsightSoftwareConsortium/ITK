@@ -34,6 +34,15 @@ HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~HeldIsotropicWav
 {}
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
+void
+HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "PolynomialOrder: " << this->m_PolynomialOrder << std::endl;
+}
+
+template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 typename HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::FunctionValueType
 HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateMagnitude(
   const FunctionValueType & freq_norm_in_hz) const
@@ -48,72 +57,6 @@ HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateMagnitude
       std::sin(2.0 * Math::pi * this->ComputePolynom(freq_norm_in_hz / 2.0, this->m_PolynomialOrder)));
 
   return 0;
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-typename HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::FunctionValueType
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateForwardLowPassFilter(
-  const FunctionValueType & freq_norm_in_hz) const
-{
-  FunctionValueType value = std::pow(freq_norm_in_hz, static_cast<int>(this->m_HighPassSubBands)) *
-                            std::pow(2.0, static_cast<int>(2 * this->m_HighPassSubBands - 1));
-  if (value > 0.25)
-    return this->EvaluateMagnitude(value);
-  return 1;
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-typename HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::FunctionValueType
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateForwardHighPassFilter(
-  const FunctionValueType & freq_norm_in_hz) const
-{
-  FunctionValueType value = std::pow(freq_norm_in_hz, static_cast<int>(this->m_HighPassSubBands)) *
-                            std::pow(2.0, static_cast<int>(this->m_HighPassSubBands - 1));
-  if (value < 0.25)
-    return this->EvaluateMagnitude(value);
-  return 1;
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-typename HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::FunctionValueType
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateForwardSubBand(
-  const FunctionValueType & freq_norm_in_hz,
-  unsigned int              j) const
-{
-  if (j == this->m_HighPassSubBands)
-    return this->EvaluateForwardHighPassFilter(freq_norm_in_hz);
-  if (j == 0)
-    return this->EvaluateForwardLowPassFilter(freq_norm_in_hz);
-  if (j > this->m_HighPassSubBands || j < 0)
-    throw ExceptionObject(__FILE__, __LINE__, "Invalid SubBand", ITK_LOCATION);
-  FunctionValueType value = std::pow(freq_norm_in_hz, static_cast<int>(this->m_HighPassSubBands)) *
-                            std::pow(2.0, static_cast<int>(2 * this->m_HighPassSubBands - 1 - j));
-  return this->EvaluateMagnitude(value);
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-typename HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::FunctionValueType
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateInverseLowPassFilter(
-  const FunctionValueType & freq_norm_in_hz) const
-{
-  return this->EvaluateForwardLowPassFilter(freq_norm_in_hz);
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-typename HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::FunctionValueType
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateInverseHighPassFilter(
-  const FunctionValueType & freq_norm_in_hz) const
-{
-  return this->EvaluateForwardHighPassFilter(freq_norm_in_hz);
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-typename HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::FunctionValueType
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateInverseSubBand(
-  const FunctionValueType & freq_norm_in_hz,
-  unsigned int              j) const
-{
-  return this->EvaluateForwardSubBand(freq_norm_in_hz, j);
 }
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
@@ -169,15 +112,6 @@ HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::ComputePolynom(co
     }
   }
   return y;
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-void
-HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "PolynomialOrder: " << this->m_PolynomialOrder << std::endl;
 }
 } // end namespace itk
 

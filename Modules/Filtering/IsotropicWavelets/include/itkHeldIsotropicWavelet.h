@@ -70,29 +70,6 @@ public:
   FunctionValueType
   EvaluateMagnitude(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
 
-  /**** Forward/Analysis ***/
-  /** Evaluate the low filter response. */
-  FunctionValueType
-  EvaluateForwardLowPassFilter(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
-  /** Evaluate the highfilter response. */
-  FunctionValueType
-  EvaluateForwardHighPassFilter(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
-  /** Evaluate the sub-band response.
-   * j = 0 evaluates LowFilter, j=m_SubBand evaluates HighFilter */
-  FunctionValueType
-  EvaluateForwardSubBand(const FunctionValueType & freq_norm_in_hz, unsigned int j) const ITK_OVERRIDE;
-  /**** Inverse/Synthesis ***/
-  /** Evaluate the low filter response. */
-  FunctionValueType
-  EvaluateInverseLowPassFilter(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
-  /** Evaluate the highfilter response. */
-  FunctionValueType
-  EvaluateInverseHighPassFilter(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
-  /** Evaluate the sub-band response.
-   * j = 0 evaluates LowFilter, j=m_SubBand evaluates HighFilter */
-  FunctionValueType
-  EvaluateInverseSubBand(const FunctionValueType & freq_norm_in_hz, unsigned int j) const ITK_OVERRIDE;
-
   /** Gets and sets parameters */
   itkSetMacro(PolynomialOrder, unsigned int);
   itkGetConstMacro(PolynomialOrder, unsigned int);

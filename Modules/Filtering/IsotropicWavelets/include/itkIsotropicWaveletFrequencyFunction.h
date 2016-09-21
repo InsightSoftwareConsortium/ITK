@@ -54,20 +54,20 @@ class IsotropicWaveletFrequencyFunction : public IsotropicFrequencyFunction<TFun
 {
 public:
   /** Standard class typedefs. */
-  typedef IsotropicWaveletFrequencyFunction                        Self;
-  typedef SpatialFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  typedef IsotropicWaveletFrequencyFunction                                   Self;
+  typedef IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
+  typedef SmartPointer<Self>                                                  Pointer;
+  typedef SmartPointer<const Self>                                            ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IsotropicWaveletFrequencyFunction, SpatialFunction);
+  itkTypeMacro(IsotropicWaveletFrequencyFunction, IsotropicFrequencyFunction);
 
   /** Input type for the function. */
   typedef typename Superclass::InputType InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType FunctionValueType;
-  typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::FunctionValueType FunctionValueType;
+  typedef typename Superclass::OutputType        OutputType;
 
   /** Evaluate Magnitude of frequency point. Evaluate function calls this. */
   virtual FunctionValueType
@@ -76,26 +76,26 @@ public:
   /**** Forward/Analysis ***/
   /** Evaluate the low filter response. */
   virtual FunctionValueType
-  EvaluateForwardLowPassFilter(const TFunctionValue & freq_in_hz) const = 0;
+  EvaluateForwardLowPassFilter(const FunctionValueType & freq_in_hz) const;
   /** Evaluate the highfilter response. */
   virtual FunctionValueType
-  EvaluateForwardHighPassFilter(const TFunctionValue & freq_in_hz) const = 0;
+  EvaluateForwardHighPassFilter(const FunctionValueType & freq_in_hz) const;
   /** Evaluate the sub-band response.
-   * j = 0 evaluates LowFilter, j=m_SubBand evaluates HighFilter */
+   * j evaluates LowFilter, j=m_SubBand evaluates HighFilter */
   virtual FunctionValueType
-  EvaluateForwardSubBand(const TFunctionValue & freq_in_hz, unsigned int j) const = 0;
+  EvaluateForwardSubBand(const FunctionValueType & freq_in_hz, unsigned int j) const;
 
   /**** Inverse/Synthesis ***/
   /** Evaluate the low filter response. */
   virtual FunctionValueType
-  EvaluateInverseLowPassFilter(const TFunctionValue & freq_in_hz) const = 0;
+  EvaluateInverseLowPassFilter(const FunctionValueType & freq_in_hz) const;
   /** Evaluate the highfilter response. */
   virtual FunctionValueType
-  EvaluateInverseHighPassFilter(const TFunctionValue & freq_in_hz) const = 0;
+  EvaluateInverseHighPassFilter(const FunctionValueType & freq_in_hz) const;
   /** Evaluate the sub-band response.
-   * j = 0 evaluates LowFilter, j=m_SubBand evaluates HighFilter */
+   * j evaluates LowFilter, j=m_SubBand evaluates HighFilter */
   virtual FunctionValueType
-  EvaluateInverseSubBand(const TFunctionValue & freq_in_hz, unsigned int j) const = 0;
+  EvaluateInverseSubBand(const FunctionValueType & freq_in_hz, unsigned int j) const;
 
   /** Gets and sets parameters */
   itkGetConstMacro(HighPassSubBands, unsigned int);

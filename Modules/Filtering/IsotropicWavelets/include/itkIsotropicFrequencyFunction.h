@@ -18,7 +18,7 @@
 #ifndef itkIsotropicFrequencyFunction_h
 #define itkIsotropicFrequencyFunction_h
 
-#include <itkSpatialFunction.h>
+#include <itkFrequencyFunction.h>
 #include <itkFloatTypes.h>
 
 namespace itk
@@ -35,24 +35,24 @@ namespace itk
 template <typename TFunctionValue = double,
           unsigned int VImageDimension = 3,
           typename TInput = Point<SpacePrecisionType, VImageDimension>>
-class IsotropicFrequencyFunction : public SpatialFunction<TFunctionValue, VImageDimension, TInput>
+class IsotropicFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
   /** Standard class typedefs. */
-  typedef IsotropicFrequencyFunction                               Self;
-  typedef SpatialFunction<TFunctionValue, VImageDimension, TInput> Superclass;
-  typedef SmartPointer<Self>                                       Pointer;
-  typedef SmartPointer<const Self>                                 ConstPointer;
+  typedef IsotropicFrequencyFunction                                 Self;
+  typedef FrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
+  typedef SmartPointer<Self>                                         Pointer;
+  typedef SmartPointer<const Self>                                   ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(IsotropicFrequencyFunction, SpatialFunction);
+  itkTypeMacro(IsotropicFrequencyFunction, FrequencyFunction);
 
   /** Input type for the function. */
   typedef typename Superclass::InputType InputType;
 
   /** Output type for the function. */
-  typedef typename Superclass::OutputType FunctionValueType;
-  typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::FunctionValueType FunctionValueType;
+  typedef typename Superclass::OutputType        OutputType;
   /** Calculate magnitude (euclidean norm ) of input point. **/
   inline double
   Magnitude(const TInput & point) const

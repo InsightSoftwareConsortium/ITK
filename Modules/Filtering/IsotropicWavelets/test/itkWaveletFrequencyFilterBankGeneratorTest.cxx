@@ -24,6 +24,7 @@
 #include "itkWaveletFrequencyFilterBankGenerator.h"
 #include "itkHeldIsotropicWavelet.h"
 #include "itkVowIsotropicWavelet.h"
+#include "itkSimoncelliIsotropicWavelet.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
 #include <itkComplexToRealImageFilter.h>
@@ -60,7 +61,8 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
 
   // Set the WaveletFunctionType and the WaveletFilterBank
   // typedef itk::HeldIsotropicWavelet<PixelType> WaveletFunctionType;
-  typedef itk::VowIsotropicWavelet<PixelType>                                             WaveletFunctionType;
+  // typedef itk::VowIsotropicWavelet<PixelType> WaveletFunctionType;
+  typedef itk::SimoncelliIsotropicWavelet<PixelType>                                      WaveletFunctionType;
   typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType> WaveletFilterBankType;
   typename WaveletFilterBankType::Pointer forwardFilterBank = WaveletFilterBankType::New();
   unsigned int                            high_sub_bands = inputBands;

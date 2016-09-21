@@ -15,35 +15,33 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkVowIsotropicWavelet_h
-#define itkVowIsotropicWavelet_h
+#ifndef itkSimoncelliIsotropicWavelet_h
+#define itkSimoncelliIsotropicWavelet_h
 
 #include <itkIsotropicWaveletFrequencyFunction.h>
 
 namespace itk
 {
-/** \class VowIsotropicWavelet
- * \brief Wavelet based on paper VOW: Variance-Optimal Wavelets for Steerable Pyramid (P.Pad et al 2014).
+/** \class SimoncelliIsotropicWavelet
+ *
+ * Simoncelli Wavelet
  *
  * Implement function in frequency space.
+ *
  \f{equation}
    h(\omega) =
      \begin{cases}
      \begin{aligned}
-       &\sqrt{\frac{1}{2} + \frac{\tan(\kappa(1+2\log_2\frac{2\omega}{\pi})}{2\tan(\kappa)}} , &\omega \in
- [\frac{\pi}{4} , \frac{\pi}{2} [ \\
-       &\sqrt{\frac{1}{2} - \frac{\tan(\kappa(1+2\log_2\frac{\omega}{\pi}))}{2\tan(\kappa)}} , &\omega \in
- [\frac{\pi}{2} , \pi ] \\ &0, &\text{otherwise}
+       &\cos( \frac{\pi}{2} \log_2\frac{2\omega}{\pi}) , &\omega \in ]\frac{\pi}{4} , \pi] \\
+       &0, &\text{otherwise}
      \end{aligned}
      \end{cases}
  \f{equation}
- \f{equation}
-   \text{where } \kappa \in [0, \frac{\pi}{2}] \text{ is found to be } 0.75
- \f{equation}
  *
- * Where q(t) is a m grade polynomial (m can be chosen) which elements are
- * calculated so the wavelet has desirable properties.
- * ie, tight frame, Vow Paritition of Unity, etc. (see paper for more info)
+ * Based on:
+ * J. Portilla and E. P. Simoncelli, “A parametric texture model based on
+ * joint statistics of complex wavelet coefficients,”
+ * Int. J. Computer Vision vol. 40, no. 1, pp. 49–70, 2000.
  *
  * \ingroup SpatialFunctions
  * \ingroup IsotropicWavelets
@@ -51,11 +49,11 @@ namespace itk
 template <typename TFunctionValue = double,
           unsigned int VImageDimension = 3,
           typename TInput = Point<SpacePrecisionType, VImageDimension>>
-class VowIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
+class SimoncelliIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
   /** Standard class typedefs. */
-  typedef VowIsotropicWavelet                                                        Self;
+  typedef SimoncelliIsotropicWavelet                                                 Self;
   typedef IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput> Superclass;
   typedef SmartPointer<Self>                                                         Pointer;
   typedef SmartPointer<const Self>                                                   ConstPointer;
@@ -64,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(VowIsotropicWavelet, SpatialFunction);
+  itkTypeMacro(SimoncelliIsotropicWavelet, SpatialFunction);
 
   /** Input type for the function. */
   typedef typename Superclass::InputType InputType;
@@ -72,35 +70,25 @@ public:
   /** FunctionValue type for the function. */
   typedef typename Superclass::FunctionValueType FunctionValueType;
 
-  /** Type used to store gaussian parameters. */
-  typedef FixedArray<double, VImageDimension> ArrayType;
-
   /** Evaluate the function */
   FunctionValueType
   EvaluateMagnitude(const FunctionValueType & freq_norm_in_hz) const ITK_OVERRIDE;
 
-  /** Gets and sets parameters */
-  itkSetMacro(Kappa, TFunctionValue);
-  itkGetConstMacro(Kappa, TFunctionValue);
-
 protected:
-  VowIsotropicWavelet();
-  virtual ~VowIsotropicWavelet();
+  SimoncelliIsotropicWavelet();
+  virtual ~SimoncelliIsotropicWavelet();
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  VowIsotropicWavelet(const Self &) ITK_DELETE_FUNCTION;
+  SimoncelliIsotropicWavelet(const Self &) ITK_DELETE_FUNCTION;
   void
   operator=(const Self &) ITK_DELETE_FUNCTION;
-
-  /** kappa value, default is optimal:0.75 */
-  TFunctionValue m_Kappa;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVowIsotropicWavelet.hxx"
+#  include "itkSimoncelliIsotropicWavelet.hxx"
 #endif
 
 #endif
