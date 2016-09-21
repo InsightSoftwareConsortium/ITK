@@ -15,21 +15,29 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkView3DImage_h
-#define itkView3DImage_h
+#ifndef itkViewImage_h
+#define itkViewImage_h
 #include <cstddef>
+#include <string>
 namespace itk
+{
+namespace Testing
 {
 template <typename T>
 void
-View3DImage(const T * img, size_t win_x = 600, size_t win_y = 600);
+ViewImage(const T * img, const std::string & win_title = "itkView", size_t win_x = 600, size_t win_y = 600);
 
 template <typename TLeft, typename TRight>
 void
-View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x = 800, size_t win_y = 800);
+ViewImages(const TLeft *       leftImg,
+           const TRight *      rightImg,
+           const std::string & win_title = "itkView",
+           size_t              win_x = 800,
+           size_t              win_y = 800);
+} // namespace Testing
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkView3DImage.hxx"
+#  include "itkViewImage.hxx"
 #endif
 #endif

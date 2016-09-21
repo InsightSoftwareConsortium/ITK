@@ -31,6 +31,7 @@ namespace itk
 /** \class WaveletFrequencyForward
  * @brief Wavelet analysis where input is an FFT image.
  * Aim to be Isotropic.
+ * TODO:: explain output layout.
  *
  * \ingroup IsotropicWavelets
  */

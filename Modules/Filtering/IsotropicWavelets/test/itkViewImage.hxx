@@ -15,13 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkView3DImage_hxx
-#define itkView3DImage_hxx
+#ifndef itkViewImage_hxx
+#define itkViewImage_hxx
 #include <vtkSmartPointer.h>
 #include <vtkRenderWindow.h>
 #include <vtkRenderWindowInteractor.h>
 #include <vtkInteractorStyleRubberBand3D.h>
 #include <vtkRenderer.h>
+#include <vtkCamera.h>
 #include <vtkImageMapper.h>
 #include <vtkImagePlaneWidget.h>
 #include "itkImage.h"
@@ -30,11 +31,12 @@
 #include <itkFixedArray.h>
 namespace itk
 {
+namespace Testing
+{
 template <typename T>
 void
-View3DImage(const T * img, size_t win_x, size_t win_y)
+ViewImage(const T * img, const std::string & win_title, size_t win_x, size_t win_y)
 {
-  const unsigned int                    kDimension = T::ImageDimension;
   typedef itk::ImageToVTKImageFilter<T> ConnectorType;
   typename ConnectorType::Pointer       connector = ConnectorType::New();
   connector->SetInput(img);
@@ -46,6 +48,7 @@ View3DImage(const T * img, size_t win_x, size_t win_y)
 
   // Setup render window
   vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+  renderWindow->SetWindowName(win_title.c_str());
   renderWindow->SetSize(win_x, win_y);
   renderWindow->AddRenderer(renderer);
 
@@ -68,8 +71,8 @@ View3DImage(const T * img, size_t win_x, size_t win_y)
   double window = max_intensity - min_intensity;
   double level = min_intensity + window / 2;
   /** SLICES */
-  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, kDimension> slice_planes;
-  for (unsigned i = 0; i < kDimension; ++i)
+  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, 3> slice_planes;
+  for (unsigned i = 0; i < 3; ++i)
   {
     slice_planes[i] = vtkSmartPointer<vtkImagePlaneWidget>::New();
     slice_planes[i]->SetResliceInterpolateToCubic();
@@ -89,19 +92,29 @@ View3DImage(const T * img, size_t win_x, size_t win_y)
     slice_planes[i]->SetWindowLevel(window, level);
     slice_planes[i]->On();
   }
-  renderer->ResetCamera();
+  // Flip camera because VTK-ITK different corner for origin.
+  double      pos[3];
+  double      vup[3];
+  vtkCamera * cam = renderer->GetActiveCamera();
+  cam->GetPosition(pos);
+  cam->GetViewUp(vup);
+  for (unsigned int i = 0; i < 3; ++i)
+  {
+    pos[i] = -pos[i];
+    vup[i] = -vup[i];
+  }
+  cam->SetPosition(pos);
+  cam->SetViewUp(vup);
 
+  renderer->ResetCamera();
   renderWindowInteractor->Initialize();
   renderWindowInteractor->Start();
 }
 
 template <typename TLeft, typename TRight>
 void
-View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x, size_t win_y)
+ViewImages(const TLeft * leftImg, const TRight * rightImg, const std::string & win_title, size_t win_x, size_t win_y)
 {
-  const unsigned int leftDimension = TLeft::ImageDimension;
-  const unsigned int rightDimension = TRight::ImageDimension;
-
   typedef itk::ImageToVTKImageFilter<TLeft> LeftConnectorType;
   typename LeftConnectorType::Pointer       leftConnector = LeftConnectorType::New();
   leftConnector->SetInput(leftImg);
@@ -119,6 +132,7 @@ View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x, size_
 
   // Setup render window (UNIQUE)
   vtkSmartPointer<vtkRenderWindow> renderWindow = vtkSmartPointer<vtkRenderWindow>::New();
+  renderWindow->SetWindowName(win_title.c_str());
   renderWindow->SetSize(win_x, win_y);
   renderWindow->AddRenderer(renderer);
 
@@ -151,8 +165,8 @@ View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x, size_
   double rightWindow = rightMax_intensity - rightMin_intensity;
   double rightLevel = rightMin_intensity + rightWindow / 2;
   /** SLICES (BOTH) */
-  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, leftDimension> leftSlice_planes;
-  for (unsigned i = 0; i < leftDimension; ++i)
+  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, 3> leftSlice_planes;
+  for (unsigned i = 0; i < 3; ++i)
   {
     leftSlice_planes[i] = vtkSmartPointer<vtkImagePlaneWidget>::New();
     leftSlice_planes[i]->SetResliceInterpolateToCubic();
@@ -172,8 +186,8 @@ View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x, size_
     leftSlice_planes[i]->SetWindowLevel(leftWindow, leftLevel);
     leftSlice_planes[i]->On();
   }
-  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, rightDimension> rightSlice_planes;
-  for (unsigned i = 0; i < rightDimension; ++i)
+  FixedArray<vtkSmartPointer<vtkImagePlaneWidget>, 3> rightSlice_planes;
+  for (unsigned i = 0; i < 3; ++i)
   {
     rightSlice_planes[i] = vtkSmartPointer<vtkImagePlaneWidget>::New();
     rightSlice_planes[i]->SetResliceInterpolateToCubic();
@@ -193,10 +207,25 @@ View3DImages(const TLeft * leftImg, const TRight * rightImg, size_t win_x, size_
     rightSlice_planes[i]->SetWindowLevel(rightWindow, rightLevel);
     rightSlice_planes[i]->On();
   }
+  // Flip camera because VTK-ITK different corner for origin.
+  double      pos[3];
+  double      vup[3];
+  vtkCamera * cam = renderer->GetActiveCamera();
+  cam->GetPosition(pos);
+  cam->GetViewUp(vup);
+  for (unsigned int i = 0; i < 3; ++i)
+  {
+    pos[i] = -pos[i];
+    vup[i] = -vup[i];
+  }
+  cam->SetPosition(pos);
+  cam->SetViewUp(vup);
+
   renderer->ResetCamera();
 
   renderWindowInteractor->Initialize();
   renderWindowInteractor->Start();
 }
+} // namespace Testing
 } // namespace itk
 #endif

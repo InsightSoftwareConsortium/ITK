@@ -245,7 +245,7 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       if (!this->GetInput(n_input))
         continue;
       InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput(n_input));
-      std::cout << "GenerateINPUT : " << n_input << inputPtr->GetLargestPossibleRegion() << '\n';
+      std::cout << "GenerateINPUT.LowPass Input : " << n_input << inputPtr->GetLargestPossibleRegion() << '\n';
       inputRegion.Crop(inputPtr->GetLargestPossibleRegion());
       inputPtr->SetRequestedRegion(inputRegion);
     }
@@ -302,6 +302,7 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     typename WaveletFilterBankType::Pointer           filterBank = WaveletFilterBankType::New();
     filterBank->SetHighPassSubBands(this->m_HighPassSubBands);
     filterBank->SetSize(low_pass_per_level->GetLargestPossibleRegion().GetSize());
+    filterBank->SetInverseBank(true);
     filterBank->Update();
 
     /******* HighPass sub-bands *****/

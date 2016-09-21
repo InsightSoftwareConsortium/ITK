@@ -35,11 +35,11 @@ using namespace itk;
 
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
 #if ITK_VISUALIZE_TESTS != 0
-#  include "itkView3DImage.h"
+#  include "itkViewImage.h"
 #endif
 
 int
-itkFrequencyShrinkTest(int argc, char ** argv)
+itkFrequencyShrinkTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
@@ -173,29 +173,26 @@ itkFrequencyShrinkTest(int argc, char ** argv)
   }
 
 #if ITK_VISUALIZE_TESTS != 0
-  std::cout << "FrequencyShrinker" << std::endl;
-  View3DImage(inverseFFT->GetOutput());
-  std::cout << "Original" << std::endl;
-  View3DImage(subtractFilter->GetOutput());
+  Testing::ViewImage(subtractFilter->GetOutput(), "Original");
+  Testing::ViewImage(inverseFFT->GetOutput(), "FrequencyShrinker");
   // Compare with regular shrink filter.
   typedef itk::ShrinkImageFilter<ImageType, ImageType> RegularShrinkType;
   RegularShrinkType::Pointer                           regularShrinkFilter = RegularShrinkType::New();
   regularShrinkFilter->SetInput(reader->GetOutput());
   regularShrinkFilter->SetShrinkFactors(2);
   regularShrinkFilter->Update();
-  std::cout << "Regular shrinker" << std::endl;
-  View3DImage(regularShrinkFilter->GetOutput());
+  Testing::ViewImage(regularShrinkFilter->GetOutput(), "Regular shrinker");
 
   // Complex to real
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
   ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
   complexToRealFilter->SetInput(fftFilter->GetOutput());
   complexToRealFilter->Update();
-  View3DImage(complexToRealFilter->GetOutput());
+  Testing::ViewImage(complexToRealFilter->GetOutput(), "ComplexToReal. Original");
   ComplexToRealFilter::Pointer complexToRealFilterShrink = ComplexToRealFilter::New();
   complexToRealFilterShrink->SetInput(shrinkFilter->GetOutput());
   complexToRealFilterShrink->Update();
-  View3DImage(complexToRealFilterShrink->GetOutput());
+  Testing::ViewImage(complexToRealFilterShrink->GetOutput(), "ComplexToReal. Shrinked");
 #endif
 
   return EXIT_SUCCESS;

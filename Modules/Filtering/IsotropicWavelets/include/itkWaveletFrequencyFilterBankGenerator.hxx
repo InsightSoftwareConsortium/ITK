@@ -137,6 +137,10 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
   {
     outputList.push_back(this->GetOutput(band));
     OutputImagePointer & outputPtr = outputList.back();
+    // TODO maybe you need a GenerateOutputInformation instead of setting here metadata.
+    // outputPtr->SetOrigin(this->GetOrigin());
+    // outputPtr->SetSpacing(this->GetSpacing());
+    // outputPtr->SetDirection(this->GetDirection());
     // GenerateImageSource superclass allocates primary output, so use its region.
     outputPtr->SetRegions(outputList[0]->GetLargestPossibleRegion());
     outputPtr->Allocate();

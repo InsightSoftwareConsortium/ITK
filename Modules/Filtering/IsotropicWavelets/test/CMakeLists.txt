@@ -3,15 +3,19 @@ set(Libraries ${IsotropicWavelets-Test_LIBRARIES})
 
 set(
   IsotropicWaveletsTests
+  itkFrequencyImageRegionIteratorWithIndexTest.cxx
+  itkWaveletFrequencyFilterBankGeneratorTest.cxx
+  itkRieszFrequencyFilterBankGeneratorTest.cxx
   itkFrequencyExpandTest.cxx
   itkFrequencyShrinkTest.cxx
   itkInd2SubTest.cxx
-  itkFrequencyImageRegionIteratorWithIndexTest.cxx
   itkWaveletFrequencyForwardTest.cxx
   itkWaveletFrequencyInverseTest.cxx
-  itkWaveletFrequencyFilterBankGeneratorTest.cxx
-  itkRieszFrequencyFilterBankGeneratorTest.cxx
   itkMonogenicSignalFrequencyImageFilterTest.cxx
+  itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest.cxx
+  itkMonogenicPhaseAnalysisEigenValuesImageFilterTest.cxx
+  itkVectorInverseFFTImageFilterTest.cxx
+  itkRieszWaveletPhaseAnalysisTest.cxx
 )
 
 if(ITKVtkGlue_ENABLED)
@@ -24,7 +28,7 @@ createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
 
 #ITK_VISUALIZE_TESTS is passed to source code.
 #change it to 1 to visualize images, for dev purposes.
-set(ITK_VISUALIZE_TESTS 0)
+set(ITK_VISUALIZE_TESTS 1)
 target_compile_definitions(
   IsotropicWaveletsTestDriver
   PRIVATE
@@ -57,6 +61,25 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest2.tiff
     2
 )
+# 2D:
+itk_add_test(
+  NAME itkWaveletFrequencyFilterBankGeneratorTest2D1
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyFilterBankGeneratorTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest2D1.tiff
+    1
+)
+itk_add_test(
+  NAME itkWaveletFrequencyFilterBankGeneratorTest2D2
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyFilterBankGeneratorTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest2D2.tiff
+    2
+)
 ## Riesz Related
 # RieszGenerator
 itk_add_test(
@@ -76,7 +99,43 @@ itk_add_test(
     DATA{Input/collagen_32x32x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkMonogenicSignalFrequencyImageFilterTest.tiff
 )
-#Wavelet Forward / Inverse
+
+itk_add_test(
+  NAME itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest
+    DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest.tiff
+)
+#EigenValues
+itk_add_test(
+  NAME itkMonogenicPhaseAnalysisEigenValuesImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkMonogenicPhaseAnalysisEigenValuesImageFilterTest
+    DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicPhaseAnalysisEigenValuesImageFilterTest.tiff
+)
+
+itk_add_test(
+  NAME itkMonogenicPhaseAnalysisEigenValuesImageFilterTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkMonogenicPhaseAnalysisEigenValuesImageFilterTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicPhaseAnalysisEigenValuesImageFilterTest2D.tiff
+    2
+)
+# VectorInverseFFT
+itk_add_test(
+  NAME itkVectorInverseFFTImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkVectorInverseFFTImageFilterTest
+    DATA{Input/collagen_32x32x16.tiff}
+)
+#Wavelet Forward
 itk_add_test(
   NAME itkWaveletFrequencyForwardTest
   COMMAND
@@ -88,6 +147,19 @@ itk_add_test(
     1
 )
 
+itk_add_test(
+  NAME itkWaveletFrequencyForwardTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyForwardTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyForwardTest2D.tiff
+    1
+    1
+    2
+)
+
+#Wavelet Inverse
 itk_add_test(
   NAME itkWaveletFrequencyInverseTest
   COMMAND
@@ -106,7 +178,120 @@ itk_add_test(
     1
 )
 
+itk_add_test(
+  NAME itkWaveletFrequencyInverseTestMultiLevel
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyInverseTest
+    DATA{Input/collagen_64x64x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseTest2.tiff
+    2
+    1
+)
+#2D
+itk_add_test(
+  NAME itkWaveletFrequencyInverseTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    --compare
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseTest2D.tiff
+    #TODO, justify following tolerance, beyond the unsigned to float conversion.
+    # There is a lost of information because FrequencyShrinker, which does not interpolate. But not enough.
+    --compareIntensityTolerance
+    50
+    itkWaveletFrequencyInverseTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseTest2D.tiff
+    1
+    1
+    2
+)
+
+itk_add_test(
+  NAME itkWaveletFrequencyInverseTes2DtMultiLevel
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyInverseTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseTest2DMultiLevel.tiff
+    2
+    1
+    2
+)
+
+itk_add_test(
+  NAME itkWaveletFrequencyInverseTest2DMultiLevelMultiBand
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyInverseTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyInverseTest2DMultiLevelMultiBand.tiff
+    2
+    5
+    2
+)
+# RieszWavelet Phase Analysis
+itk_add_test(
+  NAME itkRieszWaveletPhaseAnalysisTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkRieszWaveletPhaseAnalysisTest
+    DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTest.tiff
+    1
+    1
+)
+
+itk_add_test(
+  NAME itkRieszWaveletPhaseAnalysisTestMultiBand
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkRieszWaveletPhaseAnalysisTest
+    DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTestMultiBand.tiff
+    1
+    5
+)
+
+itk_add_test(
+  NAME itkRieszWaveletPhaseAnalysisTestMultiLevel
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkRieszWaveletPhaseAnalysisTest
+    DATA{Input/collagen_64x64x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTestMultiLevel.tiff
+    2
+    1
+)
+# itk_add_test(NAME itkRieszWaveletPhaseAnalysisTestMultiLevelMultiBand
+#   COMMAND IsotropicWaveletsTestDriver
+#   itkRieszWaveletPhaseAnalysisTest DATA{Input/collagen_64x64x16.tiff}
+#   ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTestMultiLevelMultiBand.tiff
+#   2 5 )
 ###
+itk_add_test(
+  NAME itkRieszWaveletPhaseAnalysisTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkRieszWaveletPhaseAnalysisTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTest2D.tiff
+    1
+    1
+    2
+)
+itk_add_test(
+  NAME itkRieszWaveletPhaseAnalysisTest2DMultiLevelMultiBand
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkRieszWaveletPhaseAnalysisTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkRieszWaveletPhaseAnalysisTest2DMultiLevelMultiBand.tiff
+    2
+    2
+    2
+)
 # FrequencyIterator
 itk_add_test(
   NAME itkFrequencyImageRegionIteratorWithIndexTest

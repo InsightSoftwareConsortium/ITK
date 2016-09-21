@@ -36,11 +36,11 @@ using namespace itk;
 
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
 #if ITK_VISUALIZE_TESTS != 0
-#  include "itkView3DImage.h"
+#  include "itkViewImage.h"
 #endif
 
 int
-itkFrequencyExpandTest(int argc, char ** argv)
+itkFrequencyExpandTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
@@ -179,29 +179,26 @@ itkFrequencyExpandTest(int argc, char ** argv)
   }
 
 #if ITK_VISUALIZE_TESTS != 0
-  std::cout << "FrequencyExpander" << std::endl;
-  View3DImage(inverseFFT->GetOutput());
-  std::cout << "Original" << std::endl;
-  View3DImage(zeroDCFilter->GetOutput());
+  Testing::ViewImage(zeroDCFilter->GetOutput(), "Original");
+  Testing::ViewImage(inverseFFT->GetOutput(), "FrequencyExpander");
   // //Compare with regular expand filter.
   typedef itk::ExpandImageFilter<ImageType, ImageType> RegularExpandType;
   RegularExpandType::Pointer                           regularExpandFilter = RegularExpandType::New();
   regularExpandFilter->SetInput(reader->GetOutput());
   regularExpandFilter->SetExpandFactors(2);
   regularExpandFilter->Update();
-  std::cout << "Regular expander" << std::endl;
-  View3DImage(regularExpandFilter->GetOutput());
+  Testing::ViewImage(regularExpandFilter->GetOutput(), "Regular expander");
 
   // Complex to real
-  typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
-  ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
-  complexToRealFilter->SetInput(fftFilter->GetOutput());
-  complexToRealFilter->Update();
-  View3DImage(complexToRealFilter->GetOutput());
-  ComplexToRealFilter::Pointer complexToRealFilterExpand = ComplexToRealFilter::New();
-  complexToRealFilterExpand->SetInput(expandFilter->GetOutput());
-  complexToRealFilterExpand->Update();
-  View3DImage(complexToRealFilterExpand->GetOutput());
+  // typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
+  // ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
+  // complexToRealFilter->SetInput(fftFilter->GetOutput() );
+  // complexToRealFilter->Update();
+  // Testing::ViewImage(complexToRealFilter->GetOutput());
+  // ComplexToRealFilter::Pointer complexToRealFilterExpand = ComplexToRealFilter::New();
+  // complexToRealFilterExpand->SetInput(expandFilter->GetOutput() );
+  // complexToRealFilterExpand->Update();
+  // Testing::ViewImage(complexToRealFilterExpand->GetOutput());
 #endif
 
   return EXIT_SUCCESS;

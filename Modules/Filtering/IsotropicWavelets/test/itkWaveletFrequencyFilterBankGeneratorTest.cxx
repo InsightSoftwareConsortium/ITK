@@ -28,47 +28,42 @@
 #include "itkInverseFFTImageFilter.h"
 #include <itkComplexToRealImageFilter.h>
 #include <itkImageRegionConstIterator.h>
+#include <itkNumberToString.h>
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
 #if ITK_VISUALIZE_TESTS != 0
-#  include "itkView3DImage.h"
+#  include "itkViewImage.h"
 #endif
 using namespace std;
 using namespace itk;
 
+template <unsigned int N>
 int
-itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
+runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
+                                           const std::string &  outputImage,
+                                           const unsigned int & inputBands)
 {
-  if (argc != 4)
-  {
-    std::cerr << "Usage: " << argv[0] << " inputImage outputImage inputBands" << std::endl;
-    return EXIT_FAILURE;
-  }
-  const string inputImage = argv[1];
-  const string outputImage = argv[2];
-  unsigned int inputBands = atoi(argv[3]);
-
-  const unsigned int                       dimension = 3;
+  const unsigned int                       dimension = N;
   typedef float                            PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-  ReaderType::Pointer                      reader = ReaderType::New();
+  typename ReaderType::Pointer             reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
+  typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
   fftFilter->SetInput(reader->GetOutput());
   fftFilter->Update();
-  typedef FFTFilterType::OutputImageType ComplexImageType;
+  typedef typename FFTFilterType::OutputImageType ComplexImageType;
 
   // Set the WaveletFunctionType and the WaveletFilterBank
   // typedef itk::HeldIsotropicWavelet<PixelType> WaveletFunctionType;
   typedef itk::VowIsotropicWavelet<PixelType>                                             WaveletFunctionType;
   typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType> WaveletFilterBankType;
-  WaveletFilterBankType::Pointer forwardFilterBank = WaveletFilterBankType::New();
-  unsigned int                   high_sub_bands = inputBands;
+  typename WaveletFilterBankType::Pointer forwardFilterBank = WaveletFilterBankType::New();
+  unsigned int                            high_sub_bands = inputBands;
   forwardFilterBank->SetHighPassSubBands(high_sub_bands);
   forwardFilterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
   forwardFilterBank->Update();
@@ -76,7 +71,8 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
 
   // Get real part of complex image for visualization
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
-  ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
+  typename ComplexToRealFilter::Pointer                              complexToRealFilter = ComplexToRealFilter::New();
+  itk::NumberToString<unsigned int>                                  n2s;
   std::cout << "Real Part of ComplexImage:" << std::endl;
   for (unsigned int i = 0; i < high_sub_bands + 1; ++i)
   {
@@ -86,12 +82,13 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
     complexToRealFilter->SetInput(forwardFilterBank->GetOutput(i));
     complexToRealFilter->Update();
 #if ITK_VISUALIZE_TESTS != 0
-    View3DImage(complexToRealFilter->GetOutput());
+    Testing::ViewImage(complexToRealFilter->GetOutput(),
+                       "RealPart of Complex. Band: " + n2s(i) + "/" + n2s(high_sub_bands));
 #endif
   }
   // Write only the last band.
   typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  typename WriterType::Pointer            writer = WriterType::New();
   writer->SetFileName(outputImage);
   writer->SetInput(complexToRealFilter->GetOutput());
   try
@@ -107,7 +104,7 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
 
   // Inverse FFT Transform
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  InverseFFTFilterType::Pointer                                   inverseFFT = InverseFFTFilterType::New();
+  typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
   std::cout << "InverseFFT:" << std::endl;
   for (unsigned int i = 0; i < high_sub_bands + 1; ++i)
   {
@@ -115,7 +112,7 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
     inverseFFT->SetInput(forwardFilterBank->GetOutput(i));
     inverseFFT->Update();
 #if ITK_VISUALIZE_TESTS != 0
-    View3DImage(inverseFFT->GetOutput());
+    Testing::ViewImage(inverseFFT->GetOutput(), "InverseFFT. Band: " + n2s(i) + "/" + n2s(high_sub_bands));
 #endif
   }
 
@@ -123,7 +120,7 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
   // Create a new filter for the inverse Filter Bank
   // TODO if you just change the InverseFlag, the output already generated by the filter will get overriden, and trigger
   // the pipeline.
-  WaveletFilterBankType::Pointer inverseFilterBank = WaveletFilterBankType::New();
+  typename WaveletFilterBankType::Pointer inverseFilterBank = WaveletFilterBankType::New();
   inverseFilterBank->SetInverseBank(true);
   inverseFilterBank->SetHighPassSubBands(high_sub_bands);
   inverseFilterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
@@ -135,10 +132,10 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
   unsigned int                                            ne = 0;
   for (unsigned int i = 0; i < high_sub_bands + 1; ++i)
   {
-    ComplexImageType::Pointer  outForward = forwardFilterBank->GetOutput(i);
-    ComplexImageType::Pointer  outInverse = inverseFilterBank->GetOutput(i);
-    ComplexConstRegionIterator itForward(outForward, outForward->GetLargestPossibleRegion());
-    ComplexConstRegionIterator itInverse(outInverse, outInverse->GetLargestPossibleRegion());
+    typename ComplexImageType::Pointer outForward = forwardFilterBank->GetOutput(i);
+    typename ComplexImageType::Pointer outInverse = inverseFilterBank->GetOutput(i);
+    ComplexConstRegionIterator         itForward(outForward, outForward->GetLargestPossibleRegion());
+    ComplexConstRegionIterator         itInverse(outInverse, outInverse->GetLargestPossibleRegion());
     itForward.GoToBegin();
     itInverse.GoToBegin();
     unsigned int ne_per_band = 0;
@@ -156,4 +153,37 @@ itkWaveletFrequencyFilterBankGeneratorTest(int argc, char ** argv)
   else
     std::cout << "Pass! no comparison errors: " << ne << '\n';
   return EXIT_SUCCESS;
+}
+
+int
+itkWaveletFrequencyFilterBankGeneratorTest(int argc, char * argv[])
+{
+  if (argc < 4 || argc > 5)
+  {
+    std::cerr << "Usage: " << argv[0] << " inputImage outputImage inputBands [dimension]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  const string       inputImage = argv[1];
+  const string       outputImage = argv[2];
+  const unsigned int inputBands = atoi(argv[3]);
+
+  unsigned int dimension = 3;
+  if (argc == 5)
+  {
+    dimension = atoi(argv[4]);
+  }
+
+  if (dimension == 2)
+  {
+    return runWaveletFrequencyFilterBankGeneratorTest<2>(inputImage, outputImage, inputBands);
+  }
+  else if (dimension == 3)
+  {
+    return runWaveletFrequencyFilterBankGeneratorTest<3>(inputImage, outputImage, inputBands);
+  }
+  else
+  {
+    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dimension << " selected." << std::endl;
+    return EXIT_FAILURE;
+  }
 }

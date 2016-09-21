@@ -17,13 +17,16 @@
  *=========================================================================*/
 #include <string>
 #include <cmath>
+#include "itkMonogenicPhaseAnalysisSoftThresholdImageFilter.h"
 #include "itkMonogenicSignalFrequencyImageFilter.h"
 
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkForwardFFTImageFilter.h"
-#include <itkComplexToRealImageFilter.h>
+#include "itkInverseFFTImageFilter.h"
+
+#include "itkVectorInverseFFTImageFilter.h"
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
 #if ITK_VISUALIZE_TESTS != 0
 #  include "itkViewImage.h"
@@ -32,7 +35,7 @@ using namespace std;
 using namespace itk;
 
 int
-itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
+itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
@@ -52,22 +55,34 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image.
-  typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
-  fftFilter->SetInput(reader->GetOutput());
-  fftFilter->Update();
-  typedef FFTFilterType::OutputImageType ComplexImageType;
+  typedef itk::ForwardFFTImageFilter<ImageType> FFTForwardFilterType;
+  FFTForwardFilterType::Pointer                 fftForwardFilter = FFTForwardFilterType::New();
+  fftForwardFilter->SetInput(reader->GetOutput());
+  fftForwardFilter->Update();
+  typedef FFTForwardFilterType::OutputImageType ComplexImageType;
 
-  typedef itk::MonogenicSignalFrequencyImageFilter<ComplexImageType> MonogenicSignalFilterType;
-  MonogenicSignalFilterType::Pointer                                 monoFilter = MonogenicSignalFilterType::New();
-  monoFilter->SetInput(fftFilter->GetOutput());
+  typedef itk::MonogenicSignalFrequencyImageFilter<ComplexImageType> MonogenicSignalFrequencyFilterType;
+  MonogenicSignalFrequencyFilterType::Pointer monoFilter = MonogenicSignalFrequencyFilterType::New();
+  monoFilter->SetInput(fftForwardFilter->GetOutput());
   monoFilter->Update();
 
-  if (monoFilter->GetOutput()->GetNumberOfComponentsPerPixel() != dimension + 1)
-  {
-    std::cout << "Wrong number of components" << std::endl;
-    return EXIT_FAILURE;
-  }
+  typedef MonogenicSignalFrequencyFilterType::OutputImageType VectorMonoOutputType;
+
+  typedef itk::VectorInverseFFTImageFilter<VectorMonoOutputType> VectorInverseFFTType;
+  typename VectorInverseFFTType::Pointer                         vecInverseFFT = VectorInverseFFTType::New();
+  vecInverseFFT->SetInput(monoFilter->GetOutput());
+  vecInverseFFT->Update();
+  // Input to the PhaseAnalysisSoftThreshold
+  typedef MonogenicPhaseAnalysisSoftThresholdImageFilter<VectorInverseFFTType::OutputImageType>
+                                            PhaseAnalysisSoftThresholdFilter;
+  PhaseAnalysisSoftThresholdFilter::Pointer phaseAnalyzer = PhaseAnalysisSoftThresholdFilter::New();
+  phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
+  phaseAnalyzer->Update();
+
+#if ITK_VISUALIZE_TESTS != 0
+  Testing::ViewImage(phaseAnalyzer->GetOutput(), "PhaseAnalyzer(Soft) output:");
+#endif
+
 
   return EXIT_SUCCESS;
 }
