@@ -77,8 +77,8 @@ int itkMinimumImageFilterTest( int, char* [] )
   inputImageB->Allocate();
 
   // Define the pixel values for each image
-  PixelType largePixelValue = 3.0;
-  PixelType smallPixelValue = 2.0;
+  PixelType largePixelValue = 3;
+  PixelType smallPixelValue = 2;
 
   // Declare Iterator types apropriated for each image
   typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
