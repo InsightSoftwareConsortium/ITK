@@ -47,7 +47,7 @@ public:
   typedef typename Superclass::InternalVectorType InternalVectorType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SquaredDifferenceErrorFunction, FunctionBase);
+  itkTypeMacro(SquaredDifferenceErrorFunction, ErrorFunctionBase);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
