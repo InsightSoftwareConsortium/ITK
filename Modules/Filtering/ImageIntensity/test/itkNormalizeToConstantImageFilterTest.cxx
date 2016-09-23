@@ -21,15 +21,19 @@
 #include "itkNormalizeToConstantImageFilter.h"
 #include "itkRandomImageSource.h"
 #include "itkFilterWatcher.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int itkNormalizeToConstantImageFilterTest( int, char* [] )
 {
-  std::cout << "itkNormalizeToConstantImageFilterTest Start" << std::endl;
+  const unsigned int Dimension = 3;
+  typedef int     IntPixelType;
+  typedef double  DoublePixelType;
 
-  typedef itk::Image< int, 3 >    IntImage;
-  typedef itk::Image< double, 3 > DoubleImage;
+  typedef itk::Image< IntPixelType, Dimension >    IntImage;
+  typedef itk::Image< DoublePixelType, Dimension > DoubleImage;
 
-  // Generate a real image
+  // Generate a random image
   typedef itk::RandomImageSource< IntImage > SourceType;
   SourceType::Pointer source = SourceType::New();
 
@@ -46,10 +50,14 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
     NormalizeType;
   NormalizeType::Pointer normalize = NormalizeType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( normalize, NormalizeToConstantImageFilter,
+    ImageToImageFilter );
+
   DoubleImage::PixelType constant = 1.0;
   normalize->SetConstant( constant );
+  TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
 
-  FilterWatcher watch(normalize, "NormalizeToConstant");
+  FilterWatcher watch( normalize, "NormalizeToConstant" );
 
   normalize->SetInput( source->GetOutput() );
   normalize->Update();
@@ -58,14 +66,16 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
   IteratorType it( normalize->GetOutput(),
                    normalize->GetOutput()->GetLargestPossibleRegion() );
 
-  float sum = 0.0;
+  DoubleImage::PixelType sum = 0.0;
   for ( it.GoToBegin(); !it.IsAtEnd(); ++it )
     {
     sum += it.Value();
     }
 
-  if ( itk::Math::abs( constant - sum ) > 1e-5 )
+  double epsilon = 1e-5;
+  if ( !itk::Math::FloatAlmostEqual( constant, sum, 10, epsilon ) )
     {
+    std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
     std::cout << "First sum (" << sum << ") does not equal constant ("
               << constant << ")" << std::endl;
     return EXIT_FAILURE;
@@ -73,6 +83,8 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
 
   constant = 134.2;
   normalize->SetConstant( constant );
+  TEST_SET_GET_VALUE( constant, normalize->GetConstant() );
+
   normalize->Update();
 
   sum = 0.0;
@@ -81,8 +93,10 @@ int itkNormalizeToConstantImageFilterTest( int, char* [] )
     sum += it.Value();
     }
 
-  if ( itk::Math::abs( constant - sum ) > 1e-3 )
+  epsilon = 1e-3;
+  if ( !itk::Math::FloatAlmostEqual( constant, sum, 10, epsilon ) )
     {
+    std::cout.precision( itk::Math::abs( std::log10( epsilon ) ) );
     std::cout << "Second sum (" << sum << ") does not equal constant ("
               << constant << ")" << std::endl;
     return EXIT_FAILURE;
