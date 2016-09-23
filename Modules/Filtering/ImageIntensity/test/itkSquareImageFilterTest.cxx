@@ -17,9 +17,10 @@
  *=========================================================================*/
 
 #include "itkSquareImageFilter.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
-
-int itkSquareImageFilterTest(int, char* [] )
+int itkSquareImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
@@ -85,30 +86,29 @@ int itkSquareImageFilterTest(int, char* [] )
   }
 
   // Declare the type for the Square filter
-  typedef itk::SquareImageFilter< InputImageType,
-                                  OutputImageType  >  FilterType;
-
+  typedef itk::SquareImageFilter< InputImageType, OutputImageType > FilterType;
 
   // Create a Filter
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, SquareImageFilter, UnaryFunctorImageFilter );
 
   // Connect the input images
   filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
+
+  // Get the Smart Pointer to the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
   OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -118,10 +118,11 @@ int itkSquareImageFilterTest(int, char* [] )
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = input;
     const double x2 = x1 * x1;
-    const OutputImageType::PixelType square  =
+    const OutputImageType::PixelType square =
             static_cast<OutputImageType::PixelType>( x2 );
-    if( std::fabs( square - output ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( square, output, 10, epsilon ) )
       {
+      std::cerr.precision( itk::Math::abs( std::log10( epsilon ) ) );
       std::cerr << "Error in itkSquareImageFilterTest " << std::endl;
       std::cerr << " square( " << input << ") = " << square << std::endl;
       std::cerr << " differs from " << output;
@@ -131,7 +132,6 @@ int itkSquareImageFilterTest(int, char* [] )
     ++ot;
     ++it;
     }
-
 
   return EXIT_SUCCESS;
 }
