@@ -18,9 +18,12 @@
 
 
 #include "itkMeanImageFunction.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
-int itkMeanImageFunctionTest(int, char* [] )
+int itkMeanImageFunctionTest( int, char* [] )
 {
+  int testStatus = EXIT_SUCCESS;
 
   const unsigned int Dimension = 3;
   typedef unsigned char   PixelType;
@@ -30,6 +33,7 @@ int itkMeanImageFunctionTest(int, char* [] )
 
   // Create and allocate the image
   ImageType::Pointer      image = ImageType::New();
+
   ImageType::SizeType     size;
   ImageType::IndexType    start;
   ImageType::RegionType   region;
@@ -52,53 +56,63 @@ int itkMeanImageFunctionTest(int, char* [] )
 
   FunctionType::Pointer function = FunctionType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( function, MeanImageFunction, ImageFunction );
+
   function->SetInputImage( image );
 
-  function->SetNeighborhoodRadius( 5 );
+  unsigned int neighborhoodRadius = 5;
+  function->SetNeighborhoodRadius( neighborhoodRadius );
+  TEST_SET_GET_VALUE( neighborhoodRadius, function->GetNeighborhoodRadius() );
 
-  ImageType::IndexType    index;
+  ImageType::IndexType index;
 
   index[0] = 25;
   index[1] = 25;
   index[2] = 25;
 
-  FunctionType::OutputType  mean;
-
+  FunctionType::RealType mean;
   mean = function->EvaluateAtIndex( index );
-  std::cout << "function->EvaluateAtIndex( index ): " << mean << std::endl;
+
+  double epsilon = 1e-7;
+  if( !itk::Math::FloatAlmostEqual( static_cast< FunctionType::RealType >(initialValue), mean, 10, epsilon ) )
+    {
+    std::cout.precision( unsigned( itk::Math::abs( std::log10( epsilon ) ) ) );
+    std::cout << "Mean value (" << mean << ") does not equal initialValue ("
+              << initialValue << ")" << std::endl;
+    testStatus = EXIT_FAILURE;
+    }
 
   // Test Evaluate
   FunctionType::PointType point;
   point[0] = 25;
   point[1] = 25;
   point[2] = 25;
-  FunctionType::OutputType mean2;
+  FunctionType::RealType mean2;
   mean2 = function->Evaluate(point);
-  std::cout << "function->Evaluate(point): " << mean2 << std::endl;
+
+  if( !itk::Math::FloatAlmostEqual( static_cast< FunctionType::RealType >(initialValue), mean2, 10, epsilon ) )
+    {
+    std::cout.precision( unsigned( itk::Math::abs( std::log10( epsilon ) ) ) );
+    std::cout << "Mean value (" << mean2 << ") does not equal initialValue ("
+              << initialValue << ")" << std::endl;
+    testStatus = EXIT_FAILURE;
+    }
 
   // Test EvaluateAtContinuousIndex
   FunctionType::ContinuousIndexType cindex;
   cindex[0] = 25;
   cindex[1] = 25;
   cindex[2] = 25;
-  FunctionType::OutputType mean3;
+  FunctionType::RealType mean3;
   mean3 = function->EvaluateAtContinuousIndex(cindex);
-  std::cout << "function->EvaluateAtContinuousIndex(cindex): " << mean3 << std::endl;
 
-  // Test GetConstReferenceMacro
-  const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
-  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
-
-
-  // since the input image is constant
-  // the should be equal to the initial value
-  if( itk::Math::abs( initialValue - mean ) > 10e-7 )
+  if( !itk::Math::FloatAlmostEqual( static_cast< FunctionType::RealType >(initialValue), mean3, 10, epsilon ) )
     {
-    std::cerr << "Error in mean computation" << std::endl;
-    return EXIT_FAILURE;
+    std::cout.precision( unsigned( itk::Math::abs( std::log10( epsilon ) ) ) );
+    std::cout << "Mean value (" << mean3 << ") does not equal initialValue ("
+              << initialValue << ")" << std::endl;
+    testStatus = EXIT_FAILURE;
     }
 
-  std::cout << "Test PASSED ! " << std::endl;
-  return EXIT_SUCCESS;
-
+  return testStatus;
 }
