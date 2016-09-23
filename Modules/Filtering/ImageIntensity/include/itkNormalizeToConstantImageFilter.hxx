@@ -29,11 +29,10 @@ namespace itk {
 
 template < typename TInputImage, typename TOutputImage >
 NormalizeToConstantImageFilter< TInputImage, TOutputImage >
-::NormalizeToConstantImageFilter()
+::NormalizeToConstantImageFilter() :
+  m_Constant( NumericTraits<RealType>::OneValue() )
 {
-  m_Constant = NumericTraits<RealType>::OneValue();
 }
-
 
 template < typename TInputImage, typename TOutputImage >
 void
