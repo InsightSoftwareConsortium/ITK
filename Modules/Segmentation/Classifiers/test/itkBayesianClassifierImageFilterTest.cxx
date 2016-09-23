@@ -260,7 +260,7 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
     priorsImage->CopyInformation( priorsInputImage );
     priorsImage->SetRegions( inputImage->GetLargestPossibleRegion() );
     priorsImage->SetNumberOfComponentsPerPixel(5);
-    priorsImage->Allocate();
+    priorsImage->Allocate(true);
 
     testStatus =
       TestBayesianClassifierImageFilterWithPriors<
