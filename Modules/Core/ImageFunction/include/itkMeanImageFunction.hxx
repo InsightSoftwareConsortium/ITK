@@ -23,31 +23,14 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TCoordRep >
 MeanImageFunction< TInputImage, TCoordRep >
-::MeanImageFunction()
+::MeanImageFunction() :
+  m_NeighborhoodRadius( 1 )
 {
-  m_NeighborhoodRadius = 1;
 }
 
-/**
- *
- */
-template< typename TInputImage, typename TCoordRep >
-void
-MeanImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
-}
-
-/**
- *
- */
 template< typename TInputImage, typename TCoordRep >
 typename MeanImageFunction< TInputImage, TCoordRep >
 ::RealType
@@ -86,7 +69,17 @@ MeanImageFunction< TInputImage, TCoordRep >
     }
   sum /= double( it.Size() );
 
-  return ( sum );
+  return sum;
+}
+
+template< typename TInputImage, typename TCoordRep >
+void
+MeanImageFunction< TInputImage, TCoordRep >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
 }
 } // end namespace itk
 
