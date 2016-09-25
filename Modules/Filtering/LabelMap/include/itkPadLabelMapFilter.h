@@ -62,7 +62,7 @@ public:
   typedef SmartPointer< const Self >                ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PadLabelMapFilter, ChangeRegionImageFilter);
+  itkTypeMacro(PadLabelMapFilter, ChangeRegionLabelMapFilter);
 
   /** Standard New method. */
   itkNewMacro(Self);
