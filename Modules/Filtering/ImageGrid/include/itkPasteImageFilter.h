@@ -147,7 +147,7 @@ protected:
    * Therefore, this implementation provides a ThreadedGenerateData()
    * routine which is called for each processing thread. The output
    * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
+   * calling ThreadedGenerateData(). ThreadedGenerateData can only
    * write to the portion of the output image specified by the
    * parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
