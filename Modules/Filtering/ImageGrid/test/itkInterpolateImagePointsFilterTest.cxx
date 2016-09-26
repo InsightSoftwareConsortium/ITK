@@ -236,9 +236,7 @@ int test3DInterpolateImagePointsFilter()
       resamp->SetInterpolationCoordinate(coord[i],i);
       }
 
-
   resamp->Update();
-  resamp->Print(std::cout);
 
   // Get results and compare for accuracy
   ImageTypePtr3D outputImage;
