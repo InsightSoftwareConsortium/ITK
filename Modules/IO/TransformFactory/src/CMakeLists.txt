@@ -4,6 +4,6 @@ itkTransformFactoryBaseRegisterFloatParameters.cxx
 itkTransformFactoryBaseRegisterDoubleParameters.cxx
 )
 
-add_library(ITKTransformFactory ${ITK_LIBRARY_BUILD_TYPE} ${ITKTransformFactory_SRC})
+add_library(ITKTransformFactory ${ITKTransformFactory_SRC})
 itk_module_link_dependencies()
 itk_module_target(ITKTransformFactory)
