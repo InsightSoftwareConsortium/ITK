@@ -148,6 +148,21 @@ itk_add_test(NAME itkMetaImageStreamingWriterIOTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha
     itkMetaImageStreamingWriterIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/MetaImageStreamingWriterIOTest.mha)
+
+# The data contained in ${ITK_DATA_ROOT}/Input/DicomSeries/
+# is required by mri3D.mhd:
+# ElementDataFile = DicomSeries/Image%04d.dcm 75 77 1
+# The data file and its associated files are in different
+# directories, respectively ${ITK_DATA_ROOT}/Input/ and
+# ${ITK_DATA_ROOT}/Input/DicomSeries/
+# Since DATA{} does not allow to specify an associated
+# file that is in a different directory, we call ExternalData_Expand_Arguments
+# manually to download the required files.
+ExternalData_Expand_Arguments(ITKData
+                              ExpandedData
+                              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
+                             )
+
 itk_add_test(NAME itkMetaImageStreamingWriterIOTest2
       COMMAND ITKIOMetaTestDriver
       --compare DATA{${ITK_DATA_ROOT}/Input/mri3D.mhd}
