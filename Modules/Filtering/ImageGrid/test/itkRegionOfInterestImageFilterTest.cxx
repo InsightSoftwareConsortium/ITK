@@ -19,19 +19,19 @@
 #include <iostream>
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
-int itkRegionOfInterestImageFilterTest(int, char* [] )
+int itkRegionOfInterestImageFilterTest( int, char* [] )
 {
 
-  const unsigned int               Dimension = 3;
-  typedef itk::Index<Dimension>    PixelType;
+  const unsigned int              Dimension = 3;
+  typedef itk::Index< Dimension > PixelType;
 
-  typedef itk::Image< PixelType,
-                      Dimension >   ImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
   typedef itk::RegionOfInterestImageFilter<
                                       ImageType,
-                                      ImageType  > FilterType;
+                                      ImageType > FilterType;
 
 
   typedef ImageType::RegionType    RegionType;
@@ -39,11 +39,11 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   typedef ImageType::IndexType     IndexType;
   typedef ImageType::DirectionType DirectionType;
 
-  typedef itk::ImageRegionIterator<
-                           ImageType > IteratorType;
+  typedef itk::ImageRegionIterator< ImageType > IteratorType;
 
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, RegionOfInterestImageFilter, ImageToImageFilter );
 
   ImageType::Pointer image = ImageType::New();
 
@@ -70,7 +70,7 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   directions[0][1] = 1.0;
   directions[1][1] = 0.0;
   directions[2][1] = 0.0;
-  image->SetDirection (directions);
+  image->SetDirection( directions );
 
   // Fill the image pixels with their own index.
   IteratorType intr( image, region );
@@ -99,12 +99,11 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
   regionOfInterest.SetSize(  roiSize  );
 
   itk::SimpleFilterWatcher watcher(filter);
-  filter->SetRegionOfInterest( regionOfInterest );
 
+  filter->SetRegionOfInterest( regionOfInterest );
+  TEST_SET_GET_VALUE( regionOfInterest, filter->GetRegionOfInterest() );
 
   filter->Update();
-  filter->GetOutput()->Print(std::cout);
-
 
   IteratorType ot( filter->GetOutput(),
                    filter->GetOutput()->GetLargestPossibleRegion() );
@@ -119,9 +118,9 @@ int itkRegionOfInterestImageFilterTest(int, char* [] )
     {
     IndexType inIndex  = it.Get();
     IndexType outIndex = ot.Get();
-    if( inIndex[0] != outIndex[0]  ||
-        inIndex[1] != outIndex[1]  ||
-        inIndex[2] != outIndex[2]    )
+    if( inIndex[0] != outIndex[0] ||
+        inIndex[1] != outIndex[1] ||
+        inIndex[2] != outIndex[2] )
       {
       std::cerr << "Test failed at pixel " << inIndex << std::endl;
       std::cerr << "pixel value is       " << outIndex << std::endl;
