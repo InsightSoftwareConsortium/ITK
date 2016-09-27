@@ -1,8 +1,5 @@
 set(ITKIOTransformBase_SRC
 itkCompositeTransformIOHelper.cxx
-itkTransformFactoryBase.cxx
-itkTransformFactoryBaseRegisterFloatParameters.cxx
-itkTransformFactoryBaseRegisterDoubleParameters.cxx
 itkTransformFileReader.cxx
 itkTransformFileWriterSpecializations.cxx
 itkTransformIOBase.cxx
