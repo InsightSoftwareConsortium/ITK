@@ -25,9 +25,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::PasteImageFilter()
@@ -78,32 +76,15 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
   return destinationImage;
 }
 
-/**
- *
- */
-template< typename TInputImage, typename TSourceImage, typename TOutputImage >
-void
-PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "DestinationIndex: " << m_DestinationIndex << std::endl;
-  os << indent << "SourceRegion: " << m_SourceRegion << std::endl;
-}
-
-/**
- *
- */
 template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // get the pointers for the inputs and output
+  // Get the pointers for the inputs and output
   InputImagePointer  destPtr = const_cast< InputImageType * >( this->GetInput() );
   SourceImagePointer sourcePtr = const_cast< SourceImageType * >( this->GetSourceImage() );
   OutputImagePointer outputPtr = this->GetOutput();
@@ -113,39 +94,25 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     return;
     }
 
-  // second input must include the SourceRegion
+  // Second input must include the SourceRegion
   sourcePtr->SetRequestedRegion(m_SourceRegion);
 
-  // first input must match the output requested region
+  // First input must match the output requested region
   destPtr->SetRequestedRegion( outputPtr->GetRequestedRegion() );
 }
 
-/**
-   * PasteImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
-   * routine which is called for each processing thread. The output
-   * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
-   * write to the portion of the output image specified by the
-   * parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
 template< typename TInputImage, typename TSourceImage, typename TOutputImage >
 void
 PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  itkDebugMacro(<< "Actually executing");
-
   // Get the input and output pointers
-  const InputImageType  *destPtr = this->GetInput();
+  const InputImageType  *destPtr   = this->GetInput();
   const SourceImageType *sourcePtr = this->GetSourceImage();
   OutputImageType       *outputPtr = this->GetOutput();
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   ProgressReporter progress( this, threadId, 1 );
 
   // What is the region on the destination image would be overwritten by the
@@ -161,13 +128,13 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 
   if ( sourceRegionInDestinationImage.Crop(outputRegionForThread) )
     {
-    // paste region is inside this thread
+    // Paste region is inside this thread
     useSource = true;
     sourceRegionInDestinationImageCropped = sourceRegionInDestinationImage;
     }
   else
     {
-    // paste region is outside this thread
+    // Paste region is outside this thread
     useSource = false;
     }
 
@@ -194,16 +161,16 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
   SourceImageRegionType sourceRegionInSourceImageCropped;
   if ( useSource )
     {
-    // what is the proposed shift from destination to source?
+    // What is the proposed shift from destination to source?
     Offset< InputImageDimension > originalOffsetFromDestinationToSource;
     originalOffsetFromDestinationToSource = m_SourceRegion.GetIndex() - m_DestinationIndex;
 
-    // transform the cropped index back into the source image
+    // Transform the cropped index back into the source image
     InputImageIndexType sourceIndexInSourceImageCropped;
     sourceIndexInSourceImageCropped = sourceRegionInDestinationImageCropped.GetIndex()
                                       + originalOffsetFromDestinationToSource;
 
-    // set the values in the region
+    // Set the values in the region
     sourceRegionInSourceImageCropped.SetIndex(sourceIndexInSourceImageCropped);
     sourceRegionInSourceImageCropped.SetSize( sourceRegionInDestinationImageCropped.GetSize() );
     }
@@ -211,19 +178,19 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 
   // There are three cases that we need to consider:
   //
-  // 1. source region does not impact this thread, so copy data from
+  // 1. Source region does not impact this thread, so copy data from
   //    from the destination image to the output
   //
-  // 2. source region completely overlaps the output region for this
+  // 2. Source region completely overlaps the output region for this
   //    thread, so copy data from the source image to the output
   //
-  // 3. source region partially overlaps the output region for this
+  // 3. Source region partially overlaps the output region for this
   //    thread, so copy data as needed from both the source and
   //    destination.
   //
   if ( !useSource && !( this->GetInPlace() && this->CanRunInPlace() ) )
     {
-    // paste region is outside this thread, so just copy the destination
+    // Paste region is outside this thread, so just copy the destination
     // input to the output
     ImageAlgorithm::Copy( destPtr, outputPtr, outputRegionForThread, outputRegionForThread );
 
@@ -232,7 +199,7 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     }
   else if ( useOnlySource )
     {
-    // paste region completely overlaps the output region
+    // Paste region completely overlaps the output region
     // for this thread, so copy data from the second input
     // to the output
     ImageAlgorithm::Copy(  sourcePtr, outputPtr, sourceRegionInSourceImageCropped, outputRegionForThread);
@@ -241,12 +208,12 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
     }
   else
     {
-    // paste region partially overlaps the output region for the
-    // thread, so we need copy data from both inputs as necessary. the
-    // following code could be optimized.  this case could be
+    // Paste region partially overlaps the output region for the
+    // thread, so we need copy data from both inputs as necessary. The
+    // following code could be optimized. This case could be
     // decomposed further such the output is broken into a set of
     // regions where each region would get data from either the
-    // destination or the source images (but not both).  but for the
+    // destination or the source images (but not both). But for the
     // sake of simplicity and running under the assumption that the
     // source image is smaller than the destination image, we'll just
     // copy the destination to the output then overwrite the
@@ -263,6 +230,17 @@ PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
 
      progress.CompletedPixel();
     }
+}
+
+template< typename TInputImage, typename TSourceImage, typename TOutputImage >
+void
+PasteImageFilter< TInputImage, TSourceImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "DestinationIndex: " << m_DestinationIndex << std::endl;
+  os << indent << "SourceRegion: " << m_SourceRegion << std::endl;
 }
 } // end namespace itk
 
