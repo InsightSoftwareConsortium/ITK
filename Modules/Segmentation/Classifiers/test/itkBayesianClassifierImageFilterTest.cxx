@@ -82,16 +82,7 @@ int TestBayesianClassifierImageFilterWithNoPriors( typename TInputImage::Pointer
 
   writer->SetInput( rescaler->GetOutput() );
 
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception caught: " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   if (!monitor->VerifyAllInputCanNotStream())
     {
@@ -159,16 +150,7 @@ int TestBayesianClassifierImageFilterWithPriors( typename TInputImage::Pointer i
 
   writer->SetInput( rescaler->GetOutput() );
 
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception caught: " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   if (!monitor->VerifyAllInputCanNotStream())
     {
@@ -209,16 +191,7 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  try
-    {
-    reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception caught: " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   ReaderType::OutputImageType::Pointer inputImage = reader->GetOutput();
 
@@ -236,6 +209,11 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
 
   typedef itk::BayesianClassifierImageFilter<
     InitialLabelImageType, LabelType, PosteriorType, PriorType > BayesianClassifierFilterType;
+
+  BayesianClassifierFilterType::Pointer bayesianClassifier = BayesianClassifierFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( bayesianClassifier,
+    BayesianClassifierImageFilter, ImageToImageFilter );
 
   bool testStatus = EXIT_SUCCESS;
 
@@ -282,10 +260,13 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
   typedef itk::BayesianClassifierImageFilter<
     TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType > ClassifierFilterType;
   ClassifierFilterType::Pointer filter = ClassifierFilterType::New();
+
   if( filter.IsNull() )
     {
     return EXIT_FAILURE;
     }
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
   }
 
   {
@@ -303,6 +284,8 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
     {
     return EXIT_FAILURE;
     }
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
   }
 
   {
@@ -320,6 +303,8 @@ int itkBayesianClassifierImageFilterTest( int argc, char* argv[] )
     {
     return EXIT_FAILURE;
     }
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BayesianClassifierImageFilter, ImageToImageFilter );
   }
 
   std::cout << "Test passed." << std::endl;
