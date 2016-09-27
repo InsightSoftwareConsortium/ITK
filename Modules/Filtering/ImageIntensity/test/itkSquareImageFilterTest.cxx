@@ -122,7 +122,7 @@ int itkSquareImageFilterTest( int, char* [] )
             static_cast<OutputImageType::PixelType>( x2 );
     if( !itk::Math::FloatAlmostEqual( square, output, 10, epsilon ) )
       {
-      std::cerr.precision( itk::Math::abs( std::log10( epsilon ) ) );
+      std::cerr.precision( unsigned( itk::Math::abs( std::log10( epsilon ) ) ) );
       std::cerr << "Error in itkSquareImageFilterTest " << std::endl;
       std::cerr << " square( " << input << ") = " << square << std::endl;
       std::cerr << " differs from " << output;
