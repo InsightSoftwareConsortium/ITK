@@ -26,21 +26,10 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 JoinSeriesImageFilter< TInputImage, TOutputImage >
-::JoinSeriesImageFilter()
+::JoinSeriesImageFilter() :
+  m_Spacing( 1.0 ),
+  m_Origin( 0.0 )
 {
-  m_Spacing = 1.0;
-  m_Origin = 0.0;
-}
-
-template< typename TInputImage, typename TOutputImage >
-void
-JoinSeriesImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "Spacing: " << m_Spacing << std::endl;
-  os << indent << "Origin: " << m_Origin << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -66,10 +55,10 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     {
     image = this->GetInput(idx);
 
-    // if the input was not set it could still be null
+    // If the input was not set it could still be null
     if( image.IsNull() )
       {
-      // an invalid requested region exception will be generated later.
+      // An invalid requested region exception will be generated later.
       continue;
       }
 
@@ -80,25 +69,20 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
                          << "but input " << idx << " has "
                          << image->GetNumberOfComponentsPerPixel() << "!" );
       }
-
     }
-
 }
 
-/**
- * \sa UnaryFunctorImageFilter::GenerateOutputInformation()
- */
 template< typename TInputImage, typename TOutputImage >
 void
 JoinSeriesImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
-  // do not call the superclass' implementation of this method since
+  // Do not call the superclass' implementation of this method since
   // this filter allows the input the output to be of different dimensions
 
-  // get pointers to the input and output
+  // Get pointers to the input and output
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
-  typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
+  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
 
   if ( !outputPtr || !inputPtr )
     {
@@ -137,7 +121,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     typename OutputImageType::SpacingType outputSpacing;
     typename OutputImageType::PointType outputOrigin;
 
-    // copy the input to the output and fill the rest of the
+    // Copy the input to the output and fill the rest of the
     // output with zeros.
     for ( ii = 0; ii < InputImageDimension; ++ii )
       {
@@ -150,11 +134,11 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
       outputOrigin[ii] = 0.0;
       }
 
-    // for the new dimension
+    // For the new dimension
     outputSpacing[InputImageDimension] = this->GetSpacing();
     outputOrigin[InputImageDimension] = this->GetOrigin();
 
-    // set the spacing and origin
+    // Set the spacing and origin
     outputPtr->SetSpacing(outputSpacing);
     outputPtr->SetOrigin(outputOrigin);
     //
@@ -184,7 +168,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    // pointer could not be cast back down
+    // Pointer could not be cast back down
     itkExceptionMacro( << "itk::JoinSeriesImageFilter::GenerateOutputInformation "
                        << "cannot cast input to "
                        << typeid( ImageBase< InputImageDimension > * ).name() );
@@ -235,7 +219,7 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
       }
     else
       {
-      // to tell the pipeline that updating this input is unncesseary
+      // Tell the pipeline that updating this input is unncesseary
       inputRegion = inputPtr->GetBufferedRegion();
       }
     inputPtr->SetRequestedRegion(inputRegion);
@@ -270,6 +254,17 @@ JoinSeriesImageFilter< TInputImage, TOutputImage >
     ImageAlgorithm::Copy(this->GetInput(idx), output, inputRegion,  outputRegion);
     progress.CompletedPixel();
     }
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+JoinSeriesImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Origin: " << m_Origin << std::endl;
 }
 } // end namespace itk
 
