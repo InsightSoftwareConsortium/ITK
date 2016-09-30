@@ -10,7 +10,6 @@ itk_module(
     ITKCommon
     ITKImageGradient
     ITKImageSources
-    SplitComponents
   TEST_DEPENDS
     ITKTestKernel
     ITKDisplacementField
