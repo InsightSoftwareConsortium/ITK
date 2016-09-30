@@ -28,10 +28,9 @@ namespace itk
 
 /** \class TransformToStrainFilter
  *
- * \brief Generate a strain field image from a displacement field image.
+ * \brief Generate a strain field image from a transform.
  *
- * \tparam TTransform The first template parameter is the input transform type.  It should be an image
- * of displacement vectors.
+ * \tparam TTransform The first template parameter is the input transform type.
  *
  * \tparam TOperatorValueType The second template parameter defines the value type used in the derivative
  * operator (defaults to float).
