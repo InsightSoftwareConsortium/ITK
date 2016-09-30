@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformToStrainFilter_h
-#define __itkTransformToStrainFilter_h
+#ifndef itkTransformToStrainFilter_h
+#define itkTransformToStrainFilter_h
 
 #include "itkDataObjectDecorator.h"
 #include "itkCovariantVector.h"

@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkStrainImageFilter_h
-#define __itkStrainImageFilter_h
+#ifndef itkStrainImageFilter_h
+#define itkStrainImageFilter_h
 
 #include "itkCovariantVector.h"
 #include "itkImageToImageFilter.h"
@@ -143,9 +143,7 @@ protected:
   StrainFormType m_StrainForm;
 
 private:
-  StrainImageFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
 };
 
 } // end namespace itk

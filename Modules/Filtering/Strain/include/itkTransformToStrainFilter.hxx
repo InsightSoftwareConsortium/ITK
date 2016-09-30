@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __itkTransformToStrainFilter_hxx
-#define __itkTransformToStrainFilter_hxx
+#ifndef itkTransformToStrainFilter_hxx
+#define itkTransformToStrainFilter_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTransformToStrainFilter.h"
