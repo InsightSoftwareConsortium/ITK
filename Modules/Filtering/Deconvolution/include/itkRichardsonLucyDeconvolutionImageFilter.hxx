@@ -72,6 +72,8 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
   m_DivideFilter->SetInput1( m_PaddedInput );
   m_DivideFilter->SetInput2( m_IFFTFilter1->GetOutput() );
   m_DivideFilter->InPlaceOn();
+  m_DivideFilter->SetCoordinateTolerance( NumericTraits< double >::max() );
+  m_DivideFilter->SetDirectionTolerance( NumericTraits< double >::max() );
   progress->RegisterInternalFilter( m_DivideFilter,
                                     0.1f * iterationProgressWeight );
 
@@ -107,6 +109,8 @@ RichardsonLucyDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage,
   m_MultiplyFilter->SetInput2( m_IFFTFilter2->GetOutput() );
   m_MultiplyFilter->InPlaceOn();
   m_MultiplyFilter->ReleaseDataFlagOn();
+  m_MultiplyFilter->SetCoordinateTolerance( NumericTraits< double >::max() );
+  m_MultiplyFilter->SetDirectionTolerance( NumericTraits< double >::max() );
   progress->RegisterInternalFilter( m_MultiplyFilter,
                                     0.06f * iterationProgressWeight );
 
