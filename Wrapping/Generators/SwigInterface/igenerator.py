@@ -602,11 +602,13 @@ class SwigInputGenerator(object):
         # In this case, save the name of the argument in the applyFileNames list
         # for further usage.
         for arg in method.arguments:
-            # arg.decl_type is an instance, there is no clean API in pygccxml to get the
-            # name of the type as a string. This functionnality needs to be added
-            # to pygccxml. Meanwhile, we can use the __str__() method.
-            if arg.decl_type.__str__() == "std::string &":
-                self.applyFileNames.append(arg.name)
+            dtype = arg.decl_type
+            if pygccxml.declarations.is_reference(dtype) and \
+                pygccxml.declarations.is_const(
+                    pygccxml.declarations.remove_reference(dtype)) is False and \
+                    pygccxml.declarations.is_std_string(dtype):
+                    self.applyFileNames.append(arg.name)
+
 
     def generate_headerfile(self, idxFile, wrappersNamespace):
         # and begin to write the output
@@ -706,7 +708,7 @@ class SwigInputGenerator(object):
     def generate_applyfile(self):
         # When a std::string is passed by reference, we need to add the %apply
         # line with the argument name, and the INOUT command.
-        # Use a set() to have remove duplicates, this will work event if we got
+        # Use a set() to remove duplicates, this will work event if we got
         # multiple functions with the same argument name in the same .i file
         # (swig should take care of it).
         applyFileNames = set(self.applyFileNames)
