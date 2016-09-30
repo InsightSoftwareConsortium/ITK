@@ -26,24 +26,44 @@ int
 itkTransformToStrainFilterTest(int argc, char * argv[])
 {
   /** Check command line arguments. */
-  if (argc < 5)
+  if (argc < 6)
   {
     std::cerr << "Usage: ";
-    std::cerr
-      << argv[0]
-      << "<transformName> <strainFieldFileName> <displacementField> <displacementFieldStrain> [bSplineParametersFile]"
-      << std::endl;
+    std::cerr << argv[0]
+              << "<strainForm> <transformName> <strainFieldFileName> <displacementField> <displacementFieldStrain> "
+                 "[bSplineParametersFile]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
-  const std::string transformName = argv[1];
-  const std::string strainFieldFileName = argv[2];
-  const std::string displacementFieldFileName = argv[3];
-  const std::string displacementFieldStrainFileName = argv[4];
-  std::string       bSplineParametersFile;
-  if (argc > 5)
+
+  int strainForm = 0;
+  if (!strcmp(argv[1], "INFINITESIMAL"))
   {
-    bSplineParametersFile = argv[5];
+    strainForm = 0;
+  }
+  else if (!strcmp(argv[1], "GREENLAGRANGIAN"))
+  {
+    strainForm = 1;
+  }
+  else if (!strcmp(argv[1], "EULERIANALMANSI"))
+  {
+    strainForm = 2;
+  }
+  else
+  {
+    std::cerr << "Unknown strain form: " << argv[1] << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  const std::string transformName = argv[2];
+  const std::string strainFieldFileName = argv[3];
+  const std::string displacementFieldFileName = argv[4];
+  const std::string displacementFieldStrainFileName = argv[5];
+  std::string       bSplineParametersFile;
+  if (argc > 6)
+  {
+    bSplineParametersFile = argv[6];
   }
 
   /** Typedefs. */
@@ -59,6 +79,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
 
   typedef itk::TransformToStrainFilter<TransformType, ScalarPixelType, ScalarPixelType> TransformToStrainFilterType;
   TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
+  transformToStrainFilter->SetStrainForm(static_cast<TransformToStrainFilterType::StrainFormType>(strainForm));
 
   // Create output information.
   typedef TransformToStrainFilterType::SizeType SizeType;
@@ -202,6 +223,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   typedef itk::StrainImageFilter<DisplacementFieldType, CoordRepresentationType> StrainImageFilterType;
   StrainImageFilterType::Pointer strainImageFilter = StrainImageFilterType::New();
   strainImageFilter->SetInput(transformToDisplacement->GetOutput());
+  strainImageFilter->SetStrainForm(static_cast<StrainImageFilterType::StrainFormType>(strainForm));
   writer->SetInput(strainImageFilter->GetOutput());
   writer->SetFileName(displacementFieldStrainFileName);
 

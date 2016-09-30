@@ -82,15 +82,31 @@ itk_add_test(
 #DATA{${ITK_DATA_ROOT}/Input/parametersBSpline.txt})
 
 itk_add_test(
-  NAME itkTransformToStrainFilterTest
+  NAME itkTransformToStrainFilterInfinitesimalTest
   COMMAND
     StrainTestDriver
     --compare
-    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffine.mha
-    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffineToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffineToDisplacementFieldStrain.mha
     itkTransformToStrainFilterTest
+    "INFINITESIMAL"
     "Affine"
-    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffine.mha
-    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffineToDisplacementField.mha
-    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestAffineToDisplacementFieldStrain.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffineToDisplacementField.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestInfinitesimalAffineToDisplacementFieldStrain.mha
+)
+
+itk_add_test(
+  NAME itkTransformToStrainFilterGreenLagrangianTest
+  COMMAND
+    StrainTestDriver
+    --compare
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffineToDisplacementFieldStrain.mha
+    itkTransformToStrainFilterTest
+    "GREENLAGRANGIAN"
+    "Affine"
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffine.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffineToDisplacementField.mha
+    ${ITK_TEST_OUTPUT_DIR}/itkTransformToStrainFilterTestGreenLagrangianAffineToDisplacementFieldStrain.mha
 )

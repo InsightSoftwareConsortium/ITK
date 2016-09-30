@@ -109,18 +109,14 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGe
       const GradientOutputPixelType       gradientPixel = gradientIt.Get();
       for (unsigned int j = 0; j < i; ++j)
       {
-        std::cout << "gradient: " << gradientPixel[j] << std::endl;
         outputPixel(i, j) += gradientPixel[j] / static_cast<TOutputValueType>(2);
       }
       // j == i
-      std::cout << "gradient: " << gradientPixel[i] << std::endl;
       outputPixel(i, i) += gradientPixel[i];
       for (unsigned int j = i + 1; j < ImageDimension; ++j)
       {
-        std::cout << "gradient: " << gradientPixel[j] << std::endl;
         outputPixel(i, j) += gradientPixel[j] / static_cast<TOutputValueType>(2);
       }
-      std::cout << "output: " << outputPixel << std::endl;
       outputIt.Set(outputPixel);
     }
   }

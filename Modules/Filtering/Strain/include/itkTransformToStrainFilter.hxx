@@ -70,93 +70,87 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
     }
     outputIt.Set(outputPixel);
   }
-  // for( unsigned int i = 0; i < ImageDimension; ++i )
-  //{
-  // itk::ImageRegionConstIterator< GradientOutputImageType >
-  // gradientIt( reinterpret_cast< GradientOutputImageType* >(
-  // dynamic_cast< GradientOutputImageType* >(
-  // this->ProcessObject::GetOutput( i + 1 ) ) )
-  //, region );
-  // for( outputIt.GoToBegin(), gradientIt.GoToBegin();
-  //! gradientIt.IsAtEnd();
-  //++outputIt, ++gradientIt )
-  //{
-  // outputPixel = outputIt.Get();
-  // gradientPixel = gradientIt.Get();
-  // for( j = 0; j < i; ++j )
-  //{
-  // outputPixel( i, j ) += gradientPixel[j] / static_cast< TOutputValue >( 2 );
-  //}
-  //// j == i
-  // outputPixel( i, i ) += gradientPixel[i];
-  // for( j = i + 1; j < ImageDimension; ++j )
-  //{
-  // outputPixel( i, j ) += gradientPixel[j] / static_cast< TOutputValue >( 2 );
-  // }
-  // outputIt.Set( outputPixel );
-  // }
-  //}
-  // switch( m_StrainForm )
-  //{
-  // case INFINITESIMAL:
-  // break;
-  //// e_ij += 1/2 du_m/du_i du_m/du_j
-  // case GREENLAGRANGIAN:
-  // for( unsigned int i = 0; i < ImageDimension; ++i )
-  //{
-  // itk::ImageRegionConstIterator< GradientOutputImageType >
-  // gradientIt( reinterpret_cast< GradientOutputImageType* >(
-  // dynamic_cast< GradientOutputImageType* >(
-  // this->ProcessObject::GetOutput( i + 1 ) ) )
-  //, region );
-  // for( outputIt.GoToBegin(), gradientIt.GoToBegin();
-  //! gradientIt.IsAtEnd();
-  //++outputIt, ++gradientIt )
-  //{
-  // outputPixel = outputIt.Get();
-  // gradientPixel = gradientIt.Get();
-  // for( j = 0; j < ImageDimension; ++j )
-  //{
-  // for( k = 0; k <= j; ++k )
-  //{
-  //// @todo use .Value() here?
-  // outputPixel( j, k ) += gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
-  // }
-  //}
-  // outputIt.Set( outputPixel );
-  // }
-  //}
-  // break;
-  //// e_ij -= 1/2 du_m/du_i du_m/du_j
-  // case EULERIANALMANSI:
-  // for( unsigned int i = 0; i < ImageDimension; ++i )
-  //{
-  // itk::ImageRegionConstIterator< GradientOutputImageType >
-  // gradientIt( reinterpret_cast< GradientOutputImageType* >(
-  // dynamic_cast< GradientOutputImageType* >(
-  // this->ProcessObject::GetOutput( i + 1 ) ) )
-  //, region );
-  // for( outputIt.GoToBegin(), gradientIt.GoToBegin();
-  //! gradientIt.IsAtEnd();
-  //++outputIt, ++gradientIt )
-  //{
-  // outputPixel = outputIt.Get();
-  // gradientPixel = gradientIt.Get();
-  // for( j = 0; j < ImageDimension; ++j )
-  //{
-  // for( k = 0; k <= j; ++k )
-  //{
-  //// @todo use .Value() here?
-  // outputPixel( j, k ) -= gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
-  // }
-  //}
-  // outputIt.Set( outputPixel );
-  // }
-  //}
-  // break;
-  // default:
-  // itkExceptionMacro( << "Unknown strain form." );
-  // }
+  switch (m_StrainForm)
+  {
+    case INFINITESIMAL:
+      break;
+    // e_ij += 1/2 du_m/du_i du_m/du_j
+    case GREENLAGRANGIAN:
+      for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+      {
+        const typename OutputImageType::IndexType index = outputIt.GetIndex();
+        typename OutputImageType::PointType       point;
+        output->TransformIndexToPhysicalPoint(index, point);
+        typename TransformType::JacobianType jacobian;
+        input->ComputeJacobianWithRespectToPosition(point, jacobian);
+        typename OutputImageType::PixelType outputPixel = outputIt.Get();
+        for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+        {
+          for (unsigned int jj = 0; jj < ImageDimension; ++jj)
+          {
+            for (unsigned int kk = 0; kk <= jj; ++kk)
+            {
+              // outputPixel( jj, kk ) += jacobian( ii, jj ) * jacobian( ii, kk ) / static_cast< TOutputValue >( 2 );
+            }
+          }
+        }
+        outputIt.Set(outputPixel);
+      }
+      // for( unsigned int i = 0; i < ImageDimension; ++i )
+      //{
+      // itk::ImageRegionConstIterator< GradientOutputImageType >
+      // gradientIt( reinterpret_cast< GradientOutputImageType* >(
+      // dynamic_cast< GradientOutputImageType* >(
+      // this->ProcessObject::GetOutput( i + 1 ) ) )
+      //, region );
+      // for( outputIt.GoToBegin(), gradientIt.GoToBegin();
+      //! gradientIt.IsAtEnd();
+      //++outputIt, ++gradientIt )
+      //{
+      // outputPixel = outputIt.Get();
+      // gradientPixel = gradientIt.Get();
+      // for( j = 0; j < ImageDimension; ++j )
+      //{
+      // for( k = 0; k <= j; ++k )
+      //{
+      //// @todo use .Value() here?
+      // outputPixel( j, k ) += gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
+      // }
+      //}
+      // outputIt.Set( outputPixel );
+      // }
+      //}
+      break;
+      // e_ij -= 1/2 du_m/du_i du_m/du_j
+      // case EULERIANALMANSI:
+      // for( unsigned int i = 0; i < ImageDimension; ++i )
+      //{
+      // itk::ImageRegionConstIterator< GradientOutputImageType >
+      // gradientIt( reinterpret_cast< GradientOutputImageType* >(
+      // dynamic_cast< GradientOutputImageType* >(
+      // this->ProcessObject::GetOutput( i + 1 ) ) )
+      //, region );
+      // for( outputIt.GoToBegin(), gradientIt.GoToBegin();
+      //! gradientIt.IsAtEnd();
+      //++outputIt, ++gradientIt )
+      //{
+      // outputPixel = outputIt.Get();
+      // gradientPixel = gradientIt.Get();
+      // for( j = 0; j < ImageDimension; ++j )
+      //{
+      // for( k = 0; k <= j; ++k )
+      //{
+      //// @todo use .Value() here?
+      // outputPixel( j, k ) -= gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
+      // }
+      //}
+      // outputIt.Set( outputPixel );
+      // }
+      //}
+      // break;
+    default:
+      itkExceptionMacro(<< "Unknown strain form.");
+  }
 }
 
 } // end namespace itk
