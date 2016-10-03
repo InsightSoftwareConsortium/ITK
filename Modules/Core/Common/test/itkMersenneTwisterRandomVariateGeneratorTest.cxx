@@ -102,6 +102,16 @@ int itkMersenneTwisterRandomVariateGeneratorTest( int, char* [] )
       return EXIT_FAILURE;
     }
 
-  return EXIT_SUCCESS;
+  twister->Initialize();
+  twister->SetSeed( 1234 );
+  const Twister::IntegerType withSetSeed = twister->GetIntegerVariate();
+  twister->Initialize( 1234 );
+  const Twister::IntegerType withInitialize = twister->GetIntegerVariate();
+  if( withSetSeed != withInitialize )
+    {
+    std::cerr << "Result initializing with SetSeed() did not equal result with Initialize()." << std::endl;
+    return EXIT_FAILURE;
+    }
 
+  return EXIT_SUCCESS;
 }
