@@ -275,6 +275,7 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
     *s++ = ( 1812433253UL * ( *r ^ ( *r >> 30 ) ) + i ) & 0xffffffffUL;
     r++;
     }
+  reload();
 }
 
 inline void
@@ -316,7 +317,6 @@ MersenneTwisterRandomVariateGenerator::SetSeed(const IntegerType oneSeed)
 {
   // Seed the generator with a simple IntegerType
   Initialize(oneSeed);
-  reload();
 }
 
 inline void
