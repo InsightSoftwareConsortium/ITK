@@ -372,7 +372,7 @@ int itkNumericTraitsTest(int, char* [] )
   typedef std::vector<int>::size_type VectorSizeType;
   CheckTraits("std::vector<int>::size_type", static_cast<VectorSizeType>(0));
 
-
+#ifndef __EMSCRIPTEN__
   // itk::CovariantVector<char, 1>()
   CheckFixedArrayTraits(itk::CovariantVector<char, 1>());
   CheckFixedArrayTraits(itk::CovariantVector<signed char, 1>());
@@ -1217,6 +1217,7 @@ int itkNumericTraitsTest(int, char* [] )
   CheckFixedArrayTraits(std::complex<float>());
   CheckFixedArrayTraits(std::complex<double>());
   CheckFixedArrayTraits(std::complex<long double>());
+#endif // __EMSCRIPTEN__
 
   //  check the new Integer and Signed traits
   testPassedStatus &= CheckAllSignedAndIntegerTraits();
