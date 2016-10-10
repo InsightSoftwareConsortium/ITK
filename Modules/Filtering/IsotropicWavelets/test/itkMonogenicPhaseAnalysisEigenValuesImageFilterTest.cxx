@@ -71,10 +71,13 @@ runMonogenicPhaseAnalysisEigenValuesImageFilterTest(const std::string & inputIma
                                         PhaseAnalysisFilter;
   typename PhaseAnalysisFilter::Pointer phaseAnalyzer = PhaseAnalysisFilter::New();
   phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
+  phaseAnalyzer->SetApplySoftThreshold(true);
   phaseAnalyzer->Update();
 
 #if ITK_VISUALIZE_TESTS != 0
   // Testing::ViewImage(reader->GetOutput(), "Input Image");
+  Testing::ViewImage(phaseAnalyzer->GetOutput(1), "PhaseAnalyzer(Eigen) Amplitude:");
+  Testing::ViewImage(phaseAnalyzer->GetOutput(2), "PhaseAnalyzer(Eigen) Phase:");
   Testing::ViewImage(phaseAnalyzer->GetOutput(0), "PhaseAnalyzer(Eigen) output:");
 #endif
 

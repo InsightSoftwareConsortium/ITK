@@ -31,6 +31,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 MonogenicPhaseAnalysisSoftThresholdImageFilter<TInputImage,
                                                TOutputImage>::MonogenicPhaseAnalysisSoftThresholdImageFilter()
+  : m_ApplySoftThreshold(true)
 {
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(3);
@@ -118,10 +119,11 @@ MonogenicPhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::Threa
   {
     OutputImagePixelType out_value = cos(phaseIt.Get());
 
-    if (ampIt.Get() >= m_Threshold)
-      outIt.Set(out_value);
-    else
-      outIt.Set(out_value * ampIt.Get() / m_Threshold);
+    if (this->GetApplySoftThreshold() == true)
+      if (ampIt.Get() < m_Threshold)
+        out_value = out_value * ampIt.Get() / m_Threshold;
+
+    outIt.Set(out_value);
     progress.CompletedPixel();
   }
 }

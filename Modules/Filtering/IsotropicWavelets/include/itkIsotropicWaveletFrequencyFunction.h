@@ -111,7 +111,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
   /** Number of HighPassSubBands in the high filter decomposition.
    * Default to just one HighPass filter (no subbands) */
-  unsigned int m_HighPassSubBands;
+  unsigned int      m_HighPassSubBands;
+  FunctionValueType m_FreqCutOff;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsotropicWaveletFrequencyFunction);

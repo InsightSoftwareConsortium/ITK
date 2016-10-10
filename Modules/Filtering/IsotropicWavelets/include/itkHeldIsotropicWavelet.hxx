@@ -65,33 +65,33 @@ HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::ComputePolynom(co
                                                                               const unsigned int &      order) const
 {
   FunctionValueType y = 0.0;
+  FunctionValueType x8 = 8 * x;
   switch (order)
   {
     case 0:
     {
-      y = 0.5 - 2 * x;
+      y = 0.5 - 0.25 * x8;
       break;
     }
     case 1:
     {
-      y = -1 + 24 * x - 144 * std::pow(x, 2.0) + 256 * std::pow(x, 3.0);
+      y = -1.0 + 3.0 * x8 - 2.25 * std::pow(x8, 2.0) + 0.5 * std::pow(x8, 3.0);
       break;
     }
     case 2:
     {
-      y = 8 - 239 * x + 2879 * std::pow(x, 2.0) - 16639 * std::pow(x, 3.0) + 46079 * std::pow(x, 4.0) -
-          49151 * std::pow(x, 5.0);
+      y = 8.0 - 30.0 * x8 + 45.0 * std::pow(x8, 2.0) - 32.5 * std::pow(x8, 3.0) + 11.25 * std::pow(x8, 4.0) -
+          1.5 * std::pow(x8, 5.0);
       break;
     }
     case 3:
     {
-      y = -52 + 1120 * x - 40320 * std::pow(x, 2.0) + 394240 * std::pow(x, 3.0) - 2257920 * std::pow(x, 4.0) +
-          7569408 * std::pow(x, 5.0) - 13762560 * std::pow(x, 6.0) + 10485760 * std::pow(x, 7.0);
+      y = -52.0 + 280.0 * x8 - 630.0 * std::pow(x8, 2.0) + 770.0 * std::pow(x8, 3.0) - 551.25 * std::pow(x8, 4.0) +
+          231.0 * std::pow(x8, 5.0) - 52.5 * std::pow(x8, 6.0) + 5.0 * std::pow(x8, 7.0);
       break;
     }
     case 4:
     {
-      FunctionValueType x8 = 8 * x;
       y = 368.0 - 2520.0 * x8 + 7560.0 * std::pow(x8, 2.0) - 13020.0 * std::pow(x8, 3.0) + 14175.0 * std::pow(x8, 4.0) -
           10111.5 * std::pow(x8, 5.0) + 4725.0 * std::pow(x8, 6.0) - 1395.0 * std::pow(x8, 7.0) +
           236.25 * std::pow(x8, 8.0) - 17.5 * std::pow(x8, 9.0);
@@ -99,7 +99,6 @@ HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::ComputePolynom(co
     }
     case 5:
     {
-      FunctionValueType x8 = 8 * x;
       y = -2656.0 + 22176.0 * x8 - 83160.0 * std::pow(x8, 2.0) + 184800.0 * std::pow(x8, 3.0) -
           270270.0 * std::pow(x8, 4.0) + 273042.0 * std::pow(x8, 5.0) - 194386.5 * std::pow(x8, 6.0) +
           97515.0 * std::pow(x8, 7.0) - 33783.75 * std::pow(x8, 8.0) + 7700.0 * std::pow(x8, 9.0) -

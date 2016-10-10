@@ -59,6 +59,7 @@ MonogenicPhaseAnalysisEigenValuesImageFilter<TInputImage, TOutputImage>::PrintSe
 {
   Superclass::PrintSelf(os, indent);
 
+  os << indent << "ApplySoftThreshold: " << m_ApplySoftThreshold << std::endl;
   os << indent << "Threshold : " << m_Threshold << std::endl;
   os << indent << "Mean Amplitude : " << m_MeanAmp << std::endl;
   os << indent << "Sigma Amplitude: " << m_SigmaAmp << std::endl;

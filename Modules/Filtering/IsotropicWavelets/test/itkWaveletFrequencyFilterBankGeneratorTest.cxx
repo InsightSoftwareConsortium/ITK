@@ -25,6 +25,7 @@
 #include "itkHeldIsotropicWavelet.h"
 #include "itkVowIsotropicWavelet.h"
 #include "itkSimoncelliIsotropicWavelet.h"
+#include "itkShannonIsotropicWavelet.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
 #include <itkComplexToRealImageFilter.h>
@@ -37,7 +38,7 @@
 using namespace std;
 using namespace itk;
 
-template <unsigned int N>
+template <unsigned int N, typename TWaveletFunction>
 int
 runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
                                            const std::string &  outputImage,
@@ -52,6 +53,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
+  itk::NumberToString<unsigned int> n2s;
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
   typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
@@ -59,10 +61,35 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   fftFilter->Update();
   typedef typename FFTFilterType::OutputImageType ComplexImageType;
 
-  // Set the WaveletFunctionType and the WaveletFilterBank
-  // typedef itk::HeldIsotropicWavelet<PixelType> WaveletFunctionType;
-  // typedef itk::VowIsotropicWavelet<PixelType> WaveletFunctionType;
-  typedef itk::SimoncelliIsotropicWavelet<PixelType>                                      WaveletFunctionType;
+  typedef TWaveletFunction WaveletFunctionType;
+  // TODO remove or move to WaveletFunctionType test.
+  // Check profile of subbands.
+  size_t              points = 10000;
+  std::vector<double> w_array(points);
+  double              init = 0;
+  double              end = +2 * itk::Math::pi;
+  double              interval = (end - init) / (points - 1);
+  for (unsigned int i = 0; i < points; ++i)
+  {
+    w_array[i] = init + interval * i;
+  }
+  typename WaveletFunctionType::Pointer motherWavelet = WaveletFunctionType::New();
+  motherWavelet->SetHighPassSubBands(inputBands);
+  // Write profile.
+  std::vector<std::vector<double>> subBandsResults;
+  for (unsigned int k = 0; k < inputBands + 1; ++k)
+  {
+    std::ofstream ofs("/home/phc/tmp/wavelet_subband_" + n2s(k) + "_" + n2s(inputBands) + ".txt", std::ofstream::out);
+    std::vector<double> bandResults;
+    for (unsigned int i = 0; i < points; ++i)
+    {
+      bandResults.push_back(motherWavelet->EvaluateForwardSubBand(motherWavelet->RadPerSecToHertz(w_array[i]), k));
+      ofs << w_array[i] << "," << bandResults.back() << "\n";
+    }
+    ofs.close();
+    subBandsResults.push_back(bandResults);
+  }
+
   typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType> WaveletFilterBankType;
   typename WaveletFilterBankType::Pointer forwardFilterBank = WaveletFilterBankType::New();
   unsigned int                            high_sub_bands = inputBands;
@@ -74,7 +101,6 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   // Get real part of complex image for visualization
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
   typename ComplexToRealFilter::Pointer                              complexToRealFilter = ComplexToRealFilter::New();
-  itk::NumberToString<unsigned int>                                  n2s;
   std::cout << "Real Part of ComplexImage:" << std::endl;
   for (unsigned int i = 0; i < high_sub_bands + 1; ++i)
   {
@@ -160,28 +186,57 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
 int
 itkWaveletFrequencyFilterBankGeneratorTest(int argc, char * argv[])
 {
-  if (argc < 4 || argc > 5)
+  if (argc < 5 || argc > 6)
   {
-    std::cerr << "Usage: " << argv[0] << " inputImage outputImage inputBands [dimension]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImage outputImage inputBands waveletFunction [dimension]" << std::endl;
     return EXIT_FAILURE;
   }
   const string       inputImage = argv[1];
   const string       outputImage = argv[2];
   const unsigned int inputBands = atoi(argv[3]);
+  const string       waveletFunction = argv[4];
 
   unsigned int dimension = 3;
-  if (argc == 5)
+  if (argc == 6)
   {
-    dimension = atoi(argv[4]);
+    dimension = atoi(argv[5]);
   }
+  typedef itk::HeldIsotropicWavelet<>       HeldWavelet;
+  typedef itk::VowIsotropicWavelet<>        VowWavelet;
+  typedef itk::SimoncelliIsotropicWavelet<> SimoncelliWavelet;
+  typedef itk::ShannonIsotropicWavelet<>    ShannonWavelet;
 
   if (dimension == 2)
   {
-    return runWaveletFrequencyFilterBankGeneratorTest<2>(inputImage, outputImage, inputBands);
+    if (waveletFunction == "Held")
+      return runWaveletFrequencyFilterBankGeneratorTest<2, HeldWavelet>(inputImage, outputImage, inputBands);
+    else if (waveletFunction == "Vow")
+      return runWaveletFrequencyFilterBankGeneratorTest<2, VowWavelet>(inputImage, outputImage, inputBands);
+    else if (waveletFunction == "Simoncelli")
+      return runWaveletFrequencyFilterBankGeneratorTest<2, SimoncelliWavelet>(inputImage, outputImage, inputBands);
+    else if (waveletFunction == "Shannon")
+      return runWaveletFrequencyFilterBankGeneratorTest<2, ShannonWavelet>(inputImage, outputImage, inputBands);
+    else
+    {
+      std::cerr << argv[4] << " is an unknown wavelet type " << std::endl;
+      return EXIT_FAILURE;
+    }
   }
   else if (dimension == 3)
   {
-    return runWaveletFrequencyFilterBankGeneratorTest<3>(inputImage, outputImage, inputBands);
+    if (waveletFunction == "Held")
+      return runWaveletFrequencyFilterBankGeneratorTest<3, HeldWavelet>(inputImage, outputImage, inputBands);
+    else if (waveletFunction == "Vow")
+      return runWaveletFrequencyFilterBankGeneratorTest<3, VowWavelet>(inputImage, outputImage, inputBands);
+    else if (waveletFunction == "Simoncelli")
+      return runWaveletFrequencyFilterBankGeneratorTest<3, SimoncelliWavelet>(inputImage, outputImage, inputBands);
+    else if (waveletFunction == "Shannon")
+      return runWaveletFrequencyFilterBankGeneratorTest<3, ShannonWavelet>(inputImage, outputImage, inputBands);
+    else
+    {
+      std::cerr << argv[4] << " is an unknown wavelet type " << std::endl;
+      return EXIT_FAILURE;
+    }
   }
   else
   {

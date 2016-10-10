@@ -28,7 +28,9 @@ template <typename TFunctionValue, unsigned int VImageDimension, typename TInput
 VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::VowIsotropicWavelet()
   // Value mentioned in original article. Not recommended to modify.
   : m_Kappa(0.75)
-{}
+{
+  // this->m_FreqCutOff = 0.5;
+}
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::~VowIsotropicWavelet()
@@ -52,13 +54,13 @@ VowIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateMagnitude(
   // Dev: std::log2 is c++11 only.  std::log2(x) = std::log(x)/vnl_math::ln2
   if (freq_norm_in_hz >= 1 / 8.0 && freq_norm_in_hz < 1 / 4.0)
     return static_cast<TFunctionValue>(
-      sqrt(0.5 + std::tan(this->m_Kappa * (1 + (2 / vnl_math::ln2) * std::log(4 * freq_norm_in_hz))) / 2 *
-                   std::tan(this->m_Kappa)));
+      sqrt(0.5 + std::tan(this->m_Kappa * (1.0 + (2.0 / vnl_math::ln2) * std::log(4 * freq_norm_in_hz))) /
+                   (2.0 * std::tan(this->m_Kappa))));
 
   if (freq_norm_in_hz >= 1 / 4.0 && freq_norm_in_hz <= 0.5)
     return static_cast<TFunctionValue>(
-      sqrt(0.5 - std::tan(this->m_Kappa * (1 + (2 / vnl_math::ln2) * std::log(2 * freq_norm_in_hz))) / 2 *
-                   std::tan(this->m_Kappa)));
+      sqrt(0.5 - std::tan(this->m_Kappa * (1.0 + (2.0 / vnl_math::ln2) * std::log(2 * freq_norm_in_hz))) /
+                   (2.0 * std::tan(this->m_Kappa))));
   return 0;
 }
 } // end namespace itk
