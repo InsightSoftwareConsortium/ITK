@@ -42,5 +42,6 @@ mkdir hdf5-$v-r$r-reduced &&
 chmod -x hdf5-$v-r$r-reduced/config/cmake/scripts/*
 rm hdf5-$v-r$r-reduced/config/cmake/scripts/CTestScript.cmake
 rm hdf5-$v-r$r-reduced/config/cmake/scripts/HDF518config.cmake
+rm hdf5-$v-r$r-reduced/config/cmake_ext_mod/CheckTypeSize.cmake
 chmod +x hdf5-$v-r$r-reduced/c++/src/h5c++.in
 echo "r$r date: $date"
