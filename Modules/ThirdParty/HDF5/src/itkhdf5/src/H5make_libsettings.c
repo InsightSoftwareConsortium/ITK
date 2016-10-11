@@ -66,7 +66,7 @@ static const char *FileHeader = "\n\
 static void
 insert_libhdf5_settings(FILE *flibinfo)
 {
-#ifdef H5_HAVE_EMBEDDED_LIBINFO
+#if defined(H5_HAVE_EMBEDDED_LIBINFO) && !defined(__EMSCRIPTEN__)
     FILE *fsettings;	/* for files libhdf5.settings */
     int inchar;
     int	bol = 0;	/* indicates the beginning of a new line */

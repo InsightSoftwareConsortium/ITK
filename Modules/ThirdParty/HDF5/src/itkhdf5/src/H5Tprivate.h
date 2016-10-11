@@ -136,6 +136,7 @@ H5_DLL htri_t H5T_is_sensible(const H5T_t *dt);
 H5_DLL uint32_t H5T_hash(H5F_t * file, const H5T_t *dt);
 H5_DLL herr_t H5T_set_latest_version(H5T_t *dt);
 H5_DLL herr_t H5T_patch_file(H5T_t *dt, H5F_t *f);
+H5_DLL herr_t H5T_patch_vlen_file(H5T_t *dt, H5F_t *f);
 H5_DLL htri_t H5T_is_variable_str(const H5T_t *dt);
 
 /* Reference specific functions */
