@@ -32,7 +32,7 @@ else()
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash d0688cf7fc0b0d568f5f26ffbf539a1e)
+    set(_castxml_hash 9c317c45c93f94619f0879da6af058b0)
     set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460537/castxml-windows.zip)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-windows.zip")
     set(_download_castxml_binaries 1)
@@ -40,7 +40,7 @@ else()
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash 9c317c45c93f94619f0879da6af058b0)
+    set(_castxml_hash d0688cf7fc0b0d568f5f26ffbf539a1e)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-macosx.tar.gz")
     set(_download_castxml_binaries 1)
 
