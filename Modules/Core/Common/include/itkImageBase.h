@@ -608,7 +608,7 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * Subclasses of ImageBase are responsible for copying the pixel
    * container. */
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  virtual void Graft(const Self *data);
 
   /** Update the information for this DataObject so that it can be used
    * as an output of a ProcessObject.  This method is used the pipeline
@@ -754,6 +754,8 @@ protected:
                                                                index);
     return index;
     }
+
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageBase);

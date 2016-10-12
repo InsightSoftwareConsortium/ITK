@@ -245,6 +245,16 @@ int itkImageAdaptorPipeLineTest(int, char* [] )
     ++ito;
   }
 
+  //-------------------------------------------------------------
+  //         Test Graft() method
+  //-------------------------------------------------------------
+  myAdaptorType::Pointer myGraftedAdaptor = myAdaptorType::New();
+  myGraftedAdaptor->Graft(myAdaptor);
+  if(myGraftedAdaptor->GetPixelContainer() != myAdaptor->GetPixelContainer() )
+  {
+    std::cerr << "Graft test failed." << std::endl;
+    return EXIT_FAILURE;
+  }
   return EXIT_SUCCESS;
 
 }

@@ -249,7 +249,7 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  virtual void Graft(const Self *data);
 
   /** Return the Pixel Accessor object */
   AccessorType GetPixelAccessor(void)
@@ -272,6 +272,7 @@ public:
 protected:
   Image();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
 
   virtual ~Image() {}
 
@@ -281,7 +282,7 @@ protected:
    * behavior in classes that did not used to take image orientation into
    * account.  */
   virtual void ComputeIndexToPhysicalPointMatrices() ITK_OVERRIDE;
-
+  using Superclass::Graft;
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Image);
 

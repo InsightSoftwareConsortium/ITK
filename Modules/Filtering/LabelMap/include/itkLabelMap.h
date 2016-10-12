@@ -138,7 +138,7 @@ public:
   /**  */
   virtual void Allocate(bool initialize = false) ITK_OVERRIDE;
 
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  virtual void Graft(const Self *imgData);
 
   /**
    * Return the LabelObject with the label given in parameter.
@@ -449,6 +449,8 @@ protected:
   LabelMap();
   virtual ~LabelMap() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  using Superclass::Graft;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMap);
