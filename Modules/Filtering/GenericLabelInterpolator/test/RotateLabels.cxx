@@ -124,8 +124,8 @@ public:
   itkNewMacro(Self);
   FixedGaussianInterpolator()
   {
-    this->m_Alpha = 1.0;
-    this->m_Sigma.Fill(0.3);
+    this->SetAlpha(1.0);
+    this->SetSigma(0.3);
   }
 };
 
