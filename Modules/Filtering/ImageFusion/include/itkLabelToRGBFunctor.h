@@ -66,39 +66,24 @@ public:
     //"slateblue"       "deeppink1"       "aquamarine4"     "royalblue1"
     //"tomato3"         "mediumblue"      "violetred4"      "darkmagenta"
     //"violet"          "red4"
-    // They are a good selection of distinct colours for plotting and
+    // They are a good selection of distinct colors for plotting and
     // overlays.
+    const size_t numColors = 30;
+    const unsigned char colors[numColors][3] = {
+      {255, 0, 0}, {0, 205, 0}, {0, 0, 255}, {0, 255, 255},
+      {255, 0, 255}, {255, 127, 0}, {0, 100, 0}, {138, 43, 226},
+      {139, 35, 35}, {0, 0, 128}, {139, 139, 0}, {255, 62, 150},
+      {139, 76, 57}, {0, 134, 139}, {205, 104, 57}, {191, 62, 255},
+      {0, 139, 69}, {199, 21, 133}, {205, 55, 0}, {32, 178, 170},
+      {106, 90, 205}, {255, 20, 147}, {69, 139, 116}, {72, 118, 255},
+      {205, 79, 57}, {0, 0, 205}, {139, 34, 82}, {139, 0, 139},
+      {238, 130, 238}, {139, 0, 0}
+    };
 
-    AddColor(255, 0, 0);
-    AddColor(0, 205, 0);
-    AddColor(0, 0, 255);
-    AddColor(0, 255, 255);
-    AddColor(255, 0, 255);
-    AddColor(255, 127, 0);
-    AddColor(0, 100, 0);
-    AddColor(138, 43, 226);
-    AddColor(139, 35, 35);
-    AddColor(0, 0, 128);
-    AddColor(139, 139, 0);
-    AddColor(255, 62, 150);
-    AddColor(139, 76, 57);
-    AddColor(0, 134, 139);
-    AddColor(205, 104, 57);
-    AddColor(191, 62, 255);
-    AddColor(0, 139, 69);
-    AddColor(199, 21, 133);
-    AddColor(205, 55, 0);
-    AddColor(32, 178, 170);
-    AddColor(106, 90, 205);
-    AddColor(255, 20, 147);
-    AddColor(69, 139, 116);
-    AddColor(72, 118, 255);
-    AddColor(205, 79, 57);
-    AddColor(0, 0, 205);
-    AddColor(139, 34, 82);
-    AddColor(139, 0, 139);
-    AddColor(238, 130, 238);
-    AddColor(139, 0, 0);
+    for (size_t i=0; i < numColors; ++i)
+      {
+      AddColor(colors[i][0], colors[i][1], colors[i][2]);
+      }
 
     // provide some default value for external use (outside
     // LabelToRGBImageFilter)
