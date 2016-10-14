@@ -36,7 +36,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
   typedef float      ScalarType;
 
   itk::DCMTKTransformIOFactory::Pointer dcmtkTransformIOFactory = itk::DCMTKTransformIOFactory::New();
-  EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, itk::DCMTKTransformIOFactory);
+  EXERCISE_BASIC_OBJECT_METHODS(dcmtkTransformIOFactory, DCMTKTransformIOFactory, ObjectFactoryBase);
   std::cout << std::endl;
   itk::ObjectFactoryBase::RegisterFactory(dcmtkTransformIOFactory);
 
@@ -46,7 +46,7 @@ itkDCMTKTransformIOTest(int argc, char * argv[])
 
   typedef itk::DCMTKTransformIO<ScalarType> TransformIOType;
   TransformIOType::Pointer                  transformIO = TransformIOType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(transformIO, TransformIOType);
+  EXERCISE_BASIC_OBJECT_METHODS(transformIO, DCMTKTransformIO, TransformIOBaseTemplate);
   transformReader->SetTransformIO(transformIO);
 
   TEST_EXPECT_TRUE(!transformIO->CanWriteFile(transformFileName));
