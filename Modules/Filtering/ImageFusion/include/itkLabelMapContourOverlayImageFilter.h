@@ -45,7 +45,8 @@ namespace itk {
  * https://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter, LabelMapOverlayImageFilter
+ * \sa  LabelMapOverlayImageFilter, LabelOverlayImageFilter, LabelOverlayFunctor
+ * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter,
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
  *
