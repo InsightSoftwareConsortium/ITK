@@ -40,7 +40,8 @@ namespace itk
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  * \author Richard Beare. Department of Medicine, Monash University, Melbourne, Australia.
  *
- * \sa ScalarToRGBPixelFunctor LabelOverlayImageFilter
+ * \sa  LabelOverlayImageFilter
+ * \sa  LabelMapToRGBImageFilter, LabelToRGBFunctor, ScalarToRGBPixelFunctor
  * \ingroup MultiThreaded
  *
  * \ingroup ITKImageFusion
