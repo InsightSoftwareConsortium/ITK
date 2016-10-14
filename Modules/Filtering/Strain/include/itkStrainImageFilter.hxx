@@ -80,6 +80,9 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThre
       this->GraftNthOutput(i, this->m_GradientFilter->GetOutput());
     }
   }
+
+  OutputImageType * output = this->GetOutput();
+  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
 }
 
 
@@ -92,7 +95,6 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGe
   typename InputImageType::ConstPointer input = this->GetInput();
 
   OutputImageType * output = this->GetOutput();
-  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
 
   ImageRegionIterator<OutputImageType> outputIt(output, region);
 

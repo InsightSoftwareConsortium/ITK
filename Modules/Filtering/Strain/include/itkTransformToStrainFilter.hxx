@@ -32,7 +32,10 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::TransformToSt
 template <typename TTransform, typename TOperatorValue, typename TOutputValue>
 void
 TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::BeforeThreadedGenerateData()
-{}
+{
+  OutputImageType * output = this->GetOutput();
+  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
+}
 
 
 template <typename TTransform, typename TOperatorValue, typename TOutputValue>
@@ -43,8 +46,7 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
 {
   const TransformType * input = this->GetTransform();
 
-  OutputImageType * output = this->GetOutput();
-  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
+  OutputImageType *                                     output = this->GetOutput();
   typedef ImageRegionIteratorWithIndex<OutputImageType> ImageIteratorType;
   ImageIteratorType                                     outputIt(output, region);
 
