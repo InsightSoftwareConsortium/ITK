@@ -40,7 +40,7 @@ LabelMapToRGBImageFilter<TInputImage, TOutputImage>
   OutputImageType * output = this->GetOutput();
   const InputImageType * input = this->GetInput();
 
-  FunctorType function;
+  FunctorType function( m_Functor );
   function.SetBackgroundValue( input->GetBackgroundValue() );
   output->FillBuffer( function( input->GetBackgroundValue() ) );
 
@@ -55,9 +55,10 @@ LabelMapToRGBImageFilter<TInputImage, TOutputImage>
 ::ThreadedProcessLabelObject( LabelObjectType * labelObject )
 {
   const typename LabelObjectType::LabelType & label = labelObject->GetLabel();
+  const InputImageType * input = this->GetInput();
 
-  FunctorType function;
-  function.SetBackgroundValue( this->GetInput()->GetBackgroundValue() );
+  FunctorType function(m_Functor);
+  function.SetBackgroundValue( input->GetBackgroundValue() );
 
   typename LabelObjectType::ConstIndexIterator it( labelObject );
   TOutputImage *outputImage = this->GetOutput();
