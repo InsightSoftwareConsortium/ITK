@@ -18,7 +18,10 @@ itk_add_test(NAME itkSquaredDifferenceImageFilterTest
 itk_add_test(NAME itkCheckerBoardImageFilterTest
       COMMAND ITKImageCompareTestDriver itkCheckerBoardImageFilterTest)
 itk_add_test(NAME itkConstrainedValueDifferenceImageFilterTest
-      COMMAND ITKImageCompareTestDriver itkConstrainedValueDifferenceImageFilterTest)
+      COMMAND ITKImageCompareTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkConstrainedValueDifferenceImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
+    itkConstrainedValueDifferenceImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png)
 itk_add_test(NAME itkSimilarityIndexImageFilterTest
       COMMAND ITKImageCompareTestDriver itkSimilarityIndexImageFilterTest)
 itk_add_test(NAME itkSTAPLEImageFilterTest
