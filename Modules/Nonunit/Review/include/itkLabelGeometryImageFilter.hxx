@@ -31,16 +31,17 @@
 namespace itk
 {
 
-//
-// Helper functions
-//
-template< typename TLabelImage, typename TIntensityImage >
-typename LabelGeometryImageFilter< TLabelImage, TIntensityImage >::MatrixType
-CalculateRotationMatrix(vnl_symmetric_eigensystem< double > eig)
+namespace
 {
-  typename LabelGeometryImageFilter< TLabelImage, TIntensityImage >::MatrixType
-  rotationMatrix(TLabelImage::ImageDimension, TLabelImage::ImageDimension, 0);
-  for ( unsigned int i = 0; i < TLabelImage::ImageDimension; i++ )
+//
+// Private Helper functions
+//
+template< unsigned int NDimension >
+vnl_matrix< double >
+CalculateRotationMatrix(const vnl_symmetric_eigensystem< double > &eig)
+{
+  vnl_matrix<double> rotationMatrix(NDimension, NDimension, 0);
+  for ( unsigned int i = 0; i < NDimension; i++ )
     {
     rotationMatrix.set_column( i, eig.get_eigenvector(i) );
     }
@@ -54,11 +55,11 @@ CalculateRotationMatrix(vnl_symmetric_eigensystem< double > eig)
   // can fix this by making one of them negative.  Make the last
   // eigenvector (with smallest eigenvalue) negative.
   float matrixDet;
-  if ( TLabelImage::ImageDimension == 2 )
+  if ( NDimension == 2 )
     {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1]);
     }
-  else if ( TLabelImage::ImageDimension == 3 )
+  else if ( NDimension == 3 )
     {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1], rotationMatrix[2]);
     }
@@ -70,8 +71,8 @@ CalculateRotationMatrix(vnl_symmetric_eigensystem< double > eig)
 
   if ( matrixDet < 0 )
     {
-    rotationMatrix.set_column( TLabelImage::ImageDimension - 1,
-                               -rotationMatrix.get_column(TLabelImage::ImageDimension - 1) );
+    rotationMatrix.set_column( NDimension - 1,
+                               -rotationMatrix.get_column(NDimension - 1) );
     }
 
   // Transpose the matrix to yield the rotation matrix.
@@ -80,14 +81,16 @@ CalculateRotationMatrix(vnl_symmetric_eigensystem< double > eig)
   return rotationMatrix;
 }
 
-template< typename TLabelImage, typename TIntensityImage, typename TGenericImage >
+template<typename TLabelImage, typename TIntensityImage, typename TInputImage >
 bool
 CalculateOrientedImage(
-  LabelGeometryImageFilter< TLabelImage, TIntensityImage > *filter,
-  vnl_symmetric_eigensystem< double > eig,
+  const vnl_symmetric_eigensystem< double > &eig,
   typename LabelGeometryImageFilter< TLabelImage, TIntensityImage >::LabelGeometry & labelGeometry,
-  bool useLabelImage)
+  bool useLabelImage,
+  const TInputImage *inputImage)
 {
+  static ITK_CONSTEXPR_VAR unsigned int Dimension = TInputImage::ImageDimension;
+
   // CalculateOrientedBoundingBoxVertices needs to have already been
   // called.  This is taken care of by the flags.
 
@@ -95,23 +98,21 @@ CalculateOrientedImage(
   // system defined by the eigenvectors.
   // Since the resampler moves from the output image to the input
   // image, we take the transpose of the rotation matrix.
-  typename LabelGeometryImageFilter< TLabelImage,
-                                     TIntensityImage >::MatrixType vnl_RotationMatrix =
-    CalculateRotationMatrix< TLabelImage, TIntensityImage >(eig);
+  vnl_matrix<double> vnl_RotationMatrix = CalculateRotationMatrix< Dimension >(eig);
   vnl_RotationMatrix.inplace_transpose();
 
   // Set up the transform.  Here the center of rotation is the
   // centroid of the object, the rotation matrix is specified by the
   // eigenvectors, and there is no translation.
-  typedef itk::AffineTransform< double, TLabelImage::ImageDimension > TransformType;
+  typedef itk::AffineTransform< double, Dimension > TransformType;
   typename TransformType::Pointer transform = TransformType::New();
   typename TransformType::MatrixType rotationMatrix(vnl_RotationMatrix);
   typename TransformType::CenterType center;
-  typename TGenericImage::PointType origin;
-  for( unsigned int i = 0; i < TLabelImage::ImageDimension; i++ )
+  typename TInputImage::PointType origin;
+  for( unsigned int i = 0; i < Dimension; i++ )
   {
-    center[i] = labelGeometry.m_Centroid[i] * filter->GetInput()->GetSpacing()[i];
-    origin[i] = labelGeometry.m_OrientedBoundingBoxOrigin[i] * filter->GetInput()->GetSpacing()[i];
+    center[i] = labelGeometry.m_Centroid[i] * inputImage->GetSpacing()[i];
+    origin[i] = labelGeometry.m_OrientedBoundingBoxOrigin[i] * inputImage->GetSpacing()[i];
   }
   typename TransformType::OutputVectorType translation;
   translation.Fill(0);
@@ -119,7 +120,7 @@ CalculateOrientedImage(
   transform->SetTranslation(translation);
   transform->SetMatrix(rotationMatrix);
 
-  typedef itk::ResampleImageFilter< TGenericImage, TGenericImage > ResampleFilterType;
+  typedef itk::ResampleImageFilter< TInputImage, TIntensityImage > ResampleFilterType;
   typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
 
   // The m_OrientedBoundingBoxSize is specified to float precision.
@@ -128,7 +129,7 @@ CalculateOrientedImage(
   // We also need to ensure that that bounding box is not outside of
   // the image bounds.
   typename ResampleFilterType::SizeType boundingBoxSize;
-  for ( unsigned int i = 0; i < TLabelImage::ImageDimension; i++ )
+  for ( unsigned int i = 0; i < Dimension; i++ )
     {
     boundingBoxSize[i] = ( typename ResampleFilterType::SizeType::SizeValueType )std::ceil(
       labelGeometry.m_OrientedBoundingBoxSize[i]);
@@ -136,49 +137,32 @@ CalculateOrientedImage(
 
   resampler->SetTransform(transform);
   resampler->SetSize(boundingBoxSize);
-  resampler->SetOutputSpacing( filter->GetInput()->GetSpacing() );
+  resampler->SetOutputSpacing( inputImage->GetSpacing() );
   resampler->SetOutputOrigin( origin );
+  resampler->SetInput(inputImage);
 
   if ( useLabelImage )
     {
     // Set up the interpolator.
     // Use a nearest neighbor interpolator since these are labeled images.
-    typedef itk::NearestNeighborInterpolateImageFunction< TGenericImage, double > InterpolatorType;
+    typedef itk::NearestNeighborInterpolateImageFunction< TInputImage, double > InterpolatorType;
     typename InterpolatorType::Pointer interpolator  = InterpolatorType::New();
     resampler->SetInterpolator(interpolator);
-
-    // Cast the type to enable compilation.
-    typedef itk::CastImageFilter< TLabelImage, TGenericImage > CastType;
-    typename CastType::Pointer caster = CastType::New();
-    caster->SetInput( filter->GetInput() );
-    resampler->SetInput( caster->GetOutput() );
-    resampler->Update();
-    labelGeometry.m_OrientedLabelImage->Graft( resampler->GetOutput() );
     }
   else
     {
-    // If there is no intensity input defined, return;
-    if ( !filter->GetIntensityInput() )
-      {
-      return true;
-      }
-
     // Set up the interpolator.
     // Use a linear interpolator since these are intensity images.
-    typedef itk::LinearInterpolateImageFunction< TGenericImage, double > InterpolatorType;
+    typedef itk::LinearInterpolateImageFunction< TInputImage, double > InterpolatorType;
     typename InterpolatorType::Pointer interpolator  = InterpolatorType::New();
     resampler->SetInterpolator(interpolator);
-
-    // Cast the type to enable compilation.
-    typedef itk::CastImageFilter< TIntensityImage, TGenericImage > CastType;
-    typename CastType::Pointer caster = CastType::New();
-    caster->SetInput( filter->GetIntensityInput() );
-    resampler->SetInput( caster->GetOutput() );
-    resampler->Update();
-    labelGeometry.m_OrientedIntensityImage->Graft( resampler->GetOutput() );
     }
+  resampler->Update();
+  labelGeometry.m_OrientedIntensityImage->Graft( resampler->GetOutput() );
 
   return true;
+}
+
 }
 
 template< typename TLabelImage, typename TIntensityImage >
@@ -440,8 +424,8 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
       }
     if ( m_CalculateOrientedLabelRegions == true )
       {
-      CalculateOrientedImage< TLabelImage, TIntensityImage, LabelImageType >(
-        this, eig, ( *mapIt ).second, true);
+      CalculateOrientedImage<TLabelImage, TIntensityImage>(
+        eig, ( *mapIt ).second, true, this->GetInput() );
       }
     if ( m_CalculateOrientedIntensityRegions == true )
       {
@@ -449,8 +433,8 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
       // intensity regions cannot be calculated.
       if ( this->GetIntensityInput() )
         {
-        CalculateOrientedImage< TLabelImage, TIntensityImage, IntensityImageType >(
-          this, eig, ( *mapIt ).second, false);
+        CalculateOrientedImage<TLabelImage, TIntensityImage>(
+          eig, ( *mapIt ).second, false, this->GetIntensityInput() );
         }
       }
 
@@ -473,7 +457,7 @@ LabelGeometryImageFilter< TLabelImage, TIntensityImage >
   // m_PixelIndices needs to have already been calculated.  This is
   // handled by the flags.
 
-  MatrixType rotationMatrix = CalculateRotationMatrix< TLabelImage, TIntensityImage >(eig);
+  MatrixType rotationMatrix = CalculateRotationMatrix< TLabelImage::ImageDimension >(eig);
   MatrixType inverseRotationMatrix = rotationMatrix.transpose();
 
   labelGeometry.m_RotationMatrix = rotationMatrix;

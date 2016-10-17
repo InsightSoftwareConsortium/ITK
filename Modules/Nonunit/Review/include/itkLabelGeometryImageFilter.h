@@ -488,16 +488,6 @@ private:
   SimpleFastMutexLock m_Mutex;
 }; // end of class
 
-template< typename TLabelImage, typename TIntensityImage >
-typename LabelGeometryImageFilter< TLabelImage, TIntensityImage >::MatrixType CalculateRotationMatrix(
-  vnl_symmetric_eigensystem< double > eig);
-
-template< typename TLabelImage, typename TIntensityImage, typename TGenericImage >
-bool CalculateOrientedImage(
-  LabelGeometryImageFilter< TLabelImage, TIntensityImage >  *filter,
-  vnl_symmetric_eigensystem< double > eig,
-  typename LabelGeometryImageFilter< TLabelImage, TIntensityImage >::LabelGeometry & labelGeometry,
-  bool useLabelImage = true);
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
