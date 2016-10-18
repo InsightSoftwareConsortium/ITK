@@ -19,9 +19,8 @@
 #include "itkFFTConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkPipelineMonitorImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
-#include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
 {
@@ -42,13 +41,24 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
   ReaderType::Pointer reader1 = ReaderType::New();
   reader1->SetFileName( argv[1] );
 
+  TRY_EXPECT_NO_EXCEPTION( reader1->Update() );
+
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
+  TRY_EXPECT_NO_EXCEPTION( reader2->Update() );
+
   typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
   ConvolutionFilterType::Pointer convolver = ConvolutionFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( convolver, FFTConvolutionImageFilter, ConvolutionImageFilterBase );
+
   convolver->SetInput( reader1->GetOutput() );
   convolver->SetKernelImage( reader2->GetOutput() );
+
+  ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = 2;
+  convolver->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
+  TEST_SET_GET_VALUE( convolver->GetSizeGreatestPrimeFactor(), sizeGreatestPrimeFactor );
 
   itk::SimpleFilterWatcher watcher(convolver, "filter");
 
@@ -63,11 +73,13 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
     if ( outputRegionMode == "SAME" )
       {
       convolver->SetOutputRegionModeToSame();
+      TEST_SET_GET_VALUE( convolver->GetOutputRegionMode(), ConvolutionFilterType::SAME );
       std::cout << "OutputRegionMode set to SAME." << std::endl;
       }
     else if ( outputRegionMode == "VALID" )
       {
       convolver->SetOutputRegionModeToValid();
+      TEST_SET_GET_VALUE( convolver->GetOutputRegionMode(), ConvolutionFilterType::VALID );
       std::cout << "OutputRegionMode set to VALID." << std::endl;
       }
     else
@@ -78,38 +90,14 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
       }
     }
 
-  typedef itk::PipelineMonitorImageFilter< ImageType > MonitorFilter;
-
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
-  monitor->SetInput( convolver->GetOutput() );
-
-  const unsigned int numberOfStreamDivisions = 4;
-  itk::StreamingImageFilter< ImageType, ImageType >::Pointer streamingFilter =
-    itk::StreamingImageFilter< ImageType, ImageType >::New();
-  streamingFilter->SetNumberOfStreamDivisions( numberOfStreamDivisions );
-  streamingFilter->SetInput( monitor->GetOutput() );
+  TRY_EXPECT_NO_EXCEPTION( convolver->Update() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
-  writer->SetInput( streamingFilter->GetOutput() );
+  writer->SetInput( convolver->GetOutput() );
 
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  if ( !monitor->VerifyAllInputCanStream( numberOfStreamDivisions ) )
-    {
-    std::cerr << "FFTConvolutionImageFilter failed to stream as expected!" << std::endl;
-    std::cerr << monitor;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

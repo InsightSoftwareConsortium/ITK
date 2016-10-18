@@ -20,12 +20,13 @@
 #include "itkFlipImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 {
   if ( argc < 3 )
     {
-    std::cout << "Usage: " << argv[0] << " kernelImage outputImage" << std::endl;
+    std::cout << "Usage: " << argv[0] << " kernelImage outputImage sizeGreatestPrimeFactor" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -35,20 +36,19 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   typedef itk::Image< PixelType, ImageDimension >  ImageType;
   typedef itk::ImageFileReader< ImageType >        ReaderType;
 
-  // Read kernel image.
+  // Read kernel image
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  reader->Update();
 
-  // Set up delta function image.
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
+  // Set up delta function image
   ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
   ImageType::Pointer deltaFunctionImage = ImageType::New();
   deltaFunctionImage->SetRegions( region );
-  deltaFunctionImage->Allocate(true); // initialize
-                                                             // buffer
-                                                             // to zero
+  deltaFunctionImage->Allocate(true); // initialize buffer to zero
 
-  // Set the middle pixel (rounded up) to 1.
+  // Set the middle pixel (rounded up) to 1
   ImageType::IndexType middleIndex;
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
@@ -59,25 +59,31 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
   deltaFunctionImage->SetPixel( middleIndex, 1 );
 
   typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
-  ConvolutionFilterType::Pointer convolver
-    = ConvolutionFilterType::New();
+  ConvolutionFilterType::Pointer convolver = ConvolutionFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( convolver, FFTConvolutionImageFilter, ConvolutionImageFilterBase );
+
   convolver->SetInput( deltaFunctionImage );
   convolver->SetKernelImage( reader->GetOutput() );
+
+  ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = atoi( argv[3] );
+  if( !itk::Math::IsPrime( sizeGreatestPrimeFactor ) )
+    {
+    std::cerr << "A prime number is expected for the greatest prime factor size!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  convolver->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
+  TEST_SET_GET_VALUE( convolver->GetSizeGreatestPrimeFactor(), sizeGreatestPrimeFactor );
+
+  TRY_EXPECT_NO_EXCEPTION( convolver->Update() );
 
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( convolver->GetOutput() );
 
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
