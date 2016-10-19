@@ -204,6 +204,52 @@ endforeach()
     list(APPEND DCMTK_EP_FLAGS -DDCMTK_OVERWRITE_WIN32_COMPILER_FLAGS:BOOL=OFF)
   endif()
 
+  # build the list of libraries upon which DCMTK depends
+  set(ITKDCMTK_LIBDEP "")
+  foreach(lib ITKJPEG_LIBRARIES ITKTIFF_LIBRARIES
+      ITKZLIB_LIBRARIES ITKDCMTK_iconv)
+    foreach(_lib ${${lib}})
+      if(TARGET ${_lib})
+        list(APPEND ITKDCMTK_LIBDEP ${_lib})
+      endif()
+    endforeach()
+  endforeach()
+
+  # attach actual filenames to the
+  # imported libraries from the ExternalProject
+  foreach(lib ${_ITKDCMTK_LIB_NAMES})
+    # tell the imported library where it's file lives
+    if(CMAKE_CONFIGURATION_TYPES)
+      foreach(c ${CMAKE_CONFIGURATION_TYPES})
+        string(TOUPPER "${c}" C)
+        set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION_${C}
+          ${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix})
+        list(APPEND BYPRODUCTS "${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}")
+      endforeach()
+    else()
+      set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION
+        ${lib_dir}/${lib_prefix}${lib}${lib_suffix})
+      list(APPEND BYPRODUCTS "${lib_dir}/${lib_prefix}${lib}${lib_suffix}")
+    endif()
+
+    # make the imported library depend on its prerequisite
+    # libraries
+    set_property(TARGET ${lib} PROPERTY
+      IMPORTED_LINK_INTERFACE_LIBRARIES
+      ${ITKDCMTK_LIBDEP} )
+    # make imported library target depend on external project target
+    add_dependencies(${lib} ${DCMTK_EPNAME})
+  endforeach()
+
+  if(CMAKE_VERSION VERSION_LESS 3.2)
+    if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+      message(FATAL_ERROR "CMake >= 3.2 required with Ninja to compile DCMTK.")
+    endif()
+    set(build_byproducts)
+  else()
+    set(build_byproducts  BUILD_BYPRODUCTS ${BYPRODUCTS})
+  endif()
+
   itk_download_attempt_check(${DCMTK_EPNAME})
   ExternalProject_Add(${DCMTK_EPNAME}
     GIT_REPOSITORY ${DCMTK_GIT_REPOSITORY}
@@ -236,42 +282,8 @@ endforeach()
     -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
     DEPENDS ${JPEG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICONV_DEPENDENCY}
+    ${build_byproducts}
     )
-
-  # build the list of libraries upon which DCMTK depends
-  set(ITKDCMTK_LIBDEP "")
-  foreach(lib ITKJPEG_LIBRARIES ITKTIFF_LIBRARIES
-      ITKZLIB_LIBRARIES ITKDCMTK_iconv)
-    foreach(_lib ${${lib}})
-      if(TARGET ${_lib})
-        list(APPEND ITKDCMTK_LIBDEP ${_lib})
-      endif()
-    endforeach()
-  endforeach()
-
-  # attach actual filenames to the
-  # imported libraries from the ExternalProject
-  foreach(lib ${_ITKDCMTK_LIB_NAMES})
-    # tell the imported library where it's file lives
-    if(CMAKE_CONFIGURATION_TYPES)
-      foreach(c ${CMAKE_CONFIGURATION_TYPES})
-        string(TOUPPER "${c}" C)
-        set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION_${C}
-          ${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix})
-      endforeach()
-    else()
-      set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION
-        ${lib_dir}/${lib_prefix}${lib}${lib_suffix})
-    endif()
-
-    # make the imported library depend on its prerequisite
-    # libraries
-    set_property(TARGET ${lib} PROPERTY
-      IMPORTED_LINK_INTERFACE_LIBRARIES
-      ${ITKDCMTK_LIBDEP} )
-    # make imported library target depend on external project target
-    add_dependencies(${lib} ${DCMTK_EPNAME})
-  endforeach()
 
   # Tell CPack to install DCMTK stuff
   list(APPEND CPACK_INSTALL_CMAKE_PROJECTS
