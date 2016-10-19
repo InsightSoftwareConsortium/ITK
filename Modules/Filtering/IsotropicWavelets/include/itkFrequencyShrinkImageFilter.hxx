@@ -25,6 +25,8 @@
 #include <functional>
 #include "itkInd2Sub.h"
 #include <itkPasteImageFilter.h>
+#include <itkGaussianSpatialFunction.h>
+#include <itkFrequencyImageRegionIteratorWithIndex.h>
 
 namespace itk
 {
@@ -125,7 +127,7 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
     lowFreqsOfInput[dim] = Math::Floor<SizeValueType>(outputSize[dim] / 2.0);
   }
 
-  const typename TImageType::IndexType indexRequested = outputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TImageType::IndexType indexOrigOut = outputPtr->GetLargestPossibleRegion().GetIndex();
   // Manage ImageDimension array linearly:{{{
   FixedArray<unsigned int, ImageDimension> nsizes;
   unsigned int                             numberOfRegions = 1;
@@ -152,22 +154,34 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
     subIndices = itk::Ind2Sub<ImageDimension>(n, nsizes);
     RegionType                     zoneRegion;
     typename ImageType::SizeType   zoneSize;
-    typename TImageType::IndexType inputIndex = indexRequested;
-    typename TImageType::IndexType outputIndex = indexRequested;
+    typename TImageType::IndexType inputIndex = indexOrigOut;
+    typename TImageType::IndexType outputIndex = indexOrigOut;
     // Note that lowFreqsOfInput is inputSize/2 if outputSize is even, (outputSize - 1)/2 if odd.
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
+      // if(subIndices[dim] == 0) // positive frequencies
+      //   {
+      //   zoneSize[dim]    = lowFreqsOfInput[dim] + 1;
+      //   inputIndex[dim]  = 0;
+      //   outputIndex[dim] = 0;
+      //   }
+      // else // negative frequencies
+      //   {
+      //   zoneSize[dim]    = lowFreqsOfInput[dim] - 1;
+      //   inputIndex[dim]  = inputSize[dim]  - zoneSize[dim];
+      //   outputIndex[dim] = outputSize[dim] - zoneSize[dim];
+      //   }
       if (subIndices[dim] == 0) // positive frequencies
       {
-        zoneSize[dim] = lowFreqsOfInput[dim] + 1;
-        inputIndex[dim] = 0;
-        outputIndex[dim] = 0;
+        zoneSize[dim] = lowFreqsOfInput[dim];
+        inputIndex[dim] = indexOrigOut[dim];
+        outputIndex[dim] = indexOrigOut[dim];
       }
       else // negative frequencies
       {
-        zoneSize[dim] = lowFreqsOfInput[dim] - 1;
-        inputIndex[dim] = inputSize[dim] - zoneSize[dim];
-        outputIndex[dim] = outputSize[dim] - zoneSize[dim];
+        zoneSize[dim] = lowFreqsOfInput[dim];
+        inputIndex[dim] = indexOrigOut[dim] + inputSize[dim] - zoneSize[dim];
+        outputIndex[dim] = indexOrigOut[dim] + outputSize[dim] - zoneSize[dim];
       }
     }
     zoneRegion.SetIndex(inputIndex);
@@ -188,6 +202,79 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
       outputPtr = pasteFilter->GetOutput();
     }
     progress.CompletedPixel();
+  }
+
+  /** Ensure image is hermitian in the Nyquist bands (even)
+   * Example: Image 2D size 8, index = [0,...,7]
+   * Each quadrant is a region pasted from the original image. The index refers to the input image of size 8. The input
+   * image is hermitian, so:
+   *   0
+   * 1 == 7
+   * 2 == 6  <- 6 is Nyq in new image.
+   * 3 == 5
+   *   4  <- Nyq original
+   * Hermitian table, using the equivalences above. (assuming imag part zero to avoid working with conjugates) . Note
+   * that index 6 is the new Nyquist. 0    1  |  6    7 0 0,0  1,0 | 2,0  1,0 1 0,1  1,1 | 2,1  1,1
+   * ---------------------
+   * 6 0,2  1,2 | 2,2  1,2
+   * 7 0,1  1,1 | 2,1  1,1
+   * /
+   */
+  // Fix Nyquist band. Folding results for hermiticity.
+  {
+    typename TImageType::IndexType index = indexOrigOut + lowFreqsOfInput;
+    typename TImageType::IndexType modIndex = indexOrigOut + lowFreqsOfInput;
+    // typename TImageType::SizeType endSize = outputSize - lowFreqsOfInput;
+    for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+    {
+      for (int i = 1; i < (int)lowFreqsOfInput[dim]; ++i)
+      {
+        index = indexOrigOut + lowFreqsOfInput;
+        modIndex = indexOrigOut + lowFreqsOfInput;
+        index.SetElement(dim, indexOrigOut[dim] + i);
+        modIndex.SetElement(dim, indexOrigOut[dim] + outputSize[dim] - i);
+        typename TImageType::PixelType value = std::conj(outputPtr->GetPixel(index));
+        outputPtr->SetPixel(modIndex, value);
+        // The stored nyquiist value corresponds to  the positive side.
+        outputPtr->SetPixel(index, value);
+      }
+      // The stored nyquiist value corresponds to  the positive side.
+      index.SetElement(dim, indexOrigOut[dim]);
+      outputPtr->SetPixel(index, std::conj(outputPtr->GetPixel(index)));
+    }
+  }
+
+  // Apply a gaussian window of the size of the output.
+  typedef itk::GaussianSpatialFunction<double, ImageDimension> GaussianFunctionType;
+  typename GaussianFunctionType::Pointer                       gaussian = GaussianFunctionType::New();
+  typedef FixedArray<double, ImageDimension>                   ArrayType;
+  ArrayType                                                    m_Mean;
+  ArrayType                                                    m_Sigma;
+  double                                                       m_Scale = 1.0;
+  bool                                                         m_Normalized = true;
+  for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
+    m_Mean[i] = indexOrigOut[i];
+    // 6.0 is equivalent to 3sigmas (border values are close to zero)
+    // m_Sigma[i] = 6.0/outputSize[i];
+    // m_Sigma[i] = 12.0/outputSize[i];
+    m_Sigma[i] = 1.0 / 6.0;
+  }
+  gaussian->SetSigma(m_Sigma);
+  gaussian->SetMean(m_Mean);
+  gaussian->SetScale(m_Scale);
+  gaussian->SetNormalized(m_Normalized);
+
+  // Create an iterator that will walk the output region
+  typedef itk::FrequencyImageRegionIteratorWithIndex<TImageType> OutputIterator;
+  OutputIterator outIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
+  outIt.GoToBegin();
+  while (!outIt.IsAtEnd())
+  {
+    const double value = gaussian->Evaluate(outIt.GetFrequency());
+    // Set the pixel value to the function value
+    outIt.Set(outIt.Get() * static_cast<typename TImageType::PixelType::value_type>(value));
+    ++outIt;
   }
 }
 
@@ -228,26 +315,30 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
   const typename TImageType::SpacingType & inputSpacing = inputPtr->GetSpacing();
   const typename TImageType::SizeType &    inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   const typename TImageType::IndexType &   inputStartIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  const typename TImageType::PointType &   inputOrigin = inputPtr->GetOrigin();
 
-  ContinuousIndex<double, ImageDimension> inputIndexOutputOrigin;
+  // ContinuousIndex<double,ImageDimension> inputIndexOutputOrigin;
 
   typename TImageType::SpacingType outputSpacing(inputSpacing);
   typename TImageType::SizeType    outputSize;
   typename TImageType::PointType   outputOrigin;
   typename TImageType::IndexType   outputStartIndex;
 
+  // TODO Check if you want to modify metada in this filter.
   for (unsigned int i = 0; i < TImageType::ImageDimension; i++)
   {
-    outputSpacing[i] *= m_ShrinkFactors[i];
-
-    inputIndexOutputOrigin[i] = 0.5 * (m_ShrinkFactors[i] - 1);
-
-    outputStartIndex[i] = Math::Ceil<SizeValueType>(inputStartIndex[i] / static_cast<double>(m_ShrinkFactors[i]));
-
-    // Round down so that all output pixels fit input input region
-    outputSize[i] = Math::Floor<SizeValueType>(
-      static_cast<double>(inputSize[i] - outputStartIndex[i] * m_ShrinkFactors[i] + inputStartIndex[i]) /
-      static_cast<double>(m_ShrinkFactors[i]));
+    // outputSpacing[i] *= m_ShrinkFactors[i];
+    // inputIndexOutputOrigin[i] = 0.5*(m_ShrinkFactors[i]-1);
+    // outputStartIndex[i] =
+    //   Math::Ceil<SizeValueType>(inputStartIndex[i]/static_cast<double>( m_ShrinkFactors[i]) );
+    // outputSize[i] = Math::Floor<SizeValueType>(
+    //     static_cast<double>( inputSize[i] -
+    //       outputStartIndex[i]*m_ShrinkFactors[i]+inputStartIndex[i])
+    //     / static_cast<double>(m_ShrinkFactors[i])
+    //     );
+    outputStartIndex[i] = inputStartIndex[i];
+    outputSize[i] =
+      Math::Floor<SizeValueType>(static_cast<double>(inputSize[i]) / static_cast<double>(m_ShrinkFactors[i]));
 
     if (outputSize[i] < 1)
     {
@@ -255,7 +346,8 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
     }
   }
 
-  inputPtr->TransformContinuousIndexToPhysicalPoint(inputIndexOutputOrigin, outputOrigin);
+  // inputPtr->TransformContinuousIndexToPhysicalPoint(inputIndexOutputOrigin, outputOrigin);
+  outputOrigin = inputOrigin;
 
   outputPtr->SetSpacing(outputSpacing);
   outputPtr->SetOrigin(outputOrigin);

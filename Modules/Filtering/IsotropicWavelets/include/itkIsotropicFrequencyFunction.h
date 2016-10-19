@@ -26,7 +26,8 @@ namespace itk
 /** \class IsotropicFrequencyFunction
  * Abstract-Interface class for \sa FrequencyFunction that are isotropic,
  * so Evaluate(frequency_point) only depends on the magnitude of the vector/point.
- * Evaluate(frequency_point) just call EvaluateMagnitude(frequency_norm) that has to be implemented in a derived class.
+ * Evaluate(frequency_point) just calls EvaluateMagnitude(frequency_norm) that has
+ * to be implemented in a derived class.
  *
  * \sa FrequencyFunction
  * \ingroup SpatialFunctions

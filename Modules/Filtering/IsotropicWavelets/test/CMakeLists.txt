@@ -17,6 +17,8 @@ set(
   itkMonogenicPhaseAnalysisEigenValuesImageFilterTest.cxx
   itkVectorInverseFFTImageFilterTest.cxx
   itkRieszWaveletPhaseAnalysisTest.cxx
+  itkFFTPadPositiveIndexImageFilterTest.cxx
+  itkZeroDCImageFilterTest.cxx
 )
 
 if(ITKVtkGlue_ENABLED)
@@ -152,6 +154,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyForwardTest.tiff
     1
     1
+    "Vow"
 )
 
 itk_add_test(
@@ -163,6 +166,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyForwardTest2D.tiff
     1
     1
+    "Held"
     2
 )
 
@@ -310,9 +314,9 @@ itk_add_test(
   NAME itkFrequencyExpandEvenTest
   COMMAND
     IsotropicWaveletsTestDriver
-    --compare
-    DATA{Baseline/itkFrequencyExpandEvenTest.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandEvenTest.tiff
+    # --compare
+    #   DATA{Baseline/itkFrequencyExpandEvenTest.tiff}
+    #   ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandEvenTest.tiff
     itkFrequencyExpandTest
     DATA{Input/collagen_32x32x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandEvenTest.tiff
@@ -322,45 +326,72 @@ itk_add_test(
   NAME itkFrequencyShrinkEvenTest
   COMMAND
     IsotropicWaveletsTestDriver
-    --compare
-    DATA{Baseline/itkFrequencyShrinkEvenTest.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest.tiff
+    # --compare
+    #   DATA{Baseline/itkFrequencyShrinkEvenTest.tiff}
+    #   ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest.tiff
     itkFrequencyShrinkTest
     DATA{Input/collagen_32x32x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest.tiff
+)
+itk_add_test(
+  NAME itkFrequencyShrinkEvenTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkFrequencyShrinkTest
+    DATA{Input/checkershadow_Lch_512x512.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkEvenTest2D.tiff
+    2
+)
+##FFTPad
+itk_add_test(
+  NAME itkFFTPadPositiveIndexImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkFFTPadPositiveIndexImageFilterTest
+    DATA{Input/checkershadow_gray_540x420.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFFTPadPositiveIndexImageFilterTest.tiff
+)
+## ZeroDC
+itk_add_test(
+  NAME itkZeroDCImageFilterTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkZeroDCImageFilterTest
+    DATA{Input/checkershadow_Lch_512x512.tiff}
+    2
 )
 
 ## Odd input
 # Require ITK_USE_FFTWF
 # TODO bug in VNL FFT Forward? error with input [21,21,9] about wrong size not being multiple of 2,3,5
-if(ITK_USE_FFTWF)
-  #Expand
-  itk_add_test(
-    NAME itkFrequencyExpandOddTest
-    COMMAND
-      IsotropicWaveletsTestDriver
-      --compare
-      DATA{Baseline/itkFrequencyExpandOddTest.tiff}
-      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
-      itkFrequencyExpandTest
-      DATA{Input/collagen_21x21x9.tiff}
-      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
-  )
-  #Shrink
-  itk_add_test(
-    NAME itkFrequencyShrinkOddTest
-    COMMAND
-      IsotropicWaveletsTestDriver
-      --compare
-      DATA{Baseline/itkFrequencyShrinkOddTest.tiff}
-      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
-      itkFrequencyShrinkTest
-      DATA{Input/collagen_21x21x9.tiff}
-      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
-  )
-  list(
-    APPEND TEST_LIST
-    itkFrequencyExpandOddTest
-    itkFrequencyShrinkOddTest
-  )
-endif()
+# if(ITK_USE_FFTWF)
+#Expand
+itk_add_test(
+  NAME itkFrequencyExpandOddTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    --compare
+    DATA{Baseline/itkFrequencyExpandOddTest.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
+    itkFrequencyExpandTest
+    DATA{Input/collagen_21x21x9.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
+)
+#Shrink
+itk_add_test(
+  NAME itkFrequencyShrinkOddTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    --compare
+    DATA{Baseline/itkFrequencyShrinkOddTest.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
+    itkFrequencyShrinkTest
+    DATA{Input/collagen_21x21x9.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
+)
+list(
+  APPEND TEST_LIST
+  itkFrequencyExpandOddTest
+  itkFrequencyShrinkOddTest
+)
+# endif()

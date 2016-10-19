@@ -323,18 +323,19 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       multiplyHighBandFilter->Update();
 
       // This is to normalize the multi-band approach. TODO is this generic? or depend on wavelet? Related with sub-band
-      // dilations. 2^(1/k) instead of Dyadic dilations.
-      typename MultiplyFilterType::Pointer multiplyByReconstructionBandFactor = MultiplyFilterType::New();
-      multiplyByReconstructionBandFactor->SetInput1(multiplyHighBandFilter->GetOutput());
-      multiplyByReconstructionBandFactor->SetConstant(
-        std::pow(2.0, (-level - band / static_cast<double>(this->m_HighPassSubBands)) * ImageDimension / 2.0));
-      multiplyByReconstructionBandFactor->InPlaceOn();
-      multiplyByReconstructionBandFactor->Update();
+      // dilations. 2^(1/k) instead of Dyadic dilations. In any case this should be moved to waveletfilterbankgenerator
+      // typename MultiplyFilterType::Pointer multiplyByReconstructionBandFactor = MultiplyFilterType::New();
+      // multiplyByReconstructionBandFactor->SetInput1(multiplyHighBandFilter->GetOutput());
+      // multiplyByReconstructionBandFactor->SetConstant(std::pow(2.0, (- level -
+      // band/static_cast<double>(this->m_HighPassSubBands))*ImageDimension/2.0 ) );
+      // multiplyByReconstructionBandFactor->InPlaceOn();
+      // multiplyByReconstructionBandFactor->Update();
 
       typedef itk::AddImageFilter<OutputImageType> AddFilterType;
       typename AddFilterType::Pointer              addFilter = AddFilterType::New();
       addFilter->SetInput1(reconstructed);
-      addFilter->SetInput2(multiplyByReconstructionBandFactor->GetOutput());
+      // addFilter->SetInput2(multiplyByReconstructionBandFactor->GetOutput());
+      addFilter->SetInput2(multiplyHighBandFilter->GetOutput());
       addFilter->InPlaceOn();
       addFilter->Update();
       reconstructed = addFilter->GetOutput();

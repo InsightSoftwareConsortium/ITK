@@ -69,7 +69,6 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   // Get real part of complex image for visualization
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
   ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
-  itk::NumberToString<unsigned int>                                  n2s;
   std::cout << "Real Part of ComplexImage:" << std::endl;
   for (unsigned int dir = 0; dir < ImageType::ImageDimension; dir++)
   {
@@ -77,6 +76,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
     complexToRealFilter->SetInput(filterBank->GetOutput(dir));
     complexToRealFilter->Update();
 #if ITK_VISUALIZE_TESTS != 0
+    itk::NumberToString<unsigned int> n2s;
     Testing::ViewImage(complexToRealFilter->GetOutput(),
                        "RealPart of Complex. Direction: " + n2s(dir + 1) + " / " + n2s(ImageType::ImageDimension));
 #endif

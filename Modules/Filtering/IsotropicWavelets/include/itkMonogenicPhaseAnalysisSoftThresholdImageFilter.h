@@ -38,7 +38,7 @@ namespace itk
  * All filters in the module IsotropicWavelets avoid doing any FFT,
  * even though they work on the frequency domain. This is a dev decission to decouple algorithms from
  * the specific frequency layout of the FFT of choice.
- * User just have to modify the GetFrequencyIndex in a new FrequencyIterator if other FFT library is chosen.
+ * User just have to modify the GetFrequency in a new FrequencyIterator if other FFT library is chosen.
  *
  * The output should be a new real image f', so it can be integrated to an inverse Wavelet pyramid.
  * \sa itkWaveletFrequencyInverse

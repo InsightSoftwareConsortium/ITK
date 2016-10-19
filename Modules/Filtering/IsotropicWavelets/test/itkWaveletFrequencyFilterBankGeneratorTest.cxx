@@ -61,35 +61,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   fftFilter->Update();
   typedef typename FFTFilterType::OutputImageType ComplexImageType;
 
-  typedef TWaveletFunction WaveletFunctionType;
-  // TODO remove or move to WaveletFunctionType test.
-  // Check profile of subbands.
-  size_t              points = 10000;
-  std::vector<double> w_array(points);
-  double              init = 0;
-  double              end = +2 * itk::Math::pi;
-  double              interval = (end - init) / (points - 1);
-  for (unsigned int i = 0; i < points; ++i)
-  {
-    w_array[i] = init + interval * i;
-  }
-  typename WaveletFunctionType::Pointer motherWavelet = WaveletFunctionType::New();
-  motherWavelet->SetHighPassSubBands(inputBands);
-  // Write profile.
-  std::vector<std::vector<double>> subBandsResults;
-  for (unsigned int k = 0; k < inputBands + 1; ++k)
-  {
-    std::ofstream ofs("/home/phc/tmp/wavelet_subband_" + n2s(k) + "_" + n2s(inputBands) + ".txt", std::ofstream::out);
-    std::vector<double> bandResults;
-    for (unsigned int i = 0; i < points; ++i)
-    {
-      bandResults.push_back(motherWavelet->EvaluateForwardSubBand(motherWavelet->RadPerSecToHertz(w_array[i]), k));
-      ofs << w_array[i] << "," << bandResults.back() << "\n";
-    }
-    ofs.close();
-    subBandsResults.push_back(bandResults);
-  }
-
+  typedef TWaveletFunction                                                                WaveletFunctionType;
   typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType> WaveletFilterBankType;
   typename WaveletFilterBankType::Pointer forwardFilterBank = WaveletFilterBankType::New();
   unsigned int                            high_sub_bands = inputBands;

@@ -80,7 +80,7 @@ namespace itk
  * negative frequencies: index > floor(inputSize/2.0) (>= if even) at the end.
  *
  * If inputSize[dim] is even, Nyquist (highest) freq is unique, but shared between negative and positive frequencies. So
- * this freq (index=4) it is copied to the output: index >= floor(inputSize/2.0).
+ this freq (index=4) it is copied to the output: index >= floor(inputSize/2.0).
  *
  * If the input image is generated from an FFT of a real image, then the input is hermitian;
  * 0 (DC)
@@ -91,6 +91,8 @@ namespace itk
  * OR
  * I(N/2) == I((N+1)/2) if N=odd. Nyquist has pos and neg components.
  *
+ * Note that this filter doesn't require the input to be hermitian.
+
  * This code was contributed in the Insight Journal paper:
  * https://hdl.handle.net....
  *

@@ -80,16 +80,15 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
   OutputRegionIterator frequencyIt(outputList[0], outputList[0]->GetRequestedRegion());
   for (frequencyIt.GoToBegin(); !frequencyIt.IsAtEnd(); ++frequencyIt)
   {
-    typename TRieszFunction::OutputArrayType evaluatedArray = evaluator->EvaluateArray(frequencyIt.GetFrequencyIndex());
+    typename TRieszFunction::OutputArrayType evaluatedArray = evaluator->EvaluateArray(frequencyIt.GetFrequency());
     for (unsigned int dir = 0; dir < ImageDimension; ++dir)
     {
       outputItList[dir].Set(outputItList[dir].Get() + evaluatedArray[dir].imag());
       ++outputItList[dir];
     }
-    itkDebugMacro(<< "w_vector: " << frequencyIt.GetFrequencyIndex() << " w2: "
-                  << frequencyIt.GetFrequencyModuloSquare() << "  frequencyItIndex: " << frequencyIt.GetIndex()
-                  << "  Evaluated Riesz Components: " << evaluatedArray
-                  << " outputIndex: " << outputItList[0].GetIndex());
+    itkDebugMacro(<< "w_vector: " << frequencyIt.GetFrequency() << " w2: " << frequencyIt.GetFrequencyModuloSquare()
+                  << "  frequencyItIndex: " << frequencyIt.GetIndex() << "  Evaluated Riesz Components: "
+                  << evaluatedArray << " outputIndex: " << outputItList[0].GetIndex());
   }
 }
 } // end namespace itk

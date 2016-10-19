@@ -28,10 +28,10 @@ namespace itk
  * location.
  *
  * This class is a specialization of ImageRegionConstIteratorWithIndex,
- * adding method GetFrequencyIndex to give the frequency bins corresponding to image indices.
- * The frequency bins depends on the image size. The default assumes that the image to iterate over is
- * the output of a forward FFT filter, where the first index corresponds to 0 frequency, and Nyquist Frequencies are
- * in the middle, between positive and negative frequencies.
+ * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the
+ * frequency of the bin. The frequency bins depends on the image size. The default assumes that the image to iterate
+ * over is the output of a forward FFT filter, where the first index corresponds to 0 frequency, and Nyquist Frequencies
+ * are in the middle, between positive and negative frequencies.
  *
  * This class can be specialized further to iterate over other frequency
  * layouts, for example shifted images (where 0 frequency is in the middle of the image, and Nyquist are in the border).
@@ -119,8 +119,8 @@ public:
   typedef typename Superclass::PixelType             PixelType;
   typedef typename Superclass::AccessorType          AccessorType;
 
-  typedef typename ImageType::SpacingType      FrequencyIndexType;
-  typedef typename ImageType::SpacingValueType FrequencyIndexValueType;
+  typedef typename ImageType::SpacingType      FrequencyType;
+  typedef typename ImageType::SpacingValueType FrequencyValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
   FrequencyImageRegionConstIteratorWithIndex()
     : ImageRegionConstIteratorWithIndex<TImage>()
@@ -148,38 +148,46 @@ public:
     this->InitIndices();
   };
 
-  /** Note that this method is independent of the region in the constructor. **/
-  FrequencyIndexType
-  GetFrequencyIndex() const
+  /*
+   * Image Index [0, N] returns [0 to N/2] (positive) union [-N/2 + 1, -1] (negative). So index N/2 + 1 returns the bin
+   * -N/2 + 1. If first index of the image is not zero, it stills returns values in the same range.
+   */
+  IndexType
+  GetFrequencyBin() const
   {
-    FrequencyIndexType freq;
-    freq.Fill(0);
-
+    IndexType freqInd;
+    freqInd.Fill(0);
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
-      // Origin in a freq image should be always zero, we ignore it.
-      // However spacing has a useful meaning: dF, delta(freq).
-      // Freq: + (from 0 (DC) to largest f (Nyquist if even) in +dF intervals.
       if (this->m_PositionIndex[dim] <= m_HalfIndex[dim])
-      {
-        freq[dim] = this->m_Image->GetSpacing()[dim] * (this->m_PositionIndex[dim] - this->m_MinIndex[dim]) /
-                    this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
-      }
-      // Freq: -. From -Largest(Nyquist if even) to -dF frequency.
+        freqInd[dim] = this->m_PositionIndex[dim] - this->m_MinIndex[dim];
+      //  -. From -N/2 + 1 (Nyquist if even) to -1 (-df in frequency)
       else
-      {
-        freq[dim] = this->m_Image->GetSpacing()[dim] * (this->m_PositionIndex[dim] - (this->m_MaxIndex[dim] + 1)) /
-                    this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
-      }
+        freqInd[dim] = this->m_PositionIndex[dim] - (this->m_MaxIndex[dim] + 1);
+    }
+    return freqInd;
+  }
+
+  /** Note that this method is independent of the region in the constructor.
+   */
+  FrequencyType
+  GetFrequency() const
+  {
+    FrequencyType freq;
+    IndexType     freqInd = this->GetFrequencyBin();
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    {
+      freq[dim] = this->m_Image->GetOrigin()[dim] + (this->m_Image->GetSpacing()[dim] * freqInd[dim]) /
+                                                      this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
     }
     return freq;
   }
 
-  FrequencyIndexValueType
+  FrequencyValueType
   GetFrequencyModuloSquare() const
   {
-    FrequencyIndexValueType w2(0);
-    FrequencyIndexType      w(this->GetFrequencyIndex());
+    FrequencyValueType w2(0);
+    FrequencyType      w(this->GetFrequency());
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
@@ -205,12 +213,11 @@ private:
   void
   InitIndices()
   {
+    this->m_MinIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
+    this->m_MaxIndex = this->m_Image->GetLargestPossibleRegion().GetUpperIndex();
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
-      this->m_MinIndex[dim] = this->m_Image->GetLargestPossibleRegion().GetIndex()[dim];
-      this->m_MaxIndex[dim] = this->m_Image->GetLargestPossibleRegion().GetIndex()[dim] +
-                              (this->m_Image->GetLargestPossibleRegion().GetSize()[dim] - 1);
-      this->m_HalfIndex[dim] = static_cast<FrequencyIndexValueType>(
+      this->m_HalfIndex[dim] = static_cast<FrequencyValueType>(
         this->m_MinIndex[dim] + std::ceil((this->m_MaxIndex[dim] - this->m_MinIndex[dim]) / 2.0));
     }
   }
@@ -221,9 +228,9 @@ private:
    * If odd, Nyquist frequency is not represented, but there is still a largest frequency at this index
    * = fs/2 * (N-1)/N.
    */
-  FrequencyIndexType m_HalfIndex;
-  FrequencyIndexType m_MinIndex;
-  FrequencyIndexType m_MaxIndex;
+  IndexType m_HalfIndex;
+  IndexType m_MinIndex;
+  IndexType m_MaxIndex;
 };
 } // end namespace itk
 #endif

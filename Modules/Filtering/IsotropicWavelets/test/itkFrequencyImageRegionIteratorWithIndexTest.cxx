@@ -30,7 +30,7 @@ class itkFrequencyImageRegionIteratorWithIndexTester
 public:
   typedef TImage                          ImageType;
   typedef typename ImageType::IndexType   IndexType;
-  typedef typename ImageType::SpacingType FrequencyIndexType;
+  typedef typename ImageType::SpacingType FrequencyType;
 
   typedef itk::FrequencyImageRegionIteratorWithIndex<ImageType> IteratorType;
 
@@ -125,12 +125,11 @@ public:
     {
       for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
       {
-        if (it.GetFrequencyIndex()[dim] != itk::Math::abs(reverseIt.GetFrequencyIndex()[dim]))
+        if (it.GetFrequency()[dim] != itk::Math::abs(reverseIt.GetFrequency()[dim]))
         {
-          std::cout << "Failed testing hermitian property at index:" << it.GetIndex()
-                    << " freq: " << it.GetFrequencyIndex() << "\n"
-                    << " reverseIt: " << reverseIt.GetIndex() << " freq: " << reverseIt.GetFrequencyIndex()
-                    << std::endl;
+          std::cout << "Failed testing hermitian property at index:" << it.GetIndex() << " freq: " << it.GetFrequency()
+                    << "\n"
+                    << " reverseIt: " << reverseIt.GetIndex() << " freq: " << reverseIt.GetFrequency() << std::endl;
           return false;
         }
       }
@@ -149,19 +148,27 @@ public:
     it.GoToBegin();
     IndexType half_index_plus_one;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
-    {
       half_index_plus_one[dim] = it.GetHalfIndex()[dim] + 1;
-    }
     IndexType first_negative_index = m_ImageIsOdd ? half_index_plus_one : it.GetHalfIndex();
+    IndexType smallest_negative_freq_index;
+    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+      smallest_negative_freq_index[dim] = m_ImageIsOdd ? -first_negative_index[dim] + 1 : first_negative_index[dim];
     while (!it.IsAtEnd())
     {
       if (it.GetIndex() == first_negative_index)
       {
-        // abs value should be equal to largest freq.
-        if (m_LargestFrequency != it.GetFrequencyIndex() && -m_LargestFrequency != it.GetFrequencyIndex())
+        // abs value should be equal to largest freq for odd images
+        if (m_ImageIsOdd == true && m_LargestFrequency != it.GetFrequency() && -m_LargestFrequency != it.GetFrequency())
         {
-          std::cout << " FrequencyIndex value is wrong." << it.GetFrequencyIndex()
-                    << " should be: " << m_LargestFrequency << std::endl;
+          std::cout << " Frequency value is wrong." << it.GetFrequency() << " should be: " << m_LargestFrequency
+                    << std::endl;
+          return false;
+        }
+        if (it.GetFrequencyBin() != smallest_negative_freq_index)
+        {
+          std::cout << " Smallest negative frequency bin is wrong." << it.GetFrequencyBin()
+                    << " should be: " << smallest_negative_freq_index << ".iterator index: " << it.GetIndex()
+                    << std::endl;
           return false;
         }
       }
@@ -185,11 +192,11 @@ public:
       }
     }
 
-    FrequencyIndexType zero_freq_index;
+    IndexType zero_freq_index;
     zero_freq_index.Fill(0);
     it.GoToBegin();
 
-    if (it.GetIndex() == m_Image->GetLargestPossibleRegion().GetIndex() && it.GetFrequencyIndex() != zero_freq_index)
+    if (it.GetIndex() == m_Image->GetLargestPossibleRegion().GetIndex() && it.GetFrequencyBin() != zero_freq_index)
     {
       std::cout << "Error: Zero frequency is not at the minimum index!." << std::endl;
       return false;
@@ -212,10 +219,10 @@ public:
         return false;
       }
 
-      FrequencyIndexType freq_index = it.GetFrequencyIndex();
-      if (index == it.GetHalfIndex() && freq_index != m_LargestFrequency)
+      if (index == it.GetHalfIndex() && it.GetFrequency() != m_LargestFrequency &&
+          it.GetFrequencyBin() != it.GetHalfIndex())
       {
-        std::cout << "    Failed! Largest freq index is wrong. " << index << ". Frequency Index: " << freq_index
+        std::cout << "    Failed! Largest freq bin is wrong. " << index << ". Frequency Index: " << it.GetFrequency()
                   << ". It should be: " << m_LargestFrequency << std::endl;
         return false;
       }
@@ -229,7 +236,7 @@ private:
   typename ImageType::Pointer    m_Image;
   typename ImageType::RegionType m_PositiveHalfRegion;
   typename ImageType::RegionType m_NegativeHalfRegion;
-  FrequencyIndexType             m_LargestFrequency;
+  FrequencyType                  m_LargestFrequency;
   bool                           m_ImageIsOdd;
 };
 

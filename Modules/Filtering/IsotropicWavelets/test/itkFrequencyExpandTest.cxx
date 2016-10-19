@@ -29,8 +29,8 @@
 #include <itkComplexToComplexFFTImageFilter.h>
 #include <itkImageRegionConstIterator.h>
 #include <itkZeroDCImageFilter.h>
-// #include <itkSubtractImageFilter.h>
-// #include <itkStatisticsImageFilter.h>
+#include "itkIsotropicWaveletTestUtilities.h"
+#include <itkCastImageFilter.h>
 using namespace std;
 using namespace itk;
 
@@ -39,62 +39,59 @@ using namespace itk;
 #  include "itkViewImage.h"
 #endif
 
+template <unsigned int N>
 int
-itkFrequencyExpandTest(int argc, char * argv[])
+runFrequencyExpandTest(const std::string & inputImage, const std::string & outputImage)
 {
-  if (argc != 3)
-  {
-    std::cerr << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
-    return EXIT_FAILURE;
-  }
-  const string inputImage = argv[1];
-  const string outputImage = argv[2];
-
-  const unsigned int                       dimension = 3;
-  typedef float                            PixelType;
+  const unsigned int                       dimension = N;
+  typedef double                           PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-  ReaderType::Pointer                      reader = ReaderType::New();
+  typename ReaderType::Pointer             reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
   /***** Calculate mean value and substract: ****/
-  // typedef itk::StatisticsImageFilter<ImageType> StatisticsFilterType;
-  // StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
-  // statisticsFilter->SetInput(reader->GetOutput());
-  // statisticsFilter->Update();
-  // typedef itk::SubtractImageFilter<ImageType> SubtractFilterType;
-  // SubtractFilterType::Pointer subtractFilter = SubtractFilterType::New();
-  // subtractFilter->SetInput1(reader->GetOutput());
-  // subtractFilter->SetConstant2(statisticsFilter->GetMean());
-  // subtractFilter->Update();
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
-  ZeroDCFilterType::Pointer                 zeroDCFilter = ZeroDCFilterType::New();
+  typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
   zeroDCFilter->Update();
   /**********************************************/
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
-  FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
+  typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
   // fftFilter->SetInput(subtractFilter->GetOutput());
   fftFilter->SetInput(zeroDCFilter->GetOutput());
-  typedef FFTFilterType::OutputImageType ComplexImageType;
+  typedef typename FFTFilterType::OutputImageType ComplexImageType;
 
   // ExpandFrequency
   typedef itk::FrequencyExpandImageFilter<ComplexImageType> ExpandType;
-  ExpandType::Pointer                                       expandFilter = ExpandType::New();
+  typename ExpandType::Pointer                              expandFilter = ExpandType::New();
   expandFilter->SetInput(fftFilter->GetOutput());
   expandFilter->SetExpandFactors(2);
   expandFilter->Update();
 
   // InverseFFT
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  InverseFFTFilterType::Pointer                                   inverseFFT = InverseFFTFilterType::New();
+  typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(expandFilter->GetOutput());
   inverseFFT->Update();
 
+  /***************** Hermitian property (sym) *****************************/
+  bool fftIsHermitian = itk::Testing::ComplexImageIsHermitian(fftFilter->GetOutput());
+  bool expandIsHermitian = itk::Testing::ComplexImageIsHermitian(expandFilter->GetOutput());
+  if (!fftIsHermitian)
+  {
+    std::cerr << "fft is not Hermitian" << std::endl;
+    // return EXIT_FAILURE;
+  }
+  if (!expandIsHermitian)
+  {
+    std::cerr << "expand is not Hermitian" << std::endl;
+    // return EXIT_FAILURE;
+  }
   /***************** Hermitian property *****************************/
   {
     // Simmetry and hermitian test: ComplexInverseFFT will generate output with zero imaginary part.
@@ -111,7 +108,7 @@ itkFrequencyExpandTest(int argc, char * argv[])
     {
       std::cout << "Even Image?: " << imageIsEven << std::endl;
       typedef itk::ComplexToComplexFFTImageFilter<ComplexImageType> ComplexFFTType;
-      ComplexFFTType::Pointer                                       complexInverseFFT = ComplexFFTType::New();
+      typename ComplexFFTType::Pointer                              complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(fftFilter->GetOutput());
       complexInverseFFT->Update();
@@ -120,23 +117,30 @@ itkFrequencyExpandTest(int argc, char * argv[])
         complexInverseFFT->GetOutput(), complexInverseFFT->GetOutput()->GetLargestPossibleRegion());
       complexInverseIt.GoToBegin();
       unsigned int not_zero_complex_error = 0;
+      double       accum_square_difference(0);
       while (!complexInverseIt.IsAtEnd())
       {
-        bool not_equal =
-          itk::Math::NotAlmostEquals<ComplexImageType::PixelType::value_type>(complexInverseIt.Get().imag(), 0.0);
+        typename ComplexImageType::PixelType::value_type imag_value = complexInverseIt.Get().imag();
+        bool not_equal = itk::Math::NotAlmostEquals<typename ComplexImageType::PixelType::value_type>(imag_value, 0.0);
         if (not_equal)
+        {
           ++not_zero_complex_error;
+          accum_square_difference += imag_value * imag_value;
+        }
+
         ++complexInverseIt;
       }
+      // accum_square_difference /= not_zero_complex_error;
       if (not_zero_complex_error > 0)
       {
-        std::cout << "Dev Note: After the FFT filter the image is not hermitian." << std::endl;
+        std::cout << "Dev note: After the FFT filter the image is not hermitian. #Not_zero_imag_value Pixels: "
+                  << not_zero_complex_error << " accumSquareDifference: " << accum_square_difference << std::endl;
       }
     }
     // Check that complex part is almost 0 filter is correct after expand
     {
       typedef itk::ComplexToComplexFFTImageFilter<ComplexImageType> ComplexFFTType;
-      ComplexFFTType::Pointer                                       complexInverseFFT = ComplexFFTType::New();
+      typename ComplexFFTType::Pointer                              complexInverseFFT = ComplexFFTType::New();
       complexInverseFFT->SetTransformDirection(ComplexFFTType::INVERSE);
       complexInverseFFT->SetInput(expandFilter->GetOutput());
       complexInverseFFT->Update();
@@ -145,27 +149,38 @@ itkFrequencyExpandTest(int argc, char * argv[])
         complexInverseFFT->GetOutput(), complexInverseFFT->GetOutput()->GetLargestPossibleRegion());
       complexInverseIt.GoToBegin();
       unsigned int not_zero_complex_error = 0;
+      double       accum_square_difference(0);
       while (!complexInverseIt.IsAtEnd())
       {
-        bool not_equal =
-          itk::Math::NotAlmostEquals<ComplexImageType::PixelType::value_type>(complexInverseIt.Get().imag(), 0.0);
+        typename ComplexImageType::PixelType::value_type imag_value = complexInverseIt.Get().imag();
+        bool not_equal = itk::Math::NotAlmostEquals<typename ComplexImageType::PixelType::value_type>(imag_value, 0.0);
         if (not_equal)
+        {
           ++not_zero_complex_error;
+          accum_square_difference += imag_value * imag_value;
+        }
         ++complexInverseIt;
       }
+      // accum_square_difference /= not_zero_complex_error;
       if (not_zero_complex_error > 0)
       {
-        std::cout << "Dev note: After the EXPAND filter the image is not hermitian" << std::endl;
+        std::cout << "Dev note: After the EXPAND filter the image is not hermitian. #Not_zero_imag_value Pixels: "
+                  << not_zero_complex_error << " accumSquareDifference: " << accum_square_difference << std::endl;
       }
     }
-    /*************End Hermitian property *****************************/
   }
+  /*************End Hermitian property *****************************/
 
-  // // Write Output for comparisson
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  // Write Output for comparisson
+  typedef itk::Image<float, dimension>                    FloatImageType;
+  typedef itk::CastImageFilter<ImageType, FloatImageType> CastType;
+  typename CastType::Pointer                              castFilter = CastType::New();
+  castFilter->SetInput(inverseFFT->GetOutput());
+
+  typedef itk::ImageFileWriter<FloatImageType> WriterType;
+  typename WriterType::Pointer                 writer = WriterType::New();
   writer->SetFileName(outputImage);
-  writer->SetInput(inverseFFT->GetOutput());
+  writer->SetInput(castFilter->GetOutput());
 
   try
   {
@@ -183,7 +198,7 @@ itkFrequencyExpandTest(int argc, char * argv[])
   Testing::ViewImage(inverseFFT->GetOutput(), "FrequencyExpander");
   // //Compare with regular expand filter.
   typedef itk::ExpandImageFilter<ImageType, ImageType> RegularExpandType;
-  RegularExpandType::Pointer                           regularExpandFilter = RegularExpandType::New();
+  typename RegularExpandType::Pointer                  regularExpandFilter = RegularExpandType::New();
   regularExpandFilter->SetInput(reader->GetOutput());
   regularExpandFilter->SetExpandFactors(2);
   regularExpandFilter->Update();
@@ -202,4 +217,29 @@ itkFrequencyExpandTest(int argc, char * argv[])
 #endif
 
   return EXIT_SUCCESS;
+}
+
+int
+itkFrequencyExpandTest(int argc, char * argv[])
+{
+  if (argc < 3 || argc > 4)
+  {
+    std::cerr << "Usage: " << argv[0] << " inputImage outputImage [dimension]" << std::endl;
+    return EXIT_FAILURE;
+  }
+  const string inputImage = argv[1];
+  const string outputImage = argv[2];
+
+  unsigned int dimension = 3;
+  if (argc == 4)
+    dimension = atoi(argv[3]);
+  if (dimension == 2)
+    return runFrequencyExpandTest<2>(inputImage, outputImage);
+  else if (dimension == 3)
+    return runFrequencyExpandTest<3>(inputImage, outputImage);
+  else
+  {
+    std::cerr << "Error: only 2 or 3 dimensions allowed, " << dimension << " selected." << std::endl;
+    return EXIT_FAILURE;
+  }
 }

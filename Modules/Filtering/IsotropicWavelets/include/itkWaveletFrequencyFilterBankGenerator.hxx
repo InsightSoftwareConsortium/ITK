@@ -168,7 +168,7 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
                           static_cast<typename OutputImageType::PixelType::value_type>(evaluatedSubBand));
       ++outputItList[l];
     }
-    itkDebugMacro(<< "w_vector: " << frequencyIt.GetFrequencyIndex() << " w: " << w << "  frequencyItIndex: "
+    itkDebugMacro(<< "w_vector: " << frequencyIt.GetFrequency() << " w: " << w << "  frequencyItIndex: "
                   << frequencyIt.GetIndex() << "  Evaluate highest subband: " << evaluatedSubBand
                   << " outputIndex: " << outputItList[m_HighPassSubBands].GetIndex());
   }

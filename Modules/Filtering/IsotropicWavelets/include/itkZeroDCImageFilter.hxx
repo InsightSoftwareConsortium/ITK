@@ -30,7 +30,10 @@ namespace itk
  */
 template <typename TImageType>
 ZeroDCImageFilter<TImageType>::ZeroDCImageFilter()
-{}
+{
+  m_StatisticsFilter = StatisticsFilterType::New();
+  m_SubtractFilter = SubtractFilterType::New();
+}
 
 template <typename TImageType>
 void
@@ -42,20 +45,16 @@ ZeroDCImageFilter<TImageType>::GenerateData()
   progress->SetMiniPipelineFilter(this);
 
   /***** Calculate mean value and substract: ****/
-  typedef itk::StatisticsImageFilter<ImageType> StatisticsFilterType;
-  typename StatisticsFilterType::Pointer        statisticsFilter = StatisticsFilterType::New();
-  statisticsFilter->SetInput(this->GetInput());
-  progress->RegisterInternalFilter(statisticsFilter, 1.0f / 2.0f);
-  statisticsFilter->Update();
+  m_StatisticsFilter->SetInput(this->GetInput());
+  progress->RegisterInternalFilter(m_StatisticsFilter, 1.0f / 2.0f);
+  m_StatisticsFilter->Update();
 
-  typedef itk::SubtractImageFilter<ImageType> SubtractFilterType;
-  typename SubtractFilterType::Pointer        subtractFilter = SubtractFilterType::New();
-  subtractFilter->SetInput1(this->GetInput());
-  subtractFilter->SetConstant2(statisticsFilter->GetMean());
-  progress->RegisterInternalFilter(subtractFilter, 1.0f / 2.0f);
-  subtractFilter->GraftOutput(outputPtr);
-  subtractFilter->Update();
-  this->GraftOutput(outputPtr);
+  m_SubtractFilter->SetInput1(this->GetInput());
+  m_SubtractFilter->SetConstant2(m_StatisticsFilter->GetMean());
+  progress->RegisterInternalFilter(m_SubtractFilter, 1.0f / 2.0f);
+  m_SubtractFilter->GraftOutput(outputPtr);
+  m_SubtractFilter->Update();
+  this->GraftOutput(m_SubtractFilter->GetOutput());
   /**********************************************/
 }
 } // end namespace itk

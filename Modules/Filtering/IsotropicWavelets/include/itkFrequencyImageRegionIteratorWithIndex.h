@@ -25,7 +25,7 @@ namespace itk
 {
 /** \class FrequencyImageRegionIteratorWithIndex
 
- * Iterator providing method GetFrequencyIndex() to retrieve the frequency associated to an index.
+ * Iterator providing method GetFrequency() to retrieve the frequency associated to an index.
  * This value is related to the specific layout of frequencies from an image in the dual (frequency) space.
  * In this case, the layout corresponds to the output of a FastFourierTransform from FFTW library.
  * This class is a non-const version of FrequencyImageRegionConstIteratorWithIndex.
@@ -79,8 +79,8 @@ public:
   typedef typename Superclass::PixelType             PixelType;
   typedef typename Superclass::AccessorType          AccessorType;
 
-  typedef typename ImageType::SpacingType      FrequencyIndexType;
-  typedef typename ImageType::SpacingValueType FrequencyIndexValueType;
+  typedef typename ImageType::SpacingType      FrequencyType;
+  typedef typename ImageType::SpacingValueType FrequencyValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
   FrequencyImageRegionIteratorWithIndex()
     : FrequencyImageRegionConstIteratorWithIndex<TImage>()

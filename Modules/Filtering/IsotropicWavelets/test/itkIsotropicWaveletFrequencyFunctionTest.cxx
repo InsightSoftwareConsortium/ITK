@@ -27,8 +27,13 @@
 #include "itkNumberToString.h"
 using namespace std;
 using namespace itk;
+namespace itk
+{
+namespace Testing
+{
+// Generate values from a linear space
 std::vector<double>
-linSpace(double init = 0.0, double end = 1.0, size_t points = 1000)
+linSpaceForIWFF(double init = 0.0, double end = 1.0, size_t points = 1000)
 {
   std::vector<double> w_array(points);
   if (points <= 1)
@@ -40,6 +45,8 @@ linSpace(double init = 0.0, double end = 1.0, size_t points = 1000)
   }
   return w_array;
 }
+} // namespace Testing
+} // namespace itk
 
 template <unsigned int N, typename TWaveletFunction>
 int
@@ -56,7 +63,7 @@ runIsotropicWaveletFrequencyFunctionTest(const std::string &  profileDataRootPat
   double              init = 0.0;
   double              end = 1.0;
   size_t              points = 1000;
-  std::vector<double> w_array = linSpace(init, end, points);
+  std::vector<double> w_array = itk::Testing::linSpaceForIWFF(init, end, points);
   // Generate profile data for sub-bands and mother wavelet itself
   std::vector<std::vector<double>> subBandsResults;
   for (unsigned int k = 0; k < inputBands + 2; ++k)
