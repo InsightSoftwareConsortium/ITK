@@ -16,22 +16,31 @@
  *
  *=========================================================================*/
 
+#include "itkImageFileWriter.h"
 #include "itkTernaryMagnitudeImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkTernaryMagnitudeImageFilterTest( int, char* [] )
+int itkTernaryMagnitudeImageFilterTest( int argc, char* argv[] )
 {
+  if ( argc < 2 )
+    {
+    std::cout << "Usage: " << argv[0]
+      << "outputImage " << std::endl;
+    return EXIT_FAILURE;
+    }
+
   // Define the dimension of the images
   const unsigned int Dimension = 3;
 
   // Define the pixel types
-  typedef float PixelType;
+  typedef float           InputPixelType;
+  typedef unsigned short  OutputPixelType;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension > InputImage1Type;
-  typedef itk::Image< PixelType, Dimension > InputImage2Type;
-  typedef itk::Image< PixelType, Dimension > InputImage3Type;
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
+  typedef itk::Image< InputPixelType, Dimension >   InputImage1Type;
+  typedef itk::Image< InputPixelType, Dimension >   InputImage2Type;
+  typedef itk::Image< InputPixelType, Dimension >   InputImage3Type;
+  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
 
   // Declare the type of the index to access images
   typedef itk::Index< Dimension >         IndexType;
@@ -84,20 +93,15 @@ int itkTernaryMagnitudeImageFilterTest( int, char* [] )
   typedef itk::ImageRegionIteratorWithIndex< InputImage1Type > InputImage1IteratorType;
   typedef itk::ImageRegionIteratorWithIndex< InputImage2Type > InputImage2IteratorType;
   typedef itk::ImageRegionIteratorWithIndex< InputImage3Type > InputImage3IteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutputImageIteratorType;
 
   // Create one iterator for Image A (this is a light object)
   InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
   InputImage1Type::PixelType valueA = 2.0;
   while( !it1.IsAtEnd() )
   {
     it1.Set( valueA );
-    std::cout
-      << itk::NumericTraits< InputImage1Type::PixelType >::PrintType( it1.Get() )
-      << std::endl;
     ++it1;
   }
 
@@ -105,14 +109,10 @@ int itkTernaryMagnitudeImageFilterTest( int, char* [] )
   InputImage2IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
   InputImage2Type::PixelType valueB = 3.0;
   while( !it2.IsAtEnd() )
   {
     it2.Set( valueB );
-    std::cout
-      << itk::NumericTraits< InputImage2Type::PixelType >::PrintType( it2.Get() )
-      << std::endl;
     ++it2;
   }
 
@@ -120,14 +120,10 @@ int itkTernaryMagnitudeImageFilterTest( int, char* [] )
   InputImage3IteratorType it3( inputImageC, inputImageC->GetBufferedRegion() );
 
   // Initialize the content of Image C
-  std::cout << "Third operand " << std::endl;
   InputImage3Type::PixelType valueC = 4.0;
   while( !it3.IsAtEnd() )
   {
     it3.Set( valueC );
-    std::cout
-      << itk::NumericTraits< InputImage3Type::PixelType >::PrintType( it3.Get() )
-      << std::endl;
     ++it3;
   }
 
@@ -157,18 +153,16 @@ int itkTernaryMagnitudeImageFilterTest( int, char* [] )
   // Get the filter output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
-  // Create an iterator for going through the image output
-  OutputImageIteratorType it4( outputImage, outputImage->GetBufferedRegion() );
+  // Write the result image
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
-  // Print the content of the result image
-  std::cout << "Result " << std::endl;
-  while( !it4.IsAtEnd() )
-  {
-    std::cout
-      << itk::NumericTraits< OutputImageType::PixelType >::PrintType( it4.Get() )
-      << std::endl;
-    ++it4;
-  }
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[1] );
+
+  writer->SetInput( outputImage );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
