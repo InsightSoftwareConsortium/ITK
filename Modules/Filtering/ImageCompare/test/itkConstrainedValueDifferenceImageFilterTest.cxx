@@ -36,7 +36,7 @@ int itkConstrainedValueDifferenceImageFilterTest( int argc, char* argv[] )
   // Define the pixel types
   typedef float           InputImage1PixelType;
   typedef float           InputImage2PixelType;
-  typedef unsigned char   OutputImagePixelType;
+  typedef unsigned short  OutputImagePixelType;
 
   // Declare the types of the images
   typedef itk::Image< InputImage1PixelType, Dimension > InputImage1Type;
