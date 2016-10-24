@@ -16,15 +16,15 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
+#include "itkNumericTraits.h"
+#include "itkVectorRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
+
 #include <iostream>
 
-
-#include "itkVectorRescaleIntensityImageFilter.h"
-
-int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
+int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
 {
-  std::cout << "itkVectorRescaleIntensityImageFilterTest Start" << std::endl;
-
   const unsigned int VectorDimension = 3;
 
   typedef itk::Vector< int,   VectorDimension > InputPixelType;
@@ -51,7 +51,7 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
   pixelValue[1] = 20;
   pixelValue[2] = 30;
 
-  inputImage->SetRegions(region);
+  inputImage->SetRegions( region );
   inputImage->Allocate();
   inputImage->FillBuffer( pixelValue );
 
@@ -61,23 +61,32 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
 
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, VectorRescaleIntensityImageFilter,
+    UnaryFunctorImageFilter );
+
   filter->SetInput( inputImage );
 
-  const double desiredMaximum =  1.0;
-
+  const double desiredMaximum = 2.0;
   filter->SetOutputMaximumMagnitude( desiredMaximum );
+  TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximumMagnitude() );
 
-  try
-    {
-    filter->Update();
-    filter->SetFunctor(filter->GetFunctor());
-    }
+  filter->SetFunctor( filter->GetFunctor() );
 
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e;
-    return -1;
-    }
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  FilterType::InputRealType scale = filter->GetScale();
+  std::cout << "Input scale value: " <<
+    static_cast< itk::NumericTraits< FilterType::InputRealType >::PrintType > (scale) << std::endl;
+
+  FilterType::InputRealType shift = filter->GetShift();
+  std::cout << "Input scale value: " <<
+    static_cast< itk::NumericTraits< FilterType::InputRealType >::PrintType > (shift) << std::endl;
+
+  FilterType::InputRealType inputMaximumMagnitude =
+    filter->GetInputMaximumMagnitude();
+  std::cout << "Input maximum magnitude: " <<
+    static_cast< itk::NumericTraits< FilterType::InputRealType >::PrintType > (inputMaximumMagnitude)
+    << std::endl;
 
   OutputImageType::ConstPointer outputImage = filter->GetOutput();
 
@@ -94,16 +103,19 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
   while( !ot.IsAtEnd() )
     {
     const OutputPixelType outputValue = ot.Get();
-    for(unsigned int k=0; k < VectorDimension; k++)
+    for( unsigned int k = 0; k < VectorDimension; k++ )
       {
-      if ( itk::Math::NotAlmostEquals( outputValue[k],
-           itk::NumericTraits< itk::NumericTraits< OutputPixelType >::ValueType >::ZeroValue() ) )
+      if( itk::Math::NotAlmostEquals( outputValue[k],
+        itk::NumericTraits< itk::NumericTraits< OutputPixelType >::ValueType >::ZeroValue() ) )
         {
-        if( std::fabs( outputValue[k] - pixelValue[k] * factor ) / outputValue[k] - 1.0 > tolerance )
+        if( !itk::Math::FloatAlmostEqual( static_cast< double > ( outputValue[k] ),
+          static_cast< double >( pixelValue[k] * factor ), 10, tolerance ) )
           {
           std::cerr << "Test FAILED !" << std::endl;
+          std::cerr.precision( itk::Math::abs( std::log10( tolerance ) ) );
           std::cerr << "Input  Pixel Value = " << pixelValue  << std::endl;
           std::cerr << "Output Pixel Value = " << outputValue << std::endl;
+          return EXIT_FAILURE;
           }
         }
       }
@@ -112,5 +124,4 @@ int itkVectorRescaleIntensityImageFilterTest(int, char* [] )
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }
