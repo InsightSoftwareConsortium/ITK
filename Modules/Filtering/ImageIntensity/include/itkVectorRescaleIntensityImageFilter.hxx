@@ -65,6 +65,9 @@ VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
   os << indent << "Internal Scale : "
      << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Scale )
      << std::endl;
+  os << indent << "Internal Shift : "
+     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Shift )
+     << std::endl;
 }
 
 /**
