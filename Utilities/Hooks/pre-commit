@@ -105,7 +105,7 @@ fi
 ExternalData_STORE=".ExternalData"
 
 # Process content links created by/for the CMake ExternalData module.
-git diff-index --cached HEAD --diff-filter=AM |
+git diff-index --cached HEAD --diff-filter=A |
 while read src_mode dst_mode src_obj dst_obj status file; do
   if echo "$dst_mode $file" | egrep-q '^100644 .*\.(md5)$'; then
     ExternalData_stage_linked_content
@@ -114,6 +114,32 @@ while read src_mode dst_mode src_obj dst_obj status file; do
   fi
 done || exit 1
 
+git diff-index --cached HEAD --diff-filter=M |
+while read src_mode dst_mode src_obj dst_obj status file; do
+  if echo "$dst_mode $file" | egrep-q '^100644 .*\.(md5)$'; then
+    if ! git diff-index --cached HEAD --diff-filter=DM -- "${file/.md5}".sha512 | egrep-q '\.(sha512)$'; then
+      die "The $file content link was updated without
+updating its .sha512 counterpart. Please run
+
+  cd \"$top_level_dir\"
+  git rm -- ${file/.md5}.sha512
+"
+    fi
+    ExternalData_stage_linked_content
+  elif echo "$dst_mode $file" | egrep-q '^100644 .*\.(sha512)$'; then
+    if ! git diff-index --cached HEAD --diff-filter=DM -- "${file/.sha512}".md5 | egrep-q '\.(md5)$'; then
+      die "The $file content link was updated without
+updating its .md5 counterpart. Please run
+
+  cd \"$top_level_dir\"
+  git rm -- ${file/.sha512}.md5
+"
+    fi
+    ExternalData_non_content_link
+  else
+    ExternalData_non_content_link
+  fi
+done || exit 1
 
 #-----------------------------------------------------------------------------
 
