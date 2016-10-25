@@ -33,46 +33,17 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
 ::VectorRescaleIntensityImageFilter() :
   m_Scale(1.0),
   m_Shift(1.0),
-  m_InputMaximumMagnitude(NumericTraits< InputRealType  >::ZeroValue()),
+  m_InputMaximumMagnitude(NumericTraits< InputRealType >::ZeroValue()),
   m_OutputMaximumMagnitude(NumericTraits< OutputRealType >::ZeroValue())
 {
 }
 
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-void
-VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "Output Maximum Magnitude: "
-     << static_cast< typename NumericTraits< OutputRealType >::PrintType >( m_OutputMaximumMagnitude )
-     << std::endl;
-  os << indent << "Input Maximum Magnitude: "
-     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_InputMaximumMagnitude )
-     << std::endl;
-  os << indent << "Internal Scale : "
-     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Scale )
-     << std::endl;
-  os << indent << "Internal Shift : "
-     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Shift )
-     << std::endl;
-}
-
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
@@ -84,7 +55,7 @@ VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  InputImagePointer inputImage =   this->GetInput();
+  InputImagePointer inputImage = this->GetInput();
 
   typedef ImageRegionConstIterator< InputImageType > InputIterator;
 
@@ -109,8 +80,29 @@ VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
   m_Scale = static_cast< InputRealType >( m_OutputMaximumMagnitude )
             / static_cast< InputRealType >( m_InputMaximumMagnitude  );
 
-  // set up the functor values
+  // Set up the functor values
   this->GetFunctor().SetFactor(m_Scale);
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+VectorRescaleIntensityImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Output Maximum Magnitude: "
+     << static_cast< typename NumericTraits< OutputRealType >::PrintType >( m_OutputMaximumMagnitude )
+     << std::endl;
+  os << indent << "Input Maximum Magnitude: "
+     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_InputMaximumMagnitude )
+     << std::endl;
+  os << indent << "Internal Scale : "
+     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Scale )
+     << std::endl;
+  os << indent << "Internal Shift : "
+     << static_cast< typename NumericTraits< InputRealType >::PrintType >( m_Shift )
+     << std::endl;
 }
 } // end namespace itk
 

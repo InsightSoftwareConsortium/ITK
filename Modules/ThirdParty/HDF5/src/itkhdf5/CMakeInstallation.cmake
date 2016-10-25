@@ -1,4 +1,3 @@
-if(0) # Skip for ITK internal build
 include (CMakePackageConfigHelpers)
 
 #-----------------------------------------------------------------------------
@@ -18,11 +17,13 @@ endif (WIN32)
 #-----------------------------------------------------------------------------
 if (NOT HDF5_INSTALL_NO_DEVELOPMENT)
   install (
-      FILES ${PROJECT_BINARY_DIR}/H5pubconf.h
+      FILES ${HDF5_BINARY_DIR}/H5pubconf.h
       DESTINATION ${HDF5_INSTALL_INCLUDE_DIR}
-      COMPONENT headers
+      COMPONENT Development
   )
 endif (NOT HDF5_INSTALL_NO_DEVELOPMENT)
+
+if(0) # Skip for ITK internal build
 
 #-----------------------------------------------------------------------------
 # Add Target(s) to CMake Install for import into other projects

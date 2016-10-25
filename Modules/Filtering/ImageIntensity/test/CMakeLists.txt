@@ -137,7 +137,10 @@ itk_add_test(NAME itkComplexToModulusFilterAndAdaptorTest
 itk_add_test(NAME itkAddImageAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkAddImageAdaptorTest)
 itk_add_test(NAME itkAndImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkAndImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
+              93d46ee3d5e0c157e2b2d27977ae4d0f
+    itkAndImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png)
 itk_add_test(NAME itkAdaptImageFilterTest2
       COMMAND ITKImageIntensityTestDriver itkAdaptImageFilterTest2)
 itk_add_test(NAME itkLogImageFilterAndAdaptorTest
@@ -182,7 +185,10 @@ itk_add_test(NAME itkComplexToPhaseFilterAndAdaptorTest
 itk_add_test(NAME itkIntensityWindowingImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkIntensityWindowingImageFilterTest)
 itk_add_test(NAME itkTernaryMagnitudeImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkTernaryMagnitudeImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
+              7f199e1363c4b754eb03cf4d0ba8d343
+    itkTernaryMagnitudeImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png)
 itk_add_test(NAME itkAbsImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkAbsImageFilterAndAdaptorTest)
 itk_add_test(NAME itkMaximumImageFilterTest
