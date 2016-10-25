@@ -89,13 +89,13 @@ private:
  * \wikiexample{Images/VectorRescaleIntensityImageFilter,Apply a transformation to the magnitude of vector valued image pixels}
  * \endwiki
  */
-template< typename  TInputImage, typename  TOutputImage = TInputImage >
+template< typename TInputImage, typename TOutputImage = TInputImage >
 class VectorRescaleIntensityImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::VectorMagnitudeLinearTransform<
                              typename TInputImage::PixelType,
-                             typename TOutputImage::PixelType >   >
+                             typename TOutputImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
@@ -119,7 +119,7 @@ public:
   typedef typename Superclass::InputImageType    InputImageType;
   typedef typename Superclass::InputImagePointer InputImagePointer;
 
-  /** Run-time type information (and related methods).   */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(VectorRescaleIntensityImageFilter, UnaryFunctorImageFilter);
 
   /** Method for creation through the object factory. */
@@ -130,18 +130,17 @@ public:
 
   /** Get the Scale and Shift used for the linear transformation
       of magnitude values.
-   \warning These Values are only valid after the filter has been updated */
+   \warning These values are only valid after the filter has been updated. */
   itkGetConstReferenceMacro(Scale, InputRealType);
   itkGetConstReferenceMacro(Shift, InputRealType);
 
   /** Get the Maximum value of the input image magnitudes.
-   \warning These Values are only valid after the filter has been updated */
+   \warning These values are only valid after the filter has been updated. */
   itkGetConstReferenceMacro(InputMaximumMagnitude, InputRealType);
 
-  /** Process to execute before entering the multithreaded section */
+  /** Process to execute before entering the multithreaded section. */
   void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  /** Print internal ivars */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
