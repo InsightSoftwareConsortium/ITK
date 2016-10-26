@@ -156,8 +156,8 @@ TileImageFilter< TInputImage, TOutputImage >
   // Spacing(Origin): use the spacing(origin) of the first input for
   // all of the matching output dimensions. For remaining dimensions
   // use 1.0 (0.0).
-  float spacing[OutputImageDimension];
-  float origin[OutputImageDimension];
+  SpacePrecisionType spacing[OutputImageDimension];
+  SpacePrecisionType origin[OutputImageDimension];
 
   for ( unsigned i = 0; i < OutputImageDimension; i++ )
     {
