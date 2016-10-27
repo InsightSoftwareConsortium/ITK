@@ -44,11 +44,6 @@ LevelSetNeighborhoodExtractor< TLevelSet >
   m_LastPointIsInside(false)
 {
   m_NodesUsed.resize(SetDimension);
-
-  for ( unsigned int i = 0; i < SetDimension; ++i )
-    {
-    m_ImageSize[i] = 0;
-    }
 }
 
 /*
@@ -108,13 +103,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
   m_InsidePoints = NodeContainer::New();
   m_OutsidePoints = NodeContainer::New();
 
-  typename TLevelSet::SizeType size =
-    m_InputLevelSet->GetBufferedRegion().GetSize();
-
-  for ( unsigned int j = 0; j < SetDimension; j++ )
-    {
-    m_ImageSize[j] = size[j];
-    }
+  m_ImageRegion = this->m_InputLevelSet->GetBufferedRegion();
 }
 
 /*
@@ -267,8 +256,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
       {
       neighIndex[j] = index[j] + s;
 
-      if ( neighIndex[j] > static_cast< OffsetValueType >( m_ImageSize[j] ) - 1
-           || neighIndex[j] < 0 )
+      if ( ! this->m_ImageRegion.IsInside( neighIndex ) )
         {
         continue;
         }
