@@ -35,7 +35,7 @@ namespace itk
  * counteracting deleterious effects which highly regular regions
  * of a mesh may occassionally have on mesh processing.
  *
- * \ingroup ITKMeshNoise
+ * \ingroup DVMeshNoise
  */
 template< typename TInputMesh, typename TOutputMesh = TInputMesh >
 class AdditiveGaussianNoiseQuadEdgeMeshFilter:

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8.9)
 
-project(ITKMeshNoise)
+project(DVMeshNoise)
 
 if(NOT ITK_SOURCE_DIR)
   find_package(ITK REQUIRED)
