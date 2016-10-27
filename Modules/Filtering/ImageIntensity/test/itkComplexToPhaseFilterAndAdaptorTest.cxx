@@ -18,22 +18,24 @@
 
 #include "itkComplexToPhaseImageFilter.h"
 #include "itkComplexToPhaseImageAdaptor.h"
+#include "itkMath.h"
 #include "itkSubtractImageFilter.h"
+#include "itkTestingMacros.h"
 
-
-int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
+int itkComplexToPhaseFilterAndAdaptorTest( int, char* [] )
 {
 
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef std::complex<float>                InputPixelType;
+  typedef std::complex< float >              InputPixelType;
+  typedef float                              OutputPixelType;
 
-  typedef itk::Image<InputPixelType, ImageDimension>  InputImageType;
-  typedef itk::Image<float,          ImageDimension>  OutputImageType;
+  typedef itk::Image< InputPixelType, ImageDimension >    InputImageType;
+  typedef itk::Image< OutputPixelType, ImageDimension >   OutputImageType;
 
-  // Declare Iterator types apropriated for each image
+  // Declare appropriate Iterator types for each image
   typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
   typedef itk::ImageRegionIteratorWithIndex<
@@ -49,7 +51,7 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
   typedef itk::ImageRegion<ImageDimension>   RegionType;
 
   // Create two images
-  InputImageType::Pointer inputImage  = InputImageType::New();
+  InputImageType::Pointer inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -75,13 +77,11 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  InputPixelType value( 13, 25);
-  std::cout << "Content of the Input " << std::endl;
+  InputPixelType value( 13, 25 );
   it.GoToBegin();
   while( !it.IsAtEnd() )
   {
     it.Set( value );
-    std::cout << it.Get() << std::endl;
     ++it;
   }
 
@@ -89,26 +89,25 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
   typedef itk::ComplexToPhaseImageFilter< InputImageType,
                                OutputImageType  >  FilterType;
 
-
-  // Create an ADD Filter
+  // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, ComplexToPhaseImageFilter,
+    UnaryFunctorImageFilter );
 
-  // Connect the input images
+  // Set the input image
   filter->SetInput( inputImage );
-
-  // Get the Smart Pointer to the Filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
-
 
   // Execute the filter
   filter->Update();
 
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
+
   // Create an iterator for going through the image output
-  OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
+  OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
   //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -119,14 +118,12 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
 
     double phased = std::atan2( input.imag(), input.real() );
 
-    const OutputImageType::PixelType phase  =
+    const OutputImageType::PixelType phase =
        static_cast<OutputImageType::PixelType>( phased );
 
-    std::cout <<  output << " = ";
-    std::cout <<  phase  << std::endl;
-
-    if( std::fabs( phase - output ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( phase, output, 10, epsilon ) )
       {
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
       std::cerr << "Error in itkComplexToPhaseImageFilterTest " << std::endl;
       std::cerr << " phase( " << input << ") = " << phase << std::endl;
       std::cerr << " differs from " << output;
@@ -137,46 +134,48 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
     ++it;
   }
 
-  //---------------------------------------
-  // This section tests for ComplexToPhaseImageAdaptor
-  //---------------------------------------
+  //
+  // Test the itk::ComplexToPhaseImageAdaptor
+  //
 
-  typedef itk::ComplexToPhaseImageAdaptor<InputImageType,
-                          OutputImageType::PixelType>  AdaptorType;
+  typedef itk::ComplexToPhaseImageAdaptor< InputImageType,
+                          OutputImageType::PixelType > AdaptorType;
 
   AdaptorType::Pointer imaginaryAdaptor = AdaptorType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( imaginaryAdaptor, ComplexToPhaseImageAdaptor,
+    ImageAdaptor );
 
   imaginaryAdaptor->SetImage( inputImage );
 
   typedef itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType   > DiffFilterType;
+                        OutputImageType > DiffFilterType;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1( outputImage );
-  diffFilter->SetInput2( imaginaryAdaptor  );
+  diffFilter->SetInput2( imaginaryAdaptor );
 
   diffFilter->Update();
 
-  // Get the Smart Pointer to the Diff filter Output
+  // Get the filter output
   OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
   //  Check the content of the diff image
-  std::cout << "Comparing the results with those of an Adaptor" << std::endl;
-  std::cout << "Verification of the output " << std::endl;
+  //
 
   // Create an iterator for going through the image output
-  OutputIteratorType dt(diffImage, diffImage->GetRequestedRegion());
+  OutputIteratorType dt( diffImage, diffImage->GetRequestedRegion() );
 
   dt.GoToBegin();
   while( !dt.IsAtEnd() )
     {
-    std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
     if( std::fabs( diff ) > epsilon )
       {
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
       std::cerr << "Error in itkComplexToPhaseImageFilterTest " << std::endl;
       std::cerr << "Comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
@@ -186,7 +185,6 @@ int itkComplexToPhaseFilterAndAdaptorTest(int, char* [] )
       }
     ++dt;
     }
-
 
   return EXIT_SUCCESS;
 }
