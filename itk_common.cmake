@@ -19,7 +19,7 @@
 #   ctest -S ~/Dashboards/Scripts/my_dashboard.cmake -V
 #
 # By default the source and build trees will be placed in the path
-# "../My Tests/" relative to your script location.
+# "../MyTests/" relative to your script location.
 #
 # The following variables may be set before including this script
 # to configure it:
@@ -27,7 +27,7 @@
 #   dashboard_model           = Nightly | Experimental | Continuous
 #   dashboard_track           = Optional track to submit dashboard to
 #   dashboard_loop            = Repeat until N seconds have elapsed
-#   dashboard_root_name       = Change name of "My Tests" directory
+#   dashboard_root_name       = Change name of "MyTests" directory
 #   dashboard_source_name     = Name of source directory (ITK)
 #   dashboard_binary_name     = Name of binary directory (ITK-build)
 #   dashboard_data_name       = Name of ExternalData store (ExternalData)
@@ -101,7 +101,7 @@ get_filename_component(dashboard_self_dir ${CMAKE_CURRENT_LIST_FILE} PATH)
 
 # Select the top dashboard directory.
 if(NOT DEFINED dashboard_root_name)
-  set(dashboard_root_name "My Tests")
+  set(dashboard_root_name "MyTests")
 endif()
 if(NOT DEFINED CTEST_DASHBOARD_ROOT)
   get_filename_component(CTEST_DASHBOARD_ROOT "${CTEST_SCRIPT_DIRECTORY}/../${dashboard_root_name}" ABSOLUTE)
