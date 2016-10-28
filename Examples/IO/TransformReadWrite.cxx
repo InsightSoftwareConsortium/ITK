@@ -63,6 +63,15 @@ int main( int argc, char * argv[] )
   const unsigned int SplineOrder = 5;
   typedef itk::BSplineTransform< ScalarType, Dimension, SplineOrder >
     BSplineTransformType;
+  typedef itk::BSplineTransform< float, Dimension, SplineOrder >
+    BSplineTransformFType;
+
+  // By default only BSpline transforms of order 3 are registered.
+  // Manually register this order 5 bspline for both float and double
+  // scalar types, so that we can read the correct order transform.
+  itk::TransformFactory<BSplineTransformType>::RegisterTransform();
+  itk::TransformFactory<BSplineTransformFType>::RegisterTransform();
+
   BSplineTransformType::Pointer bspline = BSplineTransformType::New();
 
   BSplineTransformType::OriginType origin;

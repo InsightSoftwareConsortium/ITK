@@ -162,6 +162,8 @@ public:
   typedef typename Superclass::OutputPointType OutputPointType;
 
 
+  virtual std::string GetTransformTypeAsString() const ITK_OVERRIDE;
+
   /** This method sets the fixed parameters of the transform.
    * For a BSpline deformation transform, the fixed parameters are the
    * following: grid size, grid origin, grid spacing, and grid direction.
