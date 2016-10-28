@@ -19,6 +19,7 @@
 #include "itkVectorResampleImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 
 int itkVectorResampleImageFilterTest( int argc, char * argv[] )
@@ -56,7 +57,7 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
   TransformType::Pointer transform = TransformType::New();
 
   filter->SetTransform( transform );
-
+  TEST_SET_GET_VALUE( transform, filter->GetTransform() );
 
   ImageType::SpacingType spacing;
   spacing.Fill( 1.0 );
