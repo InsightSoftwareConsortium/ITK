@@ -406,25 +406,18 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         }
       }
 
-    if( this->m_FirstImageMetricIndex >= 0 )
-      {
-      this->m_VirtualDomainImage = VirtualImageType::New();
-      this->m_VirtualDomainImage->CopyInformation( this->GetFixedImage( this->m_FirstImageMetricIndex ) );
-      this->m_VirtualDomainImage->SetRegions( this->GetFixedImage( this->m_FirstImageMetricIndex )->GetLargestPossibleRegion() );
-      this->m_VirtualDomainImage->Allocate();
-      }
-    else
-      {
-      VirtualImageBaseConstPointer virtualDomainBaseImage = this->GetCurrentLevelVirtualDomainImage();
+    {
+    VirtualImageBaseConstPointer virtualDomainBaseImage = this->GetCurrentLevelVirtualDomainImage();
 
-      if( virtualDomainBaseImage.IsNotNull() )
-        {
-        this->m_VirtualDomainImage = VirtualImageType::New();
-        this->m_VirtualDomainImage->CopyInformation( virtualDomainBaseImage );
-        this->m_VirtualDomainImage->SetRegions( virtualDomainBaseImage->GetLargestPossibleRegion() );
-        this->m_VirtualDomainImage->Allocate();
-        }
+    if( virtualDomainBaseImage.IsNull() && this->m_FirstImageMetricIndex >= 0 )
+      {
+      virtualDomainBaseImage =  this->GetFixedImage( this->m_FirstImageMetricIndex );
       }
+    this->m_VirtualDomainImage = VirtualImageType::New();
+    this->m_VirtualDomainImage->CopyInformation( virtualDomainBaseImage );
+    this->m_VirtualDomainImage->SetRegions( virtualDomainBaseImage->GetLargestPossibleRegion() );
+    this->m_VirtualDomainImage->Allocate();
+    }
 
     this->m_FixedImageMasks.clear();
     this->m_FixedImageMasks.resize( this->m_NumberOfMetrics );
