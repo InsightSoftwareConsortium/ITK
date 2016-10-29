@@ -358,6 +358,7 @@ ${cache_build_type}
 ${cache_make_program}
 ${dashboard_cache}
 ")
+  file(REMOVE_RECURSE "${CTEST_BINARY_DIRECTORY}/CMakeFiles")
 endmacro()
 
 # Start with a fresh build tree.
