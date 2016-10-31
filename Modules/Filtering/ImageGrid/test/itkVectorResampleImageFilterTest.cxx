@@ -21,7 +21,6 @@
 #include "itkFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-
 int itkVectorResampleImageFilterTest( int argc, char * argv[] )
 {
 
@@ -33,27 +32,30 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
     return EXIT_FAILURE;
     }
 
-  const     unsigned int   Dimension = 2;
-  typedef   unsigned char                       PixelComponentType;
-  typedef   itk::RGBPixel< PixelComponentType > PixelType;
+  const     unsigned int    Dimension = 2;
+  typedef   unsigned char   PixelComponentType;
 
-  typedef itk::Image< PixelType,  Dimension >   ImageType;
+  typedef itk::RGBPixel< PixelComponentType > PixelType;
+  typedef itk::Image< PixelType,  Dimension > ImageType;
 
-  typedef itk::VectorResampleImageFilter<
-                            ImageType, ImageType >  FilterType;
+  typedef itk::VectorResampleImageFilter< ImageType, ImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, VectorResampleImageFilter,
+    ImageToImageFilter );
+
   FilterWatcher watcher(filter);
 
   typedef itk::VectorLinearInterpolateImageFunction<
-                       ImageType, double >  InterpolatorType;
+    ImageType, double > InterpolatorType;
 
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
   filter->SetInterpolator( interpolator );
+  TEST_SET_GET_VALUE( interpolator, filter->GetInterpolator() );
 
-
-  typedef itk::IdentityTransform< double, Dimension >  TransformType;
+  typedef itk::IdentityTransform< double, Dimension > TransformType;
   TransformType::Pointer transform = TransformType::New();
 
   filter->SetTransform( transform );
@@ -101,58 +103,56 @@ int itkVectorResampleImageFilterTest( int argc, char * argv[] )
     ++it;
     }
 
-
   PixelType blackValue;
   blackValue.Fill( 0 );
 
   filter->SetDefaultPixelValue( blackValue );
+  TEST_SET_GET_VALUE( blackValue, filter->GetDefaultPixelValue() );
 
   // Set the spacing for the resampling
   spacing[0] *= 2.0;
   spacing[1] *= 2.0;
 
   filter->SetOutputSpacing( spacing );
+  TEST_SET_GET_VALUE( spacing, filter->GetOutputSpacing() );
 
-
-  // keep the origin
+  // Keep the input image origin
   filter->SetOutputOrigin( origin );
+  TEST_SET_GET_VALUE( origin, filter->GetOutputOrigin() );
 
-  // set the size
+  // Set the size
   size[0] /= 2;
   size[1] /= 2;
 
   filter->SetSize( size );
+  TEST_SET_GET_VALUE( size, filter->GetSize() );
+
+  // Set the output direction
+  FilterType::DirectionType outputDirection =
+    image->GetDirection();
+
+  filter->SetOutputDirection( outputDirection );
+  TEST_SET_GET_VALUE( outputDirection, filter->GetOutputDirection() );
+
+  // Set the start index
+  FilterType::IndexType outputStartIndex =
+    image->GetLargestPossibleRegion().GetIndex();
+
+  filter->SetOutputStartIndex( outputStartIndex );
+  TEST_SET_GET_VALUE( outputStartIndex, filter->GetOutputStartIndex() );
 
 
   filter->SetInput( image );
 
-
-  try
-    {
-    filter->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception thrown " << std::endl;
-    std::cerr << excp << std::endl;
-    }
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Write an image for regression testing
-  typedef itk::ImageFileWriter<  ImageType  > WriterType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput (filter->GetOutput());
   writer->SetFileName( argv[1] );
-  try
-    {
-  writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception thrown by writer" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
-
 }
