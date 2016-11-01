@@ -112,7 +112,7 @@ int itkVectorRescaleIntensityImageFilterTest( int, char* [] )
           static_cast< double >( pixelValue[k] * factor ), 10, tolerance ) )
           {
           std::cerr << "Test FAILED !" << std::endl;
-          std::cerr.precision( itk::Math::abs( std::log10( tolerance ) ) );
+          std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
           std::cerr << "Input  Pixel Value = " << pixelValue  << std::endl;
           std::cerr << "Output Pixel Value = " << outputValue << std::endl;
           return EXIT_FAILURE;

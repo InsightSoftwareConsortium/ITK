@@ -118,7 +118,6 @@ public:
   itkSetMacro(Maximum, InputPixelType);
   itkGetConstReferenceMacro(Maximum, InputPixelType);
 
-  /** Print internal ivars */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Process to execute before entering the multithreaded section */
