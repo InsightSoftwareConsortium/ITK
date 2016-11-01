@@ -36,9 +36,9 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 InvertIntensityImageFilter< TInputImage, TOutputImage >
-::InvertIntensityImageFilter()
+::InvertIntensityImageFilter() :
+  m_Maximum( NumericTraits< InputPixelType >::max() )
 {
-  m_Maximum = NumericTraits< InputPixelType >::max();
 }
 
 template< typename TInputImage, typename TOutputImage >
