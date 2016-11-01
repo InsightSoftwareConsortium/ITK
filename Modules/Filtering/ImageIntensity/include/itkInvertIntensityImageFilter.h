@@ -114,6 +114,7 @@ public:
   itkTypeMacro(InvertIntensityImageFilter,
                UnaryFunctorImageFilter);
 
+  /** Set/Get the maximum intensity value for the inversion. */
   itkSetMacro(Maximum, InputPixelType);
   itkGetConstReferenceMacro(Maximum, InputPixelType);
 
