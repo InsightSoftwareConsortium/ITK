@@ -301,6 +301,8 @@ HDF5ImageIO
   hsize_t numScalars(1);
   H5::DataSpace scalarSpace(1,&numScalars);
   H5::PredType scalarType =
+    H5::PredType::NATIVE_INT;
+  H5::PredType attrType =
     H5::PredType::NATIVE_HBOOL;
   H5::DataSet scalarSet =
     this->m_H5File->createDataSet(path,
@@ -314,10 +316,10 @@ HDF5ImageIO
   const std::string isLongName("isLong");
   H5::Attribute isLong =
     scalarSet.createAttribute(isLongName,
-                               scalarType,
+                               attrType,
                                scalarSpace);
   bool trueVal(true);
-  isLong.write(scalarType,&trueVal);
+  isLong.write(attrType,&trueVal);
   isLong.close();
   int tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
@@ -332,6 +334,8 @@ HDF5ImageIO
   hsize_t numScalars(1);
   H5::DataSpace scalarSpace(1,&numScalars);
   H5::PredType scalarType =
+    H5::PredType::NATIVE_UINT;
+  H5::PredType attrType =
     H5::PredType::NATIVE_HBOOL;
   H5::DataSet scalarSet =
     this->m_H5File->createDataSet(path,
@@ -345,10 +349,10 @@ HDF5ImageIO
   const std::string isUnsignedLongName("isUnsignedLong");
   H5::Attribute isUnsignedLong =
     scalarSet.createAttribute(isUnsignedLongName,
-                               scalarType,
+                               attrType,
                                scalarSpace);
   bool trueVal(true);
-  isUnsignedLong.write(scalarType,&trueVal);
+  isUnsignedLong.write(attrType,&trueVal);
   isUnsignedLong.close();
   int tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
@@ -851,10 +855,23 @@ HDF5ImageIO
         }
       else if(metaDataType == H5::PredType::NATIVE_UCHAR)
         {
-        this->StoreMetaData<unsigned char>(&metaDict,
-                                           localMetaDataName,
-                                           name,
-                                           metaDataDims[0]);
+        if(doesAttrExist(metaDataSet,"isBool"))
+          {
+          // itk::Array<bool> apparently can't
+          // happen because vnl_vector<bool> isn't
+          // instantiated
+          bool val;
+          int tmpVal = this->ReadScalar<int>(localMetaDataName);
+          val = tmpVal != 0;
+          EncapsulateMetaData<bool>(metaDict,name,val);
+          }
+        else
+          {
+          this->StoreMetaData<unsigned char>(&metaDict,
+                                             localMetaDataName,
+                                             name,
+                                             metaDataDims[0]);
+          }
         }
       else if(metaDataType == H5::PredType::NATIVE_SHORT)
         {
@@ -872,10 +889,18 @@ HDF5ImageIO
         }
       else if(metaDataType == H5::PredType::NATIVE_UINT)
         {
-        this->StoreMetaData<unsigned int>(&metaDict,
-                                          localMetaDataName,
-                                          name,
-                                          metaDataDims[0]);
+        if(doesAttrExist(metaDataSet,"isUnsignedLong"))
+          {
+          unsigned long val = this->ReadScalar<unsigned long>(localMetaDataName);
+          EncapsulateMetaData<unsigned long>(metaDict,name,val);
+          }
+        else
+          {
+          this->StoreMetaData<unsigned int>(&metaDict,
+                                            localMetaDataName,
+                                            name,
+                                            metaDataDims[0]);
+          }
         }
       else if(metaDataType == H5::PredType::NATIVE_LONG)
         {
