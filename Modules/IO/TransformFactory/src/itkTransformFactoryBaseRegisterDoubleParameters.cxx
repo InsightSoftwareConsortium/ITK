@@ -73,7 +73,7 @@ void TransformFactoryBase::RegisterTransformFactoryDoubleParameters()
 
   TransformFactory< AzimuthElevationToCartesianTransform<double, 3> >::RegisterTransform ();
 
-  TransformFactory< BSplineTransform<double, 2, 2> >::RegisterTransform ();
+  TransformFactory< BSplineTransform<double, 2, 3> >::RegisterTransform ();
   TransformFactory< BSplineTransform<double, 3, 3> >::RegisterTransform ();
 #if !defined( ITK_FUTURE_LEGACY_REMOVE )
   TransformFactory< BSplineDeformableTransform<double, 2, 2> >::RegisterTransform ();

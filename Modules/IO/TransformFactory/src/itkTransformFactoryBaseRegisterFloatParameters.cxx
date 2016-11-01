@@ -76,7 +76,7 @@ void TransformFactoryBase::RegisterTransformFactoryFloatParameters()
 
   TransformFactory< AzimuthElevationToCartesianTransform<float, 3> >::RegisterTransform ();
 
-  TransformFactory< BSplineTransform<float, 2, 2> >::RegisterTransform ();
+  TransformFactory< BSplineTransform<float, 2, 3> >::RegisterTransform ();
   TransformFactory< BSplineTransform<float, 3, 3> >::RegisterTransform ();
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   TransformFactory< BSplineDeformableTransform<float, 2, 2> >::RegisterTransform ();
