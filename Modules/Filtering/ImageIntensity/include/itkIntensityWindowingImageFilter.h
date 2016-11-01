@@ -149,20 +149,20 @@ public:
                UnaryFunctorImageFilter);
 
   /** Set/Get the values of the maximum and minimum
-   *  intensities of the outputimage */
+   *  intensities of the output image. */
   itkSetMacro(OutputMinimum, OutputPixelType);
   itkSetMacro(OutputMaximum, OutputPixelType);
   itkGetConstReferenceMacro(OutputMinimum, OutputPixelType);
   itkGetConstReferenceMacro(OutputMaximum, OutputPixelType);
 
   /** Set/Get the values of the maximum and minimum
-   *  intensities of the input intensity window */
+   *  intensities of the input intensity window. */
   itkSetMacro(WindowMinimum, InputPixelType);
   itkSetMacro(WindowMaximum, InputPixelType);
   itkGetConstReferenceMacro(WindowMinimum, InputPixelType);
   itkGetConstReferenceMacro(WindowMaximum, InputPixelType);
 
-  /** Set/Get the window width and level.  This is an alternative API
+  /** Set/Get the window width and level. This is an alternative API
    * to using the SetWindowMinimum()/SetWindowMaximum(). The window
    * minimum and maximum are set as [level-window/2,
    * level+window/2]. */
@@ -175,14 +175,13 @@ public:
 
   /** Get the Scale and Shift used for the linear transformation
       of gray level values.
-   \warning These Values are only valid after the filter has been updated */
+   \warning These Values are only valid after the filter has been updated. */
   itkGetConstReferenceMacro(Scale, RealType);
   itkGetConstReferenceMacro(Shift, RealType);
 
-  /** Process to execute before entering the multithreaded section */
+  /** Process to execute before entering the multithreaded section. */
   void BeforeThreadedGenerateData(void) ITK_OVERRIDE;
 
-  /** Print internal ivars */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
