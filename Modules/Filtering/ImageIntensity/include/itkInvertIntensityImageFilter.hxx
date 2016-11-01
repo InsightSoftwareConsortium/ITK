@@ -33,9 +33,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 InvertIntensityImageFilter< TInputImage, TOutputImage >
 ::InvertIntensityImageFilter()
@@ -51,9 +49,6 @@ InvertIntensityImageFilter< TInputImage, TOutputImage >
   this->GetFunctor().SetMaximum(m_Maximum);
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 InvertIntensityImageFilter< TInputImage, TOutputImage >
