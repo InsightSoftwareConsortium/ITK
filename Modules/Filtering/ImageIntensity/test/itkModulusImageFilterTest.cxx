@@ -22,6 +22,7 @@
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkModulusImageFilterTest(int argc, char * argv[])
 {
@@ -33,52 +34,50 @@ int itkModulusImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const int dim = 2;
+  const unsigned int Dimension = 2;
 
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   // get the distance map inside the spots
   // spot are already black so there is no need to invert the image
-  typedef itk::DanielssonDistanceMapImageFilter< IType, IType > DistanceFilter;
+  typedef itk::DanielssonDistanceMapImageFilter< ImageType, ImageType > DistanceFilter;
   DistanceFilter::Pointer distance = DistanceFilter::New();
   distance->SetInput( reader->GetOutput() );
 
-  typedef itk::ModulusImageFilter< IType, IType > FilterType;
+  typedef itk::ModulusImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, ModulusImageFilter,
+    BinaryFunctorImageFilter );
+
   filter->SetInput( distance->GetOutput() );
-  filter->SetDividend( 8 );
+
+  FilterType::InputPixelType dividend = 8;
+  filter->SetDividend( dividend );
+  TEST_SET_GET_VALUE( dividend, filter->GetDividend() )
+
   filter->InPlaceOn();
   filter->SetFunctor( filter->GetFunctor() );
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  typedef itk::RescaleIntensityImageFilter< IType, IType > ThresholdType;
+  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > ThresholdType;
   ThresholdType::Pointer rescale = ThresholdType::New();
   rescale->SetInput( filter->GetOutput() );
-  rescale->SetOutputMaximum( itk::NumericTraits< PType >::max() );
-  rescale->SetOutputMinimum( itk::NumericTraits< PType >::NonpositiveMin() );
+  rescale->SetOutputMaximum( itk::NumericTraits< PixelType >::max() );
+  rescale->SetOutputMinimum( itk::NumericTraits< PixelType >::NonpositiveMin() );
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( rescale->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
 
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception caught ! " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
