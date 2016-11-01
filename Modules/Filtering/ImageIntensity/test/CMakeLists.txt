@@ -150,7 +150,10 @@ itk_add_test(NAME itkNotImageFilterTest
 itk_add_test(NAME itkImageAdaptorNthElementTest
       COMMAND ITKImageIntensityTestDriver itkImageAdaptorNthElementTest)
 itk_add_test(NAME itkConstrainedValueAdditionImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkConstrainedValueAdditionImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
+              6ef609d089e93e2eed8f089f75bc67fb
+    itkConstrainedValueAdditionImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png)
 itk_add_test(NAME itkAtanImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkAtanImageFilterAndAdaptorTest)
 itk_add_test(NAME itkMaskNegatedImageFilterTest
