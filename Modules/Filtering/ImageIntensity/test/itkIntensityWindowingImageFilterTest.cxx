@@ -19,13 +19,13 @@
 #include <iostream>
 
 #include "itkIntensityWindowingImageFilter.h"
+#include "itkMath.h"
+#include "itkNumericTraits.h"
 #include "itkRandomImageSource.h"
 #include "itkTestingMacros.h"
 
-int itkIntensityWindowingImageFilterTest(int, char* [] )
+int itkIntensityWindowingImageFilterTest( int, char* [] )
 {
-  std::cout << "Testing itk::IntensityWindowingImageFilter class" << std::endl;
-
   const unsigned int Dimension = 3;
   typedef float PixelType;
 
@@ -33,8 +33,12 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   typedef itk::Image< PixelType, Dimension > TestOutputImage;
 
   TestInputImage::RegionType region;
-  TestInputImage::SizeType   size; size.Fill(64);
-  TestInputImage::IndexType  index; index.Fill(0);
+
+  TestInputImage::SizeType   size;
+  size.Fill(64);
+
+  TestInputImage::IndexType  index;
+  index.Fill(0);
 
   region.SetIndex (index);
   region.SetSize (size);
@@ -46,22 +50,21 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, IntensityWindowingImageFilter,
     UnaryFunctorImageFilter );
 
-  // Now generate a real image
-
-  typedef itk::RandomImageSource<TestInputImage> SourceType;
+  // Generate a real image
+  typedef itk::RandomImageSource< TestInputImage > SourceType;
   SourceType::Pointer source = SourceType::New();
   TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 
-
   // Set up source
-  source->SetSize(randomSize);
+  source->SetSize( randomSize );
+
   double minValue = -128.0;
   double maxValue =  127.0;
 
   source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
   source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
 
-  filter->SetInput(source->GetOutput());
+  filter->SetInput( source->GetOutput() );
 
   const double desiredMinimum = -1.0;
   const double desiredMaximum =  1.0;
@@ -70,25 +73,38 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   const float  windowMaximum =  50.0f;
 
   filter->SetOutputMinimum( desiredMinimum );
+  TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );
+
   filter->SetOutputMaximum( desiredMaximum );
-  filter->SetWindowMinimum( windowMinimum  );
-  filter->SetWindowMaximum( windowMaximum  );
+  TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximum() );
+
+  filter->SetWindowMinimum( windowMinimum );
+  TEST_SET_GET_VALUE( windowMinimum, filter->GetWindowMinimum() );
+
+  filter->SetWindowMaximum( windowMaximum );
+  TEST_SET_GET_VALUE( windowMaximum, filter->GetWindowMaximum() );
 
   std::cout << "Window minimum:maximum = "
     << windowMinimum << ":" << windowMaximum
     << ", equivalent window:level = "
-    << filter->GetWindow() << ":" << filter->GetLevel() << std::endl;
+    << static_cast< itk::NumericTraits<
+    FilterType::InputPixelType >::PrintType >( filter->GetWindow() )
+    << ":"
+    << static_cast< itk::NumericTraits<
+    FilterType::InputPixelType >::PrintType >( filter->GetLevel() )
+    << std::endl;
 
-  try
-    {
-    filter->UpdateLargestPossibleRegion();
-    filter->SetFunctor(filter->GetFunctor());
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: " << e;
-    return -1;
-    }
+  std::cout << "Gray level linear transformation scale = "
+    << static_cast< itk::NumericTraits<
+    FilterType::RealType >::PrintType >( filter->GetScale() )
+    << ", shift = "
+    << static_cast< itk::NumericTraits<
+    FilterType::RealType >::PrintType >( filter->GetShift() )
+    << std::endl;
+
+  TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
+
+  TRY_EXPECT_NO_EXCEPTION( filter->SetFunctor( filter->GetFunctor() ) );
 
   typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
   CalculatorType::Pointer calculator = CalculatorType::New();
@@ -102,16 +118,18 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   const double obtainedMinimum = calculator->GetMinimum();
   const double obtainedMaximum = calculator->GetMaximum();
 
-  if( itk::Math::abs( obtainedMinimum - desiredMinimum ) > tolerance )
+  if( !itk::Math::FloatAlmostEqual( obtainedMinimum, desiredMinimum, 10, tolerance ) )
     {
+    std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
     std::cerr << "Obtained minimum = " << obtainedMinimum << std::endl;
     return EXIT_FAILURE;
     }
 
-  if( itk::Math::abs( obtainedMaximum - desiredMaximum ) > tolerance )
+  if( !itk::Math::FloatAlmostEqual( obtainedMaximum, desiredMaximum, 10, tolerance ) )
     {
+    std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
     std::cerr << "Error in maximum" << std::endl;
     std::cerr << "Expected maximum = " << desiredMaximum  << std::endl;
     std::cerr << "Obtained maximum = " << obtainedMaximum << std::endl;
@@ -124,37 +142,38 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
   filter->SetWindowLevel( window, level );
 
   std::cout << "Window:level = "
-            << filter->GetWindow() << ":"
-            << filter->GetLevel()
+            << static_cast< itk::NumericTraits<
+            FilterType::InputPixelType >::PrintType >( filter->GetWindow() )
+            << ":"
+            << static_cast< itk::NumericTraits<
+            FilterType::InputPixelType >::PrintType >( filter->GetLevel() )
             << ", equivalent window minimum:maximum = "
-            << filter->GetWindowMinimum()
-            << ":" << filter->GetWindowMaximum() << std::endl;
+            << static_cast< itk::NumericTraits<
+            FilterType::InputPixelType >::PrintType >( filter->GetWindowMinimum() )
+            << ":"
+            << static_cast< itk::NumericTraits<
+            FilterType::InputPixelType >::PrintType >( filter->GetWindowMaximum() )
+            << std::endl;
 
-  try
-    {
-    filter->UpdateLargestPossibleRegion();
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: " << e;
-    return -1;
-    }
+  TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
 
   calculator->Compute();
 
   const double obtainedMinimum2 = calculator->GetMinimum();
   const double obtainedMaximum2 = calculator->GetMaximum();
 
-  if( itk::Math::abs( obtainedMinimum2 - desiredMinimum ) > tolerance )
+  if( !itk::Math::FloatAlmostEqual( obtainedMinimum2, desiredMinimum, 10, tolerance ) )
     {
+    std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum   << std::endl;
     std::cerr << "Obtained minimum = " << obtainedMinimum2 << std::endl;
     return EXIT_FAILURE;
     }
 
-  if( itk::Math::abs( obtainedMaximum2 - desiredMaximum ) > tolerance )
+  if( !itk::Math::FloatAlmostEqual( obtainedMaximum2, desiredMaximum, 10, tolerance ) )
     {
+    std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
     std::cerr << "Error in maximum" << std::endl;
     std::cerr << "Expected maximum = " << desiredMaximum   << std::endl;
     std::cerr << "Obtained maximum = " << obtainedMaximum2 << std::endl;
@@ -163,5 +182,4 @@ int itkIntensityWindowingImageFilterTest(int, char* [] )
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }
