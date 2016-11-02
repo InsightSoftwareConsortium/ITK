@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include <string>
+#include <fstream>
 #include "itkHeldIsotropicWavelet.h"
 #include "itkVowIsotropicWavelet.h"
 #include "itkSimoncelliIsotropicWavelet.h"
@@ -80,7 +81,8 @@ runIsotropicWaveletFrequencyFunctionTest(const std::string &  profileDataRootPat
   }
 
   // Write profile.
-  std::ofstream ofs(profileDataRootPath + "_" + waveletTypeName + "_" + n2s(inputBands) + ".txt", std::ofstream::out);
+  const std::string outputFilePath = profileDataRootPath + "_" + waveletTypeName + "_" + n2s(inputBands) + ".txt";
+  std::ofstream     ofs(outputFilePath.c_str(), std::ofstream::out);
   for (unsigned int i = 0; i < points; ++i)
   {
     ofs << w_array[i];
