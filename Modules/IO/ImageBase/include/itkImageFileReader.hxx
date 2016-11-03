@@ -162,14 +162,14 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 
   if ( numberOfDimensionsIO > TOutputImage::ImageDimension )
     {
-    for ( unsigned int k = 0; k < numberOfDimensionsIO; k++ )
+    for ( unsigned int k = 0; k < numberOfDimensionsIO; ++k )
       {
       directionIO.push_back( m_ImageIO->GetDefaultDirection(k) );
       }
     }
   else
     {
-    for ( unsigned int k = 0; k < numberOfDimensionsIO; k++ )
+    for ( unsigned int k = 0; k < numberOfDimensionsIO; ++k )
       {
       directionIO.push_back( m_ImageIO->GetDirection(k) );
       }
@@ -177,7 +177,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
 
   std::vector< double > axis;
 
-  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; i++ )
+  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
     {
     if ( i < numberOfDimensionsIO )
       {
@@ -188,7 +188,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
       // Please note: direction cosines are stored as columns of the
       // direction matrix
       axis = directionIO[i];
-      for ( unsigned j = 0; j < TOutputImage::ImageDimension; j++ )
+      for ( unsigned j = 0; j < TOutputImage::ImageDimension; ++j )
         {
         if ( j < numberOfDimensionsIO )
           {
@@ -208,7 +208,7 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
       dimSize[i] = 1;
       spacing[i] = 1.0;
       origin[i] = 0.0;
-      for ( unsigned j = 0; j < TOutputImage::ImageDimension; j++ )
+      for ( unsigned j = 0; j < TOutputImage::ImageDimension; ++j )
         {
         if ( i == j )
           {
@@ -221,7 +221,19 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
         }
       }
     }
-
+  // Spacing is expected to be greater than 0
+  // If negative, flip image direction along this axis.
+  for ( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
+    {
+    if(spacing[i] < 0)
+      {
+      spacing[i] = -spacing[i];
+      for ( unsigned j = 0; j < TOutputImage::ImageDimension; ++j )
+        {
+        direction[j][i] = -direction[j][i];
+        }
+      }
+    }
   output->SetSpacing(spacing);       // Set the image spacing
   output->SetOrigin(origin);         // Set the image origin
   output->SetDirection(direction);   // Set the image direction cosines
