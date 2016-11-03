@@ -49,7 +49,7 @@ target_compile_definitions(
 if(ITK_VISUALIZE_TESTS AND NOT ITKVtkGlue_ENABLED)
   message(
     FATAL_ERROR
-    "ITK_VISUALIZE_TESTS is set, but Module_ITKVtkGlue is not enabled. Set Module_ITKVtkGlue = ON or set ITK_VISUALIZE_TESTS to 0 to avoid this error."
+    "ITK_VISUALIZE_TESTS is set, but Module_ITKVtkGlue is not enabled. Set Module_ITKVtkGlue = ON or set ITK_VISUALIZE_TESTS = OFF to avoid this error."
   )
 endif()
 
