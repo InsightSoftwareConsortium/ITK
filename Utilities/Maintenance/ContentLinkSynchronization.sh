@@ -99,7 +99,7 @@ verify_and_create() {
       cat "${object_alt_algo_hash}" > "${alt_algo_file}"
       cp "${object_store}/${algo_upper}/${algo_hash}" "${object_store}/${alt_algo_upper}/${alt_algo_hash}"
     fi
-  done
+  done || exit 1
 }
 
 verify_and_create md5 sha512
