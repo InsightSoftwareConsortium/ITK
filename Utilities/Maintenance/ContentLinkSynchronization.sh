@@ -51,7 +51,7 @@ cd "$top_level_dir"
 
 object_store=$1
 
-mkdir -p ${object_store}/{MD5/SHA512}
+mkdir -p ${object_store}/{MD5,SHA512}
 
 verify_and_create() {
   algo=$1
