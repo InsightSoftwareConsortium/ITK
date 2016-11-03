@@ -27,8 +27,6 @@ if(ITKVtkGlue_ENABLED)
   list(APPEND Libraries ${VTK_LIBRARIES})
 endif()
 
-createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
-
 #ITK_VISUALIZE_TESTS is passed to source code.
 #change it to 1 to visualize images, for dev purposes.
 option(
@@ -36,6 +34,12 @@ option(
   "Visualize images in tests for development purposes."
   OFF
 )
+if(ITK_VISUALIZE_TESTS)
+  list(APPEND IsotropicWaveletsTests runViewImage.cxx)
+endif()
+
+createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
+
 target_compile_definitions(
   IsotropicWaveletsTestDriver
   PRIVATE
