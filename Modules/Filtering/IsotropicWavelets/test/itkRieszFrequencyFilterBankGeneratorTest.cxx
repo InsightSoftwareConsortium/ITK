@@ -26,7 +26,7 @@
 #include <itkImageRegionConstIterator.h>
 #include <itkNumberToString.h>
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
 
@@ -75,7 +75,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
     std::cout << "Direction: " << dir + 1 << " / " << ImageType::ImageDimension << std::endl;
     complexToRealFilter->SetInput(filterBank->GetOutput(dir));
     complexToRealFilter->Update();
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
     itk::NumberToString<unsigned int> n2s;
     Testing::ViewImage(complexToRealFilter->GetOutput(),
                        "RealPart of Complex. Direction: " + n2s(dir + 1) + " / " + n2s(ImageType::ImageDimension));

@@ -32,7 +32,7 @@
 #include <itkImageRegionConstIterator.h>
 #include <itkNumberToString.h>
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
 using namespace std;
@@ -81,7 +81,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
 
     complexToRealFilter->SetInput(forwardFilterBank->GetOutput(i));
     complexToRealFilter->Update();
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
     Testing::ViewImage(complexToRealFilter->GetOutput(),
                        "RealPart of Complex. Band: " + n2s(i) + "/" + n2s(high_sub_bands));
 #endif
@@ -111,7 +111,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
     std::cout << "Band: " << i << " / " << forwardFilterBank->GetHighPassSubBands() << std::endl;
     inverseFFT->SetInput(forwardFilterBank->GetOutput(i));
     inverseFFT->Update();
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
     Testing::ViewImage(inverseFFT->GetOutput(), "InverseFFT. Band: " + n2s(i) + "/" + n2s(high_sub_bands));
 #endif
   }

@@ -40,7 +40,7 @@
 #include <itkGaussianSpatialFunction.h>
 #include <itkFrequencyImageRegionIteratorWithIndex.h>
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
 using namespace std;
@@ -113,7 +113,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
     {
       modifiedWavelets.push_back(analysisWavelets[nout]);
       // TODO remove this visualize
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
       typedef itk::InverseFFTImageFilter<ComplexImageType> FFTInverseFilterType;
       typename FFTInverseFilterType::Pointer               fftInv = FFTInverseFilterType::New();
       fftInv->SetInput(analysisWavelets[nout]);
@@ -138,7 +138,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
     modifiedWavelets.push_back(fftForwardPhaseFilter->GetOutput());
     modifiedWavelets.back()->DisconnectPipeline();
     // TODO remove this visualize
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
     typedef itk::InverseFFTImageFilter<ComplexImageType> FFTInverseFilterType;
     typename FFTInverseFilterType::Pointer               fftInv = FFTInverseFilterType::New();
     fftInv->SetInput(analysisWavelets[nout]);
@@ -202,7 +202,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(inverseWavelet->GetOutput());
   inverseFFT->Update();
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
   Testing::ViewImage(reader->GetOutput(), "Input Image");
   Testing::ViewImage(inverseFFT->GetOutput(), "Inverse Wavelet");
 #endif

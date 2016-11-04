@@ -28,7 +28,7 @@
 
 #include "itkVectorInverseFFTImageFilter.h"
 // Visualize for dev/debug purposes. Set in cmake file. Require VTK
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
 using namespace std;
@@ -74,7 +74,7 @@ runMonogenicPhaseAnalysisEigenValuesImageFilterTest(const std::string & inputIma
   phaseAnalyzer->SetApplySoftThreshold(true);
   phaseAnalyzer->Update();
 
-#if ITK_VISUALIZE_TESTS != 0
+#ifdef ITK_VISUALIZE_TESTS
   // Testing::ViewImage(reader->GetOutput(), "Input Image");
   Testing::ViewImage(phaseAnalyzer->GetOutput(1), "PhaseAnalyzer(Eigen) Amplitude:");
   Testing::ViewImage(phaseAnalyzer->GetOutput(2), "PhaseAnalyzer(Eigen) Phase:");
