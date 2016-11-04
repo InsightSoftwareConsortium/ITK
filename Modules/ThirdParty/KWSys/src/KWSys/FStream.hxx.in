@@ -150,6 +150,8 @@ namespace @KWSYS_NAMESPACE@
       {
 #if !defined(_MSC_VER)
         ios->rdbuf(efilebuf->buf_);
+#else
+        static_cast<void>(efilebuf);
 #endif
         if (!success) {
           ios->setstate(std::ios_base::failbit);
