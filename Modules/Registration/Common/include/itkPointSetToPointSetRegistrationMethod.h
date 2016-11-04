@@ -26,7 +26,7 @@
 namespace itk
 {
 /** \class PointSetToPointSetRegistrationMethod
- * \brief Base class for PointSet to PointSet Registration Methods
+ * \brief Base class for PointSet to PointSet Registration Methods.
  *
  * This Class define the generic interface for a registration method.
  *
@@ -35,11 +35,11 @@ namespace itk
  * at run time the particular type of transformation that is to be applied for
  * registering the PointSets.
  *
- * This method use a generic Metric in order to compare the PointSet and the
- * PointSet. The final goal of the registration method is to find the set of
- * parameters of the Transformation that optimizes the metric.
+ * This class uses a generic Metric in order to compare the PointSet
+ * and the PointSet. The final goal of the registration method is to find the
+ * set of parameters of the Transformation that optimizes the metric.
  *
- * The registration method also support a generic optimizer that can be
+ * The registration method also supports a generic optimizer that can be
  * selected at run-time. The only restriction for the optimizer is that it
  * should be able to operate in single-valued cost functions given that the
  * metrics used to compare PointSet with PointSets provide a single value as
@@ -56,11 +56,14 @@ namespace itk
  * PointSet with the Transformed Moving PointSet. This process also requires to
  * interpolate values from the Moving PointSet.
  *
+ * This class requires the Transform, the Metric, and the Optimizer to be
+ * explicitly set.
+ *
  * \ingroup RegistrationFilters
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingPointSet >
-class PointSetToPointSetRegistrationMethod:public ProcessObject
+class PointSetToPointSetRegistrationMethod : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
