@@ -49,7 +49,7 @@ template <>
 class MatrixOrthogonalityTolerance<float>
 {
 public:
-  static float GetTolerance() { return 1e-5; }
+  static float GetTolerance() { return 1e-5f; }
 };
 
 /** \class MatrixOffsetTransformBase
