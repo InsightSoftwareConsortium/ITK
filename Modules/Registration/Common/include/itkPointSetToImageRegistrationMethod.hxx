@@ -22,27 +22,17 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TFixedPointSet, typename TMovingImage >
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
-::PointSetToImageRegistrationMethod()
+::PointSetToImageRegistrationMethod() :
+  m_InitialTransformParameters( 0.0f ),
+  m_LastTransformParameters( 0.0f )
 {
-  this->SetNumberOfRequiredOutputs(1);    // for the Transform
-
-  m_FixedPointSet   = ITK_NULLPTR; // has to be provided by the user.
-  m_MovingImage     = ITK_NULLPTR; // has to be provided by the user.
-  m_Transform       = ITK_NULLPTR; // has to be provided by the user.
-  m_Interpolator    = ITK_NULLPTR; // has to be provided by the user.
-  m_Metric          = ITK_NULLPTR; // has to be provided by the user.
-  m_Optimizer       = ITK_NULLPTR; // has to be provided by the user.
+  this->SetNumberOfRequiredOutputs(1);
 
   m_InitialTransformParameters = ParametersType(1);
   m_LastTransformParameters = ParametersType(1);
-
-  m_InitialTransformParameters.Fill(0.0f);
-  m_LastTransformParameters.Fill(0.0f);
 
   TransformOutputPointer transformDecorator =
     itkDynamicCastInDebugMode< TransformOutputType * >(this->MakeOutput(0).GetPointer() );
@@ -50,9 +40,6 @@ PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
   this->ProcessObject::SetNthOutput( 0, transformDecorator.GetPointer() );
 }
 
-/*
- * Set the initial transform parameters
- */
 template< typename TFixedPointSet, typename TMovingImage >
 void
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
@@ -62,9 +49,6 @@ PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
   this->Modified();
 }
 
-/**
- * Initialize by setting the interconnects between components.
- */
 template< typename TFixedPointSet, typename TMovingImage >
 void
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
@@ -101,7 +85,7 @@ throw ( ExceptionObject )
     itkExceptionMacro(<< "Interpolator is not present");
     }
 
-  // Setup the metric
+  // Set up the metric
   m_Metric->SetMovingImage(m_MovingImage);
   m_Metric->SetFixedPointSet(m_FixedPointSet);
   m_Metric->SetTransform(m_Transform);
@@ -109,7 +93,7 @@ throw ( ExceptionObject )
 
   m_Metric->Initialize();
 
-  // Setup the optimizer
+  // Set up the optimizer
   m_Optimizer->SetCostFunction(m_Metric);
 
   // Validate initial transform parameters
@@ -121,45 +105,21 @@ throw ( ExceptionObject )
 
   m_Optimizer->SetInitialPosition(m_InitialTransformParameters);
 
-  //
-  // Connect the transform to the Decorator.
-  //
+  // Connect the transform to the Decorator
   TransformOutputType *transformOutput =
     static_cast< TransformOutputType * >( this->ProcessObject::GetOutput(0) );
 
   transformOutput->Set( m_Transform.GetPointer() );
 }
 
-/**
- * PrintSelf
- */
-template< typename TFixedPointSet, typename TMovingImage >
-void
-PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Metric: " << m_Metric.GetPointer() << std::endl;
-  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << std::endl;
-  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  os << indent << "Fixed Image: " << m_FixedPointSet.GetPointer() << std::endl;
-  os << indent << "Moving Image: " << m_MovingImage.GetPointer() << std::endl;
-  os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << std::endl;
-  os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
-}
-
-/*
- * Generate Data
- */
 template< typename TFixedPointSet, typename TMovingImage >
 void
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
 ::GenerateData()
 {
+  // Initialize the interconnects between components
   try
     {
-    // initialize the interconnects between components
     this->Initialize();
     }
   catch ( ExceptionObject & err )
@@ -167,13 +127,13 @@ PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
     m_LastTransformParameters = ParametersType(1);
     m_LastTransformParameters.Fill(0.0f);
 
-    // pass exception to caller
+    // Pass the exception to the caller
     throw err;
     }
 
+   // Do the optimization
   try
     {
-    // do the optimization
     m_Optimizer->StartOptimization();
     }
   catch ( ExceptionObject & err )
@@ -182,19 +142,16 @@ PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
     // Update the parameters
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
-    // Pass exception to caller
+    // Pass the exception to the caller
     throw err;
     }
 
-  // get the results
+  // Get the results
   m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
   m_Transform->SetParameters(m_LastTransformParameters);
 }
 
-/**
- *  Get Output
- */
 template< typename TFixedPointSet, typename TMovingImage >
 const typename PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >::TransformOutputType *
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
@@ -219,9 +176,6 @@ PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
     }
 }
 
-/**
- *
- */
 template< typename TFixedPointSet, typename TMovingImage >
 ModifiedTimeType
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
@@ -270,6 +224,24 @@ PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
     }
 
   return mtime;
+}
+
+template< typename TFixedPointSet, typename TMovingImage >
+void
+PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  itkPrintSelfObjectMacro( Metric );
+  itkPrintSelfObjectMacro( Optimizer );
+  itkPrintSelfObjectMacro( Transform );
+  itkPrintSelfObjectMacro( Interpolator );
+  itkPrintSelfObjectMacro( FixedPointSet );
+  itkPrintSelfObjectMacro( MovingImage );
+
+  os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << std::endl;
+  os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
 }
 } // end namespace itk
 
