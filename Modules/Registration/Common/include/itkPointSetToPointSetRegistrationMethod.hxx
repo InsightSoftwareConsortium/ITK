@@ -29,13 +29,7 @@ PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
   m_InitialTransformParameters( 0.0f ),
   m_LastTransformParameters( 0.0f )
 {
-  this->SetNumberOfRequiredOutputs(1);    // for the Transform
-
-  m_FixedPointSet   = ITK_NULLPTR; // has to be provided by the user
-  m_MovingPointSet  = ITK_NULLPTR; // has to be provided by the user
-  m_Transform       = ITK_NULLPTR; // has to be provided by the user
-  m_Metric          = ITK_NULLPTR; // has to be provided by the user
-  m_Optimizer       = ITK_NULLPTR; // has to be provided by the user
+  this->SetNumberOfRequiredOutputs(1);
 
   m_InitialTransformParameters = ParametersType(1);
   m_LastTransformParameters = ParametersType(1);
