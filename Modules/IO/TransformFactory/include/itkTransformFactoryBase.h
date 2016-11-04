@@ -61,9 +61,23 @@ public:
   /** Register all builtin transforms */
   static void RegisterDefaultTransforms();
 
-  /** Register this transform */
+  /** Get the factory */
   static TransformFactoryBase * GetFactory();
 
+  /**
+ * Register transform given its type.
+ *
+ * Type of a transform can be obtained using itk::Transform::GetTransformTypeAsString()
+ *
+ * Within ITK, \a classOverride, \a overrideClassName and \a description are all
+ * set to the transform type.
+ *
+ * \note
+ * If a transform has already been registered, this function is a no-op. To help
+ * debugging issue related to registration, it is possible to enable runtime warnings
+ * when compiling in \b Debug mode by setting both the \b Debug flag of this class
+ * and \b GetGlobalWarningDisplay to true.
+ */
   void RegisterTransform(const char *classOverride,
                          const char *overrideClassName,
                          const char *description,
@@ -77,8 +91,8 @@ public:
     LightObject::Pointer test = this->CreateInstance(classOverride);
     if ( test.IsNotNull() )
       {
+      itkDebugMacro("Refusing to register transform \"" << classOverride << "\" again!");
       test->UnRegister();
-      itkWarningMacro("Refusing to register transform \"" << classOverride << "\" again!");
       }
     else
       {
