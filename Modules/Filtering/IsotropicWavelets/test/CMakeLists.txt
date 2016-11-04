@@ -28,28 +28,32 @@ if(ITKVtkGlue_ENABLED)
 endif()
 
 #ITK_VISUALIZE_TESTS is passed to source code.
-#change it to 1 to visualize images, for dev purposes.
+#change it to ON to visualize images, for dev purposes.
 option(
   ITK_VISUALIZE_TESTS
   "Visualize images in tests for development purposes."
   OFF
 )
+mark_as_advanced(ITK_VISUALIZE_TESTS)
 if(ITK_VISUALIZE_TESTS)
   list(APPEND IsotropicWaveletsTests runViewImage.cxx)
 endif()
 
 createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
 
-target_compile_definitions(
-  IsotropicWaveletsTestDriver
-  PRIVATE
-    ITK_VISUALIZE_TESTS=${ITK_VISUALIZE_TESTS}
-)
-# NOTE: If ITK_VISUALIZE_TESTS != 0, require Module_ITKVtkGlue = ON
+# use #ifdef ITK_VISUALIZE_TESTS, instead of checking value with #ifdef ITK_VISUALIZE_TESTS
+if(ITK_VISUALIZE_TESTS)
+  target_compile_definitions(
+    IsotropicWaveletsTestDriver
+    PRIVATE
+      ITK_VISUALIZE_TESTS
+  )
+endif()
+# NOTE: If ITK_VISUALIZE_TESTS = ON, require Module_ITKVtkGlue = ON
 if(ITK_VISUALIZE_TESTS AND NOT ITKVtkGlue_ENABLED)
   message(
     FATAL_ERROR
-    "ITK_VISUALIZE_TESTS is set, but Module_ITKVtkGlue is not enabled. Set Module_ITKVtkGlue = ON or set ITK_VISUALIZE_TESTS to 0 to avoid this error."
+    "ITK_VISUALIZE_TESTS is set, but Module_ITKVtkGlue is not enabled. Set Module_ITKVtkGlue = ON or set ITK_VISUALIZE_TESTS to OFF to avoid this error."
   )
 endif()
 
