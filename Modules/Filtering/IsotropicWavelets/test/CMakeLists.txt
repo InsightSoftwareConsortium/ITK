@@ -31,7 +31,7 @@ endif()
 #change it to ON to visualize images, for dev purposes.
 option(
   ITK_VISUALIZE_TESTS
-  "Visualize images in tests for development purposes."
+  "Visualize images in tests for development purposes. Require Module_ITKVtkGlue."
   OFF
 )
 mark_as_advanced(ITK_VISUALIZE_TESTS)
