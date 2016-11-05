@@ -407,3 +407,32 @@ list(
   itkFrequencyShrinkOddTest
 )
 # endif()
+
+itk_python_expression_add_test(
+  NAME itkFFTPadPositiveIndexImageFilterPythonTest
+  EXPRESSION "instance = itk.FFTPadPositiveIndexImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkFrequencyExpandImageFilterPythonTest
+  EXPRESSION "instance = itk.FrequencyExpandImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkFrequencyFunctionPythonTest
+  EXPRESSION "instance = itk.FrequencyFunction.New()"
+)
+itk_python_expression_add_test(
+  NAME itkFrequencyShrinkImageFilterPythonTest
+  EXPRESSION "instance = itk.FrequencyShrinkImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkIsotropicFrequencyFunctionPythonTest
+  EXPRESSION "instance = itk.IsotropicFrequencyFunction.New()"
+)
+itk_python_expression_add_test(
+  NAME itkIsotropicWaveletFrequencyFunctionPythonTest
+  EXPRESSION "instance = itk.IsotropicWaveletFrequencyFunction.New()"
+)
+itk_python_expression_add_test(
+  NAME itkHeldIsotropicWaveletPythonTest
+  EXPRESSION "instance = itk.HeldIsotropicWavelet.New()"
+)
