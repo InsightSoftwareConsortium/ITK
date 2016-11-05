@@ -107,7 +107,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest( int, char* [] )
   // Create an iterator for going through the image output
   OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
-  //  Check the content of the result image
+  // Check the content of the result image
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -119,7 +119,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest( int, char* [] )
     if( !itk::Math::FloatAlmostEqual( imag, output, 10, epsilon ) )
       {
       std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
-      std::cerr << "Error in itkComplexToImaginaryImageFilterTest " << std::endl;
+      std::cerr << "Error " << std::endl;
       std::cerr << " imag( " << input << ") = " << imag << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
@@ -158,7 +158,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest( int, char* [] )
   // Get the Smart Pointer to the Diff filter Output
   OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
-  //  Check the content of the diff image
+  // Check the content of the diff image
   //
 
   // Create an iterator for going through the image output
@@ -171,8 +171,7 @@ int itkComplexToImaginaryFilterAndAdaptorTest( int, char* [] )
     if( std::fabs( diff ) > epsilon )
       {
       std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
-      std::cerr << "Error in itkComplexToImaginaryImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
+      std::cerr << "Error comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
