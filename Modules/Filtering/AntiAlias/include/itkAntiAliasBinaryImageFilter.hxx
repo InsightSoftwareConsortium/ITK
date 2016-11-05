@@ -24,15 +24,35 @@
 
 namespace itk
 {
+
 template< typename TInputImage, typename TOutputImage >
-void
 AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
+::AntiAliasBinaryImageFilter() :
+  m_UpperBinaryValue( NumericTraits< BinaryValueType >::OneValue() ),
+  m_LowerBinaryValue( NumericTraits< BinaryValueType >::ZeroValue() )
 {
-  Superclass::PrintSelf(os, indent);
-  os << indent << "m_UpperBinaryValue = " << m_UpperBinaryValue << std::endl;
-  os << indent << "m_LowerBinaryValue = " << m_LowerBinaryValue << std::endl;
-  os << indent << "m_InputImage = " << m_InputImage << std::endl;
+  m_CurvatureFunction = CurvatureFunctionType::New();
+  this->SetDifferenceFunction(m_CurvatureFunction);
+
+  if ( TInputImage::ImageDimension == 2 )
+    {
+    this->SetNumberOfLayers(2);
+    }
+  else
+    {
+    if ( TInputImage::ImageDimension == 3 )
+      {
+      this->SetNumberOfLayers(3);
+      }
+    else
+      {
+      this->SetNumberOfLayers(TInputImage::ImageDimension);
+      }
+    }
+
+  this->SetMaximumRMSError(0.07);
+  this->SetNumberOfIterations(1000);
+  this->SetUseImageSpacing(false);
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -54,37 +74,6 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
     {
     return ( std::min( new_value, this->GetValueZero() ) );
     }
-}
-
-template< typename TInputImage, typename TOutputImage >
-AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
-::AntiAliasBinaryImageFilter()
-{
-  m_InputImage = ITK_NULLPTR;
-  m_CurvatureFunction = CurvatureFunctionType::New();
-  this->SetDifferenceFunction(m_CurvatureFunction);
-
-  if ( TInputImage::ImageDimension == 2 )
-    {
-    this->SetNumberOfLayers(2);
-    }
-  else
-    {
-    if ( TInputImage::ImageDimension == 3 )
-      {
-      this->SetNumberOfLayers(3);
-      }
-    else
-      {
-      this->SetNumberOfLayers(TInputImage::ImageDimension);
-      }
-    }
-
-  this->SetMaximumRMSError(0.07);
-  m_UpperBinaryValue = NumericTraits< BinaryValueType >::OneValue();
-  m_LowerBinaryValue = NumericTraits< BinaryValueType >::ZeroValue();
-  this->SetNumberOfIterations(1000);
-  this->SetUseImageSpacing(false);
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -125,6 +114,18 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
 
   // Start the solver.
   Superclass::GenerateData();
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "m_UpperBinaryValue = " << m_UpperBinaryValue << std::endl;
+  os << indent << "m_LowerBinaryValue = " << m_LowerBinaryValue << std::endl;
+  os << indent << "m_InputImage = " << m_InputImage << std::endl;
 }
 } // end namespace itk
 
