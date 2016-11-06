@@ -4,8 +4,8 @@
 
 # If the environment var RemoteGitTag exists, use it
 if (NOT DEFINED ENV{RemoteGitTag})
-  # May 22, 2016
-  set(GIT_TAG 1a2a68ca98966bff35ba9332619ffbb9a278d0e9)
+  # October 19, 2016
+  set(GIT_TAG 8958c5b37a7c16794e69aafa9389253098021809)
 else()
   set(GIT_TAG $ENV{RemoteGitTag})
 endif()
