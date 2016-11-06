@@ -120,33 +120,6 @@ public:
                                            const FloatType &             gaussian_window_sigma,
                                            const OutputImageRegionType & outputRegionForThread) const;
 
-  /**
-
-    typename RieszComponentsImageType::Pointer
-      ComputeRieszComponentsWithMaximumResponse(
-          const typename EigenVectorsImageType::Pointer eigenVectors,
-          const RieszComponentsImageType* rieszComponents) const;
-
-    typename InputImageType::Pointer ComputeTotalRieszProjection(
-        const DirectionType & direction) const;
-        // const RieszComponentsImageType* rieszComponents ) const;
-        //
-    typename InputImageType::Pointer ComputeLocalPhaseInDirection(
-        const DirectionType & unitary_direction) const ;
-        // const InputImageType* rieszReal,
-        // const RieszComponentsImageType* rieszComponents) const;
-
-
-    // TODO: review / speculation , PCA approach?***
-    typename InputImageType::Pointer ComputeRieszWeightedNorm(
-        const RieszComponentsImageType* rieszComponents,
-        const DirectionType & weights) const;
-
-    typename InputImageType::Pointer ComputeRieszWeightedNormByEigenValues(
-        const RieszComponentsImageType* rieszComponents,
-        const typename EigenValuesImageType::Pointer eigenValues) const;
-
-  */
 protected:
   MonogenicPhaseAnalysisEigenValuesImageFilter();
   ~MonogenicPhaseAnalysisEigenValuesImageFilter() {}
