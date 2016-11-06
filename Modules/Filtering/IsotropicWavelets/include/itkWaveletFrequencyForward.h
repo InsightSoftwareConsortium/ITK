@@ -29,9 +29,16 @@
 namespace itk
 {
 /** \class WaveletFrequencyForward
- * @brief Wavelet analysis where input is an FFT image.
- * Aim to be Isotropic.
- * TODO:: explain output layout.
+ * @brief IsotropicWavelet multiscale analysis where input is an image in the frequency domain.
+ * Output Layout:
+ * Output 0 is the residual low pass filtered of the last level/scale.
+ * [0]: Low pass residual, also called approximation.
+ * [1,..,HighPassBands]: Wavelet coef of first level.
+ * [HighPassBands + 1,..,l*HighPassBands]: Wavelet coef of l level.
+ *
+ * @note The information/metadata of input image is ignored.
+ * It can be restored after reconstruction @sa WaveletFrequencyInverse
+ * with a @sa ChangeInformationFilter using the input image as a reference.
  *
  * \ingroup IsotropicWavelets
  */

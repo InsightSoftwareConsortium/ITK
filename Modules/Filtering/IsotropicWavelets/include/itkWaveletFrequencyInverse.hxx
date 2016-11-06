@@ -253,11 +253,11 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 }
 
 // ITK forward implementation: Freq Domain
-//    - HPs (lv1 wavelet)
-// I -             - HPs (lv2)
+//    - HPs (lv1 wavelet coef)
+// I -             - HPs (lv2 wavelet coef)
 //    - LP * Down -
 //                 - LP * Down
-// Where Down is a downsample. TODO: Compare Freq domain versus spatial domain downsample.
+// Where Down is a downsample.
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
 void
 WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::GenerateData()
@@ -296,6 +296,7 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     changeInfoFilter->Update();
     low_pass_per_level = changeInfoFilter->GetOutput();
 
+
     /******* Calculate FilterBank with the right size per level. *****/
     itkDebugMacro(<< "Low_pass_per_level: " << level << " Region:" << low_pass_per_level->GetLargestPossibleRegion());
     typedef itk::MultiplyImageFilter<OutputImageType> MultiplyFilterType;
@@ -322,20 +323,22 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       multiplyHighBandFilter->InPlaceOn();
       multiplyHighBandFilter->Update();
 
-      // This is to normalize the multi-band approach. TODO is this generic? or depend on wavelet? Related with sub-band
-      // dilations. 2^(1/k) instead of Dyadic dilations. In any case this should be moved to waveletfilterbankgenerator
-      // typename MultiplyFilterType::Pointer multiplyByReconstructionBandFactor = MultiplyFilterType::New();
-      // multiplyByReconstructionBandFactor->SetInput1(multiplyHighBandFilter->GetOutput());
-      // multiplyByReconstructionBandFactor->SetConstant(std::pow(2.0, (- level -
-      // band/static_cast<double>(this->m_HighPassSubBands))*ImageDimension/2.0 ) );
-      // multiplyByReconstructionBandFactor->InPlaceOn();
-      // multiplyByReconstructionBandFactor->Update();
+      /******* Band dilation factor for HighPass bands *****/
+      //  2^(1/#bands) instead of Dyadic dilations.
+      typename MultiplyFilterType::Pointer multiplyByReconstructionBandFactor = MultiplyFilterType::New();
+      multiplyByReconstructionBandFactor->SetInput1(multiplyHighBandFilter->GetOutput());
+      double expFactorHigh = static_cast<int>(band + 1) / static_cast<double>(this->m_HighPassSubBands) *
+                             static_cast<double>(ImageDimension) / 2.0;
+      // double expFactorHigh = static_cast<double>(1)/static_cast<double>(this->m_HighPassSubBands) *
+      // static_cast<double>(ImageDimension)/2.0;
+      multiplyByReconstructionBandFactor->SetConstant(std::pow(2.0, expFactorHigh));
+      multiplyByReconstructionBandFactor->InPlaceOn();
+      multiplyByReconstructionBandFactor->Update();
 
       typedef itk::AddImageFilter<OutputImageType> AddFilterType;
       typename AddFilterType::Pointer              addFilter = AddFilterType::New();
       addFilter->SetInput1(reconstructed);
-      // addFilter->SetInput2(multiplyByReconstructionBandFactor->GetOutput());
-      addFilter->SetInput2(multiplyHighBandFilter->GetOutput());
+      addFilter->SetInput2(multiplyByReconstructionBandFactor->GetOutput());
       addFilter->InPlaceOn();
       addFilter->Update();
       reconstructed = addFilter->GetOutput();
@@ -351,20 +354,18 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     multiplyLowPass->InPlaceOn();
     multiplyLowPass->Update();
 
-    // TODO remove?
-    typename MultiplyFilterType::Pointer multiplyLowByConst = MultiplyFilterType::New();
-    multiplyLowByConst->SetInput1(multiplyLowPass->GetOutput());
-    // multiplyLowByConst->SetConstant(1 << (ImageDimension + 1)); // 2^dim
-    // multiplyLowByConst->SetConstant(2.0/ImageDimension); // ???
-    multiplyLowByConst->SetConstant(1); // There is a mean difference of ~40  ~0.1% of intensity value
-    multiplyLowByConst->InPlaceOn();
-    multiplyLowByConst->Update();
+    /******* Scale low pass by factor per Level before addition *****/
+    typename MultiplyFilterType::Pointer multiplyLowByReconstructLevelFactor = MultiplyFilterType::New();
+    multiplyLowByReconstructLevelFactor->SetInput1(multiplyLowPass->GetOutput());
+    double expFactorLow = static_cast<double>(ImageDimension) / 2.0;
+    multiplyLowByReconstructLevelFactor->SetConstant(std::pow(2.0, expFactorLow));
+    multiplyLowByReconstructLevelFactor->InPlaceOn();
+    multiplyLowByReconstructLevelFactor->Update();
 
     typedef itk::AddImageFilter<OutputImageType> AddFilterType;
     typename AddFilterType::Pointer              addHighAndLow = AddFilterType::New();
     addHighAndLow->SetInput1(reconstructed.GetPointer()); // HighBands
-    addHighAndLow->SetInput2(multiplyLowByConst->GetOutput());
-    // addHighAndLow->SetInput2(multiplyLowPass->GetOutput());
+    addHighAndLow->SetInput2(multiplyLowByReconstructLevelFactor->GetOutput());
     addHighAndLow->InPlaceOn();
     if (level == 0 /* Last level to compute */) // Graft Output
     {
