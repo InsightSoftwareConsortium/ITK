@@ -66,8 +66,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   // Wavelet reconstruction (inverse) from PhaseAnalysis output
   // Profit.
 
-  // TODO check  differences applying zeroDC image filter.
-
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
   typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
   zeroDCFilter->SetInput(reader->GetOutput());
@@ -98,10 +96,10 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   typedef itk::VectorInverseFFTImageFilter<VectorMonoOutputType>       VectorInverseFFTType;
 
   // Input to the PhaseAnalysisEigenValues
-  // typedef MonogenicPhaseAnalysisSoftThresholdImageFilter<typename VectorInverseFFTType::OutputImageType>
-  // PhaseAnalysisFilter;
-  typedef MonogenicPhaseAnalysisEigenValuesImageFilter<typename VectorInverseFFTType::OutputImageType>
+  typedef MonogenicPhaseAnalysisSoftThresholdImageFilter<typename VectorInverseFFTType::OutputImageType>
     PhaseAnalysisFilter;
+  // typedef MonogenicPhaseAnalysisEigenValuesImageFilter<typename VectorInverseFFTType::OutputImageType>
+  // PhaseAnalysisFilter;
 
   typename ForwardWaveletType::OutputsType analysisWavelets = forwardWavelet->GetOutputs();
   typename ForwardWaveletType::OutputsType modifiedWavelets;
