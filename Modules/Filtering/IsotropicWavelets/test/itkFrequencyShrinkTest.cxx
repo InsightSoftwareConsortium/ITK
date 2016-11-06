@@ -135,7 +135,8 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
       // accum_square_difference /= not_zero_complex_error;
       if (not_zero_complex_error > 0)
       {
-        std::cout << "Dev note: After the FFT filter the image is not hermitian. #Not_zero_imag_value Pixels: "
+        std::cout << "Dev note: After the FFT filter the image is not "
+                     "hermitian. #Not_zero_imag_value Pixels: "
                   << not_zero_complex_error << " accumSquareDifference: " << accum_square_difference << std::endl;
       }
     }
@@ -166,7 +167,8 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
       // accum_square_difference /= not_zero_complex_error;
       if (not_zero_complex_error > 0)
       {
-        std::cout << "Dev note: After the SHRINK filter the image is not hermitian. #Not_zero_imag_value Pixels: "
+        std::cout << "Dev note: After the SHRINK filter the image is not "
+                     "hermitian. #Not_zero_imag_value Pixels: "
                   << not_zero_complex_error << " accumSquareDifference: " << accum_square_difference << std::endl;
       }
     }
