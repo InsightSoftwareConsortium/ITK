@@ -27,8 +27,9 @@ namespace itk
 {
 
 /** \class FFTPadPositiveIndexImageFilter
- * \brief Pad an image to make it suitable for an FFT transformation. The difference with @sa FFTPadImageFilter is that
- * the padded image has no negative indices, that can be problematic for @NeighborIterator.
+ * \brief Pad an image to make it suitable for an FFT transformation.
+ * The difference with @sa FFTPadImageFilter is that the padded image
+ * has no negative indices, that can be problematic for @NeighborIterator.
  *
  * FFT filters usually requires a specific image size. The size is decomposed
  * in several prime factors, and the filter only supports prime factors up to
