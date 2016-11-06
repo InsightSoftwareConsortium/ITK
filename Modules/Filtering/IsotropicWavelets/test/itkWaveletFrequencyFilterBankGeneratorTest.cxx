@@ -53,7 +53,6 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
   reader->Update();
   reader->UpdateLargestPossibleRegion();
 
-  itk::NumberToString<unsigned int> n2s;
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
   typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
@@ -82,6 +81,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
     complexToRealFilter->SetInput(forwardFilterBank->GetOutput(i));
     complexToRealFilter->Update();
 #ifdef ITK_VISUALIZE_TESTS
+    itk::NumberToString<unsigned int> n2s;
     Testing::ViewImage(complexToRealFilter->GetOutput(),
                        "RealPart of Complex. Band: " + n2s(i) + "/" + n2s(high_sub_bands));
 #endif
