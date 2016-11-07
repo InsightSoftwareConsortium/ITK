@@ -446,7 +446,7 @@ VariableLengthVector< TValue >
 ::GetNorm(void) const ITK_NOEXCEPT
 {
   using std::sqrt;
-  return static_cast<RealValueType>(sqrt( double( this->GetSquaredNorm() ) ) );
+  return static_cast<RealValueType>(sqrt( this->GetSquaredNorm() ) );
 }
 
 /**
