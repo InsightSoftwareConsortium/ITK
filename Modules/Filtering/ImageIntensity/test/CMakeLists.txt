@@ -242,11 +242,17 @@ itk_add_test(NAME itkVectorExpandImageFilterTest
 itk_add_test(NAME itkAdaptImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkAdaptImageFilterTest)
 itk_add_test(NAME itkOrImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkOrImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
+              817d6d96c1c07cb12bfc200134aa57ba
+    itkOrImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png)
 itk_add_test(NAME itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
       COMMAND ITKImageIntensityTestDriver itkRGBToLuminanceImageFilterAndAdaptorTest)
 itk_add_test(NAME itkXorImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkXorImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
+              3b5b9852567ef7618aac7f5f2d74ef74
+    itkXorImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png)
 itk_add_test(NAME itkSubtractImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkSubtractImageFilterTest)
 itk_add_test(NAME itkComplexToImaginaryFilterAndAdaptorTest

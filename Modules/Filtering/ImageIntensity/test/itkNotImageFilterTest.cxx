@@ -17,109 +17,110 @@
  *=========================================================================*/
 
 #include "itkNotImageFilter.h"
+#include "itkTestingMacros.h"
 
 
-int itkNotImageFilterTest(int, char* [] )
+int itkNotImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 3;
 
   // Declare the types of the images
-  typedef bool                                  myPixelType;
-  typedef itk::Image<myPixelType, myDimension>  myImageType1;
-  typedef itk::Image<myPixelType, myDimension>  myImageType3;
+  typedef bool                                PixelType;
+
+  // Declare the types of the images
+  typedef itk::Image< PixelType, Dimension >  InputImageType;
+  typedef itk::Image< PixelType, Dimension >  OutputImageType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  typedef itk::Index< Dimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  typedef itk::Size< Dimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  typedef itk::ImageRegion< Dimension >   RegionType;
 
-  // Declare the type for the ADD filter
-  typedef itk::NotImageFilter<
-    myImageType1,
-    myImageType3  >       myFilterType;
+  // Declare the type for the filter
+  typedef itk::NotImageFilter< InputImageType, OutputImageType >
+    NotImageFilterType;
 
-  // Declare the pointers to images
-  typedef myImageType1::Pointer   myImageType1Pointer;
-  typedef myImageType3::Pointer   myImageType3Pointer;
-  typedef myFilterType::Pointer   myFilterTypePointer;
-
-  // Create an image
-  myImageType1Pointer inputImageA  = myImageType1::New();
+  // Create the input image
+  InputImageType::Pointer inputImage = InputImageType::New();
 
   // Define their size, and start index
-  mySizeType size;
+  SizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;
 
-  myIndexType start;
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
-  // Initialize Image A
-  inputImageA->SetLargestPossibleRegion( region );
-  inputImageA->SetBufferedRegion( region );
-  inputImageA->SetRequestedRegion( region );
-  inputImageA->Allocate();
+  // Initialize input image
+  inputImage->SetLargestPossibleRegion( region );
+  inputImage->SetBufferedRegion( region );
+  inputImage->SetRequestedRegion( region );
+  inputImage->Allocate();
 
-  // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
+  // Declare appropriate Iterator types for each image
+  typedef itk::ImageRegionIteratorWithIndex< InputImageType >
+    InputIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >
+    OutputIteratorType;
 
   // Create one iterator for Image A (this is a light object)
-  myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
-  it1.GoToBegin();
+  InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
+  it.GoToBegin();
 
   // Initialize the content of Image A
-  while( !it1.IsAtEnd() )
+  while( !it.IsAtEnd() )
   {
-    it1.Set( true );
-    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it1.Get()) << std::endl;
-    ++it1;
+    it.Set( true );
+    ++it;
   }
 
-  // Create a NOT Filter
-  myFilterTypePointer filter = myFilterType::New();
+  // Create the filter
+  NotImageFilterType::Pointer filter = NotImageFilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, NotImageFilter,
+    UnaryFunctorImageFilter );
 
-  // Connect the input images
-  filter->SetInput( inputImageA );
+  // Set the input images
+  filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType3Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
+
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
-  it3.GoToBegin();
+  OutputIteratorType ot( outputImage, outputImage->GetBufferedRegion() );
+  ot.GoToBegin();
 
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  while( !it3.IsAtEnd() )
-  {
-    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it3.Get()) << std::endl;
-    ++it3;
-  }
+  // Check the content of the result image
+  ot.GoToBegin();
+  it.GoToBegin();
+  while( !ot.IsAtEnd() )
+    {
+    const InputImageType::PixelType  input  = it.Get();
+    const OutputImageType::PixelType output = ot.Get();
+    TEST_EXPECT_EQUAL( input, !output );
+    ++ot;
+    ++it;
+    }
 
 
   // All objects should be automatically destroyed at this point
-  std::cout << "Test PASSED !" << std::endl;
-
   return EXIT_SUCCESS;
-
 }
