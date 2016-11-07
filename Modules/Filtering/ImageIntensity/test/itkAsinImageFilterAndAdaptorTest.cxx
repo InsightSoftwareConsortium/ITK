@@ -18,37 +18,41 @@
 
 #include "itkAsinImageFilter.h"
 #include "itkAsinImageAdaptor.h"
+#include "itkMath.h"
 #include "itkSubtractImageFilter.h"
+#include "itkTestingMacros.h"
 
 
-int itkAsinImageFilterAndAdaptorTest(int, char* [] )
+int itkAsinImageFilterAndAdaptorTest( int, char* [] )
 {
 
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
+  // Declare the pixel types of the images
+  typedef float                PixelType;
+
   // Declare the types of the images
-  typedef itk::Image<float, ImageDimension>  InputImageType;
-  typedef itk::Image<float, ImageDimension>  OutputImageType;
+  typedef itk::Image< PixelType, ImageDimension > InputImageType;
+  typedef itk::Image< PixelType, ImageDimension > OutputImageType;
 
-  // Declare Iterator types apropriated for each image
+  // Declare appropriate Iterator types for each image
   typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
+                                  InputImageType >  InputIteratorType;
   typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType> OutputIteratorType;
-
+                                  OutputImageType > OutputIteratorType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  typedef itk::Index< ImageDimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  typedef itk::Size< ImageDimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  typedef itk::ImageRegion< ImageDimension >   RegionType;
 
-  // Create two images
-  InputImageType::Pointer inputImage  = InputImageType::New();
+  // Create the input image
+  InputImageType::Pointer inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -70,59 +74,56 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
   inputImage->SetBufferedRegion( region );
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
+
   // Create one iterator for the Input Image (this is a light object)
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
   const double pi    = std::atan( 1.0 ) * 4.0;
   const double value = pi / 6.0;
-  std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() )
   {
     it.Set( value );
-    std::cout << it.Get() << std::endl;
     ++it;
   }
 
   // Declare the type for the Asin filter
-  typedef itk::AsinImageFilter< InputImageType,
-                               OutputImageType  >  FilterType;
+  typedef itk::AsinImageFilter< InputImageType, OutputImageType > FilterType;
 
-
-  // Create an ADD Filter
+  // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, AsinImageFilter,
+    UnaryFunctorImageFilter );
 
-  // Connect the input images
+  // Set the input image
   filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
+
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
+  OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
-  //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  // Check the content of the result image
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
   while( !ot.IsAtEnd() )
     {
-    std::cout <<  ot.Get() << " = ";
-    std::cout <<  std::asin( it.Get() )  << std::endl;
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType arcsinus  = std::asin(input);
-    if( std::fabs( arcsinus - output ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( arcsinus, output, 10, epsilon ) )
       {
-      std::cerr << "Error in itkAsinImageFilterTest " << std::endl;
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+      std::cerr << "Error " << std::endl;
       std::cerr << " std::asin( " << input << ") = " << arcsinus << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
@@ -133,48 +134,49 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
     }
 
 
-  //---------------------------------------
-  // This section tests for AsinImageAdaptor
-  //---------------------------------------
+  //
+  // Test the itk::AsinImageAdaptor
+  //
 
-  typedef itk::AsinImageAdaptor<InputImageType,
-                          OutputImageType::PixelType>  AdaptorType;
+  typedef itk::AsinImageAdaptor< InputImageType,
+                          OutputImageType::PixelType > AdaptorType;
 
   AdaptorType::Pointer asinAdaptor = AdaptorType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( asinAdaptor, AsinImageAdaptor,
+    ImageAdaptor );
 
   asinAdaptor->SetImage( inputImage );
 
   typedef itk::SubtractImageFilter<
                         OutputImageType,
                         AdaptorType,
-                        OutputImageType   > DiffFilterType;
+                        OutputImageType > DiffFilterType;
 
   DiffFilterType::Pointer diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1( outputImage );
-  diffFilter->SetInput2( asinAdaptor  );
+  diffFilter->SetInput2( asinAdaptor );
 
   diffFilter->Update();
 
-  // Get the Smart Pointer to the Diff filter Output
+  // Get the filter output
   OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
-  //  Check the content of the diff image
-  std::cout << "Comparing the results with those of an Adaptor" << std::endl;
-  std::cout << "Verification of the output " << std::endl;
+  // Check the content of the diff image
+  //
 
   // Create an iterator for going through the image output
-  OutputIteratorType dt(diffImage, diffImage->GetRequestedRegion());
+  OutputIteratorType dt( diffImage, diffImage->GetRequestedRegion() );
 
   dt.GoToBegin();
   while( !dt.IsAtEnd() )
     {
-    std::cout <<  dt.Get() << std::endl;
     const OutputImageType::PixelType diff = dt.Get();
     if( std::fabs( diff ) > epsilon )
       {
-      std::cerr << "Error in itkAsinImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+      std::cerr << "Error comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
@@ -182,7 +184,6 @@ int itkAsinImageFilterAndAdaptorTest(int, char* [] )
       }
     ++dt;
     }
-
 
   return EXIT_SUCCESS;
 }

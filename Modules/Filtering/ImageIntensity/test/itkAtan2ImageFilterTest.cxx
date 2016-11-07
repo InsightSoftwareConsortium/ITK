@@ -18,37 +18,42 @@
 
 #include "itkAtan2ImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
 
-int itkAtan2ImageFilterTest(int, char* [] )
+int itkAtan2ImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
+  // Declare the pixel types of the images
+  typedef float                PixelType;
+
   // Declare the types of the images
-  typedef itk::Image<float, ImageDimension>  InputImageType;
-  typedef itk::Image<float, ImageDimension>  OutputImageType;
+  typedef itk::Image< PixelType, ImageDimension > InputImageType;
+  typedef itk::Image< PixelType, ImageDimension > OutputImageType;
 
-  // Declare Iterator types apropriated for each image
+  // Declare appropriate Iterator types for each image
   typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
+                                  InputImageType >  InputIteratorType;
 
   typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType>  OutputIteratorType;
+                                  OutputImageType > OutputIteratorType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  typedef itk::Index< ImageDimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  typedef itk::Size< ImageDimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  typedef itk::ImageRegion< ImageDimension >   RegionType;
 
   // Create two images
-  InputImageType::Pointer sinImage    = InputImageType::New();
-  InputImageType::Pointer cosImage  = InputImageType::New();
+  InputImageType::Pointer sinImage = InputImageType::New();
+  InputImageType::Pointer cosImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -78,51 +83,41 @@ int itkAtan2ImageFilterTest(int, char* [] )
 
   // Initialize the content of Image A
   const double sinValue = std::sin( itk::Math::pi / 6.0 );
-  std::cout << "Content of the Input " << std::endl;
-
   it1.GoToBegin();
-
   while( !it1.IsAtEnd() )
     {
     it1.Set( sinValue );
-    std::cout << it1.Get() << std::endl;
     ++it1;
     }
-
 
   // Create one iterator for the Input Image (this is a light object)
   InputIteratorType it2( cosImage, cosImage->GetBufferedRegion() );
 
   // Initialize the content of Image A
   const double cosValue = std::cos( itk::Math::pi / 6.0 );
-  std::cout << "Content of the Input " << std::endl;
-
   it2.GoToBegin();
-
   while( !it2.IsAtEnd() )
     {
     it2.Set( cosValue );
-    std::cout << it2.Get() << std::endl;
     ++it2;
     }
 
-
   // Declare the type for the Atan filter
   typedef itk::Atan2ImageFilter<
-    InputImageType, InputImageType, OutputImageType  >  FilterType;
-
+    InputImageType, InputImageType, OutputImageType > FilterType;
 
   // Create the Filter
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, Atan2ImageFilter,
+    BinaryFunctorImageFilter );
 
-  // Connect the input images
+  // Set the input images
   filter->SetInput1( sinImage );
   filter->SetInput2( cosImage );
 
-  // Get the Smart Pointer to the Filter Output
+  // Get the filter output
   OutputImageType::Pointer outputImage = filter->GetOutput();
-
 
   // Execute the filter
   filter->Update();
@@ -130,8 +125,7 @@ int itkAtan2ImageFilterTest(int, char* [] )
   // Create an iterator for going through the image output
   OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
-  //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  // Check the content of the result image
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
 
@@ -140,13 +134,14 @@ int itkAtan2ImageFilterTest(int, char* [] )
 
   while( !ot.IsAtEnd() )
     {
-    const InputImageType::PixelType  input1  = it1.Get();
-    const InputImageType::PixelType  input2  = it2.Get();
+    const InputImageType::PixelType  input1 = it1.Get();
+    const InputImageType::PixelType  input2 = it2.Get();
     const OutputImageType::PixelType output = ot.Get();
     const OutputImageType::PixelType atan2  = std::atan2( input1, input2 );
-    if( std::fabs( atan2 - output ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( atan2, output, 10, epsilon ) )
       {
-      std::cerr << "Error in itkAtanImageFilterTest " << std::endl;
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+      std::cerr << "Error " << std::endl;
       std::cerr << " std::atan2( " << input1 << ", " << input2 << ") = " << atan2 << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
