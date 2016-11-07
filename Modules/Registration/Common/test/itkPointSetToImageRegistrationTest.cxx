@@ -36,7 +36,7 @@
  *
  */
 
-int itkPointSetToImageRegistrationTest_1( int, char* [] )
+int itkPointSetToImageRegistrationTest( int, char* [] )
 {
   const unsigned int ImageDimension = 2;
 
