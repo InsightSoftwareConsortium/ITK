@@ -418,3 +418,21 @@ macro(itk_module_target _name)
     itk_module_target_install(${_name})
   endif()
 endmacro()
+
+# itk_module_add_library(_name LibrarySource1 LibrarySource2 ... LibrarySourceN)
+#
+# This macro is used to add a library in ITK modules. A typical module
+# src/CMakeLists.txt will have contents like:
+#
+# set(MyModule_SRCS
+#   itkClass1.cxx
+#   itkClass2.cxx
+#   )
+#
+# itk_module_add_library(MyModule ${ModuleModule_SRCS})
+#
+macro(itk_module_add_library _name)
+  add_library(${_name} ${ITK_LIBRARY_BUILD_TYPE} ${ARGN})
+  itk_module_link_dependencies()
+  itk_module_target(${_name})
+endmacro()
