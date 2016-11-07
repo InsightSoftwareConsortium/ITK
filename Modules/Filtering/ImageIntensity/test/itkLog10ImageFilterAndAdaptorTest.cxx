@@ -108,7 +108,7 @@ int itkLog10ImageFilterAndAdaptorTest( int, char* [] )
   // Create an iterator for going through the image output
   OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
-  //  Check the content of the result image
+  // Check the content of the result image
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -120,7 +120,7 @@ int itkLog10ImageFilterAndAdaptorTest( int, char* [] )
     if( !itk::Math::FloatAlmostEqual( naturallog, output, 10, epsilon ) )
       {
       std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
-      std::cerr << "Error in itkLog10ImageFilterTest " << std::endl;
+      std::cerr << "Error " << std::endl;
       std::cerr << " std::log10( " << input << ") = " << naturallog << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
@@ -160,7 +160,7 @@ int itkLog10ImageFilterAndAdaptorTest( int, char* [] )
   // Get the filter output
   OutputImageType::Pointer diffImage = diffFilter->GetOutput();
 
-  //  Check the content of the diff image
+  // Check the content of the diff image
   //
 
   // Create an iterator for going through the image output
@@ -173,8 +173,7 @@ int itkLog10ImageFilterAndAdaptorTest( int, char* [] )
     if( std::fabs( diff ) > epsilon )
       {
       std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
-      std::cerr << "Error in itkLog10ImageFilterTest " << std::endl;
-      std::cerr << "Comparing results with Adaptors" << std::endl;
+      std::cerr << "Error comparing results with Adaptors" << std::endl;
       std::cerr << " difference = " << diff << std::endl;
       std::cerr << " differs from 0 ";
       std::cerr << " by more than " << epsilon << std::endl;
