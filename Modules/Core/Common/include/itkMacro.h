@@ -290,10 +290,6 @@ namespace itk
  * same type as the referring object.  This is useful in cases where
  * an object has been cast back to a base class.
  *
- * These creation methods first try asking the object factory to create
- * an instance, and then default to the standard "new" operator if the
- * factory fails.
- *
  * These routines assigns the raw pointer to a smart pointer and then call
  * UnRegister() on the rawPtr to compensate for LightObject's constructor
  * initializing an object's reference count to 1 (needed for proper
