@@ -24,8 +24,15 @@
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkConvertPixelBuffer.h"
 
+#include "opencv2/core/version.hpp"
+#if !defined(CV_VERSION_EPOCH)
+// OpenCV 3.x
+#include "opencv2/core.hpp"
+#else
+// OpenCV 2.4.x
 #include "cv.h"
 #include "highgui.h"
+#endif
 
 namespace itk
 {
