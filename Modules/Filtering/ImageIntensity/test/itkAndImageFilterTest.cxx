@@ -92,7 +92,7 @@ int itkAndImageFilterTest( int argc, char* argv[] )
   it1.GoToBegin();
 
   // Initialize the content of Image A
-  PixelType valueA = 2;
+  InputImage1Type::PixelType valueA = 2;
   while( !it1.IsAtEnd() )
   {
     it1.Set( valueA );
@@ -104,7 +104,7 @@ int itkAndImageFilterTest( int argc, char* argv[] )
   it2.GoToBegin();
 
   // Initialize the content of Image B
-  PixelType valueB = 3;
+  InputImage2Type::PixelType valueB = 3;
   while( !it2.IsAtEnd() )
   {
     it2.Set( valueB );
