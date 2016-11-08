@@ -436,3 +436,52 @@ itk_python_expression_add_test(
   NAME itkHeldIsotropicWaveletPythonTest
   EXPRESSION "instance = itk.HeldIsotropicWavelet.New()"
 )
+itk_python_expression_add_test(
+  NAME itkMonogenicSignalFrequencyImageFilterPythonTest
+  EXPRESSION "instance = itk.MonogenicSignalFrequencyImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkVectorInverseFFTImageFilterPythonTest
+  EXPRESSION "instance = itk.VectorInverseFFTImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkMonogenicPhaseAnalysisEigenValuesImageFilterPythonTest
+  EXPRESSION "instance = itk.MonogenicPhaseAnalysisEigenValuesImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkMonogenicPhaseAnalysisSoftThresholdImageFilterPythonTest
+  EXPRESSION
+    "instance = itk.MonogenicPhaseAnalysisSoftThresholdImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkRieszFrequencyFilterBankGeneratorPythonTest
+  EXPRESSION "instance = itk.RieszFrequencyFilterBankGenerator.New()"
+)
+itk_python_expression_add_test(
+  NAME itkShannonIsotropicWaveletPythonTest
+  EXPRESSION "instance = itk.ShannonIsotropicWavelet.New()"
+)
+itk_python_expression_add_test(
+  NAME itkSimoncelliIsotropicWaveletPythonTest
+  EXPRESSION "instance = itk.SimoncelliIsotropicWavelet.New()"
+)
+itk_python_expression_add_test(
+  NAME itkVowIsotropicWaveletPythonTest
+  EXPRESSION "instance = itk.VowIsotropicWavelet.New()"
+)
+itk_python_expression_add_test(
+  NAME itkWaveletFrequencyFilterBankGeneratorPythonTest
+  EXPRESSION "instance = itk.WaveletFrequencyFilterBankGenerator.New()"
+)
+itk_python_expression_add_test(
+  NAME itkWaveletFrequencyForwardPythonTest
+  EXPRESSION "instance = itk.WaveletFrequencyForward.New()"
+)
+itk_python_expression_add_test(
+  NAME itkWaveletFrequencyInversePythonTest
+  EXPRESSION "instance = itk.WaveletFrequencyInverse.New()"
+)
+itk_python_expression_add_test(
+  NAME itkZeroDCImageFilterPythonTest
+  EXPRESSION "instance = itk.ZeroDCImageFilter.New()"
+)

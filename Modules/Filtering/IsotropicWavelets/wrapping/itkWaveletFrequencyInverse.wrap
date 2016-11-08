@@ -1,0 +1,25 @@
+itk_wrap_include("itkHeldIsotropicWavelet.h")
+itk_wrap_include("itkVowIsotropicWavelet.h")
+itk_wrap_include("itkSimoncelliIsotropicWavelet.h")
+itk_wrap_include("itkShannonIsotropicWavelet.h")
+itk_wrap_include("itkWaveletFrequencyFilterBankGenerator.h")
+itk_wrap_class("itk::WaveletFrequencyInverse" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  foreach(tc ${WRAP_ITK_COMPLEX_REAL})
+    foreach(tr ${WRAP_ITK_REAL})
+      itk_wrap_template("${ITKM_I${tc}${d}}${ITKM_I${tc}${d}}Vow${ITKM_${tr}}${d}${ITKM_PD${d}}"
+          "${ITKT_I${tc}${d}}, ${ITKT_I${tc}${d}}, itk::WaveletFrequencyFilterBankGenerator< ${ITKT_I${tc}${d}}, itk::VowIsotropicWavelet< ${ITKT_${tr}}, ${d}, ${ITKT_PD${d}} > >"
+      )
+      itk_wrap_template("${ITKM_I${tc}${d}}${ITKM_I${tc}${d}}Held${ITKM_${tr}}${d}${ITKM_PD${d}}"
+          "${ITKT_I${tc}${d}}, ${ITKT_I${tc}${d}}, itk::WaveletFrequencyFilterBankGenerator< ${ITKT_I${tc}${d}}, itk::HeldIsotropicWavelet< ${ITKT_${tr}}, ${d}, ${ITKT_PD${d}} > >"
+      )
+      itk_wrap_template("${ITKM_I${tc}${d}}${ITKM_I${tc}${d}}Simoncelli${ITKM_${tr}}${d}${ITKM_PD${d}}"
+          "${ITKT_I${tc}${d}}, ${ITKT_I${tc}${d}}, itk::WaveletFrequencyFilterBankGenerator< ${ITKT_I${tc}${d}}, itk::SimoncelliIsotropicWavelet< ${ITKT_${tr}}, ${d}, ${ITKT_PD${d}} > >"
+      )
+      itk_wrap_template("${ITKM_I${tc}${d}}${ITKM_I${tc}${d}}Shannon${ITKM_${tr}}${d}${ITKM_PD${d}}"
+          "${ITKT_I${tc}${d}}, ${ITKT_I${tc}${d}}, itk::WaveletFrequencyFilterBankGenerator< ${ITKT_I${tc}${d}}, itk::ShannonIsotropicWavelet< ${ITKT_${tr}}, ${d}, ${ITKT_PD${d}} > >"
+      )
+    endforeach()
+  endforeach()
+endforeach()
+itk_end_wrap_class()

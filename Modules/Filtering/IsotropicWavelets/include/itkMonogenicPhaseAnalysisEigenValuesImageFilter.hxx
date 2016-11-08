@@ -198,17 +198,18 @@ MonogenicPhaseAnalysisEigenValuesImageFilter<TInputImage, TOutputImage>::Compute
 }
 
 template <typename TInputImage, typename TOutputImage>
-itk::FixedArray<typename MonogenicPhaseAnalysisEigenValuesImageFilter<TInputImage, TOutputImage>::OutputImagePixelType,
-                MonogenicPhaseAnalysisEigenValuesImageFilter<TInputImage, TOutputImage>::ImageDimension - 1>
+FixedArray<typename MonogenicPhaseAnalysisEigenValuesImageFilter<TInputImage, TOutputImage>::OutputImagePixelType,
+           MonogenicPhaseAnalysisEigenValuesImageFilter<TInputImage, TOutputImage>::ImageDimension - 1>
 MonogenicPhaseAnalysisEigenValuesImageFilter<TInputImage, TOutputImage>::ComputePhaseOrientation(
   const InputImagePixelType &  monoPixel,
   const OutputImagePixelType & rieszNormSquare) const
 {
   // the angles of the polar coordinates of the normed vector:
   // V = (R1*f, ..., Rn*f) / RieszNorm
-  itk::FixedArray<OutputImagePixelType, ImageDimension - 1> out(0);
-  OutputImagePixelType                                      rNorm = sqrt(rieszNormSquare);
-  OutputImagePixelType                                      r1Unitary = monoPixel[1] / rNorm;
+  FixedArray<OutputImagePixelType, ImageDimension - 1> out;
+  out.Fill(NumericTraits<OutputImagePixelType>::ZeroValue());
+  OutputImagePixelType rNorm = sqrt(rieszNormSquare);
+  OutputImagePixelType r1Unitary = monoPixel[1] / rNorm;
   for (unsigned int i = 0; i < ImageDimension - 1; i++)
   {
     out[i] = atan2(monoPixel[i + 2] / rNorm, r1Unitary) + ((monoPixel[i + 2] >= 0) ? 0 : itk::Math::pi);

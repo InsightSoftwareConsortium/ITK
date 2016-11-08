@@ -92,7 +92,7 @@ public:
    * If the size on any dimension is not a power of 2, the max level will be 1.
    * If the sizes are different, but all of them are power of 2, the max level will be the minimum $J_i$.
    */
-  unsigned int
+  static unsigned int
   ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size);
 
   typedef std::pair<unsigned int, unsigned int> IndexPairType;

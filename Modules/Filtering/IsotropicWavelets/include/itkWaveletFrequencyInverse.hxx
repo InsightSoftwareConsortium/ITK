@@ -380,5 +380,35 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   }
 }
 
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+unsigned int
+WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::ComputeMaxNumberOfLevels(
+  typename InputImageType::SizeType & input_size)
+{
+  FixedArray<unsigned int, ImageDimension> exponent_per_axis;
+  for (unsigned int axis = 0; axis < ImageDimension; ++axis)
+  {
+    size_t size_axis = input_size[axis];
+    if (size_axis < 2)
+    {
+      exponent_per_axis[axis] = 1;
+      continue;
+    }
+    double exponent = std::log(size_axis) / std::log(2.0);
+    // check that exponent is integer: the fractional part is 0
+    double int_part;
+    if (std::modf(exponent, &int_part) == 0)
+    {
+      exponent_per_axis[axis] = static_cast<unsigned int>(exponent);
+    }
+    else
+    {
+      exponent_per_axis[axis] = 1;
+    }
+  }
+  // return the min_element of array (1 if any size is not power of 2)
+  return *std::min_element(exponent_per_axis.Begin(), exponent_per_axis.End());
+}
+
 } // end namespace itk
 #endif
