@@ -25,7 +25,7 @@
 #include "itkInverseFFTImageFilter.h"
 #include <itkComplexToRealImageFilter.h>
 #include <itkFrequencyExpandImageFilter.h>
-#include <itkExpandImageFilter.h>
+#include <itkExpandWithZerosImageFilter.h>
 #include <itkComplexToComplexFFTImageFilter.h>
 #include <itkImageRegionConstIterator.h>
 #include <itkZeroDCImageFilter.h>
@@ -199,12 +199,12 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
   Testing::ViewImage(zeroDCFilter->GetOutput(), "Original");
   Testing::ViewImage(inverseFFT->GetOutput(), "FrequencyExpander");
   // //Compare with regular expand filter.
-  typedef itk::ExpandImageFilter<ImageType, ImageType> RegularExpandType;
-  typename RegularExpandType::Pointer                  regularExpandFilter = RegularExpandType::New();
+  typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> RegularExpandType;
+  typename RegularExpandType::Pointer                           regularExpandFilter = RegularExpandType::New();
   regularExpandFilter->SetInput(reader->GetOutput());
   regularExpandFilter->SetExpandFactors(2);
   regularExpandFilter->Update();
-  Testing::ViewImage(regularExpandFilter->GetOutput(), "Regular expander");
+  Testing::ViewImage(regularExpandFilter->GetOutput(), "Regular expander (adding zeros)");
 
   // Complex to real
   // typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;

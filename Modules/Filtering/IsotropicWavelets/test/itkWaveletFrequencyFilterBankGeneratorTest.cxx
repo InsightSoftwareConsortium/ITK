@@ -112,6 +112,7 @@ runWaveletFrequencyFilterBankGeneratorTest(const std::string &  inputImage,
     inverseFFT->SetInput(forwardFilterBank->GetOutput(i));
     inverseFFT->Update();
 #ifdef ITK_VISUALIZE_TESTS
+    itk::NumberToString<unsigned int> n2s;
     Testing::ViewImage(inverseFFT->GetOutput(), "InverseFFT. Band: " + n2s(i) + "/" + n2s(high_sub_bands));
 #endif
   }

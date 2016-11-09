@@ -9,6 +9,10 @@ set(
   itkRieszFrequencyFilterBankGeneratorTest.cxx
   itkFrequencyExpandTest.cxx
   itkFrequencyShrinkTest.cxx
+  itkFrequencyShrinkMultiLevelTest.cxx
+  itkFrequencyExpandAndShrinkTest.cxx
+  itkExpandWithZerosImageFilterTest.cxx
+  itkDecimateImageFilterTest.cxx
   itkInd2SubTest.cxx
   itkWaveletFrequencyForwardTest.cxx
   itkWaveletFrequencyInverseTest.cxx
@@ -319,7 +323,55 @@ itk_add_test(
     IsotropicWaveletsTestDriver
     itkInd2SubTest
 )
-### FrequencyExpand and FrequencyShrink
+## ExpandWithZeros (in spatial domain)
+itk_add_test(
+  NAME itkExpandWithZerosImageFilterTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkExpandWithZerosImageFilterTest
+    2
+)
+itk_add_test(
+  NAME itkExpandWithZerosImageFilterTest3D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkExpandWithZerosImageFilterTest
+    3
+)
+## Decimate (in spatial domain)
+itk_add_test(
+  NAME itkDecimateImageFilterTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkDecimateImageFilterTest
+    2
+)
+itk_add_test(
+  NAME itkDecimateImageFilterTest3D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkDecimateImageFilterTest
+    3
+)
+### FrequencyExpandAndShrink
+itk_add_test(
+  NAME itkFrequencyExpandAndShrinkTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkFrequencyExpandAndShrinkTest
+    DATA{Input/checkershadow_Lch_512x512.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandAndShrinkTest2D.tiff
+    2
+)
+itk_add_test(
+  NAME itkFrequencyExpandAndShrinkTest3D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkFrequencyExpandAndShrinkTest
+    DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandAndShrinkTest3D.tiff
+    3
+)
 ## Even input
 #Expand
 itk_add_test(
