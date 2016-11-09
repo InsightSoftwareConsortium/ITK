@@ -25,13 +25,13 @@
 #  include "itkViewImage.h"
 #endif
 
-template <unsigned int ImageDimension>
+template <unsigned int N>
 int
 runDecimateImageFilterTest()
 {
-  typedef float                                 PixelType;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-  bool                                          testPassed = true;
+  typedef float                    PixelType;
+  typedef itk::Image<PixelType, N> ImageType;
+  bool                             testPassed = true;
 
   //=============================================================
 
@@ -66,8 +66,8 @@ runDecimateImageFilterTest()
   try
   {
     // update with 2,2 shrink factor
-    unsigned int factors[ImageDimension];
-    for (unsigned int i = 0; i < ImageDimension; i++)
+    unsigned int factors[N];
+    for (unsigned int i = 0; i < N; i++)
       factors[i] = 2;
     std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
     decimator->SetShrinkFactors(factors);

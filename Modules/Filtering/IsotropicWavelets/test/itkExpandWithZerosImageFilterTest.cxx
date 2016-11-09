@@ -24,13 +24,13 @@
 #  include "itkViewImage.h"
 #endif
 
-template <unsigned int ImageDimension>
+template <unsigned int N>
 int
 runExpandWithZerosImageFilterTest()
 {
-  typedef float                                 PixelType;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-  bool                                          testPassed = true;
+  typedef float                    PixelType;
+  typedef itk::Image<PixelType, N> ImageType;
+  bool                             testPassed = true;
 
   //=============================================================
 
@@ -55,8 +55,8 @@ runExpandWithZerosImageFilterTest()
   typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> ExpanderType;
   typename ExpanderType::Pointer                                expander = ExpanderType::New();
 
-  unsigned int factors[ImageDimension];
-  for (unsigned int i = 0; i < ImageDimension; i++)
+  unsigned int factors[N];
+  for (unsigned int i = 0; i < N; i++)
     factors[i] = 3;
 
   expander->SetInput(input);
@@ -78,7 +78,7 @@ runExpandWithZerosImageFilterTest()
     double                        value = outIter.Get();
 
     bool indexIsMultipleOfFactor(true);
-    for (unsigned int i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < N; ++i)
     {
       if ((index[i] - outStartIndex[i]) % expander->GetExpandFactors()[i] != 0)
       {
