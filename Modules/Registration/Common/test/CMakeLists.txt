@@ -221,5 +221,7 @@ DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkBlockMat
 
 itk_add_test(NAME itkImageRegistrationMethodTest_17
       COMMAND ITKRegistrationCommonTestDriver itkImageRegistrationMethodTest_17)
-itk_add_test(NAME itkEuclideanDistancePointMetricTest
-      COMMAND ITKRegistrationCommonTestDriver itkEuclideanDistancePointMetricTest)
+itk_add_test(NAME itkEuclideanDistancePointMetricTestSquaredDistanceOff
+      COMMAND ITKRegistrationCommonTestDriver itkEuclideanDistancePointMetricTest 0)
+itk_add_test(NAME itkEuclideanDistancePointMetricTestSquaredDistanceOn
+      COMMAND ITKRegistrationCommonTestDriver itkEuclideanDistancePointMetricTest 1)
