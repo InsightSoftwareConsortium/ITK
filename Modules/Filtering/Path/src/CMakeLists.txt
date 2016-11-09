@@ -1,9 +1,7 @@
-set(ITKPath_SRC
-itkChainCodePath2D.cxx
-itkOrthogonallyCorrected2DParametricPath.cxx
-itkParametricPath.cxx
-)
+set(ITKPath_SRCS
+  itkChainCodePath2D.cxx
+  itkOrthogonallyCorrected2DParametricPath.cxx
+  itkParametricPath.cxx
+  )
 
-add_library(ITKPath ${ITKPath_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKPath)
+itk_module_add_library(ITKPath ${ITKPath_SRCS})

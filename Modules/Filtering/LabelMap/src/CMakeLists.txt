@@ -1,7 +1,5 @@
 set(ITKLabelMap_SRCS
-itkGeometryUtilities.cxx
-)
+  itkGeometryUtilities.cxx
+  )
 ### generating libraries
-add_library( ITKLabelMap ${ITKLabelMap_SRCS})
-itk_module_link_dependencies()
-itk_module_target(ITKLabelMap)
+itk_module_add_library( ITKLabelMap ${ITKLabelMap_SRCS})

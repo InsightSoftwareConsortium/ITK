@@ -1,9 +1,7 @@
-set(ITKTransformFactory_SRC
-itkTransformFactoryBase.cxx
-itkTransformFactoryBaseRegisterFloatParameters.cxx
-itkTransformFactoryBaseRegisterDoubleParameters.cxx
-)
+set(ITKTransformFactory_SRCS
+  itkTransformFactoryBase.cxx
+  itkTransformFactoryBaseRegisterFloatParameters.cxx
+  itkTransformFactoryBaseRegisterDoubleParameters.cxx
+  )
 
-add_library(ITKTransformFactory ${ITKTransformFactory_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKTransformFactory)
+itk_module_add_library(ITKTransformFactory ${ITKTransformFactory_SRCS})

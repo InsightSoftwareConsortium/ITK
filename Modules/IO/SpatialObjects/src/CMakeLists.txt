@@ -1,7 +1,5 @@
-set(ITKIOSpatialObjects_SRC
-itkPolygonGroupSpatialObjectXMLFile.cxx
-)
+set(ITKIOSpatialObjects_SRCS
+  itkPolygonGroupSpatialObjectXMLFile.cxx
+  )
 
-add_library(ITKIOSpatialObjects ${ITKIOSpatialObjects_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKIOSpatialObjects)
+itk_module_add_library(ITKIOSpatialObjects ${ITKIOSpatialObjects_SRCS})

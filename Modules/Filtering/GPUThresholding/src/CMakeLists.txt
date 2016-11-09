@@ -1,15 +1,13 @@
 if (ITK_USE_GPU)
-  set(ITKGPUThresholding_SRC
+  set(ITKGPUThresholding_SRCS
    )
 
   set(ITKGPUThresholding_Kernels
     GPUBinaryThresholdImageFilter.cl
     )
 
-  write_gpu_kernels("${ITKGPUThresholding_Kernels}" ITKGPUThresholding_SRC)
+  write_gpu_kernels("${ITKGPUThresholding_Kernels}" ITKGPUThresholding_SRCS)
 
-  add_library(ITKGPUThresholding ${ITKGPUThresholding_SRC})
-  itk_module_link_dependencies()
+  itk_module_add_library(ITKGPUThresholding ${ITKGPUThresholding_SRCS})
   target_link_libraries(ITKGPUThresholding LINK_PUBLIC ${OPENCL_LIBRARIES})
-  itk_module_target(ITKGPUThresholding)
 endif()

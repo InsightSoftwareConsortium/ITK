@@ -1,8 +1,6 @@
-set(ITKIOStimulate_SRC
-itkStimulateImageIO.cxx
-itkStimulateImageIOFactory.cxx
-)
+set(ITKIOStimulate_SRCS
+  itkStimulateImageIO.cxx
+  itkStimulateImageIOFactory.cxx
+  )
 
-add_library(ITKIOStimulate ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOStimulate_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKIOStimulate)
+itk_module_add_library(ITKIOStimulate ${ITKIOStimulate_SRCS})
