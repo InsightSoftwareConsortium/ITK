@@ -119,6 +119,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
 
   # KWStyle's internal utilities
   ".*KWStyle/Utilities.*"
+
+  # CircleCI distcc warning
+  ".*WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED.*"
   )
 
 if(APPLE)
