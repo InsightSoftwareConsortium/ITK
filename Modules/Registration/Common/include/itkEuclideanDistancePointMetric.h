@@ -62,7 +62,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(EuclideanDistancePointMetric, Object);
 
-  /** Types transferred from the base class */
+  /** Types transferred from the base class. */
   typedef typename Superclass::TransformType           TransformType;
   typedef typename Superclass::TransformPointer        TransformPointer;
   typedef typename Superclass::TransformParametersType TransformParametersType;
@@ -84,26 +84,28 @@ public:
   typedef TDistanceMap                           DistanceMapType;
   typedef typename DistanceMapType::ConstPointer DistanceMapPointer;
 
-  /** Get the number of values */
+  /** Get the number of values, i.e. the number of points in the moving set. */
   unsigned int GetNumberOfValues() const ITK_OVERRIDE;
 
   /** Get the derivatives of the match measure. */
   void GetDerivative(const TransformParametersType & parameters,
                      DerivativeType & Derivative) const ITK_OVERRIDE;
 
-  /**  Get the value for single valued optimizers. */
+  /**  Get the match measure, i.e. the value for single valued optimizers. */
   MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
   /**  Get value and derivatives for multiple valued optimizers. */
   void GetValueAndDerivative(const TransformParametersType & parameters,
                              MeasureType & Value, DerivativeType & Derivative) const;
 
-  /** Set/Get the distance map */
+  /** Set/Get the distance map. */
   itkSetConstObjectMacro(DistanceMap, DistanceMapType);
   itkGetConstObjectMacro(DistanceMap, DistanceMapType);
 
-  /** Set/Get if the distance should be squared. Default is true for computation
-    speed */
+  /** Set/Get if the distance should be squared.
+   *  When set to true, the filter's computational speed is slighlty imporved,
+   *  but it will result in minimizing the sum of distances^4 instead of the
+   *  sum of distances^2. Default is On. */
   itkSetMacro(ComputeSquaredDistance, bool);
   itkGetConstMacro(ComputeSquaredDistance, bool);
   itkBooleanMacro(ComputeSquaredDistance);
@@ -112,7 +114,6 @@ protected:
   EuclideanDistancePointMetric();
   virtual ~EuclideanDistancePointMetric() {}
 
-  /** PrintSelf function */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
