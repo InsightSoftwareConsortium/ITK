@@ -29,10 +29,10 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
-::ScalarImageKmeansImageFilter()
+::ScalarImageKmeansImageFilter() :
+  m_UseNonContiguousLabels( false ),
+  m_ImageRegionDefined( false )
 {
-  m_UseNonContiguousLabels = false;
-  m_ImageRegionDefined = false;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -99,8 +99,8 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   estimator->SetParameters(initialMeans);
 
   estimator->SetKdTree( treeGenerator->GetOutput() );
-  estimator->SetMaximumIteration(200);
-  estimator->SetCentroidPositionChangesThreshold(0.0);
+  estimator->SetMaximumIteration( 200 );
+  estimator->SetCentroidPositionChangesThreshold (0.0 );
   estimator->StartOptimization();
 
   this->m_FinalMeans = estimator->GetParameters();
@@ -112,12 +112,12 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   typename ClassifierType::Pointer classifier = ClassifierType::New();
 
   classifier->SetDecisionRule( decisionRule.GetPointer() );
-  classifier->SetInput(adaptor);
+  classifier->SetInput( adaptor );
 
-  classifier->SetNumberOfClasses(numberOfClasses);
+  classifier->SetNumberOfClasses (numberOfClasses );
 
   ClassLabelVectorType classLabels;
-  classLabels.resize(numberOfClasses);
+  classLabels.resize( numberOfClasses );
 
   // Spread the labels over the intensity range
   unsigned int labelInterval = 1;
@@ -126,7 +126,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     labelInterval = ( NumericTraits< OutputPixelType >::max() / numberOfClasses ) - 1;
     }
 
-  unsigned int                 label = 0;
+  unsigned int label = 0;
   MembershipFunctionVectorType membershipFunctions;
 
   for ( unsigned int k = 0; k < numberOfClasses; k++ )
@@ -149,8 +149,8 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
 
   typedef typename ClassifierType::ClassLabelVectorObjectType ClassLabelVectorObjectType;
   typename ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
-  classLabelsObject->Set(classLabels);
-  classifier->SetClassLabels(classLabelsObject);
+  classLabelsObject->Set( classLabels );
+  classifier->SetClassLabels( classLabelsObject );
 
   // Execute the actual classification
   classifier->Update();
@@ -172,7 +172,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     region = m_ImageRegion;
     }
 
-  ImageIterator pixel(outputPtr, region);
+  ImageIterator pixel( outputPtr, region );
   pixel.GoToBegin();
 
   typedef typename ClassifierType::MembershipSampleType ClassifierOutputType;
@@ -197,7 +197,7 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     typedef ImageRegionExclusionIteratorWithIndex< OutputImageType >
     ExclusionImageIteratorType;
     ExclusionImageIteratorType exIt( outputPtr, outputPtr->GetBufferedRegion() );
-    exIt.SetExclusionRegion(region);
+    exIt.SetExclusionRegion( region );
     exIt.GoToBegin();
     if ( m_UseNonContiguousLabels )
       {
@@ -219,11 +219,6 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * Add a new class for the classifier.
- * This requires that the initial mean value
- * for that class has been explicitly set.
- */
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
@@ -232,17 +227,13 @@ ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
   this->m_InitialMeans.push_back(mean);
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template< typename TInputImage, typename TOutputImage >
 void
 ScalarImageKmeansImageFilter< TInputImage, TOutputImage >
-::PrintSelf(
-  std::ostream & os,
-  Indent indent) const
+::PrintSelf( std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
   os << indent << "Final Means " << m_FinalMeans << std::endl;
   os << indent << "Use Contiguous Labels " << m_UseNonContiguousLabels << std::endl;
   os << indent << "Image Region Defined: " << m_ImageRegionDefined << std::endl;
