@@ -16,128 +16,196 @@
  *
  *=========================================================================*/
 
+#include "itkImageFileWriter.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"
+#include "itkTestingMacros.h"
 
 
-int itkSymmetricEigenAnalysisImageFilterTest(int, char* [] )
+namespace itk {
+
+template< typename TInputImage, typename TOutputImage >
+class SymmetricEigenAnalysisImageFilterHelper :
+  public SymmetricEigenAnalysisImageFilter< TInputImage, TOutputImage >
+{
+public:
+  typedef SymmetricEigenAnalysisImageFilterHelper
+    Self;
+  typedef SymmetricEigenAnalysisImageFilter< TInputImage, TOutputImage >
+    Superclass;
+
+  typedef SmartPointer<Self>                          Pointer;
+  typedef SmartPointer<const Self>                    ConstPointer;
+
+
+  typedef TInputImage                                 InputImageType;
+  typedef TOutputImage                                OutputImageType;
+
+
+  itkTypeMacro( SymmetricEigenAnalysisImageFilterHelper,
+    SymmetricEigenAnalysisImageFilter );
+
+  itkNewMacro( Self );
+
+  static int Exercise( typename Superclass::FunctorType::EigenValueOrderType order,
+    std::string outputFilename )
+  {
+
+    typedef SymmetricEigenAnalysisImageFilter<
+      InputImageType, OutputImageType> SymmetricEigenAnalysisImageFilterType;
+
+    // Declare the type of the index to access images
+    typedef itk::Index< InputImageType::ImageDimension >        IndexType;
+
+    // Declare the type of the size
+    typedef itk::Size< InputImageType::ImageDimension >         SizeType;
+
+    // Declare the type of the Region
+    typedef itk::ImageRegion< InputImageType::ImageDimension >  RegionType;
+
+    // Create the input image
+    typename InputImageType::Pointer inputImage = InputImageType::New();
+
+    // Define its size, and start index
+    SizeType size;
+    size[0] = 8;
+    size[1] = 8;
+    size[2] = 8;
+
+    IndexType start;
+    start.Fill(0);
+
+    RegionType region;
+    region.SetIndex( start );
+    region.SetSize( size );
+
+    // Initialize the input image
+    inputImage->SetLargestPossibleRegion( region );
+    inputImage->SetBufferedRegion( region );
+    inputImage->SetRequestedRegion( region );
+    inputImage->Allocate();
+
+    // Declare Iterator type for the input image
+    typedef itk::ImageRegionIteratorWithIndex< InputImageType >  IteratorType;
+
+    // Create one iterator for the input image (this is a light object)
+    IteratorType it( inputImage, inputImage->GetRequestedRegion() );
+
+    typename InputImageType::PixelType tensorValue;
+
+    tensorValue(0,0) = 19.0;
+    tensorValue(0,1) = 23.0;
+    tensorValue(0,2) = 29.0;
+    tensorValue(1,1) = 31.0;
+    tensorValue(1,2) = 37.0;
+    tensorValue(2,2) = 39.0;
+
+    it.GoToBegin();
+
+    // Initialize the content of the input image
+    while( !it.IsAtEnd() )
+      {
+      it.Set( tensorValue );
+      ++it;
+      }
+
+
+    // Create the filter
+    typename SymmetricEigenAnalysisImageFilterType::Pointer filter =
+      SymmetricEigenAnalysisImageFilterType::New();
+
+    filter->SetDimension( InputImageType::ImageDimension );
+    TEST_SET_GET_VALUE( InputImageType::ImageDimension, filter->GetDimension() );
+
+    // Set the input image
+    filter->SetInput( inputImage );
+
+    filter->SetFunctor( filter->GetFunctor() );
+
+    filter->OrderEigenValuesBy( order );
+
+    // Execute the filter
+    TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+    // Get the filter output
+    // It is important to do it AFTER the filter is Updated
+    // Because the object connected to the output may be changed
+    // by another during GenerateData() call
+    typename OutputImageType::Pointer outputImage = filter->GetOutput();
+
+    // Write the result image
+    typedef itk::ImageFileWriter< OutputImageType > WriterType;
+
+    typename WriterType::Pointer writer = WriterType::New();
+
+    writer->SetFileName( outputFilename );
+
+    writer->SetInput( outputImage );
+
+    TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+    std::cout << "Test succeeded." << std::endl;
+    return EXIT_SUCCESS;
+  }
+
+};
+
+} // end namespace itk
+
+
+int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
 {
 
+  if ( argc < 3 )
+  {
+  std::cout << "Usage: " << argv[0]
+    << "outputImage order " << std::endl;
+  return EXIT_FAILURE;
+  }
+
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 3;
+
+  // Declare the pixel type
+  typedef float                InputPixelType;
+  typedef unsigned char        OutputPixelType;
 
   // Define the symmetric tensor pixel type
-  typedef itk::SymmetricSecondRankTensor< float, myDimension > myTensorType;
+  typedef itk::SymmetricSecondRankTensor< InputPixelType, Dimension > TensorType;
 
   // Declare the types of the images
-  typedef itk::Image< myTensorType, myDimension >  myInputImageType;
+  typedef itk::Image< TensorType, Dimension >             InputImageType;
 
   // Define the type for storing the eigen-value
-  typedef itk::FixedArray< float, myDimension >  myValueArray;
+  typedef itk::FixedArray< OutputPixelType, Dimension >   ValueArray;
 
   // Declare the types of the output images
-  typedef itk::Image< myValueArray, myDimension >  myOutputImageType;
-
-  // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
-
-  // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
-
-  // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
-
-  // Create the image
-  myInputImageType::Pointer inputImage  = myInputImageType::New();
-
-
-  // Define their size, and start index
-  mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
-
-  myIndexType start;
-  start.Fill(0);
-
-  myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
-
-  // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
-  inputImage->Allocate();
-
-  // Declare Iterator type for the input image
-  typedef itk::ImageRegionIteratorWithIndex<
-                     myInputImageType>  myIteratorType;
-
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
-
-  myTensorType tensorValue;
-
-  tensorValue(0,0) = 19.0;
-  tensorValue(0,1) = 23.0;
-  tensorValue(0,2) = 29.0;
-  tensorValue(1,1) = 31.0;
-  tensorValue(1,2) = 37.0;
-  tensorValue(2,2) = 39.0;
-
-  it.GoToBegin();
-
-  // Initialize the content of Image A
-  while( !it.IsAtEnd() )
-    {
-    it.Set( tensorValue );
-    ++it;
-    }
-
+  typedef itk::Image< ValueArray, Dimension >             OutputImageType;
 
   // Declare the type for the filter
   typedef itk::SymmetricEigenAnalysisImageFilter<
-                                     myInputImageType,
-                                     myOutputImageType
-                                               >  myFilterType;
-  // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
-  filter->SetDimension( myTensorType::Dimension );
+                                     InputImageType,
+                                     OutputImageType > FilterType;
 
-  // Connect the input images
-  filter->SetInput( inputImage );
+  // Create an instance to exercise basic object methods
+  FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, SymmetricEigenAnalysisImageFilter,
+    UnaryFunctorImageFilter );
 
 
-  // Execute the filter
-  filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
+  // Get the input arguments
+  FilterType::FunctorType::EigenValueOrderType order =
+    static_cast< FilterType::FunctorType::EigenValueOrderType >( atoi( argv[2] ) );
 
-  // Get the Smart Pointer to the Filter Output
-  // It is important to do it AFTER the filter is Updated
-  // Because the object connected to the output may be changed
-  // by another during GenerateData() call
-  myOutputImageType::Pointer outputImage = filter->GetOutput();
+  std::string outputFilename = argv[1];
 
-  // Declare Iterator type for the output image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                 myOutputImageType>  myOutputIteratorType;
 
-  // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage,
-                            outputImage->GetRequestedRegion() );
-
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  itg.GoToBegin();
-  while( !itg.IsAtEnd() )
-    {
-    std::cout << itg.Get();
-    ++itg;
-    }
+  // Test the filter
+  int testResult = itk::SymmetricEigenAnalysisImageFilterHelper< InputImageType,
+    OutputImageType >::Exercise( order, outputFilename );
 
 
   // All objects should be automatically destroyed at this point
-  return EXIT_SUCCESS;
-
+  return testResult;
 }
