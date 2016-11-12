@@ -74,7 +74,7 @@ int itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
     }
 
   convolver->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
-  TEST_SET_GET_VALUE( convolver->GetSizeGreatestPrimeFactor(), sizeGreatestPrimeFactor );
+  TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, convolver->GetSizeGreatestPrimeFactor() );
 
   TRY_EXPECT_NO_EXCEPTION( convolver->Update() );
 
