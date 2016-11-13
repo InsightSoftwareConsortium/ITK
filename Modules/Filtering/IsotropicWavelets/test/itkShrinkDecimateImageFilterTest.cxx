@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include <iostream>
-#include "itkDecimateImageFilter.h"
+#include "itkShrinkDecimateImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkMath.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -27,7 +27,7 @@
 
 template <unsigned int N>
 int
-runDecimateImageFilterTest()
+runShrinkDecimateImageFilterTest()
 {
   typedef float                    PixelType;
   typedef itk::Image<PixelType, N> ImageType;
@@ -60,8 +60,8 @@ runDecimateImageFilterTest()
   //=============================================================
 
   std::cout << std::endl;
-  typedef itk::DecimateImageFilter<ImageType, ImageType> DecimatorType;
-  typename DecimatorType::Pointer                        decimator = DecimatorType::New();
+  typedef itk::ShrinkDecimateImageFilter<ImageType, ImageType> DecimatorType;
+  typename DecimatorType::Pointer                              decimator = DecimatorType::New();
 
   try
   {
@@ -102,14 +102,14 @@ runDecimateImageFilterTest()
   }
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(decimator->GetOutput(), "Decimate Output");
+  itk::Testing::ViewImage(decimator->GetOutput(), "ShrinkDecimate Output");
 #endif
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
 
 int
-itkDecimateImageFilterTest(int argc, char * argv[])
+itkShrinkDecimateImageFilterTest(int argc, char * argv[])
 {
   if (argc > 2)
   {
@@ -125,11 +125,11 @@ itkDecimateImageFilterTest(int argc, char * argv[])
 
   if (dimension == 2)
   {
-    return runDecimateImageFilterTest<2>();
+    return runShrinkDecimateImageFilterTest<2>();
   }
   else if (dimension == 3)
   {
-    return runDecimateImageFilterTest<3>();
+    return runShrinkDecimateImageFilterTest<3>();
   }
   else
   {

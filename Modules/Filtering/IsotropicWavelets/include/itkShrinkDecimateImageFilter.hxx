@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkDecimateImageFilter_hxx
-#define itkDecimateImageFilter_hxx
+#ifndef itkShrinkDecimateImageFilter_hxx
+#define itkShrinkDecimateImageFilter_hxx
 
-#include "itkDecimateImageFilter.h"
+#include "itkShrinkDecimateImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 #include <numeric>
@@ -28,7 +28,7 @@ namespace itk
 {
 
 template <class TInputImage, class TOutputImage>
-DecimateImageFilter<TInputImage, TOutputImage>::DecimateImageFilter()
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ShrinkDecimateImageFilter()
 {
   for (unsigned int j = 0; j < ImageDimension; j++)
   {
@@ -38,7 +38,7 @@ DecimateImageFilter<TInputImage, TOutputImage>::DecimateImageFilter()
 
 template <class TInputImage, class TOutputImage>
 void
-DecimateImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -52,7 +52,7 @@ DecimateImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Ind
 
 template <class TInputImage, class TOutputImage>
 void
-DecimateImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int factor)
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int factor)
 {
   unsigned int j;
 
@@ -79,7 +79,7 @@ DecimateImageFilter<TInputImage, TOutputImage>::SetShrinkFactors(unsigned int fa
 
 template <class TInputImage, class TOutputImage>
 void
-DecimateImageFilter<TInputImage, TOutputImage>::SetShrinkFactor(unsigned int i, unsigned int factor)
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::SetShrinkFactor(unsigned int i, unsigned int factor)
 {
   if (m_ShrinkFactors[i] == factor)
   {
@@ -95,7 +95,7 @@ DecimateImageFilter<TInputImage, TOutputImage>::SetShrinkFactor(unsigned int i, 
  */
 template <typename TInputImage, typename TOutputImage>
 void
-DecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread,
   ThreadIdType                  threadId)
 {
@@ -146,7 +146,7 @@ DecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
 
 template <class TInputImage, class TOutputImage>
 void
-DecimateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
@@ -189,7 +189,7 @@ DecimateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 
 template <class TInputImage, class TOutputImage>
 void
-DecimateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
+ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
