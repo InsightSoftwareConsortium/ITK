@@ -18,11 +18,11 @@
 #ifndef itkFrequencyShrinkViaInverseFFTImageFilter_h
 #define itkFrequencyShrinkViaInverseFFTImageFilter_h
 
-#include <itkDecimateImageFilter.h>
+#include <itkShrinkDecimateImageFilter.h>
 #include <itkEnableIf.h>
 #include <itkInverseFFTImageFilter.h>
 #include <itkForwardFFTImageFilter.h>
-#include <itkDecimateImageFilter.h>
+#include <itkShrinkDecimateImageFilter.h>
 
 namespace itk
 {
@@ -66,8 +66,8 @@ public:
   typedef typename TImageType::RegionType ImageRegionType;
   /** Typedef of used filters */
   typedef itk::InverseFFTImageFilter<ImageType> InverseFFTFilterType;
-  typedef itk::DecimateImageFilter<typename InverseFFTFilterType::OutputImageType,
-                                   typename InverseFFTFilterType::OutputImageType>
+  typedef itk::ShrinkDecimateImageFilter<typename InverseFFTFilterType::OutputImageType,
+                                         typename InverseFFTFilterType::OutputImageType>
                                                                                                 ShrinkFilterType;
   typedef itk::ForwardFFTImageFilter<typename InverseFFTFilterType::OutputImageType, ImageType> ForwardFFTFilterType;
 

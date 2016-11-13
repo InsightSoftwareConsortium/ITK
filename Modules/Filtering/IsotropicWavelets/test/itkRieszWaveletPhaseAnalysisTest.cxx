@@ -54,7 +54,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
                                  const unsigned int & inputBands)
 {
   const unsigned int                       dimension = N;
-  typedef float                            PixelType;
+  typedef double                           PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
   typename ReaderType::Pointer             reader = ReaderType::New();
@@ -143,7 +143,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
     fftInv->Update();
     // Testing::ViewImage(fftInv->GetOutput(),  "Wavelet coef " + n2s(nout) + "Original" );
     itk::NumberToString<unsigned int> n2s;
-    Testing::ViewImage(phaseAnalyzer->GetOutput(0), "Wavelet coef " + n2s(nout) + "PhaseAnalyzed");
+    Testing::ViewImage(phaseAnalyzer->GetOutput(0), "Wavelet coef " + n2s(nout) + " PhaseAnalyzed");
 #endif
   }
 

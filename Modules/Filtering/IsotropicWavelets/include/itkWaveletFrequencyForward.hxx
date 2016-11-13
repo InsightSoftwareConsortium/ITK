@@ -25,6 +25,11 @@
 #include <itkFrequencyShrinkImageFilter.h>
 #include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
+// TODO remove after debug
+#ifdef ITK_VISUALIZE_TESTS
+#  include <itkComplexToRealImageFilter.h>
+#  include "../test/itkViewImage.h"
+#endif
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
@@ -431,7 +436,6 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   std::vector<OutputImagePointer>   outputList;
   std::vector<OutputRegionIterator> outputItList;
 
-
   typedef itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
   typename CastFilterType::Pointer                              castFilter = CastFilterType::New();
   castFilter->SetInput(input);
@@ -463,20 +467,26 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
   for (unsigned int level = 0; level < this->m_Levels; ++level)
   {
-
     /******* Calculate FilterBank with the right size per level. *****/
     typedef itk::MultiplyImageFilter<OutputImageType> MultiplyFilterType;
     typename WaveletFilterBankType::Pointer           filterBank = WaveletFilterBankType::New();
     filterBank->SetHighPassSubBands(this->m_HighPassSubBands);
     filterBank->SetSize(inputPerLevel->GetLargestPossibleRegion().GetSize());
-    // TODO (option b) Set filter bank information to be the same than input image or not (option a).
+    // TODO (option b) Set filter bank information to be the same than input image
     // filterBank->SetOrigin(inputPerLevel->GetOrigin() );
     // filterBank->SetSpacing(inputPerLevel->GetSpacing() );
     // filterBank->SetDirection(inputPerLevel->GetDirection() );
     filterBank->Update();
 
+    /***** Dilation factor (assume dilation is dyadic -2-). **/
+    double expLevelFactor = -static_cast<double>(level * ImageDimension) / 2.0;
+    std::cout << expLevelFactor << " ExpLevelFactor, level: " << level
+              << " 2^expLevelFactor: " << std::pow(2.0, expLevelFactor) << std::endl;
+    ;
+
     /******* Set HighPass bands *****/
     std::vector<OutputImagePointer> highPassImages = filterBank->GetOutputsHighPassBands();
+    std::cout << "Number of FilterBank high pass bands: " << highPassImages.size() << std::endl;
     for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
     {
       unsigned int n_output = 1 + level * this->m_HighPassSubBands + band;
@@ -484,13 +494,26 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       //  2^(1/#bands) instead of Dyadic dilations.
       typename MultiplyFilterType::Pointer multiplyByAnalysisBandFactor = MultiplyFilterType::New();
       multiplyByAnalysisBandFactor->SetInput1(highPassImages[band]);
-      double expFactorHigh = -static_cast<int>(band + 1) / static_cast<double>(this->m_HighPassSubBands) *
-                             static_cast<double>(ImageDimension) / 2.0;
-      // double expFactorHigh = - static_cast<double>(1)/static_cast<double>(this->m_HighPassSubBands) *
-      // static_cast<double>(ImageDimension)/2.0;
-      multiplyByAnalysisBandFactor->SetConstant(std::pow(2.0, expFactorHigh));
+      // double expFactorHigh = - static_cast<int>(band + 1)/static_cast<double>(this->m_HighPassSubBands) *
+      // static_cast<double>(ImageDimension)/2.0; double expFactorHigh = -
+      // static_cast<double>(1)/static_cast<double>(this->m_HighPassSubBands) * static_cast<double>(ImageDimension)/2.0;
+      // double expBandFactor = expLevelFactor;// + static_cast<double>(ImageDimension)/2.0;
+      double expBandFactor = expLevelFactor - static_cast<int>(band) / static_cast<double>(this->m_HighPassSubBands) *
+                                                static_cast<double>(ImageDimension) / 2.0;
+      multiplyByAnalysisBandFactor->SetConstant(std::pow(2.0, expBandFactor));
       multiplyByAnalysisBandFactor->InPlaceOn();
       multiplyByAnalysisBandFactor->Update();
+      // #ifdef ITK_VISUALIZE_TESTS
+      //   typedef itk::Image<float, ImageDimension> SpatialImageType;
+      //   typedef itk::ComplexToRealImageFilter<OutputImageType,SpatialImageType> ComplexToRealType;
+      //   typename ComplexToRealType::Pointer compToReal = ComplexToRealType::New();
+      //   compToReal->SetInput(highPassImages[band]);
+      //   compToReal->Update();
+      //   Testing::ViewImage(compToReal->GetOutput(), "Wavelet band");
+      //   compToReal->SetInput(multiplyByAnalysisBandFactor->GetOutput());
+      //   compToReal->Update();
+      //   Testing::ViewImage(compToReal->GetOutput(), "Wavelet x dilation factor");
+      // #endif
 
       typename MultiplyFilterType::Pointer multiplyHighBandFilter = MultiplyFilterType::New();
       multiplyHighBandFilter->SetInput1(multiplyByAnalysisBandFactor->GetOutput());
@@ -498,6 +521,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       multiplyHighBandFilter->InPlaceOn();
       multiplyHighBandFilter->GraftOutput(this->GetOutput(n_output));
       multiplyHighBandFilter->Update();
+      // #ifdef ITK_VISUALIZE_TESTS
+      //   compToReal->SetInput(multiplyHighBandFilter->GetOutput());
+      //   compToReal->Update();
+      //   Testing::ViewImage(compToReal->GetOutput(), "high band result in frequency");
+      // #endif
       this->UpdateProgress(static_cast<float>(n_output - 1) / static_cast<float>(m_TotalOutputs));
       this->GraftNthOutput(n_output, multiplyHighBandFilter->GetOutput());
     }
@@ -505,29 +533,36 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     typename MultiplyFilterType::Pointer multiplyLowFilter = MultiplyFilterType::New();
     multiplyLowFilter->SetInput1(filterBank->GetOutputLowPass());
     multiplyLowFilter->SetInput2(inputPerLevel);
-    multiplyLowFilter->InPlaceOn();
+    // multiplyLowFilter->InPlaceOn();
     multiplyLowFilter->Update();
+    // Store result without dilation factor for next level.
     inputPerLevel = multiplyLowFilter->GetOutput();
 
-    /******* DownSample for the next Level iteration *****/
+#ifdef ITK_VISUALIZE_TESTS
+    typedef itk::Image<float, ImageDimension>                             SpatialImageType;
+    typedef itk::InverseFFTImageFilter<OutputImageType, SpatialImageType> InverseFFTFilterType;
+    typename InverseFFTFilterType::Pointer                                inverseFFT = InverseFFTFilterType::New();
+    inverseFFT->SetInput(inputPerLevel);
+    inverseFFT->Update();
+    Testing::ViewImage(inverseFFT->GetOutput(), "Low Filter");
+#endif
+
+    /******* DownSample stored low band for the next Level iteration *****/
     typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
-    typename ShrinkFilterType::Pointer                                    shrinkFilter = ShrinkFilterType::New();
+    // typedef itk::FrequencyShrinkImageFilter<OutputImageType> ShrinkFilterType;
+    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetInput(inputPerLevel);
     shrinkFilter->SetShrinkFactors(2);
     shrinkFilter->Update();
-
-    /***** Dilation factor (assume dilation is dyadic -2-). After this, high pass bands don't need dilation by level
-     * (only by band)  **/
-    typename MultiplyFilterType::Pointer multiplyLowByDilationLevelFactor = MultiplyFilterType::New();
-    multiplyLowByDilationLevelFactor->SetInput1(shrinkFilter->GetOutput());
-    double expFactorLow = -static_cast<double>(ImageDimension) / 2.0;
-    multiplyLowByDilationLevelFactor->SetConstant(std::pow(2.0, expFactorLow));
-    multiplyLowByDilationLevelFactor->InPlaceOn();
-    multiplyLowByDilationLevelFactor->Update();
+#ifdef ITK_VISUALIZE_TESTS
+    inverseFFT->SetInput(shrinkFilter->GetOutput());
+    inverseFFT->Update();
+    Testing::ViewImage(inverseFFT->GetOutput(), "Low Filter After shrink");
+#endif
 
     // Ignore modifications of origin and spacing of shrink filters.
     typename ChangeInformationFilterType::Pointer changeInfoFilter = ChangeInformationFilterType::New();
-    changeInfoFilter->SetInput(multiplyLowByDilationLevelFactor->GetOutput());
+    changeInfoFilter->SetInput(shrinkFilter->GetOutput());
     changeInfoFilter->ChangeDirectionOff();
     changeInfoFilter->ChangeRegionOff();
     changeInfoFilter->ChangeSpacingOn();
@@ -536,17 +571,28 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     // changeInfoFilter->SetReferenceImage(inputPerLevel.GetPointer()); // Use input image as reference.
     changeInfoFilter->SetOutputOrigin(origin_new);
     changeInfoFilter->SetOutputSpacing(spacing_new);
+    changeInfoFilter->Update();
     if (level == this->m_Levels - 1) // Set low_pass output (index=0)
     {
-      changeInfoFilter->GraftOutput(this->GetOutput(0));
-      changeInfoFilter->Update();
+      // changeInfoFilter->GraftOutput(this->GetOutput(0));
+      // changeInfoFilter->Update();
+      // Apply dilation factor on low band only in the last level.
+      typename MultiplyFilterType::Pointer multiplyByDilationLevelFactor = MultiplyFilterType::New();
+      multiplyByDilationLevelFactor->SetInput1(changeInfoFilter->GetOutput());
+      std::cout << expLevelFactor << " ExpLevelFactor, level: " << level
+                << " 2^expLevelFactor: " << std::pow(2.0, expLevelFactor) << std::endl;
+      ;
+      multiplyByDilationLevelFactor->SetConstant(std::pow(2.0, expLevelFactor));
+      multiplyByDilationLevelFactor->InPlaceOn();
+      multiplyByDilationLevelFactor->GraftOutput(this->GetOutput(0));
+      multiplyByDilationLevelFactor->Update();
       this->UpdateProgress(static_cast<float>(m_TotalOutputs - 1) / static_cast<float>(m_TotalOutputs));
-      this->GraftNthOutput(0, changeInfoFilter->GetOutput());
+      this->GraftNthOutput(0, multiplyByDilationLevelFactor->GetOutput());
       continue;
     }
     else // update inputPerLevel
     {
-      changeInfoFilter->Update();
+      // changeInfoFilter->Update();
       inputPerLevel = changeInfoFilter->GetOutput();
     }
   }

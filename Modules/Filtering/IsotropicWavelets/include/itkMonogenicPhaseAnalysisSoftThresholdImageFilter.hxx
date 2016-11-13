@@ -111,7 +111,7 @@ MonogenicPhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::Threa
     statsFilter->Update();
     m_MeanAmp = statsFilter->GetMean();
     m_SigmaAmp = sqrt(statsFilter->GetVariance());
-    m_Threshold = m_MeanAmp + 2 * m_SigmaAmp;
+    m_Threshold = m_MeanAmp + 1 * m_SigmaAmp;
   }
   m_Barrier2->Wait();
 
