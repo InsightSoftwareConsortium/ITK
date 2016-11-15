@@ -107,14 +107,14 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
       return EXIT_FAILURE;
       }
     convoluter->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
-    TEST_SET_GET_VALUE( convoluter->GetSizeGreatestPrimeFactor(), sizeGreatestPrimeFactor );
+    TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, convoluter->GetSizeGreatestPrimeFactor() );
     }
 
   if( argc >= 6 )
     {
     bool normalize = static_cast<bool>( atoi( argv[5] ) );
     convoluter->SetNormalize( normalize );
-    TEST_SET_GET_VALUE( convoluter->GetNormalize(), normalize );
+    TEST_SET_GET_VALUE( normalize, convoluter->GetNormalize() );
 
     if( normalize )
       {
@@ -134,12 +134,12 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
     if ( outputRegionMode == "SAME" )
       {
       convoluter->SetOutputRegionMode( ConvolutionFilterType::SAME );
-      TEST_SET_GET_VALUE( convoluter->GetOutputRegionMode(), ConvolutionFilterType::SAME );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convoluter->GetOutputRegionMode() );
       }
     else if ( outputRegionMode == "VALID" )
       {
       convoluter->SetOutputRegionMode( ConvolutionFilterType::VALID );
-      TEST_SET_GET_VALUE( convoluter->GetOutputRegionMode(), ConvolutionFilterType::VALID );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convoluter->GetOutputRegionMode() );
       }
     else
       {
@@ -151,12 +151,12 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
     if( outputRegionMode == "SAME" )
       {
       convoluter->SetOutputRegionModeToSame();
-      TEST_SET_GET_VALUE( convoluter->GetOutputRegionMode(), ConvolutionFilterType::SAME );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convoluter->GetOutputRegionMode() );
       }
     else
       {
       convoluter->SetOutputRegionModeToValid();
-      TEST_SET_GET_VALUE( convoluter->GetOutputRegionMode(), ConvolutionFilterType::VALID );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convoluter->GetOutputRegionMode() );
       }
     }
 
@@ -170,17 +170,17 @@ int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
     if ( boundaryCondition == "CONSTANT" )
       {
       convoluter->SetBoundaryCondition( &constantBoundaryCondition );
-      TEST_SET_GET_VALUE( convoluter->GetBoundaryCondition(), &constantBoundaryCondition );
+      TEST_SET_GET_VALUE( &constantBoundaryCondition, convoluter->GetBoundaryCondition() );
       }
     else if ( boundaryCondition == "PERIODIC" )
       {
       convoluter->SetBoundaryCondition( &periodicBoundaryCondition );
-      TEST_SET_GET_VALUE( convoluter->GetBoundaryCondition(), &periodicBoundaryCondition );
+      TEST_SET_GET_VALUE( &periodicBoundaryCondition, convoluter->GetBoundaryCondition() );
       }
     else if ( boundaryCondition == "ZEROFLUXNEUMANN" )
       {
       convoluter->SetBoundaryCondition( &zeroFluxNeumannBoundaryCondition );
-      TEST_SET_GET_VALUE( convoluter->GetBoundaryCondition(), &zeroFluxNeumannBoundaryCondition );
+      TEST_SET_GET_VALUE( &zeroFluxNeumannBoundaryCondition, convoluter->GetBoundaryCondition() );
       }
     else
       {
