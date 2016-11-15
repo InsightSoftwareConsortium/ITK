@@ -143,7 +143,7 @@ int itkSigmoidImageFilterTest( int, char* [] )
     if( !itk::Math::FloatAlmostEqual( sigmoid, output, 10, epsilon ) )
       {
       std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
-      std::cerr << "Error in itkSigmoidImageFilterTest " << std::endl;
+      std::cerr << "Error " << std::endl;
       std::cerr << " simoid( " << input << ") = " << sigmoid << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
