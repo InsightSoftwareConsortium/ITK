@@ -1,11 +1,10 @@
-set(ITKFFT_SRC
-itkFFTWGlobalConfiguration.cxx
-)
+set(ITKFFT_SRCS
+  itkFFTWGlobalConfiguration.cxx
+  )
 
 # this library is only needed if FFTW is used
 if( ITK_USE_FFTWF OR ITK_USE_FFTWD )
-  add_library(ITKFFT ${ITKFFT_SRC})
-  itk_module_link_dependencies()
+  itk_module_add_library(ITKFFT ${ITKFFT_SRCS})
 
   if(ITK_USE_FFTWD)
     if(ITK_USE_SYSTEM_FFTW)
@@ -30,6 +29,4 @@ if( ITK_USE_FFTWF OR ITK_USE_FFTWD )
       target_link_libraries(ITKFFT LINK_PUBLIC fftw3f fftw3f_threads)
     endif()
   endif()
-
-  itk_module_target(ITKFFT)
 endif()

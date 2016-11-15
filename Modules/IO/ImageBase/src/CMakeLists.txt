@@ -1,16 +1,14 @@
-set(ITKIOImageBase_SRC
-itkImageSeriesWriter.cxx
-itkImageFileReaderException.cxx
-itkImageFileWriter.cxx
-itkArchetypeSeriesFileNames.cxx
-itkImageIOFactory.cxx
-itkIOCommon.cxx
-itkNumericSeriesFileNames.cxx
-itkImageIOBase.cxx
-itkRegularExpressionSeriesFileNames.cxx
-itkStreamingImageIOBase.cxx
-)
+set(ITKIOImageBase_SRCS
+  itkImageSeriesWriter.cxx
+  itkImageFileReaderException.cxx
+  itkImageFileWriter.cxx
+  itkArchetypeSeriesFileNames.cxx
+  itkImageIOFactory.cxx
+  itkIOCommon.cxx
+  itkNumericSeriesFileNames.cxx
+  itkImageIOBase.cxx
+  itkRegularExpressionSeriesFileNames.cxx
+  itkStreamingImageIOBase.cxx
+  )
 
-add_library(ITKIOImageBase ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOImageBase_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKIOImageBase)
+itk_module_add_library(ITKIOImageBase ${ITKIOImageBase_SRCS})

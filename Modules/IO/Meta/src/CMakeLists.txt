@@ -1,10 +1,8 @@
-set(ITKIOMeta_SRC
-itkMetaArrayWriter.cxx
-itkMetaImageIO.cxx
-itkMetaArrayReader.cxx
-itkMetaImageIOFactory.cxx
-)
+set(ITKIOMeta_SRCS
+  itkMetaArrayWriter.cxx
+  itkMetaImageIO.cxx
+  itkMetaArrayReader.cxx
+  itkMetaImageIOFactory.cxx
+  )
 
-add_library(ITKIOMeta ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOMeta_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKIOMeta)
+itk_module_add_library(ITKIOMeta ${ITKIOMeta_SRCS})
