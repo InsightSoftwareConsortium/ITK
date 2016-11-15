@@ -25,14 +25,15 @@ namespace itk
 
 template< typename TFixedPointSet, typename TMovingImage >
 PointSetToImageRegistrationMethod< TFixedPointSet, TMovingImage >
-::PointSetToImageRegistrationMethod() :
-  m_InitialTransformParameters( 0.0f ),
-  m_LastTransformParameters( 0.0f )
+::PointSetToImageRegistrationMethod()
 {
   this->SetNumberOfRequiredOutputs(1);
 
-  m_InitialTransformParameters = ParametersType(1);
-  m_LastTransformParameters = ParametersType(1);
+  m_InitialTransformParameters = ParametersType( FixedPointSetType::PointDimension );
+  m_LastTransformParameters = ParametersType( FixedPointSetType::PointDimension );
+
+  m_InitialTransformParameters.Fill( 0 );
+  m_LastTransformParameters.Fill( 0 );
 
   TransformOutputPointer transformDecorator =
     itkDynamicCastInDebugMode< TransformOutputType * >(this->MakeOutput(0).GetPointer() );
