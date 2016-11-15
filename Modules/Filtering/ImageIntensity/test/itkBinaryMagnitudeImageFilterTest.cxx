@@ -18,54 +18,49 @@
 
 #include "itkBinaryMagnitudeImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
 
-int itkBinaryMagnitudeImageFilterTest(int, char* [] )
+int itkBinaryMagnitudeImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned Dimension = 3;
 
-  // Define the values of the input images
-  const float input1Value = 3.0;
-  const float input2Value = 4.0;
-
-  // Define the values of the output images
-  const float outputValue = 5.0;
-
-  // Define the precison for output comparison
-  const float epsilon = 1e-6;
+  // Declare the pixel types of the images
+  typedef float                PixelType;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType4;
+  typedef itk::Image< PixelType, Dimension > InputImageType1;
+  typedef itk::Image< PixelType, Dimension > InputImageType2;
+  typedef itk::Image< PixelType, Dimension > OutputImageType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  typedef itk::Index< Dimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  typedef itk::Size< Dimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  typedef itk::ImageRegion< Dimension >   RegionType;
 
-  // Create two images
-  myImageType1::Pointer inputImageA  = myImageType1::New();
-  myImageType2::Pointer inputImageB  = myImageType2::New();
+  // Create the input images
+  InputImageType1::Pointer inputImageA = InputImageType1::New();
+  InputImageType2::Pointer inputImageB = InputImageType2::New();
 
   // Define their size, and start index
-  mySizeType size;
+  SizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;
 
-  myIndexType start;
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -81,80 +76,82 @@ int itkBinaryMagnitudeImageFilterTest(int, char* [] )
   inputImageB->SetRequestedRegion( region );
   inputImageB->Allocate();
 
-  // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType4>  myIteratorType4;
+  // Declare appropriate Iterator types for each image
+  typedef itk::ImageRegionIteratorWithIndex< InputImageType1 >
+    InputImage1IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< InputImageType2 >
+    InputImage2IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< OutputImageType >
+    OutputImageIteratorType;
 
   // Create one iterator for Image A (this is a light object)
-  myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
+  InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  const InputImageType1::PixelType input1Value = 3.0;
   while( !it1.IsAtEnd() )
   {
     it1.Set( input1Value );
-    std::cout << it1.Get() << std::endl;
     ++it1;
   }
 
   // Create one iterator for Image B (this is a light object)
-  myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
+  InputImage2IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
+  const InputImageType1::PixelType input2Value = 4.0;
   while( !it2.IsAtEnd() )
   {
     it2.Set( input2Value );
-    std::cout << it2.Get() << std::endl;
     ++it2;
   }
 
+  // Define the values of the output images
+  const PixelType outputValue = 5.0;
 
   // Declare the type for the Magnitude Filter
   typedef itk::BinaryMagnitudeImageFilter<
-                                myImageType1,
-                                myImageType2,
-                                myImageType4  >       myFilterType;
+                                InputImageType1,
+                                InputImageType2,
+                                OutputImageType > FilterType;
 
+  // Create the BinaryMagnitudeImageFilter
+  FilterType::Pointer filter = FilterType::New();
 
-  // Create a MagnitudeImageFilter
-  myFilterType::Pointer filter = myFilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BinaryMagnitudeImageFilter,
+    BinaryFunctorImageFilter );
 
-
-  // Connect the input images
+  // Set the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType4::Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
+
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  myIteratorType4 it4(outputImage, outputImage->GetBufferedRegion());
+  OutputImageIteratorType oIt( outputImage, outputImage->GetBufferedRegion() );
 
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  while( !it4.IsAtEnd() )
+  // Check the content of the result image
+  //
+  const float epsilon = 1e-6;
+  while( !oIt.IsAtEnd() )
     {
-    std::cout << it4.Get() << std::endl;
-    if( std::fabs( it4.Get() - outputValue ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( oIt.Get(), outputValue, 10, epsilon ) )
       {
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;
-      std::cerr << "but is           " << it4.Get()  << std::endl;
+      std::cerr << "but is           " << oIt.Get() << std::endl;
       return EXIT_FAILURE;
       }
-
-    ++it4;
+    ++oIt;
     }
-
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }
