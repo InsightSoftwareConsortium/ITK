@@ -52,9 +52,9 @@ else
 lcov --directory . --zerocounters
 ctest
 lcov --directory . --capture --output-file app.info
-lcov --remove app.info '*test*'  '*ThirdParty*' '/usr/*' --output-file  app.info2
+lcov --remove app.info '*KWStyle*' '*test*'  '*ThirdParty*' '/usr/*' --output-file  app.info2
 genhtml app.info2
-echo "To view results on Linux, type firefox ./Index.html"
-echo "To view results on Mac, type open ./Index.html"
+echo "To view results on Linux, type firefox ./index.html"
+echo "To view results on Mac, type open ./index.html"
 
 fi
