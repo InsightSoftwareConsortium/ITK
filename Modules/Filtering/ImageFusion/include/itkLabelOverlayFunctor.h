@@ -126,7 +126,7 @@ public:
   /** type of the color component */
   typedef typename TRGBPixel::ComponentType ComponentType;
 
-  void AddColor(ComponentType r, ComponentType g, ComponentType b)
+  void AddColor(unsigned char r, unsigned char g, unsigned char b)
   {
     m_RGBFunctor.AddColor(r, g, b);
   }
