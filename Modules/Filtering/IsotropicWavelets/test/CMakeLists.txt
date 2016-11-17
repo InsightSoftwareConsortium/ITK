@@ -537,3 +537,11 @@ itk_python_expression_add_test(
   NAME itkZeroDCImageFilterPythonTest
   EXPRESSION "instance = itk.ZeroDCImageFilter.New()"
 )
+itk_python_expression_add_test(
+  NAME itkFrequencyExpandViaInverseFFTImageFilterPythonTest
+  EXPRESSION "instance = itk.FrequencyExpandViaInverseFFTImageFilter.New()"
+)
+itk_python_expression_add_test(
+  NAME itkFrequencyShrinkViaInverseFFTImageFilterPythonTest
+  EXPRESSION "instance = itk.FrequencyShrinkViaInverseFFTImageFilter.New()"
+)
