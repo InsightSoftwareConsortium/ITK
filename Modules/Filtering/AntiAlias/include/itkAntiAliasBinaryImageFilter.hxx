@@ -29,7 +29,8 @@ template< typename TInputImage, typename TOutputImage >
 AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
 ::AntiAliasBinaryImageFilter() :
   m_UpperBinaryValue( NumericTraits< BinaryValueType >::OneValue() ),
-  m_LowerBinaryValue( NumericTraits< BinaryValueType >::ZeroValue() )
+  m_LowerBinaryValue( NumericTraits< BinaryValueType >::ZeroValue() ),
+  m_InputImage( ITK_NULLPTR )
 {
   m_CurvatureFunction = CurvatureFunctionType::New();
   this->SetDifferenceFunction(m_CurvatureFunction);
@@ -112,8 +113,11 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
 
   this->SetIsoSurfaceValue( max - ( ( max - min ) / 2.0 ) );
 
-  // Start the solver.
+  // Start the solver
   Superclass::GenerateData();
+
+  // Release the pointer
+  m_InputImage = ITK_NULLPTR;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -125,7 +129,8 @@ AntiAliasBinaryImageFilter< TInputImage, TOutputImage >
 
   os << indent << "m_UpperBinaryValue = " << m_UpperBinaryValue << std::endl;
   os << indent << "m_LowerBinaryValue = " << m_LowerBinaryValue << std::endl;
-  os << indent << "m_InputImage = " << m_InputImage << std::endl;
+
+  itkPrintSelfObjectMacro( InputImage );
 }
 } // end namespace itk
 
