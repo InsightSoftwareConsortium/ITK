@@ -126,7 +126,7 @@ FrustumSpatialFunction< VDimension, TInput >
     }
   else
     {
-    itkExceptionMacro(<< "Rotation plane not set!");
+    itkExceptionMacro(<< "Rotation plane not set or set to an unsupported value!");
     }
   return 0;
 }
