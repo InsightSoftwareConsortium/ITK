@@ -64,10 +64,10 @@ class ITK_TEMPLATE_EXPORT ConicShellInteriorExteriorSpatialFunction:
 public:
 
   /** Standard class typedefs. */
-  typedef ConicShellInteriorExteriorSpatialFunction     Self;
-  typedef InteriorExteriorSpatialFunction< VDimension > Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef ConicShellInteriorExteriorSpatialFunction             Self;
+  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run time information. */
   itkTypeMacro(ConicShellInteriorExteriorSpatialFunction,
