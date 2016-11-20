@@ -111,6 +111,13 @@ protected:
   virtual bool GetUseLegacyModeForTwoFileWriting(void) const { return false; }
 
 private:
+  //Try to use the Q and S form codes from MetaDataDictionary if they are specified
+  //there, otherwise default to the backwards compatible values from earlier
+  //versions of ITK. The qform guess would probably been better to have
+  //been guessed as NIFTI_XFORM_SCANNER_ANAT
+  unsigned int getSFormCodeFromDictionary() const;
+  unsigned int getQFormCodeFromDictionary() const;
+
   bool  MustRescale();
 
   void  DefineHeaderObjectDataType();

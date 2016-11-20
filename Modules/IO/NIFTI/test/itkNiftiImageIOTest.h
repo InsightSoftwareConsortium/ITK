@@ -139,6 +139,27 @@ int MakeNiftiImage(void)
         ++RPIiterator;
       }
   }
+  {
+  // Don't use identity DirectionCosine, Unit Spacing, or Zero Origin
+  typename ImageType::DirectionType dc;
+  dc[0][0] = 0; dc[0][1] = 1; dc[0][2] = 0;
+  dc[1][0] = 0; dc[1][1] = 0; dc[1][2] = 1;
+  dc[2][0] = 1; dc[2][1] = 0; dc[2][2] = 0;
+  img->SetDirection(dc);
+  typename ImageType::SpacingType sp;
+  sp[0] = 1.0; sp[1] = 2.0; sp[2] = 3.0;
+  img->SetSpacing(sp);
+  typename ImageType::PointType og;
+  og[0] = -10.0; og[1] = -20.0; og[2] = -30.0;
+  img->SetOrigin(og);
+  }
+  {
+  //Set the qform and sfrom codes for the MetaDataDictionary.
+  itk::MetaDataDictionary & thisDic = img->GetMetaDataDictionary();
+  itk::EncapsulateMetaData< std::string >( thisDic, "qform_code_name", "NIFTI_XFORM_SCANNER_ANAT" );
+  itk::EncapsulateMetaData< std::string >( thisDic, "sform_code_name", "NIFTI_XFORM_UNKNOWN" );
+  }
+
   try
     {
     itk::IOTestHelper::WriteImage<ImageType,itk::NiftiImageIO>(img,std::string(filename));
@@ -160,6 +181,22 @@ int MakeNiftiImage(void)
   try
     {
     input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
+    // Get the sform and qform codes from the image
+    itk::MetaDataDictionary & thisDic = input->GetMetaDataDictionary();
+    //std::cout << "DICTIONARY:\n" << std::endl;
+    //thisDic.Print( std::cout );
+    std::string qform_temp="";
+    if ( ! itk::ExposeMetaData< std::string >(thisDic, "qform_code_name", qform_temp) || qform_temp != "NIFTI_XFORM_SCANNER_ANAT" )
+      {
+      std::cerr << "ERROR: qform code not recovered from file properly: 'NIFTI_XFORM_SCANNER_ANAT' != ." << qform_temp << "'" << std::endl;
+      return EXIT_FAILURE;
+      }
+    std::string sform_temp="";
+    if ( ! itk::ExposeMetaData< std::string >(thisDic, "sform_code_name", sform_temp) || sform_temp != "NIFTI_XFORM_UNKNOWN" )
+      {
+      std::cerr << "ERROR: sform code not recovered from file properly:  'NIFTI_XFORM_UNKNOWN' != '" << sform_temp << "'" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
   catch (itk::ExceptionObject &e)
     {
