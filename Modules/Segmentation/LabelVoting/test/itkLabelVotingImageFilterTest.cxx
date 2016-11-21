@@ -17,16 +17,20 @@
  *=========================================================================*/
 
 #include "itkLabelVotingImageFilter.h"
+#include "itkTestingMacros.h"
 
 
-int itkLabelVotingImageFilterTest(int, char* [] )
+int itkLabelVotingImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 3;
+
+  // Declare the pixel types of the images
+  typedef unsigned int PixelType;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned int, myDimension>  myImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
   // Input data arrays for test images
   const unsigned int dataImageA[8] =
@@ -45,41 +49,38 @@ int itkLabelVotingImageFilterTest(int, char* [] )
     { 255, 1, 255, 255, 4, 255, 255, 255 };
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>                  myIndexType;
+  typedef itk::Index< Dimension >                   IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>                   mySizeType;
+  typedef itk::Size< Dimension >                    SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>            myRegionType;
+  typedef itk::ImageRegion< Dimension >             RegionType;
 
-  // Declare Iterator type appropriate for image
-  typedef itk::ImageRegionIterator<myImageType>    myIteratorType;
+  // Declare appropriate Iterator type for the images
+  typedef itk::ImageRegionIterator< ImageType >     IteratorType;
 
-  // Declare the type for the ADD filter
-  typedef itk::LabelVotingImageFilter<myImageType> myFilterType;
-  typedef myFilterType::Pointer                    myFilterTypePointer;
+  // Declare the type for the filter
+  typedef itk::LabelVotingImageFilter< ImageType >
+    LabelVotingImageFilterType;
 
-  // Declare the pointers to images
-  typedef myImageType::Pointer   myImageTypePointer;
-
-  // Create two images
-  myImageTypePointer inputImageA  = myImageType::New();
-  myImageTypePointer inputImageB  = myImageType::New();
-  myImageTypePointer inputImageC  = myImageType::New();
+  // Create the input images
+  ImageType::Pointer inputImageA = ImageType::New();
+  ImageType::Pointer inputImageB = ImageType::New();
+  ImageType::Pointer inputImageC = ImageType::New();
 
   // Define their size, and start index
-  mySizeType size;
+  SizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;
 
-  myIndexType start;
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -89,8 +90,8 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   inputImageA->SetRequestedRegion( region );
   inputImageA->Allocate();
 
-  myIteratorType it =
-    myIteratorType( inputImageA, inputImageA->GetBufferedRegion() );
+  IteratorType it =
+    IteratorType( inputImageA, inputImageA->GetBufferedRegion() );
 
   for( int i = 0; i < 8; ++i, ++it )
     {
@@ -103,7 +104,7 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   inputImageB->SetRequestedRegion( region );
   inputImageB->Allocate();
 
-  it = myIteratorType( inputImageB, inputImageB->GetBufferedRegion() );
+  it = IteratorType( inputImageB, inputImageB->GetBufferedRegion() );
   for( int i = 0; i < 8; ++i, ++it )
     {
     it.Set( dataImageB[i] );
@@ -115,89 +116,104 @@ int itkLabelVotingImageFilterTest(int, char* [] )
   inputImageC->SetRequestedRegion( region );
   inputImageC->Allocate();
 
-  it = myIteratorType( inputImageC, inputImageC->GetBufferedRegion() );
+  it = IteratorType( inputImageC, inputImageC->GetBufferedRegion() );
   for( int i = 0; i < 8; ++i, ++it )
     {
     it.Set( dataImageC[i] );
     }
 
-  // Create an LabelVoting Filter
-  myFilterTypePointer filter = myFilterType::New();
+  // Create the LabelVoting Filter
+  LabelVotingImageFilterType::Pointer labelVotingFilter =
+    LabelVotingImageFilterType::New();
 
-  // Get the Smart Pointer to the Filter Output
-  myImageTypePointer outputImage = filter->GetOutput();
+  EXERCISE_BASIC_OBJECT_METHODS( labelVotingFilter, LabelVotingImageFilter,
+    ImageToImageFilter );
 
-  // = test first two input images with undecided label set to 255 = //
 
-  // Connect the first two input images
-  filter->SetInput( 0, inputImageA );
-  filter->SetInput( 1, inputImageB );
+  // Test with first two input images with undecided label set to 255
+  //
+
+  // Set the first two input images
+  labelVotingFilter->SetInput( 0, inputImageA );
+  labelVotingFilter->SetInput( 1, inputImageB );
 
   // Set label for undecided pixels
-  filter->SetLabelForUndecidedPixels( 255 );
+  labelVotingFilter->SetLabelForUndecidedPixels( 255 );
 
   // Execute the filter
-  filter->Update();
+  labelVotingFilter->Update();
 
-  // compare to correct results
-  it = myIteratorType( outputImage, outputImage->GetBufferedRegion() );
+  // Get the filter output
+  ImageType::Pointer outputImage = labelVotingFilter->GetOutput();
+
+  // Compare to correct results
+  it = IteratorType( outputImage, outputImage->GetBufferedRegion() );
   for( unsigned int i = 0; i < 8; ++i, ++it )
     {
     if( combinationABundecided255[i] != it.Get() )
       {
       std::cout << "Incorrect result using images A,B and undecided=255: "
                 << "i = " << i
-                << ", correct = " << combinationABundecided255[i]
-                << ", got = " << it.Get() << "\n";
+                << ", Expected = " << combinationABundecided255[i]
+                << ", Received = " << it.Get() << "\n";
       return EXIT_FAILURE;
       }
     }
 
-  // =========== test first two input images ============ //
+
+  // Test with first two input images
+  //
 
   // unset undecided pixel label; reinstate automatic selection
-  filter->UnsetLabelForUndecidedPixels();
+  labelVotingFilter->UnsetLabelForUndecidedPixels();
 
   // Execute the filter
-  filter->Update();
+  labelVotingFilter->Update();
 
-  // compare to correct results
-  it = myIteratorType( outputImage, outputImage->GetBufferedRegion() );
+  // Get the filter output
+  outputImage = labelVotingFilter->GetOutput();
+
+  // Compare to correct results
+  it = IteratorType( outputImage, outputImage->GetBufferedRegion() );
   for(unsigned int i = 0; i < 8; ++i, ++it )
     {
     if( combinationAB[i] != it.Get() )
       {
       std::cout << "Incorrect result using images A,B: i = " << i
-                << ", correct = " << combinationAB[i]
-                << ", got = " << it.Get() << "\n";
+                << ", Expected = " << combinationAB[i]
+                << ", Received = " << it.Get() << "\n";
       return EXIT_FAILURE;
       }
     }
 
-  // =========== test all three input images ============ //
 
-  // connect third input image
-  filter->SetInput( 2, inputImageC );
+  // Test with all three input images
+  //
+
+  // Set the third input image
+  labelVotingFilter->SetInput( 2, inputImageC );
 
   // Execute the filter
-  filter->Update();
+  labelVotingFilter->Update();
 
-  // compare to correct results
-  it = myIteratorType( outputImage, outputImage->GetBufferedRegion() );
+  // Get the filter output
+  outputImage = labelVotingFilter->GetOutput();
+
+  // Compare to correct results
+  it = IteratorType( outputImage, outputImage->GetBufferedRegion() );
   for( unsigned int i = 0; i < 8; ++i, ++it )
     {
     if( combinationABC[i] != it.Get() )
       {
       std::cout << "Incorrect result using images A,B,C: i = " << i
-                << ", correct = " << combinationABC[i]
-                << ", got = " << it.Get() << "\n";
+                << ", Expected = " << combinationABC[i]
+                << ", Received = " << it.Get() << "\n";
       return EXIT_FAILURE;
       }
     }
 
-  std::cout << "Success!\n";
+  std::cout << "Test succeeded." << std::endl;
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }
