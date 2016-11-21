@@ -93,6 +93,8 @@ FrequencyExpandImageFilter<TImageType>::SetExpandFactors(const unsigned int fact
 
 /**
  * Implementation Detail:
+ * Assume Expand Factor = 2
+ * Input image is pasted 2^ImageDimension times to form the outputImage.
  * The implementation calculate the number of different regions in an image,
  * depending on the dimension:
  * numberOfRegions = 2^dim (positive and negative frequencies per dim)
@@ -116,16 +118,10 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
   this->AllocateOutputs();
   outputPtr->FillBuffer(0);
   typename TImageType::SizeType                inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
+  typename TImageType::IndexType               inputOriginIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
   typename TImageType::SizeType                outputSize = outputPtr->GetLargestPossibleRegion().GetSize();
   FixedArray<bool, TImageType::ImageDimension> inputSizeIsEven;
 
-  typename TImageType::SizeType halfInputSize;
-  for (unsigned int dim = 0; dim < TImageType::ImageDimension; ++dim)
-  {
-    inputSizeIsEven[dim] = (inputSize[dim] % 2 == 0);
-    // halfInputSize[dim]   = inputSizeIsEven[dim] ? inputSize[dim]/2 : (inputSize[dim] + 1)/2;
-    halfInputSize[dim] = Math::Floor<SizeValueType>(inputSize[dim] / 2.0);
-  }
   const typename TImageType::IndexType indexRequested = outputPtr->GetLargestPossibleRegion().GetIndex();
 
   // Manage ImageDimension array linearly:{{{
@@ -138,7 +134,6 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
   }
   FixedArray<unsigned int, ImageDimension> subIndices;
   /// }}}
-
 
   // Prepare filter to paste the different regions into output.
   typedef itk::PasteImageFilter<ImageType> PasteFilterType;
@@ -154,28 +149,17 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
   {
     subIndices = Ind2Sub<ImageDimension>(n, nsizes);
     RegionType                    zoneRegion;
-    typename ImageType::SizeType  zoneSize;
-    typename ImageType::IndexType inputIndex = indexRequested;
+    typename ImageType::SizeType  zoneSize = inputSize;
+    typename ImageType::IndexType inputIndex = inputOriginIndex;
     typename ImageType::IndexType outputIndex = indexRequested;
     // We have to avoid break simmetry and the hermitian property.
     // So the output of a ComplexInverseFFT will generate complex images with non-zero imaginary part.
-    // Note that halfInputSize is inputSize/2 if inputSize is even, (inputSize - 1)/2 if odd.
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       if (subIndices[dim] == 0) // positive frequencies
-      {
-        // Nyquist frequency is shared by negative and positive freq if halfInputSize[dim] is even. Duplicate it if
-        // even.
-        zoneSize[dim] = halfInputSize[dim] + 1;
-        inputIndex[dim] = 0;
-        outputIndex[dim] = 0;
-      }
+        outputIndex[dim] = indexRequested[dim];
       else // negative frequencies
-      {
-        zoneSize[dim] = halfInputSize[dim];
-        inputIndex[dim] = halfInputSize[dim] + (inputSizeIsEven[dim] ? 0 : 1);
-        outputIndex[dim] = outputSize[dim] - zoneSize[dim];
-      }
+        outputIndex[dim] = indexRequested[dim] + outputSize[dim] - zoneSize[dim];
     }
     zoneRegion.SetIndex(inputIndex);
     zoneRegion.SetSize(zoneSize);
