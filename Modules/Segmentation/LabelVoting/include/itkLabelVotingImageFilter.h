@@ -88,12 +88,12 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(LabelVotingImageFilter, ImageToImageFilter);
 
-  /** Extract some information from the image types.  Dimensionality
+  /** Extract some information from the image types. Dimensionality
    * of the two images is assumed to be the same. */
   typedef typename TOutputImage::PixelType OutputPixelType;
   typedef typename TInputImage::PixelType  InputPixelType;
 
-  /** Extract some information from the image types.  Dimensionality
+  /** Extract some information from the image types. Dimensionality
    * of the two images is assumed to be the same. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
@@ -111,8 +111,7 @@ public:
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
-  /** Set label value for undecided pixels.
-    */
+  /** Set label value for undecided pixels. */
   void SetLabelForUndecidedPixels(const OutputPixelType l)
   {
     this->m_LabelForUndecidedPixels = l;
@@ -176,7 +175,7 @@ protected:
 
   void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;
 
-  /** Determine maximum value among all input images' pixels */
+  /** Determine maximum value among all input images' pixels. */
   InputPixelType ComputeMaximumInputValue();
 
 private:
