@@ -29,18 +29,19 @@ namespace itk
 {
 template< typename TInputPixelType, typename TOutputPixelType >
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
-::HoughTransform2DCirclesImageFilter()
+::HoughTransform2DCirclesImageFilter() :
+  m_SweepAngle( 0.0 ),
+  m_MinimumRadius( 0.0 ),
+  m_MaximumRadius( 10.0 ),
+  m_Threshold( 0.0 ),
+  m_SigmaGradient( 1.0 ),
+  m_NumberOfCircles( 1 ),
+  m_DiscRadiusRatio( 1 ),
+  m_Variance( 10 ),
+  m_OldModifiedTime( 0 ),
+  m_OldNumberOfCircles( 0 )
 {
-  m_Threshold = 0;
-  m_MinimumRadius = 0;  // by default
-  m_MaximumRadius = 10; // by default
-  m_SigmaGradient = 1;  // Scale of the DoG filter
-  m_DiscRadiusRatio = 1;
-  m_Variance = 10;
-  m_OldModifiedTime = 0;
-  m_OldNumberOfCircles = 0;
-  m_SweepAngle = 0.0;
-  m_NumberOfCircles = 1;
+
 }
 
 template< typename TInputPixelType, typename TOutputPixelType >
@@ -99,10 +100,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   m_RadiusImage->SetOrigin( inputImage->GetOrigin() );
   m_RadiusImage->SetSpacing( inputImage->GetSpacing() );
   m_RadiusImage->SetDirection( inputImage->GetDirection() );
-  m_RadiusImage->Allocate(true); // initialize
-                                                        // buffer to zero
+  m_RadiusImage->Allocate( true ); // initialize buffer to zero
 
-  ImageRegionConstIteratorWithIndex< InputImageType > image_it( inputImage,  inputImage->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< InputImageType > image_it( inputImage,
+    inputImage->GetRequestedRegion() );
   image_it.GoToBegin();
 
   Index< 2 >        index;
@@ -114,7 +115,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
       {
       point[0] = image_it.GetIndex()[0];
       point[1] = image_it.GetIndex()[1];
-      typename DoGFunctionType::VectorType grad = DoGFunction->EvaluateAtIndex( image_it.GetIndex() );
+      typename DoGFunctionType::VectorType grad =
+        DoGFunction->EvaluateAtIndex( image_it.GetIndex() );
 
       double Vx = grad[0];
       double Vy = grad[1];
@@ -156,8 +158,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     }
 
   // Compute the average radius
-  ImageRegionConstIterator< OutputImageType > output_it( outputImage, outputImage->GetLargestPossibleRegion() );
-  ImageRegionIterator< OutputImageType >      radius_it( m_RadiusImage, m_RadiusImage->GetLargestPossibleRegion() );
+  ImageRegionConstIterator< OutputImageType > output_it( outputImage,
+    outputImage->GetLargestPossibleRegion() );
+  ImageRegionIterator< OutputImageType > radius_it( m_RadiusImage,
+    m_RadiusImage->GetLargestPossibleRegion() );
   output_it.GoToBegin();
   radius_it.GoToBegin();
   while ( !output_it.IsAtEnd() )
@@ -171,7 +175,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     }
 }
 
-/** Get the list of circles. This recomputes the circles */
 template< typename TInputPixelType, typename TOutputPixelType >
 typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >::CirclesListType &
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
@@ -179,13 +182,13 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 {
   if ( ( this->GetMTime() == m_OldModifiedTime ) && ( n == m_OldNumberOfCircles ) )
     {
-    // if the filter has not been updated
+    // If the filter has not been updated
     return m_CirclesList;
     }
 
   m_CirclesList.clear();
 
-  /** Blur the accumulator in order to find the maximum */
+  // Blur the accumulator in order to find the maximum
   typedef Image< float, 2 > InternalImageType;
 
   OutputImagePointer outputImage = OutputImageType::New();
@@ -193,14 +196,14 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   outputImage->SetOrigin( this->GetOutput(0)->GetOrigin() );
   outputImage->SetSpacing( this->GetOutput(0)->GetSpacing() );
   outputImage->SetDirection( this->GetOutput(0)->GetDirection() );
-  outputImage->Allocate(true); // initialize
-                                                      // buffer to zero
+  outputImage->Allocate( true ); // initialize buffer to zero
 
-  ImageRegionConstIteratorWithIndex< OutputImageType > image_it( this->GetOutput(0),  this->GetOutput(
-                                                                   0)->GetRequestedRegion() );
+  ImageRegionConstIteratorWithIndex< OutputImageType > image_it(
+    this->GetOutput(0), this->GetOutput( 0 )->GetRequestedRegion() );
   image_it.GoToBegin();
 
-  ImageRegionIterator< OutputImageType > it( outputImage,  outputImage->GetRequestedRegion() );
+  ImageRegionIterator< OutputImageType > it( outputImage,
+    outputImage->GetRequestedRegion() );
 
   while ( !image_it.IsAtEnd() )
     {
@@ -212,7 +215,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   typedef DiscreteGaussianImageFilter< OutputImageType, InternalImageType > GaussianFilterType;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
-  gaussianFilter->SetInput(outputImage); // the output is the accumulator image
+  gaussianFilter->SetInput(outputImage); // The output is the accumulator image
   double variance[2];
   variance[0] = m_Variance;
   variance[1] = m_Variance;
@@ -222,12 +225,13 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
   typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
   typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
-  ImageRegionIterator< InternalImageType > it_input( postProcessImage, postProcessImage->GetLargestPossibleRegion() );
+  ImageRegionIterator< InternalImageType > it_input( postProcessImage,
+    postProcessImage->GetLargestPossibleRegion() );
 
   Index< 2 > index;
 
   CirclesListSizeType circles = 0;
-  bool         found;
+  bool found;
 
   const double nPI = 4.0 * std::atan(1.0);
 
@@ -243,7 +247,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
       {
       if ( Math::ExactlyEquals(it_input.Get(), max) )
         {
-        // Create a Line Spatial Object
+        // Create a Circle Spatial Object
         CirclePointer Circle = CircleType::New();
         Circle->SetId(static_cast<int>( circles ));
         Circle->SetRadius( m_RadiusImage->GetPixel( it_input.GetIndex() ) );
@@ -286,7 +290,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   return m_CirclesList;
 }
 
-/** Print Self information */
 template< typename TInputPixelType, typename TOutputPixelType >
 void
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
@@ -298,11 +301,12 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   os << "Minimum Radius:  " << m_MinimumRadius << std::endl;
   os << "Maximum Radius: " << m_MaximumRadius << std::endl;
   os << "Derivative Scale : " << m_SigmaGradient << std::endl;
-  os << "Radius Image Information : " << m_RadiusImage << std::endl;
   os << "Number Of Circles: " << m_NumberOfCircles << std::endl;
   os << "Disc Radius: " << m_DiscRadiusRatio << std::endl;
   os << "Accumulator blur variance: " << m_Variance << std::endl;
   os << "Sweep angle : " << m_SweepAngle << std::endl;
+
+  itkPrintSelfObjectMacro( RadiusImage );
 }
 } // end namespace
 
