@@ -41,7 +41,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   m_OldModifiedTime( 0 ),
   m_OldNumberOfCircles( 0 )
 {
-
+  this->SetNumberOfRequiredInputs( 1 );
 }
 
 template< typename TInputPixelType, typename TOutputPixelType >
@@ -180,10 +180,18 @@ typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 ::GetCircles(unsigned int n)
 {
+  // Make sure that all the required inputs exist and have a non-null value
+  this->VerifyPreconditions();
+
   if ( ( this->GetMTime() == m_OldModifiedTime ) && ( n == m_OldNumberOfCircles ) )
     {
     // If the filter has not been updated
     return m_CirclesList;
+    }
+
+  if( m_RadiusImage.IsNull() )
+    {
+    itkExceptionMacro(<<"Update() must be called before GetCircles().");
     }
 
   m_CirclesList.clear();
@@ -233,8 +241,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   CirclesListSizeType circles = 0;
   bool found;
 
-  const double nPI = 4.0 * std::atan(1.0);
-
   // Find maxima
   do
     {
@@ -260,8 +266,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
         m_CirclesList.push_back(Circle);
 
-        // Remove a black disc from the hough space domain
-        for ( double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
+        // Remove a black disc from the Hough space domain
+        for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
           {
           for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
             {
