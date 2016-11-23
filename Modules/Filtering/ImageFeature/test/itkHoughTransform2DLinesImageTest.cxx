@@ -20,6 +20,7 @@
 #include "itkThresholdImageFilter.h"
 #include "itkGradientMagnitudeImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  * This program looks for straight lines whithin an image
@@ -33,225 +34,247 @@
  */
 
 /** Hough Point structure */
-struct houghPoint
+struct HoughPoint
 {
   double radius;
   double angle;
 };
 
-/** Main program */
-int itkHoughTransform2DLinesImageTest(int, char* [])
+
+int itkHoughTransform2DLinesImageTest( int, char* [] )
 {
-  /** Typedefs */
-  typedef   unsigned char                            PixelType;
-  typedef   double                                   HoughSpacePixelType;
-  typedef   itk::Image< HoughSpacePixelType, 2>      HoughImageType;
-  typedef   itk::Image< PixelType, 2>                ImageType;
-  itk::Index<2> m_Index;
+  // Define the dimension of the images
+  const unsigned Dimension = 2;
 
-  /** Create a line image with one line */
-  std::cout << "Creating simulated image" << std::endl;
-  ImageType::Pointer m_Image = ImageType::New();
+  // Declare the pixel types of the images
+  typedef unsigned char                           PixelType;
+  typedef double                                  HoughSpacePixelType;
+
+  // Declare the types of the images
+  typedef itk::Image< HoughSpacePixelType, Dimension >      HoughImageType;
+  typedef itk::Image< PixelType, Dimension >                ImageType;
+
+
+  // Create a line image with one line
+  ImageType::Pointer image = ImageType::New();
+
   ImageType::RegionType region;
+
   ImageType::SizeType size;
-  size.Fill(100);
+  size.Fill( 100 );
+
   ImageType::IndexType index;
-  index.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(index);
-  m_Image->SetRegions( region );
-  m_Image->Allocate(true); // initialize buffer
-                                                  // to zero
+  index.Fill( 0 );
 
-  /** Create a line */
-  float teta = 0.20; // radians
-  float radius = 50;
+  region.SetSize( size );
+  region.SetIndex( index );
 
-  double Vx = radius * std::cos( teta );
-  double Vy = radius * std::sin( teta );
+  image->SetRegions( region );
+  image->Allocate( true ); // initialize buffer to zero
 
-  double norm = std::sqrt(Vx*Vx+Vy*Vy);
+  // Create a line
+  const unsigned int lines = 1;
+  double theta = 0.20; // radians
+  double radius = 50;
+
+  double Vx = radius * std::cos( theta );
+  double Vy = radius * std::sin( theta );
+
+  double norm = std::sqrt( Vx * Vx + Vy * Vy );
   double VxNorm = Vx / norm;
   double VyNorm = Vy / norm;
 
-  unsigned int maxval = size[0]*size[1];
+  unsigned int numberOfPixels = size[0] * size[1];
 
-  const double nPI = 4.0 * std::atan( 1.0 );
-
-  for(unsigned int i=0;i<maxval;i+=1)
+  for( unsigned int i = 0; i < numberOfPixels; i += 1 )
   {
-    m_Index[0]=(long int)(Vx-VyNorm*i);
-    m_Index[1]=(long int)(Vy+VxNorm*i);
+    index[0] = (long int)( Vx - VyNorm * i );
+    index[1] = (long int)( Vy + VxNorm * i );
 
-    if( ((m_Index[0]<(long)size[0]) && (m_Index[0]>=0))
-         && ((m_Index[1]<(long)size[1]) && (m_Index[1]>=0))
-      )
+    if( index[0] < (long)size[0] && index[0] >= 0
+         && index[1] < (long)size[1] && index[1] >= 0 )
     {
-       m_Image->SetPixel(m_Index,255);
+       image->SetPixel( index, 255 );
     }
   }
 
-  /** Allocate Hough Space image (accumulator) */
-  std::cout << "Allocating Hough Space Image" << std::endl;
+  // Allocate Hough Space image (accumulator)
   HoughImageType::Pointer m_HoughSpaceImage = HoughImageType::New();
   m_HoughSpaceImage->SetRegions( region );
   m_HoughSpaceImage->Allocate();
 
-  /** Apply gradient filter to the input image */
- typedef itk::CastImageFilter<
-                        ImageType,
-                        HoughImageType    >    CastingFilterType;
+  // Apply gradient filter to the input image
+ typedef itk::CastImageFilter< ImageType, HoughImageType > CastingFilterType;
 
   CastingFilterType::Pointer caster = CastingFilterType::New();
-  caster->SetInput(m_Image);
+  caster->SetInput( image );
 
 
-  std::cout << "Applying gradient magnitude filter" << std::endl;
-  typedef itk::GradientMagnitudeImageFilter<HoughImageType,HoughImageType> GradientFilterType;
-  GradientFilterType::Pointer gradFilter =  GradientFilterType::New();
-  gradFilter->SetInput(caster->GetOutput());
+  typedef itk::GradientMagnitudeImageFilter< HoughImageType, HoughImageType >
+    GradientFilterType;
+
+  GradientFilterType::Pointer gradFilter = GradientFilterType::New();
+  gradFilter->SetInput( caster->GetOutput() );
   gradFilter->Update();
 
-  /** Apply a threshold to the Grad(InputImage) */
-  std::cout << "Thresholding" << std::endl;
-  typedef itk::ThresholdImageFilter<HoughImageType> ThresholdFilterType;
+  /// Apply a threshold to the Grad(InputImage)
+  typedef itk::ThresholdImageFilter< HoughImageType > ThresholdFilterType;
+
   ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
-  threshFilter->SetInput(gradFilter->GetOutput());
-  threshFilter->SetOutsideValue(0);
-  unsigned char thresh_below = 10;
-  unsigned char thresh_above = 200;
-  threshFilter->ThresholdOutside(thresh_below,thresh_above);
+  threshFilter->SetInput( gradFilter->GetOutput() );
+  threshFilter->SetOutsideValue( 0 );
+  unsigned char lowerThreshold = 10;
+  unsigned char upperThreshold = 200;
+  threshFilter->ThresholdOutside( lowerThreshold, upperThreshold );
+
   threshFilter->Update();
 
-  /** Define the HoughTransform filter */
-  typedef itk::HoughTransform2DLinesImageFilter<HoughSpacePixelType,HoughSpacePixelType> HoughTransformFilterType;
+  // Define the HoughTransform filter
+  typedef itk::HoughTransform2DLinesImageFilter< HoughSpacePixelType, HoughSpacePixelType >
+    HoughTransformFilterType;
 
   HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
 
-  houghFilter->SetInput(threshFilter->GetOutput());
+  EXERCISE_BASIC_OBJECT_METHODS( houghFilter, HoughTransform2DLinesImageFilter,
+    ImageToImageFilter );
 
-  houghFilter->SetThreshold(0.0f);
-  if(houghFilter->GetThreshold() != 0.0f)
-  {
-    std::cout << "Failure" << std::endl;
-    return EXIT_FAILURE;
-  }
 
-  houghFilter->SetAngleResolution(500.0f);
+  float threshold = 2.3;
+  houghFilter->SetThreshold( threshold );
+  TEST_SET_GET_VALUE( threshold, houghFilter->GetThreshold() );
 
-  houghFilter->SetDiscRadius(10.0f);
-  if(houghFilter->GetDiscRadius() != 10.0f)
-  {
-    std::cout << "Failure" << std::endl;
-    return EXIT_FAILURE;
-  }
+  float angleResolution = 200.0;
+  houghFilter->SetAngleResolution( angleResolution );
+  TEST_SET_GET_VALUE( angleResolution, houghFilter->GetAngleResolution() );
 
-  houghFilter->SetVariance(10.0f);
-  if(houghFilter->GetVariance() != 10.0f)
-  {
-    std::cout << "Failure" << std::endl;
-    return EXIT_FAILURE;
-  }
+  HoughTransformFilterType::LinesListSizeType numberOfLines =
+    static_cast< HoughTransformFilterType::LinesListSizeType >( lines );
+  houghFilter->SetNumberOfLines( numberOfLines );
+  TEST_SET_GET_VALUE( numberOfLines, houghFilter->GetNumberOfLines() );
+
+  float discRadius = 25.0;
+  houghFilter->SetDiscRadius( discRadius );
+  TEST_SET_GET_VALUE( discRadius, houghFilter->GetDiscRadius() );
+
+  float variance = 10;
+  houghFilter->SetVariance( variance );
+  TEST_SET_GET_VALUE( variance, houghFilter->GetVariance() );
+
+
+  houghFilter->SetInput( threshFilter->GetOutput() );
 
   houghFilter->Update();
+
   houghFilter->Simplify();
 
-  HoughImageType::ConstPointer SimplifyAccumulator = houghFilter->GetSimplifyAccumulator();
-  HoughImageType::Pointer Accumulator = houghFilter->GetOutput();
+  HoughImageType::Pointer accumulator = houghFilter->GetOutput();
 
-  /** Blur the accumulator in order to find the maximum */
-  typedef itk::DiscreteGaussianImageFilter<HoughImageType,HoughImageType> GaussianFilterType;
+  HoughImageType::ConstPointer simplifyAccumulator = houghFilter->GetSimplifyAccumulator();
+
+
+  // Blur the accumulator in order to find the maximum
+  typedef itk::DiscreteGaussianImageFilter< HoughImageType,HoughImageType >
+    GaussianFilterType;
+
   GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
-  gaussianFilter->SetInput(Accumulator);
-  double variance[2];
-  variance[0]=10;
-  variance[1]=10;
-  gaussianFilter->SetVariance(variance);
-  gaussianFilter->SetMaximumError(.01f);
+  gaussianFilter->SetInput( accumulator );
+  double gaussianFilterVariance[Dimension];
+  gaussianFilterVariance[0] = variance;
+  gaussianFilterVariance[1] = variance;
+  gaussianFilter->SetVariance( gaussianFilterVariance );
+  gaussianFilter->SetMaximumError( .01f );
+
   gaussianFilter->Update();
+
   HoughImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-  typedef itk::MinimumMaximumImageCalculator<HoughImageType> MinMaxCalculatorType;
+  typedef itk::MinimumMaximumImageCalculator< HoughImageType > MinMaxCalculatorType;
   MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
 
-  itk::ImageRegionIterator<HoughImageType> it_output(m_HoughSpaceImage,m_HoughSpaceImage->GetLargestPossibleRegion());
-  itk::ImageRegionIterator<HoughImageType> it_input(postProcessImage,postProcessImage->GetLargestPossibleRegion());
+  itk::ImageRegionIterator< HoughImageType > it_output( m_HoughSpaceImage,
+    m_HoughSpaceImage->GetLargestPossibleRegion() );
 
-  /** Set the number of lines we are looking for. */
-  unsigned int m_NumberOfLines=1;
-  /** Each time we find a maximum we remove it by drawing a black disc
-      this define the size of this disc */
-  unsigned int m_HoughDiscRadius=10;
+  itk::ImageRegionIterator< HoughImageType > it_input( postProcessImage,
+    postProcessImage->GetLargestPossibleRegion() );
 
-  unsigned int lines=0;
-  std::list<houghPoint> m_LinesList;
 
-  /** Find maxima */
+  unsigned int foundLines = 0;
+
+  std::list< HoughPoint > linesList;
+
+  // Search for maxima
+  // Each time a maximum is found it is removed by drawing a black disc
+  // whose size is defined by the Hough disc radius
   do{
-    minMaxCalculator->SetImage(postProcessImage);
+    minMaxCalculator->SetImage( postProcessImage );
     minMaxCalculator->ComputeMaximum();
-    HoughImageType::PixelType  max = minMaxCalculator->GetMaximum();
+    HoughImageType::PixelType max = minMaxCalculator->GetMaximum();
 
-    for(it_input.GoToBegin();!it_input.IsAtEnd();++it_input)
+    for( it_input.GoToBegin(); !it_input.IsAtEnd(); ++it_input )
     {
-      if(itk::Math::ExactlyEquals(it_input.Get(), max))
+      if( itk::Math::ExactlyEquals( it_input.Get(), max ) )
       {
-        houghPoint m_HoughPoint;
-        m_HoughPoint.radius = it_input.GetIndex()[0];
-        m_HoughPoint.angle  = ((it_input.GetIndex()[1])*2*nPI/houghFilter->GetAngleResolution())-nPI;
+        HoughPoint houghPoint;
+        houghPoint.radius = it_input.GetIndex()[0];
+        houghPoint.angle  = ( ( it_input.GetIndex()[1] ) *
+          2 * itk::Math::pi / houghFilter->GetAngleResolution() ) - itk::Math::pi;
 
-        m_LinesList.push_back(m_HoughPoint);
+        linesList.push_back( houghPoint );
 
-        // Remove a black disc from the hough space domain
-        for(double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
+        // Remove a black disc from the Hough space domain
+        for( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
         {
-          for(double length = 0; length < m_HoughDiscRadius;length += 1)
+          for( double length = 0; length < discRadius; length += 1 )
           {
-            m_Index[0] = (long int)(it_input.GetIndex()[0] + length * std::cos(angle));
-            m_Index[1] = (long int)(it_input.GetIndex()[1] + length * std::sin(angle));
-            if( ((m_Index[0]<=std::sqrt((double)400*400+400*400)) && (m_Index[0]>=0))
-              && ((m_Index[1]<=500) && (m_Index[1]>=0))
-            )
+            index[0] = (long int)( it_input.GetIndex()[0] + length * std::cos( angle ) );
+            index[1] = (long int)( it_input.GetIndex()[1] + length * std::sin( angle ) );
+            if( index[0] <= std::sqrt( (double)400 * 400 + 400 * 400) && index[0] >= 0
+              && index[1] <= angleResolution && index[1] >= 0 )
             {
-              Accumulator->SetPixel(m_Index,0);
+              accumulator->SetPixel( index, 0 );
             }
           }
         }
-        minMaxCalculator->SetImage(Accumulator);
+        minMaxCalculator->SetImage( accumulator );
         minMaxCalculator->ComputeMaximum();
         max = minMaxCalculator->GetMaximum();
 
-        lines++;
-        if(lines == m_NumberOfLines) break;
+        foundLines++;
+        if( foundLines == lines )
+          {
+          break;
+          }
       }
     }
-  } while(lines<m_NumberOfLines);
+  } while( foundLines < lines );
 
+  // Check the line detection
+  std::list< HoughPoint >::iterator it_list = linesList.begin();
 
-  std::list<houghPoint>::iterator it_list = m_LinesList.begin();
-
-  while(it_list != m_LinesList.end())
+  double angleTolerance = 0.1;
+  double radiusTolerance = 1.0;
+  while( it_list != linesList.end() )
     {
-    std::cout << "Angle = " << it_list->angle << " (expected " << teta << ")"<< std::endl;
-    std::cout << "Radius = " << it_list->radius << " (expected " << radius << ")"<< std::endl;
-
-    if( std::fabs(it_list->angle-teta)>0.1)
+    if( !itk::Math::FloatAlmostEqual( it_list->angle, theta, 10, angleTolerance ) )
       {
-      std::cout << "Failure" << std::endl;
+      std::cout << "Failure for line" << std::endl;
+      std::cout << "Expected angle: " << theta << ", found: " << it_list->angle << std::endl;
       return EXIT_FAILURE;
       }
-    if( std::fabs(it_list->radius-radius)>1.0)
+    if( !itk::Math::FloatAlmostEqual( it_list->radius, radius, 10, radiusTolerance ) )
       {
-      std::cout << "Failure" << std::endl;
+      std::cout << "Failure for line" << std::endl;
+      std::cout << "Expected radius: " << radius << ", found: " << it_list->radius << std::endl;
       return EXIT_FAILURE;
+      }
+    else
+      {
+      std::cout << "Line :" << " angle: " << it_list->angle << ", "
+        << "radius: " << it_list->radius << std::endl;
       }
     ++it_list;
     }
 
-  std::cout << "Printing Hough Fiter information:" << std::endl;
-  std::cout << houghFilter << std::endl;
-
-
-  std::cout << "Hough Transform Successful" << std::endl;
+  std::cout << "Test succeeded!" << std::endl;
   return EXIT_SUCCESS;
 }
