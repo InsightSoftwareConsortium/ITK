@@ -23,6 +23,7 @@
 #include "itkContinuousIndex.h"
 #include "itkOffset.h"
 #include "itkVector.h"
+#include "ITKPathExport.h"
 
 namespace itk
 {
@@ -58,7 +59,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< unsigned int VDimension >
-class ParametricPath:public
+class ITKPath_TEMPLATE_EXPORT ParametricPath:public
   Path< double, ContinuousIndex< SpacePrecisionType, VDimension >, VDimension >
 {
 public:
@@ -143,4 +144,44 @@ private:
 #include "itkParametricPath.hxx"
 #endif
 
+#endif // itkParametricPath.h
+
+
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_ParametricPath
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+//
+// IMPORTANT: Since within the same compilation unit,
+//            ITK_TEMPLATE_EXPLICIT_<classname> defined and undefined states
+//            need to be considered. This code *MUST* be *OUTSIDE* the header
+//            guards.
+//
+#  if defined( ITKPath_EXPORTS )
+//   We are building this library
+#    define ITKPath_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKPath_EXPORT_EXPLICIT ITKCommon_EXPORT
+#  endif
+namespace itk
+{
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
+extern template class ITKPath_EXPORT_EXPLICIT ParametricPath< 2 >;
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
+#endif
+
+
+} // end namespace itk
+#  undef ITKPath_EXPORT_EXPLICIT
 #endif
