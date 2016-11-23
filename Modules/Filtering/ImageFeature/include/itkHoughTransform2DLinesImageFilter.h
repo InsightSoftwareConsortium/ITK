@@ -41,10 +41,10 @@ namespace itk
  * \f$\theta\f$ the angle with the normal.
  *
  * The output is the accumulator array:
- *    -The first dimension (X) represents the distance R from the corner
- *     to the line
- *    -The second dimension (Y) represents the angle between the X axis
- *     and the normal to the line.
+ *  - The first dimension (X) represents the distance R from the corner
+ *    to the line.
+ *  - The second dimension (Y) represents the angle between the X axis
+ *    and the normal to the line.
  *
  * The size of the array depends on the AngleAxisSize that could be set
  * (500 by default) for the angle axis. The distance axis depends on the
@@ -103,50 +103,48 @@ public:
   using OutputImageRegionType = typename InputImageType::RegionType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(HoughTransform2DLinesImageFilter, ImageToImageFilter);
+  itkTypeMacro( HoughTransform2DLinesImageFilter, ImageToImageFilter );
 
   /** Method for creation through the object factory. */
-  itkNewMacro(Self);
+  itkNewMacro( Self );
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() override;
 
-  /** Set the threshold above which the filter should consider
-      the point as a valid point */
-  itkSetMacro(Threshold, float);
+  /** Set/Get the threshold above which the filter should consider
+   * the point as a valid point. */
+  itkSetMacro( Threshold, double );
+  itkGetConstMacro( Threshold, double );
 
-  /** Get the threshold value */
-  itkGetConstMacro(Threshold, float);
+  /** Set/Get the resolution angle.
+   * The Hough space describes (in the angle direction) [-PI,PI[
+   * with a constant step AngleResolution. */
+  itkSetMacro( AngleResolution, float );
+  itkGetConstMacro( AngleResolution, float );
 
-  /** Set the resolution angle:
-      The hough space descibes (in the angle direction) [-PI,PI[
-      with a constant stepe AngleResolution */
-  itkSetMacro(AngleResolution, float);
-
-  /** Get the resolution angle */
-  itkGetConstMacro(AngleResolution, float);
-
-  /** Simplify the accumulator */
+  /** Simplify the accumulator.
+   * Performs the same iteration process as the Update() method, but finds
+   * the maximum along the curve and then removes the curve. */
   void Simplify();
 
-  /** Get the Simplified accumulator */
-  itkGetModifiableObjectMacro(SimplifyAccumulator, OutputImageType);
+  /** Get the Simplified accumulator. */
+  itkGetModifiableObjectMacro( SimplifyAccumulator, OutputImageType );
 
-  /** Get the list of lines. This recomputes the lines */
+  /** Get the list of lines. This recomputes the lines. */
   LinesListType & GetLines();
 
   /** Set/Get the number of lines to extract */
-  itkSetMacro(NumberOfLines, LinesListSizeType);
-  itkGetConstMacro(NumberOfLines, LinesListSizeType);
+  itkSetMacro( NumberOfLines, LinesListSizeType );
+  itkGetConstMacro( NumberOfLines, LinesListSizeType );
 
   /** Set/Get the radius of the disc to remove from the accumulator
-   *  for each line found */
-  itkSetMacro(DiscRadius, float);
-  itkGetConstMacro(DiscRadius, float);
+   * for each line found. */
+  itkSetMacro( DiscRadius, float );
+  itkGetConstMacro( DiscRadius, float );
 
-  /** Set the variance of the gaussian bluring for the accumulator */
-  itkSetMacro(Variance, float);
-  itkGetConstMacro(Variance, float);
+  /** Set/Get the variance of the Gaussian blurring for the accumulator. */
+  itkSetMacro( Variance, float );
+  itkGetConstMacro( Variance, float );
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -179,16 +177,16 @@ protected:
    * \sa ProcessObject::GenerateOutputRequestedRegion() */
   void GenerateOutputInformation() override;
 
-  /** HoughTransform2DLinesImageFilter must produce the entire output */
-  void EnlargeOutputRequestedRegion(DataObject *output) override;
+  /** HoughTransform2DLinesImageFilter must produce the entire output. */
+  void EnlargeOutputRequestedRegion( DataObject *output ) override;
 
 private:
 
-  HoughTransform2DLinesImageFilter(const Self &);
-  void operator=(const Self &);
+  ITK_DISALLOW_COPY_AND_ASSIGN(HoughTransform2DLinesImageFilter);
 
   float              m_AngleResolution;
-  float              m_Threshold;
+  double             m_Threshold;
+
   OutputImagePointer m_SimplifyAccumulator;
   LinesListType      m_LinesList;
   LinesListSizeType  m_NumberOfLines;
