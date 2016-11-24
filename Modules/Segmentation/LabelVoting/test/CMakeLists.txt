@@ -25,6 +25,9 @@ itk_add_test(NAME itkVotingBinaryIterativeHoleFillingImageFilterTest
 itk_add_test(NAME itkBinaryMedianImageFilterTest
       COMMAND ITKLabelVotingTestDriver itkBinaryMedianImageFilterTest)
 itk_add_test(NAME itkVotingBinaryHoleFillingImageFilterTest
-      COMMAND ITKLabelVotingTestDriver itkVotingBinaryHoleFillingImageFilterTest)
+      COMMAND ITKLabelVotingTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkVotingBinaryHoleFillingImageFilterTest.png
+              fd3bd75fc6270e3c416a3f0807a6e24b
+    itkVotingBinaryHoleFillingImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkVotingBinaryHoleFillingImageFilterTest.png)
 itk_add_test( NAME itkMultiLabelSTAPLEImageFilterTest
       COMMAND ITKLabelVotingTestDriver itkMultiLabelSTAPLEImageFilterTest )
