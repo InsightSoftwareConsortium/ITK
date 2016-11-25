@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#define ITK_TEMPLATE_EXPLICIT_MetaDataObject
+#define ITK_TEMPLATE_EXPLICIT_ParametricPath
 #include "itkParametricPath.h"
 
 namespace itk
