@@ -54,7 +54,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
                                  const unsigned int & inputBands)
 {
   const unsigned int                       dimension = N;
-  typedef double                           PixelType;
+  typedef float                            PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
   typename ReaderType::Pointer             reader = ReaderType::New();
@@ -107,7 +107,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   for (unsigned int nout = 0; nout < forwardWavelet->GetNumberOfOutputs(); ++nout)
   {
     std::cout << "************Nout: " << nout << " / " << noutputs << std::endl;
-    if (nout == 1200) // TODO check this. avoid phase analysis in last approximation (low_pass).
+    if (nout == 0) // TODO check this. avoid phase analysis in last approximation (low_pass).
     {
       modifiedWavelets.push_back(analysisWavelets[nout]);
       // TODO remove this visualize
