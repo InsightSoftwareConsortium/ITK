@@ -39,7 +39,7 @@ FrequencyExpandImageFilter<TImageType>::FrequencyExpandImageFilter()
   // Set default factors to 1
   for (unsigned int j = 0; j < ImageDimension; j++)
   {
-    m_ExpandFactors[j] = 1;
+    m_ExpandFactors[j] = 2;
   }
 }
 
@@ -69,7 +69,6 @@ void
 FrequencyExpandImageFilter<TImageType>::SetExpandFactors(const unsigned int factor)
 {
   unsigned int j;
-
   for (j = 0; j < ImageDimension; j++)
   {
     if (factor != m_ExpandFactors[j])
@@ -180,45 +179,6 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
     }
     progress.CompletedPixel();
   }
-
-  // // Apply a gaussian window of the size of the input.
-  // typedef itk::GaussianSpatialFunction<double, ImageDimension> FunctionType;
-  // typename FunctionType::Pointer gaussian = FunctionType::New();
-  // typedef FixedArray< double, ImageDimension > ArrayType;
-  // ArrayType m_Mean;
-  // ArrayType m_Sigma;
-  // double m_Scale = 1.0;
-  // bool m_Normalized = true;
-  // for (unsigned int i = 0; i<ImageDimension; ++i)
-  //   {
-  //   m_Mean[i] = inputPtr->GetLargestPossibleRegion().GetIndex()[i];
-  //   // 6.0 is equivalent to 3sigmas (border values are close to zero)
-  //   // m_Sigma[i] = outputSize[i]/(2*3.0);
-  //   m_Sigma[i] = inputSize[i]/(2.0*2.35);
-  //   }
-  // gaussian->SetSigma(m_Sigma);
-  // gaussian->SetMean(m_Mean);
-  // gaussian->SetScale(m_Scale);
-  // gaussian->SetNormalized(m_Normalized);
-  //
-  // // Create an iterator that will walk the output region
-  // typedef itk::FrequencyImageRegionIteratorWithIndex< TImageType > OutputIterator;
-  // OutputIterator outIt = OutputIterator( outputPtr,
-  //     outputPtr->GetRequestedRegion() );
-  // outIt.GoToBegin();
-  // while( !outIt.IsAtEnd() )
-  //   {
-  //   typename TImageType::IndexType ind = outIt.GetFrequencyBin();
-  //   typename FunctionType::InputType f;
-  //   for (unsigned int i = 0; i<ImageDimension; ++i)
-  //     {
-  //     f[i] = static_cast<typename FunctionType::InputType::ValueType>(ind[i]);
-  //     }
-  //   const double value = gaussian->Evaluate(f);
-  //   // Set the pixel value to the function value
-  //   outIt.Set( outIt.Get() * static_cast<typename TImageType::PixelType::value_type>(value) );
-  //   ++outIt;
-  //   }
 }
 
 /**
