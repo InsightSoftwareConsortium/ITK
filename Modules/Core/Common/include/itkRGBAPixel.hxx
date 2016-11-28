@@ -171,7 +171,7 @@ operator<<(std::ostream & os, const RGBAPixel< TComponent > & c)
   os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[0] )  << "  ";
   os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[1] )  << "  ";
   os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[2] )  << "  ";
-  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[3] ) ;
+  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[3] );
   return os;
 }
 
