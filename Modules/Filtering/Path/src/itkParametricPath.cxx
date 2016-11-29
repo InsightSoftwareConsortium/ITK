@@ -15,6 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#define ITK_TEMPLATE_EXPLICIT_ParametricPath
 #include "itkParametricPath.h"
 
 namespace itk
@@ -25,5 +26,16 @@ namespace itk
 // subclass of ParametricPath<2>) and these instantiations must be in
 // the library so that the instantiations can be shared amongst
 // implicit instantiations of templated subclasses of ParametricPath.
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
 template class ParametricPath< 2 >;
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
+#endif
 } // end namespace itk

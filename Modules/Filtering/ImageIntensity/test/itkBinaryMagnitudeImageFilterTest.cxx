@@ -116,7 +116,7 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
                                 InputImageType2,
                                 OutputImageType > FilterType;
 
-  // Create the filter
+  // Create the BinaryMagnitudeImageFilter
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, BinaryMagnitudeImageFilter,
@@ -154,5 +154,4 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

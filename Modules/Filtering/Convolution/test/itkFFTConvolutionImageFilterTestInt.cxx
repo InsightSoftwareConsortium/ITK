@@ -58,7 +58,7 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
 
   ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = 2;
   convolver->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
-  TEST_SET_GET_VALUE( convolver->GetSizeGreatestPrimeFactor(), sizeGreatestPrimeFactor );
+  TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, convolver->GetSizeGreatestPrimeFactor() );
 
   itk::SimpleFilterWatcher watcher(convolver, "filter");
 
@@ -73,13 +73,13 @@ int itkFFTConvolutionImageFilterTestInt(int argc, char * argv[])
     if ( outputRegionMode == "SAME" )
       {
       convolver->SetOutputRegionModeToSame();
-      TEST_SET_GET_VALUE( convolver->GetOutputRegionMode(), ConvolutionFilterType::SAME );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convolver->GetOutputRegionMode() );
       std::cout << "OutputRegionMode set to SAME." << std::endl;
       }
     else if ( outputRegionMode == "VALID" )
       {
       convolver->SetOutputRegionModeToValid();
-      TEST_SET_GET_VALUE( convolver->GetOutputRegionMode(), ConvolutionFilterType::VALID );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convolver->GetOutputRegionMode() );
       std::cout << "OutputRegionMode set to VALID." << std::endl;
       }
     else

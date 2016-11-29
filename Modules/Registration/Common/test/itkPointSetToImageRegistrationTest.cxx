@@ -44,8 +44,8 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
 
   typedef double                   CoordinateRepresentationType;
 
-  typedef itk::Image<PixelType,ImageDimension>   MovingImageType;
-  typedef itk::Image<PixelType,ImageDimension>   FixedImageType;
+  typedef itk::Image< PixelType, ImageDimension >   MovingImageType;
+  typedef itk::Image< PixelType, ImageDimension >   FixedImageType;
 
   typedef itk::testhelper::ImageRegistrationMethodImageSource<
     PixelType,
@@ -162,13 +162,6 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   optimizer->SetGradientMagnitudeTolerance( gradientTolerance );
   optimizer->MinimizeOn();
 
-  // Start from an Identity transform (in a normal case, the user
-  // can probably provide a better guess than the identity...
-  transform->SetIdentity();
-  registration->SetInitialTransformParameters( transform->GetParameters() );
-  TEST_SET_GET_VALUE( transform->GetParameters(),
-    registration->GetInitialTransformParameters() );
-
   // Connect all the components required for the registration
   registration->SetMetric( metric );
   TEST_SET_GET_VALUE( metric, registration->GetMetric() );
@@ -192,10 +185,15 @@ int itkPointSetToImageRegistrationTest( int, char* [] )
   ParametersType parameters( transform->GetNumberOfParameters() );
 
   // Initialize the offset/vector part
-  for( unsigned int k = 0; k < ImageDimension; k++ )
+  for( unsigned int k = 0; k < parameters.size(); k++ )
     {
     parameters[k] = 0.0f;
     }
+  transform->SetParameters( parameters );
+  registration->SetInitialTransformParameters( transform->GetParameters() );
+  TEST_SET_GET_VALUE( transform->GetParameters(),
+    registration->GetInitialTransformParameters() );
+
 
   TRY_EXPECT_NO_EXCEPTION( registration->Update() );
 

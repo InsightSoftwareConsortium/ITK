@@ -7,7 +7,7 @@ if (ITK_USE_GPU)
     GPUPDEDeformableRegistrationFilter.cl
     )
 
-  write_gpu_kernels("${ITKGPUPDEDeformableRegistration_Kernels}" ITKGPUPDEDeformableRegistration_SRC)
+  write_gpu_kernels("${ITKGPUPDEDeformableRegistration_Kernels}" ITKGPUPDEDeformableRegistration_SRCS)
 
   itk_module_add_library(ITKGPUPDEDeformableRegistration ${ITKGPUPDEDeformableRegistration_SRCS})
   target_link_libraries(ITKGPUPDEDeformableRegistration LINK_PUBLIC ${OPENCL_LIBRARIES})

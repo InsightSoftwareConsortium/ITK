@@ -27,4 +27,4 @@ set(ITKVNLInstantiation_SRCS
   )
 
 itk_module_add_library(ITKVNLInstantiation ${ITKVNLInstantiation_SRCS})
-target_link_libraries(ITKVNLInstantiation ${ITKVNL_LIBRARIES})
+target_link_libraries(ITKVNLInstantiation LINK_PUBLIC ${ITKVNL_LIBRARIES})

@@ -89,13 +89,13 @@ public:
   typedef typename InputImageType::PixelType  InputPixelType;
   typedef typename OutputImageType::PixelType OutputPixelType;
 
-  /** Type used for representing the Mean values */
+  /** Type used for representing the Mean values. */
   typedef typename NumericTraits< InputPixelType >::RealType RealPixelType;
 
-  /** Create a List from the scalar image */
+  /** Create a List from the scalar image. */
   typedef itk::Statistics::ImageToListSampleAdaptor< InputImageType > AdaptorType;
 
-  /** Define the Measurement vector type from the AdaptorType */
+  /** Define the Measurement vector type from the AdaptorType. */
   typedef typename AdaptorType::MeasurementVectorType MeasurementVectorType;
 
   typedef itk::Statistics::DistanceToCentroidMembershipFunction< MeasurementVectorType > MembershipFunctionType;
@@ -109,7 +109,7 @@ public:
 
   typedef typename MembershipFunctionType::Pointer MembershipFunctionPointer;
 
-  /** Create the K-d tree structure */
+  /** Create the K-d tree structure. */
   typedef itk::Statistics::WeightedCentroidKdTreeGenerator< AdaptorType > TreeGeneratorType;
   typedef typename TreeGeneratorType::KdTreeType                          TreeType;
   typedef itk::Statistics::KdTreeBasedKmeansEstimator< TreeType >         EstimatorType;
@@ -125,7 +125,7 @@ public:
   /** Add a new class to the classification by specifying its initial mean. */
   void AddClassWithInitialMean(RealPixelType mean);
 
-  /** Return the array of Means found after the classification */
+  /** Return the array of Means found after the classification. */
   itkGetConstReferenceMacro(FinalMeans, ParametersType);
 
   /** Set/Get the UseNonContiguousLabels flag. When this is set to false the

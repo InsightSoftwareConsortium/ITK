@@ -432,7 +432,15 @@ endmacro()
 # itk_module_add_library(MyModule ${ModuleModule_SRCS})
 #
 macro(itk_module_add_library _name)
-  add_library(${_name} ${ITK_LIBRARY_BUILD_TYPE} ${ARGN})
+  set(_LIBRARY_BUILD_TYPE "${ITK_LIBRARY_BUILD_TYPE}")
+  # If ENABLED_SHARED is not specified in the itk_module macro, then
+  # there is no export specification generated for the library. In
+  # such a case we fall back to the CMake default, instead of the ITK
+  # type.
+  if(NOT ITK_MODULE_${itk-module}_ENABLE_SHARED)
+    set(_LIBRARY_BUILD_TYPE)
+  endif()
+  add_library(${_name} ${_LIBRARY_BUILD_TYPE} ${ARGN})
   itk_module_link_dependencies()
   itk_module_target(${_name})
 endmacro()

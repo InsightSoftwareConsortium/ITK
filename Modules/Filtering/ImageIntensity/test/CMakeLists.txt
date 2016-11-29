@@ -128,8 +128,21 @@ itk_add_test(NAME itkInvertIntensityImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/InvertIntensityImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
     itkInvertIntensityImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png)
-itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkSymmetricEigenAnalysisImageFilterTest)
+itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByValue
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
+              941cdbc107bea093a564a83ed5993d6d
+    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png 1)
+itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
+              dbff47eae29f458759de12b3dee95176
+    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png 2)
+itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestDoNotOrder
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
+              dbff47eae29f458759de12b3dee95176
+    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png 3)
 itk_add_test(NAME itkEdgePotentialImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkEdgePotentialImageFilterTest)
 itk_add_test(NAME itkComplexToModulusFilterAndAdaptorTest
