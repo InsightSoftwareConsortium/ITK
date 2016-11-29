@@ -168,10 +168,10 @@ template< typename TComponent >
 std::ostream &
 operator<<(std::ostream & os, const RGBAPixel< TComponent > & c)
 {
-  os <<  c[0] << "  ";
-  os <<  c[1] << "  ";
-  os <<  c[2] << "  ";
-  os <<  c[3];
+  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[0] )  << "  ";
+  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[1] )  << "  ";
+  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[2] )  << "  ";
+  os <<  static_cast< typename NumericTraits< TComponent >::PrintType >( c[3] );
   return os;
 }
 
