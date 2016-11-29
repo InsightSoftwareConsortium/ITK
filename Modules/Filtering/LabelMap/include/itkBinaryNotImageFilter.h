@@ -84,11 +84,7 @@ public:
 }
 template <typename TImage>
 class BinaryNotImageFilter :
-    public
-UnaryFunctorImageFilter<TImage, TImage,
-  Functor::BinaryNot< typename TImage::PixelType > >
-
-
+    public UnaryFunctorImageFilter< TImage, TImage, Functor::BinaryNot< typename TImage::PixelType > >
 {
 public:
   /** Standard class typedefs. */
@@ -103,7 +99,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(BinaryNotImageFilter,
-               ImageToImageFilter);
+               UnaryFunctorImageFilter);
 
   typedef typename TImage::PixelType     PixelType;
 
