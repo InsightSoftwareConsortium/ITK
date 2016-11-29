@@ -26,15 +26,15 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned Dimension = 3;
+  const unsigned int Dimension = 3;
 
   // Declare the pixel types of the images
   typedef float                PixelType;
 
   // Declare the types of the images
-  typedef itk::Image< PixelType, Dimension > InputImageType1;
-  typedef itk::Image< PixelType, Dimension > InputImageType2;
-  typedef itk::Image< PixelType, Dimension > OutputImageType;
+  typedef itk::Image< PixelType, Dimension> InputImageType1;
+  typedef itk::Image< PixelType, Dimension> InputImageType2;
+  typedef itk::Image< PixelType, Dimension> OutputImageType;
 
   // Declare the type of the index to access images
   typedef itk::Index< Dimension >         IndexType;
@@ -99,17 +99,18 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   InputImage2IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
 
   // Initialize the content of Image B
-  const InputImageType1::PixelType input2Value = 4.0;
+  const InputImageType2::PixelType input2Value = 4.0;
   while( !it2.IsAtEnd() )
   {
     it2.Set( input2Value );
     ++it2;
   }
 
-  // Define the values of the output images
-  const PixelType outputValue = 5.0;
+  // Define the values of the output image
+  const OutputImageType::PixelType outputValue = 5.0;
 
-  // Declare the type for the Magnitude Filter
+
+  // Declare the type for the BinaryMagnitudeImageFilter
   typedef itk::BinaryMagnitudeImageFilter<
                                 InputImageType1,
                                 InputImageType2,
@@ -137,7 +138,6 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
   OutputImageIteratorType oIt( outputImage, outputImage->GetBufferedRegion() );
 
   // Check the content of the result image
-  //
   const float epsilon = 1e-6;
   while( !oIt.IsAtEnd() )
     {
@@ -146,7 +146,7 @@ int itkBinaryMagnitudeImageFilterTest( int, char* [] )
       std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
       std::cerr << "Error in the output" << std::endl;
       std::cerr << "Value should be  " << outputValue << std::endl;
-      std::cerr << "but is           " << oIt.Get() << std::endl;
+      std::cerr << "but is           " << oIt.Get()  << std::endl;
       return EXIT_FAILURE;
       }
     ++oIt;
