@@ -17,6 +17,7 @@ if(ITKVtkGlue_ENABLED)
       ITKImageFunction
       ITKFFT
       ITKRegistrationCommon
+      ITKConvolution
     TEST_DEPENDS
       ITKTestKernel
       ITKVtkGlue
@@ -30,6 +31,7 @@ else()
       ITKImageFunction
       ITKFFT
       ITKRegistrationCommon
+      ITKConvolution
     TEST_DEPENDS
       ITKTestKernel
     EXCLUDE_FROM_DEFAULT

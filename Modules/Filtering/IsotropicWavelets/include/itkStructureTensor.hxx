@@ -18,30 +18,25 @@
 #ifndef itkStructureTensor_hxx
 #define itkStructureTensor_hxx
 #include "itkStructureTensor.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkImageRegionConstIterator.h"
-#include "itkImageRegionIterator.h"
-#include "itkImageIterator.h"
+#include "itkImageScanlineConstIterator.h"
+#include "itkImageScanlineIterator.h"
+#include <itkMultiplyImageFilter.h>
 #include <numeric>
 // Eigen Calculations
-#include <itkImageRegionIterator.h>
-#include <itkImageRegionConstIteratorWithIndex.h>
-#include <itkConstNeighborhoodIterator.h>
-#include <itkNeighborhoodInnerProduct.h>
-#include <itkGaussianImageSource.h>
-#include <itkMatrix.h>
 #include <itkSymmetricEigenAnalysis.h>
-
+// Convolution/Neighborhood Operations
+#include <itkConvolutionImageFilter.h>
+#include <itkConstantBoundaryCondition.h>
 #include "itkProgressReporter.h"
-#include "itkStatisticsImageFilter.h"
-#include "itkRieszFrequencyFunction.h"
 namespace itk
 {
 template <typename TInputImage>
 StructureTensor<TInputImage>::StructureTensor()
   : m_GaussianWindowRadius(2)
   , m_GaussianWindowSigma(1.0)
-{}
+{
+  this->m_GaussianSource = GaussianSourceType::New();
+}
 
 template <typename TInputImage>
 void
@@ -77,12 +72,59 @@ StructureTensor<TInputImage>::BeforeThreadedGenerateData()
     itkExceptionMacro(<< "This filter requires more input images, use SetInputs. Current number of inputs: "
                       << nInputs);
   }
+
+  const typename InputImageType::PointType inputOrigin = this->GetInput()->GetOrigin();
+  const SpacingType                        inputSpacing = this->GetInput()->GetSpacing();
+  typename GaussianSourceType::ArrayType   sigma;
+  typename GaussianSourceType::ArrayType   mean;
+  for (unsigned int i = 0; i < ImageDimension; i++)
+  {
+    sigma[i] = this->GetGaussianWindowSigma();
+    mean[i] = inputSpacing[i] * this->GetGaussianWindowRadius() + inputOrigin[i]; // center pixel pos
+  }
+  // If sigma and radius have changed, update m_GaussianSource
+  if (this->m_GaussianSource->GetSigma() != sigma || this->m_GaussianSource->GetMean() != mean)
+  {
+    /******* Set GaussianImageSource ********/
+    Size<ImageDimension> domainKernelSize;
+    domainKernelSize.Fill(2 * this->GetGaussianWindowRadius() + 1);
+
+    this->m_GaussianSource->SetSize(domainKernelSize);
+    this->m_GaussianSource->SetSpacing(inputSpacing);
+    this->m_GaussianSource->SetOrigin(inputOrigin);
+    this->m_GaussianSource->SetScale(1.0);
+    this->m_GaussianSource->SetNormalized(false); // Normalize in the convolution instead.
+    this->m_GaussianSource->SetSigma(sigma);
+    this->m_GaussianSource->SetMean(mean);
+    this->m_GaussianSource->Update();
+  }
+  typedef itk::MultiplyImageFilter<InputImageType> MultiplyFilterType;
+  typename MultiplyFilterType::Pointer             multiply = MultiplyFilterType::New();
+  typedef itk::ConvolutionImageFilter<InputImageType, FloatImageType, InputImageType> ConvolutionFilterType;
+  typename ConvolutionFilterType::Pointer convolve = ConvolutionFilterType::New();
+  convolve->SetKernelImage(this->m_GaussianSource->GetOutput());
+  convolve->NormalizeOn();
+  // typedef itk::ConstantBoundaryCondition<InputImageType> BoundaryConditionType;
+  // BoundaryConditionType bounds;
+  // bounds.SetConstant(itk::NumericTraits<InputImagePixelType>::ZeroValue());
+  // convolve->SetBoundaryCondition(&bounds);
+  for (unsigned int m = 0; m < nInputs; ++m)
+    for (unsigned int n = m; n < nInputs; ++n)
+    {
+      multiply->SetInput1(this->GetInput(m));
+      multiply->SetInput2(this->GetInput(n));
+      multiply->Update();
+      convolve->SetInput(multiply->GetOutput());
+      convolve->Update();
+      m_SquareSmoothedImages.push_back(convolve->GetOutput());
+      m_SquareSmoothedImages.back()->DisconnectPipeline();
+    }
 }
 
 /** For each pixel of eigenOut (size of TInput)
  * For each RieszComponent:
  * Use NeighborhoodIterator in RieszComponents using gaussian_radius
- * Weight value of pixels in the neighborhood using the GaussianImage
+ * Weight value of pixels in the neighborhood using the GaussianSource
  *
  * Compute Matrix (2D,Dimension x Dimension) eigenMatrix,
  * which is the weighted contribution of the RieszComponents.
@@ -101,44 +143,20 @@ StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType &
   unsigned int                      nInputs = this->GetNumberOfInputs();
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
-  /******* Set GaussianImageSource ********/
-  Size<ImageDimension> radius;
-  Size<ImageDimension> domainKernelSize;
-  radius.Fill(this->GetGaussianWindowRadius());
-  domainKernelSize.Fill(2 * this->GetGaussianWindowRadius() + 1);
-  typedef GaussianImageSource<InputImageType> GaussianSourceType;
-  typename GaussianSourceType::Pointer        gaussianImage = GaussianSourceType::New();
-  typename GaussianSourceType::ArrayType      mean;
-  typename GaussianSourceType::ArrayType      sigma;
-
-  const SpacingType                        inputSpacing = this->GetInput()->GetSpacing();
-  const typename InputImageType::PointType inputOrigin = this->GetInput()->GetOrigin();
-  gaussianImage->SetSize(domainKernelSize);
-  gaussianImage->SetSpacing(inputSpacing);
-  gaussianImage->SetOrigin(inputOrigin);
-  gaussianImage->SetScale(1.0);
-  gaussianImage->SetNormalized(true);
-
-  for (unsigned int i = 0; i < ImageDimension; i++)
-  {
-    mean[i] = inputSpacing[i] * radius[i] + inputOrigin[i]; // center pixel pos
-    sigma[i] = this->GetGaussianWindowSigma();
-  }
-  gaussianImage->SetSigma(sigma);
-  gaussianImage->SetMean(mean);
-  gaussianImage->Update();
-
   /******* Iterators ********/
-  ImageRegionIterator<OutputImageType>                                    outIt(outputPtr, outputRegionForThread);
-  ConstNeighborhoodIterator<typename GaussianSourceType::OutputImageType> gaussianIt(
-    radius, gaussianImage->GetOutput(), gaussianImage->GetOutput()->GetRequestedRegion());
-  gaussianIt.GoToBegin();
-  std::vector<ConstNeighborhoodIterator<InputImageType>> inputIts;
-  for (unsigned int n = 0; n < nInputs; ++n)
-  {
-    inputIts.push_back(ConstNeighborhoodIterator<InputImageType>(radius, this->GetInput(n), outputRegionForThread));
-    inputIts.back().GoToBegin();
-  }
+  typedef typename itk::ImageScanlineIterator<OutputImageType>     OutputImageIterator;
+  typedef typename itk::ImageScanlineConstIterator<InputImageType> InputImageConstIterator;
+
+  OutputImageIterator outIt(outputPtr, outputRegionForThread);
+  outIt.GoToBegin();
+  std::vector<InputImageConstIterator> inputIts;
+  for (unsigned int m = 0; m < nInputs; ++m)
+    for (unsigned int n = m; n < nInputs; ++n)
+    {
+      unsigned int linear_index = this->LowerTriangleToLinearIndex(m, n);
+      inputIts.push_back(InputImageConstIterator(this->m_SquareSmoothedImages[linear_index], outputRegionForThread));
+      inputIts.back().GoToBegin();
+    }
 
   EigenMatrixType eigenMatrix;
   eigenMatrix.SetSize(nInputs, nInputs);
@@ -152,40 +170,134 @@ StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType &
   EigenMatrixType eigenMatrixOut;
   eigenMatrixOut.SetSize(nInputs, nInputs + 1);
 
-  for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
+  while (!outIt.IsAtEnd())
   {
-    // Set location of neighborhood iterator.
-    for (unsigned int n = 0; n < nInputs; ++n)
+    while (!outIt.IsAtEndOfLine())
     {
-      inputIts[n].SetLocation(outIt.GetIndex());
-    }
-    // Init the matrix
-    eigenMatrix.Fill(0);
-    for (unsigned int r = 0; r <= this->GetGaussianWindowRadius(); ++r)
+      // Init the matrix
+      eigenMatrix.Fill(0);
       for (unsigned int m = 0; m < nInputs; ++m)
         for (unsigned int n = m; n < nInputs; ++n)
         {
-          if (r == 0)
-            eigenMatrix[m][n] +=
-              gaussianIt.GetCenterPixel() + inputIts[m].GetCenterPixel() + inputIts[n].GetCenterPixel();
-          else
-            for (unsigned int axis = 0; axis < ImageDimension; ++axis)
-            {
-              eigenMatrix[m][n] += gaussianIt.GetNext(axis, r) + inputIts[m].GetNext(axis, r) +
-                                   inputIts[n].GetNext(axis, r) + gaussianIt.GetPrevious(axis, r) +
-                                   inputIts[m].GetPrevious(axis, r) + inputIts[n].GetPrevious(axis, r);
-            }
-          eigenMatrix[n][m] = eigenMatrix[m][n];
+          unsigned int linear_index = this->LowerTriangleToLinearIndex(m, n);
+          eigenMatrix[m][n] = eigenMatrix[n][m] = inputIts[linear_index].Get();
         }
-    eigenSystem.ComputeEigenValuesAndVectors(eigenMatrix, eigenValues, eigenVectors);
-    for (unsigned int n = 0; n < nInputs; ++n)
-    {
-      eigenMatrixOut.GetVnlMatrix().set_column(n, eigenVectors.GetVnlMatrix().get_column(n));
-    }
-    eigenMatrixOut.GetVnlMatrix().set_column(nInputs, eigenValues);
-    // Copy to Output
-    outIt.Set(eigenMatrixOut);
+      eigenSystem.ComputeEigenValuesAndVectors(eigenMatrix, eigenValues, eigenVectors);
+      itkDebugMacro(<< "matrix input\n"
+                    << eigenMatrix << "\neigenValues: " << eigenValues << "\neigenVectors: " << eigenVectors);
+      for (unsigned int n = 0; n < nInputs; ++n)
+      {
+        eigenMatrixOut.GetVnlMatrix().set_column(n, eigenVectors.GetVnlMatrix().get_column(n));
+      }
+      eigenMatrixOut.GetVnlMatrix().set_column(nInputs, eigenValues);
+      // Copy to Output
+      outIt.Set(eigenMatrixOut);
+      ++outIt;
+      for (unsigned int i = 0; i < inputIts.size(); ++i)
+      {
+        ++inputIts[i];
+      }
+    } // end outIt Line
+    outIt.NextLine();
+    for (unsigned int i = 0; i < inputIts.size(); ++i)
+      inputIts[i].NextLine();
   } // end outIt
+}
+
+template <typename TInputImage>
+typename StructureTensor<TInputImage>::InputImagePointer
+StructureTensor<TInputImage>::ComputeProjectionImage(unsigned int eigen_number) const
+{
+  const unsigned int nInputs = this->GetNumberOfInputs();
+  if (eigen_number >= nInputs)
+    itkExceptionMacro(<< "The eigen number must be between [0, numberInputs]. eigen_number = " << eigen_number
+                      << " . nInputs = " << nInputs);
+
+  const OutputImageType * outputPtr = this->GetOutput();
+  // Allocate output of this method:
+  InputImagePointer projectImage = InputImageType::New();
+  projectImage->SetRegions(outputPtr->GetLargestPossibleRegion());
+  projectImage->Allocate();
+
+  itk::ImageScanlineConstIterator<OutputImageType> outIt(outputPtr, outputPtr->GetLargestPossibleRegion());
+  outIt.GoToBegin();
+  itk::ImageScanlineIterator<InputImageType> projectIt(projectImage, projectImage->GetLargestPossibleRegion());
+  projectIt.GoToBegin();
+
+  std::vector<ImageScanlineConstIterator<InputImageType>> inputIts;
+  for (unsigned int n = 0; n < nInputs; ++n)
+  {
+    inputIts.push_back(itk::ImageScanlineConstIterator<InputImageType>(this->GetInput(n),
+                                                                       this->GetInput(n)->GetLargestPossibleRegion()));
+    inputIts.back().GoToBegin();
+  }
+  while (!outIt.IsAtEnd())
+  {
+    while (!outIt.IsAtEndOfLine())
+    {
+      InputImagePixelType value = 0;
+      for (unsigned int r = 0; r < nInputs; r++)
+      {
+        value += outIt.Get()[r][eigen_number] * inputIts[r].Get();
+        ++inputIts[r];
+      }
+      projectIt.Set(value);
+      ++outIt;
+      ++projectIt;
+    }
+    outIt.NextLine();
+    projectIt.NextLine();
+    for (unsigned int r = 0; r < nInputs; r++)
+      inputIts[r].NextLine();
+  }
+  return projectImage;
+}
+template <typename TInputImage>
+typename StructureTensor<TInputImage>::InputImagePointer
+StructureTensor<TInputImage>::ComputeProjectionImageWithLargestResponse() const
+{
+  return this->ComputeProjectionImage(this->GetNumberOfInputs() - 1);
+}
+
+template <typename TInputImage>
+typename StructureTensor<TInputImage>::InputImagePointer
+StructureTensor<TInputImage>::ComputeCoherencyImage() const
+{
+  const unsigned int nInputs = this->GetNumberOfInputs();
+
+  const OutputImageType * outputPtr = this->GetOutput();
+  // Allocate output of this method:
+  InputImagePointer coherencyImage = InputImageType::New();
+  coherencyImage->SetRegions(outputPtr->GetLargestPossibleRegion());
+  coherencyImage->Allocate();
+
+  itk::ImageScanlineConstIterator<OutputImageType> outIt(outputPtr, outputPtr->GetLargestPossibleRegion());
+  outIt.GoToBegin();
+  itk::ImageScanlineIterator<InputImageType> coherencyIt(coherencyImage, coherencyImage->GetLargestPossibleRegion());
+  coherencyIt.GoToBegin();
+
+  unsigned int largestEigenValueIndex = nInputs - 1;
+  while (!outIt.IsAtEnd())
+  {
+    while (!outIt.IsAtEndOfLine())
+    {
+      FloatType coherency = 0;
+      for (unsigned int r = 0; r < nInputs; r++)
+      {
+        // Store mean of eigenValues other than principal in coherency.
+        if (r != largestEigenValueIndex)
+          coherency += outIt.Get()[r][nInputs] / static_cast<FloatType>(nInputs - 1);
+      }
+      FloatType largestEigenValue = outIt.Get()[largestEigenValueIndex][nInputs];
+      coherency = (largestEigenValue - coherency) / (largestEigenValue + coherency);
+      coherencyIt.Set(static_cast<InputImagePixelType>(coherency));
+      ++outIt;
+      ++coherencyIt;
+    }
+    outIt.NextLine();
+    coherencyIt.NextLine();
+  }
+  return coherencyImage;
 }
 } // end namespace itk
 #endif
