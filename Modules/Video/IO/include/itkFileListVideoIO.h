@@ -52,7 +52,7 @@ public:
   itkTypeMacro(FileListVideoIO, VideoIOBase);
 
   /** Get the internal ImageIOBase object. */
-  itkGetModifiableObjectMacro(ImageIO, ImageIOBase);
+  itkGetConstObjectMacro(ImageIO, ImageIOBase);
 
   /** Get the list of files to read. */
   itkGetConstMacro(FileNames, std::vector<std::string>);
