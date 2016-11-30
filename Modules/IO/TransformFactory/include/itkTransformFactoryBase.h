@@ -111,6 +111,11 @@ private:
   static void RegisterTransformFactoryDoubleParameters();
   static void RegisterTransformFactoryFloatParameters();
 
+
+  // Called by the type specific methods
+  template <typename TParameterType>
+  static void RegisterTransformFactory(void);
+
   static TransformFactoryBase *m_Factory;
 };
 } // end namespace itk
