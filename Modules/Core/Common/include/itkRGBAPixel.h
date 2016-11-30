@@ -109,7 +109,7 @@ public:
   /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const { return this->operator[](c); }
 
-  /** Return the value for the Nth component. */
+  /** Return the Euclidean norm of the vector defined by the RGB components. Alpha is not used. */
   ComponentType GetScalarValue() const
   {
     return static_cast< ComponentType >( std::sqrt(
