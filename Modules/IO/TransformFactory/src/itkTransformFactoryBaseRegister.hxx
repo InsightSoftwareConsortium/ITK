@@ -56,23 +56,52 @@
 #include "itkBSplineDeformableTransform.h"
 #endif
 
+#ifndef ITK_TRANSFORM_FACTORY_MAX_DIM
+#define ITK_TRANSFORM_FACTORY_MAX_DIM 9
+#endif
+
+
 namespace itk
 {
+
+
+namespace
+{
+
+// Class to register generic transform for dimension D and lower
+template< typename TParameterType, unsigned int D>
+struct RegisterTransformsD
+{
+  static void Register(void)
+    {
+      TransformFactory< AffineTransform<TParameterType, D> >::RegisterTransform ();
+      TransformFactory< CompositeTransform<TParameterType, D> >::RegisterTransform();
+      TransformFactory< IdentityTransform<TParameterType, D> >::RegisterTransform ();
+      TransformFactory< TranslationTransform<TParameterType, D> >::RegisterTransform ();
+
+      // register transforms of one less dimension
+      RegisterTransformsD<TParameterType, D-1>::Register();
+    }
+};
+
+// Template specialized class to stop registering transform.
+template<typename TParameterType>
+struct RegisterTransformsD<TParameterType, 1>
+{
+  static void Register(void) {}
+};
+}
 
 template <typename TParameterType>
 void TransformFactoryBase::RegisterTransformFactory()
 {
+  // All generic transforms for any dimension, are registered in a
+  // recursive class 2-MAX_TRANSFORM_DIM
+  RegisterTransformsD<TParameterType, ITK_TRANSFORM_FACTORY_MAX_DIM>::Register();
+
   //
   //   TParameterType FixedParameters instances (in alphabetical order)
   //
-  TransformFactory< AffineTransform<TParameterType, 2> >::RegisterTransform ();
-  TransformFactory< AffineTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< AffineTransform<TParameterType, 4> >::RegisterTransform ();
-  TransformFactory< AffineTransform<TParameterType, 5> >::RegisterTransform ();
-  TransformFactory< AffineTransform<TParameterType, 6> >::RegisterTransform ();
-  TransformFactory< AffineTransform<TParameterType, 7> >::RegisterTransform ();
-  TransformFactory< AffineTransform<TParameterType, 8> >::RegisterTransform ();
-  TransformFactory< AffineTransform<TParameterType, 9> >::RegisterTransform ();
 
   TransformFactory< AzimuthElevationToCartesianTransform<TParameterType, 3> >::RegisterTransform ();
 
@@ -89,28 +118,11 @@ void TransformFactoryBase::RegisterTransformFactory()
   TransformFactory< CenteredRigid2DTransform<TParameterType > >::RegisterTransform();
   TransformFactory< CenteredSimilarity2DTransform<TParameterType > >::RegisterTransform ();
 
-  TransformFactory< CompositeTransform<TParameterType, 2> >::RegisterTransform();
-  TransformFactory< CompositeTransform<TParameterType, 3> >::RegisterTransform();
-  TransformFactory< CompositeTransform<TParameterType, 4> >::RegisterTransform();
-  TransformFactory< CompositeTransform<TParameterType, 5> >::RegisterTransform();
-  TransformFactory< CompositeTransform<TParameterType, 6> >::RegisterTransform();
-  TransformFactory< CompositeTransform<TParameterType, 7> >::RegisterTransform();
-  TransformFactory< CompositeTransform<TParameterType, 8> >::RegisterTransform();
-  TransformFactory< CompositeTransform<TParameterType, 9> >::RegisterTransform();
 
   TransformFactory< Euler2DTransform<TParameterType > >::RegisterTransform ();
   TransformFactory< Euler3DTransform<TParameterType > >::RegisterTransform ();
 
   TransformFactory< FixedCenterOfRotationAffineTransform<TParameterType, 3> >::RegisterTransform ();
-
-  TransformFactory< IdentityTransform<TParameterType, 2> >::RegisterTransform ();
-  TransformFactory< IdentityTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< IdentityTransform<TParameterType, 4> >::RegisterTransform ();
-  TransformFactory< IdentityTransform<TParameterType, 5> >::RegisterTransform ();
-  TransformFactory< IdentityTransform<TParameterType, 6> >::RegisterTransform ();
-  TransformFactory< IdentityTransform<TParameterType, 7> >::RegisterTransform ();
-  TransformFactory< IdentityTransform<TParameterType, 8> >::RegisterTransform ();
-  TransformFactory< IdentityTransform<TParameterType, 9> >::RegisterTransform ();
 
   TransformFactory< QuaternionRigidTransform<TParameterType > >::RegisterTransform ();
 
@@ -134,15 +146,6 @@ void TransformFactoryBase::RegisterTransformFactory()
 
   TransformFactory< Similarity2DTransform<TParameterType > >::RegisterTransform ();
   TransformFactory< Similarity3DTransform<TParameterType > >::RegisterTransform ();
-
-  TransformFactory< TranslationTransform<TParameterType, 2> >::RegisterTransform ();
-  TransformFactory< TranslationTransform<TParameterType, 3> >::RegisterTransform ();
-  TransformFactory< TranslationTransform<TParameterType, 4> >::RegisterTransform ();
-  TransformFactory< TranslationTransform<TParameterType, 5> >::RegisterTransform ();
-  TransformFactory< TranslationTransform<TParameterType, 6> >::RegisterTransform ();
-  TransformFactory< TranslationTransform<TParameterType, 7> >::RegisterTransform ();
-  TransformFactory< TranslationTransform<TParameterType, 8> >::RegisterTransform ();
-  TransformFactory< TranslationTransform<TParameterType, 9> >::RegisterTransform ();
 
   TransformFactory< VersorRigid3DTransform<TParameterType > >::RegisterTransform ();
   TransformFactory< VersorTransform<TParameterType > >::RegisterTransform ();
