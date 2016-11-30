@@ -130,6 +130,7 @@ itkSmartPointerTest.cxx
 itkBarrierTest.cxx
 itkVariableSizeMatrixTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
+itkFrustumSpatialFunctionTest.cxx
 itkTimeStampTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
@@ -413,6 +414,7 @@ itk_add_test(NAME itkTreeContainerTest COMMAND ITKCommon2TestDriver itkTreeConta
 itk_add_test(NAME itkTreeContainerTest2 COMMAND ITKCommon1TestDriver itkTreeContainerTest2)
 itk_add_test(NAME itkVersorTest COMMAND ITKCommon2TestDriver itkVersorTest)
 itk_add_test(NAME itkEllipsoidInteriorExteriorSpatialFunctionTest COMMAND ITKCommon2TestDriver itkEllipsoidInteriorExteriorSpatialFunctionTest)
+itk_add_test(NAME itkFrustumSpatialFunctionTest COMMAND ITKCommon2TestDriver itkFrustumSpatialFunctionTest)
 itk_add_test(NAME itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest COMMAND ITKCommon1TestDriver itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
 itk_add_test(NAME itkSymmetricSecondRankTensorImageReadTest COMMAND ITKCommon1TestDriver itkSymmetricSecondRankTensorImageReadTest
               ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensor.nrrd)
