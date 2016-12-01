@@ -17,12 +17,27 @@
  *=========================================================================*/
 
 #include <iostream>
+#include <algorithm>
 #include "itkPNGImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
+
+int CompareExtensions(itk::ImageIOBase::ArrayOfExtensionsType& a1, itk::ImageIOBase::ArrayOfExtensionsType& a2)
+{
+    std::sort(a1.begin(), a1.end());
+    std::sort(a2.begin(), a2.end());
+    if(a1 == a2)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
+}
 
 int itkPNGImageIOTest2(int argc, char * argv[])
 {
@@ -48,6 +63,27 @@ int itkPNGImageIOTest2(int argc, char * argv[])
     // Read in the image
     itk::PNGImageIO::Pointer io;
     io = itk::PNGImageIO::New();
+
+    // Check supported file extensions
+    // Expecting ".png" and ".PNG"
+    itk::ImageIOBase::ArrayOfExtensionsType expectedExtensions;
+    expectedExtensions.push_back(".png");
+    expectedExtensions.push_back(".PNG");
+    // Write extensions
+    itk::ImageIOBase::ArrayOfExtensionsType writeExtensions = io->GetSupportedWriteExtensions();
+    if(CompareExtensions(writeExtensions, expectedExtensions))
+      {
+      std::cerr << "Unexpected list of supported write extension." << std::endl;
+      return EXIT_FAILURE;
+      }
+    // Read extensions
+    itk::ImageIOBase::ArrayOfExtensionsType readExtensions = io->GetSupportedReadExtensions();
+    if(CompareExtensions(readExtensions, expectedExtensions))
+      {
+      std::cerr << "Unexpected list of supported read extension." << std::endl;
+      return EXIT_FAILURE;
+      }
+    //
     reader->SetImageIO(io);
 
     reader->Update();
