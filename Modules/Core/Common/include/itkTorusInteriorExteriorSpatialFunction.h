@@ -44,10 +44,10 @@ class TorusInteriorExteriorSpatialFunction:
 public:
 
   /** Standard class typedefs. */
-  typedef TorusInteriorExteriorSpatialFunction          Self;
-  typedef InteriorExteriorSpatialFunction< VDimension > Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef TorusInteriorExteriorSpatialFunction                  Self;
+  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run time information. */
   itkTypeMacro(TorusInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
