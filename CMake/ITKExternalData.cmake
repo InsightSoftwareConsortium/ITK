@@ -31,6 +31,9 @@ file:///var/bigharddrive/%(algo)/%(hash)")
 mark_as_advanced(ExternalData_URL_TEMPLATES)
 if(NOT ITK_FORBID_DOWNLOADS)
   list(APPEND ExternalData_URL_TEMPLATES
+    # Data published on GitHub Pages
+    "https://insightsoftwareconsortium.github.io/ITKTestingData/%(algo)/%(hash)"
+
     # Data published on Girder
     "https://data.kitware.com:443/api/v1/file/hashsum/%(algo)/%(hash)/download"
 
