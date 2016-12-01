@@ -47,7 +47,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Run-time type information (and related methods).  */
+  /** Run-time type information (and related methods). */
   itkTypeMacro(ConnectedThresholdImageFilter,
                ImageToImageFilter);
 
@@ -75,7 +75,7 @@ public:
   /** Clear the seed list. */
   void ClearSeeds();
 
-  /** Method to access seed container */
+  /** Method to access seed container. */
   virtual const SeedContainerType &GetSeeds() const;
 
   /** Set/Get value to replace thresholded pixels. Pixels that lie *
@@ -93,20 +93,17 @@ public:
 
   /** Set Threshold inputs that are connected to the pipeline */
   virtual void SetUpperInput(const InputPixelObjectType *);
-
   virtual void SetLowerInput(const InputPixelObjectType *);
 
-  /** Get Upper and Lower Threshold inputs as values */
+  /** Get Upper and Lower Threshold inputs as values. */
   virtual InputImagePixelType GetUpper() const;
-
   virtual InputImagePixelType GetLower() const;
 
-  /** Get Threshold inputs that are connected to the pipeline */
+  /** Get Threshold inputs that are connected to the pipeline. */
   virtual InputPixelObjectType * GetUpperInput();
-
   virtual InputPixelObjectType * GetLowerInput();
 
-  /** Image dimension constants */
+  /** Image dimension constants. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       TInputImage::ImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,
@@ -132,36 +129,39 @@ public:
   /** Face connectivity is 4 connected in 2D, 6  connected in 3D, 2*n   in ND
    *  Full connectivity is 8 connected in 2D, 26 connected in 3D, 3^n-1 in ND
    *  Default is to use FaceConnectivity. */
-  typedef enum { FaceConnectivity, FullConnectivity } ConnectivityEnumType;
+  typedef enum {
+    FaceConnectivity,
+    FullConnectivity
+  } ConnectivityEnumType;
 
   /** Type of connectivity to use (fully connected OR 4(2D), 6(3D),
-   * 2*N(ND) connectivity) */
+   * 2*N(ND) connectivity). */
   itkSetEnumMacro(Connectivity, ConnectivityEnumType);
   itkGetEnumMacro(Connectivity, ConnectivityEnumType);
 
 protected:
   ConnectedThresholdImageFilter();
   ~ConnectedThresholdImageFilter(){}
-  SeedContainerType m_Seeds;
 
-  InputImagePixelType m_Lower;
-  InputImagePixelType m_Upper;
-
-  OutputImagePixelType m_ReplaceValue;
-
-  // Override since the filter needs all the data for the algorithm
+  // Override since the filter needs all the data for the algorithm.
   void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  // Override since the filter produces the entire dataset
+  // Override since the filter produces the entire dataset.
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   void GenerateData() ITK_OVERRIDE;
 
-  // Type of connectivity to use.
-  ConnectivityEnumType m_Connectivity;
-
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConnectedThresholdImageFilter);
+
+  SeedContainerType     m_Seeds;
+
+  InputImagePixelType   m_Lower;
+  InputImagePixelType   m_Upper;
+
+  OutputImagePixelType  m_ReplaceValue;
+
+  ConnectivityEnumType  m_Connectivity;
 };
 } // end namespace itk
 
