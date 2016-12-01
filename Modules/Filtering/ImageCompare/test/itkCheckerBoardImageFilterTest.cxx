@@ -17,54 +17,64 @@
  *=========================================================================*/
 
 #include "itkCheckerBoardImageFilter.h"
+#include "itkImageFileWriter.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 
-int itkCheckerBoardImageFilterTest(int, char* [] )
+int itkCheckerBoardImageFilterTest( int argc, char* argv[] )
 {
+  if ( argc < 2 )
+    {
+    std::cout << "Usage: " << argv[0]
+      << " outputImage " << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 3;
+
+  // Declare the pixel types of the images
+  typedef unsigned char PixelType;
 
   // Declare the types of the images
-  typedef itk::Image<unsigned int, myDimension>  myImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  typedef itk::Index< Dimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  typedef itk::Size< Dimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  typedef itk::ImageRegion< Dimension >   RegionType;
+
 
   // Declare the type for the filter
-  typedef itk::CheckerBoardImageFilter<
-                               myImageType >   myFilterType;
+  typedef itk::CheckerBoardImageFilter< ImageType >
+    CheckerBoardImageFilterType;
 
   // Declare the type of the arrays that define how many
   // checkers to have along every dimension.
-  typedef myFilterType::PatternArrayType       myPatternArrayType;
+  typedef CheckerBoardImageFilterType::PatternArrayType
+    CheckerBoardPatternArrayType;
 
-  // Declare the pointers to images
-  typedef myImageType::Pointer   myImageTypePointer;
-  typedef myFilterType::Pointer  myFilterTypePointer;
-
-  // Create two images
-  myImageTypePointer inputImageA  = myImageType::New();
-  myImageTypePointer inputImageB  = myImageType::New();
+  // Create the input images
+  ImageType::Pointer inputImageA = ImageType::New();
+  ImageType::Pointer inputImageB = ImageType::New();
 
   // Define their size, and start index
-  mySizeType size;
+  SizeType size;
   size[0] = 40;
   size[1] = 40;
   size[2] = 40;
 
-  myIndexType start;
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -81,68 +91,67 @@ int itkCheckerBoardImageFilterTest(int, char* [] )
   inputImageB->Allocate();
 
 
-  // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
+  // Declare appropriate Iterator types for each image
+  typedef itk::ImageRegionIteratorWithIndex< ImageType > IteratorType;
 
   // Create one iterator for Image A (this is a light object)
-  myIteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
+  IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  const ImageType::PixelType input1Value = 2;
   while( !it1.IsAtEnd() )
     {
-    it1.Set( 2 );
+    it1.Set( input1Value );
     ++it1;
     }
 
   // Create one iterator for Image B (this is a light object)
-  myIteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
+  IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
+  const ImageType::PixelType input2Value = 3;
   while( !it2.IsAtEnd() )
     {
-    it2.Set( 3 );
+    it2.Set( input2Value );
     ++it2;
     }
 
+  // Create the filter
+  CheckerBoardImageFilterType::Pointer checkerBoard =
+    CheckerBoardImageFilterType::New();
 
-  // Create the Filter
-  myFilterTypePointer filter = myFilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS(checkerBoard, CheckerBoardImageFilter,
+    ImageToImageFilter);
 
+  // Set the input images
+  checkerBoard->SetInput1( inputImageA );
+  checkerBoard->SetInput2( inputImageB );
 
-  // Connect the input images
-  filter->SetInput1( inputImageA );
-  filter->SetInput2( inputImageB );
-
-  myPatternArrayType pattern;
+  CheckerBoardPatternArrayType pattern;
   pattern[0] =  4; // number of checkers along X
   pattern[1] =  8; // number of checkers along Y
   pattern[2] = 10; // number of checkers along Z
 
-  filter->SetCheckerPattern( pattern );
-
-  // Get the Smart Pointer to the Filter Output
-  myImageTypePointer outputImage = filter->GetOutput();
-
+  checkerBoard->SetCheckerPattern( pattern );
+  TEST_SET_GET_VALUE( pattern, checkerBoard->GetCheckerPattern() );
 
   // Execute the filter
-  filter->Update();
+  checkerBoard->Update();
 
-  // Exercise the GetCheckerPattern() method
-  myPatternArrayType pattern2 = filter->GetCheckerPattern();
+  // Get the filter output
+  ImageType::Pointer outputImage = checkerBoard->GetOutput();
 
-  for(unsigned int k=0; k<3; k++)
-    {
-    if( pattern2[k] != pattern[k] )
-      {
-      std::cerr << "error in SetCheckerPattern()/GetCheckerPattern() " << std::endl;
-      std::cerr << "Expected = " << pattern  << std::endl;
-      std::cerr << "Received = " << pattern2 << std::endl;
-      return EXIT_FAILURE;
-      }
-    }
+  // Write the result image
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[1] );
+
+  writer->SetInput( outputImage );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }
