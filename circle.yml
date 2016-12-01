@@ -24,6 +24,8 @@ dependencies:
     cache_directories:
         - "~/.ExternalData"
     override:
+        - pip install --upgrade pip
+        - pip install cmake
         - mkdir -p ${CTEST_BINARY_DIRECTORY}
         - git clone --single-branch ${CIRCLE_REPOSITORY_URL} -b dashboard ${DASHBOARD_BRANCH_DIRECTORY}
         - mkdir -p "${DISTCC_DIR}" && printf -- "--randomize localhost/2 --localslots=2\n" > "${DISTCC_DIR}/hosts" && for ((i=1;i<CIRCLE_NODE_TOTAL;i++)); do printf "ubuntu@node$i/${DISTCC_SLOTS}\n" >> "${DISTCC_DIR}/hosts"; done
