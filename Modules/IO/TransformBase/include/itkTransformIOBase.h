@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class ITKIOTransformBase_TEMPLATE_EXPORT TransformIOBaseTemplate:public LightProcessObject
+class ITK_TEMPLATE_EXPORT TransformIOBaseTemplate:public LightProcessObject
 {
 public:
   /** Standard class typedefs */

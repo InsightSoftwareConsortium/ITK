@@ -41,7 +41,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage >
-class EigenAnalysis2DImageFilter:
+class ITK_TEMPLATE_EXPORT EigenAnalysis2DImageFilter:
   public ImageToImageFilter< TInputImage, TEigenValueImage >
 {
 public:

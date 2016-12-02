@@ -34,7 +34,7 @@ template< unsigned int NDimensions = 3,
           typename PixelType = unsigned char,
           typename TMeshTraits = DefaultStaticMeshTraits< PixelType, NDimensions, NDimensions >
           >
-class SpatialObjectReader:public Object
+class ITK_TEMPLATE_EXPORT SpatialObjectReader:public Object
 {
 public:
 

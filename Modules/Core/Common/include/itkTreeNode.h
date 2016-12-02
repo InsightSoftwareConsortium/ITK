@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TValue >
-class TreeNode:public Object
+class ITK_TEMPLATE_EXPORT TreeNode:public Object
 {
 public:
 

@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< typename TInputImage, typename TInputPath, typename TOutputImage >
-class ImageAndPathToImageFilter:
+class ITK_TEMPLATE_EXPORT ImageAndPathToImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

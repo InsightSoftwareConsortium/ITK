@@ -54,7 +54,7 @@ namespace itk
  * \ingroup Streamed
  */
 template <typename TInputImage, typename TOutputImage>
-class BinShrinkImageFilter :
+class ITK_TEMPLATE_EXPORT BinShrinkImageFilter :
   public ImageToImageFilter<TInputImage,TOutputImage>
 {
 public:

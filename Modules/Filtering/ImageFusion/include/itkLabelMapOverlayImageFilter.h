@@ -50,7 +50,7 @@ namespace itk {
  * \ingroup ITKImageFusion
 */
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
-class LabelMapOverlayImageFilter :
+class ITK_TEMPLATE_EXPORT LabelMapOverlayImageFilter :
     public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:

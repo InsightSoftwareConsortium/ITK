@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TImage >
-class StatisticsUniqueLabelMapFilter:
+class ITK_TEMPLATE_EXPORT StatisticsUniqueLabelMapFilter:
   public ShapeUniqueLabelMapFilter< TImage >
 {
 public:

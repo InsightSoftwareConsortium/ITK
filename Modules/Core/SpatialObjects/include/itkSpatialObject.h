@@ -56,7 +56,7 @@ template< unsigned int VDimension >
 class SpatialObjectTreeNode;
 
 template< unsigned int VDimension = 3 >
-class SpatialObject:
+class ITK_TEMPLATE_EXPORT SpatialObject:
   public DataObject
 {
 public:

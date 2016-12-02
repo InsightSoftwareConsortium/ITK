@@ -75,7 +75,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class DiffeomorphicDemonsRegistrationFilter:
+class ITK_TEMPLATE_EXPORT DiffeomorphicDemonsRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
                                           TDisplacementField >
 {

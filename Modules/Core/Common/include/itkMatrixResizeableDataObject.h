@@ -34,7 +34,7 @@ namespace itk
  */
 
 template< typename TItemType >
-class MatrixResizeableDataObject:public DataObject, public vnl_matrix< TItemType >
+class ITK_TEMPLATE_EXPORT MatrixResizeableDataObject:public DataObject, public vnl_matrix< TItemType >
 {
 public:
 

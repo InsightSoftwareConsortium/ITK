@@ -40,7 +40,7 @@ namespace itk
  */
 template<typename TFixedPointSet, typename TMovingPointSet = TFixedPointSet,
   class TInternalComputationValueType = double>
-class EuclideanDistancePointSetToPointSetMetricv4:
+class ITK_TEMPLATE_EXPORT EuclideanDistancePointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:

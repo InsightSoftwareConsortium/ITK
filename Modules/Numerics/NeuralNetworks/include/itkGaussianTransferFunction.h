@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename ScalarType>
-class GaussianTransferFunction : public TransferFunctionBase<ScalarType>
+class ITK_TEMPLATE_EXPORT GaussianTransferFunction : public TransferFunctionBase<ScalarType>
 {
 public:
   /** Standard class typedefs. */

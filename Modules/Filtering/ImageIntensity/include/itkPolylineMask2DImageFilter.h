@@ -46,7 +46,7 @@ namespace itk
  */
 template< typename TInputImage, typename TPolyline,
           typename TOutputImage >
-class PolylineMask2DImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_TEMPLATE_EXPORT PolylineMask2DImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */

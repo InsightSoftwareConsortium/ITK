@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TInputImage >
-class BinaryShapeOpeningImageFilter:
+class ITK_TEMPLATE_EXPORT BinaryShapeOpeningImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:

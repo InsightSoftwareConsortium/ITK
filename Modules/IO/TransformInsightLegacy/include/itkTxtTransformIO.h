@@ -29,7 +29,7 @@ namespace itk
    * \ingroup ITKIOTransformInsightLegacy
    */
 template<typename TParametersValueType>
-class TxtTransformIOTemplate:public TransformIOBaseTemplate<TParametersValueType>
+class ITK_TEMPLATE_EXPORT TxtTransformIOTemplate:public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
   typedef TxtTransformIOTemplate                        Self;

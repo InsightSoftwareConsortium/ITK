@@ -44,7 +44,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename TTargetVector>
-class RBFNetwork :
+class ITK_TEMPLATE_EXPORT RBFNetwork :
     public MultilayerNeuralNetworkBase<TMeasurementVector, TTargetVector, BackPropagationLayer<TMeasurementVector, TTargetVector> >
 {
 public:

@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKSpatialFunction
  */
 template< typename TSpatialFunction, typename TInputImage, typename TOutputImage >
-class SpatialFunctionImageEvaluatorFilter:
+class ITK_TEMPLATE_EXPORT SpatialFunctionImageEvaluatorFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

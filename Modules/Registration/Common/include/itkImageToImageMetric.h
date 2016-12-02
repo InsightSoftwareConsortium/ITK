@@ -48,7 +48,7 @@ namespace itk
  */
 
 template< typename TFixedImage,  typename TMovingImage >
-class ImageToImageMetric:
+class ITK_TEMPLATE_EXPORT ImageToImageMetric:
   public SingleValuedCostFunction
 {
 public:

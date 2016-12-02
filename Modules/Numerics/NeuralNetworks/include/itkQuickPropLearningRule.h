@@ -40,7 +40,7 @@ namespace Statistics
  */
 
 template<typename LayerType, typename TTargetVector>
-class QuickPropLearningRule : public LearningFunctionBase<LayerType, TTargetVector>
+class ITK_TEMPLATE_EXPORT QuickPropLearningRule : public LearningFunctionBase<LayerType, TTargetVector>
 {
 public:
 

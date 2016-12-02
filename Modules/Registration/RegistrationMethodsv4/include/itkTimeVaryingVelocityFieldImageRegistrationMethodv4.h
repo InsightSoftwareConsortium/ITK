@@ -84,7 +84,7 @@ template<typename TFixedImage, typename TMovingImage, typename TOutputTransform 
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<double, TFixedImage::ImageDimension>,
   typename TVirtualImage = TFixedImage,
   typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
-class TimeVaryingVelocityFieldImageRegistrationMethodv4
+class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldImageRegistrationMethodv4
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:

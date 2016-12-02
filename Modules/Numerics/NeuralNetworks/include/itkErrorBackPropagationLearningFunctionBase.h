@@ -39,7 +39,7 @@ namespace Statistics
  */
 
 template<typename LayerType, typename TTargetVector>
-class ErrorBackPropagationLearningFunctionBase : public LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector>
+class ITK_TEMPLATE_EXPORT ErrorBackPropagationLearningFunctionBase : public LearningFunctionBase<typename LayerType::LayerInterfaceType, TTargetVector>
 {
 public:
   typedef ErrorBackPropagationLearningFunctionBase Self;

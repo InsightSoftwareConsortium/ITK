@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension = 1 >
-class SpatialObjectToImageStatisticsCalculator:public Object
+class ITK_TEMPLATE_EXPORT SpatialObjectToImageStatisticsCalculator:public Object
 {
 public:
   /** Standard class typedefs. */

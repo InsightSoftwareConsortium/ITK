@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKFFT
  */
 template< typename TInputImage, typename TOutputImage >
-class FFTShiftImageFilter :
+class ITK_TEMPLATE_EXPORT FFTShiftImageFilter :
   public CyclicShiftImageFilter< TInputImage, TOutputImage >
 {
 public:

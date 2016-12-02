@@ -47,7 +47,7 @@ namespace itk
 // on the defaults of template parameters
 template< typename TInputImage,
           typename TOutputImage = TInputImage >
-class GradientMagnitudeRecursiveGaussianImageFilter:
+class ITK_TEMPLATE_EXPORT GradientMagnitudeRecursiveGaussianImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

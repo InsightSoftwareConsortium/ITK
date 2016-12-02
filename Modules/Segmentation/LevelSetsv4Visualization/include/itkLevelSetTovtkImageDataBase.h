@@ -29,7 +29,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TLevelSet >
-class LevelSetTovtkImageDataBase : public ProcessObject
+class ITK_TEMPLATE_EXPORT LevelSetTovtkImageDataBase : public ProcessObject
 {
 public:
   typedef LevelSetTovtkImageDataBase      Self;

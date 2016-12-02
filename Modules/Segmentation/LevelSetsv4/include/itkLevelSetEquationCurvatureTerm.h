@@ -46,7 +46,7 @@ namespace itk
 template< typename TInput, // Input image or mesh
           typename TLevelSetContainer,
           typename TCurvatureImage = TInput >
-class LevelSetEquationCurvatureTerm :
+class ITK_TEMPLATE_EXPORT LevelSetEquationCurvatureTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:

@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKBinaryMathematicalMorphology
  */
 template< typename TInputImage, typename TOutputImage, typename TKernel >
-class ObjectMorphologyImageFilter:
+class ITK_TEMPLATE_EXPORT ObjectMorphologyImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

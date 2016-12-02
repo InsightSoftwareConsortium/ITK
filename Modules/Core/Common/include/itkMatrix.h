@@ -50,7 +50,7 @@ namespace itk
  */
 
 template< typename T, unsigned int NRows = 3, unsigned int NColumns = 3 >
-class Matrix
+class ITK_TEMPLATE_EXPORT Matrix
 {
 public:
   /** Standard class typedefs. */

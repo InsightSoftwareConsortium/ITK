@@ -66,7 +66,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 template <typename TMoving, typename TFixed>
-class ImageMetricLoad : public LoadElement
+class ITK_TEMPLATE_EXPORT ImageMetricLoad : public LoadElement
 {
 public:
   /** Standard class typedefs. */

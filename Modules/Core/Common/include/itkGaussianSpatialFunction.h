@@ -41,7 +41,7 @@ namespace itk
 template< typename TOutput = double,
           unsigned int VImageDimension = 3,
           typename TInput = Point< SpacePrecisionType, VImageDimension > >
-class GaussianSpatialFunction:
+class ITK_TEMPLATE_EXPORT GaussianSpatialFunction:
   public SpatialFunction< TOutput, VImageDimension, TInput >
 {
 public:

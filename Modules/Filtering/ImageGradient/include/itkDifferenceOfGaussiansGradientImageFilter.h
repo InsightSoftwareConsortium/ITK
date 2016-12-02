@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKImageGradient
  */
 template< typename TInputImage, typename TDataType >
-class DifferenceOfGaussiansGradientImageFilter:
+class ITK_TEMPLATE_EXPORT DifferenceOfGaussiansGradientImageFilter:
   public ImageToImageFilter< TInputImage,
                              Image< CovariantVector< TDataType, TInputImage::ImageDimension >,
                                     TInputImage::ImageDimension > >

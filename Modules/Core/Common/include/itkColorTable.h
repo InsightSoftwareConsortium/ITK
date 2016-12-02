@@ -37,7 +37,7 @@ namespace itk
  */
 
 template< typename TPixel >
-class ColorTable:public Object
+class ITK_TEMPLATE_EXPORT ColorTable:public Object
 {
 public:
   /** Standard class typedefs. */

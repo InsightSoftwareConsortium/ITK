@@ -37,7 +37,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class ComposeDisplacementFieldsImageFilter
+class ITK_TEMPLATE_EXPORT ComposeDisplacementFieldsImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

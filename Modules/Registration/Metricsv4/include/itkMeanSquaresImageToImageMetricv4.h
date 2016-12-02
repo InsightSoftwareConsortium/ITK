@@ -41,7 +41,7 @@ template <typename TFixedImage, typename TMovingImage, typename TVirtualImage = 
           typename TInternalComputationValueType = double,
           typename TMetricTraits = DefaultImageToImageMetricTraitsv4<TFixedImage,TMovingImage,TVirtualImage,TInternalComputationValueType>
           >
-class MeanSquaresImageToImageMetricv4 :
+class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4 :
   public ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
 {
 public:

@@ -34,7 +34,7 @@ namespace Statistics
  */
 
 template<typename TSample, typename TTargetVector, typename ScalarType>
-class TrainingFunctionBase : public LightProcessObject
+class ITK_TEMPLATE_EXPORT TrainingFunctionBase : public LightProcessObject
 {
 public:
   typedef TrainingFunctionBase     Self;

@@ -33,7 +33,7 @@ namespace itk
 template<typename TParametersValueType=double,
            unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
-class BSplineBaseTransform :
+class ITK_TEMPLATE_EXPORT BSplineBaseTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:

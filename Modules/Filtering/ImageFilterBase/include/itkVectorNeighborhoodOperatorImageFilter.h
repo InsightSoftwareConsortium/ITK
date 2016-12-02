@@ -55,7 +55,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class VectorNeighborhoodOperatorImageFilter:
+class ITK_TEMPLATE_EXPORT VectorNeighborhoodOperatorImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

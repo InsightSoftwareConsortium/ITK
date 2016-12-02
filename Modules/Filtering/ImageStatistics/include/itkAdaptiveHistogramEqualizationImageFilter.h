@@ -68,7 +68,7 @@ namespace itk
  * \endwiki
  */
 template< typename TImageType , typename TKernel = Neighborhood<bool, TImageType::ImageDimension> >
-class AdaptiveHistogramEqualizationImageFilter:
+class ITK_TEMPLATE_EXPORT AdaptiveHistogramEqualizationImageFilter:
   public MovingHistogramImageFilter< TImageType,
                                      TImageType,
                                      TKernel,

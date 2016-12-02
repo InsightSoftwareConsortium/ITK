@@ -57,7 +57,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class BSplineControlPointImageFilter
+class ITK_TEMPLATE_EXPORT BSplineControlPointImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

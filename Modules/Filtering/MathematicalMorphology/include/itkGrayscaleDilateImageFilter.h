@@ -50,7 +50,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >
-class GrayscaleDilateImageFilter:
+class ITK_TEMPLATE_EXPORT GrayscaleDilateImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

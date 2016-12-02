@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingImage >
-class MeanReciprocalSquareDifferencePointSetToImageMetric:
+class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferencePointSetToImageMetric:
   public PointSetToImageMetric< TFixedPointSet, TMovingImage >
 {
 public:

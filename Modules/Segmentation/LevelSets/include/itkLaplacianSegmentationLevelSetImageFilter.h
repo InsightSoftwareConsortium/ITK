@@ -101,7 +101,7 @@ namespace itk
 template< typename TInputImage,
           typename TFeatureImage,
           typename TOutputPixelType = float >
-class LaplacianSegmentationLevelSetImageFilter:
+class ITK_TEMPLATE_EXPORT LaplacianSegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 {
 public:

@@ -61,7 +61,7 @@ namespace itk
  */
 template< typename TInputImage,
           typename TOutputImage = Image< unsigned char, TInputImage::ImageDimension > >
-class ScalarImageKmeansImageFilter:
+class ITK_TEMPLATE_EXPORT ScalarImageKmeansImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

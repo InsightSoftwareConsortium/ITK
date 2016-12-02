@@ -59,7 +59,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class RecursiveGaussianImageFilter:
+class ITK_TEMPLATE_EXPORT RecursiveGaussianImageFilter:
   public RecursiveSeparableImageFilter< TInputImage, TOutputImage >
 {
 public:

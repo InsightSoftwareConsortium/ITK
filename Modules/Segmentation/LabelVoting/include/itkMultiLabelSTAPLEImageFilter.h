@@ -115,7 +115,7 @@ namespace itk
  * \ingroup ITKLabelVoting
  */
 template <typename TInputImage, typename TOutputImage = TInputImage, typename TWeights = float >
-class MultiLabelSTAPLEImageFilter :
+class ITK_TEMPLATE_EXPORT MultiLabelSTAPLEImageFilter :
     public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

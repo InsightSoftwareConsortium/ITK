@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKDeconvolution
  */
 template< typename TInputImage, typename TKernelSource, typename TOutputImage=TInputImage >
-class ParametricBlindLeastSquaresDeconvolutionImageFilter :
+class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionImageFilter :
     public IterativeDeconvolutionImageFilter< TInputImage, typename TKernelSource::OutputImageType, TOutputImage >
 {
 public:
@@ -123,7 +123,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParametricBlindLeastSquaresDeconvolutionImageFilter);
 
   template< typename TPixel >
-    class ParametricBlindLeastSquaresDeconvolutionDifference
+    class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionDifference
   {
   public:
     ParametricBlindLeastSquaresDeconvolutionDifference() {}
@@ -148,7 +148,7 @@ private:
   };
 
   template< typename TPixel >
-    class ParametricBlindLeastSquaresDeconvolutionImageUpdate
+    class ITK_TEMPLATE_EXPORT ParametricBlindLeastSquaresDeconvolutionImageUpdate
   {
   public:
     ParametricBlindLeastSquaresDeconvolutionImageUpdate() : m_Alpha(0.01) {}

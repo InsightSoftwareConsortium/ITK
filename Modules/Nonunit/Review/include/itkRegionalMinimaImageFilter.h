@@ -51,7 +51,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class RegionalMinimaImageFilter:
+class ITK_TEMPLATE_EXPORT RegionalMinimaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

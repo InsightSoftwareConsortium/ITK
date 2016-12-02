@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKVoronoi
  */
 template< typename TInputImage, typename TOutputImage, typename TBinaryPriorImage = Image< unsigned char, 2 > >
-class VoronoiSegmentationImageFilter:
+class ITK_TEMPLATE_EXPORT VoronoiSegmentationImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage, TBinaryPriorImage >
 {
 public:

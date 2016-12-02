@@ -59,7 +59,7 @@ template<
   typename TImage,
   typename TMask = TImage,
   typename TFeatures = PointSet< Matrix< SpacePrecisionType, TImage::ImageDimension, TImage::ImageDimension>, TImage::ImageDimension > >
-class MaskFeaturePointSelectionFilter: public ImageToMeshFilter< TImage, TFeatures >
+class ITK_TEMPLATE_EXPORT MaskFeaturePointSelectionFilter: public ImageToMeshFilter< TImage, TFeatures >
 {
 public:
   /** Standard class typedefs. */

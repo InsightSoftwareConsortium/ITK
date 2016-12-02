@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TIteratingFilter, typename TFilterToUpdate >
-class LevelSetIterationUpdateCommand : public Command
+class ITK_TEMPLATE_EXPORT LevelSetIterationUpdateCommand : public Command
 {
 public:
   typedef LevelSetIterationUpdateCommand  Self;

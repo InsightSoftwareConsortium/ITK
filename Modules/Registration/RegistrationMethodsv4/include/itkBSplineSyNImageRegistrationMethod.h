@@ -46,7 +46,7 @@ template<typename TFixedImage, typename TMovingImage, typename TOutputTransform 
   BSplineSmoothingOnUpdateDisplacementFieldTransform<double, TFixedImage::ImageDimension>,
   typename TVirtualImage = TFixedImage,
   typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
-class BSplineSyNImageRegistrationMethod
+class ITK_TEMPLATE_EXPORT BSplineSyNImageRegistrationMethod
 : public SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:

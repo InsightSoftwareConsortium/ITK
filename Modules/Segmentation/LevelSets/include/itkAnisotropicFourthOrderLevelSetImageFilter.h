@@ -80,7 +80,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TInputImage, typename TOutputImage >
-class AnisotropicFourthOrderLevelSetImageFilter:
+class ITK_TEMPLATE_EXPORT AnisotropicFourthOrderLevelSetImageFilter:
   public SparseFieldFourthOrderLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:

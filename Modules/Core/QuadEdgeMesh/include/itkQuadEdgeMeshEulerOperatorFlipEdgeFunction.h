@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKQuadEdgeMesh
  */
 template< typename TMesh, typename TQEType >
-class QuadEdgeMeshEulerOperatorFlipEdgeFunction:
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshEulerOperatorFlipEdgeFunction:
   public QuadEdgeMeshFunctionBase< TMesh, TQEType * >
 {
 public:

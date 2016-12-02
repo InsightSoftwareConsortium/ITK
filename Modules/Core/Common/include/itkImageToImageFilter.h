@@ -104,7 +104,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class ImageToImageFilter:public ImageSource< TOutputImage >,
+class ITK_TEMPLATE_EXPORT ImageToImageFilter:public ImageSource< TOutputImage >,
   private ImageToImageFilterCommon
 {
 public:

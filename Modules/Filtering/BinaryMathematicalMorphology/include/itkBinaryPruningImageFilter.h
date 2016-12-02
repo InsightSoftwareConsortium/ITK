@@ -51,7 +51,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class BinaryPruningImageFilter:
+class ITK_TEMPLATE_EXPORT BinaryPruningImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

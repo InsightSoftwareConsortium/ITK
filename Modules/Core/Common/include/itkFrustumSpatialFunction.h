@@ -37,7 +37,7 @@ namespace itk
 
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >
-class FrustumSpatialFunction:
+class ITK_TEMPLATE_EXPORT FrustumSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:

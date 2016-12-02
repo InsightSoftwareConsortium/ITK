@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKDeconvolution
  */
 template< typename TSuperclass >
-class ProjectedIterativeDeconvolutionImageFilter : public TSuperclass
+class ITK_TEMPLATE_EXPORT ProjectedIterativeDeconvolutionImageFilter : public TSuperclass
 {
 public:
   /** Standard typedefs. */

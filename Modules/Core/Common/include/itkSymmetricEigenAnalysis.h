@@ -58,7 +58,7 @@ namespace itk
  */
 
 template< typename TMatrix, typename TVector, typename TEigenMatrix = TMatrix >
-class SymmetricEigenAnalysis
+class ITK_TEMPLATE_EXPORT SymmetricEigenAnalysis
 {
 public:
   typedef enum

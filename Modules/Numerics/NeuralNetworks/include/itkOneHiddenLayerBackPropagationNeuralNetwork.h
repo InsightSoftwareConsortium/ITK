@@ -41,7 +41,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename TTargetVector>
-class OneHiddenLayerBackPropagationNeuralNetwork :
+class ITK_TEMPLATE_EXPORT OneHiddenLayerBackPropagationNeuralNetwork :
     public MultilayerNeuralNetworkBase<TMeasurementVector, TTargetVector, BackPropagationLayer<TMeasurementVector, TTargetVector> >
 {
 public:

@@ -37,7 +37,7 @@ template< unsigned int VDimension > class FlatStructuringElement;
 
 template< typename TInputImage, typename TOutputImage, typename TKernel /*=Neighborhood<bool,
                                                                  TInputImage::ImageDimension>*/                     >
-class KernelImageFilter:
+class ITK_TEMPLATE_EXPORT KernelImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:

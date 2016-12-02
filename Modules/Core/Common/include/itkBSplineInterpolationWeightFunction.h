@@ -48,7 +48,7 @@ template<
   unsigned int VSpaceDimension = 2,
   unsigned int VSplineOrder = 3
   >
-class BSplineInterpolationWeightFunction:
+class ITK_TEMPLATE_EXPORT BSplineInterpolationWeightFunction:
   public FunctionBase< ContinuousIndex< TCoordRep, VSpaceDimension >,
                        Array< double > >
 {

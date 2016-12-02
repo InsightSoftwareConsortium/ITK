@@ -51,7 +51,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputImage, typename TLevelSet >
-class VTKVisualize2DSparseLevelSetLayersBase :
+class ITK_TEMPLATE_EXPORT VTKVisualize2DSparseLevelSetLayersBase :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToRGBVTKImageFilter< TInputImage > >
 {
 public:

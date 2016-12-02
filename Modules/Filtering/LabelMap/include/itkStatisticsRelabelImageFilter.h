@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TInputImage, typename TFeatureImage >
-class StatisticsRelabelImageFilter:
+class ITK_TEMPLATE_EXPORT StatisticsRelabelImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:

@@ -46,7 +46,7 @@ namespace itk {
  */
 
 template<typename TInputImage, typename TKernel>
-class BinaryOpeningByReconstructionImageFilter :
+class ITK_TEMPLATE_EXPORT BinaryOpeningByReconstructionImageFilter :
     public KernelImageFilter<TInputImage, TInputImage, TKernel>
 {
 public:

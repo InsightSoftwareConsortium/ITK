@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKImageNoise
  */
 template <class TInputImage, class TOutputImage=TInputImage>
-class SpeckleNoiseImageFilter :
+class ITK_TEMPLATE_EXPORT SpeckleNoiseImageFilter :
   public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:

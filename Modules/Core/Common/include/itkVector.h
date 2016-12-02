@@ -59,7 +59,7 @@ namespace itk
  * \endwiki
  */
 template< typename T, unsigned int NVectorDimension = 3 >
-class Vector:public FixedArray< T, NVectorDimension >
+class ITK_TEMPLATE_EXPORT Vector:public FixedArray< T, NVectorDimension >
 {
 public:
   /** Standard class typedefs. */

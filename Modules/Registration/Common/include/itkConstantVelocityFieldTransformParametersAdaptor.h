@@ -61,7 +61,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template<typename TTransform>
-class ConstantVelocityFieldTransformParametersAdaptor
+class ITK_TEMPLATE_EXPORT ConstantVelocityFieldTransformParametersAdaptor
 : public TransformParametersAdaptor<TTransform>
 {
 public:

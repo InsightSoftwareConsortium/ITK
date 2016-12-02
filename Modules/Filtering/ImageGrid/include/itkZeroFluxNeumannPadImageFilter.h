@@ -58,7 +58,7 @@ namespace itk
  * \sa WrapPadImageFilter, MirrorPadImageFilter, ConstantPadImageFilter, ZeroFluxNeumannBoundaryCondition
  */
 template< typename TInputImage, typename TOutputImage >
-class ZeroFluxNeumannPadImageFilter :
+class ITK_TEMPLATE_EXPORT ZeroFluxNeumannPadImageFilter :
     public PadImageFilter< TInputImage, TOutputImage >
 {
 public:

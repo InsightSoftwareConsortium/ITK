@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKLabelVoting
  */
 template< typename TInputImage, typename TOutputImage >
-class VotingBinaryHoleFillingImageFilter:
+class ITK_TEMPLATE_EXPORT VotingBinaryHoleFillingImageFilter:
   public VotingBinaryImageFilter< TInputImage, TOutputImage >
 {
 public:

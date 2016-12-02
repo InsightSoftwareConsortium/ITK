@@ -40,7 +40,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class ScalarToArrayCastImageFilter:
+class ITK_TEMPLATE_EXPORT ScalarToArrayCastImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

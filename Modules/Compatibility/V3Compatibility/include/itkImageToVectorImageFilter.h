@@ -55,7 +55,7 @@ namespace itk
  */
 
 template< typename TInputImage >
-class ImageToVectorImageFilter:
+class ITK_TEMPLATE_EXPORT ImageToVectorImageFilter:
   public ImageToImageFilter< TInputImage,
                              VectorImage< typename TInputImage::InternalPixelType,
                                           TInputImage::ImageDimension > >

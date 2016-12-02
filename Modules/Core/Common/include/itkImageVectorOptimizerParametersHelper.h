@@ -36,7 +36,7 @@ namespace itk
 template< typename TValue,
           unsigned int NVectorDimension,
           unsigned int VImageDimension >
-class ImageVectorOptimizerParametersHelper
+class ITK_TEMPLATE_EXPORT ImageVectorOptimizerParametersHelper
   : public OptimizerParametersHelper< TValue >
 {
 public:

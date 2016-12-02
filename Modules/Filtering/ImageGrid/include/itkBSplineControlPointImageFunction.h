@@ -55,7 +55,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template <typename TInputImage, typename TCoordRep = double>
-class BSplineControlPointImageFunction
+class ITK_TEMPLATE_EXPORT BSplineControlPointImageFunction
 : public ImageFunction<TInputImage, typename TInputImage::PixelType, TCoordRep>
 {
 public:

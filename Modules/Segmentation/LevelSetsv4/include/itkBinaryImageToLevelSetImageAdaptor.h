@@ -47,14 +47,14 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TInputImage, typename TLevelSet >
-class BinaryImageToLevelSetImageAdaptor
+class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor
 {};
 
 
 /** \brief Partial template specialization for LevelSetDenseImage
  */
 template< typename TInputImage, typename TLevelSetImage >
-class BinaryImageToLevelSetImageAdaptor<
+class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<
     TInputImage,
     LevelSetDenseImage< TLevelSetImage > > :
 public BinaryImageToLevelSetImageAdaptorBase<
@@ -124,7 +124,7 @@ private:
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TInput, typename TOutput >
-class BinaryImageToSparseLevelSetImageAdaptorBase :
+class ITK_TEMPLATE_EXPORT BinaryImageToSparseLevelSetImageAdaptorBase :
     public BinaryImageToLevelSetImageAdaptorBase< TInput, TOutput >
 {
 public:
@@ -194,7 +194,7 @@ private:
 /** \brief Partial template specialization for WhitakerSparseLevelSetImage
  */
 template< typename TInput, typename TOutput >
-class BinaryImageToLevelSetImageAdaptor<
+class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<
     TInput,
     WhitakerSparseLevelSetImage< TOutput, TInput::ImageDimension > > :
   public BinaryImageToSparseLevelSetImageAdaptorBase<
@@ -285,7 +285,7 @@ private:
 /** \brief Partial template specialization for ShiSparseLevelSetImage
  */
 template< typename TInput >
-class BinaryImageToLevelSetImageAdaptor<
+class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<
     TInput,
     ShiSparseLevelSetImage< TInput::ImageDimension > > :
 public BinaryImageToSparseLevelSetImageAdaptorBase<
@@ -370,7 +370,7 @@ private:
 /** \brief Partial template specialization for MalcolmSparseLevelSetImage
  */
 template< typename TInput >
-class BinaryImageToLevelSetImageAdaptor<
+class ITK_TEMPLATE_EXPORT BinaryImageToLevelSetImageAdaptor<
     TInput,
     MalcolmSparseLevelSetImage< TInput::ImageDimension > > :
   public BinaryImageToSparseLevelSetImageAdaptorBase< TInput, MalcolmSparseLevelSetImage< TInput::ImageDimension > >

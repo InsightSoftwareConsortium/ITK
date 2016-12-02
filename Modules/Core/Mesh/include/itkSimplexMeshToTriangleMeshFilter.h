@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< typename TInputMesh, typename TOutputMesh >
-class SimplexMeshToTriangleMeshFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
+class ITK_TEMPLATE_EXPORT SimplexMeshToTriangleMeshFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

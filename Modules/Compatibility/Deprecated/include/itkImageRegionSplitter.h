@@ -65,7 +65,7 @@ namespace itk
  */
 
 template< unsigned int VImageDimension >
-class ImageRegionSplitter:public ImageRegionSplitterBase
+class ITK_TEMPLATE_EXPORT ImageRegionSplitter:public ImageRegionSplitterBase
 {
 public:
   /** Standard class typedefs. */

@@ -64,7 +64,7 @@ namespace itk
  * \ingroup ITKTestKernel
  */
  template <typename TImageType>
- class PipelineMonitorImageFilter :
+ class ITK_TEMPLATE_EXPORT PipelineMonitorImageFilter :
   public ImageToImageFilter< TImageType, TImageType>
  {
  public:

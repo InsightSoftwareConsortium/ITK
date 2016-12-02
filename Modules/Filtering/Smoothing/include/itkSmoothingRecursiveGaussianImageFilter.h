@@ -48,7 +48,7 @@ namespace itk
  */
 template< typename TInputImage,
           typename TOutputImage = TInputImage >
-class SmoothingRecursiveGaussianImageFilter:
+class ITK_TEMPLATE_EXPORT SmoothingRecursiveGaussianImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

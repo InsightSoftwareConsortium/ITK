@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TInputImage >
-class RegionFromReferenceLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
+class ITK_TEMPLATE_EXPORT RegionFromReferenceLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:
   /** Standard class typedefs. */

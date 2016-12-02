@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ITKLevelSetsv4
  */
 template< typename TImage >
-class LevelSetDomainPartition:
+class ITK_TEMPLATE_EXPORT LevelSetDomainPartition:
   public LevelSetDomainPartitionBase< TImage >
 {
 public:

@@ -39,7 +39,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 template< typename TSample >
-class WeightedMeanSampleFilter : public MeanSampleFilter< TSample >
+class ITK_TEMPLATE_EXPORT WeightedMeanSampleFilter : public MeanSampleFilter< TSample >
 {
 public:
   /**Standard class typedefs. */

@@ -34,7 +34,7 @@ class ThreadedIteratorRangePartitioner;
  * \ingroup ITKCommon
  */
 template< typename TIterator >
-class ThreadedIteratorRangePartitionerDomain
+class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitionerDomain
 {
 public:
   typedef TIterator                              IteratorType;
@@ -104,7 +104,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename TIterator >
-class ThreadedIteratorRangePartitioner
+class ITK_TEMPLATE_EXPORT ThreadedIteratorRangePartitioner
   : public ThreadedDomainPartitioner< ThreadedIteratorRangePartitionerDomain< TIterator > >
 {
 public:

@@ -38,7 +38,7 @@ namespace itk
 
 template< unsigned int VDimension = 3,
           typename TInput = Point< double, VDimension > >
-class TorusInteriorExteriorSpatialFunction:
+class ITK_TEMPLATE_EXPORT TorusInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:

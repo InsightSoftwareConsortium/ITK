@@ -33,7 +33,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename ScalarType>
-class SumInputFunction : public InputFunctionBase<TMeasurementVector, ScalarType>
+class ITK_TEMPLATE_EXPORT SumInputFunction : public InputFunctionBase<TMeasurementVector, ScalarType>
 {
 public:
 

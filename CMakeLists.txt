@@ -114,6 +114,17 @@ If this is not set during the initial configuration, it will have no effect." OF
 mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
 
 #-----------------------------------------------------------------------------
+# Make default visibility as an option for generated export header
+set(_template_visibility_init OFF)
+if(APPLE)
+  set(_template_visibility_init ON)
+endif()
+option(ITK_TEMPLATE_VISIBILITY_DEFAULT "This adds default symbol visibility to template class types, which results in 'weak external typeinfo' in libraries that use these types, whether with implicit or explicit instantiation, default hidden or non-hidden visibility.
+This is required on Mac OSX to avoid dynamic_cast failures across binaries.
+See Change-Id: Ib4a6b8cafe8720c3a2a5b3e6ba833d11002978df for more information." "${_template_visibility_init}")
+mark_as_advanced(ITK_TEMPLATE_VISIBILITY_DEFAULT)
+
+#-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
 option(ITK_USE_BRAINWEB_DATA "Download and use BrainWeb data for advanced testing" OFF)

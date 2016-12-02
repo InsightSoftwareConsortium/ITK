@@ -36,7 +36,7 @@ namespace itk
  * Caveat3: itkVTKTetrahedralMeshReader cannot read binary vtk files.
  */
 template <typename TOutputMesh>
-class VTKTetrahedralMeshReader : public MeshSource<TOutputMesh>
+class ITK_TEMPLATE_EXPORT VTKTetrahedralMeshReader : public MeshSource<TOutputMesh>
 {
 public:
   /** Standard "Self" typedef. */

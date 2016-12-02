@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKIOMesh
  */
 template <typename InputPixelType, typename T, typename OutputConvertTraits>
-class ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>
+class ITK_TEMPLATE_EXPORT ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>
 {
 public:
   /** Determine the output data type. */

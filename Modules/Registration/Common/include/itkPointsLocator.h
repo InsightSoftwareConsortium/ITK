@@ -41,7 +41,7 @@ namespace itk
 template<
   typename TPointsContainer = VectorContainer< IdentifierType, Point< float, 3 > >
   >
-class PointsLocator : public Object
+class ITK_TEMPLATE_EXPORT PointsLocator : public Object
 {
 public:
   /** Standard class typedefs. */

@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template < typename TDomainPartitioner, typename TImageToImageMetric, typename TMeanSquaresMetric >
-class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader
+class ITK_TEMPLATE_EXPORT MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:

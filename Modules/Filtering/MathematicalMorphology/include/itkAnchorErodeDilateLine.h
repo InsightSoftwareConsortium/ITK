@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputPix, typename TCompare >
-class AnchorErodeDilateLine
+class ITK_TEMPLATE_EXPORT AnchorErodeDilateLine
 {
 public:
   /** Some convenient typedefs. */

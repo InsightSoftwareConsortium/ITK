@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< unsigned int NImageDimension, unsigned int R, unsigned int C, typename TPointValue = double, typename TMatrixValue=double >
-class ImageTransformHelper
+class ITKCommon_TEMPLATE_EXPORT ImageTransformHelper
 {
 public:
   typedef ImageBase< NImageDimension >                             ImageType;

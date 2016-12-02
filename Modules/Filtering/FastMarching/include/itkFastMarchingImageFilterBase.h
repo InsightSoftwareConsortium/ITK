@@ -69,7 +69,7 @@ namespace itk
  * \ingroup ITKFastMarching
 */
 template< typename TInput, typename TOutput >
-class FastMarchingImageFilterBase :
+class ITK_TEMPLATE_EXPORT FastMarchingImageFilterBase :
     public FastMarchingBase< TInput, TOutput >
   {
 public:

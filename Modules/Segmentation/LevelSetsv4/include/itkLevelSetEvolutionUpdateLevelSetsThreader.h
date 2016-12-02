@@ -34,12 +34,12 @@ namespace itk
  * \ingroup ITKLevelSetsv4
  */
 template< typename TLevelSet, typename TDomainPartitioner, typename TLevelSetEvolution >
-class LevelSetEvolutionUpdateLevelSetsThreader
+class ITK_TEMPLATE_EXPORT LevelSetEvolutionUpdateLevelSetsThreader
 {};
 
 // For dense image level set.
 template< typename TImage, typename TLevelSetEvolution >
-class LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
+class ITK_TEMPLATE_EXPORT LevelSetEvolutionUpdateLevelSetsThreader< LevelSetDenseImage< TImage >, ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
   : public DomainThreader< ThreadedImageRegionPartitioner< TImage::ImageDimension >, TLevelSetEvolution >
 {
 public:

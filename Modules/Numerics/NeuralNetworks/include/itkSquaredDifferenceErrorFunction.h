@@ -33,7 +33,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename ScalarType>
-class SquaredDifferenceErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
+class ITK_TEMPLATE_EXPORT SquaredDifferenceErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
 {
 public:
 

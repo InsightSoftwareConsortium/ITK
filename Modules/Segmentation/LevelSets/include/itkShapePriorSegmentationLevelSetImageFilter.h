@@ -72,7 +72,7 @@ namespace itk
 template< typename TInputImage,
           typename TFeatureImage,
           typename TOutputPixelType = float >
-class ShapePriorSegmentationLevelSetImageFilter:
+class ITK_TEMPLATE_EXPORT ShapePriorSegmentationLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
                                           TOutputPixelType >
 {

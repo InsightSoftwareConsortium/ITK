@@ -75,7 +75,7 @@ namespace itk
  * \ingroup ITKIOCSV
  */
 template <typename TData>
-class CSVArray2DFileReader:public CSVFileReaderBase
+class ITK_TEMPLATE_EXPORT CSVArray2DFileReader:public CSVFileReaderBase
 {
 public:
   /** Standard class typedefs */

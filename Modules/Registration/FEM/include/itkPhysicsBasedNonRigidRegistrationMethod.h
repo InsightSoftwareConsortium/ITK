@@ -58,7 +58,7 @@ namespace fem
 
 
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
-class PhysicsBasedNonRigidRegistrationMethod : public ImageToImageFilter<TMovingImage, TDeformationField>
+class ITK_TEMPLATE_EXPORT PhysicsBasedNonRigidRegistrationMethod : public ImageToImageFilter<TMovingImage, TDeformationField>
 {
 public:
   typedef PhysicsBasedNonRigidRegistrationMethod               Self;

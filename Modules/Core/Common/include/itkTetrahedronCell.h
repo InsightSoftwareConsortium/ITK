@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TCellInterface >
-class TetrahedronCell:public TCellInterface, private TetrahedronCellTopology
+class ITK_TEMPLATE_EXPORT TetrahedronCell:public TCellInterface, private TetrahedronCellTopology
 {
 public:
   /** Standard class typedefa. */

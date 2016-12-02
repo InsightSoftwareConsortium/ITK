@@ -61,7 +61,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TLabel, unsigned int VImageDimension >
-class LabelObject:public LightObject
+class ITK_TEMPLATE_EXPORT LabelObject:public LightObject
 {
 public:
   /** Standard class typedefs */

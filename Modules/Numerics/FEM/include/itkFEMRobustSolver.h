@@ -80,7 +80,7 @@ namespace fem
  */
 
 template <unsigned int VDimension = 3>
-class RobustSolver : public Solver<VDimension>
+class ITK_TEMPLATE_EXPORT RobustSolver : public Solver<VDimension>
 {
 public:
   /** Standard class typedefs. */

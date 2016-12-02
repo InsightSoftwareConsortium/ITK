@@ -33,7 +33,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 template< typename TImageType >
-class ScalarImageToHistogramGenerator:public Object
+class ITK_TEMPLATE_EXPORT ScalarImageToHistogramGenerator:public Object
 {
 public:
   /** Standard typedefs */

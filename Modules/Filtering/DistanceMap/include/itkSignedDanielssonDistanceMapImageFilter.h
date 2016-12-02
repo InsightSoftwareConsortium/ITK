@@ -27,7 +27,7 @@ namespace itk
 namespace Functor
 {
 template< typename InputPixelType >
-class InvertIntensityFunctor
+class ITK_TEMPLATE_EXPORT InvertIntensityFunctor
 {
 public:
   InputPixelType operator()(InputPixelType input) const
@@ -87,7 +87,7 @@ namespace itk
 template< typename TInputImage,
           typename TOutputImage,
           typename TVoronoiImage = TInputImage >
-class SignedDanielssonDistanceMapImageFilter:
+class ITK_TEMPLATE_EXPORT SignedDanielssonDistanceMapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

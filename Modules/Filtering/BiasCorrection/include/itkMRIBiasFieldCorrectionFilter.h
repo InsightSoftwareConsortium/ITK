@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKBiasCorrection
  */
 template< typename TImage, typename TImageMask, typename TBiasField >
-class MRIBiasEnergyFunction : public SingleValuedCostFunction
+class ITK_TEMPLATE_EXPORT MRIBiasEnergyFunction : public SingleValuedCostFunction
 {
 public:
   /** Standard class typedefs. */
@@ -219,7 +219,7 @@ private:
  * \ingroup ITKBiasCorrection
  */
 template< typename TInputImage, typename TOutputImage, typename TMaskImage >
-class MRIBiasFieldCorrectionFilter :
+class ITK_TEMPLATE_EXPORT MRIBiasFieldCorrectionFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

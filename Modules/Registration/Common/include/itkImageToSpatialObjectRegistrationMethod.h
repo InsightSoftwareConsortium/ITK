@@ -82,7 +82,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingSpatialObject >
-class ImageToSpatialObjectRegistrationMethod : public ProcessObject
+class ITK_TEMPLATE_EXPORT ImageToSpatialObjectRegistrationMethod : public ProcessObject
 {
 public:
   /** Standard class typedefs. */

@@ -59,7 +59,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class LaplacianImageFilter:
+class ITK_TEMPLATE_EXPORT LaplacianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

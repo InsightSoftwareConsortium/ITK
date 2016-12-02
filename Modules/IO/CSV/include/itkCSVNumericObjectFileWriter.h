@@ -58,7 +58,7 @@ namespace itk
  * \ingroup ITKIOCSV
  */
 template <typename TValue, unsigned int NRows = 0, unsigned int NColumns = 0>
-class CSVNumericObjectFileWriter:public LightProcessObject
+class ITK_TEMPLATE_EXPORT CSVNumericObjectFileWriter:public LightProcessObject
 {
 public:
   /** Standard class typedefs */

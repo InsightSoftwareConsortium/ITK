@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKLevelSetsv4
  */
 template< typename TIdentifier, typename TLevelSet >
-class LevelSetContainerBase : public Object
+class ITK_TEMPLATE_EXPORT LevelSetContainerBase : public Object
 {
 public:
   typedef LevelSetContainerBase      Self;

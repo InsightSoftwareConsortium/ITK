@@ -138,7 +138,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template< typename TInputImage, typename TOutputImage >
-class OrientImageFilter:
+class ITK_TEMPLATE_EXPORT OrientImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

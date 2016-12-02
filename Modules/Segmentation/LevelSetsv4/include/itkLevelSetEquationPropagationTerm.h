@@ -46,7 +46,7 @@ namespace itk
 template< typename TInput, // Input image or mesh
           typename TLevelSetContainer,
           typename TPropagationImage = TInput >
-class LevelSetEquationPropagationTerm :
+class ITK_TEMPLATE_EXPORT LevelSetEquationPropagationTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:

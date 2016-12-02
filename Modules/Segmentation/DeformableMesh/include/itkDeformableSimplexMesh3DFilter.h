@@ -73,7 +73,7 @@ namespace itk
   * \ingroup ITKDeformableMesh
   */
 template< typename TInputMesh, typename TOutputMesh >
-class DeformableSimplexMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
+class ITK_TEMPLATE_EXPORT DeformableSimplexMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

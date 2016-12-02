@@ -62,7 +62,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputImage, typename TOutputImage >
-class GrayscaleGeodesicErodeImageFilter:
+class ITK_TEMPLATE_EXPORT GrayscaleGeodesicErodeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

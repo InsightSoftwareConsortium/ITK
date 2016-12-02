@@ -63,7 +63,7 @@ namespace Statistics {
  */
 
 template< typename THistogram >
-class HistogramToRunLengthFeaturesFilter : public ProcessObject
+class ITK_TEMPLATE_EXPORT HistogramToRunLengthFeaturesFilter : public ProcessObject
 {
 public:
   /** Standard typedefs */

@@ -33,7 +33,7 @@ namespace itk
 {
 
 template< typename TInputImage, typename TLevelSet >
-class VTKVisualize2DLevelSetAsElevationMap :
+class ITK_TEMPLATE_EXPORT VTKVisualize2DLevelSetAsElevationMap :
     public VTKVisualizeImageLevelSet< TInputImage, ImageToVTKImageFilter< TInputImage > >
 {
 public:

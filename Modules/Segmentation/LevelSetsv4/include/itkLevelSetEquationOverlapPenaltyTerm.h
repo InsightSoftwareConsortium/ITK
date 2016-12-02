@@ -44,7 +44,7 @@ namespace itk
  */
 template< typename TInput, // Input image or mesh
           typename TLevelSetContainer >
-class LevelSetEquationOverlapPenaltyTerm :
+class ITK_TEMPLATE_EXPORT LevelSetEquationOverlapPenaltyTerm :
     public LevelSetEquationTermBase< TInput, TLevelSetContainer >
 {
 public:

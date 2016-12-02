@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingImage >
-class MeanReciprocalSquareDifferenceImageToImageMetric:
+class ITK_TEMPLATE_EXPORT MeanReciprocalSquareDifferenceImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

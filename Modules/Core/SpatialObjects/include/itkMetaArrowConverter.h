@@ -31,7 +31,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class MetaArrowConverter :
+class ITK_TEMPLATE_EXPORT MetaArrowConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

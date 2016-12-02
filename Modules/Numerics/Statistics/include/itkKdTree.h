@@ -480,7 +480,7 @@ private:
  */
 
 template<typename TSample>
-class KdTree:public Object
+class ITK_TEMPLATE_EXPORT KdTree:public Object
 {
 public:
   /** Standard class typedefs */

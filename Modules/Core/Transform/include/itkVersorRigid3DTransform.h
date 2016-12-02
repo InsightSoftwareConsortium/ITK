@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class VersorRigid3DTransform :
+class ITK_TEMPLATE_EXPORT VersorRigid3DTransform :
   public VersorTransform<TParametersValueType>
 {
 public:

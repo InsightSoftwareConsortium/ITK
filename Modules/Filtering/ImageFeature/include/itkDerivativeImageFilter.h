@@ -45,7 +45,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class DerivativeImageFilter:
+class ITK_TEMPLATE_EXPORT DerivativeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

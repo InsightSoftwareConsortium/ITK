@@ -40,7 +40,7 @@ namespace itk
  */
 template< unsigned int VDimension,
           typename TEquationContainer >
-class UpdateMalcolmSparseLevelSet : public Object
+class ITK_TEMPLATE_EXPORT UpdateMalcolmSparseLevelSet : public Object
 {
 public:
   typedef UpdateMalcolmSparseLevelSet   Self;

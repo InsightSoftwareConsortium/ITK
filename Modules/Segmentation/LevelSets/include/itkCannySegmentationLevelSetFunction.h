@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TImageType, typename TFeatureImageType = TImageType >
-class CannySegmentationLevelSetFunction:
+class ITK_TEMPLATE_EXPORT CannySegmentationLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:

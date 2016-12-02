@@ -31,7 +31,7 @@ namespace Statistics
  */
 
  template<typename TMeasurementVector, typename TTargetVector>
-class CompletelyConnectedWeightSet : public WeightSetBase<TMeasurementVector, TTargetVector>
+class ITK_TEMPLATE_EXPORT CompletelyConnectedWeightSet : public WeightSetBase<TMeasurementVector, TTargetVector>
 {
 public:
   #define MAX_SIZE 1000

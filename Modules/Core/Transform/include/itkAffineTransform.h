@@ -99,7 +99,7 @@ template<
   typename TParametersValueType = double,
   unsigned int NDimensions = 3 >
 // Number of dimensions in the input space
-class AffineTransform:
+class ITK_TEMPLATE_EXPORT AffineTransform:
   public MatrixOffsetTransformBase< TParametersValueType, NDimensions, NDimensions>
 {
 public:

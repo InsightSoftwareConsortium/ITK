@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKImageNoise
  */
 template <class TInputImage, class TOutputImage=TInputImage>
-class NoiseBaseImageFilter :
+class ITK_TEMPLATE_EXPORT NoiseBaseImageFilter :
   public InPlaceImageFilter<TInputImage,TOutputImage >
 {
 public:

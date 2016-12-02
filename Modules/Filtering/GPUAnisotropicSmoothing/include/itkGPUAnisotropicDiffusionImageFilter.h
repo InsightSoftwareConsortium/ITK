@@ -33,7 +33,7 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
             AnisotropicDiffusionImageFilter< TInputImage, TOutputImage > >
-class GPUAnisotropicDiffusionImageFilter :
+class ITK_TEMPLATE_EXPORT GPUAnisotropicDiffusionImageFilter :
   public GPUDenseFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:

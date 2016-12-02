@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template< typename TInputImage, typename TCoordRep = float >
-class MeanImageFunction:
+class ITK_TEMPLATE_EXPORT MeanImageFunction:
   public ImageFunction< TInputImage,
                         typename NumericTraits< typename TInputImage::PixelType >::RealType,
                         TCoordRep >

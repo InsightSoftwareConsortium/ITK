@@ -60,7 +60,7 @@ namespace itk
 template< typename TTransform,
           typename TFixedImage,
           typename TMovingImage >
-class CenteredTransformInitializer:public Object
+class ITK_TEMPLATE_EXPORT CenteredTransformInitializer:public Object
 {
 public:
   /** Standard class typedefs. */

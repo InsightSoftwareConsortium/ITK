@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputImage, typename TOutputImage >
-class HConvexImageFilter:
+class ITK_TEMPLATE_EXPORT HConvexImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

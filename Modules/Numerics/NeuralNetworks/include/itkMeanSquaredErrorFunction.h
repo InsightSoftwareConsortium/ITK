@@ -33,7 +33,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename ScalarType>
-class MeanSquaredErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
+class ITK_TEMPLATE_EXPORT MeanSquaredErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
 {
 public:
 

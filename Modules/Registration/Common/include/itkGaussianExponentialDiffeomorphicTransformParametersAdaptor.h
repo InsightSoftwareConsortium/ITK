@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template<typename TTransform>
-class GaussianExponentialDiffeomorphicTransformParametersAdaptor
+class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransformParametersAdaptor
 : public ConstantVelocityFieldTransformParametersAdaptor<TTransform>
 {
 public:

@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template < typename TDomainPartitioner, typename TImageToImageMetric, typename TMattesMutualInformationMetric >
-class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader
+class ITK_TEMPLATE_EXPORT MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:

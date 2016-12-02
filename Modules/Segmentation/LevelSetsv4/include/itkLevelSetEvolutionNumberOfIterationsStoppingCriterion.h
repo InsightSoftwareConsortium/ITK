@@ -28,7 +28,7 @@ namespace itk
 \ingroup ITKLevelSetsv4
 */
 template< typename TLevelSetContainer >
-class LevelSetEvolutionNumberOfIterationsStoppingCriterion :
+class ITK_TEMPLATE_EXPORT LevelSetEvolutionNumberOfIterationsStoppingCriterion :
   public LevelSetEvolutionStoppingCriterion< TLevelSetContainer >
 {
 public:

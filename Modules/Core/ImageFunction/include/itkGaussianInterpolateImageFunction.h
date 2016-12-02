@@ -48,7 +48,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TCoordRep = double>
-class GaussianInterpolateImageFunction :
+class ITK_TEMPLATE_EXPORT GaussianInterpolateImageFunction :
   public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:

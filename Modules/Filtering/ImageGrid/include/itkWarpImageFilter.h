@@ -85,7 +85,7 @@ template<
   typename TOutputImage,
   typename TDisplacementField
   >
-class WarpImageFilter:
+class ITK_TEMPLATE_EXPORT WarpImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

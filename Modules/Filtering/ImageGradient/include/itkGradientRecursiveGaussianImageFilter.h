@@ -53,7 +53,7 @@ template< typename TInputImage,
                                            typename NumericTraits< typename TInputImage::PixelType >::RealType,
                                            TInputImage::ImageDimension >,
                                          TInputImage::ImageDimension > >
-class GradientRecursiveGaussianImageFilter:
+class ITK_TEMPLATE_EXPORT GradientRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

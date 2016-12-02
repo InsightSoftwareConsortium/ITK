@@ -65,7 +65,7 @@ namespace itk
 template< typename TCoordRep,
           unsigned int VSpaceDimension,
           typename TImage = Image< double, VSpaceDimension > >
-class PCAShapeSignedDistanceFunction:
+class ITK_TEMPLATE_EXPORT PCAShapeSignedDistanceFunction:
   public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >
 {
 public:

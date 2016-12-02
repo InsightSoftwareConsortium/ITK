@@ -48,7 +48,7 @@ namespace itk
  */
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TOperatorValueType =
             typename TOutputImage::PixelType >
-class NormalizedCorrelationImageFilter:
+class ITK_TEMPLATE_EXPORT NormalizedCorrelationImageFilter:
   public NeighborhoodOperatorImageFilter< TInputImage, TOutputImage, TOperatorValueType >
 {
 public:
