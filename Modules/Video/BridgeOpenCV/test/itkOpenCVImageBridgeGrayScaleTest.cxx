@@ -24,8 +24,11 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkOpenCVVideoIOFactory.h"
 
-#if !defined( CV_VERSION_EPOCH )
+#if defined( CV_VERSION_EPOCH )
+#include "highgui.h"
+#else
 #include "opencv2/imgcodecs.hpp" // cv::imread
+#include "opencv2/imgcodecs/imgcodecs_c.h" // CV_LOAD_IMAGE_COLOR
 #endif
 
 

@@ -19,8 +19,19 @@
 #define itkOpenCVVideoIO_h
 
 #include "itkVideoIOBase.h"
+
+#include "opencv2/core/version.hpp"
+#if !defined(CV_VERSION_EPOCH)
+// OpenCV 3.x
+#include "opencv2/videoio/videoio.hpp"
+#include "opencv2/videoio/videoio_c.h"
+#include "opencv2/imgproc/imgproc_c.h"
+#else
+// OpenCV 2.4.x
 #include "cv.h"
 #include "highgui.h"
+#endif
+
 #include "ITKVideoBridgeOpenCVExport.h"
 
 

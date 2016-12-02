@@ -21,6 +21,11 @@
 #include "itkOpenCVImageBridge.h"
 #include "itkNumericTraits.h"
 
+#if !defined(CV_VERSION_EPOCH)
+// OpenCV 3.x
+#include "opencv2/imgproc/imgproc_c.h" // cvCvtColor, CV_RGB2BGR, ...
+#endif
+
 namespace itk
 {
 //
