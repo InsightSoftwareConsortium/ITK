@@ -40,6 +40,7 @@ BANNED_HEADERS = set(('itkDynamicLoader.h', # This cannot be included when ITK_D
     'itkFFTWComplexToComplexFFTImageFilter.h',
     'itkFFTWCommon.h',
     'itkPyBuffer.h', # needs Python.h, etc
+    'itkPyVnl.h', # needs Python.h, etc
     'itkVanHerkGilWermanErodeDilateImageFilter.h', # circular include's
     'itkBSplineDeformableTransform.h',   # deprecated
     'vtkCaptureScreen.h',  # these includes require VTK
