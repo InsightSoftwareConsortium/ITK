@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInputImage >
-class ImageTransformer:public ProcessObject
+class ITK_TEMPLATE_EXPORT ImageTransformer:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

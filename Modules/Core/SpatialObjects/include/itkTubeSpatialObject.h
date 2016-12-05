@@ -40,7 +40,7 @@ namespace itk
 
 template< unsigned int TDimension = 3,
           typename TTubePointType = TubeSpatialObjectPoint< TDimension > >
-class TubeSpatialObject:
+class ITK_TEMPLATE_EXPORT TubeSpatialObject:
   public PointBasedSpatialObject< TDimension >
 {
 public:

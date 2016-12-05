@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TNetwork >
-class NeuralNetworkFileWriter:public Object
+class ITK_TEMPLATE_EXPORT NeuralNetworkFileWriter:public Object
 {
 public:
 

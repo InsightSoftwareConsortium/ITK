@@ -51,7 +51,7 @@ namespace itk
  * \endwiki
  */
 template< typename TOutputImage >
-class RandomImageSource:public ImageSource< TOutputImage >
+class ITK_TEMPLATE_EXPORT RandomImageSource:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

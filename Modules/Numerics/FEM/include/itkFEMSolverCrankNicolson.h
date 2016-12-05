@@ -68,7 +68,7 @@ namespace fem
  */
 
 template <unsigned int TDimension = 3>
-class SolverCrankNicolson : public Solver<TDimension>
+class ITK_TEMPLATE_EXPORT SolverCrankNicolson : public Solver<TDimension>
 {
 public:
   typedef SolverCrankNicolson      Self;

@@ -35,7 +35,7 @@ namespace Function
  */
 template< unsigned int VRadius,
           typename TInput = double, typename TOutput = double >
-class CosineWindowFunction
+class ITK_TEMPLATE_EXPORT CosineWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
@@ -55,7 +55,7 @@ private:
  */
 template< unsigned int VRadius,
           typename TInput = double, typename TOutput = double >
-class HammingWindowFunction
+class ITK_TEMPLATE_EXPORT HammingWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
@@ -75,7 +75,7 @@ private:
  */
 template< unsigned int VRadius,
           typename TInput = double, typename TOutput = double >
-class WelchWindowFunction
+class ITK_TEMPLATE_EXPORT WelchWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
@@ -97,7 +97,7 @@ private:
  */
 template< unsigned int VRadius,
           typename TInput = double, typename TOutput = double >
-class LanczosWindowFunction
+class ITK_TEMPLATE_EXPORT LanczosWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const
@@ -121,7 +121,7 @@ private:
  */
 template< unsigned int VRadius,
           typename TInput = double, typename TOutput = double >
-class BlackmanWindowFunction
+class ITK_TEMPLATE_EXPORT BlackmanWindowFunction
 {
 public:
   inline TOutput operator()(const TInput & A) const

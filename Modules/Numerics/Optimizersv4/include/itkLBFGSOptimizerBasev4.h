@@ -70,7 +70,7 @@ class  LBFGSOptimizerBaseHelperv4;
  * \ingroup ITKOptimizersv4
  */
 template< typename TInternalVnlOptimizerType >
-class  LBFGSOptimizerBasev4:
+class ITK_TEMPLATE_EXPORT  LBFGSOptimizerBasev4:
     public SingleValuedNonLinearVnlOptimizerv4
 {
 public:

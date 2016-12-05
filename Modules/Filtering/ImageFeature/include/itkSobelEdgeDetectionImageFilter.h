@@ -47,7 +47,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class SobelEdgeDetectionImageFilter:
+class ITK_TEMPLATE_EXPORT SobelEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

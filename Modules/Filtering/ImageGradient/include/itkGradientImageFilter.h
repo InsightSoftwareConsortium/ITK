@@ -57,7 +57,7 @@ template< typename TInputImage,
           typename TOutputImageType = Image< CovariantVector< TOutputValueType,
                                                            TInputImage::ImageDimension >,
                                           TInputImage::ImageDimension > >
-class GradientImageFilter:
+class ITK_TEMPLATE_EXPORT GradientImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImageType >
 {
 public:

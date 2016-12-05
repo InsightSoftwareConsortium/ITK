@@ -108,7 +108,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< typename TOutputMesh >
-class AutomaticTopologyMeshSource:public MeshSource< TOutputMesh >
+class ITK_TEMPLATE_EXPORT AutomaticTopologyMeshSource:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

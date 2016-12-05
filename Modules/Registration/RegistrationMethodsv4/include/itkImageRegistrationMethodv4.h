@@ -91,7 +91,7 @@ template<typename TFixedImage,
          typename TOutputTransform = Transform<double, TFixedImage::ImageDimension, TFixedImage::ImageDimension>,
          typename TVirtualImage = TFixedImage,
          typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
-class ImageRegistrationMethodv4
+class ITK_TEMPLATE_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
 {
 public:

@@ -50,7 +50,7 @@ namespace watershed
  * \ingroup ITKWatersheds
  */
 template< typename TScalar, unsigned int TImageDimension >
-class EquivalenceRelabeler:
+class ITK_TEMPLATE_EXPORT EquivalenceRelabeler:
   public ProcessObject
 {
 public:

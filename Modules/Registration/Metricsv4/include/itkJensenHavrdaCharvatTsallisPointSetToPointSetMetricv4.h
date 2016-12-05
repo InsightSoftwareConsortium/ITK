@@ -68,7 +68,7 @@ namespace itk {
  */
 
 template<typename TPointSet, class TInternalComputationValueType = double>
-class JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
+class ITK_TEMPLATE_EXPORT JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4 :
     public PointSetToPointSetMetricv4<TPointSet, TPointSet, TInternalComputationValueType>
 {
 public:

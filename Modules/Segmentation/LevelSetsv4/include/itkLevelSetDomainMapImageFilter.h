@@ -36,7 +36,7 @@ namespace itk
   \ingroup ITKLevelSetsv4
 */
 template < typename TInputImage, typename TOutputImage >
-class LevelSetDomainMapImageFilter : public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilter< TInputImage, TOutputImage >
 {
   public:
     typedef LevelSetDomainMapImageFilter                      Self;

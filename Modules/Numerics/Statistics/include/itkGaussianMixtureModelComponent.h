@@ -47,7 +47,7 @@ namespace Statistics
  */
 
 template< typename TSample >
-class GaussianMixtureModelComponent:
+class ITK_TEMPLATE_EXPORT GaussianMixtureModelComponent:
   public MixtureModelComponentBase< TSample >
 {
 public:

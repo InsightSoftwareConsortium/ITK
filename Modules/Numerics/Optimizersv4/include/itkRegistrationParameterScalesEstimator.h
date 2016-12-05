@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template < typename TMetric >
-class RegistrationParameterScalesEstimator
+class ITK_TEMPLATE_EXPORT RegistrationParameterScalesEstimator
   : public OptimizerParameterScalesEstimatorTemplate<typename TMetric::ParametersValueType>
 {
 public:

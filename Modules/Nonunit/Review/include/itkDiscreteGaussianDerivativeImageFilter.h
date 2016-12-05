@@ -57,7 +57,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class DiscreteGaussianDerivativeImageFilter :
+class ITK_TEMPLATE_EXPORT DiscreteGaussianDerivativeImageFilter :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

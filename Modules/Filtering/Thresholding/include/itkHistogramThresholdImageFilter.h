@@ -57,7 +57,7 @@ namespace itk {
  */
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage=TOutputImage>
-class HistogramThresholdImageFilter :
+class ITK_TEMPLATE_EXPORT HistogramThresholdImageFilter :
     public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

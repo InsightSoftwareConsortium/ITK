@@ -35,7 +35,7 @@ template< unsigned int NDimensions = 3,
                                                           NDimensions,
                                                           NDimensions >
           >
-class SpatialObjectWriter:public Object
+class ITK_TEMPLATE_EXPORT SpatialObjectWriter:public Object
 {
 public:
 

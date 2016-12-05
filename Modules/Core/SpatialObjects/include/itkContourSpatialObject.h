@@ -36,7 +36,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class ContourSpatialObject:
+class ITK_TEMPLATE_EXPORT ContourSpatialObject:
   public PointBasedSpatialObject<  TDimension >
 {
 public:

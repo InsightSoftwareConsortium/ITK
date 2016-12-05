@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TInputImage, typename TFeatureImage, typename TSharedData >
-class ScalarRegionBasedLevelSetFunction:
+class ITK_TEMPLATE_EXPORT ScalarRegionBasedLevelSetFunction:
   public RegionBasedLevelSetFunction< TInputImage, TFeatureImage, TSharedData >
 {
 public:

@@ -31,7 +31,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class MetaEllipseConverter :
+class ITK_TEMPLATE_EXPORT MetaEllipseConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

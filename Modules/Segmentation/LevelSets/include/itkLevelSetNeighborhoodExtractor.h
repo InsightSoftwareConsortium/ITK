@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TLevelSet >
-class LevelSetNeighborhoodExtractor:
+class ITK_TEMPLATE_EXPORT LevelSetNeighborhoodExtractor:
   public LightProcessObject
 {
 public:

@@ -51,7 +51,7 @@ namespace itk
  */
 template<typename TFixedPointSet, typename TMovingPointSet = TFixedPointSet,
   class TInternalComputationValueType = double>
-class LabeledPointSetToPointSetMetricv4:
+class ITK_TEMPLATE_EXPORT LabeledPointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:

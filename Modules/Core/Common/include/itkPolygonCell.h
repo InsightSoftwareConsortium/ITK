@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TCellInterface >
-class PolygonCell:public TCellInterface
+class ITK_TEMPLATE_EXPORT PolygonCell:public TCellInterface
 {
 public:
   /** Standard class typedefs. */

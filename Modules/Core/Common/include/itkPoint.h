@@ -49,7 +49,7 @@ namespace itk
  * \endwiki
  */
 template< typename TCoordRep, unsigned int NPointDimension = 3 >
-class Point:public FixedArray< TCoordRep, NPointDimension >
+class ITK_TEMPLATE_EXPORT Point:public FixedArray< TCoordRep, NPointDimension >
 {
 public:
   /** Standard class typedefs. */
@@ -299,7 +299,7 @@ std::istream & operator>>(std::istream & is,
  * \ingroup ITKCommon
  */
 template< typename TPointContainer, typename TWeightContainer >
-class BarycentricCombination
+class ITK_TEMPLATE_EXPORT BarycentricCombination
 {
 public:
   /** Convenient typedefs. */

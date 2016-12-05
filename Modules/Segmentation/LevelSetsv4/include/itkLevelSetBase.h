@@ -38,7 +38,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TInput, unsigned int VDimension, typename TOutput, typename TDomain >
-class LevelSetBase : public DataObject
+class ITK_TEMPLATE_EXPORT LevelSetBase : public DataObject
 {
 public:
   typedef LevelSetBase               Self;
@@ -82,7 +82,7 @@ public:
    *  \ingroup ITKLevelSetsv4
    */
   template< typename T >
-  class DataType
+  class ITK_TEMPLATE_EXPORT DataType
     {
     public:
       DataType( const std::string& iName ) :

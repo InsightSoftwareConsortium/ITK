@@ -44,7 +44,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TCoordRep = float >
-class MedianImageFunction:
+class ITK_TEMPLATE_EXPORT MedianImageFunction:
   public ImageFunction< TInputImage, typename TInputImage::PixelType,
                         TCoordRep >
 {

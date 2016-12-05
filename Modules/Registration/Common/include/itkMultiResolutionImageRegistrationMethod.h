@@ -69,7 +69,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingImage >
-class MultiResolutionImageRegistrationMethod:public ProcessObject
+class ITK_TEMPLATE_EXPORT MultiResolutionImageRegistrationMethod:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

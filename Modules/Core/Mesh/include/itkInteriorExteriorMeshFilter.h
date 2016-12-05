@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< typename TInputMesh, typename TOutputMesh, typename TSpatialFunction >
-class InteriorExteriorMeshFilter:
+class ITK_TEMPLATE_EXPORT InteriorExteriorMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

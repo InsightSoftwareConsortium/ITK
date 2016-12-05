@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputImage, typename TInputImageConverter >
-class VTKVisualizeImageLevelSet: public LightObject
+class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSet: public LightObject
 {
 public:
   typedef VTKVisualizeImageLevelSet  Self;

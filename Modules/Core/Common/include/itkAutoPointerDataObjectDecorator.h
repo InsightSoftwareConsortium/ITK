@@ -58,7 +58,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename T >
-class AutoPointerDataObjectDecorator:public DataObject
+class ITK_TEMPLATE_EXPORT AutoPointerDataObjectDecorator:public DataObject
 {
 public:
   /** Standard typedefs. */

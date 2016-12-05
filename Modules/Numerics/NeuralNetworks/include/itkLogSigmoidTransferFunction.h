@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename TScalar>
-class LogSigmoidTransferFunction : public TransferFunctionBase<TScalar>
+class ITK_TEMPLATE_EXPORT LogSigmoidTransferFunction : public TransferFunctionBase<TScalar>
 {
 public:
 

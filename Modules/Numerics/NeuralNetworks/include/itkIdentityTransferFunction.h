@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename ScalarType>
-class IdentityTransferFunction : public TransferFunctionBase<ScalarType>
+class ITK_TEMPLATE_EXPORT IdentityTransferFunction : public TransferFunctionBase<ScalarType>
 {
 public:
 

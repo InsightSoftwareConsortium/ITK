@@ -51,7 +51,7 @@ namespace itk
  *
  */
 template< typename TInputImage, typename TCoordRep = float >
-class VectorLinearInterpolateNearestNeighborExtrapolateImageFunction:
+class ITK_TEMPLATE_EXPORT VectorLinearInterpolateNearestNeighborExtrapolateImageFunction:
   public VectorInterpolateImageFunction< TInputImage, TCoordRep >
 {
 public:

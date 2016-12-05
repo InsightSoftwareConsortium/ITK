@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TNetwork >
-class NeuralNetworkFileReader:public Object
+class ITK_TEMPLATE_EXPORT NeuralNetworkFileReader:public Object
 {
 public:
 

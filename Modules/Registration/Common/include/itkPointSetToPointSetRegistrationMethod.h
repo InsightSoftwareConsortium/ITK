@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingPointSet >
-class PointSetToPointSetRegistrationMethod : public ProcessObject
+class ITK_TEMPLATE_EXPORT PointSetToPointSetRegistrationMethod : public ProcessObject
 {
 public:
   /** Standard class typedefs. */

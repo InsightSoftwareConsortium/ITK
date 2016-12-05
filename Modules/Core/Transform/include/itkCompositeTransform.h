@@ -84,7 +84,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double, unsigned int NDimensions = 3>
-class CompositeTransform :
+class ITK_TEMPLATE_EXPORT CompositeTransform :
   public MultiTransform<TParametersValueType, NDimensions, NDimensions>
 {
 public:

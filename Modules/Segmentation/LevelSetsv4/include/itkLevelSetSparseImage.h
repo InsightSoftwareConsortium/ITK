@@ -37,7 +37,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TOutput, unsigned int VDimension >
-class LevelSetSparseImage :
+class ITK_TEMPLATE_EXPORT LevelSetSparseImage :
   public DiscreteLevelSetImage< TOutput, VDimension >
 {
 public:

@@ -61,7 +61,7 @@ namespace itk
  */
 template< typename TOutputImage,
           typename TTransformPrecisionType = double >
-class TransformToDeformationFieldSource:
+class ITK_TEMPLATE_EXPORT TransformToDeformationFieldSource:
   public ImageSource< TOutputImage >
 {
 public:

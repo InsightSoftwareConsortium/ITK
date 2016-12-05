@@ -42,7 +42,7 @@ namespace itk
 namespace Functor
 {
 template< typename TInput, typename TOutput >
-class ThresholdLabeler
+class ITK_TEMPLATE_EXPORT ThresholdLabeler
 {
 public:
   ThresholdLabeler() { m_LabelOffset = NumericTraits< TOutput >::OneValue(); }
@@ -105,7 +105,7 @@ private:
 }
 
 template< typename TInputImage, typename TOutputImage >
-class ThresholdLabelerImageFilter:
+class ITK_TEMPLATE_EXPORT ThresholdLabelerImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::ThresholdLabeler<

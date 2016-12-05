@@ -55,7 +55,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< unsigned int VDimension >
-class FourierSeriesPath:public
+class ITK_TEMPLATE_EXPORT FourierSeriesPath:public
   ParametricPath< VDimension >
 {
 public:

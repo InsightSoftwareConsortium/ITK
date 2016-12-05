@@ -83,7 +83,7 @@ namespace itk
  * \ingroup ITKClassifiers
  */
 template< typename TDataContainer >
-class ClassifierBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT ClassifierBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

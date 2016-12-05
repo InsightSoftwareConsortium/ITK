@@ -44,7 +44,7 @@ namespace itk
  * \ingroup MultiThreaded
  */
 template< typename TImage >
-class TwoOutputExampleImageFilter:
+class ITK_TEMPLATE_EXPORT TwoOutputExampleImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:

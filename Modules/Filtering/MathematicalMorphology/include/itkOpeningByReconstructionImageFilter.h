@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputImage, typename TOutputImage, typename TKernel >
-class OpeningByReconstructionImageFilter:
+class ITK_TEMPLATE_EXPORT OpeningByReconstructionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

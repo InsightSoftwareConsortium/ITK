@@ -31,7 +31,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class MetaGaussianConverter :
+class ITK_TEMPLATE_EXPORT MetaGaussianConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

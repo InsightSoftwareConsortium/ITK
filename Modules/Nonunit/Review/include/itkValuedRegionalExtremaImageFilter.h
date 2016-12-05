@@ -74,7 +74,7 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage,
           typename TFunction1, typename TFunction2 >
-class ValuedRegionalExtremaImageFilter:
+class ITK_TEMPLATE_EXPORT ValuedRegionalExtremaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

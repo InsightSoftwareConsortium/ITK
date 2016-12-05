@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKLabelVoting
  */
 template< typename TImage >
-class VotingBinaryIterativeHoleFillingImageFilter:
+class ITK_TEMPLATE_EXPORT VotingBinaryIterativeHoleFillingImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:

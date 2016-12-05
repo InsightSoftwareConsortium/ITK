@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TImage >
-class ConditionalConstIterator
+class ITK_TEMPLATE_EXPORT ConditionalConstIterator
 {
 public:
   /** Standard class typedefs. */

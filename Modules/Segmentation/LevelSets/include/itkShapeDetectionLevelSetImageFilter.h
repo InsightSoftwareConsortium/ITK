@@ -105,7 +105,7 @@ namespace itk
 template< typename TInputImage,
           typename TFeatureImage,
           typename TOutputPixelType = float >
-class ShapeDetectionLevelSetImageFilter:
+class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetImageFilter:
   public SegmentationLevelSetImageFilter< TInputImage,
                                           TFeatureImage, TOutputPixelType >
 {

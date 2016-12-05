@@ -39,7 +39,7 @@ namespace itk
  */
 
 template < unsigned int TDimension = 3>
-class FEMObjectSpatialObject : public SpatialObject< TDimension >
+class ITK_TEMPLATE_EXPORT FEMObjectSpatialObject : public SpatialObject< TDimension >
 {
 public:
 

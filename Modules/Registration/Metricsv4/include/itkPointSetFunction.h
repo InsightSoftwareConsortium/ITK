@@ -57,7 +57,7 @@ typename TInputPointSet,
 typename TOutput,
 typename TCoordRep = float
 >
-class PointSetFunction :
+class ITK_TEMPLATE_EXPORT PointSetFunction :
     public FunctionBase<typename TInputPointSet::PointType, TOutput>
 {
 public:

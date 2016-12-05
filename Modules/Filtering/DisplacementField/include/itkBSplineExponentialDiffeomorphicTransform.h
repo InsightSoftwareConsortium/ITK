@@ -53,7 +53,7 @@ namespace itk
  * \ingroup ITKDisplacementField
  */
 template<typename TParametersValueType, unsigned int NDimensions>
-class BSplineExponentialDiffeomorphicTransform :
+class ITK_TEMPLATE_EXPORT BSplineExponentialDiffeomorphicTransform :
   public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:

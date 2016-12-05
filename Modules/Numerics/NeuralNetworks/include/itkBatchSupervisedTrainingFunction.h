@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename TSample, typename TTargetVector, typename ScalarType>
-class BatchSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TTargetVector, ScalarType>
+class ITK_TEMPLATE_EXPORT BatchSupervisedTrainingFunction : public TrainingFunctionBase<TSample, TTargetVector, ScalarType>
 {
 public:
 

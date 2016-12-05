@@ -87,7 +87,7 @@ template<typename TFixedImage, typename TMovingImage, typename TOutputTransform 
   TimeVaryingBSplineVelocityFieldTransform<double, TFixedImage::ImageDimension>,
   typename TVirtualImage = TFixedImage,
   typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
-class TimeVaryingBSplineVelocityFieldImageRegistrationMethod
+class ITK_TEMPLATE_EXPORT TimeVaryingBSplineVelocityFieldImageRegistrationMethod
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:

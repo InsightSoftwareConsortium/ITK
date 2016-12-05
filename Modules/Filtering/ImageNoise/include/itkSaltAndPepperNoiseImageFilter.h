@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKImageNoise
  */
 template <class TInputImage, class TOutputImage=TInputImage>
-class SaltAndPepperNoiseImageFilter :
+class ITK_TEMPLATE_EXPORT SaltAndPepperNoiseImageFilter :
   public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:

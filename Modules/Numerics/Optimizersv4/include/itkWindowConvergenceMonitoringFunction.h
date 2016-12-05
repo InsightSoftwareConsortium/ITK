@@ -36,7 +36,7 @@ namespace Function
  */
 
 template<typename TScalar = double>
-class WindowConvergenceMonitoringFunction
+class ITK_TEMPLATE_EXPORT WindowConvergenceMonitoringFunction
 : public ConvergenceMonitoringFunction<TScalar, TScalar>
 {
 public:

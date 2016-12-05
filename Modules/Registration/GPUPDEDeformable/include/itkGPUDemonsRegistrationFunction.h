@@ -54,7 +54,7 @@ namespace itk
 itkGPUKernelClassMacro(GPUDemonsRegistrationFunctionKernel);
 
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class GPUDemonsRegistrationFunction :
+class ITK_TEMPLATE_EXPORT GPUDemonsRegistrationFunction :
   public GPUPDEDeformableRegistrationFunction< TFixedImage,
                                                TMovingImage,
                                                TDisplacementField >

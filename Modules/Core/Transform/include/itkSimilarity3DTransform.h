@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class Similarity3DTransform :
+class ITK_TEMPLATE_EXPORT Similarity3DTransform :
   public VersorRigid3DTransform<TParametersValueType>
 {
 public:

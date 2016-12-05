@@ -53,7 +53,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class OtsuMultipleThresholdsImageFilter:
+class ITK_TEMPLATE_EXPORT OtsuMultipleThresholdsImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

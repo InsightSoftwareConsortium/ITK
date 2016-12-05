@@ -18,6 +18,7 @@
 #ifndef itkCorrespondenceDataStructureIterator_h
 #define itkCorrespondenceDataStructureIterator_h
 
+
 namespace itk
 {
 /** \class CorrespondenceDataStructureIterator
@@ -27,7 +28,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TStructureType >
-class CorrespondenceDataStructureIterator
+class ITK_TEMPLATE_EXPORT CorrespondenceDataStructureIterator
 {
 public:
   /** Standard class typedefs. */

@@ -67,7 +67,7 @@ namespace itk
  * \ingroup ITKImageFeature
  */
 template< typename TInputImage, typename TOutputImage >
-class ZeroCrossingBasedEdgeDetectionImageFilter:
+class ITK_TEMPLATE_EXPORT ZeroCrossingBasedEdgeDetectionImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

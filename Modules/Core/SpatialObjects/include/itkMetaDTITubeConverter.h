@@ -31,7 +31,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class MetaDTITubeConverter :
+class ITK_TEMPLATE_EXPORT MetaDTITubeConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

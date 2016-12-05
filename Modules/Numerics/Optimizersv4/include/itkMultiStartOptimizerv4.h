@@ -37,7 +37,7 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<typename TInternalComputationValueType>
-class MultiStartOptimizerv4Template
+class ITK_TEMPLATE_EXPORT MultiStartOptimizerv4Template
 : public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:

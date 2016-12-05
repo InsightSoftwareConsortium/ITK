@@ -40,7 +40,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
-class MovingHistogramMorphologyImageFilter:
+class ITK_TEMPLATE_EXPORT MovingHistogramMorphologyImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 {
 public:

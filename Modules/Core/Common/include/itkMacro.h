@@ -179,6 +179,13 @@ namespace itk
   #endif
 #endif
 
+// Setup symbol exports
+#ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
+  #define ITK_TEMPLATE_EXPORT __attribute__ ((visibility ("default")))
+#else
+  #define ITK_TEMPLATE_EXPORT
+#endif
+
 #if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
   #define ITK_HAS_CXX11_RVREF
 #endif

@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TImage, typename TFeatureImage >
-class StatisticsLabelMapFilter:
+class ITK_TEMPLATE_EXPORT StatisticsLabelMapFilter:
   public ShapeLabelMapFilter< TImage,
                               Image< typename TImage::PixelType,  TImage ::ImageDimension > >
 {

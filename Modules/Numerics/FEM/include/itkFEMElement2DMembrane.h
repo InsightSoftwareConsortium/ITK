@@ -50,7 +50,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 template <typename TBaseClass = Element>
-class Element2DMembrane : public TBaseClass
+class ITK_TEMPLATE_EXPORT Element2DMembrane : public TBaseClass
 {
 public:
   /** Standard class typedefs. */

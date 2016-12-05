@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename MetaDataObjectType >
-class ITKCommon_TEMPLATE_EXPORT MetaDataObject:public MetaDataObjectBase
+class ITK_TEMPLATE_EXPORT MetaDataObject:public MetaDataObjectBase
 {
 public:
   /** Smart pointer typedef support. */

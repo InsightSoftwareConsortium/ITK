@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInput = float, typename TOutput = double >
-class HeavisideStepFunction:
+class ITK_TEMPLATE_EXPORT HeavisideStepFunction:
   public HeavisideStepFunctionBase< TInput, TOutput >
 {
 public:

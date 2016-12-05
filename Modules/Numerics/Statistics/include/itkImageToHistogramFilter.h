@@ -40,7 +40,7 @@ namespace Statistics
  */
 
 template< typename TImage >
-class ImageToHistogramFilter:public ImageTransformer<TImage>
+class ITK_TEMPLATE_EXPORT ImageToHistogramFilter:public ImageTransformer<TImage>
 {
 public:
   /** Standard typedefs */

@@ -49,7 +49,7 @@ namespace Statistics {
  */
 
   template < typename TImage, typename TBoundaryCondition >
-class ImageToNeighborhoodSampleAdaptor :
+class ITK_TEMPLATE_EXPORT ImageToNeighborhoodSampleAdaptor :
   public ListSample< std::vector< ConstNeighborhoodIterator< TImage, TBoundaryCondition > > >
 {
 public:

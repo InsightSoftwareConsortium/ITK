@@ -67,7 +67,7 @@ template<typename TFixedImage, typename TMovingImage, typename TOutputTransform 
   DisplacementFieldTransform<double, TFixedImage::ImageDimension>,
   typename TVirtualImage = TFixedImage,
   typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
-class SyNImageRegistrationMethod
+class ITK_TEMPLATE_EXPORT SyNImageRegistrationMethod
 : public ImageRegistrationMethodv4<TFixedImage, TMovingImage, TOutputTransform, TVirtualImage, TPointSet>
 {
 public:

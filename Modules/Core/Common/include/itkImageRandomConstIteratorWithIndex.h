@@ -113,7 +113,7 @@ namespace itk
  * \endwiki
  */
 template< typename TImage >
-class ImageRandomConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
+class ITK_TEMPLATE_EXPORT ImageRandomConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */

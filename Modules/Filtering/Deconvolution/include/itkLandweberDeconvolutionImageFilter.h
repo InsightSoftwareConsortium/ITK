@@ -32,7 +32,7 @@ namespace Functor
  * \ingroup ITKDeconvolution
  */
 template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
-class LandweberMethod
+class ITK_TEMPLATE_EXPORT LandweberMethod
 {
 public:
   LandweberMethod() {}
@@ -98,7 +98,7 @@ public:
  * \sa ProjectedLandweberDeconvolutionImageFilter
  */
 template< typename TInputImage, typename TKernelImage=TInputImage, typename TOutputImage=TInputImage, typename TInternalPrecision=double >
-class LandweberDeconvolutionImageFilter :
+class ITK_TEMPLATE_EXPORT LandweberDeconvolutionImageFilter :
   public IterativeDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:

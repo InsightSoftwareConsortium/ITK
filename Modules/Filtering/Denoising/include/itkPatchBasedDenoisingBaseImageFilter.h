@@ -91,7 +91,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage>
-class PatchBasedDenoisingBaseImageFilter :
+class ITK_TEMPLATE_EXPORT PatchBasedDenoisingBaseImageFilter :
   public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

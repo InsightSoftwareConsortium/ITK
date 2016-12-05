@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TCellInterface >
-class QuadraticTriangleCell:public TCellInterface, private QuadraticTriangleCellTopology
+class ITK_TEMPLATE_EXPORT QuadraticTriangleCell:public TCellInterface, private QuadraticTriangleCellTopology
 {
 public:
   /** Standard class typedefs. */

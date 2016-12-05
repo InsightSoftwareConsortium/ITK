@@ -34,7 +34,7 @@ namespace itk
  */
 
 template< typename TInputPath, typename TOutputPath >
-class PathToPathFilter:public PathSource< TOutputPath >
+class ITK_TEMPLATE_EXPORT PathToPathFilter:public PathSource< TOutputPath >
 {
 public:
   /** Standard class typedefs. */

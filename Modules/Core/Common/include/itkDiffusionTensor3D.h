@@ -76,7 +76,7 @@ namespace itk
  */
 
 template< typename TComponent >
-class DiffusionTensor3D:public SymmetricSecondRankTensor< TComponent, 3 >
+class ITK_TEMPLATE_EXPORT DiffusionTensor3D:public SymmetricSecondRankTensor< TComponent, 3 >
 {
 public:
   /** Standard class typedefs. */

@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingImage >
-class MeanSquaresPointSetToImageMetric:
+class ITK_TEMPLATE_EXPORT MeanSquaresPointSetToImageMetric:
   public PointSetToImageMetric< TFixedPointSet, TMovingImage >
 {
 public:

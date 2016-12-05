@@ -79,7 +79,7 @@ namespace itk
 template<typename TParametersValueType,
           unsigned int NInputDimensions = 3,
           unsigned int NOutputDimensions = 3>
-class Transform : public TransformBaseTemplate<TParametersValueType>
+class ITK_TEMPLATE_EXPORT Transform : public TransformBaseTemplate<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */

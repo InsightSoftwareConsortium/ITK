@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class ScaleVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
+class ITK_TEMPLATE_EXPORT ScaleVersor3DTransform : public VersorRigid3DTransform<TParametersValueType>
 {
 public:
   /** Standard class typedefs. */

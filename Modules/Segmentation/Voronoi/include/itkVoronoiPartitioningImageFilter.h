@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKVoronoi
  */
 template< typename TInputImage, typename TOutputImage >
-class VoronoiPartitioningImageFilter:
+class ITK_TEMPLATE_EXPORT VoronoiPartitioningImageFilter:
   public VoronoiSegmentationImageFilterBase< TInputImage, TOutputImage >
 {
 public:

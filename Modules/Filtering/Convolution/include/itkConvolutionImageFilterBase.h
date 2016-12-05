@@ -32,7 +32,7 @@ namespace itk
 template< typename TInputImage,
           typename TKernelImage = TInputImage,
           typename TOutputImage = TInputImage >
-class ConvolutionImageFilterBase :
+class ITK_TEMPLATE_EXPORT ConvolutionImageFilterBase :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

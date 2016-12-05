@@ -72,7 +72,7 @@ namespace itk
  */
 
 template< typename TComponent, unsigned int NDimension = 3 >
-class SymmetricSecondRankTensor:public
+class ITK_TEMPLATE_EXPORT SymmetricSecondRankTensor:public
   FixedArray< TComponent, NDimension *( NDimension + 1 ) / 2 >
 {
 public:

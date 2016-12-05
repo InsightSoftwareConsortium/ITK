@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TValue >
-class Array2D: public vnl_matrix< TValue >
+class ITK_TEMPLATE_EXPORT Array2D: public vnl_matrix< TValue >
 {
 public:
 

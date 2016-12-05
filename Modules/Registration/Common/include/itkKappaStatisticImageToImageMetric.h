@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingImage >
-class KappaStatisticImageToImageMetric:
+class ITK_TEMPLATE_EXPORT KappaStatisticImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

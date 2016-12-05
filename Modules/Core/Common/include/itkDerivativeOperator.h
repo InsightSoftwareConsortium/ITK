@@ -64,7 +64,7 @@ namespace itk
  */
 template< typename TPixel, unsigned int VDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >
-class DerivativeOperator:
+class ITK_TEMPLATE_EXPORT DerivativeOperator:
   public NeighborhoodOperator< TPixel, VDimension, TAllocator >
 {
 public:

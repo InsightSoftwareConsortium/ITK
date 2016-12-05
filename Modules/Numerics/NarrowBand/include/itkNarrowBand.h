@@ -32,7 +32,7 @@ namespace itk
  */
 
 template< typename TIndexType, typename TDataType >
-class BandNode
+class ITK_TEMPLATE_EXPORT BandNode
 {
 public:
   TDataType   m_Data;
@@ -48,7 +48,7 @@ public:
  * \ingroup ITKNarrowBand
  */
 template< typename NodeType >
-class NarrowBand:public LightObject
+class ITK_TEMPLATE_EXPORT NarrowBand:public LightObject
 {
 public:
   /** Standard class typedefs */

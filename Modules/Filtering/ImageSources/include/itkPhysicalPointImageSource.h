@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template< typename TOutputImage >
-class PhysicalPointImageSource
+class ITK_TEMPLATE_EXPORT PhysicalPointImageSource
   : public GenerateImageSource< TOutputImage >
 {
 public:

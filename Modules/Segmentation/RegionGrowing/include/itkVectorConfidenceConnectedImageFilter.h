@@ -56,7 +56,7 @@ namespace itk
  * \ingroup ITKRegionGrowing
  */
 template< typename TInputImage, typename TOutputImage >
-class VectorConfidenceConnectedImageFilter:
+class ITK_TEMPLATE_EXPORT VectorConfidenceConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

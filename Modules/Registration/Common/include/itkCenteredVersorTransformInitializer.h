@@ -38,7 +38,7 @@ namespace itk
  */
 template< typename TFixedImage,
           typename TMovingImage >
-class CenteredVersorTransformInitializer:
+class ITK_TEMPLATE_EXPORT CenteredVersorTransformInitializer:
   public CenteredTransformInitializer<
     VersorRigid3DTransform< double >,
     TFixedImage, TMovingImage >

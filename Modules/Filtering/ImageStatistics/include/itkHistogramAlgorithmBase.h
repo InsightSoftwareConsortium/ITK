@@ -34,7 +34,7 @@ namespace itk
  */
 
 template< typename TInputHistogram >
-class HistogramAlgorithmBase:public Object
+class ITK_TEMPLATE_EXPORT HistogramAlgorithmBase:public Object
 {
 public:
   /**Standard class typedefs. */

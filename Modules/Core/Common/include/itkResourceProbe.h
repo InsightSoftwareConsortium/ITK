@@ -40,7 +40,7 @@ namespace itk
   * \ingroup ITKCommon
   */
 template< typename ValueType, typename MeanType >
-class ITKCommon_TEMPLATE_EXPORT ResourceProbe
+class ITK_TEMPLATE_EXPORT ResourceProbe
 {
 public:
 

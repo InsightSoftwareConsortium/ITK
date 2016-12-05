@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputImage, typename TOutputImage >
-class HMaximaImageFilter:
+class ITK_TEMPLATE_EXPORT HMaximaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

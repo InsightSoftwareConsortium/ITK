@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingImage >
-class NormalizedMutualInformationHistogramImageToImageMetric:
+class ITK_TEMPLATE_EXPORT NormalizedMutualInformationHistogramImageToImageMetric:
   public HistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

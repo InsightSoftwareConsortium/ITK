@@ -46,7 +46,7 @@ namespace itk
  */
 template< typename TInputImage, // Input image
           typename TLevelSetContainer >
-class LevelSetEquationTermBase : public Object
+class ITK_TEMPLATE_EXPORT LevelSetEquationTermBase : public Object
 {
 public:
   typedef LevelSetEquationTermBase   Self;

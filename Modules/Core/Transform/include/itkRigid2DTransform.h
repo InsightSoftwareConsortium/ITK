@@ -53,7 +53,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class Rigid2DTransform :
+class ITK_TEMPLATE_EXPORT Rigid2DTransform :
   public MatrixOffsetTransformBase<TParametersValueType, 2, 2>
 {
 public:

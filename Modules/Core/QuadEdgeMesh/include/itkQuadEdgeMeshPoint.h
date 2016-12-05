@@ -33,7 +33,7 @@ namespace itk
  */
 template< typename TCoordRep, unsigned int VPointDimension, typename TQuadEdge =
             GeometricalQuadEdge< unsigned long, unsigned long, bool, bool, true > >
-class QuadEdgeMeshPoint:public Point< TCoordRep, VPointDimension >
+class ITK_TEMPLATE_EXPORT QuadEdgeMeshPoint:public Point< TCoordRep, VPointDimension >
 {
 public:
   /** Standard typedefs. */

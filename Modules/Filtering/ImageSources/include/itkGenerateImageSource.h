@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template< typename TOutputImage >
-class GenerateImageSource
+class ITK_TEMPLATE_EXPORT GenerateImageSource
   : public ImageSource< TOutputImage >
 {
 public:

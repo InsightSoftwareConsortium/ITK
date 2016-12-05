@@ -224,7 +224,7 @@ public:
  * \endwiki
  */
 template< typename TImage >
-class ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
+class ITK_TEMPLATE_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */

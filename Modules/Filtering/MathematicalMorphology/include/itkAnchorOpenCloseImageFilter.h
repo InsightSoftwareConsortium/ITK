@@ -48,7 +48,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TImage, typename TKernel, typename TCompare1, typename TCompare2 >
-class AnchorOpenCloseImageFilter:
+class ITK_TEMPLATE_EXPORT AnchorOpenCloseImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:

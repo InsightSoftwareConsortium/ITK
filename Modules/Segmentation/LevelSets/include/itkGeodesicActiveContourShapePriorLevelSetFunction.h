@@ -90,7 +90,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TImageType, typename TFeatureImageType = TImageType >
-class GeodesicActiveContourShapePriorLevelSetFunction:
+class ITK_TEMPLATE_EXPORT GeodesicActiveContourShapePriorLevelSetFunction:
   public ShapePriorSegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:

@@ -93,6 +93,7 @@
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64
 #cmakedefine ITK_USE_GPU
+#cmakedefine ITK_TEMPLATE_VISIBILITY_DEFAULT
 
 // defined if the system has <tr1/type_traits> header
 #cmakedefine ITK_HAS_STLTR1_TR1_TYPE_TRAITS

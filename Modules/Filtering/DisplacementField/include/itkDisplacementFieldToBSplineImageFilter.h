@@ -41,7 +41,7 @@ namespace itk
 template <typename TInputImage,
   typename TInputPointSet = PointSet<typename TInputImage::PixelType, TInputImage::ImageDimension>,
   typename TOutputImage = TInputImage>
-class DisplacementFieldToBSplineImageFilter
+class ITK_TEMPLATE_EXPORT DisplacementFieldToBSplineImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

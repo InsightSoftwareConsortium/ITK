@@ -65,7 +65,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< typename TImage, typename TPath >
-class PathIterator:public PathConstIterator< TImage, TPath >
+class ITK_TEMPLATE_EXPORT PathIterator:public PathConstIterator< TImage, TPath >
 {
 public:
   /** Standard class typedefs. */

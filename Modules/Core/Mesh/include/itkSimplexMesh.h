@@ -44,7 +44,7 @@ template< typename TPixelType, unsigned int VDimension = 3,
           typename TMeshTraits =
             DefaultStaticMeshTraits< TPixelType, VDimension, VDimension, TPixelType, TPixelType, TPixelType >
           >
-class SimplexMesh:public Mesh< TPixelType, VDimension, TMeshTraits >
+class ITK_TEMPLATE_EXPORT SimplexMesh:public Mesh< TPixelType, VDimension, TMeshTraits >
 {
 public:
   /** Standard typedefs. */

@@ -53,7 +53,7 @@ namespace itk {
  * \endwiki
  */
 template< typename TInputMesh, typename TOutputMesh, typename TSolverTraits >
-class ParameterizationQuadEdgeMeshFilter:
+class ITK_TEMPLATE_EXPORT ParameterizationQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

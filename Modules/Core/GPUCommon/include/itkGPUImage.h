@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKGPUCommon
  */
 template <typename TPixel, unsigned int VImageDimension = 2>
-class GPUImage : public Image<TPixel,VImageDimension>
+class ITK_TEMPLATE_EXPORT GPUImage : public Image<TPixel,VImageDimension>
 {
 public:
   typedef GPUImage                      Self;
@@ -190,7 +190,7 @@ private:
   typename GPUImageDataManager< GPUImage >::Pointer m_DataManager;
 };
 
-class GPUImageFactory : public itk::ObjectFactoryBase
+class ITK_TEMPLATE_EXPORT GPUImageFactory : public itk::ObjectFactoryBase
 {
 public:
   typedef GPUImageFactory               Self;
@@ -261,14 +261,14 @@ private:
 };
 
 template <typename T>
-class GPUTraits
+class ITK_TEMPLATE_EXPORT GPUTraits
 {
 public:
   typedef T Type;
 };
 
 template <typename TPixelType, unsigned int NDimension>
-class GPUTraits< Image< TPixelType, NDimension > >
+class ITK_TEMPLATE_EXPORT GPUTraits< Image< TPixelType, NDimension > >
 {
 public:
   typedef GPUImage<TPixelType,NDimension> Type;

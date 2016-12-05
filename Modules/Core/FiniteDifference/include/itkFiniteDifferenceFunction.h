@@ -63,7 +63,7 @@ namespace itk
  * \ingroup ITKFiniteDifference
  */
 template< typename TImageType >
-class FiniteDifferenceFunction:public LightObject
+class ITK_TEMPLATE_EXPORT FiniteDifferenceFunction:public LightObject
 {
 public:
   /** Standard class typedefs. */

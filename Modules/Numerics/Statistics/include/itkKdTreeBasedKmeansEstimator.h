@@ -74,7 +74,7 @@ namespace Statistics
  */
 
 template< typename TKdTree >
-class KdTreeBasedKmeansEstimator:
+class ITK_TEMPLATE_EXPORT KdTreeBasedKmeansEstimator:
   public Object
 {
 public:

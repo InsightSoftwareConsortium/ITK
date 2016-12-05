@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKImageFilterBase
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class RecursiveSeparableImageFilter:
+class ITK_TEMPLATE_EXPORT RecursiveSeparableImageFilter:
   public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:

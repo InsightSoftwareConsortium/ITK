@@ -35,7 +35,7 @@ namespace itk
  * \ingroup ITKImageNoise
  */
 template <class TInputImage, class TOutputImage=TInputImage>
-class AdditiveGaussianNoiseImageFilter :
+class ITK_TEMPLATE_EXPORT AdditiveGaussianNoiseImageFilter :
   public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:

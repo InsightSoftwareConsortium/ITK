@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TValue >
-class SparseFieldLevelSetNode
+class ITK_TEMPLATE_EXPORT SparseFieldLevelSetNode
 {
 public:
   TValue               m_Value;
@@ -70,7 +70,7 @@ public:
  * \ingroup ITKLevelSets
  */
 template< typename TNeighborhoodType >
-class SparseFieldCityBlockNeighborList
+class ITK_TEMPLATE_EXPORT SparseFieldCityBlockNeighborList
 {
 public:
   typedef TNeighborhoodType                     NeighborhoodType;
@@ -226,7 +226,7 @@ private:
  * \ingroup ITKLevelSets
  */
 template< typename TInputImage, typename TOutputImage >
-class SparseFieldLevelSetImageFilter:
+class ITK_TEMPLATE_EXPORT SparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:

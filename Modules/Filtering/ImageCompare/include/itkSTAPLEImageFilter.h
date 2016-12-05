@@ -118,7 +118,7 @@ namespace itk
  * \ingroup ITKImageCompare
  */
 template< typename TInputImage, typename TOutputImage >
-class STAPLEImageFilter:
+class ITK_TEMPLATE_EXPORT STAPLEImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

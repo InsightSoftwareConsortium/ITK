@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template < typename TDomainPartitioner, typename TImageToImageMetric, typename TDemonsMetric >
-class DemonsImageToImageMetricv4GetValueAndDerivativeThreader
+class ITK_TEMPLATE_EXPORT DemonsImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:

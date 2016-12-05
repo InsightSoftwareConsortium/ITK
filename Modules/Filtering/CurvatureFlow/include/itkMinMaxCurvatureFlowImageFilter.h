@@ -74,7 +74,7 @@ namespace itk
  * \ingroup ITKCurvatureFlow
  */
 template< typename TInputImage, typename TOutputImage >
-class MinMaxCurvatureFlowImageFilter:
+class ITK_TEMPLATE_EXPORT MinMaxCurvatureFlowImageFilter:
   public CurvatureFlowImageFilter< TInputImage, TOutputImage >
 {
 public:

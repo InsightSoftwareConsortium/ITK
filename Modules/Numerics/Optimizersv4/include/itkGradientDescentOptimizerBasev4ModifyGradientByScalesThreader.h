@@ -34,7 +34,7 @@ class GradientDescentOptimizerBasev4Template;
  */
 
 template<typename TInternalComputationValueType>
-class GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate
+class ITK_TEMPLATE_EXPORT GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate
   : public DomainThreader< ThreadedIndexedContainerPartitioner, GradientDescentOptimizerBasev4Template<TInternalComputationValueType> >
 {
 public:

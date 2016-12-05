@@ -38,7 +38,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutput >
-class NeighborhoodOperatorImageFunction:
+class ITK_TEMPLATE_EXPORT NeighborhoodOperatorImageFunction:
   public ImageFunction< TInputImage, TOutput >
 {
 public:

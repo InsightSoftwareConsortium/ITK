@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TInputImage, typename TOutputImage >
-class LabelMapFilter:
+class ITK_TEMPLATE_EXPORT LabelMapFilter:
   public
   ImageToImageFilter< TInputImage, TOutputImage >
 {

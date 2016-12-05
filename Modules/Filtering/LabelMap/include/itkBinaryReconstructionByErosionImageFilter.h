@@ -52,7 +52,7 @@ namespace itk {
  * \ingroup ITKLabelMap
  */
 template<typename TInputImage>
-class BinaryReconstructionByErosionImageFilter :
+class ITK_TEMPLATE_EXPORT BinaryReconstructionByErosionImageFilter :
     public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:

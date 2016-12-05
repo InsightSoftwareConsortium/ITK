@@ -60,7 +60,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TObjectType >
-class ObjectStore:public Object
+class ITK_TEMPLATE_EXPORT ObjectStore:public Object
 {
 public:
   /** Standard typedefs. */

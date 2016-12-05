@@ -40,7 +40,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class BinomialBlurImageFilter:
+class ITK_TEMPLATE_EXPORT BinomialBlurImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

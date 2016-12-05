@@ -50,7 +50,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class LaplacianSharpeningImageFilter:
+class ITK_TEMPLATE_EXPORT LaplacianSharpeningImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -65,7 +65,7 @@ namespace itk
  * \ingroup ITKNarrowBand
  */
 template< typename TInputImage, typename TOutputImage >
-class NarrowBandImageFilterBase:
+class ITK_TEMPLATE_EXPORT NarrowBandImageFilterBase:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:

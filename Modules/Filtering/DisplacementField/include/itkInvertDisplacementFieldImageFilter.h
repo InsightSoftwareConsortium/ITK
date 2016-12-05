@@ -38,7 +38,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class InvertDisplacementFieldImageFilter
+class ITK_TEMPLATE_EXPORT InvertDisplacementFieldImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

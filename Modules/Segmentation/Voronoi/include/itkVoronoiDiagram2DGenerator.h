@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKVoronoi
  */
 template< typename TCoordType >
-class VoronoiDiagram2DGenerator:
+class ITK_TEMPLATE_EXPORT VoronoiDiagram2DGenerator:
   public MeshSource< VoronoiDiagram2D< TCoordType > >
 {
 public:

@@ -42,7 +42,7 @@ namespace itk
  */
 
 template< typename TCellInterface >
-class TriangleCell:
+class ITK_TEMPLATE_EXPORT TriangleCell:
   public TCellInterface, private TriangleCellTopology
 {
 public:

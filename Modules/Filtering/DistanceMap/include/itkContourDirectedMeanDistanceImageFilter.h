@@ -60,7 +60,7 @@ namespace itk
  * \ingroup ITKDistanceMap
  */
 template< typename TInputImage1, typename TInputImage2 >
-class ContourDirectedMeanDistanceImageFilter:
+class ITK_TEMPLATE_EXPORT ContourDirectedMeanDistanceImageFilter:
   public ImageToImageFilter< TInputImage1, TInputImage1 >
 {
 public:

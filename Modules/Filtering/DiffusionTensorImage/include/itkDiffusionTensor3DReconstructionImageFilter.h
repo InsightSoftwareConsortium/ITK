@@ -123,7 +123,7 @@ template< typename TReferenceImagePixelType,
           typename TGradientImagePixelType = TReferenceImagePixelType,
           typename TTensorPixelType = double,
           typename TMaskImageType = Image<unsigned char, 3> >
-class DiffusionTensor3DReconstructionImageFilter:
+class ITK_TEMPLATE_EXPORT DiffusionTensor3DReconstructionImageFilter:
   public ImageToImageFilter< Image< TReferenceImagePixelType, 3 >,
                              Image< DiffusionTensor3D< TTensorPixelType >, 3 > >
 {

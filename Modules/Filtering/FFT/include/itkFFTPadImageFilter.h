@@ -48,7 +48,7 @@ namespace itk
  * \sa FFTShiftImageFilter
  */
 template<typename TInputImage, typename TOutputImage=TInputImage>
-class FFTPadImageFilter :
+class ITK_TEMPLATE_EXPORT FFTPadImageFilter :
     public PadImageFilterBase<TInputImage, TOutputImage>
 {
 public:

@@ -42,7 +42,7 @@ namespace itk {
  * \ingroup ITKLabelMap
  */
 template<typename TInputImage>
-class BinaryGrindPeakImageFilter :
+class ITK_TEMPLATE_EXPORT BinaryGrindPeakImageFilter :
     public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:

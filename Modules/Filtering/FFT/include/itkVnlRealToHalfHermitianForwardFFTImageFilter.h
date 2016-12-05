@@ -38,7 +38,7 @@ namespace itk
  *
  */
 template< typename TInputImage, typename TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class VnlRealToHalfHermitianForwardFFTImageFilter:
+class ITK_TEMPLATE_EXPORT VnlRealToHalfHermitianForwardFFTImageFilter:
   public RealToHalfHermitianForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:

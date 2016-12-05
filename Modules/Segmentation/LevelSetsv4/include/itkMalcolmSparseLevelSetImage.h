@@ -38,7 +38,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< unsigned int VDimension >
-class MalcolmSparseLevelSetImage :
+class ITK_TEMPLATE_EXPORT MalcolmSparseLevelSetImage :
     public LevelSetSparseImage< int8_t, VDimension >
 {
 public:

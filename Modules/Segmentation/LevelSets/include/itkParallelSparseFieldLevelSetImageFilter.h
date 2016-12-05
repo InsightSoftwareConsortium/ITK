@@ -34,7 +34,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TNodeIndexType >
-class ParallelSparseFieldLevelSetNode
+class ITK_TEMPLATE_EXPORT ParallelSparseFieldLevelSetNode
 {
 public:
   TNodeIndexType                   m_Index;
@@ -72,7 +72,7 @@ public:
  * \ingroup ITKLevelSets
  */
 template< typename TNeighborhoodType >
-class ParallelSparseFieldCityBlockNeighborList
+class ITK_TEMPLATE_EXPORT ParallelSparseFieldCityBlockNeighborList
 {
 public:
   typedef TNeighborhoodType                     NeighborhoodType;
@@ -246,7 +246,7 @@ private:
  * \ingroup ITKLevelSets
  */
 template< typename TInputImage, typename TOutputImage >
-class ParallelSparseFieldLevelSetImageFilter:
+class ITK_TEMPLATE_EXPORT ParallelSparseFieldLevelSetImageFilter:
   public FiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:

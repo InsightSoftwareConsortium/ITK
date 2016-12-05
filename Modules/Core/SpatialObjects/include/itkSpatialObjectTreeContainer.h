@@ -44,7 +44,7 @@ class SpatialObject;
  * \ingroup ITKSpatialObjects
  */
 template< unsigned int TDimension >
-class SpatialObjectTreeContainer:
+class ITK_TEMPLATE_EXPORT SpatialObjectTreeContainer:
   public TreeContainer< itk::SpatialObject< TDimension > * >
 {
 public:

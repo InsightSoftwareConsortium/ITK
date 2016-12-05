@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template <typename TPointSet, typename TOutput = double, typename TCoordRep = double>
-class ManifoldParzenWindowsPointSetFunction
+class ITK_TEMPLATE_EXPORT ManifoldParzenWindowsPointSetFunction
 : public PointSetFunction<TPointSet, TOutput, TCoordRep>
 {
 public:

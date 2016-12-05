@@ -41,7 +41,7 @@ namespace itk
  *
  * \ingroup ITKMetricsv4 */
 template < typename TDomainPartitioner, typename TImageToImageMetricv4 >
-class ImageToImageMetricv4GetValueAndDerivativeThreaderBase
+class ITK_TEMPLATE_EXPORT ImageToImageMetricv4GetValueAndDerivativeThreaderBase
   : public DomainThreader< TDomainPartitioner, TImageToImageMetricv4 >
 {
 public:

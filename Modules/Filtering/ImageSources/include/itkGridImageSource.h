@@ -54,7 +54,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template< typename TOutputImage >
-class GridImageSource
+class ITK_TEMPLATE_EXPORT GridImageSource
    :public GenerateImageSource< TOutputImage >
 {
 public:

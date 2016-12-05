@@ -74,7 +74,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class ScalarToRGBColormapImageFilter:
+class ITK_TEMPLATE_EXPORT ScalarToRGBColormapImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

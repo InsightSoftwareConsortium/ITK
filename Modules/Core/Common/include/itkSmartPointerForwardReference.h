@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename T >
-class SmartPointerForwardReference
+class ITK_TEMPLATE_EXPORT SmartPointerForwardReference
 {
 public:
   /** Constructor  */

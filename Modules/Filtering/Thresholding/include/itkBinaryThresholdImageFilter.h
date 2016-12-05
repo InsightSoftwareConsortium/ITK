@@ -63,7 +63,7 @@ namespace itk
 namespace Functor
 {
 template< typename TInput, typename TOutput >
-class BinaryThreshold
+class ITK_TEMPLATE_EXPORT BinaryThreshold
 {
 public:
   BinaryThreshold()
@@ -120,7 +120,7 @@ private:
 }
 
 template< typename TInputImage, typename TOutputImage >
-class BinaryThresholdImageFilter:
+class ITK_TEMPLATE_EXPORT BinaryThresholdImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::BinaryThreshold<

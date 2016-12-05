@@ -51,7 +51,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage >
-class ImageDuplicator:public Object
+class ITK_TEMPLATE_EXPORT ImageDuplicator:public Object
 {
 public:
   /** Standard class typedefs. */

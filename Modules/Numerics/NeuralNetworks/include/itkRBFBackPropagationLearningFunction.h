@@ -33,7 +33,7 @@ namespace Statistics
  */
 
 template<typename LayerType, typename TTargetVector>
-class RBFBackPropagationLearningFunction : public LearningFunctionBase<LayerType, TTargetVector>
+class ITK_TEMPLATE_EXPORT RBFBackPropagationLearningFunction : public LearningFunctionBase<LayerType, TTargetVector>
 {
 public:
 

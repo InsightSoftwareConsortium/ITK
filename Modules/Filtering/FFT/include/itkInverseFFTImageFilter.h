@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKFFT
  */
 template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class InverseFFTImageFilter:
+class ITK_TEMPLATE_EXPORT InverseFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 
 {

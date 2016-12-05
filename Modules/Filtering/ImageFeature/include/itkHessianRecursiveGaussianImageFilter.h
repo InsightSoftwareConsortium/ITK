@@ -46,7 +46,7 @@ template< typename TInputImage,
                                            typename NumericTraits< typename TInputImage::PixelType >::RealType,
                                            TInputImage::ImageDimension >,
                                          TInputImage::ImageDimension > >
-class HessianRecursiveGaussianImageFilter:
+class ITK_TEMPLATE_EXPORT HessianRecursiveGaussianImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

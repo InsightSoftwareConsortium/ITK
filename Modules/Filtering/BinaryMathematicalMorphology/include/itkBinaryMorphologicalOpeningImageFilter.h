@@ -52,7 +52,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >
-class BinaryMorphologicalOpeningImageFilter:
+class ITK_TEMPLATE_EXPORT BinaryMorphologicalOpeningImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

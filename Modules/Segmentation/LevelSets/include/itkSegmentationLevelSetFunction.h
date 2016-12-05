@@ -44,7 +44,7 @@ namespace itk
  */
 
 template< typename TImageType, typename TFeatureImageType = TImageType >
-class SegmentationLevelSetFunction:
+class ITK_TEMPLATE_EXPORT SegmentationLevelSetFunction:
   public LevelSetFunction< TImageType >
 {
 public:

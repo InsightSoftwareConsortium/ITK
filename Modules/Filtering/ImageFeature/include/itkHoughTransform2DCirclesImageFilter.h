@@ -51,7 +51,7 @@ namespace itk
  */
 
 template< typename TInputPixelType, typename TOutputPixelType >
-class HoughTransform2DCirclesImageFilter:
+class ITK_TEMPLATE_EXPORT HoughTransform2DCirclesImageFilter:
   public ImageToImageFilter< Image< TInputPixelType, 2 >, Image< TOutputPixelType, 2 > >
 {
 public:

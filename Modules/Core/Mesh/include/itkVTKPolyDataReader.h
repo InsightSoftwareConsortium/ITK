@@ -42,7 +42,7 @@ namespace itk
  * \sa MeshFileReader
  */
 template< typename TOutputMesh >
-class VTKPolyDataReader:public MeshSource< TOutputMesh >
+class ITK_TEMPLATE_EXPORT VTKPolyDataReader:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

@@ -112,7 +112,7 @@ class ImageTransformHelper;
  * \ingroup ITKCommon
  */
 template< unsigned int VImageDimension = 2 >
-class ImageBase:public DataObject
+class ITK_TEMPLATE_EXPORT ImageBase:public DataObject
 {
 public:
   /** Standard typedefs. */

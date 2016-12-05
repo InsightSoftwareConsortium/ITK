@@ -79,7 +79,7 @@ template< typename TInputImage,
           typename TOutputImage = Image< TRealType,
                                          TInputImage::ImageDimension >
           >
-class DeformationFieldJacobianDeterminantFilter:
+class ITK_TEMPLATE_EXPORT DeformationFieldJacobianDeterminantFilter:
   public DisplacementFieldJacobianDeterminantFilter< TInputImage, TRealType, TOutputImage >
 {
 public:

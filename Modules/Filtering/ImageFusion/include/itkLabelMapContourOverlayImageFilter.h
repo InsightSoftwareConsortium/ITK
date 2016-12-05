@@ -55,7 +55,7 @@ namespace itk {
  * \endwiki
  */
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
-class LabelMapContourOverlayImageFilter :
+class ITK_TEMPLATE_EXPORT LabelMapContourOverlayImageFilter :
     public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:

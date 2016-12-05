@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TInputImage >
-class ShapeRelabelImageFilter:
+class ITK_TEMPLATE_EXPORT ShapeRelabelImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:

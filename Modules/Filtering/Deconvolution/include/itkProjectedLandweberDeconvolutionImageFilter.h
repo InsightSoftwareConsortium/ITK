@@ -49,7 +49,7 @@ namespace itk
  * \sa LandweberDeconvolutionImageFilter
  */
 template< typename TInputImage, typename TKernelImage=TInputImage, typename TOutputImage=TInputImage, typename TInternalPrecision=double >
-class ProjectedLandweberDeconvolutionImageFilter :
+class ITK_TEMPLATE_EXPORT ProjectedLandweberDeconvolutionImageFilter :
     public ProjectedIterativeDeconvolutionImageFilter< LandweberDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision > >
 {
 public:

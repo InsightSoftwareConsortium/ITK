@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TImage, typename TLevelSet >
-class VTKVisualizeImageLevelSetIsoValues
+class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSetIsoValues
 {};
 
 /**
@@ -54,7 +54,7 @@ class VTKVisualizeImageLevelSetIsoValues
  * \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputPixel, typename TLevelSet >
-class VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
+class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 2 >, TLevelSet >
   : public VTKVisualizeImageLevelSet<
       Image< TInputPixel, 2 >,
       ImageToVTKImageFilter< Image< TInputPixel, 2 > > >
@@ -125,7 +125,7 @@ private:
  * \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputPixel, typename TLevelSet >
-class VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
+class ITK_TEMPLATE_EXPORT VTKVisualizeImageLevelSetIsoValues< Image< TInputPixel, 3 >, TLevelSet >
   : public VTKVisualizeImageLevelSet<
       Image< TInputPixel, 3 >,
       ImageToVTKImageFilter< Image< TInputPixel, 3 > > >

@@ -62,7 +62,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage >
-class ConvolutionImageFilter :
+class ITK_TEMPLATE_EXPORT ConvolutionImageFilter :
   public ConvolutionImageFilterBase< TInputImage, TKernelImage, TOutputImage >
 {
 public:

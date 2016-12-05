@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< typename TInputMesh, typename TOutputMesh, typename TDisplacementField >
-class WarpMeshFilter:
+class ITK_TEMPLATE_EXPORT WarpMeshFilter:
   public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

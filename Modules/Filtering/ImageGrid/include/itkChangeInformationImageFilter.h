@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template< typename TInputImage >
-class ChangeInformationImageFilter:
+class ITK_TEMPLATE_EXPORT ChangeInformationImageFilter:
   public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:

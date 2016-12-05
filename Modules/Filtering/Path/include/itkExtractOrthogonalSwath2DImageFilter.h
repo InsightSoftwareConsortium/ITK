@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< typename TImage >
-class ExtractOrthogonalSwath2DImageFilter:public
+class ITK_TEMPLATE_EXPORT ExtractOrthogonalSwath2DImageFilter:public
   ImageAndPathToImageFilter< TImage, ParametricPath< 2 >, TImage >
 {
 public:

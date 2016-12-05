@@ -74,7 +74,7 @@ template<
   typename TPointsContainer =
     VectorContainer< TPointIdentifier, Point< TCoordRep, VPointDimension > >
   >
-class BoundingBox:public Object
+class ITK_TEMPLATE_EXPORT BoundingBox:public Object
 {
 public:
   /** Standard class typedefs. */

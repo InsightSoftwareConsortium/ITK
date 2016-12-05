@@ -120,7 +120,7 @@ namespace itk
  *
  */
 template< typename TImage >
-class ImageRandomConstIteratorWithOnlyIndex:public ImageConstIteratorWithOnlyIndex< TImage >
+class ITK_TEMPLATE_EXPORT ImageRandomConstIteratorWithOnlyIndex:public ImageConstIteratorWithOnlyIndex< TImage >
 {
 public:
   /** Standard class typedefs. */

@@ -37,7 +37,7 @@ namespace itk
  * \sa VnlInverseFFTImageFilter
  */
 template< typename TImage >
-class VnlComplexToComplexFFTImageFilter:
+class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter:
   public ComplexToComplexFFTImageFilter< TImage >
 {
 public:
