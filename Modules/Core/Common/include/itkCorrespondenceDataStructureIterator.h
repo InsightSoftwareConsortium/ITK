@@ -18,6 +18,7 @@
 #ifndef itkCorrespondenceDataStructureIterator_h
 #define itkCorrespondenceDataStructureIterator_h
 
+#include "itkMacro.h"
 
 namespace itk
 {
