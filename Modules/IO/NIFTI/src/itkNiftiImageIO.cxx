@@ -1755,6 +1755,7 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
 
 unsigned int NiftiImageIO::getQFormCodeFromDictionary() const
 {
+  //The qform_code should be set to either NIFTI_XFORM_UNKNOWN or NIFTI_XFORM_SCANNER_ANAT.
   const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
   std::string temp;
   if ( itk::ExposeMetaData< std::string >(thisDic, "qform_code_name", temp) )
@@ -1766,11 +1767,12 @@ unsigned int NiftiImageIO::getQFormCodeFromDictionary() const
   {
     return atoi(temp.c_str());
   }
-  return NIFTI_XFORM_ALIGNED_ANAT; // Guess Aligned_Anat if not other information provided.
+  return NIFTI_XFORM_SCANNER_ANAT; // Guess NIFTI_XFORM_SCANNER_ANAT if no other information provided.
 }
 
 unsigned int NiftiImageIO::getSFormCodeFromDictionary() const
 {
+  // The sform code should be set to either NIFTI_XFORM_UNKNOWN, NIFTI_XFORM_ALIGNED_ANAT, NIFTI_XFORM_TALAIRACH or NIFTI_XFORM_MNI_152.
   const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
   std::string temp;
   if ( itk::ExposeMetaData< std::string >(thisDic, "sform_code_name", temp) )
@@ -1782,7 +1784,7 @@ unsigned int NiftiImageIO::getSFormCodeFromDictionary() const
   {
     return atoi(temp.c_str());
   }
-  return NIFTI_XFORM_SCANNER_ANAT; // Guess SCANNER_Anat if not other information provided.
+  return NIFTI_XFORM_ALIGNED_ANAT; // Guess NIFTI_XFORM_ALIGNED_ANAT if no other information provided.
 }
 
 void
@@ -1790,8 +1792,9 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsign
 {
   //
   // use NIFTI method 2
-  this->m_NiftiImage->sform_code = this->getSFormCodeFromDictionary();
+  // https://nifti.nimh.nih.gov/nifti-1/documentation/nifti1fields/nifti1fields_pages/qsform_brief_usage
   this->m_NiftiImage->qform_code = this->getQFormCodeFromDictionary();
+  this->m_NiftiImage->sform_code = this->getSFormCodeFromDictionary();
 
   //
   // set the quarternions, from the direction vectors
