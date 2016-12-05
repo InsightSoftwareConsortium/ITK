@@ -76,7 +76,7 @@ FrustumSpatialFunction< VDimension, TInput >
 
     const double distanceXZ = std::sqrt(dx * dx + dz * dz);
 
-    const double deg2rad = std::atan(1.0f) / 45.0;
+    const double deg2rad = std::atan(1.0) / 45.0;
 
     // Check planes along Y
     const double angleY = std::atan2(dy, distanceXZ);
@@ -104,7 +104,7 @@ FrustumSpatialFunction< VDimension, TInput >
 
     const double distanceYZ = std::sqrt(dy * dy + dz * dz);
 
-    const double deg2rad = std::atan(1.0f) / 45.0;
+    const double deg2rad = std::atan(1.0) / 45.0;
 
     // Check planes along X
     const double angleX = std::atan2(dx, distanceYZ);

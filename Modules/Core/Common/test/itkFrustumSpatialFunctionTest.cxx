@@ -45,7 +45,7 @@ int itkFrustumSpatialFunctionTest( int, char *[] )
 
   // Set the frustum properties
   FrustumSpatialFunctionType::InputType apex;
-  apex.Fill( 1.0 );
+  apex.Fill( 1.1 );
 
   frustrumSpatialFunction->SetApex( apex );
   TEST_SET_GET_VALUE( apex, frustrumSpatialFunction->GetApex() );
