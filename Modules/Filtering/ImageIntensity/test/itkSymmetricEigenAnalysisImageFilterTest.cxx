@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 
+#include "itkCastImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkSymmetricSecondRankTensor.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"
@@ -24,14 +25,14 @@
 
 namespace itk {
 
-template< typename TInputImage, typename TOutputImage >
+template< typename TInputImage, typename TInternalImage, typename TOutputImage >
 class SymmetricEigenAnalysisImageFilterHelper :
-  public SymmetricEigenAnalysisImageFilter< TInputImage, TOutputImage >
+  public SymmetricEigenAnalysisImageFilter< TInputImage, TInternalImage >
 {
 public:
   typedef SymmetricEigenAnalysisImageFilterHelper
     Self;
-  typedef SymmetricEigenAnalysisImageFilter< TInputImage, TOutputImage >
+  typedef SymmetricEigenAnalysisImageFilter< TInputImage, TInternalImage >
     Superclass;
 
   typedef SmartPointer<Self>                          Pointer;
@@ -39,6 +40,7 @@ public:
 
 
   typedef TInputImage                                 InputImageType;
+  typedef TInternalImage                              InternalImageType;
   typedef TOutputImage                                OutputImageType;
 
 
@@ -52,7 +54,7 @@ public:
   {
 
     typedef SymmetricEigenAnalysisImageFilter<
-      InputImageType, OutputImageType> SymmetricEigenAnalysisImageFilterType;
+      InputImageType, InternalImageType > SymmetricEigenAnalysisImageFilterType;
 
     // Declare the type of the index to access images
     typedef itk::Index< InputImageType::ImageDimension >        IndexType;
@@ -131,7 +133,18 @@ public:
     // It is important to do it AFTER the filter is Updated
     // Because the object connected to the output may be changed
     // by another during GenerateData() call
-    typename OutputImageType::Pointer outputImage = filter->GetOutput();
+    typename InternalImageType::Pointer internalImage = filter->GetOutput();
+
+    // Get the output image to a writable format
+    typedef itk::CastImageFilter< InternalImageType, OutputImageType >
+      CastImageFilterType;
+
+    typename CastImageFilterType::Pointer roundImageFilter =
+      CastImageFilterType::New();
+
+    roundImageFilter->SetInput( internalImage );
+
+    TRY_EXPECT_NO_EXCEPTION( roundImageFilter->Update() );
 
     // Write the result image
     typedef itk::ImageFileWriter< OutputImageType > WriterType;
@@ -140,7 +153,7 @@ public:
 
     writer->SetFileName( outputFilename );
 
-    writer->SetInput( outputImage );
+    writer->SetInput( roundImageFilter->GetOutput() );
 
     TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
@@ -167,25 +180,28 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
   const unsigned int Dimension = 3;
 
   // Declare the pixel type
-  typedef float                InputPixelType;
-  typedef unsigned char        OutputPixelType;
+  typedef float                 InputPixelType;
+  typedef double                InternalPixelType;
+  typedef unsigned char         OutputPixelType;
 
   // Define the symmetric tensor pixel type
   typedef itk::SymmetricSecondRankTensor< InputPixelType, Dimension > TensorType;
 
   // Declare the types of the images
-  typedef itk::Image< TensorType, Dimension >             InputImageType;
+  typedef itk::Image< TensorType, Dimension >               InputImageType;
 
   // Define the type for storing the eigen-value
-  typedef itk::FixedArray< OutputPixelType, Dimension >   ValueArray;
+  typedef itk::FixedArray< InternalPixelType, Dimension >   InternalValueArray;
+  typedef itk::FixedArray< OutputPixelType, Dimension >     OutputValueArray;
 
   // Declare the types of the output images
-  typedef itk::Image< ValueArray, Dimension >             OutputImageType;
+  typedef itk::Image< InternalValueArray, Dimension >       InternalImageType;
+  typedef itk::Image< OutputValueArray, Dimension >         OutputImageType;
 
   // Declare the type for the filter
   typedef itk::SymmetricEigenAnalysisImageFilter<
                                      InputImageType,
-                                     OutputImageType > FilterType;
+                                     InternalImageType > FilterType;
 
   // Create an instance to exercise basic object methods
   FilterType::Pointer filter = FilterType::New();
@@ -203,7 +219,7 @@ int itkSymmetricEigenAnalysisImageFilterTest( int argc, char* argv[] )
 
   // Test the filter
   int testResult = itk::SymmetricEigenAnalysisImageFilterHelper< InputImageType,
-    OutputImageType >::Exercise( order, outputFilename );
+    InternalImageType, OutputImageType >::Exercise( order, outputFilename );
 
 
   // All objects should be automatically destroyed at this point
