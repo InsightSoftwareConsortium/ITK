@@ -38,7 +38,7 @@ namespace itk
  *  and
  *  <em> Fischer and Modersitzki. "A unified approach to fast image registration and a
  *  new curvature based registration technique."
- *  Linear Algebra and its applications 380 (2004): 107-124.<em>
+ *  Linear Algebra and its applications 380 (2004): 107-124.</em>
  *
  *  Some parts of the code are according to CurvatureRegistrationFilter by T. Rohlfing.
  *
