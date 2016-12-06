@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class ITK_TEMPLATE_EXPORT CompositeTransformIOHelperTemplate
+class ITKIOTransformBase_TEMPLATE_EXPORT CompositeTransformIOHelperTemplate
 {
 public:
   typedef typename TransformIOBaseTemplate<TParametersValueType>::TransformType          TransformType;
