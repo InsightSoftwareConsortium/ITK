@@ -69,8 +69,9 @@ public:
   /** Standard class typedefs. */
   typedef VariationalRegistrationFastNCCFunction                                            Self;
   typedef VariationalRegistrationNCCFunction<TFixedImage, TMovingImage, TDisplacementField> Superclass;
-  typedef SmartPointer<Self>                                                                Pointer;
-  typedef SmartPointer<const Self>                                                          ConstPointer;
+
+  typedef SmartPointer<Self>       Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
