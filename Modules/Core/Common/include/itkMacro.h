@@ -180,10 +180,12 @@ namespace itk
 #endif
 
 // Setup symbol exports
-#ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
-  #define ITK_TEMPLATE_EXPORT __attribute__ ((visibility ("default")))
-#else
-  #define ITK_TEMPLATE_EXPORT
+#ifndef ITK_TEMPLATE_VISIBILITY_DEFAULT
+  #ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
+    #define ITK_TEMPLATE_EXPORT __attribute__ ((visibility ("default")))
+  #else
+    #define ITK_TEMPLATE_EXPORT
+  #endif
 #endif
 
 #if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
