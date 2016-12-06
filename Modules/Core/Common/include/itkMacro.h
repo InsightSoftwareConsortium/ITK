@@ -180,7 +180,7 @@ namespace itk
 #endif
 
 // Setup symbol exports
-#ifndef ITK_TEMPLATE_VISIBILITY_DEFAULT
+#ifndef ITK_TEMPLATE_EXPORT
   #ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
     #define ITK_TEMPLATE_EXPORT __attribute__ ((visibility ("default")))
   #else
