@@ -113,7 +113,6 @@ option(ITK_USE_SYSTEM_LIBRARIES "Use the system's libraries by default.
 If this is not set during the initial configuration, it will have no effect." OFF)
 mark_as_advanced(ITK_USE_SYSTEM_LIBRARIES)
 
-
 #-----------------------------------------------------------------------------
 # Enable the download and use of BrainWeb datasets.
 # When this data is available, additional 3D tests are enabled.
@@ -126,6 +125,18 @@ if(ITK_BRAINWEB_DATA_ROOT)
     )
 endif()
 
+#-----------------------------------------------------------------------------
+# CMAKE_C_COMPILER_ARG1 is a CMake internal variable. It should not be used
+# in ITK's configuration. If it is set, it most likely means that
+# a developer is configuring ITK to be built with a launcher such as ccache
+# or distcc. This should be done with the CMake variable
+# CMAKE_C_COMPILER_LAUNCHER_FLAG available in CMake > 3.4.0 .
+if(CMAKE_C_COMPILER_ARG1)
+  message(WARNING "The CMake variable CMAKE_C_COMPILER_ARG1 is set. This most\
+  likely mean that the developer is trying to use ccache or distcc. The CMake\
+  variable CMAKE_C_COMPILER_LAUNCHER_FLAG should be used instead\
+  (CMake>=3.4 required)")
+endif()
 #-----------------------------------------------------------------------------
 # Wrapping options
 option(ITK_WRAP_PYTHON "Build Python support" OFF)

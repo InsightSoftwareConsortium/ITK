@@ -94,7 +94,7 @@ else()
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
-            "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+            "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
             "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
             "LDFLAGS=$ENV{LDFLAGS}"
             "LIBS=$ENV{LIBS}"
@@ -122,7 +122,7 @@ else()
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
-           "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+           "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
            "LDFLAGS=$ENV{LDFLAGS}"
            "LIBS=$ENV{LIBS}"
