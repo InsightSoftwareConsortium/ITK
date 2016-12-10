@@ -20,6 +20,8 @@ itkCannyEdgeDetectionImageFilterTest2.cxx
 itkDerivativeImageFilterTest.cxx
 itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkMaskFeaturePointSelectionFilterTest.cxx
+itkUnsharpMaskingImageFilterTestSimple.cxx
+itkUnsharpMaskingImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
@@ -32,6 +34,38 @@ itk_add_test(NAME itkLaplacianImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkLaplacianImageFilterTest)
 itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkSobelEdgeDetectionImageFilterTest)
+itk_add_test(NAME itkUnsharpMaskingImageFilterTestSimple
+      COMMAND ITKImageFeatureTestDriver itkUnsharpMaskingImageFilterTestSimple)
+itk_add_test(NAME itkUnsharpMaskingImageFilterTest_DefaultsUChar
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{Baseline/SwirledUSM_Defaults.png}
+            ${TEMP}/SwirledUSM_Defaults.png
+            --compareIntensityTolerance .001
+  itkUnsharpMaskingImageFilterTest
+  char
+  DATA{Input/Swirled.png}
+  ${TEMP}/SwirledUSM_Defaults.png
+  )
+itk_add_test(NAME itkUnsharpMaskingImageFilterTest_DefaultsFloat
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{Baseline/SwirledUSM_Defaults.nrrd}
+            ${TEMP}/SwirledUSM_Defaults.nrrd
+            --compareIntensityTolerance .001
+  itkUnsharpMaskingImageFilterTest
+  float
+  DATA{Input/Swirled.png}
+  ${TEMP}/SwirledUSM_Defaults.nrrd
+  )
+itk_add_test(NAME itkUnsharpMaskingImageFilterTest_3_3_15
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{Baseline/SwirledUSM_3-3-15.nrrd}
+            ${TEMP}/SwirledUSM_3-3-15.nrrd.nrrd
+            --compareIntensityTolerance .001
+  itkUnsharpMaskingImageFilterTest
+  float
+  DATA{Input/Swirled.png}
+  ${TEMP}/SwirledUSM_3-3-15.nrrd.nrrd
+  3.0 3.0 15)
 itk_add_test(NAME itkHessian3DToVesselnessMeasureImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkHessian3DToVesselnessMeasureImageFilterTest)
 itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest
