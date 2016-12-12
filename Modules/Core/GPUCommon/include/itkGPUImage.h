@@ -176,17 +176,16 @@ public:
   }
 
   /** Graft the data and information from one GPUImage to another. */
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
-  using Superclass::Graft;
+  virtual void Graft(const Self *data) ITK_OVERRIDE;
 
 protected:
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
   GPUImage();
   virtual ~GPUImage();
+  using Superclass::Graft;
 
 private:
-
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUImage);
-
   typename GPUImageDataManager< GPUImage >::Pointer m_DataManager;
 };
 
