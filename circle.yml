@@ -11,8 +11,8 @@ machine:
         DISTCC_DIR: ${HOME}/.distcc
         DISTCC_SLOTS: 3
         MAKEJ: $(expr $CIRCLE_NODE_TOTAL \* $DISTCC_SLOTS + 1)
-        CC: "distcc gcc"
-        CXX: "distcc g++"
+        CC: "gcc"
+        CXX: "g++"
     post:
         - env
         - sudo apt-get install distcc
