@@ -26,7 +26,61 @@
  *
  *=========================================================================*/
 #include "itkTimeStamp.h"
-#include "itkAtomicInt.h"
+
+namespace
+{
+
+// This ensures that m_GlobalTimeStamp is has been initialized once the library
+// has been loaded. In some cases, this call will perform the initialization.
+// In other cases, static initializers like the IO factory initialization code
+// will have done the initialization.
+static ::itk::TimeStamp::GlobalTimeStampType * initializedGlobalTimeStamp = ::itk::TimeStamp::GetGlobalTimeStamp();
+
+/** \class GlobalTimeStampInitializer
+ *
+ * \brief Initialize a GlobalTimeStamp and delete it on program
+ * completion.
+ * */
+class GlobalTimeStampInitializer
+{
+public:
+  typedef GlobalTimeStampInitializer            Self;
+  typedef ::itk::TimeStamp::GlobalTimeStampType GlobalTimeStampType;
+
+  GlobalTimeStampInitializer() {}
+
+  /** Delete the time stamp if it was created. */
+  ~GlobalTimeStampInitializer()
+    {
+    delete m_GlobalTimeStamp;
+    m_GlobalTimeStamp = ITK_NULLPTR;
+    }
+
+  /** Create the GlobalTimeStamp if needed and return it. */
+  static GlobalTimeStampType * GetGlobalTimeStamp()
+    {
+    if( !m_GlobalTimeStamp )
+      {
+      m_GlobalTimeStamp = new GlobalTimeStampType( 0 );
+
+      // To avoid being optimized out. The compiler does not like this
+      // statement at a higher scope.
+      (void) initializedGlobalTimeStamp;
+      }
+    return m_GlobalTimeStamp;
+    }
+
+private:
+  static GlobalTimeStampType * m_GlobalTimeStamp;
+};
+
+// Takes care of cleaning up the GlobalTimeStamp
+static GlobalTimeStampInitializer GlobalTimeStampInitializerInstance;
+// Initialized by the compiler to zero
+GlobalTimeStampInitializer::GlobalTimeStampType * GlobalTimeStampInitializer::m_GlobalTimeStamp;
+
+} // end anonymous namespace
+
 
 namespace itk
 {
@@ -51,6 +105,26 @@ TimeStamp::operator=( const Self & other )
   return *this;
 }
 
+
+TimeStamp::GlobalTimeStampType *
+TimeStamp
+::GetGlobalTimeStamp()
+{
+  if( m_GlobalTimeStamp == ITK_NULLPTR )
+    {
+    m_GlobalTimeStamp = GlobalTimeStampInitializer::GetGlobalTimeStamp();
+    }
+  return m_GlobalTimeStamp;
+}
+
+
+void
+TimeStamp
+::SetGlobalTimeStamp( GlobalTimeStampType * timeStamp )
+{
+  m_GlobalTimeStamp = timeStamp;
+}
+
 /**
  * Make sure the new time stamp is greater than all others so far.
  */
@@ -58,8 +132,13 @@ void
 TimeStamp
 ::Modified()
 {
-  static AtomicInt<ModifiedTimeType> GlobalTimeStamp(0);
-
-  this->m_ModifiedTime = ++GlobalTimeStamp;
+  // This is called once, on-demand to ensure that m_GlobalTimeStamp is
+  // initialized.
+  static GlobalTimeStampType * globalTimeStamp = GetGlobalTimeStamp();
+  (void) globalTimeStamp;
+  this->m_ModifiedTime = ++(*m_GlobalTimeStamp);
 }
+
+TimeStamp::GlobalTimeStampType * TimeStamp::m_GlobalTimeStamp;
+
 } // end namespace itk
