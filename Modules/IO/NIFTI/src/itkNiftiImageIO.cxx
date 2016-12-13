@@ -1784,7 +1784,7 @@ unsigned int NiftiImageIO::getSFormCodeFromDictionary() const
   {
     return atoi(temp.c_str());
   }
-  return NIFTI_XFORM_ALIGNED_ANAT; // Guess NIFTI_XFORM_ALIGNED_ANAT if no other information provided.
+  return NIFTI_XFORM_UNKNOWN; // Guess NIFTI_XFORM_UNKNOWN to indicate that only qform is relavant.
 }
 
 void
