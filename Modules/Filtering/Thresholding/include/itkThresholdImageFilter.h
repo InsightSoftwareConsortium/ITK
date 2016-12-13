@@ -111,21 +111,21 @@ public:
   /** The values outside the range are set to OutsideValue. */
   void ThresholdOutside(const PixelType & lower, const PixelType & upper);
 
-  /** Set/Get methods to set the lower threshold */
+  /** Set/Get methods to set the lower threshold. */
   itkSetMacro(Lower, PixelType);
   itkGetConstMacro(Lower, PixelType);
 
-  /** Set/Get methods to set the upper threshold */
+  /** Set/Get methods to set the upper threshold. */
   itkSetMacro(Upper, PixelType);
   itkGetConstMacro(Upper, PixelType);
 
-  /** Some additional typedefs.  */
+  /** Additional typedefs for the input image. */
   typedef TImage                                InputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename InputImageType::PixelType    InputImagePixelType;
 
-  /** Some additional typedefs.  */
+  /** Additional typedefs for the output image. */
   typedef TImage                               OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
@@ -140,9 +140,9 @@ protected:
    * Therefore, this implementation provides a ThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is
    * allocated automatically by the superclass prior to calling
-   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * ThreadedGenerateData(). ThreadedGenerateData can only write to the
    * portion of the output image specified by the parameter
-   * "outputRegionForThread"
+   * "outputRegionForThread".
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
