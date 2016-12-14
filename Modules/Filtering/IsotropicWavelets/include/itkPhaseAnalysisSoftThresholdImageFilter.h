@@ -15,19 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMonogenicPhaseAnalysisSoftThresholdImageFilter_h
-#define itkMonogenicPhaseAnalysisSoftThresholdImageFilter_h
+#ifndef itkPhaseAnalysisSoftThresholdImageFilter_h
+#define itkPhaseAnalysisSoftThresholdImageFilter_h
 
-#include <itkImageToImageFilter.h>
-#include <itkVectorImage.h>
-#include <itkImageRegionConstIterator.h>
-#include <itkImageRegionIterator.h>
-#include <itkImage.h>
-#include <itkFixedArray.h>
+#include <itkPhaseAnalysisImageFilter.h>
 #include "itkBarrier.h"
 namespace itk
 {
-/** \class MonogenicPhaseAnalysisSoftThresholdImageFilter
+/** \class PhaseAnalysisSoftThresholdImageFilter
  * This filter operates on an input MonogenicSignal in the Spatial Domain.
  * Represented as a VectorImage of ImageDimension + 1.
  * f_m ={ f, R_x*f R_y*f ... }
@@ -46,14 +41,14 @@ namespace itk
  */
 template <typename TInputImage,
           typename TOutputImage = Image<typename TInputImage::PixelType::ComponentType, TInputImage::ImageDimension>>
-class MonogenicPhaseAnalysisSoftThresholdImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class PhaseAnalysisSoftThresholdImageFilter : public PhaseAnalysisImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef MonogenicPhaseAnalysisSoftThresholdImageFilter Self;
-  typedef ImageToImageFilter<TInputImage, TOutputImage>  Superclass;
-  typedef SmartPointer<Self>                             Pointer;
-  typedef SmartPointer<const Self>                       ConstPointer;
+  typedef PhaseAnalysisSoftThresholdImageFilter               Self;
+  typedef PhaseAnalysisImageFilter<TInputImage, TOutputImage> Superclass;
+  typedef SmartPointer<Self>                                  Pointer;
+  typedef SmartPointer<const Self>                            ConstPointer;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
@@ -62,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MonogenicPhaseAnalysisSoftThresholdImageFilter, ImageToImageFilter);
+  itkTypeMacro(PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
 
   /** Some convenient typedefs. */
   typedef typename Superclass::InputImageType  InputImageType;
@@ -78,37 +73,33 @@ public:
   typedef SpacingType                               DirectionType;
   typedef typename InputImageType::SpacingValueType FloatType;
 
-  typedef typename OutputImageType::Pointer                      OutputImagePointer;
-  typedef typename OutputImageType::ConstPointer                 OutputImageConstPointer;
-  typedef typename OutputImageType::RegionType                   OutputImageRegionType;
-  typedef typename itk::ImageRegionIterator<OutputImageType>     OutputImageRegionIterator;
-  typedef typename OutputImageType::PixelType                    OutputImagePixelType;
-  typedef typename itk::ImageRegionConstIterator<InputImageType> InputImageRegionConstIterator;
+  typedef typename OutputImageType::Pointer      OutputImagePointer;
+  typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
+  typedef typename OutputImageType::RegionType   OutputImageRegionType;
+  typedef typename OutputImageType::PixelType    OutputImagePixelType;
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  /// This ensure that PixelType is float||double, and not complex.
-  itkConceptMacro(OutputPixelTypeIsFloatCheck, (Concept::IsFloatingPoint<typename TOutputImage::PixelType>));
-#endif
-
-  inline OutputImagePixelType
-  ComputeRieszNormSquare(const InputImagePixelType & monoPixel) const;
-  /**************** Helpers requiring the square norm of Riesz *******************/
-  inline OutputImagePixelType
-  ComputeAmplitude(const InputImagePixelType & monoPixel, const OutputImagePixelType & rieszNormSquare) const;
-  inline OutputImagePixelType
-  ComputePhase(const InputImagePixelType & monoPixel, const OutputImagePixelType & rieszNormSquare) const;
-  inline itk::FixedArray<OutputImagePixelType, ImageDimension - 1>
-  ComputePhaseOrientation(const InputImagePixelType & monoPixel, const OutputImagePixelType & rieszNormSquare) const;
-  /**************** With Directions *******************/
-  OutputImagePixelType
-  ComputeRieszProjection(const InputImagePixelType & monoPixel, const DirectionType & direction) const;
-  /// Number of Components of input VectorImage. ImageDimension + 1. Helper.
-  itkGetConstMacro(NC, unsigned int) itkSetMacro(ApplySoftThreshold, bool);
+  itkSetMacro(ApplySoftThreshold, bool);
   itkGetConstMacro(ApplySoftThreshold, bool);
+  itkSetMacro(NumOfSigmas, OutputImagePixelType);
+  itkGetConstMacro(NumOfSigmas, OutputImagePixelType);
+  itkGetConstMacro(MeanAmp, OutputImagePixelType);
+  itkGetConstMacro(SigmaAmp, OutputImagePixelType);
+  itkGetConstMacro(Threshold, OutputImagePixelType);
+
+  const OutputImageType *
+  GetOutputCosPhase() const
+  {
+    return this->GetOutput(2);
+  }
+  OutputImageType *
+  GetOutputCosPhase()
+  {
+    return this->GetOutput(2);
+  }
 
 protected:
-  MonogenicPhaseAnalysisSoftThresholdImageFilter();
-  ~MonogenicPhaseAnalysisSoftThresholdImageFilter() {}
+  PhaseAnalysisSoftThresholdImageFilter();
+  ~PhaseAnalysisSoftThresholdImageFilter() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -118,9 +109,9 @@ protected:
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MonogenicPhaseAnalysisSoftThresholdImageFilter);
-  unsigned int         m_NC; // Number of Components of input image (Helper)
+  ITK_DISALLOW_COPY_AND_ASSIGN(PhaseAnalysisSoftThresholdImageFilter);
   bool                 m_ApplySoftThreshold;
+  OutputImagePixelType m_NumOfSigmas;
   OutputImagePixelType m_MeanAmp;
   OutputImagePixelType m_SigmaAmp;
   OutputImagePixelType m_Threshold;
@@ -129,7 +120,7 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkMonogenicPhaseAnalysisSoftThresholdImageFilter.hxx"
+#  include "itkPhaseAnalysisSoftThresholdImageFilter.hxx"
 #endif
 
 #endif

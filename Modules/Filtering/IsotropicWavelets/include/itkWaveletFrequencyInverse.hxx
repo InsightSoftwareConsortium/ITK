@@ -285,25 +285,25 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     std::cout << "LEVEL: " << level << std::endl;
     typedef itk::MultiplyImageFilter<OutputImageType> MultiplyFilterType;
     /******** Upsample LowPass ********/
-#ifdef ITK_VISUALIZE_TESTS
-    typedef itk::Image<float, ImageDimension>                             SpatialImageType;
-    typedef itk::InverseFFTImageFilter<OutputImageType, SpatialImageType> InverseFFTFilterType;
-    typename InverseFFTFilterType::Pointer                                inverseFFT = InverseFFTFilterType::New();
-    inverseFFT->SetInput(low_pass_per_level);
-    inverseFFT->Update();
-    Testing::ViewImage(inverseFFT->GetOutput(), "Approx before upsampling");
-#endif
+    // #ifdef ITK_VISUALIZE_TESTS
+    //   typedef itk::Image<float, ImageDimension> SpatialImageType;
+    //   typedef itk::InverseFFTImageFilter<OutputImageType, SpatialImageType> InverseFFTFilterType;
+    //   typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+    //   inverseFFT->SetInput(low_pass_per_level);
+    //   inverseFFT->Update();
+    //   Testing::ViewImage(inverseFFT->GetOutput(), "Approx before upsampling");
+    // #endif
     // typedef itk::FrequencyExpandViaInverseFFTImageFilter<OutputImageType> ExpandFilterType;
     typedef itk::FrequencyExpandImageFilter<OutputImageType> ExpandFilterType;
     typename ExpandFilterType::Pointer                       upsampleFilter = ExpandFilterType::New();
     upsampleFilter->SetInput(low_pass_per_level);
     upsampleFilter->SetExpandFactors(this->m_ScaleFactor);
     upsampleFilter->Update();
-#ifdef ITK_VISUALIZE_TESTS
-    inverseFFT->SetInput(upsampleFilter->GetOutput());
-    inverseFFT->Update();
-    Testing::ViewImage(inverseFFT->GetOutput(), "Approx after upsampling");
-#endif
+    // #ifdef ITK_VISUALIZE_TESTS
+    //     inverseFFT->SetInput(upsampleFilter->GetOutput());
+    //     inverseFFT->Update();
+    //     Testing::ViewImage(inverseFFT->GetOutput(), "Approx after upsampling");
+    // #endif
 
     typename MultiplyFilterType::Pointer multiplyUpsampleCorrection = MultiplyFilterType::New();
     multiplyUpsampleCorrection->SetInput1(upsampleFilter->GetOutput());
@@ -311,11 +311,11 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     multiplyUpsampleCorrection->SetConstant(std::pow(2.0, expUpsampleCorrection));
     multiplyUpsampleCorrection->InPlaceOn();
     multiplyUpsampleCorrection->Update();
-#ifdef ITK_VISUALIZE_TESTS
-    inverseFFT->SetInput(multiplyUpsampleCorrection->GetOutput());
-    inverseFFT->Update();
-    Testing::ViewImage(inverseFFT->GetOutput(), "Approx after upsampling correction");
-#endif
+    // #ifdef ITK_VISUALIZE_TESTS
+    //     inverseFFT->SetInput(multiplyUpsampleCorrection->GetOutput());
+    //     inverseFFT->Update();
+    //     Testing::ViewImage(inverseFFT->GetOutput(), "Approx after upsampling correction");
+    // #endif
     // Ignore modifications of origin and spacing of upsample filters.
     typedef itk::ChangeInformationImageFilter<OutputImageType> ChangeInformationFilterType;
     typename ChangeInformationFilterType::Pointer              changeInfoFilter = ChangeInformationFilterType::New();
@@ -354,11 +354,11 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     multiplyLowPass->InPlaceOn();
     multiplyLowPass->Update();
     low_pass_per_level = multiplyLowPass->GetOutput();
-#ifdef ITK_VISUALIZE_TESTS
-    inverseFFT->SetInput(low_pass_per_level);
-    inverseFFT->Update();
-    Testing::ViewImage(inverseFFT->GetOutput(), "Low Band x filter bank");
-#endif
+    // #ifdef ITK_VISUALIZE_TESTS
+    //   inverseFFT->SetInput(low_pass_per_level);
+    //   inverseFFT->Update();
+    //   Testing::ViewImage(inverseFFT->GetOutput(), "Low Band x filter bank");
+    // #endif
 
     // if (level != static_cast<int>(this->m_Levels) - 1 )
     // {
@@ -388,11 +388,11 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       multiplyHighBandFilter->SetInput2(this->GetInput(n_input));
       multiplyHighBandFilter->InPlaceOn();
       multiplyHighBandFilter->Update();
-#ifdef ITK_VISUALIZE_TESTS
-      inverseFFT->SetInput(multiplyHighBandFilter->GetOutput());
-      inverseFFT->Update();
-      Testing::ViewImage(inverseFFT->GetOutput(), "High Pass x high wavelet filter");
-#endif
+      // #ifdef ITK_VISUALIZE_TESTS
+      //   inverseFFT->SetInput(multiplyHighBandFilter->GetOutput());
+      //   inverseFFT->Update();
+      //   Testing::ViewImage(inverseFFT->GetOutput(), "High Pass x high wavelet filter");
+      // #endif
 
       /******* Band dilation factor for HighPass bands *****/
       //  2^(1/#bands) instead of Dyadic dilations.
@@ -416,11 +416,11 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       addFilter->InPlaceOn();
       addFilter->Update();
       reconstructed = addFilter->GetOutput();
-#ifdef ITK_VISUALIZE_TESTS
-      inverseFFT->SetInput(reconstructed);
-      inverseFFT->Update();
-      Testing::ViewImage(inverseFFT->GetOutput(), "reconstructed:Sum of High Bands ");
-#endif
+      // #ifdef ITK_VISUALIZE_TESTS
+      //   inverseFFT->SetInput(reconstructed);
+      //   inverseFFT->Update();
+      //   Testing::ViewImage(inverseFFT->GetOutput(), "reconstructed:Sum of High Bands ");
+      // #endif
 
       this->UpdateProgress(static_cast<float>(m_TotalInputs - n_input - 1) / static_cast<float>(m_TotalInputs));
     }
@@ -437,11 +437,11 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     {
       addHighAndLow->GraftOutput(this->GetOutput());
       addHighAndLow->Update();
-#ifdef ITK_VISUALIZE_TESTS
-      inverseFFT->SetInput(addHighAndLow->GetOutput());
-      inverseFFT->Update();
-      Testing::ViewImage(inverseFFT->GetOutput(), "add high and low without factor ");
-#endif
+      // #ifdef ITK_VISUALIZE_TESTS
+      //   inverseFFT->SetInput(addHighAndLow->GetOutput());
+      //   inverseFFT->Update();
+      //   Testing::ViewImage(inverseFFT->GetOutput(), "add high and low without factor ");
+      // #endif
       this->GraftOutput(addHighAndLow->GetOutput());
     }
     else // Update low_pass

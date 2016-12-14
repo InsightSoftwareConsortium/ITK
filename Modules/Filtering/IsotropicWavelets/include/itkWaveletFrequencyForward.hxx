@@ -26,10 +26,10 @@
 #include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
 // TODO remove after debug
-#ifdef ITK_VISUALIZE_TESTS
-#  include <itkComplexToRealImageFilter.h>
-#  include "../test/itkViewImage.h"
-#endif
+//  #ifdef ITK_VISUALIZE_TESTS
+//  #include <itkComplexToRealImageFilter.h>
+//  #include "../test/itkViewImage.h"
+//  #endif
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
@@ -539,14 +539,14 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     // Store result without dilation factor for next level.
     inputPerLevel = multiplyLowFilter->GetOutput();
 
-#ifdef ITK_VISUALIZE_TESTS
-    typedef itk::Image<float, ImageDimension>                             SpatialImageType;
-    typedef itk::InverseFFTImageFilter<OutputImageType, SpatialImageType> InverseFFTFilterType;
-    typename InverseFFTFilterType::Pointer                                inverseFFT = InverseFFTFilterType::New();
-    inverseFFT->SetInput(inputPerLevel);
-    inverseFFT->Update();
-    Testing::ViewImage(inverseFFT->GetOutput(), "Low Filter");
-#endif
+    // #ifdef ITK_VISUALIZE_TESTS
+    //   typedef itk::Image<float, ImageDimension> SpatialImageType;
+    //   typedef itk::InverseFFTImageFilter<OutputImageType, SpatialImageType> InverseFFTFilterType;
+    //   typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+    //   inverseFFT->SetInput(inputPerLevel);
+    //   inverseFFT->Update();
+    //   Testing::ViewImage(inverseFFT->GetOutput(), "Low Filter");
+    // #endif
 
     /******* DownSample stored low band for the next Level iteration *****/
     // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
@@ -555,11 +555,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     shrinkFilter->SetInput(inputPerLevel);
     shrinkFilter->SetShrinkFactors(2);
     shrinkFilter->Update();
-#ifdef ITK_VISUALIZE_TESTS
-    inverseFFT->SetInput(shrinkFilter->GetOutput());
-    inverseFFT->Update();
-    Testing::ViewImage(inverseFFT->GetOutput(), "Low Filter After shrink");
-#endif
+    // #ifdef ITK_VISUALIZE_TESTS
+    //   inverseFFT->SetInput(shrinkFilter->GetOutput());
+    //   inverseFFT->Update();
+    //   Testing::ViewImage(inverseFFT->GetOutput(), "Low Filter After shrink");
+    // #endif
 
     // Ignore modifications of origin and spacing of shrink filters.
     typename ChangeInformationFilterType::Pointer changeInfoFilter = ChangeInformationFilterType::New();

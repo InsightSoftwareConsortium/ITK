@@ -61,7 +61,7 @@ Ind2Sub(const unsigned int & linear_index, const FixedArray<unsigned int, N> & n
 
   FixedArray<unsigned int, N> out;
   unsigned int                rem(0), temp_index(linear_index);
-  // perfectly defined. i will go to > N instead of -1
+  // loop well defined. it will go to > N after --0
   for (unsigned int i = N - 1; i < N; --i)
   {
     rem = (temp_index) % cumprod[i];

@@ -3,27 +3,39 @@ set(Libraries ${IsotropicWavelets-Test_LIBRARIES})
 
 set(
   IsotropicWaveletsTests
+  #### Frequency Manipulation ###
+  # Iterator with Index.
   itkFrequencyImageRegionIteratorWithIndexTest.cxx
-  itkIsotropicWaveletFrequencyFunctionTest.cxx
-  itkWaveletFrequencyFilterBankGeneratorTest.cxx
-  itkRieszFrequencyFilterBankGeneratorTest.cxx
+  # Frequency resize
   itkFrequencyExpandTest.cxx
   itkFrequencyShrinkTest.cxx
   itkFrequencyShrinkMultiLevelTest.cxx
   itkFrequencyExpandAndShrinkTest.cxx
+  # Frequency resize Helpers
+  itkInd2SubTest.cxx
+  # Spatial domain resize without interpolation
   itkExpandWithZerosImageFilterTest.cxx
   itkShrinkDecimateImageFilterTest.cxx
-  itkInd2SubTest.cxx
+  # Syntactic sugar utilities
+  itkVectorInverseFFTImageFilterTest.cxx
+  itkZeroDCImageFilterTest.cxx
+  # Alternative FFT padding
+  itkFFTPadPositiveIndexImageFilterTest.cxx
+  # TODO: remove (functionality in structuretensor)
+  itkMonogenicPhaseAnalysisEigenValuesImageFilterTest.cxx
+  # TODO: Convert to example:
+  itkIsotropicWaveletFrequencyFunctionTest.cxx
+  # Generators:
+  itkWaveletFrequencyFilterBankGeneratorTest.cxx
+  itkRieszFrequencyFilterBankGeneratorTest.cxx
+  #Useful functionalities
   itkWaveletFrequencyForwardTest.cxx
   itkWaveletFrequencyInverseTest.cxx
-  itkMonogenicSignalFrequencyImageFilterTest.cxx
-  itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest.cxx
-  itkMonogenicPhaseAnalysisEigenValuesImageFilterTest.cxx
-  itkVectorInverseFFTImageFilterTest.cxx
   itkRieszWaveletPhaseAnalysisTest.cxx
-  itkFFTPadPositiveIndexImageFilterTest.cxx
-  itkZeroDCImageFilterTest.cxx
+  # TODO overlap with riesz wavelet analysis
+  itkPhaseAnalysisSoftThresholdImageFilterTest.cxx
   itkStructureTensorTest.cxx
+  itkMonogenicSignalFrequencyImageFilterTest.cxx
 )
 
 if(ITKVtkGlue_ENABLED)
@@ -127,12 +139,12 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest
+  NAME itkPhaseAnalysisSoftThresholdImageFilterTest
   COMMAND
     IsotropicWaveletsTestDriver
-    itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest
+    itkPhaseAnalysisSoftThresholdImageFilterTest
     DATA{Input/collagen_32x32x16.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest.tiff
+    ${ITK_TEST_OUTPUT_DIR}/itkPhaseAnalysisSoftThresholdImageFilterTest.tiff
 )
 #EigenValues
 itk_add_test(
@@ -313,9 +325,9 @@ itk_add_test(
     itkIsotropicWaveletFrequencyFunctionTest
     ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
     "unused"
-    5
+    1
     "Held"
-    3
+    2
 )
 # FrequencyIterator
 itk_add_test(
@@ -509,9 +521,8 @@ itk_python_expression_add_test(
   EXPRESSION "instance = itk.MonogenicPhaseAnalysisEigenValuesImageFilter.New()"
 )
 itk_python_expression_add_test(
-  NAME itkMonogenicPhaseAnalysisSoftThresholdImageFilterPythonTest
-  EXPRESSION
-    "instance = itk.MonogenicPhaseAnalysisSoftThresholdImageFilter.New()"
+  NAME itkPhaseAnalysisSoftThresholdImageFilterPythonTest
+  EXPRESSION "instance = itk.PhaseAnalysisSoftThresholdImageFilter.New()"
 )
 itk_python_expression_add_test(
   NAME itkRieszFrequencyFilterBankGeneratorPythonTest

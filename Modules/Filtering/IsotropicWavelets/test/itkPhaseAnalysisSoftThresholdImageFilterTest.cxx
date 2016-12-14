@@ -17,7 +17,7 @@
  *=========================================================================*/
 #include <string>
 #include <cmath>
-#include "itkMonogenicPhaseAnalysisSoftThresholdImageFilter.h"
+#include "itkPhaseAnalysisSoftThresholdImageFilter.h"
 #include "itkMonogenicSignalFrequencyImageFilter.h"
 
 #include "itkImage.h"
@@ -35,7 +35,7 @@ using namespace std;
 using namespace itk;
 
 int
-itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
+itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
@@ -73,14 +73,13 @@ itkMonogenicPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
   vecInverseFFT->SetInput(monoFilter->GetOutput());
   vecInverseFFT->Update();
   // Input to the PhaseAnalysisSoftThreshold
-  typedef MonogenicPhaseAnalysisSoftThresholdImageFilter<VectorInverseFFTType::OutputImageType>
-                                            PhaseAnalysisSoftThresholdFilter;
+  typedef PhaseAnalysisSoftThresholdImageFilter<VectorInverseFFTType::OutputImageType> PhaseAnalysisSoftThresholdFilter;
   PhaseAnalysisSoftThresholdFilter::Pointer phaseAnalyzer = PhaseAnalysisSoftThresholdFilter::New();
   phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
   phaseAnalyzer->Update();
 
 #ifdef ITK_VISUALIZE_TESTS
-  Testing::ViewImage(phaseAnalyzer->GetOutput(), "PhaseAnalyzer(Soft) output:");
+  Testing::ViewImage(phaseAnalyzer->GetOutputCosPhase(), "PhaseAnalyzer(Soft) output:");
 #endif
 
 
