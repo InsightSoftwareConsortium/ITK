@@ -9,8 +9,17 @@ itk_fetch_module(BridgeNumPy
     array = itk.PyBuffer[ImageType].GetArrayFromImage(image)
     image = itk.PyBuffer[ImageType].GetImageFromArray(array)
 
+  It also enables conversion of a VNL vector or matrix into a NumPy array and
+  back. For example:
+
+    import itk
+    v = itk.vnl_vector[itk.F]()
+    v.set_size(2)
+    arr = itk.PyVnl[itk.F].GetArrayFromVnlVector(v)
+    v = itk.PyVnl[itk.F].GetVnlVectorFromArray(arr)
+
   See http://insight-journal.org/browse/publication/85
       https://hdl.handle.net/1926/188"
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBridgeNumPy.git
-  GIT_TAG 9b5b17a462e88478f3ea780b805b6a3a5e10dee5
+  GIT_TAG ab8df8c1c8494416d5c8471382413c49c9163d9b
   )
