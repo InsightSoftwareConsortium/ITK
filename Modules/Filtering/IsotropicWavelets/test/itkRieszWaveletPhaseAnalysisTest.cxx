@@ -28,7 +28,6 @@
 
 #include "itkMonogenicSignalFrequencyImageFilter.h"
 #include "itkVectorInverseFFTImageFilter.h"
-#include "itkMonogenicPhaseAnalysisEigenValuesImageFilter.h"
 #include "itkPhaseAnalysisSoftThresholdImageFilter.h"
 #include "itkZeroDCImageFilter.h"
 

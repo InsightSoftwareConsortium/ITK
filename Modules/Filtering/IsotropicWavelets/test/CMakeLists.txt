@@ -21,8 +21,6 @@ set(
   itkZeroDCImageFilterTest.cxx
   # Alternative FFT padding
   itkFFTPadPositiveIndexImageFilterTest.cxx
-  # TODO: remove (functionality in structuretensor)
-  itkMonogenicPhaseAnalysisEigenValuesImageFilterTest.cxx
   # TODO: Convert to example:
   itkIsotropicWaveletFrequencyFunctionTest.cxx
   # Generators:
@@ -145,25 +143,6 @@ itk_add_test(
     itkPhaseAnalysisSoftThresholdImageFilterTest
     DATA{Input/collagen_32x32x16.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkPhaseAnalysisSoftThresholdImageFilterTest.tiff
-)
-#EigenValues
-itk_add_test(
-  NAME itkMonogenicPhaseAnalysisEigenValuesImageFilterTest
-  COMMAND
-    IsotropicWaveletsTestDriver
-    itkMonogenicPhaseAnalysisEigenValuesImageFilterTest
-    DATA{Input/collagen_32x32x16.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicPhaseAnalysisEigenValuesImageFilterTest.tiff
-)
-
-itk_add_test(
-  NAME itkMonogenicPhaseAnalysisEigenValuesImageFilterTest2D
-  COMMAND
-    IsotropicWaveletsTestDriver
-    itkMonogenicPhaseAnalysisEigenValuesImageFilterTest
-    DATA{Input/checkershadow_Lch_512x512.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkMonogenicPhaseAnalysisEigenValuesImageFilterTest2D.tiff
-    2
 )
 # StructureTensor
 itk_add_test(
@@ -515,10 +494,6 @@ itk_python_expression_add_test(
 itk_python_expression_add_test(
   NAME itkVectorInverseFFTImageFilterPythonTest
   EXPRESSION "instance = itk.VectorInverseFFTImageFilter.New()"
-)
-itk_python_expression_add_test(
-  NAME itkMonogenicPhaseAnalysisEigenValuesImageFilterPythonTest
-  EXPRESSION "instance = itk.MonogenicPhaseAnalysisEigenValuesImageFilter.New()"
 )
 itk_python_expression_add_test(
   NAME itkPhaseAnalysisSoftThresholdImageFilterPythonTest
