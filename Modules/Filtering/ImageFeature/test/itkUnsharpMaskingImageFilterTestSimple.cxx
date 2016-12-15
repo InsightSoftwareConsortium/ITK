@@ -20,103 +20,158 @@
 #include "itkFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkUnsharpMaskingImageFilterTestSimple(int, char* [] )
+int itkUnsharpMaskingImageFilterTestSimple( int, char* [] )
 {
   // Define the dimension of the images
-  const unsigned int myDimension = 2;
+  const unsigned int Dimension = 2;
+
+  // Define the pixel types of the images
+  typedef float                PixelType;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension> myImageType;
+  typedef itk::Image< PixelType, Dimension > InputImageType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension> myIndexType;
+  typedef itk::Index< Dimension > IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension> mySizeType;
+  typedef itk::Size< Dimension > SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension> myRegionType;
+  typedef itk::ImageRegion< Dimension > RegionType;
 
-  // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
+  // Create the input image
+  InputImageType::Pointer inputImage = InputImageType::New();
 
-
-  // Define their size, and start index
-  mySizeType size;
+  // Define its size, and start index
+  SizeType size;
   size[0] = 20;
   size[1] = 4;
 
-  myIndexType start;
-  start.Fill(0);
+  IndexType start;
+  start.Fill( 0 );
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
-  // Initialize Image A
+  // Initialize the input image
   inputImage->SetLargestPossibleRegion( region );
   inputImage->SetBufferedRegion( region );
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
 
-  // Declare Iterator type for the input image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
+  // Declare an Iterator type for the input image
+  typedef itk::ImageRegionIteratorWithIndex< InputImageType >
+    InputImageIteratorType;
 
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
+  // Create one iterator for the input Image (this is a light object)
+  InputImageIteratorType it( inputImage, inputImage->GetRequestedRegion() );
 
-  // Initialize the content of Image A
+  // Initialize the contents of the input image
   while( !it.IsAtEnd() )
     {
-      if (it.GetIndex()[0] > itk::IndexValueType(size[0] / 2))
+      if( it.GetIndex()[0] > itk::IndexValueType(size[0] / 2) )
         {
-        it.Set(1.0);
+        it.Set( 1.0 );
         }
       else
         {
-        it.Set(0.0);
+        it.Set( 0.0 );
         }
 
     ++it;
     }
 
-  // Declare the type for the
-  typedef itk::UnsharpMaskingImageFilter< myImageType >  myFilterType;
+  // Declare the type for the itk::UnsharpMaskingImageFilter
+  typedef itk::UnsharpMaskingImageFilter< InputImageType >
+    UnsharpMaskingImageFilterFilterType;
 
-  typedef myFilterType::OutputImageType myGradientImageType;
+  typedef UnsharpMaskingImageFilterFilterType::OutputImageType
+    GradientImageType;
 
-  // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  // Create the filter
+  UnsharpMaskingImageFilterFilterType::Pointer filter =
+    UnsharpMaskingImageFilterFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskingImageFilter, ImageToImageFilter);
 
-  FilterWatcher watchit(filter);
+  FilterWatcher watchit( filter );
 
   // Connect the input images
   filter->SetInput( inputImage );
 
-  // Select the value of Sigma
-  filter->SetSigma( 2.5 );
-  filter->SetAmount(0.8);
-  filter->SetThreshold(0.01);
+
+  UnsharpMaskingImageFilterFilterType::InternalPrecisionType threshold = -0.1;
+  filter->SetThreshold( threshold );
+
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
+
+  // Set the filter properties
+  UnsharpMaskingImageFilterFilterType::SigmaArrayType::ValueType sigma = 2.5;
+  filter->SetSigma( sigma );
+
+  UnsharpMaskingImageFilterFilterType::SigmaArrayType sigmas =
+    filter->GetSigmas();
+
+  double tolerance = 10e-6;
+  for( unsigned int i = 0; i < sigmas.Size(); ++i )
+    {
+    UnsharpMaskingImageFilterFilterType::SigmaArrayType::ValueType sigma2 =
+      sigmas[i];
+    if( !itk::Math::FloatAlmostEqual( sigma, sigma2, 10, tolerance) )
+      {
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
+      std::cerr << "Test FAILED! ";
+      std::cerr << "Error in the Sigma values" << std::endl;
+      std::cerr << "Expected " << sigma << " but got " << sigma2;
+      std::cerr << " along the [" << i << "]-th dimension." << std::endl;
+      return EXIT_FAILURE;
+      }
+    }
+
+  UnsharpMaskingImageFilterFilterType::InternalPrecisionType amount = 0.8;
+  filter->SetAmount( amount );
+  TEST_SET_GET_VALUE( amount, filter->GetAmount() );
+
+  threshold = 0.01;
+  filter->SetThreshold( threshold );
+  TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
+
+  bool clamp = itk::NumericTraits<
+    UnsharpMaskingImageFilterFilterType::OutputPixelType >::IsInteger;
+  filter->SetClamp( clamp );
+  TEST_SET_GET_VALUE( clamp, filter->GetClamp() );
+
+  if( clamp )
+    {
+    filter->ClampOn();
+    TEST_SET_GET_VALUE( true, filter->GetClamp() );
+    }
+  else
+    {
+    filter->ClampOff();
+    TEST_SET_GET_VALUE( false, filter->GetClamp() );
+    }
 
   // Execute the filter
-  TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   // Get the Smart Pointer to the Filter Output
   // It is important to do it AFTER the filter is Updated
   // Because the object connected to the output may be changed
   // by another during GenerateData() call
-  myGradientImageType::Pointer outputImage = filter->GetOutput();
+  GradientImageType::Pointer outputImage = filter->GetOutput();
 
   // check that output is correct near the step
   start[0] = 9;
   float mins[4] = { -0.21f, -0.33f, 1.32f, 1.20f };
   float maxs[4] = { -0.20f, -0.32f, 1.33f, 1.21f };
-  for (unsigned int i = 0; i < 4; i++)
+  for( unsigned int i = 0; i < 4; i++ )
     {
-    if (outputImage->GetPixel(start) < mins[i]
-        || outputImage->GetPixel(start) > maxs[i])
+    if( outputImage->GetPixel(start) < mins[i]
+        || outputImage->GetPixel(start) > maxs[i] )
       {
       std::cerr << "Test FAILED! Unexpected value: ";
       std::cerr << outputImage->GetPixel(start) << std::endl;
