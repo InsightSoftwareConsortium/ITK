@@ -232,7 +232,7 @@ private:
           }
         }
 
-      return result; //implicitly converts to OutPixelType
+      return static_cast<OutPixelType>(result);
     }
   }; //end UnsharpMaskingFunctor
 }; //end UnsharpMaskingImageFilter
