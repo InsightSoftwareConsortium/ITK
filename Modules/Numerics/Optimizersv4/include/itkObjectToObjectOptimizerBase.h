@@ -18,6 +18,8 @@
 #ifndef itkObjectToObjectOptimizerBase_h
 #define itkObjectToObjectOptimizerBase_h
 
+#include "ITKOptimizersv4Export.h"
+
 #include "itkOptimizerParameters.h"
 #include "itkOptimizerParameterScalesEstimator.h"
 #include "itkObjectToObjectMetricBase.h"
@@ -77,7 +79,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template< typename TInternalComputationValueType = double>
-class ITK_TEMPLATE_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
+class  ITKOptimizersv4_TEMPLATE_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
 {
 public:
   /** Standard class typedefs. */
@@ -266,4 +268,42 @@ typedef ObjectToObjectOptimizerBaseTemplate<double> ObjectToObjectOptimizerBase;
 #include "itkObjectToObjectOptimizerBase.hxx"
 #endif
 
+#endif
+
+
+/** Explicit instantiations */
+#ifndef ITK_TEMPLATE_EXPLICIT_ObjectToObjectOptimizerBaseTemplate
+// Explicit instantiation is required to ensure correct dynamic_cast
+// behavior across shared libraries.
+//
+// IMPORTANT: Since within the same compilation unit,
+//            ITK_TEMPLATE_EXPLICIT_<classname> defined and undefined states
+//            need to be considered. This code *MUST* be *OUTSIDE* the header
+//            guards.
+//
+#  if defined( ITKOptimizersv4_EXPORTS )
+//   We are building this library
+#    define ITKOptimizersv4_EXPORT_EXPLICIT
+#  else
+//   We are using this library
+#    define ITKOptimizersv4_EXPORT_EXPLICIT ITKOptimizersv4_EXPORT
+#  endif
+namespace itk
+{
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_PUSH()
+#endif
+ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
+
+extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<double>;
+
+#ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
+  ITK_GCC_PRAGMA_DIAG_POP()
+#else
+  ITK_GCC_PRAGMA_DIAG(warning "-Wattributes")
+#endif
+
+} // end namespace itk
+#  undef ITKOptimizersv4_EXPORT_EXPLICIT
 #endif
