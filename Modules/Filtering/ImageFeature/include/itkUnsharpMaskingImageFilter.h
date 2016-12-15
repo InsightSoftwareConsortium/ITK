@@ -83,6 +83,8 @@ public:
   typedef TOutputImage                     OutputImageType;
   typedef typename InputImageType::Pointer InputImagePointer;
 
+  typedef TInternalPrecision               InternalPrecisionType;
+
   /**
    * Smart pointer typedef support
    */
@@ -139,6 +141,7 @@ public:
   * range ouf output type. Default: On. */
   itkSetMacro(Clamp, bool);
   itkGetConstMacro(Clamp, bool);
+  itkBooleanMacro(Clamp);
 
 protected:
   UnsharpMaskingImageFilter();
