@@ -20,7 +20,6 @@
 
 #include "itkChainCodePath.h"
 #include "itkIndex.h"
-#include "ITKPathExport.h"
 
 #include <vector>
 #include <string>
@@ -48,7 +47,7 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-class ITKPath_EXPORT ChainCodePath2D:public
+class ITK_TEMPLATE_EXPORT ChainCodePath2D:public
   ChainCodePath< 2 >
 {
 public:

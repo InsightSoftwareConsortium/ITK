@@ -21,7 +21,6 @@
 #include "itkParametricPath.h"
 #include "itkVectorContainer.h"
 #include "itkIndex.h"
-#include "itkPathTemplateExport.h"
 
 namespace itk
 {
@@ -42,7 +41,7 @@ namespace itk
  * \ingroup PathObjects
  * \ingroup ITKPath
  */
-class ITKPath_EXPORT_INHERIT_TEMPLATE
+class ITK_TEMPLATE_EXPORT
   OrthogonallyCorrected2DParametricPath:public
   ParametricPath< 2 >
 {
