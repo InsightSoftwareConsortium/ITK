@@ -44,6 +44,7 @@
 // System includes:
 #include <iostream>
 #include <string>
+#define GETOPT_API
 extern "C"
 {
 #include "getopt.h"
