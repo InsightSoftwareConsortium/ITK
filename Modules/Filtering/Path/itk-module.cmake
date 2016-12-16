@@ -4,7 +4,6 @@ contours in 2D images, or curves in 3D space. These classes also include the
 concept of iterators, polylines, and smooth approximations to paths.")
 
 itk_module(ITKPath
-  ENABLE_SHARED
   PRIVATE_DEPENDS
     ITKCommon
   COMPILE_DEPENDS
