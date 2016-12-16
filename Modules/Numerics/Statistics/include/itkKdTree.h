@@ -61,7 +61,7 @@ namespace Statistics
  */
 template<typename TSample>
 
-struct KdTreeNode
+struct ITK_TEMPLATE_EXPORT KdTreeNode
   {
   /** type alias for itself */
   typedef KdTreeNode<TSample> Self;
@@ -135,7 +135,7 @@ struct KdTreeNode
  */
 template<typename TSample>
 
-struct KdTreeNonterminalNode:public KdTreeNode<TSample>
+struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode:public KdTreeNode<TSample>
   {
   typedef KdTreeNode<TSample>                     Superclass;
   typedef typename Superclass::MeasurementType    MeasurementType;
@@ -242,7 +242,7 @@ private:
  * \ingroup ITKStatistics
  */
 template<typename TSample>
-struct KdTreeWeightedCentroidNonterminalNode:public KdTreeNode<TSample>
+struct ITK_TEMPLATE_EXPORT KdTreeWeightedCentroidNonterminalNode:public KdTreeNode<TSample>
   {
   typedef KdTreeNode<TSample>                         Superclass;
   typedef typename Superclass::MeasurementType        MeasurementType;
@@ -359,7 +359,7 @@ private:
  * \ingroup ITKStatistics
  */
 template<typename TSample>
-struct KdTreeTerminalNode:public KdTreeNode<TSample>
+struct ITK_TEMPLATE_EXPORT KdTreeTerminalNode:public KdTreeNode<TSample>
   {
   typedef KdTreeNode<TSample>                     Superclass;
   typedef typename Superclass::MeasurementType    MeasurementType;
