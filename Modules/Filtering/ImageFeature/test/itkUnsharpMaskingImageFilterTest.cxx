@@ -24,68 +24,106 @@
 
 namespace
 {
-template<typename OutPixelType>
-int RunTest(int argc, char* argv[])
+template< typename OutPixelType >
+int RunTest( int argc, char* argv[] )
 {
-  const unsigned int myDimension = 2;
-  typedef itk::Image<unsigned char, myDimension> InImageType;
-  typedef itk::ImageFileReader<InImageType>      ReaderType;
+  const unsigned int Dimension = 2;
+  typedef unsigned char InputImagePixelType;
+
+  typedef itk::Image< InputImagePixelType, Dimension >  InImageType;
+  typedef itk::ImageFileReader< InImageType >           ReaderType;
+
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(argv[2]);
-  std::cout << "Reading input file: " << argv[2] << std::endl;
-  TRY_EXPECT_NO_EXCEPTION(reader->Update());
+  reader->SetFileName( argv[2] );
 
-  typedef itk::Image<OutPixelType, myDimension> OutImageType;
-  typedef itk::ImageFileWriter<OutImageType>    WriterType;
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
+  typedef itk::Image< OutPixelType, Dimension>    OutImageType;
+  typedef itk::ImageFileWriter< OutImageType >    WriterType;
+
   typename WriterType::Pointer writer = WriterType::New();
-  TRY_EXPECT_NO_EXCEPTION(writer->SetFileName(argv[3]));
+  writer->SetFileName( argv[3] );
 
-  typedef itk::UnsharpMaskingImageFilter< InImageType, OutImageType >  myFilterType;
-  typename myFilterType::Pointer filter = myFilterType::New();
+  typedef itk::UnsharpMaskingImageFilter< InImageType, OutImageType > FilterType;
+  typename FilterType::Pointer filter = FilterType::New();
 
   //this does not work from within a templated method (GCC gives an error)
   //EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskingImageFilter, ImageToImageFilter);
 
-  filter->SetInput(reader->GetOutput());
+  filter->SetInput( reader->GetOutput() );
 
-  if (argc > 4)
+  if( argc > 4 )
     {
-    filter->SetAmount(atof(argv[4]));
+    filter->SetAmount( atof( argv[4] ) );
     }
-  if (argc > 5)
+  if( argc > 5 )
     {
-    filter->SetSigma(atof(argv[5]));
+    filter->SetSigma( atof( argv[5] ) );
     }
-  if (argc > 6)
+  if( argc > 6 )
     {
-    filter->SetThreshold(atoi(argv[6]));
+    filter->SetThreshold( atof( argv[6] ) );
     }
 
-  TRY_EXPECT_NO_EXCEPTION(filter->Update());
-  writer->SetInput(filter->GetOutput());
-  std::cout << "Writing output file: " << argv[2] << std::endl;
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  bool clamp = itk::NumericTraits< typename FilterType::OutputPixelType >::IsInteger;
+  filter->SetClamp( clamp );
+  TEST_SET_GET_VALUE( clamp, filter->GetClamp() );
+
+  if( clamp )
+    {
+    filter->ClampOn();
+    TEST_SET_GET_VALUE( true, filter->GetClamp() );
+    }
+  else
+    {
+    filter->ClampOff();
+    TEST_SET_GET_VALUE( false, filter->GetClamp() );
+    }
+
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  writer->SetInput( filter->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   std::cout << std::endl << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
 }
 }
 
-int itkUnsharpMaskingImageFilterTest(int argc, char* argv[])
+int itkUnsharpMaskingImageFilterTest( int argc, char* argv[] )
 {
-  if (argc<4)
+  if( argc < 4 )
     {
     std::cerr << "Usage:\n itkUnsharpMaskingImageFilterTest";
     std::cerr << " float | char in.png out.nrrd [amount [sigma [threshold]]]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  if (!strcmp(argv[1], "float"))
+  int testStatus = EXIT_SUCCESS;
+  bool testStatusFloatPixelTypeOutput = EXIT_SUCCESS;
+  bool testStatusUCharPixelTypeOutput = EXIT_SUCCESS;
+
+  if( !strcmp( argv[1], "float" ) )
     {
-    return RunTest<float>(argc, argv);
+    testStatusFloatPixelTypeOutput = RunTest< float >( argc, argv );
     }
   else
     {
-    return RunTest<unsigned char>(argc, argv);
+    testStatusUCharPixelTypeOutput = RunTest< unsigned char >( argc, argv );
     }
+
+  if( testStatusFloatPixelTypeOutput == EXIT_SUCCESS &&
+    testStatusUCharPixelTypeOutput == EXIT_SUCCESS )
+    {
+    std::cout << "TEST FINISHED SUCCESSFULLY!" << std::endl;
+    }
+  else
+    {
+    std::cout << "TEST FAILED!" << std::endl;
+    testStatus = EXIT_FAILURE;
+    }
+
+  return testStatus;
 }
