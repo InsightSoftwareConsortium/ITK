@@ -26,6 +26,7 @@
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 template<typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -395,6 +396,8 @@ int itkSimpleImageRegistrationTest( int argc, char *argv[] )
     std::cout << argv[0] << " pixelType imageDimension fixedImage movingImage outputImage numberOfAffineIterations numberOfDeformableIterations" << std::endl;
     exit( 1 );
     }
+
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 121212 );
 
   switch( atoi( argv[2] ) )
    {

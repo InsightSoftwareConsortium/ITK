@@ -47,6 +47,8 @@
 #include "itkGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
+#include "itkMersenneTwisterRandomVariateGenerator.h"
+
 
 //  Software Guide : BeginLatex
 //
@@ -135,6 +137,10 @@ int main( int argc, char *argv[] )
     std::cerr << "[checkerBoardBefore] [checkerBoardAfter]" << std::endl;
     return EXIT_FAILURE;
     }
+
+  // For consistent results when regression testing.
+  itk::Statistics::MersenneTwisterRandomVariateGenerator
+    ::GetInstance()->SetSeed( 121212 );
 
   // Software Guide : BeginLatex
   //
