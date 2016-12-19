@@ -4,5 +4,5 @@ set(ITKTransformFactory_SRCS
   itkTransformFactoryBaseRegisterDoubleParameters.cxx
   )
 
+add_definitions("-DITK_TRANSFORM_FACTORY_MAX_DIM=${ITK_TRANSFORM_FACTORY_MAX_DIM}")
 itk_module_add_library(ITKTransformFactory ${ITKTransformFactory_SRCS})
-target_compile_definitions(ITKTransformFactory PRIVATE ITK_TRANSFORM_FACTORY_MAX_DIM=${ITK_TRANSFORM_FACTORY_MAX_DIM})
