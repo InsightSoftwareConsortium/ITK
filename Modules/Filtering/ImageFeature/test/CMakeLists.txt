@@ -42,7 +42,7 @@ itk_add_test(NAME itkUnsharpMaskingImageFilterTest_DefaultsUChar
             ${TEMP}/SwirledUSM_Defaults.png
             --compareIntensityTolerance .001
   itkUnsharpMaskingImageFilterTest
-  char
+  uchar
   DATA{Input/Swirled.png}
   ${TEMP}/SwirledUSM_Defaults.png
   )

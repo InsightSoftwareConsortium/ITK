@@ -97,31 +97,27 @@ int itkUnsharpMaskingImageFilterTest( int argc, char* argv[] )
   if( argc < 4 )
     {
     std::cerr << "Usage:\n itkUnsharpMaskingImageFilterTest";
-    std::cerr << " float | char in.png out.nrrd [amount [sigma [threshold]]]" << std::endl;
+    std::cerr << " float | uchar in.png out.nrrd [amount [sigma [threshold]]]" << std::endl;
     return EXIT_FAILURE;
     }
 
   int testStatus = EXIT_SUCCESS;
-  bool testStatusFloatPixelTypeOutput = EXIT_SUCCESS;
-  bool testStatusUCharPixelTypeOutput = EXIT_SUCCESS;
 
   if( !strcmp( argv[1], "float" ) )
     {
-    testStatusFloatPixelTypeOutput = RunTest< float >( argc, argv );
+    testStatus = RunTest< float >( argc, argv );
+    }
+  else if( !strcmp( argv[1], "uchar" ) )
+    {
+    testStatus = RunTest< unsigned char >( argc, argv );
     }
   else
     {
-    testStatusUCharPixelTypeOutput = RunTest< unsigned char >( argc, argv );
-    }
-
-  if( testStatusFloatPixelTypeOutput == EXIT_SUCCESS &&
-    testStatusUCharPixelTypeOutput == EXIT_SUCCESS )
-    {
-    std::cout << "TEST FINISHED SUCCESSFULLY!" << std::endl;
-    }
-  else
-    {
-    std::cout << "TEST FAILED!" << std::endl;
+    std::cerr << "Error" << std::endl;
+    std::cerr << "Unable to run test with " << argv[1];
+    std::cerr << " pixel type entered as input argument" << std::endl;
+    std::cerr << "Expected float or uchar" << std::endl;
+    std::cerr << "TEST FAILED!" << std::endl;
     testStatus = EXIT_FAILURE;
     }
 
