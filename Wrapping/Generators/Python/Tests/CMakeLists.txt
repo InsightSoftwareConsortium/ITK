@@ -22,6 +22,8 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
 
   itk_python_add_test(NAME PythonTemplate COMMAND template.py)
 
+  itk_python_add_test(NAME PythonModifiedTime COMMAND ModifiedTime.py)
+
   itk_python_add_test(NAME PythonAutoPipeline
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/auto_pipeline.png DATA{${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png}
