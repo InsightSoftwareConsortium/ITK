@@ -39,7 +39,7 @@ namespace itk
 // Forward declaration of ImageBase so it can be declared a friend
 // (needed for PrintSelf mechanism)
 template< unsigned int VImageDimension >
-class ImageBase;
+class ITK_TEMPLATE_EXPORT ImageBase;
 
 /** \class ImageRegion
  * \brief An image region represents a structured region of data.
