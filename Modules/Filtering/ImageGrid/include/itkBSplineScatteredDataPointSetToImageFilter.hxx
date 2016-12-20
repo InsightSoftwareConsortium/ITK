@@ -1295,21 +1295,55 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
+
+  os << indent << "Do multi level: " << this->m_DoMultilevel << std::endl;
+  os << indent << "Generate output image: " << this->m_GenerateOutputImage << std::endl;
+  os << indent << "Use point weights: " << this->m_UsePointWeights << std::endl;
+  os << indent << "Maximum number of levels: " << this->m_MaximumNumberOfLevels << std::endl;
+  os << indent << "Current level: " << this->m_CurrentLevel << std::endl;
+  os << indent << "Number of control points: "
+     << this->m_NumberOfControlPoints << std::endl;
+  os << indent << "Current number of control points: "
+     << this->m_CurrentNumberOfControlPoints << std::endl;
+  os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;
+  os << indent << "B-spline order: " << this->m_SplineOrder << std::endl;
+  os << indent << "Number of levels: " << this->m_NumberOfLevels << std::endl;
+
+  itkPrintSelfObjectMacro( PointWeights );
+  itkPrintSelfObjectMacro( PhiLattice );
+  itkPrintSelfObjectMacro( PsiLattice );
+
+  os << indent << "Refined lattice coefficients: " << std::endl;
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    os << indent << "[" << i <<"]: " << this->m_RefinedLatticeCoefficients[i] << std::endl;
+    }
+
+  itkPrintSelfObjectMacro( InputPointData );
+  itkPrintSelfObjectMacro( OutputPointData );
+
+  os << indent << "Kernel: " << std::endl;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     this->m_Kernel[i]->Print( os, indent );
     }
-  os << indent << "B-spline order: " << this->m_SplineOrder << std::endl;
-  os << indent << "Number of control points: "
-     << this->m_NumberOfControlPoints << std::endl;
-  os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;
-  os << indent << "Number of levels: " << this->m_NumberOfLevels << std::endl;
-  os << indent << "Parametric domain" << std::endl;
-  os << indent << "  Origin:    " << this->m_Origin << std::endl;
-  os << indent << "  Spacing:   " << this->m_Spacing << std::endl;
-  os << indent << "  Size:      " << this->m_Size << std::endl;
-  os << indent << "  Direction: " << this->m_Direction << std::endl;
-  os << indent << "B-spline epsilon: " << this->m_BSplineEpsilon << std::endl;
+
+  itkPrintSelfObjectMacro( KernelOrder0 );
+  itkPrintSelfObjectMacro( KernelOrder1 );
+  itkPrintSelfObjectMacro( KernelOrder2 );
+  itkPrintSelfObjectMacro( KernelOrder3 );
+
+  os << indent << "Omega lattice per thread: " << std::endl;
+  for( unsigned int i = 0; i < m_OmegaLatticePerThread.size(); i++ )
+    {
+    os << indent << "[" << i <<"]: " << this->m_OmegaLatticePerThread[i] << std::endl;
+    }
+
+  os << indent << "Delta lattice per thread: " << std::endl;
+  for( unsigned int i = 0; i < m_DeltaLatticePerThread.size(); i++ )
+    {
+    os << indent << "[" << i <<"]: " << this->m_DeltaLatticePerThread[i] << std::endl;
+    }
 }
 } // end namespace itk
 
