@@ -121,6 +121,10 @@
   #cmakedefine ITK_CPP_FUNCTION
 #endif
 
+// defines if compiler and standard C++ run-time library supports
+// dynamic_cast-ing of a private (hidden) Run-Time-Type-Information
+// (RTTI). See Modules/Code/Common/CMake/itkCheckPrivateDynamicCast.cmake
+#cmakedefine ITK_PRIVATE_DYNAMIC_CAST
 
 /*
  * The @HAVE_INCLUDE_H@ gets replaced with "1" or "", this define is
