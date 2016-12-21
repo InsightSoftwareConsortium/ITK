@@ -150,6 +150,9 @@ mark_as_advanced(ITK_WRAP_PERL)
 mark_as_advanced(ITK_WRAP_TCL)
 
 if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRAP_TCL)
+  if(NOT ITK_DYNAMIC_LOADING)
+    message(FATAL_ERROR "Wrapping requires ITK_DYNAMIC_LOADING to be ON")
+  endif()
   # ITK_WRAPPING is an internal variable
   set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
 else()
