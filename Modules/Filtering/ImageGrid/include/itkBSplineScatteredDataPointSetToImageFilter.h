@@ -138,6 +138,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
+  /** Run-time type information (and related methods). */
+  itkTypeMacro( BSplineScatteredDataPointSetToImageFilter,
+    PointSetToImageFilter );
+
   /** Extract dimension from the output image. */
   itkStaticConstMacro( ImageDimension, unsigned int,
     TOutputImage::ImageDimension );
