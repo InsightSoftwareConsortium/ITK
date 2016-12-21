@@ -297,6 +297,7 @@ namespace itk
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
 extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<double>;
+extern template class ITKOptimizersv4_EXPORT_EXPLICIT ObjectToObjectOptimizerBaseTemplate<float>;
 
 #ifdef ITK_HAS_GCC_PRAGMA_DIAG_PUSHPOP
   ITK_GCC_PRAGMA_DIAG_POP()
