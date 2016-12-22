@@ -340,10 +340,6 @@ if (NOT HDF5_EXTERNALLY_CONFIGURED)
   set (CMAKE_Fortran_MODULE_DIRECTORY
       ${PROJECT_BINARY_DIR}/bin CACHE PATH "Single Directory for all fortran modules."
   )
-  SET(HDF5_INSTALL_LIBRARY_DIR lib)
-  SET(HDF5_INSTALL_ARCHIVE_DIR lib)
-  SET(HDF5_INSTALL_RUNTIME_DIR bin)
-  SET(HDF5_INSTALL_INCLUDE_DIR include)
 else (NOT HDF5_EXTERNALLY_CONFIGURED)
   # if we are externally configured, but the project uses old cmake scripts
   # this may not be set and utilities like H5detect will fail
