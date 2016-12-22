@@ -137,6 +137,15 @@ if(CMAKE_C_COMPILER_ARG1)
   variable CMAKE_C_COMPILER_LAUNCHER_FLAG should be used instead\
   (CMake>=3.4 required)")
 endif()
+
+#-----------------------------------------------------------------------------
+# ITK build configuration options.
+option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
+set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+
+option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
+mark_as_advanced(ITK_DYNAMIC_LOADING)
+
 #-----------------------------------------------------------------------------
 # Wrapping options
 option(ITK_WRAP_PYTHON "Build Python support" OFF)
@@ -158,14 +167,6 @@ if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRA
 else()
   set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
 endif()
-
-#-----------------------------------------------------------------------------
-# ITK build configuration options.
-option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
-set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
-
-option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
-mark_as_advanced(ITK_DYNAMIC_LOADING)
 
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
