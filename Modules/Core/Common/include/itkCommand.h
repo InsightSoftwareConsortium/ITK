@@ -81,7 +81,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename T >
-class MemberCommand:public Command
+class ITK_TEMPLATE_EXPORT MemberCommand:public Command
 {
 public:
   /** pointer to a member function that takes a Object* and the event */
@@ -160,7 +160,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename T >
-class ReceptorMemberCommand:public Command
+class ITK_TEMPLATE_EXPORT ReceptorMemberCommand:public Command
 {
 public:
   /** pointer to a member function that takes a Object* and the event */
@@ -228,7 +228,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename T >
-class SimpleMemberCommand:public Command
+class ITK_TEMPLATE_EXPORT SimpleMemberCommand:public Command
 {
 public:
   /** A method callback. */
@@ -294,7 +294,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename T >
-class SimpleConstMemberCommand:public Command
+class ITK_TEMPLATE_EXPORT SimpleConstMemberCommand:public Command
 {
 public:
   /** A const member method callback. */

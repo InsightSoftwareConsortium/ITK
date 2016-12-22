@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInput, typename TOutput >
-class FunctionBase:public Object
+class ITK_TEMPLATE_EXPORT FunctionBase:public Object
 {
 public:
   /** Standard class typedefs. */
