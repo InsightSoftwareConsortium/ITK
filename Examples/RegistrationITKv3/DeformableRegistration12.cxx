@@ -34,6 +34,7 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMemoryProbesCollectorBase.h"
@@ -131,6 +132,7 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
 
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 121212 );
 
   //  Software Guide : BeginLatex
   //
