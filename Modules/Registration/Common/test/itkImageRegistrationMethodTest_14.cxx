@@ -21,6 +21,7 @@
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkTextOutput.h"
 #include "itkCommandIterationUpdate.h"
@@ -98,6 +99,7 @@ double F( itk::Vector<double,3> & v );
 
 int itkImageRegistrationMethodTest_14(int, char* [] )
 {
+  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 121212 );
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   bool pass = true;
