@@ -35,8 +35,8 @@ itk_add_test(NAME itkSimpleImageRegistrationTestDouble
       COMMAND ITKRegistrationMethodsv4TestDriver
       --with-threads 1
       --compareIntensityTolerance 3.0
-      --compareNumberOfPixelsTolerance 4
-      --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii,:}
+      --compareNumberOfPixelsTolerance 8
+      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii.gz,:}
               ${TEMP}/itkSimpleImageRegistrationTestDouble.nii.gz
               itkSimpleImageRegistrationTest
               double
@@ -53,8 +53,8 @@ itk_add_test(NAME itkSimpleImageRegistrationTestFloat
       COMMAND ITKRegistrationMethodsv4TestDriver
       --with-threads 1
       --compareIntensityTolerance 3.0
-      --compareNumberOfPixelsTolerance 4
-      --compare DATA{Baseline/itkSimpleImageRegistrationTestNew.nii,:}
+      --compareNumberOfPixelsTolerance 8
+      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii.gz,:}
               ${TEMP}/itkSimpleImageRegistrationTestFloat.nii.gz
               itkSimpleImageRegistrationTest
               float

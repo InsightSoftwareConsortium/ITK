@@ -464,24 +464,14 @@ RegistrationParameterScalesEstimator< TMetric >
   const SizeValueType InputSpaceDimension = TTransform::InputSpaceDimension;
   const SizeValueType OutputSpaceDimension = TTransform::OutputSpaceDimension;
 
-  typedef MatrixOffsetTransformBase<ScalarType, InputSpaceDimension, OutputSpaceDimension>
-          MatrixOffsetTransformBaseType;
-  typedef TranslationTransform<ScalarType, InputSpaceDimension>
-          TranslationTransformType;
-  typedef IdentityTransform<ScalarType, InputSpaceDimension>
-          IdentityTransformType;
-  typedef Rigid3DPerspectiveTransform<ScalarType>
-          Rigid3DPerspectiveTransformType;
+  typedef Transform<ScalarType, InputSpaceDimension, OutputSpaceDimension> TransformBaseType;
 
-  const TransformBaseTemplate<typename TMetric::MeasureType> *transform = this->GetTransform();
+  const TransformBaseType *transform = dynamic_cast< const TransformBaseType * >( this->GetTransform() );
 
-  if ( dynamic_cast< const MatrixOffsetTransformBaseType * >( transform ) != ITK_NULLPTR
-    || dynamic_cast< const TranslationTransformType * >( transform ) != ITK_NULLPTR
-    || dynamic_cast< const IdentityTransformType * >( transform ) != ITK_NULLPTR
-    || dynamic_cast< const Rigid3DPerspectiveTransformType * >( transform ) != ITK_NULLPTR
-    )
+
+  if(transform)
     {
-    return true;
+    return transform->IsLinear();
     }
 
   return false;
