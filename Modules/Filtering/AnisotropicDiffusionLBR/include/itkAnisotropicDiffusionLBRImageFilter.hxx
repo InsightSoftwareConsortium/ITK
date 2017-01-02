@@ -23,6 +23,8 @@
 #ifndef itkAnisotropicDiffusionLBRImageFilter_hxx
 #define itkAnisotropicDiffusionLBRImageFilter_hxx
 
+#include "itkAnisotropicDiffusionLBRImageFilter.h"
+
 namespace itk
 {
 
