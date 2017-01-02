@@ -13,6 +13,7 @@ itk_module(ITKMesh
     ITKTestKernel
     ITKSpatialObjects
     ITKIOSpatialObjects
+    ITKImageGrid
     ITKIOMesh
     ITKMetaIO
     ITKTransform
