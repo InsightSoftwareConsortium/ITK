@@ -53,7 +53,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NoiseBaseImageFilter, InPlaceImageFilter);
 
-  /** Seed for random initialization  */
+  /** Set/Get the seed for random initialization  */
   itkGetConstMacro(Seed, uint32_t);
   itkSetMacro(Seed, uint32_t);
 
