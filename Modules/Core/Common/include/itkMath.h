@@ -279,7 +279,7 @@ FloatAddULP( T x, typename Detail::FloatIEEE<T>::IntType ulps )
  * The implementation is based off the explanation in the white papers:
  *
  * - http://randomascii.wordpress.com/2012/02/25/comparing-floating-point-numbers-2012-edition/
- * - http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm
+ * - http://randomascii.wordpress.com/category/floating-point/
  *
  * This function is not a cure-all, and reading those articles is important
  * to understand its appropriate use in the context of ULPs, zeros, subnormals,

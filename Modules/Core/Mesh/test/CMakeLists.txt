@@ -13,6 +13,7 @@ itkSimplexMeshVolumeCalculatorTest.cxx
 itkSphereMeshSourceTest.cxx
 itkTransformMeshFilterTest.cxx
 itkTriangleMeshToBinaryImageFilterTest.cxx
+itkTriangleMeshToBinaryImageFilterTest1.cxx
 itkTriangleMeshToBinaryImageFilterTest2.cxx
 itkTriangleMeshToBinaryImageFilterTest3.cxx
 itkTriangleMeshToBinaryImageFilterTest4.cxx
@@ -35,7 +36,7 @@ itkQuadrilateralCellTest.cxx
 itkTriangleCellTest.cxx
 )
 
-set(ITKMesh-Test_LIBRARIES ${ITKMesh-Test_LIBRARIES} ITKSpatialObjects)
+set(ITKMesh-Test_LIBRARIES ${ITKMesh-Test_LIBRARIES})
 CreateTestDriver(ITKMesh  "${ITKMesh-Test_LIBRARIES}" "${ITKMeshTests}")
 
 itk_add_test(NAME itkMeshTest
@@ -67,6 +68,9 @@ itk_add_test(NAME itkTransformMeshFilterTest
 itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest
       COMMAND ITKMeshTestDriver itkTriangleMeshToBinaryImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest.mha)
+itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest1
+      COMMAND ITKMeshTestDriver itkTriangleMeshToBinaryImageFilterTest1
+              ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest1.mha)
 itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest2
       COMMAND ITKMeshTestDriver
               --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.txt
