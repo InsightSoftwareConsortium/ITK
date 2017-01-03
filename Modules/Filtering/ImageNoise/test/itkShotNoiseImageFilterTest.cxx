@@ -28,38 +28,45 @@ int itkShotNoiseImageFilterTest(int argc, char * argv[])
 
   if( argc < 3 )
     {
-    std::cerr << "usage: " << argv[0] << " intput output scale" << std::endl;
-    std::cerr << " input: the input image" << std::endl;
-    std::cerr << " output: the output image" << std::endl;
-    exit(1);
+    std::cerr << "usage: " << argv[0] << " input output [scale]" << std::endl;
+    return EXIT_FAILURE;
     }
 
-  const int dim = 2;
+  const unsigned int Dimension = 2;
 
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::ShotNoiseImageFilter< IType, IType > FilterType;
-  FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
-  TEST_SET_GET_VALUE( 1.0, filter->GetScale() );
+  typedef itk::ShotNoiseImageFilter< ImageType, ImageType >
+    ShotNoiseImageFilterType;
+  ShotNoiseImageFilterType::Pointer shotNoiseImageFilter = ShotNoiseImageFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( shotNoiseImageFilter, ShotNoiseImageFilter,
+    NoiseBaseImageFilter );
+
+  double scale = 1.0;
   if( argc >= 4 )
     {
-    filter->SetScale( atof(argv[3]) );
-    TEST_SET_GET_VALUE( atof(argv[3]), filter->GetScale() );
+    scale = atof( argv[3] );
     }
+  shotNoiseImageFilter->SetScale( scale );
+  TEST_SET_GET_VALUE( scale, shotNoiseImageFilter->GetScale() );
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  shotNoiseImageFilter->SetInput( reader->GetOutput() );
+
+  itk::SimpleFilterWatcher watcher( shotNoiseImageFilter, "ShotNoiseImageFilter" );
+
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
+  writer->SetInput( shotNoiseImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
 
-  return 0;
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  return EXIT_SUCCESS;
 }
