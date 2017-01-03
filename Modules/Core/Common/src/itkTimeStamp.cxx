@@ -29,6 +29,15 @@
 
 namespace
 {
+/** \brief A function which does nothing
+ *
+ * This function is to be used to mark parameters as unused to supress
+ * compiler warning. It can be used when the parameter needs to be named
+ * (i.e. itkNotUsed cannot be used) but is not always used. It ensures
+ * that the parameter is not optimized out.
+ */
+template <typename T>
+void Unused( const T &) {};
 
 // This ensures that m_GlobalTimeStamp is has been initialized once the library
 // has been loaded. In some cases, this call will perform the initialization.
@@ -65,7 +74,7 @@ public:
 
       // To avoid being optimized out. The compiler does not like this
       // statement at a higher scope.
-      (void) initializedGlobalTimeStamp;
+      Unused(initializedGlobalTimeStamp);
       }
     return m_GlobalTimeStamp;
     }
@@ -135,10 +144,11 @@ TimeStamp
   // This is called once, on-demand to ensure that m_GlobalTimeStamp is
   // initialized.
   static GlobalTimeStampType * globalTimeStamp = GetGlobalTimeStamp();
-  (void) globalTimeStamp;
+  Unused(globalTimeStamp);
   this->m_ModifiedTime = ++(*m_GlobalTimeStamp);
 }
 
 TimeStamp::GlobalTimeStampType * TimeStamp::m_GlobalTimeStamp;
+
 
 } // end namespace itk
