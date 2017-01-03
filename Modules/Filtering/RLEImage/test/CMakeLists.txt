@@ -27,12 +27,12 @@ add_executable(
   iteratorTests.cxx
 )
 target_link_libraries(iteratorTests "${RLEImage-Test_LIBRARIES}")
-itk_add_test(NAME iteratorTests COMMAND iteratorTests)
+itk_add_test(NAME RLEImageiteratorTests COMMAND iteratorTests)
 
 function(ReadWriteTest ImageName Ext)
   set(outImage "${ITK_TEST_OUTPUT_DIR}/${ImageName}.${Ext}")
   itk_add_test(
-    NAME ${ImageName}
+    NAME RLEImage${ImageName}
     COMMAND
       RLEImageTestDriver
       --compare
