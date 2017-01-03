@@ -83,11 +83,10 @@ private:
   uint32_t m_Seed;
 
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkNoiseBaseImageFilter.hxx"
 #endif
 
-#endif //  itkNoiseBaseImageFilter_h
+#endif
