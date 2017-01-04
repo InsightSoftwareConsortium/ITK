@@ -19,332 +19,156 @@
 #include "itkImageFileWriter.h"
 #include "itkBSplineKernelFunction.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
-int itkGridImageSourceTest0( int, char *argv[] )
-{
-  typedef float PixelType;
-  const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-
-  // Instantiate the filter
-  typedef itk::GridImageSource<ImageType> GridSourceType;
-  GridSourceType::Pointer gridImage = GridSourceType::New();
-
-  double scale = 255.0;
-  ImageType::SizeType      size;
-  ImageType::PointType     origin;
-  ImageType::SpacingType   spacing;
-  ImageType::DirectionType direction;
-
-  GridSourceType::ArrayType     gridSpacing;
-  GridSourceType::ArrayType     gridOffset;
-  GridSourceType::ArrayType     sigma;
-  GridSourceType::BoolArrayType which;
-
-  // Specify image parameters
-  origin.Fill( 0.0 );
-  size.Fill( 64 );
-  spacing.Fill( 1.0 );
-  direction.SetIdentity();
-//  direction(1,1)=-1.0;
-
-  // Specify grid parameters
-  gridSpacing.Fill( 8.0 );
-  gridOffset.Fill( 0.0 );
-  sigma.Fill( 3 );
-  which.Fill( true );
-
-  // Specify 0th order B-spline function (Box function)
-  typedef itk::BSplineKernelFunction<0> KernelType;
-  KernelType::Pointer kernel = KernelType::New();
-
-  itk::SimpleFilterWatcher watcher(gridImage, "gridImage");
-
-  // Set parameters
-  gridImage->SetKernelFunction( kernel );
-  gridImage->SetSpacing( spacing );
-  gridImage->SetOrigin( origin );
-  gridImage->SetDirection( direction );
-  gridImage->SetSize( size );
-
-  gridImage->SetGridSpacing( gridSpacing );
-  gridImage->SetGridOffset( gridOffset );
-  gridImage->SetWhichDimensions( which );
-  gridImage->SetSigma( sigma );
-  gridImage->SetScale( scale );
-
-  try
-    {
-    gridImage->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
-  writer->SetInput( gridImage->GetOutput() );
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "Unexpected exception caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  return EXIT_SUCCESS;
-}
-
-int itkGridImageSourceTest1( int, char *argv[] )
-{
-  typedef float PixelType;
-  const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-
-  // Instantiate the filter
-  typedef itk::GridImageSource<ImageType> GridSourceType;
-  GridSourceType::Pointer gridImage = GridSourceType::New();
-
-  double scale = 255.0;
-  ImageType::SizeType size;
-  ImageType::PointType origin;
-  ImageType::SpacingType spacing;
-  GridSourceType::ArrayType gridSpacing;
-  GridSourceType::ArrayType gridOffset;
-  GridSourceType::ArrayType sigma;
-  GridSourceType::BoolArrayType which;
-
-  // Specify image parameters
-  origin.Fill( 0.0 );
-  size.Fill( 64 );
-  spacing.Fill( 1.0 );
-
-  // Specify grid parameters
-  gridSpacing.Fill( 16.0 );
-  gridOffset.Fill( 0.0 );
-  sigma.Fill( 3 );
-  which.Fill( true );
-
-  // Specify 0th order B-spline function (Box function)
-  typedef itk::BSplineKernelFunction<3> KernelType;
-  KernelType::Pointer kernel = KernelType::New();
-
-  // Set parameters
-  gridImage->SetKernelFunction( kernel );
-  gridImage->SetSpacing( spacing );
-  gridImage->SetOrigin( origin );
-  gridImage->SetSize( size );
-  gridImage->SetGridSpacing( gridSpacing );
-  gridImage->SetGridOffset( gridOffset );
-  gridImage->SetWhichDimensions( which );
-  gridImage->SetSigma( sigma );
-  gridImage->SetScale( scale );
-
-  try
-    {
-    gridImage->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
-  writer->SetInput( gridImage->GetOutput() );
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "Unexpected exception caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  return EXIT_SUCCESS;
-}
-
-int itkGridImageSourceTest2( int, char *argv[] )
-{
-  typedef float PixelType;
-  const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-
-  // Instantiate the filter
-  typedef itk::GridImageSource<ImageType> GridSourceType;
-  GridSourceType::Pointer gridImage = GridSourceType::New();
-
-  double scale = 255.0;
-  ImageType::SizeType size;
-  ImageType::PointType origin;
-  ImageType::SpacingType spacing;
-  GridSourceType::ArrayType gridSpacing;
-  GridSourceType::ArrayType gridOffset;
-  GridSourceType::ArrayType sigma;
-  GridSourceType::BoolArrayType which;
-
-  // Specify image parameters
-  origin.Fill( 0.0 );
-  size.Fill( 32 );
-  spacing.Fill( 1.0 );
-
-  // Specify grid parameters
-  gridSpacing.Fill( 4.0 );
-  gridOffset.Fill( 0.0 );
-  sigma.Fill( 3 );
-  which.Fill( true );
-  which[ImageDimension-1] = false;
-
-  // Set parameters
-  gridImage->SetSpacing( spacing );
-  gridImage->SetOrigin( origin );
-  gridImage->SetSize( size );
-  gridImage->SetGridSpacing( gridSpacing );
-  gridImage->SetGridOffset( gridOffset );
-  gridImage->SetWhichDimensions( which );
-  gridImage->SetSigma( sigma );
-  gridImage->SetScale( scale );
-
-  try
-    {
-    gridImage->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
-  writer->SetInput( gridImage->GetOutput() );
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "Unexpected exception caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  return EXIT_SUCCESS;
-}
-
-int itkGridImageSourceTest3( int, char *argv[] )
-{
-  typedef float PixelType;
-  const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-
-  // Instantiate the filter
-  typedef itk::GridImageSource<ImageType> GridSourceType;
-  GridSourceType::Pointer gridImage = GridSourceType::New();
-
-  double scale = 255.0;
-  ImageType::SizeType size;
-  ImageType::PointType origin;
-  ImageType::SpacingType spacing;
-  GridSourceType::ArrayType gridSpacing;
-  GridSourceType::ArrayType gridOffset;
-  GridSourceType::ArrayType sigma;
-  GridSourceType::BoolArrayType which;
-
-  // Specify image parameters
-  origin.Fill( 0.0 );
-  size.Fill( 64 );
-  spacing.Fill( 1.0 );
-
-  // Specify grid parameters
-  gridOffset.Fill( 0.0 );
-  gridSpacing[0] = 32.0;
-  gridSpacing[1] = 16.0;
-  gridSpacing[2] = 16.0;
-  sigma[0] = 1.0;
-  sigma[1] = 5.0;
-  sigma[2] = 6.0;
-
-  which.Fill( true );
-
-  // Set parameters
-  gridImage->SetSpacing( spacing );
-  gridImage->SetOrigin( origin );
-  gridImage->SetSize( size );
-  gridImage->SetGridSpacing( gridSpacing );
-  gridImage->SetGridOffset( gridOffset );
-  gridImage->SetWhichDimensions( which );
-  gridImage->SetSigma( sigma );
-  gridImage->SetScale( scale );
-
-  try
-    {
-    gridImage->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "Unexpected exception caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
-  writer->SetInput( gridImage->GetOutput() );
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "Unexpected exception caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  return EXIT_SUCCESS;
-}
 
 int itkGridImageSourceTest( int argc, char *argv[] )
 {
-  if ( argc != 3 )
+  if ( argc != 12 )
     {
-    std::cout << "Usage: " << argv[0] << " outputImage whichTest" << std::endl;
+    std::cout << "Usage: " << argv[0]
+      << " outputImage"
+      << " imageSize"
+      << " sigma"
+      << " variableSigma"
+      << " gridSpacing"
+      << " variableGridSpacing"
+      << " gridOffset"
+      << " gridAllDimensions"
+      << " toggleLastGridDimension"
+      << " useBSplineKernel"
+      << " bSplineOrder" << std::endl;
     return EXIT_FAILURE;
     }
 
-  int test;
-  if ( atoi( argv[2] ) == 0 )
+
+  const unsigned int  ImageDimension = 3;
+  typedef float       PixelType;
+
+  typedef itk::Image< PixelType, ImageDimension > ImageType;
+
+  // Instantiate the filter
+  typedef itk::GridImageSource< ImageType > GridSourceType;
+  GridSourceType::Pointer gridImage = GridSourceType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( gridImage, GridImageSource, GenerateImageSource );
+
+
+  // Specify image parameters
+  ImageType::SizeValueType size =
+    static_cast< ImageType::SizeValueType >( atof( argv[2] ) );
+  ImageType::SizeType imageSize;
+  imageSize.Fill( size );
+
+  ImageType::PointType origin;
+  origin.Fill( 0.0 );
+
+  ImageType::SpacingType imageSpacing;
+  imageSpacing.Fill( 1.0 );
+
+  ImageType::DirectionType direction;
+  direction.SetIdentity();
+
+  gridImage->SetSize( imageSize );
+  gridImage->SetSpacing( imageSpacing );
+  gridImage->SetOrigin( origin );
+  gridImage->SetDirection( direction );
+
+
+  // Specify grid parameters
+  double scale = 255.0;
+  gridImage->SetScale( scale );
+  TEST_SET_GET_VALUE( scale, gridImage->GetScale() );
+
+
+  GridSourceType::ArrayType::ValueType sigmaValue =
+    static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[3] ) );
+  GridSourceType::ArrayType sigma;
+  sigma.Fill( sigmaValue );
+  bool variableSigma = static_cast< bool >( atoi( argv[4] ) );
+
+  if( variableSigma )
     {
-    test = itkGridImageSourceTest0( argc, argv );
+    if( sigma.Size() > 2 )
+      {
+      sigma[1] = sigma[0] + 4.0;
+      sigma[2] = sigma[0] + 5.0;
+      }
     }
-  else if ( atoi( argv[2] ) == 1 )
+  gridImage->SetSigma( sigma );
+  TEST_SET_GET_VALUE( sigma, gridImage->GetSigma() );
+
+
+  GridSourceType::ArrayType::ValueType spacing =
+    static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[5] ) );
+  GridSourceType::ArrayType gridSpacing;
+  gridSpacing.Fill( spacing );
+
+
+  bool variableGridSpacing = static_cast< bool >( atoi( argv[6] ) );
+  if( variableGridSpacing )
     {
-    test = itkGridImageSourceTest1( argc, argv );
+    for( unsigned int i = 0; i < gridSpacing.Size(); ++i )
+      {
+      gridSpacing[i] = gridSpacing[0] / 2.0;
+      }
     }
-  else if ( atoi( argv[2] ) == 2 )
+  gridImage->SetGridSpacing( gridSpacing );
+  TEST_SET_GET_VALUE( gridSpacing, gridImage->GetGridSpacing() );
+
+
+  GridSourceType::ArrayType::ValueType offset =
+    static_cast< GridSourceType::ArrayType::ValueType >( atof( argv[7] ) );
+  GridSourceType::ArrayType gridOffset;
+  gridOffset.Fill( offset );
+  gridImage->SetGridOffset( gridOffset );
+  TEST_SET_GET_VALUE( gridOffset, gridImage->GetGridOffset() );
+
+
+  bool gridAllDimensions = static_cast< bool >( atoi( argv[8] ) );
+  GridSourceType::BoolArrayType whichDimension;
+  whichDimension.Fill( gridAllDimensions );
+
+  bool toggleLastGridDimension = atof( argv[9] );
+  if( toggleLastGridDimension )
     {
-    test = itkGridImageSourceTest2( argc, argv );
+    whichDimension[ImageDimension - 1] = !gridAllDimensions;
     }
-  else
+  gridImage->SetWhichDimensions( whichDimension );
+  TEST_SET_GET_VALUE( whichDimension, gridImage->GetWhichDimensions() );
+
+
+  bool useBSplineKernel = static_cast< bool >( atoi( argv[10] ) );
+  if( useBSplineKernel )
     {
-    test = itkGridImageSourceTest3( argc, argv );
+    unsigned int bSplineOrder = atoi( argv[11] );
+    // Specify B-Spline function
+    if( bSplineOrder == 3 )
+      {
+      typedef itk::BSplineKernelFunction< 3 > KernelType;
+      KernelType::Pointer kernel = KernelType::New();
+      gridImage->SetKernelFunction( kernel );
+      }
+    else
+      {
+      typedef itk::BSplineKernelFunction< 0 > KernelType;
+      KernelType::Pointer kernel = KernelType::New();
+      gridImage->SetKernelFunction( kernel );
+      }
     }
 
-  return test;
+
+  itk::SimpleFilterWatcher watcher( gridImage, "GridImageSource" );
+
+  TRY_EXPECT_NO_EXCEPTION( gridImage->Update() );
+
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[1] );
+  writer->SetInput( gridImage->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  std::cout << "Test finished" << std::endl;
+  return EXIT_SUCCESS;
 }
