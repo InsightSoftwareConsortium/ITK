@@ -62,7 +62,7 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GeneratemageSource, ImageSource);
+  itkTypeMacro(GenerateImageSource, ImageSource);
 
   /**
    * Set/Get the size of the output image
