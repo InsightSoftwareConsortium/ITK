@@ -178,18 +178,6 @@ public:
   itkSetObjectMacro(KernelFunction, KernelFunctionType);
   itkGetModifiableObjectMacro(KernelFunction, KernelFunctionType);
 
-  /** Reinitialize the seed of the random number generator that selects the
-   * sample of pixels used for estimating the image histograms and the joint
-   * histogram. By nature, this metric is not deterministic, since at each run
-   * it may select a different set of pixels. By initializing the random number
-   * generator seed to the same value you can restore determinism. On the other
-   * hand, calling the method ReinitializeSeed() without arguments will use the
-   * clock from your machine in order to have a very random initialization of
-   * the seed. This will indeed increase the non-deterministic behavior of the
-   * metric. */
-  void ReinitializeSeed();
-
-  void ReinitializeSeed(int);
 
 protected:
   MutualInformationImageToImageMetric();
@@ -253,8 +241,6 @@ public:
 
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
 
-  bool m_ReseedIterator;
-  int  m_RandomSeed;
 };
 } // end namespace itk
 
