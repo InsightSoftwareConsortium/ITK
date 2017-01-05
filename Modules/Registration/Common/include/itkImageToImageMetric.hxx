@@ -62,7 +62,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_UseAllPixels(false),
   m_UseSequentialSampling(false),
   m_ReseedIterator(false),
-  m_RandomSeed(-1),
+  m_RandomSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->GetSeed()),
 
   m_TransformIsBSpline(false),
   m_NumBSplineWeights(0),
@@ -574,7 +574,15 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   // Set up a random interator within the user specified fixed image region.
   typedef ImageRandomConstIteratorWithIndex< FixedImageType > RandomIterator;
   RandomIterator randIter( m_FixedImage, GetFixedImageRegion() );
-
+  randIter.ReinitializeSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->GetSeed());
+  if (m_ReseedIterator)
+    {
+    randIter.ReinitializeSeed();
+    }
+  else
+    {
+    randIter.ReinitializeSeed(m_RandomSeed++);
+    }
   typename FixedImageSampleContainer::iterator iter;
   typename FixedImageSampleContainer::const_iterator end = samples.end();
 
@@ -809,7 +817,7 @@ void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::ReinitializeSeed()
 {
-  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed();
+  m_ReseedIterator = true;
 }
 
 // Method to reinitialize the seed of the random number generator
@@ -818,8 +826,8 @@ void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::ReinitializeSeed(int seed)
 {
-  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(
-    seed);
+  m_ReseedIterator = false;
+  m_RandomSeed = seed;
 }
 
 /**
@@ -1533,6 +1541,9 @@ ImageToImageMetric< TFixedImage, TMovingImage >
 
   os << indent << "UseAllPixels: ";
   os << m_UseAllPixels << std::endl;
+
+  os << indent << "ReseedIterator: " << m_ReseedIterator << std::endl;
+  os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
 
   os << indent << "Threader: " << m_Threader << std::endl;
   os << indent << "Number of Threads: " << m_NumberOfThreads << std::endl;

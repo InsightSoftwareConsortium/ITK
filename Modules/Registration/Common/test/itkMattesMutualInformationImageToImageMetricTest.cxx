@@ -214,6 +214,7 @@ int TestMattesMetricWithAffineTransform(
 
   metric->SetUseExplicitPDFDerivatives( useExplicitJointPDFDerivatives );
   metric->SetUseCachingOfBSplineWeights( useCachingBSplineWeights );
+  metric->ReinitializeSeed(121212);
 
   if( useSampling )
     {
@@ -695,7 +696,6 @@ int itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv [] )
   bool useSampling = true;
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 121212 );
 
   // Test metric with a linear interpolator
   typedef itk::LinearInterpolateImageFunction< ImageType, double >

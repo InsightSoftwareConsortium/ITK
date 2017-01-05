@@ -132,8 +132,6 @@ int main( int argc, char *argv[] )
   typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
 
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 121212 );
-
   //  Software Guide : BeginLatex
   //
   //  We instantiate now the type of the \code{BSplineTransform} using
@@ -325,6 +323,7 @@ int main( int argc, char *argv[] )
     metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
 
+  metric->ReinitializeSeed(121212);
 
   // Add a time probe
   itk::TimeProbesCollectorBase chronometer;

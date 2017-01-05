@@ -40,11 +40,13 @@ int itkMersenneTwisterRandomVariateGeneratorTest( int, char* [] )
     RandomVariateGeneratorBase );
 
   // Does the new instance have the same seed?
-  if ( Twister::GetInstance()->GetSeed() != twister->GetSeed() )
+  if ( Twister::GetInstance()->GetSeed()+1 != twister->GetSeed() )
     {
-    std::cerr << "New instance does not have the same seed!" << std::endl;
+    std::cerr << "New instance does not have the next seed!" << std::endl;
     return EXIT_FAILURE;
     }
+
+  twister->SetSeed( Twister::GetInstance()->GetSeed());
 
   // Check that we get the same series of numbers from the two.  Use integers.
   for ( int i = 0; i < 200; i++ )

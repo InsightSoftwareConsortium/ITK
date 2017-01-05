@@ -99,7 +99,6 @@ double F( itk::Vector<double,3> & v );
 
 int itkImageRegistrationMethodTest_14(int, char* [] )
 {
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed( 121212 );
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
   bool pass = true;
@@ -254,6 +253,7 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
   metric->SetFixedImageStandardDeviation( 5.0 );
   metric->SetNumberOfSpatialSamples( 50 );
   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+  metric->ReinitializeSeed(121212);
 
   /******************************************************************
    * Set up the registrator.

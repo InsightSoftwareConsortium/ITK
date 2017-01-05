@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 #include "itkMersenneTwisterRandomVariateGenerator.h"
-#include "itkSimpleFastMutexLock.h"
-#include "itkMutexLockHolder.h"
 
 
 namespace itk
@@ -54,7 +52,13 @@ MersenneTwisterRandomVariateGenerator
 {
   MersenneTwisterRandomVariateGenerator::Pointer obj =
     MersenneTwisterRandomVariateGenerator::CreateInstance();
-  obj->SetSeed ( GetInstance()->GetSeed() );
+
+  IntegerType newSeed = GetInstance()->GetSeed();
+  {
+    MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
+    newSeed += m_StaticDiffer++;
+  }
+  obj->SetSeed ( newSeed );
   return obj;
 }
 
@@ -108,6 +112,8 @@ MersenneTwisterRandomVariateGenerator
     h2 *= UCHAR_MAX + 2U;
     h2 += p[j];
     }
+  // lock for m_StaticDiffer
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
   return ( h1 + m_StaticDiffer++ ) ^ h2;
 }
 

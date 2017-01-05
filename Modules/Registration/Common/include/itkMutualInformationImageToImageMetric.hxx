@@ -111,7 +111,14 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
 {
   typedef ImageRandomConstIteratorWithIndex<FixedImageType> RandomIterator;
   RandomIterator randIter( this->m_FixedImage, this->GetFixedImageRegion() );
-
+  if (this->m_ReseedIterator)
+    {
+    randIter.ReinitializeSeed();
+    }
+  else
+    {
+    randIter.ReinitializeSeed(this->m_RandomSeed++);
+    }
   randIter.SetNumberOfSamples(m_NumberOfSpatialSamples);
   randIter.GoToBegin();
 
@@ -497,28 +504,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
       derivatives[k] += jacobian[j][k] * imageDerivatives[j];
       }
     }
-}
-
-/*
- * Reinitialize the seed of the random number generator
- */
-template <typename TFixedImage, typename TMovingImage>
-void
-MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
-::ReinitializeSeed()
-{
-  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed();
-}
-
-/*
- * Reinitialize the seed of the random number generator
- */
-template <typename TFixedImage, typename TMovingImage>
-void
-MutualInformationImageToImageMetric<TFixedImage, TMovingImage>
-::ReinitializeSeed(int seed)
-{
-  Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(seed);
 }
 
 } // end namespace itk
