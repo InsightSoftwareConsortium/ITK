@@ -27,7 +27,56 @@ namespace itk
  *
  * \brief Alter an image with shot noise.
  *
- * The shot noise follows a Poisson distribution.
+ * The shot noise follows a Poisson distribution:
+ *
+ * \par
+ * \f$ I = N(I_0) \f$
+ *
+ * \par
+ * where \f$ N(I_0) \f$ is a Poisson-distributed random variable of mean
+ * \f$ I_0 \f$. The noise is thus dependent on the pixel intensities in the
+ * image.
+ *
+ * The intensities in the image can be scaled by a user provided value to map
+ * pixel values to the actual number of particles. The scaling can be seen as
+ * the inverse of the gain used during the acquisition. The noisy signal is
+ * then scaled back to its input intensity range:
+ *
+ * \par
+ * \f$ I = \frac{N(I_0 times s)}{s} \f$
+ *
+ * \par
+ * where \f$ s \f$ is the scale factor.
+ *
+ * The Poisson-distributed variable \f$ \lambda \f$ is computed by using the
+ * algorithm:
+ *
+ * \par
+ * \left\{
+ * k \leftarrow 0
+ * p \leftarrow 1
+ * \right
+ * repeat
+ * k \leftarrow k+1
+ * p \leftarrow p \ast U()
+ * until p > e^{\lambda}
+ * return (k)
+ *
+ * \par
+ * where \f$ U() \f$ provides a uniformly distributed random variable in the
+ * interval \f$ [0,1] \f$.
+ *
+ * This algorithm is very inefficient for large values of \f$ \lambda \f$,
+ * though. Fortunately, the Poisson distribution can be accurately approximated
+ * by a Gaussian distribution of mean and variance \f$ \lambda \f$ when
+ * \f$ \lambda \f$ is large enough. In this implementation, this value is
+ * considered to be 50. This leads to the faster algorithm:
+ *
+ * \par
+ * \f$ \lambda + \sqrt{\lambda} \times N()\f$\f$
+ *
+ * \par
+ * where N() is a normally distributed random variable of mean 0 and variance 1.
  *
  * \author Gaetan Lehmann
  *
@@ -66,12 +115,10 @@ public:
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename InputImageType::PixelType    InputImagePixelType;
 
-  /** \brief a value to map the pixel value to the actual number of photon.
-   *
-   * This value defaults to 1.0. The scaling can be seen as the
-   * inverse of the gain used during the acquisition. The noisy signal
-   * is then scaled back to its input intensity range.
-   */
+  /** Set/Get the value to map the pixel value to the actual particle counting.
+   * The scaling can be seen as the inverse of the gain used during the
+   * acquisition. The noisy signal is then scaled back to its input intensity
+   * range. Defaults to 1.0. */
   itkGetConstMacro(Scale, double);
   itkSetMacro(Scale, double);
 
