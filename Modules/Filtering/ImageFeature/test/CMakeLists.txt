@@ -20,8 +20,8 @@ itkCannyEdgeDetectionImageFilterTest2.cxx
 itkDerivativeImageFilterTest.cxx
 itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkMaskFeaturePointSelectionFilterTest.cxx
-itkUnsharpMaskingImageFilterTestSimple.cxx
-itkUnsharpMaskingImageFilterTest.cxx
+itkUnsharpMaskImageFilterTestSimple.cxx
+itkUnsharpMaskImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
@@ -34,34 +34,34 @@ itk_add_test(NAME itkLaplacianImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkLaplacianImageFilterTest)
 itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkSobelEdgeDetectionImageFilterTest)
-itk_add_test(NAME itkUnsharpMaskingImageFilterTestSimple
-      COMMAND ITKImageFeatureTestDriver itkUnsharpMaskingImageFilterTestSimple)
-itk_add_test(NAME itkUnsharpMaskingImageFilterTest_DefaultsUChar
+itk_add_test(NAME itkUnsharpMaskImageFilterTestSimple
+      COMMAND ITKImageFeatureTestDriver itkUnsharpMaskImageFilterTestSimple)
+itk_add_test(NAME itkUnsharpMaskImageFilterTest_DefaultsUChar
       COMMAND ITKImageFeatureTestDriver
   --compare DATA{Baseline/SwirledUSM_Defaults.png}
             ${TEMP}/SwirledUSM_Defaults.png
             --compareIntensityTolerance .001
-  itkUnsharpMaskingImageFilterTest
+  itkUnsharpMaskImageFilterTest
   uchar
   DATA{Input/Swirled.png}
   ${TEMP}/SwirledUSM_Defaults.png
   )
-itk_add_test(NAME itkUnsharpMaskingImageFilterTest_DefaultsFloat
+itk_add_test(NAME itkUnsharpMaskImageFilterTest_DefaultsFloat
       COMMAND ITKImageFeatureTestDriver
   --compare DATA{Baseline/SwirledUSM_Defaults.nrrd}
             ${TEMP}/SwirledUSM_Defaults.nrrd
             --compareIntensityTolerance .001
-  itkUnsharpMaskingImageFilterTest
+  itkUnsharpMaskImageFilterTest
   float
   DATA{Input/Swirled.png}
   ${TEMP}/SwirledUSM_Defaults.nrrd
   )
-itk_add_test(NAME itkUnsharpMaskingImageFilterTest_3_3_15
+itk_add_test(NAME itkUnsharpMaskImageFilterTest_3_3_15
       COMMAND ITKImageFeatureTestDriver
   --compare DATA{Baseline/SwirledUSM_3-3-15.nrrd}
             ${TEMP}/SwirledUSM_3-3-15.nrrd.nrrd
             --compareIntensityTolerance .001
-  itkUnsharpMaskingImageFilterTest
+  itkUnsharpMaskImageFilterTest
   float
   DATA{Input/Swirled.png}
   ${TEMP}/SwirledUSM_3-3-15.nrrd.nrrd

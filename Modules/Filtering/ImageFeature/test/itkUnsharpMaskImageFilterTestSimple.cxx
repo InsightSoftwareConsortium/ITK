@@ -16,11 +16,11 @@
  *
  *=========================================================================*/
 
-#include "itkUnsharpMaskingImageFilter.h"
+#include "itkUnsharpMaskImageFilter.h"
 #include "itkFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkUnsharpMaskingImageFilterTestSimple( int, char* [] )
+int itkUnsharpMaskImageFilterTestSimple( int, char* [] )
 {
   // Define the dimension of the images
   const unsigned int Dimension = 2;
@@ -83,18 +83,18 @@ int itkUnsharpMaskingImageFilterTestSimple( int, char* [] )
     ++it;
     }
 
-  // Declare the type for the itk::UnsharpMaskingImageFilter
-  typedef itk::UnsharpMaskingImageFilter< InputImageType >
-    UnsharpMaskingImageFilterFilterType;
+  // Declare the type for the itk::UnsharpMaskImageFilter
+  typedef itk::UnsharpMaskImageFilter< InputImageType >
+    UnsharpMaskImageFilterFilterType;
 
-  typedef UnsharpMaskingImageFilterFilterType::OutputImageType
+  typedef UnsharpMaskImageFilterFilterType::OutputImageType
     GradientImageType;
 
   // Create the filter
-  UnsharpMaskingImageFilterFilterType::Pointer filter =
-    UnsharpMaskingImageFilterFilterType::New();
+  UnsharpMaskImageFilterFilterType::Pointer filter =
+    UnsharpMaskImageFilterFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskingImageFilter, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskImageFilter, ImageToImageFilter);
 
   FilterWatcher watchit( filter );
 
@@ -102,23 +102,23 @@ int itkUnsharpMaskingImageFilterTestSimple( int, char* [] )
   filter->SetInput( inputImage );
 
 
-  UnsharpMaskingImageFilterFilterType::InternalPrecisionType threshold = -0.1;
+  UnsharpMaskImageFilterFilterType::InternalPrecisionType threshold = -0.1;
   filter->SetThreshold( threshold );
 
   TRY_EXPECT_EXCEPTION( filter->Update() );
 
 
   // Set the filter properties
-  UnsharpMaskingImageFilterFilterType::SigmaArrayType::ValueType sigma = 2.5;
+  UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma = 2.5;
   filter->SetSigma( sigma );
 
-  UnsharpMaskingImageFilterFilterType::SigmaArrayType sigmas =
+  UnsharpMaskImageFilterFilterType::SigmaArrayType sigmas =
     filter->GetSigmas();
 
   double tolerance = 10e-6;
   for( unsigned int i = 0; i < sigmas.Size(); ++i )
     {
-    UnsharpMaskingImageFilterFilterType::SigmaArrayType::ValueType sigma2 =
+    UnsharpMaskImageFilterFilterType::SigmaArrayType::ValueType sigma2 =
       sigmas[i];
     if( !itk::Math::FloatAlmostEqual( sigma, sigma2, 10, tolerance) )
       {
@@ -131,7 +131,7 @@ int itkUnsharpMaskingImageFilterTestSimple( int, char* [] )
       }
     }
 
-  UnsharpMaskingImageFilterFilterType::InternalPrecisionType amount = 0.8;
+  UnsharpMaskImageFilterFilterType::InternalPrecisionType amount = 0.8;
   filter->SetAmount( amount );
   TEST_SET_GET_VALUE( amount, filter->GetAmount() );
 
@@ -140,7 +140,7 @@ int itkUnsharpMaskingImageFilterTestSimple( int, char* [] )
   TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
 
   bool clamp = itk::NumericTraits<
-    UnsharpMaskingImageFilterFilterType::OutputPixelType >::IsInteger;
+    UnsharpMaskImageFilterFilterType::OutputPixelType >::IsInteger;
   filter->SetClamp( clamp );
   TEST_SET_GET_VALUE( clamp, filter->GetClamp() );
 

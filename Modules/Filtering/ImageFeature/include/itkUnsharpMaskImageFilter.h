@@ -15,8 +15,8 @@
 *  limitations under the License.
 *
 *=========================================================================*/
-#ifndef itkUnsharpMaskingImageFilter_h
-#define itkUnsharpMaskingImageFilter_h
+#ifndef itkUnsharpMaskImageFilter_h
+#define itkUnsharpMaskImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- * \class UnsharpMaskingImageFilter
+ * \class UnsharpMaskImageFilter
  * \brief Edge enhancement filter.
  *
  * This filter subracts a smoothed version of the image from the image
@@ -52,14 +52,14 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage = TInputImage, typename TInternalPrecision = float >
-class ITK_TEMPLATE_EXPORT UnsharpMaskingImageFilter:
+class ITK_TEMPLATE_EXPORT UnsharpMaskImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /**
    * Standard "Self" & Superclass typedef.
    */
-  typedef UnsharpMaskingImageFilter                       Self;
+  typedef UnsharpMaskImageFilter                          Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
 
   /**
@@ -94,7 +94,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(UnsharpMaskingImageFilter, ImageToImageFilter);
+  itkTypeMacro(UnsharpMaskImageFilter, ImageToImageFilter);
 
   /**
    * Method for creation through the object factory.
@@ -144,13 +144,13 @@ public:
   itkBooleanMacro(Clamp);
 
 protected:
-  UnsharpMaskingImageFilter();
-  virtual ~UnsharpMaskingImageFilter(){}
+  UnsharpMaskImageFilter();
+  virtual ~UnsharpMaskImageFilter(){}
 
   /**
-  * UnsharpMaskingImageFilter needs a larger input requested region than
+  * UnsharpMaskImageFilter needs a larger input requested region than
   * the output requested region (larger by the size of the
-  * Gaussian kernel).  As such, UnsharpMaskingImageFilter needs to
+  * Gaussian kernel).  As such, UnsharpMaskImageFilter needs to
   * provide an implementation for GenerateInputRequestedRegion() in
   * order to inform the pipeline execution model.
   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
@@ -162,7 +162,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskingImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(UnsharpMaskImageFilter);
 
   /** The edge amplification amount */
   TInternalPrecision m_Amount;
@@ -238,11 +238,11 @@ private:
       return static_cast<OutPixelType>(result);
     }
   }; //end UnsharpMaskingFunctor
-}; //end UnsharpMaskingImageFilter
+}; //end UnsharpMaskImageFilter
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkUnsharpMaskingImageFilter.hxx"
+#include "itkUnsharpMaskImageFilter.hxx"
 #endif
 
 #endif

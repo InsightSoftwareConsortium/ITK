@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkUnsharpMaskingImageFilter_hxx
-#define itkUnsharpMaskingImageFilter_hxx
+#ifndef itkUnsharpMaskImageFilter_hxx
+#define itkUnsharpMaskImageFilter_hxx
 
-#include "itkUnsharpMaskingImageFilter.h"
+#include "itkUnsharpMaskImageFilter.h"
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
@@ -27,8 +27,8 @@ namespace itk
 {
 
 template< typename TInputImage, typename TOutputImage, typename TInternalPrecision >
-UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
-::UnsharpMaskingImageFilter()
+UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
+::UnsharpMaskImageFilter()
   :m_Amount(0.5),
   m_Threshold(0),
   m_Clamp(NumericTraits<OutputPixelType>::IsInteger)
@@ -41,7 +41,7 @@ UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 
 template< typename TInputImage, typename TOutputImage, typename TInternalPrecision >
 void
-UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
+UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 ::GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method. this should
@@ -59,7 +59,7 @@ UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 
 template< typename TInputImage, typename TOutputImage, typename TInternalPrecision >
 void
-UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
+UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 ::VerifyPreconditions()
 {
   Superclass::VerifyPreconditions();
@@ -72,7 +72,7 @@ UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 
 template< typename TInputImage, typename TOutputImage, typename TInternalPrecision >
 void
-UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
+UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 ::GenerateData()
 {
   typename TInputImage::Pointer input = TInputImage::New();
@@ -105,7 +105,7 @@ UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 
 template< typename TInputImage, typename TOutputImage, typename TInternalPrecision >
 void
-UnsharpMaskingImageFilter< TInputImage, TOutputImage, TInternalPrecision >
+UnsharpMaskImageFilter< TInputImage, TOutputImage, TInternalPrecision >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
