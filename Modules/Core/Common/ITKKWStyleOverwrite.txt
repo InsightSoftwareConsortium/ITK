@@ -1,4 +1,5 @@
 test/.*\.cxx Namespace Disable
+itkAtomicIntDetail\.h InternalVariables Disable
 itkFixedArray\.h Typedefs Disable
 itkImage\.h Template Disable
 itkIntTypes\.h Typedefs Disable
