@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkUnsharpMaskingImageFilter.h"
+#include "itkUnsharpMaskImageFilter.h"
 #include "itkTestingMacros.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -44,11 +44,11 @@ int RunTest( int argc, char* argv[] )
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[3] );
 
-  typedef itk::UnsharpMaskingImageFilter< InImageType, OutImageType > FilterType;
+  typedef itk::UnsharpMaskImageFilter< InImageType, OutImageType > FilterType;
   typename FilterType::Pointer filter = FilterType::New();
 
   //this does not work from within a templated method (GCC gives an error)
-  //EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskingImageFilter, ImageToImageFilter);
+  //EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskImageFilter, ImageToImageFilter);
 
   filter->SetInput( reader->GetOutput() );
 
@@ -92,11 +92,11 @@ int RunTest( int argc, char* argv[] )
 }
 }
 
-int itkUnsharpMaskingImageFilterTest( int argc, char* argv[] )
+int itkUnsharpMaskImageFilterTest( int argc, char* argv[] )
 {
   if( argc < 4 )
     {
-    std::cerr << "Usage:\n itkUnsharpMaskingImageFilterTest";
+    std::cerr << "Usage:\n itkUnsharpMaskImageFilterTest";
     std::cerr << " float | uchar in.png out.nrrd [amount [sigma [threshold]]]" << std::endl;
     return EXIT_FAILURE;
     }
