@@ -115,9 +115,13 @@ Please run
 }
 
 run_KWStyle_on_file() {
-  if test -z "$KWStyle_overWriteRulesConf"; then
+  local_KWStyle_overWriteRulesConf="`pwd`/${1%/*}/../ITKKWStyleOverwrite.txt"
+  if test -f "$local_KWStyle_overWriteRulesConf"; then
+    "$KWStyle_path" -gcc -xml "$KWStyle_conf" -o "$local_KWStyle_overWriteRulesConf" "$1"
+  elif test -z "$KWStyle_overWriteRulesConf"; then
     "$KWStyle_path" -gcc -xml "$KWStyle_conf" "$1"
   else
+    echo "$KWStyle_overWriteRulesConf"
     "$KWStyle_path" -gcc -xml "$KWStyle_conf" -o "$KWStyle_overWriteRulesConf" "$1"
   fi
 
