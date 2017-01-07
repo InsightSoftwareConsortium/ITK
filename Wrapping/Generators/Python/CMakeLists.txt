@@ -817,6 +817,8 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
 
   if("${cpp_name}" STREQUAL "itk::Point")
     ADD_PYTHON_VEC_TYPEMAP("${swig_name}" "${template_params}")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
+    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::ContinuousIndex")
