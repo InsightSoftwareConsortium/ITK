@@ -38,8 +38,10 @@
 #include "itkSimpleFastMutexLock.h"
 #include "itkConceptChecking.h"
 
-
-#if defined(__APPLE__)
+#if defined(ITK_HAVE_SYNC_BUILTINS)
+# define ITK_GCC_ATOMICS_32
+# define ITK_GCC_ATOMICS_64
+#elif defined(__APPLE__)
 # include <libkern/OSAtomic.h>
 # define ITK_APPLE_ATOMICS_32
 # if ITK_SIZEOF_VOID_P == 8 || defined(__i386__)
@@ -50,11 +52,7 @@
 # if ITK_SIZEOF_VOID_P == 8
 #   define ITK_WINDOWS_ATOMICS_64
 # endif
-#elif defined(ITK_HAVE_SYNC_BUILTINS)
-# define ITK_GCC_ATOMICS_32
-# define ITK_GCC_ATOMICS_64
 #endif
-
 
 namespace itk
 {
@@ -64,7 +62,9 @@ namespace Detail
 
 template <size_t VSize> class AtomicOps;
 
+
 #if defined ITK_HAVE_SYNC_BUILTINS
+
 
 template <size_t VSize> struct BaseType;
 
