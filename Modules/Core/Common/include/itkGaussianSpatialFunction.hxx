@@ -26,12 +26,12 @@ namespace itk
 {
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
 GaussianSpatialFunction< TOutput, VImageDimension, TInput >
-::GaussianSpatialFunction()
+::GaussianSpatialFunction() :
+  m_Scale( 1.0 ),
+  m_Normalized( false )
 {
   m_Mean = ArrayType::Filled(10.0);
   m_Sigma = ArrayType::Filled(5.0);
-  m_Scale = 1.0;
-  m_Normalized = false;
 }
 
 template< typename TOutput, unsigned int VImageDimension, typename TInput >
@@ -44,7 +44,7 @@ typename GaussianSpatialFunction< TOutput, VImageDimension, TInput >::OutputType
 GaussianSpatialFunction< TOutput, VImageDimension, TInput >
 ::Evaluate(const TInput & position) const
 {
-  // We have to compute the gaussian in several stages, because of the
+  // We have to compute the Gaussian in several stages, because of the
   // n-dimensional generalization
 
   // Normalizing the Gaussian is important for statistical applications
