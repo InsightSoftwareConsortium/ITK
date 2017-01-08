@@ -214,8 +214,14 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
+
   os << indent << "Alpha: " << this->m_Alpha << std::endl;
   os << indent << "Sigma: " << this->m_Sigma << std::endl;
+
+  os << indent << "Bounding box start: " << this->m_BoundingBoxStart << std::endl;
+  os << indent << "Bounding box end: " << this->m_BoundingBoxEnd << std::endl;
+  os << indent << "Scaling factor: " << this->m_ScalingFactor << std::endl;
+  os << indent << "Cut-off distance: " << this->m_CutOffDistance << std::endl;
 }
 } // namespace itk
 
