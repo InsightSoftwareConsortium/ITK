@@ -16,111 +16,103 @@
  *
  *=========================================================================*/
 
-
 #include "itkGaussianSpatialFunction.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
-int itkGaussianSpatialFunctionTest(int, char* [] )
+int itkGaussianSpatialFunctionTest( int argc, char* argv[] )
 {
-  // Change this parameter (and the positions, below) to work in higher or lower dimensions
+  if ( argc < 3 )
+    {
+    std::cout << "Usage: " << argv[0]
+      << " scale normalized" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const unsigned int Dimension = 3;
+  typedef double PixeltType;
 
-  //---------Create and initialize a spatial function-----------
+  typedef itk::GaussianSpatialFunction< PixeltType, Dimension >
+    GaussianSpatialFunctionType;
 
-  typedef itk::GaussianSpatialFunction<double,Dimension> FunctionType;
+  typedef GaussianSpatialFunctionType::ArrayType ArrayType;
+  typedef GaussianSpatialFunctionType::InputType InputType;
 
-  typedef FunctionType::ArrayType ArrayType;
-  typedef FunctionType::InputType InputType;
+  // Create and initialize the Spatial function
 
-  // Create and initialize a new sphere function
+  GaussianSpatialFunctionType::Pointer gaussianSpatialFunction =
+    GaussianSpatialFunctionType::New();
 
-  FunctionType::Pointer spatialFunction = FunctionType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( gaussianSpatialFunction, GaussianSpatialFunction,
+    SpatialFunction );
 
   ArrayType mean;
-  mean[0]=13;
-  mean[1]=17;
-  mean[2]=19;
-  spatialFunction->SetMean( mean );
-
-  // Test the Get macros as well
-  ArrayType mean1 = spatialFunction->GetMean();
-  if( mean1 != mean )
-    {
-    return EXIT_FAILURE;
-    }
-  // FIXME : verify the return values...
+  mean[0] = 13;
+  mean[1] = 17;
+  mean[2] = 19;
+  gaussianSpatialFunction->SetMean( mean );
+  TEST_SET_GET_VALUE( mean, gaussianSpatialFunction->GetMean() );
 
   ArrayType sigma;
-  sigma[0]=5;
-  sigma[1]=7;
-  sigma[2]=9;
-  spatialFunction->SetSigma( sigma );
+  sigma[0] = 5;
+  sigma[1] = 7;
+  sigma[2] = 9;
+  gaussianSpatialFunction->SetSigma( sigma );
+  TEST_SET_GET_VALUE( sigma, gaussianSpatialFunction->GetSigma() );
 
-  // Test the Get macros as well
-  ArrayType sigma1 = spatialFunction->GetSigma();
-  if( sigma1 != sigma )
+  double scale = atof( argv[1] );
+  gaussianSpatialFunction->SetScale( scale );
+  TEST_SET_GET_VALUE( scale, gaussianSpatialFunction->GetScale() );
+
+  bool normalized = static_cast< bool >( atoi( argv[2] ) );
+  gaussianSpatialFunction->SetNormalized( normalized );
+  TEST_SET_GET_VALUE( normalized, gaussianSpatialFunction->GetNormalized() );
+
+  if( normalized )
     {
-    return EXIT_FAILURE;
+    gaussianSpatialFunction->NormalizedOn();
+    TEST_SET_GET_VALUE( true, gaussianSpatialFunction->GetNormalized() );
     }
-  // FIXME : verify the return values...
-
-  double scale1 = spatialFunction->GetScale();
-  if( std::fabs( scale1 - 1.0 ) > itk::Math::eps )
+  else
     {
-    std::cerr << "Error in initial scale value" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
-  bool normalized1 = spatialFunction->GetNormalized();
-  if( normalized1 )
-    {
-    std::cerr << "Error in initial value of normalized" << std::endl;
-    return EXIT_FAILURE;
+    gaussianSpatialFunction->NormalizedOff();
+    TEST_SET_GET_VALUE( false, gaussianSpatialFunction->GetNormalized() );
     }
 
 
-  double scale2 = 19.0;
-  spatialFunction->SetScale( scale2 );
-  if( itk::Math::NotExactlyEquals(spatialFunction->GetScale(), scale2) )
-    {
-    std::cerr << "Error in Set/GetScale()" << std::endl;
-    return EXIT_FAILURE;
-    }
+  // Test the evaluation of the Gaussian spatial funtion
+  //
 
-  spatialFunction->SetScale( 1.0 );
-  spatialFunction->SetNormalized( true );
-
-
-  std::cout << "Gaussian spatial function created\n";
-
-  //----------------Test evaluation of funtion------------------
-
-  // We're going to evaluate it at the center of the Gaussian (10,10,10)
+  // Evaluate it at the center of the Gaussian
   InputType point;
   point[0] = mean[0];
   point[1] = mean[1];
   point[2] = mean[2];
 
-  std::cout << spatialFunction->GetNameOfClass() << std::endl;
-  spatialFunction->Print( std::cout );
+  double computedValueAtMean = gaussianSpatialFunction->Evaluate( point );
 
-  double computedValueAtMean = spatialFunction->Evaluate( point );
-  std::cout << "Gaussian function value is " << computedValueAtMean << std::endl;
-
-  const double oneDimensionalFactor = std::sqrt( 2.0 * itk::Math::pi );
-  const double factor = oneDimensionalFactor * oneDimensionalFactor * oneDimensionalFactor;
-  double expectedValueAtMean = 1.0 / ( sigma[0]*sigma[1]*sigma[2] * factor );
-
-  std::cout << "expectedValueAtMean = " << expectedValueAtMean << std::endl;
-  std::cout << "computed value      = " << computedValueAtMean << std::endl;
-
-  if( std::fabs( computedValueAtMean - expectedValueAtMean ) > itk::Math::eps )
+  double expectedValueAtMean = 1.0;
+  if( gaussianSpatialFunction->GetNormalized() )
     {
-    std::cerr << "Error in computation of value at mean" << std::endl;
-    return EXIT_FAILURE;
+    const double oneDimensionalFactor = std::sqrt( 2.0 * itk::Math::pi );
+    const double factor = oneDimensionalFactor * oneDimensionalFactor * oneDimensionalFactor;
+    expectedValueAtMean = scale / ( sigma[0]*sigma[1]*sigma[2] * factor );
+    }
+  else
+    {
+    const double oneDimensionalFactor = 1.0;
+    const double factor = oneDimensionalFactor * oneDimensionalFactor * oneDimensionalFactor;
+    expectedValueAtMean = scale / factor;
     }
 
+  if( itk::Math::NotAlmostEquals( expectedValueAtMean, computedValueAtMean ) )
+    {
+    std::cout << "Error in point " << point << ": ";
+    std::cout << "expected: " << expectedValueAtMean << ", but got "
+      << computedValueAtMean << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   return EXIT_SUCCESS;
 }
