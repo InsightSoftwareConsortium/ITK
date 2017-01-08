@@ -493,6 +493,7 @@ private:
     return this->EvaluateUnoptimized(index);
   }
 
+  /** Evaluate interpolator at image index position. */
   virtual inline OutputType EvaluateUnoptimized(
     const ContinuousIndexType & index) const;
 
