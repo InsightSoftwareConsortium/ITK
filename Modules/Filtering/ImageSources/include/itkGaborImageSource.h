@@ -29,10 +29,10 @@ namespace itk
  * GaborImageSource generates an image of either the real
  * (i.e. symmetric) or complex (i.e. antisymmetric) part
  * of the Gabor filter with the orientation directed along
- * the x-axis.  The GaborKernelFunction is used to evaluate
+ * the x-axis. The GaborKernelFunction is used to evaluate
  * the contribution along the x-axis whereas a non-normalized
  * 1-D Gaussian envelope provides the contribution in each of
- * the remaining N dimensions.  Orientation can be manipulated
+ * the remaining N dimensions. Orientation can be manipulated
  * via the Transform classes of the toolkit.
  *
  * The output image may be of any dimension.
@@ -79,15 +79,20 @@ public:
   typedef FixedArray< double,
                       itkGetStaticConstMacro(ImageDimension) >    ArrayType;
 
+  /** Set/Get the the standard deviation in each direction. */
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
 
+  /** Set/Get the mean in each direction. */
   itkSetMacro(Mean, ArrayType);
   itkGetConstReferenceMacro(Mean, ArrayType);
 
+  /** Set/Get the modulation frequency of the sine or cosine component. */
   itkSetMacro(Frequency, double);
   itkGetConstReferenceMacro(Frequency, double);
 
+  /** Set/Get whether the evaluation is performed using the using the imaginary
+   * part. Default is false. */
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstReferenceMacro(CalculateImaginaryPart, bool);
   itkBooleanMacro(CalculateImaginaryPart);
@@ -102,21 +107,15 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaborImageSource);
 
-  /** Parameters for the Gabor. */
-
-  /** Evaluate using the complex part */
   bool m_CalculateImaginaryPart;
 
-  /** Modulation frequency of the sine or cosine component */
   double m_Frequency;
 
   /** Evaluate using a stretched gabor filter (ensure zero dc response) */
   double m_PhaseOffset;
 
-  /** The standard deviation in each direction. */
   ArrayType m_Sigma;
 
-  /** The mean in each direction. */
   ArrayType m_Mean;
 };
 } // end namespace itk

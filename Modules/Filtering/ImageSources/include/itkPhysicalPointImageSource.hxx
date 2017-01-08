@@ -74,7 +74,6 @@ PhysicalPointImageSource< TOutputImage >
     progress.CompletedPixel();
     }
 }
-
 } // end namespace itk
 
-#endif //itkPhysicalPointImageSource_hxx
+#endif

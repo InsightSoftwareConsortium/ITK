@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef itkParametricImageSource_hxx
 #define itkParametricImageSource_hxx
+
 #include "itkParametricImageSource.h"
 
 namespace itk
@@ -32,7 +33,6 @@ ParametricImageSource< TOutputImage >
   os << indent << "NumberOfParameters: " << this->GetNumberOfParameters()
      << std::endl;
 }
-
 } // end namespace itk
 
 #endif

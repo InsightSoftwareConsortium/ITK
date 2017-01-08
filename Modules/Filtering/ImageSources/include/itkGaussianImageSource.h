@@ -93,16 +93,25 @@ public:
   itkNewMacro(Self);
 
   /** Gets and sets for Gaussian parameters */
+
+  /** Set/Get the scale factor to multiply the true value of the Gaussian. */
   itkSetMacro(Scale, double);
   itkGetConstReferenceMacro(Scale, double);
+
+  /** Set/Get whether or not to normalize the Gaussian. Default is false. */
   itkSetMacro(Normalized, bool);
   itkGetConstReferenceMacro(Normalized, bool);
+  itkBooleanMacro(Normalized);
+
+  /** Set/Get the standard deviation in each direction. */
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
+
+  /** Set/Get the mean in each direction. */
   itkSetMacro(Mean, ArrayType);
   itkGetConstReferenceMacro(Mean, ArrayType);
 
-  /** Set/get the parameters for this source. When this source is
+  /** Set/Get the parameters for this source. When this source is
    * templated over an N-dimensional output image type, the first N
    * values in the parameter array are the Sigma parameters in each
    * dimension, the next N values are the Mean parameters in each
@@ -125,18 +134,12 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianImageSource);
 
-  /** Parameters for the Gaussian. */
-
-  /** The standard deviation in each direction. */
   ArrayType m_Sigma;
 
-  /** The mean in each direction. */
   ArrayType m_Mean;
 
-  /** A scale factor multiplied by the true value of the Gaussian. */
   double m_Scale;
 
-  /** Whether or not to normalize the Gaussian. */
   bool m_Normalized;
 };
 } // end namespace itk
