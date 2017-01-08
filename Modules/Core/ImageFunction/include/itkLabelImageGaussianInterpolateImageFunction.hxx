@@ -25,9 +25,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template<typename TInputImage, typename TCoordRep, typename TPixelCompare>
 LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare>
 ::LabelImageGaussianInterpolateImageFunction()
@@ -102,7 +99,7 @@ LabelImageGaussianInterpolateImageFunction<TInputImage, TCoordRep, TPixelCompare
       wtest = w;
       }
 
-    //Keep track of the max value
+    // Keep track of the max value
     if( wtest > wmax )
       {
       wmax = wtest;
