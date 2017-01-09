@@ -36,14 +36,14 @@ itk_add_test(NAME itkSimpleImageRegistrationTestDouble
       --with-threads 1
       --compareIntensityTolerance 3.0
       --compareNumberOfPixelsTolerance 8
-      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii.gz,:}
-              ${TEMP}/itkSimpleImageRegistrationTestDouble.nii.gz
+      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii,:}
+              ${TEMP}/itkSimpleImageRegistrationTestDouble.nii
               itkSimpleImageRegistrationTest
               double
               2 # number of dimensions
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
-              ${TEMP}/itkSimpleImageRegistrationTestDouble.nii.gz
+              ${TEMP}/itkSimpleImageRegistrationTestDouble.nii
               100 # number of affine iterations
               10 # number of deformable iterations
               )
@@ -54,14 +54,14 @@ itk_add_test(NAME itkSimpleImageRegistrationTestFloat
       --with-threads 1
       --compareIntensityTolerance 3.0
       --compareNumberOfPixelsTolerance 8
-      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii.gz,:}
-              ${TEMP}/itkSimpleImageRegistrationTestFloat.nii.gz
+      --compare DATA{Baseline/itkSimpleImageRegistrationTest.nii,:}
+              ${TEMP}/itkSimpleImageRegistrationTestFloat.nii
               itkSimpleImageRegistrationTest
               float
               2 # number of dimensions
               DATA{Input/r16slice_rigid.nii.gz}
               DATA{Input/r64slice.nii.gz}
-              ${TEMP}/itkSimpleImageRegistrationTestFloat.nii.gz
+              ${TEMP}/itkSimpleImageRegistrationTestFloat.nii
               100 # number of affine iterations
               10 # number of deformable iterations
               )
