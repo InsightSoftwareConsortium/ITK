@@ -73,7 +73,7 @@ namespace itk
  * considered to be 50. This leads to the faster algorithm:
  *
  * \par
- * \f$ \lambda + \sqrt{\lambda} \times N()\f$\f$
+ * \f$ \lambda + \sqrt{\lambda} \times N()\f$
  *
  * \par
  * where N() is a normally distributed random variable of mean 0 and variance 1.
