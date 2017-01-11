@@ -40,7 +40,6 @@ namespace itk
  * \par
  * \f$ N \sim \mathcal{N}(\mu, \sigma^2) \f$
  *
- * \par
  * The noise is independent of the pixel intensities.
  *
  * \author Gaetan Lehmann
