@@ -27,7 +27,7 @@ namespace itk
  * \class UnsharpMaskImageFilter
  * \brief Edge enhancement filter.
  *
- * This filter subracts a smoothed version of the image from the image
+ * This filter subtracts a smoothed version of the image from the image
  * to achieve the edge enhancing effect.
  * https://en.wikipedia.org/w/index.php?title=Unsharp_masking&oldid=750486803#Photographic_unsharp_masking
  *
@@ -138,7 +138,7 @@ public:
   itkGetConstMacro(Threshold, TInternalPrecision);
 
   /** Set/Get whether to clamp values to supported
-  * range ouf output type. Default: On. */
+  * range of output type. Default: On. */
   itkSetMacro(Clamp, bool);
   itkGetConstMacro(Clamp, bool);
   itkBooleanMacro(Clamp);
