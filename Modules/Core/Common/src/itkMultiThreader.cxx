@@ -308,6 +308,13 @@ void MultiThreader::SingleMethodExecute()
   // obey the global maximum number of threads limit
   m_NumberOfThreads = std::min( m_GlobalMaximumNumberOfThreads, m_NumberOfThreads );
 
+  // Init process_id table because a valid process_id (i.e., non-zero), is
+  // checked in the WaitForSingleMethodThread loops
+  for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+    {
+    process_id[thread_loop] = 0;
+    }
+
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
   // thrown from a thread will be caught by the SingleMethodProxy. A
   // naive mechanism is in place for determining whether a thread
@@ -357,7 +364,7 @@ void MultiThreader::SingleMethodExecute()
     {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
-    for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+    for( thread_loop = 1; thread_loop < m_NumberOfThreads && process_id[thread_loop]; ++thread_loop )
       {
       try
         {
@@ -386,7 +393,7 @@ void MultiThreader::SingleMethodExecute()
     }
   // The parent thread has finished this->SingleMethod() - so now it
   // waits for each of the other processes to exit
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
+  for( thread_loop = 1; thread_loop < m_NumberOfThreads && process_id[thread_loop]; ++thread_loop )
     {
     try
       {
