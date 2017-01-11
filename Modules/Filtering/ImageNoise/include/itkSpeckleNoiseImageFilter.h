@@ -41,7 +41,7 @@ namespace itk
  * variance proportional to the noise level:
  *
  * \par
- * \f$ G \sim \Gamma({1}{sigma^2}, \sigma^2) \f$
+ * \f$ G \sim \Gamma(\frac{1}{\sigma^2}, \sigma^2) \f$
  *
  * \author Gaetan Lehmann
  *

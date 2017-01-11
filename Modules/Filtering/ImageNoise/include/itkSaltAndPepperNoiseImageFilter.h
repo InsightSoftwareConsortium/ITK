@@ -35,19 +35,19 @@ namespace itk
  * \par
  * \f$ I =
  * \begin{cases}
- * M,   & \quad \text{if } U < p/2
- * m,   & \quad \text{if } U > 1 - p/2
+ * M,   & \quad \text{if } U < p/2 \\
+ * m,   & \quad \text{if } U > 1 - p/2 \\
  * I_0, & \quad \text{if } p/2 \geq U \leq 1 - p/2
  * \end{cases} \f$
  *
  * \par
  * where \f$ p \f$ is the probability of the noise event, \f$ U \f$ is a
- * uniformlly distributed random variable in the \f$ [0,1] \f$ range, \f$ M \f$
+ * uniformly distributed random variable in the \f$ [0,1] \f$ range, \f$ M \f$
  * is the greatest possible pixel value, and \f$ m \f$ the smallest possible
  * pixel value.
  *
  * Pixel alteration occurs at a user defined probability.
- * Salt and pepper pixel are equally distributed.
+ * Salt and pepper pixels are equally distributed.
  *
  * \author Gaetan Lehmann
  *

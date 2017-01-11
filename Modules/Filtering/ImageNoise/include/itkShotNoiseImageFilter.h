@@ -43,7 +43,7 @@ namespace itk
  * then scaled back to its input intensity range:
  *
  * \par
- * \f$ I = \frac{N(I_0 times s)}{s} \f$
+ * \f$ I = \frac{N(I_0 \times s)}{s} \f$
  *
  * \par
  * where \f$ s \f$ is the scale factor.
@@ -52,15 +52,19 @@ namespace itk
  * algorithm:
  *
  * \par
+ * \f$ \begin{array}{l}
+ * k \leftarrow 0 \\
+ * p \leftarrow 1 \\
+ * \textbf{repeat} \\
  * \left\{
- * k \leftarrow 0
- * p \leftarrow 1
- * \right
- * repeat
- * k \leftarrow k+1
- * p \leftarrow p \ast U()
- * until p > e^{\lambda}
- * return (k)
+ * \begin{array}{l}
+ * k \leftarrow k+1 \\
+ * p \leftarrow p \ast U()
+ * \end{array}
+ * \right. \\
+ * \textbf{until } p > e^{\lambda} \\
+ * \textbf{return} (k)
+ * \end{array} \f$
  *
  * \par
  * where \f$ U() \f$ provides a uniformly distributed random variable in the
@@ -76,7 +80,7 @@ namespace itk
  * \f$ \lambda + \sqrt{\lambda} \times N()\f$
  *
  * \par
- * where N() is a normally distributed random variable of mean 0 and variance 1.
+ * where \f$ N() \f$ is a normally distributed random variable of mean 0 and variance 1.
  *
  * \author Gaetan Lehmann
  *
