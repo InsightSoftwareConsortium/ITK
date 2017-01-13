@@ -21,5 +21,5 @@ itk_fetch_module(BridgeNumPy
   See http://insight-journal.org/browse/publication/85
       https://hdl.handle.net/1926/188"
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBridgeNumPy.git
-  GIT_TAG ab8df8c1c8494416d5c8471382413c49c9163d9b
+  GIT_TAG 249e7be2d012c66b605498b1ce2b4b46498e0680
   )
