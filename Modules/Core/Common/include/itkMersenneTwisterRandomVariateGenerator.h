@@ -216,6 +216,13 @@ public:
    */
   IntegerType GetSeed();
 
+  /** Return the next seed, derived as a sequence from the seed of the
+   * singleton instance.
+   *
+   * \note This method is thread-safe.
+   */
+  static IntegerType GetNextSeed();
+
   /*
   // Saving and loading generator state
   void save( IntegerType* saveArray ) const;  // to array of size SAVE
