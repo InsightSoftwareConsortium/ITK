@@ -95,9 +95,9 @@ public:
                      DerivativeType & derivative) const ITK_OVERRIDE;
 
   /** Get the value of the metric at a particular parameter
-   *  setting.  The metric value is given by 2*|A&B|/(|A|+|B|), where A
+   *  setting. The metric value is given by 2*|A&B|/(|A|+|B|), where A
    *  is the moving image, B is the fixed image, & is intersection,
-   *  and |.| indicates the area of the enclosed set.  If ComplementOn has
+   *  and |.| indicates the area of the enclosed set. If ComplementOn has
    *  been set, the metric value is 1.0-2*|A&B|/(|A|+|B|). */
   MeasureType GetValue(const TransformParametersType & parameters) const ITK_OVERRIDE;
 
@@ -106,7 +106,7 @@ public:
   void GetValueAndDerivative(const TransformParametersType & parameters,
                              MeasureType & Value, DerivativeType & Derivative) const ITK_OVERRIDE;
 
-  /** This method allows the user to set the foreground value.  The default
+  /** This method allows the user to set the foreground value. The default
    *  value is 255. */
   itkSetMacro(ForegroundValue, RealType);
   itkGetConstMacro(ForegroundValue, RealType);
@@ -114,7 +114,7 @@ public:
   /** Set/Get whether this metric returns 2*|A&B|/(|A|+|B|)
    * (ComplementOff, the default) or 1.0 - 2*|A&B|/(|A|+|B|)
    * (ComplementOn). When using an optimizer that minimizes
-   * metric values use ComplementOn().  */
+   * metric values use ComplementOn(). */
   itkSetMacro(Complement, bool);
   itkBooleanMacro(Complement);
   itkGetConstMacro(Complement, bool);
