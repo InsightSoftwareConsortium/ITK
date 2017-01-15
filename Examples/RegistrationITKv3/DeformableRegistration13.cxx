@@ -113,9 +113,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  // For consistent results when regression testing.
-  itk::Statistics::MersenneTwisterRandomVariateGenerator
-    ::GetInstance()->SetSeed( 121212 );
 
   const    unsigned int    ImageDimension = 2;
   typedef  unsigned char   PixelType;
@@ -260,6 +257,9 @@ int main( int argc, char *argv[] )
     static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 60.0 / 100.0 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed( 121213 );
 
   if( argc > 7 )
     {

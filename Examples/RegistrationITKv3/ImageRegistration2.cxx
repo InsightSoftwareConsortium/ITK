@@ -138,10 +138,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  // For consistent results when regression testing.
-  itk::Statistics::MersenneTwisterRandomVariateGenerator
-    ::GetInstance()->SetSeed( 121212 );
-
   // Software Guide : BeginLatex
   //
   // The moving and fixed images types should be instantiated first.
@@ -251,6 +247,10 @@ int main( int argc, char *argv[] )
   metric->SetFixedImageStandardDeviation(  0.4 );
   metric->SetMovingImageStandardDeviation( 0.4 );
   // Software Guide : EndCodeSnippet
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed( 121212 );
+
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;
