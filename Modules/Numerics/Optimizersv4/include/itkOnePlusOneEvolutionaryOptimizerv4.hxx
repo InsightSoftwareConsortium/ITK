@@ -155,9 +155,10 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
     {
     A(i, i) = m_InitialRadius / scales[i];
     }
-  this->m_CurrentIteration = 0;
 
-  for ( unsigned int iter = 0; iter < m_MaximumIteration; iter++ )
+  for ( this->m_CurrentIteration = 0;
+        this->m_CurrentIteration < m_MaximumIteration;
+        this->m_CurrentIteration++ )
     {
     if ( m_Stop )
       {
@@ -166,8 +167,6 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
       m_StopConditionDescription << "StopOptimization() called";
       break;
       }
-
-    ++this->m_CurrentIteration;
 
     for ( unsigned int i = 0; i < spaceDimension; i++ )
       {
@@ -208,23 +207,23 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
         }
       }
 
-    itkDebugMacro(<< "iter: " << iter << ": parent position: "
+    itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": parent position: "
                   << parentPosition);
-    itkDebugMacro(<< "iter: " << iter << ": parent fitness: "
+    itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": parent fitness: "
                   << pvalue);
-    itkDebugMacro(<< "iter: " << iter << ": random vector: " << f_norm);
-    itkDebugMacro(<< "iter: " << iter << ": A: " << std::endl << A);
-    itkDebugMacro(<< "iter: " << iter << ": delta: " << delta);
-    itkDebugMacro(<< "iter: " << iter << ": child position: "
+    itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": random vector: " << f_norm);
+    itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": A: " << std::endl << A);
+    itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": delta: " << delta);
+    itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": child position: "
                   << childPosition);
-    itkDebugMacro(<< "iter: " << iter << ": child fitness: "
+    itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": child fitness: "
                   << cvalue);
 
     double adjust = m_ShrinkFactor;
 
     if ( cvalue < pvalue )
       {
-      itkDebugMacro(<< "iter: " << iter << ": increasing search radius");
+      itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": increasing search radius");
       pvalue = cvalue;
       parent.swap(child);
       adjust = m_GrowthFactor;
@@ -236,7 +235,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
       }
     else
       {
-      itkDebugMacro(<< "iter: " << iter << ": decreasing search radius");
+      itkDebugMacro(<< "iter: " << this->m_CurrentIteration << ": decreasing search radius");
       }
 
     m_CurrentCost = pvalue;
@@ -247,12 +246,12 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>
     itkDebugMacro(<< "A f-norm:" << m_FrobeniusNorm);
     if ( m_FrobeniusNorm <= m_Epsilon )
       {
-      itkDebugMacro(<< "converges at iteration = " << iter);
+      itkDebugMacro(<< "converges at iteration = " << this->m_CurrentIteration);
       m_StopConditionDescription.str("");
       m_StopConditionDescription << this->GetNameOfClass() << ": ";
       m_StopConditionDescription << "Fnorm (" << m_FrobeniusNorm
                                  << ") is less than Epsilon (" << m_Epsilon
-                                 << " at iteration #" << iter;
+                                 << " at iteration #" << this->m_CurrentIteration;
       this->InvokeEvent( EndEvent() );
       return;
       }
