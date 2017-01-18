@@ -105,9 +105,9 @@ CHECK_TYPE_SIZE("long" SIZEOF_LONG)
 TEST_BIG_ENDIAN(WORDS_BIGENDIAN)
 
 configure_file(${ITK3P_TIFF_SOURCE_DIR}/tiffDllConfig.h.in
-  ${ITK3P_TIFF_BINARY_DIR}/tiffDllConfig.h)
+  ${ITK3P_TIFF_BINARY_DIR}/itk_tiffDllConfig.h)
 configure_file(${ITK3P_TIFF_SOURCE_DIR}/tif_config.h.in
-  ${ITK3P_TIFF_BINARY_DIR}/tif_config.h)
+  ${ITK3P_TIFF_BINARY_DIR}/itk_tif_config.h)
 
 if(NOT UNIX)
   add_definitions( -DTIF_PLATFORM_CONSOLE )
