@@ -17,58 +17,59 @@
  *=========================================================================*/
 
 #include "itkXorImageFilter.h"
+#include "itkImageFileWriter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 
-int itkXorImageFilterTest(int, char* [] )
+int itkXorImageFilterTest( int argc, char* argv[] )
 {
+  if ( argc < 2 )
+    {
+    std::cout << "Usage: " << argv[0]
+      << "outputImage " << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 3;
 
   // Declare the types of the images
-  typedef unsigned char                         myPixelType;
-  typedef itk::Image<myPixelType, myDimension>  myImageType1;
-  typedef itk::Image<myPixelType, myDimension>  myImageType2;
-  typedef itk::Image<myPixelType, myDimension>  myImageType3;
+  typedef unsigned char                     PixelType;
+  typedef itk::Image< PixelType, Dimension> InputImage1Type;
+  typedef itk::Image< PixelType, Dimension> InputImage2Type;
+  typedef itk::Image< PixelType, Dimension> OutputImageType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  typedef itk::Index< Dimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  typedef itk::Size< Dimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  typedef itk::ImageRegion< Dimension >   RegionType;
 
-  // Declare the type for the ADD filter
-  typedef itk::XorImageFilter<
-                                myImageType1,
-                                myImageType2,
-                                myImageType3  >       myFilterType;
+  // Declare the type for the filter
+  typedef itk::XorImageFilter< InputImage1Type,
+                               InputImage2Type,
+                               OutputImageType > XorImageFilterType;
 
-  // Declare the pointers to images
-  typedef myImageType1::Pointer   myImageType1Pointer;
-  typedef myImageType2::Pointer   myImageType2Pointer;
-  typedef myImageType3::Pointer   myImageType3Pointer;
-  typedef myFilterType::Pointer   myFilterTypePointer;
-
-  // Create two images
-  myImageType1Pointer inputImageA  = myImageType1::New();
-  myImageType2Pointer inputImageB  = myImageType2::New();
+  // Create the input images
+  InputImage1Type::Pointer inputImageA = InputImage1Type::New();
+  InputImage2Type::Pointer inputImageB = InputImage2Type::New();
 
   // Define their size, and start index
-  mySizeType size;
+  SizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;
 
-  myIndexType start;
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -84,71 +85,65 @@ int itkXorImageFilterTest(int, char* [] )
   inputImageB->SetRequestedRegion( region );
   inputImageB->Allocate();
 
-
-  // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
+  // Declare appropriate Iterator types for each image
+  typedef itk::ImageRegionIteratorWithIndex< InputImage1Type >
+    InputImage1IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< InputImage2Type >
+    InputImage2IteratorType;
 
   // Create one iterator for Image A (this is a light object)
-  myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
+  InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
   it1.GoToBegin();
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  InputImage1Type::PixelType valueA = 2;
   while( !it1.IsAtEnd() )
   {
-    it1.Set( 2 );
-    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it1.Get()) << std::endl;
+    it1.Set( valueA );
     ++it1;
   }
 
   // Create one iterator for Image B (this is a light object)
-  myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
+  InputImage2IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
   it2.GoToBegin();
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
+  InputImage2Type::PixelType valueB = 3;
   while( !it2.IsAtEnd() )
   {
-    it2.Set( 3 );
-    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it2.Get()) << std::endl;
+    it2.Set( valueB );
     ++it2;
   }
 
+  // Create the filter
+  XorImageFilterType::Pointer filter = XorImageFilterType::New();
 
-  // Create an ADD Filter
-  myFilterTypePointer filter = myFilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, XorImageFilter,
+    BinaryFunctorImageFilter );
 
-
-  // Connect the input images
+  // Set the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType3Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
 
-  // Create an iterator for going through the image output
-  myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
-  it3.GoToBegin();
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
 
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  while( !it3.IsAtEnd() )
-  {
-    std::cout << static_cast<itk::NumericTraits<myPixelType>::PrintType>(it3.Get()) << std::endl;
-    ++it3;
-  }
+  // Write the result image
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[1] );
+
+  writer->SetInput( outputImage );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
-  std::cout << "Test PASSED !" << std::endl;
-
   return EXIT_SUCCESS;
-
 }

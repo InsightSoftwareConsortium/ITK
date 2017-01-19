@@ -49,7 +49,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage >
-class TileImageFilter:
+class ITK_TEMPLATE_EXPORT TileImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

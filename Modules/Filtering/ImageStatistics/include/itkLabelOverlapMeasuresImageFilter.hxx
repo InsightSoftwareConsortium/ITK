@@ -29,7 +29,7 @@ template<typename TLabelImage>
 LabelOverlapMeasuresImageFilter<TLabelImage>
 ::LabelOverlapMeasuresImageFilter()
 {
-  // this filter requires two input images
+  // This filter requires two input images
   this->SetNumberOfRequiredInputs( 2 );
 }
 
@@ -41,7 +41,6 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
   Superclass::EnlargeOutputRequestedRegion( data );
   data->SetRequestedRegionToLargestPossibleRegion();
 }
-
 
 template<typename TLabelImage>
 void
@@ -82,22 +81,22 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
   // Run through the map for each thread and accumulate the set measures.
   for( ThreadIdType n = 0; n < this->GetNumberOfThreads(); n++ )
     {
-    // iterate over the map for this thread
+    // Iterate over the map for this thread
     for( MapConstIterator threadIt = this->m_LabelSetMeasuresPerThread[n].begin();
          threadIt != this->m_LabelSetMeasuresPerThread[n].end();
          ++threadIt )
       {
-      // does this label exist in the cumulative structure yet?
+      // Does this label exist in the cumulative structure yet?
       MapIterator mapIt = this->m_LabelSetMeasures.find( ( *threadIt ).first );
       if( mapIt == this->m_LabelSetMeasures.end() )
         {
-        // create a new entry
+        // Create a new entry
         typedef typename MapType::value_type MapValueType;
         mapIt = this->m_LabelSetMeasures.insert( MapValueType(
                                                    (*threadIt).first, LabelSetMeasures() ) ).first;
         }
 
-      // accumulate the information from this thread
+      // Accumulate the information from this thread
       (*mapIt).second.m_Source += (*threadIt).second.m_Source;
       (*mapIt).second.m_Target += (*threadIt).second.m_Target;
       (*mapIt).second.m_Union += (*threadIt).second.m_Union;
@@ -122,7 +121,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
   ImageRegionConstIterator<LabelImageType> itT( this->GetTargetImage(),
                                                 outputRegionForThread );
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   ProgressReporter progress( this, threadId,
                              2*outputRegionForThread.GetNumberOfPixels() );
 
@@ -131,7 +130,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
     LabelType sourceLabel = itS.Get();
     LabelType targetLabel = itT.Get();
 
-    // is the label already in this thread?
+    // Is the label already in this thread?
     MapIterator mapItS =
       this->m_LabelSetMeasuresPerThread[threadId].find( sourceLabel );
     MapIterator mapItT =
@@ -139,7 +138,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
 
     if( mapItS == this->m_LabelSetMeasuresPerThread[threadId].end() )
       {
-      // create a new label set measures object
+      // Create a new label set measures object
       typedef typename MapType::value_type MapValueType;
       mapItS = this->m_LabelSetMeasuresPerThread[threadId].insert(
         MapValueType( sourceLabel, LabelSetMeasures() ) ).first;
@@ -147,7 +146,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
 
     if( mapItT == this->m_LabelSetMeasuresPerThread[threadId].end() )
       {
-      // create a new label set measures object
+      // Create a new label set measures object
       typedef typename MapType::value_type MapValueType;
       mapItT = this->m_LabelSetMeasuresPerThread[threadId].insert(
         MapValueType( targetLabel, LabelSetMeasures() ) ).first;
@@ -174,9 +173,6 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
     }
 }
 
-/**
- *  measures
- */
 template<typename TLabelImage>
 typename LabelOverlapMeasuresImageFilter<TLabelImage>::RealType
 LabelOverlapMeasuresImageFilter<TLabelImage>
@@ -218,7 +214,6 @@ LabelOverlapMeasuresImageFilter<TLabelImage>
     return 0.0;
     }
 
-  //std::cout << "GetTargetOverlap ::: 001" << std::endl;
   RealType value;
 
   if((*mapIt).second.m_Target == 0)

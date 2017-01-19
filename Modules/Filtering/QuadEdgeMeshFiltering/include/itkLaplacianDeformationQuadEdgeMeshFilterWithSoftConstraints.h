@@ -39,7 +39,7 @@ namespace itk {
  *  \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh, class TSolverTraits >
-class LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints:
+class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints:
   public LaplacianDeformationQuadEdgeMeshFilter< TInputMesh, TOutputMesh, TSolverTraits >
 {
 public:

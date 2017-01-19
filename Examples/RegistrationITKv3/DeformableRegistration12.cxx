@@ -34,6 +34,7 @@
 
 #include "itkImageRegistrationMethod.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMemoryProbesCollectorBase.h"
@@ -130,7 +131,6 @@ int main( int argc, char *argv[] )
 
   typedef itk::Image< PixelType, ImageDimension >  FixedImageType;
   typedef itk::Image< PixelType, ImageDimension >  MovingImageType;
-
 
   //  Software Guide : BeginLatex
   //
@@ -323,6 +323,7 @@ int main( int argc, char *argv[] )
     metric->SetUseCachingOfBSplineWeights( atoi( argv[8] ) );
     }
 
+  metric->ReinitializeSeed(121212);
 
   // Add a time probe
   itk::TimeProbesCollectorBase chronometer;

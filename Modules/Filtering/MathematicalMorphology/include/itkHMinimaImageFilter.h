@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputImage, typename TOutputImage >
-class HMinimaImageFilter:
+class ITK_TEMPLATE_EXPORT HMinimaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

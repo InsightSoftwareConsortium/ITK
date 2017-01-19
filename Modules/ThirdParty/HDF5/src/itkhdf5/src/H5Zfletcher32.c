@@ -27,8 +27,6 @@
 #include "H5MMprivate.h"	/* Memory management			*/
 #include "H5Zpkg.h"		/* Data filters				*/
 
-#ifdef H5_HAVE_FILTER_FLETCHER32
-
 /* Local function prototypes */
 static size_t H5Z_filter_fletcher32 (unsigned flags, size_t cd_nelmts,
     const unsigned cd_values[], size_t nbytes, size_t *buf_size, void **buf);
@@ -74,7 +72,7 @@ const H5Z_class2_t H5Z_FLETCHER32[1] = {{
  */
 /* ARGSUSED */
 static size_t
-H5Z_filter_fletcher32 (unsigned flags, size_t UNUSED cd_nelmts, const unsigned UNUSED cd_values[],
+H5Z_filter_fletcher32 (unsigned flags, size_t H5_ATTR_UNUSED cd_nelmts, const unsigned H5_ATTR_UNUSED cd_values[],
                      size_t nbytes, size_t *buf_size, void **buf)
 {
     void    *outbuf = NULL;     /* Pointer to new buffer */
@@ -85,9 +83,9 @@ H5Z_filter_fletcher32 (unsigned flags, size_t UNUSED cd_nelmts, const unsigned U
     uint8_t  tmp;
     size_t   ret_value;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5Z_filter_fletcher32, 0)
+    FUNC_ENTER_NOAPI(0)
 
-    assert(sizeof(uint32_t)>=4);
+    HDassert(sizeof(uint32_t)>=4);
 
     if (flags & H5Z_FLAG_REVERSE) { /* Read */
         /* Do checksum if it's enabled for read; otherwise skip it
@@ -139,8 +137,10 @@ H5Z_filter_fletcher32 (unsigned flags, size_t UNUSED cd_nelmts, const unsigned U
         /* Compute checksum (can't fail) */
         fletcher = H5_checksum_fletcher32(src, nbytes);
 
-	if (NULL==(dst=outbuf=H5MM_malloc(nbytes+FLETCHER_LEN)))
+	if (NULL == (outbuf = H5MM_malloc(nbytes + FLETCHER_LEN)))
 	    HGOTO_ERROR(H5E_RESOURCE, H5E_NOSPACE, 0, "unable to allocate Fletcher32 checksum destination buffer")
+
+        dst = (unsigned char *) outbuf;
 
         /* Copy raw data */
         HDmemcpy((void*)dst, (void*)(*buf), nbytes);
@@ -164,5 +164,4 @@ done:
         H5MM_xfree(outbuf);
     FUNC_LEAVE_NOAPI(ret_value)
 }
-#endif /* H5_HAVE_FILTER_FLETCHER32 */
 

@@ -39,7 +39,7 @@ namespace itk
  * \sa MeshFileWriter
  */
 template< typename TInputMesh >
-class VTKPolyDataWriter:public Object
+class ITK_TEMPLATE_EXPORT VTKPolyDataWriter:public Object
 {
 public:
   /** Standard "Self" typedef. */

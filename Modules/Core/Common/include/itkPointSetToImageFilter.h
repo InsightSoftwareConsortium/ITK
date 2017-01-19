@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInputPointSet, typename TOutputImage >
-class PointSetToImageFilter:public ImageSource< TOutputImage >
+class ITK_TEMPLATE_EXPORT PointSetToImageFilter:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

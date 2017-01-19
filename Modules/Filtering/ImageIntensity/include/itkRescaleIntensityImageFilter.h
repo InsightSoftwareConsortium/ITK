@@ -28,7 +28,7 @@ namespace itk
 namespace Functor
 {
 template< typename TInput, typename  TOutput >
-class IntensityLinearTransform
+class ITK_TEMPLATE_EXPORT IntensityLinearTransform
 {
 public:
   typedef typename NumericTraits< TInput >::RealType RealType;
@@ -133,7 +133,7 @@ private:
  * \endwiki
  */
 template< typename  TInputImage, typename  TOutputImage = TInputImage >
-class RescaleIntensityImageFilter:
+class ITK_TEMPLATE_EXPORT RescaleIntensityImageFilter:
   public
   UnaryFunctorImageFilter< TInputImage, TOutputImage,
                            Functor::IntensityLinearTransform<

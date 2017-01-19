@@ -27,7 +27,7 @@
 
 namespace itk
 {
-class ITKIOMeta_EXPORT MetaArrayReader:public LightProcessObject
+class ITKIOMeta_EXPORT MetaArrayReader : public LightProcessObject
 {
 public:
 
@@ -37,81 +37,81 @@ public:
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
 
-  /** Method for creation through the object factory */
+  /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(MetaArrayReader, LightProcessObject);
 
-  /** Set the filename  */
+  /** Set the filename. */
   itkSetStringMacro(FileName);
 
-  /** Get the filename */
+  /** Get the filename. */
   itkGetStringMacro(FileName);
 
-  /** Get a pointer to the metaArray so that you can change
-   *    metaArray options (e.g., add comments and user-defined fields */
+  /** Get a pointer to the MetaArray so that its options, such as adding
+   *  comments and user-defined fields, can be changed. */
   MetaArray * GetMetaArrayPointer();
 
-  /** Specify the buffer (already allocated) into which data should be read */
+  /** Specify the buffer (already allocated) into which data should be read. */
   void SetBuffer(void *_buffer);
 
-  /** Read the Array in MetaIO format */
+  /** Read the Array in MetaIO format. */
   void Update();
 
-  /** Return the MetaIO type that corresponds to the element type */
+  /** Return the MetaIO type that corresponds to the element type. */
   MET_ValueEnumType GetDataType(void) const
   {
     return m_MetaArray.ElementType();
   }
 
-  /** Size is used by itkArray and VariableLengthVector */
+  /** Size is used by itkArray and VariableLengthVector. */
   int Size(void) const
   {
     return m_MetaArray.Length();
   }
 
-  /** GetNumberOfElements is used by itkArray and VariableLengthVector */
+  /** GetNumberOfElements is used by itkArray and VariableLengthVector. */
   int GetNumberOfElements(void) const
   {
     return m_MetaArray.Length();
   }
 
-  /** GetVectorDimension is used by itkVector */
+  /** GetVectorDimension is used by itkVector. */
   int GetVectorDimension(void) const
   {
     return m_MetaArray.Length();
   }
 
-  /** GetNumberOfComponents is used by itkVector and itkCovariantVector */
+  /** GetNumberOfComponents is used by itkVector and itkCovariantVector. */
   int GetNumberOfComponents(void) const
   {
     return m_MetaArray.Length();
   }
 
-  /** GetCovariantVectorDimension is used by itkVector */
+  /** GetCovariantVectorDimension is used by itkVector. */
   int GetCovariantVectorDimension(void) const
   {
     return m_MetaArray.Length();
   }
 
-  /** GetElement is used by itkArray, itkFixedArray, and VariableLengthVector */
+  /** GetElement is used by itkArray, itkFixedArray, and VariableLengthVector. */
   template< typename TValue >
   inline void GetElement(TValue & value, unsigned int i,
-                         unsigned int channel = 0) const
+    unsigned int channel = 0) const
   {
     value = static_cast< TValue >( m_MetaArray.ElementData(
-                                         i * m_MetaArray.ElementNumberOfChannels() + channel) );
+      i * m_MetaArray.ElementNumberOfChannels() + channel) );
   }
 
-  /** Get itk Array
-   *      Specify the MetaType of the elements of the Array and provide a
-   *    pointer to the Array.  The buffer of the Array is replaced by the
-   *    buffer into which the data was directly read (a copy does not occur).
-   *      If _letVectorManageData is true, the buffer persists even after this
-   *    MetaArrayReader is destroyed.  Otherwise, the buffer (and therefore
-   *    the validity of the dat ain the Array) is destroyed when the
-   *    MetaArrayReader is dstroyed. */
+  /** Get an itkArray.
+   *  Specify the MetaType of the elements of the Array and provide a
+   *  pointer to the Array. The buffer of the Array is replaced by the
+   *  buffer into which the data was directly read (a copy does not occur).
+   *  If _letVectorManageData is true, the buffer persists even after this
+   *  MetaArrayReader is destroyed. Otherwise, the buffer (and therefore
+   *  the validity of the dat ain the Array) is destroyed when the
+   *  MetaArrayReader is dstroyed. */
   template< typename TValue >
   void GetOutput(MET_ValueEnumType _metaElementType,
                  Array< TValue > *_array,
@@ -130,7 +130,7 @@ public:
       }
   }
 
-  /** Get itk FixedArray */
+  /** Get an itkFixedArray. */
   template< typename TValue, unsigned int VLength >
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
                  FixedArray< TValue, VLength > *_array)
@@ -147,9 +147,9 @@ public:
     return false;
   }
 
-  /** Get itk Vector
-   *    Specify the MetaType of the elements of the itkVector and provide
-   *    a pointer to the itkVector into which the data should be copied */
+  /** Get an itkVectort.
+   *  Specify the MetaType of the elements of the itkVector and provide
+   *  a pointer to the itkVector into which the data should be copied. */
   template< typename TValue, unsigned int VLength >
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
                  Vector< TValue, VLength > *_vector)
@@ -166,10 +166,10 @@ public:
     return false;
   }
 
-  /** Get itk CovariantVector
-   *    Specify the MetaType of the elements of the itkCovariantVector and
-   *    provide a pointer to the itkCovariantVector into which the data
-   *    should be copied */
+  /** Get an itkCovariantVector.
+   *  Specify the MetaType of the elements of the itkCovariantVector and
+   *  provide a pointer to the itkCovariantVector into which the data
+   *  should be copied. */
   template< typename TValue, unsigned int VLength >
   bool GetOutput(MET_ValueEnumType itkNotUsed(_metaElementType),
                  CovariantVector< TValue, VLength > *_vector)
@@ -186,15 +186,15 @@ public:
     return false;
   }
 
-  /** Get itk VariableLengthVector
-   *      Specify the MetaType of the elements of the VariableLengthVector and
-   *    provide a pointer to the VariableLengthVector.  The buffer of the
-   *    VariableLengthVector is replaced by the buffer into which the data
-   *    was directly read (a copy does not occur).
-   *      If _letVectorManageData is true, the buffer persists even after this
-   *    MetaArrayReader is destroyed.  Otherwise, the buffer (and therefore
-   *    the validity of the dat ain the VariableLengthVector) is destroyed
-   *    when the MetaArrayReader is dstroyed. */
+  /** Get it VariableLengthVector.
+   *  Specify the MetaType of the elements of the VariableLengthVector and
+   *  provide a pointer to the VariableLengthVector. The buffer of the
+   *  VariableLengthVector is replaced by the buffer into which the data
+   *  was directly read (a copy does not occur).
+   *  If _letVectorManageData is true, the buffer persists even after this
+   *  MetaArrayReader is destroyed. Otherwise, the buffer (and therefore
+   *  the validity of the dat ain the VariableLengthVector) is destroyed
+   *  when the MetaArrayReader is dstroyed. */
   template< typename TValue >
   void GetOutput(MET_ValueEnumType _metaElementType,
                  VariableLengthVector< TValue > *_vector,
@@ -213,11 +213,11 @@ public:
       }
   }
 
-  /** Get an itk Array of Arrays, itk::Array< itk::Array<short> >.
-   *    Assumes all sub-arrays have the same length.
-   *      Specify the MetaType of the elements of the Array< Array< * > > and
-   *    provide a pointer to the Array of arrays.  Elements are copied
-   *    into the array of arrays.   */
+  /** Get an itkArray of Arrays, itk::Array< itk::Array<short> >.
+   *  Assumes all sub-arrays have the same length.
+   *  Specify the MetaType of the elements of the Array< Array< * > > and
+   *  provide a pointer to the Array of arrays. Elements are copied
+   *  into the array of arrays. */
   template< typename TValue >
   void GetMultiChannelOutput(MET_ValueEnumType _metaElementType,
                              Array< TValue > *_array)
@@ -256,4 +256,4 @@ private:
 };
 } // namespace itk
 
-#endif // itkTransformFileReader_h
+#endif // itkMetaArrayReader_h

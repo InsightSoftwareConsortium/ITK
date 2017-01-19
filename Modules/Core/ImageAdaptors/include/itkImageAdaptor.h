@@ -52,7 +52,7 @@ template <typename TPixelType, unsigned int VImageDimension > class VectorImage;
  * \endwiki
  */
 template< typename TImage, typename TAccessor >
-class ImageAdaptor:public ImageBase< TImage::ImageDimension >
+class ITK_TEMPLATE_EXPORT ImageAdaptor:public ImageBase< TImage::ImageDimension >
 {
 public:
   /** Dimension of the image.  This constant is used by functions that are
@@ -238,7 +238,7 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  virtual void Graft(const Self *imgData);
 
   /** Convenient typedef. */
   typedef InternalPixelType *InternalPixelPointerType;
@@ -395,6 +395,8 @@ protected:
   ImageAdaptor();
   virtual ~ImageAdaptor();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  using Superclass::Graft;
 
 private:
 

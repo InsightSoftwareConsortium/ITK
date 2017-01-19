@@ -32,7 +32,7 @@ namespace itk
  *  \ingroup ITKSpatialObjects
  */
 template< unsigned int NDimensions = 3 >
-class MetaContourConverter :
+class ITK_TEMPLATE_EXPORT MetaContourConverter :
     public MetaConverterBase< NDimensions >
 {
 public:

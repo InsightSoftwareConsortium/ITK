@@ -21,6 +21,7 @@
 #include "itkMutualInformationImageToImageMetric.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkTextOutput.h"
 #include "itkCommandIterationUpdate.h"
@@ -252,6 +253,7 @@ int itkImageRegistrationMethodTest_14(int, char* [] )
   metric->SetFixedImageStandardDeviation( 5.0 );
   metric->SetNumberOfSpatialSamples( 50 );
   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
+  metric->ReinitializeSeed(121212);
 
   /******************************************************************
    * Set up the registrator.

@@ -90,7 +90,7 @@ namespace itk {
  *  \ingroup ITKQuadEdgeMeshFiltering
  */
 template< class TInputMesh, class TOutputMesh, class TSolverTraits >
-class LaplacianDeformationQuadEdgeMeshFilter:
+class ITK_TEMPLATE_EXPORT LaplacianDeformationQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

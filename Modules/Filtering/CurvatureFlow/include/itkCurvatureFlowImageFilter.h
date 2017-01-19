@@ -87,7 +87,7 @@ namespace itk
   * \ingroup ITKCurvatureFlow
   */
 template< typename TInputImage, typename TOutputImage >
-class CurvatureFlowImageFilter:
+class ITK_TEMPLATE_EXPORT CurvatureFlowImageFilter:
   public DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage >
 {
 public:

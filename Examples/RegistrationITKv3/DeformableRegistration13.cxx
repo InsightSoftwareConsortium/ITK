@@ -49,6 +49,7 @@
 #include "itkBSplineTransform.h"
 #include "itkRegularStepGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -111,6 +112,7 @@ int main( int argc, char *argv[] )
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
+
 
   const    unsigned int    ImageDimension = 2;
   typedef  unsigned char   PixelType;
@@ -255,6 +257,9 @@ int main( int argc, char *argv[] )
     static_cast<unsigned int>( fixedRegion.GetNumberOfPixels() * 60.0 / 100.0 );
 
   metric->SetNumberOfSpatialSamples( numberOfSamples );
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed( 121213 );
 
   if( argc > 7 )
     {

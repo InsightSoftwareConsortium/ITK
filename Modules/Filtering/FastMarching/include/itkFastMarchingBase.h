@@ -99,7 +99,7 @@ namespace itk
  * \ingroup ITKFastMarching
 */
 template< typename TInput, typename TOutput >
-class FastMarchingBase : public FastMarchingTraits<TInput, TOutput>::SuperclassType
+class ITK_TEMPLATE_EXPORT FastMarchingBase : public FastMarchingTraits<TInput, TOutput>::SuperclassType
   {
 public:
   typedef FastMarchingTraits<TInput, TOutput>   Traits;
@@ -235,7 +235,7 @@ protected:
   typedef std::greater< NodePairType >  NodeComparerType;
 
   typedef std::priority_queue<
-    NodeType,
+    NodePairType,
     HeapContainerType,
     NodeComparerType >
     PriorityQueueType;

@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename ScalarType>
-class SymmetricSigmoidTransferFunction : public TransferFunctionBase<ScalarType>
+class ITK_TEMPLATE_EXPORT SymmetricSigmoidTransferFunction : public TransferFunctionBase<ScalarType>
 {
 public:
 

@@ -42,7 +42,7 @@ namespace itk
  */
 template<typename TParametersValueType=double,
            unsigned int NDimensions = 3>
-class TranslationTransform :
+class ITK_TEMPLATE_EXPORT TranslationTransform :
   public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:

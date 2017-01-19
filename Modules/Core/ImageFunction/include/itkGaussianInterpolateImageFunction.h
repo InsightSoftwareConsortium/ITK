@@ -48,7 +48,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TCoordRep = double>
-class GaussianInterpolateImageFunction :
+class ITK_TEMPLATE_EXPORT GaussianInterpolateImageFunction :
   public InterpolateImageFunction<TInputImage, TCoordRep>
 {
 public:
@@ -64,7 +64,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro( Self );
 
-  /** ImageDimension constant */
+  /** ImageDimension constant. */
   itkStaticConstMacro( ImageDimension, unsigned int,
     TInputImage::ImageDimension );
 
@@ -84,24 +84,19 @@ public:
   /** ContinuousIndex typedef support. */
   typedef typename Superclass::ContinuousIndexType ContinuousIndexType;
 
-  /** Array typedef support */
+  /** Array typedef support. */
   typedef FixedArray<RealType, ImageDimension> ArrayType;
 
-  /**
-   * Set input image
-   */
+  /** Set input image. */
   virtual void SetInputImage( const TInputImage *image ) ITK_OVERRIDE
     {
     Superclass::SetInputImage( image );
     this->ComputeBoundingBox();
     }
 
-  /**
-   * Set/Get sigma
-   */
+  /** Set/Get sigma. */
   virtual void SetSigma( const ArrayType s )
     {
-    itkDebugMacro( "setting Sigma to " << s );
     if( this->m_Sigma != s )
       {
       this->m_Sigma = s;
@@ -120,12 +115,9 @@ public:
     }
   itkGetConstMacro( Sigma, ArrayType );
 
-  /**
-   * Set/Get alpha
-   */
+  /** Set/Get alpha. */
   virtual void SetAlpha( const RealType a )
     {
-    itkDebugMacro( "setting Alpha to " << a );
     if( Math::NotExactlyEquals(this->m_Alpha, a) )
       {
       this->m_Alpha = a;
@@ -135,18 +127,14 @@ public:
     }
   itkGetConstMacro( Alpha, RealType );
 
-  /**
-   * Set/Get sigma and alpha
-   */
+  /** Set/Get sigma and alpha. */
   virtual void SetParameters( RealType *sigma, RealType alpha )
     {
     this->SetSigma( sigma );
     this->SetAlpha( alpha );
     }
 
-  /**
-   * Evaluate at the given index
-   */
+  /** Evaluate at the given index. */
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & cindex ) const ITK_OVERRIDE
     {
@@ -164,22 +152,35 @@ protected:
     vnl_vector<RealType> &erfArray, vnl_vector<RealType> &gerfArray,
     bool evaluateGradient = false ) const;
 
+  /** Set/Get the bounding box starting point. */
+  itkSetMacro( BoundingBoxStart, ArrayType );
+  itkGetConstMacro( BoundingBoxStart, ArrayType );
+
+  /** Set/Get the bounding box end point. */
+  itkSetMacro( BoundingBoxEnd, ArrayType );
+  itkGetConstMacro( BoundingBoxEnd, ArrayType );
+
+  /** Set/Get the cut-off distance. */
+  itkSetMacro( CutOffDistance, ArrayType );
+  itkGetConstMacro( CutOffDistance, ArrayType );
+
+
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianInterpolateImageFunction);
+
+  /** Evaluate function value. */
+  virtual OutputType EvaluateAtContinuousIndex(
+    const ContinuousIndexType &, OutputType * ) const;
+
   ArrayType                                 m_Sigma;
   RealType                                  m_Alpha;
 
   ArrayType                                 m_BoundingBoxStart;
   ArrayType                                 m_BoundingBoxEnd;
   ArrayType                                 m_ScalingFactor;
-  ArrayType                                 m_CutoffDistance;
+  ArrayType                                 m_CutOffDistance;
 
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(GaussianInterpolateImageFunction);
 
-  /**
-   * Evaluate function value
-   */
-  virtual OutputType EvaluateAtContinuousIndex(
-    const ContinuousIndexType &, OutputType * ) const;
 };
 
 } // end namespace itk

@@ -53,6 +53,7 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkCheckerBoardImageFilter.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 
 //  The following section of code implements a Command observer
@@ -349,13 +350,19 @@ int main( int argc, char *argv[] )
   //
   // In ITKv4, a single virtual domain or spatial sample point set is used for the
   // all iterations of the registration process. The use of a single sample set results
-  // in a smooth cost function that can improve the functionality of the optimizer.
+  // in a smooth cost function that can improve the functionality of
+  // the optimizer.
+  //
+  // The spatial point set is pseudo randomly generated. For
+  // reproducible results an integer seed should set.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
   registration->SetMetricSamplingStrategy( samplingStrategy );
   registration->SetMetricSamplingPercentage( samplingPercentage );
+
+  registration->MetricSamplingReinitializeSeed( 121213 );
   // Software Guide : EndCodeSnippet
 
   try

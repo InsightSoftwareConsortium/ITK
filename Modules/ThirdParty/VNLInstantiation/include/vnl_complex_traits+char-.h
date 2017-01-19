@@ -22,7 +22,7 @@
 // The following macro is a complement to the ones
 // in vxl/core/vnl/vnl_complex_traits.h lines 34-49.
 #define VCL_DEFINE_SPECIALIZATION_MACRO(T)                                        \
-  VCL_DEFINE_SPECIALIZATION struct vnl_complex_traits< T > {                      \
+  template<> struct vnl_complex_traits< T > {                      \
     enum { isreal = true };                                                       \
     static T conjugate(T x) { return x; }                                         \
     static std::complex< T > complexify(T x) { return std::complex< T >(x, (T)0); } \

@@ -52,7 +52,7 @@ public:
 };
 }
 /** \class TernaryMagnitudeImageFilter
- * \brief Pixel-wise addition of three images.
+ * \brief Compute the pixel-wise magnitude of three images.
  *
  * This class is templated over the types of the three
  * input images and the type of the output image.

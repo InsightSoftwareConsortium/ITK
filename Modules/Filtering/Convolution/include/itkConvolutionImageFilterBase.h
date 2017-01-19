@@ -32,7 +32,7 @@ namespace itk
 template< typename TInputImage,
           typename TKernelImage = TInputImage,
           typename TOutputImage = TInputImage >
-class ConvolutionImageFilterBase :
+class ITK_TEMPLATE_EXPORT ConvolutionImageFilterBase :
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -41,8 +41,8 @@ public:
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
 
-    /** Run-time type information ( and related methods ) */
-  itkTypeMacro(FFTConvolutionImageFilter, ImageToImageFilter);
+  /** Run-time type information ( and related methods ) */
+  itkTypeMacro(ConvolutionImageFilterBase, ImageToImageFilter);
 
   /** Dimensionality of input and output data is assumed to be the same. */
   itkStaticConstMacro(ImageDimension, unsigned int,

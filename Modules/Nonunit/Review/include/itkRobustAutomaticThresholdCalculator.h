@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TInputImage, typename TGradientImage >
-class RobustAutomaticThresholdCalculator:public Object
+class ITK_TEMPLATE_EXPORT RobustAutomaticThresholdCalculator:public Object
 {
 public:
   /** Standard class typedefs. */

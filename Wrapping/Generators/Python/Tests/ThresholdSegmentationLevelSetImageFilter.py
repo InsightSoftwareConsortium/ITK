@@ -32,6 +32,7 @@ from __future__ import print_function
 
 import itk
 from sys import argv, stderr, exit
+import os
 itk.auto_progress(2)
 
 # itk.auto_progress(1)
@@ -130,12 +131,13 @@ itk.echo(thresholdSegmentation)
 
 InternalWriterType = itk.ImageFileWriter[InternalImageType]
 
+outputDirectory = os.path.dirname(argv[2])
 mapWriter = InternalWriterType.New()
 mapWriter.SetInput(fastMarching.GetOutput())
-mapWriter.SetFileName("fastMarchingImage.mha")
+mapWriter.SetFileName(os.path.join(outputDirectory, "fastMarchingImage.mha"))
 mapWriter.Update()
 
 speedWriter = InternalWriterType.New()
 speedWriter.SetInput(thresholdSegmentation.GetSpeedImage())
-speedWriter.SetFileName("speedTermImage.mha")
+speedWriter.SetFileName(os.path.join(outputDirectory, "speedTermImage.mha"))
 speedWriter.Update()

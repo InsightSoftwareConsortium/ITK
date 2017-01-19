@@ -95,7 +95,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage >
-class FFTNormalizedCorrelationImageFilter :
+class ITK_TEMPLATE_EXPORT FFTNormalizedCorrelationImageFilter :
     public MaskedFFTNormalizedCorrelationImageFilter< TInputImage, TOutputImage >
 {
 public:

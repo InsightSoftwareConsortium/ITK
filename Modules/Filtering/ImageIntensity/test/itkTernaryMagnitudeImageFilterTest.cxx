@@ -16,47 +16,58 @@
  *
  *=========================================================================*/
 
+#include "itkImageFileWriter.h"
 #include "itkTernaryMagnitudeImageFilter.h"
+#include "itkTestingMacros.h"
 
-
-int itkTernaryMagnitudeImageFilterTest(int, char* [] )
+int itkTernaryMagnitudeImageFilterTest( int argc, char* argv[] )
 {
+  if ( argc < 2 )
+    {
+    std::cout << "Usage: " << argv[0]
+      << "outputImage " << std::endl;
+    return EXIT_FAILURE;
+    }
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 3;
+
+  // Define the pixel types
+  typedef float           InputPixelType;
+  typedef unsigned short  OutputPixelType;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType3;
-  typedef itk::Image<float, myDimension>  myImageType4;
+  typedef itk::Image< InputPixelType, Dimension >   InputImage1Type;
+  typedef itk::Image< InputPixelType, Dimension >   InputImage2Type;
+  typedef itk::Image< InputPixelType, Dimension >   InputImage3Type;
+  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  typedef itk::Index< Dimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  typedef itk::Size< Dimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  typedef itk::ImageRegion< Dimension >   RegionType;
 
-  // Create two images
-  myImageType1::Pointer inputImageA  = myImageType1::New();
-  myImageType2::Pointer inputImageB  = myImageType2::New();
-  myImageType3::Pointer inputImageC  = myImageType3::New();
+  // Create the input images
+  InputImage1Type::Pointer inputImageA = InputImage1Type::New();
+  InputImage2Type::Pointer inputImageB = InputImage2Type::New();
+  InputImage3Type::Pointer inputImageC = InputImage3Type::New();
 
-  // Define their size, and start index
-  mySizeType size;
+  // Define their size and start index
+  SizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;
 
-  myIndexType start;
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -78,87 +89,81 @@ int itkTernaryMagnitudeImageFilterTest(int, char* [] )
   inputImageC->SetRequestedRegion( region );
   inputImageC->Allocate();
 
-  // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType4>  myIteratorType4;
+  // Declare Iterator types for each image
+  typedef itk::ImageRegionIteratorWithIndex< InputImage1Type > InputImage1IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< InputImage2Type > InputImage2IteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< InputImage3Type > InputImage3IteratorType;
 
   // Create one iterator for Image A (this is a light object)
-  myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
+  InputImage1IteratorType it1( inputImageA, inputImageA->GetBufferedRegion() );
 
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
+  InputImage1Type::PixelType valueA = 2.0;
   while( !it1.IsAtEnd() )
   {
-    it1.Set( 2.0 );
-    std::cout << it1.Get() << std::endl;
+    it1.Set( valueA );
     ++it1;
   }
 
   // Create one iterator for Image B (this is a light object)
-  myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
+  InputImage2IteratorType it2( inputImageB, inputImageB->GetBufferedRegion() );
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
+  InputImage2Type::PixelType valueB = 3.0;
   while( !it2.IsAtEnd() )
   {
-    it2.Set( 3.0 );
-    std::cout << it2.Get() << std::endl;
+    it2.Set( valueB );
     ++it2;
   }
 
   // Create one iterator for Image C (this is a light object)
-  myIteratorType3 it3( inputImageC, inputImageC->GetBufferedRegion() );
+  InputImage3IteratorType it3( inputImageC, inputImageC->GetBufferedRegion() );
 
   // Initialize the content of Image C
-  std::cout << "Third operand " << std::endl;
+  InputImage3Type::PixelType valueC = 4.0;
   while( !it3.IsAtEnd() )
   {
-    it3.Set( 4.0 );
-    std::cout << it3.Get() << std::endl;
+    it3.Set( valueC );
     ++it3;
   }
 
-
-  // Declare the type for the Magnitude Filter
   typedef itk::TernaryMagnitudeImageFilter<
-                                myImageType1,
-                                myImageType2,
-                                myImageType3,
-                                myImageType4  >       myFilterType;
+    InputImage1Type,
+    InputImage2Type,
+    InputImage3Type,
+    OutputImageType > TernaryMagnitudeImageFilterType;
 
+  // Create the filter
+  TernaryMagnitudeImageFilterType::Pointer filter =
+    TernaryMagnitudeImageFilterType::New();
 
-  // Create a MagnitudeImageFilter
-  myFilterType::Pointer filter = myFilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, TernaryMagnitudeImageFilter,
+    TernaryFunctorImageFilter );
 
-
-  // Connect the input images
+  // Set the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
   filter->SetInput3( inputImageC );
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType4::Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
 
-  // Create an iterator for going through the image output
-  myIteratorType4 it4(outputImage, outputImage->GetBufferedRegion());
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
 
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  while( !it4.IsAtEnd() )
-  {
-    std::cout << it4.Get() << std::endl;
-    ++it4;
-  }
+  // Write the result image
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[1] );
+
+  writer->SetInput( outputImage );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
-
 }

@@ -55,7 +55,7 @@ namespace itk
  */
 
 template< typename TComponent = unsigned short >
-class RGBPixel:public FixedArray< TComponent, 3 >
+class ITK_TEMPLATE_EXPORT RGBPixel:public FixedArray< TComponent, 3 >
 {
 public:
   /** Standard class typedefs. */
@@ -116,7 +116,7 @@ public:
   /** Return the value for the Nth component. */
   ComponentType GetNthComponent(int c) const { return this->operator[](c); }
 
-  /** Return the value for the Nth component. */
+  /** Return the Euclidean norm of the vector defined by the RGB components. */
   ComponentType GetScalarValue() const
   {
     return static_cast< ComponentType >( std::sqrt(

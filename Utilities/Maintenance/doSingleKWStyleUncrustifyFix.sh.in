@@ -32,21 +32,30 @@ fi
 
 mkdir -p kwstyle
 
+
+UNCRUSTIFYBIN=$(git config hooks.uncrustify.path) ||
+  UNCRUSTIFYBIN=$(which uncrustify) ||
+  die "uncrustify executable was not found.
+Please install uncrustify or set the executable location with
+
+  git config hooks.uncrustify.path /path/to/uncrustify
+
+  See https://github.com/uncrustify/uncrustify"
+
+
 for file in $@; do
 
 
-KWERROS=kwstyle/${file}.txt
-touch ${KWERROS}
+KWERRORS=kwstyle/${file}.txt
+touch ${KWERRORS}
 
-UNCRUSTIFYBIN=/opt/uncrustify/bin/uncrustify
-
-while [ -f ${KWERROS} ]; do
+while [ -f ${KWERRORS} ]; do
 
 if [ -f stop ]; then
   exit -1
 fi
 
-if [ ! -f ${KWERROS}_skip_uncrustify ]; then
+if [ ! -f ${KWERRORS}_skip_uncrustify ]; then
 ### A possible bug in uncrustify breaks complicated macros by adding extra spaces surrounding "##" and "#"
 ### This is an interaction betweeen the macro directives and indenting of includes and defines.
 ${UNCRUSTIFYBIN} -c @ITK_SOURCE_DIR@/Utilities/Maintenance/uncrustify_itk.cfg -l CPP -f ${file} | sed 's/  *##  */##/g' | sed 's/#  */#/g' > ${file}_uncrustify
@@ -58,22 +67,22 @@ else
 fi
 fi
 
-@KWSTYLE_EXECUTABLE@ -xml @ITK_BINARY_DIR@/Utilities/KWStyle/ITK.kws.xml -v -o @ITK_SOURCE_DIR@/Utilities/KWStyle/ITKOverwrite.txt -gcc $file > ${KWERROS}
+@KWSTYLE_EXECUTABLE@ -xml @ITK_BINARY_DIR@/Utilities/KWStyle/ITK.kws.xml -v -o @ITK_SOURCE_DIR@/Utilities/KWStyle/ITKOverwrite.txt -gcc $file > ${KWERRORS}
 
-find ${KWERROS} -size 0 -exec rm {} \;
+find ${KWERRORS} -size 0 -exec rm {} \;
 
-if [ -f ${KWERROS} ]; then
-  vim -q ${KWERROS}
+if [ -f ${KWERRORS} ]; then
+  vim -q ${KWERRORS}
 
   echo "Shall I skip uncrustify step (y/n)?  Or ignore KWErrors (U)?"
   read skipuncrustify
 
   if [ ${skipuncrustify} == "y" ]; then
-    ${UNCRUSTIFYBIN} -c @ITK_SOURCE_DIR@/Utilities/Maintenance/uncrustify_itk.cfg -l CPP -f ${file} -o ${KWERROS}_skip_uncrustify
+    ${UNCRUSTIFYBIN} -c @ITK_SOURCE_DIR@/Utilities/Maintenance/uncrustify_itk.cfg -l CPP -f ${file} -o ${KWERRORS}_skip_uncrustify
   fi
   if [  ${skipuncrustify} == "U" ]; then
      echo "Ignoring KWErrors"
-     rm ${KWERROS}
+     rm ${KWERRORS}
   fi
 fi
 

@@ -1,14 +1,5 @@
-#=============================================================================
-# KWSys - Kitware System Library
-# Copyright 2000-2011 Kitware, Inc., Insight Software Consortium
-#
-# Distributed under the OSI-approved BSD License (the "License");
-# see accompanying file Copyright.txt for details.
-#
-# This software is distributed WITHOUT ANY WARRANTY; without even the
-# implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-# See the License for more information.
-#=============================================================================
+# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+# file Copyright.txt or https://cmake.org/licensing#kwsys for details.
 
 # The Kitware System Library is intended to be included in other
 # projects.  It is completely configurable in that the library's
@@ -76,12 +67,15 @@
 # written.
 
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6.3 FATAL_ERROR)
-IF(POLICY CMP0025)
-  CMAKE_POLICY(SET CMP0025 NEW)
-ENDIF()
-IF(POLICY CMP0056)
-  CMAKE_POLICY(SET CMP0056 NEW)
-ENDIF()
+FOREACH(p
+    CMP0025 # CMake 3.0, Compiler id for Apple Clang is now AppleClang.
+    CMP0056 # CMake 3.2, Honor link flags in try_compile() source-file signature.
+    CMP0063 # CMake 3.3, Honor visibility properties for all target types.
+    )
+  IF(POLICY ${p})
+    CMAKE_POLICY(SET ${p} NEW)
+  ENDIF()
+ENDFOREACH()
 SET(CMAKE_LEGACY_CYGWIN_WIN32 0)
 
 #-----------------------------------------------------------------------------
@@ -123,6 +117,7 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
   SET(KWSYS_USE_FStream 1)
   SET(KWSYS_USE_String 1)
   SET(KWSYS_USE_SystemInformation 1)
+  SET(KWSYS_USE_ConsoleBuf 1)
 ENDIF()
 
 # Enforce component dependencies.
@@ -152,6 +147,9 @@ IF(KWSYS_USE_Directory)
   SET(KWSYS_USE_Encoding 1)
 ENDIF()
 IF(KWSYS_USE_FStream)
+  SET(KWSYS_USE_Encoding 1)
+ENDIF()
+IF(KWSYS_USE_ConsoleBuf)
   SET(KWSYS_USE_Encoding 1)
 ENDIF()
 
@@ -632,6 +630,11 @@ IF(KWSYS_USE_SystemInformation)
   ENDIF()
 ENDIF()
 
+IF(KWSYS_USE_FStream)
+  KWSYS_PLATFORM_CXX_TEST(KWSYS_CXX_HAS_EXT_STDIO_FILEBUF_H
+    "Checking whether <ext/stdio_filebuf.h> is available" DIRECT)
+ENDIF()
+
 #-----------------------------------------------------------------------------
 # Choose a directory for the generated headers.
 IF(NOT KWSYS_HEADER_ROOT)
@@ -668,7 +671,7 @@ SET(KWSYS_HXX_FILES Configure String
 # Add selected C++ classes.
 SET(cppclasses
   Directory DynamicLoader Encoding Glob RegularExpression SystemTools
-  CommandLineArguments IOStream FStream SystemInformation
+  CommandLineArguments IOStream FStream SystemInformation ConsoleBuf
   )
 FOREACH(cpp ${cppclasses})
   IF(KWSYS_USE_${cpp})
@@ -920,6 +923,20 @@ IF(KWSYS_STANDALONE OR CMake_SOURCE_DIR)
       SET(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS}
         testFStream
         )
+    ENDIF()
+    IF(KWSYS_USE_ConsoleBuf)
+      ADD_EXECUTABLE(testConsoleBufChild testConsoleBufChild.cxx)
+      SET_PROPERTY(TARGET testConsoleBufChild PROPERTY LABELS ${KWSYS_LABELS_EXE})
+      TARGET_LINK_LIBRARIES(testConsoleBufChild ${KWSYS_NAMESPACE})
+      SET(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS}
+        testConsoleBuf
+        )
+      IF("x${CMAKE_CXX_COMPILER_ID}" STREQUAL "xMSVC" AND
+         NOT CMAKE_CXX_COMPILER_VERSION VERSION_LESS "19.0")
+        set_property(SOURCE testConsoleBuf.cxx testConsoleBufChild.cxx PROPERTY COMPILE_FLAGS /utf-8)
+      ENDIF()
+      SET_PROPERTY(SOURCE testConsoleBuf.cxx APPEND PROPERTY COMPILE_DEFINITIONS
+        KWSYS_ENCODING_DEFAULT_CODEPAGE=${KWSYS_ENCODING_DEFAULT_CODEPAGE})
     ENDIF()
     IF(KWSYS_USE_SystemInformation)
       SET(KWSYS_CXX_TESTS ${KWSYS_CXX_TESTS} testSystemInformation)

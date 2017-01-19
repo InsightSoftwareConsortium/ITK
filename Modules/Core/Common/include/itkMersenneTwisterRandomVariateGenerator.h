@@ -23,6 +23,7 @@
 #include "itkRandomVariateGeneratorBase.h"
 #include "itkIntTypes.h"
 #include "itkMath.h"
+#include "itkMutexLockHolder.h"
 #include <climits>
 #include <ctime>
 
@@ -33,9 +34,14 @@ namespace Statistics
 /** \class MersenneTwisterRandomVariateGenerator
  * \brief MersenneTwisterRandom random variate generator
  *
- * \warning This class's instance methods are NOT neither reentrant
- * nor thread-safe, but static methods are both. That is to say you
- * can use separate objects concurrently.
+ * This class contains a "Singleton-like" GetInstance method wrapper
+ * for a global instance of this class. This may result in concurrent
+ * access to the global instance.
+ *
+ * \warning This class's instance methods are NEITHER reentrant
+ * nor concurrent thread-safe, except where marked as
+ * thread-safe. That is to say you can still use separate objects
+ * concurrently.
  *
  * This notice was included with the original implementation.
  * The only changes made were to obfuscate the author's email addresses.
@@ -124,15 +130,20 @@ public:
   /** \brief Method for creation through the object factory.
    *
    * This method allocates a new instance of a Mersenne Twister,
-   * and initializes it with the seed from the global instance.
+   * and initializes it with the next seed from the global instance's
+   * seed.
+   *
+   * \note This method is thread-safe.
    */
   static Pointer New();
 
   /** Return the global Mersenne Twister instance.
    *
    * This method returns a Singleton of the Mersenne Twister.
-   * The seed is initialized from the wall clock, but can be
-   * set using SetSeed().
+   * The seed is initialized from the wall clock at first use, but can
+   * be globally set using the resulting instance's SetSeed().
+   *
+   * \note This method is thread-safe.
    */
   static Pointer GetInstance();
 
@@ -192,12 +203,25 @@ public:
   /** Same as GetVariate() */
   double operator()();
 
-  /** Re-seeding functions with same behavior as initializers */
+  /** Re-seeding functions with same behavior as initializers
+   *
+   * \note This method is thread-safe.
+   */
   inline void SetSeed(const IntegerType oneSeed);
   inline void SetSeed();
 
-  /** Return the current seed */
-  IntegerType GetSeed() { return this->m_Seed; };
+  /** Return the current seed
+   *
+   * \note This method is thread-safe.
+   */
+  IntegerType GetSeed();
+
+  /** Return the next seed, derived as a sequence from the seed of the
+   * singleton instance.
+   *
+   * \note This method is thread-safe.
+   */
+  static IntegerType GetNextSeed();
 
   /*
   // Saving and loading generator state
@@ -248,6 +272,9 @@ private:
   /** Internal method to actually create a new object. */
   static Pointer CreateInstance();
 
+  // Local lock to enable concurrent access to singleton
+  SimpleFastMutexLock m_InstanceLock;
+
   // Static/Global Variable need to be thread-safely accessed
   static Pointer             m_StaticInstance;
   static SimpleFastMutexLock m_StaticInstanceLock;
@@ -260,6 +287,7 @@ private:
 inline void
 MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
 {
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_InstanceLock);
   this->m_Seed = seed;
   // Initialize generator state with seed
   // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
@@ -275,6 +303,7 @@ MersenneTwisterRandomVariateGenerator::Initialize(const IntegerType seed)
     *s++ = ( 1812433253UL * ( *r ^ ( *r >> 30 ) ) + i ) & 0xffffffffUL;
     r++;
     }
+  reload();
 }
 
 inline void
@@ -316,7 +345,6 @@ MersenneTwisterRandomVariateGenerator::SetSeed(const IntegerType oneSeed)
 {
   // Seed the generator with a simple IntegerType
   Initialize(oneSeed);
-  reload();
 }
 
 inline void
@@ -324,6 +352,15 @@ MersenneTwisterRandomVariateGenerator::SetSeed()
 {
   // use time() and clock() to generate a unlikely-to-repeat seed.
   SetSeed( hash( time(ITK_NULLPTR), clock() ) );
+}
+
+
+inline MersenneTwisterRandomVariateGenerator::IntegerType
+MersenneTwisterRandomVariateGenerator::GetSeed()
+{
+  MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_InstanceLock);
+  volatile IntegerType seed = this->m_Seed;
+  return seed;
 }
 
 /** Get an integer variate in [0, 2^32-1] */

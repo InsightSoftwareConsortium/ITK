@@ -56,7 +56,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage >
-class ConnectedComponentImageFilter:
+class ITK_TEMPLATE_EXPORT ConnectedComponentImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

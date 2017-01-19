@@ -42,7 +42,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage=Image< typename TInputImage::PixelType::value_type, TInputImage::ImageDimension> >
-class VnlInverseFFTImageFilter:
+class ITK_TEMPLATE_EXPORT VnlInverseFFTImageFilter:
   public InverseFFTImageFilter< TInputImage, TOutputImage >
 {
 public:

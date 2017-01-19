@@ -4,6 +4,7 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest.cxx
 itkLaplacianImageFilterTest.cxx
 itkSobelEdgeDetectionImageFilterTest.cxx
 itkHessian3DToVesselnessMeasureImageFilterTest.cxx
+itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkHessianRecursiveGaussianFilterScaleSpaceTest.cxx
 itkHessianRecursiveGaussianFilterTest.cxx
 itkHoughTransform2DCirclesImageTest.cxx
@@ -19,6 +20,8 @@ itkCannyEdgeDetectionImageFilterTest2.cxx
 itkDerivativeImageFilterTest.cxx
 itkLaplacianRecursiveGaussianImageFilterTest.cxx
 itkMaskFeaturePointSelectionFilterTest.cxx
+itkUnsharpMaskImageFilterTestSimple.cxx
+itkUnsharpMaskImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKImageFeature  "${ITKImageFeature-Test_LIBRARIES}" "${ITKImageFeatureTests}")
@@ -31,8 +34,58 @@ itk_add_test(NAME itkLaplacianImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkLaplacianImageFilterTest)
 itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkSobelEdgeDetectionImageFilterTest)
+itk_add_test(NAME itkUnsharpMaskImageFilterTestSimple
+      COMMAND ITKImageFeatureTestDriver itkUnsharpMaskImageFilterTestSimple)
+itk_add_test(NAME itkUnsharpMaskImageFilterTest_DefaultsUChar
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{Baseline/SwirledUSM_Defaults.png}
+            ${TEMP}/SwirledUSM_Defaults.png
+            --compareIntensityTolerance .001
+  itkUnsharpMaskImageFilterTest
+  uchar
+  DATA{Input/Swirled.png}
+  ${TEMP}/SwirledUSM_Defaults.png
+  )
+itk_add_test(NAME itkUnsharpMaskImageFilterTest_DefaultsFloat
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{Baseline/SwirledUSM_Defaults.nrrd}
+            ${TEMP}/SwirledUSM_Defaults.nrrd
+            --compareIntensityTolerance .001
+  itkUnsharpMaskImageFilterTest
+  float
+  DATA{Input/Swirled.png}
+  ${TEMP}/SwirledUSM_Defaults.nrrd
+  )
+itk_add_test(NAME itkUnsharpMaskImageFilterTest_3_3_15
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{Baseline/SwirledUSM_3-3-15.nrrd}
+            ${TEMP}/SwirledUSM_3-3-15.nrrd.nrrd
+            --compareIntensityTolerance .001
+  itkUnsharpMaskImageFilterTest
+  float
+  DATA{Input/Swirled.png}
+  ${TEMP}/SwirledUSM_3-3-15.nrrd.nrrd
+  3.0 3.0 15)
 itk_add_test(NAME itkHessian3DToVesselnessMeasureImageFilterTest
       COMMAND ITKImageFeatureTestDriver itkHessian3DToVesselnessMeasureImageFilterTest)
+itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkHessianToObjectnessMeasureImageFilterTest.mha}
+            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+            --compareIntensityTolerance .01
+  itkHessianToObjectnessMeasureImageFilterTest
+  DATA{${ITK_DATA_ROOT}/Input/DSA.png}
+  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
+  1 0)
+itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest2
+      COMMAND ITKImageFeatureTestDriver
+  --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkHessianToObjectnessMeasureImageFilterTest2.mha}
+            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
+            --compareIntensityTolerance .01
+  itkHessianToObjectnessMeasureImageFilterTest
+  DATA{${ITK_DATA_ROOT}/Input/DSA.png}
+  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
+  0 0)
 itk_add_test(NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
       COMMAND ITKImageFeatureTestDriver itkHessianRecursiveGaussianFilterScaleSpaceTest)
 
@@ -107,3 +160,15 @@ itk_add_test(NAME itkMaskFeaturePointSelectionFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha
     itkMaskFeaturePointSelectionFilterTest
 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha)
+
+itk_python_add_test(NAME itkGradientVectorFlowImageFilterPythonTest
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestX.png
+                DATA{Baseline/itkGradientVectorFlowImageFilterPythonTestX.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestY.png
+                DATA{Baseline/itkGradientVectorFlowImageFilterPythonTestY.png}
+    COMMAND itkGradientVectorFlowImageFilterTest.py
+      DATA{Input/Contours.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestX.png
+      ${ITK_TEST_OUTPUT_DIR}/itkGradientVectorFlowImageFilterPythonTestY.png
+      50 50000.0 0.001)

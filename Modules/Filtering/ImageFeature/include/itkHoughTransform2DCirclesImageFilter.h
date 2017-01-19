@@ -36,7 +36,7 @@ namespace itk
  *   1) The accumulator array, which represents probability of centers.
  *   2) The array or radii, which has the radius value at each coordinate point.
  *
- *  When the filter finds a "correct" point, it computes the gradient at this
+ * When the filter finds a "correct" point, it computes the gradient at this
  * point and draws a regular narrow-banded circle using the minimum and maximum
  * radius given by the user, and fills in the array of radii.
  * The SweepAngle value can be adjusted to improve the segmentation.
@@ -51,42 +51,37 @@ namespace itk
  */
 
 template< typename TInputPixelType, typename TOutputPixelType >
-class HoughTransform2DCirclesImageFilter:
+class ITK_TEMPLATE_EXPORT HoughTransform2DCirclesImageFilter:
   public ImageToImageFilter< Image< TInputPixelType, 2 >, Image< TOutputPixelType, 2 > >
 {
 public:
 
-  /** Standard "Self" typedef. */
-  typedef HoughTransform2DCirclesImageFilter Self;
+  /** Standard class typedefs. */
+  typedef HoughTransform2DCirclesImageFilter                  Self;
+  typedef ImageToImageFilter< Image< TInputPixelType, 2 >,
+                              Image< TOutputPixelType, 2 > >  Superclass;
+  typedef SmartPointer< Self >                                Pointer;
+  typedef SmartPointer< const Self >                          ConstPointer;
 
-  /** Input Image typedef */
+  /** Input Image typedefs. */
   typedef Image< TInputPixelType, 2 >           InputImageType;
   typedef typename InputImageType::Pointer      InputImagePointer;
   typedef typename InputImageType::ConstPointer InputImageConstPointer;
 
-  /** Output Image typedef */
+  /** Output Image typedefs. */
   typedef Image< TOutputPixelType, 2 >      OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
-  /** Standard "Superclass" typedef. */
-  typedef ImageToImageFilter<
-    Image< TInputPixelType, 2 >,
-    Image< TOutputPixelType, 2 > >  Superclass;
-
-  /** Smart pointer typedef support. */
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
-
-  /** Image index typedef */
+  /** Image index typedef. */
   typedef typename InputImageType::IndexType IndexType;
 
-  /** Image pixel value typedef */
+  /** Image pixel value typedef. */
   typedef typename InputImageType::PixelType PixelType;
 
   /** Typedef to describe the output image region type. */
   typedef typename InputImageType::RegionType OutputImageRegionType;
 
-  /** Circle typedef */
+  /** Circle typedefs. */
   typedef EllipseSpatialObject< 2 >    CircleType;
   typedef typename CircleType::Pointer CirclePointer;
   typedef std::list< CirclePointer >   CirclesListType;
@@ -102,50 +97,50 @@ public:
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() ITK_OVERRIDE;
 
-  /** Set both Minimum and Maximum radius values */
+  /** Set both Minimum and Maximum radius values. */
   void SetRadius(double radius);
 
-  /** Set the minimum radiu value the filter should look for */
+  /** Set the minimum radiu value the filter should look for. */
   itkSetMacro(MinimumRadius, double);
   itkGetConstMacro(MinimumRadius, double);
 
-  /** Set the maximum radius value the filter should look for */
+  /** Set the maximum radius value the filter should look for. */
   itkSetMacro(MaximumRadius, double);
   itkGetConstMacro(MaximumRadius, double);
 
   /** Set the threshold above which the filter should consider
-      the point as a valid point */
+   * the point as a valid point. */
   itkSetMacro(Threshold, double);
 
-  /** Get the threshold value */
+  /** Get the threshold value. */
   itkGetConstMacro(Threshold, double);
 
-  /** Get the radius image */
+  /** Get the radius image. */
   itkGetModifiableObjectMacro(RadiusImage, OutputImageType);
 
-  /** Set the scale of the derivative function (using DoG) */
+  /** Set the scale of the derivative function (using DoG). */
   itkSetMacro(SigmaGradient, double);
 
-  /** Get the scale value */
+  /** Get the scale value. */
   itkGetConstMacro(SigmaGradient, double);
 
-  /** Get the list of circles. This recomputes the circles */
+  /** Get the list of circles. This recomputes the circles. */
   CirclesListType & GetCircles(unsigned int n = 0);
 
-  /** Set/Get the number of circles to extract */
+  /** Set/Get the number of circles to extract. */
   itkSetMacro(NumberOfCircles, CirclesListSizeType);
   itkGetConstMacro(NumberOfCircles, CirclesListSizeType);
 
   /** Set/Get the radius of the disc to remove from the accumulator
-   *  for each circle found */
+   * for each circle found. */
   itkSetMacro(DiscRadiusRatio, float);
   itkGetConstMacro(DiscRadiusRatio, float);
 
-  /** Set the variance of the gaussian bluring for the accumulator */
+  /** Set/Get the variance of the Gaussian blurring for the accumulator. */
   itkSetMacro(Variance, float);
   itkGetConstMacro(Variance, float);
 
-  /** Set the sweep angle */
+  /** Set/Get the sweep angle. */
   itkSetMacro(SweepAngle, float);
   itkGetConstMacro(SweepAngle, float);
 
@@ -182,14 +177,13 @@ protected:
 
 private:
 
-  HoughTransform2DCirclesImageFilter(const Self &);
-  void operator=(const Self &);
+  ITK_DISALLOW_COPY_AND_ASSIGN(HoughTransform2DCirclesImageFilter);
 
-  float  m_SweepAngle;
-  double m_MinimumRadius;
-  double m_MaximumRadius;
-  double m_Threshold;
-  double m_SigmaGradient;
+  float                 m_SweepAngle;
+  double                m_MinimumRadius;
+  double                m_MaximumRadius;
+  double                m_Threshold;
+  double                m_SigmaGradient;
 
   OutputImagePointer    m_RadiusImage;
   CirclesListType       m_CirclesList;

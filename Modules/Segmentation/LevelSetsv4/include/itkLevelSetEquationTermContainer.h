@@ -40,7 +40,7 @@ namespace itk
  */
 template< typename TInputImage,
           typename TLevelSetContainer >
-class LevelSetEquationTermContainer : public Object
+class ITK_TEMPLATE_EXPORT LevelSetEquationTermContainer : public Object
 {
 public:
   typedef LevelSetEquationTermContainer     Self;

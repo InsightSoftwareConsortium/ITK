@@ -62,12 +62,40 @@ GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::Generate
 
 template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
 void
+GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(typename itk::GPUTraits< TOutputImage >::Type *output)
+{
+  typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
+  typename GPUOutputImage::Pointer gpuImage = dynamic_cast< GPUOutputImage * >( this->GetOutput() );
+
+  gpuImage->Graft( output );
+}
+
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(DataObject *output)
 {
   typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
-  typename GPUOutputImage::Pointer otPtr = dynamic_cast< GPUOutputImage * >( this->GetOutput() );
+  GPUOutputImage* gpuImage = dynamic_cast<GPUOutputImage*>(output);
+  if(gpuImage)
+    {
+    this->GraftOutput(gpuImage);
+    }
+  else
+    {
+    itkExceptionMacro( << "itk::GPUImageToImageFilter::GraftOutput() cannot cast "
+                       << typeid( output ).name() << " to "
+                       << typeid( GPUOutputImage * ).name() );
+    }
+}
 
-  otPtr->Graft( output );
+template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
+void
+GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits< TOutputImage >::Type *output)
+{
+  typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
+  typename GPUOutputImage::Pointer gpuImage = dynamic_cast< GPUOutputImage * >( this->ProcessObject::GetOutput(key) );
+
+  gpuImage->Graft( output );
 }
 
 template< typename TInputImage, typename TOutputImage, typename TParentImageFilter >
@@ -75,9 +103,17 @@ void
 GPUImageToImageFilter< TInputImage, TOutputImage, TParentImageFilter >::GraftOutput(const DataObjectIdentifierType & key, DataObject *output)
 {
   typedef typename itk::GPUTraits< TOutputImage >::Type GPUOutputImage;
-  typename GPUOutputImage::Pointer otPtr = dynamic_cast< GPUOutputImage * >( this->ProcessObject::GetOutput(key) );
-
-  otPtr->Graft( output );
+  GPUOutputImage* gpuImage = dynamic_cast<GPUOutputImage*>(output);
+  if(gpuImage)
+    {
+    this->GraftOutput(key,gpuImage);
+    }
+  else
+    {
+    itkExceptionMacro( << "itk::GPUImageToImageFilter::GraftOutput() cannot cast "
+                       << typeid( output ).name() << " to "
+                       << typeid( GPUOutputImage * ).name() );
+    }
 }
 
 } // end namespace itk

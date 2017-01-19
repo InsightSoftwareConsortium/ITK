@@ -37,7 +37,7 @@ namespace itk
  */
 
 template< typename SimpleLoggerType >
-class LoggerThreadWrapper:public SimpleLoggerType
+class ITK_TEMPLATE_EXPORT LoggerThreadWrapper:public SimpleLoggerType
 {
 public:
 

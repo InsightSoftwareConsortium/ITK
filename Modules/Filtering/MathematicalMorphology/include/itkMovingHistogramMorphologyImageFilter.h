@@ -28,10 +28,11 @@ namespace itk
 
 /**
  * \class MovingHistogramMorphologyImageFilter
- * \brief base class for MovingHistogramDilateImageFilter and MovingHistogramErodeImageFilter
+ * \brief Base class for MovingHistogramDilateImageFilter and MovingHistogramErodeImageFilter.
  *
- * This class is similar to MovingHistogramImageFilter but add support
- * for boundaries and don't fully update the histogram to enhance performances.
+ * This class is similar to MovingHistogramImageFilter, but adds support for
+ * boundaries and does not fully update the histogram in order to enhance
+ * performance.
  *
  * \sa MovingHistogramImageFilter, MovingHistogramDilateImageFilter, MovingHistogramErodeImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
@@ -39,7 +40,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram >
-class MovingHistogramMorphologyImageFilter:
+class ITK_TEMPLATE_EXPORT MovingHistogramMorphologyImageFilter:
   public MovingHistogramImageFilter< TInputImage, TOutputImage, TKernel, THistogram >
 {
 public:
@@ -55,7 +56,7 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(MovingHistogramMorphologyImageFilter,
-               ImageToImageFilter);
+               MovingHistogramImageFilter);
 
   /** Image related typedefs. */
   typedef TInputImage                                InputImageType;
@@ -85,7 +86,8 @@ public:
 
   typedef typename std::map< OffsetType, OffsetListType, typename OffsetType::LexicographicCompare > OffsetMapType;
 
-  /** Set/Get the boundary value. */
+  /** Set/Get the boundary value.
+   *  Subclasses should set their own values. */
   itkSetMacro(Boundary, PixelType);
   itkGetConstMacro(Boundary, PixelType);
 
@@ -104,7 +106,8 @@ protected:
 //                               outputRegionForThread,
 //                               ThreadIdType threadId);
 
-  /** needed to pass the boundary value to the histogram object */
+  /** Configure the histogram.
+   *  Used by this class to pass the boundary value to the histogram object. */
   virtual void ConfigureHistogram(THistogram & histogram) ITK_OVERRIDE;
 
   PixelType m_Boundary;

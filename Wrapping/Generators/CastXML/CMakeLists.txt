@@ -20,27 +20,28 @@ else()
 
   set(_download_castxml_binaries 0)
   set(_castxml_url )
-  set(_castxml_hash_or_tag )
+  set(_castxml_hash )
 
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460535/castxml-linux.tar.gz)
-    set(_castxml_hash_or_tag edae937f8a6e42db64f54365b3f0d9e9)
+    set(_castxml_hash 76eb3b3acdae9d05b8c12aee28f04f5f)
+    set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-linux.tar.gz")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
+    set(_castxml_hash 2b7a470b8e295a3a16a8347affdc0100)
     set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460537/castxml-windows.zip)
-    set(_castxml_hash_or_tag a39df49a23f3c739afe3a0f0beba1bcd)
+    set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-windows.zip")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460536/castxml-macosx.tar.gz)
-    set(_castxml_hash_or_tag a4d0904608d3bb77421d5cdb7de19184)
+    set(_castxml_hash d0688cf7fc0b0d568f5f26ffbf539a1e)
+    set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-macosx.tar.gz")
     set(_download_castxml_binaries 1)
 
   endif()
@@ -52,7 +53,7 @@ else()
     endif()
     ExternalProject_Add(castxml
       URL ${_castxml_url}
-      URL_MD5 ${_castxml_hash_or_tag}
+      URL_MD5 ${_castxml_hash}
       CONFIGURE_COMMAND ""
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
@@ -63,10 +64,19 @@ else()
   elseif(NOT TARGET castxml)
     set(compiler_information)
     if(NOT CMAKE_CROSSCOMPILING)
+      if(CMAKE_VERSION VERSION_LESS 3.4)
+        set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG )
+        set(CMAKE_C_COMPILER_LAUNCHER_FLAG )
+      else()
+        set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER})
+        set(CMAKE_C_COMPILER_LAUNCHER_FLAG -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER})
+      endif()
       set(compiler_information
             -DCMAKE_CXX_COMPILER:FILEPATH=${CMAKE_CXX_COMPILER}
+            ${CMAKE_CXX_COMPILER_LAUNCHER_FLAG}
             "-DCMAKE_CXX_FLAGS:STRING=${CMAKE_CXX_FLAGS} -w"
             -DCMAKE_C_COMPILER:FILEPATH=${CMAKE_C_COMPILER}
+            ${CMAKE_C_COMPILER_LAUNCHER_FLAG}
             "-DCMAKE_C_FLAGS:STRING=${CMAKE_C_FLAGS} -w"
           )
     endif()
@@ -132,8 +142,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2016-05-18
-      GIT_TAG 9a834141a84c4839949826c7f70b944ffea07b80
+      # CastXML master, 2016-10-11
+      GIT_TAG 05db76f3824c52849c27ef87b630b432fba78ca5
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev

@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKPDEDeformableRegistration
  */
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class FastSymmetricForcesDemonsRegistrationFunction:
+class ITK_TEMPLATE_EXPORT FastSymmetricForcesDemonsRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
                                             TMovingImage, TDisplacementField >
 {

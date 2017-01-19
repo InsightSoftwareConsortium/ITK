@@ -68,7 +68,7 @@ public:
  * \ingroup ITKMesh
  */
 template< typename TInputMesh, typename TOutputImage >
-class TriangleMeshToBinaryImageFilter:public ImageSource< TOutputImage >
+class ITK_TEMPLATE_EXPORT TriangleMeshToBinaryImageFilter:public ImageSource< TOutputImage >
 {
 public:
   /** Standard class typedefs. */

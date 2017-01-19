@@ -33,11 +33,7 @@ HDF5ImageIO::HDF5ImageIO() : m_H5File(ITK_NULLPTR),
 
 HDF5ImageIO::~HDF5ImageIO()
 {
-  if(this->m_VoxelDataSet != ITK_NULLPTR)
-    {
-    m_VoxelDataSet->close();
-    delete m_VoxelDataSet;
-    }
+  this->CloseDataSet();
   this->CloseH5File();
 }
 
@@ -305,6 +301,8 @@ HDF5ImageIO
   hsize_t numScalars(1);
   H5::DataSpace scalarSpace(1,&numScalars);
   H5::PredType scalarType =
+    H5::PredType::NATIVE_INT;
+  H5::PredType attrType =
     H5::PredType::NATIVE_HBOOL;
   H5::DataSet scalarSet =
     this->m_H5File->createDataSet(path,
@@ -318,10 +316,10 @@ HDF5ImageIO
   const std::string isLongName("isLong");
   H5::Attribute isLong =
     scalarSet.createAttribute(isLongName,
-                               scalarType,
+                               attrType,
                                scalarSpace);
   bool trueVal(true);
-  isLong.write(scalarType,&trueVal);
+  isLong.write(attrType,&trueVal);
   isLong.close();
   int tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
@@ -336,6 +334,8 @@ HDF5ImageIO
   hsize_t numScalars(1);
   H5::DataSpace scalarSpace(1,&numScalars);
   H5::PredType scalarType =
+    H5::PredType::NATIVE_UINT;
+  H5::PredType attrType =
     H5::PredType::NATIVE_HBOOL;
   H5::DataSet scalarSet =
     this->m_H5File->createDataSet(path,
@@ -349,10 +349,10 @@ HDF5ImageIO
   const std::string isUnsignedLongName("isUnsignedLong");
   H5::Attribute isUnsignedLong =
     scalarSet.createAttribute(isUnsignedLongName,
-                               scalarType,
+                               attrType,
                                scalarSpace);
   bool trueVal(true);
-  isUnsignedLong.write(scalarType,&trueVal);
+  isUnsignedLong.write(attrType,&trueVal);
   isUnsignedLong.close();
   int tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
@@ -692,9 +692,21 @@ HDF5ImageIO
     {
     this->m_H5File->close();
     delete this->m_H5File;
+    this->m_H5File = ITK_NULLPTR;
     }
 }
 
+void
+HDF5ImageIO
+::CloseDataSet()
+{
+  if(this->m_VoxelDataSet != ITK_NULLPTR)
+    {
+    m_VoxelDataSet->close();
+    delete m_VoxelDataSet;
+    this->m_VoxelDataSet = ITK_NULLPTR;
+    }
+}
 
 void
 HDF5ImageIO
@@ -703,8 +715,10 @@ HDF5ImageIO
   try
     {
     this->CloseH5File();
+    this->CloseDataSet();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_RDONLY);
+    this->m_VoxelDataSet = new H5::DataSet();
 
     // not sure what to do with this initially
     //eventually it will be needed if the file versions change
@@ -756,7 +770,8 @@ HDF5ImageIO
 
     std::string VoxelDataName(groupName);
     VoxelDataName += VoxelData;
-    H5::DataSet imageSet = this->m_H5File->openDataSet(VoxelDataName);
+    *(this->m_VoxelDataSet) = this->m_H5File->openDataSet(VoxelDataName);
+    H5::DataSet imageSet = *(this->m_VoxelDataSet);
     H5::DataSpace imageSpace = imageSet.getSpace();
     //
     // set the componentType
@@ -840,10 +855,23 @@ HDF5ImageIO
         }
       else if(metaDataType == H5::PredType::NATIVE_UCHAR)
         {
-        this->StoreMetaData<unsigned char>(&metaDict,
-                                           localMetaDataName,
-                                           name,
-                                           metaDataDims[0]);
+        if(doesAttrExist(metaDataSet,"isBool"))
+          {
+          // itk::Array<bool> apparently can't
+          // happen because vnl_vector<bool> isn't
+          // instantiated
+          bool val;
+          int tmpVal = this->ReadScalar<int>(localMetaDataName);
+          val = tmpVal != 0;
+          EncapsulateMetaData<bool>(metaDict,name,val);
+          }
+        else
+          {
+          this->StoreMetaData<unsigned char>(&metaDict,
+                                             localMetaDataName,
+                                             name,
+                                             metaDataDims[0]);
+          }
         }
       else if(metaDataType == H5::PredType::NATIVE_SHORT)
         {
@@ -861,10 +889,18 @@ HDF5ImageIO
         }
       else if(metaDataType == H5::PredType::NATIVE_UINT)
         {
-        this->StoreMetaData<unsigned int>(&metaDict,
-                                          localMetaDataName,
-                                          name,
-                                          metaDataDims[0]);
+        if(doesAttrExist(metaDataSet,"isUnsignedLong"))
+          {
+          unsigned long val = this->ReadScalar<unsigned long>(localMetaDataName);
+          EncapsulateMetaData<unsigned long>(metaDict,name,val);
+          }
+        else
+          {
+          this->StoreMetaData<unsigned int>(&metaDict,
+                                            localMetaDataName,
+                                            name,
+                                            metaDataDims[0]);
+          }
         }
       else if(metaDataType == H5::PredType::NATIVE_LONG)
         {
@@ -1000,19 +1036,8 @@ HDF5ImageIO
   ImageIORegion::SizeType  size = regionToRead.GetSize();
   ImageIORegion::IndexType start = regionToRead.GetIndex();
 
-  // HDF5 dimensions listed slowest moving first, ITK are fastest
-  // moving first.
-  std::string VoxelDataName(ImageGroup);
-  VoxelDataName += "/0";
-  VoxelDataName += VoxelData;
-  if(this->m_VoxelDataSet == ITK_NULLPTR)
-    {
-    this->m_VoxelDataSet = new H5::DataSet();
-    *(this->m_VoxelDataSet) = this->m_H5File->openDataSet(VoxelDataName);
-    }
   H5::DataType voxelType = this->m_VoxelDataSet->getDataType();
   H5::DataSpace imageSpace = this->m_VoxelDataSet->getSpace();
-
 
   H5::DataSpace dspace;
   this->SetupStreaming(&imageSpace,&dspace);
@@ -1074,8 +1099,11 @@ HDF5ImageIO
   try
     {
     this->CloseH5File();
+    this->CloseDataSet();
     this->m_H5File = new H5::H5File(this->GetFileName(),
                                     H5F_ACC_TRUNC);
+    this->m_VoxelDataSet = new H5::DataSet();
+
     this->WriteString(ItkVersion,
                       Version::GetITKVersion());
 
@@ -1106,6 +1134,39 @@ HDF5ImageIO
     std::string typeVal(ComponentToString(this->GetComponentType()));
     this->WriteString(VoxelTypeName,typeVal);
 
+    int numComponents = this->GetNumberOfComponents();
+    int numDims = this->GetNumberOfDimensions();
+    // HDF5 dimensions listed slowest moving first, ITK are fastest
+    // moving first.
+    hsize_t *dims = new hsize_t[numDims + (numComponents == 1 ? 0 : 1)];
+
+    for(int i(0), j(numDims-1); i < numDims; i++, j--)
+      {
+      dims[j] = this->m_Dimensions[i];
+      }
+    if(numComponents > 1)
+      {
+      dims[numDims] = numComponents;
+      numDims++;
+      }
+    H5::DataSpace imageSpace(numDims,dims);
+    H5::PredType dataType = ComponentToPredType(this->GetComponentType());
+
+    // set up properties for chunked, compressed writes.
+    // in this case, set the chunk size to be the N-1 dimension
+    // region
+    H5::DSetCreatPropList plist;
+    plist.setDeflate(5);
+    dims[0] = 1;
+    plist.setChunk(numDims,dims);
+    delete[] dims;
+
+    std::string VoxelDataName(ImageGroup);
+    VoxelDataName += "/0";
+    VoxelDataName += VoxelData;
+    *(this->m_VoxelDataSet) = this->m_H5File->createDataSet(VoxelDataName,
+                                                            dataType,
+                                                            imageSpace,plist);
     std::string MetaDataGroupName(groupName);
     MetaDataGroupName += MetaDataName;
     this->m_H5File->createGroup(MetaDataGroupName);
@@ -1300,29 +1361,8 @@ HDF5ImageIO
       dims[numDims] = numComponents;
       numDims++;
       }
-
     H5::DataSpace imageSpace(numDims,dims);
     H5::PredType dataType = ComponentToPredType(this->GetComponentType());
-    std::string VoxelDataName(ImageGroup);
-    VoxelDataName += "/0";
-    VoxelDataName += VoxelData;
-    // set up properties for chunked, compressed writes.
-    // in this case, set the chunk size to be the N-1 dimension
-    // region
-    H5::DSetCreatPropList plist;
-    plist.setDeflate(5);
-    dims[0] = 1;
-    plist.setChunk(numDims,dims);
-
-    //
-    // Create DataSet Once, potentially write to it many times
-    if(this->m_VoxelDataSet == ITK_NULLPTR)
-      {
-      this->m_VoxelDataSet = new H5::DataSet();
-      *(this->m_VoxelDataSet) = this->m_H5File->createDataSet(VoxelDataName,
-                                                              dataType,
-                                                              imageSpace,plist);
-      }
     H5::DataSpace dspace;
     this->SetupStreaming(&imageSpace,&dspace);
     this->m_VoxelDataSet->write(buffer,dataType,dspace,imageSpace);

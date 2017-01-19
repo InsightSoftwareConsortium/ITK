@@ -31,7 +31,7 @@ namespace itk
 {
 /**
  * \class GrayscaleDilateImageFilter
- * \brief gray scale dilation of an image
+ * \brief Grayscale dilation of an image.
  *
  * Dilate an image using grayscale morphology. Dilation takes the
  * maximum of all the pixels identified by the structuring element.
@@ -50,7 +50,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >
-class GrayscaleDilateImageFilter:
+class ITK_TEMPLATE_EXPORT GrayscaleDilateImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

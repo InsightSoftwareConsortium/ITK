@@ -68,7 +68,7 @@ namespace itk
  * \ingroup ITKRegionGrowing
  */
 template< typename TInputImage, typename TOutputImage >
-class IsolatedConnectedImageFilter:
+class ITK_TEMPLATE_EXPORT IsolatedConnectedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

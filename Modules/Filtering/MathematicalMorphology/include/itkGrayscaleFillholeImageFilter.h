@@ -53,7 +53,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputImage, typename TOutputImage >
-class GrayscaleFillholeImageFilter:
+class ITK_TEMPLATE_EXPORT GrayscaleFillholeImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

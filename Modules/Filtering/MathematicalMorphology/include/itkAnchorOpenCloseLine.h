@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKMathematicalMorphology
  */
 template< typename TInputPix, typename TCompare >
-class AnchorOpenCloseLine
+class ITK_TEMPLATE_EXPORT AnchorOpenCloseLine
 {
 public:
   /** Some convenient typedefs. */

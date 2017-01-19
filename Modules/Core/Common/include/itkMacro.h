@@ -179,6 +179,15 @@ namespace itk
   #endif
 #endif
 
+// Setup symbol exports
+#ifndef ITK_TEMPLATE_EXPORT
+  #ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
+    #define ITK_TEMPLATE_EXPORT __attribute__ ((visibility ("default")))
+  #else
+    #define ITK_TEMPLATE_EXPORT
+  #endif
+#endif
+
 #if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
   #define ITK_HAS_CXX11_RVREF
 #endif
@@ -289,10 +298,6 @@ namespace itk
  * allows you to create an instance of an object that is exactly the
  * same type as the referring object.  This is useful in cases where
  * an object has been cast back to a base class.
- *
- * These creation methods first try asking the object factory to create
- * an instance, and then default to the standard "new" operator if the
- * factory fails.
  *
  * These routines assigns the raw pointer to a smart pointer and then call
  * UnRegister() on the rawPtr to compensate for LightObject's constructor

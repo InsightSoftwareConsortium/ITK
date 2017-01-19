@@ -101,20 +101,33 @@ endif()
 #
 # Install platform-specific compiler detection files
 #
+if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+  set(_compilers_destination ${VXL_INSTALL_INCLUDE_DIR}/vcl/compilers)
+  set(_complier_detection_destination ${VXL_INSTALL_INCLUDE_DIR}/vcl)
+else()
+  set(_compilers_destination ${VXL_INSTALL_INCLUDE_DIR}/compilers)
+  set(_complier_detection_destination ${VXL_INSTALL_INCLUDE_DIR})
+endif()
 file(GLOB VXL_COMPILER_DETECTION_FILES ${CMAKE_CURRENT_LIST_DIR}/compilers/*)
 install(FILES ${VXL_COMPILER_DETECTION_FILES}
-      DESTINATION include/vxl/vcl/compilers
+      DESTINATION ${_compilers_destination}
       PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
       COMPONENT Development )
 install(FILES ${CMAKE_CURRENT_LIST_DIR}/vcl_compiler_detection.h
-      DESTINATION include/vxl/vcl
+      DESTINATION ${_complier_detection_destination}
       PERMISSIONS OWNER_WRITE OWNER_READ GROUP_READ WORLD_READ
       COMPONENT Development )
 
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_config_compiler.h.in ${PROJECT_BINARY_DIR}/vcl_config_compiler.h include/vxl/vcl)
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_config_headers.h.in  ${PROJECT_BINARY_DIR}/vcl_config_headers.h  include/vxl/vcl)
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_config_manual.h.in   ${PROJECT_BINARY_DIR}/vcl_config_manual.h   include/vxl/vcl)
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_where_root_dir.h.in  ${PROJECT_BINARY_DIR}/vcl_where_root_dir.h  include/vxl/vcl)
+# If VXL_INSTALL_INCLUDE_DIR is the default value
+if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+  set(_config_destination ${VXL_INSTALL_INCLUDE_DIR}/vcl)
+else()
+  set(_config_destination ${VXL_INSTALL_INCLUDE_DIR})
+endif()
+vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_config_compiler.h.in ${PROJECT_BINARY_DIR}/vcl_config_compiler.h ${_config_destination})
+vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_config_headers.h.in ${PROJECT_BINARY_DIR}/vcl_config_headers.h  ${_config_destination})
+vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_config_manual.h.in ${PROJECT_BINARY_DIR}/vcl_config_manual.h   ${_config_destination})
+vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vcl_where_root_dir.h.in ${PROJECT_BINARY_DIR}/vcl_where_root_dir.h  ${_config_destination})
 
 include_directories(${PROJECT_BINARY_DIR})
 set( vcl_sources

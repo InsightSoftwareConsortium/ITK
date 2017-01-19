@@ -38,7 +38,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TOutput, unsigned int VDimension >
-class WhitakerSparseLevelSetImage :
+class ITK_TEMPLATE_EXPORT WhitakerSparseLevelSetImage :
     public LevelSetSparseImage< TOutput, VDimension >
 {
 public:

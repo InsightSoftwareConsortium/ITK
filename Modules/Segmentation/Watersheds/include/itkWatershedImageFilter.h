@@ -147,7 +147,7 @@ namespace itk
  * \ingroup ITKWatersheds
  */
 template< typename TInputImage >
-class WatershedImageFilter:
+class ITK_TEMPLATE_EXPORT WatershedImageFilter:
   public ImageToImageFilter< TInputImage, Image< IdentifierType,
                                                  TInputImage::ImageDimension > >
 {

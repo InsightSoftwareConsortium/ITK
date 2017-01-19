@@ -93,6 +93,29 @@ try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
   CMAKE_FLAGS "-DCMAKE_BUILD_TYPE:STRING=Debug" )
 
 set(ITK_WINDOWS_EXPORT_ALL_SYMBOLS ${CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS})
+
+#-----------------------------------------------------------------------------
+# Make default visibility as an option for generated export header
+
+# check if private (hidden, local) symbols can be dynamic_cast between
+# different instances.
+include(itkCheckPrivateDynamicCast)
+
+
+set(_template_visibility_init OFF)
+if(NOT ITK_PRIVATE_DYNAMIC_CAST)
+  set(_template_visibility_init ON)
+endif()
+# This adds default symbol visibility to template class types, which
+# results in 'weak external typeinfo' in libraries that use these
+# types, whether with implicit or explicit instantiation, default
+# hidden or non-hidden visibility.
+# This is required on Mac OSX to avoid dynamic_cast failures across binaries.
+# See Change-Id: Ib4a6b8cafe8720c3a2a5b3e6ba833d11002978df for more information."
+option(ITK_TEMPLATE_VISIBILITY_DEFAULT "Set symbol visibility to default for template class declarations. https://itk.org/Wiki/ITK/FAQ" "${_template_visibility_init}")
+mark_as_advanced(ITK_TEMPLATE_VISIBILITY_DEFAULT)
+
+
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 
 

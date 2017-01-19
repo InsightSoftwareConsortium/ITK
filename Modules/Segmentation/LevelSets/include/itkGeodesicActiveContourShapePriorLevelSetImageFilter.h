@@ -110,7 +110,7 @@ namespace itk
 template< typename TInputImage,
           typename TFeatureImage,
           typename TOutputPixelType = float >
-class GeodesicActiveContourShapePriorLevelSetImageFilter:
+class ITK_TEMPLATE_EXPORT GeodesicActiveContourShapePriorLevelSetImageFilter:
   public ShapePriorSegmentationLevelSetImageFilter< TInputImage, TFeatureImage,
                                                     TOutputPixelType >
 {

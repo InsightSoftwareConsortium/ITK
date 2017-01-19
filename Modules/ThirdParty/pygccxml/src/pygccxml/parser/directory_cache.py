@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -329,7 +329,8 @@ class directory_cache_t (declarations_cache.cache_base_t):
         except OSError as e:
             print("Could not remove cache file (%s)" % e)
 
-    def _create_cache_key(self, source_file):
+    @staticmethod
+    def _create_cache_key(source_file):
         """
         return the cache key for a header file.
 
@@ -351,7 +352,8 @@ class directory_cache_t (declarations_cache.cache_base_t):
         res = self._create_cache_key(source_file) + ".cache"
         return os.path.join(self.__dir, res)
 
-    def _create_config_signature(self, config):
+    @staticmethod
+    def _create_config_signature(config):
         """
         return the signature for a config object.
 

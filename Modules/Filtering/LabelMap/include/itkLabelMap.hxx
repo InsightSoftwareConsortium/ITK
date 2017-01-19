@@ -79,14 +79,34 @@ LabelMap< TLabelObject >
 template< typename TLabelObject >
 void
 LabelMap< TLabelObject >
+::Graft(const Self *imgData)
+{
+  if(imgData == ITK_NULLPTR)
+    {
+    return; // nothing to do
+    }
+  // call the superclass' implementation
+  Superclass::Graft(imgData);
+
+  // Now copy anything remaining that is needed
+  if( &m_LabelObjectContainer != &(imgData->m_LabelObjectContainer) )
+    {
+    m_LabelObjectContainer.clear();
+    LabelObjectContainerType newLabelObjectContainer( imgData->m_LabelObjectContainer );
+    std::swap( m_LabelObjectContainer, newLabelObjectContainer );
+    }
+  m_BackgroundValue = imgData->m_BackgroundValue;
+}
+
+template< typename TLabelObject >
+void
+LabelMap< TLabelObject >
 ::Graft(const DataObject *data)
 {
   if(data == ITK_NULLPTR)
     {
     return; // nothing to do
     }
-  // call the superclass' implementation
-  Superclass::Graft(data);
 
   // Attempt to cast data to an Image
   const Self *imgData = dynamic_cast< const Self * >( data );
@@ -98,15 +118,7 @@ LabelMap< TLabelObject >
                        << typeid( data ).name() << " to "
                        << typeid( const Self * ).name() );
     }
-
-  // Now copy anything remaining that is needed
-  if( &m_LabelObjectContainer != &(imgData->m_LabelObjectContainer) )
-    {
-    m_LabelObjectContainer.clear();
-    LabelObjectContainerType newLabelObjectContainer( imgData->m_LabelObjectContainer );
-    std::swap( m_LabelObjectContainer, newLabelObjectContainer );
-    }
-  m_BackgroundValue = imgData->m_BackgroundValue;
+  this->Graft(imgData);
 }
 
 

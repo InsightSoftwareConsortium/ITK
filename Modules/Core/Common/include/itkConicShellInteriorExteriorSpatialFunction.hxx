@@ -24,15 +24,14 @@ namespace itk
 {
 template< unsigned int VDimension, typename TInput >
 ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
-::ConicShellInteriorExteriorSpatialFunction()
+::ConicShellInteriorExteriorSpatialFunction() :
+  m_DistanceMin( 0.0 ),
+  m_DistanceMax( 0.0 ),
+  m_Epsilon( 0.0 ),
+  m_Polarity( false )
 {
   m_Origin.Fill(0.0);
   m_OriginGradient.Fill(0.0);
-
-  m_DistanceMin = 0;
-  m_DistanceMax = 0;
-  m_Polarity = 0;
-  m_Epsilon = 0;
 }
 
 template< unsigned int VDimension, typename TInput >
@@ -57,36 +56,9 @@ typename ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const
 {
-  // As from the header...
-  /**
-   * We are creating search areas from BoundaryPoint1 in which to look for
-   * candidate BoundaryPoint2's with which to form core atoms.  Assume the
-   * "worst case" that BoundaryPoint2 is somewhere in that search area pointing
-   * directly at BoundaryPoint1.
-   *
-   * The search area (ConicShell?) from each BoundaryPoint1 has the following
-   * parameters:
-   *
-   * DistanceMax and DistanceMin from the location of the BoundaryPoint
-   *
-   * AngleMax from the line along the gradient at the boundary point.
-   * This is determined in n dimensions by taking the dot product of
-   * two vectors,
-   * (1) the normalized gradient at BoundaryPoint1 and
-   * (2) the normalized vector from BoundaryPoint1 to BoundaryPoint2.
-   *
-   * If the absolute value of that dot product is greater than (1 - epsilon)
-   * then you are in the ConicShell.  This epsilon is the same one determining
-   * face-to-faceness in the IEEE TMI paper.
-   */
-
-  // Set the direction of the gradient
-  // O means the direction that the gradient is pointing,
-  // 1 means the opposite direction
-
   typedef Vector< double, VDimension > VectorType;
 
-  // Compute the vector from the origin to the point we're testing
+  // Compute the vector from the origin to the point being tested
   VectorType vecOriginToTest = position - m_Origin;
 
   // Compute the length of this vector
@@ -113,7 +85,7 @@ ConicShellInteriorExteriorSpatialFunction< VDimension, TInput >
     dotprod = dotprod * -1;
     }
 
-  // Check to see if it meet's the angle criterior
+  // Check if it meets the angle criterion
   OutputType result;
   if ( dotprod > ( 1 - m_Epsilon ) )
     {

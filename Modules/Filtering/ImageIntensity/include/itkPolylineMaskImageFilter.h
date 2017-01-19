@@ -25,7 +25,7 @@ namespace itk
 {
 /** \class PolylineMaskImageFilter
  * \brief Implements image masking operation constrained by a polyline on a plane
- * perpendicular to certain viewing direction
+ * perpendicular to certain viewing direction.
  *
  * This class is parameterized over the types of the input image, polyline, vector
  * and output image.
@@ -35,7 +35,7 @@ namespace itk
  */
 template< typename TInputImage, typename TPolyline, typename TVector,
           typename TOutputImage >
-class PolylineMaskImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
+class ITK_TEMPLATE_EXPORT PolylineMaskImageFilter:public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -56,7 +56,7 @@ public:
 
   itkStaticConstMacro(InputDimension, unsigned int, 3);
 
-  /** Some convenient typedefs for input image */
+  /** Some convenient typedefs for input image. */
   typedef TInputImage                           InputImageType;
   typedef typename InputImageType::ConstPointer InputImagePointer;
   typedef typename InputImageType::RegionType   InputImageRegionType;
@@ -67,47 +67,48 @@ public:
   /** Standard matrix type for this class. */
   typedef Matrix< double, itkGetStaticConstMacro(InputDimension), itkGetStaticConstMacro(InputDimension) > MatrixType;
 
-  /** typedef for the vector type */
+  /** typedef for the vector type. */
   typedef TVector VectorType;
 
-  /* typedef for the polyline type */
+  /** typedef for the polyline type. */
   typedef TPolyline PolylineType;
 
-  /* typedef for the output image */
+  /** typedef for the output image. */
   typedef TOutputImage                         OutputImageType;
   typedef typename OutputImageType::Pointer    OutputImagePointer;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-  /** Read in image and polyline inputs */
+  /** Set input image. */
   void SetInput1(const InputImageType *image);
 
+  /** Set input polyline. */
   void SetInput2(const PolylineType *polyline);
 
-  /** Set/Get view vector */
+  /** Set/Get viewing direction vector. */
   itkSetMacro(ViewVector, VectorType);
   itkGetConstMacro(ViewVector, VectorType);
 
-  /** Set/Get in up vector */
+  /** Set/Get up direction vector. */
   itkSetMacro(UpVector, VectorType);
   itkGetConstMacro(UpVector, VectorType);
 
-  /** Set/Get camera center point */
+  /** Set/Get camera center point. */
   itkSetMacro(CameraCenterPoint, PointType);
   itkGetConstMacro(CameraCenterPoint, PointType);
 
-  /** Set/Get focal distance */
+  /** Set/Get focal distance of the camera. */
   itkSetMacro(FocalDistance, double);
   itkGetConstMacro(FocalDistance, double);
 
-  /** Set/Get focal point center point */
+  /** Set/Get camera focal point on the projection plane. */
   itkSetMacro(FocalPoint, ProjPlanePointType);
   itkGetConstMacro(FocalPoint, ProjPlanePointType);
 
-  /* Roatation matrix generation matrix */
+  /** Generate 3D rotation matrix using the viewing and up vectors. */
   void GenerateRotationMatrix();
 
-  /* 3D Point transforming and projecting function */
+  /** 3D rotation and perspective projection transform. */
   ProjPlanePointType TransformProjectPoint(PointType inputPoint);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -127,20 +128,15 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolylineMaskImageFilter);
 
-  /* viewing direction and up vector */
   VectorType m_ViewVector;
   VectorType m_UpVector;
 
-  /** Matrix representation of the rotation. */
   MatrixType m_RotationMatrix;
 
-  /**  Camera Center point */
   PointType m_CameraCenterPoint;
 
-  /** Camera focal points on the projection plane */
   ProjPlanePointType m_FocalPoint;
 
-  /* focal distance of the camera */
   double m_FocalDistance;
 };
 } // end namespace itk

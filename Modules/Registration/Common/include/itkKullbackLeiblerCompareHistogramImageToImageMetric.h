@@ -69,7 +69,7 @@ namespace itk
  */
 
 template< typename TFixedImage, typename TMovingImage >
-class KullbackLeiblerCompareHistogramImageToImageMetric:
+class ITK_TEMPLATE_EXPORT KullbackLeiblerCompareHistogramImageToImageMetric:
   public CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

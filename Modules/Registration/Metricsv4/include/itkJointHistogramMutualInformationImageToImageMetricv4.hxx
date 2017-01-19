@@ -20,7 +20,6 @@
 
 #include "itkCompensatedSummation.h"
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
-#include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageIterator.h"
 #include "itkDiscreteGaussianImageFilter.h"
 

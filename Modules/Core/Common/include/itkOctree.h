@@ -111,7 +111,7 @@ public:
  * \ingroup ITKCommon
  */
 template< typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType >
-class Octree:public OctreeBase
+class ITK_TEMPLATE_EXPORT Octree:public OctreeBase
 {
 public:
   /** Standard class typedefs. */

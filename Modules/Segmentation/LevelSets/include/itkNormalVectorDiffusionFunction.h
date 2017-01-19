@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TSparseImageType >
-class NormalVectorDiffusionFunction:
+class ITK_TEMPLATE_EXPORT NormalVectorDiffusionFunction:
   public NormalVectorFunctionBase< TSparseImageType >
 {
 public:

@@ -18,73 +18,79 @@
 
 #include <iostream>
 #include "itkCropImageFilter.h"
-#include "itkFileOutputWindow.h"
 #include "itkFilterWatcher.h"
+#include "itkTestingMacros.h"
 
-int itkCropImageFilterTest(int, char* [] )
+int itkCropImageFilterTest( int, char* [] )
 {
-  itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
-  fow->SetInstance(fow);
 
+  // Define the dimension of the images
+  const unsigned int ImageDimension = 2;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   SimpleImage;
-  SimpleImage::Pointer simpleImage = SimpleImage::New();
-  std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", "
-            << simpleImage->GetSpacing()[1] << std::endl;
+  // Declare the pixel types of the images
+  typedef short                                   PixelType;
 
-  // typedefs to simplify the syntax
-  typedef itk::Image<short, 2>   ShortImage;
+  // Declare the types of the images
+  typedef itk::Image< PixelType, ImageDimension > ImageType;
 
-  // Test the creation of an image with native type
-  ShortImage::Pointer if2 = ShortImage::New();
+  ImageType::Pointer inputImage = ImageType::New();
 
-  // fill in an image
-  ShortImage::IndexType  index = {{0, 0}};
-  ShortImage::SizeType   size = {{8, 12}};
-  ShortImage::RegionType region;
+  // Fill in the image
+  ImageType::IndexType  index = {{0, 0}};
+  ImageType::SizeType   size = {{8, 12}};
+  ImageType::RegionType region;
 
   region.SetSize( size );
   region.SetIndex( index );
-  if2->SetLargestPossibleRegion( region );
-  if2->SetBufferedRegion( region );
-  if2->Allocate();
+  inputImage->SetLargestPossibleRegion( region );
+  inputImage->SetBufferedRegion( region );
+  inputImage->Allocate();
 
-  itk::ImageRegionIterator<ShortImage> iterator(if2, region);
+  itk::ImageRegionIterator< ImageType > iterator( inputImage, region );
 
-  short i=0;
-  for (; !iterator.IsAtEnd(); ++iterator, ++i)
+  short i = 0;
+  for(; !iterator.IsAtEnd(); ++iterator, ++i)
     {
       iterator.Set( i );
     }
 
-  std::cout << "Input Image: " << if2 << std::endl;
+  // Create the filter
+  itk::CropImageFilter< ImageType, ImageType >::Pointer cropFilter =
+    itk::CropImageFilter< ImageType, ImageType >::New();
 
-  // Create a filter
-  itk::CropImageFilter< ShortImage, ShortImage >::Pointer extract;
-  extract = itk::CropImageFilter< ShortImage, ShortImage >::New();
-  FilterWatcher watcher(extract);
+  EXERCISE_BASIC_OBJECT_METHODS( cropFilter, CropImageFilter,
+    ExtractImageFilter );
 
-  extract->SetInput( if2 );
+  FilterWatcher watcher( cropFilter );
 
-  ShortImage::RegionType requestedRegion;
+  cropFilter->SetInput( inputImage );
 
-  ShortImage::SizeType   extractSize = {{8, 12}};
-  extractSize[0] = 1; extractSize[1] = 1;
-  extract->SetBoundaryCropSize(extractSize);
-  extract->SetUpperBoundaryCropSize(extractSize);
-  extract->SetLowerBoundaryCropSize(extractSize);
-  extract->UpdateLargestPossibleRegion();
-  requestedRegion = extract->GetOutput()->GetRequestedRegion();
+  ImageType::RegionType requestedRegion;
 
-  if (extract->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 6
-      || extract->GetOutput()->GetLargestPossibleRegion().GetSize()[1] != 10)
+  ImageType::SizeType extractSize = {{8, 12}};
+  extractSize[0] = 1;
+  extractSize[1] = 1;
+
+  cropFilter->SetBoundaryCropSize( extractSize );
+
+  cropFilter->SetUpperBoundaryCropSize( extractSize );
+  TEST_SET_GET_VALUE( extractSize, cropFilter->GetUpperBoundaryCropSize() );
+
+  cropFilter->SetLowerBoundaryCropSize( extractSize );
+  TEST_SET_GET_VALUE( extractSize, cropFilter->GetLowerBoundaryCropSize() );
+
+  cropFilter->UpdateLargestPossibleRegion();
+
+  requestedRegion = cropFilter->GetOutput()->GetRequestedRegion();
+
+  if( cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[0] != 6
+      || cropFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[1] != 10 )
     {
       return EXIT_FAILURE;
     }
 
-  if (extract->GetOutput()->GetLargestPossibleRegion().GetIndex()[0] != 1
-      || extract->GetOutput()->GetLargestPossibleRegion().GetIndex()[1] != 1)
+  if( cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[0] != 1
+      || cropFilter->GetOutput()->GetLargestPossibleRegion().GetIndex()[1] != 1 )
     {
       return EXIT_FAILURE;
     }

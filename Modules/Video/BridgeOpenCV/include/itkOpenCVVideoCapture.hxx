@@ -21,7 +21,16 @@
 #include "itkOpenCVVideoCapture.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+
+#include "opencv2/core/version.hpp"
+#if !defined(CV_VERSION_EPOCH)
+// OpenCV 3.x
+#include "opencv2/videoio.hpp"
+#include "opencv2/imgproc/types_c.h" // CV_RGB2BGR, CV_BGR2GRAY, ...
+#else
+// OpenCV 2.4.x
 #include "cv.h"
+#endif
 
 namespace itk
 {

@@ -42,7 +42,7 @@ namespace Statistics
  * \ingroup ITKStatistics
  */
 template< typename TVector >
-class DistanceToCentroidMembershipFunction:
+class ITK_TEMPLATE_EXPORT DistanceToCentroidMembershipFunction:
   public MembershipFunctionBase< TVector >
 {
 public:

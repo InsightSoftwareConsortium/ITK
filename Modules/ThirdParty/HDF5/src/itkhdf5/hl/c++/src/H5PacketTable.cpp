@@ -34,6 +34,12 @@
      * Opens an existing packet table, which can contain either fixed-length or
      * variable-length packets.
      */
+    PacketTable::PacketTable(hid_t fileID, const char* name)
+    {
+        table_id = H5PTopen( fileID, name);
+    }
+
+    /* "Open" Constructor - will be deprecated because of char* name */
     PacketTable::PacketTable(hid_t fileID, char* name)
     {
         table_id = H5PTopen( fileID, name);
@@ -60,17 +66,14 @@
             return false;
     }
 
-#ifdef VLPT_REMOVED
     /* IsVariableLength
-     * Return 1 if this packet table is a Variable Length packet table,
-     * return 0 if it is Fixed Length.  Returns -1 if the table is
-     * invalid (not open).
+     * Return 1 if this packet table uses variable-length datatype,
+     * and 0, otherwise.  Returns -1 if the table is invalid (not open).
      */
     int PacketTable::IsVariableLength()
     {
         return H5PTis_varlen(table_id);
     }
-#endif /* VLPT_REMOVED */
 
     /* ResetIndex
      * Sets the index to point to the first packet in the packet table
@@ -113,39 +116,100 @@
     {
         hsize_t npackets;
 
-        error = H5PTget_num_packets( table_id, (hsize_t *)&npackets);
+        error = H5PTget_num_packets(table_id, &npackets);
         return npackets;
     }
+
+    /* GetTableId
+     * Returns the identifier of the packet table
+     */
+    hid_t PacketTable::GetTableId()
+    {
+        return table_id;
+    }
+
+    /* GetDatatype
+     * Returns the datatype identifier used by the packet table, on success,
+     * or H5I_INVALID_HID, on failure.
+     * Note: it is best to avoid using this identifier in applications, unless
+     * the desired functionality cannot be performed via the packet table ID.
+     */
+    hid_t PacketTable::GetDatatype()
+    {
+        return H5PTget_type(table_id);
+    }
+
+    /* GetDataset
+     * Returns the dataset identifier associated with the packet table, on
+     * success, or H5I_INVALID_HID, on failure.
+     * Note: it is best to avoid using this identifier in applications, unless
+     * the desired functionality cannot be performed via the packet table ID.
+     */
+    hid_t PacketTable::GetDataset()
+    {
+        return H5PTget_dataset(table_id);
+    }
+
+    /* FreeBuff
+     * Frees the buffers created when variable-length packets are read.
+     * Takes the number of hvl_t structs to be freed and a pointer to their
+     * location in memory.
+     * Returns 0 on success, negative on error.
+     */
+    int PacketTable::FreeBuff(size_t numStructs, hvl_t * buffer)
+    {
+        return H5PTfree_vlen_buff( table_id, numStructs, buffer);
+    }
+
 
     /********************************/
     /* Fixed-Length Packet Table    */
     /********************************/
 
     /* Constructor
-     * Creates a packet table in which to store fixed length packets.
+     * Creates a packet table to store either fixed- or variable-length packets.
+     * Takes the ID of the file the packet table will be created in, the ID of
+     * the property list to specify compression, the name of the packet table,
+     * the ID of the datatype, and the size of a memory chunk used in chunking.
+     */
+    FL_PacketTable::FL_PacketTable(hid_t fileID, const char* name, hid_t dtypeID, hsize_t chunkSize, hid_t plistID)
+    {
+        table_id = H5PTcreate(fileID, name, dtypeID, chunkSize, plistID);
+    }
+
+    /* Constructor - deprecated
+     * Creates a packet table to store either fixed- or variable-length packets.
+     * Takes the ID of the file the packet table will be created in, the ID of
+     * the property list to specify compression, the name of the packet table,
+     * the ID of the datatype, and the size of a memory chunk used in chunking.
+     * Note: The above constructor has a better prototype, which allows default
+     * values to be used.  This constructor was only released in 1.10.0.
+     */
+    FL_PacketTable::FL_PacketTable(hid_t fileID, hid_t plistID, const char* name, hid_t dtypeID, hsize_t chunkSize)
+    {
+        table_id = H5PTcreate(fileID, name, dtypeID, chunkSize, plistID);
+    }
+
+    /* Constructor
+     * Creates a packet table to store either fixed- or variable-length packets.
      * Takes the ID of the file the packet table will be created in, the name of
      * the packet table, the ID of the datatype of the set, and the size
      * of a memory chunk used in chunking.
+     * Note: this overload will be deprecated in favor of the constructor above.
      */
     FL_PacketTable::FL_PacketTable(hid_t fileID, char* name, hid_t dtypeID, hsize_t chunkSize, int compression)
     {
-        table_id = H5PTcreate_fl ( fileID, name, dtypeID, chunkSize, compression);
+        table_id = H5PTcreate_fl(fileID, name, dtypeID, chunkSize, compression);
     }
 
     /* "Open" Constructor
      * Opens an existing fixed-length packet table.
      * Fails if the packet table specified is variable-length.
      */
-    FL_PacketTable::FL_PacketTable(hid_t fileID, char* name) : PacketTable(fileID, name)
-    {
-#ifdef VLPT_REMOVED
-        if( H5PTis_varlen(table_id) != 0 )    // If this is not a fixed-length table
-        {
-            H5PTclose(table_id);
-            table_id = -1;
-        }
-#endif /* VLPT_REMOVED */
-    }
+    FL_PacketTable::FL_PacketTable(hid_t fileID, const char* name) : PacketTable(fileID, name) {}
+
+    /* "Open" Constructor - will be deprecated because of char* name */
+    FL_PacketTable::FL_PacketTable(hid_t fileID, char* name) : PacketTable(fileID, name) {}
 
     /* AppendPacket
      * Adds a single packet to the packet table.  Takes a pointer
@@ -215,119 +279,4 @@
         return H5PTget_next(table_id, numPackets, data);
     }
 
-
-#ifdef VLPT_REMOVED
-    /********************************/
-    /* Variable-Length Packet Table */
-    /********************************/
-
-    /* Constructor
-     * Creates a packet table in which to store variable length packets.
-     * Takes the ID of the file the packet table will be created in, the name of
-     * the packet table, and the size of a memory chunk used in chunking.
-     */
-    VL_PacketTable::VL_PacketTable(hid_t fileID, char* name, hsize_t chunkSize)
-    {
-        table_id = H5PTcreate_vl ( fileID, name, chunkSize);
-    }
-
-    /* "Open" Constructor
-     * Opens an existing variable-length packet table.
-     * Fails if the packet table specified is fixed-length.
-     */
-    VL_PacketTable::VL_PacketTable(hid_t fileID, char* name) : PacketTable(fileID, name)
-    {
-        if( H5PTis_varlen(table_id) != 1 )    // If this is not a variable-length table
-        {
-            H5PTclose(table_id);
-            table_id = -1;
-        }
-    }
-
-    /* AppendPacket (variable-length)
-     * Adds a single variable-length packet to the packet table.
-     * Takes a pointer to the location of the data in memory and the length of the data
-     * in bytes.
-     * Returns 0 on success, negative on failure.
-     */
-       int VL_PacketTable::AppendPacket(void * data, size_t length)
-    {
-        hvl_t packet;
-
-        packet.len = length;
-        packet.p = data;
-
-        return H5PTappend(table_id, 1, &packet);
-    }
-
-    /* AppendPackets (multiple packets)
-     * Adds multiple variable-length packets to the packet table.  Takes the
-     * number of
-     * packets to be added and a pointer to an array of hvl_t structs in memory.
-     * Returns 0 on success, negative on failure.
-     */
-    int VL_PacketTable::AppendPackets(size_t numPackets, hvl_t * data)
-    {
-        return H5PTappend(table_id, numPackets, data);
-    }
-
-    /* GetPacket (indexed)
-     * Gets a single variable-length packet from the packet table.  Takes the
-     * index of the packet (with 0 being the first packet) and a pointer
-     * to a hvl_t struct in which to store the packet's size and location.
-     * Returns 0 on success, negative on failure.
-     */
-    int VL_PacketTable::GetPacket(hsize_t index, hvl_t * data)
-    {
-        return H5PTread_packets(table_id, index, 1, data);
-    }
-
-    /* GetPackets (multiple packets)
-     * Gets multiple variable-length packets at once, all packets between
-     * startIndex and endIndex inclusive.  Takes a pointer to an array
-     * of hvl_t structs in memory in which to store pointers to the packets.
-     * Returns 0 on success, negative on failure.
-     */
-    int VL_PacketTable::GetPackets(hsize_t startIndex, hsize_t endIndex, hvl_t * data)
-    {
-        // Make sure the range of indexes is valid
-        if (startIndex > endIndex)
-            return -1;
-
-        return  H5PTread_packets(table_id, startIndex, endIndex-startIndex+1, data);
-    }
-
-    /* GetNextPacket (single packet)
-     * Gets the next packet in the packet table.  Takes a pointer to
-     * an hvl_t struct where the packet should be stored.
-     * Returns 0 on success, negative on failure.  Index
-     * is not advanced to the next packet on failure.
-     */
-    int VL_PacketTable::GetNextPacket(hvl_t * data)
-    {
-        return H5PTget_next(table_id, 1, data);
-    }
-
-    /* GetNextPackets (multiple packets)
-     * Gets the next numPackets packets in the packet table.  Takes a
-     * pointer to an array of hvl_t structs where pointers to the packets
-     * should be stored.
-     * Returns 0 on success, negative on failure.  Index
-     * is not advanced on failure.
-     */
-    int VL_PacketTable::GetNextPackets(size_t numPackets, hvl_t * data)
-    {
-        return H5PTget_next(table_id, numPackets, data);
-    }
-
-    /* FreeReadbuff
-     * Frees the buffers created when variable-length packets are read.
-     * Takes the number of hvl_t structs to be freed and a pointer to their
-     * location in memory.
-     * Returns 0 on success, negative on error.
-     */
-    int VL_PacketTable::FreeReadbuff(size_t numStructs, hvl_t * buffer)
-    {
-        return H5PTfree_vlen_readbuff( table_id, numStructs, buffer);
-    }
-#endif /* VLPT_REMOVED */
+/* Removed "ifdef VLPT_REMOVED" block. 03/08/2016, -BMR */

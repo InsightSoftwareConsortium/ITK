@@ -26,18 +26,17 @@
 
 namespace itk
 {
-/**
- * Initialize new instance
- */
+
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
-::VectorResampleImageFilter()
+::VectorResampleImageFilter() :
+  m_OutputSpacing( 1.0 ),
+  m_OutputOrigin( 0.0 )
 {
-  m_OutputSpacing.Fill(1.0);
-  m_OutputOrigin.Fill(0.0);
-  m_OutputDirection.SetIdentity();
-  m_Size.Fill(0);
+  m_Size.Fill( 0 );
   m_OutputStartIndex.Fill(0);
+
+  m_OutputDirection.SetIdentity();
 
   m_Transform = IdentityTransform< TInterpolatorPrecisionType, ImageDimension >::New();
   m_Interpolator = VectorLinearInterpolateImageFunction< InputImageType, TInterpolatorPrecisionType >::New();
@@ -45,33 +44,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   m_DefaultPixelValue = NumericTraits< PixelType >::ZeroValue( m_DefaultPixelValue );
 }
 
-/**
- * Print out a description of self
- *
- * \todo Add details about this class
- */
-template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
-void
-VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "DefaultPixelValue: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_DefaultPixelValue )
-     << std::endl;
-  os << indent << "Size: " << m_Size << std::endl;
-  os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
-  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
-  os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
-  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
-  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-}
-
-/**
- * Set the output image spacing.
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
@@ -85,9 +57,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   this->SetOutputSpacing(s);
 }
 
-/**
- * Set the output image origin.
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
@@ -98,11 +67,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   this->SetOutputOrigin(p);
 }
 
-/**
- * Set up state of filter before multi-threading.
- * InterpolatorType::SetInputImage is not thread-safe and hence
- * has to be set up before ThreadedGenerateData
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
@@ -124,9 +88,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
     }
 }
 
-/**
- * Set up state of filter after multi-threading.
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
@@ -136,9 +97,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   m_Interpolator->SetInputImage(ITK_NULLPTR);
 }
 
-/**
- * ThreadedGenerateData
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
@@ -148,10 +106,10 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
 {
   itkDebugMacro(<< "Actually executing");
 
-  // Get the output pointers
+  // Get the output image pointer
   OutputImagePointer outputPtr = this->GetOutput();
 
-  // Get this input pointers
+  // Get the input image pointer
   InputImageConstPointer inputPtr = this->GetInput();
 
   // Create an iterator that will walk the output region for this thread.
@@ -190,7 +148,7 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
     // Evaluate input at right position and copy to the output
     if ( m_Interpolator->IsInsideBuffer(inputIndex) )
       {
-      PixelType        pixval;
+      PixelType pixval;
       NumericTraits< PixelType >::SetLength( pixval, numberOfComponents );
 
       const OutputType value =
@@ -212,19 +170,12 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
     }
 }
 
-/**
- * Inform pipeline of necessary input image region
- *
- * Determining the actual input region is non-trivial, especially
- * when we cannot assume anything about the transform being used.
- * So we do the easy thing and request the entire input image.
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass's implementation of this method
+  // Call the superclass's implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   if ( !this->GetInput() )
@@ -232,28 +183,27 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
     return;
     }
 
-  // get pointers to the input and output
-  InputImagePointer inputPtr  =
-    const_cast< TInputImage * >( this->GetInput() );
+  // Get the pointer to the input image
+  InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput() );
 
-  // Request the entire input image
+  // Determining the actual input region is non-trivial, especially
+  // when we cannot assume anything about the transform being used.
+  // So we do the easy thing and request the entire input image.
+  //
   InputImageRegionType inputRegion;
   inputRegion = inputPtr->GetLargestPossibleRegion();
   inputPtr->SetRequestedRegion(inputRegion);
 }
 
-/**
- * Inform pipeline of required output region
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 void
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
 ::GenerateOutputInformation()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
-  // get pointers to the input and output
+  // Get the pointer to the output image
   OutputImagePointer outputPtr = this->GetOutput();
   if ( !outputPtr )
     {
@@ -272,9 +222,6 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
   outputPtr->SetDirection(m_OutputDirection);
 }
 
-/**
- * Verify if any of the components has been modified.
- */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
 ModifiedTimeType
 VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
@@ -299,6 +246,25 @@ VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType
     }
 
   return latestTime;
+}
+
+template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType >
+void
+VectorResampleImageFilter< TInputImage, TOutputImage, TInterpolatorPrecisionType >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "DefaultPixelValue: "
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_DefaultPixelValue )
+     << std::endl;
+  os << indent << "Size: " << m_Size << std::endl;
+  os << indent << "OutputStartIndex: " << m_OutputStartIndex << std::endl;
+  os << indent << "OutputSpacing: " << m_OutputSpacing << std::endl;
+  os << indent << "OutputOrigin: " << m_OutputOrigin << std::endl;
+  os << indent << "OutputDirection: " << m_OutputDirection << std::endl;
+  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
+  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
 }
 } // end namespace itk
 

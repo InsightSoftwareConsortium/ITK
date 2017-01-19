@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -108,9 +108,6 @@ class libparser_t(object):
 CCTS = declarations.CALLING_CONVENTION_TYPES
 
 
-CCTS = declarations.CALLING_CONVENTION_TYPES
-
-
 class formated_mapping_parser_t(libparser_t):
 
     """convenience class, which formats existing declarations"""
@@ -149,16 +146,16 @@ class map_file_parser_t(formated_mapping_parser_t):
     def load_symbols(self):
         """returns dictionary
         { decorated symbol : original declaration name }"""
-        f = open(self.binary_file)
-        lines = []
-        was_exports = False
-        for line in f:
-            if was_exports:
-                lines.append(line)
-            elif 'Exports' == line.strip():
-                was_exports = True
-            else:
-                pass
+        with open(self.binary_file) as f:
+            lines = []
+            was_exports = False
+            for line in f:
+                if was_exports:
+                    lines.append(line)
+                elif 'Exports' == line.strip():
+                    was_exports = True
+                else:
+                    pass
 
         index = 0
         result = []
@@ -206,7 +203,6 @@ class dll_file_parser_t(formated_mapping_parser_t):
     """parser for Windows .dll file"""
 
     def __init__(self, global_ns, map_file_path):
-        global dll_file_parser_warning
         warnings.warn(dll_file_parser_warning, LicenseWarning)
         formated_mapping_parser_t.__init__(
             self,
@@ -427,8 +423,15 @@ class dylib_file_parser_t(formated_mapping_parser_t):
 
 
 def merge_information(global_ns, fname, runs_under_unittest=False):
+
     """high level function - select the appropriate binary file parser and
     integrates the information from the file to the declarations tree. """
+
+    warnings.warn(
+        "merge_information is deprecated.\n" +
+        "Please have a look at the changelog for an explanation (since 1.8.0)",
+        DeprecationWarning)
+
     ext = os.path.splitext(fname)[1]
 
     if '.dll' == ext:

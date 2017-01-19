@@ -101,8 +101,8 @@ int itkTransformsSetParametersTest( int , char *[] )
 {
 
 
-  unsigned int beginMTime;
-  unsigned int endMTime;
+  itk::ModifiedTimeType beginMTime;
+  itk::ModifiedTimeType endMTime;
 
 
   std::cout << "Begin testing of SetParameters() method for all itkTransforms"

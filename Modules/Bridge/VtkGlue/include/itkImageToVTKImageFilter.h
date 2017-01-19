@@ -43,7 +43,7 @@ namespace itk
  * \endwiki
  */
 template <typename TInputImage >
-class ImageToVTKImageFilter : public ProcessObject
+class ITK_TEMPLATE_EXPORT ImageToVTKImageFilter : public ProcessObject
 {
 public:
   /** Standard class typedefs. */

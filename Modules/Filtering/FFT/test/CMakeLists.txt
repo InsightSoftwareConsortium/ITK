@@ -135,6 +135,19 @@ itk_add_test(NAME itkComplexToComplexFFTImageFilter2DFloatTest
       DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/itkComplexToComplexFFTImageFilter2DFloatTest.mha
       float)
+# The data contained in ${ITK_DATA_ROOT}/Input/DicomSeries/
+# is required by mri3D.mhd:
+# ElementDataFile = DicomSeries/Image%04d.dcm 75 77 1
+# The data file and its associated files are in different
+# directories, respectively ${ITK_DATA_ROOT}/Input/ and
+# ${ITK_DATA_ROOT}/Input/DicomSeries/
+# Since DATA{} does not allow to specify an associated
+# file that is in a different directory, we call ExternalData_Expand_Arguments
+# manually to download the required files.
+ExternalData_Expand_Arguments(ITKData
+                              ExpandedData
+                              DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
+                             )
 itk_add_test(NAME itkComplexToComplexFFTImageFilter3DFloatTest
   COMMAND ITKFFTTestDriver
     --compare

@@ -91,8 +91,8 @@ int itkVoronoiSegmentationImageFilterTest( int, char* [] )
   double std = 20;
   double meanTolerance = 10;
   double stdTolerance = 20;
-  double numberOfSeeds = 400;
-  double steps = 5;
+  int numberOfSeeds = 400;
+  int steps = 5;
 
   voronoiSegmenter->SetMean( mean );
   voronoiSegmenter->SetSTD( std );
@@ -123,7 +123,7 @@ int itkVoronoiSegmentationImageFilterTest( int, char* [] )
     ++ot;
     }
 
-  /* Test Ok on local machine.
+  /* Test OK on local machine.
   FILE *imgfile = fopen("output.raw","wb");
   fwrite(TestImg,2,65536,imgfile);
   fclose(imgfile);
@@ -137,8 +137,8 @@ int itkVoronoiSegmentationImageFilterTest( int, char* [] )
     ++it;
   }
   fwrite(TestImg,2,65536,imgfile);
-  fclose(imgfile);
-*/
-  std::cout<<"Test Succeeded!"<<std::endl;
+  fclose(imgfile);*/
+
+  std::cout << "Test Succeeded!" << std::endl;
   return EXIT_SUCCESS;
 }

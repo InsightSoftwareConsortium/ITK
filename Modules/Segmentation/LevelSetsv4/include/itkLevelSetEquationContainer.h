@@ -55,7 +55,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4
  */
 template< typename TTermContainer >
-class LevelSetEquationContainer : public Object
+class ITK_TEMPLATE_EXPORT LevelSetEquationContainer : public Object
 {
 public:
   typedef LevelSetEquationContainer     Self;

@@ -37,7 +37,7 @@ namespace itk
  */
 template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
             ImageToImageFilter< TInputImage, TOutputImage > >
-class GPUImageToImageFilter : public TParentImageFilter
+class ITK_TEMPLATE_EXPORT GPUImageToImageFilter : public TParentImageFilter
 {
 public:
   /** Standard class typedefs. */
@@ -73,12 +73,12 @@ public:
   itkBooleanMacro(GPUEnabled);
 
   void GenerateData() ITK_OVERRIDE;
-
-  virtual void GraftOutput(DataObject *output) ITK_OVERRIDE;
-
-  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) ITK_OVERRIDE;
+  virtual void GraftOutput(typename itk::GPUTraits< TOutputImage >::Type *output) ITK_OVERRIDE;
+  virtual void GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits< TOutputImage >::Type *output) ITK_OVERRIDE;
 
 protected:
+  virtual void GraftOutput(DataObject *output) ITK_OVERRIDE;
+  virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) ITK_OVERRIDE;
   GPUImageToImageFilter();
   ~GPUImageToImageFilter();
 

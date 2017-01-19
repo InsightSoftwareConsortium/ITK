@@ -33,7 +33,7 @@ namespace Functor
  */
 
 template< typename TInput, typename TOutput >
-class Cast
+class ITK_TEMPLATE_EXPORT Cast
 {
 public:
   Cast() {}
@@ -94,7 +94,7 @@ public:
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class CastImageFilter:
+class ITK_TEMPLATE_EXPORT CastImageFilter:
     public UnaryFunctorImageFilter< TInputImage, TOutputImage,
                                     Functor::Cast<
                                       typename TInputImage::PixelType,

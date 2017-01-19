@@ -56,7 +56,7 @@ namespace itk
 itkGPUKernelClassMacro(GPUGradientNDAnisotropicDiffusionFunctionKernel);
 
 template< typename TImage >
-class GPUGradientNDAnisotropicDiffusionFunction :
+class ITK_TEMPLATE_EXPORT GPUGradientNDAnisotropicDiffusionFunction :
   public GPUScalarAnisotropicDiffusionFunction< TImage >
 {
 public:

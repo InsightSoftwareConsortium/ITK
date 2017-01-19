@@ -1,4 +1,4 @@
-set(ITKIOMesh_SRC
+set(ITKIOMesh_SRCS
   itkMeshFileReaderException.cxx
   itkMeshFileWriterException.cxx
   itkBYUMeshIO.cxx
@@ -17,8 +17,6 @@ set(ITKIOMesh_SRC
   itkOFFMeshIOFactory.cxx
   itkVTKPolyDataMeshIO.cxx
   itkVTKPolyDataMeshIOFactory.cxx
-)
+  )
 
-add_library(ITKIOMesh ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOMesh_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKIOMesh)
+itk_module_add_library(ITKIOMesh ${ITKIOMesh_SRCS})

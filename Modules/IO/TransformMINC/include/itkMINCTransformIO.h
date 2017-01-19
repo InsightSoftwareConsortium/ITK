@@ -40,7 +40,7 @@ namespace itk
 * \ingroup ITKIOTransformMINC
 */
 template<typename TParametersValueType>
-class MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>
+class ITK_TEMPLATE_EXPORT MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
   typedef MINCTransformIOTemplate                         Self;

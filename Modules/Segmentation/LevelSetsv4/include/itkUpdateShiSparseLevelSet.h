@@ -40,7 +40,7 @@ namespace itk
  */
 template< unsigned int VDimension,
           typename TEquationContainer >
-class UpdateShiSparseLevelSet : public Object
+class ITK_TEMPLATE_EXPORT UpdateShiSparseLevelSet : public Object
 {
 public:
   typedef UpdateShiSparseLevelSet       Self;

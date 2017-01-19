@@ -47,6 +47,8 @@
 #include "itkGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
+#include "itkMersenneTwisterRandomVariateGenerator.h"
+
 
 //  Software Guide : BeginLatex
 //
@@ -245,6 +247,10 @@ int main( int argc, char *argv[] )
   metric->SetFixedImageStandardDeviation(  0.4 );
   metric->SetMovingImageStandardDeviation( 0.4 );
   // Software Guide : EndCodeSnippet
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed( 121212 );
+
 
   typedef itk::ImageFileReader< FixedImageType  > FixedImageReaderType;
   typedef itk::ImageFileReader< MovingImageType > MovingImageReaderType;

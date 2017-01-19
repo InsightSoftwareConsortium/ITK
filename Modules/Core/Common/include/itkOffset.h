@@ -205,12 +205,14 @@ public:
    *    Offset<3> index = {5, 2, 7}; */
   OffsetValueType m_Offset[VOffsetDimension];
 
-// force gccxml to find the constructors found before the internal upgrade to
-// gcc 4.2
 #if defined( ITK_WRAPPING_PARSER )
-  Offset() ITK_DELETED_FUNCTION;
-  ITK_DISALLOW_COPY_AND_ASSIGN(Offset);
-
+  // Do not use c++11 'delete' keyword here.  This code block is here to
+  // explicitly provide the wrapping facilities with handles to the default and
+  // copy constructors, and the assignment operator that are otherwise declared
+  // implicitly.
+  Offset();
+  Offset(const Self&);
+  void operator=(const Self&);
 #endif
 };
 

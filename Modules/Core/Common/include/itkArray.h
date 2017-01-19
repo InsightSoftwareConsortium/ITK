@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TValue >
-class Array : public vnl_vector< TValue >
+class ITK_TEMPLATE_EXPORT Array : public vnl_vector< TValue >
 {
 public:
 

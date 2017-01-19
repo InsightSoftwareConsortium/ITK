@@ -42,7 +42,7 @@ namespace itk
  */
 template<typename TFixedPointSet, typename TMovingPointSet = TFixedPointSet,
   class TInternalComputationValueType = double>
-class ExpectationBasedPointSetToPointSetMetricv4:
+class ITK_TEMPLATE_EXPORT ExpectationBasedPointSetToPointSetMetricv4:
   public PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
 {
 public:

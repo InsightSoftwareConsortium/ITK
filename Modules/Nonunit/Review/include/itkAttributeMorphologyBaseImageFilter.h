@@ -60,7 +60,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction >
-class AttributeMorphologyBaseImageFilter:
+class ITK_TEMPLATE_EXPORT AttributeMorphologyBaseImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

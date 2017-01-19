@@ -21,6 +21,7 @@
 #include "itkAffineTransform.h"
 #include "itkResampleImageFilter.h"
 #include "itkTimeProbe.h"
+#include "itkTestingMacros.h"
 
 int itkResampleImageTest4(int argc, char * argv [] )
 {
@@ -85,20 +86,36 @@ int itkResampleImageTest4(int argc, char * argv [] )
   interp->SetInputImage(image);
 
   // Create and configure a resampling filter
-  itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample;
-  resample = itk::ResampleImageFilter< ImageType, ImageType >::New();
-  resample->SetInput(image);
-  resample->SetSize(osize);
-  resample->SetTransform(aff);
+  itk::ResampleImageFilter< ImageType, ImageType >::Pointer resample =
+    itk::ResampleImageFilter< ImageType, ImageType >::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( resample, ResampleImageFilter, ImageToImageFilter );
+
   resample->SetInterpolator(interp);
+
+  resample->SetInput(image);
+  TEST_SET_GET_VALUE( image, resample->GetInput() );
+
+  resample->SetSize(osize);
+  TEST_SET_GET_VALUE( osize, resample->GetSize() );
+
+  resample->SetTransform(aff);
+  TEST_SET_GET_VALUE( aff, resample->GetTransform() );
+
+  resample->SetInterpolator(interp);
+  TEST_SET_GET_VALUE( interp, resample->GetInterpolator() );
 
   index.Fill( 0 );
   resample->SetOutputStartIndex( index );
+  TEST_SET_GET_VALUE( index, resample->GetOutputStartIndex() );
 
   ImageType::PointType origin;
   origin.Fill( 0.0 );
   resample->SetOutputOrigin( origin );
+  TEST_SET_GET_VALUE( origin, resample->GetOutputOrigin() );
+
   resample->SetOutputSpacing( spacing );
+  TEST_SET_GET_VALUE( spacing, resample->GetOutputSpacing() );
 
   // Run the resampling filter
   itk::TimeProbe clock;

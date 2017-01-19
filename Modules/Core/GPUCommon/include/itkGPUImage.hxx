@@ -174,17 +174,17 @@ GPUImage< TPixel, VImageDimension >::GetGPUDataManager() const
 
 template <typename TPixel, unsigned int VImageDimension>
 void
-GPUImage< TPixel, VImageDimension >::Graft(const DataObject *data)
+GPUImage< TPixel, VImageDimension >::Graft(const Self *data)
 {
   typedef GPUImageDataManager< GPUImage >              GPUImageDataManagerType;
 
-  // call the superclass' implementation
-  Superclass::Graft(data);
-
   // Pass regular pointer to Graft() instead of smart pointer due to type
   // casting problem
-  GPUImageDataManagerType* ptr = dynamic_cast<GPUImageDataManagerType*>(
-      ( ( (GPUImage*)data)->GetGPUDataManager() ).GetPointer() );
+  GPUImageDataManagerType* ptr = static_cast<GPUImageDataManagerType*>(
+      ( data->GetGPUDataManager() ).GetPointer() );
+
+  // call the superclass' implementation
+  Superclass::Graft(ptr->GetImagePointer());
 
   // Debug
   //std::cout << "GPU timestamp : " << m_DataManager->GetMTime() << ", CPU
@@ -201,6 +201,24 @@ GPUImage< TPixel, VImageDimension >::Graft(const DataObject *data)
   //std::cout << "GPU timestamp : " << m_DataManager->GetMTime() << ", CPU
   // timestamp : " << this->GetMTime() << std::endl;
 
+}
+
+template <typename TPixel, unsigned int VImageDimension>
+void
+GPUImage< TPixel, VImageDimension >::Graft(const DataObject *data)
+{
+  const Self* ptr = dynamic_cast<const Self*>(data);
+  if(ptr)
+    {
+    this->Graft(ptr);
+    }
+  else
+    {
+    // pointer could not be cast back down
+    itkExceptionMacro( << "itk::GPUImage::Graft() cannot cast "
+                       << typeid( data ).name() << " to "
+                       << typeid( const Self * ).name() );
+    }
 }
 
 } // namespace itk

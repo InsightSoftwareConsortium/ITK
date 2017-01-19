@@ -64,7 +64,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template< typename TInputImage, typename TOutputImage >
-class ExpandImageFilter:
+class ITK_TEMPLATE_EXPORT ExpandImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

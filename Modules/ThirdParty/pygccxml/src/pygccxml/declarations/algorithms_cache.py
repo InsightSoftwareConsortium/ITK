@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -24,6 +24,11 @@ class declaration_algs_cache_t(object):
         self._partial_declaration_path = None
         self._container_key_type = None
         self._container_element_type = None
+        self._cmp_data = None
+        self._normalized_name = None
+        self._normalized_partial_name = None
+        self._normalized_full_name_true = None
+        self._normalized_full_name_false = None
 
     def disable(self):
         self._enabled = False
@@ -121,6 +126,58 @@ class declaration_algs_cache_t(object):
             ktype = None
         self._container_key_type = ktype
 
+    @property
+    def normalized_name(self):
+        return self._normalized_name
+
+    @normalized_name.setter
+    def normalized_name(self, normalized_name):
+        if not self.enabled:
+            normalized_name = None
+        self._normalized_name = normalized_name
+
+    @property
+    def normalized_partial_name(self):
+        return self._normalized_partial_name
+
+    @normalized_partial_name.setter
+    def normalized_partial_name(self, normalized_partial_name):
+        if not self.enabled:
+            normalized_partial_name = None
+        self._normalized_partial_name = normalized_partial_name
+
+    @property
+    def normalized_full_name_true(self):
+        return self._normalized_full_name_true
+
+    @normalized_full_name_true.setter
+    def normalized_full_name_true(self, normalized_full_name_true):
+        if not self.enabled:
+            normalized_full_name_true = None
+        self._normalized_full_name_true = normalized_full_name_true
+
+    @property
+    def normalized_full_name_false(self):
+        return self._normalized_full_name_false
+
+    @normalized_full_name_false.setter
+    def normalized_full_name_false(self, normalized_full_name_false):
+        if not self.enabled:
+            normalized_full_name_false = None
+        self._normalized_full_name_false = normalized_full_name_false
+
+    @property
+    def cmp_data(self):
+        """Data used for comparison between declarations."""
+        return self._cmp_data
+
+    @cmp_data.setter
+    def cmp_data(self, cmp_data):
+        """Data used for comparison between declarations."""
+        if not self.enabled:
+            cmp_data = None
+        self._cmp_data = cmp_data
+
     def reset(self):
         self.full_name = None
         self.full_partial_name = None
@@ -131,6 +188,11 @@ class declaration_algs_cache_t(object):
         self.partial_declaration_path = None
         self.container_key_type = None
         self.container_element_type = None
+        self.cmp_data = None
+        self.normalized_name = None
+        self.normalized_partial_name = None
+        self.normalized_full_name_true = None
+        self.normalized_full_name_false = None
 
     def reset_name_based(self):
         self.full_name = None
@@ -141,6 +203,11 @@ class declaration_algs_cache_t(object):
         self.partial_declaration_path = None
         self.container_key_type = None
         self.container_element_type = None
+        self.cmp_data = None
+        self.normalized_name = None
+        self.normalized_partial_name = None
+        self.normalized_full_name_true = None
+        self.normalized_full_name_false = None
 
     def reset_access_type(self):
         self.access_type = None
@@ -160,6 +227,8 @@ class type_algs_cache_t(object):
     def __init__(self):
         object.__init__(self)
         self._remove_alias = None
+        self._decl_string = None
+        self._partial_decl_string = None
 
     @property
     def remove_alias(self):
@@ -171,5 +240,27 @@ class type_algs_cache_t(object):
             remove_alias = None
         self._remove_alias = remove_alias
 
+    @property
+    def decl_string(self):
+        return self._decl_string
+
+    @decl_string.setter
+    def decl_string(self, decl_string):
+        if not type_algs_cache_t.enabled:
+            decl_string = None
+        self._decl_string = decl_string
+
+    @property
+    def partial_decl_string(self):
+        return self._partial_decl_string
+
+    @partial_decl_string.setter
+    def partial_decl_string(self, partial_decl_string):
+        if not type_algs_cache_t.enabled:
+            partial_decl_string = None
+        self._partial_decl_string = partial_decl_string
+
     def reset(self):
         self.remove_alias = None
+        self.decl_string = None
+        self.partial_decl_string = None

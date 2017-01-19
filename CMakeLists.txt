@@ -23,7 +23,7 @@ include(CMakeDependentOption)
 # use ExternalProject
 include(ExternalProject)
 
-if( CMAKE_HOST_WIN32 )
+if( CMAKE_HOST_WIN32 AND NOT ITK_SKIP_PATH_LENGTH_CHECKS )
 
   string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
   if( n GREATER 50 )
@@ -126,6 +126,27 @@ if(ITK_BRAINWEB_DATA_ROOT)
 endif()
 
 #-----------------------------------------------------------------------------
+# CMAKE_C_COMPILER_ARG1 is a CMake internal variable. It should not be used
+# in ITK's configuration. If it is set, it most likely means that
+# a developer is configuring ITK to be built with a launcher such as ccache
+# or distcc. This should be done with the CMake variable
+# CMAKE_C_COMPILER_LAUNCHER_FLAG available in CMake > 3.4.0 .
+if(CMAKE_C_COMPILER_ARG1)
+  message(WARNING "The CMake variable CMAKE_C_COMPILER_ARG1 is set. This most\
+  likely mean that the developer is trying to use ccache or distcc. The CMake\
+  variable CMAKE_C_COMPILER_LAUNCHER_FLAG should be used instead\
+  (CMake>=3.4 required)")
+endif()
+
+#-----------------------------------------------------------------------------
+# ITK build configuration options.
+option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
+set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
+
+option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
+mark_as_advanced(ITK_DYNAMIC_LOADING)
+
+#-----------------------------------------------------------------------------
 # Wrapping options
 option(ITK_WRAP_PYTHON "Build Python support" OFF)
 option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
@@ -138,19 +159,14 @@ mark_as_advanced(ITK_WRAP_PERL)
 mark_as_advanced(ITK_WRAP_TCL)
 
 if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY OR ITK_WRAP_PERL OR ITK_WRAP_TCL)
+  if(NOT ITK_DYNAMIC_LOADING)
+    message(FATAL_ERROR "Wrapping requires ITK_DYNAMIC_LOADING to be ON")
+  endif()
   # ITK_WRAPPING is an internal variable
   set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
 else()
   set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
 endif()
-
-#-----------------------------------------------------------------------------
-# ITK build configuration options.
-option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
-set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
-
-option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
-mark_as_advanced(ITK_DYNAMIC_LOADING)
 
 include(ITKSetStandardCompilerFlags)
 #---------------------------------------------------------------
@@ -176,8 +192,11 @@ endif()
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
 endif()
-set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
+set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
+# Remove previously configured ITK module directory to keep the
+# enabled modules synchronized.
+file(REMOVE_RECURSE "${ITK_MODULES_DIR}")
 
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
@@ -407,4 +426,5 @@ add_subdirectory(Utilities/Doxygen)
 
 # Create target to download data from the ITKData group. This must come after
 # all tests have been added that reference the group, so we put it last.
+include(${ITK_CMAKE_DIR}/ExternalData.cmake)
 ExternalData_Add_Target(ITKData)

@@ -26,42 +26,27 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::RegionOfInterestImageFilter()
 {}
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-void
-RegionOfInterestImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "RegionOfInterest: " << m_RegionOfInterest << std::endl;
-}
 
 template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // get pointer to the input
+  // Get pointer to the input
   typename Superclass::InputImagePointer inputPtr =
     const_cast< TInputImage * >( this->GetInput() );
 
   if ( inputPtr )
     {
-    // request the region of interest
+    // Request the region of interest
     inputPtr->SetRequestedRegion(m_RegionOfInterest);
     }
 }
@@ -71,31 +56,22 @@ void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::EnlargeOutputRequestedRegion(output);
 
-  // generate everything in the region of interest
+  // Generate everything in the region of interest
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-/**
- * RegionOfInterestImageFilter can produce an image which is a different size
- * than its input image.  As such, RegionOfInterestImageFilter needs to provide an
- * implementation for GenerateOutputInformation() in order to inform
- * the pipeline execution model.  The original documentation of this
- * method is below.
- *
- * \sa ProcessObject::GenerateOutputInformaton()
- */
 template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
 {
-  // do not call the superclass' implementation of this method since
+  // Do not call the superclass' implementation of this method since
   // this filter allows the input the output to be of different dimensions
 
-  // get pointers to the input and output
+  // Get pointers to the input and output
   typename Superclass::OutputImagePointer outputPtr = this->GetOutput();
   typename Superclass::InputImageConstPointer inputPtr  = this->GetInput();
 
@@ -125,18 +101,6 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   outputPtr->SetOrigin(outputOrigin);
 }
 
-/**
-   * RegionOfInterestImageFilter can be implemented as a multithreaded filter.
-   * Therefore, this implementation provides a ThreadedGenerateData()
-   * routine which is called for each processing thread. The output
-   * image data is allocated automatically by the superclass prior to
-   * calling ThreadedGenerateData().  ThreadedGenerateData can only
-   * write to the portion of the output image specified by the
-   * parameter "outputRegionForThread"
-   *
-   * \sa ImageToImageFilter::ThreadedGenerateData(),
-   *     ImageToImageFilter::GenerateData()
-   */
 template< typename TInputImage, typename TOutputImage >
 void
 RegionOfInterestImageFilter< TInputImage, TOutputImage >
@@ -148,7 +112,7 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   const TInputImage *inputPtr  = this->GetInput();
   TOutputImage      *outputPtr = this->GetOutput();
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   ProgressReporter progress( this, threadId, 1 );
 
   // Define the portion of the input to walk for this thread
@@ -169,6 +133,15 @@ RegionOfInterestImageFilter< TInputImage, TOutputImage >
   progress.CompletedPixel();
 }
 
+template< typename TInputImage, typename TOutputImage >
+void
+RegionOfInterestImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "RegionOfInterest: " << m_RegionOfInterest << std::endl;
+}
 } // end namespace itk
 
 #endif

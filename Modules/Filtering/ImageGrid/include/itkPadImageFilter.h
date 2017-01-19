@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKImageGrid
  */
 template< typename TInputImage, typename TOutputImage >
-class PadImageFilter:
+class ITK_TEMPLATE_EXPORT PadImageFilter:
   public PadImageFilterBase< TInputImage, TOutputImage >
 {
 public:

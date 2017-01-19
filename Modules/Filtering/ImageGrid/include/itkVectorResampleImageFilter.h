@@ -30,11 +30,11 @@ namespace itk
  * \brief Resample an image via a coordinate transform
  *
  * VectorResampleImageFilter resamples an existing image through some coordinate
- * transform, interpolating via some image function.  The class is templated
+ * transform, interpolating via some image function. The class is templated
  * over the types of the input and output images.
  *
  * Note that the choice of interpolator function can be important.
- * This function is set via SetInterpolator().  The default is
+ * This function is set via SetInterpolator(). The default is
  * itk::VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>, which
  * is reasonable for ordinary medical images.
  *
@@ -45,7 +45,7 @@ namespace itk
  * ProcessObject::GenerateInputRequestedRegion() and
  * ProcessObject::GenerateOutputInformation().
  *
- * This filter is implemented as a multithreaded filter.  It provides a
+ * This filter is implemented as a multithreaded filter. It provides a
  * ThreadedGenerateData() method for its implementation.
  *
  * \deprecated ResampleImageFilter can now resample vector images and should
@@ -59,7 +59,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage, typename TInterpolatorPrecisionType = double >
-class VectorResampleImageFilter:
+class ITK_TEMPLATE_EXPORT VectorResampleImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -116,19 +116,20 @@ public:
   /** Typedef to describe the output image region type. */
   typedef typename TOutputImage::RegionType OutputImageRegionType;
 
-  /** Image spacing,origin and direction typedef */
+  /** Image spacing, origin and direction typedefs. */
   typedef typename TOutputImage::SpacingType   SpacingType;
   typedef typename TOutputImage::PointType     OriginPointType;
   typedef typename TOutputImage::DirectionType DirectionType;
 
-  /** Get/Set the coordinate transformation.
-   * Set the coordinate transform to use for resampling.  Note that this
+  /** Set/Get the coordinate transformation.
+   * Set the coordinate transform to use for resampling. Note that this
    * must be in index coordinates and is the output-to-input transform,
    * NOT the input-to-output transform that you might naively expect.
    * The default is itk::AffineTransform<TInterpolatorPrecisionType, ImageDimension>. */
   itkSetConstObjectMacro(Transform, TransformType);
+  itkGetConstObjectMacro(Transform, TransformType);
 
-  /** Set the interpolator function.  The default is
+  /** Set the interpolator function. The default is
    * itk::VectorLinearInterpolateImageFunction<InputImageType, TInterpolatorPrecisionType>.  */
   itkSetObjectMacro(Interpolator, InterpolatorType);
 
@@ -142,7 +143,7 @@ public:
   itkGetConstReferenceMacro(Size, SizeType);
 
   /** Set the pixel value when a transformed pixel is outside of the
-   * image.  The default default pixel value is 0. */
+   * image. The default default pixel value is 0. */
   itkSetMacro(DefaultPixelValue, PixelType);
 
   /** Get the pixel value when a transformed pixel is outside of the image */
@@ -162,7 +163,7 @@ public:
   /** Get the output image origin. */
   itkGetConstReferenceMacro(OutputOrigin, OriginPointType);
 
-  /** Set the output direciton cosine matrix. */
+  /** Set/Get the output direction cosine matrix. */
   itkSetMacro(OutputDirection, DirectionType);
   itkGetConstReferenceMacro(OutputDirection, DirectionType);
 
@@ -174,28 +175,28 @@ public:
   itkGetConstReferenceMacro(OutputStartIndex, IndexType);
 
   /** VectorResampleImageFilter produces an image which is a different size
-   * than its input.  As such, it needs to provide an implementation
+   * than its input. As such, it needs to provide an implementation
    * for GenerateOutputInformation() in order to inform the pipeline
-   * execution model.  The original documentation of this method is
+   * execution model. The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** VectorResampleImageFilter needs a different input requested region than
-   * the output requested region.  As such, VectorResampleImageFilter needs
+   * the output requested region. As such, VectorResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  /** This method is used to set the state of the filter before
-   * multi-threading. */
+  /** Set the state of the filter before multi-threading.
+   * Note that InterpolatorType::SetInputImage is not thread-safe and hence
+   * has to be set up before ThreadedGenerateData. */
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  /** This method is used to set the state of the filter after
-   * multi-threading. */
+  /** Set the state of the filter after multi-threading. */
   virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
 
-  /** Method Compute the Modified Time based on changed to the components. */
+  /** Compute the Modified Time based on changed to the components. */
   ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -212,7 +213,7 @@ protected:
   ~VectorResampleImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** VectorResampleImageFilter can be implemented as a multithreaded filter.  Therefore,
+  /** VectorResampleImageFilter can be implemented as a multithreaded filter. Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
    * automatically by the superclass prior to calling ThreadedGenerateData().
@@ -226,17 +227,14 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorResampleImageFilter);
 
-  SizeType                m_Size;       // Size of the output image
-  TransformPointerType    m_Transform;  // Coordinate transform to use
+  SizeType                m_Size;
+  TransformPointerType    m_Transform;
   InterpolatorPointerType m_Interpolator;
-  // Image function for interpolation
-  PixelType m_DefaultPixelValue;
-  // default pixel value if the point
-  // is outside the image
-  SpacingType       m_OutputSpacing;           // output image spacing
-  OriginPointType   m_OutputOrigin;            // output image origin
-  DirectionType     m_OutputDirection;         // output image direction cosines
-  IndexType         m_OutputStartIndex;        // output start index
+  PixelType               m_DefaultPixelValue;
+  SpacingType             m_OutputSpacing;
+  OriginPointType         m_OutputOrigin;
+  DirectionType           m_OutputDirection;
+  IndexType               m_OutputStartIndex;
 };
 } // end namespace itk
 

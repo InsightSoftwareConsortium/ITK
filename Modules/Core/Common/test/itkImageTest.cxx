@@ -137,5 +137,13 @@ int itkImageTest(int, char* [] )
   std::cout << "Print: " << std::endl;
   image->Print(std::cout);
 
+  std::cout << "Test Graft." << std::endl;
+  image->Graft(imageRef);
+  if(image->GetPixelContainer() != imageRef->GetPixelContainer() )
+  {
+    std::cerr << "Graft test failed." << std::endl;
+    return EXIT_FAILURE;
+  }
+
   return (EXIT_SUCCESS);
 }

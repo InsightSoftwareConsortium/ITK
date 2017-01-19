@@ -86,7 +86,7 @@ namespace itk
  */
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage = Image<double, TFixedDimension>,
          typename TParametersValueType=double>
-class ObjectToObjectMetric:
+class ITK_TEMPLATE_EXPORT ObjectToObjectMetric:
   public ObjectToObjectMetricBaseTemplate<TParametersValueType>
 {
 public:

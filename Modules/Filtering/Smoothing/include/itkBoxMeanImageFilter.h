@@ -40,7 +40,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class BoxMeanImageFilter:
+class ITK_TEMPLATE_EXPORT BoxMeanImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:

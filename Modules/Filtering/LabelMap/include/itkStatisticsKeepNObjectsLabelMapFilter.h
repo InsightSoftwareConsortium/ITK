@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TImage >
-class StatisticsKeepNObjectsLabelMapFilter:
+class ITK_TEMPLATE_EXPORT StatisticsKeepNObjectsLabelMapFilter:
   public ShapeKeepNObjectsLabelMapFilter< TImage >
 {
 public:

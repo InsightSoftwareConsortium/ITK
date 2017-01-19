@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKSignedDistanceFunction
  */
 template< typename TCoordRep, unsigned int VSpaceDimension >
-class SphereSignedDistanceFunction:
+class ITK_TEMPLATE_EXPORT SphereSignedDistanceFunction:
   public ShapeSignedDistanceFunction< TCoordRep, VSpaceDimension >
 {
 public:

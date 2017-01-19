@@ -47,7 +47,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename T >
-class Versor
+class ITK_TEMPLATE_EXPORT Versor
 {
 public:
   /** Standard class typedefs. */

@@ -148,8 +148,8 @@ int itkScalarConnectedComponentImageFilterTest(int argc, char* argv[] )
   std::vector<RGBPixelType> colormap;
   RGBPixelType px;
   colormap.resize( numObjects+1 );
-  itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(1031571);
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer rvgen = itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
+  rvgen->SetSeed(1031571);
   for (unsigned short i=0; i < colormap.size(); ++i)
     {
     px.SetRed(

@@ -35,7 +35,7 @@ namespace itk
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputImage, typename TLevelSet >
-class VTKVisualize2DSparseLevelSetLayers
+class ITK_TEMPLATE_EXPORT VTKVisualize2DSparseLevelSetLayers
 {};
 
 // -----------------------------------------------------------------------------
@@ -45,7 +45,7 @@ class VTKVisualize2DSparseLevelSetLayers
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputImage, typename TOutput, unsigned int VDimension >
-class VTKVisualize2DSparseLevelSetLayers<
+class ITK_TEMPLATE_EXPORT VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::WhitakerSparseLevelSetImage< TOutput, VDimension > > :
 public VTKVisualize2DSparseLevelSetLayersBase<
@@ -92,7 +92,7 @@ private:
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputImage, unsigned int VDimension >
-class VTKVisualize2DSparseLevelSetLayers<
+class ITK_TEMPLATE_EXPORT VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::ShiSparseLevelSetImage< VDimension > > :
 public VTKVisualize2DSparseLevelSetLayersBase<
@@ -140,7 +140,7 @@ private:
  *  \ingroup ITKLevelSetsv4Visualization
  */
 template< typename TInputImage, unsigned int VDimension >
-class VTKVisualize2DSparseLevelSetLayers<
+class ITK_TEMPLATE_EXPORT VTKVisualize2DSparseLevelSetLayers<
     TInputImage,
     itk::MalcolmSparseLevelSetImage< VDimension > > :
 public VTKVisualize2DSparseLevelSetLayersBase<

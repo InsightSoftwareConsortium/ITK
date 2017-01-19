@@ -50,7 +50,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template<typename TIndexValue = unsigned int, unsigned int VDimension = 3>
-class HilbertPath
+class ITK_TEMPLATE_EXPORT HilbertPath
 : public Path<TIndexValue, Index<VDimension>, VDimension>
 {
 public:

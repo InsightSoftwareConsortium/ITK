@@ -29,13 +29,13 @@
 #include "H5Iprivate.h"		/* IDs			  		*/
 #include "H5MMprivate.h"        /* Memory management                    */
 #include "H5Spkg.h"		/* Dataspaces 				*/
-#include "H5Vprivate.h"		/* Vector and array functions		*/
+#include "H5VMprivate.h"		/* Vector and array functions		*/
 #include "H5WBprivate.h"        /* Wrapped Buffers                      */
 
 /* Local functions */
 #ifdef LATER
-static herr_t H5S_select_iter_block (const H5S_sel_iter_t *iter, hsize_t *start, hsize_t *end);
-static htri_t H5S_select_iter_has_next_block (const H5S_sel_iter_t *iter);
+static herr_t H5S_select_iter_block(const H5S_sel_iter_t *iter, hsize_t *start, hsize_t *end);
+static htri_t H5S_select_iter_has_next_block(const H5S_sel_iter_t *iter);
 static herr_t H5S_select_iter_next_block(H5S_sel_iter_t *iter);
 #endif /* LATER */
 
@@ -63,11 +63,11 @@ static herr_t H5S_select_iter_next_block(H5S_sel_iter_t *iter);
 herr_t
 H5S_select_offset(H5S_t *space, const hssize_t *offset)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_offset)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
-    HDassert(space->extent.rank);
+    HDassert(0 < space->extent.rank && space->extent.rank <= H5S_MAX_RANK);
     HDassert(offset);
 
     /* Copy the offset over */
@@ -109,11 +109,11 @@ H5S_select_copy (H5S_t *dst, const H5S_t *src, hbool_t share_selection)
 {
     herr_t ret_value;     /* return value */
 
-    FUNC_ENTER_NOAPI(H5S_select_copy, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check args */
-    assert(dst);
-    assert(src);
+    HDassert(dst);
+    HDassert(src);
 
     /* Copy regular fields */
     dst->select=src->select;
@@ -150,9 +150,9 @@ H5S_select_release(H5S_t *ds)
 {
     herr_t ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_release)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    assert(ds);
+    HDassert(ds);
 
     /* Call the selection type's release function */
     ret_value=(*ds->select.type->release)(ds);
@@ -187,7 +187,7 @@ H5S_select_get_seq_list(const H5S_t *space, unsigned flags,
 {
     herr_t ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_get_seq_list)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     HDassert(space);
 
@@ -222,9 +222,9 @@ H5S_select_serial_size(const H5S_t *space)
 {
     hssize_t ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_serial_size)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    assert(space);
+    HDassert(space);
 
     /* Call the selection type's serial_size function */
     ret_value=(*space->select.type->serial_size)(space);
@@ -260,10 +260,10 @@ H5S_select_serialize(const H5S_t *space, uint8_t *buf)
 {
     herr_t ret_value=SUCCEED;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_serialize)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    assert(space);
-    assert(buf);
+    HDassert(space);
+    HDassert(buf);
 
     /* Call the selection type's serialize function */
     ret_value=(*space->select.type->serialize)(space,buf);
@@ -295,7 +295,7 @@ H5Sget_select_npoints(hid_t spaceid)
     H5S_t *space;               /* Dataspace to modify selection of */
     hssize_t ret_value;         /* return value */
 
-    FUNC_ENTER_API(H5Sget_select_npoints, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("Hs", "i", spaceid);
 
     /* Check args */
@@ -332,7 +332,7 @@ done:
 hssize_t
 H5S_get_select_npoints(const H5S_t *space)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_get_select_npoints)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -369,7 +369,7 @@ H5Sselect_valid(hid_t spaceid)
     H5S_t *space;       /* Dataspace to modify selection of */
     htri_t ret_value;   /* return value */
 
-    FUNC_ENTER_API(H5Sselect_valid, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE1("t", "i", spaceid);
 
     /* Check args */
@@ -411,9 +411,9 @@ H5S_select_valid(const H5S_t *space)
 {
     htri_t ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_valid)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
-    assert(space);
+    HDassert(space);
 
     ret_value = (*space->select.type->is_valid)(space);
 
@@ -450,9 +450,9 @@ H5S_select_deserialize (H5S_t *space, const uint8_t *buf)
     uint32_t sel_type;       /* Pointer to the selection type */
     herr_t ret_value=FAIL;  /* return value */
 
-    FUNC_ENTER_NOAPI(H5S_select_deserialize, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
-    assert(space);
+    HDassert(space);
 
     tbuf=buf;
     UINT32DECODE(tbuf, sel_type);
@@ -520,7 +520,7 @@ H5Sget_select_bounds(hid_t spaceid, hsize_t start[], hsize_t end[])
     H5S_t *space;       /* Dataspace to modify selection of */
     herr_t ret_value;   /* return value */
 
-    FUNC_ENTER_API(H5Sget_select_bounds, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "i*h*h", spaceid, start, end);
 
     /* Check args */
@@ -568,12 +568,12 @@ H5S_get_select_bounds(const H5S_t *space, hsize_t *start, hsize_t *end)
 {
     herr_t ret_value;        /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_get_select_bounds)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(space);
-    assert(start);
-    assert(end);
+    HDassert(space);
+    HDassert(start);
+    HDassert(end);
 
     ret_value = (*space->select.type->bounds)(space,start,end);
 
@@ -609,7 +609,7 @@ H5S_get_select_offset(const H5S_t *space, hsize_t *offset)
 {
     herr_t ret_value;        /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_get_select_offset)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -647,10 +647,10 @@ H5S_select_is_contiguous(const H5S_t *space)
 {
     herr_t ret_value;        /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_is_contiguous)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(space);
+    HDassert(space);
 
     ret_value = (*space->select.type->is_contiguous)(space);
 
@@ -684,10 +684,10 @@ H5S_select_is_single(const H5S_t *space)
 {
     herr_t ret_value;        /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_is_single)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(space);
+    HDassert(space);
 
     ret_value = (*space->select.type->is_single)(space);
 
@@ -721,10 +721,10 @@ H5S_select_is_regular(const H5S_t *space)
 {
     herr_t ret_value;        /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_is_regular)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(space);
+    HDassert(space);
 
     ret_value = (*space->select.type->is_regular)(space);
 
@@ -758,7 +758,7 @@ H5S_select_adjust_u(H5S_t *space, const hsize_t *offset)
 {
     herr_t ret_value;        /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_adjust_u)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -796,7 +796,7 @@ H5S_select_project_scalar(const H5S_t *space, hsize_t *offset)
 {
     herr_t ret_value;        /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_project_scalar)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -836,7 +836,7 @@ H5S_select_project_simple(const H5S_t *space, H5S_t *new_space, hsize_t *offset)
 {
     herr_t ret_value;        /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_project_simple)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(space);
@@ -871,7 +871,7 @@ H5S_select_iter_init(H5S_sel_iter_t *sel_iter, const H5S_t *space, size_t elmt_s
 {
     herr_t ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_iter_init)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
     HDassert(sel_iter);
@@ -922,15 +922,15 @@ H5S_select_iter_init(H5S_sel_iter_t *sel_iter, const H5S_t *space, size_t elmt_s
  REVISION LOG
 --------------------------------------------------------------------------*/
 herr_t
-H5S_select_iter_coords (const H5S_sel_iter_t *sel_iter, hsize_t *coords)
+H5S_select_iter_coords(const H5S_sel_iter_t *sel_iter, hsize_t *coords)
 {
     herr_t ret_value;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_iter_coords)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(sel_iter);
-    assert(coords);
+    HDassert(sel_iter);
+    HDassert(coords);
 
     /* Call iter_coords routine for selection type */
     ret_value = (*sel_iter->type->iter_coords)(sel_iter,coords);
@@ -964,16 +964,16 @@ H5S_select_iter_coords (const H5S_sel_iter_t *sel_iter, hsize_t *coords)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static herr_t
-H5S_select_iter_block (const H5S_sel_iter_t *iter, hsize_t *start, hsize_t *end)
+H5S_select_iter_block(const H5S_sel_iter_t *iter, hsize_t *start, hsize_t *end)
 {
     herr_t ret_value;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_select_iter_block)
+    FUNC_ENTER_NOAPI_NOINIT_NOINIT_NOERR
 
     /* Check args */
-    assert(iter);
-    assert(start);
-    assert(end);
+    HDassert(iter);
+    HDassert(start);
+    HDassert(end);
 
     /* Call iter_block routine for selection type */
     ret_value = (*iter->type->iter_block)(iter,start,end);
@@ -1004,14 +1004,14 @@ H5S_select_iter_block (const H5S_sel_iter_t *iter, hsize_t *start, hsize_t *end)
  REVISION LOG
 --------------------------------------------------------------------------*/
 hsize_t
-H5S_select_iter_nelmts (const H5S_sel_iter_t *sel_iter)
+H5S_select_iter_nelmts(const H5S_sel_iter_t *sel_iter)
 {
     hsize_t ret_value;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_iter_nelmts)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(sel_iter);
+    HDassert(sel_iter);
 
     /* Call iter_nelmts routine for selection type */
     ret_value = (*sel_iter->type->iter_nelmts)(sel_iter);
@@ -1043,14 +1043,14 @@ H5S_select_iter_nelmts (const H5S_sel_iter_t *sel_iter)
  REVISION LOG
 --------------------------------------------------------------------------*/
 static htri_t
-H5S_select_iter_has_next_block (const H5S_sel_iter_t *iter)
+H5S_select_iter_has_next_block(const H5S_sel_iter_t *iter)
 {
     herr_t ret_value;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_select_iter_has_next_block)
+    FUNC_ENTER_NOAPI_NOINIT_NOINIT_NOERR
 
     /* Check args */
-    assert(iter);
+    HDassert(iter);
 
     /* Call iter_has_next_block routine for selection type */
     ret_value = (*iter->type->iter_has_next_block)(iter);
@@ -1087,11 +1087,11 @@ H5S_select_iter_next(H5S_sel_iter_t *iter, size_t nelem)
 {
     herr_t ret_value;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_iter_next)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(iter);
-    assert(nelem>0);
+    HDassert(iter);
+    HDassert(nelem>0);
 
     /* Call iter_next routine for selection type */
     ret_value = (*iter->type->iter_next)(iter,nelem);
@@ -1132,10 +1132,10 @@ H5S_select_iter_next_block(H5S_sel_iter_t *iter)
 {
     herr_t ret_value;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5S_select_iter_next_block)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(iter);
+    HDassert(iter);
 
     /* Call iter_next_block routine for selection type */
     ret_value = (*iter->type->iter_next_block)(iter);
@@ -1170,10 +1170,10 @@ H5S_select_iter_release(H5S_sel_iter_t *sel_iter)
 {
     herr_t ret_value;         /* return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_select_iter_release)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(sel_iter);
+    HDassert(sel_iter);
 
     /* Call selection type-specific release routine */
     ret_value = (*sel_iter->type->iter_release)(sel_iter);
@@ -1188,9 +1188,9 @@ H5S_select_iter_release(H5S_sel_iter_t *sel_iter)
  PURPOSE
     Iterate over the selected elements in a memory buffer.
  USAGE
-    herr_t H5S_select_iterate(buf, type_id, space, operator, operator_data)
+    herr_t H5S_select_iterate(buf, type, space, operator, operator_data)
         void *buf;      IN/OUT: Buffer containing elements to iterate over
-        hid_t type_id;  IN: Datatype ID of BUF array.
+        H5T_t *type;    IN: Datatype of BUF array.
         H5S_t *space;   IN: Dataspace object containing selection to iterate over
         H5D_operator_t op; IN: Function pointer to the routine to be
                                 called for each element in BUF iterated over.
@@ -1211,43 +1211,29 @@ H5S_select_iter_release(H5S_sel_iter_t *sel_iter)
         the selection is not modified.
 --------------------------------------------------------------------------*/
 herr_t
-H5S_select_iterate(void *buf, hid_t type_id, const H5S_t *space, H5D_operator_t op,
-        void *operator_data)
+H5S_select_iterate(void *buf, const H5T_t *type, const H5S_t *space,
+    const H5S_sel_iter_op_t *op, void *op_data)
 {
-    H5T_t *dt;                  /* Datatype structure */
     H5S_sel_iter_t iter;        /* Selection iteration info */
     hbool_t iter_init = FALSE;  /* Selection iteration info has been initialized */
-    uint8_t *loc;               /* Current element location in buffer */
-    hsize_t coords[H5O_LAYOUT_NDIMS];  /* Coordinates of element in dataspace */
     hssize_t nelmts;            /* Number of elements in selection */
     hsize_t space_size[H5O_LAYOUT_NDIMS]; /* Dataspace size */
-    hsize_t off[H5D_IO_VECTOR_SIZE];          /* Array to store sequence offsets */
-    hsize_t curr_off;           /* Current offset within sequence */
-    hsize_t tmp_off;            /* Temporary offset within sequence */
-    size_t len[H5D_IO_VECTOR_SIZE];           /* Array to store sequence lengths */
-    size_t curr_len;            /* Length of bytes left to process in sequence */
-    size_t nseq;                /* Number of sequences generated */
-    size_t curr_seq;            /* Current sequnce being worked on */
-    size_t nelem;               /* Number of elements used in sequences */
     size_t max_elem;            /* Maximum number of elements allowed in sequences */
     size_t elmt_size;           /* Datatype size */
     unsigned ndims;             /* Number of dimensions in dataspace */
-    int	i;			/* Local Index variable */
-    herr_t user_ret=0;          /* User's return value */
-    herr_t ret_value=SUCCEED;   /* Return value */
+    herr_t user_ret = 0;        /* User's return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(H5S_select_iterate, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check args */
     HDassert(buf);
-    HDassert(H5I_DATATYPE == H5I_get_type(type_id));
+    HDassert(type);
     HDassert(space);
     HDassert(op);
 
     /* Get the datatype size */
-    if(NULL == (dt = (H5T_t *)H5I_object_verify(type_id, H5I_DATATYPE)))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not an valid base datatype")
-    if(0 == (elmt_size = H5T_get_size(dt)))
+    if(0 == (elmt_size = H5T_get_size(type)))
         HGOTO_ERROR(H5E_DATATYPE, H5E_BADSIZE, FAIL, "datatype size invalid")
 
     /* Initialize iterator */
@@ -1270,16 +1256,25 @@ H5S_select_iterate(void *buf, hid_t type_id, const H5S_t *space, H5D_operator_t 
     space_size[ndims] = elmt_size;
 
     /* Compute the maximum number of bytes required */
-    H5_ASSIGN_OVERFLOW(max_elem, nelmts, hssize_t, size_t);
+    H5_CHECKED_ASSIGN(max_elem, size_t, nelmts, hssize_t);
 
     /* Loop, while elements left in selection */
     while(max_elem > 0 && user_ret == 0) {
+        hsize_t off[H5D_IO_VECTOR_SIZE];        /* Array to store sequence offsets */
+        size_t len[H5D_IO_VECTOR_SIZE];         /* Array to store sequence lengths */
+        size_t nelem;               /* Number of elements used in sequences */
+        size_t nseq;                /* Number of sequences generated */
+        size_t curr_seq;            /* Current sequence being worked on */
+
         /* Get the sequences of bytes */
         if(H5S_SELECT_GET_SEQ_LIST(space, 0, &iter, (size_t)H5D_IO_VECTOR_SIZE, max_elem, &nseq, &nelem, off, len) < 0)
             HGOTO_ERROR(H5E_INTERNAL, H5E_UNSUPPORTED, FAIL, "sequence length generation failed")
 
         /* Loop, while sequences left to process */
-        for(curr_seq=0; curr_seq<nseq && user_ret==0; curr_seq++) {
+        for(curr_seq = 0; curr_seq < nseq && user_ret == 0; curr_seq++) {
+            hsize_t curr_off;           /* Current offset within sequence */
+            size_t curr_len;            /* Length of bytes left to process in sequence */
+
             /* Get the current offset */
             curr_off = off[curr_seq];
 
@@ -1288,6 +1283,11 @@ H5S_select_iterate(void *buf, hid_t type_id, const H5S_t *space, H5D_operator_t 
 
             /* Loop, while bytes left in sequence */
             while(curr_len > 0 && user_ret == 0) {
+                hsize_t coords[H5O_LAYOUT_NDIMS];  /* Coordinates of element in dataspace */
+                hsize_t tmp_off;        /* Temporary offset within sequence */
+                uint8_t *loc;           /* Current element location in buffer */
+                int i;			/* Local Index variable */
+
                 /* Compute the coordinate from the offset */
                 for(i = (int)ndims, tmp_off = curr_off; i >= 0; i--) {
                     coords[i] = tmp_off % space_size[i];
@@ -1297,23 +1297,34 @@ H5S_select_iterate(void *buf, hid_t type_id, const H5S_t *space, H5D_operator_t 
                 /* Get the location within the user's buffer */
                 loc = (unsigned char *)buf + curr_off;
 
-                /* Call user's callback routine */
-                user_ret=(*op)(loc,type_id,ndims,coords,operator_data);
+                /* Check which type of callback to make */
+                switch(op->op_type) {
+                    case H5S_SEL_ITER_OP_APP:
+                        /* Make the application callback */
+                        user_ret = (op->u.app_op.op)(loc, op->u.app_op.type_id, ndims, coords, op_data);
+                    break;
+                    case H5S_SEL_ITER_OP_LIB:
+                        /* Call the library's callback */
+                        user_ret = (op->u.lib_op)(loc, type, ndims, coords, op_data);
+                    break;
+                    default:
+                        HGOTO_ERROR(H5E_DATASPACE, H5E_UNSUPPORTED, FAIL, "unsupported op type")
+                } /* end switch */
 
                 /* Increment offset in dataspace */
-                curr_off+=elmt_size;
+                curr_off += elmt_size;
 
                 /* Decrement number of bytes left in sequence */
-                curr_len-=elmt_size;
+                curr_len -= elmt_size;
             } /* end while */
         } /* end for */
 
         /* Decrement number of elements left to process */
-        max_elem-=nelem;
+        max_elem -= nelem;
     } /* end while */
 
     /* Set return value */
-    ret_value=user_ret;
+    ret_value = user_ret;
 
 done:
     /* Release selection iterator */
@@ -1345,7 +1356,7 @@ H5Sget_select_type(hid_t space_id)
     H5S_t *space;	        /* dataspace to modify */
     H5S_sel_type ret_value;     /* Return value */
 
-    FUNC_ENTER_API(H5Sget_select_type, H5S_SEL_ERROR)
+    FUNC_ENTER_API(H5S_SEL_ERROR)
     H5TRACE1("St", "i", space_id);
 
     /* Check args */
@@ -1384,10 +1395,10 @@ H5S_get_select_type(const H5S_t *space)
 {
     H5S_sel_type        ret_value;       /* Return value */
 
-    FUNC_ENTER_NOAPI_NOFUNC(H5S_get_select_type)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check args */
-    assert(space);
+    HDassert(space);
 
     /* Set return value */
     ret_value=H5S_GET_SELECT_TYPE(space);
@@ -1428,7 +1439,7 @@ H5S_select_shape_same(const H5S_t *space1, const H5S_t *space2)
     hbool_t iter_b_init = 0;  /* Selection b iteration info has been initialized */
     htri_t ret_value = TRUE; /* Return value */
 
-    FUNC_ENTER_NOAPI(H5S_select_shape_same, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check args */
     HDassert(space1);
@@ -1767,7 +1778,7 @@ H5S_select_construct_projection(const H5S_t *base_space, H5S_t **new_space_ptr,
     hsize_t projected_space_element_offset = 0; /* Offset of selected element in projected buffer */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5S_select_construct_projection, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Sanity checks */
     HDassert(base_space != NULL);
@@ -1872,8 +1883,8 @@ H5S_select_construct_projection(const H5S_t *base_space, H5S_t **new_space_ptr,
              * and set the remaining dimensions to 1
              */
             rank_diff = new_space_rank - base_space_rank;
-            H5V_array_fill(new_space_dims, &tmp_dim_size, sizeof(tmp_dim_size), rank_diff);
-            H5V_array_fill(new_space_maxdims, &tmp_dim_size, sizeof(tmp_dim_size), rank_diff);
+            H5VM_array_fill(new_space_dims, &tmp_dim_size, sizeof(tmp_dim_size), rank_diff);
+            H5VM_array_fill(new_space_maxdims, &tmp_dim_size, sizeof(tmp_dim_size), rank_diff);
             HDmemcpy(&new_space_dims[rank_diff], base_space_dims, sizeof(new_space_dims[0]) * base_space_rank);
             HDmemcpy(&new_space_maxdims[rank_diff], base_space_maxdims, sizeof(new_space_maxdims[0]) * base_space_rank);
         } /* end if */
@@ -1997,7 +2008,7 @@ H5S_select_fill(const void *fill, size_t fill_size, const H5S_t *space, void *_b
     size_t max_elem;            /* Total number of elements in selection */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(H5S_select_fill, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Check args */
     HDassert(fill);
@@ -2015,7 +2026,7 @@ H5S_select_fill(const void *fill, size_t fill_size, const H5S_t *space, void *_b
         HGOTO_ERROR(H5E_DATASPACE, H5E_CANTCOUNT, FAIL, "can't get number of elements selected")
 
     /* Compute the number of bytes to process */
-    H5_ASSIGN_OVERFLOW(max_elem, nelmts, hssize_t, size_t);
+    H5_CHECKED_ASSIGN(max_elem, size_t, nelmts, hssize_t);
 
     /* Loop, while elements left in selection */
     while(max_elem > 0) {
@@ -2038,7 +2049,7 @@ H5S_select_fill(const void *fill, size_t fill_size, const H5S_t *space, void *_b
 
             /* Fill each sequence in memory with fill value */
             HDassert((len[curr_seq] % fill_size) == 0);
-            H5V_array_fill(buf, fill, fill_size, (len[curr_seq] / fill_size));
+            H5VM_array_fill(buf, fill, fill_size, (len[curr_seq] / fill_size));
         } /* end for */
 
         /* Decrement number of elements left to process */

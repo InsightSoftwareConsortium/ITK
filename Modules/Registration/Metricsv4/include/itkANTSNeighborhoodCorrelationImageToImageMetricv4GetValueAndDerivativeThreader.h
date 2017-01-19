@@ -54,7 +54,7 @@ struct IdentityHelper
  * \ingroup ITKMetricsv4
  */
 template< typename TDomainPartitioner, typename TImageToImageMetric, typename TNeighborhoodCorrelationMetric >
-class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader
+class ITK_TEMPLATE_EXPORT ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader
   : public ImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TImageToImageMetric >
 {
 public:

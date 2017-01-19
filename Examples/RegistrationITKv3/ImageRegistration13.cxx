@@ -34,6 +34,7 @@
 // Software Guide : EndCodeSnippet
 
 #include "itkRegularStepGradientDescentOptimizer.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 
 #include "itkImageFileReader.h"
@@ -140,6 +141,10 @@ int main( int argc, char *argv[] )
 
   metric->SetNumberOfHistogramBins( 20 );
   metric->SetNumberOfSpatialSamples( 10000 );
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed( 121212 );
+
 
   if( argc > 4 )
     {

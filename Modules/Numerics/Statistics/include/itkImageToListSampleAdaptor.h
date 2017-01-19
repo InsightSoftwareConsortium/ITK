@@ -50,7 +50,7 @@ namespace Statistics
  */
 
 template< typename TImage >
-class ImageToListSampleAdaptor:
+class ITK_TEMPLATE_EXPORT ImageToListSampleAdaptor:
   public ListSample< typename MeasurementVectorPixelTraits< typename TImage::PixelType >::MeasurementVectorType >
 {
 public:

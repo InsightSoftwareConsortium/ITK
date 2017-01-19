@@ -74,11 +74,11 @@
 
 /*--------------------------------------------------------------------------
  NAME
-    H5G_is_empty_test
+    H5G__is_empty_test
  PURPOSE
     Determine whether a group contains no objects
  USAGE
-    htri_t H5G_is_empty_test(gid)
+    htri_t H5G__is_empty_test(gid)
         hid_t gid;              IN: group to check
  RETURNS
     Non-negative TRUE/FALSE on success, negative on failure
@@ -92,14 +92,15 @@
  REVISION LOG
 --------------------------------------------------------------------------*/
 htri_t
-H5G_is_empty_test(hid_t gid)
+H5G__is_empty_test(hid_t gid)
 {
     H5G_t *grp = NULL;          /* Pointer to group */
     htri_t msg_exists = FALSE;  /* Indicate that a header message is present */
     htri_t linfo_exists = FALSE;/* Indicate that the 'link info' message is present */
+    hid_t dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     htri_t ret_value = TRUE;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_is_empty_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Get group structure */
     if(NULL == (grp = (H5G_t *)H5I_object_verify(gid, H5I_GROUP)))
@@ -108,11 +109,11 @@ H5G_is_empty_test(hid_t gid)
     /* "New format" checks */
 
     /* Check if the group has any link messages */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists > 0) {
         /* Sanity check that new group format shouldn't have old messages */
-        if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, H5AC_dxpl_id)) < 0)
+        if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, dxpl_id)) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
         if(msg_exists > 0)
             HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "both symbol table and link messages found")
@@ -121,19 +122,19 @@ H5G_is_empty_test(hid_t gid)
     } /* end if */
 
     /* Check for a link info message */
-    if((linfo_exists = H5O_msg_exists(&(grp->oloc), H5O_LINFO_ID, H5AC_dxpl_id)) < 0)
+    if((linfo_exists = H5O_msg_exists(&(grp->oloc), H5O_LINFO_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(linfo_exists > 0) {
         H5O_linfo_t linfo;		/* Link info message */
 
         /* Sanity check that new group format shouldn't have old messages */
-        if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, H5AC_dxpl_id)) < 0)
+        if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, dxpl_id)) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
         if(msg_exists > 0)
             HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "both symbol table and link info messages found")
 
         /* Get the link info */
-        if(H5G_obj_get_linfo(&(grp->oloc), &linfo, H5AC_dxpl_id) < 0)
+        if(H5G__obj_get_linfo(&(grp->oloc), &linfo, dxpl_id) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "can't get link info")
 
         /* Check for 'dense' link storage file addresses being defined */
@@ -152,7 +153,7 @@ H5G_is_empty_test(hid_t gid)
     /* "Old format" checks */
 
     /* Check if the group has a symbol table message */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists > 0) {
         H5O_stab_t stab;        /* Info about local heap & B-tree */
@@ -161,17 +162,17 @@ H5G_is_empty_test(hid_t gid)
         /* Sanity check that old group format shouldn't have new messages */
         if(linfo_exists > 0)
             HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "both symbol table and link info messages found")
-        if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_GINFO_ID, H5AC_dxpl_id)) < 0)
+        if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_GINFO_ID, dxpl_id)) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
         if(msg_exists > 0)
             HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "both symbol table and group info messages found")
 
         /* Get the B-tree & local heap info */
-        if(NULL == H5O_msg_read(&(grp->oloc), H5O_STAB_ID, &stab, H5AC_dxpl_id))
+        if(NULL == H5O_msg_read(&(grp->oloc), H5O_STAB_ID, &stab, dxpl_id))
             HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "unable to read symbol table message")
 
         /* Get the count of links in the group */
-        if(H5G_stab_count(&(grp->oloc), &nlinks, H5AC_dxpl_id) < 0)
+        if(H5G__stab_count(&(grp->oloc), &nlinks, dxpl_id) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_NOTFOUND, FAIL, "unable to count links")
 
         /* Check for link count */
@@ -181,16 +182,16 @@ H5G_is_empty_test(hid_t gid)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5G_is_empty_test() */
+}   /* H5G__is_empty_test() */
 
 
 /*--------------------------------------------------------------------------
  NAME
-    H5G_has_links_test
+    H5G__has_links_test
  PURPOSE
     Determine whether a group contains link messages
  USAGE
-    htri_t H5G_has_links_test(gid)
+    htri_t H5G__has_links_test(gid)
         hid_t gid;              IN: group to check
         unsigned *nmsgs;        OUT: # of link messages in header
  RETURNS
@@ -204,26 +205,27 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 htri_t
-H5G_has_links_test(hid_t gid, unsigned *nmsgs)
+H5G__has_links_test(hid_t gid, unsigned *nmsgs)
 {
     H5G_t *grp = NULL;          /* Pointer to group */
     htri_t msg_exists = 0;      /* Indicate that a header message is present */
+    hid_t dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     htri_t ret_value = TRUE;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_has_links_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Get group structure */
     if(NULL == (grp = (H5G_t *)H5I_object_verify(gid, H5I_GROUP)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a group")
 
     /* Check if the group has any link messages */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists == 0)
         HGOTO_DONE(FALSE)
 
     /* Check if the group has a symbol table message */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists > 0)
 	HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "both symbol table and link messages found")
@@ -233,23 +235,23 @@ H5G_has_links_test(hid_t gid, unsigned *nmsgs)
         int msg_count;     /* Number of messages of a type */
 
         /* Check how many link messages there are */
-        if((msg_count = H5O_msg_count(&(grp->oloc), H5O_LINK_ID, H5AC_dxpl_id)) < 0)
+        if((msg_count = H5O_msg_count(&(grp->oloc), H5O_LINK_ID, dxpl_id)) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_CANTCOUNT, FAIL, "unable to count link messages")
         *nmsgs = (unsigned)msg_count;
     } /* end if */
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5G_has_links_test() */
+}   /* H5G__has_links_test() */
 
 
 /*--------------------------------------------------------------------------
  NAME
-    H5G_has_stab_test
+    H5G__has_stab_test
  PURPOSE
     Determine whether a group contains a symbol table message
  USAGE
-    htri_t H5G_has_stab_test(gid)
+    htri_t H5G__has_stab_test(gid)
         hid_t gid;              IN: group to check
  RETURNS
     Non-negative TRUE/FALSE on success, negative on failure
@@ -262,42 +264,43 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 htri_t
-H5G_has_stab_test(hid_t gid)
+H5G__has_stab_test(hid_t gid)
 {
     H5G_t *grp = NULL;          /* Pointer to group */
     htri_t msg_exists = 0;      /* Indicate that a header message is present */
+    hid_t dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     htri_t ret_value = TRUE;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_has_stab_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Get group structure */
     if(NULL == (grp = (H5G_t *)H5I_object_verify(gid, H5I_GROUP)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a group")
 
     /* Check if the group has a symbol table message */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists == 0)
         HGOTO_DONE(FALSE)
 
     /* Check if the group has any link messages */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists > 0)
 	HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "both symbol table and link messages found")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5G_has_stab_test() */
+}   /* H5G__has_stab_test() */
 
 
 /*--------------------------------------------------------------------------
  NAME
-    H5G_is_new_dense_test
+    H5G__is_new_dense_test
  PURPOSE
     Determine whether a group is in the "new" format and dense
  USAGE
-    htri_t H5G_is_new_dense_test(gid)
+    htri_t H5G__is_new_dense_test(gid)
         hid_t gid;              IN: group to check
  RETURNS
     Non-negative TRUE/FALSE on success, negative on failure
@@ -312,38 +315,39 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 htri_t
-H5G_is_new_dense_test(hid_t gid)
+H5G__is_new_dense_test(hid_t gid)
 {
     H5G_t *grp = NULL;          /* Pointer to group */
     htri_t msg_exists = 0;      /* Indicate that a header message is present */
+    hid_t dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     htri_t ret_value = TRUE;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_is_new_dense_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Get group structure */
     if(NULL == (grp = (H5G_t *)H5I_object_verify(gid, H5I_GROUP)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a group")
 
     /* Check if the group has a symbol table message */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists > 0)
         HGOTO_DONE(FALSE)
 
     /* Check if the group has any link messages */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINK_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists > 0)
         HGOTO_DONE(FALSE)
 
     /* Check if the group has link info message */
-    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINFO_ID, H5AC_dxpl_id)) < 0)
+    if((msg_exists = H5O_msg_exists(&(grp->oloc), H5O_LINFO_ID, dxpl_id)) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
     if(msg_exists > 0) {
         H5O_linfo_t linfo;		/* Link info message */
 
         /* Get the link info */
-        if(H5G_obj_get_linfo(&(grp->oloc), &linfo, H5AC_dxpl_id) < 0)
+        if(H5G__obj_get_linfo(&(grp->oloc), &linfo, dxpl_id) < 0)
             HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "can't get link info")
 
         /* Check for 'dense' link storage file addresses being defined */
@@ -355,16 +359,16 @@ H5G_is_new_dense_test(hid_t gid)
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5G_is_new_dense_test() */
+}   /* H5G__is_new_dense_test() */
 
 
 /*--------------------------------------------------------------------------
  NAME
-    H5G_new_dense_info_test
+    H5G__new_dense_info_test
  PURPOSE
     Retrieve information about the state of the new "dense" storage for groups
  USAGE
-    herr_t H5G_new_dense_info_test(gid, name_count, corder_count)
+    herr_t H5G__new_dense_info_test(gid, name_count, corder_count)
         hid_t gid;              IN: group to check
         hsize_t *name_count;    OUT: Number of links in name index
         hsize_t *corder_count;  OUT: Number of links in creation order index
@@ -380,22 +384,23 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 herr_t
-H5G_new_dense_info_test(hid_t gid, hsize_t *name_count, hsize_t *corder_count)
+H5G__new_dense_info_test(hid_t gid, hsize_t *name_count, hsize_t *corder_count)
 {
     H5B2_t *bt2_name = NULL;    /* v2 B-tree handle for name index */
     H5B2_t *bt2_corder = NULL;  /* v2 B-tree handle for creation order index */
     H5O_linfo_t linfo;		/* Link info message */
     H5G_t *grp = NULL;          /* Pointer to group */
+    hid_t dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_new_dense_info_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Get group structure */
     if(NULL == (grp = (H5G_t *)H5I_object_verify(gid, H5I_GROUP)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a group")
 
     /* Get the link info */
-    if(H5G_obj_get_linfo(&(grp->oloc), &linfo, H5AC_dxpl_id) < 0)
+    if(H5G__obj_get_linfo(&(grp->oloc), &linfo, dxpl_id) < 0)
         HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "can't get link info")
 
     /* Check for 'dense' link storage file addresses being defined */
@@ -405,7 +410,7 @@ H5G_new_dense_info_test(hid_t gid, hsize_t *name_count, hsize_t *corder_count)
         HGOTO_DONE(FAIL)
 
     /* Open the name index v2 B-tree */
-    if(NULL == (bt2_name = H5B2_open(grp->oloc.file, H5AC_dxpl_id, linfo.name_bt2_addr, NULL)))
+    if(NULL == (bt2_name = H5B2_open(grp->oloc.file, dxpl_id, linfo.name_bt2_addr, NULL)))
         HGOTO_ERROR(H5E_SYM, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for name index")
 
     /* Retrieve # of records in name index */
@@ -415,7 +420,7 @@ H5G_new_dense_info_test(hid_t gid, hsize_t *name_count, hsize_t *corder_count)
     /* Check if there is a creation order index */
     if(H5F_addr_defined(linfo.corder_bt2_addr)) {
         /* Open the creation order index v2 B-tree */
-        if(NULL == (bt2_corder = H5B2_open(grp->oloc.file, H5AC_dxpl_id, linfo.corder_bt2_addr, NULL)))
+        if(NULL == (bt2_corder = H5B2_open(grp->oloc.file, dxpl_id, linfo.corder_bt2_addr, NULL)))
             HGOTO_ERROR(H5E_SYM, H5E_CANTOPENOBJ, FAIL, "unable to open v2 B-tree for creation order index")
 
         /* Retrieve # of records in creation order index */
@@ -427,22 +432,22 @@ H5G_new_dense_info_test(hid_t gid, hsize_t *name_count, hsize_t *corder_count)
 
 done:
     /* Release resources */
-    if(bt2_name && H5B2_close(bt2_name, H5AC_dxpl_id) < 0)
+    if(bt2_name && H5B2_close(bt2_name, dxpl_id) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CANTCLOSEOBJ, FAIL, "can't close v2 B-tree for name index")
-    if(bt2_corder && H5B2_close(bt2_corder, H5AC_dxpl_id) < 0)
+    if(bt2_corder && H5B2_close(bt2_corder, dxpl_id) < 0)
         HDONE_ERROR(H5E_SYM, H5E_CANTCLOSEOBJ, FAIL, "can't close v2 B-tree for creation order index")
 
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5G_new_dense_info_test() */
+}   /* H5G__new_dense_info_test() */
 
 
 /*--------------------------------------------------------------------------
  NAME
-    H5G_lheap_size_test
+    H5G__lheap_size_test
  PURPOSE
     Determine the size of a local heap for a group
  USAGE
-    herr_t H5G_lheap_size_test(gid, lheap_size)
+    herr_t H5G__lheap_size_test(gid, lheap_size)
         hid_t gid;              IN: group to check
         size_t *lheap_size;     OUT: Size of local heap
  RETURNS
@@ -456,38 +461,39 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 herr_t
-H5G_lheap_size_test(hid_t gid, size_t *lheap_size)
+H5G__lheap_size_test(hid_t gid, size_t *lheap_size)
 {
     H5G_t *grp = NULL;          /* Pointer to group */
-    H5O_stab_t stab;		/* Symbol table message		*/
+    H5O_stab_t stab;		/* Symbol table message	*/
+    hid_t dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_lheap_size_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Get group structure */
     if(NULL == (grp = (H5G_t *)H5I_object_verify(gid, H5I_GROUP)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a group")
 
     /* Make certain the group has a symbol table message */
-    if(NULL == H5O_msg_read(&(grp->oloc), H5O_STAB_ID, &stab, H5AC_dxpl_id))
+    if(NULL == H5O_msg_read(&(grp->oloc), H5O_STAB_ID, &stab, dxpl_id))
 	HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read symbol table message")
 
     /* Check the size of the local heap for the group */
-    if(H5HL_get_size(grp->oloc.file, H5AC_dxpl_id, stab.heap_addr, lheap_size) < 0)
+    if(H5HL_get_size(grp->oloc.file, dxpl_id, stab.heap_addr, lheap_size) < 0)
 	HGOTO_ERROR(H5E_SYM, H5E_CANTGETSIZE, FAIL, "can't query local heap size")
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5G_lheap_size_test() */
+}   /* H5G__lheap_size_test() */
 
 
 /*--------------------------------------------------------------------------
  NAME
-    H5G_user_path_test
+    H5G__user_path_test
  PURPOSE
     Retrieve the user path for an ID
  USAGE
-    herr_t H5G_user_path_test(obj_id, user_path, user_path_len)
+    herr_t H5G__user_path_test(obj_id, user_path, user_path_len)
         hid_t obj_id;           IN: ID to check
         char *user_path;        OUT: Pointer to buffer for User path
         size_t *user_path_len;  OUT: Size of user path
@@ -504,13 +510,13 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 herr_t
-H5G_user_path_test(hid_t obj_id, char *user_path, size_t *user_path_len, unsigned *obj_hidden)
+H5G__user_path_test(hid_t obj_id, char *user_path, size_t *user_path_len, unsigned *obj_hidden)
 {
     void *obj_ptr;              /* Pointer to object for ID */
     H5G_name_t *obj_path;       /* Pointer to group hier. path for obj */
     herr_t ret_value = SUCCEED; /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_user_path_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* Sanity check */
     HDassert(user_path_len);
@@ -562,7 +568,7 @@ H5G_user_path_test(hid_t obj_id, char *user_path, size_t *user_path_len, unsigne
 
         /* Set the user path, if given */
         if(user_path)
-            HDstrcpy(user_path, H5RS_get_str(obj_path->user_path_r));
+            HDstrncpy(user_path, H5RS_get_str(obj_path->user_path_r), (size_t)(len + 1));
 
         /* Set the length of the path */
         *user_path_len = (size_t)len;
@@ -577,11 +583,11 @@ H5G_user_path_test(hid_t obj_id, char *user_path, size_t *user_path_len, unsigne
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-}   /* H5G_user_path_test() */
+}   /* H5G__user_path_test() */
 
 
 /*-------------------------------------------------------------------------
- * Function:	H5G_verify_cached_stab_test
+ * Function:	H5G__verify_cached_stab_test
  *
  * Purpose:     Check that a that the provided group entry contains a
  *              cached symbol table entry, that the entry matches that in
@@ -597,20 +603,21 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5G_verify_cached_stab_test(H5O_loc_t *grp_oloc, H5G_entry_t *ent)
+H5G__verify_cached_stab_test(H5O_loc_t *grp_oloc, H5G_entry_t *ent)
 {
     H5O_stab_t  stab;                   /* Symbol table */
     H5HL_t      *heap = NULL;           /* Pointer to local heap */
+    hid_t dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     herr_t	ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT(H5G_verify_cached_stab_test)
+    FUNC_ENTER_PACKAGE
 
     /* Verify that stab info is cached in ent */
     if(ent->type != H5G_CACHED_STAB)
         HGOTO_ERROR(H5E_SYM, H5E_BADTYPE, FAIL, "symbol table information is not cached")
 
     /* Read the symbol table message from the group */
-    if(NULL == H5O_msg_read(grp_oloc, H5O_STAB_ID, &stab, H5AC_ind_dxpl_id))
+    if(NULL == H5O_msg_read(grp_oloc, H5O_STAB_ID, &stab, dxpl_id))
         HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "unable to read symbol table message")
 
     /* Verify that the cached symbol table info matches the symbol table message
@@ -620,11 +627,11 @@ H5G_verify_cached_stab_test(H5O_loc_t *grp_oloc, H5G_entry_t *ent)
         HGOTO_ERROR(H5E_SYM, H5E_BADVALUE, FAIL, "cached stab info does not match object header")
 
     /* Verify that the btree address is valid */
-    if(H5B_valid(grp_oloc->file, H5AC_ind_dxpl_id, H5B_SNODE, stab.btree_addr) < 0)
+    if(H5B_valid(grp_oloc->file, dxpl_id, H5B_SNODE, stab.btree_addr) < 0)
         HGOTO_ERROR(H5E_BTREE, H5E_NOTFOUND, FAIL, "b-tree address is invalid")
 
     /* Verify that the heap address is valid */
-    if(NULL == (heap = H5HL_protect(grp_oloc->file, H5AC_ind_dxpl_id, stab.heap_addr, H5AC_READ)))
+    if(NULL == (heap = H5HL_protect(grp_oloc->file, dxpl_id, stab.heap_addr, H5AC_READ)))
         HGOTO_ERROR(H5E_HEAP, H5E_NOTFOUND, FAIL, "heap address is invalid")
 
 done:
@@ -633,7 +640,7 @@ done:
         HDONE_ERROR(H5E_SYM, H5E_PROTECT, FAIL, "unable to unprotect symbol table heap")
 
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5G_verify_cached_stab_test() */
+} /* end H5G__verify_cached_stab_test() */
 
 
 /*-------------------------------------------------------------------------
@@ -653,8 +660,8 @@ done:
  */
 static int
 H5G_verify_cached_stabs_test_cb(H5F_t *f, hid_t dxpl_id,
-    const void UNUSED *_lt_key, haddr_t addr, const void UNUSED *_rt_key,
-    void UNUSED *udata)
+    const void H5_ATTR_UNUSED *_lt_key, haddr_t addr, const void H5_ATTR_UNUSED *_rt_key,
+    void H5_ATTR_UNUSED *udata)
 {
     H5G_node_t          *sn = NULL;
     H5O_loc_t           targ_oloc;
@@ -664,7 +671,7 @@ H5G_verify_cached_stabs_test_cb(H5F_t *f, hid_t dxpl_id,
     unsigned            i;
     int                 ret_value = H5_ITER_CONT;
 
-    FUNC_ENTER_NOAPI(H5G_verify_cached_stabs_test_cb, H5_ITER_ERROR)
+    FUNC_ENTER_NOAPI_NOINIT
 
     /*
      * Check arguments.
@@ -732,7 +739,7 @@ done:
 
 
 /*-------------------------------------------------------------------------
- * Function:    H5G_verify_cached_stabs_test
+ * Function:    H5G__verify_cached_stabs_test
  *
  * Purpose:     If the provided group contains a symbol table, verifies
  *              that all links in the group contain cached symbol table
@@ -750,15 +757,16 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5G_verify_cached_stabs_test(hid_t gid)
+H5G__verify_cached_stabs_test(hid_t gid)
 {
     H5G_t               *grp = NULL;            /* Group */
     htri_t              stab_exists;
     H5O_stab_t          stab;                   /* Symbol table message */
     H5G_bt_common_t     udata = {NULL, NULL};   /* Dummy udata so H5B_iterate doesn't freak out */
+    hid_t               dxpl_id = H5AC_ind_dxpl_id;  /* transfer property list used for this operation */
     herr_t              ret_value = SUCCEED;    /* Return value */
 
-    FUNC_ENTER_NOAPI(H5G_verify_cached_stabs_test, FAIL)
+    FUNC_ENTER_PACKAGE
 
     /* check args */
     HDassert(gid >= 0);
@@ -770,7 +778,7 @@ H5G_verify_cached_stabs_test(hid_t gid)
     /* Check for group having a symbol table message */
     /* Check for the group having a group info message */
     if((stab_exists = H5O_msg_exists(&(grp->oloc), H5O_STAB_ID,
-            H5AC_ind_dxpl_id)) < 0)
+            dxpl_id)) < 0)
         HGOTO_ERROR(H5E_SYM, H5E_CANTINIT, FAIL, "unable to read object header")
 
     /* No need to check anything if the symbol table doesn't exist */
@@ -778,15 +786,15 @@ H5G_verify_cached_stabs_test(hid_t gid)
         HGOTO_DONE(SUCCEED);
 
     /* Read the stab */
-    if(NULL == H5O_msg_read(&(grp->oloc), H5O_STAB_ID, &stab, H5AC_ind_dxpl_id))
+    if(NULL == H5O_msg_read(&(grp->oloc), H5O_STAB_ID, &stab, dxpl_id))
         HGOTO_ERROR(H5E_SYM, H5E_BADMESG, FAIL, "can't get symbol table info")
 
     /* Iterate over the b-tree, checking validity of cached information */
-    if((ret_value = H5B_iterate(grp->oloc.file, H5AC_ind_dxpl_id, H5B_SNODE,
+    if((ret_value = H5B_iterate(grp->oloc.file, dxpl_id, H5B_SNODE,
             stab.btree_addr, H5G_verify_cached_stabs_test_cb, &udata)) < 0)
         HGOTO_ERROR(H5E_SYM, H5E_CANTNEXT, FAIL, "iteration operator failed");
 
 done:
     FUNC_LEAVE_NOAPI(ret_value)
-} /* end H5G_verify_cached_stabs_test() */
+} /* end H5G__verify_cached_stabs_test() */
 

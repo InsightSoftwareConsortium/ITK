@@ -16,12 +16,13 @@
  *
  *=========================================================================*/
 
-//
 
 #include "itkThresholdLabelerImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkUnaryFunctorImageFilter.h"
+#include "itkTestingMacros.h"
 
-int itkThresholdLabelerImageFilterTest( int, char *[] )
+int ThresholdLabelerImageFilterTestHelper( bool useRealTypeThresholds )
 {
   //
   //  The following code defines the input and output pixel types and their
@@ -32,10 +33,10 @@ int itkThresholdLabelerImageFilterTest( int, char *[] )
   typedef float         InputPixelType;
   typedef unsigned long LabeledPixelType;
 
-  typedef itk::Image<InputPixelType,Dimension>   InputImageType;
-  typedef itk::Image<LabeledPixelType,Dimension> LabeledImageType;
+  typedef itk::Image< InputPixelType, Dimension >   InputImageType;
+  typedef itk::Image< LabeledPixelType, Dimension > LabeledImageType;
 
-  // create an image with stripes to label
+  // Create an image with stripes to label
   InputImageType::IndexType index = {{0, 0}};
   InputImageType::SizeType size = {{32, 32}};
   InputImageType::RegionType region;
@@ -51,7 +52,7 @@ int itkThresholdLabelerImageFilterTest( int, char *[] )
   size[1] = 8;
   region.SetSize(size);
 
-  // stripe y indexes
+  // Stripe y indexes
   typedef std::vector<InputImageType::IndexType::IndexValueType> IndexValueVectorType;
   IndexValueVectorType yindexes;
   yindexes.push_back(0);
@@ -59,33 +60,27 @@ int itkThresholdLabelerImageFilterTest( int, char *[] )
   yindexes.push_back(16);
   yindexes.push_back(24);
 
-  // values for each stripe
+  // Set the values for each stripe
   std::vector<InputPixelType> values;
   values.push_back(0.5);
   values.push_back(1.5);
   values.push_back(2.5);
   values.push_back(3.5);
 
-  // thresholds between values
-  std::vector<InputPixelType> thresholds;
-  thresholds.push_back(1.0);
-  thresholds.push_back(2.0);
-  thresholds.push_back(3.0);
-
-  // offset
+  // Set the value for the offset
   unsigned long offset = 4;
 
-  // labels
+  //  Set the labels vector
   std::vector<LabeledPixelType> labels;
   labels.push_back(0 + offset);
   labels.push_back(1 + offset);
   labels.push_back(2 + offset);
   labels.push_back(3 + offset);
 
-  // fill in the image
+  // Fill in the image
   unsigned int i;
   IndexValueVectorType::const_iterator indexIter;
-  for (indexIter = yindexes.begin(), i=0; indexIter != yindexes.end(); ++indexIter, ++i)
+  for (indexIter = yindexes.begin(), i = 0; indexIter != yindexes.end(); ++indexIter, ++i)
     {
     index[0] = 0;
     index[1] = *indexIter;
@@ -97,28 +92,55 @@ int itkThresholdLabelerImageFilterTest( int, char *[] )
       }
     }
 
-  // apply labeler filter
-  typedef itk::ThresholdLabelerImageFilter<InputImageType,LabeledImageType> LabelerFilterType;
+  // Apply labeler filter
+  typedef itk::ThresholdLabelerImageFilter< InputImageType, LabeledImageType > LabelerFilterType;
   LabelerFilterType::Pointer labelerFilter = LabelerFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( labelerFilter, ThresholdLabelerImageFilter,
+    UnaryFunctorImageFilter );
+
   labelerFilter->SetInput(inputImage);
-  labelerFilter->SetThresholds(thresholds);
+
+  if( !useRealTypeThresholds )
+    {
+    // Set the thresholds between values
+    std::vector< InputPixelType > thresholds;
+    thresholds.push_back(1.0);
+    thresholds.push_back(2.0);
+    thresholds.push_back(3.0);
+
+    labelerFilter->SetThresholds(thresholds);
+    //TEST_SET_GET_VALUE( thresholds, labelerFilter->GetThresholds() );
+    }
+  else
+    {
+    // Set the thresholds between values
+    std::vector< LabelerFilterType::RealThresholdType > thresholds;
+    thresholds.push_back(1.0);
+    thresholds.push_back(2.0);
+    thresholds.push_back(3.0);
+
+    labelerFilter->SetRealThresholds(thresholds);
+    //TEST_SET_GET_VALUE( thresholds, labelerFilter->GetRealThresholds() );
+    }
+
   labelerFilter->SetLabelOffset(offset);
-  labelerFilter->Print(std::cout);
+  TEST_SET_GET_VALUE( offset, labelerFilter->GetLabelOffset() );
+
   try
     {
-      labelerFilter->Update();
-      labelerFilter->SetFunctor(labelerFilter->GetFunctor());
+    labelerFilter->Update();
+    labelerFilter->SetFunctor(labelerFilter->GetFunctor());
     }
-
   catch(itk::ExceptionObject & excp)
     {
-      std::cerr << excp << std::endl;
+    std::cerr << excp << std::endl;
     }
 
-  // check if labels coincide with expected labels
+  // Check if labels coincide with expected labels
   bool passed = true;
 
-  for (indexIter = yindexes.begin(), i=0; indexIter != yindexes.end(); ++indexIter, ++i)
+  for (indexIter = yindexes.begin(), i = 0; indexIter != yindexes.end(); ++indexIter, ++i)
     {
     index[0] = 0;
     index[1] = *indexIter;
@@ -145,6 +167,31 @@ int itkThresholdLabelerImageFilterTest( int, char *[] )
     return EXIT_FAILURE;
     }
 
-  std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
+}
+
+int itkThresholdLabelerImageFilterTest( int, char *[] )
+{
+  bool testStatus = EXIT_SUCCESS;
+  bool testStatusRealTypeThresholds = EXIT_SUCCESS;
+  bool testStatusNotRealTypeThresholds = EXIT_SUCCESS;
+
+  bool useRealTypeThresholds = true;
+  testStatusRealTypeThresholds = ThresholdLabelerImageFilterTestHelper( useRealTypeThresholds );
+
+  useRealTypeThresholds = false;
+  testStatusNotRealTypeThresholds = ThresholdLabelerImageFilterTestHelper( useRealTypeThresholds );
+
+  if( testStatusRealTypeThresholds == EXIT_SUCCESS &&
+    testStatusNotRealTypeThresholds == EXIT_SUCCESS )
+    {
+    std::cout << "TEST FINISHED SUCCESSFULLY!" << std::endl;
+    }
+  else
+    {
+    std::cout << "TEST FAILED!" << std::endl;
+    testStatus = EXIT_FAILURE;
+    }
+
+  return testStatus;
 }

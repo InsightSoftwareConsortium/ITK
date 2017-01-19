@@ -42,7 +42,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 template <typename TBaseClass = Element>
-class Element3DMembrane1DOF : public TBaseClass
+class ITK_TEMPLATE_EXPORT Element3DMembrane1DOF : public TBaseClass
 {
 public:
   /** Standard class typedefs. */

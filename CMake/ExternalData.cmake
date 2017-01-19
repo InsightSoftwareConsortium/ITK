@@ -1,3 +1,6 @@
+# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+# file Copyright.txt or https://cmake.org/licensing for details.
+
 #.rst:
 # ExternalData
 # ------------
@@ -194,6 +197,12 @@
 # real ``img.png`` file in the current source directory or a ``img.png.md5``
 # file containing its MD5 sum.
 #
+# Multiple content links of the same name with different hash algorithms
+# are supported (e.g. ``img.png.sha256`` and ``img.png.sha1``) so long as
+# they all correspond to the same real file.  This allows objects to be
+# fetched from sources indexed by different hash algorithms.
+#
+#
 # Referencing File Series
 # """""""""""""""""""""""
 #
@@ -251,7 +260,8 @@
 # ``DATA{MyDataDir/,REGEX:.*}`` will pass the full path to a ``MyDataDir``
 # directory on the command line and ensure that the directory contains
 # files corresponding to every file or content link in the ``MyDataDir``
-# source directory.
+# source directory.  In order to match associated files in subdirectories,
+# specify a ``RECURSE:`` option, e.g. ``DATA{MyDataDir/,RECURSE:,REGEX:.*}``.
 #
 # Hash Algorithms
 # ^^^^^^^^^^^^^^^
@@ -308,39 +318,6 @@
 #   When a custom fetch script fails to fetch the requested content,
 #   it must set this variable to a short one-line message describing
 #   the reason for failure.
-
-#=============================================================================
-# Copyright 2010-2015 Kitware, Inc.
-# All rights reserved.
-#
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-#
-# * Redistributions of source code must retain the above copyright
-#   notice, this list of conditions and the following disclaimer.
-#
-# * Redistributions in binary form must reproduce the above copyright
-#   notice, this list of conditions and the following disclaimer in the
-#   documentation and/or other materials provided with the distribution.
-#
-# * Neither the names of Kitware, Inc., the Insight Software Consortium,
-#   nor the names of their contributors may be used to endorse or promote
-#   products derived from this software without specific prior written
-#   permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-# "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-# LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
-# A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-# HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-# SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
-# LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-# DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-# THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#=============================================================================
 
 function(ExternalData_add_test target)
   # Expand all arguments as a single string to preserve escaped semicolons.
@@ -411,8 +388,14 @@ function(ExternalData_add_target target)
 
   set(files "")
 
-  # Set "_ExternalData_FILE_${file}" for each output file to avoid duplicate
-  # rules.  Use local data first to prefer real files over content links.
+  # Set a "_ExternalData_FILE_${file}" variable for each output file to avoid
+  # duplicate entries within this target.  Set a directory property of the same
+  # name to avoid repeating custom commands with the same output in this directory.
+  # Repeating custom commands with the same output across directories or across
+  # targets in the same directory may be a race, but this is likely okay because
+  # we use atomic replacement of output files.
+  #
+  # Use local data first to prefer real files over content links.
 
   # Custom commands to copy or link local data.
   get_property(data_local GLOBAL PROPERTY _ExternalData_${target}_LOCAL)
@@ -422,16 +405,20 @@ function(ExternalData_add_target target)
     list(GET tuple 1 name)
     if(NOT DEFINED "_ExternalData_FILE_${file}")
       set("_ExternalData_FILE_${file}" 1)
-      add_custom_command(
-        COMMENT "Generating ${file}"
-        OUTPUT "${file}"
-        COMMAND ${CMAKE_COMMAND} -Drelative_top=${CMAKE_BINARY_DIR}
-                                 -Dfile=${file} -Dname=${name}
-                                 -DExternalData_ACTION=local
-                                 -DExternalData_CONFIG=${config}
-                                 -P ${_ExternalData_SELF}
-        MAIN_DEPENDENCY "${name}"
-        )
+      get_property(added DIRECTORY PROPERTY "_ExternalData_FILE_${file}")
+      if(NOT added)
+        set_property(DIRECTORY PROPERTY "_ExternalData_FILE_${file}" 1)
+        add_custom_command(
+          COMMENT "Generating ${file}"
+          OUTPUT "${file}"
+          COMMAND ${CMAKE_COMMAND} -Drelative_top=${CMAKE_BINARY_DIR}
+                                   -Dfile=${file} -Dname=${name}
+                                   -DExternalData_ACTION=local
+                                   -DExternalData_CONFIG=${config}
+                                   -P ${_ExternalData_SELF}
+          MAIN_DEPENDENCY "${name}"
+          )
+      endif()
       list(APPEND files "${file}")
     endif()
   endforeach()
@@ -442,27 +429,33 @@ function(ExternalData_add_target target)
     string(REPLACE "|" ";" tuple "${entry}")
     list(GET tuple 0 file)
     list(GET tuple 1 name)
-    list(GET tuple 2 ext)
-    set(stamp "${ext}-stamp")
+    list(GET tuple 2 exts)
+    string(REPLACE "+" ";" exts_list "${exts}")
+    list(GET exts_list 0 first_ext)
+    set(stamp "-hash-stamp")
     if(NOT DEFINED "_ExternalData_FILE_${file}")
       set("_ExternalData_FILE_${file}" 1)
-      add_custom_command(
-        # Users care about the data file, so hide the hash/timestamp file.
-        COMMENT "Generating ${file}"
-        # The hash/timestamp file is the output from the build perspective.
-        # List the real file as a second output in case it is a broken link.
-        # The files must be listed in this order so CMake can hide from the
-        # make tool that a symlink target may not be newer than the input.
-        OUTPUT "${file}${stamp}" "${file}"
-        # Run the data fetch/update script.
-        COMMAND ${CMAKE_COMMAND} -Drelative_top=${CMAKE_BINARY_DIR}
-                                 -Dfile=${file} -Dname=${name} -Dext=${ext}
-                                 -DExternalData_ACTION=fetch
-                                 -DExternalData_CONFIG=${config}
-                                 -P ${_ExternalData_SELF}
-        # Update whenever the object hash changes.
-        MAIN_DEPENDENCY "${name}${ext}"
-        )
+      get_property(added DIRECTORY PROPERTY "_ExternalData_FILE_${file}")
+      if(NOT added)
+        set_property(DIRECTORY PROPERTY "_ExternalData_FILE_${file}" 1)
+        add_custom_command(
+          # Users care about the data file, so hide the hash/timestamp file.
+          COMMENT "Generating ${file}"
+          # The hash/timestamp file is the output from the build perspective.
+          # List the real file as a second output in case it is a broken link.
+          # The files must be listed in this order so CMake can hide from the
+          # make tool that a symlink target may not be newer than the input.
+          OUTPUT "${file}${stamp}" "${file}"
+          # Run the data fetch/update script.
+          COMMAND ${CMAKE_COMMAND} -Drelative_top=${CMAKE_BINARY_DIR}
+                                   -Dfile=${file} -Dname=${name} -Dexts=${exts}
+                                   -DExternalData_ACTION=fetch
+                                   -DExternalData_CONFIG=${config}
+                                   -P ${_ExternalData_SELF}
+          # Update whenever the object hash changes.
+          MAIN_DEPENDENCY "${name}${first_ext}"
+          )
+      endif()
       list(APPEND files "${file}${stamp}")
     endif()
   endforeach()
@@ -510,17 +503,14 @@ endfunction()
 #-----------------------------------------------------------------------------
 # Private helper interface
 
-set(_ExternalData_REGEX_ALGO "MD5")
-set(_ExternalData_REGEX_EXT "md5")
+set(_ExternalData_REGEX_ALGO "MD5|SHA1|SHA224|SHA256|SHA384|SHA512")
+set(_ExternalData_REGEX_EXT "md5|sha1|sha224|sha256|sha384|sha512")
 set(_ExternalData_SELF "${CMAKE_CURRENT_LIST_FILE}")
 get_filename_component(_ExternalData_SELF_DIR "${_ExternalData_SELF}" PATH)
 
 function(_ExternalData_compute_hash var_hash algo file)
   if("${algo}" MATCHES "^${_ExternalData_REGEX_ALGO}$")
-    # TODO: Require CMake 2.8.7 to support other hashes with file(${algo} ...)
-    execute_process(COMMAND "${CMAKE_COMMAND}" -E md5sum "${file}"
-      OUTPUT_VARIABLE output)
-    string(SUBSTRING "${output}" 0 32 hash)
+    file("${algo}" "${file}" hash)
     set("${var_hash}" "${hash}" PARENT_SCOPE)
   else()
     message(FATAL_ERROR "Hash algorithm ${algo} unimplemented.")
@@ -625,6 +615,7 @@ function(_ExternalData_arg target arg options var_file)
 
   # Process options.
   set(series_option "")
+  set(recurse_option "")
   set(associated_files "")
   set(associated_regex "")
   foreach(opt ${options})
@@ -634,6 +625,9 @@ function(_ExternalData_arg target arg options var_file)
     elseif(opt STREQUAL ":")
       # Activate series matching.
       set(series_option "${opt}")
+    elseif(opt STREQUAL "RECURSE:")
+      # Activate recursive matching in directories.
+      set(recurse_option "${opt}")
     elseif("x${opt}" MATCHES "^[^][:/*?]+$")
       # Specific associated file.
       list(APPEND associated_files "${opt}")
@@ -650,6 +644,9 @@ function(_ExternalData_arg target arg options var_file)
     if(associated_files OR associated_regex)
       message(FATAL_ERROR "Series option \"${series_option}\" not allowed with associated files.")
     endif()
+    if(recurse_option)
+      message(FATAL_ERROR "Recurse option \"${recurse_option}\" allowed only with directories.")
+    endif()
     # Load a whole file series.
     _ExternalData_arg_series()
   elseif(data_is_directory)
@@ -662,6 +659,9 @@ function(_ExternalData_arg target arg options var_file)
         "must list associated files.")
     endif()
   else()
+    if(recurse_option)
+      message(FATAL_ERROR "Recurse option \"${recurse_option}\" allowed only with directories.")
+    endif()
     # Load the named data file.
     _ExternalData_arg_single()
     if(associated_files OR associated_regex)
@@ -709,11 +709,18 @@ macro(_ExternalData_arg_associated)
     set(reldir "${reldir}/")
   endif()
   _ExternalData_exact_regex(reldir_regex "${reldir}")
+  if(recurse_option)
+    set(glob GLOB_RECURSE)
+    set(reldir_regex "${reldir_regex}(.+/)?")
+  else()
+    set(glob GLOB)
+  endif()
 
   # Find files named explicitly.
   foreach(file ${associated_files})
     _ExternalData_exact_regex(file_regex "${file}")
-    _ExternalData_arg_find_files("${reldir}${file}" "${reldir_regex}${file_regex}")
+    _ExternalData_arg_find_files(${glob} "${reldir}${file}"
+      "${reldir_regex}${file_regex}")
   endforeach()
 
   # Find files matching the given regular expressions.
@@ -723,13 +730,13 @@ macro(_ExternalData_arg_associated)
     set(all "${all}${sep}${reldir_regex}${regex}")
     set(sep "|")
   endforeach()
-  _ExternalData_arg_find_files("${reldir}" "${all}")
+  _ExternalData_arg_find_files(${glob} "${reldir}" "${all}")
 endmacro()
 
 macro(_ExternalData_arg_single)
   # Match only the named data by itself.
   _ExternalData_exact_regex(data_regex "${reldata}")
-  _ExternalData_arg_find_files("${reldata}" "${data_regex}")
+  _ExternalData_arg_find_files(GLOB "${reldata}" "${data_regex}")
 endmacro()
 
 macro(_ExternalData_arg_series)
@@ -784,12 +791,16 @@ macro(_ExternalData_arg_series)
   # Then match base, number, and extension.
   _ExternalData_exact_regex(series_base "${relbase}")
   _ExternalData_exact_regex(series_ext "${ext}")
-  _ExternalData_arg_find_files("${relbase}*${ext}"
+  _ExternalData_arg_find_files(GLOB "${relbase}*${ext}"
     "${series_base}${series_match}${series_ext}")
 endmacro()
 
-function(_ExternalData_arg_find_files pattern regex)
-  file(GLOB globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
+function(_ExternalData_arg_find_files glob pattern regex)
+  cmake_policy(PUSH)
+  cmake_policy(SET CMP0009 NEW)
+  file(${glob} globbed RELATIVE "${top_src}" "${top_src}/${pattern}*")
+  cmake_policy(POP)
+  set(externals_count -1)
   foreach(entry IN LISTS globbed)
     if("x${entry}" MATCHES "^x(.*)(\\.(${_ExternalData_REGEX_EXT}))$")
       set(relname "${CMAKE_MATCH_1}")
@@ -809,7 +820,12 @@ function(_ExternalData_arg_find_files pattern regex)
         set(name "${top_src}/${relname}")
         set(file "${top_bin}/${relname}")
         if(alg)
-          list(APPEND external "${file}|${name}|${alg}")
+          if(NOT "${external_${externals_count}_file_name}" STREQUAL "${file}|${name}")
+            # 0 works around negative number bug in older CMake
+            math(EXPR externals_count "0${externals_count} + 1")
+            set(external_${externals_count}_file_name "${file}|${name}")
+          endif()
+          list(APPEND external_${externals_count}_algs "${alg}")
         elseif(ExternalData_LINK_CONTENT)
           _ExternalData_link_content("${name}" alg)
           list(APPEND external "${file}|${name}|${alg}")
@@ -822,6 +838,14 @@ function(_ExternalData_arg_find_files pattern regex)
       endif()
     endif()
   endforeach()
+  if(${externals_count} GREATER -1)
+    foreach(ii RANGE ${externals_count})
+      string(REPLACE ";" "+" algs_delim "${external_${ii}_algs}")
+      list(APPEND external "${external_${ii}_file_name}|${algs_delim}")
+      unset(external_${ii}_algs)
+      unset(external_${ii}_file_name)
+    endforeach()
+  endif()
   set(external "${external}" PARENT_SCOPE)
   set(internal "${internal}" PARENT_SCOPE)
   set(have_original "${have_original}" PARENT_SCOPE)
@@ -939,13 +963,28 @@ function(_ExternalData_custom_fetch key loc file err_var msg_var)
   set("${msg_var}" "${msg}" PARENT_SCOPE)
 endfunction()
 
-function(_ExternalData_download_object name hash algo var_obj)
+function(_ExternalData_get_from_object_store hash algo var_obj var_success)
   # Search all object stores for an existing object.
   foreach(dir ${ExternalData_OBJECT_STORES})
     set(obj "${dir}/${algo}/${hash}")
     if(EXISTS "${obj}")
       message(STATUS "Found object: \"${obj}\"")
       set("${var_obj}" "${obj}" PARENT_SCOPE)
+      set("${var_success}" 1 PARENT_SCOPE)
+      return()
+    endif()
+  endforeach()
+endfunction()
+
+function(_ExternalData_download_object name hash algo var_obj var_success var_errorMsg)
+  # Search all object stores for an existing object.
+  set(success 1)
+  foreach(dir ${ExternalData_OBJECT_STORES})
+    set(obj "${dir}/${algo}/${hash}")
+    if(EXISTS "${obj}")
+      message(STATUS "Found object: \"${obj}\"")
+      set("${var_obj}" "${obj}" PARENT_SCOPE)
+      set("${var_success}" "${success}" PARENT_SCOPE)
       return()
     endif()
   endforeach()
@@ -971,7 +1010,8 @@ function(_ExternalData_download_object name hash algo var_obj)
         set(url "${lhs}${algo}${rhs}")
       endif()
     endif()
-    message(STATUS "Fetching \"${url}\"")
+    string(REGEX REPLACE "((https?|ftp)://)([^@]+@)?(.*)" "\\1\\4" secured_url "${url}")
+    message(STATUS "Fetching \"${secured_url}\"")
     if(url MATCHES "^ExternalDataCustomScript://([A-Za-z_][A-Za-z0-9_]*)/(.*)$")
       _ExternalData_custom_fetch("${CMAKE_MATCH_1}" "${CMAKE_MATCH_2}" "${tmp}" err errMsg)
     else()
@@ -999,6 +1039,7 @@ function(_ExternalData_download_object name hash algo var_obj)
   get_filename_component(dir "${name}" PATH)
   set(staged "${dir}/.ExternalData_${algo}_${hash}")
 
+  set(success 1)
   if(found)
     file(RENAME "${tmp}" "${obj}")
     message(STATUS "Downloaded object: \"${obj}\"")
@@ -1009,38 +1050,75 @@ function(_ExternalData_download_object name hash algo var_obj)
     if(NOT tried)
       set(tried "\n  (No ExternalData_URL_TEMPLATES given)")
     endif()
-    message(FATAL_ERROR "Object ${algo}=${hash} not found at:${tried}")
+    set(success 0)
+    set("${var_errorMsg}" "Object ${algo}=${hash} not found at:${tried}" PARENT_SCOPE)
   endif()
 
   set("${var_obj}" "${obj}" PARENT_SCOPE)
+  set("${var_success}" "${success}" PARENT_SCOPE)
 endfunction()
 
 if("${ExternalData_ACTION}" STREQUAL "fetch")
-  foreach(v ExternalData_OBJECT_STORES file name ext)
+  foreach(v ExternalData_OBJECT_STORES file name exts)
     if(NOT DEFINED "${v}")
       message(FATAL_ERROR "No \"-D${v}=\" value provided!")
     endif()
   endforeach()
 
-  file(READ "${name}${ext}" hash)
-  string(STRIP "${hash}" hash)
+  string(REPLACE "+" ";" exts_list "${exts}")
+  set(succeeded 0)
+  set(errorMsg "")
+  set(hash_list )
+  set(algo_list )
+  set(hash )
+  set(algo )
+  foreach(ext ${exts_list})
+    file(READ "${name}${ext}" hash)
+    string(STRIP "${hash}" hash)
 
-  if("${ext}" MATCHES "^\\.(${_ExternalData_REGEX_EXT})$")
-    string(TOUPPER "${CMAKE_MATCH_1}" algo)
-  else()
-    message(FATAL_ERROR "Unknown hash algorithm extension \"${ext}\"")
+    if("${ext}" MATCHES "^\\.(${_ExternalData_REGEX_EXT})$")
+      string(TOUPPER "${CMAKE_MATCH_1}" algo)
+    else()
+      message(FATAL_ERROR "Unknown hash algorithm extension \"${ext}\"")
+    endif()
+
+    list(APPEND hash_list ${hash})
+    list(APPEND algo_list ${algo})
+  endforeach()
+
+  list(LENGTH exts_list num_extensions)
+  math(EXPR exts_range "${num_extensions} - 1")
+  foreach(ii RANGE 0 ${exts_range})
+    list(GET hash_list ${ii} hash)
+    list(GET algo_list ${ii} algo)
+    _ExternalData_get_from_object_store("${hash}" "${algo}" obj succeeded)
+    if(succeeded)
+      break()
+    endif()
+
+  endforeach()
+  if(NOT succeeded)
+    foreach(ii RANGE 0 ${exts_range})
+      list(GET hash_list ${ii} hash)
+      list(GET algo_list ${ii} algo)
+      _ExternalData_download_object("${name}" "${hash}" "${algo}"
+        obj succeeded algoErrorMsg)
+      set(errorMsg "${errorMsg}\n${algoErrorMsg}")
+      if(succeeded)
+        break()
+      endif()
+    endforeach()
   endif()
-
-  _ExternalData_download_object("${name}" "${hash}" "${algo}" obj)
-
+  if(NOT succeeded)
+    message(FATAL_ERROR "${errorMsg}")
+  endif()
   # Check if file already corresponds to the object.
-  set(stamp "${ext}-stamp")
+  set(stamp "-hash-stamp")
   set(file_up_to_date 0)
   if(EXISTS "${file}" AND EXISTS "${file}${stamp}")
     file(READ "${file}${stamp}" f_hash)
     string(STRIP "${f_hash}" f_hash)
     if("${f_hash}" STREQUAL "${hash}")
-      #message(STATUS "File already corresponds to object")
       set(file_up_to_date 1)
     endif()
   endif()

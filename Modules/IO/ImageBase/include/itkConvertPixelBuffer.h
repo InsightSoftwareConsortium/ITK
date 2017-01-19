@@ -42,7 +42,7 @@ template<
   typename OutputPixelType,
   typename OutputConvertTraits
   >
-class ConvertPixelBuffer
+class ITK_TEMPLATE_EXPORT ConvertPixelBuffer
 {
 public:
   /** Determine the output data type. */

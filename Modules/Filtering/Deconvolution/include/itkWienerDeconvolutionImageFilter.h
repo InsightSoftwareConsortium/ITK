@@ -72,7 +72,7 @@ namespace itk
  *
  */
 template< typename TInputImage, typename TKernelImage = TInputImage, typename TOutputImage = TInputImage, typename TInternalPrecision=double >
-class WienerDeconvolutionImageFilter :
+class ITK_TEMPLATE_EXPORT WienerDeconvolutionImageFilter :
   public InverseDeconvolutionImageFilter< TInputImage, TKernelImage, TOutputImage, TInternalPrecision >
 {
 public:
@@ -141,7 +141,7 @@ private:
 namespace Functor
 {
 template< typename TPixel >
-class WienerDeconvolutionFunctor
+class ITK_TEMPLATE_EXPORT WienerDeconvolutionFunctor
 {
 public:
   WienerDeconvolutionFunctor() { m_KernelZeroMagnitudeThreshold = 0.0; }

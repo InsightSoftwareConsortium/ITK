@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKFFT
  */
 template< typename TInputImage, typename TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class RealToHalfHermitianForwardFFTImageFilter:
+class ITK_TEMPLATE_EXPORT RealToHalfHermitianForwardFFTImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

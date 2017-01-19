@@ -48,7 +48,7 @@ namespace itk
  */
 
 template< typename TFixedImage,  typename TMovingImage >
-class ImageToImageMetric:
+class ITK_TEMPLATE_EXPORT ImageToImageMetric:
   public SingleValuedCostFunction
 {
 public:
@@ -396,7 +396,7 @@ public:
 
   bool m_ReseedIterator;
 
-  int m_RandomSeed;
+  mutable int m_RandomSeed;
 
   /** Types and variables related to BSpline deformable transforms.
     * If the transform is of type third order BSplineBaseTransform,

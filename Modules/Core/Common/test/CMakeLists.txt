@@ -130,6 +130,8 @@ itkSmartPointerTest.cxx
 itkBarrierTest.cxx
 itkVariableSizeMatrixTest.cxx
 itkEllipsoidInteriorExteriorSpatialFunctionTest.cxx
+itkFrustumSpatialFunctionTest.cxx
+itkTorusInteriorExteriorSpatialFunctionTest.cxx
 itkTimeStampTest.cxx
 itkConstNeighborhoodIteratorTest.cxx
 itkShapedNeighborhoodIteratorTest.cxx
@@ -185,6 +187,9 @@ itkThreadPoolTest.cxx
 itkSpawnThreadTest.cxx
 itkAtomicIntTest.cxx
 )
+if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
+  list(APPEND ITKCommon2Tests itkDownCastTest.cxx)
+endif()
 
 CreateTestDriver(ITKCommon1 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon1Tests}" itkFloatingPointExceptionsExtern.cxx)
 CreateTestDriver(ITKCommon2 "${ITKCommon-Test_LIBRARIES}" "${ITKCommon2Tests}")
@@ -413,7 +418,9 @@ itk_add_test(NAME itkTreeContainerTest COMMAND ITKCommon2TestDriver itkTreeConta
 itk_add_test(NAME itkTreeContainerTest2 COMMAND ITKCommon1TestDriver itkTreeContainerTest2)
 itk_add_test(NAME itkVersorTest COMMAND ITKCommon2TestDriver itkVersorTest)
 itk_add_test(NAME itkEllipsoidInteriorExteriorSpatialFunctionTest COMMAND ITKCommon2TestDriver itkEllipsoidInteriorExteriorSpatialFunctionTest)
+itk_add_test(NAME itkFrustumSpatialFunctionTest COMMAND ITKCommon2TestDriver itkFrustumSpatialFunctionTest)
 itk_add_test(NAME itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest COMMAND ITKCommon1TestDriver itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest)
+itk_add_test(NAME itkTorusInteriorExteriorSpatialFunctionTest COMMAND ITKCommon2TestDriver itkTorusInteriorExteriorSpatialFunctionTest)
 itk_add_test(NAME itkSymmetricSecondRankTensorImageReadTest COMMAND ITKCommon1TestDriver itkSymmetricSecondRankTensorImageReadTest
               ${ITK_TEST_OUTPUT_DIR}/testSymmetricTensor.nrrd)
 itk_add_test(NAME itkSymmetricSecondRankTensorImageWriteReadTest COMMAND ITKCommon1TestDriver itkSymmetricSecondRankTensorImageWriteReadTest
@@ -513,6 +520,31 @@ itk_add_test(NAME itkThreadPoolTest COMMAND ITKCommon2TestDriver itkThreadPoolTe
 itk_add_test(NAME itkSpawnThreadTest COMMAND ITKCommon2TestDriver itkSpawnThreadTest 100)
 
 itk_add_test(NAME itkAtomicIntTest COMMAND ITKCommon2TestDriver itkAtomicIntTest)
+
+if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
+  macro(BuildClientTestLibrary _name _type)
+    add_library(ClientTestLibrary${_name} ${_type} ClientTestLibrary${_name}.cxx)
+    itk_module_target_label(ClientTestLibrary${_name})
+    target_link_libraries(ClientTestLibrary${_name} LINK_PUBLIC ${ITKCommon_LIBRARIES})
+    set_property(TARGET ClientTestLibrary${_name} PROPERTY LIBRARY_OUTPUT_DIRECTORY ${ITK_TEST_OUTPUT_DIR})
+    generate_export_header(ClientTestLibrary${_name}
+      EXPORT_FILE_NAME ${ITKCommon_BINARY_DIR}/ClientTestLibrary${_name}Export.h
+      EXPORT_MACRO_NAME ClientTestLibrary${_name}_EXPORT
+      TEMPLATE_EXPORT_MACRO_NAME ClientTestLibrary${_name}_TEMPLATE_EXPORT
+      NO_EXPORT_MACRO_NAME ClientTestLibrary${_name}_HIDDEN
+      )
+    set_target_properties(ClientTestLibrary${_name} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+    set_target_properties(ClientTestLibrary${_name} PROPERTIES C_VISIBILITY_PRESET hidden)
+    set_target_properties(ClientTestLibrary${_name} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+  endmacro()
+  BuildClientTestLibrary(A SHARED)
+  BuildClientTestLibrary(B MODULE)
+  BuildClientTestLibrary(C SHARED)
+  target_link_libraries(ITKCommon2TestDriver LINK_PUBLIC ClientTestLibraryA)
+  target_link_libraries(ITKCommon2TestDriver LINK_PUBLIC ClientTestLibraryC)
+  itk_add_test(NAME itkDownCastTest COMMAND ITKCommon2TestDriver itkDownCastTest
+    $<TARGET_FILE:ClientTestLibraryB>)
+endif()
 
 # This test doesn't compile.  It exercises the bug I ran into if you multiply 2 vector images; if you
 # try to compile it the compile fails.

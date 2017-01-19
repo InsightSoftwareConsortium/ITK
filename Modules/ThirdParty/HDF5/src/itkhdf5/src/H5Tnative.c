@@ -60,7 +60,7 @@ DESCRIPTION
 static herr_t
 H5T_init_native_interface(void)
 {
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5T_init_native_interface)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     FUNC_LEAVE_NOAPI(H5T_init())
 } /* H5T_init_native_interface() */
@@ -104,7 +104,7 @@ H5Tget_native_type(hid_t type_id, H5T_direction_t direction)
     size_t      comp_size=0;        /* Compound datatype's size */
     hid_t       ret_value;          /* Return value */
 
-    FUNC_ENTER_API(H5Tget_native_type, FAIL)
+    FUNC_ENTER_API(FAIL)
     H5TRACE2("i", "iTd", type_id, direction);
 
     /* check argument */
@@ -170,9 +170,9 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
     unsigned    u;                  /* Local index variable */
     H5T_t       *ret_value;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_get_native_type, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
-    assert(dtype);
+    HDassert(dtype);
 
     if(H5T_NO_CLASS == (h5_class = H5T_get_class(dtype, FALSE)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "not a valid class")
@@ -276,7 +276,7 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
 
                 if((snmemb = H5T_get_nmembers(dtype)) <= 0)
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "compound data type doesn't have any member")
-                H5_ASSIGN_OVERFLOW(nmemb, snmemb, int, unsigned);
+                H5_CHECKED_ASSIGN(nmemb, unsigned, snmemb, int);
 
                 if(NULL == (memb_list   = (H5T_t **)H5MM_calloc(nmemb * sizeof(H5T_t *))))
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot allocate memory")
@@ -290,7 +290,7 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
                     if(NULL == (memb_type = H5T_get_member_type(dtype, u, H5T_COPY_TRANSIENT)))
                         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "member type retrieval failed")
 
-                    if(NULL == (comp_mname[u] = H5T_get_member_name(dtype, u)))
+                    if(NULL == (comp_mname[u] = H5T__get_member_name(dtype, u)))
                         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "member type retrieval failed")
 
                     if(NULL == (memb_list[u] = H5T_get_native_type(memb_type, direction, &children_st_align, &(memb_offset[u]), &children_size)))
@@ -305,12 +305,12 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
                     children_size += children_st_align - (children_size % children_st_align);
 
                 /* Construct new compound type based on native type */
-                if(NULL == (new_type = H5T_create(H5T_COMPOUND, children_size)))
+                if(NULL == (new_type = H5T__create(H5T_COMPOUND, children_size)))
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot create a compound type")
 
                 /* Insert members for the new compound type */
                 for(u = 0; u < nmemb; u++)
-                    if(H5T_insert(new_type, comp_mname[u], memb_offset[u], memb_list[u]) < 0)
+                    if(H5T__insert(new_type, comp_mname[u], memb_offset[u], memb_list[u]) < 0)
                         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot insert member to compound datatype")
 
                 /* Update size, offset and compound alignment for parent in the case of
@@ -355,6 +355,7 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
 
         case H5T_ENUM:
             {
+                H5T_path_t *tpath;	/* Type conversion info	*/
                 hid_t       super_type_id, nat_super_type_id;
 
                 /* Don't need to do anything special for alignment, offset since the ENUM type usually is integer. */
@@ -377,24 +378,28 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot allocate memory")
 
                 /* Construct new enum type based on native type */
-                if(NULL == (new_type=H5T_enum_create(nat_super_type)))
+                if(NULL == (new_type = H5T__enum_create(nat_super_type)))
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "unable to create enum type")
+
+                /* Find the conversion function */
+                if(NULL == (tpath = H5T_path_find(super_type, nat_super_type, NULL, NULL, H5P_DEFAULT, FALSE)))
+                    HGOTO_ERROR(H5E_DATATYPE, H5E_CANTINIT, NULL, "unable to convert between src and dst data types")
 
                 /* Retrieve member info and insert members into new enum type */
                 if((snmemb = H5T_get_nmembers(dtype)) <= 0)
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "enumerate data type doesn't have any member")
-                H5_ASSIGN_OVERFLOW(nmemb, snmemb, int, unsigned);
+                H5_CHECKED_ASSIGN(nmemb, unsigned, snmemb, int);
                 for(u = 0; u < nmemb; u++) {
-                    if(NULL == (memb_name = H5T_get_member_name(dtype, u)))
+                    if(NULL == (memb_name = H5T__get_member_name(dtype, u)))
                         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot get member name")
-                    if(H5T_get_member_value(dtype, u, tmp_memb_value) < 0)
+                    if(H5T__get_member_value(dtype, u, tmp_memb_value) < 0)
                         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot get member value")
                     HDmemcpy(memb_value, tmp_memb_value, H5T_get_size(super_type));
 
-                    if(H5Tconvert(super_type_id, nat_super_type_id, (size_t)1, memb_value, NULL, H5P_DEFAULT) < 0)
+                    if(H5T_convert(tpath, super_type_id, nat_super_type_id, (size_t)1, (size_t)0, (size_t)0, memb_value, NULL, H5P_DATASET_XFER_DEFAULT) < 0)
                         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot get member value")
 
-                    if(H5T_enum_insert(new_type, memb_name, memb_value) < 0)
+                    if(H5T__enum_insert(new_type, memb_name, memb_value) < 0)
                         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot insert member")
                     memb_name = (char *)H5MM_xfree(memb_name);
                 }
@@ -402,10 +407,10 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
                 tmp_memb_value = H5MM_xfree(tmp_memb_value);
 
                 /* Close base type */
-                if(H5Tclose(nat_super_type_id) < 0)
+                if(H5I_dec_app_ref(nat_super_type_id) < 0)
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot close datatype")
-                 /* Close super type */
-                if(H5Tclose(super_type_id) < 0)
+                /* Close super type */
+                if(H5I_dec_app_ref(super_type_id) < 0)
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot close datatype")
 
                 ret_value = new_type;
@@ -422,12 +427,12 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
                 size_t      super_align = 0;
 
                 /* Retrieve dimension information for array data type */
-                if((sarray_rank = H5T_get_array_ndims(dtype)) <= 0)
+                if((sarray_rank = H5T__get_array_ndims(dtype)) <= 0)
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot get dimension rank")
-                H5_ASSIGN_OVERFLOW(array_rank, sarray_rank, int, unsigned);
+                H5_CHECKED_ASSIGN(array_rank, unsigned, sarray_rank, int);
                 if(NULL == (dims = (hsize_t*)H5MM_malloc(array_rank * sizeof(hsize_t))))
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot allocate memory")
-                if(H5T_get_array_dims(dtype, dims) < 0)
+                if(H5T__get_array_dims(dtype, dims) < 0)
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "cannot get dimension size")
 
                 /* Retrieve base type for array type */
@@ -442,7 +447,7 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
                     HGOTO_ERROR(H5E_ARGS, H5E_CLOSEERROR, NULL, "cannot close datatype")
 
                 /* Create a new array type based on native type */
-                if(NULL == (new_type = H5T_array_create(nat_super_type, array_rank, dims)))
+                if(NULL == (new_type = H5T__array_create(nat_super_type, array_rank, dims)))
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "unable to create array type")
 
                 /* Close base type */
@@ -480,7 +485,7 @@ H5T_get_native_type(H5T_t *dtype, H5T_direction_t direction, size_t *struct_alig
                     HGOTO_ERROR(H5E_ARGS, H5E_CLOSEERROR, NULL, "cannot close datatype")
 
                 /* Create a new array type based on native type */
-                if(NULL == (new_type = H5T_vlen_create(nat_super_type)))
+                if(NULL == (new_type = H5T__vlen_create(nat_super_type)))
                     HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "unable to create VL type")
 
                 /* Close base type */
@@ -568,22 +573,22 @@ H5T_get_native_integer(size_t prec, H5T_sign_t sign, H5T_direction_t direction,
     } match = H5T_NATIVE_INT_MATCH_UNKNOWN;
     H5T_t       *ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_get_native_integer, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     if(direction == H5T_DIR_DEFAULT || direction == H5T_DIR_ASCEND) {
-        if(prec <= H5Tget_precision(H5T_NATIVE_SCHAR)) {
+        if(prec <= H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_SCHAR_g))) {
             match = H5T_NATIVE_INT_MATCH_CHAR;
             native_size = sizeof(char);
-        } else if(prec<=H5Tget_precision(H5T_NATIVE_SHORT)) {
+        } else if(prec<=H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_SHORT_g))) {
             match = H5T_NATIVE_INT_MATCH_SHORT;
             native_size = sizeof(short);
-        } else if(prec<=H5Tget_precision(H5T_NATIVE_INT)) {
+        } else if(prec<=H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_INT_g))) {
             match = H5T_NATIVE_INT_MATCH_INT;
             native_size = sizeof(int);
-        } else if(prec <= H5Tget_precision(H5T_NATIVE_LONG)) {
+        } else if(prec <= H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_LONG_g))) {
             match = H5T_NATIVE_INT_MATCH_LONG;
             native_size = sizeof(long);
-        } else if(prec <= H5Tget_precision(H5T_NATIVE_LLONG)) {
+        } else if(prec <= H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_LLONG_g))) {
             match = H5T_NATIVE_INT_MATCH_LLONG;
             native_size = sizeof(long long);
         } else {  /* If no native type matches the querried datatype, simply choose the type of biggest size. */
@@ -591,16 +596,16 @@ H5T_get_native_integer(size_t prec, H5T_sign_t sign, H5T_direction_t direction,
             native_size = sizeof(long long);
         }
     } else if(direction == H5T_DIR_DESCEND) {
-        if(prec > H5Tget_precision(H5T_NATIVE_LONG)) {
+        if(prec > H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_LONG_g))) {
             match = H5T_NATIVE_INT_MATCH_LLONG;
             native_size = sizeof(long long);
-        } else if(prec > H5Tget_precision(H5T_NATIVE_INT)) {
+        } else if(prec > H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_INT_g))) {
             match = H5T_NATIVE_INT_MATCH_LONG;
             native_size = sizeof(long);
-        } else if(prec > H5Tget_precision(H5T_NATIVE_SHORT)) {
+        } else if(prec > H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_SHORT_g))) {
             match = H5T_NATIVE_INT_MATCH_INT;
             native_size = sizeof(int);
-        } else if(prec > H5Tget_precision(H5T_NATIVE_SCHAR)) {
+        } else if(prec > H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_SCHAR_g))) {
             match = H5T_NATIVE_INT_MATCH_SHORT;
             native_size = sizeof(short);
         } else {
@@ -708,9 +713,9 @@ H5T_get_native_float(size_t size, H5T_direction_t direction, size_t *struct_alig
     } match=H5T_NATIVE_FLOAT_MATCH_UNKNOWN;
     H5T_t       *ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_get_native_float, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
-    assert(size>0);
+    HDassert(size>0);
 
     if(direction == H5T_DIR_DEFAULT || direction == H5T_DIR_ASCEND) {
         if(size<=sizeof(float)) {
@@ -786,7 +791,7 @@ H5T_get_native_float(size_t size, H5T_direction_t direction, size_t *struct_alig
     } /* end switch */
 
     /* Create new native type */
-    assert(tid>=0);
+    HDassert(tid>=0);
     if(NULL==(dt=(H5T_t *)H5I_object(tid)))
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "not a data type")
     if((ret_value=H5T_copy(dt, H5T_COPY_TRANSIENT))==NULL)
@@ -826,22 +831,22 @@ H5T_get_native_bitfield(size_t prec, H5T_direction_t direction, size_t *struct_a
     size_t      native_size=0;  /* Datatype size of the native type */
     H5T_t       *ret_value;     /* Return value */
 
-    FUNC_ENTER_NOAPI(H5T_get_native_bitfield, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     if(direction == H5T_DIR_DEFAULT || direction == H5T_DIR_ASCEND) {
-        if(prec<=H5Tget_precision(H5T_NATIVE_B8)) {
+        if(prec<=H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B8_g))) {
             tid = H5T_NATIVE_B8;
             native_size = 1;
             align = H5T_NATIVE_UINT8_ALIGN_g;
-        } else if(prec<=H5Tget_precision(H5T_NATIVE_B16)) {
+        } else if(prec<=H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B16_g))) {
             tid = H5T_NATIVE_B16;
             native_size = 2;
             align = H5T_NATIVE_UINT16_ALIGN_g;
-        } else if(prec<=H5Tget_precision(H5T_NATIVE_B32)) {
+        } else if(prec<=H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B32_g))) {
             tid = H5T_NATIVE_B32;
             native_size = 4;
             align = H5T_NATIVE_UINT32_ALIGN_g;
-        } else if(prec<=H5Tget_precision(H5T_NATIVE_B64)) {
+        } else if(prec<=H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B64_g))) {
             tid = H5T_NATIVE_B64;
             native_size = 8;
             align = H5T_NATIVE_UINT64_ALIGN_g;
@@ -851,15 +856,15 @@ H5T_get_native_bitfield(size_t prec, H5T_direction_t direction, size_t *struct_a
             align = H5T_NATIVE_UINT64_ALIGN_g;
         }
     } else if(direction == H5T_DIR_DESCEND) {
-        if(prec>H5Tget_precision(H5T_NATIVE_B32)) {
+        if(prec>H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B32_g))) {
             tid = H5T_NATIVE_B64;
             native_size = 8;
             align = H5T_NATIVE_UINT64_ALIGN_g;
-        } else if(prec>H5Tget_precision(H5T_NATIVE_B16)) {
+        } else if(prec>H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B16_g))) {
             tid = H5T_NATIVE_B32;
             native_size = 4;
             align = H5T_NATIVE_UINT32_ALIGN_g;
-        } else if(prec>H5Tget_precision(H5T_NATIVE_B8)) {
+        } else if(prec>H5T_get_precision((H5T_t *)H5I_object(H5T_NATIVE_B8_g))) {
             tid = H5T_NATIVE_B16;
             native_size = 2;
             align = H5T_NATIVE_UINT16_ALIGN_g;
@@ -871,7 +876,7 @@ H5T_get_native_bitfield(size_t prec, H5T_direction_t direction, size_t *struct_a
     }
 
     /* Create new native type */
-    assert(tid>=0);
+    HDassert(tid>=0);
     if(NULL==(dt=(H5T_t *)H5I_object(tid)))
          HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, NULL, "not a data type")
 
@@ -909,7 +914,7 @@ H5T_cmp_offset(size_t *comp_size, size_t *offset, size_t elem_size,
 {
     herr_t ret_value = SUCCEED;
 
-    FUNC_ENTER_NOAPI(H5T_cmp_offset, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     if(offset && comp_size) {
         if(align>1 && *comp_size%align) {

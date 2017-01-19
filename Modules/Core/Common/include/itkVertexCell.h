@@ -36,7 +36,7 @@ namespace itk
  */
 
 template< typename TCellInterface >
-class VertexCell:public TCellInterface
+class ITK_TEMPLATE_EXPORT VertexCell:public TCellInterface
 {
 public:
   /** Standard class typedefs. */

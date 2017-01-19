@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -86,7 +86,7 @@ class linker_t(
             self.__inst.arguments_types = linked_args
         else:
             for arg in self.__inst.arguments:
-                arg.type = self.__link_type(arg.type)
+                arg.decl_type = self.__link_type(arg.decl_type)
             for i, exception in enumerate(self.__inst.exceptions):
                 try:
                     self.__inst.exceptions[i] = self.__decls[exception]
@@ -158,10 +158,10 @@ class linker_t(
         self.__link_members()
 
     def visit_typedef(self):
-        self.__inst.type = self.__link_type(self.__inst.type)
+        self.__inst.decl_type = self.__link_type(self.__inst.decl_type)
 
     def visit_variable(self):
-        self.__inst.type = self.__link_type(self.__inst.type)
+        self.__inst.decl_type = self.__link_type(self.__inst.decl_type)
 
     def visit_void(self):
         pass

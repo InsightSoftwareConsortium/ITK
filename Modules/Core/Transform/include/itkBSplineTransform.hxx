@@ -69,6 +69,19 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 }
 
 template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
+std::string BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
+::GetTransformTypeAsString() const
+{
+  if (VSplineOrder != 3)
+    {
+    std::ostringstream n;
+    n << Superclass::GetTransformTypeAsString() << "_" << VSplineOrder;
+    return n.str();
+    }
+  return  Superclass::GetTransformTypeAsString();
+}
+
+template<typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 typename BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::NumberOfParametersType
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>
 ::GetNumberOfParameters() const

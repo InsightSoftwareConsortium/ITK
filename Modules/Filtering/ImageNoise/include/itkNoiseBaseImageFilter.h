@@ -38,7 +38,7 @@ namespace itk
  * \ingroup ITKImageNoise
  */
 template <class TInputImage, class TOutputImage=TInputImage>
-class NoiseBaseImageFilter :
+class ITK_TEMPLATE_EXPORT NoiseBaseImageFilter :
   public InPlaceImageFilter<TInputImage,TOutputImage >
 {
 public:
@@ -53,7 +53,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NoiseBaseImageFilter, InPlaceImageFilter);
 
-  /** Seed for random initialization  */
+  /** Set/Get the seed for random initialization  */
   itkGetConstMacro(Seed, uint32_t);
   itkSetMacro(Seed, uint32_t);
 

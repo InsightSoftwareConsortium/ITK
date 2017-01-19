@@ -60,7 +60,7 @@ namespace itk
 template< typename TInputImage,
           typename TOutputImage =
             LabelMap< LabelObject< SizeValueType, TInputImage::ImageDimension > > >
-class BinaryImageToLabelMapFilter:
+class ITK_TEMPLATE_EXPORT BinaryImageToLabelMapFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

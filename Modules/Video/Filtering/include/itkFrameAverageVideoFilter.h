@@ -32,7 +32,7 @@ namespace itk
  * \ingroup ITKVideoFiltering
  */
 template<typename TInputVideoStream, typename TOutputVideoStream>
-class FrameAverageVideoFilter :
+class ITK_TEMPLATE_EXPORT FrameAverageVideoFilter :
   public VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>
 {
 public:

@@ -61,7 +61,7 @@ namespace itk
  */
 template< typename TInputImage,
           typename TMembershipFunction >
-class ImageModelEstimatorBase:public LightProcessObject
+class ITK_TEMPLATE_EXPORT ImageModelEstimatorBase:public LightProcessObject
 {
 public:
   /** Standard class typedefs. */

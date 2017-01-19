@@ -59,7 +59,7 @@ namespace itk
  * \ingroup ITKDisplacementField
  */
 template< typename TInputImage, typename TOutputImage >
-class ExponentialDisplacementFieldImageFilter:
+class ITK_TEMPLATE_EXPORT ExponentialDisplacementFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

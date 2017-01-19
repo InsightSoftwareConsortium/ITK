@@ -56,7 +56,7 @@ namespace itk
  * \ingroup MeshSegmentation
  */
 template< typename TInputMesh, typename TOutputMesh >
-class DeformableMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
+class ITK_TEMPLATE_EXPORT DeformableMesh3DFilter:public MeshToMeshFilter< TInputMesh, TOutputMesh >
 {
 public:
   /** Standard "Self" typedef. */

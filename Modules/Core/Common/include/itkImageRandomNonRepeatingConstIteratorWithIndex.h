@@ -80,7 +80,7 @@ public:
   {
     m_Size = sz;
     m_Permutation = new NodeOfPermutation[m_Size];
-    m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::GetInstance();
+    m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
     this->Shuffle();
   }
 
@@ -224,7 +224,7 @@ public:
  * \endwiki
  */
 template< typename TImage >
-class ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
+class ITK_TEMPLATE_EXPORT ImageRandomNonRepeatingConstIteratorWithIndex:public ImageConstIteratorWithIndex< TImage >
 {
 public:
   /** Standard class typedefs. */

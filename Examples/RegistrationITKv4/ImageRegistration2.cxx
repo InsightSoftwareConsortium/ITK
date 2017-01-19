@@ -47,6 +47,8 @@
 #include "itkGradientDescentOptimizer.h"
 // Software Guide : EndCodeSnippet
 
+#include "itkMersenneTwisterRandomVariateGenerator.h"
+
 
 //  Software Guide : BeginLatex
 //
@@ -379,6 +381,9 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet
 
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed(121212);
 
   //  Software Guide : BeginLatex
   //

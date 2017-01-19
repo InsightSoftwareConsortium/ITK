@@ -1812,18 +1812,6 @@ GENERATE_XML           = @ITK_DOXYGEN_GEN_XML@
 
 XML_OUTPUT             = xml
 
-# The XML_SCHEMA tag can be used to specify a XML schema, which can be used by a
-# validating XML parser to check the syntax of the XML files.
-# This tag requires that the tag GENERATE_XML is set to YES.
-
-XML_SCHEMA             =
-
-# The XML_DTD tag can be used to specify a XML DTD, which can be used by a
-# validating XML parser to check the syntax of the XML files.
-# This tag requires that the tag GENERATE_XML is set to YES.
-
-XML_DTD                =
-
 # If the XML_PROGRAMLISTING tag is set to YES doxygen will dump the program
 # listings (including syntax highlighting and cross-referencing information) to
 # the XML output. Note that enabling this will significantly increase the size
@@ -2026,7 +2014,8 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITKCommon_EXPORT_EXPLICIT" \
                          "ITK_OVERRIDE= override " \
                          "ITK_NULLPTR=  nullptr " \
-                         "ITK_NOEXCEPT= noexcept "
+                         "ITK_NOEXCEPT= noexcept " \
+                         "ITK_DISALLOW_COPY_AND_ASSIGN(type)="
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The

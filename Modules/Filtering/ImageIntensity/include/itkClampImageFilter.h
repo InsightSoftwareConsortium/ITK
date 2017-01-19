@@ -39,7 +39,7 @@ namespace Functor
  * \ingroup ITKImageIntensity
  */
 template< typename TInput, typename TOutput = TInput >
-class Clamp
+class ITK_TEMPLATE_EXPORT Clamp
 {
 public:
 
@@ -135,7 +135,7 @@ Clamp< TInput, TOutput >
  * \endwiki
  */
 template <typename TInputImage, typename TOutputImage>
-class ClampImageFilter :
+class ITK_TEMPLATE_EXPORT ClampImageFilter :
   public UnaryFunctorImageFilter< TInputImage,TOutputImage,
                                   Functor::Clamp< typename TInputImage::PixelType,
                                                   typename TOutputImage::PixelType > >

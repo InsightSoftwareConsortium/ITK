@@ -91,7 +91,7 @@ template<typename TFixedImage,
          typename TOutputTransform = Transform<double, TFixedImage::ImageDimension, TFixedImage::ImageDimension>,
          typename TVirtualImage = TFixedImage,
          typename TPointSet = PointSet<unsigned int, TFixedImage::ImageDimension> >
-class ImageRegistrationMethodv4
+class ITK_TEMPLATE_EXPORT ImageRegistrationMethodv4
 :public ProcessObject
 {
 public:
@@ -261,11 +261,25 @@ public:
   itkSetMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
   itkGetConstMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
 
-  /** Set the metric sampling percentage. */
+  /** Reinitialize the seed for the random number generators that
+   * select the samples for some metric sampling strategies.
+   *
+   * By initializing the random number generator seed to a value the
+   * same deterministic sampling will be used each Update
+   * execution. On the other hand, calling the method
+   * ReinitializeSeed() without arguments will use the wall clock in
+   * order to have psuedo-random initialization of the seeds. This
+   * will indeed increase the non-deterministic behavior of the
+   * metric.
+   */
+  void MetricSamplingReinitializeSeed();
+  void MetricSamplingReinitializeSeed(int seed);
+
+  /** Set the metric sampling percentage. Valid values are in (0.0, 1.0] */
   void SetMetricSamplingPercentage( const RealType );
 
-  /** Set the metric sampling percentage. */
-  itkSetMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
+  /** Set the metric sampling percentage. Valid values are in (0.0,1.0]. */
+  virtual void SetMetricSamplingPercentagePerLevel( const MetricSamplingPercentageArrayType  &samplingPercentages );
   itkGetConstMacro( MetricSamplingPercentagePerLevel, MetricSamplingPercentageArrayType );
 
   /** Set/Get the initial fixed transform. */
@@ -490,6 +504,11 @@ protected:
   std::vector<ShrinkFactorsPerDimensionContainerType>             m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
   bool                                                            m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
+
+  bool                                                            m_ReseedIterator;
+  int                                                             m_RandomSeed;
+  int                                                             m_CurrentRandomSeed;
+
 
   TransformParametersAdaptorsContainerType                        m_TransformParametersAdaptorsPerLevel;
 

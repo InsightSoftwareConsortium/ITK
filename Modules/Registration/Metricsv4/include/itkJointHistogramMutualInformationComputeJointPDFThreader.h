@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKMetricsv4
  */
 template < typename TDomainPartitioner, typename TJointHistogramMetric >
-class JointHistogramMutualInformationComputeJointPDFThreader
+class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader
 {};
 
 /** \class JointHistogramMutualInformationComputeJointPDFThreader
@@ -49,7 +49,7 @@ class JointHistogramMutualInformationComputeJointPDFThreader
  * \ingroup ITKMetricsv4
  * */
 template < typename TJointHistogramMetric >
-class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
+class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
   : public JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedImageRegionPartitioner< TJointHistogramMetric::VirtualImageDimension >, TJointHistogramMetric >
 {
 public:
@@ -88,7 +88,7 @@ private:
  * \ingroup ITKMetricsv4
  * */
 template < typename TJointHistogramMetric >
-class JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
+class ITK_TEMPLATE_EXPORT JointHistogramMutualInformationComputeJointPDFThreader< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
   : public JointHistogramMutualInformationComputeJointPDFThreaderBase< ThreadedIndexedContainerPartitioner, TJointHistogramMetric >
 {
 public:

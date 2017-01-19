@@ -32,7 +32,7 @@ namespace itk
  */
 
 template< typename TComponentType = float >
-class SpatialObjectProperty:
+class ITK_TEMPLATE_EXPORT SpatialObjectProperty:
   public LightObject
 {
 public:
@@ -77,7 +77,7 @@ public:
 
   StringType GetName() const;
 
-  unsigned long GetMTime(void){ return m_MTime; }
+  ModifiedTimeType GetMTime(void){ return m_MTime; }
 
 protected:
 
@@ -88,9 +88,9 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectProperty);
 
-  PixelType     m_Color;
-  StringType    m_Name;
-  unsigned long m_MTime;
+  PixelType        m_Color;
+  StringType       m_Name;
+  ModifiedTimeType m_MTime;
 };
 }
 

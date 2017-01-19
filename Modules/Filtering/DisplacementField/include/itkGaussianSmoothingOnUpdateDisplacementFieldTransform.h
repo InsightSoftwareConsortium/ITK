@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKDisplacementField
  */
 template<typename TParametersValueType, unsigned int NDimensions>
-class GaussianSmoothingOnUpdateDisplacementFieldTransform :
+class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransform :
   public DisplacementFieldTransform<TParametersValueType, NDimensions>
 {
 public:

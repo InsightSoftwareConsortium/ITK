@@ -45,7 +45,8 @@ namespace itk {
  * https://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter, LabelMapOverlayImageFilter
+ * \sa  LabelMapOverlayImageFilter, LabelOverlayImageFilter, LabelOverlayFunctor
+ * \sa LabelMapToBinaryImageFilter, LabelMapToLabelImageFilter,
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
  *
@@ -54,7 +55,7 @@ namespace itk {
  * \endwiki
  */
 template<typename TLabelMap, typename TFeatureImage, typename TOutputImage=Image< RGBPixel< typename TFeatureImage::PixelType >, TFeatureImage::ImageDimension > >
-class LabelMapContourOverlayImageFilter :
+class ITK_TEMPLATE_EXPORT LabelMapContourOverlayImageFilter :
     public LabelMapFilter<TLabelMap, TOutputImage>
 {
 public:

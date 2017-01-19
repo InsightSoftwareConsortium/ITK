@@ -33,7 +33,7 @@ namespace itk
  * \ingroup ITKOptimizers
  */
 template< typename TInternalComputationValueType >
-class CostFunctionTemplate:public Object
+class ITK_TEMPLATE_EXPORT CostFunctionTemplate:public Object
 {
 public:
   /** Standard class typedefs. */

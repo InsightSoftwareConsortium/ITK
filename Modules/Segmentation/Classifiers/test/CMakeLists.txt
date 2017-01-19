@@ -17,11 +17,18 @@ itkScalarImageKmeansImageFilter3DTest.cxx
 
 CreateTestDriver(ITKClassifiers  "${ITKClassifiers-Test_LIBRARIES}" "${ITKClassifiersTests}")
 
-itk_add_test(NAME itkBayesianClassifierImageFilterTest
+itk_add_test(NAME itkBayesianClassifierImageFilterTest1
       COMMAND ITKClassifiersTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/itkBayesianClassifierImageFilterTestLabelMap.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png
-    itkBayesianClassifierImageFilterTest ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMap.png 4 2)
+    --compare DATA{Baseline/itkBayesianClassifierImageFilterTestLabelMapNoPriors.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMapNoPriors.png
+    itkBayesianClassifierImageFilterTest ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMapNoPriors.png 4 2 0)
+itk_add_test(NAME itkBayesianClassifierImageFilterTest2
+      COMMAND ITKClassifiersTestDriver
+    --compare DATA{Baseline/itkBayesianClassifierImageFilterTestLabelMapPriors.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMapPriors.png
+    itkBayesianClassifierImageFilterTest ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png
+    ${ITK_TEST_OUTPUT_DIR}/itkBayesianClassifierImageFilterTestLabelMapPriors.png 4 2 1)
 itk_add_test(NAME itkKmeansModelEstimatorTest
       COMMAND ITKClassifiersTestDriver itkKmeansModelEstimatorTest)
 itk_add_test(NAME itkImageClassifierFilterTest

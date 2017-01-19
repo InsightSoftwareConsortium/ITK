@@ -1,23 +1,18 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
 import os
 import platform
+import subprocess
 from . import linker
 from . import config
 from . import patcher
-import subprocess
-import pygccxml.utils
-
-try:  # select the faster xml parser
-    from .etree_scanner import etree_scanner_t as scanner_t
-except:
-    from .scanner import scanner_t
-
 from . import declarations_cache
-from pygccxml import utils
+from .etree_scanner import ietree_scanner_t as scanner_t
+from .. import utils
+
 from pygccxml import declarations
 
 
@@ -26,7 +21,6 @@ def bind_aliases(decls):
     This function binds between class and it's typedefs.
 
     :param decls: list of all declarations
-    :type all_classes: list of :class:`declarations.declaration_t` items
 
     :rtype: None
 
@@ -36,7 +30,7 @@ def bind_aliases(decls):
     typedefs = [
         decl for decl in decls if isinstance(decl, declarations.typedef_t)]
     for decl in typedefs:
-        type_ = declarations.remove_alias(decl.type)
+        type_ = declarations.remove_alias(decl.decl_type)
         if not isinstance(type_, declarations.declarated_t):
             continue
         cls_inst = type_.declaration
@@ -93,6 +87,7 @@ class source_reader_t(object):
         self.__join_decls = join_decls
         self.__search_directories = []
         self.__config = config
+        self.__cxx_std = utils.cxx_standard(config.cflags)
         self.__search_directories.append(config.working_directory)
         self.__search_directories.extend(config.include_paths)
         if not cache:
@@ -115,6 +110,28 @@ class source_reader_t(object):
         """
 
         if self.__config.xml_generator == "gccxml":
+
+            # Check if the gccxml which is being used is not the gccxml
+            # package that exists in newer debian versions, and which is
+            # a wrapper around CastXML. I do not want to support this hybrid
+            # package because it can mislead pygccxml by applying patches
+            # for gccxml when in fact we are using CastXML. People can still
+            # use the gccxml.real binary from the gccxml package; or CastXML
+            # directly.
+            p = subprocess.Popen([self.__config.xml_generator_path],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
+            help = p.stdout.read().decode("utf-8")
+            p.stdout.close()
+            p.stderr.close()
+            if "CastXML wrapper" in help:
+                raise RuntimeError(
+                    "You are using the gccxml debian package, which is a " +
+                    "wrapper around CastXML. This is not allowed.\n" +
+                    "Please use the gccxml.real binary from that package, "
+                    "or use CastXML directly (which is recommended, as GCCXML "
+                    "is now deprecated).")
+
             return self.__create_command_line_gccxml(source_file, xml_file)
         elif self.__config.xml_generator == "castxml":
             return self.__create_command_line_castxml(source_file, xml_file)
@@ -145,6 +162,13 @@ class source_reader_t(object):
         # Clang option: make sure clang knows we want to parse c++
         cmd.append("-x c++")
 
+        # Always require a compiler path at this point
+        if self.__config.compiler_path is None:
+            raise(RuntimeError(
+                "Please pass the compiler_path as argument to " +
+                "your xml_generator_configuration_t(), or add it to your " +
+                "pygccxml configuration file."))
+
         # Platform specific options
         if platform.system() == 'Windows':
 
@@ -155,7 +179,8 @@ class source_reader_t(object):
                 cmd.append('--castxml-cc-gnu ' + self.__config.compiler_path)
             else:
                 # We are using msvc
-                cmd.append('--castxml-cc-msvc cl')
+                cmd.append('--castxml-cc-msvc ' +
+                           '"%s"' % self.__config.compiler_path)
                 if 'msvc9' == self.__config.compiler:
                     cmd.append('-D"_HAS_TR1=0"')
         else:
@@ -163,30 +188,12 @@ class source_reader_t(object):
             # On mac or linux, use gcc or clang (the flag is the same)
             cmd.append('--castxml-cc-gnu ')
 
-            # Check for -std=xx flags passed to the compiler.
-            # A regex could be used but this is a moving target.
-            # See c++1z for example. It is preferable to have a defined
-            # list of what is allowed. http://clang.llvm.org/cxx_status.html
-            #
-            # Version 98 and 03 are only there in the case somebody is using
-            # these flags; this is the equivalent to not passing these flags.
-            standards = [
-                "-std=c++98",
-                "-std=c++03",
-                "-std=c++11",
-                "-std=c++14",
-                "-std=c++1z"]
+            if self.__cxx_std.is_implicit:
+                std_flag = ''
+            else:
+                std_flag = ' ' + self.__cxx_std.stdcxx + ' '
 
-            std_flag = ""
-            for standard in standards:
-                if standard in self.__config.cflags:
-                    std_flag = " " + standard + " "
-
-            # A -std= flag was passed, but is not in the list
-            if "-std=" in self.__config.cflags and std_flag == "":
-                raise(RuntimeError("Unknown -std=c++xx flag used !"))
-
-            if std_flag != "":
+            if std_flag:
                 cmd.append(
                     '"(" ' + self.__config.compiler_path + std_flag + '")"')
             else:
@@ -290,9 +297,9 @@ class source_reader_t(object):
         xml_file = destination
         # If file specified, remove it to start else create new file name
         if xml_file:
-            pygccxml.utils.remove_file_no_raise(xml_file, self.__config)
+            utils.remove_file_no_raise(xml_file, self.__config)
         else:
-            xml_file = pygccxml.utils.create_temp_file_name(suffix='.xml')
+            xml_file = utils.create_temp_file_name(suffix='.xml')
         try:
             ffname = source_file
             if not os.path.isabs(ffname):
@@ -320,19 +327,26 @@ class source_reader_t(object):
             if self.__config.ignore_gccxml_output:
                 if not os.path.isfile(xml_file):
                     raise RuntimeError(
-                        "Error occured while running " +
+                        "Error occurred while running " +
                         self.__config.xml_generator.upper() +
                         ": %s status:%s" %
                         (gccxml_msg, exit_status))
             else:
                 if gccxml_msg or exit_status or not \
                         os.path.isfile(xml_file):
-                    raise RuntimeError(
-                        "Error occured while running " +
-                        self.__config.xml_generator.upper() + ": %s" %
-                        gccxml_msg)
+                    if not os.path.isfile(xml_file):
+                        raise RuntimeError(
+                            "Error occurred while running " +
+                            self.__config.xml_generator.upper() +
+                            " xml file does not exist")
+                    else:
+                        raise RuntimeError(
+                            "Error occurred while running " +
+                            self.__config.xml_generator.upper() +
+                            ": %s status:%s" % (gccxml_msg, exit_status))
+
         except Exception:
-            pygccxml.utils.remove_file_no_raise(xml_file, self.__config)
+            utils.remove_file_no_raise(xml_file, self.__config)
             raise
         return xml_file
 
@@ -348,15 +362,14 @@ class source_reader_t(object):
 
         :rtype: returns file name of GCC-XML generated file
         """
-        header_file = pygccxml.utils.create_temp_file_name(suffix='.h')
+        header_file = utils.create_temp_file_name(suffix='.h')
 
         try:
-            header_file_obj = open(header_file, 'w+')
-            header_file_obj.write(content)
-            header_file_obj.close()
+            with open(header_file, "w+") as header:
+                header.write(content)
             xml_file = self.create_xml_file(header_file, destination)
         finally:
-            pygccxml.utils.remove_file_no_raise(header_file, self.__config)
+            utils.remove_file_no_raise(header_file, self.__config)
         return xml_file
 
     def read_file(self, source_file):
@@ -375,26 +388,26 @@ class source_reader_t(object):
         try:
             ffname = self.__file_full_name(source_file)
             self.logger.debug("Reading source file: [%s]." % ffname)
-            declarations = self.__dcache.cached_value(ffname, self.__config)
-            if not declarations:
+            decls = self.__dcache.cached_value(ffname, self.__config)
+            if not decls:
                 self.logger.debug(
                     "File has not been found in cache, parsing...")
                 xml_file = self.create_xml_file(ffname)
-                declarations, files = self.__parse_xml_file(xml_file)
+                decls, files = self.__parse_xml_file(xml_file)
                 self.__dcache.update(
-                    ffname, self.__config, declarations, files)
+                    ffname, self.__config, decls, files)
             else:
                 self.logger.debug(
                     ("File has not been changed, reading declarations " +
                         "from cache."))
         except Exception:
             if xml_file:
-                pygccxml.utils.remove_file_no_raise(xml_file, self.__config)
+                utils.remove_file_no_raise(xml_file, self.__config)
             raise
         if xml_file:
-            pygccxml.utils.remove_file_no_raise(xml_file, self.__config)
+            utils.remove_file_no_raise(xml_file, self.__config)
 
-        return declarations
+        return decls
 
     def read_xml_file(self, xml_file):
         """
@@ -411,16 +424,16 @@ class source_reader_t(object):
 
         ffname = self.__file_full_name(xml_file)
         self.logger.debug("Reading xml file: [%s]" % xml_file)
-        declarations = self.__dcache.cached_value(ffname, self.__config)
-        if not declarations:
+        decls = self.__dcache.cached_value(ffname, self.__config)
+        if not decls:
             self.logger.debug("File has not been found in cache, parsing...")
-            declarations, files = self.__parse_xml_file(ffname)
-            self.__dcache.update(ffname, self.__config, declarations, [])
+            decls, files = self.__parse_xml_file(ffname)
+            self.__dcache.update(ffname, self.__config, decls, [])
         else:
             self.logger.debug(
                 "File has not been changed, reading declarations from cache.")
 
-        return declarations
+        return decls
 
     def read_string(self, content):
         """
@@ -429,18 +442,18 @@ class source_reader_t(object):
 
         """
 
-        header_file = pygccxml.utils.create_temp_file_name(suffix='.h')
+        header_file = utils.create_temp_file_name(suffix='.h')
         with open(header_file, "w+") as f:
             f.write(content)
 
         try:
-            declarations = self.read_file(header_file)
+            decls = self.read_file(header_file)
         except Exception:
-            pygccxml.utils.remove_file_no_raise(header_file, self.__config)
+            utils.remove_file_no_raise(header_file, self.__config)
             raise
-        pygccxml.utils.remove_file_no_raise(header_file, self.__config)
+        utils.remove_file_no_raise(header_file, self.__config)
 
-        return declarations
+        return decls
 
     def __file_full_name(self, file):
         if os.path.isfile(file):
@@ -456,16 +469,11 @@ class source_reader_t(object):
             file_path = file_path.replace(r'\/', os.path.sep)
         if os.path.isabs(file_path):
             return file_path
-        try:
-            abs_file_path = os.path.realpath(
-                os.path.join(
-                    self.__config.working_directory,
-                    file_path))
-            if os.path.exists(abs_file_path):
-                return os.path.normpath(abs_file_path)
-            return file_path
-        except Exception:
-            return file_path
+        abs_file_path = os.path.realpath(
+            os.path.join(self.__config.working_directory, file_path))
+        if os.path.exists(abs_file_path):
+            return os.path.normpath(abs_file_path)
+        return file_path
 
     def __parse_xml_file(self, xml_file):
         scanner_ = scanner_t(xml_file, self.__decl_factory, self.__config)
@@ -493,7 +501,7 @@ class source_reader_t(object):
         # Join declarations
         if self.__join_decls:
             for ns in iter(decls.values()):
-                if isinstance(ns, pygccxml.declarations.namespace_t):
+                if isinstance(ns, declarations.namespace_t):
                     self.join_declarations(ns)
 
         # some times gccxml report typedefs defined in no namespace
@@ -502,7 +510,8 @@ class source_reader_t(object):
         # void ddd(){ typedef typename X::Y YY;}
         # if I will fail on this bug next time, the right way to fix it may be
         # different
-        patcher.fix_calldef_decls(scanner_.calldefs(), scanner_.enums())
+        patcher.fix_calldef_decls(scanner_.calldefs(), scanner_.enums(),
+                                  self.__cxx_std)
         decls = [
             inst for inst in iter(
                 decls.values()) if isinstance(
@@ -513,12 +522,12 @@ class source_reader_t(object):
     def join_declarations(self, declref):
         self._join_namespaces(declref)
         for ns in declref.declarations:
-            if isinstance(ns, pygccxml.declarations.namespace_t):
+            if isinstance(ns, declarations.namespace_t):
                 self.join_declarations(ns)
 
     @staticmethod
     def _join_namespaces(nsref):
-        assert isinstance(nsref, pygccxml.declarations.namespace_t)
+        assert isinstance(nsref, declarations.namespace_t)
         ddhash = {}
         decls = []
 
@@ -532,18 +541,18 @@ class source_reader_t(object):
                     decls.append(decl)
                     joined_decls[decl._name] = [decl]
                 else:
-                    if isinstance(decl, pygccxml.declarations.calldef_t):
+                    if isinstance(decl, declarations.calldef_t):
                         if decl not in joined_decls[decl._name]:
                             # functions has overloading
                             decls.append(decl)
                             joined_decls[decl._name].append(decl)
-                    elif isinstance(decl, pygccxml.declarations.enumeration_t):
+                    elif isinstance(decl, declarations.enumeration_t):
                         # unnamed enums
                         if not decl.name and decl not in \
                                 joined_decls[decl._name]:
                             decls.append(decl)
                             joined_decls[decl._name].append(decl)
-                    elif isinstance(decl, pygccxml.declarations.class_t):
+                    elif isinstance(decl, declarations.class_t):
                         # unnamed classes
                         if not decl.name and decl not in \
                                 joined_decls[decl._name]:
@@ -551,11 +560,11 @@ class source_reader_t(object):
                             joined_decls[decl._name].append(decl)
                     else:
                         assert 1 == len(joined_decls[decl._name])
-                        if isinstance(decl, pygccxml.declarations.namespace_t):
+                        if isinstance(decl, declarations.namespace_t):
                             joined_decls[decl._name][0].take_parenting(decl)
 
-        class_t = pygccxml.declarations.class_t
-        class_declaration_t = pygccxml.declarations.class_declaration_t
+        class_t = declarations.class_t
+        class_declaration_t = declarations.class_declaration_t
         if class_t in ddhash and class_declaration_t in ddhash:
             # if there is a class and its forward declaration - get rid of the
             # second one.

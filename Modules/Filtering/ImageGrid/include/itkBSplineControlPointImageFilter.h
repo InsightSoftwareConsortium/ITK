@@ -57,7 +57,7 @@ namespace itk
  */
 
 template <typename TInputImage, typename TOutputImage = TInputImage>
-class BSplineControlPointImageFilter
+class ITK_TEMPLATE_EXPORT BSplineControlPointImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -68,6 +68,9 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(BSplineControlPointImageFilter, ImageToImageFilter);
 
   /** Extract dimension from input image. */
   itkStaticConstMacro( ImageDimension, unsigned int,

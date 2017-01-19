@@ -36,6 +36,8 @@ template< typename TInputImage, typename TOperatorValueType, typename TOutputVal
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::GradientImageFilter()
 {
+  // default boundary condition
+  m_BoundaryCondition = new ZeroFluxNeumannBoundaryCondition<TInputImage>();
   this->m_UseImageSpacing   = true;
   this->m_UseImageDirection = true;
 }
@@ -46,7 +48,18 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType >
 ::~GradientImageFilter()
-{}
+{
+  delete m_BoundaryCondition;
+}
+
+template< typename TInputImage, typename TOperatorValueType, typename TOuputValue , typename TOuputImage >
+void
+GradientImageFilter< TInputImage, TOperatorValueType, TOuputValue, TOuputImage >
+::OverrideBoundaryCondition(ImageBoundaryCondition< TInputImage >* boundaryCondition)
+{
+  delete m_BoundaryCondition;
+  m_BoundaryCondition = boundaryCondition;
+}
 
 template< typename TInputImage, typename TOperatorValueType, typename TOutputValueType , typename TOutputImageType >
 void
@@ -71,12 +84,11 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
   oper.SetDirection(0);
   oper.SetOrder(1);
   oper.CreateDirectional();
-  SizeValueType radius = oper.GetRadius()[0];
+  const SizeValueType radius = oper.GetRadius()[0];
 
   // get a copy of the input requested region (should equal the output
   // requested region)
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion = inputPtr->GetRequestedRegion();
+  typename TInputImage::RegionType inputRequestedRegion = inputPtr->GetRequestedRegion();
 
   // pad the input requested region by the operator radius
   inputRequestedRegion.PadByRadius(radius);
@@ -110,13 +122,6 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  unsigned int    i;
-  CovariantVectorType gradient;
-
-  ZeroFluxNeumannBoundaryCondition< InputImageType > nbc;
-
-  ConstNeighborhoodIterator< InputImageType > nit;
-  ImageRegionIterator< OutputImageType >      it;
 
   NeighborhoodInnerProduct< InputImageType, OperatorValueType,
                             OutputValueType > SIP;
@@ -128,7 +133,7 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
   // Set up operators
   DerivativeOperator< OperatorValueType, InputImageDimension > op[InputImageDimension];
 
-  for ( i = 0; i < InputImageDimension; i++ )
+  for ( unsigned int i = 0; i < InputImageDimension; i++ )
     {
     op[i].SetDirection(0);
     op[i].SetOrder(1);
@@ -154,15 +159,15 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
 
   // Calculate iterator radius
   Size< InputImageDimension > radius;
-  for ( i = 0; i < InputImageDimension; ++i )
+  for ( unsigned int i = 0; i < InputImageDimension; ++i )
     {
     radius[i]  = op[0].GetRadius()[0];
     }
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType > bC;
-  faceList = bC(inputImage, outputRegionForThread, radius);
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType faceList
+                         = bC(inputImage, outputRegionForThread, radius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< InputImageType >::FaceListType::iterator fit;
   fit = faceList.begin();
@@ -171,35 +176,36 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
 
   // Initialize the x_slice array
-  nit = ConstNeighborhoodIterator< InputImageType >(radius, inputImage, *fit);
+  ConstNeighborhoodIterator< InputImageType > nit = ConstNeighborhoodIterator< InputImageType >(radius, inputImage, *fit);
 
   std::slice          x_slice[InputImageDimension];
   const SizeValueType center = nit.Size() / 2;
-  for ( i = 0; i < InputImageDimension; ++i )
+  for ( unsigned int i = 0; i < InputImageDimension; ++i )
     {
     x_slice[i] = std::slice( center - nit.GetStride(i) * radius[i],
                              op[i].GetSize()[0], nit.GetStride(i) );
     }
 
+  CovariantVectorType gradient;
   // Process non-boundary face and then each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
     {
     nit = ConstNeighborhoodIterator< InputImageType >(radius,
                                                       inputImage, *fit);
-    it = ImageRegionIterator< OutputImageType >(outputImage, *fit);
-    nit.OverrideBoundaryCondition(&nbc);
+    ImageRegionIterator< OutputImageType > it = ImageRegionIterator< OutputImageType >(outputImage, *fit);
+    nit.OverrideBoundaryCondition(m_BoundaryCondition);
     nit.GoToBegin();
 
     while ( !nit.IsAtEnd() )
       {
-      for ( i = 0; i < InputImageDimension; ++i )
+      for ( unsigned int i = 0; i < InputImageDimension; ++i )
         {
         gradient[i] = SIP(x_slice[i], nit, op[i]);
         }
 
       // This method optionally performs a tansform for Physical
-      // coordiantes and potential conversion to a different output
+      // coordinates and potential conversion to a different output
       // pixel type.
       this->SetOutputPixel( it, gradient );
 
@@ -246,6 +252,8 @@ GradientImageFilter< TInputImage, TOperatorValueType, TOutputValueType, TOutputI
      << ( this->m_UseImageSpacing ? "On" : "Off" ) << std::endl;
   os << indent << "UseImageDirection = "
      << ( this->m_UseImageDirection ? "On" : "Off" ) << std::endl;
+  os << indent << "BoundaryCondition = \n"
+     << this->m_BoundaryCondition << std::endl;
 }
 } // end namespace itk
 

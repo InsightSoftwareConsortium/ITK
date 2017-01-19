@@ -60,15 +60,15 @@ For more information, see
 EOF
 fi
 
-if false; then
-# Disable as a suggestion to developers until Uncrustify support is mature
-#if ! git config hooks.uncrustify >/dev/null; then
+if ! git config hooks.uncrustify >/dev/null; then
   cat << EOF
 
 ITK comes with a pre-commit hook to help committed code to conform to the ITK
-Style Guidelines (See Documentation/Style.pdf).  When committing code, it can be
-passed through uncrustify (http://uncrustify.sourceforge.net).  However, this
-feature is disabled by default.  To enable this feature,
+Style Guidelines (See Documentation/Style.pdf). When committing code, it can be
+passed through uncrustify (https://github.com/uncrustify/uncrustify/).
+Uncrustify version should be dated 2016-08-26 or newer,
+SHA: 16a96b489f394b5c60cd72a4f5e0e3d230e4da71
+However, this feature is disabled by default. To enable this feature,
 
   git config --bool hooks.uncrustify true
 

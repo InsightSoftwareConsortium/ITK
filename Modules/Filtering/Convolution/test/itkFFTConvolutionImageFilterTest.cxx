@@ -21,84 +21,50 @@
 #include "itkFFTConvolutionImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkPeriodicBoundaryCondition.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
+#include "itkZeroFluxNeumannBoundaryCondition.h"
 
-int itkFFTConvolutionImageFilterTest(int argc, char * argv[])
+int itkFFTConvolutionImageFilterTest( int argc, char * argv[] )
 {
 
   if ( argc < 4 )
     {
     std::cout << "Usage: " << argv[0]
-      << " inputImage kernelImage outputImage [normalizeImage]" << std::endl;
+      << " inputImage "
+      << "kernelImage "
+      << "outputImage "
+      << "[sizeGreatestPrimeFactor] "
+      << "[normalizeImage] "
+      << "[outputRegionMode] "
+      << "[boundaryCondition] " << std::endl;
     return EXIT_FAILURE;
     }
 
   const int ImageDimension = 2;
 
-  typedef float                                  PixelType;
-  typedef itk::Image<PixelType, ImageDimension>  ImageType;
-  typedef itk::ImageFileReader<ImageType>        ReaderType;
+  typedef float                                    PixelType;
+  typedef itk::Image< PixelType, ImageDimension >  ImageType;
+  typedef itk::ImageFileReader< ImageType >        ReaderType;
 
   ReaderType::Pointer reader1 = ReaderType::New();
   reader1->SetFileName( argv[1] );
-  reader1->Update();
+
+  TRY_EXPECT_NO_EXCEPTION( reader1->Update() );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
-  reader2->Update();
 
-  typedef itk::FFTConvolutionImageFilter<ImageType> ConvolutionFilterType;
-  ConvolutionFilterType::Pointer convoluter
-    = ConvolutionFilterType::New();
+  TRY_EXPECT_NO_EXCEPTION( reader2->Update() );
 
-  // Test generality of filter by changing the image index
-  typedef itk::ChangeInformationImageFilter<ImageType> ChangeInformationFilterType;
-  ChangeInformationFilterType::Pointer inputChanger = ChangeInformationFilterType::New();
-  inputChanger->ChangeRegionOn();
-  ImageType::OffsetType inputOffset = {{-2, 3}};
-  inputChanger->SetOutputOffset(inputOffset);
-  inputChanger->SetInput(reader1->GetOutput());
+  typedef itk::FFTConvolutionImageFilter< ImageType > ConvolutionFilterType;
+  ConvolutionFilterType::Pointer convoluter = ConvolutionFilterType::New();
 
-  convoluter->SetInput(inputChanger->GetOutput());
+  EXERCISE_BASIC_OBJECT_METHODS( convoluter, FFTConvolutionImageFilter,
+    ConvolutionImageFilterBase );
 
-  // Test generality of filter by changing the kernel index
-  ChangeInformationFilterType::Pointer kernelChanger = ChangeInformationFilterType::New();
-  kernelChanger->ChangeRegionOn();
-  ImageType::OffsetType kernelOffset = {{3, -5}};
-  kernelChanger->SetOutputOffset(kernelOffset);
-  kernelChanger->SetInput(reader2->GetOutput());
-
-  convoluter->SetKernelImage(kernelChanger->GetOutput());
-
-  itk::SimpleFilterWatcher watcher(convoluter, "filter");
-
-  if( argc >= 5 )
-    {
-    convoluter->SetNormalize( static_cast<bool>( atoi( argv[4] ) ) );
-    }
-
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[3] );
-  writer->SetInput( convoluter->GetOutput() );
-
-
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
-
-
-  //
-  // Tests for raising code coverage
-  //
-  convoluter->Print( std::cout );
-
+  // Test empty image exception
   ImageType::Pointer emptyImage = ImageType::New();
   convoluter->SetInput( emptyImage );
   try
@@ -110,72 +76,131 @@ int itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   catch( itk::ExceptionObject & excp )
     {
     std::cout << excp << std::endl;
-    std::cout << "caught EXPECTED exception for empty image as input" << std::endl;
+    std::cout << "Caught EXPECTED exception for empty image as input" << std::endl;
     }
 
-  convoluter->NormalizeOn();
-  if( !convoluter->GetNormalize() )
+  // Test generality of filter by changing the image index
+  typedef itk::ChangeInformationImageFilter< ImageType > ChangeInformationFilterType;
+  ChangeInformationFilterType::Pointer inputChanger = ChangeInformationFilterType::New();
+  inputChanger->ChangeRegionOn();
+  ImageType::OffsetType inputOffset = {{-2, 3}};
+  inputChanger->SetOutputOffset(inputOffset);
+  inputChanger->SetInput( reader1->GetOutput() );
+
+  convoluter->SetInput( inputChanger->GetOutput() );
+
+  // Test generality of filter by changing the kernel index
+  ChangeInformationFilterType::Pointer kernelChanger = ChangeInformationFilterType::New();
+  kernelChanger->ChangeRegionOn();
+  ImageType::OffsetType kernelOffset = {{3, -5}};
+  kernelChanger->SetOutputOffset( kernelOffset );
+  kernelChanger->SetInput( reader2->GetOutput() );
+
+  convoluter->SetKernelImage( kernelChanger->GetOutput() );
+
+  if( argc >= 5 )
     {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
-    return EXIT_FAILURE;
+    ConvolutionFilterType::SizeValueType sizeGreatestPrimeFactor = atoi( argv[4] );
+    if( !itk::Math::IsPrime(sizeGreatestPrimeFactor) )
+      {
+      std::cerr << "A prime number is expected for the greatest prime factor size!" << std::endl;
+      return EXIT_FAILURE;
+      }
+    convoluter->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
+    TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, convoluter->GetSizeGreatestPrimeFactor() );
     }
 
-  convoluter->NormalizeOff();
-  if( convoluter->GetNormalize() )
+  if( argc >= 6 )
     {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
-    return EXIT_FAILURE;
+    bool normalize = static_cast<bool>( atoi( argv[5] ) );
+    convoluter->SetNormalize( normalize );
+    TEST_SET_GET_VALUE( normalize, convoluter->GetNormalize() );
+
+    if( normalize )
+      {
+      convoluter->NormalizeOn();
+      TEST_EXPECT_TRUE( convoluter->GetNormalize() );
+      }
+    else
+      {
+      convoluter->NormalizeOff();
+      TEST_EXPECT_TRUE( !convoluter->GetNormalize() );
+      }
     }
 
-  convoluter->SetNormalize( true );
-  if( !convoluter->GetNormalize() )
+  if( argc >= 7 )
     {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
-    return EXIT_FAILURE;
-    }
+    std::string outputRegionMode( argv[6] );
+    if ( outputRegionMode == "SAME" )
+      {
+      convoluter->SetOutputRegionMode( ConvolutionFilterType::SAME );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convoluter->GetOutputRegionMode() );
+      }
+    else if ( outputRegionMode == "VALID" )
+      {
+      convoluter->SetOutputRegionMode( ConvolutionFilterType::VALID );
+      TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convoluter->GetOutputRegionMode() );
+      }
+    else
+      {
+      std::cerr << "Invalid OutputRegionMode '" << outputRegionMode << "'." << std::endl;
+      std::cerr << "Valid values are SAME or VALID." << std::endl;
+      return EXIT_FAILURE;
+      }
 
-  convoluter->SetNormalize( false );
-  if( convoluter->GetNormalize() )
-    {
-    std::cerr << "Set/GetNormalize() error" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  convoluter->SetOutputRegionMode( ConvolutionFilterType::SAME );
-  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::SAME )
-    {
-    std::cerr << "SetOutputRegionMode() error when argument is SAME" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  convoluter->SetOutputRegionMode( ConvolutionFilterType::VALID );
-  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::VALID )
-    {
-    std::cerr << "SetOutputRegionMode() error when argument is VALID" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  convoluter->SetOutputRegionModeToSame();
-  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::SAME )
-    {
-    std::cerr << "SetOutputRegionModeToSame() error" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  convoluter->SetOutputRegionModeToValid();
-  if ( convoluter->GetOutputRegionMode() != ConvolutionFilterType::VALID )
-    {
-    std::cerr << "SetOutputRegionModeToValid() error" << std::endl;
-    return EXIT_FAILURE;
+    if( outputRegionMode == "SAME" )
+      {
+      convoluter->SetOutputRegionModeToSame();
+      TEST_SET_GET_VALUE( ConvolutionFilterType::SAME, convoluter->GetOutputRegionMode() );
+      }
+    else
+      {
+      convoluter->SetOutputRegionModeToValid();
+      TEST_SET_GET_VALUE( ConvolutionFilterType::VALID, convoluter->GetOutputRegionMode() );
+      }
     }
 
   itk::ConstantBoundaryCondition< ImageType > constantBoundaryCondition;
   convoluter->SetBoundaryCondition( &constantBoundaryCondition );
-  if ( convoluter->GetBoundaryCondition() != &constantBoundaryCondition )
-    {
-    std::cerr << "SetBoundaryCondition() error" << std::endl;
-    return EXIT_FAILURE;
+  itk::PeriodicBoundaryCondition< ImageType > periodicBoundaryCondition;
+  itk::ZeroFluxNeumannBoundaryCondition< ImageType > zeroFluxNeumannBoundaryCondition;
+  if( argc >= 7 )
+  {
+    std::string boundaryCondition( argv[7] );
+    if ( boundaryCondition == "CONSTANT" )
+      {
+      convoluter->SetBoundaryCondition( &constantBoundaryCondition );
+      TEST_SET_GET_VALUE( &constantBoundaryCondition, convoluter->GetBoundaryCondition() );
+      }
+    else if ( boundaryCondition == "PERIODIC" )
+      {
+      convoluter->SetBoundaryCondition( &periodicBoundaryCondition );
+      TEST_SET_GET_VALUE( &periodicBoundaryCondition, convoluter->GetBoundaryCondition() );
+      }
+    else if ( boundaryCondition == "ZEROFLUXNEUMANN" )
+      {
+      convoluter->SetBoundaryCondition( &zeroFluxNeumannBoundaryCondition );
+      TEST_SET_GET_VALUE( &zeroFluxNeumannBoundaryCondition, convoluter->GetBoundaryCondition() );
+      }
+    else
+      {
+      std::cerr << "Invalid BoundaryCondition '" << boundaryCondition << "'." << std::endl;
+      std::cerr << "Valid values are CONSTANT, PERIODIC or ZEROFLUXNEUMANN." << std::endl;
+      return EXIT_FAILURE;
+      }
     }
+
+  itk::SimpleFilterWatcher watcher( convoluter, "filter" );
+
+  TRY_EXPECT_NO_EXCEPTION( convoluter->Update() );
+
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[3] );
+  writer->SetInput( convoluter->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
 
   // Test VALID output region mode with kernel that is larger than
   // the input image. Should result in a zero-size valid region.
@@ -188,19 +213,8 @@ int itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   convoluter->SetOutputRegionModeToValid();
   convoluter->SetInput( reader1->GetOutput() );
   convoluter->SetKernelImage( largeKernel );
-  try
-    {
-    convoluter->Update();
-    std::cerr << "Failed to catch expected exception when kernel is larger than the input image."
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception when kernel is larger than the input image."
-              << std::endl;
-    std::cout << e << std::endl;
-    }
+
+  TRY_EXPECT_EXCEPTION( convoluter->Update() );
 
   // Test for invalid request region.
   ImageType::IndexType invalidIndex;
@@ -209,19 +223,8 @@ int itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   invalidSize.Fill( 1000 );
   ImageType::RegionType invalidRequestRegion( invalidIndex, invalidSize );
   convoluter->GetOutput()->SetRequestedRegion( invalidRequestRegion );
-  try
-    {
-    convoluter->Update();
-    std::cerr << "Failed to catch expected exception when request region is outside the largest "
-              << "possible region." << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch ( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception when request region is outside the largest "
-              << "possible region." << std::endl;
-    std::cout << e << std::endl;
-    }
+
+  TRY_EXPECT_EXCEPTION( convoluter->Update() );
 
   return EXIT_SUCCESS;
 }

@@ -61,7 +61,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template<typename TTransform>
-class DisplacementFieldTransformParametersAdaptor
+class ITK_TEMPLATE_EXPORT DisplacementFieldTransformParametersAdaptor
 : public TransformParametersAdaptor<TTransform>
 {
 public:

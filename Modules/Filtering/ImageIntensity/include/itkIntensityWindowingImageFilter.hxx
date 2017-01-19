@@ -36,16 +36,14 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 IntensityWindowingImageFilter< TInputImage, TOutputImage >
-::IntensityWindowingImageFilter()
+::IntensityWindowingImageFilter() :
+  m_Scale( 1.0 ),
+  m_Shift( 0.0 ),
+  m_WindowMinimum( NumericTraits< InputPixelType >::NonpositiveMin() ),
+  m_WindowMaximum( NumericTraits< InputPixelType >::max() ),
+  m_OutputMinimum( NumericTraits< OutputPixelType >::NonpositiveMin() ),
+  m_OutputMaximum( NumericTraits< OutputPixelType >::max() )
 {
-  this->m_OutputMaximum = NumericTraits< OutputPixelType >::max();
-  this->m_OutputMinimum = NumericTraits< OutputPixelType >::NonpositiveMin();
-
-  this->m_WindowMaximum = NumericTraits< InputPixelType >::max();
-  this->m_WindowMinimum = NumericTraits< InputPixelType >::NonpositiveMin();
-
-  this->m_Scale = 1.0;
-  this->m_Shift = 0.0;
 }
 
 template< typename TInputImage, typename TOutputImage >

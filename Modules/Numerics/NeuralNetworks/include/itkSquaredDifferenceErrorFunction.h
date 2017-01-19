@@ -33,7 +33,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename ScalarType>
-class SquaredDifferenceErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
+class ITK_TEMPLATE_EXPORT SquaredDifferenceErrorFunction : public ErrorFunctionBase<TMeasurementVector, ScalarType>
 {
 public:
 
@@ -47,7 +47,7 @@ public:
   typedef typename Superclass::InternalVectorType InternalVectorType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(SquaredDifferenceErrorFunction, FunctionBase);
+  itkTypeMacro(SquaredDifferenceErrorFunction, ErrorFunctionBase);
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,6 +55,7 @@ public:
   /** Evaluate at the specified Error position */
   virtual ScalarType Evaluate(const TMeasurementVector& Errors) const ITK_OVERRIDE;
 
+  /** Evaluate derivatives */
   virtual InternalVectorType EvaluateDerivative(const TMeasurementVector& Errors) const ITK_OVERRIDE;
 
 protected:
@@ -62,8 +63,11 @@ protected:
   SquaredDifferenceErrorFunction();
   virtual ~SquaredDifferenceErrorFunction();
 
-  /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(SquaredDifferenceErrorFunction);
+
 };
 
 } // end namespace Statistics

@@ -31,23 +31,12 @@ namespace itk
 
 template< typename TInputImage, typename TOutputImage >
 LabelVotingImageFilter< TInputImage, TOutputImage >
-::LabelVotingImageFilter()
+::LabelVotingImageFilter() :
+  m_LabelForUndecidedPixels( 0 ),
+  m_HasLabelForUndecidedPixels( false ),
+  m_TotalLabelCount( 0 )
 {
-  this->m_HasLabelForUndecidedPixels = false;
-  this->m_LabelForUndecidedPixels = 0;
-  this->m_TotalLabelCount = 0;
-}
 
-template< typename TInputImage, typename TOutputImage >
-void
-LabelVotingImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "m_HasLabelForUndecidedPixels = "
-     << this->m_HasLabelForUndecidedPixels << std::endl;
-  os << indent << "m_LabelForUndecidedPixels = "
-     << this->m_LabelForUndecidedPixels << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -59,10 +48,10 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 
   typedef ImageRegionConstIterator< TInputImage > IteratorType;
 
-  // Record the number of input files.
-  const size_t numberOfInputFiles = this->GetNumberOfIndexedInputs();
+  // Record the number of indexed inputs
+  const size_t numberOfInputIndexes = this->GetNumberOfIndexedInputs();
 
-  for ( size_t i = 0; i < numberOfInputFiles; ++i )
+  for ( size_t i = 0; i < numberOfInputIndexes; ++i )
     {
     const InputImageType *inputImage =  this->GetInput(i);
     IteratorType          it( inputImage, inputImage->GetBufferedRegion() );
@@ -82,7 +71,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 {
   Superclass::BeforeThreadedGenerateData();
 
-  // determine the maximum label in all input images
+  // Determine the maximum label in all input images
   this->m_TotalLabelCount =
     static_cast<size_t>(this->ComputeMaximumInputValue()) + 1;
 
@@ -95,7 +84,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
     this->m_LabelForUndecidedPixels = static_cast<OutputPixelType>( this->m_TotalLabelCount );
     }
 
-  // Allocate the output image.
+  // Allocate the output image
   typename TOutputImage::Pointer output = this->GetOutput();
   output->SetBufferedRegion( output->GetRequestedRegion() );
   output->Allocate();
@@ -114,12 +103,12 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 
   typename TOutputImage::Pointer output = this->GetOutput();
 
-  // Record the number of input files.
-  const size_t numberOfInputFiles =this->GetNumberOfIndexedInputs();
+  // Record the number of indexed inputs
+  const size_t numberOfInputIndexes = this->GetNumberOfIndexedInputs();
 
-  //  create and initialize all input image iterators
-  IteratorType *it = new IteratorType[numberOfInputFiles];
-  for ( size_t i = 0; i < numberOfInputFiles; ++i )
+  // Create and initialize all input image iterators
+  IteratorType *it = new IteratorType[numberOfInputIndexes];
+  for ( size_t i = 0; i < numberOfInputIndexes; ++i )
     {
     it[i] = IteratorType(this->GetInput(i),
                          outputRegionForThread);
@@ -130,11 +119,11 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
   OutIteratorType out = OutIteratorType(output, outputRegionForThread);
   for ( out.GoToBegin(); !out.IsAtEnd(); ++out )
     {
-    // reset number of votes per label for all labels
+    // Reset number of votes per label for all labels
     std::fill_n( votesByLabel, this->m_TotalLabelCount, 0 );
 
     // count number of votes for the labels
-    for ( unsigned int i = 0; i < numberOfInputFiles; ++i )
+    for ( unsigned int i = 0; i < numberOfInputIndexes; ++i )
       {
       const InputPixelType label = it[i].Get();
       if ( NumericTraits<InputPixelType>::IsNonnegative( label ) )
@@ -144,7 +133,7 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
       ++( it[i] );
       }
 
-    // determine the label with the most votes for this pixel
+    // Determine the label with the most votes for this pixel
     out.Set(0);
     unsigned int maxVotes = votesByLabel[0];
     for ( size_t l = 1; l < this->m_TotalLabelCount; ++l )
@@ -167,6 +156,19 @@ LabelVotingImageFilter< TInputImage, TOutputImage >
 
   delete[] it;
   delete[] votesByLabel;
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+LabelVotingImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "m_HasLabelForUndecidedPixels = "
+     << this->m_HasLabelForUndecidedPixels << std::endl;
+  os << indent << "m_LabelForUndecidedPixels = "
+     << this->m_LabelForUndecidedPixels << std::endl;
 }
 } // end namespace itk
 

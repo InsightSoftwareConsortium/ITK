@@ -35,7 +35,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename TTargetVector>
-class LayerBase : public LightProcessObject
+class ITK_TEMPLATE_EXPORT LayerBase : public LightProcessObject
 {
 public:
   typedef LayerBase                Self;

@@ -41,7 +41,8 @@ namespace itk
  * This class was contributed to the Insight Journal
  *     https://hdl.handle.net/1926/172
  *
- * \sa ScalarToRGBPixelFunctor LabelToRGBImageFilter
+ * \sa LabelToRGBImageFilter
+ * \sa LabelMapOverlayImageFilter, LabelOverlayFunctor
  * \ingroup MultiThreaded
  *
  * \ingroup ITKImageFusion
@@ -51,7 +52,7 @@ namespace itk
  * \endwiki
  */
 template< typename  TInputImage, typename TLabelImage, typename  TOutputImage >
-class LabelOverlayImageFilter:
+class ITK_TEMPLATE_EXPORT LabelOverlayImageFilter:
   public
   BinaryFunctorImageFilter< TInputImage, TLabelImage, TOutputImage,
                             Functor::LabelOverlayFunctor<

@@ -26,7 +26,7 @@
 #include "H5Ipublic.h"
 
 /* Value for the default error stack */
-#define H5E_DEFAULT             0
+#define H5E_DEFAULT             (hid_t)0
 
 /* Different kinds of error information */
 typedef enum H5E_type_t {

@@ -27,7 +27,7 @@ namespace itk {
 
 /** \class LabelOverlapMeasuresImageFilter
  * \brief Computes overlap measures between the set same set of labels of
- * pixels of two images.  Background is assumed to be 0.
+ * pixels of two images. Background is assumed to be 0.
  *
  * This code was contributed in the Insight Journal paper:
  * "Introducing Dice, Jaccard, and Other Label Overlap Measures To ITK"
@@ -42,7 +42,7 @@ namespace itk {
  * \ingroup MultiThreaded
  */
 template<typename TLabelImage>
-class LabelOverlapMeasuresImageFilter :
+class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter :
     public ImageToImageFilter<TLabelImage, TLabelImage>
 {
 public:
@@ -138,37 +138,59 @@ public:
   const LabelImageType * GetTargetImage( void )
   { return this->GetInput( 1 ); }
 
-  /** Get the label set measures */
+  /** Get the label set measures. */
   MapType GetLabelSetMeasures()
   { return this->m_LabelSetMeasures; }
 
-  /**
-   * tric overlap measures
-   */
-  /** measures over all labels */
+  // Overlap agreement metrics
+
+  /** Get the total overlap over all labels. */
   RealType GetTotalOverlap() const;
-  RealType GetUnionOverlap() const;
-  RealType GetMeanOverlap() const;
-  RealType GetVolumeSimilarity() const;
-  RealType GetFalseNegativeError() const;
-  RealType GetFalsePositiveError() const;
-  /** measures over individual labels */
+
+  /** Get the target overlap for the specified individual label. */
   RealType GetTargetOverlap( LabelType ) const;
-  RealType GetUnionOverlap( LabelType ) const;
-  RealType GetMeanOverlap( LabelType ) const;
-  RealType GetVolumeSimilarity( LabelType ) const;
-  RealType GetFalseNegativeError( LabelType ) const;
-  RealType GetFalsePositiveError( LabelType ) const;
-  /** alternative names */
+
+  /** Get the union overlap (Jaccard coefficient) over all labels. */
+  RealType GetUnionOverlap() const;
   RealType GetJaccardCoefficient() const
   { return this->GetUnionOverlap(); }
-  RealType GetJaccardCoefficient( LabelType label ) const
+
+  /** Get the union overlap (Jaccard coefficient) for the specified individual
+   * label. */
+  RealType GetUnionOverlap( LabelType ) const;
+    RealType GetJaccardCoefficient( LabelType label ) const
   { return this->GetUnionOverlap( label ); }
+
+  /** Get the mean overlap (Dice coefficient) over all labels. */
+  RealType GetMeanOverlap() const;
   RealType GetDiceCoefficient() const
   { return this->GetMeanOverlap(); }
+
+  /** Get the mean overlap (Dice coefficient) for the specified individual
+   * label. */
+  RealType GetMeanOverlap( LabelType ) const;
   RealType GetDiceCoefficient( LabelType label ) const
   { return this->GetMeanOverlap( label ); }
 
+  /** Get the volume similarity over all labels. */
+  RealType GetVolumeSimilarity() const;
+
+  /** Get the volume similarity for the specified individual label. */
+  RealType GetVolumeSimilarity( LabelType ) const;
+
+  // Overlap error metrics
+
+  /** Get the false negative error over all labels. */
+  RealType GetFalseNegativeError() const;
+
+  /** Get the false negative error for the specified individual label. */
+  RealType GetFalseNegativeError( LabelType ) const;
+
+  /** Get the false positive error over all labels. */
+  RealType GetFalsePositiveError() const;
+
+  /** Get the false positive error for the specified individual label. */
+  RealType GetFalsePositiveError( LabelType ) const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

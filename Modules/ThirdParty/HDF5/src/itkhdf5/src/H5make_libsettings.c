@@ -66,7 +66,7 @@ static const char *FileHeader = "\n\
 static void
 insert_libhdf5_settings(FILE *flibinfo)
 {
-#ifdef H5_HAVE_EMBEDDED_LIBINFO
+#if defined(H5_HAVE_EMBEDDED_LIBINFO) && !defined(__EMSCRIPTEN__)
     FILE *fsettings;	/* for files libhdf5.settings */
     int inchar;
     int	bol = 0;	/* indicates the beginning of a new line */
@@ -94,7 +94,7 @@ insert_libhdf5_settings(FILE *flibinfo)
 	else
 	    HDputc(inchar, flibinfo);
     } /* end while */
-    if(feof(fsettings)) {
+    if(HDfeof(fsettings)) {
 	/* wrap up */
 	if(!bol)
 	    /* EOF found without a new line */
@@ -182,7 +182,7 @@ information about the library build configuration\n";
 	size_t n;
 	char *comma;
 
-	if((pwd = HDgetpwuid(getuid()))) {
+	if((pwd = HDgetpwuid(HDgetuid()))) {
 	    if((comma = HDstrchr(pwd->pw_gecos, ','))) {
 		n = MIN(sizeof(real_name) - 1, (unsigned)(comma - pwd->pw_gecos));
 		HDstrncpy(real_name, pwd->pw_gecos, n);
@@ -204,7 +204,7 @@ information about the library build configuration\n";
      * The FQDM of this host or the empty string.
      */
 #ifdef H5_HAVE_GETHOSTNAME
-    if(gethostname(host_name, sizeof(host_name)) < 0)
+    if(HDgethostname(host_name, sizeof(host_name)) < 0)
 	host_name[0] = '\0';
 #else
     host_name[0] = '\0';

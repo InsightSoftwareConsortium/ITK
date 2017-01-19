@@ -43,7 +43,7 @@ namespace Statistics
  */
 
 template< typename TSample >
-class SampleToSubsampleFilter:public ProcessObject
+class ITK_TEMPLATE_EXPORT SampleToSubsampleFilter:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

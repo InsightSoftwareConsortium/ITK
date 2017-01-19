@@ -33,7 +33,7 @@ namespace itk
  * \f$ f(x,y) = \sqrt{ (x-5)(x-5) + (y-4)(y-4) } - 3 \f$
  */
 template< typename TPixel >
-class LevelSetTestFunction: public LightObject
+class ITK_TEMPLATE_EXPORT LevelSetTestFunction: public LightObject
 {
 public:
   typedef LevelSetTestFunction       Self;

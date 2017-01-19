@@ -41,7 +41,7 @@ namespace itk
  */
 
 template< typename T >
-class VariableSizeMatrix
+class ITK_TEMPLATE_EXPORT VariableSizeMatrix
 {
 public:
   /** Standard class typedefs. */

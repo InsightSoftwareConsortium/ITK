@@ -55,7 +55,7 @@ namespace itk
  */
 
 template< typename TInputMesh, typename TOutputMesh=TInputMesh >
-class SmoothingQuadEdgeMeshFilter:
+class ITK_TEMPLATE_EXPORT SmoothingQuadEdgeMeshFilter:
   public QuadEdgeMeshToQuadEdgeMeshFilter< TInputMesh, TOutputMesh >
 {
 public:

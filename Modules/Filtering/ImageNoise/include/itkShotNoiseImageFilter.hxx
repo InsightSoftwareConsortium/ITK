@@ -72,7 +72,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
       const double in = m_Scale * inputIt.Get();
 
       // The value of >=50, is the lambda value in a Poisson
-      // distribution where a Gaussian distribution make a "good"
+      // distribution where a Gaussian distribution is a "good"
       // approximation of the Poisson. This could be considered to be
       // exposed as an advance parameter in the future.
       if( in < 50 )

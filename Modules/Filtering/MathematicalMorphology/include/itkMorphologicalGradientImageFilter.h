@@ -49,7 +49,7 @@ namespace itk
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel >
-class MorphologicalGradientImageFilter:
+class ITK_TEMPLATE_EXPORT MorphologicalGradientImageFilter:
   public KernelImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

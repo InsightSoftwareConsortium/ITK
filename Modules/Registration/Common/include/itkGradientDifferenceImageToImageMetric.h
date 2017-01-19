@@ -55,7 +55,7 @@ namespace itk
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedImage, typename TMovingImage >
-class GradientDifferenceImageToImageMetric:
+class ITK_TEMPLATE_EXPORT GradientDifferenceImageToImageMetric:
   public ImageToImageMetric< TFixedImage, TMovingImage >
 {
 public:

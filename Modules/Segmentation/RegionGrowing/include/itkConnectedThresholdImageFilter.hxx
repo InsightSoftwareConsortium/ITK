@@ -28,18 +28,15 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TOutputImage >
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
-::ConnectedThresholdImageFilter()
+::ConnectedThresholdImageFilter() :
+  m_Lower( NumericTraits< InputImagePixelType >::NonpositiveMin() ),
+  m_Upper( NumericTraits< InputImagePixelType >::max() ),
+  m_ReplaceValue( NumericTraits< OutputImagePixelType >::OneValue() ),
+  m_Connectivity( FaceConnectivity )
 {
-  m_Lower = NumericTraits< InputImagePixelType >::NonpositiveMin();
-  m_Upper = NumericTraits< InputImagePixelType >::max();
-  m_ReplaceValue = NumericTraits< OutputImagePixelType >::OneValue();
-  this->m_Connectivity = FaceConnectivity;
-
   typename InputPixelObjectType::Pointer lower = InputPixelObjectType::New();
   lower->Set( NumericTraits< InputImagePixelType >::NonpositiveMin() );
   this->ProcessObject::SetNthInput(1, lower);
@@ -55,7 +52,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::SetSeed(const IndexType & seed)
 {
   this->ClearSeeds();
-  this->AddSeed (seed);
+  this->AddSeed( seed );
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -63,7 +60,7 @@ void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::AddSeed(const IndexType & seed)
 {
-  this->m_Seeds.push_back (seed);
+  this->m_Seeds.push_back(seed);
   this->Modified();
 }
 
@@ -84,29 +81,7 @@ const typename ConnectedThresholdImageFilter< TInputImage, TOutputImage >::SeedC
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GetSeeds() const
 {
-  itkDebugMacro("returning Seeds");
   return this->m_Seeds;
-}
-
-/**
- * Standard PrintSelf method.
- */
-template< typename TInputImage, typename TOutputImage >
-void
-ConnectedThresholdImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "Upper: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Upper )
-     << std::endl;
-  os << indent << "Lower: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Lower )
-     << std::endl;
-  os << indent << "ReplaceValue: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue )
-     << std::endl;
-  os << indent << "Connectivity: " << m_Connectivity << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -170,11 +145,11 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  // create a data object to use as the input and to store this
+  // Create a data object to use as the input and to store this
   // threshold. we always create a new data object to use as the input
   // since we do not want to change the value in any current input
   // (the current input could be the output of another filter or the
-  // current input could be used as an input to several filters)
+  // current input could be used as an input to several filters).
   upper = InputPixelObjectType::New();
   this->ProcessObject::SetNthInput(2, upper);
 
@@ -194,11 +169,11 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  // create a data object to use as the input and to store this
+  // Create a data object to use as the input and to store this
   // threshold. we always create a new data object to use as the input
   // since we do not want to change the value in any current input
   // (the current input could be the output of another filter or the
-  // current input could be used as an input to several filters)
+  // current input could be used as an input to several filters).
   lower = InputPixelObjectType::New();
   this->ProcessObject::SetNthInput(1, lower);
 
@@ -215,7 +190,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     static_cast< InputPixelObjectType * >( this->ProcessObject::GetInput(1) );
   if ( !lower )
     {
-    // no input object available, create a new one and set it to the
+    // No input object available, create a new one and set it to the
     // default threshold
     lower = InputPixelObjectType::New();
     lower->Set( NumericTraits< InputImagePixelType >::NonpositiveMin() );
@@ -234,7 +209,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     static_cast< InputPixelObjectType * >( this->ProcessObject::GetInput(2) );
   if ( !upper )
     {
-    // no input object available, create a new one and set it to the
+    // No input object available, create a new one and set it to the
     // default threshold
     upper = InputPixelObjectType::New();
     upper->Set( NumericTraits< InputImagePixelType >::NonpositiveMin() );
@@ -281,16 +256,16 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   m_Upper = upperThreshold->Get();
 
   // Zero the output
-  OutputImageRegionType region =  outputImage->GetRequestedRegion();
+  OutputImageRegionType region = outputImage->GetRequestedRegion();
   outputImage->SetBufferedRegion(region);
   outputImage->Allocate();
-  outputImage->FillBuffer (NumericTraits< OutputImagePixelType >::ZeroValue());
+  outputImage->FillBuffer(NumericTraits< OutputImagePixelType >::ZeroValue());
 
   typedef BinaryThresholdImageFunction< InputImageType, double > FunctionType;
 
   typename FunctionType::Pointer function = FunctionType::New();
-  function->SetInputImage (inputImage);
-  function->ThresholdBetween (m_Lower, m_Upper);
+  function->SetInputImage( inputImage );
+  function->ThresholdBetween( m_Lower, m_Upper );
 
   ProgressReporter progress( this, 0, region.GetNumberOfPixels() );
 
@@ -309,7 +284,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
     }
   else if ( this->m_Connectivity == FullConnectivity )
     {
-    // use the fully connected iterator here. The fully connected iterator
+    // Use the fully connected iterator here. The fully connected iterator
     // below is a superset of the above. However, it is reported to be 20%
     // slower. Hence we use this "if" block to use the old iterator when
     // we don't need full connectivity.
@@ -326,6 +301,24 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
       progress.CompletedPixel();  // potential exception thrown here
       }
     }
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+ConnectedThresholdImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os, indent);
+  os << indent << "Upper: "
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Upper )
+     << std::endl;
+  os << indent << "Lower: "
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Lower )
+     << std::endl;
+  os << indent << "ReplaceValue: "
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue )
+     << std::endl;
+  os << indent << "Connectivity: " << m_Connectivity << std::endl;
 }
 } // end namespace itk
 

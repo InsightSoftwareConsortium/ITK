@@ -37,7 +37,7 @@ namespace itk
  */
 template< typename TImage, typename TKernel,
           typename TFunction1 >
-class AnchorErodeDilateImageFilter:
+class ITK_TEMPLATE_EXPORT AnchorErodeDilateImageFilter:
   public KernelImageFilter< TImage, TImage, TKernel >
 {
 public:

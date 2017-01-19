@@ -41,7 +41,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TImageType, typename TCoordRep = double, typename TCoefficientType = double >
-class ComplexBSplineInterpolateImageFunction:
+class ITK_TEMPLATE_EXPORT ComplexBSplineInterpolateImageFunction:
   public InterpolateImageFunction< TImageType, TCoordRep >
 {
 public:

@@ -1,4 +1,4 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
@@ -7,13 +7,13 @@
 defines default declarations factory class
 """
 
-from .calldef import member_function_t
-from .calldef import constructor_t
-from .calldef import destructor_t
-from .calldef import member_operator_t
-from .calldef import casting_operator_t
-from .calldef import free_function_t
-from .calldef import free_operator_t
+from .calldef_members import member_function_t
+from .calldef_members import constructor_t
+from .calldef_members import destructor_t
+from .calldef_members import member_operator_t
+from .calldef_members import casting_operator_t
+from .free_calldef import free_function_t
+from .free_calldef import free_operator_t
 from .enumeration import enumeration_t
 from .namespace import namespace_t
 from .class_declaration import class_t

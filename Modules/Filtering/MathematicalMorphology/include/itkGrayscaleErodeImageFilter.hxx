@@ -155,7 +155,7 @@ GrayscaleErodeImageFilter< TInputImage, TOutputImage, TKernel >
   // Allocate the output
   this->AllocateOutputs();
 
-  // Delegate to a dilate filter.
+  // Delegate to the appropriate erosion filter
   if ( m_Algorithm == BASIC )
     {
     itkDebugMacro("Running BasicErodeImageFilter");

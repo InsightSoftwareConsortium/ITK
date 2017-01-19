@@ -75,7 +75,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template<typename TInternalComputationValueType>
-class ExhaustiveOptimizerv4:
+class ITK_TEMPLATE_EXPORT ExhaustiveOptimizerv4:
   public ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
 {
 public:

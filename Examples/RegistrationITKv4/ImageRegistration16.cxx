@@ -30,6 +30,7 @@
 #include "itkTranslationTransform.h"
 #include "itkMattesMutualInformationImageToImageMetric.h"
 #include "itkAmoebaOptimizer.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -154,6 +155,9 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( 20 );
   metric->SetNumberOfSpatialSamples( 10000 );
   // Software Guide : EndCodeSnippet
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed(121212);
 
   if( argc > 6 )
     {

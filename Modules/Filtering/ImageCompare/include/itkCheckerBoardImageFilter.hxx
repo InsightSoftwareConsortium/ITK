@@ -25,9 +25,7 @@
 
 namespace itk
 {
-/**
- * Initialize new instance
- */
+
 template< typename TImage >
 CheckerBoardImageFilter< TImage >
 ::CheckerBoardImageFilter()
@@ -35,23 +33,6 @@ CheckerBoardImageFilter< TImage >
   m_CheckerPattern.Fill(4);
 }
 
-/**
- * Print out a description of self
- *
- * \todo Add details about this class
- */
-template< typename TImage >
-void
-CheckerBoardImageFilter< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Checker pattern: " << m_CheckerPattern << std::endl;
-}
-
-/**
- * Connect one of the operands for checkerboard operation
- */
 template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
@@ -61,9 +42,6 @@ CheckerBoardImageFilter< TImage >
   this->SetNthInput( 0, const_cast< InputImageType * >( image1 ) );
 }
 
-/**
- * Connect one of the operands for checkerboard operation
- */
 template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
@@ -73,17 +51,12 @@ CheckerBoardImageFilter< TImage >
   this->SetNthInput( 1, const_cast< InputImageType * >( image2 ) );
 }
 
-/**
- * ThreadedGenerateData
- */
 template< typename TImage >
 void
 CheckerBoardImageFilter< TImage >
 ::ThreadedGenerateData(
   const ImageRegionType & outputRegionForThread, ThreadIdType threadId)
 {
-  itkDebugMacro(<< "Actually executing");
-
   // Get the output pointers
   OutputImagePointer     outputPtr = this->GetOutput();
   InputImageConstPointer input1Ptr = this->GetInput(0);
@@ -149,6 +122,16 @@ CheckerBoardImageFilter< TImage >
     ++in1Itr;
     ++in2Itr;
     }
+}
+
+template< typename TImage >
+void
+CheckerBoardImageFilter< TImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Checker pattern: " << m_CheckerPattern << std::endl;
 }
 } // end namespace itk
 

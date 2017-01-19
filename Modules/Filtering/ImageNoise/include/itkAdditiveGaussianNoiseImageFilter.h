@@ -25,7 +25,22 @@ namespace itk
 
 /** \class AdditiveGaussianNoiseImageFilter
  *
- * \brief Alter an image with additive gaussian white noise.
+ * \brief Alter an image with additive Gaussian white noise.
+ *
+ * Additive Gaussian white noise can be modeled as:
+ *
+ * \par
+ * \f$ I = I_0 + N \f$
+ *
+ * \par
+ * where \f$ I \f$ is the observed image, \f$ I_0 \f$ is the noise-free image
+ * and \f$ N \f$ is a normally distributed random variable of mean \f$ \mu \f$
+ * and variance \f$ \sigma^2 \f$:
+ *
+ * \par
+ * \f$ N \sim \mathcal{N}(\mu, \sigma^2) \f$
+ *
+ * The noise is independent of the pixel intensities.
  *
  * \author Gaetan Lehmann
  *
@@ -35,7 +50,7 @@ namespace itk
  * \ingroup ITKImageNoise
  */
 template <class TInputImage, class TOutputImage=TInputImage>
-class AdditiveGaussianNoiseImageFilter :
+class ITK_TEMPLATE_EXPORT AdditiveGaussianNoiseImageFilter :
   public NoiseBaseImageFilter<TInputImage,TOutputImage >
 {
 public:
@@ -64,9 +79,13 @@ public:
   typedef typename InputImageType::RegionType   InputImageRegionType;
   typedef typename InputImageType::PixelType    InputImagePixelType;
 
+  /** Set/Get the mean of the Gaussian distribution.
+   * Defaults to 0.0. */
   itkGetConstMacro(Mean, double);
   itkSetMacro(Mean, double);
 
+  /** Set/Get the standard deviation of the Gaussian distribution.
+   * Defaults to 1.0. */
   itkGetConstMacro(StandardDeviation, double);
   itkSetMacro(StandardDeviation, double);
 

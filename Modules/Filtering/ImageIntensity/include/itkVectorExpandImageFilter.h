@@ -69,7 +69,7 @@ namespace itk
  * \ingroup ITKImageIntensity
  */
 template< typename TInputImage, typename TOutputImage >
-class VectorExpandImageFilter:
+class ITK_TEMPLATE_EXPORT VectorExpandImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

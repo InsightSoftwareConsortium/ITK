@@ -19,7 +19,6 @@
 #define itkMattesMutualInformationImageToImageMetric_hxx
 
 #include "itkMattesMutualInformationImageToImageMetric.h"
-#include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageIterator.h"
 #include "itkMath.h"

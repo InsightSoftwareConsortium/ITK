@@ -22,6 +22,8 @@
 #include "itkPointSetToPointSetRegistrationMethod.h"
 #include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkPointSetToImageFilter.h"
+#include "itkTestingMacros.h"
+
 #include <iostream>
 
 /**
@@ -32,11 +34,12 @@
 
 int itkPointSetToPointSetRegistrationTest(int, char* [] )
 {
+  const unsigned int PointSetDimension = 2;
 
-//------------------------------------------------------------
-// Create two simple point sets
-//------------------------------------------------------------
-  typedef itk::PointSet< float, 2 >   FixedPointSetType;
+  typedef float PointSetPointType;
+
+  // Fixed Point Set
+  typedef itk::PointSet< PointSetPointType, PointSetDimension > FixedPointSetType;
   FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
 
   const unsigned int numberOfPoints = 500;
@@ -49,23 +52,22 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   FixedPointSetType::PointType  point;
 
   unsigned int id = 0;
-  for(unsigned int i=0;i<numberOfPoints/2;i++)
+  for( unsigned int i = 0; i < numberOfPoints/2; i++ )
     {
-    point[0]=0;
-    point[1]=i;
+    point[0] = 0;
+    point[1] = i;
     fixedPointSet->SetPoint( id++, point );
     }
-  for(unsigned int i=0;i<numberOfPoints/2;i++)
+  for( unsigned int i = 0; i < numberOfPoints/2; i++ )
     {
-    point[0]=i;
-    point[1]=0;
+    point[0] = i;
+    point[1] = 0;
     fixedPointSet->SetPoint( id++, point );
     }
 
- // Moving Point Set
-  typedef itk::PointSet< float, 2 >  MovingPointSetType;
+  // Moving Point Set
+  typedef itk::PointSet< PointSetPointType, PointSetDimension > MovingPointSetType;
   MovingPointSetType::Pointer movingPointSet = MovingPointSetType::New();
-
 
   movingPointSet->SetPointData( MovingPointSetType::PointDataContainer::New() );
 
@@ -73,184 +75,177 @@ int itkPointSetToPointSetRegistrationTest(int, char* [] )
   movingPointSet->GetPointData()->Reserve( numberOfPoints );
 
   id = 0;
-  for(unsigned int i=0;i<numberOfPoints/2;i++)
+  for( unsigned int i = 0; i < numberOfPoints/2; i++ )
     {
-    point[0]=0;
-    point[1]=i;
+    point[0] = 0;
+    point[1] = i;
     movingPointSet->SetPoint( id++, point );
     }
-  for(unsigned int i=0;i<numberOfPoints/2;i++)
+  for( unsigned int i = 0; i < numberOfPoints/2; i++ )
     {
-    point[0]=i;
-    point[1]=0;
+    point[0] = i;
+    point[1] = 0;
     movingPointSet->SetPoint( id++, point );
     }
 
-//-----------------------------------------------------------
-// Set up  the Metric
-//-----------------------------------------------------------
-  typedef itk::EuclideanDistancePointMetric<
-    FixedPointSetType,
-    MovingPointSetType>
-    MetricType;
+  // Set up the Metric
+  typedef itk::EuclideanDistancePointMetric< FixedPointSetType,
+    MovingPointSetType>  MetricType;
 
   typedef MetricType::TransformType                 TransformBaseType;
   typedef TransformBaseType::ParametersType         ParametersType;
 
   MetricType::Pointer  metric = MetricType::New();
 
-
-//-----------------------------------------------------------
-// Set up a Transform
-//-----------------------------------------------------------
-
-  typedef itk::TranslationTransform<
-    double,
-    2 >         TransformType;
-
+  // Set up the Transform
+  typedef itk::TranslationTransform< double, PointSetDimension > TransformType;
   TransformType::Pointer transform = TransformType::New();
 
-
-  // Optimizer Type
+  // Set up the Optimizer
   typedef itk::LevenbergMarquardtOptimizer OptimizerType;
+  OptimizerType::Pointer optimizer = OptimizerType::New();
 
-  OptimizerType::Pointer      optimizer     = OptimizerType::New();
-  optimizer->SetUseCostFunctionGradient(false);
+  optimizer->SetUseCostFunctionGradient( false );
 
-  // Registration Method
-  typedef itk::PointSetToPointSetRegistrationMethod<
-    FixedPointSetType,
-    MovingPointSetType >    RegistrationType;
+  // Set up the Registration method
+  typedef itk::PointSetToPointSetRegistrationMethod< FixedPointSetType,
+    MovingPointSetType >  RegistrationType;
+  RegistrationType::Pointer registration = RegistrationType::New();
 
-
-  RegistrationType::Pointer   registration  = RegistrationType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( registration, PointSetToPointSetRegistrationMethod,
+    ProcessObject );
 
   // Scale the translation components of the Transform in the Optimizer
   OptimizerType::ScalesType scales( transform->GetNumberOfParameters() );
   scales.Fill( 1.0 );
 
-
-  unsigned long   numberOfIterations =   100;
-  double          gradientTolerance  =  1e-1; // convergence criterion
-  double          valueTolerance =  1e-1; // convergence criterion
-  double          epsilonFunction =  1e-9; // convergence criterion
-
+  unsigned long   numberOfIterations = 100;
+  double          gradientTolerance  = 1e-1; // convergence criterion
+  double          valueTolerance     = 1e-1; // convergence criterion
+  double          epsilonFunction    = 1e-9; // convergence criterion
 
   optimizer->SetScales( scales );
   optimizer->SetNumberOfIterations( numberOfIterations );
-  optimizer->SetValueTolerance(valueTolerance);
-  optimizer->SetGradientTolerance(gradientTolerance);
-  optimizer->SetEpsilonFunction(epsilonFunction);
+  optimizer->SetValueTolerance( valueTolerance );
+  optimizer->SetGradientTolerance( gradientTolerance );
+  optimizer->SetEpsilonFunction( epsilonFunction );
 
-  // Start from an Identity transform (in a normal case, the user
-  // can probably provide a better guess than the identity...
-  transform->SetIdentity();
+  // Connect all the components required for the registration
+  registration->SetMetric( metric );
+  TEST_SET_GET_VALUE( metric, registration->GetMetric() );
 
-  registration->SetInitialTransformParameters( transform->GetParameters() );
+  registration->SetOptimizer( optimizer );
+  TEST_SET_GET_VALUE( optimizer, registration->GetOptimizer() );
 
-  //------------------------------------------------------
-  // Connect all the components required for Registration
-  //------------------------------------------------------
-  registration->SetMetric(        metric        );
-  registration->SetOptimizer(     optimizer     );
-  registration->SetTransform(     transform     );
+  registration->SetTransform( transform );
+  TEST_SET_GET_VALUE( transform, registration->GetTransform() );
+
   registration->SetFixedPointSet( fixedPointSet );
-  registration->SetMovingPointSet(   movingPointSet   );
+  TEST_SET_GET_VALUE( fixedPointSet, registration->GetFixedPointSet() );
 
+  registration->SetMovingPointSet( movingPointSet );
+  TEST_SET_GET_VALUE( movingPointSet, registration->GetMovingPointSet() );
 
-//------------------------------------------------------------
-// Set up transform parameters
-//------------------------------------------------------------
+  // Set up transform parameters
   ParametersType parameters( transform->GetNumberOfParameters() );
 
-  // initialize the offset/vector part
-  for( unsigned int k = 0; k < 2; k++ )
+  // Initialize the offset/vector part
+  for( unsigned int k = 0; k < parameters.size(); k++ )
     {
-    parameters[k]= 10.0;
+    parameters[k] = 10.0;
     }
-
-  transform->SetParameters(parameters);
+  transform->SetParameters( parameters );
   registration->SetInitialTransformParameters( transform->GetParameters() );
+  TEST_SET_GET_VALUE( transform->GetParameters(),
+    registration->GetInitialTransformParameters() );
 
-  try
+
+  TRY_EXPECT_NO_EXCEPTION( registration->Update() );
+
+
+  // Print the last transform parameters to improve coverage
+  //
+  ParametersType finalParameters = registration->GetLastTransformParameters();
+
+  const unsigned int numberOfParameters = parameters.Size();
+
+  std::cout << "Last Transform Parameters: " << std::endl;
+  for( unsigned int i = 0; i < numberOfParameters; ++i )
     {
-    registration->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << e << std::endl;
-    return EXIT_FAILURE;
+    std::cout << finalParameters[i] << std::endl;
     }
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
 
-  if((itk::Math::abs(transform->GetParameters()[0])>1.0)
-    ||
-    (itk::Math::abs(transform->GetParameters()[1])>1.0)
-    )
+  if( ( itk::Math::abs( transform->GetParameters()[0] ) > 1.0 ) ||
+    ( itk::Math::abs( transform->GetParameters()[1] ) > 1.0 ) )
     {
     return EXIT_FAILURE;
     }
 
-  /** Test with the danielsson distance map */
-  typedef itk::Image<unsigned char,2>  BinaryImageType;
-  typedef itk::Image<unsigned short,2> ImageType;
+  //
+  // Test with the Danielsson distance map.
+  //
 
-  typedef itk::PointSetToImageFilter<FixedPointSetType,BinaryImageType> PSToImageFilterType;
+  const unsigned int ImageDimension = 2;
+
+  typedef itk::Image< unsigned char, ImageDimension >   BinaryImageType;
+  typedef itk::Image< unsigned short, ImageDimension >  ImageType;
+
+  typedef itk::PointSetToImageFilter< FixedPointSetType, BinaryImageType > PSToImageFilterType;
   PSToImageFilterType::Pointer psToImageFilter = PSToImageFilterType::New();
 
-  psToImageFilter->SetInput(fixedPointSet);
-  double origin[2] = {0.0, 0.0}, spacing[2] = {1.0, 1.0};
-  psToImageFilter->SetSpacing(spacing);
-  psToImageFilter->SetOrigin(origin);
-  std::cout << "Spacing and origin set: ["
+  EXERCISE_BASIC_OBJECT_METHODS( psToImageFilter, PointSetToImageFilter,
+    ImageSource );
+
+  psToImageFilter->SetInput( fixedPointSet );
+
+  double origin[2] = {0.0, 0.0};
+  double spacing[2] = {1.0, 1.0};
+
+  psToImageFilter->SetSpacing( spacing );
+  psToImageFilter->SetOrigin( origin );
+
+  std::cout << "Spacing and origin: ["
             << psToImageFilter->GetSpacing() << "], ,["
             << psToImageFilter->GetOrigin() << "]" << std::endl;
-  psToImageFilter->Update();
-  std::cout << "psToImageFilter: " << psToImageFilter << std::endl;
+
+
+  TRY_EXPECT_NO_EXCEPTION( psToImageFilter->Update() );
 
   BinaryImageType::Pointer binaryImage = psToImageFilter->GetOutput();
 
-  typedef itk::DanielssonDistanceMapImageFilter<BinaryImageType,ImageType> DDFilterType;
+  typedef itk::DanielssonDistanceMapImageFilter< BinaryImageType, ImageType >
+    DDFilterType;
   DDFilterType::Pointer ddFilter = DDFilterType::New();
-  ddFilter->SetInput(binaryImage);
-  ddFilter->Update();
 
-  metric->SetDistanceMap(ddFilter->GetOutput());
+  ddFilter->SetInput( binaryImage );
+
+  TRY_EXPECT_NO_EXCEPTION( ddFilter->Update() );
+
+  metric->SetDistanceMap( ddFilter->GetOutput() );
   metric->ComputeSquaredDistanceOn();
 
-   // initialize the offset/vector part
-  for( unsigned int k = 0; k < 2; k++ )
+  // Initialize the offset/vector part
+  for( unsigned int k = 0; k < PointSetDimension; k++ )
     {
-    parameters[k]= 10.0;
+    parameters[k] = 10.0;
     }
 
   transform->SetParameters(parameters);
   registration->SetInitialTransformParameters( transform->GetParameters() );
 
-  try
-    {
-    registration->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << e << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( registration->Update() );
 
   std::cout << "Solution = " << transform->GetParameters() << std::endl;
 
-  if((itk::Math::abs(transform->GetParameters()[0])>1.0)
-    ||
-    (itk::Math::abs(transform->GetParameters()[1])>1.0)
-    )
+  if( ( itk::Math::abs( transform->GetParameters()[0] ) > 1.0 ) ||
+    ( itk::Math::abs( transform->GetParameters()[1] ) > 1.0 ) )
     {
     return EXIT_FAILURE;
     }
-
 
   std::cout << "TEST DONE" << std::endl;
 
   return EXIT_SUCCESS;
-
 }

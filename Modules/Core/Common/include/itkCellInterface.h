@@ -101,7 +101,7 @@ template<
   typename TPixelType,
   typename TCellTraits
   >
-class CellInterface
+class ITK_TEMPLATE_EXPORT CellInterface
 {
 public:
 
@@ -470,7 +470,7 @@ template< int VPointDimension, typename TCoordRep,
           typename TCellIdentifier, typename TCellFeatureIdentifier,
           typename TPoint, typename TPointsContainer,
           typename TUsingCellsContainer >
-class CellTraitsInfo
+class ITK_TEMPLATE_EXPORT CellTraitsInfo
 {
 public:
   itkStaticConstMacro(PointDimension, unsigned int, VPointDimension);

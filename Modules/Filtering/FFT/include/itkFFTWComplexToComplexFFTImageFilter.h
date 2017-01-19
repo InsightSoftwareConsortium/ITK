@@ -55,7 +55,7 @@ namespace itk
  * \sa FFTWGlobalConfiguration
  */
 template< typename TImage >
-class FFTWComplexToComplexFFTImageFilter:
+class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter:
   public ComplexToComplexFFTImageFilter< TImage >
 {
 public:

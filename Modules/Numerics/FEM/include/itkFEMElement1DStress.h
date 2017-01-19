@@ -42,7 +42,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 template <typename TBaseClass = Element>
-class Element1DStress : public TBaseClass
+class ITK_TEMPLATE_EXPORT Element1DStress : public TBaseClass
 {
 public:
   /** Standard class typedefs. */

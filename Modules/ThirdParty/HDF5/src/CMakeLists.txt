@@ -2,9 +2,8 @@ set(HDF5_EXTERNALLY_CONFIGURED ON)
 set(HDF5_INSTALL_NO_DEVELOPMENT ${ITK_INSTALL_NO_DEVELOPMENT})
 set(HDF5_EXTERNAL_LIB_PREFIX "itk")
 set(HDF5_EXPORTED_TARGETS ${ITKHDF5-targets})
-set(HDF5_INSTALL_LIBRARY_DIR ${ITKHDF5_INSTALL_LIBRARY_DIR})
-set(HDF5_INSTALL_ARCHIVE_DIR ${ITKHDF5_INSTALL_ARCHIVE_DIR})
-set(HDF5_INSTALL_RUNTIME_DIR ${ITKHDF5_INSTALL_RUNTIME_DIR})
+set(HDF5_INSTALL_LIB_DIR ${ITKHDF5_INSTALL_LIBRARY_DIR})
+set(HDF5_INSTALL_BIN_DIR ${ITKHDF5_INSTALL_RUNTIME_DIR})
 set(HDF5_INSTALL_INCLUDE_DIR ${ITKHDF5_INSTALL_INCLUDE_DIR}/itkhdf5)
 
 # Configure HDF5 privately so its options do not appear to the user.
@@ -38,6 +37,24 @@ set(HDF5_USE_H5DUMP_PACKED_BITS ON CACHE INTERNAL "Use the PACKED BITS feature i
 set(HDF5_WANT_DATA_ACCURACY ON CACHE INTERNAL "IF data accuracy is guaranteed during data conversions")
 set(HDF5_WANT_DCONV_EXCEPTION ON CACHE INTERNAL "exception handling functions is checked during data conversions")
 set(HDF_LEGACY_NAMING ON CACHE INTERNAL "Use Legacy Names for Libraries and Programs")
+set(HDF5_BUILD_FRAMEWORKS OFF CACHE INTERNAL "TRUE to build as frameworks libraries, FALSE to build according to BUILD_SHARED_LIBS")
+set(HDF5_BUILD_WITH_INSTALL_NAME  OFF CACHE INTERNAL "Build with library install_name set to the installation path")
+set(HDF5_ENABLE_ALL_WARNINGS OFF CACHE INTERNAL "Enable all warnings")
+set(HDF5_ENABLE_DEBUG_APIS OFF CACHE INTERNAL "Turn on debugging in all packages")
+set(HDF5_ENABLE_DIRECT_VFD ON CACHE INTERNAL "Build the Direct I/O Virtual File Driver")
+set(HDF5_ENABLE_EMBEDDED_LIBINFO ON CACHE INTERNAL "embed library info into executables")
+set(HDF5_ENABLE_GROUPFIVE_WARNINGS OFF CACHE INTERNAL "Enable group five warnings")
+set(HDF5_ENABLE_GROUPFOUR_WARNINGS OFF CACHE INTERNAL "Enable group four warnings")
+set(HDF5_ENABLE_GROUPONE_WARNINGS OFF CACHE INTERNAL "Enable group one warnings")
+set(HDF5_ENABLE_GROUPSIX_WARNINGS OFF CACHE INTERNAL "Enable group six warnings")
+set(HDF5_ENABLE_GROUPTHREE_WARNINGS OFF CACHE INTERNAL "Enable group three warnings")
+set(HDF5_ENABLE_GROUPTWO_WARNINGS OFF CACHE INTERNAL "Enable group two warnings")
+set(HDF5_ENABLE_GROUPZERO_WARNINGS OFF CACHE INTERNAL "Enable group zero warnings")
+set(HDF5_PACK_EXAMPLES OFF CACHE INTERNAL "Package the HDF5 Library Examples Compressed File")
+set(HDF5_NO_PACKAGES OFF CACHE INTERNAL "CPACK - Disable packaging")
+set(HDF5_TEST_VFD OFF CACHE INTERNAL "Execute tests with different VFDs")
+set(HDF5_USE_FOLDERS  ON CACHE INTERNAL "Enable folder grouping of projects in IDEs.")
+set(HDF_TEST_EXPRESS OFF CACHE INTERNAL "Control testing framework (0-3)")
 set(BUILD_STATIC_EXECS OFF CACHE INTERNAL "Build Static Executables")
 
 # Setup all necessary overrides for zlib so that HDF5 uses our
@@ -46,17 +63,26 @@ if(HDF5_ENABLE_Z_LIB_SUPPORT)
   # We must tell the main HDF5 library that it depends on our zlib
   set(ZLIB_INCLUDE_DIRS "${ITKZLIB_INCLUDE_DIRS}")
   set(ZLIB_LIBRARIES "${ITKZLIB_LIBRARIES}")
+  if(BUILD_SHARED_LIBS)
+    set(ZLIB_SHARED_LIBRARY ${ITKZLIB_LIBRARIES})
+  endif()
+  set(ZLIB_STATIC_LIBRARY ${ITKZLIB_LIBRARIES})
   set(H5_ZLIB_HEADER "itk_zlib.h")
-endif(HDF5_ENABLE_Z_LIB_SUPPORT)
+endif()
 
 add_subdirectory(itkhdf5)
 
+if(BUILD_SHARED_LIBS)
+  set(target_extension -shared)
+else()
+  set(target_extension -static)
+endif()
 foreach(lib
-    itkhdf5
-    itkhdf5_cpp
+    hdf5
+    hdf5_cpp
     )
-  itk_module_target(${lib} NO_INSTALL)
+  itk_module_target(${lib}${target_extension} NO_INSTALL)
 endforeach()
 if(ITK_LIBRARY_PROPERTIES)
-  set_target_properties(itkhdf5 PROPERTIES ${ITK_LIBRARY_PROPERTIES})
+  set_target_properties(hdf5${target_extension} PROPERTIES ${ITK_LIBRARY_PROPERTIES})
 endif()

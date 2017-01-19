@@ -45,7 +45,7 @@ namespace itk
  */
 
 template< unsigned int TDimension = 3 >
-class NonUniformBSpline:
+class ITK_TEMPLATE_EXPORT NonUniformBSpline:
   public Object
 {
 public:

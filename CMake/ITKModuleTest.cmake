@@ -232,7 +232,7 @@ function(itk_python_expression_add_test)
   # For $<SEMICOLON>
   cmake_minimum_required(VERSION 2.8.11)
   itk_python_add_test(NAME ${PYTHON_EXPRESSION_ADD_TEST_NAME}
-    COMMAND -c "'import itk$<SEMICOLON> itk.auto_progress(2)$<SEMICOLON> ${PYTHON_EXPRESSION_ADD_TEST_EXPRESSION}'"
+    COMMAND -c "import itk$<SEMICOLON> itk.auto_progress(2)$<SEMICOLON> ${PYTHON_EXPRESSION_ADD_TEST_EXPRESSION}"
     )
 endfunction()
 

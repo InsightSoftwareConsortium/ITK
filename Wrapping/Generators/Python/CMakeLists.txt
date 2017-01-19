@@ -1,7 +1,7 @@
 ###############################################################################
 # configure python (find PythonInterp first, as of cmake 3.1)
 find_package(PythonInterp)
-find_package(PythonLibs)
+find_package(ITKPythonLibs)
 
 # require at least python 2.6
 if(PYTHON_VERSION_STRING VERSION_LESS 2.6)
@@ -16,6 +16,8 @@ endif()
 
 mark_as_advanced(PYTHON_EXECUTABLE)
 include_directories("${PYTHON_INCLUDE_DIRS}")
+
+include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
 
 include(itkTargetLinkLibrariesWithDynamicLookup)
 
@@ -373,13 +375,65 @@ macro(itk_end_wrap_module_python)
     @ONLY)
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
 
+  set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS )
+  set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS )
+  if(NOT BUILD_SHARED_LIBS)
+    list(FIND WRAPPER_LIBRARY_LINK_LIBRARIES "ITKCommon" _links_to_ITKCommon)
+    if(WRAPPER_LIBRARY_NAME STREQUAL "ITKCommon")
+      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
+#define _ITKCommonPython_MODULE
+#include \"itkPyITKCommonCAPI.h\"
+
+static
+_ITKCommonPython_GetGlobalTimeStamp_RETURN
+_ITKCommonPython_GetGlobalTimeStamp
+_ITKCommonPython_GetGlobalTimeStamp_PROTO
+{
+  return itk::TimeStamp::GetGlobalTimeStamp();
+}
+")
+      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
+  static void * _ITKCommonPython_API[_ITKCommonPython_API_pointers];
+
+  /* Initialize the C API pointer array */
+  _ITKCommonPython_API[_ITKCommonPython_GetGlobalTimeStamp_NUM] = (void *)_ITKCommonPython_GetGlobalTimeStamp;
+
+  /* Create a Capsule containing the API pointer array's address */
+  PyObject * cAPIObject = PyCapsule_New((void *)_ITKCommonPython_API,
+    \"_ITKCommonPython._C_API\", NULL);
+
+  if( cAPIObject != NULL )
+    {
+    PyModule_AddObject( m, \"_C_API\", cAPIObject );
+    }
+")
+    elseif(NOT ${_links_to_ITKCommon} EQUAL -1)
+      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
+#include \"itkPyITKCommonCAPI.h\"
+")
+      set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
+  if( import__ITKCommonPython() < 0 )
+    {
+#if PY_VERSION_HEX >= 0x03000000
+    return NULL;
+#else
+    return;
+#endif
+    }
+  itk::TimeStamp::SetGlobalTimeStamp( _ITKCommonPython_GetGlobalTimeStamp() );
+")
+    endif()
+  endif()
+
   # Create the Python customization stuff in the main module
   # It allows to group the python submodules in a single shared lib (.so),
   # by loading the init functions of the module.
   # The objects from the submodules are also loaded in the main module.
   #
-  # It uses ITK_WRAP_PYTHON_LIBRARY_DECLS, ITK_WRAP_PYTHON_LIBRARY_CALLS and
-  # ITK_WRAP_PYTHON_LIBRARY_IMPORTS
+  # It uses:
+  # ITK_WRAP_PYTHON_LIBRARY_DECLS, ITK_WRAP_PYTHON_LIBRARY_CALLS,
+  # ITK_WRAP_PYTHON_LIBRARY_IMPORTS,
+  # ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS, ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY)
@@ -763,6 +817,8 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
 
   if("${cpp_name}" STREQUAL "itk::Point")
     ADD_PYTHON_VEC_TYPEMAP("${swig_name}" "${template_params}")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}%template(vector${swig_name}) std::vector< ${swig_name} >;\n")
+    ADD_PYTHON_CONFIG_TEMPLATE("vector" "std::vector" "vector${swig_name}" "${cpp_name}< ${template_params} >")
   endif()
 
   if("${cpp_name}" STREQUAL "itk::ContinuousIndex")

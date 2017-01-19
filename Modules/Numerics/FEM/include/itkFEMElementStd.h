@@ -53,7 +53,7 @@ namespace fem
  * \ingroup ITKFEM
  */
 template< unsigned int VNumberOfNodes, unsigned int VNumberOfSpatialDimensions, typename TBaseClass = Element >
-class ElementStd : public TBaseClass
+class ITK_TEMPLATE_EXPORT ElementStd : public TBaseClass
 {
 public:
   /** Standard class typedefs. */

@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ITKIOTransformMatlab
  */
 template<typename ParametersValueType>
-class MatlabTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
+class ITK_TEMPLATE_EXPORT MatlabTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:
   typedef MatlabTransformIOTemplate                       Self;

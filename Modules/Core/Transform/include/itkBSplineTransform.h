@@ -108,7 +108,7 @@ namespace itk
 template<typename TParametersValueType=double,
           unsigned int NDimensions = 3,
           unsigned int VSplineOrder = 3>
-class BSplineTransform :
+class ITK_TEMPLATE_EXPORT BSplineTransform :
   public BSplineBaseTransform<TParametersValueType,NDimensions,VSplineOrder>
 {
 public:
@@ -161,6 +161,8 @@ public:
   typedef typename Superclass::InputPointType  InputPointType;
   typedef typename Superclass::OutputPointType OutputPointType;
 
+
+  virtual std::string GetTransformTypeAsString() const ITK_OVERRIDE;
 
   /** This method sets the fixed parameters of the transform.
    * For a BSpline deformation transform, the fixed parameters are the

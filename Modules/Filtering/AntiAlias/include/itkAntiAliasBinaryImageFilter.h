@@ -104,7 +104,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class AntiAliasBinaryImageFilter:
+class ITK_TEMPLATE_EXPORT AntiAliasBinaryImageFilter:
   public SparseFieldLevelSetImageFilter< TInputImage, TOutputImage >
 {
 public:

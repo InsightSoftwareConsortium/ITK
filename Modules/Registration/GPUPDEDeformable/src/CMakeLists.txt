@@ -1,5 +1,5 @@
 if (ITK_USE_GPU)
-  set(ITKGPUPDEDeformableRegistration_SRC
+  set(ITKGPUPDEDeformableRegistration_SRCS
    )
 
   set(ITKGPUPDEDeformableRegistration_Kernels
@@ -7,10 +7,8 @@ if (ITK_USE_GPU)
     GPUPDEDeformableRegistrationFilter.cl
     )
 
-  write_gpu_kernels("${ITKGPUPDEDeformableRegistration_Kernels}" ITKGPUPDEDeformableRegistration_SRC)
+  write_gpu_kernels("${ITKGPUPDEDeformableRegistration_Kernels}" ITKGPUPDEDeformableRegistration_SRCS)
 
-  add_library(ITKGPUPDEDeformableRegistration ${ITKGPUPDEDeformableRegistration_SRC})
-  itk_module_link_dependencies()
+  itk_module_add_library(ITKGPUPDEDeformableRegistration ${ITKGPUPDEDeformableRegistration_SRCS})
   target_link_libraries(ITKGPUPDEDeformableRegistration LINK_PUBLIC ${OPENCL_LIBRARIES})
-  itk_module_target(ITKGPUPDEDeformableRegistration)
 endif()

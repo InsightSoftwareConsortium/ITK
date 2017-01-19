@@ -31,7 +31,7 @@ namespace itk
  */
 
 template<typename TParametersValueType>
-class OptimizerParameters : public Array<TParametersValueType>
+class ITK_TEMPLATE_EXPORT OptimizerParameters : public Array<TParametersValueType>
 {
 public:
 

@@ -58,7 +58,7 @@ namespace itk
  */
 
 template< typename TFixedImage, typename TMovingSpatialObject >
-class ImageToSpatialObjectMetric:
+class ITK_TEMPLATE_EXPORT ImageToSpatialObjectMetric:
   public SingleValuedCostFunction
 {
 public:

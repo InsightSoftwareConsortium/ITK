@@ -97,7 +97,7 @@ namespace itk
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField,
           typename TImageForceFunction =
             MeanSquareRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField > >
-class CurvatureRegistrationFilter:
+class ITK_TEMPLATE_EXPORT CurvatureRegistrationFilter:
   public PDEDeformableRegistrationFilter< TFixedImage, TMovingImage,
                                           TDisplacementField >
 {

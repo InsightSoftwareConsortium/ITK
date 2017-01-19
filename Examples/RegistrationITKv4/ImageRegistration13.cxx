@@ -34,6 +34,7 @@
 // Software Guide : EndCodeSnippet
 
 #include "itkRegularStepGradientDescentOptimizerv4.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 
 #include "itkImageFileReader.h"
@@ -130,8 +131,12 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetMetric( metric  );
 
+  // For consistent results when regression testing.
+  registration->MetricSamplingReinitializeSeed(121212);
+
   // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( 20 );
+
 
   double samplingPercentage = 0.20;
   registration->SetMetricSamplingPercentage( samplingPercentage );

@@ -155,7 +155,7 @@ GrayscaleDilateImageFilter< TInputImage, TOutputImage, TKernel >
   // Allocate the output
   this->AllocateOutputs();
 
-  // Delegate to a dilate filter.
+  // Delegate to the appropriate dilation filter
   if ( m_Algorithm == BASIC )
     {
     itkDebugMacro("Running BasicDilateImageFilter");

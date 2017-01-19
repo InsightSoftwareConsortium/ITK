@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename TTargetVector,typename TLearningLayer=LayerBase<TMeasurementVector, TTargetVector> >
-class MultilayerNeuralNetworkBase : public NeuralNetworkObject<TMeasurementVector, TTargetVector>
+class ITK_TEMPLATE_EXPORT MultilayerNeuralNetworkBase : public NeuralNetworkObject<TMeasurementVector, TTargetVector>
 {
 public:
 

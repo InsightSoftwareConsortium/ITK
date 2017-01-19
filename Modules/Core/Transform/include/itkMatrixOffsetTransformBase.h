@@ -39,17 +39,17 @@ template<typename T>
 class MatrixOrthogonalityTolerance;
 
 template <>
-class MatrixOrthogonalityTolerance<double>
+class ITK_TEMPLATE_EXPORT MatrixOrthogonalityTolerance<double>
 {
 public:
   static double GetTolerance() { return 1e-10; }
 };
 
 template <>
-class MatrixOrthogonalityTolerance<float>
+class ITK_TEMPLATE_EXPORT MatrixOrthogonalityTolerance<float>
 {
 public:
-  static float GetTolerance() { return 1e-5; }
+  static float GetTolerance() { return 1e-5f; }
 };
 
 /** \class MatrixOffsetTransformBase
@@ -96,7 +96,7 @@ public:
 template<typename TParametersValueType=double,
          unsigned int NInputDimensions = 3,
          unsigned int NOutputDimensions = 3>
-class MatrixOffsetTransformBase :
+class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase :
   public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
 {
 public:

@@ -73,7 +73,7 @@ namespace itk
  */
 
 template< typename  TPixel >
-class Hessian3DToVesselnessMeasureImageFilter:public
+class ITK_TEMPLATE_EXPORT Hessian3DToVesselnessMeasureImageFilter:public
   ImageToImageFilter< Image< SymmetricSecondRankTensor< double, 3 >, 3 >,
                       Image< TPixel, 3 > >
 {

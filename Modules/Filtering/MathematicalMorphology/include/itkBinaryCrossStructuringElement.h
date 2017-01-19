@@ -50,7 +50,7 @@ namespace itk
 
 template< typename TPixel, unsigned int VDimension = 2,
           typename TAllocator = NeighborhoodAllocator< TPixel > >
-class BinaryCrossStructuringElement:
+class ITK_TEMPLATE_EXPORT BinaryCrossStructuringElement:
   public Neighborhood< TPixel, VDimension, TAllocator >
 {
 public:

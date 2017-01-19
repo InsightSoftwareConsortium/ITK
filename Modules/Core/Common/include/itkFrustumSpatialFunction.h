@@ -27,7 +27,7 @@ namespace itk
  * \brief Spatial function implementation of a truncated pyramid.
  *
  * Implements a function that returns 0 for points inside or on the surface
- * of a truncated pyrami, 1 for points outside the truncated pyramid
+ * of a truncated pyramid, 1 for points outside the truncated pyramid.
  *
  * \ingroup SpatialFunctions
  *
@@ -35,17 +35,18 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< unsigned int VImageDimension = 3, typename TInput = Point< double, 3 > >
-class FrustumSpatialFunction:
-  public InteriorExteriorSpatialFunction< VImageDimension, TInput >
+template< unsigned int VDimension = 3,
+          typename TInput = Point< double, VDimension > >
+class ITK_TEMPLATE_EXPORT FrustumSpatialFunction:
+  public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef FrustumSpatialFunction< VImageDimension, TInput >          Self;
-  typedef InteriorExteriorSpatialFunction< VImageDimension, TInput > Superclass;
-  typedef SmartPointer< Self >                                       Pointer;
-  typedef SmartPointer< const Self >                                 ConstPointer;
+  typedef FrustumSpatialFunction< VDimension, TInput >          Self;
+  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(FrustumSpatialFunction, InteriorExteriorSpatialFunction);
@@ -53,47 +54,47 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Input type for the function */
+  /** Input type for the function. */
   typedef typename Superclass::InputType InputType;
 
-  /** Output type for the function */
+  /** Output type for the function. */
   typedef typename Superclass::OutputType OutputType;
 
-  /** Rotate the frustum in the XZ or the YZ plane */
+  /** Rotate the frustum in the XZ or the YZ plane. */
   typedef enum {
     RotateInXZPlane = 1,
     RotateInYZPlane
     } FrustumRotationPlaneType;
 
-  /** Evaluates the function at a given position */
+  /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
-  /** Get and set the center of the sphere */
+  /** Set/Get the apex of the pyramid. */
   itkGetConstMacro(Apex, InputType);
   itkSetMacro(Apex, InputType);
 
-  /** Get and set the angle of the pyramid axis
-   * with respect to the Z axis */
+  /** Set/Get the angle of the pyramid axis with respect to the Z axis. */
   itkGetConstMacro(AngleZ, double);
   itkSetMacro(AngleZ, double);
 
-  /** Get and set the aperture angle in X */
+  /** Set/Get the aperture angle in the X axis. */
   itkGetConstMacro(ApertureAngleX, double);
   itkSetMacro(ApertureAngleX, double);
 
-  /** Get and set the aperture angle in Y */
+  /** Set/Get the aperture angle in the Y axis. */
   itkGetConstMacro(ApertureAngleY, double);
   itkSetMacro(ApertureAngleY, double);
 
-  /** Get and set the top plane distance to the Apex */
+  /** Set/Get the top plane distance to the apex. */
   itkGetConstMacro(TopPlane, double);
   itkSetMacro(TopPlane, double);
 
-  /** Get and set the bottom plane distance to the Apex */
+  /** Set/Get the bottom plane distance to the apex. */
   itkGetConstMacro(BottomPlane, double);
   itkSetMacro(BottomPlane, double);
 
-  /** Set macro to set the plane in which the frustum should rotate */
+  /** Set/Get the plane in which the frustum should rotate. */
+  itkGetConstMacro(RotationPlane, FrustumRotationPlaneType);
   itkSetMacro(RotationPlane, FrustumRotationPlaneType);
 
 protected:
@@ -104,26 +105,13 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrustumSpatialFunction);
 
-  /** The apex of the pyramid (of the same type as Input) */
-  InputType m_Apex;
-
-  /** Angle between the pyramid axis and the Z axis */
-  double m_AngleZ;
-
-  /** Aperture Angle in X direction */
-  double m_ApertureAngleX;
-
-  /** Aperture Angle in Y direction */
-  double m_ApertureAngleY;
-
-  /** Distance from Apex to top plane */
-  double m_TopPlane;
-
-  /** Distance from Apex to bottom plane */
-  double m_BottomPlane;
-
-  /** Plane in which to the frustum is being rotated */
-  FrustumRotationPlaneType m_RotationPlane;
+  InputType                 m_Apex;
+  double                    m_AngleZ;
+  double                    m_ApertureAngleX;
+  double                    m_ApertureAngleY;
+  double                    m_TopPlane;
+  double                    m_BottomPlane;
+  FrustumRotationPlaneType  m_RotationPlane;
 };
 } // end namespace itk
 

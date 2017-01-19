@@ -26,7 +26,7 @@
 namespace itk
 {
 /** \class PointSetToPointSetRegistrationMethod
- * \brief Base class for PointSet to PointSet Registration Methods
+ * \brief Base class for PointSet to PointSet Registration Methods.
  *
  * This Class define the generic interface for a registration method.
  *
@@ -35,17 +35,17 @@ namespace itk
  * at run time the particular type of transformation that is to be applied for
  * registering the PointSets.
  *
- * This method use a generic Metric in order to compare the PointSet and the
- * PointSet.  The final goal of the registration method is to find the set of
- * parameters of the Transformation that optimizes the metric.
+ * This class uses a generic Metric in order to compare the PointSet
+ * and the PointSet. The final goal of the registration method is to find the
+ * set of parameters of the Transformation that optimizes the metric.
  *
- * The registration method also support a generic optimizer that can be
+ * The registration method also supports a generic optimizer that can be
  * selected at run-time. The only restriction for the optimizer is that it
  * should be able to operate in single-valued cost functions given that the
  * metrics used to compare PointSet with PointSets provide a single value as
  * output.
  *
- * The terms : FixedPointSet and MovingPointSet are used in this class to indicate
+ * The terms FixedPointSet and MovingPointSet are used in this class to indicate
  * that the PointSet is being mapped by the transform.
  *
  * This class uses the coordinate system of the Fixed PointSet as a reference
@@ -56,11 +56,14 @@ namespace itk
  * PointSet with the Transformed Moving PointSet. This process also requires to
  * interpolate values from the Moving PointSet.
  *
+ * This class requires the Transform, the Metric, and the Optimizer to be
+ * explicitly set.
+ *
  * \ingroup RegistrationFilters
  * \ingroup ITKRegistrationCommon
  */
 template< typename TFixedPointSet, typename TMovingPointSet >
-class PointSetToPointSetRegistrationMethod:public ProcessObject
+class ITK_TEMPLATE_EXPORT PointSetToPointSetRegistrationMethod : public ProcessObject
 {
 public:
   /** Standard class typedefs. */
@@ -83,7 +86,7 @@ public:
   typedef          TMovingPointSet                  MovingPointSetType;
   typedef typename MovingPointSetType::ConstPointer MovingPointSetConstPointer;
 
-  /**  Type of the metric. */
+  /**  Type of the Metric. */
   typedef PointSetToPointSetMetric< FixedPointSetType, MovingPointSetType > MetricType;
   typedef typename MetricType::Pointer                                      MetricPointer;
 
@@ -92,15 +95,16 @@ public:
   typedef  typename TransformType::Pointer    TransformPointer;
 
   /** Type for the output: Using Decorator pattern for enabling
-   *  the Transform to be passed in the data pipeline */
+   *  the Transform to be passed in the data pipeline. */
   typedef  DataObjectDecorator< TransformType >      TransformOutputType;
   typedef typename TransformOutputType::Pointer      TransformOutputPointer;
   typedef typename TransformOutputType::ConstPointer TransformOutputConstPointer;
-  /**  Type of the optimizer. */
+
+  /**  Type of the Optimizer. */
   typedef   MultipleValuedNonLinearOptimizer OptimizerType;
 
-  /** Type of the Transformation parameters This is the same type used to
-   *  represent the search space of the optimization algorithm */
+  /** Type of the Transformation parameters. This is the same type used to
+   *  represent the search space of the optimization algorithm. */
   typedef  typename MetricType::TransformParametersType ParametersType;
 
   /** Smart Pointer type to a DataObject. */
@@ -148,8 +152,6 @@ public:
   using Superclass::MakeOutput;
   virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
-  /** Method to return the latest modified time of this object or
-   * any of its cached ivars */
   virtual ModifiedTimeType GetMTime() const ITK_OVERRIDE;
 
 #ifdef ITKV3_COMPATIBILITY
@@ -176,9 +178,7 @@ protected:
   virtual ~PointSetToPointSetRegistrationMethod() {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** Method invoked by the pipeline in order to trigger the computation of
-   * the registration. */
-  virtual void  GenerateData() ITK_OVERRIDE;
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToPointSetRegistrationMethod);

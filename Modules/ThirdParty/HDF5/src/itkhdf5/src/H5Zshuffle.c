@@ -24,8 +24,6 @@
 #include "H5Tprivate.h"		/* Datatypes         			*/
 #include "H5Zpkg.h"		/* Data filters				*/
 
-#ifdef H5_HAVE_FILTER_SHUFFLE
-
 /* Local function prototypes */
 static herr_t H5Z_set_local_shuffle(hid_t dcpl_id, hid_t type_id, hid_t space_id);
 static size_t H5Z_filter_shuffle(unsigned flags, size_t cd_nelmts,
@@ -65,7 +63,7 @@ const H5Z_class2_t H5Z_SHUFFLE[1] = {{
  */
 /* ARGSUSED */
 static herr_t
-H5Z_set_local_shuffle(hid_t dcpl_id, hid_t type_id, hid_t UNUSED space_id)
+H5Z_set_local_shuffle(hid_t dcpl_id, hid_t type_id, hid_t H5_ATTR_UNUSED space_id)
 {
     H5P_genplist_t *dcpl_plist;     /* Property list pointer */
     const H5T_t	*type;                  /* Datatype */
@@ -74,14 +72,14 @@ H5Z_set_local_shuffle(hid_t dcpl_id, hid_t type_id, hid_t UNUSED space_id)
     unsigned cd_values[H5Z_SHUFFLE_TOTAL_NPARMS];  /* Filter parameters */
     herr_t ret_value = SUCCEED;         /* Return value */
 
-    FUNC_ENTER_NOAPI(H5Z_set_local_shuffle, FAIL)
+    FUNC_ENTER_NOAPI(FAIL)
 
     /* Get the plist structure */
     if(NULL == (dcpl_plist = H5P_object_verify(dcpl_id, H5P_DATASET_CREATE)))
         HGOTO_ERROR(H5E_ATOM, H5E_BADATOM, FAIL, "can't find object for ID")
 
     /* Get datatype */
-    if(NULL == (type = H5I_object_verify(type_id, H5I_DATATYPE)))
+    if(NULL == (type = (const H5T_t *)H5I_object_verify(type_id, H5I_DATATYPE)))
 	HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a datatype")
 
     /* Get the filter's current parameters */
@@ -139,7 +137,7 @@ H5Z_filter_shuffle(unsigned flags, size_t cd_nelmts, const unsigned cd_values[],
     size_t leftover;            /* Extra bytes at end of buffer */
     size_t ret_value;           /* Return value */
 
-    FUNC_ENTER_NOAPI(H5Z_filter_shuffle, 0)
+    FUNC_ENTER_NOAPI(0)
 
     /* Check arguments */
     if (cd_nelmts!=H5Z_SHUFFLE_TOTAL_NPARMS || cd_values[H5Z_SHUFFLE_PARM_SIZE]==0)
@@ -183,6 +181,9 @@ H5Z_filter_shuffle(unsigned flags, size_t cd_nelmts, const unsigned cd_values[],
 
                 duffs_index = (numofelements + 7) / 8;
                 switch (numofelements % 8) {
+                    default:
+                        HDassert(0 && "This Should never be executed!");
+                        break;
                     case 0:
                         do
                           {
@@ -238,6 +239,9 @@ H5Z_filter_shuffle(unsigned flags, size_t cd_nelmts, const unsigned cd_values[],
 
                 duffs_index = (numofelements + 7) / 8;
                 switch (numofelements % 8) {
+                    default:
+                        HDassert(0 && "This Should never be executed!");
+                        break;
                     case 0:
                         do
                           {
@@ -285,5 +289,4 @@ H5Z_filter_shuffle(unsigned flags, size_t cd_nelmts, const unsigned cd_values[],
 done:
     FUNC_LEAVE_NOAPI(ret_value)
 }
-#endif /*H5_HAVE_FILTER_SHUFFLE */
 

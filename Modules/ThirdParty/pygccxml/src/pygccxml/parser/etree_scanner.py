@@ -1,8 +1,9 @@
-# Copyright 2014-2015 Insight Software Consortium.
+# Copyright 2014-2016 Insight Software Consortium.
 # Copyright 2004-2008 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
+import warnings
 from . import scanner
 
 # keep py2exe happy
@@ -14,6 +15,11 @@ import xml.etree.cElementTree as ElementTree
 class etree_saxifier_t(object):
 
     def __init__(self, etree, handler):
+        """
+        Deprecated since 1.8.0. Will be removed in 1.9.0.
+
+        """
+        warnings.warn("etree_saxifier_t is deprecated.\n", DeprecationWarning)
         self.__root_elem = etree.getroot()
         self.__handler = handler
 
@@ -32,6 +38,13 @@ class etree_saxifier_t(object):
 class etree_scanner_t(scanner.scanner_t):
 
     def __init__(self, xml_file, decl_factory, *args):
+        """
+        Deprecated since 1.8.0. Will be removed in 1.9.0.
+
+        """
+        warnings.warn(
+            "etree_scanner_t is deprecated.\n" +
+            "Please use ietree_scanner_t instead.", DeprecationWarning)
         scanner.scanner_t.__init__(self, xml_file, decl_factory, *args)
 
     def read(self):
@@ -48,9 +61,7 @@ class ietree_scanner_t(scanner.scanner_t):
     def read(self):
         context = ElementTree.iterparse(
             self.xml_file,
-            events=(
-                "start",
-                "end"))
+            events=("start", "end"))
         for event, elem in context:
             if event == 'start':
                 self.startElement(elem.tag, elem.attrib)
@@ -58,5 +69,3 @@ class ietree_scanner_t(scanner.scanner_t):
                 self.endElement(elem.tag)
                 elem.clear()
         self.endDocument()
-
-etree_scanner_t = ietree_scanner_t

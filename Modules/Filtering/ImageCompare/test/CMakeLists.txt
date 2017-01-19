@@ -16,9 +16,15 @@ itk_add_test(NAME itkAbsoluteValueDifferenceImageFilterTest
 itk_add_test(NAME itkSquaredDifferenceImageFilterTest
       COMMAND ITKImageCompareTestDriver itkSquaredDifferenceImageFilterTest)
 itk_add_test(NAME itkCheckerBoardImageFilterTest
-      COMMAND ITKImageCompareTestDriver itkCheckerBoardImageFilterTest)
+      COMMAND ITKImageCompareTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png
+              277faa96444775070dcc8f6be2d71eb2
+    itkCheckerBoardImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkCheckerBoardImageFilterTest.png)
 itk_add_test(NAME itkConstrainedValueDifferenceImageFilterTest
-      COMMAND ITKImageCompareTestDriver itkConstrainedValueDifferenceImageFilterTest)
+      COMMAND ITKImageCompareTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png
+              87028680dd2bbc12f57b141f7272d295
+    itkConstrainedValueDifferenceImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueDifferenceImageFilterTest.png)
 itk_add_test(NAME itkSimilarityIndexImageFilterTest
       COMMAND ITKImageCompareTestDriver itkSimilarityIndexImageFilterTest)
 itk_add_test(NAME itkSTAPLEImageFilterTest

@@ -36,17 +36,18 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< unsigned int VDimension = 3, typename TInput = Point< double, 3 > >
-class TorusInteriorExteriorSpatialFunction:
+template< unsigned int VDimension = 3,
+          typename TInput = Point< double, VDimension > >
+class ITK_TEMPLATE_EXPORT TorusInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef TorusInteriorExteriorSpatialFunction          Self;
-  typedef InteriorExteriorSpatialFunction< VDimension > Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef TorusInteriorExteriorSpatialFunction                  Self;
+  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run time information. */
   itkTypeMacro(TorusInteriorExteriorSpatialFunction, InteriorExteriorSpatialFunction);
@@ -60,7 +61,7 @@ public:
   /** Output type for the function. */
   typedef typename Superclass::OutputType OutputType;
 
-  /** Evaluates the function at a given position */
+  /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
   /** Set/Get the origin of the torus (the point from which the major
@@ -72,7 +73,7 @@ public:
   itkGetConstMacro(MajorRadius, double);
   itkSetMacro(MajorRadius, double);
 
-  /** Set/Get the major radius of the torus. */
+  /** Set/Get the minor radius of the torus (radius of tube). */
   itkGetConstMacro(MinorRadius, double);
   itkSetMacro(MinorRadius, double);
 
@@ -84,15 +85,9 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TorusInteriorExteriorSpatialFunction);
 
-  /** The origin of the torus (the point from which the major
-   * radius is measured) */
   InputType m_Origin;
-
-  /** The distance from the origin of the torus to the center of the "tube" */
-  double m_MajorRadius;
-
-  /** The diameter of the "tube" */
-  double m_MinorRadius;
+  double    m_MajorRadius;
+  double    m_MinorRadius;
 };
 } // end namespace itk
 

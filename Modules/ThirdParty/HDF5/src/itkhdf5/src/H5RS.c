@@ -63,7 +63,7 @@ H5RS_xstrdup(const char *s)
 {
     char *ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5RS_xstrdup)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     if(s) {
         size_t len = HDstrlen(s) + 1;
@@ -103,7 +103,7 @@ H5RS_create(const char *s)
 {
     H5RS_str_t *ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI(H5RS_create, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     /* Allocate ref-counted string structure */
     if(NULL == (ret_value = H5FL_MALLOC(H5RS_str_t)))
@@ -139,18 +139,18 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 H5RS_str_t *
-H5RS_wrap(const char *s)
+H5RS_wrap(char *s)
 {
     H5RS_str_t *ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI(H5RS_wrap, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     /* Allocate ref-counted string structure */
     if(NULL == (ret_value = H5FL_MALLOC(H5RS_str_t)))
         HGOTO_ERROR(H5E_RS, H5E_NOSPACE, NULL, "memory allocation failed")
 
     /* Set the internal fields */
-    ret_value->s = (char *)s;      /* (Cast away const OK - QAK) */
+    ret_value->s = s;
     ret_value->wrapped = 1;
     ret_value->n = 1;
 
@@ -185,7 +185,7 @@ H5RS_own(char *s)
 {
     H5RS_str_t *ret_value;   /* Return value */
 
-    FUNC_ENTER_NOAPI(H5RS_own, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     /* Allocate ref-counted string structure */
     if(NULL == (ret_value = H5FL_MALLOC(H5RS_str_t)))
@@ -223,7 +223,7 @@ done:
 herr_t
 H5RS_decr(H5RS_str_t *rs)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5RS_decr)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(rs);
@@ -261,7 +261,7 @@ H5RS_decr(H5RS_str_t *rs)
 herr_t
 H5RS_incr(H5RS_str_t *rs)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5RS_incr)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(rs);
@@ -305,7 +305,7 @@ H5RS_incr(H5RS_str_t *rs)
 H5RS_str_t *
 H5RS_dup(H5RS_str_t *ret_value)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5RS_dup)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Check for valid reference counted string */
     if(ret_value != NULL)
@@ -341,7 +341,7 @@ H5RS_dup_str(const char *s)
     size_t path_len;            /* Length of the path */
     H5RS_str_t *ret_value;
 
-    FUNC_ENTER_NOAPI(H5RS_dup_str, NULL)
+    FUNC_ENTER_NOAPI(NULL)
 
     /* Sanity check */
     HDassert(s);
@@ -389,7 +389,7 @@ int
 H5RS_cmp(const H5RS_str_t *rs1, const H5RS_str_t *rs2)
 {
     /* Can't return invalid value from this function */
-    FUNC_ENTER_NOAPI_NOINIT_NOFUNC(H5RS_cmp)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(rs1);
@@ -422,7 +422,7 @@ H5RS_cmp(const H5RS_str_t *rs1, const H5RS_str_t *rs2)
 ssize_t
 H5RS_len(const H5RS_str_t *rs)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5RS_len)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(rs);
@@ -456,7 +456,7 @@ H5RS_len(const H5RS_str_t *rs)
 char *
 H5RS_get_str(const H5RS_str_t *rs)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5RS_get_str)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(rs);
@@ -488,7 +488,7 @@ H5RS_get_str(const H5RS_str_t *rs)
 unsigned
 H5RS_get_count(const H5RS_str_t *rs)
 {
-    FUNC_ENTER_NOAPI_NOFUNC(H5RS_get_count)
+    FUNC_ENTER_NOAPI_NOINIT_NOERR
 
     /* Sanity check */
     HDassert(rs);

@@ -49,14 +49,14 @@ class ITKIOLSM_EXPORT LSMImageIO:public TIFFImageIO
 public:
   /** Standard class typedefs. */
   typedef LSMImageIO           Self;
-  typedef ImageIOBase          Superclass;
+  typedef TIFFImageIO          Superclass;
   typedef SmartPointer< Self > Pointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LSMImageIO, Superclass);
+  itkTypeMacro(LSMImageIO, TIFFImageIO);
 
   /*-------- This part of the interface deals with reading data. ------ */
 

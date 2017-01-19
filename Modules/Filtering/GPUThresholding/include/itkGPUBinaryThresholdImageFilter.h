@@ -30,7 +30,7 @@ namespace itk
 namespace Functor
 {
 template< typename TInput, typename TOutput >
-class GPUBinaryThreshold : public GPUFunctorBase
+class ITK_TEMPLATE_EXPORT GPUBinaryThreshold : public GPUFunctorBase
 {
 public:
   GPUBinaryThreshold()
@@ -91,7 +91,7 @@ itkGPUKernelClassMacro(GPUBinaryThresholdImageFilterKernel);
  * \ingroup ITKGPUThresholding
  */
 template< typename TInputImage, typename TOutputImage >
-class GPUBinaryThresholdImageFilter :
+class ITK_TEMPLATE_EXPORT GPUBinaryThresholdImageFilter :
   public
   GPUUnaryFunctorImageFilter< TInputImage, TOutputImage,
                               Functor::GPUBinaryThreshold<

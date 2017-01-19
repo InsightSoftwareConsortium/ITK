@@ -46,7 +46,7 @@ namespace itk
  * \ingroup ITKMesh
  */
 template< typename TOutputMesh >
-class MeshSource:public ProcessObject
+class ITK_TEMPLATE_EXPORT MeshSource:public ProcessObject
 {
 public:
   /** Standard class typedefs. */

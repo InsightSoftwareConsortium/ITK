@@ -69,7 +69,7 @@ namespace itk
  * \ingroup ITKLevelSets
  */
 template< typename TImageType, typename TFeatureImageType = TImageType >
-class ShapeDetectionLevelSetFunction:
+class ITK_TEMPLATE_EXPORT ShapeDetectionLevelSetFunction:
   public SegmentationLevelSetFunction< TImageType, TFeatureImageType >
 {
 public:

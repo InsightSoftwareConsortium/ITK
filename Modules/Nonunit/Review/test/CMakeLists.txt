@@ -19,7 +19,6 @@ itkDivideByConstantImageFilterTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
-itkHessianToObjectnessMeasureImageFilterTest.cxx
 itkImageFunctionTest.cxx
 itkJPEG2000ImageIOFactoryTest01.cxx
 itkJPEG2000ImageIORegionOfInterest.cxx
@@ -250,7 +249,9 @@ itk_add_test(NAME itkJPEG2000Test02
 itk_add_test(NAME itkJPEG2000Test03
       COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest03
               ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif ${ITK_TEST_OUTPUT_DIR}/Bretagne1_02.j2k)
-set_tests_properties( itkJPEG2000Test03 PROPERTIES DEPENDS itkJPEG2000Test00 )
+set_tests_properties( itkJPEG2000Test03 PROPERTIES
+  DEPENDS itkJPEG2000Test00
+  REQUIRED_FILES ${ITK_TEST_OUTPUT_DIR}/Bretagne1_RegionTest01.tif )
 
 itk_add_test(NAME itkJPEG2000Test05
       COMMAND ITKReviewTestDriver itkJPEG2000ImageIOTest05
@@ -621,22 +622,3 @@ itk_add_test(NAME itkVoxBoCUBImageIOTest7
     itkVoxBoCUBImageIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha)
 itk_add_test(NAME itkWarpHarmonicEnergyCalculatorTest
       COMMAND ITKReviewTestDriver itkWarpHarmonicEnergyCalculatorTest)
-itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest
-      COMMAND ITKReviewTestDriver
-  --compare DATA{${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest.mha}
-            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
-            --compareIntensityTolerance .01
-  itkHessianToObjectnessMeasureImageFilterTest
-  DATA{${INPUTDATA}/DSA.png}
-  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput.mha
-  1 0)
-
-itk_add_test(NAME itkHessianToObjectnessMeasureImageFilterTest2
-      COMMAND ITKReviewTestDriver
-  --compare DATA{${BASELINE}/itkHessianToObjectnessMeasureImageFilterTest2.mha}
-            ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
-            --compareIntensityTolerance .01
-  itkHessianToObjectnessMeasureImageFilterTest
-  DATA{${INPUTDATA}/DSA.png}
-  ${TEMP}/itkHessianToObjectnessMeasureImageFilterTestOutput2.mha
-  0 0)

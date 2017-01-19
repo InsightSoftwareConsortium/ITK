@@ -61,7 +61,7 @@ namespace itk
  */
 template< typename TOutputImage,
           typename TTransformPrecisionType = double >
-class TransformToDeformationFieldSource:
+class ITK_TEMPLATE_EXPORT TransformToDeformationFieldSource:
   public ImageSource< TOutputImage >
 {
 public:
@@ -165,7 +165,7 @@ public:
   virtual void BeforeThreadedGenerateData();
 
   /** Compute the Modified Time based on changes to the components. */
-  unsigned long GetMTime() const;
+  ModifiedTimeType GetMTime() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

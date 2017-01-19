@@ -22,27 +22,29 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
 
   itk_python_add_test(NAME PythonTemplate COMMAND template.py)
 
+  itk_python_add_test(NAME PythonModifiedTime COMMAND ModifiedTime.py)
+
   itk_python_add_test(NAME PythonAutoPipeline
     TEST_DRIVER_ARGS
-      --compare auto_pipeline.png DATA{${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/auto_pipeline.png DATA{${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png}
     COMMAND auto_pipeline.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      auto_pipeline.png
+      ${ITK_TEST_OUTPUT_DIR}/auto_pipeline.png
       3
     )
 
   itk_python_add_test(NAME PythonTemplatedPipeline
     TEST_DRIVER_ARGS
-      --compare templated_pipeline.png DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png DATA{${WrapITK_SOURCE_DIR}/images/templated_pipeline.png}
     COMMAND templated_pipeline.py
       DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
-      templated_pipeline.png
+      ${ITK_TEST_OUTPUT_DIR}/templated_pipeline.png
       10
     )
 
   itk_python_add_test(NAME PythonExtras
     COMMAND extras.py
-      DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} out.png
+      DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png
     )
 
   itk_python_add_test(NAME PythonModuleToModule
@@ -53,55 +55,55 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
 
   itk_python_add_test(NAME PythonBinaryDilateImageFilter
     TEST_DRIVER_ARGS
-      --compare BinaryDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryDilateImageFilter.png}
     COMMAND BinaryDilateImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
-      BinaryDilateImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/BinaryDilateImageFilter.png
       5
     )
 
   itk_python_add_test(NAME PythonBinaryErodeImageFilter
     TEST_DRIVER_ARGS
-      --compare BinaryErodeImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryErodeImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryErodeImageFilter.png}
     COMMAND BinaryErodeImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/2th_cthead1.png}
-      BinaryErodeImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/BinaryErodeImageFilter.png
       5
     )
 
   itk_python_add_test(NAME PythonBinaryThresholdImageFilter
     TEST_DRIVER_ARGS
-      --compare BinaryThresholdImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BinaryThresholdImageFilter.png}
     COMMAND BinaryThresholdImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      BinaryThresholdImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/BinaryThresholdImageFilter.png
       50 150
       0 255
     )
 
   itk_python_add_test(NAME PythonCastImageFilter
     TEST_DRIVER_ARGS
-      --compare CastImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/CastImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
     COMMAND CastImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      CastImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/CastImageFilter.png
     )
 
   itk_python_add_test(NAME PythonGrayscaleDilateImageFilter
     TEST_DRIVER_ARGS
-      --compare GrayscaleDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/GrayscaleDilateImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/GrayscaleDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/GrayscaleDilateImageFilter.png}
     COMMAND GrayscaleDilateImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      GrayscaleDilateImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/GrayscaleDilateImageFilter.png
       5
     )
 
   itk_python_add_test(NAME PythonBoxGrayscaleDilateImageFilter
     TEST_DRIVER_ARGS
-      --compare BoxGrayscaleDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BoxGrayscaleDilateImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/BoxGrayscaleDilateImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/BoxGrayscaleDilateImageFilter.png}
     COMMAND BoxGrayscaleDilateImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      BoxGrayscaleDilateImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/BoxGrayscaleDilateImageFilter.png
     )
 
 #   itk_python_add_test(NAME PythonStrelFromImageGrayscaleDilateImageFilter
@@ -114,10 +116,10 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
 
   itk_python_add_test(NAME PythonGrayscaleErodeImageFilter
     TEST_DRIVER_ARGS
-      --compare GrayscaleErodeImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/GrayscaleErodeImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/GrayscaleErodeImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/GrayscaleErodeImageFilter.png}
     COMMAND GrayscaleErodeImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      GrayscaleErodeImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/GrayscaleErodeImageFilter.png
       5
     )
 
@@ -147,77 +149,77 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
 
   itk_python_add_test(NAME PythonMeanImageFilter
     TEST_DRIVER_ARGS
-      --compare MeanImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/MeanImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/MeanImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/MeanImageFilter.png}
     COMMAND MeanImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      MeanImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/MeanImageFilter.png
       3
     )
 
   itk_python_add_test(NAME PythonMedianImageFilter
     TEST_DRIVER_ARGS
-      --compare MedianImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/MedianImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png}
     COMMAND MedianImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      MedianImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/MedianImageFilter.png
       3
     )
 
   itk_python_add_test(NAME PythonSigmoidImageFilter
     TEST_DRIVER_ARGS
-      --compare SigmoidImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/SigmoidImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/SigmoidImageFilter.png}
     COMMAND SigmoidImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      SigmoidImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/SigmoidImageFilter.png
       10 240 10 170
     )
 
   itk_python_add_test(NAME PythonThresholdImageFilter
     TEST_DRIVER_ARGS
-      --compare ThresholdImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/ThresholdImageFilter.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/ThresholdImageFilter.png}
     COMMAND ThresholdImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      ThresholdImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/ThresholdImageFilter.png
       150 150
     )
 
   itk_python_add_test(NAME PythonResampleImageFilterTest1
     TEST_DRIVER_ARGS
-    --compare ResampleImageFilterTest1.png
+    --compare ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest1.png
               DATA{${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest1.png}
     COMMAND ResampleImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ResampleImageFilterTest1.png
+      ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest1.png
       0
     )
 
   itk_python_add_test(NAME PythonResampleImageFilterTest2
     TEST_DRIVER_ARGS
-      --compare ResampleImageFilterTest2.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest2.png
                 DATA{${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest2.png}
     COMMAND ResampleImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ResampleImageFilterTest2.png
+      ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest2.png
       1
     )
 
   itk_python_add_test(NAME PythonResampleImageFilterTest3
     TEST_DRIVER_ARGS
-      --compare ResampleImageFilterTest3.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest3.png
                 DATA{${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest3.png}
     COMMAND ResampleImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ResampleImageFilterTest3.png
+      ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest3.png
       2
     )
 
   itk_python_add_test(NAME PythonResampleImageFilterTest4
     TEST_DRIVER_ARGS
-      --compare ResampleImageFilterTest4.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest4.png
                 DATA{${WrapITK_SOURCE_DIR}/images/ResampleImageFilterTest4.png}
     COMMAND ResampleImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ResampleImageFilterTest4.png
+      ${ITK_TEST_OUTPUT_DIR}/ResampleImageFilterTest4.png
       3
     )
 endif()
@@ -228,57 +230,57 @@ if(ITK_WRAP_float AND WRAP_2)
   itk_python_add_test(NAME PythonCurvatureAnisotropicDiffusionImageFilter
     COMMAND CurvatureAnisotropicDiffusionImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      CurvatureAnisotropicDiffusionImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/CurvatureAnisotropicDiffusionImageFilter.png
       5 0.125 3
     )
 
   itk_python_add_test(NAME PythonCurvatureFlowImageFilter
     COMMAND CurvatureFlowImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      CurvatureFlowImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/CurvatureFlowImageFilter.png
       5 0.125 1.0
     )
 
   itk_python_add_test(NAME PythonSmoothingRecursiveGaussianImageFilter
     COMMAND SmoothingRecursiveGaussianImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      SmoothingRecursiveGaussianImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/SmoothingRecursiveGaussianImageFilter.png
       3
     )
 
   itk_python_add_test(NAME PythonLaplacianImageFilter
     COMMAND LaplacianImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      LaplacianImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/LaplacianImageFilter.png
     )
 
   itk_python_add_test(NAME PythonFFTImageFilter
     TEST_DRIVER_ARGS
-      --compare FFTImageFilterReal.png DATA{${WrapITK_SOURCE_DIR}/images/FFTImageFilterReal.png}
-      --compare FFTImageFilterImaginary.png DATA{${WrapITK_SOURCE_DIR}/images/FFTImageFilterImaginary.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/FFTImageFilterReal.png DATA{${WrapITK_SOURCE_DIR}/images/FFTImageFilterReal.png}
+      --compare ${ITK_TEST_OUTPUT_DIR}/FFTImageFilterImaginary.png DATA{${WrapITK_SOURCE_DIR}/images/FFTImageFilterImaginary.png}
     COMMAND FFTImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      FFTImageFilterReal.png
-      FFTImageFilterImaginary.png
+      ${ITK_TEST_OUTPUT_DIR}/FFTImageFilterReal.png
+      ${ITK_TEST_OUTPUT_DIR}/FFTImageFilterImaginary.png
   )
 
   itk_python_add_test(NAME  PythonGradientMagnitudeRecursiveGaussianImageFilterTest
     TEST_DRIVER_ARGS
-      --compare GradientMagnitudeRecursiveGaussianImageFilter.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilter.png
               DATA{${WrapITK_SOURCE_DIR}/images/GradientMagnitudeRecursiveGaussianImageFilter.png}
     COMMAND GradientMagnitudeRecursiveGaussianImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      GradientMagnitudeRecursiveGaussianImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/GradientMagnitudeRecursiveGaussianImageFilter.png
       5
     )
 
   itk_python_add_test(NAME  PythonGradientAnisotropicDiffusionImageFilterTest
     TEST_DRIVER_ARGS
-      --compare GradientAnisotropicDiffusionImageFilter.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilter.png
                 DATA{${WrapITK_SOURCE_DIR}/images/GradientAnisotropicDiffusionImageFilter.png}
     COMMAND GradientAnisotropicDiffusionImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      GradientAnisotropicDiffusionImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/GradientAnisotropicDiffusionImageFilter.png
       5 0.125 1.0
     )
 
@@ -292,7 +294,7 @@ if(ITK_WRAP_float AND WRAP_2)
 #             DATA{${WrapITK_SOURCE_DIR}/images/GeodesicActiveContourLeftVentricleTest.png}
     COMMAND GeodesicActiveContourImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      GeodesicActiveContourLeftVentricleTest.png
+      ${ITK_TEST_OUTPUT_DIR}/GeodesicActiveContourLeftVentricleTest.png
       81 114 5.0 1.0 -0.5 3.0 2.0
     )
 
@@ -319,100 +321,100 @@ if(ITK_WRAP_float AND WRAP_2)
 
   itk_python_add_test(NAME PythonFastMarchingLeftVentricleTest
     TEST_DRIVER_ARGS
-      --compare FastMarchingLeftVentricleTest.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingLeftVentricleTest.png
                 DATA{${WrapITK_SOURCE_DIR}/images/FastMarchingLeftVentricleTest.png}
     COMMAND FastMarchingImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      FastMarchingLeftVentricleTest.png
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingLeftVentricleTest.png
       81 114 1.0 -0.5 3.0 100 100
     )
 
   itk_python_add_test(NAME PythonFastMarchingRightVentricleTest
     TEST_DRIVER_ARGS
-      --compare FastMarchingRightVentricleTest.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingRightVentricleTest.png
                 DATA{${WrapITK_SOURCE_DIR}/images/FastMarchingRightVentricleTest.png}
     COMMAND FastMarchingImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      FastMarchingRightVentricleTest.png
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingRightVentricleTest.png
       99 114 1.0 -0.5 3.0 100 100
     )
 
   itk_python_add_test(NAME PythonFastMarchingWhiteMatterTest
     TEST_DRIVER_ARGS
-      --compare FastMarchingWhiteMatterTest.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingWhiteMatterTest.png
                 DATA{${WrapITK_SOURCE_DIR}/images/FastMarchingWhiteMatterTest.png}
     COMMAND FastMarchingImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      FastMarchingWhiteMatterTest.png
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingWhiteMatterTest.png
       56 92 1.0 -0.3 2.0 200 100
     )
 
   itk_python_add_test(NAME PythonFastMarchingGrayMatterTest
     TEST_DRIVER_ARGS
-      --compare FastMarchingGrayMatterTest.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/FastMarchingGrayMatterTest.png
                 DATA{${WrapITK_SOURCE_DIR}/images/FastMarchingGrayMatterTest.png}
     COMMAND FastMarchingImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      FastMarchingGrayMatterTest.png
+      ${ITK_TEST_OUTPUT_DIR}/FastMarchingGrayMatterTest.png
       40 90 .5 -0.3 2.0 200 100
     )
 
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetVentricleTest
     TEST_DRIVER_ARGS
-    --compare ThresholdSegmentationLevelSetVentricleTest.png
+    --compare ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetVentricleTest.png
               DATA{${WrapITK_SOURCE_DIR}/images/ThresholdSegmentationLevelSetVentricleTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ThresholdSegmentationLevelSetVentricleTest.png
+      ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetVentricleTest.png
       81 112 5 210 250
     )
 
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetWhiteMatterTest
     TEST_DRIVER_ARGS
-      --compare ThresholdSegmentationLevelSetWhiteMatterTest.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetWhiteMatterTest.png
                 DATA{${WrapITK_SOURCE_DIR}/images/ThresholdSegmentationLevelSetWhiteMatterTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ThresholdSegmentationLevelSetWhiteMatterTest.png
+      ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetWhiteMatterTest.png
       60 116 5 150 180
     )
 
   itk_python_add_test(NAME PythonThresholdSegmentationLevelSetGrayMatterTest
     TEST_DRIVERS_ARGS
-      --compare ThresholdSegmentationLevelSetGrayMatterTest.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetGrayMatterTest.png
                 DATA{${WrapITK_SOURCE_DIR}/images/ThresholdSegmentationLevelSetGrayMatterTest.png}
     COMMAND ThresholdSegmentationLevelSetImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/BrainProtonDensitySlice.png}
-      ThresholdSegmentationLevelSetGrayMatterTest.png
+      ${ITK_TEST_OUTPUT_DIR}/ThresholdSegmentationLevelSetGrayMatterTest.png
       107 69 5 180 210
     )
 
   itk_python_add_test(NAME PythonCannyEdgeDetectionImageFilterTest
     TEST_DRIVER_ARGS
       --compareNumberOfPixelsTolerance 1
-      --compare CannyEdgeDetectionImageFilter.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilter.png
                 DATA{${WrapITK_SOURCE_DIR}/images/CannyEdgeDetectionImageFilter.png}
     COMMAND CannyEdgeDetectionImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-      CannyEdgeDetectionImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/CannyEdgeDetectionImageFilter.png
       9
     )
 
   itk_python_add_test(NAME PythonWatershedSegmentation1
     TEST_DRIVER_ARGS
-      --compare WatershedSegmentation1.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/WatershedSegmentation1.png
                 DATA{${WrapITK_SOURCE_DIR}/images/WatershedSegmentation1.png}
     COMMAND WatershedSegmentation1.py
       DATA{${WrapITK_SOURCE_DIR}/images/VisibleWomanEyeSlice.png}
-      WatershedSegmentation1.png
+      ${ITK_TEST_OUTPUT_DIR}/WatershedSegmentation1.png
     )
 
   itk_python_add_test(NAME PythonSpatialObject
     TEST_DRIVER_ARGS
-      --compare SpatialObject.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/SpatialObject.png
                 DATA{${WrapITK_SOURCE_DIR}/images/SpatialObject.png}
     COMMAND SpatialObjectTest.py
-          SpatialObject.png
+          ${ITK_TEST_OUTPUT_DIR}/SpatialObject.png
     )
 
   itk_python_add_test(NAME PythonReadDicomAndReadTag
@@ -426,11 +428,11 @@ INTERSECTION(WRAP_3 3 "${ITK_WRAP_IMAGE_DIMS}")
 if(ITK_WRAP_float AND WRAP_3)
   itk_python_add_test(NAME PythonAntiAliasBinaryImageFilterTest
     TEST_DRIVER_ARGS
-      --compare AntiAliasBinaryImageFilter.png
+      --compare ${ITK_TEST_OUTPUT_DIR}/AntiAliasBinaryImageFilter.png
                 DATA{${WrapITK_SOURCE_DIR}/images/AntiAliasBinaryImageFilter.png}
     COMMAND AntiAliasBinaryImageFilter.py
       DATA{${WrapITK_SOURCE_DIR}/images/VentricleModel.png}
-      AntiAliasBinaryImageFilter.png
+      ${ITK_TEST_OUTPUT_DIR}/AntiAliasBinaryImageFilter.png
       .001 50
     )
 endif()
@@ -443,12 +445,12 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${types})
     itk_python_add_test(NAME PythonSimplePipeline${t}${d}
       TEST_DRIVER_ARGS
-        --compare simple_pipeline${t}${d}.nrrd DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+        --compare ${ITK_TEST_OUTPUT_DIR}/simple_pipeline${t}${d}.nrrd DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
       COMMAND simple_pipeline.py
         ${t}
         ${d}
         DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
-        simple_pipeline${t}${d}.nrrd
+        ${ITK_TEST_OUTPUT_DIR}/simple_pipeline${t}${d}.nrrd
     )
   endforeach()
 endforeach()

@@ -52,7 +52,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TInputImage >
-class PadLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
+class ITK_TEMPLATE_EXPORT PadLabelMapFilter:public ChangeRegionLabelMapFilter< TInputImage >
 {
 public:
   /** Standard class typedefs. */
@@ -62,7 +62,7 @@ public:
   typedef SmartPointer< const Self >                ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PadLabelMapFilter, ChangeRegionImageFilter);
+  itkTypeMacro(PadLabelMapFilter, ChangeRegionLabelMapFilter);
 
   /** Standard New method. */
   itkNewMacro(Self);

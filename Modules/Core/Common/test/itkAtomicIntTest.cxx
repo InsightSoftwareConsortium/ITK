@@ -42,8 +42,11 @@ itk::uint64_t Total64 = 0;
 itk::AtomicInt<itk::uint32_t> TotalAtomic(0);
 itk::AtomicInt<itk::uint64_t> TotalAtomic64(0);
 const int Target = 1000000;
-int Values32[Target+2];
-int Values64[Target+2];
+itk::int32_t Values32[Target+2];
+itk::int64_t Values64[Target+2];
+itk::AtomicInt<itk::int32_t*> AtomicPtr(Values32);
+itk::AtomicInt<itk::int64_t*> Atomic64Ptr(Values64);
+
 int NumThreads = 5;
 
 itk::Object::Pointer AnObject;
@@ -112,8 +115,115 @@ ITK_THREAD_RETURN_TYPE MyFunction4(void *)
   return ITK_THREAD_RETURN_VALUE;
 }
 
+ITK_THREAD_RETURN_TYPE MyFunctionPtr(void *)
+{
+  for (int i=0; i<Target/NumThreads; i++)
+    {
+    itk::int32_t* ptr32 = ++AtomicPtr;
+    (*ptr32) = 1;
+
+    itk::int64_t* ptr64 = ++Atomic64Ptr;
+    (*ptr64) = 1;
+    }
+
+  return ITK_THREAD_RETURN_VALUE;
+}
+
+template<class T>
+int TestAtomicOperators(std::string name)
+{
+  itk::AtomicInt<T> testAtomic(1);
+  if(testAtomic != 1)
+  {
+    std::cout << "Expecting testAtomic"<<name<<" value to be 1. Got "
+              << testAtomic << std::endl;
+    return 1;
+  }
+  testAtomic = 2;
+  if(testAtomic != 2)
+  {
+    std::cout << "Expecting testAtomic"<<name<<" value to be 2. Got "
+              << testAtomic << std::endl;
+    return 1;
+  }
+  itk::AtomicInt<T> testAtomicCopy(3);
+  testAtomic = testAtomicCopy;
+  if(testAtomic != 3)
+  {
+    std::cout << "Expecting testAtomic"<<name<<" value to be 3. Got "
+              << testAtomic << std::endl;
+    return 1;
+  }
+  if(testAtomic.load() != 3)
+  {
+    std::cout << "Expecting testAtomic"<<name<<".load() value to be 3. Got "
+              << testAtomic.load() << std::endl;
+    return 1;
+  }
+  testAtomic.store(0);
+  if(testAtomic != 0)
+  {
+    std::cout << "Expecting testAtomic"<<name<<" value to be 0. Got "
+              << testAtomic << std::endl;
+    return 1;
+  }
+  T preinc_val = ++testAtomic;
+  if(preinc_val != 1)
+  {
+    std::cout << "Expecting PreIncrement ("<<name<<") value to be 1. Got "
+              << preinc_val << std::endl;
+    return 1;
+  }
+  T postinc_val = testAtomic++;
+  if(postinc_val != 1)
+  {
+    std::cout << "Expecting PostIncrement ("<<name<<") value to be 1. Got "
+              << postinc_val << std::endl;
+    return 1;
+  }
+  T predec_val = --testAtomic;
+  if(predec_val != 1)
+  {
+    std::cout << "Expecting PreDecrement ("<<name<<") value to be 1. Got "
+              << predec_val << std::endl;
+    return 1;
+  }
+  T postdec_val = testAtomic--;
+  if(postdec_val != 1)
+  {
+    std::cout << "Expecting PostDecrement ("<<name<<") value to be 1. Got "
+              << postdec_val << std::endl;
+    return 1;
+  }
+  testAtomic += 2;
+  T addAndFetch_val = testAtomic;
+  if(addAndFetch_val != 2)
+  {
+    std::cout << "Expecting AddAndFetch ("<<name<<") value to be 2. Got "
+              << addAndFetch_val << std::endl;
+    return 1;
+  }
+  testAtomic -= 1;
+  T subAndFetch_val = testAtomic;
+  if(subAndFetch_val != 1)
+  {
+    std::cout << "Expecting SubAndFetch ("<<name<<") value to be 1. Got "
+              << subAndFetch_val << std::endl;
+    return 1;
+  }
+  return 0;
+  }
+
 int itkAtomicIntTest(int, char*[])
 {
+  // Verify all atomic operators
+  if( TestAtomicOperators<itk::uint32_t>("32")
+   || TestAtomicOperators<itk::uint64_t>("64")
+    )
+  {
+    return 1;
+  }
+  // Verify atomic behavior
   Total = 0;
   TotalAtomic = 0;
   Total64 = 0;
@@ -178,6 +288,40 @@ int itkAtomicIntTest(int, char*[])
   std::cout << Total64 << " " << TotalAtomic64.load() << std::endl;
 
   std::cout << "MTime: " << AnObject->GetMTime() << std::endl;
+
+  mt->SetSingleMethod(MyFunctionPtr, NULL);
+  mt->SingleMethodExecute();
+
+  // Making sure that pointer atomic incr returned unique
+  // values each time incremented by the size of the pointer.
+  // We expect all numbers from 1 to Target-1 to be 1.
+  if (Values32[0] != 0)
+    {
+    std::cout << "Expecting Values32[0] to be 0. Got "
+              << Values32[0] << std::endl;
+    return 1;
+    }
+  if (Values64[0] != 0)
+    {
+    std::cout << "Expecting Values64[0] to be 0. Got "
+              << Values64[0] << std::endl;
+    return 1;
+    }
+  for (int i=1; i<Target; i++)
+    {
+    if (Values32[i] != 1)
+      {
+      std::cout << "Expecting Values32[" << i << "] to be 1. Got "
+                << Values32[i] << std::endl;
+      return 1;
+      }
+    if (Values64[i] != 1)
+      {
+      std::cout << "Expecting Values64[" << i << "] to be 1. Got "
+                << Values64[i] << std::endl;
+      return 1;
+      }
+    }
 
   if (TotalAtomic.load() != static_cast<itk::uint32_t>(Target) )
     {

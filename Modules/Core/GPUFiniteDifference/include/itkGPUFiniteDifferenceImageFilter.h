@@ -34,7 +34,7 @@ namespace itk
  * \sa GPUDenseFiniteDifferenceImageFilter */
 template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
             FiniteDifferenceImageFilter< TInputImage, TOutputImage > >
-class GPUFiniteDifferenceImageFilter :
+class ITK_TEMPLATE_EXPORT GPUFiniteDifferenceImageFilter :
   public GPUInPlaceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:

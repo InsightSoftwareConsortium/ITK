@@ -45,11 +45,11 @@ namespace itk
  *   \ingroup ITKLevelSetsv4
  */
 template< typename TEquationContainer, typename TLevelSet >
-class LevelSetEvolution
+class ITK_TEMPLATE_EXPORT LevelSetEvolution
 {};
 
 template< typename TEquationContainer, typename TImage >
-class LevelSetEvolution<  TEquationContainer,
+class ITK_TEMPLATE_EXPORT LevelSetEvolution<  TEquationContainer,
                           LevelSetDenseImage< TImage > > :
   public LevelSetEvolutionBase< TEquationContainer, LevelSetDenseImage< TImage > >
 {
@@ -165,7 +165,7 @@ protected:
 
 
 template< typename TEquationContainer, typename TOutput, unsigned int VDimension >
-class LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > > :
+class ITK_TEMPLATE_EXPORT LevelSetEvolution< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > > :
   public LevelSetEvolutionBase< TEquationContainer, WhitakerSparseLevelSetImage< TOutput, VDimension > >
 {
 public:
@@ -269,7 +269,7 @@ private:
 
 // Shi
 template< typename TEquationContainer, unsigned int VDimension >
-class LevelSetEvolution<
+class ITK_TEMPLATE_EXPORT LevelSetEvolution<
     TEquationContainer,
     ShiSparseLevelSetImage< VDimension > > :
 public LevelSetEvolutionBase< TEquationContainer, ShiSparseLevelSetImage< VDimension > >
@@ -349,7 +349,7 @@ private:
 
 // Malcolm
 template< typename TEquationContainer, unsigned int VDimension >
-class LevelSetEvolution< TEquationContainer,
+class ITK_TEMPLATE_EXPORT LevelSetEvolution< TEquationContainer,
     MalcolmSparseLevelSetImage< VDimension > > :
 public LevelSetEvolutionBase< TEquationContainer, MalcolmSparseLevelSetImage< VDimension > >
 {

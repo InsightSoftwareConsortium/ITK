@@ -23,19 +23,15 @@
 
 namespace itk
 {
-/** Constructor */
+
 template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
-::EuclideanDistancePointMetric()
+::EuclideanDistancePointMetric() :
+  m_ComputeSquaredDistance( false )
 {
-  m_DistanceMap = ITK_NULLPTR;
 
-  // when set to true it will be a bit faster, but it will result in minimizing
-  // the sum of distances^4 instead of the sum of distances^2
-  m_ComputeSquaredDistance = false;
 }
 
-/** Return the number of values, i.e the number of points in the moving set */
 template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 unsigned int
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
@@ -51,7 +47,6 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
   return movingPointSet->GetPoints()->Size();
 }
 
-/** Get the match Measure */
 template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 typename EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >::MeasureType
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
@@ -93,7 +88,7 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
     // Try to use the distance map to solve the closest point
     if ( m_DistanceMap )
       {
-      // If the point is inside the distance map
+      // Check if the point is inside the distance map
       typename DistanceMapType::IndexType index;
       if ( m_DistanceMap->TransformPhysicalPointToIndex(transformedPoint, index) )
         {
@@ -108,10 +103,10 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
         }
       }
 
-    // if the closestPoint has not been found
+    // If the closestPoint has not been found, go through the list of fixed
+    // points and find the closest distance
     if ( !closestPoint )
       {
-      // Go trough the list of fixed point and find the closest distance
       FixedPointIterator pointItr2 = fixedPointSet->GetPoints()->Begin();
       FixedPointIterator pointEnd2 = fixedPointSet->GetPoints()->End();
 
@@ -141,7 +136,6 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
   return measure;
 }
 
-/** Get the Derivative Measure */
 template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 void
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
@@ -149,7 +143,6 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
                  DerivativeType & itkNotUsed(derivative) ) const
 {}
 
-/** Get both the match Measure and theDerivative Measure  */
 template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 void
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
@@ -160,7 +153,6 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
   this->GetDerivative(parameters, derivative);
 }
 
-/** PrintSelf method */
 template< typename TFixedPointSet, typename TMovingPointSet, typename TDistanceMap >
 void
 EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >

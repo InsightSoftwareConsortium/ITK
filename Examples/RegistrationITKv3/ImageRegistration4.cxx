@@ -64,6 +64,7 @@
 #include "itkResampleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkCheckerBoardImageFilter.h"
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 
 //  The following section of code implements a Command observer
@@ -208,6 +209,9 @@ int main( int argc, char *argv[] )
   metric->SetNumberOfHistogramBins( numberOfBins );
   metric->SetNumberOfSpatialSamples( numberOfSamples );
   // Software Guide : EndCodeSnippet
+
+  // For consistent results when regression testing.
+  metric->ReinitializeSeed( 121212 );
 
 
   // Software Guide : BeginLatex

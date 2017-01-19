@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename ScalarType>
-class MultiquadricRadialBasisFunction : public TransferFunctionBase<ScalarType>
+class ITK_TEMPLATE_EXPORT MultiquadricRadialBasisFunction : public TransferFunctionBase<ScalarType>
 {
 public:
 

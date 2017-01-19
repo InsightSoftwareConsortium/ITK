@@ -34,7 +34,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename TTargetVector>
-class BackPropagationLayer : public LayerBase<TMeasurementVector, TTargetVector>
+class ITK_TEMPLATE_EXPORT BackPropagationLayer : public LayerBase<TMeasurementVector, TTargetVector>
 {
 public:
   typedef BackPropagationLayer                         Self;

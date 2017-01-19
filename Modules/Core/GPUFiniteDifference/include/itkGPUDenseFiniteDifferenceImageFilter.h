@@ -51,7 +51,7 @@ itkGPUKernelClassMacro(GPUDenseFiniteDifferenceImageFilterKernel);
  */
 template< typename TInputImage, typename TOutputImage, typename TParentImageFilter =
             DenseFiniteDifferenceImageFilter< TInputImage, TOutputImage > >
-class GPUDenseFiniteDifferenceImageFilter :
+class ITK_TEMPLATE_EXPORT GPUDenseFiniteDifferenceImageFilter :
   public GPUFiniteDifferenceImageFilter< TInputImage, TOutputImage, TParentImageFilter >
 {
 public:

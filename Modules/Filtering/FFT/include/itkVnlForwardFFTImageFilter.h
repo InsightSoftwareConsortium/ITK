@@ -41,7 +41,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage=Image< std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension> >
-class VnlForwardFFTImageFilter:
+class ITK_TEMPLATE_EXPORT VnlForwardFFTImageFilter:
   public ForwardFFTImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -19,6 +19,7 @@
 
 #include "itkJoinSeriesImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -32,18 +33,15 @@ public:
   itk::ProcessObject::Pointer m_Process;
 };
 
-int itkJoinSeriesImageFilterTest(int, char* [] )
+int itkJoinSeriesImageFilterTest( int, char* [] )
 {
-  // to write informations to "itkMessageLog.txt" when DebugOn()
-//   itk::OutputWindow::SetInstance( itk::FileOutputWindow::New() );
 
   const unsigned int streamDivisions = 2;
   typedef unsigned char                 PixelType;
   typedef itk::Image< PixelType, 2 >    InputImageType;
-  // typedef itk::Image< PixelType, 3 > OutputImageType;
-  typedef itk::Image< PixelType, 4 > OutputImageType;
+  typedef itk::Image< PixelType, 4 >    OutputImageType;
 
-  // the expected result
+  // Expected result
   OutputImageType::IndexType expectedIndex = {{1, 2, 0, 0}};
   OutputImageType::SizeType expectedSize = {{8, 5, 4, 1}};
   OutputImageType::RegionType expectedRegion;
@@ -60,7 +58,7 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
   expectedOrigin[2] = 0.3;
   expectedOrigin[3] = 0.0;
 
-  // make the input images
+  // Create the input images
   int numInputs = 4;
   InputImageType::IndexType index = {{1, 2}};
   InputImageType::SizeType size = {{8, 5}};
@@ -97,15 +95,18 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
 
     inputs[i]->SetSpacing( spacing );
     inputs[i]->SetOrigin( origin );
-//     inputs[i]->DebugOn();
     }
 
-  // create the filter
+  // Create the filter
   typedef itk::JoinSeriesImageFilter< InputImageType, OutputImageType >
     JoinSeriesImageType;
+
   JoinSeriesImageType::Pointer joinSeriesImage = JoinSeriesImageType::New();
 
-  // check the default values
+  EXERCISE_BASIC_OBJECT_METHODS( joinSeriesImage, JoinSeriesImageFilter,
+    ImageToImageFilter );
+
+  // Check the default values
   if ( joinSeriesImage->GetSpacing() != 1.0 )
     {
     std::cout << "Default spacing is not 1.0" << std::endl;
@@ -117,15 +118,19 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  // setup the filter
+  // Setup the filter
   joinSeriesImage->SetSpacing( spacingValue );
+  TEST_SET_GET_VALUE( spacingValue, joinSeriesImage->GetSpacing() );
+
   joinSeriesImage->SetOrigin( originValue );
+  TEST_SET_GET_VALUE( originValue, joinSeriesImage->GetOrigin() );
+
   for ( int i = 0; i < numInputs; i++ )
     {
     joinSeriesImage->SetInput( i, inputs[i] );
     }
 
-  // to test ProgressReporter
+  // Test the ProgressReporter
   ShowProgressObject progressWatch( joinSeriesImage );
   typedef itk::SimpleMemberCommand< ShowProgressObject > CommandType;
   CommandType::Pointer command = CommandType::New();
@@ -133,15 +138,13 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
                                 &ShowProgressObject::ShowProgress );
   joinSeriesImage->AddObserver( itk::ProgressEvent(), command );
 
-  // to test streaming
+  // Test streaming
   typedef itk::StreamingImageFilter< OutputImageType, OutputImageType >
     StreamingImageType;
   StreamingImageType::Pointer streamingImage = StreamingImageType::New();
   streamingImage->SetInput( joinSeriesImage->GetOutput() );
   streamingImage->SetNumberOfStreamDivisions( streamDivisions );
 
-
-  // run
   try
     {
     streamingImage->Update();
@@ -149,7 +152,6 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
   catch( itk::ExceptionObject & err )
     {
     std::cout << err << std::endl;
-    //for InvalidRequestedRegionError
     itk::DataObjectError * errp = dynamic_cast<itk::DataObjectError *>( &err );
     if ( errp )
       {
@@ -161,7 +163,7 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
   OutputImageType::Pointer output = streamingImage->GetOutput();
 
 
-  // check the informations
+  // Check the informations
   if ( output->GetLargestPossibleRegion() != expectedRegion )
     {
     std::cout << "LargestPossibleRegion mismatch" << std::endl;
@@ -178,7 +180,7 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  // check the contents
+  // Check the contents
   bool passed = true;
 
   PixelType counter2 = 0;
@@ -205,7 +207,7 @@ int itkJoinSeriesImageFilterTest(int, char* [] )
   // An exception is raised when an input is missing.
   passed = false;
 
-  // set the 2nd input null
+  // Set the 2nd input null
   joinSeriesImage->SetInput( 1, ITK_NULLPTR );
   try
     {

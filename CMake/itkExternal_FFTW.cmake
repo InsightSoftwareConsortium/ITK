@@ -74,6 +74,12 @@ else()
     if(BUILD_SHARED_LIBS)
       set(FFTW_SHARED_FLAG --enable-shared)
     endif()
+    #
+    # set fPIC flag if needed
+    set(GCC_POSITION_INDEPENDENT_CODE_FLAG "")
+    if(CMAKE_POSITION_INDEPENDENT_CODE)
+      set(GCC_POSITION_INDEPENDENT_CODE_FLAG "-fPIC")
+    endif()
 
     set(_fftw_target_version 3.3.4)
     set(_fftw_url_md5 "2edab8c06b24feeb3b82bbb3ebf3e7b3")
@@ -88,12 +94,13 @@ else()
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
-            "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+            "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
+            "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
             "LDFLAGS=$ENV{LDFLAGS}"
             "LIBS=$ENV{LIBS}"
             "CPP=$ENV{CPP}"
             "CPPFLAGS=$ENV{CPPFLAGS}"
+            "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
             ${_additional_configure_env}
           ${ITK_BINARY_DIR}/fftwf/src/fftwf/configure
             ${FFTW_SHARED_FLAG}
@@ -115,12 +122,13 @@ else()
         DOWNLOAD_NAME "fftw-${_fftw_target_version}.tar.gz"
         CONFIGURE_COMMAND
           env
-           "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
-           "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE}"
+           "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
+           "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
            "LDFLAGS=$ENV{LDFLAGS}"
            "LIBS=$ENV{LIBS}"
            "CPP=$ENV{CPP}"
            "CPPFLAGS=$ENV{CPPFLAGS}"
+           "CXXFLAGS=$ENV{CXXFLAGS} ${GCC_POSITION_INDEPENDENT_CODE_FLAG}"
             ${_additional_configure_env}
           ${ITK_BINARY_DIR}/fftwd/src/fftwd/configure
             ${FFTW_SHARED_FLAG}

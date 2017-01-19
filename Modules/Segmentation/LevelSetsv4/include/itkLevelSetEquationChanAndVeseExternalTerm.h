@@ -47,7 +47,7 @@ namespace itk
  */
 template< typename TInput, // Input image or mesh
           typename TLevelSetContainer >
-class LevelSetEquationChanAndVeseExternalTerm :
+class ITK_TEMPLATE_EXPORT LevelSetEquationChanAndVeseExternalTerm :
     public LevelSetEquationChanAndVeseInternalTerm< TInput, TLevelSetContainer >
 {
 public:

@@ -194,29 +194,29 @@ def read_export_table(dll_name, mmap=False, use_kernel=False):
 
     else:
         if not use_kernel:
-            fileH = open(dll_name)
-            if fileH is None:
+            fileh = open(dll_name)
+            if fileh is None:
                 raise DllException("Cant load dll")
             import mmap
-            m = mmap.mmap(fileH.fileno(), 0, None, mmap.ACCESS_READ)
+            m = mmap.mmap(fileh.fileno(), 0, None, mmap.ACCESS_READ)
             # id(m)+8 sucks, is there better way?
             base_addr = ctypes.cast(id(m) + 8, ctypes.POINTER(ctypes.c_int))[0]
         else:
             kernel32 = ctypes.windll.kernel32
             if kernel32 is None:
                 raise DllException("cant load kernel")
-            fileH = kernel32.CreateFileA(dll_name, 0x00120089, 1, 0, 3, 0, 0)
-            if fileH == 0:
+            fileh = kernel32.CreateFileA(dll_name, 0x00120089, 1, 0, 3, 0, 0)
+            if fileh == 0:
                 raise DllException(
                     "Cant open, errcode = %d" %
                     kernel32.GetLastError())
-            mapH = kernel32.CreateFileMappingW(fileH, 0, 0x8000002, 0, 0, 0)
-            if mapH == 0:
+            maph = kernel32.CreateFileMappingW(fileh, 0, 0x8000002, 0, 0, 0)
+            if maph == 0:
                 raise DllException(
                     "Cant mmap, errocode = %d" %
                     kernel32.GetLastError())
             base_addr = ctypes.windll.kernel32.MapViewOfFile(
-                mapH, 0x4, 0, 0, 0)
+                maph, 0x4, 0, 0, 0)
             if base_addr == 0:
                 raise DllException(
                     "Cant mmap(2), errocode = %d" %
@@ -246,12 +246,12 @@ def read_export_table(dll_name, mmap=False, use_kernel=False):
             (1, "Base", base_addr),
             (1, "Rva"),
             (1, "LastRvaSection", 0))
-        ImageRvaToVa = prototype(('ImageRvaToVa', dbghelp), paramflags)
+        image_rva_to_va = prototype(('ImageRvaToVa', dbghelp), paramflags)
 
     def cast_rva(rva, type_):
         va = base_addr + rva
         if mmap and va > pimage_nt_header:
-            va = ImageRvaToVa(Rva=rva)
+            va = image_rva_to_va(Rva=rva)
             if va == 0:
                 raise DllException("ImageRvaToVa failed")
         return ctypes.cast(va, type_)
@@ -277,10 +277,10 @@ def read_export_table(dll_name, mmap=False, use_kernel=False):
             exports_dd.VirtualAddress,
             PIMAGE_EXPORT_DIRECTORY)[0]
 
-        nNames = export_dir.NumberOfNames
-        if nNames > 0:
-            PNamesType = ctypes.POINTER(ctypes.c_int * nNames)
-            names = cast_rva(export_dir.AddressOfNames, PNamesType)[0]
+        n_names = export_dir.NumberOfNames
+        if n_names > 0:
+            p_names_type = ctypes.POINTER(ctypes.c_int * n_names)
+            names = cast_rva(export_dir.AddressOfNames, p_names_type)[0]
             for rva in names:
                 name = cast_rva(rva, ctypes.c_char_p).value
                 ret_val.append(name)
@@ -289,10 +289,10 @@ def read_export_table(dll_name, mmap=False, use_kernel=False):
         if use_kernel:
             kernel32.UnmapViewOfFile(base_addr)
             kernel32.CloseHandle(mapH)
-            kernel32.CloseHandle(fileH)
+            kernel32.CloseHandle(fileh)
         else:
             m.close()
-            fileH.close()
+            fileh.close()
     return ret_val
 
 

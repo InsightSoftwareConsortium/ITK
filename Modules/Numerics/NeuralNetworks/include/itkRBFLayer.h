@@ -36,7 +36,7 @@ namespace Statistics
  */
 
 template<typename TMeasurementVector, typename TTargetVector>
-class RBFLayer : public LayerBase<TMeasurementVector, TTargetVector>
+class ITK_TEMPLATE_EXPORT RBFLayer : public LayerBase<TMeasurementVector, TTargetVector>
 {
 public:
   typedef RBFLayer                                     Self;

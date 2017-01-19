@@ -32,7 +32,7 @@ namespace itk
  */
 template<typename TParametersValueType=double,
          unsigned int NDimensions = 3>
-class CenteredAffineTransform : public AffineTransform<TParametersValueType,
+class ITK_TEMPLATE_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType,
                                              NDimensions>
 {
 public:

@@ -48,7 +48,7 @@ template<
   typename TElementIdentifier,
   typename TElement
   >
-class ValarrayImageContainer:
+class ITK_TEMPLATE_EXPORT ValarrayImageContainer:
   public Object,
   private std::valarray< TElement >
 {

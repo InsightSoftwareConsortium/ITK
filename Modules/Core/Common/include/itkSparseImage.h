@@ -64,7 +64,7 @@ namespace itk
  */
 
 template< typename TNode, unsigned int VImageDimension = 2 >
-class SparseImage:public Image< TNode *, VImageDimension >
+class ITK_TEMPLATE_EXPORT SparseImage:public Image< TNode *, VImageDimension >
 {
 public:
   /** Standard typedefs. */

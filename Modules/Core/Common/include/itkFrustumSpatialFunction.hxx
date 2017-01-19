@@ -22,28 +22,25 @@
 
 namespace itk
 {
-template< unsigned int VImageDimension, typename TInput >
-FrustumSpatialFunction< VImageDimension, TInput >::FrustumSpatialFunction()
+template< unsigned int VDimension, typename TInput >
+FrustumSpatialFunction< VDimension, TInput >::FrustumSpatialFunction() :
+  m_AngleZ( 0.0f ),
+  m_ApertureAngleX( 0.0f ),
+  m_ApertureAngleY( 0.0f ),
+  m_TopPlane( 0.0f ),
+  m_BottomPlane( 0.0f ),
+  m_RotationPlane( RotateInXZPlane )
 {
-  for ( unsigned int i = 0; i < m_Apex.GetPointDimension(); i++ )
-    {
-    m_Apex[i] = 0.0f;
-    }
-  m_AngleZ = 0.0f;
-  m_ApertureAngleX = 0.0f;
-  m_ApertureAngleY = 0.0f;
-  m_TopPlane = 0.0f;
-  m_BottomPlane = 0.0f;
-  m_RotationPlane = RotateInXZPlane;
+  m_Apex.Fill( 0.0f );
 }
 
-template< unsigned int VImageDimension, typename TInput >
-FrustumSpatialFunction< VImageDimension, TInput >::~FrustumSpatialFunction()
+template< unsigned int VDimension, typename TInput >
+FrustumSpatialFunction< VDimension, TInput >::~FrustumSpatialFunction()
 {}
 
-template< unsigned int VImageDimension, typename TInput >
-typename FrustumSpatialFunction< VImageDimension, TInput >::OutputType
-FrustumSpatialFunction< VImageDimension, TInput >
+template< unsigned int VDimension, typename TInput >
+typename FrustumSpatialFunction< VDimension, TInput >::OutputType
+FrustumSpatialFunction< VDimension, TInput >
 ::Evaluate(const InputType & position) const
 {
   typedef InputType                      PointType;
@@ -52,8 +49,8 @@ FrustumSpatialFunction< VImageDimension, TInput >
   VectorType   relativePosition = position - m_Apex;
   const double distanceToApex = relativePosition.GetNorm();
 
-  // Check Top and Bottom planes.. If the angle is negative, the
-  // top plane may be less than the bottom plane, but is ok.
+  // Check Top and Bottom planes. If the angle is negative, the top plane
+  // value may be less than the bottom plane, which is still correct.
   if ( m_TopPlane <= m_BottomPlane )
     {
     if ( distanceToApex < m_TopPlane
@@ -79,16 +76,16 @@ FrustumSpatialFunction< VImageDimension, TInput >
 
     const double distanceXZ = std::sqrt(dx * dx + dz * dz);
 
-    const double deg2rad = std::atan(1.0f) / 45.0;
+    const double deg2rad = std::atan(1.0) / 45.0;
 
-    //  Check planes along Y
+    // Check planes along Y
     const double angleY = std::atan2(dy, distanceXZ);
     if ( std::fabs(angleY) > m_ApertureAngleY * deg2rad )
       {
       return 0;
       }
 
-    //  Check planes along X
+    // Check planes along X
     const double angleX = std::atan2(dx, dz);
 
     if ( std::cos(angleX  + ( 180.0 + m_AngleZ ) * deg2rad)  <
@@ -107,16 +104,16 @@ FrustumSpatialFunction< VImageDimension, TInput >
 
     const double distanceYZ = std::sqrt(dy * dy + dz * dz);
 
-    const double deg2rad = std::atan(1.0f) / 45.0;
+    const double deg2rad = std::atan(1.0) / 45.0;
 
-    //  Check planes along X
+    // Check planes along X
     const double angleX = std::atan2(dx, distanceYZ);
     if ( std::fabs(angleX) > m_ApertureAngleX * deg2rad )
       {
       return 0;
       }
 
-    //  Check planes along Y
+    // Check planes along Y
     const double angleY = std::atan2(dy, dz);
 
     if ( std::cos(angleY  + ( 180.0 + m_AngleZ ) * deg2rad)  <
@@ -129,14 +126,14 @@ FrustumSpatialFunction< VImageDimension, TInput >
     }
   else
     {
-    itkExceptionMacro(<< "Rotation plane not set!");
+    itkExceptionMacro(<< "Rotation plane not set or set to an unsupported value!");
     }
   return 0;
 }
 
-template< unsigned int VImageDimension, typename TInput >
+template< unsigned int VDimension, typename TInput >
 void
-FrustumSpatialFunction< VImageDimension, TInput >::PrintSelf(std::ostream & os, Indent indent) const
+FrustumSpatialFunction< VDimension, TInput >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

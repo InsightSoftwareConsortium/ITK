@@ -73,7 +73,7 @@ namespace itk
 template< typename TOutputMesh,
           typename ConvertPointPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::PixelType >,
           class ConvertCellPixelTraits = MeshConvertPixelTraits< typename TOutputMesh::CellPixelType > >
-class MeshFileReader:public MeshSource< TOutputMesh >
+class ITK_TEMPLATE_EXPORT MeshFileReader:public MeshSource< TOutputMesh >
 {
 public:
   /** Standard class typedefs. */

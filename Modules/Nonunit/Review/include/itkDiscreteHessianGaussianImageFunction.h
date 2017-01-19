@@ -43,7 +43,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TInputImage, typename TOutput = double >
-class DiscreteHessianGaussianImageFunction:
+class ITK_TEMPLATE_EXPORT DiscreteHessianGaussianImageFunction:
   public ImageFunction< TInputImage,
                         SymmetricSecondRankTensor< TOutput, TInputImage::ImageDimension >,
                         TOutput >

@@ -12,6 +12,7 @@ itkArchetypeSeriesFileNamesTest.cxx
 itkLargeImageWriteConvertReadTest.cxx
 itkLargeImageWriteReadTest.cxx
 itkImageFileReaderDimensionsTest.cxx
+itkImageFileReaderPositiveSpacingTest.cxx
 itkImageFileReaderStreamingTest.cxx
 itkImageFileReaderStreamingTest2.cxx
 itkImageFileWriterPastingTest1.cxx
@@ -260,6 +261,10 @@ itk_add_test(NAME itkImageSeriesReaderDimensionsTest1
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
 
 set_property(TEST itkImageSeriesReaderDimensionsTest1 APPEND PROPERTY DEPENDS ITK_Data)
+
+itk_add_test(NAME itkImageFileReaderPositiveSpacingTest
+      COMMAND ITKIOImageBaseTestDriver itkImageFileReaderPositiveSpacingTest
+              DATA{${ITK_DATA_ROOT}/Input/itkImageNegativeSpacing.mha})
 
 itk_add_test(NAME itkImageSeriesReaderDimensionsTest2
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderDimensionsTest

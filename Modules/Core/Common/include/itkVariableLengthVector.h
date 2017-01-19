@@ -90,7 +90,7 @@ struct VariableLengthVectorExpression;
  * m_NumElements may be 0 and yet \c m_Data may be not null.)
  */
 template< typename TValue >
-class VariableLengthVector
+class ITK_TEMPLATE_EXPORT VariableLengthVector
 {
 public:
   /**\name Policies

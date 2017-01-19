@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ITKLevelSetsv4
  */
 template< typename TDomain >
-class LevelSetDomainPartitionBase : public Object
+class ITK_TEMPLATE_EXPORT LevelSetDomainPartitionBase : public Object
 {
 public:
 

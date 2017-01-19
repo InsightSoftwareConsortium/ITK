@@ -48,9 +48,10 @@ typename AtanRegularizedHeavisideStepFunction< TInput, TOutput >::OutputType
 AtanRegularizedHeavisideStepFunction< TInput, TOutput >
 ::EvaluateDerivative(const InputType & input) const
 {
-  const RealType t = static_cast< RealType >( input ) * this->GetOneOverEpsilon();
+  const RealType oneOverEpsilon = this->GetOneOverEpsilon();
+  const RealType t = static_cast< RealType >( input ) * oneOverEpsilon;
 
-  return static_cast< OutputType >( itk::Math::one_over_pi / ( 1.0 + t * t ) );
+  return static_cast< OutputType >( Math::one_over_pi * oneOverEpsilon / ( 1.0 + t * t ) );
 }
 
 } // namespace itk

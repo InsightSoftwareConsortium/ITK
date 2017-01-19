@@ -16,10 +16,12 @@
  *
  *=========================================================================*/
 
+#include "itkMath.h"
 #include "itkSigmoidImageFilter.h"
+#include "itkTestingMacros.h"
 
 
-int itkSigmoidImageFilterTest(int, char* [] )
+int itkSigmoidImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
@@ -29,27 +31,26 @@ int itkSigmoidImageFilterTest(int, char* [] )
   typedef float       InputPixelType;
   typedef float       OutputPixelType;
 
-  typedef itk::Image<InputPixelType,  ImageDimension>  InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>  OutputImageType;
+  typedef itk::Image< InputPixelType,  ImageDimension >  InputImageType;
+  typedef itk::Image< OutputPixelType, ImageDimension >  OutputImageType;
 
-
-  // Declare Iterator types apropriated for each image
+  // Declare appropriate Iterator types for each image
   typedef itk::ImageRegionIteratorWithIndex<
                                   InputImageType>  InputIteratorType;
   typedef itk::ImageRegionIteratorWithIndex<
                                   OutputImageType> OutputIteratorType;
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  typedef itk::Index< ImageDimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  typedef itk::Size< ImageDimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  typedef itk::ImageRegion< ImageDimension >   RegionType;
 
-  // Create two images
-  InputImageType::Pointer inputImage  = InputImageType::New();
+  // Create the input images
+  InputImageType::Pointer inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -66,63 +67,68 @@ int itkSigmoidImageFilterTest(int, char* [] )
   region.SetIndex( start );
   region.SetSize( size );
 
-  // Initialize Image A
+  // Initialize the input image
   inputImage->SetLargestPossibleRegion( region );
   inputImage->SetBufferedRegion( region );
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
-  // Create one iterator for the Input Image (this is a light object)
+
+  // Create one iterator for the input image (this is a light object)
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
-  // Initialize the content of Image A
+  // Initialize the content of the input image
   const double value = 30;
-  std::cout << "Content of the Input " << std::endl;
   it.GoToBegin();
   while( !it.IsAtEnd() )
   {
     it.Set( value );
-    std::cout << it.Get() << std::endl;
     ++it;
   }
 
   // Declare the type for the Sigmoid filter
   typedef itk::SigmoidImageFilter< InputImageType,
-                               OutputImageType  >  FilterType;
+                               OutputImageType > FilterType;
 
-
-  // Create a Filter
+  // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, SigmoidImageFilter,
+    UnaryFunctorImageFilter );
 
-  // Connect the input images
+  // Set the input image
   filter->SetInput( inputImage );
 
-  // Set alpha and beta parameters
+  // Set the filter parameters
   const double alpha = 2.0;
   const double beta  = 3.0;
 
   filter->SetAlpha( alpha );
-  filter->SetBeta(  beta  );
+  TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
+
+  filter->SetBeta( beta );
+  TEST_SET_GET_VALUE( beta, filter->GetBeta() );
 
   const OutputPixelType maximum =  1.0;
   const OutputPixelType minimum = -1.0;
 
   filter->SetOutputMinimum( minimum );
+  TEST_SET_GET_VALUE( minimum, filter->GetOutputMinimum() );
+
   filter->SetOutputMaximum( maximum );
+  TEST_SET_GET_VALUE( maximum, filter->GetOutputMaximum() );
 
-  // Get the Smart Pointer to the Filter Output
-  OutputImageType::Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
   filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
+
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
 
   // Create an iterator for going through the image output
-  OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
+  OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
-  //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  // Check the content of the result image
   const OutputImageType::PixelType epsilon = 1e-6;
   ot.GoToBegin();
   it.GoToBegin();
@@ -132,11 +138,12 @@ int itkSigmoidImageFilterTest(int, char* [] )
     const OutputImageType::PixelType output = ot.Get();
     const double x1 = ( input - beta ) / alpha;
     const double x2 = ( maximum - minimum )*( 1.0 / ( 1.0 + std::exp( -x1 ) ) ) + minimum;
-    const OutputImageType::PixelType sigmoid  =
+    const OutputImageType::PixelType sigmoid =
             static_cast<OutputImageType::PixelType>( x2 );
-    if( std::fabs( sigmoid - output ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( sigmoid, output, 10, epsilon ) )
       {
-      std::cerr << "Error in itkSigmoidImageFilterTest " << std::endl;
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+      std::cerr << "Error " << std::endl;
       std::cerr << " simoid( " << input << ") = " << sigmoid << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
@@ -145,7 +152,6 @@ int itkSigmoidImageFilterTest(int, char* [] )
     ++ot;
     ++it;
     }
-
 
   return EXIT_SUCCESS;
 }

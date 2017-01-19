@@ -58,7 +58,7 @@ namespace itk
  * \ingroup ITKPath
  */
 template< unsigned int VDimension >
-class ParametricPath:public
+class ITK_TEMPLATE_EXPORT ParametricPath:public
   Path< double, ContinuousIndex< SpacePrecisionType, VDimension >, VDimension >
 {
 public:
@@ -143,4 +143,4 @@ private:
 #include "itkParametricPath.hxx"
 #endif
 
-#endif
+#endif // itkParametricPath.h

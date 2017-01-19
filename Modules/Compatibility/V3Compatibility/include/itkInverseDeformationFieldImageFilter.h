@@ -67,7 +67,7 @@ namespace itk
  * \ingroup ITKV3Compatibility
  */
 template< typename TInputImage, typename TOutputImage >
-class InverseDeformationFieldImageFilter:
+class ITK_TEMPLATE_EXPORT InverseDeformationFieldImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -168,7 +168,7 @@ public:
   virtual void GenerateInputRequestedRegion();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime() const;
+  ModifiedTimeType GetMTime() const;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

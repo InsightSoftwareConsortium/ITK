@@ -48,7 +48,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class NoiseImageFilter:
+class ITK_TEMPLATE_EXPORT NoiseImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:

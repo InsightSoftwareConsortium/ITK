@@ -21,7 +21,7 @@
 #include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
-#include "itkMath.h"
+#include <cstdlib>
 
 namespace itk
 {
@@ -189,7 +189,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
     }
   else
     {
-    std::cout << "Using info image" << std::endl;
+    itkDebugMacro(<< "Using info image");
     m_InfoImage->Update();
     OutputImage->CopyInformation(m_InfoImage);
     OutputImage->SetRegions( m_InfoImage->GetLargestPossibleRegion() );
@@ -200,7 +200,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
     m_Direction = m_InfoImage->GetDirection();
     }
 
-  OutputImage->Allocate();   // allocate the image
+  OutputImage->Allocate();
 
   RasterizeTriangles();
 
@@ -479,10 +479,8 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
     cellIt++;
     }
 
-  // we only want to generate a max of 1 warning per execute
-  int alreadywarned = 1;
-
   //create the equivalent of vtkStencilData from our zymatrix
+  m_StencilIndex.clear(); //prevent corruption of the filter in later updates
   for ( int z = extent[4]; z <= extent[5]; z++ )
     {
     for ( int y = extent[2]; y <= extent[3]; y++ )
@@ -490,11 +488,11 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
       int           zyidx = ( z - extent[4] ) * zInc + ( y - extent[2] );
       Point1DVector xlist = zymatrix[zyidx];
 
-      if ( xlist.empty() )
+      if ( xlist.size() <= 1 )
         {
-        continue;
+        continue; //this is a peripheral point in the zy projection plane
         }
-      if ( xlist.size() > 1 )
+      else
         {
         std::sort(xlist.begin(), xlist.end(), ComparePoints1D);
         }
@@ -519,7 +517,7 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
         int     sign = p1D.m_Sign;
 
         //check absolute distance from lastx to x
-        if ( ( ( x < lastx ) ? ( lastx - x ) : ( x - lastx ) ) > m_Tolerance )
+        if ( std::abs(x - lastx) > m_Tolerance )
           {
           signproduct = sign * lastSign;
           if ( signproduct < 0 )
@@ -533,13 +531,6 @@ TriangleMeshToBinaryImageFilter< TInputMesh, TOutputImage >
 
         nlist.push_back(lastx);
 
-      // if xlist length is not divisible by two, then
-      // the polydata isn't a closed surface
-      if ( (int)( nlist.size() ) % 2 != 0 && !alreadywarned )
-        {
-        alreadywarned = 1;
-        itkWarningMacro(<< "RequestInformation: PolyData does not form a closed surface");
-        }
       // create the stencil extents
       int minx1 = extent[0]; // minimum allowable x1 value
       int n = (int)( nlist.size() ) / 2;

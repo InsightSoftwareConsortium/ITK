@@ -1,10 +1,8 @@
-set(ITKVideoIO_SRC
-itkFileListVideoIO.cxx
-itkFileListVideoIOFactory.cxx
-itkVideoIOBase.cxx
-itkVideoIOFactory.cxx
-)
+set(ITKVideoIO_SRCS
+  itkFileListVideoIO.cxx
+  itkFileListVideoIOFactory.cxx
+  itkVideoIOBase.cxx
+  itkVideoIOFactory.cxx
+  )
 
-add_library(ITKVideoIO ${ITKVideoIO_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKVideoIO)
+itk_module_add_library(ITKVideoIO ${ITKVideoIO_SRCS})

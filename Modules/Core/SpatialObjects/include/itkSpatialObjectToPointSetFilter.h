@@ -31,7 +31,7 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 template< typename TInputSpatialObject, typename TOutputPointSet >
-class SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
+class ITK_TEMPLATE_EXPORT SpatialObjectToPointSetFilter:public MeshSource< TOutputPointSet >
 {
 public:
   /** Standard class typedefs. */

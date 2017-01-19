@@ -42,7 +42,7 @@ namespace itk
  * \ingroup ITKImageFunction
  */
 template< typename TInputImage, typename TCoordRep = float >
-class CovarianceImageFunction:
+class ITK_TEMPLATE_EXPORT CovarianceImageFunction:
   public ImageFunction< TInputImage,
                         vnl_matrix<
                           typename NumericTraits< typename TInputImage::PixelType::ValueType >::RealType >,
@@ -111,7 +111,7 @@ public:
   }
 
   /** Get/Set the radius of the neighborhood over which the
-      statistics are evaluated */
+   *  statistics are evaluated. */
   itkSetMacro(NeighborhoodRadius, unsigned int);
   itkGetConstReferenceMacro(NeighborhoodRadius, unsigned int);
 

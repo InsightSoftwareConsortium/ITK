@@ -27,55 +27,64 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
 {
   std::cout << "itkRescaleIntensityImageFilterTest Start" << std::endl;
 
-  typedef itk::Image<float,3> TestInputImage;
-  typedef itk::Image<float,3> TestOutputImage;
+  // Define the dimension of the images
+  const unsigned int ImageDimension = 3;
 
-  TestInputImage::RegionType region;
-  TestInputImage::SizeType   size; size.Fill(64);
-  TestInputImage::IndexType  index; index.Fill(0);
+  // Declare the pixel types of the images
+  typedef float                PixelType;
+
+  // Declare the types of the images
+  typedef itk::Image< PixelType, ImageDimension > TestInputImage;
+  typedef itk::Image< PixelType, ImageDimension > TestOutputImage;
+
+  TestInputImage::RegionType  region;
+
+  TestInputImage::SizeType    size;
+  size.Fill(64);
+
+  TestInputImage::IndexType   index;
+  index.Fill(0);
 
   region.SetIndex (index);
   region.SetSize (size);
 
 
-  typedef itk::RescaleIntensityImageFilter<TestInputImage,TestOutputImage> FilterType;
+  typedef itk::RescaleIntensityImageFilter< TestInputImage, TestOutputImage >
+    FilterType;
+
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, RescaleIntensityImageFilter, UnaryFunctorImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( filter, RescaleIntensityImageFilter,
+    UnaryFunctorImageFilter );
 
   // Now generate a real image
 
-  typedef itk::RandomImageSource<TestInputImage> SourceType;
+  typedef itk::RandomImageSource< TestInputImage > SourceType;
   SourceType::Pointer source = SourceType::New();
+
   TestInputImage::SizeValueType randomSize[3] = {17, 8, 20};
 
-
   // Set up source
-  source->SetSize(randomSize);
+  source->SetSize( randomSize );
   double minValue = -128.0;
   double maxValue = 127.0;
 
   source->SetMin( static_cast< TestInputImage::PixelType >( minValue ) );
   source->SetMax( static_cast< TestInputImage::PixelType >( maxValue ) );
 
-  filter->SetFunctor(filter->GetFunctor());
-  filter->SetInput(source->GetOutput());
+  filter->SetFunctor( filter->GetFunctor() );
+  filter->SetInput( source->GetOutput() );
 
   const double desiredMinimum = -1.0;
   const double desiredMaximum =  1.0;
 
   filter->SetOutputMinimum( desiredMinimum );
+  TEST_SET_GET_VALUE( desiredMinimum, filter->GetOutputMinimum() );
+
   filter->SetOutputMaximum( desiredMaximum );
-  try
-    {
-    filter->UpdateLargestPossibleRegion();
-    filter->SetFunctor(filter->GetFunctor());
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: " << e;
-    return -1;
-    }
+  TEST_SET_GET_VALUE( desiredMaximum, filter->GetOutputMaximum() );
+
+  TRY_EXPECT_NO_EXCEPTION( filter->UpdateLargestPossibleRegion() );
 
   typedef itk::MinimumMaximumImageCalculator< TestOutputImage > CalculatorType;
   CalculatorType::Pointer calculator = CalculatorType::New();
@@ -89,7 +98,7 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
   const double obtainedMinimum = calculator->GetMinimum();
   const double obtainedMaximum = calculator->GetMaximum();
 
-  if( itk::Math::abs( obtainedMinimum - desiredMinimum ) > tolerance )
+  if( !itk::Math::FloatAlmostEqual( obtainedMinimum, desiredMinimum, 10, tolerance ) )
     {
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMinimum  << std::endl;
@@ -97,7 +106,7 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if( itk::Math::abs( obtainedMaximum - desiredMaximum ) > tolerance )
+  if( !itk::Math::FloatAlmostEqual( obtainedMaximum, desiredMaximum, 10, tolerance ) )
     {
     std::cerr << "Error in minimum" << std::endl;
     std::cerr << "Expected minimum = " << desiredMaximum  << std::endl;
@@ -107,5 +116,4 @@ int itkRescaleIntensityImageFilterTest( int, char* [] )
 
   std::cout << "Test PASSED ! " << std::endl;
   return EXIT_SUCCESS;
-
 }

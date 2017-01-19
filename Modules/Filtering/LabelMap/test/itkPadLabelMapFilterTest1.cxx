@@ -25,6 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
@@ -55,23 +56,42 @@ int itkPadLabelMapFilterTest1(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
   typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
 
-  typedef itk::PadLabelMapFilter< LabelMapType > ChangeType;
-  ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( i2l->GetOutput() );
-  ChangeType::SizeType size;
+  typedef itk::PadLabelMapFilter< LabelMapType > PadLabelMapFilterType;
+  PadLabelMapFilterType::Pointer padLabelMapFilter = PadLabelMapFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( padLabelMapFilter, PadLabelMapFilter, ChangeRegionLabelMapFilter );
+
+  PadLabelMapFilterType::SizeType upperBoundaryPadSize = {{0}};
+  padLabelMapFilter->SetPadSize( upperBoundaryPadSize );
+  TEST_SET_GET_VALUE( upperBoundaryPadSize, padLabelMapFilter->GetUpperBoundaryPadSize() );
+
+  PadLabelMapFilterType::SizeType lowerBoundaryPadSize = {{0}};
+  padLabelMapFilter->SetPadSize( lowerBoundaryPadSize );
+  TEST_SET_GET_VALUE( upperBoundaryPadSize, padLabelMapFilter->GetLowerBoundaryPadSize() );
+
+  padLabelMapFilter->SetInput( i2l->GetOutput() );
+  PadLabelMapFilterType::SizeType size;
   size[0] = atoi( argv[3] );
   size[1] = atoi( argv[4] );
-  change->SetPadSize( size );
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+
+  padLabelMapFilter->SetPadSize( size );
+  TEST_SET_GET_VALUE( size, padLabelMapFilter->GetLowerBoundaryPadSize() );
+  TEST_SET_GET_VALUE( size, padLabelMapFilter->GetUpperBoundaryPadSize() );
+
+  itk::SimpleFilterWatcher watcher( padLabelMapFilter, "filter" );
+
+  TRY_EXPECT_NO_EXCEPTION( padLabelMapFilter->Update() );
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
   L2IType::Pointer l2i = L2IType::New();
 
-  l2i->SetInput( change->GetOutput() );
+  l2i->SetInput( padLabelMapFilter->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();

@@ -59,7 +59,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double>
-class Similarity2DTransform :
+class ITK_TEMPLATE_EXPORT Similarity2DTransform :
   public Rigid2DTransform<TParametersValueType>
 {
 public:

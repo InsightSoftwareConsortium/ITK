@@ -42,7 +42,7 @@ namespace itk
  */
 
 template< typename TElementIdentifier, typename TElement >
-class ImportImageContainer:public Object
+class ITK_TEMPLATE_EXPORT ImportImageContainer:public Object
 {
 public:
   /** Standard class typedefs. */

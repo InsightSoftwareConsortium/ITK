@@ -31,7 +31,7 @@ namespace Statistics
  */
 
 template<typename ScalarType>
-class HardLimitTransferFunction : public TransferFunctionBase<ScalarType>
+class ITK_TEMPLATE_EXPORT HardLimitTransferFunction : public TransferFunctionBase<ScalarType>
 {
 public:
   /** Standard class typedefs. */

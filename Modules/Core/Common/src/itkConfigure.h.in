@@ -92,6 +92,8 @@
 #cmakedefine ITK_USE_64BITS_IDS
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_32
 #cmakedefine ITK_COMPILER_SUPPORTS_SSE2_64
+#cmakedefine ITK_USE_GPU
+#cmakedefine ITK_TEMPLATE_VISIBILITY_DEFAULT
 
 // defined if the system has <tr1/type_traits> header
 #cmakedefine ITK_HAS_STLTR1_TR1_TYPE_TRAITS
@@ -119,6 +121,10 @@
   #cmakedefine ITK_CPP_FUNCTION
 #endif
 
+// defines if compiler and standard C++ run-time library supports
+// dynamic_cast-ing of a private (hidden) Run-Time-Type-Information
+// (RTTI). See Modules/Code/Common/CMake/itkCheckPrivateDynamicCast.cmake
+#cmakedefine ITK_PRIVATE_DYNAMIC_CAST
 
 /*
  * The @HAVE_INCLUDE_H@ gets replaced with "1" or "", this define is

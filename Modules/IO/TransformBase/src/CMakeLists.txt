@@ -1,14 +1,9 @@
-set(ITKIOTransformBase_SRC
-itkCompositeTransformIOHelper.cxx
-itkTransformFactoryBase.cxx
-itkTransformFactoryBaseRegisterFloatParameters.cxx
-itkTransformFactoryBaseRegisterDoubleParameters.cxx
-itkTransformFileReader.cxx
-itkTransformFileWriterSpecializations.cxx
-itkTransformIOBase.cxx
-itkTransformIOFactory.cxx
-)
+set(ITKIOTransformBase_SRCS
+  itkCompositeTransformIOHelper.cxx
+  itkTransformFileReader.cxx
+  itkTransformFileWriterSpecializations.cxx
+  itkTransformIOBase.cxx
+  itkTransformIOFactory.cxx
+  )
 
-add_library(ITKIOTransformBase ${ITK_LIBRARY_BUILD_TYPE} ${ITKIOTransformBase_SRC})
-itk_module_link_dependencies()
-itk_module_target(ITKIOTransformBase)
+itk_module_add_library(ITKIOTransformBase ${ITKIOTransformBase_SRCS})

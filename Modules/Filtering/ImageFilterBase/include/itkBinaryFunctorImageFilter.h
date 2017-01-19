@@ -28,8 +28,8 @@ namespace itk
  * or of an image and a constant.
  *
  * This class is parameterized over the types of the two input images
- * and the type of the output image.  It is also parameterized by the
- * operation to be applied.  A Functor style is used.
+ * and the type of the output image. It is also parameterized by the
+ * operation to be applied. A Functor style is used.
  *
  * The constant must be of the same type than the pixel type of the corresponding
  * image. It is wrapped in a SimpleDataObjectDecorator so it can be updated through
@@ -48,7 +48,7 @@ namespace itk
  */
 template< typename TInputImage1, typename TInputImage2,
           typename TOutputImage, typename TFunction    >
-class BinaryFunctorImageFilter:
+class ITK_TEMPLATE_EXPORT BinaryFunctorImageFilter:
   public InPlaceImageFilter< TInputImage1, TOutputImage >
 {
 public:
@@ -85,25 +85,24 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   typedef typename OutputImageType::PixelType  OutputImagePixelType;
 
-  /** Connect one of the operands for pixel-wise operation */
+  /** Connect the first operand for pixel-wise operation. */
   virtual void SetInput1(const TInputImage1 *image1);
   virtual void SetInput1(const DecoratedInput1ImagePixelType *input1);
   virtual void SetInput1(const Input1ImagePixelType &input1);
 
-  /** Set the first operand as a constant */
+  /** Set the first operand as a constant. */
   virtual void SetConstant1(const Input1ImagePixelType &input1);
 
   /** Get the constant value of the first operand. An exception is sent if
-   * the first operand is not a constant
-   */
+   * the first operand is not a constant. */
   virtual const Input1ImagePixelType & GetConstant1() const;
 
-  /** Connect one of the operands for pixel-wise operation */
+  /** Connect the second operand for pixel-wise operation. */
   virtual void SetInput2(const TInputImage2 *image2);
   virtual void SetInput2(const DecoratedInput2ImagePixelType *input2);
   virtual void SetInput2(const Input2ImagePixelType &input2);
 
-  /** Set the second operand as a constant */
+  /** Set the second operand as a constant. */
   virtual void SetConstant2(const Input2ImagePixelType &input2);
   void SetConstant(Input2ImagePixelType ct)
   {
@@ -115,26 +114,25 @@ public:
   }
 
   /** Get the constant value of the second operand. An exception is sent if
-   * the second operand is not a constant.
-   */
+   * the second operand is not a constant. */
   virtual const Input2ImagePixelType & GetConstant2() const;
 
-  /** Get the functor object.  The functor is returned by reference.
+  /** Get the functor object. The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
-   * SmartPointer.) */
+   * SmartPointer.). */
   FunctorType & GetFunctor() { return m_Functor; }
 
-  /** Get the functor object.  The functor is returned by reference.
+  /** Get the functor object. The functor is returned by reference.
    * (Functors do not have to derive from itk::LightObject, so they do
    * not necessarily have a reference count. So we cannot return a
-   * SmartPointer.) */
+   * SmartPointer.). */
   const FunctorType & GetFunctor() const
   {
     return m_Functor;
   }
 
-  /** Set the functor object.  This replaces the current Functor with a
+  /** Set the functor object. This replaces the current Functor with a
    * copy of the specified Functor. This allows the user to specify a
    * functor that has ivars set differently than the default functor.
    * This method requires an operator!=() be defined on the functor
@@ -176,17 +174,17 @@ protected:
    * Therefore, this implementation provides a ThreadedGenerateData() routine
    * which is called for each processing thread. The output image data is
    * allocated automatically by the superclass prior to calling
-   * ThreadedGenerateData().  ThreadedGenerateData can only write to the
+   * ThreadedGenerateData(). ThreadedGenerateData can only write to the
    * portion of the output image specified by the parameter
-   * "outputRegionForThread"
+   * "outputRegionForThread".
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) ITK_OVERRIDE;
 
-  // needed to take the image information from the 2nd input, if the first one is
-  // a simple decorated object
+  // Needed to take the image information from the 2nd input, if the first one is
+  // a simple decorated object.
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:

@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKDisplacementField
  */
 template<typename TParametersValueType, unsigned int NDimensions>
-class GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform
+class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform
 : public TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
 {
 public:

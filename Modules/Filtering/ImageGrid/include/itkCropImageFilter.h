@@ -27,7 +27,7 @@ namespace itk
  * both the upper and lower bounds of the largest possible region.
  *
  * CropImageFilter changes the image boundary of an image by removing
- * pixels outside the target region.  The target region is not specified in
+ * pixels outside the target region. The target region is not specified in
  * advance, but calculated in BeforeThreadedGenerateData().
  *
  * This filter uses ExtractImageFilter to perform the cropping.
@@ -40,7 +40,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class CropImageFilter:
+class ITK_TEMPLATE_EXPORT CropImageFilter:
   public ExtractImageFilter< TInputImage, TOutputImage >
 {
 public:
@@ -71,7 +71,7 @@ public:
   typedef typename Superclass::InputImageSizeType   InputImageSizeType;
   typedef InputImageSizeType                        SizeType;
 
-  /** ImageDimension constants */
+  /** ImageDimension constants. */
   itkStaticConstMacro(InputImageDimension, unsigned int,
                       Superclass::InputImageDimension);
   itkStaticConstMacro(OutputImageDimension, unsigned int,

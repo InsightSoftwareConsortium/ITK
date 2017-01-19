@@ -22,8 +22,7 @@
 #include "itkTextOutput.h"
 #include "itkBSplineTransform.h"
 #include "itkImageMaskSpatialObject.h"
-
-#include <iostream>
+#include "itkMersenneTwisterRandomVariateGenerator.h"
 
 /**
  *  This templated function test the MattesMutualInformationImageToMetric
@@ -215,6 +214,7 @@ int TestMattesMetricWithAffineTransform(
 
   metric->SetUseExplicitPDFDerivatives( useExplicitJointPDFDerivatives );
   metric->SetUseCachingOfBSplineWeights( useCachingBSplineWeights );
+  metric->ReinitializeSeed(121212);
 
   if( useSampling )
     {

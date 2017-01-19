@@ -82,7 +82,7 @@ namespace itk
  */
 template<typename TParametersValueType=double,
          unsigned int NDimensions = 3>
-class AzimuthElevationToCartesianTransform:
+class ITK_TEMPLATE_EXPORT AzimuthElevationToCartesianTransform:
   public AffineTransform<TParametersValueType, NDimensions>
 {
 public:
@@ -104,8 +104,9 @@ public:
   itkNewMacro(Self);
 
   /** Parameters type.   */
-  typedef typename Superclass::ParametersType      ParametersType;
-  typedef typename Superclass::FixedParametersType FixedParametersType;
+  typedef typename Superclass::ParametersType        ParametersType;
+  typedef typename Superclass::FixedParametersType   FixedParametersType;
+  typedef typename Superclass::TransformCategoryType TransformCategoryType;
 
   /** Jacobian type.   */
   typedef typename Superclass::JacobianType JacobianType;
@@ -157,6 +158,14 @@ public:
   inline InputPointType  BackTransformPoint(const OutputPointType  & point) const
   {
     return BackTransform(point);
+  }
+
+
+  /** Overrides the TransformCategoryType to  UnknownTransformCategory. Even though
+  this class derives from AffineTransform, its not a linear transform */
+  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE
+  {
+       return Self::UnknownTransformCategory;
   }
 
   /** Defines that the forward transform goes from azimuth,elevation to

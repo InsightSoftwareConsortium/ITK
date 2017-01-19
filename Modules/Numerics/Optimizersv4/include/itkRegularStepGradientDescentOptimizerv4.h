@@ -43,7 +43,7 @@ namespace itk
    * \ingroup ITKOptimizersv4
    */
 template<typename TInternalComputationValueType>
-class RegularStepGradientDescentOptimizerv4
+class ITK_TEMPLATE_EXPORT RegularStepGradientDescentOptimizerv4
 : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 public:
@@ -54,55 +54,59 @@ public:
   typedef SmartPointer< const Self >                                          ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(RegularStepGradientDescentOptimizerv4, Superclass);
+  itkTypeMacro(RegularStepGradientDescentOptimizerv4, GradientDescentOptimizerv4Template);
 
-  /** New macro for creation of through a Smart Pointer   */
+  /** New macro for creation of through a Smart Pointer. */
   itkNewMacro(Self);
 
 
   /** It should be possible to derive the internal computation type from the class object. */
   typedef TInternalComputationValueType                     InternalComputationValueType;
 
-  /** Derivative type */
+  /** Derivative type. */
   typedef typename Superclass::DerivativeType               DerivativeType;
 
-  /** Metric type over which this class is templated */
+  /** Metric type over which this class is templated. */
   typedef typename Superclass::MeasureType                  MeasureType;
   typedef typename Superclass::IndexRangeType               IndexRangeType;
   typedef typename Superclass::ScalesType                   ScalesType;
   typedef typename Superclass::ParametersType               ParametersType;
   typedef typename Superclass::StopConditionType            StopConditionType;
 
-  /** Compensated summation type */
+  /** Compensated summation type. */
   typedef CompensatedSummation< InternalComputationValueType >   CompensatedSummationType;
 
   /** Minimum step length (learning rate) value for convergence checking.
-   *  The step length is decreased by relaxation factor if the step is too
-   *  long, and the algorithm passes the local minimum.
+   *  When the local minima is passed by taking a large step, the step
+   *  length is adjusted (decreased) by the relaxation factor, so that smaller
+   *  steps are taken towards the minimum point (convergence).
    *  When the step length value reaches a small value, it would be treated
    *  as converged.
    *
-   *  The default m_MinimumStepLength is set to 1e-4 to pass all
-   *  tests.
+   *  The default value is set to 1e-4 to pass all tests.
    */
   itkSetMacro(MinimumStepLength, TInternalComputationValueType);
   itkGetConstReferenceMacro(MinimumStepLength, TInternalComputationValueType);
 
-  /** Set/Get relaxation factor value */
+  /** Set/Get relaxation factor value. */
   itkSetMacro(RelaxationFactor, TInternalComputationValueType);
   itkGetConstReferenceMacro(RelaxationFactor, TInternalComputationValueType);
 
-  /** Set/Get gradient magnitude tolerance value */
+  /** Set/Get gradient magnitude tolerance value for convergence checking. */
   itkSetMacro(GradientMagnitudeTolerance, TInternalComputationValueType);
   itkGetConstReferenceMacro(GradientMagnitudeTolerance, TInternalComputationValueType);
 
-  /** Start and run the optimization */
+  /** Set/Get current scale for learning rate. */
+  itkSetMacro(CurrentLearningRateRelaxation, MeasureType);
+  itkGetConstReferenceMacro(CurrentLearningRateRelaxation, MeasureType);
+
+  /** Start and run the optimization. */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
   /** Estimate the learning rate based on the current gradient. */
   virtual void EstimateLearningRate() ITK_OVERRIDE;
 
-  /** Get current gradient step value */
+  /** Get current gradient step value. */
   double GetCurrentStepLength() const;
 
 protected:
@@ -115,32 +119,26 @@ protected:
   virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
   virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
 
-  /**
-   *  When the local minima is passed by taking a large step,
-   *  the step size is adjusted by the relaxation factor, so we
-   *  can take smaller steps toward the minimum point.
-   */
-  TInternalComputationValueType  m_RelaxationFactor;
 
-  /** Default constructor */
+  /** Default constructor. */
   RegularStepGradientDescentOptimizerv4();
 
-  /** Destructor */
+  /** Destructor. */
   virtual ~RegularStepGradientDescentOptimizerv4();
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
-  /** Minimum gradient step value for convergence checking */
-  TInternalComputationValueType  m_MinimumStepLength;
-
-  /** Minimum gradient magnitude value for convergence checking */
-  TInternalComputationValueType  m_GradientMagnitudeTolerance;
-
-  /** Current scale for learning rate */
-  MeasureType                  m_CurrentLearningRateRelaxation;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegularStepGradientDescentOptimizerv4);
+
+  TInternalComputationValueType  m_RelaxationFactor;
+
+  TInternalComputationValueType  m_MinimumStepLength;
+
+  TInternalComputationValueType  m_GradientMagnitudeTolerance;
+
+  MeasureType                  m_CurrentLearningRateRelaxation;
 };
 
 } // end namespace itk

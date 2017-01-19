@@ -40,7 +40,7 @@ namespace itk
  * \ingroup ITKLabelMap
  */
 template< typename TImage >
-class ShiftScaleLabelMapFilter:
+class ITK_TEMPLATE_EXPORT ShiftScaleLabelMapFilter:
   public InPlaceLabelMapFilter< TImage >
 {
 public:

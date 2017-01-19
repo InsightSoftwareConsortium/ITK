@@ -39,7 +39,7 @@ namespace itk {
  * \ingroup ITKLabelMap
  */
 template<typename TImage>
-class StatisticsPositionLabelMapFilter :
+class ITK_TEMPLATE_EXPORT StatisticsPositionLabelMapFilter :
     public ShapePositionLabelMapFilter<TImage>
 {
 public:

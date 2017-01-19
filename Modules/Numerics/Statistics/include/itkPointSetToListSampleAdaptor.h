@@ -43,7 +43,7 @@ namespace Statistics
  */
 
 template< typename TPointSet >
-class PointSetToListSampleAdaptor:
+class ITK_TEMPLATE_EXPORT PointSetToListSampleAdaptor:
   public ListSample< typename TPointSet::PointType >
 {
 public:

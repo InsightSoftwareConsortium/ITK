@@ -30,9 +30,11 @@ namespace itk {
  * AttributeSelectionLabelMapFilter removes the objects in a label collection image
  * with an attribute value inside or outside a set of attribute values passed by
  * the user.
- * The attribute is provide by an attribute accessor given in template parameter.
+ * The attribute is provided by an attribute accessor given in template parameter.
  * Contrary to the other filters made to remove some object of a LabelMap, no
  * ordering relation for the attribute is needed in that filter.
+ * The filter provides two outputs: the first contains the surviving objects,
+ * the second the removed objects (the input LabelMap is the union of these two LabelMaps).
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
@@ -46,7 +48,7 @@ namespace itk {
  */
 template<typename TImage, typename TAttributeAccessor=
     typename Functor::AttributeLabelObjectAccessor< typename TImage::LabelObjectType > >
-class AttributeSelectionLabelMapFilter :
+class ITK_TEMPLATE_EXPORT AttributeSelectionLabelMapFilter :
     public InPlaceLabelMapFilter<TImage>
 {
 public:

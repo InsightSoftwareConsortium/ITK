@@ -77,7 +77,7 @@ template< typename TInputImage,
           typename TOutputImage,
           typename TCoordType = typename TInputImage::PixelType,
           typename InterpolatorType = BSplineInterpolateImageFunction< TInputImage, TCoordType > >
-class InterpolateImagePointsFilter:
+class ITK_TEMPLATE_EXPORT InterpolateImagePointsFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

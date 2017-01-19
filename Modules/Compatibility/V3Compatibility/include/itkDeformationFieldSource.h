@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKV3Compatibility
  */
 template< typename TOutputImage >
-class DeformationFieldSource:
+class ITK_TEMPLATE_EXPORT DeformationFieldSource:
   public ImageSource< TOutputImage >
 {
 public:
@@ -143,7 +143,7 @@ public:
   virtual void GenerateOutputInformation();
 
   /** Method Compute the Modified Time based on changed to the components. */
-  unsigned long GetMTime() const;
+  ModifiedTimeType GetMTime() const;
 
 protected:
   DeformationFieldSource();

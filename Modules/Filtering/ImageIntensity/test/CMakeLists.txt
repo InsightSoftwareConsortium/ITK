@@ -128,8 +128,21 @@ itk_add_test(NAME itkInvertIntensityImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/InvertIntensityImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png
     itkInvertIntensityImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/InvertIntensityImageFilterTest.png)
-itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkSymmetricEigenAnalysisImageFilterTest)
+itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByValue
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png
+              941cdbc107bea093a564a83ed5993d6d
+    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByValue.png 1)
+itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png
+              dbff47eae29f458759de12b3dee95176
+    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestOrderByMagnitude.png 2)
+itk_add_test(NAME itkSymmetricEigenAnalysisImageFilterTestDoNotOrder
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png
+              dbff47eae29f458759de12b3dee95176
+    itkSymmetricEigenAnalysisImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkSymmetricEigenAnalysisImageFilterTestDoNotOrder.png 3)
 itk_add_test(NAME itkEdgePotentialImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkEdgePotentialImageFilterTest)
 itk_add_test(NAME itkComplexToModulusFilterAndAdaptorTest
@@ -137,7 +150,10 @@ itk_add_test(NAME itkComplexToModulusFilterAndAdaptorTest
 itk_add_test(NAME itkAddImageAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkAddImageAdaptorTest)
 itk_add_test(NAME itkAndImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkAndImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png
+              93d46ee3d5e0c157e2b2d27977ae4d0f
+    itkAndImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkAndImageFilterTest.png)
 itk_add_test(NAME itkAdaptImageFilterTest2
       COMMAND ITKImageIntensityTestDriver itkAdaptImageFilterTest2)
 itk_add_test(NAME itkLogImageFilterAndAdaptorTest
@@ -147,7 +163,10 @@ itk_add_test(NAME itkNotImageFilterTest
 itk_add_test(NAME itkImageAdaptorNthElementTest
       COMMAND ITKImageIntensityTestDriver itkImageAdaptorNthElementTest)
 itk_add_test(NAME itkConstrainedValueAdditionImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkConstrainedValueAdditionImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png
+              6ef609d089e93e2eed8f089f75bc67fb
+    itkConstrainedValueAdditionImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkConstrainedValueAdditionImageFilterTest.png)
 itk_add_test(NAME itkAtanImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkAtanImageFilterAndAdaptorTest)
 itk_add_test(NAME itkMaskNegatedImageFilterTest
@@ -182,7 +201,10 @@ itk_add_test(NAME itkComplexToPhaseFilterAndAdaptorTest
 itk_add_test(NAME itkIntensityWindowingImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkIntensityWindowingImageFilterTest)
 itk_add_test(NAME itkTernaryMagnitudeImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkTernaryMagnitudeImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png
+              7f199e1363c4b754eb03cf4d0ba8d343
+    itkTernaryMagnitudeImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkTernaryMagnitudeImageFilterTest.png)
 itk_add_test(NAME itkAbsImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkAbsImageFilterAndAdaptorTest)
 itk_add_test(NAME itkMaximumImageFilterTest
@@ -233,11 +255,17 @@ itk_add_test(NAME itkVectorExpandImageFilterTest
 itk_add_test(NAME itkAdaptImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkAdaptImageFilterTest)
 itk_add_test(NAME itkOrImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkOrImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png
+              817d6d96c1c07cb12bfc200134aa57ba
+    itkOrImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkOrImageFilterTest.png)
 itk_add_test(NAME itkRGBToLuminanceImageFilterAndAdaptorTest.cxx
       COMMAND ITKImageIntensityTestDriver itkRGBToLuminanceImageFilterAndAdaptorTest)
 itk_add_test(NAME itkXorImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkXorImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png
+              3b5b9852567ef7618aac7f5f2d74ef74
+    itkXorImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkXorImageFilterTest.png)
 itk_add_test(NAME itkSubtractImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkSubtractImageFilterTest)
 itk_add_test(NAME itkComplexToImaginaryFilterAndAdaptorTest
@@ -250,7 +278,10 @@ itk_add_test(NAME itkPolylineMask2DImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkPolylineMask2DImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkPolylineMask2DImageFilterTest.png)
 itk_add_test(NAME itkPolylineMaskImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkPolylineMaskImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver
+      --compare DATA{Baseline/PolylineMaskImageFilterTest.mha}
+                ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha
+      itkPolylineMaskImageFilterTest ${ITK_TEST_OUTPUT_DIR}/PolylineMaskImageFilterTest.mha)
 itk_add_test(NAME itkPromoteDimensionImageTest
       COMMAND ITKImageIntensityTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/PromoteDimensionImageTest.mhd,PromoteDimensionImageTest.raw}

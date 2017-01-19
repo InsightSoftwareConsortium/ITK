@@ -37,7 +37,7 @@ namespace itk
  * \ingroup ITKImageSources
  */
 template< typename TOutputImage >
-class GenerateImageSource
+class ITK_TEMPLATE_EXPORT GenerateImageSource
   : public ImageSource< TOutputImage >
 {
 public:
@@ -62,7 +62,7 @@ public:
   itkStaticConstMacro(NDimensions, unsigned int, TOutputImage::ImageDimension);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GeneratemageSource, ImageSource);
+  itkTypeMacro(GenerateImageSource, ImageSource);
 
   /**
    * Set/Get the size of the output image

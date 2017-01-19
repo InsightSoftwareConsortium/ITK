@@ -63,7 +63,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage, typename TKernel >
-class BinaryDilateImageFilter:
+class ITK_TEMPLATE_EXPORT BinaryDilateImageFilter:
   public BinaryMorphologyImageFilter< TInputImage, TOutputImage, TKernel >
 {
 public:

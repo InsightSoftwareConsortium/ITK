@@ -31,7 +31,7 @@ namespace itk
  * pattern. This filter is commonly used for visually comparing two images, in
  * particular for evaluating the results of an image registration process.
  *
- * This filter is implemented as a multithreaded filter.  It provides a
+ * This filter is implemented as a multithreaded filter. It provides a
  * ThreadedGenerateData() method for its implementation.
  *
  * \ingroup IntensityImageFilters  MultiThreaded
@@ -42,7 +42,7 @@ namespace itk
  * \endwiki
  */
 template< typename TImage >
-class CheckerBoardImageFilter:
+class ITK_TEMPLATE_EXPORT CheckerBoardImageFilter:
   public ImageToImageFilter< TImage, TImage >
 {
 public:
@@ -68,17 +68,18 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       TImage::ImageDimension);
 
-  /** Type to hold the number of checker boxes per dimension */
+  /** Type to hold the number of checker boxes per dimension. */
   typedef FixedArray< unsigned int,
                        TImage ::ImageDimension >  PatternArrayType;
 
-  /** Connect one of the operands for checker board */
+  /** Set the first operand for checker board. */
   void SetInput1(const TImage *image1);
 
-  /** Connect one of the operands for checker board */
+  /** Set the second operand for checker board. */
   void SetInput2(const TImage *image2);
 
-  /** Set array with number of checks to make per image dimension */
+  /** Set/Get the checker pattern array, i.e. the number of checker boxes
+   * per image dimension. */
   itkSetMacro(CheckerPattern, PatternArrayType);
   itkGetConstReferenceMacro(CheckerPattern, PatternArrayType);
 
@@ -87,7 +88,7 @@ protected:
   ~CheckerBoardImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** CheckerBoardImageFilter can be implemented as a multithreaded filter.  Therefore,
+  /** CheckerBoardImageFilter can be implemented as a multithreaded filter. Therefore,
    * this implementation provides a ThreadedGenerateData() routine which
    * is called for each processing thread. The output image data is allocated
    * automatically by the superclass prior to calling ThreadedGenerateData().

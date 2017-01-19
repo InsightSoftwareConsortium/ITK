@@ -81,11 +81,26 @@ ImageAdaptor< TImage, TAccessor >
 template< typename TImage, typename TAccessor >
 void
 ImageAdaptor< TImage, TAccessor >
-::Graft(const DataObject *data)
+::Graft(const Self *imgData)
 {
   // call the superclass' implementation
-  Superclass::Graft(data);
+  Superclass::Graft(imgData);
 
+  if ( imgData )
+    {
+      // Now copy anything remaining that is needed
+      this->SetPixelContainer(
+        const_cast< Self * >( imgData )->GetPixelContainer() );
+    }
+}
+
+
+//----------------------------------------------------------------------------
+template< typename TImage, typename TAccessor >
+void
+ImageAdaptor< TImage, TAccessor >
+::Graft(const DataObject *data)
+{
   if ( data )
     {
     // Attempt to cast data to an ImageAdaptor
@@ -102,9 +117,7 @@ ImageAdaptor< TImage, TAccessor >
 
     if ( imgData )
       {
-      // Now copy anything remaining that is needed
-      this->SetPixelContainer(
-        const_cast< Self * >( imgData )->GetPixelContainer() );
+      this->Graft(imgData);
       }
     else
       {

@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKTransform
  */
 template<typename TParametersValueType=double >
-class Euler3DTransform :
+class ITK_TEMPLATE_EXPORT Euler3DTransform :
   public Rigid3DTransform<TParametersValueType>
 {
 public:

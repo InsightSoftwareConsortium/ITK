@@ -30,6 +30,15 @@ itk_add_test(NAME itkRichardsonLucyDeconvolutionImageFilterIrregularKernelTest
       DATA{Input/itkDeconvolutionImageFilterTestKernelIrregular.tif}
       ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterIrregularKernelTest.nrrd 1
 )
+itk_add_test(NAME itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest
+      COMMAND ITKDeconvolutionTestDriver
+    --compare DATA{Baseline/itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest.nrrd}
+      ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest.nrrd
+    itkRichardsonLucyDeconvolutionImageFilterTest
+      DATA{Input/itkDeconvolutionImageFilterTestNonNullOriginInput.mha}
+      DATA{Input/itkDeconvolutionImageFilterTestKernel.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest.nrrd 1
+)
 itk_add_test(NAME itkLandweberDeconvolutionImageFilterGaussianKernelTest
       COMMAND ITKDeconvolutionTestDriver
     --compare DATA{Baseline/itkLandweberDeconvolutionImageFilterGaussianKernelTest.nrrd}

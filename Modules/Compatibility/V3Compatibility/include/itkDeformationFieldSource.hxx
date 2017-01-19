@@ -225,7 +225,7 @@ unsigned long
 DeformationFieldSource< TOutputImage >
 ::GetMTime(void) const
 {
-  unsigned long latestTime = Object::GetMTime();
+  ModifiedTimeType latestTime = Object::GetMTime();
 
   if ( m_KernelTransform )
     {

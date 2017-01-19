@@ -24,33 +24,15 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TCoordRep >
 SumOfSquaresImageFunction< TInputImage, TCoordRep >
 ::SumOfSquaresImageFunction()
 {
-  m_NeighborhoodRadius = 1;
-  m_NeighborhoodSize = 1;
+  this->m_NeighborhoodRadius = 1;
+  this->m_NeighborhoodSize = 1;
 }
 
-/**
- *
- */
-template< typename TInputImage, typename TCoordRep >
-void
-SumOfSquaresImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "NeighborhoodRadius: "  << m_NeighborhoodRadius << std::endl;
-  os << indent << "NeighborhoodSize: "  << m_NeighborhoodSize << std::endl;
-}
-
-/**
- *
- */
 template< typename TInputImage, typename TCoordRep >
 typename SumOfSquaresImageFunction< TInputImage, TCoordRep >
 ::RealType
@@ -91,6 +73,18 @@ SumOfSquaresImageFunction< TInputImage, TCoordRep >
 
   return ( sumOfSquares );
 }
+
+template< typename TInputImage, typename TCoordRep >
+void
+SumOfSquaresImageFunction< TInputImage, TCoordRep >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os, indent);
+
+  os << indent << "NeighborhoodRadius: " << this->m_NeighborhoodRadius << std::endl;
+  os << indent << "NeighborhoodSize: " << this->m_NeighborhoodSize << std::endl;
+}
+
 } // end namespace itk
 
 #endif

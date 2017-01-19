@@ -1,15 +1,13 @@
 if (ITK_USE_GPU)
-  set(ITKGPUFiniteDifference_SRC
+  set(ITKGPUFiniteDifference_SRCS
     )
 
   set(ITKGPUFiniteDifference_Kernels
     GPUDenseFiniteDifferenceImageFilter.cl
     )
 
-  write_gpu_kernels("${ITKGPUFiniteDifference_Kernels}" ITKGPUFiniteDifference_SRC)
+  write_gpu_kernels("${ITKGPUFiniteDifference_Kernels}" ITKGPUFiniteDifference_SRCS)
 
-  add_library(ITKGPUFiniteDifference ${ITKGPUFiniteDifference_SRC})
-  itk_module_link_dependencies()
+  itk_module_add_library(ITKGPUFiniteDifference ${ITKGPUFiniteDifference_SRCS})
   target_link_libraries(ITKGPUFiniteDifference LINK_PUBLIC ${OPENCL_LIBRARIES})
-  itk_module_target(ITKGPUFiniteDifference)
 endif()

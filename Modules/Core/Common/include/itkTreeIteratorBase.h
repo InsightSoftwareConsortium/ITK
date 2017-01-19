@@ -39,7 +39,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TTreeType >
-class TreeIteratorBase
+class ITK_TEMPLATE_EXPORT TreeIteratorBase
 {
 public:
 

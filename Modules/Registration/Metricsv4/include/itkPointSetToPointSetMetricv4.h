@@ -68,7 +68,7 @@ namespace itk
 
 template<typename TFixedPointSet,  typename TMovingPointSet,
   class TInternalComputationValueType = double>
-class PointSetToPointSetMetricv4
+class ITK_TEMPLATE_EXPORT PointSetToPointSetMetricv4
 : public ObjectToObjectMetric<TFixedPointSet::PointDimension, TMovingPointSet::PointDimension,
    Image<TInternalComputationValueType, TFixedPointSet::PointDimension>, TInternalComputationValueType>
 {

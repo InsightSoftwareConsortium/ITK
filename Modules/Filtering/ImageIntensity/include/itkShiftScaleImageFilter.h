@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKImageIntensity
  */
 template< typename TInputImage, typename TOutputImage >
-class ShiftScaleImageFilter:
+class ITK_TEMPLATE_EXPORT ShiftScaleImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

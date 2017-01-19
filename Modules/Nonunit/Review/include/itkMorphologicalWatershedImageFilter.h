@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TInputImage, typename TOutputImage >
-class MorphologicalWatershedImageFilter:
+class ITK_TEMPLATE_EXPORT MorphologicalWatershedImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:

@@ -34,7 +34,7 @@ CropImageFilter< TInputImage, TOutputImage >
     return;
     }
 
-  // Compute the new region size.
+  // Compute the new region size
   OutputImageRegionType croppedRegion;
   SizeType              sz;
   OutputImageIndexType  idx;
@@ -53,16 +53,12 @@ CropImageFilter< TInputImage, TOutputImage >
   croppedRegion.SetSize(sz);
   croppedRegion.SetIndex(idx);
 
-  // Set extraction region in the superclass.
+  // Set extraction region in the superclass
   this->SetExtractionRegion(croppedRegion);
 
-  //
   Superclass::GenerateOutputInformation();
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 CropImageFilter< TInputImage, TOutputImage >

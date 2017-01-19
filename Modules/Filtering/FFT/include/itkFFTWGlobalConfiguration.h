@@ -280,6 +280,10 @@ public:
   static bool ImportDefaultWisdomFileFloat();
   static bool ExportDefaultWisdomFileFloat();
 
+  /** Convenience functions to Import/Export both double and float default wisdom files */
+  static bool ImportDefaultWisdomFile();
+  static bool ExportDefaultWisdomFile();
+
 private:
   FFTWGlobalConfiguration(); //This will process env variables
   ~FFTWGlobalConfiguration(); //This will write cache file if requested.

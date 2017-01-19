@@ -51,7 +51,7 @@ namespace itk
  * \ingroup ITKPDEDeformableRegistration
  */
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-class LevelSetMotionRegistrationFunction:
+class ITK_TEMPLATE_EXPORT LevelSetMotionRegistrationFunction:
   public PDEDeformableRegistrationFunction< TFixedImage,
                                             TMovingImage,
                                             TDisplacementField >

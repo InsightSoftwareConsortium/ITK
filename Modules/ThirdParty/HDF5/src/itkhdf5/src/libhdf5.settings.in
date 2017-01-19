@@ -39,6 +39,7 @@ Languages:
 ----------
                         Fortran: @HDF_FORTRAN@
 @BUILD_FORTRAN_CONDITIONAL_TRUE@               Fortran Compiler: @FC_VERSION@
+@BUILD_FORTRAN_CONDITIONAL_TRUE@          Fortran 2003 Compiler: @HAVE_FORTRAN_2003@
 @BUILD_FORTRAN_CONDITIONAL_TRUE@                  Fortran Flags: @FCFLAGS@
 @BUILD_FORTRAN_CONDITIONAL_TRUE@               H5 Fortran Flags: @H5_FCFLAGS@
 @BUILD_FORTRAN_CONDITIONAL_TRUE@               AM Fortran Flags: @AM_FCFLAGS@
@@ -50,7 +51,7 @@ Languages:
 @BUILD_CXX_CONDITIONAL_TRUE@                      C++ Flags: @CXXFLAGS@
 @BUILD_CXX_CONDITIONAL_TRUE@                   H5 C++ Flags: @H5_CXXFLAGS@
 @BUILD_CXX_CONDITIONAL_TRUE@                   AM C++ Flags: @AM_CXXFLAGS@
-@BUILD_CXX_CONDITIONAL_TRUE@             Shared C++ Library: @H5_CXX_SHARED@
+@BUILD_CXX_CONDITIONAL_TRUE@             Shared C++ Library: @enable_shared@
 @BUILD_CXX_CONDITIONAL_TRUE@             Static C++ Library: @enable_static@
 
 Features:
@@ -61,15 +62,11 @@ Features:
             Default API Mapping: @DEFAULT_API_VERSION@
  With Deprecated Public Symbols: @DEPRECATED_SYMBOLS@
          I/O filters (external): @EXTERNAL_FILTERS@
-         I/O filters (internal): @FILTERS@
                             MPE: @MPE@
                      Direct VFD: @DIRECT_VFD@
                         dmalloc: @HAVE_DMALLOC@
 Clear file buffers before write: @CLEARFILEBUF@
            Using memory checker: @USINGMEMCHECKER@
          Function Stack Tracing: @CODESTACK@
-                           GPFS: @GPFS@
       Strict File Format Checks: @STRICT_FORMAT_CHECKS@
    Optimization Instrumentation: @INSTRUMENT@
-       Large File Support (LFS): @LARGEFILE@
-             H5dump Packed Bits: @PACKED_BITS@

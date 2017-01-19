@@ -64,7 +64,7 @@ namespace fem
  * \ingroup ITKFEMRegistration
  */
 template <typename TMoving, typename TFixed>
-class FiniteDifferenceFunctionLoad : public LoadElement
+class ITK_TEMPLATE_EXPORT FiniteDifferenceFunctionLoad : public LoadElement
 {
 public:
   /** Standard class typedefs. */

@@ -75,12 +75,10 @@ class NumericTraits< std::complex< ForcedFailureTestCase > >
 
 }//end namespace itk
 
+namespace numeric_traits_test {
 
-namespace
-{
-
-void CheckPointer( const void *) {}
-
+// Change from anonymous namespace to named namespace to bypass clang with
+// XCode 7.3, 8 internal compiler errors
 template<typename T> void CheckVariableLengthArrayTraits(const T &t)
 {
   std::string name;
@@ -104,9 +102,17 @@ template<typename T> void CheckVariableLengthArrayTraits(const T &t)
   std::cout << "\tGetLength(" << name << "): " << itk::NumericTraits<T>::GetLength(t) << std::endl;
 }
 
+}
+
+namespace
+{
+void CheckPointer( const void *) {}
+
+using numeric_traits_test::CheckVariableLengthArrayTraits;
 
 template<typename T> void CheckFixedArrayTraits(const T &t)
 {
+
   std::string name;
 #ifdef GCC_USEDEMANGLE
   char const *mangledName = typeid( t ).name();
@@ -132,7 +138,7 @@ template<typename T> void CheckFixedArrayTraits(const T &t)
   CheckPointer(&itk::NumericTraits<T>::One);
   CheckPointer(&itk::NumericTraits<T>::Zero);
 
- CheckVariableLengthArrayTraits(t);
+  CheckVariableLengthArrayTraits(t);
 }
 
 
@@ -366,7 +372,7 @@ int itkNumericTraitsTest(int, char* [] )
   typedef std::vector<int>::size_type VectorSizeType;
   CheckTraits("std::vector<int>::size_type", static_cast<VectorSizeType>(0));
 
-
+#ifndef __EMSCRIPTEN__
   // itk::CovariantVector<char, 1>()
   CheckFixedArrayTraits(itk::CovariantVector<char, 1>());
   CheckFixedArrayTraits(itk::CovariantVector<signed char, 1>());
@@ -1211,6 +1217,7 @@ int itkNumericTraitsTest(int, char* [] )
   CheckFixedArrayTraits(std::complex<float>());
   CheckFixedArrayTraits(std::complex<double>());
   CheckFixedArrayTraits(std::complex<long double>());
+#endif // __EMSCRIPTEN__
 
   //  check the new Integer and Signed traits
   testPassedStatus &= CheckAllSignedAndIntegerTraits();

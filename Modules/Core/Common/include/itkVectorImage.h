@@ -78,7 +78,7 @@ namespace itk
  * \endwiki
  */
 template< typename TPixel, unsigned int VImageDimension = 3 >
-class VectorImage:
+class ITK_TEMPLATE_EXPORT VectorImage:
   public ImageBase< VImageDimension >
 {
 public:
@@ -303,7 +303,7 @@ public:
    * simply calls CopyInformation() and copies the region ivars.
    * The implementation here refers to the superclass' implementation
    * and then copies over the pixel container. */
-  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  virtual void Graft(const Self *data);
 
   /** Return the Pixel Accessor object */
   AccessorType GetPixelAccessor(void) { return AccessorType(m_VectorLength); }
@@ -337,7 +337,8 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual ~VectorImage() {}
-
+  virtual void Graft(const DataObject *data) ITK_OVERRIDE;
+  using Superclass::Graft;
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorImage);
 

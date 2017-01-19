@@ -22,6 +22,8 @@
 #include "itkNullImageToImageFilterDriver.hxx"
 #include "itkTestingMacros.h"
 
+#include "itkPeriodicBoundaryCondition.h"
+
 inline std::ostream& operator<<(std::ostream &o, const itk::CovariantVector<float, 3> &v)
 {
   o << "["<< v[0] << " " << v[1] << " " << v[2] << "]";
@@ -35,6 +37,7 @@ int itkGradientImageFilterTest(int , char * [] )
     typedef itk::Image<unsigned short, 2>                     ImageType;
     typedef itk::GradientImageFilter<ImageType, float, float> FilterType;
     typedef FilterType::OutputImageType                       OutputImageType;
+
 
     // Set up filter
     FilterType::Pointer filter = FilterType::New();
@@ -65,6 +68,10 @@ int itkGradientImageFilterTest(int , char * [] )
     typedef itk::GradientImageFilter< InputImageType, float, float, OutputImageType> FilterType;
 
     FilterType::Pointer filter = FilterType::New();
+
+    typedef itk::PeriodicBoundaryCondition<InputImageType> PeriodicBoundaryType;
+    //Test the OverrideBoundaryCondition setting;
+    filter->OverrideBoundaryCondition( new PeriodicBoundaryType );
 
     EXERCISE_BASIC_OBJECT_METHODS( filter, GradientImageFilter, ImageToImageFilter );
 

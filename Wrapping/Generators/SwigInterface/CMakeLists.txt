@@ -1,4 +1,16 @@
 ###############################################################################
+# Swig and PCRE do not support blank spaces in install directory namespaces
+# This means that ITK cannot be built in a path that contains spaces
+# See http://www.swig.org/Doc1.3/Windows.html
+# Note: Using "string(FIND...) ..." instead of
+# "if("${CMAKE_BINARY_DIR}" MATCHES "^.* .*$")"
+# to support CMake 2.8.9
+string(FIND "${CMAKE_BINARY_DIR}" " " _space_position)
+if(NOT ${_space_position} EQUAL -1)
+  message(FATAL_ERROR "Swig and PCRE do not support paths with space characters. Please change build directory name.")
+endif()
+
+###############################################################################
 # Find python
 find_package(PythonInterp REQUIRED)
 
@@ -11,9 +23,9 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 # Minimal swig version
 set(swig_version_min 3.0.0)
 
-set(ITK_SWIG_VERSION 3.0.10)
-set(swig_md5     bb4ab8047159469add7d00910e203124)
-set(swigwin_md5  f229724fe856aa78df6128ecfefe6e0a)
+set(ITK_SWIG_VERSION 3.0.11)
+set(swig_md5     13732eb0f1ab2123d180db8425c1edea)
+set(swigwin_md5  5cc57e3658f62b7f648bec7eed91a4f0)
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
@@ -89,12 +101,12 @@ else()
       if(NOT CMAKE_CROSSCOMPILING)
         set(pcre_env
           env
-            "CC=${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}"
+            "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
             "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
             "LDFLAGS=$ENV{LDFLAGS}"
             "LIBS=$ENV{LIBS}"
             "CPPFLAGS=$ENV{CPPFLAGS}"
-            "CXX=${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}"
+            "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
             "CXXFLAGS=${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w"
             "CPP=$ENV{CPP}"
             "CXXPP=$ENV{CXXPP}"
@@ -178,12 +190,12 @@ else()
       if(NOT CMAKE_CROSSCOMPILING)
         set(swig_env
 "
-set(ENV{CC} \"${CMAKE_C_COMPILER} ${CMAKE_C_COMPILER_ARG1}\")
+set(ENV{CC} \"${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}\")
 set(ENV{CFLAGS} \"${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w\")
 set(ENV{LDFLAGS} \"$ENV{LDFLAGS}\")
 set(ENV{LIBS} \"$ENV{LIBS}\")
 set(ENV{CPPFLAGS} \"$ENV{CPPFLAGS}\")
-set(ENV{CXX} \"${CMAKE_CXX_COMPILER} ${CMAKE_CXX_COMPILER_ARG1}\")
+set(ENV{CXX} \"${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}\")
 set(ENV{CXXFLAGS} \"${CMAKE_CXX_FLAGS} ${CMAKE_CXX_FLAGS_RELEASE} -w\")
 set(ENV{CPP} \"$ENV{CPP}\")
 set(ENV{YACC} \"${BISON_EXECUTABLE}\")

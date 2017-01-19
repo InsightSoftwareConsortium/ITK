@@ -20,13 +20,17 @@
 
 #include <string>
 
-#include "highgui.h"
-#include "itkVideoStream.h"
-
 // Include the required header with OpenCV > 2.X
+#include "opencv2/core/version.hpp"
 #if !defined( CV_VERSION_EPOCH )
+// OpenCV 3.x
 #include "opencv2/videoio.hpp"
+#else
+// OpenCV 2.4.x
+#include "highgui.h"
 #endif
+
+#include "itkVideoStream.h"
 
 namespace itk
 {
@@ -43,7 +47,7 @@ namespace itk
  * \ingroup ITKVideoBridgeOpenCV
  */
 template <typename TVideoStream>
-class OpenCVVideoCapture : public cv::VideoCapture
+class ITK_TEMPLATE_EXPORT OpenCVVideoCapture : public cv::VideoCapture
 {
 public:
 
@@ -68,7 +72,7 @@ public:
   }
 
   /** ITK's type info */
-  itkTypeMacro(OpenCVVideoCapture, cv::VideoCapture);
+  itkTypeMacroNoParent(OpenCVVideoCapture);
 
   /**-OPEN CLOSE FUNCTIONALITY-----------------------------------------------*/
 

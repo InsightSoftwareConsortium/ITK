@@ -22,6 +22,7 @@
 
 import itk
 from sys import argv
+import os
 itk.auto_progress(2)
 
 dim = 2
@@ -37,7 +38,7 @@ fftFilter.Update()
 
 complexWriter = itk.ImageFileWriter[ComplexImageType].New(
     fftFilter,
-    FileName="complexImage.mhd")
+    FileName=os.path.join(os.path.dirname(argv[2]), "complexImage.mhd"))
 complexWriter.Update()
 
 realFilter = itk.ComplexToRealImageFilter[

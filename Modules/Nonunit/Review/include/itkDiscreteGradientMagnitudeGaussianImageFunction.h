@@ -44,7 +44,7 @@ namespace itk
  * \ingroup ITKReview
  */
 template< typename TInputImage, typename TOutput = double >
-class DiscreteGradientMagnitudeGaussianImageFunction:
+class ITK_TEMPLATE_EXPORT DiscreteGradientMagnitudeGaussianImageFunction:
   public ImageFunction< TInputImage, TOutput, TOutput >
 {
 public:

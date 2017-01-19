@@ -72,5 +72,6 @@ public:
 using mpl::IsConvertible;
 
 /** \endcond */
+
 } // itk namespace
 #endif // itkIsConvertible_h

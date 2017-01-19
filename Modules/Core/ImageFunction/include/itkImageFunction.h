@@ -55,7 +55,7 @@ template<
   typename TOutput,
   typename TCoordRep = float
   >
-class ImageFunction:
+class ITK_TEMPLATE_EXPORT ImageFunction:
     public FunctionBase< Point< TCoordRep, TInputImage::ImageDimension >, TOutput >
 {
 public:

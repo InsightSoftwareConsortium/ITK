@@ -59,7 +59,7 @@ namespace itk
 template< typename TVRef,  typename TFRef,
           typename TPrimalData, typename TDualData,
           bool PrimalDual = true >
-class GeometricalQuadEdge:public QuadEdge
+class ITK_TEMPLATE_EXPORT GeometricalQuadEdge:public QuadEdge
 {
 public:
   /** Hierarchy typedefs. */

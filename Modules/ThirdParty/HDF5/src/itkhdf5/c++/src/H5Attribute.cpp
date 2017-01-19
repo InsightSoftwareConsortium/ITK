@@ -28,6 +28,7 @@
 #include "H5AbstractDs.h"
 #include "H5FaccProp.h"
 #include "H5FcreatProp.h"
+#include "H5OcreatProp.h"
 #include "H5DcreatProp.h"
 #include "H5CommonFG.h"
 #include "H5DataType.h"
@@ -44,12 +45,14 @@ namespace H5 {
 #endif  // H5_NO_STD
 #endif
 
+class H5_DLLCPP H5Object;  // forward declaration for UserData4Aiterate
+
 //--------------------------------------------------------------------------
 // Function:	Attribute default constructor
 ///\brief	Default constructor: Creates a stub attribute
 // Programmer	Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-Attribute::Attribute() : AbstractDs(), IdComponent(), id(0) {}
+Attribute::Attribute() : AbstractDs(), IdComponent(), id(H5I_INVALID_HID) {}
 
 //--------------------------------------------------------------------------
 // Function:	Attribute copy constructor
@@ -57,9 +60,8 @@ Attribute::Attribute() : AbstractDs(), IdComponent(), id(0) {}
 ///\param	original  - IN: Original Attribute object to copy
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Attribute::Attribute(const Attribute& original) : AbstractDs(), IdComponent()
+Attribute::Attribute(const Attribute& original) : AbstractDs(), IdComponent(), id(original.id)
 {
-    id = original.getId();
     incRefCount(); // increment number of references to this id
 }
 
@@ -71,9 +73,9 @@ Attribute::Attribute(const Attribute& original) : AbstractDs(), IdComponent()
 ///\exception	H5::AttributeIException
 // Programmer	Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Attribute::Attribute(const hid_t existing_id) : AbstractDs(), IdComponent()
+Attribute::Attribute(const hid_t existing_id) : AbstractDs(), IdComponent(), id(existing_id)
 {
-   id = existing_id;
+    incRefCount(); // increment number of references to this id
 }
 
 //--------------------------------------------------------------------------
@@ -161,13 +163,13 @@ void Attribute::read( const DataType& mem_type, void *buf ) const
 //	Mar 2008
 //		Corrected a misunderstanding that H5Aread would allocate
 //		space for the buffer.  Obtained the attribute size and
-//		allocated memory properly. - BMR
+//		allocated memory properly. -BMR
 //	Apr 2009
-//		Used getInMemDataSize to get attribute data size. - BMR
+//		Used getInMemDataSize to get attribute data size. -BMR
 //	Jul 2009
 //		Divided into specific private functions for fixed- and
 //		variable-len string data: p_read_fixed_len and
-//		p_read_variable_len.  This should improve readability.
+//		p_read_variable_len.  This should improve readability. -BMR
 //--------------------------------------------------------------------------
 void Attribute::read(const DataType& mem_type, H5std_string& strg) const
 {
@@ -179,7 +181,7 @@ void Attribute::read(const DataType& mem_type, H5std_string& strg) const
         throw AttributeIException("Attribute::read", "H5Tis_variable_str failed");
     }
 
-    if (!is_variable_len)	// string is fixed length
+    if (!is_variable_len)       // only allocate for fixed-len string
     {
         p_read_fixed_len(mem_type, strg);
     }
@@ -207,7 +209,8 @@ size_t Attribute::getInMemDataSize() const
 	throw AttributeIException(func, "H5Aget_type failed");
     }
 
-    // Get the data type's size
+    // Get the data type's size by first getting its native type then getting
+    // the native type's size.
     hid_t native_type = H5Tget_native_type(mem_type_id, H5T_DIR_DEFAULT);
     if (native_type < 0)
     {
@@ -219,7 +222,18 @@ size_t Attribute::getInMemDataSize() const
 	throw AttributeIException(func, "H5Tget_size failed");
     }
 
-    // Get number of elements of the attribute
+    // Close the native type and the datatype of this attribute.
+    if (H5Tclose(native_type) < 0)
+    {
+	throw DataSetIException(func, "H5Tclose(native_type) failed");
+    }
+    if (H5Tclose(mem_type_id) < 0)
+    {
+	throw DataSetIException(func, "H5Tclose(mem_type_id) failed");
+    }
+
+    // Get number of elements of the attribute by first getting its dataspace
+    // then getting the number of elements in the dataspace
     hid_t space_id = H5Aget_space(id);
     if (space_id < 0)
     {
@@ -229,6 +243,12 @@ size_t Attribute::getInMemDataSize() const
     if (num_elements < 0)
     {
 	throw AttributeIException(func, "H5Sget_simple_extent_npoints failed");
+    }
+
+    // Close the dataspace
+    if (H5Sclose(space_id) < 0)
+    {
+	throw DataSetIException(func, "H5Sclose failed");
     }
 
     // Calculate and return the size of the data
@@ -251,8 +271,9 @@ DataSpace Attribute::getSpace() const
    // If the dataspace id is valid, create and return the DataSpace object
    if( dataspace_id > 0 )
    {
-      DataSpace dataspace( dataspace_id );
-      return( dataspace );
+	DataSpace dataspace;
+	f_DataSpace_setId(&dataspace, dataspace_id);
+	return(dataspace);
    }
    else
    {
@@ -272,7 +293,7 @@ H5std_string Attribute::getFileName() const
    try {
       return(p_get_file_name());
    }
-   catch (IdComponentException E) {
+   catch (IdComponentException& E) {
       throw FileIException("Attribute::getFileName", E.getDetailMsg());
    }
 }
@@ -280,76 +301,172 @@ H5std_string Attribute::getFileName() const
 //--------------------------------------------------------------------------
 // Function:	Attribute::getName
 ///\brief	Gets the name of this attribute, returning its length.
-///\param	buf_size  -  IN: Desired length of the name
-///\param	attr_name - OUT: Buffer for the name string
-///\return	Length of the attribute name
+///\param	attr_name - OUT: Buffer for the name string as char*
+///\param	buf_size  -  IN: Length of the buffer, default to 0
+///\return	Actual length of the attribute name
 ///\exception	H5::AttributeIException
-// Programmer	Binh-Minh Ribler - Nov, 2001
+///\par Description
+///		This function retrieves \a buf_size chars of the attribute's
+///		name including null termination.  Thus, if the actual length
+///		of the name is more than buf_size-1, the retrieved name will
+///		be truncated to accommodate the null terminator.
+///		To get length of the attribute's name for buffer allocation,
+///		an application can call this function passing in NULL for the
+///		first argument and ignore the second argument.
+// Programmer	Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
-ssize_t Attribute::getName( size_t buf_size, H5std_string& attr_name ) const
+ssize_t Attribute::getName(char* attr_name, size_t buf_size) const
 {
-   char* name_C = new char[buf_size+1];  // temporary C-string for C API
+    // H5Aget_name will get buf_size-1 chars of the name to null terminate it
+    ssize_t name_size = H5Aget_name(id, buf_size, attr_name);
 
-   // Calls C routine H5Aget_name to get the name of the attribute
-   ssize_t name_size = H5Aget_name( id, buf_size, name_C );
-
-   // If H5Aget_name returns a negative value, raise an exception,
-   if( name_size < 0 )
-   {
-      throw AttributeIException("Attribute::getName", "H5Aget_name failed");
-   }
-   // otherwise, convert the C attribute name and return
-   attr_name = name_C;
-   delete []name_C;
-   return( name_size );
+    // If H5Aget_name returns a negative value, raise an exception
+    if (name_size < 0)
+    {
+	throw AttributeIException("Attribute::getName", "H5Aget_name failed");
+    }
+    else if (name_size == 0)
+    {
+	throw AttributeIException("Attribute::getName", "Attribute must have a name, name length is 0");
+    }
+    // Return length of the name
+    return(name_size);
 }
 
 //--------------------------------------------------------------------------
 // Function:	Attribute::getName
-///\brief	This is an overloaded member function, provided for convenience.
-///		It differs from the above function in that it returns the
-///		attribute's name, not the length.
-///\return	Name of the attribute
-///\param	buf_size  -  IN: Desired length of the name
-///\exception	H5::AttributeIException
-// Programmer	Binh-Minh Ribler - 2000
-//--------------------------------------------------------------------------
-H5std_string Attribute::getName( size_t buf_size ) const
-{
-   H5std_string attr_name;
-   ssize_t name_size = getName( buf_size, attr_name );
-   static_cast<void>(name_size);
-   return( attr_name );
-   // let caller catch exception if any
-}
-
-//--------------------------------------------------------------------------
-// Function:	Attribute::getName
-///\brief	This is an overloaded member function, provided for convenience.
-///		It differs from the above functions in that it doesn't take
-///		any arguments and returns the attribute's name.
+///\brief	Returns the name of this attribute as an \a H5std_string.
 ///\return	Name of the attribute
 ///\exception	H5::AttributeIException
 // Programmer	Binh-Minh Ribler - May, 2004
+// Modification
+//	Mar 2014 - BMR
+//		Revised to use the modified getName() above
 //--------------------------------------------------------------------------
 H5std_string Attribute::getName() const
 {
-   // Try with 256 characters for the name first, if the name's length
-   // returned is more than that then, read the name again with the
-   // appropriate space allocation
-   char* name_C = new char[256];  // temporary C-string for C API
-   ssize_t name_size = H5Aget_name(id, 255, name_C);
+    H5std_string attr_name(""); // attribute name to return
 
-   H5std_string attr_name;
-   if (name_size >= 256)
-      name_size = getName(name_size, attr_name);
+    // Preliminary call to get the size of the attribute name
+    ssize_t name_size = H5Aget_name(id, static_cast<size_t>(0), NULL);
 
-   // otherwise, convert the C attribute name and return
-   else
-      attr_name = name_C;
+    // If H5Aget_name failed, throw exception
+    if (name_size < 0)
+    {
+	throw AttributeIException("Attribute::getName", "H5Aget_name failed");
+    }
+    else if (name_size == 0)
+    {
+	throw AttributeIException("Attribute::getName", "Attribute must have a name, name length is 0");
+    }
+    // Attribute's name exists, retrieve it
+    else if (name_size > 0)
+    {
+        char* name_C = new char[name_size+1];  // temporary C-string
+        HDmemset(name_C, 0, name_size+1); // clear buffer
 
-   delete []name_C;
-   return( attr_name );
+        // Use overloaded function
+        name_size = getName(name_C, name_size+1);
+
+        // Convert the C attribute name to return
+        attr_name = name_C;
+
+        // Clean up resource
+        delete []name_C;
+
+    }
+    // Return attribute's name
+    return(attr_name);
+}
+
+//--------------------------------------------------------------------------
+// Function:	Attribute::getName
+///\brief	This is an overloaded member function, provided for convenience.
+///		It differs from the above function in that it takes an integer
+///		specifying a desired length to be retrieved of the name.
+///\return	Name (or part of name) of the attribute
+///\param	len  -  IN: Desired length of the name
+///\exception	H5::AttributeIException
+// Programmer	Binh-Minh Ribler - 2000
+// Modification
+//	Mar 2014 - BMR
+//		Revised to use the new getName() below
+//--------------------------------------------------------------------------
+H5std_string Attribute::getName(size_t len) const
+{
+    H5std_string attr_name;
+    ssize_t name_size = getName(attr_name, len);
+    if (name_size < 0)
+	return("");
+    else
+	return(attr_name);
+}
+
+//--------------------------------------------------------------------------
+// Function:	Attribute::getName
+///\brief	Gets the name of this attribute, returning its length.
+///\param	attr_name - OUT: Buffer for the name string as \a H5std_string
+///\param	len  -  IN: Desired length of the name, default to 0
+///\return	Actual length of the attribute name
+///\exception	H5::AttributeIException
+///\par Description
+///		This function retrieves the attribute's name as a string.  The
+///		buf_size can specify a specific length or default to 0, in
+///		which case the entire name will be retrieved.
+// Programmer	Binh-Minh Ribler - Nov, 2001
+// Modification
+//	Mar 2014 - BMR
+//		Added to replace getName(size_t, H5std_string&) so that it'll
+//		allow the argument "len" to be skipped.
+//--------------------------------------------------------------------------
+ssize_t Attribute::getName(H5std_string& attr_name, size_t len) const
+{
+    ssize_t name_size = 0;
+
+    // If no length is provided, get the entire attribute name
+    if (len == 0)
+    {
+        attr_name = getName();
+	name_size = attr_name.length();
+    }
+    // If length is provided, get that number of characters in name
+    else
+    {
+        char* name_C = new char[len+1];  // temporary C-string
+        HDmemset(name_C, 0, len+1); // clear buffer
+
+        // Use overloaded function
+        name_size = getName(name_C, len+1);
+
+        // Convert the C attribute name to return
+        attr_name = name_C;
+
+        // Clean up resource
+        delete []name_C;
+    }
+    // Otherwise, keep attr_name intact
+
+    // Return name size
+    return(name_size);
+}
+
+//--------------------------------------------------------------------------
+// Function:	Attribute::getName
+// Purpose	This function is replaced by the previous function, which
+//		provides more convenient prototype.  It will be removed
+//		in future release.
+// Param	len  -  IN: Desired length of the name
+// Param	attr_name - OUT: Buffer for the name string
+// Return	Actual length of the attribute name
+// Exception	H5::AttributeIException
+// Programmer	Binh-Minh Ribler - Nov, 2001
+// Modification
+//		Modified to call its replacement. -BMR, 2014/04/16
+//		Removed from documentation. -BMR, 2016/03/07
+//--------------------------------------------------------------------------
+ssize_t Attribute::getName( size_t len, H5std_string& attr_name ) const
+{
+    return (getName(attr_name, len));
 }
 
 //--------------------------------------------------------------------------
@@ -368,8 +485,34 @@ hsize_t Attribute::getStorageSize() const
 }
 
 //--------------------------------------------------------------------------
+// Function:	Attribute::flush
+///\brief	Flushes all buffers associated with a file specified by
+///		this attribute, to disk.
+///\param	scope - IN: Specifies the scope of the flushing action,
+///		which can be either of these values:
+///		\li \c H5F_SCOPE_GLOBAL - Flushes the entire virtual file
+///		\li \c H5F_SCOPE_LOCAL - Flushes only the specified file
+///\exception	H5::AttributeIException
+///\par Description
+///		This attribute is used to identify the file to be flushed.
+// Programmer	Binh-Minh Ribler - 2013
+// Modification
+//	Mar 2013 - BMR
+//		Duplicated from H5Location
+//--------------------------------------------------------------------------
+void Attribute::flush(H5F_scope_t scope) const
+{
+   herr_t ret_value = H5Fflush(getId(), scope);
+   if( ret_value < 0 )
+   {
+      throw AttributeIException("Attribute::flush", "H5Fflush failed");
+   }
+}
+
+//--------------------------------------------------------------------------
 // Function:    Attribute::getId
-// Purpose:     Get the id of this attribute
+///\brief	Get the id of this attribute
+///\return	Attribute identifier
 // Description:
 //		Class hierarchy is revised to address bugzilla 1068.  Class
 //		AbstractDS and Attribute are moved out of H5Object.  In
@@ -424,7 +567,7 @@ void Attribute::p_read_fixed_len(const DataType& mem_type, H5std_string& strg) c
     // If there is data, allocate buffer and read it.
     if (attr_size > 0)
     {
-	char *strg_C = new char[(size_t)attr_size+1];
+	char *strg_C = new char[attr_size+1];
 	herr_t ret_value = H5Aread(id, mem_type.getId(), strg_C);
 	if( ret_value < 0 )
 	{
@@ -448,7 +591,7 @@ void Attribute::p_read_fixed_len(const DataType& mem_type, H5std_string& strg) c
 // Modification
 //	Jul 2009
 //		Separated the variable length case from the original
-//		Attribute::read
+//		Attribute::read. -BMR
 //--------------------------------------------------------------------------
 void Attribute::p_read_variable_len(const DataType& mem_type, H5std_string& strg) const
 {
@@ -468,6 +611,7 @@ void Attribute::p_read_variable_len(const DataType& mem_type, H5std_string& strg
     HDfree(strg_C);
 }
 
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------------------
 // Function:    Attribute::p_setId
 ///\brief       Sets the identifier of this object to a new value.
@@ -486,12 +630,13 @@ void Attribute::p_setId(const hid_t new_id)
     try {
 	close();
     }
-    catch (Exception close_error) {
+    catch (Exception& close_error) {
 	throw AttributeIException("Attribute::p_setId", close_error.getDetailMsg());
     }
    // reset object's id to the given id
    id = new_id;
 }
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
 // Function:	Attribute::close
@@ -510,7 +655,7 @@ void Attribute::close()
 	    throw AttributeIException("Attribute::close", "H5Aclose failed");
 	}
 	// reset the id
-	id = 0;
+	id = H5I_INVALID_HID;
     }
 }
 
@@ -529,7 +674,7 @@ Attribute::~Attribute()
     try {
 	close();
     }
-    catch (Exception close_error) {
+    catch (Exception& close_error) {
 	cerr << "Attribute::~Attribute - " << close_error.getDetailMsg() << endl;
     }
 }

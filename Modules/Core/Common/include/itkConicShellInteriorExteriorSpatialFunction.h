@@ -44,11 +44,11 @@ namespace itk
  * (2) the normalized vector from BoundaryPoint1 to BoundaryPoint2.
  *
  * If the absolute value of that dot product is greater than (1 - epsilon)
- * then you are in the ConicShell.  This epsilon is the same one determining
+ * then you are in the ConicShell. This epsilon is the same one determining
  * face-to-faceness in the IEEE TMI paper.
  *
- * Polarity, i.e. which direction along the gradient of BoundaryPoint1
- * you want to look.
+ * The polarity indicates which direction along the gradient of BoundaryPoint1
+ * the function is to be evaluated.
  *
  * \ingroup SpatialFunctions
  *
@@ -56,17 +56,18 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template< unsigned int VDimension = 3, typename TInput = Point< double, 3 > >
-class ConicShellInteriorExteriorSpatialFunction:
+template< unsigned int VDimension = 3,
+          typename TInput = Point< double, VDimension > >
+class ITK_TEMPLATE_EXPORT ConicShellInteriorExteriorSpatialFunction:
   public InteriorExteriorSpatialFunction< VDimension, TInput >
 {
 public:
 
   /** Standard class typedefs. */
-  typedef ConicShellInteriorExteriorSpatialFunction     Self;
-  typedef InteriorExteriorSpatialFunction< VDimension > Superclass;
-  typedef SmartPointer< Self >                          Pointer;
-  typedef SmartPointer< const Self >                    ConstPointer;
+  typedef ConicShellInteriorExteriorSpatialFunction             Self;
+  typedef InteriorExteriorSpatialFunction< VDimension, TInput > Superclass;
+  typedef SmartPointer< Self >                                  Pointer;
+  typedef SmartPointer< const Self >                            ConstPointer;
 
   /** Run time information. */
   itkTypeMacro(ConicShellInteriorExteriorSpatialFunction,
@@ -84,7 +85,7 @@ public:
   /** The type of vector used to store the gradient info. */
   typedef CovariantVector< double, VDimension > GradientType;
 
-  /** Evaluates the function at a given position */
+  /** Evaluates the function at a given position. */
   OutputType Evaluate(const InputType & position) const ITK_OVERRIDE;
 
   /** Set/Get the origin of the function. */
@@ -107,9 +108,12 @@ public:
   itkGetConstMacro(Epsilon, double);
   itkSetMacro(Epsilon, double);
 
-  /** Set/Get direction along the gradient to search. */
+  /** Set/Get direction along the gradient to search.
+   * Set to true to use the direction that the gradient is pointing;
+   * set to false for the opposite direction. Default is Off. */
   itkGetConstMacro(Polarity, bool);
   itkSetMacro(Polarity, bool);
+  itkBooleanMacro(Polarity);
 
 protected:
   ConicShellInteriorExteriorSpatialFunction();
@@ -119,16 +123,12 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ConicShellInteriorExteriorSpatialFunction);
 
-  /** The origin of the conic shell */
-  InputType m_Origin;
-
-  /** The gradient at the origin */
-  GradientType m_OriginGradient;
-
-  double m_DistanceMin;
-  double m_DistanceMax;
-  double m_Epsilon;
-  bool   m_Polarity;
+  InputType     m_Origin;
+  GradientType  m_OriginGradient;
+  double        m_DistanceMin;
+  double        m_DistanceMax;
+  double        m_Epsilon;
+  bool          m_Polarity;
 };
 } // end namespace itk
 

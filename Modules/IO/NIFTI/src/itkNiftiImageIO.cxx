@@ -46,7 +46,7 @@ static int print_hex_vals(
   return 0;
 }
 
-static char * str_intent(unsigned int intent)
+static const char * const str_intent(const unsigned int intent)
 {
   switch ( intent )
     {
@@ -244,6 +244,48 @@ static void dumpdata(const void *x)
 #else
 #define dumpdata(x)
 #endif // #if defined(__USE_VERY_VERBOSE_NIFTI_DEBUGGING__)
+
+namespace {
+static unsigned int str_xform2code( const std::string codeName )
+{
+  if( codeName == "NIFTI_XFORM_SCANNER_ANAT" )
+    {
+    return NIFTI_XFORM_SCANNER_ANAT;
+    }
+  else if( codeName == "NIFTI_XFORM_ALIGNED_ANAT" )
+    {
+    return NIFTI_XFORM_ALIGNED_ANAT;
+    }
+  else if( codeName == "NIFTI_XFORM_TALAIRACH" )
+    {
+    return NIFTI_XFORM_TALAIRACH;
+    }
+  else if( codeName == "NIFTI_XFORM_MNI_152" )
+    {
+    return NIFTI_XFORM_MNI_152;
+    }
+  // If no matches, then return UNKNOWN
+  return NIFTI_XFORM_UNKNOWN;
+}
+
+static const char * str_xform(const unsigned int xform)
+{
+  switch(xform)
+  {
+  case NIFTI_XFORM_UNKNOWN:
+      return "NIFTI_XFORM_UNKNOWN";
+  case NIFTI_XFORM_SCANNER_ANAT:
+      return "NIFTI_XFORM_SCANNER_ANAT";
+  case NIFTI_XFORM_ALIGNED_ANAT:
+      return "NIFTI_XFORM_ALIGNED_ANAT";
+  case NIFTI_XFORM_TALAIRACH:
+      return "NIFTI_XFORM_TALAIRACH";
+  case NIFTI_XFORM_MNI_152:
+      return "NIFTI_XFORM_MNI_152";
+  }
+  return str_xform(NIFTI_XFORM_UNKNOWN);
+}
+}
 
 // returns an ordering array for converting upper triangular symmetric matrix
 // to lower triangular symmetric matrix
@@ -869,10 +911,12 @@ void NiftiImageIO::SetImageIOMetadataFromNIfTI()
     std::ostringstream qform_code;
     qform_code << header->qform_code;
     EncapsulateMetaData< std::string >( thisDic, "qform_code", qform_code.str() );
+    EncapsulateMetaData< std::string >( thisDic, "qform_code_name", std::string( str_xform( header->qform_code ) ) );
 
     std::ostringstream sform_code;
     sform_code << header->sform_code;
     EncapsulateMetaData< std::string >( thisDic, "sform_code", sform_code.str() );
+    EncapsulateMetaData< std::string >( thisDic, "sform_code_name", std::string( str_xform( header->sform_code ) ) );
 
     std::ostringstream quatern_b;
     quatern_b << header->quatern_b;
@@ -1709,13 +1753,48 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
     }
 }
 
+unsigned int NiftiImageIO::getQFormCodeFromDictionary() const
+{
+  //The qform_code should be set to either NIFTI_XFORM_UNKNOWN or NIFTI_XFORM_SCANNER_ANAT.
+  const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+  std::string temp;
+  if ( itk::ExposeMetaData< std::string >(thisDic, "qform_code_name", temp) )
+  {
+    return str_xform2code(temp);
+  }
+  // Convert the numeric code from string to int
+  if ( itk::ExposeMetaData< std::string >(thisDic, "qform_code", temp) )
+  {
+    return atoi(temp.c_str());
+  }
+  return NIFTI_XFORM_SCANNER_ANAT; // Guess NIFTI_XFORM_SCANNER_ANAT if no other information provided.
+}
+
+unsigned int NiftiImageIO::getSFormCodeFromDictionary() const
+{
+  // The sform code should be set to either NIFTI_XFORM_UNKNOWN, NIFTI_XFORM_ALIGNED_ANAT, NIFTI_XFORM_TALAIRACH or NIFTI_XFORM_MNI_152.
+  const MetaDataDictionary & thisDic = this->GetMetaDataDictionary();
+  std::string temp;
+  if ( itk::ExposeMetaData< std::string >(thisDic, "sform_code_name", temp) )
+  {
+    return str_xform2code(temp);
+  }
+  // Convert the numeric code from string to int
+  if ( itk::ExposeMetaData< std::string >(thisDic, "sform_code", temp) )
+  {
+    return atoi(temp.c_str());
+  }
+  return NIFTI_XFORM_UNKNOWN; // Guess NIFTI_XFORM_UNKNOWN to indicate that only qform is relavant.
+}
+
 void
 NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims)
 {
   //
   // use NIFTI method 2
-  this->m_NiftiImage->sform_code = NIFTI_XFORM_SCANNER_ANAT;
-  this->m_NiftiImage->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
+  // https://nifti.nimh.nih.gov/nifti-1/documentation/nifti1fields/nifti1fields_pages/qsform_brief_usage
+  this->m_NiftiImage->qform_code = this->getQFormCodeFromDictionary();
+  this->m_NiftiImage->sform_code = this->getSFormCodeFromDictionary();
 
   //
   // set the quarternions, from the direction vectors

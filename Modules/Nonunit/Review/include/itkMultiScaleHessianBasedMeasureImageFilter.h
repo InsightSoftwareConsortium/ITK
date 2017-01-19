@@ -64,7 +64,7 @@ namespace itk
 template< typename TInputImage,
           typename THessianImage,
           typename TOutputImage = TInputImage >
-class MultiScaleHessianBasedMeasureImageFilter:
+class ITK_TEMPLATE_EXPORT MultiScaleHessianBasedMeasureImageFilter:
   public
   ImageToImageFilter< TInputImage, TOutputImage >
 {

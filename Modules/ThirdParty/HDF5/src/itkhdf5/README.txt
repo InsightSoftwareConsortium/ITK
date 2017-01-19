@@ -1,4 +1,4 @@
-HDF5 version 1.8.7 released on Tue May 10 09:24:43 CDT 2011
+HDF5 version 1.8.17 released on 2016-05-10
 Please refer to the release_docs/INSTALL file for installation instructions.
 ------------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@ specific to this release of the library.  Several INSTALL* files can also be
 found in the release_docs/ directory:  INSTALL contains instructions for 
 compiling and installing the library;  INSTALL_parallel contains instructions 
 for installing the parallel version of the library;  similarly-named files
-contain instructions for VMS and several environments on MS Windows systems. 
+contain instructions for several environments on MS Windows systems. 
 
 Documentation for this release can be found at the following URL:
     http://www.hdfgroup.org/HDF5/doc/.
@@ -21,15 +21,12 @@ The following  mailing lists are currently set up for HDF5 Library users:
     hdf-forum   - For general discussion of the HDF5 library with
                   other users.
 
-    hdf5dev     - For discussion of the HDF5 library development
-                  with developers and other interested parties.
-
-To subscribe to a list, send mail to "<list>-subscribe@hdfgroup.org".
+To subscribe to a list, send mail to "<list>-subscribe@lists.hdfgroup.org".
 where <list> is the name of the list.  For example, send a request 
 to subscribe to the 'news' mail list to the following address:
-    news-subscribe@hdfgroup.org
+    news-subscribe@lists.hdfgroup.org
 
-Messages sent to the list should be addressed to "<list>@hdfgroup.org".
+Messages sent to the list should be addressed to "<list>@lists.hdfgroup.org".
 
 Periodic code snapshots are provided at the following URL:
     ftp://ftp.hdfgroup.uiuc.edu/pub/outgoing/hdf5/snapshots

@@ -49,7 +49,7 @@ namespace itk
  * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class MedianImageFilter:
+class ITK_TEMPLATE_EXPORT MedianImageFilter:
   public BoxImageFilter< TInputImage, TOutputImage >
 {
 public:

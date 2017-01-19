@@ -35,12 +35,13 @@ namespace itk {
  * https://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
- * \sa LabelMapToBinaryImageFilter, LabelMapMaskImageFilter
+ * \sa LabelToRGBImageFilter, LabelToRGBFunctor
+ * \sa LabelMapOverlayImageFilter, LabelMapToBinaryImageFilter, LabelMapMaskImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKImageFusion
  */
 template<typename TInputImage, typename TOutputImage=Image< RGBPixel<unsigned char>, TInputImage::ImageDimension > >
-class LabelMapToRGBImageFilter :
+class ITK_TEMPLATE_EXPORT LabelMapToRGBImageFilter :
     public LabelMapFilter<TInputImage, TOutputImage>
 {
 public:
@@ -80,6 +81,20 @@ public:
   itkTypeMacro(LabelMapToRGBImageFilter,
                ImageToImageFilter);
 
+  /** Set/Get the rgb functor - defaults to a reasonable set of colors.
+   * This can be used to apply a different colormap.
+   */
+  virtual void SetFunctor(const FunctorType & functor)
+  {
+    if ( m_Functor != functor )
+      {
+      m_Functor = functor;
+      this->Modified();
+      }
+  }
+  FunctorType &       GetFunctor() { return m_Functor; }
+  const FunctorType & GetFunctor() const { return m_Functor; }
+
 protected:
   LabelMapToRGBImageFilter();
   ~LabelMapToRGBImageFilter() {};
@@ -93,6 +108,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToRGBImageFilter);
 
+  FunctorType               m_Functor;
 }; // end of class
 
 } // end namespace itk
