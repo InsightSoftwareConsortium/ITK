@@ -3,6 +3,7 @@ set(ITKMathematicalMorphologyTests
 itkClosingByReconstructionImageFilterTest.cxx
 itkFlatStructuringElementTest.cxx
 itkFlatStructuringElementTest2.cxx
+itkFlatStructuringElementTest3.cxx
 itkGrayscaleConnectedClosingImageFilterTest.cxx
 itkGrayscaleConnectedOpeningImageFilterTest.cxx
 itkGrayscaleFillholeImageFilterTest.cxx
@@ -56,6 +57,17 @@ itk_add_test(NAME itkFlatStructuringElementTest2
               ${ITK_TEST_OUTPUT_DIR}/FlatStructuringElementImageTest.png
       itkFlatStructuringElementTest2 DATA{Baseline/FlatStructuringElementImageTest.png} ${ITK_TEST_OUTPUT_DIR}/FlatStructuringElementImageTest.png
       )
+
+itk_add_test(NAME itkFlatStructuringElementTest3_1
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/FlatStructuringPoly4.png "c91b17423272830b10faebb438b67621"
+    itkFlatStructuringElementTest3
+      ${ITK_TEST_OUTPUT_DIR}/FlatStructuringPoly4.png 10 4 2)
+itk_add_test(NAME itkFlatStructuringElementTest3_2
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/FlatStructuringPoly6.png "c332474ae094a8270b62e655a7c6b6ed"
+    itkFlatStructuringElementTest3
+    ${ITK_TEST_OUTPUT_DIR}/FlatStructuringPoly6.png 10 6 2)
 
 itk_add_test(NAME itkGrayscaleConnectedClosingImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
