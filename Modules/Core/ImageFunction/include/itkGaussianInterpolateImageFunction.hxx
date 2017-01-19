@@ -33,6 +33,11 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>
   m_Alpha( 1.0 )
 {
   this->m_Sigma.Fill( 1.0 );
+
+  this->m_BoundingBoxStart.Fill( -0.5 );
+  this->m_BoundingBoxEnd.Fill( 1.0 );
+  this->m_ScalingFactor.Fill( 1.0 );
+  this->m_CutOffDistance.Fill( 1.0 );
 }
 
 template<typename TImageType, typename TCoordRep>
