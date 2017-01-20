@@ -21,59 +21,72 @@
 #include "itkStatisticsImageFilter.h"
 #include "itkImageRegionIterator.h"
 
-int itkTestingStretchIntensityImageFilterTest(int, char* [] )
+int itkTestingStretchIntensityImageFilterTest( int itkNotUsed( argc ), char* itkNotUsed( argv )[] )
 {
-  typedef signed short                                         PixelType;
-  typedef itk::Image<PixelType,2>                              ImageType;
-  typedef itk::Testing::StretchIntensityImageFilter<ImageType> StretchFilterType;
-  typedef itk::StatisticsImageFilter<ImageType>                StatsFilterType;
+  const unsigned int Dimension = 2;
+  typedef signed short                                            PixelType;
+  typedef itk::Image< PixelType, Dimension >                      ImageType;
+  typedef itk::Testing::StretchIntensityImageFilter< ImageType >  StretchFilterType;
+  typedef itk::StatisticsImageFilter< ImageType >                 StatsFilterType;
 
-  ImageType::SizeType imageSize = {{ 32,32 }};
+  ImageType::SizeType imageSize = {{ 32, 32 }};
   ImageType::Pointer  image = ImageType::New();
-  image->SetRegions(imageSize);
+  image->SetRegions( imageSize );
   image->Allocate();
   PixelType i = -511;
-  for(itk::ImageRegionIterator<ImageType> it(image,image->GetLargestPossibleRegion());
-      !it.IsAtEnd(); ++it, ++i)
+  for( itk::ImageRegionIterator<ImageType> it( image, image->GetLargestPossibleRegion() );
+      !it.IsAtEnd(); ++it, ++i )
     {
-    it.Set(i);
+    it.Set( i );
     }
 
   StretchFilterType::Pointer stretchFilter = StretchFilterType::New();
-  const PixelType outputMinPix(-5000);
-  const PixelType outputMaxPix(16384);
-  stretchFilter->SetOutputMinimum(outputMinPix);
-  stretchFilter->SetOutputMaximum(outputMaxPix);
-  TEST_SET_GET_VALUE(outputMinPix, stretchFilter->GetOutputMinimum());
-  TEST_SET_GET_VALUE(outputMaxPix, stretchFilter->GetOutputMaximum());
 
-  stretchFilter->SetInput(image);
-  std::cout << stretchFilter;
+  EXERCISE_BASIC_OBJECT_METHODS( stretchFilter, StretchIntensityImageFilter, ImageSource );
 
-  TRY_EXPECT_NO_EXCEPTION(stretchFilter->Update());
+  stretchFilter->SetInput( image );
 
-  const StretchFilterType::RealType scale = stretchFilter->GetScale();
-  const StretchFilterType::RealType shift = stretchFilter->GetShift();
-  const PixelType                   inputMinimum = stretchFilter->GetInputMinimum();
-  const PixelType                   inputMaximum = stretchFilter->GetInputMaximum();
-  std::cout << "Scale: " << scale << std::endl
-            << "Shift: " << shift << std::endl
-            << "InputMinimum: " << inputMinimum << std::endl
-            << "InputMaximum: " << inputMaximum << std::endl;
-  TEST_EXPECT_EQUAL(inputMinimum, -511);
-  TEST_EXPECT_EQUAL(inputMaximum, 512);
+  int outputMinimumPixelValue = 16384;
+  int outputMaximumPixelValue = -5000;
+  PixelType outputMinPix( outputMinimumPixelValue );
+  PixelType outputMaxPix( outputMaximumPixelValue );
+  stretchFilter->SetOutputMinimum( outputMinPix );
+  stretchFilter->SetOutputMaximum( outputMaxPix );
+
+  TRY_EXPECT_EXCEPTION( stretchFilter->Update() );
+
+  outputMinimumPixelValue = -5000;
+  outputMaximumPixelValue = 16384;
+  outputMinPix = outputMinimumPixelValue;
+  outputMaxPix = outputMaximumPixelValue;
+  stretchFilter->SetOutputMinimum( outputMinPix );
+  stretchFilter->SetOutputMaximum( outputMaxPix );
+
+  TEST_SET_GET_VALUE( outputMinimumPixelValue, stretchFilter->GetOutputMinimum() );
+  TEST_SET_GET_VALUE( outputMaximumPixelValue, stretchFilter->GetOutputMaximum() );
+
+
+  TRY_EXPECT_NO_EXCEPTION( stretchFilter->Update() );
+
+  std::cout << "Scale: " << stretchFilter->GetScale() << std::endl;
+  std::cout << "Shift: " << stretchFilter->GetShift() << std::endl;
+
+  TEST_EXPECT_EQUAL( stretchFilter->GetInputMinimum(), -511 );
+  TEST_EXPECT_EQUAL( stretchFilter->GetInputMaximum(), 512 );
 
   StatsFilterType::Pointer statsFilter = StatsFilterType::New();
-  statsFilter->SetInput(stretchFilter->GetOutput());
-  TRY_EXPECT_NO_EXCEPTION(statsFilter->Update());
+  statsFilter->SetInput( stretchFilter->GetOutput() );
 
-  TEST_EXPECT_EQUAL(statsFilter->GetMinimum(), -5000);
-  TEST_EXPECT_EQUAL(statsFilter->GetMaximum(), 16384);
+  TRY_EXPECT_NO_EXCEPTION( statsFilter->Update() );
+
+  TEST_EXPECT_EQUAL( outputMinimumPixelValue, statsFilter->GetMinimum() );
+  TEST_EXPECT_EQUAL( outputMaximumPixelValue, statsFilter->GetMaximum() );
 
   std::cout << "Output Minimum: " << statsFilter->GetMinimum() << std::endl
             << "Output Maximum: " << statsFilter->GetMaximum() << std::endl
             << "Output Mean: " << statsFilter->GetMean() << std::endl
             << "Output Variance: " << statsFilter->GetVariance() << std::endl
             << "Output Sigma: " << statsFilter->GetSigma() << std::endl;
+
   return EXIT_SUCCESS;
 }
