@@ -18,6 +18,7 @@
 
 #include "itkBarrier.h"
 #include "itkMultiThreader.h"
+#include "itkTestingMacros.h"
 
 
 class BarrierTestUserData
@@ -118,6 +119,9 @@ ITK_THREAD_RETURN_TYPE BarrierSpecialTest( void *ptr )
 
 int itkBarrierTest(int argc, char *argv[])
 {
+  itk::Barrier::Pointer barrier = itk::Barrier::New();
+  EXERCISE_BASIC_OBJECT_METHODS( barrier, Barrier, LightObject );
+
   int number_of_threads = 4;
   if (argc > 1)
     {
