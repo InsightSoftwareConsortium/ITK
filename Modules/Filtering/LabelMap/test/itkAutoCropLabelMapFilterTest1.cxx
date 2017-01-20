@@ -45,61 +45,56 @@ int itkAutoCropLabelMapFilterTest1( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 2;
+  const unsigned int Dimension = 2;
   typedef unsigned char   PixelType;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
-  typedef itk::LabelObject< PixelType, dim > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >   LabelMapType;
+  typedef itk::LabelObject< PixelType, Dimension > LabelObjectType;
+  typedef itk::LabelMap< LabelObjectType >         LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
-  I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
+  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType > ImageToLabelMapFilterType;
+  ImageToLabelMapFilterType::Pointer imageToLabelMapFilter =
+    ImageToLabelMapFilterType::New();
+  imageToLabelMapFilter->SetInput( reader->GetOutput() );
 
   PixelType backgroundValue = atoi( argv[3] );
 
-  i2l->SetBackgroundValue( backgroundValue );
+  imageToLabelMapFilter->SetBackgroundValue( backgroundValue );
 
-  typedef itk::AutoCropLabelMapFilter< LabelMapType > ChangeType;
-  ChangeType::Pointer change = ChangeType::New();
-  change->SetInput( i2l->GetOutput() );
+  typedef itk::AutoCropLabelMapFilter< LabelMapType > AutoCropLabelMapFilterType;
+  AutoCropLabelMapFilterType::Pointer autoCropFilter = AutoCropLabelMapFilterType::New();
 
-  ChangeType::SizeType size;
+  EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
+    ChangeRegionLabelMapFilter );
+
+  autoCropFilter->SetInput( imageToLabelMapFilter->GetOutput() );
+
+  AutoCropLabelMapFilterType::SizeType size;
   size[0] = atoi( argv[4] );
   size[1] = atoi( argv[5] );
-  change->SetCropBorder( size );
-  TEST_SET_GET_VALUE( size, change->GetCropBorder() );
+  autoCropFilter->SetCropBorder( size );
+  TEST_SET_GET_VALUE( size, autoCropFilter->GetCropBorder() );
 
-  itk::SimpleFilterWatcher watcher6(change, "filter");
+  itk::SimpleFilterWatcher watcher(autoCropFilter, "AutoCropLabelMapFilter");
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
-  L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( change->GetOutput() );
+  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType>
+    LabelMapToLabelImageFilterType;
+  LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter =
+    LabelMapToLabelImageFilterType::New();
+  labelMapToLabelImageFilter->SetInput( autoCropFilter->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
+  writer->SetInput( labelMapToLabelImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
-
-  typedef ChangeType::IndexType             IndexType;
-  typedef ChangeType::InputImageRegionType  InputImageRegionType;
-
-
-  const InputImageRegionType & cropRegion = change->GetRegion();
-  const IndexType & minIndex = cropRegion.GetIndex();
-  const IndexType & maxIndex = cropRegion.GetUpperIndex();
-
-  std::cout << "GetMinIndex() = " << minIndex << std::endl;
-  std::cout << "GetMaxIndex() = " << maxIndex << std::endl;
-  std::cout << "GetRegion() = " << cropRegion << std::endl;
 
   return EXIT_SUCCESS;
 }
