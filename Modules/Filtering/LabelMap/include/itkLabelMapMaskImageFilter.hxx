@@ -410,11 +410,16 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Label: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << std::endl;
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
+  os << indent << "Label: "
+    << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << std::endl;
+  os << indent << "BackgroundValue: "
+    << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
   os << indent << "Negated: " << m_Negated << std::endl;
   os << indent << "Crop: " << m_Crop << std::endl;
   os << indent << "CropBorder: " << m_CropBorder << std::endl;
+  os << indent << "CropTimeStamp: "
+    << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_CropTimeStamp) << std::endl;
+  os << indent << "Barrier: " << m_Barrier << std::endl;
 }
 
 
