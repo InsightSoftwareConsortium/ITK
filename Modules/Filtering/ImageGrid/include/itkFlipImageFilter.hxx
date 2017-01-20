@@ -24,43 +24,24 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TImage >
 FlipImageFilter< TImage >
-::FlipImageFilter()
+::FlipImageFilter() :
+  m_FlipAboutOrigin( true )
 {
   m_FlipAxes.Fill(false);
-  m_FlipAboutOrigin = true;
 }
 
-/**
- * PrintSelf
- */
-template< typename TImage >
-void
-FlipImageFilter< TImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "FlipAxes: " << m_FlipAxes << std::endl;
-  os << indent << "FlipAboutOrigin: " << m_FlipAboutOrigin << std::endl;
-}
-
-/**
- * The output image meta information is obtained by permuting
- * the input image meta information.
- */
 template< typename TImage >
 void
 FlipImageFilter< TImage >
 ::GenerateOutputInformation()
 {
-  // call the superclass's implementation of this method
+  // Call the superclass's implementation of this method
   Superclass::GenerateOutputInformation();
 
-  // get pointers to the input and output
+  // Get pointers to the input and output
   InputImagePointer inputPtr =
     const_cast< TImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
@@ -132,19 +113,15 @@ FlipImageFilter< TImage >
   outputPtr->SetOrigin(outputOrigin);
 }
 
-/**
- * The required input requested region is obtained by permuting
- * the index and size of the output requested region
- */
 template< typename TImage >
 void
 FlipImageFilter< TImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass's implementation of this method
+  // Call the superclass's implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // get pointers to the input and output
+  // Get pointers to the input and output
   InputImagePointer inputPtr =
     const_cast< TImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
@@ -184,9 +161,6 @@ FlipImageFilter< TImage >
   inputPtr->SetRequestedRegion(inputRequestedRegion);
 }
 
-/**
- *
- */
 template< typename TImage >
 void
 FlipImageFilter< TImage >
@@ -197,7 +171,7 @@ FlipImageFilter< TImage >
   InputImageConstPointer inputPtr = this->GetInput();
   OutputImagePointer     outputPtr = this->GetOutput();
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   const typename OutputImageRegionType::SizeType &regionSize = outputRegionForThread.GetSize();
   const size_t numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / regionSize[0];
   ProgressReporter progress( this, threadId, static_cast<SizeValueType>( numberOfLinesToProcess ) );
@@ -207,7 +181,7 @@ FlipImageFilter< TImage >
   const typename TImage::IndexType & outputLargestPossibleIndex =
     outputPtr->GetLargestPossibleRegion().GetIndex();
 
-  // compute the input region the output region maps to
+  // Compute the input region the output region maps to
   typename TImage::RegionType inputReginForThread( outputRegionForThread );
    for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
@@ -222,7 +196,7 @@ FlipImageFilter< TImage >
       }
     }
 
- // Setup output region iterator
+  // Setup output region iterator
   ImageScanlineIterator< TImage > outputIt(outputPtr, outputRegionForThread);
   ImageScanlineConstIterator< TImage > inputIter(inputPtr, inputReginForThread);
 
@@ -244,10 +218,10 @@ FlipImageFilter< TImage >
   while ( !outputIt.IsAtEnd() )
     {
 
-    // determine the index of the output line
+    // Determine the index of the output line
     const typename TImage::IndexType outputIndex = outputIt.GetIndex();
 
-    // determine the input pixel location associated with the start of
+    // Determine the input pixel location associated with the start of
     // the line
     typename TImage::IndexType inputIndex(outputIndex);
     for ( unsigned int j = 0; j < ImageDimension; ++j )
@@ -261,23 +235,23 @@ FlipImageFilter< TImage >
 
     if ( m_FlipAxes[0] )
       {
-      // move the across the output scanline
+      // Move the across the output scanline
       while ( !outputIt.IsAtEndOfLine() )
         {
-        // copy the input pixel to the output
+        // Copy the input pixel to the output
         outputIt.Set( inputIter.Get() );
 
         ++outputIt;
-        // read the input scaneline in reverse
+        // Read the input scaneline in reverse
         --inputIter;
         }
       }
     else
       {
-      // move the across the output scanline
+      // Move the across the output scanline
       while ( !outputIt.IsAtEndOfLine() )
         {
-        // copy the input pixel to the output
+        // Copy the input pixel to the output
         outputIt.Set( inputIter.Get() );
 
         ++outputIt;
@@ -291,6 +265,16 @@ FlipImageFilter< TImage >
     }
 }
 
+template< typename TImage >
+void
+FlipImageFilter< TImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FlipAxes: " << m_FlipAxes << std::endl;
+  os << indent << "FlipAboutOrigin: " << m_FlipAboutOrigin << std::endl;
+}
 } // namespace itk
 
 #endif
