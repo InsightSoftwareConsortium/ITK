@@ -188,5 +188,31 @@ CLANG_PRAGMA_POP    \
     return EXIT_FAILURE; \
     }
 
-
+#define TEST_SET_GET_BOOLEAN( object, variable, value ) \
+  object->Set##variable( false ); \
+  object->Set##variable( true ); \
+  if( object->Get##variable() != 1 ) \
+  {   \
+    std::cerr << "Error in Set/Get"#variable << ", Get"#variable << " is " << object->Get##variable() << " instead of 1" << std::endl; \
+    return EXIT_FAILURE; \
+  } \
+  object->Set##variable( false ); \
+  if( object->Get##variable() != 0 ) \
+  {   \
+    std::cerr << "Error in Set/Get"#variable << ", Get"#variable << " is " << object->Get##variable() << " instead of 0" << std::endl; \
+    return EXIT_FAILURE; \
+  } \
+  object->variable##On(); \
+  if( object->Get##variable() != 1 ) \
+  {   \
+    std::cerr << "Error in On/Get"#variable << ", Get"#variable << " is " << object->Get##variable() << " instead of 1" << std::endl; \
+    return EXIT_FAILURE; \
+  } \
+  object->variable##Off(); \
+  if( object->Get##variable() != 0 ) \
+  {   \
+    std::cerr << "Error in Off/Get"#variable << ", Get"#variable << " is " << object->Get##variable() << " instead of 0" << std::endl; \
+    return EXIT_FAILURE; \
+  } \
+  object->Set##variable( value );
 #endif
