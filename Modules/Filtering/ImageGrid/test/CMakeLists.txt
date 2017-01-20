@@ -137,8 +137,10 @@ itk_add_test(NAME itkCropImageFilterTest
       COMMAND ITKImageGridTestDriver itkCropImageFilterTest)
 itk_add_test(NAME itkCropImageFilter3DTest
       COMMAND ITKImageGridTestDriver itkCropImageFilter3DTest)
-itk_add_test(NAME itkFlipImageFilterTest
-      COMMAND ITKImageGridTestDriver itkFlipImageFilterTest)
+itk_add_test(NAME itkFlipImageFilterTest1
+      COMMAND ITKImageGridTestDriver itkFlipImageFilterTest 0)
+itk_add_test(NAME itkFlipImageFilterTest2
+      COMMAND ITKImageGridTestDriver itkFlipImageFilterTest 1)
 itk_add_test(NAME itkExpandImageFilterTest
       COMMAND ITKImageGridTestDriver itkExpandImageFilterTest)
 itk_add_test(NAME itkRegionOfInterestImageFilterTest
