@@ -28,6 +28,7 @@
 #include "itkFilterWatcher.h"
 #include "vnl/vnl_sample.h"
 #include "makeRandomImageBsplineInterpolator.h"
+#include "itkTestingMacros.h"
 
 
 /** Note:  This is the same test used for the itkBSplineResampleImageFunctionTest
@@ -35,49 +36,61 @@
   *        and demonstrates its use.
   */
 
-int itkBSplineDecompositionImageFilterTest(int, char* [] )
+int itkBSplineDecompositionImageFilterTest( int, char* [] )
 {
   const unsigned int ImageDimension = 2;
-  typedef float                                PixelType;
-  typedef itk::Image<PixelType,ImageDimension> ImageType;
-  typedef itk::BSplineInterpolateImageFunction<ImageType,double, double> BSplineInterpolatorFunctionType;
+  typedef float                                   PixelType;
+  typedef itk::Image< PixelType, ImageDimension > ImageType;
+  typedef itk::BSplineInterpolateImageFunction< ImageType, double, double >
+    BSplineInterpolatorFunctionType;
 
   const unsigned int SplineOrder = 3;
-  BSplineInterpolatorFunctionType::Pointer interpolator = makeRandomImageInterpolator<BSplineInterpolatorFunctionType>(SplineOrder);
+  BSplineInterpolatorFunctionType::Pointer interpolator =
+    makeRandomImageInterpolator<BSplineInterpolatorFunctionType>( SplineOrder );
   ImageType::ConstPointer randImage = interpolator->GetInputImage();
 
-  typedef itk::BSplineDecompositionImageFilter<ImageType,ImageType> FilterType;
+  typedef itk::BSplineDecompositionImageFilter< ImageType, ImageType > FilterType;
   FilterType::Pointer filter = FilterType::New();
-  FilterWatcher watcher(filter,"filter");
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
+    ImageToImageFilter );
+
+  FilterWatcher watcher( filter, "BSplineDecompositionImageFilter" );
+
+  filter->SetInput( randImage );
+
+  int unsupportedSplineOrder = 6;
+
+  TRY_EXPECT_EXCEPTION( filter->SetSplineOrder( unsupportedSplineOrder ) );
 
   filter->SetSplineOrder( interpolator->GetSplineOrder() );
-  filter->SetInput( randImage );
-  filter->Update();
 
-  filter->Print( std::cout );
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  /** Set up a BSplineResampleImageFunction. */
+
+  // Set up a BSplineResampleImageFunction.
   typedef itk::BSplineResampleImageFunction<ImageType,double> ResampleFunctionType;
   ResampleFunctionType::Pointer resample = ResampleFunctionType::New();
 
   resample->SetSplineOrder( interpolator->GetSplineOrder());
   resample->SetInputImage( filter->GetOutput() );
 
-  /** Compare 10 values at random points. */
+  // Compare 10 values at random points.
 
-  ImageType::IndexType Last;
-  Last.Fill(0);
-  Last[0]=randImage->GetLargestPossibleRegion().GetSize()[0]-1;
-  ImageType::PointType LastPhysicalLocation;
-  randImage->TransformIndexToPhysicalPoint(Last,LastPhysicalLocation);
+  ImageType::IndexType last;
+  last.Fill( 0 );
+  last[0] = randImage->GetLargestPossibleRegion().GetSize()[0] - 1;
+  ImageType::PointType lastPhysicalLocation;
+  randImage->TransformIndexToPhysicalPoint( last, lastPhysicalLocation);
 
   const double minValue = randImage->GetOrigin()[0];
-  const double maxValue = LastPhysicalLocation[0];
+  const double maxValue = lastPhysicalLocation[0];
 
-  for ( unsigned int k = 0; k < 10; k ++ )
+  double tolerance = 1e-5;
+  for( unsigned int k = 0; k < 10; ++k )
     {
     ResampleFunctionType::PointType point;
-    for ( unsigned int j = 0; j < ImageDimension; j++ )
+    for( unsigned int j = 0; j < ImageDimension; ++j )
       {
       point[j] = vnl_sample_uniform( minValue, maxValue );
       }
@@ -85,7 +98,7 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
     const double f = resample->Evaluate( point );
     const double g = interpolator->Evaluate( point );
 
-    if ( itk::Math::abs( f - g ) > 1e-5 )
+    if( !itk::Math::FloatAlmostEqual( f, g, 10, tolerance ) )
       {
       std::cout << "Resample and Interpolated point are different." << std::endl;
       std::cout << " point: " << point << std::endl;
@@ -96,15 +109,15 @@ int itkBSplineDecompositionImageFilterTest(int, char* [] )
       }
     }
 
-  /** Instantiation test with a std::complex pixel */
-  typedef std::complex<float>                                                     ComplexPixelType;
-  typedef itk::Image<ComplexPixelType,ImageDimension>                             ComplexImageType;
-  typedef itk::BSplineDecompositionImageFilter<ComplexImageType,ComplexImageType> ComplexFilterType;
+  // Instantiation test with a std::complex pixel
+  typedef std::complex< PixelType >                       ComplexPixelType;
+  typedef itk::Image< ComplexPixelType, ImageDimension >  ComplexImageType;
+  typedef itk::BSplineDecompositionImageFilter< ComplexImageType, ComplexImageType >
+    ComplexFilterType;
   ComplexFilterType::Pointer complexFilter = ComplexFilterType::New();
-  if(complexFilter.IsNull())
-    {
-    return EXIT_FAILURE;
-    }
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineDecompositionImageFilter,
+    ImageToImageFilter );
 
   return EXIT_SUCCESS;
 }
