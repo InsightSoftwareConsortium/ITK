@@ -86,8 +86,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelMapMaskImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(LabelMapMaskImageFilter, LabelMapFilter);
 
    /** Set the feature image */
   void SetFeatureImage(const TOutputImage *input)
