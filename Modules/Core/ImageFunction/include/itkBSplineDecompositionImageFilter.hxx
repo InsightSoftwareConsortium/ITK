@@ -60,7 +60,18 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "Scratch: " << std::endl;
+  for( unsigned int i = 0; i < m_Scratch.size(); ++i )
+    {
+    os << indent << "[" << i << "]: " << m_Scratch[i] << std::endl;
+    }
+  os << indent << "Data Length: " << m_DataLength << std::endl;
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
+  os << indent << "Spline Poles: " << m_SplinePoles << std::endl;
+  os << indent << "Number Of Poles: " << m_NumberOfPoles << std::endl;
+  os << indent << "Tolerance: " << m_Tolerance << std::endl;
+  os << indent << "Iterator Direction: " << m_IteratorDirection << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
