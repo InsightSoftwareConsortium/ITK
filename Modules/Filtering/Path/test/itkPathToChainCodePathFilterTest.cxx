@@ -20,65 +20,76 @@
 #include "itkPolyLineParametricPath.h"
 #include "itkChainCodePath2D.h"
 #include "itkPathToChainCodePathFilter.h"
+#include "itkTestingMacros.h"
 
-int itkPathToChainCodePathFilterTest(int, char*[])
+int itkPathToChainCodePathFilterTest( int, char* [] )
 {
-  typedef itk::PolyLineParametricPath<2>       InPathType;
-  typedef itk::ChainCodePath2D                 ChainPathType;
+  const unsigned int Dimension = 2;
+  typedef itk::PolyLineParametricPath< Dimension >  InPathType;
+  typedef itk::ChainCodePath2D                      ChainPathType;
 
   typedef InPathType::VertexType               VertexType;
 
-  typedef itk::PathToChainCodePathFilter<InPathType,ChainPathType> FilterType;
+  typedef itk::PathToChainCodePathFilter< InPathType, ChainPathType > FilterType;
 
   bool passed = true;
 
-
   // Setup the path
   std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << std::endl;
-  VertexType        v;
-  InPathType::Pointer     inPath    = InPathType::New();
-  ChainPathType::Pointer  chainPath;
+  VertexType v;
+  InPathType::Pointer inPath = InPathType::New();
+  ChainPathType::Pointer chainPath;
 
-  v.Fill(30);
-  inPath->AddVertex(v);
-  v[0]=30;
-  v[1]=33;
-  inPath->AddVertex(v);
-  v.Fill(33);
-  inPath->AddVertex(v);
+  v.Fill( 30 );
+  inPath->AddVertex( v );
+  v[0] = 30;
+  v[1] = 33;
+  inPath->AddVertex( v );
+  v.Fill( 33 );
+  inPath->AddVertex( v );
 
-  // Setup the filter
+  // Set up the filter
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(inPath);
-  chainPath=filter->GetOutput();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, PathToChainCodePathFilter,
+    PathToPathFilter );
+
+  bool maximallyConnected = false;
+  TEST_SET_GET_BOOLEAN( filter, MaximallyConnected, maximallyConnected );
+
+  filter->SetInput( inPath );
+
+  chainPath = filter->GetOutput();
+
   chainPath->Update();
 
-  std::cout << "PathToChainCodePathFilter:  open test path is "
-      << chainPath->NumberOfSteps() << " steps:\n  \""
+  std::cout << "PathToChainCodePathFilter: open test path is "
+      << chainPath->NumberOfSteps() << " steps:\n \""
       << chainPath->GetChainCodeAsString() << "\"." << std::endl;
   if( chainPath->NumberOfSteps() != 6 )
     {
     passed = false;
     }
 
-  // close the triangle
-  v.Fill(30);
-  inPath->AddVertex(v);
+  // Close the triangle
+  v.Fill( 30 );
+  inPath->AddVertex( v );
   chainPath->Update();
 
-  std::cout << "PathToChainCodePathFilter:  closed test path is "
-      << chainPath->NumberOfSteps() << " steps:\n  \""
+  std::cout << "PathToChainCodePathFilter: closed test path is "
+      << chainPath->NumberOfSteps() << " steps:\n \""
       << chainPath->GetChainCodeAsString() << "\"." << std::endl;
   if( chainPath->NumberOfSteps() != 9 )
     {
     passed = false;
     }
 
-  filter->MaximallyConnectedOn();
+  maximallyConnected = true;
+  TEST_SET_GET_BOOLEAN( filter, MaximallyConnected, maximallyConnected );
+
   filter->Update();
 
-  std::cout << "PathToChainCodePathFilter:  maximally connected test path is "
-      << chainPath->NumberOfSteps() << " steps:\n  \""
+  std::cout << "PathToChainCodePathFilter: maximally connected test path is "
+      << chainPath->NumberOfSteps() << " steps:\n \""
       << chainPath->GetChainCodeAsString() << "\"." << std::endl;
   if( chainPath->NumberOfSteps() != 12 )
     {
@@ -87,12 +98,12 @@ int itkPathToChainCodePathFilterTest(int, char*[])
 
   if (passed)
     {
-    std::cout << "PathToChainCodePathFilter tests passed" << std::endl;
+    std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;
     }
   else
     {
-    std::cout << "PathToChainCodePathFilter tests failed" << std::endl;
+    std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
 }
