@@ -28,6 +28,8 @@
 #if !defined(CV_VERSION_EPOCH)
 // OpenCV 3.x
 #include "opencv2/core.hpp"
+#include "opencv2/imgproc/types_c.h" // CV_RGB2BGR, CV_BGR2GRAY, ...
+#include "opencv2/imgproc/imgproc_c.h" // cvCvtColor
 #else
 // OpenCV 2.4.x
 #include "cv.h"
