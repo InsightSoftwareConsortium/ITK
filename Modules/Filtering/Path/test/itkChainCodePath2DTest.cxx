@@ -18,12 +18,13 @@
 
 #include <iostream>
 #include "itkChainCodePath2D.h"
+#include "itkTestingMacros.h"
 
-int itkChainCodePath2DTest(int, char*[])
+int itkChainCodePath2DTest( int, char*[] )
 {
-  typedef  itk::ChainCodePath2D       PathType;
-  typedef  PathType::IndexType        IndexType;
-  typedef  PathType::OffsetType       OffsetType;
+  typedef itk::ChainCodePath2D  PathType;
+  typedef PathType::IndexType   IndexType;
+  typedef PathType::OffsetType  OffsetType;
 
   bool passed = true;
 
@@ -32,30 +33,41 @@ int itkChainCodePath2DTest(int, char*[])
 
   PathType::Pointer path = PathType::New();
 
-  index[0]=3;
-  index[1]=5;
-  path->SetStart(index);
+  EXERCISE_BASIC_OBJECT_METHODS( path, ChainCodePath2D, ChainCodePath );
 
-  for(int i=0; i<8; i++)
+  index[0] = 3;
+  index[1] = 5;
+  path->SetStart( index );
+
+  for( int i = 0; i < 8; ++i )
     {
-    path->InsertStep(i*2,  i+1);
-    path->InsertStep(i*2+1,i+1);
+    path->InsertStep( i*2,   i+1 );
+    path->InsertStep( i*2+1, i+1 );
     }
 
-  std::cout << "Path is " << path->NumberOfSteps() << " steps:  \""
+  std::cout << "Path is " << path->NumberOfSteps() << " steps: \""
        << path->GetChainCodeAsString() << "\"." << std::endl;
 
-  offset[0]=0;
-  offset[1]=-1;
-  path->InsertStep(5,offset); // insert new step 5 = 5
-  offset = path->Evaluate(5);
-  std::cout <<"Inserted new step[5] of 5 = ("<<offset[0]<<","<<offset[1]<<")"<<std::endl;
+  offset[0] = 0;
+  offset[1] = -1;
+  path->InsertStep( 5, offset ); // insert new step 5 = 5
+  offset = path->Evaluate( 5 );
+  std::cout << "Inserted new step[5] of 5 = (" << offset[0] << ","
+    << offset[1] << ")" << std::endl;
 
-  path->ChangeStep(8,3); // rotate the second 4 (now step 8) up to a 3
-  offset = path->Evaluate(8);
-  std::cout <<"Changed step[8] to 3 = ("<<offset[0]<<","<<offset[1]<<")"<<std::endl;
+  path->ChangeStep( 8, 3 ); // rotate the second 4 (now step 8) up to a 3
+  offset = path->Evaluate( 8 );
+  std::cout << "Changed step[8] to 3 = (" << offset[0] << "," << offset[1]
+    << ")" << std::endl;
 
-  std::cout << "Path is " << path->NumberOfSteps() << " steps:  \""
+
+  path->ChangeStep( 6, offset ); // rotate the second 4 (now step 8) up to a 3
+  offset = path->Evaluate( 6 );
+  std::cout << "Changed step[6] to = (" << offset[0] << "," << offset[1]
+    << ")" << std::endl;
+
+
+  std::cout << "Path is " << path->NumberOfSteps() << " steps: \""
        << path->GetChainCodeAsString() << "\"." << std::endl;
   if( path->NumberOfSteps() != 17 )
     {
@@ -63,34 +75,39 @@ int itkChainCodePath2DTest(int, char*[])
     }
 
 
-  index=path->GetStart();
-  std::cout <<"Starting at index ("<<index[0]<<","<<index[1]<<")" << std::endl;
-  for(unsigned int input=0;;)
+  index = path->GetStart();
+  std::cout << "Starting at index (" << index[0] << "," << index[1] << ")"
+    << std::endl;
+  for( unsigned int input = 0;; )
     {
-    offset=path->IncrementInput(input);
+    offset = path->IncrementInput( input );
     if( offset[0] || offset[1] )
       {
-      index=path->EvaluateToIndex(input);
+      index = path->EvaluateToIndex( input );
 
-      std::cout <<"Step["<<input-1<<"] is ("<<offset[0]<<","<<offset[1]<<")";
-      std::cout <<"\t to index ("<<index[0]<<","<<index[1]<<")" << std::endl;
+      std::cout << "Step[" << input - 1 << "] is (" << offset[0] << ","
+        << offset[1] << ")";
+      std::cout << "\t to index (" << index[0] << "," << index[1] << ")"
+        << std::endl;
       }
     else
+      {
       break;
+      }
     }
   if( index != path->GetStart() )
     {
     passed = false;
     }
 
-  if (passed)
+  if( passed )
     {
-    std::cout << "ChainCode2D tests passed" << std::endl;
+    std::cout << "Test passed" << std::endl;
     return EXIT_SUCCESS;
     }
   else
     {
-    std::cout << "ChainCode2D tests failed" << std::endl;
+    std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
 }
