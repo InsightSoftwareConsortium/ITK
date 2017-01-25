@@ -29,8 +29,8 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 ShotNoiseImageFilter<TInputImage, TOutputImage>
-::ShotNoiseImageFilter()
-  : m_Scale(1.0)
+::ShotNoiseImageFilter() :
+  m_Scale( 1.0 )
 {
 }
 
@@ -42,10 +42,10 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
   const InputImageType* inputPtr = this->GetInput();
   OutputImageType*      outputPtr = this->GetOutput(0);
 
-  // create a random generator per thread
+  // Create a random generator per thread
   typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
     Statistics::MersenneTwisterRandomVariateGenerator::New();
-  const uint32_t seed = Self::Hash(this->GetSeed(),threadId);
+  const uint32_t seed = Self::Hash( this->GetSeed(), threadId );
   rand->Initialize(seed);
   typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
   randn->Initialize(*static_cast<int32_t*>( (void*)&seed) );
@@ -74,7 +74,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
       // The value of >=50, is the lambda value in a Poisson
       // distribution where a Gaussian distribution is a "good"
       // approximation of the Poisson. This could be considered to be
-      // exposed as an advance parameter in the future.
+      // exposed as an advanced parameter in the future.
       if( in < 50 )
         {
         const double L = std::exp( -in );
@@ -88,7 +88,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
           }
         while( p > L );
 
-        // clip the output to the actual supported range
+        // Clip the output to the actual supported range
         outputIt.Set( Self::ClampCast( (k-1)/m_Scale ) );
         }
       else
@@ -108,16 +108,14 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 ShotNoiseImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os,
-            Indent indent) const
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Scale: "
-     << static_cast<typename NumericTraits<double>::PrintType>(this->GetScale() )
+     << static_cast<typename NumericTraits<double>::PrintType>( m_Scale )
      << std::endl;
 }
+} // end namespace itk
 
-} /* namespace itk */
-
-#endif // itkShotNoiseImageFilter_hxx
+#endif

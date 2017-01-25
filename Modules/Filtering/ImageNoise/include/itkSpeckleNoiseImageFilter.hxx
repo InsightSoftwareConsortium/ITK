@@ -29,9 +29,9 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 SpeckleNoiseImageFilter<TInputImage, TOutputImage>
-::SpeckleNoiseImageFilter()
+::SpeckleNoiseImageFilter() :
+  m_StandardDeviation( 1.0 )
 {
-  m_StandardDeviation = 1.0;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -42,10 +42,10 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
   const InputImageType* inputPtr = this->GetInput();
   OutputImageType*      outputPtr = this->GetOutput(0);
 
-  // create a random generator per thread
+  // Create a random generator per thread
   typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
     Statistics::MersenneTwisterRandomVariateGenerator::New();
-  const uint32_t seed = Self::Hash(this->GetSeed(),threadId);
+  const uint32_t seed = Self::Hash( this->GetSeed(), threadId );
   rand->Initialize(seed);
 
   // Define the portion of the input to walk for this thread, using
@@ -63,9 +63,8 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
   inputIt.GoToBegin();
   outputIt.GoToBegin();
 
-  // choose the value of the gamma distribution so that the mean is 1 and the
-  // variance depend
-  // on m_StandardDeviation
+  // Choose the value of the gamma distribution so that the mean is 1 and the
+  // variance depends on the standard deviation
   const double theta = m_StandardDeviation * m_StandardDeviation;
   const double k = 1 / theta;
 
@@ -77,7 +76,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
     {
     while ( !inputIt.IsAtEndOfLine() )
       {
-      // first generate the gamma distributed random variable
+      // First generate the gamma distributed random variable
       // ref http://en.wikipedia.org/wiki/Gamma_distribution#Generating_gamma-distributed_random_variables
       double xi;
       double nu;
@@ -99,12 +98,12 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
         }
       while( nu > std::exp( -xi ) * std::pow( xi, delta - 1.0 ) );
       double gamma = xi;
-      for( int i=0; i<floork; i++ )
+      for( int i = 0; i < floork; i++ )
         {
         gamma -= std::log( 1.0 - rand->GetVariateWithOpenUpperRange() );
         }
       gamma *= theta;
-      // ok, so now apply multiplicative noise
+      // Apply multiplicative noise
       const double out = gamma * inputIt.Get();
       outputIt.Set( Self::ClampCast( out )  );
       ++inputIt;
@@ -119,16 +118,14 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 SpeckleNoiseImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os,
-            Indent indent) const
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "StandardDeviation: "
-     << static_cast<typename NumericTraits<double>::PrintType>(this->GetStandardDeviation() )
+     << static_cast<typename NumericTraits<double>::PrintType>( m_StandardDeviation )
      << std::endl;
 }
+} // end namespace itk
 
-} /* namespace itk */
-
-#endif // itkSpeckleNoiseImageFilter_hxx
+#endif

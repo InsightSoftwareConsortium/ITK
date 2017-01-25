@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #ifndef itkSaltAndPepperNoiseImageFilter_hxx
-#define  itkSaltAndPepperNoiseImageFilter_hxx
+#define itkSaltAndPepperNoiseImageFilter_hxx
 
 #include "itkSaltAndPepperNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
@@ -28,9 +28,9 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
-::SaltAndPepperNoiseImageFilter()
+::SaltAndPepperNoiseImageFilter() :
+  m_Probability( 0.01 )
 {
-  m_Probability = 0.01;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -41,10 +41,10 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
   const InputImageType* inputPtr = this->GetInput();
   OutputImageType*      outputPtr = this->GetOutput(0);
 
-  // create a random generator per thread
+  // Create a random generator per thread
   typename Statistics::MersenneTwisterRandomVariateGenerator::Pointer rand =
     Statistics::MersenneTwisterRandomVariateGenerator::New();
-  const uint32_t seed = Self::Hash(this->GetSeed(),threadId);
+  const uint32_t seed = Self::Hash( this->GetSeed(), threadId );
   rand->Initialize(seed);
 
   // Define the portion of the input to walk for this thread, using
@@ -70,18 +70,18 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
         {
         if( rand->GetVariate() < 0.5 )
           {
-          // salt
+          // Salt
           outputIt.Set( NumericTraits<OutputImagePixelType>::max() );
           }
         else
           {
-          // pepper
+          // Pepper
           outputIt.Set( NumericTraits<OutputImagePixelType>::NonpositiveMin() );
           }
         }
       else
         {
-        // keep the data unchanged
+        // Keep the data unchanged
         outputIt.Set( (OutputImagePixelType) inputIt.Get() );
         }
       ++inputIt;
@@ -96,16 +96,14 @@ SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 SaltAndPepperNoiseImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os,
-            Indent indent) const
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Probability: "
-     << static_cast<typename NumericTraits<double>::PrintType>(this->GetProbability() )
+     << static_cast<typename NumericTraits<double>::PrintType>( m_Probability )
      << std::endl;
 }
+} // end namespace itk
 
-} /* namespace itk */
-
-#endif //  itkSaltAndPepperNoiseImageFilter_hxx
+#endif
