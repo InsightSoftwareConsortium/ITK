@@ -33,10 +33,10 @@ namespace itk
  *
  * Given an n-D image with scattered data, this filter finds
  * a fast approximation to that irregularly spaced data using uniform
- * B-splines.  The traditional method of inverting the observation
+ * B-splines. The traditional method of inverting the observation
  * matrix to find a least-squares fit is made obsolete.  Therefore,
  * memory issues are not a concern and inverting large matrices is
- * not applicable.  In addition, this allows fitting to be multi-threaded.
+ * not applicable. In addition, this allows fitting to be multi-threaded.
  * This class generalizes from Lee's original paper to encompass
  * n-D data in m-D parametric space and any *feasible* B-spline order as well
  * as the option of specifying a confidence value for each point.
@@ -57,8 +57,8 @@ namespace itk
  * assignment schemes result in different B-spline object outputs.
  *
  * This filter is general in that it accepts n-D scattered data in m-D parametric
- * dimensions.  Input to this filter is an m-D point set with a Vector data type
- * of n dimensions.  This means that the parametric values are stored in the
+ * dimensions. Input to this filter is an m-D point set with a Vector data type
+ * of n dimensions. This means that the parametric values are stored in the
  * points container of the point set whereas the scattered data are stored in
  * the points data container of the point set.
  *
@@ -70,14 +70,14 @@ namespace itk
  * parametric dimension 1. The univariate curve could be represented as: <x(u),y(u)>
  * Another example is a 3D deformation of 3D points, which has parametric
  * dimension 3 and data dimension 3 and can be represented as:
- * <dx(u,v,w), dy(u,v,w), dz(u,v,w)>.  However, as mentioned before, the code is
+ * <dx(u,v,w), dy(u,v,w), dz(u,v,w)>. However, as mentioned before, the code is
  * general such that, if the user wanted, she could model a time varying 3-D
  * displacement field which resides in 4-D space as
  * <dx(u, v, w, t), dy(u, v, w, t), dz(u, v, w, t)>.
  *
  * The output is an image defining the sampled B-spline parametric domain where
- * each pixel houses the sampled B-spline object value.  For a curve fit to 3-D
- * points, the output is a 1-D image  where each voxel contains a vector with
+ * each pixel houses the sampled B-spline object value. For a curve fit to 3-D
+ * points, the output is a 1-D image where each voxel contains a vector with
  * the approximated (x,y,z) location. The continuous, finite, rectilinear domain
  * (as well as the sampling rate) is specified via the combination of the SetSpacing()
  * and SetSize() functions.  For a 2-D deformation on 2-D points, the output is a 2-D image
@@ -130,6 +130,7 @@ class ITK_TEMPLATE_EXPORT BSplineScatteredDataPointSetToImageFilter:
   public PointSetToImageFilter< TInputPointSet, TOutputImage >
 {
 public:
+  /** Standard class typedefs. */
   typedef BSplineScatteredDataPointSetToImageFilter             Self;
   typedef PointSetToImageFilter<TInputPointSet, TOutputImage>   Superclass;
   typedef SmartPointer<Self>                                    Pointer;
@@ -161,11 +162,11 @@ public:
   typedef typename PointSetType::PixelType          PointDataType;
   typedef typename PointSetType::PointDataContainer PointDataContainerType;
 
-  /** Other typedef */
+  /** Other typedefs. */
   typedef float                                     RealType;
   typedef VectorContainer<unsigned, RealType>       WeightsContainerType;
 
-  /** Image types */
+  /** Image types. */
   typedef Image<PointDataType,
     itkGetStaticConstMacro( ImageDimension )>       PointDataImageType;
   typedef Image<RealType,
@@ -177,96 +178,72 @@ public:
   typedef FixedArray<RealType,
     itkGetStaticConstMacro( ImageDimension )>       RealArrayType;
 
-  /**
-   * Interpolation kernel type (default spline order = 3)
-   */
+  /** Interpolation kernel type (default spline order = 3). */
   typedef CoxDeBoorBSplineKernelFunction<3>         KernelType;
   typedef BSplineKernelFunction<0>                  KernelOrder0Type;
   typedef BSplineKernelFunction<1>                  KernelOrder1Type;
   typedef BSplineKernelFunction<2>                  KernelOrder2Type;
   typedef BSplineKernelFunction<3>                  KernelOrder3Type;
 
-  // Helper functions
 
-  /**
-   * Set the spline order assuming it is the same in all parametric dimensions.
+  /** Set the spline order assuming it is the same in all parametric dimensions.
    * The spline order determines the continuity between B-spline elements and
-   * the degree of polynomial used to construct the B-spline elements.  Default
-   * = 3.
-   */
+   * the degree of polynomial used to construct the B-spline elements. Default
+   * = 3. */
   void SetSplineOrder( unsigned int );
 
-  /**
-   * Set the spline order for each parametric dimension separately.  The spline
+  /** Set the spline order for each parametric dimension separately. The spline
    * order determines the continuity between B-spline elements and the degree of
-   * polynomial used to construct the B-spline elements.  Default = 3.
-   */
+   * polynomial used to construct the B-spline elements. Default = 3. */
   void SetSplineOrder( const ArrayType & );
 
-  /**
-   * Get the spline order for all parametric dimensions.  The spline order
+  /** Get the spline order for all parametric dimensions. The spline order
    * determines the continuity between B-spline elements and the degree of
-   * polynomial used to construct the B-spline elements.  Default = 3.
-   */
+   * polynomial used to construct the B-spline elements. Default = 3. */
   itkGetConstReferenceMacro( SplineOrder, ArrayType );
 
-  /**
-   * Set the number of control points for each parametric dimension at the
-   * initial fitting level.  The B-spline mesh size is equal to the number
-   * of control points minus the spline order.  Default = 4 in each dimension.
+  /** Set/Get the number of control points for each parametric dimension at the
+   * initial fitting level. The B-spline mesh size is equal to the number
+   * of control points minus the spline order. Default = 4 in each dimension.
    */
   itkSetMacro( NumberOfControlPoints, ArrayType );
-
-  /**
-   * Set the number of control points for each parametric dimension at the
-   * initial fitting level.  The B-spline mesh size is equal to the number
-   * of control points minus the spline order.  Default = 4 in each dimension.
-   */
   itkGetConstReferenceMacro( NumberOfControlPoints, ArrayType );
 
-  /**
-   * Get the number of current control points for each parametric dimension at
-   * the current fitting level.  The B-spline mesh size is equal to the number
-   * of control points minus the spline order.  Default = 4 in each dimension.
+  /** Get the number of current control points for each parametric dimension at
+   * the current fitting level. The B-spline mesh size is equal to the number
+   * of control points minus the spline order. Default = 4 in each dimension.
    */
   itkGetConstReferenceMacro( CurrentNumberOfControlPoints, ArrayType );
 
-  /**
-   * Set the number of fitting levels assuming the number of fitting levels is
-   * the same for each parametric dimension.  Starting with the mesh size
+  /** Set the number of fitting levels assuming the number of fitting levels is
+   * the same for each parametric dimension. Starting with the mesh size
    * implied by setting the number of control points, the mesh size is doubled
-   * at each fitting level.  Default = 1 in all parametric dimensions.
-   */
+   * at each fitting level. Default = 1 in all parametric dimensions. */
   void SetNumberOfLevels( unsigned int );
 
-  /**
-   * Set the number of fitting levels in each parametric dimension separately.
+  /** Set the number of fitting levels in each parametric dimension separately.
    * Starting with the mesh size implied by setting the number of control
-   * points, the mesh size is doubled at each fitting level.  Default = 1 in all
-   * parametric dimensions.
-   */
+   * points, the mesh size is doubled at each fitting level. Default = 1 in all
+   * parametric dimensions. */
   void SetNumberOfLevels( const ArrayType & );
 
-  /**
-   * Set/Get the epsilon used for B-splines.  The B-spline parametric domain in
-   * 1-D is defined on the half-closed interval [a,b).  Extension to n-D is
-   * defined similarly.  This presents some difficulty for defining the
-   * the image domain to be co-extensive with the parametric domain.  We use
+  /** Get the number of fitting levels for all parametric dimensions. Starting
+   * with the mesh size implied by setting the number of control points, the
+   * mesh size is doubled at each fitting level. Default = 1 in all parametric
+   * dimensions. */
+  itkGetConstReferenceMacro( NumberOfLevels, ArrayType );
+
+  /** Set/Get the epsilon used for B-splines. The B-spline parametric domain in
+   * 1-D is defined on the half-closed interval [a,b). Extension to n-D is
+   * defined similarly. This presents some difficulty for defining the
+   * the image domain to be co-extensive with the parametric domain. We use
    * the B-spline epsilon to push the edge of the image boundary inside the
-   * B-spline parametric domain.
-   */
+   * B-spline parametric domain. */
   itkSetMacro( BSplineEpsilon, RealType );
   itkGetConstMacro( BSplineEpsilon, RealType );
 
-  /**
-   * Get the number of fitting levels for all parametric dimensions. Starting
-   * with the mesh size implied by setting the number of control points, the
-   * mesh size is doubled at each fitting level.  Default = 1 in all parametric
-   * dimensions.
-   */
-  itkGetConstReferenceMacro( NumberOfLevels, ArrayType );
-
-  /**
+  /** Set/Get the array to define the periodicity of the dimensions in the
+   * parametric space is to be.
    * This array of 0/1 values defines whether a particular dimension of the
    * parametric space is to be considered periodic or not. For example, if you
    * are using interpolating along a 1D closed curve, the array type will have
@@ -280,58 +257,22 @@ public:
    * filter will reuse some of the points at the beginning of the domain as if
    * they were also located at the end of the domain. The number of points to
    * be reused will depend on the spline order. As a user, you don't need to
-   * replicate the points, the filter will do this for you.
-   */
+   * replicate the points, the filter will do this for you. */
   itkSetMacro( CloseDimension, ArrayType );
-
-  /**
-   * This array of 0/1 values defines whether a particular dimension of the
-   * parametric space is to be considered periodic or not. For example, if you
-   * are using interpolating along a 1D closed curve, the array type will have
-   * size 1, and you should set the first element of this array to the value
-   * "1". In the case that you were interpolating in a planar surface with
-   * cylindrical topology, the array type will have two components, and you
-   * should set to "1" the component that goes around the cylinder, and set to
-   * "0" the component that goes from the top of the cylinder to the bottom.
-   * This will indicate the periodity of that parameter to the filter.
-   * Internally, in order to make periodic the domain of the parameter, the
-   * filter will reuse some of the points at the beginning of the domain as if
-   * they were also located at the end of the domain. The number of points to
-   * be reused will depend on the spline order. As a user, you don't need to
-   * replicate the points, the filter will do this for you.
-   */
   itkGetConstReferenceMacro( CloseDimension, ArrayType );
 
-  /**
-   * A weighted fitting is possible where each input point is assigned a
-   * relative weighting.
-   */
+  /** A weighted fitting is possible where each input point is assigned a
+   * relative weighting. */
   void SetPointWeights( WeightsContainerType *weights );
 
-  /**
+  /** Set/Get whether or not the sampled output B-spline object is constructed.
    * The result of the fitting process is an n-D grid of control points which
-   * describe the continuous B-spline object.  This boolean value determines
-   * whether or not this sampled B-spline object is constructed.
-   */
+   * describe the continuous B-spline object. */
   itkSetMacro( GenerateOutputImage, bool );
-
-  /**
-   * The result of the fitting process is an n-D grid of control points which
-   * describe the continuous B-spline object.  This boolean value determines
-   * whether or not this sampled B-spline object is constructed.
-   */
   itkGetConstReferenceMacro( GenerateOutputImage, bool );
-
-  /**
-   * The result of the fitting process is an n-D grid of control points which
-   * describe the continuous B-spline object.  This boolean value determines
-   * whether or not this sampled B-spline object is constructed.
-   */
   itkBooleanMacro( GenerateOutputImage );
 
-  /**
-   * Get the control point lattice produced by the fitting process.
-   */
+  /** Get the control point lattice produced by the fitting process. */
   PointDataImagePointer GetPhiLattice()
     {
     return static_cast<PointDataImageType *>( this->ProcessObject::GetOutput( 1 ) );
@@ -357,50 +298,34 @@ private:
 
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineScatteredDataPointSetToImageFilter);
 
-  /**
-   * Function used to propagate the fitting solution at one fitting level
-   * to the next level with the mesh resolution doubled.
-   */
+  /** Function used to propagate the fitting solution at one fitting level
+   * to the next level with the mesh resolution doubled. */
   void RefineControlPointLattice();
 
-  /**
-   * Determine the residuals after fitting to one level.
-   */
+  /** Determine the residuals after fitting to one level. */
   void UpdatePointSet();
 
-  /**
-   * This function is not used as it requires an evaluation of all
-   * (SplineOrder+1)^ImageDimensions B-spline weights for each evaluation.
-   */
+  /** This function is not used as it requires an evaluation of all
+   * (SplineOrder+1)^ImageDimensions B-spline weights for each evaluation. */
   void GenerateOutputImage();
 
-  /**
-   * Function used to generate the sampled B-spline object quickly.
-   */
-  void ThreadedGenerateDataForFitting( const RegionType &, ThreadIdType  );
+  /** Function used to generate the sampled B-spline object quickly. */
+  void ThreadedGenerateDataForFitting( const RegionType &, ThreadIdType );
 
-  /**
-   * Function used to generate the sampled B-spline object quickly.
-   */
-  void ThreadedGenerateDataForReconstruction( const RegionType &, ThreadIdType  );
+  /** Function used to generate the sampled B-spline object quickly. */
+  void ThreadedGenerateDataForReconstruction( const RegionType &, ThreadIdType );
 
-  /**
-   * Sub-function used by GenerateOutputImageFast() to generate the sampled
-   * B-spline object quickly.
-   */
+  /** Sub-function used by GenerateOutputImageFast() to generate the sampled
+   * B-spline object quickly. */
   void CollapsePhiLattice( PointDataImageType *, PointDataImageType *,
     const RealType, const unsigned int );
 
-  /**
-   * Set the grid parametric domain parameters such as the origin, size,
-   * spacing, and direction.
-   */
+  /** Set the grid parametric domain parameters such as the origin, size,
+   * spacing, and direction. */
   void SetPhiLatticeParametricDomainParameters();
 
-  /**
-   * Convert number to index given a size of image.  Used to index
-   * the local control point neighborhoods.
-   */
+  /** Convert number to index given a size of image. Used to index
+   * the local control point neighborhoods. */
   IndexType NumberToIndex( const unsigned int, const SizeType );
 
   bool                                         m_DoMultilevel;
