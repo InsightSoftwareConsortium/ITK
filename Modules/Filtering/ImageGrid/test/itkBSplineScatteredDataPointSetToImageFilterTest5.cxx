@@ -16,60 +16,75 @@
  *
  *=========================================================================*/
 
+#include "itkCastImageFilter.h"
+#include "itkImageFileWriter.h"
 #include "itkPointSet.h"
-
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkTestingMacros.h"
+
 
 /**
  * In this test, we approximate a sequence of 3D points with a
- * parametric curve described by B-Splines.  Specifically, we
+ * parametric curve described by B-Splines. Specifically, we
  * create 3-D trefoil knot parametric surface:
  *  https://en.wikipedia.org/wiki/Trefoil_knot
  * which is closed in both parametric dimensions.
  */
-int
-itkBSplineScatteredDataPointSetToImageFilterTest5( int, char * [] )
+int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
 {
+
+  if( argc < 2 )
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << argv[0] << "outputImage" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   const unsigned int ParametricDimension = 2;
   const unsigned int DataDimension = 3;
 
-  typedef double                                         RealType;
-  typedef itk::Vector<RealType, DataDimension>           VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>    ImageType;
+  typedef double                                              RealType;
+  typedef unsigned char                                       OutputPixelType;
+  typedef itk::Vector<RealType, DataDimension>                VectorType;
+  typedef itk::Vector<OutputPixelType, DataDimension>         OutputVectorType;
+  typedef itk::Image<VectorType, ParametricDimension>         ImageType;
+  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
 
   typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
 
   PointSetType::Pointer pointSet = PointSetType::New();
 
-  std::cout << "Input Data" << std::endl;
-
   // Sample the trefoil knot.
   // The first parametric dimension, u,  is doing the knot part
   // whereas the second dimension, v, is going around in a simple circle.
-for( RealType u = -2.0 * itk::Math::pi; u <= 2.0 * itk::Math::pi; u += 0.1 )
-  {
-  for( RealType v = -itk::Math::pi; v <= itk::Math::pi; v += 0.1 )
+  for( RealType u = -2.0 * itk::Math::pi; u <= 2.0 * itk::Math::pi; u += 0.1 )
     {
-    PointSetType::PointType point;
-    point[0] = ( u + 2.0 * itk::Math::pi ) / ( 4.0 * itk::Math::pi );
-    point[1] = ( v + itk::Math::pi ) / ( 2.0 * itk::Math::pi );
-    unsigned long i = pointSet->GetNumberOfPoints();
-    pointSet->SetPoint( i, point );
+    for( RealType v = -itk::Math::pi; v <= itk::Math::pi; v += 0.1 )
+      {
+      PointSetType::PointType point;
+      point[0] = ( u + 2.0 * itk::Math::pi ) / ( 4.0 * itk::Math::pi );
+      point[1] = ( v + itk::Math::pi ) / ( 2.0 * itk::Math::pi );
+      unsigned long i = pointSet->GetNumberOfPoints();
+      pointSet->SetPoint( i, point );
 
-    VectorType V;
-    V[0] = std::cos( u ) * std::cos( v ) + 3.0 * std::cos( u ) * ( 1.5 + 0.5 * std::sin( 1.5 * u ) );
-    V[1] = std::sin( u ) * std::cos( v ) + 3.0 * std::sin( u ) * ( 1.5 + 0.5 * std::sin( 1.5 * u ) );
-    V[2] = std::sin( v ) + 2.0 * std::cos( 1.5 * u );
+      VectorType V;
+      V[0] = std::cos( u ) * std::cos( v ) + 3.0 * std::cos( u ) * ( 1.5 + 0.5 * std::sin( 1.5 * u ) );
+      V[1] = std::sin( u ) * std::cos( v ) + 3.0 * std::sin( u ) * ( 1.5 + 0.5 * std::sin( 1.5 * u ) );
+      V[2] = std::sin( v ) + 2.0 * std::cos( 1.5 * u );
 
-    pointSet->SetPointData( i, V );
+      pointSet->SetPointData( i, V );
+      }
     }
-  }
 
   // Instantiate the filter and set the parameters
   typedef itk::BSplineScatteredDataPointSetToImageFilter
     <PointSetType, ImageType> FilterType;
+
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+    PointSetToImageFilter );
 
   // Define the parametric domain
   ImageType::SpacingType spacing;
@@ -102,15 +117,30 @@ for( RealType u = -2.0 * itk::Math::pi; u <= 2.0 * itk::Math::pi; u += 0.1 )
   close.Fill( 1 );
   filter->SetCloseDimension( close );
 
-  try
-    {
-    filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  // Get the filter output
+  ImageType::Pointer outputImage = filter->GetOutput();
+
+  // Cast the output image
+  typedef itk::CastImageFilter< ImageType, OutputImageType > CastImageFilterType;
+
+  CastImageFilterType::Pointer caster = CastImageFilterType::New();
+
+  caster->SetInput( outputImage );
+
+  // Write the result image
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[1] );
+
+  writer->SetInput( caster->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
 
   return EXIT_SUCCESS;
 }

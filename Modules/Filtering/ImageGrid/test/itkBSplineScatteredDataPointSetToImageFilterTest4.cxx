@@ -15,11 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkPointSet.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkBSplineTransform.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkTestingMacros.h"
+
 
 /**
  * In this test, we approximate a 2-D scalar field.
@@ -41,7 +44,6 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
 
   // Instantiate the B-spline filter
 
-  std::cout << "Instantiating B-spline filter and creating B-spline domain." << std::endl;
   typedef itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType> FilterType;
 
   VectorImageType::SizeType size;
@@ -54,8 +56,6 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   direction.SetIdentity();
 
   // Instantiate example corresponding points with relative weighting
-
-  std::cout << "Creating sample landmark correspondences for testing." << std::endl;
 
   PointSetType::Pointer pointSet = PointSetType::New();
   pointSet->Initialize();
@@ -135,9 +135,10 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
 
   // Now fit the displacement
 
-  std::cout << "Fitting the points." << std::endl;
-
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+    PointSetToImageFilter );
 
   // Define the parametric domain.
   filter->SetOrigin( origin );
@@ -167,18 +168,11 @@ int itkBSplineScatteredDataPointSetToImageFilterTest4( int, char * [] )
   close.Fill( 0 );
   filter->SetCloseDimension( close );
 
-  try
-    {
-    filter->Update();
-    }
-  catch (...)
-    {
-    std::cerr << "Test: itkBSplineScatteredDataImageFilter4 exception thrown"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
 
-  //Instantiate the BSpline transform
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+
+  // Instantiate the BSpline transform
 
   typedef itk::BSplineTransform<float, DataDimension, SplineOrder> TransformType;
   TransformType::Pointer transform = TransformType::New();
