@@ -5,6 +5,7 @@ itkTIFFImageIOTest2.cxx
 itkTIFFImageIOCompressionTest.cxx
 itkLargeTIFFImageWriteReadTest.cxx
 itkTIFFImageIOInfoTest.cxx
+itkTIFFImageIOTestPalette.cxx
 )
 
 CreateTestDriver(ITKIOTIFF  "${ITKIOTIFF-Test_LIBRARIES}" "${ITKIOTIFFTests}")
@@ -245,3 +246,20 @@ if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 12 )
   set_property(TEST itkLargeTIFFImageWriteReadTest4 APPEND PROPERTY LABELS RUNS_LONG)
 
 endif()
+
+
+itk_add_test(NAME itkTIFFImageIOTestPaletteExpanded
+      COMMAND ITKIOTIFFTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteExpanded.tif
+              1e1a89a70b7cb472f55c450909df7b77
+    itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteExpanded.tif 1 0)
+itk_add_test(NAME itkTIFFImageIOTestPaletteNotExpanded
+      COMMAND ITKIOTIFFTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpanded.tif
+              4a4133ec26e5c83a5cbd9188067b1633
+    itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpanded.tif 0 1)
+itk_add_test(NAME itkTIFFImageIOTestPaletteNotExpandedGrey
+      COMMAND ITKIOTIFFTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpandedGrey.tif
+              4a4133ec26e5c83a5cbd9188067b1633
+    itkTIFFImageIOTestPalette DATA{Input/HeliconiusNumataPalette.tif} ${ITK_TEST_OUTPUT_DIR}/itkTIFFImageIOTestPaletteNotExpandedGrey.tif 0 0)

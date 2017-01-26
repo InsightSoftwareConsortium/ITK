@@ -49,6 +49,9 @@ void ImageIOBase::Reset(const bool)
   m_UseCompression = false;
   m_UseStreamedReading = false;
   m_UseStreamedWriting = false;
+  m_ExpandRGBPalette   = true;
+  m_IsReadAsScalarPlusPalette  = false;
+
 }
 
 ImageIOBase::~ImageIOBase()
@@ -1031,19 +1034,19 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Component Type: " << this->GetComponentTypeAsString(m_ComponentType)
      << std::endl;
   os << indent << "Dimensions: ( ";
-  for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
+  for( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
     {
     os << m_Dimensions[i] << " ";
     }
   os << ")" << std::endl;
   os << indent << "Origin: ( ";
-  for ( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
+  for( unsigned int i = 0; i < m_NumberOfDimensions; i++ )
     {
     os << m_Origin[i] << " ";
     }
   os << ")" << std::endl;
 
-  if ( m_UseCompression )
+  if( m_UseCompression )
     {
     os << indent << "UseCompression: On" << std::endl;
     }
@@ -1051,7 +1054,7 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
     {
     os << indent << "UseCompression: Off" << std::endl;
     }
-  if ( m_UseStreamedReading )
+  if( m_UseStreamedReading )
     {
     os << indent << "UseStreamedReading: On" << std::endl;
     }
@@ -1059,13 +1062,29 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
     {
     os << indent << "UseStreamedReading: Off" << std::endl;
     }
-  if ( m_UseStreamedWriting )
+  if( m_UseStreamedWriting )
     {
     os << indent << "UseStreamedWriting: On" << std::endl;
     }
   else
     {
     os << indent << "UseStreamedWriting: Off" << std::endl;
+    }
+  if( m_ExpandRGBPalette )
+    {
+    os << indent << "ExpandRGBPalette: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "ExpandRGBPalette: Off" << std::endl;
+    }
+  if( m_IsReadAsScalarPlusPalette )
+    {
+    os << indent << "IsReadAsScalarPlusPalette: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "IsReadAsScalarPlusPalette: Off" << std::endl;
     }
 }
 

@@ -42,7 +42,9 @@ public:
   typedef BMPImageIO                Self;
   typedef ImageIOBase               Superclass;
   typedef SmartPointer< Self >      Pointer;
-  typedef RGBPixel< unsigned char > RGBPixelType;
+
+  typedef RGBPixel< unsigned char >   RGBPixelType; //Palette is only unsigned char in BMP files
+  typedef std::vector< RGBPixelType > PaletteType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
@@ -55,6 +57,9 @@ public:
 
   /** Getter for the BMPCompression attribute. */
   itkGetConstMacro(BMPCompression, long);
+
+  /** Getter for the ColorPalette attribute. */
+  itkGetConstReferenceMacro(ColorPalette, PaletteType);
 
   /*-------- This part of the interfaces deals with reading data. ----- */
 
@@ -102,12 +107,11 @@ private:
   long                        m_BitMapOffset;
   bool                        m_FileLowerLeft;
   short                       m_Depth;
-  bool                        m_Allow8BitBMP;
   unsigned short              m_NumberOfColors;
-  unsigned int                m_ColorTableSize;
+  unsigned int                m_ColorPaletteSize;
   long                        m_BMPCompression;
   unsigned long               m_BMPDataSize;
-  std::vector< RGBPixelType > m_ColorPalette;
+  PaletteType                 m_ColorPalette;
 };
 } // end namespace itk
 

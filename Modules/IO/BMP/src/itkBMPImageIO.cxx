@@ -23,25 +23,27 @@
 namespace itk
 {
 /** Constructor */
-BMPImageIO::BMPImageIO()
+BMPImageIO::BMPImageIO() :
+  m_BitMapOffset( 0 ),
+  m_FileLowerLeft( 0 ),
+  m_Depth( 8 ),
+  m_NumberOfColors( 0 ),
+  m_ColorPaletteSize( 0 ),
+  m_BMPCompression( 0 ),
+  m_BMPDataSize( 0 ),
+  m_ColorPalette( 0 ) // palette has no element by default
 {
+  this->SetNumberOfDimensions( 2 );
+
   m_ByteOrder = BigEndian;
-  m_BitMapOffset = 0;
-  this->SetNumberOfDimensions(2);
-  m_PixelType = SCALAR;
   m_ComponentType = UCHAR;
+  m_PixelType = SCALAR;
+
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
 
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
-  m_FileLowerLeft = 0;
-  m_Depth = 8;
-  m_Allow8BitBMP = false;
-  m_NumberOfColors = 0;
-  m_ColorTableSize = 0;
-  m_BMPCompression = 0;
-  m_BMPDataSize = 0;
 
   this->AddSupportedWriteExtension(".bmp");
   this->AddSupportedWriteExtension(".BMP");
@@ -56,7 +58,7 @@ BMPImageIO::~BMPImageIO()
 
 bool BMPImageIO::CanReadFile(const char *filename)
 {
-  // First check the filename extension
+  // First check the filename
   std::string fname = filename;
 
   if ( fname == "" )
@@ -206,7 +208,8 @@ void BMPImageIO::Read(void *buffer)
   // RLE-compressed files are lower-left
   // About the RLE compression algorithm:
   // http://msdn.microsoft.com/en-us/library/windows/desktop/dd183383%28v=vs.85%29.aspx
-  if ( m_BMPCompression == 1 && this->GetNumberOfComponents() == 3 )
+  if ( m_BMPCompression == 1 && (this->GetNumberOfComponents() == 3 ||
+                                 this->GetIsReadAsScalarPlusPalette() )  )
     {
     value = new char[m_BMPDataSize + 1];
     m_Ifstream.seekg(m_BitMapOffset, std::ios::beg);
@@ -247,15 +250,28 @@ void BMPImageIO::Read(void *buffer)
         else
           {
           // Unencoded run
-          for ( unsigned long j = 0; j < byte2; j++ )
+          if ( !this->GetIsReadAsScalarPlusPalette() )
             {
-            i++;
-            RGBPixelType rgb = this->GetColorPaletteEntry(value[i]);
-            l = 3 * ( line * m_Dimensions[0] + posLine );
-            p[l] = rgb.GetBlue();
-            p[l + 1] = rgb.GetGreen();
-            p[l + 2] = rgb.GetRed();
-            posLine++;
+              for ( unsigned long j = 0; j < byte2; j++ )
+                {
+                i++;
+                RGBPixelType rgb = this->GetColorPaletteEntry(value[i]);
+                l = 3 * ( line * m_Dimensions[0] + posLine );
+                p[l]     = rgb.GetBlue();
+                p[l + 1] = rgb.GetGreen();
+                p[l + 2] = rgb.GetRed();
+                posLine++;
+                }
+            }
+            else
+            {
+               for ( unsigned long j = 0; j < byte2; j++ )
+                 {
+                 i++;
+                 l = ( line * m_Dimensions[0] + posLine );
+                 p[l] = value[i];
+                 posLine++;
+                 }
             }
           // If a run's length is odd, the it is padded with 0
           if(byte2 % 2)
@@ -267,14 +283,26 @@ void BMPImageIO::Read(void *buffer)
       else
         {
         // Encoded run
-        RGBPixelType rgb = this->GetColorPaletteEntry(byte2);
-        for ( unsigned long j = 0; j < byte1; j++ )
+        if ( !this->GetIsReadAsScalarPlusPalette() )
           {
-          l = 3 * ( line * m_Dimensions[0] + posLine );
-          p[l] = rgb.GetBlue();
-          p[l + 1] = rgb.GetGreen();
-          p[l + 2] = rgb.GetRed();
-          posLine++;
+          RGBPixelType rgb = this->GetColorPaletteEntry(byte2);
+          for ( unsigned long j = 0; j < byte1; j++ )
+            {
+            l = 3 * ( line * m_Dimensions[0] + posLine );
+            p[l]     = rgb.GetBlue();
+            p[l + 1] = rgb.GetGreen();
+            p[l + 2] = rgb.GetRed();
+            posLine++;
+            }
+          }
+        else
+          {
+          for ( unsigned long j = 0; j < byte1; j++ )
+            {
+            l = ( line * m_Dimensions[0] + posLine );
+            p[l] = byte2;
+            posLine++;
+            }
           }
         }
       }
@@ -305,7 +333,7 @@ void BMPImageIO::Read(void *buffer)
           }
         else
           {
-          if ( m_ColorTableSize == 0 )
+          if ( m_ColorPaletteSize == 0 )
             {
             if ( this->GetNumberOfComponents() == 3 )
               {
@@ -536,19 +564,20 @@ void BMPImageIO::ReadImageInformation()
     {
     if ( m_NumberOfColors )
       {
-      m_ColorTableSize = ( ( 1 << m_Depth ) < m_NumberOfColors ) ? ( 1 << m_Depth ) : m_NumberOfColors;
+      m_ColorPaletteSize = ( ( 1 << m_Depth ) < m_NumberOfColors ) ? ( 1 << m_Depth ) : m_NumberOfColors;
       }
     else
       {
-      m_ColorTableSize = ( 1 << m_Depth );
+      m_ColorPaletteSize = ( 1 << m_Depth );
       }
     }
   else
     {
-    m_ColorTableSize = 0;
+    m_ColorPaletteSize = 0;
     }
   unsigned char uctmp;
-  for ( unsigned long i = 0; i < m_ColorTableSize; i++ )
+  m_ColorPalette.resize(m_ColorPaletteSize);
+  for ( unsigned long i = 0; i < m_ColorPaletteSize; i++ )
     {
     RGBPixelType p;
     m_Ifstream.read( (char *)&uctmp, 1 );
@@ -558,24 +587,26 @@ void BMPImageIO::ReadImageInformation()
     m_Ifstream.read( (char *)&uctmp, 1 );
     p.SetBlue(uctmp);
     m_Ifstream.read( (char *)&tmp, 1 );
-    m_ColorPalette.push_back(p);
+    m_ColorPalette[i] = p;
     }
 
+  m_IsReadAsScalarPlusPalette = false;
   switch ( m_Depth )
     {
     case 1:
     case 4:
     case 8:
       {
-      if ( m_Allow8BitBMP )
-        {
-        this->SetNumberOfComponents(1);
-        m_PixelType = SCALAR;
-        }
-      else
+      if ( this->GetExpandRGBPalette() )
         {
         this->SetNumberOfComponents(3);
         m_PixelType = RGB;
+        }
+      else
+        {
+        this->SetNumberOfComponents(1);
+        m_PixelType = SCALAR;
+        m_IsReadAsScalarPlusPalette = true;
         }
       break;
       }
@@ -956,18 +987,26 @@ BMPImageIO
 void BMPImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Depth " << m_Depth << "\n";
-  os << indent << "FileLowerLeft " << m_FileLowerLeft << "\n";
-  os << indent << "BitMapOffset " << m_BitMapOffset << "\n";
-  if ( m_Allow8BitBMP )
+
+  os << indent << "BitMapOffset: " << m_BitMapOffset << std::endl;
+  os << indent << "FileLowerLeft: " << m_FileLowerLeft << std::endl;
+  os << indent << "Depth: " << m_Depth << std::endl;
+  os << indent << "NumberOfColors: " << m_NumberOfColors << std::endl;
+  os << indent << "ColorPaletteSize: " << m_ColorPaletteSize << std::endl;
+  os << indent << "BMPCompression: " << m_BMPCompression << std::endl;
+  os << indent << "DataSize: " << m_BMPDataSize << std::endl;
+  if ( m_IsReadAsScalarPlusPalette )
     {
-    os << indent << "m_Allow8BitBMP : True" << "\n";
+    os << "Read as Scalar Image plus palette" << "\n";
     }
-  else
+  if( m_ColorPalette.size() > 0  )
     {
-    os << indent << "m_Allow8BitBMP : False" << "\n";
+    os << indent << "ColorPalette:" << std::endl;
+    for( unsigned int i = 0; i < m_ColorPalette.size(); ++i )
+      {
+      os << indent << "[" << i << "]"
+         << itk::NumericTraits< PaletteType::value_type >::PrintType( m_ColorPalette[i] ) << std::endl;
+      }
     }
-  os << indent << "BMPCompression = " << m_BMPCompression << "\n";
-  os << indent << "DataSize = " << m_BMPDataSize << "\n";
 }
 } // end namespace itk

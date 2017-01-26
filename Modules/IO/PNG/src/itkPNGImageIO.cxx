@@ -76,10 +76,10 @@ public:
 
 bool PNGImageIO::CanReadFile(const char *file)
 {
-  // First check the extension
+  // First check the filename
   std::string filename = file;
 
-  if (  filename == "" )
+  if ( filename == "" )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -212,10 +212,17 @@ void PNGImageIO::Read(void *buffer)
                &bitDepth, &colorType, &interlaceType,
                &compression_type, &filter_method);
 
-  // convert palettes to RGB
   if ( colorType == PNG_COLOR_TYPE_PALETTE )
     {
-    png_set_palette_to_rgb(png_ptr);
+    if ( this->GetExpandRGBPalette() )
+      {// convert palette to RGB
+      png_set_palette_to_rgb(png_ptr);
+      }
+    else
+      {
+      // unpack the pixels
+      png_set_packing(png_ptr);
+      }
     }
 
   // minimum of a byte per pixel
@@ -273,14 +280,16 @@ void PNGImageIO::Read(void *buffer)
   png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
 }
 
-PNGImageIO::PNGImageIO()
+PNGImageIO::PNGImageIO() :
+  m_CompressionLevel( 4 ),
+  m_ColorPalette( 0 )// palette has no elements by default
 {
-  this->SetNumberOfDimensions(2);
-  m_PixelType = SCALAR;
+  this->SetNumberOfDimensions( 2 );
+
   m_ComponentType = UCHAR;
+  m_PixelType = SCALAR;
   m_UseCompression = false;
-  m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 = maximum
-                          // file compression
+
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
 
@@ -300,7 +309,21 @@ PNGImageIO::~PNGImageIO()
 void PNGImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Compression Level : " << m_CompressionLevel << "\n";
+
+  os << indent << "CompressionLevel: " << m_CompressionLevel << std::endl;
+  if ( m_IsReadAsScalarPlusPalette )
+    {
+    os << "Read as Scalar Image plus palette" << "\n";
+    }
+  if( m_ColorPalette.size() > 0  )
+    {
+    os << indent << "ColorPalette:" << std::endl;
+    for( unsigned int i = 0; i < m_ColorPalette.size(); ++i )
+      {
+      os << indent << "[" << i << "]"
+         << itk::NumericTraits< PaletteType::value_type >::PrintType( m_ColorPalette[i] ) << std::endl;
+      }
+    }
 }
 
 void PNGImageIO::ReadImageInformation()
@@ -370,16 +393,44 @@ void PNGImageIO::ReadImageInformation()
                &bitDepth, &colorType, &interlaceType,
                &compression_type, &filter_method);
 
-  // convert palettes to RGB
+  m_IsReadAsScalarPlusPalette = false;
   if ( colorType == PNG_COLOR_TYPE_PALETTE )
     {
-    png_set_palette_to_rgb(png_ptr);
+    if ( m_ExpandRGBPalette )
+      {// convert palettes to RGB
+      png_set_palette_to_rgb(png_ptr);
+      }
+    else
+      {
+      // Unpack the pixels
+      png_set_packing(png_ptr);
+
+      m_IsReadAsScalarPlusPalette = true;
+
+      png_colorp palette;
+      int num_entry;
+      png_get_PLTE(png_ptr,info_ptr, &palette, &num_entry);
+
+      if (num_entry<0) num_entry=0;
+      size_t num_entryI(static_cast<size_t>(num_entry));
+
+      m_ColorPalette.resize(num_entryI);
+      for ( size_t c = 0; c < num_entryI; ++c )
+        {
+        RGBPixelType p;
+        p.SetRed(   palette[c].red   );
+        p.SetGreen( palette[c].green );
+        p.SetBlue(  palette[c].blue  );
+        m_ColorPalette[c] = p;
+        }
+
+      }
     }
 
   // minimum of a byte per pixel
   if ( colorType == PNG_COLOR_TYPE_GRAY && bitDepth < 8 )
     {
-#if (PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 4)
+#if ( PNG_LIBPNG_VER_MAJOR < 2 && PNG_LIBPNG_VER_MINOR < 4 )
     png_set_gray_1_2_4_to_8(png_ptr);
 #else
     png_set_expand_gray_1_2_4_to_8(png_ptr);
@@ -608,8 +659,6 @@ void PNGImageIO::WriteSlice(const std::string & fileName, const void *buffer)
   png_set_sCAL(png_ptr, info_ptr, PNG_SCALE_METER, colSpacing,
                rowSpacing);
 #endif
-
-  //std::cout << "PNG_INFO_sBIT: " << PNG_INFO_sBIT << std::endl;
 
   png_write_info(png_ptr, info_ptr);
   // default is big endian
