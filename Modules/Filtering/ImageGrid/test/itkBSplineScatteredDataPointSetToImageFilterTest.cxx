@@ -91,42 +91,42 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
     PointSetToImageFilter );
 
 
-  FilterType::RealType splineOrder = 0;
+  unsigned int splineOrder = 0u;
   TRY_EXPECT_EXCEPTION( filter->SetSplineOrder( splineOrder ) );
 
   FilterType::ArrayType splineOrderArray;
-  splineOrderArray.Fill( 4 );
+  splineOrderArray.Fill( 4u );
   filter->SetSplineOrder( splineOrderArray );
   TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
 
-  splineOrder = 3;
+  splineOrder = 3u;
   filter->SetSplineOrder( splineOrder );
   splineOrderArray.Fill( splineOrder );
   TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
 
 
-  FilterType::RealType numberOfLevels = 0;
+  unsigned numberOfLevels = 0u;
   TRY_EXPECT_EXCEPTION( filter->SetNumberOfLevels( numberOfLevels ) );
 
   FilterType::ArrayType numberOfLevelsArray;
-  numberOfLevelsArray.Fill( 4 );
+  numberOfLevelsArray.Fill( 4u );
   filter->SetNumberOfLevels( numberOfLevelsArray );
   TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
 
-  numberOfLevels = 3;
+  numberOfLevels = 3u;
   filter->SetNumberOfLevels( numberOfLevels );
   numberOfLevelsArray.Fill( numberOfLevels );
   TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
 
 
   FilterType::ArrayType ncps;
-  ncps.Fill( 4 );
+  ncps.Fill( 4u );
   filter->SetNumberOfControlPoints( ncps );
   TEST_SET_GET_VALUE( ncps, filter->GetNumberOfControlPoints() );
 
 
   FilterType::ArrayType close;
-  close.Fill( 0 );
+  close.Fill( 0u );
   filter->SetCloseDimension( close );
   TEST_SET_GET_VALUE( close, filter->GetCloseDimension() );
 
