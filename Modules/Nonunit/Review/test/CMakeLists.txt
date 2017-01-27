@@ -2,7 +2,6 @@ itk_module_test()
 set(ITKReviewTests
 itkAreaClosingImageFilterTest.cxx
 itkAreaOpeningImageFilterTest.cxx
-itkBruker2DSEQImageIOTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 itkContourExtractor2DImageFilterTest.cxx
@@ -77,9 +76,6 @@ itk_add_test(NAME itkAreaOpeningImageFilterTest0
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkAreaOpeningImageFilterTest0.png}
               ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png
     itkAreaOpeningImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkAreaOpeningImageFilterTest0.png 1000 0 1)
-itk_add_test(NAME itkBruker2DSEQImageIOTest1
-      COMMAND ITKReviewTestDriver itkBruker2DSEQImageIOTest
-              ${ITK_DATA_ROOT}/Input/DCB120604.t61/11/pdata/1/2dseq ${ITK_TEST_OUTPUT_DIR}/itkBruker2DSEQImageIOTest1.mha)
 itk_add_test(NAME itkConformalFlatteningMeshFilterTest1
       COMMAND ITKReviewTestDriver itkConformalFlatteningMeshFilterTest
               DATA{${ITK_DATA_ROOT}/Input/genusZeroSurface01.vtk} ${ITK_TEST_OUTPUT_DIR}/genusZeroMesh01ConformalFlattenedToSphere.vtk 1)
