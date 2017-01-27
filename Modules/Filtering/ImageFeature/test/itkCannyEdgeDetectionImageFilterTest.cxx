@@ -23,13 +23,15 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
-int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
+
+int itkCannyEdgeDetectionImageFilterTest( int argc, char * argv[] )
 {
   if(argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage\n";
-    return -1;
+    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage" << std::endl;
+    return EXIT_FAILURE;
     }
 
   const unsigned int Dimension = 2;
@@ -37,54 +39,53 @@ int itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[] )
   typedef itk::Image< InputPixelType, Dimension >  InputImage;
   typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImage;
+  typedef itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>
+    CannyEdgeDetectionImageFilterType;
 
-  itk::ImageFileReader< InputImage >::Pointer input = itk::ImageFileReader< InputImage >::New();
-  input->SetFileName(argv[1]);
 
-  // Set up filter
-  itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::Pointer
-    filter =
-    itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::New();
-  itk::SimpleFilterWatcher watcher(filter);
-  filter->SetInput(input->GetOutput());
-  filter->SetUpperThreshold(30);
-  filter->SetLowerThreshold(15);
-  filter->SetVariance(1.0f);
-  filter->SetMaximumError(.01f);
+  itk::ImageFileReader< InputImage >::Pointer reader =
+    itk::ImageFileReader< InputImage >::New();
+  reader->SetFileName( argv[1] );
 
-  itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer
-    rescale =
+  // Set up the filter
+  CannyEdgeDetectionImageFilterType::Pointer filter = CannyEdgeDetectionImageFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, CannyEdgeDetectionImageFilter, ImageToImageFilter );
+
+  itk::SimpleFilterWatcher watcher( filter );
+
+  filter->SetInput( reader->GetOutput() );
+
+  CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold = 30;
+  filter->SetUpperThreshold( upperThreshold );
+  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+
+  CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold = 15;
+  filter->SetLowerThreshold( lowerThreshold );
+  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
+
+  CannyEdgeDetectionImageFilterType::ArrayType variance = 1.0f;
+  filter->SetVariance( variance );
+  TEST_SET_GET_VALUE( variance, filter->GetVariance() );
+
+  CannyEdgeDetectionImageFilterType::ArrayType maximumError = .01f;
+  filter->SetMaximumError( maximumError );
+  TEST_SET_GET_VALUE( maximumError, filter->GetMaximumError() );
+
+
+  itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer rescale =
     itk::RescaleIntensityImageFilter<InputImage, OutputImage>::New();
-  rescale->SetInput(filter->GetOutput());
-  rescale->SetOutputMinimum(0);
-  rescale->SetOutputMaximum(255);
 
-  try
-    {
-    // Generate test image
-    itk::ImageFileWriter<OutputImage>::Pointer writer;
-      writer = itk::ImageFileWriter<OutputImage>::New();
-      writer->SetInput( rescale->GetOutput() );
-      writer->SetFileName( argv[2] );
-      writer->Update();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-      (&err)->Print(std::cerr);
-      return EXIT_FAILURE;
-    }
+  rescale->SetInput( filter->GetOutput() );
 
-  // test for correct setting of non-macro methods
-  if (filter->GetVariance()[0] != 1.0f || itk::Math::NotExactlyEquals(filter->GetMaximumError()[0], .01f))
-    {
-      return EXIT_FAILURE;
-    }
-  filter->SetVariance(0.5f);
-  filter->SetMaximumError(0.5f);
-  if (filter->GetVariance()[0] != 0.5f || filter->GetMaximumError()[0] != 0.5f)
-    {
-      return EXIT_FAILURE;
-    }
+  rescale->SetOutputMinimum( 0);
+  rescale->SetOutputMaximum( 255 );
+
+  itk::ImageFileWriter<OutputImage>::Pointer writer = itk::ImageFileWriter<OutputImage>::New();
+  writer->SetInput( rescale->GetOutput() );
+  writer->SetFileName( argv[2] );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
