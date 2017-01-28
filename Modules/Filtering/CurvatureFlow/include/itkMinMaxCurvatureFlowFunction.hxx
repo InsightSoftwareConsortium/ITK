@@ -236,41 +236,40 @@ typename MinMaxCurvatureFlowFunction< TImage >::PixelType
 MinMaxCurvatureFlowFunction< TImage >
 ::ComputeThreshold(const Dispatch< 2 > &, const NeighborhoodType & it) const
 {
-  const signed int imageDimension = 2;
+  const unsigned int imageDimension = 2;
 
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
   PixelType threshold = NumericTraits< PixelType >::ZeroValue();
 
   // Compute gradient
-  PixelType     gradient[imageDimension];
-  PixelType     gradMagnitude;
+  double        gradient[imageDimension];
+  double        gradMagnitude;
   SizeValueType stride;
   SizeValueType center;
   SizeValueType position[imageDimension];
-  int           j, k;
 
   center = it.Size() / 2;
 
   gradient[0] = 0.5 * ( it.GetPixel(center + 1)
                         - it.GetPixel(center - 1) );
-  k = 0;
+  unsigned int k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = itk::Math::sqr( (double)gradient[k] );
+  gradMagnitude = Math::sqr( gradient[k] );
   k++;
 
   stride = it.GetStride(1);
   gradient[k] = 0.5 * ( it.GetPixel(center + stride)
                         - it.GetPixel(center - stride) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += itk::Math::sqr( (double)gradient[k] );
+  gradMagnitude += Math::sqr( gradient[k] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
   gradMagnitude = std::sqrt( (double)gradMagnitude )
                   / static_cast< PixelType >( m_StencilRadius );
 
-  for ( j = 0; j < imageDimension; j++ )
+  for ( unsigned int j = 0; j < imageDimension; j++ )
     {
     gradient[j] /= gradMagnitude;
     }
@@ -300,19 +299,19 @@ typename MinMaxCurvatureFlowFunction< TImage >::PixelType
 MinMaxCurvatureFlowFunction< TImage >
 ::ComputeThreshold(const Dispatch< 3 > &, const NeighborhoodType & it) const
 {
-  const signed int imageDimension = 3;
+  const unsigned int imageDimension = 3;
 
   if ( m_StencilRadius == 0 ) { return it.GetCenterPixel(); }
 
   PixelType threshold = NumericTraits< PixelType >::ZeroValue();
 
   // Compute gradient
-  PixelType     gradient[imageDimension];
-  PixelType     gradMagnitude;
-  SizeValueType strideY, strideZ;
+  double        gradient[imageDimension];
+  double        gradMagnitude;
+  SizeValueType strideY;
+  SizeValueType strideZ;
   SizeValueType center;
   SizeValueType position[imageDimension];
-  int           j, k;
 
   center  = it.Size() / 2;
   strideY = it.GetStride(1);
@@ -320,33 +319,34 @@ MinMaxCurvatureFlowFunction< TImage >
 
   gradient[0] = 0.5 * ( it.GetPixel(center + 1)
                         - it.GetPixel(center - 1) );
-  k = 0;
+  unsigned int k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude = itk::Math::sqr( (double)gradient[k] );
+  gradMagnitude = itk::Math::sqr( gradient[k] );
   k++;
 
   gradient[k] = 0.5 * ( it.GetPixel(center + strideY)
                         - it.GetPixel(center - strideY) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += itk::Math::sqr( (double)gradient[k] );
+  gradMagnitude += itk::Math::sqr( gradient[k] );
   k++;
 
   gradient[k] = 0.5 * ( it.GetPixel(center + strideZ)
                         - it.GetPixel(center - strideZ) );
   gradient[k] *= this->m_ScaleCoefficients[k];
-  gradMagnitude += itk::Math::sqr( (double)gradient[k] );
+  gradMagnitude += Math::sqr( gradient[k] );
 
   if ( gradMagnitude == 0.0 ) { return threshold; }
 
-  gradMagnitude = std::sqrt( (double)gradMagnitude )
+  gradMagnitude = std::sqrt( gradMagnitude )
                   / static_cast< PixelType >( m_StencilRadius );
 
-  for ( j = 0; j < imageDimension; j++ )
+  for ( unsigned int j = 0; j < imageDimension; ++j )
     {
     gradient[j] /= gradMagnitude;
     }
 
-  double theta, phi;
+  double theta;
+  double phi;
   if ( gradient[2] > 1.0 )
     {
     gradient[2] = 1.0;
@@ -355,15 +355,15 @@ MinMaxCurvatureFlowFunction< TImage >
     {
     gradient[2] = -1.0;
     }
-  theta = std::acos( (double)gradient[2] );
+  theta = std::acos( gradient[2] );
 
   if ( Math::AlmostEquals(gradient[0], NumericTraits< PixelType >::ZeroValue()) )
     {
-    phi = itk::Math::pi * 0.5;
+    phi = Math::pi * 0.5;
     }
   else
     {
-    phi = std::atan( (double)gradient[1] / (double)gradient[0] );
+    phi = std::atan( gradient[1] / gradient[0] );
     }
 
   double cosTheta = std::cos(theta);
