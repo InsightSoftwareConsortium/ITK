@@ -128,6 +128,20 @@ public:
   virtual void
   GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const ITK_OVERRIDE;
 
+  // Set these depending on whether you will be minimizing or maximizing.
+  // They control the value returned when the point isn't inside the buffer.
+  void
+  SetMinimize()
+  {
+    m_OutsideValue = itk::NumericTraits<ImagePixelType>::max();
+  }
+  void
+  SetMaximize()
+  {
+    m_OutsideValue = itk::NumericTraits<ImagePixelType>::NonpositiveMin();
+  }
+
+
 protected:
   SingleImageCostFunction();
   virtual ~SingleImageCostFunction() {}
@@ -140,6 +154,9 @@ private:
   ImageConstPointer                           m_Image;
   typename InterpolatorType::Pointer          m_Interpolator;
   typename GradientImageFunctionType::Pointer m_GradientImageFunction;
+  /** Used to define the value outside the image buffer. Important when
+   *  path points are on the edge of an image */
+  ImagePixelType m_OutsideValue;
 };
 
 } // end namespace itk

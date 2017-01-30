@@ -179,6 +179,9 @@ public:
   typedef SingleValuedNonLinearOptimizer               OptimizerType;
   typedef RegularStepGradientDescentOptimizer          DefaultOptimizerType;
 
+  /** The points are in vectors to support extended "nodes" */
+  typedef std::vector<PointType> PointsContainerType;
+
   /** Get/set the Optimizer. */
   itkSetObjectMacro(Optimizer, OptimizerType);
   itkGetConstObjectMacro(Optimizer, OptimizerType);
@@ -234,13 +237,13 @@ protected:
   ComputeArrivalFunction();
 
   /** Get the next end point from which to back propagate. */
-  virtual const PointType &
+  virtual const PointsContainerType &
   GetNextEndPoint();
 
   typename CostFunctionType::Pointer  m_CostFunction;
   typename OptimizerType::Pointer     m_Optimizer;
   typename OptimizerType::MeasureType m_TerminationValue;
-  std::vector<PointType>              m_PointList;
+  std::vector<PointsContainerType>    m_PointList;
   unsigned int                        m_CurrentOutput;
 
 private:

@@ -29,6 +29,10 @@ namespace itk
  * \brief  PathInfo class for encapsulating information about a path
  * for a SpeedFunctionToPathFilter Object.
  * The points are stored as follows: end, start, way0, way1, ..., wayN.
+ * Each element of a path can be a set of points - e.g. "end" may be
+ * derived from a segmentation mask. Alternatively start and end may
+ * be the left and right sides of a 2d image, producing a minimal
+ * path across the image.
  * Fronts are propagated in reverse order: wayN, ..., way1, way0, start.
  * (NOTE: a front is never propagated from end).
  *
@@ -54,6 +58,7 @@ public:
   typedef SmartPointer<Self>           Pointer;
   typedef SmartPointer<const Self>     ConstPointer;
 
+
   /** Run-time type information (and related methods). */
   itkTypeMacro(SpeedFunctionPathInformation, LightObject);
 
@@ -61,7 +66,8 @@ public:
   itkNewMacro(Self);
 
   /** Some point typedefs. */
-  typedef TPoint PointType;
+  typedef TPoint                 PointType;
+  typedef std::vector<PointType> PointsContainerType;
 
   void
   ClearInfo();
@@ -75,31 +81,61 @@ public:
   void
   AddWayPoint(const PointType & way);
 
+
+  /** Methods for adding extended path components **/
+  void
+  SetStartPoint(const PointsContainerType & start);
+
+  void
+  SetEndPoint(const PointsContainerType & end);
+
+  void
+  AddWayPoint(const PointsContainerType & way);
+
+  // methods for modifying path seeds - needed when using
+  // an extended seed.
+  void
+  SetCurrent(const PointsContainerType & newcurrent);
+  void
+  SetPrevious(const PointsContainerType & newprevious);
+  void
+  SetNext(const PointsContainerType & newnext);
+
+  void
+  SetCurrent(const PointType & current);
+  void
+  SetPrevious(const PointType & newprevious);
+  void
+  SetNext(const PointType & newnext);
+
+  void
+  Advance();
+
   unsigned int
   GetNumberOfPoints() const;
 
-  const PointType &
+  const PointsContainerType &
   GetStartPoint() const;
 
-  const PointType &
+  const PointsContainerType &
   GetEndPoint() const;
 
-  const PointType &
+  const PointsContainerType &
   GetWayPoint(SizeValueType i) const;
 
   bool
   HasNextFront() const;
 
-  const PointType &
+  const PointsContainerType &
   GetCurrentFrontAndAdvance();
 
-  const PointType &
+  const PointsContainerType &
   PeekCurrentFront() const;
 
-  const PointType &
+  const PointsContainerType &
   PeekNextFront() const;
 
-  const PointType &
+  const PointsContainerType &
   PeekPreviousFront() const;
 
 
@@ -109,9 +145,17 @@ protected:
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  std::vector<PointType> m_Information;
-  SizeValueType          m_Front;
+  std::vector<PointsContainerType> m_Information;
+  SizeValueType                    m_Front;
 
+
+  PointsContainerType
+  PtoPVec(const PointType & P)
+  {
+    PointsContainerType V(1);
+    V[0] = P;
+    return (V);
+  }
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpeedFunctionPathInformation);

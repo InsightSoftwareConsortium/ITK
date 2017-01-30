@@ -48,7 +48,9 @@ template <class TInputImage, class TOutputPath>
 void
 ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::AddPathEndPoint(const PointType & point)
 {
-  m_PointList.push_back(point);
+  PointsContainerType V(1);
+  V[0] = point;
+  m_PointList.push_back(V);
   this->Modified();
 }
 
@@ -86,7 +88,7 @@ ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::GetNumberOfPathsToExtract
 }
 
 template <class TInputImage, class TOutputPath>
-const typename ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::PointType &
+const typename ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::PointsContainerType &
 ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::GetNextEndPoint()
 {
   return m_PointList[m_CurrentOutput];
@@ -178,7 +180,8 @@ ArrivalFunctionToPathFilter<TInputImage, TOutputPath>::GenerateData(void)
     }
 
     // Get the end point to back propagate from
-    PointType pointEnd = this->GetNextEndPoint();
+    PointsContainerType allpoints = this->GetNextEndPoint();
+    PointType           pointEnd = allpoints[0];
 
     // Convert end point to parameters type
     typename CostFunctionType::ParametersType end(InputImageDimension);
