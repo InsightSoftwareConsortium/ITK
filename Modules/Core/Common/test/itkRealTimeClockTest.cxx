@@ -18,14 +18,16 @@
 
 #include <iostream>
 #include <cmath>
+#include "itkMath.h"
 #include "itkRealTimeClock.h"
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 int itkRealTimeClockTest( int, char * [] )
 {
-// Save the format stream variables for std::cout
-// They will be restored when coutState goes out of scope
-// scope.
+  // Save the format stream variables for std::cout
+  // They will be restored when coutState goes out of scope
+  // scope.
   itk::StdStreamStateSave coutState(std::cout);
 
   try
@@ -33,28 +35,27 @@ int itkRealTimeClockTest( int, char * [] )
 
     // Create an ITK RealTimeClock
     itk::RealTimeClock::Pointer clock = itk::RealTimeClock::New();
+    EXERCISE_BASIC_OBJECT_METHODS( clock, RealTimeClock, Object );
 
     std::cout << "Testing itk::RealTimeClock" << std::endl;
     std::cout << "Frequency: " << clock->GetFrequency() << std::endl;
-
-    unsigned int i;
 
     itk::RealTimeStamp timestamps[5];
 
     std::cout << "Printing timestamps got one by one" << std::endl;
 
-    for( i = 0; i < 5; ++i )
+    for( unsigned int i = 0; i < 5; ++i )
       {
       std::cout << clock->GetRealTimeStamp() << std::endl;
       }
 
-    for( i = 0; i < 5; ++i )
+    for( unsigned int i = 0; i < 5; ++i )
       {
       timestamps[i] = clock->GetRealTimeStamp();
       }
 
     std::cout << "Printing timestamps buffered" << std::endl;
-    for( i = 0; i < 5; ++i )
+    for( unsigned int i = 0; i < 5; ++i )
       {
       std::cout << timestamps[i] << std::endl;
       }
@@ -64,11 +65,11 @@ int itkRealTimeClockTest( int, char * [] )
     itk::RealTimeStamp realStamp2 = clock->GetRealTimeStamp();
     std::cout << "Current Time " << realStamp2 << std::endl;
 
-    typedef itk::RealTimeStamp::TimeRepresentationType    TimeRepresentationType;
+    typedef itk::RealTimeStamp::TimeRepresentationType TimeRepresentationType;
 
     TimeRepresentationType tolerance = 1e6;
 
-    for( i = 0; i < 10; ++i )
+    for( unsigned int i = 0; i < 10; ++i )
       {
       realStamp1 = realStamp2;
       realStamp2 = clock->GetRealTimeStamp();
@@ -92,7 +93,7 @@ int itkRealTimeClockTest( int, char * [] )
     }
   catch(...)
     {
-    std::cerr << "Exception catched !!" << std::endl;
+    std::cerr << "Exception caught !!" << std::endl;
     return EXIT_FAILURE;
     }
 
