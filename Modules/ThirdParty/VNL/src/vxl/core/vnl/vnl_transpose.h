@@ -36,7 +36,7 @@
 //
 //  NOTE: This only works for arguments of type vnl_matrix<double>
 
-class VNL_EXPORT vnl_transpose
+class VNL_TEMPLATE_EXPORT vnl_transpose
 {
   const vnl_matrix<double>& M_;
  public:

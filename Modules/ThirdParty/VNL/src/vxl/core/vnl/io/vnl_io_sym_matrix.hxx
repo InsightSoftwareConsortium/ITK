@@ -87,8 +87,8 @@ void vsl_print_summary(std::ostream & os,const vnl_sym_matrix<T> & p)
 
 
 #define VNL_IO_SYM_MATRIX_INSTANTIATE(T) \
-template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_sym_matrix<T > &); \
-template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_sym_matrix<T > &); \
-template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_sym_matrix<T > &)
+template VNL_TEMPLATE_EXPORT void vsl_print_summary(std::ostream &, const vnl_sym_matrix<T > &); \
+template VNL_TEMPLATE_EXPORT void vsl_b_read(vsl_b_istream &, vnl_sym_matrix<T > &); \
+template VNL_TEMPLATE_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_sym_matrix<T > &)
 
 #endif // vnl_io_sym_matrix_hxx_

@@ -691,23 +691,6 @@ class VNL_TEMPLATE_EXPORT vnl_matrix
   //: Delete data
   void destroy();
 
-#if VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD
-# define v vnl_vector<T>
-# define m vnl_matrix<T>
-  friend m operator+         VCL_NULL_TMPL_ARGS (T const&, m const&);
-  friend m operator-         VCL_NULL_TMPL_ARGS (T const&, m const&);
-  friend m operator*         VCL_NULL_TMPL_ARGS (T const&, m const&);
-  friend m element_product   VCL_NULL_TMPL_ARGS (m const&, m const&);
-  friend m element_quotient  VCL_NULL_TMPL_ARGS (m const&, m const&);
-  friend T dot_product       VCL_NULL_TMPL_ARGS (m const&, m const&);
-  friend T inner_product     VCL_NULL_TMPL_ARGS (m const&, m const&);
-  friend T cos_angle         VCL_NULL_TMPL_ARGS (m const&, m const&);
-  friend std::ostream& operator<< VCL_NULL_TMPL_ARGS (std::ostream&, m const&);
-  friend std::istream& operator>> VCL_NULL_TMPL_ARGS (std::istream&, m&);
-# undef v
-# undef m
-#endif
-
   // inline function template instantiation hack for gcc 2.97 -- fsm
   static void inline_function_tickler();
 };
