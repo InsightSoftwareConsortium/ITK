@@ -52,6 +52,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     this->m_Kernel[i] = KernelType::New();
     this->m_Kernel[i]->SetSplineOrder( this->m_SplineOrder[i] );
     }
+
+  this->m_CurrentNumberOfControlPoints = this->m_NumberOfControlPoints;
   this->m_KernelOrder0 = KernelOrder0Type::New();
   this->m_KernelOrder1 = KernelOrder1Type::New();
   this->m_KernelOrder2 = KernelOrder2Type::New();
@@ -62,6 +64,12 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_NumberOfLevels.Fill( 1 );
 
   this->m_PsiLattice = PointDataImageType::New();
+
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    this->m_RefinedLatticeCoefficients[i].fill( 0.0 );
+    }
+
   this->m_InputPointData = PointDataContainerType::New();
   this->m_OutputPointData = PointDataContainerType::New();
 
