@@ -74,8 +74,15 @@ else()
   set(VNL_CONFIG_ENABLE_SSE2_ROUNDING 0)
 endif()
 
+# If VXL_INSTALL_INCLUDE_DIR is the default value
+if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+  set(_config_install_dir ${VXL_INSTALL_INCLUDE_DIR}/core/vnl)
+else()
+  set(_config_install_dir ${VXL_INSTALL_INCLUDE_DIR}/vnl)
+endif()
 vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vnl_config.h.in
-               ${PROJECT_BINARY_DIR}/vnl_config.h ${VXL_INSTALL_INCLUDE_DIR}/vnl)
+                   ${PROJECT_BINARY_DIR}/vnl_config.h
+                   ${_config_install_dir})
 
 set( vnl_sources
   dll.h
@@ -269,12 +276,18 @@ vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}vnl
   LIBRARY_SOURCES ${vnl_sources}
   HEADER_INSTALL_DIR vnl)
 target_link_libraries( ${VXL_LIB_PREFIX}vnl ${VXL_LIB_PREFIX}vcl )
-set(CURR_LIB_NAME vnl)
+set(_curr_lib_name vnl)
+# If VXL_INSTALL_INCLUDE_DIR is the default value
+if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+  set(_install_dir ${VXL_INSTALL_INCLUDE_DIR}/core/${_curr_lib_name})
+else()
+  set(_install_dir ${VXL_INSTALL_INCLUDE_DIR}/${_curr_lib_name})
+endif()
 set_vxl_library_properties(
-     TARGET_NAME ${VXL_LIB_PREFIX}${CURR_LIB_NAME}
-     BASE_NAME ${CURR_LIB_NAME}
-     EXPORT_HEADER_FILE ${VXLCORE_BINARY_INCLUDE_DIR}/${CURR_LIB_NAME}/${CURR_LIB_NAME}_export.h
-     INSTALL_DIR   ${VXL_INSTALL_INCLUDE_DIR}/core/${CURR_LIB_NAME}
+     TARGET_NAME ${VXL_LIB_PREFIX}${_curr_lib_name}
+     BASE_NAME ${_curr_lib_name}
+     EXPORT_HEADER_FILE ${VXLCORE_BINARY_INCLUDE_DIR}/${_curr_lib_name}/${_curr_lib_name}_export.h
+     INSTALL_DIR ${_install_dir}
      USE_HIDDEN_VISIBILITY
 )
 

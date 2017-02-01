@@ -16,7 +16,7 @@
 
 #include <vnl/algo/vnl_netlib.h> // dgges_()
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 bool vnl_generalized_schur(vnl_matrix<double> *A,
                            vnl_matrix<double> *B,
                            vnl_vector<double> *alphar,

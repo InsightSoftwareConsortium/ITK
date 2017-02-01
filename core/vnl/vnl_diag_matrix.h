@@ -171,9 +171,6 @@ class VNL_TEMPLATE_EXPORT vnl_diag_matrix
   inline vnl_diag_matrix& set(vnl_vector<T> const& v)  { diagonal_=v; return *this; }
 
  private:
-  #if VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD
-  friend vnl_vector<T> operator*(vnl_diag_matrix<T> const&,vnl_vector<T> const&);
-  #endif
 };
 
 //:

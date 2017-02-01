@@ -21,7 +21,7 @@ VNL_QR_INSTANTIATE(std::complex<float>);
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_copy.h>
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::solve(const vnl_vector<std::complex<float>>& b) const
 {
   assert(!"this does not work");
@@ -65,7 +65,7 @@ vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::solve(const vnl_vec
 }
 
 //: Return residual vector d of M x = b -> d = Q'b
-VCL_DEFINE_SPECIALIZATION
+template <>
 vnl_vector<std::complex<float>> vnl_qr<std::complex<float>>::QtB(const vnl_vector<std::complex<float>>& b) const
 {
   assert(!"this does not work");

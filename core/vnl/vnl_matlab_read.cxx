@@ -21,16 +21,16 @@ void vnl_read_bytes(std::istream &s, void *p, unsigned bytes)
   s.read((char *)p, bytes);
 }
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_matlab_read_data(std::istream &s, float *p, unsigned n)
 { ::vnl_read_bytes(s, p, n*sizeof(*p)); }
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_matlab_read_data(std::istream &s, double *p, unsigned n)
 { ::vnl_read_bytes(s, p, n*sizeof(*p)); }
 
 #define implement_read_complex_data(T) \
-VCL_DEFINE_SPECIALIZATION \
+template <> \
 void vnl_matlab_read_data(std::istream &s, std::complex<T > *ptr, unsigned n) { \
   T *re = vnl_c_vector<T >::allocate_T(n); \
   T *im = vnl_c_vector<T >::allocate_T(n); \

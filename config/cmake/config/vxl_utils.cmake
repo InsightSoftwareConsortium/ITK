@@ -60,7 +60,7 @@ endmacro()
 #  LIBRARY_NAME        (required) is the name of the library to create
 #  LIBRARY_SOURCES     (required) is a list of sources needed to create the
 #                      library. It should also contain headers to install for
-#i                     building against the library.
+#                      building against the library.
 #  HEADER_INSTALL_DIR  (optional) directory to install headers relative to
 #                      VXL_INSTALL_INCLUDE_DIR if VXL_INSTALL_INCLUDE_DIR is
 #                      not its default value; otherwise, the relative path in
