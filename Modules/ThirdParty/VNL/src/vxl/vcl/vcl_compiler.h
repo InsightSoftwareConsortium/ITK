@@ -75,6 +75,17 @@
 #  else
 #   define VCL_GCC_60
 #  endif
+# elif (__GNUC__==7)
+#  define VCL_GCC_7
+#  if (__GNUC_MINOR__ > 2 )
+#   define VCL_GCC_73
+#  elif (__GNUC_MINOR__ > 1 )
+#   define VCL_GCC_72
+#  elif (__GNUC_MINOR__ > 0 )
+#   define VCL_GCC_71
+#  else
+#   define VCL_GCC_70
+#  endif
 # else
 #  error "Dunno about this gcc"
 # endif
