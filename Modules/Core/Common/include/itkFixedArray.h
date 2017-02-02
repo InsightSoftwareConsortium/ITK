@@ -200,9 +200,9 @@ public:
   const_reference operator[](unsigned short index) const { return m_InternalArray[index]; }
   reference operator[](int index)                  { return m_InternalArray[index]; }
   const_reference operator[](int index) const { return m_InternalArray[index]; }
-// false positive warnings with GCC 4.9
+// false positive warnings with GCC
 #if defined( __GNUC__ )
-#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 9 )
+#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 9 ) || ( __GNUC__ >= 7 )
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Warray-bounds"
 #endif
@@ -210,7 +210,7 @@ public:
   reference operator[](unsigned int index)         { return m_InternalArray[index]; }
   const_reference operator[](unsigned int index) const { return m_InternalArray[index]; }
 #if defined( __GNUC__ )
-#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 9 )
+#if ( __GNUC__ == 4 ) && ( __GNUC_MINOR__ == 9 ) || ( __GNUC__ >= 7 )
 #pragma GCC diagnostic pop
 #endif
 #endif
