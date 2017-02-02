@@ -56,11 +56,15 @@ set(VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS "@VXL_EXTRA_CMAKE_SHARED_LINKER_FLAGS@")
 # VXL_VCL_LIBRARIES, but it is there just in case.
 
 set(VXL_VCL_FOUND "YES" ) # VXL vcl is always FOUND.  It is not optional.
-set(VXL_VCL_INCLUDE_DIR "@VCL_INSTALL_INCLUDE_DIR@")
+#cmake conformant style is to use _DIRS instead of _DIR
+set(VXL_VCL_INCLUDE_DIRS "@VCL_INSTALL_INCLUDE_DIR@")
+set(VXL_VCL_INCLUDE_DIR "@VCL_INSTALL_INCLUDE_DIR@") #For backward compatibility
 set(VXL_VCL_LIBRARIES "vcl")
 
 set(VXL_CORE_FOUND "YES" ) # VXL core is always FOUND.  It is not optional.
-set(VXL_CORE_INCLUDE_DIR "@VXLCORE_INSTALL_INCLUDE_DIR@")
+#cmake conformant style is to use _DIRS instead of _DIR
+set(VXL_CORE_INCLUDE_DIRS "@VXLCORE_INSTALL_INCLUDE_DIR@")
+set(VXL_CORE_INCLUDE_DIR "@VXLCORE_INSTALL_INCLUDE_DIR@") #For backward compatibility
 # VXL core has many libraries
 
 set(VXL_CORE_VIDEO_FOUND "@CORE_VIDEO_FOUND@" )

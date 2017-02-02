@@ -16,7 +16,7 @@
 
 #include <vnl/algo/vnl_netlib.h> // zgges_()
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
                            vnl_matrix<std::complex<double> > *B,
                            vnl_vector<std::complex<double> > *alpha,

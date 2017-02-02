@@ -46,7 +46,7 @@ bool vnl_generalized_schur(vnl_matrix<T> *A,
                            vnl_matrix<T> *L,
                            vnl_matrix<T> *R);
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 bool vnl_generalized_schur(vnl_matrix<double> *A,
                            vnl_matrix<double> *B,
                            vnl_vector<double> *alphar,

@@ -169,9 +169,6 @@ class VNL_TEMPLATE_EXPORT vnl_diag_matrix_fixed
   inline vnl_diag_matrix_fixed& set(vnl_vector_fixed<T,N> const& v)  { diagonal_=v; return *this; }
 
  private:
-  #if VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD
-  friend vnl_vector_fixed<T,N> operator*(vnl_diag_matrix_fixed<T,N> const&,vnl_vector_fixed<T,N> const&);
-  #endif
 };
 
 //:

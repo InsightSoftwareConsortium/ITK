@@ -459,27 +459,6 @@ class VNL_TEMPLATE_EXPORT vnl_vector
 
   void destroy();
 
-#if VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-# define v vnl_vector<T>
-# define m vnl_matrix<T>
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-  friend VNL_TEMPLATE_EXPORT T      dot_product      VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend VNL_TEMPLATE_EXPORT T      inner_product    VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend VNL_TEMPLATE_EXPORT T      bracket          VCL_NULL_TMPL_ARGS (v const&, m const&, v const&);
-  friend VNL_TEMPLATE_EXPORT T      cos_angle        VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend VNL_TEMPLATE_EXPORT double angle            VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend VNL_TEMPLATE_EXPORT m      outer_product    VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend VNL_TEMPLATE_EXPORT v      operator+        VCL_NULL_TMPL_ARGS (T const,  v const&);
-  friend VNL_TEMPLATE_EXPORT v      operator-        VCL_NULL_TMPL_ARGS (T const,  v const&);
-  friend VNL_TEMPLATE_EXPORT v      operator*        VCL_NULL_TMPL_ARGS (T const,  v const&);
-  friend VNL_TEMPLATE_EXPORT v      operator*        VCL_NULL_TMPL_ARGS (m const&, v const&);
-  friend VNL_TEMPLATE_EXPORT v      element_product  VCL_NULL_TMPL_ARGS (v const&, v const&);
-  friend VNL_TEMPLATE_EXPORT v      element_quotient VCL_NULL_TMPL_ARGS (v const&, v const&);
-# undef v
-# undef m
-#endif
-
   // inline function template instantiation hack for gcc 2.97 -- fsm
   static void inline_function_tickler();
 };

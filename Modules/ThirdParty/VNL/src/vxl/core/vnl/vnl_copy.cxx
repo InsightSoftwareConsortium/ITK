@@ -44,7 +44,7 @@ VNL_COPY_INSTANTIATE0(long double, double);
 #endif
 
 #define vnl_copy_macro(S, D) \
-VCL_DEFINE_SPECIALIZATION \
+template <> \
 VNL_EXPORT void vnl_copy(std::complex<S> const * const src, std::complex<D> * const dst, const unsigned n) \
 { \
   for (unsigned int i=0; i<n; ++i) \
@@ -58,7 +58,7 @@ vnl_copy_macro(long double, double);
 #undef vnl_copy_macro
 
 #define vnl_copy_dumb(S) \
-VCL_DEFINE_SPECIALIZATION \
+template <> \
 VNL_EXPORT void vnl_copy(S const * const src, S *const dst, const unsigned n) \
 { \
   for (unsigned int i=0; i<n; ++i) \

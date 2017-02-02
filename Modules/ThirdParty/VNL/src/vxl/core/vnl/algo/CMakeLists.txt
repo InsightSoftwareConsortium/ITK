@@ -102,6 +102,12 @@ if(NETLIB_FOUND)
 
   aux_source_directory(Templates vnl_algo_sources)
 
+  # If VXL_INSTALL_INCLUDE_DIR is the default value
+  if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+    set(_algo_install_dir ${VXL_INSTALL_INCLUDE_DIR}/core/vnl/algo)
+  else()
+    set(_algo_install_dir ${VXL_INSTALL_INCLUDE_DIR}/vnl/algo)
+  endif()
   vxl_add_library(LIBRARY_NAME ${VXL_LIB_PREFIX}vnl_algo
     LIBRARY_SOURCES ${vnl_algo_sources}
     HEADER_INSTALL_DIR vnl/algo)
@@ -111,7 +117,7 @@ if(NETLIB_FOUND)
      TARGET_NAME ${VXL_LIB_PREFIX}${CURR_LIB_NAME}
      BASE_NAME ${CURR_LIB_NAME}
      EXPORT_HEADER_FILE ${VXLCORE_BINARY_INCLUDE_DIR}/vnl/algo/${CURR_LIB_NAME}_export.h
-     INSTALL_DIR   ${VXL_INSTALL_INCLUDE_DIR}/vnl/algo
+     INSTALL_DIR   ${_algo_install_dir}
      #USE_HIDDEN_VISIBILITY
   )
 
