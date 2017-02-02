@@ -636,6 +636,7 @@ void TIFFImageIO::InternalWrite(const void *buffer)
         {
         case TIFFImageIO::LZW:
           itkWarningMacro(<< "LZW compression is patented outside US so it is disabled. packbits compression will be used instead");
+          ITK_FALLTHROUGH;
         case TIFFImageIO::PackBits:
           compression = COMPRESSION_PACKBITS; break;
         case TIFFImageIO::JPEG:
