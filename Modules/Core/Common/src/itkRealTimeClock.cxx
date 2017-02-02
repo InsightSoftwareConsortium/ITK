@@ -28,7 +28,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 RealTimeClock::RealTimeClock():m_Frequency(1)
 {
 #if defined( WIN32 ) || defined( _WIN32 )
@@ -86,10 +86,9 @@ RealTimeClock::RealTimeClock():m_Frequency(1)
 #endif  // defined(WIN32) || defined(_WIN32)
 }
 
-/** Destructor */
+
 RealTimeClock::~RealTimeClock() {}
 
-/** Returns a timestamp in seconds */
 RealTimeClock::TimeStampType
 RealTimeClock::GetTimeInSeconds() const
 {
@@ -110,14 +109,12 @@ RealTimeClock::GetTimeInSeconds() const
 #endif  // defined(WIN32) || defined(_WIN32)
 }
 
-/** Returns a timestamp in a TimeStamp data structure */
 const TimeStamp &
 RealTimeClock::GetTimeStamp() const
 {
   return this->Superclass::GetTimeStamp();
 }
 
-/** Returns a timestamp in a RealTimeStamp data structure */
 RealTimeStamp
 RealTimeClock::GetRealTimeStamp() const
 {
@@ -145,7 +142,6 @@ RealTimeClock::GetRealTimeStamp() const
 #endif  // defined(WIN32) || defined(_WIN32)
 }
 
-/** Print the object */
 void RealTimeClock::PrintSelf(std::ostream & os, itk::Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
@@ -157,4 +153,4 @@ void RealTimeClock::PrintSelf(std::ostream & os, itk::Indent indent) const
   os << indent << "Origin : "
      << this->m_Origin << std::endl;
 }
-}
+} // end namespace itk
