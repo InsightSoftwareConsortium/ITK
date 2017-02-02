@@ -61,8 +61,9 @@ public:
   typedef typename InputPathType::IndexType  IndexType;
   typedef typename InputPathType::OffsetType OffsetType;
 
-  /** Set the direction in which to reflect the data. */
+  /** Set/Get the direction in which to reflect the data. */
   itkSetMacro(MaximallyConnected, bool)
+  itkGetConstMacro(MaximallyConnected, bool)
   itkBooleanMacro(MaximallyConnected)
 
 protected:
