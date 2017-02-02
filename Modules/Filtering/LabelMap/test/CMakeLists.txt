@@ -137,9 +137,14 @@ itk_add_test(NAME itkBinaryFillholeImageFilterTest1
     itkBinaryFillholeImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/Spots.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryFillholeImageFilterTest1.png 1 255)
 itk_add_test(NAME itkBinaryGrindPeakImageFilterTest1
       COMMAND ITKLabelMapTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBinaryGrindPeakImageFilterTest1.png}
+    --compare DATA{Baseline/itkBinaryGrindPeakImageFilterTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest1.png
-    itkBinaryGrindPeakImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest1.png 1 255)
+    itkBinaryGrindPeakImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest1.png 1 255 0)
+itk_add_test(NAME itkBinaryGrindPeakImageFilterTest2
+      COMMAND ITKLabelMapTestDriver
+    --compare DATA{Baseline/itkBinaryGrindPeakImageFilterTest2.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest2.png
+    itkBinaryGrindPeakImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryGrindPeakImageFilterTest2.png 0 255 0)
 itk_add_test(NAME itkBinaryImageToLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1-labeled.mha}
