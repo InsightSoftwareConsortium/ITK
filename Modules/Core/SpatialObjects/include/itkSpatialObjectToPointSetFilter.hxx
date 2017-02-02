@@ -22,23 +22,21 @@
 
 namespace itk
 {
-/** Constructor */
+
 template< typename TInputSpatialObject, typename TOutputPointSet >
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
-::SpatialObjectToPointSetFilter()
+::SpatialObjectToPointSetFilter() :
+  m_ChildrenDepth( 0 ),
+  m_SamplingFactor( 1 )
 {
   this->SetNumberOfRequiredInputs(1);
-  m_ChildrenDepth = 0;
-  m_SamplingFactor = 1;
 }
 
-/** Destructor */
 template< typename TInputSpatialObject, typename TOutputPointSet >
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::~SpatialObjectToPointSetFilter()
 {}
 
-/** Set the Input SpatialObject */
 template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
@@ -49,7 +47,6 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
                                     const_cast< InputSpatialObjectType * >( input ) );
 }
 
-/** Connect one of the operands  */
 template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
@@ -60,7 +57,6 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
                                     const_cast< TInputSpatialObject * >( object ) );
 }
 
-/** Get the input Spatial Object */
 template< typename TInputSpatialObject, typename TOutputPointSet >
 const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >::InputSpatialObjectType *
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
@@ -69,7 +65,6 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   return static_cast< const TInputSpatialObject * >( this->GetPrimaryInput() );
 }
 
-/** Get the input Spatial Object */
 template< typename TInputSpatialObject, typename TOutputPointSet >
 const typename SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >::InputSpatialObjectType *
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
@@ -78,14 +73,11 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
   return static_cast< const TInputSpatialObject * >( this->ProcessObject::GetInput(idx) );
 }
 
-/** Update */
 template< typename TInputSpatialObject, typename TOutputPointSet >
 void
 SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
 ::GenerateData(void)
 {
-  itkDebugMacro(<< "SpatialObjectToPointSetFilter::Update() called");
-
   // Get the input and output pointers
   const InputSpatialObjectType *inputObject  = this->GetInput();
   typename OutputPointSetType::Pointer outputPointSet = this->GetOutput();
@@ -168,9 +160,7 @@ SpatialObjectToPointSetFilter< TInputSpatialObject, TOutputPointSet >
     }
 
   delete children;
-
-  itkDebugMacro(<< "SpatialObjectToPointSetFilter::Update() finished");
-} // end update function
+}
 
 template< typename TInputSpatialObject, typename TOutputPointSet >
 void
