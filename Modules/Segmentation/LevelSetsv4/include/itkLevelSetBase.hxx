@@ -20,6 +20,7 @@
 #define itkLevelSetBase_hxx
 
 #include "itkLevelSetBase.h"
+#include "itkProcessObject.h"
 
 #define UNDEFINED_REGION NumericTraits< RegionType >::OneValue()
 
