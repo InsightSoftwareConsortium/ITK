@@ -28,8 +28,8 @@ namespace itk
  *
  * This class encapsulates a complex Gabor kernel used for
  * various computer vision tasks such as texture segmentation,
- * motion analysis, and object recognition.  It is essentially
- * a complex sinusoid enveloped within a gaussian.
+ * motion analysis, and object recognition. It is essentially
+ * a complex sinusoid enveloped within a Gaussian.
  * See the discussion in
  *
  *   Andreas Klein, Forester Lee, and Amir A. Amini, "Quantitative
@@ -79,15 +79,20 @@ public:
       }
   }
 
+  /** Set/Get the standard deviation of the Gaussian envelope. */
   itkSetMacro(Sigma, TRealValueType);
   itkGetConstMacro(Sigma, TRealValueType);
 
+  /** Set/Get the modulation frequency of the sine or cosine component. */
   itkSetMacro(Frequency, TRealValueType);
   itkGetConstMacro(Frequency, TRealValueType);
 
+  /** Set/Get the phase offset of the sine or cosine component .*/
   itkSetMacro(PhaseOffset, TRealValueType);
   itkGetConstMacro(PhaseOffset, TRealValueType);
 
+  /** Set/Get whether the kernel function evaluation is performed using the
+   * complex part. Default is false. */
   itkSetMacro(CalculateImaginaryPart, bool);
   itkGetConstMacro(CalculateImaginaryPart, bool);
   itkBooleanMacro(CalculateImaginaryPart);
@@ -114,16 +119,12 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaborKernelFunction);
 
-  /** Standard deviation of the Gaussian envelope */
   TRealValueType m_Sigma;
 
-  /** Modulation frequency of the sine or cosine component */
   TRealValueType m_Frequency;
 
-  /** Phase offset of the sine or cosine component */
   TRealValueType m_PhaseOffset;
 
-  /** Evaluate using the complex part */
   bool m_CalculateImaginaryPart;
 };
 } // end namespace itk

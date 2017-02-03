@@ -34,7 +34,6 @@ GenerateImageSource< TOutputImage >
   this->m_Direction.SetIdentity();
 }
 
-
 template< typename TOutputImage >
 void
 GenerateImageSource< TOutputImage >
@@ -55,7 +54,6 @@ GenerateImageSource< TOutputImage >
   output->SetDirection(this->m_Direction);
 }
 
-
 template< typename TOutputImage >
 void
 GenerateImageSource< TOutputImage >
@@ -67,9 +65,7 @@ GenerateImageSource< TOutputImage >
   os << indent << "Origin: " << this->GetOrigin() << std::endl;
   os << indent << "Spacing: " << this->GetSpacing() << std::endl;
   os << indent << "Direction: " << this->GetDirection() << std::endl;
-
 }
-
 } // end namespace itk
 
 #endif // itkGenerateImageSour_hxx
