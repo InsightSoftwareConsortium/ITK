@@ -115,7 +115,6 @@ private:
   double m_Probability;
 
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

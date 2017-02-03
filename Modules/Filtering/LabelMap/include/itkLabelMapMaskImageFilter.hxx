@@ -29,13 +29,13 @@ namespace itk {
 
 template <typename TInputImage, typename TOutputImage>
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
-::LabelMapMaskImageFilter()
+::LabelMapMaskImageFilter() :
+  m_Label( NumericTraits< InputImagePixelType >::OneValue() ),
+  m_BackgroundValue( NumericTraits< OutputImagePixelType >::ZeroValue() ),
+  m_Negated( false ),
+  m_Crop( false )
 {
   this->SetNumberOfRequiredInputs(2);
-  m_Label = NumericTraits< InputImagePixelType >::OneValue();
-  m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
-  m_Negated = false;
-  m_Crop = false;
   m_CropBorder.Fill( 0 );
 }
 
@@ -44,10 +44,10 @@ void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // We need all the input.
+  // We need the whole input
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if ( !input )
     { return; }
@@ -66,18 +66,14 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 
     if( !(input->GetMTime() > m_CropTimeStamp) && !(this->GetMTime() > m_CropTimeStamp) )
       {
-      // early exit, crop sizes already computed
-      // std::cout << "Don't recompute the output size again." << std::endl;
-      // std::cout << "LargestPossibleRegion: " << this->GetOutput()->GetLargestPossibleRegion() << std::endl;
-      // std::cout << "BufferedRegion: " << this->GetOutput()->GetBufferedRegion() << std::endl;
-      // std::cout << "RequestedRegion: " << this->GetOutput()->GetRequestedRegion() << std::endl;
+      // Early exit, crop sizes already computed
       return;
       }
 
-    // first, call the default implementation, to be sure to forgot nothing
+    // First, call the default implementation not to forget anything
     Superclass::GenerateOutputInformation();
 
-    // update the input if needed
+    // Update the input if needed
     if( input->GetSource())
       {
       ProcessObject * upstream = input->GetSource();
@@ -93,22 +89,22 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     // Prefetch image region and size
     InputImageRegionType cropRegion = input->GetLargestPossibleRegion();
 
-    // now the output image size can be computed
+    // Now the output image size can be computed
     if( m_Negated )
       {
       if( input->GetBackgroundValue() != m_Label )
         {
-        // the "bad" case - the zone outside the object is at least partially
-        // covered by the background, which is not explicitely defined.
+        // The "bad" case - the zone outside the object is at least partially
+        // covered by the background, which is not explicitly defined.
 
         // simply do nothing for now
         // TODO: implement that part
-        itkWarningMacro( << "Cropping according to background label is no yet implemented. The full image will be used." );
+        itkWarningMacro( << "Cropping according to background label is not yet implemented. The full image will be used." );
 
         }
       else
         {
-        // compute the bounding box of all the objects which don't have that label
+        // Compute the bounding box of all the objects which don't have that label
         IndexType mins;
         mins.Fill( NumericTraits< IndexValueType >::max() );
         IndexType maxs;
@@ -119,14 +115,14 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
           {
           if( loit.GetLabel() != m_Label )
             {
-            // iterate over all the lines
+            // Iterate over all the lines
             typename LabelObjectType::ConstLineIterator lit( loit.GetLabelObject() );
             while( ! lit.IsAtEnd() )
               {
               const IndexType & idx = lit.GetLine().GetIndex();
               LengthType length = lit.GetLine().GetLength();
 
-              // update the mins and maxs
+              // Update the mins and maxs
               for( unsigned int i=0; i<ImageDimension; i++)
                 {
                 if( idx[i] < mins[i] )
@@ -138,7 +134,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
                   maxs[i] = idx[i];
                   }
                 }
-              // must fix the max for the axis 0
+              // Must fix the max for the axis 0
               if( idx[0] + (OffsetValueType)length > maxs[0] )
                 {
                 maxs[0] = idx[0] + length - 1;
@@ -148,7 +144,7 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
             }
           }
 
-          // final computation
+          // Final computation
           SizeType regionSize;
           for( unsigned int i=0; i<ImageDimension; i++ )
             {
@@ -163,32 +159,32 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
       {
       if( input->GetBackgroundValue() == m_Label )
         {
-        // the other "bad" case - the label we want is not defined as a label object,
-        // but implicitely, in the zones not defined.
+        // The other "bad" case - the label we want is not defined as a label object,
+        // but implicitly, in the zones not defined.
 
         // simply do nothing for now
         // TODO: implement that part
-        itkWarningMacro( << "Cropping according to background label is no yet implemented. The full image will be used." );
+        itkWarningMacro( << "Cropping according to background label is not yet implemented. The full image will be used." );
 
         }
       else
         {
-        // just find the bounding box of the object with that label
+        // Just find the bounding box of the object with that label
 
         const LabelObjectType * labelObject = input->GetLabelObject( m_Label );
         IndexType mins;
         mins.Fill( NumericTraits< IndexValueType >::max() );
         IndexType maxs;
         maxs.Fill( NumericTraits< IndexValueType >::NonpositiveMin() );
-        // iterate over all the lines
+        // Iterate over all the lines
         typename LabelObjectType::ConstLineIterator lit( labelObject );
         while( ! lit.IsAtEnd() )
           {
           const IndexType & idx = lit.GetLine().GetIndex();
           LengthType length = lit.GetLine().GetLength();
 
-          // update the mins and maxs
-          for( unsigned int i=0; i<ImageDimension; i++)
+          // Update the mins and maxs
+          for( unsigned int i = 0; i < ImageDimension; i++)
             {
             if( idx[i] < mins[i] )
               {
@@ -199,16 +195,16 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
               maxs[i] = idx[i];
               }
             }
-          // must fix the max for the axis 0
+          // Must fix the max for the axis 0
           if( idx[0] + (OffsetValueType)length > maxs[0] )
             {
             maxs[0] = idx[0] + length - 1;
             }
           ++lit;
           }
-          // final computation
+          // Final computation
           SizeType regionSize;
-          for( unsigned int i=0; i<ImageDimension; i++ )
+          for( unsigned int i = 0; i < ImageDimension; i++ )
             {
             regionSize[i] = maxs[i] - mins[i] + 1;
             }
@@ -218,12 +214,12 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
         }
       }
 
-    // pad by the crop border, but take care to not be larger than the largest
+    // Pad by the crop border, but take care to not be larger than the largest
     // possible region of the input image
     cropRegion.PadByRadius( m_CropBorder );
     cropRegion.Crop( input->GetLargestPossibleRegion() );
 
-    // finally set that region as the largest output region
+    // Finally set that region as the largest output region
     this->GetOutput()->SetLargestPossibleRegion( cropRegion );
 
     m_CropTimeStamp.Modified();
@@ -231,14 +227,9 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     }
   else
     {
-    // no crop -> use the default implementation
+    // No crop -> use the default implementation
     Superclass::GenerateOutputInformation();
     }
-
-  // std::cout << "LargestPossibleRegion: " << this->GetOutput()->GetLargestPossibleRegion() << std::endl;
-  // std::cout << "BufferedRegion: " << this->GetOutput()->GetBufferedRegion() << std::endl;
-  // std::cout << "RequestedRegion: " << this->GetOutput()->GetRequestedRegion() << std::endl;
-
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -261,19 +252,16 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     {
     nbOfThreads = std::min( this->GetNumberOfThreads(), itk::MultiThreader::GetGlobalMaximumNumberOfThreads() );
     }
-  // number of threads can be constrained by the region size, so call the SplitRequestedRegion
+  // Number of threads can be constrained by the region size, so call the SplitRequestedRegion
   // to get the real number of threads which will be used
   typename TOutputImage::RegionType splitRegion;  // dummy region - just to call the following method
   nbOfThreads = this->SplitRequestedRegion(0, nbOfThreads, splitRegion);
-  // std::cout << "nbOfThreads: " << nbOfThreads << std::endl;
 
   m_Barrier = Barrier::New();
   m_Barrier->Initialize( nbOfThreads );
 
   Superclass::BeforeThreadedGenerateData();
-
 }
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -285,14 +273,14 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
   InputImageType * input = const_cast<InputImageType *>(this->GetInput());
   const OutputImageType * input2 = this->GetFeatureImage();
 
-  // we will keep the values from the feature image if the same pixel in the label image
+  // Keep the values from the feature image if the same pixel in the label image
   // equals the label given by the user. The other pixels are set to the background value.
   if( ( input->GetBackgroundValue() == m_Label ) ^ m_Negated )
     {
-    // the user want the mask to be the background of the label collection image
+    // The user wants the mask to be the background of the label collection image
     // copy the feature image to the output image
 
-    // copy input2 region to output
+    // Copy input2 region to output
     ImageAlgorithm::Copy( input2, output, outputRegionForThread, outputRegionForThread );
 
     }
@@ -306,17 +294,17 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
       }
     }
 
-  // wait for the other threads to complete that part
+  // Wait for the other threads to complete that part
   m_Barrier->Wait();
 
   if( input->GetBackgroundValue() == m_Label )
     {
-    // and delegate to the superclass implementation to use the thread support for the label objects
+    // And delegate to the superclass implementation to use the thread support for the label objects
     Superclass::ThreadedGenerateData( outputRegionForThread, threadId );
     }
   else
     {
-    // need only one thread - take the first one
+    // Need only one thread - take the first one
     if( threadId == 0 )
       {
       const LabelObjectType * labelObject = this->GetLabelMap()->GetLabelObject( m_Label );
@@ -333,9 +321,9 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
         }
       else
         {
-        // and mark the label object as background
+        // And mark the label object as background
 
-        // should we take care to not write outside the image ?
+        // Should we take care to not write outside the image ?
         bool testIdxIsInside = m_Crop && ( input->GetBackgroundValue() == m_Label ) ^ m_Negated;
         RegionType outputRegion = output->GetLargestPossibleRegion();
 
@@ -354,7 +342,6 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     }
 }
 
-
 template<typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
@@ -366,14 +353,14 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 
   if( !m_Negated )
     {
-    // we will keep the values from the feature image if the same pixel in the label image
+    // Keep the values from the feature image if the same pixel in the label image
     // equals the label given by the user. The other pixels are set to the background value.
 
-    // should we take care to not write outside the image ?
+    // Should we take care to not write outside the image ?
     bool testIdxIsInside = m_Crop && ( input->GetBackgroundValue() == m_Label ) ^ m_Negated;
     RegionType outputRegion = output->GetLargestPossibleRegion();
 
-    // the user want the mask to be the background of the label collection image
+    // The user wants the mask to be the background of the label collection image
     typename LabelObjectType::ConstIndexIterator it( labelObject );
     while( ! it.IsAtEnd() )
       {
@@ -387,11 +374,11 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     }
   else
     {
-    // we will keep the pixels from the feature image if the same pixel from the label image
+    // Keep the pixels from the feature image if the same pixel from the label image
     // is not equal to the label provided by the user. The pixels with the label provided by the
     // user are set to the background value
 
-    // and copy the feature image where the label objects are
+    // And copy the feature image where the label objects are
     typename LabelObjectType::ConstIndexIterator it( labelObject );
     while( ! it.IsAtEnd() )
       {
@@ -402,7 +389,6 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
     }
 }
 
-
 template<typename TInputImage, typename TOutputImage>
 void
 LabelMapMaskImageFilter<TInputImage, TOutputImage>
@@ -410,11 +396,16 @@ LabelMapMaskImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os,indent);
 
-  os << indent << "Label: " << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << std::endl;
-  os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
+  os << indent << "Label: "
+    << static_cast<typename NumericTraits<LabelType>::PrintType>(m_Label) << std::endl;
+  os << indent << "BackgroundValue: "
+    << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
   os << indent << "Negated: " << m_Negated << std::endl;
   os << indent << "Crop: " << m_Crop << std::endl;
   os << indent << "CropBorder: " << m_CropBorder << std::endl;
+  os << indent << "CropTimeStamp: "
+    << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_CropTimeStamp) << std::endl;
+  os << indent << "Barrier: " << m_Barrier << std::endl;
 }
 
 

@@ -21,18 +21,15 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
 
-// This test is was written to test bug 9431
-//
-// It run a filter multiple times and expects the output to be the
-// same when run with the same parameters. The two output images
-// should be identical
-int itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[] )
+
+int itkCannyEdgeDetectionImageFilterTest2( int argc, char * argv[] )
 {
   if(argc < 4)
     {
-    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage1 OutputImage2\n";
-    return -1;
+    std::cerr << "Usage: " << argv[0] << " InputImage OutputImage1 OutputImage2" << std::endl;
+    return EXIT_FAILURE;
     }
 
   const unsigned int Dimension = 2;
@@ -40,62 +37,75 @@ int itkCannyEdgeDetectionImageFilterTest2(int argc, char * argv[] )
   typedef itk::Image< InputPixelType, Dimension >  InputImage;
   typedef unsigned char                            OutputPixelType;
   typedef itk::Image< OutputPixelType, Dimension > OutputImage;
+  typedef itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>
+    CannyEdgeDetectionImageFilterType;
 
-  itk::ImageFileReader<InputImage>::Pointer input
-    = itk::ImageFileReader<InputImage>::New();
-  input->SetFileName(argv[1]);
+  itk::ImageFileReader<InputImage>::Pointer reader =
+    itk::ImageFileReader<InputImage>::New();
+  reader->SetFileName( argv[1] );
 
-  // Set up filter
-  itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::Pointer
-    filter =
-    itk::CannyEdgeDetectionImageFilter<InputImage, InputImage>::New();
-  filter->SetInput(input->GetOutput());
-  filter->SetVariance(1.0f);
-  filter->SetMaximumError(.01f);
+  // Set up the filter
+  CannyEdgeDetectionImageFilterType::Pointer filter = CannyEdgeDetectionImageFilterType::New();
 
-  filter->SetUpperThreshold(25);
-  filter->SetLowerThreshold(10);
+  EXERCISE_BASIC_OBJECT_METHODS( filter, CannyEdgeDetectionImageFilter, ImageToImageFilter );
+
+  filter->SetInput( reader->GetOutput() );
+
+  CannyEdgeDetectionImageFilterType::OutputImagePixelType upperThreshold = 25;
+  filter->SetUpperThreshold( upperThreshold );
+  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+
+  CannyEdgeDetectionImageFilterType::OutputImagePixelType lowerThreshold = 10;
+  filter->SetLowerThreshold( lowerThreshold );
+  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
+
+  CannyEdgeDetectionImageFilterType::ArrayType variance = 1.0f;
+  filter->SetVariance(variance);
+  TEST_SET_GET_VALUE( variance, filter->GetVariance() );
+
+  CannyEdgeDetectionImageFilterType::ArrayType maximumError = .01f;
+  filter->SetMaximumError(maximumError );
+  TEST_SET_GET_VALUE( maximumError, filter->GetMaximumError() );
 
 
-  itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer
-    rescale =
+  itk::RescaleIntensityImageFilter<InputImage, OutputImage>::Pointer rescale =
     itk::RescaleIntensityImageFilter<InputImage, OutputImage>::New();
-  rescale->SetInput(filter->GetOutput());
-  rescale->SetOutputMinimum(0);
-  rescale->SetOutputMaximum(255);
 
-  itk::ImageFileWriter<OutputImage>::Pointer writer;
-  writer = itk::ImageFileWriter<OutputImage>::New();
+  rescale->SetInput( filter->GetOutput() );
+
+  rescale->SetOutputMinimum( 0 );
+  rescale->SetOutputMaximum( 255 );
+
+  itk::ImageFileWriter<OutputImage>::Pointer writer = itk::ImageFileWriter<OutputImage>::New();
   writer->SetInput( rescale->GetOutput() );
+  writer->SetFileName( argv[2] );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  // Set the Canny filter to other values
+  upperThreshold = 20;
+  filter->SetUpperThreshold( upperThreshold );
+  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+
+  lowerThreshold = 5;
+  filter->SetLowerThreshold( lowerThreshold );
+  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
 
 
-  try
-    {
-    // Generate test image
-    writer->SetFileName( argv[2] );
-    writer->Update();
-
-    // set canny filter to another value
-    filter->SetUpperThreshold(20);
-    filter->SetLowerThreshold(5);
-
-    rescale->Update();
-
-    // set it back expecting the same results
-    filter->SetUpperThreshold(25);
-    filter->SetLowerThreshold(10);
-
-    // Generate test image
-    writer->SetFileName( argv[3] );
-    writer->Update();
+  TRY_EXPECT_NO_EXCEPTION( rescale->Update() );
 
 
-    }
-  catch(itk::ExceptionObject &err)
-    {
-      (&err)->Print(std::cerr);
-      return EXIT_FAILURE;
-    }
+  // Set it back expecting the same values
+  upperThreshold = 25;
+  filter->SetUpperThreshold( upperThreshold );
+  TEST_SET_GET_VALUE( upperThreshold, filter->GetUpperThreshold() );
+
+  lowerThreshold = 10;
+  filter->SetLowerThreshold( lowerThreshold );
+  TEST_SET_GET_VALUE( lowerThreshold, filter->GetLowerThreshold() );
+
+  writer->SetFileName( argv[3] );
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

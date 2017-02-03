@@ -113,7 +113,6 @@ private:
   double m_StandardDeviation;
 
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

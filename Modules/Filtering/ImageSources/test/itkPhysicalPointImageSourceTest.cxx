@@ -22,14 +22,15 @@
 
 #include "itkVectorImage.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkTestingMacros.h"
 
 namespace {
 template< typename TImageType >
-int itkPhysicalPointImageSourceTest(  const std::string &fname,
-                                      typename TImageType::SizeType &size,
-                                      typename TImageType::SpacingType &spacing,
-                                      typename TImageType::PointType &origin,
-                                      typename TImageType::DirectionType &direction)
+int itkPhysicalPointImageSourceTest( const std::string &fname,
+                                     typename TImageType::SizeType &size,
+                                     typename TImageType::SpacingType &spacing,
+                                     typename TImageType::PointType &origin,
+                                     typename TImageType::DirectionType &direction )
 {
 
   typedef TImageType ImageType;
@@ -42,39 +43,23 @@ int itkPhysicalPointImageSourceTest(  const std::string &fname,
   source->SetOrigin(origin);
   source->SetDirection( direction );
 
-  try
-    {
-    source->UpdateLargestPossibleRegion();
-     }
-   catch (itk::ExceptionObject & err)
-     {
-     std::cout << "Exception in filter execution!" << std::endl;
-     std::cout << err << std::endl;
-     return EXIT_FAILURE;
-     }
+  TRY_EXPECT_NO_EXCEPTION( source->UpdateLargestPossibleRegion() );
 
-  typedef itk::Image< typename itk::NumericTraits< typename ImageType::PixelType >::ValueType, ImageType::ImageDimension> ValueImageType;
+  typedef itk::Image< typename itk::NumericTraits< typename ImageType::PixelType >::ValueType, ImageType::ImageDimension >
+    ValueImageType;
 
   typedef itk::VectorIndexSelectionCastImageFilter< ImageType, ValueImageType > ValueImageCastFilter;
   typename ValueImageCastFilter::Pointer vif = ValueImageCastFilter::New();
   vif->SetInput( source->GetOutput() );
   vif->SetIndex(0);
 
-    typedef itk::ImageFileWriter<ValueImageType> WriterType;
+   typedef itk::ImageFileWriter< ValueImageType > WriterType;
    typename WriterType::Pointer writer = WriterType::New();
    writer->SetFileName( fname );
    writer->SetInput( vif->GetOutput() );
-   try
-     {
-     std::cout << "Writing image to " << fname << std::endl;
-     writer->Update();
-     }
-   catch (itk::ExceptionObject & err)
-     {
-     std::cout << "Exception in writing!" << std::endl;
-     std::cout << err << std::endl;
-     return EXIT_FAILURE;
-     }
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
    return EXIT_SUCCESS;
 }
 
@@ -97,35 +82,50 @@ int itkPhysicalPointImageSourceTest( int argc, char *argv[] )
   itk::Size<ImageDimension> size;
   size.Fill(64);
 
-  typedef itk::Image<unsigned char,ImageDimension> ImageType;
+  typedef itk::Image< unsigned char, ImageDimension > ImageType;
   ImageType::SpacingType spacing(1.0);
   ImageType::PointType origin(0.0);
   ImageType::DirectionType direction;
 
   direction.SetIdentity();
 
-  int test;
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  typedef itk::PhysicalPointImageSource< itk::Image< itk::Point< double, ImageDimension >, ImageDimension > >
+    PointerSourceType;
+  PointerSourceType::Pointer source = PointerSourceType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( source, PhysicalPointImageSource, GenerateImageSource );
+
+  int test = EXIT_SUCCESS;
   if ( atoi( argv[2] ) == 0 )
     {
-    test = itkPhysicalPointImageSourceTest<itk::Image<itk::Point<double, ImageDimension>, ImageDimension > >( std::string( argv[1] ), size, spacing, origin, direction );
+    test =
+      itkPhysicalPointImageSourceTest< itk::Image< itk::Point< double, ImageDimension >, ImageDimension > >(
+      std::string( argv[1] ), size, spacing, origin, direction );
     }
   else if ( atoi( argv[2] ) == 1 )
     {
-    test = itkPhysicalPointImageSourceTest<itk::VectorImage<double, ImageDimension> >( std::string( argv[1] ), size, spacing, origin, direction );
+    test = itkPhysicalPointImageSourceTest< itk::VectorImage< double, ImageDimension > >(
+      std::string( argv[1] ), size, spacing, origin, direction );
     }
   else if ( atoi( argv[2] ) == 2 )
     {
     spacing.Fill( 1.123 );
     origin.Fill( -0.987 );
-    test = itkPhysicalPointImageSourceTest<itk::Image<itk::Point<float, ImageDimension>, ImageDimension > >( std::string( argv[1] ), size, spacing, origin, direction );
+    test =
+      itkPhysicalPointImageSourceTest< itk::Image< itk::Point< float, ImageDimension>, ImageDimension > >(
+      std::string( argv[1] ), size, spacing, origin, direction );
     }
   else
     {
     itk::SpacePrecisionType M[] = { std::cos( theta ), -std::sin( theta ),
-                    std::sin( theta ), std::cos( theta ) };
+      std::sin( theta ), std::cos( theta ) };
 
-    direction = vnl_matrix<itk::SpacePrecisionType>( M, 2, 2);
-    test = itkPhysicalPointImageSourceTest< itk::VectorImage<float, ImageDimension> >( std::string( argv[1] ), size, spacing, origin, direction );
+    direction = vnl_matrix< itk::SpacePrecisionType >( M, 2, 2 );
+    test = itkPhysicalPointImageSourceTest< itk::VectorImage< float, ImageDimension > >(
+      std::string( argv[1] ), size, spacing, origin, direction );
     }
 
   return test;

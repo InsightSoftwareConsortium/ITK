@@ -71,8 +71,8 @@ public:
 
   virtual void SetInput(unsigned int, const InputSpatialObjectType *object);
 
+  /** Get the input Spatial Object. */
   const InputSpatialObjectType * GetInput();
-
   const InputSpatialObjectType * GetInput(unsigned int idx);
 
   /** The spatial object being transformed can be part of a hierarchy.
@@ -94,14 +94,13 @@ protected:
   virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
   virtual void GenerateData() ITK_OVERRIDE;
 
-  unsigned int m_ChildrenDepth;
-
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectToPointSetFilter);
 
-  unsigned int m_SamplingFactor; //default 1
+  unsigned int m_ChildrenDepth;
+  unsigned int m_SamplingFactor;
 };
 } // end namespace itk
 

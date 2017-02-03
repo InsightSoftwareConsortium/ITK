@@ -29,51 +29,15 @@ namespace itk
 
 template< typename TOutputImage >
 GaussianImageSource< TOutputImage >
-::GaussianImageSource()
+::GaussianImageSource() :
+  m_Scale( 255.0 ),
+  m_Normalized( false )
 {
-  // Gaussian parameters, defined so that the gaussian
+  // Gaussian parameters, defined so that the Gaussian
   // is centered in the default image
   m_Mean.Fill(32.0);
   m_Sigma.Fill(16.0);
-  m_Scale = 255.0;
-
-  m_Normalized = false;
 }
-
-
-template< typename TOutputImage >
-void
-GaussianImageSource< TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "Gaussian sigma: [";
-  for ( unsigned int ii = 0; ii < NDimensions; ++ii )
-    {
-    os << m_Sigma[ii];
-    if( ii != NDimensions - 1 )
-      {
-      os << ", ";
-      }
-    }
-  os << "]" << std::endl;
-
-  os << indent << "Gaussian mean: [";
-  for ( unsigned int ii = 0; ii < NDimensions; ++ii )
-    {
-    os << m_Mean[ii];
-    if( ii != NDimensions - 1 )
-      {
-      os << ", ";
-      }
-    }
-  os << "]" << std::endl;
-
-  os << indent << "Gaussian scale: " << m_Scale << std::endl;
-  os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
-}
-
 
 template< typename TOutputImage >
 void
@@ -94,7 +58,6 @@ GaussianImageSource< TOutputImage >
   this->SetScale( scale );
 }
 
-
 template< typename TOutputImage >
 typename GaussianImageSource< TOutputImage >::ParametersType
 GaussianImageSource< TOutputImage >
@@ -111,7 +74,6 @@ GaussianImageSource< TOutputImage >
   return parameters;
 }
 
-
 template< typename TOutputImage >
 unsigned int
 GaussianImageSource< TOutputImage >
@@ -120,7 +82,6 @@ GaussianImageSource< TOutputImage >
   return 2*ArrayType::Length + 1;
 }
 
-
 template< typename TOutputImage >
 void
 GaussianImageSource< TOutputImage >
@@ -128,11 +89,11 @@ GaussianImageSource< TOutputImage >
 {
   TOutputImage * outputPtr = this->GetOutput();
 
-  // allocate the output buffer
+  // Allocate the output buffer
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  // Create and initialize a new gaussian function
+  // Create and initialize a new Gaussian function
   typedef GaussianSpatialFunction< double, NDimensions > FunctionType;
   typename FunctionType::Pointer gaussian = FunctionType::New();
 
@@ -168,6 +129,18 @@ GaussianImageSource< TOutputImage >
     }
 }
 
+template< typename TOutputImage >
+void
+GaussianImageSource< TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Gaussian mean: " << m_Mean << std::endl;
+  os << indent << "Gaussian sigma: " << m_Sigma << std::endl;
+  os << indent << "Gaussian scale: " << m_Scale << std::endl;
+  os << indent << "Normalized Gaussian?: " << m_Normalized << std::endl;
+}
 } // end namespace itk
 
 #endif

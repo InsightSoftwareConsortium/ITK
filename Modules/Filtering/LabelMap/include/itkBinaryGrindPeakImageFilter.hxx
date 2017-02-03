@@ -28,11 +28,11 @@ namespace itk {
 
 template <typename TInputImage>
 BinaryGrindPeakImageFilter<TInputImage>
-::BinaryGrindPeakImageFilter()
+::BinaryGrindPeakImageFilter() :
+  m_ForegroundValue( NumericTraits<InputImagePixelType>::max() ),
+  m_BackgroundValue( NumericTraits<InputImagePixelType>::ZeroValue() ),
+  m_FullyConnected ( false )
 {
-  m_FullyConnected = false;
-  m_ForegroundValue = NumericTraits<InputImagePixelType>::max();
-  m_BackgroundValue = NumericTraits<InputImagePixelType>::ZeroValue();
 }
 
 template <typename TInputImage>
@@ -40,17 +40,16 @@ void
 BinaryGrindPeakImageFilter<TInputImage>
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // We need all the input.
+  // We need the whole input
   InputImagePointer input = const_cast<InputImageType *>(this->GetInput());
   if( input )
     {
     input->SetRequestedRegion( input->GetLargestPossibleRegion() );
     }
 }
-
 
 template <typename TInputImage>
 void
@@ -60,7 +59,6 @@ BinaryGrindPeakImageFilter<TInputImage>
   this->GetOutput()
     ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
 }
-
 
 template<typename TInputImage>
 void
@@ -106,7 +104,6 @@ BinaryGrindPeakImageFilter<TInputImage>
   this->GraftOutput( binarizer->GetOutput() );
 }
 
-
 template<typename TInputImage>
 void
 BinaryGrindPeakImageFilter<TInputImage>
@@ -118,6 +115,5 @@ BinaryGrindPeakImageFilter<TInputImage>
   os << indent << "BackgroundValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_BackgroundValue) << std::endl;
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
 }
-
 }// end namespace itk
 #endif

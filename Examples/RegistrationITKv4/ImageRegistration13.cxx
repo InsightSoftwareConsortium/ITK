@@ -93,10 +93,6 @@ int main( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  // For consistent results when regression testing.
-  itk::Statistics::MersenneTwisterRandomVariateGenerator
-    ::GetInstance()->SetSeed( 121212 );
-
   const    unsigned int    Dimension = 2;
   typedef  float           PixelType;
 
@@ -135,8 +131,12 @@ int main( int argc, char *argv[] )
   registration->SetOptimizer(     optimizer     );
   registration->SetMetric( metric  );
 
+  // For consistent results when regression testing.
+  registration->MetricSamplingReinitializeSeed(121212);
+
   // Software Guide : BeginCodeSnippet
   metric->SetNumberOfHistogramBins( 20 );
+
 
   double samplingPercentage = 0.20;
   registration->SetMetricSamplingPercentage( samplingPercentage );

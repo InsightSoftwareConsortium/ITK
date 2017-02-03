@@ -1,4 +1,4 @@
-#include "tiffDllConfig.h"
+#include "itk_tiffDllConfig.h"
 
 /* Compile with -DTIFFDLL for Windows DLL support */
 #if (defined(_WIN32) || defined(__WIN32__)) && !defined(WIN32)

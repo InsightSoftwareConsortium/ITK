@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class WhiteTopHatImageFilter
- * \brief White top hat extract local maxima that are larger than the structuring element
+ * \brief White top hat extracts local maxima that are larger than the structuring element
  *
  * Top-hats are described in Chapter 4.5 of Pierre Soille's book
  * "Morphological Image Analysis: Principles and Applications",

@@ -22,49 +22,15 @@
 #endif
 
 
-//: VCL_HAS_BOOL
-// Set to 1 if "bool" is accepted by the compiler as a built-in type.
-#define VCL_HAS_BOOL @VCL_HAS_BOOL@
-
-
 //: VCL_HAS_LONG_LONG
 // Set to 1 if "long long" is accepted by the compiler as a built-in type.
 #define VCL_HAS_LONG_LONG @VCL_HAS_LONG_LONG@
-
-
-//: VCL_HAS_DYNAMIC_CAST
-//
-// True if the compiler supports dynamic cast.
-//
-#define VCL_HAS_DYNAMIC_CAST @VCL_HAS_DYNAMIC_CAST@
-
-
-//: VCL_HAS_RTTI
-//
-// True if the compiler supports RTTI, viz the 'typeid' function.
-//
-#define VCL_HAS_RTTI @VCL_HAS_RTTI@
-
-
-//: VCL_HAS_TYPENAME
-//
-// True if the compiler supports the "typename" keyword
-//
-#define VCL_HAS_TYPENAME @VCL_HAS_TYPENAME@
-
 
 //: VCL_HAS_EXPORT
 //
 // True if the compiler supports the "export" keyword
 //
 #define VCL_HAS_EXPORT @VCL_HAS_EXPORT@
-
-
-//: VCL_HAS_MUTABLE
-//
-// True if the compiler supports the "mutable" keyword
-//
-#define VCL_HAS_MUTABLE @VCL_HAS_MUTABLE@
 
 
 //: VCL_HAS_EXPLICIT
@@ -82,31 +48,8 @@
 #define VCL_COMPLEX_POW_WORKS @VCL_COMPLEX_POW_WORKS@
 
 
-//: VCL_DEFAULT_VALUE(x)
-//
-// Used to provide default values for function args in definition
-// Some compilers (GCC272) require defaults in template function definitions
-// Other compilers (VC50) disallow defaults in both decls and defs
-
-//#define VCL_DEFAULT_VALUE(x) /* no need */
-//#define VCL_DEFAULT_VALUE(x) = x
-#define VCL_DEFAULT_VALUE(x) @VCL_DEFAULT_VALUE@
-
-
-
 //----------------------------------------------------------------------
 // various template issues.
-
-//: VCL_HAS_MEMBER_TEMPLATES
-//
-// True if the compiler supports template members of template classes.  e.g.
-// \code
-//     template <class U> class A {
-//       template <class V> void f(V);
-//     }
-// \endcode
-#define VCL_HAS_MEMBER_TEMPLATES @VCL_HAS_MEMBER_TEMPLATES@
-
 
 //: VCL_CAN_DO_PARTIAL_SPECIALIZATION
 //
@@ -117,39 +60,6 @@
 // \endcode
 //
 #define VCL_CAN_DO_PARTIAL_SPECIALIZATION @VCL_CAN_DO_PARTIAL_SPECIALIZATION@
-
-
-//: VCL_DEFINE_SPECIALIZATION
-//
-// In order to *define* a template (function or class) specialization, the
-// definition must be preceded by "template <>" on ISO-conforming compilers.
-// Some compilers (eg gcc 2.7.2) make no distinction between an instance
-// of a templated function and a function with the same name and signature,
-// and so do not support the use of "template <>". Use VCL_DEFINE_SPECIALIZATION
-// instead.
-//
-// Note that you DO NOT need to forward declare a specialization. E.g. if
-// foo.h says "template <class T> void foo(T *);" and foo.cxx specializes
-// void foo<int>(int *), the client doesn't need to know that the template
-// symbol he links against is a specialization.
-
-//#define VCL_DEFINE_SPECIALIZATION /* template <> */
-//#define VCL_DEFINE_SPECIALIZATION template <>
-#define VCL_DEFINE_SPECIALIZATION @VCL_DEFINE_SPECIALIZATION@
-
-
-//: VCL_CANNOT_SPECIALIZE_CV
-//
-// Template specialization considers top-level cv-qualifiers of the
-// argument type.  For example, A<int> and A<int const> are distinct
-// types.  Some compilers (eg Borland 5.5) do not make this distinction.
-// Specializations using top-level cv-qualifiers should not be defined
-// in addition to the unqualified equivalents unless
-// VCL_CANNOT_SPECIALIZE_CV is false.
-//#define VCL_CANNOT_SPECIALIZE_CV 1 /* cannot specialize with cv-qualifiers */
-//#define VCL_CANNOT_SPECIALIZE_CV 0 /* can specialize with cv-qualifiers */
-#define VCL_CANNOT_SPECIALIZE_CV @VCL_CANNOT_SPECIALIZE_CV@
-
 
 //: VCL_TEMPLATE_MATCHES_TOO_OFTEN
 //
@@ -275,124 +185,10 @@
 //#define VCL_DO_NOT_INSTANTIATE(text, ret) /* no need -- magic compiler */
 //FIXME #define VCL_DO_NOT_INSTANTIATE(text, ret) @VCL_DO_NOT_INSTANTIATE@
 #define VCL_DO_NOT_INSTANTIATE(text, ret) \
-VCL_DEFINE_SPECIALIZATION \
-text { return ret; }
-
-
-//: VCL_UNINSTANTIATE_SPECIALIZATION(symbol)
-//
-// OK, various compilers do various silly things about instantiation of
-// functions/methods that have been specialized.  Use this macro to tell
-// the compiler not to generate code for methods which have been specialized
-// \code
-//      VCL_UNINSTANTIATE_SPECIALIZATION(int T::specialized_method())
-// \endcode
-// It should be placed after the "template class A<T>;"
-
-//#define VCL_UNINSTANTIATE_SPECIALIZATION(symbol)  @pragma do_not_instantiate text@
-//#define VCL_UNINSTANTIATE_SPECIALIZATION(symbol) /* no need - sensible compiler */
-//FIXME #define VCL_UNINSTANTIATE_SPECIALIZATION(symbol) @VCL_UNINSTANTIATE_SPECIALIZATION@
-#define VCL_UNINSTANTIATE_SPECIALIZATION(symbol) // which compiler needs this ?
-
-
-//: VCL_UNINSTANTIATE_UNSEEN_SPECIALIZATION(symbol)
-//
-// gcc is sensible about specializations if it has seen the definition,
-// but if it's in another file, need to use extern to tell it.
-// \code
-//      VCL_UNINSTANTIATE_UNSEEN_SPECIALIZATION(int T::specialized_method())
-// \endcode
-// It should be placed before the "template class A<T>;"
-
-//#define VCL_UNINSTANTIATE_UNSEEN_SPECIALIZATION(symbol) extern symbol;
-//#define VCL_UNINSTANTIATE_UNSEEN_SPECIALIZATION(symbol) /* no need */
-//FIXME #define VCL_UNINSTANTIATE_UNSEEN_SPECIALIZATION(symbol) @VCL_UNINSTANTIATE_UNSEEN_SPECIALIZATION@
-#define VCL_UNINSTANTIATE_UNSEEN_SPECIALIZATION(symbol) /* never used */
-
-
-//: VCL_INSTANTIATE_STATIC_TEMPLATE_MEMBER(symbol)
-//
-// Some compilers (e.g. gcc 2.7.2) do not accept a templated definition
-// of static members, as in
-// \code
-//   template <class T>
-//   struct A {
-//     A() { }
-//     static char *fmt;
-//   };
-//
-//   template <class T>
-//   char *A<T>::fmt = 0;
-//
-//   template struct A<int>;
-// \endcode
-// The way round this is to supply an explicit definition for every
-// instance of the class needed.
-//
-// Put the templated definition like this
-// \code
-//      #if VCL_CAN_DO_STATIC_TEMPLATE_MEMBER
-//      template <class T>
-//      char *A<T>::fmt = 0;
-//      #endif
-// \endcode
-// and place
-// \code
-//      VCL_INSTANTIATE_STATIC_TEMPLATE_MEMBER(int A<int>::fmt = 0)
-// \endcode
-// before the
-// \code
-//      template class A<int>;
-// \endcode
-// with
-// \code
-//      VCL_UNINSTANTIATE_STATIC_TEMPLATE_MEMBER(A<int>::var)
-// \endcode
-// afterwards.
-
-//#define VCL_INSTANTIATE_STATIC_TEMPLATE_MEMBER(symbol) /* no need */
-//#define VCL_INSTANTIATE_STATIC_TEMPLATE_MEMBER(symbol) symbol;
-//
-#define VCL_CAN_DO_STATIC_TEMPLATE_MEMBER @VCL_CAN_DO_STATIC_TEMPLATE_MEMBER@
-#if VCL_CAN_DO_STATIC_TEMPLATE_MEMBER
-# define VCL_INSTANTIATE_STATIC_TEMPLATE_MEMBER(symbol)   /* */
-# define VCL_UNINSTANTIATE_STATIC_TEMPLATE_MEMBER(symbol) /* */
-#else
-# define VCL_INSTANTIATE_STATIC_TEMPLATE_MEMBER(symbol) symbol;
-# define VCL_UNINSTANTIATE_STATIC_TEMPLATE_MEMBER(symbol) // which compiler needs this ?
-#endif
-
-
-//: VCL_CAN_DO_NON_TYPE_FUNCTION_TEMPLATE_PARAMETER
-//
-// Some compilers (e.g. SunPro 5.0) do not accept non-type template
-// parameters in function templates. E.g.
-// \code
-// template <class T, int n> struct vicky { T data[n]; } // can do
-//
-// template <class T, int n>
-// void a_function_template(vicky<T, n> const &) { ... } // cannot
-// \endcode
-#define VCL_CAN_DO_NON_TYPE_FUNCTION_TEMPLATE_PARAMETER @VCL_CAN_DO_NON_TYPE_FUNCTION_TEMPLATE_PARAMETER@
-
+template <> text { return ret; }
 
 //----------------------------------------------------------------------
 // overload resolution problems.
-
-//: VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD
-//
-// On some compilers (in particular gcc 2.7.2.3), the compiler doesn't
-// know how to cast a templated derived class to a templated base class
-// (eg. vnl_matrix_fixed<3,3,double> -> vnl_matrix<double>) when doing overload
-// resolution. Making the overloaded function a friend of the class makes
-// the problem go away.
-//
-// True if the compiler needs this hack.
-
-//#define VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD 0
-//#define VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD 1
-#define VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD @VCL_NEED_FRIEND_FOR_TEMPLATE_OVERLOAD@
-
 
 //: VCL_OVERLOAD_CAST
 //

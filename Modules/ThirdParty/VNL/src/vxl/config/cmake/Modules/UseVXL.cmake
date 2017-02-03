@@ -74,7 +74,7 @@ if(VXL_CONFIG_CMAKE)
   endif()
 
   # Use the standard VXL include directories.
-  include_directories(${VXL_VCL_INCLUDE_DIR} ${VXL_CORE_INCLUDE_DIR})
+  include_directories(SYSTEM ${VXL_VCL_INCLUDE_DIRS} ${VXL_CORE_INCLUDE_DIRS})
 
   # Add link directories needed to use VXL.
   link_directories(${VXL_LIBRARY_DIR})

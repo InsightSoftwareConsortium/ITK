@@ -15,19 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkPointSet.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkTestingMacros.h"
 
 /**
  * In this test, we approximate a 2-D scalar field.
  * The scattered data is derived from a segmented
- * image.  We write the output to an image for
+ * image. We write the output to an image for
  * comparison.
  */
 int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
 {
+
   if ( argc != 3 )
     {
     std::cout << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
@@ -42,8 +45,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   typedef float                                         RealType;
   typedef itk::Vector<RealType, DataDimension>          VectorType;
   typedef itk::Image<VectorType, ParametricDimension>   VectorImageType;
-  typedef itk::PointSet
-    <VectorImageType::PixelType, ParametricDimension>   PointSetType;
+  typedef itk::PointSet <VectorImageType::PixelType,
+    ParametricDimension>                                PointSetType;
 
   PointSetType::Pointer pointSet = PointSetType::New();
 
@@ -81,15 +84,52 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   // Instantiate the B-spline filter and set the desired parameters.
   typedef itk::BSplineScatteredDataPointSetToImageFilter
     <PointSetType, VectorImageType> FilterType;
+
   FilterType::Pointer filter = FilterType::New();
-  filter->SetSplineOrder( 3 );
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+    PointSetToImageFilter );
+
+
+  unsigned int splineOrder = 0u;
+  TRY_EXPECT_EXCEPTION( filter->SetSplineOrder( splineOrder ) );
+
+  FilterType::ArrayType splineOrderArray;
+  splineOrderArray.Fill( 4u );
+  filter->SetSplineOrder( splineOrderArray );
+  TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
+
+  splineOrder = 3u;
+  filter->SetSplineOrder( splineOrder );
+  splineOrderArray.Fill( splineOrder );
+  TEST_SET_GET_VALUE( splineOrderArray, filter->GetSplineOrder() );
+
+
+  unsigned numberOfLevels = 0u;
+  TRY_EXPECT_EXCEPTION( filter->SetNumberOfLevels( numberOfLevels ) );
+
+  FilterType::ArrayType numberOfLevelsArray;
+  numberOfLevelsArray.Fill( 4u );
+  filter->SetNumberOfLevels( numberOfLevelsArray );
+  TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
+
+  numberOfLevels = 3u;
+  filter->SetNumberOfLevels( numberOfLevels );
+  numberOfLevelsArray.Fill( numberOfLevels );
+  TEST_SET_GET_VALUE( numberOfLevelsArray, filter->GetNumberOfLevels() );
+
+
   FilterType::ArrayType ncps;
-  ncps.Fill( 4 );
+  ncps.Fill( 4u );
   filter->SetNumberOfControlPoints( ncps );
-  filter->SetNumberOfLevels( 3 );
+  TEST_SET_GET_VALUE( ncps, filter->GetNumberOfControlPoints() );
+
+
   FilterType::ArrayType close;
-  close.Fill( 0 );
+  close.Fill( 0u );
   filter->SetCloseDimension( close );
+  TEST_SET_GET_VALUE( close, filter->GetCloseDimension() );
+
 
   // Define the parametric domain.
   filter->SetOrigin( reader->GetOutput()->GetOrigin() );
@@ -99,32 +139,18 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
 
   filter->SetInput( pointSet );
 
-  try
-    {
-    filter->Update();
-    }
-  catch (...)
-    {
-    std::cerr << "Test 1: itkBSplineScatteredDataImageFilter exception thrown"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  // Get the current number of control points to increase coverage
+  std::cout << "Current number of control points: "
+    << filter->GetCurrentNumberOfControlPoints() << std::endl;
+
+  // Get the control point lattice produced by the fitting process to increase
+  // coverage
+  std::cout << "Control point lattice produced by the fitting process: " << std::endl;
+  std::cout << filter->GetPhiLattice() << std::endl;
+
   VectorImageType *outputImage = filter->GetOutput();
-
-  std::cout << "Origin: " << filter->GetOrigin() << std::endl;
-  std::cout << "Spacing: " << filter->GetSpacing() << std::endl;
-  std::cout << "Size: " << filter->GetSize() << std::endl;
-  std::cout << "Direction: " << filter->GetDirection() << std::endl;
-
-  std::cout << "Number of control points: " <<
-    filter->GetNumberOfControlPoints() << std::endl;
-  std::cout << "Current number of control points: " <<
-    filter->GetCurrentNumberOfControlPoints() << std::endl;
-  std::cout << "Number of levels: " <<
-    filter->GetNumberOfLevels() << std::endl;
-  std::cout << "Close dimension: " <<
-    filter->GetCloseDimension() << std::endl;
-  std::cout << "Spline order: " << filter->GetSplineOrder() << std::endl;
 
   // Write the output to an image.
   typedef itk::Image<RealType, ParametricDimension> RealImageType;
@@ -143,7 +169,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest( int argc, char * argv [] )
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( image );
   writer->SetFileName( argv[2] );
-  writer->Update();
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

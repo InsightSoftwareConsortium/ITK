@@ -154,8 +154,8 @@ void vsl_print_summary(std::ostream & os,const vnl_sparse_matrix<T> & p)
 }
 
 #define VNL_IO_SPARSE_MATRIX_INSTANTIATE(T) \
-  template VNL_EXPORT void vsl_print_summary(std::ostream &, const vnl_sparse_matrix<T > &); \
-  template VNL_EXPORT void vsl_b_read(vsl_b_istream &, vnl_sparse_matrix<T > &); \
-  template VNL_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_sparse_matrix<T > &)
+  template VNL_TEMPLATE_EXPORT void vsl_print_summary(std::ostream &, const vnl_sparse_matrix<T > &); \
+  template VNL_TEMPLATE_EXPORT void vsl_b_read(vsl_b_istream &, vnl_sparse_matrix<T > &); \
+  template VNL_TEMPLATE_EXPORT void vsl_b_write(vsl_b_ostream &, const vnl_sparse_matrix<T > &)
 
 #endif // vnl_io_sparse_matrix_hxx_

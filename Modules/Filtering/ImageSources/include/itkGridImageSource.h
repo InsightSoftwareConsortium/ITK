@@ -94,22 +94,28 @@ public:
   typedef vnl_vector< RealType >                           PixelArrayType;
   typedef VectorContainer< SizeValueType, PixelArrayType > PixelArrayContainerType;
 
-  /** Gets and sets for grid parameters */
+  /** Set/Get kernel function used to create the grid. */
   itkSetObjectMacro(KernelFunction, KernelFunctionType);
   itkGetConstReferenceObjectMacro(KernelFunction, KernelFunctionType);
 
+  /** Set/Get the standard deviation of the Gaussians or width of the box
+   * functions.*/
   itkSetMacro(Sigma, ArrayType);
   itkGetConstReferenceMacro(Sigma, ArrayType);
 
+  /** Set/Get the grid spacing of the peaks. */
   itkSetMacro(GridSpacing, ArrayType);
   itkGetConstReferenceMacro(GridSpacing, ArrayType);
 
+  /** Set/Get the grid offset. */
   itkSetMacro(GridOffset, ArrayType);
   itkGetConstReferenceMacro(GridOffset, ArrayType);
 
+  /** Set/Get the dimensions which are gridded. */
   itkSetMacro(WhichDimensions, BoolArrayType);
   itkGetConstReferenceMacro(WhichDimensions, BoolArrayType);
 
+  /** Set/Get the scale factor to multiply the true value of the grid. */
   itkSetMacro(Scale, RealType);
   itkGetConstReferenceMacro(Scale, RealType);
 
@@ -127,28 +133,19 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GridImageSource);
 
-  /** Parameters for the grid. */
-
-  /** Internal variable to speed up the calculation of pixel values */
+  /** Internal variable to speed up the calculation of pixel values. */
   typename PixelArrayContainerType::Pointer m_PixelArrays;
 
-  /** The kernel function used to create the grid */
   typename KernelFunctionType::Pointer m_KernelFunction;
 
-  /** The standard deviation of the gaussians
-    * or width of the box functions. */
   ArrayType m_Sigma;
 
-  /** The grid spacing of the peaks. */
   ArrayType m_GridSpacing;
 
-  /** The grid spacing of the peaks. */
   ArrayType m_GridOffset;
 
-  /** Which dimensions which are gridded. */
   BoolArrayType m_WhichDimensions;
 
-  /** A scale factor multiplied by the true value of the grid. */
   RealType m_Scale;
 };
 } // end namespace itk

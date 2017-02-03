@@ -104,14 +104,14 @@ public:
   typedef typename ImageType::PixelType InputPixelType;
   typedef typename ImageType::SizeType  ImageSizeType;
 
-  /** Set/Get the value of alpha.  Alpha=0 produces the adaptive
-   * histogram equalization (provided beta=0).  Alpha=1 produces an
+  /** Set/Get the value of alpha. Alpha = 0 produces the adaptive
+   * histogram equalization (provided beta=0). Alpha = 1 produces an
    * unsharp mask. Default is 0.3. */
   itkSetMacro(Alpha, float);
   itkGetConstMacro(Alpha, float);
 
-  /** Set/Get the value of beta.  If beta=1 (and alpha=1),
-   * then the output image matches the input image.  As beta
+  /** Set/Get the value of beta. If beta = 1 (and alpha = 1),
+   * then the output image matches the input image. As beta
    * approaches 0, the filter behaves as an unsharp mask. Default is
    * 0.3. */
   itkSetMacro(Beta, float);
@@ -156,7 +156,12 @@ protected:
   {
     m_Alpha = .3;
     m_Beta = .3;
+
     this->SetRadius(5);
+
+    m_InputMinimum = NumericTraits< InputPixelType >::min();
+    m_InputMaximum = NumericTraits< InputPixelType >::max();
+
     m_UseLookupTable = false;
   }
 
@@ -171,17 +176,12 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AdaptiveHistogramEqualizationImageFilter);
 
-  /** The beta parameter of the AdaptiveHistogramEqualization. */
   float m_Alpha;
-
-  /** The alpha parameter of the AdaptiveHistogramEqualization. */
   float m_Beta;
 
   InputPixelType m_InputMinimum;
   InputPixelType m_InputMaximum;
 
-  /** Should we use a lookup table to optimize the use of the
-   * intensity mapping function? */
   bool m_UseLookupTable;
 
 };

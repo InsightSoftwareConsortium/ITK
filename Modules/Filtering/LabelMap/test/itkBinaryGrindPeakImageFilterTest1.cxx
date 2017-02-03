@@ -20,39 +20,74 @@
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkBinaryGrindPeakImageFilter.h"
+#include "itkTestingMacros.h"
 
 
-int itkBinaryGrindPeakImageFilterTest1(int argc, char * argv[])
+int itkBinaryGrindPeakImageFilterTest1( int argc, char * argv[] )
 {
 
-  if( argc != 5 )
+  if( argc != 6 )
     {
-    std::cerr << "usage: " << argv[0] << " input output conn fg" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Usage: " << argv[0]
+      << " input output fullyConnected foreground background" << std::endl;
+    return EXIT_FAILURE;
     }
 
-  const int dim = 2;
+  const unsigned int Dimension = 2;
+  typedef unsigned char PixelType;
 
-  typedef itk::Image< unsigned char, dim > IType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  reader->Update();
 
- typedef itk::BinaryGrindPeakImageFilter< IType > I2LType;
-  I2LType::Pointer reconstruction = I2LType::New();
-  reconstruction->SetInput( reader->GetOutput() );
-  reconstruction->SetFullyConnected( atoi(argv[3]) );
-  reconstruction->SetForegroundValue( atoi(argv[4]) );
-//   reconstruction->SetBackgroundValue( atoi(argv[5]) );
-  itk::SimpleFilterWatcher watcher(reconstruction, "filter");
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  typedef itk::BinaryGrindPeakImageFilter< ImageType >
+    BinaryGrindPeakImageFilterType;
+  BinaryGrindPeakImageFilterType::Pointer binaryGrindPeakImageFilter =
+    BinaryGrindPeakImageFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( binaryGrindPeakImageFilter,
+    BinaryGrindPeakImageFilter, ImageToImageFilter );
+
+  binaryGrindPeakImageFilter->SetInput( reader->GetOutput() );
+
+  bool fullyConnected = atoi( argv[3] ) != 0;
+  binaryGrindPeakImageFilter->SetFullyConnected( fullyConnected );
+  TEST_SET_GET_VALUE( fullyConnected, binaryGrindPeakImageFilter->GetFullyConnected() );
+
+  if( fullyConnected )
+    {
+    binaryGrindPeakImageFilter->FullyConnectedOn();
+    TEST_SET_GET_VALUE( true, binaryGrindPeakImageFilter->GetFullyConnected() );
+    }
+  else
+    {
+    binaryGrindPeakImageFilter->FullyConnectedOff();
+    TEST_SET_GET_VALUE( false, binaryGrindPeakImageFilter->GetFullyConnected() );
+    }
+
+  BinaryGrindPeakImageFilterType::InputImagePixelType foregroundValue =
+    static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atof( argv[4] ) );
+  binaryGrindPeakImageFilter->SetForegroundValue( foregroundValue );
+  TEST_SET_GET_VALUE( foregroundValue, binaryGrindPeakImageFilter->GetForegroundValue() );
+
+  BinaryGrindPeakImageFilterType::InputImagePixelType backgroundValue =
+    static_cast< BinaryGrindPeakImageFilterType::InputImagePixelType >( atoi( argv[5] ) );
+  binaryGrindPeakImageFilter->SetBackgroundValue( backgroundValue );
+  TEST_SET_GET_VALUE( backgroundValue, binaryGrindPeakImageFilter->GetBackgroundValue() );
+
+
+  itk::SimpleFilterWatcher watcher( binaryGrindPeakImageFilter, "BinaryGrindPeakImageFilter" );
+
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( reconstruction->GetOutput() );
+  writer->SetInput( binaryGrindPeakImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
-  return 0;
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  return EXIT_SUCCESS;
 }

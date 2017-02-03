@@ -121,6 +121,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits = true;
 
+  this->m_ReseedIterator = false;
+  this->m_RandomSeed = Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed();
+  this->m_CurrentRandomSeed = this->m_RandomSeed;
+
   this->m_MetricSamplingStrategy = NONE;
   this->m_MetricSamplingPercentagePerLevel.SetSize( this->m_NumberOfLevels );
   this->m_MetricSamplingPercentagePerLevel.Fill( 1.0 );
@@ -787,6 +791,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 ::GenerateData()
 {
   this->AllocateOutputs();
+
+  // Ensure the same seed is used for each update
+  this->m_CurrentRandomSeed = this->m_RandomSeed;
+
   for( this->m_CurrentLevel = 0; this->m_CurrentLevel < this->m_NumberOfLevels; this->m_CurrentLevel++ )
     {
     this->InitializeRegistrationAtEachLevel( this->m_CurrentLevel );
@@ -931,7 +939,15 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
     typedef typename Statistics::MersenneTwisterRandomVariateGenerator RandomizerType;
     typename RandomizerType::Pointer randomizer = RandomizerType::New();
-    randomizer->SetSeed( 1234 );
+    if (m_ReseedIterator)
+      {
+      randomizer->SetSeed( );
+      }
+    else
+      {
+      randomizer->SetSeed( m_CurrentRandomSeed++ );
+      }
+
 
     unsigned long index = 0;
 
@@ -970,6 +986,14 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
         const unsigned long totalVirtualDomainVoxels = virtualDomainRegion.GetNumberOfPixels();
         const unsigned long sampleCount = static_cast<unsigned long>( static_cast<float>( totalVirtualDomainVoxels ) * this->m_MetricSamplingPercentagePerLevel[this->m_CurrentLevel] );
         ImageRandomConstIteratorWithIndex<VirtualDomainImageType> ItR( virtualImage, virtualDomainRegion );
+        if (m_ReseedIterator)
+          {
+          ItR.ReinitializeSeed();
+          }
+        else
+          {
+          ItR.ReinitializeSeed( m_CurrentRandomSeed++ );
+          }
         ItR.SetNumberOfSamples( sampleCount );
         for( ItR.GoToBegin(); !ItR.IsAtEnd(); ++ItR )
           {
@@ -1131,6 +1155,10 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     }
   os << std::endl;
 
+  os << indent << "ReseedIterator: " << m_ReseedIterator << std::endl;
+  os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
+  os << indent << "CurrentRandomSeed: " << m_CurrentRandomSeed << std::endl;
+
   os << indent << "InPlace: " << ( this->m_InPlace ? "On" : "Off" ) << std::endl;
 
   os << indent << "InitializeCenterOfLinearOutputTransform: "
@@ -1198,6 +1226,32 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       return ITK_NULLPTR;
     }
 }
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
+::MetricSamplingReinitializeSeed()
+{
+  if (!m_ReseedIterator)
+    {
+    m_ReseedIterator = true;
+    this->Modified();
+    }
+}
+
+template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>
+::MetricSamplingReinitializeSeed(int seed)
+{
+  if (m_ReseedIterator || m_RandomSeed != seed)
+    {
+    m_ReseedIterator = false;
+    m_RandomSeed = seed;
+    this->Modified();
+    }
+}
+
 
 template<typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void

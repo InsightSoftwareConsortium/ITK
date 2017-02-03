@@ -28,10 +28,10 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
-::AdditiveGaussianNoiseImageFilter()
+::AdditiveGaussianNoiseImageFilter() :
+  m_Mean( 0.0 ),
+  m_StandardDeviation( 1.0 )
 {
-  m_Mean = 0.0;
-  m_StandardDeviation = 1.0;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -43,10 +43,10 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
   const InputImageType*  inputPtr = this->GetInput();
   OutputImageType*       outputPtr = this->GetOutput(0);
 
-  // create a random generator per thread
+  // Create a random generator per thread
   typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
-  const uint32_t seed = Self::Hash(this->GetSeed(),threadId);
-  // convert the seed bit for bit to int32
+  const uint32_t seed = Self::Hash( this->GetSeed(), threadId );
+  // Convert the seed bit for bit to int32
   randn->Initialize(*static_cast<int32_t*>( (void*)&seed) );
 
   // Define the portion of the input to walk for this thread, using
@@ -82,19 +82,17 @@ AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
 template <class TInputImage, class TOutputImage>
 void
 AdditiveGaussianNoiseImageFilter<TInputImage, TOutputImage>
-::PrintSelf(std::ostream& os,
-            Indent indent) const
+::PrintSelf(std::ostream& os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Mean: "
-     << static_cast<typename NumericTraits<double>::PrintType>(m_Mean)
+     << static_cast<typename NumericTraits<double>::PrintType>( m_Mean )
      << std::endl;
   os << indent << "StandardDeviation: "
-     << static_cast<typename NumericTraits<double>::PrintType>(m_StandardDeviation)
+     << static_cast<typename NumericTraits<double>::PrintType>( m_StandardDeviation )
      << std::endl;
 }
+} // end namespace itk
 
-} /* namespace itk */
-
-#endif // itkAdditiveGaussianNoiseImageFilter_hxx
+#endif

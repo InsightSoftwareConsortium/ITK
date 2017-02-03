@@ -53,12 +53,7 @@ MersenneTwisterRandomVariateGenerator
   MersenneTwisterRandomVariateGenerator::Pointer obj =
     MersenneTwisterRandomVariateGenerator::CreateInstance();
 
-  IntegerType newSeed = GetInstance()->GetSeed();
-  {
-    MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
-    newSeed += m_StaticDiffer++;
-  }
-  obj->SetSeed ( newSeed );
+  obj->SetSeed ( MersenneTwisterRandomVariateGenerator::GetNextSeed() );
   return obj;
 }
 
@@ -115,6 +110,18 @@ MersenneTwisterRandomVariateGenerator
   // lock for m_StaticDiffer
   MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
   return ( h1 + m_StaticDiffer++ ) ^ h2;
+}
+
+MersenneTwisterRandomVariateGenerator::IntegerType
+MersenneTwisterRandomVariateGenerator
+::GetNextSeed()
+{
+  IntegerType newSeed = GetInstance()->GetSeed();
+  {
+    MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_StaticInstanceLock);
+    newSeed += m_StaticDiffer++;
+  }
+  return newSeed;
 }
 
 void
