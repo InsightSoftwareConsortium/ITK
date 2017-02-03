@@ -20,6 +20,7 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkTranslationTransform.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This test exercised the various methods in the
@@ -31,52 +32,68 @@
 
 int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 {
-  typedef itk::Image< unsigned char, 2 >                                               UCharImage2DType;
-  typedef itk::Image< double, 2 >                                                      DoubleImage2DType;
-  typedef itk::KappaStatisticImageToImageMetric< UCharImage2DType, UCharImage2DType >  MetricType;
-  typedef itk::ImageRegionIteratorWithIndex< UCharImage2DType >                        UCharIteratorType;
-  typedef itk::ImageRegionIteratorWithIndex< DoubleImage2DType >                       DoubleIteratorType;
-  typedef itk::TranslationTransform< double, 2 >                                       TransformType;
-  typedef itk::NearestNeighborInterpolateImageFunction< UCharImage2DType, double >     InterpolatorType;
+
+  const unsigned int Dimension = 2;
+
+  typedef unsigned char FixedImagePixelType;
+  typedef unsigned char MovingImagePixelType;
+
+  typedef double CoordRepPixelType;
+
+  typedef double GradientPixelType;
+
+  typedef itk::Image< FixedImagePixelType, Dimension >                              FixedImageType;
+  typedef itk::Image< MovingImagePixelType, Dimension >                             MovingImageType;
+  typedef itk::Image< GradientPixelType, Dimension >                                GradientImageType;
+
+  typedef itk::KappaStatisticImageToImageMetric< FixedImageType, MovingImageType >  MetricType;
+  typedef itk::ImageRegionIteratorWithIndex< FixedImageType >                       FixedImageIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< MovingImageType >                      MovingImageIteratorType;
+
+  typedef itk::ImageRegionIteratorWithIndex< GradientImageType >                    GradientImageIteratorType;
+  typedef itk::TranslationTransform< CoordRepPixelType, Dimension >                 TransformType;
+  typedef itk::NearestNeighborInterpolateImageFunction< MovingImageType, CoordRepPixelType >
+    InterpolatorType;
+
 
   double epsilon = 0.000001;
 
   TransformType::Pointer    transform    = TransformType::New();
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
 
-  UCharImage2DType::SizeType imageSize;
-  imageSize[0] = 128;
-  imageSize[1] = 128;
+  FixedImageType::SizeType fixedImageSize;
+  fixedImageSize.Fill( 128 );
 
   // Create fixed image
-  UCharImage2DType::Pointer fixedImage = UCharImage2DType::New();
-  fixedImage->SetRegions(imageSize);
-  fixedImage->Allocate(true); // initialize
-                                                     // buffer to zero
+  FixedImageType::Pointer fixedImage = FixedImageType::New();
+  fixedImage->SetRegions( fixedImageSize );
+  fixedImage->Allocate( true ); // initialize buffer to zero
   fixedImage->Update();
 
-  UCharIteratorType fixedIt( fixedImage, fixedImage->GetBufferedRegion() );
-  for ( fixedIt.GoToBegin(); !fixedIt.IsAtEnd(); ++fixedIt )
+  FixedImageIteratorType fixedIt( fixedImage, fixedImage->GetBufferedRegion() );
+  for( fixedIt.GoToBegin(); !fixedIt.IsAtEnd(); ++fixedIt )
     {
-    UCharImage2DType::IndexType index = fixedIt.GetIndex();
-    if ((index[0]>=48)&&(index[0]<=80)&&(index[1]>=48)&&(index[1]<=80))
+    FixedImageType::IndexType index = fixedIt.GetIndex();
+    if( index[0] >= 48 && index[0] <= 80 && index[1] >= 48 && index[1] <= 80 )
       {
       fixedIt.Set(255);
       }
     }
 
+  MovingImageType::SizeType movingImageSize;
+  movingImageSize.Fill( 128 );
+
   // Create moving image
-  UCharImage2DType::Pointer movingImage = UCharImage2DType::New();
-  movingImage->SetRegions(imageSize);
-  movingImage->Allocate(true); // initialize
-                                                      // buffer to zero
+  MovingImageType::Pointer movingImage = MovingImageType::New();
+  movingImage->SetRegions( movingImageSize );
+  movingImage->Allocate( true ); // initialize buffer to zero
   movingImage->Update();
 
-  UCharIteratorType movingIt( movingImage, movingImage->GetBufferedRegion() );
-  for ( movingIt.GoToBegin(); !movingIt.IsAtEnd(); ++movingIt )
+  MovingImageIteratorType movingIt( movingImage, movingImage->GetBufferedRegion() );
+  for( movingIt.GoToBegin(); !movingIt.IsAtEnd(); ++movingIt )
     {
-    UCharImage2DType::IndexType index = movingIt.GetIndex();
-    if ((index[0]>=55)&&(index[0]<=87)&&(index[1]>=55)&&(index[1]<=87))
+    MovingImageType::IndexType index = movingIt.GetIndex();
+    if( index[0] >= 55 && index[0] <= 87 && index[1] >= 55 && index[1] <= 87 )
       {
       movingIt.Set(255);
       }
@@ -84,98 +101,102 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
 
   MetricType::Pointer metric = MetricType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( metric, KappaStatisticImageToImageMetric,
+    ImageToImageMetric );
 
-  //------------------------------------------------------------------
-  // exercise [Set,Get]ForegroundValue method
-  //------------------------------------------------------------------
-  std::cout << "Test [Set,Get]ForegroundValue method..." << std::endl;
+  MetricType::RealType foregroundValue = 255;
+  metric->SetForegroundValue( foregroundValue );
+  TEST_SET_GET_VALUE( foregroundValue, metric->GetForegroundValue() );
 
-  metric->SetForegroundValue(255);
-  if (itk::Math::NotExactlyEquals(metric->GetForegroundValue(), 255))
-    {
-    std::cerr << "Error!" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << " [ PASSED ] " << std::endl;
+  bool useComplement = false;
+  metric->SetComplement( useComplement );
+  TEST_SET_GET_VALUE( useComplement, metric->GetComplement() );
 
+  metric->ComplementOff();
+  TEST_SET_GET_VALUE( false, metric->GetComplement() );
 
-  //------------------------------------------------------------------
-  // exercise GetValue method
-  //------------------------------------------------------------------
-  std::cout << "Test GetValue method..." << std::endl;
   transform->SetIdentity();
+  metric->SetTransform( transform );
 
   TransformType::ParametersType parameters = transform->GetParameters();
 
+  // Test error conditions
+  //
+  TRY_EXPECT_EXCEPTION( metric->GetValue( parameters ) );
+
   metric->SetFixedImage( fixedImage );
+
+  TRY_EXPECT_EXCEPTION( metric->GetValue( parameters ) );
+
   metric->SetMovingImage( movingImage );
   metric->SetInterpolator( interpolator );
-  metric->SetTransform( transform );
   metric->SetFixedImageRegion( fixedImage->GetBufferedRegion() );
-  try
-    {
-    metric->Initialize();
-    }
-  catch ( itk::ExceptionObject &excp )
-    {
-    std::cerr << "Exception caught while initializing metric." << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  MetricType::DerivativeType derivative;
+  TRY_EXPECT_EXCEPTION( metric->GetDerivative( parameters, derivative ) );
+
+  TRY_EXPECT_NO_EXCEPTION( metric->Initialize() );
+
+  metric->SetFixedImage( NULL );
+  TRY_EXPECT_EXCEPTION( metric->GetDerivative( parameters, derivative ) );
+
+  metric->SetFixedImage( fixedImage );
+
+  // Test the GetValue method
+  //
 
   // The value 0.620753 was computed by hand for these two images
+  double expectedMatchMeasure = 0.620753;
   MetricType::MeasureType value = metric->GetValue( parameters );
-  if ( !( value >= 0.620753 - epsilon && value <= 0.620753 + epsilon ) )
+  if( !itk::Math::FloatAlmostEqual( (double)value, expectedMatchMeasure, 10, epsilon ) )
     {
-    std::cerr << "Error!" << std::endl;
+      std::cerr << "Error !" << std::endl;
+      std::cerr << "Expected: " << expectedMatchMeasure << " but got "
+        << static_cast< double >( value ) << std::endl;
+      std::cerr << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << " [ PASSED ] " << std::endl;
 
 
-  //------------------------------------------------------------------
-  // exercise ComputeGradient method
-  //------------------------------------------------------------------
-  std::cout << "Test ComputeGradient method..." << std::endl;
+  // Test the ComputeGradient method
+  //
   metric->ComputeGradient();
 
-  DoubleImage2DType::Pointer xGradImage = DoubleImage2DType::New();
-  xGradImage->SetRegions(imageSize);
-  xGradImage->Allocate(true); // initialize
-                                                     // buffer to zero
+  GradientImageType::Pointer xGradImage = GradientImageType::New();
+  xGradImage->SetRegions( movingImageSize );
+  xGradImage->Allocate( true ); // initialize buffer to zero
   xGradImage->Update();
 
-  DoubleImage2DType::Pointer yGradImage = DoubleImage2DType::New();
-  yGradImage->SetRegions(imageSize);
-  yGradImage->Allocate(true); // initialize
-                                                     // buffer to zero
+  GradientImageType::Pointer yGradImage = GradientImageType::New();
+  yGradImage->SetRegions( movingImageSize );
+  yGradImage->Allocate( true ); // initialize buffer to zero
   yGradImage->Update();
 
-  DoubleIteratorType xGradIt( xGradImage, xGradImage->GetBufferedRegion() );
-  DoubleIteratorType yGradIt( yGradImage, yGradImage->GetBufferedRegion() );
+  GradientImageIteratorType xGradIt( xGradImage, xGradImage->GetBufferedRegion() );
+  GradientImageIteratorType yGradIt( yGradImage, yGradImage->GetBufferedRegion() );
 
   xGradIt.GoToBegin();
   yGradIt.GoToBegin();
 
   // Construct the gradient images explicitly based on what we know
   // they should be and use them to validate metric's version
-  while ( !xGradIt.IsAtEnd() )
+  while( !xGradIt.IsAtEnd() )
     {
-    DoubleImage2DType::IndexType index = xGradIt.GetIndex();
+    GradientImageType::IndexType index = xGradIt.GetIndex();
 
-    if (((index[0]==54)||(index[0]==55))&&(index[1]>=55)&&(index[1]<=87))
+    if( ( index[0] == 54 || index[0] == 55 ) && index[1] >= 55 && index[1] <= 87 )
       {
       xGradIt.Set(1);
       }
-    if (((index[0]==87)||(index[0]==88))&&(index[1]>=55)&&(index[1]<=87))
+    if( ( index[0] == 87 || index[0] == 88  ) && index[1] >= 55 && index[1] <= 87 )
       {
       xGradIt.Set(-1);
       }
-    if (((index[1]==54)||(index[1]==55))&&(index[0]>=55)&&(index[0]<=87))
+    if( ( index[1] == 54 || index[1] == 55  ) && index[0] >= 55 && index[0] <= 87 )
       {
       yGradIt.Set(1);
       }
-    if (((index[1]==87)||(index[1]==88))&&(index[0]>=55)&&(index[0]<=87))
+    if( ( index[1] == 87 || index[1] == 88  ) &&(index[0] >= 55) && index[0] <= 87)
       {
       yGradIt.Set(-1);
       }
@@ -184,17 +205,23 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
     ++yGradIt;
     }
 
-  typedef itk::ImageRegionIteratorWithIndex< const MetricType::GradientImageType >  GradIteratorType;
+  typedef itk::ImageRegionIteratorWithIndex< const MetricType::GradientImageType > GradIteratorType;
   GradIteratorType gradIt( metric->GetGradientImage(), metric->GetGradientImage()->GetBufferedRegion() );
   gradIt.GoToBegin();
   xGradIt.GoToBegin();
   yGradIt.GoToBegin();
-  while ( !gradIt.IsAtEnd() )
+  while( !gradIt.IsAtEnd() )
     {
-    if (itk::Math::NotAlmostEquals((gradIt.Get())[0], xGradIt.Get()) ||
-        itk::Math::NotAlmostEquals((gradIt.Get())[1], yGradIt.Get()))
+    if( itk::Math::NotAlmostEquals( ( gradIt.Get())[0], xGradIt.Get() ) ||
+        itk::Math::NotAlmostEquals( ( gradIt.Get())[1], yGradIt.Get() ) )
       {
-      std::cerr << "Error!" << std::endl;
+      std::cerr << "Error !" << std::endl;
+      std::cerr << "Expected: [" << static_cast< double >( gradIt.Get()[0] )
+        << ", " << static_cast< double >( gradIt.Get()[1] ) << "], but got ["
+        << static_cast< double >( xGradIt.Get() ) << ", "
+        << static_cast< double >( yGradIt.Get() ) << "]"
+        << std::endl;
+      std::cerr << "Test failed" << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -202,72 +229,74 @@ int itkKappaStatisticImageToImageMetricTest(int, char* [] )
     ++xGradIt;
     ++yGradIt;
     }
-  std::cout << " [ PASSED ] " << std::endl;
 
 
-  //------------------------------------------------------------------
-  // exercise GetDerivative method
-  //------------------------------------------------------------------
-  std::cout << "Test GetDerivative method..." << std::endl;
-  MetricType::DerivativeType derivative;
+  // Test the GetDerivative method
+  //
   metric->GetDerivative( parameters, derivative );
 
   // The value 0.0477502 was computed by hand
-  if (!((derivative[0]>=-0.0477502-epsilon)&&(derivative[0]<=-0.0477502+epsilon)))
+  double expectedDerivativeMeasure = -0.0477502;
+  for( unsigned int i = 0; i < derivative.size(); ++i )
     {
-    std::cerr << "Error!" << std::endl;
-    return EXIT_FAILURE;
+    if( !itk::Math::FloatAlmostEqual( (double)derivative[i], expectedDerivativeMeasure, 10, epsilon ) )
+      {
+        std::cerr << "Error !" << std::endl;
+        std::cerr << "Expected: " << expectedDerivativeMeasure << " but got "
+          << static_cast< double >( derivative[i] )
+          << " at index [" << i << "]" << std::endl;
+        std::cerr << "Test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  if (!((derivative[1]>=-0.0477502-epsilon)&&(derivative[1]<=-0.0477502+epsilon)))
-    {
-    std::cerr << "Error!" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << " [ PASSED ] " << std::endl;
 
-  //------------------------------------------------------------------
-  // exercise GetValueAndDerivative method
-  //------------------------------------------------------------------
-  std::cout << "Test GetValueAndDerivative method..." << std::endl;
+
+  // Test the GetValueAndDerivative method
+  //
   metric->GetValueAndDerivative( parameters, value, derivative );
 
-  if ( !( value >= 0.620753 - epsilon && value <= 0.620753 + epsilon ) )
+  if( !itk::Math::FloatAlmostEqual( (double)value, expectedMatchMeasure, 10, epsilon ) )
     {
-    std::cerr << "Error!" << std::endl;
+      std::cerr << "Error !" << std::endl;
+      std::cerr << "Expected: " << expectedMatchMeasure << " but got "
+        << static_cast< double >( value ) << std::endl;
+      std::cerr << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
-  // The value 0.0477502 was computed by hand
-  if ( !( (derivative[0]>=-0.0477502-epsilon) && (derivative[0]<=-0.0477502+epsilon) ) )
+  for( unsigned int i = 0; i < derivative.size(); ++i )
     {
-    std::cerr << "Error!" << std::endl;
-    return EXIT_FAILURE;
+    if( !itk::Math::FloatAlmostEqual( (double)derivative[i], expectedDerivativeMeasure, 10, epsilon ) )
+      {
+        std::cerr << "Error !" << std::endl;
+        std::cerr << "Expected: " << expectedDerivativeMeasure << " but got "
+          << static_cast< double >( derivative[i] )
+          << " at index [" << i << "]" << std::endl;
+        std::cerr << "Test failed" << std::endl;
+      return EXIT_FAILURE;
+      }
     }
-  if ( !( (derivative[1]>=-0.0477502-epsilon) && (derivative[1]<=-0.0477502+epsilon) ) )
-    {
-    std::cerr << "Error!" << std::endl;
-    return EXIT_FAILURE;
-    }
-  std::cout << " [ PASSED ] " << std::endl;
 
-  //------------------------------------------------------------------
-  // exercise Complement method
-  //------------------------------------------------------------------
-  std::cout << "Test Complement method..." << std::endl;
+
+  // Test with Complement set to true
+  //
+  useComplement = true;
+  metric->SetComplement( useComplement );
+  TEST_SET_GET_VALUE( useComplement, metric->GetComplement() );
+
   metric->ComplementOn();
+  TEST_SET_GET_VALUE( true, metric->GetComplement() );
 
   // The value 0.379247 was computed by hand
-  if (!((metric->GetValue(parameters)>=0.379247-epsilon)&&(metric->GetValue(parameters)<=0.379247+epsilon)))
+  expectedMatchMeasure = 0.379247;
+  value = metric->GetValue( parameters );
+  if( !itk::Math::FloatAlmostEqual( (double)value, expectedMatchMeasure, 10, epsilon ) )
     {
-    std::cerr << "Error!" << std::endl;
+      std::cerr << "Error !" << std::endl;
+      std::cerr << "Expected: " << expectedMatchMeasure << " but got "
+        << static_cast< double >( value ) << std::endl;
+      std::cerr << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
-  std::cout << " [ PASSED ] " << std::endl;
-
-  //------------------------------------------------------------------
-  // exercise PrintSelf method
-  //------------------------------------------------------------------
-  std::cout << "Test PrintSelf method..." << std::endl;
-  metric->Print( std::cout );
 
   return EXIT_SUCCESS;
 }
