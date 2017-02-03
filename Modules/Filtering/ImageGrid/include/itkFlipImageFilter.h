@@ -83,14 +83,13 @@ public:
   typedef FixedArray< bool, itkGetStaticConstMacro(ImageDimension) > FlipAxesArrayType;
 
   /** Set/Get the axis to be flipped. The image is flipped along axes
-   * for which array[i] is true. */
+   * for which array[i] is true. Default is false. */
   itkSetMacro(FlipAxes, FlipAxesArrayType);
   itkGetConstMacro(FlipAxes, FlipAxesArrayType);
 
-/** Controls how the output origin is computed. If FlipAboutOrigin is
- * "on", the flip will occur about the origin of the axis, otherwise,
- * the flip will occur about the center of the axis.
- */
+  /** Controls how the output origin is computed. If FlipAboutOrigin is
+   * "On", the flip will occur about the origin of the axis, otherwise,
+   * the flip will occur about the center of the axis. Default is "On". */
   itkBooleanMacro(FlipAboutOrigin);
   itkGetConstMacro(FlipAboutOrigin, bool);
   itkSetMacro(FlipAboutOrigin, bool);
@@ -98,8 +97,10 @@ public:
   /** FlipImageFilter produces an image with different origin and
    * direction than the input image. As such, FlipImageFilter needs to
    * provide an implementation for GenerateOutputInformation() in
-   * order to inform the pipeline execution model.  The original
-   * documentation of this method is below.
+   * order to inform the pipeline execution model.
+   * The output image meta information is obtained by permuting the input
+   * image meta information. The original documentation of this method is
+   * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
@@ -107,6 +108,8 @@ public:
    * requested region.  As such, FlipImageFilter needs to provide an
    * implementation for GenerateInputRequestedRegion() in order to inform the
    * pipeline execution model.
+   * The required input requested region is obtained by permuting the index and
+   * size of the output requested region.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
