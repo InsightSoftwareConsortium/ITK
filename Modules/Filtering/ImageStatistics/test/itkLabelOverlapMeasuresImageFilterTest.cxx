@@ -18,6 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkLabelOverlapMeasuresImageFilter.h"
+#include "itkTestingMacros.h"
 
 #include <iomanip>
 
@@ -39,8 +40,7 @@ int LabelOverlapMeasures( int , char * argv[] )
   filter->SetTargetImage( reader2->GetOutput() );
   filter->Update();
 
-  std::cout << "                                          "
-            << "************ All Labels *************" << std::endl;
+  std::cout << "All Labels" << std::endl;
   std::cout << std::setw( 10 ) << "   "
             << std::setw( 17 ) << "Total"
             << std::setw( 17 ) << "Union (jaccard)"
@@ -57,8 +57,7 @@ int LabelOverlapMeasures( int , char * argv[] )
   std::cout << std::setw( 17 ) << filter->GetFalsePositiveError();
   std::cout << std::endl;
 
-  std::cout << "                                       "
-            << "************ Individual Labels *************" << std::endl;
+  std::cout << "Individual Labels" << std::endl;
   std::cout << std::setw( 10 ) << "Label"
             << std::setw( 17 ) << "Target"
             << std::setw( 17 ) << "Union (jaccard)"
@@ -69,6 +68,7 @@ int LabelOverlapMeasures( int , char * argv[] )
 
   typename FilterType::MapType labelMap = filter->GetLabelSetMeasures();
   typename FilterType::MapType::const_iterator it;
+  int label = 0;
   for( it = labelMap.begin(); it != labelMap.end(); ++it )
     {
     if( (*it).first == 0 )
@@ -76,7 +76,7 @@ int LabelOverlapMeasures( int , char * argv[] )
       continue;
       }
 
-    int label = (*it).first;
+    label = (*it).first;
 
     std::cout << std::setw( 10 ) << label;
     std::cout << std::setw( 17 ) << filter->GetTargetOverlap( label );
@@ -86,6 +86,69 @@ int LabelOverlapMeasures( int , char * argv[] )
     std::cout << std::setw( 17 ) << filter->GetFalseNegativeError( label );
     std::cout << std::setw( 17 ) << filter->GetFalsePositiveError( label );
     std::cout << std::endl;
+    }
+
+
+  // Check results when a non-existing label's metrics are queried
+  //
+
+  // Assume that no such label exists
+  label = itk::NumericTraits< PixelType >::max();
+
+  typename FilterType::RealType expectedValue = 0.0;
+  typename FilterType::RealType result = filter->GetTargetOverlap( label );
+  if( itk::Math::NotAlmostEquals( expectedValue, result ) )
+    {
+    std::cout << "Error in label "
+      <<  static_cast< itk::NumericTraits< PixelType >::PrintType >( label ) << ": ";
+    std::cout << "Expected target overlap: " << expectedValue << ", but got "
+      << result << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  result = filter->GetUnionOverlap( label );
+  if( itk::Math::NotAlmostEquals( expectedValue, result ) )
+    {
+    std::cout << "Error in label "
+      << static_cast< itk::NumericTraits< PixelType >::PrintType >( label ) << ": ";
+    std::cout << "Expected union overlap: " << expectedValue << ", but got "
+      << result << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  result = filter->GetVolumeSimilarity( label );
+  if( itk::Math::NotAlmostEquals( expectedValue, result ) )
+    {
+    std::cout << "Error in label "
+      << static_cast< itk::NumericTraits< PixelType >::PrintType >( label ) << ": ";
+    std::cout << "Expected volume similarity: " << expectedValue << ", but got "
+      << result << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  result = filter->GetFalseNegativeError( label );
+  if( itk::Math::NotAlmostEquals( expectedValue, result ) )
+    {
+    std::cout << "Error in label "
+      << static_cast< itk::NumericTraits< PixelType >::PrintType >( label ) << ": ";
+    std::cout << "Expected false negative error: " << expectedValue << ", but got "
+      << result << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  result = filter->GetFalsePositiveError( label );
+  if( itk::Math::NotAlmostEquals( expectedValue, result ) )
+    {
+    std::cout << "Error in label "
+      << static_cast< itk::NumericTraits< PixelType >::PrintType >( label ) << ": ";
+    std::cout << "Expected false positive error: " << expectedValue << ", but got "
+      << result << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
     }
 
   return EXIT_SUCCESS;
@@ -99,6 +162,23 @@ int itkLabelOverlapMeasuresImageFilterTest( int argc, char *argv[] )
               << "targetImage" << std::endl;
     return EXIT_FAILURE;
     }
+
+  // Instantiate the filter
+  const unsigned int ImageDimension = 3;
+  typedef unsigned int                            PixelType;
+  typedef itk::Image< PixelType, ImageDimension > ImageType;
+
+  typedef itk::LabelOverlapMeasuresImageFilter< ImageType >
+    LabelOverlapMeasuresImageFilterType;
+  LabelOverlapMeasuresImageFilterType::Pointer labelOverlapMeasuresImageFilter =
+    LabelOverlapMeasuresImageFilterType::New();
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  EXERCISE_BASIC_OBJECT_METHODS( labelOverlapMeasuresImageFilter,
+    LabelOverlapMeasuresImageFilter, ImageToImageFilter );
+
 
   switch( atoi( argv[1] ) )
     {
