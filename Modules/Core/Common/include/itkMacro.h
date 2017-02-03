@@ -228,7 +228,11 @@ namespace itk
 
 // Use "ITK_FALLTHROUGH;" to annotate deliberate fall-through in switches,
 // use it analogously to "break;".  The trailing semi-colon is required.
-#if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L && defined(__has_warning)
+#if defined( __GNUC__ ) && !defined( __INTEL_COMPILER )
+# if ( __GNUC__ >= 7 )
+#  define ITK_FALLTHROUGH __attribute__((fallthrough))
+# endif
+#elif ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L && defined(__has_warning)
 # if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
 #  define ITK_FALLTHROUGH [[clang::fallthrough]]
 # endif
