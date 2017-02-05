@@ -29,6 +29,7 @@
 #define itkThresholdLabelerImageFilter_hxx
 
 #include "itkThresholdLabelerImageFilter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -67,24 +68,12 @@ void
 ThresholdLabelerImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Thresholds: ";
-  auto thresholdsSize = static_cast<SizeValueType>( m_Thresholds.size() );
-  for ( SizeValueType j = 0; j < thresholdsSize; j++ )
-    {
-    os << m_Thresholds[j] << " ";
-    }
-  os << std::endl;
-
-  os << indent << "Real Thresholds: ";
-  auto realThresholdsSize = static_cast<SizeValueType>( m_RealThresholds.size() );
-  for ( SizeValueType i = 0; i < realThresholdsSize; i++ )
-    {
-    os << m_RealThresholds[i] << " ";
-    }
-  os << std::endl;
-
+  os << indent << "Thresholds: " << m_Thresholds << std::endl;
+  os << indent << "Real Thresholds: " << m_RealThresholds << std::endl;
   os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
 }
 } // end namespace itk
