@@ -20,8 +20,8 @@
 #include "itkImageRegionSplitterSlowDimension.h"
 #include <mutex>
 #include "itksys/SystemTools.hxx"
+#include "itkPrintHelper.h"
 
-#include <iterator>
 
 namespace itk
 {
@@ -1129,22 +1129,6 @@ ImageIOBase
   axis[k] = 1.0;
 
   return axis;
-}
-
-namespace
-{
-template <typename T>
-std::ostream & operator<<( std::ostream & os, const std::vector<T>& v)
-{
-  if ( v.empty() )
-    {
-    return os << "( )";
-    }
-
-  os << "( ";
-  std::copy( v.begin(), v.end()-1, std::ostream_iterator<T>(os, ", ") );
-  return os << v.back() << " )";
-}
 }
 
 void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
