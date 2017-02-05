@@ -20,18 +20,18 @@
 #include "itkImageFileReader.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "itkTIFFImageIO.h"
-
+#include "itkTestingMacros.h"
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-namespace {
-
-template <typename TImageType>
-int ActualTest( std::string filename, typename TImageType::SizeType size )
+namespace
 {
-  typedef TImageType                      ImageType;
-  typedef typename ImageType::PixelType   PixelType;
 
+template< typename TImage >
+int itkLargeTIFFImageWriteReadTestHelper( std::string filename, typename TImage::SizeType size )
+{
+  typedef TImage                        ImageType;
+  typedef typename ImageType::PixelType PixelType;
 
   typedef itk::ImageFileWriter< ImageType >   WriterType;
   typedef itk::ImageFileReader< ImageType >   ReaderType;
@@ -48,13 +48,14 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
 
   itk::TimeProbesCollectorBase chronometer;
 
-  { // begin write block
+  {
+  // Write block
   typename ImageType::Pointer image = ImageType::New();
-  index.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(index);
+  index.Fill( 0 );
+  region.SetSize( size );
+  region.SetIndex( index );
 
-  image->SetRegions(region);
+  image->SetRegions( region );
 
   SizeValueType numberOfPixels = 1;
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i )
@@ -62,51 +63,50 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
     numberOfPixels *= static_cast< SizeValueType >( region.GetSize( i ) );
     }
 
-  const SizeValueType oneMegaByte = SizeValueType(1024) * SizeValueType(1024);
+  const SizeValueType oneMegaByte = SizeValueType( 1024 ) *
+    SizeValueType( 1024 );
 
   const SizeValueType sizeInBytes = sizeof(PixelType) * numberOfPixels;
 
   const SizeValueType sizeInMegaBytes = sizeInBytes / oneMegaByte;
 
 
-  std::cout << "Trying to allocate an image of size " << sizeInMegaBytes << " Mb " << std::endl;
+  std::cout << "Trying to allocate an image of size " << sizeInMegaBytes
+    << " MB " << std::endl;
 
-  chronometer.Start("Allocate");
+  chronometer.Start(" Allocate" );
   image->Allocate();
-  chronometer.Stop("Allocate");
+  chronometer.Stop( "Allocate" );
 
-  std::cout << "Initializing pixel values " << std::endl;
+  std::cout << "Initializing pixel values" << std::endl;
 
   IteratorType itr( image, region );
   itr.GoToBegin();
 
   pixelValue = itk::NumericTraits< PixelType >::ZeroValue();
 
-  chronometer.Start("Initializing");
+  chronometer.Start( "Initializing" );
   while( !itr.IsAtEnd() )
     {
     itr.Set( pixelValue );
     ++pixelValue;
     ++itr;
     }
-  chronometer.Stop("Initializing");
+  chronometer.Stop( "Initializing" );
 
   std::cout << "Trying to write the image to disk" << std::endl;
-  try
-    {
-    typename WriterType::Pointer writer = WriterType::New();
-    writer->SetInput(image);
-    writer->SetFileName( filename );
-    chronometer.Start("Write");
-    writer->Update();
-    chronometer.Stop("Write");
-    image = ITK_NULLPTR;
-    }
-  catch (itk::ExceptionObject &ex)
-    {
-    std::cout << ex << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetInput( image );
+  writer->SetFileName( filename );
+
+  chronometer.Start( "Write" );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  chronometer.Stop(" Write" );
+
+  image = ITK_NULLPTR;
   } // end write block to free the memory
 
   std::cout << "Trying to read the image back from disk" << std::endl;
@@ -114,19 +114,13 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
   reader->SetFileName( filename );
 
   itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
-  reader->SetImageIO(io);
+  reader->SetImageIO( io );
 
-  try
-    {
-    chronometer.Start("Read");
-    reader->Update();
-    chronometer.Stop("Read");
-    }
-  catch (itk::ExceptionObject &ex)
-    {
-    std::cout << ex << std::endl;
-    return EXIT_FAILURE;
-    }
+  chronometer.Start( "Read" );
+
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
+  chronometer.Stop( "Read" );
 
   typename ImageType::ConstPointer readImage = reader->GetOutput();
 
@@ -134,25 +128,25 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
 
   ritr.GoToBegin();
 
-  std::cout << "Comparing the pixel values.. :" << std::endl;
+  std::cout << "Comparing the pixel values" << std::endl;
 
   pixelValue = itk::NumericTraits< PixelType >::ZeroValue();
 
-  chronometer.Start("Compare");
+  chronometer.Start( "Compare" );
   while( !ritr.IsAtEnd() )
     {
     if( ritr.Get() != pixelValue )
       {
-      std::cerr << "Pixel comparison failed at index = " << ritr.GetIndex() << std::endl;
-      std::cerr << "Expected pixel value " << pixelValue << std::endl;
-      std::cerr << "Read Image pixel value " << ritr.Get() << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error while comparing pixel value at index: " << ritr.GetIndex() << std::endl;
+      std::cerr << "Expected: " << pixelValue << ", but got: " << ritr.Get() << std::endl;
       return EXIT_FAILURE;
       }
 
     ++pixelValue;
     ++ritr;
     }
-  chronometer.Stop("Compare");
+  chronometer.Stop( "Compare" );
 
   chronometer.Report( std::cout );
 
@@ -161,21 +155,22 @@ int ActualTest( std::string filename, typename TImageType::SizeType size )
 
   return EXIT_SUCCESS;
 }
-
 }
 
-int itkLargeTIFFImageWriteReadTest(int ac, char* argv[])
+int itkLargeTIFFImageWriteReadTest( int argc, char* argv[] )
 {
-
-  if (ac < 3)
+  if( argc < 3 )
     {
-    std::cout << "usage: itkIOTests itkLargeTIFFImageWriteReadTest outputFileName numberOfPixelsInOneDimension [numberOfZslices]" << std::endl;
+    std::cout << "Usage: " << argv[0]
+      << " outputFileName"
+      << " numberOfPixelsInOneDimension"
+      << " [numberOfZslices]" << std::endl;
     return EXIT_FAILURE;
     }
 
   const std::string filename = argv[1];
 
-  if ( ac == 3 )
+  if( argc == 3 )
     {
     const unsigned int Dimension = 2;
 
@@ -186,8 +181,7 @@ int itkLargeTIFFImageWriteReadTest(int ac, char* argv[])
 
     size.Fill( atol( argv[2] ) );
 
-    return ActualTest< ImageType >( filename, size );
-
+    return itkLargeTIFFImageWriteReadTestHelper< ImageType >( filename, size );
     }
   else
     {
@@ -201,7 +195,7 @@ int itkLargeTIFFImageWriteReadTest(int ac, char* argv[])
     size.Fill( atol( argv[2] ) );
     size[2] = atol( argv[3] );
 
-    return ActualTest< ImageType >( filename, size );
+    return itkLargeTIFFImageWriteReadTestHelper< ImageType >( filename, size );
     }
 
 }

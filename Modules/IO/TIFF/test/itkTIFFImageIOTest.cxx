@@ -17,16 +17,17 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include <fstream>
 #include "itkTIFFImageIO.h"
+#include "itkTestingMacros.h"
+#include <fstream>
 
 namespace
 {
 
-template<typename T>
-bool BUG_12266( const std::string &fname, T*)
+template< typename TImage >
+bool TestMultipleReads( const std::string &fname, TImage*)
 {
-  typedef T                               ImageType;
+  typedef TImage                          ImageType;
   typedef itk::ImageFileReader<ImageType> ReaderType;
 
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -37,8 +38,6 @@ bool BUG_12266( const std::string &fname, T*)
 
   try
     {
-
-    // this is designed to test 2 Reads with only one ReadImageInformation
     reader->GetOutput()->SetRequestedRegionToLargestPossibleRegion();
     reader->GetOutput()->UpdateOutputInformation();
     reader->GetOutput()->PropagateRequestedRegion();
@@ -53,58 +52,45 @@ bool BUG_12266( const std::string &fname, T*)
     return EXIT_FAILURE;
     }
 
-
   return true;
 }
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-template<typename T> int DoIt( int, char * argv[], typename T::Pointer)
+template< typename TImage >
+int itkTIFFImageIOTestHelper( int, char * argv[] )
 {
-  typename itk::ImageFileReader<T>::Pointer reader
-    = itk::ImageFileReader<T>::New();
+  typedef TImage                            ImageType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
+  typedef itk::ImageFileWriter< ImageType > WriterType;
 
-  typename itk::ImageFileWriter<T>::Pointer writer
-    = itk::ImageFileWriter<T>::New();
+  typename ReaderType::Pointer reader = ReaderType::New();
+  typename WriterType::Pointer writer = WriterType::New();
 
   itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
-  reader->SetFileName(argv[1]);
-  reader->SetImageIO(io);
+  reader->SetFileName( argv[1] );
+  reader->SetImageIO( io );
 
-  try
-    {
-    reader->Update();
-    }
-  catch (itk::ExceptionObject & e)
-    {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
-  BUG_12266<T>( argv[1], ITK_NULLPTR );
+  // Test 2 reads with only one ReadImageInformation
+  TestMultipleReads< ImageType >( argv[1], ITK_NULLPTR );
 
 
-  typename T::Pointer image = reader->GetOutput();
-  image->Print(std::cout );
+  typename ImageType::Pointer image = reader->GetOutput();
 
-  typename T::RegionType region = image->GetLargestPossibleRegion();
-  std::cout << "region " << region;
+  image->Print( std::cout );
+
+  typename ImageType::RegionType region = image->GetLargestPossibleRegion();
+  std::cout << "region " << region << std::endl;
 
   // Generate test image
   writer->SetInput( reader->GetOutput() );
   writer->SetFileName(argv[2]);
   writer->SetImageIO(io);
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject & e)
-    {
-    std::cerr << "exception in file writer " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
   return EXIT_SUCCESS;
 }
 }
@@ -115,87 +101,77 @@ int itkTIFFImageIOTest( int argc, char* argv[] )
   unsigned int dimension = 2;
   unsigned int pixelType = 1;
 
-  if(argc < 3)
+  if( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0]
-              << " Input Output [dimensionality:default 2]"
-              << "[pixeltype: 1:uchar(default) 2:ushort 3:short 4:float]\n";
+              << " Input Output [dimensionality (default: 2)]"
+              << "[pixeltype: 1:uchar(default); 2:ushort; 3:short; 4:float]" << std::endl;
     return EXIT_FAILURE;
     }
-  else if (argc == 4)
+  else if( argc == 4 )
     {
-    dimension = atoi(argv[3]);
+    dimension = atoi( argv[3] );
     }
-  else if (argc == 5)
+  else if( argc == 5 )
     {
-    dimension = atoi(argv[3]);
-    pixelType = atoi(argv[4]);
+    dimension = atoi( argv[3] );
+    pixelType = atoi( argv[4] );
     }
 
-  if (dimension == 2 && pixelType == 1)
+  if( dimension == 2 && pixelType == 1 )
     {
-    typedef itk::RGBPixel<unsigned char> PixelType;
-    itk::Image<PixelType, 2>::Pointer dummy;
-    return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
-
+    typedef itk::RGBPixel< unsigned char > PixelType;
+    return itkTIFFImageIOTestHelper< itk::Image<PixelType, 2> >( argc, argv );
     }
-  else if (dimension == 2 && pixelType == 2)
+  else if (dimension == 2 && pixelType == 2 )
     {
-    typedef itk::RGBPixel<unsigned short> PixelType;
-    itk::Image<PixelType, 2>::Pointer dummy;
-    return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
+    typedef itk::RGBPixel< unsigned short > PixelType;
+    return itkTIFFImageIOTestHelper< itk::Image<PixelType, 2> >( argc, argv );
     }
-  else if (dimension == 2 && pixelType == 3)
+  else if( dimension == 2 && pixelType == 3 )
     {
     typedef itk::RGBPixel<short> PixelType;
-    itk::Image<PixelType, 2>::Pointer dummy;
-    return DoIt<itk::Image<PixelType, 2> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<PixelType, 2> >( argc, argv );
     }
-  else if (dimension == 3 && pixelType == 1)
+  else if( dimension == 3 && pixelType == 1 )
     {
-    itk::Image<unsigned char, 3>::Pointer dummy;
-    return DoIt<itk::Image<unsigned char, 3> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<unsigned char, 3> >( argc, argv );
     }
-  else if (dimension == 3 && pixelType == 2)
+  else if( dimension == 3 && pixelType == 2 )
     {
-    itk::Image<unsigned short, 3>::Pointer dummy;
-    return DoIt<itk::Image<unsigned short, 3> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<unsigned short, 3> >( argc, argv );
     }
-  else if (dimension == 3 && pixelType == 3)
+  else if( dimension == 3 && pixelType == 3 )
     {
-    itk::Image<short, 3>::Pointer dummy;
-    return DoIt<itk::Image<short, 3> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<short, 3> >( argc, argv );
     }
   else if (dimension == 3 && pixelType == 4)
     {
-    itk::Image<float, 3>::Pointer dummy;
-    return DoIt<itk::Image<float, 3> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<float, 3> >( argc, argv );
     }
-  else if (dimension == 4 && pixelType == 1)
+  else if( dimension == 4 && pixelType == 1 )
     {
-    itk::Image<unsigned char, 4>::Pointer dummy;
-    return DoIt<itk::Image<unsigned char, 4> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<unsigned char, 4> >( argc, argv );
     }
-  else if (dimension == 4 && pixelType == 2)
+  else if( dimension == 4 && pixelType == 2 )
     {
-    itk::Image<unsigned short, 4>::Pointer dummy;
-    return DoIt<itk::Image<unsigned short, 4> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<unsigned short, 4> >( argc, argv );
     }
-  else if (dimension == 4 && pixelType == 3)
+  else if( dimension == 4 && pixelType == 3 )
     {
     itk::Image<short, 4>::Pointer dummy;
-    return DoIt<itk::Image<short, 4> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<short, 4> >( argc, argv );
     }
-  else if (dimension == 4 && pixelType == 4)
+  else if( dimension == 4 && pixelType == 4 )
     {
-    itk::Image<float, 4>::Pointer dummy;
-    return DoIt<itk::Image<float, 4> >( argc, argv, dummy);
+    return itkTIFFImageIOTestHelper< itk::Image<float, 4> >( argc, argv );
     }
   else
     {
-    std::cerr << "Usage: " << argv[0]
-              << " Input Output [dimensionality:default 2]"
-              << "[pixeltype: 1:uchar(default) 2:ushort 3:short 4:float]\n";
+    std::cerr << "Test failed!" << argv[0] << std::endl;
+    std::cerr << " Unsupported dimensionality or pixelType provided." << std::endl;
+    std::cerr << " Supported dimensionality: [2-4]; (default: 2)" << std::endl;
+    std::cerr << " Supported pixelType: [1:uchar(default); 2:ushort; 3:short; 4:float]" << std::endl;
     return EXIT_FAILURE;
     }
 }

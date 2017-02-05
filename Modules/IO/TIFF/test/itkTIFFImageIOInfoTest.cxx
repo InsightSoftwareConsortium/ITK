@@ -20,42 +20,40 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkMetaDataObject.h"
+#include "itkTestingMacros.h"
 
 
-int itkTIFFImageIOInfoTest(int argc, char * argv[])
+int itkTIFFImageIOInfoTest( int argc, char * argv[] )
 {
 
   if( argc != 2 )
     {
-    std::cerr << "usage: " << argv[0] << " intput " << std::endl;
-    std::cerr << " input: the input image" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    std::cerr << "Usage: " << argv[0] << " input" << std::endl;
+    return EXIT_FAILURE;
     }
 
-  const int dim = 2;
+  const unsigned int                          Dimension = 2;
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
-
-
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
+
   reader->Update();
 
   typedef itk::MetaDataDictionary            DictionaryType;
   typedef itk::MetaDataObject< std::string > MetaDataStringType;
 
-  const  DictionaryType & dictionary = reader->GetImageIO()->GetMetaDataDictionary();
+  const DictionaryType & dictionary = reader->GetImageIO()->GetMetaDataDictionary();
   DictionaryType::ConstIterator itr = dictionary.Begin();
   DictionaryType::ConstIterator end = dictionary.End();
 
-  std::cout << "---MetaDataDictionary---" << std::endl;
+  std::cout << "MetaDataDictionary" << std::endl;
   while( itr != end )
     {
-    itk::MetaDataObjectBase::Pointer  entry = itr->second;
-    const std::string                 tagkey   = itr->first;
+    itk::MetaDataObjectBase::Pointer  entry   = itr->second;
+    const std::string                 tagkey  = itr->first;
 
     MetaDataStringType::Pointer entryvalue =
       dynamic_cast<MetaDataStringType *>( entry.GetPointer() );
@@ -72,5 +70,5 @@ int itkTIFFImageIOInfoTest(int argc, char * argv[])
     ++itr;
     }
 
-  return 0;
+  return EXIT_SUCCESS;
 }

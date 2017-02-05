@@ -17,20 +17,21 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int itkTIFFImageIOTest2( int argc, char* argv[] )
 {
 
-  if( argc < 2 )
+  if( argc != 2 )
     {
-    std::cerr << "Usage: " << argv[0] << " outputFilename " << std::endl;
+    std::cerr << "Usage: " << argv[0] << " outputFilename" << std::endl;
     return EXIT_FAILURE;
     }
 
-  const unsigned int Dimension = 2;
-  typedef unsigned char PixelType;
-
-  typedef itk::Image< PixelType, Dimension > ImageType;
+  const unsigned int                          Dimension = 2;
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
   ImageType::Pointer image = ImageType::New();
 
@@ -48,8 +49,7 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
   region.SetIndex( start );
 
   image->SetRegions( region );
-  image->Allocate(true); // initialize buffer
-                                                // to zero
+  image->Allocate( true ); // initialize buffer to zero
 
   ImageType::SpacingType spacing;
 
@@ -64,29 +64,13 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
 
   writer->SetInput( image );
 
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  try
-    {
-    reader->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
   const ImageType * readImage = reader->GetOutput();
 
@@ -94,25 +78,17 @@ int itkTIFFImageIOTest2( int argc, char* argv[] )
 
   const double tolerance = 1e-5;
 
-  if( std::abs( readSpacing[0] - spacing[0] ) > tolerance )
+  for( unsigned int i = 0; i < ImageType::SpacingType::Dimension; ++i )
     {
-    std::cerr << "Spacing read/write failed !" << std::endl;
-    std::cerr << "Expected spacing = " << spacing << std::endl;
-    std::cerr << "Found    spacing = " << readSpacing << std::endl;
-    return EXIT_FAILURE;
+    if( !itk::Math::FloatAlmostEqual( spacing[i], readSpacing[i], 10, tolerance ) )
+      {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error while testing spacing at index: " << i << std::endl;
+      std::cerr << "Expected: " << spacing[i] << ", but got: " << readSpacing[i] << std::endl;
+      return EXIT_FAILURE;
+      }
     }
 
-  if( std::abs( readSpacing[1] - spacing[1] ) > tolerance )
-    {
-    std::cerr << "Spacing read/write failed !" << std::endl;
-    std::cerr << "Expected spacing = " << spacing << std::endl;
-    std::cerr << "Found    spacing = " << readSpacing << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  std::cout << "Expected spacing = " << spacing << std::endl;
-  std::cout << "Found    spacing = " << readSpacing << std::endl;
-  std::cout << "Test PASSED !" << std::endl;
-
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
