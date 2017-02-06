@@ -370,7 +370,7 @@ ColorTable< TPixel >
     }
   else
     {
-    return ITK_NULLPTR;
+    return "";
     }
 }
 
