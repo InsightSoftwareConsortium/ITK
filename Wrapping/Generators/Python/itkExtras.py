@@ -1069,11 +1069,15 @@ def ipython_kw_matches(text):
     ip = IPython.get_ipython()
     if "." in text:  # a parameter cannot be dotted
         return []
-    # 1. find the nearest identifier that comes before an unclosed
+    # 1. Find the nearest identifier that comes before an unclosed
     # parenthesis e.g. for "foo (1+bar(x), pa", the candidate is "foo".
-    # Use get_endidx() to find the indentifier at the cursor position
-    tokens = regexp.findall(
-        ip.Completer.readline.get_line_buffer()[:ip.Completer.readline.get_endidx()])
+    if ip.Completer.readline:
+        textUntilCursor = ip.Completer.readline.get_line_buffer()[:ip.Completer.readline.get_endidx()]
+    else:
+        # IPython >= 5.0.0, which is based on the Python Prompt Toolkit
+        textUntilCursor = ip.Completer.text_until_cursor
+
+    tokens = regexp.findall(textUntilCursor)
     tokens.reverse()
     iterTokens = iter(tokens)
     openPar = 0
@@ -1127,7 +1131,7 @@ def ipython_kw_matches(text):
             continue
         for namedArg in namedArgs:
             if namedArg.startswith(text):
-                argMatches.append("%s=" % namedArg)
+                argMatches.append(u"%s=" % namedArg)
     return argMatches
 
 # install progress callback and custom completer if we are in ipython
