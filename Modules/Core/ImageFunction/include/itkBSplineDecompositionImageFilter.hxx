@@ -43,8 +43,14 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   m_Tolerance( 1e-10 ),   // Need some guidance on this one...what is reasonable?
   m_IteratorDirection( 0 )
 {
-  int SplineOrder = 3;
-  this->SetSplineOrder(SplineOrder);
+  this->SetSplineOrder( 3 );
+
+  for( unsigned int i = 0; i < m_Scratch.size(); ++i )
+    {
+    m_Scratch[i] = 0;
+    }
+
+  m_DataLength.Fill( itk::NumericTraits< typename TInputImage::SizeType::SizeValueType >::ZeroValue() );
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -61,7 +67,11 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
   os << indent << "Data Length: " << m_DataLength << std::endl;
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-  os << indent << "Spline Poles: " << m_SplinePoles << std::endl;
+  os << indent << "SplinePoles: " << std::endl;
+  for( unsigned int i = 0; i < 3; ++i )
+    {
+    os << indent << "[" << i << "]" << m_SplinePoles[i] << std::endl;
+    }
   os << indent << "Number Of Poles: " << m_NumberOfPoles << std::endl;
   os << indent << "Tolerance: " << m_Tolerance << std::endl;
   os << indent << "Iterator Direction: " << m_IteratorDirection << std::endl;
