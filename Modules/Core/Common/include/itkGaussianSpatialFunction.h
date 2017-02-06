@@ -25,9 +25,9 @@
 namespace itk
 {
 /** \class GaussianSpatialFunction
- * \brief N-dimensional gaussian spatial function class
+ * \brief N-dimensional Gaussian spatial function class
  *
- * GaussianSpatialFunction implements a standard gaussian curve in N-d.
+ * GaussianSpatialFunction implements a standard Gaussian curve in N-d.
  * m_Normalized determines whether or not the Gaussian is normalized
  * (whether or not the sum over infinite space is 1.0)
  *
@@ -69,13 +69,20 @@ public:
   /** Evaluate the function at a given position. */
   OutputType Evaluate(const TInput & position) const ITK_OVERRIDE;
 
-  /** Gets and sets for gaussian parameters */
+  /** Set/Get the scale factor to multiply the true value of the Gaussian. */
   itkSetMacro(Scale, double);
   itkGetConstMacro(Scale, double);
+
+  /** Set/Get whether or not to normalize the Gaussian. Default is false. */
   itkSetMacro(Normalized, bool);
   itkGetConstMacro(Normalized, bool);
+  itkBooleanMacro(Normalized);
+
+  /** Set/Get the standard deviation in each direction. */
   itkSetMacro(Sigma, ArrayType);
   itkGetConstMacro(Sigma, ArrayType);
+
+  /** Set/Get the mean in each direction. */
   itkSetMacro(Mean, ArrayType);
   itkGetConstMacro(Mean, ArrayType);
 
@@ -87,16 +94,12 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialFunction);
 
-  /** The standard deviation in each direction. */
   ArrayType m_Sigma;
 
-  /** The mean in each direction. */
   ArrayType m_Mean;
 
-  /** A scale factor multiplied by the true value of the Gaussian. */
   double m_Scale;
 
-  /** Whether or not to normalize the Gaussian. */
   bool m_Normalized;
 };
 } // end namespace itk
