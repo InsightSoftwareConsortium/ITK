@@ -29,9 +29,9 @@ namespace itk
 {
 template< typename TPixel >
 ColorTable< TPixel >
-::ColorTable()
+::ColorTable() :
+  m_NumberOfColors( 0 )
 {
-  m_NumberOfColors = 0;
 }
 
 template< typename TPixel >
@@ -41,22 +41,6 @@ ColorTable< TPixel >
 {
   m_Color.resize(0);
   m_ColorName.resize(0);
-}
-
-template< typename TPixel >
-void
-ColorTable< TPixel >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "NumberOfColors = " << m_NumberOfColors << std::endl;
-  for ( unsigned int i = 0; i < m_NumberOfColors; i++ )
-    {
-    os << indent
-       << "ColorName[" << i << "] = " << m_ColorName[i] << ", "
-       << "Color[" << i << "] = " << m_Color[i] << std::endl;
-    }
 }
 
 template< typename TPixel >
@@ -414,6 +398,22 @@ ColorTable< TPixel >
       }
     }
   return bestMatchColor;
+}
+
+template< typename TPixel >
+void
+ColorTable< TPixel >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "NumberOfColors = " << m_NumberOfColors << std::endl;
+  for ( unsigned int i = 0; i < m_NumberOfColors; i++ )
+    {
+    os << indent
+       << "ColorName[" << i << "] = " << m_ColorName[i] << ", "
+       << "Color[" << i << "] = " << m_Color[i] << std::endl;
+    }
 }
 } // namespace itk
 
