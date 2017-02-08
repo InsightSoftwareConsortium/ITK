@@ -116,6 +116,17 @@ ThreadPool
 
 }
 
+void
+ThreadPool
+::WaitForThread(ThreadProcessIdType threadHandle)
+{
+  // Using POSIX threads
+  if ( pthread_join(threadHandle, ITK_NULLPTR) )
+    {
+    itkGenericExceptionMacro(<< "Unable to join thread.");
+    }
+}
+
 bool
 ThreadPool
 ::CompareThreadHandles(ThreadProcessIdType t1, ThreadProcessIdType t2)
@@ -152,6 +163,10 @@ ThreadPool
     //TODO: Replace in both Pthread and WinThread  the return value of
     // FetchWork.
     const ThreadJob &currentPThreadJob = pThreadPool->FetchWork(pthread_self() );
+    if( pThreadPool->m_ScheduleForDestruction )
+      {
+      continue;
+      }
     if(currentPThreadJob.m_Assigned == false )
       {
       itkDebugStatement(std::cerr << "\n Empty job returned from FetchWork so ignoring and continuing ..\n\n");

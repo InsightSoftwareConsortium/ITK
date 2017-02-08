@@ -250,6 +250,9 @@ private:
       into the m_ThreadHandles set*/
   void AddThread();
 
+  /** Wait for a thread running. */
+  void WaitForThread(ThreadProcessIdType);
+
   /** To check if the thread pool has to add a thread.
       This method checks if any threads in the thread pool
       are free. If so, it returns false else returns true */

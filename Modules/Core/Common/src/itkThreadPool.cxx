@@ -83,6 +83,16 @@ ThreadPool
 ::~ThreadPool()
 {
   itkDebugMacro(<< std::endl << "Thread pool being destroyed" << std::endl);
+
+  this->m_ScheduleForDestruction = true;
+  while( m_ThreadHandles.size() > 0 )
+    {
+    ThreadJob threadJob;
+    ThreadProcessIdType threadId = this->AssignWork(threadJob);
+    WaitForThread(threadId);
+    m_ThreadHandles.erase( m_ThreadHandles.find(threadId) );
+    }
+
   for(size_t i=0; i<m_ThreadSemHandlePairingForWaitQueue.size(); i++)
     {
     delete m_ThreadSemHandlePairingForWaitQueue[i];
