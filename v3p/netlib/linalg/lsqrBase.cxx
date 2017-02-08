@@ -562,7 +562,7 @@ Solve( unsigned int m, unsigned int n, const double * b, double * x )
     // See if it is time to print something.
     //----------------------------------------------------------------
     bool prnt = false;
-    if (nout > 0)
+    if ( this->nout )
       {
       if (n     <=        40) prnt = true;
       if (this->itn   <=        10) prnt = true;
