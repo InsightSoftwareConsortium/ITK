@@ -30,7 +30,7 @@ namespace itk {
  * This filter creates a binary thresholded image that separates an
  * image into foreground and background components. The filter
  * computes the threshold using the YenThresholdCalculator and
- * applies that theshold to the input image using the
+ * applies that threshold to the input image using the
  * BinaryThresholdImageFilter.
  *
  * \author Richard Beare
