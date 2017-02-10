@@ -374,4 +374,10 @@
 #    else
 #      define ITK_COMPILER_CXX_TEMPLATE_TEMPLATE_PARAMETERS 0
 #    endif
+
+#    if ((__GNUC__ * 100) + __GNUC_MINOR__) >= 409 && __cplusplus > 201103L
+#      define ITK_COMPILER_CXX_ATOMIC 1
+#    else
+#      define ITK_COMPILER_CXX_ATOMIC 0
+#    endif
 #endif // ITK_COMPILER_INFO_GNU_CXX_h

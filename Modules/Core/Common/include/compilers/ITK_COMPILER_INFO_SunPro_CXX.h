@@ -322,4 +322,11 @@
 #    else
 #      define ITK_COMPILER_CXX_TEMPLATE_TEMPLATE_PARAMETERS 0
 #    endif
+
+#    if (__SUNPRO_CC >= 0x5130) && __cplusplus >= 201103L
+#      define ITK_COMPILER_CXX_ATOMIC 1
+#    else
+#      define ITK_COMPILER_CXX_ATOMIC 0
+#    endif
+
 #endif //ITK_COMPILER_INFO_SunPro_CXX_h
