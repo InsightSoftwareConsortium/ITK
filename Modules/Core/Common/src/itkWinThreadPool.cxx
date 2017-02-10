@@ -108,6 +108,15 @@ ThreadPool
 
 }
 
+void
+ThreadPool
+::WaitForThread(ThreadProcessIdType threadHandle)
+{
+  // Using _beginthreadex on a PC
+  WaitForSingleObject(threadHandle, INFINITE);
+  CloseHandle(threadHandle);
+}
+
 bool
 ThreadPool
 ::CompareThreadHandles(ThreadProcessIdType t1, ThreadProcessIdType t2)
@@ -155,6 +164,10 @@ ThreadPool
   while( !winThreadPool->m_ScheduleForDestruction )
     {
     const ThreadJob &currentWinJob = winThreadPool->FetchWork( handle);
+    if( winThreadPool->m_ScheduleForDestruction )
+      {
+      continue;
+      }
     if( currentWinJob.m_Id < 0 || currentWinJob.m_Assigned == false )
       {
       itkDebugStatement(std::cerr << "In thread pool thread : Empty job returned from FetchWork so ignoring and continuing .."
