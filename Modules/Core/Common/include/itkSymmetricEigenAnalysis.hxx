@@ -23,6 +23,7 @@
 
 namespace itk
 {
+
 template< typename TMatrix, typename TVector, typename TEigenMatrix >
 unsigned int
 SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(const TMatrix  & A,
@@ -39,6 +40,7 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValues(con
   for ( unsigned int row = 0; row < m_Dimension; row++ )
     {
       dVector[row] = D[row];
+      workArea1[row] = 0;
 
     for ( unsigned int col = 0; col < m_Dimension; col++ )
       {
@@ -79,15 +81,18 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
   for ( unsigned int row = 0; row < m_Dimension; row++ )
     {
       dVector[row] = EigenValues[row];
+      workArea1[row] = 0;
 
     for ( unsigned int col = 0; col < m_Dimension; col++ )
       {
+      workArea2[k] = 0;
       inputMatrix[k++] = A(row, col);
       }
     }
 
   ReduceToTridiagonalMatrixAndGetTransformation(
     inputMatrix, dVector, workArea1, workArea2);
+
   const unsigned int eigenErrIndex =
     ComputeEigenValuesAndVectorsUsingQL(dVector, workArea1, workArea2);
 
@@ -431,9 +436,8 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesUsin
     /*     .......... look for small sub-diagonal element .......... */
     for ( m = l; m < m_Order - 1; ++m )
       {
-      const double abs_e_m = itk::Math::abs(e[m]);
-      tst2 = tst1 + abs_e_m;
-      if ( ! ( abs_e_m  > 0 ) )
+      tst2 = tst1 + itk::Math::abs(e[m]);
+      if ( tst2 == tst1 )
         {
         break;
         }
@@ -582,9 +586,8 @@ SymmetricEigenAnalysis< TMatrix, TVector, TEigenMatrix >::ComputeEigenValuesAndV
     /*     .......... look for small sub-diagonal element .......... */
     for ( m = l; m < m_Order - 1; ++m )
       {
-      const double abs_e_m = itk::Math::abs(e[m]);
-      tst2 = tst1 + abs_e_m;
-      if ( ! (abs_e_m > 0 ) )
+      tst2 = tst1 + itk::Math::abs(e[m]);
+      if ( tst2 == tst1 )
         {
         break;
         }
