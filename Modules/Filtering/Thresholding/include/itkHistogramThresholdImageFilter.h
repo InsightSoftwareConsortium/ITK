@@ -207,6 +207,9 @@ protected:
   void GenerateInputRequestedRegion() ITK_OVERRIDE;
   void GenerateData () ITK_OVERRIDE;
 
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdImageFilter);
+
   OutputPixelType     m_InsideValue;
   OutputPixelType     m_OutsideValue;
   InputPixelType      m_Threshold;
@@ -215,10 +218,6 @@ protected:
   unsigned            m_NumberOfHistogramBins;
   bool                m_AutoMinimumMaximum;
   bool                m_MaskOutput;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(HistogramThresholdImageFilter);
-
 }; // end of class
 
 } // end namespace itk
