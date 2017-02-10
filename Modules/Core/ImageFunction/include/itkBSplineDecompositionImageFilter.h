@@ -134,6 +134,9 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
+  typedef std::vector< CoeffType >  CoefficientsVectorType;
+  typedef std::vector< double >     SplinePolesVectorType;
+
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDecompositionImageFilter);
 
   /** Determines the poles given the Spline Order. */
@@ -168,7 +171,7 @@ private:
   // Variables needed by the smoothing spline routine.
 
   /** Temporary storage for processing of Coefficients. */
-  std::vector< CoeffType >           m_Scratch;
+  CoefficientsVectorType           m_Scratch;
 
   /** Image size. */
   typename TInputImage::SizeType m_DataLength;
@@ -177,7 +180,7 @@ private:
   unsigned int m_SplineOrder;
 
   /** Poles calculated for a given spline order. */
-  double m_SplinePoles[3];
+  SplinePolesVectorType m_SplinePoles;
 
   /** Number of poles. */
   int m_NumberOfPoles;

@@ -68,7 +68,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   os << indent << "Data Length: " << m_DataLength << std::endl;
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
   os << indent << "SplinePoles: " << std::endl;
-  for( unsigned int i = 0; i < 3; ++i )
+  for( unsigned int i = 0; i < m_SplinePoles.size(); ++i )
     {
     os << indent << "[" << i << "]" << m_SplinePoles[i] << std::endl;
     }
@@ -136,6 +136,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     {
     return;
     }
+  m_SplinePoles.clear();
   m_SplineOrder = SplineOrder;
   this->SetPoles();
   this->Modified();
@@ -153,7 +154,8 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     {
     case 3:
       m_NumberOfPoles = 1;
-      m_SplinePoles[0] = std::sqrt(3.0) - 2.0;
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt(3.0) - 2.0;
       break;
     case 0:
       m_NumberOfPoles = 0;
@@ -163,18 +165,21 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
       break;
     case 2:
       m_NumberOfPoles = 1;
-      m_SplinePoles[0] = std::sqrt(8.0) - 3.0;
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt(8.0) - 3.0;
       break;
     case 4:
       m_NumberOfPoles = 2;
-      m_SplinePoles[0] = std::sqrt( 664.0 - std::sqrt(438976.0) ) + std::sqrt(304.0) - 19.0;
-      m_SplinePoles[1] = std::sqrt( 664.0 + std::sqrt(438976.0) ) - std::sqrt(304.0) - 19.0;
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt( 664.0 - std::sqrt(438976.0) ) + std::sqrt(304.0) - 19.0;
+      m_SplinePoles.at( 1 ) = std::sqrt( 664.0 + std::sqrt(438976.0) ) - std::sqrt(304.0) - 19.0;
       break;
     case 5:
       m_NumberOfPoles = 2;
-      m_SplinePoles[0] = std::sqrt( 135.0 / 2.0 - std::sqrt(17745.0 / 4.0) ) + std::sqrt(105.0 / 4.0)
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt( 135.0 / 2.0 - std::sqrt(17745.0 / 4.0) ) + std::sqrt(105.0 / 4.0)
                          - 13.0 / 2.0;
-      m_SplinePoles[1] = std::sqrt( 135.0 / 2.0 + std::sqrt(17745.0 / 4.0) ) - std::sqrt(105.0 / 4.0)
+      m_SplinePoles.at( 1 ) = std::sqrt( 135.0 / 2.0 + std::sqrt(17745.0 / 4.0) ) - std::sqrt(105.0 / 4.0)
                          - 13.0 / 2.0;
       break;
     default:
