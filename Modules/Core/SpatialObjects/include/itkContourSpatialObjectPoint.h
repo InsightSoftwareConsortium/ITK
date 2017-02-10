@@ -28,7 +28,7 @@ namespace itk
  *
  * This class contains all the functions necessary to define a point
  * that can be used to build surfaces.
- * A surface point has a position and only one normal
+ * A surface point has a position and only one normal.
  *
  * \sa SpatialObjectPoint
  * \ingroup ITKSpatialObjects
@@ -51,38 +51,43 @@ public:
   /** Default destructor. */
   virtual ~ContourSpatialObjectPoint();
 
-  /** Get Picked Point */
+  /** Get the picked point. */
   const PointType & GetPickedPoint() const;
 
-  /** Set Picked Point */
+  /** Set the picked point : N-D case. */
   void SetPickedPoint(const PointType & point);
 
+  /** Set the picked point : 2D case. */
   void SetPickedPoint(const double pointx, const double pointy);
 
+  /** Set the picked point : 3D case. */
   void SetPickedPoint(const double pointx,
                       const double pointy, const double pointz);
 
-  /** Get Normal */
+  /** Get the normal. */
   const VectorType & GetNormal() const;
 
-  /** Set Normal */
+  /** Set the normal : N-D case. */
   void SetNormal(const VectorType & normal);
 
+  /** Set the normal : 2D case. */
   void SetNormal(const double normalx, const double normaly);
 
+  /** Set the normal : 3D case. */
   void SetNormal(const double normalx,
                  const double normaly, const double normalz);
 
-  /** Copy one ContourSpatialObjectPoint to another */
+  /** Copy a surface point to another. */
   Self & operator=(const ContourSpatialObjectPoint & rhs);
 
 protected:
 
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
+private:
+
   VectorType m_Normal;
   PointType  m_PickedPoint;
-
-  /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 

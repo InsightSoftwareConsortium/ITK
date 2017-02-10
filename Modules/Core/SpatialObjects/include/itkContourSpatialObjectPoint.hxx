@@ -22,7 +22,6 @@
 
 namespace itk
 {
-/** Constructor */
 template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
 ::ContourSpatialObjectPoint(void)
@@ -32,13 +31,11 @@ ContourSpatialObjectPoint< TPointDimension >
   m_PickedPoint.Fill(0);
 }
 
-/** Destructor */
 template< unsigned int TPointDimension >
 ContourSpatialObjectPoint< TPointDimension >
 ::~ContourSpatialObjectPoint(void)
 {}
 
-/** Set the picked point : N-D case */
 template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
@@ -47,7 +44,6 @@ ContourSpatialObjectPoint< TPointDimension >
   m_PickedPoint = point;
 }
 
-/** Set the picked point : 2D case */
 template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
@@ -57,7 +53,6 @@ ContourSpatialObjectPoint< TPointDimension >
   m_PickedPoint[1] = pointy;
 }
 
-/** Set the picked point : 3D case */
 template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
@@ -68,7 +63,6 @@ ContourSpatialObjectPoint< TPointDimension >
   m_PickedPoint[2] = pointz;
 }
 
-/** Get the normal at one point */
 template< unsigned int TPointDimension >
 const typename ContourSpatialObjectPoint< TPointDimension >::PointType &
 ContourSpatialObjectPoint< TPointDimension >
@@ -77,7 +71,6 @@ ContourSpatialObjectPoint< TPointDimension >
   return m_PickedPoint;
 }
 
-/** Set the normal : N-D case */
 template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
@@ -86,7 +79,6 @@ ContourSpatialObjectPoint< TPointDimension >
   m_Normal = normal;
 }
 
-/** Set the normal : 2D case */
 template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
@@ -96,7 +88,6 @@ ContourSpatialObjectPoint< TPointDimension >
   m_Normal[1] = normaly;
 }
 
-/** Set the normal : 3D case */
 template< unsigned int TPointDimension >
 void
 ContourSpatialObjectPoint< TPointDimension >
@@ -107,7 +98,6 @@ ContourSpatialObjectPoint< TPointDimension >
   m_Normal[2] = normalz;
 }
 
-/** Get the normal at one point */
 template< unsigned int TPointDimension >
 const typename ContourSpatialObjectPoint< TPointDimension >::VectorType &
 ContourSpatialObjectPoint< TPointDimension >
@@ -116,21 +106,6 @@ ContourSpatialObjectPoint< TPointDimension >
   return m_Normal;
 }
 
-/** Print the object */
-template< unsigned int TPointDimension >
-void
-ContourSpatialObjectPoint< TPointDimension >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "ContourSpatialObjectPoint(" << this << ")" << std::endl;
-  os << indent << "Picked Point: ";
-  os << indent <<  m_PickedPoint << std::endl;
-  os << indent << "Normal: ";
-  os << indent <<  m_Normal << std::endl;
-}
-
-/** Copy a surface point to another */
 template< unsigned int TPointDimension >
 typename ContourSpatialObjectPoint< TPointDimension >::Self &
 ContourSpatialObjectPoint< TPointDimension >
@@ -144,6 +119,17 @@ ContourSpatialObjectPoint< TPointDimension >
     this->m_PickedPoint = rhs.GetPickedPoint();
     }
   return *this;
+}
+
+template< unsigned int TPointDimension >
+void
+ContourSpatialObjectPoint< TPointDimension >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Picked Point: " <<  m_PickedPoint << std::endl;
+  os << indent << "Normal: " <<  m_Normal << std::endl;
 }
 } // end namespace itk
 
