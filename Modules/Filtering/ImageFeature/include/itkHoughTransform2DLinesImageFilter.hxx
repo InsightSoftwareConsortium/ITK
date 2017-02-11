@@ -378,12 +378,29 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "Threshold: " << m_Threshold << std::endl;
-  os << "Angle Resolution: " << m_AngleResolution << std::endl;
-  os << "Number Of Lines: " << m_NumberOfLines << std::endl;
-  os << "Disc Radius: " << m_DiscRadius << std::endl;
-  os << "Accumulator blur variance: " << m_Variance << std::endl;
-  os << "Simplify Accumulator" << m_SimplifyAccumulator << std::endl;
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Angle Resolution: " << m_AngleResolution << std::endl;
+  os << indent << "Number Of Lines: " << m_NumberOfLines << std::endl;
+  os << indent << "Disc Radius: " << m_DiscRadius << std::endl;
+  os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
+  os << indent << "Simplify Accumulator" << m_SimplifyAccumulator << std::endl;
+
+  os << indent << "LinesList: " << std::endl;
+  unsigned int i = 0;
+  LinesListType::const_iterator it = m_LinesList.begin();
+  while( it != m_LinesList.end() )
+    {
+    os << indent << "[" << i << "]: " << *it << std::endl;
+    ++it;
+    ++i;
+    }
+
+  os << indent << "OldModifiedTime: "
+    << NumericTraits< ModifiedTimeType >::PrintType( m_OldModifiedTime )
+    << std::endl;
+  os << indent << "OldNumberOfLines: "
+    << NumericTraits< LinesListSizeType >::PrintType( m_OldNumberOfLines )
+    << std::endl;
 }
 } // end namespace
 
