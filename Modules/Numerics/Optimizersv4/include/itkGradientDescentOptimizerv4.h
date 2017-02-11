@@ -104,21 +104,19 @@ public:
   typedef typename Superclass::ParametersType               ParametersType;
   typedef typename Superclass::StopConditionType            StopConditionType;
 
-  /** Set the learning rate. */
+  /** Set/Get the learning rate to apply. It is overridden by
+   *  automatic learning rate estimation if enabled. See main documentation.
+   */
   itkSetMacro(LearningRate, TInternalComputationValueType);
-
-  /** Get the learning rate. */
   itkGetConstReferenceMacro(LearningRate, TInternalComputationValueType);
 
-  /** Set the maximum step size, in physical space units.
+  /** Set/Get the maximum step size, in physical space units.
    *
    *  Only relevant when m_ScalesEstimator is set by user,
    *  and automatic learning rate estimation is enabled.
    *  See main documentation.
    */
   itkSetMacro(MaximumStepSizeInPhysicalUnits, TInternalComputationValueType);
-
-  /** Get the maximum step size, in physical space units. */
   itkGetConstReferenceMacro(MaximumStepSizeInPhysicalUnits, TInternalComputationValueType);
 
   /** Option to use ScalesEstimator for learning rate estimation at
@@ -164,7 +162,9 @@ public:
    */
   itkSetMacro(ConvergenceWindowSize, SizeValueType);
 
-  /** Get current convergence value */
+  /** Get current convergence value.
+   *  WindowConvergenceMonitoringFunction always returns output convergence
+   *  value in 'TInternalComputationValueType' precision. */
   itkGetConstReferenceMacro( ConvergenceValue, TInternalComputationValueType);
 
   /** Flag. Set to have the optimizer track and return the best
@@ -182,11 +182,13 @@ public:
   itkGetConstReferenceMacro(ReturnBestParametersAndValue, bool);
   itkBooleanMacro(ReturnBestParametersAndValue);
 
-  /** Start and run the optimization */
+  /** Start and run the optimization. */
   virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
+  /** Stop the optimization. */
   virtual void StopOptimization(void) ITK_OVERRIDE;
 
+  /** Resume the optimization. */
   virtual void ResumeOptimization() ITK_OVERRIDE;
 
   /** Estimate the learning rate based on the current gradient. */
@@ -194,18 +196,15 @@ public:
 
 protected:
 
-  /** Advance one Step following the gradient direction.
+  /** Advance one step following the gradient direction.
    * Includes transform update. */
   virtual void AdvanceOneStep();
 
-  /** Modify the gradient over a given index range. */
+  /** Modify the gradient by scales and weights over a given index range. */
   virtual void ModifyGradientByScalesOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
-  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
 
-  /** Manual learning rate to apply. It is overridden by
-   * automatic learning rate estimation if enabled. See main documentation.
-   */
-  TInternalComputationValueType  m_LearningRate;
+  /** Modify the gradient by learning rate over a given index range. */
+  virtual void ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange ) ITK_OVERRIDE;
 
   /** Default constructor */
   GradientDescentOptimizerv4Template();
@@ -215,30 +214,23 @@ protected:
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
-  /** Minimum convergence value for convergence checking.
-   *  The convergence checker calculates convergence value by fitting to
-   *  a window of the energy profile. When the convergence value reaches
-   *  a small value, such as 1e-8, it would be treated as converged.
-   */
-  TInternalComputationValueType m_MinimumConvergenceValue;
 
-  /** Current convergence value. */
-  /* WindowConvergenceMonitoringFunction always returns output convergence value in 'TInternalComputationValueType' precision */
+  TInternalComputationValueType m_LearningRate;
+  TInternalComputationValueType m_MinimumConvergenceValue;
   TInternalComputationValueType m_ConvergenceValue;
 
-  /** Store the best value and related paramters */
-  MeasureType                  m_CurrentBestValue;
-  ParametersType               m_BestParameters;
+  /** Store the best value and related paramters. */
+  MeasureType                   m_CurrentBestValue;
+  ParametersType                m_BestParameters;
 
-  /** Flag to control returning of best value and parameters. */
-  bool m_ReturnBestParametersAndValue;
+  bool                          m_ReturnBestParametersAndValue;
 
   /** Store the previous gradient value at each iteration,
-   * so we can detect the changes in geradient direction.
+   * so we can detect the changes in gradient direction.
    * This is needed by the regular step gradient descent and
-   * Quasi newton optimizers.
+   * Quasi Newton optimizers.
    */
-  DerivativeType m_PreviousGradient;
+  DerivativeType                m_PreviousGradient;
 
 private:
 
