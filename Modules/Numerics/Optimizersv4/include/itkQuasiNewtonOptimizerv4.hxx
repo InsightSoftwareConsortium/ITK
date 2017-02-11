@@ -184,7 +184,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>
 
   try
     {
-    /* Pass graident to transform and let it do its own updating */
+    /* Pass gradient to transform and let it do its own updating */
     this->m_Metric->UpdateTransformParameters( this->m_NewtonStep );
     }
   catch ( ExceptionObject & err )
