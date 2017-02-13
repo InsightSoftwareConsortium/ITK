@@ -17,40 +17,52 @@
  *=========================================================================*/
 
 #include "itkOtsuThresholdImageFilter.h"
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
+#include "itkTestingMacros.h"
+
 
 int
 itkOtsuThresholdImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 6)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFile outputImageFile [numberOfHistogramBins flipOutputIntensities]";
-    std::cerr << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
+              << " outputImageFile"
+              << " numberOfHistogramBins"
+              << " autoMinimumMaximum"
+              << " expectedThreshold"
+              << " [flipOutputIntensities]"
+              << " [returnBinMidpoint]" << std::endl;
     return EXIT_FAILURE;
   }
+
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image<InputPixelType, 2>;
-  using OutputImageType = itk::Image<OutputPixelType, 2>;
-
-  using FilterType = itk::OtsuThresholdImageFilter<InputImageType, OutputImageType>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
   ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  using FilterType = itk::OtsuThresholdImageFilter<InputImageType, OutputImageType>;
   FilterType::Pointer filter = FilterType::New();
-  WriterType::Pointer writer = WriterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OtsuThresholdImageFilter, HistogramThresholdImageFilter);
+
 
 #if defined(ITKV4_COMPATIBILITY)
   ITK_TEST_EXPECT_TRUE(filter->GetReturnBinMidpoint());
@@ -58,39 +70,68 @@ itkOtsuThresholdImageFilterTest(int argc, char * argv[])
   ITK_TEST_EXPECT_TRUE(!filter->GetReturnBinMidpoint());
 #endif
 
-  reader->SetFileName(argv[1]);
+
+  auto numberOfHistogramBins = static_cast<itk::SizeValueType>(std::stoi(argv[3]));
+  filter->SetNumberOfHistogramBins(numberOfHistogramBins);
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, filter->GetNumberOfHistogramBins());
+
+  auto autoMinimumMaximum = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, AutoMinimumMaximum, autoMinimumMaximum);
+
+  // Test no histogram exception (no input set)
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+
+  FilterType::CalculatorType::Pointer calculator = FilterType::CalculatorType::New();
+  filter->SetCalculator(calculator);
+  ITK_TEST_SET_GET_VALUE(calculator, filter->GetCalculator());
+
+
   filter->SetInput(reader->GetOutput());
-  if (argc > 3)
+
+  if (argc > 5)
   {
-    filter->SetNumberOfHistogramBins(std::stoi(argv[3]));
-  }
-  if (argc > 4)
-  {
-    bool flipOutputIntensities = std::stoi(argv[4]);
+    bool flipOutputIntensities = std::stoi(argv[6]);
     if (flipOutputIntensities)
     {
-      // Flip the inside and outside values.
+      // Flip the inside and outside values
       FilterType::OutputPixelType outsideValue = filter->GetInsideValue();
       FilterType::OutputPixelType insideValue = filter->GetOutsideValue();
       filter->SetInsideValue(insideValue);
       filter->SetOutsideValue(outsideValue);
     }
   }
-  if (argc > 5)
+  if (argc > 6)
   {
-    bool returnBinMidpoint = static_cast<bool>(std::stoi(argv[5]));
+    bool returnBinMidpoint = static_cast<bool>(std::stoi(argv[6]));
     ITK_TEST_SET_GET_BOOLEAN(filter, ReturnBinMidpoint, returnBinMidpoint);
   }
-  filter->Update();
 
-  // Test GetMacros
-  unsigned long numberOfHistogramBins = filter->GetNumberOfHistogramBins();
-  std::cout << "filter->GetNumberOfHistogramBins(): " << numberOfHistogramBins << std::endl;
-  std::cout << "Computed Threshold is: "
-            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold()) << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
+  // Regression test: compare computed threshold
+  auto                       expectedThreshold = static_cast<FilterType::InputPixelType>(std::stod(argv[5]));
+  FilterType::InputPixelType resultThreshold = filter->GetThreshold();
+  if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetThreshold()" << std::endl;
+    std::cerr << "Expected: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(expectedThreshold)
+              << ", but got: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(resultThreshold)
+              << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Write output image
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

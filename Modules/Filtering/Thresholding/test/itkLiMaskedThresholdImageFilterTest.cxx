@@ -17,61 +17,102 @@
  *=========================================================================*/
 
 #include "itkLiThresholdImageFilter.h"
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
+
 int
 itkLiMaskedThresholdImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc != 7)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFile maskImageFile outputImageFile";
-    std::cerr << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
+              << " maskImageFile"
+              << " outputImageFile"
+              << " maskOutput"
+              << " maskValue"
+              << " expectedThreshold" << std::endl;
     return EXIT_FAILURE;
   }
+
+  constexpr unsigned int Dimension = 2;
 
   using InputPixelType = short;
   using OutputPixelType = unsigned char;
 
-  using InputImageType = itk::Image<InputPixelType, 2>;
-  using OutputImageType = itk::Image<OutputPixelType, 2>;
-
-  using FilterType = itk::LiThresholdImageFilter<InputImageType, OutputImageType>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  using MaskReaderType = itk::ImageFileReader<OutputImageType>;
-
-  using WriterType = itk::ImageFileWriter<OutputImageType>;
-
   ReaderType::Pointer reader = ReaderType::New();
-  FilterType::Pointer filter = FilterType::New();
-  WriterType::Pointer writer = WriterType::New();
+  reader->SetFileName(argv[1]);
 
-  MaskReaderType::Pointer maskreader = MaskReaderType::New();
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+
+  using MaskReaderType = itk::ImageFileReader<OutputImageType>;
+  MaskReaderType::Pointer maskReader = MaskReaderType::New();
+  maskReader->SetFileName(argv[2]);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(maskReader->Update());
+
+
+  using FilterType = itk::LiThresholdImageFilter<InputImageType, OutputImageType>;
+  FilterType::Pointer filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
-  filter->SetInsideValue(255);
-  ITK_TEST_SET_GET_VALUE(255, filter->GetInsideValue());
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LiThresholdImageFilter, HistogramThresholdImageFilter);
 
-  filter->SetOutsideValue(0);
-  ITK_TEST_SET_GET_VALUE(0, filter->GetOutsideValue());
 
-  reader->SetFileName(argv[1]);
-  maskreader->SetFileName(argv[2]);
+  auto insideValue = static_cast<FilterType::OutputPixelType>(255);
+  filter->SetInsideValue(insideValue);
+  ITK_TEST_SET_GET_VALUE(insideValue, filter->GetInsideValue());
+
+  auto outsideValue = static_cast<FilterType::OutputPixelType>(0);
+  filter->SetOutsideValue(outsideValue);
+  ITK_TEST_SET_GET_VALUE(outsideValue, filter->GetOutsideValue());
+
+  bool maskOutput = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, MaskOutput, maskOutput);
+
+  auto maskValue = static_cast<FilterType::MaskPixelType>(std::stod(argv[5]));
+  filter->SetMaskValue(maskValue);
+  ITK_TEST_SET_GET_VALUE(maskValue, filter->GetMaskValue());
+
+
   filter->SetInput(reader->GetOutput());
-  filter->SetMaskImage(maskreader->GetOutput());
+  filter->SetMaskImage(maskReader->GetOutput());
+
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+  // Regression test: compare computed threshold
+  FilterType::InputPixelType expectedThreshold = std::stod(argv[6]);
+  FilterType::InputPixelType resultThreshold = filter->GetThreshold();
+  if (itk::Math::NotAlmostEquals(expectedThreshold, resultThreshold))
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetThreshold()" << std::endl;
+    std::cerr << "Expected: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(expectedThreshold)
+              << ", but got: " << itk::NumericTraits<FilterType::InputPixelType>::PrintType(resultThreshold)
+              << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Write output image
+  using WriterType = itk::ImageFileWriter<OutputImageType>;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
-
-  filter->Update();
-  std::cout << "Computed Threshold is: "
-            << itk::NumericTraits<FilterType::InputPixelType>::PrintType(filter->GetThreshold()) << std::endl;
   writer->SetFileName(argv[3]);
-  writer->Update();
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

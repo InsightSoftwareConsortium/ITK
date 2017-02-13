@@ -24,14 +24,15 @@
 #include "itkOtsuMultipleThresholdsCalculator.h"
 #include "itkTestingMacros.h"
 
+
 int
 itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputImageFile ";
-    std::cerr << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << itkNameOfTestExecutableMacro(argv) << std::endl;
+    std::cerr << " inputImageFile" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -40,15 +41,15 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
   // Then test the computed thresholds for the two filters for various numbers of
   // histogram bins.
   // The two algorithms should output the same result.
-  std::string inputImageName = argv[1];
-  int         numberOfThresholds = 1;
 
   constexpr unsigned int ImageDimension = 2;
   using InputImageType = itk::Image<unsigned short, ImageDimension>;
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
+  int numberOfThresholds = 1;
+
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName(inputImageName);
+  reader->SetFileName(argv[1]);
   reader->Update();
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<InputImageType>;
@@ -75,20 +76,20 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
     histogramGenerator->Compute();
 
     otsuCalculator->Compute();
-    otsuMultipleCalculator->Compute();
-    std::cout << "Computed Otsu threshold using " << binsIterator << " bins: " << otsuCalculator->GetThreshold()
-              << std::endl;
-    std::cout << "Computed Otsu multiple threshold using " << binsIterator
-              << " bins: " << otsuMultipleCalculator->GetOutput()[0] << std::endl;
 
     if (itk::Math::NotAlmostEquals(otsuCalculator->GetThreshold(), otsuMultipleCalculator->GetOutput()[0]))
     {
-      std::cout << "Computed Otsu threshold (" << otsuCalculator->GetThreshold()
-                << ") is different from computed Otsu multiple threshold (" << otsuMultipleCalculator->GetOutput()[0]
-                << ")" << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in itk::OtsuThresholdCalculator::GetThreshold() or \
+                 itk::OtsuMultipleThresholdsCalculator::GetOutput()"
+                << std::endl;
+      std::cout << "Computed Otsu threshold: " << otsuCalculator->GetThreshold()
+                << " is different from computed Otsu multiple threshold: " << otsuMultipleCalculator->GetOutput()[0]
+                << std::endl;
       return EXIT_FAILURE;
     }
   }
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
