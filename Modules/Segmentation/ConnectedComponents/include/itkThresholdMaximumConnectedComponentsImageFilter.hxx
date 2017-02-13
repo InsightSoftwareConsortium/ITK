@@ -57,7 +57,7 @@ ThresholdMaximumConnectedComponentsImageFilter< TInputImage, TOutputImage >
 
   m_ThresholdValue = static_cast< PixelType >( ( maxLabel + minLabel ) / 2 );
 
-  // Initialize values for the theshold filters
+  // Initialize values for the threshold filters
   // Default. Use ITK set macro "SetOutsideValue" to change
   m_OutsideValue = static_cast< OutputPixelType >( minLabel );
 
