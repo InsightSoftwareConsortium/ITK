@@ -208,6 +208,20 @@ public:
   itkGetConstMacro(UseStreamedWriting, bool);
   itkBooleanMacro(UseStreamedWriting);
 
+  /** Set/Get a boolean to perform RGB palette expansion.
+    * If true, palette image is read as RGB,
+    * if false, palette image is read as Scalar+Palette.
+    * A RGB image is always read as RGB.*/
+  itkSetMacro(ExpandRGBPalette, bool);
+  itkGetConstMacro(ExpandRGBPalette, bool);
+  itkBooleanMacro(ExpandRGBPalette);
+
+  /** Determine whether a paletized image file has been read as a scalar image
+   *  plus a color palette.
+   *  ExpandRGBPalette must be set to true, and the file must be a
+   *  palette image file supported for palette reading.*/
+  itkGetConstMacro(IsReadAsScalarPlusPalette, bool);
+
   /** Convenience method returns the IOComponentType as a string. This can be
    * used for writing output files. */
   static std::string GetComponentTypeAsString(IOComponentType);
@@ -564,6 +578,13 @@ protected:
 
   /** Should we use streaming for writing */
   bool m_UseStreamedWriting;
+
+  /** Should we expand RGB palette or stay scalar */
+  bool m_ExpandRGBPalette;
+
+  /** true if a RGB palette has been read and the image
+    * kept scalar */
+  bool m_IsReadAsScalarPlusPalette;
 
   /** The region to read or write. The region contains information about the
    * data within the region to read or write. */

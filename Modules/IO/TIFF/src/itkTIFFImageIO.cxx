@@ -28,10 +28,10 @@ namespace itk
 
 bool TIFFImageIO::CanReadFile(const char *file)
 {
-  // First check the extension
+  // First check the filename
   std::string filename = file;
 
-  if (  filename == "" )
+  if ( filename == "" )
     {
     itkDebugMacro(<< "No filename specified.");
     return false;
@@ -116,21 +116,29 @@ unsigned int TIFFImageIO::GetFormat()
       m_ImageFormat = TIFFImageIO::GRAYSCALE;
       return m_ImageFormat;
     case PHOTOMETRIC_PALETTE:
-      this->InitializeColors();
       if ( m_TotalColors > 0 )
         {
-        for ( unsigned int cc = 0; cc < static_cast<unsigned int>(m_TotalColors); ++cc )
+        if ( this->GetExpandRGBPalette() )
           {
-          unsigned short red, green, blue;
-          this->GetColor(cc, &red, &green, &blue);
-          if ( red != green || red != blue )
+          for ( unsigned int cc = 0; cc < static_cast<unsigned int>(m_TotalColors); ++cc )
             {
-            m_ImageFormat = TIFFImageIO::PALETTE_RGB;
-            return m_ImageFormat;
+            unsigned short red, green, blue;
+            this->GetColor(cc, &red, &green, &blue);
+            if ( red != green || red != blue )
+              {
+              m_ImageFormat = TIFFImageIO::PALETTE_RGB;
+              return m_ImageFormat;
+              }
             }
+            m_ImageFormat = TIFFImageIO::PALETTE_GRAYSCALE;
+            return m_ImageFormat;
           }
-        m_ImageFormat = TIFFImageIO::PALETTE_GRAYSCALE;
-        return m_ImageFormat;
+        else
+          { // if not expanding read grayscale palette as palette
+           m_ImageFormat = TIFFImageIO::PALETTE_RGB;
+           return m_ImageFormat;
+          }
+
         }
     }
   m_ImageFormat = TIFFImageIO::OTHER;
@@ -200,17 +208,21 @@ void TIFFImageIO::Read(void *buffer)
   m_InternalImage->Clean();
 }
 
-TIFFImageIO::TIFFImageIO()
+TIFFImageIO::TIFFImageIO() :
+  m_Compression( TIFFImageIO::PackBits ),
+  m_JPEGQuality( 75 ),
+  m_ColorPalette( 0 ), // palette has no element by default
+  m_TotalColors( -1 ),
+  m_ImageFormat( TIFFImageIO::NOFORMAT )
 {
-  this->SetNumberOfDimensions(2);
-  m_PixelType = SCALAR;
+  this->SetNumberOfDimensions( 2 );
+
   m_ComponentType = UCHAR;
+  m_PixelType = SCALAR;
 
   m_ColorRed    = ITK_NULLPTR;
   m_ColorGreen  = ITK_NULLPTR;
   m_ColorBlue   = ITK_NULLPTR;
-  m_TotalColors = -1;
-  m_ImageFormat = TIFFImageIO::NOFORMAT;
 
   m_InternalImage = new TIFFReaderInternal;
 
@@ -219,9 +231,6 @@ TIFFImageIO::TIFFImageIO()
 
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
-
-  m_Compression = TIFFImageIO::PackBits;
-  m_JPEGQuality = 75;
 
   this->AddSupportedWriteExtension(".tif");
   this->AddSupportedWriteExtension(".TIF");
@@ -243,8 +252,22 @@ TIFFImageIO::~TIFFImageIO()
 void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Compression: " << m_Compression << "\n";
-  os << indent << "JPEGQuality: " << m_JPEGQuality << "\n";
+
+  os << indent << "Compression: " << m_Compression << std::endl;
+  os << indent << "JPEGQuality: " << m_JPEGQuality << std::endl;
+  if ( m_IsReadAsScalarPlusPalette )
+    {
+    os << "Read as Scalar Image plus palette" << "\n";
+    }
+  if( m_ColorPalette.size() > 0  )
+    {
+    os << indent << "Image RGB palette:" << "\n";
+    for (size_t i=0; i< m_ColorPalette.size(); ++i)
+      {
+      os << indent << "[" << i << "]"
+         << itk::NumericTraits< PaletteType::value_type >::PrintType( m_ColorPalette[i] ) << std::endl;
+      }
+    }
 }
 
 void TIFFImageIO::InitializeColors()
@@ -363,6 +386,7 @@ void TIFFImageIO::ReadImageInformation()
       }
     }
 
+  m_IsReadAsScalarPlusPalette = false;
   switch ( this->GetFormat() )
     {
     case TIFFImageIO::PALETTE_GRAYSCALE:
@@ -375,9 +399,20 @@ void TIFFImageIO::ReadImageInformation()
       this->SetPixelType(RGB);
       break;
     case TIFFImageIO::PALETTE_RGB:
-      this->SetNumberOfComponents(3);
-      this->SetPixelType(RGB);
+      {
+      if ( this->GetExpandRGBPalette() )
+        {
+        this->SetNumberOfComponents(3);
+        this->SetPixelType(RGB);
+        }
+      else
+        {
+        this->SetNumberOfComponents(1);
+        this->SetPixelType(SCALAR);
+        m_IsReadAsScalarPlusPalette = true;
+        }
       break;
+      }
     default:
       // CanRead should be false
       this->SetNumberOfComponents(4);
@@ -386,7 +421,8 @@ void TIFFImageIO::ReadImageInformation()
 
   if ( (this->GetFormat() == TIFFImageIO::PALETTE_GRAYSCALE ||
         this->GetFormat() == TIFFImageIO::PALETTE_RGB)
-       && m_TotalColors > 0)
+       && m_TotalColors > 0
+       && this->GetExpandRGBPalette() )
     {
     m_ComponentType = UCHAR;
     // detect if palette appears to be 8-bit or 16-bit
@@ -425,6 +461,12 @@ void TIFFImageIO::ReadImageInformation()
     this->SetNumberOfComponents(4);
     this->SetPixelType(RGBA);
     m_ComponentType = UCHAR;
+
+    if ( m_IsReadAsScalarPlusPalette )
+      {
+      itkWarningMacro(<< "Could not read this palette image as scalar+Palette because of its TIFF format");
+      m_IsReadAsScalarPlusPalette = false;
+      }
     }
 
   // if the tiff file is multi-pages
@@ -912,6 +954,22 @@ void * TIFFImageIO::ReadRawByteFromTag(unsigned int t, unsigned int & value_coun
   return raw_data;
 }
 
+void TIFFImageIO::PopulateColorPalette()
+{
+    m_ColorPalette.resize(256);
+    for ( unsigned int cc = 0; cc < 256; ++cc )
+      {
+      unsigned short red, green, blue;
+      this->GetColor(cc, &red, &green, &blue);
+
+      RGBPixelType p;
+      p.SetRed(red);
+      p.SetGreen(green);
+      p.SetBlue(blue);
+      m_ColorPalette[cc] = p;
+      }
+}
+
 void TIFFImageIO::ReadTIFFTags()
 {
   // This method reads the custom (and ascii baseline tags), and
@@ -927,11 +985,17 @@ void TIFFImageIO::ReadTIFFTags()
 
   const int tagCount = TIFFGetTagListCount( m_InternalImage->m_Image );
 
+  this->InitializeColors();
+  if ( m_TotalColors > -1 )
+    {// if a palette have been found
+    PopulateColorPalette();
+    }
+
   for (int i = 0; i < tagCount; ++i)
     {
 
     // clean up allocation from prior iteration
-    if (mem_alloc)
+    if ( mem_alloc )
       {
       _TIFFfree(raw_data);
       mem_alloc = false;
@@ -1087,7 +1151,7 @@ void TIFFImageIO::ReadTIFFTags()
       }
     catch(...)
       {
-      if (mem_alloc)
+      if ( mem_alloc )
         {
         _TIFFfree(raw_data);
         mem_alloc = false;
@@ -1095,7 +1159,7 @@ void TIFFImageIO::ReadTIFFTags()
       }
     }
 
-  if (mem_alloc)
+  if ( mem_alloc )
     {
     _TIFFfree(raw_data);
     }
@@ -1215,8 +1279,17 @@ void TIFFImageIO::ReadGenericImage(void *_out,
       inc = m_InternalImage->m_SamplesPerPixel;
       break;
     case TIFFImageIO::PALETTE_RGB:
-      inc = 3;
+      {
+      if ( GetExpandRGBPalette() )
+        {
+        inc = 3;
+        }
+      else
+        {
+        inc = 1;
+        }
       break;
+      }
     default:
       inc = 1;
       break;
@@ -1264,18 +1337,38 @@ void TIFFImageIO::ReadGenericImage(void *_out,
           }
         break;
       case TIFFImageIO::PALETTE_RGB:
-         switch ( m_InternalImage->m_BitsPerSample )
+        if ( GetExpandRGBPalette() )
           {
-          case 8:
-            PutPaletteRGB<ComponentType, unsigned char>(image, static_cast< unsigned char * >( buf ), width, 1, 0, 0);
-            break;
-          case 16:
-            PutPaletteRGB<ComponentType, unsigned short>(image, static_cast< unsigned short * >( buf ), width, 1, 0, 0);
-            break;
-          default:
-            itkExceptionMacro(<<  "Sorry, can not handle image with "
-                              << m_InternalImage->m_BitsPerSample
-                              << "-bit samples with palette.");
+          switch ( m_InternalImage->m_BitsPerSample )
+            {
+            case 8:
+              PutPaletteRGB<ComponentType, unsigned char>(image, static_cast< unsigned char * >( buf ), width, 1, 0, 0);
+              break;
+            case 16:
+              PutPaletteRGB<ComponentType, unsigned short>(image, static_cast< unsigned short * >( buf ), width, 1, 0, 0);
+              break;
+            default:
+              itkExceptionMacro(<<  "Sorry, can not handle image with "
+                                << m_InternalImage->m_BitsPerSample
+                                << "-bit samples with palette.");
+            }
+          }
+        else
+          {
+          switch ( m_InternalImage->m_BitsPerSample )
+            {
+            case 8:
+               PutPaletteScalar<ComponentType, unsigned char>(image, static_cast< unsigned char * >( buf ), width, 1, 0, 0);
+              break;
+            case 16:
+               PutPaletteScalar<ComponentType, unsigned short>(image, static_cast< unsigned short * >( buf ), width, 1, 0, 0);
+              break;
+            default:
+              itkExceptionMacro(<<  "Sorry, can not handle image with "
+                                << m_InternalImage->m_BitsPerSample
+                                << "-bit samples with palette.");
+            }
+
           }
         break;
 
@@ -1372,6 +1465,26 @@ void TIFFImageIO::PutPaletteGrayscale( TType *to, TFromType * from,
     }
 }
 
+template <typename TType,typename TFromType>
+void TIFFImageIO::PutPaletteScalar( TType *to, TFromType * from,
+                                       unsigned int xsize, unsigned int ysize,
+                                       unsigned int toskew, unsigned int fromskew )
+{
+  for( unsigned int y = ysize; y-- > 0;)
+    {
+    for (unsigned int x = xsize; x-- > 0;)
+      {
+      const TFromType index = *from % m_TotalColors;
+
+      *( to ) = static_cast< TType >( index );
+
+      ++to;
+      ++from;
+      }
+    to += toskew;
+    from += fromskew;
+    }
+}
 
 template <typename TComponent>
 void  TIFFImageIO::RGBAImageToBuffer( void *out, const uint32_t *tempImage )

@@ -40,6 +40,9 @@ public:
   typedef ImageIOBase          Superclass;
   typedef SmartPointer< Self > Pointer;
 
+  typedef RGBPixel< unsigned char >   RGBPixelType;
+  typedef std::vector< RGBPixelType > PaletteType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -50,6 +53,11 @@ public:
    *  0-9; 0 = none, 9 = maximum. */
   itkSetMacro(CompressionLevel, int);
   itkGetConstMacro(CompressionLevel, int);
+
+  /** Get a const ref to the palette of the image. In the case of non palette
+    * image or ExpandRGBPalette set to true, a vector of size
+    * 0 is returned */
+  itkGetConstReferenceMacro(ColorPalette, PaletteType);
 
   /*-------- This part of the interface deals with reading data. ------ */
 
@@ -90,6 +98,8 @@ protected:
   /** Determines the level of compression for written files.
    *  Range 0-9; 0 = none, 9 = maximum , default = 4 */
   int m_CompressionLevel;
+
+  PaletteType m_ColorPalette;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PNGImageIO);

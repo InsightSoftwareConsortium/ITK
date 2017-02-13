@@ -5,6 +5,7 @@ itkBMPImageIOTest.cxx
 itkBMPImageIOTest3.cxx
 itkBMPImageIOTest4.cxx
 itkBMPImageIOTest5.cxx
+itkBMPImageIOTestPalette.cxx
 )
 
 CreateTestDriver(ITKIOBMP  "${ITKIOBMP-Test_LIBRARIES}" "${ITKIOBMPTests}")
@@ -48,3 +49,20 @@ itk_add_test(NAME itkBMPImageIOTest8
 itk_add_test(NAME itkBMPImageIOTest9
       COMMAND ITKIOBMPTestDriver
     itkBMPImageIOTest5 DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft_rle.bmp} DATA{${ITK_DATA_ROOT}/Input/grayscale_lowerleft.bmp})
+
+
+itk_add_test(NAME itkBMPImageIOTestPaletteExpanded
+      COMMAND ITKIOBMPTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp
+              8bb8e63723835db9d92690351a71783f
+    itkBMPImageIOTestPalette DATA{Input/HeliconiusNumataPalette.bmp} ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteExpanded.bmp 1 0)
+itk_add_test(NAME itkBMPImageIOTestPaletteNotExpanded
+      COMMAND ITKIOBMPTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp
+              93a72ac86af5191d777707135c98999d
+    itkBMPImageIOTestPalette DATA{Input/HeliconiusNumataPalette.bmp} ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpanded.bmp 0 1)
+itk_add_test(NAME itkBMPImageIOTestPaletteNotExpandedGrey
+      COMMAND ITKIOBMPTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp
+              93a72ac86af5191d777707135c98999d
+    itkBMPImageIOTestPalette DATA{Input/HeliconiusNumataPalette.bmp} ${ITK_TEST_OUTPUT_DIR}/itkBMPImageIOTestPaletteNotExpandedGrey.bmp 0 0)

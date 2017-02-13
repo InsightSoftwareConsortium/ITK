@@ -18,86 +18,138 @@
 #include "itkBMPImageIO.h"
 #include "itkImageFileReader.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkTestingMacros.h"
 #include <fstream>
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
-/* This test check that a RLE-compressed bitmap and an
+/* This test checks that a RLE-compressed bitmap and an
  * uncompressed bitmap representing the same grayscale image
  * contains the same data.
  */
-int itkBMPImageIOTest5( int ac, char* av[] )
+int itkBMPImageIOTest5( int argc, char* argv[] )
 {
 
-  if(ac < 3)
+  if( argc != 3 )
     {
-    std::cerr << "Usage: " << av[0] << " CompressedImage UncompressedImage" << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << " compressedImage"
+      << " uncompressedImage"
+      << std::endl;
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                              PixelType;
-  typedef itk::Image<PixelType, 2>                   ImageType;
-  typedef itk::ImageFileReader<ImageType>            ReaderType;
-  typedef itk::ImageRegionConstIterator< ImageType > IteratorType;
+  const unsigned int    Dimension = 2;
+  typedef unsigned char PixelType;
+
+  typedef itk::Image< PixelType, Dimension >          ImageType;
+  typedef itk::ImageFileReader< ImageType >           ReaderType;
+  typedef itk::ImageRegionConstIterator< ImageType >  IteratorType;
 
 
-  ReaderType::Pointer reader1 = ReaderType::New();
-  itk::BMPImageIO::Pointer io1 = itk::BMPImageIO::New();
-  reader1->SetImageIO(io1);
-  reader1->SetFileName(av[1]);
+  ReaderType::Pointer compressedImageReader = ReaderType::New();
 
-  ReaderType::Pointer reader2 = ReaderType::New();
-  itk::BMPImageIO::Pointer io2 = itk::BMPImageIO::New();
-  reader2->SetImageIO(io2);
-  reader2->SetFileName(av[2]);
+  itk::BMPImageIO::Pointer compressedImageIO = itk::BMPImageIO::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( compressedImageIO, BMPImageIO, ImageIOBase );
 
-  try
+  compressedImageReader->SetImageIO( compressedImageIO );
+  compressedImageReader->SetFileName( argv[1] );
+  compressedImageIO->SetFileName( argv[1] );
+
+  ReaderType::Pointer uncompressedImageReader = ReaderType::New();
+
+  itk::BMPImageIO::Pointer uncompressedImageIO = itk::BMPImageIO::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( uncompressedImageIO, BMPImageIO, ImageIOBase );
+
+  uncompressedImageReader->SetImageIO( uncompressedImageIO );
+  uncompressedImageReader->SetFileName( argv[2] );
+  uncompressedImageIO->SetFileName( argv[2] );
+
+  if( compressedImageIO->CanReadFile( "" ) )
     {
-    reader1->Update();
-    reader2->Update();
+    std::cerr << "Test failed!" << std::endl;
+    std::cout << "No filename specified." << std::endl;
+    std::cout << "CanReadFile: "
+      << "Expected false but got true" << std::endl;
+    return EXIT_FAILURE;
     }
-  catch (itk::ExceptionObject & e)
+
+  if( !compressedImageIO->CanReadFile( compressedImageIO->GetFileName() ) )
     {
-    std::cerr << "exception in image file reader " << std::endl;
-    std::cerr << e << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cout << "itk::BMPImageIO cannot read file "
+      << uncompressedImageIO->GetFileName() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( uncompressedImageIO->CanReadFile( "" ) )
+    {
+    std::cerr << "Test failed!" << std::endl;
+    std::cout << "No filename specified." << std::endl;
+    std::cout << "CanReadFile: "
+      << "Expected false but got true" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( !uncompressedImageIO->CanReadFile( uncompressedImageIO->GetFileName() ) )
+    {
+    std::cerr << "Test failed!" << std::endl;
+    std::cout << "itk::BMPImageIO cannot read file "
+      << uncompressedImageIO->GetFileName() << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  TRY_EXPECT_NO_EXCEPTION( compressedImageReader->Update() );
+
+  TRY_EXPECT_NO_EXCEPTION( uncompressedImageReader->Update() );
+
+
+  if( compressedImageIO->GetBMPCompression() != 1 )
+    {
+    std::cout << "Test failed!" << std::endl;
+    std::cout << "Expecting a RLE-compressed image, got an uncompressed one ("
+      << argv[1] << ")." << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  if( uncompressedImageIO->GetBMPCompression() != 0 )
+    {
+    std::cout << "Test failed!" << std::endl;
+    std::cout << "Expecting an uncompressed image, got an RLE-compressed one ("
+      << argv[2] << ")." << std::endl;
     return EXIT_FAILURE;
     }
 
 
-  if(io1->GetBMPCompression() != 1)
+  ImageType::RegionType compressedImageRegion =
+    compressedImageReader->GetOutput()->GetLargestPossibleRegion();
+  ImageType::RegionType uncompressedImageRegion =
+    uncompressedImageReader->GetOutput()->GetLargestPossibleRegion();
+
+  if( compressedImageRegion != uncompressedImageRegion )
     {
-      std::cout << "Expecting a RLE-compressed image, got an uncompressed one (" << av[1] << ")." << std::endl;
-      return EXIT_FAILURE;
+    std::cout << "Test failed!" << std::endl;
+    std::cout << "The images must have the same size." << std::endl;
+    return EXIT_FAILURE;
     }
 
-  if(io2->GetBMPCompression() != 0)
-    {
-      std::cout << "Expecting an uncompressed image, got an RLE-compressed one (" << av[2] << ")." << std::endl;
-      return EXIT_FAILURE;
-    }
-
-
-  ImageType::RegionType r1 = reader1->GetOutput()->GetLargestPossibleRegion(),
-                        r2 = reader2->GetOutput()->GetLargestPossibleRegion();
-
-  if(r1 != r2)
-    {
-      std::cout << "The images must have the same size." << std::endl;
-      return EXIT_FAILURE;
-    }
-
-  IteratorType it1( reader1->GetOutput(), r1 );
-  IteratorType it2( reader2->GetOutput(), r2 );
+  IteratorType it1( compressedImageReader->GetOutput(),
+    compressedImageRegion );
+  IteratorType it2( uncompressedImageReader->GetOutput(),
+    uncompressedImageRegion );
 
   it1.GoToBegin();
   it2.GoToBegin();
-  while ( !it1.IsAtEnd() )
+  while( !it1.IsAtEnd() )
     {
-    if ( it1.Value() != it2.Value() )
+    if( it1.Value() != it2.Value() )
       {
-      std::cout << "An image stored in a lower-left bitmap is different than the same image stored in a upper-left bitmap." << std::endl;
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "An image stored in a lower-left bitmap is different than \
+                   the same image stored in a upper-left bitmap." << std::endl;
       return EXIT_FAILURE;
       }
 
@@ -105,5 +157,6 @@ int itkBMPImageIOTest5( int ac, char* av[] )
     ++it2;
     }
 
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
