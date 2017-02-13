@@ -21,6 +21,7 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
 
@@ -48,12 +49,22 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   radius.Fill( atoi(argv[3]) );
 
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, AdaptiveHistogramEqualizationImageFilter,
+    MovingHistogramImageFilter );
+
   FilterWatcher watcher(filter);
 
   filter->SetInput( reader->GetOutput() );
   filter->SetRadius( radius );
-  filter->SetAlpha( atof(argv[4]) );
-  filter->SetBeta( atof(argv[5]) );
+
+  float alpha = atof(argv[4]);
+  filter->SetAlpha( alpha );
+  TEST_SET_GET_VALUE( alpha, filter->GetAlpha() );
+
+  float beta = atof(argv[5]);
+  filter->SetBeta( beta );
+  TEST_SET_GET_VALUE( beta, filter->GetBeta() );
 
   //
   //  The output of the filter is connected here to a intensity rescaler filter
@@ -63,7 +74,7 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
 
   typedef unsigned char WritePixelType;
 
-  typedef itk::Image< WritePixelType, 2 > WriteImageType;
+  typedef itk::Image< WritePixelType, ImageDimension > WriteImageType;
 
   typedef itk::RescaleIntensityImageFilter<
                InputImageType, WriteImageType > RescaleFilterType;
@@ -80,8 +91,8 @@ int itkAdaptiveHistogramEqualizationImageFilterTest( int argc, char * argv[] )
   writer->SetFileName( argv[2] );
 
   writer->SetInput( rescaler->GetOutput() );
-  writer->Update();
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
-
 }

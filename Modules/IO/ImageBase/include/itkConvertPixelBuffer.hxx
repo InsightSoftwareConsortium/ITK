@@ -20,11 +20,39 @@
 #include "itkConvertPixelBuffer.h"
 
 #include "itkRGBPixel.h"
-
+#include "itkDefaultConvertPixelTraits.h"
 #include <cstddef>
+
 
 namespace itk
 {
+
+template< typename InputPixelType,
+          typename OutputPixelType,
+          typename OutputConvertTraits
+          >
+template <typename UComponentType>
+typename DisableIfC<
+  NumericTraits< UComponentType >::IsInteger, UComponentType>::Type
+ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
+::DefaultAlphaValue( void )
+{
+  return NumericTraits<UComponentType>::One;
+}
+
+template< typename InputPixelType,
+          typename OutputPixelType,
+          typename OutputConvertTraits
+          >
+template <typename UComponentType>
+typename EnableIfC<
+  NumericTraits< UComponentType >::IsInteger, UComponentType>::Type
+ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
+::DefaultAlphaValue( void )
+{
+  return NumericTraits<UComponentType>::max();
+}
+
 template< typename InputPixelType,
           typename OutputPixelType,
           typename OutputConvertTraits
@@ -207,7 +235,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
   // NOTE: The scale factors are converted to whole numbers for
   // precision
   InputPixelType *endInput = inputData + size * 4;
-  double maxAlpha(Self::MaxAlpha(*inputData));
+  double maxAlpha(DefaultAlphaValue<InputPixelType>());
   //
   // To be backwards campatible, if the output pixel type
   // isn't a short or char type, don't fix the problem.
@@ -245,7 +273,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
   //
   // To be backwards campatible, if the output pixel type
   // isn't a short or char type, don't fix the problem.
-  double maxAlpha(Self::MaxAlpha(*inputData));
+  double maxAlpha(DefaultAlphaValue<InputPixelType>());
   if(sizeof(*outputData) > 2)
     {
     maxAlpha = 1.0;
@@ -446,8 +474,7 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
                                           static_cast< OutputComponentType >
                                           ( *inputData ) );
     OutputConvertTraits::SetNthComponent( 3, *outputData,
-                                          static_cast< OutputComponentType >
-                                          ( 1 ) );
+      static_cast< OutputComponentType >(DefaultAlphaValue<InputPixelType>()));
     inputData++;
     outputData++;
     }
@@ -462,6 +489,8 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
 ::ConvertRGBToRGBA(InputPixelType *inputData,
                    OutputPixelType *outputData, size_t size)
 {
+  typedef itk::DefaultConvertPixelTraits< InputPixelType >  InputConvertTraits;
+  typedef typename InputConvertTraits::ComponentType        InputComponentType;
   InputPixelType *endInput = inputData + size * 3;
 
   while ( inputData != endInput )
@@ -476,8 +505,8 @@ ConvertPixelBuffer< InputPixelType, OutputPixelType, OutputConvertTraits >
                                           static_cast< OutputComponentType >
                                           ( *( inputData + 2 ) ) );
     OutputConvertTraits::SetNthComponent( 3, *outputData,
-                                          static_cast< OutputComponentType >
-                                          ( 1 ) );
+  static_cast< OutputComponentType >(DefaultAlphaValue<InputComponentType>()));
+
     inputData += 3;
     outputData++;
     }

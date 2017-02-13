@@ -36,44 +36,19 @@ namespace itk
 {
 namespace Testing
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 StretchIntensityImageFilter< TInputImage, TOutputImage >
-::StretchIntensityImageFilter()
+::StretchIntensityImageFilter() :
+  m_Scale( 1.0 ),
+  m_Shift( 0.0 ),
+  m_InputMinimum( NumericTraits< InputPixelType >::max() ),
+  m_InputMaximum( NumericTraits< InputPixelType >::ZeroValue() ),
+  m_OutputMinimum( NumericTraits< OutputPixelType >::NonpositiveMin() ),
+  m_OutputMaximum( NumericTraits< OutputPixelType >::max() )
 {
-  m_OutputMaximum   = NumericTraits< OutputPixelType >::max();
-  m_OutputMinimum   = NumericTraits< OutputPixelType >::NonpositiveMin();
-
-  m_InputMaximum   = NumericTraits< InputPixelType >::ZeroValue();
-  m_InputMinimum   = NumericTraits< InputPixelType >::max();
-
-  m_Scale = 1.0;
-  m_Shift = 0.0;
 }
 
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-void
-StretchIntensityImageFilter< TInputImage, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "Output Minimum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMinimum )
-     << std::endl;
-  os << indent << "Output Maximum: "
-     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMaximum )
-     << std::endl;
-}
-
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 StretchIntensityImageFilter< TInputImage, TOutputImage >
@@ -132,9 +107,6 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
 
 }
 
-/**
- * ThreadedGenerateData Performs the pixel-wise addition
- */
 template< typename TInputImage, typename TOutputImage >
 void
 StretchIntensityImageFilter< TInputImage, TOutputImage >
@@ -198,7 +170,33 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
 
+template< typename TInputImage, typename TOutputImage >
+void
+StretchIntensityImageFilter< TInputImage, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
 
+  os << indent << "Scale: "
+     << static_cast< typename NumericTraits< RealType >::PrintType >( m_Scale )
+     << std::endl;
+  os << indent << "Shift: "
+     << static_cast< typename NumericTraits< RealType >::PrintType >( m_Shift )
+     << std::endl;
+
+  os << indent << "Input Minimum: "
+     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMinimum )
+     << std::endl;
+  os << indent << "Input Maximum: "
+     << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMaximum )
+     << std::endl;
+  os << indent << "Output Minimum: "
+     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMinimum )
+     << std::endl;
+  os << indent << "Output Maximum: "
+     << static_cast< typename NumericTraits< OutputPixelType >::PrintType >( m_OutputMaximum )
+     << std::endl;
+}
 } // end namespace Testing
 } // end namespace itk
 

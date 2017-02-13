@@ -261,6 +261,20 @@ public:
   itkSetMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
   itkGetConstMacro( MetricSamplingStrategy, MetricSamplingStrategyType );
 
+  /** Reinitialize the seed for the random number generators that
+   * select the samples for some metric sampling strategies.
+   *
+   * By initializing the random number generator seed to a value the
+   * same deterministic sampling will be used each Update
+   * execution. On the other hand, calling the method
+   * ReinitializeSeed() without arguments will use the wall clock in
+   * order to have psuedo-random initialization of the seeds. This
+   * will indeed increase the non-deterministic behavior of the
+   * metric.
+   */
+  void MetricSamplingReinitializeSeed();
+  void MetricSamplingReinitializeSeed(int seed);
+
   /** Set the metric sampling percentage. Valid values are in (0.0, 1.0] */
   void SetMetricSamplingPercentage( const RealType );
 
@@ -490,6 +504,11 @@ protected:
   std::vector<ShrinkFactorsPerDimensionContainerType>             m_ShrinkFactorsPerLevel;
   SmoothingSigmasArrayType                                        m_SmoothingSigmasPerLevel;
   bool                                                            m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
+
+  bool                                                            m_ReseedIterator;
+  int                                                             m_RandomSeed;
+  int                                                             m_CurrentRandomSeed;
+
 
   TransformParametersAdaptorsContainerType                        m_TransformParametersAdaptorsPerLevel;
 

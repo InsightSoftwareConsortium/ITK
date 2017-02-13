@@ -46,51 +46,57 @@ int itkAutoCropLabelMapFilterTest2( int argc, char * argv [] )
     return EXIT_FAILURE;
     }
 
-  const unsigned int dim = 2;
+  const unsigned int Dimension = 2;
   typedef unsigned char   PixelType;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
-  typedef itk::LabelObject< PixelType, dim > LabelObjectType;
-  typedef itk::LabelMap< LabelObjectType >   LabelMapType;
+  typedef itk::LabelObject< PixelType, Dimension > LabelObjectType;
+  typedef itk::LabelMap< LabelObjectType >         LabelMapType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType> I2LType;
-  I2LType::Pointer i2l = I2LType::New();
-  i2l->SetInput( reader->GetOutput() );
-  itk::SimpleFilterWatcher watcher(i2l, "i2l");
+  typedef itk::LabelImageToLabelMapFilter< ImageType, LabelMapType > ImageToLabelMapFilterType;
+  ImageToLabelMapFilterType::Pointer imageToLabelMapFilter =
+    ImageToLabelMapFilterType::New();
+  imageToLabelMapFilter->SetInput( reader->GetOutput() );
+  itk::SimpleFilterWatcher watcher(imageToLabelMapFilter, "LabelImageToLabelMapFilter");
 
   typedef itk::LabelSelectionLabelMapFilter< LabelMapType > SelectionType;
   SelectionType::Pointer select = SelectionType::New();
-  select->SetInput( i2l->GetOutput() );
-  itk::SimpleFilterWatcher watcher2(select, "select");
+  select->SetInput( imageToLabelMapFilter->GetOutput() );
+  itk::SimpleFilterWatcher watcher2(select, "LabelSelectionLabelMapFilter");
 
-  typedef itk::AutoCropLabelMapFilter< LabelMapType > CropType;
-  CropType::Pointer crop = CropType::New();
-  crop->SetInput( select->GetOutput() );
-  itk::SimpleFilterWatcher watcher3(crop, "crop");
+  typedef itk::AutoCropLabelMapFilter< LabelMapType > AutoCropLabelMapFilterType;
+  AutoCropLabelMapFilterType::Pointer autoCropFilter = AutoCropLabelMapFilterType::New();
 
-  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
-  L2IType::Pointer l2i = L2IType::New();
-  l2i->SetInput( crop->GetOutput() );
+  EXERCISE_BASIC_OBJECT_METHODS( autoCropFilter, AutoCropLabelMapFilter,
+    ChangeRegionLabelMapFilter );
+
+  autoCropFilter->SetInput( select->GetOutput() );
+  itk::SimpleFilterWatcher watcher3(autoCropFilter, "AutoCropLabelMapFilter");
+
+  typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType >
+    LabelMapToLabelImageFilterType;
+  LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter =
+    LabelMapToLabelImageFilterType::New();
+  labelMapToLabelImageFilter->SetInput( autoCropFilter->GetOutput() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( l2i->GetOutput() );
+  writer->SetInput( labelMapToLabelImageFilter->GetOutput() );
 
-  // first label
+  // First label
   select->SetLabel( atoi(argv[4]) );
-  l2i->UpdateLargestPossibleRegion();
+  labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
   writer->SetFileName( argv[2] );
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  // second label
+  // Second label
   select->SetLabel( atoi(argv[5]) );
-  // crop->Modified();
-  l2i->UpdateLargestPossibleRegion();
+  labelMapToLabelImageFilter->UpdateLargestPossibleRegion();
   writer->SetFileName( argv[3] );
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 

@@ -389,4 +389,10 @@
 #    else
 #      define ITK_COMPILER_CXX_TEMPLATE_TEMPLATE_PARAMETERS 0
 #    endif
+
+#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#      define ITK_COMPILER_CXX_ATOMIC 1
+#    else
+#      define ITK_COMPILER_CXX_ATOMIC 0
+#    endif
 #endif // ITK_COMPILER_INFO_Intel_CXX_h

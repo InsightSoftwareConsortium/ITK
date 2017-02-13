@@ -16,9 +16,11 @@
  *
  *=========================================================================*/
 
+#include "itkCastImageFilter.h"
+#include "itkImageFileWriter.h"
 #include "itkPointSet.h"
-
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
+#include "itkTestingMacros.h"
 
 #include <fstream>
 
@@ -29,21 +31,24 @@
 int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] )
 {
 
-  if( argc < 2 )
+  if( argc < 3 )
     {
     std::cerr << "Missing arguments" << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << argv[0] << "inputPointsFile.txt" << std::endl;
+    std::cerr << argv[0] << "inputPointsFile.txt outputImage" << std::endl;
     return EXIT_FAILURE;
     }
 
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 3;
 
-  typedef double                                         RealType;
-  typedef itk::Vector<RealType, DataDimension>           VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>    ImageType;
-  typedef VectorType                                     PointSetPixelType;
+  typedef double                                              RealType;
+  typedef unsigned char                                       OutputPixelType;
+  typedef itk::Vector<RealType, DataDimension>                VectorType;
+  typedef itk::Vector<OutputPixelType, DataDimension>         OutputVectorType;
+  typedef itk::Image< VectorType, ParametricDimension>        ImageType;
+  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
+  typedef VectorType                                          PointSetPixelType;
 
   typedef itk::PointSet< PointSetPixelType, ParametricDimension > PointSetType;
 
@@ -53,26 +58,23 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   std::ifstream inputFile;
   inputFile.open( argv[1] );
 
+  // The actual data to be approximated
+  VectorType P;
 
-  VectorType P; // The actual data to be approximated
-
-  PointSetType::PointType parameterPosition; // parameter of the curve
+  // Parameter of the curve
+  PointSetType::PointType parameterPosition;
 
   unsigned int pointCounter = 0;
-
-  std::cout << "Input Data" << std::endl;
 
   inputFile >> P;
 
   //  FIXME: add parameterization of the input points, in the range [0:1]
-  double t =0.0;
+  double t = 0.0;
 
   while( ! inputFile.eof() )
     {
     parameterPosition[0] = t;
     t += 0.01; // FIXME
-
-    std::cout << P << std::endl;
 
     pointSet->SetPoint( pointCounter, parameterPosition );
     pointSet->SetPointData( pointCounter, P );
@@ -85,8 +87,12 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
 
   // Instantiate the filter and set the parameters
   typedef itk::BSplineScatteredDataPointSetToImageFilter
-    <PointSetType, ImageType>  FilterType;
+    <PointSetType, ImageType> FilterType;
+
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, BSplineScatteredDataPointSetToImageFilter,
+    PointSetToImageFilter );
 
   // Define the parametric domain
   ImageType::SpacingType spacing;
@@ -109,17 +115,41 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   // We set an extreme number of levels to show how this
   // fails because of the choice of B-spline epsilon
   filter->SetNumberOfLevels( 15 );
-  filter->SetGenerateOutputImage( true );
 
-  try
-    {
-    filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  bool generateOutputImage = true;
+  filter->SetGenerateOutputImage( generateOutputImage );
+  TEST_SET_GET_VALUE( generateOutputImage, filter->GetGenerateOutputImage() );
+
+  filter->GenerateOutputImageOff();
+  TEST_SET_GET_VALUE( false, filter->GetGenerateOutputImage() );
+
+  filter->GenerateOutputImageOn();
+  TEST_SET_GET_VALUE( true, filter->GetGenerateOutputImage() );
+
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  // Get the filter output
+  ImageType::Pointer outputImage = filter->GetOutput();
+
+  // Cast the output image
+  typedef itk::CastImageFilter< ImageType, OutputImageType > CastImageFilterType;
+
+  CastImageFilterType::Pointer caster = CastImageFilterType::New();
+
+  caster->SetInput( outputImage );
+
+  // Write the result image
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[2] );
+
+  writer->SetInput( caster->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
 
   return EXIT_SUCCESS;
 }

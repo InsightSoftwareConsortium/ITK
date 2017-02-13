@@ -257,7 +257,7 @@ class VNL_EXPORT vnl_sse
 #if VNL_CONFIG_ENABLE_SSE2
 
 //: SSE2 implementation for double precision floating point (64 bit)
-VCL_DEFINE_SPECIALIZATION
+template <>
 class VNL_EXPORT vnl_sse<double>
 {
  public:
@@ -652,7 +652,7 @@ class VNL_EXPORT vnl_sse<double>
 };
 
 //: SSE2 implementation for single precision floating point (32 bit)
-VCL_DEFINE_SPECIALIZATION
+template <>
 class VNL_EXPORT vnl_sse<float>
 {
  public:

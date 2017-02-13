@@ -193,7 +193,7 @@ public:
   typedef typename Superclass::ParametersType       ParametersType;
   typedef typename Superclass::ParametersValueType  ParametersValueType;
 
-  /** Graident source type */
+  /** Gradient source type */
   typedef typename Superclass::GradientSourceType GradientSourceType;
 
   /** Dimension type */

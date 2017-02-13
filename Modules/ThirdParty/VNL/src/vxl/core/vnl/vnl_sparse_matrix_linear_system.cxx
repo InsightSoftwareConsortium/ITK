@@ -7,25 +7,25 @@
 #include <vcl_cassert.h>
 #include <vnl/vnl_copy.h>
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_sparse_matrix_linear_system<double>::get_rhs(vnl_vector<double>& b) const
 {
   b = b_;
 }
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_sparse_matrix_linear_system<double>::transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const
 {
   A_.pre_mult(b,x);
 }
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_sparse_matrix_linear_system<float>::get_rhs(vnl_vector<double>& b) const
 {
    vnl_copy(b_, b);
 }
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_sparse_matrix_linear_system<float>::transpose_multiply(vnl_vector<double> const& b, vnl_vector<double> & x) const
 {
   static vnl_vector<float> x_float;
@@ -39,14 +39,14 @@ void vnl_sparse_matrix_linear_system<float>::transpose_multiply(vnl_vector<doubl
   vnl_copy(x_float, x);
 }
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_sparse_matrix_linear_system<double>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const
 {
   A_.mult(x,b);
 }
 
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 void vnl_sparse_matrix_linear_system<float>::multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const
 {
   static vnl_vector<float> x_float;

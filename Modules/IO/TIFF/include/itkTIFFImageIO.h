@@ -48,6 +48,9 @@ public:
   typedef ImageIOBase          Superclass;
   typedef SmartPointer< Self > Pointer;
 
+  typedef RGBPixel< unsigned short  > RGBPixelType;
+  typedef std::vector< RGBPixelType > PaletteType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
@@ -128,6 +131,12 @@ public:
   itkSetClampMacro(JPEGQuality, int, 1, 100);
   itkGetConstMacro(JPEGQuality, int);
 
+  /** Get a const ref to the palette of the image. In the case of non palette
+    * image or ExpandRGBPalette set to true, a vector of size
+    * 0 is returned.
+    * For multipage Images, only the palette of the first page is read */
+  itkGetConstReferenceMacro(ColorPalette, PaletteType);
+
 protected:
   TIFFImageIO();
   ~TIFFImageIO();
@@ -157,12 +166,18 @@ protected:
   // Read and returns the raw bytes of tag t
   void * ReadRawByteFromTag(unsigned int t, unsigned int & value_count);
 
+  // Populate m_ColorPalette from the file palette
+  // The palette corresponds to the one of the first page in case of multipage tiff
+  void PopulateColorPalette();
+
   TIFFReaderInternal *m_InternalImage;
 
   void ReadTIFFTags();
 
   int m_Compression;
   int m_JPEGQuality;
+
+  PaletteType m_ColorPalette;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TIFFImageIO);
@@ -197,6 +212,11 @@ private:
     void PutPaletteRGB( TType *to, TFromType * from,
                         unsigned int xsize, unsigned int ysize,
                         unsigned int toskew, unsigned int fromskew );
+
+    template <typename TType, typename TFromType>
+      void PutPaletteScalar( TType *to, TFromType * from,
+                          unsigned int xsize, unsigned int ysize,
+                          unsigned int toskew, unsigned int fromskew );
 
   unsigned short *m_ColorRed;
   unsigned short *m_ColorGreen;

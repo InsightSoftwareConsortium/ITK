@@ -29,7 +29,7 @@
  * Windows Common RunTime Library.
  */
 
-#include "tif_config.h"
+#include "itk_tif_config.h"
 
 #ifdef HAVE_SYS_TYPES_H
 # include <sys/types.h>

@@ -375,4 +375,10 @@
 #    else
 #      define ITK_COMPILER_CXX_TEMPLATE_TEMPLATE_PARAMETERS 0
 #    endif
+
+#    if ((__clang_major__ * 100) + __clang_minor__) >= 304 && __has_feature(cxx_atomic)
+#      define ITK_COMPILER_CXX_ATOMIC 1
+#    else
+#      define ITK_COMPILER_CXX_ATOMIC 0
+#    endif
 #endif // ITK_COMPILER_INFO_Clang_CXX_h

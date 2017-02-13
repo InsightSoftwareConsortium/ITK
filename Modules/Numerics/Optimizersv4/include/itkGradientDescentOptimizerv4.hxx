@@ -32,6 +32,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
   this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
   this->m_MinimumConvergenceValue = 1e-8;
+  this->m_ConvergenceValue = NumericTraits<TInternalComputationValueType>::max();
   this->m_ReturnBestParametersAndValue = false;
   this->m_PreviousGradient.Fill( NumericTraits<TInternalComputationValueType>::ZeroValue() );
 }
@@ -81,6 +82,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
     }
 
   this->m_CurrentIteration = 0;
+  this->m_ConvergenceValue = NumericTraits<TInternalComputationValueType>::max();
 
   if( ! doOnlyInitialization )
     {

@@ -110,15 +110,18 @@ protected:
   ColorTable();
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  unsigned int m_NumberOfColors;
-
-  std::vector<std::string>         m_ColorName;
-  std::vector<RGBPixel< TPixel > > m_Color;
-
 private:
+  typedef std::vector< std::string >        ColorNameVectorType;
+  typedef std::vector< RGBPixel< TPixel > > ColorVectorType;
+
   ITK_DISALLOW_COPY_AND_ASSIGN(ColorTable);
 
   void DeleteColors();
+
+  unsigned int m_NumberOfColors;
+
+  ColorNameVectorType         m_ColorName;
+  ColorVectorType             m_Color;
 };
 } // namespace itk
 

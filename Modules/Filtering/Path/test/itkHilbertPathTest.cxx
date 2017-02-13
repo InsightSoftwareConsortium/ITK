@@ -17,78 +17,111 @@
  *=========================================================================*/
 
 #include "itkHilbertPath.h"
+#include "itkNumericTraits.h"
+#include "itkTestingMacros.h"
 
-int itkHilbertPathTest( int, char*[] )
+
+template< typename PathType >
+int HilbertPathTestHelper( unsigned int maxHilbertPathOder )
 {
+  int testStatus = EXIT_SUCCESS;
 
-  // Test dimension = 2
-  for( unsigned int order = 0; order < 5; order++ )
+  typedef typename PathType::IndexType IndexType;
+
+  typename PathType::Pointer path = PathType::New();
+
+  for( unsigned int order = 1; order < maxHilbertPathOder; ++order )
     {
-    typedef itk::HilbertPath<unsigned int, 2> PathType;
-    PathType::Pointer path = PathType::New();
-    path->SetHilbertOrder( 2 );
+    path->SetHilbertOrder( order );
+    TEST_SET_GET_VALUE( order, path->GetHilbertOrder() );
+
     path->Initialize();
 
-    typedef PathType::IndexType IndexType;
+    typename PathType::InputType input = 0;
+    TRY_EXPECT_EXCEPTION( path->IncrementInput( input ) );
 
-    for( unsigned int d = 6; d < 10 + 0 *path->NumberOfSteps(); d++ )
+    typename PathType::InputType endOfInput = path->EndOfInput();
+    std::cout << "End of input: "
+      << typename itk::NumericTraits< typename PathType::InputType >::PrintType( endOfInput )
+      << std::endl;
+
+    for( unsigned int d = 0; d < path->NumberOfSteps(); ++d )
+      {
+      IndexType index = path->Evaluate( d );
+
+      if( d != path->EvaluateInverse( index ) )
+        {
+        std::cerr << "Test failed!" << std::endl;
+        std::cerr << "Incorrect match-up for path index (" << d
+          << ") and multi-dimensional index (" << index << ")" << std::endl;
+        testStatus = EXIT_FAILURE;
+        }
+      }
+
+    //path->EvaluateToIndex( 6 )
+
+    for( unsigned int d = 0; d < 10; ++d )
       {
       IndexType index = path->TransformPathIndexToMultiDimensionalIndex( d );
 
       if( d != path->EvaluateInverse( index ) )
         {
+        std::cerr << "Test failed!" << std::endl;
         std::cerr << "Incorrect match-up for path index (" << d
-          << ") and multi-dimensional index (" << index << ")"
-          << " dimension = 2 " << std::endl;
-        return EXIT_FAILURE;
+          << ") and multi-dimensional index (" << index << ")" << std::endl;
+        testStatus = EXIT_FAILURE;
         }
       }
     }
+
+  return testStatus;
+}
+
+
+int itkHilbertPathTest( int, char*[] )
+{
+  typedef unsigned int IndexValueType;
+
+  int testStatus = EXIT_SUCCESS;
+
+  // Set a maximumg Hilbert path order
+  const unsigned int maxHilbertPathOder = 5;
+
+  // Test dimension = 2
+  typedef itk::HilbertPath< IndexValueType, 2 > HilbertPathType2D;
+  HilbertPathType2D::Pointer path2D = HilbertPathType2D::New();
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  EXERCISE_BASIC_OBJECT_METHODS( path2D, HilbertPath, Path );
+
+  testStatus = HilbertPathTestHelper< HilbertPathType2D >( maxHilbertPathOder );
 
   // Test dimension = 3
-  for( unsigned int order = 0; order < 5; order++ )
-    {
-    typedef itk::HilbertPath<unsigned int, 3> PathType;
-    PathType::Pointer path = PathType::New();
-    path->SetHilbertOrder( order );
-    path->Initialize();
+  typedef itk::HilbertPath< IndexValueType, 3 > HilbertPathType3D;
+  HilbertPathType3D::Pointer path3D = HilbertPathType3D::New();
 
-    typedef PathType::IndexType IndexType;
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  EXERCISE_BASIC_OBJECT_METHODS( path3D, HilbertPath, Path );
 
-    for( unsigned int d = 0; d < path->NumberOfSteps(); d++ )
-      {
-      IndexType index = path->Evaluate( d );
-      if( d != path->EvaluateInverse( index ) )
-        {
-        std::cerr << "Incorrect match-up for path index (" << d
-          << ") and multi-dimensional index (" << index << ")"
-          << " dimension = 3 " << std::endl;
-        return EXIT_FAILURE;
-        }
-      }
-    }
+  testStatus = HilbertPathTestHelper< HilbertPathType3D >( maxHilbertPathOder );
 
   // Test dimension = 4
-  for( unsigned int order = 0; order < 5; order++ )
-    {
-    typedef itk::HilbertPath<unsigned int, 4> PathType;
-    PathType::Pointer path = PathType::New();
-    path->SetHilbertOrder( order );
-    path->Initialize();
+  typedef itk::HilbertPath< IndexValueType, 4 > HilbertPathType4D;
+  HilbertPathType4D::Pointer path4D = HilbertPathType4D::New();
 
-    typedef PathType::IndexType IndexType;
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  EXERCISE_BASIC_OBJECT_METHODS( path4D, HilbertPath, Path );
 
-    for( unsigned int d = 0; d < path->NumberOfSteps(); d++ )
-      {
-      IndexType index = path->Evaluate( d );
-      if( d != path->EvaluateInverse( index ) )
-        {
-        std::cerr << "Incorrect match-up for path index (" << d
-          << ") and multi-dimensional index (" << index << ")"
-          << " dimension = 4 " << std::endl;
-        return EXIT_FAILURE;
-        }
-      }
-    }
-  return EXIT_SUCCESS;
+  testStatus = HilbertPathTestHelper< HilbertPathType4D >( maxHilbertPathOder );
+
+
+  std::cerr << "Test finished " << std::endl;
+
+  return testStatus;
 }

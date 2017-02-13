@@ -72,11 +72,10 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhysicalPointImageSource);
 };
-
 }
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkPhysicalPointImageSource.hxx"
 #endif
 
-#endif //itkPhysicalPointImageSource_h
+#endif

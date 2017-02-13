@@ -35,32 +35,46 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TOutputImage >
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
-::BSplineDecompositionImageFilter()
+::BSplineDecompositionImageFilter() :
+  m_SplineOrder( 0 ),
+  m_Tolerance( 1e-10 ),   // Need some guidance on this one...what is reasonable?
+  m_IteratorDirection( 0 )
 {
-  m_SplineOrder = 0;
-  int SplineOrder = 3;
-  m_Tolerance = 1e-10;   // Need some guidance on this one...what is reasonable?
-  m_IteratorDirection = 0;
-  this->SetSplineOrder(SplineOrder);
+  this->SetSplineOrder( 3 );
+
+  for( unsigned int i = 0; i < m_Scratch.size(); ++i )
+    {
+    m_Scratch[i] = 0;
+    }
+
+  m_DataLength.Fill( itk::NumericTraits< typename TInputImage::SizeType::SizeValueType >::ZeroValue() );
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
-::PrintSelf(
-  std::ostream & os,
-  Indent indent) const
+::PrintSelf( std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "Scratch: " << std::endl;
+  for( unsigned int i = 0; i < m_Scratch.size(); ++i )
+    {
+    os << indent << "[" << i << "]: " << m_Scratch[i] << std::endl;
+    }
+  os << indent << "Data Length: " << m_DataLength << std::endl;
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
+  os << indent << "SplinePoles: " << std::endl;
+  for( unsigned int i = 0; i < m_SplinePoles.size(); ++i )
+    {
+    os << indent << "[" << i << "]" << m_SplinePoles[i] << std::endl;
+    }
+  os << indent << "Number Of Poles: " << m_NumberOfPoles << std::endl;
+  os << indent << "Tolerance: " << m_Tolerance << std::endl;
+  os << indent << "Iterator Direction: " << m_IteratorDirection << std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -69,34 +83,34 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::DataToCoefficients1D()
 {
   // See Unser, 1993, Part II, Equation 2.5,
-  //   or Unser, 1999, Box 2. for an explanation.
+  // or Unser, 1999, Box 2. for an explanation.
 
   double c0 = 1.0;
 
-  if ( m_DataLength[m_IteratorDirection] == 1 ) //Required by mirror boundaries
+  if ( m_DataLength[m_IteratorDirection] == 1 ) // Required by mirror boundaries
     {
     return false;
     }
 
-  // Compute overall gain
+  // Compute over all gain
   for ( int k = 0; k < m_NumberOfPoles; k++ )
     {
     // Note for cubic splines lambda = 6
     c0 = c0 * ( 1.0 - m_SplinePoles[k] ) * ( 1.0 - 1.0 / m_SplinePoles[k] );
     }
 
-  // apply the gain
+  // Apply the gain
   for ( unsigned int n = 0; n < m_DataLength[m_IteratorDirection]; n++ )
     {
     m_Scratch[n] *= c0;
     }
 
-  // loop over all poles
+  // Loop over all poles
   for ( int k = 0; k < m_NumberOfPoles; k++ )
     {
-    // causal initialization
+    // Causal initialization
     this->SetInitialCausalCoefficient(m_SplinePoles[k]);
-    // causal recursion
+    // Causal recursion
     for ( unsigned int n = 1; n < m_DataLength[m_IteratorDirection]; n++ )
       {
       m_Scratch[n] += m_SplinePoles[k] * m_Scratch[n - 1];
@@ -122,6 +136,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     {
     return;
     }
+  m_SplinePoles.clear();
   m_SplineOrder = SplineOrder;
   this->SetPoles();
   this->Modified();
@@ -132,15 +147,15 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::SetPoles()
 {
-  /* See Unser, 1997. Part II, Table I for Pole values */
+  // See Unser, 1997. Part II, Table I for Pole values.
   // See also, Handbook of Medical Imaging, Processing and Analysis, Ed. Isaac
-  // N. Bankman,
-  //  2000, pg. 416.
+  // N. Bankman, 2000, pg. 416.
   switch ( m_SplineOrder )
     {
     case 3:
       m_NumberOfPoles = 1;
-      m_SplinePoles[0] = std::sqrt(3.0) - 2.0;
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt(3.0) - 2.0;
       break;
     case 0:
       m_NumberOfPoles = 0;
@@ -150,26 +165,26 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
       break;
     case 2:
       m_NumberOfPoles = 1;
-      m_SplinePoles[0] = std::sqrt(8.0) - 3.0;
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt(8.0) - 3.0;
       break;
     case 4:
       m_NumberOfPoles = 2;
-      m_SplinePoles[0] = std::sqrt( 664.0 - std::sqrt(438976.0) ) + std::sqrt(304.0) - 19.0;
-      m_SplinePoles[1] = std::sqrt( 664.0 + std::sqrt(438976.0) ) - std::sqrt(304.0) - 19.0;
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt( 664.0 - std::sqrt(438976.0) ) + std::sqrt(304.0) - 19.0;
+      m_SplinePoles.at( 1 ) = std::sqrt( 664.0 + std::sqrt(438976.0) ) - std::sqrt(304.0) - 19.0;
       break;
     case 5:
       m_NumberOfPoles = 2;
-      m_SplinePoles[0] = std::sqrt( 135.0 / 2.0 - std::sqrt(17745.0 / 4.0) ) + std::sqrt(105.0 / 4.0)
+      m_SplinePoles.resize( m_NumberOfPoles );
+      m_SplinePoles.at( 0 ) = std::sqrt( 135.0 / 2.0 - std::sqrt(17745.0 / 4.0) ) + std::sqrt(105.0 / 4.0)
                          - 13.0 / 2.0;
-      m_SplinePoles[1] = std::sqrt( 135.0 / 2.0 + std::sqrt(17745.0 / 4.0) ) - std::sqrt(105.0 / 4.0)
+      m_SplinePoles.at( 1 ) = std::sqrt( 135.0 / 2.0 + std::sqrt(17745.0 / 4.0) ) - std::sqrt(105.0 / 4.0)
                          - 13.0 / 2.0;
       break;
     default:
       // SplineOrder not implemented yet.
-      ExceptionObject err(__FILE__, __LINE__);
-      err.SetLocation(ITK_LOCATION);
-      err.SetDescription("SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet.");
-      throw err;
+      itkExceptionMacro(<< "SplineOrder must be between 0 and 5. Requested spline order has not been implemented yet.");
       break;
     }
 }
@@ -179,13 +194,12 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::SetInitialCausalCoefficient(double z)
 {
-  /* beginning InitialCausalCoefficient */
-  /* See Unser, 1999, Box 2 for explanation */
+  // See Unser, 1999, Box 2 for explanation
   CoeffType     sum;
   double        zn, z2n, iz;
   typename TInputImage::SizeValueType horizon;
 
-  /* this initialization corresponds to mirror boundaries */
+  // Yhis initialization corresponds to mirror boundaries
   horizon = m_DataLength[m_IteratorDirection];
   zn = z;
   if ( m_Tolerance > 0.0 )
@@ -195,7 +209,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
   if ( horizon < m_DataLength[m_IteratorDirection] )
     {
-    /* accelerated loop */
+    // Accelerated loop
     sum = m_Scratch[0];   // verify this
     for ( unsigned int n = 1; n < horizon; n++ )
       {
@@ -206,7 +220,7 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
   else
     {
-    /* full loop */
+    // Full loop
     iz = 1.0 / z;
     z2n = std::pow( z, (double)( m_DataLength[m_IteratorDirection] - 1L ) );
     sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
@@ -226,9 +240,9 @@ void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::SetInitialAntiCausalCoefficient(double z)
 {
-  // this initialization corresponds to mirror boundaries
-  /* See Unser, 1999, Box 2 for explanation */
-  //  Also see erratum at http://bigwww.epfl.ch/publications/unser9902.html
+  // This initialization corresponds to mirror boundaries.
+  // See Unser, 1999, Box 2 for explanation.
+  // Also see erratum at http://bigwww.epfl.ch/publications/unser9902.html
   m_Scratch[m_DataLength[m_IteratorDirection] - 1] =
     ( z / ( z * z - 1.0 ) )
     * ( z * m_Scratch[m_DataLength[m_IteratorDirection] - 2] + m_Scratch[m_DataLength[m_IteratorDirection] - 1] );
@@ -250,10 +264,10 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
   // Initialize coeffient array
   this->CopyImageToImage();   // Coefficients are initialized to the input data
 
+  // Loop through each dimension
   for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
     m_IteratorDirection = n;
-    // Loop through each dimension
 
     // Initialize iterators
     OutputLinearIterator CIterator( output, output->GetBufferedRegion() );
@@ -277,9 +291,6 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * Copy the input image into the output image
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
@@ -303,9 +314,6 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * Copy the scratch to one line of the output image
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
@@ -322,7 +330,6 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 }
 
 /**
- * Copy one line of the output image to the scratch
  */
 template< typename TInputImage, typename TOutputImage >
 void
@@ -339,16 +346,12 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * GenerateInputRequestedRegion method.
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // this filter requires the all of the input image to be in
-  // the buffer
+  // This filter requires all of the input image to be in the buffer
   InputImagePointer inputPtr = const_cast< TInputImage * >( this->GetInput() );
 
   if ( inputPtr )
@@ -357,17 +360,12 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * EnlargeOutputRequestedRegion method.
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >
-::EnlargeOutputRequestedRegion(
-  DataObject *output)
+::EnlargeOutputRequestedRegion(DataObject *output)
 {
-  // this filter requires the all of the output image to be in
-  // the buffer
+  // This filter requires all of the input image to be in the buffer
   TOutputImage *imgData;
 
   imgData = dynamic_cast< TOutputImage * >( output );
@@ -377,9 +375,6 @@ BSplineDecompositionImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * Generate data
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BSplineDecompositionImageFilter< TInputImage, TOutputImage >

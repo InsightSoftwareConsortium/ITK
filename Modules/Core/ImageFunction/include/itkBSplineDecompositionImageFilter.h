@@ -133,23 +133,10 @@ protected:
   /** This filter must produce all of its output at once. */
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
-  /** These are needed by the smoothing spline routine. */
-  std::vector< CoeffType >           m_Scratch;   // temp storage for processing
-                                                  // of Coefficients
-  typename TInputImage::SizeType m_DataLength;    // Image size
-
-  unsigned int m_SplineOrder;                // User specified spline order (3rd
-                                             // or cubic is the default)
-  double m_SplinePoles[3];                   // Poles calculated for a given
-                                             // spline order
-  int m_NumberOfPoles;                       // number of poles
-
-  double m_Tolerance;                        // Tolerance used for determining
-                                             // initial causal coefficient
-  unsigned int m_IteratorDirection;          // Direction for iterator
-                                             // incrementing
-
 private:
+  typedef std::vector< CoeffType >  CoefficientsVectorType;
+  typedef std::vector< double >     SplinePolesVectorType;
+
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDecompositionImageFilter);
 
   /** Determines the poles given the Spline Order. */
@@ -169,15 +156,40 @@ private:
     data. */
   virtual void SetInitialAntiCausalCoefficient(double z);
 
-  /** Used to initialize the Coefficients image before calculation. */
+  /** Copy the input image into the output image.
+   *  Used to initialize the Coefficients image before calculation. */
   void CopyImageToImage();
 
-  /** Copies a vector of data from the Coefficients image to the m_Scratch
-    vector. */
+  /** Copies a vector of data from the Coefficients image (one line of the
+   *  output image) to the scratch. */
   void CopyCoefficientsToScratch(OutputLinearIterator &);
 
-  /** Copies a vector of data from m_Scratch to the Coefficients image. */
+  /** Copies a vector of data from the scratch to the Coefficients image
+   *  (one line of the output image). */
   void CopyScratchToCoefficients(OutputLinearIterator &);
+
+  // Variables needed by the smoothing spline routine.
+
+  /** Temporary storage for processing of Coefficients. */
+  CoefficientsVectorType           m_Scratch;
+
+  /** Image size. */
+  typename TInputImage::SizeType m_DataLength;
+
+  /** User specified spline order (3rd or cubic is the default). */
+  unsigned int m_SplineOrder;
+
+  /** Poles calculated for a given spline order. */
+  SplinePolesVectorType m_SplinePoles;
+
+  /** Number of poles. */
+  int m_NumberOfPoles;
+
+  /** Tolerance used for determining initial causal coefficient. Default is 1e-10.*/
+  double m_Tolerance;
+
+  /** Direction for iterator incrementing. Default is 0. */
+  unsigned int m_IteratorDirection;
 };
 } // namespace itk
 

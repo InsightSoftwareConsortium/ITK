@@ -32,20 +32,17 @@
 
 namespace itk
 {
-/**
- * \author Nicholas J. Tustison
- *
- * This code was contributed in the Insight Journal paper:
- * "N-D C^k B-Spline Scattered Data Approximation"
- * by Nicholas J. Tustison, James C. Gee
- * https://hdl.handle.net/1926/140
- * http://www.insight-journal.org/browse/publication/57
- *
- */
 
 template<typename TInputPointSet, typename TOutputImage>
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
-::BSplineScatteredDataPointSetToImageFilter()
+::BSplineScatteredDataPointSetToImageFilter() :
+  m_DoMultilevel( false ),
+  m_GenerateOutputImage( true ),
+  m_UsePointWeights( false ),
+  m_MaximumNumberOfLevels( 1 ),
+  m_CurrentLevel( 0 ),
+  m_BSplineEpsilon( 1e-3 ),
+  m_IsFittingComplete( false )
 {
   this->m_SplineOrder.Fill( 3 );
 
@@ -55,29 +52,28 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     this->m_Kernel[i] = KernelType::New();
     this->m_Kernel[i]->SetSplineOrder( this->m_SplineOrder[i] );
     }
+
+  this->m_CurrentNumberOfControlPoints = this->m_NumberOfControlPoints;
   this->m_KernelOrder0 = KernelOrder0Type::New();
   this->m_KernelOrder1 = KernelOrder1Type::New();
   this->m_KernelOrder2 = KernelOrder2Type::New();
   this->m_KernelOrder3 = KernelOrder3Type::New();
 
   this->m_CloseDimension.Fill( 0 );
-  this->m_DoMultilevel = false;
-  this->m_GenerateOutputImage = true;
-  this->m_NumberOfLevels.Fill( 1 );
-  this->m_MaximumNumberOfLevels = 1;
 
-  this->m_PhiLattice = ITK_NULLPTR;
+  this->m_NumberOfLevels.Fill( 1 );
+
   this->m_PsiLattice = PointDataImageType::New();
+
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    this->m_RefinedLatticeCoefficients[i].fill( 0.0 );
+    }
+
   this->m_InputPointData = PointDataContainerType::New();
   this->m_OutputPointData = PointDataContainerType::New();
 
   this->m_PointWeights = WeightsContainerType::New();
-  this->m_UsePointWeights = false;
-
-  this->m_BSplineEpsilon = 1e-3;
-
-  this->m_IsFittingComplete = false;
-  this->m_CurrentLevel = 0;
 }
 
 template<typename TInputPointSet, typename TOutputImage>
@@ -214,9 +210,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 {
   TOutputImage *output = this->GetOutput();
   const TInputPointSet *inputPointSet = this->GetInput();
-  /**
-   *  Create the output image
-   */
+
+  // Create the output image
+
   itkDebugMacro( "Size: " << this->m_Size );
   itkDebugMacro( "Origin: " << this->m_Origin );
   itkDebugMacro( "Spacing: " << this->m_Spacing );
@@ -236,9 +232,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   output->SetRegions( this->m_Size );
   output->Allocate();
 
-  /**
-   * Perform some error checking on the input
-   */
+
+  // Perform some error checking on the input
+
   if( this->m_UsePointWeights &&
     ( this->m_PointWeights->Size() != inputPointSet->GetNumberOfPoints() ) )
     {
@@ -288,19 +284,18 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   this->m_CurrentLevel = 0;
   this->m_CurrentNumberOfControlPoints = this->m_NumberOfControlPoints;
 
-  /**
-   * Set up multithread processing to handle generating the
-   * control point lattice.
-   */
+
+  // Set up multithread processing to handle generating the
+  // control point lattice.
+
   typename ImageSource<TOutputImage>::ThreadStruct str1;
   str1.Filter = this;
 
   this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
   this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str1 );
 
-  /**
-   * Multithread the generation of the control point lattice.
-   */
+  // Multithread the generation of the control point lattice.
+
   this->BeforeThreadedGenerateData();
   this->GetMultiThreader()->SingleMethodExecute();
   this->AfterThreadedGenerateData();
@@ -371,19 +366,18 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
       itkDebugMacro( "The average weighted difference norm of the point set is "
         << averageDifference / totalWeight);
       }
-    /**
-     * Set up multithread processing to handle generating the
-     * control point lattice.
-     */
+
+    // Set up multithread processing to handle generating the
+    // control point lattice.
+
     typename ImageSource<ImageType>::ThreadStruct str2;
     str2.Filter = this;
 
     this->GetMultiThreader()->SetNumberOfThreads( this->GetNumberOfThreads() );
     this->GetMultiThreader()->SetSingleMethod( this->ThreaderCallback, &str2 );
 
-    /**
-     * Multithread the generation of the control point lattice.
-     */
+    // Multithread the generation of the control point lattice.
+
     this->BeforeThreadedGenerateData();
     this->GetMultiThreader()->SingleMethodExecute();
     this->AfterThreadedGenerateData();
@@ -497,10 +491,10 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     splitIndex = splitRegion.GetIndex();
     splitSize = splitRegion.GetSize();
 
-    // split on the outermost dimension
+    // Split on the outermost dimension
     splitAxis = outputPtr->GetImageDimension() - 1;
 
-    // determine the actual number of pieces that will be generated
+    // Determine the actual number of pieces that will be generated
     typename SizeType::SizeValueType range = requestedRegionSize[splitAxis];
     unsigned int valuesPerThread = static_cast<unsigned int>( std::ceil(
       range / static_cast<double>( num ) ) );
@@ -516,11 +510,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     if ( i == maxThreadIdUsed )
       {
       splitIndex[splitAxis] += i * valuesPerThread;
-      // last thread needs to process the "rest" dimension being split
+      // Last thread needs to process the "rest" dimension being split
       splitSize[splitAxis] = splitSize[splitAxis] - i * valuesPerThread;
       }
 
-    // set the split region ivars
+    // Set the split region ivars
     splitRegion.SetIndex( splitIndex );
     splitRegion.SetSize( splitSize );
 
@@ -552,10 +546,10 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   const RegionType & itkNotUsed( region ), ThreadIdType threadId )
 {
   const TInputPointSet *input = this->GetInput();
-  /**
-   * Ignore the output region as we're only interested in dividing the
-   * points among the threads.
-   */
+
+  // Ignore the output region as we're only interested in dividing the
+  // points among the threads.
+
   typename RealImageType::SizeType size;
 
   for( unsigned int i = 0; i < ImageDimension; i++ )
@@ -581,9 +575,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
     epsilon[i] = r[i] * this->m_Spacing[i] * this->m_BSplineEpsilon;
     }
 
-  /**
-   * Determine which points should be handled by this particular thread.
-   */
+  // Determine which points should be handled by this particular thread.
+
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
   SizeValueType numberOfPointsPerThread = static_cast<SizeValueType>(
     input->GetNumberOfPoints() / numberOfThreads );
@@ -813,10 +806,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 {
   if( !this->m_IsFittingComplete )
     {
-    /**
-     * Accumulate all the delta lattice and omega lattice values to
-     * calculate the final phi lattice.
-     */
+    // Accumulate all the delta lattice and omega lattice values to
+    // calculate the final phi lattice.
+
     ImageRegionIterator< PointDataImageType > ItD(
       this->m_DeltaLatticePerThread[0],
       this->m_DeltaLatticePerThread[0]->GetLargestPossibleRegion() );
@@ -849,9 +841,8 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
         }
       }
 
-    /**
-     * Generate the control point lattice
-     */
+    // Generate the control point lattice
+
     typename RealImageType::SizeType size;
     for( unsigned int i = 0; i < ImageDimension; i++ )
       {
@@ -937,7 +928,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   typename PointDataImageType::IndexType offPsi;
   typename PointDataImageType::RegionType::SizeType sizePsi;
 
-  size.Fill(2);
+  size.Fill( 2 );
   unsigned int N = 1;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
@@ -1286,30 +1277,61 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
   return index;
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template<typename TInputPointSet, typename TOutputImage>
 void
 BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>
 ::PrintSelf( std::ostream & os, Indent indent ) const
 {
   Superclass::PrintSelf( os, indent );
+
+  os << indent << "Do multi level: " << this->m_DoMultilevel << std::endl;
+  os << indent << "Generate output image: " << this->m_GenerateOutputImage << std::endl;
+  os << indent << "Use point weights: " << this->m_UsePointWeights << std::endl;
+  os << indent << "Maximum number of levels: " << this->m_MaximumNumberOfLevels << std::endl;
+  os << indent << "Current level: " << this->m_CurrentLevel << std::endl;
+  os << indent << "Number of control points: "
+     << this->m_NumberOfControlPoints << std::endl;
+  os << indent << "Current number of control points: "
+     << this->m_CurrentNumberOfControlPoints << std::endl;
+  os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;
+  os << indent << "B-spline order: " << this->m_SplineOrder << std::endl;
+  os << indent << "Number of levels: " << this->m_NumberOfLevels << std::endl;
+
+  itkPrintSelfObjectMacro( PointWeights );
+  itkPrintSelfObjectMacro( PhiLattice );
+  itkPrintSelfObjectMacro( PsiLattice );
+
+  os << indent << "Refined lattice coefficients: " << std::endl;
+  for( unsigned int i = 0; i < ImageDimension; i++ )
+    {
+    os << indent << "[" << i <<"]: " << this->m_RefinedLatticeCoefficients[i] << std::endl;
+    }
+
+  itkPrintSelfObjectMacro( InputPointData );
+  itkPrintSelfObjectMacro( OutputPointData );
+
+  os << indent << "Kernel: " << std::endl;
   for( unsigned int i = 0; i < ImageDimension; i++ )
     {
     this->m_Kernel[i]->Print( os, indent );
     }
-  os << indent << "B-spline order: " << this->m_SplineOrder << std::endl;
-  os << indent << "Number of control points: "
-     << this->m_NumberOfControlPoints << std::endl;
-  os << indent << "Close dimension: " << this->m_CloseDimension << std::endl;
-  os << indent << "Number of levels: " << this->m_NumberOfLevels << std::endl;
-  os << indent << "Parametric domain" << std::endl;
-  os << indent << "  Origin:    " << this->m_Origin << std::endl;
-  os << indent << "  Spacing:   " << this->m_Spacing << std::endl;
-  os << indent << "  Size:      " << this->m_Size << std::endl;
-  os << indent << "  Direction: " << this->m_Direction << std::endl;
-  os << indent << "B-spline epsilon: " << this->m_BSplineEpsilon << std::endl;
+
+  itkPrintSelfObjectMacro( KernelOrder0 );
+  itkPrintSelfObjectMacro( KernelOrder1 );
+  itkPrintSelfObjectMacro( KernelOrder2 );
+  itkPrintSelfObjectMacro( KernelOrder3 );
+
+  os << indent << "Omega lattice per thread: " << std::endl;
+  for( unsigned int i = 0; i < m_OmegaLatticePerThread.size(); i++ )
+    {
+    os << indent << "[" << i <<"]: " << this->m_OmegaLatticePerThread[i] << std::endl;
+    }
+
+  os << indent << "Delta lattice per thread: " << std::endl;
+  for( unsigned int i = 0; i < m_DeltaLatticePerThread.size(); i++ )
+    {
+    os << indent << "[" << i <<"]: " << this->m_DeltaLatticePerThread[i] << std::endl;
+    }
 }
 } // end namespace itk
 

@@ -25,17 +25,14 @@
 
 namespace itk
 {
-/**
- * Define the number of neighbors
- */
+
+// Define the number of neighbors
 template< typename TInputImage, typename TCoordRep >
 const unsigned long
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::m_Neighbors = 1 << TInputImage::ImageDimension;
 
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TCoordRep >
 LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::LinearInterpolateImageFunction()
@@ -46,21 +43,6 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::~LinearInterpolateImageFunction()
 {}
 
-/**
- * PrintSelf
- */
-template< typename TInputImage, typename TCoordRep >
-void
-LinearInterpolateImageFunction< TInputImage, TCoordRep >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-}
-
-
-/**
- * Evaluate at image index position
- */
 template< typename TInputImage, typename TCoordRep >
 typename LinearInterpolateImageFunction< TInputImage, TCoordRep >
 ::OutputType
@@ -70,10 +52,10 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
   // Avoid the smartpointer de-reference in the loop for
   // "return m_InputImage.GetPointer()"
   const TInputImage * const inputImagePtr = this->GetInputImage();
-  /**
-   * Compute base index = closet index below point
-   * Compute distance from point to base index
-   */
+
+  // Compute base index = closest index below point
+  // Compute distance from point to base index
+
   IndexType baseIndex;
   InternalComputationType    distance[ImageDimension];
   for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
@@ -82,11 +64,10 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
     distance[dim] = index[dim] - static_cast< InternalComputationType >( baseIndex[dim] );
     }
 
-  /**
-   * Interpolated value is the weighted sum of each of the surrounding
-   * neighbors. The weight for each neighbor is the fraction overlap
-   * of the neighbor pixel with respect to a pixel centered on point.
-   */
+  // The iInterpolated value is the weighted sum of each of the surrounding
+  // neighbors. The weight for each neighbor is the fraction overlap
+  // of the neighbor pixel with respect to a pixel centered on point.
+
   // When RealType is VariableLengthVector, 'value' will be resized properly
   // below when it's assigned again.
   Concept::Detail::UniqueType< typename NumericTraits< RealType >::ScalarRealType >();
@@ -101,11 +82,11 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
 
   for ( unsigned int counter = 0; counter < m_Neighbors; ++counter )
     {
-    InternalComputationType overlap = 1.0;    // fraction overlap
-    unsigned int upper = counter;  // each bit indicates upper/lower neighbour
+    InternalComputationType overlap = 1.0;    // Fraction overlap
+    unsigned int upper = counter;  // Each bit indicates upper/lower neighbour
     IndexType    neighIndex( baseIndex );
 
-    // get neighbor index and overlap fraction
+    // Get neighbor index and overlap fraction
     for ( unsigned int dim = 0; dim < ImageDimension; ++dim )
       {
       if ( upper & 1 )
@@ -136,6 +117,14 @@ LinearInterpolateImageFunction< TInputImage, TCoordRep >
     }
 
   return ( static_cast< OutputType >( value ) );
+}
+
+template< typename TInputImage, typename TCoordRep >
+void
+LinearInterpolateImageFunction< TInputImage, TCoordRep >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  this->Superclass::PrintSelf(os, indent);
 }
 } // end namespace itk
 

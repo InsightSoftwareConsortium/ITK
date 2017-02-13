@@ -68,28 +68,36 @@ itk_add_test(NAME itkBinShrinkImageFilterTest2
   COMMAND ${itk-module}TestDriver  itkBinShrinkImageFilterTest2 )
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest01
       COMMAND ITKImageGridTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkBSplineScatteredDataPointSetToImageFilterTest01.mha}
+    --compare DATA{Baseline/itkBSplineScatteredDataPointSetToImageFilterTest01.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
     itkBSplineScatteredDataPointSetToImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest02
-      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest2)
+      COMMAND ITKImageGridTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha
+              be9a60d34f059d2adb8de94bcc620af6
+    itkBSplineScatteredDataPointSetToImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
-      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest3
-              DATA{${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt})
+      COMMAND ITKImageGridTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha
+              9df6a57780d641dca792877ee158c3d7
+    itkBSplineScatteredDataPointSetToImageFilterTest3 DATA{${ITK_DATA_ROOT}/Input/BSplineScatteredApproximationDataPointsInput.txt} ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest04
       COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest4)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest05
-      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest5)
+      COMMAND ITKImageGridTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05.mha
+              4a21de7a58fb8ecb9a1b1f08a3068269
+    itkBSplineScatteredDataPointSetToImageFilterTest5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05.mha)
 itk_add_test(NAME itkBSplineControlPointImageFilterTest1
       COMMAND ITKImageGridTestDriver
     --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz
               ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz
-    itkBSplineControlPointImageFilterTest 2 DATA{${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_2D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz)
+    itkBSplineControlPointImageFilterTest 2 DATA{Baseline/N4ControlPoints_2D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_outputRefined.nii.gz)
 itk_add_test(NAME itkBSplineControlPointImageFilterTest2
       COMMAND ITKImageGridTestDriver
     --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz
               ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz
-    itkBSplineControlPointImageFilterTest 3 DATA{${ITK_DATA_ROOT}/Baseline/Review/N4ControlPoints_3D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz)
+    itkBSplineControlPointImageFilterTest 3 DATA{Baseline/N4ControlPoints_3D.nii.gz} ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_output.nii.gz ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_3D_outputRefined.nii.gz)
 itk_add_test(NAME itkBSplineControlPointImageFunctionTest
       COMMAND ITKImageGridTestDriver itkBSplineControlPointImageFunctionTest)
 itk_add_test(NAME itkChangeInformationImageFilterTest

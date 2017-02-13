@@ -28,15 +28,15 @@ namespace itk
 {
 template< typename TOutputImage >
 GridImageSource< TOutputImage >
-::GridImageSource()
+::GridImageSource() :
+  m_Scale( 255.0 )
 {
   this->m_Sigma.Fill(0.5);
   this->m_GridSpacing.Fill(4.0);
   this->m_GridOffset.Fill(0.0);
   this->m_WhichDimensions.Fill(true);
-  this->m_Scale = 255.0;
 
-  this->m_KernelFunction  = dynamic_cast< KernelFunctionType * >(
+  this->m_KernelFunction = dynamic_cast< KernelFunctionType * >(
     GaussianKernelFunction<double>::New().GetPointer() );
 }
 
@@ -64,8 +64,8 @@ GridImageSource< TOutputImage >
       ImageLinearIteratorWithIndex< ImageType > It( output, output->GetRequestedRegion() );
       It.SetDirection(i);
 
-      /** Add two extra functions in the front and one in the back to ensure
-        coverage */
+      // Add two extra functions in the front and one in the back to ensure
+      // coverage.
       unsigned int numberOfGaussians = Math::Ceil< unsigned int >(
         this->GetSize()[i] * output->GetSpacing()[i] / this->m_GridSpacing[i]) + 4u;
       for ( It.GoToBegin(); !It.IsAtEndOfLine(); ++It )
@@ -122,16 +122,17 @@ GridImageSource< TOutputImage >
   Superclass::PrintSelf(os, indent);
 
   os << indent << "Output image information: " << std::endl;
-  os << indent << "   Scale      = " << this->GetScale() << std::endl;
+  os << indent << "   Scale      : " << this->GetScale() << std::endl;
 
   os << indent << "Grid information: " << std::endl;
-  os << indent << "   WhichDimensions = " << this->GetWhichDimensions() << std::endl;
-  os << indent << "   Kernel          = " << this->GetKernelFunction() << std::endl;
-  os << indent << "   Sigma           = " << this->GetSigma() << std::endl;
-  os << indent << "   Grid spacing    = " << this->GetGridSpacing() << std::endl;
-  os << indent << "   Grid offset     = " << this->GetGridOffset() << std::endl;
-}
+  os << indent << "   WhichDimensions : " << this->GetWhichDimensions() << std::endl;
+  os << indent << "   Kernel          : " << this->GetKernelFunction() << std::endl;
+  os << indent << "   Sigma           : " << this->GetSigma() << std::endl;
+  os << indent << "   Grid spacing    : " << this->GetGridSpacing() << std::endl;
+  os << indent << "   Grid offset     : " << this->GetGridOffset() << std::endl;
 
+  os << indent << "Pixel arrays: " << m_PixelArrays << std::endl;
+}
 } // end namespace itk
 
 #endif

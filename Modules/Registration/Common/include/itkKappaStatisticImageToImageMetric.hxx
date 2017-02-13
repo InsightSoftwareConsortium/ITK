@@ -24,23 +24,16 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
-::KappaStatisticImageToImageMetric()
+::KappaStatisticImageToImageMetric() :
+  m_ForegroundValue( 255 ),
+  m_Complement( false )
 {
-  itkDebugMacro("Constructor");
-
   this->SetComputeGradient(true);
-  m_ForegroundValue = 255;
-  m_Complement = false;
 }
 
-/**
- * Get the match Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 typename KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
@@ -52,7 +45,6 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
   // Get the fixed image
   //
-  //
   FixedImageConstPointer fixedImage = this->m_FixedImage;
   if( !fixedImage )
     {
@@ -61,13 +53,11 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 
   // Get an iterator over the fixed image
   //
-  //
   typedef  ImageRegionConstIteratorWithIndex<FixedImageType> FixedIteratorType;
   typename FixedImageType::IndexType fixedIndex;
   FixedIteratorType fi( fixedImage, fixedImage->GetBufferedRegion() );
 
   // Get the moving image
-  //
   //
   MovingImageConstPointer movingImage = this->m_MovingImage;
   if( !movingImage )
@@ -75,14 +65,14 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
     itkExceptionMacro(<< "Moving image has not been assigned");
     }
 
-  // Following are used in the metric computation.  'measure' is the
-  // value of the metric.  'fixedForegroundArea' is the total area
-  // of the foreground region in the fixed image.
-  // 'movingForegroundArea' is the foreground area in the moving image
-  // in the area of overlap under the current transformation.
-  // 'intersection' is the area of foreground intersection between the
-  // fixed and moving image.
-  //
+  // The metric computation requires using the following:
+  // - 'measure': the value of the metric.
+  // - 'fixedForegroundArea': the total area of the foreground region in the
+  // fixed image.
+  // - 'movingForegroundArea': the foreground area in the moving image in the
+  // area of overlap under the current transformation.
+  // - 'intersection': the area of foreground intersection between the fixed
+  // and moving image.
   //
   MeasureType measure;
   MeasureType intersection         = NumericTraits<MeasureType>::ZeroValue();
@@ -90,8 +80,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   MeasureType fixedForegroundArea  = NumericTraits<MeasureType>::ZeroValue();
 
   // Compute fixedForegroundArea, movingForegroundArea, and
-  // intersection.  Loop over the fixed image.
-  //
+  // intersection. Loop over the fixed image.
   //
   while( !fi.IsAtEnd() )
     {
@@ -163,9 +152,6 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   return measure;
 }
 
-/**
- * Get the Derivative Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
@@ -310,9 +296,6 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
     }
 }
 
-/*
- * Compute the image gradient and assign to m_GradientImage.
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
@@ -383,9 +366,6 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   this->m_GradientImage = tempGradientImage;
 }
 
-/**
- * Get both the match Measure and theDerivative Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
@@ -396,17 +376,15 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
   this->GetDerivative(parameters, Derivative);
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Complement: "         << ( m_Complement ? "On" : "Off" )  << std::endl;
-  os << indent << "ForegroundValue: "    << m_ForegroundValue << std::endl;
+
+  os << indent << "Complement: "      << ( m_Complement ? "On" : "Off" ) << std::endl;
+  os << indent << "ForegroundValue: " << m_ForegroundValue << std::endl;
 }
 
 } // end namespace itk

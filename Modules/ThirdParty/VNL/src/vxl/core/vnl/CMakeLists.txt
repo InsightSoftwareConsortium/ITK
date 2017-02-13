@@ -74,7 +74,15 @@ else()
   set(VNL_CONFIG_ENABLE_SSE2_ROUNDING 0)
 endif()
 
-vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vnl_config.h.in ${PROJECT_BINARY_DIR}/vnl_config.h ${VXL_INSTALL_INCLUDE_DIR}/vnl)
+# If VXL_INSTALL_INCLUDE_DIR is the default value
+if("${VXL_INSTALL_INCLUDE_DIR}" STREQUAL "include/vxl")
+  set(_config_install_dir ${VXL_INSTALL_INCLUDE_DIR}/core/vnl)
+else()
+  set(_config_install_dir ${VXL_INSTALL_INCLUDE_DIR}/vnl)
+endif()
+vxl_configure_file(${CMAKE_CURRENT_LIST_DIR}/vnl_config.h.in
+                   ${PROJECT_BINARY_DIR}/vnl_config.h
+                   ${_config_install_dir})
 
 set( vnl_sources
   dll.h

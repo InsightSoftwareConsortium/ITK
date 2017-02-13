@@ -1,5 +1,5 @@
-#ifndef _tiffDllConfig_h
-#define _tiffDllConfig_h
+#ifndef _itk_tiffDllConfig_h
+#define _itk_tiffDllConfig_h
 
 #cmakedefine TIFFDLL
 #cmakedefine TIFFSTATIC

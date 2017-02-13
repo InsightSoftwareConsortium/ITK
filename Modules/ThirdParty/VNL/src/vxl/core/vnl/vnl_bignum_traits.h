@@ -9,7 +9,7 @@
 #include <vnl/vnl_numeric_traits.h>
 #include "vnl/vnl_export.h"
 
-VCL_DEFINE_SPECIALIZATION
+template <>
 class VNL_EXPORT vnl_numeric_traits<vnl_bignum>
 {
  public:

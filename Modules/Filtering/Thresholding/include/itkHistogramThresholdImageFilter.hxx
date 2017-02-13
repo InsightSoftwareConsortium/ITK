@@ -29,17 +29,16 @@ namespace itk {
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
-::HistogramThresholdImageFilter()
+::HistogramThresholdImageFilter() :
+  m_InsideValue( NumericTraits<OutputPixelType>::max() ),
+  m_OutsideValue( NumericTraits<OutputPixelType>::ZeroValue() ),
+  m_Threshold( NumericTraits<InputPixelType>::ZeroValue() ),
+  m_MaskValue ( NumericTraits<MaskPixelType>::max() ),
+  m_NumberOfHistogramBins( 256 ),
+  m_MaskOutput( true )
 {
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
-
-  m_OutsideValue   = NumericTraits<OutputPixelType>::ZeroValue();
-  m_InsideValue    = NumericTraits<OutputPixelType>::max();
-  m_Threshold      = NumericTraits<InputPixelType>::ZeroValue();
-  m_MaskValue      = NumericTraits<MaskPixelType>::max();
-  m_Calculator     = ITK_NULLPTR;
-  m_MaskOutput     = true;
 
   if( typeid(ValueType) == typeid(signed char)
       || typeid(ValueType) == typeid(unsigned char)
@@ -51,10 +50,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
     {
     m_AutoMinimumMaximum = true;
     }
-
-  m_NumberOfHistogramBins = 256;
 }
-
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
@@ -160,18 +156,13 @@ HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue) << std::endl;
   os << indent << "InsideValue: "
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue) << std::endl;
-  itkPrintSelfObjectMacro( Calculator );
-  os << indent << "AutoMinimumMaximim: " << m_AutoMinimumMaximum  << std::endl;
   os << indent << "Threshold (computed): "
      << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold) << std::endl;
-  os << indent << "Mask image in use: " << (bool)(this->GetMaskImage() ) << std::endl;
-  os << indent << "Masking of output: " << this->GetMaskOutput() << std::endl;
   os << indent << "MaskValue: " <<  static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_MaskValue) << std::endl;
-
-  itkPrintSelfObjectMacro(Calculator);
-
+  itkPrintSelfObjectMacro( Calculator );
+  os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << std::endl;
+  os << indent << "AutoMinimumMaximim: " << m_AutoMinimumMaximum << std::endl;
+  os << indent << "MaskOutput: " << m_MaskOutput << std::endl;
 }
-
-
 }// end namespace itk
 #endif

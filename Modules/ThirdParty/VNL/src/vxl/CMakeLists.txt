@@ -192,6 +192,28 @@ include_directories(${VCL_INCLUDE_DIRS} ${VXLCORE_INCLUDE_DIRS})
 include(${CMAKE_CURRENT_LIST_DIR}/config/cmake/config/VXLIntrospectionConfig.cmake)
 
 #-------------------------------------------------------------------
+# This block should come after VXLIntrospectionConfig.cmake has been executed.
+if(VCL_HAS_LFS OR WIN32)
+  option( VXL_USE_LFS "Should VXL use Large File Support?" NO)
+  mark_as_advanced( VXL_USE_LFS )
+endif()
+
+if(VXL_USE_LFS)
+  if(WIN32)
+    # TODO: MS Version Support
+    #  message( SEND_ERROR "Sorry - Large File Support is not quite working on Win32 yet. Turning VXL_USE_LFS off")
+    #  set(VXL_USE_LFS "NO" CACHE BOOL "Should VXL use Large File Support?" FORCE)
+  else()
+    if(VCL_HAS_LFS)
+      add_definitions( -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE)
+    else()
+      message( SEND_ERROR "This platform does not have Large File Support - turning VXL_USE_LFS off")
+      set(VXL_USE_LFS "NO" CACHE BOOL "Should VXL use Large File Support?" FORCE)
+    endif()
+  endif()
+endif()
+
+#-------------------------------------------------------------------
 #-- BUILD SELECTION OPTIONS
 # Options for selecting the core core libraries
 option( BUILD_CORE_GEOMETRY "Build VXL's geometry libraries" ON )

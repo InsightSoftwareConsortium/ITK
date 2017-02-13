@@ -62,7 +62,7 @@ ImageToImageMetric< TFixedImage, TMovingImage >
   m_UseAllPixels(false),
   m_UseSequentialSampling(false),
   m_ReseedIterator(false),
-  m_RandomSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->GetSeed()),
+  m_RandomSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed()),
 
   m_TransformIsBSpline(false),
   m_NumBSplineWeights(0),

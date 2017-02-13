@@ -14,6 +14,13 @@ if(PYTHONLIBS_FOUND AND PYTHONINTERP_FOUND
   message(WARNING "Python executable (\"${PYTHON_VERSION_STRING}\") and library (\"${PYTHONLIBS_VERSION_STRING}\") version mismatch.")
 endif()
 
+if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+  CMAKE_DEPENDENT_OPTION(ITK_WRAP_PYTHON_LEGACY "Build Legacy Python support." ON
+                         "ITK_WRAP_PYTHON" OFF)
+else()
+  set(ITK_WRAP_PYTHON_LEGACY OFF)
+endif()
+
 mark_as_advanced(PYTHON_EXECUTABLE)
 include_directories("${PYTHON_INCLUDE_DIRS}")
 
@@ -366,14 +373,16 @@ macro(itk_end_wrap_module_python)
     "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
   )
 
-  # create the advanced lib module python file
-  # this file lets the final user use something like "import ITKModuleName"
-  # backwards compatibility -- to be removed
-  set(CONFIG_LIBRARY_NAME "${WRAPPER_LIBRARY_NAME}")
-  configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/ModuleLoader.py.in"
-    "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py"
-    @ONLY)
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
+  if(ITK_WRAP_PYTHON_LEGACY)
+    # create the advanced lib module python file
+    # this file lets the final user use something like "import ITKModuleName"
+    # backwards compatibility -- to be removed
+    set(CONFIG_LIBRARY_NAME "${WRAPPER_LIBRARY_NAME}")
+    configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/ModuleLoader.py.in"
+      "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py"
+      @ONLY)
+    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
+  endif()
 
   set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS )
   set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS )

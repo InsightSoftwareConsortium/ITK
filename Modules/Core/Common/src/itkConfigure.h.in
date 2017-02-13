@@ -55,7 +55,7 @@
  * The warning is disabled for NVCC (NVidia CUDA) for use of ITK macros with CUDA versions
  * prior to v7. */
 #if !defined(__CUDACC__)
-  #if ITK_COMPILED_CXX_VERSION > __cplusplus
+  #if ITK_COMPILED_CXX_STANDARD_VERSION > __cplusplus
     #warning "WARNING:  The current project is configured to use a C++ standard version older than the C++ standard used for this build of ITK"
   #endif
 #endif

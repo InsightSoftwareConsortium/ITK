@@ -29,16 +29,15 @@ namespace itk
 
 template< typename TOutputImage >
 GaborImageSource< TOutputImage >
-::GaborImageSource()
+::GaborImageSource() :
+  m_CalculateImaginaryPart( false ),
+  m_Frequency( 0.4 ),
+  m_PhaseOffset( 0.0 )
 {
-  // Gabor parameters, defined so that the gaussian
+  // Gabor parameters, defined so that the Gaussian
   // is centered in the default image
   this->m_Mean.Fill(32.0);
   this->m_Sigma.Fill(16.0);
-
-  this->m_CalculateImaginaryPart = false;
-  this->m_Frequency = 0.4;
-  this->m_PhaseOffset = 0.0;
 }
 
 template< typename TOutputImage >
@@ -48,11 +47,11 @@ GaborImageSource< TOutputImage >
 {
   OutputImageType* outputPtr = this->GetOutput();
 
-  // allocate the output buffer
+  // Allocate the output buffer
   outputPtr->SetBufferedRegion( outputPtr->GetRequestedRegion() );
   outputPtr->Allocate();
 
-  // Create and initialize a new gaussian function
+  // Create and initialize a new Gaussian function
   typedef GaborKernelFunction<double> KernelFunctionType;
   typename KernelFunctionType::Pointer gabor = KernelFunctionType::New();
 
@@ -96,19 +95,19 @@ GaborImageSource< TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "  Sigma: " << this->GetSigma() << std::endl;
-  os << indent << "  Mean: " << this->GetMean() << std::endl;
-  os << indent << "  Frequency: " << this->GetFrequency() << std::endl;
   if ( this->GetCalculateImaginaryPart() )
     {
-    os << indent << "  Calculate complex part: true " << std::endl;
+    os << indent << "Calculate complex part: true " << std::endl;
     }
   else
     {
-    os << indent << "  Calculate complex part: false " << std::endl;
+    os << indent << "Calculate complex part: false " << std::endl;
     }
+  os << indent << "Frequency: " << this->GetFrequency() << std::endl;
+  os << indent << "Phase offset: " << m_PhaseOffset << std::endl;
+  os << indent << "Sigma: " << this->GetSigma() << std::endl;
+  os << indent << "Mean: " << this->GetMean() << std::endl;
 }
-
 } // end namespace itk
 
 #endif

@@ -21,7 +21,14 @@
 #include "itkVideoIOFactory.h"
 #include "itkOpenCVVideoIOFactory.h"
 
+#include "opencv2/core/version.hpp"
+#if defined( CV_VERSION_EPOCH )
+// OpenCV 2.4.x
 #include "highgui.h"
+#else
+// OpenCV 3.x
+#include "opencv2/videoio/videoio_c.h"
+#endif
 
 typedef itk::SizeValueType SizeValueType;
 

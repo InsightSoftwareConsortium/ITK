@@ -19,7 +19,7 @@
 #include <vnl/vnl_double_3x3.h>
 #include "vnl/vnl_export.h"
 
-struct VNL_EXPORT vnl_identity_3x3 : public vnl_double_3x3
+struct VNL_TEMPLATE_EXPORT vnl_identity_3x3 : public vnl_double_3x3
 {
   vnl_identity_3x3() { set_identity(); }
 };

@@ -64,6 +64,10 @@ AdaptiveHistogramEqualizationImageFilter< TImageType, TKernel >
 
   os << "Alpha: " << m_Alpha << std::endl;
   os << "Beta: " << m_Beta << std::endl;
+
+  os << "InputMinimum: " << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMinimum ) << std::endl;
+  os << "InputMaximum: " << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_InputMaximum ) << std::endl;
+
   os << "UseLookupTable: " << ( m_UseLookupTable ? "On" : "Off" ) << std::endl;
 }
 } // end namespace

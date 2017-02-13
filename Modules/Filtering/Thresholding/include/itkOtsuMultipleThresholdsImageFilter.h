@@ -31,7 +31,7 @@ namespace itk
  * This filter creates a labeled image that separates the input
  * image into various classes. The filter
  * computes the thresholds using the OtsuMultipleThresholdsCalculator and
- * applies those thesholds to the input image using the
+ * applies those thresholds to the input image using the
  * ThresholdLabelerImageFilter. The NumberOfHistogramBins and
  * NumberOfThresholds can be set
  * for the Calculator. The LabelOffset can be set
