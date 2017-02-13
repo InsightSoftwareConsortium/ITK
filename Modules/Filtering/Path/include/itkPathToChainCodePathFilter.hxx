@@ -22,20 +22,15 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputPath, typename TOutputChainCodePath >
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >
-::PathToChainCodePathFilter()
+::PathToChainCodePathFilter() :
+  m_MaximallyConnected( false )
 {
   this->SetNumberOfRequiredInputs(1);
-  m_MaximallyConnected = false;
 }
 
-/**
- * GenerateData Performs the reflection
- */
 template< typename TInputPath, typename TOutputChainCodePath >
 void
 PathToChainCodePathFilter< TInputPath, TOutputChainCodePath >

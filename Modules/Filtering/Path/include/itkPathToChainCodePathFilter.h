@@ -25,7 +25,7 @@
 namespace itk
 {
 /** \class PathToChainCodePathFilter
- * \brief Filter that produces a chain code version of a path
+ * \brief Filter that produces a chain code version of a path.
  *
  * PathToChainCodePathFilter produces a chain code representation of a path.
  * If MaximallyConnectedOn() is called, then the resulting chain code will be
@@ -61,7 +61,7 @@ public:
   typedef typename InputPathType::IndexType  IndexType;
   typedef typename InputPathType::OffsetType OffsetType;
 
-  /** Set/Get the direction in which to reflect the data. */
+  /** Set/Get the direction in which to reflect the data. Default is "Off". */
   itkSetMacro(MaximallyConnected, bool)
   itkGetConstMacro(MaximallyConnected, bool)
   itkBooleanMacro(MaximallyConnected)
