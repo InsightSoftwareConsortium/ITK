@@ -20,20 +20,23 @@
 #include "itkLineSpatialObject.h"
 #include "itkSpatialObjectToPointSetFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
-int itkSpatialObjectToPointSetFilterTest(int, char* [] )
+int itkSpatialObjectToPointSetFilterTest( int, char* [] )
 {
+
   // Typedefs
-  typedef itk::TubeSpatialObject<2> TubeType;
-  typedef TubeType::Pointer         TubePointer;
-  typedef itk::PointSet<float,2>    PointSetType;
-  typedef TubeType::PointListType   TubePointListType;
-  typedef TubeType::TubePointType   TubePointType;
+  typedef float                         PixelType;
+  typedef itk::TubeSpatialObject< 2 >   TubeType;
+  typedef TubeType::Pointer             TubePointer;
+  typedef itk::PointSet< PixelType, 2 > PointSetType;
+  typedef TubeType::PointListType       TubePointListType;
+  typedef TubeType::TubePointType       TubePointType;
 
   TubePointer tube1 = TubeType::New();
   TubePointListType list;
 
-  for( unsigned int i=0; i<10; i++)
+  for( unsigned int i = 0; i < 10; ++i )
     {
     TubePointType p;
     p.SetPosition(i,i);
@@ -43,14 +46,30 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
 
   tube1->SetPoints(list);
 
-  typedef itk::SpatialObjectToPointSetFilter<TubeType,PointSetType> SpatialObjectToPointSetFilterType;
-  SpatialObjectToPointSetFilterType::Pointer PointSetFilter = SpatialObjectToPointSetFilterType::New();
-  PointSetFilter->SetInput(tube1);
-  PointSetFilter->Update();
-  PointSetType::Pointer pointSet = PointSetFilter->GetOutput();
+  typedef itk::SpatialObjectToPointSetFilter< TubeType, PointSetType >
+    SpatialObjectToPointSetFilterType;
+  SpatialObjectToPointSetFilterType::Pointer pointSetFilter =
+    SpatialObjectToPointSetFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( pointSetFilter, SpatialObjectToPointSetFilter,
+    MeshSource );
+
+  unsigned int childrenDepth = 0;
+  pointSetFilter->SetChildrenDepth( childrenDepth );
+  TEST_SET_GET_VALUE( childrenDepth, pointSetFilter->GetChildrenDepth() );
+
+  unsigned int samplingFactor = 1;
+  pointSetFilter->SetSamplingFactor( samplingFactor );
+  TEST_SET_GET_VALUE( samplingFactor, pointSetFilter->GetSamplingFactor() );
+
+  pointSetFilter->SetInput(tube1);
+
+  pointSetFilter->Update();
+
+  PointSetType::Pointer pointSet = pointSetFilter->GetOutput();
 
   std::cout << "Testing pointSet exists : ";
-  if(!pointSet.GetPointer())
+  if( !pointSet.GetPointer() )
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -58,7 +77,7 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Testing pointSet size : ";
-  if(pointSet->GetPoints()->Size() != 10)
+  if( pointSet->GetPoints()->Size() != 10 )
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -87,13 +106,13 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   std::cout << "[PASSED]" << std::endl;
 
   // Create a group spatial object
-  typedef itk::PointBasedSpatialObject<3> Group3DType;
-  typedef itk::TubeSpatialObject<3>       Tube3DType;
-  typedef Tube3DType::PointListType       Tube3DPointListType;
-  typedef Tube3DType::TubePointType       Tube3DPointType;
-  typedef itk::LineSpatialObject<3>       Line3DType;
-  typedef Line3DType::PointListType       Line3DPointListType;
-  typedef Line3DType::LinePointType       Line3DPointType;
+  typedef itk::PointBasedSpatialObject< 3 > Group3DType;
+  typedef itk::TubeSpatialObject< 3 >       Tube3DType;
+  typedef Tube3DType::PointListType         Tube3DPointListType;
+  typedef Tube3DType::TubePointType         Tube3DPointType;
+  typedef itk::LineSpatialObject<3>         Line3DType;
+  typedef Line3DType::PointListType         Line3DPointListType;
+  typedef Line3DType::LinePointType         Line3DPointType;
 
   Group3DType::Pointer group3D = Group3DType::New();
 
@@ -101,10 +120,10 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   Tube3DType::Pointer tube3D = Tube3DType::New();
   Tube3DPointListType tubePointList;
 
-  for( unsigned int i=0; i<10; i++)
+  for( unsigned int i = 0; i < 10; ++i )
     {
     Tube3DPointType p;
-    p.SetPosition(i,i+1,i+2);
+    p.SetPosition( i, i+1, i+2 );
     p.SetRadius(1);
     tubePointList.push_back(p);
     }
@@ -115,10 +134,10 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   Line3DType::Pointer line3D = Line3DType::New();
   Line3DPointListType linePointList;
 
-  for( unsigned int i=10; i<20; i++)
+  for( unsigned int i = 10; i < 20; ++i )
     {
     Line3DPointType p;
-    p.SetPosition(i,i+1,i+2);
+    p.SetPosition(i, i+1, i+2);
     linePointList.push_back(p);
     }
 
@@ -129,16 +148,28 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
 
 
   // Create the 3D filter
-  typedef itk::PointSet<float,3> PointSet3DType;
-  typedef itk::SpatialObjectToPointSetFilter<Group3DType,PointSet3DType> SpatialObjectToPointSet3DFilterType;
-  SpatialObjectToPointSet3DFilterType::Pointer PointSetFilter3D = SpatialObjectToPointSet3DFilterType::New();
-  PointSetFilter3D->SetInput(group3D);
-  PointSetFilter3D->SetChildrenDepth(999999);
-  PointSetFilter3D->Update();
-  PointSet3DType::Pointer pointSet3D = PointSetFilter3D->GetOutput();
+  typedef itk::PointSet< PixelType, 3 > PointSet3DType;
+  typedef itk::SpatialObjectToPointSetFilter< Group3DType, PointSet3DType >
+    SpatialObjectToPointSet3DFilterType;
+  SpatialObjectToPointSet3DFilterType::Pointer pointSetFilter3D =
+    SpatialObjectToPointSet3DFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( pointSetFilter3D, SpatialObjectToPointSetFilter,
+    MeshSource );
+
+  childrenDepth = 999999;
+  pointSetFilter3D->SetChildrenDepth( childrenDepth );
+  TEST_SET_GET_VALUE( childrenDepth, pointSetFilter3D->GetChildrenDepth() );
+
+  unsigned int index = 0;
+  pointSetFilter3D->SetInput( index, group3D );
+
+  pointSetFilter3D->Update();
+
+  PointSet3DType::Pointer pointSet3D = pointSetFilter3D->GetOutput();
 
   std::cout << "Testing pointSet3D exists : ";
-  if(!pointSet3D.GetPointer())
+  if( !pointSet3D.GetPointer() )
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -146,7 +177,7 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Testing pointSet3D size : ";
-  if(pointSet3D->GetPoints()->Size() != 20)
+  if( pointSet3D->GetPoints()->Size() != 20 )
     {
     std::cout << "[FAILURE]" << std::endl;
     return EXIT_FAILURE;
@@ -155,7 +186,7 @@ int itkSpatialObjectToPointSetFilterTest(int, char* [] )
 
   std::cout << "Testing pointSet3D validity : ";
 
-  typedef PointSet3DType::PointsContainer::ConstIterator  PointIterator3D;
+  typedef PointSet3DType::PointsContainer::ConstIterator PointIterator3D;
   PointIterator3D pointItr2 = pointSet3D->GetPoints()->Begin();
   PointIterator3D pointEnd2 = pointSet3D->GetPoints()->End();
 
