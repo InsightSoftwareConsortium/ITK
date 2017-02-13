@@ -98,7 +98,8 @@ int itkBSplineScatteredDataPointSetToImageFilterTest3( int argc, char * argv [] 
   ImageType::SpacingType spacing;
   spacing.Fill( 0.001 );
   ImageType::SizeType size;
-  size.Fill( static_cast<unsigned int>( 1.0/spacing[0] ) + 1 );
+  // Adding 0.5 to avoid rounding errors
+  size.Fill( static_cast<unsigned int>( 1.0/spacing[0] +.5 ) + 1 );
   ImageType::PointType origin;
   origin.Fill( 0.0 );
 

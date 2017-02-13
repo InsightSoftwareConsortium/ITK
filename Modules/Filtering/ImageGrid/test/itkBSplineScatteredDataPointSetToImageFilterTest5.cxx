@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCastImageFilter.h"
-#include "itkImageFileWriter.h"
 #include "itkPointSet.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkTestingMacros.h"
@@ -30,26 +28,14 @@
  *  https://en.wikipedia.org/wiki/Trefoil_knot
  * which is closed in both parametric dimensions.
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
+int itkBSplineScatteredDataPointSetToImageFilterTest5( int, char * [] )
 {
-
-  if( argc < 2 )
-    {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << argv[0] << "outputImage" << std::endl;
-    return EXIT_FAILURE;
-    }
-
   const unsigned int ParametricDimension = 2;
   const unsigned int DataDimension = 3;
 
   typedef double                                              RealType;
-  typedef unsigned char                                       OutputPixelType;
   typedef itk::Vector<RealType, DataDimension>                VectorType;
-  typedef itk::Vector<OutputPixelType, DataDimension>         OutputVectorType;
   typedef itk::Image<VectorType, ParametricDimension>         ImageType;
-  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
 
   typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
 
@@ -119,28 +105,6 @@ int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
 
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
-
-  // Get the filter output
-  ImageType::Pointer outputImage = filter->GetOutput();
-
-  // Cast the output image
-  typedef itk::CastImageFilter< ImageType, OutputImageType > CastImageFilterType;
-
-  CastImageFilterType::Pointer caster = CastImageFilterType::New();
-
-  caster->SetInput( outputImage );
-
-  // Write the result image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
-
-  WriterType::Pointer writer = WriterType::New();
-
-  writer->SetFileName( argv[1] );
-
-  writer->SetInput( caster->GetOutput() );
-
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
-
 
   return EXIT_SUCCESS;
 }

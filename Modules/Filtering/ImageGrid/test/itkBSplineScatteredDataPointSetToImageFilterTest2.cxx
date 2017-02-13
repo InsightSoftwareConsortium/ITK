@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include "itkCastImageFilter.h"
-#include "itkImageFileWriter.h"
 #include "itkPointSet.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkTestingMacros.h"
@@ -27,26 +25,15 @@
  * In this test, we approximate a sequence of 3D points with a
  * parametric curve described by B-Splines
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
+int itkBSplineScatteredDataPointSetToImageFilterTest2( int, char * [] )
 {
-
-  if( argc < 2 )
-    {
-    std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage:" << std::endl;
-    std::cerr << argv[0] << "outputImage" << std::endl;
-    return EXIT_FAILURE;
-    }
 
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 3;
 
   typedef double                                              RealType;
-  typedef unsigned char                                       OutputPixelType;
   typedef itk::Vector<RealType, DataDimension>                VectorType;
-  typedef itk::Vector<OutputPixelType, DataDimension>         OutputVectorType;
   typedef itk::Image<VectorType, ParametricDimension>         ImageType;
-  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
 
   typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
 
@@ -126,26 +113,7 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  // Get the filter output
-  ImageType::Pointer outputImage = filter->GetOutput();
-
-  // Cast the output image
-  typedef itk::CastImageFilter< ImageType, OutputImageType > CastImageFilterType;
-
-  CastImageFilterType::Pointer caster = CastImageFilterType::New();
-
-  caster->SetInput( outputImage );
-
-  // Write the result image
-  typedef itk::ImageFileWriter< OutputImageType > WriterType;
-
-  WriterType::Pointer writer = WriterType::New();
-
-  writer->SetFileName( argv[1] );
-
-  writer->SetInput( caster->GetOutput() );
-
-  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  // Output image is not saved or tested as it is not generated in this test. See "filter->SetGenerateOutputImage( false );"
 
   return EXIT_SUCCESS;
 }
