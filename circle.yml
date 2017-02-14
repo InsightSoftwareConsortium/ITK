@@ -4,8 +4,8 @@ machine:
         CTEST_SOURCE_DIRECTORY: ${HOME}/ITK
         CTEST_BINARY_DIRECTORY: ${HOME}/ITK-build
         DASHBOARD_BRANCH_DIRECTORY: ${HOME}/ITK-dashboard
-        ITK_DATA_TAR: InsightData-4.10.1.tar.gz
-        ITK_DATA_TAR_URL: "https://sourceforge.net/projects/itk/files/itk/4.10/${ITK_DATA_TAR}"
+        ITK_DATA_TAR: InsightData-4.11.0tar.gz
+        ITK_DATA_TAR_URL: "https://sourceforge.net/projects/itk/files/itk/4.11/${ITK_DATA_TAR}"
         ExternalData_OBJECT_STORES: ${HOME}/.ExternalData
         DISTCC_TCP_CORK: "0"
         DISTCC_DIR: ${HOME}/.distcc
