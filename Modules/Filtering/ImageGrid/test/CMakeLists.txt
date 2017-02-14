@@ -84,7 +84,10 @@ itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest04
       COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest4)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest05
-      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest5)
+      COMMAND ITKImageGridTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05.mha
+              c2100a7dc86472006d77b62dffa1a8dd
+    itkBSplineScatteredDataPointSetToImageFilterTest5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest05.mha)
 itk_add_test(NAME itkBSplineControlPointImageFilterTest1
       COMMAND ITKImageGridTestDriver
     --compare ${ITK_TEST_OUTPUT_DIR}/N4ControlPoints_2D_output.nii.gz

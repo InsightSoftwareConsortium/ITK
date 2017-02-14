@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include "itkCastImageFilter.h"
+#include "itkImageFileWriter.h"
 #include "itkPointSet.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkTestingMacros.h"
@@ -28,14 +30,25 @@
  *  https://en.wikipedia.org/wiki/Trefoil_knot
  * which is closed in both parametric dimensions.
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest5( int, char * [] )
+int itkBSplineScatteredDataPointSetToImageFilterTest5( int argc, char * argv[] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << argv[0] << "outputImage" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const unsigned int ParametricDimension = 2;
   const unsigned int DataDimension = 3;
 
   typedef double                                              RealType;
+  typedef unsigned char                                       OutputPixelType;
   typedef itk::Vector<RealType, DataDimension>                VectorType;
+  typedef itk::Vector< OutputPixelType, DataDimension >       OutputVectorType;
   typedef itk::Image<VectorType, ParametricDimension>         ImageType;
+  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
 
   typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
 
@@ -105,6 +118,20 @@ int itkBSplineScatteredDataPointSetToImageFilterTest5( int, char * [] )
 
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  // Cast the PhiLattice
+  typedef itk::CastImageFilter< FilterType::PointDataImageType, OutputImageType >
+    CastImageFilterType;
+  CastImageFilterType::Pointer caster = CastImageFilterType::New();
+  caster->SetInput( filter->GetPhiLattice() );
+
+  // Write the PhiLattice
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[1] );
+  writer->SetInput( caster->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
