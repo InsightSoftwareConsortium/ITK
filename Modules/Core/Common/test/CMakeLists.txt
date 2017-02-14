@@ -242,10 +242,14 @@ itk_add_test(NAME itkFloodFilledSpatialFunctionTest COMMAND ITKCommon1TestDriver
 itk_add_test(NAME itkFloodFillIteratorTest COMMAND ITKCommon1TestDriver itkFloodFillIteratorTest)
 itk_add_test(NAME itkAnnulusOperatorTest COMMAND ITKCommon1TestDriver itkAnnulusOperatorTest)
 
-itk_add_test(NAME itkColorTableTest COMMAND
-             ITKCommon1TestDriver --redirectOutput ${TEMP}/itkColorTableTest.txt
-             itkColorTableTest)
-set_tests_properties(itkColorTableTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkColorTableTest.txt)
+itk_add_test(NAME itkColorTableTest1 COMMAND
+             ITKCommon1TestDriver --redirectOutput ${TEMP}/itkColorTableTest1.txt
+             itkColorTableTest 8)
+set_tests_properties(itkColorTableTest1 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkColorTableTest1.txt)
+itk_add_test(NAME itkColorTableTest2 COMMAND
+             ITKCommon1TestDriver --redirectOutput ${TEMP}/itkColorTableTest2.txt
+             itkColorTableTest 16)
+set_tests_properties(itkColorTableTest2 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkColorTableTest2.txt)
 
 itk_add_test(NAME itkDirectoryTest COMMAND ITKCommon1TestDriver itkDirectoryTest ${TEMP})
 itk_add_test(NAME itkDerivativeOperatorTest COMMAND ITKCommon1TestDriver itkDerivativeOperatorTest)
