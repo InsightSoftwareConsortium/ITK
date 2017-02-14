@@ -61,27 +61,31 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
   fftForwardFilter->Update();
   typedef FFTForwardFilterType::OutputImageType ComplexImageType;
 
+  // Get a Monogenic Vector. Other input to PhaseAnalysis could be derivatives.
   typedef itk::MonogenicSignalFrequencyImageFilter<ComplexImageType> MonogenicSignalFrequencyFilterType;
   MonogenicSignalFrequencyFilterType::Pointer monoFilter = MonogenicSignalFrequencyFilterType::New();
   monoFilter->SetInput(fftForwardFilter->GetOutput());
   monoFilter->Update();
-
   typedef MonogenicSignalFrequencyFilterType::OutputImageType VectorMonoOutputType;
 
   typedef itk::VectorInverseFFTImageFilter<VectorMonoOutputType> VectorInverseFFTType;
   VectorInverseFFTType::Pointer                                  vecInverseFFT = VectorInverseFFTType::New();
   vecInverseFFT->SetInput(monoFilter->GetOutput());
   vecInverseFFT->Update();
+
   // Input to the PhaseAnalysisSoftThreshold
   typedef PhaseAnalysisSoftThresholdImageFilter<VectorInverseFFTType::OutputImageType> PhaseAnalysisSoftThresholdFilter;
   PhaseAnalysisSoftThresholdFilter::Pointer phaseAnalyzer = PhaseAnalysisSoftThresholdFilter::New();
   phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
+  phaseAnalyzer->SetApplySoftThreshold(true);
   phaseAnalyzer->Update();
+  PhaseAnalysisSoftThresholdFilter::OutputImageType::Pointer cosPhase = phaseAnalyzer->GetOutputCosPhase();
+  PhaseAnalysisSoftThresholdFilter::OutputImageType::Pointer amp = phaseAnalyzer->GetOutputAmplitude();
+  PhaseAnalysisSoftThresholdFilter::OutputImageType::Pointer phase = phaseAnalyzer->GetOutputPhase();
 
 #ifdef ITK_VISUALIZE_TESTS
-  Testing::ViewImage(phaseAnalyzer->GetOutputCosPhase(), "PhaseAnalyzer(Soft) output:");
+  Testing::ViewImage(cosPhase.GetPointer(), "PhaseAnalyzer(Soft) output:");
 #endif
-
 
   return EXIT_SUCCESS;
 }

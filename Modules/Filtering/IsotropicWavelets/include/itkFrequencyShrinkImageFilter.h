@@ -26,7 +26,7 @@ namespace itk
 
 /** \class FrequencyShrinkImageFilter
  * \brief Reduce the size of an image in the frequency domain by an integer
- * factor in each dimension.
+ * factor --fixed to 2 at the moment-- in each dimension.
  * This filter discard all the high frequency bins depending on the shrink factor
  * Example: N is even.
  * | 0        1   ... N/2-1   N/2             : N/2+1 ... N-1 |
