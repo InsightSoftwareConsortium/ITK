@@ -161,9 +161,8 @@ WRAP_TYPE("itk::RGBPixel" "RGB" "itkRGBPixel.h")
     ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
   endif()
 
-  if(ITK_WRAP_rgb_unsigned_short)
-    ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
-  endif()
+  # Required by itkTIFFImageIO
+  ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
 
 END_WRAP_TYPE()
 set(itk_Wrap_RGBPixel ${WRAPPER_TEMPLATES})
