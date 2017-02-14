@@ -72,7 +72,10 @@ itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest01
               ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha
     itkBSplineScatteredDataPointSetToImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest01.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest02
-      COMMAND ITKImageGridTestDriver itkBSplineScatteredDataPointSetToImageFilterTest2)
+      COMMAND ITKImageGridTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha
+              1ffdb3ea274ec766af8fe2bb929f9624
+    itkBSplineScatteredDataPointSetToImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest02.mha)
 itk_add_test(NAME itkBSplineScatteredDataPointSetToImageFilterTest03
       COMMAND ITKImageGridTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkBSplineScatteredDataPointSetToImageFilterTest03.mha

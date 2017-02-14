@@ -16,6 +16,8 @@
  *
  *=========================================================================*/
 
+#include "itkCastImageFilter.h"
+#include "itkImageFileWriter.h"
 #include "itkPointSet.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkTestingMacros.h"
@@ -25,15 +27,25 @@
  * In this test, we approximate a sequence of 3D points with a
  * parametric curve described by B-Splines
  */
-int itkBSplineScatteredDataPointSetToImageFilterTest2( int, char * [] )
+int itkBSplineScatteredDataPointSetToImageFilterTest2( int argc, char * argv[] )
 {
+  if( argc < 2 )
+    {
+    std::cerr << "Missing arguments" << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << argv[0] << "outputImage" << std::endl;
+    return EXIT_FAILURE;
+    }
 
   const unsigned int ParametricDimension = 1;
   const unsigned int DataDimension = 3;
 
   typedef double                                              RealType;
-  typedef itk::Vector<RealType, DataDimension>                VectorType;
-  typedef itk::Image<VectorType, ParametricDimension>         ImageType;
+  typedef unsigned char                                       OutputPixelType;
+  typedef itk::Vector< RealType, DataDimension >              VectorType;
+  typedef itk::Vector< OutputPixelType, DataDimension >       OutputVectorType;
+  typedef itk::Image< VectorType, ParametricDimension >       ImageType;
+  typedef itk::Image< OutputVectorType, ParametricDimension>  OutputImageType;
 
   typedef itk::PointSet<VectorType, ParametricDimension> PointSetType;
 
@@ -113,7 +125,19 @@ int itkBSplineScatteredDataPointSetToImageFilterTest2( int, char * [] )
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  // Output image is not saved or tested as it is not generated in this test. See "filter->SetGenerateOutputImage( false );"
+  // Cast the PhiLattice
+  typedef itk::CastImageFilter< FilterType::PointDataImageType, OutputImageType >
+    CastImageFilterType;
+  CastImageFilterType::Pointer caster = CastImageFilterType::New();
+  caster->SetInput( filter->GetPhiLattice() );
+
+  // Write the PhiLattice
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[1] );
+  writer->SetInput( caster->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
