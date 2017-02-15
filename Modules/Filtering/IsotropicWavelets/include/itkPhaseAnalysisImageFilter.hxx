@@ -127,8 +127,8 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputePhase(const InputIma
 }
 
 template <typename TInputImage, typename TOutputImage>
-FixedArray<typename PhaseAnalysisImageFilter<TInputImage, TOutputImage>::OutputImagePixelType,
-           PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ImageDimension - 1>
+itk::FixedArray<typename PhaseAnalysisImageFilter<TInputImage, TOutputImage>::OutputImagePixelType,
+                PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ImageDimension - 1>
 PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputePhaseOrientation(
   const InputImagePixelType &  inputPixel,
   const OutputImagePixelType & featureAmpSquare) const
