@@ -180,15 +180,14 @@ runStructureTensorTest()
 int
 itkStructureTensorTest(int, char *[])
 {
-  const unsigned int dimension2D = 2;
-  int                result2D = runStructureTensorTest<dimension2D>();
-  const unsigned int dimension3D = 3;
-  int                result3D = runStructureTensorTest<dimension3D>();
-  int                result4D = EXIT_SUCCESS;
+  int result2D = runStructureTensorTest<2>();
+  int result3D = runStructureTensorTest<3>();
 
 #ifndef ITK_VISUALIZE_TESTS
   // cannot visualize 4D images with viewimage
-  result4D = runStructureTensorTest<4>();
-#endif
+  int result4D = runStructureTensorTest<4>();
   return result2D && result3D && result4D;
+#else
+  return result2D && result3D;
+#endif
 }

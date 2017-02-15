@@ -33,7 +33,7 @@ public:
 
   typedef itk::FrequencyImageRegionIteratorWithIndex<ImageType> IteratorType;
 
-  itkFrequencyImageRegionIteratorWithIndexTester(size_t input_size)
+  explicit itkFrequencyImageRegionIteratorWithIndexTester(size_t input_size)
   {
     m_Image = ImageType::New();
 
