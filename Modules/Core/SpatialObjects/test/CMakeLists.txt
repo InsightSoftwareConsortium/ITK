@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKSpatialObjectsTests
+itkContourSpatialObjectPointTest.cxx
 itkSpatialObjectToImageFilterTest.cxx
 itkLandmarkSpatialObjectTest.cxx
 itkPolygonGroupSpatialObjectTest.cxx
@@ -35,6 +36,8 @@ itkNewMetaObjectTypeTest.cxx
 
 CreateTestDriver(ITKSpatialObjects  "${ITKSpatialObjects-Test_LIBRARIES}" "${ITKSpatialObjectsTests}")
 
+itk_add_test(NAME itkContourSpatialObjectPointTest
+      COMMAND ITKSpatialObjectsTestDriver itkContourSpatialObjectPointTest)
 itk_add_test(NAME itkSpatialObjectToImageFilterTest
       COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectToImageFilterTest)
 itk_add_test(NAME itkLandmarkSpatialObjectTest
