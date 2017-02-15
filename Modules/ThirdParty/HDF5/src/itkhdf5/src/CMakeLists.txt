@@ -714,7 +714,7 @@ add_library (${HDF5_LIB_TARGET} STATIC ${common_SRCS} ${H5_PUBLIC_HEADERS} ${H5_
 TARGET_C_PROPERTIES (${HDF5_LIB_TARGET} STATIC " " " ")
 target_link_libraries (${HDF5_LIB_TARGET} ${LINK_LIBS})
 if (NOT WIN32)
-  target_link_libraries (${HDF5_LIB_TARGET} dl)
+  target_link_libraries (${HDF5_LIB_TARGET} ${CMAKE_DL_LIBS})
 endif (NOT WIN32)
 if (H5_HAVE_PARALLEL AND MPI_C_FOUND)
   target_link_libraries (${HDF5_LIB_TARGET} ${MPI_C_LIBRARIES})
