@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class VectorInverseFFTImageFilter
  *
  * \brief Applies InverseFFT to each index of a vector image.

@@ -52,7 +52,9 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
   this->Modified();
 
   for (unsigned int band = 0; band < this->m_HighPassSubBands + 1; ++band)
+  {
     this->SetNthOutput(band, this->MakeOutput(band));
+  }
 }
 
 template <typename TOutputImage, typename TWaveletFunction, typename TFrequencyRegionIterator>

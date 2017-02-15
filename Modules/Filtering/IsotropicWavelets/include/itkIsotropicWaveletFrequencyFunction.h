@@ -81,9 +81,11 @@ public:
   /** Evaluate the low filter response. */
   virtual FunctionValueType
   EvaluateForwardLowPassFilter(const FunctionValueType & freq_in_hz) const;
+
   /** Evaluate the highfilter response. */
   virtual FunctionValueType
   EvaluateForwardHighPassFilter(const FunctionValueType & freq_in_hz) const;
+
   /** Evaluate the sub-band response.
    * j evaluates LowFilter, j=m_SubBand evaluates HighFilter */
   virtual FunctionValueType
@@ -93,9 +95,11 @@ public:
   /** Evaluate the low filter response. */
   virtual FunctionValueType
   EvaluateInverseLowPassFilter(const FunctionValueType & freq_in_hz) const;
+
   /** Evaluate the highfilter response. */
   virtual FunctionValueType
   EvaluateInverseHighPassFilter(const FunctionValueType & freq_in_hz) const;
+
   /** Evaluate the sub-band response.
    * j evaluates LowFilter, j=m_SubBand evaluates HighFilter */
   virtual FunctionValueType
@@ -113,6 +117,7 @@ protected:
   virtual ~IsotropicWaveletFrequencyFunction();
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
   /** Number of HighPassSubBands in the high filter decomposition.
    * Default to just one HighPass filter (no subbands) */
   unsigned int m_HighPassSubBands;

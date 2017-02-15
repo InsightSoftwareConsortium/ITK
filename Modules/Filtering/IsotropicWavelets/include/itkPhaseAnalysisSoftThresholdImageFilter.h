@@ -91,6 +91,7 @@ public:
   {
     return this->GetOutput(2);
   }
+
   OutputImageType *
   GetOutputCosPhase()
   {
@@ -105,6 +106,7 @@ protected:
 
   virtual void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
+
   virtual void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 

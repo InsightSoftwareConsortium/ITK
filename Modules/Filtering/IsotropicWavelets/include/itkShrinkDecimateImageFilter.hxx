@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 template <class TInputImage, class TOutputImage>
 ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ShrinkDecimateImageFilter()
 {
@@ -247,7 +246,6 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
-
 } // end namespace itk
 
 #endif

@@ -32,7 +32,6 @@
 
 namespace itk
 {
-
 template <class TImageType>
 FrequencyShrinkImageFilter<TImageType>::FrequencyShrinkImageFilter()
 {
@@ -115,7 +114,8 @@ void
 FrequencyShrinkImageFilter<TImageType>::GenerateData()
 {
   // Get the input and output pointers
-  const ImageType *           inputPtr = this->GetInput();
+  const ImageType * inputPtr = this->GetInput();
+
   typename ImageType::Pointer outputPtr = this->GetOutput();
   this->AllocateOutputs();
   // outputPtr->SetBufferedRegion(outputPtr->GetLargestPossibleRegion());
@@ -356,7 +356,6 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
-
 } // end namespace itk
 
 #endif

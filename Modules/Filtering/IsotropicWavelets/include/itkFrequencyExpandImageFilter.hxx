@@ -69,6 +69,7 @@ void
 FrequencyExpandImageFilter<TImageType>::SetExpandFactors(const unsigned int factor)
 {
   unsigned int j;
+
   for (j = 0; j < ImageDimension; j++)
   {
     if (factor != m_ExpandFactors[j])
@@ -112,6 +113,7 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
 {
   const ImageType * inputPtr = this->GetInput();
   ImagePointer      outputPtr = this->GetOutput();
+
   // complex is initialized to zero directly.
 
   this->AllocateOutputs();

@@ -68,9 +68,11 @@ public:
   itkTypeMacro(WaveletFrequencyInverse, ImageToImageFilter);
   void
   SetLevels(unsigned int n);
+
   itkGetMacro(Levels, unsigned int);
   void
   SetHighPassSubBands(unsigned int n);
+
   itkGetMacro(HighPassSubBands, unsigned int);
   itkGetMacro(TotalInputs, unsigned int);
 
@@ -81,8 +83,10 @@ public:
 
   void
   SetInputs(const std::vector<InputImagePointer> & inputs);
+
   void
   SetInputLowPass(const InputImagePointer & input_low_pass);
+
   void
   SetInputsHighPass(const std::vector<InputImagePointer> & inputs);
 
@@ -91,9 +95,11 @@ protected:
   ~WaveletFrequencyInverse() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
   /** Single-threaded version of GenerateData. */
   void
   GenerateData() ITK_OVERRIDE;
+
   /************ Information *************/
 
   /** WaveletFrequencyInverse produces images which are of
@@ -128,7 +134,8 @@ protected:
 private:
   WaveletFrequencyInverse(const Self &) ITK_DELETE_FUNCTION;
   void
-               operator=(const Self &) ITK_DELETE_FUNCTION;
+  operator=(const Self &) ITK_DELETE_FUNCTION;
+
   unsigned int m_Levels;
   unsigned int m_HighPassSubBands;
   unsigned int m_TotalInputs;

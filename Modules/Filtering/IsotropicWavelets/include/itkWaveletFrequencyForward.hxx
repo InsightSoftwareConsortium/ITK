@@ -26,10 +26,10 @@
 #include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
 // TODO remove after debug
-//  #ifdef ITK_VISUALIZE_TESTS
-//  #include <itkComplexToRealImageFilter.h>
-//  #include "../test/itkViewImage.h"
-//  #endif
+// #ifdef ITK_VISUALIZE_TESTS
+// #include <itkComplexToRealImageFilter.h>
+// #include "../test/itkViewImage.h"
+// #endif
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
@@ -144,6 +144,7 @@ void
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::SetLevels(unsigned int n)
 {
   unsigned int current_outputs = 1 + this->m_Levels * this->m_HighPassSubBands;
+
   if (this->m_TotalOutputs == current_outputs && this->m_Levels == n)
   {
     return;
@@ -431,6 +432,7 @@ void
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GenerateData()
 {
   InputImageConstPointer input = this->GetInput();
+
   this->AllocateOutputs();
 
   std::vector<OutputImagePointer>   outputList;
@@ -444,10 +446,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   typedef itk::ChangeInformationImageFilter<OutputImageType> ChangeInformationFilterType;
   typename ChangeInformationFilterType::Pointer              changeInputInfoFilter = ChangeInformationFilterType::New();
   // TODO solve the origin/spacing issue
-  //  For multiplication purposes between the filterbank and the inputimage, both images have to have same
-  //  Information/Metadata. current a) ignore the input information and work with default values. CONS: the user have to
-  //  restore it explicitly after reconstruction. b) set the information of the filter bank to be the same. CONS: the
-  //  metadata/information could be misleading working in the frequency space.
+  // For multiplication purposes between the filterbank and the inputimage, both images have to have same
+  // Information/Metadata. current a) ignore the input information and work with default values. CONS: the user have to
+  // restore it explicitly after reconstruction. b) set the information of the filter bank to be the same. CONS: the
+  // metadata/information could be misleading working in the frequency space.
   typename InputImageType::PointType   origin_old = inputPerLevel->GetOrigin();
   typename InputImageType::SpacingType spacing_old = inputPerLevel->GetSpacing();
   typename InputImageType::PointType   origin_new = origin_old;
@@ -597,6 +599,5 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     }
   }
 }
-
 } // end namespace itk
 #endif

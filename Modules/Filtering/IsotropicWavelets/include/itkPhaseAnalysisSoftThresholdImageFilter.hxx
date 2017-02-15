@@ -58,6 +58,7 @@ void
 PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   unsigned int nC = this->GetInput()->GetNumberOfComponentsPerPixel();
+
   if (nC < 2)
   {
     itkExceptionMacro(<< "Number of components of input image (" << nC
@@ -78,6 +79,7 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenera
   ThreadIdType                  threadId)
 {
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
   Superclass::ThreadedGenerateData(outputRegionForThread, threadId);
 
   typename OutputImageType::Pointer phasePtr = this->GetOutputPhase();

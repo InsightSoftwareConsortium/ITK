@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 /** \class FrequencyShrinkViaInverseFFTImageFilter
  * \brief Reduce the size of an image in the frequency domain by an integer
  * factor in each dimension.
@@ -82,6 +81,7 @@ public:
   itkSetMacro(ShrinkFactors, ShrinkFactorsType);
   void
   SetShrinkFactors(unsigned int factor);
+
   void
   SetShrinkFactor(unsigned int i, unsigned int factor);
 
@@ -123,7 +123,6 @@ private:
   typename ForwardFFTFilterType::Pointer m_ForwardFFT;
   typename ShrinkFilterType::Pointer     m_Shrinker;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -79,9 +79,11 @@ public:
   itkTypeMacro(WaveletFrequencyForward, ImageToImageFilter);
   void
   SetLevels(unsigned int n);
+
   itkGetMacro(Levels, unsigned int);
   void
   SetHighPassSubBands(unsigned int n);
+
   itkGetMacro(HighPassSubBands, unsigned int);
   itkGetMacro(TotalOutputs, unsigned int);
 
@@ -103,10 +105,13 @@ public:
   /** Retrieve outputs */
   OutputsType
   GetOutputs();
+
   OutputsType
   GetOutputsHighPass();
+
   OutputImagePointer
   GetOutputLowPass();
+
   OutputsType
   GetOutputsHighPassByLevel(unsigned int level);
 
@@ -115,9 +120,11 @@ protected:
   ~WaveletFrequencyForward() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
   /** Single-threaded version of GenerateData. */
   void
   GenerateData() ITK_OVERRIDE;
+
   /************ Information *************/
 
   /** WaveletFrequencyForward produces images which are of
@@ -152,7 +159,8 @@ protected:
 private:
   WaveletFrequencyForward(const Self &) ITK_DELETE_FUNCTION;
   void
-               operator=(const Self &) ITK_DELETE_FUNCTION;
+  operator=(const Self &) ITK_DELETE_FUNCTION;
+
   unsigned int m_Levels;
   unsigned int m_HighPassSubBands;
   unsigned int m_TotalOutputs;

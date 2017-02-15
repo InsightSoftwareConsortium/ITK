@@ -25,7 +25,8 @@ int
 itkInd2SubTest(int, char **)
 {
   // Used for  initializing FixedArray.
-  const unsigned int                   D3 = 3;
+  const unsigned int D3 = 3;
+
   typedef FixedArray<unsigned int, D3> Array3DType;
   Array3DType                          ass3D; // from assigner3D c++98
   ass3D[0] = 2;
@@ -40,7 +41,9 @@ itkInd2SubTest(int, char **)
     Array3DType out = Ind2Sub<D3>(n, sizes3);
     storeOutput3D.push_back(out);
     for (unsigned int i = 0; i < D3; ++i)
+    {
       std::cout << out[i] << " , ";
+    }
     std::cout << '\n';
   }
   // Check results: I have to like c++11 initializer lists.
@@ -100,7 +103,9 @@ itkInd2SubTest(int, char **)
     Array2DType out = Ind2Sub<D2>(n, sizes2);
     storeOutput2D.push_back(out);
     for (unsigned int i = 0; i < D2; ++i)
+    {
       std::cout << out[i] << " , ";
+    }
     std::cout << '\n';
   }
   // Check results:
@@ -164,7 +169,9 @@ itkInd2SubTest(int, char **)
     ass2D[1] = static_cast<unsigned int>(out[1]);
     storeOutputIndex2D.push_back(ass2D);
     for (unsigned int i = 0; i < D2; ++i)
+    {
       std::cout << out[i] << " , ";
+    }
     std::cout << '\n';
   }
   if (storeOutputIndex2D != expectedResult2D)

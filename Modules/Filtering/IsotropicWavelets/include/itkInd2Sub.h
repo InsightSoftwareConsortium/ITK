@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /**
  * @brief Return SubIndex [i,j,k,...] from linear index and matrix size.
  * Based on Ind2Sub from Matlab.
@@ -43,8 +42,10 @@ FixedArray<unsigned int, N>
 Ind2Sub(const unsigned int & linear_index, const FixedArray<unsigned int, N> & ns)
 {
   for (unsigned int d = 0; d < N; ++d)
+  {
     if (ns[d] == 0)
       throw std::runtime_error("itk::Ind2Sub: input size cannot be zero");
+  }
 
   // accumulative product.
   FixedArray<unsigned int, N> cumprod;
@@ -82,11 +83,15 @@ Ind2Sub(const unsigned int & linear_index, const itk::Size<N> & ns)
 {
   FixedArray<unsigned int, N> ns_array;
   for (unsigned int d = 0; d < N; ++d)
+  {
     ns_array[d] = ns[d];
+  }
   FixedArray<unsigned int, N> out_array = Ind2Sub<N>(linear_index, ns_array);
   itk::Index<N>               out_index;
   for (unsigned int d = 0; d < N; ++d)
+  {
     out_index[d] = out_array[d];
+  }
 
   return out_index;
 }

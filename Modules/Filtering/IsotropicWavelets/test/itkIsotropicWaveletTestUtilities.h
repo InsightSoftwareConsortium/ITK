@@ -35,7 +35,8 @@ bool
 ComplexImageIsHermitian(Image<std::complex<TValueType>, N> *                       cImg,
                         typename itk::Math::Detail::FloatIEEE<TValueType>::IntType maxUlp = 10000000)
 {
-  bool                                                     isHermitian = true;
+  bool isHermitian = true;
+
   typedef Image<std::complex<TValueType>, N>               ComplexImageType;
   itk::ImageRegionConstIteratorWithIndex<ComplexImageType> complexIt(cImg, cImg->GetLargestPossibleRegion());
   complexIt.GoToBegin();

@@ -40,6 +40,7 @@ void
 ZeroDCImageFilter<TImageType>::GenerateData()
 {
   ImagePointer outputPtr = this->GetOutput();
+
   this->AllocateOutputs();
   ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);

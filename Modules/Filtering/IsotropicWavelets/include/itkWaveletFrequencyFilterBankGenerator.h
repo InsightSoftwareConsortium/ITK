@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class WaveletFrequencyFilterBankGenerator
  * \brief Generate filter bank of wavelet images.
  *
@@ -80,22 +79,28 @@ public:
   itkGetMacro(HighPassSubBands, unsigned int);
   void
   SetHighPassSubBands(unsigned int k);
+
   itkGetMacro(ScaleFactor, unsigned int);
   itkSetMacro(ScaleFactor, unsigned int);
   itkGetMacro(InverseBank, bool);
   itkSetMacro(InverseBank, bool);
   void
   SetInverseBankOn();
+
   /** Get Outputs *****/
   OutputImagePointer
   GetOutputLowPass();
+
   OutputImagePointer
   GetOutputHighPass();
+
   OutputImagePointer
   GetOutputSubBand(unsigned int k);
+
   /** Returns all the outputs, starting at low-pass to highest subband*/
   std::vector<OutputImagePointer>
   GetOutputsAll();
+
   /** Returns all the high pass subbands in ascending order, but not the low pass*/
   std::vector<OutputImagePointer>
   GetOutputsHighPassBands();
@@ -105,6 +110,7 @@ public:
   itkConceptMacro(OutputPixelTypeIsComplexAndFloatCheck,
                   (Concept::IsFloatingPoint<typename OutputImageType::PixelType::value_type>));
 #endif
+
 protected:
   WaveletFrequencyFilterBankGenerator();
   virtual ~WaveletFrequencyFilterBankGenerator() {}
@@ -130,7 +136,6 @@ private:
   /** Flag to call generate inverse(reconstruction) filter bank instead
    * of forward (analysis) */
   bool m_InverseBank;
-
 }; // end of class
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -52,7 +52,8 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
                                  const unsigned int & inputLevels,
                                  const unsigned int & inputBands)
 {
-  const unsigned int                       dimension = N;
+  const unsigned int dimension = N;
+
   typedef double                           PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;

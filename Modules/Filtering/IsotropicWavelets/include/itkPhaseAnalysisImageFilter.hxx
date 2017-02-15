@@ -33,6 +33,7 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::PhaseAnalysisImageFilter()
     this->SetNthOutput(n_output, this->MakeOutput(n_output));
   }
 }
+
 template <typename TInputImage, typename TOutputImage>
 void
 PhaseAnalysisImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -45,6 +46,7 @@ void
 PhaseAnalysisImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   unsigned int nC = this->GetInput()->GetNumberOfComponentsPerPixel();
+
   if (nC < 2)
   {
     itkExceptionMacro(<< "Number of components of input image (" << nC
@@ -60,6 +62,7 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
 {
   ProgressReporter progress(
     this, threadId, outputRegionForThread.GetNumberOfPixels() / outputRegionForThread.GetSize()[0]);
+
   typename OutputImageType::Pointer phasePtr = this->GetOutputPhase();
   typename OutputImageType::Pointer amplitudePtr = this->GetOutputAmplitude();
 
@@ -96,9 +99,9 @@ typename PhaseAnalysisImageFilter<TInputImage, TOutputImage>::OutputImagePixelTy
 PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputeFeatureVectorNormSquare(
   const InputImagePixelType & inputPixel) const
 {
-
   const unsigned int & nC = this->GetInput()->GetNumberOfComponentsPerPixel();
   OutputImagePixelType out(0);
+
   for (unsigned int r = 1; r < nC; r++)
   {
     out += inputPixel[r] * inputPixel[r];
@@ -142,6 +145,7 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputePhaseOrientation(
   }
   return out;
 }
+
 // template< typename TInputImage, typename TOutputImage >
 // typename PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
 // PhaseAnalysisSoftThresholdImageFilter< TInputImage, TOutputImage >

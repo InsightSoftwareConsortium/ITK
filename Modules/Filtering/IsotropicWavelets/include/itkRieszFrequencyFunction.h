@@ -65,6 +65,7 @@ public:
   };
   OutputComplexType
   Evaluate(const TInput & frequency_point, const unsigned int & dimension) const;
+
   OutputArrayType
   EvaluateArray(const TInput & frequency_point) const;
 
@@ -73,6 +74,7 @@ public:
   Magnitude(const TInput & point) const
   {
     double accum(0);
+
     for (size_t d = 0; d < VImageDimension; ++d)
     {
       accum += point[d] * point[d];

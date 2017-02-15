@@ -25,7 +25,6 @@
 
 namespace itk
 {
-
 /** \class FFTPadPositiveIndexImageFilter
  * \brief Pad an image to make it suitable for an FFT transformation.
  * The difference with @sa FFTPadImageFilter is that the padded image
@@ -95,13 +94,15 @@ protected:
   ~FFTPadPositiveIndexImageFilter() {};
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
   virtual void
   GenerateInputRequestedRegion() ITK_OVERRIDE;
+
   virtual void
   GenerateOutputInformation() ITK_OVERRIDE;
+
   virtual void
   GenerateData() ITK_OVERRIDE;
-
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FFTPadPositiveIndexImageFilter);
@@ -109,9 +110,7 @@ private:
   typename ChangeInfoFilterType::Pointer m_ChangeInfoFilter;
   SizeValueType                          m_SizeGreatestPrimeFactor;
   BoundaryConditionPointerType           m_BoundaryCondition;
-
 }; // end of class
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

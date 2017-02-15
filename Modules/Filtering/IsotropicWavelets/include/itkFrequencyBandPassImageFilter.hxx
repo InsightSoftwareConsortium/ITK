@@ -24,7 +24,6 @@
 
 namespace itk
 {
-
 template <class TImageType>
 FrequencyBandPassImageFilter<TImageType>::FrequencyBandPassImageFilter()
   : m_LowFrequencyThreshold(0)
@@ -109,9 +108,9 @@ FrequencyBandPassImageFilter<TImageType>::ThreadedGenerateData(const ImageRegion
   ImagePointer outputPtr = this->GetOutput();
 
   FrequencyIteratorType freqIt(outputPtr, outputRegionForThread);
+
   freqIt.GoToBegin();
   FrequencyValueType f;
-  ;
   while (!freqIt.IsAtEnd())
   {
     f = sqrt(freqIt.GetFrequencyModuloSquare());
@@ -145,7 +144,6 @@ FrequencyBandPassImageFilter<TImageType>::ThreadedGenerateData(const ImageRegion
     ++freqIt;
   }
 }
-
 } // end namespace itk
 
 #endif

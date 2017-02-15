@@ -110,7 +110,6 @@ public:
   typedef typename InputImageType::SpacingType    SpacingType;
   typedef typename InputImageRegionType::SizeType SizeType;
 
-
   typedef typename OutputImageType::Pointer      OutputImagePointer;
   typedef typename OutputImageType::ConstPointer OutputImageConstPointer;
   typedef typename OutputImageType::RegionType   OutputImageRegionType;
@@ -129,6 +128,7 @@ public:
 
   void
   SetInputs(const std::vector<InputImagePointer> & inputs);
+
   itkSetMacro(GaussianWindowRadius, FloatType);
   itkGetConstMacro(GaussianWindowRadius, FloatType);
   itkSetMacro(GaussianWindowSigma, FloatType);
@@ -136,8 +136,10 @@ public:
   itkGetConstMacro(GaussianSource, typename GaussianSourceType::Pointer);
   InputImagePointer
   ComputeProjectionImage(unsigned int eigen_number) const;
+
   InputImagePointer
   ComputeProjectionImageWithLargestResponse() const;
+
   InputImagePointer
   ComputeCoherencyImage() const;
 
@@ -149,8 +151,10 @@ protected:
 
   virtual void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
+
   virtual void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
+
   /** Assuming that row>=column */
   static unsigned int
   LowerTriangleToLinearIndex(unsigned int r, unsigned int c)

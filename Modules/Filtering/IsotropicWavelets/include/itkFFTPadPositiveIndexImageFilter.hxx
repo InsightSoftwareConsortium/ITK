@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 template <class TInputImage, class TOutputImage>
 FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::FFTPadPositiveIndexImageFilter()
   : m_SizeGreatestPrimeFactor(2)
@@ -96,7 +95,6 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateOutputInforma
   output0->SetLargestPossibleRegion(region);
 }
 
-
 template <class TInputImage, class TOutputImage>
 void
 FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -133,6 +131,5 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateData()
   progress->RegisterInternalFilter(m_ChangeInfoFilter, 0.5);
   this->GraftOutput(m_ChangeInfoFilter->GetOutput());
 }
-
 } // end namespace itk
 #endif

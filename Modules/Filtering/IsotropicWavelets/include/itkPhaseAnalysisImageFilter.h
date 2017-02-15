@@ -110,16 +110,19 @@ public:
   {
     return this->GetOutput(0);
   }
+
   OutputImageType *
   GetOutputPhase()
   {
     return this->GetOutput(0);
   }
+
   const OutputImageType *
   GetOutputAmplitude() const
   {
     return this->GetOutput(1);
   }
+
   OutputImageType *
   GetOutputAmplitude()
   {
@@ -134,16 +137,20 @@ protected:
 
   virtual void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
+
   virtual void
   ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
   inline OutputImagePixelType
   ComputeFeatureVectorNormSquare(const InputImagePixelType & inputPixel) const;
+
   /**************** Helpers requiring the square norm of Riesz *******************/
   inline OutputImagePixelType
   ComputeAmplitude(const InputImagePixelType & inputPixel, const OutputImagePixelType & featureAmpSquare) const;
+
   inline OutputImagePixelType
   ComputePhase(const InputImagePixelType & inputPixel, const OutputImagePixelType & featureAmpSquare) const;
+
   inline itk::FixedArray<OutputImagePixelType, ImageDimension - 1>
   ComputePhaseOrientation(const InputImagePixelType & inputPixel, const OutputImagePixelType & featureAmpSquare) const;
 

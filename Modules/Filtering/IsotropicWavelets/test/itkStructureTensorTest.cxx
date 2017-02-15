@@ -36,7 +36,8 @@ template <unsigned int N>
 int
 runStructureTensorTest()
 {
-  const unsigned int                         ImageDimension = N;
+  const unsigned int ImageDimension = N;
+
   typedef itk::Image<double, ImageDimension> ImageType;
   typedef itk::Index<ImageDimension>         IndexType;
   typedef itk::Size<ImageDimension>          SizeType;
@@ -184,6 +185,7 @@ itkStructureTensorTest(int, char *[])
   const unsigned int dimension3D = 3;
   int                result3D = runStructureTensorTest<dimension3D>();
   int                result4D = EXIT_SUCCESS;
+
 #ifndef ITK_VISUALIZE_TESTS
   // cannot visualize 4D images with viewimage
   result4D = runStructureTensorTest<4>();

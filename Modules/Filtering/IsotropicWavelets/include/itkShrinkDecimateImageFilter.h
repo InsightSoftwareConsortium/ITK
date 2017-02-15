@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class ShrinkDecimateImageFilter
  * \brief Reduce the size of an image by an integer factor in each
  * dimension just cutting off samples without any interpolation.
@@ -80,6 +79,7 @@ public:
   itkSetMacro(ShrinkFactors, ShrinkFactorsType);
   void
   SetShrinkFactors(unsigned int factor);
+
   void
   SetShrinkFactor(unsigned int i, unsigned int factor);
 
@@ -96,7 +96,6 @@ public:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   virtual void
   GenerateInputRequestedRegion() ITK_OVERRIDE;
-
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   /** Begin concept checking */
@@ -136,7 +135,6 @@ private:
     return static_cast<TOutputType>(input);
   }
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

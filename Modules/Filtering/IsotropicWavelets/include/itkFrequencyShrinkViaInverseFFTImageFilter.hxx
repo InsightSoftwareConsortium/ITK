@@ -191,7 +191,6 @@ FrequencyShrinkViaInverseFFTImageFilter<TImageType>::GenerateOutputInformation()
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }
-
 } // end namespace itk
 
 #endif

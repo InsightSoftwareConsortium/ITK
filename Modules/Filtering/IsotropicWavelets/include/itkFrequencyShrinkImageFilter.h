@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class FrequencyShrinkImageFilter
  * \brief Reduce the size of an image in the frequency domain by an integer
  * factor --fixed to 2 at the moment-- in each dimension.
@@ -110,6 +109,7 @@ public:
   itkSetMacro(ShrinkFactors, ShrinkFactorsType);
   void
   SetShrinkFactors(unsigned int factor);
+
   void
   SetShrinkFactor(unsigned int i, unsigned int factor);
 
@@ -148,7 +148,6 @@ private:
 
   ShrinkFactorsType m_ShrinkFactors;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

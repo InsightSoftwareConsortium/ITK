@@ -33,7 +33,7 @@ runShrinkDecimateImageFilterTest()
   typedef itk::Image<PixelType, N> ImageType;
   bool                             testPassed = true;
 
-  //=============================================================
+  // =============================================================
 
   std::cout << "Create the input image." << std::endl;
   typename ImageType::RegionType region;
@@ -57,7 +57,7 @@ runShrinkDecimateImageFilterTest()
       inIt.Set(inIt.GetIndex()[0] * 10);
     }
   }
-  //=============================================================
+  // =============================================================
 
   std::cout << std::endl;
   typedef itk::ShrinkDecimateImageFilter<ImageType, ImageType> DecimatorType;
@@ -68,7 +68,9 @@ runShrinkDecimateImageFilterTest()
     // update with 2,2 shrink factor
     unsigned int factors[N];
     for (unsigned int i = 0; i < N; i++)
+    {
       factors[i] = 2;
+    }
     std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
     decimator->SetShrinkFactors(factors);
     decimator->SetInput(input);

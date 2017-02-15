@@ -23,7 +23,6 @@
 
 namespace itk
 {
-
 /** \class FrequencyBandPassImageFilter
  * \brief Performs a pass filter based on the input frequency.
  *
@@ -73,11 +72,14 @@ public:
   itkSetMacro(LowFrequencyThreshold, FrequencyValueType);
   void
   SetLowFrequencyThresholdInRadians(const FrequencyValueType & freq_low_in_radians);
+
   itkSetMacro(HighFrequencyThreshold, FrequencyValueType);
   void
   SetHighFrequencyThresholdInRadians(const FrequencyValueType & freq_high_in_radians);
+
   void
   SetFrequencyThresholds(const FrequencyValueType & freq_low, const FrequencyValueType & freq_high);
+
   void
   SetFrequencyThresholdsInRadians(const FrequencyValueType & freq_low_in_radians,
                                   const FrequencyValueType & freq_high_in_radians);
@@ -86,8 +88,10 @@ public:
   itkGetConstReferenceMacro(PassBand, bool);
   void
   SetPassBand(const bool pass_low_threshold, const bool pass_high_threshold);
+
   void
   SetStopBand(const bool stop_low_threshold, const bool stop_high_threshold);
+
   itkSetMacro(PassLowFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassLowFrequencyThreshold, bool);
   itkSetMacro(PassHighFrequencyThreshold, bool);
@@ -100,6 +104,7 @@ protected:
 
   virtual void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
+
   virtual void
   ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
@@ -121,7 +126,6 @@ private:
    * independent of m_PassBand */
   bool m_PassHighFrequencyThreshold;
 };
-
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

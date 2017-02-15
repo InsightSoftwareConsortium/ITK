@@ -28,9 +28,10 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
 {
   this->SetNumberOfRequiredOutputs(ImageDimension);
   for (unsigned int dir = 0; dir < ImageDimension; ++dir)
+  {
     this->SetNthOutput(dir, this->MakeOutput(dir));
+  }
 }
-
 
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
 void

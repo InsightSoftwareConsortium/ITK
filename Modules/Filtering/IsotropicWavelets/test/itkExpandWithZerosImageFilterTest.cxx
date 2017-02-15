@@ -32,7 +32,7 @@ runExpandWithZerosImageFilterTest()
   typedef itk::Image<PixelType, N> ImageType;
   bool                             testPassed = true;
 
-  //=============================================================
+  // =============================================================
 
   std::cout << "Create the input image fill with ones." << std::endl;
   typename ImageType::RegionType region;
@@ -50,27 +50,28 @@ runExpandWithZerosImageFilterTest()
   input->Allocate();
   input->FillBuffer(1);
 
-  //=============================================================
+  // =============================================================
 
   typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> ExpanderType;
   typename ExpanderType::Pointer                                expander = ExpanderType::New();
 
   unsigned int factors[N];
   for (unsigned int i = 0; i < N; i++)
+  {
     factors[i] = 3;
+  }
 
   expander->SetInput(input);
   expander->SetExpandFactors(factors);
   expander->Print(std::cout);
   expander->Update();
 
-  //=============================================================
+  // =============================================================
 
   std::cout << "Checking the output against expected." << std::endl;
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
   Iterator                      outIter(expander->GetOutput(), expander->GetOutput()->GetBufferedRegion());
   typename ImageType::IndexType outStartIndex = expander->GetOutput()->GetLargestPossibleRegion().GetIndex();
-
 
   while (!outIter.IsAtEnd())
   {

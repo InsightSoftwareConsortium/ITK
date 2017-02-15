@@ -67,6 +67,7 @@ void
 StructureTensor<TInputImage>::BeforeThreadedGenerateData()
 {
   unsigned int nInputs = this->GetNumberOfInputs();
+
   if (nInputs <= 1)
   {
     itkExceptionMacro(<< "This filter requires more input images, use SetInputs. Current number of inputs: "
@@ -109,6 +110,7 @@ StructureTensor<TInputImage>::BeforeThreadedGenerateData()
   // bounds.SetConstant(itk::NumericTraits<InputImagePixelType>::ZeroValue());
   // convolve->SetBoundaryCondition(&bounds);
   for (unsigned int m = 0; m < nInputs; ++m)
+  {
     for (unsigned int n = m; n < nInputs; ++n)
     {
       multiply->SetInput1(this->GetInput(m));
@@ -119,6 +121,7 @@ StructureTensor<TInputImage>::BeforeThreadedGenerateData()
       m_SquareSmoothedImages.push_back(convolve->GetOutput());
       m_SquareSmoothedImages.back()->DisconnectPipeline();
     }
+  }
 }
 
 /** For each pixel of eigenOut (size of TInput)
@@ -139,8 +142,9 @@ void
 StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                                                    ThreadIdType                  threadId)
 {
-  ProgressReporter                  progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
-  unsigned int                      nInputs = this->GetNumberOfInputs();
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+  unsigned int     nInputs = this->GetNumberOfInputs();
+
   typename OutputImageType::Pointer outputPtr = this->GetOutput();
 
   /******* Iterators ********/
@@ -151,12 +155,14 @@ StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType &
   outIt.GoToBegin();
   std::vector<InputImageConstIterator> inputIts;
   for (unsigned int m = 0; m < nInputs; ++m)
+  {
     for (unsigned int n = m; n < nInputs; ++n)
     {
       unsigned int linear_index = this->LowerTriangleToLinearIndex(m, n);
       inputIts.push_back(InputImageConstIterator(this->m_SquareSmoothedImages[linear_index], outputRegionForThread));
       inputIts.back().GoToBegin();
     }
+  }
 
   EigenMatrixType eigenMatrix;
   eigenMatrix.SetSize(nInputs, nInputs);
@@ -177,11 +183,13 @@ StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType &
       // Init the matrix
       eigenMatrix.Fill(0);
       for (unsigned int m = 0; m < nInputs; ++m)
+      {
         for (unsigned int n = m; n < nInputs; ++n)
         {
           unsigned int linear_index = this->LowerTriangleToLinearIndex(m, n);
           eigenMatrix[m][n] = eigenMatrix[n][m] = inputIts[linear_index].Get();
         }
+      }
       eigenSystem.ComputeEigenValuesAndVectors(eigenMatrix, eigenValues, eigenVectors);
       itkDebugMacro(<< "matrix input\n"
                     << eigenMatrix << "\neigenValues: " << eigenValues << "\neigenVectors: " << eigenVectors);
@@ -200,7 +208,9 @@ StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType &
     } // end outIt Line
     outIt.NextLine();
     for (unsigned int i = 0; i < inputIts.size(); ++i)
+    {
       inputIts[i].NextLine();
+    }
   } // end outIt
 }
 
@@ -209,6 +219,7 @@ typename StructureTensor<TInputImage>::InputImagePointer
 StructureTensor<TInputImage>::ComputeProjectionImage(unsigned int eigen_number) const
 {
   const unsigned int nInputs = this->GetNumberOfInputs();
+
   if (eigen_number >= nInputs)
     itkExceptionMacro(<< "The eigen number must be between [0, numberInputs]. eigen_number = " << eigen_number
                       << " . nInputs = " << nInputs);
@@ -248,10 +259,13 @@ StructureTensor<TInputImage>::ComputeProjectionImage(unsigned int eigen_number) 
     outIt.NextLine();
     projectIt.NextLine();
     for (unsigned int r = 0; r < nInputs; r++)
+    {
       inputIts[r].NextLine();
+    }
   }
   return projectImage;
 }
+
 template <typename TInputImage>
 typename StructureTensor<TInputImage>::InputImagePointer
 StructureTensor<TInputImage>::ComputeProjectionImageWithLargestResponse() const
@@ -268,6 +282,7 @@ StructureTensor<TInputImage>::ComputeCoherencyImage() const
   const OutputImageType * outputPtr = this->GetOutput();
   // Allocate output of this method:
   InputImagePointer coherencyImage = InputImageType::New();
+
   coherencyImage->SetRegions(outputPtr->GetLargestPossibleRegion());
   coherencyImage->Allocate();
 

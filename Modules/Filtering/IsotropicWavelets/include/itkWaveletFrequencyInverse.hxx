@@ -54,12 +54,12 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::InputInd
   return std::make_pair(level, band);
 };
 
-
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
 void
 WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::SetLevels(unsigned int n)
 {
   unsigned int current_inputs = 1 + this->m_Levels * this->m_HighPassSubBands;
+
   if (this->m_TotalInputs == current_inputs && this->m_Levels == n)
   {
     return;
@@ -125,6 +125,7 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::SetInput
     this->SetNthInput(nin + 1, inputs[nin]);
   }
 }
+
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
 void
 WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::PrintSelf(std::ostream & os,
@@ -460,6 +461,5 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     }
   }
 }
-
 } // end namespace itk
 #endif

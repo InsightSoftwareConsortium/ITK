@@ -156,6 +156,7 @@ public:
   GetFrequencyBin() const
   {
     IndexType freqInd;
+
     freqInd.Fill(0);
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
@@ -175,6 +176,7 @@ public:
   {
     FrequencyType freq;
     IndexType     freqInd = this->GetFrequencyBin();
+
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
       freq[dim] = this->m_Image->GetOrigin()[dim] + (this->m_Image->GetSpacing()[dim] * freqInd[dim]) /
@@ -221,6 +223,7 @@ private:
         this->m_MinIndex[dim] + std::ceil((this->m_MaxIndex[dim] - this->m_MinIndex[dim]) / 2.0));
     }
   }
+
   /**
    * Index corresponding to the first highest frequency (Nyquist) after a FFT transform.
    * If the size of the image is even, the Nyquist frequency = fs/2 is unique and shared

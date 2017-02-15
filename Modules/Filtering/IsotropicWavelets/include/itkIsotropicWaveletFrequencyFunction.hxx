@@ -60,6 +60,7 @@ IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>::Eval
 {
   FunctionValueType value = std::pow(freq_norm_in_hz, static_cast<int>(this->m_HighPassSubBands)) *
                             std::pow(2.0, static_cast<int>(2 * this->m_HighPassSubBands - 1));
+
   if (value > this->m_FreqCutOff)
     return this->EvaluateMagnitude(value);
   return 1;
@@ -72,6 +73,7 @@ IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>::Eval
 {
   FunctionValueType value = std::pow(freq_norm_in_hz, static_cast<int>(this->m_HighPassSubBands)) *
                             std::pow(2.0, static_cast<int>(this->m_HighPassSubBands - 1));
+
   if (value < this->m_FreqCutOff)
     return this->EvaluateMagnitude(value);
   return 1;

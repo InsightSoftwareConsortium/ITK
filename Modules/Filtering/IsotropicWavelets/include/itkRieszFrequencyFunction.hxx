@@ -45,6 +45,7 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::Evaluate(const 
                                                                           const unsigned int & dimension) const
 {
   double magn(this->Magnitude(frequency_point));
+
   if (itk::Math::FloatAlmostEqual(magn, 0.0))
     return FunctionValueType(0);
   return OutputComplexType(0, static_cast<FunctionValueType>(-frequency_point[dimension] / magn));
@@ -55,6 +56,7 @@ typename RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::Output
 RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::EvaluateArray(const TInput & frequency_point) const
 {
   double magn(this->Magnitude(frequency_point));
+
   if (itk::Math::FloatAlmostEqual(magn, 0.0))
     return InputType(0);
   OutputArrayType out;

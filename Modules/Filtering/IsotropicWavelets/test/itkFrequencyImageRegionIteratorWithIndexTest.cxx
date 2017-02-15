@@ -26,7 +26,6 @@ using namespace itk;
 template <typename TImage>
 class itkFrequencyImageRegionIteratorWithIndexTester
 {
-
 public:
   typedef TImage                          ImageType;
   typedef typename ImageType::IndexType   IndexType;
@@ -119,6 +118,7 @@ public:
   {
     IteratorType it(m_Image, m_PositiveHalfRegion);
     IteratorType reverseIt(m_Image, m_NegativeHalfRegion);
+
     it.GoToBegin();
     reverseIt.GoToReverseBegin();
     while (!it.IsAtEnd())
@@ -138,6 +138,7 @@ public:
     }
     return true;
   }
+
   // If N is even, the nyquist frequency is stored in the positive region,
   // but shared with the negative region.
   // If N is odd, the largest frequency has a positive and negative component.
@@ -145,14 +146,19 @@ public:
   TestNegativeRegion(typename ImageType::RegionType & region)
   {
     IteratorType it(m_Image, region);
+
     it.GoToBegin();
     IndexType half_index_plus_one;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+    {
       half_index_plus_one[dim] = it.GetHalfIndex()[dim] + 1;
+    }
     IndexType first_negative_index = m_ImageIsOdd ? half_index_plus_one : it.GetHalfIndex();
     IndexType smallest_negative_freq_index;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
+    {
       smallest_negative_freq_index[dim] = m_ImageIsOdd ? -first_negative_index[dim] + 1 : first_negative_index[dim];
+    }
     while (!it.IsAtEnd())
     {
       if (it.GetIndex() == first_negative_index)
@@ -176,10 +182,12 @@ public:
     }
     return true;
   }
+
   bool
   TestLargestRegion()
   {
-    IteratorType                  it(m_Image, m_Image->GetLargestPossibleRegion());
+    IteratorType it(m_Image, m_Image->GetLargestPossibleRegion());
+
     typename ImageType::IndexType truthHalfIndex;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {

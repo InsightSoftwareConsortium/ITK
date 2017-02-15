@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 /** \class RieszFrequencyFilterBankGenerator
  * \brief Generate filter bank of RieszFrequencyFunction.
  * RieszFrequencyFunction returns a complex value,
@@ -83,6 +82,7 @@ public:
   //   itkConceptMacro( OutputPixelTypeIsComplexAndFloatCheck,
   //                    ( Concept::IsFloatingPoint< typename OutputImageType::PixelType::value_type > ) );
   // #endif
+
 protected:
   RieszFrequencyFilterBankGenerator();
   virtual ~RieszFrequencyFilterBankGenerator() {}
@@ -95,7 +95,6 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFilterBankGenerator);
-
 }; // end of class
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

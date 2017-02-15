@@ -32,6 +32,7 @@ int
 runZeroDCImageFilterTest(const std::string & inputImage)
 {
   const unsigned int dimension = N;
+
   // TODO massive difference (-1,4, 3^-10) of 0 freq pixel between (float, double) I guess it is because FFT algorithm
   // not ZeroDC. Maybe because odd size using FFTW.
   typedef float                            PixelType;
@@ -74,6 +75,7 @@ runZeroDCImageFilterTest(const std::string & inputImage)
 
   return EXIT_SUCCESS;
 }
+
 int
 itkZeroDCImageFilterTest(int argc, char * argv[])
 {

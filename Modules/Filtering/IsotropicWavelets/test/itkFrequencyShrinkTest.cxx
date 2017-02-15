@@ -46,7 +46,8 @@ template <unsigned int N>
 int
 runFrequencyShrinkTest(const std::string & inputImage, const std::string & outputImage)
 {
-  const unsigned int                       dimension = N;
+  const unsigned int dimension = N;
+
   typedef double                           PixelType;
   typedef itk::Image<PixelType, dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
