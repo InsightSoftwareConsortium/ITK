@@ -24,7 +24,22 @@
 namespace itk
 {
 /** \class FrequencyBandPassImageFilter
- * \brief Performs a pass filter based on the input frequency.
+ * \brief Performs a frequency band filter in the range LowFrequencyThreshold and HighFrequencyThreshold.
+ *
+ * The default is a pass band between threshold frequencies [0,0.5] Hz or [0, pi] radians,
+ * where both boundary values also pass (equivalent to SetPassBand(true,true)).
+ * A pass band sets to zero any value outside the defined range, and let pass without modification the input image
+ * inside the band.
+ *
+ * Instead, a stop band can be set between the threshold values.
+ * In this case, the delimited band act as a stop band, setting values to zero in this range,
+ * and don't modify input image values outside this range.
+ * To set a stop band use SetPassBand(false), but more clarifying is to use
+ * SetStopBand(bool, bool) that also control behaviour at band boundaries.
+ *
+ * Control of letting pass the boundaries of the band are controlled with
+ * SetPassLow(High)FrequencyThreshold(bool). The default is to let pass low and high boundaries.
+ * Also, SetPassBand(true, false), will let pass low boundary/threshold, and stop the high value.
  *
  * \ingroup IsotropicWavelets
  */
@@ -70,6 +85,10 @@ public:
   itkGetConstReferenceMacro(LowFrequencyThreshold, FrequencyValueType);
   itkGetConstReferenceMacro(HighFrequencyThreshold, FrequencyValueType);
   itkSetMacro(LowFrequencyThreshold, FrequencyValueType);
+  /**
+   * @brief Set low frequency threshold when input frequency is in radians.
+   * @param freq_low_in_radians low freq in radians.
+   */
   void
   SetLowFrequencyThresholdInRadians(const FrequencyValueType & freq_low_in_radians);
 
@@ -86,11 +105,20 @@ public:
 
   itkSetMacro(PassBand, bool);
   itkGetConstReferenceMacro(PassBand, bool);
+  /**
+   * Utility method equivalent to:
+   * SetPassBand(true)
+   * SetPassLowFrequencyThreshold(pass_low_threshold)
+   * SetPassHighFrequencyThreshold(pass_high_threshold)
+   *
+   * @param pass_low_threshold flag to let pass or not low boundary
+   * @param pass_high_threshold flag to let pass or not high boundary
+   */
   void
   SetPassBand(const bool pass_low_threshold, const bool pass_high_threshold);
 
   void
-  SetStopBand(const bool stop_low_threshold, const bool stop_high_threshold);
+  SetStopBand(const bool pass_low_threshold, const bool pass_high_threshold);
 
   itkSetMacro(PassLowFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassLowFrequencyThreshold, bool);
@@ -113,11 +141,11 @@ private:
   void
   operator=(const Self &) ITK_DELETE_FUNCTION;
 
-  /** Band range. Frequency thresholds in Hertz [0, 0.5] Hz by default. In rads: [0,pi]*/
+  /** Band range. Frequency thresholds in Hertz */
   FrequencyValueType m_LowFrequencyThreshold;
   FrequencyValueType m_HighFrequencyThreshold;
 
-  /// True: the band is a PassBand. False: StopBand
+  /** True: the band is a PassBand. False: StopBand **/
   bool m_PassBand;
   /** The pixel values that correspond to m_LowFrequencyThreshold are passed to the output image,
    * independent of m_PassBand */

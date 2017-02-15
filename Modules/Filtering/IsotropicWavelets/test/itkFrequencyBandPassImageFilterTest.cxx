@@ -17,6 +17,8 @@
  *=========================================================================*/
 #include "itkFrequencyBandPassImageFilter.h"
 #include "itkImage.h"
+#include "itkAddImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 using namespace std;
 using namespace itk;
 
@@ -32,7 +34,7 @@ itkFrequencyBandPassImageFilterTest(int, char **)
   typedef itk::Image<PixelType, 3> ImageType3D;
   ImageType3D::SizeType            size = { { 20, 40, 80 } };
 
-  // Create a test image
+  // Create an image
   ImageType3D::Pointer    image = ImageType3D::New();
   ImageType3D::RegionType region;
   region.SetSize(size);
@@ -44,26 +46,57 @@ itkFrequencyBandPassImageFilterTest(int, char **)
   image->FillBuffer(1.0);
 
   typedef itk::FrequencyBandPassImageFilter<ImageType3D> BandPassFilterType;
-  BandPassFilterType::Pointer                            bandFilter = BandPassFilterType::New();
-  bandFilter->SetInput(image);
-  bandFilter->SetLowFrequencyThreshold(0.1);
-  bandFilter->SetHighFrequencyThreshold(0.4);
-  bandFilter->Update();
+  BandPassFilterType::Pointer                            passBandFilter = BandPassFilterType::New();
+  passBandFilter->SetInput(image);
+  passBandFilter->SetLowFrequencyThreshold(0.0);
+  passBandFilter->SetHighFrequencyThreshold(0.5);
+  passBandFilter->SetPassBand(true, true);
+  passBandFilter->Update();
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(bandFilter->GetOutput(), "PassBand");
+  itk::Testing::ViewImage(passBandFilter->GetOutput(), "PassBand - default");
 #endif
+
   /** StopBand */
-  bandFilter->SetStopBand(false, false);
-  bandFilter->Update();
+  BandPassFilterType::Pointer stopBandFilter = BandPassFilterType::New();
+  stopBandFilter->SetInput(image);
+  stopBandFilter->SetLowFrequencyThreshold(0.0);
+  stopBandFilter->SetHighFrequencyThreshold(0.5);
+  stopBandFilter->SetStopBand(false, false);
+  stopBandFilter->Update();
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(bandFilter->GetOutput(), "StopBand");
+  itk::Testing::ViewImage(stopBandFilter->GetOutput(), "StopBand");
 #endif
-  bandFilter->SetLowFrequencyThreshold(0.2);
-  bandFilter->SetHighFrequencyThreshold(0.5);
-  bandFilter->SetPassBand(true, true);
-  bandFilter->Update();
+
+  /******* TESTS ********/
+  /** Sum of passBand and stopBand images with these settings should be equal to original image */
+  typedef itk::AddImageFilter<ImageType3D, ImageType3D> AddFilterType;
+  AddFilterType::Pointer                                addFilter = AddFilterType::New();
+  addFilter->SetInput1(passBandFilter->GetOutput());
+  addFilter->SetInput2(stopBandFilter->GetOutput());
+
+  typedef itk::Testing::ComparisonImageFilter<ImageType3D, ImageType3D> DifferenceFilterType;
+  DifferenceFilterType::Pointer                                         differenceFilter = DifferenceFilterType::New();
+  differenceFilter->SetToleranceRadius(0);
+  differenceFilter->SetDifferenceThreshold(0);
+  differenceFilter->SetValidInput(image);
+  differenceFilter->SetTestInput(addFilter->GetOutput());
+  differenceFilter->Update();
+  unsigned int wrong_pixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  if (wrong_pixels > 0)
+  {
+    std::cout << "The images are not equal, #wrong_pixels= " << wrong_pixels << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  /**************************************/
+  /******* Playing with radians ********/
+  /**************************************/
+  passBandFilter->SetLowFrequencyThresholdInRadians(Math::pi_over_4);
+  passBandFilter->SetHighFrequencyThresholdInRadians(Math::pi_over_2);
+  passBandFilter->SetPassBand(true, true);
+  passBandFilter->Update();
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(bandFilter->GetOutput(), "HighPass");
+  itk::Testing::ViewImage(passBandFilter->GetOutput(), "PassBand - radians");
 #endif
   return EXIT_SUCCESS;
 }
