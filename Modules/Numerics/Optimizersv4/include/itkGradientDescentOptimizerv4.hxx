@@ -23,56 +23,29 @@
 namespace itk
 {
 
-/**
-* Default constructor
-*/
 template<typename TInternalComputationValueType>
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
-::GradientDescentOptimizerv4Template()
+::GradientDescentOptimizerv4Template() :
+  m_LearningRate( NumericTraits<TInternalComputationValueType>::OneValue() ),
+  m_MinimumConvergenceValue( 1e-8 ),
+  m_ConvergenceValue( NumericTraits<TInternalComputationValueType>::max() ),
+  m_CurrentBestValue( NumericTraits<MeasureType>::max() ),
+  m_ReturnBestParametersAndValue( false )
 {
-  this->m_LearningRate = NumericTraits<TInternalComputationValueType>::OneValue();
-  this->m_MinimumConvergenceValue = 1e-8;
-  this->m_ConvergenceValue = NumericTraits<TInternalComputationValueType>::max();
-  this->m_ReturnBestParametersAndValue = false;
   this->m_PreviousGradient.Fill( NumericTraits<TInternalComputationValueType>::ZeroValue() );
 }
 
-/**
-* Destructor
-*/
 template<typename TInternalComputationValueType>
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::~GradientDescentOptimizerv4Template()
 {}
 
-
-/**
-*PrintSelf
-*/
-template<typename TInternalComputationValueType>
-void
-GradientDescentOptimizerv4Template<TInternalComputationValueType>
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Learning rate:" << this->m_LearningRate << std::endl;
-  os << indent << "MaximumStepSizeInPhysicalUnits: "
-  << this->m_MaximumStepSizeInPhysicalUnits << std::endl;
-  os << indent << "DoEstimateLearningRateAtEachIteration: "
-  << this->m_DoEstimateLearningRateAtEachIteration << std::endl;
-  os << indent << "DoEstimateLearningRateOnce: "
-  << this->m_DoEstimateLearningRateOnce << std::endl;
-}
-
-/**
-* Start and run the optimization
-*/
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::StartOptimization( bool doOnlyInitialization )
 {
-  /* Must call the superclass version for basic validation and setup */
+  // Must call the superclass version for basic validation and setup.
   Superclass::StartOptimization( doOnlyInitialization );
 
   if( this->m_ReturnBestParametersAndValue )
@@ -90,9 +63,6 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
     }
 }
 
-/**
-* StopOptimization
-*/
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
@@ -106,9 +76,6 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
   Superclass::StopOptimization();
 }
 
-/**
-* Resume optimization.
-*/
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
@@ -133,11 +100,11 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
     // Save previous value with shallow swap that will be used by child optimizer.
     swap( this->m_PreviousGradient, this->m_Gradient );
 
-    /* Compute metric value/derivative. */
+    // Compute metric value/derivative.
     try
       {
-      /* m_Gradient will be sized as needed by metric. If it's already
-       * proper size, no new allocation is done. */
+      // m_Gradient will be sized as needed by metric. If it's already
+      // proper size, no new allocation is done.
       this->m_Metric->GetValueAndDerivative( this->m_CurrentMetricValue, this->m_Gradient );
       }
     catch ( ExceptionObject & err )
@@ -146,20 +113,19 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
       this->m_StopConditionDescription << "Metric error during optimization";
       this->StopOptimization();
 
-        // Pass exception to caller
+      // Pass exception to caller
       throw err;
       }
 
-    /* Check if optimization has been stopped externally.
-     * (Presumably this could happen from a multi-threaded client app?) */
+    // Check if optimization has been stopped externally.
+    // (Presumably this could happen from a multi-threaded client app?)
     if ( this->m_Stop )
       {
       this->m_StopConditionDescription << "StopOptimization() called";
       break;
       }
 
-    /* Check the convergence by WindowConvergenceMonitoringFunction.
-     */
+    // Check the convergence by WindowConvergenceMonitoringFunction.
     if ( this->m_UseConvergenceMonitoring )
       {
       this->m_ConvergenceMonitoring->AddEnergyValue( this->m_CurrentMetricValue );
@@ -168,38 +134,35 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
         this->m_ConvergenceValue = this->m_ConvergenceMonitoring->GetConvergenceValue();
         if (this->m_ConvergenceValue <= this->m_MinimumConvergenceValue)
           {
-          this->m_StopConditionDescription << "Convergence checker passed at iteration " << this->m_CurrentIteration << ".";
           this->m_StopCondition = Superclass::CONVERGENCE_CHECKER_PASSED;
+          this->m_StopConditionDescription << "Convergence checker passed at iteration " << this->m_CurrentIteration << ".";
           this->StopOptimization();
           break;
           }
         }
       catch(std::exception & e)
         {
-        std::cerr << "GetConvergenceValue() failed with exception: " << e.what() << std::endl;
+        itkWarningMacro(<< "GetConvergenceValue() failed with exception: " << e.what() << std::endl);
         }
       }
 
-    /* Advance one step along the gradient.
-     * This will modify the gradient and update the transform. */
+    // Advance one step along the gradient.
+    // This will modify the gradient and update the transform.
     this->AdvanceOneStep();
 
-    /* Store best value and position */
+    // Store best value and position
     if ( this->m_ReturnBestParametersAndValue && this->m_CurrentMetricValue < this->m_CurrentBestValue )
       {
       this->m_CurrentBestValue = this->m_CurrentMetricValue;
       this->m_BestParameters = this->GetCurrentPosition( );
       }
 
-    /* Update and check iteration count */
+    // Update and check iteration count
     this->m_CurrentIteration++;
 
     } //while (!m_Stop)
 }
 
-/**
-* Advance one Step following the gradient direction
-*/
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
@@ -207,18 +170,18 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
   itkDebugMacro("AdvanceOneStep");
 
-  /* Begin threaded gradient modification.
-   * Scale by gradient scales, then estimate the learning
-   * rate if options are set to (using the scaled gradient),
-   * then modify by learning rate. The m_Gradient variable
-   * is modified in-place. */
+  // Begin threaded gradient modification.
+  // Scale by gradient scales, then estimate the learning
+  // rate if options are set to (using the scaled gradient),
+  // then modify by learning rate. The m_Gradient variable
+  // is modified in-place.
   this->ModifyGradientByScales();
   this->EstimateLearningRate();
   this->ModifyGradientByLearningRate();
 
   try
     {
-    /* Pass graident to transform and let it do its own updating */
+    // Pass gradient to transform and let it do its own updating
     this->m_Metric->UpdateTransformParameters( this->m_Gradient );
     }
   catch ( ExceptionObject & err )
@@ -234,9 +197,6 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
   this->InvokeEvent( IterationEvent() );
 }
 
-/**
-* Modify the gradient by scales and weights over a given index range.
-*/
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
@@ -262,7 +222,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
       }
     }
 
-  /* Loop over the range. It is inclusive. */
+  // Loop over the range. It is inclusive.
   for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
     {
       // scales is checked during StartOptmization for values <=
@@ -275,24 +235,18 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
     }
 }
 
-/**
-* Modify the gradient by learning rate over a given index range.
-*/
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
 ::ModifyGradientByLearningRateOverSubRange( const IndexRangeType& subrange )
 {
-  /* Loop over the range. It is inclusive. */
+  // Loop over the range. It is inclusive.
   for ( IndexValueType j = subrange[0]; j <= subrange[1]; j++ )
     {
     this->m_Gradient[j] = this->m_Gradient[j] * this->m_LearningRate;
     }
 }
 
-/**
-* Estimate the learning rate.
-*/
 template<typename TInternalComputationValueType>
 void
 GradientDescentOptimizerv4Template<TInternalComputationValueType>
@@ -305,8 +259,8 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
   if ( this->m_DoEstimateLearningRateAtEachIteration ||
       (this->m_DoEstimateLearningRateOnce && this->m_CurrentIteration == 0) )
     {
-    TInternalComputationValueType stepScale
-    = this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
+    TInternalComputationValueType stepScale =
+      this->m_ScalesEstimator->EstimateStepScale(this->m_Gradient);
 
     if (stepScale <= NumericTraits<TInternalComputationValueType>::epsilon())
       {
@@ -319,6 +273,32 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>
     }
 }
 
+template<typename TInternalComputationValueType>
+void
+GradientDescentOptimizerv4Template<TInternalComputationValueType>
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "LearningRate: "
+    << static_cast< typename NumericTraits< TInternalComputationValueType >::PrintType >( this->m_LearningRate )
+    << std::endl;
+  os << indent << "MinimumConvergenceValue: " << this->m_MinimumConvergenceValue << std::endl;
+  os << indent << "ConvergenceValue: "
+    << static_cast< typename NumericTraits< TInternalComputationValueType >::PrintType >( this->m_ConvergenceValue )
+    << std::endl;
+  os << indent << "CurrentBestValue: "
+    << static_cast< typename NumericTraits< MeasureType >::PrintType >( this->m_CurrentBestValue )
+    << std::endl;
+  os << indent << "BestParameters: "
+    << static_cast< typename NumericTraits< ParametersType >::PrintType >( this->m_BestParameters )
+    << std::endl;
+  os << indent << "ReturnBestParametersAndValue: "
+    << ( this->m_ReturnBestParametersAndValue ? "On" : "Off" ) << std::endl;
+  os << indent << "PreviousGradient: "
+    << static_cast< typename NumericTraits< DerivativeType >::PrintType >( this->m_PreviousGradient )
+    << std::endl;
+}
 }//namespace itk
 
 #endif
