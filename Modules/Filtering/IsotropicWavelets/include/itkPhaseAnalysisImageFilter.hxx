@@ -94,58 +94,6 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
-typename PhaseAnalysisImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
-PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputeFeatureVectorNormSquare(
-  const InputImagePixelType & inputPixel) const
-{
-  const unsigned int & nC = this->GetInput()->GetNumberOfComponentsPerPixel();
-  OutputImagePixelType out(0);
-
-  for (unsigned int r = 1; r < nC; r++)
-  {
-    out += inputPixel[r] * inputPixel[r];
-  }
-  return out;
-}
-
-template <typename TInputImage, typename TOutputImage>
-typename PhaseAnalysisImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
-PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputeAmplitude(
-  const InputImagePixelType &  inputPixel,
-  const OutputImagePixelType & featureAmpSquare) const
-{
-  return sqrt(inputPixel[0] * inputPixel[0] + featureAmpSquare);
-}
-
-template <typename TInputImage, typename TOutputImage>
-typename PhaseAnalysisImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
-PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputePhase(const InputImagePixelType &  inputPixel,
-                                                                  const OutputImagePixelType & featureAmpSquare) const
-{
-  return atan2(sqrt(featureAmpSquare), inputPixel[0]);
-}
-
-template <typename TInputImage, typename TOutputImage>
-itk::FixedArray<typename PhaseAnalysisImageFilter<TInputImage, TOutputImage>::OutputImagePixelType,
-                PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ImageDimension - 1>
-PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ComputePhaseOrientation(
-  const InputImagePixelType &  inputPixel,
-  const OutputImagePixelType & featureAmpSquare) const
-{
-  // the angles of the polar coordinates of the normed vector:
-  // V = (R1*f, ..., Rn*f) / FeatureNorm
-  FixedArray<OutputImagePixelType, ImageDimension - 1> out;
-  out.Fill(NumericTraits<OutputImagePixelType>::ZeroValue());
-  OutputImagePixelType fNorm = sqrt(featureAmpSquare);
-  OutputImagePixelType f1Unitary = inputPixel[1] / fNorm;
-  for (unsigned int i = 0; i < ImageDimension - 1; i++)
-  {
-    out[i] = atan2(inputPixel[i + 2] / fNorm, f1Unitary) + ((inputPixel[i + 2] >= 0) ? 0 : itk::Math::pi);
-  }
-  return out;
-}
-
 // template< typename TInputImage, typename TOutputImage >
 // typename PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::OutputImagePixelType
 // PhaseAnalysisSoftThresholdImageFilter< TInputImage, TOutputImage >
