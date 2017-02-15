@@ -366,7 +366,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
         if (outputSize[idim] < 1)
           itkExceptionMacro(
             << "Failure at level: " << level
-            << " in forward wavelet, going to negative image size. Too many levels for input image size.")
+            << " in forward wavelet, going to negative image size. Too many levels for input image size.");
       }
 
       // Update base size;

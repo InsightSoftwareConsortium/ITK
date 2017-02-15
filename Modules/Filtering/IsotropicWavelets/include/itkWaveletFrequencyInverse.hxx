@@ -232,8 +232,9 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       inputSize[idim] =
         static_cast<SizeValueType>(std::floor(static_cast<double>(baseSize[idim]) / scaleFactorPerLevel));
       if (inputSize[idim] < 1)
-        itkExceptionMacro(<< "Failure at level: " << level
-                          << " in forward wavelet, going to negative image size. Too many levels for input image size.")
+        itkExceptionMacro(
+          << "Failure at level: " << level
+          << " in forward wavelet, going to negative image size. Too many levels for input image size.");
     }
 
     // Update Base Region for next levels.
