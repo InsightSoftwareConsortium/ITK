@@ -74,52 +74,6 @@ template <size_t VSize> class AtomicOps
 public:
   typedef typename BaseType<VSize>::Type AtomicType;
   typedef typename BaseType<VSize>::Type ValueType;
-
-  static ValueType AddAndFetch(ValueType *ref, ValueType val)
-  {
-    std::atomic<ValueType> atom_ref(ref);
-    return atom_ref += val;
-  }
-
-  static ValueType SubAndFetch(ValueType *ref, ValueType val)
-  {
-    std::atomic<ValueType> atom_ref(ref);
-    return atom_ref -= val;
-  }
-
-  static ValueType PreIncrement(ValueType *ref)
-  {
-    std::atomic<ValueType> atom_ref(ref);
-    return ++atom_ref;
-  }
-
-  static ValueType PreDecrement(ValueType *ref)
-  {
-    std::atomic<ValueType> atom_ref(ref);
-    return --atom_ref;
-  }
-
-  static ValueType PostIncrement(ValueType *ref)
-  {
-    return std::atomic_fetch_add(ref, 1);
-  }
-
-  static ValueType PostDecrement(ValueType *ref)
-  {
-    return std::atomic_fetch_sub(ref, 1);
-  }
-
-  static ValueType Load(const ValueType *ref)
-  {
-    std::atomic_thread_fence(std::memory_order_seq_cst);
-    return *static_cast<const volatile ValueType *>(ref);
-  }
-
-  static void Store(ValueType *ref, ValueType val)
-  {
-    *static_cast<volatile ValueType*>(ref) = val;
-    std::atomic_thread_fence(std::memory_order_seq_cst);
-  }
 };
 
 #elif defined ITK_HAVE_SYNC_BUILTINS
@@ -177,7 +131,7 @@ public:
 
 #endif // defined ITK_HAVE_SYNC_BUILTINS
 
-#if defined(ITK_GCC_ATOMICS_64)
+#if defined(ITK_GCC_ATOMICS_64) || ITK_COMPILER_CXX_ATOMIC
 template<> struct BaseType<8>
 {
   itkAlignedTypedef( 8, int64_t, Type );
@@ -267,7 +221,7 @@ public:
 
 #endif
 
-#if defined(ITK_GCC_ATOMICS_32)
+#if defined(ITK_GCC_ATOMICS_32) || ITK_COMPILER_CXX_ATOMIC
 template<> struct BaseType<4>
 {
   itkAlignedTypedef( 4, int32_t, Type );
