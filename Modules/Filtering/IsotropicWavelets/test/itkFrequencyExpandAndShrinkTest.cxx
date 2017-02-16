@@ -15,62 +15,69 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <memory>
-#include <string>
-#include <cmath>
-#include <iomanip>
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
-#include <itkComplexToRealImageFilter.h>
-#include <itkComplexToImaginaryImageFilter.h>
-#include <itkFrequencyShrinkImageFilter.h>
-#include <itkFrequencyExpandImageFilter.h>
-#include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
-#include <itkFrequencyExpandViaInverseFFTImageFilter.h>
-#include <itkZeroDCImageFilter.h>
-#include <itkComplexToComplexFFTImageFilter.h>
-#include <itkImageRegionConstIterator.h>
-#include <itkImageRegionConstIteratorWithIndex.h>
-#include <itkCastImageFilter.h>
-#include <itkNumberToString.h>
+#include "itkComplexToRealImageFilter.h"
+#include "itkComplexToImaginaryImageFilter.h"
+#include "itkFrequencyShrinkImageFilter.h"
+#include "itkFrequencyExpandImageFilter.h"
+#include "itkFrequencyShrinkViaInverseFFTImageFilter.h"
+#include "itkFrequencyExpandViaInverseFFTImageFilter.h"
+#include "itkZeroDCImageFilter.h"
+#include "itkComplexToComplexFFTImageFilter.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkCastImageFilter.h"
+#include "itkNumberToString.h"
 #include "itkIsotropicWaveletTestUtilities.h"
-using namespace std;
-using namespace itk;
+#include "itkTestingMacros.h"
 
-// Visualize for dev/debug purposes. Set in cmake file. Require VTK
+#include <memory>
+#include <string>
+#include <cmath>
+#include <iomanip>
+
+// Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
 
-template <unsigned int N>
+
+template <unsigned int VDimension>
 int
 runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::string & outputImage)
 {
-  const unsigned int dimension = N;
+  const unsigned int Dimension = VDimension;
 
   typedef double                           PixelType;
-  typedef itk::Image<PixelType, dimension> ImageType;
+  typedef itk::Image<PixelType, Dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-  typename ReaderType::Pointer             reader = ReaderType::New();
-  reader->SetFileName(inputImage);
-  reader->Update();
-  reader->UpdateLargestPossibleRegion();
 
-  /***** Calculate mean value and substract: zeroDCFilter ****/
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(inputImage);
+
+  reader->Update();
+
+  // Calculate mean value and subtract
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
   typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
+
   zeroDCFilter->SetInput(reader->GetOutput());
+
   zeroDCFilter->Update();
-  /**********************************************/
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
   typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
+
   fftFilter->SetInput(zeroDCFilter->GetOutput());
+
   fftFilter->Update();
+
   typedef typename FFTFilterType::OutputImageType                 ComplexImageType;
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
   /*********** EXPAND ***************/
@@ -117,14 +124,16 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   inverseFFT1->Update();
   typename InverseFFTFilterType::Pointer inverseFFT2 = InverseFFTFilterType::New();
   inverseFFT2->SetInput(shrinkViaInverseFFTFilter->GetOutput());
+
   inverseFFT2->Update();
+
 #ifdef ITK_VISUALIZE_TESTS
   itk::Testing::ViewImage(inverseFFT1->GetOutput(), "ExpandAndShrink via frequency manipulation");
   itk::Testing::ViewImage(inverseFFT2->GetOutput(), "ExpandAndShrink ViaInverseFFT");
 #endif
 
-  // Write last output for comparisson
-  typedef itk::Image<float, dimension>                    FloatImageType;
+  // Write output
+  typedef itk::Image<float, Dimension>                    FloatImageType;
   typedef itk::CastImageFilter<ImageType, FloatImageType> CastType;
   typename CastType::Pointer                              castFilter = CastType::New();
   castFilter->SetInput(inverseFFT2->GetOutput());
@@ -134,19 +143,11 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   writer->SetFileName(outputImage);
   writer->SetInput(castFilter->GetOutput());
 
-  try
-  {
-    writer->Update();
-  }
-  catch (itk::ExceptionObject & error)
-  {
-    std::cerr << "Error writing the FrequencyShrink image: " << std::endl;
-    std::cerr << error << std::endl;
-    return EXIT_FAILURE;
-  }
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
 #ifdef ITK_VISUALIZE_TESTS
-  Testing::ViewImage(zeroDCFilter->GetOutput(), "Original");
+  itk::Testing::ViewImage(zeroDCFilter->GetOutput(), "Original");
 #endif
 
   return EXIT_SUCCESS;
@@ -160,19 +161,46 @@ itkFrequencyExpandAndShrinkTest(int argc, char * argv[])
     std::cerr << "Usage: " << argv[0] << " inputImage outputImage [dimension]" << std::endl;
     return EXIT_FAILURE;
   }
-  const string inputImage = argv[1];
-  const string outputImage = argv[2];
+  const std::string inputImage = argv[1];
+  const std::string outputImage = argv[2];
+
+  const unsigned int                            ImageDimension = 3;
+  typedef double                                PixelType;
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
+  typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
+  typedef FFTFilterType::OutputImageType        ComplexImageType;
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  typedef itk::FrequencyExpandViaInverseFFTImageFilter<ComplexImageType> ExpandViaInverseFFTType;
+  ExpandViaInverseFFTType::Pointer expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(expandViaInverseFFTFilter, FrequencyExpandViaInverseFFTImageFilter, ImageToImageFilter);
+
+  typedef itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType> ShrinkViaInverseFFTType;
+  ShrinkViaInverseFFTType::Pointer shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(shrinkViaInverseFFTFilter, FrequencyShrinkViaInverseFFTImageFilter, ImageToImageFilter);
+
 
   unsigned int dimension = 3;
   if (argc == 4)
+  {
     dimension = atoi(argv[3]);
+  }
 
   if (dimension == 2)
+  {
     return runFrequencyExpandAndShrinkTest<2>(inputImage, outputImage);
+  }
   else if (dimension == 3)
+  {
     return runFrequencyExpandAndShrinkTest<3>(inputImage, outputImage);
+  }
   else
   {
+    std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error: only 2 or 3 dimensions allowed, " << dimension << " selected." << std::endl;
     return EXIT_FAILURE;
   }

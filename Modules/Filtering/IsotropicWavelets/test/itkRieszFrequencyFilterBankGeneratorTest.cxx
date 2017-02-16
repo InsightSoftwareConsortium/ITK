@@ -15,23 +15,25 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <memory>
-#include <string>
-#include <cmath>
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkRieszFrequencyFilterBankGenerator.h"
-#include <itkComplexToRealImageFilter.h>
-#include <itkImageRegionConstIterator.h>
-#include <itkNumberToString.h>
-// Visualize for dev/debug purposes. Set in cmake file. Require VTK
+#include "itkComplexToRealImageFilter.h"
+#include "itkImageRegionConstIterator.h"
+#include "itkNumberToString.h"
+#include "itkTestingMacros.h"
+
+#include <memory>
+#include <string>
+#include <cmath>
+
+// Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
 
-using namespace std;
-using namespace itk;
 
 int
 itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
@@ -41,44 +43,59 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
     std::cerr << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
     return EXIT_FAILURE;
   }
-  const string inputImage = argv[1];
-  const string outputImage = argv[2];
+  const std::string inputImage = argv[1];
+  const std::string outputImage = argv[2];
 
-  const unsigned int                       dimension = 3;
+  const unsigned int                       Dimension = 3;
   typedef double                           PixelType;
-  typedef itk::Image<PixelType, dimension> ImageType;
+  typedef itk::Image<PixelType, Dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-  ReaderType::Pointer                      reader = ReaderType::New();
+
+  ReaderType::Pointer reader = ReaderType::New();
+
   reader->SetFileName(inputImage);
+
   reader->Update();
+
   reader->UpdateLargestPossibleRegion();
 
-  // Perform FFT on input image.
+  // Perform FFT on input image
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
   FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
+
   fftFilter->SetInput(reader->GetOutput());
+
   fftFilter->Update();
+
+
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
   // typedef itk::RieszFrequencyFunction<> FunctionType;
   typedef itk::RieszFrequencyFilterBankGenerator<ComplexImageType> RieszFilterBankType;
   RieszFilterBankType::Pointer                                     filterBank = RieszFilterBankType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
+
+
   filterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
+
   filterBank->Update();
 
   // Get real part of complex image for visualization
   typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
   ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
-  std::cout << "Real Part of ComplexImage:" << std::endl;
+  std::cout << "Real part of complex image:" << std::endl;
   for (unsigned int dir = 0; dir < ImageType::ImageDimension; dir++)
   {
     std::cout << "Direction: " << dir + 1 << " / " << ImageType::ImageDimension << std::endl;
     complexToRealFilter->SetInput(filterBank->GetOutput(dir));
+
     complexToRealFilter->Update();
+
 #ifdef ITK_VISUALIZE_TESTS
     itk::NumberToString<unsigned int> n2s;
-    Testing::ViewImage(complexToRealFilter->GetOutput(),
-                       "RealPart of Complex. Direction: " + n2s(dir + 1) + " / " + n2s(ImageType::ImageDimension));
+    itk::Testing::ViewImage(complexToRealFilter->GetOutput(),
+                            "RealPart of Complex. Direction: " + n2s(dir + 1) + " / " + n2s(ImageType::ImageDimension));
 #endif
   }
   return EXIT_SUCCESS;

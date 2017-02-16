@@ -62,12 +62,13 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
   fftInverseFilter->SetInput(fftForwardFilter->GetOutput());
   fftInverseFilter->Update();
 
-  /***** Create VectorImages *****/
-  unsigned int num_components = 2;
+  // Create VectorImages
+  //
+  unsigned int numComponents = 2;
   // Create vector from forwardFFT.
   typedef itk::ComposeImageFilter<ComplexImageType> ComposeComplexFilterType;
   ComposeComplexFilterType::Pointer                 composeComplexFilter = ComposeComplexFilterType::New();
-  for (unsigned int c = 0; c < num_components; c++)
+  for (unsigned int c = 0; c < numComponents; c++)
   {
     composeComplexFilter->SetInput(c, fftForwardFilter->GetOutput());
   }
@@ -91,17 +92,18 @@ itkVectorInverseFFTImageFilterTest(int argc, char * argv[])
   DifferenceFilterType::Pointer differenceFilter = DifferenceFilterType::New();
   differenceFilter->SetToleranceRadius(0);
   differenceFilter->SetDifferenceThreshold(0);
-  for (unsigned int c = 0; c < num_components; c++)
+  for (unsigned int c = 0; c < numComponents; c++)
   {
     vectorCastFilter->SetIndex(c);
     vectorCastFilter->Update();
     differenceFilter->SetValidInput(fftInverseFilter->GetOutput());
     differenceFilter->SetTestInput(vectorCastFilter->GetOutput());
     differenceFilter->Update();
-    unsigned int wrong_pixels = differenceFilter->GetNumberOfPixelsWithDifferences();
-    if (wrong_pixels > 0)
+    unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+    if (numberOfDiffPixels > 0)
     {
-      std::cout << "The images are not equal, wrong_pixels= " << wrong_pixels << std::endl;
+      std::cerr << "Test failed! " << std::endl;
+      std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels << "unequal pixels" << std::endl;
       return EXIT_FAILURE;
     }
   }

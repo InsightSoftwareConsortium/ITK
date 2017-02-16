@@ -15,8 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <string>
-#include <cmath>
+
 #include "itkPhaseAnalysisSoftThresholdImageFilter.h"
 #include "itkMonogenicSignalFrequencyImageFilter.h"
 
@@ -27,12 +26,18 @@
 #include "itkInverseFFTImageFilter.h"
 
 #include "itkVectorInverseFFTImageFilter.h"
-// Visualize for dev/debug purposes. Set in cmake file. Require VTK
+
+#include "itkTestingMacros.h"
+
+#include <string>
+#include <cmath>
+
+
+// Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
-using namespace std;
-using namespace itk;
+
 
 int
 itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
@@ -42,49 +47,78 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
     std::cerr << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
     return EXIT_FAILURE;
   }
-  const string inputImage = argv[1];
-  const string outputImage = argv[2];
 
-  const unsigned int                       dimension = 3;
+  const std::string inputImage = argv[1];
+  const std::string outputImage = argv[2];
+
+  const unsigned int                       Dimension = 3;
   typedef float                            PixelType;
-  typedef itk::Image<PixelType, dimension> ImageType;
+  typedef itk::Image<PixelType, Dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
-  ReaderType::Pointer                      reader = ReaderType::New();
+
+  ReaderType::Pointer reader = ReaderType::New();
+
   reader->SetFileName(inputImage);
-  reader->Update();
-  reader->UpdateLargestPossibleRegion();
+
+  TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTForwardFilterType;
   FFTForwardFilterType::Pointer                 fftForwardFilter = FFTForwardFilterType::New();
+
   fftForwardFilter->SetInput(reader->GetOutput());
-  fftForwardFilter->Update();
+
+  TRY_EXPECT_NO_EXCEPTION(fftForwardFilter->Update());
+
   typedef FFTForwardFilterType::OutputImageType ComplexImageType;
 
   // Get a Monogenic Vector. Other input to PhaseAnalysis could be derivatives.
   typedef itk::MonogenicSignalFrequencyImageFilter<ComplexImageType> MonogenicSignalFrequencyFilterType;
   MonogenicSignalFrequencyFilterType::Pointer monoFilter = MonogenicSignalFrequencyFilterType::New();
+
   monoFilter->SetInput(fftForwardFilter->GetOutput());
-  monoFilter->Update();
+
+  TRY_EXPECT_NO_EXCEPTION(monoFilter->Update());
+
   typedef MonogenicSignalFrequencyFilterType::OutputImageType VectorMonoOutputType;
 
   typedef itk::VectorInverseFFTImageFilter<VectorMonoOutputType> VectorInverseFFTType;
   VectorInverseFFTType::Pointer                                  vecInverseFFT = VectorInverseFFTType::New();
+
   vecInverseFFT->SetInput(monoFilter->GetOutput());
-  vecInverseFFT->Update();
+
+  TRY_EXPECT_NO_EXCEPTION(vecInverseFFT->Update());
 
   // Input to the PhaseAnalysisSoftThreshold
-  typedef PhaseAnalysisSoftThresholdImageFilter<VectorInverseFFTType::OutputImageType> PhaseAnalysisSoftThresholdFilter;
-  PhaseAnalysisSoftThresholdFilter::Pointer phaseAnalyzer = PhaseAnalysisSoftThresholdFilter::New();
+  typedef itk::PhaseAnalysisSoftThresholdImageFilter<VectorInverseFFTType::OutputImageType>
+                                                PhaseAnalysisSoftThresholdFilterType;
+  PhaseAnalysisSoftThresholdFilterType::Pointer phaseAnalyzer = PhaseAnalysisSoftThresholdFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, ImageToImageFilter);
+
+  bool applySoftThreshold = true;
+  phaseAnalyzer->SetApplySoftThreshold(applySoftThreshold);
+  TEST_SET_GET_VALUE(applySoftThreshold, phaseAnalyzer->GetApplySoftThreshold());
+
+  /*PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType numOfSigmas;
+  phaseAnalyzer->SetNumOfSigmas( numOfSigmas );
+  TEST_SET_GET_VALUE( numOfSigmas, phaseAnalyzer->GetNumOfSigmas() );*/
+
+  /*std::cout << phaseAnalyzer->GetMeanAmp() << std::endl;
+  std::cout << phaseAnalyzer->GetSigmaAmp() << std::endl;
+  std::cout << phaseAnalyzer->GetThreshold() << std::endl;*/
+
   phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
-  phaseAnalyzer->SetApplySoftThreshold(true);
-  phaseAnalyzer->Update();
-  PhaseAnalysisSoftThresholdFilter::OutputImageType::Pointer cosPhase = phaseAnalyzer->GetOutputCosPhase();
-  PhaseAnalysisSoftThresholdFilter::OutputImageType::Pointer amp = phaseAnalyzer->GetOutputAmplitude();
-  PhaseAnalysisSoftThresholdFilter::OutputImageType::Pointer phase = phaseAnalyzer->GetOutputPhase();
+
+
+  TRY_EXPECT_NO_EXCEPTION(phaseAnalyzer->Update());
+
+  PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer cosPhase = phaseAnalyzer->GetOutputCosPhase();
+  PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer amp = phaseAnalyzer->GetOutputAmplitude();
+  PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer phase = phaseAnalyzer->GetOutputPhase();
 
 #ifdef ITK_VISUALIZE_TESTS
-  Testing::ViewImage(cosPhase.GetPointer(), "PhaseAnalyzer(Soft) output:");
+  itk::Testing::ViewImage(cosPhase.GetPointer(), "PhaseAnalyzer(Soft) output");
 #endif
 
   return EXIT_SUCCESS;

@@ -16,25 +16,28 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkExpandWithZerosImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
+
+#include <iostream>
+
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
 
-template <unsigned int N>
+
+template <unsigned int VDimension>
 int
 runExpandWithZerosImageFilterTest()
 {
-  typedef float                    PixelType;
-  typedef itk::Image<PixelType, N> ImageType;
-  bool                             testPassed = true;
+  typedef float                             PixelType;
+  typedef itk::Image<PixelType, VDimension> ImageType;
+  bool                                      testPassed = true;
 
-  // =============================================================
 
-  std::cout << "Create the input image fill with ones." << std::endl;
+  // Create the input image
   typename ImageType::RegionType region;
   typename ImageType::SizeType   size;
   size.Fill(32);
@@ -50,25 +53,22 @@ runExpandWithZerosImageFilterTest()
   input->Allocate();
   input->FillBuffer(1);
 
-  // =============================================================
-
   typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> ExpanderType;
   typename ExpanderType::Pointer                                expander = ExpanderType::New();
 
-  unsigned int factors[N];
-  for (unsigned int i = 0; i < N; i++)
-  {
-    factors[i] = 3;
-  }
+  unsigned int                             expandFactor = 3;
+  typename ExpanderType::ExpandFactorsType expandFactors;
+  expandFactors.Fill(expandFactor);
+
+  expander->SetExpandFactors(expandFactors);
+  TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
 
   expander->SetInput(input);
-  expander->SetExpandFactors(factors);
-  expander->Print(std::cout);
+
   expander->Update();
 
-  // =============================================================
 
-  std::cout << "Checking the output against expected." << std::endl;
+  // Check the output against expected value
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
   Iterator                      outIter(expander->GetOutput(), expander->GetOutput()->GetBufferedRegion());
   typename ImageType::IndexType outStartIndex = expander->GetOutput()->GetLargestPossibleRegion().GetIndex();
@@ -78,8 +78,8 @@ runExpandWithZerosImageFilterTest()
     typename ImageType::IndexType index = outIter.GetIndex();
     double                        value = outIter.Get();
 
-    bool indexIsMultipleOfFactor(true);
-    for (unsigned int i = 0; i < N; ++i)
+    bool indexIsMultipleOfFactor = true;
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       if ((index[i] - outStartIndex[i]) % expander->GetExpandFactors()[i] != 0)
       {
@@ -97,25 +97,28 @@ runExpandWithZerosImageFilterTest()
       trueValue = 0;
     }
 
-    if (itk::Math::abs(trueValue - value) > 1e-4)
+    double tolerance = 1e-4;
+    if (!itk::Math::FloatAlmostEqual(trueValue, value, 10, tolerance))
     {
       testPassed = false;
-      std::cout << "Error at Index: " << index << " ";
-      std::cout << "Expected: " << trueValue << " ";
-      std::cout << "Actual: " << value << std::endl;
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error at Index: " << index << " ";
+      std::cerr << "Expected value: " << trueValue << " ";
+      std::cerr << ", but got: " << value << std::endl;
     }
     ++outIter;
   }
 
   if (!testPassed)
   {
-    std::cout << "Test failed." << std::endl;
+    std::cerr << "Test failed!" << std::endl;
     return EXIT_FAILURE;
   }
 
 #ifdef ITK_VISUALIZE_TESTS
   itk::Testing::ViewImage(expander->GetOutput(), "ExpandWithZeros Output");
 #endif
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
@@ -128,6 +131,18 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
     std::cerr << "Usage: " << argv[0] << "[dimension]" << std::endl;
     return EXIT_FAILURE;
   }
+
+  const unsigned int                            ImageDimension = 2;
+  typedef double                                PixelType;
+  typedef itk::Image<PixelType, ImageDimension> ImageType;
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> ExpanderType;
+  ExpanderType::Pointer                                         expander = ExpanderType::New();
+  EXERCISE_BASIC_OBJECT_METHODS(expander, ExpandWithZerosImageFilter, ImageToImageFilter);
+
 
   unsigned int dimension = 3;
   if (argc == 2)
@@ -145,6 +160,7 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
   }
   else
   {
+    std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error: only 2 or 3 dimensions allowed, " << dimension << " selected." << std::endl;
     return EXIT_FAILURE;
   }
