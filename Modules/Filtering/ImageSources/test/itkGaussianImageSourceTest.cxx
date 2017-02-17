@@ -17,27 +17,34 @@
  *=========================================================================*/
 
 #include "itkFilterWatcher.h"
+#include "itkImageFileWriter.h"
 #include "itkGaussianImageSource.h"
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 
-int itkGaussianImageSourceTest(int, char* [] )
+int itkGaussianImageSourceTest( int argc, char* argv[] )
 {
-  // This can be changed!
+  if ( argc < 3 )
+    {
+    std::cout << "Usage: " << argv[0]
+      << " outputImage normalized" << std::endl;
+    return EXIT_FAILURE;
+    }
+
   const unsigned int    Dimension = 3;
   typedef unsigned char PixelType;
 
-  // Image typedef
   typedef itk::Image< PixelType, Dimension > ImageType;
 
-  // Create a gaussian image source
+  // Create a Gaussian image source
   typedef itk::GaussianImageSource< ImageType > GaussianSourceType;
-  GaussianSourceType::Pointer source = GaussianSourceType::New();
-  FilterWatcher watcher(source, "source");
+  GaussianSourceType::Pointer gaussianImage = GaussianSourceType::New();
 
-  ImageType::SpacingValueType   spacing[] = { 1.2f, 1.3f, 1.4f };
-  ImageType::PointValueType     origin[] = { 1.0f, 4.0f, 2.0f };
-  ImageType::SizeValueType      size[] = {  130,  150,  120 };
+  ImageType::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
+  ImageType::PointValueType origin[] = { 1.0f, 4.0f, 2.0f };
+  ImageType::SizeValueType size[] = { 130, 150, 120 };
+  ImageType::DirectionType direction;
+  direction.SetIdentity();
 
   GaussianSourceType::ArrayType mean;
   mean[0] = size[0]/2.0f + origin[0];
@@ -49,24 +56,39 @@ int itkGaussianImageSourceTest(int, char* [] )
   sigma[1] = 35.0f;
   sigma[2] = 55.0f;
 
-  source->SetSize( size );
-  source->SetOrigin( origin );
-  source->SetSpacing( spacing );
-  source->SetMean( mean );
-  source->SetSigma( sigma );
+  gaussianImage->SetSize( size );
+  for( unsigned int i = 0; i < Dimension; ++i)
+    {
+    TEST_SET_GET_VALUE( size[i], gaussianImage->GetSize()[i] );
+    }
 
-  // Test the get macros as well (booorrring...)
-  source->GetSize();
-  source->GetSpacing();
-  source->GetOrigin();
-  source->GetDirection();
-  source->GetScale();
-  source->GetNormalized();
-  source->GetSigma();
-  source->GetMean();
+  gaussianImage->SetOrigin( origin );
+  for( unsigned int i = 0; i < Dimension; ++i)
+    {
+    TEST_SET_GET_VALUE( origin[i], gaussianImage->GetOrigin()[i] );
+    }
 
-  // Test the get/set parameters
-  GaussianSourceType::ParametersType params = source->GetParameters();
+  gaussianImage->SetSpacing( spacing );
+  for( unsigned int i = 0; i < Dimension; ++i)
+    {
+    TEST_SET_GET_VALUE( spacing[i], gaussianImage->GetSpacing()[i] );
+    }
+
+  gaussianImage->SetDirection( direction );
+  TEST_SET_GET_VALUE( direction, gaussianImage->GetDirection() );
+
+  bool normalized = atoi( argv[2] ) != 0;
+  TEST_SET_GET_BOOLEAN( gaussianImage, Normalized, normalized );
+
+  gaussianImage->SetMean( mean );
+  TEST_SET_GET_VALUE( mean, gaussianImage->GetMean() );
+
+  gaussianImage->SetSigma( sigma );
+  TEST_SET_GET_VALUE( sigma, gaussianImage->GetSigma() );
+
+
+  // Check the parameters
+  GaussianSourceType::ParametersType params = gaussianImage->GetParameters();
   if ( params.GetSize() != 7 )
     {
     std::cerr << "Incorrect number of parameters. Expected 7, got "
@@ -90,7 +112,7 @@ int itkGaussianImageSourceTest(int, char* [] )
     return EXIT_FAILURE;
     }
 
-  if ( itk::Math::NotAlmostEquals( params[6], source->GetScale() ) )
+  if ( itk::Math::NotAlmostEquals( params[6], gaussianImage->GetScale() ) )
     {
     std::cerr << "Parameters have incorrect scale value." << std::endl;
     return EXIT_FAILURE;
@@ -103,51 +125,59 @@ int itkGaussianImageSourceTest(int, char* [] )
   params[4] = 32.0;
   params[5] = 42.0;
   params[6] = 55.5;
-  source->SetParameters( params );
+  gaussianImage->SetParameters( params );
 
-  if ( itk::Math::NotAlmostEquals( source->GetSigma()[0], params[0] ) ||
-       itk::Math::NotAlmostEquals( source->GetSigma()[1], params[1] ) ||
-       itk::Math::NotAlmostEquals( source->GetSigma()[2], params[2] ) )
+  if ( itk::Math::NotAlmostEquals( gaussianImage->GetSigma()[0], params[0] ) ||
+       itk::Math::NotAlmostEquals( gaussianImage->GetSigma()[1], params[1] ) ||
+       itk::Math::NotAlmostEquals( gaussianImage->GetSigma()[2], params[2] ) )
     {
     std::cerr << "Sigma disagrees with parameters array." << std::endl;
-    std::cerr << "Sigma: " << source->GetSigma() << ", parameters: ["
+    std::cerr << "Sigma: " << gaussianImage->GetSigma() << ", parameters: ["
               << params[0] << ", " << params[1] << ", " << params[2]
               << "]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  if ( itk::Math::NotAlmostEquals( source->GetMean()[0], params[3] ) ||
-       itk::Math::NotAlmostEquals( source->GetMean()[1], params[4] ) ||
-       itk::Math::NotAlmostEquals( source->GetMean()[2], params[5] ) )
+  if ( itk::Math::NotAlmostEquals( gaussianImage->GetMean()[0], params[3] ) ||
+       itk::Math::NotAlmostEquals( gaussianImage->GetMean()[1], params[4] ) ||
+       itk::Math::NotAlmostEquals( gaussianImage->GetMean()[2], params[5] ) )
     {
     std::cerr << "Mean disagrees with parameters array." << std::endl;
-    std::cerr << "Mean: " << source->GetMean() << ", parameters: ["
+    std::cerr << "Mean: " << gaussianImage->GetMean() << ", parameters: ["
              << params[3] << ", " << params[4] << ", " << params[5]
              << "]" << std::endl;
     return EXIT_FAILURE;
     }
 
-  if ( itk::Math::NotAlmostEquals( source->GetScale(), params[6] ) )
+  if ( itk::Math::NotAlmostEquals( gaussianImage->GetScale(), params[6] ) )
     {
     std::cerr << "Scale disagrees with parameters array." << std::endl;
-    std::cerr << "Scale: " << source->GetScale() << ", parameters: "
+    std::cerr << "Scale: " << gaussianImage->GetScale() << ", parameters: "
               << params[6] << std::endl;
     return EXIT_FAILURE;
     }
 
-  // Get the output of the source
-  ImageType::ConstPointer image = source->GetOutput();
+
+  FilterWatcher watcher( gaussianImage, "GaussianImageSource" );
 
   // Run the pipeline
-  TRY_EXPECT_NO_EXCEPTION( source->Update() );
+  TRY_EXPECT_NO_EXCEPTION( gaussianImage->Update() );
 
-  // Exercise the print method
-  std::cout << image << std::endl;
 
-  // Instantiate 1D case.
-  typedef itk::Image< PixelType, 1 >              Image1DType;
-  typedef itk::GaussianImageSource< Image1DType > GaussianSource1DType;
-  GaussianSource1DType::Pointer source1D = GaussianSource1DType::New();
+  // Get the output of the image source
+  ImageType::Pointer outputImage = gaussianImage->GetOutput();
 
+  // Write the result image
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+
+  WriterType::Pointer writer = WriterType::New();
+
+  writer->SetFileName( argv[1] );
+
+  writer->SetInput( outputImage );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

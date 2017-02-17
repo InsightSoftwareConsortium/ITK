@@ -21,94 +21,70 @@
 #include "itkTestingMacros.h"
 
 
-int itkGaborImageSourceTest0( int, char *argv[] )
+template< int ImageDimension >
+int itkGaborImageSourceTestHelper( char* outputFilename, bool calculcateImaginaryPart )
 {
-  typedef float PixelType;
-  const unsigned int ImageDimension = 2;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
+  typedef float                                   PixelType;
+  typedef itk::Image< PixelType, ImageDimension > ImageType;
 
   // Instantiate the filter
-  typedef itk::GaborImageSource<ImageType> GaborSourceType;
-  GaborSourceType::Pointer gaborImage = GaborSourceType::New();
-  gaborImage->Print(std::cout);
+  typedef itk::GaborImageSource< ImageType > GaborSourceType;
+  typename GaborSourceType::Pointer gaborImage = GaborSourceType::New();
 
-  GaborSourceType::ArrayType sigma;
-  sigma[0] = 2.0;
-  sigma[1] = 5.0;
+  if( ImageDimension == 2 )
+    {
+    typename ImageType::SizeType size;
+    size.Fill( 64*4 );
+    gaborImage->SetSize( size );
+    }
 
-  ImageType::SizeType size;
-  size.Fill( 64*4 );
-
-  gaborImage->SetSize( size );
-
+  typename GaborSourceType::ArrayType sigma;
+  if( ImageDimension == 2 )
+    {
+    sigma[0] = 2.0;
+    sigma[1] = 5.0;
+    }
+  else
+    {
+    sigma[0] = 2.0;
+    sigma[1] = 10.0;
+    sigma[2] = 10.0;
+    }
   gaborImage->SetSigma( sigma );
-  gaborImage->SetFrequency( 0.1 );
-  gaborImage->SetCalculateImaginaryPart( false );
+  TEST_SET_GET_VALUE( sigma, gaborImage->GetSigma() );
 
-  try
+  typename GaborSourceType::ArrayType mean = 0.1;
+  gaborImage->SetMean( mean );
+  TEST_SET_GET_VALUE( mean, gaborImage->GetMean() );
+
+  double frequency = 0.1;
+  gaborImage->SetFrequency( frequency );
+  TEST_SET_GET_VALUE( frequency, gaborImage->GetFrequency() );
+
+  gaborImage->SetCalculateImaginaryPart( calculcateImaginaryPart );
+  TEST_SET_GET_VALUE( calculcateImaginaryPart, gaborImage->GetCalculateImaginaryPart() );
+  if( calculcateImaginaryPart )
     {
-    gaborImage->Update();
-    gaborImage->Print(std::cout);
+    gaborImage->CalculateImaginaryPartOn();
+    TEST_SET_GET_VALUE( true, gaborImage->GetCalculateImaginaryPart() );
     }
-  catch (itk::ExceptionObject & err)
+  else
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
+    gaborImage->CalculateImaginaryPartOff();
+    TEST_SET_GET_VALUE( false, gaborImage->GetCalculateImaginaryPart() );
     }
 
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
+  TRY_EXPECT_NO_EXCEPTION( gaborImage->Update() );
+
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+  typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( outputFilename );
   writer->SetInput( gaborImage->GetOutput() );
-  writer->Update();
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
-
-int itkGaborImageSourceTest1( int, char *argv[] )
-{
-  typedef float PixelType;
-  const unsigned int ImageDimension = 3;
-  typedef itk::Image<PixelType, ImageDimension> ImageType;
-
-  // Instantiate the filter
-  typedef itk::GaborImageSource<ImageType> GaborSourceType;
-  GaborSourceType::Pointer gaborImage = GaborSourceType::New();
-
-  GaborSourceType::ArrayType sigma;
-  sigma[0] = 2.0;
-  sigma[1] = 10.0;
-  sigma[2] = 10.0;
-
-  gaborImage->Print(std::cout);
-
-  gaborImage->SetSigma( sigma );
-  gaborImage->SetFrequency( 0.1 );
-  gaborImage->SetCalculateImaginaryPart( true );
-
-  try
-    {
-    gaborImage->Update();
-    }
-  catch (itk::ExceptionObject & err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName( argv[1] );
-  writer->SetInput( gaborImage->GetOutput() );
-  writer->Update();
-
-  gaborImage->Print(std::cout);
-
-  return EXIT_SUCCESS;
-}
-
 
 int itkGaborImageSourceTest( int argc, char *argv[] )
 {
@@ -118,15 +94,32 @@ int itkGaborImageSourceTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
-  int test;
-  if ( atoi( argv[2] ) == 0 )
+
+  const unsigned int  ImageDimension = 2;
+  typedef float       PixelType;
+
+  typedef itk::Image< PixelType, ImageDimension > ImageType;
+
+  // Instantiate the filter
+  typedef itk::GaborImageSource< ImageType > GaborSourceType;
+  GaborSourceType::Pointer gaborImage = GaborSourceType::New();
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  EXERCISE_BASIC_OBJECT_METHODS( gaborImage, GaborImageSource, GenerateImageSource );
+
+
+  int testStatus = EXIT_SUCCESS;
+  if( atoi( argv[2] ) == 0 )
     {
-    test = itkGaborImageSourceTest0( argc, argv );
+    testStatus = itkGaborImageSourceTestHelper< 2 >( argv[1], false );
     }
   else
     {
-    test = itkGaborImageSourceTest1( argc, argv );
+    testStatus = itkGaborImageSourceTestHelper< 3 >( argv[1], true );
     }
 
-  return test;
+  std::cout << "Test finished" << std::endl;
+  return testStatus;
 }
