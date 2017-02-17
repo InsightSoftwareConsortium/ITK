@@ -128,7 +128,7 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   ContourSpatialObjectPoint3DType::VectorType normal3DAlt;
   normal3DAlt[0] = normalXAlt;
   normal3DAlt[1] = normalYAlt;
-  normal3DAlt[1] = normalZAlt;
+  normal3DAlt[2] = normalZAlt;
 
   contourSpatialObjectPoint3DAlt.SetNormal( normal3DAlt );
   TEST_SET_GET_VALUE( normal3DAlt, contourSpatialObjectPoint3DAlt.GetNormal() );
@@ -184,8 +184,8 @@ int itkContourSpatialObjectPointTest( int, char* [] )
   ContourSpatialObjectPoint4DType::VectorType normal4DAlt;
   normal4DAlt[0] = normalXAlt;
   normal4DAlt[1] = normalYAlt;
-  normal4DAlt[1] = normalZAlt;
-  normal4DAlt[1] = normalWAlt;
+  normal4DAlt[2] = normalZAlt;
+  normal4DAlt[3] = normalWAlt;
 
   contourSpatialObjectPoint4DAlt.SetNormal( normal4DAlt );
   TEST_SET_GET_VALUE( normal4DAlt, contourSpatialObjectPoint4DAlt.GetNormal() );
