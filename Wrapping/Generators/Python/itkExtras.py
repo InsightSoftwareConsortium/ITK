@@ -1141,7 +1141,6 @@ try:
     import IPython
     if IPython.get_ipython():
         IPython.get_ipython().Completer.matchers.insert(0, ipython_kw_matches)
-        itkConfig.ProgressCallback = terminal_progress_callback
     # some cleanup
     del itkConfig, IPython
 except (ImportError, AttributeError):
