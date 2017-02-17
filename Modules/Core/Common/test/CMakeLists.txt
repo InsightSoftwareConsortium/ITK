@@ -302,7 +302,12 @@ itk_add_test(NAME itkModifiedTimeTest
 itk_add_test(NAME itkExceptionObjectTest COMMAND ITKCommon1TestDriver itkExceptionObjectTest)
 itk_add_test(NAME itkFileOutputWindowTest COMMAND ITKCommon1TestDriver itkFileOutputWindowTest)
 itk_add_test(NAME itkFiniteCylinderSpatialFunctionTest COMMAND ITKCommon2TestDriver itkFiniteCylinderSpatialFunctionTest)
-itk_add_test(NAME itkGaussianSpatialFunctionTest COMMAND ITKCommon1TestDriver itkGaussianSpatialFunctionTest)
+itk_add_test(NAME itkGaussianSpatialFunctionTest1
+      COMMAND ITKCommon1TestDriver
+      itkGaussianSpatialFunctionTest 1.0 0)
+itk_add_test(NAME itkGaussianSpatialFunctionTest2
+      COMMAND ITKCommon1TestDriver
+      itkGaussianSpatialFunctionTest 19.0 1)
 itk_add_test(NAME itkCrossHelperTest COMMAND ITKCommon1TestDriver itkCrossHelperTest)
 itk_add_test(NAME itkImageIteratorTest COMMAND ITKCommon1TestDriver itkImageIteratorTest)
 itk_add_test(NAME itkImageIteratorWithIndexTest COMMAND ITKCommon1TestDriver itkImageIteratorWithIndexTest)
