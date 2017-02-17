@@ -249,7 +249,7 @@ private:
 };
 
 int
-itkFrequencyImageRegionIteratorWithIndexTest(int, char **)
+itkFrequencyImageRegionIteratorWithIndexTest(int, char *[])
 {
   bool testPassed = true; // let's be optimistic
 
