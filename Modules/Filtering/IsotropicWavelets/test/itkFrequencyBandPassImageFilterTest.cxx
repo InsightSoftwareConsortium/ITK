@@ -34,9 +34,8 @@ itkFrequencyBandPassImageFilterTest(int, char *[])
 {
   const unsigned int Dimension = 3;
 
-  typedef float                             PixelType;
-  typedef itk::Image<PixelType, Dimension>  ImageType3D;
-  typedef itk::ImageFileWriter<ImageType3D> WriterType;
+  typedef float                            PixelType;
+  typedef itk::Image<PixelType, Dimension> ImageType3D;
 
   ImageType3D::SizeType size = { { 20, 40, 80 } };
 
@@ -107,8 +106,8 @@ itkFrequencyBandPassImageFilterTest(int, char *[])
   passLowFreqThreshold = false;
   passHighFreqThreshold = false;
   stopBandFilter->SetStopBand(passLowFreqThreshold, passHighFreqThreshold);
-  TEST_SET_GET_VALUE(passLowFreqThreshold, bandPassFilter->GetPassLowFrequencyThreshold());
-  TEST_SET_GET_VALUE(passHighFreqThreshold, bandPassFilter->GetPassHighFrequencyThreshold());
+  TEST_SET_GET_VALUE(passLowFreqThreshold, stopBandFilter->GetPassLowFrequencyThreshold());
+  TEST_SET_GET_VALUE(passHighFreqThreshold, stopBandFilter->GetPassHighFrequencyThreshold());
 
 
   TRY_EXPECT_NO_EXCEPTION(stopBandFilter->Update());
@@ -167,11 +166,12 @@ itkFrequencyBandPassImageFilterTest(int, char *[])
 #endif
 
 
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetInput(bandPassFilter->GetOutput());
-  writer->SetFileName(argv[1]);
-
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  // typedef itk::ImageFileWriter< ImageType3D > WriterType;
+  // WriterType::Pointer writer = WriterType::New();
+  // writer->SetInput( bandPassFilter->GetOutput() );
+  // writer->SetFileName( argv[1] );
+  //
+  // TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
