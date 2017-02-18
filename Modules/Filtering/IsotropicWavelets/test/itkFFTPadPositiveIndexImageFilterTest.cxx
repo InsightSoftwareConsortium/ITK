@@ -46,10 +46,6 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  itk::ZeroFluxNeumannBoundaryCondition<ImageType> zfnCond;
-  itk::ConstantBoundaryCondition<ImageType>        zeroCond;
-  itk::PeriodicBoundaryCondition<ImageType>        wrapCond;
-
   // Create the filter
   FFTPadType::Pointer fftpad = FFTPadType::New();
 
@@ -67,9 +63,7 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
 
   fftpad->SetInput(reader->GetOutput());
 
-
   TRY_EXPECT_NO_EXCEPTION(fftpad->Update());
-
 
   ImageType::IndexType outIndex = fftpad->GetOutput()->GetLargestPossibleRegion().GetIndex();
   ImageType::SizeType  outSize = fftpad->GetOutput()->GetLargestPossibleRegion().GetSize();
