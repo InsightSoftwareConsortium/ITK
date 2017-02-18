@@ -15,11 +15,12 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkInd2Sub.h"
+#include "itkTestingMacros.h"
+
 #include <vector>
 #include <iostream>
-using namespace std;
-using namespace itk;
 
 int
 itkInd2SubTest(int, char *[])
@@ -27,24 +28,24 @@ itkInd2SubTest(int, char *[])
   // Used for  initializing FixedArray.
   const unsigned int D3 = 3;
 
-  typedef FixedArray<unsigned int, D3> Array3DType;
-  Array3DType                          ass3D; // from assigner3D c++98
+  typedef itk::FixedArray<unsigned int, D3> Array3DType;
+  Array3DType                               ass3D; // from assigner3D c++98
   ass3D[0] = 2;
   ass3D[1] = 2;
   ass3D[2] = 2;
-  FixedArray<unsigned int, D3> sizes3(ass3D);
-  std::vector<Array3DType>     storeOutput3D;
+  itk::FixedArray<unsigned int, D3> sizes3(ass3D);
+  std::vector<Array3DType>          storeOutput3D;
   std::cout << "sizes: (2,2,2) " << std::endl;
   for (unsigned int n = 0; n < sizes3[0] * sizes3[1] * sizes3[2]; ++n)
   {
     std::cout << "index " << n << " -> ";
-    Array3DType out = Ind2Sub<D3>(n, sizes3);
+    Array3DType out = itk::Ind2Sub<D3>(n, sizes3);
     storeOutput3D.push_back(out);
     for (unsigned int i = 0; i < D3; ++i)
     {
       std::cout << out[i] << " , ";
     }
-    std::cout << '\n';
+    std::cout << std::endl;
   }
   // Check results: I have to like c++11 initializer lists.
   std::vector<Array3DType> expectedResult3D;
@@ -82,33 +83,34 @@ itkInd2SubTest(int, char *[])
   expectedResult3D.push_back(ass3D);
   if (storeOutput3D != expectedResult3D)
   {
-    std::cout << "3D Failure " << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "3D Failure " << std::endl;
     return EXIT_FAILURE;
   }
 
-  /*******************************/
 
-  const unsigned int                   D2 = 2;
-  typedef FixedArray<unsigned int, D2> Array2DType;
-  Array2DType                          ass2D;
+  const unsigned int                        D2 = 2;
+  typedef itk::FixedArray<unsigned int, D2> Array2DType;
+  Array2DType                               ass2D;
   ass2D[0] = 3;
   ass2D[1] = 4;
-  FixedArray<unsigned int, D2> sizes2(ass2D);
-  std::vector<Array2DType>     storeOutput2D;
+  itk::FixedArray<unsigned int, D2> sizes2(ass2D);
+  std::vector<Array2DType>          storeOutput2D;
   std::cout << "sizes: (" << sizes2[0] << "," << sizes2[1] << ")" << std::endl;
-  std::cout << "max_linear_index: (" << sizes2[0] * sizes2[1] - 1 << ")" << std::endl;
+  std::cout << "Max linear index: (" << sizes2[0] * sizes2[1] - 1 << ")" << std::endl;
   for (unsigned int n = 0; n < sizes2[0] * sizes2[1]; ++n)
   {
     std::cout << "index " << n << " -> ";
-    Array2DType out = Ind2Sub<D2>(n, sizes2);
+    Array2DType out = itk::Ind2Sub<D2>(n, sizes2);
     storeOutput2D.push_back(out);
     for (unsigned int i = 0; i < D2; ++i)
     {
       std::cout << out[i] << " , ";
     }
-    std::cout << '\n';
+    std::cout << std::endl;
   }
-  // Check results:
+
+  // Check results
   std::vector<Array2DType> expectedResult2D;
   ass2D[0] = 0;
   ass2D[1] = 0;
@@ -152,30 +154,35 @@ itkInd2SubTest(int, char *[])
 
   if (storeOutput2D != expectedResult2D)
   {
-    std::cout << "2D Failure " << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "2D Failure " << std::endl;
     return EXIT_FAILURE;
   }
 
-  /*******************************/
-  // Itk index/size interface:
+
+  // ITK index/size interface
   typedef itk::Index<D2>   Index2DType;
   itk::Size<D2>            sizesItk2 = { { 3, 4 } };
   std::vector<Array2DType> storeOutputIndex2D;
   for (unsigned int n = 0; n < sizesItk2[0] * sizesItk2[1]; ++n)
   {
     std::cout << "indexITK " << n << " -> ";
-    Index2DType out = Ind2Sub<D2>(n, sizesItk2);
+    Index2DType out = itk::Ind2Sub<D2>(n, sizesItk2);
     ass2D[0] = static_cast<unsigned int>(out[0]);
     ass2D[1] = static_cast<unsigned int>(out[1]);
     storeOutputIndex2D.push_back(ass2D);
+
     for (unsigned int i = 0; i < D2; ++i)
     {
       std::cout << out[i] << " , ";
     }
-    std::cout << '\n';
+    std::cout << std::endl;
   }
+
   if (storeOutputIndex2D != expectedResult2D)
+  {
     return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

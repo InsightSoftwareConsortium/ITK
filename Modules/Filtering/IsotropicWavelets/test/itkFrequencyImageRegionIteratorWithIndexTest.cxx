@@ -16,12 +16,13 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkFrequencyImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
+
+#include <iostream>
 #include <complex>
 #include <itkMath.h>
-using namespace std;
-using namespace itk;
+
 
 template <typename TImage>
 class itkFrequencyImageRegionIteratorWithIndexTester
@@ -33,12 +34,12 @@ public:
 
   typedef itk::FrequencyImageRegionIteratorWithIndex<ImageType> IteratorType;
 
-  explicit itkFrequencyImageRegionIteratorWithIndexTester(size_t input_size)
+  explicit itkFrequencyImageRegionIteratorWithIndexTester(size_t inputImageSize)
   {
     m_Image = ImageType::New();
 
     typename ImageType::SizeType size;
-    size.Fill(input_size);
+    size.Fill(inputImageSize);
 
     typename ImageType::IndexType start;
     start.Fill(0);
@@ -50,31 +51,34 @@ public:
     m_Image->SetRegions(region);
 
     // Setup the half, positive frequencies region.
-    size.Fill(input_size / 2);
+    size.Fill(inputImageSize / 2);
     start.Fill(1);
     m_PositiveHalfRegion.SetSize(size);
     m_PositiveHalfRegion.SetIndex(start);
 
-    m_ImageIsOdd = input_size % 2 == 1 ? 1 : 0;
+    m_ImageIsOdd = inputImageSize % 2 == 1 ? 1 : 0;
     // Setup the half, negative frequencies region.
-    unsigned int one_if_odd = m_ImageIsOdd ? 1 : 0;
-    size.Fill(input_size / 2);
-    start.Fill(input_size / 2 + one_if_odd);
+    unsigned int isImageSizeOdd = m_ImageIsOdd ? 1 : 0;
+    size.Fill(inputImageSize / 2);
+    start.Fill(inputImageSize / 2 + isImageSizeOdd);
     m_NegativeHalfRegion.SetSize(size);
     m_NegativeHalfRegion.SetIndex(start);
 
-    /* With default frequency_spacing = 1 ( = sampling frequency)
-     * Nyquist_first = fs * (N/2) / N where N is the size of that dim.
-     * If image is Even, there is only one Nyquist at index = N/2, shared between + and - frequencies.
-     * If Odd, Nyquist Freq  = fs/2 is not represented, but there is still
-     * a largest frequency at half index with value = fs/2 * (N-1)/N
-     */
+    //
+    // With default frequency_spacing = 1 ( = sampling frequency)
+    // Nyquist_first = fs * (N/2) / N where N is the size of that dim.
+    // If image is Even, there is only one Nyquist at index = N/2, shared between + and - frequencies.
+    // If Odd, Nyquist Freq  = fs/2 is not represented, but there is still
+    // a largest frequency at half index with value = fs/2 * (N-1)/N
+    //
 
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
       m_LargestFrequency[dim] = 0.5; // = fs/2 with default spacing = 1.0
       if (m_ImageIsOdd)
-        m_LargestFrequency[dim] = 0.5 * (input_size - 1) * (1.0 / input_size);
+      {
+        m_LargestFrequency[dim] = 0.5 * (inputImageSize - 1) * (1.0 / inputImageSize);
+      }
     }
   }
 
@@ -82,7 +86,6 @@ public:
   TestIterator()
   {
     typename ImageType::RegionType region = m_Image->GetLargestPossibleRegion();
-    std::cout << "---" << std::endl;
     std::cout << "LargestRegion:" << region << std::endl;
     if (TestLargestRegion() == false)
     {
@@ -92,16 +95,14 @@ public:
 
     if (TestFrequenciesHaveHermitianSimmetry() == false)
     {
-      std::cout << "Failed testing hermitian simmetry." << std::endl;
+      std::cout << "Failed testing Hermitian simmetry." << std::endl;
       return false;
     }
 
     region = m_PositiveHalfRegion;
-    std::cout << "---" << std::endl;
     std::cout << "Positive Half Region (excluding 0 freqs in all dim):" << region << std::endl;
 
     region = m_NegativeHalfRegion;
-    std::cout << "---" << std::endl;
     std::cout << "Negative Half Region: (including Nyquist freq if N even)" << region << std::endl;
 
     if (TestNegativeRegion(region) == false)
@@ -125,9 +126,9 @@ public:
     {
       for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
       {
-        if (it.GetFrequency()[dim] != itk::Math::abs(reverseIt.GetFrequency()[dim]))
+        if (itk::Math::NotAlmostEquals(it.GetFrequency()[dim], itk::Math::abs(reverseIt.GetFrequency()[dim])))
         {
-          std::cout << "Failed testing hermitian property at index:" << it.GetIndex() << " freq: " << it.GetFrequency()
+          std::cout << "Failed testing Hermitian property at index:" << it.GetIndex() << " freq: " << it.GetFrequency()
                     << "\n"
                     << " reverseIt: " << reverseIt.GetIndex() << " freq: " << reverseIt.GetFrequency() << std::endl;
           return false;
@@ -139,7 +140,7 @@ public:
     return true;
   }
 
-  // If N is even, the nyquist frequency is stored in the positive region,
+  // If N is even, the Nyquist frequency is stored in the positive region,
   // but shared with the negative region.
   // If N is odd, the largest frequency has a positive and negative component.
   bool
@@ -148,20 +149,20 @@ public:
     IteratorType it(m_Image, region);
 
     it.GoToBegin();
-    IndexType half_index_plus_one;
+    IndexType halfIndexPlusOne;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
-      half_index_plus_one[dim] = it.GetHalfIndex()[dim] + 1;
+      halfIndexPlusOne[dim] = it.GetHalfIndex()[dim] + 1;
     }
-    IndexType first_negative_index = m_ImageIsOdd ? half_index_plus_one : it.GetHalfIndex();
-    IndexType smallest_negative_freq_index;
+    IndexType firstNegativeIndex = m_ImageIsOdd ? halfIndexPlusOne : it.GetHalfIndex();
+    IndexType smallestNegativeFreqIndex;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
-      smallest_negative_freq_index[dim] = m_ImageIsOdd ? -first_negative_index[dim] + 1 : first_negative_index[dim];
+      smallestNegativeFreqIndex[dim] = m_ImageIsOdd ? -firstNegativeIndex[dim] + 1 : firstNegativeIndex[dim];
     }
     while (!it.IsAtEnd())
     {
-      if (it.GetIndex() == first_negative_index)
+      if (it.GetIndex() == firstNegativeIndex)
       {
         // abs value should be equal to largest freq for odd images
         if (m_ImageIsOdd == true && m_LargestFrequency != it.GetFrequency() && -m_LargestFrequency != it.GetFrequency())
@@ -170,11 +171,10 @@ public:
                     << std::endl;
           return false;
         }
-        if (it.GetFrequencyBin() != smallest_negative_freq_index)
+        if (it.GetFrequencyBin() != smallestNegativeFreqIndex)
         {
           std::cout << " Smallest negative frequency bin is wrong." << it.GetFrequencyBin()
-                    << " should be: " << smallest_negative_freq_index << ".iterator index: " << it.GetIndex()
-                    << std::endl;
+                    << " should be: " << smallestNegativeFreqIndex << ".iterator index: " << it.GetIndex() << std::endl;
           return false;
         }
       }
@@ -195,7 +195,9 @@ public:
         m_Image->GetLargestPossibleRegion().GetIndex()[dim] + m_Image->GetLargestPossibleRegion().GetSize()[dim] / 2;
       if (it.GetHalfIndex()[dim] != truthHalfIndex[dim])
       {
-        std::cout << "HalfIndex is wrong! - " << it.GetHalfIndex() << ". It should be: " << truthHalfIndex << std::endl;
+        std::cerr << "Test failed! " << std::endl;
+        std::cerr << "Error in GetHalfIndex()" << std::endl;
+        std::cerr << "Expected: " << truthHalfIndex << ", but got " << it.GetHalfIndex() << std::endl;
         return false;
       }
     }
@@ -206,7 +208,8 @@ public:
 
     if (it.GetIndex() == m_Image->GetLargestPossibleRegion().GetIndex() && it.GetFrequencyBin() != zero_freq_index)
     {
-      std::cout << "Error: Zero frequency is not at the minimum index!." << std::endl;
+      std::cerr << "Test failed! " << std::endl;
+      std::cerr << "Error: Zero frequency is not at the minimum index!" << std::endl;
       return false;
     }
 
@@ -217,21 +220,24 @@ public:
       bool isInside = m_Image->GetLargestPossibleRegion().IsInside(index);
       if (!isInside)
       {
-        std::cout << "    Index is not inside region! - " << index << std::endl;
+        std::cerr << "Test failed! " << std::endl;
+        std::cerr << "Index is not inside region!: " << index << std::endl;
         return false;
       }
-      // check repeatibility
+      // Check repeatibility
       if (index != it.GetIndex())
       {
-        std::cout << "    Failed to repeat GetIndex." << std::endl;
+        std::cerr << "Test failed! " << std::endl;
+        std::cerr << "Failed to repeat GetIndex()" << std::endl;
         return false;
       }
 
       if (index == it.GetHalfIndex() && it.GetFrequency() != m_LargestFrequency &&
           it.GetFrequencyBin() != it.GetHalfIndex())
       {
-        std::cout << "    Failed! Largest freq bin is wrong. " << index << ". Frequency Index: " << it.GetFrequency()
-                  << ". It should be: " << m_LargestFrequency << std::endl;
+        std::cerr << "Test failed! " << std::endl;
+        std::cerr << "Error in largest frequency bin" << std::endl;
+        std::cerr << "Expected: " << m_LargestFrequency << ", but got " << it.GetFrequency() << std::endl;
         return false;
       }
       // increment and test index
@@ -253,31 +259,38 @@ itkFrequencyImageRegionIteratorWithIndexTest(int, char *[])
 {
   bool testPassed = true; // let's be optimistic
 
+  const unsigned int Dimension = 3;
+  typedef char       CharPixelType;
+  typedef char       FloatPixelType;
+
+  // Even input image size test
   {
-    size_t input_size(8);
-    std::cout << "Testing with EVEN Image< std::complex<float>, 3 > with size: " << input_size << std::endl;
-    itkFrequencyImageRegionIteratorWithIndexTester<itk::Image<std::complex<float>, 3>> Tester(input_size);
-    if (Tester.TestIterator() == false)
-    {
-      testPassed = false;
-    }
-  }
-  {
-    std::cout << "\n------------------------" << std::endl;
-    size_t input_size(10);
-    std::cout << "Testing with EVEN Image< char, 3 > with size: " << input_size << std::endl;
-    itkFrequencyImageRegionIteratorWithIndexTester<itk::Image<char, 3>> Tester(input_size);
+    size_t inputImageSize(8);
+    std::cout << "Testing with EVEN Image< std::complex<float>, 3 > with size: " << inputImageSize << std::endl;
+    itkFrequencyImageRegionIteratorWithIndexTester<itk::Image<std::complex<FloatPixelType>, Dimension>> Tester(
+      inputImageSize);
     if (Tester.TestIterator() == false)
     {
       testPassed = false;
     }
   }
 
+  // Even input image size test
   {
-    std::cout << "\n------------------------" << std::endl;
-    size_t input_size(9);
-    std::cout << "Testing with ODD Image< char, 3 > with size: " << input_size << std::endl;
-    itkFrequencyImageRegionIteratorWithIndexTester<itk::Image<char, 3>> Tester(input_size);
+    size_t inputImageSize(10);
+    std::cout << "Testing with EVEN Image< char, 3 > with size: " << inputImageSize << std::endl;
+    itkFrequencyImageRegionIteratorWithIndexTester<itk::Image<CharPixelType, Dimension>> Tester(inputImageSize);
+    if (Tester.TestIterator() == false)
+    {
+      testPassed = false;
+    }
+  }
+
+  // Odd input image size test
+  {
+    size_t inputImageSize(9);
+    std::cout << "Testing with ODD Image< char, 3 > with size: " << inputImageSize << std::endl;
+    itkFrequencyImageRegionIteratorWithIndexTester<itk::Image<CharPixelType, Dimension>> Tester(inputImageSize);
     if (Tester.TestIterator() == false)
     {
       testPassed = false;
@@ -286,10 +299,10 @@ itkFrequencyImageRegionIteratorWithIndexTest(int, char *[])
 
   if (!testPassed)
   {
-    std::cout << "\nFailed" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
   }
 
-  std::cout << "\nSuccess" << std::endl;
+
   return EXIT_SUCCESS;
 }
