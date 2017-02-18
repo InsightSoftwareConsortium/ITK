@@ -58,6 +58,17 @@ ZeroDCImageFilter<TImageType>::GenerateData()
   this->GraftOutput(m_SubtractFilter->GetOutput());
   /**********************************************/
 }
+
+template <typename TImageType>
+void
+ZeroDCImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  itkPrintSelfObjectMacro(StatisticsFilter);
+  itkPrintSelfObjectMacro(SubtractFilter);
+}
+
 } // end namespace itk
 
 #endif
