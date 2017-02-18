@@ -152,7 +152,6 @@ itkWaveletFrequencyInverseTest(int argc, char * argv[])
   typedef double                                       PixelType;
   typedef std::complex<PixelType>                      ComplexPixelType;
   typedef itk::Point<PixelType, ImageDimension>        PointType;
-  typedef itk::Image<PixelType, ImageDimension>        ImageType;
   typedef itk::Image<ComplexPixelType, ImageDimension> ComplexImageType;
 
   // Exercise basic object methods
