@@ -47,14 +47,17 @@ int itkGaborKernelFunctionTest( int itkNotUsed( argc ), char * itkNotUsed( argv 
   gabor->CalculateImaginaryPartOn();
   TEST_SET_GET_VALUE( true, gabor->GetCalculateImaginaryPart() );
 
+  double tolerance = 1e-18;
   double point = 2.86;
   double expectedValue = -0.13297125073713259;
   double result = gabor->Evaluate( point );
-  if( itk::Math::NotAlmostEquals( expectedValue, result ) )
+  if( !itk::Math::FloatAlmostEqual( expectedValue, result, 10, tolerance ) )
     {
+    std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
     std::cout << "Error in point " << point << ": ";
-    std::cout << "Expected: " << expectedValue << ", but got "
+    std::cout << "Expected: " << expectedValue << ", differs from: "
       << result << std::endl;
+    std::cerr << " by more than " << tolerance << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
@@ -64,11 +67,13 @@ int itkGaborKernelFunctionTest( int itkNotUsed( argc ), char * itkNotUsed( argv 
 
   expectedValue = 0.093234196962237226;
   result = gabor->Evaluate( point );
-  if( itk::Math::NotAlmostEquals( expectedValue, result ) )
+  if( !itk::Math::FloatAlmostEqual( expectedValue, result, 10, tolerance ) )
     {
+    std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance ) ) ) );
     std::cout << "Error in point " << point << ": ";
-    std::cout << "Expected: " << expectedValue << ", but got "
+    std::cout << "Expected: " << expectedValue << ", differs from: "
       << result << std::endl;
+    std::cerr << " by more than " << tolerance << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
     }
