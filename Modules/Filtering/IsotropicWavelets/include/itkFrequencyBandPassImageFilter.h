@@ -105,11 +105,15 @@ public:
 
   itkSetMacro(PassLowFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassLowFrequencyThreshold, bool);
+  itkBooleanMacro(PassLowFrequencyThreshold);
+
   itkSetMacro(PassHighFrequencyThreshold, bool);
   itkGetConstReferenceMacro(PassHighFrequencyThreshold, bool);
+  itkBooleanMacro(PassHighFrequencyThreshold);
 
   itkSetMacro(PassBand, bool);
   itkGetConstReferenceMacro(PassBand, bool);
+  itkBooleanMacro(PassBand);
 
   /**
    * Utility method equivalent to:

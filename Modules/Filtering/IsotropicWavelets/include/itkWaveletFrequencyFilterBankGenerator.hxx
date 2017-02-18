@@ -34,13 +34,6 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
 
 template <typename TOutputImage, typename TWaveletFunction, typename TFrequencyRegionIterator>
 void
-WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRegionIterator>::SetInverseBankOn()
-{
-  this->SetInverseBank(true);
-}
-
-template <typename TOutputImage, typename TWaveletFunction, typename TFrequencyRegionIterator>
-void
 WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRegionIterator>::SetHighPassSubBands(
   unsigned int k)
 {
