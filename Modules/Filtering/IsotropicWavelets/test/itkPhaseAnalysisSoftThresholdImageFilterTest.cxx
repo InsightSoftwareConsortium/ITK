@@ -97,8 +97,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
   EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, ImageToImageFilter);
 
   bool applySoftThreshold = true;
-  phaseAnalyzer->SetApplySoftThreshold(applySoftThreshold);
-  TEST_SET_GET_VALUE(applySoftThreshold, phaseAnalyzer->GetApplySoftThreshold());
+  TEST_SET_GET_BOOLEAN(phaseAnalyzer, ApplySoftThreshold, applySoftThreshold);
 
   /*PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType numOfSigmas;
   phaseAnalyzer->SetNumOfSigmas( numOfSigmas );

@@ -84,8 +84,7 @@ public:
   itkSetMacro(ScaleFactor, unsigned int);
   itkGetMacro(InverseBank, bool);
   itkSetMacro(InverseBank, bool);
-  void
-  SetInverseBankOn();
+  itkBooleanMacro(InverseBank);
 
   /** Get Outputs *****/
   OutputImagePointer
