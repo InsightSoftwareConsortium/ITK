@@ -175,7 +175,7 @@ public:
   typedef itk::VectorLinearInterpolateImageFunction< GradientImageType > GradientInterpolatorType;
   typedef typename GradientInterpolatorType::Pointer                     GradientInterpolatorPointer;
 
-  /** Get/set the iso-surface value.
+  /** Get/Set the iso-surface value.
     * This parameter specifies the value of the iso-surface for which to
     * generate the mesh. Pixels equal to or less than this value are
     * considered on the surface or inside the resultant mesh.
@@ -187,24 +187,24 @@ public:
   using Superclass::SetInput;
   virtual void SetInput( const InputImageType * inputImage );
 
-  /** Get/set interpolate function. */
+  /** Get/Set interpolate function. */
   itkGetObjectMacro( Interpolator, InterpolatorType );
   itkSetObjectMacro( Interpolator, InterpolatorType );
 
-  /** Get/set whether triangle or quadrilateral faces should be generated.
+  /** Get/Set whether triangle or quadrilateral faces should be generated.
     * True = triangle faces, False = quadrilateral faces.
       Default = true (triangle faces). */
   itkGetMacro( GenerateTriangleFaces, bool );
   itkSetMacro( GenerateTriangleFaces, bool );
   itkBooleanMacro( GenerateTriangleFaces );
 
-  /** Get/set whether the vertices should be project to the iso-surface.
+  /** Get/Set whether the vertices should be project to the iso-surface.
       Default = true. */
   itkGetMacro( ProjectVerticesToIsoSurface, bool );
   itkSetMacro( ProjectVerticesToIsoSurface, bool );
   itkBooleanMacro( ProjectVerticesToIsoSurface );
 
-  /** Get/set the threshold for the "distance" from iso-surface during vertex projection.
+  /** Get/Set the threshold for the "distance" from iso-surface during vertex projection.
       Note that the distance is actually measured in pixel value units (not space).
       The smaller this value, the closer the vertices will be to the iso-surface.
       Small values result in longer convergence time (i.e. slower).
@@ -213,20 +213,20 @@ public:
   itkGetMacro( ProjectVertexSurfaceDistanceThreshold, double );
   itkSetClampMacro( ProjectVertexSurfaceDistanceThreshold, double, 0.0, NumericTraits<InputPixelType>::max() );
 
-  /** Get/set the the initial step length for vertex projection.
+  /** Get/Set the the initial step length for vertex projection.
       Values are clamped to the range [0.0, large].
       Default = max spacing * 0.25 (expressed in physical space). */
   itkGetMacro( ProjectVertexStepLength, double );
   itkSetClampMacro( ProjectVertexStepLength, double, 0.0, 100000.0 );
 
-  /** Get/set the step length relaxation factor during vertex projection.
+  /** Get/Set the step length relaxation factor during vertex projection.
       The step length is multiplied by this factor each iteration to allow convergence.
       Values are clamped to the range [0.0, 1.0].
       Default = 0.95. */
   itkGetMacro( ProjectVertexStepLengthRelaxationFactor, double );
   itkSetClampMacro( ProjectVertexStepLengthRelaxationFactor, double, 0.0, 1.0 );
 
-  /** Get/set the maximum number of steps used during vertex projection.
+  /** Get/Set the maximum number of steps used during vertex projection.
       Default = 50. */
   itkGetMacro( ProjectVertexMaximumNumberOfSteps, unsigned int );
   itkSetMacro( ProjectVertexMaximumNumberOfSteps, unsigned int );
@@ -321,11 +321,23 @@ private:
   typedef VertexLookupMap< OutputMeshType > VertexLookupMapType;
 
   /** Private functions to implement the algorithm. */
+
+  /** Compute gradient image. */
   inline void ComputeGradientImage();
+
+  /** Set a flag activating each vertex for the given face. */
   inline void SetVerticesFromFace( unsigned int face, bool *vertexHasQuad );
+
+  /** Get the vertex lookup index from the given index and vertex number. */
   inline IndexType GetVertexLookupIndex( unsigned int vertex, IndexType index );
+
+  /** Project vertex to the iso-surface by stepping along normal. */
   inline void ProjectVertexToIsoSurface( PointType &vertex );
+
+  /** Add a vertex to the given mesh. Increments point identifier. */
   inline void AddVertex( PointIdentifier &id, IndexType index, const InputImageType* image, OutputMeshType* mesh );
+
+  /** Add quadrilateral face to the given mesh. Increments cell identifier. */
   inline void AddQuadFace( CellIdentifier &id, PointIdentifier f[4], OutputMeshType* mesh );
 
   InputPixelType              m_IsoSurfaceValue;
