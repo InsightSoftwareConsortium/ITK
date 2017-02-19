@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkFrequencyBandPassImageFilter_hxx
-#define itkFrequencyBandPassImageFilter_hxx
+#ifndef itkFrequencyBandImageFilter_hxx
+#define itkFrequencyBandImageFilter_hxx
 
-#include <itkFrequencyBandPassImageFilter.h>
+#include <itkFrequencyBandImageFilter.h>
 #include <itkMath.h>
 #include <itkImageAlgorithm.h>
 
 namespace itk
 {
 template <class TImageType>
-FrequencyBandPassImageFilter<TImageType>::FrequencyBandPassImageFilter()
+FrequencyBandImageFilter<TImageType>::FrequencyBandImageFilter()
   : m_LowFrequencyThreshold(0)
   , m_HighFrequencyThreshold(0.5)
   , // Nyquist in hertz
@@ -36,7 +36,7 @@ FrequencyBandPassImageFilter<TImageType>::FrequencyBandPassImageFilter()
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
+FrequencyBandImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "FrequencyThresholds: Low: " << this->m_LowFrequencyThreshold
@@ -49,7 +49,7 @@ FrequencyBandPassImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent in
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::SetPassBand(const bool pass_low_threshold, const bool pass_high_threshold)
+FrequencyBandImageFilter<TImageType>::SetPassBand(const bool pass_low_threshold, const bool pass_high_threshold)
 {
   this->m_PassBand = true;
   this->m_PassLowFrequencyThreshold = pass_low_threshold;
@@ -59,7 +59,7 @@ FrequencyBandPassImageFilter<TImageType>::SetPassBand(const bool pass_low_thresh
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::SetStopBand(const bool pass_low_threshold, const bool pass_high_threshold)
+FrequencyBandImageFilter<TImageType>::SetStopBand(const bool pass_low_threshold, const bool pass_high_threshold)
 {
   this->m_PassBand = false;
   this->m_PassLowFrequencyThreshold = pass_low_threshold;
@@ -69,8 +69,8 @@ FrequencyBandPassImageFilter<TImageType>::SetStopBand(const bool pass_low_thresh
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::SetFrequencyThresholds(const FrequencyValueType & freq_low,
-                                                                 const FrequencyValueType & freq_high)
+FrequencyBandImageFilter<TImageType>::SetFrequencyThresholds(const FrequencyValueType & freq_low,
+                                                             const FrequencyValueType & freq_high)
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(freq_low <= freq_high);
   this->m_LowFrequencyThreshold = freq_low;
@@ -80,15 +80,14 @@ FrequencyBandPassImageFilter<TImageType>::SetFrequencyThresholds(const Frequency
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::SetLowFrequencyThresholdInRadians(
-  const FrequencyValueType & freq_in_radians_low)
+FrequencyBandImageFilter<TImageType>::SetLowFrequencyThresholdInRadians(const FrequencyValueType & freq_in_radians_low)
 {
   this->SetLowFrequencyThreshold(freq_in_radians_low * 0.5 * itk::Math::one_over_pi);
 }
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::SetHighFrequencyThresholdInRadians(
+FrequencyBandImageFilter<TImageType>::SetHighFrequencyThresholdInRadians(
   const FrequencyValueType & freq_in_radians_high)
 {
   this->SetHighFrequencyThreshold(freq_in_radians_high * 0.5 * itk::Math::one_over_pi);
@@ -96,9 +95,8 @@ FrequencyBandPassImageFilter<TImageType>::SetHighFrequencyThresholdInRadians(
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::SetFrequencyThresholdsInRadians(
-  const FrequencyValueType & freq_in_radians_low,
-  const FrequencyValueType & freq_in_radians_high)
+FrequencyBandImageFilter<TImageType>::SetFrequencyThresholdsInRadians(const FrequencyValueType & freq_in_radians_low,
+                                                                      const FrequencyValueType & freq_in_radians_high)
 {
   this->SetFrequencyThresholds(freq_in_radians_low * 0.5 * itk::Math::one_over_pi,
                                freq_in_radians_high * 0.5 * itk::Math::one_over_pi);
@@ -106,7 +104,7 @@ FrequencyBandPassImageFilter<TImageType>::SetFrequencyThresholdsInRadians(
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::BeforeThreadedGenerateData()
+FrequencyBandImageFilter<TImageType>::BeforeThreadedGenerateData()
 {
   if (this->m_LowFrequencyThreshold > this->m_HighFrequencyThreshold)
     itkExceptionMacro("FrequencyThresholds wrong: " << this->m_LowFrequencyThreshold << " , "
@@ -120,8 +118,7 @@ FrequencyBandPassImageFilter<TImageType>::BeforeThreadedGenerateData()
 
 template <class TImageType>
 void
-FrequencyBandPassImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType & outputRegionForThread,
-                                                               ThreadIdType)
+FrequencyBandImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType & outputRegionForThread, ThreadIdType)
 {
   // outputPtr is a copy of input image from BeforeThreadedGenerateData
   ImagePointer outputPtr = this->GetOutput();

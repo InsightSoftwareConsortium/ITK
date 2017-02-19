@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkAddImageFilter.h"
-#include "itkFrequencyBandPassImageFilter.h"
+#include "itkFrequencyBandImageFilter.h"
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingComparisonImageFilter.h"
@@ -30,7 +30,7 @@
 #endif
 
 int
-itkFrequencyBandPassImageFilterTest(int, char *[])
+itkFrequencyBandImageFilterTest(int, char *[])
 {
   const unsigned int Dimension = 3;
 
@@ -50,61 +50,55 @@ itkFrequencyBandPassImageFilterTest(int, char *[])
   image->Allocate();
   image->FillBuffer(1.0);
 
-  typedef itk::FrequencyBandPassImageFilter<ImageType3D> BandPassFilterType;
-  BandPassFilterType::Pointer                            bandPassFilter = BandPassFilterType::New();
+  typedef itk::FrequencyBandImageFilter<ImageType3D> BandFilterType;
+  BandFilterType::Pointer                            passBandFilter = BandFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(bandPassFilter, FrequencyBandPassImageFilter, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(passBandFilter, FrequencyBandImageFilter, ImageToImageFilter);
 
-  bandPassFilter->SetInput(image);
+  passBandFilter->SetInput(image);
 
-  BandPassFilterType::FrequencyValueType lowFreqThreshold = 0.0;
-  bandPassFilter->SetLowFrequencyThreshold(lowFreqThreshold);
-  TEST_SET_GET_VALUE(lowFreqThreshold, bandPassFilter->GetLowFrequencyThreshold());
+  BandFilterType::FrequencyValueType lowFreqThreshold = 0.0;
+  passBandFilter->SetLowFrequencyThreshold(lowFreqThreshold);
+  TEST_SET_GET_VALUE(lowFreqThreshold, passBandFilter->GetLowFrequencyThreshold());
 
-  BandPassFilterType::FrequencyValueType highFreqThreshold = 0.5;
-  bandPassFilter->SetHighFrequencyThreshold(highFreqThreshold);
-  TEST_SET_GET_VALUE(highFreqThreshold, bandPassFilter->GetHighFrequencyThreshold());
+  BandFilterType::FrequencyValueType highFreqThreshold = 0.5;
+  passBandFilter->SetHighFrequencyThreshold(highFreqThreshold);
+  TEST_SET_GET_VALUE(highFreqThreshold, passBandFilter->GetHighFrequencyThreshold());
 
   bool passBand = true;
-  bandPassFilter->SetPassBand(passBand);
-  TEST_SET_GET_VALUE(passBand, bandPassFilter->GetPassBand());
+  passBandFilter->SetPassBand(passBand);
+  TEST_SET_GET_VALUE(passBand, passBandFilter->GetPassBand());
 
   bool passLowFreqThreshold = true;
-  TEST_SET_GET_VALUE(passLowFreqThreshold, bandPassFilter->GetPassLowFrequencyThreshold());
+  TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
 
   bool passHighFreqThreshold = true;
-  TEST_SET_GET_VALUE(passHighFreqThreshold, bandPassFilter->GetPassHighFrequencyThreshold());
+  TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
 
-  bandPassFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
-  TEST_SET_GET_VALUE(passLowFreqThreshold, bandPassFilter->GetPassLowFrequencyThreshold());
-  TEST_SET_GET_VALUE(passHighFreqThreshold, bandPassFilter->GetPassHighFrequencyThreshold());
+  passBandFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
+  TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
+  TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
 
 
-  TRY_EXPECT_NO_EXCEPTION(bandPassFilter->Update());
+  TRY_EXPECT_NO_EXCEPTION(passBandFilter->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(bandPassFilter->GetOutput(), "PassBand - default");
+  itk::Testing::ViewImage(passBandFilter->GetOutput(), "PassBand - default");
 #endif
 
   // Stop-band
-  BandPassFilterType::Pointer stopBandFilter = BandPassFilterType::New();
-
-  EXERCISE_BASIC_OBJECT_METHODS(stopBandFilter, FrequencyBandPassImageFilter, ImageToImageFilter);
+  BandFilterType::Pointer stopBandFilter = BandFilterType::New();
 
   stopBandFilter->SetInput(image);
 
   stopBandFilter->SetLowFrequencyThreshold(lowFreqThreshold);
-  TEST_SET_GET_VALUE(lowFreqThreshold, stopBandFilter->GetLowFrequencyThreshold());
-
   stopBandFilter->SetHighFrequencyThreshold(highFreqThreshold);
-  TEST_SET_GET_VALUE(highFreqThreshold, stopBandFilter->GetHighFrequencyThreshold());
 
   passLowFreqThreshold = false;
   passHighFreqThreshold = false;
   stopBandFilter->SetStopBand(passLowFreqThreshold, passHighFreqThreshold);
   TEST_SET_GET_VALUE(passLowFreqThreshold, stopBandFilter->GetPassLowFrequencyThreshold());
   TEST_SET_GET_VALUE(passHighFreqThreshold, stopBandFilter->GetPassHighFrequencyThreshold());
-
 
   TRY_EXPECT_NO_EXCEPTION(stopBandFilter->Update());
 
@@ -117,7 +111,7 @@ itkFrequencyBandPassImageFilterTest(int, char *[])
   // to original image
   typedef itk::AddImageFilter<ImageType3D, ImageType3D> AddFilterType;
   AddFilterType::Pointer                                addFilter = AddFilterType::New();
-  addFilter->SetInput1(bandPassFilter->GetOutput());
+  addFilter->SetInput1(passBandFilter->GetOutput());
   addFilter->SetInput2(stopBandFilter->GetOutput());
 
   typedef itk::Testing::ComparisonImageFilter<ImageType3D, ImageType3D> DifferenceFilterType;
@@ -143,28 +137,28 @@ itkFrequencyBandPassImageFilterTest(int, char *[])
   // Tests with radians
   //
   lowFreqThreshold = itk::Math::pi_over_4;
-  bandPassFilter->SetLowFrequencyThresholdInRadians(lowFreqThreshold);
+  passBandFilter->SetLowFrequencyThresholdInRadians(lowFreqThreshold);
 
   highFreqThreshold = itk::Math::pi_over_2;
-  bandPassFilter->SetHighFrequencyThresholdInRadians(highFreqThreshold);
+  passBandFilter->SetHighFrequencyThresholdInRadians(highFreqThreshold);
 
   passLowFreqThreshold = true;
   passHighFreqThreshold = true;
-  bandPassFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
-  TEST_SET_GET_VALUE(passLowFreqThreshold, bandPassFilter->GetPassLowFrequencyThreshold());
-  TEST_SET_GET_VALUE(passHighFreqThreshold, bandPassFilter->GetPassHighFrequencyThreshold());
+  passBandFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
+  TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
+  TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
 
 
-  TRY_EXPECT_NO_EXCEPTION(bandPassFilter->Update());
+  TRY_EXPECT_NO_EXCEPTION(passBandFilter->Update());
 
 #ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(bandPassFilter->GetOutput(), "PassBand - radians");
+  itk::Testing::ViewImage(passBandFilter->GetOutput(), "PassBand - radians");
 #endif
 
 
   // typedef itk::ImageFileWriter< ImageType3D > WriterType;
   // WriterType::Pointer writer = WriterType::New();
-  // writer->SetInput( bandPassFilter->GetOutput() );
+  // writer->SetInput( passBandFilter->GetOutput() );
   // writer->SetFileName( argv[1] );
   //
   // TRY_EXPECT_NO_EXCEPTION( writer->Update() );
