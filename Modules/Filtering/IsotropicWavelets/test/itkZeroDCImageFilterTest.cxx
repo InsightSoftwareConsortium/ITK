@@ -117,9 +117,6 @@ itkZeroDCImageFilterTest(int argc, char * argv[])
   typedef itk::ForwardFFTImageFilter<ImageType> FFTForwardFilterType;
   FFTForwardFilterType::Pointer                 fftForwardFilter = FFTForwardFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(fftForwardFilter, ForwardFFTImageFilter, ImageToImageFilter);
-
-
   if (dimension == 2)
   {
     return runZeroDCImageFilterTest<2>(inputImage);

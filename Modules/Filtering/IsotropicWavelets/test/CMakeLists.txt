@@ -440,37 +440,37 @@ itk_add_test(
 ## Odd input
 # Require ITK_USE_FFTWF
 # TODO bug in VNL FFT Forward? error with input [21,21,9] about wrong size not being multiple of 2,3,5
-# if(ITK_USE_FFTWF)
-#Expand
-itk_add_test(
-  NAME itkFrequencyExpandOddTest
-  COMMAND
-    IsotropicWaveletsTestDriver
-    --compare
-    DATA{Baseline/itkFrequencyExpandOddTest.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
-    itkFrequencyExpandTest
-    DATA{Input/collagen_21x21x9.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
-)
-#Shrink
-itk_add_test(
-  NAME itkFrequencyShrinkOddTest
-  COMMAND
-    IsotropicWaveletsTestDriver
-    --compare
-    DATA{Baseline/itkFrequencyShrinkOddTest.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
-    itkFrequencyShrinkTest
-    DATA{Input/collagen_21x21x9.tiff}
-    ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
-)
-list(
-  APPEND TEST_LIST
-  itkFrequencyExpandOddTest
-  itkFrequencyShrinkOddTest
-)
-# endif()
+if(ITK_USE_FFTWF)
+  #Expand
+  itk_add_test(
+    NAME itkFrequencyExpandOddTest
+    COMMAND
+      IsotropicWaveletsTestDriver
+      --compare
+      DATA{Baseline/itkFrequencyExpandOddTest.tiff}
+      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
+      itkFrequencyExpandTest
+      DATA{Input/collagen_21x21x9.tiff}
+      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyExpandOddTest.tiff
+  )
+  #Shrink
+  itk_add_test(
+    NAME itkFrequencyShrinkOddTest
+    COMMAND
+      IsotropicWaveletsTestDriver
+      --compare
+      DATA{Baseline/itkFrequencyShrinkOddTest.tiff}
+      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
+      itkFrequencyShrinkTest
+      DATA{Input/collagen_21x21x9.tiff}
+      ${ITK_TEST_OUTPUT_DIR}/itkFrequencyShrinkOddTest.tiff
+  )
+  list(
+    APPEND TEST_LIST
+    itkFrequencyExpandOddTest
+    itkFrequencyShrinkOddTest
+  )
+endif()
 
 itk_python_expression_add_test(
   NAME itkFFTPadPositiveIndexImageFilterPythonTest

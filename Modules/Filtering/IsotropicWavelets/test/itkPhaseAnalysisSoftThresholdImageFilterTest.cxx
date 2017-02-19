@@ -94,7 +94,7 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
                                                 PhaseAnalysisSoftThresholdFilterType;
   PhaseAnalysisSoftThresholdFilterType::Pointer phaseAnalyzer = PhaseAnalysisSoftThresholdFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
 
   bool applySoftThreshold = true;
   TEST_SET_GET_BOOLEAN(phaseAnalyzer, ApplySoftThreshold, applySoftThreshold);
