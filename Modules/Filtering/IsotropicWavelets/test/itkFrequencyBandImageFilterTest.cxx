@@ -136,18 +136,22 @@ itkFrequencyBandImageFilterTest(int, char *[])
   //
   // Tests with radians
   //
-  lowFreqThreshold = itk::Math::pi_over_4;
-  passBandFilter->SetLowFrequencyThresholdInRadians(lowFreqThreshold);
+  BandFilterType::FrequencyValueType lowFreqThresholdRadians = itk::Math::pi_over_4;
+  passBandFilter->SetLowFrequencyThresholdInRadians(lowFreqThresholdRadians);
 
-  highFreqThreshold = itk::Math::pi_over_2;
-  passBandFilter->SetHighFrequencyThresholdInRadians(highFreqThreshold);
+  BandFilterType::FrequencyValueType highFreqThresholdRadians = itk::Math::pi_over_2;
+  passBandFilter->SetHighFrequencyThresholdInRadians(highFreqThresholdRadians);
 
-  passLowFreqThreshold = true;
-  passHighFreqThreshold = true;
-  passBandFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
-  TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
-  TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
+  BandFilterType::FrequencyValueType knownLowFrequencyHertz = lowFreqThresholdRadians / (2 * itk::Math::pi);
+  BandFilterType::FrequencyValueType knownHighFrequencyHertz = highFreqThresholdRadians / (2 * itk::Math::pi);
 
+  if (itk::Math::NotAlmostEquals(knownLowFrequencyHertz, passBandFilter->GetLowFrequencyThreshold()) ||
+      itk::Math::NotAlmostEquals(knownHighFrequencyHertz, passBandFilter->GetHighFrequencyThreshold()))
+  {
+    std::cerr << "Test failed! " << std::endl;
+    std::cerr << "Setting frequency in radians failed." << std::endl;
+    return EXIT_FAILURE;
+  }
 
   TRY_EXPECT_NO_EXCEPTION(passBandFilter->Update());
 
