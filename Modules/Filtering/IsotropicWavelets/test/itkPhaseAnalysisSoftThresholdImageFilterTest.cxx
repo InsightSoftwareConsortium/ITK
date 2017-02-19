@@ -97,7 +97,8 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
   EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
 
   bool applySoftThreshold = true;
-  TEST_SET_GET_BOOLEAN(phaseAnalyzer, ApplySoftThreshold, applySoftThreshold);
+  phaseAnalyzer->SetApplySoftThreshold(applySoftThreshold);
+  TEST_SET_GET_VALUE(applySoftThreshold, phaseAnalyzer->GetApplySoftThreshold());
 
   /*PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType numOfSigmas;
   phaseAnalyzer->SetNumOfSigmas( numOfSigmas );
@@ -108,7 +109,6 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
   std::cout << phaseAnalyzer->GetThreshold() << std::endl;*/
 
   phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
-
 
   TRY_EXPECT_NO_EXCEPTION(phaseAnalyzer->Update());
 
