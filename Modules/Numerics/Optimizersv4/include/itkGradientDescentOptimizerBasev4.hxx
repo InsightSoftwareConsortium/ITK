@@ -66,8 +66,34 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Stop condition:"<< this->m_StopCondition << std::endl;
-  os << indent << "Stop condition description: " << this->m_StopConditionDescription.str()  << std::endl;
+
+  os << indent << "DoEstimateLearningRateAtEachIteration: "
+    << ( this->m_DoEstimateLearningRateAtEachIteration ? "On" : "Off" ) << std::endl;
+  os << indent << "DoEstimateLearningRateOnce: "
+    << ( this->m_DoEstimateLearningRateOnce ? "On" : "Off" ) << std::endl;
+  os << indent << "MaximumStepSizeInPhysicalUnits: "
+    << static_cast< typename NumericTraits< TInternalComputationValueType >::PrintType >( this->m_MaximumStepSizeInPhysicalUnits )
+    << std::endl;
+  os << indent << "UseConvergenceMonitoring: "
+    << ( this->m_UseConvergenceMonitoring ? "On" : "Off" ) << std::endl;
+  os << indent << "ConvergenceWindowSize: "
+    << static_cast< typename NumericTraits< SizeValueType >::PrintType >( this->m_ConvergenceWindowSize )
+    << std::endl;
+
+  itkPrintSelfObjectMacro( ConvergenceMonitoring );
+  itkPrintSelfObjectMacro( ModifyGradientByScalesThreader );
+  itkPrintSelfObjectMacro( ModifyGradientByLearningRateThreader );
+
+  os << indent << "Stop: "
+    << ( this->m_Stop ? "On" : "Off" ) << std::endl;
+  os << indent << "StopCondition: "
+    << static_cast< typename NumericTraits< StopConditionType >::PrintType >( this->m_StopCondition )
+    << std::endl;
+  os << indent << "StopConditionDescription: "
+    << this->m_StopConditionDescription.str() << std::endl;
+  os << indent << "Gradient: "
+    << static_cast< typename NumericTraits< DerivativeType >::PrintType >( this->m_Gradient )
+    << std::endl;
 }
 
 
