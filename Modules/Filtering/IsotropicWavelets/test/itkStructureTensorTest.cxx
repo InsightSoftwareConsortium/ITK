@@ -48,7 +48,7 @@ runStructureTensorTest()
 
   bool testFailed = false;
 
-  unsigned int sizeValue = 24;
+  unsigned int sizeValue = 12;
   SizeType     size;
   size.Fill(sizeValue);
   IndexType start;
