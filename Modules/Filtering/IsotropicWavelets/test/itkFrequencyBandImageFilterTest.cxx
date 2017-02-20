@@ -66,19 +66,17 @@ itkFrequencyBandImageFilterTest(int, char *[])
   TEST_SET_GET_VALUE(highFreqThreshold, passBandFilter->GetHighFrequencyThreshold());
 
   bool passBand = true;
-  passBandFilter->SetPassBand(passBand);
-  TEST_SET_GET_VALUE(passBand, passBandFilter->GetPassBand());
+  TEST_SET_GET_BOOLEAN(passBandFilter, PassBand, passBand);
 
   bool passLowFreqThreshold = true;
-  TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
+  TEST_SET_GET_BOOLEAN(passBandFilter, PassLowFrequencyThreshold, passLowFreqThreshold);
 
   bool passHighFreqThreshold = true;
-  TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
+  TEST_SET_GET_BOOLEAN(passBandFilter, PassHighFrequencyThreshold, passHighFreqThreshold);
 
   passBandFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
   TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
   TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
-
 
   TRY_EXPECT_NO_EXCEPTION(passBandFilter->Update());
 
