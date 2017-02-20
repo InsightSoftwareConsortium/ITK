@@ -31,36 +31,44 @@ int itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
     std::cerr << "usage: " << argv[0] << " intput output Probability" << std::endl;
     std::cerr << " input: the input image" << std::endl;
     std::cerr << " output: the output image" << std::endl;
-    // std::cerr << "  : " << std::endl;
-    exit(1);
+    return EXIT_FAILURE;
     }
 
-  const int dim = 2;
+  const unsigned int Dimension = 2;
 
-  typedef unsigned char            PType;
-  typedef itk::Image< PType, dim > IType;
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::SaltAndPepperNoiseImageFilter< IType, IType > FilterType;
-  FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
-  TEST_SET_GET_VALUE( 0.01, filter->GetProbability() );
+  typedef itk::SaltAndPepperNoiseImageFilter< ImageType, ImageType >
+    SaltAndPepperNoiseImageFilterType;
+  SaltAndPepperNoiseImageFilterType::Pointer saltAndPepperNoiseImageFilter =
+    SaltAndPepperNoiseImageFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( saltAndPepperNoiseImageFilter, SaltAndPepperNoiseImageFilter,
+    NoiseBaseImageFilter );
+
+  double probability = 0.01;
   if( argc >= 4 )
     {
-    filter->SetProbability( atof(argv[3]) );
-    TEST_SET_GET_VALUE( atof(argv[3]), filter->GetProbability() );
+    probability = atof( argv[3] );
     }
+  saltAndPepperNoiseImageFilter->SetProbability( probability );
+  TEST_SET_GET_VALUE( probability, saltAndPepperNoiseImageFilter->GetProbability() );
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
+  saltAndPepperNoiseImageFilter->SetInput( reader->GetOutput() );
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  itk::SimpleFilterWatcher watcher( saltAndPepperNoiseImageFilter, "SaltAndPepperNoiseImageFilter" );
+
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( filter->GetOutput() );
+  writer->SetInput( saltAndPepperNoiseImageFilter->GetOutput() );
   writer->SetFileName( argv[2] );
-  writer->Update();
 
-  return 0;
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  return EXIT_SUCCESS;
 }
