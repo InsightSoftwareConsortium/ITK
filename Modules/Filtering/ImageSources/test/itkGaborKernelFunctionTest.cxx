@@ -47,7 +47,7 @@ int itkGaborKernelFunctionTest( int itkNotUsed( argc ), char * itkNotUsed( argv 
   gabor->CalculateImaginaryPartOn();
   TEST_SET_GET_VALUE( true, gabor->GetCalculateImaginaryPart() );
 
-  double tolerance = 1e-18;
+  double tolerance = 1e-12;
   double point = 2.86;
   double expectedValue = -0.13297125073713259;
   double result = gabor->Evaluate( point );
