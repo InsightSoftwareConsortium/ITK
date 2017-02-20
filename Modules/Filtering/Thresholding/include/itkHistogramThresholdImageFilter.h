@@ -31,17 +31,17 @@ namespace itk {
  * This filter creates a binary thresholded image that separates an
  * image into foreground and background components. The filter
  * computes the threshold using a user provided HistogramThresholdCalculator and
- * applies that theshold to the input image using the
+ * applies that threshold to the input image using the
  * BinaryThresholdImageFilter.
  *
  * The filter also has the option of providing a mask, in which case
  * the histogram and therefore the threshold is computed from the
  * parts of the mask with values indicated by MaskValue. The output
- * image is,  by default, masked by the same image. This output
+ * image is, by default, masked by the same image. This output
  * masking can be disabled using SetMaskOutput(false). Note that there
  * is an inconsistency here. The MaskImageFilter (used internally)
  * masks by non zero values, where as the MaskedImageToHistogramFilter
- * uses explicit values. If this doesn't match your usage then the
+ * uses explicit values. If this does not match your usage then the
  * output masking will need to be managed by the user.
  *
  * \author Richard Beare. Department of Medicine, Monash University,
