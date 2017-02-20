@@ -371,7 +371,7 @@
 #      define ITK_COMPILER_CXX_TEMPLATE_TEMPLATE_PARAMETERS 0
 #    endif
 
-#    if _MSC_VER >= 1800
+#    if _MSC_VER >= 1700
 #      define ITK_COMPILER_CXX_ATOMIC 1
 #    else
 #      define ITK_COMPILER_CXX_ATOMIC 0

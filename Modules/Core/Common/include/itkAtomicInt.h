@@ -35,11 +35,16 @@
 
 #include "itkMacro.h"
 #include "itkIntTypes.h"
-#include "itkConceptChecking.h"
-#include <cstddef>
-#include <limits>
-
 #include "itkAtomicIntDetail.h"
+#include "itkConceptChecking.h"
+
+#if !ITK_COMPILER_CXX_ATOMIC
+# include <cstddef>
+# include <limits>
+#else
+# include <atomic>
+#endif
+
 
 namespace itk
 {
@@ -67,12 +72,15 @@ namespace itk
  *
  * \ingroup ITKCommon
  */
+
+ #if !ITK_COMPILER_CXX_ATOMIC
 template <typename T>
 class AtomicInt
 {
 private:
   typedef Detail::AtomicOps<sizeof(T)> Impl;
   itkConceptMacro( SupportedInteger, ( Detail::IsAtomicSupportedIntegralType<T> ) );
+
 public:
   AtomicInt() : m_Object(0)
   {
@@ -294,5 +302,231 @@ private:
   Impl::AtomicType m_Object;
 };
 
+#else // C++11 ITK_COMPILER_CXX_ATOMIC == 1
+
+template <typename T>
+class AtomicInt
+{
+private:
+  typedef Detail::AtomicOps<sizeof(T)> Impl;
+  typedef typename Impl::ValueType     ValueType;
+  itkConceptMacro( SupportedInteger, ( Detail::IsAtomicSupportedIntegralType<T> ) );
+
+public:
+  AtomicInt() : m_Object(0)
+  {
+  }
+
+  AtomicInt(T val)
+    : m_Object(static_cast<ValueType>(val))
+  {
+  }
+
+  AtomicInt(const AtomicInt<T> &ai)
+    : m_Object(static_cast<ValueType>(ai.load()))
+  {
+  }
+
+  T operator++()
+  {
+    return static_cast<T>(++m_Object);
+  }
+
+  T operator++(int)
+  {
+    return static_cast<T>(m_Object++);
+  }
+
+  T operator--()
+  {
+    return static_cast<T>(--m_Object);
+  }
+
+  T operator--(int)
+  {
+    return static_cast<T>(m_Object--);
+  }
+
+  T operator+=(T val)
+  {
+    return static_cast<T>(m_Object+=static_cast<ValueType>(val));
+  }
+
+  T operator-=(T val)
+  {
+    return static_cast<T>(m_Object-=static_cast<ValueType>(val));
+  }
+
+  operator T() const
+  {
+    return static_cast<T>(m_Object.load());
+  }
+
+  T operator=(T val)
+  {
+    m_Object.store(static_cast<ValueType>(val));
+    return val;
+  }
+
+  AtomicInt<T>& operator=(const AtomicInt<T> &ai)
+  {
+    this->store(ai.load());
+    return *this;
+  }
+
+  T load() const
+  {
+    return static_cast<T>(m_Object.load());
+  }
+
+  void store(T val)
+  {
+    m_Object.store(static_cast<ValueType>(val));
+  }
+
+  private:
+    std::atomic<typename Detail::AtomicOps<sizeof(T)>::ValueType > m_Object;
+};
+
+
+template <typename T>
+class AtomicInt<T*>
+{
+private:
+  typedef Detail::AtomicOps<sizeof(T*)> Impl;
+  typedef typename Impl::ValueType      ValueType;
+
+public:
+  AtomicInt() : m_Object(0)
+  {
+  }
+
+  AtomicInt(T* val)
+    : m_Object(reinterpret_cast<ValueType>(val))
+  {
+  }
+
+  AtomicInt(const AtomicInt<T*> &ai)
+    : m_Object(reinterpret_cast<ValueType>(ai.load()))
+  {
+  }
+
+  T* operator++()
+  {
+    return reinterpret_cast<T*>(m_Object.fetch_add(sizeof(T))+sizeof(T));
+  }
+
+  T* operator++(int)
+  {
+    return reinterpret_cast<T*>(m_Object.fetch_add(sizeof(T)));
+  }
+
+  T* operator--()
+  {
+    return reinterpret_cast<T*>(m_Object.fetch_sub(sizeof(T))-sizeof(T));
+  }
+
+  T* operator--(int)
+  {
+    return reinterpret_cast<T*>(m_Object.fetch_sub(sizeof(T)));
+  }
+
+  T* operator+=(std::ptrdiff_t val)
+  {
+    return reinterpret_cast<T*>(m_Object += val * sizeof(T));
+  }
+
+  T* operator-=(std::ptrdiff_t val)
+  {
+    return reinterpret_cast<T*>(m_Object -= val * sizeof(T));
+  }
+
+  operator T*() const
+  {
+    return reinterpret_cast<T*>(m_Object.load());
+  }
+
+  T* operator=(T* val)
+  {
+    m_Object.store(reinterpret_cast<ValueType>(val));
+    return val;
+  }
+
+  AtomicInt<T*>& operator=(const AtomicInt<T*> &ai)
+  {
+    this->store(ai.load());
+    return *this;
+  }
+
+  T* load() const
+  {
+    return reinterpret_cast<T*>(m_Object.load());
+  }
+
+  void store(T* val)
+  {
+    m_Object.store(reinterpret_cast<ValueType>(val));
+  }
+
+  private:
+    std::atomic<typename Detail::AtomicOps<sizeof(T*)>::ValueType > m_Object;
+};
+
+
+template <> class AtomicInt<void*>
+{
+private:
+  typedef Detail::AtomicOps<sizeof(void*)> Impl;
+  typedef typename Impl::ValueType         ValueType;
+
+public:
+  AtomicInt() : m_Object(0)
+  {
+  }
+
+  AtomicInt(void* val)
+    : m_Object(reinterpret_cast<ValueType>(val))
+  {
+  }
+
+  AtomicInt(const AtomicInt<void*> &ai)
+    : m_Object(reinterpret_cast<ValueType>(ai.load()))
+  {
+  }
+
+  operator void*() const
+  {
+    return reinterpret_cast<void*>(m_Object.load());
+  }
+
+  void* operator=(void* val)
+  {
+    m_Object.store(reinterpret_cast<ValueType>(val));
+    return val;
+  }
+
+  AtomicInt<void*>& operator=(const AtomicInt<void*> &ai)
+  {
+    this->store(ai.load());
+    return *this;
+  }
+
+  void* load() const
+  {
+    return reinterpret_cast<void*>(m_Object.load());
+  }
+
+  void store(void* val)
+  {
+    m_Object.store(reinterpret_cast<ValueType>(val));
+  }
+
+  private:
+    std::atomic<typename Detail::AtomicOps<sizeof(void*)>::ValueType > m_Object;
+};
+
+#endif
+
 } // end namespace itk
+
 #endif

@@ -35,12 +35,12 @@
 
 
 #if !defined(ITK_GCC_ATOMICS_32) && !defined(ITK_APPLE_ATOMICS_32) &&\
-    !defined(ITK_WINDOWS_ATOMICS_32)
+    !defined(ITK_WINDOWS_ATOMICS_32) && !ITK_COMPILER_CXX_ATOMIC
 # define ITK_LOCK_BASED_ATOMICS_32
 #endif
 
 #if !defined(ITK_GCC_ATOMICS_64) && !defined(ITK_APPLE_ATOMICS_64) &&\
-    !defined(ITK_WINDOWS_ATOMICS_64)
+    !defined(ITK_WINDOWS_ATOMICS_64) && !ITK_COMPILER_CXX_ATOMIC
 # define ITK_LOCK_BASED_ATOMICS_64
 #endif
 
