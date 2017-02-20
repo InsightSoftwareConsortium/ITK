@@ -82,6 +82,9 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>
     os << indent << "CurrentIteration: " << this->m_CurrentIteration << std::endl;
     }
   os << indent << "Number of iterations: " << this->m_NumberOfIterations  << std::endl;
+  os << indent << "CurrentMetricValue: "
+    << static_cast< typename NumericTraits< MeasureType >::PrintType >( this->m_CurrentMetricValue )
+    << std::endl;
   os << indent << "DoEstimateScales: " << this->m_DoEstimateScales << std::endl;
 }
 
