@@ -33,7 +33,7 @@ namespace itk
  * \f$ f_m = { f_0, R_x, R_y, R_z } \f$
  *
  * The monogenic signal can be used to perform phase analysis for feature detection.
- * \sa MonogenicPhaseAnalysisImageFilter
+ * \sa PhaseAnalysisImageFilter
  *
  * \ingroup IsotropicWavelets
  */
