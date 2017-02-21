@@ -14,6 +14,7 @@ itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
 
 itk_python_add_test(NAME PythonTiming COMMAND timing.py)
 
+itk_python_add_test(NAME PythonComplex COMMAND complex.py)
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
 INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")

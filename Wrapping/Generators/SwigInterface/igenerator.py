@@ -104,8 +104,10 @@ class SwigInputGenerator(object):
          stdcomplexD(stdcomplexF const & __z);
          double real();
          double const real() const;
+         void real(double __d);
          double imag();
          double const imag() const;
+         void imag(double __d);
          stdcomplexD & operator=(double __d);
          stdcomplexD & operator+=(double __d);
          stdcomplexD & operator-=(double __d);
@@ -127,8 +129,10 @@ class SwigInputGenerator(object):
          stdcomplexF(stdcomplexD const & __z);
          float real();
          float const real() const;
+         void real(float __f);
          float imag();
          float const imag() const;
+         void imag(float __f);
          stdcomplexF & operator=(float __f);
          stdcomplexF & operator+=(float __f);
          stdcomplexF & operator-=(float __f);
