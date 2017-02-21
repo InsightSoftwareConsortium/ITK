@@ -108,25 +108,19 @@ public:
   const OutputImageType *
   GetOutputPhase() const
   {
-    return this->GetOutput(0);
+    return itkDynamicCastInDebugMode<const TOutputImage *>(this->GetPrimaryOutput());
   }
 
   OutputImageType *
   GetOutputPhase()
   {
-    return this->GetOutput(0);
-  }
-
-  const OutputImageType *
-  GetOutputAmplitude() const
-  {
-    return this->GetOutput(1);
+    return itkDynamicCastInDebugMode<OutputImageType *>(this->GetOutput(0));
   }
 
   OutputImageType *
   GetOutputAmplitude()
   {
-    return this->GetOutput(1);
+    return itkDynamicCastInDebugMode<OutputImageType *>(this->GetOutput(1));
   }
 
 protected:
