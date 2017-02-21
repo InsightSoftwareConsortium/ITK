@@ -477,7 +477,7 @@ template <> class AtomicInt<void*>
 {
 private:
   typedef Detail::AtomicOps<sizeof(void*)> Impl;
-  typedef typename Impl::ValueType         ValueType;
+  typedef Impl::ValueType         ValueType;
 
 public:
   AtomicInt() : m_Object(0)
