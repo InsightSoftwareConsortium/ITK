@@ -25,11 +25,13 @@ namespace itk
 {
 /** \class VectorInverseFFTImageFilter
  *
- * \brief Applies InverseFFT to each index of a vector image.
+ * Applies InverseFFT to each index of a vector image.
  *
  * This class transforms a full complex image with Hermitian symmetry into
  * its real spatial domain representation.  If the input does not have
  * Hermitian symmetry, the imaginary component is discarded.
+ *
+ * The default output assumes input image is vector<complex<float|double>>
  *
  * \ingroup FourierTransform
  *
@@ -40,7 +42,6 @@ namespace itk
 template <typename TInputImage,
           typename TOutputImage =
             VectorImage<typename TInputImage::PixelType::ComponentType::value_type, TInputImage::ImageDimension>>
-// the default output assumes input image is vector<complex<float|double>>
 class VectorInverseFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -59,7 +60,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FrequencyExpandImageFilter, ImageToImageFilter);
+  itkTypeMacro(VectorInverseFFTImageFilter, ImageToImageFilter);
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int, InputImageType::ImageDimension);
@@ -67,8 +68,12 @@ public:
 protected:
   VectorInverseFFTImageFilter() {}
   virtual ~VectorInverseFFTImageFilter() {}
+
   virtual void
   GenerateData() ITK_OVERRIDE;
+
+  void
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorInverseFFTImageFilter);
