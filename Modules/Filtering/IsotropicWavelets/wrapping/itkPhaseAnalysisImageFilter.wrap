@@ -1,4 +1,4 @@
-itk_wrap_class("itk::PhaseAnalysisSoftThresholdImageFilter" POINTER)
+itk_wrap_class("itk::PhaseAnalysisImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${WRAP_ITK_REAL})
     itk_wrap_template("${ITKM_VI${t}${d}}${ITKM_I${t}${d}}"
