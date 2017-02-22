@@ -73,8 +73,8 @@ public:
   itkBooleanMacro(GPUEnabled);
 
   void GenerateData() ITK_OVERRIDE;
-  virtual void GraftOutput(typename itk::GPUTraits< TOutputImage >::Type *output) ITK_OVERRIDE;
-  virtual void GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits< TOutputImage >::Type *output) ITK_OVERRIDE;
+  virtual void GraftOutput(typename itk::GPUTraits< TOutputImage >::Type *output);
+  virtual void GraftOutput(const DataObjectIdentifierType & key, typename itk::GPUTraits< TOutputImage >::Type *output);
 
 protected:
   virtual void GraftOutput(DataObject *output) ITK_OVERRIDE;
