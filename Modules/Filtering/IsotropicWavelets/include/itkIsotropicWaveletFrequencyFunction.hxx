@@ -90,7 +90,7 @@ IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>::Eval
   if (j == 0)
     return this->EvaluateForwardLowPassFilter(freq_norm_in_hz);
   if (j > this->m_HighPassSubBands || j < 0)
-    throw itk::ExceptionObject(__FILE__, __LINE__, "Invalid SubBand", ITK_LOCATION);
+    itkExceptionMacro(<< "Invalid sub-band.");
   FunctionValueType value = std::pow(freq_norm_in_hz, static_cast<int>(this->m_HighPassSubBands)) *
                             std::pow(2.0, static_cast<int>(2 * this->m_HighPassSubBands - 1 - j));
   return this->EvaluateMagnitude(value);
