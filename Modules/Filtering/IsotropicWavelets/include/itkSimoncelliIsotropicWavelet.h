@@ -39,9 +39,9 @@ namespace itk
  \f{equation}
  *
  * Based on:
- * J. Portilla and E. P. Simoncelli, “A parametric texture model based on
- * joint statistics of complex wavelet coefficients,”
- * Int. J. Computer Vision vol. 40, no. 1, pp. 49–70, 2000.
+ * J. Portilla and E. P. Simoncelli, "A parametric texture model based on
+ * joint statistics of complex wavelet coefficients"
+ * Int. J. Computer Vision vol. 40, no. 1, pp. 49-70, 2000.
  *
  * \ingroup SpatialFunctions
  * \ingroup IsotropicWavelets
