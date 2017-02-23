@@ -47,7 +47,9 @@ VoronoiDiagram2DGenerator< TCoordRepType >::VoronoiDiagram2DGenerator() :
   m_Nvert( 0 ),
   m_BottomSite( ITK_NULLPTR ),
   m_ELhashsize( 0 )
-{}
+{
+  m_VorBoundary.Fill( 0.0 );
+}
 
 template< typename TCoordRepType >
 VoronoiDiagram2DGenerator< TCoordRepType >::
@@ -1246,6 +1248,35 @@ VoronoiDiagram2DGenerator< TCoordRepType >::PrintSelf(std::ostream & os, Indent 
   Superclass::PrintSelf(os, indent  );
 
   os << indent << "Number Of Seeds: " << m_NumberOfSeeds << std::endl;
+  os << indent << "VorBoundary: " <<
+    static_cast< typename NumericTraits< PointType >::PrintType >( m_VorBoundary )
+    << std::endl;
+  os << indent << "OutputVD: " <<
+    static_cast< typename NumericTraits< OutputType >::PrintType >( m_OutputVD )
+    << std::endl;
+
+  os << indent << "Pxmin: " << m_Pxmin << std::endl;
+  os << indent << "Pxmax: " << m_Pxmax << std::endl;
+  os << indent << "Pymin: " << m_Pymin << std::endl;
+  os << indent << "Pymax: " << m_Pymax << std::endl;
+  os << indent << "Deltax: " << m_Deltax << std::endl;
+  os << indent << "Deltay: " << m_Deltay << std::endl;
+  os << indent << "SqrtNSites: " << m_SqrtNSites << std::endl;
+
+  os << indent << "PQcount: " << m_PQcount << std::endl;
+  os << indent << "PQmin: " << m_PQmin << std::endl;
+  os << indent << "PQhashsize: " << m_PQhashsize << std::endl;
+  os << indent << "Nedges: " << m_Nedges << std::endl;
+  os << indent << "Nvert: " << m_Nvert << std::endl;
+  os << indent << "BottomSite: " << m_BottomSite << std::endl;
+
+  os << indent << "ELhashsize: " << m_ELhashsize << std::endl;
+
+  os << indent << "ELHash: " << std::endl;
+  for( unsigned int i = 0; i < m_ELHash.size(); ++i )
+    {
+    os << indent << "[" << i << "]: " << m_ELHash[i] << std::endl;
+    }
 }
 } //end namespace
 
