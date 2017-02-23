@@ -46,7 +46,7 @@ reader = itk.ImageFileReader[ImageType].New(FileName=inputImage)
 
 sources = []
 image = ITKCommon.Image[PixelType, Dimension].New()
-region = itk.ImageRegion._2()
+region = itk.ImageRegion.x2()
 region.SetSize((10, 10))
 image.SetRegions(region)
 image.Allocate()
