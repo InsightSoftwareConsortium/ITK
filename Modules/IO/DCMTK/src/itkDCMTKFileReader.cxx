@@ -1326,7 +1326,16 @@ DCMTKFileReader
     // slice thickness
     spacing[0] = _spacing[1];
     spacing[1] = _spacing[0];
-    if(this->GetElementDS<double>(0x0018,0x0050,1,&_spacing[2],false) == EXIT_SUCCESS)
+    /*
+     * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
+     * (0028, 0030) indicates physical X,Y spacing inside a slice;
+     * (0018, 0088) indicates physical Z spacing between slices;
+     *  which above are also consistent with Dcom2iix software.
+     *  when we can not get (0018, 0088),we will revert to previous
+     *  behavior and use (0018, 0050) thickness as a proxy to spacing.
+     * */
+    if(GetElementDS<double>(0x0018,0x0088,1,&_spacing[2], false) == EXIT_SUCCESS
+       || GetElementDS<double>(0x0018,0x0050,1,&_spacing[2],false) == EXIT_SUCCESS)
       {
       spacing[2] = _spacing[2];
       }
@@ -1359,12 +1368,27 @@ DCMTKFileReader
         rval = item.GetElementSQ(0x0028,0x9110,subSequence,false);
         if(rval == EXIT_SUCCESS)
           {
-          if(subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing,false) == EXIT_SUCCESS
-             && subSequence.GetElementDS<double>(0x0018,0x0050,1,&_spacing[2]) == EXIT_SUCCESS)
-            {
-            spacing[0] = _spacing[1];
-            spacing[1] = _spacing[0];
-            spacing[2] = _spacing[2];
+           /*
+            * According Dicom standard (DICOM PS3.6 2016b - Data Dictionary)
+            * (0028, 0030) indicates physical X,Y spacing inside a slice;
+            * (0018, 0088) indicates physical Z spacing between slices;
+            *  which above are also consistent with Dcom2iix software.
+            *  when we can not get (0018, 0088),we will revert to previous
+            *  behavior and use (0018, 0050) thickness as a proxy to spacing.
+            * */
+           if(subSequence.GetElementDS<double>(0x0028,0x0030,2,_spacing,false) == EXIT_SUCCESS)
+           {
+               spacing[0] = _spacing[1];
+               spacing[1] = _spacing[0];
+               if (subSequence.GetElementDS<double>(0x0018,0x0088,1,&_spacing[2], false) == EXIT_SUCCESS
+                   || subSequence.GetElementDS<double>(0x0018,0x0050,1,&_spacing[2], false) == EXIT_SUCCESS){
+                   spacing[2] = _spacing[2];
+               }
+               else
+               {
+                   // punt, zSpace of 1
+                   spacing[2] = 1.0;
+               }
             break;
             }
           }
