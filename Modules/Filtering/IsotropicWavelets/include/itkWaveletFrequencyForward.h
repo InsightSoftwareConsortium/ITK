@@ -157,9 +157,7 @@ protected:
   GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  WaveletFrequencyForward(const Self &) ITK_DELETE_FUNCTION;
-  void
-  operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForward);
 
   unsigned int m_Levels;
   unsigned int m_HighPassSubBands;
