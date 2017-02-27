@@ -34,20 +34,23 @@ namespace itk
 {
 template <class TImageType>
 FrequencyShrinkImageFilter<TImageType>::FrequencyShrinkImageFilter()
-  : m_ApplyBandPass(true)
+  : m_ApplyBandFilter(true)
 {
   for (unsigned int j = 0; j < ImageDimension; j++)
   {
     m_ShrinkFactors[j] = 2;
   }
 
-  this->m_BandPassFilter = BandPassFilterType::New();
+  this->m_FrequencyBandFilter = FrequencyBandFilterType::New();
   // The band filter only let pass half of the frequencies.
-  this->m_BandPassFilter->SetFrequencyThresholdsInRadians(0.0, Math::pi_over_2);
+  this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians(0.0, Math::pi_over_2);
   bool lowFreqThresholdPassing = true;
-  // TODO phcerdan, not passing the high freq boundary, because it would be add up between quadrants. Doc this.
-  bool highFreqThresholdPassing = false;
-  this->m_BandPassFilter->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
+  bool highFreqThresholdPassing = true;
+  this->m_FrequencyBandFilter->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
+  // The band is not radial, but square like.
+  this->m_FrequencyBandFilter->SetRadialBand(false);
+  // Pass high positive freqs but stop negative high ones, to avoid overlaping.
+  this->m_FrequencyBandFilter->SetPassNegativeHighFrequencyThreshold(false);
 }
 
 template <class TImageType>
@@ -119,11 +122,11 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
   // Output is the sum of the four(2D) or eight(3D) quadrants.
   // We can do it only because high freqs are removed.
   // This filter will remove it by default a BandPass Filter.
-  if (this->m_ApplyBandPass)
+  if (this->m_ApplyBandFilter)
   {
-    this->m_BandPassFilter->SetInput(this->GetInput());
-    this->m_BandPassFilter->Update();
-    inputPtr = this->m_BandPassFilter->GetOutput();
+    this->m_FrequencyBandFilter->SetInput(this->GetInput());
+    this->m_FrequencyBandFilter->Update();
+    inputPtr = this->m_FrequencyBandFilter->GetOutput();
   }
 
   typename TImageType::SizeType        inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
@@ -163,9 +166,13 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
       zoneSize[dim] = outputSize[dim];
       outputIndex[dim] = indexOrigOut[dim];
       if (subIndices[dim] == 0) // positive frequencies
+      {
         inputIndex[dim] = indexOrigOut[dim];
+      }
       else // negative frequencies
+      {
         inputIndex[dim] = indexOrigOut[dim] + inputSize[dim] - zoneSize[dim];
+      }
     }
     zoneRegion.SetIndex(inputIndex);
     zoneRegion.SetSize(zoneSize);
@@ -180,18 +187,17 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
     addFilter->SetInput1(outputPtr);
     addFilter->SetInput2(pasteFilter->GetOutput());
     addFilter->InPlaceOn();
-    addFilter->Update();
-    outputPtr = addFilter->GetOutput();
-    if (n == numberOfRegions - 1) // Graft the output.
-    {
-      typedef itk::MultiplyImageFilter<TImageType, TImageType, TImageType> MultiplyFilterType;
-      typename MultiplyFilterType::Pointer                                 multiplyFilter = MultiplyFilterType::New();
-      multiplyFilter->SetInput(outputPtr);
-      multiplyFilter->SetConstant(static_cast<typename TImageType::PixelType::value_type>(1.0 / numberOfRegions));
 
-      multiplyFilter->GraftOutput(outputPtr);
-      multiplyFilter->Update();
-      this->GraftOutput(multiplyFilter->GetOutput());
+    if (n != (numberOfRegions - 1))
+    {
+      addFilter->Update();
+      outputPtr = addFilter->GetOutput();
+    }
+    else // graft output
+    {
+      addFilter->GraftOutput(outputPtr);
+      addFilter->Update();
+      this->GraftOutput(addFilter->GetOutput());
     }
     progress.CompletedPixel();
   }
@@ -371,9 +377,9 @@ FrequencyShrinkImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent inde
     os << m_ShrinkFactors[j] << " ";
   }
   os << std::endl;
-  os << "ApplyBandPass: " << this->m_ApplyBandPass << std::endl;
+  os << "ApplyBandFilter: " << this->m_ApplyBandFilter << std::endl;
 
-  itkPrintSelfObjectMacro(BandPassFilter);
+  itkPrintSelfObjectMacro(FrequencyBandFilter);
 }
 } // end namespace itk
 

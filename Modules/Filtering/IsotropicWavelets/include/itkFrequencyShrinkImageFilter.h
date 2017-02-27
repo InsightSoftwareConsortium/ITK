@@ -19,7 +19,7 @@
 #define itkFrequencyShrinkImageFilter_h
 
 #include <itkShrinkImageFilter.h>
-#include <itkFrequencyBandPassImageFilter.h>
+#include <itkFrequencyBandImageFilter.h>
 #include <itkEnableIf.h>
 
 namespace itk
@@ -104,7 +104,7 @@ public:
   itkStaticConstMacro(OutputImageDimension, unsigned int, TImageType::ImageDimension);
 
   typedef FixedArray<unsigned int, ImageDimension> ShrinkFactorsType;
-  typedef FrequencyBandPassImageFilter<TImageType> BandPassFilterType;
+  typedef FrequencyBandImageFilter<TImageType>     FrequencyBandFilterType;
 
   /** Set the shrink factors. Values are clamped to
    * a minimum value of 1. Default is 1 for all dimensions. */
@@ -135,9 +135,11 @@ public:
   /** End concept checking */
 #endif
 
-  itkGetConstReferenceMacro(ApplyBandPass, bool);
-  itkSetMacro(ApplyBandPass, bool);
-  itkBooleanMacro(ApplyBandPass);
+  itkGetConstReferenceMacro(ApplyBandFilter, bool);
+  itkSetMacro(ApplyBandFilter, bool);
+  itkBooleanMacro(ApplyBandFilter);
+
+  itkGetMacro(FrequencyBandFilter, typename FrequencyBandFilterType::Pointer);
 
 protected:
   FrequencyShrinkImageFilter();
@@ -152,9 +154,9 @@ private:
   void
   operator=(const Self &) ITK_DELETE_FUNCTION;
 
-  ShrinkFactorsType                    m_ShrinkFactors;
-  bool                                 m_ApplyBandPass;
-  typename BandPassFilterType::Pointer m_BandPassFilter;
+  ShrinkFactorsType                         m_ShrinkFactors;
+  bool                                      m_ApplyBandFilter;
+  typename FrequencyBandFilterType::Pointer m_FrequencyBandFilter;
 };
 } // end namespace itk
 
