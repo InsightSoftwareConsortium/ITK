@@ -166,6 +166,18 @@ public:
   itkGetConstReferenceMacro(RadialBand, bool);
   itkBooleanMacro(RadialBand);
 
+  /** Control if negative frequencies with absolute value equal to low frequency threshold are passing.
+   * Only effective when RadialBand is false **/
+  itkSetMacro(PassNegativeLowFrequencyThreshold, bool);
+  itkGetConstReferenceMacro(PassNegativeLowFrequencyThreshold, bool);
+  itkBooleanMacro(PassNegativeLowFrequencyThreshold);
+
+  /** Control if negative frequencies with absolute value equal to high frequency threshold are passing.
+   * Only effective when RadialBand is false **/
+  itkSetMacro(PassNegativeHighFrequencyThreshold, bool);
+  itkGetConstReferenceMacro(PassNegativeHighFrequencyThreshold, bool);
+  itkBooleanMacro(PassNegativeHighFrequencyThreshold);
+
 protected:
   FrequencyBandImageFilter();
   void
@@ -189,6 +201,8 @@ private:
   bool m_PassLowFrequencyThreshold;
   bool m_PassHighFrequencyThreshold;
   bool m_RadialBand;
+  bool m_PassNegativeLowFrequencyThreshold;
+  bool m_PassNegativeHighFrequencyThreshold;
 };
 } // end namespace itk
 

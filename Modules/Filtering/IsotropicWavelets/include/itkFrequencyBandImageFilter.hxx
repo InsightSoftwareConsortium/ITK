@@ -33,6 +33,8 @@ FrequencyBandImageFilter<TImageType>::FrequencyBandImageFilter()
   , m_PassLowFrequencyThreshold(true)
   , m_PassHighFrequencyThreshold(true)
   , m_RadialBand(true)
+  , m_PassNegativeLowFrequencyThreshold(true)
+  , m_PassNegativeHighFrequencyThreshold(true)
 {}
 
 template <class TImageType>
@@ -131,6 +133,7 @@ FrequencyBandImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType
   typename FrequencyIteratorType::FrequencyType w;
   FrequencyValueType                            wMax;
   FrequencyValueType                            wMin;
+  bool                                          freqIsNegative = false;
 
   while (!freqIt.IsAtEnd())
   {
@@ -141,9 +144,13 @@ FrequencyBandImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType
     else // Cut-off box taking into account max absolute frequency.
     {
       w = freqIt.GetFrequency();
-      wMax = *std::max_element(w.Begin(), w.End());
-      wMin = *std::min_element(w.Begin(), w.End());
-      f = std::max(std::abs(wMax), std::abs(wMin));
+      wMax = std::abs(*std::max_element(w.Begin(), w.End()));
+      wMin = std::abs(*std::min_element(w.Begin(), w.End()));
+      f = std::max(wMax, wMin);
+      if (wMin < wMax)
+      {
+        freqIsNegative = true;
+      }
     }
 
     if (this->m_PassBand)
@@ -163,15 +170,36 @@ FrequencyBandImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType
 
     // Boundaries: Do not pass threshold frequencies if requested.
     if (!this->m_PassLowFrequencyThreshold)
+    {
       if (f == this->m_LowFrequencyThreshold)
       {
-        freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+        // Different boundaries when negative frequencies in the non-radial case.
+        if (!this->m_RadialBand && this->m_PassNegativeLowFrequencyThreshold && freqIsNegative)
+        {
+          continue;
+        }
+        else
+        {
+          freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+        }
       }
+    }
+
     if (!this->m_PassHighFrequencyThreshold)
+    {
       if (f == this->m_HighFrequencyThreshold)
       {
-        freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+        // Different boundaries when negative frequencies in the non-radial case.
+        if (!this->m_RadialBand && this->m_PassNegativeHighFrequencyThreshold && freqIsNegative)
+        {
+          continue;
+        }
+        else
+        {
+          freqIt.Set(NumericTraits<PixelType>::ZeroValue());
+        }
       }
+    }
 
     ++freqIt;
   }

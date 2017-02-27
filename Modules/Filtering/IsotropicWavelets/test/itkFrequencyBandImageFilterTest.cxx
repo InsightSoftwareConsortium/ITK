@@ -74,9 +74,6 @@ itkFrequencyBandImageFilterTest(int, char *[])
   bool passHighFreqThreshold = true;
   TEST_SET_GET_BOOLEAN(passBandFilter, PassHighFrequencyThreshold, passHighFreqThreshold);
 
-  bool radialBand = true;
-  TEST_SET_GET_BOOLEAN(passBandFilter, RadialBand, radialBand);
-
   passBandFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
   TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
   TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
@@ -145,9 +142,6 @@ itkFrequencyBandImageFilterTest(int, char *[])
   BandFilterType::FrequencyValueType knownLowFrequencyHertz = lowFreqThresholdRadians / (2 * itk::Math::pi);
   BandFilterType::FrequencyValueType knownHighFrequencyHertz = highFreqThresholdRadians / (2 * itk::Math::pi);
 
-  // Cut-off is not radial.
-  passBandFilter->SetRadialBand(false);
-
   if (itk::Math::NotAlmostEquals(knownLowFrequencyHertz, passBandFilter->GetLowFrequencyThreshold()) ||
       itk::Math::NotAlmostEquals(knownHighFrequencyHertz, passBandFilter->GetHighFrequencyThreshold()))
   {
@@ -162,6 +156,20 @@ itkFrequencyBandImageFilterTest(int, char *[])
   itk::Testing::ViewImage(passBandFilter->GetOutput(), "PassBand - radians");
 #endif
 
+  // Test the non-radial cut-off.
+  // Don't pass negative frequency thresholds.
+
+  bool radialBand = false;
+  TEST_SET_GET_BOOLEAN(passBandFilter, RadialBand, radialBand);
+  bool passNegativeLowFrequencyThreshold = false;
+  TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeLowFrequencyThreshold, passNegativeLowFrequencyThreshold);
+  bool passNegativeHighFrequencyThreshold = false;
+  TEST_SET_GET_BOOLEAN(passBandFilter, PassNegativeHighFrequencyThreshold, passNegativeHighFrequencyThreshold);
+  passBandFilter->Update();
+
+#ifdef ITK_VISUALIZE_TESTS
+  itk::Testing::ViewImage(passBandFilter->GetOutput(), "PassBand - RadialBandOff");
+#endif
 
   // typedef itk::ImageFileWriter< ImageType3D > WriterType;
   // WriterType::Pointer writer = WriterType::New();
