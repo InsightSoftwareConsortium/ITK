@@ -142,7 +142,7 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
+  explicit FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
     : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
     this->InitIndices();

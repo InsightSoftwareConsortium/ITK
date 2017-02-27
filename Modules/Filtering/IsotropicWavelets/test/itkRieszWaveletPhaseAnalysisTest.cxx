@@ -120,14 +120,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
     if (i == 12000) // TODO check this. avoid phase analysis in last approximation (low_pass).
     {
       modifiedWavelets.push_back(analysisWavelets[i]);
-      // TODO remove this visualize
-      // #ifdef ITK_VISUALIZE_TESTS
-      //     typedef itk::InverseFFTImageFilter<ComplexImageType> FFTInverseFilterType;
-      //     typename FFTInverseFilterType::Pointer fftInv = FFTInverseFilterType::New();
-      //     fftInv->SetInput(analysisWavelets[i]);
-      //     fftInv->Update();
-      //     itk::Testing::ViewImage(fftInv->GetOutput(),  "Wavelet coef 0 (LowPass) Original" );
-      // #endif
       continue;
     }
     typename MonogenicSignalFrequencyFilterType::Pointer monoFilter = MonogenicSignalFrequencyFilterType::New();
@@ -153,17 +145,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
 
     modifiedWavelets.push_back(fftForwardPhaseFilter->GetOutput());
     modifiedWavelets.back()->DisconnectPipeline();
-
-    // TODO remove this visualize
-    // #ifdef ITK_VISUALIZE_TESTS
-    //     typedef itk::InverseFFTImageFilter<ComplexImageType> FFTInverseFilterType;
-    //     typename FFTInverseFilterType::Pointer fftInv = FFTInverseFilterType::New();
-    //     fftInv->SetInput(analysisWavelets[i]);
-    //     fftInv->Update();
-    //     // itk::Testing::ViewImage(fftInv->GetOutput(),  "Wavelet coef " + n2s(i) + "Original" );
-    //     itk::NumberToString<unsigned int> n2s;
-    //     itk::Testing::ViewImage(phaseAnalyzer->GetOutputCosPhase(), "CosPhase: Wavelet coef " + n2s(i) );
-    // #endif
   }
 
   typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, WaveletFilterBankType> InverseWaveletType;
