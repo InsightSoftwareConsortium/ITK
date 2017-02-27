@@ -116,8 +116,8 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const size_t     numberOfLinesToProcess = outputRegionForThread.GetNumberOfPixels() / size0;
   ProgressReporter progress(this, threadId, static_cast<SizeValueType>(numberOfLinesToProcess));
 
-  const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
-  const typename InputImageType::IndexType  inputOriginIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
+  // const typename OutputImageType::IndexType outputOriginIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
+  // const typename InputImageType::IndexType  inputOriginIndex  = inputPtr->GetLargestPossibleRegion().GetIndex();
   // Walk the output region, and interpolate the input image
   while (!outIt.IsAtEnd())
   {
