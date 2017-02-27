@@ -2,7 +2,7 @@
 
 thirdparty_module_name='KWIML'
 
-upstream_git_url='https://github.com/Kitware/KWIML.git'
+upstream_git_url='https://gitlab.kitware.com/utils/kwiml.git'
 upstream_git_branch='master'
 
 snapshot_author_name='KWIML Upstream'
