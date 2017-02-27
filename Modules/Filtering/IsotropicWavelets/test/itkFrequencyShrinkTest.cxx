@@ -31,6 +31,8 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include <itkCastImageFilter.h>
 #include "itkIsotropicWaveletTestUtilities.h"
+#include "itkAddImageFilter.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itkTestingMacros.h"
 
 #include <memory>
@@ -221,6 +223,46 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
     return EXIT_FAILURE;
   }
 
+
+  //
+  // Test with frequency band filter.
+  //
+  typename ShrinkType::Pointer shrinkNoIntersectionFilter = ShrinkType::New();
+  shrinkNoIntersectionFilter->SetInput(fftFilter->GetOutput());
+  bool lowFreqThresholdPassing = true;
+  bool highFreqThresholdPassing = false;
+  shrinkNoIntersectionFilter->GetFrequencyBandFilter()->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
+
+  typename ShrinkType::Pointer shrinkIntersectionPassFilter = ShrinkType::New();
+  shrinkIntersectionPassFilter->SetInput(fftFilter->GetOutput());
+  shrinkIntersectionPassFilter->GetFrequencyBandFilter()->SetFrequencyThresholdsInRadians(itk::Math::pi_over_2,
+                                                                                          itk::Math::pi_over_2);
+  shrinkIntersectionPassFilter->GetFrequencyBandFilter()->SetPassBand(true, true);
+
+  typedef itk::AddImageFilter<ComplexImageType, ComplexImageType> AddFilterType;
+  typename AddFilterType::Pointer                                 addFilter = AddFilterType::New();
+  addFilter->SetInput1(shrinkNoIntersectionFilter->GetOutput());
+  addFilter->SetInput2(shrinkIntersectionPassFilter->GetOutput());
+  typename InverseFFTFilterType::Pointer inverseFFTAdd = InverseFFTFilterType::New();
+  inverseFFTAdd->SetInput(addFilter->GetOutput());
+
+  typedef itk::Testing::ComparisonImageFilter<ImageType, ImageType> DifferenceFilterType;
+  typename DifferenceFilterType::Pointer                            differenceFilter = DifferenceFilterType::New();
+  differenceFilter->SetToleranceRadius(0);
+  differenceFilter->SetDifferenceThreshold(0);
+  differenceFilter->SetValidInput(inverseFFT->GetOutput());
+  differenceFilter->SetTestInput(inverseFFTAdd->GetOutput());
+  differenceFilter->Update();
+
+  unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  if (numberOfDiffPixels > 0)
+  {
+    std::cerr << "Test failed! " << std::endl;
+    std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels << "unequal pixels" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+
   // Write output
   typedef itk::Image<float, Dimension>                    FloatImageType;
   typedef itk::CastImageFilter<ImageType, FloatImageType> CastType;
@@ -242,7 +284,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   // Compare with regular shrink filter.
   typedef itk::ShrinkImageFilter<ImageType, ImageType> RegularShrinkType;
   typename RegularShrinkType::Pointer                  regularShrinkFilter = RegularShrinkType::New();
-  regularShrinkFilter->SetInput(reader->GetOutput());
+  regularShrinkFilter->SetInput(zeroDCFilter->GetOutput());
   regularShrinkFilter->SetShrinkFactors(2);
   regularShrinkFilter->Update();
   itk::Testing::ViewImage(regularShrinkFilter->GetOutput(), "Regular shrinker");
@@ -258,16 +300,17 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   complexToRealFilterShrink->Update();
   itk::Testing::ViewImage(complexToRealFilterShrink->GetOutput(), "ComplexToReal. Shrinked");
 
-  // Complex to image
-  typedef itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType> ComplexToImaginaryFilter;
-  typename ComplexToImaginaryFilter::Pointer complexToImaginaryFilter = ComplexToImaginaryFilter::New();
-  complexToImaginaryFilter->SetInput(fftFilter->GetOutput());
-  complexToImaginaryFilter->Update();
-  itk::Testing::ViewImage(complexToImaginaryFilter->GetOutput(), "ComplexToImaginary. Original");
-  typename ComplexToImaginaryFilter::Pointer complexToImaginaryFilterShrink = ComplexToImaginaryFilter::New();
-  complexToImaginaryFilterShrink->SetInput(shrinkFilter->GetOutput());
-  complexToImaginaryFilterShrink->Update();
-  itk::Testing::ViewImage(complexToImaginaryFilterShrink->GetOutput(), "ComplexToImaginary. Shrinked");
+  // Complex to imaginary
+  // typedef itk::ComplexToImaginaryImageFilter< ComplexImageType, ImageType > ComplexToImaginaryFilter;
+  // typename ComplexToImaginaryFilter::Pointer complexToImaginaryFilter = ComplexToImaginaryFilter::New();
+  // complexToImaginaryFilter->SetInput( fftFilter->GetOutput() );
+  // complexToImaginaryFilter->Update();
+  // itk::Testing::ViewImage( complexToImaginaryFilter->GetOutput(), "ComplexToImaginary. Original" );
+  // typename ComplexToImaginaryFilter::Pointer complexToImaginaryFilterShrink = ComplexToImaginaryFilter::New();
+  // complexToImaginaryFilterShrink->SetInput( shrinkFilter->GetOutput() );
+  // complexToImaginaryFilterShrink->Update();
+  // itk::Testing::ViewImage( complexToImaginaryFilterShrink->GetOutput(), "ComplexToImaginary. Shrinked" );
+
 #endif
 
   return EXIT_SUCCESS;
