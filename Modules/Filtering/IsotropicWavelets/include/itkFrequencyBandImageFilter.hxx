@@ -32,6 +32,7 @@ FrequencyBandImageFilter<TImageType>::FrequencyBandImageFilter()
   m_PassBand(true)
   , m_PassLowFrequencyThreshold(true)
   , m_PassHighFrequencyThreshold(true)
+  , m_RadialBand(true)
 {}
 
 template <class TImageType>
@@ -45,6 +46,7 @@ FrequencyBandImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent
   os << indent << "   PassLowFrequencyThreshold? " << (this->m_PassLowFrequencyThreshold ? "Yes" : "No ") << std::endl;
   os << indent << "   PassHighFrequencyThreshold? " << (this->m_PassHighFrequencyThreshold ? "Yes" : "No ")
      << std::endl;
+  os << indent << "   RadialBand? " << (this->m_RadialBand ? "Yes" : "No ") << std::endl;
 }
 
 template <class TImageType>
@@ -125,11 +127,25 @@ FrequencyBandImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType
 
   FrequencyIteratorType freqIt(outputPtr, outputRegionForThread);
   freqIt.GoToBegin();
-  FrequencyValueType f;
+  FrequencyValueType                            f;
+  typename FrequencyIteratorType::FrequencyType w;
+  FrequencyValueType                            wMax;
+  FrequencyValueType                            wMin;
 
   while (!freqIt.IsAtEnd())
   {
-    f = sqrt(freqIt.GetFrequencyModuloSquare());
+    if (this->m_RadialBand)
+    {
+      f = sqrt(freqIt.GetFrequencyModuloSquare());
+    }
+    else // Cut-off box taking into account max absolute frequency.
+    {
+      w = freqIt.GetFrequency();
+      wMax = *std::max_element(w.Begin(), w.End());
+      wMin = *std::min_element(w.Begin(), w.End());
+      f = std::max(std::abs(wMax), std::abs(wMin));
+    }
+
     if (this->m_PassBand)
     {
       if (f < this->m_LowFrequencyThreshold || f > this->m_HighFrequencyThreshold)
