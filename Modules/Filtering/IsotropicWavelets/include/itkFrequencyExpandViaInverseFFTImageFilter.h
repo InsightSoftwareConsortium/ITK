@@ -122,9 +122,7 @@ protected:
   GenerateData() ITK_OVERRIDE;
 
 private:
-  FrequencyExpandViaInverseFFTImageFilter(const Self &) ITK_DELETE_FUNCTION;
-  void
-  operator=(const Self &) ITK_DELETE_FUNCTION;
+  ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyExpandViaInverseFFTImageFilter);
 
   ExpandFactorsType                      m_ExpandFactors;
   typename InverseFFTFilterType::Pointer m_InverseFFT;
