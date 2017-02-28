@@ -74,7 +74,7 @@ int itkLargeTIFFImageWriteReadTestHelper( std::string filename, typename TImage:
   std::cout << "Trying to allocate an image of size " << sizeInMegaBytes
     << " MB " << std::endl;
 
-  chronometer.Start(" Allocate" );
+  chronometer.Start( "Allocate" );
   image->Allocate();
   chronometer.Stop( "Allocate" );
 
