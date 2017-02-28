@@ -34,7 +34,7 @@ namespace itk
  * analog of that equation and will be referred to below as the \em modified
  * \em curvature \em diffusion \em equation (MCDE).  MCDE does not exhibit
  * the edge enhancing properties of classic anisotropic diffusion, which can under
- * certain conditions undergo a ``negative'' diffusion,which enhances the
+ * certain conditions undergo a "negative" diffusion,which enhances the
  * contrast of edges.  Equations of the form of MCDE always undergo positive
  * diffusion, with the conductance term only varying the strength of that
  * diffusion.

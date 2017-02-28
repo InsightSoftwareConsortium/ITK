@@ -93,7 +93,7 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
   // Calculate the partial derivatives for each dimension
   for ( i = 0; i < ImageDimension; i++ )
     {
-    // ``Half'' derivatives
+    // "Half" derivatives
     dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
                     - it.GetPixel(m_Center);
     dx_forward[i] *= this->m_ScaleCoefficients[i];
@@ -145,7 +145,7 @@ CurvatureNDAnisotropicDiffusionFunction< TImage >
     // Second order conductance-modified curvature
     speed += ( dx_forward_Cn - dx_backward_Cn );
     }
-  // ``Upwind'' gradient magnitude term
+  // "Upwind" gradient magnitude term
   propagation_gradient = 0.0;
   if ( speed > 0 )
     {

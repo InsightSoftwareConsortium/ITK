@@ -103,7 +103,7 @@ LevelSetEquationPropagationTerm< TInput, TLevelSetContainer, TPropagationImage >
   // Construct upwind gradient values for use in the propagation speed term:
   //  $\beta G(\mathbf{x})\mid\nabla\phi\mid$
   //
-  // The following scheme for ``upwinding'' in the normal direction is taken
+  // The following scheme for "upwinding" in the normal direction is taken
   // from Sethian, Ch. 6 as referenced above.411
   //
   LevelSetOutputRealType propagation_gradient = zero;

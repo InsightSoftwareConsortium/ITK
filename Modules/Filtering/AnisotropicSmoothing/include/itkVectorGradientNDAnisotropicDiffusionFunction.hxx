@@ -101,7 +101,7 @@ VectorGradientNDAnisotropicDiffusionFunction< TImage >
   // Calculate the directional and centralized derivatives.
   for ( i = 0; i < ImageDimension; i++ )
     {
-    // ``Half'' derivatives
+    // "Half" derivatives
     dx_forward[i] = it.GetPixel(m_Center + m_Stride[i])
                     - it.GetPixel(m_Center);
     dx_forward[i] = dx_forward[i]  * this->m_ScaleCoefficients[i];

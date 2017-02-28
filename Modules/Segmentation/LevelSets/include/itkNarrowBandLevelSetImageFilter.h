@@ -35,7 +35,7 @@ namespace itk
  *
  * \par OVERVIEW
  * This object defines the framework for a class of segmentation filters which
- * use level set methods.  These filters work by constructing a ``feature image''
+ * use level set methods.  These filters work by constructing a "feature image"
  * onto which the evolving level set locks as it moves.  In the feature image,
  * values that are close to zero are associated with object boundaries.  An
  * original (or preprocessed) image is given to the filter as the feature image

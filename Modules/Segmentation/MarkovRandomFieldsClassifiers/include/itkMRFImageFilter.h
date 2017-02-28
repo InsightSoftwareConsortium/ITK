@@ -100,7 +100,7 @@ namespace itk
  * For minimization of the MRF labeling function the MinimizeFunctional
  * virtual method is called. For our current implementation we use
  * the iterated conditional modes (ICM) algorithm described by Besag in the
- * paper ``On the Statistical Analysis of Dirty Pictures'' in J. Royal Stat.
+ * paper "On the Statistical Analysis of Dirty Pictures" in J. Royal Stat.
  * Soc. B, Vol. 48, 1986.
  *
  * In each iteration, the algorithm visits each pixel in turn and

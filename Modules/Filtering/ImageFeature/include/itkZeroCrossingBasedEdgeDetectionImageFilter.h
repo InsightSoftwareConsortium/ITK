@@ -28,7 +28,7 @@ namespace itk
  *
  * The zero-crossing based edge detector looks for pixels in the Laplacian of
  * an image where the value of the Laplacian passes through zero --- points
- * where the Laplacian changes sign.  Such points often occur at ``edges'' in
+ * where the Laplacian changes sign.  Such points often occur at "edges" in
  * images --- i.e. points where the intensity of the image changes rapidly,
  * but they also occur at places that are not as easy to associate with edges.
  * It is best to think of the zero crossing detector as some sort of feature

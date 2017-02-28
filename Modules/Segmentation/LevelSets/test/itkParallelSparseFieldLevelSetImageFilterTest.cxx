@@ -95,7 +95,7 @@ void evaluate_function(::itk::Image<float, 3> *im,
 
 /**
  * \class MorphFunction
- * Subclasses LevelSetFunction, supplying the ``PropagationSpeed'' term.
+ * Subclasses LevelSetFunction, supplying the "PropagationSpeed" term.
  *
  * See LevelSetFunction for more information.
  */

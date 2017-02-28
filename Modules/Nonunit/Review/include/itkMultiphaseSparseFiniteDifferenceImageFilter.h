@@ -61,7 +61,7 @@ namespace itk
  *
  * \par
  *  The city-block neighborhoods of the active set indices are maintained as
- *  separate lists called ``layers''.  At each iteration, the values at the
+ *  separate lists called "layers".  At each iteration, the values at the
  *  layers are reinitialized as the distance transform from the active set.
  *  The number of layers can be adjusted according to the footprint needed for
  *  the calculations on the level curve.

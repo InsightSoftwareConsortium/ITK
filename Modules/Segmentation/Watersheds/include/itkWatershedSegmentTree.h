@@ -32,7 +32,7 @@ namespace watershed
  * overview.
  *
  * \par
- * This class is the implemenation of the ``merge tree'' referred to in the
+ * This class is the implemenation of the "merge tree" referred to in the
  * documentation for itk::WatershedImageFilter and other watershed segmentation
  * component classes.  It holds a list of merges among image segments at
  * various saliency levels. The list is actually a representation of a binary

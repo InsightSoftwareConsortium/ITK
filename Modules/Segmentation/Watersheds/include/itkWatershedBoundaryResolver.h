@@ -34,10 +34,10 @@ namespace watershed
  *
  * \par A note on terminology in itk watershed segmentation code
  * For streamed segmentation of images in the watershed framework, the
- * documentation refers to the complete data set at the ``image volume.''  The
+ * documentation refers to the complete data set at the "image volume."  The
  * image volume is assumed to be partitioned into pieces referred to as image
  * chunks. Each chunk is processed in sequence through the pipeline.  The
- * ``face'' of an image chunk is an N-1 dimensional boundary region of an N
+ * "face" of an image chunk is an N-1 dimensional boundary region of an N
  * dimensional chunk (the planar faces of a cube, for example).
 
  * \par Input

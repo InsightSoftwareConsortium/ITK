@@ -32,13 +32,13 @@ namespace watershed
 /** \class Boundary
  * \par
  * A data object for used by watershed segmentation process objects in
- * streaming applications. A ``boundary'' represents the single-pixel wide
+ * streaming applications. A "boundary" represents the single-pixel wide
  * surface of an image chunk. This class is used to store information needed to
  * resolve processing at chunk  boundaries after data streaming of the
  * watershed segmentation algorithm.
  *
  * \par
- * This is an itkDataObject.  It contains a matrix of ``faces'' of an
+ * This is an itkDataObject.  It contains a matrix of "faces" of an
  * N-dimensional hypercube. A chunk of a volume with \f$ N \f$ dimensions
  * has \f$ 2N \f$ faces of dimension \f$ N-1 \f$. Some examples: A
  * 2-dimensional image has 4 faces that are lines.  A 3-dimensional image has 6

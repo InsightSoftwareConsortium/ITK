@@ -80,7 +80,7 @@ protected:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
-   * provided by the ``thrower''.   */
+   * provided by the "thrower".   */
   virtual void PrintSelf(std::ostream & os, Indent indent) const;
 
 private:
@@ -123,7 +123,7 @@ protected:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
-   * provided by the ``thrower''.   */
+   * provided by the "thrower".   */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 

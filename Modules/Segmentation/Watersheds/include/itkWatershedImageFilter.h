@@ -33,7 +33,7 @@ namespace itk
  * \par Overview and terminology
  * \par
  * This filter implements a non-streaming version of an image segmentation
- * algorithm commonly known as ``watershed segmentation''.   Watershed
+ * algorithm commonly known as "watershed segmentation".   Watershed
  * segmentation gets its name from the manner in which the algorithm  segments
  * regions into catchment basins. If a function \f$ f \f$ is a continuous
  * height function defined over an image domain, then a catchment basin is
@@ -54,8 +54,8 @@ namespace itk
  * to  some saliency measure (such as minimum boundary height) to produce a
  * tree of merges among adjacent regions.  These merges occur at different
  * maximum saliency values.  The collective set of all possible merges up to a
- * specified saliency ``flood level'' is referred to in this documentation as a
- * ``merge tree''.  Metaphorically, the flood level is a value that reflects
+ * specified saliency "flood level" is referred to in this documentation as a
+ * "merge tree".  Metaphorically, the flood level is a value that reflects
  * the amount of precipitation that is rained into the catchment basins.  As
  * the flood level rises, boundaries between adjacent segments erode and those
  * segments merge.  The minimum value of the flood level is zero and the
@@ -72,7 +72,7 @@ namespace itk
  *
  * \par Implementational details
  * This filter is a wrapper for several lower level process objects (watershed
- * algorithm components in the namespace ``watershed'').  For a more complete
+ * algorithm components in the namespace "watershed").  For a more complete
  * picture of the implementation, refer to the documentation of those components.
  * The component classes were designed to operate in either a data-streaming or
  * a non-data-streaming mode.  The pipeline constructed in this class'
@@ -97,7 +97,7 @@ namespace itk
  * \par Description of the output of this filter
  * This filter will produce an itk::Image of IdentifierType integer type and of
  * the same dimensionality as the input image.  The IdentifierType output image
- * is referred to as the ``labeled image'' in this documentation.  Each pixel
+ * is referred to as the "labeled image" in this documentation.  Each pixel
  * in the image is assigned an IdentifierType integer label that groups it
  * within a connected region.
  *
@@ -274,7 +274,7 @@ private:
   double m_Threshold;
 
   /** The percentage of the maximum saliency value among adjacencies in the
-   *  segments of the initial segmentation to which ``flooding'' of the image
+   *  segments of the initial segmentation to which "flooding" of the image
    *  should occur.  A tree of segment merges is calculated up to this
    *  level. */
   double m_Level;
