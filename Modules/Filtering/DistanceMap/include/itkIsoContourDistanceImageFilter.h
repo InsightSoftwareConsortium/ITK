@@ -22,6 +22,7 @@
 #include "itkNarrowBand.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkBarrier.h"
+#include "itkNumericTraits.h"
 
 namespace itk
 {
@@ -83,8 +84,10 @@ public:
 
   /** The pixel type of the output image will be used in computations.
    * Inherited from the superclass. */
-  typedef typename OutputImageType::PixelType  PixelType;
-  typedef typename InputImageType::PixelType   InputPixelType;
+  typedef typename OutputImageType::PixelType                 PixelType;
+  typedef typename InputImageType::PixelType                  InputPixelType;
+  typedef typename NumericTraits< InputPixelType >::RealType  PixelRealType;
+
   typedef typename OutputImageType::RegionType OutputImageRegionType;
 
   typedef typename InputImageType::SizeType   InputSizeType;
@@ -105,8 +108,8 @@ public:
 
   /** Set/Get the value of the level set to be located. The default value is
     *  0. */
-  itkSetMacro(LevelSetValue, InputPixelType);
-  itkGetConstMacro(LevelSetValue, InputPixelType);
+  itkSetMacro(LevelSetValue, PixelRealType);
+  itkGetConstMacro(LevelSetValue, PixelRealType);
 
   /** Set/Get the value of the level set to be located. The default value is
   *  0. */
@@ -177,7 +180,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IsoContourDistanceImageFilter);
 
-  InputPixelType m_LevelSetValue;
+  PixelRealType  m_LevelSetValue;
   PixelType      m_FarValue;
 
   InputSpacingType m_Spacing;
