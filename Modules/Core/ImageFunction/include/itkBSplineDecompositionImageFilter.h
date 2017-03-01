@@ -102,11 +102,20 @@ public:
   /** Iterator typedef support */
   typedef ImageLinearIteratorWithIndex< TOutputImage > OutputLinearIterator;
 
+  typedef std::vector< double > SplinePolesVectorType;
+
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
   void SetSplineOrder(unsigned int SplineOrder);
 
   itkGetConstMacro(SplineOrder, int);
+
+  /** Get the poles calculated for a given spline order. */
+  itkGetConstMacro( SplinePoles, SplinePolesVectorType );
+
+  /** Get the number of poles. */
+  itkGetConstMacro( NumberOfPoles, int );
+
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -135,7 +144,6 @@ protected:
 
 private:
   typedef std::vector< CoeffType >  CoefficientsVectorType;
-  typedef std::vector< double >     SplinePolesVectorType;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineDecompositionImageFilter);
 
@@ -179,10 +187,8 @@ private:
   /** User specified spline order (3rd or cubic is the default). */
   unsigned int m_SplineOrder;
 
-  /** Poles calculated for a given spline order. */
   SplinePolesVectorType m_SplinePoles;
 
-  /** Number of poles. */
   int m_NumberOfPoles;
 
   /** Tolerance used for determining initial causal coefficient. Default is 1e-10.*/

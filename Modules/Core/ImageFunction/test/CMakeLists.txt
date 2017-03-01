@@ -45,7 +45,7 @@ itk_add_test(NAME itkMedianImageFunctionTest
 itk_add_test(NAME itkBinaryThresholdImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkBinaryThresholdImageFunctionTest)
 itk_add_test(NAME itkBSplineDecompositionImageFilterTest
-      COMMAND ITKImageFunctionTestDriver itkBSplineDecompositionImageFilterTest)
+      COMMAND ITKImageFunctionTestDriver itkBSplineDecompositionImageFilterTest 3 -0.26794919243112281)
 itk_add_test(NAME itkBSplineInterpolateImageFunctionTest
       COMMAND ITKImageFunctionTestDriver itkBSplineInterpolateImageFunctionTest)
 itk_add_test(NAME itkBSplineResampleImageFunctionTest
