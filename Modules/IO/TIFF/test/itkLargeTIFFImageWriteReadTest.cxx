@@ -104,7 +104,7 @@ int itkLargeTIFFImageWriteReadTestHelper( std::string filename, typename TImage:
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  chronometer.Stop(" Write" );
+  chronometer.Stop( "Write" );
 
   image = ITK_NULLPTR;
   } // end write block to free the memory
