@@ -43,7 +43,7 @@ FrequencyShrinkImageFilter<TImageType>::FrequencyShrinkImageFilter()
 
   this->m_FrequencyBandFilter = FrequencyBandFilterType::New();
   // The band filter only let pass half of the frequencies.
-  this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians(0.0, Math::pi_over_2);
+  // this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians( 0.0, Math::pi_over_2 );
   bool lowFreqThresholdPassing = true;
   bool highFreqThresholdPassing = true;
   this->m_FrequencyBandFilter->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
@@ -124,7 +124,27 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
   // This filter will remove it by default a BandPass Filter.
   if (this->m_ApplyBandFilter)
   {
+    typename ImageType::SpacingType                  inputSpacing = this->GetInput()->GetSpacing();
+    const typename ImageType::SpacingType::ValueType spacingValue = inputSpacing[0];
+    // Check that the spacing is the same in all directions.
+    {
+      bool all_equal = true;
+      for (unsigned int i = 1; i < ImageDimension; ++i)
+      {
+        if (itk::Math::NotAlmostEquals(inputSpacing[i], spacingValue))
+        {
+          all_equal = false;
+        }
+      }
+      if (!all_equal)
+      {
+        itkExceptionMacro(<< "Spacing of input image is not the same in all directions " << inputSpacing);
+      }
+    }
+
     this->m_FrequencyBandFilter->SetInput(this->GetInput());
+    // this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians( 0.0, Math::pi_over_2);
+    this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians(0.0, Math::pi_over_2 * spacingValue);
     this->m_FrequencyBandFilter->Update();
     inputPtr = this->m_FrequencyBandFilter->GetOutput();
   }
@@ -187,10 +207,10 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
     addFilter->SetInput1(outputPtr);
     addFilter->SetInput2(pasteFilter->GetOutput());
     addFilter->InPlaceOn();
-    addFilter->Update();
-    outputPtr = addFilter->GetOutput();
     if (n == numberOfRegions - 1) // Graft the output.
     {
+      addFilter->Update();
+      outputPtr = addFilter->GetOutput();
       typedef itk::MultiplyImageFilter<TImageType, TImageType, TImageType> MultiplyFilterType;
       typename MultiplyFilterType::Pointer                                 multiplyFilter = MultiplyFilterType::New();
       multiplyFilter->SetInput(outputPtr);
@@ -199,6 +219,14 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
       multiplyFilter->GraftOutput(outputPtr);
       multiplyFilter->Update();
       this->GraftOutput(multiplyFilter->GetOutput());
+      // addFilter->GraftOutput(outputPtr);
+      // addFilter->Update();
+      // this->GraftOutput(addFilter->GetOutput());
+    }
+    else // update
+    {
+      addFilter->Update();
+      outputPtr = addFilter->GetOutput();
     }
     progress.CompletedPixel();
   }
