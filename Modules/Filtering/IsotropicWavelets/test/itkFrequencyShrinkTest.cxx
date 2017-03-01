@@ -207,7 +207,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   typename ComplexImageType::PointType   shrinkOrigin = shrinkFilter->GetOutput()->GetOrigin();
   typename ComplexImageType::SpacingType shrinkSpacing = shrinkFilter->GetOutput()->GetSpacing();
 
-  if (fftOrigin != shrinkOrigin)
+  if (shrinkOrigin != fftOrigin)
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in Origin (has changed afterShrink): " << std::endl;
@@ -215,11 +215,11 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
     return EXIT_FAILURE;
   }
 
-  if (fftSpacing != shrinkSpacing)
+  if (shrinkSpacing != fftSpacing * 0.5)
   {
     std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in Spacing (has changed afterShrink): " << std::endl;
-    std::cerr << "Expected: " << fftSpacing << ", but got " << shrinkSpacing << std::endl;
+    std::cerr << "Error in Spacing (should be half afterShrink): " << std::endl;
+    std::cerr << "Expected: " << fftSpacing * 0.5 << ", but got " << shrinkSpacing << std::endl;
     return EXIT_FAILURE;
   }
 
