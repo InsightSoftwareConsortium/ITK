@@ -768,8 +768,19 @@ void GDCMImageIO::Write(const void *buffer)
           // least something working in GDCM 2.0.12
           de.SetByteValue( value.c_str(), static_cast<uint32_t>(value.size()) );
 #else
-          const std::string si = sf.FromString( tag, value.c_str(), value.size() );
-          de.SetByteValue( si.c_str(), static_cast<uint32_t>(si.size()) );
+          // Even padding string with space. If string is not even, SetByteValue() will
+          // pad it with '\0' which is not what is expected except for VR::UI
+          // (see standard section 6.2).
+          if ( vrtype & ( gdcm::VR::UI ) )
+            {
+            const std::string si = sf.FromString( tag, value.c_str(), value.size() );
+            de.SetByteValue( si.c_str(), static_cast<uint32_t>(si.size()) );
+            }
+          else
+            {
+            const gdcm::String<> si = sf.FromString( tag, value.c_str(), value.size() );
+            de.SetByteValue( si.c_str(), static_cast<uint32_t>(si.size()) );
+            }
 #endif
           if ( tag.GetGroup() == 0x2 )
             {
