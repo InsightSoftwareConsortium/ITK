@@ -34,7 +34,7 @@ namespace itk
 {
 template <class TImageType>
 FrequencyShrinkImageFilter<TImageType>::FrequencyShrinkImageFilter()
-  : m_ApplyBandFilter(true)
+  : m_ApplyBandFilter(false)
 {
   for (unsigned int j = 0; j < ImageDimension; j++)
   {
@@ -43,7 +43,7 @@ FrequencyShrinkImageFilter<TImageType>::FrequencyShrinkImageFilter()
 
   this->m_FrequencyBandFilter = FrequencyBandFilterType::New();
   // The band filter only let pass half of the frequencies.
-  // this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians( 0.0, Math::pi_over_2 );
+  this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians(0.0, Math::pi_over_2);
   bool lowFreqThresholdPassing = true;
   bool highFreqThresholdPassing = true;
   this->m_FrequencyBandFilter->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
@@ -143,8 +143,9 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
     }
 
     this->m_FrequencyBandFilter->SetInput(this->GetInput());
-    // this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians( 0.0, Math::pi_over_2);
-    this->m_FrequencyBandFilter->SetFrequencyThresholdsInRadians(0.0, Math::pi_over_2 * spacingValue);
+    this->m_FrequencyBandFilter->SetFrequencyThresholds(
+      this->m_FrequencyBandFilter->GetLowFrequencyThreshold() * spacingValue,
+      this->m_FrequencyBandFilter->GetHighFrequencyThreshold() * spacingValue);
     this->m_FrequencyBandFilter->Update();
     inputPtr = this->m_FrequencyBandFilter->GetOutput();
   }

@@ -171,7 +171,7 @@ FrequencyBandImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType
     // Boundaries: Do not pass threshold frequencies if requested.
     if (!this->m_PassLowFrequencyThreshold)
     {
-      if (f == this->m_LowFrequencyThreshold)
+      if (itk::Math::FloatAlmostEqual(f, this->m_LowFrequencyThreshold))
       {
         // Different boundaries when negative frequencies in the non-radial case.
         if (!this->m_RadialBand && this->m_PassNegativeLowFrequencyThreshold && freqIsNegative)
@@ -187,7 +187,7 @@ FrequencyBandImageFilter<TImageType>::ThreadedGenerateData(const ImageRegionType
 
     if (!this->m_PassHighFrequencyThreshold)
     {
-      if (f == this->m_HighFrequencyThreshold)
+      if (itk::Math::FloatAlmostEqual(f, this->m_HighFrequencyThreshold))
       {
         // Different boundaries when negative frequencies in the non-radial case.
         if (!this->m_RadialBand && this->m_PassNegativeHighFrequencyThreshold && freqIsNegative)

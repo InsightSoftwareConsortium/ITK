@@ -115,6 +115,28 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   shrinkViaInverseFFTFilter->SetShrinkFactors(resizeFactor);
   shrinkViaInverseFFTFilter->Update();
 
+  // Test size and metadata
+  typename ComplexImageType::PointType   fftOrigin = fftFilter->GetOutput()->GetOrigin();
+  typename ComplexImageType::SpacingType fftSpacing = fftFilter->GetOutput()->GetSpacing();
+  typename ComplexImageType::PointType   afterShrinkOrigin = shrinkFilter->GetOutput()->GetOrigin();
+  typename ComplexImageType::SpacingType afterShrinkSpacing = shrinkFilter->GetOutput()->GetSpacing();
+
+  if (afterShrinkOrigin != fftOrigin)
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in Origin (has changed afterShrink): " << std::endl;
+    std::cerr << "Expected: " << fftOrigin << ", but got " << afterShrinkOrigin << std::endl;
+    testPassed = false;
+  }
+
+  if (afterShrinkSpacing != fftSpacing)
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in Spacing : " << std::endl;
+    std::cerr << "Expected: " << fftSpacing << ", but got " << afterShrinkSpacing << std::endl;
+    testPassed = false;
+  }
+
   /*********** InverseFFT ***************/
 
   typename InverseFFTFilterType::Pointer inverseFFT1 = InverseFFTFilterType::New();
