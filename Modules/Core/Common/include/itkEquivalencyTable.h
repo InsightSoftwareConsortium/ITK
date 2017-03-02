@@ -29,7 +29,7 @@ namespace itk
  *
  * EquivalencyTable is a hash table for recording equivalencies among
  * unsigned long integer values. EquivalencyTable can store recursive
- * relationships (8=7, 7=6, 6=5, ...) or be ``flattened'' to eliminate
+ * relationships (8=7, 7=6, 6=5, ...) or be "flattened" to eliminate
  * recursion.  The table uses an efficient algorithm for eliminating
  * redundancy and preventing circular dependencies.
  *
@@ -60,7 +60,7 @@ public:
   typedef HashTableType::const_iterator ConstIterator;
   typedef HashTableType::value_type     ValueType;
 
-  /** ``Flattens'' the equivalency table by eliminating all redundant
+  /** "Flattens" the equivalency table by eliminating all redundant
    * and recursive equivalencies.  I.e. the set { 2=1; 3=2; 4=3 } is
    * converted to {4=1; 3=1; 2=1}.  */
   void Flatten();

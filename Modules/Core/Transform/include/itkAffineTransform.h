@@ -264,7 +264,7 @@ public:
 
   /** Compute distance between two affine transformations
    *
-   * This method computes a ``distance'' between two affine
+   * This method computes a "distance" between two affine
    * transformations.  This distance is guaranteed to be a metric,
    * but not any particular metric.  (At the moment, the algorithm
    * is to collect all the elements of the matrix and offset into a

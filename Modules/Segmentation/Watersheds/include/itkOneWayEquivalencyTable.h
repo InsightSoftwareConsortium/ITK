@@ -62,7 +62,7 @@ public:
   typedef HashTableType::const_iterator ConstIterator;
   typedef HashTableType::value_type     ValueType;
 
-  /** ``Flattens'' the equivalency table by eliminating all redundant
+  /** "Flattens" the equivalency table by eliminating all redundant
    * and recursive equivalencies.  I.e. the set { 2=1; 3=2; 4=3 } is
    * converted to {4=1; 3=1; 2=1}.  */
   void Flatten();

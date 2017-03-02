@@ -288,7 +288,7 @@ public:
   //  { *(this->operator[](o)) = v; }
 
   /** Sets the pixel value located i pixels distant from the neighborhood center in
-      the positive specified ``axis'' direction. No bounds checking is done on
+      the positive specified "axis" direction. No bounds checking is done on
       the size of the neighborhood. */
   virtual void SetNext(const unsigned axis, const unsigned i,
                        const PixelType & v)
@@ -307,7 +307,7 @@ public:
   }
 
   /** Sets the pixel value located i pixels distant from the neighborhood center in
-      the negative specified ``axis'' direction. No bounds checking is done on
+      the negative specified "axis" direction. No bounds checking is done on
       the size of the neighborhood. */
   virtual void SetPrevious(const unsigned axis, const unsigned i,
                            const PixelType & v)

@@ -110,7 +110,7 @@ GradientNDAnisotropicDiffusionFunction< TImage >
 
   for ( i = 0; i < ImageDimension; i++ )
     {
-    // ``Half'' directional derivatives
+    // "Half" directional derivatives
     dx_forward = it.GetPixel(m_Center + m_Stride[i])
                  - it.GetPixel(m_Center);
     dx_forward *= this->m_ScaleCoefficients[i];

@@ -79,7 +79,7 @@ public:
   /** Print exception information.  This method can be overridden by
    * specific exception subtypes.  The default is to print out the
    * location where the exception was first thrown and any description
-   * provided by the ``thrower''.   */
+   * provided by the "thrower".   */
   virtual void Print(std::ostream & os) const;
 
   /** Methods to get and set the Location and Description fields. The Set

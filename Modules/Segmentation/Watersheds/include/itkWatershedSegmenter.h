@@ -44,7 +44,7 @@ namespace watershed
  * There is one input to this algorithm, a real-valued (scalar) itk::Image of
  * arbitrary dimension.  The input is assumed to represents a height function,
  * such as a gradient magnitude edge image.  The filter can process an image of
- * any dimension. Note that the terms ``pixel'' and ``voxel'' are
+ * any dimension. Note that the terms "pixel'' and ``voxel" are
  * interchangeable in this and other watershed component class documentation.
  *
  * \par Outputs
@@ -77,7 +77,7 @@ namespace watershed
  * \par
  * Thresholding minimum values in the image decreases the number of local
  * minima in the image and produces an initial segmentation with fewer
- * segments.  The assumption is that the ``shallow'' regions that this
+ * segments.  The assumption is that the "shallow" regions that this
  * thresholding eliminates are generally not of interest.
  *
  * \sa WatershedImageFilter
@@ -213,7 +213,7 @@ public:
    * T \f$ is the threshold parameter value. Values in the image less than \f$ L
    * \f$ are raised to \f$ L \f$. Thresholding minimum values in the image
    * decreases the number of local minima in the image and produces an initial
-   * segmentation with fewer segments.  The assumption is that the ``shallow''
+   * segmentation with fewer segments.  The assumption is that the "shallow"
    * regions that this thresholding eliminates are generally not of
    * interest. */
   itkSetClampMacro(Threshold, double, 0.0, 1.0);
@@ -256,8 +256,8 @@ protected:
 
   /** Table for storing tables of edges.  This is convenient in
    * generating the segment table,  even though the edge tables
-   * are stored as ordered lists.  An ``edge'' in this context
-   * is synonymous with a segment ``adjacency''.   */
+   * are stored as ordered lists.  An "edge" in this context
+   * is synonymous with a segment "adjacency".   */
   typedef itksys::hash_map< IdentifierType, InputPixelType, itksys::hash< IdentifierType >
                             > edge_table_t;
 
@@ -296,13 +296,13 @@ protected:
                            InputPixelType);
 
   /** Fills boundary pixels with a specified value.  Used by labeling
-   * methods to build a very high ``wall'' around the image so that
+   * methods to build a very high "wall" around the image so that
    * gradient descent does not need to watch boundaries.   */
   void BuildRetainingWall(InputImageTypePointer,
                           ImageRegionType, InputPixelType);
 
   /** Labels all the local minima in the image.  Also identifies and labels
-   * connected  ``flat'' regions.   */
+   * connected  "flat" regions.   */
   void LabelMinima(InputImageTypePointer,
                    ImageRegionType, flat_region_table_t &,
                    InputPixelType);

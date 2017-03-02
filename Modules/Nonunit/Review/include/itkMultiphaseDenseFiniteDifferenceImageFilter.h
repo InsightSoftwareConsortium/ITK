@@ -32,9 +32,9 @@ namespace itk
  * \class MultiphaseDenseFiniteDifferenceImageFilter
  *
  * This filter implements a layer of the finite difference solver hierarchy that
- * performs ``dense'' iteration, ie. iteration over all pixels in the input and
+ * performs "dense" iteration, ie. iteration over all pixels in the input and
  * output at each change calculation and update step. Dense iteration is in
- * contrast to a ``sparse'' iteration over a subset of the pixels.  See
+ * contrast to a "sparse" iteration over a subset of the pixels.  See
  * documentation for FiniteDifferenceImageFilter for an overview of the
  * iterative finite difference algorithm:
  *

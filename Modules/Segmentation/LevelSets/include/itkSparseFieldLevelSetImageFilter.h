@@ -117,7 +117,7 @@ private:
  *  equation solver for evolving surfaces embedded in volumes as level-sets.
  *
  *  \par
- *  The ``sparse field'' approach to the level-set model is a logical extension
+ *  The "sparse field" approach to the level-set model is a logical extension
  *  of the classical narrow band technique, which seeks to minimize
  *  computational effort by restricting calculations to those pixels in a
  *  region of interest around the moving surface (the \f$k\f$-level curve). The
@@ -132,7 +132,7 @@ private:
  * \par
  *  The sparse field algorithm works by constructing a linked list of indices
  *  that are adjacent to the \f$k\f$-level set.  These indices are called the
- *  ``active set''.  The values at these active set indices define the
+ *  "active set".  The values at these active set indices define the
  *  position of the \f$k\f$-level curve.  The active set indices are shifted
  *  to follow the distance transform embedding of the \f$k\f$-level curve as
  *  their values move in and out of a fixed numerical range about \f$k\f$. In
@@ -142,7 +142,7 @@ private:
  *
  * \par
  *  The city-block neighborhoods of the active set indices are maintained as
- *  separate lists called ``layers''.  At each iteration, the values at the
+ *  separate lists called "layers".  At each iteration, the values at the
  *  layers are reinitialized as the distance transform from the active set.
  *  The number of layers can be adjusted according to the footprint needed for
  *  the calculations on the level curve.

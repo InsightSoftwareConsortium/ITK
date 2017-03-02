@@ -203,7 +203,7 @@ public:
   { return ( this->GetPixel(this->GetNeighborhoodIndex(o), IsInBounds) ); }
 
   /** Returns the pixel value located i pixels distant from the neighborhood
-   *  center in the positive specified ``axis'' direction. No bounds checking
+   *  center in the positive specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
   virtual PixelType GetNext(const unsigned axis, NeighborIndexType i) const
   {
@@ -221,7 +221,7 @@ public:
   }
 
   /** Returns the pixel value located i pixels distant from the neighborhood
-   *  center in the negative specified ``axis'' direction. No bounds checking
+   *  center in the negative specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
   virtual PixelType GetPrevious(const unsigned axis, NeighborIndexType i) const
   {

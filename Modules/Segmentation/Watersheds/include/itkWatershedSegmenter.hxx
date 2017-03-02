@@ -278,7 +278,7 @@ CLANG_PRAGMA_POP
   this->UpdateProgress(0.2);
 
   //
-  // Build a ``retaining wall'' around the image so that gradient descent
+  // Build a "retaining wall" around the image so that gradient descent
   // analysis can be done without worrying about boundaries.
   //
   // All overlap boundary information will be overwritten, but is no longer

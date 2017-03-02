@@ -62,10 +62,10 @@ namespace itk
  * \par Component objects
  * The FDS hierarchy is comprised of two component object types, variations of
  * which are designed to be plugged together to create filters for different
- * applications.  At the process level are the ``solver'' objects, which are
+ * applications.  At the process level are the "solver" objects, which are
  * subclasses of MultiphaseFiniteDifferenceImageFilter.  Solver objects are filters that
  * take image inputs and produce image outputs.  Solver objects require a
- * ``finite difference function'' object to perform the calculation at each
+ * "finite difference function" object to perform the calculation at each
  * image pixel during iteration.  These specialized function objects are
  * subclasses of FiniteDifferenceFunction. FiniteDifferenceFunctions take a
  * neighborhood of pixels as input (in the form of an
