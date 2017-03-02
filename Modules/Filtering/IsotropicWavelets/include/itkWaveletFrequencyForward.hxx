@@ -428,7 +428,6 @@ void
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GenerateData()
 {
   InputImageConstPointer input = this->GetInput();
-
   this->AllocateOutputs();
 
   typedef itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
@@ -458,21 +457,29 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   changeInputInfoFilter->SetOutputOrigin(origin_new);
   changeInputInfoFilter->SetOutputSpacing(spacing_new);
   changeInputInfoFilter->Update();
-  inputPerLevel = changeInputInfoFilter->GetOutput();
 
+  // Create Wavelet filter.
+  // TODO Phc: Current: Wavelet Filter Bank images always have default frequency range: [0,1/2].
+  // This might be wrong.
+  // Alternative: Downsample the filter bank as well
+  // or change spacing on GenerateSource image of the filter bank, so the iterator see different frequencies.
+  /******* Calculate FilterBank with the right size per level. *****/
+  // TODO (option b) Set filter bank information to be the same than input image
+  // filterBank->SetOrigin(inputPerLevel->GetOrigin() );
+  // filterBank->SetSpacing(inputPerLevel->GetSpacing() );
+  // filterBank->SetDirection(inputPerLevel->GetDirection() );
+  typename WaveletFilterBankType::Pointer filterBank = WaveletFilterBankType::New();
+  filterBank->SetHighPassSubBands(this->m_HighPassSubBands);
+  filterBank->SetSize(changeInputInfoFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
+  filterBank->Update();
+  std::vector<OutputImagePointer> highPassWavelets = filterBank->GetOutputsHighPassBands();
+  OutputImagePointer              lowPassWavelet = filterBank->GetOutputLowPass();
+
+  typedef itk::FrequencyShrinkImageFilter<OutputImageType> ShrinkFilterType;
+  typedef itk::MultiplyImageFilter<OutputImageType>        MultiplyFilterType;
+  inputPerLevel = changeInputInfoFilter->GetOutput();
   for (unsigned int level = 0; level < this->m_Levels; ++level)
   {
-    /******* Calculate FilterBank with the right size per level. *****/
-    typedef itk::MultiplyImageFilter<OutputImageType> MultiplyFilterType;
-    typename WaveletFilterBankType::Pointer           filterBank = WaveletFilterBankType::New();
-    filterBank->SetHighPassSubBands(this->m_HighPassSubBands);
-    filterBank->SetSize(inputPerLevel->GetLargestPossibleRegion().GetSize());
-    // TODO (option b) Set filter bank information to be the same than input image
-    // filterBank->SetOrigin(inputPerLevel->GetOrigin() );
-    // filterBank->SetSpacing(inputPerLevel->GetSpacing() );
-    // filterBank->SetDirection(inputPerLevel->GetDirection() );
-    filterBank->Update();
-
     /***** Dilation factor (assume dilation is dyadic -2-). **/
     // double expLevelFactor = - static_cast<double>(level*ImageDimension)/2.0;
     double expLevelFactor = 0;
@@ -480,15 +487,14 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
               << " 2^expLevelFactor: " << std::pow(2.0, expLevelFactor) << std::endl;
 
     /******* Set HighPass bands *****/
-    std::vector<OutputImagePointer> highPassImages = filterBank->GetOutputsHighPassBands();
-    std::cout << "Number of FilterBank high pass bands: " << highPassImages.size() << std::endl;
+    std::cout << "Number of FilterBank high pass bands: " << highPassWavelets.size() << std::endl;
     for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
     {
       unsigned int n_output = 1 + level * this->m_HighPassSubBands + band;
       /******* Band dilation factor for HighPass bands *****/
       //  2^(1/#bands) instead of Dyadic dilations.
       typename MultiplyFilterType::Pointer multiplyByAnalysisBandFactor = MultiplyFilterType::New();
-      multiplyByAnalysisBandFactor->SetInput1(highPassImages[band]);
+      multiplyByAnalysisBandFactor->SetInput1(highPassWavelets[band]);
       // double expFactorHigh = - static_cast<int>(band + 1)/static_cast<double>(this->m_HighPassSubBands) *
       // static_cast<double>(ImageDimension)/2.0; double expFactorHigh = -
       // static_cast<double>(1)/static_cast<double>(this->m_HighPassSubBands) * static_cast<double>(ImageDimension)/2.0;
@@ -509,10 +515,20 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
       this->UpdateProgress(static_cast<float>(n_output - 1) / static_cast<float>(m_TotalOutputs));
       this->GraftNthOutput(n_output, multiplyHighBandFilter->GetOutput());
+
+      /******* DownSample wavelets *****/
+      if (level != this->m_Levels - 1)
+      {
+        typename ShrinkFilterType::Pointer shrinkWaveletFilter = ShrinkFilterType::New();
+        shrinkWaveletFilter->SetInput(highPassWavelets[band]);
+        shrinkWaveletFilter->SetShrinkFactors(2);
+        shrinkWaveletFilter->Update();
+        highPassWavelets[band] = shrinkWaveletFilter->GetOutput();
+      }
     }
     /******* Calculate LowPass band *****/
     typename MultiplyFilterType::Pointer multiplyLowFilter = MultiplyFilterType::New();
-    multiplyLowFilter->SetInput1(filterBank->GetOutputLowPass());
+    multiplyLowFilter->SetInput1(lowPassWavelet);
     multiplyLowFilter->SetInput2(inputPerLevel);
     // multiplyLowFilter->InPlaceOn();
     multiplyLowFilter->Update();
@@ -521,8 +537,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
     /******* DownSample stored low band for the next Level iteration *****/
     // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
-    typedef itk::FrequencyShrinkImageFilter<OutputImageType> ShrinkFilterType;
-    typename ShrinkFilterType::Pointer                       shrinkFilter = ShrinkFilterType::New();
+    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetInput(inputPerLevel);
     shrinkFilter->SetShrinkFactors(2);
     shrinkFilter->Update();
@@ -560,6 +575,12 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     {
       // changeInfoFilter->Update();
       inputPerLevel = changeInfoFilter->GetOutput();
+      /******* DownSample wavelets *****/
+      typename ShrinkFilterType::Pointer shrinkWaveletFilter = ShrinkFilterType::New();
+      shrinkWaveletFilter->SetInput(lowPassWavelet);
+      shrinkWaveletFilter->SetShrinkFactors(2);
+      shrinkWaveletFilter->Update();
+      lowPassWavelet = shrinkWaveletFilter->GetOutput();
     }
   }
 }
