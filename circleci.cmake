@@ -33,12 +33,12 @@ set_from_env(CTEST_SOURCE_DIRECTORY "CTEST_SOURCE_DIRECTORY" )
 set_from_env(CTEST_BINARY_DIRECTORY "CTEST_BINARY_DIRECTORY")
 set_from_env(dashboard_model "DASHBOARD_MODEL")
 
-if (DEFINED ENV{CONFIGURATION})
-  set(CTEST_BUILD_CONFIGURATION "$ENV{CTEST_BUILD_CONFIGURATION}")
+if (DEFINED ENV{CTEST_CONFIGURATION_TYPE})
+  set(CTEST_CONFIGURATION_TYPE "$ENV{CTEST_CONFIGURATION_TYPE}")
 endif()
 
-# CircleCI already has the repository check out to the hash to be tested.
-set(dashboard_no_update 1)
+
+set(CTEST_UPDATE_VERSION_ONLY 1)
 
 set(dashboard_loop 0)
 
