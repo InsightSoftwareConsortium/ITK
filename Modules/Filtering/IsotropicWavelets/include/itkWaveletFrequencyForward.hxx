@@ -483,11 +483,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     /***** Dilation factor (assume dilation is dyadic -2-). **/
     // double expLevelFactor = - static_cast<double>(level*ImageDimension)/2.0;
     double expLevelFactor = 0;
-    std::cout << expLevelFactor << " ExpLevelFactor, level: " << level
-              << " 2^expLevelFactor: " << std::pow(2.0, expLevelFactor) << std::endl;
+    itkDebugMacro(<< "ExpLevelFactor: " << expLevelFactor << ", level: " << level
+                  << " 2^expLevelFactor: " << std::pow(2.0, expLevelFactor));
 
     /******* Set HighPass bands *****/
-    std::cout << "Number of FilterBank high pass bands: " << highPassWavelets.size() << std::endl;
+    itkDebugMacro(<< "Number of FilterBank high pass bands: " << highPassWavelets.size());
     for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
     {
       unsigned int n_output = 1 + level * this->m_HighPassSubBands + band;
@@ -515,16 +515,6 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
       this->UpdateProgress(static_cast<float>(n_output - 1) / static_cast<float>(m_TotalOutputs));
       this->GraftNthOutput(n_output, multiplyHighBandFilter->GetOutput());
-
-      /******* DownSample wavelets *****/
-      if (level != this->m_Levels - 1)
-      {
-        typename ShrinkFilterType::Pointer shrinkWaveletFilter = ShrinkFilterType::New();
-        shrinkWaveletFilter->SetInput(highPassWavelets[band]);
-        shrinkWaveletFilter->SetShrinkFactors(2);
-        shrinkWaveletFilter->Update();
-        highPassWavelets[band] = shrinkWaveletFilter->GetOutput();
-      }
     }
     /******* Calculate LowPass band *****/
     typename MultiplyFilterType::Pointer multiplyLowFilter = MultiplyFilterType::New();
@@ -539,30 +529,16 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetInput(inputPerLevel);
-    shrinkFilter->SetShrinkFactors(2);
+    shrinkFilter->SetShrinkFactors(this->m_ScaleFactor);
     shrinkFilter->Update();
 
-    // Ignore modifications of origin and spacing of shrink filters.
-    typename ChangeInformationFilterType::Pointer changeInfoFilter = ChangeInformationFilterType::New();
-    changeInfoFilter->SetInput(shrinkFilter->GetOutput());
-    changeInfoFilter->ChangeDirectionOff();
-    changeInfoFilter->ChangeRegionOff();
-    changeInfoFilter->ChangeSpacingOn();
-    changeInfoFilter->ChangeOriginOn();
-    changeInfoFilter->UseReferenceImageOff();
-    // changeInfoFilter->SetReferenceImage(inputPerLevel.GetPointer()); // Use input image as reference.
-    changeInfoFilter->SetOutputOrigin(origin_new);
-    changeInfoFilter->SetOutputSpacing(spacing_new);
-    changeInfoFilter->Update();
     if (level == this->m_Levels - 1) // Set low_pass output (index=0)
     {
-      // changeInfoFilter->GraftOutput(this->GetOutput(0));
-      // changeInfoFilter->Update();
       // Apply dilation factor on low band only in the last level.
       typename MultiplyFilterType::Pointer multiplyByDilationLevelFactor = MultiplyFilterType::New();
-      multiplyByDilationLevelFactor->SetInput1(changeInfoFilter->GetOutput());
-      std::cout << expLevelFactor << " ExpLevelFactor, level: " << level
-                << " 2^expLevelFactor: " << std::pow(2.0, expLevelFactor) << std::endl;
+      multiplyByDilationLevelFactor->SetInput1(shrinkFilter->GetOutput());
+      itkDebugMacro(<< " ExpLevelFactor: " << expLevelFactor << ", level: " << level
+                    << " 2^expLevelFactor: " << std::pow(2.0, expLevelFactor));
       multiplyByDilationLevelFactor->SetConstant(std::pow(2.0, expLevelFactor));
       multiplyByDilationLevelFactor->InPlaceOn();
       multiplyByDilationLevelFactor->GraftOutput(this->GetOutput(0));
@@ -573,14 +549,22 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     }
     else // update inputPerLevel
     {
-      // changeInfoFilter->Update();
-      inputPerLevel = changeInfoFilter->GetOutput();
+      inputPerLevel = shrinkFilter->GetOutput();
       /******* DownSample wavelets *****/
       typename ShrinkFilterType::Pointer shrinkWaveletFilter = ShrinkFilterType::New();
       shrinkWaveletFilter->SetInput(lowPassWavelet);
-      shrinkWaveletFilter->SetShrinkFactors(2);
+      shrinkWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
       shrinkWaveletFilter->Update();
       lowPassWavelet = shrinkWaveletFilter->GetOutput();
+      lowPassWavelet->DisconnectPipeline();
+      for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
+      {
+        shrinkWaveletFilter->SetInput(highPassWavelets[band]);
+        shrinkWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
+        shrinkWaveletFilter->Update();
+        highPassWavelets[band] = shrinkWaveletFilter->GetOutput();
+        highPassWavelets[band]->DisconnectPipeline();
+      }
     }
   }
 }
