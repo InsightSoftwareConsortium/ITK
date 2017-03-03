@@ -227,6 +227,12 @@ ImagePCAShapeModelEstimator< TInputImage, TOutputImage >
       ++outIterJ;
       }
     }
+
+    //Delete eigenvectors at the end of generateData to free memory
+  if (this->GetReleaseDataFlag())
+    {
+    m_EigenVectors.set_size(0,0);
+    }
 } // end Generate data
 
 /**
