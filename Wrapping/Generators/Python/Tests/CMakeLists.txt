@@ -7,12 +7,20 @@ itk_python_add_test(NAME PythonImageIOCoverage COMMAND wrappingCoverage.py -b Im
 itk_python_add_test(NAME PythonOptimizerCoverage COMMAND wrappingCoverage.py -b Optimizer ${ITK_INCLUDE_DIRS})
 itk_python_add_test(NAME PythonTransformCoverage COMMAND wrappingCoverage.py -b Transform -e ${CMAKE_CURRENT_SOURCE_DIR}/exclude-transform.txt ${ITK_INCLUDE_DIRS})
 
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy"
+  RESULT_VARIABLE _have_numpy_return_code
+  OUTPUT_QUIET
+  ERROR_QUIET
+  )
+
 # These two tests can use up all of system memory when the are executed.
 # TODO: find the root cause and re-enable them.  See ITK-3006 on issues.itk.org.
 #itk_python_add_test(PythonFindEmptyClasses findEmptyClasses.py)
-itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
+if(_have_numpy_return_code EQUAL 0)
+  itk_python_add_test(NAME PythonGetNameOfClass COMMAND getNameOfClass.py)
 
-itk_python_add_test(NAME PythonTiming COMMAND timing.py)
+  itk_python_add_test(NAME PythonTiming COMMAND timing.py)
+endif()
 
 itk_python_add_test(NAME PythonComplex COMMAND complex.py)
 
@@ -43,10 +51,12 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
       10
     )
 
-  itk_python_add_test(NAME PythonExtras
-    COMMAND extras.py
-      DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png
-    )
+  if(_have_numpy_return_code EQUAL 0)
+    itk_python_add_test(NAME PythonExtras
+      COMMAND extras.py
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/out.png
+      )
+  endif()
 
   itk_python_add_test(NAME PythonModuleToModule
     COMMAND module2module.py
