@@ -33,8 +33,6 @@ itkLabelGeometryImageFilterTest.cxx
 itkMapMaskedRankImageFilterTest.cxx
 itkMapRankImageFilterTest.cxx
 itkMaskedRankImageFilterTest.cxx
-itkMorphologicalWatershedFromMarkersImageFilterTest.cxx
-itkMorphologicalWatershedImageFilterTest.cxx
 itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
@@ -45,10 +43,6 @@ itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
 itkRankImageFilterTest.cxx
-itkRegionalMaximaImageFilterTest.cxx
-itkRegionalMaximaImageFilterTest2.cxx
-itkRegionalMinimaImageFilterTest.cxx
-itkRegionalMinimaImageFilterTest2.cxx
 itkRegionBasedLevelSetFunctionTest.cxx
 itkRobustAutomaticThresholdImageFilterTest.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
@@ -66,8 +60,6 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
 itkStochasticFractalDimensionImageFilterTest.cxx
 itkSubtractConstantFromImageFilterTest.cxx
 itkTimeAndMemoryProbeTest.cxx
-itkValuedRegionalMaximaImageFilterTest.cxx
-itkValuedRegionalMinimaImageFilterTest.cxx
 itkVectorCentralDifferenceImageFunctionTest.cxx
 itkVoxBoCUBImageIOTest.cxx
 itkWarpHarmonicEnergyCalculatorTest.cxx
@@ -301,136 +293,6 @@ itk_add_test(NAME itkMaskedRankImageFilterTest10
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMaskedRankImageFilter10.png}
               ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png
     itkMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png 10)
-itk_add_test(NAME itkMorphologicalWatershedFromMarkersImageFilterTestM0F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedFromMarkersImageFilterTestM0F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F0.png
-    itkMorphologicalWatershedFromMarkersImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F0.png 0 0)
-itk_add_test(NAME itkMorphologicalWatershedFromMarkersImageFilterTestM0F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedFromMarkersImageFilterTestM0F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F1.png
-    itkMorphologicalWatershedFromMarkersImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM0F1.png 0 1)
-itk_add_test(NAME itkMorphologicalWatershedFromMarkersImageFilterTestM1F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedFromMarkersImageFilterTestM1F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F0.png
-    itkMorphologicalWatershedFromMarkersImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F0.png 1 0)
-itk_add_test(NAME itkMorphologicalWatershedFromMarkersImageFilterTestM1F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedFromMarkersImageFilterTestM1F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F1.png
-    itkMorphologicalWatershedFromMarkersImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedFromMarkersImageFilterTestM1F1.png 1 1)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestButtonHoleM0F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestButtonHoleM0F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM0F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/button-hole.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM0F0.png 0 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPassValuesM0F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPassValuesM0F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM0F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/pass-values.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM0F0.png 0 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPlateauM0F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPlateauM0F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM0F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/plateau.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM0F0.png 0 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestThickLinesM0F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestThickLinesM0F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM0F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/thick-lines.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM0F0.png 0 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestButtonHoleM0F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestButtonHoleM0F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM0F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/button-hole.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM0F1.png 0 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPassValuesM0F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPassValuesM0F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM0F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/pass-values.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM0F1.png 0 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPlateauM0F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPlateauM0F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM0F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/plateau.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM0F1.png 0 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestThickLinesM0F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestThickLinesM0F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM0F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/thick-lines.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM0F1.png 0 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestButtonHoleM1F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestButtonHoleM1F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM1F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/button-hole.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM1F0.png 1 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPassValuesM1F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPassValuesM1F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM1F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/pass-values.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM1F0.png 1 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPlateauM1F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPlateauM1F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM1F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/plateau.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM1F0.png 1 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestThickLinesM1F0
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestThickLinesM1F0.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM1F0.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/thick-lines.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM1F0.png 1 0 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestButtonHoleM1F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestButtonHoleM1F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM1F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/button-hole.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestButtonHoleM1F1.png 1 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPassValuesM1F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPassValuesM1F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM1F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/pass-values.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPassValuesM1F1.png 1 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestPlateauM1F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestPlateauM1F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM1F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/plateau.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestPlateauM1F1.png 1 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestThickLinesM1F1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestThickLinesM1F1.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM1F1.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/thick-lines.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestThickLinesM1F1.png 1 1 0)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestLevel00
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestLevel00.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel00.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel00.png 1 0 00)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestLevel10
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestLevel10.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel10.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel10.png 1 0 10)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestLevel20
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestLevel20.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel20.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel20.png 1 0 20)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestLevel30
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestLevel30.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel30.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel30.png 1 0 30)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestLevel40
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestLevel40.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel40.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel40.png 1 0 40)
-itk_add_test(NAME itkMorphologicalWatershedImageFilterTestLevel50
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMorphologicalWatershedImageFilterTestLevel50.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel50.png
-    itkMorphologicalWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/level.png} ${ITK_TEST_OUTPUT_DIR}/itkMorphologicalWatershedImageFilterTestLevel50.png 1 0 50)
 itk_add_test(NAME itkMultiphaseDenseFiniteDifferenceImageFilterTest
       COMMAND ITKReviewTestDriver itkMultiphaseDenseFiniteDifferenceImageFilterTest)
 itk_add_test(NAME itkMultiphaseFiniteDifferenceImageFilterTest
@@ -485,26 +347,6 @@ itk_add_test(NAME itkRankImageFilterTest10
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkRankImageFilter10.png}
               ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png
     itkRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png 10)
-itk_add_test(NAME itkRegionalMinimaImageFilterTest2_1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1RegionalMinimal-ref2_1.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_1.png
-    itkRegionalMaximaImageFilterTest2 1 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2_1.png)
-itk_add_test(NAME itkRegionalMinimaImageFilterTest2_2
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1RegionalMinimal-ref2_2.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_2.png
-    itkRegionalMaximaImageFilterTest2 0 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2_2.png)
-itk_add_test(NAME itkRegionalMaximaImageFilterTest2_1
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1RegionalMaximal-ref2_1.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_1.png
-    itkRegionalMaximaImageFilterTest2 1 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref2_1.png)
-itk_add_test(NAME itkRegionalMaximaImageFilterTest2_2
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1RegionalMaximal-ref2_2.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_2.png
-    itkRegionalMaximaImageFilterTest2 0 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref2_2.png)
 itk_add_test(NAME itkRegionBasedLevelSetFunctionTest
       COMMAND ITKReviewTestDriver itkRegionBasedLevelSetFunctionTest)
 itk_add_test(NAME itkRobustAutomaticThresholdImageFilterTest
@@ -573,26 +415,6 @@ itk_add_test(NAME itkSubtractConstantFromImageFilterTest
       COMMAND ITKReviewTestDriver itkSubtractConstantFromImageFilterTest)
 itk_add_test(NAME itkTimeAndMemoryProbeTest1
       COMMAND ITKReviewTestDriver itkTimeAndMemoryProbeTest)
-itk_add_test(NAME itkValuedRegionalMaximaImageFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1ValuedRegionalMaximal-ref.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal.png
-    itkValuedRegionalMaximaImageFilterTest 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref.png)
-itk_add_test(NAME itkValuedRegionalMaximaImageFilterTest2
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1ValuedRegionalMaximal-ref2.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal2.png
-    itkValuedRegionalMaximaImageFilterTest 0 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref2.png)
-itk_add_test(NAME itkValuedRegionalMinimaImageFilterTest
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1ValuedRegionalMinimal-ref.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal.png
-    itkValuedRegionalMinimaImageFilterTest 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref.png)
-itk_add_test(NAME itkValuedRegionalMinimaImageFilterTest2
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/cthead1ValuedRegionalMinimal-ref2.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png
-    itkValuedRegionalMinimaImageFilterTest 0 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref2.png)
 itk_add_test(NAME itkVectorCentralDifferenceImageFunctionTest
       COMMAND ITKReviewTestDriver itkVectorCentralDifferenceImageFunctionTest)
 itk_add_test(NAME itkVoxBoCUBImageIOTest1

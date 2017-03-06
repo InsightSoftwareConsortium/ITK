@@ -24,7 +24,7 @@ namespace itk
 {
 /** \class RegionalMaximaImageFilter
  * \brief Produce a binary image where foreground is the regional maxima of the
- * input image
+ * input image.
  *
  * Regional maxima are flat zones surrounded by pixels of lower value.
  *
@@ -44,7 +44,7 @@ namespace itk
  * \sa RegionalMinimaImageFilter
  *
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  *
  * \wiki
  * \wikiexample{ImageProcessing/RegionalMaximaImageFilter,RegionalMaximaImageFilter}
@@ -56,12 +56,10 @@ class ITK_TEMPLATE_EXPORT RegionalMaximaImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef RegionalMaximaImageFilter Self;
-
+  typedef RegionalMaximaImageFilter                       Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
   typedef TInputImage                            InputImageType;

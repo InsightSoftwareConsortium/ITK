@@ -26,6 +26,7 @@
 namespace itk
 {
 /** \class ValuedRegionalExtremaImageFilter
+ *
  * \brief Uses a flooding algorithm to set all voxels that are not a
  * regional extrema to the max or min of the pixel type.
  *
@@ -67,9 +68,10 @@ namespace itk
  * Melbourne, Australia.
  *
  * \sa ValuedRegionalMinimaImageFilter, ValuedRegionalMaximaImageFilter,
- * \sa  HMinimaImageFilter
+ * \sa HMinimaImageFilter
+ *
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< typename TInputImage, typename TOutputImage,
@@ -79,13 +81,10 @@ class ITK_TEMPLATE_EXPORT ValuedRegionalExtremaImageFilter:
 {
 public:
   /** Standard class typedefs. */
-  typedef ValuedRegionalExtremaImageFilter Self;
-
-  typedef ImageToImageFilter< TInputImage, TOutputImage >
-  Superclass;
-
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef ValuedRegionalExtremaImageFilter                Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Some convenient typedefs. */
   typedef TInputImage                            InputImageType;
@@ -110,8 +109,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ValuedRegionalExtremaImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(ValuedRegionalExtremaImageFilter, ImageToImageFilter);
 
   /**
    * Set/Get whether the connected components are defined strictly by

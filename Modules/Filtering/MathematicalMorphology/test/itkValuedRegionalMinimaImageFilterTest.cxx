@@ -16,15 +16,18 @@
  *
  *=========================================================================*/
 // a test routine for regional extrema using flooding
-#include "itkValuedRegionalMaximaImageFilter.h"
-#include "itkHConvexImageFilter.h"
+#include "itkValuedRegionalMinimaImageFilter.h"
+#include "itkMaximumImageFilter.h"
+#include "itkHConcaveImageFilter.h"
+#include "itkInvertIntensityImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkAndImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
-int itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
+int itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
 {
   const int dim = 2;
 
@@ -37,19 +40,21 @@ int itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                PixelType;
-  typedef itk::Image< PixelType, dim > ImageType;
+  typedef unsigned char                 PixelType;
+  typedef itk::Image< PixelType, dim >  ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[2] );
 
-  typedef itk::ValuedRegionalMaximaImageFilter< ImageType, ImageType >
-                                                               FilterType;
+  typedef itk::ValuedRegionalMinimaImageFilter< ImageType, ImageType >
+                                                              FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
   filter->SetFullyConnected( atoi(argv[1]) );
   itk::SimpleFilterWatcher watcher(filter, "filter");
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, ValuedRegionalMinimaImageFilter, ValuedRegionalExtremaImageFilter );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
@@ -57,19 +62,18 @@ int itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
   writer->SetFileName( argv[3] );
   writer->Update();
 
-
   // produce the same output with other filters
-  typedef itk::HConvexImageFilter< ImageType, ImageType > ConvexType;
-  ConvexType::Pointer convex = ConvexType::New();
-  convex->SetInput( reader->GetOutput() );
-  convex->SetFullyConnected( atoi(argv[1]) );
-  convex->SetHeight( 1 );
+  typedef itk::HConcaveImageFilter< ImageType, ImageType > ConcaveType;
+  ConcaveType::Pointer concave = ConcaveType::New();
+  concave->SetInput( reader->GetOutput() );
+  concave->SetFullyConnected( atoi(argv[1]) );
+  concave->SetHeight( 1 );
 
-  // convex gives maxima with value=1 and others with value=0
-  // rescale the image so we have maxima=255 other=0
+  // concave gives minima with value=1 and others with value=0
+  // rescale the image so we have minima=255 other=0
   typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleType;
   RescaleType::Pointer rescale = RescaleType::New();
-  rescale->SetInput( convex->GetOutput() );
+  rescale->SetInput( concave->GetOutput() );
   rescale->SetOutputMaximum( 255 );
   rescale->SetOutputMinimum( 0 );
 
@@ -79,8 +83,23 @@ int itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
   a->SetInput(0, rescale->GetOutput() );
   a->SetInput(1, reader->GetOutput() );
 
+  // all pixel which are not minima must have value=255.
+  // get the non minima pixel by inverting the rescaled image
+  // we will have minima value=0 and non minima value=255
+  typedef itk::InvertIntensityImageFilter< ImageType, ImageType > InvertType;
+  InvertType::Pointer invert = InvertType::New();
+  invert->SetInput( rescale->GetOutput() );
+
+  // get the highest value from "a" and from invert. The minima have
+  // value>=0 in "a" image and the non minima have a value=0. In invert,
+  // the non minima have a value=255 and the minima a value=0
+  typedef itk::MaximumImageFilter< ImageType, ImageType, ImageType > MaxType;
+  MaxType::Pointer max = MaxType::New();
+  max->SetInput(0, invert->GetOutput() );
+  max->SetInput(1, a->GetOutput() );
+
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( a->GetOutput() );
+  writer2->SetInput( max->GetOutput() );
   writer2->SetFileName( argv[4] );
   writer2->Update();
 

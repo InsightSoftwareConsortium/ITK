@@ -30,25 +30,19 @@
 #include "itkSize.h"
 #include "itkConnectedComponentAlgorithm.h"
 
-/*
- * This code was contributed in the Insight Journal paper:
- * "The watershed transform in ITK - discussion and new developments"
- * by Beare R., Lehmann G.
- * https://hdl.handle.net/1926/202
- * http://www.insight-journal.org/browse/publication/92
- *
- */
-
 namespace itk
 {
+
 template< typename TInputImage, typename TLabelImage >
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
-::MorphologicalWatershedFromMarkersImageFilter()
+::MorphologicalWatershedFromMarkersImageFilter():
+  m_FullyConnected( false ),
+  m_MarkWatershedLine( true )
+
 {
   this->SetNumberOfRequiredInputs(2);
-  m_FullyConnected = false;
-  m_MarkWatershedLine = true;
 }
+
 
 template< typename TInputImage, typename TLabelImage >
 void
@@ -59,30 +53,34 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the inputs
-  LabelImagePointer markerPtr =
+  LabelImageType * marker =
     const_cast< LabelImageType * >( this->GetMarkerImage() );
 
-  InputImagePointer inputPtr =
+  InputImageType * input =
     const_cast< InputImageType * >( this->GetInput() );
 
-  if ( !markerPtr || !inputPtr )
-        { return; }
+  if ( !marker || !input )
+    {
+    return;
+    }
 
   // We need to
   // configure the inputs such that all the data is available.
   //
-  markerPtr->SetRequestedRegion( markerPtr->GetLargestPossibleRegion() );
-  inputPtr->SetRequestedRegion( inputPtr->GetLargestPossibleRegion() );
+  marker->SetRequestedRegion( marker->GetLargestPossibleRegion() );
+  input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
+
 
 template< typename TInputImage, typename TLabelImage >
 void
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()->SetRequestedRegion(
-    this->GetOutput()->GetLargestPossibleRegion() );
+  LabelImageType * output = this->GetOutput();
+  output->SetRequestedRegion( output->GetLargestPossibleRegion() );
 }
+
 
 template< typename TInputImage, typename TLabelImage >
 void
@@ -109,15 +107,14 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
 
   this->AllocateOutputs();
 
-  LabelImageConstPointer markerImage = this->GetMarkerImage();
-  InputImageConstPointer inputImage = this->GetInput();
-  LabelImagePointer      outputImage = this->GetOutput();
+  const LabelImageType * markerImage = this->GetMarkerImage();
+  const InputImageType * inputImage = this->GetInput();
+  LabelImageType * outputImage = this->GetOutput();
 
   // Set up the progress reporter
   // we can't found the exact number of pixel to process in the 2nd pass, so we
   // use the maximum number possible.
-  ProgressReporter
-  progress(this, 0, markerImage->GetRequestedRegion().GetNumberOfPixels() * 2);
+  ProgressReporter progress(this, 0, markerImage->GetRequestedRegion().GetNumberOfPixels() * 2);
 
   // mask and marker must have the same size
   if ( markerImage->GetRequestedRegion().GetSize() != inputImage->GetRequestedRegion().GetSize() )
@@ -450,6 +447,7 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
     }
 }
 
+
 template< typename TInputImage, typename TLabelImage >
 void
 MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
@@ -460,5 +458,6 @@ MorphologicalWatershedFromMarkersImageFilter< TInputImage, TLabelImage >
   os << indent << "FullyConnected: "  << m_FullyConnected << std::endl;
   os << indent << "MarkWatershedLine: "  << m_MarkWatershedLine << std::endl;
 }
+
 } // end namespace itk
 #endif

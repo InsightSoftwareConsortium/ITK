@@ -20,35 +20,38 @@
 #include "itkImageFileWriter.h"
 
 #include "itkSimpleFilterWatcher.h"
-#include "itkIntensityWindowingImageFilter.h"
-#include "itkMorphologicalWatershedImageFilter.h"
+#include "itkMorphologicalWatershedFromMarkersImageFilter.h"
 #include "itkLabelOverlayImageFilter.h"
+#include "itkTestingMacros.h"
 
-int itkMorphologicalWatershedImageFilterTest(int argc, char * argv[])
+int itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
 {
   if( argc < 6 )
     {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage OutputImage MarkWatershedLine";
-    std::cerr << " FullyConnected Level [OvelayOutput [Alpha]]" << std::endl;
+    std::cerr << " InputImage MarkerImage OutputImage MarkWatershedLine FullyConnected [OvelayOutput [Alpha]]" << std::endl;
     return EXIT_FAILURE;
     }
   const int dim = 2;
 
-  typedef unsigned char PixelType;
+  typedef unsigned char PType;
 
-  typedef itk::Image< PixelType, dim > ImageType;
+  typedef itk::Image< PType, dim > IType;
 
-  typedef itk::ImageFileReader< ImageType > ReaderType;
+  typedef itk::ImageFileReader< IType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  typedef itk::MorphologicalWatershedImageFilter<
-    ImageType, ImageType > FilterType;
+  ReaderType::Pointer reader2 = ReaderType::New();
+  reader2->SetFileName( argv[2] );
 
+  typedef itk::MorphologicalWatershedFromMarkersImageFilter< IType, IType > FilterType;
   FilterType::Pointer filter = FilterType::New();
   filter->SetInput( reader->GetOutput() );
+  filter->SetMarkerImage( reader2->GetOutput() );
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter, MorphologicalWatershedFromMarkersImageFilter, ImageToImageFilter );
 
   // test default values
   if ( filter->GetMarkWatershedLine( ) != true )
@@ -61,66 +64,27 @@ int itkMorphologicalWatershedImageFilterTest(int argc, char * argv[])
     std::cerr << "Wrong default FullyConnected." << std::endl;
     return EXIT_FAILURE;
     }
-  if ( filter->GetLevel( ) != 0 )
-    {
-    std::cerr << "Wrong default Level." << std::endl;
-    return EXIT_FAILURE;
-    }
 
-
-  filter->SetMarkWatershedLine( atoi( argv[3] ) );
-  if ( filter->GetMarkWatershedLine( ) != (bool)atoi(argv[3]) )
+  filter->SetMarkWatershedLine( atoi( argv[4] ) );
+  if ( filter->GetMarkWatershedLine( ) != (bool)atoi(argv[4]) )
     {
     std::cerr << "Set/Get MarkWatershedLine problem." << std::endl;
     return EXIT_FAILURE;
     }
-  filter->SetFullyConnected( atoi( argv[4] ) );
-  if ( filter->GetFullyConnected( ) != (bool)atoi(argv[4]) )
+  filter->SetFullyConnected( atoi( argv[5] ) );
+  if ( filter->GetFullyConnected( ) != (bool)atoi(argv[5]) )
     {
     std::cerr << "Set/Get FullyConnected problem." << std::endl;
     return EXIT_FAILURE;
     }
 
-  filter->SetLevel( atoi( argv[5] ) );
-
-  if ( filter->GetLevel( ) != atoi(argv[5]) )
-    {
-    std::cerr << "Set/Get Level problem." << std::endl;
-    return EXIT_FAILURE;
-    }
-
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  try
-    {
-    filter->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  // rescale the output to have a better display
-  typedef itk::MinimumMaximumImageCalculator< ImageType > MaxCalculatorType;
-  MaxCalculatorType::Pointer max = MaxCalculatorType::New();
-  max->SetImage( filter->GetOutput() );
-  max->Compute();
-
-  typedef itk::IntensityWindowingImageFilter<
-    ImageType, ImageType > RescaleType;
-
-  RescaleType::Pointer rescale = RescaleType::New();
-  rescale->SetInput( filter->GetOutput() );
-  rescale->SetWindowMinimum( itk::NumericTraits< PixelType >::ZeroValue() );
-  rescale->SetWindowMaximum( max->GetMaximum() );
-  rescale->SetOutputMaximum( itk::NumericTraits< PixelType >::max() );
-  rescale->SetOutputMinimum( itk::NumericTraits< PixelType >::ZeroValue() );
-
-  typedef itk::ImageFileWriter< ImageType > WriterType;
+  typedef itk::ImageFileWriter< IType > WriterType;
   WriterType::Pointer writer = WriterType::New();
-  writer->SetInput( rescale->GetOutput() );
-  writer->SetFileName( argv[2] );
+  writer->SetInput( filter->GetOutput() );
+  writer->SetFileName( argv[3] );
+  writer->Update();
 
   try
     {
@@ -134,12 +98,10 @@ int itkMorphologicalWatershedImageFilterTest(int argc, char * argv[])
 
   if( argc > 6 )
     {
-    typedef itk::RGBPixel< unsigned char >     RGBPixelType;
-    typedef itk::Image< RGBPixelType, dim >    RGBImageType;
+    typedef itk::RGBPixel<unsigned char>   RGBPixelType;
+    typedef itk::Image<RGBPixelType, dim>  RGBImageType;
 
-    typedef itk::LabelOverlayImageFilter<
-      ImageType, ImageType, RGBImageType> OverlayType;
-
+    typedef itk::LabelOverlayImageFilter<IType, IType, RGBImageType> OverlayType;
     OverlayType::Pointer overlay = OverlayType::New();
     overlay->SetInput( reader->GetOutput() );
     overlay->SetLabelImage( filter->GetOutput() );
