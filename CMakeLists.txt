@@ -1,4 +1,3 @@
-
 set(headers
   bignum.h
   cached-powers.h
@@ -23,6 +22,16 @@ strtod.cc
 ${headers}
 )
 
+target_include_directories(double-conversion PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/..>)
+
+# Add fPIC on x86_64 when supported.
+include(CheckCXXCompilerFlag)
+check_cxx_compiler_flag(-fPIC CXX_HAS_FPIC)
+
+if(CXX_HAS_FPIC AND CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+  set_target_properties(double-conversion PROPERTIES COMPILE_FLAGS "-fPIC")
+endif()
+
 #
 # associates the list of headers with the library
 # for the purposes of installation/import into other projects
@@ -41,8 +50,8 @@ endif()
 # pulls along all the header files with the library.
 install(TARGETS double-conversion
   EXPORT double-conversionLibraryDepends
-  RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
-  LIBRARY DESTINATION "${INSTALL_LIB_DIR}/lib" COMPONENT shlib
-  ARCHIVE DESTINATION "${INSTALL_LIB_DIR}/lib" COMPONENT lib
-  PUBLIC_HEADER DESTINATION "${INSTALL_INCLUDE_DIR}/include/double-conversion"
+  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}" COMPONENT bin
+  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT shlib
+  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}" COMPONENT lib
+  PUBLIC_HEADER DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/double-conversion"
   COMPONENT dev)
