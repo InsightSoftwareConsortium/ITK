@@ -216,7 +216,7 @@ macro(itk_end_wrap_submodule_castxml module)
     set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ) -fexceptions)
     if(MSVC90)
       # needed for VS2008 64 bit
-      set(_castxml_cc ${_castxml_cc} -D"_HAS_TR1=0")
+      set(_castxml_cc ${_castxml_cc} "-D_HAS_TR1=0")
     endif()
   else()
     set(_castxml_cc --castxml-cc-gnu ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ))
