@@ -46,14 +46,13 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputIn
   if (linear_index > this->m_TotalOutputs - 1 || linear_index < 0)
     itkExceptionMacro(<< "Failed converting liner index " << linear_index << " to Level,Band pair : out of bounds");
   // Low pass (band = 0).
-  if (linear_index == 0)
-    return std::make_pair(this->m_Levels, 0);
+  // if (linear_index == this->m_TotalOutputs - 1 )
+  //   return std::make_pair(this->m_Levels, 0);
 
-  unsigned int band = (linear_index - 1) % this->m_HighPassSubBands;
-  band = band + 1;
+  unsigned int band = (linear_index) % this->m_HighPassSubBands;
   // note integer division ahead.
-  unsigned int level = (linear_index - band) / this->m_HighPassSubBands + 1;
-  assert(level > 0);
+  unsigned int level = (linear_index) / this->m_HighPassSubBands;
+  itkAssertInDebugAndIgnoreInReleaseMacro(level >= 0);
   return std::make_pair(level, band);
 };
 
@@ -215,6 +214,8 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
   for (unsigned int level = 0; level < this->m_Levels; ++level)
   {
+    // Calculate size of low_pass per level
+    double scaleFactorPerLevel = std::pow(static_cast<double>(this->m_ScaleFactor), static_cast<int>(level + 1));
     // Bands per level . No downsampling.
     for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
     {
@@ -230,13 +231,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
       outputPtr->SetLargestPossibleRegion(largestPossibleRegion);
       outputPtr->SetOrigin(outputOrigin);
-      outputPtr->SetSpacing(outputSpacing);
+      outputPtr->SetSpacing(outputSpacing / scaleFactorPerLevel);
       // outputPtr->SetDirection(outputDirection);
     }
 
-    // Calculate size of low_pass per level
-    // unsigned int scaleFactorPerLevel = std::pow(static_cast<double>(this->m_ScaleFactor), static_cast<int>(level + 1
-    // ))); Calculate new Size and Index, per dim.
+    // Calculate new Size and Index, per dim.
     for (unsigned int idim = 0; idim < OutputImageType::ImageDimension; idim++)
     {
       // Size divided by scale
@@ -248,7 +247,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       low_passStartIndex[idim] =
         static_cast<IndexValueType>(std::ceil(static_cast<double>(inputStartIndex[idim]) / this->m_ScaleFactor));
       // Spacing
-      low_passSpacing[idim] = outputSpacing[idim];
+      low_passSpacing[idim] = outputSpacing[idim] / scaleFactorPerLevel;
       // Origin.
       low_passOrigin[idim] = outputOrigin[idim];
     }
@@ -266,7 +265,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       largestPossibleRegion.SetIndex(low_passStartIndex);
       outputPtr->SetLargestPossibleRegion(largestPossibleRegion);
       outputPtr->SetOrigin(outputOrigin);
-      outputPtr->SetSpacing(outputSpacing);
+      outputPtr->SetSpacing(outputSpacing / scaleFactorPerLevel);
       // outputPtr->SetDirection(low_passDirection);
     }
   }
