@@ -143,6 +143,10 @@ int itkPNGImageIOTest( int argc, char * argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( writer->Write() );
 
+
+  // Release memory
+  delete[] loadBuffer;
+
   // Exercise other methods
   itk::ImageIOBase::SizeType pixelStride = io->GetPixelStride();
   std::cout << "PixelStride: "

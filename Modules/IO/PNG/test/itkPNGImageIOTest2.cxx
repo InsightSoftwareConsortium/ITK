@@ -193,6 +193,10 @@ int itkPNGImageIOTest2( int argc, char * argv[] )
 
   TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
+
+  // Release memory
+  delete[] loadBuffer;
+
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
