@@ -174,6 +174,9 @@ int itkBMPImageIOTestPalette( int argc, char* argv[] )
   // io->SetMetaDataDictionary();
 
 
+  // Release memory
+  delete[] loadBuffer;
+
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

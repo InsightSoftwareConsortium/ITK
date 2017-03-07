@@ -172,6 +172,10 @@ int itkPNGImageIOTestPalette( int argc, char * argv[] )
   // Use the MetaDataDictionary
   // io->SetMetaDataDictionary();
 
+
+  // Release memory
+  delete[] loadBuffer;
+
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
