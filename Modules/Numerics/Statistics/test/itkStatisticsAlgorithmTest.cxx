@@ -18,6 +18,7 @@
 
 #include "itkListSample.h"
 #include "itkStatisticsAlgorithm.h"
+#include "itkTestingMacros.h"
 
 int itkStatisticsAlgorithmTest( int, char * [] )
 {
@@ -38,48 +39,27 @@ int itkStatisticsAlgorithmTest( int, char * [] )
   // Testing the exception throwing for samples of measurement size = 0
   sample->SetMeasurementVectorSize( 0 );
 
-  try
-    {
-    itk::Statistics::Algorithm::FindSampleBound(
+  TRY_EXPECT_EXCEPTION(
+      itk::Statistics::Algorithm::FindSampleBound(
       constSample,
       constSample->Begin(), constSample->End(),
-      lower, upper
-      );
-    std::cerr << "Failure to throw expected exception when " << std::endl;
-    std::cerr << " MeasurementVectorType() has been set to zero" << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & )
-    {
-    std::cout << "Got Expected exception" << std::endl;
-    }
+      lower, upper)
+  );
 
   // Now set the correct measurement vector size
   sample->SetMeasurementVectorSize( measurementVectorSize );
 
   // Testing the equivalent of an empty sample by passing
   // the Begin() iterator inlieu of the End() iterator.
-  //
 
-  try
-    {
-    itk::Statistics::Algorithm::FindSampleBound(
-      constSample,
-      constSample->Begin(), constSample->Begin(),
-      lower, upper
-      );
-    std::cerr << "Failure to throw expected exception when " << std::endl;
-    std::cerr << " attempting to compute bound of an empty sample list" << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cout << excp << std::endl;
-    }
-
+  TRY_EXPECT_EXCEPTION(
+      itk::Statistics::Algorithm::FindSampleBound(
+          constSample,
+          constSample->Begin(), constSample->Begin(),
+          lower, upper)
+  );
 
   MeasurementVectorType measure( measurementVectorSize );
-
   MeasurementVectorType realUpper( measurementVectorSize );
   MeasurementVectorType realLower( measurementVectorSize );
 
@@ -91,7 +71,6 @@ int itkStatisticsAlgorithmTest( int, char * [] )
   // Force the first value not to be the min or max.
   measure[0] = 13;
   measure[1] = 39;
-
   sample->PushBack( measure );
 
   for( unsigned int i = 1; i < numberOfSamples; i++ )
@@ -114,22 +93,13 @@ int itkStatisticsAlgorithmTest( int, char * [] )
       }
     }
 
-
   // Now testing the real algorithm
-  try
-    {
-    itk::Statistics::Algorithm::FindSampleBound(
-      constSample,
-      constSample->Begin(), constSample->End(),
-      lower, upper
-      );
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cout << excp << std::endl;
-    return EXIT_FAILURE;
-    }
-
+  TRY_EXPECT_NO_EXCEPTION(
+      itk::Statistics::Algorithm::FindSampleBound(
+          constSample,
+          constSample->Begin(), constSample->End(),
+          lower, upper)
+  );
 
   const float epsilon = 1e-5;
 
