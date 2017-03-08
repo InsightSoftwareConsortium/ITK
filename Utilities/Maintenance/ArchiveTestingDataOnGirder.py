@@ -40,13 +40,55 @@ class GirderExternalDataCli(GirderClient):
         :param parentType: one of (collection,folder,user), default of folder.
         :param reuseExisting: bool whether to accept an existing item of
             the same name in the same location, or create a new one instead.
+        :param dryRun: Do not actually upload any content.
         """
         parentId = self._checkResourcePath(parentId)
         localFolder = os.path.normpath(localFolder)
-        self._uploadFolderRecursive(
-            localFolder, parentId, parentType, ext,
-            reuseExisting=reuseExisting, blacklist=blacklist,
-            dryRun=dryRun)
+        for entry in os.listdir(localFolder):
+            if entry in blacklist:
+                print("Ignoring file %s as it is blacklisted" % entry)
+                continue
+            full_entry = os.path.join(localFolder, entry)
+            if os.path.islink(full_entry):
+                # os.walk skips symlinks by default
+                print("Skipping file %s as it is a symlink" % entry)
+                continue
+            if os.path.isdir(full_entry):
+                self._uploadFolderRecursive(
+                    full_entry, parentId, parentType, ext,
+                    reuseExisting=reuseExisting, blacklist=blacklist,
+                    dryRun=dryRun)
+
+    def _uploadContentLinkItem(self, name, content_link, folder,
+            ext='.sha512', parentType='folder', dryRun=False,
+            reuseExisting=False):
+        """Upload objects corresponding to CMake ExternalData content links.
+
+        This will upload the file with name, *name*, for the content link
+        located at *content_link* to the Girder folder, *folder*.
+
+        :param ext: Content link file extension.
+        :param parentType: one of (collection,folder,user), default of folder.
+        :param reuseExisting: bool whether to accept an existing item of
+            the same name in the same location, or create a new one instead.
+        :param dryRun: Do not actually upload any content.
+        """
+        content_link = os.path.normpath(content_link)
+        if os.path.isfile(content_link) and \
+                fnmatch.fnmatch(content_link, '*' + ext):
+            if parentType != 'folder':
+                raise Exception(('Attempting to upload an item under a %s.'
+                                % parentType) +
+                                ' Items can only be added to folders.')
+            else:
+                with open(content_link, 'r') as fp:
+                    hash_value = fp.readline().strip()
+                self._uploadAsItem(
+                    name,
+                    folder['_id'],
+                    os.path.join(self.objectStore, hash_value),
+                    reuseExisting=reuseExisting,
+                    dryRun=dryRun)
 
     def _uploadFolderRecursive(self, localFolder, parentId, parentType,
                                  ext='.sha512',
@@ -67,8 +109,7 @@ class GirderExternalDataCli(GirderClient):
         localFolder = os.path.normpath(localFolder)
         filename = os.path.basename(localFolder)
         if filename in blacklist:
-            if dryRun:
-                print("Ignoring file %s as it is blacklisted" % filename)
+            print("Ignoring file %s as it is blacklisted" % filename)
             return
 
         # Do not add the folder if it does not contain any content links
@@ -92,8 +133,7 @@ class GirderExternalDataCli(GirderClient):
 
         for entry in sorted(os.listdir(localFolder)):
             if entry in blacklist:
-                if dryRun:
-                    print("Ignoring file %s as it is blacklisted" % entry)
+                print("Ignoring file %s as it is blacklisted" % entry)
                 continue
             full_entry = os.path.join(localFolder, entry)
             if os.path.islink(full_entry):
@@ -108,22 +148,10 @@ class GirderExternalDataCli(GirderClient):
                     ext, reuseExisting=reuseExisting,
                     blacklist=blacklist, dryRun=dryRun)
             else:
-                full_entry = os.path.normpath(full_entry)
-                if os.path.isfile(full_entry) and \
-                        fnmatch.fnmatch(full_entry, '*' + ext):
-                    if parentType != 'folder':
-                        raise Exception(('Attempting to upload an item under a %s.'
-                                        % parentType) +
-                                        ' Items can only be added to folders.')
-                    else:
-                        with open(full_entry, 'r') as fp:
-                            hash_value = fp.readline().strip()
-                        self._uploadAsItem(
-                            os.path.splitext(entry)[0],
-                            folder['_id'],
-                            os.path.join(self.objectStore, hash_value),
-                            reuseExisting=reuseExisting,
-                            dryRun=dryRun)
+                name = os.path.splitext(entry)[0]
+                self._uploadContentLinkItem(name, full_entry, folder,
+                        ext=ext, parentType=parentType, dryRun=dryRun,
+                        reuseExisting=reuseExisting)
 
             if not dryRun:
                 for callback in self._folderUploadCallbacks:
