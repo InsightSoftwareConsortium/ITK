@@ -25,25 +25,18 @@
 #include "itkMorphologicalWatershedFromMarkersImageFilter.h"
 #include "itkNumericTraits.h"
 
-/*
- * This code was contributed in the Insight Journal paper:
- * "The watershed transform in ITK - discussion and new developments"
- * by Beare R., Lehmann G.
- * https://hdl.handle.net/1926/202
- * http://www.insight-journal.org/browse/publication/92
- *
- */
-
 namespace itk
 {
+
 template< typename TInputImage, typename TOutputImage >
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
-::MorphologicalWatershedImageFilter()
+::MorphologicalWatershedImageFilter():
+  m_FullyConnected( false ),
+  m_MarkWatershedLine( true ),
+  m_Level( NumericTraits< InputImagePixelType >::ZeroValue() )
 {
-  m_FullyConnected = false;
-  m_MarkWatershedLine = true;
-  m_Level = NumericTraits< InputImagePixelType >::ZeroValue();
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -54,20 +47,24 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
-  InputImagePointer input = const_cast< InputImageType * >( this->GetInput() );
+  InputImageType * input = const_cast< InputImageType * >( this->GetInput() );
   if ( !input )
-        { return; }
+    {
+    return;
+    }
   input->SetRequestedRegion( input->GetLargestPossibleRegion() );
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
 ::EnlargeOutputRequestedRegion(DataObject *)
 {
-  this->GetOutput()
-  ->SetRequestedRegion( this->GetOutput()->GetLargestPossibleRegion() );
+  OutputImageType * output = this->GetOutput();
+  output->SetRequestedRegion( output->GetLargestPossibleRegion() );
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -82,6 +79,8 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   // Allocate the output
   this->AllocateOutputs();
 
+  const InputImageType * input = this->GetInput();
+
   // h-minima filter to remove the smallest minima
   typedef HMinimaImageFilter< TInputImage, TInputImage > HMinimaType;
   typename HMinimaType::Pointer hmin;
@@ -89,7 +88,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   // Delegate to a R-Min filter to find the regional minima
   typedef RegionalMinimaImageFilter< TInputImage, TOutputImage > RMinType;
   typename RMinType::Pointer rmin = RMinType::New();
-  rmin->SetInput( this->GetInput() );
+  rmin->SetInput( input );
   rmin->SetFullyConnected(m_FullyConnected);
   rmin->SetBackgroundValue(NumericTraits< OutputImagePixelType >::ZeroValue());
   rmin->SetForegroundValue( NumericTraits< OutputImagePixelType >::max() );
@@ -106,7 +105,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   MorphologicalWatershedFromMarkersImageFilter< TInputImage, TOutputImage >
   WatershedType;
   typename WatershedType::Pointer wshed = WatershedType::New();
-  wshed->SetInput( this->GetInput() );
+  wshed->SetInput( input );
   wshed->SetMarkerImage( label->GetOutput() );
   wshed->SetFullyConnected(m_FullyConnected);
   wshed->SetMarkWatershedLine(m_MarkWatershedLine);
@@ -116,7 +115,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
     // insert a h-minima filter to remove the smallest minima
     //
     hmin = HMinimaType::New();
-    hmin->SetInput( this->GetInput() );
+    hmin->SetInput( input );
     hmin->SetHeight(m_Level);
     hmin->SetFullyConnected(m_FullyConnected);
     // replace the input of the r-min filter
@@ -148,6 +147,7 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( wshed->GetOutput() );
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
@@ -161,5 +161,6 @@ MorphologicalWatershedImageFilter< TInputImage, TOutputImage >
      << static_cast< typename NumericTraits< InputImagePixelType >::PrintType >( m_Level )
      << std::endl;
 }
+
 } // end namespace itk
 #endif

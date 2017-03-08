@@ -15,23 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkValuedRegionalMaximaImageFilter_h
-#define itkValuedRegionalMaximaImageFilter_h
+#ifndef itkValuedRegionalMinimaImageFilter_h
+#define itkValuedRegionalMinimaImageFilter_h
 
 #include "itkValuedRegionalExtremaImageFilter.h"
 #include "itkConceptChecking.h"
 
-#include <functional>
-
 namespace itk
 {
-/** \class ValuedRegionalMaximaImageFilter
- * \brief Transforms the image so that any pixel that is not a
- * regional maxima is set to the minimum value for the pixel
- * type. Pixels that are regional maxima retain their value.
+/** \class ValuedRegionalMinimaImageFilter
  *
- * Regional maxima are flat zones surrounded by pixels of lower
- * value. A completely flat image will be marked as a regional maxima
+ * \brief Transforms the image so that any pixel that is not a
+ * regional minima is set to the maximum value for the pixel
+ * type. Pixels that are regional minima retain their value.
+ *
+ * Regional minima are flat zones surrounded by pixels of higher
+ * value. A completely flat image will be marked as a regional minima
  * by this filter.
  *
  * This code was contributed in the Insight Journal paper:
@@ -43,31 +42,29 @@ namespace itk
  * \author Richard Beare. Department of Medicine, Monash University,
  * Melbourne, Australia.
  *
- * \sa ValuedRegionalMinimaImageFilter
- * \sa ValuedRegionalExtremaImageFilter
+ * \sa ValuedRegionalMaximaImageFilter, ValuedRegionalExtremaImageFilter,
  * \sa HMinimaImageFilter
- *
  * \ingroup MathematicalMorphologyImageFilters
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  *
  * \wiki
- * \wikiexample{ImageProcessing/ValuedRegionalMaximaImageFilter,ValuedRegionalMaximaImageFilter}
+ * \wikiexample{ImageProcessing/ValuedRegionalMinimaImageFilter,ValuedRegionalMinimaImageFilter}
  * \endwiki
  */
-
 template< typename TInputImage, typename TOutputImage >
-class ValuedRegionalMaximaImageFilter:
+class ValuedRegionalMinimaImageFilter:
   public
   ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
-                                    std::greater< typename TInputImage::PixelType >,
-                                    std::greater< typename TOutputImage::PixelType >  >
+                                    std::less< typename TInputImage::PixelType >,
+                                    std::less< typename TOutputImage::PixelType >
+                                    >
 {
 public:
-  typedef ValuedRegionalMaximaImageFilter Self;
+  typedef ValuedRegionalMinimaImageFilter Self;
 
   typedef ValuedRegionalExtremaImageFilter< TInputImage, TOutputImage,
-                                            std::greater< typename TInputImage::PixelType >,
-                                            std::greater< typename TOutputImage::PixelType > > Superclass;
+                                            std::less< typename TInputImage::PixelType >,
+                                            std::less< typename TOutputImage::PixelType >  > Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -79,13 +76,13 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(ValuedRegionalMaximaImageFilter,
+  itkTypeMacro(ValuedRegionalMinimaImageFilter,
                ValuedRegionalExtremaImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( InputPixelTypeComparable,
-                   ( Concept::GreaterThanComparable< InputImagePixelType > ) );
+                   ( Concept::LessThanComparable< InputImagePixelType > ) );
   itkConceptMacro( InputHasPixelTraitsCheck,
                    ( Concept::HasPixelTraits< InputImagePixelType > ) );
   itkConceptMacro( InputHasNumericTraitsCheck,
@@ -94,18 +91,16 @@ public:
 #endif
 
 protected:
-  ValuedRegionalMaximaImageFilter()
+  ValuedRegionalMinimaImageFilter()
   {
-    this->SetMarkerValue(
-      NumericTraits< typename TOutputImage::PixelType >::NonpositiveMin() );
+    this->SetMarkerValue( NumericTraits< typename TOutputImage::PixelType >::max() );
   }
 
-  virtual ~ValuedRegionalMaximaImageFilter() {}
+  virtual ~ValuedRegionalMinimaImageFilter() {}
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMaximaImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMinimaImageFilter);
 };                                               // end
-                                                 // ValuedRegionalMaximaImageFilter
+                                                 // ValuedRegionalMinimaImageFilter
 } //end namespace itk
-
 #endif

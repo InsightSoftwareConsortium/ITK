@@ -6,7 +6,16 @@ neighboring regions and the boundaries between them are analyzed according
 to some saliency measure (such as minimum boundary height) to produce a
 tree of merges among adjacent regions.  These merges occur at different
 maximum saliency values.  Finally, a label images are generated from the merge
-tree.")
+tree.
+
+This module also contains classes related to marker-based watershed
+segmentation. For more information, see the Insight Journal article:
+
+Beare, R. and Lehmann, G. \"The watershed transform in ITK - discussion
+and new developments.\"  The Insight Journal - 2006 January - June.
+http://hdl.handle.net/1926/202
+http://www.insight-journal.org/browse/publication/92
+")
 
 itk_module(ITKWatersheds
   ENABLE_SHARED
@@ -15,8 +24,10 @@ itk_module(ITKWatersheds
     ITKThresholding
     ITKImageGradient
     ITKSmoothing
+    ITKMathematicalMorphology
   TEST_DEPENDS
     ITKTestKernel
+    ITKImageFusion
   DESCRIPTION
     "${DOCUMENTATION}"
 )

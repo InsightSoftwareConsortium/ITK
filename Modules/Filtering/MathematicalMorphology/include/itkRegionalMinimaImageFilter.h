@@ -15,48 +15,46 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkMorphologicalWatershedImageFilter_h
-#define itkMorphologicalWatershedImageFilter_h
+#ifndef itkRegionalMinimaImageFilter_h
+#define itkRegionalMinimaImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk
 {
-/** \class MorphologicalWatershedImageFilter
- * \brief TODO
+/** \class RegionalMinimaImageFilter
+ * \brief Produce a binary image where foreground is the regional minima of the
+ * input image.
  *
- * TODO
+ * Regional minima are flat zones surrounded by pixels of greater value.
  *
- * Watershed pixel are labeled 0.
- * TOutputImage should be an integer type.
- * Labels of output image are in no particular order. You can reorder the
- * labels such that object labels are consecutive and sorted based on object
- * size by passing the output of this filter to a RelabelComponentImageFilter.
+ * If the input image is constant, the entire image can be considered as a
+ * minima or not.  The SetFlatIsMinima() method let the user choose which
+ * behavior to use.
  *
- * The morphological watershed transform algorithm is described in
- * Chapter 9.2 of Pierre Soille's book "Morphological Image Analysis:
- * Principles and Applications", Second Edition, Springer, 2003.
+ * This class was contribtued to the Insight Journal by
+ * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction,
+ * INRA de Jouy-en-Josas, France.
+ *      https://hdl.handle.net/1926/153
  *
+ * \sa RegionalMaximaImageFilter
+ * \sa ValuedRegionalMinimaImageFilter
+ * \sa HConcaveImageFilter
  *
- * This code was contributed in the Insight Journal paper:
- * "The watershed transform in ITK - discussion and new developments"
- * by Beare R., Lehmann G.
- * https://hdl.handle.net/1926/202
- * http://www.insight-journal.org/browse/publication/92
+ * \ingroup MathematicalMorphologyImageFilters
+ * \ingroup ITKMathematicalMorphology
  *
- * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
- *
- * \sa WatershedImageFilter, MorphologicalWatershedFromMarkersImageFilter
- * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITKReview
+ * \wiki
+ * \wikiexample{ImageProcessing/RegionalMinimaImageFilter,RegionalMinimaImageFilter}
+ * \endwiki
  */
 template< typename TInputImage, typename TOutputImage >
-class ITK_TEMPLATE_EXPORT MorphologicalWatershedImageFilter:
+class ITK_TEMPLATE_EXPORT RegionalMinimaImageFilter:
   public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef MorphologicalWatershedImageFilter               Self;
+  typedef RegionalMinimaImageFilter                       Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -83,7 +81,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MorphologicalWatershedImageFilter,
+  itkTypeMacro(RegionalMinimaImageFilter,
                ImageToImageFilter);
 
   /**
@@ -97,30 +95,47 @@ public:
   itkBooleanMacro(FullyConnected);
 
   /**
-   * Set/Get whether the watershed pixel must be marked or not. Default
-   * is true. Set it to false do not only avoid writing watershed pixels,
-   * it also decrease algorithm complexity.
+   * Set/Get the value in the output image to consider as "foreground".
+   * Defaults to maximum value of PixelType.
    */
-  itkSetMacro(MarkWatershedLine, bool);
-  itkGetConstReferenceMacro(MarkWatershedLine, bool);
-  itkBooleanMacro(MarkWatershedLine);
+  itkSetMacro(ForegroundValue, OutputImagePixelType);
+  itkGetConstMacro(ForegroundValue, OutputImagePixelType);
 
   /**
+   * Set/Get the value used as "background" in the output image.
+   * Defaults to NumericTraits<PixelType>::NonpositiveMin().
    */
-  itkSetMacro(Level, InputImagePixelType);
-  itkGetConstMacro(Level, InputImagePixelType);
+  itkSetMacro(BackgroundValue, OutputImagePixelType);
+  itkGetConstMacro(BackgroundValue, OutputImagePixelType);
+
+  /**
+   * Set/Get wether a flat image must be considered as a minima or not.
+   * Defaults to true.
+   */
+  itkSetMacro(FlatIsMinima, bool);
+  itkGetConstMacro(FlatIsMinima, bool);
+  itkBooleanMacro(FlatIsMinima);
+
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro( InputHasPixelTraitsCheck,
+                   ( Concept::HasPixelTraits< InputImagePixelType > ) );
+  itkConceptMacro( InputHasNumericTraitsCheck,
+                   ( Concept::HasNumericTraits< InputImagePixelType > ) );
+  // End concept checking
+#endif
 
 protected:
-  MorphologicalWatershedImageFilter();
-  ~MorphologicalWatershedImageFilter() {}
+  RegionalMinimaImageFilter();
+  ~RegionalMinimaImageFilter() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** MorphologicalWatershedImageFilter needs the entire input be
+  /** RegionalMinimaImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of
    * GenerateInputRequestedRegion(). */
   void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  /** MorphologicalWatershedImageFilter will produce the entire output. */
+  /** RegionalMinimaImageFilter will produce the entire output. */
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates
@@ -128,18 +143,17 @@ protected:
   void GenerateData() ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MorphologicalWatershedImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(RegionalMinimaImageFilter);
 
-  bool m_FullyConnected;
-
-  bool m_MarkWatershedLine;
-
-  InputImagePixelType m_Level;
+  bool                 m_FullyConnected;
+  bool                 m_FlatIsMinima;
+  OutputImagePixelType m_ForegroundValue;
+  OutputImagePixelType m_BackgroundValue;
 }; // end of class
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkMorphologicalWatershedImageFilter.hxx"
+#include "itkRegionalMinimaImageFilter.hxx"
 #endif
 
 #endif

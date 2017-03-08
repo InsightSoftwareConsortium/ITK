@@ -23,6 +23,7 @@
 namespace itk
 {
 /** \class MorphologicalWatershedFromMarkersImageFilter
+ *
  * \brief Morphological watershed transform from markers
  *
  * The watershed transform is a tool for image segmentation that is fast
@@ -74,7 +75,7 @@ namespace itk
  *
  * \sa WatershedImageFilter, MorphologicalWatershedImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
- * \ingroup ITKReview
+ * \ingroup ITKWatersheds
  */
 template< typename TInputImage, typename TLabelImage >
 class ITK_TEMPLATE_EXPORT MorphologicalWatershedFromMarkersImageFilter:
@@ -109,8 +110,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(MorphologicalWatershedFromMarkersImageFilter,
-               ImageToImageFilter);
+  itkTypeMacro(MorphologicalWatershedFromMarkersImageFilter, ImageToImageFilter);
 
   /** Set the marker image */
   void SetMarkerImage(const TLabelImage *input)
