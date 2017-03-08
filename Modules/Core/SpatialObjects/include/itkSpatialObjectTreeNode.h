@@ -23,8 +23,9 @@
 
 namespace itk
 {
+
 template< unsigned int TDimension >
-class SpatialObject;
+class ITK_TEMPLATE_EXPORT SpatialObject;
 
 /** \class SpatialObjectTreeNode
  * \brief TODO
