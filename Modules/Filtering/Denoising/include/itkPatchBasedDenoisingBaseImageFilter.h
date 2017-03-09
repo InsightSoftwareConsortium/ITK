@@ -177,6 +177,7 @@ public:
   /** Set/Get the weight on the smoothing term.
    *  This option is used when a noise model is specified.
    *  This weight controls the balance between the smoothing and the closeness to the noisy data.
+   *  Large stepsizes may cause instabilities.
    */
   itkSetClampMacro(SmoothingWeight, double, 0.0, 1.0);
   itkGetConstMacro(SmoothingWeight, double);
@@ -184,6 +185,7 @@ public:
   /** Set/Get the weight on the fidelity term (penalizes deviations from the noisy data).
    *  This option is used when a noise model is specified.
    *  This weight controls the balance between the smoothing and the closeness to the noisy data.
+   *  Use a positive weight to prevent oversmoothing.
    */
   itkSetClampMacro(NoiseModelFidelityWeight, double, 0.0, 1.0);
   itkGetConstMacro(NoiseModelFidelityWeight, double);

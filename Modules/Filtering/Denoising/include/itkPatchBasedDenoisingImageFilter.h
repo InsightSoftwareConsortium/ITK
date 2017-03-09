@@ -207,6 +207,9 @@ public:
   itkSetObjectMacro(Sampler, BaseSamplerType);
   itkGetModifiableObjectMacro(Sampler, BaseSamplerType);
 
+  /** Get the number of independent components of the input. */
+  itkGetConstMacro(NumIndependentComponents, unsigned int);
+
 protected:
   PatchBasedDenoisingImageFilter();
   ~PatchBasedDenoisingImageFilter();

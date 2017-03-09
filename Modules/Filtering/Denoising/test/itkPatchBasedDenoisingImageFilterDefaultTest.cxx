@@ -15,127 +15,107 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkStdStreamLogOutput.h"
 #include "itkPatchBasedDenoisingImageFilter.h"
+#include "itkTestingMacros.h"
 
-template <typename ImageT>
-int doDenoising(const std::string & inputFileName, const std::string & outputFileName)
+
+template< typename ImageT >
+int doDenoising( const std::string & inputFileName, const std::string & outputFileName )
 {
   typedef itk::ImageFileReader< ImageT > ReaderType;
 
-  typedef itk::PatchBasedDenoisingImageFilter<ImageT, ImageT> FilterType;
+  typedef itk::PatchBasedDenoisingImageFilter< ImageT, ImageT > FilterType;
 
   typedef typename FilterType::OutputImageType OutputImageType;
 
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
 
-  // read the noisy image to be denoised
+  // Read the noisy image to be denoised
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( inputFileName );
-  try
-  {
-    reader->Update();
-  }
-  catch( itk::ExceptionObject & excp )
-  {
-    std::cerr << "Problem encountered while reading image file : " << inputFileName << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
 
-  // create filter and initialize
-  // give image to filter and run it
-  // get filter output and write to file
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
+
+  // Create filter and initialize
   typename FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(reader->GetOutput());
+  filter->SetInput( reader->GetOutput() );
 
-  // use 2 threads for consistency
-  filter->SetNumberOfThreads(2);
+  // Use 2 threads for consistency
+  filter->SetNumberOfThreads( 2 );
 
-  // denoise the image
-  try
-  {
-    filter->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::ostringstream itkmsg;                                            \
-    itkmsg << "Error: In " __FILE__ ", line " << __LINE__ << "\n"
-           << "Caught exception <" << excp
-           << "> while running patch-based denoising image filter."
-           << "\n\n";
-    ::itk::OutputWindowDisplayWarningText(itkmsg.str().c_str());
-    return EXIT_FAILURE;
-  }
+  // Denoise the image
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  // write the denoised image to file
+
+  // Write the denoised image to file
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( outputFileName );
   writer->SetInput( filter->GetOutput() );
-  std::cout << "Writing NumberOfComponents: "
-            << filter->GetOutput()->GetNumberOfComponentsPerPixel()
-            << " to file." << std::endl;
-  try
-  {
-    writer->Update();
-  }
-  catch( itk::ExceptionObject & excp )
-  {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }
 
 int itkPatchBasedDenoisingImageFilterDefaultTest( int argc, char * argv [] )
 {
-
   if( argc < 3 )
   {
     std::cerr << "Missing command line arguments" << std::endl;
-    std::cerr << "Usage :  " << argv[0]
+    std::cerr << "Usage : " << argv[0]
               << " inputImageFileName outputImageFileName"
               << " numDimensions"
               << std::endl;
     return EXIT_FAILURE;
   }
 
-  const std::string inFileName(argv[1]);
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  typedef float                                                       PixelType;
+  typedef itk::Image< PixelType, 3 >                                  ImageType;
+  typedef itk::PatchBasedDenoisingImageFilter< ImageType, ImageType > FilterType;
 
-  const std::string outFileName(argv[2]);
+  FilterType::Pointer filter = FilterType::New();
 
-  const unsigned int numDimensions = atoi(argv[3]);
+  EXERCISE_BASIC_OBJECT_METHODS( filter, PatchBasedDenoisingImageFilter,
+    PatchBasedDenoisingBaseImageFilter );
+
+
+  const std::string inFileName( argv[1] );
+
+  const std::string outFileName( argv[2] );
+
+  const unsigned int numDimensions = atoi( argv[3] );
 
   typedef float PixelComponentType;
-  //
+
   typedef PixelComponentType                           OneComponentType;
-  //
+
   typedef itk::Image< OneComponentType, 2 > OneComponent2DImage;
   typedef itk::Image< OneComponentType, 3 > OneComponent3DImage;
 
-  //
-  if (numDimensions == 2)
+  if( numDimensions == 2 )
     {
-    return doDenoising<OneComponent2DImage>(inFileName, outFileName);
-  }
-  //
-  else if (numDimensions == 3)
-  {
-    return doDenoising<OneComponent3DImage>(inFileName, outFileName);
-  }
+    return doDenoising< OneComponent2DImage >( inFileName, outFileName );
+    }
+  else if( numDimensions == 3 )
+    {
+    return doDenoising< OneComponent3DImage >( inFileName, outFileName );
+    }
   else
-  {
+    {
+    std::cout << "Test failed!" << std::endl;
     std::cout << numDimensions << " dimensions "
               << "isn't supported in this test driver."
               << std::endl;
     return EXIT_FAILURE;
-  }
+    }
 
-  // shouldn't reach this point, return failure here to keep the compiler happy
-  return EXIT_FAILURE;
 }
