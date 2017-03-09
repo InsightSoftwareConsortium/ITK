@@ -25,12 +25,5 @@ def TestComplex(selectedType):
     assert c.imag() == 3.0
     assert complex(c) == 2.0+3.0j
 
-    c.real(3.0)
-    assert c.real() == 3.0
-    c.imag(4.0)
-    assert c.imag() == 4.0
-
-    assert complex(c) == 3.0+4.0j
-
 TestComplex('float')
 TestComplex('double')
