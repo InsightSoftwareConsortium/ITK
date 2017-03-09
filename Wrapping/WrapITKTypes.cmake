@@ -157,9 +157,7 @@ WRAP_TYPE("itk::RGBPixel" "RGB" "itkRGBPixel.h")
 
   ADD_TEMPLATE("${ITKM_F}" "${ITKT_F}")
 
-  if(ITK_WRAP_rgb_unsigned_char)
-    ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
-  endif()
+  ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
 
   # Required by itkTIFFImageIO
   ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
@@ -175,9 +173,7 @@ WRAP_TYPE("itk::RGBAPixel" "RGBA" "itkRGBAPixel.h")
   # Required by spatial objects
   ADD_TEMPLATE("${ITKM_F}" "${ITKT_F}")
 
-  if(ITK_WRAP_rgba_unsigned_char)
-    ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
-  endif()
+  ADD_TEMPLATE("${ITKM_UC}" "${ITKT_UC}")
 
   if(ITK_WRAP_rgba_unsigned_short)
     ADD_TEMPLATE("${ITKM_US}" "${ITKT_US}")
