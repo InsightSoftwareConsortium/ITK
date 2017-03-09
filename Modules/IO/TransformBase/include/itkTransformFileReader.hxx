@@ -147,7 +147,7 @@ void TransformFileReaderTemplate<TParametersValueType>
   // kernelTransform->ComputeWMatrix() has to be called after the transform is read but
   // before the transform is used.
   std::string transformTypeName = ioTransformList.front()->GetNameOfClass();
-  const int len = strlen("KernelTransform");// Computed at compile time in most cases
+  const size_t len = strlen("KernelTransform");// Computed at compile time in most cases
   if (transformTypeName.size() >= len
       && !transformTypeName.compare(transformTypeName.size()-len , len, "KernelTransform"))
     {
