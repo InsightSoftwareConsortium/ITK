@@ -46,6 +46,7 @@ foreach(config IN LISTS config_files)
   file(READ "${config}" config_content)
   message("${config_content}")
   include(${config})
+  list(APPEND CTEST_NOTES_FILES "${config}")
 endforeach()
 
 # The "platform" and "compiler" variables should be set in the
