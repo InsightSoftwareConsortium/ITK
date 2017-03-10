@@ -1337,7 +1337,7 @@ void TIFFImageIO::ReadGenericImage(void *_out,
           }
         break;
       case TIFFImageIO::PALETTE_RGB:
-        if ( GetExpandRGBPalette() )
+        if ( this->GetExpandRGBPalette() || (!this->GetIsReadAsScalarPlusPalette()) )
           {
           switch ( m_InternalImage->m_BitsPerSample )
             {
