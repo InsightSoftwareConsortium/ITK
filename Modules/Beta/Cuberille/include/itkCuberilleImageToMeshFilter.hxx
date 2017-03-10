@@ -29,16 +29,17 @@ namespace itk
 
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
-::CuberilleImageToMeshFilter()
+::CuberilleImageToMeshFilter() :
+  m_IsoSurfaceValue( NumericTraits< InputPixelType >::One ),
+  m_MaxSpacing( NumericTraits< SpacingValueType >::One ),
+  m_GenerateTriangleFaces( true ),
+  m_ProjectVerticesToIsoSurface( true ),
+  m_ProjectVertexSurfaceDistanceThreshold( 0.5 ),
+  m_ProjectVertexStepLength( -1.0 ),
+  m_ProjectVertexStepLengthRelaxationFactor( 0.95 ),
+  m_ProjectVertexMaximumNumberOfSteps( 50 )
 {
   this->SetNumberOfRequiredInputs(1);
-  m_IsoSurfaceValue = NumericTraits< InputPixelType >::One;
-  m_GenerateTriangleFaces = true;
-  m_ProjectVerticesToIsoSurface = true;
-  m_ProjectVertexSurfaceDistanceThreshold = 0.5;
-  m_ProjectVertexStepLength = -1.0;
-  m_ProjectVertexStepLengthRelaxationFactor = 0.95;
-  m_ProjectVertexMaximumNumberOfSteps = 50;
 }
 
 template<class TInputImage, class TOutputMesh, class TInterpolator>
@@ -56,7 +57,6 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   this->ProcessObject::SetNthInput(0, const_cast< InputImageType * >( image ) );
 }
 
-/** Generate data */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
@@ -74,19 +74,19 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 
   // Compute maximum spacing
   m_MaxSpacing = image->GetSpacing()[0];
-  for ( unsigned int i=1; i< InputImageType::ImageDimension; ++i )
+  for( unsigned int i = 1; i < InputImageType::ImageDimension; ++i )
     {
     m_MaxSpacing = vnl_math_max( m_MaxSpacing, image->GetSpacing()[i] );
     }
 
   // Set default step length
-  if ( m_ProjectVertexStepLength < 0.0 )
+  if( m_ProjectVertexStepLength < 0.0 )
     {
     m_ProjectVertexStepLength = m_MaxSpacing * 0.25;
     }
 
   // Create interpolator for pixel value
-  if ( m_Interpolator.IsNull() )
+  if( m_Interpolator.IsNull() )
     {
     m_Interpolator = InterpolatorType::New();
     }
@@ -108,7 +108,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   //mesh->GetCells()->Reserve( (size[0]*size[1]*size[2]) / 100 );
 
   // Set up helper structures
-  unsigned int i, look, look0, look1 = 0;
+  unsigned int look, look0, look1 = 0;
   unsigned char numFaces = 0;
   bool faceHasQuad[6];
   bool vertexHasQuad[8];
@@ -138,23 +138,25 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     {
     // Determine if current pixel is suitable
     center = it.GetCenterPixel();
-    if ( center < m_IsoSurfaceValue )
+    if( center < m_IsoSurfaceValue )
+      {
       continue;
+      }
 
     // Re-initialize for new pixel
     numFaces = 0;
-    for ( i=0; i<6; ++i )
+    for( unsigned int i = 0; i < 6; ++i )
       {
       faceHasQuad[i] = false;
       }
-    for ( i=0; i<8; ++i )
+    for( unsigned int i = 0; i < 8; ++i )
       {
       vertexHasQuad[i] = false;
       }
 
     // Re-initialize for new z plane
     index = it.GetIndex();
-    if ( index[2] != lastZ )
+    if( index[2] != lastZ )
       {
       SWAP( look0, look1 );
       lookup[look1].Clear();
@@ -162,11 +164,11 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
       }
 
     // Compute which faces (if any) have quads
-    for ( i=0; i<6; ++i )
+    for( unsigned int i = 0; i < 6; ++i )
       {
       // NOTE: suitability check above means center <= m_IsoSurfaceValue
       faceHasQuad[i] = ( it.GetPixel( offset[i] ) < m_IsoSurfaceValue );
-      if ( faceHasQuad[i] )
+      if( faceHasQuad[i] )
         {
         numFaces++;
         SetVerticesFromFace( i, &vertexHasQuad[0] );
@@ -174,17 +176,17 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
       }
 
     // Process each face
-    if ( numFaces > 0 )
+    if( numFaces > 0 )
       {
       // Create vertices
-      for ( i=0; i<8; ++i )
+      for( unsigned int i = 0; i < 8; ++i )
         {
-        if ( vertexHasQuad[i] )
+        if( vertexHasQuad[i] )
           {
           // Use the vertex lookup to get the vertex for the correct slice
           IndexType vindex = GetVertexLookupIndex( i, index );
           look = ( i < 4 ) ? look0 : look1; // First four are first slice
-          if ( !lookup[look].GetVertex(vindex[0], vindex[1], v[i]) )
+          if( !lookup[look].GetVertex(vindex[0], vindex[1], v[i]) )
             {
             // Vertex was not in lookup, create and add to lookup
             v[i] = nextVertexId;
@@ -195,12 +197,12 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
         } // end foreach vertex
 
       // Create faces
-      if ( faceHasQuad[0] ) { f[0]=v[0]; f[1]=v[4]; f[2]=v[7]; f[3]=v[3]; AddQuadFace(nextCellId, f, mesh); }
-      if ( faceHasQuad[1] ) { f[0]=v[0]; f[1]=v[1]; f[2]=v[5]; f[3]=v[4]; AddQuadFace(nextCellId, f, mesh); }
-      if ( faceHasQuad[2] ) { f[0]=v[1]; f[1]=v[2]; f[2]=v[6]; f[3]=v[5]; AddQuadFace(nextCellId, f, mesh); }
-      if ( faceHasQuad[3] ) { f[0]=v[2]; f[1]=v[3]; f[2]=v[7]; f[3]=v[6]; AddQuadFace(nextCellId, f, mesh); }
-      if ( faceHasQuad[4] ) { f[0]=v[0]; f[1]=v[3]; f[2]=v[2]; f[3]=v[1]; AddQuadFace(nextCellId, f, mesh); }
-      if ( faceHasQuad[5] ) { f[0]=v[4]; f[1]=v[5]; f[2]=v[6]; f[3]=v[7]; AddQuadFace(nextCellId, f, mesh); }
+      if ( faceHasQuad[0] ) { f[0] = v[0]; f[1] = v[4]; f[2] = v[7]; f[3] = v[3]; AddQuadFace(nextCellId, f, mesh); }
+      if ( faceHasQuad[1] ) { f[0] = v[0]; f[1] = v[1]; f[2] = v[5]; f[3] = v[4]; AddQuadFace(nextCellId, f, mesh); }
+      if ( faceHasQuad[2] ) { f[0] = v[1]; f[1] = v[2]; f[2] = v[6]; f[3] = v[5]; AddQuadFace(nextCellId, f, mesh); }
+      if ( faceHasQuad[3] ) { f[0] = v[2]; f[1] = v[3]; f[2] = v[7]; f[3] = v[6]; AddQuadFace(nextCellId, f, mesh); }
+      if ( faceHasQuad[4] ) { f[0] = v[0]; f[1] = v[3]; f[2] = v[2]; f[3] = v[1]; AddQuadFace(nextCellId, f, mesh); }
+      if ( faceHasQuad[5] ) { f[0] = v[4]; f[1] = v[5]; f[2] = v[6]; f[3] = v[7]; AddQuadFace(nextCellId, f, mesh); }
 
       } // end if num faces > 0
 
@@ -216,7 +218,6 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 
 }
 
-/** Set a flag activating each vertex for the given face. */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
@@ -233,7 +234,6 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   }
 }
 
-/** Get the vertex lookup index from the given index and vertex number. */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 typename TInputImage::IndexType
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
@@ -254,7 +254,6 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   return result;
 }
 
-/** Add a vertex to the given mesh. Increments point identifier. */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
@@ -269,14 +268,13 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   vertex[0] -= ( spacing[0] / 2.0 );
   vertex[1] -= ( spacing[1] / 2.0 );
   vertex[2] -= ( spacing[2] / 2.0 );
-  if ( m_ProjectVerticesToIsoSurface )
+  if( m_ProjectVerticesToIsoSurface )
     {
     ProjectVertexToIsoSurface( vertex );
     }
   mesh->GetPoints()->InsertElement( id++, vertex );
 }
 
-/** Add quadrilateral face to the given mesh. Increments cell identifier. */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
@@ -284,11 +282,11 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
                typename TOutputMesh::PointIdentifier face[4],
                TOutputMesh* mesh )
 {
-  if ( m_GenerateTriangleFaces )
+  if( m_GenerateTriangleFaces )
     {
     // Get vertices
     PointType v[4];
-    for ( unsigned int i=0; i<4; ++i )
+    for( unsigned int i = 0; i < 4; ++i )
       {
       v[i] = mesh->GetPoints()->GetElement( face[i] );
       }
@@ -296,7 +294,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     // Split the quad along the longest edge to avoid skinny triangles
     PointIdentifier face1[3];
     PointIdentifier face2[3];
-    if ( v[0].SquaredEuclideanDistanceTo(v[2]) >= v[1].SquaredEuclideanDistanceTo(v[3]) )
+    if( v[0].SquaredEuclideanDistanceTo(v[2]) >= v[1].SquaredEuclideanDistanceTo(v[3]) )
       {
       face1[0] = face[0]; face1[1] = face[1]; face1[2] = face[3];
       face2[0] = face[1]; face2[1] = face[2]; face2[2] = face[3];
@@ -332,7 +330,6 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     }
 }
 
-/** Project vertex to the iso-surface by stepping along normal. */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
@@ -351,17 +348,17 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   unsigned int i, swaps = 0;
   int previousi = -1;
 
-  while ( !done )
+  while( !done )
     {
     // Compute normal vector
     GradientPixelType normal = m_GradientInterpolator->Evaluate(vertex);
-    if (normal.Normalize() == 0.0) //old norm was zero
+    if( normal.Normalize() == 0.0 ) //old norm was zero
       {
       break;
       }
 
     // Step along both directions of normal
-    for ( i=0; i< InputImageType::ImageDimension; ++i )
+    for( i = 0; i < InputImageType::ImageDimension; ++i )
       {
       temp[0][i] = vertex[i] + ( normal[i] * +1.0 * step );
       temp[1][i] = vertex[i] + ( normal[i] * -1.0 * step );
@@ -374,35 +371,56 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     diff[0] = vnl_math_abs( value[0] - m_IsoSurfaceValue );
     diff[1] = vnl_math_abs( value[1] - m_IsoSurfaceValue );
     i = ( diff[0] <= diff[1] ) ? 0 : 1;
-    if ( previousi < 0 ) previousi = i;
+    if( previousi < 0 )
+      {
+      previousi = i;
+      }
     swaps += (int)( previousi != i );
     vertex = temp[i];
 
     // Determine whether vertex is close enough to iso-surface value
     done |= diff[i] < m_ProjectVertexSurfaceDistanceThreshold;
 #if DEBUG_PRINT
-    if ( done ) m_ProjectVertexTerminate[0]++;
+    if( done )
+      {
+      m_ProjectVertexTerminate[0]++;
+      }
 #endif
-    if ( done ) break;
+    if( done )
+      {
+      break;
+      }
 
     // Determine whether we have done enough steps
     done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
 #if DEBUG_PRINT
-    if ( done ) m_ProjectVertexTerminate[1]++;
+    if( done )
+      {
+      m_ProjectVertexTerminate[1]++;
+      }
 #endif
-    if ( done ) break;
+    if( done )
+      {
+      break;
+      }
 
     // Determine whether there has been too many sign swaps (oscillating)
     done |= ( swaps >= 5 );
 #if DEBUG_PRINT
-    if ( done ) m_ProjectVertexTerminate[2]++;
+    if( done )
+      {
+      m_ProjectVertexTerminate[2]++;
+      }
 #endif
-    if ( done ) break;
+    if( done )
+      {
+      break;
+      }
   }
 #elif USE_LINESEARCH_PROJECTION
 
   // Set up
-  unsigned int i, j, k;
+  unsigned int k;
   GradientPixelType normal;
   InterpolatorOutputType value;
   PointType temp, bestVertex;
@@ -410,20 +428,20 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 
   // Compute normal vector
   normal = m_GradientInterpolator->Evaluate( vertex );
-  if (normal.Normalize() == 0.0) //old norm was zero
+  if( normal.Normalize() == 0.0 ) //old norm was zero
     {
     break;
     }
 
   // Search on both sides of the line
-  for ( sign = -1.0; sign <= 1.0; sign += 2.0 )
+  for( sign = -1.0; sign <= 1.0; sign += 2.0 )
     {
     k = ( sign == -1.0 ) ? 0 : 1;
-    for ( j=1; j < m_ProjectVertexMaximumNumberOfSteps/2; ++j )
+    for( unsigned int j = 1; j < m_ProjectVertexMaximumNumberOfSteps/2; ++j )
       {
       // Compute current location along line
       d = (double)j / ( (double)m_ProjectVertexMaximumNumberOfSteps / 2.0 );
-      for ( i=0; i< InputImageType::ImageDimension; ++i )
+      for( unsigned int i = 0; i < InputImageType::ImageDimension; ++i )
         {
         temp[i] = vertex[i] + ( normal[i] * sign * m_ProjectVertexStepLength * d );
         }
@@ -434,7 +452,7 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
       //metric /= d; // Distance
 
       // Determine if current position is the "best"
-      if ( metric < bestMetric )
+      if( metric < bestMetric )
         {
         bestMetric = metric;
         bestVertex = temp;
@@ -448,15 +466,15 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
   bool done = false;
   double sign = 1.0;
   double step = m_ProjectVertexStepLength;
-  unsigned int i, numberOfSteps = 0;
+  unsigned int numberOfSteps = 0;
   GradientPixelType normal;
   InterpolatorOutputType value;
 
-  while ( !done )
+  while( !done )
     {
     // Compute normal vector
     normal = m_GradientInterpolator->Evaluate( vertex );
-    if (normal.Normalize() == 0.0) //old norm was zero
+    if( normal.Normalize() == 0.0 ) //old norm was zero
       {
       break;
       }
@@ -465,33 +483,41 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     value = m_Interpolator->Evaluate(vertex);
     done |= vnl_math_abs( value - m_IsoSurfaceValue ) < m_ProjectVertexSurfaceDistanceThreshold;
 #if DEBUG_PRINT
-    if ( done ) m_ProjectVertexTerminate[0]++;
+    if( done )
+      {
+      m_ProjectVertexTerminate[0]++;
+      }
 #endif
-    if ( done ) break;
+    if( done )
+      {
+      break;
+      }
 
     // Step along the normal towards the iso-surface value
     sign = ( value < m_IsoSurfaceValue ) ? +1.0 : -1.0;
-    for ( i=0; i< InputImageType::ImageDimension; ++i )
+    for( unsigned int i = 0; i < InputImageType::ImageDimension; ++i )
       {
       vertex[i] += ( normal[i] * sign * step );
       }
     step *= m_ProjectVertexStepLengthRelaxationFactor;
     done |= numberOfSteps++ > m_ProjectVertexMaximumNumberOfSteps;
 #if DEBUG_PRINT
-    if ( done ) m_ProjectVertexTerminate[1]++;
+    if( done )
+      {
+      m_ProjectVertexTerminate[1]++;
+      }
 #endif
     }
 #endif
 
 }
 
-/** Compute gradient image. */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
 ::ComputeGradientImage()
 {
-  if ( m_ProjectVerticesToIsoSurface && m_GradientInterpolator.IsNull() )
+  if( m_ProjectVerticesToIsoSurface && m_GradientInterpolator.IsNull() )
     {
     typename GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
     gradientFilter->SetInput( Superclass::GetInput(0) );
@@ -499,15 +525,14 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     gradientFilter->SetSigma( m_MaxSpacing * 1.0 );
     gradientFilter->SetNormalizeAcrossScale( true );
 #endif
-    gradientFilter->Update( );
+    gradientFilter->Update();
     m_GradientInterpolator = GradientInterpolatorType::New();
     m_GradientInterpolator->SetInputImage( gradientFilter->GetOutput( ) );
-    gradientFilter->GetOutput( )->DisconnectPipeline();
+    gradientFilter->GetOutput()->DisconnectPipeline();
     gradientFilter = ITK_NULLPTR;
     }
 }
 
-/** PrintSelf. */
 template<class TInputImage, class TOutputMesh, class TInterpolator>
 void
 CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
@@ -520,6 +545,10 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     << static_cast< typename NumericTraits<InputPixelType>::PrintType >( m_IsoSurfaceValue )
     << std::endl;
   os << indent
+    << "MaxSpacing: "
+    << static_cast< typename NumericTraits<SpacingValueType>::PrintType >( m_MaxSpacing )
+    << std::endl;
+  os << indent
     << "GenerateTriangleFaces: "
     << static_cast< NumericTraits<bool>::PrintType >( m_GenerateTriangleFaces )
     << std::endl;
@@ -527,8 +556,14 @@ CuberilleImageToMeshFilter<TInputImage,TOutputMesh,TInterpolator>
     << "ProjectVerticesToIsoSurface: "
     << static_cast< NumericTraits<bool>::PrintType >( m_ProjectVerticesToIsoSurface )
     << std::endl;
+  os << indent << "ProjectVertexSurfaceDistanceThreshold: "
+    << m_ProjectVertexSurfaceDistanceThreshold << std::endl;
+  os << indent << "ProjectVertexStepLength: "
+    << m_ProjectVertexStepLength << std::endl;
+  os << indent << "ProjectVertexStepLengthRelaxationFactor: "
+    << m_ProjectVertexStepLengthRelaxationFactor << std::endl;
+  os << indent << "ProjectVertexMaximumNumberOfSteps: "
+    << m_ProjectVertexMaximumNumberOfSteps << std::endl;
 }
-
-} /** end namespace itk. */
-
+} // end namespace itk
 #endif
