@@ -21,11 +21,53 @@
 #include "itkTransformFileReader.h"
 #include "itkTransformIOFactory.h"
 #include "itkCompositeTransformIOHelper.h"
+#include "itkKernelTransform.h"
 
 #include "itksys/SystemTools.hxx"
 
+
+#ifndef ITK_TRANSFORM_FACTORY_MAX_DIM
+#define ITK_TRANSFORM_FACTORY_MAX_DIM 9
+#endif
+
+
 namespace itk
 {
+
+namespace
+{
+// Class to initialize kernel transform for dimension D and lower
+template< typename TParameterType, unsigned int Dimension>
+struct KernelTransformHelper
+{
+  static int InitializeWMatrix(const typename TransformBaseTemplate<TParameterType>::Pointer &transform)
+    {
+    if( transform->GetInputSpaceDimension() == Dimension)
+      {
+      typedef typename itk::KernelTransform< TParameterType, Dimension > KernelTransformType;
+      KernelTransformType* kernelTransform = static_cast<KernelTransformType*>(transform.GetPointer());
+      kernelTransform->ComputeWMatrix();
+      return 0;
+      }
+    else
+      {
+      // try one less dimension
+      return KernelTransformHelper<TParameterType, Dimension-1>::InitializeWMatrix(transform);
+      }
+    }
+};
+
+// Template specialized class to stop initializing Kernel Transfoms.
+template<typename TParameterType>
+struct KernelTransformHelper<TParameterType, 0>
+{
+  static int InitializeWMatrix(const typename TransformBaseTemplate<TParameterType>::Pointer &itkNotUsed(transform))
+    {
+    return 1;
+    }
+};
+}
+
 
 template<typename TParametersValueType>
 TransformFileReaderTemplate<TParametersValueType>
@@ -100,6 +142,25 @@ void TransformFileReaderTemplate<TParametersValueType>
 
   // Clear old results.
   this->m_TransformList.clear();
+  // If the transform is derived from itk::KernelTransform, the internal matrices
+  // need to be initialized using the transform parameters.
+  // kernelTransform->ComputeWMatrix() has to be called after the transform is read but
+  // before the transform is used.
+  std::string transformTypeName = ioTransformList.front()->GetNameOfClass();
+  const size_t len = strlen("KernelTransform");// Computed at compile time in most cases
+  if (transformTypeName.size() >= len
+      && !transformTypeName.compare(transformTypeName.size()-len , len, "KernelTransform"))
+    {
+    if( KernelTransformHelper<TParametersValueType,
+        ITK_TRANSFORM_FACTORY_MAX_DIM>::InitializeWMatrix(ioTransformList.front().GetPointer()))
+      {
+      itkDebugMacro(<< "KernelTransform with dimension "
+                    << ioTransformList.front()->GetInputSpaceDimension()
+                    << " is not automatically initialized. \"ComputeWMatrix()\""
+                       " method has to be called."
+                   );
+      }
+    }
 
   // In the case where the first transform in the list is a
   // CompositeTransform, add all the transforms to that first
