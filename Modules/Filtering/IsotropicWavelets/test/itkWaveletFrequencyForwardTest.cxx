@@ -187,33 +187,34 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
   typename ComplexImageType::SizeType    inputSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
   typename ComplexImageType::SizeType    expectedSize = inputSize;
   itk::NumberToString<unsigned int>      n2s;
-  for (unsigned int level = 0; level < levels; ++level)
+  for (unsigned int level = 0; level < levels + 1; ++level)
   {
-    double       scaleFactorPerLevel = std::pow(static_cast<double>(forwardWavelet->GetScaleFactor()), level + 1);
-    unsigned int nOutput = 0;
+    double       scaleFactorPerLevel = std::pow(static_cast<double>(forwardWavelet->GetScaleFactor()), level);
+    unsigned int nOutput;
+    for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      expectedSize[i] = inputSize[i] / scaleFactorPerLevel;
+      expectedOrigin[i] = inputOrigin[i];
+      expectedSpacing[i] = inputSpacing[i] / scaleFactorPerLevel;
+    }
     for (unsigned int band = 0; band < highSubBands; ++band)
     {
       bool sizeIsCorrect = true;
       bool spacingIsCorrect = true;
       bool originIsCorrect = true;
 
-      if (level == 0 && band == 0) // Low pass
+      nOutput = level * forwardWavelet->GetHighPassSubBands() + band;
+
+      // Do not compute bands in low-pass level.
+      if (level == levels && band == 0)
       {
-        nOutput = 0;
-        scaleFactorPerLevel = std::pow(static_cast<double>(forwardWavelet->GetScaleFactor()), levels);
+        nOutput = forwardWavelet->GetTotalOutputs() - 1;
       }
-      else
+      else if (level == levels && band != 0)
       {
-        nOutput = 1 + level * forwardWavelet->GetHighPassSubBands() + band;
-        scaleFactorPerLevel = std::pow(static_cast<double>(forwardWavelet->GetScaleFactor()), level + 1);
+        break;
       }
 
-      for (unsigned int i = 0; i < Dimension; ++i)
-      {
-        expectedSize[i] = inputSize[i] / scaleFactorPerLevel;
-        expectedOrigin[i] = inputOrigin[i];
-        expectedSpacing[i] = inputSpacing[i] / scaleFactorPerLevel;
-      }
       if (expectedSize != forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize())
       {
         std::cerr << "Size of the output is not as expected." << std::endl;
@@ -234,7 +235,7 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
       {
         testPassed = false;
         std::cerr << "OutputIndex : " << nOutput << std::endl;
-        std::cerr << "Level: " << level + 1 << " / " << forwardWavelet->GetLevels() << std::endl;
+        std::cerr << "Level: " << level << " / " << forwardWavelet->GetLevels() << std::endl;
         std::cerr << "Band: " << band << " / " << forwardWavelet->GetHighPassSubBands() << std::endl;
         // std::cerr << "Largest Region: " << forwardWavelet->GetOutput( nOutput )->GetLargestPossibleRegion() <<
         // std::endl;
@@ -248,19 +249,10 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
       inverseFFT->Update();
 
 #ifdef ITK_VISUALIZE_TESTS
-      if (level == 0 && band == 0) // Low pass
-      {
-        itk::Testing::ViewImage(inverseFFT->GetOutput(),
-                                "Approx coef. n_out: " + n2s(nOutput) + " level: " + n2s(levels) + ", band:0/" +
-                                  n2s(inputBands));
-      }
-      else
-      {
-        std::pair<unsigned int, unsigned int> pairLvBand = forwardWavelet->OutputIndexToLevelBand(nOutput);
-        itk::Testing::ViewImage(inverseFFT->GetOutput(),
-                                "Wavelet coef. n_out: " + n2s(nOutput) + " level: " + n2s(pairLvBand.first) +
-                                  " , band: " + n2s(pairLvBand.second) + "/" + n2s(inputBands));
-      }
+      std::pair<unsigned int, unsigned int> pairLvBand = forwardWavelet->OutputIndexToLevelBand(nOutput);
+      itk::Testing::ViewImage(inverseFFT->GetOutput(),
+                              "Wavelet coef. n_out: " + n2s(nOutput) + " level: " + n2s(pairLvBand.first) +
+                                " , band: " + n2s(pairLvBand.second) + "/" + n2s(inputBands));
 #endif
 
       writer->SetFileName(AppendToFilename(outputImage, n2s(nOutput)));
