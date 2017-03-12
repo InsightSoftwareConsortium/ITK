@@ -48,6 +48,7 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
                                const unsigned int & inputLevels,
                                const unsigned int & inputBands)
 {
+  bool               testPassed = true;
   const unsigned int Dimension = VDimension;
 
   typedef float                            PixelType;
@@ -97,6 +98,31 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   inverseWavelet->SetInputs(forwardWavelet->GetOutputs());
   inverseWavelet->Update();
 
+  // Check Metadata: Spacing, Origin
+  typename ComplexImageType::SpacingType outputSpacing = inverseWavelet->GetOutput()->GetSpacing();
+  typename ComplexImageType::SpacingType expectedSpacing = { { 1.0 } };
+  typename ComplexImageType::PointType   outputOrigin = inverseWavelet->GetOutput()->GetOrigin();
+  typename ComplexImageType::PointType   expectedOrigin = { { 0.0 } };
+  typename ComplexImageType::SizeType    outputSize = inverseWavelet->GetOutput()->GetLargestPossibleRegion().GetSize();
+  typename ComplexImageType::SizeType    expectedSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
+
+  if (outputSpacing != expectedSpacing)
+  {
+    std::cout << "outputSpacing is wrong: " << outputSpacing << " expectedSpacing: " << expectedSpacing << std::endl;
+    testPassed = false;
+  }
+  if (outputOrigin != expectedOrigin)
+  {
+    std::cout << "outputOrigin is wrong: " << outputOrigin << " expectedOrigin: " << expectedOrigin << std::endl;
+    testPassed = false;
+  }
+  if (outputSize != expectedSize)
+  {
+    std::cout << "outputSize is wrong: " << outputSize << " expectedSize: " << expectedSize << std::endl;
+    testPassed = false;
+  }
+
+
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
   typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(inverseWavelet->GetOutput());
@@ -115,7 +141,14 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   itk::Testing::ViewImage(inverseFFT->GetOutput(), "InverseWavelet");
 #endif
 
-  return EXIT_SUCCESS;
+  if (testPassed)
+  {
+    return EXIT_SUCCESS;
+  }
+  else
+  {
+    return EXIT_FAILURE;
+  }
 }
 
 int
@@ -140,64 +173,82 @@ itkWaveletFrequencyInverseTest(int argc, char * argv[])
     dimension = atoi(argv[6]);
   }
 
-  const unsigned int                                   ImageDimension = 3;
-  typedef double                                       PixelType;
-  typedef std::complex<PixelType>                      ComplexPixelType;
-  typedef itk::Point<PixelType, ImageDimension>        PointType;
-  typedef itk::Image<ComplexPixelType, ImageDimension> ComplexImageType;
+  // const unsigned int ImageDimension = 3;
+  // typedef double                                          PixelType;
+  // typedef std::complex< PixelType >                       ComplexPixelType;
+  // typedef itk::Point< PixelType, ImageDimension >         PointType;
+  // typedef itk::Image< ComplexPixelType, ImageDimension >  ComplexImageType;
 
-  // Exercise basic object methods
-  // Done outside the helper function in the test because GCC is limited
-  // when calling overloaded base class functions.
-  typedef itk::HeldIsotropicWavelet<PixelType, ImageDimension, PointType>       HeldIsotropicWaveletType;
-  typedef itk::VowIsotropicWavelet<PixelType, ImageDimension, PointType>        VowIsotropicWaveletType;
-  typedef itk::SimoncelliIsotropicWavelet<PixelType, ImageDimension, PointType> SimoncelliIsotropicWaveletType;
-  typedef itk::ShannonIsotropicWavelet<PixelType, ImageDimension, PointType>    ShannonIsotropicWaveletType;
-
-  HeldIsotropicWaveletType::Pointer heldIsotropicWavelet = HeldIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(heldIsotropicWavelet, HeldIsotropicWavelet, IsotropicWaveletFrequencyFunction);
-
-  VowIsotropicWaveletType::Pointer vowIsotropicWavelet = VowIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(vowIsotropicWavelet, VowIsotropicWavelet, IsotropicWaveletFrequencyFunction);
-
-  SimoncelliIsotropicWaveletType::Pointer simoncellidIsotropicWavelet = SimoncelliIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(
-    simoncellidIsotropicWavelet, SimoncelliIsotropicWavelet, IsotropicWaveletFrequencyFunction);
-
-  ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
-
-
+  // // Exercise basic object methods
+  // // Done outside the helper function in the test because GCC is limited
+  // // when calling overloaded base class functions.
+  // typedef itk::HeldIsotropicWavelet< PixelType, ImageDimension, PointType >
+  //   HeldIsotropicWaveletType;
+  // typedef itk::VowIsotropicWavelet< PixelType, ImageDimension, PointType >
+  //   VowIsotropicWaveletType;
+  // typedef itk::SimoncelliIsotropicWavelet< PixelType, ImageDimension, PointType >
+  //   SimoncelliIsotropicWaveletType;
+  // typedef itk::ShannonIsotropicWavelet< PixelType, ImageDimension, PointType >
+  //   ShannonIsotropicWaveletType;
+  //
+  // HeldIsotropicWaveletType::Pointer heldIsotropicWavelet =
+  //   HeldIsotropicWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( heldIsotropicWavelet, HeldIsotropicWavelet,
+  //   IsotropicWaveletFrequencyFunction );
+  //
+  // VowIsotropicWaveletType::Pointer vowIsotropicWavelet =
+  //   VowIsotropicWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( vowIsotropicWavelet, VowIsotropicWavelet,
+  //   IsotropicWaveletFrequencyFunction );
+  //
+  // SimoncelliIsotropicWaveletType::Pointer simoncellidIsotropicWavelet =
+  //   SimoncelliIsotropicWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( simoncellidIsotropicWavelet, SimoncelliIsotropicWavelet,
+  //   IsotropicWaveletFrequencyFunction );
+  //
+  // ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( shannonIsotropicWavelet, ShannonIsotropicWavelet,
+  //   IsotropicWaveletFrequencyFunction );
+  //
+  //
   typedef itk::HeldIsotropicWavelet<>       HeldWavelet;
   typedef itk::VowIsotropicWavelet<>        VowWavelet;
   typedef itk::SimoncelliIsotropicWavelet<> SimoncelliWavelet;
   typedef itk::ShannonIsotropicWavelet<>    ShannonWavelet;
-
-
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, HeldWavelet>       HeldWaveletFilterBankType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, VowWavelet>        VowWaveletFilterBankType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, SimoncelliWavelet> SimoncelliWaveletFilterBankType;
-  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, ShannonWavelet>    ShannonWaveletFilterBankType;
-
-  typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, HeldWaveletFilterBankType>
-                                  HeldInverseWaveletType;
-  HeldInverseWaveletType::Pointer heldInverseWavelet = HeldInverseWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(heldInverseWavelet, WaveletFrequencyInverse, ImageToImageFilter);
-
-  typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, VowWaveletFilterBankType>
-                                 VowInverseWaveletType;
-  VowInverseWaveletType::Pointer vowInverseWavelet = VowInverseWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(vowInverseWavelet, WaveletFrequencyInverse, ImageToImageFilter);
-
-  typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, SimoncelliWaveletFilterBankType>
-                                        SimoncelliInverseWaveletType;
-  SimoncelliInverseWaveletType::Pointer simoncelliInverseWavelet = SimoncelliInverseWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(simoncelliInverseWavelet, WaveletFrequencyInverse, ImageToImageFilter);
-
-  typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, ShannonWaveletFilterBankType>
-                                     ShannonInverseWaveletType;
-  ShannonInverseWaveletType::Pointer shannonInverseWavelet = ShannonInverseWaveletType::New();
-  EXERCISE_BASIC_OBJECT_METHODS(shannonInverseWavelet, WaveletFrequencyInverse, ImageToImageFilter);
+  //
+  //
+  // typedef itk::WaveletFrequencyFilterBankGenerator< ComplexImageType, HeldWavelet >
+  //   HeldWaveletFilterBankType;
+  // typedef itk::WaveletFrequencyFilterBankGenerator< ComplexImageType, VowWavelet >
+  //   VowWaveletFilterBankType;
+  // typedef itk::WaveletFrequencyFilterBankGenerator< ComplexImageType, SimoncelliWavelet >
+  //   SimoncelliWaveletFilterBankType;
+  // typedef itk::WaveletFrequencyFilterBankGenerator< ComplexImageType, ShannonWavelet >
+  //   ShannonWaveletFilterBankType;
+  //
+  // typedef itk::WaveletFrequencyInverse< ComplexImageType, ComplexImageType, HeldWaveletFilterBankType >
+  //   HeldInverseWaveletType;
+  // HeldInverseWaveletType::Pointer heldInverseWavelet = HeldInverseWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( heldInverseWavelet, WaveletFrequencyInverse,
+  //   ImageToImageFilter );
+  //
+  // typedef itk::WaveletFrequencyInverse< ComplexImageType, ComplexImageType, VowWaveletFilterBankType >
+  //   VowInverseWaveletType;
+  // VowInverseWaveletType::Pointer vowInverseWavelet = VowInverseWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( vowInverseWavelet, WaveletFrequencyInverse,
+  //   ImageToImageFilter );
+  //
+  // typedef itk::WaveletFrequencyInverse< ComplexImageType, ComplexImageType, SimoncelliWaveletFilterBankType >
+  //   SimoncelliInverseWaveletType;
+  // SimoncelliInverseWaveletType::Pointer simoncelliInverseWavelet = SimoncelliInverseWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( simoncelliInverseWavelet, WaveletFrequencyInverse,
+  //   ImageToImageFilter );
+  //
+  // typedef itk::WaveletFrequencyInverse< ComplexImageType, ComplexImageType, ShannonWaveletFilterBankType >
+  //   ShannonInverseWaveletType;
+  // ShannonInverseWaveletType::Pointer shannonInverseWavelet = ShannonInverseWaveletType::New();
+  // EXERCISE_BASIC_OBJECT_METHODS( shannonInverseWavelet, WaveletFrequencyInverse,
+  //   ImageToImageFilter );
 
 
   if (dimension == 2)

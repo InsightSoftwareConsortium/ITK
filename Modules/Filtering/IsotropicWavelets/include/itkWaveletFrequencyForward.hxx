@@ -448,6 +448,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   std::vector<OutputImagePointer> highPassWavelets = filterBank->GetOutputsHighPassBands();
   OutputImagePointer              lowPassWavelet = filterBank->GetOutputLowPass();
 
+  // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
   typedef itk::FrequencyShrinkImageFilter<OutputImageType> ShrinkFilterType;
   typedef itk::MultiplyImageFilter<OutputImageType>        MultiplyFilterType;
   inputPerLevel = changeInputInfoFilter->GetOutput();
@@ -501,7 +502,6 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     inputPerLevel = multiplyLowFilter->GetOutput();
 
     /******* DownSample stored low band for the next Level iteration *****/
-    // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetInput(inputPerLevel);
     shrinkFilter->SetShrinkFactors(this->m_ScaleFactor);
