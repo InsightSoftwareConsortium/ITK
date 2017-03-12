@@ -55,17 +55,13 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   typedef itk::ImageFileReader<ImageType>  ReaderType;
 
   typename ReaderType::Pointer reader = ReaderType::New();
-
   reader->SetFileName(inputImage);
-
   reader->Update();
-
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
   typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
-
   fftFilter->SetInput(reader->GetOutput());
 
   typedef typename FFTFilterType::OutputImageType ComplexImageType;
@@ -80,7 +76,6 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   forwardWavelet->SetHighPassSubBands(inputBands);
   forwardWavelet->SetLevels(inputLevels);
   forwardWavelet->SetInput(fftFilter->GetOutput());
-
   forwardWavelet->Update();
 
   unsigned int noutputs = forwardWavelet->GetNumberOfOutputs();
@@ -88,9 +83,9 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   std::cout << "Number of inputs: " << noutputs << std::endl;
   for (unsigned int i = 0; i < noutputs; ++i)
   {
-    std::cout << " Size of input: " << i << std::endl;
-    std::cout << forwardWavelet->GetOutput(i)->GetLargestPossibleRegion() << std::endl;
-    std::cout << forwardWavelet->GetOutput(i)->GetSpacing() << std::endl;
+    std::cout << "Input number: " << i << std::endl;
+    std::cout << "Region: " << forwardWavelet->GetOutput(i)->GetLargestPossibleRegion() << std::endl;
+    std::cout << "Spacing: " << forwardWavelet->GetOutput(i)->GetSpacing() << std::endl;
   }
 
   // Inverse Wavelet Transform
@@ -100,14 +95,11 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   inverseWavelet->SetHighPassSubBands(inputBands);
   inverseWavelet->SetLevels(inputLevels);
   inverseWavelet->SetInputs(forwardWavelet->GetOutputs());
-
   inverseWavelet->Update();
 
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
   typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
-
   inverseFFT->SetInput(inverseWavelet->GetOutput());
-
   inverseFFT->Update();
 
   // Write output image
