@@ -32,9 +32,7 @@ itkGrayscaleMorphologicalClosingImageFilterTest2.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest2.cxx
 itkMorphologicalGradientImageFilterTest2.cxx
 itkRegionalMaximaImageFilterTest.cxx
-itkRegionalMaximaImageFilterTest2.cxx
 itkRegionalMinimaImageFilterTest.cxx
-itkRegionalMinimaImageFilterTest2.cxx
 itkValuedRegionalMaximaImageFilterTest.cxx
 itkValuedRegionalMinimaImageFilterTest.cxx
 )
@@ -387,43 +385,45 @@ itk_add_test(NAME itkMapGrayscaleErodeImageFilterTest
   ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestVHGW.png
   ${ITK_TEST_OUTPUT_DIR}/itkMapGrayscaleErodeImageFilterTestAnchor.png
 )
-itk_add_test(NAME itkRegionalMinimaImageFilterTest2_1
+itk_add_test(NAME itkRegionalMinimaImageFilterTest1
       COMMAND ITKMathematicalMorphologyTestDriver
-    --compare DATA{Baseline/cthead1RegionalMinimal-ref2_1.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_1.png
-    itkRegionalMaximaImageFilterTest2 1 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2_1.png)
-itk_add_test(NAME itkRegionalMinimaImageFilterTest2_2
+    --compare DATA{Baseline/cthead1RegionalMinimal-ref1.png}
+              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal1.png
+    itkRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref1.png 2 1 1)
+itk_add_test(NAME itkRegionalMinimaImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
-    --compare DATA{Baseline/cthead1RegionalMinimal-ref2_2.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_2.png
-    itkRegionalMaximaImageFilterTest2 0 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2_2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2_2.png)
-itk_add_test(NAME itkRegionalMaximaImageFilterTest2_1
+    --compare DATA{Baseline/cthead1RegionalMinimal-ref2.png}
+              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2.png
+    itkRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2.png 2 0 1)
+
+itk_add_test(NAME itkRegionalMaximaImageFilterTest1
       COMMAND ITKMathematicalMorphologyTestDriver
-    --compare DATA{Baseline/cthead1RegionalMaximal-ref2_1.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_1.png
-    itkRegionalMaximaImageFilterTest2 1 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref2_1.png)
-itk_add_test(NAME itkRegionalMaximaImageFilterTest2_2
+    --compare DATA{Baseline/cthead1RegionalMaximal-ref1.png}
+              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal1.png
+    itkRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref1.png 2 1 1)
+itk_add_test(NAME itkRegionalMaximaImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
-    --compare DATA{Baseline/cthead1RegionalMaximal-ref2_2.png}
-              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_2.png
-    itkRegionalMaximaImageFilterTest2 0 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2_2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref2_2.png)
+    --compare DATA{Baseline/cthead1RegionalMaximal-ref2.png}
+              ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2.png
+    itkRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMaximal-ref2.png 2 0 1)
+
 itk_add_test(NAME itkValuedRegionalMaximaImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/cthead1ValuedRegionalMaximal-ref.png}
               ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal.png
-    itkValuedRegionalMaximaImageFilterTest 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref.png)
+    itkValuedRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref.png 1)
 itk_add_test(NAME itkValuedRegionalMaximaImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/cthead1ValuedRegionalMaximal-ref2.png}
               ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal2.png
-    itkValuedRegionalMaximaImageFilterTest 0 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref2.png)
+    itkValuedRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMaximal-ref2.png 0)
 itk_add_test(NAME itkValuedRegionalMinimaImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/cthead1ValuedRegionalMinimal-ref.png}
               ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal.png
-    itkValuedRegionalMinimaImageFilterTest 1 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref.png)
+    itkValuedRegionalMinimaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref.png 1)
 itk_add_test(NAME itkValuedRegionalMinimaImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/cthead1ValuedRegionalMinimal-ref2.png}
               ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png
-    itkValuedRegionalMinimaImageFilterTest 0 DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref2.png)
+    itkValuedRegionalMinimaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref2.png 0)

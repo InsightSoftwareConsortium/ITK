@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// a test routine for regional extrema using flooding
+
 #include "itkValuedRegionalMaximaImageFilter.h"
 #include "itkHConvexImageFilter.h"
 #include "itkImageFileReader.h"
@@ -25,67 +25,83 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-int itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
-{
-  const int dim = 2;
 
+// A test routine for regional extrema using flooding
+int itkValuedRegionalMaximaImageFilterTest( int argc, char * argv[] )
+{
   if( argc < 5 )
     {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage  OutputImageFile1 OutputImageFile2  "
-              << "OutputImageFile3" << std::endl;
+    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << " inputImageFile"
+      << " outputImageFile1"
+      << " outputImageFile2"
+      << " fullyConnected";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char                PixelType;
-  typedef itk::Image< PixelType, dim > ImageType;
+  const unsigned int Dimension = 2;
+
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
   typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
-  reader->SetFileName( argv[2] );
+  reader->SetFileName( argv[1] );
 
   typedef itk::ValuedRegionalMaximaImageFilter< ImageType, ImageType >
-                                                               FilterType;
+    FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput( reader->GetOutput() );
-  filter->SetFullyConnected( atoi(argv[1]) );
-  itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, ValuedRegionalMaximaImageFilter, ValuedRegionalExtremaImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( filter,
+    ValuedRegionalMaximaImageFilter,
+    ValuedRegionalExtremaImageFilter );
+
+  bool fullyConnected = atoi( argv[4] );
+  TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
+
+
+  itk::SimpleFilterWatcher watcher( filter, "ValuedRegionalMaximaImageFilter" );
+
+  filter->SetInput( reader->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( argv[3] );
-  writer->Update();
+  writer->SetFileName( argv[2] );
 
 
-  // produce the same output with other filters
-  typedef itk::HConvexImageFilter< ImageType, ImageType > ConvexType;
-  ConvexType::Pointer convex = ConvexType::New();
-  convex->SetInput( reader->GetOutput() );
-  convex->SetFullyConnected( atoi(argv[1]) );
-  convex->SetHeight( 1 );
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  // convex gives maxima with value=1 and others with value=0
-  // rescale the image so we have maxima=255 other=0
-  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleType;
-  RescaleType::Pointer rescale = RescaleType::New();
-  rescale->SetInput( convex->GetOutput() );
-  rescale->SetOutputMaximum( 255 );
-  rescale->SetOutputMinimum( 0 );
+  // Produce the same output with other filters
+  typedef itk::HConvexImageFilter< ImageType, ImageType > ConvexFilterType;
+  ConvexFilterType::Pointer convexFilter = ConvexFilterType::New();
+  convexFilter->SetInput( reader->GetOutput() );
+  convexFilter->SetFullyConnected( fullyConnected );
+  convexFilter->SetHeight( 1 );
+
+  // Convex gives maxima with value=1 and others with value = 0
+  // Rescale the image so we have maxima = 255 other = 0
+  typedef itk::RescaleIntensityImageFilter< ImageType, ImageType > RescaleFilterType;
+  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  rescaler->SetInput( convexFilter->GetOutput() );
+  rescaler->SetOutputMaximum( 255 );
+  rescaler->SetOutputMinimum( 0 );
 
   // in the input image, select the values of the pixel at the minima
-  typedef itk::AndImageFilter< ImageType, ImageType, ImageType > AndType;
-  AndType::Pointer a = AndType::New();
-  a->SetInput(0, rescale->GetOutput() );
-  a->SetInput(1, reader->GetOutput() );
+  typedef itk::AndImageFilter< ImageType, ImageType, ImageType > AndFilterType;
+  AndFilterType::Pointer andFilter = AndFilterType::New();
+  andFilter->SetInput( 0, rescaler->GetOutput() );
+  andFilter->SetInput( 1, reader->GetOutput() );
 
   WriterType::Pointer writer2 = WriterType::New();
-  writer2->SetInput( a->GetOutput() );
-  writer2->SetFileName( argv[4] );
+  writer2->SetInput( andFilter->GetOutput() );
+  writer2->SetFileName( argv[3] );
   writer2->Update();
 
+  std::cerr << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
