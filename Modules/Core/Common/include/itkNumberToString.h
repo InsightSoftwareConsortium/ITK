@@ -31,7 +31,7 @@ namespace itk
  * numerical precision errors.
  *
  * Typical use:
- *  \#include "itkNumberToStrong.h"
+ *  \#include "itkNumberToString.h"
  *  NumberToString<float> convert;
  *  float a = 1.0f/3.0f;
  *  std::cout << convert(a) << std::endl;
