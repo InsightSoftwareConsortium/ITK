@@ -255,10 +255,6 @@ void TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "Compression: " << m_Compression << std::endl;
   os << indent << "JPEGQuality: " << m_JPEGQuality << std::endl;
-  if ( m_IsReadAsScalarPlusPalette )
-    {
-    os << "Read as Scalar Image plus palette" << "\n";
-    }
   if( m_ColorPalette.size() > 0  )
     {
     os << indent << "Image RGB palette:" << "\n";
