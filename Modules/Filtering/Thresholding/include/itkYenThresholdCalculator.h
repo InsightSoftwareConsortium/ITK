@@ -57,16 +57,16 @@ class ITK_TEMPLATE_EXPORT YenThresholdCalculator : public HistogramThresholdCalc
 {
 public:
   /** Standard class typedefs. */
-  typedef YenThresholdCalculator          Self;
-  typedef Object                          Superclass;
-  typedef SmartPointer<Self>              Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef YenThresholdCalculator                            Self;
+  typedef HistogramThresholdCalculator<THistogram, TOutput> Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(YenThresholdCalculator, Object);
+  itkTypeMacro(YenThresholdCalculator, HistogramThresholdCalculator);
 
   /** Type definition for the input image. */
   typedef THistogram  HistogramType;

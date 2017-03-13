@@ -49,16 +49,16 @@ class ITK_TEMPLATE_EXPORT ShanbhagThresholdCalculator : public HistogramThreshol
 {
 public:
   /** Standard class typedefs. */
-  typedef ShanbhagThresholdCalculator     Self;
-  typedef Object                          Superclass;
-  typedef SmartPointer<Self>              Pointer;
-  typedef SmartPointer<const Self>        ConstPointer;
+  typedef ShanbhagThresholdCalculator                       Self;
+  typedef HistogramThresholdCalculator<THistogram, TOutput> Superclass;
+  typedef SmartPointer<Self>                                Pointer;
+  typedef SmartPointer<const Self>                          ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShanbhagThresholdCalculator, Object);
+  itkTypeMacro(ShanbhagThresholdCalculator, HistogramThresholdCalculator);
 
   /** Type definition for the input image. */
   typedef THistogram  HistogramType;
