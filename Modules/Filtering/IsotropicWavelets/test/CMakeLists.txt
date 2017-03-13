@@ -28,6 +28,7 @@ set(
   itkIsotropicWaveletFrequencyFunctionTest.cxx
   #Isotropic Wavelet
   itkWaveletFrequencyFilterBankGeneratorTest.cxx
+  itkWaveletFrequencyFilterBankGeneratorDownsampleTest.cxx
   itkWaveletFrequencyForwardTest.cxx
   itkWaveletFrequencyInverseTest.cxx
   # Phase Analysis
@@ -118,6 +119,19 @@ itk_add_test(
     itkWaveletFrequencyFilterBankGeneratorTest
     DATA{Input/checkershadow_Lch_512x512.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorTest2D2.tiff
+    2
+    "Held"
+    2
+)
+# Generatator + Downsample
+itk_add_test(
+  NAME itkWaveletFrequencyFilterBankGeneratorDownsampleTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyFilterBankGeneratorDownsampleTest
+    DATA{Input/checkershadow_Lch_512x512.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorDownsampleTest2D.tiff
+    2
     2
     "Held"
     2
