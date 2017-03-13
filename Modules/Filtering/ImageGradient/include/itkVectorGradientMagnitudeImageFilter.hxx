@@ -40,7 +40,7 @@ VectorGradientMagnitudeImageFilter< TInputImage, TRealType, TOutputImage >
   Superclass::PrintSelf(os, indent);
   os << indent << "m_UseImageSpacing = "          << m_UseImageSpacing
      << std::endl;
-  os << indent << "m_UsePrincipleComponents = "   << m_UseImageSpacing
+  os << indent << "m_UsePrincipleComponents = "   << m_UsePrincipleComponents
      << std::endl;
   os << indent << "m_RequestedNumberOfThreads = " << m_RequestedNumberOfThreads
      << std::endl;
