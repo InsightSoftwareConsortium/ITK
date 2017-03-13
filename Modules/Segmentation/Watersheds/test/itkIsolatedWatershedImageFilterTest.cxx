@@ -16,131 +16,104 @@
  *
  *=========================================================================*/
 
-#include <fstream>
 #include "itkIsolatedWatershedImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
-int itkIsolatedWatershedImageFilterTest(int ac, char* av[] )
+#include <fstream>
+
+
+int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
 {
-  if(ac < 7)
+  if( argc < 9 )
     {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed1_x seed1_y seed2_x seed2_y\n";
+    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << " InputImage"
+      << " OutputImage"
+      << " seed1_x"
+      << " seed1_y"
+      << " seed2_x"
+      << " seed2_y"
+      << " threshold"
+      << " isolatedValueTolerance";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
 
-  typedef unsigned char            PixelType;
-  typedef itk::Image<PixelType, 2> InputImageType;
+  const unsigned int Dimension = 2;
 
-  itk::ImageFileReader<InputImageType>::Pointer input =
-    itk::ImageFileReader<InputImageType>::New();
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
-  input->SetFileName(av[1]);
+  itk::ImageFileReader< ImageType >::Pointer reader =
+    itk::ImageFileReader< ImageType >::New();
 
-  // Create a filter
-  typedef itk::IsolatedWatershedImageFilter<InputImageType, InputImageType> FilterType;
+  reader->SetFileName( argv[1] );
+
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
+
+  // Create the IsolatedWatershedImageFilter object
+  typedef itk::IsolatedWatershedImageFilter< ImageType, ImageType > FilterType;
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, IsolatedWatershedImageFilter, ImageToImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( filter, IsolatedWatershedImageFilter,
+    ImageToImageFilter );
 
-  filter->SetInput(input->GetOutput());
+  FilterType::IndexType seed1, seed2;
 
-  FilterType::IndexType seed1;
+  seed1[0] = atoi( argv[3] );
+  seed1[1] = atoi( argv[4] );
+  filter->SetSeed1( seed1 );
+  TEST_SET_GET_VALUE( seed1, filter->GetSeed1() );
 
-  seed1[0] = atoi(av[3]); seed1[1] = atoi(av[4]);
-  filter->SetSeed1(seed1);
+  seed2[0] = atoi( argv[5] );
+  seed2[1] = atoi( argv[6] );
+  filter->SetSeed2( seed2 );
+  TEST_SET_GET_VALUE( seed2, filter->GetSeed2() );
 
-  seed1[0] = atoi(av[5]); seed1[1] = atoi(av[6]);
-  filter->SetSeed2(seed1);
+  double threshold = atof( argv[7] );
+  filter->SetThreshold( threshold );
+  TEST_SET_GET_VALUE( threshold, filter->GetThreshold() );
 
-  filter->SetThreshold(0.001);
-  filter->SetReplaceValue1(255);
-  filter->SetReplaceValue2(127);
-  filter->SetUpperValueLimit(1);
+  PixelType replaceValue1 = 255;
+  filter->SetReplaceValue1( replaceValue1 );
+  TEST_SET_GET_VALUE( replaceValue1, filter->GetReplaceValue1() );
 
-  // Test SetMacro
-  filter->SetIsolatedValueTolerance(.0001);
+  PixelType replaceValue2 = 127;
+  filter->SetReplaceValue2( replaceValue2 );
+  TEST_SET_GET_VALUE( replaceValue2, filter->GetReplaceValue2() );
 
-  // Test GetMacros
-  double threshold = filter->GetThreshold();
-  std::cout << "filter->GetThreshold(): "
-            << threshold
-            << std::endl;
-  double isolatedValueTolerance = filter->GetIsolatedValueTolerance();
-  std::cout << "filter->GetIsolatedValueTolerance(): "
-            << isolatedValueTolerance
-            << std::endl;
-  double upperValueLimit = filter->GetUpperValueLimit();
-  std::cout << "filter->GetUpperValueLimit(): "
-            << upperValueLimit
-            << std::endl;
-  PixelType replaceValue1 = filter->GetReplaceValue1();
-  std::cout << "filter->GetReplaceValue1(): "
-            << static_cast<itk::NumericTraits<PixelType>::PrintType>(replaceValue1)
-            << std::endl;
-  PixelType replaceValue2 = filter->GetReplaceValue2();
-  std::cout << "filter->GetReplaceValue2(): "
-            << static_cast<itk::NumericTraits<PixelType>::PrintType>(replaceValue2)
-            << std::endl;
+  double upperValueLimit = 1.0;
+  filter->SetUpperValueLimit( upperValueLimit );
+  TEST_SET_GET_VALUE( upperValueLimit, filter->GetUpperValueLimit() );
 
-  try
-    {
-    input->Update();
-    filter->Update();
-    double isolatedValue = filter->GetIsolatedValue();
-    std::cout << "filter->GetIsolatedValue(): "
-              << isolatedValue
-              << std::endl;
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
-    return EXIT_FAILURE;
-    }
+  double isolatedValueTolerance = atof( argv[8] );
+  filter->SetIsolatedValueTolerance( isolatedValueTolerance );
+  TEST_SET_GET_VALUE( isolatedValueTolerance,
+    filter->GetIsolatedValueTolerance() );
 
-  // Generate test image
-  itk::ImageFileWriter<InputImageType>::Pointer writer;
-  writer = itk::ImageFileWriter<InputImageType>::New();
+
+  filter->SetInput( reader->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+
+  double isolatedValue = filter->GetIsolatedValue();
+  std::cout << "IsolatedValue: " << isolatedValue << std::endl;
+
+  // Write the filter output
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
-  writer->SetFileName( av[2] );
-  writer->Update();
+  writer->SetFileName( argv[2] );
 
-  //
-  // Test when lower and upper thresholds are "close", expect the
-  // filter not to crash, and complete
-  //
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  filter = FilterType::New();
 
-  filter->SetInput(input->GetOutput());
-
-  seed1[0] = atoi(av[3]); seed1[1] = atoi(av[4]);
-  filter->SetSeed1(seed1);
-
-  seed1[0] = atoi(av[5]); seed1[1] = atoi(av[6]);
-  filter->SetSeed2(seed1);
-
-  filter->SetThreshold(.1);
-  filter->SetIsolatedValueTolerance(1.0);
-  filter->SetReplaceValue1(255);
-  filter->SetReplaceValue2(127);
-  filter->SetUpperValueLimit(1);
-
-  try
-    {
-    filter->Update();
-    double isolatedValue = filter->GetIsolatedValue();
-    std::cout << "filter->GetIsolatedValue(): "
-              << isolatedValue
-              << std::endl;
-    }
-  catch (itk::ExceptionObject& e)
-    {
-    std::cerr << "Exception detected: "  << e.GetDescription();
-    return EXIT_FAILURE;
-    }
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

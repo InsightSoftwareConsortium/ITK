@@ -11,14 +11,19 @@ CreateTestDriver(ITKWatersheds  "${ITKWatersheds-Test_LIBRARIES}" "${ITKWatershe
 
 itk_add_test(NAME itkTobogganImageFilterTest
       COMMAND ITKWatershedsTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/TobogganImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/TobogganImageFilterTest.png
-    itkTobogganImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/TobogganImageFilterTest.png)
+    --compare DATA{Baseline/itkTobogganImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkTobogganImageFilterTest.png
+    itkTobogganImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkTobogganImageFilterTest.png)
 itk_add_test(NAME itkIsolatedWatershedImageFilterTest
       COMMAND ITKWatershedsTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/IsolatedWatershedImageFilterTest.png}
-              ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png
-    itkIsolatedWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/IsolatedWatershedImageFilterTest.png 113 84 120 99)
+    --compare DATA{Baseline/itkIsolatedWatershedImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkIsolatedWatershedImageFilterTest.png
+    itkIsolatedWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkIsolatedWatershedImageFilterTest.png 113 84 120 99 0.001 .0001)
+itk_add_test(NAME itkIsolatedWatershedImageFilterTestCloseThresholds
+      COMMAND ITKWatershedsTestDriver
+    --compare-MD5 DATA{Baseline/itkIsolatedWatershedImageFilterTestCloseThresholds.png}
+              b53800712fb3b5a376c2f8234e1ebac5
+    itkIsolatedWatershedImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkIsolatedWatershedImageFilterTestCloseThresholds.png 113 84 120 99 0.1 1.0)
 itk_add_test(NAME itkWatershedImageFilterTest
       COMMAND ITKWatershedsTestDriver itkWatershedImageFilterTest)
 
