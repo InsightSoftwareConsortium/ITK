@@ -9,11 +9,11 @@ itk_wrap_include("itkNumericTraitsFixedArrayPixel.h")
 itk_wrap_include("itkNumericTraitsVectorPixel.h")
 itk_wrap_include("itkNumericTraitsCovariantVectorPixel.h")
 
-if(WIN32)
+if(WIN32 AND NOT MINGW)
   itk_wrap_simple_class("std::_Num_base")
   itk_wrap_simple_class("std::_Num_int_base")
   itk_wrap_simple_class("std::_Num_float_base")
-endif(WIN32)
+endif()
 
 # the superclass
 itk_wrap_class(std::numeric_limits EXPLICIT_SPECIALIZATION)
