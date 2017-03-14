@@ -1,3 +1,10 @@
+general:
+  branches:
+    ignore:
+      - gh-pages
+      - dashboard
+      - hooks
+
 machine:
     environment:
         CTEST_DASHBOARD_ROOT: ${HOME}
@@ -10,7 +17,6 @@ machine:
         DISTCC_TCP_CORK: "0"
         DISTCC_DIR: ${HOME}/.distcc
         DISTCC_SLOTS: 3
-        MAKEJ: $(expr $CIRCLE_NODE_TOTAL \* $DISTCC_SLOTS + 1)
         CC: "gcc"
         CXX: "g++"
     post:
@@ -18,7 +24,7 @@ machine:
         - sudo apt-get install distcc
         - sudo sed -i.bak s/STARTDISTCC=\"false\"/STARTDISTCC=\"true\"/g /etc/default/distcc && sudo /etc/init.d/distcc start
         - sudo sed -i "s/false/true/g" /etc/default/sysstat && sudo sed -i "s/[0-9]*-[0-9]*\/[0-9]*/\*\/2/g" /etc/cron.d/sysstat && sudo service sysstat restart
-        - if [ ! -x "$ExternalData_OBJECT_STORES" ]; then wget --progress=dot:binary ${ITK_DATA_TAR_URL} && tar -zxf ${ITK_DATA_TAR} --strip-components=1 -C ${HOME} ; fi
+        - if [ ! -x "$ExternalData_OBJECT_STORES" ]; then wget --progress=bar:force ${ITK_DATA_TAR_URL} && tar -zxf ${ITK_DATA_TAR} --strip-components=1 -C ${HOME} ; fi
 
 dependencies:
     cache_directories:
@@ -37,8 +43,10 @@ test:
         - ctest -V -S "${DASHBOARD_BRANCH_DIRECTORY}/circleci.cmake":
             timeout: 1200
             environment:
+                ITK_GLOBAL_DEFAULT_NUMBER_OF_THREAD: 2
                 CTEST_OUTPUT_ON_FAILURE: 1
                 DASHBOARD_MODEL:  $( [[ "$CIRCLE_BRANCH" = "master" ]] && echo Continuous || echo Experimental )
                 CTEST_CONFIGURATION_TYPE: "Release"
+                CTEST_BUILD_FLAGS: "-j $(expr $CIRCLE_NODE_TOTAL \\* 2 + 1)"
         - sar:
             parallel: true
