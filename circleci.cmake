@@ -59,3 +59,8 @@ SET (dashboard_cache "
 
 
 include("${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake")
+
+# itk_common produces a fatal error ( and exits ) if there is a build
+# error or warning and also for test failures. If itk_common does not
+# terminate execution of this script early, then the build is OK.
+return(0)
