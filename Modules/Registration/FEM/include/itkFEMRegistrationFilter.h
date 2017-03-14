@@ -349,12 +349,16 @@ public:
   */
   itkSetMacro(UseLandmarks, bool);
   itkGetMacro(UseLandmarks, bool);
-  void SetUseLandmarksOff()
+  itkBooleanMacro(UseLandmarks);
+
+  /** \deprecated Replaced by UseLandmarksOff() as of ITK 4.12. */
+  itkLegacyMacro(void SetUseLandmarksOff())
   {
     SetUseLandmarks(false);
   }
 
-  void SetUseLandmarksOn()
+  /** \deprecated Replaced by UseLandmarksOn() as of ITK 4.12. */
+  itkLegacyMacro(void SetUseLandmarksOn())
   {
     SetUseLandmarks(true);
   }
@@ -364,6 +368,7 @@ public:
    */
   itkSetMacro(UseMassMatrix, bool);
   itkGetMacro(UseMassMatrix, bool);
+  itkBooleanMacro(UseMassMatrix);
 
   /**
    * Get/Set the energy below which we decide the solution has converged.
@@ -421,12 +426,16 @@ public:
    */
   itkSetMacro(UseNormalizedGradient, bool);
   itkGetMacro(UseNormalizedGradient, bool);
-  void SetUseNormalizedGradientOff()
+  itkBooleanMacro(UseNormalizedGradient);
+
+  /** \deprecated Replaced by UseNormalizedGradientOff() as of ITK 4.12. */
+  itkLegacyMacro(void SetUseNormalizedGradientOff())
   {
     SetUseNormalizedGradient(false);
   }
 
-  void SetUseNormalizedGradientOn()
+  /** \deprecated Replaced by UseNormalizedGradientOn() as of ITK 4.12. */
+  itkLegacyMacro(void SetUseNormalizedGradientOn())
   {
     SetUseNormalizedGradient(true);
   }
@@ -503,15 +512,20 @@ public:
    * provided by the user.
    */
   itkSetMacro(CreateMeshFromImage, bool);
-  void SetCreateMeshFromImageOn()
+  itkGetMacro(CreateMeshFromImage, bool);
+  itkBooleanMacro(CreateMeshFromImage);
+
+  /** \deprecated Replaced by CreateMeshFromImageOn() as of ITK 4.12. */
+  itkLegacyMacro(void SetCreateMeshFromImageOn())
   {
     SetCreateMeshFromImage(true);
   }
-  void SetCreateMeshFromImageOff()
+
+  /** \deprecated Replaced by CreateMeshFromImageOff() as of ITK 4.12. */
+  itkLegacyMacro(void SetCreateMeshFromImageOff())
   {
     SetCreateMeshFromImage(false);
   }
-  itkGetMacro(CreateMeshFromImage, bool);
 
   /** Set the interpolator function. */
   itkSetObjectMacro( Interpolator, InterpolatorType );
