@@ -60,8 +60,8 @@ public:
 
   /** Set/Get the number of filters that this command will expect to be
    * observing */
-  itkSetMacro(NumberOfFilters, double);
-  itkGetConstMacro(NumberOfFilters, double);
+  itkSetMacro(NumberOfFilters, unsigned int);
+  itkGetConstMacro(NumberOfFilters, unsigned int);
 
 protected:
   WatershedMiniPipelineProgressCommand():m_Count(0.0), m_Filter(ITK_NULLPTR),
@@ -72,7 +72,7 @@ protected:
 private:
   double         m_Count;
   ProcessObject *m_Filter;
-  double         m_NumberOfFilters;
+  unsigned int   m_NumberOfFilters;
 };
 } // end namespace itk
 
