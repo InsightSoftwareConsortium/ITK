@@ -18,90 +18,84 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 #include "itkSimpleFilterWatcher.h"
 #include "itkMorphologicalWatershedFromMarkersImageFilter.h"
 #include "itkLabelOverlayImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
+
+int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[] )
 {
   if( argc < 6 )
     {
-    std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << argv[0];
-    std::cerr << " InputImage MarkerImage OutputImage MarkWatershedLine FullyConnected [OvelayOutput [Alpha]]" << std::endl;
+    std::cerr << "Missing parameters" << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << " inputImageFile"
+      << " markerImageFile"
+      << " outputImageFile"
+      << " markWatershedLine"
+      << " fullyConnected"
+      << " [ovelayOutput [alpha]]";
+    std::cerr << std::endl;
     return EXIT_FAILURE;
     }
-  const int dim = 2;
 
-  typedef unsigned char PType;
+  const unsigned int Dimension = 2;
 
-  typedef itk::Image< PType, dim > IType;
+  typedef unsigned char PixelType;
 
-  typedef itk::ImageFileReader< IType > ReaderType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
+
+  typedef itk::ImageFileReader< ImageType > ReaderType;
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
   ReaderType::Pointer reader2 = ReaderType::New();
   reader2->SetFileName( argv[2] );
 
-  typedef itk::MorphologicalWatershedFromMarkersImageFilter< IType, IType > FilterType;
+  typedef itk::MorphologicalWatershedFromMarkersImageFilter< ImageType, ImageType >
+    FilterType;
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( filter,
+    MorphologicalWatershedFromMarkersImageFilter,
+    ImageToImageFilter );
+
+
+  bool markWatershedLine = atoi( argv[4] );
+  TEST_SET_GET_BOOLEAN( filter, MarkWatershedLine, markWatershedLine );
+
+  bool fullyConnected = atoi( argv[5] );
+  TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
+
+
   filter->SetInput( reader->GetOutput() );
-  filter->SetMarkerImage( reader2->GetOutput() );
 
-  EXERCISE_BASIC_OBJECT_METHODS( filter, MorphologicalWatershedFromMarkersImageFilter, ImageToImageFilter );
+  FilterType::LabelImageType::Pointer markerImage = reader2->GetOutput();
+  filter->SetInput2( markerImage );
+  TEST_SET_GET_VALUE( markerImage, filter->GetMarkerImage() );
 
-  // test default values
-  if ( filter->GetMarkWatershedLine( ) != true )
-    {
-    std::cerr << "Wrong default MarkWatershedLine." << std::endl;
-    return EXIT_FAILURE;
-    }
-  if ( filter->GetFullyConnected( ) != false )
-    {
-    std::cerr << "Wrong default FullyConnected." << std::endl;
-    return EXIT_FAILURE;
-    }
+  itk::SimpleFilterWatcher watcher( filter,
+    "MorphologicalWatershedFromMarkersImageFilter" );
 
-  filter->SetMarkWatershedLine( atoi( argv[4] ) );
-  if ( filter->GetMarkWatershedLine( ) != (bool)atoi(argv[4]) )
-    {
-    std::cerr << "Set/Get MarkWatershedLine problem." << std::endl;
-    return EXIT_FAILURE;
-    }
-  filter->SetFullyConnected( atoi( argv[5] ) );
-  if ( filter->GetFullyConnected( ) != (bool)atoi(argv[5]) )
-    {
-    std::cerr << "Set/Get FullyConnected problem." << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  typedef itk::ImageFileWriter< IType > WriterType;
+  // Write output image
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetInput( filter->GetOutput() );
   writer->SetFileName( argv[3] );
-  writer->Update();
 
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject & excp )
-    {
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   if( argc > 6 )
     {
-    typedef itk::RGBPixel<unsigned char>   RGBPixelType;
-    typedef itk::Image<RGBPixelType, dim>  RGBImageType;
+    typedef itk::RGBPixel< PixelType >            RGBPixelType;
+    typedef itk::Image< RGBPixelType, Dimension > RGBImageType;
 
-    typedef itk::LabelOverlayImageFilter<IType, IType, RGBImageType> OverlayType;
+    typedef itk::LabelOverlayImageFilter< ImageType, ImageType, RGBImageType>
+      OverlayType;
     OverlayType::Pointer overlay = OverlayType::New();
     overlay->SetInput( reader->GetOutput() );
     overlay->SetLabelImage( filter->GetOutput() );
@@ -116,18 +110,9 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
       overlay->SetOpacity( atof( argv[7] ) );
       }
 
-    try
-      {
-      rgbwriter->Update();
-      }
-    catch ( itk::ExceptionObject & excp )
-      {
-      std::cerr << excp << std::endl;
-      return EXIT_FAILURE;
-      }
-
+    TRY_EXPECT_NO_EXCEPTION( rgbwriter->Update() );
     }
 
+  std::cerr << "Test finished" << std::endl;
   return EXIT_SUCCESS;
-
 }
