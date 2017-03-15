@@ -103,7 +103,7 @@ public:
   typedef typename InterpolatorType::Pointer   InterpolatorPointer;
   typedef typename InterpolatorType::PointType PointType;
   typedef LinearInterpolateImageFunction< MovingImageType, CoordRepType >
-  DefaultInterpolatorType;
+    DefaultInterpolatorType;
 
   /** Covariant vector type. */
   typedef CovariantVector< double, itkGetStaticConstMacro(ImageDimension) > CovariantVectorType;
@@ -114,34 +114,35 @@ public:
 
   /** Set the moving image interpolator. */
   void SetMovingImageInterpolator(InterpolatorType *ptr)
-  { m_MovingImageInterpolator = ptr; }
+    { m_MovingImageInterpolator = ptr; }
 
   /** Get the moving image interpolator. */
   InterpolatorType * GetMovingImageInterpolator(void)
-  { return m_MovingImageInterpolator; }
+    { return m_MovingImageInterpolator; }
 
   /** This class uses a constant timestep of 1. */
   virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
-  { return m_TimeStep; }
+    { return m_TimeStep; }
 
   /** Return a pointer to a global data structure that is passed to
-   * this object from the solver at each calculation.  */
+   * this object from the solver at each calculation. */
   virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
-  {
+    {
     GlobalDataStruct *global = new GlobalDataStruct();
 
     return global;
-  }
+    }
 
   /** Release memory for global data structure. */
   virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE
-  { delete (GlobalDataStruct *)GlobalData;  }
+    { delete (GlobalDataStruct *)GlobalData; }
 
   /** Set the object's state before each iteration. */
   virtual void InitializeIteration() ITK_OVERRIDE;
 
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that does not lie on a data set boundary */
+  /** Compute update at a non boundary neighbourhood.
+   * This method is called by a finite difference solver image filter at each
+   * pixel that does not lie on a data set boundary. */
   virtual PixelType  ComputeUpdate( const NeighborhoodType & neighborhood,
                                     void *globalData,
                                     const FloatOffsetType & offset = FloatOffsetType(0.0) ) ITK_OVERRIDE;
@@ -163,17 +164,14 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NCCRegistrationFunction);
 
-  /** Cache fixed image information. */
-  SpacingType m_FixedImageSpacing;
-
-  /** Function to compute derivatives of the fixed image. */
-  GradientCalculatorPointer m_FixedImageGradientCalculator;
-
-  /** Function to interpolate the moving image. */
-  InterpolatorPointer m_MovingImageInterpolator;
-
   /** The global timestep. */
   TimeStepType m_TimeStep;
+
+  SpacingType m_FixedImageSpacing;
+
+  GradientCalculatorPointer m_FixedImageGradientCalculator;
+
+  InterpolatorPointer m_MovingImageInterpolator;
 
   /** Threshold below which the denominator term is considered zero. */
   double m_DenominatorThreshold;

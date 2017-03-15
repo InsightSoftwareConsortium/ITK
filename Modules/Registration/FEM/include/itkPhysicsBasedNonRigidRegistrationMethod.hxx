@@ -31,17 +31,16 @@ namespace fem
 
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
-::PhysicsBasedNonRigidRegistrationMethod()
+::PhysicsBasedNonRigidRegistrationMethod() :
+  m_SelectFraction( 0.1 ),
+  m_NonConnectivity( 0 ), // VERTEX_CONNECTIVITY
+  m_ApproximationSteps( 10 ),
+  m_OutlierRejectionSteps( 10 )
 {
-  // defaults
-  this->m_NonConnectivity = 0; // VERTEX_CONNECTIVITY
-  this->m_SelectFraction = 0.1;
   this->m_BlockRadius.Fill( 2 );
   this->m_SearchRadius.Fill( 5 );
-  this->m_ApproximationSteps = 10;
-  this->m_OutlierRejectionSteps = 10;
 
-  // setup internal pipeline
+  // Set up internal pipeline
   this->m_FeatureSelectionFilter = FeatureSelectionFilterType::New();
   this->m_FeatureSelectionFilter->ComputeStructureTensorsOn();
   this->m_BlockMatchingFilter = BlockMatchingFilterType::New();
@@ -50,7 +49,7 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
   this->m_FEMFilter->SetConfidencePointSet( this->m_BlockMatchingFilter->GetSimilarities() );
   this->m_FEMFilter->SetTensorPointSet( this->m_FeatureSelectionFilter->GetOutput() );
 
-  // all inputs are required
+  // All inputs are required
   this->SetPrimaryInputName("FixedImage");
   this->AddRequiredInputName("FixedImage");
   this->AddRequiredInputName("MovingImage");
@@ -58,26 +57,10 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
   this->AddRequiredInputName("Mesh");
 }
 
-
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
 ::~PhysicsBasedNonRigidRegistrationMethod()
 {
-}
-
-
-template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
-void
-PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
-::PrintSelf( std::ostream & os, Indent indent ) const
-{
-  Superclass::PrintSelf( os, indent );
-  os << indent << "m_BlockRadius: " << m_BlockRadius << std::endl
-     << indent << "m_SearchRadius: " << m_SearchRadius << std::endl
-     << indent << "m_SelectFraction: " << m_SelectFraction << std::endl
-     << indent << "m_NonConnectivity: " << m_NonConnectivity << std::endl
-     << indent << "m_ApproximationSteps: " << m_ApproximationSteps << std::endl
-     << indent << "m_OutlierRejectionSteps: " << m_OutlierRejectionSteps << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
@@ -85,20 +68,20 @@ void
 PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
 ::GenerateData()
 {
-  // feature selection
+  // Feature selection
   this->m_FeatureSelectionFilter->SetInput( this->GetMovingImage() );
   this->m_FeatureSelectionFilter->SetMaskImage( this->GetMaskImage() );
   this->m_FeatureSelectionFilter->SetSelectFraction( this->m_SelectFraction );
   this->m_FeatureSelectionFilter->SetNonConnectivity( this->m_NonConnectivity );
   this->m_FeatureSelectionFilter->SetBlockRadius( this->m_BlockRadius );
 
-  // block matching
+  // Block matching
   this->m_BlockMatchingFilter->SetFixedImage( this->GetFixedImage() );
   this->m_BlockMatchingFilter->SetMovingImage( this->GetMovingImage() );
   this->m_BlockMatchingFilter->SetBlockRadius( this->m_BlockRadius );
   this->m_BlockMatchingFilter->SetSearchRadius( this->m_SearchRadius );
 
-  // assembly and solver
+  // Assembly and solver
   typename BlockMatchingFilterType::DisplacementsType * displacements = this->m_BlockMatchingFilter->GetDisplacements();
   this->m_FEMFilter->SetInput( displacements );
   this->m_FEMFilter->SetMesh( const_cast< MeshType * >( this->GetMesh() ) );
@@ -111,17 +94,35 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
   femSolver->SetApproximationSteps( this->m_ApproximationSteps );
   femSolver->SetOutlierRejectionSteps( this->m_OutlierRejectionSteps );
 
-  // graft our output to the filter to force the proper regions to be generated
+  // Graft our output to the filter to force the proper regions to be generated
   this->m_FEMFilter->GraftOutput( this->GetOutput() );
 
   this->m_FEMFilter->Update();
 
-  // graft the output of the subtract filter back onto this filter's output
+  // Graft the output of the subtract filter back onto this filter's output
   // this is needed to get the appropriate regions passed back
   this->GraftOutput( this->m_FEMFilter->GetOutput() );
 }
 
+template <typename TFixedImage, typename TMovingImage, typename TMaskImage, typename TMesh, typename TDeformationField>
+void
+PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TMesh, TDeformationField>
+::PrintSelf( std::ostream & os, Indent indent ) const
+{
+  Superclass::PrintSelf( os, indent );
+
+  os << indent << "m_SelectFraction: " << m_SelectFraction << std::endl;
+  os << indent << "m_NonConnectivity: " << m_NonConnectivity << std::endl;
+  os << indent << "m_BlockRadius: " << m_BlockRadius << std::endl;
+  os << indent << "m_SearchRadius: " << m_SearchRadius << std::endl;
+  os << indent << "m_ApproximationSteps: " << m_ApproximationSteps << std::endl;
+  os << indent << "m_OutlierRejectionSteps: " << m_OutlierRejectionSteps << std::endl;
+
+  itkPrintSelfObjectMacro( FeatureSelectionFilter );
+  itkPrintSelfObjectMacro( BlockMatchingFilter );
+  itkPrintSelfObjectMacro( FEMFilter );
 }
-}  // end namespace itk::fem
+} // end namespace fem
+} // end namespace itk
 
 #endif

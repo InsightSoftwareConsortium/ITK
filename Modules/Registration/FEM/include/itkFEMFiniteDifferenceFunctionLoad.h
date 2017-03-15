@@ -102,36 +102,35 @@ public:
   typedef ImageRegionIteratorWithIndex<FixedImageType>  FixedRegionIteratorType;
 
   typedef NeighborhoodIterator<MovingImageType>
-  MovingNeighborhoodIteratorType;
+    MovingNeighborhoodIteratorType;
   typedef typename MovingNeighborhoodIteratorType::IndexType
-  MovingNeighborhoodIndexType;
+    MovingNeighborhoodIndexType;
   typedef typename MovingNeighborhoodIteratorType::RadiusType
-  MovingRadiusType;
+    MovingRadiusType;
   typedef typename MovingNeighborhoodIteratorType::RadiusType
-  RadiusType;
+    RadiusType;
   typedef NeighborhoodIterator<FixedImageType>
-  FixedNeighborhoodIteratorType;
+    FixedNeighborhoodIteratorType;
   typedef typename FixedNeighborhoodIteratorType::IndexType
-  FixedNeighborhoodIndexType;
+    FixedNeighborhoodIndexType;
   typedef typename FixedNeighborhoodIteratorType::RadiusType
-  FixedRadiusType;
+    FixedRadiusType;
 
   // Typedefs for Image Data
-  typedef   typename  MovingImageType::PixelType MovingPixelType;
-  typedef   typename  FixedImageType::PixelType  FixedPixelType;
-  typedef   Float                                PixelType;
-  typedef   Float                                ComputationType;
-  typedef   Image<PixelType, itkGetStaticConstMacro(ImageDimension)>
-  ImageType;
-  typedef   itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>
-  VectorType;
-  typedef   vnl_vector<Float> FEMVectorType;
-  typedef   Image<VectorType, itkGetStaticConstMacro(ImageDimension)>
-  DisplacementFieldType;
-  typedef   typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
+  typedef typename MovingImageType::PixelType MovingPixelType;
+  typedef typename FixedImageType::PixelType  FixedPixelType;
+  typedef Float                               PixelType;
+  typedef Float                               ComputationType;
+  typedef Image<PixelType, itkGetStaticConstMacro(ImageDimension)>
+    ImageType;
+  typedef itk::Vector<float, itkGetStaticConstMacro(ImageDimension)>
+    VectorType;
+  typedef vnl_vector<Float> FEMVectorType;
+  typedef Image<VectorType, itkGetStaticConstMacro(ImageDimension)>
+    DisplacementFieldType;
+  typedef typename DisplacementFieldType::Pointer DisplacementFieldTypePointer;
 
-  typedef NeighborhoodIterator<DisplacementFieldType>
-  FieldIteratorType;
+  typedef NeighborhoodIterator<DisplacementFieldType> FieldIteratorType;
 
 
   /** PDEDeformableRegistrationFilterFunction type. */
@@ -250,7 +249,7 @@ public:
     m_Sign = -1.0;
   }
 
-  /** Scaling of the similarity energy term */
+  /** Scaling of the similarity energy term. */
   void SetGamma(Float s)
   {
     m_Gamma = s;
@@ -280,13 +279,13 @@ public:
    */
   FEMVectorType Fe(FEMVectorType);
 
-  /** Set the Displacement Field */
+  /** Set the displacement field. */
   void SetDisplacementField( DisplacementFieldTypePointer df)
   {
     m_DisplacementField = df;
   }
 
-  /** Get the Displacement Field */
+  /** Get the displacement field. */
   DisplacementFieldTypePointer GetDisplacementField()
   {
     return m_DisplacementField;
@@ -300,19 +299,23 @@ public:
 
   double GetCurrentEnergy();
 
-  void  SetCurrentEnergy( double e = 0.0);
+  void SetCurrentEnergy( double e = 0.0 );
 
   virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
 
 protected:
+
+  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:
   FiniteDifferenceFunctionLoad(); // cannot be private until we always use smart pointers
 
   MovingPointer    m_MovingImage;
   FixedPointer     m_FixedImage;
-  MovingRadiusType m_MetricRadius;                                   /** used by the metric to set region size for fixed
-                                                                       image*/
+
+  /** Used by the metric to set the region size for the fixed image. */
+  MovingRadiusType m_MetricRadius;
+
   typename MovingImageType::SizeType  m_MovingSize;
   typename FixedImageType::SizeType   m_FixedSize;
   unsigned int                        m_NumberOfIntegrationPoints;
