@@ -1,0 +1,8 @@
+itk_wrap_include("itkPolyLineParametricPath.h" POINTER)
+itk_wrap_class("itk::PathToImageFilter" POINTER)
+  foreach(d ${ITK_WRAP_IMAGE_DIMS})
+    foreach(t ${WRAP_ITK_SCALAR})
+      itk_wrap_template("PLPP${d}${ITKM_I${t}${d}}" "itk::PolyLineParametricPath< ${d} >, ${ITKT_I${t}${d}}")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()

@@ -2,6 +2,7 @@ itk_wrap_module(ITKPath)
 
 set(WRAPPER_SUBMODULE_ORDER
   itkPathBase
+  itkPathToImageFilter
   itkParametricPath
   itkPolyLineParametricPath
 )
