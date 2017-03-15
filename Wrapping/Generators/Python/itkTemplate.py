@@ -153,8 +153,8 @@ class itkTemplate(object):
 
             attributeName = cl.__name__[len(shortName):]
 
-        if attributeName.isdigit():
-            # the attribute name can't be a number
+        if attributeName[0].isdigit():
+            # the attribute name can't start with a number
             # add a single x before it to build a valid name.
             # Adding an underscore would hide the attributeName in IPython
             attributeName = "x" + attributeName
