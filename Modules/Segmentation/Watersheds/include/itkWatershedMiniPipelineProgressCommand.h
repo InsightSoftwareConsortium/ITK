@@ -65,7 +65,7 @@ public:
 
 protected:
   WatershedMiniPipelineProgressCommand():m_Count(0.0), m_Filter(ITK_NULLPTR),
-    m_NumberOfFilters(1.0) {}
+    m_NumberOfFilters(1) {}
   virtual ~WatershedMiniPipelineProgressCommand() {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
