@@ -358,7 +358,7 @@ protected:
   }
 
   /**
-   * Update a by adding b.  In Riemannian space, b is in the tangent space of a.
+   * Update a by adding b. In Riemannian space, b is in the tangent space of a.
    */
   RealType AddUpdate(const DiffusionTensor3D<RealValueType>& a,
                      const RealType& b)
@@ -423,41 +423,6 @@ protected:
   virtual void SetThreadData(int threadId, const ThreadDataStruct& data);
 
   virtual ThreadDataStruct GetThreadData(int threadId);
-
-  std::vector<ThreadDataStruct> m_ThreadData;
-
-  /** The buffer that holds the updates for an iteration of the algorithm. */
-  typename OutputImageType::Pointer m_UpdateBuffer;
-
-  unsigned int m_NumPixelComponents;
-  unsigned int m_NumIndependentComponents;
-  unsigned int m_TotalNumberPixels;
-  //
-  bool m_UseSmoothDiscPatchWeights;
-  //
-  bool m_UseFastTensorComputations;
-  //
-  RealArrayType  m_KernelBandwidthSigma;
-  bool           m_KernelBandwidthSigmaIsSet;
-  RealArrayType  m_IntensityRescaleInvFactor;
-  PixelType      m_ZeroPixel;
-  PixelArrayType m_ImageMin;
-  PixelArrayType m_ImageMax;
-  double         m_KernelBandwidthFractionPixelsForEstimation;
-  bool           m_ComputeConditionalDerivatives;
-  double         m_MinSigma;
-  double         m_MinProbability;
-  unsigned int   m_SigmaUpdateDecimationFactor;
-  double         m_SigmaUpdateConvergenceTolerance;
-  ShortArrayType m_SigmaConverged;
-  double         m_KernelBandwidthMultiplicationFactor;
-  //
-  RealType m_NoiseSigma;
-  RealType m_NoiseSigmaSquared;
-  bool     m_NoiseSigmaIsSet;
-  //
-  BaseSamplerPointer                m_Sampler;
-  typename ListAdaptorType::Pointer m_SearchSpaceList;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingImageFilter);
@@ -532,12 +497,45 @@ private:
     InputImageType *Img;
     };
 
-};  // end class PatchBasedDenoisingImageFilter
+  std::vector<ThreadDataStruct> m_ThreadData;
 
+  /** The buffer that holds the updates for an iteration of the algorithm. */
+  typename OutputImageType::Pointer m_UpdateBuffer;
+
+  unsigned int m_NumPixelComponents;
+  unsigned int m_NumIndependentComponents;
+  unsigned int m_TotalNumberPixels;
+
+  bool m_UseSmoothDiscPatchWeights;
+
+  bool m_UseFastTensorComputations;
+
+  RealArrayType  m_KernelBandwidthSigma;
+  bool           m_KernelBandwidthSigmaIsSet;
+  RealArrayType  m_IntensityRescaleInvFactor;
+  PixelType      m_ZeroPixel;
+  PixelArrayType m_ImageMin;
+  PixelArrayType m_ImageMax;
+  double         m_KernelBandwidthFractionPixelsForEstimation;
+  bool           m_ComputeConditionalDerivatives;
+  double         m_MinSigma;
+  double         m_MinProbability;
+  unsigned int   m_SigmaUpdateDecimationFactor;
+  double         m_SigmaUpdateConvergenceTolerance;
+  ShortArrayType m_SigmaConverged;
+  double         m_KernelBandwidthMultiplicationFactor;
+
+  RealType m_NoiseSigma;
+  RealType m_NoiseSigmaSquared;
+  bool     m_NoiseSigmaIsSet;
+
+  BaseSamplerPointer                m_Sampler;
+  typename ListAdaptorType::Pointer m_SearchSpaceList;
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-# include "itkPatchBasedDenoisingImageFilter.hxx"
+#include "itkPatchBasedDenoisingImageFilter.hxx"
 #endif
 
 #endif

@@ -27,33 +27,20 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
-::PatchBasedDenoisingBaseImageFilter()
+::PatchBasedDenoisingBaseImageFilter() :
+  m_PatchRadius( 4 ),
+  m_KernelBandwidthEstimation( false ),
+  m_KernelBandwidthUpdateFrequency( 3 ),
+  m_NumberOfIterations( 1 ),
+  m_ElapsedIterations( 0 ),
+  m_NoiseModel( NOMODEL ),
+  m_SmoothingWeight( 1.0 ),
+  m_NoiseModelFidelityWeight( 0.0 ),
+  m_AlwaysTreatComponentsAsEuclidean( false ),
+  m_ComponentSpace( EUCLIDEAN ),
+  m_ManualReinitialization( false ),
+  m_State( UNINITIALIZED )
 {
-  // Default patch size.
-  m_PatchRadius = 4;
-
-  // Default strategy for kernel-bandwidth estimation
-  m_KernelBandwidthEstimation = false;
-  m_KernelBandwidthUpdateFrequency = 3;
-
-  // Default for number of denoising iterations to perform
-  m_NumberOfIterations      = 1;
-  m_ElapsedIterations       = 0;
-
-  // Default noise model.
-  m_NoiseModel                = NOMODEL;
-  // Default weights for the smoothing and fidelity terms.
-  m_SmoothingWeight           = 1.0;
-  m_NoiseModelFidelityWeight  = 0.0;
-
-  // Default to setting component space
-  // based on pixel type
-  m_AlwaysTreatComponentsAsEuclidean = false;
-  m_ComponentSpace                   = EUCLIDEAN;
-
-  m_ManualReinitialization  = false;
-  m_State                   = UNINITIALIZED;
-
   m_InputImage  = ITK_NULLPTR;
   m_OutputImage = ITK_NULLPTR;
 }
@@ -95,7 +82,7 @@ void
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GenerateData()
 {
-  if (this->GetState() == UNINITIALIZED)
+  if( this->GetState() == UNINITIALIZED )
     {
     // Allocate the output image
     this->AllocateOutputs();
@@ -127,14 +114,14 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   // Any pre-processing of the input can be done here.
   this->PreProcessInput();
 
-  while ( !this->Halt() )
+  while( !this->Halt() )
     {
     // An optional method for precalculating global values,
     // or otherwise setting up for the next iteration.
     this->InitializeIteration();
 
-    if ( (m_KernelBandwidthEstimation) &&
-         (m_ElapsedIterations % m_KernelBandwidthUpdateFrequency == 0) )
+    if( m_KernelBandwidthEstimation &&
+      m_ElapsedIterations % m_KernelBandwidthUpdateFrequency == 0 )
       {
       // Find the optimal kernel bandwidth parameter.
       this->ComputeKernelBandwidthUpdate();
@@ -159,7 +146,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
       }
     }
 
-  if (m_ManualReinitialization == false)
+  if( m_ManualReinitialization == false )
     {
     // Reset the state once execution is completed.
     this->SetStateToUninitialized();
@@ -178,10 +165,10 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   PatchWeightsType patchWeights;
 
   // Allocate patch weights.
-  patchWeights.SetSize(this->GetPatchLengthInVoxels() );
+  patchWeights.SetSize( this->GetPatchLengthInVoxels() );
   // Assign default patch weights of all unity => rectangular patch.
-  patchWeights.Fill(1.0);
-  this->SetPatchWeights(patchWeights);
+  patchWeights.Fill( 1.0 );
+  this->SetPatchWeights( patchWeights );
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -193,10 +180,10 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
                          "Unexpected patch size encountered while setting patch weights" );
 
   // Allocate patch weights.
-  m_PatchWeights.SetSize (this->GetPatchLengthInVoxels() );
+  m_PatchWeights.SetSize( this->GetPatchLengthInVoxels() );
 
   // Copy weights to m_PatchWeights
-  for (unsigned int pos = 0; pos < this->GetPatchLengthInVoxels(); ++pos)
+  for( unsigned int pos = 0; pos < this->GetPatchLengthInVoxels(); ++pos )
     {
     itkAssertOrThrowMacro( (weights[pos] >= 0.0f) && (weights[pos] <= 1.0f),
                            "Patch weights must be in the range [0,1]" );
@@ -220,7 +207,7 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
   const PatchRadiusType diameter = this->GetPatchDiameterInVoxels();
 
   typename PatchRadiusType::SizeValueType length = 1;
-  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+  for( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     length *= diameter[dim];
     }
@@ -248,8 +235,8 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchRadiusInVoxels() const
 {
   const typename Self::Pointer thisPtr = const_cast< Self* >(this);
-  // cache input image, if it has not yet been set.
-  if(thisPtr->m_InputImage == ITK_NULLPTR)
+  // Cache input image, if it has not yet been set.
+  if( thisPtr->m_InputImage == ITK_NULLPTR )
     {
     thisPtr->m_InputImage = this->GetInput();
     }
@@ -257,16 +244,16 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
     this->m_InputImage->GetSpacing();
   typename InputImageType::SpacingValueType maxSpacing;
   maxSpacing = spacing[0];
-  for (unsigned int dim = 1; dim < ImageDimension; ++dim)
+  for( unsigned int dim = 1; dim < ImageDimension; ++dim )
     {
-    if (spacing[dim] > maxSpacing)
+    if( spacing[dim] > maxSpacing )
       {
       maxSpacing = spacing[dim];
       }
     }
   PatchRadiusType radius;
   radius.Fill(m_PatchRadius);
-  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+  for( unsigned int dim = 0; dim < ImageDimension; ++dim )
     {
     radius[dim] = itk::Math::ceil (maxSpacing * radius[dim] / spacing[dim]);
     }
@@ -278,14 +265,14 @@ bool
 PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::Halt()
 {
-  if (m_NumberOfIterations != 0)
+  if( m_NumberOfIterations != 0 )
     {
     this->UpdateProgress( static_cast<float>( this->GetElapsedIterations() ) /
                           static_cast<float>( m_NumberOfIterations ) );
     }
 
   // Check and indicate whether to continue iterations or stop.
-  if (this->GetElapsedIterations() >= m_NumberOfIterations)
+  if( this->GetElapsedIterations() >= m_NumberOfIterations )
     {
     return true;
     }
@@ -302,43 +289,68 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ElapsedIterations: "
-     << m_ElapsedIterations << std::endl;
-  os << indent << "NumberOfIterations: "
-     << m_NumberOfIterations << std::endl;
+  os << indent << "State: " << m_State << std::endl;
+  os << indent << "PatchRadius: " << m_PatchRadius << std::endl;
+  if( m_KernelBandwidthEstimation )
+    {
+    os << indent << "KernelBandwidthEstimation: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "KernelBandwidthEstimation: Off" << std::endl;
+    }
+
   os << indent << "KernelBandwidthUpdateFrequency: "
      << m_KernelBandwidthUpdateFrequency << std::endl;
-  if (m_NoiseModel == Self::GAUSSIAN)
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
+  os << indent << "ElapsedIterations: " << m_ElapsedIterations << std::endl;
+
+  if( m_NoiseModel == Self::GAUSSIAN )
     {
     os << indent << "NoiseModel: GAUSSIAN" << std::endl;
     }
-  else if (m_NoiseModel == Self::RICIAN)
+  else if( m_NoiseModel == Self::RICIAN )
     {
     os << indent << "NoiseModel: RICIAN" << std::endl;
     }
-  else if (m_NoiseModel == Self::POISSON)
+  else if( m_NoiseModel == Self::POISSON )
     {
     os << indent << "NoiseModel: POISSON" << std::endl;
     }
   else {}
 
-  if (m_ComponentSpace == Self::EUCLIDEAN)
+  os << indent << "SmoothingWeight: " << m_SmoothingWeight << std::endl;
+  os << indent << "NoiseModelFidelityWeight: " << m_NoiseModelFidelityWeight
+    << std::endl;
+
+  if( m_AlwaysTreatComponentsAsEuclidean )
+    {
+    os << indent << "AlwaysTreatComponentsAsEuclidean: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "AlwaysTreatComponentsAsEuclidean: Off" << std::endl;
+    }
+
+  if( m_ComponentSpace == Self::EUCLIDEAN )
     {
     os << indent << "ComponentSpace: EUCLIDEAN" << std::endl;
     }
-  else if (m_ComponentSpace == Self::RIEMANNIAN)
+  else if( m_ComponentSpace == Self::RIEMANNIAN )
     {
     os << indent << "ComponentSpace: RIEMANNIAN" << std::endl;
     }
   else {}
 
-  os << indent << "State: "
-     << m_State << std::endl;
-  os << indent << "ManualReinitialization: "
-     << m_ManualReinitialization << std::endl;
-  os << std::endl;
+  if( m_ManualReinitialization )
+    {
+    os << indent << "ManualReinitialization: On" << std::endl;
+    }
+  else
+    {
+    os << indent << "ManualReinitialization: Off" << std::endl;
+    }
 }
-
 } // end namespace itk
 
 #endif
