@@ -62,7 +62,7 @@
 int main( int argc, char ** argv )
 {
   // Verify the number of parameters in the command line
-  if( argc < 3 )
+  if( argc <= 3 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0] << " input3DImageFile  output3DImageFile " << std::endl;
