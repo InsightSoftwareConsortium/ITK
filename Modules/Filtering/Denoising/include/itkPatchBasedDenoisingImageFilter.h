@@ -73,7 +73,8 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PatchBasedDenoisingImageFilter, ImageToImageFilter);
+  itkTypeMacro(PatchBasedDenoisingImageFilter,
+    PatchBasedDenoisingBaseImageFilter);
 
   /** Type definition for the input image. */
   typedef typename Superclass::InputImageType  InputImageType;
