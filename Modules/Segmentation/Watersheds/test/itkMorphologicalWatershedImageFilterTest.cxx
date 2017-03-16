@@ -64,7 +64,8 @@ int itkMorphologicalWatershedImageFilterTest( int argc, char * argv[] )
   bool fullyConnected = atoi( argv[4] );
   TEST_SET_GET_BOOLEAN( filter, FullyConnected, fullyConnected );
 
-  FilterType::InputImagePixelType level = atof( argv[5] );
+  FilterType::InputImagePixelType level =
+    static_cast< FilterType::InputImagePixelType >( atof( argv[5] ) );
   filter->SetLevel( level );
   TEST_SET_GET_VALUE( level, filter->GetLevel() );
 
