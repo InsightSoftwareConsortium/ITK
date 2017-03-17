@@ -71,6 +71,35 @@ int itkMorphologicalWatershedFromMarkersImageFilterTest( int argc, char * argv[]
 
   filter->SetInput( reader->GetOutput() );
 
+  // Test the marker and input image size disagreement exception
+  //
+  // Create a marker image larger than the input image
+
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
+  ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
+  ImageType::RegionType::SizeType size = region.GetSize();
+  for( unsigned int i = 0; i < size.GetSizeDimension(); ++i )
+    {
+    size[i] = size[i]*2;
+    }
+
+  ImageType::RegionType::IndexType index;
+  index.Fill( 0 );
+
+  region.SetSize( size );
+  region.SetIndex( index );
+
+  FilterType::LabelImageType::Pointer largerMarkerImage = FilterType::LabelImageType::New();
+  largerMarkerImage->SetBufferedRegion( region );
+  largerMarkerImage->SetLargestPossibleRegion( region );
+  largerMarkerImage->Allocate();
+
+  filter->SetInput2( largerMarkerImage );
+
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
+
   FilterType::LabelImageType::Pointer markerImage = reader2->GetOutput();
   filter->SetInput2( markerImage );
   TEST_SET_GET_VALUE( markerImage, filter->GetMarkerImage() );
