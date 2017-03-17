@@ -204,8 +204,7 @@ public:
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
-      freq[dim] = this->m_Image->GetOrigin()[dim] + (this->m_Image->GetSpacing()[dim] * freqInd[dim]) /
-                                                      this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
+      freq[dim] = this->m_FrequencyOrigin[dim] + this->m_FrequencySpacing[dim] * freqInd[dim];
     }
     return freq;
   }
@@ -230,15 +229,32 @@ public:
    * If odd, Nyquist frequency is not represented, but there is still a largest frequency at this index
    * = fs/2 * (N-1)/N.
    */
-  typename ImageType::IndexType
-  GetHalfIndex() const
+  itkGetConstReferenceMacro(HalfIndex, IndexType);
+  void
+  SetHalfIndex(const IndexType halfIndex)
   {
-    typename ImageType::IndexType half_index;
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
-    {
-      half_index[dim] = static_cast<typename ImageType::IndexValueType>(m_HalfIndex[dim]);
-    }
-    return half_index;
+    this->m_HalfIndex = halfIndex;
+  };
+  /** Default to first index of the largest possible Region. */
+  itkGetConstReferenceMacro(MinIndex, IndexType);
+  /** Default to UpperIndex of the largest possible Region. */
+  itkGetConstReferenceMacro(MaxIndex, IndexType);
+
+  /** Origin of frequencies is zero for FFT output. */
+  itkGetConstReferenceMacro(FrequencyOrigin, FrequencyType);
+  void
+  SetFrequencyOrigin(const FrequencyType frequencyOrigin)
+  {
+    this->m_FrequencyOrigin = frequencyOrigin;
+  };
+
+  /** This is the pixel width, or the bin size of the frequency.
+   * FrequencySpacing  = SamplingFrequency / ImageSize */
+  itkGetConstReferenceMacro(FrequencySpacing, FrequencyType);
+  void
+  SetFrequencySpacing(const FrequencyType frequencySpacing)
+  {
+    this->m_FrequencySpacing = frequencySpacing;
   };
 
 private:
@@ -249,16 +265,26 @@ private:
   {
     this->m_MinIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
     this->m_MaxIndex = this->m_Image->GetLargestPossibleRegion().GetUpperIndex();
+    FrequencyType samplingFrequency;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
       this->m_HalfIndex[dim] = static_cast<FrequencyValueType>(
         this->m_MinIndex[dim] + std::ceil((this->m_MaxIndex[dim] - this->m_MinIndex[dim]) / 2.0));
+      // Set frequency metadata.
+      // Origin of frequencies is zero in the standard layout of a FFT output.
+      this->m_FrequencyOrigin[dim] = 0.0;
+      // SamplingFrequency = 1.0 / SpatialSpacing
+      samplingFrequency[dim] = 1.0 / this->m_Image->GetSpacing()[dim];
+      // Freq_BinSize = SamplingFrequency / Size
+      this->m_FrequencySpacing[dim] = samplingFrequency[dim] / this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
     }
   }
 
-  IndexType m_HalfIndex;
-  IndexType m_MinIndex;
-  IndexType m_MaxIndex;
+  IndexType     m_HalfIndex;
+  IndexType     m_MinIndex;
+  IndexType     m_MaxIndex;
+  FrequencyType m_FrequencyOrigin;
+  FrequencyType m_FrequencySpacing;
 };
 } // end namespace itk
 #endif
