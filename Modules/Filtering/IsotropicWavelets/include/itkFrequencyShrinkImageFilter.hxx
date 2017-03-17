@@ -364,7 +364,7 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
   // The spacing is taken into account by FrequencyIterators method GetFrequency().
   for (unsigned int i = 0; i < TImageType::ImageDimension; i++)
   {
-    outputSpacing[i] = inputSpacing[i] / m_ShrinkFactors[i];
+    outputSpacing[i] = inputSpacing[i] * m_ShrinkFactors[i];
     // inputIndexOutputOrigin[i] = 0.5*(m_ShrinkFactors[i]-1);
     // outputStartIndex[i] =
     //   Math::Ceil<SizeValueType>(inputStartIndex[i]/static_cast<double>( m_ShrinkFactors[i]) );
