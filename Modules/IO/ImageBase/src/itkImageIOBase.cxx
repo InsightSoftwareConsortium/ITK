@@ -1080,11 +1080,11 @@ void ImageIOBase::PrintSelf(std::ostream & os, Indent indent) const
     }
   if( m_IsReadAsScalarPlusPalette )
     {
-    os << indent << "IsReadAsScalarPlusPalette: On" << std::endl;
+    os << indent << "IsReadAsScalarPlusPalette: True" << std::endl;
     }
   else
     {
-    os << indent << "IsReadAsScalarPlusPalette: Off" << std::endl;
+    os << indent << "IsReadAsScalarPlusPalette: False" << std::endl;
     }
 }
 
