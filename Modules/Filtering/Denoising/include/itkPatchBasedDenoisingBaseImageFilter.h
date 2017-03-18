@@ -311,6 +311,18 @@ protected:
   return EUCLIDEAN;
   }
 
+  /** Set/Get the component space type. */
+  itkSetMacro(ComponentSpace, ComponentSpaceType);
+  itkGetConstMacro(ComponentSpace, ComponentSpaceType);
+
+  // Cache input and output pointer to get rid of thousands of calls
+  // to GetInput and GetOutput.
+  const InputImageType *m_InputImage;
+  OutputImageType      *m_OutputImage;
+
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingBaseImageFilter);
+
   /** Parameters that define patch size and patch weights (mask). */
   unsigned int     m_PatchRadius;
   PatchWeightsType m_PatchWeights;
@@ -335,14 +347,6 @@ protected:
   ComponentSpaceType m_ComponentSpace;
 
   bool m_ManualReinitialization;
-
-  // Cache input and output pointer to get rid of thousands of calls
-  // to GetInput and GetOutput.
-  const InputImageType *m_InputImage;
-  OutputImageType      *m_OutputImage;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(PatchBasedDenoisingBaseImageFilter);
 
   FilterStateType m_State;
 };

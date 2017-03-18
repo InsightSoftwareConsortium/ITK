@@ -284,7 +284,7 @@ protected:
 
   void ComputeMinMax(const Image< DiffusionTensor3D<PixelValueType> , ImageDimension>* img)
   {
-    if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
+    if( this->GetComponentSpace() == Superclass::RIEMANNIAN )
       {
       DispatchedRiemannianMinMax(img);
       }
@@ -329,7 +329,7 @@ protected:
                                                EigenVectorsCacheType& eigenVecsCache,
                                                RealType& diff, RealArrayType& norm)
   {
-    if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
+    if( this->GetComponentSpace() == Superclass::RIEMANNIAN )
       {
       ComputeLogMapAndWeightedSquaredGeodesicDifference(a, b, weight,
                                                         useCachedComputations, cacheIndex,
@@ -367,7 +367,7 @@ protected:
   RealType AddUpdate(const DiffusionTensor3D<RealValueType>& a,
                      const RealType& b)
   {
-    if (this->m_ComponentSpace == Superclass::RIEMANNIAN)
+    if( this->GetComponentSpace() == Superclass::RIEMANNIAN )
       {
       return this->AddExponentialMapUpdate(a, b);
       }
