@@ -27,9 +27,6 @@
 namespace itk
 {
 
-/*
- * Compute the Huang's threshold
- */
 template<typename THistogram, typename TOutput>
 void
 HuangThresholdCalculator<THistogram, TOutput>
@@ -50,7 +47,7 @@ HuangThresholdCalculator<THistogram, TOutput>
     return;
     }
 
-  // find first and last non-empty bin - could replace with stl
+  // Find first and last non-empty bin - could replace with stl
   m_FirstBin = 0;
   while( m_FirstBin < m_Size && histogram->GetFrequency(m_FirstBin, 0) == 0 )
     {
@@ -67,9 +64,9 @@ HuangThresholdCalculator<THistogram, TOutput>
     --m_LastBin;
     }
 
-  // calculate the cumulative density and the weighted cumulative density
-  std::vector<double> S(m_LastBin+1, 0.0);
-  std::vector<double> W(m_LastBin+1, 0.0);
+  // Calculate the cumulative density and the weighted cumulative density
+  std::vector<double> S(m_LastBin + 1, 0.0);
+  std::vector<double> W(m_LastBin + 1, 0.0);
 
   S[0] = histogram->GetFrequency(0, 0);
 
@@ -90,8 +87,8 @@ HuangThresholdCalculator<THistogram, TOutput>
     Smu[i] = -mu * std::log( mu ) - (1. - mu) * std::log( 1. - mu );
     }
 
-  // calculate the threshold
-  // need to take care - W[0] is zero, which means that mu=0 first
+  // Calculate the threshold.
+  // Need to take care - W[0] is zero, which means that mu=0 first
   // time round. This may be below the range of values in the
   // histogram, especially if masking is in place.
   // Also need to be careful at the end. The Java implementation from
@@ -112,7 +109,7 @@ HuangThresholdCalculator<THistogram, TOutput>
     MeasurementType mu = Math::Round< MeasurementType >(W[threshold] / S[threshold]);
 
     typename HistogramType::MeasurementVectorType v(1);
-    v[0]=mu;
+    v[0] = mu;
 
     typename HistogramType::IndexType       muFullIdx;
     typename HistogramType::IndexValueType  muIdx;
@@ -129,7 +126,7 @@ HuangThresholdCalculator<THistogram, TOutput>
         entropy += Smu[ diff ] * histogram->GetFrequency(i, 0);
         }
       mu = Math::Round< MeasurementType >((W[m_LastBin] - W[threshold]) / (S[m_LastBin] - S[threshold]));
-      v[0]=mu;
+      v[0] = mu;
 
       bool status = histogram->GetIndex(v, muFullIdx);
       if (!status)
@@ -154,6 +151,20 @@ HuangThresholdCalculator<THistogram, TOutput>
   this->GetOutput()->Set( static_cast<OutputType>( histogram->GetMeasurement( bestThreshold, 0 ) ) );
 }
 
+template<typename THistogram, typename TOutput>
+void
+HuangThresholdCalculator<THistogram, TOutput>
+::PrintSelf( std::ostream& os, Indent indent ) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "FirstBin: " << static_cast< typename itk::NumericTraits<
+    InstanceIdentifier >::PrintType >( m_FirstBin ) << std::endl;
+  os << indent << "LastBin: " << static_cast< typename itk::NumericTraits<
+    InstanceIdentifier >::PrintType >( m_LastBin ) << std::endl;
+  os << indent << "Size: " << static_cast< typename itk::NumericTraits<
+    SizeValueType >::PrintType >( m_Size ) << std::endl;
+}
 } // end namespace itk
 
 #endif

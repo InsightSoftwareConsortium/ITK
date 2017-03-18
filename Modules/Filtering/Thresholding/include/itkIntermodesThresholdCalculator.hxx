@@ -47,16 +47,13 @@ IntermodesThresholdCalculator<THistogram, TOutput>
   return (modes == 2);
 }
 
-/*
- * Compute the Intermodes's threshold
- */
 template<typename THistogram, typename TOutput>
 void
 IntermodesThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
 {
   const HistogramType * histogram = this->GetInput();
-  // histogram->Print(std::cout);
+
   if ( histogram->GetTotalFrequency() == 0 )
     {
     itkExceptionMacro(<< "Histogram is empty");
@@ -70,7 +67,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
     return;
     }
 
-  // smooth the histogram
+  // Smooth the histogram
   std::vector<double> smoothedHist(size);
   for( InstanceIdentifier i = 0; i<size; i++)
     {
@@ -82,7 +79,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
 
   while (!BimodalTest(smoothedHist))
     {
-    // smooth with a 3 point running mean
+    // Smooth with a 3 point running mean
     double previous = 0.;
     double current = 0.;
     double next = smoothedHist[0];
@@ -120,8 +117,8 @@ IntermodesThresholdCalculator<THistogram, TOutput>
     }
   else
     {
-    size_t firstpeak=0;
-    for (size_t i=1; i<smoothedHist.size() - 1; i++)
+    size_t firstpeak = 0;
+    for( size_t i = 1; i < smoothedHist.size() - 1; i++ )
       {
       if( (smoothedHist[i-1] < smoothedHist[i] ) && ( smoothedHist[i+1] < smoothedHist[i] ) )
         {
@@ -132,7 +129,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>
     double minVal = smoothedHist[firstpeak];
     tt = firstpeak;
 
-    for (size_t i=firstpeak + 1; i<smoothedHist.size() - 1; i++)
+    for( size_t i = firstpeak + 1; i < smoothedHist.size() - 1; i++ )
       {
       if (smoothedHist[i] < minVal)
         {
@@ -153,9 +150,11 @@ void
 IntermodesThresholdCalculator<THistogram, TOutput>
 ::PrintSelf( std::ostream& os, Indent indent ) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
-  os << indent << "MaximumSmoothingIterations: " << m_MaximumSmoothingIterations << std::endl;
+  os << indent << "MaximumSmoothingIterations: "
+    << static_cast< typename itk::NumericTraits<
+    SizeValueType >::PrintType >( m_MaximumSmoothingIterations ) << std::endl;
   os << indent << "UseInterMode: " << m_UseInterMode << std::endl;
 }
 

@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkRenyiEntropyThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class RenyiEntropyThresholdImageFilter
  * \brief Threshold an image using the RenyiEntropy Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RenyiEntropyThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

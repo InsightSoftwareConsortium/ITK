@@ -77,10 +77,11 @@ public:
   itkSetMacro( MaximumSmoothingIterations, SizeValueType );
   itkGetConstMacro( MaximumSmoothingIterations, SizeValueType );
 
-  /** select whether midpoint (intermode=true) or minimum between
-  peaks is used */
+  /** Select whether midpoint (intermode = true) or minimum between
+  peaks is used. Default is "On". */
   itkSetMacro( UseInterMode, bool);
   itkGetConstMacro( UseInterMode, bool );
+  itkBooleanMacro( UseInterMode );
 
 protected:
   IntermodesThresholdCalculator()

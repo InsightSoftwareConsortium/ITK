@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkMaximumEntropyThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class MaximumEntropyThresholdImageFilter
  * \brief Threshold an image using the MaximumEntropy Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaximumEntropyThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkMomentsThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class MomentsThresholdImageFilter
  * \brief Threshold an image using the Moments Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MomentsThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkYenThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class YenThresholdImageFilter
  * \brief Threshold an image using the Yen Threshold
@@ -105,7 +106,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(YenThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

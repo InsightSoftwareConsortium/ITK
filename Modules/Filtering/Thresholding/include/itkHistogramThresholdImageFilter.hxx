@@ -25,7 +25,8 @@
 #include "itkMaskImageFilter.h"
 #include "itkProgressAccumulator.h"
 
-namespace itk {
+namespace itk
+{
 
 template<typename TInputImage, typename TOutputImage, typename TMaskImage>
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
@@ -150,7 +151,7 @@ void
 HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>
 ::PrintSelf(std::ostream& os, Indent indent) const
 {
-  Superclass::PrintSelf(os,indent);
+  Superclass::PrintSelf(os, indent);
 
   os << indent << "OutsideValue: "
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_OutsideValue) << std::endl;
@@ -158,10 +159,11 @@ HistogramThresholdImageFilter<TInputImage,TOutputImage,TMaskImage>
      << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_InsideValue) << std::endl;
   os << indent << "Threshold (computed): "
      << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Threshold) << std::endl;
-  os << indent << "MaskValue: " <<  static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_MaskValue) << std::endl;
+  os << indent << "MaskValue: "
+    << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_MaskValue) << std::endl;
   itkPrintSelfObjectMacro( Calculator );
   os << indent << "NumberOfHistogramBins: " << m_NumberOfHistogramBins << std::endl;
-  os << indent << "AutoMinimumMaximim: " << m_AutoMinimumMaximum << std::endl;
+  os << indent << "AutoMinimumMaximm: " << m_AutoMinimumMaximum << std::endl;
   os << indent << "MaskOutput: " << m_MaskOutput << std::endl;
 }
 }// end namespace itk

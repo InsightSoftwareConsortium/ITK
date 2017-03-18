@@ -23,7 +23,8 @@
 #include "itkHistogram.h"
 #include "itkHistogramThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class HistogramThresholdImageFilter
  * \brief Threshold an image using a HistogramThresholdCalculator
@@ -146,17 +147,17 @@ public:
 
   /** Set the "outside" pixel value. The default value
    * NumericTraits<OutputPixelType>::ZeroValue(). */
-  itkSetMacro(OutsideValue,OutputPixelType);
+  itkSetMacro(OutsideValue, OutputPixelType);
 
   /** Get the "outside" pixel value. */
-  itkGetConstMacro(OutsideValue,OutputPixelType);
+  itkGetConstMacro(OutsideValue, OutputPixelType);
 
   /** Set the "inside" pixel value. The default value
    * NumericTraits<OutputPixelType>::max() */
-  itkSetMacro(InsideValue,OutputPixelType);
+  itkSetMacro(InsideValue, OutputPixelType);
 
   /** Get the "inside" pixel value. */
-  itkGetConstMacro(InsideValue,OutputPixelType);
+  itkGetConstMacro(InsideValue, OutputPixelType);
 
   /** Set the number of histogram bins */
   itkSetMacro(NumberOfHistogramBins, unsigned int);
@@ -182,7 +183,7 @@ public:
   itkGetConstMacro(MaskValue, MaskPixelType);
 
   /** Get the computed threshold. */
-  itkGetConstMacro(Threshold,InputPixelType);
+  itkGetConstMacro(Threshold, InputPixelType);
 
   /** Set/Get the calculator to use to compute the threshold */
   itkSetObjectMacro(Calculator, CalculatorType);
@@ -218,7 +219,7 @@ private:
   unsigned            m_NumberOfHistogramBins;
   bool                m_AutoMinimumMaximum;
   bool                m_MaskOutput;
-}; // end of class
+};
 
 } // end namespace itk
 

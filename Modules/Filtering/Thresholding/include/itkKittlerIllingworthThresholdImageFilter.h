@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkKittlerIllingworthThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class KittlerIllingworthThresholdImageFilter
  * \brief Threshold an image using the KittlerIllingworth Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KittlerIllingworthThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

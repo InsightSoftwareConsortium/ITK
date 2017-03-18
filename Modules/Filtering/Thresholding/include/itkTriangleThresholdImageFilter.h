@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkTriangleThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class TriangleThresholdImageFilter
  * \brief Threshold an image using the Triangle Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TriangleThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

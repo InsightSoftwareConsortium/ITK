@@ -26,30 +26,13 @@ namespace itk
 {
 template< typename TInputImage, typename TMaskImage >
 KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
-::KappaSigmaThresholdImageCalculator()
-: m_Valid(false)
-, m_MaskValue(NumericTraits<MaskPixelType>::max())
-, m_SigmaFactor(2)
-, m_NumberOfIterations(2)
-, m_Output(NumericTraits<InputPixelType>::ZeroValue())
-, m_Image(ITK_NULLPTR)
-, m_Mask(ITK_NULLPTR)
+::KappaSigmaThresholdImageCalculator() :
+  m_Valid( false ),
+  m_MaskValue( NumericTraits<MaskPixelType>::max() ),
+  m_SigmaFactor( 2 ),
+  m_NumberOfIterations( 2 ),
+  m_Output( NumericTraits<InputPixelType>::ZeroValue() )
 {
-}
-
-template< typename TInputImage, typename TMaskImage >
-void
-KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Input: " << this->m_Image.GetPointer() << std::endl;
-  os << indent << "Mask: " << this->m_Mask.GetPointer() << std::endl;
-  os << indent << "Valid: " << this->m_Valid << std::endl;
-  os << indent << "MaskValue: " << this->m_MaskValue << std::endl;
-  os << indent << "SigmaFactor: " << this->m_SigmaFactor << std::endl;
-  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
-  os << indent << "Output: " << this->m_Output << std::endl;
 }
 
 template< typename TInputImage, typename TMaskImage >
@@ -62,7 +45,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
     return;
     }
 
-  // init the values
+  // Initialize the values
   InputPixelType threshold = NumericTraits< InputPixelType >::max(); // use all
                                                                      // the
                                                                      // pixels
@@ -73,7 +56,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
     ImageRegionConstIteratorWithIndex< InputImageType > iIt( this->m_Image,
                                                              this->m_Image->GetRequestedRegion() );
 
-    // compute the mean
+    // Compute the mean
     iIt.GoToBegin();
     SizeValueType count = 0;
     double        mean = 0;
@@ -92,7 +75,7 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
       }
     mean = mean / count;
 
-    // compute sigma
+    // Compute sigma
     iIt.GoToBegin();
     double sigma = 0;
     while ( !iIt.IsAtEnd() )
@@ -109,11 +92,11 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
       }
     sigma = std::sqrt( sigma / ( count - 1 ) );
 
-    // compute the threshold for the next iteration
+    // Compute the threshold for the next iteration
     InputPixelType newThreshold = static_cast< InputPixelType >( mean + this->m_SigmaFactor * sigma );
     if ( newThreshold == threshold )
       {
-      // no need to continue - the threshold is the same and will produce the
+      // No need to continue - the threshold is the same and will produce the
       // same result
       break;
       }
@@ -134,6 +117,25 @@ KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
     itkExceptionMacro(<< "GetOutput() invoked, but the output have not been computed. Call Compute() first.");
     }
   return this->m_Output;
+}
+
+template< typename TInputImage, typename TMaskImage >
+void
+KappaSigmaThresholdImageCalculator< TInputImage, TMaskImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Valid: " << this->m_Valid << std::endl;
+  os << indent << "MaskValue: " << this->m_MaskValue << std::endl;
+  os << indent << "SigmaFactor: " << this->m_SigmaFactor << std::endl;
+  os << indent << "NumberOfIterations: " << this->m_NumberOfIterations << std::endl;
+
+  os << indent << "Output: " << static_cast< typename itk::NumericTraits<
+    InputPixelType >::PrintType >( m_Output ) << std::endl;
+
+  itkPrintSelfObjectMacro( Image );
+  itkPrintSelfObjectMacro( Mask );
 }
 } // end namespace itk
 

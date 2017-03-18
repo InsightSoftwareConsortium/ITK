@@ -33,16 +33,13 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
-::BinaryThresholdImageFilter()
+::BinaryThresholdImageFilter() :
+  m_InsideValue( NumericTraits< OutputPixelType >::max() ),
+  m_OutsideValue( NumericTraits< OutputPixelType >::ZeroValue() )
 {
-  m_OutsideValue   = NumericTraits< OutputPixelType >::ZeroValue();
-  m_InsideValue    = NumericTraits< OutputPixelType >::max();
-
   // We are going to create the object with a few default inputs to
   // hold the threshold values.
 
@@ -55,22 +52,19 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::SetNthInput(2, upper);
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::SetLowerThreshold(const InputPixelType threshold)
 {
-  // first check to see if anything changed
+  // First check to see if anything changed
   typename InputPixelObjectType::Pointer lower = this->GetLowerThresholdInput();
   if ( lower && Math::ExactlyEquals(lower->Get(), threshold) )
     {
     return;
     }
 
-  // create a data object to use as the input and to store this
+  // Create a data object to use as the input and to store this
   // threshold. we always create a new data object to use as the input
   // since we do not want to change the value in any current input
   // (the current input could be the output of another filter or the
@@ -115,7 +109,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
     static_cast< InputPixelObjectType * >( this->ProcessObject::GetInput(1) );
   if ( !lower )
     {
-    // no input object available, create a new one and set it to the
+    // No input object available, create a new one and set it to the
     // default threshold
     lower = InputPixelObjectType::New();
     lower->Set( NumericTraits< InputPixelType >::NonpositiveMin() );
@@ -136,7 +130,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
 
   if ( !lower )
     {
-    // no input object available, create a new one and set it to the
+    // No input object available, create a new one and set it to the
     // default threshold
     lower = InputPixelObjectType::New();
     lower->Set( NumericTraits< InputPixelType >::NonpositiveMin() );
@@ -146,22 +140,19 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   return lower;
 }
 
-/**
- *
- */
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
 ::SetUpperThreshold(const InputPixelType threshold)
 {
-  // first check to see if anything changed
+  // First check to see if anything changed
   typename InputPixelObjectType::Pointer upper = this->GetUpperThresholdInput();
   if ( upper && Math::ExactlyEquals(upper->Get(), threshold) )
     {
     return;
     }
 
-  // create a data object to use as the input and to store this
+  // Create a data object to use as the input and to store this
   // threshold. we always create a new data object to use as the input
   // since we do not want to change the value in any current input
   // (the current input could be the output of another filter or the
@@ -206,7 +197,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
     static_cast< InputPixelObjectType * >( this->ProcessObject::GetInput(2) );
   if ( !upper )
     {
-    // no input object available, create a new one and set it to the
+    // No input object available, create a new one and set it to the
     // default threshold
     upper = InputPixelObjectType::New();
     upper->Set( NumericTraits< InputPixelType >::max() );
@@ -227,7 +218,7 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
 
   if ( !upper )
     {
-    // no input object available, create a new one and set it to the
+    // No input object available, create a new one and set it to the
     // default threshold
     upper = InputPixelObjectType::New();
     upper->Set( NumericTraits< InputPixelType >::max() );
@@ -237,9 +228,28 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
   return upper;
 }
 
-/**
- *
- */
+template< typename TInputImage, typename TOutputImage >
+void
+BinaryThresholdImageFilter< TInputImage, TOutputImage >
+::BeforeThreadedGenerateData()
+{
+  // Set up the functor values
+  typename InputPixelObjectType::Pointer lowerThreshold = this->GetLowerThresholdInput();
+  typename InputPixelObjectType::Pointer upperThreshold = this->GetUpperThresholdInput();
+
+  if ( lowerThreshold->Get() > upperThreshold->Get() )
+    {
+    itkExceptionMacro(<< "Lower threshold cannot be greater than upper threshold.");
+    }
+
+  // Set up the functor
+  this->GetFunctor().SetLowerThreshold( lowerThreshold->Get() );
+  this->GetFunctor().SetUpperThreshold( upperThreshold->Get() );
+
+  this->GetFunctor().SetInsideValue(m_InsideValue);
+  this->GetFunctor().SetOutsideValue(m_OutsideValue);
+}
+
 template< typename TInputImage, typename TOutputImage >
 void
 BinaryThresholdImageFilter< TInputImage, TOutputImage >
@@ -255,31 +265,6 @@ BinaryThresholdImageFilter< TInputImage, TOutputImage >
      << static_cast< typename NumericTraits< InputPixelType >::PrintType >( this->GetLowerThreshold() ) << std::endl;
   os << indent << "UpperThreshold: "
      << static_cast< typename NumericTraits< InputPixelType >::PrintType >( this->GetUpperThreshold() ) << std::endl;
-}
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-void
-BinaryThresholdImageFilter< TInputImage, TOutputImage >
-::BeforeThreadedGenerateData()
-{
-  // set up the functor values
-  typename InputPixelObjectType::Pointer lowerThreshold = this->GetLowerThresholdInput();
-  typename InputPixelObjectType::Pointer upperThreshold = this->GetUpperThresholdInput();
-
-  if ( lowerThreshold->Get() > upperThreshold->Get() )
-    {
-    itkExceptionMacro(<< "Lower threshold cannot be greater than upper threshold.");
-    }
-
-  // Setup up the functor
-  this->GetFunctor().SetLowerThreshold( lowerThreshold->Get() );
-  this->GetFunctor().SetUpperThreshold( upperThreshold->Get() );
-
-  this->GetFunctor().SetInsideValue(m_InsideValue);
-  this->GetFunctor().SetOutsideValue(m_OutsideValue);
 }
 } // end namespace itk
 

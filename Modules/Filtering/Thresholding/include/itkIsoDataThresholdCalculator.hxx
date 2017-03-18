@@ -26,16 +26,13 @@
 namespace itk
 {
 
-/*
- * Compute the IsoData's threshold
- */
 template<typename THistogram, typename TOutput>
 void
 IsoDataThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
 {
   const HistogramType * histogram = this->GetInput();
-  // histogram->Print(std::cout);
+
   if ( histogram->GetTotalFrequency() == 0 )
     {
     itkExceptionMacro(<< "Histogram is empty");
@@ -51,8 +48,7 @@ IsoDataThresholdCalculator<THistogram, TOutput>
   InstanceIdentifier currentPos = 0;
   while (true)
     {
-    // std::cout << "currentPos: " << currentPos << std::endl;
-    // skip the empty bins to speed up things
+    // Skip the empty bins to speed up things
     for( InstanceIdentifier i = currentPos; i < size; i++)
       {
       if( histogram->GetFrequency(i, 0) > 0 )
@@ -64,29 +60,29 @@ IsoDataThresholdCalculator<THistogram, TOutput>
       }
     if( currentPos >= size )
       {
-      // can't compute the isodata value - use the mean instead
+      // Can't compute the isodata value - use the mean instead
       this->GetOutput()->Set( static_cast<OutputType>( histogram->Mean(0) ) );
       return;
       }
-    // compute the mean of the lower values
+    // Compute the mean of the lower values
     double l = 0;
     double totl = 0;
 
-    for( InstanceIdentifier i = 0; i <= currentPos; i++)
+    for( InstanceIdentifier i = 0; i <= currentPos; i++ )
       {
       totl += static_cast< double >( histogram->GetFrequency(i, 0) );
       l += static_cast< double >( histogram->GetMeasurement(i, 0) ) * static_cast< double >( histogram->GetFrequency(i, 0) );
       }
-    // compute the mean of the higher values
+    // Compute the mean of the higher values
     double h = 0;
     double toth = 0;
 
-    for( InstanceIdentifier i = currentPos + 1; i < size; i++)
+    for( InstanceIdentifier i = currentPos + 1; i < size; i++ )
       {
       toth += static_cast< double >( histogram->GetFrequency(i, 0) );
       h += static_cast< double >( histogram->GetMeasurement(i, 0) ) * static_cast< double >( histogram->GetFrequency(i, 0) );
       }
-    // a test to avoid a potential division by 0
+    // Avoid a potential division by 0
     if( ( totl > itk::Math::eps ) && ( toth > itk::Math::eps ) )
       {
       l /= totl;

@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkShanbhagThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class ShanbhagThresholdImageFilter
  * \brief Threshold an image using the Shanbhag Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShanbhagThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

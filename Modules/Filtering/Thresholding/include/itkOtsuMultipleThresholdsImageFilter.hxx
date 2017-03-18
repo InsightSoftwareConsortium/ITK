@@ -26,13 +26,13 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
-::OtsuMultipleThresholdsImageFilter()
+::OtsuMultipleThresholdsImageFilter() :
+  m_NumberOfHistogramBins( 128 ),
+  m_NumberOfThresholds( 1 ),
+  m_LabelOffset( NumericTraits< OutputPixelType >::ZeroValue() ),
+  m_ValleyEmphasis( false )
 {
-  m_NumberOfHistogramBins = 128;
-  m_NumberOfThresholds = 1;
-  m_LabelOffset = NumericTraits< OutputPixelType >::ZeroValue();
   m_Thresholds.clear();
-  m_ValleyEmphasis = false;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -78,7 +78,7 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
 {
   TInputImage *input = const_cast< TInputImage * >( this->GetInput() );
 
-  if ( input )
+  if( input )
     {
     input->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -95,7 +95,7 @@ OtsuMultipleThresholdsImageFilter< TInputImage, TOutputImage >
   os << indent << "NumberOfThresholds: " << m_NumberOfThresholds << std::endl;
   os << indent << "LabelOffset: " << m_LabelOffset << std::endl;
   os << indent << "Thresholds: " << std::endl;
-  for ( SizeValueType j = 0; j < m_Thresholds.size(); j++ )
+  for( SizeValueType j = 0; j < m_Thresholds.size(); j++ )
     {
     os << "\tThreshold #" << j << ": "
        << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Thresholds[j] )

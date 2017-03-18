@@ -84,7 +84,7 @@ public:
   itkSetClampMacro( NumberOfThresholds, SizeValueType, 1, NumericTraits< SizeValueType >::max() );
   itkGetConstMacro(NumberOfThresholds, SizeValueType);
 
-  /** Calculates the thresholds and save them */
+  /** Calculates Otsu's thresholds and saves them. */
   void Compute() ITK_OVERRIDE;
 
   /** Set/Get the use of valley emphasis. Default is false. */
@@ -97,18 +97,18 @@ protected:
   virtual ~OtsuMultipleThresholdsCalculator() {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** Increment the thresholds of one position */
+  /** Increment the thresholds of one position along the histogram. */
   bool IncrementThresholds(InstanceIdentifierVectorType & thresholdIds,
                            MeanType totalMean,
                            MeanVectorType & classMean,
                            FrequencyVectorType & classFrequency);
 
 private:
-  /** Internal thresholds storage */
+
   SizeValueType m_NumberOfThresholds;
   OutputType    m_Output;
   bool          m_ValleyEmphasis;
-}; // end of class
+};
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
