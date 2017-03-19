@@ -36,8 +36,8 @@ namespace itk
  *
  * \par Overview
  * This filter has two calculation modes.  The first (default) mode calculates
- * gradient magnitude as the difference between the largest two eigenvalues in a
- * principle component analysis of the partial derivatives [1].  The
+ * gradient magnitude as the difference between the largest two singular values in a
+ * singular value decomposition (SVD) of the partial derivatives [1].  The
  * gradient is then based on the direction of maximal change, and is a
  * characterization of how "elongated" the point-spread of the analysis is
  * found to be.
