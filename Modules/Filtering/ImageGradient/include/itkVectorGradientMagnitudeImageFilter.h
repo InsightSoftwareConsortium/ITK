@@ -65,8 +65,7 @@ namespace itk
  *
  * The second template parameter, TRealType, can be optionally specified to define the
  * scalar numerical type used in calculations.  This is the component type of
- * the output image, which will be of itk::Vector<TRealType, N>, where N is the
- * number of channels in the multiple component input image.  The default type
+ * the output image.  The default type
  * of TRealType is float.  For extra precision, you may safely change this
  * parameter to double.
  *
@@ -75,7 +74,7 @@ namespace itk
  * it is not necessary (or advisable) to set this parameter explicitly.  Given
  * an M-channel input image with dimensionality N, and a numerical type
  * specified as TRealType, the output image will be of type
- * itk::Image<itk::Vector<TRealType, M>, N>.
+ * itk::Image<TRealType, N>.
  *
  * \par Filter Parameters
  * The methods Set/GetUsePrincipleComponents and
