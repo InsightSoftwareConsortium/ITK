@@ -95,7 +95,7 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
     testPassed = false;
   }
 
-  if (expandSpacing != fftSpacing * expandFactor)
+  if (expandSpacing != fftSpacing / expandFactor)
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in Spacing : " << std::endl;

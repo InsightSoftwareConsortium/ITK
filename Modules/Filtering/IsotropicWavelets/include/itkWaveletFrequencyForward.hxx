@@ -24,7 +24,16 @@
 #include <itkMultiplyImageFilter.h>
 #include <itkFrequencyShrinkImageFilter.h>
 #include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
+#include <itkShrinkDecimateImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
+
+// Debug TODO:deleteme
+//  Visualize for dev/debug purposes. Set in cmake file. Requires VTK
+#ifdef ITK_VISUALIZE_TESTS
+#  include "itkComplexToRealImageFilter.h"
+#  include "itkNumberToString.h"
+#  include "../test/itkViewImage.h"
+#endif
 
 namespace itk
 {
@@ -84,7 +93,7 @@ template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBa
 typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputImagePointer
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutputLowPass()
 {
-  return this->GetOutput(0);
+  return this->GetOutput(this->m_TotalOutputs - 1);
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
@@ -92,14 +101,14 @@ std::vector<typename WaveletFrequencyForward<TInputImage, TOutputImage, TWavelet
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutputsHighPassByLevel(unsigned int level)
 {
   std::vector<OutputImagePointer> outputPtrs;
-  unsigned int                    nout_start = 1 + level * this->m_HighPassSubBands;
-  unsigned int                    nout_end = 1 + (level + 1) * this->m_HighPassSubBands;
-  if (nout_end > this->m_TotalOutputs)
-    nout_end = this->m_TotalOutputs;
+  unsigned int                    nOutput_start = level * this->m_HighPassSubBands;
+  unsigned int                    nOutput_end = (level + 1) * this->m_HighPassSubBands;
+  if (nOutput_end > this->m_TotalOutputs)
+    nOutput_end = this->m_TotalOutputs;
 
-  for (unsigned int nout = nout_start; nout < nout_end; ++nout)
+  for (unsigned int nOutput = nOutput_start; nOutput < nOutput_end; ++nOutput)
   {
-    outputPtrs.push_back(this->GetOutput(nout));
+    outputPtrs.push_back(this->GetOutput(nOutput));
   }
   return outputPtrs;
 }
@@ -241,9 +250,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       inputStartIndexPerLevel[idim] = static_cast<IndexValueType>(
         std::ceil(static_cast<double>(inputStartIndexPerLevel[idim]) / this->m_ScaleFactor));
       // Spacing
-      inputSpacingPerLevel[idim] = inputSpacingPerLevel[idim] / this->m_ScaleFactor;
-      // Origin.
-      inputOriginPerLevel[idim] = inputOriginPerLevel[idim] / this->m_ScaleFactor;
+      inputSpacingPerLevel[idim] = inputSpacingPerLevel[idim] * this->m_ScaleFactor;
+      // Origin, the same.
+      inputOriginPerLevel[idim] = inputOriginPerLevel[idim];
+      // inputOriginPerLevel[idim] = inputOriginPerLevel[idim] / this->m_ScaleFactor;
     }
 
     // Set the low pass at the end.
@@ -381,7 +391,7 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
   // The first level has the same size than input.
   // At least one band is ensured to exist, so use it.
-  unsigned int refOutput = 1;
+  unsigned int refOutput = 0;
   SizeType     baseSize = this->GetOutput(refOutput)->GetRequestedRegion().GetSize();
   IndexType    baseIndex = this->GetOutput(refOutput)->GetRequestedRegion().GetIndex();
   RegionType   baseRegion;
@@ -449,8 +459,9 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   OutputImagePointer              lowPassWavelet = filterBank->GetOutputLowPass();
 
   // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
-  typedef itk::FrequencyShrinkImageFilter<OutputImageType> ShrinkFilterType;
-  typedef itk::MultiplyImageFilter<OutputImageType>        MultiplyFilterType;
+  typedef itk::FrequencyShrinkImageFilter<OutputImageType>                 ShrinkFilterType;
+  typedef itk::ShrinkDecimateImageFilter<OutputImageType, OutputImageType> ShrinkDecimateFilterType;
+  typedef itk::MultiplyImageFilter<OutputImageType>                        MultiplyFilterType;
   inputPerLevel = changeInputInfoFilter->GetOutput();
   for (unsigned int level = 0; level < this->m_Levels; ++level)
   {
@@ -501,7 +512,8 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     // Store result without dilation factor for next level.
     inputPerLevel = multiplyLowFilter->GetOutput();
 
-    /******* DownSample stored low band for the next Level iteration *****/
+    /* Shrink in the frequency domain the
+     * stored low band for the next level */
     typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetInput(inputPerLevel);
     shrinkFilter->SetShrinkFactors(this->m_ScaleFactor);
@@ -524,20 +536,41 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     }
     else // update inputPerLevel
     {
+      // #ifdef ITK_VISUALIZE_TESTS
+      //       // TODO deleteme after debug
+      //       itk::NumberToString< unsigned int > n2s;
+      //       typedef double                                  PixelType;
+      //       typedef itk::Image< PixelType, ImageDimension > RealImageType;
+      //       typedef itk::ComplexToRealImageFilter< OutputImageType, RealImageType > ComplexToRealFilter;
+      //       typename ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
+      // #endif
       inputPerLevel = shrinkFilter->GetOutput();
       /******* DownSample wavelets *****/
-      typename ShrinkFilterType::Pointer shrinkWaveletFilter = ShrinkFilterType::New();
-      shrinkWaveletFilter->SetInput(lowPassWavelet);
-      shrinkWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
-      shrinkWaveletFilter->Update();
-      lowPassWavelet = shrinkWaveletFilter->GetOutput();
+      typename ShrinkDecimateFilterType::Pointer decimateWaveletFilter = ShrinkDecimateFilterType::New();
+      decimateWaveletFilter->SetInput(lowPassWavelet);
+      decimateWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
+      decimateWaveletFilter->Update();
+      typename ChangeInformationFilterType::Pointer changeDecimateInfoFilter = ChangeInformationFilterType::New();
+      changeDecimateInfoFilter->SetInput(decimateWaveletFilter->GetOutput());
+      changeDecimateInfoFilter->ChangeAll();
+      changeDecimateInfoFilter->UseReferenceImageOn();
+      changeDecimateInfoFilter->SetReferenceImage(inputPerLevel);
+      changeDecimateInfoFilter->Update();
+      lowPassWavelet = changeDecimateInfoFilter->GetOutput();
       lowPassWavelet->DisconnectPipeline();
       for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
       {
-        shrinkWaveletFilter->SetInput(highPassWavelets[band]);
-        shrinkWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
-        shrinkWaveletFilter->Update();
-        highPassWavelets[band] = shrinkWaveletFilter->GetOutput();
+        typename ShrinkDecimateFilterType::Pointer decimateHPWaveletFilter = ShrinkDecimateFilterType::New();
+        decimateHPWaveletFilter->SetShrinkFactors(this->m_ScaleFactor);
+        decimateHPWaveletFilter->SetInput(highPassWavelets[band]);
+        decimateHPWaveletFilter->Update();
+        typename ChangeInformationFilterType::Pointer changeHPDecimateInfoFilter = ChangeInformationFilterType::New();
+        changeHPDecimateInfoFilter->ChangeAll();
+        changeHPDecimateInfoFilter->UseReferenceImageOn();
+        changeHPDecimateInfoFilter->SetReferenceImage(inputPerLevel);
+        changeHPDecimateInfoFilter->SetInput(decimateHPWaveletFilter->GetOutput());
+        changeHPDecimateInfoFilter->Update();
+        highPassWavelets[band] = changeHPDecimateInfoFilter->GetOutput();
         highPassWavelets[band]->DisconnectPipeline();
       }
     }

@@ -195,7 +195,7 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
     {
       expectedSize[i] = inputSize[i] / scaleFactorPerLevel;
       expectedOrigin[i] = inputOrigin[i];
-      expectedSpacing[i] = inputSpacing[i] / scaleFactorPerLevel;
+      expectedSpacing[i] = inputSpacing[i] * scaleFactorPerLevel;
     }
     for (unsigned int band = 0; band < highSubBands; ++band)
     {
@@ -217,17 +217,17 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
 
       if (expectedSize != forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize())
       {
-        std::cerr << "Size of the output is not as expected." << std::endl;
+        std::cerr << "Size of the output is not as expected: " << expectedSize << std::endl;
         sizeIsCorrect = false;
       }
       if (expectedOrigin != forwardWavelet->GetOutput(nOutput)->GetOrigin())
       {
-        std::cerr << "Origin of the output is not as expected." << std::endl;
+        std::cerr << "Origin of the output is not as expected: " << expectedOrigin << std::endl;
         originIsCorrect = false;
       }
       if (expectedSpacing != forwardWavelet->GetOutput(nOutput)->GetSpacing())
       {
-        std::cerr << "Spacing of the output is not as expected." << std::endl;
+        std::cerr << "Spacing of the output is not as expected: " << expectedSpacing << std::endl;
         spacingIsCorrect = false;
       }
 

@@ -212,31 +212,46 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(
 
   typename TOutputImage::SpacingType outputSpacing(inputSpacing);
   typename TOutputImage::SizeType    outputSize;
-  typename TOutputImage::PointType   outputOrigin;
   typename TOutputImage::IndexType   outputStartIndex;
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
   {
     outputSpacing[i] *= m_ShrinkFactors[i];
 
-    inputIndexOutputOrigin[i] = 0.5 * (m_ShrinkFactors[i] - 1);
-
-    outputStartIndex[i] = Math::Ceil<SizeValueType>(inputStartIndex[i] / static_cast<double>(m_ShrinkFactors[i]));
-
     // Round down so that all output pixels fit input input region
-    outputSize[i] = Math::Floor<SizeValueType>(
-      (double)(inputSize[i] - outputStartIndex[i] * m_ShrinkFactors[i] + inputStartIndex[i]) /
-      (double)m_ShrinkFactors[i]);
+    outputSize[i] = static_cast<SizeValueType>(std::floor((double)inputSize[i] / (double)m_ShrinkFactors[i]));
 
     if (outputSize[i] < 1)
     {
       itkExceptionMacro("InputImage is too small! An output pixel does not map to a whole input bin.");
     }
+
+    // Because of the later origin shift this starting index is not
+    // critical
+    outputStartIndex[i] =
+      static_cast<IndexValueType>(std::ceil((double)inputStartIndex[i] / (double)m_ShrinkFactors[i]));
   }
 
-  inputPtr->TransformContinuousIndexToPhysicalPoint(inputIndexOutputOrigin, outputOrigin);
-
   outputPtr->SetSpacing(outputSpacing);
+
+  // Compute origin offset
+  // The physical center's of the input and output should be the same
+  ContinuousIndex<SpacePrecisionType, TOutputImage::ImageDimension> inputCenterIndex;
+  ContinuousIndex<SpacePrecisionType, TOutputImage::ImageDimension> outputCenterIndex;
+  for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
+  {
+    inputCenterIndex[i] = inputStartIndex[i] + (inputSize[i] - 1) / 2.0;
+    outputCenterIndex[i] = outputStartIndex[i] + (outputSize[i] - 1) / 2.0;
+  }
+
+  typename TOutputImage::PointType inputCenterPoint;
+  typename TOutputImage::PointType outputCenterPoint;
+  inputPtr->TransformContinuousIndexToPhysicalPoint(inputCenterIndex, inputCenterPoint);
+  outputPtr->TransformContinuousIndexToPhysicalPoint(outputCenterIndex, outputCenterPoint);
+
+  const typename TOutputImage::PointType & inputOrigin = inputPtr->GetOrigin();
+  typename TOutputImage::PointType         outputOrigin;
+  outputOrigin = inputOrigin + (inputCenterPoint - outputCenterPoint);
   outputPtr->SetOrigin(outputOrigin);
 
   // Set region
