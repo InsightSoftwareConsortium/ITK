@@ -15,21 +15,24 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
-const double epsilon = 1e-10;
 
 template <typename TVector>
 bool testVector( const TVector & v1, const TVector & v2 )
 {
   bool pass = true;
+  const double tolerance = 1e-10;
 
   for( unsigned int i = 0; i < v1.Size() && i < v2.Size(); i++ )
     {
-    if( std::fabs( v1[i] - v2[i] ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( v1[i], v2[i], 10, tolerance ) )
       {
       pass = false;
       }
@@ -37,17 +40,20 @@ bool testVector( const TVector & v1, const TVector & v2 )
   return pass;
 }
 
-int itkDisplacementFieldTransformCloneTest(int, char *[])
+int itkDisplacementFieldTransformCloneTest( int, char *[] )
 {
-  //
-  // Create a displacement field transform
-  //
-  typedef itk::DisplacementFieldTransform<double, 3> DisplacementTransformType;
+  const unsigned int Dimensions = 3;
 
+  typedef double ParametersValueType;
+  typedef itk::DisplacementFieldTransform< ParametersValueType, Dimensions >
+                                                            DisplacementTransformType;
+  typedef DisplacementTransformType::DisplacementFieldType  FieldType;
+
+  // Create a displacement field transform
   DisplacementTransformType::Pointer displacementTransform =
     DisplacementTransformType::New();
-  typedef DisplacementTransformType::DisplacementFieldType FieldType;
-  FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
+
+  FieldType::Pointer field = FieldType::New();
 
   FieldType::SizeType   size;
   FieldType::IndexType  start;
@@ -67,33 +73,53 @@ int itkDisplacementFieldTransformCloneTest(int, char *[])
 
   DisplacementTransformType::Pointer displacementTransformClone =
     displacementTransform->Clone();
-  if(displacementTransformClone.IsNull())
+
+  EXERCISE_BASIC_OBJECT_METHODS( displacementTransformClone,
+    DisplacementFieldTransform, Transform );
+
+
+  if( displacementTransformClone.IsNull() )
     {
-    std::cerr << "Failed down cast to displacement transform.";
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Failed downcast to displacement transform.";
     return EXIT_FAILURE;
     }
-  if(!testVector(displacementTransform->GetFixedParameters(),
-                 displacementTransformClone->GetFixedParameters()))
+
+  if( !testVector( displacementTransform->GetFixedParameters(),
+                 displacementTransformClone->GetFixedParameters() ) )
     {
-    std::cerr << "fixed parameters of clone do not match original." << std::endl;
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Fixed parameters of clone do not match original." << std::endl;
+    return EXIT_FAILURE;
     }
-  FieldType::ConstPointer originalField = displacementTransform->GetDisplacementField();
-  FieldType::ConstPointer cloneField = displacementTransformClone->GetDisplacementField();
 
-  itk::ImageRegionConstIterator<FieldType> originalIt(originalField,originalField->GetLargestPossibleRegion());
-  itk::ImageRegionConstIterator<FieldType> cloneIt(cloneField,cloneField->GetLargestPossibleRegion());
+  FieldType::ConstPointer originalField =
+    displacementTransform->GetDisplacementField();
+  FieldType::ConstPointer cloneField =
+    displacementTransformClone->GetDisplacementField();
 
-  for(; !originalIt.IsAtEnd() && !cloneIt.IsAtEnd(); ++originalIt, ++cloneIt)
+  itk::ImageRegionConstIterator< FieldType > originalIt( originalField,
+    originalField->GetLargestPossibleRegion() );
+  itk::ImageRegionConstIterator< FieldType > cloneIt( cloneField,
+    cloneField->GetLargestPossibleRegion() );
+
+  for(; !originalIt.IsAtEnd() && !cloneIt.IsAtEnd(); ++originalIt, ++cloneIt )
     {
-    if(!testVector(originalIt.Value(),cloneIt.Value()))
+    if( !testVector( originalIt.Value(), cloneIt.Value() ) )
       {
+      std::cerr << "Test failed!" << std::endl;
       std::cerr << "Displacement Field voxel mismatch" << std::endl;
       return EXIT_FAILURE;
       }
     }
-  if(!originalIt.IsAtEnd() || !cloneIt.IsAtEnd())
+
+  if( !originalIt.IsAtEnd() || !cloneIt.IsAtEnd() )
     {
+    std::cerr << "Test failed!" << std::endl;
     std::cerr << "Displacment field size mismatch" << std::endl;
+    return EXIT_FAILURE;
     }
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

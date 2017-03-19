@@ -37,7 +37,7 @@ itk_add_test(NAME itkInverseDisplacementFieldImageFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkInverseDisplacementFieldImageFilterTest
               ${ITK_TEST_OUTPUT_DIR}/itkInverseDisplacementFieldImageFilterTest.mha)
 itk_add_test(NAME itkDisplacementFieldTransformTest
-      COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldTransformTest)
+      COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldTransformTest 1e-6 1e-6)
 itk_add_test(NAME itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest
       COMMAND ITKDisplacementFieldTestDriver
       itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest)
