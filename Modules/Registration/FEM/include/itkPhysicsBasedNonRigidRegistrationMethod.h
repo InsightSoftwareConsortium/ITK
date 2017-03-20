@@ -166,7 +166,6 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PhysicsBasedNonRigidRegistrationMethod);
 
-  // algorithm parameters
   double         m_SelectFraction;
   unsigned int   m_NonConnectivity;
   ImageSizeType  m_BlockRadius;

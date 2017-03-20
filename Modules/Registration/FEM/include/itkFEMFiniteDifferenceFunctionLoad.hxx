@@ -26,6 +26,24 @@ namespace fem
 {
 
 template <typename TMoving, typename TFixed>
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
+  m_MovingImage(ITK_NULLPTR ),
+  m_FixedImage( ITK_NULLPTR ),
+  m_NumberOfIntegrationPoints( 0 ),
+  m_SolutionIndex( 1 ),
+  m_SolutionIndex2( 0 ),
+  m_Gamma( NumericTraits< Float >::ZeroValue() ),
+  m_Solution( ITK_NULLPTR ),
+  m_GradSigma( 0.0f ),
+  m_Sign( 1.0f ),
+  m_WhichMetric( 0.0f )
+{
+  m_MovingSize.Fill( 0 );
+  m_FixedSize.Fill( 0 );
+  m_MetricRadius.Fill( 1 );
+}
+
+template <typename TMoving, typename TFixed>
 ::itk::LightObject::Pointer
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
 {
@@ -54,27 +72,10 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother(void) const
 }
 
 template <typename TMoving, typename TFixed>
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad() :
-  m_MovingImage(ITK_NULLPTR),
-  m_FixedImage(ITK_NULLPTR),
-  m_NumberOfIntegrationPoints(0),
-  m_SolutionIndex(1),
-  m_SolutionIndex2(0),
-  m_Gamma(NumericTraits< Float >::ZeroValue()),
-  m_Solution(ITK_NULLPTR),
-  m_GradSigma(0.0f),
-  m_Sign(1.0f),
-  m_WhichMetric(0.0f)
-{
-  m_MetricRadius.Fill(1);
-}
-
-template <typename TMoving, typename TFixed>
 void
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
 {
-
-  typedef   MeanSquareRegistrationFunctionType defaultRegistrationFunctionType;
+  typedef MeanSquareRegistrationFunctionType defaultRegistrationFunctionType;
 
   if( !m_DifferenceFunction )
     {
@@ -82,11 +83,8 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::InitializeIteration()
       = defaultRegistrationFunctionType::New();
     this->SetMetric(static_cast<FiniteDifferenceFunctionType *>(drfp) );
     }
-  //std::cout << " load sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize()
-  //          << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
 
   m_DifferenceFunction->InitializeIteration();
-
 }
 
 template <typename TMoving, typename TFixed>
@@ -102,7 +100,8 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintCurrentEnergy()
 {
   if( m_DifferenceFunction )
     {
-    std::cout << " energy " << m_DifferenceFunction->GetEnergy() << std::endl;
+    std::cout << " Current energy: " << m_DifferenceFunction->GetEnergy()
+      << std::endl;
     }
 }
 
@@ -130,10 +129,9 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::SetCurrentEnergy(double e)
     }
 }
 
-
 template <typename TMoving, typename TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::Float
-FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( ElementContainerType *el, Float step)
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( ElementContainerType *el, Float step )
 {
   Float energy = 0.0, defe = 0.0;
 
@@ -143,21 +141,19 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
   typename Element::MatrixType solmat;
   typename Element::Float w;
 
-
-  //ElementContainerType::Iterator elt;
-  if ( (el == ITK_NULLPTR) || (el->Size() < 1) )
+  if( (el == ITK_NULLPTR) || (el->Size() < 1) )
     {
     return 10.0;
     }
 
   Element::Pointer element = el->GetElement(0);
-  const unsigned int Nnodes = element->GetNumberOfNodes();
+  const unsigned int numNodes = element->GetNumberOfNodes();
 
-  FEMVectorType Gpos;
-  Gpos.set_size(ImageDimension);
-  Gpos.fill(0.0);
+  FEMVectorType gPos;
+  gPos.set_size(ImageDimension);
+  gPos.fill(0.0);
 
-  solmat.set_size(Nnodes * ImageDimension, 1);
+  solmat.set_size(numNodes * ImageDimension, 1);
   for(unsigned int elt = 0; elt < el->Size(); elt++ )
     {
     element = el->GetElement( elt );
@@ -173,7 +169,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
         {
         solval = 0.0;
         posval = 0.0;
-        for( unsigned int n = 0; n < Nnodes; n++ )
+        for( unsigned int n = 0; n < numNodes; n++ )
           {
           posval += shapef[n] * ( ( element->GetNodeCoordinates(n) )[f]);
           float nodeval = ( (m_Solution)->GetSolutionValue( element->GetNode(n)->GetDegreeOfFreedom(f), m_SolutionIndex)
@@ -184,21 +180,21 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
           solmat[(n * ImageDimension) + f][0] = nodeval;
           }
         InVec[f] = posval;
-        Gpos[f] = posval;
+        gPos[f] = posval;
         InVec[f + ImageDimension] = solval;
         }
 
       float tempe = 0.0;
       try
         {
-        this->Fe( Gpos );
+        this->Fe( gPos );
         tempe = std::fabs(0.0);
         }
       catch( ... )
         {
-        // do nothing we dont care if the metric region is outside the image
+        // Do nothing: we don't care if the metric region is outside the image
         }
-      for( unsigned int n = 0; n < Nnodes; n++ )
+      for( unsigned int n = 0; n < numNodes; n++ )
         {
         itk::fem::Element::Float temp = shapef[n] * tempe * w * detJ;
         energy += temp;
@@ -208,10 +204,8 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution( Elem
     defe += element->GetElementDeformationEnergy( solmat );
     }
 
-  // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
   return std::fabs( (double)energy * (double)m_Gamma - (double)defe);
 }
-
 
 template <typename TMoving, typename TFixed>
 typename FiniteDifferenceFunctionLoad<TMoving, TFixed>::FEMVectorType
@@ -220,13 +214,13 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
 
   // We assume the vector input is of size 2*ImageDimension.
   // The 0 to ImageDimension-1 elements contain the position, p,
-  // in the reference image.  The next ImageDimension to 2*ImageDimension-1
+  // in the reference image. The next ImageDimension to 2*ImageDimension-1
   // elements contain the value of the vector field at that point, v(p).
   //
   // Thus, we evaluate the derivative at the point p+v(p) with respect to
   // some region of the target (fixed) image by calling the metric with
   // the translation parameters as provided by the vector field at p.
-  // ------------------------------------------------------------
+  //
 
   VectorType    OutVec;
   FEMVectorType femVec;
@@ -239,20 +233,16 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
     this->InitializeIteration();
     if( !m_DisplacementField || !m_FixedImage || !m_MovingImage )
       {
-      //std::cout << " input data {field,fixed/moving image} are not set " << std::endl;
       return femVec;
       }
-    //std::cout << " sizes " << m_DisplacementField->GetLargestPossibleRegion().GetSize() << std::endl;
-    //std::cout << "  image " << m_FixedImage->GetLargestPossibleRegion().GetSize() << std::endl;
     }
 
   typedef typename TMoving::IndexType::IndexValueType OIndexValueType;
   typename TMoving::IndexType oindex;
   typename TMoving::PointType physicalPoint;
 
-  unsigned int k;
-  bool         inimage = true;
-  for( k = 0; k < ImageDimension; k++ )
+  bool inimage = true;
+  for( unsigned int k = 0; k < ImageDimension; k++ )
     {
     if( itk::Math::isnan(Gpos[k])  || itk::Math::isinf(Gpos[k]) || std::fabs(Gpos[k]) > 1.e33 )
       {
@@ -264,7 +254,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
 
   m_FixedImage->TransformPhysicalPointToIndex(physicalPoint, oindex);
 
-  for( k = 0; k < ImageDimension; k++ )
+  for( unsigned int k = 0; k < ImageDimension; k++ )
     {
     if( oindex[k] > static_cast<OIndexValueType>(m_FixedSize[k] - 1) || oindex[k] < 0 )
       {
@@ -277,12 +267,13 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe( FEMVectorType  Gpos )
     return femVec;
     }
 
-  FieldIteratorType nD(m_MetricRadius, m_DisplacementField, m_DisplacementField->GetLargestPossibleRegion() );
+  FieldIteratorType nD(m_MetricRadius, m_DisplacementField,
+    m_DisplacementField->GetLargestPossibleRegion() );
   nD.SetLocation(oindex);
 
   void* globalData = ITK_NULLPTR;
   OutVec = m_DifferenceFunction->ComputeUpdate(nD, globalData);
-  for( k = 0; k < ImageDimension; k++ )
+  for( unsigned int k = 0; k < ImageDimension; k++ )
     {
     if( itk::Math::isnan(OutVec[k])  || itk::Math::isinf(OutVec[k] ) )
       {
@@ -304,30 +295,30 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::ApplyLoad
   // Order of integration
   // FIXME: Allow changing the order of integration by setting a
   //        static member within an element base class.
-  unsigned int order = GetNumberOfIntegrationPoints();
+  unsigned int order = this->GetNumberOfIntegrationPoints();
 
-  const unsigned int NumIntegrationPoints = element->GetNumberOfIntegrationPoints(order);
-  const unsigned int NumDegreesOfFreedom = element->GetNumberOfDegreesOfFreedomPerNode();
-  const unsigned int NumNodes = element->GetNumberOfNodes();
+  const unsigned int numIntegrationPoints = element->GetNumberOfIntegrationPoints(order);
+  const unsigned int numDegreesOfFreedom = element->GetNumberOfDegreesOfFreedomPerNode();
+  const unsigned int numNodes = element->GetNumberOfNodes();
 
-  Element::VectorType force(NumDegreesOfFreedom, 0.0),
+  Element::VectorType force(numDegreesOfFreedom, 0.0),
   ip, gip, force_tmp, shapef;
   Element::Float w, detJ;
 
   F.set_size(element->GetNumberOfDegreesOfFreedom() );
   F.fill(0.0);
-  shapef.set_size(NumNodes);
-  gip.set_size(NumDegreesOfFreedom);
-  for( unsigned int i = 0; i < NumIntegrationPoints; i++ )
+  shapef.set_size(numNodes);
+  gip.set_size(numDegreesOfFreedom);
+  for( unsigned int i = 0; i < numIntegrationPoints; i++ )
     {
     element->GetIntegrationPointAndWeight(i, ip, w, order);
 
     shapef = element->ShapeFunctions(ip);
     detJ = element->JacobianDeterminant(ip);
-    for( unsigned int f = 0; f < NumDegreesOfFreedom; f++ )
+    for( unsigned int f = 0; f < numDegreesOfFreedom; f++ )
       {
       float posval = 0.0;
-      for( unsigned int n = 0; n < NumNodes; n++ )
+      for( unsigned int n = 0; n < numNodes; n++ )
         {
         posval += shapef[n] * ( (element->GetNodeCoordinates(n) )[f]);
         }
@@ -342,17 +333,53 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::ApplyLoad
 
     force = this->Fe(gip);
     // Calculate the equivalent nodal loads
-    for( unsigned int n = 0; n < NumNodes; n++ )
+    for( unsigned int n = 0; n < numNodes; n++ )
       {
-      for( unsigned int d = 0; d < NumDegreesOfFreedom; d++ )
+      for( unsigned int d = 0; d < numDegreesOfFreedom; d++ )
         {
         itk::fem::Element::Float temp = shapef[n] * force[d] * w * detJ;
-        F[n * NumDegreesOfFreedom + d] += temp;
+        F[n * numDegreesOfFreedom + d] += temp;
         }
       }
     }
 }
 
+template <typename TMoving, typename TFixed>
+void
+FiniteDifferenceFunctionLoad<TMoving, TFixed>::PrintSelf( std::ostream & os, Indent indent ) const
+{
+  Superclass::PrintSelf( os, indent );
+
+  itkPrintSelfObjectMacro( MovingImage );
+  itkPrintSelfObjectMacro( FixedImage );
+
+  os << indent << "MetricRadius: " << m_MetricRadius << std::endl;
+
+  os << indent << "MovingSize: "
+    << static_cast< typename itk::NumericTraits<
+    typename MovingImageType::SizeType >::PrintType >( m_MovingSize )
+    << std::endl;
+  os << indent << "FixedSize: "
+    << static_cast< typename itk::NumericTraits<
+    typename FixedImageType::SizeType >::PrintType >( m_FixedSize )
+    << std::endl;
+
+  os << indent << "NumberOfIntegrationPoints: " << m_NumberOfIntegrationPoints
+    << std::endl;
+  os << indent << "SolutionIndex: " << m_SolutionIndex << std::endl;
+  os << indent << "SolutionIndex2: " << m_SolutionIndex2 << std::endl;
+  os << indent << "Gamma: " << m_Gamma << std::endl;
+
+  os << indent << "Solution: " << m_Solution << std::endl;
+
+  os << indent << "GradSigma: " << itk::NumericTraits< Float >::PrintType( m_GradSigma )
+    << std::endl;
+  os << indent << "Sign: " << m_Sign << std::endl;
+  os << indent << "WhichMetric: " << m_WhichMetric << std::endl;
+
+  itkPrintSelfObjectMacro( DifferenceFunction );
+  itkPrintSelfObjectMacro( DisplacementField );
+}
 } // end namespace fem
 } // end namespace itk
 

@@ -55,20 +55,20 @@ namespace fem
 {
 
 /** \class FEMRegistrationFilter
- *    \brief FEM Image registration filter.
+ *  \brief FEM Image registration filter.
  * The image registration problem is modelled here with the finite
  * element method. Image registration is, in general, an ill-posed
- * problem.  Thus, we use an optimization scheme where the
+ * problem. Thus, we use an optimization scheme where the
  * optimization criterion is given by a regularized variational
  * energy. The variational energy arises from modeling the image as a
- * physical body on which external forces act.  The body is allowed to
- * deform so as to minimize the applied force.  The resistance of the
+ * physical body on which external forces act. The body is allowed to
+ * deform so as to minimize the applied force. The resistance of the
  * physical body to deformation, determined by the physics associated
  * with the body, serves to regularize the solution. The forces
  * applied to the body are, generally, highly non-linear and so the
- * body is allowed to deform slowly and incrementally.  The direction
+ * body is allowed to deform slowly and incrementally. The direction
  * it deforms follows the gradient of the potential energy (the force)
- * we define.  The potential energies we may choose from are given by
+ * we define. The potential energies we may choose from are given by
  * the itk image-to-image metrics. The choices and the associated
  * direction of descent are :
  *       Mean Squares (minimize),
@@ -79,14 +79,14 @@ namespace fem
  *
  * The forces driving the problem may also be given by user-supplied
  * landmarks. The corners of the image, in this example, are always
- * pinned.  This example is designed for 2D or 3D images.  A
+ * pinned. This example is designed for 2D or 3D images.  A
  * rectilinear mesh is generated automatically given the correct
  * element type (Quadrilateral or Hexahedral). Our specific Solver for
- * this example uses trapezoidal time stepping.  This is a method for
- * solving a second-order PDE in time.  The solution is penalized by
+ * this example uses trapezoidal time stepping. This is a method for
+ * solving a second-order PDE in time. The solution is penalized by
  * the zeroth (mass matrix) and first derivatives (stiffness matrix)
- * of the shape functions.  There is an option to perform a line
- * search on the energy after each iteration.  Optimal parameter
+ * of the shape functions. There is an option to perform a line
+ * search on the energy after each iteration. Optimal parameter
  * settings require experimentation.
  *   The following approach tends to work well :
  *       Choose the relative size of density  to elasticity (e.g. Rho
@@ -187,15 +187,12 @@ public:
   typedef typename MetricBaseType::Pointer     MetricBaseTypePointer;
   typedef FixedArray< double, ImageDimension > StandardDeviationsType;
 
-  /*----------------------  Main functions ----------------------*/
-
   /** Set the Moving image. */
   void SetMovingImage(MovingImageType* R);
 
   /**
-   * Get the Moving image. This image is dependent on the
-   * current resolution in a multi-resolution
-   * registration
+   * Get the Moving image. This image is dependent on the current resolution
+   *in a multi-resolution registration.
    */
   MovingImageType * GetMovingImage()
   {
@@ -228,7 +225,7 @@ public:
   /** Call this to register two images. */
   void RunRegistration();
 
-  /** The solution loop */
+  /** The solution loop. */
   void IterativeSolve(SolverType *S);
 
   /** The solution loop for a simple multi-resolution strategy. */
@@ -245,7 +242,7 @@ public:
   }
 
   /** Compute the jacobian of the current deformation field. */
-  void ComputeJacobian( );
+  void ComputeJacobian();
 
   /** Get the image that gives the jacobian of the deformation field. */
   FloatImageType * GetJacobianImage()
@@ -266,7 +263,7 @@ public:
     m_Field = F;
   }
 
-  /** Add a way to include landmarks ***/
+  /** Add a way to include landmarks. */
   void AddLandmark(PointType source, PointType target);
 
   void InsertLandmark(unsigned int i, PointType source, PointType target);
@@ -338,8 +335,8 @@ public:
   itkGetMacro(TimeStep, Float);
 
   /**
-   * Get/Set Alpha for the trapezoidal rule. This is usually set to 1.0,
-   * which is the default value.
+   * Get/Set Difference parameter for the trapezoidal rule. This is usually set
+   *  to 1.0, which is the default value.
    */
   itkSetMacro(Alpha, Float);
   itkGetMacro(Alpha, Float);
@@ -364,7 +361,7 @@ public:
   }
 #endif
   /**
-   * Get/Set Use of the mass matrix. This should be true.
+   * Get/Set Use of the mass matrix in FEM solution. This should be true.
    */
   itkSetMacro(UseMassMatrix, bool);
   itkGetMacro(UseMassMatrix, bool);
@@ -388,25 +385,25 @@ public:
     return m_E[which];
   }
 
-  /** Mass matrix weight */
-  void  SetRho(Float r, unsigned int which = 0)
+  /** Set mass matrix weight. */
+  void SetRho(Float r, unsigned int which = 0)
   {
     m_Rho[which] = r;
   }
 
-  /** Image similarity energy weight */
+  /** Set image similarity energy weight. */
   void SetGamma(Float r, unsigned int which = 0)
   {
     m_Gamma[which] = r;
   }
 
-  /** Image Metric minimizes energy */
+  /** Image Metric minimizes energy. */
   void  SetDescentDirectionMinimize()
   {
     m_DescentDirection = positive;
   }
 
-  /** Image Metric maximizes energy */
+  /** Image Metric maximizes energy. */
   void SetDescentDirectionMaximize()
   {
     m_DescentDirection = negative;
@@ -422,7 +419,7 @@ public:
 
   /**
    * Get/Set the use of normalized gradient values in the image
-   * metric during registration
+   * metric during registration.
    */
   itkSetMacro(UseNormalizedGradient, bool);
   itkGetMacro(UseNormalizedGradient, bool);
@@ -463,23 +460,23 @@ public:
 
   /**
    * Get/Set the Metric used to define correspondence between
-   * images/
+   * images.
    */
   itkGetModifiableObjectMacro(Metric, MetricBaseType);
   itkSetObjectMacro(Metric, MetricBaseType);
 
   /**
-   * Select the matric used for image correspondence.
+   * Select the metric used for image correspondence.
    * The options are:
-   *     0=mean squares
-   *     1=cross correlation
-   *     2=mutual information
-   *     3=Demons
+   *  0 = Mean squares
+   *  1 = Cross correlation
+   *  2 = Mutual information
+   *  3 = Demons
    */
-  void ChooseMetric( unsigned int whichmetric);
+  void ChooseMetric( unsigned int whichmetric );
 
   /**
-   * Return the type of image metric used for the registration
+   * Return the type of image metric used for the registration.
    */
   unsigned int GetMetricType()
   {
@@ -498,17 +495,17 @@ public:
     m_Material = m;
   }
 
-  /** Print vector field for debugging */
+  /** Print vector field for debugging. */
   void PrintVectorField(unsigned int modnum = 1000);
 
   /**
-   * Get/Set the maximum number of levels for multi resolution
+   * Get/Set the maximum number of levels for multi-resolution.
    */
   void SetMaxLevel(unsigned int level);
   itkGetMacro(MaxLevel, unsigned int);
 
   /**
-   * Get/Set if the FEM Mesh should be created from the image or is
+   * Get/Set if the FEM Mesh should be created from the fixed image or is
    * provided by the user.
    */
   itkSetMacro(CreateMeshFromImage, bool);
@@ -548,13 +545,10 @@ public:
   itkSetMacro(MaximumKernelWidth, unsigned int);
   itkGetConstMacro(MaximumKernelWidth, unsigned int);
 
-  /** Set/Get the desired maximum error of the Guassian kernel approximate.
+  /** Set/Get the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
   itkSetMacro(MaximumError, double);
   itkGetConstMacro(MaximumError, double);
-
-
-// HELPER FUNCTIONS
 
 protected:
   FEMRegistrationFilter();
@@ -562,7 +556,7 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** This function generates a regular mesh of ElementsPerSide^D size */
+  /** This function generates a regular mesh of ElementsPerSide^D size. */
   void CreateMesh(unsigned int ElementsPerSide, SolverType *solver);
 
   /** The non-image loads are entered into the solver. */
@@ -573,11 +567,11 @@ protected:
 
   // FIXME - Not implemented
   /**  Builds the itpack linear system wrapper with appropriate parameters.
-       Currently undefined */
+       Currently undefined. */
   void  CreateLinearSystemSolver();
 
   // FIXME - Not implemented
-  /** Evaluates the image similarity energy by calling the image metric */
+  /** Evaluates the image similarity energy by calling the image metric. */
   Float EvaluateEnergy();
 
   /** Interpolates the vector field over the domain.
@@ -597,17 +591,17 @@ protected:
   /** This is used for changing between mesh resolutions. */
   void SampleVectorFieldAtNodes(SolverType *S);
 
-  /** This is used to calculate residual error */
+  /** This is used to calculate residual error. */
   Float EvaluateResidual(SolverType *mySolver, Float t);
 
   // FIXME - Replace with BSD Code
-  /* Finds a triplet that brackets the energy minimum.  From Numerical Recipes.*/
+  /* Finds a triplet that brackets the energy minimum. From Numerical Recipes.*/
   // void FindBracketingTriplet(SolverType& mySolver,Float* a, Float* b, Float* c);
   void FindBracketingTriplet(SolverType *mySolver, Float* a, Float* b, Float* c);
 
   /**
    * Finds the optimum value between the last two solutions
-   * and sets the current solution to that value.  Uses Evaluate Residual
+   * and sets the current solution to that value. Uses Evaluate Residual
    */
   Float GoldenSection(SolverType *mySolver, Float tol = 0.01, unsigned int MaxIters = 25);
 
@@ -615,7 +609,7 @@ protected:
   itkSetObjectMacro( Load, ImageMetricLoadType );
   itkGetModifiableObjectMacro(Load, ImageMetricLoadType );
 
-  /** Smooth the current displacement field */
+  /** Smooth the current displacement field using a separable Gaussian kernel. */
   void SmoothDisplacementField();
 
 private:
@@ -627,72 +621,69 @@ private:
   unsigned int m_DoLineSearchOnImageEnergy;
   unsigned int m_LineSearchMaximumIterations;
 
-  /* Parameters used to define Multi-resolution Registration */
+  /** Parameters used to define Multi-resolution registration. */
   vnl_vector<unsigned int> m_NumberOfIntegrationPoints; // resolution of integration
   vnl_vector<unsigned int> m_MetricWidth;               // number of iterations at each level
-  vnl_vector<unsigned int> m_Maxiters;                  // max iterations
+  vnl_vector<unsigned int> m_Maxiters;
   unsigned int             m_TotalIterations;           // total number of iterations that were run
-  unsigned int             m_MaxLevel;                  // Number of Resolution Levels for registration.
+  unsigned int             m_MaxLevel;
   unsigned int             m_FileCount;                 // keeps track of number of files written
   unsigned int             m_CurrentLevel;              // current resolution level
 
   typename FixedImageType::SizeType     m_CurrentLevelImageSize;
 
-  unsigned int m_WhichMetric;                 // Metric used for image registration
-                                              // 0 = Mean Squares
-                                              // 1 = Normalized Correlation
-                                              // 2 = Mutual Information
-                                              // 3 = Demons Metric
+  unsigned int m_WhichMetric;
 
   /** Stores the number of  pixels per element  of the mesh for each
       resolution of the multi-resolution pyramid */
   vnl_vector<unsigned int> m_MeshPixelsPerElementAtEachResolution;
 
-  Float             m_TimeStep;        // time step
-  vnl_vector<Float> m_E;               // elasticity
-  vnl_vector<Float> m_Rho;             // mass matrix weight
-  vnl_vector<Float> m_Gamma;           // image similarity weight
+  Float             m_TimeStep;
+  vnl_vector<Float> m_E;
+  vnl_vector<Float> m_Rho;
+  vnl_vector<Float> m_Gamma;
   Float             m_Energy;          // current value of energy
   Float             m_MinE;            // minimum recorded energy
   Float             m_MinJacobian;     // minimum recorded energy
-  Float             m_Alpha;           // difference parameter
+  Float             m_Alpha;
 
-  bool          m_UseLandmarks;               // Use landmark points
-  bool          m_UseMassMatrix;              // Use Mass matrix in FEM solution
-  bool          m_UseNormalizedGradient;      // Use normalized gradient magnitude in the metric
-  bool          m_CreateMeshFromImage;        // Create the mesh based on the fixed image
-  unsigned int  m_EmployRegridding;           // Use regridding
-  Sign          m_DescentDirection;           // Metric minimizes or maximizes
-  Float         m_EnergyReductionFactor;      // Factor we want to reduce the energy - Helps with convergence
-  ImageSizeType m_FullImageSize;              // image size
-  ImageSizeType m_ImageOrigin;                // image origin
+  bool          m_UseLandmarks;
+  bool          m_UseMassMatrix;
+  bool          m_UseNormalizedGradient;
+  bool          m_CreateMeshFromImage;
+  unsigned int  m_EmployRegridding;
+  Sign          m_DescentDirection;
+  Float         m_EnergyReductionFactor;
+  ImageSizeType m_FullImageSize;
+  ImageSizeType m_ImageOrigin;
 
-  /** Gives the ratio of original image size to current image size - for dealing with multi-res.*/
+  /** Gives the ratio of original image size to current image size - for
+   * dealing with multi-resolution. */
   ImageSizeType                  m_ImageScaling;
   ImageSizeType                  m_CurrentImageScaling;
   typename FieldType::RegionType m_FieldRegion;
   typename FieldType::SizeType   m_FieldSize;
   typename FieldType::Pointer    m_Field;
 
-  // only use TotalField if re-gridding is employed.
+  // Only use TotalField if re-gridding is employed.
   typename FieldType::Pointer               m_TotalField;
   typename ImageMetricLoadType::Pointer     m_Load; // Defines the load to use
 
-  // define the warper
+  // Define the warper
   typename WarperType::Pointer          m_Warper;
 
-  // declare a new image to hold the warped  reference
+  // Declare a new image to hold the warped reference
   typename FixedImageType::Pointer      m_WarpedImage;
   typename FloatImageType::Pointer      m_FloatImage;
   typename FixedImageType::RegionType   m_Wregion;
   typename FixedImageType::IndexType    m_Windex;
 
-  // declare images for target and reference
+  // Declare images for target and reference
   typename MovingImageType::Pointer     m_MovingImage;
   typename MovingImageType::Pointer     m_OriginalMovingImage;
   typename FixedImageType::Pointer      m_FixedImage;
 
-  // element and metric pointers
+  // Element and metric pointers
   typename Element::Pointer             m_Element;
   typename MaterialType::Pointer        m_Material;
   MetricBaseTypePointer                 m_Metric;
@@ -701,10 +692,8 @@ private:
   LandmarkArrayType   m_LandmarkArray;
   InterpolatorPointer m_Interpolator;
 
-  /** Maximum error for Gaussian operator approximation. */
   double m_MaximumError;
 
-  /** Limits of Guassian kernel width. */
   unsigned int m_MaximumKernelWidth;
 
   StandardDeviationsType m_StandardDeviations;
