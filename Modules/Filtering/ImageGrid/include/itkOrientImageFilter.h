@@ -204,7 +204,7 @@ public:
    * If set to On, the direction cosines determine the coordinate
    * orientation. If set to Off, the user must use the
    * SetGivenCoordinateOrientation method to establish the
-   * orientation. For compatbility with the original API, the default value
+   * orientation. For compatibility with the original API, the default value
    * is Off. */
   itkBooleanMacro(UseImageDirection);
   itkGetConstMacro(UseImageDirection, bool);
