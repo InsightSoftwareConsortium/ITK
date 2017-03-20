@@ -175,8 +175,8 @@ PatchBasedDenoisingImageFilter<TInputImage,TOutputImage>
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input
-  const typename Superclass::InputImagePointer inputPtr
-    = const_cast< InputImageType * >( this->GetInput() );
+  const typename Superclass::InputImagePointer inputPtr =
+    const_cast< InputImageType * >( this->GetInput() );
 
   if( !inputPtr )
     {
@@ -392,7 +392,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     NumericTraits<RealType>::SetLength(m_NoiseSigmaSquared, m_NumPixelComponents);
     for( unsigned int pc = 0; pc < m_NumPixelComponents; ++pc )
       {
-      // initialize to 5% of the intensity range
+      // Initialize to 5% of the intensity range
       RealValueType invFactor;
       if( this->m_ComponentSpace == Superclass::EUCLIDEAN )
         {
@@ -403,8 +403,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         invFactor = m_IntensityRescaleInvFactor[0];
         }
       RealValueType sigma = 5.0 / invFactor;
-      SetComponent(m_NoiseSigma, pc, sigma);
-      SetComponent(m_NoiseSigmaSquared, pc, sigma * sigma);
+      this->SetComponent(m_NoiseSigma, pc, sigma);
+      this->SetComponent(m_NoiseSigmaSquared, pc, sigma * sigma);
       }
     }
 
@@ -415,7 +415,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     typename SamplerType::Pointer defaultSampler = SamplerType::New();
 
     defaultSampler->SetRadius( 25 );
-    SetSampler( defaultSampler );
+    this->SetSampler( defaultSampler );
     }
 }
 
@@ -517,8 +517,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     }
   physicalSpacing.Fill(maxSpacing);
 
-  // Allocate the patch weights (mask) as an image
-  // this is in physical space
+  // Allocate the patch weights (mask) as an image.
+  // Done in physical space.
   typename WeightsImageType::SizeType physicalSize;
   physicalSize.Fill(physicalDiameter);
   typename WeightsImageType::RegionType physicalRegion(physicalSize);
@@ -790,7 +790,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
     imgIt.GoToBegin();
     for( imgIt.GoToBegin(); !imgIt.IsAtEnd(); ++imgIt )
       {
-      ComputeLogMapAndWeightedSquaredGeodesicDifference(imgIt.Get(), identityTensor,
+      this->ComputeLogMapAndWeightedSquaredGeodesicDifference(imgIt.Get(), identityTensor,
                                                         identityWeight,
                                                         useCachedComputations, 0,
                                                         threadData.eigenValsCache,
@@ -873,9 +873,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 {
   for( unsigned int pc = 0; pc < m_NumPixelComponents; ++pc )
     {
-    RealValueType tmpDiff = GetComponent(b, pc) - GetComponent(a, pc);
+    RealValueType tmpDiff = this->GetComponent(b, pc) - this->GetComponent(a, pc);
     RealValueType tmpWeight = weight[pc];
-    SetComponent(diff, pc, tmpDiff);
+    this->SetComponent(diff, pc, tmpDiff);
     norm[pc] = tmpWeight * tmpWeight * tmpDiff * tmpDiff;
     }
 }
@@ -1209,7 +1209,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   for( unsigned int pc = 0; pc < m_NumPixelComponents; ++pc )
     {
     this->SetComponent( result, pc,
-                 GetComponent(a, pc) + GetComponent(b, pc) );
+                 this->GetComponent(a, pc) + this->GetComponent(b, pc) );
     }
   return result;
 }
@@ -1821,7 +1821,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
         probJointEntropySecondDerivative[ic] += gaussianJointEntropy *
           (itk::Math::sqr(factorJoint) + (lengthPatch * 1 / itk::Math::sqr(sigmaKernel) ) -
            (3.0 * squaredNorm[ic] / pow(sigmaKernel, 4.0) ) );
-        if ( m_ComputeConditionalDerivatives)
+        if( m_ComputeConditionalDerivatives )
           {
           const RealValueType distancePatchEntropySquared =
             squaredNorm[ic] - centerPatchSquaredNorm[ic];
@@ -2126,9 +2126,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       if( smoothingWeight > 0 )
         {
         // Get intensity update driven by patch-based denoiser
-        const RealType gradientJointEntropy
-          = this->ComputeGradientJointEntropy(sampleIt.GetInstanceIdentifier(), inList, sampler,
-                                              threadData);
+        const RealType gradientJointEntropy =
+          this->ComputeGradientJointEntropy(sampleIt.GetInstanceIdentifier(), inList, sampler,
+          threadData);
 
         const RealValueType stepSizeSmoothing = 0.2;
         result = AddUpdate(result,  gradientJointEntropy * (smoothingWeight * stepSizeSmoothing) );
@@ -2152,11 +2152,12 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
             {
             for( unsigned int pc = 0; pc < m_NumPixelComponents; ++pc )
               {
-              const RealValueType gradientFidelity = 2.0 * (GetComponent(in,pc) - GetComponent(out,pc) );
+              const RealValueType gradientFidelity = 2.0 *
+                ( this->GetComponent(in,pc) - this->GetComponent(out,pc) );
               const RealValueType stepSizeFidelity = 0.5;
               const RealValueType noiseVal = fidelityWeight * ( stepSizeFidelity * gradientFidelity );
-              SetComponent(result, pc,
-                           GetComponent(result, pc) + noiseVal);
+              this->SetComponent(result, pc,
+                           this->GetComponent(result, pc) + noiseVal);
               }
             break;
             }
@@ -2462,15 +2463,15 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       }
     for( unsigned int pc = 0; pc < m_NumPixelComponents; ++pc )
       {
-      SetComponent(gradientJointEntropy, pc,
+      this->SetComponent(gradientJointEntropy, pc,
                    GetComponent(gradientJointEntropy, pc) + GetComponent(centerPatchDifference,
                                                                          pc) * gaussianJointEntropy);
       }
     } // end for each selected patch
 
-  for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
+  for( unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
     {
-    SetComponent(gradientJointEntropy, pc,
+    this->SetComponent(gradientJointEntropy, pc,
                  GetComponent(gradientJointEntropy, pc) / (sumOfGaussiansJointEntropy + m_MinProbability) );
     }
 
