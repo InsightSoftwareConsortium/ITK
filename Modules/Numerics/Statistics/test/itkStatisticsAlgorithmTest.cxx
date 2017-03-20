@@ -20,6 +20,10 @@
 #include "itkStatisticsAlgorithm.h"
 #include "itkTestingMacros.h"
 
+#if ( NDEBUG && (_MSC_FULL_VER == 190024215 || _MSC_FULL_VER == 191025017 ) )
+#pragma optimize ("g", off) // disable global optimizations
+#endif
+
 int itkStatisticsAlgorithmTest( int, char * [] )
 {
   std::cout << "StatisticsAlgorithm Test \n \n";
