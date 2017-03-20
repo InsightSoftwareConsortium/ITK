@@ -63,7 +63,32 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   EXERCISE_BASIC_OBJECT_METHODS( filter, IsolatedWatershedImageFilter,
     ImageToImageFilter );
 
+
+  filter->SetInput( reader->GetOutput() );
+
+
   FilterType::IndexType seed1, seed2;
+
+  // Test the seeds being outside the input image exception
+  ImageType::Pointer inputImage = reader->GetOutput();
+
+  ImageType::RegionType region = inputImage->GetLargestPossibleRegion();
+  ImageType::IndexType offset;
+  offset.Fill( 10 );
+
+  seed1[0] = region.GetUpperIndex()[0] + offset[0];
+  filter->SetSeed1( seed1 );
+
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
+  seed1.Fill( 0 );
+  filter->SetSeed1( seed1 );
+
+  seed2[1] = region.GetUpperIndex()[1] + offset[1];
+  filter->SetSeed2( seed2 );
+
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
 
   seed1[0] = atoi( argv[3] );
   seed1[1] = atoi( argv[4] );
@@ -95,9 +120,6 @@ int itkIsolatedWatershedImageFilterTest( int argc, char* argv[] )
   filter->SetIsolatedValueTolerance( isolatedValueTolerance );
   TEST_SET_GET_VALUE( isolatedValueTolerance,
     filter->GetIsolatedValueTolerance() );
-
-
-  filter->SetInput( reader->GetOutput() );
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
