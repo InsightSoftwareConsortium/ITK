@@ -146,7 +146,7 @@ private:
   OutputPixelType     m_LabelOffset;
   ThresholdVectorType m_Thresholds;
   bool                m_ValleyEmphasis;
-}; // end of class
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

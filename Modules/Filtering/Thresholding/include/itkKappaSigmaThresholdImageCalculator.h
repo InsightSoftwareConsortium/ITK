@@ -124,7 +124,7 @@ private:
 
   InputImageConstPointer m_Image;
   MaskImageConstPointer  m_Mask;
-};  // class KappaSigmaThresholdImageCalculator
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

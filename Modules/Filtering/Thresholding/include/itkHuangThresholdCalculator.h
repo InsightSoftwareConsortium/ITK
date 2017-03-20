@@ -73,6 +73,8 @@ protected:
   virtual ~HuangThresholdCalculator() {}
   void GenerateData(void) ITK_OVERRIDE;
 
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+
   typedef typename HistogramType::TotalAbsoluteFrequencyType  TotalAbsoluteFrequencyType;
   typedef typename HistogramType::AbsoluteFrequencyType       AbsoluteFrequencyType;
   typedef typename HistogramType::InstanceIdentifier          InstanceIdentifier;

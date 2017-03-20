@@ -34,9 +34,9 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
   const HistogramType * data = this->GetInput();
 
   double tot = static_cast< double >( data->GetTotalFrequency() );
-  double sum=0;
+  double sum = 0;
 
-  for (InstanceIdentifier i=0; i<data->GetSize(0); i++)
+  for( InstanceIdentifier i = 0; i < data->GetSize(0); i++ )
     {
     sum += static_cast< double >(data->GetMeasurement(i,0)*data->GetFrequency(i,0));
     }
@@ -64,9 +64,9 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 {
   const HistogramType * y = this->GetInput();
   double x = 0;
-  for (InstanceIdentifier i = 0; i<=j; i++)
+  for( InstanceIdentifier i = 0; i <= j; i++ )
     {
-    x += static_cast< double >( y->GetFrequency(i,0) );
+    x += static_cast< double >( y->GetFrequency(i, 0) );
     }
   return x;
 }
@@ -78,9 +78,9 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 {
   const HistogramType * y = this->GetInput();
   double x = 0;
-  for( InstanceIdentifier i=0; i<=j; i++ )
+  for( InstanceIdentifier i = 0; i <= j; i++ )
     {
-    x += static_cast< double >( y->GetMeasurement(i,0) ) * static_cast< double >( y->GetFrequency(i,0) );
+    x += static_cast< double >( y->GetMeasurement(i, 0) ) * static_cast< double >( y->GetFrequency(i, 0) );
     }
   return x;
 }
@@ -94,23 +94,19 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
   double x = 0;
   for( InstanceIdentifier i = 0; i<=j; i++ )
     {
-    double temp = static_cast< double >( y->GetMeasurement(i,0) );
-    x += temp * temp * static_cast< double >( y->GetFrequency(i,0) );
+    double temp = static_cast< double >( y->GetMeasurement(i, 0) );
+    x += temp * temp * static_cast< double >( y->GetFrequency(i, 0) );
     }
   return x;
 }
 
-
-/*
- * Compute the KittlerIllingworth's threshold
- */
 template<typename THistogram, typename TOutput>
 void
 KittlerIllingworthThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
 {
   const HistogramType * histogram = this->GetInput();
-  // histogram->Print(std::cout);
+
   if ( histogram->GetTotalFrequency() == 0 )
     {
     itkExceptionMacro(<< "Histogram is empty");
@@ -135,10 +131,9 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
     itkGenericExceptionMacro( << "As1 = 0." );
     }
 
-  //int counter=1;
-  while (threshold!=Tprev)
+  while( threshold != Tprev )
     {
-    //Calculate some statistics.
+    // Calculate some statistics.
     double At = A( threshold );
     double Bt = B( threshold );
     double Ct = C( threshold );
@@ -177,13 +172,14 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
       itkGenericExceptionMacro( << "p = 0" );
       }
 
-    //The terms of the quadratic equation to be solved.
-    double w0 = 1.0/sigma2-1.0/tau2;
-    double w1 = mu/sigma2-nu/tau2;
-    double w2 = (mu*mu)/sigma2 - (nu*nu)/tau2 + std::log10((sigma2*(q*q))/(tau2*p*p));
+    // The terms of the quadratic equation to be solved.
+    double w0 = 1.0 / sigma2 - 1.0 / tau2;
+    double w1 = mu / sigma2 - nu / tau2;
+    double w2 = ( mu * mu ) / sigma2 - ( nu * nu ) / tau2 +
+      std::log10( (sigma2 * ( q * q ) )/( tau2 * p * p ) );
 
-    //If the next threshold would be imaginary, return with the current one.
-    double sqterm = (w1*w1)-w0*w2;
+    // If the next threshold would be imaginary, return with the current one.
+    double sqterm = w1  *w1 - w0 * w2;
     if (sqterm < itk::Math::eps)
       {
       itkWarningMacro( << "KittlerIllingworthThresholdCalculator: not converging.");
@@ -210,11 +206,11 @@ KittlerIllingworthThresholdCalculator<THistogram, TOutput>
       }
     else
       {
-      //The updated threshold is the integer part of the solution of the quadratic equation.
+      // The updated threshold is the integer part of the solution of the quadratic equation.
       Tprev = threshold;
-      double temp = (w1+std::sqrt(sqterm))/w0;
+      double temp = (w1 + std::sqrt( sqterm ) ) / w0;
 
-      // not sure if this condition is really useful
+      // Not sure if this condition is really useful
       if (itk::Math::isnan(temp))
         {
         itkWarningMacro (<< "KittlerIllingworthThresholdCalculator: NaN, not converging.");

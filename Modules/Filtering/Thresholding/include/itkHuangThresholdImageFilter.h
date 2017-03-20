@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkHuangThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class HuangThresholdImageFilter
  * \brief Threshold an image using the Huang Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HuangThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

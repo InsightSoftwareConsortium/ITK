@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkOtsuThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class OtsuThresholdImageFilter
  * \brief Threshold an image using the Otsu Threshold
@@ -109,7 +110,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(OtsuThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

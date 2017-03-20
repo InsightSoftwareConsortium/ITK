@@ -22,7 +22,8 @@
 #include "itkHistogramThresholdImageFilter.h"
 #include "itkLiThresholdCalculator.h"
 
-namespace itk {
+namespace itk
+{
 
 /** \class LiThresholdImageFilter
  * \brief Threshold an image using the Li Threshold
@@ -106,7 +107,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LiThresholdImageFilter);
-}; // end of class
+};
 
 } // end namespace itk
 

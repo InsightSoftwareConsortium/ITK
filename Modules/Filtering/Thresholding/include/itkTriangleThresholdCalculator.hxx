@@ -26,16 +26,14 @@
 
 namespace itk
 {
-/*
- * Compute the Triangle's threshold
- */
+
 template<typename THistogram, typename TOutput>
 void
 TriangleThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
 {
   const HistogramType * histogram = this->GetInput();
-  // histogram->Print(std::cout);
+
   if ( histogram->GetTotalFrequency() == 0 )
     {
     itkExceptionMacro(<< "Histogram is empty");
@@ -48,7 +46,7 @@ TriangleThresholdCalculator<THistogram, TOutput>
 
   SizeValueType size = histogram->GetSize(0);
 
-  // create a histogram
+  // Create a histogram
   std::vector<double> cumSum(size, 0.0);
   std::vector<double> triangle(size, 0.0);
 
@@ -77,13 +75,13 @@ TriangleThresholdCalculator<THistogram, TOutput>
   typename HistogramType::MeasurementVectorType onePC(1), nnPC(1);
   onePC.Fill(histogram->Quantile(0, 0.01));
   typename HistogramType::IndexType localIndex;
-  histogram->GetIndex(onePC,localIndex);
+  histogram->GetIndex(onePC, localIndex);
   const IndexValueType onePCIdx = localIndex[0];
   nnPC.Fill(histogram->Quantile(0, 0.99));
-  histogram->GetIndex(nnPC,localIndex);
+  histogram->GetIndex(nnPC, localIndex);
   const IndexValueType nnPCIdx = localIndex[0];
 
-  // figure out which way we are looking - we want to construct our
+  // Figure out which way we are looking - we want to construct our
   // line between the max index and the further of 1% and 99%
   IndexValueType ThreshIdx = 0;
   if (fabs((float)MxIdx - (float)onePCIdx) > fabs((float)MxIdx - (float)nnPCIdx))
@@ -92,8 +90,8 @@ TriangleThresholdCalculator<THistogram, TOutput>
     double slope = Mx / ( MxIdx - onePCIdx );
     for (IndexValueType k = onePCIdx; k < MxIdx; k++)
       {
-      float line = (slope*(k-onePCIdx));
-      triangle[k]= line - histogram->GetFrequency(k);
+      float line = slope * ( k - onePCIdx);
+      triangle[k] = line - histogram->GetFrequency(k);
       }
 
     ThreshIdx = onePCIdx + std::distance(&(triangle[onePCIdx]), std::max_element(&(triangle[onePCIdx]), &(triangle[MxIdx])));
@@ -104,8 +102,8 @@ TriangleThresholdCalculator<THistogram, TOutput>
     double slope = -Mx / ( nnPCIdx - MxIdx );
     for (IndexValueType k = MxIdx; k < nnPCIdx; k++)
       {
-      float line = (slope*(k-MxIdx) + Mx);
-      triangle[k]= line - histogram->GetFrequency(k);
+      float line = slope*(k - MxIdx) + Mx;
+      triangle[k] = line - histogram->GetFrequency(k);
       }
     ThreshIdx = MxIdx + std::distance(&(triangle[MxIdx]), std::max_element(&(triangle[MxIdx]), &(triangle[nnPCIdx])));
     }

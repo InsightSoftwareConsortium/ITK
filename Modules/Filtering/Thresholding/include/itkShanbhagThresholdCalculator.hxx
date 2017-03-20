@@ -25,16 +25,14 @@
 
 namespace itk
 {
-/*
- * Compute the Shanbhag's threshold
- */
+
 template<typename THistogram, typename TOutput>
 void
 ShanbhagThresholdCalculator<THistogram, TOutput>
 ::GenerateData(void)
 {
   const HistogramType * histogram = this->GetInput();
-  // histogram->Print(std::cout);
+
   if ( histogram->GetTotalFrequency() == 0 )
     {
     itkExceptionMacro(<< "Histogram is empty");
@@ -53,28 +51,30 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
   int first_bin;
   int last_bin;
   double term;
-  double tot_ent;  /* total entropy */
-  double min_ent;  /* max entropy */
-  double ent_back; /* entropy of the background pixels at a given threshold */
-  double ent_obj;  /* entropy of the object pixels at a given threshold */
-  std::vector<double> norm_histo(size); /* normalized histogram */
-  std::vector<double> P1(size); /* cumulative normalized histogram */
+  double tot_ent;  // total entropy
+  double min_ent;  // max entropy
+  double ent_back; // entropy of the background pixels at a given threshold
+  double ent_obj;  // entropy of the object pixels at a given threshold
+  std::vector<double> norm_histo(size); // normalized histogram
+  std::vector<double> P1(size); // cumulative normalized histogram
   std::vector<double> P2(size);
 
   int total = histogram->GetTotalFrequency();
 
-  for (ih = 0; (unsigned)ih < size; ih++ )
-    norm_histo[ih] = (double)histogram->GetFrequency(ih, 0)/total;
-
-  P1[0]=norm_histo[0];
-  P2[0]=1.0-P1[0];
-  for (ih = 1; (unsigned)ih < size; ih++ )
+  for( ih = 0; (unsigned)ih < size; ih++ )
     {
-    P1[ih]= P1[ih-1] + norm_histo[ih];
-    P2[ih]= 1.0 - P1[ih];
+    norm_histo[ih] = (double)histogram->GetFrequency(ih, 0) / total;
     }
 
-  /* Determine the first non-zero bin */
+  P1[0] = norm_histo[0];
+  P2[0] = 1.0  -P1[0];
+  for( ih = 1; (unsigned)ih < size; ih++ )
+    {
+    P1[ih] = P1[ih-1] + norm_histo[ih];
+    P2[ih] = 1.0 - P1[ih];
+    }
+
+  // Determine the first non-zero bin
   first_bin=0;
   for (ih = 0; (unsigned)ih < size; ih++ )
     {
@@ -85,9 +85,9 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
       }
     }
 
-  /* Determine the last non-zero bin */
-  last_bin=size - 1;
-  for (ih = size - 1; ih >= first_bin; ih-- )
+  // Determine the last non-zero bin
+  last_bin = size - 1;
+  for( ih = size - 1; ih >= first_bin; ih-- )
     {
     if ( !(std::abs(P2[ih])<tolerance))
       {
@@ -96,14 +96,14 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
       }
     }
 
-  // Calculate the total entropy each gray-level
-  // and find the threshold that maximizes it
-  threshold =-1;
+  // Calculate the total entropy each gray-level and find the threshold that
+  // maximizes it
+  threshold = -1;
   min_ent = itk::NumericTraits<double>::max();
 
   for ( it = first_bin; it <= last_bin; it++ )
     {
-    /* Entropy of the background pixels */
+    // Entropy of the background pixels
     ent_back = 0.0;
     term = 0.5 / P1[it];
     for ( ih = 1; ih <= it; ih++ )
@@ -112,7 +112,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
       }
     ent_back *= term;
 
-                        /* Entropy of the object pixels */
+    // Entropy of the object pixels
     ent_obj = 0.0;
     term = 0.5 / P2[it];
     for ( ih = it + 1; (unsigned)ih < size; ih++ )
@@ -121,7 +121,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>
       }
     ent_obj *= term;
 
-    /* Total entropy */
+    // Total entropy
     tot_ent = std::abs ( ent_back - ent_obj );
 
     if ( tot_ent < min_ent )
