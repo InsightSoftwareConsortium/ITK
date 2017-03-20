@@ -88,6 +88,9 @@ int itkWatershedImageFilterTest( int, char* [] )
   itk::WatershedMiniPipelineProgressCommand::Pointer wmppc =
     itk::WatershedMiniPipelineProgressCommand::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( wmppc, WatershedMiniPipelineProgressCommand,
+    Command );
+
   double count = 2.0;
   wmppc->SetCount( count );
   TEST_SET_GET_VALUE( count, wmppc->GetCount() );
