@@ -79,6 +79,7 @@ set(${itk-module}-targets-build-directory "${ITK_DIR}/${ITK_INSTALL_PACKAGE_DIR}
 file(MAKE_DIRECTORY ${${itk-module}-targets-build-directory})
 set(${itk-module}-targets-build "${${itk-module}-targets-build-directory}/${itk-module}Targets.cmake")
 set(${itk-module}_TARGETS_FILE_BUILD "${${itk-module}-targets-build}")
+set(${itk-module}_ENABLE_SHARED "${ITK_MODULE_${itk-module}_ENABLE_SHARED}")
 itk_module_impl()
 
 if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/src/CMakeLists.txt AND NOT ${itk-module}_NO_SRC AND "${${itk-module}-targets}")
