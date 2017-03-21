@@ -112,12 +112,12 @@ public:
   /** Pointer Type for the output image. */
   typedef typename OutputImageType::Pointer OutputImagePointer;
 
-  /** Set/Get intensity value representing the interior of objects in the mask
+  /** Set/Get intensity value representing the interior of objects in the mask.
     */
   itkSetMacro(InsideValue, InputPixelType);
   itkGetConstMacro(InsideValue, InputPixelType);
 
-  /** Set/Get intensity value representing non-objects in the mask */
+  /** Set/Get intensity value representing non-objects in the mask. */
   itkSetMacro(OutsideValue, InputPixelType);
   itkGetConstMacro(OutsideValue, InputPixelType);
 
