@@ -1,5 +1,22 @@
-#ifndef __itkStrainImageFilter_hxx
-#define __itkStrainImageFilter_hxx
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkStrainImageFilter_hxx
+#define itkStrainImageFilter_hxx
 
 #include "itkStrainImageFilter.h"
 
@@ -10,7 +27,7 @@
 namespace itk
 {
 
-template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::StrainImageFilter()
   : m_StrainForm(INFINITESIMAL)
 {
@@ -25,13 +42,13 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::StrainImag
 
   this->m_InputComponentsFilter = InputComponentsImageFilterType::New();
 
-  typedef itk::GradientImageFilter<OperatorImageType, TOperatorValueType, TOperatorValueType> GradientImageFilterType;
+  typedef GradientImageFilter<OperatorImageType, TOperatorValueType, TOperatorValueType> GradientImageFilterType;
   this->m_GradientFilter = GradientImageFilterType::New().GetPointer();
 
   this->m_VectorGradientFilter = NULL;
 }
 
-template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 void
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThreadedGenerateData()
 {
@@ -63,10 +80,13 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThre
       this->GraftNthOutput(i, this->m_GradientFilter->GetOutput());
     }
   }
+
+  OutputImageType * output = this->GetOutput();
+  output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
 }
 
 
-template <class TInputImage, class TOperatorValueType, class TOutputValueType>
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 void
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGenerateData(
   const OutputRegionType & region,
@@ -77,36 +97,25 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGe
   OutputImageType * output = this->GetOutput();
 
   ImageRegionIterator<OutputImageType> outputIt(output, region);
-  // First fill the outputs with zeros.  Better way to do this?  FillBuffer does
-  // not seem to work.
-  typename OutputImageType::PixelType outputPixel;
-  outputPixel.Fill(itk::NumericTraits<TOutputValueType>::Zero);
-  // @todo use .Value() here?
-  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
-    outputIt.Set(outputPixel);
-  unsigned int            j;
-  unsigned int            k;
-  GradientOutputPixelType gradientPixel;
 
   // e_ij += 1/2( du_i/dx_j + du_j/dx_i )
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    itk::ImageRegionConstIterator<GradientOutputImageType> gradientIt(
+    ImageRegionConstIterator<GradientOutputImageType> gradientIt(
       reinterpret_cast<GradientOutputImageType *>(
         dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1))),
       region);
     for (outputIt.GoToBegin(), gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++outputIt, ++gradientIt)
     {
-      outputPixel = outputIt.Get();
-      gradientPixel = gradientIt.Get();
-      for (j = 0; j < i; ++j)
+      typename OutputImageType::PixelType outputPixel = outputIt.Get();
+      const GradientOutputPixelType       gradientPixel = gradientIt.Get();
+      for (unsigned int j = 0; j < i; ++j)
       {
-        // @todo use .Value() here?
         outputPixel(i, j) += gradientPixel[j] / static_cast<TOutputValueType>(2);
       }
       // j == i
       outputPixel(i, i) += gradientPixel[i];
-      for (j = i + 1; j < ImageDimension; ++j)
+      for (unsigned int j = i + 1; j < ImageDimension; ++j)
       {
         outputPixel(i, j) += gradientPixel[j] / static_cast<TOutputValueType>(2);
       }
@@ -121,19 +130,18 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGe
     case GREENLAGRANGIAN:
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        itk::ImageRegionConstIterator<GradientOutputImageType> gradientIt(
+        ImageRegionConstIterator<GradientOutputImageType> gradientIt(
           reinterpret_cast<GradientOutputImageType *>(
             dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1))),
           region);
         for (outputIt.GoToBegin(), gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++outputIt, ++gradientIt)
         {
-          outputPixel = outputIt.Get();
-          gradientPixel = gradientIt.Get();
-          for (j = 0; j < ImageDimension; ++j)
+          typename OutputImageType::PixelType outputPixel = outputIt.Get();
+          const GradientOutputPixelType       gradientPixel = gradientIt.Get();
+          for (unsigned int j = 0; j < ImageDimension; ++j)
           {
-            for (k = 0; k <= j; ++k)
+            for (unsigned int k = 0; k <= j; ++k)
             {
-              // @todo use .Value() here?
               outputPixel(j, k) += gradientPixel[j] * gradientPixel[k] / static_cast<TOutputValueType>(2);
             }
           }
@@ -145,19 +153,18 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGe
     case EULERIANALMANSI:
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        itk::ImageRegionConstIterator<GradientOutputImageType> gradientIt(
+        ImageRegionConstIterator<GradientOutputImageType> gradientIt(
           reinterpret_cast<GradientOutputImageType *>(
             dynamic_cast<GradientOutputImageType *>(this->ProcessObject::GetOutput(i + 1))),
           region);
         for (outputIt.GoToBegin(), gradientIt.GoToBegin(); !gradientIt.IsAtEnd(); ++outputIt, ++gradientIt)
         {
-          outputPixel = outputIt.Get();
-          gradientPixel = gradientIt.Get();
-          for (j = 0; j < ImageDimension; ++j)
+          typename OutputImageType::PixelType outputPixel = outputIt.Get();
+          const GradientOutputPixelType       gradientPixel = gradientIt.Get();
+          for (unsigned int j = 0; j < ImageDimension; ++j)
           {
-            for (k = 0; k <= j; ++k)
+            for (unsigned int k = 0; k <= j; ++k)
             {
-              // @todo use .Value() here?
               outputPixel(j, k) -= gradientPixel[j] * gradientPixel[k] / static_cast<TOutputValueType>(2);
             }
           }

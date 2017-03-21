@@ -1,5 +1,22 @@
-#ifndef __itkStrainImageFilter_h
-#define __itkStrainImageFilter_h
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkStrainImageFilter_h
+#define itkStrainImageFilter_h
 
 #include "itkCovariantVector.h"
 #include "itkImageToImageFilter.h"
@@ -11,7 +28,7 @@ namespace itk
 
 /** \class StrainImageFilter
  *
- * \brief Generate a strain image from a displacement image.
+ * \brief Generate a strain field image from a displacement field image.
  *
  * Internally, a gradient filter (see SetGradientFilter()) is used to calculate
  * deformation gradient tensors.  This filter is used by default on each displacement Vector
@@ -37,6 +54,8 @@ namespace itk
  * which uses a material reference system, and Eulerian-Almansi, which uses a
  * spatial reference system.  This is set with SetStrainForm().
  *
+ * \sa TransformToStrainFilter
+ *
  * \ingroup Strain
  *
  */
@@ -50,9 +69,10 @@ public:
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
-  typedef TInputImage                                                                        InputImageType;
-  typedef Image<SymmetricSecondRankTensor<TOutputValueType, ImageDimension>, ImageDimension> OutputImageType;
-  typedef Image<TOperatorValueType, ImageDimension>                                          OperatorImageType;
+  typedef TInputImage                                                 InputImageType;
+  typedef SymmetricSecondRankTensor<TOutputValueType, ImageDimension> OutputPixelType;
+  typedef Image<OutputPixelType, ImageDimension>                      OutputImageType;
+  typedef Image<TOperatorValueType, ImageDimension>                   OperatorImageType;
 
   /** Standard class typedefs. */
   typedef StrainImageFilter                                   Self;
@@ -108,10 +128,10 @@ protected:
   StrainImageFilter();
 
   virtual void
-  BeforeThreadedGenerateData();
+  BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   virtual void
-  ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId);
+  ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) ITK_OVERRIDE;
 
   typedef itk::SplitComponentsImageFilter<InputImageType, OperatorImageType> InputComponentsImageFilterType;
   typename InputComponentsImageFilterType::Pointer                           m_InputComponentsFilter;
@@ -123,9 +143,7 @@ protected:
   StrainFormType m_StrainForm;
 
 private:
-  StrainImageFilter(const Self &);
-  void
-  operator=(const Self &);
+  ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
 };
 
 } // end namespace itk
