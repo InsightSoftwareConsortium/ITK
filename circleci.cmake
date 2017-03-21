@@ -36,7 +36,7 @@ set_from_env(CTEST_CONFIGURATION_TYPE "CTEST_CONFIGURATION_TYPE" DEFAULT "Releas
 # Legacy support for MAKEJ environment variable
 # Please set CTEST_BUILD_FLAGS directly
 set_from_env(makej "MAKEJ")
-set_from_env(CTEST_BUILD_FLAGS "CTEST_BUILD_FLAGS" DEFAULT ${MAKEJ})
+set_from_env(CTEST_BUILD_FLAGS "CTEST_BUILD_FLAGS" DEFAULT ${makej})
 
 # Construct build name based on what is being built
 string(SUBSTRING $ENV{CIRCLE_SHA1} 0 7 commit_sha1)
