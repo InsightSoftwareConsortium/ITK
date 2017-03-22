@@ -37,10 +37,8 @@ set(ITK_USE_FILE "@ITK_USE_FILE@")
 # Whether ITK was built with shared libraries.
 set(ITK_BUILD_SHARED "@ITK_BUILD_SHARED_LIBS@")
 
-# List of available ITK modules, from the current installed modules
-file(GLOB ITK_MODULES_ENABLED RELATIVE "${ITK_MODULES_DIR}"  "${ITK_MODULES_DIR}/*.cmake")
-string(REPLACE ".cmake" "" ITK_MODULES_ENABLED "${ITK_MODULES_ENABLED}")
-list(SORT ITK_MODULES_ENABLED)
+# List of available ITK modules.
+set(ITK_MODULES_ENABLED "@ITK_CONFIG_MODULES_ENABLED@")
 
 # Import ITK targets.
 set(ITK_CONFIG_TARGETS_FILE "@ITK_CONFIG_TARGETS_FILE@")

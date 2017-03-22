@@ -196,11 +196,8 @@ endif()
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
   set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
 endif()
-
 set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
-# Remove previously configured ITK module directory to keep the
-# enabled modules synchronized.
-file(REMOVE_RECURSE "${ITK_MODULES_DIR}")
+
 
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
