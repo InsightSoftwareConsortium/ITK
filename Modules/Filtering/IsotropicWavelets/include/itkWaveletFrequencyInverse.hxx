@@ -314,6 +314,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     typename MultiplyFilterType::Pointer multiplyUpsampleCorrection = MultiplyFilterType::New();
     multiplyUpsampleCorrection->SetInput1(low_pass_per_level);
     double expUpsampleCorrection = static_cast<double>(ImageDimension);
+    // double expUpsampleCorrection = static_cast<double>(3 * ImageDimension)/2.0;
+    // double expUpsampleCorrection = static_cast<double>(1 + ImageDimension);
     multiplyUpsampleCorrection->SetConstant(std::pow(2.0, expUpsampleCorrection));
     multiplyUpsampleCorrection->InPlaceOn();
     multiplyUpsampleCorrection->Update();
@@ -383,9 +385,9 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       // static_cast<double>(ImageDimension)/2.0; double expFactorHigh =
       // static_cast<double>(1)/static_cast<double>(this->m_HighPassSubBands) * static_cast<double>(ImageDimension)/2.0;
       // double expBandFactor = 0;// + static_cast<double>(ImageDimension)/2.0;
-      // double expBandFactor = static_cast<int>(band)/static_cast<double>(this->m_HighPassSubBands) *
-      // static_cast<double>(ImageDimension)/2.0;
-      double expBandFactor = 0;
+      double expBandFactor =
+        (static_cast<double>(level) - band / static_cast<double>(this->m_HighPassSubBands)) * ImageDimension / 2.0;
+      // double expBandFactor = 0;
       multiplyByReconstructionBandFactor->SetConstant(std::pow(2.0, expBandFactor));
       multiplyByReconstructionBandFactor->InPlaceOn();
       multiplyByReconstructionBandFactor->Update();
