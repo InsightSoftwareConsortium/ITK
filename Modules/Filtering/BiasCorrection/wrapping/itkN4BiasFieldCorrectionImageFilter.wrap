@@ -1,0 +1,3 @@
+itk_wrap_class("itk::N4BiasFieldCorrectionImageFilter" POINTER_WITH_SUPERCLASS)
+  itk_wrap_image_filter_combinations("${WRAP_ITK_SCALAR}" "UC" "${WRAP_ITK_SCALAR}")
+itk_end_wrap_class()
