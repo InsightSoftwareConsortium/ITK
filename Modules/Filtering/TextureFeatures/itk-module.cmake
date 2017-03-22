@@ -9,9 +9,11 @@
 
 # define the dependencies of the include module and the tests
 itk_module(
-  ITKTextureFeatures
+  TextureFeatures
   DEPENDS
     ITKCommon
+    ITKStatistics
+    ITKImageGrid
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS
@@ -19,5 +21,4 @@ itk_module(
     ITKMetaIO
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
-  ENABLE_SHARED
 )
