@@ -38,4 +38,4 @@ itk_add_test(NAME itkPhysicsBasedNonRigidRegistrationMethodTest
               DATA{${CMAKE_CURRENT_SOURCE_DIR}/Input/PBNRRMovingImage.nii.gz}
               DATA{${CMAKE_CURRENT_SOURCE_DIR}/Input/PBNRRMaskImage.nii.gz}
               DATA{${CMAKE_CURRENT_SOURCE_DIR}/Input/PBNRRMesh.vtk}
-              ${ITK_TEST_OUTPUT_DIR}/itkPhysicsBasedNonRigidRegistrationMethodTest.mha)
+              ${ITK_TEST_OUTPUT_DIR}/itkPhysicsBasedNonRigidRegistrationMethodTest.mha 0.05 0 2 5 10 10)

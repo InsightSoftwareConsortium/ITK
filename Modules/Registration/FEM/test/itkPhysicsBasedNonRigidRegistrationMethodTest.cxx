@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-#include <iostream>
-
 #include "itkVTKTetrahedralMeshReader.h"
 #include "itkImage.h"
 #include "itkVector.h"
@@ -26,122 +24,165 @@
 #include "itkWarpImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
+
+#include <iostream>
 
 
-int itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char *argv[] )
+int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
 {
+  if( argc != 12 )
+    {
+    std::cerr << "Missing Parameters" << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << " fixedImageFile"
+      << " movingImageFile"
+      << " maskImageFile"
+      << " meshFile"
+      << " outputImageFile"
+      << " selectionFraction"
+      << " nonConnectivity"
+      << " blockRadius"
+      << " searchRadius"
+      << " approximationSteps"
+      << " outlierRejectionSteps";
+    std::cerr << std::endl;
+    return EXIT_FAILURE;
+    }
 
   const unsigned int ImageDimension = 3;
 
-  if ( argc < 6)
-    {
-    std::cerr << "Four arguments are required: fixed, moving, mask, mesh, warped." << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  enum { FIXED_IMG = 1, MOVING_IMG, MASK_IMG, MESH, WARPED_IMG };
-
-  // read fixed
   typedef short                                          InputPixelType;
   typedef itk::Image< InputPixelType,  ImageDimension >  InputImageType;
+  typedef float                                          MeshPixelType;
+  typedef itk::Mesh< MeshPixelType, ImageDimension >     MeshType;
+
   typedef itk::ImageFileReader< InputImageType >         ImageReaderType;
 
-  ImageReaderType::Pointer readerFixed = ImageReaderType::New();
-  readerFixed->SetFileName( argv[FIXED_IMG] );
+  // Read fixed image
+  ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
+  fixedImageReader->SetFileName( argv[1] );
 
-  // read moving
-  ImageReaderType::Pointer readerMoving = ImageReaderType::New();
-  readerMoving->SetFileName( argv[MOVING_IMG] );
+  TRY_EXPECT_NO_EXCEPTION( fixedImageReader->Update() );
 
-  // read mask
-  ImageReaderType::Pointer readerMask = ImageReaderType::New();
-  readerMask->SetFileName( argv[MASK_IMG] );
+  // Read moving image
+  ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  movingImageReader->SetFileName( argv[2] );
 
-  // read mesh
-  typedef itk::Mesh< float, ImageDimension >          MeshType;
-  typedef itk::VTKTetrahedralMeshReader< MeshType >   MeshReaderType;
+  TRY_EXPECT_NO_EXCEPTION( movingImageReader->Update() );
 
-  MeshReaderType::Pointer readerMesh = MeshReaderType::New();
-  readerMesh->SetFileName( argv[MESH] );
-  try
-    {
-    readerFixed->Update();
-    readerMoving->Update();
-    readerMask->Update();
-    readerMesh->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << "Error while reading inputs: " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-    }
+  // Read mask image
+  ImageReaderType::Pointer maskImageReader = ImageReaderType::New();
+  maskImageReader->SetFileName( argv[3] );
 
-  // main filter
-  typedef itk::Image< itk::Vector< float, ImageDimension >, ImageDimension >  DeformationFieldType;
-  typedef itk::fem::PhysicsBasedNonRigidRegistrationMethod<InputImageType, InputImageType, InputImageType, MeshType, DeformationFieldType> PBNRRFilterType;
+  TRY_EXPECT_NO_EXCEPTION( maskImageReader->Update() );
+
+  // Read mesh
+  typedef itk::VTKTetrahedralMeshReader< MeshType > MeshReaderType;
+
+  MeshReaderType::Pointer meshReader = MeshReaderType::New();
+  meshReader->SetFileName( argv[4] );
+
+  TRY_EXPECT_NO_EXCEPTION( meshReader->Update() );
+
+  // Create PhysicsBasedNonRigidRegistrationMethod filter
+  typedef itk::Image< itk::Vector< MeshPixelType, ImageDimension >,
+    ImageDimension > DeformationFieldType;
+  typedef itk::fem::PhysicsBasedNonRigidRegistrationMethod<
+    InputImageType, InputImageType, InputImageType, MeshType,
+    DeformationFieldType> PBNRRFilterType;
 
   PBNRRFilterType::Pointer filter = PBNRRFilterType::New();
-  filter->SetFixedImage( readerFixed->GetOutput() );
-  filter->SetMovingImage( readerMoving->GetOutput() );
-  filter->SetMaskImage( readerMask->GetOutput() );
-  filter->SetMesh( readerMesh->GetOutput() );
-  filter->SetSelectFraction( 0.05 );
 
-  std::cout << "Filter: " << filter << std::endl;
+  EXERCISE_BASIC_OBJECT_METHODS( filter,
+    PhysicsBasedNonRigidRegistrationMethod,
+    ImageToImageFilter );
 
-  try
-    {
-    filter->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << "Error during filter->Update(): " << e << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  InputImageType::Pointer fixedImage = fixedImageReader->GetOutput();
+  filter->SetFixedImage( fixedImage );
+  TEST_SET_GET_VALUE( fixedImage, filter->GetFixedImage() );
+
+  InputImageType::Pointer movingImage = movingImageReader->GetOutput();
+  filter->SetMovingImage( movingImage );
+  TEST_SET_GET_VALUE( movingImage, filter->GetMovingImage() );
+
+  InputImageType::Pointer maskImage = maskImageReader->GetOutput();
+  filter->SetMaskImage( maskImage );
+  TEST_SET_GET_VALUE( maskImage, filter->GetMaskImage() );
+
+  MeshType::Pointer mesh = meshReader->GetOutput();
+  filter->SetMesh( mesh );
+  TEST_SET_GET_VALUE( mesh, filter->GetMesh() );
+
+  double selectionFraction = atof( argv[6] );
+  filter->SetSelectFraction( selectionFraction );
+  TEST_SET_GET_VALUE( selectionFraction, filter->GetSelectFraction() );
+
+  unsigned int nonConnectivity = atoi( argv[7] );
+  filter->SetNonConnectivity( nonConnectivity );
+  TEST_SET_GET_VALUE( nonConnectivity, filter->GetNonConnectivity() );
+
+  PBNRRFilterType::ImageSizeType::SizeValueType blockRadiusValue =
+    atof( argv[8] );
+  PBNRRFilterType::ImageSizeType blockRadius;
+  blockRadius.Fill( blockRadiusValue );
+  filter->SetBlockRadius( blockRadius );
+  TEST_SET_GET_VALUE( blockRadius, filter->GetBlockRadius() );
+
+  PBNRRFilterType::ImageSizeType::SizeValueType searchRadiusValue =
+    atof( argv[9] );
+  PBNRRFilterType::ImageSizeType searchRadius;
+  searchRadius.Fill( searchRadiusValue );
+  filter->SetSearchRadius( searchRadius );
+  TEST_SET_GET_VALUE( searchRadius, filter->GetSearchRadius() );
+
+  unsigned int approximationSteps = atoi( argv[10] );
+  filter->SetApproximationSteps( approximationSteps );
+  TEST_SET_GET_VALUE( approximationSteps, filter->GetApproximationSteps() );
+
+  unsigned int outlierRejectionSteps = atoi( argv[11] );
+  filter->SetOutlierRejectionSteps( outlierRejectionSteps );
+  TEST_SET_GET_VALUE( outlierRejectionSteps, filter->GetOutlierRejectionSteps() );
+
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+
+  // Display the FEM filter to improve code coverage
+  const PBNRRFilterType::FEMFilterType* FEMFilter = filter->GetFEMFilter();
+  std::cerr << "FEMFilter: " << FEMFilter << std::endl;
+
 
   DeformationFieldType::Pointer deformationField = filter->GetOutput();
 
-  // warp image
-  typedef itk::WarpImageFilter< InputImageType, InputImageType, DeformationFieldType > WarpFilterType;
+  // Warp image
+  typedef itk::WarpImageFilter< InputImageType, InputImageType,
+    DeformationFieldType > WarpFilterType;
   WarpFilterType::Pointer warpFilter = WarpFilterType::New();
 
-  typedef itk::LinearInterpolateImageFunction< InputImageType, double > InterpolatorType;
+  typedef itk::LinearInterpolateImageFunction< InputImageType, double >
+    InterpolatorType;
   InterpolatorType::Pointer interpolator = InterpolatorType::New();
   warpFilter->SetInterpolator( interpolator );
 
-  warpFilter->SetInput( readerMoving->GetOutput() );
+  warpFilter->SetInput( movingImageReader->GetOutput() );
   warpFilter->SetOutputSpacing( deformationField->GetSpacing() );
   warpFilter->SetOutputOrigin( deformationField->GetOrigin() );
   warpFilter->SetDisplacementField( deformationField );
 
-  try
-    {
-    warpFilter->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << "Error during filter->Update(): " << e << std::endl;
-    return EXIT_FAILURE;
-    }
 
+  TRY_EXPECT_NO_EXCEPTION( warpFilter->Update() );
 
-  // write warped image to file
+  // Write warped image to file
   typedef itk::ImageFileWriter< InputImageType >  WriterType;
   WriterType::Pointer writer = WriterType::New();
-
-  writer->SetFileName( argv[WARPED_IMG] );
+  writer->SetFileName( argv[5] );
   writer->SetInput( warpFilter->GetOutput() );
 
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cerr << "Error during writer->Update(): " << e << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
+
+  std::cerr << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
