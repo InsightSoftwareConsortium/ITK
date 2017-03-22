@@ -279,6 +279,7 @@ itk_add_test(
     1
     1
     ${DefaultWavelet}
+    Apply
 )
 itk_add_test(
   NAME itkRieszWaveletPhaseAnalysisTestMultiLevelMultiBand
@@ -290,6 +291,7 @@ itk_add_test(
     2
     5
     ${DefaultWavelet}
+    Apply
 )
 ###
 itk_add_test(
@@ -302,6 +304,7 @@ itk_add_test(
     1
     1
     ${DefaultWavelet}
+    Apply
     2
 )
 itk_add_test(
@@ -314,6 +317,7 @@ itk_add_test(
     5
     5
     ${DefaultWavelet}
+    Apply
     2
 )
 #IsotropicWaveletFrequencyFunctionTest
