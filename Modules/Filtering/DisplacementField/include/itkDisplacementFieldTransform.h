@@ -196,16 +196,16 @@ public:
   itkGetModifiableObjectMacro(InverseDisplacementField, DisplacementFieldType );
 
   /** Get/Set the interpolator.
-   * Create out own set accessor that assigns the displacement field */
+   * Create out own set accessor that assigns the displacement field. */
   virtual void SetInterpolator( InterpolatorType* interpolator );
   itkGetModifiableObjectMacro( Interpolator, InterpolatorType );
 
   /** Get/Set the interpolator for the inverse field.
-   * Create out own set accessor that assigns the displacement field */
+   * Create out own set accessor that assigns the displacement field. */
   virtual void SetInverseInterpolator( InterpolatorType* interpolator );
   itkGetModifiableObjectMacro(InverseInterpolator, InterpolatorType );
 
-  /** Get the modification time of displacement field */
+  /** Get the modification time of displacement field. */
   itkGetConstReferenceMacro( DisplacementFieldSetTime, ModifiedTimeType );
 
   /**  Method to transform a point. Out-of-bounds points will
@@ -232,7 +232,7 @@ public:
                        "TransformVector(Vector,Point)" );
   }
 
-  /** Method to transform a tensor */
+  /** Method to transform a tensor. */
   using Superclass::TransformDiffusionTensor3D;
   OutputDiffusionTensor3DType TransformDiffusionTensor(
     const InputDiffusionTensor3DType & ) const
@@ -248,7 +248,7 @@ public:
                        "TransformDiffusionTensor(Tensor,Point)" );
   }
 
-  /**  Method to transform a CovariantVector. */
+  /** Method to transform a CovariantVector. */
   using Superclass::TransformCovariantVector;
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType &) const ITK_OVERRIDE
@@ -276,7 +276,7 @@ public:
                                                     << ") does not match internal size ("
                                                     << this->m_Parameters.Size() << ").");
         }
-      /* copy into existing object */
+      // Copy into existing object
       this->m_Parameters = params;
       this->Modified();
       }
@@ -287,8 +287,8 @@ public:
    * For a displacement field transform, the fixed parameters are the
    * following: field size, field origin, field spacing, and field direction.
    *
-   * Note:  If a displacement field already exists, this function
-   * creates a new one with zero displacement (identity transform).  If
+   * Note: If a displacement field already exists, this function
+   * creates a new one with zero displacement (identity transform). If
    * an inverse displacement field exists, a new one is also created.
    */
   virtual void SetFixedParameters( const FixedParametersType & ) ITK_OVERRIDE;
@@ -363,8 +363,7 @@ public:
    */
   virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const InputPointType & point,
                                                                      JacobianType & jacobian,
-                                                                     bool useSVD = false )
-  const;
+                                                                     bool useSVD = false ) const;
 
   /**
    * Compute the inverse jacobian of the forward displacement field with
@@ -378,8 +377,7 @@ public:
    * setting \c useSVD to true
    */
   virtual void GetInverseJacobianOfForwardFieldWithRespectToPosition(const IndexType & index, JacobianType & jacobian,
-                                                                     bool useSVD = false )
-  const;
+                                                                     bool useSVD = false ) const;
 
   virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
@@ -404,25 +402,25 @@ public:
     return Dimension;
   }
 
-  /** get/set the Coordinate tolerance
+  /** Set/Get the coordinate tolerance.
    *  This tolerance is used when comparing the space defined
    *  by deformation fields and it's inverse to ensure they occupy the
    *  same physical space.
    *
    * \sa ImageToImageFilterCommon::SetGlobalDefaultCoordinateTolerance
    */
-  itkSetMacro(CoordinateTolerance,double);
-  itkGetConstMacro(CoordinateTolerance,double);
+  itkSetMacro(CoordinateTolerance, double);
+  itkGetConstMacro(CoordinateTolerance, double);
 
-  /** get/set the direction tolerance
-   *  This tolerance is used to  when comparing the orientation of the
+  /** Set/Get the direction tolerance.
+   *  This tolerance is used to when comparing the orientation of the
    *  deformation fields and it's inverse to ensure they occupy the
    *  same physical space.
    *
    * \sa ImageToImageFilterCommon::SetGlobalDefaultDirectionTolerance
    */
-  itkSetMacro(DirectionTolerance,double);
-  itkGetConstMacro(DirectionTolerance,double);
+  itkSetMacro(DirectionTolerance, double);
+  itkGetConstMacro(DirectionTolerance, double);
 
 protected:
 
@@ -472,10 +470,6 @@ private:
    */
   virtual void SetFixedParametersFromDisplacementField() const;
 
-  /**
-   *  Tolerances for checking whether displacement field and it's inverse
-   *  occupy the same physical space.
-   */
   double m_CoordinateTolerance;
   double m_DirectionTolerance;
 
