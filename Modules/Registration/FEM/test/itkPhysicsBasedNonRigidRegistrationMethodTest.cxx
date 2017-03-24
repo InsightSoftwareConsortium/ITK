@@ -124,14 +124,14 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
   TEST_SET_GET_VALUE( nonConnectivity, filter->GetNonConnectivity() );
 
   PBNRRFilterType::ImageSizeType::SizeValueType blockRadiusValue =
-    atof( argv[8] );
+    static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( atof( argv[8] ) );
   PBNRRFilterType::ImageSizeType blockRadius;
   blockRadius.Fill( blockRadiusValue );
   filter->SetBlockRadius( blockRadius );
   TEST_SET_GET_VALUE( blockRadius, filter->GetBlockRadius() );
 
   PBNRRFilterType::ImageSizeType::SizeValueType searchRadiusValue =
-    atof( argv[9] );
+    static_cast< PBNRRFilterType::ImageSizeType::SizeValueType >( atof( argv[9] ) );
   PBNRRFilterType::ImageSizeType searchRadius;
   searchRadius.Fill( searchRadiusValue );
   filter->SetSearchRadius( searchRadius );
