@@ -235,6 +235,9 @@ PatchBasedDenoisingBaseImageFilter<TInputImage, TOutputImage>
 ::GetPatchRadiusInVoxels() const
 {
   const typename Self::Pointer thisPtr = const_cast< Self* >(this);
+
+  thisPtr->Superclass::VerifyPreconditions();
+
   // Cache input image, if it has not yet been set.
   if( thisPtr->m_InputImage == ITK_NULLPTR )
     {

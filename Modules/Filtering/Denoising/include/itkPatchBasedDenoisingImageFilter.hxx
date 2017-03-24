@@ -2498,8 +2498,15 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   os << indent << "Total number of pixels: " << m_TotalNumberPixels
     << std::endl;
 
-  os << indent << "PatchRadius (voxel space): "
-     << this->GetPatchRadiusInVoxels() << std::endl;
+  os << indent << "PatchRadius (voxel space): ";
+  if( this->m_InputImage != ITK_NULLPTR )
+    {
+    os << this->GetPatchRadiusInVoxels() << std::endl;
+    }
+  else
+    {
+    os << "(Cannot be computed: input not set)" << std::endl;
+    }
 
   if( m_UseSmoothDiscPatchWeights )
     {
