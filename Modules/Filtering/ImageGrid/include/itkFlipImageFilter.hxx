@@ -60,14 +60,12 @@ FlipImageFilter< TImage >
   typename TImage::PointType outputOrigin;
   typename TImage::IndexType newIndex = inputStartIndex;
 
-  unsigned int j;
-
   typename TImage::DirectionType flipMatrix;
   flipMatrix.SetIdentity();
 
   // Need the coordinate of the pixel that will become the first pixel
   // and need a matrix to model the flip
-  for ( j = 0; j < ImageDimension; j++ )
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if ( m_FlipAxes[j] )
       {
@@ -100,7 +98,7 @@ FlipImageFilter< TImage >
   // Finally, flip about the origin if needed
   if ( m_FlipAboutOrigin )
     {
-    for ( j = 0; j < ImageDimension; j++ )
+    for ( unsigned int j = 0; j < ImageDimension; j++ )
       {
       if ( m_FlipAxes[j] )
         {
@@ -143,8 +141,7 @@ FlipImageFilter< TImage >
 
   IndexType inputRequestedIndex(outputRequestedIndex);
 
-  unsigned int j;
-  for ( j = 0; j < ImageDimension; j++ )
+  for ( unsigned int j = 0; j < ImageDimension; j++ )
     {
     if ( m_FlipAxes[j] )
       {
