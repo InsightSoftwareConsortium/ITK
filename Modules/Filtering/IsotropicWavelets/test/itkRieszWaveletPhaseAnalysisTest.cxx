@@ -48,6 +48,13 @@
 #endif
 
 
+// 1. Wavelet analysis (forward) on input image.
+// 2. Create a Monogenic Signal (from Riesz function ) on each wavelet output..
+// 3. Do a PhaseAnalysis on each Monogenic Signal.
+// 4. Wavelet reconstruction (inverse) using as coefficients the output of the PhaseAnalysis.
+// Without applying reconstruction factors: ApplyReconstructionFactorOff()
+// 5. The result of the reconstruction will be an image that uses phase information at each level/band for improving
+// local structure information, and can also work as an equalizator of brightness.
 template <unsigned int VDimension, typename TWaveletFunction>
 int
 runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
@@ -66,10 +73,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   reader->SetFileName(inputImage);
   reader->Update();
 
-  // Wavelet analysis (forward)
-  // Monogenic Analysis on each output. (In-place style)
-  // Wavelet reconstruction (inverse) from PhaseAnalysis output
-  // Profit.
 
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
   typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
@@ -109,14 +112,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   unsigned int                             numberOfOutputs = forwardWavelet->GetNumberOfOutputs();
   for (unsigned int i = 0; i < forwardWavelet->GetNumberOfOutputs(); ++i)
   {
-    std::cout << "Output #: " << i << " / " << numberOfOutputs << std::endl;
-    if (i == 12000) // Modify all
-                    // if( i >= 0 ) // Don't modify
-    // if( i == numberOfOutputs - 1 ) // TODO check this. avoid phase analysis in last approximation (low_pass).
-    {
-      modifiedWavelets.push_back(analysisWavelets[i]);
-      continue;
-    }
+    std::cout << "Output #: " << i << " / " << numberOfOutputs - 1 << std::endl;
     typename MonogenicSignalFrequencyFilterType::Pointer monoFilter = MonogenicSignalFrequencyFilterType::New();
     typename VectorInverseFFTType::Pointer               vecInverseFFT = VectorInverseFFTType::New();
     typename PhaseAnalysisFilter::Pointer                phaseAnalyzer = PhaseAnalysisFilter::New();
@@ -131,16 +127,12 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
 
     phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
     phaseAnalyzer->SetApplySoftThreshold(applySoftThreshold);
+    // if( i == numberOfOutputs - 1 ) // TODO Held does not modify approx image, but it does not generate better
+    // results.
+    //   {
+    //   phaseAnalyzer->SetApplySoftThreshold( false );
+    //   }
     phaseAnalyzer->Update();
-
-    // #ifdef ITK_VISUALIZE_TESTS
-    //     itk::NumberToString< unsigned int > n2s;
-    //     typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
-    //     inverseFFT->SetInput(analysisWavelets[i]);
-    //     inverseFFT->Update();
-    //     itk::Testing::ViewImage( inverseFFT->GetOutput(), "WaveletCoef: output #" + n2s(i) );
-    //     itk::Testing::ViewImage( phaseAnalyzer->GetOutputCosPhase(), "WaveletCoef. PhaseAnalyzed #" + n2s(i) );
-    // #endif
 
     fftForwardPhaseFilter->SetInput(phaseAnalyzer->GetOutputCosPhase());
     fftForwardPhaseFilter->Update();
@@ -149,15 +141,32 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
     modifiedWavelets.back()->DisconnectPipeline();
   }
 
+#ifdef ITK_VISUALIZE_TESTS
+  // Visualize and compare modified wavelets coefficients (and approx image)
+  for (unsigned int i = 0; i < forwardWavelet->GetNumberOfOutputs(); ++i)
+  {
+    itk::NumberToString<unsigned int>      n2s;
+    typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
+    inverseFFT->SetInput(analysisWavelets[i]);
+    inverseFFT->Update();
+    itk::Testing::ViewImage(inverseFFT->GetOutput(), "WaveletCoef: output #" + n2s(i));
+    inverseFFT->SetInput(modifiedWavelets[i]);
+    inverseFFT->Update();
+    itk::Testing::ViewImage(inverseFFT->GetOutput(), "WaveletCoef. PhaseAnalyzed #" + n2s(i));
+  }
+#endif
+
   typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, WaveletFilterBankType> InverseWaveletType;
   typename InverseWaveletType::Pointer inverseWavelet = InverseWaveletType::New();
   inverseWavelet->SetHighPassSubBands(highSubBands);
   inverseWavelet->SetLevels(levels);
   inverseWavelet->SetInputs(modifiedWavelets);
+  // The coefficients are now phases, do not apply reconstrucction factors.
+  inverseWavelet->ApplyReconstructionFactorsOff();
   inverseWavelet->Update();
 
-  // bool apply_gaussian = false;
   // // Apply a gaussian window of the size of the input.
+  // bool apply_gaussian = false;
   // if(apply_gaussian == true)
   //   {
   //   typedef itk::GaussianSpatialFunction<double, dimension> FunctionType;
@@ -198,6 +207,7 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   //     ++outIt;
   //     }
   //   }
+
   typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(inverseWavelet->GetOutput());
   inverseFFT->Update();
