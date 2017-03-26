@@ -147,42 +147,75 @@ template <class TInputImage, class TOutputImage>
 void
 ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
-  // get pointers to the input and output
+  // Get pointers to the input and output
   InputImagePointer  inputPtr = const_cast<TInputImage *>(this->GetInput());
   OutputImagePointer outputPtr = this->GetOutput();
+
+  if (!inputPtr || !outputPtr)
+  {
+    return;
+  }
 
   // Compute the input requested region (size and start index)
   // Use the image transformations to insure an input requested region
   // that will provide the proper range
+  unsigned int                             i;
   const typename TOutputImage::SizeType &  outputRequestedRegionSize = outputPtr->GetRequestedRegion().GetSize();
   const typename TOutputImage::IndexType & outputRequestedRegionStartIndex = outputPtr->GetRequestedRegion().GetIndex();
 
-  typename TInputImage::IndexType inputIndex0;
-  typename TInputImage::SizeType  inputSize;
-
-  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
+  // Convert the factor for convenient multiplication
+  typename TOutputImage::SizeType factorSize;
+  for (i = 0; i < TInputImage::ImageDimension; i++)
   {
-    inputIndex0[i] = outputRequestedRegionStartIndex[i] * m_ShrinkFactors[i];
-    inputSize[i] = outputRequestedRegionSize[i] * m_ShrinkFactors[i];
+    factorSize[i] = m_ShrinkFactors[i];
+  }
+
+  OutputIndexType  outputIndex;
+  InputIndexType   inputIndex, inputRequestedRegionIndex;
+  OutputOffsetType offsetIndex;
+
+  typename TInputImage::SizeType   inputRequestedRegionSize;
+  typename TOutputImage::PointType tempPoint;
+
+  // Use this index to compute the offset everywhere in this class
+  outputIndex = outputPtr->GetLargestPossibleRegion().GetIndex();
+
+  // We wish to perform the following mapping of outputIndex to
+  // inputIndex on all points in our region
+  outputPtr->TransformIndexToPhysicalPoint(outputIndex, tempPoint);
+  inputPtr->TransformPhysicalPointToIndex(tempPoint, inputIndex);
+
+  // Given that the size is scaled by a constant factor eq:
+  // inputIndex = outputIndex * factorSize
+  // is equivalent up to a fixed offset which we now compute
+  OffsetValueType zeroOffset = 0;
+  for (i = 0; i < TInputImage::ImageDimension; i++)
+  {
+    offsetIndex[i] = inputIndex[i] - outputIndex[i] * m_ShrinkFactors[i];
+    // It is plausible that due to small amounts of loss of numerical
+    // precision that the offset it negaive, this would cause sampling
+    // out of out region, this is insurance against that possibility
+    offsetIndex[i] = std::max(zeroOffset, offsetIndex[i]);
+  }
+
+  inputRequestedRegionIndex = outputRequestedRegionStartIndex * factorSize + offsetIndex;
+
+  // originally this was
+  // inputRequestedRegionSize = outputRequestedRegionSize * factorSize;
+  // but since we don't sample edge to edge, we can reduce the size
+  for (i = 0; i < TInputImage::ImageDimension; ++i)
+  {
+    inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1) * factorSize[i] + 1;
   }
 
   typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetIndex(inputIndex0);
-  inputRequestedRegion.SetSize(inputSize);
+  inputRequestedRegion.SetIndex(inputRequestedRegionIndex);
+  inputRequestedRegion.SetSize(inputRequestedRegionSize);
+  inputRequestedRegion.Crop(inputPtr->GetLargestPossibleRegion());
 
-  // actually if we need to crop an exceptions should be thrown!
-  // inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
-
-  if (!inputPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion.GetIndex()) ||
-      !inputPtr->GetLargestPossibleRegion().IsInside(inputRequestedRegion.GetUpperIndex()))
-  {
-    itkExceptionMacro("Unexpected error calculating RR");
-  }
-
-  itkDebugMacro("InputRequestedRegion: " << inputRequestedRegion);
   inputPtr->SetRequestedRegion(inputRequestedRegion);
 }
 
