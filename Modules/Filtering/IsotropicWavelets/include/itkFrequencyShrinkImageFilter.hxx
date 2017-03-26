@@ -34,7 +34,7 @@ namespace itk
 {
 template <class TImageType>
 FrequencyShrinkImageFilter<TImageType>::FrequencyShrinkImageFilter()
-  : m_ApplyBandFilter(true)
+  : m_ApplyBandFilter(false)
 {
   for (unsigned int j = 0; j < ImageDimension; j++)
   {
@@ -124,7 +124,28 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
   // This filter will remove it by default a BandPass Filter.
   if (this->m_ApplyBandFilter)
   {
+    typename ImageType::SpacingType                  inputSpacing = this->GetInput()->GetSpacing();
+    const typename ImageType::SpacingType::ValueType spacingValue = inputSpacing[0];
+    // Check that the spacing is the same in all directions.
+    {
+      bool all_equal = true;
+      for (unsigned int i = 1; i < ImageDimension; ++i)
+      {
+        if (itk::Math::NotAlmostEquals(inputSpacing[i], spacingValue))
+        {
+          all_equal = false;
+        }
+      }
+      if (!all_equal)
+      {
+        itkExceptionMacro(<< "Spacing of input image is not the same in all directions " << inputSpacing);
+      }
+    }
+
     this->m_FrequencyBandFilter->SetInput(this->GetInput());
+    this->m_FrequencyBandFilter->SetFrequencyThresholds(
+      this->m_FrequencyBandFilter->GetLowFrequencyThreshold() * spacingValue,
+      this->m_FrequencyBandFilter->GetHighFrequencyThreshold() * spacingValue);
     this->m_FrequencyBandFilter->Update();
     inputPtr = this->m_FrequencyBandFilter->GetOutput();
   }
@@ -187,10 +208,10 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
     addFilter->SetInput1(outputPtr);
     addFilter->SetInput2(pasteFilter->GetOutput());
     addFilter->InPlaceOn();
-    addFilter->Update();
-    outputPtr = addFilter->GetOutput();
     if (n == numberOfRegions - 1) // Graft the output.
     {
+      addFilter->Update();
+      outputPtr = addFilter->GetOutput();
       typedef itk::MultiplyImageFilter<TImageType, TImageType, TImageType> MultiplyFilterType;
       typename MultiplyFilterType::Pointer                                 multiplyFilter = MultiplyFilterType::New();
       multiplyFilter->SetInput(outputPtr);
@@ -199,6 +220,14 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
       multiplyFilter->GraftOutput(outputPtr);
       multiplyFilter->Update();
       this->GraftOutput(multiplyFilter->GetOutput());
+      // addFilter->GraftOutput(outputPtr);
+      // addFilter->Update();
+      // this->GraftOutput(addFilter->GetOutput());
+    }
+    else // update
+    {
+      addFilter->Update();
+      outputPtr = addFilter->GetOutput();
     }
     progress.CompletedPixel();
   }
@@ -330,10 +359,12 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
   typename TImageType::PointType   outputOrigin;
   typename TImageType::IndexType   outputStartIndex;
 
-  // TODO Check if you want to modify metada in this filter.
+  // TODO Check if you want to modify metadata in this filter.
+  // Reduce Spacing, a frequency shrinker deletes high frequency domain.
+  // The spacing is taken into account by FrequencyIterators method GetFrequency().
   for (unsigned int i = 0; i < TImageType::ImageDimension; i++)
   {
-    // outputSpacing[i] *= m_ShrinkFactors[i];
+    outputSpacing[i] = inputSpacing[i] * m_ShrinkFactors[i];
     // inputIndexOutputOrigin[i] = 0.5*(m_ShrinkFactors[i]-1);
     // outputStartIndex[i] =
     //   Math::Ceil<SizeValueType>(inputStartIndex[i]/static_cast<double>( m_ShrinkFactors[i]) );

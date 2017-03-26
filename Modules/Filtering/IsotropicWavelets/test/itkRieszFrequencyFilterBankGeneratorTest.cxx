@@ -52,21 +52,15 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   typedef itk::ImageFileReader<ImageType>  ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
-
   reader->SetFileName(inputImage);
-
   reader->Update();
-
   reader->UpdateLargestPossibleRegion();
 
   // Perform FFT on input image
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
   FFTFilterType::Pointer                        fftFilter = FFTFilterType::New();
-
   fftFilter->SetInput(reader->GetOutput());
-
   fftFilter->Update();
-
 
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
@@ -76,9 +70,7 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
 
-
   filterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
-
   filterBank->Update();
 
   // Get real part of complex image for visualization
@@ -89,7 +81,6 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   {
     std::cout << "Direction: " << dir + 1 << " / " << ImageType::ImageDimension << std::endl;
     complexToRealFilter->SetInput(filterBank->GetOutput(dir));
-
     complexToRealFilter->Update();
 
 #ifdef ITK_VISUALIZE_TESTS

@@ -35,8 +35,19 @@ namespace itk
  *
  * This class can be specialized further to iterate over other frequency
  * layouts, for example shifted images (where 0 frequency is in the middle of the image, and Nyquist are in the border).
- * The frequency layout is assumed to be: where fs is frequency sampling, or frequency spacing (1.0 by default).
+ * For different layout, use other frequency iterator.
  *
+ * This iterator is for the frequency layout that results from applying a FFT (vnl or fftw) to an image.
+ * The default ImageInformation is: Origin = {{0}}, Spacing = {{1}}.
+ * In this case the frequency values will be in the range: [-1/2, 1/2] Hz
+ * Or [-pi, pi] rad/s
+ * To modify those ranges:
+ * a) Avoid modifying the origin. The origin index always corresponds to zero frequency after a FFT.
+ *    The range should be always centered around zero.
+ * b) The spacing control the range of frequencies (always around zero).
+ *    If the spacing is = {{0.5}} we get a frequency range of [-1/4, 1/4] or [-pi/2, pi/2].
+ *
+ * The frequency layout is assumed to be: where fs is frequency sampling, or frequency spacing (1.0 by default).
  * If N is even:
  * Nyquist frequency at index=N/2 is shared between + and - regions.
  * <------------positive f ---------------><------------negative f-------------->
@@ -161,15 +172,29 @@ public:
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
       if (this->m_PositionIndex[dim] <= m_HalfIndex[dim])
+      {
         freqInd[dim] = this->m_PositionIndex[dim] - this->m_MinIndex[dim];
-      //  -. From -N/2 + 1 (Nyquist if even) to -1 (-df in frequency)
-      else
+      }
+      else //  -. From -N/2 + 1 (Nyquist if even) to -1 (-df in frequency)
+      {
         freqInd[dim] = this->m_PositionIndex[dim] - (this->m_MaxIndex[dim] + 1);
+      }
     }
     return freqInd;
   }
 
   /** Note that this method is independent of the region in the constructor.
+   * It takes into account the ImageInformation of the Image in the frequency domain.
+   * This iterator is for the frequency layout that results from applying a FFT (vnl or fftw) to an image.
+   * If your image has a different layout, use other frequency iterator.
+   * The default ImageInformation is: Origin = {{0}}, Spacing = {{1}}.
+   * In this case the frequency values will be in the range: [-1/2, 1/2] Hz
+   * Or [-pi, pi] rad/s
+   * To modify those ranges:
+   * a) Avoid modifying the origin. The origin index always corresponds to zero frequency after a FFT.
+   *    The range should be always centered around zero.
+   * b) The spacing control the range of frequencies (always around zero).
+   *    If the spacing is = {{0.5}} we get a frequency range of [-1/4, 1/4] or [-pi/2, pi/2].
    */
   FrequencyType
   GetFrequency() const
@@ -179,8 +204,7 @@ public:
 
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
-      freq[dim] = this->m_Image->GetOrigin()[dim] + (this->m_Image->GetSpacing()[dim] * freqInd[dim]) /
-                                                      this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
+      freq[dim] = this->m_FrequencyOrigin[dim] + this->m_FrequencySpacing[dim] * freqInd[dim];
     }
     return freq;
   }
@@ -198,15 +222,39 @@ public:
     return w2;
   }
 
-  typename ImageType::IndexType
-  GetHalfIndex() const
+  /**
+   * Index corresponding to the first highest frequency (Nyquist) after a FFT transform.
+   * If the size of the image is even, the Nyquist frequency = fs/2 is unique and shared
+   * between positive and negative frequencies.
+   * If odd, Nyquist frequency is not represented, but there is still a largest frequency at this index
+   * = fs/2 * (N-1)/N.
+   */
+  itkGetConstReferenceMacro(HalfIndex, IndexType);
+  void
+  SetHalfIndex(const IndexType halfIndex)
   {
-    typename ImageType::IndexType half_index;
-    for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
-    {
-      half_index[dim] = static_cast<typename ImageType::IndexValueType>(m_HalfIndex[dim]);
-    }
-    return half_index;
+    this->m_HalfIndex = halfIndex;
+  };
+  /** Default to first index of the largest possible Region. */
+  itkGetConstReferenceMacro(MinIndex, IndexType);
+  /** Default to UpperIndex of the largest possible Region. */
+  itkGetConstReferenceMacro(MaxIndex, IndexType);
+
+  /** Origin of frequencies is zero for FFT output. */
+  itkGetConstReferenceMacro(FrequencyOrigin, FrequencyType);
+  void
+  SetFrequencyOrigin(const FrequencyType frequencyOrigin)
+  {
+    this->m_FrequencyOrigin = frequencyOrigin;
+  };
+
+  /** This is the pixel width, or the bin size of the frequency.
+   * FrequencySpacing  = SamplingFrequency / ImageSize */
+  itkGetConstReferenceMacro(FrequencySpacing, FrequencyType);
+  void
+  SetFrequencySpacing(const FrequencyType frequencySpacing)
+  {
+    this->m_FrequencySpacing = frequencySpacing;
   };
 
 private:
@@ -217,23 +265,26 @@ private:
   {
     this->m_MinIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
     this->m_MaxIndex = this->m_Image->GetLargestPossibleRegion().GetUpperIndex();
+    FrequencyType samplingFrequency;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
       this->m_HalfIndex[dim] = static_cast<FrequencyValueType>(
         this->m_MinIndex[dim] + std::ceil((this->m_MaxIndex[dim] - this->m_MinIndex[dim]) / 2.0));
+      // Set frequency metadata.
+      // Origin of frequencies is zero in the standard layout of a FFT output.
+      this->m_FrequencyOrigin[dim] = 0.0;
+      // SamplingFrequency = 1.0 / SpatialSpacing
+      samplingFrequency[dim] = 1.0 / this->m_Image->GetSpacing()[dim];
+      // Freq_BinSize = SamplingFrequency / Size
+      this->m_FrequencySpacing[dim] = samplingFrequency[dim] / this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
     }
   }
 
-  /**
-   * Index corresponding to the first highest frequency (Nyquist) after a FFT transform.
-   * If the size of the image is even, the Nyquist frequency = fs/2 is unique and shared
-   * between positive and negative frequencies.
-   * If odd, Nyquist frequency is not represented, but there is still a largest frequency at this index
-   * = fs/2 * (N-1)/N.
-   */
-  IndexType m_HalfIndex;
-  IndexType m_MinIndex;
-  IndexType m_MaxIndex;
+  IndexType     m_HalfIndex;
+  IndexType     m_MinIndex;
+  IndexType     m_MaxIndex;
+  FrequencyType m_FrequencyOrigin;
+  FrequencyType m_FrequencySpacing;
 };
 } // end namespace itk
 #endif

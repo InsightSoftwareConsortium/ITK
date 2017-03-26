@@ -80,12 +80,17 @@ public:
   void
   SetLevels(unsigned int n);
 
-  itkGetMacro(Levels, unsigned int);
+  itkGetConstReferenceMacro(Levels, unsigned int);
   void
   SetHighPassSubBands(unsigned int n);
 
-  itkGetMacro(HighPassSubBands, unsigned int);
-  itkGetMacro(TotalOutputs, unsigned int);
+  itkGetConstReferenceMacro(HighPassSubBands, unsigned int);
+  itkGetConstReferenceMacro(TotalOutputs, unsigned int);
+
+  /** ScaleFactor for each level in the pyramid.
+   * Set to 2 (dyadic) at constructor and not modifiable, but provides future flexibility */
+  itkGetConstReferenceMacro(ScaleFactor, unsigned int);
+  // itkSetMacro(ScaleFactor, unsigned int);
 
   /** Compute max number of levels depending on the size of the image.
    * Return J: $ J = min_element(J_0,J_1,...) $;
@@ -97,8 +102,14 @@ public:
   static unsigned int
   ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size);
 
+  /** (Level, band) pair.
+   * Level from: [0, m_Levels), and equal to m_Levels only for the low_pass image.
+   * band from [0, m_HighPassSubbands) */
   typedef std::pair<unsigned int, unsigned int> IndexPairType;
-  /** Get the (Level,Band) from a linear index output */
+  /** Get the (Level,Band) from a linear index output.
+   * The index corresponding to the low-pass image is the last one, corresponding to the
+   * IndexPairType(this->GetLevels(), 0).
+   */
   IndexPairType
   OutputIndexToLevelBand(unsigned int linear_index);
 
@@ -162,8 +173,6 @@ private:
   unsigned int m_Levels;
   unsigned int m_HighPassSubBands;
   unsigned int m_TotalOutputs;
-  /** Shrink/Expand factor
-   * Set to 2, not modifiable, but provides future flexibility */
   unsigned int m_ScaleFactor;
 };
 } // end namespace itk

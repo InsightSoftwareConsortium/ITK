@@ -35,6 +35,7 @@
 #include "itkNumberToString.h"
 #include "itkIsotropicWaveletTestUtilities.h"
 #include "itkTestingMacros.h"
+#include "itkTestingComparisonImageFilter.h"
 
 #include <memory>
 #include <string>
@@ -51,6 +52,7 @@ template <unsigned int VDimension>
 int
 runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::string & outputImage)
 {
+  bool               testPassed = true;
   const unsigned int Dimension = VDimension;
 
   typedef double                           PixelType;
@@ -59,38 +61,34 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
 
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
-
   reader->Update();
 
   // Calculate mean value and subtract
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
   typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
-
   zeroDCFilter->SetInput(reader->GetOutput());
-
   zeroDCFilter->Update();
 
   // Perform FFT on input image.
   typedef itk::ForwardFFTImageFilter<ImageType> FFTFilterType;
   typename FFTFilterType::Pointer               fftFilter = FFTFilterType::New();
-
   fftFilter->SetInput(zeroDCFilter->GetOutput());
-
   fftFilter->Update();
 
   typedef typename FFTFilterType::OutputImageType                 ComplexImageType;
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
+  size_t                                                          resizeFactor = 2;
   /*********** EXPAND ***************/
   typedef itk::FrequencyExpandImageFilter<ComplexImageType> ExpandType;
   typename ExpandType::Pointer                              expandFilter = ExpandType::New();
   expandFilter->SetInput(fftFilter->GetOutput());
-  expandFilter->SetExpandFactors(2);
+  expandFilter->SetExpandFactors(resizeFactor);
   expandFilter->Update();
 
   typedef itk::FrequencyExpandViaInverseFFTImageFilter<ComplexImageType> ExpandViaInverseFFTType;
   typename ExpandViaInverseFFTType::Pointer expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
   expandViaInverseFFTFilter->SetInput(fftFilter->GetOutput());
-  expandViaInverseFFTFilter->SetExpandFactors(2);
+  expandViaInverseFFTFilter->SetExpandFactors(resizeFactor);
   expandViaInverseFFTFilter->Update();
 
   // #ifdef ITK_VISUALIZE_TESTS
@@ -108,14 +106,36 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   typedef itk::FrequencyShrinkImageFilter<ComplexImageType> ShrinkType;
   typename ShrinkType::Pointer                              shrinkFilter = ShrinkType::New();
   shrinkFilter->SetInput(expandFilter->GetOutput());
-  shrinkFilter->SetShrinkFactors(2);
+  shrinkFilter->SetShrinkFactors(resizeFactor);
   shrinkFilter->Update();
 
   typedef itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType> ShrinkViaInverseFFTType;
   typename ShrinkViaInverseFFTType::Pointer shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
   shrinkViaInverseFFTFilter->SetInput(expandViaInverseFFTFilter->GetOutput());
-  shrinkViaInverseFFTFilter->SetShrinkFactors(2);
+  shrinkViaInverseFFTFilter->SetShrinkFactors(resizeFactor);
   shrinkViaInverseFFTFilter->Update();
+
+  // Test size and metadata
+  typename ComplexImageType::PointType   fftOrigin = fftFilter->GetOutput()->GetOrigin();
+  typename ComplexImageType::SpacingType fftSpacing = fftFilter->GetOutput()->GetSpacing();
+  typename ComplexImageType::PointType   afterShrinkOrigin = shrinkFilter->GetOutput()->GetOrigin();
+  typename ComplexImageType::SpacingType afterShrinkSpacing = shrinkFilter->GetOutput()->GetSpacing();
+
+  if (afterShrinkOrigin != fftOrigin)
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in Origin (has changed afterShrink): " << std::endl;
+    std::cerr << "Expected: " << fftOrigin << ", but got " << afterShrinkOrigin << std::endl;
+    testPassed = false;
+  }
+
+  if (afterShrinkSpacing != fftSpacing)
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in Spacing : " << std::endl;
+    std::cerr << "Expected: " << fftSpacing << ", but got " << afterShrinkSpacing << std::endl;
+    testPassed = false;
+  }
 
   /*********** InverseFFT ***************/
 
@@ -124,10 +144,42 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   inverseFFT1->Update();
   typename InverseFFTFilterType::Pointer inverseFFT2 = InverseFFTFilterType::New();
   inverseFFT2->SetInput(shrinkViaInverseFFTFilter->GetOutput());
-
   inverseFFT2->Update();
 
+  // Comparison
+  // Via direct frequency manipulation.
+  typedef itk::Testing::ComparisonImageFilter<ImageType, ImageType> DifferenceFilterType;
+  typename DifferenceFilterType::Pointer                            differenceFilter = DifferenceFilterType::New();
+  differenceFilter->SetToleranceRadius(0);
+  differenceFilter->SetDifferenceThreshold(0.000001);
+
+  differenceFilter->SetValidInput(zeroDCFilter->GetOutput());
+  differenceFilter->SetTestInput(inverseFFT1->GetOutput());
+  differenceFilter->Update();
+
+  unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  if (numberOfDiffPixels > 0)
+  {
+    std::cerr << "Test failed! " << std::endl;
+    std::cerr << "FrequencyExpand + FrequencyShrinker should be equal to input image, but got " << numberOfDiffPixels
+              << " unequal pixels" << std::endl;
+    testPassed = false;
+  }
+
+  // Via inverseFFT and spatial domain manipulation.
+  differenceFilter->SetTestInput(inverseFFT2->GetOutput());
+  differenceFilter->Update();
+  numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  if (numberOfDiffPixels > 0)
+  {
+    std::cerr << "Test failed! " << std::endl;
+    std::cerr << "Expand + Shrinker via inverseFFT through spatial domain should be equal to input image, but got "
+              << numberOfDiffPixels << " unequal pixels" << std::endl;
+    testPassed = false;
+  }
+
 #ifdef ITK_VISUALIZE_TESTS
+  itk::Testing::ViewImage(zeroDCFilter->GetOutput(), "Original");
   itk::Testing::ViewImage(inverseFFT1->GetOutput(), "ExpandAndShrink via frequency manipulation");
   itk::Testing::ViewImage(inverseFFT2->GetOutput(), "ExpandAndShrink ViaInverseFFT");
 #endif
@@ -145,12 +197,14 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
 
   TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-
-#ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(zeroDCFilter->GetOutput(), "Original");
-#endif
-
-  return EXIT_SUCCESS;
+  if (testPassed)
+  {
+    return EXIT_SUCCESS;
+  }
+  else
+  {
+    return EXIT_FAILURE;
+  }
 }
 
 int

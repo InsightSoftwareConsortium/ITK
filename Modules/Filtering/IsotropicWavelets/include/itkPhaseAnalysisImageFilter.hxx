@@ -82,7 +82,7 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       vecValue = inputIt.Get();
       featureAmpSquare = this->ComputeFeatureVectorNormSquare(vecValue);
       ampIt.Set(this->ComputeAmplitude(vecValue, featureAmpSquare));
-      phaseIt.Set(cos(this->ComputePhase(vecValue, featureAmpSquare)));
+      phaseIt.Set(this->ComputePhase(vecValue, featureAmpSquare));
       ++inputIt;
       ++ampIt;
       ++phaseIt;

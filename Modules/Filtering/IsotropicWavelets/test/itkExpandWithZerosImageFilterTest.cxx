@@ -17,16 +17,17 @@
  *=========================================================================*/
 
 #include "itkExpandWithZerosImageFilter.h"
+#include "itkShrinkDecimateImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkMath.h"
 #include "itkTestingMacros.h"
+#include "itkTestingComparisonImageFilter.h"
 
 #include <iostream>
 
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
-
 
 template <unsigned int VDimension>
 int
@@ -35,7 +36,6 @@ runExpandWithZerosImageFilterTest()
   typedef float                             PixelType;
   typedef itk::Image<PixelType, VDimension> ImageType;
   bool                                      testPassed = true;
-
 
   // Create the input image
   typename ImageType::RegionType region;
@@ -62,11 +62,8 @@ runExpandWithZerosImageFilterTest()
 
   expander->SetExpandFactors(expandFactors);
   TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
-
   expander->SetInput(input);
-
   expander->Update();
-
 
   // Check the output against expected value
   typedef itk::ImageRegionIteratorWithIndex<ImageType> Iterator;
@@ -77,8 +74,7 @@ runExpandWithZerosImageFilterTest()
   {
     typename ImageType::IndexType index = outIter.GetIndex();
     double                        value = outIter.Get();
-
-    bool indexIsMultipleOfFactor = true;
+    bool                          indexIsMultipleOfFactor = true;
     for (unsigned int i = 0; i < VDimension; ++i)
     {
       if ((index[i] - outStartIndex[i]) % expander->GetExpandFactors()[i] != 0)
@@ -109,18 +105,44 @@ runExpandWithZerosImageFilterTest()
     ++outIter;
   }
 
+#ifdef ITK_VISUALIZE_TESTS
+  itk::Testing::ViewImage(expander->GetOutput(), "ExpandWithZeros Output");
+#endif
+
+  // Test than expand with zeros + shrinkage (decimate) results on input image.
+  typedef itk::ShrinkDecimateImageFilter<ImageType, ImageType> DecimatorType;
+  typename DecimatorType::Pointer                              decimator = DecimatorType::New();
+  decimator->SetShrinkFactors(expandFactors);
+  decimator->SetInput(expander->GetOutput());
+  decimator->Update();
+
+  typedef itk::Testing::ComparisonImageFilter<ImageType, ImageType> DifferenceFilterType;
+  typename DifferenceFilterType::Pointer                            differenceFilter = DifferenceFilterType::New();
+  differenceFilter->SetToleranceRadius(0);
+  differenceFilter->SetDifferenceThreshold(0.000001);
+  differenceFilter->SetValidInput(input);
+  differenceFilter->SetTestInput(decimator->GetOutput());
+  differenceFilter->Update();
+
+  unsigned int numberOfDiffPixels = differenceFilter->GetNumberOfPixelsWithDifferences();
+  if (numberOfDiffPixels > 0)
+  {
+    std::cerr << "Test failed! " << std::endl;
+    std::cerr << "ExpandWithZeros + ShrinkDecimate should be equal to input image, but got " << numberOfDiffPixels
+              << " unequal pixels" << std::endl;
+    testPassed = false;
+  }
+
   if (!testPassed)
   {
     std::cerr << "Test failed!" << std::endl;
     return EXIT_FAILURE;
   }
-
-#ifdef ITK_VISUALIZE_TESTS
-  itk::Testing::ViewImage(expander->GetOutput(), "ExpandWithZeros Output");
-#endif
-
-  std::cout << "Test passed." << std::endl;
-  return EXIT_SUCCESS;
+  else
+  {
+    std::cout << "Test passed." << std::endl;
+    return EXIT_SUCCESS;
+  }
 }
 
 int

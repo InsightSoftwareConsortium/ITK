@@ -66,15 +66,29 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(WaveletFrequencyInverse, ImageToImageFilter);
+
+  /** Number of levels/scales. Maximum depends on size of image */
   void
   SetLevels(unsigned int n);
-
   itkGetMacro(Levels, unsigned int);
+
+  /** Number of high pass subbands, 1 minimum */
   void
   SetHighPassSubBands(unsigned int n);
-
   itkGetMacro(HighPassSubBands, unsigned int);
+
+  /** Total number of inputs required: Levels*HighPassSubBands + 1 */
   itkGetMacro(TotalInputs, unsigned int);
+
+  /** Shrink/Expand factor at each level.
+   * Set to 2 (dyadic), not modifiable, but providing future flexibility */
+  itkGetConstReferenceMacro(ScaleFactor, unsigned int)
+
+    /**
+     * If On, applies to each input the appropiate Level-Band multiplicative factor. Needed for perfect reconstruction.
+     * It has to be turned off for some applications (phase analysis for example) */
+    itkGetConstReferenceMacro(ApplyReconstructionFactors, bool) itkSetMacro(ApplyReconstructionFactors, bool)
+      itkBooleanMacro(ApplyReconstructionFactors);
 
   typedef std::pair<unsigned int, unsigned int> IndexPairType;
   /** Get the (Level,Band) from a linear index input */
@@ -131,15 +145,19 @@ protected:
   virtual void
   GenerateInputRequestedRegion() ITK_OVERRIDE;
 
+  /** Input images do not occupy the same physical space.
+   * Remove the check. */
+  virtual void
+  VerifyInputInformation() ITK_OVERRIDE {};
+
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyInverse);
 
   unsigned int m_Levels;
   unsigned int m_HighPassSubBands;
   unsigned int m_TotalInputs;
-  /** Shrink/Expand factor
-   * Set to 2, not modifiable, but provides future flexibility */
   unsigned int m_ScaleFactor;
+  bool         m_ApplyReconstructionFactors;
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

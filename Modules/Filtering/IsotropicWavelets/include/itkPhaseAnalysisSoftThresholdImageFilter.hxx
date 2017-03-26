@@ -117,8 +117,12 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::ThreadedGenera
     {
       OutputImagePixelType out_value = cos(phaseIt.Get());
       if (this->GetApplySoftThreshold())
+      {
         if (ampIt.Get() < this->m_Threshold)
-          out_value = out_value * ampIt.Get() / this->m_Threshold;
+        {
+          out_value *= ampIt.Get() / this->m_Threshold;
+        }
+      }
       outIt.Set(out_value);
       ++outIt, ++ampIt, ++phaseIt;
     }
