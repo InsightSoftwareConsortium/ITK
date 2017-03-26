@@ -191,7 +191,8 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
   itk::NumberToString<unsigned int>    n2s;
   for (unsigned int level = 0; level < levels + 1; ++level)
   {
-    double       scaleFactorPerLevel = std::pow(static_cast<double>(forwardWavelet->GetScaleFactor()), level);
+    double scaleFactorPerLevel =
+      std::pow(static_cast<double>(forwardWavelet->GetScaleFactor()), static_cast<double>(level));
     unsigned int nOutput;
     for (unsigned int i = 0; i < Dimension; ++i)
     {
