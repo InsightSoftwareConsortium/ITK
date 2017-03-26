@@ -180,13 +180,15 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
   typedef itk::ImageFileWriter<typename InverseFFTFilterType::OutputImageType> WriterType;
   typename WriterType::Pointer                                                 writer = WriterType::New();
 
-  typename ComplexImageType::SpacingType inputSpacing = { { 1.0 } };
+  typename ComplexImageType::SpacingType inputSpacing;
+  inputSpacing.Fill(1.0);
   typename ComplexImageType::SpacingType expectedSpacing = inputSpacing;
-  typename ComplexImageType::PointType   inputOrigin = { { 0.0 } };
-  typename ComplexImageType::PointType   expectedOrigin = inputOrigin;
-  typename ComplexImageType::SizeType    inputSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
-  typename ComplexImageType::SizeType    expectedSize = inputSize;
-  itk::NumberToString<unsigned int>      n2s;
+  typename ComplexImageType::PointType   inputOrigin;
+  inputOrigin.Fill(0.0);
+  typename ComplexImageType::PointType expectedOrigin = inputOrigin;
+  typename ComplexImageType::SizeType  inputSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
+  typename ComplexImageType::SizeType  expectedSize = inputSize;
+  itk::NumberToString<unsigned int>    n2s;
   for (unsigned int level = 0; level < levels + 1; ++level)
   {
     double       scaleFactorPerLevel = std::pow(static_cast<double>(forwardWavelet->GetScaleFactor()), level);

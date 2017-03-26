@@ -100,11 +100,13 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
 
   // Check Metadata: Spacing, Origin
   typename ComplexImageType::SpacingType outputSpacing = inverseWavelet->GetOutput()->GetSpacing();
-  typename ComplexImageType::SpacingType expectedSpacing = { { 1.0 } };
-  typename ComplexImageType::PointType   outputOrigin = inverseWavelet->GetOutput()->GetOrigin();
-  typename ComplexImageType::PointType   expectedOrigin = { { 0.0 } };
-  typename ComplexImageType::SizeType    outputSize = inverseWavelet->GetOutput()->GetLargestPossibleRegion().GetSize();
-  typename ComplexImageType::SizeType    expectedSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
+  typename ComplexImageType::SpacingType expectedSpacing;
+  expectedSpacing.Fill(1.0);
+  typename ComplexImageType::PointType outputOrigin = inverseWavelet->GetOutput()->GetOrigin();
+  typename ComplexImageType::PointType expectedOrigin;
+  expectedOrigin.Fill(0.0);
+  typename ComplexImageType::SizeType outputSize = inverseWavelet->GetOutput()->GetLargestPossibleRegion().GetSize();
+  typename ComplexImageType::SizeType expectedSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
 
   if (outputSpacing != expectedSpacing)
   {

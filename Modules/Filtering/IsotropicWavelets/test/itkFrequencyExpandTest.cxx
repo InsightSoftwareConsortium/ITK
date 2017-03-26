@@ -103,16 +103,6 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
     testPassed = false;
   }
 
-  // typename ComplexImageType::SpacingType defaultSpacing = {{1.0}};
-  // if( fftSpacing != defaultSpacing )
-  //   {
-  //   std::cerr << "Test failed!" << std::endl;
-  //   std::cerr << "After fft the spacing is not default: " << std::endl;
-  //   std::cerr << "Expected: " << defaultSpacing << ", but got "
-  //             << fftSpacing << std::endl;
-  //   testPassed = false;
-  //   }
-
   // InverseFFT
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
   typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
