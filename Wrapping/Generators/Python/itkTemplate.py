@@ -153,10 +153,11 @@ class itkTemplate(object):
 
             attributeName = cl.__name__[len(shortName):]
 
-        if attributeName.isdigit():
-            # the attribute name can't be a number
-            # add a single undescore before it to build a valid name
-            attributeName = "_" + attributeName
+        if attributeName[0].isdigit():
+            # the attribute name can't start with a number
+            # add a single x before it to build a valid name.
+            # Adding an underscore would hide the attributeName in IPython
+            attributeName = "x" + attributeName
 
         # add the attribute to this object
         self.__dict__[attributeName] = cl
@@ -533,18 +534,22 @@ class itkTemplate(object):
         # Make a list of allowed types, and sort them
         ctypes = []
         classes = []
+        others = []
+
         for key_tuple in self.__template__:
             key = str(key_tuple)
             if "itkCType" in key:
                 ctypes.append(key)
             elif "class" in key:
                 classes.append(key)
-
+            else:
+                others.append(key)
         # Sort the lists
         ctypes = sorted(ctypes)
         classes = sorted(classes)
+        others = sorted(others)
 
-        return ctypes + classes
+        return ctypes + classes + others
 
 
 # create a new New function which accepts parameters
