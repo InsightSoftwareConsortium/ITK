@@ -29,16 +29,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TOutputImage >
 HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
 ::HessianToObjectnessMeasureImageFilter() :
   m_Alpha(0.5),
   m_Beta(0.5),
   m_Gamma(5.0),
-  // by default extract bright lines (equivalent to vesselness)
   m_ObjectDimension(1),
   m_BrightObject(true),
   m_ScaleObjectnessMeasure(true)
@@ -66,14 +63,14 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
   OutputImageType * output = this->GetOutput();
   const InputImageType* input = this->GetInput();
 
-  // support progress methods/callbacks
+  // Support progress methods/callbacks
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels(), 1000 / this->GetNumberOfThreads() );
 
-  // calculator for computation of the eigen values
+  // Calculator for computation of the eigen values
   typedef SymmetricEigenAnalysis< InputPixelType, EigenValueArrayType > CalculatorType;
   CalculatorType eigenCalculator(ImageDimension);
 
-  // walk the region of eigen values and get the objectness measure
+  // Walk the region of eigen values and get the objectness measure
   ImageRegionConstIterator< InputImageType > it(input, outputRegionForThread);
   ImageRegionIterator< OutputImageType >     oit(output, outputRegionForThread);
 
@@ -82,7 +79,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
 
   while ( !it.IsAtEnd() )
     {
-    // compute eigen values
+    // Compute eigen values
     EigenValueArrayType eigenValues;
     eigenCalculator.ComputeEigenValues(it.Get(), eigenValues);
 
@@ -91,7 +88,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
     EigenValueArrayType sortedEigenValues = eigenValues;
     std::sort( sortedEigenValues.Begin(), sortedEigenValues.End(), AbsLessEqualCompare() );
 
-    // check whether eigenvalues have the right sign
+    // Check whether eigenvalues have the right sign
     bool signConstraintsSatisfied = true;
     for ( unsigned int i = m_ObjectDimension; i < ImageDimension; i++ )
       {
@@ -118,10 +115,10 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
       sortedAbsEigenValues[i] = itk::Math::abs(sortedEigenValues[i]);
       }
 
-    // initialize the objectness measure
+    // Initialize the objectness measure
     double objectnessMeasure = 1.0;
 
-    // compute objectness from eigenvalue ratios and second-order structureness
+    // Compute objectness from eigenvalue ratios and second-order structureness
     if ( m_ObjectDimension < ImageDimension - 1 )
       {
       double rA = sortedAbsEigenValues[m_ObjectDimension];
@@ -174,7 +171,7 @@ HessianToObjectnessMeasureImageFilter< TInputImage, TOutputImage >
       objectnessMeasure *= 1.0 - std::exp( -0.5 * frobeniusNormSquared / itk::Math::sqr(m_Gamma) );
       }
 
-    // in case, scale by largest absolute eigenvalue
+    // Just in case, scale by largest absolute eigenvalue
     if ( m_ScaleObjectnessMeasure )
       {
       objectnessMeasure *= sortedAbsEigenValues[ImageDimension - 1];
