@@ -40,19 +40,23 @@ FilterCreationTest(int argc, char * argv[])
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();
   reader->SetFileName(inputFilename.c_str());
-
+  reader->UpdateLargestPossibleRegion();
+  InputImageType::Pointer im = reader->GetOutput();
 
   // Apply the filter
   typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(reader->GetOutput());
+  filter->SetInput(im); // reader->GetOutput());
   filter->UpdateLargestPossibleRegion();
+  OutputImageType::Pointer output = filter->GetOutput();
+
+  std::cout << "@@@@@@@@@@@@@@@@@@" << std::endl;
 
   // Create and setup a writter
   typedef itk::ImageFileWriter<OutputImageType> WriterType;
   WriterType::Pointer                           writer = WriterType::New();
   writer->SetFileName("result.nrrd");
-  writer->SetInput(filter->GetOutput());
+  writer->SetInput(output); // filter->GetOutput());
   writer->UpdateLargestPossibleRegion();
 
   return EXIT_SUCCESS;

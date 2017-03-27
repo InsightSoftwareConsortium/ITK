@@ -127,61 +127,93 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::GenerateData(void)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
+  BeforeThreadedGenerateData()
 {
   typename TOutputImage::Pointer Output = this->GetOutput();
 
-  InputRegionType      InputRegion;
-  InputRegionIndexType InputRegionIndex;
-  InputRegionSizeType  InputRegionSize;
-  OutputRegionType     OutputRegion;
-
-
+  OutputRegionType                              OutputRegion;
   OutputRegionIndexType                         OutputRegionIndex;
+  OutputRegionSizeType                          OutputRegionSize;
   const typename OutputImageType::SpacingType & Spacing = Output->GetSpacing();
   const typename OutputImageType::PointType &   InputOrigin = Output->GetOrigin();
   double                                        OutputOrigin[this->m_NeighborhoodRadius.Dimension];
 
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
   {
-    InputRegionIndex[i] = this->m_NeighborhoodRadius[i];
-    InputRegionSize[i] =
+    OutputRegionSize[i] =
       (this->ImageToImageFilter<TInputImage, TOutputImage>::GetInput(0)->GetLargestPossibleRegion().GetSize(i)) -
       (2 * this->m_NeighborhoodRadius[i]);
-    OutputRegionIndex[i] = 0;
-    OutputOrigin[i] = InputOrigin[i] + Spacing[i] * InputRegionIndex[i];
+    OutputOrigin[i] = InputOrigin[i] + Spacing[i] * this->m_NeighborhoodRadius[i];
   }
-
-
-  InputRegion.SetIndex(InputRegionIndex);
-  InputRegion.SetSize(InputRegionSize);
+  OutputRegionIndex.Fill(0);
 
   OutputRegion.SetIndex(OutputRegionIndex);
-  OutputRegion.SetSize(InputRegionSize);
+  OutputRegion.SetSize(OutputRegionSize);
 
   Output->SetSpacing(Spacing);
   Output->SetOrigin(OutputOrigin);
   Output->SetRegions(OutputRegion);
   Output->Allocate();
+}
+
+template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+void
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
+  ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId)
+{
+  TInputImage * inputPtr = const_cast<TInputImage *>(this->GetInput());
+  inputPtr->DisconnectPipeline();
+  TOutputImage *                                                           outputPtr = this->GetOutput();
+  TInputImage *                                                            temp1;
+  const itk::Statistics::Histogram<double, THistogramFrequencyContainer> * temp2;
+
+  InputRegionType inputRegionForThread;
+  inputRegionForThread.SetSize(outputRegionForThread.GetSize());
+
+  InputRegionIndexType start;
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
+  {
+    start[i] = this->m_NeighborhoodRadius[i] + outputRegionForThread.GetIndex()[i];
+  }
+
+  inputRegionForThread.SetIndex(start);
 
   typedef itk::ImageRegionConstIteratorWithIndex<InputImageType> ConstIteratorType;
-  ConstIteratorType InputIt(this->ImageToImageFilter<TInputImage, TOutputImage>::GetInput(0), InputRegion);
-  typedef itk::ImageRegionIteratorWithIndex<OutputImageType> IteratorType;
-  IteratorType                                               OutputIt(Output, OutputRegion);
+  ConstIteratorType                                              inputIt(inputPtr, inputRegionForThread);
+  typedef itk::ImageRegionIteratorWithIndex<OutputImageType>     IteratorType;
+  IteratorType                                                   outputIt(outputPtr, outputRegionForThread);
 
-  while (!InputIt.IsAtEnd())
+
+  typename RunLengthMatrixFilterType::Pointer runLengthMatrixGenerator = RunLengthMatrixFilterType::New();
+
+  typename OffsetVector::ConstIterator offsetIt = this->m_Offsets->Begin();
+  runLengthMatrixGenerator->SetOffset(offsetIt.Value());
+
+  typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
+  typedef typename RunLengthFeaturesFilterType::RunLengthFeatureName InternalRunLengthFeatureName;
+
+  typename FeatureNameVector::ConstIterator fnameIt;
+  fnameIt = this->m_RequestedFeatures->Begin();
+  fnameIt++;
+  fnameIt++;
+  fnameIt++;
+
+  while (!inputIt.IsAtEnd())
   {
-    typename InputImageType::IndexType InputIndex = InputIt.GetIndex();
-    InputIndex.Dimension;
+    typename InputImageType::IndexType inputIndex = inputIt.GetIndex();
 
     typename InputImageType::IndexType start;
     typename InputImageType::IndexType end;
 
-    for (unsigned int i = 0; i < InputIndex.Dimension; i++)
+    for (unsigned int i = 0; i < inputIndex.Dimension; i++)
     {
-      start[i] = InputIndex[i] - m_NeighborhoodRadius[i];
-      end[i] = InputIndex[i] + m_NeighborhoodRadius[i];
+      start[i] = inputIndex[i] - m_NeighborhoodRadius[i];
+      end[i] = inputIndex[i] + m_NeighborhoodRadius[i];
     }
+
+    std::cout << inputIndex << std::endl;
+
 
     typename InputImageType::RegionType ExtractedRegion;
     ExtractedRegion.SetIndex(start);
@@ -189,28 +221,22 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 
     typedef typename itk::RegionOfInterestImageFilter<InputImageType, InputImageType> ExtractionFilterType;
     typename ExtractionFilterType::Pointer ExtractionFilter = ExtractionFilterType::New();
-    ExtractionFilter->SetInput(this->ImageToImageFilter<TInputImage, TOutputImage>::GetInput(0));
+    ExtractionFilter->SetInput(inputPtr);
+
     ExtractionFilter->SetRegionOfInterest(ExtractedRegion);
+    ExtractionFilter->UpdateLargestPossibleRegion();
+    temp1 = ExtractionFilter->GetOutput();
 
-    typename OffsetVector::ConstIterator offsetIt = this->m_Offsets->Begin();
-    this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
-    this->m_RunLengthMatrixGenerator->SetInput(ExtractionFilter->GetOutput());
+    runLengthMatrixGenerator->SetInput(temp1);
+    runLengthMatrixGenerator->UpdateLargestPossibleRegion();
+    temp2 = runLengthMatrixGenerator->GetOutput();
 
-    typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
-    runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
+    runLengthMatrixCalculator->SetInput(temp2);
     runLengthMatrixCalculator->UpdateLargestPossibleRegion();
 
-
-    typedef typename RunLengthFeaturesFilterType::RunLengthFeatureName InternalRunLengthFeatureName;
-    typename FeatureNameVector::ConstIterator                          fnameIt;
-    fnameIt = this->m_RequestedFeatures->Begin();
-    fnameIt++;
-    fnameIt++;
-    fnameIt++;
-
-    OutputIt.Set(runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
-    ++InputIt;
-    ++OutputIt;
+    outputIt.Set(runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
+    ++inputIt;
+    ++outputIt;
   }
 }
 
