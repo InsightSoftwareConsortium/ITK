@@ -21,28 +21,29 @@
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
+#include "itkTestingMacros.h"
+
 
 int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 {
   if ( argc < 3 )
     {
-    std::cerr << "Missing Parameters: "
-              << argv[0]
-              << " Input_Image"
-              << " Enhanced_Output_Image [ObjectDimension] [Bright/Dark]" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+              << " inputImage"
+              << " outputImage [ObjectDimension] [Bright/Dark]" << std::endl;
     return EXIT_FAILURE;
     }
 
   // Define the dimension of the images
-  const unsigned char Dim = 2;
+  const unsigned char Dimension = 2;
 
   typedef float PixelType;
 
   // Declare the types of the images
-  typedef itk::Image<PixelType,Dim> ImageType;
+  typedef itk::Image< PixelType, Dimension > ImageType;
 
-  typedef itk::ImageFileReader<ImageType> FileReaderType;
-  typedef itk::ImageFileWriter<ImageType> FileWriterType;
+  typedef itk::ImageFileReader< ImageType > FileReaderType;
 
   // Declare the type of the recursive Gaussian filter
   typedef itk::HessianRecursiveGaussianImageFilter<
@@ -52,150 +53,85 @@ int itkHessianToObjectnessMeasureImageFilterTest( int argc, char *argv[] )
 
   // Delcare the type of objectness measure image filter
 
-  typedef itk::HessianToObjectnessMeasureImageFilter<HessianImageType, ImageType > ObjectnessFilterType;
+  typedef itk::HessianToObjectnessMeasureImageFilter< HessianImageType, ImageType >
+    ObjectnessFilterType;
 
   FileReaderType::Pointer imageReader = FileReaderType::New();
-  imageReader->SetFileName(argv[1]);
-  try
-    {
-    imageReader->Update();
-    }
-  catch (itk::ExceptionObject &ex)
-    {
-    std::cout << ex << std::endl;
-    return EXIT_FAILURE;
-    }
+  imageReader->SetFileName( argv[1] );
 
-  // Create a Gaussian Filter
+  TRY_EXPECT_NO_EXCEPTION( imageReader->Update() );
+
+
+  // Create a Gaussian filter
   GaussianImageFilterType::Pointer gaussianFilter = GaussianImageFilterType::New();
 
-  // Create a vesselness Filter
+  // Create an objectness filter
   ObjectnessFilterType::Pointer objectnessFilter = ObjectnessFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( objectnessFilter, HessianToObjectnessMeasureImageFilter,
+    ImageToImageFilter );
+
 
   // Connect the input images
   gaussianFilter->SetInput( imageReader->GetOutput() );
   objectnessFilter->SetInput( gaussianFilter->GetOutput() );
 
-  objectnessFilter->SetScaleObjectnessMeasure(false);
-  if ( objectnessFilter->GetScaleObjectnessMeasure() )
-    {
-    std::cerr << "Error in Set/GetScaleObjectnessMeasure method" << std::endl;
-    return EXIT_FAILURE;
-    }
+  // Set the filter properties
+  bool scaleObjectnessMeasure = false;
+  TEST_SET_GET_BOOLEAN( objectnessFilter, ScaleObjectnessMeasure, scaleObjectnessMeasure );
 
-  //Exercise more methods
-  objectnessFilter->ScaleObjectnessMeasureOn();
-  if ( !objectnessFilter->GetScaleObjectnessMeasure() )
-    {
-    std::cerr << "Error in ScaleObjectnessMeasureOn" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  objectnessFilter->ScaleObjectnessMeasureOff();
-  if ( objectnessFilter->GetScaleObjectnessMeasure() )
-    {
-    std::cerr << "Error in ScaleObjectnessMeasureOff method" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  objectnessFilter->SetBrightObject(true);
-  if ( ! objectnessFilter->GetBrightObject() )
-    {
-    std::cerr << "Error in Set/GetBrightObject method" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  const double tolerance = 0.001;
+  bool brightObject = true;
+  TEST_SET_GET_BOOLEAN( objectnessFilter, BrightObject, brightObject );
 
   double alphaValue = 0.5;
-  objectnessFilter->SetAlpha(alphaValue);
-  if( itk::Math::abs( objectnessFilter->GetAlpha() - alphaValue ) >= tolerance )
-    {
-    std::cerr << "Error in Set/GetAlpha() method" << std::endl;
-    return EXIT_FAILURE;
-    }
+  objectnessFilter->SetAlpha( alphaValue );
+  TEST_SET_GET_VALUE( alphaValue, objectnessFilter->GetAlpha() );
 
-  double  betaValue = 0.5;
-  objectnessFilter->SetBeta(betaValue);
-  if( itk::Math::abs( objectnessFilter->GetBeta() - betaValue ) >= tolerance )
-    {
-    std::cerr << "Error in Set/GetBeta() method" << std::endl;
-    return EXIT_FAILURE;
-    }
+  double betaValue = 0.5;
+  objectnessFilter->SetBeta( betaValue );
+  TEST_SET_GET_VALUE( betaValue, objectnessFilter->GetBeta() );
 
-
-  double  gammaValue = 0.5;
+  double gammaValue = 0.5;
   objectnessFilter->SetGamma( gammaValue );
-  if( itk::Math::abs( objectnessFilter->GetGamma() - gammaValue ) >= tolerance )
-    {
-    std::cerr << "Error in Set/GetGamma() method" << std::endl;
-    return EXIT_FAILURE;
-    }
+  TEST_SET_GET_VALUE( gammaValue, objectnessFilter->GetGamma() );
 
 
-  //Verify exceptions will be thrown if the object dimension is larger than
-  //the image dimension
+  // Check that an exception is thrown if the object dimension is larger than
+  // the image dimension
   objectnessFilter->SetObjectDimension( 3 );
-  try
-    {
-    objectnessFilter->Update();
-    std::cerr << "Exceptions should have been thrown ( objectDimension > imageDimension )"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-  catch (itk::ExceptionObject &e)
-    {
-    std::cerr << e << std::endl;
-    }
 
-  if ( argc >= 3 )
+  TRY_EXPECT_EXCEPTION( objectnessFilter->Update() );
+
+
+  if( argc >= 3 )
     {
-    unsigned int objectDimension = atoi(argv[3]);
+    unsigned int objectDimension = atoi( argv[3] );
     objectnessFilter->SetObjectDimension( objectDimension );
-
-    if ( objectnessFilter->GetObjectDimension() != objectDimension )
-      {
-      std::cerr << "Error in Set/GetObjectDimension() method" << std::endl;
-      return EXIT_FAILURE;
-      }
+    TEST_SET_GET_VALUE( objectDimension, objectnessFilter->GetObjectDimension() );
     }
 
-  if ( argc >= 4 )
+  if( argc >= 4 )
     {
-    bool brightObject = atoi( argv[4] );
+    brightObject = atoi( argv[4] );
     objectnessFilter->SetBrightObject( brightObject );
-    if ( objectnessFilter->GetBrightObject() != brightObject )
-      {
-      std::cerr << "Error in Set/GetBrightObject() method" << std::endl;
-      return EXIT_FAILURE;
-      }
+    TEST_SET_GET_VALUE( brightObject, objectnessFilter->GetBrightObject() );
     }
 
-  try
-    {
-    objectnessFilter->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
-    std::cerr << e << std::endl;
-    }
 
+  TRY_EXPECT_NO_EXCEPTION( objectnessFilter->Update() );
+
+
+  // Write the output image
+  typedef itk::ImageFileWriter< ImageType > FileWriterType;
   FileWriterType::Pointer writer = FileWriterType::New();
-  writer->SetFileName(argv[2]);
+  writer->SetFileName( argv[2] );
   writer->UseCompressionOn();
-  writer->SetInput(objectnessFilter->GetOutput());
+  writer->SetInput( objectnessFilter->GetOutput() );
 
-  try
-    {
-    writer->Update();
-    }
-  catch (itk::ExceptionObject &e)
-    {
-    std::cerr << e << std::endl;
-    }
 
-  //Print out
-  objectnessFilter->Print( std::cout );
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
