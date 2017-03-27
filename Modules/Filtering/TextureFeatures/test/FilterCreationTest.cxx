@@ -20,32 +20,42 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScalarImageToRunLengthFeaturesImageFilter.h"
+#include "itkHistogramToRunLengthFeaturesFilter.h"
+#include "itkScalarImageToRunLengthMatrixFilter.h"
+#include "itkScalarImageToRunLengthFeaturesFilter.h"
+
+#include "itkNeighborhood.h"
+#include "itkMath.h"
 
 int
 FilterCreationTest(int argc, char * argv[])
 {
   // Parse command line argumentsa
   std::string inputFilename = argv[1];
-
   // Setup types
-  typedef itk::Image<float, 3> ImageType;
-
-  typedef itk::ImageFileReader<ImageType> readerType;
+  typedef itk::Image<long, 3>                  InputImageType;
+  typedef itk::Image<float, 3>                 OutputImageType;
+  typedef itk::ImageFileReader<InputImageType> readerType;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();
   reader->SetFileName(inputFilename.c_str());
 
+
   // Apply the filter
-  typedef itk::ScalarImageToRunLengthFeaturesImageFilter<ImageType, ImageType> FilterType;
-  FilterType::Pointer                                                          filter = FilterType::New();
+  typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  filter->SetInput(reader->GetOutput());
+  filter->UpdateLargestPossibleRegion();
+
+  OutputImageType::Pointer out = OutputImageType::New();
 
   // Create and setup a writter
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
+  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  WriterType::Pointer                           writer = WriterType::New();
   writer->SetFileName("result.nrrd");
   writer->SetInput(filter->GetOutput());
-  writer->Update();
+  writer->UpdateLargestPossibleRegion();
 
   return EXIT_SUCCESS;
 }
