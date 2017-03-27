@@ -29,7 +29,6 @@
 #include "itkShannonIsotropicWavelet.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
-#include "itkComplexToRealImageFilter.h"
 #include "itkTestingMacros.h"
 
 #include <memory>
@@ -37,6 +36,8 @@
 #include <cmath>
 
 #ifdef ITK_VISUALIZE_TESTS
+#  include "itkComplexToRealImageFilter.h"
+#  include "itkNumberToString.h"
 #  include "itkViewImage.h"
 #endif
 
@@ -77,6 +78,7 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   forwardWavelet->SetHighPassSubBands(inputBands);
   forwardWavelet->SetLevels(inputLevels);
   forwardWavelet->SetInput(fftFilter->GetOutput());
+  forwardWavelet->StoreWaveletFilterBankPyramidOn();
   forwardWavelet->Update();
 
   unsigned int noutputs = forwardWavelet->GetNumberOfOutputs();
@@ -96,6 +98,10 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
   inverseWavelet->SetHighPassSubBands(inputBands);
   inverseWavelet->SetLevels(inputLevels);
   inverseWavelet->SetInputs(forwardWavelet->GetOutputs());
+  bool useWaveletFilterBankPyramid = true;
+  inverseWavelet->SetUseWaveletFilterBankPyramid(useWaveletFilterBankPyramid);
+  inverseWavelet->SetWaveletFilterBankPyramid(forwardWavelet->GetWaveletFilterBankPyramid());
+  inverseWavelet->DebugOn();
   inverseWavelet->Update();
 
   // Check Metadata: Spacing, Origin
@@ -141,6 +147,23 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
 #ifdef ITK_VISUALIZE_TESTS
   itk::Testing::ViewImage(reader->GetOutput(), "Original");
   itk::Testing::ViewImage(inverseFFT->GetOutput(), "InverseWavelet");
+#endif
+
+  // TODO move it from here to Forward test.
+#ifdef ITK_VISUALIZE_TESTS
+  std::vector<typename ComplexImageType::Pointer> waveletFilterBankPyramid =
+    forwardWavelet->GetWaveletFilterBankPyramid();
+  typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilterType;
+  typename ComplexToRealFilterType::Pointer complexToRealFilter = ComplexToRealFilterType::New();
+
+  itk::NumberToString<unsigned int> n2s;
+  std::cout << "Size FilterBankPyramid:" << waveletFilterBankPyramid.size() << std::endl;
+  for (unsigned int i = 0; i < waveletFilterBankPyramid.size(); ++i)
+  {
+    complexToRealFilter->SetInput(waveletFilterBankPyramid[i]);
+    complexToRealFilter->UpdateLargestPossibleRegion();
+    itk::Testing::ViewImage(complexToRealFilter->GetOutput(), "FilterBankPyramid #" + n2s(i));
+  }
 #endif
 
   if (testPassed)

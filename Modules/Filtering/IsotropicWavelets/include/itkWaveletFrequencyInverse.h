@@ -50,11 +50,8 @@ public:
   typedef typename Superclass::OutputImagePointer     OutputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
 
-  typedef typename itk::ImageRegionIterator<OutputImageType>     OutputRegionIterator;
-  typedef typename itk::ImageRegionConstIterator<InputImageType> InputRegionConstIterator;
-  typedef typename OutputImageType::RegionType                   OutputImageRegionType;
-
   typedef TWaveletFilterBank                                  WaveletFilterBankType;
+  typedef typename WaveletFilterBankType::Pointer             WaveletFilterBankPointer;
   typedef typename WaveletFilterBankType::WaveletFunctionType WaveletFunctionType;
   typedef typename WaveletFilterBankType::FunctionValueType   FunctionValueType;
 
@@ -89,6 +86,21 @@ public:
      * It has to be turned off for some applications (phase analysis for example) */
     itkGetConstReferenceMacro(ApplyReconstructionFactors, bool) itkSetMacro(ApplyReconstructionFactors, bool)
       itkBooleanMacro(ApplyReconstructionFactors);
+
+  /** Flag to use external WaveletFilterBankPyramid generated in ForwardWavelet.
+   * Requires to use SetWaveletFilterBankPyramid. */
+  itkGetConstReferenceMacro(UseWaveletFilterBankPyramid, bool) itkSetMacro(UseWaveletFilterBankPyramid, bool)
+    itkBooleanMacro(UseWaveletFilterBankPyramid);
+
+  /**
+   * Set vector containing the WaveletFilterBankPyramid.
+   * This vector is generated in the ForwardWavelet when StoreWaveletFilterBankPyramid is On.
+   */
+  void
+  SetWaveletFilterBankPyramid(const std::vector<InputImagePointer> & filterBankPyramid)
+  {
+    this->m_WaveletFilterBankPyramid = filterBankPyramid;
+  }
 
   typedef std::pair<unsigned int, unsigned int> IndexPairType;
   /** Get the (Level,Band) from a linear index input */
@@ -153,11 +165,14 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyInverse);
 
-  unsigned int m_Levels;
-  unsigned int m_HighPassSubBands;
-  unsigned int m_TotalInputs;
-  unsigned int m_ScaleFactor;
-  bool         m_ApplyReconstructionFactors;
+  unsigned int                   m_Levels;
+  unsigned int                   m_HighPassSubBands;
+  unsigned int                   m_TotalInputs;
+  unsigned int                   m_ScaleFactor;
+  bool                           m_ApplyReconstructionFactors;
+  bool                           m_UseWaveletFilterBankPyramid;
+  WaveletFilterBankPointer       m_WaveletFilterBank;
+  std::vector<InputImagePointer> m_WaveletFilterBankPyramid;
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -43,8 +43,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::WaveletF
   , m_HighPassSubBands(1)
   , m_TotalOutputs(1)
   , m_ScaleFactor(2)
+  , m_StoreWaveletFilterBankPyramid(false)
 {
   this->SetNumberOfRequiredInputs(1);
+  m_WaveletFilterBank = WaveletFilterBankType::New();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
@@ -413,6 +415,9 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   InputImageConstPointer input = this->GetInput();
   this->AllocateOutputs();
 
+  // note: clear reduces size to zero, but doesn't change capacity.
+  m_WaveletFilterBankPyramid.clear();
+
   typedef itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
   typename CastFilterType::Pointer                              castFilter = CastFilterType::New();
   castFilter->SetInput(input);
@@ -436,12 +441,20 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   changeInputInfoFilter->SetOutputSpacing(spacing_new);
   changeInputInfoFilter->Update();
 
-  typename WaveletFilterBankType::Pointer filterBank = WaveletFilterBankType::New();
-  filterBank->SetHighPassSubBands(this->m_HighPassSubBands);
-  filterBank->SetSize(changeInputInfoFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
-  filterBank->Update();
-  std::vector<OutputImagePointer> highPassWavelets = filterBank->GetOutputsHighPassBands();
-  OutputImagePointer              lowPassWavelet = filterBank->GetOutputLowPass();
+  // Generate WaveletFilterBank.
+  this->m_WaveletFilterBank->SetHighPassSubBands(this->m_HighPassSubBands);
+  this->m_WaveletFilterBank->SetSize(changeInputInfoFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
+  this->m_WaveletFilterBank->Update();
+  std::vector<OutputImagePointer> highPassWavelets = this->m_WaveletFilterBank->GetOutputsHighPassBands();
+  OutputImagePointer              lowPassWavelet = this->m_WaveletFilterBank->GetOutputLowPass();
+
+  if (this->m_StoreWaveletFilterBankPyramid)
+  {
+    for (unsigned int bankOutput = 0; bankOutput < this->m_HighPassSubBands + 1; ++bankOutput)
+    {
+      this->m_WaveletFilterBankPyramid.push_back(this->m_WaveletFilterBank->GetOutput(bankOutput));
+    }
+  }
 
   // TODO think about passing the FrequencyShrinker as template parameter to work with different FFT layout, or
   // regular images directly in frequency domain.
@@ -535,8 +548,18 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
         highPassWavelets[band] = changeHPDecimateInfoFilter->GetOutput();
         highPassWavelets[band]->DisconnectPipeline();
       }
-    }
-  }
+
+      if (this->m_StoreWaveletFilterBankPyramid)
+      {
+        m_WaveletFilterBankPyramid.push_back(lowPassWavelet);
+        for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
+        {
+          m_WaveletFilterBankPyramid.push_back(highPassWavelets[band]);
+        }
+      }
+
+    } // end update inputPerLevel
+  } // end level
 }
 } // end namespace itk
 #endif

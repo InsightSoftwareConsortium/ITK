@@ -24,7 +24,6 @@
 #include <complex>
 #include <itkFixedArray.h>
 #include <itkImageToImageFilter.h>
-// #include "itkWaveletFrequencyFilterBankGenerator.h"
 
 namespace itk
 {
@@ -66,6 +65,7 @@ public:
   typedef typename OutputImageType::RegionType                   OutputImageRegionType;
 
   typedef TWaveletFilterBank                                  WaveletFilterBankType;
+  typedef typename WaveletFilterBankType::Pointer             WaveletFilterBankPointer;
   typedef typename WaveletFilterBankType::WaveletFunctionType WaveletFunctionType;
   typedef typename WaveletFilterBankType::FunctionValueType   FunctionValueType;
 
@@ -77,11 +77,11 @@ public:
 
   /** Runtime information support. */
   itkTypeMacro(WaveletFrequencyForward, ImageToImageFilter);
-  void
+  virtual void
   SetLevels(unsigned int n);
 
   itkGetConstReferenceMacro(Levels, unsigned int);
-  void
+  virtual void
   SetHighPassSubBands(unsigned int n);
 
   itkGetConstReferenceMacro(HighPassSubBands, unsigned int);
@@ -91,6 +91,22 @@ public:
    * Set to 2 (dyadic) at constructor and not modifiable, but provides future flexibility */
   itkGetConstReferenceMacro(ScaleFactor, unsigned int);
   // itkSetMacro(ScaleFactor, unsigned int);
+
+  /** Return modifiable pointer of the wavelet filter bank member. */
+  itkGetModifiableObjectMacro(WaveletFilterBank, WaveletFilterBankType);
+  /** Return modifiable pointer to the wavelet function, which is a member of wavelet filter bank. */
+  virtual WaveletFunctionType *
+  GetModifiableWaveletFunction()
+  {
+    return this->GetModifiableWaveletFilterBank()->GetModifiableWaveletFunction();
+  }
+
+  /** Flag to store the wavelet Filter Bank Pyramid, for all levels and all bands.
+   * Access to it with GetWaveletFilterBankPyramid()*/
+  itkSetMacro(StoreWaveletFilterBankPyramid, bool) itkGetMacro(StoreWaveletFilterBankPyramid, bool)
+    itkBooleanMacro(StoreWaveletFilterBankPyramid);
+
+  itkGetMacro(WaveletFilterBankPyramid, std::vector<OutputImagePointer>);
 
   /** Compute max number of levels depending on the size of the image.
    * Return J: $ J = min_element(J_0,J_1,...) $;
@@ -170,10 +186,13 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForward);
 
-  unsigned int m_Levels;
-  unsigned int m_HighPassSubBands;
-  unsigned int m_TotalOutputs;
-  unsigned int m_ScaleFactor;
+  unsigned int                    m_Levels;
+  unsigned int                    m_HighPassSubBands;
+  unsigned int                    m_TotalOutputs;
+  unsigned int                    m_ScaleFactor;
+  WaveletFilterBankPointer        m_WaveletFilterBank;
+  bool                            m_StoreWaveletFilterBankPyramid;
+  std::vector<OutputImagePointer> m_WaveletFilterBankPyramid;
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
