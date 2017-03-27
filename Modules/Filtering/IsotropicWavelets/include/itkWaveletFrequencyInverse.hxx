@@ -23,6 +23,7 @@
 #include <algorithm>
 #include <itkMultiplyImageFilter.h>
 #include <itkAddImageFilter.h>
+#include <itkImageDuplicator.h>
 #include <itkFrequencyExpandImageFilter.h>
 #include <itkFrequencyExpandViaInverseFFTImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
@@ -35,8 +36,10 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::WaveletF
   , m_TotalInputs(0)
   , m_ScaleFactor(2)
   , m_ApplyReconstructionFactors(true)
+  , m_UseWaveletFilterBankPyramid(false)
 {
   this->SetNumberOfRequiredOutputs(1);
+  this->m_WaveletFilterBank = WaveletFilterBankType::New();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
@@ -272,79 +275,97 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   // Start with the approximation image (the smallest).
   InputImageConstPointer low_pass = this->GetInput(this->m_TotalInputs - 1);
 
-  typedef itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
-  typename CastFilterType::Pointer                              castFilter = CastFilterType::New();
-  castFilter->SetInput(low_pass);
-  castFilter->Update();
-  OutputImagePointer low_pass_per_level = castFilter->GetOutput();
+  typedef itk::ImageDuplicator<InputImageType> DuplicatorType;
+  typename DuplicatorType::Pointer             duplicator = DuplicatorType::New();
+  duplicator->SetInputImage(low_pass);
+  duplicator->Update();
+  InputImagePointer low_pass_per_level = duplicator->GetModifiableOutput();
 
-  typedef itk::MultiplyImageFilter<OutputImageType> MultiplyFilterType;
+  typedef itk::MultiplyImageFilter<InputImageType> MultiplyFilterType;
 
   double scaleFactor = static_cast<double>(this->m_ScaleFactor);
   for (int level = this->m_Levels - 1; level > -1; --level)
   {
     itkDebugMacro(<< "LEVEL: " << level);
     /******** Upsample LowPass ********/
-    // typedef itk::FrequencyExpandViaInverseFFTImageFilter<OutputImageType> ExpandFilterType;
-    typedef itk::FrequencyExpandImageFilter<OutputImageType> ExpandFilterType;
-    typename ExpandFilterType::Pointer                       expandFilter = ExpandFilterType::New();
+    // typedef itk::FrequencyExpandViaInverseFFTImageFilter<InputImageType> ExpandFilterType;
+    typedef itk::FrequencyExpandImageFilter<InputImageType> ExpandFilterType;
+    typename ExpandFilterType::Pointer                      expandFilter = ExpandFilterType::New();
     expandFilter->SetInput(low_pass_per_level);
     expandFilter->SetExpandFactors(this->m_ScaleFactor);
     expandFilter->Update();
-    low_pass_per_level = expandFilter->GetOutput();
-
-    /******* Calculate FilterBank with the right size per level. *****/
-    // TODO Save the FilterBank vector created in the forward wavelet and load it here to save compute it again.
     itkDebugMacro(<< "Low_pass_per_level: " << level << " Region:" << low_pass_per_level->GetLargestPossibleRegion());
-    typename WaveletFilterBankType::Pointer filterBank = WaveletFilterBankType::New();
-    filterBank->SetHighPassSubBands(this->m_HighPassSubBands);
-    filterBank->SetSize(low_pass_per_level->GetLargestPossibleRegion().GetSize());
-    filterBank->SetInverseBank(true);
-    filterBank->Update();
-
-    typedef itk::ChangeInformationImageFilter<OutputImageType> ChangeInformationFilterType;
-    typename ChangeInformationFilterType::Pointer changeWaveletInfoFilter = ChangeInformationFilterType::New();
-    // changeWaveletInfoFilter->SetInput(upsampleFilter->GetOutput());
-    changeWaveletInfoFilter->SetInput(filterBank->GetOutputLowPass());
-    changeWaveletInfoFilter->UseReferenceImageOn();
-    changeWaveletInfoFilter->SetReferenceImage(low_pass_per_level);
-    changeWaveletInfoFilter->ChangeDirectionOff();
-    changeWaveletInfoFilter->ChangeRegionOff();
-    changeWaveletInfoFilter->ChangeSpacingOn();
-    changeWaveletInfoFilter->ChangeOriginOn();
-    changeWaveletInfoFilter->Update();
 
     typename MultiplyFilterType::Pointer multiplyUpsampleCorrection = MultiplyFilterType::New();
-    multiplyUpsampleCorrection->SetInput1(low_pass_per_level);
+    multiplyUpsampleCorrection->SetInput1(expandFilter->GetOutput());
     double expUpsampleCorrection = static_cast<double>(ImageDimension);
     multiplyUpsampleCorrection->SetConstant(std::pow(scaleFactor, expUpsampleCorrection));
     multiplyUpsampleCorrection->InPlaceOn();
     multiplyUpsampleCorrection->Update();
+    low_pass_per_level = multiplyUpsampleCorrection->GetOutput();
+
+    /******* Calculate FilterBank with the right size per level. *****/
+    // TODO Save the FilterBank vector created in the forward wavelet and load it here to save compute it again.
+
+    InputImagePointer waveletLow;
+    if (!this->m_UseWaveletFilterBankPyramid)
+    {
+      this->m_WaveletFilterBank->SetHighPassSubBands(this->m_HighPassSubBands);
+      this->m_WaveletFilterBank->SetSize(low_pass_per_level->GetLargestPossibleRegion().GetSize());
+      this->m_WaveletFilterBank->SetInverseBank(true);
+      this->m_WaveletFilterBank->Modified();
+      this->m_WaveletFilterBank->UpdateLargestPossibleRegion();
+      // this->m_WaveletFilterBank->Update();
+      waveletLow = this->m_WaveletFilterBank->GetOutputLowPass();
+    }
+    else
+    {
+      waveletLow = this->m_WaveletFilterBankPyramid[level * (1 + this->m_HighPassSubBands)];
+      itkDebugMacro(<< "waveletLow: " << level << " Region:" << waveletLow->GetLargestPossibleRegion());
+    }
+
+    typedef itk::ChangeInformationImageFilter<InputImageType> ChangeInformationFilterType;
+    typename ChangeInformationFilterType::Pointer changeWaveletInfoFilter = ChangeInformationFilterType::New();
+    // changeWaveletInfoFilter->SetInput(upsampleFilter->GetOutput());
+    changeWaveletInfoFilter->SetInput(waveletLow);
+    changeWaveletInfoFilter->UseReferenceImageOn();
+    changeWaveletInfoFilter->SetReferenceImage(low_pass_per_level);
+    changeWaveletInfoFilter->ChangeDirectionOff();
+    changeWaveletInfoFilter->ChangeRegionOn();
+    changeWaveletInfoFilter->ChangeSpacingOn();
+    changeWaveletInfoFilter->ChangeOriginOn();
+    changeWaveletInfoFilter->Update();
 
     /******* LowPass band *****/
     typename MultiplyFilterType::Pointer multiplyLowPass = MultiplyFilterType::New();
     multiplyLowPass->SetInput1(changeWaveletInfoFilter->GetOutput());
-    multiplyLowPass->SetInput2(multiplyUpsampleCorrection->GetOutput());
-    multiplyLowPass->InPlaceOn();
+    multiplyLowPass->SetInput2(low_pass_per_level);
     multiplyLowPass->Update();
     low_pass_per_level = multiplyLowPass->GetOutput();
 
     /******* HighPass sub-bands *****/
-    std::vector<OutputImagePointer> highPassMasks = filterBank->GetOutputsHighPassBands();
+    std::vector<InputImagePointer> highPassMasks;
+    if (!this->m_UseWaveletFilterBankPyramid)
+    {
+      highPassMasks = this->m_WaveletFilterBank->GetOutputsHighPassBands();
+    }
+    else
+    {
+      highPassMasks.insert(highPassMasks.begin(),
+                           this->m_WaveletFilterBankPyramid.begin() + 1 + level * (1 + this->m_HighPassSubBands),
+                           this->m_WaveletFilterBankPyramid.begin() + this->m_HighPassSubBands + 1 +
+                             level * (1 + this->m_HighPassSubBands));
+    }
     // Store HighBands steps into high_pass_reconstruction image:
-    OutputImagePointer reconstructed = OutputImageType::New();
+    InputImagePointer reconstructed = InputImageType::New();
     reconstructed->SetRegions(low_pass_per_level->GetLargestPossibleRegion());
     reconstructed->Allocate();
     reconstructed->FillBuffer(0);
-    OutputImagePointer bandInputImage;
+    InputImagePointer bandInputImage;
     for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
     {
       unsigned int nInput = level * this->m_HighPassSubBands + band;
-
-      typename CastFilterType::Pointer castBandFilter = CastFilterType::New();
-      castBandFilter->SetInput(this->GetInput(nInput));
-      castBandFilter->Update();
-      bandInputImage = castBandFilter->GetOutput();
+      bandInputImage = const_cast<InputImageType *>(this->GetInput(nInput));
       reconstructed->SetSpacing(bandInputImage->GetSpacing());
       reconstructed->SetOrigin(bandInputImage->GetOrigin());
 
@@ -356,15 +377,14 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       changeWaveletHighInfoFilter->ChangeRegionOff();
       changeWaveletHighInfoFilter->ChangeSpacingOn();
       changeWaveletHighInfoFilter->ChangeOriginOn();
-      changeWaveletHighInfoFilter->Update();
+      changeWaveletHighInfoFilter->UpdateLargestPossibleRegion();
       highPassMasks[band] = changeWaveletHighInfoFilter->GetOutput();
       highPassMasks[band]->DisconnectPipeline();
 
       typename MultiplyFilterType::Pointer multiplyHighBandFilter = MultiplyFilterType::New();
       multiplyHighBandFilter->SetInput1(highPassMasks[band]);
       multiplyHighBandFilter->SetInput2(bandInputImage);
-      multiplyHighBandFilter->InPlaceOn();
-      multiplyHighBandFilter->Update();
+      multiplyHighBandFilter->UpdateLargestPossibleRegion();
 
       /******* Band dilation factor for HighPass bands *****/
       //  2^(1/#bands) instead of Dyadic dilations.
@@ -381,8 +401,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
       multiplyByReconstructionBandFactor->Update();
 
       /******* Add high bands *****/
-      typedef itk::AddImageFilter<OutputImageType> AddFilterType;
-      typename AddFilterType::Pointer              addFilter = AddFilterType::New();
+      typedef itk::AddImageFilter<InputImageType> AddFilterType;
+      typename AddFilterType::Pointer             addFilter = AddFilterType::New();
       addFilter->SetInput1(reconstructed);
       addFilter->SetInput2(multiplyByReconstructionBandFactor->GetOutput());
       addFilter->InPlaceOn();
@@ -393,22 +413,25 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     }
 
     /******* Add low pass to the sum of high pass bands. *****/
-    typedef itk::AddImageFilter<OutputImageType> AddFilterType;
-    typename AddFilterType::Pointer              addHighAndLow = AddFilterType::New();
+    typedef itk::AddImageFilter<InputImageType> AddFilterType;
+    typename AddFilterType::Pointer             addHighAndLow = AddFilterType::New();
     addHighAndLow->SetInput1(reconstructed.GetPointer()); // HighBands
     // addHighAndLow->SetInput2(multiplyLowByReconstructLevelFactor->GetOutput());
     addHighAndLow->SetInput2(low_pass_per_level);
     addHighAndLow->InPlaceOn();
+    addHighAndLow->Update();
 
     if (level == 0 /* Last level to compute */) // Graft Output
     {
-      addHighAndLow->GraftOutput(this->GetOutput());
-      addHighAndLow->Update();
-      this->GraftOutput(addHighAndLow->GetOutput());
+      typedef itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
+      typename CastFilterType::Pointer                              castFilter = CastFilterType::New();
+      castFilter->SetInput(addHighAndLow->GetOutput());
+      castFilter->GraftOutput(this->GetOutput());
+      castFilter->Update();
+      this->GraftOutput(castFilter->GetOutput());
     }
     else // Update low_pass
     {
-      addHighAndLow->Update();
       low_pass_per_level = addHighAndLow->GetOutput();
     }
   }

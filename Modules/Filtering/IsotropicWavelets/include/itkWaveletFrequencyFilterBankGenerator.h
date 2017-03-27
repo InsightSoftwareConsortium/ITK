@@ -70,21 +70,24 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** WaveletFunction types */
   typedef TWaveletFunction                                WaveletFunctionType;
+  typedef typename WaveletFunctionType::Pointer           WaveletFunctionPointer;
   typedef typename WaveletFunctionType::FunctionValueType FunctionValueType;
 
-  /** Dimension */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
-  /** Getters/Setters */
+  /** Number of M-Bands decomposition of the high pass filters */
   itkGetMacro(HighPassSubBands, unsigned int);
   void
   SetHighPassSubBands(unsigned int k);
 
-  itkGetMacro(ScaleFactor, unsigned int);
-  itkSetMacro(ScaleFactor, unsigned int);
+  /** Flag to call generate inverse(reconstruction) filter bank instead
+   * of forward (analysis) */
   itkGetMacro(InverseBank, bool);
   itkSetMacro(InverseBank, bool);
   itkBooleanMacro(InverseBank);
+
+  /** Get pointer to the instance of the wavelet function in order to access and change wavelet parameters */
+  itkGetModifiableObjectMacro(WaveletFunction, WaveletFunctionType);
 
   /** Get Outputs *****/
   OutputImagePointer
@@ -116,23 +119,15 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /************ GenerateData *************/
-  /** Generate data redefinition */
   virtual void
   GenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyFilterBankGenerator);
 
-  /************ Data Members *************/
-  /** Number of M-Bands decomposition of the high pass filters */
-  unsigned int m_HighPassSubBands;
-  /** Scale Factor, defaults to 1, used optionally to dilate the filter bank in
-   * a multiresolution (multi-level) analysis. */
-  unsigned int m_ScaleFactor;
-  /** Flag to call generate inverse(reconstruction) filter bank instead
-   * of forward (analysis) */
-  bool m_InverseBank;
+  unsigned int           m_HighPassSubBands;
+  bool                   m_InverseBank;
+  WaveletFunctionPointer m_WaveletFunction;
 }; // end of class
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

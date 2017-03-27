@@ -85,6 +85,8 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
   forwardWavelet->SetHighPassSubBands(highSubBands);
   forwardWavelet->SetLevels(levels);
   forwardWavelet->SetInput(fftFilter->GetOutput());
+  typename WaveletFunctionType::Pointer waveletInstance = forwardWavelet->GetModifiableWaveletFunction();
+  waveletInstance->Print(std::cout);
   forwardWavelet->Update();
 
   // Regression tests
