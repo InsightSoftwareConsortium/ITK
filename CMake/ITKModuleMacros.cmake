@@ -210,43 +210,46 @@ macro(itk_module_impl)
 
 
   if( ITK_MODULE_${itk-module}_ENABLE_SHARED )
-    if(ITK_SOURCE_DIR)
-      set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
-    else()
-      set(_export_header_file "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h")
-    endif()
-
-    # Generate the export macro header for symbol visibility/Windows DLL declspec
-    generate_export_header(${itk-module}
-      EXPORT_FILE_NAME ${_export_header_file}
-      EXPORT_MACRO_NAME ${itk-module}_EXPORT
-      TEMPLATE_EXPORT_MACRO_NAME ${itk-module}_TEMPLATE_EXPORT
-      NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
-      STATIC_DEFINE ITK_STATIC )
-    install(FILES
-      ${_export_header_file}
-      DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
-      COMPONENT Development
-      )
-
-    if (BUILD_SHARED_LIBS)
-      # export flags are only added when building shared libs, they cause
-      # mismatched visibility warnings when building statically.
-      if(CMAKE_VERSION VERSION_LESS 2.8.12)
-        # future DEPRECATION notice from cmake:
-        #      "The add_compiler_export_flags function is obsolete.
-        #       Use the CXX_VISIBILITY_PRESET and VISIBILITY_INLINES_HIDDEN
-        #       target properties instead."
-        add_compiler_export_flags(my_abi_flags)
-        set_property(TARGET ${itk-module} APPEND
-          PROPERTY COMPILE_FLAGS "${my_abi_flags}")
+    # Target ${itk-module} may not exist if the module only contains header files
+    if(TARGET ${itk-module})
+      if(ITK_SOURCE_DIR)
+        set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
       else()
-        if (USE_COMPILER_HIDDEN_VISIBILITY)
-          # Prefer to use target properties supported by newer cmake
-          set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
-          set_target_properties(${itk-module} PROPERTIES C_VISIBILITY_PRESET hidden)
-          set_target_properties(${itk-module} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+        set(_export_header_file "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h")
+      endif()
+
+      # Generate the export macro header for symbol visibility/Windows DLL declspec
+      generate_export_header(${itk-module}
+        EXPORT_FILE_NAME ${_export_header_file}
+        EXPORT_MACRO_NAME ${itk-module}_EXPORT
+        TEMPLATE_EXPORT_MACRO_NAME ${itk-module}_TEMPLATE_EXPORT
+        NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
+        STATIC_DEFINE ITK_STATIC )
+      install(FILES
+        ${_export_header_file}
+        DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
+        COMPONENT Development
+        )
+
+      if (BUILD_SHARED_LIBS)
+        # export flags are only added when building shared libs, they cause
+        # mismatched visibility warnings when building statically.
+        if(CMAKE_VERSION VERSION_LESS 2.8.12)
+          # future DEPRECATION notice from cmake:
+          #      "The add_compiler_export_flags function is obsolete.
+          #       Use the CXX_VISIBILITY_PRESET and VISIBILITY_INLINES_HIDDEN
+          #       target properties instead."
+          add_compiler_export_flags(my_abi_flags)
+          set_property(TARGET ${itk-module} APPEND
+            PROPERTY COMPILE_FLAGS "${my_abi_flags}")
+        else()
+          if (USE_COMPILER_HIDDEN_VISIBILITY)
+            # Prefer to use target properties supported by newer cmake
+            set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+            set_target_properties(${itk-module} PROPERTIES C_VISIBILITY_PRESET hidden)
+            set_target_properties(${itk-module} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
           endif()
+        endif()
       endif()
     endif()
   endif()
