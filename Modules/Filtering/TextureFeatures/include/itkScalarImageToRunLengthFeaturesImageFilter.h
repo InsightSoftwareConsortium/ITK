@@ -149,6 +149,13 @@ public:
   itkSetMacro(FastCalculations, bool);
   itkBooleanMacro(FastCalculations);
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro(InputPixelTypeCheck, (Concept::IsInteger<typename InputImageType::PixelType>));
+  itkConceptMacro(OutputPixelTypeCheck, (Concept::IsFloatingPoint<typename OutputImageType::PixelType>));
+  // End concept checking
+#endif
+
 protected:
   ScalarImageToRunLengthFeaturesImageFilter();
   virtual ~ScalarImageToRunLengthFeaturesImageFilter() {}
