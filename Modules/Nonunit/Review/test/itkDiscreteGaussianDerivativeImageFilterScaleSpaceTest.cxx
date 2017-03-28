@@ -24,25 +24,22 @@ namespace
 
 bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pixelSpacing = 1.0 )
 {
-  // for an image f(x) = sin ( w*x ), where w is a measure of
+  // For an image f(x) = sin ( w*x ), where w is a measure of
   // frequency, this method verifies that the normalized scale-scale
   // is with in reasonable tolerance of the theoretical value.
 
   const unsigned int ImageDimension = 1;
   const unsigned int imageSize = 1024;
-  const double       tol = std::pow( .001, 1.0 / order ); // this is
-                                                         // still
-                                                         // larger
-                                                         // then it
-                                                         // should be!
+
+  const double tolerance1 = std::pow( .001, 1.0 / order ); // still larger than it should be!
 
   double frequency = frequencyPerImage * 2.0 * itk::Math::pi / ( imageSize * pixelSpacing );
 
   // The theoretical maximal value should occur at this sigma
-  double sigma_max = std::sqrt( double( order ) ) / frequency;
+  double sigmaMax = std::sqrt( double( order ) ) / frequency;
 
-  // the theoreical maximal value of the derivative, obtained at sigma_max
-  double expected_max = std::pow( double(order), order *0.5 ) * std::exp( -0.5 * order );
+  // The theoreical maximal value of the derivative, obtained at sigmaMax
+  double expectedMax = std::pow( double(order), order *0.5 ) * std::exp( -0.5 * order );
 
   typedef itk::Image< double, ImageDimension > ImageType;
   ImageType::Pointer image = ImageType::New();
@@ -60,24 +57,24 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
 
   itk::ImageRegionIterator< ImageType > iter( image, image->GetBufferedRegion() );
 
-  // create sine wave image
+  // Create a sine wave image
   while( !iter.IsAtEnd() )
     {
     ImageType::PointType p;
     image->TransformIndexToPhysicalPoint( iter.GetIndex(), p );
     const double x = p[0];
-    double       value = std::sin( x * frequency );
+    double value = std::sin( x * frequency );
 
     iter.Set( value );
     ++iter;
     }
 
-  std::cout << "variance: " << itk::Math::sqr( sigma_max ) << std::endl;
-
-  typedef itk::DiscreteGaussianDerivativeImageFilter<ImageType, ImageType> GaussianFilterType;
+  typedef itk::DiscreteGaussianDerivativeImageFilter< ImageType, ImageType >
+    GaussianFilterType;
   GaussianFilterType::Pointer filter = GaussianFilterType::New();
+
   filter->SetInput( image );
-  filter->SetVariance( itk::Math::sqr( sigma_max ) );
+  filter->SetVariance( itk::Math::sqr( sigmaMax ) );
   filter->SetOrder( order );
   filter->SetUseImageSpacing( true );
   filter->SetMaximumError( .0005 );
@@ -87,8 +84,8 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
   ImageType::Pointer outputImage = filter->GetOutput();
   outputImage->Update();
 
-  // maximal value of the first derivative
-  double maxLx = itk::NumericTraits<double>::NonpositiveMin();
+  // Maximal value of the first derivative
+  double maxLx = itk::NumericTraits< double >::NonpositiveMin();
 
   itk::ImageRegionConstIterator< ImageType > oiter( outputImage, outputImage->GetBufferedRegion() );
 
@@ -98,81 +95,82 @@ bool NormalizeSineWave( double frequencyPerImage, unsigned int order, double pix
     ++oiter;
     }
 
-  // check if the maximal is obtained with a little bit smaller Gaussian
-  filter->SetVariance( itk::Math::sqr( sigma_max*0.95 ) );
+  // Check if the maximal is obtained with a little bit smaller Gaussian
+  filter->SetVariance( itk::Math::sqr( sigmaMax * 0.95 ) );
   outputImage->Update();
   oiter.GoToBegin();
 
   while ( !oiter.IsAtEnd() )
     {
     if ( maxLx < oiter.Get() &&
-         std::abs( maxLx - oiter.Get() ) > tol )
+      !itk::Math::FloatAlmostEqual( maxLx, oiter.Get(), 10, tolerance1 ) )
       {
-      std::cout << "FAIL: For period: " << 1.0/frequency
-                << " maxLx: " << maxLx
-                << " tolerance exceeded by: "
-                << std::abs( maxLx - oiter.Get() ) << std::endl;
+      std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance1 ) ) ) );
+      std::cout << "Error at period: " << 1.0 / frequency << std::endl;
+      std::cout << "Expected maximal value: " << maxLx << ", differs from: "
+        << oiter.Get() << " by more than " << tolerance1 << std::endl;
       return false;
       }
     ++oiter;
     }
 
-  // check if the maximal is obtained with a little bit bigger Gaussian
-  filter->SetVariance( itk::Math::sqr( sigma_max*1.05 ) );
+  // Check if the maximumal value is obtained with a little bit bigger Gaussian
+  filter->SetVariance( itk::Math::sqr( sigmaMax * 1.05 ) );
   outputImage->Update();
   oiter.GoToBegin();
 
   while ( !oiter.IsAtEnd() )
     {
     if ( maxLx < oiter.Get() &&
-         std::abs( maxLx - oiter.Get() ) > tol )
+      !itk::Math::FloatAlmostEqual( maxLx, oiter.Get(), 10, tolerance1 ) )
       {
-      std::cout << "FAIL:  For period: " << 1.0/frequency
-                << " maxLx: " << maxLx
-                << " tolerance exceeded by: "
-                << std::abs( maxLx - oiter.Get() ) << std::endl;
+      std::cout.precision( static_cast< int >( itk::Math::abs( std::log10( tolerance1 ) ) ) );
+      std::cout << "Error at period: " << 1.0 / frequency << std::endl;
+      std::cout << "Expected maximal value: " << maxLx << ", differs from: "
+        << oiter.Get() << " by more than " << tolerance1 << std::endl;
       return false;
       }
     ++oiter;
     }
 
-  std::cout << "f: " << frequencyPerImage << " max: " << maxLx
-            << " expected max: " << expected_max << std::endl;
-
-  if (  std::abs( maxLx - expected_max ) > .01 )
+  const double tolerance2 = 0.01;
+  if ( !itk::Math::FloatAlmostEqual( maxLx, expectedMax, 10, tolerance2 ) )
     {
-    std::cout << "FAIL: tolerance of expected max exceeded!" << std::endl;
+    std::cout << "Error at frequency: " << frequencyPerImage << std::endl;
+    std::cout << "Expected maximal value: " << expectedMax << ", differs from: "
+      << maxLx << " by more than " << tolerance2 << std::endl;
+    return false;
     }
 
   return true;
-
 }
 
 }
 
-int itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest(int, char* [] )
+int itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest( int, char* [] )
 {
   bool pass = true;
 
-  std::cout << " Testing First Order Gaussian" << std::endl;
+  // Testing first order Gaussian
   pass  &= NormalizeSineWave( 16, 1 );
   pass  &= NormalizeSineWave( 32, 1 );
   pass  &= NormalizeSineWave( 64, 1 );
 
-  std::cout << " Testing Second Order Gaussian" << std::endl;
+  // Testing second order Gaussian
   pass  &= NormalizeSineWave( 16, 2 );
   pass  &= NormalizeSineWave( 32, 2 );
   pass  &= NormalizeSineWave( 64, 2 );
 
-  std::cout << " Testing Spacing Invariance" << std::endl;
+  // Testing spacing invariance
   pass  &= NormalizeSineWave( 16, 2, 0.01 );
   pass  &= NormalizeSineWave( 16, 2, 100 );
 
   if ( !pass )
     {
-    std::cout << "Test Failed!" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

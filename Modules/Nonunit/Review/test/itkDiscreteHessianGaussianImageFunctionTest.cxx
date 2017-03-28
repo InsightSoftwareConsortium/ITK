@@ -19,42 +19,84 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkDiscreteHessianGaussianImageFunction.h"
+#include "itkMath.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkTestingMacros.h"
+
 
 template < int VDimension >
 int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
 {
-
-  // Verify the number of parameters in the command line
-  if( argc < 4 )
-  {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputFileName outputFileName sigma (maximum_error) (maximum_kernel_width)" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  // Define the dimension of the images
   const unsigned int Dimension = VDimension;
-  typedef float                             PixelType;
-  typedef itk::Image<PixelType, Dimension>  ImageType;
+
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
   // Read input
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  try
+
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
+
+  // Create the itk::DiscreteHessianGaussianImageFunction
+  typedef itk::DiscreteHessianGaussianImageFunction< ImageType, PixelType >
+    HessianGaussianImageFunctionType;
+  typename HessianGaussianImageFunctionType::TensorType hessian;
+  typename HessianGaussianImageFunctionType::TensorType::EigenValuesArrayType eigenValues;
+
+  typename HessianGaussianImageFunctionType::Pointer function =
+    HessianGaussianImageFunctionType::New();
+
+
+  function->SetInputImage( reader->GetOutput() );
+
+
+  // Set up operator parameters
+  double sigma = atof( argv[3] );
+
+  double maxError = 0.001;
+  unsigned int maxKernelWidth = 100;
+  if( argc > 4 )
     {
-    reader->Update();
+    maxError = atof( argv[4] );
     }
-  catch ( itk::ExceptionObject &err)
+  if( argc > 5 )
     {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
+    maxKernelWidth = atoi( argv[5] );
     }
 
-  // Create images for storing result
+
+  typename HessianGaussianImageFunctionType::VarianceArrayType variance;
+  variance.Fill( sigma * sigma );
+
+  function->SetVariance( variance );
+  TEST_SET_GET_VALUE( variance, function->GetVariance() );
+
+  function->SetMaximumError( maxError );
+  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
+
+  function->SetMaximumKernelWidth( maxKernelWidth );
+  TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
+
+  bool normalizeAcrossScale = true;
+  TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
+
+  bool useImageSpacing = true;
+  TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
+
+  typename HessianGaussianImageFunctionType::InterpolationModeType interpolationMode =
+    HessianGaussianImageFunctionType::NearestNeighbourInterpolation;
+
+  function->SetInterpolationMode( interpolationMode );
+  TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
+
+
+  function->Initialize();
+
+
+  // Create image for storing result
   typedef typename ImageType::Pointer ImageTypePointer;
 
   ImageTypePointer output = ImageType::New();
@@ -67,43 +109,12 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
   output->Allocate();
   output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
 
-  // Setup operator parameters
-  double variance = atof( argv[3] );
-  variance *= variance;
-
-  double maxError = 0.001;
-  unsigned int maxKernelWidth = 100;
-  if( argc == 5 )
-    {
-    maxError = atof( argv[4] );
-    }
-  else if( argc > 5 )
-    {
-    maxError = atof( argv[4] );
-    maxKernelWidth = atoi( argv[5] );
-    }
-
-  // Create function
-  typedef itk::DiscreteHessianGaussianImageFunction< ImageType, PixelType >
-    HessianGaussianImageFunctionType;
-  typename HessianGaussianImageFunctionType::TensorType hessian;
-  typename HessianGaussianImageFunctionType::TensorType::EigenValuesArrayType eigenValues;
-  typename HessianGaussianImageFunctionType::Pointer function =
-    HessianGaussianImageFunctionType::New();
-  function->SetInputImage( reader->GetOutput() );
-  function->SetMaximumError( maxError );
-  function->SetMaximumKernelWidth( maxKernelWidth );
-  function->SetVariance( variance );
-  function->SetNormalizeAcrossScale( true );
-  function->SetUseImageSpacing( true );
-  function->SetInterpolationMode( HessianGaussianImageFunctionType::NearestNeighbourInterpolation );
-  function->Initialize( );
 
   // Step over input and output images
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
   typedef itk::ImageRegionIterator< ImageType >      IteratorType;
 
-  ConstIteratorType it ( reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
+  ConstIteratorType it( reader->GetOutput(), reader->GetOutput()->GetRequestedRegion() );
   it.GoToBegin();
   IteratorType outIter( output, output->GetRequestedRegion() );
 
@@ -146,125 +157,58 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     ++pixelNumber;
     }
 
-  // Write outputs
-  typedef itk::ImageFileWriter< ImageType >        WriterType;
-
+  // Write the output image
+  typedef itk::ImageFileWriter< ImageType > WriterType;
   typename WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[2] );
+  writer->SetInput( output );
 
-  try
-    {
-    // Write
-    writer->SetFileName( argv[2] );
-    writer->SetInput( output );
-    writer->Update();
-    std::cout << "Writing " << argv[2]<< std::endl;
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  const bool trueValue = true;
-  const bool falseValue = false;
-
-  // Test some functions
-  typedef typename HessianGaussianImageFunctionType::VarianceArrayType VarianceArrayType;
-  VarianceArrayType varReturned = function->GetVariance();
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
-    if ( varReturned[ i ] != variance )
-    {
-      std::cout << "GetVariance()[" << i << "] failed. Expected: "
-        << variance
-        << " but got: "
-        << varReturned[ i ] << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
 
   // Check that VarianceArrayType can be changed
+  typedef typename HessianGaussianImageFunctionType::VarianceArrayType VarianceArrayType;
+  VarianceArrayType varReturned = function->GetVariance();
+
   VarianceArrayType varChanged = varReturned;
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
+  for( unsigned int i = 0; i < varChanged.Size(); ++i )
+    {
     varChanged[i] *= 2.0;
-  }
+    }
   function->SetVariance( varChanged );
   varReturned = function->GetVariance();
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
-    if ( varReturned[ i ] != varChanged[i] )
+  for( unsigned int i = 0; i < Dimension; ++i )
     {
-      std::cout << "GetVariance()[" << i << "] failed. Expected: "
-        << varChanged[i]
-        << " but got: "
-        << varReturned[ i ] << std::endl;
+    if( varReturned[i] != varChanged[i] )
+      {
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "Error in GetVariance() at index [" << i << "]" << std::endl;
+      std::cout << "Expected: " << varChanged[i] << ", but got: "
+        << varReturned[i] << std::endl;
       return EXIT_FAILURE;
+      }
     }
-  }
 
-  const double pivalue = 3.1415;
-  double pivalues[Dimension];
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
-    pivalues[i] = pivalue;
-  }
-  function->SetVariance( pivalues );
+
+  double piValues[Dimension];
+  for( unsigned int i = 0; i < Dimension; ++i )
+    {
+    piValues[i] = itk::Math::pi;
+    }
+  function->SetVariance( piValues );
   varReturned = function->GetVariance();
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
-    if ( varReturned[ i ] != pivalue )
+  for( unsigned int i = 0; i < Dimension; ++i )
     {
-      std::cout << "GetVariance()[" << i << "] failed. Expected: "
-        << pivalue
-        << " but got: "
-        << varReturned[ i ] << std::endl;
+    if( itk::Math::NotAlmostEquals( varReturned[i], itk::Math::pi ) )
+      {
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "Error in GetVariance() at index [" << i << "]" << std::endl;
+      std::cout << "Expected: " << itk::Math::pi << ", but got: "
+        << varReturned[i] << std::endl;
       return EXIT_FAILURE;
+      }
     }
-  }
 
-
-  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
-
-  function->NormalizeAcrossScaleOn();
-  TEST_SET_GET_VALUE( trueValue, function->GetNormalizeAcrossScale() );
-  function->NormalizeAcrossScaleOff();
-  TEST_SET_GET_VALUE( falseValue, function->GetNormalizeAcrossScale() );
-  function->SetNormalizeAcrossScale(trueValue);
-  TEST_SET_GET_VALUE( trueValue, function->GetNormalizeAcrossScale() );
-  function->SetNormalizeAcrossScale(falseValue);
-  TEST_SET_GET_VALUE( falseValue, function->GetNormalizeAcrossScale() );
-
-  function->UseImageSpacingOn();
-  TEST_SET_GET_VALUE( trueValue, function->GetUseImageSpacing() );
-  function->UseImageSpacingOff();
-  TEST_SET_GET_VALUE( falseValue, function->GetUseImageSpacing() );
-  function->SetUseImageSpacing(trueValue);
-  TEST_SET_GET_VALUE( trueValue, function->GetUseImageSpacing() );
-  function->SetUseImageSpacing(falseValue);
-  TEST_SET_GET_VALUE( falseValue, function->GetUseImageSpacing() );
-
-
-  if ( function->GetMaximumKernelWidth() != maxKernelWidth )
-  {
-    std::cout << "GetMaximumKernelWidth failed. Expected: "
-      << maxKernelWidth
-      << " but got: "
-      << function->GetMaximumKernelWidth() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetInterpolationMode() != HessianGaussianImageFunctionType::NearestNeighbourInterpolation )
-  {
-    std::cout << "GetInterpolationMode failed. Expected: "
-      << HessianGaussianImageFunctionType::NearestNeighbourInterpolation
-      << " but got: "
-      << function->GetInterpolationMode() << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  // Call PrintSelf.
-  function->Print( std::cout );
 
   // Exercise another interpolation mode: LinearInterpolation
   {
@@ -274,26 +218,61 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
   typename ImageType::SizeType size = region.GetSize();
   typename ImageType::IndexType index = region.GetIndex();
   // Aim for the pixel at the center of the image
-  for( unsigned int i=0; i<Dimension; ++i )
+  for( unsigned int i = 0; i < Dimension; ++i )
     {
     index[i] += size[i] / 2;
     }
+
   hessian = function->EvaluateAtIndex( index );
   inputImage->TransformIndexToPhysicalPoint( index, point );
   hessian = function->Evaluate( point );
 
   // Exercise the fractional computation of the linear interpolator
-  for( unsigned int i=0; i<Dimension; ++i )
+  for( unsigned int i = 0; i < Dimension; ++i )
     {
     cindex[i] = static_cast<double>( index[i] ) + 0.5;
     }
+
   hessian = function->EvaluateAtContinuousIndex( cindex );
   }
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
 
-int itkDiscreteHessianGaussianImageFunctionTest(int argc, char* argv[] )
+int itkDiscreteHessianGaussianImageFunctionTest( int argc, char* argv[] )
 {
-  return itkDiscreteHessianGaussianImageFunctionTestND< 3 >( argc, argv );
+  if( argc < 4 )
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << "inputFileName"
+        " outputFileName"
+        " sigma"
+        " [maximumError]"
+        " [maximumKernelWidth]" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  const unsigned int Dimension = 3;
+
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+
+  typedef itk::DiscreteHessianGaussianImageFunction< ImageType, PixelType >
+    HessianGaussianImageFunctionType;
+  HessianGaussianImageFunctionType::Pointer function =
+    HessianGaussianImageFunctionType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( function,
+    DiscreteHessianGaussianImageFunction, ImageFunction );
+
+
+  return itkDiscreteHessianGaussianImageFunctionTestND< Dimension >( argc, argv );
 }

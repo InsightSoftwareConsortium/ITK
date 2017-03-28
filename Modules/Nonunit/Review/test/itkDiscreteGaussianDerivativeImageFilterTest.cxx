@@ -15,109 +15,136 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-// Author : Ivan Macia (imacia@vicomtech.org)
-// Date   : 02/01/2009
-// VICOMTech, Spain
-// http://www.vicomtech.org
-// Description : calculates the gaussian derivatives at non-zero
-// points of a gaussian input image. For derivative calculation the class
-// itkDiscreteGaussianDerivativeImageFilter is used. This example operates on 2D images.
-
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkDiscreteGaussianDerivativeImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 
+/** Calculate the Gaussian derivatives at non-zero points of a Gaussian
+ * input image. For derivative calculation the class
+ * itkDiscreteGaussianDerivativeImageFilter is used.
+ * This example operates on 2D images.
+*/
 int itkDiscreteGaussianDerivativeImageFilterTest( int argc, char* argv[] )
 {
-  // Verify the number of parameters in the command line
   if( argc < 6 )
     {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputFileName outputFileName orderX orderY sigma (maximum_error) (maximum_kernel_width)" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << "inputFileName"
+        " outputFileName"
+        " orderX"
+        " orderY"
+        " sigma"
+        " [maximumError]"
+        " [maximumKernelWidth]" << std::endl;
     return EXIT_FAILURE;
     }
 
   const unsigned int Dimension = 2;
-  //const unsigned int Dimension = 3;
-  typedef   float             PixelType;
-  typedef   unsigned short    OutputPixelType;
 
-  typedef   itk::Image<PixelType, Dimension>          ImageType;
-  typedef   itk::Image<OutputPixelType, Dimension>    OutputImageType;
+  typedef float           PixelType;
+  typedef unsigned short  OutputPixelType;
 
-  typedef   itk::ImageFileReader< ImageType >     ReaderType;
+  typedef itk::Image< PixelType, Dimension >        ImageType;
+  typedef itk::Image< OutputPixelType, Dimension >  OutputImageType;
+
+  typedef itk::ImageFileReader< ImageType > ReaderType;
 
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
 
-  try
-    {
-    reader->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
 
-  typedef   itk::DiscreteGaussianDerivativeImageFilter< ImageType, ImageType >   DerivativeFilterType;
+
+  typedef itk::DiscreteGaussianDerivativeImageFilter< ImageType, ImageType >
+    DerivativeFilterType;
   DerivativeFilterType::Pointer derivativeFilter = DerivativeFilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( derivativeFilter,
+    DiscreteGaussianDerivativeImageFilter, ImageToImageFilter );
+
+
+  itk::SimpleFilterWatcher watcher( derivativeFilter,
+    "DiscreteGaussianDerivativeImageFilter" );
+
   derivativeFilter->SetInput( reader->GetOutput() );
 
-  // Now proceed to apply the gaussian derivative filter in both directions
-
-  double maxError = 0.001;
-  unsigned int maxKernelWidth = 100;
-
-  if( argc >= 7 )
-    {
-    maxError = atof( argv[6] );
-    }
-  else if( argc >= 8 )
-    {
-    maxError = atof( argv[6] );
-    maxKernelWidth = atoi( argv[7] );
-    }
+  // Now proceed to apply the Gaussian derivative filter in both directions
 
   DerivativeFilterType::OrderArrayType order;
   order[0] = atoi( argv[3] );
   order[1] = atoi( argv[4] );
 
-  double variance = atof( argv[5] );
-  variance *= variance;
-
-  derivativeFilter->SetMaximumError( maxError );
-  derivativeFilter->SetMaximumKernelWidth( maxKernelWidth );
-  derivativeFilter->SetVariance( variance );
   derivativeFilter->SetOrder( order );
-  itk::SimpleFilterWatcher watcher(derivativeFilter, "derivativeFilter");
+  TEST_SET_GET_VALUE( order, derivativeFilter->GetOrder() );
 
-  typedef   itk::RescaleIntensityImageFilter< ImageType, OutputImageType >
+  double sigma = atof( argv[5] );
+
+  DerivativeFilterType::ArrayType::ValueType maxErrorVal = 0.001;
+  int maxKernelWidth = 100;
+
+  if( argc > 7 )
+    {
+    maxErrorVal = static_cast< DerivativeFilterType::ArrayType::ValueType >(
+      atof( argv[6] ) );
+    }
+  else if( argc > 8 )
+    {
+    maxKernelWidth = atoi( argv[7] );
+    }
+
+  DerivativeFilterType::ArrayType variance;
+  variance.Fill( sigma * sigma );
+
+  derivativeFilter->SetVariance( variance );
+  TEST_SET_GET_VALUE( variance, derivativeFilter->GetVariance() );
+
+  DerivativeFilterType::ArrayType maxError;
+  maxError.Fill( maxErrorVal );
+
+  derivativeFilter->SetMaximumError( maxErrorVal );
+  TEST_SET_GET_VALUE( maxError, derivativeFilter->GetMaximumError() );
+
+  derivativeFilter->SetMaximumKernelWidth( maxKernelWidth );
+  TEST_SET_GET_VALUE( maxKernelWidth, derivativeFilter->GetMaximumKernelWidth() );
+
+  bool useImageSpacing = true;
+  TEST_SET_GET_BOOLEAN( derivativeFilter, UseImageSpacing, useImageSpacing );
+
+  bool normalizeAcrossScale = false;
+  TEST_SET_GET_BOOLEAN( derivativeFilter, NormalizeAcrossScale, normalizeAcrossScale );
+
+  unsigned int internalNumberOfStreamDivisions =
+    DerivativeFilterType::InputImageType::GetImageDimension() *
+    DerivativeFilterType::InputImageType::GetImageDimension();
+  derivativeFilter->SetInternalNumberOfStreamDivisions(
+    internalNumberOfStreamDivisions );
+  TEST_SET_GET_VALUE( internalNumberOfStreamDivisions,
+    derivativeFilter->GetInternalNumberOfStreamDivisions() );
+
+
+  typedef itk::RescaleIntensityImageFilter< ImageType, OutputImageType >
     RescaleFilterType;
   RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
   rescaler->SetInput( derivativeFilter->GetOutput() );
 
-  typedef   itk::ImageFileWriter< OutputImageType >   WriterType;
+
+  // Write the output image
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
   WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );
 
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

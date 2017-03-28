@@ -20,39 +20,95 @@
 #include "itkImageFileWriter.h"
 #include "itkDiscreteGaussianDerivativeImageFunction.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
+
 
 template < int VDimension >
 int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
 {
-
-  // Verify the number of parameters in the command line
-  if( argc < 5 )
-    {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputFileName outputFileName order sigma (maximum_error) (maximum_kernel_width)" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  // Define the dimension of the images
   const unsigned int Dimension = VDimension;
-  typedef float                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
 
-  // Read input
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+  // Read the input image
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  try
-    {
-    reader->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
   ImageType *inputImage = reader->GetOutput();
+
+
+  // Create the itk::DiscreteGaussianDerivativeImageFunction
+  typedef itk::DiscreteGaussianDerivativeImageFunction< ImageType, PixelType >
+    GaussianDerivativeImageFunctionType;
+  typename GaussianDerivativeImageFunctionType::Pointer function =
+    GaussianDerivativeImageFunctionType::New();
+
+  function->SetInputImage( inputImage );
+
+
+  // Set up operator parameters
+  typename GaussianDerivativeImageFunctionType::OrderArrayType order;
+  for( unsigned int i = 0; i < order.Size(); i++ )
+    {
+    order[i] = static_cast<
+      typename GaussianDerivativeImageFunctionType::OrderArrayType::ValueType >(
+      atoi( argv[3] ) );
+    }
+
+  double sigma = atof( argv[4] );
+
+  double maxError = 0.001;
+  unsigned int maxKernelWidth = 100;
+  typename GaussianDerivativeImageFunctionType::InterpolationModeType interpolationMode =
+    GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation;
+
+  if( argc > 5 )
+    {
+    maxError = atof( argv[5] );
+    }
+  if( argc > 6 )
+    {
+    maxKernelWidth = atoi( argv[6] );
+    }
+  if( argc > 7 )
+    {
+    interpolationMode =
+      static_cast< typename GaussianDerivativeImageFunctionType::InterpolationModeType >(
+      atoi( argv[7] ) );
+    }
+
+
+  function->SetOrder( order );
+  TEST_SET_GET_VALUE( order, function->GetOrder() );
+
+  typename GaussianDerivativeImageFunctionType::VarianceArrayType variance;
+  variance.Fill( sigma * sigma );
+
+  function->SetSigma( sigma );
+  TEST_SET_GET_VALUE( variance, function->GetVariance() );
+
+  function->SetMaximumError( maxError );
+  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
+
+  function->SetMaximumKernelWidth( maxKernelWidth );
+  TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
+
+  bool normalizeAcrossScale = true;
+  TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
+
+  bool useImageSpacing = true;
+  TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
+
+  function->SetInterpolationMode( interpolationMode );
+  TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
+
+
+  function->Initialize();
+
 
   // Create image for storing result
   typename ImageType::Pointer output = ImageType::New();
@@ -65,42 +121,6 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   output->Allocate();
   output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
 
-  // Setup operator parameters
-  unsigned int order[Dimension];
-  for (unsigned int i = 0; i < Dimension; i++)
-    {
-    order[i] = atoi( argv[3] );
-    }
-
-  double variance = atof( argv[4] );
-  variance *= variance;
-
-  double maxError = 0.001;
-  unsigned int maxKernelWidth = 100;
-  if( argc == 6 )
-    {
-    maxError = atof( argv[5] );
-    }
-  else if( argc > 6 )
-    {
-    maxError = atof( argv[5] );
-    maxKernelWidth = atoi( argv[6] );
-    }
-
-  // Create function
-  typedef itk::DiscreteGaussianDerivativeImageFunction< ImageType, PixelType >
-    GaussianDerivativeImageFunctionType;
-  typename GaussianDerivativeImageFunctionType::Pointer function =
-    GaussianDerivativeImageFunctionType::New();
-  function->SetInputImage( inputImage );
-  function->SetMaximumError( maxError );
-  function->SetMaximumKernelWidth( maxKernelWidth );
-  function->SetVariance( variance );
-  function->SetOrder( order );
-  function->SetNormalizeAcrossScale( true );
-  function->SetUseImageSpacing( true );
-  function->SetInterpolationMode( GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation );
-  function->Initialize( );
 
   // Step over input and output images
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
@@ -150,97 +170,51 @@ int itkDiscreteGaussianDerivativeImageFunctionTestND( int argc, char* argv[] )
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
 
-  // Write output
+  // Write the output image
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
 
-  // Test some functions
-  typedef typename GaussianDerivativeImageFunctionType::VarianceArrayType VarianceArrayType;
-  VarianceArrayType varReturned = function->GetVariance();
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
-    if ( varReturned[ i ] != variance )
-    {
-      std::cout << "GetVariance()[" << i << "] failed. Expected: "
-        << variance
-        << " but got: "
-        << varReturned[ i ] << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
-  typedef typename GaussianDerivativeImageFunctionType::OrderArrayType  OrderArrayType;
-  OrderArrayType orderReturned = function->GetOrder();
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
-    if ( orderReturned[ i ] != order[ i ] )
-    {
-      std::cout << "GetOrder()[" << i << "] failed. Expected: "
-        << order[ i ]
-        << " but got: "
-        << orderReturned[ i ] << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
-  if ( function->GetMaximumError() != maxError )
-  {
-    std::cout << "GetMaximumError failed. Expected: "
-      << maxError
-      << " but got: "
-      << function->GetMaximumError() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetNormalizeAcrossScale() != true )
-  {
-    std::cout << "GetNormalizeAcrossScale failed. Expected: "
-      << true
-      << " but got: "
-      << function->GetNormalizeAcrossScale() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetUseImageSpacing() != true )
-  {
-    std::cout << "GetUseImageSpacing failed. Expected: "
-      << true
-      << " but got: "
-      << function->GetUseImageSpacing() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetMaximumKernelWidth() != maxKernelWidth )
-  {
-    std::cout << "GetMaximumKernelWidth failed. Expected: "
-      << maxKernelWidth
-      << " but got: "
-      << function->GetMaximumKernelWidth() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetInterpolationMode() != GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation )
-  {
-    std::cout << "GetInterpolationMode failed. Expected: "
-      << GaussianDerivativeImageFunctionType::NearestNeighbourInterpolation
-      << " but got: "
-      << function->GetInterpolationMode() << std::endl;
-    return EXIT_FAILURE;
-  }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
-  // Call PrintSelf.
-  function->Print( std::cout );
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
 
-int itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char* argv[] )
+int itkDiscreteGaussianDerivativeImageFunctionTest( int argc, char* argv[] )
 {
-  return itkDiscreteGaussianDerivativeImageFunctionTestND< 2 >( argc, argv );
+  if( argc < 5 )
+    {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << "inputFileName"
+        " outputFileName"
+        " order"
+        " sigma"
+        " [maximumError]"
+        " [maximumKernelWidth]" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  const unsigned int Dimension = 2;
+
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+  typedef itk::DiscreteGaussianDerivativeImageFunction< ImageType, PixelType >
+    GaussianDerivativeImageFunctionType;
+  GaussianDerivativeImageFunctionType::Pointer function =
+    GaussianDerivativeImageFunctionType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( function,
+    DiscreteGaussianDerivativeImageFunction, ImageFunction );
+
+
+  return itkDiscreteGaussianDerivativeImageFunctionTestND< Dimension >( argc, argv );
 }
