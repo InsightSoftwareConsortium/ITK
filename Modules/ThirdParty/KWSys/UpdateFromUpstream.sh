@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
 
-thirdparty_module_name='KWSys'
+set -e
+set -x
+shopt -s dotglob
 
-upstream_git_url='http://public.kitware.com/KWSys.git'
-upstream_git_branch='master'
+readonly name="KWSys"
+readonly ownership="KWSys Upstream <kwrobot@kitware.com>"
+readonly subtree="Modules/ThirdParty/KWSys/src/KWSys"
+readonly repo="https://gitlab.kitware.com/utils/kwsys.git"
+readonly tag="master"
+readonly shortlog=true
+readonly paths="
+"
 
-snapshot_author_name='KWSys Robot'
-snapshot_author_email='kwrobot@kitware.com'
+extract_source () {
+    git_archive
+    disable_custom_gitattributes
+}
 
-snapshot_redact_cmd=''
-snapshot_relative_path='src/KWSys'
-
-source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
-update_from_upstream
+. "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
