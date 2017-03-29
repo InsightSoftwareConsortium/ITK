@@ -142,6 +142,8 @@ popd
     die "expected directory to extract does not exist"
 readonly commit_summary="$name $upstream_date ($upstream_hash_short)"
 
+readonly change_id=$(git commit-tree $(git write-tree) </dev/null)
+
 # Commit the subset
 pushd "$extractdir"
 mv -v "$name-reduced/"* .
@@ -155,6 +157,8 @@ Code extracted from:
     $repo
 
 at commit $upstream_hash ($tag).$commit_shortlog
+
+Change-Id: I$change_id
 EOF
 git branch -f "upstream-$name"
 popd
