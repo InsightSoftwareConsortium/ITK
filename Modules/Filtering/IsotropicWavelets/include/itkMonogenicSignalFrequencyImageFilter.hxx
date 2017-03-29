@@ -53,8 +53,9 @@ MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstItera
 
   for (inFreqIt.GoToBegin(), outIt.GoToBegin(); !inFreqIt.IsAtEnd(); ++inFreqIt, ++outIt)
   {
-    typename RieszFunctionType::OutputArrayType evaluatedArray = evaluator->EvaluateArray(inFreqIt.GetFrequency());
-    typename OutputImageType::PixelType         out_value = outIt.Get();
+    typename RieszFunctionType::OutputComplexArrayType evaluatedArray =
+      evaluator->EvaluateArray(inFreqIt.GetFrequency());
+    typename OutputImageType::PixelType out_value = outIt.Get();
     out_value[0] = inFreqIt.Get();
     for (unsigned int dir = 0; dir < ImageDimension; ++dir)
     {

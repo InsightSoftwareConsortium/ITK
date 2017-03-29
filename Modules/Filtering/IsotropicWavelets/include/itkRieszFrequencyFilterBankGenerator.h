@@ -78,9 +78,8 @@ public:
   GetOutputs();
 
   // #ifdef ITK_USE_CONCEPT_CHECKING
-  //  /// This ensure that OutputPixelType is complex<float||double>
-  //   itkConceptMacro( OutputPixelTypeIsComplexAndFloatCheck,
-  //                    ( Concept::IsFloatingPoint< typename OutputImageType::PixelType::value_type > ) );
+  //   itkConceptMacro( OutputPixelTypeIsFloatCheck,
+  //                    ( Concept::IsFloatingPoint< typename OutputImageType::PixelType > ) );
   // #endif
 
 protected:

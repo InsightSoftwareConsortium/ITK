@@ -81,7 +81,8 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
   OutputRegionIterator frequencyIt(outputList[0], outputList[0]->GetRequestedRegion());
   for (frequencyIt.GoToBegin(); !frequencyIt.IsAtEnd(); ++frequencyIt)
   {
-    typename TRieszFunction::OutputArrayType evaluatedArray = evaluator->EvaluateArray(frequencyIt.GetFrequency());
+    typename TRieszFunction::OutputComplexArrayType evaluatedArray =
+      evaluator->EvaluateArray(frequencyIt.GetFrequency());
     for (unsigned int dir = 0; dir < ImageDimension; ++dir)
     {
       outputItList[dir].Set(outputItList[dir].Get() + evaluatedArray[dir].imag());
