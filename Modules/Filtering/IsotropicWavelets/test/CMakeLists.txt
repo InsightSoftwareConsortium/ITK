@@ -34,6 +34,7 @@ set(
   # Phase Analysis
   itkPhaseAnalysisSoftThresholdImageFilterTest.cxx
   # Riesz / Monogenic
+  itkRieszFrequencyFunctionTest.cxx
   itkRieszFrequencyFilterBankGeneratorTest.cxx
   itkMonogenicSignalFrequencyImageFilterTest.cxx
   # StructureTensor
@@ -137,6 +138,21 @@ itk_add_test(
     2
 )
 ## Riesz Related
+# RieszFunction
+itk_add_test(
+  NAME itkRieszFrequencyFunctionTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkRieszFrequencyFunctionTest
+    2
+)
+itk_add_test(
+  NAME itkRieszFrequencyFunctionTest3D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkRieszFrequencyFunctionTest
+    3
+)
 # RieszGenerator
 itk_add_test(
   NAME itkRieszFrequencyFilterBankGeneratorTest

@@ -27,6 +27,11 @@
 namespace itk
 {
 /** \class RieszFrequencyFilterBankGenerator
+ * Generate a filter bank of M components.
+ * M = p(N,d); where N = Order of the RieszTransform, and d = ImageDimension.
+ * M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!}
+ *
+ * TODO: OLD DELETE ME
  * \brief Generate filter bank of RieszFrequencyFunction.
  * RieszFrequencyFunction returns a complex value,
  * but the output of this generator is real , representing the imaginary part
@@ -42,7 +47,7 @@ namespace itk
  * \ingroup IsotropicWavelets
  */
 template <typename TOutputImage,
-          typename TRieszFunction = itk::RieszFrequencyFunction<double, TOutputImage::ImageDimension>,
+          typename TRieszFunction = itk::RieszFrequencyFunction<std::complex<double>, TOutputImage::ImageDimension>,
           typename TFrequencyRegionIterator = FrequencyImageRegionIteratorWithIndex<TOutputImage>>
 class RieszFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {
