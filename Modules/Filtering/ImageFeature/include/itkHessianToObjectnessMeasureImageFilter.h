@@ -61,13 +61,12 @@ class ITK_TEMPLATE_EXPORT HessianToObjectnessMeasureImageFilter:public
   ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
+
   /** Standard class typedefs. */
-  typedef HessianToObjectnessMeasureImageFilter Self;
-
+  typedef HessianToObjectnessMeasureImageFilter           Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
-
-  typedef SmartPointer< Self >       Pointer;
-  typedef SmartPointer< const Self > ConstPointer;
+  typedef SmartPointer< Self >                            Pointer;
+  typedef SmartPointer< const Self >                      ConstPointer;
 
   typedef typename Superclass::InputImageType  InputImageType;
   typedef typename Superclass::OutputImageType OutputImageType;
@@ -117,7 +116,7 @@ public:
   itkGetConstMacro(ObjectDimension, unsigned int);
 
   /** Enhance bright structures on a dark background if true, the opposite if
-    false. */
+    false. Default is "On" (equivalent to vesselness). */
   itkSetMacro(BrightObject, bool);
   itkGetConstMacro(BrightObject, bool);
   itkBooleanMacro(BrightObject);
