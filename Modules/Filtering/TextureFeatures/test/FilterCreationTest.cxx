@@ -39,24 +39,35 @@ FilterCreationTest(int argc, char * argv[])
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();
-  reader->SetFileName(inputFilename.c_str());
+  /// reader->SetFileName( inputFilename.c_str() );
+  reader->SetFileName(
+    "/home/jean-baptiste/Professional/Projects/TextureFeatures/ITKTextureFeatures/test/Baseline/Scan_CBCT_1L.nrrd");
   reader->UpdateLargestPossibleRegion();
   InputImageType::Pointer im = reader->GetOutput();
+
+  // Create and setup a maskReader
+  readerType::Pointer maskReader = readerType::New();
+  maskReader->SetFileName(
+    "/home/jean-baptiste/Professional/Projects/TextureFeatures/ITKTextureFeatures/test/Baseline/SegmC_CBCT_1L.nrrd");
+  maskReader->UpdateLargestPossibleRegion();
+  InputImageType::Pointer mask = maskReader->GetOutput();
 
   // Apply the filter
   typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(im); // reader->GetOutput());
+  filter->SetInput(im);
+  filter->SetMaskImage(mask);
+  filter->SetNumberOfBinsPerAxis(10);
+  filter->SetPixelValueMinMax(-300, 4000);
+  filter->SetDistanceValueMinMax(0, 200);
   filter->UpdateLargestPossibleRegion();
   OutputImageType::Pointer output = filter->GetOutput();
-
-  std::cout << "@@@@@@@@@@@@@@@@@@" << std::endl;
 
   // Create and setup a writter
   typedef itk::ImageFileWriter<OutputImageType> WriterType;
   WriterType::Pointer                           writer = WriterType::New();
   writer->SetFileName("result.nrrd");
-  writer->SetInput(output); // filter->GetOutput());
+  writer->SetInput(output);
   writer->UpdateLargestPossibleRegion();
 
   return EXIT_SUCCESS;
