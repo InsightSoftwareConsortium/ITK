@@ -60,48 +60,36 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef TInputImage                       InputImageType;
-  typedef typename InputImageType::Pointer  InputImagePointer;
-  typedef TOutputImage                      OutputImageType;
-  typedef typename OutputImageType::Pointer OutputImagePointer;
-  typedef THistogramFrequencyContainer      FrequencyContainerType;
+  typedef TInputImage                  InputImageType;
+  typedef TOutputImage                 OutputImageType;
+  typedef THistogramFrequencyContainer FrequencyContainerType;
 
-  typedef typename InputImageType::PixelType         PixelType;
+  typedef typename InputImageType::PixelType PixelType;
+  typedef typename InputImageType::IndexType IndexType;
+  typedef typename InputImageType::PointType PointType;
+
   typedef typename InputImageType::OffsetType        OffsetType;
   typedef VectorContainer<unsigned char, OffsetType> OffsetVector;
   typedef typename OffsetVector::Pointer             OffsetVectorPointer;
   typedef typename OffsetVector::ConstPointer        OffsetVectorConstPointer;
 
-  typedef typename InputImageType::RegionType InputRegionType;
-  typedef typename InputRegionType::IndexType InputRegionIndexType;
-  typedef typename InputRegionType::SizeType  InputRegionSizeType;
-
+  typedef typename InputImageType::RegionType  InputRegionType;
   typedef typename OutputImageType::RegionType OutputRegionType;
-  typedef typename OutputRegionType::IndexType OutputRegionIndexType;
-  typedef typename OutputRegionType::SizeType  OutputRegionSizeType;
 
   typedef typename itk::ConstNeighborhoodIterator<InputImageType> NeighborhoodIteratorType;
   typedef typename NeighborhoodIteratorType::RadiusType           NeighborhoodRadiusType;
+  typedef typename NeighborhoodIteratorType::NeighborIndexType    NeighborIndexType;
 
   typedef typename NumericTraits<PixelType>::RealType              MeasurementType;
   typedef typename NumericTraits<PixelType>::RealType              RealType;
   typedef Histogram<MeasurementType, THistogramFrequencyContainer> HistogramType;
   typedef typename HistogramType::MeasurementVectorType            MeasurementVectorType;
-
-
-  typedef ScalarImageToRunLengthMatrixFilter<InputImageType, FrequencyContainerType> RunLengthMatrixFilterType;
-  typedef HistogramToRunLengthFeaturesFilter<HistogramType>                          RunLengthFeaturesFilterType;
+  typedef HistogramToRunLengthFeaturesFilter<HistogramType>        RunLengthFeaturesFilterType;
 
   typedef short                                                RunLengthFeatureName;
   typedef VectorContainer<unsigned char, RunLengthFeatureName> FeatureNameVector;
-  typedef typename FeatureNameVector::Pointer                  FeatureNameVectorPointer;
   typedef typename FeatureNameVector::ConstPointer             FeatureNameVectorConstPointer;
-  typedef VectorContainer<unsigned char, double>               FeatureValueVector;
-  typedef typename FeatureValueVector::Pointer                 FeatureValueVectorPointer;
 
-  /** Return the feature means and deviations.  */
-  itkGetConstReferenceObjectMacro(FeatureMeans, FeatureValueVector);
-  itkGetConstReferenceObjectMacro(FeatureStandardDeviations, FeatureValueVector);
 
   /** Set the desired feature set. Optional, for default value see above. */
   itkSetConstObjectMacro(RequestedFeatures, FeatureNameVector);
@@ -207,6 +195,19 @@ public:
 protected:
   ScalarImageToRunLengthFeaturesImageFilter();
   virtual ~ScalarImageToRunLengthFeaturesImageFilter() {}
+
+  void
+  NormalizeOffsetDirection(OffsetType & offset);
+  bool
+  IsInsideNeighborhood(OffsetType iteratedOffset);
+  void
+  IncreaseHistograme(typename HistogramType::Pointer &   hist,
+                     typename TInputImage::Pointer       inputPtr,
+                     MeasurementVectorType               run,
+                     typename HistogramType::IndexType & hIndex,
+                     const PixelType                     curentInNeighborhoodPixelIntensity,
+                     IndexType                           curentInNeighborhoodIndex,
+                     IndexType                           lastGoodIndex);
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -214,32 +215,22 @@ protected:
   virtual void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
   virtual void
-  AfterThreadedGenerateData() ITK_OVERRIDE;
-
-  virtual void
   ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
-  virtual void
-  GenerateOutputInformation() ITK_OVERRIDE;
+  //  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  typename RunLengthMatrixFilterType::Pointer m_RunLengthMatrixGenerator;
-
   NeighborhoodRadiusType        m_NeighborhoodRadius;
-  FeatureValueVectorPointer     m_FeatureMeans;
-  FeatureValueVectorPointer     m_FeatureStandardDeviations;
   FeatureNameVectorConstPointer m_RequestedFeatures;
   OffsetVectorPointer           m_Offsets;
   bool                          m_FastCalculations;
-
-  unsigned int m_NumberOfBinsPerAxis;
-  PixelType    m_Min;
-  PixelType    m_Max;
-  RealType     m_MinDistance;
-  RealType     m_MaxDistance;
-  PixelType    m_InsidePixelValue;
-
-  MeasurementVectorType m_LowerBound;
-  MeasurementVectorType m_UpperBound;
+  unsigned int                  m_NumberOfBinsPerAxis;
+  PixelType                     m_Min;
+  PixelType                     m_Max;
+  RealType                      m_MinDistance;
+  RealType                      m_MaxDistance;
+  PixelType                     m_InsidePixelValue;
+  MeasurementVectorType         m_LowerBound;
+  MeasurementVectorType         m_UpperBound;
 };
 } // end of namespace Statistics
 } // end of namespace itk

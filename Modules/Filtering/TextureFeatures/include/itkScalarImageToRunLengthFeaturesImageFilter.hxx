@@ -24,6 +24,7 @@
 #include "itkMath.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkNeighborhoodAlgorithm.h"
 #include <stdio.h>
 
 namespace itk
@@ -48,14 +49,10 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
     this->ProcessObject::SetNthOutput(i, this->MakeOutput(i));
   }
 
-  this->m_RunLengthMatrixGenerator = RunLengthMatrixFilterType::New();
-  this->m_FeatureMeans = FeatureValueVector::New();
-  this->m_FeatureStandardDeviations = FeatureValueVector::New();
-
   // Set the requested features to the default value:
   // {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade,
   // ClusterProminence}
-  FeatureNameVectorPointer requestedFeatures = FeatureNameVector::New();
+  typename FeatureNameVector::Pointer requestedFeatures = FeatureNameVector::New();
   // can't directly set this->m_RequestedFeatures since it is const!
 
   requestedFeatures->push_back(RunLengthFeaturesFilterType::ShortRunEmphasis);
@@ -79,7 +76,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   hood.SetRadius(1);
 
   // select all "previous" neighbors that are face+edge+vertex
-  // connected to the current pixel. do not include the center pixel.
+  // connected to the iterated pixel. do not include the curentInNeighborhood pixel.
   unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetVectorPointer offsets = OffsetVector::New();
   for (unsigned int d = 0; d < centerIndex; d++)
@@ -103,74 +100,20 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   this->m_LowerBound[1] = this->m_MinDistance;
   this->m_UpperBound[0] = this->m_Max;
   this->m_UpperBound[1] = this->m_MaxDistance;
+
+  TOutputImage * outputPtr = this->GetOutput();
+  outputPtr->FillBuffer(0);
 }
-
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
-void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  GenerateOutputInformation()
-{
-  typename Superclass::OutputImagePointer     outputPtr = this->GetOutput();
-  typename Superclass::InputImageConstPointer inputPtr = this->GetInput();
-
-  if (!outputPtr || !inputPtr)
-  {
-    return;
-  }
-
-  // Copy Information without modification.
-  outputPtr->CopyInformation(inputPtr);
-
-  InputRegionType      region;
-  InputRegionSizeType  size;
-  InputRegionIndexType start;
-  start.Fill(0);
-
-  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
-  {
-    size[i] =
-      (this->ImageToImageFilter<TInputImage, TOutputImage>::GetInput(0)->GetLargestPossibleRegion().GetSize(i)) -
-      (2 * this->m_NeighborhoodRadius[i]);
-  }
-
-  region.SetSize(size);
-  region.SetIndex(start);
-
-  // Adjust output region
-  outputPtr->SetLargestPossibleRegion(region);
-}
-
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
   BeforeThreadedGenerateData()
 {
-  typename TOutputImage::Pointer Output = this->GetOutput();
-
-  OutputRegionType                              OutputRegion;
-  OutputRegionIndexType                         OutputRegionIndex;
-  OutputRegionSizeType                          OutputRegionSize;
-  const typename OutputImageType::SpacingType & Spacing = Output->GetSpacing();
-  const typename OutputImageType::PointType &   InputOrigin = Output->GetOrigin();
-  double                                        OutputOrigin[this->m_NeighborhoodRadius.Dimension];
-
-  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
-  {
-    OutputRegionSize[i] =
-      (this->ImageToImageFilter<TInputImage, TOutputImage>::GetInput(0)->GetLargestPossibleRegion().GetSize(i)) -
-      (2 * this->m_NeighborhoodRadius[i]);
-    OutputOrigin[i] = InputOrigin[i] + Spacing[i] * this->m_NeighborhoodRadius[i];
-  }
-  OutputRegionIndex.Fill(0);
-
-  OutputRegion.SetIndex(OutputRegionIndex);
-  OutputRegion.SetSize(OutputRegionSize);
-
-  Output->SetSpacing(Spacing);
-  Output->SetOrigin(OutputOrigin);
-  Output->SetRegions(OutputRegion);
-  Output->Allocate();
+  this->m_LowerBound[0] = this->m_Min;
+  this->m_LowerBound[1] = this->m_MinDistance;
+  this->m_UpperBound[0] = this->m_Max;
+  this->m_UpperBound[1] = this->m_MaxDistance;
 }
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
@@ -178,98 +121,199 @@ void
 ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
   ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId)
 {
+  // Recuperation of the different inputs/outputs
+  typename TInputImage::Pointer inputPtr = TInputImage::New();
+  inputPtr = const_cast<TInputImage *>(this->GetInput());
+  typename TInputImage::Pointer maskPointer = TInputImage::New();
+  maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
+  typename TOutputImage::Pointer outputPtr = TOutputImage::New();
+  outputPtr = this->GetOutput();
 
-  TInputImage *  inputPtr = const_cast<TInputImage *>(this->GetInput());
-  TOutputImage * outputPtr = this->GetOutput();
-
-  inputPtr->DisconnectPipeline();
-
-  InputRegionType inputRegionForThread;
-  inputRegionForThread.SetSize(outputRegionForThread.GetSize());
-
-  InputRegionIndexType start;
-  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
-  {
-    start[i] = this->m_NeighborhoodRadius[i] + outputRegionForThread.GetIndex()[i];
-  }
-
-
-  inputRegionForThread.SetIndex(start);
-
-  typedef typename itk::RegionOfInterestImageFilter<InputImageType, InputImageType> ExtractionFilterType;
-  typename ExtractionFilterType::Pointer ExtractionFilter = ExtractionFilterType::New();
-  ExtractionFilter->SetInput(inputPtr);
-
-  typedef itk::ImageRegionConstIteratorWithIndex<InputImageType> ConstIteratorType;
-  ConstIteratorType                                              inputIt(inputPtr, inputRegionForThread);
-  typedef itk::ImageRegionIteratorWithIndex<OutputImageType>     IteratorType;
-  IteratorType                                                   outputIt(outputPtr, outputRegionForThread);
-
-  typename RunLengthMatrixFilterType::Pointer runLengthMatrixGenerator = RunLengthMatrixFilterType::New();
-  typename OffsetVector::ConstIterator        offsetIt = this->m_Offsets->Begin();
-  runLengthMatrixGenerator->SetOffset(offsetIt.Value());
-  runLengthMatrixGenerator->SetDistanceValueMinMax(m_MinDistance, m_MaxDistance);
-  runLengthMatrixGenerator->SetNumberOfBinsPerAxis(m_NumberOfBinsPerAxis);
-  runLengthMatrixGenerator->SetPixelValueMinMax(m_Min, m_Max);
-  runLengthMatrixGenerator->SetInsidePixelValue(m_InsidePixelValue);
-
-
+  // Creation of the filter that will compute the Run Lenght features once the histogrham computed
   typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
-
   typedef typename RunLengthFeaturesFilterType::RunLengthFeatureName InternalRunLengthFeatureName;
   typename FeatureNameVector::ConstIterator                          fnameIt;
   fnameIt = this->m_RequestedFeatures->Begin();
   fnameIt++;
   fnameIt++;
   fnameIt++;
-  while (!inputIt.IsAtEnd())
+
+  // Creation of a region with the sqme size than the neighborhood that
+  // will be used to check if each voxel has already been visited
+  InputRegionType                                  boolRegion;
+  typename InputRegionType::IndexType              boolStart;
+  typename InputRegionType::SizeType               boolSize;
+  IndexType                                        boolCurentInNeighborhoodIndex;
+  typedef Image<bool, TInputImage::ImageDimension> BoolImageType;
+  typename BoolImageType::Pointer                  alreadyVisitedImage = BoolImageType::New();
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
   {
-    typename InputImageType::IndexType inputIndex = inputIt.GetIndex();
+    boolSize[i] = this->m_NeighborhoodRadius[i] * 2 + 1;
+    boolStart[i] = 0;
+    boolCurentInNeighborhoodIndex[i] = m_NeighborhoodRadius[i];
+  }
+  boolRegion.SetIndex(boolStart);
+  boolRegion.SetSize(boolSize);
+  alreadyVisitedImage->CopyInformation(inputPtr);
+  alreadyVisitedImage->SetRegions(boolRegion);
+  alreadyVisitedImage->Allocate();
 
+  // Creation of the histogram that will be fill and used to compute the features
+  const unsigned int                measurementVectorSize = 2;
+  typename HistogramType::IndexType hIndex;
+  typename HistogramType::Pointer   hist = HistogramType::New();
+  hist->SetMeasurementVectorSize(measurementVectorSize);
+  typename HistogramType::SizeType size(2);
+  size.Fill(this->m_NumberOfBinsPerAxis);
+  MeasurementVectorType run(hist->GetMeasurementVectorSize());
+  hist->Initialize(size, this->m_LowerBound, this->m_UpperBound);
+  // Separation of the non-boundery region that will be processed in a different way
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                           BoundaryFacesCalculator;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+    BoundaryFacesCalculator(inputPtr, outputRegionForThread, m_NeighborhoodRadius);
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit =
+    faceList.begin();
 
-    if ((this->GetMaskImage() && this->GetMaskImage()->GetPixel(inputIndex) != this->m_InsidePixelValue))
+  /// ***** Non-boundary Region *****
+  NeighborhoodIteratorType                          inputNIt(m_NeighborhoodRadius, inputPtr, *fit);
+  typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
+  IteratorType                                      outputIt(outputPtr, *fit);
+
+  // Iteration over the all image region
+  while (!inputNIt.IsAtEnd())
+  {
+    if ((maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) != this->m_InsidePixelValue))
     {
-      outputIt.Set(0);
+      ++inputNIt;
+      ++outputIt;
+      continue;
     }
-    else
+    hist->SetToZero();
+    hist->Modified();
+    // Iteration over all the offsets
+    typename OffsetVector::ConstIterator offsets;
+    for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
     {
-      typename InputImageType::IndexType start;
-      typename InputImageType::IndexType end;
+      alreadyVisitedImage->FillBuffer(false);
+      OffsetType offset = offsets.Value();
+      this->NormalizeOffsetDirection(offset);
 
-      for (unsigned int i = 0; i < inputIndex.Dimension; i++)
+      // Iteration over the all neighborhood
+      for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
       {
-        start[i] = inputIndex[i] - m_NeighborhoodRadius[i];
-        end[i] = inputIndex[i] + m_NeighborhoodRadius[i];
+        IndexType       curentInNeighborhoodIndex = inputNIt.GetIndex(nb);
+        const PixelType curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
+        // Cecking if the value is out-of-bounds or is outside the mask.
+        if (curentInNeighborhoodPixelIntensity < this->m_Min || curentInNeighborhoodPixelIntensity > this->m_Max ||
+            alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + inputNIt.GetOffset(nb)) ||
+            (maskPointer && maskPointer->GetPixel(curentInNeighborhoodIndex) != this->m_InsidePixelValue))
+        {
+          continue;
+        }
+
+        MeasurementType curentInNeighborhoodBinMin = hist->GetBinMinFromValue(0, curentInNeighborhoodPixelIntensity);
+        MeasurementType curentInNeighborhoodBinMax = hist->GetBinMaxFromValue(0, curentInNeighborhoodPixelIntensity);
+        MeasurementType lastBinMax = hist->GetDimensionMaxs(0)[hist->GetSize(0) - 1];
+
+        PixelType  pixelIntensity(NumericTraits<PixelType>::ZeroValue());
+        OffsetType iteratedOffset = inputNIt.GetOffset(nb) + offset;
+        IndexType  lastGoodIndex = curentInNeighborhoodIndex;
+        bool       runLengthSegmentAlreadyVisited = false;
+        bool       insideNeighborhood = true;
+        for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
+        {
+          int boundDistance = m_NeighborhoodRadius[i] - std::abs(iteratedOffset[i]);
+          if (boundDistance < 0)
+          {
+            insideNeighborhood = false;
+            break;
+          }
+        }
+
+        // Scan from the iterated pixel at index, following the direction of
+        // offset. Run length is computed as the length of continuous pixel
+        // whose pixel values are in the same bin.
+        while (insideNeighborhood)
+        {
+          // For the same offset, each run length segment can only be visited once
+          if (alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + iteratedOffset))
+          {
+            runLengthSegmentAlreadyVisited = true;
+            break;
+          }
+          pixelIntensity = inputNIt.GetPixel(iteratedOffset);
+
+          // Special attention paid to boundaries of bins.
+          // For the last bin, it is left close and right close (following the previous
+          // gerrit patch). For all other bins, the bin is left close and right open.
+          if (pixelIntensity >= curentInNeighborhoodBinMin &&
+              (pixelIntensity < curentInNeighborhoodBinMax ||
+               (Math::ExactlyEquals(pixelIntensity, curentInNeighborhoodBinMax) &&
+                Math::ExactlyEquals(curentInNeighborhoodBinMax, lastBinMax))))
+          {
+            alreadyVisitedImage->SetPixel(boolCurentInNeighborhoodIndex + iteratedOffset, true);
+            lastGoodIndex = inputNIt.GetIndex(iteratedOffset);
+            iteratedOffset += offset;
+            for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
+            {
+              int boundDistance = m_NeighborhoodRadius[i] - std::abs(iteratedOffset[i]);
+              if (boundDistance < 0)
+              {
+                insideNeighborhood = false;
+                break;
+              }
+            }
+          }
+          else
+          {
+            break;
+          }
+        }
+        if (runLengthSegmentAlreadyVisited)
+        {
+          continue;
+        }
+
+        PointType curentInNeighborhoodPoint;
+        inputPtr->TransformIndexToPhysicalPoint(curentInNeighborhoodIndex, curentInNeighborhoodPoint);
+        PointType point;
+        inputPtr->TransformIndexToPhysicalPoint(lastGoodIndex, point);
+
+        run[0] = curentInNeighborhoodPixelIntensity;
+        run[1] = curentInNeighborhoodPoint.EuclideanDistanceTo(point);
+        if (run[1] >= this->m_MinDistance && run[1] <= this->m_MaxDistance)
+        {
+          hist->GetIndex(run, hIndex);
+          hist->IncreaseFrequencyOfIndex(hIndex, 1);
+        }
       }
-
-      typename InputImageType::RegionType ExtractedRegion;
-      ExtractedRegion.SetIndex(start);
-      ExtractedRegion.SetUpperIndex(end);
-
-      inputPtr->SetRequestedRegion(ExtractedRegion);
-      ExtractionFilter->SetRegionOfInterest(ExtractedRegion);
-
-
-      runLengthMatrixGenerator->SetInput(ExtractionFilter->GetOutput());
-
-      runLengthMatrixCalculator->SetInput(runLengthMatrixGenerator->GetOutput());
-      runLengthMatrixCalculator->UpdateLargestPossibleRegion();
-
-
-      outputIt.Set(runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
-
-      outputPtr->SetRequestedRegionToLargestPossibleRegion();
     }
-    ++inputIt;
+
+    runLengthMatrixCalculator->SetInput(hist);
+    runLengthMatrixCalculator->Update();
+    outputIt.Set(runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
+
+    ++inputNIt;
     ++outputIt;
   }
-}
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
-void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  AfterThreadedGenerateData()
-{}
+  /// ***** With-boundary Regions *****
+  fit++;
+  for (fit; fit != faceList.end(); ++fit)
+  {
+    //      NeighborhoodIteratorType boundaryInputNIt(m_NeighborhoodRadius, inputPtr, *fit );
+    //      typedef itk::ImageRegionIterator< OutputImageType> IteratorType;
+    //      IteratorType boundaryOutputIt( outputPtr, *fit );
+
+    //      // Iteration over the all image region
+    //      while( !boundaryInputNIt.IsAtEnd() )
+    //        {
+    //        boundaryOutputIt.Set( 0 );
+    //        ++boundaryInputNIt;
+    //        ++boundaryOutputIt;
+    //        }
+  }
+}
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
 void
@@ -299,7 +343,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 {
   if (this->m_Min != min || this->m_Max != max)
   {
-    itkDebugMacro("setting Min to " << min << "and Max to " << max);
     this->m_Min = min;
     this->m_Max = max;
     this->Modified();
@@ -313,11 +356,35 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 {
   if (Math::NotExactlyEquals(this->m_MinDistance, min) || Math::NotExactlyEquals(this->m_MaxDistance, max))
   {
-    itkDebugMacro("setting MinDistance to " << min << "and MaxDistance to " << max);
     this->m_MinDistance = min;
     this->m_MaxDistance = max;
     this->Modified();
   }
+}
+
+template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+void
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
+  NormalizeOffsetDirection(OffsetType & offset)
+{
+  itkDebugMacro("old offset = " << offset << std::endl);
+  int  sign = 1;
+  bool metLastNonZero = false;
+  for (int i = offset.GetOffsetDimension() - 1; i >= 0; i--)
+  {
+    if (metLastNonZero)
+    {
+      offset[i] *= sign;
+    }
+    else if (offset[i] != 0)
+    {
+      sign = (offset[i] > 0) ? 1 : -1;
+      metLastNonZero = true;
+      offset[i] *= sign;
+    }
+  }
+
+  itkDebugMacro("new  offset = " << offset << std::endl);
 }
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
@@ -328,10 +395,8 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "RequestedFeatures: " << this->GetRequestedFeatures() << std::endl;
-  os << indent << "FeatureStandardDeviations: " << this->GetFeatureStandardDeviations() << std::endl;
   os << indent << "FastCalculations: " << this->GetFastCalculations() << std::endl;
   os << indent << "Offsets: " << this->GetOffsets() << std::endl;
-  os << indent << "FeatureMeans: " << this->GetFeatureMeans() << std::endl;
 }
 } // end of namespace Statistics
 } // end of namespace itk
