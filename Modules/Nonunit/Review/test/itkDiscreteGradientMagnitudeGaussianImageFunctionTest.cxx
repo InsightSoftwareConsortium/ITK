@@ -20,39 +20,85 @@
 #include "itkImageFileWriter.h"
 #include "itkDiscreteGradientMagnitudeGaussianImageFunction.h"
 #include "itkRescaleIntensityImageFilter.h"
+#include "itkTestingMacros.h"
+
 
 template < int VDimension >
 int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* argv[] )
 {
-
-  // Verify the number of parameters in the command line
-  if( argc < 4 )
-    {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "inputFileName outputFileName sigma (maximum_error) (maximum_kernel_width)" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  // Define the dimension of the images
   const unsigned int Dimension = VDimension;
-  typedef float                            PixelType;
-  typedef itk::Image<PixelType, Dimension> ImageType;
 
-  // Read input
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+  // Read input image
   typedef itk::ImageFileReader< ImageType > ReaderType;
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName( argv[1] );
-  try
-    {
-    reader->Update();
-    }
-  catch ( itk::ExceptionObject &err)
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
+
+  TRY_EXPECT_NO_EXCEPTION( reader->Update() );
+
   ImageType *inputImage = reader->GetOutput();
+
+
+  // Create the itk::DiscreteGradientMagnitudeGaussianImageFunction
+  typedef itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >
+    DiscreteGradientMagnitudeGaussianFunctionType;
+  typename DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
+    DiscreteGradientMagnitudeGaussianFunctionType::New();
+
+  function->SetInputImage( inputImage );
+
+
+  // Set up operator parameters
+  double sigma = atof( argv[3] );
+
+  double maxError = 0.001;
+  unsigned int maxKernelWidth = 100;
+  typename DiscreteGradientMagnitudeGaussianFunctionType::InterpolationModeType interpolationMode =
+    DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation;
+
+  if( argc > 4 )
+    {
+    maxError = atof( argv[4] );
+    }
+  if( argc > 5 )
+    {
+    maxKernelWidth = atoi( argv[5] );
+    }
+  if( argc > 6 )
+    {
+    interpolationMode =
+      static_cast< typename DiscreteGradientMagnitudeGaussianFunctionType::InterpolationModeType >(
+      atoi( argv[6] ) );
+    }
+
+
+  typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType variance;
+  variance.Fill( sigma * sigma );
+
+  function->SetVariance( variance );
+  TEST_SET_GET_VALUE( variance, function->GetVariance() );
+
+  function->SetMaximumError( maxError );
+  TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
+
+  function->SetMaximumKernelWidth( maxKernelWidth );
+  TEST_SET_GET_VALUE( maxKernelWidth, function->GetMaximumKernelWidth() );
+
+  bool normalizeAcrossScale = true;
+  TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
+
+  bool useImageSpacing = true;
+  TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
+
+  function->SetInterpolationMode( interpolationMode );
+  TEST_SET_GET_VALUE( interpolationMode, function->GetInterpolationMode() );
+
+
+  function->Initialize();
+
+
   // Create image for storing result
   typename ImageType::Pointer output = ImageType::New();
   output->SetSpacing( inputImage->GetSpacing() );
@@ -64,35 +110,6 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   output->Allocate();
   output->FillBuffer( itk::NumericTraits<PixelType>::ZeroValue() );
 
-  // Setup operator parameters
-  double variance = atof( argv[3] );
-  variance *= variance;
-
-  double maxError = 0.001;
-  unsigned int maxKernelWidth = 100;
-  if( argc == 5 )
-    {
-    maxError = atof( argv[4] );
-    }
-  else if( argc > 5 )
-    {
-    maxError = atof( argv[4] );
-    maxKernelWidth = atoi( argv[5] );
-    }
-
-  // Create function
-  typedef itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >
-    DiscreteGradientMagnitudeGaussianFunctionType;
-  typename DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
-    DiscreteGradientMagnitudeGaussianFunctionType::New();
-  function->SetInputImage( inputImage );
-  function->SetMaximumError( maxError );
-  function->SetMaximumKernelWidth( maxKernelWidth );
-  function->SetVariance( variance );
-  function->SetNormalizeAcrossScale( true );
-  function->SetUseImageSpacing( true );
-  function->SetInterpolationMode( DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation );
-  function->Initialize();
 
   // Step over input and output images
   typedef itk::ImageRegionConstIterator< ImageType > ConstIteratorType;
@@ -141,84 +158,53 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   rescaler->SetOutputMinimum( itk::NumericTraits<OutputPixelType>::min() );
   rescaler->SetOutputMaximum( itk::NumericTraits<OutputPixelType>::max() );
 
-  // Write output
+  // Write the output image
   typedef itk::ImageFileWriter< OutputImageType > WriterType;
   typename WriterType::Pointer writer = WriterType::New();
   writer->SetFileName( argv[2] );
   writer->SetInput( rescaler->GetOutput() );
-  try
-    {
-    writer->Update();
-    }
-  catch ( itk::ExceptionObject &err )
-    {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-    }
 
-  // Test some functions
-  typedef typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType VarianceArrayType;
-  VarianceArrayType varReturned = function->GetVariance();
-  for ( unsigned int i = 0; i < Dimension; ++i )
-  {
-    if ( varReturned[ i ] != variance )
-    {
-      std::cout << "GetVariance()[" << i << "] failed. Expected: "
-        << variance
-        << " but got: "
-        << varReturned[ i ] << std::endl;
-      return EXIT_FAILURE;
-    }
-  }
-  if ( function->GetMaximumError() != maxError )
-  {
-    std::cout << "GetMaximumError failed. Expected: "
-      << maxError
-      << " but got: "
-      << function->GetMaximumError() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetNormalizeAcrossScale() != true )
-  {
-    std::cout << "GetNormalizeAcrossScale failed. Expected: "
-      << true
-      << " but got: "
-      << function->GetNormalizeAcrossScale() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetUseImageSpacing() != true )
-  {
-    std::cout << "GetUseImageSpacing failed. Expected: "
-      << true
-      << " but got: "
-      << function->GetUseImageSpacing() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetMaximumKernelWidth() != maxKernelWidth )
-  {
-    std::cout << "GetMaximumKernelWidth failed. Expected: "
-      << maxKernelWidth
-      << " but got: "
-      << function->GetMaximumKernelWidth() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if ( function->GetInterpolationMode() != DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation )
-  {
-    std::cout << "GetInterpolationMode failed. Expected: "
-      << DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation
-      << " but got: "
-      << function->GetInterpolationMode() << std::endl;
-    return EXIT_FAILURE;
-  }
 
-  // Call PrintSelf.
-  function->Print( std::cout );
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
 
-int itkDiscreteGradientMagnitudeGaussianImageFunctionTest(int argc, char* argv[] )
+int itkDiscreteGradientMagnitudeGaussianImageFunctionTest( int argc, char* argv[] )
 {
-  return itkDiscreteGradientMagnitudeGaussianImageFunctionTestND< 2 >( argc, argv );
+  if( argc < 4 )
+    {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0]
+      << "inputFileName"
+        " outputFileName"
+        " sigma"
+        " [maximumError]"
+        " [maximumKernelWidth]"
+        " [interpolator]: 0: NearestNeighbourInterpolation; 1: LinearInterpolation"
+        << std::endl;
+    return EXIT_FAILURE;
+    }
+
+
+  // Exercise basic object methods
+  // Done outside the helper function in the test because GCC is limited
+  // when calling overloaded base class functions.
+  const unsigned int Dimension = 2;
+
+  typedef float                               PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
+
+  typedef itk::DiscreteGradientMagnitudeGaussianImageFunction< ImageType, PixelType >
+    DiscreteGradientMagnitudeGaussianFunctionType;
+  DiscreteGradientMagnitudeGaussianFunctionType::Pointer function =
+    DiscreteGradientMagnitudeGaussianFunctionType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS( function,
+    DiscreteGradientMagnitudeGaussianImageFunction, ImageFunction );
+
+
+  return itkDiscreteGradientMagnitudeGaussianImageFunctionTestND< Dimension >( argc, argv );
 }
