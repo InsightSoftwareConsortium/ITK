@@ -68,7 +68,7 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   typedef typename RieszFrequencyFunctionType::SetType SetType;
   SetType                                              uniqueIndices;
   unsigned int                                         positionToStartProcessing = 0;
-  RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, positionToStartProcessing, uniqueIndices);
+  RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, uniqueIndices, positionToStartProcessing);
   std::cout << "UniqueIndices: " << uniqueIndices.size() << std::endl;
   for (typename SetType::const_iterator it = uniqueIndices.begin(); it != uniqueIndices.end(); ++it)
   {
@@ -101,13 +101,13 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
     testPassed = false;
   }
 
-  // Regression test.
+  // Regression test for indice calculation.
   for (unsigned int order = 1; order < 6; ++order)
   {
     uniqueIndices.clear();
     allPermutations.clear();
     initIndice[0] = order;
-    RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, 0, uniqueIndices);
+    RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, uniqueIndices /*, 0 */);
     allPermutations = RieszFrequencyFunctionType::ComputeAllPermutations(uniqueIndices);
     actualNumberOfComponents = allPermutations.size();
     expectedNumberOfComponents = RieszFrequencyFunctionType::ComputeNumberOfComponents(order);
@@ -119,6 +119,18 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
     }
   }
 
+  // Evaluate All Components:
+  rieszFunction->SetOrder(inputOrder);
+  rieszFunction->DebugOn();
+  typedef typename RieszFrequencyFunctionType::OutputComponentsType OutputComponentType;
+
+  OutputComponentType allComponents = rieszFunction->EvaluateAllComponents(frequencyPoint);
+  std::cout << "allComponents:" << std::endl;
+  for (typename OutputComponentType::const_iterator it = allComponents.begin(); it != allComponents.end(); ++it)
+  {
+    std::cout << *it << ",";
+  }
+  std::cout << std::endl;
 
   if (testPassed)
   {

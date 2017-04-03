@@ -115,8 +115,8 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeNumberOf
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 void
 RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeUniqueIndices(IndicesArrayType subIndice,
-                                                                                      unsigned int     init,
-                                                                                      SetType &        uniqueIndices)
+                                                                                      SetType &        uniqueIndices,
+                                                                                      unsigned int     init)
 {
   unsigned int subIndiceSize = subIndice.size();
   if (init == subIndiceSize - 1)
@@ -135,8 +135,8 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeUniqueIn
   }
   else
   {
-    // Process remeaning indice positions in this branch.
-    Self::ComputeUniqueIndices(subIndice, init + 1, uniqueIndices);
+    // Process remaining index positions in this branch.
+    Self::ComputeUniqueIndices(subIndice, uniqueIndices, init + 1);
     return;
   }
 
@@ -148,9 +148,9 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeUniqueIn
     return;
   }
   // Process modified subIndice.
-  Self::ComputeUniqueIndices(subIndice, init, uniqueIndices);
+  Self::ComputeUniqueIndices(subIndice, uniqueIndices, init);
   // Process modified init.
-  Self::ComputeUniqueIndices(subIndice, init + 1, uniqueIndices);
+  Self::ComputeUniqueIndices(subIndice, uniqueIndices, init + 1);
 }
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
@@ -167,6 +167,89 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeAllPermu
       out.insert(permutation);
     }
   }
+  return out;
+}
+template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
+typename RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::OutputComplexType
+RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeNormalizingFactor(
+  const IndicesArrayType & indices) const
+{
+  // normalizeFactor: sqrt(m_Order!/(n1!n2!...nd!))
+  typename OutputComplexType::value_type normalizeFactor(1);
+  for (unsigned int dim = 0; dim < VImageDimension; ++dim)
+  {
+    normalizeFactor *= Self::Factorial(indices[dim]);
+  }
+  normalizeFactor = sqrt(Self::Factorial(this->m_Order) / normalizeFactor);
+
+  // assert(this->m_Order > 0)
+  // calculate (-j)^m_Order
+  // dev: hacky switch because precision in std::pow<complex> is a source of important numerical errors.
+  OutputComplexType powComplex(0, 0);
+  unsigned int      modulo4 = this->m_Order % 4;
+  switch (modulo4)
+  {
+    case 1:
+      powComplex.imag(-1);
+      break;
+    case 2:
+      powComplex.real(1);
+      break;
+    case 3:
+      powComplex.imag(1);
+      break;
+    case 0:
+      powComplex.real(-1);
+      break;
+  }
+  // itkDebugMacro(<< "\n (-j)^Order: "<< powComplex << " output: " << normalizeFactor * powComplex)
+
+  // (-j)^{m_Order} * sqrt(m_Order!/(n1!n2!...nd!))
+  return powComplex * normalizeFactor;
+}
+
+template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
+typename RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::OutputComponentsType
+RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::EvaluateAllComponents(
+  const TInput & frequency_point) const
+{
+  double magn(this->Magnitude(frequency_point));
+  // Precondition:
+  if (itk::Math::FloatAlmostEqual(magn, 0.0))
+  {
+    // return empty vector of length equal to NumberOfComponents.
+    return OutputComponentsType(RieszFrequencyFunction::ComputeNumberOfComponents(this->m_Order));
+  }
+
+  // Calculate all the possible indices.
+  IndicesArrayType initIndice;
+  initIndice.resize(VImageDimension);
+  initIndice[0] = this->m_Order;
+  SetType uniqueIndices;
+  Self::ComputeUniqueIndices(initIndice, uniqueIndices);
+  SetType allIndices = Self::ComputeAllPermutations(uniqueIndices);
+
+  OutputComponentsType out;
+  for (typename SetType::const_iterator it = allIndices.begin(); it != allIndices.end(); ++it)
+  {
+    IndicesArrayType indice = *it;
+    // freqProduct = w1^n1...wd^nd
+    double freqProduct(1);
+    for (unsigned int dim = 0; dim < VImageDimension; ++dim)
+    {
+      for (unsigned int n = 0; n < indice[dim]; ++n)
+      {
+        freqProduct *= frequency_point[dim];
+      }
+    }
+
+    // rieszComponent = (-j)^{m_Order} * sqrt(m_Order!/(n1!n2!...nd!)) * w1^n1...wd^nd / ||w||^m_Order
+    OutputComplexType outPerIndice = this->ComputeNormalizingFactor(indice);
+    outPerIndice *= static_cast<typename OutputComplexType::value_type>(
+      freqProduct / std::pow(magn, static_cast<double>(this->m_Order)));
+    out.push_back(outPerIndice);
+  }
+
   return out;
 }
 

@@ -72,11 +72,15 @@ public:
   static unsigned int
   ComputeNumberOfComponents(unsigned int order);
   /**
-   * Compute all possible unique indices given the subIndice: (X, 0, ..., 0). Where X can be any number greater than 0,
-   * but probably want to use this->m_Order.
+   * Compute all possible unique indices given the subIndice: (X, 0, ..., 0).
+   * Where X can be any number greater than 0, but probably want to use this->m_Order.
+   *
+   * @param subIndice Indice (X,0,...,0) where X > 0.
+   * @param uniqueIndices Reference to set that store results.
+   * @param init position to evaluate  subIndice. Needed for recursion purposes.
    */
   static void
-  ComputeUniqueIndices(IndicesArrayType subIndice, unsigned int init, SetType & uniqueIndices);
+  ComputeUniqueIndices(IndicesArrayType subIndice, SetType & uniqueIndices, unsigned int init = 0);
 
   /**
    * Compute all the permutations from a set of uniqueIndices.
@@ -84,6 +88,17 @@ public:
   static SetType
   ComputeAllPermutations(const SetType & uniqueIndices);
 
+  /**
+   * Evaluate the frequency point and return the value for all the components of the generalized Riesz transform.
+   * The number of components depends on the value of m_Order.
+   * \sa ComputeAllPermutations
+   *
+   * @param frequency_point point in the frequency space.
+   *
+   * @return vector holding the values for all the components at the frequency point.
+   */
+  virtual OutputComponentsType
+  EvaluateAllComponents(const TInput & frequency_point) const;
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
   Evaluate(const TInput &) const ITK_OVERRIDE
@@ -118,6 +133,15 @@ public:
   virtual OutputComplexType
   EvaluateWithIndices(const TInput & frequency_point, const IndicesFixedArrayType & indices);
 
+  /**
+   * Compute normalizing factor given an indice = (n1,n2,...,nVImageDimension)
+   * Also takes into account this->m_Order = N
+   * @param indices input indices.
+   *
+   * @return normalizing factor = (-j)^N * sqrt(N!/(n1!*n2!...nd!))
+   */
+  OutputComplexType
+  ComputeNormalizingFactor(const IndicesArrayType & indices) const;
   /** Calculate magnitude (euclidean norm) of input point. **/
   inline double
   Magnitude(const TInput & point) const
@@ -181,23 +205,12 @@ public:
 
     this->m_Indices = indices;
 
-    // normalizeFactor: sqrt(m_Order!/(n1!n2!...nd!))
-    typename OutputComplexType::value_type normalizeFactor(1);
+    IndicesArrayType indicesVector;
     for (unsigned int dim = 0; dim < VImageDimension; ++dim)
     {
-      normalizeFactor *= Self::Factorial(indices[dim]);
+      indicesVector.push_back(indices[dim]);
     }
-    normalizeFactor = sqrt(Self::Factorial(this->m_Order) / normalizeFactor);
-
-    std::complex<long double> longComplex(0, -1);
-    // calculate (-j)^m_Order
-    itkDebugMacro(<< "\n normalizeFactor = " << normalizeFactor << "\n"
-                  << "extra precision: (-j)^Order: " << longComplex);
-    this->m_NormalizingIndicesComplexFactor = std::pow(longComplex, static_cast<long double>(this->m_Order));
-    itkDebugMacro(<< "\n (-j)^Order: " << this->m_NormalizingIndicesComplexFactor
-                  << " extra precision: " << std::pow(longComplex, static_cast<long double>(this->m_Order)));
-    // (-j)^{m_Order} * sqrt(m_Order!/(n1!n2!...nd!))
-    this->m_NormalizingIndicesComplexFactor *= normalizeFactor;
+    this->m_NormalizingIndicesComplexFactor = this->ComputeNormalizingFactor(indicesVector);
     this->Modified();
   }
 
