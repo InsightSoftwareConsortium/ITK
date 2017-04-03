@@ -303,16 +303,33 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "Threshold: " << m_Threshold << std::endl;
-  os << "Minimum Radius:  " << m_MinimumRadius << std::endl;
-  os << "Maximum Radius: " << m_MaximumRadius << std::endl;
-  os << "Derivative Scale : " << m_SigmaGradient << std::endl;
-  os << "Number Of Circles: " << m_NumberOfCircles << std::endl;
-  os << "Disc Radius: " << m_DiscRadiusRatio << std::endl;
-  os << "Accumulator blur variance: " << m_Variance << std::endl;
-  os << "Sweep angle : " << m_SweepAngle << std::endl;
+  os << indent << "Threshold: " << m_Threshold << std::endl;
+  os << indent << "Minimum Radius:  " << m_MinimumRadius << std::endl;
+  os << indent << "Maximum Radius: " << m_MaximumRadius << std::endl;
+  os << indent << "Derivative Scale : " << m_SigmaGradient << std::endl;
+  os << indent << "Number Of Circles: " << m_NumberOfCircles << std::endl;
+  os << indent << "Disc Radius Ratio: " << m_DiscRadiusRatio << std::endl;
+  os << indent << "Accumulator blur variance: " << m_Variance << std::endl;
+  os << indent << "Sweep angle : " << m_SweepAngle << std::endl;
 
   itkPrintSelfObjectMacro( RadiusImage );
+
+  os << indent << "CirclesList: " << std::endl;
+  unsigned int i = 0;
+  CirclesListType::const_iterator it = m_CirclesList.begin();
+  while( it != m_CirclesList.end() )
+    {
+    os << indent << "[" << i << "]: " << *it << std::endl;
+    ++it;
+    ++i;
+    }
+
+  os << indent << "OldModifiedTime: "
+    << NumericTraits< ModifiedTimeType >::PrintType( m_OldModifiedTime )
+    << std::endl;
+  os << indent << "OldNumberOfCircles: "
+    << NumericTraits< CirclesListSizeType >::PrintType( m_OldNumberOfCircles )
+    << std::endl;
 }
 } // end namespace
 
