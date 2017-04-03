@@ -1,5 +1,10 @@
 %module pyBasePython
 
+%begin %{
+// To address Python 2.7 hypot bug, https://bugs.python.org/issue11566
+#include "PatchedPython27pyconfig.h"
+%}
+
 %include <exception.i>
 %include <typemaps.i>
 
