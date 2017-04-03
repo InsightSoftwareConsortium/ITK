@@ -62,8 +62,8 @@ public:
   typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
 
   /**
-   * Compute all possible unique indices given the subIndice: (X, 0, 0, ..., 0). Where X can be any number greater than
-   * 0, but probably want to use this->m_Order.
+   * Compute all possible unique indices given the subIndice: (X, 0, ..., 0). Where X can be any number greater than 0,
+   * but probably want to use this->m_Order.
    */
   static void
   ComputeUniqueIndices(IndicesArrayType subIndice, unsigned int init, SetType & uniqueIndices);

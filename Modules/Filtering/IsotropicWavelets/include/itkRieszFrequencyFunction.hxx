@@ -119,7 +119,9 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeUniqueIn
   }
 
   // If OK, store it.
-  if (std::distance(subIndice.begin(), std::max_element(subIndice.begin() + init, subIndice.end())) <= init)
+  if (std::distance(subIndice.begin(),
+                    std::max_element(subIndice.begin(), subIndice.end(), std::greater<unsigned int>())) <=
+      VImageDimension - 1)
   {
     IndicesArrayType subIndiceCopy = subIndice;
     std::sort(subIndiceCopy.rbegin(), subIndiceCopy.rend());
@@ -139,9 +141,10 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeUniqueIn
   {
     return;
   }
-
   // Process modified subIndice.
   Self::ComputeUniqueIndices(subIndice, init, uniqueIndices);
+  // Process modified init.
+  Self::ComputeUniqueIndices(subIndice, init + 1, uniqueIndices);
 }
 
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
