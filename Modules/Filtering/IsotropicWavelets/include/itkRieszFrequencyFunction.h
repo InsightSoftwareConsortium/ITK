@@ -62,18 +62,28 @@ public:
   typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
 
   /**
+   * Compute number of components p(N, d), where N = Order, d = Dimension.
+   * p(N,d) = (N + d - 1)!/( (d-1)! N! )
+   *
+   * @param order N or this->m_Order
+   *
+   * @return NumberOfComponents given the order.
+   */
+  static unsigned int
+  ComputeNumberOfComponents(unsigned int order);
+  /**
    * Compute all possible unique indices given the subIndice: (X, 0, ..., 0). Where X can be any number greater than 0,
    * but probably want to use this->m_Order.
    */
   static void
   ComputeUniqueIndices(IndicesArrayType subIndice, unsigned int init, SetType & uniqueIndices);
+
   /**
    * Compute all the permutations from a set of uniqueIndices.
    */
   static SetType
   ComputeAllPermutations(const SetType & uniqueIndices);
 
-  // static std::vector<IndicesArrayType> GetAllPossibleIndices();
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
   Evaluate(const TInput &) const ITK_OVERRIDE

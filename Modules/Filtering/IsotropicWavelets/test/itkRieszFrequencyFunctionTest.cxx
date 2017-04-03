@@ -35,7 +35,7 @@
 
 template <unsigned int VDimension>
 int
-runRieszFrequencyFunctionTest(unsigned int order)
+runRieszFrequencyFunctionTest(unsigned int inputOrder)
 {
   bool                                                   testPassed = true;
   const unsigned int                                     Dimension = VDimension;
@@ -48,7 +48,6 @@ runRieszFrequencyFunctionTest(unsigned int order)
   InputType frequencyPoint;
   frequencyPoint.Fill(0.1);
   OutputType resultFirstOrder = rieszFunction->Evaluate(frequencyPoint, 0);
-  rieszFunction->DebugOn();
   rieszFunction->SetOrder(1);
   typename RieszFrequencyFunctionType::IndicesFixedArrayType indices;
   indices.Fill(0);
@@ -65,7 +64,7 @@ runRieszFrequencyFunctionTest(unsigned int order)
   // Init indice has to be sorted in descending order, example:(3,0,0)
   typename RieszFrequencyFunctionType::IndicesArrayType initIndice;
   initIndice.resize(Dimension);
-  initIndice[0] = order;
+  initIndice[0] = inputOrder;
   typedef typename RieszFrequencyFunctionType::SetType SetType;
   SetType                                              uniqueIndices;
   unsigned int                                         positionToStartProcessing = 0;
@@ -93,8 +92,37 @@ runRieszFrequencyFunctionTest(unsigned int order)
     std::cout << ")" << std::endl;
   }
 
+  unsigned int expectedNumberOfComponents = RieszFrequencyFunctionType::ComputeNumberOfComponents(inputOrder);
+  unsigned int actualNumberOfComponents = allPermutations.size();
+  if (actualNumberOfComponents != expectedNumberOfComponents)
+  {
+    std::cerr << "Error. NumberOfComponents for inputOrder: " << inputOrder << " ; actual: " << actualNumberOfComponents
+              << " expected: " << expectedNumberOfComponents << " are not equal!" << std::endl;
+    testPassed = false;
+  }
+
+  // Regression test.
+  for (unsigned int order = 1; order < 6; ++order)
+  {
+    uniqueIndices.clear();
+    allPermutations.clear();
+    initIndice[0] = order;
+    RieszFrequencyFunctionType::ComputeUniqueIndices(initIndice, 0, uniqueIndices);
+    allPermutations = RieszFrequencyFunctionType::ComputeAllPermutations(uniqueIndices);
+    actualNumberOfComponents = allPermutations.size();
+    expectedNumberOfComponents = RieszFrequencyFunctionType::ComputeNumberOfComponents(order);
+    if (actualNumberOfComponents != expectedNumberOfComponents)
+    {
+      std::cerr << "Error. NumberOfComponents for order: " << order << " ; actual: " << actualNumberOfComponents
+                << " expected: " << expectedNumberOfComponents << " are not equal!" << std::endl;
+      testPassed = false;
+    }
+  }
+
+
   if (testPassed)
   {
+    std::cout << "Test Passed!" << std::endl;
     return EXIT_SUCCESS;
   }
   else
