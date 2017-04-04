@@ -293,14 +293,14 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
   // specified that they should be treated independently.
   if( this->GetAlwaysTreatComponentsAsEuclidean() )
     {
-    this->m_ComponentSpace = Superclass::EUCLIDEAN;
+    this->SetComponentSpace( Superclass::EUCLIDEAN );
     }
   else
     {
-    this->m_ComponentSpace = this->DetermineComponentSpace(m_ZeroPixel);
+    this->SetComponentSpace( this->DetermineComponentSpace( m_ZeroPixel ) );
     }
 
-  if( this->m_ComponentSpace == Superclass::EUCLIDEAN )
+  if( this->GetComponentSpace() == Superclass::EUCLIDEAN )
     {
     m_NumIndependentComponents = m_NumPixelComponents;
     }
@@ -394,7 +394,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
       {
       // Initialize to 5% of the intensity range
       RealValueType invFactor;
-      if( this->m_ComponentSpace == Superclass::EUCLIDEAN )
+      if( this->GetComponentSpace() == Superclass::EUCLIDEAN )
         {
         invFactor = m_IntensityRescaleInvFactor[pc];
         }
@@ -455,7 +455,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>
 
   // Do not know how to compute noise model in RIEMANNIAN case
   // so make sure the computation is disabled
-  if( this->m_ComponentSpace == Superclass::RIEMANNIAN )
+  if( this->GetComponentSpace() == Superclass::RIEMANNIAN )
     {
     if( this->GetNoiseModelFidelityWeight() > 0 )
       {
