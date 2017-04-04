@@ -22,11 +22,10 @@
 #include "itkCenteredAffineTransform.h"
 #include "itkStdStreamStateSave.h"
 #include "itkMath.h"
+#include "itkNumericTraits.h"
+#include "itkTestingMacros.h"
+#include "itkVectorLinearInterpolateImageFunction.h"
 
-const unsigned int dimensions = 2;
-typedef itk::DisplacementFieldTransform<double, dimensions>
-DisplacementTransformType;
-typedef DisplacementTransformType::ScalarType ScalarType;
 
 template <typename TPoint>
 bool samePoint( const TPoint & p1, const TPoint & p2, double epsilon = 1e-8 )
@@ -35,8 +34,16 @@ bool samePoint( const TPoint & p1, const TPoint & p2, double epsilon = 1e-8 )
 
   for( unsigned int i = 0; i < TPoint::PointDimension; i++ )
     {
-    if( std::fabs( p1[i] - p2[i] ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( p1[i], p2[i], 10, epsilon ) )
       {
+      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Expected: "
+        << static_cast< typename itk::NumericTraits<
+        typename TPoint::ValueType >::PrintType >( p1[i] )
+        << ", but got: "
+        << static_cast< typename itk::NumericTraits<
+        typename TPoint::ValueType >::PrintType >( p2[i] )
+        << std::endl;
       pass = false;
       }
     }
@@ -44,14 +51,22 @@ bool samePoint( const TPoint & p1, const TPoint & p2, double epsilon = 1e-8 )
 }
 
 template <typename TVector>
-bool sameVector( const TVector & p1, const TVector & p2, double epsilon = 1e-8 )
+bool sameVector( const TVector & v1, const TVector & v2, double epsilon = 1e-8 )
 {
   bool pass = true;
 
   for( unsigned int i = 0; i < TVector::Dimension; i++ )
     {
-    if( std::fabs( p1[i] - p2[i] ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( v1[i], v2[i], 10, epsilon ) )
       {
+      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Expected: "
+        << static_cast< typename itk::NumericTraits<
+        typename TVector::ValueType >::PrintType >( v1[i] )
+        << ", but got: "
+        << static_cast< typename itk::NumericTraits<
+        typename TVector::ValueType >::PrintType >( v2[i] )
+        << std::endl;
       pass = false;
       }
     }
@@ -59,12 +74,12 @@ bool sameVector( const TVector & p1, const TVector & p2, double epsilon = 1e-8 )
 }
 
 template <typename TVector>
-bool sameVariableVector( const TVector & p1, const TVector & p2, double epsilon = 1e-8 )
+bool sameVariableVector( const TVector & v1, const TVector & v2, double epsilon = 1e-8 )
 {
   bool pass = true;
 
-  const unsigned int D1 = p1.Size();
-  const unsigned int D2 = p2.Size();
+  const unsigned int D1 = v1.Size();
+  const unsigned int D2 = v2.Size();
 
   if( D1 != D2 )
     {
@@ -72,8 +87,16 @@ bool sameVariableVector( const TVector & p1, const TVector & p2, double epsilon 
     }
   for( unsigned int i = 0; i < D1; i++ )
     {
-    if( std::fabs( p1[i] - p2[i] ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( v1[i], v2[i], 10, epsilon ) )
       {
+      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Expected: "
+        << static_cast< typename itk::NumericTraits<
+        typename TVector::ValueType >::PrintType >( v1[i] )
+        << ", but got: "
+        << static_cast< typename itk::NumericTraits<
+        typename TVector::ValueType >::PrintType >( v2[i] )
+        << std::endl;
       pass = false;
       }
     }
@@ -81,14 +104,22 @@ bool sameVariableVector( const TVector & p1, const TVector & p2, double epsilon 
 }
 
 template <typename TTensor>
-bool sameTensor( const TTensor & p1, const TTensor & p2, double epsilon = 1e-8 )
+bool sameTensor( const TTensor & t1, const TTensor & t2, double epsilon = 1e-8 )
 {
   bool pass = true;
 
   for( unsigned int i = 0; i < TTensor::InternalDimension; i++ )
     {
-    if( std::fabs( p1[i] - p2[i] ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( t1[i], t2[i], 10, epsilon ) )
       {
+      std::cout << "Error at index [" << i << "]" << std::endl;
+      std::cout << "Expected: "
+        << static_cast< typename itk::NumericTraits<
+        typename TTensor::ValueType >::PrintType >( t1[i] )
+        << ", but got: "
+        << static_cast< typename itk::NumericTraits<
+        typename TTensor::ValueType >::PrintType >( t2[i] )
+        << std::endl;
       pass = false;
       }
     }
@@ -108,8 +139,16 @@ bool sameArray2D( const TArray2D & a1, const TArray2D & a2, double epsilon = 1e-
     {
     for( unsigned int j = 0; j < a1.rows(); j++ )
       {
-      if( std::fabs( a1(j, i) - a2(j, i) ) > epsilon )
+      if( !itk::Math::FloatAlmostEqual( a1(j, i), a2(j, i), 10, epsilon ) )
         {
+        std::cout << "Error at index (" << j << ", " << i << ")" << std::endl;
+        std::cout << "Expected: "
+          << static_cast< typename itk::NumericTraits<
+          typename TArray2D::ValueType >::PrintType >( a1(j, i) )
+          << ", but got: "
+          << static_cast< typename itk::NumericTraits<
+          typename TArray2D::ValueType >::PrintType >( a2(j, i) )
+          << std::endl;
         pass = false;
         }
       }
@@ -117,20 +156,77 @@ bool sameArray2D( const TArray2D & a1, const TArray2D & a2, double epsilon = 1e-
   return pass;
 }
 
-int itkDisplacementFieldTransformTest(int, char *[] )
+int itkDisplacementFieldTransformTest( int argc, char* argv[] )
 {
+  if( argc < 3 )
+    {
+    std::cerr << "Usage: " << argv[0];
+    std::cerr << " coordinateTolerance directionTolerance";
+    std::cerr << std::endl;
+    return EXIT_FAILURE;
+    }
 
-// Save the format stream variables for std::cout
-// They will be restored when coutState goes out of scope
-// scope.
+  const unsigned int Dimensions = 2;
+
+  typedef double ParametersValueType;
+
+  typedef itk::DisplacementFieldTransform< ParametersValueType, Dimensions >
+                                                            DisplacementTransformType;
+  typedef DisplacementTransformType::ScalarType             ScalarType;
+  typedef DisplacementTransformType::DisplacementFieldType  FieldType;
+  typedef DisplacementTransformType::DisplacementFieldType  DisplacementFieldType;
+
+
+  // Save the format stream variables for std::cout
+  // They will be restored when coutState goes out of scope.
   itk::StdStreamStateSave coutState(std::cout);
 
-  /* Create a displacement field transform */
+  // Create a displacement field transform
   DisplacementTransformType::Pointer displacementTransform =
     DisplacementTransformType::New();
-  typedef DisplacementTransformType::DisplacementFieldType FieldType;
-  typedef DisplacementTransformType::DisplacementFieldType DisplacementFieldType;
-  FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
+
+  EXERCISE_BASIC_OBJECT_METHODS( displacementTransform,
+    DisplacementFieldTransform, Transform );
+
+
+  DisplacementTransformType::DisplacementFieldType::Pointer displacementField =
+    DisplacementTransformType::DisplacementFieldType::New();
+  displacementTransform->SetDisplacementField( displacementField );
+  TEST_SET_GET_VALUE( displacementField,
+    displacementTransform->GetDisplacementField() );
+
+  DisplacementTransformType::DisplacementFieldType::Pointer inverseDisplacementField =
+    DisplacementTransformType::DisplacementFieldType::New();
+  displacementTransform->SetInverseDisplacementField( inverseDisplacementField );
+  TEST_SET_GET_VALUE( inverseDisplacementField,
+    displacementTransform->GetInverseDisplacementField() );
+
+  typedef itk::VectorLinearInterpolateImageFunction<
+    DisplacementTransformType::DisplacementFieldType,
+    DisplacementTransformType::ScalarType> InterpolatorType;
+
+  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  displacementTransform->SetInterpolator( interpolator );
+  TEST_SET_GET_VALUE( interpolator,
+    displacementTransform->GetInterpolator() );
+
+  InterpolatorType::Pointer inverseInterpolator = InterpolatorType::New();
+  displacementTransform->SetInverseInterpolator( inverseInterpolator );
+  TEST_SET_GET_VALUE( inverseInterpolator,
+    displacementTransform->GetInverseInterpolator() );
+
+  double coordinateTolerance = atof( argv[1] );
+  displacementTransform->SetCoordinateTolerance( coordinateTolerance );
+  TEST_SET_GET_VALUE( coordinateTolerance,
+    displacementTransform->GetCoordinateTolerance() );
+
+  double directionTolerance = atof( argv[2] );
+  displacementTransform->SetDirectionTolerance( directionTolerance );
+  TEST_SET_GET_VALUE( directionTolerance,
+    displacementTransform->GetDirectionTolerance() );
+
+
+  FieldType::Pointer field = FieldType::New();
 
   FieldType::SizeType   size;
   FieldType::IndexType  start;
@@ -147,18 +243,25 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   zeroVector.Fill( 0 );
   field->FillBuffer( zeroVector );
 
+  displacementTransform->SetDisplacementField( field );
+  TEST_SET_GET_VALUE( field, displacementTransform->GetDisplacementField() );
+
+
   // Test the fixed parameters
 
-  displacementTransform->SetDisplacementField( field );
-
-  DisplacementTransformType::ParametersType fixedParameters = displacementTransform->GetFixedParameters();
-  std::cout << "Fixed parameters:  " << fixedParameters << std::endl;
+  DisplacementTransformType::ParametersType fixedParameters =
+    displacementTransform->GetFixedParameters();
   displacementTransform->SetFixedParameters( fixedParameters );
+  TEST_SET_GET_VALUE( fixedParameters, displacementTransform->GetFixedParameters() );
 
-  DisplacementFieldType::SizeType size2 = displacementTransform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
-  DisplacementFieldType::PointType origin2 = displacementTransform->GetDisplacementField()->GetOrigin();
-  DisplacementFieldType::DirectionType direction2 = displacementTransform->GetDisplacementField()->GetDirection();
-  DisplacementFieldType::SpacingType spacing2 = displacementTransform->GetDisplacementField()->GetSpacing();
+  DisplacementFieldType::SizeType size2 =
+    displacementTransform->GetDisplacementField()->GetLargestPossibleRegion().GetSize();
+  DisplacementFieldType::PointType origin2 =
+    displacementTransform->GetDisplacementField()->GetOrigin();
+  DisplacementFieldType::DirectionType direction2 =
+    displacementTransform->GetDisplacementField()->GetDirection();
+  DisplacementFieldType::SpacingType spacing2 =
+    displacementTransform->GetDisplacementField()->GetSpacing();
 
   size = field->GetLargestPossibleRegion().GetSize();
   DisplacementFieldType::PointType origin = field->GetOrigin();
@@ -167,49 +270,53 @@ int itkDisplacementFieldTransformTest(int, char *[] )
 
   if( size != size2 )
     {
+    std::cerr << "Test failed!" << std::endl;
     std::cerr << "Incorrect size from fixed parameters." << std::endl;
-
     return EXIT_FAILURE;
     }
   if( origin != origin2 )
     {
+    std::cerr << "Test failed!" << std::endl;
     std::cerr << "Incorrect origin from fixed parameters." << std::endl;
-
     return EXIT_FAILURE;
     }
   if( spacing != spacing2 )
     {
+    std::cerr << "Test failed!" << std::endl;
     std::cerr << "Incorrect spacing from fixed parameters." << std::endl;
-
     return EXIT_FAILURE;
     }
   if( direction != direction2 )
     {
+    std::cerr << "Test failed!" << std::endl;
     std::cerr << "Incorrect direction from fixed parameters." << std::endl;
-
     return EXIT_FAILURE;
     }
 
 
-  /* Initialize Affine transform and use to create displacement field */
-  typedef itk::CenteredAffineTransform<double, 2> AffineTransformType;
-  typedef AffineTransformType::MatrixType         AffineMatrixType;
+  // Initialize Affine transform and use it to create the displacement field
+  typedef itk::CenteredAffineTransform< ParametersValueType, Dimensions >
+    AffineTransformType;
+
+  typedef AffineTransformType::MatrixType AffineMatrixType;
   AffineMatrixType affineMatrix;
-  affineMatrix(0, 0) = 1.0;
-  affineMatrix(1, 0) = 0.01;
-  affineMatrix(0, 1) = 0.02;
-  affineMatrix(1, 1) = 1.1;
-  DisplacementTransformType::JacobianType fieldJTruth;
-  fieldJTruth.SetSize(2, 2);
-  fieldJTruth(0, 0) = 1.0;
-  fieldJTruth(1, 0) = 0.01;
-  fieldJTruth(0, 1) = 0.02;
-  fieldJTruth(1, 1) = 1.1;
+  affineMatrix( 0, 0 ) = 1.0;
+  affineMatrix( 1, 0 ) = 0.01;
+  affineMatrix( 0, 1 ) = 0.02;
+  affineMatrix( 1, 1 ) = 1.1;
+
   AffineTransformType::Pointer affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   affineTransform->SetMatrix( affineMatrix );
 
-  itk::ImageRegionIteratorWithIndex<FieldType> it( field, field->GetLargestPossibleRegion() );
+  DisplacementTransformType::JacobianType fieldJTruth;
+  fieldJTruth.SetSize( DisplacementTransformType::Dimension, DisplacementTransformType::Dimension );
+  fieldJTruth( 0, 0 ) = 1.0;
+  fieldJTruth( 1, 0 ) = 0.01;
+  fieldJTruth( 0, 1 ) = 0.02;
+  fieldJTruth( 1, 1 ) = 1.1;
+
+  itk::ImageRegionIteratorWithIndex< FieldType > it( field, field->GetLargestPossibleRegion() );
   it.GoToBegin();
 
   while( !it.IsAtEnd() )
@@ -226,89 +333,107 @@ int itkDisplacementFieldTransformTest(int, char *[] )
     }
 
   displacementTransform->SetDisplacementField( field );
+  TEST_SET_GET_VALUE( field, displacementTransform->GetDisplacementField() );
 
   DisplacementTransformType::InputPointType testPoint;
   testPoint[0] = 10;
   testPoint[1] = 8;
 
-  /* Test LocalJacobian methods */
-  DisplacementTransformType::JacobianType jacobian(2,2);
-  displacementTransform->ComputeJacobianWithRespectToPosition( testPoint, jacobian );
-  std::cout << "Local jacobian estimated. " << std::endl << jacobian << std::endl;
-  if( !sameArray2D( jacobian, fieldJTruth, 1e-6 ) )
-    {
-    std::cout << "Failed getting local jacobian. Should be " << std::endl << affineMatrix << std::endl;
+  // Test LocalJacobian methods
+  DisplacementTransformType::JacobianType jacobian( DisplacementTransformType::Dimension,
+    DisplacementTransformType::Dimension );
 
+  displacementTransform->ComputeJacobianWithRespectToPosition( testPoint, jacobian );
+
+  double tolerance = 1e-6;
+  if( !sameArray2D( jacobian, fieldJTruth, tolerance ) )
+    {
+    std::cout << "Failed getting local Jacobian: "
+      << "ComputeJacobianWithRespectToPosition(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
   DisplacementTransformType::JacobianType invfieldJTruth;
-  invfieldJTruth.SetSize(2, 2);
-  invfieldJTruth(0, 0) = affineTransform->GetInverseTransform()->GetParameters()[0];
-  invfieldJTruth(1, 0) = affineTransform->GetInverseTransform()->GetParameters()[1];
-  invfieldJTruth(0, 1) = affineTransform->GetInverseTransform()->GetParameters()[2];
-  invfieldJTruth(1, 1) = affineTransform->GetInverseTransform()->GetParameters()[3];
-  displacementTransform->GetInverseJacobianOfForwardFieldWithRespectToPosition( testPoint, jacobian );
-  std::cout << "Local inverse jacobian estimated. " << std::endl << jacobian << std::endl;
-  if( !sameArray2D( jacobian, invfieldJTruth, 1e-1 ) )
-    {
-    std::cout << "Failed getting local inverse jacobian. Should be " << std::endl << invfieldJTruth << std::endl;
+  invfieldJTruth.SetSize( DisplacementTransformType::Dimension,
+    DisplacementTransformType::Dimension);
+  invfieldJTruth( 0, 0 ) = affineTransform->GetInverseTransform()->GetParameters()[0];
+  invfieldJTruth( 1, 0 ) = affineTransform->GetInverseTransform()->GetParameters()[1];
+  invfieldJTruth( 0, 1 ) = affineTransform->GetInverseTransform()->GetParameters()[2];
+  invfieldJTruth( 1, 1 ) = affineTransform->GetInverseTransform()->GetParameters()[3];
 
+  displacementTransform->GetInverseJacobianOfForwardFieldWithRespectToPosition( testPoint, jacobian );
+
+  tolerance = 1e-1;
+  if( !sameArray2D( jacobian, invfieldJTruth, tolerance ) )
+    {
+    std::cout << "Error getting local inverse Jacobian: "
+      << "GetInverseJacobianOfForwardFieldWithRespectToPosition(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
   displacementTransform->GetInverseJacobianOfForwardFieldWithRespectToPosition( testPoint, jacobian, true );
-  std::cout << "Local inverse jacobian estimated with SVD. " << std::endl << jacobian << std::endl;
-  if( !sameArray2D( jacobian, invfieldJTruth, 1e-1 ) )
-    {
-    std::cout << "Failed getting local inverse jacobian. Should be " << std::endl << invfieldJTruth << std::endl;
 
+  if( !sameArray2D( jacobian, invfieldJTruth, tolerance ) )
+    {
+    std::cout << "Error getting local inverse Jacobian with SVD: "
+      << "GetInverseJacobianOfForwardFieldWithRespectToPosition(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
-  /* Test ComputeJacobianWithRespectToParameters. Should return identity */
-  DisplacementTransformType::JacobianType
-  identity(dimensions, dimensions), testIdentity;
-  identity.Fill(0);
-  for( unsigned int i = 0; i < dimensions; i++ )
+  // Test ComputeJacobianWithRespectToParameters: should return identity
+
+  DisplacementTransformType::JacobianType identity( Dimensions, Dimensions ), testIdentity;
+
+  identity.Fill( 0 );
+  for( unsigned int i = 0; i < Dimensions; i++ )
     {
     identity[i][i] = 1.0;
     }
+
   displacementTransform->ComputeJacobianWithRespectToParameters(
     testPoint, testIdentity );
-  if( !sameArray2D( identity, testIdentity, 1e-10 ) )
+
+  tolerance = 1e-10;
+  if( !sameArray2D( identity, testIdentity, tolerance ) )
     {
-    std::cout << "Failed returning identity for "
-    "ComputeJacobianWithRespectToParameters( point, ... )"
-              << std::endl;
-    return EXIT_FAILURE;
-    }
-  DisplacementTransformType::IndexType testIndex;
-  testIdentity.SetSize(1, 1); // make sure it gets resized properly
-  displacementTransform->ComputeJacobianWithRespectToParameters(
-    testIndex, testIdentity );
-  if( !sameArray2D( identity, testIdentity, 1e-10 ) )
-    {
-    std::cout << "Failed returning identity for "
-    "ComputeJacobianWithRespectToParameters( index, ... )"
-              << std::endl;
+    std::cout << "Error returning identity for "
+      << "ComputeJacobianWithRespectToParameters(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
-  /** Test transforming of points */
+  DisplacementTransformType::IndexType testIndex;
+  testIdentity.SetSize( 1, 1 ); // make sure it gets resized properly
+  displacementTransform->ComputeJacobianWithRespectToParameters(
+    testIndex, testIdentity );
+
+  if( !sameArray2D( identity, testIdentity, tolerance ) )
+    {
+    std::cout << "Error returning identity for "
+      << "ComputeJacobianWithRespectToParameters(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  // Test transforming of points
+  //
 
   DisplacementTransformType::OutputPointType deformOutput, deformTruth;
 
-  /* Test a point with non-zero displacement */
+  // Test a point with non-zero displacement
   FieldType::IndexType idx;
   field->TransformPhysicalPointToIndex( testPoint, idx );
   deformTruth = testPoint + field->GetPixel( idx );
 
   deformOutput = displacementTransform->TransformPoint( testPoint );
-  std::cout << "point 1 transformed: " << deformOutput << std::endl;
-  if( !samePoint( deformOutput, deformTruth  ) )
+
+  if( !samePoint( deformOutput, deformTruth ) )
     {
-    std::cout << "Failed transforming point 1. Should be " << deformTruth << std::endl;
+    std::cout << "Error transforming point: TransformPoint(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -319,61 +444,42 @@ int itkDisplacementFieldTransformTest(int, char *[] )
 
   deformVectorTruth = affineTransform->TransformVector( testVector );
   deformVector = displacementTransform->TransformVector( testVector, testPoint );
-  std::cout << "vector 1 transformed: " << deformVector << std::endl;
-  if( !sameVector( deformVector, deformVectorTruth, 0.0001 ) )
+
+  tolerance = 1e-4;
+  if( !sameVector( deformVector, deformVectorTruth, tolerance ) )
     {
-    std::cout << "Failed transforming vector 1. Should be " << deformVectorTruth << std::endl;
+    std::cout << "Error transforming vector: TransformVector(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
-  bool caughtException = false;
-  try
-    {
-    deformVector = displacementTransform->TransformVector( testVector );
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception:" << std::endl << e << std::endl;
-    caughtException = true;
-    }
+  TRY_EXPECT_EXCEPTION( deformVector =
+    displacementTransform->TransformVector( testVector ) );
 
-  if( !caughtException )
-    {
-    std::cout << "Expected TransformVector(vector) to throw exception." << std::endl;
-    return EXIT_FAILURE;
-    }
 
-  /** Test VectorTransform for variable length vector  */
-  DisplacementTransformType::InputVectorPixelType  testVVector(2);
-  DisplacementTransformType::OutputVectorPixelType deformVVector, deformVVectorTruth(2);
+  // Test VectorTransform for variable length vector
+  DisplacementTransformType::InputVectorPixelType
+    testVVector( DisplacementTransformType::Dimension );
+  DisplacementTransformType::OutputVectorPixelType deformVVector,
+    deformVVectorTruth( DisplacementTransformType::Dimension );
   testVVector[0] = 0.5;
   testVVector[1] = 0.5;
 
   deformVVectorTruth = affineTransform->TransformVector( testVVector );
   deformVVector = displacementTransform->TransformVector( testVVector, testPoint );
-  std::cout << "variable length vector 1 transformed: " << deformVVector << std::endl;
-  if( !sameVariableVector( deformVVector, deformVVectorTruth, 0.0001 ) )
+
+  if( !sameVariableVector( deformVVector, deformVVectorTruth, tolerance ) )
     {
-    std::cout << "Failed transforming variable length vector 1. Should be " << deformVVectorTruth << std::endl;
+    std::cout << "Error transforming variable length vector: "
+      << "TransformVector(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
-  caughtException = false;
-  try
-    {
-    deformVVector = displacementTransform->TransformVector( testVVector );
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception:" << std::endl << e << std::endl;
-    caughtException = true;
-    }
 
-  if( !caughtException )
-    {
-    std::cout << "Expected TransformVector(vector) to throw exception." << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_EXCEPTION( deformVVector =
+    displacementTransform->TransformVector( testVVector ) );
+
 
   DisplacementTransformType::InputCovariantVectorType  testcVector;
   DisplacementTransformType::OutputCovariantVectorType deformcVector, deformcVectorTruth;
@@ -382,66 +488,43 @@ int itkDisplacementFieldTransformTest(int, char *[] )
 
   deformcVectorTruth = affineTransform->TransformCovariantVector( testcVector );
   deformcVector = displacementTransform->TransformCovariantVector( testcVector, testPoint );
-  std::cout << "covariant vector 1 transformed: " << deformcVector << std::endl;
-  if( !sameVector( deformcVector, deformcVectorTruth, 0.1 ) )
+
+  tolerance = 1e-1;
+  if( !sameVector( deformcVector, deformcVectorTruth, tolerance ) )
     {
-    std::cout << "Failed transforming vector 1. Should be "
-              << deformcVectorTruth << std::endl;
+    std::cout << "Error transforming covariant vector: "
+      << "TransformCovariantVector(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
-  caughtException = false;
-  try
-    {
-    deformcVector = displacementTransform->TransformCovariantVector( testcVector );
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception:" << std::endl << e << std::endl;
-    caughtException = true;
-    }
 
-  if( !caughtException )
-    {
-    std::cout << "Expected TransformCovariantVector(vector) to throw exception."
-              << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_EXCEPTION( deformcVector =
+    displacementTransform->TransformCovariantVector( testcVector ) );
 
-  DisplacementTransformType::InputVectorPixelType  testcVVector(2);
-  DisplacementTransformType::OutputVectorPixelType deformcVVector, deformcVVectorTruth(2);
+
+  DisplacementTransformType::InputVectorPixelType
+    testcVVector( DisplacementTransformType::Dimension );
+  DisplacementTransformType::OutputVectorPixelType deformcVVector,
+    deformcVVectorTruth( DisplacementTransformType::Dimension );
   testcVVector[0] = 0.5;
   testcVVector[1] = 0.5;
 
   deformcVVectorTruth = affineTransform->TransformCovariantVector( testcVVector );
   deformcVVector = displacementTransform->TransformCovariantVector( testcVVector, testPoint );
-  std::cout << "variable length covariant vector 1 transformed: "
-            << deformcVVector << std::endl;
-  if( !sameVariableVector( deformcVVector, deformcVVectorTruth, 0.1 ) )
+
+  if( !sameVariableVector( deformcVVector, deformcVVectorTruth, tolerance ) )
     {
-    std::cout
-    << "Failed transforming variable length covariant vector 1. Should be "
-    << deformcVVectorTruth << std::endl;
+    std::cout << "Error transforming variable length covariant vector: "
+      <<  "TransformCovariantVector(...)" << std::endl;
+    std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
     }
 
-  caughtException = false;
-  try
-    {
-    deformcVVector = displacementTransform->TransformCovariantVector( testcVVector );
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception:" << std::endl << e << std::endl;
-    caughtException = true;
-    }
 
-  if( !caughtException )
-    {
-    std::cout << "Expected TransformCovariantVector(vector) to throw exception."
-              << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_EXCEPTION( deformcVVector =
+    displacementTransform->TransformCovariantVector( testcVVector ) );
+
 
   DisplacementTransformType::InputDiffusionTensor3DType  testTensor;
   DisplacementTransformType::OutputDiffusionTensor3DType deformTensor,
@@ -453,67 +536,51 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   testTensor[4] = 0.01;
   testTensor[5] = 1;
 
-  // pass thru functionality only for now
+  // Pass thru functionality only for now
   deformTensorTruth = affineTransform->TransformDiffusionTensor3D( testTensor );
-  std::cout << "tensor 1:             " << testTensor << std::endl;
   deformTensor = displacementTransform->TransformDiffusionTensor3D(
       testTensor, testPoint );
-  std::cout << "tensor 1 transformed: " << deformTensor << std::endl;
-  if( !sameTensor( deformTensor, deformTensorTruth, 0.0001 ) )
+
+  tolerance = 1e-4;
+  if( !sameTensor( deformTensor, deformTensorTruth, tolerance ) )
     {
-    std::cout << "Failed transforming tensor 1. Should be "
-              << deformTensorTruth << std::endl;
-    // return EXIT_FAILURE;
+    std::cout << "Error transforming tensor: TransformDiffusionTensor3D(...)"
+      << std::endl;
+    std::cout << "Test failed!" << std::endl;
+    // ToDo
+    // Check this case. See
+    // https://issues.itk.org/jira/browse/ITK-3537
+    //return EXIT_FAILURE;
     }
 
-  caughtException = false;
-  try
-    {
-    deformTensor = displacementTransform->TransformDiffusionTensor( testTensor );
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception:" << std::endl << e << std::endl;
-    caughtException = true;
-    }
 
-  if( !caughtException )
-    {
-    std::cout << "Expected TransformDiffusionTensor(tensor) to throw exception."
-              << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_EXCEPTION( deformTensor =
+    displacementTransform->TransformDiffusionTensor( testTensor ) );
 
-  /* Test setting of parameters with wrong size */
-  caughtException = false;
-  try
-    {
-    DisplacementTransformType::ParametersType params(1);
-    params.Fill(0);
-    displacementTransform->SetParameters( params );
-    }
-  catch( itk::ExceptionObject & e )
-    {
-    std::cout << "Caught expected exception: " << std::endl << e << std::endl;
-    caughtException = true;
-    }
-  if( !caughtException )
-    {
-    std::cout << "Expected SetParameters with wrong size to throw exception."
-              << std::endl;
-    return EXIT_FAILURE;
-    }
 
-  /* Test UpdateTransformParameters */
-  std::cout << "Testing UpdateTransformParameters..." << std::endl;
-  DisplacementTransformType::DerivativeType
-  derivative( displacementTransform->GetNumberOfParameters() );
-  DisplacementTransformType::DerivativeType
-  updateTruth( displacementTransform->GetNumberOfParameters() );
-  DisplacementTransformType::ParametersType
-  params( displacementTransform->GetNumberOfParameters() );
-  derivative.Fill(1.2);
+  // Test setting parameters with wrong size
+
+  DisplacementTransformType::ParametersType paramsWrongSize( 1 );
+  paramsWrongSize.Fill( 0 );
+
+  TRY_EXPECT_EXCEPTION( displacementTransform->SetParameters( paramsWrongSize ) );
+
+
+  // Test UpdateTransformParameters
+
+  DisplacementTransformType::DerivativeType derivative(
+    displacementTransform->GetNumberOfParameters() );
+
+  DisplacementTransformType::DerivativeType updateTruth(
+    displacementTransform->GetNumberOfParameters() );
+
+  DisplacementTransformType::ParametersType params(
+    displacementTransform->GetNumberOfParameters() );
+
+  derivative.Fill( 1.2 );
+
   ScalarType testFactor = 1.5;
+
   for( unsigned int i = 0;
        i < displacementTransform->GetNumberOfParameters(); i++ )
     {
@@ -523,58 +590,74 @@ int itkDisplacementFieldTransformTest(int, char *[] )
   displacementTransform->SetParameters( params );
   displacementTransform->UpdateTransformParameters( derivative, testFactor );
   params = displacementTransform->GetParameters();
-  // std::cout  << "params: " << std::endl << params << std::endl;
-  //           << "derivativeTruth: " << std::endl << derivative << std::endl
+
   for( unsigned int i = 0;
        i < displacementTransform->GetNumberOfParameters(); i++ )
     {
-    if( itk::Math::NotExactlyEquals(params[i], updateTruth[i]) )
+    if( itk::Math::NotExactlyEquals( params[i], updateTruth[i] ) )
       {
-      std::cout << "UpdateTransformParameters test failed: " << std::endl;
-      std::cout << "params: " << std::endl << params << std::endl
-                << "updateTruth: " << std::endl << updateTruth << std::endl;
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "Error in UpdateTransformParameters(...) at index ["
+        << i << "]" << std::endl;
+      std::cout << "Expected: "
+        << static_cast< itk::NumericTraits<
+        DisplacementTransformType::DerivativeType >::PrintType >( updateTruth[i] )
+        << ", but got: "
+        << static_cast< itk::NumericTraits<
+        DisplacementTransformType::ParametersType >::PrintType >( params[i] )
+        << std::endl;
       return EXIT_FAILURE;
       }
     }
 
-  /* Test IsLinear()
-   * Should always return false */
+  // Test IsLinear(): should always return false
   if( displacementTransform->IsLinear() )
     {
     std::cout << "DisplacementFieldTransform returned 'true' for IsLinear()."
-    " Expected 'false'." << std::endl;
+      << " Expected 'false'." << std::endl;
     return EXIT_FAILURE;
     }
 
-  /* We haven't set an inverse displacement field for the inverse displacement
- * transform, so we should get a false return here */
-  DisplacementTransformType::Pointer inverseTransform
-    = DisplacementTransformType::New();
+
+  // Exercise other methods to improve coverage
+  //
+
+  std::cout << "DisplacementFieldSetTime: " <<
+    static_cast< itk::NumericTraits< itk::ModifiedTimeType >::PrintType >(
+    displacementTransform->GetDisplacementFieldSetTime() ) << std::endl;
+
+
+  // The inverse displacement field for the inverse displacement transform must
+  // have been set to ITK_NULLPTR when calling SetDisplacementField(), so
+  // 'false' should be returned here
+  DisplacementTransformType::Pointer inverseTransform = DisplacementTransformType::New();
   if( displacementTransform->GetInverse( inverseTransform ) )
     {
-    std::cout << "Expected GetInverse() to fail." << std::endl;
+    std::cout << "Test failed!" << std::endl;
+    std::cout << "Expected GetInverse() to return 'false'." << std::endl;
     return EXIT_FAILURE;
     }
 
-  /** Set the inverse displacement field */
+  // Set the inverse displacement field
   displacementTransform->SetInverseDisplacementField( field );
 
   displacementTransform->SetIdentity();
 
-  // create a new one with null for both fields
+  // Create a new one with null for both fields
   displacementTransform = DisplacementTransformType::New();
 
   displacementTransform->SetIdentity();
 
-  displacementTransform->SetDisplacementField(ITK_NULLPTR);
-  displacementTransform->SetInverseDisplacementField(ITK_NULLPTR);
+  displacementTransform->SetDisplacementField( ITK_NULLPTR );
+  displacementTransform->SetInverseDisplacementField( ITK_NULLPTR );
 
   // Check setting all zero for fixed parameters
   displacementTransform = DisplacementTransformType::New();
   fixedParameters = displacementTransform->GetFixedParameters();
-  fixedParameters.Fill(0.0);
+  fixedParameters.Fill( 0.0 );
   displacementTransform->SetFixedParameters( fixedParameters );
 
-  std::cout << "PASSED" << std::endl;
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
