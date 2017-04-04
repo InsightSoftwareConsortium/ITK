@@ -110,18 +110,17 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RobustAutomaticThresholdCalculator);
 
-  bool           m_Valid;                      // Have moments been computed
-                                               // yet?
+  bool           m_Valid; // Have moments been computed yet?
   double         m_Pow;
   InputPixelType m_Output;
 
   InputImageConstPointer    m_Input;
   GradientImageConstPointer m_Gradient;
-};  // class RobustAutomaticThresholdCalculator
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #include "itkRobustAutomaticThresholdCalculator.hxx"
 #endif
 
-#endif /* itkRobustAutomaticThresholdCalculator_h */
+#endif

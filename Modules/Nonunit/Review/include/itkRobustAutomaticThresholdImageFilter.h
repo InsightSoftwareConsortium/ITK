@@ -164,7 +164,7 @@ private:
   InputPixelType  m_Threshold;
   OutputPixelType m_InsideValue;
   OutputPixelType m_OutsideValue;
-}; // end of class
+};
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -22,26 +22,17 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
 
-/*
- *
- * This code was contributed in the Insight Journal paper:
- * "Robust Automatic Threshold Selection"
- * by Lehmann G.
- * https://hdl.handle.net/1926/370
- * http://www.insight-journal.org/browse/publication/134
- *
- */
 
 namespace itk
 {
 template< typename TInputImage, typename TGradientImage, typename TOutputImage >
 RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
-::RobustAutomaticThresholdImageFilter()
+::RobustAutomaticThresholdImageFilter() :
+  m_Pow( 1 ),
+  m_Threshold( NumericTraits< InputPixelType >::ZeroValue() ),
+  m_InsideValue( NumericTraits< OutputPixelType >::max() ),
+  m_OutsideValue( NumericTraits< OutputPixelType >::ZeroValue() )
 {
-  m_OutsideValue   = NumericTraits< OutputPixelType >::ZeroValue();
-  m_InsideValue    = NumericTraits< OutputPixelType >::max();
-  m_Threshold      = NumericTraits< InputPixelType >::ZeroValue();
-  m_Pow = 1;
   this->SetNumberOfRequiredInputs(2);
 }
 
@@ -65,12 +56,12 @@ RobustAutomaticThresholdImageFilter< TInputImage, TGradientImage, TOutputImage >
   typename BinaryThresholdImageFilter< TInputImage, TOutputImage >::Pointer threshold =
     BinaryThresholdImageFilter< TInputImage, TOutputImage >::New();
 
-  progress->RegisterInternalFilter(threshold, 1);
-  threshold->GraftOutput ( this->GetOutput() );
-  threshold->SetInput ( this->GetInput() );
-  threshold->SetLowerThreshold(m_Threshold);
-  threshold->SetInsideValue (m_InsideValue);
-  threshold->SetOutsideValue (m_OutsideValue);
+  progress->RegisterInternalFilter( threshold, 1 );
+  threshold->GraftOutput( this->GetOutput() );
+  threshold->SetInput( this->GetInput() );
+  threshold->SetLowerThreshold( m_Threshold );
+  threshold->SetInsideValue( m_InsideValue );
+  threshold->SetOutsideValue( m_OutsideValue );
   threshold->Update();
 
   this->GraftOutput( threshold->GetOutput() );
