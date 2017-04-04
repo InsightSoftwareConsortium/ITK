@@ -52,13 +52,16 @@ public:
   /** Input type for the function. */
   typedef typename Superclass::InputType InputType;
 
-  typedef typename Superclass::OutputType                            FunctionValueType;
-  typedef typename Superclass::OutputType                            OutputType;
-  typedef typename Superclass::OutputType                            OutputComplexType;
-  typedef itk::FixedArray<OutputType, VImageDimension>               OutputComplexArrayType;
-  typedef itk::FixedArray<unsigned int, VImageDimension>             IndicesFixedArrayType;
+  typedef typename Superclass::OutputType                     FunctionValueType;
+  typedef typename Superclass::OutputType                     OutputType;
+  typedef typename Superclass::OutputType                     OutputComplexType;
+  typedef itk::FixedArray<OutputComplexType, VImageDimension> OutputComplexArrayType;
+  /** Indices Type, user needs to resize it to VImageDimension.
+   *  ITK_BUG, dev: it would be better to use std::array or fix itk::FixedArray::ReverseIterator has no operator-, used
+   * by std::sort ...
+   */
   typedef std::vector<unsigned int>                                  IndicesArrayType;
-  typedef std::vector<OutputType>                                    OutputComponentsType;
+  typedef std::vector<OutputComplexType>                             OutputComponentsType;
   typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
 
   /**
@@ -99,22 +102,14 @@ public:
    */
   virtual OutputComponentsType
   EvaluateAllComponents(const TInput & frequency_point) const;
+
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
   Evaluate(const TInput &) const ITK_OVERRIDE
   {
     itkExceptionMacro("Evaluate(TInput&) is not valid for RieszFrequencyFunction."
-                      "Use EvaluateArray instead, returning an OutputComplexArrayType,"
-                      "or Evaluate(point, direction) that returns a complex value .");
+                      "Use EvaluateWithIndices(point, indices) or EvaluateAllComponents(point)");
   };
-  /** Calculate first order (m_Order = 1) riesz function at indicated direction.
-   * Equivalent to:
-   * EvaluateWithIndices(frequency_point, indices) with:
-   * m_Order = 1,
-   * indices = 1 at index == direction, 0 elsewhere.
-   */
-  virtual OutputComplexType
-  Evaluate(const TInput & frequency_point, const unsigned int & direction) const;
 
   virtual OutputComplexArrayType
   EvaluateArray(const TInput & frequency_point) const;
@@ -131,7 +126,7 @@ public:
    * R^n = complex_component * normalizing_factor * frequency_factor * 1.0/freq_magnitude_factor
    */
   virtual OutputComplexType
-  EvaluateWithIndices(const TInput & frequency_point, const IndicesFixedArrayType & indices);
+  EvaluateWithIndices(const TInput & frequency_point, const IndicesArrayType & indices);
 
   /**
    * Compute normalizing factor given an indice = (n1,n2,...,nVImageDimension)
@@ -177,41 +172,8 @@ public:
     if (this->m_Order != inputOrder)
     {
       this->m_Order = inputOrder;
-      // Invalidate m_Indices (0,0,...,0)
-      this->m_Indices.Fill(0);
       this->Modified();
     }
-  }
-
-  virtual void
-  SetIndices(const IndicesFixedArrayType & indices)
-  {
-    if (this->m_Indices == indices)
-    {
-      return;
-    }
-    // Precondition
-    unsigned int sum = 0;
-    for (unsigned int dim = 0; dim < VImageDimension; ++dim)
-    {
-      sum += indices[dim];
-    }
-
-    if (sum != this->m_Order)
-    {
-      itkExceptionMacro(<< "Invalid input indices = " << indices << ". The sum of its components (" << sum
-                        << " must be equal to the current Order = " << this->m_Order << ".");
-    }
-
-    this->m_Indices = indices;
-
-    IndicesArrayType indicesVector;
-    for (unsigned int dim = 0; dim < VImageDimension; ++dim)
-    {
-      indicesVector.push_back(indices[dim]);
-    }
-    this->m_NormalizingIndicesComplexFactor = this->ComputeNormalizingFactor(indicesVector);
-    this->Modified();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -226,9 +188,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFunction);
-  unsigned int          m_Order;
-  IndicesFixedArrayType m_Indices;
-  OutputComplexType     m_NormalizingIndicesComplexFactor;
+  unsigned int m_Order;
 };
 } // end namespace itk
 

@@ -47,18 +47,10 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
 
   InputType frequencyPoint;
   frequencyPoint.Fill(0.1);
-  OutputType resultFirstOrder = rieszFunction->Evaluate(frequencyPoint, 0);
   rieszFunction->SetOrder(1);
-  typename RieszFrequencyFunctionType::IndicesFixedArrayType indices;
-  indices.Fill(0);
+  typename RieszFrequencyFunctionType::IndicesArrayType indices(VDimension);
   indices[0] = 1;
   OutputType resultFirstOrderWithIndices = rieszFunction->EvaluateWithIndices(frequencyPoint, indices);
-
-  if (itk::Math::NotAlmostEquals(resultFirstOrder, resultFirstOrderWithIndices))
-  {
-    std::cerr << "Should be equal: " << resultFirstOrder << " == " << resultFirstOrderWithIndices << std::endl;
-    testPassed = false;
-  }
 
   // Test getting subIndices
   // Init indice has to be sorted in descending order, example:(3,0,0)
