@@ -23,45 +23,20 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"
-#include "itkProgressReporter.h"
 #include "itkLineIterator.h"
 
 namespace itk
 {
-/**
- * Default constructor.
- */
+
 template< typename TDisplacementField, typename TOutputImage >
 GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
-::GridForwardWarpImageFilter()
+::GridForwardWarpImageFilter() :
+  m_BackgroundValue( NumericTraits< PixelType >::ZeroValue() ),
+  m_ForegroundValue( NumericTraits< PixelType >::OneValue() ),
+  m_GridPixSpacing( 5 )
 {
-  // Setup default values
-  m_BackgroundValue = NumericTraits< PixelType >::ZeroValue();
-  m_ForegroundValue = NumericTraits< PixelType >::OneValue();
-  m_GridPixSpacing = 5;
 }
 
-/**
- * Standard PrintSelf method.
- */
-template< typename TDisplacementField, typename TOutputImage >
-void
-GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-
-  os << indent << "BackgroundValue: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_BackgroundValue )
-     << std::endl;
-  os << indent << "ForegroundValue: "
-     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_ForegroundValue )
-     << std::endl;
-}
-
-/**
- * Compute the output for the region specified by outputRegionForThread.
- */
 template< typename TDisplacementField, typename TOutputImage >
 void
 GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
@@ -82,11 +57,11 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
   IndexType LastIndex = fieldPtr->GetRequestedRegion().GetIndex()
                         + fieldPtr->GetRequestedRegion().GetSize();
 
-  // iterator for the output image
+  // Iterator for the output image
   typedef ImageRegionIteratorWithIndex< OutputImageType > OutputImageIteratorWithIndex;
   OutputImageIteratorWithIndex iter( outputPtr, outputPtr->GetRequestedRegion() );
 
-  // iterator for the deformation field
+  // Iterator for the deformation field
   typedef ImageRegionConstIterator< DisplacementFieldType > DisplacementFieldIterator;
   DisplacementFieldIterator fieldIt( fieldPtr, outputPtr->GetRequestedRegion() );
 
@@ -110,12 +85,12 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 
     if ( numGridIntersect == ImageDimension )
       {
-      // we are on a grid point => transform it
+      // We are on a grid point => transform it
 
-      // get the required displacement
+      // Get the required displacement
       displacement = fieldIt.Get();
 
-      // compute the mapped point
+      // Compute the mapped point
       inside = true;
       for ( unsigned int j = 0; j < ImageDimension; j++ )
         {
@@ -130,8 +105,8 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
 
       if ( inside )
         {
-        // We know the current grid point is inside
-        // we will check if the grid points that are above are also inside
+        // We know the current grid point is inside.
+        // We will check if the grid points that are above are also inside
         // In such a case we draw a Bresenham line
         for ( unsigned int dim = 0; dim < ImageDimension; dim++ )
           {
@@ -139,10 +114,10 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
           targetIndex[dim] += m_GridPixSpacing;
           if ( targetIndex[dim] < LastIndex[dim] )
             {
-            // get the required displacement
+            // Get the required displacement
             displacement = fieldPtr->GetPixel(targetIndex);
 
-            // compute the mapped point
+            // Compute the mapped point
             targetIn = true;
             for ( unsigned int j = 0; j < ImageDimension; j++ )
               {
@@ -169,7 +144,22 @@ GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
       }
     }
 
-  //ProgressReporter progress(this, 0, numiter+1, numiter+1);
+}
+
+template< typename TDisplacementField, typename TOutputImage >
+void
+GridForwardWarpImageFilter< TDisplacementField, TOutputImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "BackgroundValue: "
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_BackgroundValue )
+     << std::endl;
+  os << indent << "ForegroundValue: "
+     << static_cast< typename NumericTraits< PixelType >::PrintType >( m_ForegroundValue )
+     << std::endl;
+  os << indent << "m_GridPixSpacing: " << m_GridPixSpacing << std::endl;
 }
 } // end namespace itk
 

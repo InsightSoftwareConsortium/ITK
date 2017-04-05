@@ -120,9 +120,6 @@ protected:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /**
-   * GenerateData()
-   */
   void GenerateData() ITK_OVERRIDE;
 
 private:
