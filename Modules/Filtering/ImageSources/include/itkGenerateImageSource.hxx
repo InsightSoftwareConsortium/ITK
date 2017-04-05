@@ -23,15 +23,23 @@
 
 namespace itk
 {
-
 template< typename TOutputImage >
 GenerateImageSource< TOutputImage >
 ::GenerateImageSource()
   : m_Spacing( 1.0 ),
-    m_Origin( 0.0 )
+    m_Origin( 0.0 ),
+    m_UseReferenceImage( false )
 {
-  this->m_Size.Fill( 64 ); // abitrary default size
+  this->m_Size.Fill( 64 ); // arbitrary default size
   this->m_Direction.SetIdentity();
+  this->m_StartIndex.Fill( 0 );
+
+  // Pipeline input configuration
+
+  // implicit: No Input Required
+  // "ReferenceImage" optional
+  Self::AddRequiredInputName("ReferenceImage");
+  Self::RemoveRequiredInputName("ReferenceImage");
 }
 
 template< typename TOutputImage >
@@ -39,19 +47,48 @@ void
 GenerateImageSource< TOutputImage >
 ::GenerateOutputInformation()
 {
-  OutputImageType *output = this->GetOutput(0);
+  OutputImageType *outputPtr = this->GetOutput(0);
 
-  typename OutputImageType::IndexType index;
-  index.Fill( 0 );
+  if ( !outputPtr )
+    {
+    return;
+    }
 
-  typename OutputImageType::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize(this->m_Size);
-  largestPossibleRegion.SetIndex(index);
-  output->SetLargestPossibleRegion(largestPossibleRegion);
+  const ReferenceImageBaseType *referenceImage = this->GetReferenceImage();
 
-  output->SetSpacing(this->m_Spacing);
-  output->SetOrigin(this->m_Origin);
-  output->SetDirection(this->m_Direction);
+  // Set size, spacing, origin
+  if ( m_UseReferenceImage && referenceImage )
+    {
+    outputPtr->SetLargestPossibleRegion(
+      referenceImage->GetLargestPossibleRegion() );
+
+    outputPtr->SetSpacing( referenceImage->GetSpacing() );
+    outputPtr->SetOrigin( referenceImage->GetOrigin() );
+    outputPtr->SetDirection( referenceImage->GetDirection() );
+    }
+  else
+    {
+    typename TOutputImage::RegionType outputLargestPossibleRegion;
+    outputLargestPossibleRegion.SetSize(m_Size);
+    outputLargestPossibleRegion.SetIndex(m_StartIndex);
+    outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+
+    outputPtr->SetSpacing(m_Spacing);
+    outputPtr->SetOrigin(m_Origin);
+    outputPtr->SetDirection(m_Direction);
+    }
+}
+
+template< typename TOutputImage >
+void
+GenerateImageSource< TOutputImage >
+::SetOutputParametersFromImage(const ReferenceImageBaseType *image)
+{
+  this->SetOrigin( image->GetOrigin() );
+  this->SetSpacing( image->GetSpacing() );
+  this->SetDirection( image->GetDirection() );
+  this->SetStartIndex( image->GetLargestPossibleRegion().GetIndex() );
+  this->SetSize( image->GetLargestPossibleRegion().GetSize() );
 }
 
 template< typename TOutputImage >
@@ -61,10 +98,15 @@ GenerateImageSource< TOutputImage >
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Size: " << this->GetSize() << std::endl;
-  os << indent << "Origin: " << this->GetOrigin() << std::endl;
-  os << indent << "Spacing: " << this->GetSpacing() << std::endl;
-  os << indent << "Direction: " << this->GetDirection() << std::endl;
+  os << indent << "Size: "
+     << static_cast< typename NumericTraits< SizeType >::PrintType >( m_Size ) << std::endl;
+  os << indent << "Spacing: "
+     << static_cast< typename NumericTraits< SpacingType >::PrintType >( m_Spacing ) << std::endl;
+  os << indent << "Origin: "
+     << static_cast< typename NumericTraits< PointType >::PrintType >( m_Origin ) << std::endl;
+  os << indent << "Direction: "
+     << static_cast< typename NumericTraits< DirectionType >::PrintType >( m_Direction ) << std::endl;
+  os << indent << "UseReferenceImage: " << this->GetUseReferenceImage() << std::endl;
 }
 } // end namespace itk
 

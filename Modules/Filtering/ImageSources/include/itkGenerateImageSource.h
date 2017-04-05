@@ -48,12 +48,16 @@ public:
 
   /** Output image typedefs */
   typedef TOutputImage                            OutputImageType;
+  typedef typename OutputImageType::Pointer       OutputImagePointer;
   typedef typename OutputImageType::PixelType     PixelType;
   typedef typename OutputImageType::RegionType    RegionType;
   typedef typename OutputImageType::SpacingType   SpacingType;
   typedef typename OutputImageType::PointType     PointType;
   typedef typename OutputImageType::DirectionType DirectionType;
+  typedef typename OutputImageType::IndexType     IndexType;
 
+  /** Typedef the reference image type to be the ImageBase of the OutputImageType */
+  typedef ImageBase<TOutputImage::ImageDimension> ReferenceImageBaseType;
 
   typedef typename TOutputImage::SizeType      SizeType;
   typedef typename TOutputImage::SizeValueType SizeValueType;
@@ -63,6 +67,10 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(GenerateImageSource, ImageSource);
+
+  itkSetMacro(UseReferenceImage, bool);
+  itkBooleanMacro(UseReferenceImage);
+  itkGetConstMacro(UseReferenceImage, bool);
 
   /**
    * Set/Get the size of the output image
@@ -93,6 +101,26 @@ public:
   itkSetMacro(Direction, DirectionType);
   itkGetConstReferenceMacro(Direction, DirectionType);
 
+  /**
+   * Set/Get the output image direction cosine. This parameter
+   * defaults to the identity matrix.
+   **/
+  itkSetMacro(StartIndex, IndexType);
+  itkGetConstReferenceMacro(StartIndex, IndexType);
+
+  /** Helper method to set the output parameters based on an image. */
+  void SetOutputParametersFromImage(const ReferenceImageBaseType *image);
+
+  /** Set a reference image to use to define the output information.
+   *  By default, output information is specificed through the
+   *  SetOutputSpacing, Origin, and Direction methods.  Alternatively,
+   *  this method can be used to specify an image from which to
+   *  copy the information. UseReferenceImageOn must be set to utilize the
+   *  reference image. */
+  itkSetInputMacro(ReferenceImage, ReferenceImageBaseType);
+  /** Get the reference image that is defining the output information. */
+  itkGetInputMacro(ReferenceImage, ReferenceImageBaseType);
+
 protected:
   GenerateImageSource();
   // virtual ~GenerateImageSource() default implementation ok
@@ -103,10 +131,12 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GenerateImageSource);
 
-  SizeType      m_Size;            //size of the output image
-  SpacingType   m_Spacing;         //spacing
-  PointType     m_Origin;          //origin
-  DirectionType m_Direction;       //direciton
+  SizeType      m_Size;          //size of the output image
+  SpacingType   m_Spacing;
+  PointType     m_Origin;
+  DirectionType m_Direction;
+  IndexType     m_StartIndex;
+  bool          m_UseReferenceImage;
 
 };
 
