@@ -236,7 +236,10 @@ itk_add_test(NAME itkFastApproximateRankImageFilterTest10
 itk_add_test(NAME itkFastSymmetricForcesDemonsRegistrationFilterTest
       COMMAND ITKReviewTestDriver itkFastSymmetricForcesDemonsRegistrationFilterTest)
 itk_add_test(NAME itkGridForwardWarpImageFilterTest
-      COMMAND ITKReviewTestDriver itkGridForwardWarpImageFilterTest)
+      COMMAND ITKReviewTestDriver
+      --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkGridForwardWarpImageFilterTest.mha
+                    7dea362b3fac8e00956a4952a3d4f474
+     itkGridForwardWarpImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkGridForwardWarpImageFilterTest.mha )
 itk_add_test(NAME itkImageFunctionTest
       COMMAND ITKReviewTestDriver itkImageFunctionTest)
 itk_add_test(NAME itkJPEG2000Test00
