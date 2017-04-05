@@ -65,11 +65,17 @@ PhaseAnalysisSoftThresholdImageFilter<TInputImage, TOutputImage>::BeforeThreaded
                       << ") is less than 2. PhaseAnalysis require at least 2 components.");
   }
 
-  ThreadIdType nbOfThreads = this->GetNumberOfThreads();
+  // Instead of using GetNumberOfThreads, we need to split the image into the
+  // number of regions that will actually be returned by
+  // itkImageSource::SplitRequestedRegion. Sometimes this number is less than
+  // the number of threads requested.
+  OutputImageRegionType dummy;
+  unsigned int          actualThreads = this->SplitRequestedRegion(0, this->GetNumberOfThreads(), dummy);
+
   m_Barrier1 = Barrier::New();
-  m_Barrier1->Initialize(nbOfThreads);
+  m_Barrier1->Initialize(actualThreads);
   m_Barrier2 = Barrier::New();
-  m_Barrier2->Initialize(nbOfThreads);
+  m_Barrier2->Initialize(actualThreads);
 }
 
 template <typename TInputImage, typename TOutputImage>
