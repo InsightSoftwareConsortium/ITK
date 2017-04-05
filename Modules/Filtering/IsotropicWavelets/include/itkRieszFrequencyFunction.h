@@ -52,10 +52,10 @@ public:
   /** Input type for the function. */
   typedef typename Superclass::InputType InputType;
 
-  typedef typename Superclass::OutputType                     FunctionValueType;
-  typedef typename Superclass::OutputType                     OutputType;
-  typedef typename Superclass::OutputType                     OutputComplexType;
-  typedef itk::FixedArray<OutputComplexType, VImageDimension> OutputComplexArrayType;
+  typedef typename Superclass::OutputType FunctionValueType;
+  typedef typename Superclass::OutputType OutputType;
+  typedef typename Superclass::OutputType OutputComplexType;
+
   /** Indices Type, user needs to resize it to VImageDimension.
    *  ITK_BUG, dev: it would be better to use std::array or fix itk::FixedArray::ReverseIterator has no operator-, used
    * by std::sort ...
@@ -63,6 +63,7 @@ public:
   typedef std::vector<unsigned int>                                  IndicesArrayType;
   typedef std::vector<OutputComplexType>                             OutputComponentsType;
   typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
+  typedef itk::FixedArray<OutputComplexType, VImageDimension>        OutputComplexArrayType;
 
   /**
    * Compute number of components p(N, d), where N = Order, d = Dimension.
@@ -91,18 +92,6 @@ public:
   static SetType
   ComputeAllPermutations(const SetType & uniqueIndices);
 
-  /**
-   * Evaluate the frequency point and return the value for all the components of the generalized Riesz transform.
-   * The number of components depends on the value of m_Order.
-   * \sa ComputeAllPermutations
-   *
-   * @param frequency_point point in the frequency space.
-   *
-   * @return vector holding the values for all the components at the frequency point.
-   */
-  virtual OutputComponentsType
-  EvaluateAllComponents(const TInput & frequency_point) const;
-
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
   Evaluate(const TInput &) const ITK_OVERRIDE
@@ -110,9 +99,6 @@ public:
     itkExceptionMacro("Evaluate(TInput&) is not valid for RieszFrequencyFunction."
                       "Use EvaluateWithIndices(point, indices) or EvaluateAllComponents(point)");
   };
-
-  virtual OutputComplexArrayType
-  EvaluateArray(const TInput & frequency_point) const;
 
   /**
    * Compute RieszTransform component based on indices. It takes into account m_Order.
@@ -129,6 +115,18 @@ public:
   EvaluateWithIndices(const TInput & frequency_point, const IndicesArrayType & indices);
 
   /**
+   * Evaluate the frequency point and return the value for all the components of the generalized Riesz transform.
+   * The number of components depends on the value of m_Order.
+   * \sa ComputeAllPermutations
+   *
+   * @param frequency_point point in the frequency space.
+   *
+   * @return vector holding the values for all the components at the frequency point.
+   */
+  virtual OutputComponentsType
+  EvaluateAllComponents(const TInput & frequency_point) const;
+
+  /**
    * Compute normalizing factor given an indice = (n1,n2,...,nVImageDimension)
    * Also takes into account this->m_Order = N
    * @param indices input indices.
@@ -137,6 +135,7 @@ public:
    */
   OutputComplexType
   ComputeNormalizingFactor(const IndicesArrayType & indices) const;
+
   /** Calculate magnitude (euclidean norm) of input point. **/
   inline double
   Magnitude(const TInput & point) const
@@ -159,7 +158,6 @@ public:
   }
 
   /** Order of the generalized riesz transform. */
-  itkGetConstReferenceMacro(Order, unsigned int);
   virtual void
   SetOrder(const unsigned int inputOrder)
   {
@@ -172,9 +170,21 @@ public:
     if (this->m_Order != inputOrder)
     {
       this->m_Order = inputOrder;
+      // Calculate all the possible indices.
+      IndicesArrayType initIndice;
+      initIndice.resize(VImageDimension);
+      initIndice[0] = this->m_Order;
+      SetType uniqueIndices;
+      Self::ComputeUniqueIndices(initIndice, uniqueIndices);
+      this->m_Indices = Self::ComputeAllPermutations(uniqueIndices);
       this->Modified();
     }
   }
+  itkGetConstReferenceMacro(Order, unsigned int);
+
+  /** Sorted set of indices. All permutations allowed by Order.
+   * Calculated when SetOrder */
+  itkGetConstReferenceMacro(Indices, SetType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   itkConceptMacro(OutputTypeIsComplexCheck, (Concept::IsFloatingPoint<typename TFunctionValue::value_type>));
@@ -189,6 +199,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFunction);
   unsigned int m_Order;
+  SetType      m_Indices;
 };
 } // end namespace itk
 

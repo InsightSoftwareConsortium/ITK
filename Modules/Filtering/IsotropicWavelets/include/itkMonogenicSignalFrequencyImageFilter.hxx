@@ -19,13 +19,15 @@
 #define itkMonogenicSignalFrequencyImageFilter_hxx
 #include "itkMonogenicSignalFrequencyImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkRieszFrequencyFunction.h"
 namespace itk
 {
 template <typename TInputImage, typename TFrequencyImageRegionConstIterator>
 MonogenicSignalFrequencyImageFilter<TInputImage,
                                     TFrequencyImageRegionConstIterator>::MonogenicSignalFrequencyImageFilter()
-{}
+{
+  m_Evaluator = RieszFunctionType::New();
+  m_Evaluator->SetOrder(1);
+}
 
 template <typename TInputImage, typename TFrequencyImageRegionConstIterator>
 void
@@ -48,14 +50,12 @@ MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstItera
   InputFrequencyImageRegionConstIterator inFreqIt(this->GetInput(), outputRegionForThread);
   ImageRegionIterator<OutputImageType>   outIt(this->GetOutput(), outputRegionForThread);
 
-  typedef RieszFrequencyFunction<typename InputImageType::PixelType, ImageDimension> RieszFunctionType;
-  typename RieszFunctionType::Pointer evaluator = RieszFunctionType::New();
-
+  typename RieszFunctionType::OutputComponentsType evaluatedArray;
+  typename OutputImageType::PixelType              out_value;
   for (inFreqIt.GoToBegin(), outIt.GoToBegin(); !inFreqIt.IsAtEnd(); ++inFreqIt, ++outIt)
   {
-    typename RieszFunctionType::OutputComplexArrayType evaluatedArray =
-      evaluator->EvaluateArray(inFreqIt.GetFrequency());
-    typename OutputImageType::PixelType out_value = outIt.Get();
+    evaluatedArray = this->m_Evaluator->EvaluateAllComponents(inFreqIt.GetFrequency());
+    out_value = outIt.Get();
     out_value[0] = inFreqIt.Get();
     for (unsigned int dir = 0; dir < ImageDimension; ++dir)
     {
@@ -63,6 +63,23 @@ MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstItera
       out_value[dir + 1] = inFreqIt.Get() * evaluatedArray[dir];
     }
     outIt.Set(out_value);
+  }
+}
+
+template <typename TInputImage, typename TFrequencyImageRegionConstIterator>
+void
+MonogenicSignalFrequencyImageFilter<TInputImage, TFrequencyImageRegionConstIterator>::PrintSelf(std::ostream & os,
+                                                                                                Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+  os << indent << "m_Evaluator: ";
+  if (!this->m_Evaluator)
+  {
+    os << "0" << std::endl;
+  }
+  else
+  {
+    os << this->m_Evaluator << std::endl;
   }
 }
 } // end namespace itk

@@ -72,6 +72,7 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** RieszFunction types */
   typedef TRieszFunction                                RieszFunctionType;
+  typedef typename RieszFunctionType::Pointer           RieszFunctionPointer;
   typedef typename RieszFunctionType::FunctionValueType FunctionValueType;
 
   /** Dimension */
@@ -87,6 +88,34 @@ public:
   //                    ( Concept::IsFloatingPoint< typename OutputImageType::PixelType > ) );
   // #endif
 
+  /** Order of the generalized riesz transform. */
+  virtual void
+  SetOrder(const unsigned int inputOrder)
+  {
+    // Precondition
+    if (inputOrder < 1)
+    {
+      itkExceptionMacro(<< "Error: inputOrder = " << inputOrder << ". It has to be greater than 0.");
+    }
+
+    if (this->m_Order != inputOrder)
+    {
+      this->m_Order = inputOrder;
+      this->m_Evaluator->SetOrder(inputOrder);
+
+      this->SetNumberOfRequiredOutputs(this->m_Evaluator->ComputeNumberOfComponents(inputOrder));
+      for (unsigned int comp = 0; comp < this->GetNumberOfRequiredOutput(); ++comp)
+      {
+        this->SetNthOutput(comp, this->MakeOutput(comp));
+      }
+      this->Modified();
+    }
+  }
+  itkGetConstReferenceMacro(Order, unsigned int);
+
+  /** Modifiable pointer to the Generalized RieszFunction */
+  itkGetModifiableObjectMacro(Evaluator, RieszFunctionType);
+
 protected:
   RieszFrequencyFilterBankGenerator();
   virtual ~RieszFrequencyFilterBankGenerator() {}
@@ -99,6 +128,8 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFilterBankGenerator);
+  unsigned int         m_Order;
+  RieszFunctionPointer m_Evaluator;
 }; // end of class
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
