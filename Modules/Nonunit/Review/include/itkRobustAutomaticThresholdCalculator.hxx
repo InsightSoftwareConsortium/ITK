@@ -23,40 +23,15 @@
 #include "itkImageRegionConstIterator.h"
 
 
-/*
- *
- * This code was contributed in the Insight Journal paper:
- * "Robust Automatic Threshold Selection"
- * by Lehmann G.
- * https://hdl.handle.net/1926/370
- * http://www.insight-journal.org/browse/publication/134
- *
- */
-
 namespace itk
 {
 template< typename TInputImage, typename TGradientImage >
 RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
-::RobustAutomaticThresholdCalculator(void)
+::RobustAutomaticThresholdCalculator() :
+  m_Valid( false ),
+  m_Pow( 1 ),
+  m_Output( NumericTraits< InputPixelType >::ZeroValue() )
 {
-  m_Valid = false;
-  m_Input = ITK_NULLPTR;
-  m_Gradient = ITK_NULLPTR;
-  m_Output = NumericTraits< InputPixelType >::ZeroValue();
-  m_Pow = 1;
-}
-
-template< typename TInputImage, typename TGradientImage >
-void
-RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
-::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-  os << indent << "Input: " << m_Input.GetPointer() << std::endl;
-  os << indent << "Gradient: " << m_Gradient.GetPointer() << std::endl;
-  os << indent << "Valid: " << m_Valid << std::endl;
-  os << indent << "Pow: " << m_Pow << std::endl;
-  os << indent << "Output: " << m_Output << std::endl;
 }
 
 template< typename TInputImage, typename TGradientImage >
@@ -66,7 +41,7 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 {
   if ( !m_Input || !m_Gradient )
     {
-    return;
+    itkExceptionMacro(<< "Input or gradient images not set.");
     }
 
   ImageRegionConstIteratorWithIndex< InputImageType > iIt( m_Input,
@@ -76,7 +51,7 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
                                                               m_Gradient->GetRequestedRegion() );
   gIt.GoToBegin();
 
-  // init the values
+  // Init the values
   double n = 0;
   double d = 0;
 
@@ -89,7 +64,6 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
     ++gIt;
     }
 
-//   std::cout << "n: " << n << "  d: " << d << std::endl;
   m_Output = static_cast< InputPixelType >( n / d );
   m_Valid = true;
 }
@@ -101,9 +75,25 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 {
   if ( !m_Valid )
     {
-    itkExceptionMacro(<< "GetOutput() invoked, but the output have not been computed. Call Compute() first.");
+    itkExceptionMacro(<< "GetOutput() invoked, but the output has not been computed. Call Compute() first.");
     }
   return m_Output;
+}
+
+template< typename TInputImage, typename TGradientImage >
+void
+RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
+::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Valid: " << m_Valid << std::endl;
+  os << indent << "Pow: " << m_Pow << std::endl;
+  os << indent << "Output: "
+    << static_cast< typename NumericTraits< InputPixelType >::PrintType >( m_Output ) << std::endl;
+
+  itkPrintSelfObjectMacro( Input );
+  itkPrintSelfObjectMacro( Gradient );
 }
 } // end namespace itk
 
