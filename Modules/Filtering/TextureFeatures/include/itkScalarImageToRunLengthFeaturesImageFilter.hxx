@@ -101,8 +101,10 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   this->m_UpperBound[0] = this->m_Max;
   this->m_UpperBound[1] = this->m_MaxDistance;
 
-  TOutputImage * outputPtr = this->GetOutput();
-  outputPtr->FillBuffer(0);
+  TOutputImage *                   outputPtr = this->GetOutput();
+  typename TOutputImage::PixelType pixelNull;
+  pixelNull.Fill(0);
+  outputPtr->FillBuffer(pixelNull);
 }
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
@@ -133,10 +135,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
   typedef typename RunLengthFeaturesFilterType::RunLengthFeatureName InternalRunLengthFeatureName;
   typename FeatureNameVector::ConstIterator                          fnameIt;
-  fnameIt = this->m_RequestedFeatures->Begin();
-  fnameIt++;
-  fnameIt++;
-  fnameIt++;
+  typename TOutputImage::PixelType                                   outputPixel;
 
   // Creation of a region with the sqme size than the neighborhood that
   // will be used to check if each voxel has already been visited
@@ -175,143 +174,126 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
     faceList.begin();
 
   /// ***** Non-boundary Region *****
-  NeighborhoodIteratorType                          inputNIt(m_NeighborhoodRadius, inputPtr, *fit);
-  typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
-  IteratorType                                      outputIt(outputPtr, *fit);
-
-  // Iteration over the all image region
-  while (!inputNIt.IsAtEnd())
+  for (fit; fit != faceList.end(); ++fit)
   {
-    if ((maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) != this->m_InsidePixelValue))
-    {
-      ++inputNIt;
-      ++outputIt;
-      continue;
-    }
-    hist->SetToZero();
-    hist->Modified();
-    // Iteration over all the offsets
-    typename OffsetVector::ConstIterator offsets;
-    for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
-    {
-      alreadyVisitedImage->FillBuffer(false);
-      OffsetType offset = offsets.Value();
-      this->NormalizeOffsetDirection(offset);
+    NeighborhoodIteratorType                          inputNIt(m_NeighborhoodRadius, inputPtr, *fit);
+    typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
+    IteratorType                                      outputIt(outputPtr, *fit);
 
-      // Iteration over the all neighborhood
-      for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
+    // Iteration over the all image region
+    while (!inputNIt.IsAtEnd())
+    {
+      // If the voxel is outside of the image, don't treat it
+      if (fit == faceList.begin())
       {
-        IndexType       curentInNeighborhoodIndex = inputNIt.GetIndex(nb);
-        const PixelType curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
-        // Cecking if the value is out-of-bounds or is outside the mask.
-        if (curentInNeighborhoodPixelIntensity < this->m_Min || curentInNeighborhoodPixelIntensity > this->m_Max ||
-            alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + inputNIt.GetOffset(nb)) ||
-            (maskPointer && maskPointer->GetPixel(curentInNeighborhoodIndex) != this->m_InsidePixelValue))
+        bool isInImage;
+        inputNIt.GetPixel(inputNIt.GetCenterNeighborhoodIndex(), isInImage);
+        if (!isInImage)
         {
           continue;
         }
-
-        MeasurementType curentInNeighborhoodBinMin = hist->GetBinMinFromValue(0, curentInNeighborhoodPixelIntensity);
-        MeasurementType curentInNeighborhoodBinMax = hist->GetBinMaxFromValue(0, curentInNeighborhoodPixelIntensity);
-        MeasurementType lastBinMax = hist->GetDimensionMaxs(0)[hist->GetSize(0) - 1];
-
-        PixelType  pixelIntensity(NumericTraits<PixelType>::ZeroValue());
-        OffsetType iteratedOffset = inputNIt.GetOffset(nb) + offset;
-        IndexType  lastGoodIndex = curentInNeighborhoodIndex;
-        bool       runLengthSegmentAlreadyVisited = false;
-        bool       insideNeighborhood = true;
-        for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
+      }
+      // If the voxel is outside of the mask, don't treat it
+      if ((maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) != this->m_InsidePixelValue))
+      {
+        ++inputNIt;
+        ++outputIt;
+        continue;
+      }
+      // Initialisation of the histogram
+      hist->SetToZero();
+      hist->Modified();
+      // Iteration over all the offsets
+      typename OffsetVector::ConstIterator offsets;
+      for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
+      {
+        alreadyVisitedImage->FillBuffer(false);
+        OffsetType offset = offsets.Value();
+        this->NormalizeOffsetDirection(offset);
+        // Iteration over the all neighborhood
+        for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
         {
-          int boundDistance = m_NeighborhoodRadius[i] - std::abs(iteratedOffset[i]);
-          if (boundDistance < 0)
+          IndexType       curentInNeighborhoodIndex = inputNIt.GetIndex(nb);
+          const PixelType curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
+          // Cecking if the value is out-of-bounds or is outside the mask.
+          if (curentInNeighborhoodPixelIntensity < this->m_Min || curentInNeighborhoodPixelIntensity > this->m_Max ||
+              alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + inputNIt.GetOffset(nb)) ||
+              (maskPointer && maskPointer->GetPixel(curentInNeighborhoodIndex) != this->m_InsidePixelValue))
           {
-            insideNeighborhood = false;
-            break;
+            continue;
           }
-        }
-
-        // Scan from the iterated pixel at index, following the direction of
-        // offset. Run length is computed as the length of continuous pixel
-        // whose pixel values are in the same bin.
-        while (insideNeighborhood)
-        {
-          // For the same offset, each run length segment can only be visited once
-          if (alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + iteratedOffset))
+          // Declaration and initialisation of the variables usefull to iterate over the run
+          MeasurementType curentInNeighborhoodBinMin = hist->GetBinMinFromValue(0, curentInNeighborhoodPixelIntensity);
+          MeasurementType curentInNeighborhoodBinMax = hist->GetBinMaxFromValue(0, curentInNeighborhoodPixelIntensity);
+          MeasurementType lastBinMax = hist->GetDimensionMaxs(0)[hist->GetSize(0) - 1];
+          PixelType       pixelIntensity(NumericTraits<PixelType>::ZeroValue());
+          OffsetType      iteratedOffset = inputNIt.GetOffset(nb) + offset;
+          IndexType       lastGoodIndex = curentInNeighborhoodIndex;
+          bool            runLengthSegmentAlreadyVisited = false;
+          bool            insideNeighborhood = this->IsInsideNeighborhood(iteratedOffset);
+          // Scan from the iterated pixel at index, following the direction of
+          // offset. Run length is computed as the length of continuous pixel
+          // whose pixel values are in the same bin.
+          while (insideNeighborhood)
           {
-            runLengthSegmentAlreadyVisited = true;
-            break;
-          }
-          pixelIntensity = inputNIt.GetPixel(iteratedOffset);
-
-          // Special attention paid to boundaries of bins.
-          // For the last bin, it is left close and right close (following the previous
-          // gerrit patch). For all other bins, the bin is left close and right open.
-          if (pixelIntensity >= curentInNeighborhoodBinMin &&
-              (pixelIntensity < curentInNeighborhoodBinMax ||
-               (Math::ExactlyEquals(pixelIntensity, curentInNeighborhoodBinMax) &&
-                Math::ExactlyEquals(curentInNeighborhoodBinMax, lastBinMax))))
-          {
-            alreadyVisitedImage->SetPixel(boolCurentInNeighborhoodIndex + iteratedOffset, true);
-            lastGoodIndex = inputNIt.GetIndex(iteratedOffset);
-            iteratedOffset += offset;
-            for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
+            // If the voxel reached is outside of the image, stop the iterations
+            if (fit == faceList.begin())
             {
-              int boundDistance = m_NeighborhoodRadius[i] - std::abs(iteratedOffset[i]);
-              if (boundDistance < 0)
+              bool isInImage;
+              inputNIt.GetPixel(iteratedOffset, isInImage);
+              if (!isInImage)
               {
-                insideNeighborhood = false;
                 break;
               }
             }
+            // For the same offset, each run length segment can only be visited once
+            if (alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + iteratedOffset))
+            {
+              runLengthSegmentAlreadyVisited = true;
+              break;
+            }
+            pixelIntensity = inputNIt.GetPixel(iteratedOffset);
+            // Special attention paid to boundaries of bins.
+            // For the last bin, it is left close and right close (following the previous
+            // gerrit patch). For all other bins, the bin is left close and right open.
+            if (pixelIntensity >= curentInNeighborhoodBinMin &&
+                (pixelIntensity < curentInNeighborhoodBinMax ||
+                 (Math::ExactlyEquals(pixelIntensity, curentInNeighborhoodBinMax) &&
+                  Math::ExactlyEquals(curentInNeighborhoodBinMax, lastBinMax))))
+            {
+              alreadyVisitedImage->SetPixel(boolCurentInNeighborhoodIndex + iteratedOffset, true);
+              lastGoodIndex = inputNIt.GetIndex(iteratedOffset);
+              iteratedOffset += offset;
+              insideNeighborhood = this->IsInsideNeighborhood(iteratedOffset);
+            }
+            else
+            {
+              break;
+            }
           }
-          else
+          if (runLengthSegmentAlreadyVisited)
           {
-            break;
+            continue;
           }
-        }
-        if (runLengthSegmentAlreadyVisited)
-        {
-          continue;
-        }
-
-        PointType curentInNeighborhoodPoint;
-        inputPtr->TransformIndexToPhysicalPoint(curentInNeighborhoodIndex, curentInNeighborhoodPoint);
-        PointType point;
-        inputPtr->TransformIndexToPhysicalPoint(lastGoodIndex, point);
-
-        run[0] = curentInNeighborhoodPixelIntensity;
-        run[1] = curentInNeighborhoodPoint.EuclideanDistanceTo(point);
-        if (run[1] >= this->m_MinDistance && run[1] <= this->m_MaxDistance)
-        {
-          hist->GetIndex(run, hIndex);
-          hist->IncreaseFrequencyOfIndex(hIndex, 1);
+          // Increase the good bin in the histogram
+          this->IncreaseHistograme(
+            hist, inputPtr, run, hIndex, curentInNeighborhoodPixelIntensity, curentInNeighborhoodIndex, lastGoodIndex);
         }
       }
+      // Compute the run lenght features
+      runLengthMatrixCalculator->SetInput(hist);
+      runLengthMatrixCalculator->Update();
+      for (fnameIt = this->m_RequestedFeatures->Begin(); fnameIt != m_RequestedFeatures->End(); ++fnameIt)
+      {
+        outputPixel.SetNthComponent(
+          (InternalRunLengthFeatureName)fnameIt.Value(),
+          runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
+      }
+      outputIt.Set(outputPixel);
+
+      ++inputNIt;
+      ++outputIt;
     }
-
-    runLengthMatrixCalculator->SetInput(hist);
-    runLengthMatrixCalculator->Update();
-    outputIt.Set(runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
-
-    ++inputNIt;
-    ++outputIt;
-  }
-
-  /// ***** With-boundary Regions *****
-  fit++;
-  for (fit; fit != faceList.end(); ++fit)
-  {
-    //      NeighborhoodIteratorType boundaryInputNIt(m_NeighborhoodRadius, inputPtr, *fit );
-    //      typedef itk::ImageRegionIterator< OutputImageType> IteratorType;
-    //      IteratorType boundaryOutputIt( outputPtr, *fit );
-
-    //      // Iteration over the all image region
-    //      while( !boundaryInputNIt.IsAtEnd() )
-    //        {
-    //        boundaryOutputIt.Set( 0 );
-    //        ++boundaryInputNIt;
-    //        ++boundaryOutputIt;
-    //        }
   }
 }
 
@@ -383,8 +365,50 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
       offset[i] *= sign;
     }
   }
-
   itkDebugMacro("new  offset = " << offset << std::endl);
+}
+
+template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+bool
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
+  IsInsideNeighborhood(OffsetType iteratedOffset)
+{
+  bool insideNeighborhood = true;
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
+  {
+    int boundDistance = m_NeighborhoodRadius[i] - std::abs(iteratedOffset[i]);
+    if (boundDistance < 0)
+    {
+      insideNeighborhood = false;
+      break;
+    }
+  }
+  return insideNeighborhood;
+}
+
+template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+void
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::IncreaseHistograme(
+  typename HistogramType::Pointer &   hist,
+  typename TInputImage::Pointer       inputPtr,
+  MeasurementVectorType               run,
+  typename HistogramType::IndexType & hIndex,
+  const PixelType                     curentInNeighborhoodPixelIntensity,
+  IndexType                           curentInNeighborhoodIndex,
+  IndexType                           lastGoodIndex)
+{
+  PointType curentInNeighborhoodPoint;
+  inputPtr->TransformIndexToPhysicalPoint(curentInNeighborhoodIndex, curentInNeighborhoodPoint);
+  PointType point;
+  inputPtr->TransformIndexToPhysicalPoint(lastGoodIndex, point);
+
+  run[0] = curentInNeighborhoodPixelIntensity;
+  run[1] = curentInNeighborhoodPoint.EuclideanDistanceTo(point);
+  if (run[1] >= this->m_MinDistance && run[1] <= this->m_MaxDistance)
+  {
+    hist->GetIndex(run, hIndex);
+    hist->IncreaseFrequencyOfIndex(hIndex, 1);
+  }
 }
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>

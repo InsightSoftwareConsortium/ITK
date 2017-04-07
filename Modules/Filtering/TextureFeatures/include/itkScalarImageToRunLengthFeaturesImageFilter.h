@@ -188,7 +188,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(InputPixelTypeCheck, (Concept::IsInteger<typename InputImageType::PixelType>));
-  itkConceptMacro(OutputPixelTypeCheck, (Concept::IsFloatingPoint<typename OutputImageType::PixelType>));
+  itkConceptMacro(OutputPixelTypeCheck, (Concept::IsFloatingPoint<typename OutputImageType::PixelType::ValueType>));
   // End concept checking
 #endif
 
