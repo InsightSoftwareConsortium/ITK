@@ -1,6 +1,5 @@
 itk_module_test()
 set(ITKReviewTests
-itkAddConstantToImageFilterTest.cxx
 itkAreaClosingImageFilterTest.cxx
 itkAreaOpeningImageFilterTest.cxx
 itkBruker2DSEQImageIOTest.cxx
@@ -15,7 +14,6 @@ itkDiscreteGaussianDerivativeImageFilterTest.cxx
 itkDiscreteGaussianDerivativeImageFunctionTest.cxx
 itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
 itkDiscreteHessianGaussianImageFunctionTest.cxx
-itkDivideByConstantImageFilterTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
 itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
@@ -36,7 +34,6 @@ itkMaskedRankImageFilterTest.cxx
 itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
-itkMultiplyByConstantImageFilterTest.cxx
 itkMultiScaleHessianBasedMeasureImageFilterTest.cxx
 itkNeuralNetworkIOTest.cxx
 itkOptImageToImageMetricsTest.cxx
@@ -59,7 +56,6 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1.cxx
 itkShapedFloodFilledImageFunctionConditionalConstIteratorTest2.cxx
 itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3.cxx
 itkStochasticFractalDimensionImageFilterTest.cxx
-itkSubtractConstantFromImageFilterTest.cxx
 itkTimeAndMemoryProbeTest.cxx
 itkVectorCentralDifferenceImageFunctionTest.cxx
 itkVoxBoCUBImageIOTest.cxx
@@ -75,8 +71,6 @@ set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 CreateTestDriver_SupportBuildInIOFactories(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")
 
-itk_add_test(NAME itkAddConstantToImageFilterTest
-      COMMAND ITKReviewTestDriver itkAddConstantToImageFilterTest)
 itk_add_test(NAME itkAreaClosingImageFilterTest0
       COMMAND ITKReviewTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkAreaClosingImageFilterTest0.png}
@@ -222,8 +216,6 @@ itk_add_test(NAME itkDiscreteHessianGaussianImageFunctionTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkDiscreteHessianGaussianImageFunctionTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkDiscreteHessianGaussianImageFunctionTest.mha
     itkDiscreteHessianGaussianImageFunctionTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkDiscreteHessianGaussianImageFunctionTest.mha 2.0 0.01 32)
-itk_add_test(NAME itkDivideByConstantImageFilterTest
-      COMMAND ITKReviewTestDriver itkDivideByConstantImageFilterTest)
 itk_add_test(NAME itkFastApproximateRankImageFilterTest3
       COMMAND ITKReviewTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkFastApproximateRankImageFilter3.png}
@@ -310,8 +302,6 @@ itk_add_test(NAME itkMultiphaseFiniteDifferenceImageFilterTest
       COMMAND ITKReviewTestDriver itkMultiphaseFiniteDifferenceImageFilterTest)
 itk_add_test(NAME itkMultiphaseSparseFiniteDifferenceImageFilterTest
       COMMAND ITKReviewTestDriver itkMultiphaseSparseFiniteDifferenceImageFilterTest)
-itk_add_test(NAME itkMultiplyByConstantImageFilterTest
-      COMMAND ITKReviewTestDriver itkMultiplyByConstantImageFilterTest)
 itk_add_test(NAME itkMultiScaleHessianBasedMeasureImageFilterTest
       COMMAND ITKReviewTestDriver
           --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMultiScaleHessianBasedMeasureImageFilterTestEnhancedOutput.mha}
@@ -425,8 +415,6 @@ itk_add_test(NAME itkStochasticFractalDimensionImageFilterTest2
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkStochasticFractalDimensionImageFilterTest2.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkStochasticFractalDimensionImageFilterTest2.mha
     itkStochasticFractalDimensionImageFilterTest 2 DATA{${ITK_DATA_ROOT}/Input/TreeBarkTexture.png} ${ITK_TEST_OUTPUT_DIR}/itkStochasticFractalDimensionImageFilterTest2.mha 2 DATA{${ITK_DATA_ROOT}/Input/circle100.png} 255)
-itk_add_test(NAME itkSubtractConstantFromImageFilterTest
-      COMMAND ITKReviewTestDriver itkSubtractConstantFromImageFilterTest)
 itk_add_test(NAME itkTimeAndMemoryProbeTest1
       COMMAND ITKReviewTestDriver itkTimeAndMemoryProbeTest)
 itk_add_test(NAME itkVectorCentralDifferenceImageFunctionTest
