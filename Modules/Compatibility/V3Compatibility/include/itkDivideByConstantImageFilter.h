@@ -34,7 +34,7 @@ namespace itk
  * This class is a thin wrapper around the DivideImageFilter
  * that provides the ITKv3 API.
  *
- * Add a constant to all input pixels.
+ * Divide all input pixels by a constant.
  *
  * This filter is templated over the input image type
  * and the output image type.
