@@ -43,6 +43,7 @@ else()
     endif()
   endif()
   set(ITKGDCM_LIBRARIES  gdcmDICT gdcmMSFF )
+  set(GDCM_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 endif()
 
 itk_module_impl()

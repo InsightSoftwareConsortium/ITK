@@ -16,7 +16,7 @@ else()
   ${ITKExpat_SOURCE_DIR}/src/expat
   )
 set(ITKExpat_LIBRARIES ITKEXPAT)
-
+set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 endif()
 
 itk_module_impl()
