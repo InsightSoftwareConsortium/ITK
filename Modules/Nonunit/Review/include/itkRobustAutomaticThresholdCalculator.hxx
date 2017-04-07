@@ -41,7 +41,7 @@ RobustAutomaticThresholdCalculator< TInputImage, TGradientImage >
 {
   if ( !m_Input || !m_Gradient )
     {
-    itkExceptionMacro(<< "Input or gradient images not set.");
+    itkExceptionMacro(<< "Input or gradient image(s) not set.");
     }
 
   ImageRegionConstIteratorWithIndex< InputImageType > iIt( m_Input,
