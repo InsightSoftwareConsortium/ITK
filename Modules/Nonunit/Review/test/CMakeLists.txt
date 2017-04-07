@@ -44,6 +44,7 @@ itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
 itkRankImageFilterTest.cxx
 itkRegionBasedLevelSetFunctionTest.cxx
+itkRobustAutomaticThresholdCalculatorTest.cxx
 itkRobustAutomaticThresholdImageFilterTest.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest1.cxx
 itkScalarChanAndVeseDenseLevelSetImageFilterTest2.cxx
@@ -363,7 +364,10 @@ itk_add_test(NAME itkRobustAutomaticThresholdImageFilterTest
       COMMAND ITKReviewTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkRobustAutomaticThresholdImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkRobustAutomaticThresholdImageFilterTest.png
-    itkRobustAutomaticThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRobustAutomaticThresholdImageFilterTest.png 2)
+    itkRobustAutomaticThresholdImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRobustAutomaticThresholdImageFilterTest.png 2 65535 0 94)
+itk_add_test(NAME itkRobustAutomaticThresholdCalculatorTest
+      COMMAND ITKReviewTestDriver
+    itkRobustAutomaticThresholdCalculatorTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} 2 94)
 itk_add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest1
       COMMAND ITKReviewTestDriver itkScalarChanAndVeseDenseLevelSetImageFilterTest1)
 itk_add_test(NAME itkScalarChanAndVeseDenseLevelSetImageFilterTest2_0
