@@ -134,12 +134,12 @@ PointDim(void) const
 }
 
 void MetaBlob::
-NPoints(int npnt)
+NPoints(size_t npnt)
 {
   m_NPoints = npnt;
 }
 
-int MetaBlob::
+size_t MetaBlob::
 NPoints(void) const
 {
   return m_NPoints;
@@ -158,7 +158,7 @@ Clear(void)
   while(it != m_PointList.end())
   {
     BlobPnt* pnt = *it;
-    it++;
+    ++it;
     delete pnt;
   }
   m_PointList.clear();
@@ -328,12 +328,12 @@ M_Read(void)
   {
     int elementSize;
     MET_SizeOfType(m_ElementType, &elementSize);
-    int readSize = m_NPoints*(m_NDims+4)*elementSize;
+    size_t readSize = m_NPoints*(m_NDims+4)*elementSize;
 
     char* _data = new char[readSize];
     m_ReadStream->read((char *)_data, readSize);
 
-    int gc = m_ReadStream->gcount();
+    int gc = static_cast<int>(m_ReadStream->gcount());
     if(gc != readSize)
     {
       METAIO_STREAM::cout << "MetaBlob: m_Read: data not read completely"
@@ -416,7 +416,7 @@ M_Read(void)
       char c = ' ';
       while( (c!='\n') && (!m_ReadStream->eof()))
         {
-        c = m_ReadStream->get();// to avoid unrecognize charactere
+        c = static_cast<char>(m_ReadStream->get());// to avoid unrecognize charactere
         }
       }
   }
@@ -463,7 +463,7 @@ M_Write(void)
         MET_SwapByteIfSystemMSB(&c,MET_FLOAT);
         MET_DoubleToValue((double)c,m_ElementType,data,i++);
         }
-      it++;
+      ++it;
       }
     m_WriteStream->write((char *)data,(m_NDims+4)*m_NPoints*elementSize);
     m_WriteStream->write("\n",1);
@@ -488,7 +488,7 @@ M_Write(void)
         }
 
       *m_WriteStream << METAIO_STREAM::endl;
-      it++;
+      ++it;
       }
     }
 

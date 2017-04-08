@@ -59,6 +59,7 @@ class METAIO_EXPORT MetaObject
       double m_CenterOfRotation[10];   // "CenterOfRotation = "  0 0 0
 
       MET_OrientationEnumType m_AnatomicalOrientation[10];
+      mutable char            m_OrientationAcronym[10];
 
       MET_DistanceUnitsEnumType m_DistanceUnits;   // "DistanceUnits = mm"
 
@@ -225,7 +226,7 @@ class METAIO_EXPORT MetaObject
       //    Name(...)
       //       Optional Field
       //       Name of the current metaObject
-      void  Name(const char *_Name);
+      void  Name(const char *_name);
       const char  * Name(void) const;
 
       //    Color(...)
@@ -273,7 +274,7 @@ class METAIO_EXPORT MetaObject
 
       void ClearAdditionalFields(void);
 
-      bool InitializeEssential(int m_NDims);
+      bool InitializeEssential(int _nDims);
 
       //
       //
@@ -289,7 +290,7 @@ class METAIO_EXPORT MetaObject
         FieldsContainerType::iterator it;
         for(it = container.begin();
             it != container.end();
-            it++)
+            ++it)
           {
           if(strcmp((*it)->name,fieldName) == 0)
             {

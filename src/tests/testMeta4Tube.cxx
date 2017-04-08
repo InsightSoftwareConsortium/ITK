@@ -85,11 +85,11 @@ int main(int, char * [])
       {
         METAIO_STREAM::cout << (*it2)->m_X[0]
         << " " << (*it2)->m_X[1] << " " << (*it2)->m_X[2] << METAIO_STREAM::endl;
-        it2++;
+        ++it2;
       }
     }
 
-    it++;
+    ++it;
   }
 
   METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
