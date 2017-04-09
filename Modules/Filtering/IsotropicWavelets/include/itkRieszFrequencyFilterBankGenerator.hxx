@@ -25,12 +25,10 @@ namespace itk
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::
   RieszFrequencyFilterBankGenerator()
+  : m_Order(0)
 {
-  this->SetNumberOfRequiredOutputs(ImageDimension);
-  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
-  {
-    this->SetNthOutput(dir, this->MakeOutput(dir));
-  }
+  this->m_Evaluator = RieszFunctionType::New();
+  this->SetOrder(1);
 }
 
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
@@ -40,6 +38,8 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
   Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "m_Order: " << this->m_Order << std::endl;
+  itkPrintSelfObjectMacro(Evaluator)
 }
 
 /* ******* Get Outputs *****/
@@ -49,9 +49,9 @@ std::vector<typename RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunct
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::GetOutputs()
 {
   std::vector<OutputImagePointer> outputList;
-  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
+  for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
   {
-    outputList.push_back(this->GetOutput(dir));
+    outputList.push_back(this->GetOutput(comp));
   }
   return outputList;
 }
@@ -60,14 +60,13 @@ template <typename TOutputImage, typename TRieszFunction, typename TFrequencyReg
 void
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::GenerateData()
 {
-  typename RieszFunctionType::Pointer evaluator = RieszFunctionType::New();
 
   /***************** Allocate Outputs *****************/
   std::vector<OutputImagePointer>   outputList;
   std::vector<OutputRegionIterator> outputItList;
-  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
+  for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
   {
-    outputList.push_back(this->GetOutput(dir));
+    outputList.push_back(this->GetOutput(comp));
     OutputImagePointer & outputPtr = outputList.back();
     // GenerateImageSource superclass allocates primary output, so use its region.
     outputPtr->SetRegions(outputList[0]->GetLargestPossibleRegion());
@@ -81,15 +80,18 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
   OutputRegionIterator frequencyIt(outputList[0], outputList[0]->GetRequestedRegion());
   for (frequencyIt.GoToBegin(); !frequencyIt.IsAtEnd(); ++frequencyIt)
   {
-    typename TRieszFunction::OutputArrayType evaluatedArray = evaluator->EvaluateArray(frequencyIt.GetFrequency());
-    for (unsigned int dir = 0; dir < ImageDimension; ++dir)
+    typename TRieszFunction::OutputComponentsType evaluatedArray =
+      this->m_Evaluator->EvaluateAllComponents(frequencyIt.GetFrequency());
+    for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
     {
-      outputItList[dir].Set(outputItList[dir].Get() + evaluatedArray[dir].imag());
-      ++outputItList[dir];
+      outputItList[comp].Set(evaluatedArray[comp]);
+      ++outputItList[comp];
     }
     itkDebugMacro(<< "w_vector: " << frequencyIt.GetFrequency() << " w2: " << frequencyIt.GetFrequencyModuloSquare()
-                  << "  frequencyItIndex: " << frequencyIt.GetIndex() << "  Evaluated Riesz Components: "
-                  << evaluatedArray << " outputIndex: " << outputItList[0].GetIndex());
+                  << "  frequencyItIndex: "
+                  << frequencyIt.GetIndex()
+                  // << "  Evaluated Riesz Components: " << evaluatedArray
+                  << " outputIndex: " << outputItList[0].GetIndex());
   }
 }
 } // end namespace itk

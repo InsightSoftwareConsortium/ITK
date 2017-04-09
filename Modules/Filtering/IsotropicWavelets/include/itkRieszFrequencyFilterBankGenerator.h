@@ -27,6 +27,11 @@
 namespace itk
 {
 /** \class RieszFrequencyFilterBankGenerator
+ * Generate a filter bank of M components.
+ * M = p(N,d); where N = Order of the RieszTransform, and d = ImageDimension.
+ * M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!}
+ *
+ * TODO: OLD DELETE ME
  * \brief Generate filter bank of RieszFrequencyFunction.
  * RieszFrequencyFunction returns a complex value,
  * but the output of this generator is real , representing the imaginary part
@@ -42,7 +47,7 @@ namespace itk
  * \ingroup IsotropicWavelets
  */
 template <typename TOutputImage,
-          typename TRieszFunction = itk::RieszFrequencyFunction<double, TOutputImage::ImageDimension>,
+          typename TRieszFunction = itk::RieszFrequencyFunction<std::complex<double>, TOutputImage::ImageDimension>,
           typename TFrequencyRegionIterator = FrequencyImageRegionIteratorWithIndex<TOutputImage>>
 class RieszFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {
@@ -67,6 +72,7 @@ public:
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** RieszFunction types */
   typedef TRieszFunction                                RieszFunctionType;
+  typedef typename RieszFunctionType::Pointer           RieszFunctionPointer;
   typedef typename RieszFunctionType::FunctionValueType FunctionValueType;
 
   /** Dimension */
@@ -78,10 +84,37 @@ public:
   GetOutputs();
 
   // #ifdef ITK_USE_CONCEPT_CHECKING
-  //  /// This ensure that OutputPixelType is complex<float||double>
-  //   itkConceptMacro( OutputPixelTypeIsComplexAndFloatCheck,
-  //                    ( Concept::IsFloatingPoint< typename OutputImageType::PixelType::value_type > ) );
+  //   itkConceptMacro( OutputPixelTypeIsFloatCheck,
+  //                    ( Concept::IsFloatingPoint< typename OutputImageType::PixelType > ) );
   // #endif
+
+  /** Order of the generalized riesz transform. */
+  virtual void
+  SetOrder(const unsigned int inputOrder)
+  {
+    // Precondition
+    if (inputOrder < 1)
+    {
+      itkExceptionMacro(<< "Error: inputOrder = " << inputOrder << ". It has to be greater than 0.");
+    }
+
+    if (this->m_Order != inputOrder)
+    {
+      this->m_Order = inputOrder;
+      this->m_Evaluator->SetOrder(inputOrder);
+
+      this->SetNumberOfRequiredOutputs(this->m_Evaluator->ComputeNumberOfComponents(inputOrder));
+      for (unsigned int comp = 0; comp < this->GetNumberOfRequiredOutputs(); ++comp)
+      {
+        this->SetNthOutput(comp, this->MakeOutput(comp));
+      }
+      this->Modified();
+    }
+  }
+  itkGetConstReferenceMacro(Order, unsigned int);
+
+  /** Modifiable pointer to the Generalized RieszFunction */
+  itkGetModifiableObjectMacro(Evaluator, RieszFunctionType);
 
 protected:
   RieszFrequencyFilterBankGenerator();
@@ -95,6 +128,8 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RieszFrequencyFilterBankGenerator);
+  unsigned int         m_Order;
+  RieszFunctionPointer m_Evaluator;
 }; // end of class
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

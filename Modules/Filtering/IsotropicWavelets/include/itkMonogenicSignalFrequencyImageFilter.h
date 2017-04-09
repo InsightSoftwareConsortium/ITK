@@ -21,6 +21,7 @@
 #include <itkImageToImageFilter.h>
 #include <itkVectorImage.h>
 #include <itkFrequencyImageRegionConstIteratorWithIndex.h>
+#include "itkRieszFrequencyFunction.h"
 namespace itk
 {
 /** \class MonogenicSignalFrequencyImageFilter
@@ -72,9 +73,18 @@ public:
   typedef typename Superclass::OutputImagePointer    OutputImagePointer;
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;
 
+  /** RieszFunction typedefs. */
+  typedef RieszFrequencyFunction<typename InputImageType::PixelType, ImageDimension> RieszFunctionType;
+  typedef typename RieszFunctionType::Pointer                                        RieszFunctionPointer;
+
+  /** Get the riesz function type */
+  itkGetModifiableObjectMacro(Evaluator, RieszFunctionType);
+
 protected:
   MonogenicSignalFrequencyImageFilter();
   ~MonogenicSignalFrequencyImageFilter() {}
+  virtual void
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void
   GenerateOutputInformation() ITK_OVERRIDE;
@@ -84,6 +94,7 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MonogenicSignalFrequencyImageFilter);
+  RieszFunctionPointer m_Evaluator;
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

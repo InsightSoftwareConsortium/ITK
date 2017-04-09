@@ -34,10 +34,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkNumberToString.h"
 
-#include "itkGaussianSpatialFunction.h"
-#include "itkFrequencyImageRegionIteratorWithIndex.h"
 #include "itkTestingMacros.h"
 
 #include <string>
@@ -45,6 +42,7 @@
 // Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
+#  include "itkNumberToString.h"
 #endif
 
 
@@ -168,49 +166,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   // The coefficients are now phases, do not apply reconstrucction factors.
   inverseWavelet->ApplyReconstructionFactorsOff();
   inverseWavelet->Update();
-
-  // // Apply a gaussian window of the size of the input.
-  // bool apply_gaussian = false;
-  // if(apply_gaussian == true)
-  //   {
-  //   typedef itk::GaussianSpatialFunction<double, dimension> FunctionType;
-  //   typename FunctionType::Pointer gaussian = FunctionType::New();
-  //   typedef FixedArray< double, Dimension > ArrayType;
-  //   ArrayType m_Mean;
-  //   ArrayType m_Sigma;
-  //   double m_Scale = 1.0;
-  //   bool m_Normalized = true;
-  //   for( unsigned int i = 0; i < Dimension; ++i )
-  //     {
-  //     m_Mean[i] = inverseWavelet->GetOutput()->GetLargestPossibleRegion().GetIndex()[i];
-  //     // 6.0 is equivalent to 3sigmas (border values are close to zero)
-  //     // m_Sigma[i] = outputSize[i]/(2*3.0);
-  //     m_Sigma[i] = inverseWavelet->GetOutput()->GetLargestPossibleRegion().GetSize()[i]/(2.0*2.35);
-  //     }
-  //   gaussian->SetSigma(m_Sigma);
-  //   gaussian->SetMean(m_Mean);
-  //   gaussian->SetScale(m_Scale);
-  //   gaussian->SetNormalized(m_Normalized);
-  //
-  //   // Create an iterator that will walk the output region
-  //   typedef itk::FrequencyImageRegionIteratorWithIndex< ComplexImageType > OutputIterator;
-  //   OutputIterator outIt = OutputIterator( inverseWavelet->GetOutput(),
-  //     inverseWavelet->GetOutput()->GetRequestedRegion() );
-  //   outIt.GoToBegin();
-  //   while( !outIt.IsAtEnd() )
-  //     {
-  //     typename ComplexImageType::IndexType ind = outIt.GetFrequencyBin();
-  //     typename FunctionType::InputType f;
-  //     for (unsigned int i = 0; i<dimension; ++i)
-  //       {
-  //       f[i] = static_cast<typename FunctionType::InputType::ValueType>(ind[i]);
-  //       }
-  //     const double value = gaussian->Evaluate(f);
-  //     // Set the pixel value to the function value
-  //     outIt.Set( outIt.Get() * static_cast<typename ComplexImageType::PixelType::value_type>(value) );
-  //     ++outIt;
-  //     }
-  //   }
 
   typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
   inverseFFT->SetInput(inverseWavelet->GetOutput());
