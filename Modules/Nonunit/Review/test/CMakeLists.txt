@@ -444,5 +444,7 @@ itk_add_test(NAME itkVoxBoCUBImageIOTest7
     --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/HeadMRVolume.mhd,HeadMRVolume.raw}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha
     itkVoxBoCUBImageIOTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume2.cub.gz} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeFromCUB3.mha)
-itk_add_test(NAME itkWarpHarmonicEnergyCalculatorTest
-      COMMAND ITKReviewTestDriver itkWarpHarmonicEnergyCalculatorTest)
+itk_add_test(NAME itkWarpHarmonicEnergyCalculatorTestUseImageSpacingOn
+      COMMAND ITKReviewTestDriver itkWarpHarmonicEnergyCalculatorTest 1 1.0 0.0)
+itk_add_test(NAME itkWarpHarmonicEnergyCalculatorTestUseImageSpacingOff
+      COMMAND ITKReviewTestDriver itkWarpHarmonicEnergyCalculatorTest 0 1.0 0.0)
