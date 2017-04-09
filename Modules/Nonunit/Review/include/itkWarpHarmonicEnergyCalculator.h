@@ -27,11 +27,11 @@ namespace itk
 {
 /** \class WarpHarmonicEnergyCalculator
  *
- * \brief Compute the harmonic energy of a deformation field
+ * \brief Compute the harmonic energy of a deformation field.
  *
  * This class computes the harmonic energy of a deformation
  * field which is a measure inversely related to the smoothness
- * of the deformation field
+ * of the deformation field.
  *
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
@@ -88,31 +88,36 @@ public:
   typedef ConstNeighborhoodIterator< ImageType >             ConstNeighborhoodIteratorType;
   typedef typename ConstNeighborhoodIteratorType::RadiusType RadiusType;
 
-  /** Set the derivative weights according to the spacing of the input image
-   *  (1/spacing). Use this option if you want to calculate the Jacobian
-   *  determinant in the space in which the data was acquired. */
-  void SetUseImageSpacingOn()
+  /** Set/Get whether or not the filter will use the spacing of the input
+   *  image in its calculations.
+   *  When set to "On", the derivative weights according to the spacing of the
+   *  input image (1/spacing). Use this option if you want to calculate the
+   *  Jacobian determinant in the space in which the data was acquired.
+   *  Setting the value to "Off" resets the derivative weights to ignore image
+   *  spacing. Use this option if you want to calculate the Jacobian
+   *  determinant in the image space.
+   *  Default value is "On". */
+  void SetUseImageSpacing(bool);
+  itkGetConstMacro(UseImageSpacing, bool);
+  itkBooleanMacro(UseImageSpacing);
+#if !defined(ITK_LEGACY_REMOVE)
+  /** \deprecated Replaced by UseImageSpacingOn() as of ITK 4.12. */
+  itkLegacyMacro(void SetUseImageSpacingOn())
   {
     this->SetUseImageSpacing(true);
   }
 
-  /** Reset the derivative weights to ignore image spacing.  Use this option if
-   *  you want to calculate the Jacobian determinant in the image space.
-   *  Default is ImageSpacingOn. */
-  void SetUseImageSpacingOff()
+  /** \deprecated Replaced by UseImageSpacingOff() as of ITK 4.12. */
+  itkLegacyMacro(void SetUseImageSpacingOff())
   {
     this->SetUseImageSpacing(false);
   }
-
-  /** Set/Get whether or not the filter will use the spacing of the input
-   *  image in its calculations */
-  void SetUseImageSpacing(bool);
-
-  itkGetConstMacro(UseImageSpacing, bool);
+#endif
 
   typedef FixedArray< double, ImageDimension > WeightsType;
 
-  /** Directly Set/Get the array of weights used in the gradient calculations.
+  /** Set/Get the array of weights used to scale partial derivatives in the
+   *  gradient calculations.
    *  Note that calling UseImageSpacingOn will clobber these values. */
   itkSetMacro(DerivativeWeights, WeightsType);
   itkGetConstReferenceMacro(DerivativeWeights, WeightsType);
@@ -151,7 +156,6 @@ private:
 
   bool m_UseImageSpacing;
 
-  /** The weights used to scale partial derivatives during processing */
   WeightsType m_DerivativeWeights;
 
   RadiusType m_NeighborhoodRadius;
