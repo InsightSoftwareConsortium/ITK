@@ -37,23 +37,6 @@ template <typename TFunctionValue, unsigned int VImageDimension, typename TInput
 RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::~RieszFrequencyFunction()
 {}
 
-// template< typename TFunctionValue, unsigned int VImageDimension, typename TInput >
-// typename RieszFrequencyFunction< TFunctionValue, VImageDimension, TInput >::OutputComplexType
-// RieszFrequencyFunction< TFunctionValue, VImageDimension, TInput >
-// ::Evaluate(
-//   const TInput & frequency_point,
-//   const unsigned int & direction) const
-// {
-//   double magn(this->Magnitude(frequency_point));
-//
-//   if(itk::Math::FloatAlmostEqual(magn, 0.0) )
-//     {
-//     return OutputComplexType(0);
-//     }
-//   return OutputComplexType(0, static_cast<typename OutputComplexType::value_type>( -frequency_point[direction] / magn
-//   ) );
-// }
-
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 typename RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::OutputComplexType
 RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::EvaluateWithIndices(const TInput & frequency_point,
@@ -169,17 +152,17 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeNormaliz
   unsigned int      modulo4 = this->m_Order % 4;
   switch (modulo4)
   {
-    case 1:
-      powComplex.imag(-1);
+    case 1: //(-j)
+      powComplex = OutputComplexType(0, -1);
       break;
-    case 2:
-      powComplex.real(1);
+    case 2: // (-j)(-j) = -1
+      powComplex = OutputComplexType(-1, 0);
       break;
-    case 3:
-      powComplex.imag(1);
+    case 3: // -1(-j) = j
+      powComplex = OutputComplexType(0, 1);
       break;
-    case 0:
-      powComplex.real(-1);
+    case 0: // j(-j) = 1
+      powComplex = OutputComplexType(1, 0);
       break;
   }
   // itkDebugMacro(<< "\n (-j)^Order: "<< powComplex << " output: " << normalizeFactor * powComplex)

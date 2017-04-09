@@ -22,6 +22,7 @@
 #include <set>
 #include <complex>
 #include <numeric>
+#include <functional>
 
 namespace itk
 {
