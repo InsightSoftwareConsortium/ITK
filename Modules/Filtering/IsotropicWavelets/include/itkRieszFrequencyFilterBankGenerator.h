@@ -104,7 +104,7 @@ public:
       this->m_Evaluator->SetOrder(inputOrder);
 
       this->SetNumberOfRequiredOutputs(this->m_Evaluator->ComputeNumberOfComponents(inputOrder));
-      for (unsigned int comp = 0; comp < this->GetNumberOfRequiredOutput(); ++comp)
+      for (unsigned int comp = 0; comp < this->GetNumberOfRequiredOutputs(); ++comp)
       {
         this->SetNthOutput(comp, this->MakeOutput(comp));
       }

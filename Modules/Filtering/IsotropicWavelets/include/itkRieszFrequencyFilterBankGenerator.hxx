@@ -29,12 +29,6 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
 {
   this->m_Evaluator = RieszFunctionType::New();
   this->SetOrder(1);
-
-  this->SetNumberOfRequiredOutputs(ImageDimension);
-  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
-  {
-    this->SetNthOutput(dir, this->MakeOutput(dir));
-  }
 }
 
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
@@ -45,15 +39,7 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Order: " << this->m_Order << std::endl;
-  os << indent << "m_Evaluator: ";
-  if (!this->m_Evaluator)
-  {
-    os << "0" << std::endl;
-  }
-  else
-  {
-    os << this->m_Evaluator << std::endl;
-  }
+  itkPrintSelfObjectMacro(Evaluator)
 }
 
 /* ******* Get Outputs *****/
@@ -63,9 +49,9 @@ std::vector<typename RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunct
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::GetOutputs()
 {
   std::vector<OutputImagePointer> outputList;
-  for (unsigned int dir = 0; dir < ImageDimension; ++dir)
+  for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
   {
-    outputList.push_back(this->GetOutput(dir));
+    outputList.push_back(this->GetOutput(comp));
   }
   return outputList;
 }
@@ -94,7 +80,7 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
   OutputRegionIterator frequencyIt(outputList[0], outputList[0]->GetRequestedRegion());
   for (frequencyIt.GoToBegin(); !frequencyIt.IsAtEnd(); ++frequencyIt)
   {
-    typename TRieszFunction::OutputComponentType evaluatedArray =
+    typename TRieszFunction::OutputComponentsType evaluatedArray =
       this->m_Evaluator->EvaluateAllComponents(frequencyIt.GetFrequency());
     for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
     {
@@ -102,8 +88,10 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
       ++outputItList[comp];
     }
     itkDebugMacro(<< "w_vector: " << frequencyIt.GetFrequency() << " w2: " << frequencyIt.GetFrequencyModuloSquare()
-                  << "  frequencyItIndex: " << frequencyIt.GetIndex() << "  Evaluated Riesz Components: "
-                  << evaluatedArray << " outputIndex: " << outputItList[0].GetIndex());
+                  << "  frequencyItIndex: "
+                  << frequencyIt.GetIndex()
+                  // << "  Evaluated Riesz Components: " << evaluatedArray
+                  << " outputIndex: " << outputItList[0].GetIndex());
   }
 }
 } // end namespace itk

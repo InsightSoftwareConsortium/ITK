@@ -21,6 +21,7 @@
 #include "itkForwardFFTImageFilter.h"
 #include "itkRieszFrequencyFilterBankGenerator.h"
 #include "itkComplexToRealImageFilter.h"
+#include "itkComplexToImaginaryImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkTestingMacros.h"
 
@@ -38,13 +39,14 @@
 int
 itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
 {
-  if (argc != 3)
+  if (argc != 4)
   {
-    std::cerr << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImage outputImage inputOrder" << std::endl;
     return EXIT_FAILURE;
   }
   const std::string inputImage = argv[1];
   const std::string outputImage = argv[2];
+  unsigned int      inputOrder = atoi(argv[3]);
 
   const unsigned int                       Dimension = 3;
   typedef double                           PixelType;
@@ -64,30 +66,80 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
 
   typedef FFTFilterType::OutputImageType ComplexImageType;
 
-  //   // typedef itk::RieszFrequencyFunction<> FunctionType;
-  //   typedef itk::RieszFrequencyFilterBankGenerator< ComplexImageType > RieszFilterBankType;
-  //   RieszFilterBankType::Pointer filterBank = RieszFilterBankType::New();
-  //
-  //   EXERCISE_BASIC_OBJECT_METHODS( filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource );
-  //
-  //   filterBank->SetSize( fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize() );
-  //   filterBank->Update();
-  //
-  //   // Get real part of complex image for visualization
-  //   typedef itk::ComplexToRealImageFilter< ComplexImageType, ImageType > ComplexToRealFilter;
-  //   ComplexToRealFilter::Pointer complexToRealFilter = ComplexToRealFilter::New();
-  //   std::cout << "Real part of complex image:" << std::endl;
-  //   for( unsigned int dir = 0; dir < ImageType::ImageDimension; dir++ )
-  //     {
-  //     std::cout << "Direction: " << dir + 1 << " / " << ImageType::ImageDimension << std::endl;
-  //     complexToRealFilter->SetInput( filterBank->GetOutput( dir ) );
-  //     complexToRealFilter->Update();
-  //
-  // #ifdef ITK_VISUALIZE_TESTS
-  //     itk::NumberToString< unsigned int > n2s;
-  //     itk::Testing::ViewImage( complexToRealFilter->GetOutput(), "RealPart of Complex. Direction: " + n2s(
-  //                          dir + 1) + " / " + n2s( ImageType::ImageDimension ) );
-  // #endif
-  // }
+  // typedef itk::RieszFrequencyFunction<> FunctionType;
+  typedef itk::RieszFrequencyFilterBankGenerator<ComplexImageType> RieszFilterBankType;
+  RieszFilterBankType::Pointer                                     filterBank = RieszFilterBankType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
+
+  filterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
+  filterBank->SetOrder(inputOrder);
+  filterBank->Update();
+
+  // Get iterator to Indices of RieszFunction.
+  typedef RieszFilterBankType::RieszFunctionType::SetType IndicesType;
+  IndicesType                                             indices = filterBank->GetModifiableEvaluator()->GetIndices();
+  IndicesType::const_iterator                             indicesIt = indices.begin();
+
+  // Get real part of complex image for visualization
+  typedef itk::ComplexToRealImageFilter<ComplexImageType, ImageType> ComplexToRealFilter;
+  ComplexToRealFilter::Pointer                                       complexToRealFilter = ComplexToRealFilter::New();
+  typedef itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType> ComplexToImaginaryFilter;
+  ComplexToImaginaryFilter::Pointer complexToImaginaryFilter = ComplexToImaginaryFilter::New();
+  std::cout << "Order: " << inputOrder << std::endl;
+  bool orderIsEven = (inputOrder % 2 == 0);
+  if (orderIsEven)
+  {
+    std::cout << "Real part of complex image:" << std::endl;
+    for (unsigned int comp = 0; comp < filterBank->GetNumberOfOutputs(); comp++)
+    {
+      std::ostringstream oss;
+      oss << "(";
+      std::cout << "Component: " << comp << " / " << filterBank->GetNumberOfOutputs() - 1 << std::endl;
+      for (unsigned int i = 0; i < Dimension; ++i)
+      {
+        oss << (*indicesIt)[i] << ", ";
+      }
+      ++indicesIt;
+      oss << ")";
+      std::cout << "  Indice: " << oss.str() << std::endl;
+
+      complexToRealFilter->SetInput(filterBank->GetOutput(comp));
+      complexToRealFilter->Update();
+#ifdef ITK_VISUALIZE_TESTS
+      itk::NumberToString<unsigned int> n2s;
+      itk::Testing::ViewImage(complexToRealFilter->GetOutput(),
+                              "RealPart of Complex. Component: " + n2s(comp) + " / " +
+                                n2s(filterBank->GetNumberOfOutputs() - 1) + ". Indices: " + oss.str());
+#endif
+    }
+  }
+  else
+  {
+    std::cout << "Imaginary part of complex image:" << std::endl;
+    for (unsigned int comp = 0; comp < filterBank->GetNumberOfOutputs(); comp++)
+    {
+      std::ostringstream oss;
+      oss << "(";
+      std::cout << "Component: " << comp << " / " << filterBank->GetNumberOfOutputs() - 1 << std::endl;
+      for (unsigned int i = 0; i < Dimension; ++i)
+      {
+        oss << (*indicesIt)[i] << ", ";
+      }
+      ++indicesIt;
+      oss << ")";
+      std::cout << "  Indice: " << oss.str() << std::endl;
+
+      complexToImaginaryFilter->SetInput(filterBank->GetOutput(comp));
+      complexToImaginaryFilter->Update();
+#ifdef ITK_VISUALIZE_TESTS
+      itk::NumberToString<unsigned int> n2s;
+      itk::Testing::ViewImage(complexToImaginaryFilter->GetOutput(),
+                              "ImaginaryPart of Complex. Component: " + n2s(comp) + " / " +
+                                n2s(filterBank->GetNumberOfOutputs() - 1) + ". Indices: " + oss.str());
+#endif
+    }
+  }
+
   return EXIT_SUCCESS;
 }
