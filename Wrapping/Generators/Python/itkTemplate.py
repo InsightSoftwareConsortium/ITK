@@ -413,7 +413,7 @@ class itkTemplate(object):
 
         if len(keys) == 0:
             raise RuntimeError("No suitable template parameter can be found.")
-        return self[keys[0]].New(*args, **kwargs)
+        return self[list(keys)[0]].New(*args, **kwargs)
 
     def _NewImageFileReader(self, *args, **kwargs):
         primaryInputMethods = ('FileName',)
