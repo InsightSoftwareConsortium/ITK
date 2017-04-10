@@ -601,10 +601,10 @@ int itkDisplacementFieldTransformTest( int argc, char* argv[] )
         << i << "]" << std::endl;
       std::cout << "Expected: "
         << static_cast< itk::NumericTraits<
-        DisplacementTransformType::DerivativeType >::PrintType >( updateTruth[i] )
+        DisplacementTransformType::DerivativeType::ValueType >::PrintType >( updateTruth[i] )
         << ", but got: "
         << static_cast< itk::NumericTraits<
-        DisplacementTransformType::ParametersType >::PrintType >( params[i] )
+        DisplacementTransformType::ParametersType::ValueType >::PrintType >( params[i] )
         << std::endl;
       return EXIT_FAILURE;
       }
