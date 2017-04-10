@@ -31,6 +31,7 @@ else()
   set(ITKTIFF_LIBRARIES itktiff)
   set(ITK_TIFF_HAS_TIFFFieldReadCount 1)
   set(ITK_TIFF_HAS_TIFFField 1)
+  set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 endif()
 
 configure_file(src/itk_tiff.h.in src/itk_tiff.h)
