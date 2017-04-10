@@ -12,7 +12,11 @@ itkGrayscaleFunctionErodeImageFilterTest.cxx
 itkGrayscaleMorphologicalClosingImageFilterTest.cxx
 itkGrayscaleMorphologicalOpeningImageFilterTest.cxx
 itkGrayscaleGeodesicErodeDilateImageFilterTest.cxx
+itkHConcaveImageFilterTest.cxx
+itkHConvexImageFilterTest.cxx
 itkHConvexConcaveImageFilterTest.cxx
+itkHMaximaImageFilterTest.cxx
+itkHMinimaImageFilterTest.cxx
 itkHMaximaMinimaImageFilterTest.cxx
 itkMorphologicalGradientImageFilterTest.cxx
 itkOpeningByReconstructionImageFilterTest.cxx
@@ -123,11 +127,51 @@ itk_add_test(NAME itkGrayscaleGeodesicErodeDilateImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png
     itkGrayscaleGeodesicErodeDilateImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} ${ITK_TEST_OUTPUT_DIR}/itkGrayscaleGeodesicErodeDilateImageFilterTest.png 35)
+itk_add_test(NAME itkHConcaveImageFilterTestFullyConnectedOff
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOff.png
+                  bd1b5ab47f54cd97b5c6b454bee130e2
+    itkHConcaveImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOff.png 2000 0)
+itk_add_test(NAME itkHConcaveImageFilterTestFullyConnectedOn
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOn.png
+                  c7116406ded975955965226f6a69e28d
+    itkHConcaveImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHConcaveImageFilterTestFullyConnectedOn.png 2000 1)
+itk_add_test(NAME itkHConvexImageFilterTestFullyConnectedOff
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOff.png
+                  d77fb8b2aeac6f302cc2582e12831eb4
+    itkHConvexImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOff.png 2000 0)
+itk_add_test(NAME itkHConvexImageFilterTestFullyConnectedOn
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOn.png
+                  d8b22af69787337021748e00f82bc100
+    itkHConvexImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHConvexImageFilterTestFullyConnectedOn.png 2000 1)
 itk_add_test(NAME itkHConvexConcaveImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HConvexConcaveImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png
     itkHConvexConcaveImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/HConvexConcaveImageFilterTest.png 50)
+itk_add_test(NAME itkHMaximaImageFilterTestFullyConnectedOff
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOff.png
+                  9e2e9272501fa665b0622329dc70b121
+    itkHMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOff.png 2000 0)
+itk_add_test(NAME itkHMaximaImageFilterTestFullyConnectedOn
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOn.png
+                  934b9aec16da6cc9171a3074cbf9f242
+    itkHMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHMaximaImageFilterTestFullyConnectedOn.png 2000 1)
+itk_add_test(NAME itkHMinimaImageFilterTestFullyConnectedOff
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOff.png
+                  9e2e9272501fa665b0622329dc70b121
+    itkHMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOff.png 2000 0)
+itk_add_test(NAME itkHMinimaImageFilterTestFullyConnectedOn
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOn.png
+                  69e285fb1db3f8f83a0b6469b4f24f7f
+    itkHMinimaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Input-RA-Short.nrrd} ${ITK_TEST_OUTPUT_DIR}/itkHMinimaImageFilterTestFullyConnectedOn.png 2000 1)
 itk_add_test(NAME itkHMaximaMinimaImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HMaximaMinimaImageFilterTest.png}

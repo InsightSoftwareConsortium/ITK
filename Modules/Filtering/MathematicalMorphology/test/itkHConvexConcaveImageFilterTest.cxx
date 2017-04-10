@@ -16,8 +16,6 @@
  *
  *=========================================================================*/
 
-//
-
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRescaleIntensityImageFilter.h"
@@ -26,14 +24,15 @@
 #include "itkHConcaveImageFilter.h"
 #include "itkAddImageFilter.h"
 #include "itkFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
 {
   if( argc < 4 )
     {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << "  inputImageFile  ";
-    std::cerr << " outputImageFile  height" << std::endl;
+    std::cerr << argv[0] << " inputImageFile";
+    std::cerr << " outputImageFile height" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -52,59 +51,64 @@ int itkHConvexConcaveImageFilterTest( int argc, char * argv[] )
   typedef itk::Image< OutputPixelType, Dimension > OutputImageType;
   typedef itk::Image< WritePixelType, Dimension >  WriteImageType;
 
-  // readers/writers
+  // Readers/writers
   typedef itk::ImageFileReader< InputImageType  > ReaderType;
   typedef itk::ImageFileWriter< WriteImageType >  WriterType;
-  typedef itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>
+  typedef itk::RescaleIntensityImageFilter< OutputImageType, WriteImageType >
                                                   RescaleType;
 
-  // define the hconvex/hconcave filter
+  // Define the itk::HConvexImageFilter filter type
   typedef itk::HConvexImageFilter<
                             InputImageType,
-                            InputImageType >  HconvexFilterType;
+                            InputImageType > HConvexFilterType;
+  // Define the itk::HConcaveImageFilter filter type
   typedef itk::HConcaveImageFilter<
                             InputImageType,
-                            InputImageType >  HconcaveFilterType;
+                            InputImageType > HConcaveFilterType;
 
 
-  // Creation of Reader and Writer filters
+  // Creation of reader and writer filters
   ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer  = WriterType::New();
+  WriterType::Pointer writer = WriterType::New();
   RescaleType::Pointer rescaler = RescaleType::New();
 
   // Create the filters
-  HconvexFilterType::Pointer  hconvex = HconvexFilterType::New();
-  HconcaveFilterType::Pointer  hconcave = HconcaveFilterType::New();
-  FilterWatcher watchConvex(hconvex, "Convex");
-  FilterWatcher watchConcave(hconcave, "Concave");
+  HConvexFilterType::Pointer hConvexFilter = HConvexFilterType::New();
+  HConcaveFilterType::Pointer hConcaveFilter = HConcaveFilterType::New();
 
-  // Setup the input and output files
+  FilterWatcher watchConvex( hConvexFilter, "HConvexImageFilter" );
+  FilterWatcher watchConcave( hConcaveFilter, "HConcaveImageFilter" );
+
+  // Set up the input and output files
   reader->SetFileName( argv[1] );
-  writer->SetFileName(  argv[2] );
+  writer->SetFileName( argv[2] );
 
-  // Setup the hconvex method
-  hconvex->SetInput(  reader->GetOutput() );
-  hconvex->SetHeight( atof(argv[3]) );
+  // Set up the filters
+  hConvexFilter->SetInput( reader->GetOutput() );
+  hConvexFilter->SetHeight( atof( argv[3] ) );
 
-  hconcave->SetInput( reader->GetOutput() );
-  hconcave->SetHeight( atof(argv[3]) );
+  hConcaveFilter->SetInput( reader->GetOutput() );
+  hConcaveFilter->SetHeight( atof( argv[3] ) );
 
-  // create a filter to add the two images
+  // Create a filter to add the two images
   typedef itk::AddImageFilter<
                             InputImageType, InputImageType,
-                            OutputImageType> AddFilterType;
+                            OutputImageType > AddFilterType;
 
   AddFilterType::Pointer add = AddFilterType::New();
-  add->SetInput1(hconvex->GetOutput());
-  add->SetInput2(hconcave->GetOutput());
+  add->SetInput1( hConvexFilter->GetOutput() );
+  add->SetInput2( hConcaveFilter->GetOutput() );
 
-  // Run the filter
+  // Run the filters
   rescaler->SetInput( add->GetOutput() );
   rescaler->SetOutputMinimum(   0 );
   rescaler->SetOutputMaximum( 255 );
 
   writer->SetInput( rescaler->GetOutput() );
-  writer->Update();
 
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
