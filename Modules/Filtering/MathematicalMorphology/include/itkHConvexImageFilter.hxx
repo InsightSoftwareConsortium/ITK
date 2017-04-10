@@ -27,11 +27,11 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 HConvexImageFilter< TInputImage, TOutputImage >
-::HConvexImageFilter()
+::HConvexImageFilter() :
+  m_Height( 2 ),
+  m_NumberOfIterationsUsed( 1 ),
+  m_FullyConnected( false )
 {
-  m_Height = 2;
-  m_NumberOfIterationsUsed = 1;
-  m_FullyConnected = false;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -39,7 +39,7 @@ void
 HConvexImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
@@ -89,17 +89,17 @@ HConvexImageFilter< TInputImage, TOutputImage >
   subtract->SetInput1( this->GetInput() );
   subtract->SetInput2( hmax->GetOutput() );
 
-  // graft our output to the subtract filter to force the proper regions
+  // Graft our output to the subtract filter to force the proper regions
   // to be generated
   subtract->GraftOutput( this->GetOutput() );
 
-  // run the algorithm
+  // Run the algorithm
   progress->RegisterInternalFilter(hmax, .9f);
   progress->RegisterInternalFilter(subtract, .1f);
 
   subtract->Update();
 
-  // graft the output of the subtract filter back onto this filter's
+  // Graft the output of the subtract filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( subtract->GetOutput() );
