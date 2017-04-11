@@ -57,6 +57,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   unsigned int maxKernelWidth = 100;
   typename DiscreteGradientMagnitudeGaussianFunctionType::InterpolationModeType interpolationMode =
     DiscreteGradientMagnitudeGaussianFunctionType::NearestNeighbourInterpolation;
+  bool useImageSpacing = true;
 
   if( argc > 4 )
     {
@@ -72,13 +73,33 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
       static_cast< typename DiscreteGradientMagnitudeGaussianFunctionType::InterpolationModeType >(
       atoi( argv[6] ) );
     }
+  if( argc > 7 )
+    {
+    useImageSpacing = static_cast< bool >( atoi( argv[7] ) );
+    }
 
+  double varianceValue = sigma * sigma;
+  typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType varianceArray;
+  varianceArray.Fill( varianceValue );
 
-  typename DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType variance;
-  variance.Fill( sigma * sigma );
+  function->SetVariance( varianceArray );
+  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
-  function->SetVariance( variance );
-  TEST_SET_GET_VALUE( variance, function->GetVariance() );
+  // Increase code coverage calling other variations of the SetVariance method
+  function->SetVariance( varianceValue );
+  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+
+  // Test itkSetVectorMacro
+  double varianceVector[DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType::Length];
+  for( unsigned int i = 0;
+    i < DiscreteGradientMagnitudeGaussianFunctionType::VarianceArrayType::Length;
+    i++ )
+    {
+      varianceVector[i] = varianceValue;
+    }
+  function->SetVariance( varianceVector );
+  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+
 
   function->SetMaximumError( maxError );
   TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
@@ -89,7 +110,6 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTestND( int argc, char* arg
   bool normalizeAcrossScale = true;
   TEST_SET_GET_BOOLEAN( function, NormalizeAcrossScale, normalizeAcrossScale );
 
-  bool useImageSpacing = true;
   TEST_SET_GET_BOOLEAN( function, UseImageSpacing, useImageSpacing );
 
   function->SetInterpolationMode( interpolationMode );
@@ -184,6 +204,7 @@ int itkDiscreteGradientMagnitudeGaussianImageFunctionTest( int argc, char* argv[
         " [maximumError]"
         " [maximumKernelWidth]"
         " [interpolator]: 0: NearestNeighbourInterpolation; 1: LinearInterpolation"
+        " useImageSpacing"
         << std::endl;
     return EXIT_FAILURE;
     }
