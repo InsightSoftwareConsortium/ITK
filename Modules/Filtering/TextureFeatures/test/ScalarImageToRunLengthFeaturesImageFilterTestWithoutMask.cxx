@@ -15,59 +15,49 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#include "itkScalarImageToRunLengthFeaturesImageFilter.h"
 
 #include "itkImage.h"
+#include "itkVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkScalarImageToRunLengthFeaturesImageFilter.h"
-#include "itkHistogramToRunLengthFeaturesFilter.h"
-#include "itkScalarImageToRunLengthMatrixFilter.h"
-#include "itkScalarImageToRunLengthFeaturesFilter.h"
-
 #include "itkNeighborhood.h"
-#include "itkMath.h"
 
 int
-FilterCreationTest(int argc, char * argv[])
+ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 {
-  // Parse command line argumentsa
-  std::string inputFilename = argv[1];
   // Setup types
-  typedef itk::Image<int, 3>                   InputImageType;
-  typedef itk::Image<float, 3>                 OutputImageType;
-  typedef itk::ImageFileReader<InputImageType> readerType;
+  typedef itk::Image<int, 3>                                                                    InputImageType;
+  typedef itk::Image<itk::Vector<float, 10>, 3>                                                 OutputImageType;
+  typedef itk::ImageFileReader<InputImageType>                                                  readerType;
+  typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
+  NeighborhoodType                                                                              hood;
 
   // Create and setup a reader
   readerType::Pointer reader = readerType::New();
-  /// reader->SetFileName( inputFilename.c_str() );
-  reader->SetFileName(
-    "/home/jean-baptiste/Professional/Projects/TextureFeatures/ITKTextureFeatures/test/Baseline/Scan_CBCT_1L.nrrd");
-  reader->UpdateLargestPossibleRegion();
-  InputImageType::Pointer im = reader->GetOutput();
-
-  // Create and setup a maskReader
-  readerType::Pointer maskReader = readerType::New();
-  maskReader->SetFileName(
-    "/home/jean-baptiste/Professional/Projects/TextureFeatures/ITKTextureFeatures/test/Baseline/SegmC_CBCT_1L.nrrd");
-  maskReader->UpdateLargestPossibleRegion();
-  InputImageType::Pointer mask = maskReader->GetOutput();
+  std::string         inputFilename = argv[1];
+  reader->SetFileName(inputFilename.c_str());
 
   // Apply the filter
   typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-  filter->SetInput(im);
-  filter->SetMaskImage(mask);
-  filter->SetNumberOfBinsPerAxis(10);
-  filter->SetPixelValueMinMax(-300, 4000);
-  filter->SetDistanceValueMinMax(0, 200);
+  filter->SetInput(reader->GetOutput());
+  if (argc >= 4)
+  {
+    filter->SetNumberOfBinsPerAxis(std::atoi(argv[3]));
+    filter->SetPixelValueMinMax(std::atof(argv[4]), std::atof(argv[5]));
+    filter->SetDistanceValueMinMax(std::atof(argv[6]), std::atof(argv[7]));
+    hood.SetRadius(std::atoi(argv[8]));
+    filter->SetNeighborhoodRadius(hood.GetRadius());
+  }
   filter->UpdateLargestPossibleRegion();
-  OutputImageType::Pointer output = filter->GetOutput();
 
   // Create and setup a writter
   typedef itk::ImageFileWriter<OutputImageType> WriterType;
   WriterType::Pointer                           writer = WriterType::New();
-  writer->SetFileName("result.nrrd");
-  writer->SetInput(output);
+  std::string                                   outputFilename = argv[2];
+  writer->SetFileName(outputFilename.c_str());
+  writer->SetInput(filter->GetOutput());
   writer->UpdateLargestPossibleRegion();
 
   return EXIT_SUCCESS;

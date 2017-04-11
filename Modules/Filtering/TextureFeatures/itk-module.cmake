@@ -19,6 +19,7 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKImageIntensity
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
 )
