@@ -28,18 +28,16 @@
 
 namespace itk
 {
-/**
- *   Constructor
- */
+
 template< typename TInputImage >
 WarpHarmonicEnergyCalculator< TInputImage >
-::WarpHarmonicEnergyCalculator()
+::WarpHarmonicEnergyCalculator() :
+  m_HarmonicEnergy( 0.0 ),
+  m_RegionSetByUser( false ),
+  m_UseImageSpacing( true )
 {
   m_Image = TInputImage::New();
-  m_HarmonicEnergy = 0.0;
-  m_RegionSetByUser = false;
   unsigned int i;
-  m_UseImageSpacing = true;
   for ( i = 0; i < ImageDimension; i++ )
     {
     m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
@@ -70,9 +68,6 @@ WarpHarmonicEnergyCalculator< TInputImage >
   m_UseImageSpacing = f;
 }
 
-/*
- * Compute
- */
 template< typename TInputImage >
 void
 WarpHarmonicEnergyCalculator< TInputImage >
