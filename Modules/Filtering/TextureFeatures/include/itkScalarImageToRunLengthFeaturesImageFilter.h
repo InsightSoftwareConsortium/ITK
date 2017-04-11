@@ -19,7 +19,6 @@
 #define itkScalarImageToRunLengthFeaturesImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkImageRegion.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkHistogramToRunLengthFeaturesFilter.h"
 #include "itkScalarImageToRunLengthMatrixFilter.h"
@@ -180,11 +179,6 @@ public:
   itkSetMacro(InsidePixelValue, PixelType);
   itkGetConstMacro(InsidePixelValue, PixelType);
 
-
-  itkGetConstMacro(FastCalculations, bool);
-  itkSetMacro(FastCalculations, bool);
-  itkBooleanMacro(FastCalculations);
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(InputPixelTypeCheck, (Concept::IsInteger<typename InputImageType::PixelType>));
@@ -222,7 +216,6 @@ private:
   NeighborhoodRadiusType        m_NeighborhoodRadius;
   FeatureNameVectorConstPointer m_RequestedFeatures;
   OffsetVectorPointer           m_Offsets;
-  bool                          m_FastCalculations;
   unsigned int                  m_NumberOfBinsPerAxis;
   PixelType                     m_Min;
   PixelType                     m_Max;
