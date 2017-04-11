@@ -77,6 +77,28 @@ int itkGaussianImageSourceTest( int argc, char* argv[] )
   gaussianImage->SetDirection( direction );
   TEST_SET_GET_VALUE( direction, gaussianImage->GetDirection() );
 
+  // Test SetReferenceImage from GenerateImageSource base class.
+  ImageType::Pointer referenceImage = ImageType::New();
+  ImageType::IndexType startIndex;
+  startIndex.Fill(0);
+  ImageType::SizeType referenceSize;
+  referenceSize.SetSize(size);
+  ImageType::RegionType region(startIndex, referenceSize);
+  referenceImage->SetRegions(region);
+  referenceImage->Allocate();
+  referenceImage->FillBuffer(0);
+
+  referenceImage->SetOrigin( origin );
+  referenceImage->SetSpacing( spacing );
+  referenceImage->SetDirection( direction );
+  gaussianImage->SetReferenceImage( referenceImage );
+  bool useReferenceImage = true;
+  TEST_SET_GET_BOOLEAN( gaussianImage, UseReferenceImage, useReferenceImage );
+  gaussianImage->SetReferenceImage( referenceImage );
+  TEST_SET_GET_VALUE( referenceImage, gaussianImage->GetReferenceImage() );
+
+  gaussianImage->SetOutputParametersFromImage( referenceImage );
+
   bool normalized = atoi( argv[2] ) != 0;
   TEST_SET_GET_BOOLEAN( gaussianImage, Normalized, normalized );
 
