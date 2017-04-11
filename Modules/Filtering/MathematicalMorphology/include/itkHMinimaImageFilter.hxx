@@ -29,11 +29,11 @@ namespace itk
 {
 template< typename TInputImage, typename TOutputImage >
 HMinimaImageFilter< TInputImage, TOutputImage >
-::HMinimaImageFilter()
+::HMinimaImageFilter() :
+  m_Height( 2 ),
+  m_NumberOfIterationsUsed( 1 ),
+  m_FullyConnected( false )
 {
-  m_Height =  2;
-  m_NumberOfIterationsUsed = 1;
-  m_FullyConnected = false;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -41,7 +41,7 @@ void
 HMinimaImageFilter< TInputImage, TOutputImage >
 ::GenerateInputRequestedRegion()
 {
-  // call the superclass' implementation of this method
+  // Call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
 
   // We need all the input.
@@ -69,7 +69,7 @@ HMinimaImageFilter< TInputImage, TOutputImage >
   // Allocate the output
   this->AllocateOutputs();
 
-  // construct a marker image to manipulate using reconstruction by
+  // Construct a marker image to manipulate using reconstruction by
   // erosion. the marker image is the input image minus the height
   // parameter.
   typedef ShiftScaleImageFilter< TInputImage, TInputImage > ShiftFilterType;
@@ -89,7 +89,7 @@ HMinimaImageFilter< TInputImage, TOutputImage >
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(erode, 1.0f);
 
-  // set up the erode filter
+  // Set up the erode filter
   //erode->RunOneIterationOff();             // run to convergence
   erode->SetMarkerImage( shift->GetOutput() );
   erode->SetMaskImage( this->GetInput() );
@@ -101,14 +101,14 @@ HMinimaImageFilter< TInputImage, TOutputImage >
   cast->SetInput( erode->GetOutput() );
   cast->InPlaceOn();
 
-  // graft our output to the cast filter to force the proper regions
+  // Graft our output to the cast filter to force the proper regions
   // to be generated
   cast->GraftOutput( this->GetOutput() );
 
-  // reconstruction by erosion
+  // Reconstruction by erosion
   cast->Update();
 
-  // graft the output of the erode filter back onto this filter's
+  // Graft the output of the erode filter back onto this filter's
   // output. this is needed to get the appropriate regions passed
   // back.
   this->GraftOutput( cast->GetOutput() );
