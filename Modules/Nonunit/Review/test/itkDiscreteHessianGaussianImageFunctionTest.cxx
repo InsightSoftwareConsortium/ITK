@@ -67,12 +67,28 @@ int itkDiscreteHessianGaussianImageFunctionTestND( int argc, char* argv[] )
     maxKernelWidth = atoi( argv[5] );
     }
 
+  double varianceValue = sigma * sigma;
+  typename HessianGaussianImageFunctionType::VarianceArrayType varianceArray;
+  varianceArray.Fill( varianceValue );
 
-  typename HessianGaussianImageFunctionType::VarianceArrayType variance;
-  variance.Fill( sigma * sigma );
+  function->SetVariance( varianceArray );
+  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
 
-  function->SetVariance( variance );
-  TEST_SET_GET_VALUE( variance, function->GetVariance() );
+  // Increase code coverage calling other variations of the SetVariance method
+  function->SetVariance( varianceValue );
+  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+
+  // Test itkSetVectorMacro
+  double varianceVector[HessianGaussianImageFunctionType::VarianceArrayType::Length];
+  for( unsigned int i = 0;
+    i < HessianGaussianImageFunctionType::VarianceArrayType::Length;
+    i++ )
+    {
+      varianceVector[i] = varianceValue;
+    }
+  function->SetVariance( varianceVector );
+  TEST_SET_GET_VALUE( varianceArray, function->GetVariance() );
+
 
   function->SetMaximumError( maxError );
   TEST_SET_GET_VALUE( maxError, function->GetMaximumError() );
