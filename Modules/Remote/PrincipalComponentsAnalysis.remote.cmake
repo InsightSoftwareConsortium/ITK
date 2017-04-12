@@ -7,6 +7,6 @@ A more detailed description can be found in the Insight Journal article:
     http://www.insight-journal.org/browse/publication/878
     August, 2013.
 "
-  GIT_REPOSITORY ${git_protocol}://github.com/vovythevov/ITKPCA.git
+  GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.git
   GIT_TAG 36120bcc4937f9a9e558280609088755ab180c1e
   )
