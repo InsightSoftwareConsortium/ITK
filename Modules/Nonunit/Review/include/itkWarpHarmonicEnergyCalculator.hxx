@@ -37,8 +37,7 @@ WarpHarmonicEnergyCalculator< TInputImage >
   m_UseImageSpacing( true )
 {
   m_Image = TInputImage::New();
-  unsigned int i;
-  for ( i = 0; i < ImageDimension; i++ )
+  for ( unsigned int i = 0; i < ImageDimension; i++ )
     {
     m_NeighborhoodRadius[i] = 1; // radius of neighborhood we will use
     m_DerivativeWeights[i] = 1.0;
@@ -95,8 +94,8 @@ WarpHarmonicEnergyCalculator< TInputImage >
 
   m_HarmonicEnergy = 0.0;
 
-  ZeroFluxNeumannBoundaryCondition< ImageType > nbc;
-  ConstNeighborhoodIteratorType                 bit;
+  ZeroFluxNeumannBoundaryCondition< ImageType > nBc;
+  ConstNeighborhoodIteratorType                 bIt;
 
   // Find the data-set boundary "faces"
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< ImageType >::
@@ -105,24 +104,24 @@ WarpHarmonicEnergyCalculator< TInputImage >
   faceList = bC(m_Image, m_Region, m_NeighborhoodRadius);
 
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< ImageType >::
-  FaceListType::iterator fit;
-  fit = faceList.begin();
+  FaceListType::iterator fIt;
+  fIt = faceList.begin();
 
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
   // conditions.
-  for ( fit = faceList.begin(); fit != faceList.end(); ++fit )
+  for ( fIt = faceList.begin(); fIt != faceList.end(); ++fIt )
     {
-    bit = ConstNeighborhoodIteratorType(m_NeighborhoodRadius,
+    bIt = ConstNeighborhoodIteratorType(m_NeighborhoodRadius,
                                         m_Image,
-                                        *fit);
-    bit.OverrideBoundaryCondition(&nbc);
-    bit.GoToBegin();
+                                        *fIt);
+    bIt.OverrideBoundaryCondition(&nBc);
+    bIt.GoToBegin();
 
-    while ( !bit.IsAtEnd() )
+    while ( !bIt.IsAtEnd() )
       {
-      m_HarmonicEnergy += this->EvaluateAtNeighborhood(bit);
-      ++bit;
+      m_HarmonicEnergy += this->EvaluateAtNeighborhood(bIt);
+      ++bIt;
       }
     }
 
@@ -136,27 +135,25 @@ WarpHarmonicEnergyCalculator< TInputImage >
 {
   // Simple method using field derivatives
 
-  unsigned int i, j;
-
   vnl_matrix_fixed< double, ImageDimension, VectorDimension > J;
 
   PixelType next, prev;
 
   double weight;
 
-  for ( i = 0; i < ImageDimension; ++i )
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
     next = it.GetNext(i);
     prev = it.GetPrevious(i);
 
     weight = 0.5 * m_DerivativeWeights[i];
 
-    for ( j = 0; j < VectorDimension; ++j )
+    for ( unsigned int j = 0; j < VectorDimension; ++j )
       {
       J[i][j] = weight * ( static_cast< double >( next[j] ) - static_cast< double >( prev[j] ) );
       }
 
-    // add one on the diagonal to consider the warping and not only the
+    // Add one on the diagonal to consider the warping and not only the
     // deformation field
     //J[i][i] += 1.0;
     }
