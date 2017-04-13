@@ -120,12 +120,12 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   size.Fill(this->m_NumberOfBinsPerAxis);
   hist->Initialize(size, this->m_LowerBound, this->m_UpperBound);
 
-  this->m_digitalisedInputImage = InputImageType::New();
-  this->m_digitalisedInputImage->SetRegions(this->GetInput()->GetRequestedRegion());
-  this->m_digitalisedInputImage->CopyInformation(this->GetInput());
-  this->m_digitalisedInputImage->Allocate();
+  this->m_DigitalisedInputImageg = InputImageType::New();
+  this->m_DigitalisedInputImageg->SetRegions(this->GetInput()->GetRequestedRegion());
+  this->m_DigitalisedInputImageg->CopyInformation(this->GetInput());
+  this->m_DigitalisedInputImageg->Allocate();
   typedef itk::ImageRegionIterator<InputImageType> IteratorType;
-  IteratorType digitIt(this->m_digitalisedInputImage, this->m_digitalisedInputImage->GetLargestPossibleRegion());
+  IteratorType digitIt(this->m_DigitalisedInputImageg, this->m_DigitalisedInputImageg->GetLargestPossibleRegion());
   typedef itk::ImageRegionConstIterator<InputImageType> ConstIteratorType;
   ConstIteratorType inputIt(this->GetInput(), this->GetInput()->GetLargestPossibleRegion());
   while (!inputIt.IsAtEnd())
@@ -141,7 +141,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
     ++inputIt;
     ++digitIt;
   }
-  m_spacing = this->GetInput()->GetSpacing();
+  m_Spacing = this->GetInput()->GetSpacing();
 }
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
@@ -177,7 +177,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   }
   boolRegion.SetIndex(boolStart);
   boolRegion.SetSize(boolSize);
-  alreadyVisitedImage->CopyInformation(this->m_digitalisedInputImage);
+  alreadyVisitedImage->CopyInformation(this->m_DigitalisedInputImageg);
   alreadyVisitedImage->SetRegions(boolRegion);
   alreadyVisitedImage->Allocate();
 
@@ -193,14 +193,14 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   // Separation of the non-boundery region that will be processed in a different way
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                           boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
-    boundaryFacesCalculator(this->m_digitalisedInputImage, outputRegionForThread, m_NeighborhoodRadius);
+    boundaryFacesCalculator(this->m_DigitalisedInputImageg, outputRegionForThread, m_NeighborhoodRadius);
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit =
     faceList.begin();
 
   /// ***** Non-boundary Region *****
   for (fit; fit != faceList.end(); ++fit)
   {
-    NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_digitalisedInputImage, *fit);
+    NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_DigitalisedInputImageg, *fit);
     typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
     IteratorType                                      outputIt(outputPtr, *fit);
 
@@ -295,7 +295,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
           }
           // Increase the coresponding bin in the histogram
           this->IncreaseHistograme(hist,
-                                   this->m_digitalisedInputImage,
+                                   this->m_DigitalisedInputImageg,
                                    run,
                                    hIndex,
                                    curentInNeighborhoodPixelIntensity,
@@ -423,7 +423,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   float offsetDistance = 0;
   for (unsigned int i = 0; i < offset.GetOffsetDimension(); ++i)
   {
-    offsetDistance += std::pow(offset[i] * m_spacing[i], 2);
+    offsetDistance += std::pow(offset[i] * m_Spacing[i], 2);
   }
   offsetDistance = std::pow(offsetDistance, 1.0 / offset.GetOffsetDimension());
 

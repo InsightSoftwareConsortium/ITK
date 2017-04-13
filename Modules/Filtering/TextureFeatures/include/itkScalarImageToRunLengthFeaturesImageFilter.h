@@ -31,15 +31,71 @@ namespace itk
 namespace Statistics
 {
 /** \class ScalarImageToRunLengthFeaturesImageFilter
- *  \brief This class computes colormaps thanks to run length descriptors from an image.
+ *  \brief This class computes run length features for each voxel of
+ *  a given image and a mask image if provided. The output image can then be
+ *  displayed by using colormaps.
  *
+ * This filter computes a N-D image where each voxel will contain
+ * a vector of up to 10 scalars representing the run length features
+ * (of the specified neighborhood) from a N-D scalar image.
+ * The run length features are computed for each spatial
+ * direction and averaged afterward.
+ * The result obtained is a possible texture description. See the following references.
+ * M. M. Galloway. Texture analysis using gray level run lengths. Computer
+ * Graphics and Image Processing, 4:172-179, 1975.
+ *
+ * A. Chu, C. M. Sehgal, and J. F. Greenleaf. Use of gray value distribution of
+ * run lengths for texture analysis.  Pattern Recognition Letters, 11:415-420,
+ * 1990.
+ *
+ * B. R. Dasarathy and E. B. Holder. Image characterizations based on joint
+ * gray-level run-length distributions. Pattern Recognition Letters, 12:490-502,
+ * 1991.
+ *
+ * Template Parameters:
+ * -# The input image type: a N dimensional image where the pixel type MUST be integer.
+ * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points.
+ * -# The type of histogram frequency container: if you are using a large number
+ *    of bins per axis, a sparse frequency container may be advisable.
+ *    The default is to use a dense frequency container.
+ *
+ * Inputs and parameters:
+ * -# An image
+ * -# A mask defining the region over which texture features will be
+ *    calculated. (Optional)
+ * -# The pixel value that defines the "inside" of the mask. (Optional, defaults
+ *    to 1 if a mask is set.)
+ * -# The set of features to be calculated. These features are defined
+ *    in the HistogramToRunLengthFeaturesFilter class.
+ * -# The number of intensity bins. (Optional, defaults to 256.)
+ * -# The set of directions (offsets) to average across. (Optional, defaults to
+ *    {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously
+ *    for ND images.)
+ * -# The pixel intensity range over which the features will be calculated.
+ *    (Optional, defaults to the full dynamic range of the pixel type.)
+ * -# The distance range over which the features will be calculated.
+ *    (Optional, defaults to the full dynamic range of double type.)
+ *
+ * Recommendations:
+ * -# Input image: To improve the computation time, the useful data should take as much
+ *    space as possible in the input image. If the useful data is concentrated in one part of
+ *    the image a crop step should be considered prior to the usage of this filter.
+ * -# Mask: Even if optional, the usage of a mask will greatly improve the computation time.
+ * -# Number of intensity bins: The number of bins should be adapted to the type of results expected
+ *    and the intensity and distances ranges. In addition a high number of bins will increase the
+ *    computation time.
+ * -# Pixel intensity range: For better results the Pixel intensity should be adapted to the input image
+ *    intensity range. For example they could be the minimum and maximum intensity of the image, or 0 and
+ *    the maximum intensity (if the negative values are considered as noise).
+ * -# Distance range: For better results the distance range should be adapted to the spacing of the input image
+ *    and the size of the neighborhood.
  *
  * \sa ScalarImageToRunLengthFeaturesFilter
  * \sa ScalarImageToRunLengthMatrixFilter
  * \sa HistogramToRunLengthFeaturesFilter
  *
- * \author: Vimort Jean-Baptiste
- * \ingroup ITKStatistics
+ * \author: Jean-Baptiste Vimort
+ * \ingroup TextureFeatures
  */
 
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer = DenseFrequencyContainer2>
@@ -213,7 +269,7 @@ protected:
   //  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  typename InputImageType::Pointer  m_digitalisedInputImage;
+  typename InputImageType::Pointer  m_DigitalisedInputImageg;
   NeighborhoodRadiusType            m_NeighborhoodRadius;
   FeatureNameVectorConstPointer     m_RequestedFeatures;
   OffsetVectorPointer               m_Offsets;
@@ -225,7 +281,7 @@ private:
   PixelType                         m_InsidePixelValue;
   MeasurementVectorType             m_LowerBound;
   MeasurementVectorType             m_UpperBound;
-  typename TInputImage::SpacingType m_spacing;
+  typename TInputImage::SpacingType m_Spacing;
 };
 } // end of namespace Statistics
 } // end of namespace itk
