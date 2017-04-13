@@ -251,13 +251,11 @@ protected:
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);
   void
-  IncreaseHistograme(typename HistogramType::Pointer &     hist,
-                     const typename TInputImage::Pointer & inputPtr,
-                     MeasurementVectorType &               run,
-                     typename HistogramType::IndexType &   hIndex,
-                     const PixelType &                     curentInNeighborhoodPixelIntensity,
-                     const OffsetType &                    offset,
-                     const unsigned int &                  pixelDistance);
+  IncreaseHistograme(typename HistogramType::Pointer & hist,
+                     MeasurementVectorType &           run,
+                     const PixelType &                 curentInNeighborhoodPixelIntensity,
+                     const OffsetType &                offset,
+                     const unsigned int &              pixelDistance);
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

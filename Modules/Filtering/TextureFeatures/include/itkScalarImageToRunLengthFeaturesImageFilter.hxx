@@ -120,6 +120,8 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   size.Fill(this->m_NumberOfBinsPerAxis);
   hist->Initialize(size, this->m_LowerBound, this->m_UpperBound);
 
+  typename TInputImage::Pointer maskPointer = TInputImage::New();
+  maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
   this->m_DigitalisedInputImageg = InputImageType::New();
   this->m_DigitalisedInputImageg->SetRegions(this->GetInput()->GetRequestedRegion());
   this->m_DigitalisedInputImageg->CopyInformation(this->GetInput());
@@ -130,9 +132,13 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   ConstIteratorType inputIt(this->GetInput(), this->GetInput()->GetLargestPossibleRegion());
   while (!inputIt.IsAtEnd())
   {
-    if (inputIt.Get() < this->m_Min || inputIt.Get() > this->m_Max)
+    if (maskPointer && maskPointer->GetPixel(inputIt.GetIndex()) != this->m_InsidePixelValue)
     {
-      digitIt.Set(inputIt.Get());
+      digitIt.Set(this->m_Min - 10);
+    }
+    else if (inputIt.Get() < this->m_Min || inputIt.Get() > this->m_Max)
+    {
+      digitIt.Set(this->m_Min - 1);
     }
     else
     {
@@ -150,8 +156,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId)
 {
   // Recuperation of the different inputs/outputs
-  typename TInputImage::Pointer maskPointer = TInputImage::New();
-  maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
   typename TOutputImage::Pointer outputPtr = TOutputImage::New();
   outputPtr = this->GetOutput();
 
@@ -197,6 +201,24 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit =
     faceList.begin();
 
+  // Declaration of the variables usefull to iterate over the all image region
+  bool                                 isInImage;
+  typename OffsetVector::ConstIterator offsets;
+
+  // Declaration of the variables usefull to iterate over the all the offsets
+  OffsetType offset;
+
+  // Declaration of the variables usefull to iterate over the all neighborhood region
+  PixelType curentInNeighborhoodPixelIntensity;
+
+  // Declaration of the variables usefull to iterate over the run
+  PixelType    pixelIntensity(NumericTraits<PixelType>::ZeroValue());
+  OffsetType   iteratedOffset;
+  OffsetType   tempOffset;
+  unsigned int pixelDistance;
+  bool         runLengthSegmentAlreadyVisited;
+  bool         insideNeighborhood;
+
   /// ***** Non-boundary Region *****
   for (fit; fit != faceList.end(); ++fit)
   {
@@ -210,7 +232,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
       // If the voxel is outside of the image, don't treat it
       if (fit == faceList.begin())
       {
-        bool isInImage;
         inputNIt.GetPixel(inputNIt.GetCenterNeighborhoodIndex(), isInImage);
         if (!isInImage)
         {
@@ -218,7 +239,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
         }
       }
       // If the voxel is outside of the mask, don't treat it
-      if ((maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) != this->m_InsidePixelValue))
+      if (inputNIt.GetCenterPixel() < (this->m_Min - 5)) // the pixel is outside of the mask
       {
         ++inputNIt;
         ++outputIt;
@@ -228,30 +249,28 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
       hist->SetToZero();
       hist->Modified();
       // Iteration over all the offsets
-      typename OffsetVector::ConstIterator offsets;
       for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
       {
         alreadyVisitedImage->FillBuffer(false);
-        OffsetType offset = offsets.Value();
+        offset = offsets.Value();
         this->NormalizeOffsetDirection(offset);
         // Iteration over the all neighborhood region
         for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
         {
-          IndexType       curentInNeighborhoodIndex = inputNIt.GetIndex(nb);
-          const PixelType curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
+          curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
+          tempOffset = inputNIt.GetOffset(nb);
           // Cecking if the value is out-of-bounds or is outside the mask.
-          if (curentInNeighborhoodPixelIntensity < this->m_Min || curentInNeighborhoodPixelIntensity > this->m_Max ||
-              alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + inputNIt.GetOffset(nb)) ||
-              (maskPointer && maskPointer->GetPixel(curentInNeighborhoodIndex) != this->m_InsidePixelValue))
+          if (curentInNeighborhoodPixelIntensity <
+                this->m_Min || // the pixel is outside of the mask or outside of bounds
+              alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + tempOffset))
           {
             continue;
           }
-          // Declaration and initialisation of the variables usefull to iterate over the run
-          PixelType    pixelIntensity(NumericTraits<PixelType>::ZeroValue());
-          OffsetType   iteratedOffset = inputNIt.GetOffset(nb) + offset;
-          unsigned int pixelDistance = 0;
-          bool         runLengthSegmentAlreadyVisited = false;
-          bool         insideNeighborhood = this->IsInsideNeighborhood(iteratedOffset);
+          // Initialisation of the variables usefull to iterate over the run
+          iteratedOffset = tempOffset + offset;
+          pixelDistance = 0;
+          runLengthSegmentAlreadyVisited = false;
+          insideNeighborhood = this->IsInsideNeighborhood(iteratedOffset);
           // Scan from the iterated pixel at index, following the direction of
           // offset. Run length is computed as the length of continuous pixel
           // whose pixel values are in the same bin.
@@ -260,7 +279,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
             // If the voxel reached is outside of the image, stop the iterations
             if (fit == faceList.begin())
             {
-              bool isInImage;
               inputNIt.GetPixel(iteratedOffset, isInImage);
               if (!isInImage)
               {
@@ -294,13 +312,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
             continue;
           }
           // Increase the coresponding bin in the histogram
-          this->IncreaseHistograme(hist,
-                                   this->m_DigitalisedInputImageg,
-                                   run,
-                                   hIndex,
-                                   curentInNeighborhoodPixelIntensity,
-                                   offset,
-                                   pixelDistance);
+          this->IncreaseHistograme(hist, run, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
         }
       }
       // Compute the run lenght features
@@ -412,13 +424,11 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
 void
 ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::IncreaseHistograme(
-  typename HistogramType::Pointer &     hist,
-  const typename TInputImage::Pointer & inputPtr,
-  MeasurementVectorType &               run,
-  typename HistogramType::IndexType &   hIndex,
-  const PixelType &                     curentInNeighborhoodPixelIntensity,
-  const OffsetType &                    offset,
-  const unsigned int &                  pixelDistance)
+  typename HistogramType::Pointer & hist,
+  MeasurementVectorType &           run,
+  const PixelType &                 curentInNeighborhoodPixelIntensity,
+  const OffsetType &                offset,
+  const unsigned int &              pixelDistance)
 {
   float offsetDistance = 0;
   for (unsigned int i = 0; i < offset.GetOffsetDimension(); ++i)
@@ -431,8 +441,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   run[1] = offsetDistance * pixelDistance;
   if (run[1] >= this->m_MinDistance && run[1] <= this->m_MaxDistance)
   {
-    hist->GetIndex(run, hIndex);
-    hist->IncreaseFrequencyOfIndex(hIndex, 1);
+    hist->IncreaseFrequencyOfMeasurement(run, 1);
   }
 }
 
