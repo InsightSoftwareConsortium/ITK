@@ -213,17 +213,18 @@ protected:
   //  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  NeighborhoodRadiusType        m_NeighborhoodRadius;
-  FeatureNameVectorConstPointer m_RequestedFeatures;
-  OffsetVectorPointer           m_Offsets;
-  unsigned int                  m_NumberOfBinsPerAxis;
-  PixelType                     m_Min;
-  PixelType                     m_Max;
-  RealType                      m_MinDistance;
-  RealType                      m_MaxDistance;
-  PixelType                     m_InsidePixelValue;
-  MeasurementVectorType         m_LowerBound;
-  MeasurementVectorType         m_UpperBound;
+  typename InputImageType::Pointer m_digitalisedInputImage;
+  NeighborhoodRadiusType           m_NeighborhoodRadius;
+  FeatureNameVectorConstPointer    m_RequestedFeatures;
+  OffsetVectorPointer              m_Offsets;
+  unsigned int                     m_NumberOfBinsPerAxis;
+  PixelType                        m_Min;
+  PixelType                        m_Max;
+  RealType                         m_MinDistance;
+  RealType                         m_MaxDistance;
+  PixelType                        m_InsidePixelValue;
+  MeasurementVectorType            m_LowerBound;
+  MeasurementVectorType            m_UpperBound;
 };
 } // end of namespace Statistics
 } // end of namespace itk
