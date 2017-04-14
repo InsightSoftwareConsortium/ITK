@@ -24,6 +24,7 @@
 #include "itkMath.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkProgressReporter.h"
 
 namespace itk
 {
@@ -159,6 +160,8 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   typename TOutputImage::Pointer outputPtr = TOutputImage::New();
   outputPtr = this->GetOutput();
 
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
   // Creation of the filter that will compute the Run Lenght features once the histogrham computed
   typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
   typedef typename RunLengthFeaturesFilterType::RunLengthFeatureName InternalRunLengthFeatureName;
@@ -241,6 +244,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
       // If the voxel is outside of the mask, don't treat it
       if (inputNIt.GetCenterPixel() < (this->m_Min - 5)) // the pixel is outside of the mask
       {
+        progress.CompletedPixel();
         ++inputNIt;
         ++outputIt;
         continue;
@@ -326,6 +330,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
       }
       outputIt.Set(outputPixel);
 
+      progress.CompletedPixel();
       ++inputNIt;
       ++outputIt;
     }
