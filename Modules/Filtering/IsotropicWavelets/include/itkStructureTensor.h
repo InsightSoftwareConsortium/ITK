@@ -129,17 +129,53 @@ public:
   void
   SetInputs(const std::vector<InputImagePointer> & inputs);
 
+  /**
+   * Set/Get Radius of the gaussian window.
+   * The window determines the size of the local neighborhood of each pixel.
+   */
   itkSetMacro(GaussianWindowRadius, FloatType);
   itkGetConstMacro(GaussianWindowRadius, FloatType);
+  /**
+   * Set/Get Sigma of the GaussianSource.
+   * \sa GaussianImageSource
+   */
   itkSetMacro(GaussianWindowSigma, FloatType);
   itkGetConstMacro(GaussianWindowSigma, FloatType);
-  itkGetConstMacro(GaussianSource, typename GaussianSourceType::Pointer);
+  /**
+   * Pointer to the GaussianSource.
+   * \sa GaussianImageSource
+   */
+  itkGetModifiableObjectMacro(GaussianSource, GaussianSourceType);
+
+  /**
+   * Compute a new image which is a linear combination of the inputs.
+   * The weights of the linear combination are given by the eigenVector
+   * associated to the input eigen_number.
+   *
+   * @param eigen_number column of the eigenVector, note that the largest eigenValue is in Nth column.
+   *
+   * @return Image where pixels are filled with the linear combination of inputs associated to the input eigen number.
+   */
   InputImagePointer
   ComputeProjectionImage(unsigned int eigen_number) const;
 
+  /**
+   * Call ComputeProjectionImage with the position of the largest eigenValue (Nth column).
+   *
+   * @return Image where pixels are filled with the linear combination of inputs associated to the largest eigen value.
+   * \sa ComputeProjectionImage
+   */
   InputImagePointer
   ComputeProjectionImageWithLargestResponse() const;
 
+  /**
+   * At each pixel, coherency is calculated based on the relative value of eigenValues.
+   * meanNonPrincipalEV = M = \frac{1}{N-1} \sum_{i=1}^{N-1}\lambda_i
+   * coherency = \frac{\lambda_N - M}{\lambda_1 + M}
+   * where \(\lambda_N\) is the largest eigen value.
+   *
+   * @return Image filled with the coherency at each pixel.
+   */
   InputImagePointer
   ComputeCoherencyImage() const;
 

@@ -58,8 +58,9 @@ void
 StructureTensor<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "GaussianWindowRadius: " << m_GaussianWindowRadius << std::endl;
-  os << indent << "GaussianWindowSigma: " << m_GaussianWindowSigma << std::endl;
+  os << indent << "GaussianWindowRadius: " << this->m_GaussianWindowRadius << std::endl;
+  os << indent << "GaussianWindowSigma: " << this->m_GaussianWindowSigma << std::endl;
+  itkPrintSelfObjectMacro(GaussianSource);
 }
 
 template <typename TInputImage>
@@ -118,8 +119,8 @@ StructureTensor<TInputImage>::BeforeThreadedGenerateData()
       multiply->Update();
       convolve->SetInput(multiply->GetOutput());
       convolve->Update();
-      m_SquareSmoothedImages.push_back(convolve->GetOutput());
-      m_SquareSmoothedImages.back()->DisconnectPipeline();
+      this->m_SquareSmoothedImages.push_back(convolve->GetOutput());
+      this->m_SquareSmoothedImages.back()->DisconnectPipeline();
     }
   }
 }
