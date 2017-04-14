@@ -260,6 +260,14 @@ if reader_error or other_error:
     print("Reader error: %s" % reader_error)
     raise AssertionError()
 
+# Test that ImageFileWriter can be called with filter given as input
+# with 'Input' keyword.
+reader=itk.ImageFileReader[itk.Image[itk.F,3]].New()
+try:
+    writer = itk.ImageFileWriter.New(Input=reader, FileName=filename)
+except TypeError:
+    raise Exception("Writer doesn't accept filter with 'Input' keyword")
+
 # TODO: test auto_progress
 # but how ?
 
