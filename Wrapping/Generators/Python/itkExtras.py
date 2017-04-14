@@ -500,7 +500,7 @@ def set_inputs(newItkObject, args=[], kargs={}):
         # (Ex: itk.ImageFileReader.UC2.New(SetFileName='image.png'))
         if attribName not in ["auto_progress", "template_parameters"]:
             attrib = getattr(newItkObject, 'Set' + attribName)
-            attrib(value)
+            attrib(output(value))
 
 
 def show(input, **kargs):
