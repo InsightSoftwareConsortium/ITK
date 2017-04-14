@@ -10,7 +10,7 @@ ITK.
 
 The following command was used to obtain the symbol list:
 
-nm lib/libitkpng-4.9.a 2> /dev/null | grep " T \| D \| R " |
+nm lib/libitkpng-4.12.a 2> /dev/null | grep " T \| D \| R " |
  awk '{ print substr($3, 1); }' | sort | awk '!/itk_/ { print }' |
  sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /'
 
@@ -148,6 +148,7 @@ nm lib/libitkpng-4.9.a 2> /dev/null | grep " T \| D \| R " |
 #define png_get_text itk_png_get_text
 #define png_get_tIME itk_png_get_tIME
 #define png_get_tRNS itk_png_get_tRNS
+#define png_get_uint_31 itk_png_get_uint_31
 #define png_get_unknown_chunks itk_png_get_unknown_chunks
 #define png_get_user_chunk_ptr itk_png_get_user_chunk_ptr
 #define png_get_user_height_max itk_png_get_user_height_max
