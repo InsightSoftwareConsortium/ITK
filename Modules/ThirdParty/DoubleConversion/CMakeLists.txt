@@ -25,7 +25,6 @@ else()
     ${ITKDoubleConversion_SOURCE_DIR}/src/double-conversion
     ${ITKDoubleConversion_BINARY_DIR}/src/double-conversion)
   set(ITKDoubleConversion_LIBRARIES itkdouble-conversion)
-  set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 endif()
 
 itk_module_impl()
