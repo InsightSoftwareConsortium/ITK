@@ -830,14 +830,13 @@ DistanceUnits(const char * _distanceUnits)
 const char * MetaObject::
 AnatomicalOrientationAcronym(void) const
   {
-  static char str[10];
   int i;
   for(i=0; i<m_NDims; i++)
     {
-    str[i] = MET_OrientationTypeName[m_AnatomicalOrientation[i]][0];
+    m_OrientationAcronym[i] = MET_OrientationTypeName[m_AnatomicalOrientation[i]][0];
     }
-  str[i] = '\0';
-  return str;
+  m_OrientationAcronym[i] = '\0';
+  return m_OrientationAcronym;
   }
 
 const MET_OrientationEnumType * MetaObject::
