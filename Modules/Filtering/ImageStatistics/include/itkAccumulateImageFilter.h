@@ -88,8 +88,8 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( ImageDimensionCheck,
-                   ( Concept::SameDimensionOrMinusOne< itkGetStaticConstMacro(InputImageDimension),
-                                                       itkGetStaticConstMacro(OutputImageDimension) > ) );
+                   ( Concept::SameDimension< itkGetStaticConstMacro(InputImageDimension),
+                                             itkGetStaticConstMacro(OutputImageDimension) > ) );
   // End concept checking
 #endif
 
