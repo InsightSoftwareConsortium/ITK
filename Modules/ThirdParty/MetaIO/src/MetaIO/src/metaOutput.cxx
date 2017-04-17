@@ -304,11 +304,11 @@ METAIO_STL::string MetaOutput::
 GetUsername()
 {
 #if defined (_WIN32) && !defined(__CYGWIN__)
-    static char buf[1024];
+    char buf[1024];
     DWORD size = sizeof(buf);
     buf[0] = '\0';
     GetUserName( buf, &size);
-    return buf;
+    return  METAIO_STL::string(buf);
 #else  // not _WIN32
     struct passwd *pw = getpwuid(getuid());
     if ( pw == NULL )
