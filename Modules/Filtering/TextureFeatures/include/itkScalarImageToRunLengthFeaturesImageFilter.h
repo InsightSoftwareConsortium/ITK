@@ -19,12 +19,7 @@
 #define itkScalarImageToRunLengthFeaturesImageFilter_h
 
 #include "itkImageToImageFilter.h"
-#include "itkConstNeighborhoodIterator.h"
-#include "itkHistogramToRunLengthFeaturesFilter.h"
 #include "itkScalarImageToRunLengthMatrixFilter.h"
-#include "itkNumericTraits.h"
-#include "itkHistogram.h"
-
 
 namespace itk
 {
@@ -55,9 +50,6 @@ namespace Statistics
  * Template Parameters:
  * -# The input image type: a N dimensional image where the pixel type MUST be integer.
  * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points.
- * -# The type of histogram frequency container: if you are using a large number
- *    of bins per axis, a sparse frequency container may be advisable.
- *    The default is to use a dense frequency container.
  *
  * Inputs and parameters:
  * -# An image
@@ -65,8 +57,6 @@ namespace Statistics
  *    calculated. (Optional)
  * -# The pixel value that defines the "inside" of the mask. (Optional, defaults
  *    to 1 if a mask is set.)
- * -# The set of features to be calculated. These features are defined
- *    in the HistogramToRunLengthFeaturesFilter class.
  * -# The number of intensity bins. (Optional, defaults to 256.)
  * -# The set of directions (offsets) to average across. (Optional, defaults to
  *    {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously
@@ -98,7 +88,7 @@ namespace Statistics
  * \ingroup TextureFeatures
  */
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer = DenseFrequencyContainer2>
+template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ScalarImageToRunLengthFeaturesImageFilter
   : public ImageToImageFilter<TInputImage, TOutputImage>
 {
@@ -115,9 +105,8 @@ public:
   /** standard New() method support */
   itkNewMacro(Self);
 
-  typedef TInputImage                  InputImageType;
-  typedef TOutputImage                 OutputImageType;
-  typedef THistogramFrequencyContainer FrequencyContainerType;
+  typedef TInputImage  InputImageType;
+  typedef TOutputImage OutputImageType;
 
   typedef typename InputImageType::PixelType PixelType;
   typedef typename InputImageType::IndexType IndexType;
@@ -135,21 +124,10 @@ public:
   typedef typename NeighborhoodIteratorType::RadiusType           NeighborhoodRadiusType;
   typedef typename NeighborhoodIteratorType::NeighborIndexType    NeighborIndexType;
 
-  typedef typename NumericTraits<PixelType>::RealType              MeasurementType;
-  typedef typename NumericTraits<PixelType>::RealType              RealType;
-  typedef Histogram<MeasurementType, THistogramFrequencyContainer> HistogramType;
-  typedef typename HistogramType::MeasurementVectorType            MeasurementVectorType;
-  typedef HistogramToRunLengthFeaturesFilter<HistogramType>        RunLengthFeaturesFilterType;
+  typedef typename NumericTraits<PixelType>::RealType MeasurementType;
+  typedef typename NumericTraits<PixelType>::RealType RealType;
 
-  typedef short                                                RunLengthFeatureName;
-  typedef VectorContainer<unsigned char, RunLengthFeatureName> FeatureNameVector;
-  typedef typename FeatureNameVector::ConstPointer             FeatureNameVectorConstPointer;
-
-
-  /** Set the desired feature set. Optional, for default value see above. */
-  itkSetConstObjectMacro(RequestedFeatures, FeatureNameVector);
-  itkGetConstObjectMacro(RequestedFeatures, FeatureNameVector);
-
+  /** Method to set/get the Neighborhood radius */
   itkSetMacro(NeighborhoodRadius, NeighborhoodRadiusType);
   itkGetConstMacro(NeighborhoodRadius, NeighborhoodRadiusType);
 
@@ -235,10 +213,20 @@ public:
   itkSetMacro(InsidePixelValue, PixelType);
   itkGetConstMacro(InsidePixelValue, PixelType);
 
+  typedef typename OutputImageType::PixelType                     OutputPixelType;
+  typedef typename NumericTraits<OutputPixelType>::ScalarRealType OutputRealType;
+
+
+  /**  Create the Output */
+  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
+  using Superclass::MakeOutput;
+  DataObject::Pointer
+  MakeOutput(DataObjectPointerArraySizeType idx);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(InputPixelTypeCheck, (Concept::IsInteger<typename InputImageType::PixelType>));
-  itkConceptMacro(OutputPixelTypeCheck, (Concept::IsFloatingPoint<typename OutputImageType::PixelType::ValueType>));
+  itkConceptMacro(OutputPixelTypeCheck, (Concept::IsFloatingPoint<OutputRealType>));
   // End concept checking
 #endif
 
@@ -251,11 +239,15 @@ protected:
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);
   void
-  IncreaseHistograme(typename HistogramType::Pointer & hist,
-                     MeasurementVectorType &           run,
-                     const PixelType &                 curentInNeighborhoodPixelIntensity,
-                     const OffsetType &                offset,
-                     const unsigned int &              pixelDistance);
+  IncreaseHistograme(unsigned int **      hist,
+                     unsigned int &       totalNumberOfRuns,
+                     const PixelType &    curentInNeighborhoodPixelIntensity,
+                     const OffsetType &   offset,
+                     const unsigned int & pixelDistance);
+  void
+  ComputeFeatures(unsigned int **                    hist,
+                  const unsigned int &               totalNumberOfRuns,
+                  typename TOutputImage::PixelType & outputPixel);
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -269,7 +261,6 @@ protected:
 private:
   typename InputImageType::Pointer  m_DigitalisedInputImageg;
   NeighborhoodRadiusType            m_NeighborhoodRadius;
-  FeatureNameVectorConstPointer     m_RequestedFeatures;
   OffsetVectorPointer               m_Offsets;
   unsigned int                      m_NumberOfBinsPerAxis;
   PixelType                         m_Min;
@@ -277,8 +268,6 @@ private:
   RealType                          m_MinDistance;
   RealType                          m_MaxDistance;
   PixelType                         m_InsidePixelValue;
-  MeasurementVectorType             m_LowerBound;
-  MeasurementVectorType             m_UpperBound;
   typename TInputImage::SpacingType m_Spacing;
 };
 } // end of namespace Statistics

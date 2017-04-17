@@ -19,20 +19,15 @@
 #define itkScalarImageToRunLengthFeaturesImageFilter_hxx
 
 #include "itkScalarImageToRunLengthFeaturesImageFilter.h"
-#include "itkNeighborhood.h"
-#include "itkImageRegionIteratorWithIndex.h"
-#include "itkMath.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
-#include "itkProgressReporter.h"
 
 namespace itk
 {
 namespace Statistics
 {
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  ScalarImageToRunLengthFeaturesImageFilter()
+template <typename TInputImage, typename TOutputImage>
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::ScalarImageToRunLengthFeaturesImageFilter()
   : m_NumberOfBinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis))
   , m_Min(NumericTraits<PixelType>::NonpositiveMin())
   , m_Max(NumericTraits<PixelType>::max())
@@ -42,30 +37,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 {
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
-
-  for (int i = 1; i < 2; ++i)
-  {
-    this->ProcessObject::SetNthOutput(i, this->MakeOutput(i));
-  }
-
-  // Set the requested features to the default value:
-  // {Energy, Entropy, InverseDifferenceMoment, Inertia, ClusterShade,
-  // ClusterProminence}
-  typename FeatureNameVector::Pointer requestedFeatures = FeatureNameVector::New();
-  // can't directly set this->m_RequestedFeatures since it is const!
-
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::ShortRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::LongRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::GreyLevelNonuniformity);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::RunLengthNonuniformity);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::LowGreyLevelRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::HighGreyLevelRunEmphasis);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::ShortRunLowGreyLevelEmphasis);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::ShortRunHighGreyLevelEmphasis);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::LongRunLowGreyLevelEmphasis);
-  requestedFeatures->push_back(RunLengthFeaturesFilterType::LongRunHighGreyLevelEmphasis);
-
-  this->SetRequestedFeatures(requestedFeatures);
 
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
@@ -86,18 +57,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   this->SetOffsets(offsets);
   NeighborhoodType nhood;
   nhood.SetRadius(2);
-
-  const unsigned int measurementVectorSize = 2;
-
   this->m_NeighborhoodRadius = nhood.GetRadius();
-
-  this->m_LowerBound.SetSize(measurementVectorSize);
-  this->m_UpperBound.SetSize(measurementVectorSize);
-
-  this->m_LowerBound[0] = this->m_Min;
-  this->m_LowerBound[1] = this->m_MinDistance;
-  this->m_UpperBound[0] = this->m_Max;
-  this->m_UpperBound[1] = this->m_MaxDistance;
 
   TOutputImage *                   outputPtr = this->GetOutput();
   typename TOutputImage::PixelType pixelNull;
@@ -105,22 +65,23 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   outputPtr->FillBuffer(pixelNull);
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
-void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  BeforeThreadedGenerateData()
+template <typename TInputImage, typename TOutputImage>
+DataObject::Pointer
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::MakeOutput(DataObjectPointerArraySizeType idx)
 {
-  this->m_LowerBound[0] = this->m_Min;
-  this->m_LowerBound[1] = this->m_MinDistance;
-  this->m_UpperBound[0] = this->m_Max;
-  this->m_UpperBound[1] = this->m_MaxDistance;
+  DataObject::Pointer output;
 
-  typename HistogramType::Pointer hist = HistogramType::New();
-  hist->SetMeasurementVectorSize(2);
-  typename HistogramType::SizeType size(2);
-  size.Fill(this->m_NumberOfBinsPerAxis);
-  hist->Initialize(size, this->m_LowerBound, this->m_UpperBound);
+  //  if (std::is_same<TInputImage, TInputImage>)
+  //    {
 
+  //    }
+}
+
+
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
+{
   typename TInputImage::Pointer maskPointer = TInputImage::New();
   maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
   this->m_DigitalisedInputImageg = InputImageType::New();
@@ -131,6 +92,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   IteratorType digitIt(this->m_DigitalisedInputImageg, this->m_DigitalisedInputImageg->GetLargestPossibleRegion());
   typedef itk::ImageRegionConstIterator<InputImageType> ConstIteratorType;
   ConstIteratorType inputIt(this->GetInput(), this->GetInput()->GetLargestPossibleRegion());
+  unsigned int      binNumber;
   while (!inputIt.IsAtEnd())
   {
     if (maskPointer && maskPointer->GetPixel(inputIt.GetIndex()) != this->m_InsidePixelValue)
@@ -143,7 +105,8 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
     }
     else
     {
-      digitIt.Set(hist->GetBinMinFromValue(0, inputIt.Get()));
+      binNumber = (inputIt.Get() - m_Min) / ((m_Max - m_Min) / m_NumberOfBinsPerAxis);
+      digitIt.Set(binNumber);
     }
     ++inputIt;
     ++digitIt;
@@ -151,10 +114,11 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   m_Spacing = this->GetInput()->GetSpacing();
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+  const OutputRegionType & outputRegionForThread,
+  ThreadIdType             threadId)
 {
   // Recuperation of the different inputs/outputs
   typename TOutputImage::Pointer outputPtr = TOutputImage::New();
@@ -162,11 +126,8 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
 
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
-  // Creation of the filter that will compute the Run Lenght features once the histogrham computed
-  typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
-  typedef typename RunLengthFeaturesFilterType::RunLengthFeatureName InternalRunLengthFeatureName;
-  typename FeatureNameVector::ConstIterator                          fnameIt;
-  typename TOutputImage::PixelType                                   outputPixel;
+  // Creation of the output pixel type
+  typename TOutputImage::PixelType outputPixel;
 
   // Creation of a region with the same size than the neighborhood, this region
   // will be used to check if each voxel has already been visited
@@ -188,15 +149,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   alreadyVisitedImage->SetRegions(boolRegion);
   alreadyVisitedImage->Allocate();
 
-  // Creation of the histogram that will be filled and used to compute the features
-  const unsigned int                measurementVectorSize = 2;
-  typename HistogramType::IndexType hIndex;
-  typename HistogramType::Pointer   hist = HistogramType::New();
-  hist->SetMeasurementVectorSize(measurementVectorSize);
-  typename HistogramType::SizeType size(2);
-  size.Fill(this->m_NumberOfBinsPerAxis);
-  MeasurementVectorType run(hist->GetMeasurementVectorSize());
-  hist->Initialize(size, this->m_LowerBound, this->m_UpperBound);
   // Separation of the non-boundery region that will be processed in a different way
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                           boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
@@ -209,7 +161,13 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   typename OffsetVector::ConstIterator offsets;
 
   // Declaration of the variables usefull to iterate over the all the offsets
-  OffsetType offset;
+  OffsetType      offset;
+  unsigned int    totalNumberOfRuns;
+  unsigned int ** hist = new unsigned int *[m_NumberOfBinsPerAxis];
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  {
+    hist[a] = new unsigned int[m_NumberOfBinsPerAxis];
+  }
 
   // Declaration of the variables usefull to iterate over the all neighborhood region
   PixelType curentInNeighborhoodPixelIntensity;
@@ -232,15 +190,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
     // Iteration over the all image region
     while (!inputNIt.IsAtEnd())
     {
-      // If the voxel is outside of the image, don't treat it
-      if (fit == faceList.begin())
-      {
-        inputNIt.GetPixel(inputNIt.GetCenterNeighborhoodIndex(), isInImage);
-        if (!isInImage)
-        {
-          continue;
-        }
-      }
       // If the voxel is outside of the mask, don't treat it
       if (inputNIt.GetCenterPixel() < (this->m_Min - 5)) // the pixel is outside of the mask
       {
@@ -250,8 +199,14 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
         continue;
       }
       // Initialisation of the histogram
-      hist->SetToZero();
-      hist->Modified();
+      for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+      {
+        for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+        {
+          hist[a][b] = 0;
+        }
+      }
+      totalNumberOfRuns = 0;
       // Iteration over all the offsets
       for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
       {
@@ -316,18 +271,11 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
             continue;
           }
           // Increase the coresponding bin in the histogram
-          this->IncreaseHistograme(hist, run, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
+          this->IncreaseHistograme(hist, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
         }
       }
       // Compute the run lenght features
-      runLengthMatrixCalculator->SetInput(hist);
-      runLengthMatrixCalculator->Update();
-      for (fnameIt = this->m_RequestedFeatures->Begin(); fnameIt != m_RequestedFeatures->End(); ++fnameIt)
-      {
-        outputPixel.SetNthComponent(
-          (InternalRunLengthFeatureName)fnameIt.Value(),
-          runLengthMatrixCalculator->GetFeature((InternalRunLengthFeatureName)fnameIt.Value()));
-      }
+      this->ComputeFeatures(hist, totalNumberOfRuns, outputPixel);
       outputIt.Set(outputPixel);
 
       progress.CompletedPixel();
@@ -337,18 +285,17 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::SetMaskImage(
-  const InputImageType * image)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::SetMaskImage(const InputImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(1, const_cast<InputImageType *>(image));
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 const TInputImage *
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::GetMaskImage() const
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::GetMaskImage() const
 {
   if (this->GetNumberOfInputs() < 2)
   {
@@ -357,11 +304,9 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   return static_cast<const InputImageType *>(this->ProcessObject::GetInput(1));
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::SetPixelValueMinMax(
-  PixelType min,
-  PixelType max)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::SetPixelValueMinMax(PixelType min, PixelType max)
 {
   if (this->m_Min != min || this->m_Max != max)
   {
@@ -371,10 +316,9 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  SetDistanceValueMinMax(RealType min, RealType max)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::SetDistanceValueMinMax(RealType min, RealType max)
 {
   if (Math::NotExactlyEquals(this->m_MinDistance, min) || Math::NotExactlyEquals(this->m_MaxDistance, max))
   {
@@ -384,10 +328,9 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  NormalizeOffsetDirection(OffsetType & offset)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::NormalizeOffsetDirection(OffsetType & offset)
 {
   itkDebugMacro("old offset = " << offset << std::endl);
   int  sign = 1;
@@ -408,10 +351,10 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   itkDebugMacro("new  offset = " << offset << std::endl);
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 bool
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::
-  IsInsideNeighborhood(const OffsetType & iteratedOffset)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighborhood(
+  const OffsetType & iteratedOffset)
 {
   bool insideNeighborhood = true;
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
@@ -426,40 +369,118 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramF
   return insideNeighborhood;
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::IncreaseHistograme(
-  typename HistogramType::Pointer & hist,
-  MeasurementVectorType &           run,
-  const PixelType &                 curentInNeighborhoodPixelIntensity,
-  const OffsetType &                offset,
-  const unsigned int &              pixelDistance)
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistograme(
+  unsigned int **      hist,
+  unsigned int &       totalNumberOfRuns,
+  const PixelType &    curentInNeighborhoodPixelIntensity,
+  const OffsetType &   offset,
+  const unsigned int & pixelDistance)
 {
   float offsetDistance = 0;
   for (unsigned int i = 0; i < offset.GetOffsetDimension(); ++i)
   {
-    offsetDistance += std::pow(offset[i] * m_Spacing[i], 2);
+    offsetDistance += (offset[i] * m_Spacing[i]) * (offset[i] * m_Spacing[i]);
   }
   offsetDistance = std::pow(offsetDistance, 1.0 / offset.GetOffsetDimension());
 
-  run[0] = curentInNeighborhoodPixelIntensity;
-  run[1] = offsetDistance * pixelDistance;
-  if (run[1] >= this->m_MinDistance && run[1] <= this->m_MaxDistance)
+  int offsetDistanceBin =
+    (int)((offsetDistance * pixelDistance - m_MinDistance) / ((m_MaxDistance - m_MinDistance) / m_NumberOfBinsPerAxis));
+
+  if (offsetDistanceBin < m_NumberOfBinsPerAxis)
   {
-    hist->IncreaseFrequencyOfMeasurement(run, 1);
+    totalNumberOfRuns++;
+    hist[curentInNeighborhoodPixelIntensity][offsetDistanceBin]++;
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename THistogramFrequencyContainer>
+template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage, THistogramFrequencyContainer>::PrintSelf(
-  std::ostream & os,
-  Indent         indent) const
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
+  unsigned int **                    hist,
+  const unsigned int &               totalNumberOfRuns,
+  typename TOutputImage::PixelType & outputPixel)
 {
-  Superclass::PrintSelf(os, indent);
-  os << indent << "RequestedFeatures: " << this->GetRequestedFeatures() << std::endl;
-  os << indent << "Offsets: " << this->GetOffsets() << std::endl;
+  OutputRealType shortRunEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType longRunEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType greyLevelNonuniformity = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType runLengthNonuniformity = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType lowGreyLevelRunEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType highGreyLevelRunEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType shortRunLowGreyLevelEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType shortRunHighGreyLevelEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType longRunLowGreyLevelEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+  OutputRealType longRunHighGreyLevelEmphasis = NumericTraits<OutputRealType>::ZeroValue();
+
+  vnl_vector<double> greyLevelNonuniformityVector(m_NumberOfBinsPerAxis, 0.0);
+  vnl_vector<double> runLengthNonuniformityVector(m_NumberOfBinsPerAxis, 0.0);
+
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  {
+    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+    {
+      OutputRealType frequency = hist[a][b];
+      if (Math::ExactlyEquals(frequency, NumericTraits<OutputRealType>::ZeroValue()))
+      {
+        continue;
+      }
+
+      double i2 = static_cast<double>((a + 1) * (a + 1));
+      double j2 = static_cast<double>((b + 1) * (b + 1));
+
+      // Traditional measures
+      shortRunEmphasis += (frequency / j2);
+      longRunEmphasis += (frequency * j2);
+
+      greyLevelNonuniformityVector[a] += frequency;
+      runLengthNonuniformityVector[b] += frequency;
+
+      // measures from Chu et al.
+      lowGreyLevelRunEmphasis += (frequency / i2);
+      highGreyLevelRunEmphasis += (frequency * i2);
+
+      // measures from Dasarathy and Holder
+      shortRunLowGreyLevelEmphasis += (frequency / (i2 * j2));
+      shortRunHighGreyLevelEmphasis += (frequency * i2 / j2);
+      longRunLowGreyLevelEmphasis += (frequency * j2 / i2);
+      longRunHighGreyLevelEmphasis += (frequency * i2 * j2);
+    }
+  }
+  greyLevelNonuniformity = greyLevelNonuniformityVector.squared_magnitude();
+  runLengthNonuniformity = runLengthNonuniformityVector.squared_magnitude();
+
+  // Normalize all measures by the total number of runs
+
+  shortRunEmphasis /= static_cast<double>(totalNumberOfRuns);
+  longRunEmphasis /= static_cast<double>(totalNumberOfRuns);
+  greyLevelNonuniformity /= static_cast<double>(totalNumberOfRuns);
+  runLengthNonuniformity /= static_cast<double>(totalNumberOfRuns);
+
+  lowGreyLevelRunEmphasis /= static_cast<double>(totalNumberOfRuns);
+  highGreyLevelRunEmphasis /= static_cast<double>(totalNumberOfRuns);
+
+  shortRunLowGreyLevelEmphasis /= static_cast<double>(totalNumberOfRuns);
+  shortRunHighGreyLevelEmphasis /= static_cast<double>(totalNumberOfRuns);
+  longRunLowGreyLevelEmphasis /= static_cast<double>(totalNumberOfRuns);
+  longRunHighGreyLevelEmphasis /= static_cast<double>(totalNumberOfRuns);
+
+  outputPixel[0] = shortRunEmphasis;
+  outputPixel[1] = longRunEmphasis;
+  outputPixel[2] = greyLevelNonuniformity;
+  outputPixel[3] = runLengthNonuniformity;
+  outputPixel[4] = lowGreyLevelRunEmphasis;
+  outputPixel[5] = highGreyLevelRunEmphasis;
+  outputPixel[6] = shortRunLowGreyLevelEmphasis;
+  outputPixel[7] = shortRunHighGreyLevelEmphasis;
+  outputPixel[8] = longRunLowGreyLevelEmphasis;
+  outputPixel[9] = longRunHighGreyLevelEmphasis;
 }
+
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+{}
 } // end of namespace Statistics
 } // end of namespace itk
 
