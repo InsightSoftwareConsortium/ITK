@@ -126,6 +126,12 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 itk.write(reader, sys.argv[2])
 itk.write(reader, sys.argv[2], True)
 
+# test read
+image=itk.read(fileName)
+assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
+image=itk.read(fileName, itk.F)
+assert type(image) == itk.Image[itk.F,2]
+
 # test search
 res = itk.search("Index")
 assert res[0] == "Index"

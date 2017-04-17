@@ -388,6 +388,25 @@ def write(imageOrFilter, fileName, compression=False):
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
+def read(fileName, pixelType=None):
+    """Read a image
+
+    The reader is instantiated with the image type of the image file
+    """
+    import itk
+    if pixelType:
+        imageIO = itk.ImageIOFactory.CreateImageIO( fileName, itk.ImageIOFactory.ReadMode )
+        if not imageIO:
+            raise RuntimeError("No ImageIO is registered to handle the given file.")
+        imageIO.SetFileName( fileName )
+        imageIO.ReadImageInformation()
+        dimension = imageIO.GetNumberOfDimensions()
+        ImageType=itk.Image[pixelType,dimension]
+        reader = itk.ImageFileReader[ImageType].New(FileName=fileName)
+    else:
+        reader = itk.ImageFileReader.New(FileName=fileName)
+    reader.Update()
+    return reader.GetOutput()
 
 def search(s, case_sensitive=False):  # , fuzzy=True):
     """Search for a class name in the itk module.
