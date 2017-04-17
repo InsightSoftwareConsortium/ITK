@@ -38,7 +38,7 @@ itk_add_test(
     0
     4200
     0
-    0.4
+    0.7
     2
 )
 
@@ -53,10 +53,10 @@ itk_add_test(
     DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultTestWithoutMask2.nrrd
     10
-    1000
+    0
     4200
     0
-    0.4
+    1.25
     4
 )
 
@@ -74,7 +74,7 @@ itk_add_test(
     0
     4200
     0
-    1
+    1.8
     6
 )
 
@@ -93,7 +93,7 @@ itk_add_test(
     0
     4200
     0
-    0.4
+    0.7
     2
 )
 
@@ -109,10 +109,10 @@ itk_add_test(
     DATA{${INPUTDATA}/SegmC_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultPartialImage2.nrrd
     10
-    1000
+    0
     4200
     0
-    0.4
+    1.25
     4
 )
 
@@ -131,7 +131,7 @@ itk_add_test(
     0
     4200
     0
-    0.4
+    0.7
     2
 )
 
@@ -177,6 +177,6 @@ itk_add_test(
     0
     4200
     0
-    0.4
+    0.7
     2
 )
