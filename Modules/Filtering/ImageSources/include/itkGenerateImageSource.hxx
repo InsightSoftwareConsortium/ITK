@@ -47,35 +47,39 @@ void
 GenerateImageSource< TOutputImage >
 ::GenerateOutputInformation()
 {
-  OutputImageType *outputPtr = this->GetOutput(0);
-
-  if ( !outputPtr )
+  Superclass::GenerateOutputInformation();
+  for (unsigned int n = 0; n < this->GetNumberOfOutputs(); ++n)
     {
-    return;
-    }
+    OutputImageType *outputPtr = this->GetOutput(n);
 
-  const ReferenceImageBaseType *referenceImage = this->GetReferenceImage();
+    if ( !outputPtr )
+      {
+      continue;
+      }
 
-  // Set size, spacing, origin
-  if ( m_UseReferenceImage && referenceImage )
-    {
-    outputPtr->SetLargestPossibleRegion(
-      referenceImage->GetLargestPossibleRegion() );
+    const ReferenceImageBaseType *referenceImage = this->GetReferenceImage();
 
-    outputPtr->SetSpacing( referenceImage->GetSpacing() );
-    outputPtr->SetOrigin( referenceImage->GetOrigin() );
-    outputPtr->SetDirection( referenceImage->GetDirection() );
-    }
-  else
-    {
-    typename TOutputImage::RegionType outputLargestPossibleRegion;
-    outputLargestPossibleRegion.SetSize(m_Size);
-    outputLargestPossibleRegion.SetIndex(m_StartIndex);
-    outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+    // Set size, spacing, origin
+    if ( m_UseReferenceImage && referenceImage )
+      {
+      outputPtr->SetLargestPossibleRegion(
+        referenceImage->GetLargestPossibleRegion() );
 
-    outputPtr->SetSpacing(m_Spacing);
-    outputPtr->SetOrigin(m_Origin);
-    outputPtr->SetDirection(m_Direction);
+      outputPtr->SetSpacing( referenceImage->GetSpacing() );
+      outputPtr->SetOrigin( referenceImage->GetOrigin() );
+      outputPtr->SetDirection( referenceImage->GetDirection() );
+      }
+    else
+      {
+      typename TOutputImage::RegionType outputLargestPossibleRegion;
+      outputLargestPossibleRegion.SetSize(m_Size);
+      outputLargestPossibleRegion.SetIndex(m_StartIndex);
+      outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+
+      outputPtr->SetSpacing(m_Spacing);
+      outputPtr->SetOrigin(m_Origin);
+      outputPtr->SetDirection(m_Direction);
+      }
     }
 }
 
