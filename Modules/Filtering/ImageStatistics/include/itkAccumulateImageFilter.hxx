@@ -49,6 +49,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
   typename TInputImage::SpacingType inSpacing;
   typename TInputImage::PointType inOrigin;
   typename TOutputImage::SpacingType outSpacing;
+  typename TOutputImage::DirectionType outDirection;
   typename TOutputImage::PointType outOrigin;
 
   // Get pointers to the input and output
@@ -63,6 +64,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
   inputIndex = input->GetLargestPossibleRegion().GetIndex();
   inputSize = input->GetLargestPossibleRegion().GetSize();
   inSpacing = input->GetSpacing();
+  outDirection = input->GetDirection();
   inOrigin = input->GetOrigin();
 
   // Set the LargestPossibleRegion of the output.
@@ -89,6 +91,7 @@ AccumulateImageFilter< TInputImage, TOutputImage >
   outputRegion.SetIndex(outputIndex);
   output->SetOrigin(outOrigin);
   output->SetSpacing(outSpacing);
+  output->SetDirection(outDirection);
   output->SetLargestPossibleRegion(outputRegion);
 
   itkDebugMacro("GenerateOutputInformation End");
