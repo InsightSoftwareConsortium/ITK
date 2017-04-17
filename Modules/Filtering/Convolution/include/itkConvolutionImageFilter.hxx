@@ -55,8 +55,8 @@ ConvolutionImageFilter< TInputImage, TKernelImage, TOutputImage >
   // the kernel an odd size.
   if ( this->GetNormalize() )
     {
-    typedef typename NumericTraits< InputPixelType >::RealType RealPixelType;
-    typedef Image< RealPixelType, ImageDimension >             RealImageType;
+    typedef typename NumericTraits< typename TKernelImage::PixelType >::RealType RealPixelType;
+    typedef Image< RealPixelType, ImageDimension >                               RealImageType;
 
     typedef NormalizeToConstantImageFilter< KernelImageType, RealImageType > NormalizeFilterType;
     typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
