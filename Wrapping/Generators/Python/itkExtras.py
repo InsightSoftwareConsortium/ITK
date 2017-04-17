@@ -1142,7 +1142,8 @@ def ipython_kw_matches(text):
                 object = object.values()[0]
             namedArgs = []
             isin = isinstance(object, itk.LightObject)
-            issub = issubclass(object, itk.LightObject)
+            if inspect.isclass(object):
+                issub = issubclass(object, itk.LightObject)
             if isin or (inspect.isclass(object) and issub):
                 namedArgs = [n[3:] for n in dir(object) if n.startswith("Set")]
         except Exception as e:
