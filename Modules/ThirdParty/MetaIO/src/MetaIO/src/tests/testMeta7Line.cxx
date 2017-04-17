@@ -60,7 +60,7 @@ int main(int, char * [])
       METAIO_STREAM::cout << (*it)->m_V[1][d] << " ";
     }
     METAIO_STREAM::cout << METAIO_STREAM::endl;
-    it++;
+    ++it;
   }
 
   METAIO_STREAM::cout << "done" << METAIO_STREAM::endl;
