@@ -112,6 +112,17 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThre
     ++digitIt;
   }
   m_Spacing = this->GetInput()->GetSpacing();
+
+  // Support VectorImages by setting number of components on output.
+  typename TOutputImage::Pointer outputPtr = TOutputImage::New();
+  outputPtr = this->GetOutput();
+  int a = outputPtr->GetNumberOfComponentsPerPixel();
+  if (10 != outputPtr->GetNumberOfComponentsPerPixel())
+  {
+    outputPtr->SetNumberOfComponentsPerPixel(10);
+  }
+  outputPtr->Allocate();
+  outputPtr->UpdateOutputData();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -157,7 +168,8 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGe
     faceList.begin();
 
   // Declaration of the variables usefull to iterate over the all image region
-  bool                                 isInImage;
+  bool isInImage;
+  outputPixel = outputPtr->GetPixel(boolCurentInNeighborhoodIndex);
   typename OffsetVector::ConstIterator offsets;
 
   // Declaration of the variables usefull to iterate over the all the offsets
