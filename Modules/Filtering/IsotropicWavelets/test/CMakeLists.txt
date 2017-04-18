@@ -41,6 +41,7 @@ set(
   itkStructureTensorTest.cxx
   # TODO Wavelet + Riesz + PhaseAnalysis. This is not an unit test. Convert to example or application.
   itkRieszWaveletPhaseAnalysisTest.cxx
+  itkStructureTensorWithGeneralizedRieszTest.cxx
   # TODO add Steerable framework?
 )
 
@@ -293,8 +294,38 @@ itk_add_test(
     "Held"
     2
 )
-# RieszWavelet Phase Analysis
+#### TODO move StructureTensorGeneralizedRiesz and RieszWavelet to examples/applications.
 set(DefaultWavelet Held)
+# StructureTensor and Generalized Riesz.
+itk_add_test(
+  NAME itkStructureTensorWithGeneralizedRieszTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkStructureTensorWithGeneralizedRieszTest
+    DATA{Input/collagen_32x32x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkStructureTensorWithGeneralizedRieszTest.tiff
+    1
+    1
+    ${DefaultWavelet}
+    1
+    Apply
+    3
+)
+itk_add_test(
+  NAME itkStructureTensorWithGeneralizedRieszTest2D
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkStructureTensorWithGeneralizedRieszTest
+    DATA{Input/checkershadow_Lch_512x512.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkStructureTensorWithGeneralizedRieszTest2D.tiff
+    1
+    1
+    ${DefaultWavelet}
+    2
+    Apply
+    2
+)
+# RieszWavelet Phase Analysis
 itk_add_test(
   NAME itkRieszWaveletPhaseAnalysisTest
   COMMAND

@@ -137,8 +137,13 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank>::PrintSel
                                                                                   Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << " Levels: " << this->m_Levels << " HighPassSubBands: " << this->m_HighPassSubBands
-     << " TotalInputs: " << this->m_TotalInputs << std::endl;
+  os << indent << "Levels: " << this->m_Levels << std::endl;
+  os << indent << "HighPassSubBands: " << this->m_HighPassSubBands << std::endl;
+  os << indent << "TotalInputs: " << this->m_TotalInputs << std::endl;
+  os << indent << "ScaleFactor: " << this->m_ScaleFactor << std::endl;
+  os << indent << "ApplyReconstructionFactors: " << this->m_ApplyReconstructionFactors << std::endl;
+  os << indent << "UseWaveletFilterBankPyramid: " << this->m_UseWaveletFilterBankPyramid << std::endl;
+  itkPrintSelfObjectMacro(WaveletFilterBank);
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
