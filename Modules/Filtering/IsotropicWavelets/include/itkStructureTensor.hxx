@@ -23,24 +23,25 @@
 #include <itkMultiplyImageFilter.h>
 #include <numeric>
 // Eigen Calculations
-#include <itkSymmetricEigenAnalysis.h>
+#include "itkSymmetricEigenAnalysis.h"
+#include "itkImageDuplicator.h"
 // Convolution/Neighborhood Operations
 #include <itkConvolutionImageFilter.h>
 #include <itkConstantBoundaryCondition.h>
 #include "itkProgressReporter.h"
 namespace itk
 {
-template <typename TInputImage>
-StructureTensor<TInputImage>::StructureTensor()
+template <typename TInputImage, typename TOutputImage>
+StructureTensor<TInputImage, TOutputImage>::StructureTensor()
   : m_GaussianWindowRadius(2)
   , m_GaussianWindowSigma(1.0)
 {
   this->m_GaussianSource = GaussianSourceType::New();
 }
 
-template <typename TInputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-StructureTensor<TInputImage>::SetInputs(const std::vector<InputImagePointer> & inputs)
+StructureTensor<TInputImage, TOutputImage>::SetInputs(const std::vector<InputImagePointer> & inputs)
 {
   if (inputs.size() <= 1)
     itkExceptionMacro(<< "StructureTensor requires at least 2 input images. Current size of input vector in SetInputs: "
@@ -53,9 +54,9 @@ StructureTensor<TInputImage>::SetInputs(const std::vector<InputImagePointer> & i
   }
 }
 
-template <typename TInputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-StructureTensor<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
+StructureTensor<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "GaussianWindowRadius: " << this->m_GaussianWindowRadius << std::endl;
@@ -63,9 +64,9 @@ StructureTensor<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
   itkPrintSelfObjectMacro(GaussianSource);
 }
 
-template <typename TInputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-StructureTensor<TInputImage>::BeforeThreadedGenerateData()
+StructureTensor<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   unsigned int nInputs = this->GetNumberOfInputs();
 
@@ -138,10 +139,10 @@ StructureTensor<TInputImage>::BeforeThreadedGenerateData()
  * Store them in the output.
  */
 
-template <typename TInputImage>
+template <typename TInputImage, typename TOutputImage>
 void
-StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
-                                                   ThreadIdType                  threadId)
+StructureTensor<TInputImage, TOutputImage>::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+                                                                 ThreadIdType                  threadId)
 {
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
   unsigned int     nInputs = this->GetNumberOfInputs();
@@ -215,9 +216,9 @@ StructureTensor<TInputImage>::ThreadedGenerateData(const OutputImageRegionType &
   } // end outIt
 }
 
-template <typename TInputImage>
-typename StructureTensor<TInputImage>::InputImagePointer
-StructureTensor<TInputImage>::ComputeProjectionImage(unsigned int eigen_number) const
+template <typename TInputImage, typename TOutputImage>
+typename StructureTensor<TInputImage, TOutputImage>::InputImagePointer
+StructureTensor<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int eigen_number) const
 {
   const unsigned int nInputs = this->GetNumberOfInputs();
 
@@ -227,9 +228,13 @@ StructureTensor<TInputImage>::ComputeProjectionImage(unsigned int eigen_number) 
 
   const OutputImageType * outputPtr = this->GetOutput();
   // Allocate output of this method:
-  InputImagePointer projectImage = InputImageType::New();
-  projectImage->SetRegions(outputPtr->GetLargestPossibleRegion());
-  projectImage->Allocate();
+  // Use duplicator to copy metadata as well.
+  typedef itk::ImageDuplicator<InputImageType> DuplicatorType;
+  typename DuplicatorType::Pointer             duplicator = DuplicatorType::New();
+  duplicator->SetInputImage(this->GetInput(0));
+  duplicator->Update();
+  InputImagePointer projectImage = duplicator->GetOutput();
+  projectImage->FillBuffer(0);
 
   itk::ImageScanlineConstIterator<OutputImageType> outIt(outputPtr, outputPtr->GetLargestPossibleRegion());
   outIt.GoToBegin();
@@ -267,16 +272,16 @@ StructureTensor<TInputImage>::ComputeProjectionImage(unsigned int eigen_number) 
   return projectImage;
 }
 
-template <typename TInputImage>
-typename StructureTensor<TInputImage>::InputImagePointer
-StructureTensor<TInputImage>::ComputeProjectionImageWithLargestResponse() const
+template <typename TInputImage, typename TOutputImage>
+typename StructureTensor<TInputImage, TOutputImage>::InputImagePointer
+StructureTensor<TInputImage, TOutputImage>::ComputeProjectionImageWithLargestResponse() const
 {
   return this->ComputeProjectionImage(this->GetNumberOfInputs() - 1);
 }
 
-template <typename TInputImage>
-typename StructureTensor<TInputImage>::InputImagePointer
-StructureTensor<TInputImage>::ComputeCoherencyImage() const
+template <typename TInputImage, typename TOutputImage>
+typename StructureTensor<TInputImage, TOutputImage>::InputImagePointer
+StructureTensor<TInputImage, TOutputImage>::ComputeCoherencyImage() const
 {
   const unsigned int nInputs = this->GetNumberOfInputs();
 
