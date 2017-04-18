@@ -25,14 +25,14 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash 76eb3b3acdae9d05b8c12aee28f04f5f)
+    set(_castxml_hash 48d812ca105d7aa10fdc2d16678f7388)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-linux.tar.gz")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash 2b7a470b8e295a3a16a8347affdc0100)
+    set(_castxml_hash dd0cf24fd9d9a06ed49189f11e72c9f0)
     set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460537/castxml-windows.zip)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-windows.zip")
     set(_download_castxml_binaries 1)
@@ -40,7 +40,7 @@ else()
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash d0688cf7fc0b0d568f5f26ffbf539a1e)
+    set(_castxml_hash 5de72fb4970513f805457db9a2c4e6a3)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-macosx.tar.gz")
     set(_download_castxml_binaries 1)
 
@@ -142,8 +142,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2016-10-11
-      GIT_TAG 05db76f3824c52849c27ef87b630b432fba78ca5
+      # CastXML master, 2017-04-18
+      GIT_TAG fab9c47d251a7973eed066d3eec3b83bcf9d0582
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
