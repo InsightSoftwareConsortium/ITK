@@ -210,7 +210,8 @@ ExtractImageFilter< TInputImage, TOutputImage >
       }
     // if the filter changes from a higher to a lower dimension, or
     // if, after rebuilding the direction cosines, there's a zero
-    // length cosine vector, reset the directions to identity.
+    // length cosine vector, reset the directions to identity
+    // or throw an exception, depending on the collapse strategy.
     if( static_cast<int>(InputImageDimension) != static_cast<int>(OutputImageDimension) )
       {
       switch(m_DirectionCollapseStrategy)
