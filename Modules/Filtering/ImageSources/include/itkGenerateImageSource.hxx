@@ -47,7 +47,7 @@ void
 GenerateImageSource< TOutputImage >
 ::GenerateOutputInformation()
 {
-  Superclass::GenerateOutputInformation();
+  // No need to call Superclass::GenerateOutputInformation. No input.
   for (unsigned int n = 0; n < this->GetNumberOfOutputs(); ++n)
     {
     OutputImageType *outputPtr = this->GetOutput(n);
