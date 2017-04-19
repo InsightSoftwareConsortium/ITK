@@ -63,7 +63,7 @@ MET_GetFieldRecord(const char * _fieldName,
                    METAIO_STL::vector<MET_FieldRecordType *> * _fields)
   {
   METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
-  for(fieldIter=_fields->begin(); fieldIter!=_fields->end(); fieldIter++)
+  for(fieldIter=_fields->begin(); fieldIter!=_fields->end(); ++fieldIter)
     {
     if(!strcmp((*fieldIter)->name, _fieldName))
       {
@@ -315,7 +315,7 @@ bool MET_ValueToDouble(MET_ValueEnumType _type, const void *_data,
       *_value = (double)(((const MET_DOUBLE_TYPE *)_data)[_index]);
       return true;
     case MET_STRING:
-      *_value = atof(&(((const MET_CHAR_TYPE *)_data)[_index]));
+      *_value = atof(&(((const MET_ASCII_CHAR_TYPE *)_data)[_index]));
       return true;
     case MET_NONE:
     case MET_OTHER:
@@ -383,7 +383,7 @@ bool MET_DoubleToValue(double _value,
       ((MET_DOUBLE_TYPE *)_data)[_index] = (MET_DOUBLE_TYPE)_value;
       return true;
     case MET_STRING:
-      sprintf(&(((MET_CHAR_TYPE *)_data)[_index]), "%f", _value);
+      sprintf(&(((MET_ASCII_CHAR_TYPE *)_data)[_index]), "%f", _value);
       return true;
     case MET_NONE:
     case MET_OTHER:
@@ -465,7 +465,7 @@ bool MET_ValueToValue(MET_ValueEnumType _fromType, const void *_fromData,
       (((MET_FLOAT_TYPE *)_toData)[_index]) = (MET_FLOAT_TYPE)tf;
       return true;
     case MET_STRING:
-      sprintf(&(((MET_CHAR_TYPE *)_toData)[_index]), "%f", tf);
+      sprintf(&(((MET_ASCII_CHAR_TYPE *)_toData)[_index]), "%f", tf);
       return true;
     case MET_NONE:
     case MET_OTHER:
@@ -531,7 +531,7 @@ METAIO_STL::streamoff MET_UncompressStream(METAIO_STREAM::ifstream * stream,
   if(compressionTable->offsetList.size()>0)
     {
     MET_CompressionOffsetListType::const_iterator it = compressionTable->offsetList.end();
-    it--;
+    --it;
 
     if(uncompressedSeekPosition < (*it).uncompressedOffset)
       {
@@ -581,7 +581,7 @@ METAIO_STL::streamoff MET_UncompressStream(METAIO_STREAM::ifstream * stream,
       firstchunk = false;
       }
 
-    unsigned char* outdata = new unsigned char[buffersize];
+    unsigned char* outdata = new unsigned char[static_cast<size_t>(buffersize)];
 
     d_stream->avail_out = (uInt)( buffersize );
 
@@ -597,12 +597,12 @@ METAIO_STL::streamoff MET_UncompressStream(METAIO_STREAM::ifstream * stream,
       inputBufferSize = compressedDataSize-zseekpos;
       }
 
-    unsigned char* inputBuffer = new unsigned char[inputBufferSize];
+    unsigned char* inputBuffer = new unsigned char[static_cast<size_t>(inputBufferSize)];
     stream->seekg(currentPos+zseekpos,METAIO_STREAM::ios::beg);
     stream->read((char *)inputBuffer, (size_t)inputBufferSize);
 
     d_stream->next_in  = inputBuffer;
-    d_stream->avail_in = stream->gcount();
+    d_stream->avail_in = static_cast<int>(stream->gcount());
     d_stream->next_out = outdata;
 
     int inflate_error = inflate(d_stream, Z_NO_FLUSH);
@@ -701,9 +701,9 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
 
   METAIO_STL::streamoff             buffer_size     = sourceSize;
   unsigned char * input_buffer    = const_cast<unsigned char *>(source);
-  unsigned char * output_buffer   = new unsigned char[buffer_size];
+  unsigned char * output_buffer   = new unsigned char[static_cast<size_t>(buffer_size)];
 
-  compressedData                  = new unsigned char[buffer_size];
+  compressedData                  = new unsigned char[static_cast<size_t>(buffer_size)];
 
   deflateInit(&z, compression_rate);
 
@@ -727,7 +727,7 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
         // when the output is bigger than the input (true for small images)
         if(j+count>=buffer_size)
           {
-          unsigned char* compressedDataTemp = new unsigned char[j+count+1];
+          unsigned char* compressedDataTemp = new unsigned char[static_cast<size_t>(j+count+1)];
           memcpy(compressedDataTemp,compressedData,(size_t)buffer_size);
           delete [] compressedData;
           compressedData = compressedDataTemp;
@@ -744,7 +744,7 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
       {
       if(j+count>=buffer_size)
         {
-        unsigned char* compressedDataTemp = new unsigned char[j+count+1];
+        unsigned char* compressedDataTemp = new unsigned char[static_cast<size_t>(j+count+1)];
         memcpy(compressedDataTemp,compressedData,(size_t)buffer_size);
         delete [] compressedData;
         compressedData = compressedDataTemp;
@@ -950,6 +950,10 @@ bool MET_SetFileSuffix(char *_fName, const char *_suf)
     }
   else
     {
+    if( _suf[0] != '.')
+      {
+      strcat(_fName, ".");
+      }
     strcat(_fName, _suf);
     return true;
     }
@@ -1022,7 +1026,7 @@ static bool MET_SkipToVal(METAIO_STREAM::istream &fp)
     return false;
     }
 
-  fp.putback(c);
+  fp.putback(static_cast<char>(c));
 
   return true;
   }
@@ -1033,7 +1037,7 @@ static bool MET_SkipToVal(METAIO_STREAM::istream &fp)
 static bool MET_IsComplete(METAIO_STL::vector<MET_FieldRecordType *> * fields)
   {
   METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
-  for(fieldIter=fields->begin(); fieldIter!=fields->end(); fieldIter++)
+  for(fieldIter=fields->begin(); fieldIter!=fields->end(); ++fieldIter)
     {
     if((*fieldIter)->required && !(*fieldIter)->defined)
       {
@@ -1066,17 +1070,17 @@ bool MET_Read(METAIO_STREAM::istream &fp,
   while(!fp.eof())
     {
     i = 0;
-    c = fp.get();
+    c = static_cast<unsigned char>(fp.get());
     while(!fp.eof() && c != MET_SeperatorChar && c != ':'
           && isspace(c))
       {
-      c = fp.get();
+      c = static_cast<unsigned char>(fp.get());
       }
     // save name up to separator or end of line
     while(!fp.eof() && c != MET_SeperatorChar && c != ':' && c != '\r' && c != '\n' && i<500)
       {
       s[i++] = c;
-      c = fp.get();
+      c = static_cast<unsigned char>(fp.get());
       }
     if(fp.eof() || i >= 500)
       {
@@ -1093,7 +1097,7 @@ bool MET_Read(METAIO_STREAM::istream &fp,
       }
 
     found = false;
-    for(fieldIter=fields->begin(); fieldIter!=fields->end(); fieldIter++)
+    for(fieldIter=fields->begin(); fieldIter!=fields->end(); ++fieldIter)
       {
       if(!strcmp((*fieldIter)->name, s))
         {
@@ -1118,7 +1122,7 @@ bool MET_Read(METAIO_STREAM::istream &fp,
               {
               break;
               }
-            c = fp.get();
+            c = static_cast<unsigned char>(fp.get());
             (*fieldIter)->value[0] = (double)c;
             fp.getline( s, 500 );
             break;
@@ -1153,7 +1157,8 @@ bool MET_Read(METAIO_STREAM::istream &fp,
               {
               break;
               }
-            MET_CHAR_TYPE * str = (MET_CHAR_TYPE *)((*fieldIter)->value);
+            MET_ASCII_CHAR_TYPE * str =
+                               (MET_ASCII_CHAR_TYPE *)((*fieldIter)->value);
             fp.getline( str, 500 );
             MET_StringStripEnd(str);
             (*fieldIter)->length = static_cast<int>( strlen( str ) );
@@ -1263,7 +1268,7 @@ bool MET_Read(METAIO_STREAM::istream &fp,
           }
         MET_FieldRecordType * mF = new MET_FieldRecordType;
         MET_InitReadField(mF, s, MET_STRING, false);
-        MET_CHAR_TYPE * str = (MET_CHAR_TYPE *)(mF->value);
+        MET_ASCII_CHAR_TYPE * str = (MET_ASCII_CHAR_TYPE *)(mF->value);
         fp.getline( str, 500 );
         MET_StringStripEnd(str);
         mF->length = static_cast<int>( strlen( str ) );
@@ -1297,7 +1302,7 @@ bool MET_Write(METAIO_STREAM::ostream &fp,
 
   int j;
   METAIO_STL::vector<MET_FieldRecordType *>::iterator fieldIter;
-  for(fieldIter=fields->begin(); fieldIter!=fields->end(); fieldIter++)
+  for(fieldIter=fields->begin(); fieldIter!=fields->end(); ++fieldIter)
     {
     switch((*fieldIter)->type)
       {
@@ -1671,7 +1676,8 @@ bool MET_WriteFieldToFile(METAIO_STREAM::ostream & _fp, const char *_fieldName,
         }
       break;
     case MET_STRING:
-      strcpy((MET_CHAR_TYPE *)(f.value), (const MET_CHAR_TYPE *)_v);
+      strcpy((MET_ASCII_CHAR_TYPE *)(f.value),
+             (const MET_ASCII_CHAR_TYPE *)_v);
       break;
     case MET_FLOAT_MATRIX:
       for(i=0; i<_n*_n; i++)
@@ -1777,4 +1783,3 @@ void MET_SwapByteIfSystemMSB(void* val, MET_ValueEnumType _type)
 #if (METAIO_USE_NAMESPACE)
 };
 #endif
-

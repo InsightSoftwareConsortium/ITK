@@ -18,7 +18,7 @@ int main(int, char * [])
   myarray[0]=1;
   myarray[1]=2;
   myarray[2]=3;
-  tObj.AddUserField("MyName", MET_STRING, strlen("Julien"), "Julien");
+  tObj.AddUserField("MyName", MET_STRING, (int)strlen("Julien"), "Julien");
   tObj.AddUserField("MyArray", MET_INT_ARRAY,3,myarray);
 
   int i;
@@ -35,7 +35,7 @@ int main(int, char * [])
   tObj.Clear();
   tObj.ClearUserFields();
 
-  tObj.AddUserField("MyName", MET_STRING, strlen("default"), "default");
+  tObj.AddUserField("MyName", MET_STRING, (int)strlen("default"), "default");
   tObj.AddUserField("MyArray", MET_INT_ARRAY, 3, myarray);
   tObj.AddUserField("MyMatrix", MET_FLOAT_MATRIX, 2, myMatrix);
 
