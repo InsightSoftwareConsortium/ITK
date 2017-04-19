@@ -276,10 +276,10 @@ bool Histogram< TMeasurement, TFrequencyContainer >
   // now using something similar to binary search to find
   // index.
   unsigned int dim;
-
-  if ( index.Size() != this->GetMeasurementVectorSize() )
+  const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
+  if ( index.Size() != measurementVectorSize )
     {
-    index.SetSize( this->GetMeasurementVectorSize() );
+    index.SetSize( measurementVectorSize );
     }
 
   IndexValueType begin;
@@ -289,7 +289,7 @@ bool Histogram< TMeasurement, TFrequencyContainer >
   MeasurementType median;
   MeasurementType tempMeasurement;
 
-  for ( dim = 0; dim < this->GetMeasurementVectorSize(); dim++ )
+  for ( dim = 0; dim < measurementVectorSize; dim++ )
     {
     tempMeasurement = measurement[dim];
     begin = 0;
@@ -368,8 +368,8 @@ Histogram< TMeasurement, TFrequencyContainer >
 ::GetIndex(InstanceIdentifier id) const
 {
   InstanceIdentifier id2 = id;
-
-  for ( int i = this->GetMeasurementVectorSize() - 1; i > 0; i-- )
+  const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
+  for ( int i = measurementVectorSize - 1; i > 0; i-- )
     {
     m_TempIndex[i] = static_cast< IndexValueType >( id2 / this->m_OffsetTable[i] );
     id2 -= ( m_TempIndex[i] * this->m_OffsetTable[i] );
@@ -384,7 +384,8 @@ inline bool
 Histogram< TMeasurement, TFrequencyContainer >
 ::IsIndexOutOfBounds(const IndexType & index) const
 {
-  for ( unsigned int dim = 0; dim < this->GetMeasurementVectorSize(); dim++ )
+  const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
+  for ( unsigned int dim = 0; dim < measurementVectorSize; dim++ )
     {
     if ( index[dim] < 0 || index[dim] >= static_cast< IndexValueType >( m_Size[dim] ) )
       {
@@ -483,7 +484,8 @@ Histogram< TMeasurement, TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetHistogramMinFromIndex(const IndexType & index) const
 {
-  for ( unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++ )
+  const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
     m_TempMeasurementVector[i] = this->GetBinMin(i, index[i]);
     }
@@ -496,7 +498,8 @@ Histogram< TMeasurement, TFrequencyContainer >::MeasurementVectorType &
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetHistogramMaxFromIndex(const IndexType & index) const
 {
-  for ( unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++ )
+  const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
+  for ( unsigned int i = 0; i <measurementVectorSize; i++ )
     {
     m_TempMeasurementVector[i] = this->GetBinMax(i, index[i]);
     }
@@ -508,7 +511,8 @@ inline const typename Histogram< TMeasurement, TFrequencyContainer >::Measuremen
 Histogram< TMeasurement, TFrequencyContainer >
 ::GetMeasurementVector(const IndexType & index) const
 {
-  for ( unsigned int i = 0; i < this->GetMeasurementVectorSize(); i++ )
+  const unsigned int measurementVectorSize = this->GetMeasurementVectorSize();
+  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
     {
     MeasurementType value = ( m_Min[i][index[i]] + m_Max[i][index[i]] );
     m_TempMeasurementVector[i] =  static_cast< MeasurementType >( value / 2.0 );
