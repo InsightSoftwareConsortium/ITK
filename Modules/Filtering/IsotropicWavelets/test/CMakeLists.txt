@@ -405,10 +405,18 @@ itk_add_test(
 )
 ## BandPass
 itk_add_test(
-  NAME itkFrequencyBandImageFilterTest
+  NAME itkFrequencyBandImageFilterEvenTest
   COMMAND
     IsotropicWaveletsTestDriver
     itkFrequencyBandImageFilterTest
+    "Even"
+)
+itk_add_test(
+  NAME itkFrequencyBandImageFilterOddTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkFrequencyBandImageFilterTest
+    "Odd"
 )
 ## ExpandWithZeros (in spatial domain)
 itk_add_test(

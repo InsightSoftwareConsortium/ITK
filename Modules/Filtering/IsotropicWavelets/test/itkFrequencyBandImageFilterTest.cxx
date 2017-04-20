@@ -18,6 +18,7 @@
 
 #include "itkAddImageFilter.h"
 #include "itkFrequencyBandImageFilter.h"
+#include "itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex.h"
 #include "itkImage.h"
 #include "itkImageFileWriter.h"
 #include "itkTestingComparisonImageFilter.h"
@@ -30,14 +31,42 @@
 #endif
 
 int
-itkFrequencyBandImageFilterTest(int, char *[])
+itkFrequencyBandImageFilterTest(int argc, char * argv[])
 {
   const unsigned int Dimension = 3;
+  if (argc != 2)
+  {
+    std::cerr << "Usage: " << argv[0] << " Even|Odd" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  const std::string evenOrOddInput = argv[1];
+  bool              isOdd = false;
+  if (evenOrOddInput == "Even")
+  {
+    isOdd = false;
+  }
+  else if (evenOrOddInput == "Odd")
+  {
+    isOdd = true;
+  }
+  else
+  {
+    std::cerr << "Unkown string: " + evenOrOddInput + " . Use Even or Odd." << std::endl;
+    return EXIT_FAILURE;
+  }
 
   typedef float                            PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType3D;
 
-  ImageType3D::SizeType size = { { 20, 40, 80 } };
+  ImageType3D::SizeType size = { { 10, 20, 40 } };
+  if (isOdd)
+  {
+    for (unsigned int i = 0; i < Dimension; ++i)
+    {
+      size[i]++;
+    }
+  }
 
   // Create an image
   ImageType3D::Pointer    image = ImageType3D::New();
@@ -169,6 +198,23 @@ itkFrequencyBandImageFilterTest(int, char *[])
 
 #ifdef ITK_VISUALIZE_TESTS
   itk::Testing::ViewImage(passBandFilter->GetOutput(), "PassBand - RadialBandOff");
+#endif
+
+  // Test with ShiftedIterator.
+  typedef itk::FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex<ImageType3D> FrequencyShiftedIterator;
+  typedef itk::FrequencyBandImageFilter<ImageType3D, FrequencyShiftedIterator>    BandShiftedFilterType;
+  BandShiftedFilterType::Pointer passBandShiftedFilter = BandShiftedFilterType::New();
+
+  passBandShiftedFilter->SetInput(image);
+  passBandShiftedFilter->SetLowFrequencyThreshold(lowFreqThreshold);
+  passBandShiftedFilter->SetHighFrequencyThreshold(highFreqThreshold);
+  passBandShiftedFilter->SetPassBand(true);
+  passLowFreqThreshold = false;
+  passHighFreqThreshold = true;
+  passBandShiftedFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
+  TRY_EXPECT_NO_EXCEPTION(passBandShiftedFilter->Update());
+#ifdef ITK_VISUALIZE_TESTS
+  itk::Testing::ViewImage(passBandShiftedFilter->GetOutput(), "PassBand - FrequencyShiftedIterator");
 #endif
 
   // typedef itk::ImageFileWriter< ImageType3D > WriterType;
