@@ -15,37 +15,23 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkFrequencyImageRegionConstIteratorWithIndex_h
-#define itkFrequencyImageRegionConstIteratorWithIndex_h
+#ifndef itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex_h
+#define itkFrequencyShiftedFFTLayoutImageRegionIteratorWithIndex_h
 
-#include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkImageRegionIteratorWithIndex.h"
+#include "itkFrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex.h"
 
 namespace itk
 {
-/** \class FrequencyImageRegionConstIteratorWithIndex
- * \brief A multi-dimensional iterator templated over image type that walks
- * pixels within a region and is specialized to keep track of its image index
- * location.
- *
- * This class is a specialization of ImageRegionConstIteratorWithIndex,
- * adding method GetFrequencyBins to give the frequency bins corresponding to image indices, and GetFrequency to get the
- * frequency of the bin.
- *
- * This iterator assumes that the image is already in the frequency domain, so GetFrequencyBin is a wrap around
- * GetIndex(), and GetFrequency is a wrap around Get().
- *
- * For a different layout, use other frequency iterator.
- *
- * Please see ImageRegionConstIteratorWithIndex for more information.
- * \sa ForwardFFTImageFilter
- *
- * \par MORE INFORMATION
- * For a complete description of the ITK Image Iterators and their API, please
- * see the Iterators chapter in the ITK Software Guide.  The ITK Software Guide
- * is available in print and as a free .pdf download from https://www.itk.org.
+/** \class FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex
+
+ * Iterator providing method GetFrequency() to retrieve the frequency associated to an index.
+ * This value is related to the specific layout of frequencies from an image in the dual (frequency) space.
+ * In this case, the layout corresponds to the output of a FastFourierTransform from FFTW library.
+ * This class is a non-const version of FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex.
  *
  * \ingroup ImageIterators
- *
+ * \sa FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex
  * \sa ImageRegionIteratorWithIndex
  * \sa ImageConstIterator \sa ConditionalConstIterator
  * \sa ConstNeighborhoodIterator \sa ConstShapedNeighborhoodIterator
@@ -74,12 +60,13 @@ namespace itk
  *
  */
 template <typename TImage>
-class FrequencyImageRegionConstIteratorWithIndex : public ImageRegionConstIteratorWithIndex<TImage>
+class FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex
+  : public FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>
 {
 public:
   /** Standard class typedefs. */
-  typedef FrequencyImageRegionConstIteratorWithIndex Self;
-  typedef ImageRegionConstIteratorWithIndex<TImage>  Superclass;
+  typedef FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex Self;
+  typedef ImageRegionIteratorWithIndex<TImage>                  Superclass;
 
   /** Types inherited from the Superclass */
   typedef typename Superclass::IndexType             IndexType;
@@ -96,19 +83,15 @@ public:
   typedef typename ImageType::SpacingType      FrequencyType;
   typedef typename ImageType::SpacingValueType FrequencyValueType;
   /** Default constructor. Needed since we provide a cast constructor. */
-  FrequencyImageRegionConstIteratorWithIndex()
-    : ImageRegionConstIteratorWithIndex<TImage>()
-  {
-    this->InitIndices();
-  };
+  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex()
+    : FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>()
+  {}
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
-  FrequencyImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
-    : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
-  {
-    this->InitIndices();
-  };
+  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(TImage * ptr, const RegionType & region)
+    : FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>(ptr, region)
+  {}
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -116,72 +99,40 @@ public:
    * provide overloaded APIs that return different types of Iterators, itk
    * returns ImageIterators and uses constructors to cast from an
    * ImageIterator to a ImageRegionIteratorWithIndex. */
-  explicit FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
-    : ImageRegionConstIteratorWithIndex<TImage>(it)
-  {
-    this->InitIndices();
-  };
+  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(const ImageIteratorWithIndex<TImage> & it)
+    : FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>(it)
+  {}
 
-  /*
-   * The image is in the frequency domain already, return the index.
-   */
-  IndexType
-  GetFrequencyBin() const
-  {
-    return this->GetIndex();
-  }
-
-  /* Equivalent to Get(), but the result is cast to FrequencyType.
-   */
-  FrequencyType
-  GetFrequency() const
-  {
-    // FrequencyType freq;
-    return static_cast<FrequencyType>(this->Get());
-  }
-
-  FrequencyValueType
-  GetFrequencyModuloSquare() const
-  {
-    FrequencyValueType w2(0);
-    FrequencyType      w(this->GetFrequency());
-
-    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
-    {
-      w2 += w[dim] * w[dim];
-    }
-    return w2;
-  }
-
-  /** Origin of frequencies is set to be equal to m_Image->GetOrigin(). */
-  itkGetConstReferenceMacro(FrequencyOrigin, FrequencyType);
+  /** Set the pixel value */
   void
-  SetFrequencyOrigin(const FrequencyType frequencyOrigin)
+  Set(const PixelType & value) const
   {
-    this->m_FrequencyOrigin = frequencyOrigin;
-  };
-
-  /** This is the pixel width, or the bin size of the frequency.
-   * FrequencySpacing  = SamplingFrequency / ImageSize */
-  itkGetConstReferenceMacro(FrequencySpacing, FrequencyType);
-  void
-  SetFrequencySpacing(const FrequencyType frequencySpacing)
-  {
-    this->m_FrequencySpacing = frequencySpacing;
-  };
-
-private:
-  /** Calculate Nyquist frequency index (m_HalfIndex), and Min/Max indices from LargestPossibleRegion.
-   * Called at constructors.  */
-  void
-  InitIndices()
-  {
-    this->m_FrequencyOrigin = this->m_Image->GetOrigin();
-    this->m_FrequencySpacing = this->m_Image->GetSpacing();
+    this->m_PixelAccessorFunctor.Set(*(const_cast<InternalPixelType *>(this->m_Position)), value);
   }
 
-  FrequencyType m_FrequencyOrigin;
-  FrequencyType m_FrequencySpacing;
+  /** Return a reference to the pixel.
+   * This method will provide the fastest access to pixel
+   * data, but it will NOT support ImageAdaptors. */
+  PixelType &
+  Value(void)
+  {
+    return *(const_cast<InternalPixelType *>(this->m_Position));
+  }
+
+protected:
+  /** The construction from a const iterator is declared protected
+      in order to enforce const correctness. */
+  FrequencyShiftedFFTLayoutImageRegionIteratorWithIndex(
+    const FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage> & it)
+    : FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>(it)
+  {}
+
+  Self &
+  operator=(const FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage> & it)
+  {
+    this->FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex<TImage>::operator=(it);
+    return *this;
+  }
 };
 } // end namespace itk
 #endif
