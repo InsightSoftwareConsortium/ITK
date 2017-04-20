@@ -34,9 +34,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
 ::ImageToImageFilter() : m_CoordinateTolerance(Self::GetGlobalDefaultCoordinateTolerance()),
@@ -46,17 +44,13 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->SetNumberOfRequiredInputs(1);
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 ImageToImageFilter< TInputImage, TOutputImage >
 ::~ImageToImageFilter()
 {}
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -67,9 +61,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
                                     const_cast< InputImageType * >( input ) );
 }
 
-/**
- * Connect one of the operands for pixel-wise addition
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -80,9 +72,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
                                     const_cast< TInputImage * >( image ) );
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -91,9 +81,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
 }
 
-/**
- *
- */
+
 template< typename TInputImage, typename TOutputImage >
 const typename ImageToImageFilter< TInputImage, TOutputImage >::InputImageType *
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -109,8 +97,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   return in;
 }
 
-//-----------------------------------------------------------------------
-//
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -137,6 +124,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
     }
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -147,6 +135,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
   regionCopier(destRegion, srcRegion);
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -159,6 +148,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   regionCopier(destRegion, srcRegion);
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -170,6 +160,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   os << indent << "DirectionTolerance: "
      << this->m_DirectionTolerance << std::endl;
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -254,6 +245,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
 
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -262,6 +254,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   // Forward to the protected method in the superclass
   this->ProcessObject::PushBackInput(input);
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 void
@@ -272,6 +265,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::PopBackInput();
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -281,6 +275,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   this->ProcessObject::PushFrontInput(input);
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 ImageToImageFilter< TInputImage, TOutputImage >
@@ -289,6 +284,7 @@ ImageToImageFilter< TInputImage, TOutputImage >
   // Forward to the protected method in the superclass
   this->ProcessObject::PopFrontInput();
 }
+
 } // end namespace itk
 
 #endif
