@@ -369,11 +369,11 @@ def range(imageOrFilter):
     return (comp.GetMinimum(), comp.GetMaximum())
 
 
-def write(imageOrFilter, fileName, compression=False):
-    """Write a image or the output image of a filter to filename
+def imwrite(imageOrFilter, fileName, compression=False):
+    """Write a image or the output image of a filter to a file.
 
     The writer is instantiated with the image type of the image in
-    parameter (or, again, with the output image of the filter in parameter)
+    parameter (or, again, with the output image of the filter in parameter).
     """
     import itk
     img = output(imageOrFilter)
@@ -388,10 +388,17 @@ def write(imageOrFilter, fileName, compression=False):
     auto_pipeline.current = tmp_auto_pipeline
     writer.Update()
 
-def read(fileName, pixelType=None):
-    """Read a image
+# For backwards compatibility
+def write(*args, **kwargs):
+    import warnings
+    warnings.warn("WrapITK warning: itk.write() is deprecated. "
+            "Use itk.imwrite() instead.")
+    imwrite(*args, **kwargs)
 
-    The reader is instantiated with the image type of the image file
+def imread(fileName, pixelType=None):
+    """Read an image from a file and return an itk.Image.
+
+    The reader is instantiated with the image type of the image file.
     """
     import itk
     if pixelType:

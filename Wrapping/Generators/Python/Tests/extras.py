@@ -123,13 +123,14 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 
 
 # test write
+itk.imwrite(reader, sys.argv[2])
 itk.write(reader, sys.argv[2])
-itk.write(reader, sys.argv[2], True)
+itk.imwrite(reader, sys.argv[2], True)
 
 # test read
-image=itk.read(fileName)
+image=itk.imread(fileName)
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC],2]
-image=itk.read(fileName, itk.F)
+image=itk.imread(fileName, itk.F)
 assert type(image) == itk.Image[itk.F,2]
 
 # test search
