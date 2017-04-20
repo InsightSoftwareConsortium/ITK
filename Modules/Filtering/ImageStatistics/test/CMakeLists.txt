@@ -67,24 +67,24 @@ itk_add_test(NAME itkImagePCAShapeModelEstimatorTest
       COMMAND ITKImageStatisticsTestDriver itkImagePCAShapeModelEstimatorTest)
 itk_add_test(NAME itkMaximumProjectionImageFilterTest2_1
       COMMAND ITKImageStatisticsTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMaximumProjection0.tif}
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection0.tif
-    itkMaximumProjectionImageFilterTest2 0 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection0.tif)
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMaximumProjection0.mha}
+              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection0.mha
+    itkMaximumProjectionImageFilterTest2 0 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection0.mha)
 itk_add_test(NAME itkMaximumProjectionImageFilterTest2_2
       COMMAND ITKImageStatisticsTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMaximumProjection1.tif}
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection1.tif
-    itkMaximumProjectionImageFilterTest2 1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection1.tif)
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMaximumProjection1.mha}
+              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection1.mha
+    itkMaximumProjectionImageFilterTest2 1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection1.mha)
 itk_add_test(NAME itkMaximumProjectionImageFilterTest3_1
       COMMAND ITKImageStatisticsTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMaximumProjection2D0.tif}
-              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D0.tif
-    itkMaximumProjectionImageFilterTest3 0 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D0.tif)
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMaximumProjection2D0.mha}
+              ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D0.mha
+    itkMaximumProjectionImageFilterTest3 0 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D0.mha)
 itk_add_test(NAME itkMaximumProjectionImageFilterTest3_2
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMaximumProjection2D1.tif}
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D1.tif
-    itkMaximumProjectionImageFilterTest3 1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D1.tif)
+    itkMaximumProjectionImageFilterTest3 1 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolumeWithDirection.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeMaximumProjection2D1.tif)
 itk_add_test(NAME itkMinimumProjectionImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeMinimumProjection.tif}
