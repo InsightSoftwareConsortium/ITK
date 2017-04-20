@@ -116,7 +116,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThre
   // Support VectorImages by setting number of components on output.
   typename TOutputImage::Pointer outputPtr = TOutputImage::New();
   outputPtr = this->GetOutput();
-  int a = outputPtr->GetNumberOfComponentsPerPixel();
   if (10 != outputPtr->GetNumberOfComponentsPerPixel())
   {
     outputPtr->SetNumberOfComponentsPerPixel(10);
@@ -383,7 +382,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHi
   {
     offsetDistance += (offset[i] * m_Spacing[i]) * (offset[i] * m_Spacing[i]);
   }
-  offsetDistance = std::pow(offsetDistance, 1.0 / offset.GetOffsetDimension());
+  offsetDistance = std::sqrt(offsetDistance);
 
   int offsetDistanceBin =
     (int)((offsetDistance * pixelDistance - m_MinDistance) / ((m_MaxDistance - m_MinDistance) / m_NumberOfBinsPerAxis));
