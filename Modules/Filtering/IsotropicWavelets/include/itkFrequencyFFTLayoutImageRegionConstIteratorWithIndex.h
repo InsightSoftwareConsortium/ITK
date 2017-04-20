@@ -136,7 +136,7 @@ public:
   FrequencyFFTLayoutImageRegionConstIteratorWithIndex()
     : ImageRegionConstIteratorWithIndex<TImage>()
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -144,7 +144,7 @@ public:
   FrequencyFFTLayoutImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -156,12 +156,12 @@ public:
   explicit FrequencyFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it)
     : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /*
-   * Image Index [0, N] returns [0 to N/2] (positive) union [-N/2 + 1, -1] (negative). So index N/2 + 1 returns the bin
-   * -N/2 + 1. If first index of the image is not zero, it stills returns values in the same range.
+   * Image Index [0, N - 1] returns [0 to N/2] (positive) union [-N/2 + 1, -1] (negative). So index N/2 + 1 returns the
+   * bin -N/2 + 1. If first index of the image is not zero, it stills returns values in the same range.
    */
   IndexType
   GetFrequencyBin() const
@@ -171,7 +171,7 @@ public:
     freqInd.Fill(0);
     for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
     {
-      if (this->m_PositionIndex[dim] <= m_HalfIndex[dim])
+      if (this->m_PositionIndex[dim] <= m_LargestPositiveFrequencyIndex[dim])
       {
         freqInd[dim] = this->m_PositionIndex[dim] - this->m_MinIndex[dim];
       }
@@ -226,14 +226,16 @@ public:
    * Index corresponding to the first highest frequency (Nyquist) after a FFT transform.
    * If the size of the image is even, the Nyquist frequency = fs/2 is unique and shared
    * between positive and negative frequencies.
+   * (Even Size) LargestPositiveFrequencyIndex = originIndex + N / 2
    * If odd, Nyquist frequency is not represented, but there is still a largest frequency at this index
    * = fs/2 * (N-1)/N.
+   * (Odd Size) LargestPositiveFrequencyIndex = originIndex + (N + 1) / 2
    */
-  itkGetConstReferenceMacro(HalfIndex, IndexType);
+  itkGetConstReferenceMacro(LargestPositiveFrequencyIndex, IndexType);
   void
-  SetHalfIndex(const IndexType halfIndex)
+  SetLargestPositiveFrequencyIndex(const IndexType largestPositiveFrequencyIndex)
   {
-    this->m_HalfIndex = halfIndex;
+    this->m_LargestPositiveFrequencyIndex = largestPositiveFrequencyIndex;
   };
   /** Default to first index of the largest possible Region. */
   itkGetConstReferenceMacro(MinIndex, IndexType);
@@ -258,29 +260,30 @@ public:
   };
 
 private:
-  /** Calculate Nyquist frequency index (m_HalfIndex), and Min/Max indices from LargestPossibleRegion.
-   * Called at constructors.  */
+  /** Calculate Nyquist frequency index (m_LargestPositiveFrequencyIndex), and Min/Max indices from
+   * LargestPossibleRegion. Called at constructors.  */
   void
-  InitIndices()
+  Init()
   {
+    SizeType sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();
     this->m_MinIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
     this->m_MaxIndex = this->m_Image->GetLargestPossibleRegion().GetUpperIndex();
     FrequencyType samplingFrequency;
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
-      this->m_HalfIndex[dim] = static_cast<FrequencyValueType>(
-        this->m_MinIndex[dim] + std::ceil((this->m_MaxIndex[dim] - this->m_MinIndex[dim]) / 2.0));
+      this->m_LargestPositiveFrequencyIndex[dim] =
+        static_cast<FrequencyValueType>(this->m_MinIndex[dim] + std::ceil(sizeImage[dim] / 2.0));
       // Set frequency metadata.
       // Origin of frequencies is zero in the standard layout of a FFT output.
       this->m_FrequencyOrigin[dim] = 0.0;
       // SamplingFrequency = 1.0 / SpatialSpacing
       samplingFrequency[dim] = 1.0 / this->m_Image->GetSpacing()[dim];
       // Freq_BinSize = SamplingFrequency / Size
-      this->m_FrequencySpacing[dim] = samplingFrequency[dim] / this->m_Image->GetLargestPossibleRegion().GetSize()[dim];
+      this->m_FrequencySpacing[dim] = samplingFrequency[dim] / sizeImage[dim];
     }
   }
 
-  IndexType     m_HalfIndex;
+  IndexType     m_LargestPositiveFrequencyIndex;
   IndexType     m_MinIndex;
   IndexType     m_MaxIndex;
   FrequencyType m_FrequencyOrigin;

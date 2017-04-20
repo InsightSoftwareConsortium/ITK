@@ -136,7 +136,7 @@ public:
   FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex()
     : ImageRegionConstIteratorWithIndex<TImage>()
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -144,7 +144,7 @@ public:
   FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -156,7 +156,7 @@ public:
   explicit FrequencyShiftedFFTLayoutImageRegionConstIteratorWithIndex(const Superclass & it)
     : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /*
@@ -246,7 +246,7 @@ private:
   /** Calculate m_ZeroFrequencyIndex, and frequency spacing/origin.
    * Called at constructors.  */
   void
-  InitIndices()
+  Init()
   {
     IndexType     minIndex = this->m_Image->GetLargestPossibleRegion().GetIndex();
     SizeType      sizeImage = this->m_Image->GetLargestPossibleRegion().GetSize();

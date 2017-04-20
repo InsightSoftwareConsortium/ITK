@@ -99,7 +99,7 @@ public:
   FrequencyImageRegionConstIteratorWithIndex()
     : ImageRegionConstIteratorWithIndex<TImage>()
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /** Constructor establishes an iterator to walk a particular image and a
@@ -107,7 +107,7 @@ public:
   FrequencyImageRegionConstIteratorWithIndex(const TImage * ptr, const RegionType & region)
     : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /** Constructor that can be used to cast from an ImageIterator to an
@@ -119,7 +119,7 @@ public:
   explicit FrequencyImageRegionConstIteratorWithIndex(const Superclass & it)
     : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
-    this->InitIndices();
+    this->Init();
   };
 
   /*
@@ -171,10 +171,10 @@ public:
   };
 
 private:
-  /** Calculate Nyquist frequency index (m_HalfIndex), and Min/Max indices from LargestPossibleRegion.
+  /** Set the frequency metadata.
    * Called at constructors.  */
   void
-  InitIndices()
+  Init()
   {
     this->m_FrequencyOrigin = this->m_Image->GetOrigin();
     this->m_FrequencySpacing = this->m_Image->GetSpacing();
