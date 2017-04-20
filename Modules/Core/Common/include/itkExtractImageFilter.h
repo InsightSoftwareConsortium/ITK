@@ -57,7 +57,7 @@ namespace itk
  * Determining the direction of the collapsed output image from an larger
  * dimensional input space is an ill defined problem in general.  It is
  * required that the application developer select the desired transformation
- * strategy for collapsing direction cosigns.  It is REQUIRED that a strategy
+ * strategy for collapsing direction cosines.  It is REQUIRED that a strategy
  * be explicitly requested (i.e. there is no working default).
  * Direction Collapsing Strategies:
  *    1)  DirectionCollapseToUnknown();
@@ -139,14 +139,14 @@ public:
    *
    * itk::itkExtractImageFilter::DIRECTIONCOLLAPSETOGUESS
    * Set the strategy so that all collapsed images where
-   * output direction is the sub-matrix it it is positive definite, else
+   * output direction is the sub-matrix if it is positive definite, else
    * return identity. This is backwards compatible with ITKv3, but
    * is highly discouraged because the results are difficult to
    * anticipate under differing data scenerios.
    *
    * itk::itkExtractImageFilter::DIRECTIONCOLLAPSETOSUBMATRIX
    * Set the strategy so that all collapsed images where
-   * output direction is the sub-matrix it it is positive definite,
+   * output direction is the sub-matrix if it is positive definite,
    * else throw an exception.  Use this strategy when it is known
    * that properly identified physical space sub-volumes can be
    * reliably extracted from a higher dimensional space.  For
