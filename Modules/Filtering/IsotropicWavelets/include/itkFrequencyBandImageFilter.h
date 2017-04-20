@@ -19,7 +19,7 @@
 #define itkFrequencyBandImageFilter_h
 
 #include <itkImageToImageFilter.h>
-#include <itkFrequencyImageRegionIteratorWithIndex.h>
+#include <itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h>
 
 namespace itk
 {
@@ -43,7 +43,8 @@ namespace itk
  *
  * \ingroup IsotropicWavelets
  */
-template <typename TImageType>
+template <typename TImageType,
+          typename TFrequencyIteratorType = FrequencyFFTLayoutImageRegionIteratorWithIndex<TImageType>>
 class FrequencyBandImageFilter : public ImageToImageFilter<TImageType, TImageType>
 {
 public:
@@ -78,7 +79,7 @@ public:
 #endif
 
   /** Frequency Iterator types */
-  typedef FrequencyImageRegionIteratorWithIndex<TImageType>  FrequencyIteratorType;
+  typedef TFrequencyIteratorType                             FrequencyIteratorType;
   typedef typename FrequencyIteratorType::FrequencyValueType FrequencyValueType;
 
   /****** Frequency Threshold Getters/Setters *****/

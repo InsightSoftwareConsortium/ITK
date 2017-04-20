@@ -22,7 +22,7 @@
 #include <itkGenerateImageSource.h>
 #include <complex>
 #include "itkRieszFrequencyFunction.h"
-#include <itkFrequencyImageRegionIteratorWithIndex.h>
+#include <itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h>
 
 namespace itk
 {
@@ -48,7 +48,7 @@ namespace itk
  */
 template <typename TOutputImage,
           typename TRieszFunction = itk::RieszFrequencyFunction<std::complex<double>, TOutputImage::ImageDimension>,
-          typename TFrequencyRegionIterator = FrequencyImageRegionIteratorWithIndex<TOutputImage>>
+          typename TFrequencyRegionIterator = FrequencyFFTLayoutImageRegionIteratorWithIndex<TOutputImage>>
 class RieszFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {
 public:
