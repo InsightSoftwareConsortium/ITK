@@ -6,6 +6,7 @@ set(ITKOpenJPEG_INCLUDE_DIRS
   ${ITKOpenJPEG_SOURCE_DIR}/src/openjpeg
   )
 set(ITKOpenJPEG_LIBRARIES itkopenjpeg)
+set(ITK_LIBRARY_PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS FALSE)
 
 itk_module_impl()
 
