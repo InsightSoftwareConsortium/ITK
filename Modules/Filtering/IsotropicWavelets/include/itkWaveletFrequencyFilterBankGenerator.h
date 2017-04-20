@@ -21,7 +21,7 @@
 #include <itkImageRegionIterator.h>
 #include <complex>
 #include <itkGenerateImageSource.h>
-#include <itkFrequencyImageRegionIteratorWithIndex.h>
+#include <itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h>
 
 namespace itk
 {
@@ -45,7 +45,7 @@ namespace itk
  */
 template <typename TOutputImage,
           typename TWaveletFunction,
-          typename TFrequencyRegionIterator = FrequencyImageRegionIteratorWithIndex<TOutputImage>>
+          typename TFrequencyRegionIterator = FrequencyFFTLayoutImageRegionIteratorWithIndex<TOutputImage>>
 class WaveletFrequencyFilterBankGenerator : public itk::GenerateImageSource<TOutputImage>
 {
 public:
@@ -65,7 +65,6 @@ public:
   typedef typename Superclass::OutputImageType    OutputImageType;
   typedef typename Superclass::OutputImagePointer OutputImagePointer;
   /** Basic typedefs */
-  // typedef typename itk::ImageRegionIterator<OutputImageType> OutputRegionIterator;
   typedef TFrequencyRegionIterator             OutputRegionIterator;
   typedef typename OutputImageType::RegionType OutputImageRegionType;
   /** WaveletFunction types */

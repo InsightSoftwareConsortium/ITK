@@ -19,14 +19,6 @@
 #define itkFrequencyExpandViaInverseFFTImageFilter_hxx
 
 #include <itkFrequencyExpandViaInverseFFTImageFilter.h>
-#include <itkObjectFactory.h>
-#include <itkNumericTraits.h>
-#include <itkProgressReporter.h>
-#include "itkInd2Sub.h"
-#include <itkPasteImageFilter.h>
-#include <itkImageRegionConstIterator.h>
-#include <itkGaussianSpatialFunction.h>
-#include <itkFrequencyImageRegionIteratorWithIndex.h>
 
 namespace itk
 {
@@ -94,20 +86,6 @@ FrequencyExpandViaInverseFFTImageFilter<TImageType>::SetExpandFactors(const unsi
   }
 }
 
-/**
- * Implementation Detail:
- * The implementation calculate the number of different regions in an image,
- * depending on the dimension:
- * numberOfRegions = 2^dim (positive and negative frequencies per dim)
- * then uses function to convert a linear array of regions [0, ..., numberOfRegions - 1]
- * to binary subindices (only two options: positive or negative region)
- * In 3D: numberOfRegions = Nr = 2^3 = 8
- * sizeOfSubindices = [2,2,2]
- * Region = 0       -----> Ind2Sub(   0, [2,2,2]) = [0,0,0]
- * Region = 1       -----> Ind2Sub(   1, [2,2,2]) = [1,0,0]
- * Region = Nr - 1  -----> Ind2Sub(Nr-1, [2,2,2]) = [1,1,1]
- * So, if the result of Ind2Sub is 0 we paste the positive frequencies, if 1, negative freq
- */
 template <typename TImageType>
 void
 FrequencyExpandViaInverseFFTImageFilter<TImageType>::GenerateData()

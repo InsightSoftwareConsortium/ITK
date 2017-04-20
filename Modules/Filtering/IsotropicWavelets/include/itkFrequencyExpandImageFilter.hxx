@@ -19,14 +19,9 @@
 #define itkFrequencyExpandImageFilter_hxx
 
 #include <itkFrequencyExpandImageFilter.h>
-#include <itkObjectFactory.h>
-#include <itkNumericTraits.h>
 #include <itkProgressReporter.h>
 #include "itkInd2Sub.h"
 #include <itkPasteImageFilter.h>
-#include <itkImageRegionConstIterator.h>
-#include <itkGaussianSpatialFunction.h>
-#include <itkFrequencyImageRegionIteratorWithIndex.h>
 
 namespace itk
 {

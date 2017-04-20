@@ -5,7 +5,7 @@ set(
   IsotropicWaveletsTests
   #### Frequency Manipulation ###
   # Iterator with Index.
-  itkFrequencyImageRegionIteratorWithIndexTest.cxx
+  itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest.cxx
   # BandPass Filter
   itkFrequencyBandImageFilterTest.cxx
   # Resize
@@ -391,10 +391,10 @@ itk_add_test(
 )
 # FrequencyIterator
 itk_add_test(
-  NAME itkFrequencyImageRegionIteratorWithIndexTest
+  NAME itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
   COMMAND
     IsotropicWaveletsTestDriver
-    itkFrequencyImageRegionIteratorWithIndexTest
+    itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest
 )
 ##Ind2Sub
 itk_add_test(
@@ -405,10 +405,18 @@ itk_add_test(
 )
 ## BandPass
 itk_add_test(
-  NAME itkFrequencyBandImageFilterTest
+  NAME itkFrequencyBandImageFilterEvenTest
   COMMAND
     IsotropicWaveletsTestDriver
     itkFrequencyBandImageFilterTest
+    "Even"
+)
+itk_add_test(
+  NAME itkFrequencyBandImageFilterOddTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkFrequencyBandImageFilterTest
+    "Odd"
 )
 ## ExpandWithZeros (in spatial domain)
 itk_add_test(

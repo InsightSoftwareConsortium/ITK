@@ -19,16 +19,15 @@
 #define itkFrequencyShrinkImageFilter_hxx
 
 #include <itkFrequencyShrinkImageFilter.h>
-#include <itkImageScanlineIterator.h>
 #include <itkProgressReporter.h>
 #include <numeric>
 #include <functional>
 #include "itkInd2Sub.h"
 #include <itkPasteImageFilter.h>
-#include <itkGaussianSpatialFunction.h>
-#include <itkFrequencyImageRegionIteratorWithIndex.h>
 #include <itkAddImageFilter.h>
 #include <itkMultiplyImageFilter.h>
+// #include <itkGaussianSpatialFunction.h>
+// #include <itkFrequencyImageRegionIteratorWithIndex.h>
 
 namespace itk
 {
