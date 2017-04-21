@@ -55,12 +55,14 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
   typename TOutputImage::RegionType outputRegion;
   typename TInputImage::IndexType inputIndex;
   typename TInputImage::SizeType inputSize;
+  typename TInputImage::DirectionType inDirection;
   typename TOutputImage::SizeType outputSize;
   typename TOutputImage::IndexType outputIndex;
   typename TInputImage::SpacingType inSpacing;
   typename TInputImage::PointType inOrigin;
   typename TOutputImage::SpacingType outSpacing;
   typename TOutputImage::PointType outOrigin;
+  typename TOutputImage::DirectionType outDirection;
 
   // Get pointers to the input and output
   typename Superclass::OutputImagePointer output = this->GetOutput();
@@ -71,6 +73,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
   inputSize = input->GetLargestPossibleRegion().GetSize();
   inSpacing = input->GetSpacing();
   inOrigin = input->GetOrigin();
+  inDirection = input->GetDirection();
 
   // Set the LargestPossibleRegion of the output.
   // Reduce the size of the accumulated dimension.
@@ -94,6 +97,13 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
         outSpacing[i] = inSpacing[i] * inputSize[i];
         outOrigin[i]  = inOrigin[i] + ( i - 1 ) * inSpacing[i] / 2;
         }
+      // Can't directly copy the matrices: In the case the dimensions
+      // are different, this part of the function still needs to be able
+      // to compile.
+      for ( unsigned int j = 0; j < InputImageDimension; j++ )
+        {
+        outDirection[i][j]  = inDirection[i][j];
+        }
       }
     }
   else
@@ -101,27 +111,24 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
     // Then OutputImageDimension = InputImageDimension - 1
     for ( unsigned int i = 0; i < OutputImageDimension; i++ )
       {
-      if ( i != m_ProjectionDimension )
+      unsigned int pos = i;
+      if ( i == m_ProjectionDimension )
         {
-        outputSize[i]  = inputSize[i];
-        outputIndex[i] = inputIndex[i];
-        outSpacing[i] = inSpacing[i];
-        outOrigin[i]  = inOrigin[i];
+        pos = InputImageDimension - 1;
         }
-      else
-        {
-        outputSize[i]  = inputSize[InputImageDimension - 1];
-        outputIndex[i] = inputIndex[InputImageDimension - 1];
-        outSpacing[i] = inSpacing[InputImageDimension - 1];
-        outOrigin[i]  = inOrigin[InputImageDimension - 1];
-        }
+      outputSize[i]  = inputSize[pos];
+      outputIndex[i] = inputIndex[pos];
+      outSpacing[i] = inSpacing[pos];
+      outOrigin[i]  = inOrigin[pos];
       }
+    outDirection.SetIdentity();
     }
 
   outputRegion.SetSize(outputSize);
   outputRegion.SetIndex(outputIndex);
   output->SetOrigin(outOrigin);
   output->SetSpacing(outSpacing);
+  output->SetDirection(outDirection);
   output->SetLargestPossibleRegion(outputRegion);
 
   itkDebugMacro("GenerateOutputInformation End");

@@ -33,7 +33,10 @@ namespace itk
  * dimension and reduces the size of the accumulated dimension to 1 (only
  * on the accumulated).
  *
- * The dimensions of the InputImage and the OutputImage must be the same.
+ * The dimensions of the InputImage and the OutputImage are either the same
+ * or dimension of OutputImage is dimension of InputImage minus one. In the
+ * latter case, the direction cosine of the output image is set to the
+ * identity.
  *
  * This class is parameterized over the type of the input image and
  * the type of the output image.
