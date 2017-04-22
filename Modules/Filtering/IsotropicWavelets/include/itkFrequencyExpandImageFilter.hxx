@@ -140,7 +140,6 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
 
   typedef typename ImageType::RegionType RegionType;
   ProgressReporter                       progress(this, 0, numberOfRegions);
-
   for (unsigned int n = 0; n < numberOfRegions; ++n)
   {
     subIndices = Ind2Sub<ImageDimension>(n, nsizes);
@@ -153,9 +152,13 @@ FrequencyExpandImageFilter<TImageType>::GenerateData()
     for (unsigned int dim = 0; dim < ImageDimension; ++dim)
     {
       if (subIndices[dim] == 0) // positive frequencies
+      {
         outputIndex[dim] = indexRequested[dim];
+      }
       else // negative frequencies
+      {
         outputIndex[dim] = indexRequested[dim] + outputSize[dim] - zoneSize[dim];
+      }
     }
     zoneRegion.SetIndex(inputIndex);
     zoneRegion.SetSize(zoneSize);
@@ -204,7 +207,6 @@ FrequencyExpandImageFilter<TImageType>::GenerateInputRequestedRegion()
 
   typename TImageType::SizeType  inputRequestedRegionSize;
   typename TImageType::IndexType inputRequestedRegionStartIndex;
-
   /**
    * inputRequestedSize = (outputRequestedSize / ExpandFactor) + 1)
    * The extra 1 above is to take care of edge effects when streaming.
@@ -261,7 +263,6 @@ FrequencyExpandImageFilter<TImageType>::GenerateOutputInformation()
   typename TImageType::PointType   outputOrigin;
 
   typename TImageType::SpacingType inputOriginShift;
-
   for (unsigned int i = 0; i < TImageType::ImageDimension; i++)
   {
     outputSpacing[i] = inputSpacing[i] / m_ExpandFactors[i];

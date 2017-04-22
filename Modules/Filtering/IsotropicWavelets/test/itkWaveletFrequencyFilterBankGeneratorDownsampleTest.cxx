@@ -45,9 +45,8 @@
 
 template <unsigned int VDimension, typename TWaveletFunction>
 int
-runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string &  inputImage,
-                                                     const std::string &  outputImage,
-                                                     const unsigned int & inputLevels,
+runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string & inputImage,
+                                                     const std::string &,
                                                      const unsigned int & inputBands)
 {
   const unsigned int                       Dimension = VDimension;
@@ -117,22 +116,20 @@ runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string &  inputI
 int
 itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
 {
-  if (argc < 6 || argc > 7)
+  if (argc < 5 || argc > 6)
   {
-    std::cerr << "Usage: " << argv[0] << " inputImage outputImage levels inputBands waveletFunction [dimension]"
-              << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImage outputImage inputBands waveletFunction [dimension]" << std::endl;
     return EXIT_FAILURE;
   }
   const std::string  inputImage = argv[1];
   const std::string  outputImage = argv[2];
-  const unsigned int inputLevels = atoi(argv[3]);
-  const unsigned int inputBands = atoi(argv[4]);
-  const std::string  waveletFunction = argv[5];
+  const unsigned int inputBands = atoi(argv[3]);
+  const std::string  waveletFunction = argv[4];
 
   unsigned int dimension = 3;
-  if (argc == 7)
+  if (argc == 6)
   {
-    dimension = atoi(argv[6]);
+    dimension = atoi(argv[5]);
   }
 
   const unsigned int                                   ImageDimension = 2;
@@ -195,23 +192,21 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
   {
     if (waveletFunction == "Held")
     {
-      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<2, HeldWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<2, HeldWavelet>(inputImage, outputImage, inputBands);
     }
     else if (waveletFunction == "Vow")
     {
-      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<2, VowWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<2, VowWavelet>(inputImage, outputImage, inputBands);
     }
     else if (waveletFunction == "Simoncelli")
     {
       return runWaveletFrequencyFilterBankGeneratorDownsampleTest<2, SimoncelliWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+        inputImage, outputImage, inputBands);
     }
     else if (waveletFunction == "Shannon")
     {
       return runWaveletFrequencyFilterBankGeneratorDownsampleTest<2, ShannonWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+        inputImage, outputImage, inputBands);
     }
     else
     {
@@ -224,23 +219,21 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
   {
     if (waveletFunction == "Held")
     {
-      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<3, HeldWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<3, HeldWavelet>(inputImage, outputImage, inputBands);
     }
     else if (waveletFunction == "Vow")
     {
-      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<3, VowWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+      return runWaveletFrequencyFilterBankGeneratorDownsampleTest<3, VowWavelet>(inputImage, outputImage, inputBands);
     }
     else if (waveletFunction == "Simoncelli")
     {
       return runWaveletFrequencyFilterBankGeneratorDownsampleTest<3, SimoncelliWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+        inputImage, outputImage, inputBands);
     }
     else if (waveletFunction == "Shannon")
     {
       return runWaveletFrequencyFilterBankGeneratorDownsampleTest<3, ShannonWavelet>(
-        inputImage, outputImage, inputLevels, inputBands);
+        inputImage, outputImage, inputBands);
     }
     else
     {
