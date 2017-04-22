@@ -22,15 +22,14 @@
 #include <itkImage.h>
 #include <algorithm>
 #include <itkMultiplyImageFilter.h>
-#include <itkFrequencyShrinkImageFilter.h>
-#include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
 #include <itkShrinkDecimateImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
 
 namespace itk
 {
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::WaveletFrequencyForward()
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  WaveletFrequencyForward()
   : m_Levels(1)
   , m_HighPassSubBands(1)
   , m_TotalOutputs(1)
@@ -41,10 +40,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::WaveletF
   m_WaveletFilterBank = WaveletFilterBankType::New();
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 std::pair<unsigned int, unsigned int>
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputIndexToLevelBand(
-  unsigned int linear_index)
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  OutputIndexToLevelBand(unsigned int linear_index)
 {
   if (linear_index > this->m_TotalOutputs - 1 || linear_index < 0)
     itkExceptionMacro(<< "Failed converting liner index " << linear_index << " to Level,Band pair : out of bounds");
@@ -59,9 +58,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputIn
   return std::make_pair(level, band);
 };
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
-std::vector<typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputImagePointer>
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutputs()
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
+std::vector<
+  typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+    OutputImagePointer>
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::GetOutputs()
 {
   std::vector<OutputImagePointer> outputPtrs;
   for (unsigned int nout = 0; nout < this->m_TotalOutputs; ++nout)
@@ -71,9 +72,11 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutpu
   return outputPtrs;
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
-std::vector<typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputImagePointer>
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutputsHighPass()
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
+std::vector<
+  typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+    OutputImagePointer>
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::GetOutputsHighPass()
 {
   std::vector<OutputImagePointer> outputPtrs;
   for (unsigned int nout = 1; nout < this->m_TotalOutputs; ++nout)
@@ -83,16 +86,20 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutpu
   return outputPtrs;
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
-typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputImagePointer
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutputLowPass()
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
+typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  OutputImagePointer
+  WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::GetOutputLowPass()
 {
   return this->GetOutput(this->m_TotalOutputs - 1);
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
-std::vector<typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::OutputImagePointer>
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutputsHighPassByLevel(unsigned int level)
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
+std::vector<
+  typename WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+    OutputImagePointer>
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  GetOutputsHighPassByLevel(unsigned int level)
 {
   std::vector<OutputImagePointer> outputPtrs;
   unsigned int                    nOutput_start = level * this->m_HighPassSubBands;
@@ -107,10 +114,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GetOutpu
   return outputPtrs;
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 unsigned int
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::ComputeMaxNumberOfLevels(
-  typename InputImageType::SizeType & input_size)
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size)
 {
   FixedArray<unsigned int, ImageDimension> exponent_per_axis;
   for (unsigned int axis = 0; axis < ImageDimension; ++axis)
@@ -137,9 +144,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::ComputeM
   return *std::min_element(exponent_per_axis.Begin(), exponent_per_axis.End());
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 void
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::SetLevels(unsigned int inputLevels)
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::SetLevels(
+  unsigned int inputLevels)
 {
   unsigned int current_outputs = 1 + this->m_Levels * this->m_HighPassSubBands;
 
@@ -160,9 +168,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::SetLevel
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 void
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::SetHighPassSubBands(unsigned int k)
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::SetHighPassSubBands(
+  unsigned int k)
 {
   if (this->m_HighPassSubBands == k)
   {
@@ -173,19 +182,21 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::SetHighP
   this->SetLevels(this->m_Levels);
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 void
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::PrintSelf(std::ostream & os,
-                                                                                  Indent         indent) const
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << " Levels: " << this->m_Levels << " HighPassSubBands: " << this->m_HighPassSubBands
      << " TotalOutputs: " << this->m_TotalOutputs << std::endl;
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 void
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GenerateOutputInformation()
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  GenerateOutputInformation()
 {
   // call the superclass's implementation of this method
   Superclass::GenerateOutputInformation();
@@ -267,10 +278,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 void
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GenerateOutputRequestedRegion(
-  DataObject * refOutput)
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  GenerateOutputRequestedRegion(DataObject * refOutput)
 {
   // call the superclass's implementation of this method
   Superclass::GenerateOutputRequestedRegion(refOutput);
@@ -364,9 +375,10 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 void
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GenerateInputRequestedRegion()
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
+  GenerateInputRequestedRegion()
 {
   // call the superclass' implementation of this method
   Superclass::GenerateInputRequestedRegion();
@@ -400,9 +412,9 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
   inputPtr->SetRequestedRegion(baseRegion);
 }
 
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 void
-WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::GenerateData()
+WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::GenerateData()
 {
   InputImageConstPointer input = this->GetInput();
   this->AllocateOutputs();
@@ -450,8 +462,8 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
 
   // TODO think about passing the FrequencyShrinker as template parameter to work with different FFT layout, or
   // regular images directly in frequency domain.
-  // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> ShrinkFilterType;
-  typedef itk::FrequencyShrinkImageFilter<OutputImageType>                 ShrinkFilterType;
+  // typedef itk::FrequencyShrinkViaInverseFFTImageFilter<OutputImageType> FrequencyShrinkFilterType;
+  typedef itk::FrequencyShrinkImageFilter<OutputImageType>                 FrequencyShrinkFilterType;
   typedef itk::ShrinkDecimateImageFilter<OutputImageType, OutputImageType> ShrinkDecimateFilterType;
   typedef itk::MultiplyImageFilter<OutputImageType>                        MultiplyFilterType;
   inputPerLevel = changeInputInfoFilter->GetOutput();
@@ -496,22 +508,22 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank>::Generate
     inputPerLevel = multiplyLowFilter->GetOutput();
 
     // Shrink in the frequency domain the stored low band for the next level.
-    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
-    shrinkFilter->SetInput(inputPerLevel);
-    shrinkFilter->SetShrinkFactors(this->m_ScaleFactor);
+    typename FrequencyShrinkFilterType::Pointer freqShrinkFilter = FrequencyShrinkFilterType::New();
+    freqShrinkFilter->SetInput(inputPerLevel);
+    freqShrinkFilter->SetShrinkFactors(this->m_ScaleFactor);
 
     if (level == this->m_Levels - 1) // Set low_pass output (index=this->m_TotalOutputs - 1)
     {
-      shrinkFilter->GraftOutput(this->GetOutput(this->m_TotalOutputs - 1));
-      shrinkFilter->Update();
-      this->GraftNthOutput(this->m_TotalOutputs - 1, shrinkFilter->GetOutput());
+      freqShrinkFilter->GraftOutput(this->GetOutput(this->m_TotalOutputs - 1));
+      freqShrinkFilter->Update();
+      this->GraftNthOutput(this->m_TotalOutputs - 1, freqShrinkFilter->GetOutput());
       this->UpdateProgress(static_cast<float>(this->m_TotalOutputs - 1) / static_cast<float>(this->m_TotalOutputs));
       continue;
     }
     else // update inputPerLevel
     {
-      shrinkFilter->Update();
-      inputPerLevel = shrinkFilter->GetOutput();
+      freqShrinkFilter->Update();
+      inputPerLevel = freqShrinkFilter->GetOutput();
       /******* DownSample wavelets *****/
       typename ShrinkDecimateFilterType::Pointer decimateWaveletFilter = ShrinkDecimateFilterType::New();
       decimateWaveletFilter->SetInput(lowPassWavelet);

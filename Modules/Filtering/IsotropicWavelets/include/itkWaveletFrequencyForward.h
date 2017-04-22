@@ -24,6 +24,8 @@
 #include <complex>
 #include <itkFixedArray.h>
 #include <itkImageToImageFilter.h>
+#include <itkFrequencyShrinkImageFilter.h>
+#include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
 
 namespace itk
 {
@@ -41,7 +43,11 @@ namespace itk
  *
  * \ingroup IsotropicWavelets
  */
-template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TWaveletFilterBank,
+          typename TFrequencyShrinkFilterType = FrequencyShrinkImageFilter<TOutputImage>>
+// FrequencyShrinkViaInverseFFTImageFilter<TOutputImage> >
 class WaveletFrequencyForward : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -68,6 +74,8 @@ public:
   typedef typename WaveletFilterBankType::Pointer             WaveletFilterBankPointer;
   typedef typename WaveletFilterBankType::WaveletFunctionType WaveletFunctionType;
   typedef typename WaveletFilterBankType::FunctionValueType   FunctionValueType;
+
+  typedef TFrequencyShrinkFilterType FrequencyShrinkFilterType;
 
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
