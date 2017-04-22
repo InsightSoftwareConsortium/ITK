@@ -33,6 +33,7 @@ FrequencyShrinkViaInverseFFTImageFilter<TImageType>::FrequencyShrinkViaInverseFF
   m_InverseFFT = InverseFFTFilterType::New();
   m_ForwardFFT = ForwardFFTFilterType::New();
   m_Shrinker = ShrinkFilterType::New();
+  m_ChangeInformation = ChangeInformationFilterType::New();
 }
 
 template <class TImageType>
@@ -105,9 +106,15 @@ FrequencyShrinkViaInverseFFTImageFilter<TImageType>::GenerateData()
   m_Shrinker->SetShrinkFactors(this->m_ShrinkFactors);
 
   m_ForwardFFT->SetInput(m_Shrinker->GetOutput());
-  m_ForwardFFT->GraftOutput(outputPtr);
-  m_ForwardFFT->Update();
-  this->GraftOutput(m_ForwardFFT->GetOutput());
+  // Metadata of the output of pipeline is not what we need. We set it to the OutputInformation.
+  m_ChangeInformation->SetInput(m_ForwardFFT->GetOutput());
+  m_ChangeInformation->ChangeOriginOn();
+  m_ChangeInformation->ChangeSpacingOn();
+  m_ChangeInformation->SetOutputOrigin(outputPtr->GetOrigin());
+  m_ChangeInformation->SetOutputSpacing(outputPtr->GetSpacing());
+  m_ChangeInformation->GraftOutput(outputPtr);
+  m_ChangeInformation->Update();
+  this->GraftOutput(m_ChangeInformation->GetOutput());
 }
 
 template <class TImageType>

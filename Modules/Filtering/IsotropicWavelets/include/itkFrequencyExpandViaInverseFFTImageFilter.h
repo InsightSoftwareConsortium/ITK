@@ -22,6 +22,7 @@
 #include <itkInverseFFTImageFilter.h>
 #include <itkForwardFFTImageFilter.h>
 #include <itkExpandWithZerosImageFilter.h>
+#include "itkChangeInformationImageFilter.h"
 
 namespace itk
 {
@@ -76,6 +77,7 @@ public:
                                           typename InverseFFTFilterType::OutputImageType>
                                                                                                 ExpandFilterType;
   typedef itk::ForwardFFTImageFilter<typename InverseFFTFilterType::OutputImageType, ImageType> ForwardFFTFilterType;
+  typedef itk::ChangeInformationImageFilter<ImageType> ChangeInformationFilterType;
 
   /** The type of the expand factors representation */
   typedef FixedArray<unsigned int, ImageDimension> ExpandFactorsType;
@@ -124,10 +126,11 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyExpandViaInverseFFTImageFilter);
 
-  ExpandFactorsType                      m_ExpandFactors;
-  typename InverseFFTFilterType::Pointer m_InverseFFT;
-  typename ForwardFFTFilterType::Pointer m_ForwardFFT;
-  typename ExpandFilterType::Pointer     m_Expander;
+  ExpandFactorsType                             m_ExpandFactors;
+  typename InverseFFTFilterType::Pointer        m_InverseFFT;
+  typename ForwardFFTFilterType::Pointer        m_ForwardFFT;
+  typename ExpandFilterType::Pointer            m_Expander;
+  typename ChangeInformationFilterType::Pointer m_ChangeInformation;
 };
 } // end namespace itk
 

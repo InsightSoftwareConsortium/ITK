@@ -18,7 +18,7 @@
 #ifndef itkFrequencyExpandViaInverseFFTImageFilter_hxx
 #define itkFrequencyExpandViaInverseFFTImageFilter_hxx
 
-#include <itkFrequencyExpandViaInverseFFTImageFilter.h>
+#include "itkFrequencyExpandViaInverseFFTImageFilter.h"
 
 namespace itk
 {
@@ -36,6 +36,7 @@ FrequencyExpandViaInverseFFTImageFilter<TImageType>::FrequencyExpandViaInverseFF
   m_InverseFFT = InverseFFTFilterType::New();
   m_ForwardFFT = ForwardFFTFilterType::New();
   m_Expander = ExpandFilterType::New();
+  m_ChangeInformation = ChangeInformationFilterType::New();
 }
 
 /**
@@ -98,9 +99,23 @@ FrequencyExpandViaInverseFFTImageFilter<TImageType>::GenerateData()
   m_Expander->SetExpandFactors(this->m_ExpandFactors);
 
   m_ForwardFFT->SetInput(m_Expander->GetOutput());
-  m_ForwardFFT->GraftOutput(outputPtr);
+  // m_ForwardFFT->GraftOutput(outputPtr);
   m_ForwardFFT->Update();
-  this->GraftOutput(m_ForwardFFT->GetOutput());
+  // this->GraftOutput(m_ForwardFFT->GetOutput());
+  // outputPtr = m_ForwardFFT->GetOutput();
+  // Metadata of the output of pipeline is not what we need. We set it to the OutputInformation.
+  m_ChangeInformation->SetInput(m_ForwardFFT->GetOutput());
+  m_ChangeInformation->ChangeOriginOn();
+  m_ChangeInformation->ChangeSpacingOn();
+  m_ChangeInformation->SetOutputOrigin(outputPtr->GetOrigin());
+  m_ChangeInformation->SetOutputSpacing(outputPtr->GetSpacing());
+  m_ChangeInformation->GraftOutput(outputPtr);
+  m_ChangeInformation->Update();
+  this->GraftOutput(m_ChangeInformation->GetOutput());
+
+  // ImageAlgorithm::Copy(m_ForwardFFT->GetOutput(), outputPtr.GetPointer(),
+  //   outputPtr->GetRequestedRegion(),
+  //   outputPtr->GetRequestedRegion() );
 }
 
 /**
@@ -189,17 +204,19 @@ FrequencyExpandViaInverseFFTImageFilter<TImageType>::GenerateOutputInformation()
 
   for (unsigned int i = 0; i < TImageType::ImageDimension; i++)
   {
-    outputSpacing[i] = inputSpacing[i] / (float)m_ExpandFactors[i];
-    outputSize[i] = inputSize[i] * (SizeValueType)m_ExpandFactors[i];
-    outputStartIndex[i] = inputStartIndex[i] * (IndexValueType)m_ExpandFactors[i];
-    const double fraction = (double)(m_ExpandFactors[i] - 1) / (double)m_ExpandFactors[i];
-    inputOriginShift[i] = -(inputSpacing[i] / 2.0) * fraction;
+    outputSpacing[i] = inputSpacing[i] / m_ExpandFactors[i];
+    outputSize[i] = inputSize[i] * static_cast<SizeValueType>(m_ExpandFactors[i]);
+    outputStartIndex[i] = inputStartIndex[i];
+    // outputStartIndex[i] = inputStartIndex[i] * (IndexValueType)m_ExpandFactors[i];
+    // const double fraction = (double)( m_ExpandFactors[i] - 1 ) / (double)m_ExpandFactors[i];
+    // inputOriginShift[i] = -( inputSpacing[i] / 2.0 ) * fraction;
   }
 
-  const typename TImageType::DirectionType inputDirection = inputPtr->GetDirection();
-  const typename TImageType::SpacingType   outputOriginShift = inputDirection * inputOriginShift;
-
-  outputOrigin = inputOrigin + outputOriginShift;
+  // const typename TImageType::DirectionType inputDirection    = inputPtr->GetDirection();
+  // const typename TImageType::SpacingType   outputOriginShift = inputDirection * inputOriginShift;
+  //
+  // outputOrigin = inputOrigin + outputOriginShift;
+  outputOrigin = inputOrigin;
 
   outputPtr->SetSpacing(outputSpacing);
   outputPtr->SetOrigin(outputOrigin);

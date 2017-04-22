@@ -23,6 +23,7 @@
 #include <itkInverseFFTImageFilter.h>
 #include <itkForwardFFTImageFilter.h>
 #include <itkShrinkDecimateImageFilter.h>
+#include "itkChangeInformationImageFilter.h"
 
 namespace itk
 {
@@ -69,6 +70,7 @@ public:
                                          typename InverseFFTFilterType::OutputImageType>
                                                                                                 ShrinkFilterType;
   typedef itk::ForwardFFTImageFilter<typename InverseFFTFilterType::OutputImageType, ImageType> ForwardFFTFilterType;
+  typedef itk::ChangeInformationImageFilter<ImageType> ChangeInformationFilterType;
 
   /** ImageDimension enumeration. */
   itkStaticConstMacro(ImageDimension, unsigned int, TImageType::ImageDimension);
@@ -116,10 +118,11 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FrequencyShrinkViaInverseFFTImageFilter);
 
-  ShrinkFactorsType                      m_ShrinkFactors;
-  typename InverseFFTFilterType::Pointer m_InverseFFT;
-  typename ForwardFFTFilterType::Pointer m_ForwardFFT;
-  typename ShrinkFilterType::Pointer     m_Shrinker;
+  ShrinkFactorsType                             m_ShrinkFactors;
+  typename InverseFFTFilterType::Pointer        m_InverseFFT;
+  typename ForwardFFTFilterType::Pointer        m_ForwardFFT;
+  typename ShrinkFilterType::Pointer            m_Shrinker;
+  typename ChangeInformationFilterType::Pointer m_ChangeInformation;
 };
 } // end namespace itk
 
