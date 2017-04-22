@@ -123,19 +123,21 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
     // return EXIT_FAILURE;
   }
   /***************** Hermitian property *****************************/
+  // Test Hermitian properties for even Images. Odd real images are not even Hermitian after FFT.
+  itk::FixedArray<bool, Dimension> inputSizeIsEven;
+  bool                             imageIsEven = true;
+  for (unsigned int dim = 0; dim < Dimension; ++dim)
+  {
+    inputSizeIsEven[dim] = (reader->GetOutput()->GetLargestPossibleRegion().GetSize()[dim] % 2 == 0);
+    if (inputSizeIsEven[dim] == false)
+    {
+      imageIsEven = false;
+    }
+  }
+
+  if (imageIsEven)
   {
     // Simmetry and Hermitian test: ComplexInverseFFT will generate output with zero imaginary part.
-    // Test Hermitian properties for even Images. Odd real images are not even Hermitian after FFT.
-    itk::FixedArray<bool, Dimension> inputSizeIsEven;
-    bool                             imageIsEven = true;
-    for (unsigned int dim = 0; dim < Dimension; ++dim)
-    {
-      inputSizeIsEven[dim] = (reader->GetOutput()->GetLargestPossibleRegion().GetSize()[dim] % 2 == 0);
-      if (inputSizeIsEven[dim] == false)
-      {
-        imageIsEven = false;
-      }
-    }
     // Check that complex part is almost 0 after FFT and complex inverse FFT.
     {
       std::cout << "Even Image?: " << imageIsEven << std::endl;

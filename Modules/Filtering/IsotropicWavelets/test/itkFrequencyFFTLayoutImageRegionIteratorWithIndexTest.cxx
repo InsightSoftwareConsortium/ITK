@@ -196,7 +196,7 @@ public:
       if (it.GetLargestPositiveFrequencyIndex()[dim] != truthHalfIndex[dim])
       {
         std::cerr << "Test failed! " << std::endl;
-        std::cerr << "Error in GetLargestPositiveFrequencyIndex()" << std::endl;
+        std::cerr << "Error in GetLargestPositiveFrequencyIndex()[" << dim << "]" << std::endl;
         std::cerr << "Expected: " << truthHalfIndex << ", but got " << it.GetLargestPositiveFrequencyIndex()
                   << std::endl;
         return false;

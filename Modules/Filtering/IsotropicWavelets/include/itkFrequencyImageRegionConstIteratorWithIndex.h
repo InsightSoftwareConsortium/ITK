@@ -159,7 +159,7 @@ public:
   SetFrequencyOrigin(const FrequencyType frequencyOrigin)
   {
     this->m_FrequencyOrigin = frequencyOrigin;
-  };
+  }
 
   /** This is the pixel width, or the bin size of the frequency.
    * FrequencySpacing  = SamplingFrequency / ImageSize */
@@ -168,7 +168,7 @@ public:
   SetFrequencySpacing(const FrequencyType frequencySpacing)
   {
     this->m_FrequencySpacing = frequencySpacing;
-  };
+  }
 
 private:
   /** Set the frequency metadata.

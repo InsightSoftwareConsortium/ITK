@@ -272,7 +272,7 @@ private:
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
       this->m_LargestPositiveFrequencyIndex[dim] =
-        static_cast<FrequencyValueType>(this->m_MinIndex[dim] + std::ceil(sizeImage[dim] / 2.0));
+        static_cast<FrequencyValueType>(this->m_MinIndex[dim] + std::floor(sizeImage[dim] / 2.0));
       // Set frequency metadata.
       // Origin of frequencies is zero in the standard layout of a FFT output.
       this->m_FrequencyOrigin[dim] = 0.0;

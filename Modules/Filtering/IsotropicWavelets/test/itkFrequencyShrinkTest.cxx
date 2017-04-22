@@ -103,37 +103,39 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
 
   inverseFFT->Update();
 
-  // Test Hermitian property (sym)
-  bool fftIsHermitian = itk::Testing::ComplexImageIsHermitian(fftFilter->GetOutput());
-  bool shrinkIsHermitian = itk::Testing::ComplexImageIsHermitian(shrinkFilter->GetOutput());
-  if (!fftIsHermitian)
+  // image is even?
+  itk::FixedArray<bool, Dimension> inputSizeIsEven;
+  bool                             imageIsEven = true;
+  for (unsigned int dim = 0; dim < Dimension; ++dim)
   {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "fft is not Hermitian" << std::endl;
-    testPassed = false;
-  }
-  if (!shrinkIsHermitian)
-  {
-    std::cerr << "Test failed!" << std::endl;
-    std::cerr << "shrink is not Hermitian" << std::endl;
-    testPassed = false;
-  }
-
-  // Test Hermitian property
-  {
-    // Simmetry and Hermitian test: ComplexInverseFFT will generate output with zero imaginary part.
-    // Test hermitian properties for even Images. Odd real images are not even hermitian after
-    itk::FixedArray<bool, Dimension> inputSizeIsEven;
-    bool                             imageIsEven = true;
-    for (unsigned int dim = 0; dim < Dimension; ++dim)
+    inputSizeIsEven[dim] = (zeroDCFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[dim] % 2 == 0);
+    if (inputSizeIsEven[dim] == false)
     {
-      inputSizeIsEven[dim] = (zeroDCFilter->GetOutput()->GetLargestPossibleRegion().GetSize()[dim] % 2 == 0);
-      if (inputSizeIsEven[dim] == false)
-      {
-        imageIsEven = false;
-      }
+      imageIsEven = false;
     }
-    std::cout << "Image Even? " << imageIsEven << std::endl;
+  }
+  std::cout << "Image Even? " << imageIsEven << std::endl;
+
+  // Test hermitian properties for even Images. Odd real images are not even hermitian after FFTw.
+  if (imageIsEven)
+  {
+    bool fftIsHermitian = itk::Testing::ComplexImageIsHermitian(fftFilter->GetOutput());
+    bool shrinkIsHermitian = itk::Testing::ComplexImageIsHermitian(shrinkFilter->GetOutput());
+    if (!fftIsHermitian)
+    {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "fft is not Hermitian" << std::endl;
+      testPassed = false;
+    }
+    if (!shrinkIsHermitian)
+    {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "shrink is not Hermitian" << std::endl;
+      testPassed = false;
+    }
+
+    // Hermitian Test:
+    // Simmetry and Hermitian test: ComplexInverseFFT will generate output with zero imaginary part.
     // Check that complex part is almost 0 after FFT and complex inverse FFT.
     {
       typedef itk::ComplexToComplexFFTImageFilter<ComplexImageType> ComplexFFTType;
