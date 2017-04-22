@@ -125,7 +125,7 @@ itk_add_test(
     "Held"
     2
 )
-# Generatator + Downsample
+# Generator + Downsample
 itk_add_test(
   NAME itkWaveletFrequencyFilterBankGeneratorDownsampleTest2D
   COMMAND
@@ -133,7 +133,6 @@ itk_add_test(
     itkWaveletFrequencyFilterBankGeneratorDownsampleTest
     DATA{Input/checkershadow_Lch_512x512.tiff}
     ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyFilterBankGeneratorDownsampleTest2D.tiff
-    2
     2
     "Held"
     2

@@ -27,14 +27,6 @@
 #include <itkShrinkDecimateImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
 
-// Debug TODO:deleteme
-//  Visualize for dev/debug purposes. Set in cmake file. Requires VTK
-#ifdef ITK_VISUALIZE_TESTS
-#  include "itkComplexToRealImageFilter.h"
-#  include "itkNumberToString.h"
-#  include "../test/itkViewImage.h"
-#endif
-
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>

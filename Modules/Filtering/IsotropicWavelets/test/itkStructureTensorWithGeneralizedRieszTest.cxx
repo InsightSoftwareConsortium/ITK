@@ -61,7 +61,6 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
 
   typedef double                           PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType;
-  typedef typename ImageType::Pointer      ImageTypePointer;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
 
   typename ReaderType::Pointer reader = ReaderType::New();
@@ -143,10 +142,7 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
       bool visualizeRieszWavelets = true;
       if (visualizeRieszWavelets)
       {
-        itk::NumberToString<unsigned int>      n2s;
-        typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
-        inverseFFT->SetInput(rieszWavelets[rieszComp]);
-        inverseFFT->Update();
+        itk::NumberToString<unsigned int> n2s;
         itk::Testing::ViewImage(inverseFFT->GetOutput(),
                                 "RieszWaveletCoef: output #" + n2s(i) + " RieszComp: " + n2s(rieszComp));
       }
