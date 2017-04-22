@@ -205,15 +205,16 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const;
 
+  /** Kernel PCA. */
   void
-  KernelPCA(void);
+  KernelPCA();
+
+  /** Compute Momentum SCP. */
   void
-  computeMomentumSCP(void);
+  ComputeMomentumSCP();
 
 private:
-  VectorFieldPCA(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(VectorFieldPCA);
 
   VectorType m_PCAEigenValues;
 
@@ -222,7 +223,7 @@ private:
   InputPointSetPointer      m_PointSet;
   KernelFunctionPointer     m_KernelFunction;
 
-  // problem dimensions
+  // Problem dimensions
   unsigned int m_ComponentCount;
   unsigned int m_SetSize;
   unsigned int m_VectorDimCount;

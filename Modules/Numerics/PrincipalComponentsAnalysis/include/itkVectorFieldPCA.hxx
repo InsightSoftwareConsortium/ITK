@@ -27,9 +27,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
@@ -42,21 +39,15 @@ VectorFieldPCA<TVectorFieldElementType,
                TPointSetCoordRepType,
                KernelFunctionType,
                TPointSetType>::VectorFieldPCA()
-{
-  m_PCACalculated = false;
-  m_SetSize = 0;
-  m_VectorDimCount = 0;
-  m_PointDim = 0;
-  m_ComponentCount = 0;
-  m_KernelFunction = NULL;
-  m_BasisVectors = BasisSetType::New();
-  m_VectorFieldSet = NULL;
-  m_PointSet = NULL;
-}
+  : m_BasisVectors(BasisSetType::New())
+  , m_ComponentCount(0)
+  , m_SetSize(0)
+  , m_VectorDimCount(0)
+  , m_VertexCount(0)
+  , m_PointDim(0)
+  , m_PCACalculated(false)
+{}
 
-/**
- *
- */
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
@@ -69,73 +60,9 @@ VectorFieldPCA<TVectorFieldElementType,
                TPointSetPixelType,
                TPointSetCoordRepType,
                KernelFunctionType,
-               TPointSetType>::PrintSelf(std::ostream & os, Indent indent) const
+               TPointSetType>::Compute()
 {
-  Superclass::PrintSelf(os, indent);
-
-  if (this->m_VectorFieldSet.IsNull())
-  {
-    os << indent << "Vector Field Set Empty" << std::endl;
-  }
-  else
-  {
-    os << indent << "Vector Field Set Count:  " << this->m_VectorFieldSet->Size() << std::endl;
-  }
-
-  os << indent << "Component Count:  " << this->m_ComponentCount << std::endl;
-  os << indent << "Eigenvalues: " << this->m_PCAEigenValues << std::endl;
-  if (this->m_BasisVectors.IsNull())
-  {
-    os << indent << "Basis Vector Empty" << std::endl;
-  }
-  else
-  {
-    os << indent << "Basis Vector Count:  " << this->m_BasisVectors->Size() << std::endl;
-    if (this->m_BasisVectors->Size())
-    {
-      MatrixType & thisBasis = this->m_BasisVectors->ElementAt(0);
-      os << indent << "Basis Vector Dimensions:  " << thisBasis.rows() << "x" << thisBasis.cols() << std::endl;
-    }
-  }
-
-  if (this->m_PointSet.IsNull())
-  {
-    os << indent << "PointSet Empty" << std::endl;
-  }
-  else
-  {
-    os << indent << "PointSet is " << m_PointSet->GetNumberOfPoints() << "x" << this->m_PointSet->PointDimension
-       << std::endl;
-  }
-
-  if (this->m_KernelFunction.IsNull())
-  {
-    os << indent << "Kernel Function not set" << std::endl;
-  }
-  else
-  {
-    os << indent << "KernelFunction is set." << std::endl;
-  }
-}
-
-/**
- * Compute the principal components
- */
-template <typename TVectorFieldElementType,
-          typename TPCType,
-          typename TPointSetPixelType,
-          typename TPointSetCoordRepType,
-          typename KernelFunctionType,
-          class TPointSetType>
-void
-VectorFieldPCA<TVectorFieldElementType,
-               TPCType,
-               TPointSetPixelType,
-               TPointSetCoordRepType,
-               KernelFunctionType,
-               TPointSetType>::Compute(void)
-{
-  // check parameters
+  // Check parameters
   if (!m_VectorFieldSet || !m_VectorFieldSet->Size())
   {
     itkExceptionMacro("Vector Field Set not specified.");
@@ -149,13 +76,13 @@ VectorFieldPCA<TVectorFieldElementType,
     return;
   }
 
-  // get vector/point dim from the first member of the vector set
+  // Get vector/point dim from the first member of the vector set
 
   VectorFieldType & firstField = m_VectorFieldSet->ElementAt(0);
   m_VectorDimCount = firstField.rows();
   m_PointDim = firstField.cols();
 
-  // check all vector dimensions in the set
+  // Check all vector dimensions in the set
   for (unsigned int i = 1; i < m_VectorFieldSet->Size(); i++)
   {
     VectorFieldType & thisField = m_VectorFieldSet->ElementAt(i);
@@ -189,13 +116,13 @@ VectorFieldPCA<TVectorFieldElementType,
     }
   }
 
-  computeMomentumSCP();
-  KernelPCA();
+  this->ComputeMomentumSCP();
+  this->KernelPCA();
 
-  // save only the desired eigenvalues
+  // Save only the desired eigenvalues
   m_PCAEigenValues = m_PCAEigenValues.extract(m_ComponentCount);
 
-  // save only the desired eigenvectors
+  // Save only the desired eigenvectors
   m_V0 = m_V0.extract(m_V0.rows(), m_ComponentCount);
 
   m_BasisVectors->Reserve(m_ComponentCount);
@@ -222,10 +149,6 @@ VectorFieldPCA<TVectorFieldElementType,
   m_PCACalculated = true;
 }
 
-
-/**
- * Compute Momentum SCP
- */
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
@@ -238,14 +161,13 @@ VectorFieldPCA<TVectorFieldElementType,
                TPointSetPixelType,
                TPointSetCoordRepType,
                KernelFunctionType,
-               TPointSetType>::computeMomentumSCP(void)
+               TPointSetType>::ComputeMomentumSCP()
 {
-
   VectorFieldType accum;
   accum.set_size(m_VectorDimCount, m_PointDim);
   accum = 0.0;
 
-  // determine the average of the vector field over the set
+  // Determine the average of the vector field over the set
   for (unsigned k = 0; k < m_SetSize; k++)
   {
     accum += m_VectorFieldSet->ElementAt(k);
@@ -260,7 +182,7 @@ VectorFieldPCA<TVectorFieldElementType,
 
   MatrixType kernelM(m_VectorDimCount, m_VectorDimCount);
 
-  // check whether we're doing kernel PCA
+  // Check whether we're doing kernel PCA
   if (!m_KernelFunction.IsNull())
   {
     unsigned k1, l1;
@@ -311,9 +233,6 @@ VectorFieldPCA<TVectorFieldElementType,
   }
 }
 
-/**
- * Kernel PCA
- */
 template <typename TVectorFieldElementType,
           typename TPCType,
           typename TPointSetPixelType,
@@ -326,21 +245,20 @@ VectorFieldPCA<TVectorFieldElementType,
                TPointSetPixelType,
                TPointSetCoordRepType,
                KernelFunctionType,
-               TPointSetType>::KernelPCA(void)
+               TPointSetType>::KernelPCA()
 {
   VectorType rowMeans(m_SetSize);
 
-  unsigned int k, l;
-  for (k = 0; k < m_SetSize; k++)
+  for (unsigned int k = 0; k < m_SetSize; k++)
   {
     rowMeans(k) = m_K.get_row(k).mean();
   }
 
   TPCType    meanOfMeans = rowMeans.mean();
   MatrixType K0(m_K - meanOfMeans);
-  for (k = 0; k < m_SetSize; k++)
+  for (unsigned int k = 0; k < m_SetSize; k++)
   {
-    for (l = 0; l < m_SetSize; l++)
+    for (unsigned int l = 0; l < m_SetSize; l++)
     {
       K0(k, l) -= rowMeans(k) + rowMeans(l);
     }
@@ -349,20 +267,77 @@ VectorFieldPCA<TVectorFieldElementType,
   vnl_symmetric_eigensystem<TPCType> eigs(K0);
 
   m_PCAEigenValues = eigs.D.diagonal();
-  // eigs come out in ascending order, reorder them
+
+  // Eigenvalues come out in ascending order, reorder them
   m_PCAEigenValues.flip();
 
-  // reorder eigenvectors
+  // Reorder eigenvectors
   m_V0 = eigs.V;
   m_V0.fliplr();
 
   const double eigenvalue_epsilon = 1.0e-10;
-  for (k = 0; k < m_SetSize; k++)
+  for (unsigned int k = 0; k < m_SetSize; k++)
   {
     m_V0.scale_column(k, 1.0 / vcl_sqrt(m_PCAEigenValues(k) + eigenvalue_epsilon));
   }
 }
 
+template <typename TVectorFieldElementType,
+          typename TPCType,
+          typename TPointSetPixelType,
+          typename TPointSetCoordRepType,
+          typename KernelFunctionType,
+          class TPointSetType>
+void
+VectorFieldPCA<TVectorFieldElementType,
+               TPCType,
+               TPointSetPixelType,
+               TPointSetCoordRepType,
+               KernelFunctionType,
+               TPointSetType>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "PCAEigenvalues: " << this->m_PCAEigenValues << std::endl;
+
+  if (this->m_BasisVectors.IsNotNull())
+  {
+    os << indent << "Basis Vector count: " << this->m_BasisVectors->Size() << std::endl;
+    if (this->m_BasisVectors->Size())
+    {
+      MatrixType & thisBasis = this->m_BasisVectors->ElementAt(0);
+      os << indent << "Basis Vector dimensions: " << thisBasis.rows() << "x" << thisBasis.cols() << std::endl;
+    }
+  }
+  itkPrintSelfObjectMacro(BasisVectors);
+
+  if (this->m_VectorFieldSet.IsNotNull())
+  {
+    os << indent << "Vector Field Set count: " << this->m_VectorFieldSet->Size() << std::endl;
+  }
+  itkPrintSelfObjectMacro(VectorFieldSet);
+
+  if (this->m_PointSet.IsNotNull())
+  {
+    os << indent << "PointSet dimensions: " << m_PointSet->GetNumberOfPoints() << "x"
+       << this->m_PointSet->PointDimension << std::endl;
+  }
+  itkPrintSelfObjectMacro(PointSet);
+
+  itkPrintSelfObjectMacro(KernelFunction);
+
+  os << indent << "ComponentCount: " << this->m_ComponentCount << std::endl;
+  os << indent << "SetSize: " << this->m_SetSize << std::endl;
+  os << indent << "VectorDimCount: " << this->m_VectorDimCount << std::endl;
+  os << indent << "VertexCount: " << this->m_VertexCount << std::endl;
+  os << indent << "PointDim: " << this->m_PointDim << std::endl;
+
+  os << indent << "V0 : " << this->m_V0 << std::endl;
+  os << indent << "AveVectorField: " << this->m_AveVectorField << std::endl;
+  os << indent << "K: " << this->m_K << std::endl;
+
+  os << indent << "PCACalculated: " << this->m_PCACalculated << std::endl;
+}
 } // end namespace itk
 
 #endif
