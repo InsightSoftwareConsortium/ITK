@@ -1,16 +1,16 @@
 itk_module_test()
 
-set(kit PrincipalComponentsAnalysis)
-set(${kit}Tests itkVectorKernelPCATest.cxx)
+set(PCA PrincipalComponentsAnalysis)
+set(${PCA}Tests itkVectorKernelPCATest.cxx)
 
-set(TEST_DATA_ROOT ${${kit}_SOURCE_DIR}/Data)
+set(TEST_DATA_ROOT ${${PCA}_SOURCE_DIR}/Data)
 
-createtestdriver(${kit} "${${kit}-Test_LIBRARIES}" "${${kit}Tests}")
+createtestdriver(${PCA} "${${PCA}-Test_LIBRARIES}" "${${PCA}Tests}")
 
 itk_add_test(
   NAME itkVectorKernelPCATest
   COMMAND
-    ${kit}TestDriver
+    ${PCA}TestDriver
     itkVectorKernelPCATest
     DATA{${TEST_DATA_ROOT}/PCATestSurface.vtk}
     DATA{${TEST_DATA_ROOT}/PCATestSurface_alpha0_01.vtk}
