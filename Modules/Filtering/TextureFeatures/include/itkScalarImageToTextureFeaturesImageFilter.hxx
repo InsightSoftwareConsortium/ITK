@@ -31,8 +31,6 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ScalarImageT
   : m_NumberOfBinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis))
   , m_Min(NumericTraits<PixelType>::NonpositiveMin())
   , m_Max(NumericTraits<PixelType>::max())
-  , m_MinDistance(NumericTraits<RealType>::ZeroValue())
-  , m_MaxDistance(NumericTraits<RealType>::max())
   , m_InsidePixelValue(NumericTraits<PixelType>::OneValue())
 {
   this->SetNumberOfRequiredInputs(1);
@@ -108,7 +106,7 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThread
   if (strcmp(outputPtr->GetNameOfClass(), "VectorImage") == 0)
   {
     typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength(outputPtr, 10);
+    AccessorFunctorType::SetVectorLength(outputPtr, 8);
   }
   outputPtr->Allocate();
 }
@@ -118,7 +116,129 @@ void
 ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputRegionType & outputRegionForThread,
   ThreadIdType             threadId)
-{}
+{
+  // Recuperation of the different inputs/outputs
+  typename TOutputImage::Pointer outputPtr = TOutputImage::New();
+  outputPtr = this->GetOutput();
+
+  ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
+
+  // Creation of the output pixel type
+  typename TOutputImage::PixelType outputPixel;
+
+  // Separation of the non-boundery region that will be processed in a different way
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                           boundaryFacesCalculator;
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+    boundaryFacesCalculator(this->m_DigitalisedInputImageg, outputRegionForThread, m_NeighborhoodRadius);
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit =
+    faceList.begin();
+
+  // Declaration of the variables usefull to iterate over the all image region
+  bool      isInImage;
+  IndexType firstIndex;
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
+  {
+    firstIndex[i] = 0;
+  }
+  outputPixel = outputPtr->GetPixel(firstIndex);
+  typename OffsetVector::ConstIterator offsets;
+
+  // Declaration of the variables usefull to iterate over the all the offsets
+  OffsetType      offset;
+  unsigned int    totalNumberOfFreq;
+  unsigned int ** hist = new unsigned int *[m_NumberOfBinsPerAxis];
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  {
+    hist[a] = new unsigned int[m_NumberOfBinsPerAxis];
+  }
+
+  // Declaration of the variables usefull to iterate over the all neighborhood region
+  PixelType curentInNeighborhoodPixelIntensity;
+
+  // Declaration of the variables usefull to iterate over the run
+  PixelType  pixelIntensity(NumericTraits<PixelType>::ZeroValue());
+  OffsetType tempOffset;
+
+  /// ***** Non-boundary Region *****
+  for (fit; fit != faceList.end(); ++fit)
+  {
+    NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_DigitalisedInputImageg, *fit);
+    typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
+    IteratorType                                      outputIt(outputPtr, *fit);
+
+    // Iteration over the all image region
+    while (!inputNIt.IsAtEnd())
+    {
+      // If the voxel is outside of the mask, don't treat it
+      if (inputNIt.GetCenterPixel() < (this->m_Min - 5)) // the pixel is outside of the mask
+      {
+        progress.CompletedPixel();
+        ++inputNIt;
+        ++outputIt;
+        continue;
+      }
+      // Initialisation of the histogram
+      for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+      {
+        for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+        {
+          hist[a][b] = 0;
+        }
+      }
+      totalNumberOfFreq = 0;
+      // Iteration over all the offsets
+      for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
+      {
+        offset = offsets.Value();
+        // Iteration over the all neighborhood region
+        for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
+        {
+          // Test if the curent voxel is in the mask and is the range of the image intensity sepcified
+          curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
+          if (curentInNeighborhoodPixelIntensity < this->m_Min)
+          {
+            continue;
+          }
+
+          // Test if the curent offset is still pointing to a voxel inside th neighborhood
+          tempOffset = inputNIt.GetOffset(nb) + offset;
+          if (!(this->IsInsideNeighborhood(tempOffset)))
+          {
+            continue;
+          }
+
+          // Test if the part of the neighborhood pointed by the offset is still part of the image
+          if (fit == faceList.begin())
+          {
+            inputNIt.GetPixel(tempOffset, isInImage);
+            if (!isInImage)
+            {
+              break;
+            }
+          }
+
+          // Test if the pointed voxel is in the mask and is the range of the image intensity sepcified
+          pixelIntensity = inputNIt.GetPixel(tempOffset);
+          if (pixelIntensity < this->m_Min)
+          {
+            continue;
+          }
+
+          // Increase the coresponding bin in the histogram
+          totalNumberOfFreq++;
+          hist[curentInNeighborhoodPixelIntensity][pixelIntensity]++;
+        }
+      }
+      // Compute the run lenght features
+      this->ComputeFeatures(hist, totalNumberOfFreq, outputPixel);
+      outputIt.Set(outputPixel);
+
+      progress.CompletedPixel();
+      ++inputNIt;
+      ++outputIt;
+    }
+  }
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -130,7 +250,7 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::UpdateOutput
   if (strcmp(this->GetOutput()->GetNameOfClass(), "VectorImage") == 0)
   {
     typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength(this->GetOutput(), 10);
+    AccessorFunctorType::SetVectorLength(this->GetOutput(), 8);
   }
 }
 
@@ -166,18 +286,6 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetPixelValu
 }
 
 template <typename TInputImage, typename TOutputImage>
-void
-ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetDistanceValueMinMax(RealType min, RealType max)
-{
-  if (Math::NotExactlyEquals(this->m_MinDistance, min) || Math::NotExactlyEquals(this->m_MaxDistance, max))
-  {
-    this->m_MinDistance = min;
-    this->m_MaxDistance = max;
-    this->Modified();
-  }
-}
-
-template <typename TInputImage, typename TOutputImage>
 bool
 ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighborhood(
   const OffsetType & iteratedOffset)
@@ -197,21 +305,153 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeig
 
 template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistograme(
-  unsigned int **      hist,
-  unsigned int &       totalNumberOfRuns,
-  const PixelType &    curentInNeighborhoodPixelIntensity,
-  const OffsetType &   offset,
-  const unsigned int & pixelDistance)
-{}
+ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
+  unsigned int **                    hist,
+  const unsigned int &               totalNumberOfFreq,
+  typename TOutputImage::PixelType & outputPixel)
+{
+  // Now get the various means and variances. This is takes two passes
+  // through the histogram.
+  double pixelMean;
+  double marginalMean;
+  double marginalDevSquared;
+  double pixelVariance;
+
+  this->ComputeMeansAndVariances(hist, totalNumberOfFreq, pixelMean, marginalMean, marginalDevSquared, pixelVariance);
+
+  // Finally compute the texture features. Another one pass.
+  MeasurementType energy = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType entropy = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType correlation = NumericTraits<MeasurementType>::ZeroValue();
+
+  MeasurementType inverseDifferenceMoment = NumericTraits<MeasurementType>::ZeroValue();
+
+  MeasurementType inertia = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType clusterShade = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType clusterProminence = NumericTraits<MeasurementType>::ZeroValue();
+  MeasurementType haralickCorrelation = NumericTraits<MeasurementType>::ZeroValue();
+
+  double pixelVarianceSquared = pixelVariance * pixelVariance;
+  // Variance is only used in correlation. If variance is 0, then
+  //   (index[0] - pixelMean) * (index[1] - pixelMean)
+  // should be zero as well. In this case, set the variance to 1. in
+  // order to avoid NaN correlation.
+  if (Math::FloatAlmostEqual(pixelVarianceSquared, 0.0, 4, 2 * NumericTraits<double>::epsilon()))
+  {
+    pixelVarianceSquared = 1.;
+  }
+  const double log2 = std::log(2.0);
+
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  {
+    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+    {
+      float frequency = hist[a][b] / (float)totalNumberOfFreq;
+      if (Math::AlmostEquals(frequency, NumericTraits<float>::ZeroValue()))
+      {
+        continue; // no use doing these calculations if we're just multiplying by
+                  // zero.
+      }
+
+      energy += frequency * frequency;
+      entropy -= (frequency > 0.0001) ? frequency * std::log(frequency) / log2 : 0;
+      correlation += ((a - pixelMean) * (b - pixelMean) * frequency) / pixelVarianceSquared;
+      inverseDifferenceMoment += frequency / (1.0 + (a - b) * (a - b));
+      inertia += (a - b) * (a - b) * frequency;
+      clusterShade += std::pow((a - pixelMean) + (b - pixelMean), 3) * frequency;
+      clusterProminence += std::pow((a - pixelMean) + (b - pixelMean), 4) * frequency;
+      haralickCorrelation += a * b * frequency;
+    }
+  }
+
+  haralickCorrelation = (haralickCorrelation - marginalMean * marginalMean) / marginalDevSquared;
+
+  outputPixel[0] = energy;
+  outputPixel[1] = entropy;
+  outputPixel[2] = correlation;
+  outputPixel[3] = inverseDifferenceMoment;
+  outputPixel[4] = inertia;
+  outputPixel[5] = clusterShade;
+  outputPixel[6] = clusterProminence;
+  outputPixel[7] = haralickCorrelation;
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
-ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
-  unsigned int **                    hist,
-  const unsigned int &               totalNumberOfRuns,
-  typename TOutputImage::PixelType & outputPixel)
-{}
+ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAndVariances(
+  unsigned int **      hist,
+  const unsigned int & totalNumberOfFreq,
+  double &             pixelMean,
+  double &             marginalMean,
+  double &             marginalDevSquared,
+  double &             pixelVariance)
+{
+  // This function takes two passes through the histogram and two passes through
+  // an array of the same length as a histogram axis. This could probably be
+  // cleverly compressed to one pass, but it's not clear that that's necessary.
+
+  // Initialize everything
+  double * marginalSums = new double[m_NumberOfBinsPerAxis];
+
+  for (double * ms_It = marginalSums; ms_It < marginalSums + m_NumberOfBinsPerAxis; ms_It++)
+  {
+    *ms_It = 0;
+  }
+  pixelMean = 0;
+
+  // Ok, now do the first pass through the histogram to get the marginal sums
+  // and compute the pixel mean
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  {
+    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+    {
+      int   k = hist[a][b];
+      float frequency = hist[a][b] / (float)totalNumberOfFreq;
+      pixelMean += a * frequency;
+      marginalSums[a] += frequency;
+    }
+  }
+
+  /*  Now get the mean and deviaton of the marginal sums.
+      Compute incremental mean and SD, a la Knuth, "The  Art of Computer
+      Programming, Volume 2: Seminumerical Algorithms",  section 4.2.2.
+      Compute mean and standard deviation using the recurrence relation:
+      M(1) = x(1), M(k) = M(k-1) + (x(k) - M(k-1) ) / k
+      S(1) = 0, S(k) = S(k-1) + (x(k) - M(k-1)) * (x(k) - M(k))
+      for 2 <= k <= n, then
+      sigma = std::sqrt(S(n) / n) (or divide by n-1 for sample SD instead of
+      population SD).
+  */
+  marginalMean = marginalSums[0];
+  marginalDevSquared = 0;
+  for (unsigned int arrayIndex = 1; arrayIndex < m_NumberOfBinsPerAxis; arrayIndex++)
+  {
+    int    k = arrayIndex + 1;
+    double M_k_minus_1 = marginalMean;
+    double S_k_minus_1 = marginalDevSquared;
+    double x_k = marginalSums[arrayIndex];
+
+    double M_k = M_k_minus_1 + (x_k - M_k_minus_1) / k;
+    double S_k = S_k_minus_1 + (x_k - M_k_minus_1) * (x_k - M_k);
+
+    marginalMean = M_k;
+    marginalDevSquared = S_k;
+  }
+  marginalDevSquared = marginalDevSquared / m_NumberOfBinsPerAxis;
+
+  // OK, now compute the pixel variances.
+  pixelVariance = 0;
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  {
+    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+    {
+      float frequency = hist[a][b] / (float)totalNumberOfFreq;
+      pixelVariance += (a - pixelMean) * (a - pixelMean) * (frequency);
+    }
+  }
+
+  delete[] marginalSums;
+}
 
 template <typename TInputImage, typename TOutputImage>
 void

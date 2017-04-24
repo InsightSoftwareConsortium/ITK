@@ -140,16 +140,6 @@ public:
   SetDistanceValueMinMax(RealType min, RealType max);
 
   /**
-   * Get the min distance value defining one dimension of the joint histogram.
-   */
-  itkGetConstMacro(MinDistance, RealType);
-
-  /**
-   * Get the max distance value defining one dimension of the joint histogram.
-   */
-  itkGetConstMacro(MaxDistance, RealType);
-
-  /**
    * Set the pixel value of the mask that should be considered "inside" the
    * object. Defaults to 1.
    */
@@ -179,15 +169,16 @@ protected:
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);
   void
-  IncreaseHistograme(unsigned int **      hist,
-                     unsigned int &       totalNumberOfRuns,
-                     const PixelType &    curentInNeighborhoodPixelIntensity,
-                     const OffsetType &   offset,
-                     const unsigned int & pixelDistance);
-  void
   ComputeFeatures(unsigned int **                    hist,
-                  const unsigned int &               totalNumberOfRuns,
+                  const unsigned int &               totalNumberOfFreq,
                   typename TOutputImage::PixelType & outputPixel);
+  void
+  ComputeMeansAndVariances(unsigned int **      hist,
+                           const unsigned int & totalNumberOfFreq,
+                           double &             pixelMean,
+                           double &             marginalMean,
+                           double &             marginalDevSquared,
+                           double &             pixelVariance);
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -206,8 +197,6 @@ private:
   unsigned int                      m_NumberOfBinsPerAxis;
   PixelType                         m_Min;
   PixelType                         m_Max;
-  RealType                          m_MinDistance;
-  RealType                          m_MaxDistance;
   PixelType                         m_InsidePixelValue;
   typename TInputImage::SpacingType m_Spacing;
   bool                              m_Normalize;
