@@ -307,5 +307,8 @@ private:
   };
 }
 
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFastMarchingBase.hxx"
+#endif
+
 #endif
