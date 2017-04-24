@@ -216,13 +216,6 @@ public:
   typedef typename OutputImageType::PixelType                     OutputPixelType;
   typedef typename NumericTraits<OutputPixelType>::ScalarRealType OutputRealType;
 
-
-  /**  Create the Output */
-  typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
-  using Superclass::MakeOutput;
-  DataObject::Pointer
-  MakeOutput(DataObjectPointerArraySizeType idx);
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(InputPixelTypeCheck, (Concept::IsInteger<typename InputImageType::PixelType>));
@@ -256,7 +249,8 @@ protected:
   BeforeThreadedGenerateData() ITK_OVERRIDE;
   virtual void
   ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
-  //  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  virtual void
+  UpdateOutputInformation() ITK_OVERRIDE;
 
 private:
   typename InputImageType::Pointer  m_DigitalisedInputImageg;
