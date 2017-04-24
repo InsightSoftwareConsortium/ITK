@@ -19,127 +19,56 @@
 #include "itkMesh.h"
 #include "itkMeshFileReader.h"
 #include "itkVectorFieldPCA.h"
+#include "itkTestingMacros.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_vector.h"
 
+
+template <typename TPixel, typename TMesh, typename TVectorContainer>
 int
-showUsage(const char * programName)
+ParseVectorFields(std::vector<std::string> vectorFieldFilenames, typename TVectorContainer::Pointer vectorFieldSet)
 {
-  std::cerr << "USAGE:  " << programName << std::endl;
-  std::cerr << "<vtk_mesh_file>  <vectorField1>  ... <vectorFieldN> " << std::endl;
-  std::cerr << "\t\tN must be greater than 3" << std::endl;
-  return EXIT_FAILURE;
-}
+  int testStatus = EXIT_SUCCESS;
 
-int
-itkVectorKernelPCATest(int argc, char * argv[])
-{
-#define MIN_ARG_COUNT 6
-#define FIRST_VECTOR_FIELD_ARG 2
-  if (argc < MIN_ARG_COUNT)
-    return (showUsage(argv[0]));
+  typedef itk::MeshFileReader<TMesh> ReaderType;
+  ReaderType::Pointer                meshReader = ReaderType::New();
 
-  unsigned int pcaCount = 3;
-  double       kernelSigma = 6.25;
+  unsigned int fieldSetCount = vectorFieldFilenames.size();
+  vectorFieldSet->Reserve(fieldSetCount);
 
-  typedef double                    PointDataType;
-  typedef itk::Array<PointDataType> PointDataVectorType;
-  typedef PointDataVectorType       PixelType;
-  typedef double                    CoordRep;
-  const unsigned int                Dimension = 3;
 
-  //    typedef float              PCAResultsType;
-  typedef double PCAResultsType;
+  typename TVectorContainer::Element vectorField;
 
-  // Declare the type of the input mesh
-  typedef itk::Mesh<PixelType, Dimension> InMeshType;
-
-  // Declare the type of the kernel function class
-  // typedef itk::GaussianDistanceKernel KernelType;
-  typedef itk::GaussianDistanceKernel<CoordRep> KernelType;
-
-  // Declare the type of the PCA calculator
-  typedef itk::VectorFieldPCA<PointDataType, PCAResultsType, PixelType, CoordRep, KernelType, InMeshType>
-    PCACalculatorType;
-
-  // Here we recover the file names from the command line arguments
-  const char * inMeshFile = argv[1];
-
-  //  We can now instantiate the types of the reader/writer.
-  typedef itk::MeshFileReader<InMeshType> ReaderType;
-
-  // create readers/writers
-  ReaderType::Pointer meshReader = ReaderType::New();
-
-  //  The name of the file to be read or written is passed with the
-  //  SetFileName() method.
-  meshReader->SetFileName(inMeshFile);
-
-  try
-  {
-    meshReader->Update();
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error reading mesh file " << inMeshFile << std::endl;
-    std::cerr << excp << std::endl;
-  }
-
-  // get the objects
-  InMeshType::Pointer mesh = meshReader->GetOutput();
-
-  std::cout << "Vertex Count:  " << mesh->GetNumberOfPoints() << std::endl;
-  std::cout << "Cell Count:  " << mesh->GetNumberOfCells() << std::endl;
-
-  const char *                       vectorFieldName;
-  PCACalculatorType::VectorFieldType vectorField;
-
-  // should know vector field dimensions now
   unsigned int vectorFieldDim = 0;
   unsigned int vectorFieldCount = 0;
 
-  // how many vector field sets?
-  unsigned int fieldSetCount = argc - FIRST_VECTOR_FIELD_ARG;
-
-  PCACalculatorType::VectorFieldSetTypePointer vectorFieldSet = PCACalculatorType::VectorFieldSetType::New();
-
-  vectorFieldSet->Reserve(fieldSetCount);
-
   unsigned int setIx = 0;
-  for (int i = FIRST_VECTOR_FIELD_ARG; i < argc; i++)
+  for (unsigned int i = 0; i < fieldSetCount; i++)
   {
-    vectorFieldName = argv[i];
-    //  The name of the file to be read or written is passed with the
-    //  SetFileName() method.
+    std::string vectorFieldName = vectorFieldFilenames[i];
+
     meshReader->SetFileName(vectorFieldName);
 
-    try
-    {
-      meshReader->Update();
-    }
-    catch (itk::ExceptionObject & excp)
-    {
-      std::cerr << "Error reading mesh field file " << vectorFieldName << std::endl;
-      std::cerr << excp << std::endl;
-    }
+    TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
 
-    // get the objects
-    InMeshType::Pointer meshWithField = meshReader->GetOutput();
+    // Get the objects
+    TMesh::Pointer meshWithField = meshReader->GetOutput();
 
-    InMeshType::PointDataContainerPointer pointData = meshWithField->GetPointData();
+    TMesh::PointDataContainerPointer pointData = meshWithField->GetPointData();
     if (setIx == 0)
     {
       vectorFieldCount = pointData->Size();
       if (vectorFieldCount)
       {
-        PixelType oneDataSetVal = pointData->GetElement(0);
+        TPixel oneDataSetVal = pointData->GetElement(0);
         vectorFieldDim = oneDataSetVal.size();
       }
       if (vectorFieldCount != meshWithField->GetNumberOfPoints())
       {
+        std::cerr << "Test failed!" << std::endl;
         std::cerr << "Vector field count (" << vectorFieldCount << ") doesn't match mesh vertext count ("
                   << meshWithField->GetNumberOfPoints() << ")." << std::endl;
-        exit(EXIT_FAILURE);
+        testStatus = EXIT_FAILURE;
       }
       vectorField.set_size(vectorFieldCount, vectorFieldDim);
     }
@@ -147,132 +76,192 @@ itkVectorKernelPCATest(int argc, char * argv[])
     {
       if (vectorFieldDim != vectorField.cols() || vectorFieldCount != meshWithField->GetNumberOfPoints())
       {
+        std::cerr << "Test failed!" << std::endl;
         std::cerr << "Unexpected dimensions in vector field file " << vectorFieldName << std::endl;
-        std::cerr << "\tExpected " << vectorFieldCount << " x " << vectorFieldDim;
-        std::cerr << "\t, got " << meshWithField->GetNumberOfPoints() << " x " << vectorField.cols() << std::endl;
-        exit(1);
+        std::cerr << "Expected: " << vectorFieldCount << " x " << vectorFieldDim << ", but got "
+                  << meshWithField->GetNumberOfPoints() << " x " << vectorField.cols() << std::endl;
+        testStatus = EXIT_FAILURE;
       }
     }
 
     for (unsigned int k = 0; k < pointData->Size(); k++)
     {
-      PixelType oneDataSetVal = pointData->GetElement(k);
+      TPixel oneDataSetVal = pointData->GetElement(k);
       vectorField.set_row(k, oneDataSetVal);
     }
 
     vectorFieldSet->SetElement(setIx++, vectorField);
   }
 
+  return testStatus;
+}
+
+
+int
+itkVectorKernelPCATest(int argc, char * argv[])
+{
+  if (argc < 6)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0] << "<vtkMeshFile> <vectorField1> ... <vectorFieldN> " << std::endl;
+    std::cerr << "where N must be greater than 3" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+
+  int testStatus = EXIT_SUCCESS;
+
+  const unsigned int Dimension = 3;
+
+  typedef double                    PointDataType;
+  typedef itk::Array<PointDataType> PointDataVectorType;
+  typedef PointDataVectorType       PixelType;
+  typedef double                    CoordRep;
+
+  typedef double PCAResultsType;
+
+  // Declare the type of the input mesh
+  typedef itk::Mesh<PixelType, Dimension> MeshType;
+
+  // Declare the type of the kernel function class
+  typedef itk::GaussianDistanceKernel<CoordRep> KernelType;
+
+  // Declare the type of the PCA calculator
+  typedef itk::VectorFieldPCA<PointDataType, PCAResultsType, PixelType, CoordRep, KernelType, MeshType>
+    PCACalculatorType;
+
+  // Instantiate the reader
+  typedef itk::MeshFileReader<MeshType> ReaderType;
+  ReaderType::Pointer                   meshReader = ReaderType::New();
+
+  meshReader->SetFileName(argv[1]);
+
+  TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
+
+
+  // Get the input mesh
+  MeshType::Pointer mesh = meshReader->GetOutput();
+
+
   PCACalculatorType::Pointer pcaCalc = PCACalculatorType::New();
 
-  std::cout << "Name of Class = " << pcaCalc->GetNameOfClass() << std::endl;
+  EXERCISE_BASIC_OBJECT_METHODS(pcaCalc, VectorFieldPCA, Object);
 
-  std::cout << "Test Print() = " << std::endl;
-  pcaCalc->Print(std::cout);
 
-  // try to Compute before setting much of anything - expect failure
-  try
-  {
-    pcaCalc->Compute();
-    std::cerr << "Failed to throw expected exception" << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cout << "SUCCESSFULLY caught expected exception" << std::endl;
-    std::cout << excp << std::endl;
-  }
+  // Test exception when trying to compute before setting much of anything
+  TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
 
-  // set user variables
+
+  // Set user variables
+  unsigned int pcaCount = 3;
   pcaCalc->SetComponentCount(pcaCount);
 
-  //
-  //  Now connect the input.
-  //
+  // Connect the input
   pcaCalc->SetPointSet(mesh);
-  // set vector fields
-  pcaCalc->SetVectorFieldSet(vectorFieldSet);
-  //
-  //  Now verify that it runs fine.
-  //
-  try
+  TEST_SET_GET_VALUE(mesh, pcaCalc->GetPointSet());
+
+  // Set vector fields
+
+  PCACalculatorType::VectorFieldType vectorField;
+
+  // Should know vector field dimensions now
+  unsigned int vectorFieldDim = 0;
+  unsigned int vectorFieldCount = 0;
+
+  // how many vector field sets?
+  std::vector<std::string> vectorFieldFilenames;
+  unsigned int             firstVectorFieldIdx = 2;
+  unsigned int             fieldSetCount = argc - firstVectorFieldIdx;
+  for (unsigned int i = firstVectorFieldIdx; i < firstVectorFieldIdx + fieldSetCount; i++)
   {
-    pcaCalc->Compute();
-    std::cout << "SUCCESSFULLY ran non-Kernel version" << std::endl;
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cout << "Failed to run non-Kernel version" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
+    vectorFieldFilenames.push_back(argv[i]);
   }
 
+  PCACalculatorType::VectorFieldSetTypePointer vectorFieldSet = PCACalculatorType::VectorFieldSetType::New();
+
+  testStatus =
+    ParseVectorFields<PixelType, MeshType, PCACalculatorType::VectorFieldSetType>(vectorFieldFilenames, vectorFieldSet);
+
+  pcaCalc->SetVectorFieldSet(vectorFieldSet);
+  TEST_SET_GET_VALUE(vectorFieldSet, pcaCalc->GetVectorFieldSet());
+
+
+  // Execute the PCA calculator
+  TRY_EXPECT_NO_EXCEPTION(pcaCalc->Compute());
+
+
+  double              kernelSigma = 6.25;
   KernelType::Pointer distKernel = KernelType::New();
   distKernel->SetKernelSigma(kernelSigma);
   pcaCalc->SetKernelFunction(distKernel);
 
-  std::cout << "PCA Calculator All Set Up:  Print() = " << std::endl;
-  pcaCalc->Print(std::cout);
 
   std::ofstream debugOut;
   debugOut.precision(15);
 
-  // get the output and perform basic checks
+  // Get the output and perform basic checks
+  unsigned int computedNumberOfAverageVectorFieldCols = pcaCalc->GetAveVectorField().cols();
+
+  unsigned int computedNumberOfAverageVectorFieldRows = pcaCalc->GetAveVectorField().rows();
+
   for (unsigned int j = 0; j < pcaCalc->GetComponentCount(); j++)
   {
-    if ((pcaCalc->GetBasisVectors()->GetElement(j)).cols() != vectorFieldDim)
+    unsigned int expectedBasisVectorCols = pcaCalc->GetVectorFieldSet()->GetElement(j).cols();
+    unsigned int computedBasisVectorCols = pcaCalc->GetBasisVectors()->GetElement(j).cols();
+    if (computedBasisVectorCols != expectedBasisVectorCols)
     {
-      std::cout << "Basis Vector Results Failed Dimension check:" << std::endl;
-      std::cout << "Expected:  " << vectorFieldDim << std::endl
-                << " columns.  Got:  " << (pcaCalc->GetBasisVectors()->GetElement(j)).cols() << std::endl;
-      return EXIT_FAILURE;
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "Error in GetBasisVectors() dimension check at index [" << j << "]" << std::endl;
+      std::cout << "Expected: " << expectedBasisVectorCols << " columns, but got: " << computedBasisVectorCols
+                << std::endl;
+      testStatus = EXIT_FAILURE;
     }
-    if ((pcaCalc->GetBasisVectors()->GetElement(j)).rows() != vectorFieldCount)
+
+    unsigned int expectedBasisVectorRows = pcaCalc->GetVectorFieldSet()->GetElement(j).rows();
+    unsigned int computedBasisVectorRows = pcaCalc->GetBasisVectors()->GetElement(j).rows();
+    if (computedBasisVectorRows != expectedBasisVectorRows)
     {
-      std::cout << "Basis Vector Results Failed Dimension check:" << std::endl;
-      std::cout << "Expected:  " << vectorFieldDim << std::endl
-                << " rows. Got:  " << pcaCalc->GetBasisVectors()->GetElement(j).rows() << std::endl;
-      return EXIT_FAILURE;
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "Error in GetBasisVectors() dimension check at index [" << j << "]" << std::endl;
+      std::cout << "Expected: " << expectedBasisVectorRows << " row, but got: " << computedBasisVectorRows << std::endl;
+      testStatus = EXIT_FAILURE;
+    }
+
+    if (computedNumberOfAverageVectorFieldCols != expectedBasisVectorCols)
+    {
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "Error in GetAveVectorField() dimension check at index [" << j << "]" << std::endl;
+      std::cout << "Expected: " << vectorFieldDim << " columns, but got: " << computedNumberOfAverageVectorFieldCols
+                << std::endl;
+      testStatus = EXIT_FAILURE;
+    }
+
+    if (computedNumberOfAverageVectorFieldRows != expectedBasisVectorRows)
+    {
+      std::cout << "Test failed!" << std::endl;
+      std::cout << "Error in GetAveVectorField() dimension check at index [" << j << "]" << std::endl;
+      std::cout << "Expected: " << vectorFieldDim << " rows, but got: " << computedNumberOfAverageVectorFieldRows
+                << std::endl;
+      testStatus = EXIT_FAILURE;
     }
   }
 
-  if (pcaCalc->GetPCAEigenValues().size() != pcaCount)
+  unsigned int computedNumberOfEigenValueVectors = pcaCalc->GetPCAEigenValues().size();
+  if (computedNumberOfEigenValueVectors != pcaCount)
   {
-    std::cout << "Eigenvalue Vector Results Failed Dimension check:" << std::endl;
-    std::cout << "Expected:  " << pcaCount << std::endl
-              << ".  Got:  " << pcaCalc->GetPCAEigenValues().size() << std::endl;
-    return EXIT_FAILURE;
+    std::cout << "Test failed!" << std::endl;
+    std::cout << "Error in GetPCAEigenValues() dimension check." << std::endl;
+    std::cout << "Expected: " << pcaCount << ", but got: " << computedNumberOfEigenValueVectors << std::endl;
+    testStatus = EXIT_FAILURE;
   }
 
-  if (pcaCalc->GetAveVectorField().cols() != vectorFieldDim)
-  {
-    std::cout << "Average Vector Field Results Failed Dimension check:" << std::endl;
-    std::cout << "Expected:  " << vectorFieldDim << std::endl
-              << " columns.  Got:  " << pcaCalc->GetAveVectorField().cols() << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (pcaCalc->GetAveVectorField().rows() != vectorFieldCount)
-  {
-    std::cout << "Average Vector Field Failed Dimension check:" << std::endl;
-    std::cout << "Expected:  " << vectorFieldDim << std::endl
-              << " rows. Got:  " << pcaCalc->GetAveVectorField().rows() << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  // set the requested input count greater than the number of vector field sets
+  // Test exception when trying to compute with a requested input count greater
+  // than the number of vector field sets
   pcaCalc->SetComponentCount(fieldSetCount + 1);
-  // try to Compute - expect failure
-  try
-  {
-    pcaCalc->Compute();
-    std::cerr << "Failed to throw expected exception" << std::endl;
-    return EXIT_FAILURE;
-  }
-  catch (itk::ExceptionObject & excp)
-  {
-    std::cout << "SUCCESSFULLY caught expected exception" << std::endl;
-    std::cout << excp << std::endl;
-  }
 
-  return EXIT_SUCCESS;
+  TRY_EXPECT_EXCEPTION(pcaCalc->Compute());
+
+
+  std::cout << "Test finished." << std::endl;
+  return testStatus;
 }
