@@ -63,6 +63,7 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ScalarImageT
   typename TOutputImage::PixelType pixelNull;
   pixelNull.Fill(0);
   outputPtr->FillBuffer(pixelNull);
+  this->m_Normalize = false;
 }
 
 
