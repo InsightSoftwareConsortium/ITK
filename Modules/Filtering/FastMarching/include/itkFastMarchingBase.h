@@ -302,8 +302,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  FastMarchingBase( const Self& );
-  void operator = ( const Self& );
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingBase);
   };
 }
 
