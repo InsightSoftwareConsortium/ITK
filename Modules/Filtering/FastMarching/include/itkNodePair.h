@@ -24,14 +24,14 @@
 namespace itk
 {
 /**
-\class NodePair
-\brief Represents a Node and its associated value (front value)
-
-\ingroup ITKFastMarching
-*/
-template<typename TNode, typename TOutputPixel>
+ * \class NodePair
+ * \brief Represents a Node and its associated value (front value)
+ *
+ * \ingroup ITKFastMarching
+ */
+template< typename TNode, typename TOutputPixel >
 class NodePair : private std::pair< TNode, TOutputPixel >
-  {
+{
 public:
   typedef NodePair                         Self;
   typedef std::pair< TNode, TOutputPixel > Superclass;
@@ -94,7 +94,7 @@ public:
     {
     return this->second >= iRight.second;
     }
-  };
+};
 
-}
-#endif // itkFastMarchingTraits_h
+} // end namespace itk
+#endif // itkNodePair_h
