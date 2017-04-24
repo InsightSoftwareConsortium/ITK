@@ -18,18 +18,20 @@
 #include "itkScalarImageToRunLengthFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkVector.h"
+#include "itkImageAlgorithm.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkVectorImageToImageAdaptor.h"
+#include "itkNthElementImageAdaptor.h"
 
 int
-ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
+ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, char * argv[])
 {
   // Setup types
   typedef itk::Image<int, 3>                                                                    InputImageType;
-  typedef itk::Image<itk::Vector<float, 10>, 3>                                                 OutputImageType;
+  typedef itk::VectorImage<float, 3>                                                            OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                                  readerType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
   NeighborhoodType                                                                              hood;
