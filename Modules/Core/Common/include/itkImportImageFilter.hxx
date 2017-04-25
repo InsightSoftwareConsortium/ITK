@@ -103,14 +103,14 @@ void
 ImportImageFilter< TPixel, VImageDimension >
 ::SetImportPointer(TPixel *ptr, SizeValueType num, bool LetImageContainerManageMemory)
 {
-  if (!m_ImportImageContainer || ptr != m_ImportImageContainer->GetImportPointer())
+  if (!m_ImportImageContainer || ptr != m_ImportImageContainer->GetImportPointer() || m_Size != num)
     {
+    m_Size = num;
     m_ImportImageContainer = ImportImageContainerType::New();
     m_ImportImageContainer->SetImportPointer(ptr,
         m_Size, LetImageContainerManageMemory);
     this->Modified();
     }
-  m_Size = num;
 }
 
 /**
