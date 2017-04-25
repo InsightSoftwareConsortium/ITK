@@ -13,6 +13,12 @@ set(
   ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask.cxx
   ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage.cxx
   ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
+  ScalarImageToTextureFeaturesImageFilterCreationTest.cxx
+  ScalarImageToTextureFeaturesImageFilterTest.cxx
+  ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures.cxx
+  ScalarImageToTextureFeaturesImageFilterTestWithoutMask.cxx
+  ScalarImageToTextureFeaturesImageFilterTestWithVectorImage.cxx
+  ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
 )
 
 set(TestOutput ${ITK_TEST_OUTPUT_DIR})
@@ -264,5 +270,221 @@ itk_add_test(
     4200
     0
     1.25
+    4
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterCreationTest
+  COMMAND
+    TextureFeaturesTestDriver
+    ScalarImageToTextureFeaturesImageFilterCreationTest
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterTestWithoutMask1
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultTestWithoutMask4.nrrd}
+    ${TEMP}/resultTestWithoutMask4.nrrd
+    ScalarImageToTextureFeaturesImageFilterTestWithoutMask
+    DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
+    ${TEMP}/resultTestWithoutMask4.nrrd
+    10
+    0
+    4200
+    2
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterTestWithoutMask2
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultTestWithoutMask5.nrrd}
+    ${TEMP}/resultTestWithoutMask5.nrrd
+    ScalarImageToTextureFeaturesImageFilterTestWithoutMask
+    DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
+    ${TEMP}/resultTestWithoutMask5.nrrd
+    10
+    0
+    4200
+    4
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterTestWithoutMask3
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultTestWithoutMask6.nrrd}
+    ${TEMP}/resultTestWithoutMask6.nrrd
+    ScalarImageToTextureFeaturesImageFilterTestWithoutMask
+    DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
+    ${TEMP}/resultTestWithoutMask6.nrrd
+    10
+    0
+    4200
+    6
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterVectorlImage1
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultPartialImage3.nrrd}
+    ${TEMP}/resultVectorImage3.nrrd
+    ScalarImageToTextureFeaturesImageFilterTestWithVectorImage
+    DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
+    DATA{${INPUTDATA}/SegmC_CBCT_13R_D1_crop.nrrd}
+    ${TEMP}/resultVectorImage3.nrrd
+    10
+    0
+    4200
+    2
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterVectorImage2
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultPartialImage4.nrrd}
+    ${TEMP}/resultVectorImage4.nrrd
+    ScalarImageToTextureFeaturesImageFilterTestWithVectorImage
+    DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
+    DATA{${INPUTDATA}/SegmC_CBCT_13R_D1_crop.nrrd}
+    ${TEMP}/resultVectorImage4.nrrd
+    10
+    0
+    4200
+    4
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterPartialImage1
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultPartialImage3.nrrd}
+    ${TEMP}/resultPartialImage3.nrrd
+    ScalarImageToTextureFeaturesImageFilterTest
+    DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
+    DATA{${INPUTDATA}/SegmC_CBCT_13R_D1_crop.nrrd}
+    ${TEMP}/resultPartialImage3.nrrd
+    10
+    0
+    4200
+    2
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterPartialImage2
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultPartialImage4.nrrd}
+    ${TEMP}/resultPartialImage4.nrrd
+    ScalarImageToTextureFeaturesImageFilterTest
+    DATA{${INPUTDATA}/Scan_CBCT_13R_D1_crop.nrrd}
+    DATA{${INPUTDATA}/SegmC_CBCT_13R_D1_crop.nrrd}
+    ${TEMP}/resultPartialImage4.nrrd
+    10
+    0
+    4200
+    4
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterTestWholeImage
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultWholeImage2.nrrd}
+    ${TEMP}/resultWholeImage2.nrrd
+    ScalarImageToTextureFeaturesImageFilterTest
+    DATA{${INPUTDATA}/Scan_CBCT_13R.nrrd}
+    DATA{${INPUTDATA}/SegmC_CBCT_13R.nrrd}
+    ${TEMP}/resultWholeImage2.nrrd
+    10
+    0
+    4200
+    2
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_11.nrrd}
+    ${TEMP}/resultSeparateFeatures_11.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_12.nrrd}
+    ${TEMP}/resultSeparateFeatures_12.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_13.nrrd}
+    ${TEMP}/resultSeparateFeatures_13.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_14.nrrd}
+    ${TEMP}/resultSeparateFeatures_14.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_15.nrrd}
+    ${TEMP}/resultSeparateFeatures_15.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_16.nrrd}
+    ${TEMP}/resultSeparateFeatures_16.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_17.nrrd}
+    ${TEMP}/resultSeparateFeatures_17.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_18.nrrd}
+    ${TEMP}/resultSeparateFeatures_18.nrrd
+    ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures
+    DATA{${INPUTDATA}/Scan_CBCT_13R.nrrd}
+    DATA{${INPUTDATA}/SegmC_CBCT_13R.nrrd}
+    ${TEMP}/resultSeparateFeatures
+    10
+    0
+    4200
+    4
+)
+
+itk_add_test(
+  NAME ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures
+  COMMAND
+    TextureFeaturesTestDriver
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_11.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_11.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_12.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_12.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_13.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_13.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_14.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_14.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_15.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_15.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_16.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_16.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_17.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_17.nrrd
+    --compare
+    DATA{${INPUTDATA}/resultSeparateFeatures_18.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures_18.nrrd
+    ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures
+    DATA{${INPUTDATA}/Scan_CBCT_13R.nrrd}
+    DATA{${INPUTDATA}/SegmC_CBCT_13R.nrrd}
+    ${TEMP}/resultVectorImageSeparateFeatures
+    10
+    0
+    4200
     4
 )
