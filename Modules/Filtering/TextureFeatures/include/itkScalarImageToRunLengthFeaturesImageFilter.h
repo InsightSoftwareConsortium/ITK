@@ -49,7 +49,8 @@ namespace Statistics
  *
  * Template Parameters:
  * -# The input image type: a N dimensional image where the pixel type MUST be integer.
- * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points.
+ * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points or an
+ * ImageVector.
  *
  * Inputs and parameters:
  * -# An image

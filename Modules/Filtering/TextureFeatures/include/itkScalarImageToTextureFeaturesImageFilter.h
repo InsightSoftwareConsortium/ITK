@@ -26,11 +26,59 @@ namespace itk
 namespace Statistics
 {
 /** \class ScalarImageToTextureFeaturesImageFilter
- *  \brief
+ *  \brief This class computes texture descriptions for each voxel of
+ *  a given image and a mask image if provided. The output image can then be
+ *  displayed by using colormaps.
+ *
+ * This filter computes a N-D image where each voxel will contain
+ * a vector of up to 8 scalars representing the texture features
+ * (of the specified neighborhood) from a N-D scalar image.
+ * The texture features are computed for each spatial
+ * direction and averaged afterward.
+ *
+ * This filter use grey-level co-occurence matrix in order to compute  description a la Haralick. (See
+ * Haralick, R.M., K. Shanmugam and I. Dinstein. 1973. Textural Features for
+ * Image Classification. IEEE Transactions on Systems, Man and Cybernetics.
+ * SMC-3(6):610-620. See also Haralick, R.M. 1979. Statistical and Structural
+ * Approaches to Texture. Proceedings of the IEEE, 67:786-804.)
+ *
+ * Template Parameters:
+ * -# The input image type: a N dimensional image where the pixel type MUST be integer.
+ * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points or an
+ * ImageVector.
+ *
+ * Inputs and parameters:
+ * -# An image
+ * -# A mask defining the region over which texture features will be
+ *    calculated. (Optional)
+ * -# The pixel value that defines the "inside" of the mask. (Optional, defaults
+ *    to 1 if a mask is set.)
+ * -# The number of intensity bins. (Optional, defaults to 256.)
+ * -# The set of directions (offsets) to average across. (Optional, defaults to
+ *    {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously
+ *    for ND images.)
+ * -# The pixel intensity range over which the features will be calculated.
+ *    (Optional, defaults to the full dynamic range of the pixel type.)
+ *
+ * Recommendations:
+ * -# Input image: To improve the computation time, the useful data should take as much
+ *    space as possible in the input image. If the useful data is concentrated in one part of
+ *    the image a crop step should be considered prior to the usage of this filter.
+ * -# Mask: Even if optional, the usage of a mask will greatly improve the computation time.
+ * -# Number of intensity bins: The number of bins should be adapted to the type of results expected
+ *    and the intensity and distances ranges. In addition a high number of bins will increase the
+ *    computation time.
+ * -# Pixel intensity range: For better results the Pixel intensity should be adapted to the input image
+ *    intensity range. For example they could be the minimum and maximum intensity of the image, or 0 and
+ *    the maximum intensity (if the negative values are considered as noise).
+ *
+ * \sa HistogramToTextureFeaturesFilter
+ * \sa ScalarImageToCooccurrenceMatrixFilte
+ * \sa ScalarImageToTextureFeaturesFilter
  *
  * \author: Jean-Baptiste Vimort
  * \ingroup TextureFeatures
- */
+ **/
 
 template <typename TInputImage, typename TOutputImage>
 class ITK_TEMPLATE_EXPORT ScalarImageToTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
