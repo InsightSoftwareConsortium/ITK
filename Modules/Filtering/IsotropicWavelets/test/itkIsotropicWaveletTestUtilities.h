@@ -47,23 +47,33 @@ ComplexImageIsHermitian(Image<std::complex<TValueType>, N> *                    
     typename ComplexImageType::IndexType index = complexIt.GetIndex();
     typename ComplexImageType::IndexType indexOpp = originIndex + (upperIndex - index);
     bool                                 isInNyquistBand(false);
+    bool                                 isInZeroBand(false);
     // DC: 0 ---> 0 ; Nyq: N/2 -> N/2 ;  x ---> N - x
     for (unsigned int i = 0; i < N; ++i)
     {
       if (indexOpp[i] == upperIndex[i]) // 0 case
+      {
         indexOpp[i] = originIndex[i];
+        isInZeroBand = true;
+      }
       else // regular case (including Nyq)
       {
         indexOpp[i] += 1;
         if (indexOpp[i] == index[i])
+        {
           isInNyquistBand = true;
+        }
       }
     }
     typename ComplexImageType::PixelType conjugateOpp;
-    if (isInNyquistBand == true) // Nyquist case for even sizes.
+    if (isInNyquistBand && isInZeroBand)
+    {
       conjugateOpp = complexIt.Get();
+    }
     else
+    {
       conjugateOpp = std::conj(cImg->GetPixel(indexOpp));
+    }
 
     bool equal = itk::Math::FloatAlmostEqual<typename ComplexImageType::PixelType::value_type>(
                    conjugateOpp.real(), complexIt.Get().real(), maxUlp) &&
