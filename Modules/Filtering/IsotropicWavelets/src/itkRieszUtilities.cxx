@@ -40,5 +40,21 @@ ComputeNumberOfComponents(const unsigned int & order, const unsigned int & dimen
          (itk::utils::Factorial(dimension - 1) * itk::utils::Factorial(order));
 }
 
+// explicit instantiation of template functions with std::vector<unsigned int>
+template void
+ComputeUniqueIndices<std::vector<unsigned int>, 3>(
+  std::vector<unsigned int>                                                      subIndice,
+  std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
+  unsigned int                                                                   init = 0);
+
+template void
+ComputeUniqueIndices<std::vector<unsigned int>, 2>(
+  std::vector<unsigned int>                                                      subIndice,
+  std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
+  unsigned int                                                                   init = 0);
+
+template std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
+ComputeAllPermutations<std::vector<unsigned int>>(
+  const std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices);
 } // end namespace utils
 } // end namespace itk
