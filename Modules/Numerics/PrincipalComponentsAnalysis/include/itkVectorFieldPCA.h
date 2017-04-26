@@ -239,6 +239,8 @@ private:
 
 } // end namespace itk
 
-#include "itkVectorFieldPCA.hxx"
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVectorFieldPCA.hxx"
+#endif
 
 #endif
