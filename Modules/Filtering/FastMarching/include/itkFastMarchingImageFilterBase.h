@@ -61,8 +61,11 @@ namespace itk
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
  * Cambridge Press, Second edition, 1999.
  *
+ * For an alternative implementation, see itk::FastMarchingImageFilter.
+ *
  * \tparam TTraits traits
  *
+ * \sa FastMarchingImageFilter
  * \sa ImageFastMarchingTraits
  * \sa ImageFastMarchingTraits2
  *

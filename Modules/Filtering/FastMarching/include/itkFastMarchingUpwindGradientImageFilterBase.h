@@ -41,9 +41,12 @@ namespace itk
  * information only propagates from points where the wavefront has already
  * passed. This is consistent with how the fast marching method works.
  *
+ * For an alternative implementation, see itk::FastMarchingUpwindGradientImageFilter.
+ *
  * \author Luca Antiga Ph.D.  Biomedical Technologies Laboratory,
  *                            Bioengineering Department, Mario Negri Institute, Italy.
  *
+ * \sa FastMarchingUpwindGradientImageFilter
  * \ingroup ITKFastMarching
  */
 template< typename TInput, typename TOutput >
