@@ -39,7 +39,7 @@ namespace Statistics
  *
  * This class can be considered as a macro class that encapsulates the
  * storage for the weights, model (subclasses of MembershipFunctionBase),
- * and model parameter estimators (implemenation of analytical expressions).
+ * and model parameter estimators (implementation of analytical expressions).
  *
  * Subclasses of this class should define their own distribution specific
  * membership function. For example, GaussianMixtureModelComponent class

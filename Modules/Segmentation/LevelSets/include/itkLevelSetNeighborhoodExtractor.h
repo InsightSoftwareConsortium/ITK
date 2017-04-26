@@ -45,7 +45,7 @@ namespace itk
  * provided, the alogrithm will only search pixels within the
  * narrowband.
  *
- * Implemenation of this class is based on Chapter 11 of
+ * Implementation of this class is based on Chapter 11 of
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
  * Cambridge Press, Second edition, 1999.
  *
