@@ -26,7 +26,6 @@ namespace itk
 {
 /**
  * \class QuadEdgeMeshExtendedTraits
- * \ingroup QEMeshObjects
  *
  * \brief Extended traits for a QuadEdgeMesh.
  *
