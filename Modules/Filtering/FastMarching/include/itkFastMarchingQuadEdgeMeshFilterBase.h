@@ -171,5 +171,8 @@ private:
 };
 }
 
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFastMarchingQuadEdgeMeshFilterBase.hxx"
+#endif
+
 #endif // itkFastMarchingQuadEdgeMeshFilterBase_h

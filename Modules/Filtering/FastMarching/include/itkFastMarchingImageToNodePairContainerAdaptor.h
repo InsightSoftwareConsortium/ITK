@@ -154,5 +154,8 @@ private:
   };
 }
 
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFastMarchingImageToNodePairContainerAdaptor.hxx"
+#endif
+
 #endif // itkFastMarchingImageToNodePairContainerAdaptor_h
