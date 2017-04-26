@@ -244,13 +244,15 @@ LevelSetNeighborhoodExtractor< TLevelSet >
   IndexType neighIndex = index;
   typename LevelSetImageType::PixelType neighValue;
   NodeType neighNode;
-  double   distance;
+  SpacePrecisionType distance;
+  SpacePrecisionType spacing;
 
   // In each dimension, find the distance to the zero set
   // by linear interpolating along the grid line.
   for ( unsigned int j = 0; j < SetDimension; j++ )
     {
     neighNode.SetValue(m_LargeValue);
+    spacing = m_InputLevelSet->GetSpacing()[j];
 
     for ( int s = -1; s < 2; s = s + 2 )
       {
@@ -268,7 +270,7 @@ LevelSetNeighborhoodExtractor< TLevelSet >
       if ( ( neighValue > 0 && inside )
            || ( neighValue < 0 && !inside ) )
         {
-        distance = centerValue / ( centerValue - neighValue );
+        distance = centerValue / ( centerValue - neighValue ) * spacing;
 
         if ( neighNode.GetValue() > distance )
           {
