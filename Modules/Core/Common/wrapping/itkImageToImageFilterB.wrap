@@ -3,12 +3,12 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
   itk_wrap_image_filter("${WRAP_ITK_COMPLEX_REAL}" 2)
 
   # scalar <-> RGB
-  UNIQUE(stypes "UL;${WRAP_ITK_SCALAR}")
+  UNIQUE(stypes "${ITKM_IT};UL;${WRAP_ITK_SCALAR}")
   itk_wrap_image_filter_combinations("${stypes}" "${WRAP_ITK_RGB}")
   itk_wrap_image_filter_combinations("${WRAP_ITK_RGB}" "${stypes}")
 
   # scalar <-> RGBA
-  UNIQUE(stypes "UL;${WRAP_ITK_SCALAR}")
+  UNIQUE(stypes "${ITKM_IT};UL;${WRAP_ITK_SCALAR}")
   itk_wrap_image_filter_combinations("${stypes}" "${WRAP_ITK_RGBA}")
   itk_wrap_image_filter_combinations("${WRAP_ITK_RGBA}" "${stypes}")
 
