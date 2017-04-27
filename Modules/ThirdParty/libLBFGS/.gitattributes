@@ -1,0 +1,4 @@
+.git*            export-ignore
+
+*.c              -whitespace=tab-in-indent,trailing-space
+*.h              -whitespace=tab-in-indent,trailing-space

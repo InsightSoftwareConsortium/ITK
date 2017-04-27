@@ -20,6 +20,7 @@ set(ITKOptimizersv4Tests
   itkQuasiNewtonOptimizerv4Test.cxx
   itkObjectToObjectMetricBaseTest.cxx
   itkLBFGSOptimizerv4Test.cxx
+  itkLBFGS2Optimizerv4Test.cxx
   itkLBFGSBOptimizerv4Test.cxx
   itkRegularStepGradientDescentOptimizerv4Test.cxx
   itkAmoebaOptimizerv4Test.cxx
@@ -120,6 +121,10 @@ itk_add_test(NAME itkObjectToObjectMetricBaseTest
 itk_add_test(NAME itkLBFGSOptimizerv4Test
   COMMAND ITKOptimizersv4TestDriver
   itkLBFGSOptimizerv4Test)
+
+itk_add_test(NAME itkLBFGS2Optimizerv4Test
+  COMMAND ITKOptimizersv4TestDriver
+  itkLBFGS2Optimizerv4Test)
 
 itk_add_test(NAME itkLBFGSBOptimizerv4Test
   COMMAND ITKOptimizersv4TestDriver

@@ -5,6 +5,8 @@ itk_module(ITKOptimizersv4
   ENABLE_SHARED
   DEPENDS
     ITKOptimizers
+  PRIVATE_DEPENDS
+    ITKLIBLBFGS
   COMPILE_DEPENDS
     ITKCommon
     ITKTransform
