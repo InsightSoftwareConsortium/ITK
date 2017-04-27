@@ -209,7 +209,7 @@ public:
 
   /** WarpVectorImageFilter produces an image which is a different
    * size than its input image. As such, it needs to provide an
-   * implemenation for GenerateOutputInformation() which set
+   * implementation for GenerateOutputInformation() which set
    * the output information according the OutputSpacing, OutputOrigin
    * and the displacement field's LargestPossibleRegion. */
   virtual void GenerateOutputInformation() ITK_OVERRIDE;

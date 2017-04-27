@@ -174,7 +174,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 }
 
 /*
- * Override the default implemenation for the case when the
+ * Override the default implementation for the case when the
  * initial deformation is not set.
  * If the initial deformation is not set, the output is
  * fill with zero vectors.
