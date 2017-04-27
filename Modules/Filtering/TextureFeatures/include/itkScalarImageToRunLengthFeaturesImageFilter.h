@@ -20,6 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkScalarImageToRunLengthMatrixFilter.h"
+#include "itkConstNeighborhoodIterator.h"
 
 namespace itk
 {
