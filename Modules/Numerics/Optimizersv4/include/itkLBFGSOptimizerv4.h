@@ -28,10 +28,10 @@ namespace itk
  * \brief Wrap of the vnl_lbfgs algorithm for use in ITKv4 registration framework.
  * The vnl_lbfgs is a wrapper for the NETLIB fortran code by Nocedal [1].
  *
- * LBFGS is a quasi-Newton method uses an approximate estimate of the inverse Hessian
- * \f$ (\nabla^2 f(x) )^-1 \f$ to scale the gradient step:
+ * LBFGS is a quasi-Newton method. Quasi-Newton methods use an approximate estimate
+ * of the inverse Hessian \f$ (\nabla^2 f(x) )^{-1} \f$ to scale the gradient step:
  * \f[
- * x_{n+1} = x_n - s (\nabla^2 f(x_n) )^-1 \nabla f(x)
+ * x_{n+1} = x_n - s (\nabla^2 f(x_n) )^-{1} \nabla f(x)
  * \f]
  * with \f$ s \f$ the step size.
  *
@@ -41,11 +41,11 @@ namespace itk
  * The step size \f$ s \f$ is determined through line search with the approach
  * by More and Thuente [4]. This line search approach finds a step size such that
  * \f[
- * \lVert \nabla f(x + s (\nabla^2 f(x_n) )^-1 \nabla f(x) ) \rVert
+ * \lVert \nabla f(x + s (\nabla^2 f(x_n) )^{-1} \nabla f(x) ) \rVert
  *   \le
  * \nu \lVert \nabla f(x) \rVert
  * \f]
- * The parameter $\nu$ is set through SetLineSearchAccuracy() (default 0.9)
+ * The parameter \f$ \nu \f$ is set through SetLineSearchAccuracy() (default 0.9)
  * The default step length, i.e. starting step length for the line search,
  * is set through SetDefaultStepLength() (default 1.0).
  *
@@ -58,9 +58,9 @@ namespace itk
  * (default 1e-5) and the maximum number of function evaluations is set
  * through SetMaximumNumberOfFunctionEvaluations() (default 2000).
  *
- * Note: The scales set through SetScales should be set or left at one.
- * Otherwise the Hessian approximation will be disturbed and the
- * optimizer is unlikely to find a minima.
+ * Note: The scaling of the optimization paramaters, set through SetScales(),
+ * should be set or left at one. Otherwise the Hessian approximation as well as
+ * the line search will be disturbed and the optimizer is unlikely to find a minima.
  *
  *
  * References:
