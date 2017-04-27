@@ -49,6 +49,7 @@ namespace itk
  * met. This way the solution is computed a bit downstream the Target points,
  * so that the level sets of T(x) corresponding to the Target are smooth.
  *
+ * For an alternative implementation, see itk::FastMarchingUpwindGradientImageFilterBase.
  *
  * \author Luca Antiga Ph.D.  Biomedical Technologies Laboratory,
  *                            Bioengineering Department, Mario Negri Institute, Italy.

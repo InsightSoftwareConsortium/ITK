@@ -84,6 +84,8 @@ namespace itk
  * and SetOutputOrigin(). Else if the speed image is not ITK_NULLPTR, the output information
  * is copied from the input speed image.
  *
+ * For an alternative implementation, see itk::FastMarchingImageFilter.
+ *
  * Possible Improvements:
  * In the current implemenation, std::priority_queue only allows
  * taking nodes out from the front and putting nodes in from the back.
@@ -96,6 +98,7 @@ namespace itk
  * an image of back-pointers going from the image to heap in order
  * to locate the node which is to be updated.
  *
+ * \sa FastMarchingImageFilterBase
  * \sa LevelSetTypeDefault
  * \ingroup LevelSetSegmentation
  * \ingroup ITKFastMarching

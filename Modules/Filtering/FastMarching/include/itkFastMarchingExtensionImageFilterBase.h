@@ -43,6 +43,9 @@ namespace itk
  * "Level Set Methods and Fast Marching Methods", J.A. Sethian,
  * Cambridge Press, Second edition, 1999.
  *
+ * For an alternative implementation, see itk::FastMarchingExtensionImageFilter.
+ *
+ * \sa FastMarchingExtensionImageFilter
  * \sa FastMarchingImageFilter
  * \sa LevelSetTypeDefault
  * \sa AuxVarTypeDefault
