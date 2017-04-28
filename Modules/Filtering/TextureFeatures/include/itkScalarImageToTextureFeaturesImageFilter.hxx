@@ -64,6 +64,27 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ScalarImageT
   this->m_Normalize = false;
 }
 
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetOffset(const OffsetType offset)
+{
+  OffsetVectorPointer offsetVector = OffsetVector::New();
+  offsetVector->push_back(offset);
+  this->SetOffsets(offsetVector);
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetDistanceValueMinMax(RealType min, RealType max)
+{
+  if (Math::NotExactlyEquals(this->m_Min, min) || Math::NotExactlyEquals(this->m_Max, max))
+  {
+    itkDebugMacro("setting MinDistance to " << min << "and MaxDistance to " << max);
+    this->m_Min = min;
+    this->m_Max = max;
+    this->Modified();
+  }
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
