@@ -277,6 +277,7 @@ int micreate_volume_image(mihandle_t volume)
 {
   char dimorder[MI2_CHAR_LENGTH];
   int i;
+  int dimorder_len=0;
   hid_t dataspace_id;
   hid_t dset_id;
   hsize_t hdf_size[MI2_MAX_VAR_DIMS];
@@ -292,7 +293,7 @@ int micreate_volume_image(mihandle_t volume)
     /* Create the dimorder string, ordered comma-separated
       list of dimension names.
     */
-    strncat(dimorder, volume->dim_handles[i]->name, MI2_CHAR_LENGTH - 1);
+    strncat(dimorder, volume->dim_handles[i]->name, MI2_CHAR_LENGTH - 1 - strlen(dimorder)); /*as a replacement for strlcat*/
     if (i != volume->number_of_dims - 1) {
       strncat(dimorder, ",", MI2_CHAR_LENGTH - 1);
     }
@@ -329,7 +330,7 @@ int micreate_volume_image(mihandle_t volume)
 
     MI_CHECK_HDF_CALL_RET(dcpl_id = H5Pcreate(H5P_DATASET_CREATE),"H5Pcreate")
 
-    if (volume->has_slice_scaling) {
+    if (volume->has_slice_scaling && (volume->number_of_dims > 2) ) {
       /* TODO: Find the slowest-varying spatial dimension; that forms
       * the basis for the image-min and image-max variables.  Right
       * now this is an oversimplification!
@@ -347,9 +348,9 @@ int micreate_volume_image(mihandle_t volume)
         /* Create the dimorder string, ordered comma-separated
           list of dimension names.
         */
-        strncat(dimorder, volume->dim_handles[i]->name, MI2_CHAR_LENGTH - 1);
-        if (i != volume->number_of_dims - 1) {
-          strncat(dimorder, ",", MI2_CHAR_LENGTH - 1);
+        strncat(dimorder, volume->dim_handles[i]->name, MI2_CHAR_LENGTH - 1 - strlen(dimorder));
+        if (i != ndims - 1) {
+          strncat(dimorder, ",", MI2_CHAR_LENGTH - 1 - strlen(dimorder));
         }
       }
     }
@@ -728,7 +729,7 @@ int micreate_volume(const char *filename, int number_of_dimensions,
 
     if(!dimension_is_vector )
       add_standard_minc_attributes(file_id,dataset_id);
-    /*vector dimension is a record*/
+      /*vector dimension is a record (?)*/
     
     /* Check for irregular dimension and make sure
       offset values are provided for this dimension
@@ -767,6 +768,12 @@ int micreate_volume(const char *filename, int number_of_dimensions,
         */
         MI_CHECK_HDF_CALL_RET(status = H5Dwrite(dataset_width, H5T_NATIVE_DOUBLE, dataspace_id, fspc_id, H5P_DEFAULT, dimensions[i]->widths),"H5Dwrite")
         
+        miset_attr_at_loc(dataset_id, "dimorder", MI_TYPE_STRING,
+                          strlen(dimensions[i]->name), dimensions[i]->name);
+
+        miset_attr_at_loc(dataset_width, "dimorder", MI_TYPE_STRING,
+                          strlen(dimensions[i]->name), dimensions[i]->name);
+
         /* Create new attribute "length", with appropriate
           type (to hdf5) conversion.
           miset_attr_at_loc(..) is implemented at m2utils.c
@@ -818,39 +825,48 @@ int micreate_volume(const char *filename, int number_of_dimensions,
       return (MI_ERROR);
     }
 
-    if(!dimension_is_vector)
-      miset_attr_at_loc(dataset_id, "class", MI_TYPE_STRING, strlen(name),
-                      name);
-
-    /* Create Dimension attribute "direction_cosines"  */
-    if(!dimension_is_vector)
-      miset_attr_at_loc(dataset_id, "direction_cosines", MI_TYPE_DOUBLE,
-                      3, dimensions[i]->direction_cosines);
-
     /* Save dimension length */
     miset_attr_at_loc(dataset_id, "length", MI_TYPE_INT,
                       1, &dimensions[i]->length);
+    
+    /* Create Dimension attribute "direction_cosines"  */
+    if(dimensions[i]->dim_class == MI_DIMCLASS_SPATIAL)
+      miset_attr_at_loc(dataset_id, "direction_cosines", MI_TYPE_DOUBLE,
+                      3, dimensions[i]->direction_cosines);
 
-    /* Save step value. */
     if(!dimension_is_vector)
+    {
+      miset_attr_at_loc(dataset_id, "class", MI_TYPE_STRING, strlen(name),
+                      name);
+
+
+      /* Save step value. */
       miset_attr_at_loc(dataset_id, "step", MI_TYPE_DOUBLE,
                       1, &dimensions[i]->step);
 
-    /* Save start value. */
-    if(!dimension_is_vector)
+      /* Save start value. */
       miset_attr_at_loc(dataset_id, "start", MI_TYPE_DOUBLE,
                       1, &dimensions[i]->start);
 
-    /* Save units. */
-    if(!dimension_is_vector)
+      const char *align_str;
+      if (dimensions[i]->align == MI_DIMALIGN_END)
+        align_str = "end___";
+      else if (dimensions[i]->align == MI_DIMALIGN_START)
+        align_str = "start_";
+      else
+        align_str = "centre";
+      miset_attr_at_loc(dataset_id, "alignment", MI_TYPE_STRING,
+                        strlen(align_str), align_str);
+
+      /* Save units. */
       miset_attr_at_loc(dataset_id, "units", MI_TYPE_STRING,
                       strlen(dimensions[i]->units), dimensions[i]->units);
 
-    /* Save sample width. */
-    if(!dimension_is_vector)
+      /* Save sample width. */
       miset_attr_at_loc(dataset_id, "width", MI_TYPE_DOUBLE,
                       1,  &dimensions[i]->width);
-
+    }
+    
     /* Save comments. If user has not specified
       any comments, do not add this attribute
     */
@@ -1446,10 +1462,11 @@ int miopen_volume(const char *filename, int mode, mihandle_t *volume)
     /* Get the Id of the copy of the dataspace of the dataset */
     space_id = H5Dget_space(dset_id);
     if (space_id >= 0) {
+      
       /* If the dimensionality of the image-max variable is one or
       * greater, we consider this volume to have slice-scaling enabled.
       */
-      if (H5Sget_simple_extent_ndims(space_id) >= 1) {
+      if ( H5Sget_simple_extent_ndims(space_id) >= 1) {
         handle->has_slice_scaling = TRUE;
       }
       H5Sclose(space_id);	/* Close the dataspace handle */
@@ -1763,4 +1780,4 @@ int miget_slice_dimension_count(mihandle_t volume, midimclass_t dimclass,
 }
 
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

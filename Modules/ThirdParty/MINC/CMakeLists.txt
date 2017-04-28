@@ -44,6 +44,7 @@ else()
     ${ITKMINC_BINARY_DIR}
     ${ITKMINC_SOURCE_DIR}
     ${ITKMINC_SOURCE_DIR}/src/libminc
+    ${ITKMINC_SOURCE_DIR}/src/libminc/libcommon
     ${ITKMINC_SOURCE_DIR}/src/libminc/libsrc2
     ${ITKMINC_SOURCE_DIR}/src/libminc/volume_io/Include
     )

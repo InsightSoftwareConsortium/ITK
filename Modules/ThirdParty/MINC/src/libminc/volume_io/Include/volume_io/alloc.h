@@ -32,17 +32,16 @@
 #include  <volume_io/basic.h>
 #include  <stdlib.h>
 
-#ifdef NO_DEBUG_ALLOC
 #define  _ALLOC_SOURCE_LINE
 #define  _ALLOC_SOURCE_LINE_ARG_DEF
 #define  _ALLOC_SOURCE_LINE_ARGUMENTS
 #define  PRINT_ALLOC_SOURCE_LINE
-#else
+
+#if 0
 #define  _ALLOC_SOURCE_LINE    , __FILE__, __LINE__
 #define  _ALLOC_SOURCE_LINE_ARG_DEF   , char  filename[], int line_number
 #define  _ALLOC_SOURCE_LINE_ARGUMENTS   , filename, line_number
-#define  PRINT_ALLOC_SOURCE_LINE   \
-         print_alloc_source_line( filename, line_number );
+#define  PRINT_ALLOC_SOURCE_LINE   print_alloc_source_line( filename, line_number );
 #endif
 
 

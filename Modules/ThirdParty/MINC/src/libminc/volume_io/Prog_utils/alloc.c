@@ -248,10 +248,12 @@ VIOAPI  void  *alloc_memory_in_bytes(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
+#if 0    
 #ifndef  NO_DEBUG_ALLOC
     else
         record_ptr_alloc_check( ptr, n_bytes, filename, line_number );
 #endif
+#endif    
 
     return( ptr );
 }
@@ -286,10 +288,12 @@ VIOAPI  void  *alloc_memory_1d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
+#if 0    
 #ifndef  NO_DEBUG_ALLOC
     else
         record_ptr_alloc_check( ptr, n_elements * type_size,
                                 filename, line_number );
+#endif
 #endif
 
     return( ptr );
@@ -327,6 +331,7 @@ VIOAPI  void  *alloc_memory_2d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
+#if 0    
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -336,7 +341,7 @@ VIOAPI  void  *alloc_memory_2d(
                                 filename, line_number );
     }
 #endif
-
+#endif 
     return( (void *) ptr );
 }
 
@@ -374,6 +379,7 @@ VIOAPI  void  *alloc_memory_3d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
+#if 0    
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -384,6 +390,7 @@ VIOAPI  void  *alloc_memory_3d(
         record_ptr_alloc_check( **ptr, n1 * n2 * n3 * type_size,
                                 filename, line_number );
     }
+#endif
 #endif
 
     return( (void *) ptr );
@@ -425,6 +432,7 @@ VIOAPI  void  *alloc_memory_4d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
+#if 0    
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -438,7 +446,7 @@ VIOAPI  void  *alloc_memory_4d(
                                 filename, line_number );
     }
 #endif
-
+#endif
     return( (void *) ptr );
 }
 
@@ -480,6 +488,7 @@ VIOAPI  void  *alloc_memory_5d(
         PRINT_ALLOC_SOURCE_LINE
         abort_if_allowed();
     }
+#if 0    
 #ifndef  NO_DEBUG_ALLOC
     else
     {
@@ -495,7 +504,7 @@ VIOAPI  void  *alloc_memory_5d(
                                 filename, line_number );
     }
 #endif
-
+#endif 
     return( (void *) ptr );
 }
 
@@ -537,10 +546,11 @@ VIOAPI  void  realloc_memory(
             PRINT_ALLOC_SOURCE_LINE
             abort_if_allowed();
         }
-
+#if 0
 #ifndef  NO_DEBUG_ALLOC
         change_ptr_alloc_check( old_ptr, *ptr, n_elements * type_size,
                                 filename, line_number );
+#endif
 #endif
     }
     else
@@ -674,8 +684,10 @@ VIOAPI  void  free_memory_1d(
     void   **ptr
     _ALLOC_SOURCE_LINE_ARG_DEF )
 {
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( *ptr, filename, line_number ) )
+#endif
 #endif
         private_free_memory_1d( ptr );
 }
@@ -699,10 +711,12 @@ VIOAPI  void  free_memory_2d(
     void   ***ptr
     _ALLOC_SOURCE_LINE_ARG_DEF )
 {
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
+#endif  
         private_free_memory_2d( ptr );
 }
 
@@ -725,11 +739,13 @@ VIOAPI  void  free_memory_3d(
     void   ****ptr
     _ALLOC_SOURCE_LINE_ARG_DEF )
 {
+#if 0  
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( ***ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
+#endif  
         private_free_memory_3d( ptr );
 }
 
@@ -752,12 +768,14 @@ VIOAPI  void  free_memory_4d(
     void   *****ptr
     _ALLOC_SOURCE_LINE_ARG_DEF )
 {
+#if 0  
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( ****ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) ***ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
+#endif   
         private_free_memory_4d( ptr );
 }
 
@@ -780,6 +798,7 @@ VIOAPI  void  free_memory_5d(
     void   ******ptr
     _ALLOC_SOURCE_LINE_ARG_DEF )
 {
+#if 0  
 #ifndef  NO_DEBUG_ALLOC
     if( unrecord_ptr_alloc_check( *****ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) ****ptr, filename, line_number ) &&
@@ -787,5 +806,6 @@ VIOAPI  void  free_memory_5d(
         unrecord_ptr_alloc_check( (void *) **ptr, filename, line_number ) &&
         unrecord_ptr_alloc_check( (void *) *ptr, filename, line_number ) )
 #endif
+#endif   
         private_free_memory_5d( ptr );
 }

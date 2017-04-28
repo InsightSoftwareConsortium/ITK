@@ -33,14 +33,14 @@ set(ZLIB_FOUND ON)
 set(HDF5_FOUND ON)
 
 if(NOT ITK_USE_SYSTEM_HDF5)
-  set(HDF5_INCLUDE_DIR ${ITKHDF5_SOURCE_DIR}/src/itkhdf5)
+  set(HDF5_INCLUDE_DIRS ${ITKHDF5_SOURCE_DIR}/src/itkhdf5)
   include_directories(
     "${ITKHDF5_SOURCE_DIR}/src/itkhdf5"
     "${ITKHDF5_SOURCE_DIR}/src/itkhdf5/src"
     "${ITKHDF5_BINARY_DIR}/src/itkhdf5"
     )
 endif()
-set(HDF5_LIBRARY ${ITKHDF5_LIBRARIES})
+set(HDF5_LIBRARIES ${ITKHDF5_LIBRARIES})
 
 set(BUILD_TESTING OFF)
 add_subdirectory(libminc)

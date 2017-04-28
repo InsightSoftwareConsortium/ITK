@@ -62,7 +62,7 @@ VIOAPI  VIO_Real  convert_value_to_voxel(
     VIO_Volume   volume,
     VIO_Real     value )
 {
-    if( volume->real_range_set )
+    if( volume->real_range_set && !volume->is_labels )
         return( (value - volume->real_value_translation) /
                 volume->real_value_scale );
     else
@@ -212,6 +212,106 @@ VIOAPI  void  set_volume_real_value(
     set_volume_voxel_value( volume, v0, v1, v2, v3, v4, voxel );
 }
 
+/* Perform special-case interpolation of an RGB volume. */
+static void trilinear_interpolate_rgb(
+    VIO_Volume   volume,
+    VIO_Real     voxel[],
+    VIO_Real     outside_value,
+    VIO_Real     *value)
+{
+    int          c, i, j, k, *sizes, dx, dy, dz;
+    VIO_Real     x, y, z, u, v, w;
+    unsigned int coefs[8];
+    int          in_rgb[8][3];
+    int          out_rgb[3];
+    VIO_Real     du00, du01, du10, du11, c00, c01, c10, c11, c0, c1;
+    VIO_Real     dv0, dv1, dw;
+
+    sizes = &volume->array.sizes[0];
+
+    x = voxel[0];
+    y = voxel[1];
+    z = voxel[2];
+
+    outside_value = convert_value_to_voxel( volume, outside_value );
+
+    i = VIO_FLOOR( x );
+    j = VIO_FLOOR( y );
+    k = VIO_FLOOR( z );
+
+    c = 0;
+    for_less( dx, i, i+2 )
+    {
+      for_less( dy, j, j+2 )
+      {
+        for_less( dz, k, k+2 )
+        {
+          if( dx >= 0 && dx < sizes[0] &&
+              dy >= 0 && dy < sizes[1] &&
+              dz >= 0 && dz < sizes[2] )
+          {
+            GET_VOXEL_3D_TYPED( coefs[c], (unsigned int), volume, dx, dy, dz);
+          }
+          else
+          {
+            coefs[c] = outside_value;
+          }
+
+          in_rgb[c][0] = get_Colour_r( coefs[c] );
+          in_rgb[c][1] = get_Colour_g( coefs[c] );
+          in_rgb[c][2] = get_Colour_b( coefs[c] );
+
+          ++c;
+        }
+      }
+    }
+
+    /* get fractional parts of the coordinates. */
+    u = x - (VIO_Real) i;
+    v = y - (VIO_Real) j;
+    w = z - (VIO_Real) k;
+
+    for (i = 0; i < 3; i++) {
+      /*--- get the 4 differences in the u direction */
+
+      du00 = in_rgb[4][i] - in_rgb[0][i];
+      du01 = in_rgb[5][i] - in_rgb[1][i];
+      du10 = in_rgb[6][i] - in_rgb[2][i];
+      du11 = in_rgb[7][i] - in_rgb[3][i];
+
+      /*--- reduce to a 2D problem, by interpolating in the u direction */
+
+      c00 = in_rgb[0][i] + u * du00;
+      c01 = in_rgb[1][i] + u * du01;
+      c10 = in_rgb[2][i] + u * du10;
+      c11 = in_rgb[3][i] + u * du11;
+
+      /*--- get the 2 differences in the v direction for the 2D problem */
+
+      dv0 = c10 - c00;
+      dv1 = c11 - c01;
+
+      /*--- reduce 2D to a 1D problem, by interpolating in the v direction */
+
+      c0 = c00 + v * dv0;
+      c1 = c01 + v * dv1;
+
+      /*--- get the 1 difference in the w direction for the 1D problem */
+
+      dw = c1 - c0;
+
+      /*--- if the value is desired, interpolate in 1D to get the value */
+
+      out_rgb[i] = c0 + w * dw;
+      if (out_rgb[i] > 255) {
+        out_rgb[i] = 255;
+      }
+    }
+
+    /* map it back into an RGB value */
+    *value = (VIO_Real) make_Colour(out_rgb[0], out_rgb[1], out_rgb[2]);
+}
+
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : trilinear_interpolate
 @INPUT      : volume
@@ -239,17 +339,20 @@ static void trilinear_interpolate(
     VIO_Real     *value,
     VIO_Real     derivs[] )
 {
-    int    c, i, j, k, *sizes, dx, dy, dz;
-    VIO_Real   x, y, z, u, v, w;
+    int        c, i, j, k, l, m, *sizes, dx, dy, dz;
+    VIO_Real   x, y, z, u, v, w, t;
     VIO_Real   coefs[8];
     VIO_Real   du00, du01, du10, du11, c00, c01, c10, c11, c0, c1, du0, du1;
     VIO_Real   dv0, dv1, dw, scale_factor;
+    int        ndim = volume->array.n_dimensions;
 
     sizes = &volume->array.sizes[0];
 
     x = voxel[0];
     y = voxel[1];
     z = voxel[2];
+    t = voxel[3];
+    v = voxel[4];
 
     if( x >= 0.0 && x < (VIO_Real) sizes[0]-1.0 &&
         y >= 0.0 && y < (VIO_Real) sizes[1]-1.0 &&
@@ -258,15 +361,41 @@ static void trilinear_interpolate(
         i = (int) x;
         j = (int) y;
         k = (int) z;
+        l = (int) t;
+        m = (int) v;
 
-        GET_VOXEL_3D_TYPED( coefs[0], (VIO_Real), volume, i  , j  , k   );
-        GET_VOXEL_3D_TYPED( coefs[1], (VIO_Real), volume, i  , j  , k+1 );
-        GET_VOXEL_3D_TYPED( coefs[2], (VIO_Real), volume, i  , j+1, k   );
-        GET_VOXEL_3D_TYPED( coefs[3], (VIO_Real), volume, i  , j+1, k+1 );
-        GET_VOXEL_3D_TYPED( coefs[4], (VIO_Real), volume, i+1, j  , k   );
-        GET_VOXEL_3D_TYPED( coefs[5], (VIO_Real), volume, i+1, j  , k+1 );
-        GET_VOXEL_3D_TYPED( coefs[6], (VIO_Real), volume, i+1, j+1, k   );
-        GET_VOXEL_3D_TYPED( coefs[7], (VIO_Real), volume, i+1, j+1, k+1 );
+        switch (ndim) {
+        case 3:
+          GET_VOXEL_3D_TYPED( coefs[0], (VIO_Real), volume, i  , j  , k   );
+          GET_VOXEL_3D_TYPED( coefs[1], (VIO_Real), volume, i  , j  , k+1 );
+          GET_VOXEL_3D_TYPED( coefs[2], (VIO_Real), volume, i  , j+1, k   );
+          GET_VOXEL_3D_TYPED( coefs[3], (VIO_Real), volume, i  , j+1, k+1 );
+          GET_VOXEL_3D_TYPED( coefs[4], (VIO_Real), volume, i+1, j  , k   );
+          GET_VOXEL_3D_TYPED( coefs[5], (VIO_Real), volume, i+1, j  , k+1 );
+          GET_VOXEL_3D_TYPED( coefs[6], (VIO_Real), volume, i+1, j+1, k   );
+          GET_VOXEL_3D_TYPED( coefs[7], (VIO_Real), volume, i+1, j+1, k+1 );
+          break;
+        case 4:
+          GET_VOXEL_4D_TYPED( coefs[0], (VIO_Real), volume, i  , j  , k  , l );
+          GET_VOXEL_4D_TYPED( coefs[1], (VIO_Real), volume, i  , j  , k+1, l );
+          GET_VOXEL_4D_TYPED( coefs[2], (VIO_Real), volume, i  , j+1, k  , l );
+          GET_VOXEL_4D_TYPED( coefs[3], (VIO_Real), volume, i  , j+1, k+1, l );
+          GET_VOXEL_4D_TYPED( coefs[4], (VIO_Real), volume, i+1, j  , k  , l );
+          GET_VOXEL_4D_TYPED( coefs[5], (VIO_Real), volume, i+1, j  , k+1, l );
+          GET_VOXEL_4D_TYPED( coefs[6], (VIO_Real), volume, i+1, j+1, k  , l );
+          GET_VOXEL_4D_TYPED( coefs[7], (VIO_Real), volume, i+1, j+1, k+1, l );
+          break;
+        case 5:
+          GET_VOXEL_5D_TYPED( coefs[0], (VIO_Real), volume, i  , j  , k  , l, m );
+          GET_VOXEL_5D_TYPED( coefs[1], (VIO_Real), volume, i  , j  , k+1, l, m );
+          GET_VOXEL_5D_TYPED( coefs[2], (VIO_Real), volume, i  , j+1, k  , l, m );
+          GET_VOXEL_5D_TYPED( coefs[3], (VIO_Real), volume, i  , j+1, k+1, l, m );
+          GET_VOXEL_5D_TYPED( coefs[4], (VIO_Real), volume, i+1, j  , k  , l, m );
+          GET_VOXEL_5D_TYPED( coefs[5], (VIO_Real), volume, i+1, j  , k+1, l, m );
+          GET_VOXEL_5D_TYPED( coefs[6], (VIO_Real), volume, i+1, j+1, k  , l, m );
+          GET_VOXEL_5D_TYPED( coefs[7], (VIO_Real), volume, i+1, j+1, k+1, l, m );
+          break;
+        }
     }
     else
     {
@@ -275,21 +404,65 @@ static void trilinear_interpolate(
         i = VIO_FLOOR( x );
         j = VIO_FLOOR( y );
         k = VIO_FLOOR( z );
+        l = VIO_FLOOR( t );
+        m = VIO_FLOOR( v );
 
         c = 0;
-        for_less( dx, 0, 2 )
-        for_less( dy, 0, 2 )
-        for_less( dz, 0, 2 )
-        {
-            if( i + dx >= 0 && i + dx < sizes[0] &&
-                j + dy >= 0 && j + dy < sizes[1] &&
-                k + dz >= 0 && k + dz < sizes[2] )
+        switch (ndim) {
+        case 3:
+          for_less( dx, i, i+2 )
+          for_less( dy, j, j+2 )
+          for_less( dz, k, k+2 )
+          {
+            if( dx >= 0 && dx < sizes[0] &&
+                dy >= 0 && dy < sizes[1] &&
+                dz >= 0 && dz < sizes[2] )
             {
-                GET_VOXEL_3D_TYPED( coefs[c], (VIO_Real), volume, i+dx, j+dy, k+dz);
+              GET_VOXEL_3D_TYPED( coefs[c], (VIO_Real), volume, dx, dy, dz);
             }
             else
-                coefs[c] = outside_value;
+            {
+              coefs[c] = outside_value;
+            }
             ++c;
+          }
+          break;
+        case 4:
+          for_less( dx, i, i+2 )
+          for_less( dy, j, j+2 )
+          for_less( dz, k, k+2 )
+          {
+            if( dx >= 0 && dx < sizes[0] &&
+                dy >= 0 && dy < sizes[1] &&
+                dz >= 0 && dz < sizes[2] )
+            {
+              GET_VOXEL_4D_TYPED( coefs[c], (VIO_Real), volume, dx, dy, dz, l);
+            }
+            else
+            {
+              coefs[c] = outside_value;
+            }
+            ++c;
+          }
+          break;
+        case 5:
+          for_less( dx, i, i+2 )
+          for_less( dy, j, j+2 )
+          for_less( dz, k, k+2 )
+          {
+            if( dx >= 0 && dx < sizes[0] &&
+                dy >= 0 && dy < sizes[1] &&
+                dz >= 0 && dz < sizes[2] )
+            {
+              GET_VOXEL_5D_TYPED( coefs[c], (VIO_Real), volume, dx, dy, dz, l, m);
+            }
+            else
+            {
+              coefs[c] = outside_value;
+            }
+            ++c;
+          }
+          break;
         }
     }
 
@@ -730,7 +903,7 @@ VIOAPI  int   evaluate_volume(
 
     /*--- check for the common case trilinear interpolation of 1 value */
 
-    if( n_dims == 3 && degrees_continuity == 0 && second_deriv == NULL &&
+    if( n_dims >= 3 && degrees_continuity == 0 && second_deriv == NULL &&
         (interpolating_dimensions == NULL ||
          (interpolating_dimensions[0] &&
           interpolating_dimensions[1] &&
@@ -743,8 +916,13 @@ VIOAPI  int   evaluate_volume(
         else
             deriv = first_deriv[0];
 
-        trilinear_interpolate( volume, voxel, outside_value, &values[0],
-                               deriv );
+        if ( is_an_rgb_volume( volume ) ) {
+          trilinear_interpolate_rgb( volume, voxel, outside_value, &values[0] );
+        }
+        else {
+          trilinear_interpolate( volume, voxel, outside_value, &values[0],
+                                 deriv );
+        }
 
         return( 1 );
     }

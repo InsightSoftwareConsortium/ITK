@@ -358,14 +358,9 @@ MI2redef(int fd)
 MNCAPI int
 MI2sync(int fd)
 {
-    if (MI2_ISH5OBJ(fd)) {
+    if (MI2_ISH5OBJ(fd) ) {
         /* Commit the (entire) file to disk. */
-        if (H5Fflush(fd, H5F_SCOPE_GLOBAL) < 0) {
-            return (MI_ERROR);
-        }
-        else {
-            return (MI_NOERROR);
-        }
+        return hdf_flush(fd);
     }
     else {
         return (ncsync(fd));

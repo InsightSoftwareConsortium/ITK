@@ -26,8 +26,6 @@ nifti_find_data_range(nifti_image *nii_ptr,
                       VIO_Real *max_value_ptr)
 {
   size_t i, j;
-  double slope;
-  double inter;
   long int initial_offset = znztell(zfp);
   double data[CHUNK_SIZE / sizeof(double)];
   size_t n_voxels_per_chunk;
@@ -38,21 +36,17 @@ nifti_find_data_range(nifti_image *nii_ptr,
     return;
   }
 
-  *min_value_ptr = FLT_MAX;
-  *max_value_ptr = -FLT_MAX;
-
-  if (nii_ptr->scl_slope <= 0.0)
-  {
-    slope = 1.0;
-    inter = 0.0;
-  }
-  else
-  {
-    slope = nii_ptr->scl_slope;
-    inter = nii_ptr->scl_inter;
-  }
+  *min_value_ptr = DBL_MAX;
+  *max_value_ptr = -DBL_MAX;
 
   n_voxels_per_chunk = CHUNK_SIZE / nii_ptr->nbyper;
+
+  if ( nii_ptr->datatype == DT_RGB24 )
+  {
+    *min_value_ptr = 0;
+    *max_value_ptr = 0xffffffff;
+    return;
+  }
 
   for (i = 0; i < nii_ptr->nvox; i += n_voxels_per_chunk)
   {
@@ -60,14 +54,18 @@ nifti_find_data_range(nifti_image *nii_ptr,
     size_t n_bytes_to_read;
     if (i + n_voxels_per_chunk > nii_ptr->nvox)
     {
-      n_bytes_to_read = (nii_ptr->nvox - i) * nii_ptr->nbyper;
+      /* Final partial chunk. Adjust the counters to read only
+       * the bytes and voxels actually loaded.
+       */
+      n_voxels_per_chunk = nii_ptr->nvox - i;
+      n_bytes_to_read = n_voxels_per_chunk * nii_ptr->nbyper;
     }
     else
     {
       n_bytes_to_read = CHUNK_SIZE;
     }
 
-    if (nifti_read_buffer(zfp, data, n_bytes_to_read, nii_ptr) != 
+    if (nifti_read_buffer(zfp, data, n_bytes_to_read, nii_ptr) !=
         n_bytes_to_read)
     {
       print_error("nifti_find_data_range: Read error.\n");
@@ -103,7 +101,7 @@ nifti_find_data_range(nifti_image *nii_ptr,
         tmp = (double) ((double *)data)[j];
         break;
       default:
-        fprintf(stderr, "NIfTI-1 data type %d not handled\n", 
+        fprintf(stderr, "NIfTI-1 data type %d not handled\n",
                 nii_ptr->datatype);
         return;
       }
@@ -118,27 +116,32 @@ nifti_find_data_range(nifti_image *nii_ptr,
     }
   }
 
-  *min_value_ptr = (*min_value_ptr * slope) + inter;
-  *max_value_ptr = (*max_value_ptr * slope) + inter;
-
   znzseek(zfp, initial_offset, SEEK_SET);
 }
 
 /**
  * Converts the fields in a nifti_image to the appropriate MINC attributes.
  */
-static void 
-nifti_image_to_minc_attributes(nifti_image *nii_ptr, 
+static void
+nifti_image_to_minc_attributes(nifti_image *nii_ptr,
                                int mnc_index_from_file[],
                                VIO_Real mnc_starts[],
-                               VIO_Real mnc_steps[], 
+                               VIO_Real mnc_steps[],
                                VIO_Real mnc_dircos[][VIO_N_DIMENSIONS])
 {
-  size_t i, j;
+  int i, j;
   VIO_Transform mnc_xform;
   VIO_General_transform mnc_linear_xform;
 
   make_identity_transform(&mnc_xform);
+
+  /* Initialize with default indices. */
+  for (i = 0; i < VIO_MAX_DIMENSIONS; i++)
+  {
+    mnc_index_from_file[i] = i;
+    mnc_starts[i] = 0;
+    mnc_steps[i] = 1;
+  }
 
   if (nii_ptr->nifti_type == NIFTI_FTYPE_ANALYZE ||
       (nii_ptr->sform_code == NIFTI_XFORM_UNKNOWN &&
@@ -146,11 +149,6 @@ nifti_image_to_minc_attributes(nifti_image *nii_ptr,
   {
 
     print_error("No transform found in header, guessing.\n");
-
-    for (i = 0; i < VIO_MAX_DIMENSIONS; i++)
-    {
-      mnc_index_from_file[i] = i;
-    }
 
     Transform_elem(mnc_xform, 0, 0) *= nii_ptr->dx;
     Transform_elem(mnc_xform, 1, 1) *= nii_ptr->dy;
@@ -172,89 +170,57 @@ nifti_image_to_minc_attributes(nifti_image *nii_ptr,
   }
   else
   {
+    mat44 nii_xfm;
     if (nii_ptr->sform_code != NIFTI_XFORM_UNKNOWN)
     {
-      for (i = 0; i < 4; i++)
-      {
-        for (j = 0; j < 4; j++)
-        {
-          Transform_elem(mnc_xform, i, j) = nii_ptr->sto_xyz.m[i][j];
-        }
-      }
-    } 
+      nii_xfm = nii_ptr->sto_xyz;
+    }
     else
     {
-      for (i = 0; i < 4; i++)
+      nii_xfm = nii_ptr->qto_xyz;
+    }
+
+    for_less( i, 0, VIO_N_DIMENSIONS )
+    {
+      int spatial_axis = VIO_X;
+      float c_x = fabsf(nii_xfm.m[VIO_X][i]);
+      float c_y = fabsf(nii_xfm.m[VIO_Y][i]);
+      float c_z = fabsf(nii_xfm.m[VIO_Z][i]);
+      if (c_y > c_x && c_y > c_z)
       {
-        for (j = 0; j < 4; j++)
-        {
-          Transform_elem(mnc_xform, i, j) = nii_ptr->qto_xyz.m[i][j];
-        }
+        spatial_axis = VIO_Y;
+      }
+      if (c_z > c_x && c_z > c_y)
+      {
+        spatial_axis = VIO_Z;
+      }
+      mnc_index_from_file[i] = spatial_axis;
+    }
+
+    for (i = 0; i < VIO_N_DIMENSIONS; i++)
+    {
+      for (j = 0; j < 4; j++)
+      {
+        int volume_axis = (j < VIO_N_DIMENSIONS) ? mnc_index_from_file[j] : j;
+        Transform_elem(mnc_xform, i, volume_axis) = nii_xfm.m[i][j];
       }
     }
 
     create_linear_transform(&mnc_linear_xform, &mnc_xform);
-  
-    for_less (i, 0, 6)
-    {
-      switch (i)
-      {
-      case 0:
-        mnc_index_from_file[0] = VIO_X;
-        mnc_index_from_file[1] = VIO_Y;
-        mnc_index_from_file[2] = VIO_Z;
-        break;
-      case 1:
-        mnc_index_from_file[0] = VIO_X;
-        mnc_index_from_file[1] = VIO_Z;
-        mnc_index_from_file[2] = VIO_Y;
-        break;
-      case 2:
-        mnc_index_from_file[0] = VIO_Y;
-        mnc_index_from_file[1] = VIO_X;
-        mnc_index_from_file[2] = VIO_Z;
-        break;
-      case 3:
-        mnc_index_from_file[0] = VIO_Y;
-        mnc_index_from_file[1] = VIO_Z;
-        mnc_index_from_file[2] = VIO_X;
-        break;
-      case 4:
-        mnc_index_from_file[0] = VIO_Z;
-        mnc_index_from_file[1] = VIO_X;
-        mnc_index_from_file[2] = VIO_Y;
-        break;
-      case 5:
-        mnc_index_from_file[0] = VIO_Z;
-        mnc_index_from_file[1] = VIO_Y;
-        mnc_index_from_file[2] = VIO_X;
-        break;
-      }
-      /* For the time axis, if present. */
-      mnc_index_from_file[3] = 3;
 
-      convert_transform_to_starts_and_steps(&mnc_linear_xform,
-                                            VIO_N_DIMENSIONS,
-                                            NULL,
-                                            mnc_index_from_file,
-                                            mnc_starts,
-                                            mnc_steps,
-                                            mnc_dircos);
-      if( fabs( mnc_dircos[0][VIO_X] ) > fabs( mnc_dircos[0][VIO_Y] ) &&
-          fabs( mnc_dircos[0][VIO_X] ) > fabs( mnc_dircos[0][VIO_Z] ) &&
-          fabs( mnc_dircos[1][VIO_Y] ) > fabs( mnc_dircos[1][VIO_X] ) &&
-          fabs( mnc_dircos[1][VIO_Y] ) > fabs( mnc_dircos[1][VIO_Z] ) &&
-          fabs( mnc_dircos[2][VIO_Z] ) > fabs( mnc_dircos[2][VIO_X] ) &&
-          fabs( mnc_dircos[2][VIO_Z] ) > fabs( mnc_dircos[2][VIO_Y] ) )
-      {
-        break;
-      }
-    }
+    convert_transform_to_starts_and_steps(&mnc_linear_xform,
+                                          VIO_N_DIMENSIONS,
+                                          NULL,
+                                          mnc_index_from_file,
+                                          mnc_starts,
+                                          mnc_steps,
+                                          mnc_dircos);
   }
 
   /* Adjust start and step values if alternate units are specified.
    */
-  switch (nii_ptr->xyz_units) {
+  switch (nii_ptr->xyz_units)
+  {
   case NIFTI_UNITS_METER:
     for (i = 0; i < VIO_N_DIMENSIONS; i++)
     {
@@ -276,7 +242,8 @@ nifti_image_to_minc_attributes(nifti_image *nii_ptr,
   /* Store the start and step values for the time dimension, adjusting
    * the units as needed.
    */
-  switch (nii_ptr->time_units) {
+  switch (nii_ptr->time_units)
+  {
   case NIFTI_UNITS_MSEC:
     mnc_starts[3] = nii_ptr->toffset / 1000.0;
     mnc_steps[3] = nii_ptr->dt / 1000.0;
@@ -290,6 +257,8 @@ nifti_image_to_minc_attributes(nifti_image *nii_ptr,
     mnc_steps[3] = nii_ptr->dt;
     break;
   }
+
+  delete_general_transform(&mnc_linear_xform);
 }
 
 /**
@@ -329,6 +298,8 @@ initialize_nifti_format_input(VIO_STR             filename,
                               volume_input_struct *in_ptr)
 {
   int               sizes[VIO_MAX_DIMENSIONS];
+  VIO_Real          steps[VIO_MAX_DIMENSIONS];
+  VIO_Real          starts[VIO_MAX_DIMENSIONS];
   long              n_voxels_in_slice;
   nc_type           desired_nc_type;
   int               axis;
@@ -340,6 +311,8 @@ initialize_nifti_format_input(VIO_STR             filename,
   znzFile           zfp;
   nc_type           file_nc_type;
   VIO_BOOL          signed_flag;
+  VIO_Real          min_voxel, max_voxel;
+  VIO_Real          min_real, max_real;
 
   /* Read in the NIfTI file header and get a znzFile handle to the data.
    */
@@ -462,43 +435,65 @@ initialize_nifti_format_input(VIO_STR             filename,
     return VIO_ERROR;
   }
 
+#if DEBUG
+  nifti_image_infodump(nii_ptr);
+#endif
+
   nifti_image_to_minc_attributes(nii_ptr, in_ptr->axis_index_from_file,
                                  mnc_starts, mnc_steps, mnc_dircos);
 
+  /* Put the various arrays in the correct order. */
   for_less( axis, 0, n_dimensions)
   {
-    int volume_axis = in_ptr->axis_index_from_file[axis];
-
-    sizes[volume_axis] = in_ptr->sizes_in_file[axis];
     if (axis < 3)
     {
-      /* DEBUG */
-      printf("%d %d size:%4d step:%6.3f start:%9.4f dc:[%7.4f %7.4f %7.4f]\n",
-             axis,
-             volume_axis,
-             sizes[volume_axis],
-             mnc_steps[volume_axis],
-             mnc_starts[volume_axis],
-             mnc_dircos[volume_axis][0], 
-             mnc_dircos[volume_axis][1], 
-             mnc_dircos[volume_axis][2]);
+      int volume_axis = in_ptr->axis_index_from_file[axis];
+      sizes[volume_axis] = in_ptr->sizes_in_file[axis];
+      steps[axis] = mnc_steps[volume_axis];
+      starts[axis] = mnc_starts[volume_axis];
 
-      set_volume_direction_cosine(volume, volume_axis, mnc_dircos[axis]);
+      set_volume_direction_cosine(volume, axis, mnc_dircos[volume_axis]);
     }
     else
     {
-      /* DEBUG */
-      printf("%d %d size:%4d step:%6.3f start:%9.4f\n",
-             axis,
-             volume_axis,
-             sizes[volume_axis],
-             mnc_steps[volume_axis],
-             mnc_starts[volume_axis]);
+      sizes[axis] = in_ptr->sizes_in_file[axis];
+      steps[axis] = mnc_steps[axis];
+      starts[axis] = mnc_starts[axis];
     }
   }
 
-  set_volume_separations( volume, mnc_steps );
-  set_volume_starts( volume, mnc_starts );
+#if DEBUG
+  for_less( axis, 0, n_dimensions )
+  {
+    if (axis < 3)
+    {
+      int volume_axis = in_ptr->axis_index_from_file[axis];
+
+      printf("%d %d size:%4d step:%6.3f start:%9.4f dc:[%7.4f %7.4f %7.4f]\n",
+             axis,
+             volume_axis,
+             sizes[axis],
+             mnc_steps[volume_axis],
+             mnc_starts[volume_axis],
+             mnc_dircos[volume_axis][0],
+             mnc_dircos[volume_axis][1],
+             mnc_dircos[volume_axis][2]);
+
+    }
+    else
+    {
+      printf("%d %d size:%4d step:%6.3f start:%9.4f\n",
+             axis,
+             axis,
+             sizes[axis],
+             mnc_steps[axis],
+             mnc_starts[axis]);
+    }
+  }
+#endif /* DEBUG */
+
+  set_volume_separations( volume, steps );
+  set_volume_starts( volume, starts );
 
   set_volume_type( volume, desired_nc_type, signed_flag, 0.0, 0.0 );
   set_volume_sizes( volume, sizes );
@@ -507,23 +502,50 @@ initialize_nifti_format_input(VIO_STR             filename,
 
   set_rgb_volume_flag( volume, nii_ptr->datatype == DT_RGB24 );
 
-  /* If the data must be converted to byte, read the entire image file simply
-   * to find the max and min values. This allows us to set the value_scale and
-   * value_translation properly when we read the file.
+  /* Determine the voxel range of NIfTI data. */
+  /* TODO: Is this really needed? Could we just assume the file uses
+   * the full available range of the datatype without any significant
+   * consequences?
    */
-  if (get_volume_data_type(volume) != in_ptr->file_data_type &&
-      !is_an_rgb_volume( volume ))
-  {
-    VIO_Real original_min_value, original_max_value;
+  nifti_find_data_range(nii_ptr, zfp, &min_voxel, &max_voxel);
 
-    nifti_find_data_range(nii_ptr, zfp,
-                          &original_min_value,
-                          &original_max_value);
-    set_volume_voxel_range(volume, original_min_value, original_max_value);
+  /* Calculate the real range of the data, using the NIfTI slope and
+   * scale, if appropriate.
+   */
+  if (nii_ptr->scl_slope > 0)
+  {
+    min_real = (min_voxel * nii_ptr->scl_slope) + nii_ptr->scl_inter;
+    max_real = (max_voxel * nii_ptr->scl_slope) + nii_ptr->scl_inter;
+  }
+  else
+  {
+    min_real = min_voxel;
+    max_real = max_voxel;
   }
 
-  in_ptr->min_value = FLT_MAX;
-  in_ptr->max_value = -FLT_MAX;
+  /* As a special case, if we are converting the file to byte,
+   * we need to prepare to scale the voxels into the final range.
+   */
+  if (get_volume_data_type(volume) == VIO_UNSIGNED_BYTE &&
+      in_ptr->file_data_type != VIO_UNSIGNED_BYTE)
+  {
+    /* Set up the scaling for when we actually read the data.
+     */
+    in_ptr->min_value = min_voxel;
+    in_ptr->max_value = max_voxel;
+
+    min_voxel = 0;
+    max_voxel = UCHAR_MAX;
+  }
+  else
+  {
+    in_ptr->min_value = 0.0;
+    in_ptr->max_value = 1.0;
+  }
+
+  set_volume_voxel_range(volume, min_voxel, max_voxel);
+  set_volume_real_range(volume, min_real, max_real);
+
   in_ptr->slice_index = 0;
   in_ptr->volume_file = (FILE *) zfp;
   in_ptr->header_info = nii_ptr;
@@ -560,29 +582,34 @@ input_more_nifti_format_file(
   int            data_ind = 0;
   double         value = 0;
   double         value_offset, value_scale;
-  int            *inner_index;
   int            indices[VIO_MAX_DIMENSIONS];
-  VIO_Real       original_min_value, original_max_value;
   int            i;
   int            total_slices;
+  int            n_dimensions = get_volume_n_dimensions( volume );
+  int            vio_data_type = get_volume_data_type( volume );
 
-  total_slices = in_ptr->sizes_in_file[2];
-  if (get_volume_n_dimensions(volume) > 3)
-  {
-    /* If there is a time dimension, incorporate that into our slice
-     * count.
-     */
-    total_slices *= in_ptr->sizes_in_file[3];
-  }
+  for_less(i, 0, VIO_MAX_DIMENSIONS)
+    indices[i] = 0;
+
+  total_slices = 1;
+  for_less( i, 2, n_dimensions )
+    total_slices *= in_ptr->sizes_in_file[i];
 
   if ( in_ptr->slice_index < total_slices )
   {
     size_t     n_bytes_per_slice;
     size_t     n_bytes_read;
+    int        sizes[VIO_MAX_DIMENSIONS] = {1, 1, 1, 1, 1};
+
+    sizes[in_ptr->axis_index_from_file[0]] = in_ptr->sizes_in_file[0];
+    sizes[in_ptr->axis_index_from_file[1]] = 1;
 
     n_bytes_per_slice = (in_ptr->sizes_in_file[0] *
                          in_ptr->sizes_in_file[1] *
                          nii_ptr->nbyper);
+
+    VIO_Real *temp_buffer = malloc(in_ptr->sizes_in_file[0] *
+                                   sizeof(VIO_Real));
 
     /* If the memory for the volume has not been allocated yet,
      * initialize that memory now.
@@ -603,17 +630,11 @@ input_more_nifti_format_file(
       return FALSE;
     }
 
-    /* See if we need to apply scaling to this slice. This is only
-     * needed if the volume voxel type is not the same as the file
-     * voxel type. THIS IS ONLY REALLY LEGAL FOR BYTE VOLUME TYPES.
-     */
-    if (get_volume_data_type(volume) != in_ptr->file_data_type &&
-        !is_an_rgb_volume( volume ))
+    if (vio_data_type == VIO_UNSIGNED_BYTE &&
+        in_ptr->file_data_type != VIO_UNSIGNED_BYTE)
     {
-      get_volume_voxel_range(volume, &original_min_value, &original_max_value);
-
-      value_offset = original_min_value;
-      value_scale = (original_max_value - original_min_value) /
+      value_offset = in_ptr->min_value;
+      value_scale = (in_ptr->max_value - in_ptr->min_value) /
         (VIO_Real) (NUM_BYTE_VALUES - 1);
     }
     else
@@ -625,63 +646,113 @@ input_more_nifti_format_file(
 
     /* Set up the indices.
      */
-    inner_index = &indices[in_ptr->axis_index_from_file[0]];
-
-    if (get_volume_n_dimensions(volume) > 3)
+    i = in_ptr->slice_index;
+    switch ( n_dimensions )
     {
+    case 5:
+      /* If a vector dimension is present, convert the slice index into
+       * a vector, time, and slice coordinate.
+       */
+      indices[in_ptr->axis_index_from_file[4]] = i / (in_ptr->sizes_in_file[3] * in_ptr->sizes_in_file[2]);
+      i %= (in_ptr->sizes_in_file[3] * in_ptr->sizes_in_file[2]);
+      /* fall through */
+    case 4:
       /* If a time dimension is present, convert the slice index into
        * both a time and slice coordinate using the number of slices.
        */
-      indices[in_ptr->axis_index_from_file[3]] = in_ptr->slice_index / in_ptr->sizes_in_file[2];
-      indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index % in_ptr->sizes_in_file[2];
-    }
-    else
-    {
-      indices[in_ptr->axis_index_from_file[2]] = in_ptr->slice_index;
+      indices[in_ptr->axis_index_from_file[3]] = i / in_ptr->sizes_in_file[2];
+      i %= in_ptr->sizes_in_file[2];
+      /* fall through */
+    default:
+      indices[in_ptr->axis_index_from_file[2]] = i;
+      break;
     }
 
     for_less( i, 0, in_ptr->sizes_in_file[1] )
     {
+      int temp_ind;
+
       indices[in_ptr->axis_index_from_file[1]] = i;
-      for_less( *inner_index, 0, in_ptr->sizes_in_file[0] )
-      {
-        switch ( nii_ptr->datatype )
+      indices[in_ptr->axis_index_from_file[0]] = 0;
+
+      switch ( nii_ptr->datatype ) {
+      case DT_UINT8:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
         {
-        case DT_UINT8:
           value = ((unsigned char *) data_ptr)[data_ind++];
-          break;
-        case DT_INT8:
-          value = ((char *) data_ptr)[data_ind++];
-          break;
-        case DT_UINT16:
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_INT8:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
+          value = ((signed char *) data_ptr)[data_ind++];
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_UINT16:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
           value = ((unsigned short *) data_ptr)[data_ind++];
-          break;
-        case DT_INT16:
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_INT16:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
           value = ((short *) data_ptr)[data_ind++];
-          break;
-        case DT_UINT32:
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_UINT32:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
           value = ((unsigned int *) data_ptr)[data_ind++];
-          break;
-        case DT_INT32:
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_INT32:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
           value = ((int *) data_ptr)[data_ind++];
-          break;
-        case DT_FLOAT32:
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_FLOAT32:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
           value = ((float *) data_ptr)[data_ind++];
-          break;
-        case DT_FLOAT64:
-          value = ((double *)data_ptr)[data_ind++];
-          break;
-        case DT_RGB24:
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_FLOAT64:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
+          value = ((double *) data_ptr)[data_ind++];
+          value = (value - value_offset) / value_scale;
+          temp_buffer[temp_ind] = value;
+        }
+        break;
+      case DT_RGB24:
+        for_less( temp_ind, 0, in_ptr->sizes_in_file[0] )
+        {
           /* The only RGB-valued NIfTI files I have found to date organize
            * the data in an unexpected manner. Each "slice" consists of three
-           * adjacent slices, each consisting of all of the of R, G, and B 
-           * values for the slice. This is different from what I expected, 
+           * adjacent slices, each consisting of all of the of R, G, and B
+           * values for the slice. This is different from what I expected,
            * which was to find the RGB triple in three adjacent bytes.
            *
            * Some comments I have seen suggest that the "adjacent"
            * byte format is also possible, so there may be a need to
            * allow the user to choose how RGB data is loaded (since there
-           * is probably no easy way to tell what one has, short of 
+           * is probably no easy way to tell what one has, short of
            * some complex calculation).
            *
            * One guess is that if the intent code is set to 'none',
@@ -705,98 +776,34 @@ input_more_nifti_format_file(
             value = (double) make_Colour( r, g, b );
             data_ind += 3;
           }
-          break;
-        default:
-          handle_internal_error( "input_more_nifti_format_file" );
-          break;
+          temp_buffer[temp_ind] = value;
         }
-        
-        value = (value - value_offset) / value_scale;
-
-        switch (get_volume_data_type(volume))
-        {
-        case VIO_UNSIGNED_BYTE:
-          if (value < 0 || value > UCHAR_MAX)
-          {
-            print_error("clipping uint8 value\n");
-          }
-          break;
-        case VIO_SIGNED_BYTE:
-          if (value < SCHAR_MIN || value > SCHAR_MAX)
-          {
-            print_error("clipping int8 value\n");
-          }
-          break;
-        case VIO_UNSIGNED_SHORT:
-          if (value < 0 || value > USHRT_MAX)
-          {
-            print_error("clipping uint16 value\n");
-          }
-          break;
-        case VIO_SIGNED_SHORT:
-          if (value < SHRT_MIN || value > SHRT_MAX)
-          {
-            print_error("clipping int16 value\n");
-          }
-          break;
-        case VIO_UNSIGNED_INT:
-          if (value < 0 || value > UINT_MAX)
-          {
-            print_error("clipping uint32 value\n");
-          }
-          break;
-        case VIO_SIGNED_INT:
-          if (value < INT_MIN || value > INT_MAX)
-          {
-            print_error("clipping int32 value\n");
-          }
-          break;
-        case VIO_NO_DATA_TYPE:
-        case VIO_FLOAT:
-        case VIO_DOUBLE:
-        case VIO_MAX_DATA_TYPE:
-          break;
-        }
-        if (value > in_ptr->max_value)
-        {
-          in_ptr->max_value = value;
-        }
-        if (value < in_ptr->min_value)
-        {
-          in_ptr->min_value = value;
-        }
-        set_volume_voxel_value( volume,
-                                indices[VIO_X],
-                                indices[VIO_Y],
-                                indices[VIO_Z],
-                                indices[3],
-                                indices[4],
-                                value);
-
+        break;
+      default:
+        handle_internal_error( "input_more_nifti_format_file" );
+        break;
       }
+
+      set_volume_voxel_hyperslab( volume,
+                                  indices[VIO_X],
+                                  indices[VIO_Y],
+                                  indices[VIO_Z],
+                                  indices[3],
+                                  indices[4],
+                                  sizes[VIO_X],
+                                  sizes[VIO_Y],
+                                  sizes[VIO_Z],
+                                  1,
+                                  1,
+                                  temp_buffer );
     }
 
     in_ptr->slice_index++;      /* Advance to the next slice. */
+
+    free(temp_buffer);
   }
 
   *fraction_done = (VIO_Real) in_ptr->slice_index / total_slices;
 
-  if (in_ptr->slice_index >= total_slices)
-  {
-    set_volume_voxel_range( volume, in_ptr->min_value, in_ptr->max_value );
-
-    /* Make sure we scale the data up to the original real range,
-     * if appropriate.
-     */
-    if (get_volume_data_type(volume) != in_ptr->file_data_type)
-    {
-      set_volume_real_range(volume, original_min_value, original_max_value);
-    }
-
-    return FALSE;
-  }
-  else
-  {
-    return TRUE;
-  }
+  return (in_ptr->slice_index < total_slices);
 }

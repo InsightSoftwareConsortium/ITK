@@ -112,6 +112,15 @@ typedef enum {
   MI_DIMORDER_APPARENT  = 1
 } miorder_t;
 
+/** \typedef midimalign_t
+ * Dimension alignment - one of CENTRE, START, END
+ */
+typedef enum {
+  MI_DIMALIGN_CENTRE = 0,
+  MI_DIMALIGN_START = 1,
+  MI_DIMALIGN_END = 2
+} midimalign_t;
+
 /** \typedef mivoxel_order_t
  * Voxel order can be either file (native), or apparent, as set by
  * the function miset_dimension_apparent_voxel_order().

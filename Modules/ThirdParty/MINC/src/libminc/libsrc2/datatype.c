@@ -114,4 +114,4 @@ int miset_space_name ( mihandle_t volume, const char *name )
 
 }
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

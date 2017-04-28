@@ -204,4 +204,4 @@ int miget_label_value_by_index(mihandle_t volume, int idx, int *value)
   return (MI_NOERROR);
 }
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

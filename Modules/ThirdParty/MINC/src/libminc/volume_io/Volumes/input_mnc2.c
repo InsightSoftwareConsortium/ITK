@@ -95,6 +95,7 @@ static  Minc_file  initialize_minc_input_from_minc2_id(
     file->minc2id=minc_id;
     file->file_is_being_read = TRUE;
     file->volume = volume;
+    file->using_minc2_api = TRUE;
 
     if( options == (minc_input_options *) NULL )
     {
@@ -811,7 +812,7 @@ static  VIO_Status   input_minc2_hyperslab(
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
 
-static  void  input_slab(
+static int input_slab(
     Minc_file   file,
     VIO_Volume  volume,
     int         to_volume[],
@@ -840,11 +841,11 @@ static  void  input_slab(
                       volume_start[0], volume_start[1], volume_start[2],
                       volume_start[3], volume_start[4] );
 
-    input_minc2_hyperslab( file,
-                                 get_multidim_data_type(&volume->array),
-                                 get_multidim_n_dimensions(&volume->array),
-                                 array_sizes, array_data_ptr, to_volume,
-                                 file_start, file_count );
+    return input_minc2_hyperslab( file,
+                                  get_multidim_data_type(&volume->array),
+                                  get_multidim_n_dimensions(&volume->array),
+                                  array_sizes, array_data_ptr, to_volume,
+                                  file_start, file_count );
 }
 
 /* ----------------------------- MNI Header -----------------------------------
@@ -904,7 +905,11 @@ VIOAPI  VIO_BOOL  input_more_minc2_file(
           }
       }
 
-      input_slab( file, volume, file->to_volume_index, file->indices, count );
+      if (input_slab( file, volume, file->to_volume_index, file->indices, 
+                      count ) != VIO_OK)
+      {
+          return FALSE;
+      }
 
       /* --- advance to next slab */
 

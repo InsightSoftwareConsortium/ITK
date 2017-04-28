@@ -123,4 +123,4 @@ int miset_volume_valid_range(mihandle_t volume, /**< MINC 2.0 volume handle */
     return (MI_NOERROR);
 }
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

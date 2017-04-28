@@ -33,6 +33,42 @@ struct milistdata {
   struct milistframe *frame_ptr; /* recursive frame */
 };
 
+static void
+full_path_for_attr(char *fullpath, int length, const char *path,
+                   const char *name, mihandle_t vol)
+{
+  if (!strcmp(path, MIimage)) {
+    snprintf(fullpath, length, MI_ROOT_PATH "/image/%d",
+             vol->selected_resolution);
+  }
+  else {
+    if ( (!strcmp(name, "history") ||
+          !strcmp(name, "ident") ||
+          !strcmp(name,"minc_version")) && ( *path==0 || !strcmp(path,"/")) ) {
+      strncpy ( fullpath, MI_ROOT_PATH "/" , length );
+    } else {
+      strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, length );
+    }
+  }
+
+  if ( *path != '/' && *path != 0 ) {
+    strncat(fullpath, "/", length - strlen(fullpath) - 1);
+  }
+
+  strncat(fullpath, path,  length - strlen(fullpath) - 1);
+}
+
+static void
+full_path_for_group(char *fullpath, int length, const char *path)
+{
+  strncpy(fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, length);
+
+  if ( *path != '/' && *path != 0 ) {
+    strncat(fullpath, "/", length - strlen(fullpath) - 1);
+  }
+
+  strncat(fullpath, path,  length - strlen(fullpath) - 1);
+}
 
 /** Start listing the objects in a group.
  */
@@ -44,13 +80,7 @@ int milist_start ( mihandle_t vol, const char *path, int flags,
   struct milistdata *data;
   struct milistframe *frame;
 
-  strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-
-  if ( *path != '/' && *path!=0 ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1);
+  full_path_for_group(fullpath, sizeof(fullpath), path);
 
   grp_id = midescend_path ( vol->hdf_id, fullpath );
 
@@ -322,13 +352,7 @@ int micreate_group ( mihandle_t vol, const char *path, const char *name )
     return ( MI_ERROR );
   }
 
-  strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-
-  if ( *path != '/' && *path!=0  ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
+  full_path_for_group(fullpath, sizeof(fullpath), path);
 
   /* Search through the path, descending into each group encountered.
    */
@@ -387,13 +411,7 @@ int midelete_attr ( mihandle_t vol, const char *path, const char *name )
     return ( MI_ERROR );
   }
 
-  strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-
-  if ( *path != '/' && *path!=0 ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1  );
+  full_path_for_attr(fullpath, sizeof(fullpath), path, name, vol);
 
   /* Search through the path, descending into each group encountered.
    */
@@ -441,13 +459,7 @@ int midelete_group ( mihandle_t vol, const char *path, const char *name )
     return ( MI_ERROR );
   }
 
-  strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-
-  if ( *path != '/' && *path!=0 ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
+  full_path_for_group(fullpath, sizeof(fullpath), path);
 
   /* Search through the path, descending into each group encountered.
    */
@@ -499,17 +511,7 @@ int miget_attr_length ( mihandle_t vol, const char *path, const char *name,
     return MI_LOG_ERROR(MI2_MSG_GENERIC,"HDF file is not open");
   }
 
-  if ( (!strcmp ( name, "history" ) || !strcmp(name,"ident") || !strcmp(name,"minc_version")) && ( *path==0 || !strcmp(path,"/")) ) {
-    strncpy ( fullpath, MI_ROOT_PATH "/" , sizeof ( fullpath ) );
-  } else {
-    strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-  }
-  
-  if ( *path != '/' && *path!=0 ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1  );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
+  full_path_for_attr(fullpath, sizeof(fullpath), path, name, vol);
 
   /* Search through the path, descending into each group encountered.
    */
@@ -597,17 +599,7 @@ int miget_attr_type ( mihandle_t vol, const char *path, const char *name,
     return MI_LOG_ERROR(MI2_MSG_GENERIC,"HDF file is not open");
   }
 
-  if ( (!strcmp ( name, "history" ) || !strcmp(name,"ident") || !strcmp(name,"minc_version")) && ( *path==0 || !strcmp(path,"/")) ) {
-    strncpy ( fullpath, MI_ROOT_PATH "/" , sizeof ( fullpath ) );
-  } else {
-    strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-  }
-  
-  if ( *path != '/' && *path!=0 ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1  );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
+  full_path_for_attr(fullpath, sizeof(fullpath), path, name, vol);
 
   /* Search through the path, descending into each group encountered.
    */
@@ -780,17 +772,7 @@ int miget_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
     return MI_LOG_ERROR(MI2_MSG_GENERIC,"HDF file is not open");
   }
 
-  if ( (!strcmp ( name, "history" ) || !strcmp(name,"ident") || !strcmp(name,"minc_version")) && ( *path==0 || !strcmp(path,"/")) ) {
-    strncpy ( fullpath, MI_ROOT_PATH "/" , sizeof ( fullpath ) );
-  } else {
-    strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-  }
-
-  if ( *path != '/' && *path!=0 ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
+  full_path_for_attr(fullpath, sizeof(fullpath), path, name, vol);
 
   /* Search through the path, descending into each group encountered.
    */
@@ -915,17 +897,7 @@ int miset_attr_values ( mihandle_t vol, mitype_t data_type, const char *path,
     return MI_LOG_ERROR(MI2_MSG_GENERIC,"HDF file is not open");
   }
 
-  if ( (!strcmp ( name, "history" ) || !strcmp(name,"ident") || !strcmp(name,"minc_version")) && ( *path==0 || !strcmp(path,"/")) ) {
-    strncpy ( fullpath, MI_ROOT_PATH "/" , sizeof ( fullpath ) );
-  } else {
-    strncpy ( fullpath, MI_ROOT_PATH "/" MI_INFO_NAME, sizeof ( fullpath ) );
-  }
-  
-  if ( *path != '/' && *path!=0 ) {
-    strncat ( fullpath, "/", sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
-  }
-
-  strncat ( fullpath, path, sizeof ( fullpath ) - strlen ( fullpath ) - 1 );
+  full_path_for_attr(fullpath, sizeof(fullpath), path, name, vol);
 
   /* find last occurance of '/' */
   pch = strrchr ( path, '/' );
@@ -1047,4 +1019,4 @@ int miadd_history_attr ( mihandle_t vol, size_t length, const void *values )
 
 }
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */
