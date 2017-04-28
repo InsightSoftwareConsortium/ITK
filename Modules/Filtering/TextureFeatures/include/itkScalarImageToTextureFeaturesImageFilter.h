@@ -67,7 +67,7 @@ namespace Statistics
  *    the image a crop step should be considered prior to the usage of this filter.
  * -# Mask: Even if optional, the usage of a mask will greatly improve the computation time.
  * -# Number of intensity bins: The number of bins should be adapted to the type of results expected
- *    and the intensity and distances ranges. In addition a high number of bins will increase the
+ *    and the intensity range. In addition a high number of bins will increase the
  *    computation time.
  * -# Pixel intensity range: For better results the Pixel intensity should be adapted to the input image
  *    intensity range. For example they could be the minimum and maximum intensity of the image, or 0 and
@@ -135,7 +135,7 @@ public:
   itkStaticConstMacro(DefaultBinsPerAxis, unsigned int, 256);
 
   /**
-   * Set the offsets over which the intensity/distance pairs will be computed.
+   * Set the offsets over which the intensities pairs will be computed.
    * Invoking this function clears the previous offsets.
    * Note: for each individual offset in the OffsetVector, the rightmost non-zero
    * offset element must be positive. For example, in the offset list of a 2D image,
@@ -146,7 +146,7 @@ public:
   itkSetObjectMacro(Offsets, OffsetVector);
 
   /**
-   * Set offset over which the intensity/distance pairs will be computed.
+   * Set offset over which the intensities pairs will be computed.
    * Invoking this function clears the previous offset(s).
    * Note: for each individual offset, the rightmost non-zero
    * offset element must be positive. For example, in the offset list of a 2D image,
@@ -180,13 +180,6 @@ public:
 
   /** Get the max pixel value defining one dimension of the joint histogram. */
   itkGetConstMacro(Max, PixelType);
-
-  /**
-   * Set the min and max (inclusive) pixel value that will be used in
-   * generating the histogram.
-   */
-  void
-  SetDistanceValueMinMax(RealType min, RealType max);
 
   /**
    * Set the pixel value of the mask that should be considered "inside" the
