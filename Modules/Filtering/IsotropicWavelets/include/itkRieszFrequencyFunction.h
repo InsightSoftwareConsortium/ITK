@@ -80,6 +80,7 @@ public:
   {
     return itk::utils::ComputeNumberOfComponents(order, VImageDimension);
   }
+
   /**
    * Compute all possible unique indices given the subIndice: (X, 0, ..., 0).
    * Where X can be any number greater than 0, but probably want to use this->m_Order.
@@ -101,6 +102,15 @@ public:
   ComputeAllPermutations(const SetType & uniqueIndices)
   {
     return itk::utils::ComputeAllPermutations<IndicesArrayType>(uniqueIndices);
+  }
+
+  /**
+   * Compute all the possible indices for a given order.
+   */
+  static SetType
+  ComputeAllPossibleIndices(const unsigned int & order)
+  {
+    return itk::utils::ComputeAllPossibleIndices<IndicesArrayType, VImageDimension>(order);
   }
 
   /** Evaluate the function at a given frequency point. */
@@ -175,12 +185,7 @@ public:
     {
       this->m_Order = inputOrder;
       // Calculate all the possible indices.
-      IndicesArrayType initIndice;
-      initIndice.resize(VImageDimension);
-      initIndice[0] = this->m_Order;
-      SetType uniqueIndices;
-      Self::ComputeUniqueIndices(initIndice, uniqueIndices);
-      this->m_Indices = Self::ComputeAllPermutations(uniqueIndices);
+      this->m_Indices = Self::ComputeAllPossibleIndices(this->m_Order);
       this->Modified();
     }
   }

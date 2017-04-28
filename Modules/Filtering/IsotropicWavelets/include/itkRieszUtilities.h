@@ -116,6 +116,35 @@ ComputeAllPermutations(const std::set<TIndicesArrayType, std::greater<TIndicesAr
   return out;
 }
 
+/**
+ * Compute all possible indices given an order.
+ * The order imposes the constain:
+ * \sum_{i}^{ImageDimension} indice[i] = order
+ * where indice[i]>=0
+ */
+template <typename TIndicesArrayType, unsigned int VImageDimension>
+std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>
+ComputeAllPossibleIndices(const unsigned int & order)
+{
+  typedef std::set<TIndicesArrayType, std::greater<TIndicesArrayType>> SetType;
+  SetType                                                              uniqueIndices;
+  TIndicesArrayType                                                    indice(VImageDimension);
+  indice[0] = order;
+  itk::utils::ComputeUniqueIndices<TIndicesArrayType, VImageDimension>(indice, uniqueIndices);
+  return itk::utils::ComputeAllPermutations<TIndicesArrayType>(uniqueIndices);
+}
+
+template <typename TIndicesArrayType, unsigned int VImageDimension>
+bool
+LessOrEqualIndiceComparisson(const TIndicesArrayType & rhs, const TIndicesArrayType & lhs)
+{
+  for (unsigned int i = 0; i < VImageDimension; ++i)
+  {
+    if (rhs[i] > lhs[i])
+      return false;
+  }
+  return true;
+}
 } // end namespace utils
 } // end namespace itk
 
