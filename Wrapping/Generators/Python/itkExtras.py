@@ -234,7 +234,7 @@ def _get_itk_pixelid(numpy_array_type):
                 return _np_itk[key]
             raise e
 
-def GetArrayFromImage(imageOrFilter):
+def _GetArrayFromImage(imageOrFilter, function):
     """Get an Array with the content of the image buffer
     """
     # Check for numpy
@@ -247,9 +247,20 @@ def GetArrayFromImage(imageOrFilter):
         raise RuntimeError("No suitable template parameter can be found.")
     ImageType = keys[0]
     # Create a numpy array of the type of the input image
-    return itk.PyBuffer[keys[0]].GetArrayFromImage(output(imageOrFilter))
+    templatedFunction = getattr(itk.PyBuffer[keys[0]], function)
+    return templatedFunction(output(imageOrFilter))
 
-def GetImageFromArray(arr):
+def GetArrayFromImage(imageOrFilter):
+    """Get an array with the content of the image buffer
+    """
+    return _GetArrayFromImage(imageOrFilter, "GetArrayFromImage")
+
+def GetArrayViewFromImage(imageOrFilter):
+    """Get an array view with the content of the image buffer
+    """
+    return _GetArrayFromImage(imageOrFilter, "GetArrayViewFromImage")
+
+def _GetImageFromArray(arr, function):
     """Get an ITK image from a Python array.
     """
     if not HAVE_NUMPY:
@@ -257,55 +268,84 @@ def GetImageFromArray(arr):
     import itk
     PixelType = _get_itk_pixelid(arr)
     ImageType = itk.Image[PixelType,arr.ndim]
-    return itk.PyBuffer[ImageType].GetImageFromArray(arr)
+    templatedFunction = getattr(itk.PyBuffer[ImageType], function)
+    return templatedFunction(arr)
 
-def GetArrayFromVnlVector(vnlVector):
-    """Get an Array with the content of the vnlVector
+def GetImageFromArray(arr):
+    """Get an ITK image from a Python array.
+    """
+    return _GetImageFromArray(arr, "GetImageFromArray")
+
+def GetImageViewFromArray(arr):
+    """Get an ITK image view from a Python array.
+    """
+    return _GetImageFromArray(arr, "GetImageViewFromArray")
+
+def _GetArrayFromVnlObject(vnlObject, function):
+    """Get an array with the content of vnlObject
     """
     # Check for numpy
     if not HAVE_NUMPY:
         raise ImportError('Numpy not available.')
-    # Finds the vnl vector type
+    # Finds the vnl object type
     import itk
-    VectorPixelType = itk.template(vnlVector)[1][0]
-    keys = [k for k in itk.PyVnl.keys() if k[0] == VectorPixelType]
+    PixelType = itk.template(vnlObject)[1][0]
+    keys = [k for k in itk.PyVnl.keys() if k[0] == PixelType]
     if len(keys ) == 0:
         raise RuntimeError("No suitable template parameter can be found.")
-    # Create a numpy array of the type of the vnl vector
-    return itk.PyVnl[keys[0]].GetArrayFromVnlVector(vnlVector)
+    # Create a numpy array of the type of the vnl object
+    templatedFunction = getattr(itk.PyVnl[keys[0]], function)
+    return templatedFunction(vnlObject)
+
+def GetArrayFromVnlVector(vnlVector):
+    """Get an array with the content of vnlVector
+    """
+    return _GetArrayFromVnlObject(vnlVector, "GetArrayFromVnlVector")
+
+def GetArrayViewFromVnlVector(vnlVector):
+    """Get an array view of vnlVector
+    """
+    return _GetArrayFromVnlObject(vnlVector, "GetArrayViewFromVnlVector")
+
+def GetArrayFromVnlMatrix(vnlMatrix):
+    """Get an array with the content of vnlMatrix
+    """
+    return _GetArrayFromVnlObject(vnlMatrix, "GetArrayFromVnlMatrix")
+
+def GetArrayViewFromVnlMatrix(vnlMatrix):
+    """Get an array view of vnlMatrix
+    """
+    return _GetArrayFromVnlObject(vnlMatrix, "GetArrayViewFromVnlMatrix")
+
+def _GetVnlObjectFromArray(arr, function):
+    """Get a vnl object from a Python array.
+    """
+    if not HAVE_NUMPY:
+        raise ImportError('Numpy not available.')
+    import itk
+    PixelType = _get_itk_pixelid(arr)
+    templatedFunction = getattr(itk.PyVnl[PixelType], function)
+    return templatedFunction(vnlObject)
 
 def GetVnlVectorFromArray(arr):
     """Get a vnl vector from a Python array.
     """
-    if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
-    import itk
-    PixelType = _get_itk_pixelid(arr)
-    return itk.PyVnl[PixelType].GetVnlVectorFromArray(arr)
+    return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray")
 
-def GetArrayFromVnlMatrix(vnlMatrix):
-    """Get an Array with the content of the vnl matrix
+def GetVnlVectorViewFromArray(arr):
+    """Get a vnl vector view of a Python array.
     """
-    # Check for numpy
-    if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
-    # Finds the vnl matrix type
-    import itk
-    PixelType = itk.template(vnlMatrix)[1][0]
-    keys = [k for k in itk.PyVnl.keys() if k[0] == PixelType]
-    if len(keys ) == 0:
-        raise RuntimeError("No suitable template parameter can be found.")
-    # Create a numpy array of the type of the vnl matrix
-    return itk.PyVnl[keys[0]].GetArrayFromVnlMatrix(vnlMatrix)
+    return _GetVnlObjectFromArray(arr, "GetVnlVectorViewFromArray")
 
 def GetVnlMatrixFromArray(arr):
     """Get a vnl matrix from a Python array.
     """
-    if not HAVE_NUMPY:
-        raise ImportError('Numpy not available.')
-    import itk
-    PixelType = _get_itk_pixelid(arr)
-    return itk.PyVnl[PixelType].GetVnlMatrixFromArray(arr)
+    return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray")
+
+def GetVnlMatrixViewFromArray(arr):
+    """Get a vnl matrix view of a Python array.
+    """
+    return _GetVnlObjectFromArray(arr, "GetVnlMatrixViewFromArray")
 
 # return an image
 from itkTemplate import image, output
