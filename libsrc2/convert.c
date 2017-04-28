@@ -572,4 +572,4 @@ int miget_volume_real_range(mihandle_t volume, double real_range[])
     return (MI_NOERROR);
 }
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

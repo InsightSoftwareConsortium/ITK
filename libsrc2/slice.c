@@ -419,4 +419,4 @@ int miset_slice_scaling_flag ( mihandle_t volume, miboolean_t slice_scaling_flag
   return ( MI_NOERROR );
 }
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

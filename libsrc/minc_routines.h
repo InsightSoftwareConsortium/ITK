@@ -67,13 +67,6 @@
 
 /* MINC routines that should only be visible to the package (semiprivate) */
 
-/* From minc_error.c */
-SEMIPRIVATE int MI_save_routine_name(char *name);
-SEMIPRIVATE int MI_return(void);
-SEMIPRIVATE int MI_return_error(void);
-SEMIPRIVATE void MI_log_pkg_error2(int p1, char *p2);
-SEMIPRIVATE void MI_log_pkg_error3(int p1, char *p2, char *p3);
-SEMIPRIVATE void MI_log_sys_error1(char *p1);
 
 /* From value_conversion.c */
 SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid, 

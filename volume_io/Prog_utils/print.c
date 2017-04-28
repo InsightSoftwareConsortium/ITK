@@ -15,6 +15,8 @@
 #include "config.h"
 #endif /*HAVE_CONFIG_H*/
 
+#include "minc_error.h"
+
 #include  <internal_volume_io.h>
 #include  <stdarg.h>
 
@@ -217,11 +219,11 @@ VIOAPI  void  print_error( char format[], ... )
     char     print_buffer[VIO_EXTREMELY_LARGE_STRING_SIZE];
 
     va_start( ap, format );
-    (void) vsprintf( print_buffer, format, ap );
+    vsprintf( print_buffer, format, ap );
     va_end( ap );
 
     if( print_error_function[top_of_error_stack] == NULL )
-        (void) fprintf( stderr, "%s", print_buffer );
+        MI_LOG_ERROR(MI_MSG_VOLUME_IO, print_buffer);
     else
         (*(print_error_function[top_of_error_stack])) ( print_buffer );
 }
@@ -242,8 +244,9 @@ VIOAPI  void  print_error( char format[], ... )
 
 VIOAPI  void   handle_internal_error( char  str[] )
 {
-    print_error( "Internal error:  %s\n", str );
-    abort_if_allowed();
+    /*print_error( "Internal error:  %s\n", str );
+    abort_if_allowed();*/
+    MI_LOG_ERROR(MI_MSG_VOLUME_IO,"Internal error:  %s", str);
 }
 
 /* ----------------------------- MNI Header -----------------------------------

@@ -381,7 +381,7 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
 
    /* Check that the icv is not attached to a file */
    if (icvp->cdfid != MI_ERROR) {
-       milog_message(MI_MSG_ICVATTACHED);
+       MI_LOG_ERROR(MI_MSG_ICVATTACHED);
        MI_RETURN(MI_ERROR);
    }
 
@@ -446,7 +446,7 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
    case MI_ICV_NUM_IMGDIMS:
       ival = value;
       if ((ival<0) || (ival>MI_MAX_IMGDIMS)) {
-          milog_message(MI_MSG_BADPROP, _("MI_ICV_NUM_IMGDIMS out of range"));
+          MI_LOG_ERROR(MI_MSG_BADPROP, _("MI_ICV_NUM_IMGDIMS out of range"));
          MI_RETURN(MI_ERROR);
       }
       icvp->user_num_imgdims = ival;
@@ -463,7 +463,7 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
    case MI_ICV_SIGN:
    case MI_ICV_MAXVAR:
    case MI_ICV_MINVAR:
-      milog_message(MI_MSG_BADPROP,
+      MI_LOG_ERROR(MI_MSG_BADPROP,
                     _("Can't store a number in a string value"));
       MI_RETURN(MI_ERROR);
       break;
@@ -475,7 +475,7 @@ MNCAPI int miicv_setdbl(int icvid, int icv_property, double value)
          icvp->user_dim_size[idim] = value;
       }
       else {
-          milog_message(MI_MSG_BADPROP, "Unknown code");
+          MI_LOG_ERROR(MI_MSG_BADPROP, "Unknown code");
           MI_RETURN(MI_ERROR);
       }
       break;
@@ -568,7 +568,7 @@ MNCAPI int miicv_setstr(int icvid, int icv_property, const char *value)
 
    /* Check that the icv is not attached to a file */
    if (icvp->cdfid != MI_ERROR) {
-       milog_message(MI_MSG_ICVATTACHED);
+       MI_LOG_ERROR(MI_MSG_ICVATTACHED);
        MI_RETURN(MI_ERROR);
    }
 
@@ -610,18 +610,18 @@ MNCAPI int miicv_setstr(int icvid, int icv_property, const char *value)
    case MI_ICV_ADIM_SIZE:
    case MI_ICV_BDIM_SIZE:
    case MI_ICV_KEEP_ASPECT:
-       milog_message(MI_MSG_BADPROP, "Can't store a string in a numeric property");
+       MI_LOG_ERROR(MI_MSG_BADPROP, "Can't store a string in a numeric property");
        MI_RETURN(MI_ERROR);
       break;
    default:
       /* Check for image dimension properties */
       if ((icv_property>=MI_ICV_DIM_SIZE) && 
           (icv_property<MI_ICV_DIM_SIZE+MI_MAX_IMGDIMS)) {
-          milog_message(MI_MSG_BADPROP, "Can't store a string in a numeric property");
+          MI_LOG_ERROR(MI_MSG_BADPROP, "Can't store a string in a numeric property");
           MI_RETURN(MI_ERROR);
       }
       else {
-          milog_message(MI_MSG_BADPROP, "Unknown code");
+          MI_LOG_ERROR(MI_MSG_BADPROP, "Unknown code");
           MI_RETURN(MI_ERROR);
       }
       break;
@@ -716,7 +716,7 @@ MNCAPI int miicv_inqdbl(int icvid, int icv_property, double *value)
    case MI_ICV_SIGN:
    case MI_ICV_MAXVAR:
    case MI_ICV_MINVAR:
-       milog_message(MI_MSG_BADPROP,
+       MI_LOG_ERROR(MI_MSG_BADPROP,
                      _("Tried to get icv string property as a number"));
       MI_RETURN(MI_ERROR);
       break;
@@ -738,7 +738,7 @@ MNCAPI int miicv_inqdbl(int icvid, int icv_property, double *value)
          *value = icvp->derv_dim_start[idim];
       }
       else {
-         milog_message(MI_MSG_BADPROP, _("Tried to get unknown icv property"));
+         MI_LOG_ERROR(MI_MSG_BADPROP, _("Tried to get unknown icv property"));
          MI_RETURN(MI_ERROR);
       }
       break;
@@ -871,7 +871,7 @@ MNCAPI int miicv_inqstr(int icvid, int icv_property, char *value)
    case MI_ICV_NUM_DIMS:
    case MI_ICV_CDFID:
    case MI_ICV_VARID:
-      milog_message(MI_MSG_BADPROP,
+      MI_LOG_ERROR(MI_MSG_BADPROP,
                     _("Tried to get icv numeric property as a string"));
       MI_RETURN(MI_ERROR);
       break;
@@ -883,12 +883,12 @@ MNCAPI int miicv_inqstr(int icvid, int icv_property, char *value)
            (icv_property<MI_ICV_DIM_STEP+MI_MAX_IMGDIMS)) ||
           ((icv_property>=MI_ICV_DIM_START) && 
            (icv_property<MI_ICV_DIM_START+MI_MAX_IMGDIMS))) {
-         milog_message(MI_MSG_BADPROP,
+         MI_LOG_ERROR(MI_MSG_BADPROP,
                        _("Tried to get icv numeric property as a string"));
          MI_RETURN(MI_ERROR);
       }
       else {
-         milog_message(MI_MSG_BADPROP,
+         MI_LOG_ERROR(MI_MSG_BADPROP,
                        _("Tried to get unknown icv property"));
          MI_RETURN(MI_ERROR);
       }
@@ -1030,7 +1030,7 @@ PRIVATE int MI_icv_get_type(mi_icv_type *icvp, int cdfid, int varid)
 
    /* Check that the variable type is numeric */
    if (icvp->var_type==NC_CHAR) {
-       milog_message(MI_MSG_VARNOTNUM);
+       MI_LOG_ERROR(MI_MSG_VARNOTNUM);
        MI_RETURN(MI_ERROR);
    }
 
@@ -1356,7 +1356,7 @@ PRIVATE int MI_icv_access(int operation, mi_icv_type *icvp, long start[],
 
    /* Check that icv is attached to a variable */
    if (icvp->cdfid == MI_ERROR) {
-       milog_message(MI_MSG_ICVNOTATTACHED);
+       MI_LOG_ERROR(MI_MSG_ICVNOTATTACHED);
 
        MI_RETURN(MI_ERROR);
    }
@@ -1569,7 +1569,7 @@ PRIVATE int MI_icv_coords_tovar(mi_icv_type *icvp,
       if ((icv_start[i]<0) || (icv_start[i]>=icv_dim_size) ||
           (last_coord<0) || (last_coord>=icv_dim_size) ||
           (icv_count[i]<0)) {
-          milog_message(MI_MSG_ICVCOORDS);
+          MI_LOG_ERROR(MI_MSG_ICVCOORDS);
           MI_RETURN(MI_ERROR);
       }
       /* Remove offset */
@@ -1834,7 +1834,7 @@ SEMIPRIVATE mi_icv_type *MI_icv_chkid(int icvid)
    /* Check icv id */
    if ((icvid<0) || (icvid>=minc_icv_list_nalloc) || 
        (minc_icv_list[icvid]==NULL)) {
-       milog_message(MI_MSG_BADICV);
+       MI_LOG_ERROR(MI_MSG_BADICV);
        MI_RETURN((void *) NULL);
    }
 

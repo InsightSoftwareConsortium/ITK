@@ -116,11 +116,15 @@ int micopy_dimension ( midimhandle_t dim_ptr, midimhandle_t *new_dim_ptr )
 
   //check to make sure string is not empty or null
   if ( dim_ptr->units == NULL  || *dim_ptr->units == '\0' ) {
-    handle->units = strdup ( "mm" );
+    if (dim_ptr->dim_class == MI_DIMCLASS_TIME)
+      handle->units = strdup("s");
+    else
+      handle->units = strdup ( "mm" );
   } else {
     handle->units = strdup ( dim_ptr->units );
   }
 
+  handle->align = dim_ptr->align;
   handle->width = dim_ptr->width;
 
   if ( dim_ptr->widths != NULL ) {
@@ -306,7 +310,15 @@ int micreate_dimension(const char *name, midimclass_t dimclass, midimattr_t attr
   }
 
   handle->length = length;
-  handle->units = strdup ( "mm" );
+
+  if (dimclass == MI_DIMCLASS_TIME) {
+    handle->align = MI_DIMALIGN_START;
+    handle->units = strdup( "s" );
+  }
+  else {
+    handle->align = MI_DIMALIGN_CENTRE;
+    handle->units = strdup ( "mm" );
+  }
   /* volume_handle is the only NULL value once the dimension is created.
    */
   handle->volume_handle = NULL;
@@ -1079,8 +1091,8 @@ int miset_dimension_offsets ( midimhandle_t dimension,
   * \param dimension The dimension handle.
   * \param sampling_flag The flag to determine regular/irregular sampling dimensions.
   *
-  * This flag is true (non-zero) if the dimension is sampled at regular
-  * intervals, and false if the dimension is sampled irregularly.
+  * This flag is false (zero) if the dimension is sampled at regular
+  * intervals, and true if the dimension is sampled irregularly.
   * If a dimension has regular sampling, the miget_dimension_separation()
   * may be used to retrieve the sampling interval, and the
   * miget_dimension_start() may be used to retrieve the origin
@@ -1641,11 +1653,9 @@ int miset_dimension_widths ( midimhandle_t dimension,
     } else {
       dimension->widths[i] = widths[j];
     }
-
-    j++;
   }
 
   return ( MI_NOERROR );
 }
 
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

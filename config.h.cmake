@@ -68,3 +68,5 @@
 #cmakedefine HAVE_SLEEP 1 
 #cmakedefine HAVE_CLOCK_GETTIME 1
 #cmakedefine HAVE_GETTIMEOFDAY 1
+#cmakedefine HAVE_RINT 1
+
