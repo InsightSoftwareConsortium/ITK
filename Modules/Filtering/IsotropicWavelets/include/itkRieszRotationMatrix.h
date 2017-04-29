@@ -94,10 +94,17 @@ public:
   /** Compute constructor. */
   RieszRotationMatrix(const SpatialRotationMatrixType & spatialRotationMatrix, const unsigned int & order);
 
+  /**
+   * Get/Set the order of the Riesz transform.
+   * The order modifies the number of components and the size of the steerable matrix.
+   *
+   * \sa GetComponents
+   * \sa RieszFrequencyFunction
+   */
   inline const unsigned int &
   GetOrder() const
   {
-    return m_Order;
+    return this->m_Order;
   }
   inline void
   SetOrder(const unsigned int & order)
@@ -107,16 +114,25 @@ public:
     this->SetSize(this->m_Components, this->m_Components);
   }
 
+  /**
+   * Get the number of componets M of the steerable matrix.
+   * The size of the steerable matrix is MxM.
+   * The number of components is based on the m_Order of the Riesz
+   * transform and the dimension.
+   *
+   * \sa RieszFrequencyFunction
+   */
   inline const unsigned int &
   GetComponents() const
   {
-    return m_Components;
+    return this->m_Components;
   }
 
+  /// Get/Set the spatial rotation matrix from which the steerable matrix is composed.
   inline const SpatialRotationMatrixType &
   GetSpatialRotationMatrix() const
   {
-    return m_SpatialRotationMatrix;
+    return this->m_SpatialRotationMatrix;
   }
 
   inline void
@@ -125,10 +141,63 @@ public:
     this->m_SpatialRotationMatrix = spatialRotationMatrix;
   }
 
+  /**
+   * Round the computed result S[i][j] to zero if it is close enough to zero. How close is controlled by this value.
+   *
+   * Computation requires a quite a few trivial multiplications, generating float errors.
+   * It is specially noticiable because the domain of rotations is in a small interval around zero.
+   * This tries to fix them, but there is no fit for all solution.
+   *
+   * The default in this class: itk::NumericTraits<ValueType>::epsilon()
+   * The default in the function FloatAlmostEqual is : 0.1 * itk::NumericTraits<ValueType>::epsilon()
+   *
+   * \sa itk::Math::FloatAlmostEqual
+   */
+  inline const ValueType &
+  GetMaxAbsoluteDifferenceCloseToZero() const
+  {
+    return this->m_MaxAbsoluteDifferenceCloseToZero;
+  }
+  inline void
+  SetMaxAbsoluteDifferenceCloseToZero(const ValueType & maxAbsoluteDifference)
+  {
+    this->m_MaxAbsoluteDifferenceCloseToZero = maxAbsoluteDifference;
+  }
+  // ------- Debug Macro ------
+  /// Get/Set Debug flag to print extra information.
+  inline const bool &
+  GetDebug() const
+  {
+    return this->m_Debug;
+  }
+  inline void
+  SetDebug(const bool & boolean)
+  {
+    this->m_Debug = boolean;
+  }
+  inline void
+  SetDebugOn()
+  {
+    this->m_Debug = true;
+  }
+  inline void
+  SetDebugOff()
+  {
+    this->m_Debug = false;
+  }
+
+#ifdef ITK_USE_STRICT_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro(ValueTypeIsFloatCheck, (Concept::IsFloatingPoint<ValueType>));
+  // End concept checking
+#endif
+
 private:
   SpatialRotationMatrixType m_SpatialRotationMatrix;
   unsigned int              m_Order;
   unsigned int              m_Components;
+  ValueType                 m_MaxAbsoluteDifferenceCloseToZero;
+  bool                      m_Debug;
 
 }; // end of class
 } // end namespace itk

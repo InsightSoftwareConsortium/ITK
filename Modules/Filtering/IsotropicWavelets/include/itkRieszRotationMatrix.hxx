@@ -29,6 +29,8 @@ RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix()
   , m_SpatialRotationMatrix()
   , m_Order(0)
   , m_Components(0)
+  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
+  , m_Debug(false)
 {}
 
 template <typename T, unsigned int VImageDimension>
@@ -37,6 +39,8 @@ RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const Self & rieszM
   , m_SpatialRotationMatrix(rieszMatrix.GetSpatialRotationMatrix())
   , m_Order(rieszMatrix.GetOrder())
   , m_Components(rieszMatrix.GetComponents())
+  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
+  , m_Debug(false)
 {}
 
 template <typename T, unsigned int VImageDimension>
@@ -44,6 +48,8 @@ RieszRotationMatrix<T, VImageDimension>::RieszRotationMatrix(const SpatialRotati
                                                              const unsigned int &              order)
   : Superclass()
   , m_SpatialRotationMatrix(spatialRotationMatrix)
+  , m_MaxAbsoluteDifferenceCloseToZero(1 * itk::NumericTraits<ValueType>::epsilon())
+  , m_Debug(false)
 {
   this->SetOrder(order);
   this->ComputeSteerableMatrix();
@@ -179,141 +185,198 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
       unsigned int combineIterations = VImageDimension - 1;
       for (unsigned int combineIndex = 0; combineIndex < combineIterations; ++combineIndex)
       {
-        ValidIndicesType tmpValidIndices = kValidIndices;
+        ValidIndicesType tmpValidIndices; // store new valid indices.
         for (unsigned int validKIndex = 0; validKIndex < kValidIndices.size(); ++validKIndex)
         {
-          unsigned int countValid = 0;
           for (typename SetType::const_iterator itKIni = kValidInitialIndices[combineIndex + 1].begin();
                itKIni != kValidInitialIndices[combineIndex + 1].end();
                ++itKIni)
           {
+            // ---verbose sum---
             IndicesArrayType sumKIndices = *itKIni;
-            for (unsigned int tmpKIndex = 0; tmpKIndex < kValidIndices[validKIndex].size(); ++tmpKIndex)
+            for (unsigned int kIndice = 0; kIndice < kValidIndices[validKIndex].size(); ++kIndice)
             {
               for (unsigned int dim = 0; dim < VImageDimension; ++dim)
               {
-                sumKIndices[dim] += kValidIndices[validKIndex][tmpKIndex][dim];
+                sumKIndices[dim] += kValidIndices[validKIndex][kIndice][dim];
               }
             }
-            // Check if sum is valid:
-            // if yes:
-            // append indice to tmpValidIndices.
+            // --- end verbose sum:---
+            // if sum is valid: append indice to tmpValidIndices.
             if (itk::utils::LessOrEqualIndiceComparisson<IndicesArrayType, VImageDimension>(sumKIndices, m))
             {
-              if (countValid == 0) // Reuse index in construction.
-              {
-                tmpValidIndices[validKIndex].push_back(*itKIni);
-              }
-              else // push a new one
-              {
-                IndicesVector tmp = kValidIndices[validKIndex];
-                tmp.push_back(*itKIni);
-                tmpValidIndices.push_back(tmp);
-              }
+              IndicesVector tmp = kValidIndices[validKIndex];
+              tmp.push_back(*itKIni);
+              tmpValidIndices.push_back(tmp);
             }
-            ++countValid;
+          } // end new k indices
+        } // end partial valid index
+        kValidIndices = tmpValidIndices;
+      } // end combinations
+
+      // kValidIndices at current i,j matrix positions
+      // The vector kValidIndices holds a vector of valid sets of k vectors (k1,k2,k3),(k'1,k'2,k'3) ,...
+      // where k_i is a multiindex: k1 = (k11, k12, ..., k1d)
+      //
+      // we calculate now r11^k11*...*r1d^k1d
+      // matrix R = [r1,...,rd], where r_i are columns of the rotation matrix.
+      // we sum and normalize them.
+      S[i][j] = 0;
+      long double result = 0;
+      long        nFactorial = 1;
+      long        mFactorial = 1;
+      for (unsigned int dim = 0; dim < VImageDimension; ++dim)
+      {
+        nFactorial *= itk::utils::Factorial(n[dim]);
+        mFactorial *= itk::utils::Factorial(m[dim]);
+      }
+      double nFactorialReal = static_cast<double>(nFactorial);
+      for (unsigned int validKIndex = 0; validKIndex < kValidIndices.size(); ++validKIndex)
+      {
+        long double rotationFactor = 1;
+        long        kFactorialMultiplication = 1;
+        // There are always VImageDimension indices. (k1,k2,...,kd)
+        for (unsigned int kIndice = 0; kIndice < VImageDimension; ++kIndice)
+        {
+          for (unsigned int dim = 0; dim < VImageDimension; ++dim)
+          {
+            const unsigned int & k = kValidIndices[validKIndex][kIndice][dim];
+            // k1! = k11!*k12!*...*k1d!
+            kFactorialMultiplication *= itk::utils::Factorial(k);
+            // r11^k11*...*r1d^k1d
+            // switch to avoid unnecesary calls to std::pow.
+            if (k == 0)
+            {
+              continue;
+            }
+            else if (k == 1)
+            {
+              rotationFactor *= this->m_SpatialRotationMatrix[kIndice][dim];
+            }
+            else
+            {
+              rotationFactor *= std::pow(this->m_SpatialRotationMatrix[kIndice][dim], k);
+            }
           }
         }
-        kValidIndices = tmpValidIndices;
+        result += nFactorialReal / kFactorialMultiplication * rotationFactor;
       }
-      std::cout << "\n" << std::endl;
-      std::cout << "i, j: " << i << ", " << j << std::endl;
-      std::cout << "n, m: ";
-      for (unsigned int p = 0; p < 2; ++p)
-      {
-        std::cout << "( ";
-        for (unsigned int dim = 0; dim < VImageDimension; ++dim)
-        {
-          std::cout << allIndicesPairs[i][j][p][dim] << ", ";
-        }
-        std::cout << ") , ";
-      }
-      std::cout << std::endl;
 
-      std::cout << "kValidIndices.size(): " << kValidIndices.size() << std::endl;
-      for (unsigned int c = 0; c < kValidIndices.size(); ++c)
+      // normalize by sqrt(m!/n!):
+      result *= sqrt(mFactorial / nFactorialReal);
+      S[i][j] = static_cast<ValueType>(result);
+      // Try to fix close to zero float errors
+      if (itk::Math::FloatAlmostEqual(S[i][j],
+                                      static_cast<ValueType>(0),
+                                      4, // default maxULPS from Math::AlmostFloatEqual
+                                      this->m_MaxAbsoluteDifferenceCloseToZero))
       {
-        for (unsigned int v = 0; v < kValidIndices[c].size(); ++v)
+        S[i][j] = 0;
+      }
+
+      if (this->GetDebug())
+      {
+        std::cout << "\n" << std::endl;
+        std::cout << "i, j: " << i << ", " << j << std::endl;
+        std::cout << "n, m: ";
+        for (unsigned int p = 0; p < 2; ++p)
         {
           std::cout << "( ";
           for (unsigned int dim = 0; dim < VImageDimension; ++dim)
           {
-            std::cout << kValidIndices[c][v][dim] << ", ";
+            std::cout << allIndicesPairs[i][j][p][dim] << ", ";
+          }
+          std::cout << ") , ";
+        }
+        std::cout << std::endl;
+
+        std::cout << "kValidIndices.size(): " << kValidIndices.size() << std::endl;
+        for (unsigned int c = 0; c < kValidIndices.size(); ++c)
+        {
+          for (unsigned int v = 0; v < kValidIndices[c].size(); ++v)
+          {
+            std::cout << "( ";
+            for (unsigned int dim = 0; dim < VImageDimension; ++dim)
+            {
+              std::cout << kValidIndices[c][v][dim] << ", ";
+            }
+            std::cout << ") , ";
+          }
+          std::cout << "    ";
+        }
+
+        std::cout << "\n InitialValidIndices" << std::endl;
+        ;
+        for (unsigned int dim = 0; dim < VImageDimension; ++dim)
+        {
+          std::cout << "dim:" << dim << std::endl;
+          for (typename SetType::const_iterator it = kValidInitialIndices[dim].begin();
+               it != kValidInitialIndices[dim].end();
+               ++it)
+          {
+            std::cout << "( ";
+            for (unsigned int innerDim = 0; innerDim < VImageDimension; ++innerDim)
+            {
+              std::cout << (*it)[innerDim] << ", ";
+            }
+            std::cout << ")";
+          }
+          std::cout << std::endl;
+          ;
+        }
+      } // end Debug
+    } // end j
+  } // end i
+
+  // ----- PRINT ---- //
+  // Print allIndicesPairs
+  if (this->GetDebug())
+  {
+    // for(typename SetType::const_iterator it = allIndices.begin(); it != allIndices.end(); ++it)
+    //   {
+    //   std::cout <<"( ";
+    //   for (unsigned int i = 0; i<VImageDimension; ++i)
+    //     {
+    //     std::cout << (*it)[i] << ", ";
+    //     }
+    //   std::cout <<")";
+    //   }
+    //   std::cout << std::endl;;
+    std::cout << std::endl;
+    std::cout << "All Indices:" << std::endl;
+    for (unsigned int i = 0; i < this->m_Components; ++i)
+    {
+      for (unsigned int j = 0; j < this->m_Components; ++j)
+      {
+        for (unsigned int p = 0; p < 2; ++p)
+        {
+          std::cout << "( ";
+          for (unsigned int dim = 0; dim < VImageDimension; ++dim)
+          {
+            std::cout << allIndicesPairs[i][j][p][dim] << ", ";
           }
           std::cout << ") , ";
         }
         std::cout << "    ";
       }
-
-      std::cout << "\n InitialValidIndices" << std::endl;
-      ;
-      for (unsigned int dim = 0; dim < VImageDimension; ++dim)
-      {
-        std::cout << "dim:" << dim << std::endl;
-        for (typename SetType::const_iterator it = kValidInitialIndices[dim].begin();
-             it != kValidInitialIndices[dim].end();
-             ++it)
-        {
-          std::cout << "( ";
-          for (unsigned int innerDim = 0; innerDim < VImageDimension; ++innerDim)
-          {
-            std::cout << (*it)[innerDim] << ", ";
-          }
-          std::cout << ")";
-        }
-        std::cout << std::endl;
-        ;
-      }
+      std::cout << "\n";
     }
-  }
+    // for (unsigned int c = 0; c < kValidIndices.size(); ++c)
+    //   {
+    //   for (unsigned int v = 0; v < kValidIndices[c].size(); ++v)
+    //     {
+    //     std::cout <<"( ";
+    //     for (unsigned int dim = 0; dim<VImageDimension; ++dim)
+    //       {
+    //       std::cout << kValidIndices[c][v][dim] << ", ";
+    //       }
+    //     std::cout <<") , ";
+    //     }
+    //   std::cout <<"    ";
+    //   }
+  } // end Debug
 
-  // ----- PRINT ---- //
-  // for(typename SetType::const_iterator it = allIndices.begin(); it != allIndices.end(); ++it)
-  //   {
-  //   std::cout <<"( ";
-  //   for (unsigned int i = 0; i<VImageDimension; ++i)
-  //     {
-  //     std::cout << (*it)[i] << ", ";
-  //     }
-  //   std::cout <<")";
-  //   }
-  //   std::cout << std::endl;;
-
-  // Print allIndicesPairs
-  std::cout << std::endl;
-  std::cout << "All Indices:" << std::endl;
-  for (unsigned int i = 0; i < this->m_Components; ++i)
-  {
-    for (unsigned int j = 0; j < this->m_Components; ++j)
-    {
-      for (unsigned int p = 0; p < 2; ++p)
-      {
-        std::cout << "( ";
-        for (unsigned int dim = 0; dim < VImageDimension; ++dim)
-        {
-          std::cout << allIndicesPairs[i][j][p][dim] << ", ";
-        }
-        std::cout << ") , ";
-      }
-      std::cout << "    ";
-    }
-    std::cout << "\n";
-  }
-
-  // for (unsigned int c = 0; c < kValidIndices.size(); ++c)
-  //   {
-  //   for (unsigned int v = 0; v < kValidIndices[c].size(); ++v)
-  //     {
-  //     std::cout <<"( ";
-  //     for (unsigned int dim = 0; dim<VImageDimension; ++dim)
-  //       {
-  //       std::cout << kValidIndices[c][v][dim] << ", ";
-  //       }
-  //     std::cout <<") , ";
-  //     }
-  //   std::cout <<"    ";
-  //   }
-  return this->GetVnlMatrix();
+  return this->GetVnlMatrix(); // return S;
 }
 
 } // end namespace itk
