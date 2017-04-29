@@ -23,6 +23,7 @@
 #include <complex>
 #include <numeric>
 #include <functional>
+#include "itkRieszUtilities.h"
 
 namespace itk
 {
@@ -75,7 +76,11 @@ public:
    * @return NumberOfComponents given the order.
    */
   static unsigned int
-  ComputeNumberOfComponents(unsigned int order);
+  ComputeNumberOfComponents(const unsigned int & order)
+  {
+    return itk::utils::ComputeNumberOfComponents(order, VImageDimension);
+  }
+
   /**
    * Compute all possible unique indices given the subIndice: (X, 0, ..., 0).
    * Where X can be any number greater than 0, but probably want to use this->m_Order.
@@ -85,13 +90,28 @@ public:
    * @param init position to evaluate  subIndice. Needed for recursion purposes.
    */
   static void
-  ComputeUniqueIndices(IndicesArrayType subIndice, SetType & uniqueIndices, unsigned int init = 0);
+  ComputeUniqueIndices(IndicesArrayType subIndice, SetType & uniqueIndices, unsigned int init = 0)
+  {
+    itk::utils::ComputeUniqueIndices<IndicesArrayType, VImageDimension>(subIndice, uniqueIndices, init);
+  }
 
   /**
    * Compute all the permutations from a set of uniqueIndices.
    */
   static SetType
-  ComputeAllPermutations(const SetType & uniqueIndices);
+  ComputeAllPermutations(const SetType & uniqueIndices)
+  {
+    return itk::utils::ComputeAllPermutations<IndicesArrayType>(uniqueIndices);
+  }
+
+  /**
+   * Compute all the possible indices for a given order.
+   */
+  static SetType
+  ComputeAllPossibleIndices(const unsigned int & order)
+  {
+    return itk::utils::ComputeAllPossibleIndices<IndicesArrayType, VImageDimension>(order);
+  }
 
   /** Evaluate the function at a given frequency point. */
   virtual FunctionValueType
@@ -148,14 +168,7 @@ public:
   static long
   Factorial(long n)
   {
-    if (n <= 1)
-    {
-      return 1;
-    }
-    else
-    {
-      return n * Self::Factorial(n - 1);
-    }
+    return itk::utils::Factorial(n);
   }
 
   /** Order of the generalized riesz transform. */
@@ -172,12 +185,7 @@ public:
     {
       this->m_Order = inputOrder;
       // Calculate all the possible indices.
-      IndicesArrayType initIndice;
-      initIndice.resize(VImageDimension);
-      initIndice[0] = this->m_Order;
-      SetType uniqueIndices;
-      Self::ComputeUniqueIndices(initIndice, uniqueIndices);
-      this->m_Indices = Self::ComputeAllPermutations(uniqueIndices);
+      this->m_Indices = Self::ComputeAllPossibleIndices(this->m_Order);
       this->Modified();
     }
   }

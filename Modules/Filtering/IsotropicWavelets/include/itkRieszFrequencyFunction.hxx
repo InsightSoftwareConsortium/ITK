@@ -21,10 +21,12 @@
 #include <cmath>
 #include <itkMath.h>
 #include "itkRieszFrequencyFunction.h"
+#include "itkRieszFrequencyFunction.h"
 #include <algorithm>
 
 namespace itk
 {
+
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::RieszFrequencyFunction()
   : m_Order(0)
@@ -62,76 +64,11 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::EvaluateWithInd
     }
   }
 
-
   // rieszComponent = (-j)^{m_Order} * sqrt(m_Order!/(n1!n2!...nd!)) * w1^n1...wd^nd / ||w||^m_Order
   return this->ComputeNormalizingFactor(indices) * static_cast<typename OutputComplexType::value_type>(
                                                      freqProduct / std::pow(magn, static_cast<double>(this->m_Order)));
 }
 
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-unsigned int
-RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeNumberOfComponents(unsigned int order)
-{
-  return Self::Factorial(order + VImageDimension - 1) / (Self::Factorial(VImageDimension - 1) * Self::Factorial(order));
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-void
-RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeUniqueIndices(IndicesArrayType subIndice,
-                                                                                      SetType &        uniqueIndices,
-                                                                                      unsigned int     init)
-{
-  unsigned int subIndiceSize = subIndice.size();
-  if (init == subIndiceSize - 1)
-  {
-    return;
-  }
-
-  // If OK, store it.
-  if (std::distance(subIndice.begin(),
-                    std::max_element(subIndice.begin(), subIndice.end(), std::greater<unsigned int>())) <=
-      VImageDimension - 1)
-  {
-    IndicesArrayType subIndiceCopy = subIndice;
-    std::sort(subIndiceCopy.rbegin(), subIndiceCopy.rend());
-    uniqueIndices.insert(subIndiceCopy);
-  }
-  else
-  {
-    // Process remaining index positions in this branch.
-    Self::ComputeUniqueIndices(subIndice, uniqueIndices, init + 1);
-    return;
-  }
-
-  unsigned int first = --subIndice[init];
-  ++subIndice[init + 1];
-  // Stop
-  if (first == 0)
-  {
-    return;
-  }
-  // Process modified subIndice.
-  Self::ComputeUniqueIndices(subIndice, uniqueIndices, init);
-  // Process modified init.
-  Self::ComputeUniqueIndices(subIndice, uniqueIndices, init + 1);
-}
-
-template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
-typename RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::SetType
-RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeAllPermutations(const SetType & uniqueIndices)
-{
-  SetType out;
-  for (typename SetType::const_iterator it = uniqueIndices.begin(); it != uniqueIndices.end(); ++it)
-  {
-    out.insert(*it);
-    IndicesArrayType permutation = *it;
-    while (std::prev_permutation(permutation.begin(), permutation.end()))
-    {
-      out.insert(permutation);
-    }
-  }
-  return out;
-}
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 typename RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::OutputComplexType
 RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::ComputeNormalizingFactor(
