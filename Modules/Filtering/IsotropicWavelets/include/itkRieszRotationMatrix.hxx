@@ -85,23 +85,9 @@ RieszRotationMatrix<T, VImageDimension>::operator*(const std::vector<T> & vect) 
 }
 
 template <typename T, unsigned int VImageDimension>
-const typename RieszRotationMatrix<T, VImageDimension>::InternalMatrixType &
-RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
+typename RieszRotationMatrix<T, VImageDimension>::IndicesMatrix
+RieszRotationMatrix<T, VImageDimension>::GenerateIndicesMatrix()
 {
-  // precondition
-  if (this->m_Order == 0)
-  {
-    itkGenericExceptionMacro(<< "RieszRotationMatrix has order zero, use SetOrder(n),"
-                                " and SetSpatialRotationMatrix(R) before computing the steerable matrix");
-  }
-  InternalMatrixType & S = this->GetVnlMatrix();
-  if (this->m_Order == 1)
-  {
-    S = this->GetSpatialRotationMatrix().GetVnlMatrix();
-    // return this->GetVnlMatrix();
-  }
-
-  // Create map between i,j matrix indices and n,m multiindex.
   typedef std::vector<unsigned int>     IndicesArrayType;
   typedef std::vector<IndicesArrayType> IndicesVector;
   typedef std::vector<IndicesVector>    IndicesMatrixRow;
@@ -115,11 +101,6 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
 
   typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
   SetType allIndices = itk::utils::ComputeAllPossibleIndices<IndicesArrayType, VImageDimension>(this->m_Order);
-  std::vector<SetType> allIndicesOrder(this->m_Order + 1);
-  for (unsigned int ord = 1; ord < this->m_Order + 1; ++ord)
-  {
-    allIndicesOrder[ord] = itk::utils::ComputeAllPossibleIndices<IndicesArrayType, VImageDimension>(ord);
-  }
 
   // Populate IndicesMatrix.
   {
@@ -135,6 +116,37 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
       }
       ++ind_i;
     }
+  }
+
+  return allIndicesPairs;
+}
+
+template <typename T, unsigned int VImageDimension>
+const typename RieszRotationMatrix<T, VImageDimension>::InternalMatrixType &
+RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
+{
+  // precondition
+  if (this->m_Order == 0)
+  {
+    itkGenericExceptionMacro(<< "RieszRotationMatrix has order zero, use SetOrder(n),"
+                                " and SetSpatialRotationMatrix(R) before computing the steerable matrix");
+  }
+  InternalMatrixType & S = this->GetVnlMatrix();
+  if (this->m_Order == 1)
+  {
+    S = this->GetSpatialRotationMatrix().GetVnlMatrix();
+    return this->GetVnlMatrix();
+  }
+
+  typedef std::set<IndicesArrayType, std::greater<IndicesArrayType>> SetType;
+
+  // Create map between i,j matrix indices and n,m multiindex.
+  IndicesMatrix allIndicesPairs(this->GenerateIndicesMatrix());
+
+  std::vector<SetType> allIndicesOrder(this->m_Order + 1);
+  for (unsigned int ord = 1; ord < this->m_Order + 1; ++ord)
+  {
+    allIndicesOrder[ord] = itk::utils::ComputeAllPossibleIndices<IndicesArrayType, VImageDimension>(ord);
   }
 
   for (unsigned int i = 0; i < this->m_Components; ++i)
@@ -306,7 +318,6 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
         }
 
         std::cout << "\n InitialValidIndices" << std::endl;
-        ;
         for (unsigned int dim = 0; dim < VImageDimension; ++dim)
         {
           std::cout << "dim:" << dim << std::endl;
@@ -322,7 +333,6 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
             std::cout << ")";
           }
           std::cout << std::endl;
-          ;
         }
       } // end Debug
     } // end j

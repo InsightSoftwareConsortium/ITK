@@ -63,17 +63,6 @@ public:
    * Multi-index notation
    * S[n = (n1,...,nd)][m = (m1,...,md)]
    *
-   * 2D: order:1, components:2
-   * S_{|n| = 1,|m| = 1} = S_{2x2} =:
-         (1,0),(1,0)  (1,0),(0,1)
-         (0,1),(1,0)  (0,1),(0,1)
-
-   * 3D: order:1, components:3
-   * S_{|n| = 1,|m| = 1} = S_{3x3} =:
-         (1,0,0),(1,0,0)  (1,0,0),(0,1,0)  (1,0,0),(0,0,1)
-         (0,1,0),(1,0,0)  (0,1,0),(0,1,0)  (0,1,0),(0,0,1)
-         (0,0,1),(1,0,0)  (0,0,1),(0,1,0)  (0,0,1),(0,0,1)
-
    * S[n = (n1,...,nd)][m = (m1,...,md)] =
    *  sqrt(\frac{m!}{n!}) \sum_{|k1| = n1} \cdots \sum_{|kd| = nd}
    *  \delta_{k1 + k2 + k3, m} x
@@ -86,6 +75,39 @@ public:
    */
   const InternalMatrixType &
   ComputeSteerableMatrix();
+
+  /// Typedefs for IndicesMatrix
+  typedef std::vector<unsigned int>     IndicesArrayType;
+  typedef std::vector<IndicesArrayType> IndicesVector;
+  typedef std::vector<IndicesVector>    IndicesMatrixRow;
+  typedef std::vector<IndicesMatrixRow> IndicesMatrix;
+
+  /**
+   * Generate a matrix-like structure of the same size than the
+   * steering matrix containing a pair of indices n,m.
+   *
+   * Examples:
+   * 2D: order:1, components:2
+   * S_{|n| = 1,|m| = 1} = S_{2x2} =:
+   *     (1,0),(1,0)  (1,0),(0,1)
+   *     (0,1),(1,0)  (0,1),(0,1)
+   *
+   * 3D: order:1, components:3
+   * S_{|n| = 1,|m| = 1} = S_{3x3} =:
+   *      (1,0,0),(1,0,0)  (1,0,0),(0,1,0)  (1,0,0),(0,0,1)
+   *      (0,1,0),(1,0,0)  (0,1,0),(0,1,0)  (0,1,0),(0,0,1)
+   *      (0,0,1),(1,0,0)  (0,0,1),(0,1,0)  (0,0,1),(0,0,1)
+   *
+   * 2D: order:2, components:3
+   * S_{|n| = 2,|m| = 2} = S_{3x3} =:
+   *      (2, 0),(2, 0)   (2, 0),(1, 1)   (2, 0),(0, 2)
+   *      (1, 1),(2, 0)   (1, 1),(1, 1)   (1, 1),(0, 2)
+   *      (0, 2),(2, 0)   (0, 2),(1, 1)   (0, 2),(0, 2)
+   *
+   * @return the matrix with the n,m multiindex
+   */
+  IndicesMatrix
+  GenerateIndicesMatrix();
 
   /** Default constructor. */
   RieszRotationMatrix();
