@@ -86,11 +86,11 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
   }
 
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
-  typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
+  InverseFFTFilterType::Pointer                                   inverseFFT = InverseFFTFilterType::New();
 
-  typedef typename MonogenicSignalFilterType::OutputImageType MonoFilterOutputImageType;
+  typedef MonogenicSignalFilterType::OutputImageType MonoFilterOutputImageType;
   typedef itk::VectorIndexSelectionCastImageFilter<MonoFilterOutputImageType, ComplexImageType> VectorCastFilterType;
-  typename VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
+  VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(monoFilter->GetOutput());
 
   for (unsigned int c = 0; c < computedNumberOfComponentsPerPixel; ++c)

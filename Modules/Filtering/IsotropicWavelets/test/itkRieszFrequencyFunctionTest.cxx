@@ -48,9 +48,23 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   InputType frequencyPoint;
   frequencyPoint.Fill(0.1);
   rieszFunction->SetOrder(1);
+
   typename RieszFrequencyFunctionType::IndicesArrayType indices(VDimension);
   indices[0] = 1;
   OutputType resultFirstOrderWithIndices = rieszFunction->EvaluateWithIndices(frequencyPoint, indices);
+  // Calculate euclidean norm / magnitude of frequencyPoint.
+  double accum(0);
+  for (size_t d = 0; d < Dimension; ++d)
+  {
+    accum += frequencyPoint[d] * frequencyPoint[d];
+  }
+  itk::SpacePrecisionType frequencyMagnitude = static_cast<itk::SpacePrecisionType>(sqrt(accum));
+  OutputType              trueResult(0, -frequencyPoint[0] / frequencyMagnitude);
+  if (itk::Math::NotAlmostEquals(resultFirstOrderWithIndices, trueResult))
+  {
+    std::cerr << "Error. EvaluateWithIndices unexpected result for order 1, indice (1,...,0):\n actual: "
+              << resultFirstOrderWithIndices << " expected: " << trueResult << " are not equal!" << std::endl;
+  }
 
   // Test getting subIndices
   // Init indice has to be sorted in descending order, example:(3,0,0)

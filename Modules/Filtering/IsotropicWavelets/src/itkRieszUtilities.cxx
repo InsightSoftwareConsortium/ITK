@@ -45,13 +45,13 @@ template void
 ComputeUniqueIndices<std::vector<unsigned int>, 3>(
   std::vector<unsigned int>                                                      subIndice,
   std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
-  unsigned int                                                                   init = 0);
+  unsigned int                                                                   init);
 
 template void
 ComputeUniqueIndices<std::vector<unsigned int>, 2>(
   std::vector<unsigned int>                                                      subIndice,
   std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>> & uniqueIndices,
-  unsigned int                                                                   init = 0);
+  unsigned int                                                                   init);
 
 template std::set<std::vector<unsigned int>, std::greater<std::vector<unsigned int>>>
 ComputeAllPermutations<std::vector<unsigned int>>(
