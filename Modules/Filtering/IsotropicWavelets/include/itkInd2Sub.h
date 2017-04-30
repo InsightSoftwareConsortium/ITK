@@ -61,11 +61,11 @@ Ind2Sub(const unsigned int & linear_index, const FixedArray<unsigned int, N> & n
     throw std::runtime_error("itk::Ind2Sub: input index is incompatible with the given size");
 
   FixedArray<unsigned int, N> out;
-  unsigned int                rem(0), temp_index(linear_index);
+  unsigned int                temp_index(linear_index);
   // loop well defined. it will go to > N after --0
   for (unsigned int i = N - 1; i < N; --i)
   {
-    rem = (temp_index) % cumprod[i];
+    unsigned int rem = (temp_index) % cumprod[i];
     out[i] = (temp_index - rem) / cumprod[i];
     temp_index = rem;
   }

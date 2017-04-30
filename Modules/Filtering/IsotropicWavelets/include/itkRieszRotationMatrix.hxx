@@ -104,10 +104,10 @@ RieszRotationMatrix<T, VImageDimension>::GenerateIndicesMatrix()
 
   // Populate IndicesMatrix.
   {
-    unsigned int ind_i = 0, ind_j = 0;
+    unsigned int ind_i = 0;
     for (typename SetType::const_iterator itN = allIndices.begin(); itN != allIndices.end(); ++itN)
     {
-      ind_j = 0;
+      unsigned int ind_j = 0;
       for (typename SetType::const_iterator itM = allIndices.begin(); itM != allIndices.end(); ++itM)
       {
         allIndicesPairs[ind_i][ind_j][0] = *itN;

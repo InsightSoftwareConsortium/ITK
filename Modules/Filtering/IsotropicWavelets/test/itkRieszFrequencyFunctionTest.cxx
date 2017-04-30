@@ -62,8 +62,8 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   OutputType              trueResult(0, -frequencyPoint[0] / frequencyMagnitude);
   if (itk::Math::NotAlmostEquals(resultFirstOrderWithIndices, trueResult))
   {
-    std::cerr << "Error. EvaluateWithIndices unexpected result for order 1, indice (1,...,0):\n actual: "
-              << resultFirstOrderWithIndices << " expected: " << trueResult << " are not equal!" << std::endl;
+    std::cerr << "Error. EvaluateWithIndices with order 1, indice (1,...,0):\n actual: " << resultFirstOrderWithIndices
+              << " expected: " << trueResult << " are not equal!" << std::endl;
   }
 
   // Test getting subIndices
