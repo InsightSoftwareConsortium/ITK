@@ -5,6 +5,7 @@
 #ifndef MINC2_PRIVATE_H
 #define MINC2_PRIVATE_H
 
+#include "config.h"
 #include <string.h>
 #include "minc2_structs.h"
 
