@@ -95,13 +95,13 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThre
     {
       digitIt.Set(this->m_Min - 10);
     }
-    else if (inputIt.Get() < this->m_Min || inputIt.Get() > this->m_Max)
+    else if (inputIt.Get() < this->m_Min || inputIt.Get() >= this->m_Max)
     {
       digitIt.Set(this->m_Min - 1);
     }
     else
     {
-      binNumber = (inputIt.Get() - m_Min) / ((m_Max - m_Min) / m_NumberOfBinsPerAxis);
+      binNumber = (inputIt.Get() - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis);
       digitIt.Set(binNumber);
     }
     ++inputIt;
@@ -394,8 +394,8 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHi
   }
   offsetDistance = std::sqrt(offsetDistance);
 
-  int offsetDistanceBin =
-    (int)((offsetDistance * pixelDistance - m_MinDistance) / ((m_MaxDistance - m_MinDistance) / m_NumberOfBinsPerAxis));
+  int offsetDistanceBin = (int)((offsetDistance * pixelDistance - m_MinDistance) /
+                                ((m_MaxDistance - m_MinDistance) / (float)m_NumberOfBinsPerAxis));
 
   if (offsetDistanceBin < m_NumberOfBinsPerAxis)
   {
