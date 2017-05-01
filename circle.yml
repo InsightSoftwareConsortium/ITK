@@ -40,7 +40,7 @@ dependencies:
 
 test:
     override:
-        - ctest -V -S "${DASHBOARD_BRANCH_DIRECTORY}/circleci.cmake":
+        - ctest -V -Ddashboard_no_clean:BOOL=1 -S "${DASHBOARD_BRANCH_DIRECTORY}/circleci.cmake":
             timeout: 1200
             environment:
                 ITK_GLOBAL_DEFAULT_NUMBER_OF_THREAD: 2
