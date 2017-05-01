@@ -23,9 +23,9 @@ mark_as_advanced(ITK_USE_SYSTEM_SWIG)
 # Minimal swig version
 set(swig_version_min 3.0.0)
 
-set(ITK_SWIG_VERSION 3.0.11)
-set(swig_md5     13732eb0f1ab2123d180db8425c1edea)
-set(swigwin_md5  5cc57e3658f62b7f648bec7eed91a4f0)
+set(ITK_SWIG_VERSION 3.0.12)
+set(swig_md5     "82133dfa7bba75ff9ad98a7046be687c")
+set(swigwin_md5  "a49524dad2c91ae1920974e7062bfc93")
 
 if(WIN32)
   set(swig_ep "${CMAKE_CURRENT_BINARY_DIR}/swigwin-${ITK_SWIG_VERSION}/swig.exe")
