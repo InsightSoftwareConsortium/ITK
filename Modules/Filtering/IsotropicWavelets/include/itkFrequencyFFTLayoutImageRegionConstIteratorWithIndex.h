@@ -137,7 +137,7 @@ public:
     : ImageRegionConstIteratorWithIndex<TImage>()
   {
     this->Init();
-  };
+  }
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
@@ -145,7 +145,7 @@ public:
     : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {
     this->Init();
-  };
+  }
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -157,11 +157,12 @@ public:
     : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
     this->Init();
-  };
+  }
 
   /*
    * Image Index [0, N - 1] returns [0 to N/2] (positive) union [-N/2 + 1, -1] (negative). So index N/2 + 1 returns the
-   * bin -N/2 + 1. If first index of the image is not zero, it stills returns values in the same range.
+   * bin -N/2 + 1. If first index of the image is not zero, it stills returns values in the same range. f = [0, 1, ...,
+   * N/2-1,     -N/2, ..., -1]  if N is even f = [0, 1, ..., (N-1)/2, -(N-1)/2, ..., -1]  if N is odd
    */
   IndexType
   GetFrequencyBin() const
@@ -195,6 +196,12 @@ public:
    *    The range should be always centered around zero.
    * b) The spacing control the range of frequencies (always around zero).
    *    If the spacing is = {{0.5}} we get a frequency range of [-1/4, 1/4] or [-pi/2, pi/2].
+   *
+   * f = [0, 1, ...,   N/2-1,     -N/2, ..., -1] * FrequencySpacing   if N is even
+   * f = [0, 1, ..., (N-1)/2, -(N-1)/2, ..., -1] * FrequencySpacing   if N is odd
+   *
+   * Where FrequencySpacing = samplingFrequency / N;
+   *   and samplingFrequency = 1.0 / inputImageSpatialDomainSpacing;
    */
   FrequencyType
   GetFrequency() const

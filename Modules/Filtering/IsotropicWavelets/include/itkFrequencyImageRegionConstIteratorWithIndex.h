@@ -100,7 +100,7 @@ public:
     : ImageRegionConstIteratorWithIndex<TImage>()
   {
     this->Init();
-  };
+  }
 
   /** Constructor establishes an iterator to walk a particular image and a
    * particular region of that image. */
@@ -108,7 +108,7 @@ public:
     : ImageRegionConstIteratorWithIndex<TImage>(ptr, region)
   {
     this->Init();
-  };
+  }
 
   /** Constructor that can be used to cast from an ImageIterator to an
    * ImageRegionIteratorWithIndex. Many routines return an ImageIterator, but for a
@@ -120,7 +120,7 @@ public:
     : ImageRegionConstIteratorWithIndex<TImage>(it)
   {
     this->Init();
-  };
+  }
 
   /*
    * The image is in the frequency domain already, return the index.
@@ -131,13 +131,20 @@ public:
     return this->GetIndex();
   }
 
-  /* Equivalent to Get(), but the result is cast to FrequencyType.
+  /* Similar to TransformIndexToPhysicalPoint on GetIndex(),
+   * but the result is cast to FrequencyType. And direction is not taken into account.
    */
   FrequencyType
   GetFrequency() const
   {
+    FrequencyType freq;
+    IndexType     freqInd = this->GetFrequencyBin();
     // FrequencyType freq;
-    return static_cast<FrequencyType>(this->Get());
+    for (unsigned int dim = 0; dim < TImage::ImageDimension; dim++)
+    {
+      freq[dim] = this->m_FrequencyOrigin[dim] + this->m_FrequencySpacing[dim] * freqInd[dim];
+    }
+    return freq;
   }
 
   FrequencyValueType
