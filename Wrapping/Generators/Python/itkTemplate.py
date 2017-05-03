@@ -23,6 +23,7 @@ import os
 import re
 import sys
 import types
+import collections
 if sys.version_info >= (3, 4):
     import importlib
 else:
@@ -69,7 +70,7 @@ class itkTemplate(object):
     2. With object attributes. The user can easily find the available parameters
     sets by pressing tab in interperter like ipython
     """
-    __templates__ = {}
+    __templates__ = collections.OrderedDict()
     __class_to_template__ = {}
     __named_templates__ = {}
     __doxygen_root__ = itkConfig.doxygen_root
@@ -81,7 +82,7 @@ class itkTemplate(object):
         if name not in cls.__named_templates__:
                 new_instance = object.__new__(cls)
                 new_instance.__name__ = name
-                new_instance.__template__ = {}
+                new_instance.__template__ = collections.OrderedDict()
                 cls.__named_templates__[name] = new_instance
         return cls.__named_templates__[name]
 
@@ -399,17 +400,17 @@ class itkTemplate(object):
         if len(args) != 0:
             # try to find a type suitable for the primary input provided
             input_type = output(args[0]).__class__
-            keys = [k for k in self.keys() if k[0] == input_type]
+            keys = [k for k in keys if k[0] == input_type]
         elif set(primary_input_methods).intersection(kwargs.keys()):
             for method in primary_input_methods:
                 if method in kwargs:
                     input_type = output(kwargs[method]).__class__
-                    keys = [k for k in self.keys() if k[0] == input_type]
+                    keys = [k for k in keys if k[0] == input_type]
                     break
         elif cur is not None and len(cur) != 0:
             # try to find a type suitable for the input provided
             input_type = output(cur).__class__
-            keys = [k for k in self.keys() if k[0] == input_type]
+            keys = [k for k in keys if k[0] == input_type]
 
         if len(keys) == 0:
             raise RuntimeError("No suitable template parameter can be found.")
