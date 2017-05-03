@@ -50,6 +50,14 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
   typedef ImageRegionIteratorWithIndex<OutputImageType> ImageIteratorType;
   ImageIteratorType                                     outputIt(output, region);
 
+  typename TransformType::JacobianType identity;
+  identity.SetSize(ImageDimension, ImageDimension);
+  identity.Fill(0.0);
+  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+  {
+    identity.SetElement(ii, ii, 1.0);
+  }
+
   // e_ij += 1/2( du_i/dx_j + du_j/dx_i )
   for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
   {
@@ -61,14 +69,15 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
     typename OutputImageType::PixelType outputPixel = outputIt.Get();
     for (unsigned int ii = 0; ii < ImageDimension; ++ii)
     {
-      for (unsigned int jj = 0; jj < ImageDimension; ++jj)
+      for (unsigned int jj = 0; jj < ii; ++jj)
       {
         outputPixel(ii, jj) += jacobian(ii, jj) / static_cast<TOutputValue>(2);
       }
-    }
-    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
-    {
-      outputPixel(ii, ii) += jacobian(ii, ii) / static_cast<TOutputValue>(2) - static_cast<TOutputValue>(1);
+      for (unsigned int jj = ii + 1; jj < ImageDimension; ++jj)
+      {
+        outputPixel(ii, jj) += jacobian(ii, jj) / static_cast<TOutputValue>(2);
+      }
+      outputPixel(ii, ii) = jacobian(ii, ii) - static_cast<TOutputValue>(1);
     }
     outputIt.Set(outputPixel);
   }
@@ -85,6 +94,7 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
         output->TransformIndexToPhysicalPoint(index, point);
         typename TransformType::JacobianType jacobian;
         input->ComputeJacobianWithRespectToPosition(point, jacobian);
+        jacobian -= identity;
         typename OutputImageType::PixelType outputPixel = outputIt.Get();
         for (unsigned int ii = 0; ii < ImageDimension; ++ii)
         {
@@ -92,64 +102,37 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
           {
             for (unsigned int kk = 0; kk <= jj; ++kk)
             {
-              // outputPixel( jj, kk ) += jacobian( ii, jj ) * jacobian( ii, kk ) / static_cast< TOutputValue >( 2 );
+              outputPixel(jj, kk) += jacobian(ii, jj) * jacobian(ii, kk) / static_cast<TOutputValue>(2);
             }
           }
         }
         outputIt.Set(outputPixel);
       }
-      // for( unsigned int i = 0; i < ImageDimension; ++i )
-      //{
-      // itk::ImageRegionConstIterator< GradientOutputImageType >
-      // gradientIt( reinterpret_cast< GradientOutputImageType* >(
-      // dynamic_cast< GradientOutputImageType* >(
-      // this->ProcessObject::GetOutput( i + 1 ) ) )
-      //, region );
-      // for( outputIt.GoToBegin(), gradientIt.GoToBegin();
-      //! gradientIt.IsAtEnd();
-      //++outputIt, ++gradientIt )
-      //{
-      // outputPixel = outputIt.Get();
-      // gradientPixel = gradientIt.Get();
-      // for( j = 0; j < ImageDimension; ++j )
-      //{
-      // for( k = 0; k <= j; ++k )
-      //{
-      //// @todo use .Value() here?
-      // outputPixel( j, k ) += gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
-      // }
-      //}
-      // outputIt.Set( outputPixel );
-      // }
-      //}
       break;
-      // e_ij -= 1/2 du_m/du_i du_m/du_j
-      // case EULERIANALMANSI:
-      // for( unsigned int i = 0; i < ImageDimension; ++i )
-      //{
-      // itk::ImageRegionConstIterator< GradientOutputImageType >
-      // gradientIt( reinterpret_cast< GradientOutputImageType* >(
-      // dynamic_cast< GradientOutputImageType* >(
-      // this->ProcessObject::GetOutput( i + 1 ) ) )
-      //, region );
-      // for( outputIt.GoToBegin(), gradientIt.GoToBegin();
-      //! gradientIt.IsAtEnd();
-      //++outputIt, ++gradientIt )
-      //{
-      // outputPixel = outputIt.Get();
-      // gradientPixel = gradientIt.Get();
-      // for( j = 0; j < ImageDimension; ++j )
-      //{
-      // for( k = 0; k <= j; ++k )
-      //{
-      //// @todo use .Value() here?
-      // outputPixel( j, k ) -= gradientPixel[j] * gradientPixel[k] / static_cast< TOutputValue >( 2 );
-      // }
-      //}
-      // outputIt.Set( outputPixel );
-      // }
-      //}
-      // break;
+    // e_ij -= 1/2 du_m/du_i du_m/du_j
+    case EULERIANALMANSI:
+      for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
+      {
+        const typename OutputImageType::IndexType index = outputIt.GetIndex();
+        typename OutputImageType::PointType       point;
+        output->TransformIndexToPhysicalPoint(index, point);
+        typename TransformType::JacobianType jacobian;
+        input->ComputeJacobianWithRespectToPosition(point, jacobian);
+        jacobian -= identity;
+        typename OutputImageType::PixelType outputPixel = outputIt.Get();
+        for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+        {
+          for (unsigned int jj = 0; jj < ImageDimension; ++jj)
+          {
+            for (unsigned int kk = 0; kk <= jj; ++kk)
+            {
+              outputPixel(jj, kk) -= jacobian(ii, jj) * jacobian(ii, kk) / static_cast<TOutputValue>(2);
+            }
+          }
+        }
+        outputIt.Set(outputPixel);
+      }
+      break;
     default:
       itkExceptionMacro(<< "Unknown strain form.");
   }

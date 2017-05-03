@@ -48,6 +48,7 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::StrainImag
   this->m_VectorGradientFilter = NULL;
 }
 
+
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 void
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThreadedGenerateData()

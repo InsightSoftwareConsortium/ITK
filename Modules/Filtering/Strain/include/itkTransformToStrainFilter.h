@@ -89,9 +89,9 @@ public:
    * spatial reference system.  This is set with SetStrainForm(). */
   enum StrainFormType
   {
-    INFINITESIMAL,
-    GREENLAGRANGIAN,
-    EULERIANALMANSI
+    INFINITESIMAL = 0,
+    GREENLAGRANGIAN = 1,
+    EULERIANALMANSI = 2
   };
 
   itkSetMacro(StrainForm, StrainFormType);

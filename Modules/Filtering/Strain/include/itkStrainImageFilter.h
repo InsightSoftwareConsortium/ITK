@@ -31,18 +31,18 @@ namespace itk
  * \brief Generate a strain field image from a displacement field image.
  *
  * Internally, a gradient filter (see SetGradientFilter()) is used to calculate
- * deformation gradient tensors.  This filter is used by default on each displacement Vector
- * component.  The gradient filter should take a scalar image as input and
- * generate a CovariantVector image as output.  Alternatively, if a
- * VectorGradientFilter is set, it is used instead.  The VectorGradientFilter
+ * displacement gradient tensors.  This filter is used by default on each displacement Vector
+ * component. The gradient filter should take a scalar image as input and
+ * generate a CovariantVector image as output. Alternatively, if a
+ * VectorGradientFilter is set, it is used instead. The VectorGradientFilter
  * should take a Vector image as input and produce a CovariantVector image on
  * each output corresponding to each Vector component.
  *
- * \tparam TInputImage The first template parameter is the input image type.  It should be an image
- * of displacement vectors.
+ * \tparam TInputImage The first template parameter is the input image type. It should
+ * be an image of displacement vectors.
  *
- * \tparam TOperatorValueType The second template parameter defines the value type used in the derivative
- * operator (defaults to float).
+ * \tparam TOperatorValueType The second template parameter defines the value
+ * type used in the derivative operator (defaults to float).
  *
  * \tparam TOutputValueType The third template parameter defines the value
  * type used for output image (defaults to float).  The output image is defined
@@ -114,9 +114,9 @@ public:
    * spatial reference system.  This is set with SetStrainForm(). */
   enum StrainFormType
   {
-    INFINITESIMAL,
-    GREENLAGRANGIAN,
-    EULERIANALMANSI
+    INFINITESIMAL = 0,
+    GREENLAGRANGIAN = 1,
+    EULERIANALMANSI = 2
   };
 
   itkSetMacro(StrainForm, StrainFormType);

@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkAffineTransform.h"
 #include "itkBSplineTransform.h"
+#include "itkSimilarity2DTransform.h"
 #include "itkTransformToStrainFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkTransformToDisplacementFieldFilter.h"
@@ -72,10 +73,8 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   typedef double     CoordRepresentationType;
   const unsigned int SplineOrder = 3;
 
-  typedef itk::Transform<CoordRepresentationType, Dimension, Dimension>          TransformType;
-  typedef itk::AffineTransform<CoordRepresentationType, Dimension>               AffineTransformType;
-  typedef itk::BSplineTransform<CoordRepresentationType, Dimension, SplineOrder> BSplineTransformType;
-  typedef TransformType::ParametersType                                          ParametersType;
+  typedef itk::Transform<CoordRepresentationType, Dimension, Dimension> TransformType;
+  typedef TransformType::ParametersType                                 ParametersType;
 
   typedef itk::TransformToStrainFilter<TransformType, ScalarPixelType, ScalarPixelType> TransformToStrainFilterType;
   TransformToStrainFilterType::Pointer transformToStrainFilter = TransformToStrainFilterType::New();
@@ -104,9 +103,27 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   TransformToDisplacementFilterType::Pointer transformToDisplacement = TransformToDisplacementFilterType::New();
 
   // Create transforms.
-  AffineTransformType::Pointer  affineTransform = AffineTransformType::New();
-  BSplineTransformType::Pointer bSplineTransform = BSplineTransformType::New();
-  if (transformName == "Affine")
+  typedef itk::AffineTransform<CoordRepresentationType, Dimension> AffineTransformType;
+  AffineTransformType::Pointer                                     affineTransform = AffineTransformType::New();
+  typedef itk::BSplineTransform<CoordRepresentationType, Dimension, SplineOrder> BSplineTransformType;
+  BSplineTransformType::Pointer                               bSplineTransform = BSplineTransformType::New();
+  typedef itk::Similarity2DTransform<CoordRepresentationType> SimilarityTransformType;
+  SimilarityTransformType::Pointer                            similarityTransform = SimilarityTransformType::New();
+
+  if (transformName == "Similarity")
+  {
+    transformToStrainFilter->SetTransform(similarityTransform.GetPointer());
+    transformToDisplacement->SetTransform(similarityTransform.GetPointer());
+
+    SimilarityTransformType::OffsetType translation;
+    translation[0] = -3.0;
+    translation[1] = -4.0;
+    similarityTransform->Translate(translation);
+
+    similarityTransform->SetAngle(0.2);
+    similarityTransform->SetScale(1.025);
+  }
+  else if (transformName == "Affine")
   {
     transformToStrainFilter->SetTransform(affineTransform.GetPointer());
     transformToDisplacement->SetTransform(affineTransform.GetPointer());
@@ -185,6 +202,7 @@ itkTransformToStrainFilterTest(int argc, char * argv[])
   transformToStrainFilter->SetSize(size);
   transformToStrainFilter->SetSpacing(spacing);
   transformToStrainFilter->SetOrigin(origin);
+  transformToStrainFilter->SetStrainForm(static_cast<TransformToStrainFilterType::StrainFormType>(strainForm));
 
   // for coverage, exercise access methods
   spacing = transformToStrainFilter->GetSpacing();
