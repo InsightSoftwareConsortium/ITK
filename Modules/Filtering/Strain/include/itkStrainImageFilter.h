@@ -89,13 +89,14 @@ public:
 
   /** Alternate type of filter used to calculate the gradients. */
   typedef ImageToImageFilter<InputImageType, GradientOutputImageType> VectorGradientFilterType;
+
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(StrainImageFilter, ImageToImageFilter);
 
-  /** Set the filter used to calculate the gradients internally.  The default is
+  /** Set the filter used to calculate the gradients internally. The default is
    * an itk::GradientImageFilter. */
   itkSetObjectMacro(GradientFilter, GradientFilterType);
   itkGetObjectMacro(GradientFilter, GradientFilterType);
@@ -134,16 +135,20 @@ protected:
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) ITK_OVERRIDE;
 
   typedef itk::SplitComponentsImageFilter<InputImageType, OperatorImageType> InputComponentsImageFilterType;
-  typename InputComponentsImageFilterType::Pointer                           m_InputComponentsFilter;
+
+  virtual void
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+
+private:
+  ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
+
+  typename InputComponentsImageFilterType::Pointer m_InputComponentsFilter;
 
   typename GradientFilterType::Pointer m_GradientFilter;
 
   typename VectorGradientFilterType::Pointer m_VectorGradientFilter;
 
   StrainFormType m_StrainForm;
-
-private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(StrainImageFilter);
 };
 
 } // end namespace itk

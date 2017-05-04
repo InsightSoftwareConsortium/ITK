@@ -107,12 +107,13 @@ protected:
   virtual void
   ThreadedGenerateData(const OutputRegionType & outputRegion, ThreadIdType threadId) ITK_OVERRIDE;
 
-  StrainFormType m_StrainForm;
+  virtual void
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  TransformToStrainFilter(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(TransformToStrainFilter);
+
+  StrainFormType m_StrainForm;
 };
 
 } // end namespace itk

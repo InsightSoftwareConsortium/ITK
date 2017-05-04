@@ -67,7 +67,6 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::AllocateOutp
   }
 }
 
-
 template <class TInputImage, class TOutputImage, unsigned int TComponents>
 void
 SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::ThreadedGenerateData(
@@ -105,6 +104,16 @@ SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::ThreadedGene
   }
 }
 
+template <class TInputImage, class TOutputImage, unsigned int TComponents>
+void
+SplitComponentsImageFilter<TInputImage, TOutputImage, TComponents>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent
+     << "ComponentsMask: " << static_cast<typename NumericTraits<ComponentsMaskType>::PrintType>(m_ComponentsMask)
+     << std::endl;
+}
 } // end namespace itk
 
 #endif
