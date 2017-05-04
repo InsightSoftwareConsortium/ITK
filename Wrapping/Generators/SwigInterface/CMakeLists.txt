@@ -142,8 +142,8 @@ else()
         )
       endif()
       ExternalProject_Add(PCRE
-        URL https://midas3.kitware.com/midas/download/bitstream/458372/pcre-8.38.tar.gz
-        URL_MD5 8a353fe1450216b6655dfcf3561716d9
+        URL https://midas3.kitware.com/midas/download/bitstream/458372/pcre-8.40.tar.gz
+        URL_MD5 890c808122bd90f398e6bc40ec862102
         CONFIGURE_COMMAND
           ${pcre_env}
           ../PCRE/configure
