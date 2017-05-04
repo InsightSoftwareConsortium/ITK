@@ -142,6 +142,21 @@ public:
 
   itkStaticConstMacro(PERIMETER_ON_BORDER_RATIO, AttributeType, 118);
 
+
+  /** Origin of the oriented bounding box defined by the principle
+    * axes, and the oriented bounding box size */
+  itkStaticConstMacro(ORIENTED_BOUNDING_BOX_ORIGIN, AttributeType, 119);
+
+
+  /** Size of the oriented bounding box defined by the principle axes,
+    * and the bounding box origin.
+    *
+    * The combination of the OBB origin, OBB size and OBB direction (
+    * principal axes ) defines a coordinate system suitable to use
+    * resample the OBB onto it's own image.
+    */
+  itkStaticConstMacro(ORIENTED_BOUNDING_BOX_SIZE, AttributeType, 120);
+
   static AttributeType GetAttributeFromName(const std::string & s)
   {
     if ( s == "NumberOfPixels" )
@@ -212,6 +227,14 @@ public:
       {
       return PERIMETER_ON_BORDER_RATIO;
       }
+    else if ( s == "OrientedBoundingBoxSize")
+      {
+      return ORIENTED_BOUNDING_BOX_ORIGIN;
+      }
+    else if ( s == "OrientedBoundingBoxOrigin")
+      {
+      return ORIENTED_BOUNDING_BOX_SIZE;
+      }
     // can't recognize the name
     return Superclass::GetAttributeFromName(s);
   }
@@ -272,6 +295,12 @@ public:
       case PERIMETER_ON_BORDER_RATIO:
         name = "PerimeterOnBorderRatio";
         break;
+      case ORIENTED_BOUNDING_BOX_ORIGIN:
+        name = "OrientedBoundingBoxOrigin";
+        break;
+      case ORIENTED_BOUNDING_BOX_SIZE:
+        name = "OrientedBoundingBoxSize";
+        break;
       default:
         // can't recognize the name
         name = Superclass::GetNameFromAttribute(a);
@@ -287,6 +316,32 @@ public:
   typedef Matrix< double, VImageDimension, VImageDimension > MatrixType;
 
   typedef Vector< double, VImageDimension > VectorType;
+
+
+private:
+
+  template <size_t VX, unsigned short VY>
+    struct IntegerPow
+  {
+    static const size_t Result = VX*IntegerPow<VX, VY-1>::Result;
+  };
+
+  template <size_t VX>
+    struct IntegerPow<VX,0>
+  {
+    static const size_t Result = 1;
+  };
+
+public:
+
+  typedef MatrixType                       OrientedBoundingBoxDirectionType;
+
+  typedef Point< double, VImageDimension > OrientedBoundingBoxPointType;
+
+  typedef Vector<double, VImageDimension>  OrientedBoundingBoxSizeType;
+
+  typedef FixedArray<OrientedBoundingBoxPointType, IntegerPow<2,ImageDimension>::Result> OrientedBoundingBoxVerticesType;
+
 
   const RegionType & GetBoundingBox() const
   {
@@ -458,7 +513,81 @@ public:
     m_PerimeterOnBorderRatio = v;
   }
 
+  const OrientedBoundingBoxPointType & GetOrientedBoundingBoxOrigin() const
+  {
+    return m_OrientedBoundingBoxOrigin;
+  }
+
+  void SetOrientedBoundingBoxOrigin(const OrientedBoundingBoxPointType & v)
+  {
+    m_OrientedBoundingBoxOrigin = v;
+  }
+
+  const OrientedBoundingBoxSizeType & GetOrientedBoundingBoxSize() const
+  {
+    return m_OrientedBoundingBoxSize;
+  }
+
+  void SetOrientedBoundingBoxSize(const OrientedBoundingBoxSizeType & v)
+  {
+    m_OrientedBoundingBoxSize = v;
+  }
+
+
   // some helper methods - not really required, but really useful!
+
+
+  /** Get the direction matrix for the oriented bounding box
+    * coordinates. This is an alias for the principal axes. */
+  const OrientedBoundingBoxDirectionType & GetOrientedBoundingBoxDirection() const
+  {
+    return this->GetPrincipalAxes();
+  }
+
+  /** Get an array of point verities which define the corners of the
+    * oriented bounding box.
+    *
+    * The first element in the array contains the minimum coordination
+    * values while the last contains the maximum. Use the index of the
+    * array in binary to determine min/max for the indexed vertex.
+    * For example, in 2D, binary  counting will give[0,0], [0,1],
+    * [1,0], [1,1], which corresponds to [minX,minY], [minX,maxY],
+    * [maxX,minY], [maxX,maxY].
+    */
+  OrientedBoundingBoxVerticesType GetOrientedBoundingBoxVertices() const
+  {
+
+    const OrientedBoundingBoxPointType min = this->GetOrientedBoundingBoxOrigin();
+    OrientedBoundingBoxPointType max = this->GetOrientedBoundingBoxOrigin();
+
+    for( unsigned int i = 0; i < ImageDimension; ++i)
+      {
+      max[i] += m_OrientedBoundingBoxSize[i];
+      }
+
+    OrientedBoundingBoxVerticesType vertices;
+
+    // Use binary index to map the vertices of the OBB to an array. For
+    // example, in 2D, binary  counting will give[0,0], [0,1], [1,0],
+    // [1,1], which corresponds to [minX,minY], [minX,maxY],
+    // [maxX,minY], [maxX,maxY].
+    for (unsigned int i = 0; i <  OrientedBoundingBoxVerticesType::Length; ++i)
+      {
+      const unsigned int msb = 1 << (ImageDimension-1);
+      for ( unsigned int j = 0; j < ImageDimension; j++ )
+        {
+        if (i & msb>>j)
+          {
+          vertices[i][j] = max[j];
+          }
+        else
+          {
+          vertices[i][j] = min[j];
+          }
+        }
+      }
+    return vertices;
+  }
 
   /** Affine transform for mapping to and from principal axis */
   typedef AffineTransform< double, VImageDimension > AffineTransformType;
@@ -537,6 +666,8 @@ public:
     m_EquivalentEllipsoidDiameter = src->GetEquivalentEllipsoidDiameter();
     m_Flatness = src->GetFlatness();
     m_PerimeterOnBorderRatio = src->GetPerimeterOnBorderRatio();
+    m_OrientedBoundingBoxOrigin  = src->GetOrientedBoundingBoxOrigin();
+    m_OrientedBoundingBoxSize  = src->GetOrientedBoundingBoxSize();
   }
 
   template< typename TSourceLabelObject >
@@ -566,6 +697,8 @@ protected:
     m_EquivalentEllipsoidDiameter.Fill(0);
     m_Flatness = 0;
     m_PerimeterOnBorderRatio = 0;
+    m_OrientedBoundingBoxSize.Fill(0);
+    m_OrientedBoundingBoxOrigin.Fill(0);
   }
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
@@ -590,6 +723,8 @@ protected:
     os << indent << "PrincipalMoments: " << m_PrincipalMoments << std::endl;
     os << indent << "PrincipalAxes: " << std::endl << m_PrincipalAxes;
     os << indent << "FeretDiameter: " << m_FeretDiameter << std::endl;
+    os << indent << "m_OrientedBoundingBoxSize: " << m_OrientedBoundingBoxSize << std::endl;
+    os << indent << "m_OrientedBoundingBoxOrigin: " << m_OrientedBoundingBoxOrigin << std::endl;
   }
 
 private:
@@ -612,6 +747,9 @@ private:
   VectorType    m_EquivalentEllipsoidDiameter;
   double        m_Flatness;
   double        m_PerimeterOnBorderRatio;
+
+  OrientedBoundingBoxSizeType  m_OrientedBoundingBoxSize;
+  OrientedBoundingBoxPointType m_OrientedBoundingBoxOrigin;
 };
 } // end namespace itk
 

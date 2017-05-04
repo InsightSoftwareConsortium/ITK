@@ -40,6 +40,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 {
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
+  m_ComputeOrientedBoundingBoxSize = false;
 }
 
 template< typename TImage, typename TLabelImage >
@@ -72,7 +73,6 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 ::ThreadedProcessLabelObject(LabelObjectType *labelObject)
 {
   ImageType *            output = this->GetOutput();
-  // const LabelPixelType & label = labelObject->GetLabel();
 
   // Compute the size per pixel, to be used later
   double sizePerPixel = 1;
@@ -379,6 +379,11 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   if ( m_ComputePerimeter )
     {
     this->ComputePerimeter(labelObject);
+    }
+
+   if ( m_ComputePerimeter )
+    {
+    this->ComputeOrientedBoundingBoxSize(labelObject);
     }
 }
 
@@ -738,6 +743,123 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 }
 #endif
 
+
+template< typename TImage, typename TLabelImage >
+void
+ShapeLabelMapFilter< TImage, TLabelImage >
+::ComputeOrientedBoundingBoxSize(LabelObjectType *labelObject)
+{
+
+  typedef vnl_matrix<double> VNLMatrixType;
+  typedef vnl_vector<double> VNLVectorType;
+
+  const ImageType *            output = this->GetOutput();
+
+  VNLMatrixType rotationMatrix = labelObject->GetPrincipalAxes().GetVnlMatrix();
+  const typename LabelObjectType::CentroidType centroid = labelObject->GetCentroid();
+  const unsigned int numLines = labelObject->GetNumberOfLines();
+
+  // Create a matrix where the columns are the physical points of the
+  // start and end of each RLE line from the label map, relative to
+  // the centroid
+  VNLMatrixType pixelLocations( ImageDimension, labelObject->GetNumberOfLines()*2 );
+  for( unsigned int l = 0; l < numLines; ++l )
+    {
+    typename LabelObjectType::LineType line = labelObject->GetLine(l);
+
+    // add start index of line as physical point relative to centroid
+    IndexType idx = line.GetIndex();
+    typename ImageType::PointType pt;
+    output->TransformIndexToPhysicalPoint(idx, pt);
+    for(unsigned int j = 0; j < ImageDimension; ++j)
+      {
+      pixelLocations(j,l*2) = pt[j] - centroid[j];
+      }
+
+    // add end index of line as physical point relative to centroid
+    idx[0] += line.GetLength() - 1;
+    output->TransformIndexToPhysicalPoint(idx, pt);
+    for(unsigned int j = 0; j < ImageDimension; ++j)
+      {
+      pixelLocations(j,l*2+1) = pt[j] - centroid[j];
+      }
+    }
+
+
+  // Project the physical points onto principal axes
+  VNLMatrixType transformedPixelLocations = rotationMatrix * pixelLocations;
+
+  // find the bounds in the projected domain
+  assert( transformedPixelLocations.columns() != 0 );
+  VNLVectorType proj_min = transformedPixelLocations.get_column(0);
+  VNLVectorType proj_max = transformedPixelLocations.get_column(0);
+
+  for ( unsigned int column = 1; column < transformedPixelLocations.columns(); column++ )
+    {
+    for ( unsigned int i = 0; i < ImageDimension; ++i )
+      {
+      const double value = transformedPixelLocations(i, column);
+      proj_min[i] = std::min(proj_min[i], value);
+      proj_max[i] = std::max(proj_max[i], value);
+      }
+    }
+
+
+  // The proj_min/max is from center of pixel to center of pixel. The
+  // full extent of the pixels needs to include the offset bits from
+  // the center of the pixel to the corners. The extrema of the
+  // OBB is increased by the maximum of the projected spacing.
+  const typename ImageType::SpacingType & spacing = output->GetSpacing();
+  Vector<double, ImageDimension> physicalOffset;
+  output->TransformLocalVectorToPhysicalVector(spacing, physicalOffset);
+
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
+    {
+
+    // the size of the pixels center to corner offset is maximized,
+    // when the sign of the basis vector ( rotation matrix column )
+    // matches, the spacing.
+    Vector<double, ImageDimension>  basisVector;
+    for ( unsigned int j = 0; j < ImageDimension; ++j )
+      {
+      basisVector[j] = rotationMatrix(j,i);
+      basisVector[j] *= Math::sgn0(basisVector[j]) * Math::sgn0( physicalOffset[j]);
+      }
+
+    // projection the spacing vector onto the sign corrected basis
+    // vector to get maximum offset
+    const double maxOffset= basisVector*physicalOffset;
+    proj_min[i] -= maxOffset/2.0;
+    proj_max[i] += maxOffset/2.0;
+    }
+
+  // real physical size, in basis space
+  Vector<double, ImageDimension> rsize;
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
+    {
+    rsize[i] = vnl_math_abs(proj_max[i]-proj_min[i]);
+    }
+
+
+  //
+  // Invert rotation matrix, we will now convert points from the
+  // projected space back to the physical one, for the origin
+  //
+  rotationMatrix.inplace_transpose();
+
+  typename LabelObjectType::OrientedBoundingBoxPointType origin;
+  VNLVectorType min = rotationMatrix*proj_min;
+
+  for ( unsigned int i = 0; i < ImageDimension; ++i )
+    {
+     origin[i] = min[i] + centroid[i];
+    }
+
+  labelObject->SetOrientedBoundingBoxSize(rsize);
+  labelObject->SetOrientedBoundingBoxOrigin(origin);
+
+}
+
 template< typename TImage, typename TLabelImage >
 void
 ShapeLabelMapFilter< TImage, TLabelImage >
@@ -758,6 +880,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
+  os << indent << "ComputeOrientedBoundingBoxSize: " << m_ComputeOrientedBoundingBoxSize << std::endl;
 }
 
 } // end namespace itk
