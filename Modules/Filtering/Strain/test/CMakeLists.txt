@@ -3,8 +3,6 @@ itk_module_test()
 set(
   StrainTests
   itkStrainImageFilterTest.cxx
-  itkStrainImageFilterLagrangianTest.cxx
-  itkStrainImageFilterEulerianTest.cxx
   itkStrainImageFilterDoGTest.cxx
   itkStrainImageFilterRecursiveGaussianTest.cxx
   itkTransformToStrainFilterTest.cxx
@@ -13,7 +11,7 @@ set(
 createtestdriver(Strain "${Strain-Test_LIBRARIES}" "${StrainTests}")
 
 itk_add_test(
-  NAME itkStrainImageFilterTest
+  NAME itkStrainImageFilterInfinitesimalTest
   COMMAND
     StrainTestDriver
     --compare
@@ -22,6 +20,7 @@ itk_add_test(
     itkStrainImageFilterTest
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterTest
+    "INFINITESIMAL"
 )
 
 itk_add_test(
@@ -31,9 +30,10 @@ itk_add_test(
     --compare
     DATA{Baseline/LineLoadStrain.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTestOutput.vtk
-    itkStrainImageFilterLagrangianTest
+    itkStrainImageFilterTest
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterLagrangianTest
+    "GREENLAGRANGIAN"
 )
 
 itk_add_test(
@@ -43,9 +43,10 @@ itk_add_test(
     --compare
     DATA{Baseline/LineLoadStrain.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTestOutput.vtk
-    itkStrainImageFilterEulerianTest
+    itkStrainImageFilterTest
     DATA{Input/LineLoadDisplacement.mha}
     ${ITK_TEST_OUTPUT_DIR}/itkStrainImageFilterEulerianTest
+    "EULERIANALMANSI"
 )
 
 itk_add_test(
@@ -73,7 +74,7 @@ itk_add_test(
 )
 
 # BSplineTransform has not yet implemented
-# ComputeJacobianWithRespectToPosition :-(
+# ComputeJacobianWithRespectToPosition
 #itk_add_test(NAME itkTransformToStrainFilterTest
 #COMMAND StrainTestDriver
 #itkTransformToStrainFilterTest
