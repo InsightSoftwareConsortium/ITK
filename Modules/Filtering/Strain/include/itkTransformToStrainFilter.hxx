@@ -37,7 +37,6 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::BeforeThreade
   output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
 }
 
-
 template <typename TTransform, typename TOperatorValue, typename TOutputValue>
 void
 TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGenerateData(
@@ -53,9 +52,9 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
   typename TransformType::JacobianType identity;
   identity.SetSize(ImageDimension, ImageDimension);
   identity.Fill(0.0);
-  for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    identity.SetElement(ii, ii, 1.0);
+    identity.SetElement(i, i, 1.0);
   }
 
   // e_ij += 1/2( du_i/dx_j + du_j/dx_i )
@@ -67,17 +66,17 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
     typename TransformType::JacobianType jacobian;
     input->ComputeJacobianWithRespectToPosition(point, jacobian);
     typename OutputImageType::PixelType outputPixel = outputIt.Get();
-    for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      for (unsigned int jj = 0; jj < ii; ++jj)
+      for (unsigned int j = 0; j < i; ++j)
       {
-        outputPixel(ii, jj) += jacobian(ii, jj) / static_cast<TOutputValue>(2);
+        outputPixel(i, j) += jacobian(i, j) / static_cast<TOutputValue>(2);
       }
-      for (unsigned int jj = ii + 1; jj < ImageDimension; ++jj)
+      for (unsigned int j = i + 1; j < ImageDimension; ++j)
       {
-        outputPixel(ii, jj) += jacobian(ii, jj) / static_cast<TOutputValue>(2);
+        outputPixel(i, j) += jacobian(i, j) / static_cast<TOutputValue>(2);
       }
-      outputPixel(ii, ii) = jacobian(ii, ii) - static_cast<TOutputValue>(1);
+      outputPixel(i, i) = jacobian(i, i) - static_cast<TOutputValue>(1);
     }
     outputIt.Set(outputPixel);
   }
@@ -96,13 +95,13 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
         input->ComputeJacobianWithRespectToPosition(point, jacobian);
         jacobian -= identity;
         typename OutputImageType::PixelType outputPixel = outputIt.Get();
-        for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
-          for (unsigned int jj = 0; jj < ImageDimension; ++jj)
+          for (unsigned int j = 0; j < ImageDimension; ++j)
           {
-            for (unsigned int kk = 0; kk <= jj; ++kk)
+            for (unsigned int k = 0; k <= j; ++k)
             {
-              outputPixel(jj, kk) += jacobian(ii, jj) * jacobian(ii, kk) / static_cast<TOutputValue>(2);
+              outputPixel(j, k) += jacobian(i, j) * jacobian(i, k) / static_cast<TOutputValue>(2);
             }
           }
         }
@@ -120,13 +119,13 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
         input->ComputeJacobianWithRespectToPosition(point, jacobian);
         jacobian -= identity;
         typename OutputImageType::PixelType outputPixel = outputIt.Get();
-        for (unsigned int ii = 0; ii < ImageDimension; ++ii)
+        for (unsigned int i = 0; i < ImageDimension; ++i)
         {
-          for (unsigned int jj = 0; jj < ImageDimension; ++jj)
+          for (unsigned int j = 0; j < ImageDimension; ++j)
           {
-            for (unsigned int kk = 0; kk <= jj; ++kk)
+            for (unsigned int k = 0; k <= j; ++k)
             {
-              outputPixel(jj, kk) -= jacobian(ii, jj) * jacobian(ii, kk) / static_cast<TOutputValue>(2);
+              outputPixel(j, k) -= jacobian(i, j) * jacobian(i, k) / static_cast<TOutputValue>(2);
             }
           }
         }
@@ -138,6 +137,15 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::ThreadedGener
   }
 }
 
+template <typename TTransform, typename TOperatorValue, typename TOutputValue>
+void
+TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "StrainForm: " << static_cast<typename NumericTraits<StrainFormType>::PrintType>(m_StrainForm)
+     << std::endl;
+}
 } // end namespace itk
 
 #endif

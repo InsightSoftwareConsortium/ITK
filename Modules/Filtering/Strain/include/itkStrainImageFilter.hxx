@@ -29,7 +29,8 @@ namespace itk
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::StrainImageFilter()
-  : m_StrainForm(INFINITESIMAL)
+  : m_InputComponentsFilter(InputComponentsImageFilterType::New())
+  , m_StrainForm(INFINITESIMAL)
 {
   // The first output is only of interest to the user.  The rest of the outputs
   // are GradientImageFilter outputs used internally, but put on the output so
@@ -40,14 +41,9 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::StrainImag
     this->SetNthOutput(i, GradientOutputImageType::New().GetPointer());
   }
 
-  this->m_InputComponentsFilter = InputComponentsImageFilterType::New();
-
   typedef GradientImageFilter<OperatorImageType, TOperatorValueType, TOperatorValueType> GradientImageFilterType;
   this->m_GradientFilter = GradientImageFilterType::New().GetPointer();
-
-  this->m_VectorGradientFilter = NULL;
 }
-
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 void
@@ -85,7 +81,6 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThre
   OutputImageType * output = this->GetOutput();
   output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
 }
-
 
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
 void
@@ -178,6 +173,21 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::ThreadedGe
   }
 }
 
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType>
+void
+StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+
+  itkPrintSelfObjectMacro(InputComponentsFilter);
+
+  itkPrintSelfObjectMacro(GradientFilter);
+
+  itkPrintSelfObjectMacro(VectorGradientFilter);
+
+  os << indent << "StrainForm: " << static_cast<typename NumericTraits<StrainFormType>::PrintType>(m_StrainForm)
+     << std::endl;
+}
 } // end namespace itk
 
 #endif
