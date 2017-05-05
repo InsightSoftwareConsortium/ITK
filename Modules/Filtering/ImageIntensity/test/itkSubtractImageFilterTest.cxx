@@ -18,44 +18,53 @@
 
 #include "itkSubtractImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
 
-int itkSubtractImageFilterTest(int, char* [] )
+int itkSubtractImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 3;
+
+  // Declare the pixel types of the images
+  typedef float                               PixelType;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>  myImageType1;
-  typedef itk::Image<float, myDimension>  myImageType2;
-  typedef itk::Image<float, myDimension>  myImageType3;
+  typedef itk::Image< PixelType, Dimension >  InputImageType1;
+  typedef itk::Image< PixelType, Dimension >  InputImageType2;
+  typedef itk::Image< PixelType, Dimension >  OutputImageType;
+
+  // Declare appropriate Iterator types for each image
+  typedef itk::ImageRegionIteratorWithIndex< OutputImageType > OutputImageIteratorType;
+
 
   // Declare the type of the index to access images
-  typedef itk::Index<myDimension>         myIndexType;
+  typedef itk::Index< Dimension>         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<myDimension>          mySizeType;
+  typedef itk::Size< Dimension >          SizeType;
 
-  // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  // Declare the type of the region
+  typedef itk::ImageRegion< Dimension >   RegionType;
 
   // Create two images
-  myImageType1::Pointer inputImageA  = myImageType1::New();
-  myImageType2::Pointer inputImageB  = myImageType2::New();
+  InputImageType1::Pointer inputImageA = InputImageType1::New();
+  InputImageType2::Pointer inputImageB = InputImageType2::New();
 
   // Define their size, and start index
-  mySizeType size;
+  SizeType size;
   size[0] = 2;
   size[1] = 2;
   size[2] = 2;
 
-  myIndexType start;
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   start[2] = 0;
 
-  myRegionType region;
+  RegionType region;
   region.SetIndex( start );
   region.SetSize( size );
 
@@ -71,72 +80,63 @@ int itkSubtractImageFilterTest(int, char* [] )
   inputImageB->SetRequestedRegion( region );
   inputImageB->Allocate();
 
-
-  // Declare Iterator types apropriated for each image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType1>  myIteratorType1;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType2>  myIteratorType2;
-  typedef itk::ImageRegionIteratorWithIndex<myImageType3>  myIteratorType3;
-
-  // Create one iterator for Image A (this is a light object)
-  myIteratorType1 it1( inputImageA, inputImageA->GetBufferedRegion() );
-
   // Initialize the content of Image A
-  std::cout << "First operand " << std::endl;
-  while( !it1.IsAtEnd() )
-  {
-    it1.Set( 2.0 );
-    std::cout << it1.Get() << std::endl;
-    ++it1;
-  }
-
-  // Create one iterator for Image B (this is a light object)
-  myIteratorType2 it2( inputImageB, inputImageB->GetBufferedRegion() );
+  const InputImageType1::PixelType valueA = 2.0;
+  inputImageA->FillBuffer( valueA );
 
   // Initialize the content of Image B
-  std::cout << "Second operand " << std::endl;
-  while( !it2.IsAtEnd() )
-  {
-    it2.Set( 3.0 );
-    std::cout << it2.Get() << std::endl;
-    ++it2;
-  }
+  const InputImageType2::PixelType valueB = 3.0;
+  inputImageB->FillBuffer( valueB );
 
-  // Declare the type for the filter
+
+  // Declare the type for the itk::SubtractImageFilter
   typedef itk::SubtractImageFilter<
-                                myImageType1,
-                                myImageType2,
-                                myImageType3  >       myFilterType;
+                                InputImageType1,
+                                InputImageType2,
+                                OutputImageType > FilterType;
 
+  // Create the filter
+  FilterType::Pointer filter = FilterType::New();
 
-  // Create a Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, SubtractImageFilter,
+    BinaryFunctorImageFilter );
 
-
-  // Connect the input images
+  // Set the input images
   filter->SetInput1( inputImageA );
   filter->SetInput2( inputImageB );
 
-  // Get the Smart Pointer to the Filter Output
-  myImageType3::Pointer outputImage = filter->GetOutput();
-
+  filter->SetFunctor( filter->GetFunctor() );
 
   // Execute the filter
-  filter->Update();
-  filter->SetFunctor(filter->GetFunctor());
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+
+  // Get the filter output
+  OutputImageType::Pointer outputImage = filter->GetOutput();
+
 
   // Create an iterator for going through the image output
-  myIteratorType3 it3(outputImage, outputImage->GetBufferedRegion());
+  OutputImageIteratorType oIt( outputImage, outputImage->GetBufferedRegion() );
 
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  while( !it3.IsAtEnd() )
-  {
-    std::cout << it3.Get() << std::endl;
-    ++it3;
-  }
+  // Check the content of the result image
+  //
+  const OutputImageType::PixelType expectedValue =
+    static_cast< OutputImageType::PixelType >( valueA - valueB );
+  while( !oIt.IsAtEnd() )
+    {
+    if( !itk::Math::ExactlyEquals( oIt.Get(), expectedValue ) )
+      {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << "]" << std::endl;
+      std::cerr << "Expected: " << expectedValue
+        << ", but got: " << oIt.Get() << std::endl;
+      return EXIT_FAILURE;
+      }
+    ++oIt;
+    }
 
 
   // All objects should be automatically destroyed at this point
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
-
 }
