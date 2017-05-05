@@ -67,6 +67,8 @@ int itkLabelImageToShapeLabelMapFilterTest2(int , char *[])
   typedef itk::LabelImageToShapeLabelMapFilter< ImageType, LabelMapType> L2SType;
   L2SType::Pointer l2s = L2SType::New();
   l2s->SetInput( image );
+  l2s->SetComputeOrientedBoundingBox(true);
+  TEST_SET_GET_VALUE(true, l2s->GetComputeOrientedBoundingBox() );
 
   TRY_EXPECT_NO_EXCEPTION( l2s->Update() );
 
