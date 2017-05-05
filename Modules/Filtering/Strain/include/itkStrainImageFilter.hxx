@@ -78,6 +78,12 @@ StrainImageFilter<TInputImage, TOperatorValueType, TOutputValueType>::BeforeThre
     }
   }
 
+  const StrainFormType strainForm = this->GetStrainForm();
+  if (strainForm != INFINITESIMAL && strainForm != GREENLAGRANGIAN && strainForm != EULERIANALMANSI)
+  {
+    itkExceptionMacro("Invalid StrainForm!");
+  }
+
   OutputImageType * output = this->GetOutput();
   output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
 }

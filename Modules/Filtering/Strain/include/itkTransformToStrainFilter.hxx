@@ -35,6 +35,18 @@ TransformToStrainFilter<TTransform, TOperatorValue, TOutputValue>::BeforeThreade
 {
   OutputImageType * output = this->GetOutput();
   output->FillBuffer(NumericTraits<OutputPixelType>::Zero);
+
+  const TransformType * input = this->GetTransform();
+  if (input == ITK_NULLPTR)
+  {
+    itkExceptionMacro("Input transform not available!");
+  }
+
+  const StrainFormType strainForm = this->GetStrainForm();
+  if (strainForm != INFINITESIMAL && strainForm != GREENLAGRANGIAN && strainForm != EULERIANALMANSI)
+  {
+    itkExceptionMacro("Invalid StrainForm!");
+  }
 }
 
 template <typename TTransform, typename TOperatorValue, typename TOutputValue>
