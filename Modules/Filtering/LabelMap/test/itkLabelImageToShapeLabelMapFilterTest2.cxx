@@ -54,7 +54,7 @@ int itkLabelImageToShapeLabelMapFilterTest2(int , char *[])
 
   ImageType::Pointer image = ImageType::New();
   image->SetRegions(region);
-  image->Allocate();
+  image->Allocate(true);
 
   //
   // Test case one pixel
@@ -153,7 +153,7 @@ int itkLabelImageToShapeLabelMapFilterTest2(int , char *[])
 
 
   // Just exercise these methods
-  std::cout << "OBB vericies: " << labelObject->GetOrientedBoundingBoxVertices() << std::endl;
+  std::cout << "OBB vertices: " << labelObject->GetOrientedBoundingBoxVertices() << std::endl;
   std::cout << "OBB direction: " << labelObject->GetOrientedBoundingBoxDirection();
 
   return EXIT_SUCCESS;
