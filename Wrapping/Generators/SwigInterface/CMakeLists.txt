@@ -141,9 +141,11 @@ else()
               install
         )
       endif()
+      set(pcre_md5 890c808122bd90f398e6bc40ec862102)
+      set(pcre_version 8.40)
       ExternalProject_Add(PCRE
-        URL https://midas3.kitware.com/midas/download/bitstream/458372/pcre-8.40.tar.gz
-        URL_MD5 890c808122bd90f398e6bc40ec862102
+        URL "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${pcre_md5}&name=pcre-${pcre_version}.tar.gz"
+        URL_MD5 ${pcre_md5}
         CONFIGURE_COMMAND
           ${pcre_env}
           ../PCRE/configure
