@@ -15,6 +15,19 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+/*=========================================================================
+
+  Program: DICOM for VTK
+
+  Copyright (c) 2015 David Gobbi
+  All rights reserved.
+  See Copyright.txt or http://dgobbi.github.io/bsd3.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
 #ifndef itkScancoImageIO_h
 #define itkScancoImageIO_h
 #include "IOScancoExport.h"
@@ -27,7 +40,9 @@ namespace itk
 {
 /** \class ScancoImageIO
  *
- *  \brief Read Scanco image file formats.
+ * \brief Read Scanco image file formats.
+ *
+ * Many methods are based off vtkScancoCTReader in vtk-dicom by David Gobbi
  *
  * \ingroup IOFilters
  * \ingroup IOScanco
@@ -132,6 +147,26 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScancoImageIO);
+
+  /** Check the file header to see what type of file it is.
+   *
+   *  Return values are: 0 if unrecognized, 1 if ISQ/RAD,
+   *  2 if AIM 020, 3 if AIM 030.
+   */
+  int
+  CheckVersion(const char header[16]);
+
+  /** Convert char data to 32-bit int (little-endian). */
+  static int
+  DecodeInt(const void * data);
+
+  /** Convert char data to float (single precision). */
+  static float
+  DecodeFloat(const void * data);
+
+  /** Convert char data to float (double precision). */
+  static double
+  DecodeDouble(const void * data);
 };
 } // end namespace itk
 

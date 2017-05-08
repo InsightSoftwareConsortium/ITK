@@ -15,71 +15,151 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+/*=========================================================================
+
+  Program: DICOM for VTK
+
+  Copyright (c) 2015 David Gobbi
+  All rights reserved.
+  See Copyright.txt or http://dgobbi.github.io/bsd3.txt for details.
+
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+     PURPOSE.  See the above copyright notice for more information.
+
+=========================================================================*/
 
 #include "itkScancoImageIO.h"
 #include "itkSpatialOrientationAdapter.h"
 #include "itkIOCommon.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMath.h"
+#include "itkIntTypes.h"
 
 namespace itk
 {
-ScancoImageIO::ScancoImageIO()
+
+ScancoImageIO ::ScancoImageIO()
 {
-  m_FileType = Binary;
-  m_SubSamplingFactor = 1;
-  if (MET_SystemByteOrderMSB())
+  this->m_FileType = Binary;
+  this->m_ByteOrder = LittleEndian;
+
+  this->AddSupportedWriteExtension(".isq");
+  this->AddSupportedWriteExtension(".rsq");
+  this->AddSupportedWriteExtension(".rad");
+  this->AddSupportedWriteExtension(".aim");
+
+  this->AddSupportedReadExtension(".isq");
+  this->AddSupportedReadExtension(".rsq");
+  this->AddSupportedReadExtension(".rad");
+  this->AddSupportedReadExtension(".aim");
+}
+
+
+ScancoImageIO ::~ScancoImageIO() {}
+
+
+void
+ScancoImageIO ::PrintSelf(std::ostream & os, Indent indent) const
+{
+  Superclass::PrintSelf(os, indent);
+}
+
+
+int
+ScancoImageIO ::CheckVersion(const char header[16])
+{
+  int fileType = 0;
+
+  if (strncmp(header, "CTDATA-HEADER_V1", 16) == 0)
   {
-    m_ByteOrder = BigEndian;
+    fileType = 1;
+  }
+  else if (strcmp(header, "AIMDATA_V030   ") == 0)
+  {
+    fileType = 3;
   }
   else
   {
-    m_ByteOrder = LittleEndian;
+    int preHeaderSize = ScancoImageIO::DecodeInt(header);
+    int imageHeaderSize = ScancoImageIO::DecodeInt(header + 4);
+    if (preHeaderSize == 20 && imageHeaderSize == 140)
+    {
+      fileType = 2;
+    }
   }
 
-  this->AddSupportedWriteExtension(".mha");
-  this->AddSupportedWriteExtension(".mhd");
-
-  this->AddSupportedReadExtension(".mha");
-  this->AddSupportedReadExtension(".mhd");
+  return fileType;
 }
 
-ScancoImageIO::~ScancoImageIO() {}
 
-void
-ScancoImageIO::PrintSelf(std::ostream & os, Indent indent) const
+int
+ScancoImageIO ::DecodeInt(const void * data)
 {
-  Superclass::PrintSelf(os, indent);
-  m_ScancoImage.PrintInfo();
-  os << indent << "SubSamplingFactor: " << m_SubSamplingFactor << "\n";
+  const unsigned char * cp = static_cast<const unsigned char *>(data);
+  return (cp[0] | (cp[1] << 8) | (cp[2] << 16) | (cp[3] << 24));
 }
 
-void
-ScancoImageIO::SetDataFileName(const char * filename)
-{
-  m_ScancoImage.ElementDataFileName(filename);
-}
 
-// This method will only test if the header looks like a
-// ScancoImage.  Some code is redundant with ReadImageInformation
-// a StateMachine could provide a better implementation
-bool
-ScancoImageIO::CanReadFile(const char * filename)
+float
+ScancoImageIO ::DecodeFloat(const void * data)
 {
-  // First check the extension
-  std::string fname = filename;
-
-  if (fname == "")
+  const unsigned char * cp = static_cast<const unsigned char *>(data);
+  // different ordering and exponent bias than IEEE 754 float
+  union
   {
-    itkDebugMacro(<< "No filename specified.");
-    return false;
-  }
-
-  return m_ScancoImage.CanRead(filename);
+    float        f;
+    unsigned int i;
+  } v;
+  v.i = (cp[0] << 16) | (cp[1] << 24) | cp[2] | (cp[3] << 8);
+  return 0.25 * v.f;
 }
 
+
+double
+ScancoImageIO ::DecodeDouble(const void * data)
+{
+  // different ordering and exponent bias than IEEE 754 double
+  const unsigned char * cp = static_cast<const unsigned char *>(data);
+  union
+  {
+    double   d;
+    uint64_t l;
+  } v;
+  unsigned int l1, l2;
+  l1 = (cp[0] << 16) | (cp[1] << 24) | cp[2] | (cp[3] << 8);
+  l2 = (cp[4] << 16) | (cp[5] << 24) | cp[6] | (cp[7] << 8);
+  v.l = (static_cast<uint64_t>(l1) << 32) | l2;
+  return v.d * 0.25;
+}
+
+
+bool
+ScancoImageIO ::CanReadFile(const char * filename)
+{
+  std::ifstream infile(filename, std::ios::in | std::ios::binary);
+
+  bool canRead = false;
+  if (infile.good())
+  {
+    // header is a 512 byte block
+    char buffer[512];
+    infile.read(buffer, 512);
+    if (!infile.bad())
+    {
+      int fileType = ScancoImageIO::CheckVersion(buffer);
+      canRead = (fileType > 0);
+    }
+  }
+
+  infile.close();
+
+  return canRead;
+}
+
+
 void
-ScancoImageIO::ReadImageInformation()
+ScancoImageIO ::ReadImageInformation()
 {
   if (!m_ScancoImage.Read(m_FileName.c_str(), false))
   {
