@@ -116,13 +116,13 @@ public:
   itkBooleanMacro(ComputePerimeter);
 
   /**
-   * Set/Get whether the size of the oriented bounding box should be
+   * Set/Get whether the oriented bounding box should be
    * computed or not. Default value is false because of potential
    * memory consumption issues with sparse labels.
    */
-  itkSetMacro(ComputeOrientedBoundingBoxSize, bool);
-  itkGetConstReferenceMacro(ComputeOrientedBoundingBoxSize, bool);
-  itkBooleanMacro(ComputeOrientedBoundingBoxSize);
+  itkSetMacro(ComputeOrientedBoundingBox, bool);
+  itkGetConstReferenceMacro(ComputeOrientedBoundingBox, bool);
+  itkBooleanMacro(ComputeOrientedBoundingBox);
 
   /** Set the label image */
   void SetLabelImage(const TLabelImage *input)
@@ -147,12 +147,12 @@ private:
 
   bool                   m_ComputeFeretDiameter;
   bool                   m_ComputePerimeter;
-  bool                   m_ComputeOrientedBoundingBoxSize;
+  bool                   m_ComputeOrientedBoundingBox;
   LabelImageConstPointer m_LabelImage;
 
   void ComputeFeretDiameter(LabelObjectType *labelObject);
   void ComputePerimeter(LabelObjectType *labelObject);
-  void ComputeOrientedBoundingBoxSize(LabelObjectType *labelObject);
+  void ComputeOrientedBoundingBox(LabelObjectType *labelObject);
 
   typedef itk::Offset<2>                                                          Offset2Type;
   typedef itk::Offset<3>                                                          Offset3Type;

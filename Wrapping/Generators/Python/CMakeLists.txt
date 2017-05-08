@@ -885,7 +885,12 @@ endmacro()
 macro(ADD_PYTHON_VEC_TYPEMAP swig_name template_params)
   string(REGEX REPLACE "(.*),(.*)" "\\1" type "${template_params}")
   string(REGEX REPLACE "(.*),(.*)" "\\2" dim "${template_params}")
-  set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_VEC_TYPEMAP(${swig_name}, ${type}, ${dim})\n")
+  # Black listing all types that contain a comma which would create issues
+  # in C/C++ macros
+  string(REGEX MATCH "(.*,.*)" isTemplate "${type}")
+  if(NOT isTemplate)
+    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_VEC_TYPEMAP(${swig_name}, ${type}, ${dim})\n")
+  endif()
 endmacro()
 
 macro(ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP type value_type)

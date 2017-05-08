@@ -30,6 +30,7 @@ LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   m_BackgroundValue = NumericTraits< OutputImagePixelType >::NonpositiveMin();
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
+  m_ComputeOrientedBoundingBox = false;
 }
 
 template< typename TInputImage, typename TOutputImage >
@@ -81,6 +82,7 @@ LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
   valuator->SetNumberOfThreads( this->GetNumberOfThreads() );
   valuator->SetComputePerimeter(m_ComputePerimeter);
   valuator->SetComputeFeretDiameter(m_ComputeFeretDiameter);
+  valuator->SetComputeOrientedBoundingBox(m_ComputeOrientedBoundingBox);
   progress->RegisterInternalFilter(valuator, .5f);
 
   valuator->GraftOutput( this->GetOutput() );
@@ -99,6 +101,7 @@ LabelImageToShapeLabelMapFilter< TInputImage, TOutputImage >
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_BackgroundValue ) << std::endl;
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
+  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;
 }
 } // end namespace itk
 #endif

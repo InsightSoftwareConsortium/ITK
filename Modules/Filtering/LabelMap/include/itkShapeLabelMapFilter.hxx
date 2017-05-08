@@ -40,7 +40,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 {
   m_ComputeFeretDiameter = false;
   m_ComputePerimeter = true;
-  m_ComputeOrientedBoundingBoxSize = false;
+  m_ComputeOrientedBoundingBox = false;
 }
 
 template< typename TImage, typename TLabelImage >
@@ -381,9 +381,9 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     this->ComputePerimeter(labelObject);
     }
 
-   if ( m_ComputePerimeter )
+   if ( m_ComputeOrientedBoundingBox )
     {
-    this->ComputeOrientedBoundingBoxSize(labelObject);
+    this->ComputeOrientedBoundingBox(labelObject);
     }
 }
 
@@ -747,7 +747,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 template< typename TImage, typename TLabelImage >
 void
 ShapeLabelMapFilter< TImage, TLabelImage >
-::ComputeOrientedBoundingBoxSize(LabelObjectType *labelObject)
+::ComputeOrientedBoundingBox(LabelObjectType *labelObject)
 {
 
   typedef vnl_matrix<double> VNLMatrixType;
@@ -880,7 +880,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
   os << indent << "ComputeFeretDiameter: " << m_ComputeFeretDiameter << std::endl;
   os << indent << "ComputePerimeter: " << m_ComputePerimeter << std::endl;
-  os << indent << "ComputeOrientedBoundingBoxSize: " << m_ComputeOrientedBoundingBoxSize << std::endl;
+  os << indent << "ComputeOrientedBoundingBox: " << m_ComputeOrientedBoundingBox << std::endl;
 }
 
 } // end namespace itk
