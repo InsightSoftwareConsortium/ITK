@@ -837,7 +837,7 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   Vector<double, ImageDimension> rsize;
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    rsize[i] = vnl_math_abs(proj_max[i]-proj_min[i]);
+    rsize[i] = std::abs(proj_max[i]-proj_min[i]);
     }
 
 
