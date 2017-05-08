@@ -47,7 +47,7 @@ set_from_env(dashboard_model "DASHBOARD_MODEL" DEFAULT "Continuous" )
 set(dashboard_loop 0)
 
 list(APPEND CTEST_NOTES_FILES
-  "${CTEST_SOURCE_DIRECTORY}/circleci.yml"
+  "${CTEST_SOURCE_DIRECTORY}/circle.yml"
   )
 
 SET (dashboard_cache "
@@ -63,8 +63,3 @@ SET (dashboard_cache "
 
 
 include("${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake")
-
-# itk_common produces a fatal error ( and exits ) if there is a build
-# error or warning and also for test failures. If itk_common does not
-# terminate execution of this script early, then the build is OK.
-return(0)
