@@ -17,13 +17,11 @@
  *=========================================================================*/
 #ifndef itkScancoImageIO_h
 #define itkScancoImageIO_h
-#include "ITKIOScancoExport.h"
+#include "IOScancoExport.h"
 
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include "metaObject.h"
-#include "metaImage.h"
 
 namespace itk
 {
@@ -31,10 +29,10 @@ namespace itk
  *
  *  \brief Read Scanco image file formats.
  *
- *  \ingroup IOFilters
+ * \ingroup IOFilters
  * \ingroup IOScanco
  */
-class ITKIOScanco_EXPORT ScancoImageIO : public ImageIOBase
+class IOScanco_EXPORT ScancoImageIO : public ImageIOBase
 {
 public:
   /** Standard class typedefs. */
@@ -124,12 +122,6 @@ public:
   {
     return true;
   }
-
-  /** Determing the subsampling factor in case
-   *  we want a coarse version of the image/
-   * \warning this is only used when streaming is on. */
-  itkSetMacro(SubSamplingFactor, unsigned int);
-  itkGetConstMacro(SubSamplingFactor, unsigned int);
 
 protected:
   ScancoImageIO();

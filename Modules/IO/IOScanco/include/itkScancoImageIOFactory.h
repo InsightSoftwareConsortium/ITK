@@ -17,7 +17,7 @@
  *=========================================================================*/
 #ifndef itkScancoImageIOFactory_h
 #define itkScancoImageIOFactory_h
-#include "ITKIOScancoExport.h"
+#include "IOScancoExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
@@ -28,7 +28,7 @@ namespace itk
  * \brief Create instances of ScancoImageIO objects using an object factory.
  * \ingroup ITKIOScanco
  */
-class ITKIOScanco_EXPORT ScancoImageIOFactory : public ObjectFactoryBase
+class IOScanco_EXPORT ScancoImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
