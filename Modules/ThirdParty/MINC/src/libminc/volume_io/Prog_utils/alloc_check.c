@@ -32,6 +32,8 @@
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
 
+
+#if 0
 #define  MAX_SKIP_LEVELS   50
 #define  SKIP_P            0.5
 
@@ -922,6 +924,7 @@ VIOAPI  void  output_alloc_to_file(
         }
     }
 }
+#endif
 
 #ifndef  NO_DEBUG_ALLOC
 

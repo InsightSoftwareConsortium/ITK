@@ -47,6 +47,9 @@ typedef  struct
     VIO_STR  dimension_names[VIO_MAX_DIMENSIONS];
     VIO_BOOL use_starts_set;
     VIO_BOOL use_volume_starts_and_steps;
+    VIO_BOOL is_labels;
+    /*Mostly for debugging*/
+    VIO_BOOL    prefer_minc2_api;
 } minc_output_options;
 
 extern  VIO_STR   XYZ_dimension_names[];
@@ -116,6 +119,7 @@ typedef  struct
 
     VIO_Real               *irregular_starts[VIO_MAX_DIMENSIONS];
     VIO_Real               *irregular_widths[VIO_MAX_DIMENSIONS];
+    VIO_BOOL               is_labels;
 } volume_struct;
 
 typedef  volume_struct  *VIO_Volume;
@@ -386,6 +390,8 @@ typedef  struct
     int         max_dimension_size_for_colour_data;
     int         rgba_indices[4];
     double      user_real_range[2];
+    /*mostly for debugging*/
+    VIO_BOOL    prefer_minc2_api;
 } minc_input_options;
 
 typedef  struct
@@ -439,12 +445,13 @@ typedef  struct
     int                image_dims[MAX_VAR_DIMS];
     int                src_cdfid;
     int                src_img_var;
-
+    
 #ifdef HAVE_MINC2
     mihandle_t         minc2id;
 #else
     void*              minc2id; /*just in case*/
 #endif /*HAVE_MINC2*/
+    VIO_BOOL           using_minc2_api;
 } minc_file_struct;
 
 typedef  minc_file_struct  *Minc_file;
@@ -453,7 +460,7 @@ typedef  minc_file_struct  *Minc_file;
 
 /* --- recognized file formats */
 
-typedef  enum  { MNC_FORMAT, FREE_FORMAT, MNC2_FORMAT, MGH_FORMAT, NII_FORMAT }       Volume_file_formats;
+typedef  enum  { MNC_FORMAT, FREE_FORMAT, MNC2_FORMAT, MGH_FORMAT, NII_FORMAT, NRRD_FORMAT }       Volume_file_formats;
 
 typedef struct
 {
@@ -477,6 +484,8 @@ typedef struct
     void                 *generic_slice_buffer;
     VIO_Real             min_value, max_value;
     void                 *header_info;
+    /*Mostly for debugging right now*/
+    VIO_BOOL             prefer_minc2_api; 
 } volume_input_struct;
 
 /* --------------------- filter types -------------------------------- */

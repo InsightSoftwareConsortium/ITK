@@ -729,8 +729,10 @@ int micreate_volume_image(mihandle_t volume);
 int miget_volume_dimension_count(mihandle_t volume, midimclass_t dimclass,
                                         midimattr_t attr, int *number_of_dimensions);
 
-/** Return the number of dimensions associated with this volume.
-  * \ingroup mi2Vol
+/** Return the number of slice dimensions associated with this volume.
+ *  it's only usefull for slice normalization
+ *  will return the total number of volume dimensions if slice normalization is not used
+ * \ingroup mi2Vol
 */
 int miget_slice_dimension_count(mihandle_t volume, midimclass_t dimclass,
                                         midimattr_t attr, int *number_of_dimensions);

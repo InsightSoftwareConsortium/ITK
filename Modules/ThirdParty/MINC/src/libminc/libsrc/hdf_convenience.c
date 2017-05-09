@@ -45,7 +45,8 @@ struct m2_dim {
 
 static struct m2_file {
     struct m2_file *link;
-    hid_t fd;
+    int   fd;                   /* our fake file id */
+    hid_t file_id;              /* actual hdf5 file id */
     int wr_ok;                  /* non-zero if write OK */
     int resolution;		/* Resolution setting. */
     int nvars;
@@ -68,25 +69,27 @@ hdf_id_check(int fd)
 
     for (curr = _m2_list; curr != NULL; curr = curr->link) {
 	if (fd == curr->fd) {
-	    return (curr);
+           return (curr);
 	}
     }
     return (NULL);
 }
 
 static struct m2_file *
-hdf_id_add(int fd)
+hdf_id_add(hid_t file_id)
 {
     struct m2_file *new;
+    static unsigned short _id = 0;       /* at most 2^16 id's */
 
     new = (struct m2_file *) malloc(sizeof (struct m2_file));
     if (new != NULL) {
-        new->fd = fd;
+        new->fd = HDF5_ID_MIN + _id++;
+        new->file_id = file_id;
         new->resolution = 0;
         new->nvars = 0;
         new->ndims = 0;
         new->link =_m2_list;
-        new->grp_id = H5Gopen1(fd, MI2_GRPNAME);
+        new->grp_id = H5Gopen1(file_id, MI2_GRPNAME);
         new->comp_type = MI2_COMP_UNKNOWN;
         new->comp_param = 0;
         new->chunk_type = MI2_CHUNK_UNKNOWN;
@@ -95,13 +98,13 @@ hdf_id_add(int fd)
         _m2_list = new;
     }
     else {
-      milog_message(MI_MSG_OUTOFMEM, sizeof(struct m2_file));
+      MI_LOG_ERROR(MI_MSG_OUTOFMEM, sizeof(struct m2_file));
       exit(-1);
     }
     return (new);
 }
 
-static int 
+static int
 hdf_id_del(int fd)
 {
     struct m2_file *curr, *prev;
@@ -144,6 +147,7 @@ hdf_id_del(int fd)
 	    }
 
             H5Gclose(curr->grp_id);
+            H5Fclose(curr->file_id);
 	    free(curr);
 	    return (MI_NOERROR);
 	}
@@ -189,7 +193,7 @@ hdf_var_add(struct m2_file *file, const char *name, const char *path,
       strncpy(new->name, name, NC_MAX_NAME - 1);
       strncpy(new->path, path, NC_MAX_NAME - 1);
       new->is_cmpd = 0;
-      new->dset_id = H5Dopen1(file->fd, path);
+      new->dset_id = H5Dopen1(file->file_id, path);
       new->ftyp_id = H5Dget_type(new->dset_id);
       new->mtyp_id = H5Tget_native_type(new->ftyp_id, H5T_DIR_ASCEND);
       new->fspc_id = H5Dget_space(new->dset_id);
@@ -202,7 +206,7 @@ hdf_var_add(struct m2_file *file, const char *name, const char *path,
               new->dims[i] = dims[i];
             }
           } else {
-            milog_message(MI_MSG_OUTOFMEM, sizeof(hsize_t) * ndims);
+            MI_LOG_ERROR(MI_MSG_OUTOFMEM, sizeof(hsize_t) * ndims);
           }
       }
       else {
@@ -210,7 +214,7 @@ hdf_var_add(struct m2_file *file, const char *name, const char *path,
       }
       file->vars[new->id] = new;
     } else {
-      milog_message(MI_MSG_OUTOFMEM, sizeof (struct m2_var));
+      MI_LOG_ERROR(MI_MSG_OUTOFMEM, sizeof (struct m2_var));
       exit(-1);
     }
     return (new);
@@ -260,7 +264,7 @@ hdf_dim_add(struct m2_file *file, const char *name, long length)
 	file->dims[new->id] = new;
     }
     else {
-        milog_message(MI_MSG_OUTOFMEM, sizeof(struct m2_dim));
+        MI_LOG_ERROR(MI_MSG_OUTOFMEM, sizeof(struct m2_dim));
 	exit(-1);
     }
     return (new);
@@ -349,7 +353,7 @@ hdf_get_diminfo(hid_t dst_id, int *ndims, hsize_t dims[])
 
     spc_id = H5Dget_space(dst_id);
     if (spc_id < 0) {
-        milog_message(MI_MSG_SNH);
+        MI_LOG_ERROR(MI_MSG_SNH);
     }
     else {
 	*ndims = H5Sget_simple_extent_ndims(spc_id);
@@ -367,7 +371,7 @@ hdf_size(hid_t spc_id, hid_t typ_id)
     int spc_size = H5Sget_simple_extent_npoints(spc_id);
 
     if (typ_size <= 0 || spc_size <= 0) {
-	milog_message(MI_MSG_SNH);
+	MI_LOG_ERROR(MI_MSG_SNH);
 	return (-1);
     }
     return (typ_size * spc_size);
@@ -492,7 +496,7 @@ hdf_attinq(int fd, int varid, const char *attnm, nc_type *type_ptr,
       return (MI_ERROR);
   }
 
-  if (varid == NC_GLOBAL) {
+  if (varid == NC_GLOBAL || varid == MI_ROOTVARIABLE_ID) {
       var = NULL;
       loc_id = file->grp_id;
   } 
@@ -547,7 +551,7 @@ hdf_attinq(int fd, int varid, const char *attnm, nc_type *type_ptr,
           else if (typ_size == 4) 
             *type_ptr = NC_INT;
           else {
-            milog_message(MI_MSG_INTSIZE, typ_size);
+            MI_LOG_ERROR(MI_MSG_INTSIZE, typ_size);
           }
         }
         else if (typ_class == H5T_FLOAT) {
@@ -558,14 +562,14 @@ hdf_attinq(int fd, int varid, const char *attnm, nc_type *type_ptr,
             *type_ptr = NC_DOUBLE;
           }
           else {
-            milog_message(MI_MSG_FLTSIZE, typ_size);
+            MI_LOG_ERROR(MI_MSG_FLTSIZE, typ_size);
           }
         }
         else if (typ_class == H5T_STRING) {
           *type_ptr = NC_CHAR;
         }
         else {
-          milog_message(MI_MSG_TYPECLASS, typ_class);
+          MI_LOG_ERROR(MI_MSG_TYPECLASS, typ_class);
         }
       }
 
@@ -593,7 +597,7 @@ hdf_attinq(int fd, int varid, const char *attnm, nc_type *type_ptr,
 }
 
 static int
-hdf_put_dimorder(struct m2_file *file, int dst_id, int ndims, 
+hdf_put_dimorder(struct m2_file *file, hid_t dst_id, int ndims, 
 		 const int *dims_ptr)
 {
     int i;
@@ -636,7 +640,7 @@ hdf_put_dimorder(struct m2_file *file, int dst_id, int ndims,
 }
 
 static int 
-hdf_get_dimorder(struct m2_file *file, int dst_id, int ndims, int *dims_ptr)
+hdf_get_dimorder(struct m2_file *file, hid_t dst_id, int ndims, int *dims_ptr)
 {
     char *str_ptr;
     char *tmp_ptr;
@@ -806,7 +810,7 @@ hdf_varinq(int fd, int varid, char *varnm_ptr, nc_type *type_ptr,
 	    else if (size == 4) 
 		*type_ptr = NC_INT;
 	    else {
-		milog_message(MI_MSG_INTSIZE, size);
+		MI_LOG_ERROR(MI_MSG_INTSIZE, size);
 		exit(-1);
 	    }
 	}
@@ -818,7 +822,7 @@ hdf_varinq(int fd, int varid, char *varnm_ptr, nc_type *type_ptr,
 		*type_ptr = NC_DOUBLE;
 	    }
 	    else {
-		milog_message(MI_MSG_FLTSIZE, size);
+		MI_LOG_ERROR(MI_MSG_FLTSIZE, size);
 		exit(-1);
 	    }
 	}
@@ -826,7 +830,7 @@ hdf_varinq(int fd, int varid, char *varnm_ptr, nc_type *type_ptr,
 	    *type_ptr = NC_CHAR;
 	}
 	else {
-	    milog_message(MI_MSG_TYPECLASS, class);
+	    MI_LOG_ERROR(MI_MSG_TYPECLASS, class);
 	    exit(-1);
 	}
     }
@@ -869,7 +873,7 @@ hdf_varinq(int fd, int varid, char *varnm_ptr, nc_type *type_ptr,
 int
 hdf_dimrename(int fd, int dimid, const char *new_name)
 {
-    milog_message(MI_MSG_NOTIMPL, "dimrename");
+    MI_LOG_ERROR(MI_MSG_NOTIMPL, "dimrename");
     return (MI_NOERROR);
 }
 
@@ -976,7 +980,7 @@ hdf_attget(int fd, int varid, const char *attnm, void *value)
         return (MI_ERROR);
     }
 
-    if (varid == NC_GLOBAL) {
+    if (varid == NC_GLOBAL || varid == MI_ROOTVARIABLE_ID) {
         var = NULL;
         loc_id = file->grp_id;
     } 
@@ -1099,10 +1103,10 @@ hdf_attput(int fd, int varid, const char *attnm, nc_type val_typ,
 
             new_type_id = H5Tcopy(var->ftyp_id);
             if (new_type_id < 0) {
-                milog_message(MI_MSG_SNH);
+                MI_LOG_ERROR(MI_MSG_SNH);
             }
             if (H5Tset_sign(new_type_id, (new_signed) ? H5T_SGN_2 : H5T_SGN_NONE) < 0) {
-                milog_message(MI_MSG_SNH);
+                MI_LOG_ERROR(MI_MSG_SNH);
             }
 
             new_plst_id = H5Dget_create_plist(var->dset_id);
@@ -1122,12 +1126,12 @@ hdf_attput(int fd, int varid, const char *attnm, nc_type val_typ,
             H5Pclose(new_plst_id);
             H5Sclose(var->fspc_id);
 
-            if (H5Gunlink(fd, var->path) < 0) {
-                milog_message(MI_MSG_SNH);
+            if (H5Gunlink(file->file_id, var->path) < 0) {
+                MI_LOG_ERROR(MI_MSG_SNH);
             }
 
-            if (H5Gmove2(file->grp_id, temp, fd, var->path) < 0) {
-                milog_message(MI_MSG_SNH);
+            if (H5Gmove2(file->grp_id, temp, file->file_id, var->path) < 0) {
+                MI_LOG_ERROR(MI_MSG_SNH);
             }
 
             var->dset_id = new_dset_id;
@@ -1167,7 +1171,7 @@ hdf_attput(int fd, int varid, const char *attnm, nc_type val_typ,
             ftyp_id = H5T_IEEE_F64LE;
             break;
         default:
-            milog_message(MI_MSG_BADTYPE, val_typ);
+            MI_LOG_ERROR(MI_MSG_BADTYPE, val_typ);
             return (MI_ERROR);
         }
 
@@ -1198,7 +1202,7 @@ hdf_attput(int fd, int varid, const char *attnm, nc_type val_typ,
     att_id = H5Acreate2(loc_id, attnm, ftyp_id, spc_id, H5P_DEFAULT, H5P_DEFAULT);
     
     if (att_id < 0)
-        goto cleanup;
+      goto cleanup;
 
     /* Save the value.
     */
@@ -1263,10 +1267,10 @@ int
 hdf_vardef(int fd, const char *varnm, nc_type vartype, int ndims, 
            const int *dimids)
 {
-    int dst_id = -1;
-    int typ_id = -1;
-    int spc_id = -1;
-    int prp_id = -1;
+    hid_t dst_id = -1;
+    hid_t typ_id = -1;
+    hid_t spc_id = -1;
+    hid_t prp_id = -1;
     int status = MI_ERROR;
     int i;
     long length;
@@ -1399,11 +1403,11 @@ hdf_vardef(int fd, const char *varnm, nc_type vartype, int ndims,
     }
     
     H5E_BEGIN_TRY {
-        dst_id = H5Dcreate2(fd, varpath, typ_id, spc_id, H5P_DEFAULT, prp_id, H5P_DEFAULT);
+        dst_id = H5Dcreate2(file->file_id, varpath, typ_id, spc_id, H5P_DEFAULT, prp_id, H5P_DEFAULT);
     } H5E_END_TRY;
 
     if (dst_id < 0) {
-        milog_message(MI_MSG_OPENDSET, varnm);
+        MI_LOG_ERROR(MI_MSG_OPENDSET, varnm);
         goto cleanup;
     }
 
@@ -1472,10 +1476,10 @@ hdf_varget(int fd, int varid, const long *start_ptr, const long *length_ptr,
 	   void *val_ptr)
 {
   int status = MI_ERROR;
-  int dst_id = -1;
-  int typ_id = -1;
-  int fspc_id = -1;
-  int mspc_id = -1;
+  hid_t dst_id = -1;
+  hid_t typ_id = -1;
+  hid_t fspc_id = -1;
+  hid_t mspc_id = -1;
   int i;
   int ndims;
   hsize_t fstart[MAX_VAR_DIMS];
@@ -1534,20 +1538,20 @@ hdf_varget(int fd, int varid, const long *start_ptr, const long *length_ptr,
     status = H5Sselect_hyperslab(fspc_id, H5S_SELECT_SET, fstart, NULL, count,
 				 NULL);
     if (status < 0) {
-        milog_message(MI_MSG_SNH);
+        MI_LOG_ERROR(MI_MSG_SNH);
 	goto cleanup;
     }
 
     mspc_id = H5Screate_simple(ndims, count, 0);
     if (mspc_id < 0) {
-        milog_message(MI_MSG_SNH);
+        MI_LOG_ERROR(MI_MSG_SNH);
 	goto cleanup;
     }
   }
 
   status = H5Dread(dst_id, typ_id, mspc_id, fspc_id, H5P_DEFAULT, val_ptr);
   if (status < 0) {
-      milog_message(MI_MSG_READDSET, var->path);
+      MI_LOG_ERROR(MI_MSG_READDSET, var->path);
   }
 
  cleanup:
@@ -1567,8 +1571,8 @@ hdf_varget(int fd, int varid, const long *start_ptr, const long *length_ptr,
 }
 
 int 
-hdf_varputg(int fd, int varid, const long *start, 
-            const long *edges, const long *stride, 
+hdf_varputg(int fd, int varid, const long *start,
+            const long *edges, const long *stride,
             const long *map, const void *value)
 {
     int status = MI_ERROR;      /* Assume guilty */
@@ -1584,10 +1588,10 @@ hdf_varputg(int fd, int varid, const long *start,
 
     struct m2_var *varp;
     struct m2_file *file;
-    int dst_id = -1;
-    int typ_id = -1;
-    int fspc_id = -1;
-    int mspc_id = -1;
+    hid_t dst_id = -1;
+    hid_t typ_id = -1;
+    hid_t fspc_id = -1;
+    hid_t mspc_id = -1;
 
     if ((file = hdf_id_check(fd)) == NULL) {
 	return (MI_ERROR);
@@ -1609,7 +1613,7 @@ hdf_varputg(int fd, int varid, const long *start,
 	/*
 	 * The variable is a scalar!
 	 */
-        milog_message(MI_MSG_SNH);
+        MI_LOG_ERROR(MI_MSG_SNH);
         goto cleanup;
     }
 
@@ -1713,14 +1717,14 @@ hdf_varputg(int fd, int varid, const long *start,
         status = H5Sselect_hyperslab(fspc_id, H5S_SELECT_SET, mystart, NULL, 
                                      iocount, NULL);
         if (status < 0) {
-            milog_message(MI_MSG_SNH);
+            MI_LOG_ERROR(MI_MSG_SNH);
             goto cleanup;
         }
 
         status = H5Dwrite(dst_id, typ_id, mspc_id, fspc_id, H5P_DEFAULT, 
                           value);
         if (status < 0) {
-            milog_message(MI_MSG_WRITEDSET, varp->path);
+            MI_LOG_ERROR(MI_MSG_WRITEDSET, varp->path);
             goto cleanup;
         }
 
@@ -1754,8 +1758,8 @@ hdf_varputg(int fd, int varid, const long *start,
 }
 
 int 
-hdf_vargetg(int fd, int varid, const long *start, 
-            const long *edges, const long *stride, 
+hdf_vargetg(int fd, int varid, const long *start,
+            const long *edges, const long *stride,
             const long *map, void *value)
 {
     int status = MI_NOERROR;
@@ -1787,7 +1791,7 @@ hdf_vargetg(int fd, int varid, const long *start,
 	/*
 	 * The variable is a scalar!
 	 */
-        milog_message(MI_MSG_SNH);
+        MI_LOG_ERROR(MI_MSG_SNH);
 	return (MI_ERROR);
     }
 
@@ -1917,10 +1921,10 @@ hdf_varput(int fd, int varid, const long *start_ptr, const long *length_ptr,
 	   const void *val_ptr)
 {
   int status = MI_ERROR;
-  int dst_id;
-  int typ_id;
-  int fspc_id;
-  int mspc_id = -1;
+  hid_t dst_id;
+  hid_t typ_id;
+  hid_t fspc_id;
+  hid_t mspc_id = -1;
   int i;
   int ndims;
   hsize_t fstart[MAX_VAR_DIMS];
@@ -1957,20 +1961,20 @@ hdf_varput(int fd, int varid, const long *start_ptr, const long *length_ptr,
     status = H5Sselect_hyperslab(fspc_id, H5S_SELECT_SET, fstart, NULL, count,
 				 NULL);
     if (status < 0) {
-        milog_message(MI_MSG_SNH);
+        MI_LOG_ERROR(MI_MSG_SNH);
         goto cleanup;
     }
 
     mspc_id = H5Screate_simple(ndims, count, NULL);
     if (mspc_id < 0) {
-        milog_message(MI_MSG_SNH);
+        MI_LOG_ERROR(MI_MSG_SNH);
       goto cleanup;
     }
   }
 
   status = H5Dwrite(dst_id, typ_id, mspc_id, fspc_id, H5P_DEFAULT, val_ptr);
   if (status < 0) {
-      milog_message(MI_MSG_WRITEDSET, var->path);
+      MI_LOG_ERROR(MI_MSG_WRITEDSET, var->path);
       goto cleanup;
   }
 
@@ -2055,7 +2059,7 @@ hdf_varsize(int fd, int varid, long *size_ptr)
     }
 
     if (var->ndims > MAX_VAR_DIMS) {
-        milog_message(MI_MSG_TOOMANYDIMS, MAX_VAR_DIMS);
+        MI_LOG_ERROR(MI_MSG_TOOMANYDIMS, MAX_VAR_DIMS);
         exit(-1);
     }
 
@@ -2092,6 +2096,7 @@ herr_t hdf_copy_attr(hid_t in_id, const char *attr_name, void *op_data)
       * don't overwrite the existing value.
       */
      status = MI_NOERROR;
+     fprintf(stderr, "Failed to create attribute '%s'\n", attr_name);
      goto cleanup;
    }
    
@@ -2164,7 +2169,7 @@ hdf_open_dsets(struct m2_file *file, hid_t grp_id, char *cpath, int is_dim)
 		hid_t spc_id;
 		spc_id = H5Dget_space(new_id);
 		if (spc_id < 0) {
-                    milog_message(MI_MSG_SNH);
+                    MI_LOG_ERROR(MI_MSG_SNH);
 		}
 		else {
 		    hsize_t dims[MAX_NC_DIMS];
@@ -2183,7 +2188,7 @@ hdf_open_dsets(struct m2_file *file, hid_t grp_id, char *cpath, int is_dim)
                         H5Aclose(att_id);
                     }
                     else {
-                        milog_message(MI_MSG_SNH);
+                        MI_LOG_ERROR(MI_MSG_SNH);
                         length = 0;
                     }
 
@@ -2202,7 +2207,7 @@ hdf_open_dsets(struct m2_file *file, hid_t grp_id, char *cpath, int is_dim)
 int
 hdf_open(const char *path, int mode)
 {
-    hid_t fd;
+    hid_t file_id;
     hid_t grp_id;
     hid_t dset_id;
     struct m2_file *file;
@@ -2224,29 +2229,29 @@ hdf_open(const char *path, int mode)
 
             prp_id = H5Pcreate(H5P_FILE_ACCESS);
             H5Pset_fapl_mmap(prp_id, 8192, 1);
-            fd = H5Fopen(path, mode & 0x7FFF, prp_id);
+            file_id = H5Fopen(path, mode & 0x7FFF, prp_id);
             H5Pclose(prp_id);
         }
         else {
-            fd = H5Fopen(path, mode, fpid);
+            file_id = H5Fopen(path, mode, fpid);
         }
 #else
-        fd = H5Fopen(path, mode, fpid);
+        file_id = H5Fopen(path, mode, fpid);
 #endif
     } H5E_END_TRY;
     H5Pclose( fpid );
 
-    if (fd < 0) {
+    if (file_id < 0) {
       return (MI_ERROR);
     }
 
-    file = hdf_id_add(fd);	/* Add it to the list */
+    file = hdf_id_add(file_id);	/* Add it to the list */
     file->wr_ok = (mode & H5F_ACC_RDWR) != 0;
     
     /* Open the image variables.
      */
     H5E_BEGIN_TRY {
-        dset_id = H5Dopen1(fd, "/minc-2.0/image/0/image");
+        dset_id = H5Dopen1(file_id, "/minc-2.0/image/0/image");
         if (dset_id >= 0) {
             hid_t type_id;
             int is_compound = 0;
@@ -2277,7 +2282,7 @@ hdf_open(const char *path, int mode)
             H5Dclose(dset_id);
         }
     
-        dset_id = H5Dopen1(fd, "/minc-2.0/image/0/image-min");
+        dset_id = H5Dopen1(file_id, "/minc-2.0/image/0/image-min");
         if (dset_id >= 0) {
             hdf_get_diminfo(dset_id, &ndims, dims);
             hdf_var_add(file, MIimagemin, "/minc-2.0/image/0/image-min", 
@@ -2285,7 +2290,7 @@ hdf_open(const char *path, int mode)
             H5Dclose(dset_id);
         }
 
-        dset_id = H5Dopen1(fd, "/minc-2.0/image/0/image-max");
+        dset_id = H5Dopen1(file_id, "/minc-2.0/image/0/image-max");
         if (dset_id >= 0) {
             hdf_get_diminfo(dset_id, &ndims, dims);
             hdf_var_add(file, MIimagemax, "/minc-2.0/image/0/image-max", 
@@ -2296,16 +2301,16 @@ hdf_open(const char *path, int mode)
 
     /* Open all of the datasets in the "dimensions" category.
      */
-    grp_id = H5Gopen2(fd, "/minc-2.0/dimensions", H5P_DEFAULT);
+    grp_id = H5Gopen2(file_id, "/minc-2.0/dimensions", H5P_DEFAULT);
     hdf_open_dsets(file, grp_id, "/minc-2.0/dimensions/", 1);
     H5Gclose(grp_id);
 
     /* Open all of the datasets in the "info" category.
      */
-    grp_id = H5Gopen2(fd, "/minc-2.0/info", H5P_DEFAULT);
+    grp_id = H5Gopen2(file_id, "/minc-2.0/info", H5P_DEFAULT);
     hdf_open_dsets(file, grp_id, "/minc-2.0/info/", 0);
     H5Gclose(grp_id);
-    return (fd);
+    return (file->fd);
 }
 
 /** Create an HDF5 file. */
@@ -2313,12 +2318,12 @@ int
 hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
 {
     hid_t grp_id;
-    hid_t fd;
+    hid_t file_id;
     hid_t tmp_id;
     struct m2_file *file;
     hid_t hdf_gpid;
     hid_t fpid;
-  
+
     /*Set cachine parameters*/
     fpid = H5Pcreate (H5P_FILE_ACCESS);
     
@@ -2339,11 +2344,12 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
     H5Pset_libver_bounds (fpid, H5F_LIBVER_18, H5F_LIBVER_18);
 
     H5E_BEGIN_TRY {
-        fd = H5Fcreate(path, cmode, H5P_DEFAULT, fpid);
+        file_id = H5Fcreate(path, cmode, H5P_DEFAULT, fpid);
     } H5E_END_TRY;
-    if (fd < 0) {
-      fprintf(stderr, "Error creating HDF file '%s' with mode '%x', result %d\n", path, cmode, fd);
-      H5Eprint1(stderr);
+    if (file_id < 0) {
+      fprintf(stderr, "Error creating HDF file '%s' with mode '%x', result %d\n", path, cmode, (int)file_id);
+      if (cmode != (int)H5F_ACC_EXCL || errno != EEXIST)
+        H5Eprint1(stderr);
       return (MI_ERROR);
     }
 
@@ -2352,7 +2358,7 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
     /* Create the default groups.
      * Should we use a non-zero value for size_hint (parameter 3)???
      */
-    if ((grp_id = H5Gcreate2(fd, MI2_GRPNAME, H5P_DEFAULT, hdf_gpid, H5P_DEFAULT)) < 0) {
+    if ((grp_id = H5Gcreate2(file_id, MI2_GRPNAME, H5P_DEFAULT, hdf_gpid, H5P_DEFAULT)) < 0) {
       fprintf(stderr, "Error creating groups on line %d\n", __LINE__);
       H5Eprint1(stderr);
       return (MI_ERROR);
@@ -2389,7 +2395,7 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
     H5Gclose(tmp_id);
     H5Gclose(grp_id);
 
-    file = hdf_id_add(fd);      /* Add it to the list */
+    file = hdf_id_add(file_id); /* Add it to the list */
     if (file == NULL) {
         fprintf(stderr, "Error adding ID to list.\n");
         H5Eprint1(stderr);
@@ -2405,16 +2411,14 @@ hdf_create(const char *path, int cmode, struct mi2opts *opts_ptr)
         file->chunk_param = opts_ptr->chunk_param;
         file->checksum = opts_ptr->checksum;
     }
-    return ((int) fd);
+    return (file->fd);
 }
 
 int
 hdf_close(int fd)
 {
     hdf_dim_commit(fd);         /* Make sure all dimensions were saved. */
-    hdf_id_del(fd);		/* Delete it from the list. */
-    H5Fclose(fd);
-    return (MI_NOERROR);
+    return hdf_id_del(fd);      /* Delete it from the list. */
 }
 
 /* 
@@ -2432,5 +2436,23 @@ hdf_access(const char *path)
 
     return (status > 0);        /* Return non-zero if success */
 }
+
+/*
+ * Flushes the hdf file to disk
+ */
+int 
+hdf_flush(int fd)
+{
+    struct m2_file *file;
+    if ((file = hdf_id_check(fd))!=NULL ) {
+        /* Commit the (entire) file to disk. */
+        if (H5Fflush(file->file_id, H5F_SCOPE_GLOBAL) < 0) {
+            return MI_ERROR;
+        }
+        return MI_NOERROR;
+    }
+    return MI_ERROR;
+}
+
 
 #endif /* MINC2 defined */

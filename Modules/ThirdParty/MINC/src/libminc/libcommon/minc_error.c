@@ -80,16 +80,37 @@
               software for any purpose.  It is provided "as is" without
               express or implied warranty.
 ---------------------------------------------------------------------------- */
+#include "minc_config.h"
 
 #include <errno.h>
 #include <stdarg.h>
-#include <minc_private.h>
-#include <minc_error.h>
+
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+
+#include "minc_error.h"
+#include "minc_common_defs.h"
+
+int v_mi2log_message(const char *file,int line, mimsgcode_t code, va_list ap);
 
 struct mierror_entry {
     int level;
     char *msgfmt;
 };
+
+
+/* By default, print all messages of severity error, or worse.
+ */
+static struct {
+  int level;
+  char prog[128];
+  FILE *fp;
+} _MI2_log = {
+  MI2_MSG_ERROR, {""}, NULL
+};
+
 
 /* MINC routine name variable, call depth counter (for keeping track of
    minc routines calling minc routines) and variable for keeping track
@@ -152,10 +173,66 @@ static struct mierror_entry mierror_table[] = {
     { MI_MSG_ERROR, "Invalid ICV coordinates"}, /* MI_MSG_ICVCOORDS */
     { MI_MSG_ERROR, "Illegal variable access operation" }, /* MI_MSG_BADOP */
     { MI_MSG_ERROR, "ncopts stack overflow" }, /* MI_MSG_NCOPTS_STACK_OVER */
-    { MI_MSG_ERROR, "ncopts stack underflow" } /* MI_MSG_NCOPTS_STACK_UNDER */
+    { MI_MSG_ERROR, "ncopts stack underflow" }, /* MI_MSG_NCOPTS_STACK_UNDER */
+    { MI_MSG_ERROR, "volume_io error: %s" }, /* MI_MSG_VOLUME_IO */
+    { MI2_MSG_ERROR, "Cannot uncompress the file" }, /* MI2_MSG_UNCMPFAIL */
+    { MI2_MSG_ERROR, "Can't write compressed file" }, /* MI2_MSG_NOWRITECMP */
+    { MI2_MSG_ERROR, "Unable to open file '%s'" }, /* MI2_MSG_OPENFILE */
+    { MI2_MSG_ERROR, "Unable to create file '%s'"}, /* MI2_MSG_CREATEFILE */
+    { MI2_MSG_ERROR, "Error closing file"}, /* MI2_MSG_CLOSEFILE */
+    { MI2_MSG_WARNING, "Attribute '%s' not found"}, /* MI2_MSG_FINDATTR */
+    { MI2_MSG_ERROR, "Attribute '%s' is non-numeric"}, /* MI2_MSG_ATTRNOTNUM */
+    { MI2_MSG_ERROR, "Can't read attribute '%s'"}, /* MI2_MSG_READATTR */
+    { MI2_MSG_FATAL, "No memory for attribute '%s'"}, /* MI2_MSG_NOMEMATTR */
+    { MI2_MSG_ERROR, "Conversion error for attribute '%s'"}, /* MI2_MSG_CONVATTR */
+    { MI2_MSG_ERROR, "Attribute '%s' is not a scalar"}, /* MI2_MSG_ATTRNOTSCALAR */
+    { MI2_MSG_ERROR, "Attribute '%s' is not a string"}, /* MI2_MSG_ATTRNOTSTR */
+    { MI2_MSG_ERROR, "Can't write attribute '%s'"}, /* MI2_MSG_WRITEATTR */
+    { MI2_MSG_ERROR, "Can't read variable ID# %d"}, /* MI2_MSG_READVAR */
+    { MI2_MSG_ERROR, "Can't write variable ID# %d"}, /* MI2_MSG_WRITEVAR */
+    { MI2_MSG_ERROR, "Can't find variable ID# %d"}, /* MI2_MSG_FINDVAR */
+    { MI2_MSG_ERROR, "Can't read attribute count"}, /* MI2_MSG_ATTRCOUNT */
+    { MI2_MSG_ERROR, "Can't read attribute name"}, /* MI2_MSG_ATTRNAME */
+    { MI2_MSG_ERROR, "Can't copy attribute '%s'"}, /* MI2_MSG_COPYATTR */
+    { MI2_MSG_ERROR, "Can't read variable information"}, /* MI2_MSG_VARINQ */
+    { MI2_MSG_ERROR, "Can't get unlimited dimension"}, /* MI2_MSG_UNLIMDIM */
+    { MI2_MSG_ERROR, "Can't get dimension information"}, /* MI2_MSG_DIMINQ */
+    { MI2_MSG_ERROR, "Variable already defined with different size"}, /* MI2_MSG_VARCONFLICT */
+    { MI2_MSG_ERROR, "Can't define dimension '%s'"}, /* MI2_MSG_DIMDEF */
+    { MI2_MSG_ERROR, "Can't define variable '%s'"}, /* MI2_MSG_VARDEF */
+    { MI2_MSG_ERROR, "Variables do not match for value copy"}, /* MI2_MSG_VARMISMATCH */
+    { MI2_MSG_ERROR, "Variables have dimensions of different size"}, /* MI2_MSG_VARDIFFSIZE */
+    { MI2_MSG_ERROR, "Can't read variable count"}, /* MI2_MSG_VARCOUNT */
+    { MI2_MSG_ERROR, "Variable '%s' not copied"}, /* MI2_MSG_OUTPUTVAR */
+    { MI2_MSG_ERROR, "Error copying variable"}, /* MI2_MSG_COPYVAR */
+    { MI2_MSG_ERROR, "Non-numeric datatype"}, /* MI2_MSG_VARNOTNUM */
+    { MI2_MSG_FATAL, "Can't allocate %d bytes"}, /* MI2_MSG_OUTOFMEM */
+    { MI2_MSG_ERROR, "Attribute '%s' is not a pointer"}, /* MI2_MSG_ATTRNOTPTR */
+    { MI2_MSG_ERROR, "Variable '%s' is not a standard MINC variable"}, /* MI2_MSG_VARNOTSTD */
+    { MI2_MSG_ERROR, "Bad dimension width suffix"}, /* MI2_MSG_DIMWIDTH */
+    { MI2_MSG_ERROR, "Imagemax/min dimensions vary over image dimensions"}, /* MI2_MSG_MAXMINVARY */
+    { MI2_MSG_FATAL, "Should not happen!"}, /* MI2_MSG_SNH */
+    { MI2_MSG_FATAL, "Unknown integer size %d"}, /* MI2_MSG_INTSIZE */
+    { MI2_MSG_FATAL, "Unknown float size %d"}, /* MI2_MSG_FLTSIZE */
+    { MI2_MSG_FATAL, "Unknown type class %d"}, /* MI2_MSG_TYPECLASS */
+    { MI2_MSG_ERROR, "Function '%s' not implemented"}, /* MI2_MSG_NOTIMPL */
+    { MI2_MSG_FATAL, "Unknown type %d"}, /* MI2_MSG_BADTYPE */
+    { MI2_MSG_ERROR, "Can't open dataset %s"}, /* MI2_MSG_OPENDSET */
+    { MI2_MSG_ERROR, "Can't read dataset %s"}, /* MI2_MSG_READDSET */
+    { MI2_MSG_ERROR, "Can't write dataset %s"}, /* MI2_MSG_WRITEDSET */
+    { MI2_MSG_ERROR, "Can't use more than %d dimensions"}, /* MI2_MSG_TOOMANYDIMS */
+    { MI2_MSG_ERROR, "Attempt to modify an attached image conversion variable"}, /* MI2_MSG_ICVATTACHED */
+    { MI2_MSG_ERROR, "Illegal ICV identifier"}, /* MI2_MSG_BADICV */
+    { MI2_MSG_ERROR, "Error setting ICV property: %s"}, /* MI2_MSG_BADPROP */
+    { MI2_MSG_ERROR, "ICV is not attached"}, /* MI2_MSG_ICVNOTATTACHED */
+    { MI2_MSG_ERROR, "Invalid ICV coordinates"}, /* MI2_MSG_ICVCOORDS */
+    { MI2_MSG_ERROR, "Illegal variable access operation" }, /* MI2_MSG_BADOP */
+    { MI2_MSG_ERROR, "HDF5 function %s failed" } , /*MI2_MSG_HDF5*/
+    { MI2_MSG_ERROR, "Error: %s"} , /*MI2_MSG_GENERIC*/
 };
 
-SEMIPRIVATE int MI_save_routine_name(char *name)
+
+int MI_save_routine_name(char *name)
 {
    /* no idea what peter was up to here */
    /* minc_trash_var = (((minc_call_depth++)==0) ? MI_save_routine_name(name) : * MI_NOERROR)) */
@@ -169,7 +246,7 @@ SEMIPRIVATE int MI_save_routine_name(char *name)
    return(TRUE);
 }
 
-SEMIPRIVATE int MI_return(void)
+int MI_return(void)
 { 
    /* no idea what peter was up to here */
    /* return( (((--minc_call_depth)!=0) || MI_return()) ? (value) : (value)) */
@@ -177,7 +254,7 @@ SEMIPRIVATE int MI_return(void)
    return( ((--minc_call_depth)!=0) || TRUE );
 }
 
-SEMIPRIVATE int MI_return_error(void)
+int MI_return_error(void)
 { 
    /* no idea what peter was up to here */
    /* return( (((--minc_call_depth)!=0) || MI_return_error()) ? (error) : (error)) */
@@ -187,21 +264,21 @@ SEMIPRIVATE int MI_return_error(void)
    }
    return( TRUE );
 }
-SEMIPRIVATE void MI_log_pkg_error2(int p1, char *p2)
+void MI_log_pkg_error2(int p1, char *p2)
 {
   (void) fprintf(stderr, "%s: ", minc_routine_name);
   (void) fprintf(stderr, "%s", p2);
   (void) fputc('\n', stderr);
   (void) fflush(stderr);
 }
-SEMIPRIVATE void MI_log_pkg_error3(int p1, char *p2, char *p3)
+void MI_log_pkg_error3(int p1, char *p2, char *p3)
 { 
   (void) fprintf(stderr, "%s: ", minc_routine_name);
   (void) fprintf(stderr, p2, p3);
   (void) fputc('\n', stderr);
   (void) fflush(stderr);
 }
-SEMIPRIVATE void MI_log_sys_error1(char *p1)
+void MI_log_sys_error1(char *p1)
 {
    char *message;
    int errnum = errno;
@@ -229,7 +306,7 @@ static struct {
     MI_MSG_ERROR, {""}, NULL
 };
 
-MNCAPI void milog_init(const char *name)
+void milog_init(const char *name)
 {
     const char *fname_str = miget_cfg_str(MICFG_LOGFILE);
     int level = miget_cfg_int(MICFG_LOGLEVEL);
@@ -256,47 +333,184 @@ MNCAPI void milog_init(const char *name)
     strncpy(_MI_log.prog, name, sizeof(_MI_log.prog) - 1 );
 }
 
-MNCAPI int milog_set_verbosity(int lvl)
+int milog_set_verbosity(int lvl)
 {
     int lvl_prev = _MI_log.level;
     _MI_log.level = lvl;
     return (lvl_prev);
 }
 
-MNCAPI int milog_message(mimsgcode_t code, ...)
+int milog_message(mimsgcode_t code, ...)
 {
-    va_list ap;
-    int lvl;
-    const char *fmt;
-
-    if (_MI_log.fp == NULL) {
-	_MI_log.fp = stderr;
-    }
-
-    lvl = mierror_table[code-MI_MSG_BASE].level;
-    fmt = mierror_table[code-MI_MSG_BASE].msgfmt;
-
-    /* Log the message if the the message priority
-     * is less than the configured priority.  Always log fatal errors.
-     */
-    if ((lvl <= _MI_log.level) || lvl == MI_MSG_FATAL) {
-	if (_MI_log.prog[0] != '\0') {
-	    fprintf(_MI_log.fp, "%s ", _MI_log.prog);
-	}
-	fprintf(_MI_log.fp, "(from %s): ", minc_routine_name);
-	va_start(ap, code);
-	vfprintf(_MI_log.fp, fmt, ap);
-	va_end(ap);
-	fprintf(_MI_log.fp, "\n");
-	fflush(_MI_log.fp);
-    }
-
-    /* For fatal messages, give up and exit.
-     */
-    if (lvl == MI_MSG_FATAL) {
-	exit(-1);
-    }
-
-    return (MI_ERROR);		/* Just for convenience */
+  int r;
+  va_list ap;
+  va_start ( ap, code );
+  r= v_mi2log_message("",0,code,ap);
+  va_end(ap);
+  return r;
 }
 
+int mi2log_message ( const char *file,int line, mimsgcode_t code, ... )
+{
+  int r;
+  va_list ap;
+  va_start ( ap, code );
+  r= v_mi2log_message(file, line, code, ap);
+  va_end(ap);
+  return r;
+}
+
+int v_mi2log_message(const char *file, int line, mimsgcode_t code, va_list ap)
+{
+  int lvl;
+  const char *fmt;
+
+  if ( _MI2_log.fp == NULL ) {
+    _MI2_log.fp = stderr;
+  }
+
+  lvl = mierror_table[code - MI_MSG_BASE].level;
+  fmt = mierror_table[code - MI_MSG_BASE].msgfmt;
+
+  /* Log the message if the the message priority
+   * is less than the configured priority.  Always log fatal errors.
+   */
+  if ( ( lvl <= _MI2_log.level ) || lvl == MI2_MSG_FATAL ) {
+    if ( _MI2_log.prog[0] != '\0' ) {
+      fprintf ( _MI2_log.fp, "%s:%d %s ", file, line, _MI2_log.prog );
+    }
+    fprintf ( _MI2_log.fp, "%s:%d (from %s): ", file, line, minc_routine_name );
+    vfprintf ( _MI2_log.fp, fmt, ap );
+    va_end ( ap );
+    fprintf ( _MI2_log.fp, "\n" );
+    fflush ( _MI2_log.fp );
+  }
+
+  /* For fatal messages, give up and exit.
+   */
+  if ( lvl == MI2_MSG_FATAL ) {
+    /*exit ( -1 );  SORRRY, no exits in my programs!*/
+    return ( MI_ERROR );  /* Just for convenience */
+  }
+
+  return ( MI_ERROR );  /* Just for convenience */
+}
+
+/*MINC2 error reporting*/
+
+int MI2_save_routine_name ( char *name )
+{
+  return MI_save_routine_name(name);
+}
+
+int MI2_return ( void )
+{
+  return MI_return();
+}
+
+int MI2_return_error ( void )
+{
+  return MI_return_error();
+}
+
+void MI2_log_pkg_error2 ( int p1, char *p2 )
+{
+  MI_log_pkg_error2(p1,p2);
+}
+
+void MI2_log_pkg_error3 ( int p1, char *p2, char *p3 )
+{
+  MI_log_pkg_error3(p1,p2,p3);
+}
+
+void MI2_log_sys_error1 ( char *p1 )
+{
+  MI2_log_sys_error1(p1);
+}
+
+
+/** Simple function to read a user's .mincrc file, if present.
+ */
+/*
+static int mi2read_cfg(const char *name, char *buffer, int maxlen)
+{
+    FILE *fp;
+    int result = 0;
+    char *home_ptr = getenv("HOME");
+    char path[256];
+
+    if (home_ptr != NULL) {
+      strcpy(path, home_ptr);
+    }
+    else {
+      path[0] = '\0';
+    }
+    strcat(path, "/.mincrc");
+    
+    if ((fp = fopen(path, "r")) != NULL) {
+        while (fgets(buffer, maxlen, fp)) {
+            if (buffer[0] == '#') {
+                continue;
+            }
+            if (!strncasecmp(buffer, name, strlen(name))) {
+                char *tmp = strchr(buffer, '=');
+                if (tmp != NULL) {
+                    tmp++;
+                    while (isspace(*tmp)) {
+                        tmp++;
+                    }
+                    strncpy(buffer, tmp, maxlen);
+                    result = 1;
+                    break;
+                }
+            }
+        }
+        fclose(fp);
+    }
+    return (result);
+}
+
+static int mi2get_cfg_int(const char *name)
+{
+    char buffer[128];
+    char *var_ptr;
+    
+    if ((var_ptr = getenv(name)) != NULL) {
+        strncpy(buffer, var_ptr, sizeof (buffer));
+    }
+    else {
+        if (!mi2read_cfg(name, buffer, sizeof(buffer))) {
+            return (0);
+        }
+    }
+    return (atoi(buffer));
+}
+
+static char * mi2get_cfg_str(const char *name)
+{
+    char buffer[256];
+    char *var_ptr;
+
+    if ((var_ptr = getenv(name)) != NULL) {
+        strncpy(buffer, var_ptr, sizeof(buffer));
+    }
+    else {
+        if (!mi2read_cfg(name, buffer, sizeof(buffer))) {
+            return (NULL);
+        }
+    }
+    return (strdup(buffer));
+}
+*/
+
+void mi2log_init ( const char *name )
+{
+  milog_init(name);
+}
+
+int mi2log_set_verbosity ( int lvl )
+{
+  return milog_set_verbosity(lvl);
+}
+
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

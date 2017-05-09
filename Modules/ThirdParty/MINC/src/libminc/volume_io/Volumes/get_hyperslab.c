@@ -216,11 +216,13 @@ static  void  check_real_conversion_lookup( void )
     long_max = (long) MAX( max_value1, max_value2 );
 
     ALLOC( int_to_real_conversion, long_max - long_min + 1 );
+#if 0
 #ifndef  NO_DEBUG_ALLOC
     (void) unrecord_ptr_alloc_check( int_to_real_conversion,
                                      __FILE__, __LINE__ );
 #endif
-
+#endif
+    
     int_to_real_conversion -= long_min;
 
     for_inclusive( i, long_min, long_max )

@@ -5,6 +5,7 @@
 #ifndef MINC2_PRIVATE_H
 #define MINC2_PRIVATE_H
 
+#include "config.h"
 #include <string.h>
 #include "minc2_structs.h"
 
@@ -88,6 +89,7 @@ struct midimension {
   char *comments;               /* Comment string */
   mihandle_t volume_handle;     /* Handle of associated volume */
   short world_index;            /* -1, MI2_X, MI2_Y, or MI2_Z */
+  midimalign_t align;           /* MI_DIMALIGN_CENTRE, MI_DIMALIGN_START */
 };
 
 /** \internal
@@ -204,9 +206,11 @@ void misave_valid_range(mihandle_t volume);
 /* From valid.c*/
 void miinit_default_range(mitype_t mitype, double *valid_max, double *valid_min);
 
+#ifndef HAVE_RINT
+double rint(double v);
+#endif
 
 #ifdef _MSC_VER
-double rint(double v);
 #define snprintf _snprintf 
 #define vsnprintf _vsnprintf 
 #define strcasecmp _stricmp 

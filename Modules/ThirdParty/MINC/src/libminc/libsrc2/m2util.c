@@ -18,7 +18,7 @@
 #include "minc2.h"
 #include "minc2_private.h"
 
-#ifdef _MSC_VER
+#ifndef HAVE_RINT
 double rint(double v)
 {
   return floor(v+0.5);
@@ -2313,4 +2313,4 @@ miget_scalar ( hid_t loc_id, hid_t type_id, const char *path, void *data )
 
   return ( result );
 }
-// kate: indent-mode cstyle; indent-width 2; replace-tabs on; 
+/* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

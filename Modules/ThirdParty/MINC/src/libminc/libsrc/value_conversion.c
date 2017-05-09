@@ -189,7 +189,7 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
 
    /* Check that the variable type is numeric */
    if ((datatype==NC_CHAR) || (strc.var_type==NC_CHAR)) {
-      milog_message(MI_MSG_VARNOTNUM);
+      MI_LOG_ERROR(MI_MSG_VARNOTNUM);
       MI_RETURN(MI_ERROR);
    }
 
@@ -218,7 +218,7 @@ SEMIPRIVATE int MI_varaccess(int operation, int cdfid, int varid,
          MI_CHK_ERR(ncvarput(cdfid, varid, start, count, values))
          break;
       default:
-         milog_message(MI_MSG_BADOP);
+         MI_LOG_ERROR(MI_MSG_BADOP);
          MI_RETURN(MI_ERROR);
       }
       MI_RETURN(MI_NOERROR);
@@ -316,7 +316,7 @@ PRIVATE int MI_var_action(int ndims, long var_start[], long var_count[],
       }
       break;
    default:
-      milog_message(MI_MSG_BADOP);
+      MI_LOG_ERROR(MI_MSG_BADOP);
       status=MI_ERROR;
    }
 
@@ -412,7 +412,7 @@ SEMIPRIVATE int MI_var_loop(int ndims, long start[], long count[],
    /* Allocate space for variable values */
    if ((var_buffer = MALLOC(ntimes*nvalues*value_size, char)) 
                                      == NULL) {
-      milog_message(MI_MSG_OUTOFMEM);
+      MI_LOG_ERROR(MI_MSG_OUTOFMEM);
       MI_RETURN(MI_ERROR);
    }
 
@@ -603,7 +603,7 @@ SEMIPRIVATE int MI_convert_type(long number_of_values,
 
    /* Check the types and get their size */
    if ((intype==NC_CHAR) || (outtype==NC_CHAR)) {
-      milog_message(MI_MSG_VARNOTNUM);
+      MI_LOG_ERROR(MI_MSG_VARNOTNUM);
       MI_RETURN(MI_ERROR);
    }
    if (((inincr =nctypelen(intype ))==MI_ERROR) ||

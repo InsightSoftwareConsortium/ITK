@@ -3,7 +3,7 @@
 @DESCRIPTION: Simplified interface to 3D and 4D minc files
 @METHOD     : Routines included in this file :
 @CREATED    : August 20, 2004. (Bert Vincent, Montreal Neurological Institute)
-@MODIFIED   : 
+@MODIFIED   :
  * $Log: minc_simple.c,v $
  * Revision 6.6  2008-01-11 07:17:07  stever
  * Remove unused variables.
@@ -24,7 +24,7 @@
  * Initial checkin, simplified minc interface
  *
 @COPYRIGHT  :
-              Copyright 2004 Robert Vincent, McConnell Brain Imaging Centre, 
+              Copyright 2004 Robert Vincent, McConnell Brain Imaging Centre,
               Montreal Neurological Institute, McGill University.
               Permission to use, copy, modify, and distribute this
               software and its documentation for any purpose and without
@@ -50,7 +50,7 @@
 #define MI_S_NDIMS 4
 
 static char *minc_dimnames[] = {
-    MItime, 
+    MItime,
     MIzspace,
     MIyspace,
     MIxspace
@@ -90,42 +90,42 @@ minc_simple_to_nc_type(int minctype, nc_type *nctype, char **signstr)
         *nctype = NC_BYTE;
         *signstr = MI_SIGNED;
         break;
-        
+
     case MINC_TYPE_UCHAR:
         *nctype = NC_BYTE;
         *signstr = MI_UNSIGNED;
         break;
-        
+
     case MINC_TYPE_SHORT:
         *nctype = NC_SHORT;
         *signstr = MI_SIGNED;
         break;
-        
+
     case MINC_TYPE_USHORT:
         *nctype = NC_SHORT;
         *signstr = MI_UNSIGNED;
         break;
-        
+
     case MINC_TYPE_INT:
         *nctype = NC_INT;
         *signstr = MI_SIGNED;
         break;
-        
+
     case MINC_TYPE_UINT:
         *nctype = NC_INT;
         *signstr = MI_UNSIGNED;
         break;
-        
+
     case MINC_TYPE_FLOAT:
         *nctype = NC_FLOAT;
         *signstr = MI_SIGNED;
         break;
-        
+
     case MINC_TYPE_DOUBLE:
         *nctype = NC_DOUBLE;
         *signstr = MI_SIGNED;
         break;
-        
+
     default:
         return (MINC_STATUS_ERROR);
     }
@@ -153,7 +153,7 @@ minc_file_size(char *path,
     if (fd < 0) {
         return (MINC_STATUS_ERROR);
     }
-    
+
     old_ncopts =get_ncopts();
     set_ncopts(0);
 
@@ -235,7 +235,7 @@ minc_load_data(char *path, void *dataptr, int datatype,
     struct file_info *p_file;
     struct att_info *p_att;
     int r;                      /* Generic return code */
-    
+
     *infoptr = NULL;
 
     fd = miopen(path, NC_NOWRITE);
@@ -273,7 +273,7 @@ minc_load_data(char *path, void *dataptr, int datatype,
             default:
                 return (MINC_STATUS_ERROR);
             }
-                
+
             if (nctype == NC_DOUBLE && length == 1) {
                 ncattget(fd, var_id, MIstep, p_dtmp);
             }
@@ -413,7 +413,7 @@ minc_load_data(char *path, void *dataptr, int datatype,
     ncinquire(fd, &p_file->file_ndims, &p_file->file_nvars,
               &p_file->file_natts, NULL);
 
-    p_file->file_atts = (struct att_info *) malloc(sizeof (struct att_info) * 
+    p_file->file_atts = (struct att_info *) malloc(sizeof (struct att_info) *
                                                    p_file->file_natts);
 
     p_file->file_vars = (struct var_info *) malloc(sizeof (struct var_info) *
@@ -423,9 +423,9 @@ minc_load_data(char *path, void *dataptr, int datatype,
         p_att = &p_file->file_atts[i];
 
         ncattname(fd, NC_GLOBAL, i, p_att->att_name);
-        ncattinq(fd, NC_GLOBAL, 
-                 p_att->att_name, 
-                 &p_att->att_type, 
+        ncattinq(fd, NC_GLOBAL,
+                 p_att->att_name,
+                 &p_att->att_type,
                  &p_att->att_len);
 
         p_att->att_val = malloc(p_att->att_len * nctypelen(p_att->att_type));
@@ -436,10 +436,10 @@ minc_load_data(char *path, void *dataptr, int datatype,
     for (i = 0; i < p_file->file_nvars; i++) {
         struct var_info *p_var = &p_file->file_vars[i];
 
-        ncvarinq(fd, i, 
-                 p_var->var_name, 
-                 &p_var->var_type, 
-                 &p_var->var_ndims, 
+        ncvarinq(fd, i,
+                 p_var->var_name,
+                 &p_var->var_type,
+                 &p_var->var_ndims,
                  p_var->var_dims,
                  &p_var->var_natts);
 
@@ -454,9 +454,9 @@ minc_load_data(char *path, void *dataptr, int datatype,
             p_att = &p_var->var_atts[j];
 
             ncattname(fd, i, j, p_att->att_name);
-            ncattinq(fd, i, 
-                     p_att->att_name, 
-                     &p_att->att_type, 
+            ncattinq(fd, i,
+                     p_att->att_name,
+                     &p_att->att_type,
                      &p_att->att_len);
 
             p_att->att_val = malloc(p_att->att_len * nctypelen(p_att->att_type));
@@ -543,7 +543,7 @@ minc_save_start(char *path,     /* Path to the file */
     fd = micreate(path, NC_CLOBBER);
 
     set_ncopts(old_ncopts);
-    
+
     if (fd < 0) {
         return (MINC_STATUS_ERROR);
     }
@@ -591,7 +591,7 @@ minc_save_start(char *path,     /* Path to the file */
     else {
         return (MINC_STATUS_ERROR); /* Must define X */
     }
-    
+
 
     /* The var_dims[] array is the array of actual dimension ID's to
      * be used in defining the image variables.  Here I set it up by
@@ -615,7 +615,7 @@ minc_save_start(char *path,     /* Path to the file */
     micreate_std_variable(fd, MIimagemin, NC_DOUBLE, 1, var_dims);
     micreate_std_variable(fd, MIimagemax, NC_DOUBLE, 1, var_dims);
 
-    /* Copy information from the infoptr to the output. 
+    /* Copy information from the infoptr to the output.
      */
     if ((p_file = infoptr) != NULL) {
         old_ncopts =get_ncopts();
@@ -624,7 +624,7 @@ minc_save_start(char *path,     /* Path to the file */
         for (i = 0; i < p_file->file_natts; i++) {
             p_att = &p_file->file_atts[i];
             if (strcmp(p_att->att_name, "ident") != 0) {
-                ncattput(fd, NC_GLOBAL, p_att->att_name, p_att->att_type, 
+                ncattput(fd, NC_GLOBAL, p_att->att_name, p_att->att_type,
                          p_att->att_len, p_att->att_val);
             }
         }
@@ -633,17 +633,17 @@ minc_save_start(char *path,     /* Path to the file */
             p_var = &p_file->file_vars[i];
 
             if ((var_id = ncvarid(fd, p_var->var_name)) < 0) {
-                var_id = ncvardef(fd, p_var->var_name, p_var->var_type, 
+                var_id = ncvardef(fd, p_var->var_name, p_var->var_type,
                                   p_var->var_ndims, p_var->var_dims);
             }
-            
+
             for (j = 0; j < p_var->var_natts; j++) {
                 p_att = &p_var->var_atts[j];
                 ncattput(fd, var_id, p_att->att_name, p_att->att_type,
                          p_att->att_len, p_att->att_val);
             }
         }
-        
+
         set_ncopts(old_ncopts);
     }
 
@@ -657,7 +657,7 @@ minc_save_start(char *path,     /* Path to the file */
 
 /* Internal function */
 static void
-find_minmax(void *dataptr, long datacount, int datatype, double *min, 
+find_minmax(void *dataptr, long datacount, int datatype, double *min,
             double *max)
 {
     *min = DBL_MAX;
@@ -811,11 +811,11 @@ minc_save_data(int fd, void *dataptr, int datatype,
     ncvarinq(fd, var_id, NULL, NULL, &var_ndims, var_dims, NULL);
 
     set_ncopts(old_ncopts);
-    
+
     if (var_ndims < 2 || var_ndims > 4) {
         return (MINC_STATUS_ERROR);
     }
-    
+
     r = minc_simple_to_nc_type(datatype, &nctype, &signstr);
     if (r == MINC_STATUS_ERROR) {
         return (MINC_STATUS_ERROR);
@@ -829,12 +829,12 @@ minc_save_data(int fd, void *dataptr, int datatype,
         index = st;
 
         for (i = 0; i < ct; i++) {
-            find_minmax((char *) dataptr + (dtbytes * slice_size * i), 
+            find_minmax((char *) dataptr + (dtbytes * slice_size * i),
                         slice_size, datatype, &min, &max);
-        
-            mivarput1(fd, ncvarid(fd, MIimagemin), &index, 
+
+            mivarput1(fd, ncvarid(fd, MIimagemin), &index,
                       NC_DOUBLE, MI_SIGNED, &min);
-            mivarput1(fd, ncvarid(fd, MIimagemax), &index, 
+            mivarput1(fd, ncvarid(fd, MIimagemax), &index,
                       NC_DOUBLE, MI_SIGNED, &max);
             index++;
         }
@@ -844,11 +844,11 @@ minc_save_data(int fd, void *dataptr, int datatype,
         index = sz;
 
         for (i = 0; i < cz; i++) {
-            find_minmax((char *) dataptr + (dtbytes * slice_size * i), 
+            find_minmax((char *) dataptr + (dtbytes * slice_size * i),
                         slice_size, datatype, &min, &max);
-            mivarput1(fd, ncvarid(fd, MIimagemin), &index, 
+            mivarput1(fd, ncvarid(fd, MIimagemin), &index,
                       NC_DOUBLE, MI_SIGNED, &min);
-            mivarput1(fd, ncvarid(fd, MIimagemax), &index, 
+            mivarput1(fd, ncvarid(fd, MIimagemax), &index,
                       NC_DOUBLE, MI_SIGNED, &max);
             index++;
         }
@@ -902,7 +902,7 @@ minc_save_data(int fd, void *dataptr, int datatype,
         count[i] = cy;
         start[i] = sy;
         i++;
-        
+
         count[i] = cx;
         start[i] = sx;
         i++;
@@ -919,7 +919,7 @@ minc_save_data(int fd, void *dataptr, int datatype,
     return (MINC_STATUS_OK);
 }
 
-MNCAPI int 
+MNCAPI int
 minc_save_done(int fd)
 {
     miattputstr(fd, ncvarid(fd, MIimage), MIcomplete, MI_TRUE);
@@ -928,81 +928,115 @@ minc_save_done(int fd)
 }
 
 
-static void 
-normalize_vector(double vector[MINC_3D])
+static void
+normalize_vector(double vector[], int n)
 {
     int i;
     double magnitude;
 
     magnitude = 0.0;
-    for (i = 0; i < MINC_3D; i++) {
+    for (i = 0; i < n; i++) {
         magnitude += (vector[i] * vector[i]);
     }
     magnitude = sqrt(magnitude);
     if (magnitude > 0.0) {
-        for (i = 0; i < MINC_3D; i++) {
+        for (i = 0; i < n; i++) {
             vector[i] /= magnitude;
         }
     }
 }
 
 MNCAPI int
-minc_get_world_transform(char *path, double transform[MINC_3D][MINC_3D+1])
+minc_get_world_transform(int fd, double transform[4][4],
+                         int spatial_axes[3])
 {
-    int i, j;
-    double dircos[MINC_3D];
-    double step, start;
-    char *dimensions[] = { MIxspace, MIyspace, MIzspace };
+  int i, j;
+  char *dimensions[] = { MIxspace, MIyspace, MIzspace };
+  int varid;
+  int old_ncopts;
+  int dims[MAX_VAR_DIMS];
+  int ndims;
+  char dimname[128];
+
+  old_ncopts = get_ncopts();
+  set_ncopts(0);
+
+  varid = ncvarid(fd, MIimage);
+  ncvarinq(fd, varid, NULL, NULL, &ndims, dims, NULL);
+
+  for (i = 0; i < 4; i++) {
+    for (j = 0; j < 4; j++) {
+      transform[i][j] = (i == j) ? 1 : 0;
+    }
+  }
+
+  for (i = 0; i < ndims; i++) {
+    long length;
+    ncdiminq(fd, dims[i], dimname, &length);
+    if (!strcmp(dimname, MIxspace) ||
+        !strcmp(dimname, MIyspace) ||
+        !strcmp(dimname, MIzspace)) {
+      if (!strcmp(dimname, MIxspace)) {
+        spatial_axes[0] = i;
+      }
+      else if (!strcmp(dimname, MIyspace)) {
+        spatial_axes[1] = i;
+      }
+      else {
+        spatial_axes[2] = i;
+      }
+    }
+  }
+
+  for (i = 0; i < 3; i++) {
+    double start = 0;
+    double dircos[3];
+    double step = 1;
     int length;
-    int fd;
-    int varid;
-    int old_ncopts;
 
-    old_ncopts =get_ncopts();
-    set_ncopts(0);
-
-    fd = miopen(path, NC_NOWRITE);
-    if (fd < 0) {
-	set_ncopts(old_ncopts);
-        return (MINC_STATUS_ERROR);
+    for (j = 0; j < 3; j++) {
+      dircos[j] = (i == j) ? 1 : 0;
     }
+    varid = ncvarid(fd, dimensions[i]);
+    miattget(fd, varid, MIstart, NC_DOUBLE, 1, &start, &length);
+    miattget(fd, varid, MIstep, NC_DOUBLE, 1, &step, &length);
+    miattget(fd, varid, MIdirection_cosines, NC_DOUBLE, 3, dircos, &length);
 
-    /* Zero the matrix */
-    for (i = 0; i < MINC_3D; i++) {
-        for (j = 0; j < MINC_3D + 1; j++) {
-          transform[i][j] = 0.0;
-        }
-        transform[i][i] = 1.0;
+    normalize_vector(dircos, 3);
+
+    /* Put them in the matrix.
+     */
+    for (j = 0; j < 3; j++) {
+      transform[j][i] = step * dircos[j];
+      transform[j][3] += start * dircos[j];
     }
+  }
+  set_ncopts(old_ncopts);
+  return (MINC_STATUS_OK);
+}
 
-   for (j = 0; j < MINC_3D; j++) {
+MNCAPI void
+minc_transform_to_world(const long voxel[], const int spatial_axes[3],
+                        double transform[4][4], double world[3])
+{
+  int i, j;
+  double input[4];
+  double output[4];
 
-      /* Set default values */
-      step = 1.0;
-      start = 0.0;
-      for (i = 0; i < MINC_3D; i++) {
-         dircos[i] = 0.0;
-      }
-      dircos[j] = 1.0;
+  input[0] = voxel[spatial_axes[0]];
+  input[1] = voxel[spatial_axes[1]];
+  input[2] = voxel[spatial_axes[2]];
+  input[3] = 1;
 
-      varid = ncvarid(fd, dimensions[j]);
-      miattget(fd, varid, MIstart, NC_DOUBLE, 1, &start, &length);
-      miattget(fd, varid, MIstep, NC_DOUBLE, 1, &step, &length);
-      miattget(fd, varid, MIdirection_cosines, NC_DOUBLE, 3, dircos, &length);
-
-      normalize_vector(dircos);
-
-      /* Put them in the matrix.
-       */
-      for (i = 0; i < MINC_3D; i++) {
-         transform[i][j] = step * dircos[i];
-         transform[i][MINC_3D] += start * dircos[i];
-      }
-
-   }
-
-   set_ncopts(old_ncopts);
-   return (MINC_STATUS_OK);
+  for (i = 0; i < 4; i++) {
+    output[i] = 0;
+    for (j = 0; j < 4; j++) {
+      output[i] += transform[i][j] * input[j];
+    }
+  }
+  world[0] = output[0];
+  world[1] = output[1];
+  world[2] = output[2];
 }
 
 #ifdef MINC_SIMPLE_TEST
@@ -1148,32 +1182,32 @@ main(int argc, char **argv)
         printf("\n");
     }
 
-    h = minc_save_start("temp-xyz.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz, 
+    h = minc_save_start("temp-xyz.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz,
                         dt, dx, dy, dz, inf_xyz, "testing");
     minc_save_data(h, buf_xyz, NC_TYPE, 0, 0, 0, 0, ct, cx, cy, cz);
     minc_save_done(h);
 
-    h = minc_save_start("temp-xzy.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz, 
+    h = minc_save_start("temp-xzy.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz,
                         dt, dx, dy, dz, inf_xzy, "testing");
     minc_save_data(h, buf_xzy, NC_TYPE, 0, 0, 0, 0, ct, cx, cy, cz);
     minc_save_done(h);
 
-    h = minc_save_start("temp-yxz.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz, 
+    h = minc_save_start("temp-yxz.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz,
                         dt, dx, dy, dz, inf_yxz, "testing");
     minc_save_data(h, buf_yxz, NC_TYPE, 0, 0, 0, 0, ct, cx, cy, cz);
     minc_save_done(h);
 
-    h = minc_save_start("temp-yzx.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz, 
+    h = minc_save_start("temp-yzx.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz,
                         dt, dx, dy, dz, inf_yzx, "testing");
     minc_save_data(h, buf_yzx, NC_TYPE, 0, 0, 0, 0, ct, cx, cy, cz);
     minc_save_done(h);
 
-    h = minc_save_start("temp-zxy.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz, 
+    h = minc_save_start("temp-zxy.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz,
                         dt, dx, dy, dz, inf_zxy, "testing");
     minc_save_data(h, buf_zxy, NC_TYPE, 0, 0, 0, 0, ct, cx, cy, cz);
     minc_save_done(h);
 
-    h = minc_save_start("temp-zyx.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz, 
+    h = minc_save_start("temp-zyx.mnc", MINC_TYPE_SHORT, ct, cx, cy, cz,
                         dt, dx, dy, dz, inf_zyx, "testing");
     minc_save_data(h, buf_zyx, NC_TYPE, 0, 0, 0, 0, ct, cx, cy, cz);
     minc_save_done(h);

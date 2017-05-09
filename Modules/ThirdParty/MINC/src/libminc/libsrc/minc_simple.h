@@ -81,5 +81,8 @@ MNCAPI void
 minc_free_info(void *infoptr);
 
 MNCAPI int 
-minc_get_world_transform(char *path, 
-                         double transform[MINC_3D][MINC_3D + 1]);
+minc_get_world_transform(int handle, double transform[4][4], int spatial_axes[3]);
+
+MNCAPI void
+minc_transform_to_world(const long voxel[], const int spatial_axes[3],
+                        double transform[4][4], double world[3]);

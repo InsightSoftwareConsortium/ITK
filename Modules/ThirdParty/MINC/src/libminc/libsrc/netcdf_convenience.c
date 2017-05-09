@@ -448,7 +448,7 @@ MNCAPI char *miexpand_file(const char *path, char *tempfile, int header_only,
       (void) remove(newfile);
       *created_tempfile = FALSE;
       FREE(newfile);
-      milog_message(MI_MSG_UNCMPFAIL);
+      MI_LOG_ERROR(MI_MSG_UNCMPFAIL);
       MI_RETURN((char *)NULL);  /* Explicit cast needed for MIPSpro cc */
    }
 
@@ -533,7 +533,7 @@ MNCAPI int miopen(const char *path, int mode)
     * we don't allow write access to compressed files.
     */
    if (mode & NC_WRITE) {
-      milog_message(MI_MSG_NOWRITECMP);
+      MI_LOG_ERROR(MI_MSG_NOWRITECMP);
       MI_RETURN(MI_ERROR);
    }
 
@@ -570,7 +570,7 @@ MNCAPI int miopen(const char *path, int mode)
    }
    
    if (status < 0) {
-      milog_message(MI_MSG_OPENFILE, tempfile);
+      MI_LOG_ERROR(MI_MSG_OPENFILE, tempfile);
    }
    
    free(tempfile);/*free memory allocated in miexpand_file*/
@@ -616,7 +616,7 @@ MNCAPI int micreatex(const char *path, int cmode, struct mi2opts *opts_ptr)
         }
     }
     if (fd < 0) {
-	milog_message(MI_MSG_CREATEFILE, path);
+	MI_LOG_ERROR(MI_MSG_CREATEFILE, path);
     }
     else {
         char ident[128];
@@ -646,7 +646,7 @@ MNCAPI int micreate(char *path, int cmode)
     /* Create a NetCDF file. */
     fd = nccreate(path, cmode);
     if (fd < 0) {
-	milog_message(MI_MSG_CREATEFILE, path);
+	MI_LOG_ERROR(MI_MSG_CREATEFILE, path);
     }
     MI_RETURN(fd);
 }
@@ -683,7 +683,7 @@ MNCAPI int miclose(int cdfid)
 #endif /* MINC2 not defined */
 
    if (status < 0) {
-       milog_message(MI_MSG_CLOSEFILE);
+       MI_LOG_ERROR(MI_MSG_CLOSEFILE);
    }
    MI_RETURN(status);
 }
@@ -769,7 +769,7 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
    /* Inquire about the attribute */
    status = ncattinq(cdfid, varid, name, &att_type, &actual_length);
    if (status < 0) {
-       milog_message(MI_MSG_FINDATTR, name);
+       MI_LOG_ERROR(MI_MSG_FINDATTR, name);
        MI_RETURN(MI_ERROR);
    }
 
@@ -779,7 +779,7 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
 
    /* Check that the attribute type is numeric */
    if ((datatype==NC_CHAR) || (att_type==NC_CHAR)) {
-      milog_message(MI_MSG_ATTRNOTNUM, name);
+      MI_LOG_ERROR(MI_MSG_ATTRNOTNUM, name);
       MI_RETURN(MI_ERROR);
    }
 
@@ -789,7 +789,7 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
    if ((datatype == att_type) && (actual_length <= max_length)) {
        status = ncattget(cdfid, varid, name, value);
        if (status < 0) {
-           milog_message(MI_MSG_READATTR, name);
+           MI_LOG_ERROR(MI_MSG_READATTR, name);
        }
        MI_RETURN(status);
    }
@@ -797,14 +797,14 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
    /* Otherwise, get space for the attribute */
    if ((att_value = MALLOC(actual_length * nctypelen(att_type), char))
                       == NULL) {
-       milog_message(MI_MSG_NOMEMATTR, name);
+       MI_LOG_ERROR(MI_MSG_NOMEMATTR, name);
        MI_RETURN(MI_ERROR);
    }
 
    /* Get the attribute */
    if (ncattget(cdfid, varid, name, att_value)==MI_ERROR) {
       FREE(att_value);
-      milog_message(MI_MSG_READATTR, name);
+      MI_LOG_ERROR(MI_MSG_READATTR, name);
       MI_RETURN(MI_ERROR);
    }
 
@@ -824,7 +824,7 @@ MNCAPI int miattget_with_sign(int cdfid, int varid, const char *name,
                           NULL);
    FREE(att_value);
    if (status < 0) {
-       milog_message(MI_MSG_CONVATTR, name);
+       MI_LOG_ERROR(MI_MSG_CONVATTR, name);
    }
    MI_RETURN(status);
 }
@@ -858,13 +858,13 @@ MNCAPI int miattget1(int cdfid, int varid, const char *name, nc_type datatype,
    /* Get the attribute value and its actual length */
    status = miattget(cdfid, varid, name, datatype, 1, value, &att_length);
    if (status < 0) {
-       milog_message(MI_MSG_FINDATTR, name);
+       MI_LOG_ERROR(MI_MSG_FINDATTR, name);
        MI_RETURN(MI_ERROR);
    }
 
    /* Check that the length is 1 */
    if (att_length != 1) {
-      milog_message(MI_MSG_ATTRNOTSCALAR, name);
+      MI_LOG_ERROR(MI_MSG_ATTRNOTSCALAR, name);
       MI_RETURN(MI_ERROR);
    }
 
@@ -901,13 +901,13 @@ MNCAPI char *miattgetstr(int cdfid, int varid, const char *name,
 
    /* Inquire about the attribute */
    if (ncattinq(cdfid, varid, name, &att_type, &att_length)==MI_ERROR) {
-       milog_message(MI_MSG_FINDATTR, name);
+       MI_LOG_ERROR(MI_MSG_FINDATTR, name);
        MI_RETURN((char *)NULL); /* Explicit cast for MIPSpro cc */
    }
 
    /* Check that the attribute type is character */
    if (att_type!=NC_CHAR) {
-       milog_message(MI_MSG_ATTRNOTSTR, name);
+       MI_LOG_ERROR(MI_MSG_ATTRNOTSTR, name);
        MI_RETURN((char *)NULL); /* Explicit cast for MIPSpro cc */
    }
 
@@ -915,7 +915,7 @@ MNCAPI char *miattgetstr(int cdfid, int varid, const char *name,
       If it is, just get the value. */
    if (att_length <= maxlen) {
       if (ncattget(cdfid, varid, name, value) == MI_ERROR) {
-	  milog_message(MI_MSG_READATTR, name);
+	  MI_LOG_ERROR(MI_MSG_READATTR, name);
 	  MI_RETURN((char *)NULL); /* Explicit cast for MIPSpro cc */
       }
       /* Check the last character for a '\0' */
@@ -930,14 +930,14 @@ MNCAPI char *miattgetstr(int cdfid, int varid, const char *name,
 
    /* Otherwise, get space for the attribute */
    if ((att_value = MALLOC(att_length * nctypelen(att_type), char)) ==NULL) {
-       milog_message(MI_MSG_NOMEMATTR, name);
+       MI_LOG_ERROR(MI_MSG_NOMEMATTR, name);
        MI_RETURN((char *)NULL); /* Explicit cast for MIPSpro cc */
    }
 
    /* Get the attribute */
    if (ncattget(cdfid, varid, name, att_value)==MI_ERROR) {
       FREE(att_value);
-      milog_message(MI_MSG_READATTR, name);
+      MI_LOG_ERROR(MI_MSG_READATTR, name);
       MI_RETURN((char *)NULL);
    }
 
@@ -978,7 +978,7 @@ MNCAPI int miattputint(int cdfid, int varid, const char *name, int value)
     lvalue = value;
     status = ncattput(cdfid, varid, name, NC_INT, 1, &lvalue);
     if (status < 0) {
-	milog_message(MI_MSG_WRITEATTR, name);
+	MI_LOG_ERROR(MI_MSG_WRITEATTR, name);
     }
     MI_RETURN(status);
 }
@@ -1004,7 +1004,7 @@ MNCAPI int miattputdbl(int cdfid, int varid, const char *name, double value)
     MI_SAVE_ROUTINE_NAME("miattputdbl");
     status = ncattput(cdfid, varid, name, NC_DOUBLE, 1, &value);
     if (status < 0) {
-	milog_message(MI_MSG_WRITEATTR, name);
+	MI_LOG_ERROR(MI_MSG_WRITEATTR, name);
     }
     MI_RETURN(status);
 }
@@ -1032,7 +1032,7 @@ MNCAPI int miattputstr(int cdfid, int varid, const char *name, const char *value
     status = ncattput(cdfid, varid, name, NC_CHAR, 
                        strlen(value) + 1, value);
     if (status < 0) {
-	milog_message(MI_MSG_WRITEATTR, name);
+	MI_LOG_ERROR(MI_MSG_WRITEATTR, name);
     }
     MI_RETURN(status);
 }
@@ -1072,7 +1072,7 @@ MNCAPI int mivarget(int cdfid, int varid, long start[], long count[],
 			  datatype, MI_get_sign_from_string(datatype, sign),
 			  values, NULL, NULL);
     if (status < 0) {
-	milog_message(MI_MSG_READVAR, varid);
+	MI_LOG_ERROR(MI_MSG_READVAR, varid);
     }
     MI_RETURN(status);
 }
@@ -1114,7 +1114,7 @@ MNCAPI int mivarget1(int cdfid, int varid, long mindex[],
 			  datatype, MI_get_sign_from_string(datatype, sign),
 			  value, NULL, NULL);
     if (status < 0) {
-	milog_message(MI_MSG_READVAR, varid);
+	MI_LOG_ERROR(MI_MSG_READVAR, varid);
     }
     MI_RETURN(status);
 }
@@ -1155,7 +1155,7 @@ MNCAPI int mivarput(int cdfid, int varid, long start[], long count[],
 			  datatype, MI_get_sign_from_string(datatype, sign),
 			  values, NULL, NULL);
     if (status < 0) {
-	milog_message(MI_MSG_WRITEVAR, varid);
+	MI_LOG_ERROR(MI_MSG_WRITEVAR, varid);
     }
     MI_RETURN(status);
 }
@@ -1197,7 +1197,7 @@ MNCAPI int mivarput1(int cdfid, int varid, long mindex[],
 			  datatype, MI_get_sign_from_string(datatype, sign),
 			  value, NULL, NULL);
     if (status < 0) {
-	milog_message(MI_MSG_WRITEVAR, varid);
+	MI_LOG_ERROR(MI_MSG_WRITEVAR, varid);
     }
     MI_RETURN(status);
 }
@@ -1263,7 +1263,7 @@ MNCAPI long *mitranslate_coords(int cdfid,
                     == MI_ERROR) ||
         (ncvarinq(cdfid, outvar, NULL, NULL, &out_ndims, out_dim, NULL)
                     == MI_ERROR)) {
-      milog_message(MI_MSG_FINDVAR, invar);
+      MI_LOG_ERROR(MI_MSG_FINDVAR, invar);
       MI_RETURN((long *) NULL);
    }
 
@@ -1337,7 +1337,7 @@ MNCAPI int micopy_all_atts(int incdfid, int invarid,
        status = ncinquire(incdfid, NULL, NULL, &num_atts, NULL);
    }
    if (status < 0) {
-       milog_message(MI_MSG_ATTRCOUNT);
+       MI_LOG_ERROR(MI_MSG_ATTRCOUNT);
        MI_RETURN(MI_ERROR);
    }
 
@@ -1347,7 +1347,7 @@ MNCAPI int micopy_all_atts(int incdfid, int invarid,
       /* Get the attribute name */
        status = ncattname(incdfid, invarid, i, name);
        if (status < 0) {
-	   milog_message(MI_MSG_ATTRNAME);
+	   MI_LOG_ERROR(MI_MSG_ATTRNAME);
 	   MI_RETURN(MI_ERROR);
        }
 
@@ -1364,7 +1364,7 @@ MNCAPI int micopy_all_atts(int incdfid, int invarid,
       if (status == MI_ERROR || !strcmp(name,  MIsigntype)) {
 	  status = ncattcopy(incdfid, invarid, name, outcdfid, outvarid);
 	  if (status < 0) {
-	      milog_message(MI_MSG_COPYATTR, name);
+	      MI_LOG_ERROR(MI_MSG_COPYATTR, name);
 	      MI_RETURN(MI_ERROR);
 	  }
       }
@@ -1410,14 +1410,14 @@ MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
    status = ncvarinq(incdfid, invarid, varname, &datatype, &ndims, 
                      indim, NULL);
    if (status < 0) {
-       milog_message(MI_MSG_VARINQ);
+       MI_LOG_ERROR(MI_MSG_VARINQ);
        MI_RETURN(MI_ERROR);
    }
 
    /* Get unlimited dimension for input file */
    status = ncinquire(incdfid, NULL, NULL, NULL, &recdim);
    if (status < 0) {
-       milog_message(MI_MSG_UNLIMDIM);
+       MI_LOG_ERROR(MI_MSG_UNLIMDIM);
        MI_RETURN(MI_ERROR);
    }
 
@@ -1427,7 +1427,7 @@ MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
       /* Get the dimension info */
        status = ncdiminq(incdfid, indim[i], dimname, &insize);
        if (status < 0) {
-	   milog_message(MI_MSG_DIMINQ);
+	   MI_LOG_ERROR(MI_MSG_DIMINQ);
 	   MI_RETURN(MI_ERROR);
        }
 
@@ -1439,7 +1439,7 @@ MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
 	if ((ncdiminq(outcdfid, outdim[i], NULL, &outsize) == MI_ERROR) ||
              ((insize!=0) && (outsize!=0) && (insize != outsize)) ) {
             if ((insize!=0) && (outsize!=0) && (insize != outsize))
-		milog_message(MI_MSG_VARCONFLICT);
+		MI_LOG_ERROR(MI_MSG_VARCONFLICT);
             MI_RETURN(MI_ERROR);
          }
       }
@@ -1457,7 +1457,7 @@ MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
          if ((indim[i]!=recdim) || (outdim[i]==MI_ERROR)) {
 	     outdim[i] = ncdimdef(outcdfid, dimname, MAX(1,insize));
 	     if (outdim[i] < 0) {
-		 milog_message(MI_MSG_DIMDEF, dimname);
+		 MI_LOG_ERROR(MI_MSG_DIMDEF, dimname);
 		 MI_RETURN(MI_ERROR);
 	     }
          }
@@ -1468,7 +1468,7 @@ MNCAPI int micopy_var_def(int incdfid, int invarid, int outcdfid)
    outvarid = ncvardef(outcdfid, varname, datatype, ndims, outdim);
 
    if (outvarid < 0) {
-       milog_message(MI_MSG_VARDEF, varname);
+       MI_LOG_ERROR(MI_MSG_VARDEF, varname);
        MI_RETURN(MI_ERROR);
    }
    else {
@@ -1557,7 +1557,7 @@ MNCAPI int micopy_var_values(int incdfid, int invarid,
        (ncvarinq(outcdfid, outvarid, NULL, &outtype, &outndims, outdim, NULL)
 	          == MI_ERROR) ||
        (intype != outtype) || (inndims != outndims)) {
-       milog_message(MI_MSG_VARMISMATCH);
+       MI_LOG_ERROR(MI_MSG_VARMISMATCH);
        MI_RETURN(MI_ERROR);
    }
 
@@ -1567,7 +1567,7 @@ MNCAPI int micopy_var_values(int incdfid, int invarid,
    mivarsize(outcdfid, outvarid, outsize);
    for (i = 0; i < inndims; i++) {
      if (insize[i] != 0 && outsize[i] != 0 && insize[i] != outsize[i]) {
-	 milog_message(MI_MSG_VARDIFFSIZE);
+	 MI_LOG_ERROR(MI_MSG_VARDIFFSIZE);
 	 MI_RETURN(MI_ERROR);
      }
    }
@@ -1583,7 +1583,7 @@ MNCAPI int micopy_var_values(int incdfid, int invarid,
 			MI_MAX_VAR_BUFFER_SIZE, &stc,
 			MI_vcopy_action);
    if (status < 0) {
-       milog_message(MI_MSG_COPYVAR);
+       MI_LOG_ERROR(MI_MSG_COPYVAR);
    }
    MI_RETURN(status);
 
@@ -1735,7 +1735,7 @@ MNCAPI int micopy_all_var_values(int incdfid, int outcdfid, int nexclude,
       them */
    status = ncinquire(incdfid, NULL, &num_vars, NULL, NULL);
    if (status < 0) {
-       milog_message(MI_MSG_VARCOUNT);
+       MI_LOG_ERROR(MI_MSG_VARCOUNT);
        MI_RETURN(MI_ERROR);
    }
 
@@ -1752,13 +1752,13 @@ MNCAPI int micopy_all_var_values(int incdfid, int outcdfid, int nexclude,
 	  /* Get the input variable's name */
 	  status = ncvarinq(incdfid, varid, name, NULL, NULL, NULL, NULL);
 	  if (status < 0) {
-              milog_message(MI_MSG_VARINQ);
+              MI_LOG_ERROR(MI_MSG_VARINQ);
 	      MI_RETURN(MI_ERROR);
 	  }
 	  /* Look for it in the output file */
 	  outvarid = ncvarid(outcdfid, name);
 	  if (outvarid < 0) {
-	      milog_message(MI_MSG_OUTPUTVAR, name);
+	      MI_LOG_ERROR(MI_MSG_OUTPUTVAR, name);
 	      MI_RETURN(MI_ERROR);
 	  }
 	  /* Copy the values */
@@ -1922,7 +1922,7 @@ MNCAPI int push_ncopts(int new_ncopts)
   int old_ncopts=ncopts;
   if(_ncopts_stack_pointer>=NCOPTS_STACK_LIMIT)
   {
-    milog_message(MI_MSG_NCOPTS_STACK_OVER);  
+    MI_LOG_ERROR(MI_MSG_NCOPTS_STACK_OVER);  
   } else {
     _ncopts_stack[_ncopts_stack_pointer]=old_ncopts;
     _ncopts_stack_pointer++;
@@ -1946,7 +1946,7 @@ MNCAPI int pop_ncopts(void)
     _ncopts_stack_pointer--;
     ncopts=_ncopts_stack[_ncopts_stack_pointer];
   } else {
-    milog_message(MI_MSG_NCOPTS_STACK_UNDER);  
+    MI_LOG_ERROR(MI_MSG_NCOPTS_STACK_UNDER);  
   }
   return ncopts;
 }

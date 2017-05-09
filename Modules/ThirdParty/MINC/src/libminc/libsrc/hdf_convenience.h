@@ -49,4 +49,5 @@ extern int hdf_open(const char *path, int mode);
 extern int hdf_create(const char *path, int mode, struct mi2opts *opts_ptr);
 extern int hdf_close(int fd);
 extern int hdf_access(const char *path);
+extern int hdf_flush(int fd);
 

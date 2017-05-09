@@ -545,7 +545,7 @@ MNCAPI int miget_image_range(int cdfid, double image_range[])
 
          /* Get space */
          if ((buffer=MALLOC(size, double))==NULL) {
-	     milog_message(MI_MSG_OUTOFMEM, size);
+	     MI_LOG_ERROR(MI_MSG_OUTOFMEM, size);
 	     MI_RETURN(MI_ERROR);
          }
 
@@ -691,7 +691,7 @@ MNCAPI int miattget_pointer(int cdfid, int varid, const char *name)
    /* Check for the prefix */
    for (index=0; prefix_string[index]!='\0'; index++) {
       if (pointer_string[index]!=prefix_string[index]) {
-	  milog_message(MI_MSG_ATTRNOTPTR, name);
+	  MI_LOG_ERROR(MI_MSG_ATTRNOTPTR, name);
 	  MI_RETURN(MI_ERROR);
       }
    }
@@ -742,7 +742,7 @@ MNCAPI int miadd_child(int cdfid, int parent_varid, int child_varid)
    /* Allocate space for new child list */
    if ((child_list = MALLOC(child_list_size+MAX_NC_NAME+
                             strlen(MI_CHILD_SEPARATOR), char)) == NULL) {
-       milog_message(MI_MSG_OUTOFMEM, 
+       MI_LOG_ERROR(MI_MSG_OUTOFMEM, 
                      child_list_size+MAX_NC_NAME+strlen(MI_CHILD_SEPARATOR));
        MI_RETURN(MI_ERROR);
    }
@@ -753,7 +753,7 @@ MNCAPI int miadd_child(int cdfid, int parent_varid, int child_varid)
    if (child_list_size>0) {
       if (ncattget(cdfid, parent_varid, MIchildren, child_list) == MI_ERROR) {
          FREE(child_list);
-         milog_message(MI_MSG_READATTR, MIchildren);
+         MI_LOG_ERROR(MI_MSG_READATTR, MIchildren);
          MI_RETURN(MI_ERROR);
       }
       if (child_list[child_list_size-1] == '\0')
@@ -860,14 +860,14 @@ MNCAPI int micreate_std_variable(int cdfid, const char *name, nc_type datatype,
       else if (STRINGS_EQUAL(name, MIacquisition))
          MI_CHK_ERR(varid=MI_create_simple_variable(cdfid, name))
       else {
-         /*milog_message(MI_MSG_VARNOTSTD, name);*/
+         /*MI_LOG_ERROR(MI_MSG_VARNOTSTD, name);*/
          MI_RETURN(MI_ERROR);
       }
    }
 
    /* If not in any list, then return an error */
    else {
-       /*milog_message(MI_MSG_VARNOTSTD, name);*/
+       /*MI_LOG_ERROR(MI_MSG_VARNOTSTD, name);*/
        MI_RETURN(MI_ERROR);
    }
 
@@ -902,13 +902,13 @@ PRIVATE int MI_create_dim_variable(int cdfid, const char *name,
 
    /* Check for MIvector_dimension - no associated variable */
    if (STRINGS_EQUAL(name, MIvector_dimension)) {
-       /*milog_message(MI_MSG_VARNOTSTD, name);*/
+       /*MI_LOG_ERROR(MI_MSG_VARNOTSTD, name);*/
        MI_RETURN(MI_ERROR);
    }
 
    /* Check for ndims being 0 or 1 */
    if (ndims>1) {
-       milog_message(MI_MSG_TOOMANYDIMS, 1);
+       MI_LOG_ERROR(MI_MSG_TOOMANYDIMS, 1);
        MI_RETURN(MI_ERROR);
    }
 
@@ -978,14 +978,14 @@ PRIVATE int MI_create_dimwidth_variable(int cdfid, const char *name,
 
    /* Look for dimension name in name (remove width suffix) */
    if ((str=strstr(strcpy(string, name),MI_WIDTH_SUFFIX)) == NULL) {
-      milog_message(MI_MSG_DIMWIDTH);
+      MI_LOG_ERROR(MI_MSG_DIMWIDTH);
       MI_RETURN(MI_ERROR);
    }
    *str='\0';
 
    /* Check for ndims being 0 or 1 */
    if (ndims>1) {
-      milog_message(MI_MSG_TOOMANYDIMS, 1);
+      MI_LOG_ERROR(MI_MSG_TOOMANYDIMS, 1);
       MI_RETURN(MI_ERROR);
    }
 
@@ -1196,7 +1196,7 @@ PRIVATE int MI_verify_maxmin_dims(int cdfid,
    for (i=MAX(0,image_ndims-nbaddims); i<image_ndims; i++)
       for (j=0; j<maxmin_ndims; j++)
          if (image_dim[i]==maxmin_dim[j]) {
-             milog_message(MI_MSG_MAXMINVARY);
+             MI_LOG_ERROR(MI_MSG_MAXMINVARY);
 	     MI_RETURN(MI_ERROR);
          }
 

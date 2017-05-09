@@ -177,6 +177,7 @@ VIOAPI   VIO_Volume   create_volume(
     volume->real_range_set = FALSE;
     volume->real_value_scale = 1.0;
     volume->real_value_translation = 0.0;
+    volume->is_labels = FALSE;
 
     for_less( i, 0, VIO_N_DIMENSIONS )
         volume->spatial_axes[i] = -1;
@@ -366,6 +367,46 @@ VIOAPI  void  set_volume_type2(
         set_volume_voxel_range( volume, voxel_min, voxel_max );
     }
 }
+
+/* ----------------------------- MNI Header -----------------------------------
+@NAME       : set_volume_labels
+@INPUT      : volume
+              is_labels
+@OUTPUT     : 
+@RETURNS    : 
+@DESCRIPTION: Sets the data type flag to specify that volume contains discrete labels
+@METHOD     : 
+@GLOBALS    : 
+@CALLS      : 
+@CREATED    : 2013            Vladimir FONOV
+@MODIFIED   : 
+---------------------------------------------------------------------------- */
+VIOAPI  void  set_volume_labels(
+    VIO_Volume   volume,
+    VIO_BOOL     is_labels )
+{
+    volume->is_labels=is_labels;
+    /*TODO: add sanity check for floating point volumes (?)*/
+}
+
+/* ----------------------------- MNI Header -----------------------------------
+@NAME       : set_volume_labels
+@INPUT      : volume
+@OUTPUT     : is_labels
+@RETURNS    : 
+@DESCRIPTION: Gets the data type flag specifying that volume contains discrete labels 
+@METHOD     : 
+@GLOBALS    : 
+@CALLS      : 
+@CREATED    : 2013            Vladimir FONOV
+@MODIFIED   : 
+---------------------------------------------------------------------------- */
+VIOAPI  VIO_BOOL  get_volume_labels(
+    VIO_Volume   volume )
+{
+  return volume->is_labels;
+}
+
 
 
 VIOAPI mitype_t nc_type_to_minc2_type(
@@ -697,7 +738,13 @@ VIOAPI  VIO_BOOL  set_volume_n_dimensions(
 {
   if ( volume != NULL )
   {
-    return set_multidim_n_dimensions( &volume->array, n_dimensions );
+      /* avoid leak by deleting excess dimensions */
+      int i;
+      for_less(i, n_dimensions, get_multidim_n_dimensions( &volume->array ))
+      {
+          FREE( volume->dimension_names[i] );
+      }
+      return set_multidim_n_dimensions( &volume->array, n_dimensions );
   }
   return FALSE;
 }
@@ -2311,6 +2358,9 @@ VIOAPI  void  set_volume_voxel_range(
     VIO_Real  real_min = 0.0;
     VIO_Real  real_max = 0.0;
 
+    if( volume->real_range_set )
+        get_volume_real_range( volume, &real_min, &real_max );
+    
     if( voxel_min >= voxel_max ) /*VF: trying to fix the situation when whole volume have the same value all around*/
     {
         switch( get_volume_data_type( volume ) )
@@ -2342,9 +2392,6 @@ VIOAPI  void  set_volume_voxel_range(
             voxel_max = (VIO_Real) DBL_MAX;       break;
         }
     }
-
-    if( volume->real_range_set )
-        get_volume_real_range( volume, &real_min, &real_max );
 
     volume->voxel_min = voxel_min;
     volume->voxel_max = voxel_max;
@@ -2458,7 +2505,8 @@ VIOAPI  void  set_volume_real_range(
     VIO_Real    voxel_min, voxel_max;
 
     if( get_volume_data_type(volume) == VIO_FLOAT ||
-        get_volume_data_type(volume) == VIO_DOUBLE )
+        get_volume_data_type(volume) == VIO_DOUBLE ||
+        volume->is_labels )
     {
         /* as float and double use the voxel range */
         volume->real_range_set = FALSE;
@@ -2495,11 +2543,10 @@ VIOAPI  void  set_volume_real_range(
         }
         else
         {
-	    // FIXME: is scale = 0 correct??
+            /* FIXME: is scale = 0 correct??*/
             volume->real_value_scale = 0.0;
             volume->real_value_translation = real_min;
         }
-
         volume->real_range_set = TRUE;
     }
 
@@ -2677,8 +2724,9 @@ VIOAPI  VIO_Volume  copy_volume_new_type(
     }
 
     get_volume_voxel_range( volume, &min_voxel, &max_voxel );
-    copy = copy_volume_definition( volume, new_data_type, new_signed_flag,
-                                   min_voxel, max_voxel );
+    copy = copy_volume_definition_no_alloc( volume,
+                                            new_data_type, new_signed_flag,
+                                            min_voxel, max_voxel );
     if( copy == NULL )
     {
         return( NULL );
@@ -2692,6 +2740,8 @@ VIOAPI  VIO_Volume  copy_volume_new_type(
 
     if (!volume_is_alloced( volume ))
         return copy;
+
+    alloc_volume_data( copy );
 
     GET_VOXEL_PTR( src, volume, 0, 0, 0, 0, 0 );
     GET_VOXEL_PTR( dst, copy, 0, 0, 0, 0, 0 );

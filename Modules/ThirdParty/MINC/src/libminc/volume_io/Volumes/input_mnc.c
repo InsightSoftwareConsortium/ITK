@@ -17,7 +17,9 @@
 #endif /*HAVE_CONFIG_H*/
 
 
-#include  <internal_volume_io.h>
+
+#include <internal_volume_io.h>
+#include <minc_config.h>
 
 #ifdef HAVE_MINC1
 #include  <minc_basic.h>
@@ -140,6 +142,7 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
     file->cdfid = minc_id;
     file->file_is_being_read = TRUE;
     file->volume = volume;
+    file->using_minc2_api = FALSE;
 
     if( options == (minc_input_options *) NULL )
     {
@@ -213,7 +216,6 @@ VIOAPI  Minc_file  initialize_minc_input_from_minc_id(
     }
 
     n_vol_dims = get_volume_n_dimensions( volume );
-
     if( file->n_file_dimensions < n_vol_dims )
     {
         print_error( "Error: MINC file has only %d dims, volume requires %d.\n",
@@ -953,7 +955,7 @@ VIOAPI  VIO_Status  input_minc_hyperslab(
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
 
-static  void  input_slab(
+static int input_slab(
     Minc_file   file,
     VIO_Volume  volume,
     int         to_volume[],
@@ -966,6 +968,11 @@ static  void  input_slab(
     int      file_count[VIO_MAX_DIMENSIONS];
     int      array_sizes[VIO_MAX_DIMENSIONS];
     void     *array_data_ptr;
+
+    for_less( ind, 0, VIO_MAX_DIMENSIONS )
+    {
+        volume_start[ind] = 0;
+    }
 
     for_less( file_ind, 0, file->n_file_dimensions )
     {
@@ -982,7 +989,7 @@ static  void  input_slab(
                       volume_start[0], volume_start[1], volume_start[2],
                       volume_start[3], volume_start[4] );
 
-    (void) input_minc_hyperslab( file,
+    return input_minc_hyperslab( file,
                                  get_multidim_data_type(&volume->array),
                                  get_multidim_n_dimensions(&volume->array),
                                  array_sizes, array_data_ptr, to_volume,
@@ -1059,7 +1066,11 @@ VIOAPI  VIO_BOOL  input_more_minc_file(
             }
         }
 
-        input_slab( file, volume, file->to_volume_index, file->indices, count );
+        if (input_slab( file, volume, file->to_volume_index, file->indices,
+                        count ) != VIO_OK)
+        {
+            return FALSE;
+        }
 
         /* --- advance to next slab */
 
@@ -1366,7 +1377,10 @@ VIOAPI  void  set_default_minc_input_options(
     minc_input_options  *options )
 {
     static  int     default_rgba_indices[4] = { 0, 1, 2, 3 };
-
+    
+    /*mostly for debugging*/
+    options->prefer_minc2_api=miget_cfg_bool(MICFG_MINC_PREFER_V2_API);
+    
     set_minc_input_promote_invalid_to_zero_flag( options, TRUE );
     set_minc_input_vector_to_scalar_flag( options, TRUE );
     set_minc_input_vector_to_colour_flag( options, FALSE );

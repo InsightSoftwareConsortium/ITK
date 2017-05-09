@@ -78,6 +78,31 @@ MINC_LOGFILE = [+]<pathname>|stdout|-
 MINC_LOGLEVEL = 0-4
 
 
+# Maximum memory buffer, used in some minc programs
+#
+MINC_MAX_FILE_BUFFER_KB = <N>
+
+# Maximum allocated memory, used in some minc programs
+#
+MINC_MAX_MEMORY_KB = <N>
+
+# FILE cache, used in some minc programs
+#
+MINC_FILE_CACHE_MB = <N>
+
+# Creation of HDF5 checksums for the volume, only works for MINC2 
+# file format 
+# default 0
+#
+MINC_CHECKSUM = {1,0}
+
+# Prefer using MINC2 API inside Volume IO
+# default 0
+#
+MINC_PREFER_V2_API = {1,0}
+
+
+
 DOCUMENTATION
 -------------
 

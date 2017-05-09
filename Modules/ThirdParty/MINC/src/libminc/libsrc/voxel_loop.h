@@ -247,11 +247,11 @@ typedef void (*AllocateBufferFunction)
       Loop_Info *loop_info);
 
 /* Function declarations */
-MNCAPI void voxel_loop(int num_input_files, char *input_files[], 
-                       int num_output_files, char *output_files[], 
-                       char *arg_string, 
-                       Loop_Options *loop_options,
-                       VoxelFunction voxel_function, void *caller_data);
+MNCAPI int voxel_loop(int num_input_files, char *input_files[], 
+                      int num_output_files, char *output_files[], 
+                      char *arg_string, 
+                      Loop_Options *loop_options,
+                      VoxelFunction voxel_function, void *caller_data);
 MNCAPI Loop_Options *create_loop_options(void);
 MNCAPI void free_loop_options(Loop_Options *loop_options);
 MNCAPI void set_loop_clobber(Loop_Options *loop_options, 
@@ -294,6 +294,9 @@ MNCAPI void set_loop_accumulate(Loop_Options *loop_options,
                                 VoxelFinishFunction finish_function);
 MNCAPI void set_loop_allocate_buffer_function(Loop_Options *loop_options, 
                          AllocateBufferFunction allocate_buffer_function);
+MNCAPI void set_loop_labels(Loop_Options *loop_options, 
+                             int labels);
+
 MNCAPI void get_info_shape(Loop_Info *loop_info, int ndims,
                            long start[], long count[]);
 MNCAPI void get_info_voxel_index(Loop_Info *loop_info, long subscript, 
@@ -302,6 +305,7 @@ MNCAPI int get_info_current_file(Loop_Info *loop_info);
 MNCAPI int get_info_current_mincid(Loop_Info *loop_info);
 MNCAPI int get_info_current_index(Loop_Info *loop_info);
 MNCAPI int get_info_whole_file(Loop_Info *loop_info);
+MNCAPI int get_loop_labels(Loop_Options *loop_options);
 
 #ifdef __cplusplus
 }

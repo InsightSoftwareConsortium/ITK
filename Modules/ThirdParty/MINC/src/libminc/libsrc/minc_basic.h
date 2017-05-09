@@ -103,24 +103,7 @@
 /* Epsilon for detecting fillvalues */
 #define FILLVALUE_EPSILON (10.0 * FLT_EPSILON)
 
-/* NetCDF routine name variable (for error logging) */
-extern char *cdf_routine_name ; /* defined in globdef.c */
-#define MI_NC_ROUTINE_VAR cdf_routine_name
 
-/* Macros for logging errors. All routines should start with MI_SAVE_ROUTINE
-   and exit with MI_RETURN (which includes MI_RETURN_ERROR and 
-   MI_CHK_ERROR). All the macros except MI_CHK_ERROR are single line
-   commands. MI_CHK_ERROR is in a block and so should not be followed by
-   a ';' */
-#define MI_SAVE_ROUTINE_NAME(name) MI_save_routine_name(name)
-#define MI_RETURN(value) \
-   return( MI_return() ? (value) : (value) )
-#define MI_RETURN_ERROR(error) \
-   return( MI_return_error() ? (error) : (error) )
-#define MI_LOG_PKG_ERROR2(p1,p2) MI_log_pkg_error2(p1, p2)
-#define MI_LOG_PKG_ERROR3(p1,p2,p3) MI_log_pkg_error3(p1, p2, p3)
-#define MI_LOG_SYS_ERROR1(p1) MI_log_sys_error1(p1)
-#define MI_CHK_ERR(expr) {if ((expr)<0) MI_RETURN_ERROR(MI_ERROR);}
 
 /* Macros for converting data types. These macros are compound statements, 
    so don't put a semi-colon after them. dvalue should be a double, type
