@@ -53,10 +53,12 @@ ScancoImageIO ::ScancoImageIO()
   this->AddSupportedReadExtension(".rsq");
   this->AddSupportedReadExtension(".rad");
   this->AddSupportedReadExtension(".aim");
+
+  this->RawHeader = 0;
 }
 
 
-ScancoImageIO ::~ScancoImageIO() {}
+ScancoImageIO ::~ScancoImageIO() { delete[] this->RawHeader; }
 
 
 void
@@ -134,6 +136,63 @@ ScancoImageIO ::DecodeDouble(const void * data)
 }
 
 
+void
+ScancoImageIO ::DecodeDate(const void * data,
+                           int &        year,
+                           int &        month,
+                           int &        day,
+                           int &        hour,
+                           int &        minute,
+                           int &        second,
+                           int &        millis)
+{
+  // This is the offset between the astronomical "Julian day", which counts
+  // days since January 1, 4713BC, and the "VMS epoch", which counts from
+  // November 17, 1858:
+  const uint64_t julianOffset = 2400001;
+  const uint64_t millisPerSecond = 1000;
+  const uint64_t millisPerMinute = 60 * 1000;
+  const uint64_t millisPerHour = 3600 * 1000;
+  const uint64_t millisPerDay = 3600 * 24 * 1000;
+
+  // Read the date as a long integer with units of 1e-7 seconds
+  int      d1 = ScancoImageIO::DecodeInt(data);
+  int      d2 = ScancoImageIO::DecodeInt(static_cast<const char *>(data) + 4);
+  uint64_t tVMS = d1 + (static_cast<uint64_t>(d2) << 32);
+  uint64_t time = tVMS / 10000 + julianOffset * millisPerDay;
+
+  int y, m, d;
+  int julianDay = static_cast<int>(time / millisPerDay);
+  time -= millisPerDay * julianDay;
+
+  // Gregorian calendar starting from October 15, 1582
+  // This algorithm is from Henry F. Fliegel and Thomas C. Van Flandern
+  int ell, n, i, j;
+  ell = julianDay + 68569;
+  n = (4 * ell) / 146097;
+  ell = ell - (146097 * n + 3) / 4;
+  i = (4000 * (ell + 1)) / 1461001;
+  ell = ell - (1461 * i) / 4 + 31;
+  j = (80 * ell) / 2447;
+  d = ell - (2447 * j) / 80;
+  ell = j / 11;
+  m = j + 2 - (12 * ell);
+  y = 100 * (n - 49) + i + ell;
+
+  // Return the result
+  year = y;
+  month = m;
+  day = d;
+  hour = static_cast<int>(time / millisPerHour);
+  time -= hour * millisPerHour;
+  minute = static_cast<int>(time / millisPerMinute);
+  time -= minute * millisPerMinute;
+  second = static_cast<int>(time / millisPerSecond);
+  time -= second * millisPerSecond;
+  millis = static_cast<int>(time);
+}
+
+
 bool
 ScancoImageIO ::CanReadFile(const char * filename)
 {
@@ -159,340 +218,717 @@ ScancoImageIO ::CanReadFile(const char * filename)
 
 
 void
-ScancoImageIO ::ReadImageInformation()
+ScancoImageIO ::InitializeHeader()
 {
-  if (!m_ScancoImage.Read(m_FileName.c_str(), false))
+  memset(this->Version, 0, 18);
+  memset(this->PatientName, 0, 42);
+  memset(this->CreationDate, 0, 32);
+  memset(this->ModificationDate, 0, 32);
+  this->ScanDimensionsPixels[0] = 0;
+  this->ScanDimensionsPixels[1] = 0;
+  this->ScanDimensionsPixels[2] = 0;
+  this->ScanDimensionsPhysical[0] = 0;
+  this->ScanDimensionsPhysical[1] = 0;
+  this->ScanDimensionsPhysical[2] = 0;
+  this->PatientIndex = 0;
+  this->ScannerID = 0;
+  this->SliceThickness = 0;
+  this->SliceIncrement = 0;
+  this->StartPosition = 0;
+  this->EndPosition = 0;
+  this->ZPosition = 0;
+  this->DataRange[0] = 0;
+  this->DataRange[1] = 0;
+  this->MuScaling = 1.0;
+  this->NumberOfSamples = 0;
+  this->NumberOfProjections = 0;
+  this->ScanDistance = 0;
+  this->SampleTime = 0;
+  this->ScannerType = 0;
+  this->MeasurementIndex = 0;
+  this->Site = 0;
+  this->ReconstructionAlg = 0;
+  this->ReferenceLine = 0;
+  this->Energy = 0;
+  this->Intensity = 0;
+
+  this->RescaleType = 0;
+  memset(this->RescaleUnits, 0, 18);
+  memset(this->CalibrationData, 0, 66);
+  this->RescaleSlope = 1.0;
+  this->RescaleIntercept = 0.0;
+  this->MuWater = 0;
+
+  this->Compression = 0;
+}
+
+
+void
+ScancoImageIO ::StripString(char * dest, const char * cp, size_t l)
+{
+  char * dp = dest;
+  for (size_t i = 0; i < l && *cp != '\0'; ++i)
   {
-    itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << std::endl
-                                              << "Reason: " << itksys::SystemTools::GetLastSystemError());
+    *dp++ = *cp++;
+  }
+  while (dp != dest && dp[-1] == ' ')
+  {
+    --dp;
+  }
+  *dp = '\0';
+}
+
+
+int
+ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
+{
+  if (bytesRead < 512)
+  {
+    return 0;
   }
 
-  if (m_ScancoImage.BinaryData())
+  char * h = this->RawHeader;
+  ScancoImageIO::StripString(this->Version, h, 16);
+  h += 16;
+  int dataType = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  /*int numBytes = ScancoImageIO::DecodeInt(h);*/ h += 4;
+  /*int numBlocks = ScancoImageIO::DecodeInt(h);*/ h += 4;
+  this->PatientIndex = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  this->ScannerID = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  int year, month, day, hour, minute, second, milli;
+  ScancoImageIO::DecodeDate(h, year, month, day, hour, minute, second, milli);
+  h += 8;
+  int pixdim[3], physdim[3];
+  pixdim[0] = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  pixdim[1] = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  pixdim[2] = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  physdim[0] = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  physdim[1] = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  physdim[2] = ScancoImageIO::DecodeInt(h);
+  h += 4;
+
+  const bool isRAD = (dataType == 9 || physdim[2] == 0);
+
+  if (isRAD) // RAD file
   {
-    this->SetFileType(Binary);
+    this->MeasurementIndex = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->DataRange[0] = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->DataRange[1] = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->MuScaling = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    ScancoImageIO::StripString(this->PatientName, h, 40);
+    h += 40;
+    this->ZPosition = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    /* unknown */ h += 4;
+    this->SampleTime = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->Energy = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->Intensity = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->ReferenceLine = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->StartPosition = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->EndPosition = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    h += 88 * 4;
+  }
+  else // ISQ file or RSQ file
+  {
+    this->SliceThickness = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->SliceIncrement = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->StartPosition = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->EndPosition = this->StartPosition + physdim[2] * 1e-3 * (pixdim[2] - 1) / pixdim[2];
+    this->DataRange[0] = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->DataRange[1] = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->MuScaling = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->NumberOfSamples = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->NumberOfProjections = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->ScanDistance = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->ScannerType = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->SampleTime = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->MeasurementIndex = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->Site = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    this->ReferenceLine = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->ReconstructionAlg = ScancoImageIO::DecodeInt(h);
+    h += 4;
+    ScancoImageIO::StripString(this->PatientName, h, 40);
+    h += 40;
+    this->Energy = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    this->Intensity = ScancoImageIO::DecodeInt(h) * 1e-3;
+    h += 4;
+    h += 83 * 4;
+  }
+
+  int dataOffset = ScancoImageIO::DecodeInt(h);
+
+  // fix SliceThickness and SliceIncrement if they were truncated
+  if (physdim[2] != 0)
+  {
+    double computedSpacing = physdim[2] * 1e-3 / pixdim[2];
+    if (fabs(computedSpacing - this->SliceThickness) < 1.1e-3)
+    {
+      this->SliceThickness = computedSpacing;
+    }
+    if (fabs(computedSpacing - this->SliceIncrement) < 1.1e-3)
+    {
+      this->SliceIncrement = computedSpacing;
+    }
+  }
+
+  // Convert date information into a string
+  month = ((month > 12 || month < 1) ? 0 : month);
+  static const char * months[] = { "XXX", "JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+                                   "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+  sprintf(this->CreationDate,
+          "%d-%s-%d %02d:%02d:%02d.%03d",
+          (day % 100),
+          months[month],
+          (year % 10000),
+          (hour % 100),
+          (minute % 100),
+          (second % 100),
+          (milli % 1000));
+  sprintf(this->ModificationDate,
+          "%d-%s-%d %02d:%02d:%02d.%03d",
+          (day % 100),
+          months[month],
+          (year % 10000),
+          (hour % 100),
+          (minute % 100),
+          (second % 100),
+          (milli % 1000));
+
+  // Perform a sanity check on the dimensions
+  for (int i = 0; i < 3; ++i)
+  {
+    this->ScanDimensionsPixels[i] = pixdim[i];
+    if (pixdim[i] < 1)
+    {
+      pixdim[i] = 1;
+    }
+    this->ScanDimensionsPhysical[i] = (isRAD ? physdim[i] * 1e-6 : physdim[i] * 1e-3);
+    if (physdim[i] == 0)
+    {
+      physdim[i] = 1.0;
+    }
+  }
+
+  this->SetNumberOfDimensions(3);
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
+  {
+    this->SetDimensions(i, pixdim[i] - 1);
+    if (isRAD) // RAD file
+    {
+      if (i == 2)
+      {
+        this->SetSpacing(i, 1.0);
+      }
+      else
+      {
+        this->SetSpacing(i, physdim[i] * 1e-6 / pixdim[i]);
+      }
+    }
+    else
+    {
+      this->SetSpacing(i, physdim[i] * 1e-3 / pixdim[i]);
+    }
+    this->SetOrigin(i, 0.0);
+  }
+
+  this->SetPixelType(SCALAR);
+  this->SetComponentType(SHORT);
+
+  // total header size
+  unsigned long headerSize = static_cast<unsigned long>(dataOffset + 1) * 512;
+  // this->SetHeaderSize(headerSize);
+
+  // read the rest of the header
+  if (headerSize > bytesRead)
+  {
+    h = new char[headerSize];
+    memcpy(h, this->RawHeader, bytesRead);
+    delete[] this->RawHeader;
+    this->RawHeader = h;
+    file->read(h + bytesRead, headerSize - bytesRead);
+    if (static_cast<unsigned long>(file->gcount()) < headerSize - bytesRead)
+    {
+      return 0;
+    }
+  }
+
+  // decode the extended header (lots of guesswork)
+  if (headerSize >= 2048)
+  {
+    char * calHeader = 0;
+    int    calHeaderSize = 0;
+    h = this->RawHeader + 512;
+    unsigned long hskip = 1;
+    char *        headerName = h + 8;
+    if (strncmp(headerName, "MultiHeader     ", 16) == 0)
+    {
+      h += 512;
+      hskip += 1;
+    }
+    unsigned long hsize = 0;
+    for (int i = 0; i < 4; ++i)
+    {
+      hsize = ScancoImageIO::DecodeInt(h + i * 128 + 24);
+      if ((1 + hskip + hsize) * 512 > headerSize)
+      {
+        break;
+      }
+      headerName = h + i * 128 + 8;
+      if (strncmp(headerName, "Calibration     ", 16) == 0)
+      {
+        calHeader = this->RawHeader + (1 + hskip) * 512;
+        calHeaderSize = hsize * 512;
+      }
+      hskip += hsize;
+    }
+
+    if (calHeader && calHeaderSize >= 1024)
+    {
+      h = calHeader;
+      ScancoImageIO::StripString(this->CalibrationData, h + 28, 64);
+      // std::string calFile(h + 112, 256);
+      // std::string s3(h + 376, 256);
+      this->RescaleType = ScancoImageIO::DecodeInt(h + 632);
+      ScancoImageIO::StripString(this->RescaleUnits, h + 648, 16);
+      // std::string s5(h + 700, 16);
+      // std::string calFilter(h + 772, 16);
+      this->RescaleSlope = ScancoImageIO::DecodeDouble(h + 664);
+      this->RescaleIntercept = ScancoImageIO::DecodeDouble(h + 672);
+      this->MuWater = ScancoImageIO::DecodeDouble(h + 688);
+    }
+  }
+
+  // Include conversion to linear att coeff in the rescaling
+  if (this->MuScaling != 0)
+  {
+    this->RescaleSlope /= this->MuScaling;
+  }
+
+  return 1;
+}
+
+
+int
+ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
+{
+  if (bytesRead < 160)
+  {
+    return 0;
+  }
+
+  char *        h = this->RawHeader;
+  int           intSize = 0;
+  unsigned long headerSize = 0;
+  if (strcmp(h, "AIMDATA_V030   ") == 0)
+  {
+    // header uses 64-bit ints (8 bytes)
+    intSize = 8;
+    strcpy(this->Version, h);
+    headerSize = 16;
+    h += headerSize;
   }
   else
   {
-    this->SetFileType(ASCII);
+    // header uses 32-bit ints (4 bytes)
+    intSize = 4;
+    strcpy(this->Version, "AIMDATA_V020   ");
   }
 
-  this->SetNumberOfComponents(m_ScancoImage.ElementNumberOfChannels());
+  // read the pre-header
+  char * preheader = h;
+  int    preheaderSize = ScancoImageIO::DecodeInt(h);
+  h += intSize;
+  int structSize = ScancoImageIO::DecodeInt(h);
+  h += intSize;
+  int logSize = ScancoImageIO::DecodeInt(h);
+  h += intSize;
 
-  itk::ScancoDataDictionary & thisScancoDict = this->GetScancoDataDictionary();
-  switch (m_ScancoImage.ElementType())
+  // read the rest of the header
+  headerSize += preheaderSize + structSize + logSize;
+  // this->SetHeaderSize(headerSize);
+  if (headerSize > bytesRead)
   {
-    default:
-    case MET_OTHER:
-    case MET_NONE:
-      this->SetPixelType(UNKNOWNPIXELTYPE);
-      this->SetComponentType(UNKNOWNCOMPONENTTYPE);
-      break;
-    case MET_CHAR:
-    case MET_ASCII_CHAR:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(CHAR);
-      break;
-    case MET_CHAR_ARRAY:
-    case MET_STRING:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(CHAR);
-      break;
-    case MET_UCHAR:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(UCHAR);
-      break;
-    case MET_UCHAR_ARRAY:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(UCHAR);
-      break;
-    case MET_SHORT:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(SHORT);
-      break;
-    case MET_SHORT_ARRAY:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(SHORT);
-      break;
-    case MET_USHORT:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(USHORT);
-      break;
-    case MET_USHORT_ARRAY:
-      this->SetPixelType(VECTOR);
-      this->SetComponentType(USHORT);
-      break;
-    case MET_INT:
-      this->SetPixelType(SCALAR);
-      if (sizeof(int) == MET_ValueTypeSize[MET_INT])
-      {
-        this->SetComponentType(INT);
-      }
-      else if (sizeof(long) == MET_ValueTypeSize[MET_INT])
-      {
-        this->SetComponentType(LONG);
-      }
-      break;
-    case MET_INT_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(int) == MET_ValueTypeSize[MET_INT])
-      {
-        this->SetComponentType(INT);
-      }
-      else if (sizeof(long) == MET_ValueTypeSize[MET_INT])
-      {
-        this->SetComponentType(LONG);
-      }
-      break;
-    case MET_UINT:
-      this->SetPixelType(SCALAR);
-      if (sizeof(unsigned int) == MET_ValueTypeSize[MET_UINT])
-      {
-        this->SetComponentType(UINT);
-      }
-      else if (sizeof(unsigned long) == MET_ValueTypeSize[MET_UINT])
-      {
-        this->SetComponentType(ULONG);
-      }
-      break;
-    case MET_UINT_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(int) == MET_ValueTypeSize[MET_INT])
-      {
-        this->SetComponentType(UINT);
-      }
-      else if (sizeof(long) == MET_ValueTypeSize[MET_INT])
-      {
-        this->SetComponentType(ULONG);
-      }
-      break;
-    case MET_LONG:
-      this->SetPixelType(SCALAR);
-      if (sizeof(long) == MET_ValueTypeSize[MET_LONG])
-      {
-        this->SetComponentType(LONG);
-      }
-      else if (sizeof(int) == MET_ValueTypeSize[MET_LONG])
-      {
-        this->SetComponentType(INT);
-      }
-      break;
-    case MET_LONG_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(long) == MET_ValueTypeSize[MET_LONG])
-      {
-        this->SetComponentType(LONG);
-      }
-      else if (sizeof(int) == MET_ValueTypeSize[MET_LONG])
-      {
-        this->SetComponentType(INT);
-      }
-      break;
-    case MET_ULONG:
-      this->SetPixelType(SCALAR);
-      if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG])
-      {
-        this->SetComponentType(ULONG);
-      }
-      else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG])
-      {
-        this->SetComponentType(UINT);
-      }
-      break;
-    case MET_ULONG_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG])
-      {
-        this->SetComponentType(ULONG);
-      }
-      else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG])
-      {
-        this->SetComponentType(UINT);
-      }
-      break;
-    case MET_LONG_LONG:
-      this->SetPixelType(SCALAR);
-      if (sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
-      {
-        this->SetComponentType(LONG);
-      }
-      else if (sizeof(int) == MET_ValueTypeSize[MET_LONG_LONG])
-      {
-        this->SetComponentType(INT);
-      }
-      else
-      {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
-      }
-      break;
-    case MET_LONG_LONG_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(long) == MET_ValueTypeSize[MET_LONG_LONG])
-      {
-        this->SetComponentType(LONG);
-      }
-      else if (sizeof(int) == MET_ValueTypeSize[MET_LONG_LONG])
-      {
-        this->SetComponentType(INT);
-      }
-      else
-      {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
-      }
-      break;
-    case MET_ULONG_LONG:
-      this->SetPixelType(SCALAR);
-      if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG_LONG])
-      {
-        this->SetComponentType(ULONG);
-      }
-      else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG_LONG])
-      {
-        this->SetComponentType(UINT);
-      }
-      else
-      {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
-      }
-      break;
-    case MET_ULONG_LONG_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(unsigned long) == MET_ValueTypeSize[MET_ULONG_LONG])
-      {
-        this->SetComponentType(ULONG);
-      }
-      else if (sizeof(unsigned int) == MET_ValueTypeSize[MET_ULONG_LONG])
-      {
-        this->SetComponentType(UINT);
-      }
-      else
-      {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
-      }
-      break;
-    case MET_FLOAT:
-      this->SetPixelType(SCALAR);
-      if (sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
-      {
-        this->SetComponentType(FLOAT);
-      }
-      else if (sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
-      {
-        this->SetComponentType(DOUBLE);
-      }
-      break;
-    case MET_FLOAT_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
-      {
-        this->SetComponentType(FLOAT);
-      }
-      else if (sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
-      {
-        this->SetComponentType(DOUBLE);
-      }
-      break;
-    case MET_DOUBLE:
-      this->SetPixelType(SCALAR);
-      this->SetComponentType(DOUBLE);
-      if (sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
-      {
-        this->SetComponentType(DOUBLE);
-      }
-      else if (sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
-      {
-        this->SetComponentType(FLOAT);
-      }
-      break;
-    case MET_DOUBLE_ARRAY:
-      this->SetPixelType(VECTOR);
-      if (sizeof(double) == MET_ValueTypeSize[MET_DOUBLE])
-      {
-        this->SetComponentType(DOUBLE);
-      }
-      else if (sizeof(float) == MET_ValueTypeSize[MET_DOUBLE])
-      {
-        this->SetComponentType(FLOAT);
-      }
-      break;
-    case MET_FLOAT_MATRIX:
-      this->SetPixelType(VECTOR);
-      if (sizeof(float) == MET_ValueTypeSize[MET_FLOAT])
-      {
-        this->SetComponentType(FLOAT);
-      }
-      else if (sizeof(double) == MET_ValueTypeSize[MET_FLOAT])
-      {
-        this->SetComponentType(DOUBLE);
-      }
-      this->SetNumberOfComponents(m_NumberOfComponents * m_NumberOfComponents);
-      break;
-  }
-
-  // BUG: 8732
-  // The above use to MET_*_ARRAY may not be correct, as this ScancoIO
-  // ElementType was not designed to indicate vectors, but something
-  // else
-  //
-  // if the file has multiple components then we default to a vector
-  // pixel type, support could be added to ScancoIO format to define
-  // different pixel types
-  if (m_ScancoImage.ElementNumberOfChannels() > 1)
-  {
-    this->SetPixelType(VECTOR);
-  }
-
-  this->SetNumberOfDimensions(m_ScancoImage.NDims());
-
-  unsigned int i;
-  for (i = 0; i < m_NumberOfDimensions; i++)
-  {
-    this->SetDimensions(i, m_ScancoImage.DimSize(i) / m_SubSamplingFactor);
-    this->SetSpacing(i, m_ScancoImage.ElementSpacing(i) * m_SubSamplingFactor);
-    this->SetOrigin(i, m_ScancoImage.Position(i));
-  }
-
-  //
-  // Read direction cosines
-  //
-  const double *     transformMatrix = m_ScancoImage.TransformMatrix();
-  vnl_vector<double> directionAxis(this->GetNumberOfDimensions());
-  for (unsigned int ii = 0; ii < this->GetNumberOfDimensions(); ii++)
-  {
-    for (unsigned int jj = 0; jj < this->GetNumberOfDimensions(); jj++)
+    h = new char[headerSize];
+    memcpy(h, this->RawHeader, bytesRead);
+    preheader = h + (preheader - this->RawHeader);
+    delete[] this->RawHeader;
+    this->RawHeader = h;
+    file->read(h + bytesRead, headerSize - bytesRead);
+    if (static_cast<unsigned long>(file->gcount()) < headerSize - bytesRead)
     {
-      directionAxis[jj] = transformMatrix[ii * this->GetNumberOfDimensions() + jj];
+      return 0;
     }
-    this->SetDirection(ii, directionAxis);
   }
 
-  std::string classname(this->GetNameOfClass());
-  EncapsulateScancoData<std::string>(thisScancoDict, ITK_InputFilterName, classname);
-  //
-  // save the metadatadictionary in the ScancoImage header.
-  // NOTE: The ScancoIO library only supports typeless strings as metadata
-  int dictFields = m_ScancoImage.GetNumberOfAdditionalReadFields();
-  for (int f = 0; f < dictFields; f++)
+  // decode the struct header
+  h = preheader + preheaderSize;
+  h += 20; // not sure what these 20 bytes are for
+  int dataType = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  int structValues[21];
+  for (int i = 0; i < 21; ++i)
   {
-    std::string key(m_ScancoImage.GetAdditionalReadFieldName(f));
-    std::string value(m_ScancoImage.GetAdditionalReadFieldValue(f));
-    EncapsulateScancoData<std::string>(thisScancoDict, key, value);
+    structValues[i] = ScancoImageIO::DecodeInt(h);
+    h += intSize;
   }
-
-  //
-  // Read some metadata
-  //
-  ScancoDataDictionary & metaDict = this->GetScancoDataDictionary();
-
-  // Look at default metaio fields
-  if (m_ScancoImage.DistanceUnits() != MET_DISTANCE_UNITS_UNKNOWN)
+  float elementSize[3];
+  for (int i = 0; i < 3; ++i)
   {
-    EncapsulateScancoData<std::string>(metaDict, ITK_VoxelUnits, std::string(m_ScancoImage.DistanceUnitsName()));
+    elementSize[i] = ScancoImageIO::DecodeFloat(h);
+    if (elementSize[i] == 0)
+    {
+      elementSize[i] = 1.0;
+    }
+    h += 4;
   }
 
-  if (strlen(m_ScancoImage.AcquisitionDate()) > 0)
+  // number of components per pixel is 1 by default
+  this->SetPixelType(SCALAR);
+  this->Compression = 0;
+
+  // a limited selection of data types are supported
+  // (only 0x00010001 (char) and 0x00020002 (short) are fully tested)
+  switch (dataType)
   {
-    EncapsulateScancoData<std::string>(metaDict, ITK_ExperimentDate, std::string(m_ScancoImage.AcquisitionDate()));
+    case 0x00160001:
+      this->SetComponentType(UCHAR);
+      break;
+    case 0x000d0001:
+      this->SetComponentType(UCHAR);
+      break;
+    case 0x00120003:
+      this->SetComponentType(UCHAR);
+      this->SetPixelType(VECTOR);
+      this->SetNumberOfDimensions(3);
+      break;
+    case 0x00010001:
+      this->SetComponentType(CHAR);
+      break;
+    case 0x00060003:
+      this->SetComponentType(CHAR);
+      this->SetPixelType(VECTOR);
+      this->SetNumberOfDimensions(3);
+      break;
+    case 0x00170002:
+      this->SetComponentType(USHORT);
+      break;
+    case 0x00020002:
+      this->SetComponentType(SHORT);
+      break;
+    case 0x00030004:
+      this->SetComponentType(INT);
+      break;
+    case 0x001a0004:
+      this->SetComponentType(FLOAT);
+      break;
+    case 0x00150001:
+      this->Compression = 0x00b2; // run-length compressed bits
+      this->SetComponentType(CHAR);
+      break;
+    case 0x00080002:
+      this->Compression = 0x00c2; // run-length compressed signed char
+      this->SetComponentType(CHAR);
+      break;
+    case 0x00060001:
+      this->Compression = 0x00b1; // packed bits
+      this->SetComponentType(CHAR);
+      break;
+    default:
+      itkExceptionMacro("Unrecognized data type in AIM file: " << dataType);
   }
+
+  this->SetNumberOfDimensions(3);
+  for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
+  {
+    this->SetDimensions(i, structValues[3 + i] - 1);
+    this->SetSpacing(i, elementSize[i]);
+    // the origin will reflect the cropping of the data
+    this->SetOrigin(i, elementSize[i] * structValues[i]);
+  }
+
+  // decode the processing log
+  h = preheader + preheaderSize + structSize;
+  char * logEnd = h + logSize;
+
+  while (h != logEnd && *h != '\0')
+  {
+    // skip newline and go to next line
+    if (*h == '\n')
+    {
+      ++h;
+    }
+
+    // search for the end of this line
+    char * lineEnd = h;
+    while (lineEnd != logEnd && *lineEnd != '\n' && *lineEnd != '\0')
+    {
+      ++lineEnd;
+    }
+
+    // if not a comment, search for keys
+    if (h != lineEnd && *h != '!' && (*lineEnd == '\n' || *lineEnd == '\0'))
+    {
+      // key and value are separated by multiple spaces
+      char * key = h;
+      while (h + 1 != lineEnd && (h[0] != ' ' || h[1] != ' '))
+      {
+        ++h;
+      }
+      // this gives the length of the key
+      size_t keylen = h - key;
+      // skip to the end of the spaces
+      while (h != lineEnd && *h == ' ')
+      {
+        ++h;
+      }
+      // this is where the value starts
+      char * value = h;
+      size_t valuelen = lineEnd - value;
+      // look for trailing spaces
+      while (valuelen > 0 && (h[valuelen - 1] == ' ' || h[valuelen - 1] == '\r'))
+      {
+        --valuelen;
+      }
+
+      // convert into a std::string for convenience
+      std::string skey(key, keylen);
+
+      // check for known keys
+      if (skey == "Time")
+      {
+        valuelen = (valuelen > 31 ? 31 : valuelen);
+        strncpy(this->ModificationDate, value, valuelen);
+        this->ModificationDate[valuelen] = '\0';
+      }
+      else if (skey == "Original Creation-Date")
+      {
+        valuelen = (valuelen > 31 ? 31 : valuelen);
+        strncpy(this->CreationDate, value, valuelen);
+        this->CreationDate[valuelen] = '\0';
+      }
+      else if (skey == "Orig-ISQ-Dim-p")
+      {
+        for (int i = 0; i < 3; i++)
+        {
+          this->ScanDimensionsPixels[i] = strtol(value, &value, 10);
+        }
+      }
+      else if (skey == "Orig-ISQ-Dim-um")
+      {
+        for (int i = 0; i < 3; i++)
+        {
+          this->ScanDimensionsPhysical[i] = strtod(value, &value) * 1e-3;
+        }
+      }
+      else if (skey == "Patient Name")
+      {
+        valuelen = (valuelen > 41 ? 41 : valuelen);
+        strncpy(this->PatientName, value, valuelen);
+        this->PatientName[valuelen] = '\0';
+      }
+      else if (skey == "Index Patient")
+      {
+        this->PatientIndex = strtol(value, 0, 10);
+      }
+      else if (skey == "Index Measurement")
+      {
+        this->MeasurementIndex = strtol(value, 0, 10);
+      }
+      else if (skey == "Site")
+      {
+        this->Site = strtol(value, 0, 10);
+      }
+      else if (skey == "Scanner ID")
+      {
+        this->ScannerID = strtol(value, 0, 10);
+      }
+      else if (skey == "Scanner type")
+      {
+        this->ScannerType = strtol(value, 0, 10);
+      }
+      else if (skey == "Position Slice 1 [um]")
+      {
+        this->StartPosition = strtod(value, 0) * 1e-3;
+        this->EndPosition = this->StartPosition + elementSize[2] * (structValues[5] - 1);
+      }
+      else if (skey == "No. samples")
+      {
+        this->NumberOfSamples = strtol(value, 0, 10);
+      }
+      else if (skey == "No. projections per 180")
+      {
+        this->NumberOfProjections = strtol(value, 0, 10);
+      }
+      else if (skey == "Scan Distance [um]")
+      {
+        this->ScanDistance = strtod(value, 0) * 1e-3;
+      }
+      else if (skey == "Integration time [us]")
+      {
+        this->SampleTime = strtod(value, 0) * 1e-3;
+      }
+      else if (skey == "Reference line [um]")
+      {
+        this->ReferenceLine = strtod(value, 0) * 1e-3;
+      }
+      else if (skey == "Reconstruction-Alg.")
+      {
+        this->ReconstructionAlg = strtol(value, 0, 10);
+      }
+      else if (skey == "Energy [V]")
+      {
+        this->Energy = strtod(value, 0) * 1e-3;
+      }
+      else if (skey == "Intensity [uA]")
+      {
+        this->Intensity = strtod(value, 0) * 1e-3;
+      }
+      else if (skey == "Mu_Scaling")
+      {
+        this->MuScaling = strtol(value, 0, 10);
+      }
+      else if (skey == "Minimum data value")
+      {
+        this->DataRange[0] = strtod(value, 0);
+      }
+      else if (skey == "Maximum data value")
+      {
+        this->DataRange[1] = strtod(value, 0);
+      }
+      else if (skey == "Calib. default unit type")
+      {
+        this->RescaleType = strtol(value, 0, 10);
+      }
+      else if (skey == "Calibration Data")
+      {
+        valuelen = (valuelen > 64 ? 64 : valuelen);
+        strncpy(this->CalibrationData, value, valuelen);
+        this->CalibrationData[valuelen] = '\0';
+      }
+      else if (skey == "Density: unit")
+      {
+        valuelen = (valuelen > 16 ? 16 : valuelen);
+        strncpy(this->RescaleUnits, value, valuelen);
+        this->RescaleUnits[valuelen] = '\0';
+      }
+      else if (skey == "Density: slope")
+      {
+        this->RescaleSlope = strtod(value, 0);
+      }
+      else if (skey == "Density: intercept")
+      {
+        this->RescaleIntercept = strtod(value, 0);
+      }
+      else if (skey == "HU: mu water")
+      {
+        this->MuWater = strtod(value, 0);
+      }
+    }
+    // skip to the end of the line
+    h = lineEnd;
+  }
+
+  // Include conversion to linear att coeff in the rescaling
+  if (this->MuScaling != 0)
+  {
+    this->RescaleSlope /= this->MuScaling;
+  }
+
+  // these items are not in the processing log
+  this->SliceThickness = elementSize[2];
+  this->SliceIncrement = elementSize[2];
+
+  return 1;
+}
+
+
+void
+ScancoImageIO ::ReadImageInformation()
+{
+  this->InitializeHeader();
+
+  if (this->m_FileName.empty())
+  {
+    itkExceptionMacro("FileName has not been set.");
+  }
+
+
+  std::ifstream infile(m_FileName.c_str(), std::ios::in | std::ios::binary);
+  if (!infile.good())
+  {
+    itkExceptionMacro("Cannot open file: " << m_FileName);
+  }
+
+  // header is a 512 byte block
+  this->RawHeader = new char[512];
+  infile.read(this->RawHeader, 512);
+  int           fileType = 0;
+  unsigned long bytesRead = 0;
+  if (!infile.bad())
+  {
+    bytesRead = static_cast<unsigned long>(infile.gcount());
+    fileType = ScancoImageIO::CheckVersion(this->RawHeader);
+  }
+
+  if (fileType == 0)
+  {
+    infile.close();
+    itkExceptionMacro("Unrecognized header in: " << m_FileName);
+  }
+
+  if (fileType == 1)
+  {
+    this->ReadISQHeader(&infile, bytesRead);
+  }
+  else
+  {
+    this->ReadAIMHeader(&infile, bytesRead);
+  }
+
+  infile.close();
+
+  // This code causes rescaling to Hounsfield units
+  /*
+  if (this->MuScaling > 0 && this->MuWater > 0)
+    {
+    // HU = 1000*(u - u_water)/u_water
+    this->RescaleSlope = 1000.0/(this->MuWater * this->MuScaling);
+    this->RescaleIntercept = -1000.0;
+    }
+  */
 }
 
 void

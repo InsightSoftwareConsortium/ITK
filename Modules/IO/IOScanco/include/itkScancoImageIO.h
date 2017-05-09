@@ -167,6 +167,71 @@ private:
   /** Convert char data to float (double precision). */
   static double
   DecodeDouble(const void * data);
+
+  //! Convert a VMS timestamp to a calendar date.
+  void
+  DecodeDate(const void * data,
+             int &        year,
+             int &        month,
+             int &        day,
+             int &        hour,
+             int &        minute,
+             int &        second,
+             int &        millis);
+
+  //! Strip a string by removing trailing whitespace.
+  /*!
+   *  The dest must have a size of at least l+1.
+   */
+  static void
+  StripString(char * dest, const char * source, size_t l);
+
+  void
+  InitializeHeader();
+
+  int
+  ReadISQHeader(std::ifstream * file, unsigned long bytesRead);
+
+  int
+  ReadAIMHeader(std::ifstream * file, unsigned long bytesRead);
+
+  // Header information
+  char   Version[18];
+  char   PatientName[42];
+  int    PatientIndex;
+  int    ScannerID;
+  char   CreationDate[32];
+  char   ModificationDate[32];
+  int    ScanDimensionsPixels[3];
+  double ScanDimensionsPhysical[3];
+  double SliceThickness;
+  double SliceIncrement;
+  double StartPosition;
+  double EndPosition;
+  double ZPosition;
+  double DataRange[2];
+  double MuScaling;
+  int    NumberOfSamples;
+  int    NumberOfProjections;
+  double ScanDistance;
+  double SampleTime;
+  int    ScannerType;
+  int    MeasurementIndex;
+  int    Site;
+  int    ReconstructionAlg;
+  double ReferenceLine;
+  double Energy;
+  double Intensity;
+  int    RescaleType;
+  char   RescaleUnits[18];
+  char   CalibrationData[66];
+  double RescaleSlope;
+  double RescaleIntercept;
+  double MuWater;
+  char * RawHeader;
+
+  // The compression mode, if any.
+  int Compression;
 };
 } // end namespace itk
 
