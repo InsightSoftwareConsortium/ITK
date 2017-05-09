@@ -130,7 +130,7 @@ public:
 
 
   /**
-   * Set the strategy to be used to collapse pysical space dimensions.
+   * Set the strategy to be used to collapse physical space dimensions.
    *
    * itk::itkExtractImageFilter::DIRECTIONCOLLAPSETOIDENTITY
    * Set the strategy so that all collapsed images have an identity direction.
