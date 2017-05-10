@@ -44,6 +44,10 @@ namespace itk
  * Typically the mapped position does not correspond to an integer pixel
  * position in the output image. We round it.
  *
+ * Warning: the functionality provided by this class is currently implemented
+ * with more options and multi-threaded in itk::GridImageSource by setting up
+ * an appropriate itk::ResampleImageFilter instance to such an object.
+ *
  * \author Tom Vercauteren, INRIA & Mauna Kea Technologies
  *
  * This implementation was taken from the Insight Journal paper:
