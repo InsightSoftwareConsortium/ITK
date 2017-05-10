@@ -54,7 +54,7 @@ namespace itk
  * \lVert \nabla f(x) \rVert \le \epsilon \max(1, \lVert X \rVert)
  * \f]
  * or a maximum number of function evaluations has been reached.
- * The tolerance $\epsilon$ is set through SetGradientConvergenceTolerance()
+ * The tolerance \f$\epsilon\f$ is set through SetGradientConvergenceTolerance()
  * (default 1e-5) and the maximum number of function evaluations is set
  * through SetMaximumNumberOfFunctionEvaluations() (default 2000).
  *
