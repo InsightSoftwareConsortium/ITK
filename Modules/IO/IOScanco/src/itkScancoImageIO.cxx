@@ -446,7 +446,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   this->SetNumberOfDimensions(3);
   for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
-    this->SetDimensions(i, pixdim[i] - 1);
+    this->SetDimensions(i, pixdim[i]);
     if (isRAD) // RAD file
     {
       if (i == 2)
@@ -674,7 +674,7 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
   this->SetNumberOfDimensions(3);
   for (unsigned int i = 0; i < m_NumberOfDimensions; ++i)
   {
-    this->SetDimensions(i, structValues[3 + i] - 1);
+    this->SetDimensions(i, structValues[3 + i]);
     this->SetSpacing(i, elementSize[i]);
     // the origin will reflect the cropping of the data
     this->SetOrigin(i, elementSize[i] * structValues[i]);
@@ -1128,7 +1128,7 @@ ScancoImageIO ::CanWriteFile(const char * name)
   // return true;
   //}
 
-  // return false;
+  return false;
 }
 
 
