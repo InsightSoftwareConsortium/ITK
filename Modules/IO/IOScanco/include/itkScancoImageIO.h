@@ -28,6 +28,25 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
+/**
+ * David's notes from vtkScancoCTReader
+ * Read SCANCO ISQ and AIM medical image files
+ *
+ * This class reads ISQ and AIM files, which are used for high-resolution
+ * computed tomography.  The information that it provides uses different
+ * units as compared to the original files: all distances are given in
+ * millimeters (instead of micrometers), times are given in milliseconds
+ * (instead of microseconds), voltage and current given in kV and mA
+ * (instead of volts and microamps).  If the scanner was calibrated, then
+ * the data values can be converted to calibrated units.  To convert
+ * to linear attenuation coefficients [cm^-1], simply divide the data
+ * values by the MuScaling.  To convert to density values, multiply
+ * the data values by the RescaleSlope and add the RescaleIntercept.
+ * To convert to Hounsfield units, multiply by 1000/(MuScaling*MuWater)
+ * and subtract 1000.
+ *
+ * Created at the Calgary Image Processing and Analysis Centre (CIPAC).
+ */
 #ifndef itkScancoImageIO_h
 #define itkScancoImageIO_h
 #include "IOScancoExport.h"
@@ -108,34 +127,17 @@ public:
   virtual void
   Write(const void * buffer) ITK_OVERRIDE;
 
-  /** Method for supporting streaming.  Given a requested region, calculate what
-   * could be the region that we can read from the file. This is called the
-   * streamable region, which will be smaller than the LargestPossibleRegion and
-   * greater or equal to the RequestedRegion */
-  virtual ImageIORegion
-  GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requested) const ITK_OVERRIDE;
-
-  virtual unsigned int
-  GetActualNumberOfSplitsForWriting(unsigned int          numberOfRequestedSplits,
-                                    const ImageIORegion & pasteRegion,
-                                    const ImageIORegion & largestPossibleRegion) ITK_OVERRIDE;
-
-  virtual ImageIORegion
-  GetSplitRegionForWriting(unsigned int          ithPiece,
-                           unsigned int          numberOfActualSplits,
-                           const ImageIORegion & pasteRegion,
-                           const ImageIORegion & largestPossibleRegion) ITK_OVERRIDE;
 
   virtual bool
   CanStreamRead() ITK_OVERRIDE
   {
-    return true;
+    return false;
   }
 
   virtual bool
   CanStreamWrite() ITK_OVERRIDE
   {
-    return true;
+    return false;
   }
 
 protected:
@@ -232,6 +234,8 @@ private:
 
   // The compression mode, if any.
   int Compression;
+
+  SizeValueType m_HeaderSize;
 };
 } // end namespace itk
 

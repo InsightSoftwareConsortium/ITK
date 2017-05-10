@@ -56,7 +56,7 @@ public:
   {
     ScancoImageIOFactory::Pointer scancoFactory = ScancoImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactoryInternal(scanocFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(scancoFactory);
   }
 
 protected:
