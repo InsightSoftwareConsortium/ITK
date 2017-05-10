@@ -20,81 +20,74 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkScancoImageIO.h"
+#include "itkTestingMacros.h"
 
 
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int
-itkScancoImageIOTest(int ac, char * av[])
+itkScancoImageIOTest(int argc, char * argv[])
 {
-  if (ac < 3)
+  if (argc < 3)
   {
-    std::cerr << "Usage: " << av[0] << " Input Output [ShouldFail]\n";
+    std::cerr << "Usage: " << argv[0] << " Input Output \n";
     return EXIT_FAILURE;
   }
+  const char * inputFileName = argv[1];
+  const char * outputFileName = argv[2];
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
-  typedef unsigned short           PixelType;
-  typedef itk::Image<PixelType, 3> myImage;
+  const unsigned int                       Dimension = 3;
+  typedef short                            PixelType;
+  typedef itk::Image<PixelType, Dimension> ImageType;
 
-  itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
+  typedef itk::ImageFileReader<ImageType> ReaderType;
+  ReaderType::Pointer                     reader = ReaderType::New();
 
   // force use of ScancoIO
   typedef itk::ScancoImageIO IOType;
-  IOType::Pointer            metaIn = IOType::New();
-  metaIn->SetDoublePrecision(8); // Set manually for coverage
-  reader->SetImageIO(metaIn);
+  IOType::Pointer            scancoInput = IOType::New();
+  reader->SetImageIO(scancoInput);
 
   // check usability of dimension (for coverage)
-  if (!metaIn->SupportsDimension(3))
+  if (!scancoInput->SupportsDimension(3))
   {
     std::cerr << "Did not support dimension 3" << std::endl;
     return EXIT_FAILURE;
   }
 
-  // test subsampling factor (change it then change it back)
-  unsigned int origSubSamplingFactor = metaIn->GetSubSamplingFactor();
-  unsigned int subSamplingFactor = 2;
-  metaIn->SetSubSamplingFactor(subSamplingFactor);
-  if (metaIn->GetSubSamplingFactor() != subSamplingFactor)
-  {
-    std::cerr << "Did not set/get Sub Sampling factor correctly" << std::endl;
-    return EXIT_FAILURE;
-  }
-  metaIn->SetSubSamplingFactor(origSubSamplingFactor);
-
   // read the file
-  reader->SetFileName(av[1]);
+  reader->SetFileName(inputFileName);
   try
   {
     reader->Update();
   }
-  catch (itk::ExceptionObject & e)
+  catch (itk::ExceptionObject & error)
   {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    if (ac == 3) // should fail
+    std::cerr << "Exception in the file reader " << std::endl;
+    std::cerr << error << std::endl;
+    if (argc == 3) // should fail
     {
       return EXIT_SUCCESS;
     }
     return EXIT_FAILURE;
   }
 
-  myImage::Pointer image = reader->GetOutput();
+  ImageType::Pointer image = reader->GetOutput();
   image->Print(std::cout);
 
-  myImage::RegionType region = image->GetLargestPossibleRegion();
+  ImageType::RegionType region = image->GetLargestPossibleRegion();
   std::cout << "region " << region;
 
   // Generate test image
-  itk::ImageFileWriter<myImage>::Pointer writer;
-  writer = itk::ImageFileWriter<myImage>::New();
-  IOType::Pointer metaOut = IOType::New();
-  writer->SetImageIO(metaOut);
+  typedef itk::ImageFileWriter<ImageType> WriterType;
+  WriterType::Pointer                     writer = WriterType::New();
+  // IOType::Pointer metaOut = IOType::New();
+  // writer->SetImageIO(metaOut);
   writer->SetInput(reader->GetOutput());
-  writer->SetFileName(av[2]);
-  writer->Update();
+  writer->SetFileName(outputFileName);
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }
