@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -37,12 +37,12 @@ class parser_t(object):
         if self.__begin == "<":
             # Cleanup parentheses blocks before checking for the pattern
             # See also the args() method (in this file) for more explanations.
-            decl_string = re.sub("\s\(.*?\)", "", decl_string).strip()
+            decl_string = re.sub("\\s\\(.*?\\)", "", decl_string).strip()
 
         last_part = decl_string.split('::')[-1]
         return (
-            -1 != decl_string.find(self.__begin) and -
-            1 != last_part.find(self.__end)
+            decl_string.find(self.__begin) != -1 and
+            last_part.find(self.__end) != -1
         )
 
     def name(self, decl_string):
@@ -105,7 +105,7 @@ class parser_t(object):
 
             # Build a regex matching a space (\s)
             # + something inside parentheses
-            regex = re.compile("\s\(.*?\)")
+            regex = re.compile("\\s\\(.*?\\)")
             for m in regex.finditer(args_only):
                 # Store the position and the content
                 parentheses_blocks.append([m.start() - prev_span, m.group()])
@@ -118,7 +118,7 @@ class parser_t(object):
         previous_found, found = 0, 0
         while True:
             found = self.__find_args_separator(args_only, previous_found)
-            if -1 == found:
+            if found == -1:
                 args.append(args_only[previous_found:].strip())
                 # This is the last argument. Break out of the loop.
                 break
@@ -162,7 +162,7 @@ class parser_t(object):
         previous_found, found = first_occurance + 1, 0
         while True:
             found = self.__find_args_separator(text, previous_found)
-            if -1 == found:
+            if found == -1:
                 return self.NOT_FOUND
             elif text[found] == self.__end:
                 return first_occurance, found
@@ -177,15 +177,13 @@ class parser_t(object):
     def split_recursive(self, decl_string):
         """implementation details"""
         assert self.has_pattern(decl_string)
-        answer = []
         to_go = [decl_string]
         while to_go:
             name, args = self.split(to_go.pop())
-            answer.append((name, args))
             for arg in args:
                 if self.has_pattern(arg):
                     to_go.append(arg)
-        return answer
+            yield name, args
 
     def join(self, name, args, arg_separator=None):
         """implementation details"""
@@ -195,7 +193,7 @@ class parser_t(object):
 
         if not args:
             args_str = ' '
-        elif 1 == len(args):
+        elif len(args) == 1:
             args_str = ' ' + args[0] + ' '
         else:
             args_str = ' ' + arg_separator.join(args) + ' '

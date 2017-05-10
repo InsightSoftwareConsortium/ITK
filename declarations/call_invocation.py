@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -58,6 +58,7 @@ def args(declaration_string):
     """
     return __THE_PARSER.args(declaration_string)
 
+
 NOT_FOUND = __THE_PARSER.NOT_FOUND
 
 
@@ -88,9 +89,9 @@ def split_recursive(declaration_string):
     return __THE_PARSER.split_recursive(declaration_string)
 
 
-def join(name, args, arg_separator=None):
+def join(name_, args_, arg_separator=None):
     """
     Returns name( argument_1, argument_2, ..., argument_n ).
 
     """
-    return __THE_PARSER.join(name, args, arg_separator)
+    return __THE_PARSER.join(name_, args_, arg_separator)

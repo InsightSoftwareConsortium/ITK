@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -101,7 +101,7 @@ class defaults_eraser(object):
     def erase_allocator(self, cls_name, default_allocator='std::allocator'):
         cls_name = self.replace_basic_string(cls_name)
         c_name, c_args = templates.split(cls_name)
-        if 2 != len(c_args):
+        if len(c_args) != 2:
             return
         value_type = c_args[0]
         tmpl = string.Template(
@@ -118,12 +118,11 @@ class defaults_eraser(object):
     def erase_container(self, cls_name, default_container_name='std::deque'):
         cls_name = self.replace_basic_string(cls_name)
         c_name, c_args = templates.split(cls_name)
-        if 2 != len(c_args):
+        if len(c_args) != 2:
             return
         value_type = c_args[0]
         dc_no_defaults = self.erase_recursive(c_args[1])
-        if self.normalize(dc_no_defaults) \
-           != self.normalize(
+        if self.normalize(dc_no_defaults) != self.normalize(
                 templates.join(default_container_name, [value_type])):
             return
         return templates.join(
@@ -136,16 +135,14 @@ class defaults_eraser(object):
             default_compare='std::less'):
         cls_name = self.replace_basic_string(cls_name)
         c_name, c_args = templates.split(cls_name)
-        if 3 != len(c_args):
+        if len(c_args) != 3:
             return
         dc_no_defaults = self.erase_recursive(c_args[1])
-        if self.normalize(dc_no_defaults) \
-           != self.normalize(
+        if self.normalize(dc_no_defaults) != self.normalize(
                 templates.join(default_container_name, [c_args[0]])):
             return
         dcomp_no_defaults = self.erase_recursive(c_args[2])
-        if self.normalize(dcomp_no_defaults) \
-           != self.normalize(
+        if self.normalize(dcomp_no_defaults) != self.normalize(
                 templates.join(default_compare, [c_args[0]])):
             return
         value_type = self.erase_recursive(c_args[0])
@@ -158,7 +155,7 @@ class defaults_eraser(object):
             default_allocator='std::allocator'):
         cls_name = self.replace_basic_string(cls_name)
         c_name, c_args = templates.split(cls_name)
-        if 3 != len(c_args):
+        if len(c_args) != 3:
             return
         value_type = c_args[0]
         tmpl = string.Template(
@@ -181,7 +178,7 @@ class defaults_eraser(object):
             default_allocator='std::allocator'):
         cls_name = self.replace_basic_string(cls_name)
         c_name, c_args = templates.split(cls_name)
-        if 4 != len(c_args):
+        if len(c_args) != 4:
             return
         key_type = c_args[0]
         mapped_type = c_args[1]
@@ -202,12 +199,11 @@ class defaults_eraser(object):
                 mapped_type=mapped_type,
                 compare=default_compare,
                 allocator=default_allocator)
-            if self.normalize(cls_name) == \
-                    self.normalize(tmpl):
+            if self.normalize(cls_name) == self.normalize(tmpl):
                 return templates.join(
                     c_name,
                     [self.erase_recursive(key_type),
-                        self.erase_recursive(mapped_type)])
+                     self.erase_recursive(mapped_type)])
 
     def erase_hash_allocator(self, cls_name):
         cls_name = self.replace_basic_string(cls_name)
@@ -219,12 +215,12 @@ class defaults_eraser(object):
         default_equal_to = 'std::equal_to'
         default_allocator = 'std::allocator'
 
-        if 3 == len(c_args):
+        if len(c_args) == 3:
             default_hash = 'hash_compare'
             tmpl = (
                 "$container< $value_type, $hash<$value_type, " +
                 "$less<$value_type> >, $allocator<$value_type> >")
-        elif 4 == len(c_args):
+        elif len(c_args) == 4:
             default_hash = 'hash'
             tmpl = (
                 "$container< $value_type, $hash<$value_type >, " +
@@ -233,9 +229,9 @@ class defaults_eraser(object):
             return
 
         value_type = c_args[0]
-        tmpl = string.Template(tmpl)
+        template = string.Template(tmpl)
         for ns in std_namespaces:
-            inst = tmpl.substitute(
+            inst = template.substitute(
                 container=c_name,
                 value_type=value_type,
                 hash=ns + '::' + utils.get_tr1(cls_name) + default_hash,
@@ -258,13 +254,13 @@ class defaults_eraser(object):
         default_allocator = 'std::allocator'
         default_equal_to = 'std::equal_to'
 
-        if 2 < len(c_args):
+        if len(c_args) > 2:
             key_type = c_args[0]
             mapped_type = c_args[1]
         else:
             return
 
-        if 4 == len(c_args):
+        if len(c_args) == 4:
             default_hash = 'hash_compare'
             tmpl = string.Template(
                 "$container< $key_type, $mapped_type, " +
@@ -275,7 +271,7 @@ class defaults_eraser(object):
                     "$container< $key_type, $mapped_type, $hash<$key_type, " +
                     "$less<$key_type> >, $allocator< std::pair< $key_type, " +
                     "$mapped_type> > >")
-        elif 5 == len(c_args):
+        elif len(c_args) == 5:
             default_hash = 'hash'
             if self.unordered_maps_and_sets:
                 tmpl = string.Template(
@@ -325,7 +321,7 @@ class defaults_eraser(object):
                 return templates.join(
                     c_name,
                     [self.erase_recursive(key_type),
-                        self.erase_recursive(mapped_type)])
+                     self.erase_recursive(mapped_type)])
 
 
 class container_traits_impl_t(object):
@@ -386,7 +382,7 @@ class container_traits_impl_t(object):
         type_ = type_traits.remove_cv(type_)
 
         utils.loggers.queries_engine.debug(
-            "Container traits: cleaned up search %s" % type_)
+            "Container traits: cleaned up search %s", type_)
 
         if isinstance(type_, cpptypes.declarated_t):
             cls_declaration = type_traits.remove_alias(type_.declaration)
@@ -448,7 +444,7 @@ class container_traits_impl_t(object):
         """
 
         utils.loggers.queries_engine.debug(
-            "Container traits: searching class declaration for %s" % type_)
+            "Container traits: searching class declaration for %s", type_)
 
         cls_declaration = self.get_container_or_none(type_)
         if not cls_declaration:
@@ -535,6 +531,7 @@ class container_traits_impl_t(object):
             return name
         else:
             return no_defaults
+
 
 list_traits = container_traits_impl_t(
     'list',
@@ -663,7 +660,7 @@ unordered_multiset_traits = container_traits_impl_t(
     'erase_hash_allocator',
     unordered_maps_and_sets=True)
 
-container_traits = (
+all_container_traits = (
     list_traits,
     deque_traits,
     queue_traits,
@@ -683,6 +680,19 @@ container_traits = (
     unordered_set_traits,
     unordered_multiset_traits)
 """tuple of all STD container traits classes"""
+
+sequential_container_traits = [
+    list_traits,
+    deque_traits,
+    queue_traits,
+    priority_queue_traits,
+    vector_traits,
+    stack_traits,
+    set_traits,
+    hash_set_traits,
+    multiset_traits,
+    hash_multiset_traits]
+"""list, that contains all STD container traits classes"""
 
 
 def find_container_traits(cls_or_string):
@@ -704,20 +714,20 @@ def find_container_traits(cls_or_string):
             name = name[len('std::'):]
         if name.startswith('std::tr1::'):
             name = name[len('std::tr1::'):]
-        for cls_traits in container_traits:
+        for cls_traits in all_container_traits:
             if cls_traits.name() == name:
                 return cls_traits
     else:
 
         if isinstance(cls_or_string, class_declaration.class_types):
             # Look in the cache.
-            if cls_or_string._container_traits_cache is not None:
-                return cls_or_string._container_traits_cache
+            if cls_or_string.cache.container_traits is not None:
+                return cls_or_string.cache.container_traits
 
         # Look for a container traits
-        for cls_traits in container_traits:
+        for cls_traits in all_container_traits:
             if cls_traits.is_my_case(cls_or_string):
                 # Store in the cache
                 if isinstance(cls_or_string, class_declaration.class_types):
-                    cls_or_string._container_traits_cache = cls_traits
+                    cls_or_string.cache.container_traits = cls_traits
                 return cls_traits

@@ -1,9 +1,8 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
-import warnings
 from . import calldef
 from . import declaration_utils
 from . import cpptypes
@@ -64,7 +63,7 @@ class member_calldef_t(calldef.calldef_t):
             and self.has_const == other.has_const
 
     def __hash__(self):
-        return super.__hash__(self)
+        return super(member_calldef_t, self).__hash__()
 
     @property
     def virtuality(self):
@@ -130,13 +129,20 @@ class member_calldef_t(calldef.calldef_t):
             return calldef_types.CALLING_CONVENTION_TYPES.THISCALL
 
 
-class operator_t(object):
+class operator_t(calldef.calldef_t):
+    """
+    Base class for "operator" declarations.
 
-    """base class for "operator" declarations"""
+    Operators are constructs which behave like functions. Therefore,
+    operator_t has calldef_t as parent class.
+    """
     OPERATOR_WORD_LEN = len('operator')
 
-    def __init__(self):
-        object.__init__(self)
+    def __init__(self, *args, **keywords):
+        calldef.calldef_t.__init__(self, *args, **keywords)
+
+    def _get__cmp__call_items(self):
+        raise NotImplementedError()
 
     @property
     def symbol(self):
@@ -169,10 +175,7 @@ class constructor_t(member_calldef_t):
 
     @explicit.setter
     def explicit(self, explicit):
-        if explicit in [True, '1']:
-            self._explicit = True
-        else:
-            self._explicit = False
+        self._explicit = explicit in [True, '1']
 
     def __str__(self):
         # Get the full name of the calldef...
@@ -185,39 +188,6 @@ class constructor_t(member_calldef_t):
         # Append the declaration class
         cls = 'constructor'
         return "%s [%s]" % (res, cls)
-
-    @property
-    def is_copy_constructor(self):
-        """
-        Returns True if described declaration is copy constructor,
-        otherwise False.
-
-        """
-
-        # Deprecated since 1.8.0. Will be removed in 1.9.0
-        warnings.warn(
-            "The is_copy_constructor attribute is deprecated. \n" +
-            "Please use the is_copy_constructor function from the \n" +
-            "declarations module instead.",
-            DeprecationWarning)
-
-        # prevent cyclic dependencies
-        from . import type_traits_classes
-        return type_traits_classes.is_copy_constructor(self)
-
-    @property
-    def is_trivial_constructor(self):
-
-        # Deprecated since 1.8.0. Will be removed in 1.9.0
-        warnings.warn(
-            "The is_trivial_constructor attribute is deprecated. \n" +
-            "Please use the is_trivial_constructor function from the \n" +
-            "declarations module instead.",
-            DeprecationWarning)
-
-        # prevent cyclic dependencies
-        from . import type_traits_classes
-        return type_traits_classes.is_trivial_constructor(self)
 
 
 class destructor_t(member_calldef_t):

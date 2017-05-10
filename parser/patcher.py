@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -91,7 +91,7 @@ class default_argument_patcher_t(object):
 
         try:
             int(arg.default_value, 16)
-            if 64 == utils.get_architecture():
+            if utils.get_architecture() == 64:
                 # on 64 bit architecture, gccxml reports 0fffff, which is
                 # valid number the problem is that in this case it is so
                 # buggy so pygccxml can not fix it users will have to fix the
@@ -139,7 +139,7 @@ class default_argument_patcher_t(object):
                 try:
                     found = parent.variable(
                         arg.default_value, recursive=False)
-                except declarations.matcher.declaration_not_found_t:
+                except declarations.declaration_not_found_t:
                     # ignore exceptions if a match is not found
                     found = None
                 if found and declarations.is_fundamental(arg.decl_type):
@@ -185,8 +185,6 @@ class default_argument_patcher_t(object):
 
     @staticmethod
     def __is_constructor_call(func, arg):
-        # if '0.9' in utils.xml_generator:
-        #    return False
         call_invocation = declarations.call_invocation
         dv = arg.default_value
         if not call_invocation.is_call_invocation(dv):
@@ -199,7 +197,11 @@ class default_argument_patcher_t(object):
         return (
             decl.name == name or
             (isinstance(decl, declarations.class_t) and
-                name in [typedef.name for typedef in decl.aliases]))
+             default_argument_patcher_t.__is_decl_in_aliases(decl, name)))
+
+    @staticmethod
+    def __is_decl_in_aliases(declaration, name):
+        return name in [typedef.name for typedef in declaration.aliases]
 
     def __fix_constructor_call(self, func, arg):
         call_invocation = declarations.call_invocation
@@ -213,7 +215,7 @@ class default_argument_patcher_t(object):
             # we have some alias to the class
             relevant_typedefs = [
                 typedef for typedef in decl.aliases if typedef.name == name]
-            if 1 == len(relevant_typedefs):
+            if len(relevant_typedefs) == 1:
                 f_q_name = self.__join_names(
                     declarations.full_name(
                         relevant_typedefs[0].parent),
@@ -240,13 +242,64 @@ class casting_operator_patcher_t(object):
     def __call__(self, decl):
         decl.name = 'operator ' + decl.return_type.decl_string
 
+
 _casting_oper_patcher_ = casting_operator_patcher_t()
 
 
 def fix_calldef_decls(decls, enums, cxx_std):
+    """
+    some times gccxml report typedefs defined in no namespace
+    it happens for example in next situation
+    template< typename X>
+    void ddd(){ typedef typename X::Y YY;}
+    if I will fail on this bug next time, the right way to fix it may be
+    different
+    """
     default_arg_patcher = default_argument_patcher_t(enums, cxx_std)
     # decls should be flat list of all declarations, you want to apply patch on
     for decl in decls:
         default_arg_patcher(decl)
         if isinstance(decl, declarations.casting_operator_t):
             _casting_oper_patcher_(decl)
+
+
+def update_unnamed_class(decls):
+    """
+    Adds name to class_t declarations.
+
+    If CastXML is being used, the type definitions with an unnamed
+    class/struct are split across two nodes in the XML tree. For example,
+
+        typedef struct {} cls;
+
+    produces
+
+        <Struct id="_7" name="" context="_1" .../>
+        <Typedef id="_8" name="cls" type="_7" context="_1" .../>
+
+    For each typedef, we look at which class it refers to, and update the name
+    accordingly. This helps the matcher classes finding these declarations.
+    This was the behaviour with gccxml too, so this is important for
+    backward compatibility.
+
+    If the castxml epic version 1 is used, there is even an elaborated type
+    declaration between the typedef and the struct/class, that also needs to be
+    taken care of.
+
+    Args:
+        decls (list[declaration_t]): a list of declarations to be patched.
+    Returns:
+        None
+    """
+
+    for decl in decls:
+        if isinstance(decl, declarations.typedef_t):
+            referent = decl.decl_type
+            if isinstance(referent, declarations.elaborated_t):
+                referent = referent.base
+            if not isinstance(referent, declarations.declarated_t):
+                continue
+            referent = referent.declaration
+            if referent.name or not isinstance(referent, declarations.class_t):
+                continue
+            referent.name = decl.name

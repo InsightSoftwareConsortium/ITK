@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -20,14 +20,19 @@ which encapsulate a single trait from the C++ type system. For example:
 
 from . import cpptypes
 from . import typedef
-from . import namespace
 from .. import utils
 
 
 def __remove_alias(type_):
-    """implementation details"""
-    if isinstance(type_, typedef.typedef_t):
-        return __remove_alias(type_.decl_type)
+    """
+    Implementation detail.
+
+    Args:
+        type_ (type_t): type
+
+    Returns:
+        type_t: the type associated to the inputted type
+    """
     if isinstance(type_, cpptypes.declarated_t) and \
             isinstance(type_.declaration, typedef.typedef_t):
         return __remove_alias(type_.declaration.decl_type)
@@ -38,15 +43,21 @@ def __remove_alias(type_):
 
 
 def remove_alias(type_):
-    """returns type without typedefs"""
-    type_ref = None
+    """
+    Returns `type_t` without typedef
+
+    Args:
+        type_ (type_t | declaration_t): type or declaration
+
+    Returns:
+        type_t: the type associated to the inputted declaration
+    """
     if isinstance(type_, cpptypes.type_t):
         type_ref = type_
     elif isinstance(type_, typedef.typedef_t):
         type_ref = type_.decl_type
     else:
-        pass  # not a valid input, just return it
-    if not type_ref:
+        # Not a valid input, just return it
         return type_
     if type_ref.cache.remove_alias:
         return type_ref.cache.remove_alias
@@ -56,8 +67,9 @@ def remove_alias(type_):
 
 
 def decompose_type(tp):
-    """implementation details"""
-    # implementation of this function is important
+    """
+    Implementation detail
+    """
     if isinstance(tp, cpptypes.compound_t):
         return [tp] + decompose_type(tp.base)
     elif isinstance(tp, typedef.typedef_t):
@@ -96,6 +108,7 @@ def _create_cv_types(base):
          cpptypes.volatile_t(cpptypes.const_t(base))]
     )
 
+
 # Some tuples containing combinations of different types
 # These are created once the module is loaded, so that when they are used
 # they do not need to be re-created.
@@ -126,27 +139,33 @@ _integral_def = (
 def does_match_definition(given, main, secondary):
     """implementation details"""
     assert isinstance(secondary, tuple)
-    assert 2 == len(secondary)  # general solution could be provided
+    assert len(secondary) == 2  # general solution could be provided
     types = decompose_type(given)
+
     if isinstance(types[0], main):
         return True
-    elif 2 <= len(types) and \
-        ((isinstance(types[0], main) and isinstance(types[1], secondary)) or
-            (isinstance(types[1], main) and isinstance(types[0], secondary))):
-        return True
-    elif 3 <= len(types):
-        classes = set([tp.__class__ for tp in types[:3]])
-        desired = set([main] + list(secondary))
-        diff = classes.symmetric_difference(desired)
-        if not diff:
+
+    if len(types) >= 2:
+        cond1 = isinstance(types[0], main)
+        cond2 = isinstance(types[1], secondary)
+        cond3 = isinstance(types[1], main)
+        cond4 = isinstance(types[0], secondary)
+        if (cond1 and cond2) or (cond3 and cond4):
             return True
-        if len(diff) == 2:
-            items = list(diff)
-            return (
-                issubclass(
-                    items[0], items[1]) or issubclass(items[1], items[0]))
-        else:
-            return False
+
+        if len(types) >= 3:
+            classes = set([tp.__class__ for tp in types[:3]])
+            desired = set([main] + list(secondary))
+            diff = classes.symmetric_difference(desired)
+            if not diff:
+                return True
+            if len(diff) == 2:
+                items = list(diff)
+                return (
+                    issubclass(
+                        items[0], items[1]) or issubclass(items[1], items[0]))
+            else:
+                return False
     else:
         return False
 
@@ -355,6 +374,8 @@ def remove_declarated(type_):
     If `type_` is not :class:`declarated_t`, it will be returned as is
     """
     type_ = remove_alias(type_)
+    if isinstance(type_, cpptypes.elaborated_t):
+        type_ = type_.base
     if isinstance(type_, cpptypes.declarated_t):
         type_ = type_.declaration
     return type_
@@ -365,6 +386,37 @@ def is_same(type1, type2):
     nake_type1 = remove_declarated(type1)
     nake_type2 = remove_declarated(type2)
     return nake_type1 == nake_type2
+
+
+def is_elaborated(type_):
+    """returns True, if type represents C++ elaborated type, False otherwise"""
+    nake_type = remove_alias(type_)
+    if isinstance(nake_type, cpptypes.elaborated_t):
+        return True
+    elif isinstance(nake_type, cpptypes.reference_t):
+        return is_elaborated(nake_type.base)
+    elif isinstance(nake_type, cpptypes.pointer_t):
+        return is_elaborated(nake_type.base)
+    elif isinstance(nake_type, cpptypes.volatile_t):
+        return is_elaborated(nake_type.base)
+    elif isinstance(nake_type, cpptypes.const_t):
+        return is_elaborated(nake_type.base)
+    return False
+
+
+def remove_elaborated(type_):
+    """removes type-declaration class-binder :class:`elaborated_t` from
+    the `type_`
+
+    If `type_` is not :class:`elaborated_t`, it will be returned as is
+    """
+    nake_type = remove_alias(type_)
+    if not is_elaborated(nake_type):
+        return type_
+    else:
+        if isinstance(type_, cpptypes.elaborated_t):
+            type_ = type_.base
+    return type_
 
 
 def is_volatile(type_):
@@ -391,10 +443,10 @@ def remove_volatile(type_):
         if isinstance(nake_type, cpptypes.array_t):
             is_c = is_const(nake_type)
             if is_c:
-                base_type = nake_type.base.base.base
+                base_type_ = nake_type.base.base.base
             else:
-                base_type = nake_type.base.base
-            result_type = base_type
+                base_type_ = nake_type.base.base
+            result_type = base_type_
             if is_c:
                 result_type = cpptypes.const_t(result_type)
             return cpptypes.array_t(result_type, nake_type.size)
@@ -429,45 +481,21 @@ def is_fundamental(type_):
             (cpptypes.volatile_t, cpptypes.const_t))
 
 
-def is_defined_in_xxx(xxx, cls):
-    """
-    small helper function, that checks whether the class `cls` is defined
-    under `::xxx` namespace
-    """
-    if not cls.parent:
-        return False
-
-    if not isinstance(cls.parent, namespace.namespace_t):
-        return False
-
-    if xxx != cls.parent.name:
-        return False
-
-    xxx_ns = cls.parent
-    if not xxx_ns.parent:
-        return False
-
-    if not isinstance(xxx_ns.parent, namespace.namespace_t):
-        return False
-
-    if '::' != xxx_ns.parent.name:
-        return False
-
-    global_ns = xxx_ns.parent
-    return None is global_ns.parent
-
-
 string_equivalences = [
-    ('::std::basic_string<char,std::char_traits<char>,' +
+    (
+        '::std::basic_string<char,std::char_traits<char>,'
         'std::allocator<char> >'),
-    ('::std::basic_string<char, std::char_traits<char>, ' +
+    (
+        '::std::basic_string<char, std::char_traits<char>, '
         'std::allocator<char> >'),
     '::std::basic_string<char>', '::std::string']
 
 wstring_equivalences = [
-    ('::std::basic_string<wchar_t,std::char_traits<wchar_t>,' +
+    (
+        '::std::basic_string<wchar_t,std::char_traits<wchar_t>,' +
         'std::allocator<wchar_t> >'),
-    ('::std::basic_string<wchar_t, std::char_traits<wchar_t>, ' +
+    (
+        '::std::basic_string<wchar_t, std::char_traits<wchar_t>, ' +
         'std::allocator<wchar_t> >'),
     '::std::basic_string<wchar_t>', '::std::wstring']
 

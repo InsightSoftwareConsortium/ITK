@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -53,6 +53,7 @@ def find_xml_generator(name=None):
         p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         path = p.stdout.read().decode("utf-8")
+        p.wait()
         p.stdout.close()
         p.stderr.close()
         if path == "":
@@ -60,12 +61,14 @@ def find_xml_generator(name=None):
             p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
                                  stderr=subprocess.PIPE)
             path = p.stdout.read().decode("utf-8")
+            p.wait()
             p.stdout.close()
             p.stderr.close()
     else:
         p = subprocess.Popen([command, name], stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
         path = p.stdout.read().decode("utf-8")
+        p.wait()
         p.stdout.close()
         p.stderr.close()
     if path == "":
@@ -155,13 +158,14 @@ def remove_file_no_raise(file_name, config):
     try:
         if os.path.exists(file_name):
             os.remove(file_name)
-    except Exception as error:
+    except IOError as error:
         loggers.root.error(
-            "Error occurred while removing temporary created file('%s'): %s" %
-            (file_name, str(error)))
+            "Error occurred while removing temporary created file('%s'): %s",
+            file_name, str(error))
 
 
-def create_temp_file_name(suffix, prefix=None, dir=None):
+# pylint: disable=W0622
+def create_temp_file_name(suffix, prefix=None, dir=None, directory=None):
     """
     Small convenience function that creates temporary files.
 
@@ -169,9 +173,16 @@ def create_temp_file_name(suffix, prefix=None, dir=None):
     function tempfile.mkstemp.
 
     """
+    if dir is not None:
+        warnings.warn(
+            "The dir argument is deprecated.\n" +
+            "Please use the directory argument instead.", DeprecationWarning)
+        # Deprecated since 1.9.0, will be removed in 2.0.0
+        directory = dir
+
     if not prefix:
         prefix = tempfile.gettempprefix()
-    fd, name = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dir)
+    fd, name = tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=directory)
     file_obj = os.fdopen(fd)
     file_obj.close()
     return name
@@ -186,7 +197,7 @@ def contains_parent_dir(fpath, dirs):
     """
     Returns true if paths in dirs start with fpath.
 
-    Precondition: dirs and fpath should be normalizeed before calling
+    Precondition: dirs and fpath should be normalized before calling
     this function.
 
     """
@@ -239,127 +250,12 @@ class cached(property):
             del s.__dict__[private]
         super(cached, self).__init__(fget, fdel=fdel)
 
-    @staticmethod
     def reset(self):
         cls = self.__class__
         for name in dir(cls):
             attr = getattr(cls, name)
             if isinstance(attr, cached):
                 delattr(self, name)
-
-
-class enum(object):
-    """
-    A small enum object.
-
-    Deprecated since 1.8.0. Will be removed in 1.9.0.
-
-    Usage example:
-
-    .. code-block:: python
-
-       class fruits(enum):
-           apple = 0
-           orange = 1
-
-       fruits.has_value( 1 )
-       fruits.name_of( 1 )
-
-    """
-
-    def __init__(self):
-        super(enum, self).__init__()
-        warnings.warn("enum is deprecated.", DeprecationWarning)
-
-    @classmethod
-    def has_value(cls, enum_numeric_value):
-        """
-        Check if the enum contains the value.
-
-        Deprecated since 1.8.0. Will be removed in 1.9.0.
-
-        Args:
-            enum_numeric_value (int): the value to search for
-
-        Returns:
-            bool: True or False
-
-        """
-        warnings.warn("enum.has_value is deprecated.", DeprecationWarning)
-        for name, value in cls.__dict__.items():
-            if enum_numeric_value == value:
-                return True
-        else:
-            return False
-
-    @classmethod
-    def name_of(cls, enum_numeric_value):
-        """
-        Name of the value.
-
-        Deprecated since 1.8.0. Will be removed in 1.9.0.
-
-        Args:
-            enum_numeric_value (int): the value to search for
-
-        Returns:
-            str: the name of the value
-
-        """
-        warnings.warn("enum.name_of is deprecated.", DeprecationWarning)
-        for name, value in cls.__dict__.items():
-            if enum_numeric_value == value:
-                return name
-        else:
-            raise RuntimeError(
-                'Unable to find name for value(%d) in enumeration "%s"' %
-                (enum_numeric_value, cls.__name__))
-
-
-class native_compiler(object):
-    """Get the compiler used to build the Python executable."""
-
-    @staticmethod
-    def get_version():
-        """
-        Get the version of the compiler used to build the Python executable.
-
-        Deprecated since 1.8.0. Will be removed in 1.9.0.
-
-        Returns:
-            tuple:
-             * name of compiler (str): mscv
-             * compiler version (str): msvccompiler.get_build_version()
-        """
-        warnings.warn(
-            "native_compiler.get_version is deprecated.\n",
-            DeprecationWarning)
-        if 'nt' != os.name:
-            return None  # not implemented yet
-        else:
-            from distutils import msvccompiler
-            return 'msvc', str(msvccompiler.get_build_version())
-
-    @staticmethod
-    def get_gccxml_compiler():
-        """Get a modified version string of the compiler.
-
-        Deprecated since 1.8.0. Will be removed in 1.9.0.
-
-        Returns:
-            str: mscvXX, where XX is a version number. Works only on windows.
-        """
-        warnings.warn(
-            "native_compiler.get_gccxml_compiler is deprecated.\n",
-            DeprecationWarning)
-        compiler = native_compiler.get_version()
-        if not compiler:
-            return None
-        else:
-            n = compiler[1].replace('.', '')
-            if n.endswith('0'):
-                n = n[:-1]
-            return compiler[0] + n.replace('.', '')
 
 
 def get_tr1(name):

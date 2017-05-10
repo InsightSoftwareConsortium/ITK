@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -102,13 +102,11 @@ class record_t(object):
 
     def __init__(
             self,
-            xml_generator,
             source_signature,
             config_signature,
             included_files,
             included_files_signature,
             declarations):
-        self.__xml_generator = xml_generator
         self.__source_signature = source_signature
         self.__config_signature = config_signature
         self.__included_files = included_files
@@ -153,10 +151,6 @@ class record_t(object):
     def declarations(self):
         return self.__declarations
 
-    @property
-    def xml_generator(self):
-        return self.__xml_generator
-
 
 class file_cache_t(cache_base_t):
 
@@ -180,23 +174,6 @@ class file_cache_t(cache_base_t):
             self.__cache)  # If empty then we need to flush
         for entry in self.__cache.values():  # Clear hit flags
             entry.was_hit = False
-            try:
-                # Make sure the xml_generator variable is defined, else it
-                # will stay None.
-                xml_generator = entry.xml_generator
-            except AttributeError:
-                msg = (
-                    "The %s cache file is not compatible with this version " +
-                    "of pygccxml. Please regenerate it.") % name
-                raise RuntimeError(msg)
-            if utils.xml_generator is None:
-                # Set the xml_generator to the one read in the cache file
-                utils.xml_generator = xml_generator
-            elif utils.xml_generator != xml_generator:
-                msg = (
-                    "The %s cache file was generated with a different xml " +
-                    "generator. Please regenerate it.") % name
-                raise RuntimeError(msg)
 
     @staticmethod
     def __load(file_name):
@@ -210,24 +187,28 @@ class file_cache_t(cache_base_t):
             return {}
         cache_file_obj = open(file_name, 'rb')
         try:
-            file_cache_t.logger.info('Loading cache file "%s".' % file_name)
+            file_cache_t.logger.info('Loading cache file "%s".', file_name)
             start_time = time.clock()
             cache = pickle.load(cache_file_obj)
             file_cache_t.logger.debug(
-                "Cache file has been loaded in %.1f secs" %
+                "Cache file has been loaded in %.1f secs",
                 (time.clock() - start_time))
-            file_cache_t.logger.debug("Found cache in file: [%s]  entries: %s"
-                                      % (file_name, len(list(cache.keys()))))
-        except Exception as error:
+            file_cache_t.logger.debug(
+                "Found cache in file: [%s]  entries: %s",
+                file_name, len(list(cache.keys())))
+        except (pickle.UnpicklingError, AttributeError, EOFError,
+                ImportError, IndexError) as error:
             file_cache_t.logger.exception(
-                "Error occured while reading cache file: %s",
+                "Error occurred while reading cache file: %s",
                 error)
             cache_file_obj.close()
             file_cache_t.logger.info(
-                "Invalid cache file: [%s]  Regenerating." %
+                "Invalid cache file: [%s]  Regenerating.",
                 file_name)
             open(file_name, 'w+b').close()   # Create empty file
             cache = {}                       # Empty cache
+        finally:
+            cache_file_obj.close()
         return cache
 
     def flush(self):
@@ -244,7 +225,7 @@ class file_cache_t(cache_base_t):
                 del self.__cache[key]
         if num_removed > 0:
             self.logger.debug(
-                "There are %s removed entries from cache." %
+                "There are %s removed entries from cache.",
                 num_removed)
         # Save out the cache to disk
         with open(self.__name, "w+b") as cache_file:
@@ -254,7 +235,6 @@ class file_cache_t(cache_base_t):
         """ Update a cached record with the current key and value contents. """
 
         record = record_t(
-            xml_generator=utils.xml_generator,
             source_signature=file_signature(source_file),
             config_signature=configuration_signature(configuration),
             included_files=included_files,
@@ -289,7 +269,8 @@ class file_cache_t(cache_base_t):
             del self.__cache[key]
             return None
 
-    def __is_valid_signature(self, record):
+    @staticmethod
+    def __is_valid_signature(record):
         for index, included_file in enumerate(record.included_files):
             if file_signature(included_file) != \
                     record.included_files_signature[index]:

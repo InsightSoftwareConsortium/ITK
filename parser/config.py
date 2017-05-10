@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -12,11 +12,15 @@ import os
 import copy
 import platform
 import subprocess
-import warnings
+# In py3, ConfigParser was renamed to the more-standard configparser.
+# But there's a py3 backport that installs "configparser" in py2, and I don't
+# want it because it has annoying deprecation warnings. So try the real py2
+# import first
+# Inspired by https://bitbucket.org/ned/coveragepy/commits/f8e9d62f1412
 try:
-    from configparser import ConfigParser
-except ImportError:
     from ConfigParser import SafeConfigParser as ConfigParser
+except ImportError:
+    from configparser import ConfigParser
 from .. import utils
 
 
@@ -45,10 +49,11 @@ class parser_configuration_t(object):
             undefine_symbols=None,
             cflags="",
             compiler=None,
-            xml_generator="castxml",
+            xml_generator=None,
             keep_xml=False,
             compiler_path=None,
-            flags=None):
+            flags=None,
+            castxml_epic_version=None):
 
         object.__init__(self)
         self.__working_directory = working_directory
@@ -70,6 +75,8 @@ class parser_configuration_t(object):
         self.__compiler = compiler
 
         self.__xml_generator = xml_generator
+
+        self.__castxml_epic_version = castxml_epic_version
 
         self.__keep_xml = keep_xml
 
@@ -132,6 +139,20 @@ class parser_configuration_t(object):
         self.__xml_generator = xml_generator
 
     @property
+    def castxml_epic_version(self):
+        """
+        File format version used by castxml.
+        """
+        return self.__castxml_epic_version
+
+    @castxml_epic_version.setter
+    def castxml_epic_version(self, castxml_epic_version):
+        """
+        File format version used by castxml.
+        """
+        self.__castxml_epic_version = castxml_epic_version
+
+    @property
     def keep_xml(self):
         """Are xml files kept after errors."""
         return self.__keep_xml
@@ -187,11 +208,16 @@ class parser_configuration_t(object):
                 (meaning, dir_path))
 
     def raise_on_wrong_settings(self):
-        """validates the configuration settings and raises RuntimeError on
-        error"""
+        """
+        Validates the configuration settings and raises RuntimeError on error
+        """
         self.__ensure_dir_exists(self.working_directory, 'working directory')
         for idir in self.include_paths:
             self.__ensure_dir_exists(idir, 'include directory')
+        if self.__xml_generator not in ["castxml", "gccxml"]:
+            msg = ('xml_generator("%s") should either be ' +
+                   '"castxml" or "gccxml".') % self.xml_generator
+            raise RuntimeError(msg)
 
 
 class xml_generator_configuration_t(parser_configuration_t):
@@ -215,10 +241,11 @@ class xml_generator_configuration_t(parser_configuration_t):
             ignore_gccxml_output=False,
             cflags="",
             compiler=None,
-            xml_generator="castxml",
+            xml_generator=None,
             keep_xml=False,
             compiler_path=None,
-            flags=None):
+            flags=None,
+            castxml_epic_version=None):
 
         parser_configuration_t.__init__(
             self,
@@ -231,7 +258,8 @@ class xml_generator_configuration_t(parser_configuration_t):
             xml_generator=xml_generator,
             keep_xml=keep_xml,
             compiler_path=compiler_path,
-            flags=flags)
+            flags=flags,
+            castxml_epic_version=castxml_epic_version)
 
         if gccxml_path != '':
             self.__gccxml_path = gccxml_path
@@ -242,6 +270,8 @@ class xml_generator_configuration_t(parser_configuration_t):
         self.__start_with_declarations = start_with_declarations
 
         self.__ignore_gccxml_output = ignore_gccxml_output
+
+        self.__xml_generator_from_xml_file = None
 
     def clone(self):
         return copy.deepcopy(self)
@@ -258,6 +288,21 @@ class xml_generator_configuration_t(parser_configuration_t):
     @xml_generator_path.setter
     def xml_generator_path(self, new_path):
         self.__xml_generator_path = new_path
+
+    @property
+    def xml_generator_from_xml_file(self):
+        """
+        Configuration object containing information about the xml generator
+        read from the xml file.
+
+        Returns:
+            utils.xml_generators: configuration object
+        """
+        return self.__xml_generator_from_xml_file
+
+    @xml_generator_from_xml_file.setter
+    def xml_generator_from_xml_file(self, xml_generator_from_xml_file):
+        self.__xml_generator_from_xml_file = xml_generator_from_xml_file
 
     @property
     def start_with_declarations(self):
@@ -277,77 +322,12 @@ class xml_generator_configuration_t(parser_configuration_t):
 
     def raise_on_wrong_settings(self):
         super(xml_generator_configuration_t, self).raise_on_wrong_settings()
-        if os.path.isfile(self.xml_generator_path):
-            return
-        if os.name == 'nt':
-            gccxml_name = 'gccxml' + '.exe'
-            environment_var_delimiter = ';'
-        elif os.name == 'posix':
-            gccxml_name = 'gccxml'
-            environment_var_delimiter = ':'
-        else:
-            raise RuntimeError(
-                'unable to find out location of the xml generator')
-        may_be_gccxml = os.path.join(self.xml_generator_path, gccxml_name)
-        if os.path.isfile(may_be_gccxml):
-            self.xml_generator_path = may_be_gccxml
-        else:
-            for path in os.environ['PATH'].split(environment_var_delimiter):
-                xml_generator_path = os.path.join(path, gccxml_name)
-                if os.path.isfile(xml_generator_path):
-                    self.xml_generator_path = xml_generator_path
-                    break
-            else:
-                msg = (
-                    'xml_generator_path("%s") should exists or to be a ' +
-                    'valid file name.') % self.xml_generator_path
-                raise RuntimeError(msg)
-
-
-class _StringDeprecationWrapper(str):
-    """
-    A small wrapper class useful when deprecation strings.
-
-    This class is not part of the public API.
-
-    """
-
-    def __new__(cls, content):
-        cls.content = content
-        return str.__new__(cls, content)
-
-    def __str__(self):
-        warnings.warn(
-            "gccxml_configuration_example is deprecated. There is an " +
-            "example file here if you need one: unittests/xml_generator.cfg"
-            "This will be removed in version 1.9.0",
-            DeprecationWarning)
-        return self.content
-
-
-gccxml_configuration_example = _StringDeprecationWrapper(
-    """
-[gccxml]
-#path to gccxml executable file - optional, if not provided, os.environ['PATH']
-#variable is used to find it
-gccxml_path=(deprecated)
-xml_generator_path=
-#gccxml working directory - optional, could be set to your source code
-directory
-working_directory=
-#additional include directories, separated by ';'
-include_paths=
-#gccxml has a nice algorithms, which selects what C++ compiler to emulate.
-#You can explicitly set what compiler it should emulate.
-#Valid options are: g++, msvc6, msvc7, msvc71, msvc8, cl.
-compiler=
-# gccxml or castxml
-xml_generator=
-# Do we keep xml files or not after errors
-keep_xml=
-# Set the path to the compiler
-compiler_path=
-""")
+        if self.xml_generator_path is None or \
+                not os.path.isfile(self.xml_generator_path):
+            msg = (
+                'xml_generator_path("%s") should be set and exist.') \
+                % self.xml_generator_path
+            raise RuntimeError(msg)
 
 
 def load_xml_generator_configuration(configuration, **defaults):
@@ -384,15 +364,6 @@ def load_xml_generator_configuration(configuration, **defaults):
     if not values:
         values = {}
 
-    if parser.has_section('gccxml'):
-        warnings.warn(
-            "The [gccxml] section in your configuration file is deprecated. "
-            "Please use [xml_generator] instead. This will no more work with "
-            "version 1.9.0")
-        for name, value in parser.items('gccxml'):
-            if value.strip():
-                values[name] = value
-
     if parser.has_section('xml_generator'):
         for name, value in parser.items('xml_generator'):
             if value.strip():
@@ -411,11 +382,13 @@ def load_xml_generator_configuration(configuration, **defaults):
             for p in value.split(';'):
                 p = p.strip()
                 if p:
-                    cfg.include_paths.append(p)
+                    cfg.include_paths.append(os.path.normpath(p))
         elif name == 'compiler':
             cfg.compiler = value
         elif name == 'xml_generator':
             cfg.xml_generator = value
+        elif name == 'castxml_epic_version':
+            cfg.castxml_epic_version = int(value)
         elif name == 'keep_xml':
             cfg.keep_xml = value
         elif name == 'cflags':
@@ -457,15 +430,17 @@ def create_compiler_path(xml_generator, compiler_path):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE)
             compiler_path = p.stdout.read().decode("utf-8").rstrip()
+            p.wait()
             p.stdout.close()
             p.stderr.close()
-            # No mscv found; look for mingw
+            # No msvc found; look for mingw
             if compiler_path == '':
                 p = subprocess.Popen(
                     ['where', 'mingw'],
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE)
                 compiler_path = p.stdout.read().decode("utf-8").rstrip()
+                p.wait()
                 p.stdout.close()
                 p.stderr.close()
         else:
@@ -476,6 +451,7 @@ def create_compiler_path(xml_generator, compiler_path):
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE)
             compiler_path = p.stdout.read().decode("utf-8").rstrip()
+            p.wait()
             p.stdout.close()
             p.stderr.close()
             # No clang found; use gcc
@@ -485,6 +461,7 @@ def create_compiler_path(xml_generator, compiler_path):
                     stdout=subprocess.PIPE,
                     stderr=subprocess.PIPE)
                 compiler_path = p.stdout.read().decode("utf-8").rstrip()
+                p.wait()
                 p.stdout.close()
                 p.stderr.close()
 
@@ -492,18 +469,6 @@ def create_compiler_path(xml_generator, compiler_path):
             compiler_path = None
 
     return compiler_path
-
-
-gccxml_configuration_t = utils.utils.DeprecationWrapper(
-    xml_generator_configuration_t,
-    "gccxml_configuration_t",
-    "xml_generator_configuration_t",
-    "1.9.0")
-load_gccxml_configuration = utils.utils.DeprecationWrapper(
-    load_xml_generator_configuration,
-    "load_gccxml_configuration",
-    "load_xml_generator_configuration",
-    "1.9.0")
 
 
 if __name__ == '__main__':

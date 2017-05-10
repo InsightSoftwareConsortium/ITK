@@ -1,45 +1,23 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
 import os
 import platform
 import subprocess
+import warnings
+
+from pygccxml import declarations
+
 from . import linker
 from . import config
 from . import patcher
 from . import declarations_cache
+from . import declarations_joiner
 from .etree_scanner import ietree_scanner_t as scanner_t
+
 from .. import utils
-
-from pygccxml import declarations
-
-
-def bind_aliases(decls):
-    """
-    This function binds between class and it's typedefs.
-
-    :param decls: list of all declarations
-
-    :rtype: None
-
-    """
-
-    visited = set()
-    typedefs = [
-        decl for decl in decls if isinstance(decl, declarations.typedef_t)]
-    for decl in typedefs:
-        type_ = declarations.remove_alias(decl.decl_type)
-        if not isinstance(type_, declarations.declarated_t):
-            continue
-        cls_inst = type_.declaration
-        if not isinstance(cls_inst, declarations.class_types):
-            continue
-        if id(cls_inst) not in visited:
-            visited.add(id(cls_inst))
-            del cls_inst.aliases[:]
-        cls_inst.aliases.append(decl)
 
 
 class source_reader_t(object):
@@ -62,9 +40,10 @@ class source_reader_t(object):
         generated ids with references to declarations or type class instances.
     """
 
-    def __init__(self, config, cache=None, decl_factory=None, join_decls=True):
+    def __init__(self, configuration, cache=None, decl_factory=None):
         """
-        :param config: Instance of :class:`xml_generator_configuration_t`
+        :param configuration:
+                       Instance of :class:`xml_generator_configuration_t`
                        class, that contains GCC-XML or CastXML configuration.
 
         :param cache: Reference to cache object, that will be updated after a
@@ -75,21 +54,14 @@ class source_reader_t(object):
                              declarations factory( :class:`decl_factory_t` )
                              will be used.
 
-        :param join_decls: Skip the joining of the declarations for the file.
-                           This can then be done once, in the case where
-                           there are multiple files, for example in the
-                           project_reader. Is True per default.
-        :type boolean
-
         """
 
         self.logger = utils.loggers.cxx_parser
-        self.__join_decls = join_decls
         self.__search_directories = []
-        self.__config = config
-        self.__cxx_std = utils.cxx_standard(config.cflags)
-        self.__search_directories.append(config.working_directory)
-        self.__search_directories.extend(config.include_paths)
+        self.__config = configuration
+        self.__cxx_std = utils.cxx_standard(configuration.cflags)
+        self.__search_directories.append(configuration.working_directory)
+        self.__search_directories.extend(configuration.include_paths)
         if not cache:
             cache = declarations_cache.dummy_cache_t()
         self.__dcache = cache
@@ -97,6 +69,18 @@ class source_reader_t(object):
         self.__decl_factory = decl_factory
         if not decl_factory:
             self.__decl_factory = declarations.decl_factory_t()
+        self.__xml_generator_from_xml_file = None
+
+    @property
+    def xml_generator_from_xml_file(self):
+        """
+        Configuration object containing information about the xml generator
+        read from the xml file.
+
+        Returns:
+            utils.xml_generators: configuration object
+        """
+        return self.__xml_generator_from_xml_file
 
     def __create_command_line(self, source_file, xml_file):
         """
@@ -110,52 +94,31 @@ class source_reader_t(object):
         """
 
         if self.__config.xml_generator == "gccxml":
-
-            # Check if the gccxml which is being used is not the gccxml
-            # package that exists in newer debian versions, and which is
-            # a wrapper around CastXML. I do not want to support this hybrid
-            # package because it can mislead pygccxml by applying patches
-            # for gccxml when in fact we are using CastXML. People can still
-            # use the gccxml.real binary from the gccxml package; or CastXML
-            # directly.
-            p = subprocess.Popen([self.__config.xml_generator_path],
-                                 stdout=subprocess.PIPE,
-                                 stderr=subprocess.PIPE)
-            help = p.stdout.read().decode("utf-8")
-            p.stdout.close()
-            p.stderr.close()
-            if "CastXML wrapper" in help:
-                raise RuntimeError(
-                    "You are using the gccxml debian package, which is a " +
-                    "wrapper around CastXML. This is not allowed.\n" +
-                    "Please use the gccxml.real binary from that package, "
-                    "or use CastXML directly (which is recommended, as GCCXML "
-                    "is now deprecated).")
-
             return self.__create_command_line_gccxml(source_file, xml_file)
         elif self.__config.xml_generator == "castxml":
             return self.__create_command_line_castxml(source_file, xml_file)
 
-    def __create_command_line_castxml(self, source_file, xmlfile):
+    def __create_command_line_common(self):
         assert isinstance(self.__config, config.xml_generator_configuration_t)
 
         cmd = []
 
-        # first is gccxml executable
-        if platform.system() == 'Windows':
-            cmd.append('"%s"' % os.path.normpath(
-                self.__config.xml_generator_path))
-        else:
-            cmd.append('%s' % os.path.normpath(
-                self.__config.xml_generator_path))
+        # Add xml generator executable (between "" for windows)
+        cmd.append('"%s"' % os.path.normpath(self.__config.xml_generator_path))
 
-        # Add all cflags passed
+        # Add all passed cflags
         if self.__config.cflags != "":
             cmd.append(" %s " % self.__config.cflags)
 
         # Add additional includes directories
         dirs = self.__search_directories
-        cmd.append(''.join([' -I%s' % search_dir for search_dir in dirs]))
+        cmd.append(''.join([' -I"%s"' % search_dir for search_dir in dirs]))
+
+        return cmd
+
+    def __create_command_line_castxml(self, source_file, xmlfile):
+
+        cmd = self.__create_command_line_common()
 
         # Clang option: -c Only run preprocess, compile, and assemble steps
         cmd.append("-c")
@@ -181,8 +144,8 @@ class source_reader_t(object):
                 # We are using msvc
                 cmd.append('--castxml-cc-msvc ' +
                            '"%s"' % self.__config.compiler_path)
-                if 'msvc9' == self.__config.compiler:
-                    cmd.append('-D"_HAS_TR1=0"')
+                if self.__config.compiler == 'msvc9':
+                    cmd.append('"-D_HAS_TR1=0"')
         else:
 
             # On mac or linux, use gcc or clang (the flag is the same)
@@ -199,9 +162,18 @@ class source_reader_t(object):
             else:
                 cmd.append(self.__config.compiler_path)
 
-        # Tell castxml to output xml compatible files with gccxml
-        # so that we can parse them with pygccxml
-        cmd.append('--castxml-gccxml')
+        if self.__config.castxml_epic_version is not None:
+            if self.__config.castxml_epic_version != 1:
+                raise RuntimeError(
+                    "The CastXML epic version can only be 1, "
+                    "but it was " + str(self.__config.castxml_epic_version))
+            # Tell castxml to output xml file with a specific epic version
+            cmd.append(
+                '--castxml-output=' + str(self.__config.castxml_epic_version))
+        else:
+            # Tell castxml to output xml files that are backward compatible
+            # with the format from gccxml
+            cmd.append('--castxml-gccxml')
 
         # Add symbols
         cmd = self.__add_symbols(cmd)
@@ -216,27 +188,35 @@ class source_reader_t(object):
                 '--castxml-start "%s"' %
                 ','.join(self.__config.start_with_declarations))
         cmd_line = ' '.join(cmd)
-        self.logger.debug('castxml cmd: %s' % cmd_line)
+        self.logger.debug('castxml cmd: %s', cmd_line)
         return cmd_line
 
     def __create_command_line_gccxml(self, source_file, xmlfile):
-        assert isinstance(self.__config, config.xml_generator_configuration_t)
-        # returns
-        cmd = []
-        # first is gccxml executable
-        if 'nt' == os.name:
-            cmd.append('"%s"' % os.path.normpath(
-                self.__config.xml_generator_path))
-        else:
-            cmd.append('%s' % os.path.normpath(
-                self.__config.xml_generator_path))
 
-        # Add all cflags passed
-        if self.__config.cflags != "":
-            cmd.append(" %s " % self.__config.cflags)
-        # second all additional includes directories
-        dirs = self.__search_directories
-        cmd.append(''.join([' -I"%s"' % search_dir for search_dir in dirs]))
+        if platform.system() == "Linux":
+            # Check if the gccxml which is being used is not the gccxml
+            # package that exists in newer debian versions, and which is
+            # a wrapper around CastXML. I do not want to support this hybrid
+            # package because it can mislead pygccxml by applying patches
+            # for gccxml when in fact we are using CastXML. People can still
+            # use the gccxml.real binary from the gccxml package; or CastXML
+            # directly.
+            p = subprocess.Popen([self.__config.xml_generator_path],
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.PIPE)
+            help_str = p.stdout.read().decode("utf-8")
+            p.wait()
+            p.stdout.close()
+            p.stderr.close()
+            if "CastXML wrapper" in help_str:
+                raise RuntimeError(
+                    "You are using the gccxml debian package, which is a " +
+                    "wrapper around CastXML. This is not allowed.\n" +
+                    "Please use the gccxml.real binary from that package, "
+                    "or use CastXML directly (which is recommended, as GCCXML "
+                    "is now deprecated).")
+
+        cmd = self.__create_command_line_common()
 
         # Add symbols
         cmd = self.__add_symbols(cmd)
@@ -254,7 +234,7 @@ class source_reader_t(object):
         if self.__config.compiler:
             cmd.append(" --gccxml-compiler %s" % self.__config.compiler)
         cmd_line = ' '.join(cmd)
-        self.logger.debug('gccxml cmd: %s' % cmd_line)
+        self.logger.debug('gccxml cmd: %s', cmd_line)
         return cmd_line
 
     def __add_symbols(self, cmd):
@@ -266,13 +246,12 @@ class source_reader_t(object):
         if self.__config.define_symbols:
             symbols = self.__config.define_symbols
             cmd.append(''.join(
-                [' -D"%s"' % defined_symbol for defined_symbol in symbols]))
+                [' -D"%s"' % def_symbol for def_symbol in symbols]))
 
         if self.__config.undefine_symbols:
             un_symbols = self.__config.undefine_symbols
-            cmd.append(
-                ''.join([' -U"%s"' % undefined_symbol for
-                        undefined_symbol in un_symbols]))
+            cmd.append(''.join(
+                [' -U"%s"' % undef_symbol for undef_symbol in un_symbols]))
 
         return cmd
 
@@ -300,19 +279,18 @@ class source_reader_t(object):
             utils.remove_file_no_raise(xml_file, self.__config)
         else:
             xml_file = utils.create_temp_file_name(suffix='.xml')
+
+        ffname = source_file
+        if not os.path.isabs(ffname):
+            ffname = self.__file_full_name(source_file)
+        command_line = self.__create_command_line(ffname, xml_file)
+
+        process = subprocess.Popen(
+            args=command_line,
+            shell=True,
+            stdout=subprocess.PIPE)
+
         try:
-            ffname = source_file
-            if not os.path.isabs(ffname):
-                ffname = self.__file_full_name(source_file)
-            command_line = self.__create_command_line(ffname, xml_file)
-
-            process = subprocess.Popen(
-                args=command_line,
-                shell=True,
-                stdin=subprocess.PIPE,
-                stdout=subprocess.PIPE)
-            process.stdin.close()
-
             gccxml_reports = []
             while process.poll() is None:
                 line = process.stdout.readline()
@@ -344,10 +322,12 @@ class source_reader_t(object):
                             "Error occurred while running " +
                             self.__config.xml_generator.upper() +
                             ": %s status:%s" % (gccxml_msg, exit_status))
-
         except Exception:
             utils.remove_file_no_raise(xml_file, self.__config)
             raise
+        finally:
+            process.wait()
+            process.stdout.close()
         return xml_file
 
     def create_xml_file_from_string(self, content, destination=None):
@@ -387,7 +367,7 @@ class source_reader_t(object):
         xml_file = ''
         try:
             ffname = self.__file_full_name(source_file)
-            self.logger.debug("Reading source file: [%s]." % ffname)
+            self.logger.debug("Reading source file: [%s].", ffname)
             decls = self.__dcache.cached_value(ffname, self.__config)
             if not decls:
                 self.logger.debug(
@@ -397,9 +377,9 @@ class source_reader_t(object):
                 self.__dcache.update(
                     ffname, self.__config, decls, files)
             else:
-                self.logger.debug(
-                    ("File has not been changed, reading declarations " +
-                        "from cache."))
+                self.logger.debug((
+                    "File has not been changed, reading declarations " +
+                    "from cache."))
         except Exception:
             if xml_file:
                 utils.remove_file_no_raise(xml_file, self.__config)
@@ -420,14 +400,14 @@ class source_reader_t(object):
 
         """
 
-        assert(self.__config is not None)
+        assert self.__config is not None
 
         ffname = self.__file_full_name(xml_file)
-        self.logger.debug("Reading xml file: [%s]" % xml_file)
+        self.logger.debug("Reading xml file: [%s]", xml_file)
         decls = self.__dcache.cached_value(ffname, self.__config)
         if not decls:
             self.logger.debug("File has not been found in cache, parsing...")
-            decls, files = self.__parse_xml_file(ffname)
+            decls, _ = self.__parse_xml_file(ffname)
             self.__dcache.update(ffname, self.__config, decls, [])
         else:
             self.logger.debug(
@@ -455,40 +435,30 @@ class source_reader_t(object):
 
         return decls
 
-    def __file_full_name(self, file):
-        if os.path.isfile(file):
-            return file
+    def __file_full_name(self, file_):
+        if os.path.isfile(file_):
+            return file_
         for path in self.__search_directories:
-            file_path = os.path.join(path, file)
+            file_path = os.path.join(path, file_)
             if os.path.isfile(file_path):
                 return file_path
-        raise RuntimeError("pygccxml error: file '%s' does not exist" % file)
-
-    def __produce_full_file(self, file_path):
-        if os.name in ['nt', 'posix']:
-            file_path = file_path.replace(r'\/', os.path.sep)
-        if os.path.isabs(file_path):
-            return file_path
-        abs_file_path = os.path.realpath(
-            os.path.join(self.__config.working_directory, file_path))
-        if os.path.exists(abs_file_path):
-            return os.path.normpath(abs_file_path)
-        return file_path
+        raise RuntimeError("pygccxml error: file '%s' does not exist" % file_)
 
     def __parse_xml_file(self, xml_file):
         scanner_ = scanner_t(xml_file, self.__decl_factory, self.__config)
         scanner_.read()
+        self.__xml_generator_from_xml_file = \
+            scanner_.xml_generator_from_xml_file
         decls = scanner_.declarations()
         types = scanner_.types()
-        files = {}
-        for file_id, file_path in scanner_.files().items():
-            files[file_id] = self.__produce_full_file(file_path)
+        files = scanner_.files()
         linker_ = linker.linker_t(
             decls=decls,
             types=types,
             access=scanner_.access(),
             membership=scanner_.members(),
-            files=files)
+            files=files,
+            xml_generator_from_xml_file=self.__xml_generator_from_xml_file)
         for type_ in list(types.values()):
             # I need this copy because internaly linker change types collection
             linker_.instance = type_
@@ -496,100 +466,41 @@ class source_reader_t(object):
         for decl in decls.values():
             linker_.instance = decl
             declarations.apply_visitor(linker_, decl)
-        bind_aliases(iter(decls.values()))
+        declarations_joiner.bind_aliases(iter(decls.values()))
 
-        # Join declarations
-        if self.__join_decls:
-            for ns in iter(decls.values()):
-                if isinstance(ns, declarations.namespace_t):
-                    self.join_declarations(ns)
+        # Patch the declarations tree
+        if self.__xml_generator_from_xml_file.is_castxml:
+            patcher.update_unnamed_class(decls.values())
+        patcher.fix_calldef_decls(
+            scanner_.calldefs(), scanner_.enums(), self.__cxx_std)
 
-        # some times gccxml report typedefs defined in no namespace
-        # it happens for example in next situation
-        # template< typename X>
-        # void ddd(){ typedef typename X::Y YY;}
-        # if I will fail on this bug next time, the right way to fix it may be
-        # different
-        patcher.fix_calldef_decls(scanner_.calldefs(), scanner_.enums(),
-                                  self.__cxx_std)
-        decls = [
-            inst for inst in iter(
-                decls.values()) if isinstance(
-                inst,
-                declarations.namespace_t) and not inst.parent]
+        decls = [inst for inst in iter(decls.values()) if self.__check(inst)]
         return decls, list(files.values())
 
-    def join_declarations(self, declref):
-        self._join_namespaces(declref)
-        for ns in declref.declarations:
-            if isinstance(ns, declarations.namespace_t):
-                self.join_declarations(ns)
-
     @staticmethod
-    def _join_namespaces(nsref):
-        assert isinstance(nsref, declarations.namespace_t)
-        ddhash = {}
-        decls = []
+    def __check(inst):
+        return isinstance(inst, declarations.namespace_t) and not inst.parent
 
-        for decl in nsref.declarations:
-            if decl.__class__ not in ddhash:
-                ddhash[decl.__class__] = {decl._name: [decl]}
-                decls.append(decl)
-            else:
-                joined_decls = ddhash[decl.__class__]
-                if decl._name not in joined_decls:
-                    decls.append(decl)
-                    joined_decls[decl._name] = [decl]
-                else:
-                    if isinstance(decl, declarations.calldef_t):
-                        if decl not in joined_decls[decl._name]:
-                            # functions has overloading
-                            decls.append(decl)
-                            joined_decls[decl._name].append(decl)
-                    elif isinstance(decl, declarations.enumeration_t):
-                        # unnamed enums
-                        if not decl.name and decl not in \
-                                joined_decls[decl._name]:
-                            decls.append(decl)
-                            joined_decls[decl._name].append(decl)
-                    elif isinstance(decl, declarations.class_t):
-                        # unnamed classes
-                        if not decl.name and decl not in \
-                                joined_decls[decl._name]:
-                            decls.append(decl)
-                            joined_decls[decl._name].append(decl)
-                    else:
-                        assert 1 == len(joined_decls[decl._name])
-                        if isinstance(decl, declarations.namespace_t):
-                            joined_decls[decl._name][0].take_parenting(decl)
+    def join_declarations(self, namespace):
+        # pylint: disable=R0201
+        warnings.warn(
+            "The join_declarations method is deprecated", DeprecationWarning)
+        # Deprecated since 1.9.0, will be removed in 2.0.0
+        declarations_joiner.join_declarations(namespace)
 
-        class_t = declarations.class_t
-        class_declaration_t = declarations.class_declaration_t
-        if class_t in ddhash and class_declaration_t in ddhash:
-            # if there is a class and its forward declaration - get rid of the
-            # second one.
-            class_names = set()
-            for name, same_name_classes in ddhash[class_t].items():
-                if not name:
-                    continue
-                if "GCC" in utils.xml_generator:
-                    class_names.add(same_name_classes[0].mangled)
-                elif "CastXML" in utils.xml_generator:
-                    class_names.add(same_name_classes[0].name)
 
-            class_declarations = ddhash[class_declaration_t]
-            for name, same_name_class_declarations in \
-                    class_declarations.items():
-                if not name:
-                    continue
-                for class_declaration in same_name_class_declarations:
-                    if "GCC" in utils.xml_generator:
-                        if class_declaration.mangled and \
-                                class_declaration.mangled in class_names:
-                                decls.remove(class_declaration)
-                    elif "CastXML" in utils.xml_generator:
-                        if class_declaration.name and \
-                                class_declaration.name in class_names:
-                                decls.remove(class_declaration)
+def bind_aliases(decls):
+    """
+    This function binds between class and it's typedefs.
 
-        nsref.declarations = decls
+    Deprecated since 1.9.0, will be removed in 2.0.0
+
+    :param decls: list of all declarations
+
+    :rtype: None
+
+    """
+    warnings.warn(
+        "The bind_aliases function is deprecated", DeprecationWarning)
+
+    declarations_joiner.bind_aliases(decls)
