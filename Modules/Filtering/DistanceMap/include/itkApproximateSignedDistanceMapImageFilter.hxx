@@ -59,8 +59,8 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
     maximumDistance += outputSize[i] * outputSize[i];
     }
 
-  // Cast to float and back because there's no sqrt defined for unsigned long
-  // double, which is the general SizeValueType.
+  // Cast to double and back because there's no sqrt defined for unsigned long,
+  // which is the general SizeValueType.
   maximumDistance =
     static_cast< OutputSizeValueType >( std::sqrt( static_cast< double >( maximumDistance ) ) );
 
@@ -77,7 +77,9 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   m_IsoContourFilter->SetInput( this->GetInput() );
   m_IsoContourFilter->SetFarValue(maximumDistance + 1);
   m_IsoContourFilter->SetNumberOfThreads( numberOfThreads );
-  InputPixelType levelSetValue = ( m_InsideValue + m_OutsideValue ) / 2;
+  typename IsoContourType::PixelRealType levelSetValue =
+    (static_cast<typename IsoContourType::PixelRealType>( m_InsideValue )
+    + static_cast<typename IsoContourType::PixelRealType>(m_OutsideValue) ) / 2.0;
   m_IsoContourFilter->SetLevelSetValue(levelSetValue);
 
   // Set up the chamfer filter
@@ -98,7 +100,7 @@ ApproximateSignedDistanceMapImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( m_ChamferFilter->GetOutput() );
 
   // Recall that we set the isocontour value to halfway between the inside and
-  // oustide value. The above filters assume that regions "inside" objects are
+  // outside value. The above filters assume that regions "inside" objects are
   // those with values *less* than the isocontour. This assumption is violated
   // if the "inside" intensity value is greater than the "outside" value.
   // (E.g. in the case that we're computing the distance from a mask where the

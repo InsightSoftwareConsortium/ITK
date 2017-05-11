@@ -20,7 +20,6 @@
 
 #include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
-#include "itkNumericTraits.h"
 #include "itkIndex.h"
 
 namespace itk
@@ -167,7 +166,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
 
   PixelType negFarValue = -m_FarValue;
 
-  //Initialize output image. Thi needs to be done regardless of the
+  // Initialize output image. This needs to be done regardless of the
   // NarrowBanding or Full implementation
   while ( !inIt.IsAtEnd() )
     {
@@ -308,10 +307,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
                unsigned int center,
                const std::vector< OffsetValueType >& stride )
 {
-  typedef typename NumericTraits<PixelType>::RealType PixelRealType;
-
-  PixelRealType val0 = static_cast< PixelRealType >( inNeigIt.GetPixel(center) )
-      - static_cast< PixelRealType >( m_LevelSetValue );
+  PixelRealType val0 = static_cast< PixelRealType >( inNeigIt.GetPixel(center) ) - m_LevelSetValue;
   bool sign = ( val0 > 0 );
 
   PixelRealType grad0[ImageDimension];
@@ -326,7 +322,7 @@ IsoContourDistanceImageFilter< TInputImage, TOutputImage >
   for ( unsigned int n = 0; n < ImageDimension; n++ )
     {
     PixelRealType val1 =  static_cast< PixelRealType >( inNeigIt.GetPixel(center + stride[n]) )
-        - static_cast< PixelRealType >( m_LevelSetValue );
+        - m_LevelSetValue;
 
     bool neighSign = ( val1 > 0 );
 

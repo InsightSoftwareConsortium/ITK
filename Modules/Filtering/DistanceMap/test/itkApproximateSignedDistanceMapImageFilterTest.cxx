@@ -17,8 +17,8 @@
  *=========================================================================*/
 
 #include "itkApproximateSignedDistanceMapImageFilter.h"
-#include "itkRescaleIntensityImageFilter.h"
-
+#include "itkShiftScaleImageFilter.h"
+#include "itkTestingMacros.h"
 #include "itkImageFileWriter.h"
 
 namespace{
@@ -45,25 +45,25 @@ SimpleSignedDistance( const TPoint & p )
 
 int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
 {
-  if(argc < 2)
+  if(argc < 3)
     {
-    std::cerr << "Usage: " << argv[0] << " OutputImage\n";
+    std::cerr << "Usage: " << argv[0] << " InsideValue OutputImage\n";
     return EXIT_FAILURE;
     }
 
   const unsigned int ImageDimension = 2;
   typedef unsigned int  InputPixelType;
-  typedef float         OutputPixelType;
-  typedef unsigned char WriterPixelType;
+  typedef float         PixelType;
+  typedef short         OutputPixelType;
 
   typedef itk::Image<InputPixelType,ImageDimension>  InputImageType;
+  typedef itk::Image<PixelType,ImageDimension>       ImageType;
   typedef itk::Image<OutputPixelType,ImageDimension> OutputImageType;
-  typedef itk::Image<WriterPixelType,ImageDimension> WriterImageType;
   typedef itk::Point<double,ImageDimension>          PointType;
 
   // Make a binary input image based on the signed distance function
   // using the inside and outside values
-  const InputPixelType InsideValue = 100;
+  const InputPixelType InsideValue  = atoi( argv[1] );
   const InputPixelType OutsideValue = 0;
 
   InputImageType::Pointer image = InputImageType::New();
@@ -88,38 +88,32 @@ int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
 
 
   // Set up  image filter
-  typedef itk::ApproximateSignedDistanceMapImageFilter<InputImageType,OutputImageType> DistanceType;
+  typedef itk::ApproximateSignedDistanceMapImageFilter<InputImageType,ImageType> DistanceType;
   DistanceType::Pointer distance = DistanceType::New();
   distance->SetInput( image );
-  distance->SetInsideValue(InsideValue);
-  if( distance->GetInsideValue() != InsideValue )
-    {
-    std::cerr <<"distance->GetInsideValue() != InsideValue" <<std::endl;
-    return EXIT_FAILURE;
-    }
-  distance->SetOutsideValue(OutsideValue);
-  if( distance->GetOutsideValue() != OutsideValue )
-    {
-    std::cerr <<"distance->GetOutsideValue() != OutsideValue" <<std::endl;
-    return EXIT_FAILURE;
-    }
-
+  distance->SetInsideValue( InsideValue );
+  distance->SetOutsideValue( OutsideValue );
+  TEST_SET_GET_VALUE( InsideValue, distance->GetInsideValue() );
+  TEST_SET_GET_VALUE( OutsideValue, distance->GetOutsideValue() );
 
   try
     {
 
     distance->Update();
 
-    typedef itk::RescaleIntensityImageFilter<OutputImageType, WriterImageType> RescaleType;
+    typedef itk::ShiftScaleImageFilter< ImageType, OutputImageType >  RescaleType;
     RescaleType::Pointer rescale = RescaleType::New();
-    rescale->SetInput(distance->GetOutput());
-    rescale->SetOutputMinimum(0);
-    rescale->SetOutputMaximum(255);
-
-    typedef itk::ImageFileWriter<WriterImageType> OutputWriterType;
+    rescale->SetInput( distance->GetOutput() );
+    rescale->SetScale( 1000 );
+    rescale->Update();
+    if( rescale->GetUnderflowCount() + rescale->GetOverflowCount() > 0 )
+      {
+        std::cerr << "Under-/overflow when scaling distances before writing distance map to disc." << std::endl;
+      }
+    typedef itk::ImageFileWriter<OutputImageType> OutputWriterType;
     OutputWriterType::Pointer owriter = OutputWriterType::New();
     owriter->SetInput( rescale->GetOutput() );
-    owriter->SetFileName( argv[1] );
+    owriter->SetFileName( argv[2] );
     owriter->Update();
     }
   catch (itk::ExceptionObject &err)
@@ -128,11 +122,11 @@ int itkApproximateSignedDistanceMapImageFilterTest(int argc, char* argv[] )
       return EXIT_FAILURE;
     }
 
-  OutputPixelType maxDeviation = 0;
+  PixelType maxDeviation = 0;
 
-  typedef itk::ImageRegionConstIteratorWithIndex<OutputImageType> OutputIterator;
+  typedef itk::ImageRegionConstIteratorWithIndex<ImageType> OutputIterator;
   OutputIterator oiter( distance->GetOutput(),
-                       distance->GetOutput()->GetLargestPossibleRegion() );
+                        distance->GetOutput()->GetLargestPossibleRegion() );
   oiter.GoToBegin();
 
   while( !oiter.IsAtEnd() )

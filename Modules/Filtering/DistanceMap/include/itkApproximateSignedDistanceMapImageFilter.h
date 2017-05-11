@@ -55,7 +55,7 @@ namespace itk
  * an extra iteration through the image is required.
  *
  * This filter uses the FastChamferDistanceImageFilter and the
- * IsoContourDistanceImageFilter inernally to perform the distance calculations.
+ * IsoContourDistanceImageFilter internally to perform the distance calculations.
  *
  * \sa DanielssonDistanceMapImageFilter
  * \sa SignedDanielssonDistanceMapImageFilter
@@ -67,7 +67,7 @@ namespace itk
  * \ingroup ITKDistanceMap
  *
  * \wiki
- * \wikiexample{ImageProcessing/ApproximateSignedDistanceMapImageFilter,Compute a distance map from objects in a binary image}
+ * \wikiexample{ImageProcessing/ApproximateSignedDistanceMapImageFilter, Compute a distance map from objects in a binary image}
  * \endwiki
  */
 
