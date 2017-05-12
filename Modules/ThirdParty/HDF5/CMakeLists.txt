@@ -5,6 +5,21 @@ if (BUILD_SHARED_LIBS)
    add_definitions(-DH5_BUILT_AS_DYNAMIC_LIB=1)
 endif()
 if(ITK_USE_SYSTEM_HDF5)
+
+  if(HDF5_DIR)
+    # When ITK's config is loaded, load HDF5 too.
+    set(ITKHDF5_EXPORT_CODE_INSTALL "
+set(HDF5_DIR \"${HDF5_DIR}\")
+find_package(HDF5 REQUIRED NO_MODULE)
+")
+    set(ITKHDF5_EXPORT_CODE_BUILD "
+if(NOT ITK_BINARY_DIR)
+  set(HDF5_DIR \"${HDF5_DIR}\")
+  find_package(HDF5 REQUIRED NO_MODULE)
+endif()
+")
+  endif()
+
   set(ITKHDF5_LIBRARIES )
   if(BUILD_SHARED_LIBS)
     list(APPEND ITKHDF5_LIBRARIES ${HDF5_C_SHARED_LIBRARY} ${HDF5_CXX_SHARED_LIBRARY})
