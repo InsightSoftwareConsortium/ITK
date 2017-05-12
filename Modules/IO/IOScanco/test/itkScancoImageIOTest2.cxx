@@ -26,15 +26,15 @@
 #define SPECIFIC_IMAGEIO_MODULE_TEST
 
 int
-itkScancoImageIOTest(int argc, char * argv[])
+itkScancoImageIOTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
     std::cerr << "Usage: " << argv[0] << " Input Output \n";
     return EXIT_FAILURE;
   }
-  const char * inputFileName = argv[1];
-  const char * outputFileName = argv[2];
+  const std::string inputFileName = argv[1];
+  const std::string outputFileName = argv[2];
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
@@ -47,45 +47,27 @@ itkScancoImageIOTest(int argc, char * argv[])
 
   // force use of ScancoIO
   typedef itk::ScancoImageIO IOType;
-  IOType::Pointer            scancoInput = IOType::New();
-  reader->SetImageIO(scancoInput);
-
-  // check usability of dimension (for coverage)
-  if (!scancoInput->SupportsDimension(3))
-  {
-    std::cerr << "Did not support dimension 3" << std::endl;
-    return EXIT_FAILURE;
-  }
+  IOType::Pointer            scancoIO = IOType::New();
+  reader->SetImageIO(scancoIO);
 
   // read the file
   reader->SetFileName(inputFileName);
-  try
-  {
-    reader->Update();
-  }
-  catch (itk::ExceptionObject & error)
-  {
-    std::cerr << "Exception in the file reader " << std::endl;
-    std::cerr << error << std::endl;
-    if (argc == 3) // should fail
-    {
-      return EXIT_SUCCESS;
-    }
-    return EXIT_FAILURE;
-  }
-
+  TRY_EXPECT_NO_EXCEPTION(reader->Update());
   ImageType::Pointer image = reader->GetOutput();
   image->Print(std::cout);
 
-  ImageType::RegionType region = image->GetLargestPossibleRegion();
-  std::cout << "region " << region;
+  TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
+
+  TEST_EXPECT_TRUE(!scancoIO->CanWriteFile((outputFileName + ".exe").c_str()));
 
   // Generate test image
   typedef itk::ImageFileWriter<ImageType> WriterType;
   WriterType::Pointer                     writer = WriterType::New();
+  // IOType::Pointer metaOut = IOType::New();
+  // writer->SetImageIO(metaOut);
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(outputFileName);
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  // TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

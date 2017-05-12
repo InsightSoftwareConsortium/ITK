@@ -36,6 +36,8 @@
 #include "itkMath.h"
 #include "itkIntTypes.h"
 
+#include <algorithm>
+
 namespace itk
 {
 
@@ -1108,26 +1110,20 @@ ScancoImageIO ::Read(void * buffer)
 bool
 ScancoImageIO ::CanWriteFile(const char * name)
 {
-  // std::string filename = name;
+  const std::string filename = name;
 
-  // if (  filename == "" )
-  //{
-  // return false;
-  // }
+  if (filename == "")
+  {
+    return false;
+  }
 
-  // std::string::size_type mhaPos = filename.rfind(".mha");
-  // if ( ( mhaPos != std::string::npos )
-  //&& ( mhaPos == filename.length() - 4 ) )
-  //{
-  // return true;
-  //}
-
-  // std::string::size_type mhdPos = filename.rfind(".mhd");
-  // if ( ( mhdPos != std::string::npos )
-  //&& ( mhdPos == filename.length() - 4 ) )
-  //{
-  // return true;
-  //}
+  std::string filenameLower = filename;
+  std::transform(filenameLower.begin(), filenameLower.end(), filenameLower.begin(), ::tolower);
+  std::string::size_type isqPos = filenameLower.rfind(".isq");
+  if ((isqPos != std::string::npos) && (isqPos == filename.length() - 4))
+  {
+    return true;
+  }
 
   return false;
 }
