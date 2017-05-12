@@ -15,6 +15,16 @@ foreach(p
 endforeach()
 
 project(ITK NONE)
+# Configure CMake variables that will be used in the module macros
+# ITK_USE_FILE is used when a remote module includes an example directory
+# that can be configured as an independent project.
+set(ITK_CONFIG_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
+set(ITK_USE_FILE "${ITK_CONFIG_CMAKE_DIR}/UseITK.cmake")
+# ITKInternalConfig.cmake is used to handle find_package(ITK) calls. This is useful
+# to remote module examples which are set up as independent projects that can be copied
+# outside of their original project and used without any modification.
+configure_file(CMake/ITKInternalConfig.cmake ${ITK_BINARY_DIR}/CMakeTmp/ITKConfig.cmake COPYONLY)
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKInitializeBuildType.cmake)
 enable_language(C)
 enable_language(CXX)
@@ -76,6 +86,7 @@ set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 set(ITK_VERSION_MAJOR "4")
 set(ITK_VERSION_MINOR "13")
 set(ITK_VERSION_PATCH "0")
+configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
 
 if(NOT ITK_INSTALL_RUNTIME_DIR)
   set(ITK_INSTALL_RUNTIME_DIR bin)
@@ -341,8 +352,7 @@ include(ITKModuleEnablement)
 # Generate ITKConfig.cmake for the build tree.
 set(ITK_CONFIG_CODE "
 set(ITK_MODULES_DIR \"${ITK_MODULES_DIR}\")")
-set(ITK_CONFIG_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
-set(ITK_USE_FILE "${ITK_CONFIG_CMAKE_DIR}/UseITK.cmake")
+
 set(ITK_CONFIG_TARGETS_CONDITION " AND NOT ITK_BINARY_DIR")
 set(ITK_CONFIG_TARGETS_FILE "${ITK_BINARY_DIR}/ITKTargets.cmake")
 set(ITK_CONFIG_MODULE_API_FILE "${ITK_SOURCE_DIR}/CMake/ITKModuleAPI.cmake")
@@ -379,8 +389,6 @@ configure_file(Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh.in
   Utilities/Maintenance/doSingleKWStyleUncrustifyFix.sh @ONLY)
 
 #-----------------------------------------------------------------------------
-configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
-
 install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
               ${ITK_BINARY_DIR}/ITKConfigVersion.cmake
               CMake/ITKModuleAPI.cmake

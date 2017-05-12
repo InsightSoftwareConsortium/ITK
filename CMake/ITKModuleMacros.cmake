@@ -335,6 +335,26 @@ macro(itk_module_test)
   endforeach()
 endmacro()
 
+macro(itk_module_examples)
+  cmake_dependent_option(Module_${itk-module}_BUILD_EXAMPLES "Build the examples" OFF "BUILD_EXAMPLES" OFF)
+  if(Module_${itk-module}_BUILD_EXAMPLES)
+    if(ITK_SOURCE_DIR)
+      # If configuration is done from within ITK,
+      # point to internal ITKConfig.cmake
+      set(ITK_DIR ${ITK_BINARY_DIR}/CMakeTmp)
+    endif()
+    # Adds example subdirectory
+    add_subdirectory( examples )
+    if(ITK_SOURCE_DIR)
+      # Cleanup ITK_DIR variable that is currently pointing to the directory
+      # containing the internal version of "ITKConfig.cmake". The clean-up could
+      # be done directly inside ITKInternalConfig.cmake but it would not be
+      # obvious that it is done and therefore the CMake code would not be easy to read.
+      unset(ITK_DIR)
+    endif()
+  endif()
+endmacro()
+
 macro(itk_module_warnings_disable)
   foreach(lang ${ARGN})
     if(MSVC)
