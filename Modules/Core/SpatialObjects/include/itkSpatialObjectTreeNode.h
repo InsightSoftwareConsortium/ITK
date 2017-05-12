@@ -24,8 +24,14 @@
 namespace itk
 {
 
-template< unsigned int TDimension >
+#ifdef __APPLE__
+template< unsigned int VDimension >
 class ITK_TEMPLATE_EXPORT SpatialObject;
+#else
+template< unsigned int VDimension >
+class SpatialObject;
+#endif
+
 
 /** \class SpatialObjectTreeNode
  * \brief TODO
