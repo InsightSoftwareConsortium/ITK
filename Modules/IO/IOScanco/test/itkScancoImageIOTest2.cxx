@@ -60,14 +60,17 @@ itkScancoImageIOTest2(int argc, char * argv[])
 
   TEST_EXPECT_TRUE(!scancoIO->CanWriteFile((outputFileName + ".exe").c_str()));
 
-  // Generate test image
-  typedef itk::ImageFileWriter<ImageType> WriterType;
-  WriterType::Pointer                     writer = WriterType::New();
-  // IOType::Pointer metaOut = IOType::New();
-  // writer->SetImageIO(metaOut);
-  writer->SetInput(reader->GetOutput());
-  writer->SetFileName(outputFileName);
-  // TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  scancoIO->SetFileName(outputFileName);
+  scancoIO->WriteImageInformation();
+
+  //// Generate test image
+  // typedef itk::ImageFileWriter< ImageType > WriterType;
+  // WriterType::Pointer writer = WriterType::New();
+  ////IOType::Pointer metaOut = IOType::New();
+  ////writer->SetImageIO(metaOut);
+  // writer->SetInput( reader->GetOutput() );
+  // writer->SetFileName( outputFileName );
+  ////TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   return EXIT_SUCCESS;
 }

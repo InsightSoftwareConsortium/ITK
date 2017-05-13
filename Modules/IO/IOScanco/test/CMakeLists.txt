@@ -23,9 +23,6 @@ itk_add_test(
   NAME itkScancoImageIOTest2
   COMMAND
     IOScancoTestDriver
-    --compare
-    ${CMAKE_CURRENT_SOURCE_DIR}/Baseline/C0003665.mha
-    ${ITK_TEST_OUTPUT_DIR}/C0003665.mha
     itkScancoImageIOTest2
     /home/matt/data/BPBPHumerus/00004180-phantom-2014.0620/C0003665.ISQ
     ${ITK_TEST_OUTPUT_DIR}/C0003665.isq

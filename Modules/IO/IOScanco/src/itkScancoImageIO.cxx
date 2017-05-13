@@ -57,11 +57,11 @@ ScancoImageIO ::ScancoImageIO()
   this->AddSupportedReadExtension(".rad");
   this->AddSupportedReadExtension(".aim");
 
-  this->RawHeader = 0;
+  this->m_RawHeader = 0;
 }
 
 
-ScancoImageIO ::~ScancoImageIO() { delete[] this->RawHeader; }
+ScancoImageIO ::~ScancoImageIO() { delete[] this->m_RawHeader; }
 
 
 void
@@ -290,7 +290,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     return 0;
   }
 
-  char * h = this->RawHeader;
+  char * h = this->m_RawHeader;
   ScancoImageIO::StripString(this->Version, h, 16);
   h += 16;
   int dataType = ScancoImageIO::DecodeInt(h);
@@ -478,9 +478,9 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   if (headerSize > bytesRead)
   {
     h = new char[headerSize];
-    memcpy(h, this->RawHeader, bytesRead);
-    delete[] this->RawHeader;
-    this->RawHeader = h;
+    memcpy(h, this->m_RawHeader, bytesRead);
+    delete[] this->m_RawHeader;
+    this->m_RawHeader = h;
     file->read(h + bytesRead, headerSize - bytesRead);
     if (static_cast<unsigned long>(file->gcount()) < headerSize - bytesRead)
     {
@@ -493,7 +493,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   {
     char * calHeader = 0;
     int    calHeaderSize = 0;
-    h = this->RawHeader + 512;
+    h = this->m_RawHeader + 512;
     unsigned long hskip = 1;
     char *        headerName = h + 8;
     if (strncmp(headerName, "MultiHeader     ", 16) == 0)
@@ -512,7 +512,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
       headerName = h + i * 128 + 8;
       if (strncmp(headerName, "Calibration     ", 16) == 0)
       {
-        calHeader = this->RawHeader + (1 + hskip) * 512;
+        calHeader = this->m_RawHeader + (1 + hskip) * 512;
         calHeaderSize = hsize * 512;
       }
       hskip += hsize;
@@ -552,7 +552,7 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
     return 0;
   }
 
-  char *        h = this->RawHeader;
+  char *        h = this->m_RawHeader;
   int           intSize = 0;
   unsigned long headerSize = 0;
   if (strcmp(h, "AIMDATA_V030   ") == 0)
@@ -585,10 +585,10 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
   if (headerSize > bytesRead)
   {
     h = new char[headerSize];
-    memcpy(h, this->RawHeader, bytesRead);
-    preheader = h + (preheader - this->RawHeader);
-    delete[] this->RawHeader;
-    this->RawHeader = h;
+    memcpy(h, this->m_RawHeader, bytesRead);
+    preheader = h + (preheader - this->m_RawHeader);
+    delete[] this->m_RawHeader;
+    this->m_RawHeader = h;
     file->read(h + bytesRead, headerSize - bytesRead);
     if (static_cast<unsigned long>(file->gcount()) < headerSize - bytesRead)
     {
@@ -896,14 +896,14 @@ ScancoImageIO ::ReadImageInformation()
   }
 
   // header is a 512 byte block
-  this->RawHeader = new char[512];
-  infile.read(this->RawHeader, 512);
+  this->m_RawHeader = new char[512];
+  infile.read(this->m_RawHeader, 512);
   int           fileType = 0;
   unsigned long bytesRead = 0;
   if (!infile.bad())
   {
     bytesRead = static_cast<unsigned long>(infile.gcount());
-    fileType = ScancoImageIO::CheckVersion(this->RawHeader);
+    fileType = ScancoImageIO::CheckVersion(this->m_RawHeader);
   }
 
   if (fileType == 0)
@@ -1130,133 +1130,31 @@ ScancoImageIO ::CanWriteFile(const char * name)
 
 
 void
-ScancoImageIO ::WriteImageInformation(void)
+ScancoImageIO ::WriteISQHeader(std::ofstream * file)
 {
-  // ScancoDataDictionary & metaDict = this->GetScancoDataDictionary();
-  // std::string          metaDataStr;
+  delete[] this->m_RawHeader;
+  this->m_RawHeader = new char[512];
+  char * header = this->m_RawHeader;
 
-  //// Look at default metaio fields
-  // if ( ExposeScancoData< std::string >(metaDict, ITK_VoxelUnits, metaDataStr) )
-  //{
-  //// Handle analyze style unit string
-  // if ( metaDataStr == "um. " )
-  //{
-  // m_ScancoImage.DistanceUnits(MET_DISTANCE_UNITS_UM);
-  // }
-  // else if ( metaDataStr == "mm. " )
-  //{
-  // m_ScancoImage.DistanceUnits(MET_DISTANCE_UNITS_MM);
-  // }
-  // else if ( metaDataStr == "cm. " )
-  //{
-  // m_ScancoImage.DistanceUnits(MET_DISTANCE_UNITS_CM);
-  // }
-  // else
-  //{
-  // m_ScancoImage.DistanceUnits( metaDataStr.c_str() );
-  // }
-  //}
+  memcpy(header, "CTDATA-HEADER_V1", 16);
 
-  // if ( ExposeScancoData< std::string >(metaDict, ITK_ExperimentDate, metaDataStr) )
-  //{
-  // m_ScancoImage.AcquisitionDate( metaDataStr.c_str() );
-  // }
+  file->write(this->m_RawHeader, 512);
+}
 
-  //// Save out the metadatadictionary key/value pairs as part of
-  //// the metaio header.
-  // std::vector< std::string > keys = metaDict.GetKeys();
-  // std::vector< std::string >::const_iterator keyIt;
-  // for ( keyIt = keys.begin(); keyIt != keys.end(); ++keyIt )
-  //{
-  // if(*keyIt == ITK_ExperimentDate ||
-  //*keyIt == ITK_VoxelUnits)
-  //{
-  // continue;
-  //}
-  //// try for common scalar types
-  // std::ostringstream strs;
-  // double dval=0.0;
-  // float fval=0.0F;
-  // long lval=0L;
-  // unsigned long ulval=0L;
-  // int ival=0;
-  // unsigned uval=0;
-  // short shval=0;
-  // unsigned short ushval=0;
-  // char cval=0;
-  // unsigned char ucval=0;
-  // bool bval=false;
-  // std::string value="";
-  // if(ExposeScancoData< std::string >(metaDict, *keyIt, value))
-  //{
-  // strs << value;
-  // }
-  // else if(ExposeScancoData<double>(metaDict,*keyIt,dval))
-  //{
-  // strs << dval;
-  // }
-  // else if(ExposeScancoData<float>(metaDict,*keyIt,fval))
-  //{
-  // strs << fval;
-  // }
-  // else if(ExposeScancoData<long>(metaDict,*keyIt,lval))
-  //{
-  // strs << lval;
-  // }
-  // else if(ExposeScancoData<unsigned long>(metaDict,*keyIt,ulval))
-  //{
-  // strs << ulval;
-  // }
-  // else if(ExposeScancoData<int>(metaDict,*keyIt,ival))
-  //{
-  // strs << ival;
-  // }
-  // else if(ExposeScancoData<unsigned int>(metaDict,*keyIt,uval))
-  //{
-  // strs << uval;
-  // }
-  // else if(ExposeScancoData<short>(metaDict,*keyIt,shval))
-  //{
-  // strs << shval;
-  // }
-  // else if(ExposeScancoData<unsigned short>(metaDict,*keyIt,ushval))
-  //{
-  // strs << ushval;
-  // }
-  // else if(ExposeScancoData<char>(metaDict,*keyIt,cval))
-  //{
-  // strs << cval;
-  // }
-  // else if(ExposeScancoData<unsigned char>(metaDict,*keyIt,ucval))
-  //{
-  // strs << ucval;
-  // }
-  // else if(ExposeScancoData<bool>(metaDict,*keyIt,bval))
-  //{
-  // strs << bval;
-  // }
 
-  // value = strs.str();
+void
+ScancoImageIO ::WriteImageInformation()
+{
+  if (this->m_FileName.empty())
+  {
+    itkExceptionMacro("FileName has not been set.");
+  }
 
-  // if (value == "" )
-  //{
-  //// if the value is an empty string then the resulting entry in
-  //// the header will not be able to be read the the metaIO
-  //// library, which results is a unreadable/corrupt file.
-  // itkWarningMacro("Unsupported or empty metaData item "
-  //<< *keyIt << " of type "
-  //<< metaDict[*keyIt]->GetScancoDataObjectTypeName()
-  //<< "found, won't be written to image file");
+  std::ofstream outfile(this->m_FileName.c_str(), std::ios::out | std::ios::binary);
 
-  //// so this entry should be skipped.
-  // continue;
-  // }
+  this->WriteISQHeader(&outfile);
 
-  //// Rolling this back out so that the tests pass.
-  //// The meta image AddUserField requires control of the memory space.
-  // m_ScancoImage.AddUserField( (*keyIt).c_str(), MET_STRING, static_cast<int>( value.size() ), value.c_str(), true, -1
-  // );
-  // }
+  outfile.close();
 }
 
 
