@@ -27,7 +27,7 @@ int itkNotImageFilterTest( int, char* [] )
   const unsigned int Dimension = 3;
 
   // Declare the types of the images
-  typedef bool                                PixelType;
+  typedef unsigned char                       PixelType;
 
   // Declare the types of the images
   typedef itk::Image< PixelType, Dimension >  InputImageType;
@@ -92,6 +92,14 @@ int itkNotImageFilterTest( int, char* [] )
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, NotImageFilter,
     UnaryFunctorImageFilter );
+
+  filter->SetForegroundValue(2);
+  TEST_SET_GET_VALUE( 2, filter->GetForegroundValue() );
+  filter->SetForegroundValue(1);
+
+  filter->SetBackgroundValue(10);
+  TEST_SET_GET_VALUE( 10, filter->GetBackgroundValue() );
+  filter->SetBackgroundValue(0);
 
   // Set the input images
   filter->SetInput( inputImage );

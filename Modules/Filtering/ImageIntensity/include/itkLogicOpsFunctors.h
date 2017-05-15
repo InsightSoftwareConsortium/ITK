@@ -211,6 +211,8 @@ public:
   }
 
 };
+
+
 /** \class Greater
  * \brief Functor for > operation on images and constants.
  *
@@ -219,7 +221,6 @@ public:
  *
  * \ingroup ITKImageIntensity
 */
-
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class Greater : public LogicOpBase<TInput1, TInput2, TOutput>
 {
@@ -244,6 +245,8 @@ public:
     return this->m_BackgroundValue;
   }
 };
+
+
 /** \class LessEqual
  * \brief Functor for <= operation on images and constants.
  *
@@ -252,7 +255,6 @@ public:
  *
  * \ingroup ITKImageIntensity
 */
-
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class LessEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
@@ -279,6 +281,8 @@ public:
   }
 
 };
+
+
 /** \class Less
  * \brief Functor for < operation on images and constants.
  *
@@ -287,7 +291,6 @@ public:
  *
  * \ingroup ITKImageIntensity
 */
-
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
 class Less : public LogicOpBase<TInput1, TInput2, TOutput>
 {
@@ -312,6 +315,38 @@ public:
     return this->m_BackgroundValue;
   }
 
+};
+
+
+/**
+ * \class NOT
+ * \brief Unary logical NOT functor
+ * \ingroup ITKImageIntensity
+ */
+template< typename TInput, typename TOutput = TInput >
+class NOT : public LogicOpBase<TInput, TInput, TOutput>
+{
+public:
+  NOT() {}
+  ~NOT() {}
+  bool operator!=(const NOT &) const
+  {
+    return false;
+  }
+
+  bool operator==(const NOT & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutput operator()(const TInput & A) const
+  {
+    if( !A )
+      {
+      return this->m_ForegroundValue;
+      }
+    return this->m_BackgroundValue;
+  }
 };
 
 

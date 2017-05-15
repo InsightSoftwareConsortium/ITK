@@ -19,47 +19,19 @@
 #define itkNotImageFilter_h
 
 #include "itkUnaryFunctorImageFilter.h"
+#include "itkLogicOpsFunctors.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class NOT
- * \brief Unary logical NOT functor
- * \ingroup ITKImageIntensity
- */
-template< typename TInput, typename TOutput = TInput >
-class NOT
-{
-public:
-  NOT() {}
-  ~NOT() {}
-  bool operator!=(const NOT &) const
-  {
-    return false;
-  }
-
-  bool operator==(const NOT & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput & A) const
-  {
-    return static_cast< TOutput >( !A );
-  }
-};
-}
 /** \class NotImageFilter
  * \brief Implements the NOT logical operator pixel-wise on an image.
  *
- * This class is templated over the types of an
+ * This class is templated over the type of an
  * input image and the type of the output image.
  * Numeric conversions (castings) are done by the C++ defaults.
  *
- * Since the logical NOT operation is operates only on boolean types,
+ * Since the logical NOT operation operates only on boolean types,
  * the input type must be implicitly convertible to bool, which is
  * only defined in C++ for integer types, the images passed to this
  * filter must comply with the requirement of using integer pixel type.
@@ -67,7 +39,11 @@ public:
  * The total operation over one pixel will be
  *
  * \code
- *  output_pixel = static_cast<OutputPixelType>( !input_pixel )
+ *   if( !A )
+ *     {
+ *     return this->m_ForegroundValue;
+ *     }
+ *   return this->m_BackgroundValue;
  * \endcode
  *
  * Where "!" is the unary Logical NOT operator in C++.
@@ -105,6 +81,40 @@ public:
   itkTypeMacro(NotImageFilter,
                UnaryFunctorImageFilter);
 
+  /** Set/Get the value used to mark the false pixels of the result of
+    * the operator. Defaults to 0 */
+  void SetBackgroundValue(const typename TOutputImage::PixelType & backgroundValue)
+  {
+    if ( Math::NotExactlyEquals(this->GetBackgroundValue(), backgroundValue) )
+      {
+      this->Modified();
+      this->GetFunctor().SetBackgroundValue(backgroundValue);
+      }
+  }
+  typename TOutputImage::PixelType GetBackgroundValue() const
+  {
+    return this->GetFunctor().GetBackgroundValue();
+  }
+
+
+  /** Set/Get the value used to mark the false pixels of the result of
+    * the operator. Defaults to 1 */
+  void SetForegroundValue(const typename TOutputImage::PixelType & foregroundValue)
+  {
+    std::cout << "this->GetForegroundValue(): " << this->GetForegroundValue()
+              <<  "  foregroundValue: " <<  foregroundValue << std::endl;
+    if ( Math::NotExactlyEquals(this->GetForegroundValue(), foregroundValue) )
+      {
+      this->Modified();
+      this->GetFunctor().SetForegroundValue(foregroundValue);
+      }
+  }
+  typename TOutputImage::PixelType GetForegroundValue() const
+  {
+    return this->GetFunctor().GetForegroundValue();
+  }
+
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro( InputConvertibleToOutputCheck,
@@ -119,7 +129,11 @@ public:
 #endif
 
 protected:
-  NotImageFilter() {}
+  NotImageFilter()
+  {
+    this->GetFunctor().SetForegroundValue(true);
+    this->GetFunctor().SetBackgroundValue(false);
+  }
   virtual ~NotImageFilter() {}
 
 private:
