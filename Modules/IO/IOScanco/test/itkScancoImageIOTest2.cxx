@@ -71,6 +71,8 @@ itkScancoImageIOTest2(int argc, char * argv[])
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -2715.0, 6, 1e-3));
   std::cout << "DataRange[1]: \t" << scancoIO->GetDataRange()[1] << std::endl;
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 32767.0, 6, 1e-3));
+  std::cout << "MuScaling: \t\t" << scancoIO->GetMuScaling() << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetMuScaling(), 4096.0, 6, 1e-3));
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
