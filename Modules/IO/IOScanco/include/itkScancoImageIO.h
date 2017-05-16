@@ -185,6 +185,9 @@ public:
   itkGetConstMacro(MuScaling, double);
   itkSetMacro(MuScaling, double);
 
+  itkGetConstMacro(NumberOfSamples, int);
+  itkSetMacro(NumberOfSamples, int);
+
 protected:
   ScancoImageIO();
   ~ScancoImageIO();
@@ -269,7 +272,7 @@ private:
   double ZPosition;
   double m_DataRange[2];
   double m_MuScaling;
-  int    NumberOfSamples;
+  int    m_NumberOfSamples;
   int    NumberOfProjections;
   double ScanDistance;
   double SampleTime;

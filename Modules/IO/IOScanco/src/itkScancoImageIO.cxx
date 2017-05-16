@@ -269,7 +269,7 @@ ScancoImageIO ::InitializeHeader()
   this->m_DataRange[0] = 0;
   this->m_DataRange[1] = 0;
   this->m_MuScaling = 1.0;
-  this->NumberOfSamples = 0;
+  this->m_NumberOfSamples = 0;
   this->NumberOfProjections = 0;
   this->ScanDistance = 0;
   this->SampleTime = 0;
@@ -404,7 +404,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     h += 4;
     this->m_MuScaling = ScancoImageIO::DecodeInt(h);
     h += 4;
-    this->NumberOfSamples = ScancoImageIO::DecodeInt(h);
+    this->m_NumberOfSamples = ScancoImageIO::DecodeInt(h);
     h += 4;
     this->NumberOfProjections = ScancoImageIO::DecodeInt(h);
     h += 4;
@@ -829,7 +829,7 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "No. samples")
       {
-        this->NumberOfSamples = strtol(value, 0, 10);
+        this->m_NumberOfSamples = strtol(value, 0, 10);
       }
       else if (skey == "No. projections per 180")
       {
@@ -1212,6 +1212,8 @@ ScancoImageIO ::WriteISQHeader(std::ofstream * file)
   ScancoImageIO::EncodeInt((int)(this->m_DataRange[1]), header);
   header += 4;
   ScancoImageIO::EncodeInt((int)(this->m_MuScaling), header);
+  header += 4;
+  ScancoImageIO::EncodeInt(this->m_NumberOfSamples, header);
   header += 4;
 
   file->write(this->m_RawHeader, 512);
