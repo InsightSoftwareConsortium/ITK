@@ -91,6 +91,10 @@ itkScancoImageIOTest2(int argc, char * argv[])
   TEST_EXPECT_EQUAL(scancoIO->GetReferenceLine(), 0);
   std::cout << "ReconstructionAlg: \t" << scancoIO->GetReconstructionAlg() << std::endl;
   TEST_EXPECT_EQUAL(scancoIO->GetReconstructionAlg(), 3);
+  std::cout << "Energy: \t\t" << scancoIO->GetEnergy() << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetEnergy(), 45.0, 6, 1e-3));
+  std::cout << "Intensity: \t\t" << scancoIO->GetIntensity() << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetIntensity(), 0.177, 6, 1e-3));
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
