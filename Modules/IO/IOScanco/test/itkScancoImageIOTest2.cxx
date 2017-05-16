@@ -67,6 +67,10 @@ itkScancoImageIOTest2(int argc, char * argv[])
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetSliceIncrement(), 0.036, 6, 1e-3));
   std::cout << "StartPosition: \t" << scancoIO->GetStartPosition() << std::endl;
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetStartPosition(), 75.0, 6, 1e-3));
+  std::cout << "DataRange[0]: \t" << scancoIO->GetDataRange()[0] << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -2715.0, 6, 1e-3));
+  std::cout << "DataRange[1]: \t" << scancoIO->GetDataRange()[1] << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 32767.0, 6, 1e-3));
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 

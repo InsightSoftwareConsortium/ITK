@@ -169,6 +169,19 @@ public:
   itkGetConstMacro(StartPosition, double);
   itkSetMacro(StartPosition, double);
 
+  /** Set / Get the minimum and maximum values */
+  const double *
+  GetDataRange() const
+  {
+    return this->m_DataRange;
+  }
+  void
+  SetDataRange(const double * dataRange)
+  {
+    this->m_DataRange[0] = dataRange[0];
+    this->m_DataRange[1] = dataRange[1];
+  }
+
 protected:
   ScancoImageIO();
   ~ScancoImageIO();
@@ -251,7 +264,7 @@ private:
   double m_StartPosition;
   double m_EndPosition;
   double ZPosition;
-  double DataRange[2];
+  double m_DataRange[2];
   double MuScaling;
   int    NumberOfSamples;
   int    NumberOfProjections;

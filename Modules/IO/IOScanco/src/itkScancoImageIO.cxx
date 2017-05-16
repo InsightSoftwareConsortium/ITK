@@ -266,8 +266,8 @@ ScancoImageIO ::InitializeHeader()
   this->m_StartPosition = 0;
   this->m_EndPosition = 0;
   this->ZPosition = 0;
-  this->DataRange[0] = 0;
-  this->DataRange[1] = 0;
+  this->m_DataRange[0] = 0;
+  this->m_DataRange[1] = 0;
   this->MuScaling = 1.0;
   this->NumberOfSamples = 0;
   this->NumberOfProjections = 0;
@@ -364,9 +364,9 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   {
     this->MeasurementIndex = ScancoImageIO::DecodeInt(h);
     h += 4;
-    this->DataRange[0] = ScancoImageIO::DecodeInt(h);
+    this->m_DataRange[0] = ScancoImageIO::DecodeInt(h);
     h += 4;
-    this->DataRange[1] = ScancoImageIO::DecodeInt(h);
+    this->m_DataRange[1] = ScancoImageIO::DecodeInt(h);
     h += 4;
     this->MuScaling = ScancoImageIO::DecodeInt(h);
     h += 4;
@@ -398,9 +398,9 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     this->m_StartPosition = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
     this->m_EndPosition = this->m_StartPosition + physdim[2] * 1e-3 * (pixdim[2] - 1) / pixdim[2];
-    this->DataRange[0] = ScancoImageIO::DecodeInt(h);
+    this->m_DataRange[0] = ScancoImageIO::DecodeInt(h);
     h += 4;
-    this->DataRange[1] = ScancoImageIO::DecodeInt(h);
+    this->m_DataRange[1] = ScancoImageIO::DecodeInt(h);
     h += 4;
     this->MuScaling = ScancoImageIO::DecodeInt(h);
     h += 4;
@@ -865,11 +865,11 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "Minimum data value")
       {
-        this->DataRange[0] = strtod(value, 0);
+        this->m_DataRange[0] = strtod(value, 0);
       }
       else if (skey == "Maximum data value")
       {
-        this->DataRange[1] = strtod(value, 0);
+        this->m_DataRange[1] = strtod(value, 0);
       }
       else if (skey == "Calib. default unit type")
       {
