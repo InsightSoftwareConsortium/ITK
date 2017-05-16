@@ -166,6 +166,9 @@ public:
   itkGetConstMacro(SliceIncrement, double);
   itkSetMacro(SliceIncrement, double);
 
+  itkGetConstMacro(StartPosition, double);
+  itkSetMacro(StartPosition, double);
+
 protected:
   ScancoImageIO();
   ~ScancoImageIO();
@@ -245,8 +248,8 @@ private:
   double ScanDimensionsPhysical[3];
   double m_SliceThickness;
   double m_SliceIncrement;
-  double StartPosition;
-  double EndPosition;
+  double m_StartPosition;
+  double m_EndPosition;
   double ZPosition;
   double DataRange[2];
   double MuScaling;
