@@ -245,7 +245,7 @@ ScancoImageIO ::InitializeHeader()
   this->ScanDimensionsPhysical[1] = 0;
   this->ScanDimensionsPhysical[2] = 0;
   this->m_PatientIndex = 0;
-  this->ScannerID = 0;
+  this->m_ScannerID = 0;
   this->SliceThickness = 0;
   this->SliceIncrement = 0;
   this->StartPosition = 0;
@@ -324,7 +324,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   /*int numBlocks = ScancoImageIO::DecodeInt(h);*/ h += 4;
   this->m_PatientIndex = ScancoImageIO::DecodeInt(h);
   h += 4;
-  this->ScannerID = ScancoImageIO::DecodeInt(h);
+  this->m_ScannerID = ScancoImageIO::DecodeInt(h);
   h += 4;
   int year, month, day, hour, minute, second, milli;
   ScancoImageIO::DecodeDate(h, year, month, day, hour, minute, second, milli);
@@ -801,7 +801,7 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "Scanner ID")
       {
-        this->ScannerID = strtol(value, 0, 10);
+        this->m_ScannerID = strtol(value, 0, 10);
       }
       else if (skey == "Scanner type")
       {
@@ -1169,6 +1169,8 @@ ScancoImageIO ::WriteISQHeader(std::ofstream * file)
   /*int numBytes = ScancoImageIO::DecodeInt(h);*/ header += 4;
   /*int numBlocks = ScancoImageIO::DecodeInt(h);*/ header += 4;
   ScancoImageIO::EncodeInt(this->m_PatientIndex, header);
+  header += 4;
+  ScancoImageIO::EncodeInt(this->m_ScannerID, header);
   header += 4;
 
   file->write(this->m_RawHeader, 512);

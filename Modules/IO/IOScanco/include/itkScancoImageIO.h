@@ -157,6 +157,8 @@ public:
   itkGetConstMacro(PatientIndex, int);
   itkSetMacro(PatientIndex, int);
 
+  itkGetConstMacro(ScannerID, int);
+  itkSetMacro(ScannerID, int);
 
 protected:
   ScancoImageIO();
@@ -227,7 +229,7 @@ private:
   char   m_Version[18];
   char   PatientName[42];
   int    m_PatientIndex;
-  int    ScannerID;
+  int    m_ScannerID;
   char   CreationDate[32];
   char   ModificationDate[32];
   int    ScanDimensionsPixels[3];
