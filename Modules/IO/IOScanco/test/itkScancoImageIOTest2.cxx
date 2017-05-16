@@ -54,7 +54,11 @@ itkScancoImageIOTest2(int argc, char * argv[])
   reader->SetFileName(inputFileName);
   TRY_EXPECT_NO_EXCEPTION(reader->Update());
   ImageType::Pointer image = reader->GetOutput();
-  image->Print(std::cout);
+
+  std::cout << "Version: \t\t" << scancoIO->GetVersion() << std::endl;
+  TEST_EXPECT_EQUAL(scancoIO->GetVersion(), std::string("CTDATA-HEADER_V1"));
+  std::cout << "PatientIndex: \t" << scancoIO->GetPatientIndex() << std::endl;
+  TEST_EXPECT_EQUAL(scancoIO->GetPatientIndex(), 78);
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
