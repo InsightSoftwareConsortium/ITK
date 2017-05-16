@@ -75,6 +75,8 @@ itkScancoImageIOTest2(int argc, char * argv[])
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetMuScaling(), 4096.0, 6, 1e-3));
   std::cout << "NumberOfSamples: \t" << scancoIO->GetNumberOfSamples() << std::endl;
   TEST_EXPECT_EQUAL(scancoIO->GetNumberOfSamples(), 1024);
+  std::cout << "NumberOfProjections: " << scancoIO->GetNumberOfProjections() << std::endl;
+  TEST_EXPECT_EQUAL(scancoIO->GetNumberOfProjections(), 500);
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
