@@ -61,6 +61,10 @@ itkScancoImageIOTest2(int argc, char * argv[])
   TEST_EXPECT_EQUAL(scancoIO->GetPatientIndex(), 78);
   std::cout << "ScannerID: \t\t" << scancoIO->GetScannerID() << std::endl;
   TEST_EXPECT_EQUAL(scancoIO->GetScannerID(), 2135);
+  std::cout << "SliceThickness: \t" << scancoIO->GetSliceThickness() << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetSliceThickness(), 0.036, 6, 1e-3));
+  std::cout << "SliceIncrement: \t" << scancoIO->GetSliceIncrement() << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetSliceIncrement(), 0.036, 6, 1e-3));
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
