@@ -191,6 +191,12 @@ public:
   itkGetConstMacro(NumberOfProjections, int);
   itkSetMacro(NumberOfProjections, int);
 
+  itkGetConstMacro(ScanDistance, double);
+  itkSetMacro(ScanDistance, double);
+
+  itkGetConstMacro(ScannerType, int);
+  itkSetMacro(ScannerType, int);
+
 protected:
   ScancoImageIO();
   ~ScancoImageIO();
@@ -277,9 +283,9 @@ private:
   double m_MuScaling;
   int    m_NumberOfSamples;
   int    m_NumberOfProjections;
-  double ScanDistance;
+  double m_ScanDistance;
   double SampleTime;
-  int    ScannerType;
+  int    m_ScannerType;
   int    MeasurementIndex;
   int    Site;
   int    ReconstructionAlg;

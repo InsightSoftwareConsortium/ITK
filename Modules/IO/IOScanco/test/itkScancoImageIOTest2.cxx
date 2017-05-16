@@ -77,6 +77,10 @@ itkScancoImageIOTest2(int argc, char * argv[])
   TEST_EXPECT_EQUAL(scancoIO->GetNumberOfSamples(), 1024);
   std::cout << "NumberOfProjections: " << scancoIO->GetNumberOfProjections() << std::endl;
   TEST_EXPECT_EQUAL(scancoIO->GetNumberOfProjections(), 500);
+  std::cout << "ScanDistance: \t" << scancoIO->GetScanDistance() << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetScanDistance(), 36.864, 6, 1e-3));
+  std::cout << "ScannerType: \t" << scancoIO->GetScannerType() << std::endl;
+  TEST_EXPECT_EQUAL(scancoIO->GetScannerType(), 10);
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
