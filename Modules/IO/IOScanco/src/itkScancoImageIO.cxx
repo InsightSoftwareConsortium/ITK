@@ -274,10 +274,10 @@ ScancoImageIO ::InitializeHeader()
   this->m_ScanDistance = 0;
   this->m_SampleTime = 0;
   this->m_ScannerType = 0;
-  this->MeasurementIndex = 0;
-  this->Site = 0;
-  this->ReconstructionAlg = 0;
-  this->ReferenceLine = 0;
+  this->m_MeasurementIndex = 0;
+  this->m_Site = 0;
+  this->m_ReconstructionAlg = 0;
+  this->m_ReferenceLine = 0;
   this->Energy = 0;
   this->Intensity = 0;
 
@@ -362,7 +362,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
 
   if (isRAD) // RAD file
   {
-    this->MeasurementIndex = ScancoImageIO::DecodeInt(h);
+    this->m_MeasurementIndex = ScancoImageIO::DecodeInt(h);
     h += 4;
     this->m_DataRange[0] = ScancoImageIO::DecodeInt(h);
     h += 4;
@@ -381,7 +381,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     h += 4;
     this->Intensity = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
-    this->ReferenceLine = ScancoImageIO::DecodeInt(h) * 1e-3;
+    this->m_ReferenceLine = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
     this->m_StartPosition = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
@@ -414,13 +414,13 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     h += 4;
     this->m_SampleTime = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
-    this->MeasurementIndex = ScancoImageIO::DecodeInt(h);
+    this->m_MeasurementIndex = ScancoImageIO::DecodeInt(h);
     h += 4;
-    this->Site = ScancoImageIO::DecodeInt(h);
+    this->m_Site = ScancoImageIO::DecodeInt(h);
     h += 4;
-    this->ReferenceLine = ScancoImageIO::DecodeInt(h) * 1e-3;
+    this->m_ReferenceLine = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
-    this->ReconstructionAlg = ScancoImageIO::DecodeInt(h);
+    this->m_ReconstructionAlg = ScancoImageIO::DecodeInt(h);
     h += 4;
     ScancoImageIO::StripString(this->PatientName, h, 40);
     h += 40;
@@ -808,11 +808,11 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "Index Measurement")
       {
-        this->MeasurementIndex = strtol(value, 0, 10);
+        this->m_MeasurementIndex = strtol(value, 0, 10);
       }
       else if (skey == "Site")
       {
-        this->Site = strtol(value, 0, 10);
+        this->m_Site = strtol(value, 0, 10);
       }
       else if (skey == "Scanner ID")
       {
@@ -845,11 +845,11 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       }
       else if (skey == "Reference line [um]")
       {
-        this->ReferenceLine = strtod(value, 0) * 1e-3;
+        this->m_ReferenceLine = strtod(value, 0) * 1e-3;
       }
       else if (skey == "Reconstruction-Alg.")
       {
-        this->ReconstructionAlg = strtol(value, 0, 10);
+        this->m_ReconstructionAlg = strtol(value, 0, 10);
       }
       else if (skey == "Energy [V]")
       {
@@ -1222,6 +1222,14 @@ ScancoImageIO ::WriteISQHeader(std::ofstream * file)
   ScancoImageIO::EncodeInt((int)(this->m_ScannerType), header);
   header += 4;
   ScancoImageIO::EncodeInt((int)(this->m_SampleTime * 1e3), header);
+  header += 4;
+  ScancoImageIO::EncodeInt((int)(this->m_MeasurementIndex), header);
+  header += 4;
+  ScancoImageIO::EncodeInt((int)(this->m_Site), header);
+  header += 4;
+  ScancoImageIO::EncodeInt((int)(this->m_ReferenceLine), header);
+  header += 4;
+  ScancoImageIO::EncodeInt((int)(this->m_ReconstructionAlg), header);
   header += 4;
 
   file->write(this->m_RawHeader, 512);
