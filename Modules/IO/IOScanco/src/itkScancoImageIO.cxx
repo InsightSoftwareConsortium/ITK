@@ -250,7 +250,7 @@ void
 ScancoImageIO ::InitializeHeader()
 {
   memset(this->m_Version, 0, 18);
-  memset(this->PatientName, 0, 42);
+  memset(this->m_PatientName, 0, 42);
   memset(this->CreationDate, 0, 32);
   memset(this->ModificationDate, 0, 32);
   this->ScanDimensionsPixels[0] = 0;
@@ -370,7 +370,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     h += 4;
     this->m_MuScaling = ScancoImageIO::DecodeInt(h);
     h += 4;
-    ScancoImageIO::StripString(this->PatientName, h, 40);
+    ScancoImageIO::StripString(this->m_PatientName, h, 40);
     h += 40;
     this->ZPosition = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
@@ -422,7 +422,7 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
     h += 4;
     this->m_ReconstructionAlg = ScancoImageIO::DecodeInt(h);
     h += 4;
-    ScancoImageIO::StripString(this->PatientName, h, 40);
+    ScancoImageIO::StripString(this->m_PatientName, h, 40);
     h += 40;
     this->Energy = ScancoImageIO::DecodeInt(h) * 1e-3;
     h += 4;
@@ -799,8 +799,8 @@ ScancoImageIO ::ReadAIMHeader(std::ifstream * file, unsigned long bytesRead)
       else if (skey == "Patient Name")
       {
         valuelen = (valuelen > 41 ? 41 : valuelen);
-        strncpy(this->PatientName, value, valuelen);
-        this->PatientName[valuelen] = '\0';
+        strncpy(this->m_PatientName, value, valuelen);
+        this->m_PatientName[valuelen] = '\0';
       }
       else if (skey == "Index Patient")
       {
@@ -1231,6 +1231,8 @@ ScancoImageIO ::WriteISQHeader(std::ofstream * file)
   header += 4;
   ScancoImageIO::EncodeInt((int)(this->m_ReconstructionAlg), header);
   header += 4;
+  ScancoImageIO::PadString(header, this->m_PatientName, 40);
+  header += 40;
 
   file->write(this->m_RawHeader, 512);
 }

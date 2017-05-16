@@ -212,6 +212,20 @@ public:
   itkGetConstMacro(ReconstructionAlg, int);
   itkSetMacro(ReconstructionAlg, int);
 
+  /** Get a string that states patient name.
+   * Max size: 42 characters. */
+  const char *
+  GetPatientName() const
+  {
+    return this->m_PatientName;
+  }
+  void
+  SetPatientName(const char * version)
+  {
+    strcpy(this->m_PatientName, version);
+    this->Modified();
+  }
+
 protected:
   ScancoImageIO();
   ~ScancoImageIO();
@@ -282,7 +296,7 @@ private:
 
   // Header information
   char   m_Version[18];
-  char   PatientName[42];
+  char   m_PatientName[42];
   int    m_PatientIndex;
   int    m_ScannerID;
   char   CreationDate[32];
