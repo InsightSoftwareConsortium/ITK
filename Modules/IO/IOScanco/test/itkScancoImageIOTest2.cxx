@@ -81,6 +81,8 @@ itkScancoImageIOTest2(int argc, char * argv[])
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetScanDistance(), 36.864, 6, 1e-3));
   std::cout << "ScannerType: \t" << scancoIO->GetScannerType() << std::endl;
   TEST_EXPECT_EQUAL(scancoIO->GetScannerType(), 10);
+  std::cout << "SampleTime: \t\t" << scancoIO->GetSampleTime() << std::endl;
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetSampleTime(), 400.0, 6, 1e-3));
 
   TEST_EXPECT_TRUE(scancoIO->CanWriteFile(outputFileName.c_str()));
 
