@@ -203,6 +203,9 @@ private:
              int &        minute,
              int &        second,
              int &        millis);
+  //! Convert the current calendar date to a VMS timestamp and store in target
+  void
+  EncodeDate(void * target);
 
   //! Strip a string by removing trailing whitespace.
   /*!
