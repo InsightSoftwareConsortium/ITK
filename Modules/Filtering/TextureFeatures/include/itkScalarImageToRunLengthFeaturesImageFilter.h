@@ -67,6 +67,7 @@ namespace Statistics
  *    (Optional, defaults to the full dynamic range of the pixel type.)
  * -# The distance range over which the features will be calculated.
  *    (Optional, defaults to the full dynamic range of double type.)
+ * -# The size of the neighborhood radius. (Optional, defaults to 2.)
  *
  * Recommendations:
  * -# Input image: To improve the computation time, the useful data should take as much

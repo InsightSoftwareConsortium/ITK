@@ -60,6 +60,7 @@ namespace Statistics
  *    for ND images.)
  * -# The pixel intensity range over which the features will be calculated.
  *    (Optional, defaults to the full dynamic range of the pixel type.)
+ * -# The size of the neighborhood radius. (Optional, defaults to 2.)
  *
  * Recommendations:
  * -# Input image: To improve the computation time, the useful data should take as much
