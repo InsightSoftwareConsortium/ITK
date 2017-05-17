@@ -30,7 +30,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TTreeType >
-class TreeChangeEvent:public ModifiedEvent
+class ITK_TEMPLATE_EXPORT TreeChangeEvent:public ModifiedEvent
 {
 public:
 
@@ -106,7 +106,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename TTreeType >
-class TreeAddEvent:public TreeChangeEvent< TTreeType >
+class ITK_TEMPLATE_EXPORT TreeAddEvent:public TreeChangeEvent< TTreeType >
 {
 public:
 
@@ -141,7 +141,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename TTreeType >
-class TreeRemoveEvent:public TreeChangeEvent< TTreeType >
+class ITK_TEMPLATE_EXPORT TreeRemoveEvent:public TreeChangeEvent< TTreeType >
 {
 public:
 
@@ -177,7 +177,7 @@ private:
  * \ingroup ITKCommon
  */
 template< typename TTreeType >
-class TreePruneEvent:public TreeRemoveEvent< TTreeType >
+class ITK_TEMPLATE_EXPORT TreePruneEvent:public TreeRemoveEvent< TTreeType >
 {
 public:
   typedef TreePruneEvent               Self;

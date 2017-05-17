@@ -27,6 +27,8 @@
 #include "ITKIOHDF5Export.h"
 
 #include "itkAutoPointer.h"
+#include "itkMetaDataObjectBase.h"
+#include "itkMetaDataDictionary.h"
 
 // itk namespace first suppresses
 // kwstyle error for the H5 namespace below
@@ -44,8 +46,6 @@ class DataSet;
 
 namespace itk
 {
-class MetaDataObjectBase;
-class MetaDataDictionary;
 /** \class HDF5ImageIO
  *
  * \author Kent Williams

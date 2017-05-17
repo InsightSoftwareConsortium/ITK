@@ -25,7 +25,7 @@ namespace itk
  * This class is used to translate iteration events, etc, from
  * vnl_lbfgsb into iteration events in ITK.
  */
-class LBFGSBOptimizerHelperv4:
+class ITKOptimizersv4_EXPORT LBFGSBOptimizerHelperv4:
 public LBFGSOptimizerBaseHelperv4<vnl_lbfgsb>
 {
   public:

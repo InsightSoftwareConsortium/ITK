@@ -28,7 +28,7 @@ namespace itk
 {
 
 template< typename TInternalVnlOptimizerType >
-class LBFGSOptimizerBaseHelperv4: public TInternalVnlOptimizerType
+class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4: public TInternalVnlOptimizerType
 {
   public:
   typedef LBFGSOptimizerBaseHelperv4  Self;

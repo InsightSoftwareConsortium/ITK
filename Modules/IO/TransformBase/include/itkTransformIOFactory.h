@@ -34,7 +34,7 @@ typedef enum { ReadMode, WriteMode } TransformIOFactoryFileModeType;
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class ITKIOTransformBase_TEMPLATE_EXPORT TransformIOFactoryTemplate:public Object
+class ITK_TEMPLATE_EXPORT TransformIOFactoryTemplate:public Object
 {
 public:
   /** Standard class typedefs. */
@@ -86,7 +86,7 @@ typedef TransformIOFactoryTemplate<double> TransformIOFactory;
 //
 #  if defined( ITKIOTransformBase_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORCE_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT

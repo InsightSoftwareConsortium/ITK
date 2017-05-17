@@ -26,8 +26,9 @@ namespace itk
 {
 namespace Functor
 {
+// Forward reference because of circular dependencies
 template< unsigned int VOffsetDimension >
-class OffsetLexicographicCompare;
+class ITK_TEMPLATE_EXPORT OffsetLexicographicCompare;
 }
 
 /**
@@ -52,7 +53,7 @@ class OffsetLexicographicCompare;
  */
 
 template< unsigned int VOffsetDimension = 2 >
-class Offset
+class ITK_TEMPLATE_EXPORT Offset
 {
 public:
   /** Standard class typedefs. */
@@ -227,7 +228,7 @@ namespace Functor
  * \ingroup ITKCommon
  */
 template< unsigned int VOffsetDimension >
-class OffsetLexicographicCompare
+class ITK_TEMPLATE_EXPORT OffsetLexicographicCompare
 {
 public:
   bool operator()(Offset< VOffsetDimension > const & l,

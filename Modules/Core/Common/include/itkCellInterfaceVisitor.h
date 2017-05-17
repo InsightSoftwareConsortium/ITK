@@ -23,12 +23,12 @@
 
 namespace itk
 {
-// forward reference CellInterface
+// Forward reference of CellInterface because of circular #include dependencies
 template<
   typename TPixelType,
   typename TCellTraits
   >
-class CellInterface;
+class ITK_TEMPLATE_EXPORT CellInterface;
 
 /** \class CellInterfaceVisitor
  *  \brief Abstract interface for a visitor class that can visit the
@@ -47,7 +47,7 @@ template<
   typename TPixelType,
   typename TCellTraits
   >
-class CellInterfaceVisitor:public LightObject
+class ITK_TEMPLATE_EXPORT CellInterfaceVisitor:public LightObject
 {
 public:
   /** Standard class typedefs. */

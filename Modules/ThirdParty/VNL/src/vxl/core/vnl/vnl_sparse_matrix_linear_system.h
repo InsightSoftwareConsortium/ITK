@@ -35,6 +35,8 @@ class VNL_TEMPLATE_EXPORT vnl_sparse_matrix_linear_system : public vnl_linear_sy
   vnl_sparse_matrix_linear_system(vnl_sparse_matrix<T> const& A, vnl_vector<T> const& b) :
     vnl_linear_system(A.columns(), A.rows()), A_(A), b_(b), jacobi_precond_() {}
 
+  virtual ~vnl_sparse_matrix_linear_system() {}
+
   //:  Implementations of the vnl_linear_system virtuals.
   void multiply(vnl_vector<double> const& x, vnl_vector<double> & b) const;
   //:  Implementations of the vnl_linear_system virtuals.

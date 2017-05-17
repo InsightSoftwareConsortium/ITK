@@ -22,9 +22,9 @@
 
 namespace itk
 {
-
+// Forward reference because of circular dependencies
 template< typename TTreeType >
-class LeafTreeIterator;
+class ITK_TEMPLATE_EXPORT LeafTreeIterator;
 
 template< typename TTreeType >
 class PreOrderTreeIterator:public TreeIteratorBase< TTreeType >

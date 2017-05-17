@@ -29,12 +29,11 @@
 #define itkBSplineCenteredResampleImageFilterBase_h
 
 #include "itkBSplineResampleImageFilterBase.h"
+#include "itkProgressReporter.h"
 #include <vector>
 
 namespace itk
 {
-
-class ProgressReporter;
 
 /** \class BSplineCenteredResampleImageFilterBase
  * \brief Evaluates the Centered B-Spline interpolation of an image.  Spline order may be from 0 to 5.

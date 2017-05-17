@@ -57,7 +57,8 @@ class DcmDictEntry;
 
 namespace itk
 {
-class ITKIODCMTK_EXPORT DCMTKSequence;
+// Forward reference because of circular dependencies
+class ITK_FORWARD_EXPORT DCMTKSequence;
 
 class ITKIODCMTK_EXPORT DCMTKItem
 {

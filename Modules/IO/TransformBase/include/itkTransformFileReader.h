@@ -34,7 +34,7 @@ namespace itk
    * \endwiki
    */
 template<typename TParametersValueType>
-class ITKIOTransformBase_TEMPLATE_EXPORT TransformFileReaderTemplate: public LightProcessObject
+class ITKIOTransformBase_EXPORT TransformFileReaderTemplate: public LightProcessObject
 {
 public:
 
@@ -121,7 +121,7 @@ typedef itk::TransformFileReaderTemplate<double> TransformFileReader;
 //
 #  if defined( ITKIOTransformBase_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORCE_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT

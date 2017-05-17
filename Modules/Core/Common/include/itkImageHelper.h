@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-// Forward reference ImageBase
+// Forward reference because of circular dependencies
 template<
   unsigned int NImageDimension
   >

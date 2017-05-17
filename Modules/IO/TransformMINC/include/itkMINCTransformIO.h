@@ -40,7 +40,7 @@ namespace itk
 * \ingroup ITKIOTransformMINC
 */
 template<typename TParametersValueType>
-class ITK_TEMPLATE_EXPORT MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>
+class ITKIOTransformMINC_EXPORT MINCTransformIOTemplate: public TransformIOBaseTemplate<TParametersValueType>
 {
 public:
   typedef MINCTransformIOTemplate                         Self;
@@ -114,7 +114,7 @@ typedef MINCTransformIOTemplate<double> MINCTransformIO;
 //
 #  if defined( ITKIOTransformMINC_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformMINC_EXPORT_EXPLICIT
+#    define ITKIOTransformMINC_EXPORT_EXPLICIT ITK_FORCE_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformMINC_EXPORT_EXPLICIT ITKIOTransformMINC_EXPORT

@@ -181,7 +181,7 @@ macro(SET_VXL_LIBRARY_PROPERTIES)
         message(FATAL_ERROR "INSTALL_DIR REQUIRED when using USE_HIDDEN_VISIBILITY")
     endif()
 
-    if (BUILD_SHARED_LIBS)
+    if (BUILD_SHARED_LIBS OR (APPLE AND NOT BUILD_SHARED_LIBS))
       # export flags are only added when building shared libs, they cause
       # mismatched visibility warnings when building statically.
       if(CMAKE_VERSION VERSION_LESS 2.8.12)

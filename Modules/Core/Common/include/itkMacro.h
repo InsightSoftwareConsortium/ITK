@@ -188,6 +188,24 @@ namespace itk
   #endif
 #endif
 
+// Setup symbol exports
+#ifndef ITK_FORCE_EXPORT
+  #ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
+    #define ITK_FORCE_EXPORT __attribute__ ((visibility ("default")))
+  #else
+    #define ITK_FORCE_EXPORT ITKCommon_EXPORT
+  #endif
+#endif
+
+#ifndef ITK_FORWARD_EXPORT
+  // If build with shared libraries, on MacOS, if USE_COMPILER_HIDDEN_VISIBILITY is ON
+  #if defined(ITK_TEMPLATE_VISIBILITY_DEFAULT) && defined(ITK_BUILD_SHARED_LIBS) && defined(USE_COMPILER_HIDDEN_VISIBILITY)
+    #define ITK_FORWARD_EXPORT __attribute__ ((visibility ("default")))
+  #else
+    #define ITK_FORWARD_EXPORT
+  #endif
+#endif
+
 #if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
   #define ITK_HAS_CXX11_RVREF
 #endif

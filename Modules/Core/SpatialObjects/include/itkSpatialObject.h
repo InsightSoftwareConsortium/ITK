@@ -52,14 +52,9 @@ namespace itk
  * \ingroup ITKSpatialObjects
  */
 
-#ifdef __APPLE__
+// Forward reference because of circular dependencies
 template< unsigned int VDimension >
 class ITK_TEMPLATE_EXPORT SpatialObjectTreeNode;
-#else
-template< unsigned int VDimension >
-class SpatialObjectTreeNode;
-#endif
-
 
 template< unsigned int VDimension = 3 >
 class ITK_TEMPLATE_EXPORT SpatialObject:
