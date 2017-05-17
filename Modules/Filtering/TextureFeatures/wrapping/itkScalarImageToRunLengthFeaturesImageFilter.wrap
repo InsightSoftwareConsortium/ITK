@@ -13,25 +13,43 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
 endforeach()
 end_wrap_type()
 
-itk_wrap_class("itk::Image")
+itk_wrap_class("itk::Image" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   itk_wrap_template("V${ITKM_F}${OutputVectorDim}${d}" "itk::Vector<${ITKT_F},${OutputVectorDim}>,${d}")
 endforeach()
 itk_end_wrap_class()
 
-itk_wrap_class("itk::ImageSource")
+itk_wrap_class("itk::ImageSource" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   itk_wrap_template("${ITKM_IV${ITKM_F}${OutputVectorDim}${d}}" "${ITKT_IV${ITKM_F}${OutputVectorDim}${d}}")
 endforeach()
 itk_end_wrap_class()
 
-itk_wrap_class("itk::ImageToImageFilter")
+itk_wrap_class("itk::ImageToImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
   foreach(t ${WRAP_ITK_INT})
     itk_wrap_template("${ITKM_I${t}${d}}IV${ITKM_F}${OutputVectorDim}${d}"
                         "${ITKT_I${t}${d}}, itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,${d}>"
     )
   endforeach()
+endforeach()
+itk_end_wrap_class()
+
+itk_wrap_simple_class("itk::ImageIOBase")
+
+itk_wrap_class("itk::ImageFileReader" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("IV${ITKM_F}${OutputVectorDim}${d}"
+                      "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,${d}>"
+  )
+endforeach()
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageFileWriter" POINTER)
+foreach(d ${ITK_WRAP_IMAGE_DIMS})
+  itk_wrap_template("IV${ITKM_F}${OutputVectorDim}${d}"
+                      "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,${d}>"
+  )
 endforeach()
 itk_end_wrap_class()
 
