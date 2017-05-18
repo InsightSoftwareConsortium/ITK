@@ -83,38 +83,6 @@ int itkImageRegistrationMethodTest_17(int, char* [] )
 
   itk::OutputWindow::SetInstance(itk::TextOutput::New().GetPointer());
 
-/*==================================================*/
-/**
- * Debugging vnl_sample
- */
-  std::cout << "Debugging vnl_sample" << std::endl;
-
-  #if VXL_STDLIB_HAS_DRAND48
-  std::cout << "vxl stdlib has drand48" << std::endl;
-  #else
-  std::cout << "vxl stdlib does not have drand48" << std::endl;
-  #endif
-
-  std::cout << std::endl;
-  std::cout << "printout 10 numbers with default seeds" << std::endl;
-
-  for( int p = 0; p < 10; p++ )
-    {
-    double value = vnl_sample_uniform( 0, 100 );
-    std::cout << p << "\t" << value << std::endl;
-    }
-
-  std::cout << "printout 10 numbers with seed 171219" << std::endl;
-  vnl_sample_reseed( 171219 );
-
-  for( int p = 0; p < 10; p++ )
-    {
-    double value = vnl_sample_uniform( 0, 100 );
-    std::cout << p << "\t" << value << std::endl;
-    }
-
-/*==================================================*/
-
   bool pass = true;
 
   const unsigned int dimension = 3;
@@ -276,6 +244,7 @@ int itkImageRegistrationMethodTest_17(int, char* [] )
   region.SetSize( size );
   region.SetIndex( index );
   metric->SetFixedImageRegion( region );
+  metric->ReinitializeSeed(121212);
 
   /******************************************************************
    * Set up the registrator.
