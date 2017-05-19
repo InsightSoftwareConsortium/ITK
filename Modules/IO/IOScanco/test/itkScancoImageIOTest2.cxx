@@ -68,7 +68,7 @@ itkScancoImageIOTest2(int argc, char * argv[])
   std::cout << "StartPosition: \t" << scancoIO->GetStartPosition() << std::endl;
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetStartPosition(), 75.0, 6, 1e-3));
   std::cout << "DataRange[0]: \t" << scancoIO->GetDataRange()[0] << std::endl;
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -2715.0, 6, 1e-3));
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[0], -2813.0, 6, 1e-3));
   std::cout << "DataRange[1]: \t" << scancoIO->GetDataRange()[1] << std::endl;
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 32767.0, 6, 1e-3));
   std::cout << "MuScaling: \t\t" << scancoIO->GetMuScaling() << std::endl;
@@ -84,7 +84,7 @@ itkScancoImageIOTest2(int argc, char * argv[])
   std::cout << "SampleTime: \t\t" << scancoIO->GetSampleTime() << std::endl;
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetSampleTime(), 400.0, 6, 1e-3));
   std::cout << "MeasurementIndex: \t" << scancoIO->GetMeasurementIndex() << std::endl;
-  TEST_EXPECT_EQUAL(scancoIO->GetMeasurementIndex(), 4180);
+  TEST_EXPECT_EQUAL(scancoIO->GetMeasurementIndex(), 4937);
   std::cout << "Site: \t\t" << scancoIO->GetSite() << std::endl;
   TEST_EXPECT_EQUAL(scancoIO->GetSite(), 5);
   std::cout << "ReferenceLine: \t" << scancoIO->GetReferenceLine() << std::endl;
