@@ -35,6 +35,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMath.h"
 #include "itkIntTypes.h"
+#include "itkByteSwapper.h"
 
 #include <algorithm>
 #include <ctime>
@@ -225,7 +226,8 @@ ScancoImageIO ::EncodeDate(void * target)
 bool
 ScancoImageIO ::CanReadFile(const char * filename)
 {
-  std::ifstream infile(filename, std::ios::in | std::ios::binary);
+  std::ifstream infile;
+  this->OpenFileForReading(infile, filename);
 
   bool canRead = false;
   if (infile.good())
@@ -335,8 +337,10 @@ ScancoImageIO ::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   h += 16;
   int dataType = ScancoImageIO::DecodeInt(h);
   h += 4;
-  /*int numBytes = ScancoImageIO::DecodeInt(h);*/ h += 4;
-  /*int numBlocks = ScancoImageIO::DecodeInt(h);*/ h += 4;
+  int numBytes = ScancoImageIO::DecodeInt(h);
+  h += 4;
+  int numBlocks = ScancoImageIO::DecodeInt(h);
+  h += 4;
   this->m_PatientIndex = ScancoImageIO::DecodeInt(h);
   h += 4;
   this->m_ScannerID = ScancoImageIO::DecodeInt(h);
@@ -928,12 +932,8 @@ ScancoImageIO ::ReadImageInformation()
     itkExceptionMacro("FileName has not been set.");
   }
 
-
-  std::ifstream infile(m_FileName.c_str(), std::ios::in | std::ios::binary);
-  if (!infile.good())
-  {
-    itkExceptionMacro("Cannot open file: " << m_FileName);
-  }
+  std::ifstream infile;
+  this->OpenFileForReading(infile, this->m_FileName);
 
   // header is a 512 byte block
   this->m_RawHeader = new char[512];
@@ -978,13 +978,8 @@ ScancoImageIO ::ReadImageInformation()
 void
 ScancoImageIO ::Read(void * buffer)
 {
-  // open the file
-  const std::string filename = this->GetFileName();
-  std::ifstream     infile(filename.c_str(), std::ios::in | std::ios::binary);
-  if (!infile.good())
-  {
-    itkExceptionMacro("Cannot open file " << filename);
-  }
+  std::ifstream infile;
+  this->OpenFileForReading(infile, this->m_FileName);
 
   // seek to the data
   infile.seekg(this->m_HeaderSize);
@@ -1181,8 +1176,19 @@ ScancoImageIO ::WriteISQHeader(std::ofstream * file)
   // 3 -> ISQ data type
   ScancoImageIO::EncodeInt(3, header);
   header += 4;
-  /*int numBytes = ScancoImageIO::DecodeInt(h);*/ header += 4;
-  /*int numBlocks = ScancoImageIO::DecodeInt(h);*/ header += 4;
+  const SizeValueType numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
+  if (numberOfBytes > NumericTraits<int>::max())
+  {
+    ScancoImageIO::EncodeInt(0, header);
+    header += 4;
+  }
+  else
+  {
+    ScancoImageIO::EncodeInt(numberOfBytes, header);
+    header += 4;
+  }
+  ScancoImageIO::EncodeInt(numberOfBytes / 512, header);
+  header += 4;
   ScancoImageIO::EncodeInt(this->m_PatientIndex, header);
   header += 4;
   ScancoImageIO::EncodeInt(this->m_ScannerID, header);
@@ -1237,9 +1243,9 @@ ScancoImageIO ::WriteISQHeader(std::ofstream * file)
   header += 4;
   ScancoImageIO::EncodeInt((int)(this->m_Intensity * 1e3), header);
   header += 4;
-  ScancoImageIO::EncodeInt(0x00, header);
-  header += 4;
-  header += 82 * 4;
+  const std::size_t fillSize = 83 * 4;
+  std::memset(header, 0x00, fillSize);
+  header += fillSize;
   // dataOffset
   const int dataOffset = 0;
   ScancoImageIO::EncodeInt(dataOffset, header);
@@ -1260,461 +1266,50 @@ ScancoImageIO ::WriteImageInformation()
     itkExceptionMacro("FileName has not been set.");
   }
 
-  std::ofstream outfile(this->m_FileName.c_str(), std::ios::out | std::ios::binary);
+  std::ofstream outFile;
+  this->OpenFileForWriting(outFile, m_FileName);
 
-  this->WriteISQHeader(&outfile);
+  this->WriteISQHeader(&outFile);
 
-  outfile.close();
+  outFile.close();
 }
 
 
 void
 ScancoImageIO ::Write(const void * buffer)
 {
-  // const unsigned int numberOfDimensions = this->GetNumberOfDimensions();
+  this->WriteImageInformation();
 
-  // bool binaryData = true;
+  std::ofstream outFile;
+  this->OpenFileForWriting(outFile, m_FileName, false);
+  outFile.seekp(this->m_HeaderSize, std::ios::beg);
 
-  // if ( this->GetFileType() == ASCII )
-  //{
-  // binaryData = false;
-  // }
+  const SizeValueType numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
+  const SizeValueType numberOfComponents = static_cast<SizeValueType>(this->GetImageSizeInComponents());
 
-  // int nChannels = this->GetNumberOfComponents();
+  if (this->GetComponentType() != SHORT)
+  {
+    itkExceptionMacro("ScancoImageIO only supports writing short files.")
+  }
 
-  // MET_ValueEnumType eType = MET_OTHER;
-  // switch ( m_ComponentType )
-  //{
-  // default:
-  // case UNKNOWNCOMPONENTTYPE:
-  // eType = MET_OTHER;
-  // break;
-  // case CHAR:
-  // eType = MET_CHAR;
-  // break;
-  // case UCHAR:
-  // eType = MET_UCHAR;
-  // break;
-  // case SHORT:
-  // eType = MET_SHORT;
-  // break;
-  // case USHORT:
-  // eType = MET_USHORT;
-  // break;
-  // case LONG:
-  // if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG] )
-  //{
-  // eType = MET_LONG;
-  // }
-  // else if ( sizeof( long ) == MET_ValueTypeSize[MET_INT] )
-  //{
-  // eType = MET_INT;
-  // }
-  // else if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG_LONG] )
-  //{
-  // eType = MET_LONG_LONG;
-  // }
-  // break;
-  // case ULONG:
-  // if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG] )
-  //{
-  // eType = MET_ULONG;
-  // }
-  // else if ( sizeof( long ) == MET_ValueTypeSize[MET_INT] )
-  //{
-  // eType = MET_UINT;
-  // }
-  // else if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG_LONG] )
-  //{
-  // eType = MET_ULONG_LONG;
-  // }
-  // break;
-  // case INT:
-  // eType = MET_INT;
-  // if ( sizeof( int ) == MET_ValueTypeSize[MET_INT] )
-  //{
-  // eType = MET_INT;
-  // }
-  // else if ( sizeof( int ) == MET_ValueTypeSize[MET_LONG] )
-  //{
-  // eType = MET_LONG;
-  // }
-  // break;
-  // case UINT:
-  // if ( sizeof( int ) == MET_ValueTypeSize[MET_INT] )
-  //{
-  // eType = MET_UINT;
-  // }
-  // else if ( sizeof( int ) == MET_ValueTypeSize[MET_LONG] )
-  //{
-  // eType = MET_ULONG;
-  // }
-  // break;
-  // case FLOAT:
-  // if ( sizeof( float ) == MET_ValueTypeSize[MET_FLOAT] )
-  //{
-  // eType = MET_FLOAT;
-  // }
-  // else if ( sizeof( float ) == MET_ValueTypeSize[MET_DOUBLE] )
-  //{
-  // eType = MET_DOUBLE;
-  // }
-  // break;
-  // case DOUBLE:
-  // if ( sizeof( double ) == MET_ValueTypeSize[MET_DOUBLE] )
-  //{
-  // eType = MET_DOUBLE;
-  // }
-  // else if ( sizeof( double ) == MET_ValueTypeSize[MET_FLOAT] )
-  //{
-  // eType = MET_FLOAT;
-  // }
-  // break;
-  //}
+  if (itk::ByteSwapper<short>::SystemIsBigEndian())
+  {
+    char * tempmemory = new char[numberOfBytes];
+    memcpy(tempmemory, buffer, numberOfBytes);
+    {
+      ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), numberOfComponents);
+    }
 
-  // int *        dSize = new int[numberOfDimensions];
-  // float *      eSpacing = new float[numberOfDimensions];
-  // double *     eOrigin = new double[numberOfDimensions];
-  // for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
-  //{
-  // dSize[ii] = this->GetDimensions(ii);
-  // eSpacing[ii] = static_cast< float >( this->GetSpacing(ii) );
-  // eOrigin[ii] = this->GetOrigin(ii);
-  // }
+    // Write the actual pixel data
+    outFile.write(static_cast<const char *>(tempmemory), numberOfBytes);
+    delete[] tempmemory;
+  }
+  else
+  {
+    outFile.write(static_cast<const char *>(buffer), numberOfBytes);
+  }
 
-  // m_ScancoImage.InitializeEssential( numberOfDimensions, dSize, eSpacing, eType, nChannels,
-  // const_cast< void * >( buffer ) );
-  // m_ScancoImage.Position(eOrigin);
-  // m_ScancoImage.BinaryData(binaryData);
-
-  ////Write the image Information
-  // this->WriteImageInformation();
-
-  // if ( numberOfDimensions == 3 )
-  //{
-  // SpatialOrientation::ValidCoordinateOrientationFlags coordOrient =
-  // SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
-  // std::vector< double > dirx, diry, dirz;
-  // SpatialOrientationAdapter::DirectionType dir;
-  // dirx = this->GetDirection(0);
-  // diry = this->GetDirection(1);
-  // dirz = this->GetDirection(2);
-  // for ( unsigned ii = 0; ii < 3; ii++ )
-  //{
-  // dir[ii][0] = dirx[ii];
-  // dir[ii][1] = diry[ii];
-  // dir[ii][2] = dirz[ii];
-  // }
-  // coordOrient = SpatialOrientationAdapter().FromDirectionCosines(dir);
-
-  // switch ( coordOrient )
-  //{
-  // default:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(0, MET_ORIENTATION_RL);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(0, MET_ORIENTATION_LR);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(0, MET_ORIENTATION_AP);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(0, MET_ORIENTATION_PA);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(0, MET_ORIENTATION_IS);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(0, MET_ORIENTATION_SI);
-  // break;
-  // }
-  //}
-  // switch ( coordOrient )
-  //{
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(1, MET_ORIENTATION_RL);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(1, MET_ORIENTATION_LR);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(1, MET_ORIENTATION_AP);
-  // break;
-  // }
-  // default:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(1, MET_ORIENTATION_PA);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(1, MET_ORIENTATION_IS);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(1, MET_ORIENTATION_SI);
-  // break;
-  // }
-  //}
-  // switch ( coordOrient )
-  //{
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(2, MET_ORIENTATION_RL);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(2, MET_ORIENTATION_LR);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(2, MET_ORIENTATION_AP);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(2, MET_ORIENTATION_PA);
-  // break;
-  // }
-  // default:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(2, MET_ORIENTATION_IS);
-  // break;
-  // }
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
-  // case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-  //{
-  // m_ScancoImage.AnatomicalOrientation(2, MET_ORIENTATION_SI);
-  // break;
-  // }
-  //}
-  //}
-  //// Propagage direction cosine information.
-  // double *transformMatrix = static_cast< double * >( malloc( numberOfDimensions * numberOfDimensions * sizeof( double
-  // ) ) ); if (transformMatrix)
-  //{
-  // for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
-  //{
-  // for ( unsigned int jj = 0; jj < numberOfDimensions; ++jj )
-  //{
-  // transformMatrix[ii * numberOfDimensions + jj] =
-  // this->GetDirection(ii)[jj];
-  //}
-  //}
-  // m_ScancoImage.TransformMatrix(transformMatrix);
-  // free(transformMatrix);
-  // }
-
-  // m_ScancoImage.CompressedData(m_Usem_Compression);
-
-  //// this is a check to see if we are actually streaming
-  //// we initialize with m_IORegion to match dimensions
-  // ImageIORegion largestRegion(m_IORegion);
-  // for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
-  //{
-  // largestRegion.SetIndex( ii, 0 );
-  // largestRegion.SetSize( ii, this->GetDimensions(ii) );
-  // }
-
-  // if ( m_Usem_Compression && ( largestRegion != m_IORegion ) )
-  //{
-  // std::cout << "m_Compression in use: cannot stream the file writing" << std::endl;
-  // }
-  // else if (  largestRegion != m_IORegion )
-  //{
-  // int *indexMin = new int[numberOfDimensions];
-  // int *indexMax = new int[numberOfDimensions];
-  // for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
-  //{
-  //// the dimensions of m_IORegion should match out requested
-  //// dimensions, but ImageIORegion will throw an
-  //// exception if out of bounds
-  // indexMin[ii] = m_IORegion.GetIndex()[ii];
-  // indexMax[ii] = m_IORegion.GetIndex()[ii] + m_IORegion.GetSize()[ii] - 1;
-  // }
-
-  // if ( !m_ScancoImage.WriteROI( indexMin, indexMax, m_FileName.c_str() ) )
-  //{
-  // delete[] dSize;
-  // delete[] eSpacing;
-  // delete[] eOrigin;
-  // delete[] indexMin;
-  // delete[] indexMax;
-  // itkExceptionMacro( "File ROI cannot be written: "
-  //<< this->GetFileName()
-  //<< std::endl
-  //<< "Reason: "
-  //<< itksys::SystemTools::GetLastSystemError() );
-  //}
-
-  // delete[] indexMin;
-  // delete[] indexMax;
-  // }
-  // else
-  //{
-  // if ( !m_ScancoImage.Write( m_FileName.c_str() ) )
-  //{
-  // delete[] dSize;
-  // delete[] eSpacing;
-  // delete[] eOrigin;
-  // itkExceptionMacro( "File cannot be written: "
-  //<< this->GetFileName()
-  //<< std::endl
-  //<< "Reason: "
-  //<< itksys::SystemTools::GetLastSystemError() );
-  //}
-  //}
-
-  // delete[] dSize;
-  // delete[] eSpacing;
-  // delete[] eOrigin;
+  outFile.close();
 }
 
 } // end namespace itk

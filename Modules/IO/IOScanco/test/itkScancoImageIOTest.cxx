@@ -47,11 +47,11 @@ itkScancoImageIOTest(int argc, char * argv[])
 
   // force use of ScancoIO
   typedef itk::ScancoImageIO IOType;
-  IOType::Pointer            scancoInput = IOType::New();
-  reader->SetImageIO(scancoInput);
+  IOType::Pointer            scancoIO = IOType::New();
+  reader->SetImageIO(scancoIO);
 
   // check usability of dimension (for coverage)
-  if (!scancoInput->SupportsDimension(3))
+  if (!scancoIO->SupportsDimension(3))
   {
     std::cerr << "Did not support dimension 3" << std::endl;
     return EXIT_FAILURE;
