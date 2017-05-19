@@ -64,6 +64,8 @@ except KeyError:
 # test ctype
 assert itk.ctype("unsigned short") == itk.US
 assert itk.ctype("        unsigned      \n   short \t  ") == itk.US
+assert itk.ctype("signed short") == itk.SS
+assert itk.ctype("short") == itk.SS
 try:
     itk.ctype("dummy")
     raise Exception("unknown C type should send an exception")

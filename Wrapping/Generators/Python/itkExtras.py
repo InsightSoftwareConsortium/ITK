@@ -370,6 +370,7 @@ def ctype(s):
     see also itkCType
     """
     from itkTypes import itkCType
+
     ret = itkCType.GetCType(" ".join(s.split()))
     if ret is None:
         raise KeyError("Unrecognized C type '%s'" % s)
