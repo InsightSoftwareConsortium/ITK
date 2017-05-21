@@ -40,12 +40,17 @@ namespace itk
 /** \class GDCMImageIO
  *
  *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA 1&2 uncompressed images.
- *  This class is only an adaptor to the GDCM library. Currently GDCM 2.4.6 (git SHA 1efe9e28) is used.
+ *  This class is only an adaptor to the GDCM library.
  *
  * GDCM can be found at:
  *   http://sourceforge.net/projects/gdcm
  *
- * Using the CMake variable ITK_USE_SYSTEM_GDCM, it is possible to use a system installed
+ * To learn more about the revision shipped with ITK, call
+ *
+ *    git log -- Modules/ThirdParty/GDCM/src/
+ *
+ * From an ITK Git checkout.
+ *
  * GDCM build, instead of the one included within ITK itself.
  *
  *  \warning There are several restrictions to this current writer:
