@@ -142,15 +142,10 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   foreach(t ${WRAP_ITK_COMPLEX_REAL})
     list(APPEND ITK_WRAP_PYTHON_COMPLEX_REAL ${ITKT_${t}})
   endforeach()
-  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsPython.py.in"
-                 "${ITK_WRAP_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py"
+  configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itkBuildOptions.py.in"
+                 "${ITK_WRAP_PYTHON_BINARY_DIR}/itkBuildOptions.py"
                 @ONLY)
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${ITK_WRAP_PYTHON_BINARY_DIR}/WrapITKBuildOptionsPython.py")
-
-  file(COPY "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py"
-       DESTINATION "${CMAKE_CURRENT_BINARY_DIR}/Configuration/")
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/Configuration "${CMAKE_CURRENT_SOURCE_DIR}/WrapITKBuildOptionsConfig.py")
-
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${ITK_WRAP_PYTHON_BINARY_DIR}/itkBuildOptions.py")
 endif()
 
 
