@@ -36,6 +36,12 @@ class itkCType:
         return "<itkCType %s>" % self.name
 
     def GetCType(name):
+        aliases = {'short': 'signed short',
+            'int': 'signed int',
+            'long': 'signed long',
+            'long long': 'signed long long'}
+        if name in aliases:
+            name = aliases[name]
         try:
             return(itkCType.__cTypes__[name])
         except KeyError:
