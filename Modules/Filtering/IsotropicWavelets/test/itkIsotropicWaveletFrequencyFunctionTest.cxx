@@ -71,38 +71,60 @@ runIsotropicWaveletFrequencyFunctionTest(const std::string & profileDataRootPath
   double              end = 1.0;
   size_t              points = 1000;
   std::vector<double> wArray = itk::Testing::linSpaceForIWFF(init, end, points);
-  // Generate profile data for sub-bands and mother wavelet itself
+  // Generate profile data for sub-bands
   std::vector<std::vector<double>> subBandsResults;
-  for (unsigned int k = 0; k < inputBands + 2; ++k)
+  for (unsigned int k = 0; k < inputBands + 1; ++k)
   {
     std::vector<double> bandResults;
     for (unsigned int i = 0; i < points; ++i)
     {
-      if (k == inputBands + 1) // mother wavelet
-      {
-        bandResults.push_back(motherWavelet->EvaluateMagnitude(wArray[i]));
-      }
-      else // bands
-      {
-        bandResults.push_back(motherWavelet->EvaluateForwardSubBand(wArray[i], k));
-      }
+      bandResults.push_back(motherWavelet->EvaluateForwardSubBand(wArray[i], k));
     }
     subBandsResults.push_back(bandResults);
   }
 
-  // Write profile
-  const std::string outputFilePath = profileDataRootPath + "_" + waveletTypeName + "_" + n2s(inputBands) + ".txt";
-  std::ofstream     ofs(outputFilePath.c_str(), std::ofstream::out);
+  // Generate mother wavelet profile h(2^i w) at different levels
+  std::vector<std::vector<double>> radialFrequenciesMotherWavelet;
+  unsigned int                     numLevels = 4;
+  for (unsigned int levels = 0; levels < numLevels; ++levels)
+  {
+    std::vector<double> resultPerLevel;
+    double              levelFactor = (levels == 0) ? 1.0 : std::pow(2.0, static_cast<double>(levels));
+    for (unsigned int i = 0; i < points; ++i)
+    {
+      resultPerLevel.push_back(motherWavelet->EvaluateMagnitude(levelFactor * wArray[i]));
+    }
+    radialFrequenciesMotherWavelet.push_back(resultPerLevel);
+  }
+
+  // Write subbands
+  const std::string outputFilePathSubBands =
+    profileDataRootPath + "_" + waveletTypeName + "_" + n2s(inputBands) + "_SubBands.txt";
+  std::ofstream ofsSB(outputFilePathSubBands.c_str(), std::ofstream::out);
   for (unsigned int i = 0; i < points; ++i)
   {
-    ofs << wArray[i];
-    for (unsigned int k = 0; k < inputBands + 2; ++k)
+    ofsSB << wArray[i];
+    for (unsigned int k = 0; k < inputBands + 1; ++k)
     {
-      ofs << "," << subBandsResults[k][i];
+      ofsSB << "," << subBandsResults[k][i];
     }
-    ofs << std::endl;
+    ofsSB << std::endl;
   }
-  ofs.close();
+  ofsSB.close();
+  // Write mother wavelets
+  const std::string outputFilePathMotherWavelet =
+    profileDataRootPath + "_" + waveletTypeName + "_" + n2s(inputBands) + "_Mother.txt";
+  std::ofstream ofsMW(outputFilePathMotherWavelet.c_str(), std::ofstream::out);
+  for (unsigned int i = 0; i < points; ++i)
+  {
+    ofsMW << wArray[i];
+    for (unsigned int levels = 0; levels < numLevels; ++levels)
+    {
+      ofsMW << "," << radialFrequenciesMotherWavelet[levels][i];
+    }
+    ofsMW << std::endl;
+  }
+  ofsMW.close();
   return EXIT_SUCCESS;
 }
 
