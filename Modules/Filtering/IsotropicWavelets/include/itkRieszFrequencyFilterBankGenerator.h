@@ -28,8 +28,9 @@ namespace itk
 {
 /** \class RieszFrequencyFilterBankGenerator
  * Generate a filter bank of M components using the RieszFrequencyFunction.
- * M = p(N,d); where N = Order of the RieszTransform, and d = ImageDimension.
- * M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!}
+ * \f$ M = p(N,d) \f$ where N = Order of the RieszTransform, and d = ImageDimension.
+ *
+ * \f$ M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!} \f$
  *
  * \sa RieszFrequencyFunction
  *

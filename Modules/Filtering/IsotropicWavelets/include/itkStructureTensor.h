@@ -28,10 +28,15 @@
 namespace itk
 {
 /** \class StructureTensor
-* Given an array of inputs, StructureTensor computes the linear combination (or direction) of inputs that maximizes the
+ * Given an array of inputs, StructureTensor computes the linear combination (or direction) of inputs that maximizes the
 response for each location in the image.
-* Instead of only measuring the response at the pixel of interest, it takes into account a local neighborhood.
-\cite{unser_steerable_2011}.
+ * Instead of only measuring the response at the pixel of interest, it takes into account a local neighborhood.
+ *
+ * Implementation based on article:
+ * Unser, M., Chenouard, N. and Van De Ville, D.
+ * Steerable Pyramids and Tight Wavelet Frames in \f$L_{2}(\mathcal{R}^d)\f$,
+ * IEEE Transactions on Image Processing,
+ * DOI: 10.1109/TIP.2011.2138147
  *
 \f[
  \mathbf{u}({\mathbf{x}_0}) = \arg \max_{\Vert\mathbf{u}\Vert =1 }  \int_{\mathbb{R}^d} g(\mathbf{x} - \mathbf{x}_0)
@@ -172,9 +177,9 @@ public:
 
   /**
    * At each pixel, coherency is calculated based on the relative value of eigenValues.
-   * meanNonPrincipalEV = M = \frac{1}{N-1} \sum_{i=1}^{N-1}\lambda_i
-   * coherency = \frac{\lambda_N - M}{\lambda_1 + M}
-   * where \(\lambda_N\) is the largest eigen value.
+   * meanNonPrincipalEV \f$ = M = \frac{1}{N-1} \sum_{i=1}^{N-1}\lambda_i \f$
+   * coherency \f$ = \frac{\lambda_N - M}{\lambda_1 + M} \f$
+   * where \f$ \lambda_N \f$ is the largest eigen value.
    *
    * @return Image filled with the coherency at each pixel.
    */

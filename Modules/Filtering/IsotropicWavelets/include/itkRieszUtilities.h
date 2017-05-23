@@ -119,8 +119,8 @@ ComputeAllPermutations(const std::set<TIndicesArrayType, std::greater<TIndicesAr
 /**
  * Compute all possible indices given an order.
  * The order imposes the constain:
- * \sum_{i}^{ImageDimension} indice[i] = order
- * where indice[i]>=0
+ * \f[ \sum_{i}^{ImageDimension} \text{indice}[i] = \text{order} \f]
+ * where \f$ \text{indice}[i]>=0 \f$
  */
 template <typename TIndicesArrayType, unsigned int VImageDimension>
 std::set<TIndicesArrayType, std::greater<TIndicesArrayType>>

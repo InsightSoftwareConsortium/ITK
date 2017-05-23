@@ -113,8 +113,8 @@ public:
    * Set LowFrequencyThreshold and HighFrequencyThreshold at the same time,
    * input frequencies in Radians. 1Hz = (1/2pi) rad
    *
-   * @param freq_low in radians.
-   * @param freq_high in radians.
+   * @param freq_low_in_radians low freq in radians.
+   * @param freq_high_in_radians high freq in radians.
    */
   void
   SetFrequencyThresholdsInRadians(const FrequencyValueType & freq_low_in_radians,

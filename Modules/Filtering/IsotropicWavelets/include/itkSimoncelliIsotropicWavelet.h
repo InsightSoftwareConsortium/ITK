@@ -28,7 +28,7 @@ namespace itk
  *
  * Implement function in frequency space.
  *
- \f{equation}
+ \f{equation}{
    h(\omega) =
      \begin{cases}
      \begin{aligned}
@@ -36,7 +36,7 @@ namespace itk
        &0, &\text{otherwise}
      \end{aligned}
      \end{cases}
- \f{equation}
+ \f}
  *
  * Based on:
  * J. Portilla and E. P. Simoncelli, "A parametric texture model based on

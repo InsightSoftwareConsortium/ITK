@@ -26,7 +26,7 @@ namespace itk
  * \brief Wavelet based on paper VOW: Variance-Optimal Wavelets for Steerable Pyramid (P.Pad et al 2014).
  *
  * Implement function in frequency space.
- \f{equation}
+ \f{equation}{
    h(\omega) =
      \begin{cases}
      \begin{aligned}
@@ -36,10 +36,8 @@ namespace itk
  [\frac{\pi}{2} , \pi ] \\ &0, &\text{otherwise}
      \end{aligned}
      \end{cases}
- \f{equation}
- \f{equation}
-   \text{where } \kappa \in [0, \frac{\pi}{2}] \text{ is found to be } 0.75
- \f{equation}
+ \f}
+ where \f$\kappa \in [0, \frac{\pi}{2}] \text{ is found to be } 0.75 \f$
  *
  * Where q(t) is a m grade polynomial (m can be chosen) which elements are
  * calculated so the wavelet has desirable properties.

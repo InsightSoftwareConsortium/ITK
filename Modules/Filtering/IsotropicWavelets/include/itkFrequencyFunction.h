@@ -53,7 +53,7 @@ public:
 
   /**
    * The evaluate function require frequency in Hertz (1/s)
-   * $w[Hz] = \frac{ w[rad/s]}{2\pi}$
+   * \f$ w[Hz] = \frac{ w[rad/s]}{2\pi}\f$
    */
   inline FunctionValueType
   RadPerSecToHertz(const TFunctionValue & w_rad_per_sec) const

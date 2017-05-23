@@ -25,14 +25,15 @@
 namespace itk
 {
 /** \class RieszRotationMatrix
- * Get a steerable matrix for the Riesz transform: S_r
+ * Get a steerable matrix for the Riesz transform: \f$ S_r \f$
  * from a rotation matrix R in the spatial domain,
  * and the order of the Riesz transform (T)
- * T f( R*x ) = T_{S_r} f(x)
+ * \f$ T f( R*x ) = T_{S_r} f(x) \f$
  *
- * S_r is a MxM matrix, where M = p(N,d) is the number of
+ * \f$ S_r \f$ is a MxM matrix, where \f$ M = p(N,d) \f$ is the number of
  * components of a riesz transform of order N and dimension d.
- * M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!}
+ *
+ * \f[ M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!} \f]
  *
  * The rotation matrix is a dxd matrix.
  *

@@ -53,10 +53,10 @@ Phase:
  P(\mathbf{x_0})= \text{atan2}(A_F(\mathbf{x_0}),A(\mathbf{x_0}))
 \f]
 Orientation:
-\begin{align*}
+\f{align*}{
  O_j(\mathbf{x_0})&= \text{atan2}(\hat{f_j}(\mathbf{x_0}),\hat{f_1}(\mathbf{x_0}))\\
 &\text{where } \hat{f_i} = f_i / A_F
-\end{align*}
+\f}
  *
  * \ingroup IsotropicWavelets
  */

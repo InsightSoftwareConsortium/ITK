@@ -28,7 +28,7 @@ namespace itk
 /** \class FFTPadPositiveIndexImageFilter
  * \brief Pad an image to make it suitable for an FFT transformation.
  * The difference with @sa FFTPadImageFilter is that the padded image
- * has no negative indices, that can be problematic for @NeighborIterator.
+ * has no negative indices, that can be problematic for @sa NeighborhoodIterator.
  *
  * FFT filters usually requires a specific image size. The size is decomposed
  * in several prime factors, and the filter only supports prime factors up to
@@ -43,6 +43,7 @@ namespace itk
  * https://hdl.handle.net/10380/3154
  *
  * \author Gaetan Lehmann
+ * \author Pablo Hernandez-Cerdan
  *
  * \ingroup IsotropicWavelets
  *
