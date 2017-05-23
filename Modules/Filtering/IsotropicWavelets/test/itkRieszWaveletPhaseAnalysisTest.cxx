@@ -45,7 +45,6 @@
 #  include "itkNumberToString.h"
 #endif
 
-
 // 1. Wavelet analysis (forward) on input image.
 // 2. Create a Monogenic Signal (from Riesz function ) on each wavelet output..
 // 3. Do a PhaseAnalysis on each Monogenic Signal.
@@ -70,7 +69,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
-
 
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
   typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
@@ -251,7 +249,6 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
   ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-
   typedef itk::HeldIsotropicWavelet<>       HeldWavelet;
   typedef itk::VowIsotropicWavelet<>        VowWavelet;
   typedef itk::SimoncelliIsotropicWavelet<> SimoncelliWavelet;
@@ -301,7 +298,6 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
                                      ShannonInverseWaveletType;
   ShannonInverseWaveletType::Pointer shannonInverseWavelet = ShannonInverseWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonInverseWavelet, WaveletFrequencyInverse, ImageToImageFilter);
-
 
   if (dimension == 2)
   {

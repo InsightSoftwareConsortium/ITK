@@ -24,8 +24,9 @@ template <unsigned int VDimension>
 int
 runRieszRotationMatrixTest()
 {
-  bool                                                        testPassed = true;
-  const unsigned int                                          Dimension = VDimension;
+  bool               testPassed = true;
+  const unsigned int Dimension = VDimension;
+
   typedef double                                              ValueType;
   typedef itk::RieszRotationMatrix<ValueType, Dimension>      SteerableMatrix;
   typedef typename SteerableMatrix::SpatialRotationMatrixType SpatialRotationMatrix;

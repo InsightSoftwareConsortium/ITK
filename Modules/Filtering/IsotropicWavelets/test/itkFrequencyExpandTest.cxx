@@ -163,6 +163,7 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
 
         ++complexInverseIt;
       }
+
       // accumSqDiff /= notZeroComplexError;
       if (notZeroComplexError > 0)
       {
@@ -194,6 +195,7 @@ runFrequencyExpandTest(const std::string & inputImage, const std::string & outpu
         }
         ++complexInverseIt;
       }
+
       // accumSqDiff /= notZeroComplexError;
       if (notZeroComplexError > 0)
       {

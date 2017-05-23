@@ -16,7 +16,6 @@
  *
  *=========================================================================*/
 
-
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
@@ -40,7 +39,6 @@
 #  include "itkNumberToString.h"
 #  include "itkViewImage.h"
 #endif
-
 
 template <unsigned int VDimension, typename TWaveletFunction>
 int
@@ -129,7 +127,6 @@ runWaveletFrequencyInverseTest(const std::string &  inputImage,
     std::cout << "outputSize is wrong: " << outputSize << " expectedSize: " << expectedSize << std::endl;
     testPassed = false;
   }
-
 
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
   typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();
@@ -274,7 +271,6 @@ itkWaveletFrequencyInverseTest(int argc, char * argv[])
   // ShannonInverseWaveletType::Pointer shannonInverseWavelet = ShannonInverseWaveletType::New();
   // EXERCISE_BASIC_OBJECT_METHODS( shannonInverseWavelet, WaveletFrequencyInverse,
   //   ImageToImageFilter );
-
 
   if (dimension == 2)
   {

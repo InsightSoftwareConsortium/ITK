@@ -35,7 +35,6 @@
 #  include "itkViewImage.h"
 #endif
 
-
 int
 itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
 {

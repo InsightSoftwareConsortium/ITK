@@ -28,7 +28,6 @@
 #  include "itkViewImage.h"
 #endif
 
-
 template <unsigned int VDimension>
 int
 runShrinkDecimateImageFilterTest()
@@ -138,7 +137,6 @@ itkShrinkDecimateImageFilterTest(int argc, char * argv[])
   ShrinkDecimateImageFilterType::Pointer                       decimator = ShrinkDecimateImageFilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(decimator, ShrinkDecimateImageFilter, ImageToImageFilter);
-
 
   unsigned int dimension = 3;
   if (argc == 2)

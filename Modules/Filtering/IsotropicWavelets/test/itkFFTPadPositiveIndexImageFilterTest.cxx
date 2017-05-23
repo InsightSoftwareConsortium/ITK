@@ -51,11 +51,9 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS(fftpad, FFTPadPositiveIndexImageFilter, ImageToImageFilter);
 
-
   /*itk::SizeValueType sizeGreatestPrimeFactor;
   fftpad->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
   TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, fftpad->GetSizeGreatestPrimeFactor() );*/
-
 
   /*FFTPadType::BoundaryConditionPointerType boundaryCondition;
   fftpad->SetBoundaryCondition( boundaryCondition );

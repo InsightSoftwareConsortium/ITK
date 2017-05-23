@@ -40,7 +40,6 @@
 #  include "itkViewImage.h"
 #endif
 
-
 std::string
 AppendToFilename(const std::string & filename, const std::string & appendix)
 {
@@ -124,7 +123,6 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
               << computedNumberOfHighSubBandsPerLevel << std::endl;
     testPassed = false;
   }
-
   for (unsigned int i = 0; i < forwardWavelet->GetNumberOfOutputs(); ++i)
   {
     std::pair<unsigned int, unsigned int> pairLvBand = forwardWavelet->OutputIndexToLevelBand(i);
@@ -323,7 +321,6 @@ itkWaveletFrequencyForwardTest(int argc, char * argv[])
   ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-
   typedef itk::HeldIsotropicWavelet<>       HeldWavelet;
   typedef itk::VowIsotropicWavelet<>        VowWavelet;
   typedef itk::SimoncelliIsotropicWavelet<> SimoncelliWavelet;
@@ -353,7 +350,6 @@ itkWaveletFrequencyForwardTest(int argc, char * argv[])
                                      ShannonForwardWaveletType;
   ShannonForwardWaveletType::Pointer shannonForwardWavelet = ShannonForwardWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonForwardWavelet, WaveletFrequencyForward, ImageToImageFilter);
-
 
   if (dimension == 2)
   {

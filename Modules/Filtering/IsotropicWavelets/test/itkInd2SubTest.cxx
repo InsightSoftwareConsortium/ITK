@@ -88,7 +88,6 @@ itkInd2SubTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-
   const unsigned int                        D2 = 2;
   typedef itk::FixedArray<unsigned int, D2> Array2DType;
   Array2DType                               ass2D;
@@ -159,7 +158,6 @@ itkInd2SubTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-
   // ITK index/size interface
   typedef itk::Index<D2> Index2DType;
   itk::Size<D2>          sizesItk2;
@@ -173,7 +171,6 @@ itkInd2SubTest(int, char *[])
     ass2D[0] = static_cast<unsigned int>(out[0]);
     ass2D[1] = static_cast<unsigned int>(out[1]);
     storeOutputIndex2D.push_back(ass2D);
-
     for (unsigned int i = 0; i < D2; ++i)
     {
       std::cout << out[i] << " , ";

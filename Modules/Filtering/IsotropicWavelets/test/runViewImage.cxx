@@ -36,7 +36,9 @@ runViewImage(int argc, char * argv[])
   size_t      win_x = 600;
   size_t      win_y = 600;
   if (argc >= 3)
+  {
     win_title = argv[2];
+  }
   if (argc == 5)
   {
     win_x = atoi(argv[3]);

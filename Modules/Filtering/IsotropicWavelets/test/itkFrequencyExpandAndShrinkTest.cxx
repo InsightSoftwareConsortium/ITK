@@ -47,7 +47,6 @@
 #  include "itkViewImage.h"
 #endif
 
-
 template <unsigned int VDimension>
 int
 runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::string & outputImage)
@@ -236,7 +235,6 @@ itkFrequencyExpandAndShrinkTest(int argc, char * argv[])
   ShrinkViaInverseFFTType::Pointer shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS(shrinkViaInverseFFTFilter, FrequencyShrinkViaInverseFFTImageFilter, ImageToImageFilter);
-
 
   unsigned int dimension = 3;
   if (argc == 4)

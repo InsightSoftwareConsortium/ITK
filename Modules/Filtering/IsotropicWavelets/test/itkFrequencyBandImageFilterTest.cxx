@@ -24,7 +24,6 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkTestingMacros.h"
 
-
 // Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
@@ -34,6 +33,7 @@ int
 itkFrequencyBandImageFilterTest(int argc, char * argv[])
 {
   const unsigned int Dimension = 3;
+
   if (argc != 2)
   {
     std::cerr << "Usage: " << argv[0] << " Even|Odd" << std::endl;
@@ -158,7 +158,6 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
     std::cerr << "Expected images to be equal, but got " << numberOfDiffPixels << "unequal pixels" << std::endl;
     return EXIT_FAILURE;
   }
-
 
   // Tests with radians
 

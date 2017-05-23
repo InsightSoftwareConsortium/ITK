@@ -32,12 +32,10 @@
 #include <string>
 #include <cmath>
 
-
 // Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
 #endif
-
 
 int
 itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])

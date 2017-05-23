@@ -42,14 +42,14 @@
 #  include "itkViewImage.h"
 #endif
 
-
 template <unsigned int VDimension, typename TWaveletFunction>
 int
 runWaveletFrequencyFilterBankGeneratorDownsampleTest(const std::string & inputImage,
                                                      const std::string &,
                                                      const unsigned int & inputBands)
 {
-  const unsigned int                       Dimension = VDimension;
+  const unsigned int Dimension = VDimension;
+
   typedef float                            PixelType;
   typedef itk::Image<PixelType, Dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
@@ -159,7 +159,6 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
   ShannonIsotropicWaveletType::Pointer shannonIsotropicWavelet = ShannonIsotropicWaveletType::New();
   EXERCISE_BASIC_OBJECT_METHODS(shannonIsotropicWavelet, ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
-
   typedef itk::HeldIsotropicWavelet<>       HeldWavelet;
   typedef itk::VowIsotropicWavelet<>        VowWavelet;
   typedef itk::SimoncelliIsotropicWavelet<> SimoncelliWavelet;
@@ -186,7 +185,6 @@ itkWaveletFrequencyFilterBankGeneratorDownsampleTest(int argc, char * argv[])
   ShannonWaveletFilterBankType::Pointer shannonWaveletFilterBankGenerator = ShannonWaveletFilterBankType::New();
   EXERCISE_BASIC_OBJECT_METHODS(
     shannonWaveletFilterBankGenerator, WaveletFrequencyFilterBankGenerator, GenerateImageSource);
-
 
   if (dimension == 2)
   {

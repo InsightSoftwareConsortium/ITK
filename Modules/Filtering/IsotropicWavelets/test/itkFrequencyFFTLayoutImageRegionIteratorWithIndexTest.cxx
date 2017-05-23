@@ -23,7 +23,6 @@
 #include <complex>
 #include <itkMath.h>
 
-
 template <typename TImage>
 class itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester
 {
@@ -63,7 +62,6 @@ public:
     start.Fill(inputImageSize / 2 + isImageSizeOdd);
     m_NegativeHalfRegion.SetSize(size);
     m_NegativeHalfRegion.SetIndex(start);
-
     //
     // With default frequency_spacing = 1 ( = sampling frequency)
     // Nyquist_first = fs * (N/2) / N where N is the size of that dim.
@@ -71,7 +69,6 @@ public:
     // If Odd, Nyquist Freq  = fs/2 is not represented, but there is still
     // a largest frequency at half index with value = fs/2 * (N-1)/N
     //
-
     for (unsigned int dim = 0; dim < ImageType::ImageDimension; dim++)
     {
       m_LargestFrequency[dim] = 0.5; // = fs/2 with default spacing = 1.0
@@ -137,6 +134,7 @@ public:
       --reverseIt;
       ++it;
     }
+
     return true;
   }
 
@@ -180,6 +178,7 @@ public:
       }
       ++it;
     }
+
     return true;
   }
 
@@ -244,6 +243,7 @@ public:
       // increment and test index
       ++it;
     }
+
     return true;
   }
 
@@ -261,8 +261,9 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
   bool testPassed = true; // let's be optimistic
 
   const unsigned int Dimension = 3;
-  typedef char       CharPixelType;
-  typedef char       FloatPixelType;
+
+  typedef char CharPixelType;
+  typedef char FloatPixelType;
 
   // Even input image size test
   {
@@ -305,7 +306,6 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
     std::cout << "Test failed!" << std::endl;
     return EXIT_FAILURE;
   }
-
 
   return EXIT_SUCCESS;
 }

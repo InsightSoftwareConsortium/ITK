@@ -26,7 +26,6 @@
 
 #include <string>
 
-
 template <unsigned int VDimension>
 int
 runZeroDCImageFilterTest(const std::string & inputImage)
@@ -99,7 +98,6 @@ itkZeroDCImageFilterTest(int argc, char * argv[])
   {
     dimension = atoi(argv[2]);
   }
-
 
   const unsigned int                            ImageDimension = 3;
   typedef double                                PixelType;

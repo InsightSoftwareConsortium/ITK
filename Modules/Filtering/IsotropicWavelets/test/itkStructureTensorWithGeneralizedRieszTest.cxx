@@ -47,7 +47,6 @@
 #  include "itkNumberToString.h"
 #endif
 
-
 template <unsigned int VDimension, typename TWaveletFunction>
 int
 runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
@@ -66,7 +65,6 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
   typename ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
-
 
   typedef itk::ZeroDCImageFilter<ImageType> ZeroDCFilterType;
   typename ZeroDCFilterType::Pointer        zeroDCFilter = ZeroDCFilterType::New();
@@ -125,7 +123,6 @@ runStructureTensorWithGeneralizedRieszTest(const std::string & inputImage,
     std::vector<typename ComplexImageType::Pointer> rieszOutputs = filterBank->GetOutputs();
     std::vector<typename ComplexImageType::Pointer> rieszWavelets;
     std::vector<typename ImageType::Pointer>        rieszWaveletsSpatial;
-
     for (unsigned int rieszComp = 0; rieszComp < filterBank->GetNumberOfOutputs(); ++rieszComp)
     {
       // Multiply wavelet with riesz.
@@ -266,7 +263,6 @@ itkStructureTensorWithGeneralizedRieszTest(int argc, char * argv[])
   {
     dimension = atoi(argv[8]);
   }
-
 
   if (dimension == 2)
   {

@@ -92,7 +92,6 @@ itkMonogenicSignalFrequencyImageFilterTest(int argc, char * argv[])
   typedef itk::VectorIndexSelectionCastImageFilter<MonoFilterOutputImageType, ComplexImageType> VectorCastFilterType;
   VectorCastFilterType::Pointer vectorCastFilter = VectorCastFilterType::New();
   vectorCastFilter->SetInput(monoFilter->GetOutput());
-
   for (unsigned int c = 0; c < computedNumberOfComponentsPerPixel; ++c)
   {
     vectorCastFilter->SetIndex(c);

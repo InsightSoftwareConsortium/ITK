@@ -165,7 +165,6 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
   ExpanderType::Pointer                                         expander = ExpanderType::New();
   EXERCISE_BASIC_OBJECT_METHODS(expander, ExpandWithZerosImageFilter, ImageToImageFilter);
 
-
   unsigned int dimension = 3;
   if (argc == 2)
   {

@@ -37,8 +37,9 @@ template <unsigned int VDimension>
 int
 runRieszFrequencyFunctionTest(unsigned int inputOrder)
 {
-  bool                                                   testPassed = true;
-  const unsigned int                                     Dimension = VDimension;
+  bool               testPassed = true;
+  const unsigned int Dimension = VDimension;
+
   typedef std::complex<double>                           OutputType;
   typedef itk::Point<itk::SpacePrecisionType, Dimension> InputType;
 
@@ -106,7 +107,6 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
               << " expected: " << expectedNumberOfComponents << " are not equal!" << std::endl;
     testPassed = false;
   }
-
   // Regression test for indice calculation.
   for (unsigned int order = 1; order < 6; ++order)
   {

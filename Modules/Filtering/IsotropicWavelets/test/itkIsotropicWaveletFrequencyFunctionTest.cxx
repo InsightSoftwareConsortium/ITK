@@ -31,7 +31,6 @@
 #include <string>
 #include <fstream>
 
-
 namespace itk
 {
 namespace Testing
@@ -142,7 +141,6 @@ itkIsotropicWaveletFrequencyFunctionTest(int argc, char * argv[])
   const unsigned int inputBands = atoi(argv[3]);
   const std::string  waveletFunction = argv[4];
 
-
   unsigned int dimension = 3;
   if (argc == 6)
   {
@@ -156,17 +154,25 @@ itkIsotropicWaveletFrequencyFunctionTest(int argc, char * argv[])
   if (dimension == 2)
   {
     if (waveletFunction == "Held")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<2, HeldWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else if (waveletFunction == "Vow")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<2, VowWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else if (waveletFunction == "Simoncelli")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<2, SimoncelliWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else if (waveletFunction == "Shannon")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<2, ShannonWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else
     {
       std::cerr << argv[4] << " is an unknown wavelet type " << std::endl;
@@ -176,17 +182,25 @@ itkIsotropicWaveletFrequencyFunctionTest(int argc, char * argv[])
   else if (dimension == 3)
   {
     if (waveletFunction == "Held")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<3, HeldWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else if (waveletFunction == "Vow")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<3, VowWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else if (waveletFunction == "Simoncelli")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<3, SimoncelliWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else if (waveletFunction == "Shannon")
+    {
       return runIsotropicWaveletFrequencyFunctionTest<3, ShannonWavelet>(
         profileDataRootPath, outputImage, inputBands, waveletFunction);
+    }
     else
     {
       std::cerr << "Test failed!" << std::endl;

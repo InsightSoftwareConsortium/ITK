@@ -33,7 +33,6 @@
 #  include "itkViewImage.h"
 #endif
 
-
 template <unsigned int VDimension>
 int
 runStructureTensorTest()
