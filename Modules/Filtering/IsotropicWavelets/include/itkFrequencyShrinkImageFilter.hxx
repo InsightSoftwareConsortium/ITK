@@ -172,7 +172,6 @@ FrequencyShrinkImageFilter<TImageType>::GenerateData()
 
   typedef typename ImageType::RegionType RegionType;
   ProgressReporter                       progress(this, 0, numberOfRegions);
-
   for (unsigned int n = 0; n < numberOfRegions; ++n)
   {
     subIndices = itk::Ind2Sub<ImageDimension>(n, nsizes);
@@ -357,7 +356,6 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
   typename TImageType::SizeType    outputSize;
   typename TImageType::PointType   outputOrigin;
   typename TImageType::IndexType   outputStartIndex;
-
   // TODO Check if you want to modify metadata in this filter.
   // Reduce Spacing, a frequency shrinker deletes high frequency domain.
   // The spacing is taken into account by FrequencyIterators method GetFrequency().

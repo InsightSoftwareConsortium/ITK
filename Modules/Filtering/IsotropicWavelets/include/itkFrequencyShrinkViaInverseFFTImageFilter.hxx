@@ -162,7 +162,6 @@ FrequencyShrinkViaInverseFFTImageFilter<TImageType>::GenerateOutputInformation()
   typename TImageType::SizeType    outputSize;
   typename TImageType::PointType   outputOrigin;
   typename TImageType::IndexType   outputStartIndex;
-
   // TODO Check if you want to modify metada in this filter.
   for (unsigned int i = 0; i < TImageType::ImageDimension; i++)
   {

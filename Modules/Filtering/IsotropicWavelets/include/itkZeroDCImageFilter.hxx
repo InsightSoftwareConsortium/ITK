@@ -68,7 +68,6 @@ ZeroDCImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
   itkPrintSelfObjectMacro(StatisticsFilter);
   itkPrintSelfObjectMacro(SubtractFilter);
 }
-
 } // end namespace itk
 
 #endif

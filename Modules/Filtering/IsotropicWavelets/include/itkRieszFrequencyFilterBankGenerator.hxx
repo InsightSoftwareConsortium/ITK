@@ -60,7 +60,6 @@ template <typename TOutputImage, typename TRieszFunction, typename TFrequencyReg
 void
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::GenerateData()
 {
-
   /***************** Allocate Outputs *****************/
   std::vector<OutputImagePointer>   outputList;
   std::vector<OutputRegionIterator> outputItList;

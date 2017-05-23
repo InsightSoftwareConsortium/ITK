@@ -38,12 +38,13 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
   unsigned int k)
 {
   if (m_HighPassSubBands == k)
+  {
     return;
+  }
 
   this->m_HighPassSubBands = k;
   this->SetNumberOfRequiredOutputs(k + 1);
   this->Modified();
-
   for (unsigned int band = 0; band < this->m_HighPassSubBands + 1; ++band)
   {
     this->SetNthOutput(band, this->MakeOutput(band));
@@ -86,9 +87,13 @@ typename WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFr
     unsigned int k)
 {
   if (k == 0)
+  {
     return this->GetOutputLowPass();
+  }
   if (k == m_HighPassSubBands)
+  {
     return this->GetOutputHighPass();
+  }
   return this->GetOutput(k);
 }
 

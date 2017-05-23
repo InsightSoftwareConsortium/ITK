@@ -47,10 +47,14 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   InputIndexToLevelBand(unsigned int linear_index)
 {
   if (linear_index > this->m_TotalInputs - 1 || linear_index < 0)
+  {
     itkExceptionMacro(<< "Failed converting liner index " << linear_index << " to Level,Band pair : out of bounds");
+  }
   // Low pass (band = 0).
   if (linear_index == 0)
+  {
     return std::make_pair(this->m_Levels, 0);
+  }
 
   unsigned int band = (linear_index - 1) % this->m_HighPassSubBands;
   band = band + 1;
@@ -100,13 +104,16 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   const std::vector<InputImagePointer> & inputs)
 {
   if (inputs.size() != this->m_TotalInputs)
+  {
     itkExceptionMacro(<< "Error seting inputs in inverse wavelet. Wrong vector size: " << inputs.size()
                       << " .According to number of levels and bands it should be: " << m_TotalInputs);
-
+  }
   for (unsigned int nin = 0; nin < this->m_TotalInputs; ++nin)
   {
     if (this->GetInput(nin) != inputs[nin])
+    {
       this->SetNthInput(nin, inputs[nin]);
+    }
   }
 }
 
@@ -124,9 +131,10 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   const std::vector<InputImagePointer> & inputs)
 {
   if (inputs.size() != this->m_TotalInputs - 1)
+  {
     itkExceptionMacro(<< "Error seting inputs in inverse wavelet. Wrong vector size: " << inputs.size()
                       << " .According to number of levels and bands it should be: " << m_TotalInputs - 1);
-
+  }
   for (unsigned int nin = 0; nin < this->m_TotalInputs - 1; ++nin)
   {
     this->SetNthInput(nin, inputs[nin]);
@@ -156,12 +164,13 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
 {
   // call the superclass's implementation of this method
   Superclass::GenerateOutputInformation();
-
   // Check  all inputs exist.
   for (unsigned int nInput = 0; nInput < this->m_TotalInputs; ++nInput)
   {
     if (!this->GetInput(nInput))
+    {
       itkExceptionMacro(<< "Input: " << nInput << " has not been set");
+    }
   }
 
   // We know inputIndex = 0 has the same size than output. Use it.
@@ -218,7 +227,6 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
   baseRegion.SetIndex(baseIndex);
   baseRegion.SetSize(baseSize);
   inputRegion = baseRegion;
-
   for (unsigned int level = 0; level < this->m_Levels; ++level)
   {
     for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)

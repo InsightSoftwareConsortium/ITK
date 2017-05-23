@@ -49,12 +49,16 @@ HeldIsotropicWavelet<TFunctionValue, VImageDimension, TInput>::EvaluateMagnitude
 {
   // freq_in_rad_per_sec = freq_norm_in_hz * 2 * pi
   if (freq_norm_in_hz > 0.125 && freq_norm_in_hz <= 0.25)
+  {
     return static_cast<TFunctionValue>(
       std::cos(2.0 * Math::pi * this->ComputePolynom(freq_norm_in_hz, this->m_PolynomialOrder)));
+  }
 
   if (freq_norm_in_hz > 0.25 && freq_norm_in_hz <= 0.5)
+  {
     return static_cast<TFunctionValue>(
       std::sin(2.0 * Math::pi * this->ComputePolynom(freq_norm_in_hz / 2.0, this->m_PolynomialOrder)));
+  }
 
   return 0;
 }

@@ -116,8 +116,10 @@ void
 FrequencyBandImageFilter<TImageType, TFrequencyIteratorType>::BeforeThreadedGenerateData()
 {
   if (this->m_LowFrequencyThreshold > this->m_HighFrequencyThreshold)
+  {
     itkExceptionMacro("FrequencyThresholds wrong: " << this->m_LowFrequencyThreshold << " , "
                                                     << this->m_HighFrequencyThreshold);
+  }
 
   ImageAlgorithm::Copy(this->GetInput(),
                        this->GetOutput(),
@@ -135,6 +137,7 @@ FrequencyBandImageFilter<TImageType, TFrequencyIteratorType>::ThreadedGenerateDa
   ImagePointer outputPtr = this->GetOutput();
 
   FrequencyIteratorType freqIt(outputPtr, outputRegionForThread);
+
   freqIt.GoToBegin();
   FrequencyValueType                            f;
   typename FrequencyIteratorType::FrequencyType w;

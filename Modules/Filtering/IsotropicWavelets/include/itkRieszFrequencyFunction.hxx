@@ -26,7 +26,6 @@
 
 namespace itk
 {
-
 template <typename TFunctionValue, unsigned int VImageDimension, typename TInput>
 RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::RieszFrequencyFunction()
   : m_Order(0)
@@ -114,6 +113,7 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::EvaluateAllComp
   const TInput & frequency_point) const
 {
   double magn(this->Magnitude(frequency_point));
+
   // Precondition:
   if (itk::Math::FloatAlmostEqual(magn, 0.0))
   {
@@ -163,7 +163,6 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::PrintSelf(std::
     std::cout << ")" << std::endl;
   }
 }
-
 } // end namespace itk
 
 #endif

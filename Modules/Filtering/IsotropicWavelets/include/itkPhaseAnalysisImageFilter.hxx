@@ -27,7 +27,6 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::PhaseAnalysisImageFilter()
 {
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(2);
-
   for (unsigned int n_output = 0; n_output < 2; ++n_output)
   {
     this->SetNthOutput(n_output, this->MakeOutput(n_output));
@@ -87,6 +86,7 @@ PhaseAnalysisImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       ++ampIt;
       ++phaseIt;
     }
+
     inputIt.NextLine();
     ampIt.NextLine();
     phaseIt.NextLine();

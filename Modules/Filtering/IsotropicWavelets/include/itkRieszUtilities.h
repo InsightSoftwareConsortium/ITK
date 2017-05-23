@@ -61,6 +61,7 @@ ComputeUniqueIndices(TIndicesArrayType                                          
                      unsigned int                                                   init = 0)
 {
   unsigned int subIndiceSize = static_cast<unsigned int>(subIndice.size());
+
   if (init == subIndiceSize - 1)
   {
     return;
@@ -141,7 +142,9 @@ LessOrEqualIndiceComparisson(const TIndicesArrayType & rhs, const TIndicesArrayT
   for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     if (rhs[i] > lhs[i])
+    {
       return false;
+    }
   }
   return true;
 }

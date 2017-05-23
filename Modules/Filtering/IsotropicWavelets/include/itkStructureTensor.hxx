@@ -44,13 +44,16 @@ void
 StructureTensor<TInputImage, TOutputImage>::SetInputs(const std::vector<InputImagePointer> & inputs)
 {
   if (inputs.size() <= 1)
+  {
     itkExceptionMacro(<< "StructureTensor requires at least 2 input images. Current size of input vector in SetInputs: "
                       << inputs.size());
-
+  }
   for (unsigned int nin = 0; nin < inputs.size(); ++nin)
   {
     if (this->GetInput(nin) != inputs[nin])
+    {
       this->SetNthInput(nin, inputs[nin]);
+    }
   }
 }
 
@@ -208,6 +211,7 @@ StructureTensor<TInputImage, TOutputImage>::ThreadedGenerateData(const OutputIma
         ++inputIts[i];
       }
     } // end outIt Line
+
     outIt.NextLine();
     for (unsigned int i = 0; i < inputIts.size(); ++i)
     {
@@ -223,8 +227,10 @@ StructureTensor<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int 
   const unsigned int nInputs = this->GetNumberOfInputs();
 
   if (eigen_number >= nInputs)
+  {
     itkExceptionMacro(<< "The eigen number must be between [0, numberInputs]. eigen_number = " << eigen_number
                       << " . nInputs = " << nInputs);
+  }
 
   const OutputImageType * outputPtr = this->GetOutput();
   // Allocate output of this method:
@@ -262,6 +268,7 @@ StructureTensor<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int 
       ++outIt;
       ++projectIt;
     }
+
     outIt.NextLine();
     projectIt.NextLine();
     for (unsigned int r = 0; r < nInputs; r++)
@@ -269,6 +276,7 @@ StructureTensor<TInputImage, TOutputImage>::ComputeProjectionImage(unsigned int 
       inputIts[r].NextLine();
     }
   }
+
   return projectImage;
 }
 
@@ -307,7 +315,9 @@ StructureTensor<TInputImage, TOutputImage>::ComputeCoherencyImage() const
       {
         // Store mean of eigenValues other than principal in coherency.
         if (r != largestEigenValueIndex)
+        {
           coherency += outIt.Get()[r][nInputs] / static_cast<FloatType>(nInputs - 1);
+        }
       }
       FloatType largestEigenValue = outIt.Get()[largestEigenValueIndex][nInputs];
       coherency = (largestEigenValue - coherency) / (largestEigenValue + coherency);
@@ -315,9 +325,11 @@ StructureTensor<TInputImage, TOutputImage>::ComputeCoherencyImage() const
       ++outIt;
       ++coherencyIt;
     }
+
     outIt.NextLine();
     coherencyIt.NextLine();
   }
+
   return coherencyImage;
 }
 } // end namespace itk

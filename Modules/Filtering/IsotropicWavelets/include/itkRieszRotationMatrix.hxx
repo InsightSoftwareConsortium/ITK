@@ -148,7 +148,6 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
   {
     allIndicesOrder[ord] = itk::utils::ComputeAllPossibleIndices<IndicesArrayType, VImageDimension>(ord);
   }
-
   for (unsigned int i = 0; i < this->m_Components; ++i)
   {
     for (unsigned int j = 0; j < this->m_Components; ++j)
@@ -388,7 +387,6 @@ RieszRotationMatrix<T, VImageDimension>::ComputeSteerableMatrix()
 
   return this->GetVnlMatrix(); // return S;
 }
-
 } // end namespace itk
 
 #endif

@@ -138,6 +138,7 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
       outIt.Set(static_cast<typename TOutputImage::PixelType>(inputPtr->GetPixel(inputIndex)));
       ++outIt;
     }
+
     outIt.NextLine();
     progress.CompletedPixel();
   }
@@ -202,7 +203,6 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegi
   }
 
   inputRequestedRegionIndex = outputRequestedRegionStartIndex * factorSize + offsetIndex;
-
   // originally this was
   // inputRequestedRegionSize = outputRequestedRegionSize * factorSize;
   // but since we don't sample edge to edge, we can reduce the size
@@ -246,13 +246,13 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(
   typename TOutputImage::SpacingType outputSpacing(inputSpacing);
   typename TOutputImage::SizeType    outputSize;
   typename TOutputImage::IndexType   outputStartIndex;
-
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; i++)
   {
     outputSpacing[i] *= m_ShrinkFactors[i];
 
     // Round down so that all output pixels fit input input region
-    outputSize[i] = static_cast<SizeValueType>(std::floor((double)inputSize[i] / (double)m_ShrinkFactors[i]));
+    outputSize[i] = static_cast<SizeValueType>(
+      std::floor(static_cast<double>(inputSize[i]) / static_cast<double>(m_ShrinkFactors[i])));
 
     if (outputSize[i] < 1)
     {
@@ -261,8 +261,8 @@ ShrinkDecimateImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation(
 
     // Because of the later origin shift this starting index is not
     // critical
-    outputStartIndex[i] =
-      static_cast<IndexValueType>(std::ceil((double)inputStartIndex[i] / (double)m_ShrinkFactors[i]));
+    outputStartIndex[i] = static_cast<IndexValueType>(
+      std::ceil(static_cast<double>(inputStartIndex[i]) / static_cast<double>(m_ShrinkFactors[i])));
   }
 
   outputPtr->SetSpacing(outputSpacing);
