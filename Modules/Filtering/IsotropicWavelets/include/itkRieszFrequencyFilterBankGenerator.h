@@ -27,20 +27,9 @@
 namespace itk
 {
 /** \class RieszFrequencyFilterBankGenerator
- * Generate a filter bank of M components.
+ * Generate a filter bank of M components using the RieszFrequencyFunction.
  * M = p(N,d); where N = Order of the RieszTransform, and d = ImageDimension.
  * M := p(N,d) = \frac{(N+d-1)!}{(d-1)! N!}
- *
- * TODO: OLD DELETE ME
- * \brief Generate filter bank of RieszFrequencyFunction.
- * RieszFrequencyFunction returns a complex value,
- * but the output of this generator is real , representing the imaginary part
- * of that complex number (the real part of a Riesz Transform is zero).
- * It is conceptually equivalent to a ImageFilter, but because it is usually used along Wavelets, the
- * FilterBankGenerator interface has been chosen. Check RieszFrecuencyFunction for the spatial function implementation.
- *
- * The output is one image per input ImageDimension, corresponding to each direction.
- * For example: Rx = GetOutput(0), Ry = GetOutput(1), Rz = GetOutput(2) for 3D.
  *
  * \sa RieszFrequencyFunction
  *

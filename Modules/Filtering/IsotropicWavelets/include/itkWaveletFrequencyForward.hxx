@@ -117,18 +117,18 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 unsigned int
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
-  ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size)
+  ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size, unsigned int scaleFactor)
 {
   FixedArray<unsigned int, ImageDimension> exponent_per_axis;
   for (unsigned int axis = 0; axis < ImageDimension; ++axis)
   {
     size_t size_axis = input_size[axis];
-    if (size_axis < 2)
+    if (size_axis < scaleFactor)
     {
       exponent_per_axis[axis] = 1;
       continue;
     }
-    double exponent = std::log(size_axis) / std::log(2.0);
+    double exponent = std::log(size_axis) / std::log(static_cast<double>(scaleFactor));
     // check that exponent is integer: the fractional part is 0
     double int_part;
     if (std::modf(exponent, &int_part) == 0)

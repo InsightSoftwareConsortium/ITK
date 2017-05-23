@@ -26,20 +26,23 @@
 namespace itk
 {
 /** \class WaveletFrequencyFilterBankGenerator
- * \brief Generate filter bank of wavelet images.
+ * This implementation generates a pair of low-pass / high-pass wavelet filter.
+ * Or if HighPassSubBands > 1 multiple high-pass-subbands instead of only one.
  *
- * This implementation generates a low-pass / high-pass wavelet filter .
+ * It does not generate a pyramid of filters, that is done by the \sa WaveletFrequencyForward, so here there is no
+ * parameter involving number of levels/scales.
  *
- * The output are two images, one low-pass and other high-pass, downsampled by DownSampleImageFactor.
+ * The minimum output are two images, one low-pass and other high-pass,
+ * and again if HighPassSubBands > 1, multiple high-sub-bands.
  *
- * The wavelet operation is defined by an user chosen SpatialFunction
- * The Spatial Function can be in the frequency or spatial domain.
-
- * \warning This filter requires that the output image pixels are of a floating point type.
- * It won't compile otherwise if Concept_Checking is enabled.
+ * The wavelet operation is defined in the chosen TWaveletFuntion, using TWaveletFunction::EvaluateForwardSubBand, or
+ * EvaluateInverseSubBand, where SubBand can be: LowPass, HighPass, or any HighPassSubBand. Also accepts a template
+ * FrequencyIterator, to generate images with different frequency layouts.
  *
- * \sa WaveletFT
- * \sa SpatialFunction
+ * \sa WaveletFrequencyForward
+ * \sa FrequencyFunction
+ * \sa IsotropicWaveletFrequencyFunction
+ * \sa FrequencyImageRegionConstIterator
  *
  * \ingroup IsotropicWavelets
  */

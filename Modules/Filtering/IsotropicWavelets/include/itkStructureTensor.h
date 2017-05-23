@@ -28,8 +28,10 @@
 namespace itk
 {
 /** \class StructureTensor
- * StructureTensor provides a procedure to estimate the orientation (or linear combination of inputs) that maximizes
---at every pixel-- the response.
+* Given an array of inputs, StructureTensor computes the linear combination (or direction) of inputs that maximizes the
+response for each location in the image.
+* Instead of only measuring the response at the pixel of interest, it takes into account a local neighborhood.
+\cite{unser_steerable_2011}.
  *
 \f[
  \mathbf{u}({\mathbf{x}_0}) = \arg \max_{\Vert\mathbf{u}\Vert =1 }  \int_{\mathbb{R}^d} g(\mathbf{x} - \mathbf{x}_0)
@@ -39,7 +41,7 @@ namespace itk
  \left| \mathbf{I}_{\mathbf{u}}(\mathbf{x})\right|^2 =
  \mathbf{u}^T \cdot \mathbf{I}(\mathbf{x}) \cdot (\mathbf{I}(\mathbf{x}))^T \cdot \mathbf{u}
 \f]
- * \f$ \matbf{I}\f$ is the required std::vector of input images. These images might be the output
+ * \f$ \mathbf{I}\f$ is the required std::vector of input images. These images might be the output
  * after applying a directional filter to an image (for example, directional derivatives from an image, or the basis of
 a steerable filter, such as a RieszImageFilter).
  * Instead of just select the max response at every pixel, it uses the response over
