@@ -21,26 +21,9 @@
 #include "itkConfigure.h"
 #include "itkIntTypes.h"
 
-#include "itkThreadSupport.h"
-
-#if defined(ITK_USE_PTHREADS)
-#include <pthread.h>
-#include <semaphore.h>
-#include <unistd.h> // for sleep
-#elif defined(ITK_USE_WIN32_THREADS)
-#include <windows.h>
-#endif
-
-#if defined __APPLE__
-#include <mach/mach_init.h>
-#include <mach/mach_error.h>
-#include <mach/semaphore.h>
-#include <mach/task.h>
-#include <mach/task_info.h>
-#endif
-
 #include <map>
 #include <set>
+#include <deque>
 
 #include "itkThreadJob.h"
 #include "itkObject.h"
@@ -52,23 +35,19 @@ namespace itk
 {
 
 /**
-* \class ThreadPool
-* \brief Thread pool manages the threads for itk.
-*
-*  Thread pool is called and initialized from within the MultiThreader.
-*  Initially the thread pool is started with zero threads.
-* Threads are added as job(s) are submitted to the thread pool and if it cannot be
-* executed right away. For example : If the thread pool has three threads and all are
-* busy. If a new job is submitted to the thread pool, the thread pool checks to see if
-* any threads are free. If not, it adds a new thread and executed the job right away.
-* The ThreadJob class is used to submit jobs to the thread pool. The ThreadJob's
-* necessary members need to be set and then the ThreadJob can be passed to the
-* ThreaadPool by calling its AssignWork Method which returns the thread id on which
-* the job is being executed. One can then wait for the job using the thread id and
-* calling the WaitForJob method on the thread pool.
-* \ingroup OSSystemObjects
-* \ingroup ITKCommon
-*/
+ * \class ThreadPool
+ * \brief Thread pool maintains a constant number of threads.
+ *
+ * Thread pool is called and initialized from within the MultiThreader.
+ * Initially the thread pool is started with GlobalDefaultNumberOfThreads.
+ * The ThreadJob class is used to submit jobs to the thread pool. The ThreadJob's
+ * necessary members need to be set and then the ThreadJob can be passed to the
+ * ThreadPool by calling its AddWork method.
+ * One can then wait for the job by calling the WaitForJob method.
+ *
+ * \ingroup OSSystemObjects
+ * \ingroup ITKCommon
+ */
 class ITKCommon_EXPORT ThreadPool : public Object
 {
 public:
@@ -79,207 +58,98 @@ public:
   typedef SmartPointer< Self >     Pointer;
   typedef SmartPointer<const Self> ConstPointer;
 
-  /** local class typedefs. */
-  typedef int                  ThreadTimeType;
-  typedef unsigned int         ThreadCountType;
-  typedef ThreadJob::JobIdType ThreadJobIdType;
+  typedef ThreadJob::Semaphore Semaphore;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(ThreadPool, Object);
 
-  /** Returns the global instance of the ThreadPool */
+  /** Returns the global instance */
   static Pointer New();
 
-  /** Returns the global singleton instance of the ThreadPool
-   *
-   * This method is a Singleton and does not have a New method.
-   */
+  /** Returns the global singleton instance of the ThreadPool */
   static Pointer GetInstance();
 
-  /** This method is called to assign a job to the thread pool */
-  ThreadProcessIdType AssignWork(ThreadJob worker);
+  /** Add this job to the thread pool queue.
+   * All data members of the ThreadJob must be filled.
+   * The semaphore pointer must point to a valid semaphore structure.
+   * AddWork will initialize that semaphore, and the invoker must pass it
+   * to WaitForJob in order to wait for the job's completion.
+   */
+  void AddWork(const ThreadJob& job);
 
-  /** Can call this method if we want to pre-start maxThreads in the thread pool
-    */
-  void InitializeThreads(ThreadCountType maxThreads);
+  /** Can call this method if we want to add extra threads to the pool. */
+  void AddThreads(ThreadIdType count);
 
-  /** This method blocks until the given (job) id has finished executing */
-  bool WaitForJobOnThreadHandle(ThreadProcessIdType handle);
+  /** The approximate number of idle threads. */
+  ThreadIdType GetNumberOfCurrentlyIdleThreads() const;
+
+  /** This method blocks until the given job has finished executing. */
+  void WaitForJob(Semaphore& jobSemaphore);
+
+  /** Platform specific number of threads */
+  static ThreadIdType GetGlobalDefaultNumberOfThreadsByPlatform();
+
+  static ThreadIdType GetGlobalDefaultNumberOfThreads();
 
 protected:
-  class ThreadSemaphorePair
-  {
-  public:
-    ThreadSemaphorePair(const ThreadProcessIdType & tph);
-    int SemaphoreWait();
-    int SemaphorePost();
-#if defined(__APPLE__)
-    semaphore_t           m_Semaphore;
-#elif defined(_WIN32) || defined(_WIN64)
-    HANDLE               m_Semaphore;
-#elif defined(ITK_USE_PTHREADS)
-    sem_t                m_Semaphore;
-#endif
 
-    ThreadProcessIdType  m_ThreadProcessHandle;
+  static void PlatformCreate(Semaphore &semaphore);
+  static void PlatformWait(Semaphore &semaphore);
+  static void PlatformSignal(Semaphore &semaphore);
+  static void PlatformDelete(Semaphore &semaphore);
+  static bool PlatformClose(ThreadProcessIdType &threadId); //returns success status
 
-  private:
-    static int m_SemaphoreCount;
-    ThreadSemaphorePair() ITK_DELETED_FUNCTION;
-  };
+  /** Called to add a thread to the thread pool.
+  This method add a thread to the thread pool and pushes the thread handle
+  into the m_Threads vector.
+   */
+  void AddThread();
 
-  ThreadPool();  // Protected so that only the GetThreadPool can create a thread
-                 // pool
+  /** Platform-specific function to clean up all the threads. */
+  void DeleteThreads();
+
+  ThreadPool();
   virtual ~ThreadPool() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadPool);
 
-  /** Set when the thread pool is to be stopped */
-  bool m_ScheduleForDestruction;
+  ThreadIdType m_ThreadCount;
 
-  /** Maintains count of threads */
-  ThreadCountType m_ThreadCount;
-
-  /** To lock on m_NumberOfPendingJobsToBeRun */
-  static SimpleFastMutexLock m_NumberOfPendingJobsToBeRunMutex;
-
-  /** counter to assign job ids */
-  unsigned int m_IdCounter;
-
-  /** set if exception occurs */
+  /** Set if exception occurs */
   bool m_ExceptionOccurred;
 
-  typedef std::map<ThreadJobIdType,ThreadJob> ThreadJobContainerType;
-
-  typedef std::pair<ThreadJobIdType,ThreadJob>          ThreadJobContainerPairType;
-
-  typedef std::set<ThreadJobIdType>      ThreadJobIdsContainerType;
-
-  typedef std::set<ThreadProcessIdType>  ThreadProcessIdContainerType;
-
-  /** this is a list of jobs(ThreadJob) submitted to the thread pool
-      this is the only place where the jobs are submitted.
-      We need a worker queue because the thread pool assigns work to a
-      thread which is free. So when a job is submitted, it has to be stored
-      somewhere*/
-  ThreadJobContainerType m_WorkerQueue;
-  /** To lock on m_WorkerQueue */
-  static SimpleFastMutexLock m_WorkerQueueMutex;
-
-  /** Vector to hold all active thread handles */
-  ThreadProcessIdContainerType m_ThreadHandles;
-
-  /** Vector of pairs that hold job ids and their corresponding thread handles
-    */
-  enum {
-    JOB_THREADHANDLE_JUST_ADDED=-3, //means thread just added
-    JOB_THREADHANDLE_IS_FREE=-2,    // means this particular threadhandle
-                                    // (thread) is free
-    JOB_THREADHANDLE_IS_DONE=-1     // means the thread finished with the
-                                    // assigned job and is waiting until
-                                    // WaitForJobOnThreadHandle method is called
-                                    // otherwise threadhandle is actively
-                                    // running a job.
-    };
-
-  /**
-   * \class ThreadProcessIdentifiers
-   * \ingroup ITKCommon
-   * This provides an association between the internal
-   * thread id, the PThreads/Win Thread Id, and on Windows,
-   * the DWORD thread Id.
+  /** This is a list of jobs(ThreadJob) submitted to the thread pool.
+   * This is the only place where the jobs are submitted.
+   * Filled by AddWork, emptied by ThreadExecute.
    */
-  class ThreadProcessIdentifiers
-  {
-public:
-#if defined(ITK_USE_WIN32_THREADS)
-    typedef DWORD WinThreadIdType;
-#else
-    typedef unsigned long WinThreadIdType;
-#endif
-    ThreadProcessIdentifiers(const int tnid,
-                            const ThreadProcessIdType tph,
-                            const WinThreadIdType winThreadId) :
-      m_ThreadNumericId(tnid),
-      m_ThreadProcessHandle(tph),
-      m_WinThreadId(winThreadId)
-    {
-    }
+  std::deque<ThreadJob> m_WorkQueue;
 
-    int                 m_ThreadNumericId;
-    ThreadProcessIdType m_ThreadProcessHandle;
-    WinThreadIdType     m_WinThreadId;
-private:
-    ThreadProcessIdentifiers() ITK_DELETED_FUNCTION;
-  };
+  /** When a thread is idle, it is waiting on m_ThreadsSemaphore.
+  * AddWork signals this semaphore to resume a (random) thread.
+  */
+  Semaphore m_ThreadsSemaphore;
 
-  // the ThreadProcessIdentifiersVector ThreadSemHandlePairingQueue and
-  // ThreadSemHandlePairingForWaitQueue really want to be STL
-  // containers with more efficient searchability than O(N) But the
-  // pthread_t type isn't guaranteed to be an integral type so it
-  // can't be used as a Key on a keyed STL container.
-  typedef std::vector<ThreadProcessIdentifiers> ThreadProcessIdentifiersVecType;
-  ThreadProcessIdentifiersVecType m_ThreadProcessIdentifiersVector;
+  /** Vector to hold all thread handles.
+   * Thread handles are used to delete the threads.
+   */
+  std::vector<ThreadProcessIdType> m_Threads;
 
-  //ThreadSemaphorePair *m_ThreadSemHandlePairingQueue;
-  typedef std::vector<ThreadSemaphorePair *> ThreadSemHandlePairingQueueType;
-
-  ThreadSemHandlePairingQueueType m_ThreadSemHandlePairingQueue;
-  ThreadSemHandlePairingQueueType m_ThreadSemHandlePairingForWaitQueue;
-
-  /** To lock on the vectors */
-  static SimpleFastMutexLock m_ThreadProcessIdentifiersVectorMutex;
-
-  /** This function is called by the threads to get jobs to be executed.
-      This method is the "first" call from the threads in the thread pool.
-      Now this method blocks the thread until a job is available for the thread to execute.
-      Once a job is available(known from m_ThreadProcessIdentifiersVector), it gets it from the worker queue and
-      returns it   */
-  const ThreadJob &FetchWork(ThreadProcessIdType t);
-
-  /** Used to remove an active job id from the queue because it is done.
-      This method is called by the threads once they are done with the job.
-      This method removes the job id from m_ActiveJobIds, marks the thread as free
-      by setting appropriate values in the m_ThreadProcessIdentifiersVector vector and removes the
-      job from m_WorkerQueue  */
-  void RemoveActiveId(ThreadJobIdType id);
-
-  /** Called to add a thread to the thread pool.
-      This method add a thread to the thread pool and pushes the thread handle
-      into the m_ThreadHandles set*/
-  void AddThread();
-
-  /** Wait for a thread running. */
-  void WaitForThread(ThreadProcessIdType);
-
-  /** To check if the thread pool has to add a thread.
-      This method checks if any threads in the thread pool
-      are free. If so, it returns false else returns true */
-  ThreadProcessIdentifiers *FindThreadToRun();
+  /** To lock on the internal variables */
+  static SimpleFastMutexLock m_Mutex;
 
   static Pointer m_ThreadPoolInstance;
-  /** To lock on m_ThreadPoolInstance */
-  static SimpleFastMutexLock m_ThreadPoolInstanceMutex;
 
-  ThreadSemaphorePair* GetSemaphore(ThreadSemHandlePairingQueueType &q,ThreadProcessIdType threadHandle);
-
-  ThreadSemaphorePair* GetSemaphoreForThread(ThreadProcessIdType threadHandle);
-
-  ThreadSemaphorePair* GetSemaphoreForThreadWait(ThreadProcessIdType threadHandle);
-
-  void DeallocateThreadSemSet(ThreadSemHandlePairingQueueType &q);
-
-  /** thread function */
+  /** The continuously running thread function */
   static void * ThreadExecute(void *param);
 
-  /** Method to compare thread handles - true for same false for different */
-  static bool CompareThreadHandles(ThreadProcessIdType t1, ThreadProcessIdType t2);
-
-  /** Used under windows - gets the thread handle associated with thread id */
-  ThreadProcessIdType GetThreadHandleForThreadId(ThreadIdType id);
-
-
+  /* Global variable defining the default number of threads to set at
+  * construction time of a MultiThreader instance.
+  * m_GlobalDefaultNumberOfThreads must always be less than or equal to the
+  * m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
+  * initialized in the constructor of the first MultiThreader instantiation.
+  */
+  static ThreadIdType m_GlobalDefaultNumberOfThreads;
 };
 
 }

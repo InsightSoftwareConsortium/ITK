@@ -40,15 +40,12 @@ namespace itk
  * \brief A class for performing multithreaded execution
  *
  * Multithreader is a class that provides support for multithreaded
- * execution using pthread_create on any platform
- * supporting POSIX threads.  This class can be used to execute a single
+ * execution using Windows or POSIX threads.
+ * This class can be used to execute a single
  * method on multiple threads, or to specify a method per thread.
  *
  * \ingroup OSSystemObjects
  *
- * If ITK_USE_PTHREADS is defined, then
- * pthread_create() will be used to create multiple threads (on
- * a sun, for example).
  * \ingroup ITKCommon
  */
 
@@ -143,6 +140,8 @@ public:
   /** Get the UseThreadPool flag*/
   itkGetMacro(UseThreadPool,bool);
 
+  typedef ThreadPool::Semaphore JobSemaphoreType;
+
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute, MultipleMethodExecute or
    * the SpawnThread method. It is passed in as a void *, and it is up
@@ -165,6 +164,7 @@ public:
     MutexLock::Pointer ActiveFlagLock;
     void *UserData;
     ThreadFunctionType ThreadFunction;
+    JobSemaphoreType Semaphore;
     enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
     };
 
@@ -207,9 +207,9 @@ private:
    *  ITK_MAX_THREADS and greater than zero. */
   static ThreadIdType m_GlobalMaximumNumberOfThreads;
 
-  /** Global value to effect weather the threadpool implementation should
+  /** Global value to control weather the threadpool implementation should
    * be used.  This defaults to the environmental variable "ITK_USE_THREADPOOL"
-   * if set, else it default to false and new threads are spawned.
+   * if set, else it default to true.
    */
   static bool m_GlobalDefaultUseThreadPool;
 
@@ -220,9 +220,6 @@ private:
    *  initialized in the constructor of the first MultiThreader instantiation.
    */
   static ThreadIdType m_GlobalDefaultNumberOfThreads;
-
-  /**  Platform specific number of threads */
-  static ThreadIdType  GetGlobalDefaultNumberOfThreadsByPlatform();
 
   /** The number of threads to use.
    *  The m_NumberOfThreads must always be less than or equal to
@@ -244,27 +241,12 @@ private:
   static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
 
   /** Assign work to a thread in the thread pool */
-  ThreadProcessIdType ThreadPoolDispatchSingleMethodThread(ThreadInfoStruct *);
-  /** wait for a thread in the threadpool to finish work */
-  void ThreadPoolWaitForSingleMethodThread(ThreadProcessIdType);
+  void ThreadPoolDispatchSingleMethodThread(ThreadInfoStruct *);
 
   /** spawn a new thread for the SingleMethod */
   ThreadProcessIdType SpawnDispatchSingleMethodThread(ThreadInfoStruct *);
   /** wait for a thread in the threadpool to finish work */
   void SpawnWaitForSingleMethodThread(ThreadProcessIdType);
-
-  /** Spawn a thread for the prescribed SingleMethod.  This routine
-   * spawns a thread to the SingleMethodProxy which runs the
-   * prescribed SingleMethod.  The SingleMethodProxy allows for
-   * exceptions within a thread to be naively handled. A similar
-   * abstraction needs to be added for MultipleMethod and
-   * SpawnThread. */
-  ThreadProcessIdType DispatchSingleMethodThread(ThreadInfoStruct *);
-
-  /** Wait for a thread running the prescribed SingleMethod. A similar
-   * abstraction needs to be added for MultipleMethod (SpawnThread
-   * already has a routine to do this. */
-  void WaitForSingleMethodThread(ThreadProcessIdType);
 
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
