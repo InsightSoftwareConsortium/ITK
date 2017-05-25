@@ -31,7 +31,8 @@ dependencies:
         - "~/.ExternalData"
     override:
         - pip install --upgrade pip
-        - pip install cmake
+        - pip install scikit-ci-addons
+        - ci_addons circle/install_cmake.py 3.7.2
         - mkdir -p ${CTEST_BINARY_DIRECTORY}
         - git clone --single-branch ${CIRCLE_REPOSITORY_URL} -b dashboard ${DASHBOARD_BRANCH_DIRECTORY}
         - mkdir -p "${DISTCC_DIR}" && printf -- "--randomize localhost/2 --localslots=2\n" > "${DISTCC_DIR}/hosts" && for ((i=1;i<CIRCLE_NODE_TOTAL;i++)); do printf "ubuntu@node$i/${DISTCC_SLOTS}\n" >> "${DISTCC_DIR}/hosts"; done
@@ -48,5 +49,7 @@ test:
                 DASHBOARD_MODEL:  $( [[ "$CIRCLE_BRANCH" = "master" ]] && echo Continuous || echo Experimental )
                 CTEST_CONFIGURATION_TYPE: "Release"
                 CTEST_BUILD_FLAGS: "-j $(expr $CIRCLE_NODE_TOTAL \\* 2 + 1)"
+        - mkdir ${CIRCLE_TEST_REPORTS}/CTest
+        - ci_addons ctest_junit_formatter ${CTEST_BINARY_DIRECTORY} > ${CIRCLE_TEST_REPORTS}/CTest/JUnit-${CIRCLE_NODE_INDEX}.xml
         - sar:
             parallel: true
