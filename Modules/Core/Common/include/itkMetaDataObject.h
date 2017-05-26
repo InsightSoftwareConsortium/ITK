@@ -70,7 +70,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename MetaDataObjectType >
-class ITKCommon_TEMPLATE_EXPORT MetaDataObject:public MetaDataObjectBase
+class ITK_TEMPLATE_EXPORT MetaDataObject:public MetaDataObjectBase
 {
 public:
   /** Smart pointer typedef support. */
@@ -257,7 +257,7 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
 //
 #  if defined( ITKCommon_EXPORTS )
 //   We are building this library
-#    define ITKCommon_EXPORT_EXPLICIT
+#    define ITKCommon_EXPORT_EXPLICIT ITK_FORCE_EXPORT
 #  else
 //   We are using this library
 #    define ITKCommon_EXPORT_EXPLICIT ITKCommon_EXPORT

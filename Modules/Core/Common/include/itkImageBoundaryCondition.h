@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class ImageBoundaryCondition
+class ITK_TEMPLATE_EXPORT ImageBoundaryCondition
 {
 public:
   /** Extract information from the image type */

@@ -49,10 +49,9 @@
 
 namespace itk
 {
-
 /* Forward declaration (ImageTransformHelper include's ImageBase) */
 template< unsigned int NImageDimension, unsigned int R, unsigned int C, typename TPointValue, typename TMatrixValue >
-class ImageTransformHelper;
+class ITK_TEMPLATE_EXPORT ImageTransformHelper;
 
 /** \class ImageBase
  * \brief Base class for templated image classes.

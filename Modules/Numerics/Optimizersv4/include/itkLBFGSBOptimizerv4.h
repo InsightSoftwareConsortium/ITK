@@ -33,7 +33,8 @@ namespace itk
  *
  * \ingroup ITKOptimizersv4
  */
-class ITKOptimizersv4_EXPORT LBFGSBOptimizerHelperv4;
+// Forward reference because of private implementation
+class ITK_FORWARD_EXPORT LBFGSBOptimizerHelperv4;
 
 /** \class LBFGSBOptimizerv4
  * \brief Limited memory Broyden Fletcher Goldfarb Shannon minimization with simple bounds.

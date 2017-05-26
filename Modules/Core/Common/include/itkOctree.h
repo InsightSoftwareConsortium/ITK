@@ -46,7 +46,7 @@ enum OctreePlaneType {
  *
  * \ingroup ITKCommon
  */
-class OctreeBase:public Object
+class ITKCommon_EXPORT OctreeBase:public Object
 {
 public:
   /** Standard class typedefs. */

@@ -25,9 +25,8 @@
 namespace itk
 {
 
-/** Forward declarations */
-class Region;
-class TemporalDataObject;
+// Forward reference because of circular dependencies
+class ITK_FORWARD_EXPORT TemporalDataObject;
 
 /** \class TemporalProcessObject
  * \brief TemporalProcessObject implements a ProcessObject for the itk pipeline

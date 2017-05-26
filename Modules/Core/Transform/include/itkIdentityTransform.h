@@ -48,7 +48,7 @@ namespace itk
  */
 template<typename TParametersValueType,
           unsigned int NDimensions=3>
-class IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
+class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */

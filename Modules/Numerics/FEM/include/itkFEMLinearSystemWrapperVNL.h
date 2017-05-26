@@ -21,8 +21,6 @@
 #include "itkFEMLinearSystemWrapper.h"
 #include "vnl/vnl_sparse_matrix.h"
 #include "vnl/vnl_vector.h"
-#include <vnl/vnl_sparse_matrix_linear_system.h>
-#include <vnl/algo/vnl_lsqr.h>
 #include <vector>
 #include "ITKFEMExport.h"
 

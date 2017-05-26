@@ -17,7 +17,8 @@
  *=========================================================================*/
 
 #include "itkFEMLinearSystemWrapperVNL.h"
-#include <iostream>
+#include <vnl/vnl_sparse_matrix_linear_system.h>
+#include <vnl/algo/vnl_lsqr.h>
 
 namespace itk
 {
@@ -199,9 +200,7 @@ void LinearSystemWrapperVNL::Solve(void)
    * Solve the sparse system of linear equation and store the result in m_Solutions(0).
    * Here we use the iterative least squares solver.
    */
-//  std::cout<<"Creating the vnl_sparse_matrix_linear_system object\n";
   vnl_sparse_matrix_linear_system<Float> ls( ( *( ( *m_Matrices )[0] ) ), ( *( ( *m_Vectors )[0] ) ) );
-//  std::cout<<"Creating the vnl_lsqr object\n";
   vnl_lsqr lsq(ls);
 
   /*
@@ -209,7 +208,6 @@ void LinearSystemWrapperVNL::Solve(void)
    * FIXME: There should be a better way to determine the number of iterations needed.
    */
   lsq.set_max_iterations( 3 * this->GetSystemOrder() );
-//  std::cout<<"Performing lsq.minimize\n";
   lsq.minimize( *( ( *m_Solutions )[0] ) );
 }
 

@@ -541,7 +541,6 @@ if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
     generate_export_header(ClientTestLibrary${_name}
       EXPORT_FILE_NAME ${ITKCommon_BINARY_DIR}/ClientTestLibrary${_name}Export.h
       EXPORT_MACRO_NAME ClientTestLibrary${_name}_EXPORT
-      TEMPLATE_EXPORT_MACRO_NAME ClientTestLibrary${_name}_TEMPLATE_EXPORT
       NO_EXPORT_MACRO_NAME ClientTestLibrary${_name}_HIDDEN
       )
     set_target_properties(ClientTestLibrary${_name} PROPERTIES CXX_VISIBILITY_PRESET hidden)

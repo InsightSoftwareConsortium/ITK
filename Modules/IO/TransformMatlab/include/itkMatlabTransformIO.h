@@ -29,7 +29,7 @@ namespace itk
  * \ingroup ITKIOTransformMatlab
  */
 template<typename ParametersValueType>
-class ITK_TEMPLATE_EXPORT MatlabTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
+class ITKIOTransformMatlab_EXPORT MatlabTransformIOTemplate:public TransformIOBaseTemplate<ParametersValueType>
 {
 public:
   typedef MatlabTransformIOTemplate                       Self;
@@ -89,7 +89,7 @@ typedef MatlabTransformIOTemplate<double> MatlabTransformIO;
 //
 #  if defined( ITKIOTransformMatlab_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformMatlab_EXPORT_EXPLICIT
+#    define ITKIOTransformMatlab_EXPORT_EXPLICIT ITK_FORCE_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformMatlab_EXPORT_EXPLICIT ITKIOTransformMatlab_EXPORT

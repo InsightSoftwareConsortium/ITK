@@ -27,7 +27,8 @@ namespace itk
 {
 namespace bio
 {
-class CellBase;
+// Forward reference because of circular dependencies
+class ITK_FORWARD_EXPORT CellBase;
 
 /** \class CellularAggregateBase
  * \brief Base class for the CellularAggregates.

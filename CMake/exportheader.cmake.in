@@ -4,7 +4,6 @@
 
 #ifdef @STATIC_DEFINE@
 #  define @EXPORT_MACRO_NAME@
-#  define @TEMPLATE_EXPORT_MACRO_NAME@
 #  define @NO_EXPORT_MACRO_NAME@
 #else
 #  ifndef @EXPORT_MACRO_NAME@
@@ -14,16 +13,6 @@
 #    else
         /* We are using this library */
 #      define @EXPORT_MACRO_NAME@ @DEFINE_IMPORT@
-#    endif
-#  endif
-
-#  ifndef @TEMPLATE_EXPORT_MACRO_NAME@
-#    ifdef @EXPORT_IMPORT_CONDITION@
-        /* We are building this library */
-#      define @TEMPLATE_EXPORT_MACRO_NAME@ @DEFINE_TEMPLATE_EXPORT@
-#    else
-        /* We are using this library */
-#      define @TEMPLATE_EXPORT_MACRO_NAME@ @DEFINE_TEMPLATE_IMPORT@
 #    endif
 #  endif
 

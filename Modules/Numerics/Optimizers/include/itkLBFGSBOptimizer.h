@@ -32,7 +32,7 @@ namespace itk
  * vnl_lbfgsb into iteration events in ITK.
  * \ingroup ITKOptimizers
  */
-class ITKOptimizers_EXPORT LBFGSBOptimizerHelper;
+class ITK_FORWARD_EXPORT LBFGSBOptimizerHelper;
 
 /** \class LBFGSBOptimizer
  * \brief Limited memory Broyden Fletcher Goldfarb Shannon minimization with simple bounds.
