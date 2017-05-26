@@ -123,6 +123,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # CircleCI distcc warnings
   ".*WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED.*"
   "Warning: Permanently added.*to the list of known hosts"
+
+  # macOS std::string visibility linker warnings
+  "for std::string means the weak symbol cannot be overridden at runtime"
   )
 
 if(APPLE)
