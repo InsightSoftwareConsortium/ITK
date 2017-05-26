@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ShannonIsotropicWavelet, SpatialFunction);
+  itkTypeMacro(ShannonIsotropicWavelet, IsotropicWaveletFrequencyFunction);
 
   /** Input type for the function. */
   typedef typename Superclass::InputType InputType;

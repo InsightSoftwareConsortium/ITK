@@ -24,8 +24,11 @@ set(
   # Alternative FFT padding
   itkFFTPadPositiveIndexImageFilterTest.cxx
   # Output data for each wavelet to visualize with python.
-  # TODO: Add unit test for each IsoWavelet?
   itkIsotropicWaveletFrequencyFunctionTest.cxx
+  itkHeldIsotropicWaveletTest.cxx
+  itkSimoncelliIsotropicWaveletTest.cxx
+  itkVowIsotropicWaveletTest.cxx
+  itkShannonIsotropicWaveletTest.cxx
   #Isotropic Wavelet
   itkWaveletFrequencyFilterBankGeneratorTest.cxx
   itkWaveletFrequencyFilterBankGeneratorDownsampleTest.cxx
@@ -65,6 +68,16 @@ if(ITK_VISUALIZE_TESTS)
 endif()
 
 createtestdriver(IsotropicWavelets "${Libraries}" "${IsotropicWaveletsTests}")
+
+set(COVERAGE_FLAGS "-coverage -fprofile-arcs -ftest-coverage")
+set_target_properties(
+  IsotropicWaveletsTestDriver
+  PROPERTIES
+    COMPILE_FLAGS
+      "${CMAKE_CXX_FLAGS} ${COVERAGE_FLAGS}"
+    LINK_FLAGS
+      "-fprofile-arcs"
+)
 
 # use #ifdef ITK_VISUALIZE_TESTS, instead of checking value with #ifdef ITK_VISUALIZE_TESTS
 if(ITK_VISUALIZE_TESTS)
@@ -403,6 +416,30 @@ itk_add_test(
     1
     "Held"
     2
+)
+itk_add_test(
+  NAME itkHeldIsotropicWaveletTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkHeldIsotropicWaveletTest
+)
+itk_add_test(
+  NAME itkSimoncelliIsotropicWaveletTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkSimoncelliIsotropicWaveletTest
+)
+itk_add_test(
+  NAME itkShannonIsotropicWaveletTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkShannonIsotropicWaveletTest
+)
+itk_add_test(
+  NAME itkVowIsotropicWaveletTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkVowIsotropicWaveletTest
 )
 # FrequencyIterator
 itk_add_test(
