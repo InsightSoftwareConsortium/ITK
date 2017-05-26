@@ -19,39 +19,12 @@
 #define itkAddImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkArithmeticOpsFunctors.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class Add2
- * \brief
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
-class ITK_TEMPLATE_EXPORT Add2
-{
-public:
-  Add2() {}
-  ~Add2() {}
-  bool operator!=(const Add2 &) const
-  {
-    return false;
-  }
 
-  bool operator==(const Add2 & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  {
-    return static_cast< TOutput >( A + B );
-  }
-};
-}
 /** \class AddImageFilter
  * \brief Pixel-wise addition of two images.
  *

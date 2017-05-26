@@ -19,36 +19,10 @@
 #define itkSubtractImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkArithmeticOpsFunctors.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class Sub2
- * \brief
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
-class Sub2
-{
-public:
-  Sub2() {}
-  ~Sub2() {}
-  bool operator!=(const Sub2 &) const
-  {
-    return false;
-  }
-
-  bool operator==(const Sub2 & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  { return static_cast<TOutput>( A - B ); }
-};
-}
 /** \class SubtractImageFilter
  * \brief Pixel-wise subtraction of two images.
  *

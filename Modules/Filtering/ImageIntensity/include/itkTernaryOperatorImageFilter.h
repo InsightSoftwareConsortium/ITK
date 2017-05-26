@@ -19,47 +19,11 @@
 #define itkTernaryOperatorImageFilter_h
 
 #include "itkTernaryFunctorImageFilter.h"
+#include "itkLogicOpsFunctors.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class TernaryOperator
- * \brief Return argument 2 if argument 1 is false, and argument 3 otherwise.
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
-class TernaryOperator
-{
-public:
-  TernaryOperator() {}
-  ~TernaryOperator() {}
-  bool operator!=(const TernaryOperator &) const
-  {
-    return false;
-  }
 
-  bool operator==(const TernaryOperator & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A,
-                            const TInput2 & B,
-                            const TInput3 & C) const
-  {
-    if (A)
-      {
-      return static_cast<TOutput>( B );
-      }
-    else
-      {
-      return static_cast<TOutput>( C );
-      }
-  }
-};
-}
 /** \class TernaryOperatorImageFilter
  * \brief Return the value of input 2 if input 1 is false, and that of input 3 otherwise.
  *

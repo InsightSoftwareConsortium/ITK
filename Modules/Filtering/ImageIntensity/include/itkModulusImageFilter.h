@@ -19,88 +19,11 @@
 #define itkModulusImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkArithmeticOpsFunctors.h"
+
 
 namespace itk
 {
-namespace Functor
-{
-
-/** \class Modulus
- *
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2, typename TOutput >
-class ITK_TEMPLATE_EXPORT Modulus
-{
-public:
-  Modulus() {  }
-  ~Modulus() {}
-
-  bool operator!=(const Modulus &) const
-  {
-    return false;
-  }
-
-  bool operator==(const Modulus & other) const
-  {
-    return !( *this != other );
-  }
-
- inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
- {
-   if ( B != NumericTraits<TInput2>::ZeroValue() )
-     {
-     return static_cast< TOutput >( A % B );
-     }
-   else
-     {
-     return NumericTraits< TOutput >::max( static_cast<TOutput>(A) );
-     }
-  }
-
-};
-
-/** \class ModulusTransform
- *
- * \deprecated The two template parametered ModulusTransform functor
- * is depricated. Please use the version with 3 template parameters.
- *
- * \ingroup ITKImageIntensity
- */
-template< typename TInput, typename  TOutput >
-class ITK_TEMPLATE_EXPORT ModulusTransform
-{
-public:
-  ModulusTransform() { m_Dividend = 5; }
-  ~ModulusTransform() {}
-  void SetDividend(TOutput dividend) { m_Dividend = dividend; }
-
-  bool operator!=(const ModulusTransform & other) const
-    {
-      if ( m_Dividend != other.m_Dividend )
-        {
-        return true;
-        }
-      return false;
-    }
-
-  bool operator==(const ModulusTransform & other) const
-    {
-      return !( *this != other );
-    }
-
-  inline TOutput operator()(const TInput & x) const
-    {
-      TOutput result = static_cast< TOutput >( x % m_Dividend );
-
-      return result;
-    }
-
-private:
-  TInput m_Dividend;
-};
-
-}  // end namespace functor
 
 /** \class ModulusImageFilter
  * \brief Computes the modulus (x % dividend) pixel-wise

@@ -19,39 +19,11 @@
 #define itkOrImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkBitwiseOpsFunctors.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class OR
- * \brief bitwise OR functor
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
-class OR
-{
-public:
-  OR() {}
-  ~OR() {}
-  bool operator!=(const OR &) const
-  {
-    return false;
-  }
-
-  bool operator==(const OR & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  {
-    return static_cast< TOutput >( A | B );
-  }
-};
-}
 /** \class OrImageFilter
  * \brief Implements the OR bitwise operator pixel-wise between two images.
  *
