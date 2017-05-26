@@ -104,8 +104,26 @@ runStructureTensorTest()
 #endif
 
   // Structure Tensor
-  typedef itk::StructureTensor<ImageType>  StructureTensorType;
-  typename StructureTensorType::Pointer    tensor = StructureTensorType::New();
+  typedef itk::StructureTensor<ImageType> StructureTensorType;
+  typename StructureTensorType::Pointer   tensor = StructureTensorType::New();
+  // Test Set/Get
+  // WindowRadius
+  unsigned int nonDefaultGaussianRadius = 3;
+  tensor->SetGaussianWindowRadius(nonDefaultGaussianRadius);
+  TEST_SET_GET_VALUE(nonDefaultGaussianRadius, tensor->GetGaussianWindowRadius());
+  tensor->SetGaussianWindowRadius(2); // Restore default.
+
+  // WindowSigma
+  typename StructureTensorType::FloatType nonDefaultGaussianSigma = 2.0;
+  tensor->SetGaussianWindowSigma(nonDefaultGaussianSigma);
+  TEST_SET_GET_VALUE(nonDefaultGaussianSigma, tensor->GetGaussianWindowSigma());
+  tensor->SetGaussianWindowSigma(1.0); // Restore default.
+  // Use a external, new GaussianSource:
+  // The gaussian source is modified in BeforeThreadedGenerateData() only if
+  // the source has different sigma or radius than this class.
+  typename StructureTensorType::GaussianSourceType::Pointer gaussianSource = tensor->GetModifiableGaussianSource();
+  gaussianSource = StructureTensorType::GaussianSourceType::New();
+
   std::vector<typename ImageType::Pointer> inputs;
   inputs.push_back(inputImage1);
   inputs.push_back(inputImage2);
