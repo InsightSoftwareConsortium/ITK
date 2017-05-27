@@ -45,7 +45,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class ITKIOTransformBase_EXPORT TransformIOBaseTemplate:public LightProcessObject
+class ITK_TEMPLATE_EXPORT TransformIOBaseTemplate:public LightProcessObject
 {
 public:
   /** Standard class typedefs */
@@ -203,7 +203,7 @@ typedef itk::TransformIOBaseTemplate<double> TransformIOBase;
 //
 #  if defined( ITKIOTransformBase_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORCE_EXPORT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT

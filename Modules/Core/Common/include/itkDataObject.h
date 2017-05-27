@@ -273,7 +273,7 @@ protected:
  * \ingroup ITKSystemObjects
  * \ingroup ITKCommon
  */
-class ITK_FORCE_EXPORT DataObject:public Object
+class ITK_FORCE_EXPORT_MACRO(ITKCommon) DataObject:public Object
 {
 public:
   /** Standard class typedefs. */
