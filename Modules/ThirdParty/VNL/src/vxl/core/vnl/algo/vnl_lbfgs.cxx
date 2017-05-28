@@ -77,7 +77,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     std::cerr << "vnl_lbfgs: ";
 
   double best_f = 0;
-  vnl_vector<double> best_x;
+  vnl_vector<double> best_x = x;
 
   bool ok;
   this->num_evaluations_ = 0;
