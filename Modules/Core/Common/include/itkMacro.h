@@ -189,12 +189,10 @@ namespace itk
 #endif
 
 // Setup symbol exports
-#ifndef ITK_FORCE_EXPORT
-  #ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
-    #define ITK_FORCE_EXPORT __attribute__ ((visibility ("default")))
-  #else
-    #define ITK_FORCE_EXPORT ITKCommon_EXPORT
-  #endif
+#ifdef ITK_TEMPLATE_VISIBILITY_DEFAULT
+  #define ITK_FORCE_EXPORT_MACRO(moduleName) __attribute__ ((visibility ("default")))
+#else
+  #define ITK_FORCE_EXPORT_MACRO(moduleName) moduleName ## _EXPORT
 #endif
 
 #ifndef ITK_FORWARD_EXPORT

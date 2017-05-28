@@ -164,7 +164,7 @@ typedef TransformBaseTemplate< double > TransformBase;
 //
 #  if defined( ITKTransform_EXPORTS )
 //   We are building this library
-#    define ITKTransform_EXPORT_EXPLICIT
+#    define ITKTransform_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  else
 //   We are using this library
 #    define ITKTransform_EXPORT_EXPLICIT ITKTransform_EXPORT

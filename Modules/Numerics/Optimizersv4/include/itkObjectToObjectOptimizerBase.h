@@ -79,7 +79,7 @@ namespace itk
  * \ingroup ITKOptimizersv4
  */
 template< typename TInternalComputationValueType = double>
-class  ITK_TEMPLATE_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
+class ITK_TEMPLATE_EXPORT ObjectToObjectOptimizerBaseTemplate : public Object
 {
 public:
   /** Standard class typedefs. */
@@ -283,7 +283,7 @@ typedef ObjectToObjectOptimizerBaseTemplate<double> ObjectToObjectOptimizerBase;
 //
 #  if defined( ITKOptimizersv4_EXPORTS )
 //   We are building this library
-#    define ITKOptimizersv4_EXPORT_EXPLICIT
+#    define ITKOptimizersv4_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
 #  else
 //   We are using this library
 #    define ITKOptimizersv4_EXPORT_EXPLICIT ITKOptimizersv4_EXPORT
