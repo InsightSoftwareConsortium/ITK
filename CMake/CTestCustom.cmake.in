@@ -126,6 +126,8 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
 
   # macOS std::string visibility linker warnings
   "for std::string means the weak symbol cannot be overridden at runtime"
+  "global weak symbol typeinfo name for std::vector<"
+  "global weak symbol typeinfo for std::vector<"
   )
 
 if(APPLE)
