@@ -34,6 +34,8 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkCastImageFilter.h"
+#include "itkNumberToString.h"
 
 #include "itkTestingMacros.h"
 
@@ -42,8 +44,14 @@
 // Visualize for dev/debug purposes. Set in cmake file. Requires VTK
 #ifdef ITK_VISUALIZE_TESTS
 #  include "itkViewImage.h"
-#  include "itkNumberToString.h"
 #endif
+
+std::string
+AppendToFilenameRiesz(const std::string & filename, const std::string & appendix)
+{
+  std::size_t foundDot = filename.find_last_of('.');
+  return filename.substr(0, foundDot) + appendix + filename.substr(foundDot);
+}
 
 // 1. Wavelet analysis (forward) on input image.
 // 2. Create a Monogenic Signal (from Riesz function ) on each wavelet output..
@@ -54,8 +62,8 @@
 // local structure information, and can also work as an equalizator of brightness.
 template <unsigned int VDimension, typename TWaveletFunction>
 int
-runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
-                                 const std::string &, // outputImage
+runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
+                                 const std::string &  outputImage,
                                  const unsigned int & inputLevels,
                                  const unsigned int & inputBands,
                                  const bool           applySoftThreshold)
@@ -66,7 +74,8 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   typedef itk::Image<PixelType, Dimension> ImageType;
   typedef itk::ImageFileReader<ImageType>  ReaderType;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  itk::NumberToString<unsigned int> n2s;
+  typename ReaderType::Pointer      reader = ReaderType::New();
   reader->SetFileName(inputImage);
   reader->Update();
 
@@ -144,7 +153,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   {
     for (unsigned int i = 0; i < forwardWavelet->GetNumberOfOutputs(); ++i)
     {
-      itk::NumberToString<unsigned int>      n2s;
       typename InverseFFTFilterType::Pointer inverseFFT = InverseFFTFilterType::New();
       inverseFFT->SetInput(analysisWavelets[i]);
       inverseFFT->Update();
@@ -174,12 +182,22 @@ runRieszWaveletPhaseAnalysisTest(const std::string & inputImage,
   itk::Testing::ViewImage(inverseFFT->GetOutput(), "Inverse Wavelet");
 #endif
 
+  // Cast To Float for save as tiff.
+  typedef itk::Image<float, Dimension>                    ImageFloatType;
+  typedef itk::CastImageFilter<ImageType, ImageFloatType> CastFloatType;
+  typename CastFloatType::Pointer                         caster = CastFloatType::New();
+  caster->SetInput(inverseFFT->GetOutput());
+  caster->Update();
+
   // typedef itk::ImageFileWriter< typename InverseFFTFilterType::OutputImageType > WriterType;
-  // typename WriterType::Pointer writer = WriterType::New();
-  // writer->SetFileName( outputImage );
-  // writer->SetInput( inverseFFT->GetOutput() );
-  //
-  // TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+  typedef itk::ImageFileWriter<ImageFloatType> WriterType;
+  typename WriterType::Pointer                 writer = WriterType::New();
+  std::string                                  appendString = "_" + n2s(inputLevels) + "_" + n2s(inputBands);
+  std::string                                  outputFile = AppendToFilenameRiesz(outputImage, appendString);
+  writer->SetFileName(outputFile);
+  writer->SetInput(caster->GetOutput());
+
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
   //
   return EXIT_SUCCESS;
 }
