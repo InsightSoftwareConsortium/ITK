@@ -26,7 +26,7 @@ namespace itk
 
 // Forward reference because of circular dependencies
 template< unsigned int TDimension >
-class ITK_TEMPLATE_EXPORT SpatialObject;
+class ITK_FORWARD_EXPORT SpatialObject;
 
 /** \class SpatialObjectTreeContainer
  *  \brief Array class with size defined at construction time.
