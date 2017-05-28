@@ -105,24 +105,23 @@ public:
   virtual FunctionValueType
   EvaluateInverseSubBand(const FunctionValueType & freq_in_hz, unsigned int j) const;
 
-  /** Gets and sets parameters */
+  /** Number of HighPassSubBands in the high filter decomposition.
+   * Default to the minimal value: 1. */
   itkGetConstMacro(HighPassSubBands, unsigned int);
-  /** Set HighPassSubBands. Default 1, high_pass_bands must be greater than zero. Virtual in case derived class user
-   * want to impose more conditions **/
   virtual void
   SetHighPassSubBands(const unsigned int & high_pass_bands);
 
+  /** Cut off frequency for low and high pass frequency.
+   * Default to 0.25 Hz ( pi/2 rad/s ) but can be changed in child classes. */
+  itkGetConstMacro(FreqCutOff, FunctionValueType);
+  // itkSetMacro(FreqCutOff, FunctionValueType);
 protected:
   IsotropicWaveletFrequencyFunction();
   virtual ~IsotropicWaveletFrequencyFunction();
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /** Number of HighPassSubBands in the high filter decomposition.
-   * Default to just one HighPass filter (no subbands) */
-  unsigned int m_HighPassSubBands;
-  /** Cut off frequency for low and high pass frequency.
-   * Default to 0.25 Hz ( pi/2 rad/s ) but can be changed in child classes. */
+  unsigned int      m_HighPassSubBands;
   FunctionValueType m_FreqCutOff;
 
 private:
