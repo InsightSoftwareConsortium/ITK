@@ -321,7 +321,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
     low_pass_per_level = multiplyUpsampleCorrection->GetOutput();
 
     /******* Calculate FilterBank with the right size per level. *****/
-    // TODO Save the FilterBank vector created in the forward wavelet and load it here to save compute it again.
+    // Save the FilterBank vector created in the forward wavelet and load it here to save compute it again.
+    // TODO perform regression test between two approaches.
 
     InputImagePointer waveletLow;
     if (!this->m_UseWaveletFilterBankPyramid)

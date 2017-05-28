@@ -118,6 +118,12 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   for (unsigned int i = 0; i < forwardWavelet->GetNumberOfOutputs(); ++i)
   {
     std::cout << "Output #: " << i << " / " << numberOfOutputs - 1 << std::endl;
+    // if( i == numberOfOutputs - 1 ) // TODO Held does not modify approx image, but it does not generate better
+    // results.
+    //   {
+    //   modifiedWavelets.push_back( analysisWavelets[i] );
+    //   continue;
+    //   }
     typename MonogenicSignalFrequencyFilterType::Pointer monoFilter = MonogenicSignalFrequencyFilterType::New();
     typename VectorInverseFFTType::Pointer               vecInverseFFT = VectorInverseFFTType::New();
     typename PhaseAnalysisFilter::Pointer                phaseAnalyzer = PhaseAnalysisFilter::New();
@@ -132,11 +138,6 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
 
     phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
     phaseAnalyzer->SetApplySoftThreshold(applySoftThreshold);
-    // if( i == numberOfOutputs - 1 ) // TODO Held does not modify approx image, but it does not generate better
-    // results.
-    //   {
-    //   phaseAnalyzer->SetApplySoftThreshold( false );
-    //   }
     phaseAnalyzer->Update();
 
     fftForwardPhaseFilter->SetInput(phaseAnalyzer->GetOutputCosPhase());
