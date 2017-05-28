@@ -14,6 +14,19 @@ endif()
 # To hide dependent variables
 include( CMakeDependentOption )
 
+# Install rules when creating a Python package with scikit-build
+if(SKBUILD)
+  set(PY_SITE_PACKAGES_PATH ${CMAKE_INSTALL_PREFIX} CACHE PATH "The install prefix for python package contents")
+  install(CODE "
+    unset(CMAKE_INSTALL_COMPONENT)
+    set(COMPONENT \"PythonWheelRuntimeLibraries\")
+    set(CMAKE_INSTALL_DO_STRIP 1)
+    include\(\"${PROJECT_BINARY_DIR}/cmake_install.cmake\")
+    unset(CMAKE_INSTALL_COMPONENT)
+    return()
+")
+endif()
+
 # Setup build locations.
 if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
   set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${ITK_DIR}/bin)
