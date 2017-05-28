@@ -233,7 +233,7 @@ SET(minc_common_HEADERS
   libcommon/read_file_names.h
   libcommon/restructure.h
   libcommon/time_stamp.h
-  
+  libcommon/minc_common_defs.h
   volume_io/Include/volume_io.h # VF: WTF?
 )
 
