@@ -27,6 +27,15 @@
 #include <fstream>
 #include <string>
 
+#ifndef ITKIOTransformBase_TEMPLATE_EXPORT
+  #if defined(ITK_TEMPLATE_VISIBILITY_DEFAULT) || defined(__linux__) && defined(ITK_BUILD_SHARED_LIBS)
+    // Make everything visible
+    #define ITKIOTransformBase_TEMPLATE_EXPORT __attribute__ ((visibility ("default")))
+  #else
+    #define ITKIOTransformBase_TEMPLATE_EXPORT
+  #endif
+#endif
+
 namespace itk
 {
 
@@ -45,7 +54,7 @@ namespace itk
  * \ingroup ITKIOTransformBase
  */
 template<typename TParametersValueType>
-class ITK_TEMPLATE_EXPORT TransformIOBaseTemplate:public LightProcessObject
+class ITKIOTransformBase_TEMPLATE_EXPORT TransformIOBaseTemplate:public LightProcessObject
 {
 public:
   /** Standard class typedefs */
@@ -203,7 +212,7 @@ typedef itk::TransformIOBaseTemplate<double> TransformIOBase;
 //
 #  if defined( ITKIOTransformBase_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT

@@ -283,7 +283,7 @@ typedef ObjectToObjectOptimizerBaseTemplate<double> ObjectToObjectOptimizerBase;
 //
 #  if defined( ITKOptimizersv4_EXPORTS )
 //   We are building this library
-#    define ITKOptimizersv4_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKOptimizersv4_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
 #    define ITKOptimizersv4_EXPORT_EXPLICIT ITKOptimizersv4_EXPORT

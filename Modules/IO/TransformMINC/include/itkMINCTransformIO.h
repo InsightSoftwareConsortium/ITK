@@ -114,7 +114,7 @@ typedef MINCTransformIOTemplate<double> MINCTransformIO;
 //
 #  if defined( ITKIOTransformMINC_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformMINC_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKIOTransformMINC_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformMINC_EXPORT_EXPLICIT ITKIOTransformMINC_EXPORT

@@ -164,7 +164,7 @@ typedef HDF5TransformIOTemplate<double> HDF5TransformIO;
 //
 #  if defined( ITKIOTransformHDF5_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformHDF5_EXPORT_EXPLICIT ITKIOTransformHDF5_EXPORT

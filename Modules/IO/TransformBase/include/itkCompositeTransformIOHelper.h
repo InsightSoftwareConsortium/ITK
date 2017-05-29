@@ -110,7 +110,7 @@ typedef CompositeTransformIOHelperTemplate<double> CompositeTransformIOHelper;
 //
 #  if defined( ITKIOTransformBase_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKIOTransformBase_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformBase_EXPORT_EXPLICIT ITKIOTransformBase_EXPORT

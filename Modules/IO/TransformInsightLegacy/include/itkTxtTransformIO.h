@@ -100,7 +100,7 @@ typedef TxtTransformIOTemplate<double> TxtTransformIO;
 //
 #  if defined( ITKIOTransformInsightLegacy_EXPORTS )
 //   We are building this library
-#    define ITKIOTransformInsightLegacy_EXPORT_EXPLICIT ITK_TEMPLATE_EXPORT
+#    define ITKIOTransformInsightLegacy_EXPORT_EXPLICIT ITK_FORWARD_EXPORT
 #  else
 //   We are using this library
 #    define ITKIOTransformInsightLegacy_EXPORT_EXPLICIT ITKIOTransformInsightLegacy_EXPORT
