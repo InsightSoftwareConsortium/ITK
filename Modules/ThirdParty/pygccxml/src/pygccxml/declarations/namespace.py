@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -9,6 +9,7 @@ Describe a C++ namespace declaration.
 """
 
 import warnings
+
 from . import scopedef
 from . import declaration_utils
 
@@ -23,12 +24,15 @@ class namespace_t(scopedef.scopedef_t):
         """
         Creates an object that describes a C++ namespace declaration.
 
-        """
+        Args:
+            name (str): name of the namespace
+            declarations (list[declaration_t]): list of declarations
 
+        """
         scopedef.scopedef_t.__init__(self, name)
         if not declarations:
             declarations = []
-        # list of all declarations belongs to this namespace
+        # List of all declarations belonging to this namespace
         self._declarations = declarations
 
     def __str__(self):
@@ -42,7 +46,6 @@ class namespace_t(scopedef.scopedef_t):
         Implementation detail.
 
         """
-
         return [self.declarations.sort()]
 
     def _get_declarations_impl(self):
@@ -54,7 +57,7 @@ class namespace_t(scopedef.scopedef_t):
         List of children declarations.
 
         Returns:
-            List[declarations.declaration_t]
+            list[declaration_t]
         """
         return scopedef.scopedef_t.declarations.fget(self)
 
@@ -64,7 +67,7 @@ class namespace_t(scopedef.scopedef_t):
         Set list of all declarations defined in the namespace.
 
         Args:
-            List[declarations.declaration_t]: list of declarations
+            declarations (list[declaration_t]): list of declarations
 
         """
         self._declarations = declarations
@@ -72,6 +75,9 @@ class namespace_t(scopedef.scopedef_t):
     def take_parenting(self, inst):
         """
         Takes parenting from inst and transfers it to self.
+
+        Args:
+            inst (namespace_t): a namespace declaration
 
         """
 
@@ -117,20 +123,6 @@ class namespace_t(scopedef.scopedef_t):
                 recursive=recursive)
         )
 
-    def ns(self, name=None, function=None, recursive=None):
-        """
-        Deprecated method. Use the namespace() method instead.
-
-        Deprecated since v1.8.0. Will be removed in v1.9.0
-
-        """
-        warnings.warn(
-            "The ns() method is deprecated. \n" +
-            "Please use the namespace() method instead.",
-            DeprecationWarning)
-
-        return self.namespace(name, function, recursive)
-
     def namespaces(
             self,
             name=None,
@@ -151,7 +143,19 @@ class namespace_t(scopedef.scopedef_t):
                 recursive=recursive,
                 allow_empty=allow_empty)
         )
-    nss = namespaces
+
+    def nss(self, name=None, function=None, recursive=None, allow_empty=None):
+        """
+        Deprecated method. Use the namespaces() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The nss() method is deprecated. \n" +
+            "Please use the namespaces() method instead.",
+            DeprecationWarning)
+
+        return self.namespaces(name, function, recursive, allow_empty)
 
     def free_function(
             self,
@@ -180,7 +184,31 @@ class namespace_t(scopedef.scopedef_t):
                 header_file=header_file,
                 recursive=recursive)
         )
-    free_fun = free_function
+
+    def free_fun(
+            self,
+            name=None,
+            function=None,
+            return_type=None,
+            arg_types=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None):
+        """
+        Deprecated method. Use the free_function() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The free_fun() method is deprecated. \n" +
+            "Please use the free_function() method instead.",
+            DeprecationWarning)
+
+        return self.free_function(
+            name, function,
+            return_type, arg_types,
+            header_dir, header_file,
+            recursive)
 
     def free_functions(
             self,
@@ -211,7 +239,32 @@ class namespace_t(scopedef.scopedef_t):
                 recursive=recursive,
                 allow_empty=allow_empty)
         )
-    free_funs = free_functions
+
+    def free_funs(
+            self,
+            name=None,
+            function=None,
+            return_type=None,
+            arg_types=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None,
+            allow_empty=None):
+        """
+        Deprecated method. Use the free_functions() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The free_funs() method is deprecated. \n" +
+            "Please use the free_functions() method instead.",
+            DeprecationWarning)
+
+        return self.free_functions(
+            name, function,
+            return_type, arg_types,
+            header_dir, header_file,
+            recursive, allow_empty)
 
     def free_operator(
             self,

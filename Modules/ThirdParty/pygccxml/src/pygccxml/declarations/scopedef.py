@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -12,41 +12,15 @@ from . import algorithm
 from . import templates
 from . import declaration
 from . import mdecl_wrapper
+from . import byte_info
+from . import elaborated_info
+from . import runtime_errors
 from .. import utils
 
 
 class matcher(object):
 
-    """Class-namespace, contains implementation of a few "find" algorithms
-    and definition of the related exception classes"""
-
-    class declaration_not_found_t(RuntimeError):
-
-        """Exception raised when the declaration could not be found"""
-
-        def __init__(self, matcher):
-            RuntimeError.__init__(self)
-            self.matcher = matcher
-
-        def __str__(self):
-            return (
-                "Unable to find declaration. Matcher: [%s]" % str(
-                    self.matcher)
-            )
-
-    class multiple_declarations_found_t(RuntimeError):
-
-        """Exception raised when more than one declaration was found"""
-
-        def __init__(self, matcher):
-            RuntimeError.__init__(self)
-            self.matcher = matcher
-
-        def __str__(self):
-            return (
-                "Multiple declarations have been found. Matcher: [%s]" % str(
-                    self.matcher)
-            )
+    """Class-namespace, contains implementation of a few "find" algorithms"""
 
     @staticmethod
     def find(decl_matcher, decls, recursive=True):
@@ -86,7 +60,7 @@ class matcher(object):
         :param recursive: boolean, if True, the method will run `decl_matcher`
             on the internal declarations too
         """
-        answer = _matcher.find(decl_matcher, decls, recursive)
+        answer = matcher.find(decl_matcher, decls, recursive)
         if len(answer) == 1:
             return answer[0]
 
@@ -106,16 +80,13 @@ class matcher(object):
         :param recursive: boolean, if True, the method will run `decl_matcher`
             on the internal declarations too
         """
-        answer = _matcher.find(decl_matcher, decls, recursive)
+        answer = matcher.find(decl_matcher, decls, recursive)
         if len(answer) == 1:
             return answer[0]
         elif not answer:
-            raise _matcher.declaration_not_found_t(decl_matcher)
+            raise runtime_errors.declaration_not_found_t(decl_matcher)
         else:
-            raise _matcher.multiple_declarations_found_t(decl_matcher)
-
-# FIXME: this is ugly
-_matcher = matcher
+            raise runtime_errors.multiple_declarations_found_t(decl_matcher)
 
 
 class scopedef_t(declaration.declaration_t):
@@ -172,8 +143,24 @@ class scopedef_t(declaration.declaration_t):
     RECURSIVE_DEFAULT = True
     ALLOW_EMPTY_MDECL_WRAPPER = False
 
-    declaration_not_found_t = _matcher.declaration_not_found_t
-    multiple_declarations_found_t = _matcher.multiple_declarations_found_t
+    @property
+    def declaration_not_found_t(self):
+        warnings.warn(
+            "The declaration_not_found_t attribute is deprecated. Please use"
+            "pygccxml.declaration.declaration_not_found_t instead.",
+            DeprecationWarning)
+        # Deprecated since 1.9.0, will be removed in 2.0.0
+        return runtime_errors.declaration_not_found_t
+
+    @property
+    def multiple_declarations_found_t(self):
+        warnings.warn(
+            "The multiple_declarations_found_t attribute is deprecated. "
+            "Please use pygccxml.declaration.multiple_declarations_found_t "
+            "instead.",
+            DeprecationWarning)
+        # Deprecated since 1.9.0, will be removed in 2.0.0
+        return runtime_errors.multiple_declarations_found_t
 
     # this class variable is used to prevent recursive imports
     _impl_matchers = {}
@@ -191,7 +178,7 @@ class scopedef_t(declaration.declaration_t):
         self._type2decls_nr = {}
         self._type2name2decls_nr = {}
         self._all_decls = None
-        self._all_decls_not_recursive = None
+        self._all_decls_not_recursive = []
 
     @property
     def _logger(self):
@@ -218,17 +205,9 @@ class scopedef_t(declaration.declaration_t):
         if not declaration.declaration_t.__eq__(self, other):
             return False
         return self.declarations[:].sort() == other.declarations[:].sort()
-        # self_decls = self._all_decls_not_recursive
-        # if not self._optimized:
-        # self_decls = self.declarations[:].sort()
-        # other_decls = other._all_decls_not_recursive[:]
-        # if not other._optimized:
-        # other_decls = other.declarations[:].sort()
-        # else:
-        # return self_decls == other_decls
 
     def __hash__(self):
-        return super.__hash__(self)
+        return super(scopedef_t, self).__hash__()
 
     def _get_declarations_impl(self):
         raise NotImplementedError()
@@ -262,18 +241,20 @@ class scopedef_t(declaration.declaration_t):
     def remove_declaration(self, decl):
         raise NotImplementedError()
 
-    def __decl_types(self, decl):
+    @staticmethod
+    def __decl_types(decl):
         """implementation details"""
         types = []
         bases = list(decl.__class__.__bases__)
-        visited = set()
         if 'pygccxml' in decl.__class__.__module__:
             types.append(decl.__class__)
         while bases:
             base = bases.pop()
             if base is declaration.declaration_t:
                 continue
-            if base in visited:
+            if base is byte_info.byte_info:
+                continue
+            if base is elaborated_info.elaborated_info:
                 continue
             if 'pygccxml' not in base.__module__:
                 continue
@@ -346,16 +327,18 @@ class scopedef_t(declaration.declaration_t):
         if self.name == '::':
             self._logger.debug((
                 "preparing data structures for query optimizer - " +
-                "done( %f seconds ). ") % (time.clock() - start_time))
+                "done( %f seconds ). "), (time.clock() - start_time))
         self._optimized = True
 
-    def _build_operator_function(self, name, function):
+    @staticmethod
+    def _build_operator_function(name, function):
         if isinstance(name, collections.Callable):
             return name
         else:
             return function
 
-    def _build_operator_name(self, name, function, symbol):
+    @staticmethod
+    def _build_operator_name(name, function, symbol):
         """implementation details"""
         def add_operator(sym):
             if 'new' in sym or 'delete' in sym:
@@ -382,7 +365,8 @@ class scopedef_t(declaration.declaration_t):
         #    if self.parent._optimized:
         #        self.parent.init_optimizer()
 
-    def __normalize_args(self, **keywds):
+    @staticmethod
+    def __normalize_args(**keywds):
         """implementation details"""
         if isinstance(keywds['name'], collections.Callable) and \
                 None is keywds['function']:
@@ -404,7 +388,8 @@ class scopedef_t(declaration.declaration_t):
         else:
             return keywds['allow_empty']
 
-    def __findout_decl_type(self, match_class, **keywds):
+    @staticmethod
+    def __findout_decl_type(match_class, **keywds):
         """implementation details"""
         if 'decl_type' in keywds:
             return keywds['decl_type']
@@ -415,9 +400,9 @@ class scopedef_t(declaration.declaration_t):
         if 'allow_empty' in matcher_args:
             del matcher_args['allow_empty']
 
-        matcher = match_class(**matcher_args)
-        if matcher.decl_type:
-            return matcher.decl_type
+        decl_matcher = match_class(**matcher_args)
+        if decl_matcher.decl_type:
+            return decl_matcher.decl_type
         return None
 
     def __create_matcher(self, match_class, **keywds):
@@ -428,15 +413,15 @@ class scopedef_t(declaration.declaration_t):
         if 'allow_empty' in matcher_args:
             del matcher_args['allow_empty']
 
-        matcher = match_class(**matcher_args)
+        decl_matcher = decl_matcher = match_class(**matcher_args)
         if keywds['function']:
             self._logger.debug(
-                'running query: %s and <user defined function>' %
-                str(matcher))
-            return lambda decl: matcher(decl) and keywds['function'](decl)
+                'running query: %s and <user defined function>',
+                str(decl_matcher))
+            return lambda decl: decl_matcher(decl) and keywds['function'](decl)
         else:
-            self._logger.debug('running query: %s' % str(matcher))
-            return matcher
+            self._logger.debug('running query: %s', str(decl_matcher))
+            return decl_matcher
 
     def __findout_range(self, name, decl_type, recursive):
         """implementation details"""
@@ -492,13 +477,13 @@ class scopedef_t(declaration.declaration_t):
         self._logger.debug('find single query execution - started')
         start_time = time.clock()
         norm_keywds = self.__normalize_args(**keywds)
-        matcher = self.__create_matcher(match_class, **norm_keywds)
+        decl_matcher = self.__create_matcher(match_class, **norm_keywds)
         dtype = self.__findout_decl_type(match_class, **norm_keywds)
         recursive_ = self.__findout_recursive(**norm_keywds)
         decls = self.__findout_range(norm_keywds['name'], dtype, recursive_)
-        found = _matcher.get_single(matcher, decls, False)
+        found = matcher.get_single(decl_matcher, decls, False)
         self._logger.debug(
-            'find single query execution - done( %f seconds )' %
+            'find single query execution - done( %f seconds )',
             (time.clock() - start_time))
         return found
 
@@ -507,16 +492,17 @@ class scopedef_t(declaration.declaration_t):
         self._logger.debug('find all query execution - started')
         start_time = time.clock()
         norm_keywds = self.__normalize_args(**keywds)
-        matcher = self.__create_matcher(match_class, **norm_keywds)
+        decl_matcher = self.__create_matcher(match_class, **norm_keywds)
         dtype = self.__findout_decl_type(match_class, **norm_keywds)
         recursive_ = self.__findout_recursive(**norm_keywds)
         allow_empty = self.__findout_allow_empty(**norm_keywds)
         decls = self.__findout_range(norm_keywds['name'], dtype, recursive_)
-        found = _matcher.find(matcher, decls, False)
+        found = matcher.find(decl_matcher, decls, False)
         mfound = mdecl_wrapper.mdecl_wrapper_t(found)
-        self._logger.debug('%d declaration(s) that match query' % len(mfound))
-        self._logger.debug('find single query execution - done( %f seconds )'
-                           % (time.clock() - start_time))
+        self._logger.debug('%d declaration(s) that match query', len(mfound))
+        self._logger.debug(
+            'find single query execution - done( %f seconds )',
+            (time.clock() - start_time))
         if not mfound and not allow_empty:
             raise RuntimeError(
                 "Multi declaration query returned 0 declarations.")
@@ -615,25 +601,12 @@ class scopedef_t(declaration.declaration_t):
             self,
             name=None,
             function=None,
-            type=None,
             decl_type=None,
             header_dir=None,
             header_file=None,
             recursive=None):
         """returns reference to variable declaration, that is matched defined
         criteria"""
-        if type is not None:
-            # Deprecated since 1.8.0. Will be removed in 1.9.0
-            warnings.warn(
-                "The type argument is deprecated. \n" +
-                "Please use the decl_type argument instead.",
-                DeprecationWarning)
-            if decl_type is not None:
-                raise (
-                    "Please use only either the type or " +
-                    "decl_type argument.")
-            # Still allow to use the old type for the moment.
-            decl_type = type
 
         return (
             self._find_single(
@@ -647,49 +620,15 @@ class scopedef_t(declaration.declaration_t):
                 recursive=recursive)
         )
 
-    def var(self,
-            name=None,
-            function=None,
-            type=None,
-            header_dir=None,
-            header_file=None,
-            recursive=None):
-        """
-        Deprecated since v1.8.0. Will be removed in v1.9.0
-
-        """
-
-        warnings.warn(
-            "The var() method is deprecated. \n" +
-            "Please use the variable() method instead.",
-            DeprecationWarning)
-
-        return self.variable(
-            name, function, type, header_dir, header_file, recursive)
-
     def variables(
             self,
             name=None,
             function=None,
-            type=None,
             decl_type=None,
             header_dir=None,
             header_file=None,
             recursive=None,
             allow_empty=None):
-
-        # Deprecated since 1.8.0. Will be removed in 1.9.0
-        if type is not None:
-            warnings.warn(
-                "The type argument is deprecated. \n" +
-                "Please use the decl_type argument instead.",
-                DeprecationWarning)
-            if decl_type is not None:
-                raise (
-                    "Please use only either the type or " +
-                    "decl_type argument.")
-            # Still allow to use the old type for the moment.
-            decl_type = type
 
         """returns a set of variable declarations, that are matched defined
         criteria"""
@@ -705,29 +644,6 @@ class scopedef_t(declaration.declaration_t):
                 recursive=recursive,
                 allow_empty=allow_empty)
         )
-
-    def vars(
-            self,
-            name=None,
-            function=None,
-            type=None,
-            header_dir=None,
-            header_file=None,
-            recursive=None,
-            allow_empty=None):
-        """
-        Deprecated since v1.8.0. Will be removed in v1.9.0
-
-        """
-
-        warnings.warn(
-            "The vars() method is deprecated. \n" +
-            "Please use the variables() method instead.",
-            DeprecationWarning)
-
-        return self.variables(
-            name, function, type, header_dir,
-            header_file, recursive, allow_empty)
 
     def calldef(
             self,
@@ -865,7 +781,31 @@ class scopedef_t(declaration.declaration_t):
                 header_file=header_file,
                 recursive=recursive)
         )
-    mem_fun = member_function
+
+    def mem_fun(
+            self,
+            name=None,
+            function=None,
+            return_type=None,
+            arg_types=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None):
+        """
+        Deprecated method. Use the member_function() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The mem_fun() method is deprecated. \n" +
+            "Please use the member_function() method instead.",
+            DeprecationWarning)
+
+        return self.member_function(
+            name, function,
+            return_type, arg_types,
+            header_dir, header_file,
+            recursive)
 
     def member_functions(
             self,
@@ -893,7 +833,32 @@ class scopedef_t(declaration.declaration_t):
                 recursive=recursive,
                 allow_empty=allow_empty)
         )
-    mem_funs = member_functions
+
+    def mem_funs(
+            self,
+            name=None,
+            function=None,
+            return_type=None,
+            arg_types=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None,
+            allow_empty=None):
+        """
+        Deprecated method. Use the member_functions() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The mem_funs() method is deprecated. \n" +
+            "Please use the member_functions() method instead.",
+            DeprecationWarning)
+
+        return self.member_functions(
+            name, function,
+            return_type, arg_types,
+            header_dir, header_file,
+            recursive, allow_empty)
 
     def constructor(
             self,
@@ -975,7 +940,32 @@ class scopedef_t(declaration.declaration_t):
                 header_file=header_file,
                 recursive=recursive)
         )
-    mem_oper = member_operator
+
+    def mem_oper(
+            self,
+            name=None,
+            function=None,
+            symbol=None,
+            return_type=None,
+            arg_types=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None):
+        """
+        Deprecated method. Use the member_operator() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The mem_oper() method is deprecated. \n" +
+            "Please use the member_operator() method instead.",
+            DeprecationWarning)
+
+        return self.member_operator(
+            name, function,
+            symbol, return_type,
+            arg_types, header_dir,
+            header_file, recursive)
 
     def member_operators(
             self,
@@ -1007,7 +997,34 @@ class scopedef_t(declaration.declaration_t):
                 recursive=recursive,
                 allow_empty=allow_empty)
         )
-    mem_opers = member_operators
+
+    def mem_opers(
+            self,
+            name=None,
+            function=None,
+            symbol=None,
+            return_type=None,
+            arg_types=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None,
+            allow_empty=None):
+        """
+        Deprecated method. Use the member_operators() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The mem_opers() method is deprecated. \n" +
+            "Please use the member_operators() method instead.",
+            DeprecationWarning)
+
+        return self.member_operators(
+            name, function,
+            symbol, return_type,
+            arg_types, header_dir,
+            header_file, recursive,
+            allow_empty)
 
     def casting_operator(
             self,
@@ -1082,8 +1099,25 @@ class scopedef_t(declaration.declaration_t):
                 recursive=recursive)
         )
 
-    enum = enumeration
-    """adding small aliase to enumeration method"""
+    def enum(
+            self,
+            name=None,
+            function=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None):
+        """
+        Deprecated method. Use the enumeration() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The enum() method is deprecated. \n" +
+            "Please use the enumeration() method instead.",
+            DeprecationWarning)
+
+        return self.enumeration(
+            name, function, header_dir, header_file, recursive)
 
     def enumerations(
             self,
@@ -1107,8 +1141,27 @@ class scopedef_t(declaration.declaration_t):
                 recursive=recursive,
                 allow_empty=allow_empty)
         )
-    # adding small aliase
-    enums = enumerations
+
+    def enums(
+            self,
+            name=None,
+            function=None,
+            header_dir=None,
+            header_file=None,
+            recursive=None,
+            allow_empty=None):
+        """
+        Deprecated method. Use the enumerations() method instead.
+
+        Deprecated since v1.9.0. Will be removed in v2.0.0
+        """
+        warnings.warn(
+            "The enums() method is deprecated. \n" +
+            "Please use the enumerations() method instead.",
+            DeprecationWarning)
+
+        return self.enumerations(
+            name, function, header_dir, header_file, recursive, allow_empty)
 
     def typedef(
             self,
@@ -1162,6 +1215,9 @@ class scopedef_t(declaration.declaration_t):
         """
         return self.decls(name_or_function)
 
+    def i_depend_on_them(self, recursive=True):
+        raise NotImplementedError()
+
 
 def make_flatten(decl_or_decls):
     """
@@ -1198,7 +1254,6 @@ def make_flatten(decl_or_decls):
 
 def find_all_declarations(
         declarations,
-        type=None,
         decl_type=None,
         name=None,
         parent=None,
@@ -1214,19 +1269,6 @@ def find_all_declarations(
     :rtype: [ matched declarations ]
 
     """
-
-    if type is not None:
-        # Deprecated since 1.8.0. Will be removed in 1.9.0
-        warnings.warn(
-            "The type argument is deprecated. \n" +
-            "Please use the decl_type argument instead.",
-            DeprecationWarning)
-        if decl_type is not None:
-            raise (
-                "Please use only either the type or " +
-                "decl_type argument.")
-        # Still allow to use the old type for the moment.
-        decl_type = type
 
     if recursive:
         decls = make_flatten(declarations)
@@ -1245,7 +1287,6 @@ def find_all_declarations(
 
 def find_declaration(
         declarations,
-        type=None,
         decl_type=None,
         name=None,
         parent=None,
@@ -1261,18 +1302,6 @@ def find_declaration(
     :rtype: matched declaration :class:`declaration_t` or None
 
     """
-    if type is not None:
-        # Deprecated since 1.8.0. Will be removed in 1.9.0
-        warnings.warn(
-            "The type argument is deprecated. \n" +
-            "Please use the decl_type argument instead.",
-            DeprecationWarning)
-        if decl_type is not None:
-            raise (
-                "Please use only either the type or " +
-                "decl_type argument.")
-        # Still allow to use the old type for the moment.
-        decl_type = type
 
     decl = find_all_declarations(
         declarations,
@@ -1287,7 +1316,6 @@ def find_declaration(
 
 def find_first_declaration(
         declarations,
-        type=None,
         decl_type=None,
         name=None,
         parent=None,
@@ -1302,20 +1330,8 @@ def find_first_declaration(
     :rtype: matched declaration :class:`declaration_t` or None
 
     """
-    if type is not None:
-        # Deprecated since 1.8.0. Will be removed in 1.9.0
-        warnings.warn(
-            "The type argument is deprecated. \n" +
-            "Please use the decl_type argument instead.",
-            DeprecationWarning)
-        if decl_type is not None:
-            raise (
-                "Please use only either the type or " +
-                "decl_type argument.")
-        # Still allow to use the old type for the moment.
-        decl_type = type
 
-    matcher = algorithm.match_declaration_t(
+    decl_matcher = algorithm.match_declaration_t(
         decl_type=decl_type,
         name=name,
         fullname=fullname,
@@ -1325,7 +1341,7 @@ def find_first_declaration(
     else:
         decls = declarations
     for decl in decls:
-        if matcher(decl):
+        if decl_matcher(decl):
             return decl
     return None
 
