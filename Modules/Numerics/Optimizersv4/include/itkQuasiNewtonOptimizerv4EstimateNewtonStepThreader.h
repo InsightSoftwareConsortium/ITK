@@ -24,7 +24,7 @@
 namespace itk
 {
 template<typename TInternalComputationValueType>
-class ITK_TEMPLATE_EXPORT QuasiNewtonOptimizerv4Template;
+class ITK_FORWARD_EXPORT QuasiNewtonOptimizerv4Template;
 
 /** \class QuasiNewtonOptimizerv4EstimateNewtonStepThreaderTemplate
  * \brief Estimate the quasi-Newton step in a thread.

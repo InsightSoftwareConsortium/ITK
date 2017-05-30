@@ -26,7 +26,7 @@ namespace itk
 
 // Forward reference because of circular dependencies
 template< unsigned int VDimension >
-class ITK_TEMPLATE_EXPORT SpatialObject;
+class ITK_FORWARD_EXPORT SpatialObject;
 
 /** \class SpatialObjectTreeNode
  * \brief TODO

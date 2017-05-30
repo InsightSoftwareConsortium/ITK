@@ -197,7 +197,10 @@ namespace itk
 
 #ifndef ITK_FORWARD_EXPORT
   // If build with shared libraries, on MacOS, if USE_COMPILER_HIDDEN_VISIBILITY is ON
-  #if defined(ITK_TEMPLATE_VISIBILITY_DEFAULT) && defined(ITK_BUILD_SHARED_LIBS) && defined(USE_COMPILER_HIDDEN_VISIBILITY)
+  #if defined(__APPLE__)\
+   && defined(ITK_TEMPLATE_VISIBILITY_DEFAULT)\
+   && defined(ITK_BUILD_SHARED_LIBS)\
+   && defined(USE_COMPILER_HIDDEN_VISIBILITY)
     #define ITK_FORWARD_EXPORT __attribute__ ((visibility ("default")))
   #else
     #define ITK_FORWARD_EXPORT
