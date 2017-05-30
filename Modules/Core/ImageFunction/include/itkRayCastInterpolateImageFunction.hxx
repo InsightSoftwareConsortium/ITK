@@ -34,10 +34,6 @@ template< typename TInputImage, typename TCoordRep = float >
 class RayCastHelper
 {
 public:
-  /** Constants for the image dimensions */
-  itkStaticConstMacro(InputImageDimension, unsigned int,
-                      TInputImage::ImageDimension);
-
   /**
    * Type of the Transform Base class
    * The fixed image should be a 3D image
@@ -295,7 +291,6 @@ void
 RayCastHelper< TInputImage, TCoordRep >
 ::Initialise(void)
 {
-  (void)InputImageDimension; // use member variable
   // Save the dimensions of the volume and calculate the bounding box
   this->RecordVolumeDimensions();
 
