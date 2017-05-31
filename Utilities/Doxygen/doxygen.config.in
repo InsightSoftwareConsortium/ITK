@@ -2015,7 +2015,8 @@ PREDEFINED             = "itkNotUsed(x)=" \
                          "ITK_OVERRIDE= override " \
                          "ITK_NULLPTR=  nullptr " \
                          "ITK_NOEXCEPT= noexcept " \
-                         "ITK_DISALLOW_COPY_AND_ASSIGN(type)="
+                         "ITK_DISALLOW_COPY_AND_ASSIGN(type)="\
+                         "ITK_FORCE_EXPORT_MACRO(X)="
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then this
 # tag can be used to specify a list of macro names that should be expanded. The
