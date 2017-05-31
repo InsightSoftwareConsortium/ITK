@@ -86,11 +86,24 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
 
   passBandFilter->SetInput(image);
 
-  BandFilterType::FrequencyValueType lowFreqThreshold = 0.0;
+  // Test exception cases
+  BandFilterType::FrequencyValueType lowFreqThreshold = 0.5;
   passBandFilter->SetLowFrequencyThreshold(lowFreqThreshold);
   TEST_SET_GET_VALUE(lowFreqThreshold, passBandFilter->GetLowFrequencyThreshold());
 
-  BandFilterType::FrequencyValueType highFreqThreshold = 0.5;
+  BandFilterType::FrequencyValueType highFreqThreshold = 0.0;
+  passBandFilter->SetHighFrequencyThreshold(highFreqThreshold);
+  TEST_SET_GET_VALUE(highFreqThreshold, passBandFilter->GetHighFrequencyThreshold());
+
+
+  TRY_EXPECT_EXCEPTION(passBandFilter->Update());
+
+
+  lowFreqThreshold = 0.0;
+  passBandFilter->SetLowFrequencyThreshold(lowFreqThreshold);
+  TEST_SET_GET_VALUE(lowFreqThreshold, passBandFilter->GetLowFrequencyThreshold());
+
+  highFreqThreshold = 0.5;
   passBandFilter->SetHighFrequencyThreshold(highFreqThreshold);
   TEST_SET_GET_VALUE(highFreqThreshold, passBandFilter->GetHighFrequencyThreshold());
 
@@ -106,6 +119,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   passBandFilter->SetPassBand(passLowFreqThreshold, passHighFreqThreshold);
   TEST_SET_GET_VALUE(passLowFreqThreshold, passBandFilter->GetPassLowFrequencyThreshold());
   TEST_SET_GET_VALUE(passHighFreqThreshold, passBandFilter->GetPassHighFrequencyThreshold());
+
 
   TRY_EXPECT_NO_EXCEPTION(passBandFilter->Update());
 
