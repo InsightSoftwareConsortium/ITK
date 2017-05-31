@@ -101,7 +101,12 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 {
   Superclass::PrintSelf(os, indent);
 
+  itkPrintSelfObjectMacro(FFTPadFilter);
+  itkPrintSelfObjectMacro(ChangeInfoFilter);
+
   os << indent << "SizeGreatestPrimeFactor: " << m_SizeGreatestPrimeFactor << std::endl;
+
+  m_BoundaryCondition->Print(os, indent);
 }
 
 template <class TInputImage, class TOutputImage>
