@@ -25,8 +25,8 @@ fi
 # EDIT THIS SCRIPT to change the hash tag at which to begin the
 # next update...
 #
-# This merge done April 28, 2014
-git branch DoubleConversion-upstream 1feae55e5af21e36
+# This merge done May 31, 2017
+git branch DoubleConversion-upstream a1b6d065083d00c8
 
 #
 # Make a temp directory to handle the import of the upstream source
@@ -48,7 +48,7 @@ echo NOTE: to check out a particular revision for merging
 echo you have to add a git checkout '<hash>'
 echo or git checkout '<branchname>'
 echo after the git clone command
-git clone https://code.google.com/p/double-conversion/
+git clone https://github.com/google/double-conversion
 #
 # recover the upstream commit date.
 cd double-conversion
@@ -68,7 +68,7 @@ else
     exit 1
 fi
 
-cp -r double-conversion/src/* .
+cp -r double-conversion/double-conversion/* .
 # get rid of double-conversion clone
 rm -fr double-conversion
 #
@@ -111,5 +111,5 @@ echo to get the commit hash from which the DoubleConversion-upstream
 echo branch must be started on the next update.
 echo "---------------------------------"
 echo edit the line \"git branch DoubleConversion-upstream\" above.
-echo Once you have commited this chage to the UpdateDoubleConversionFromGoogle.sh script,
+echo Once you have commited this change to the UpdateDoubleConversionFromGoogle.sh script,
 echo use \"git gerrit-push\" to push this new update branch back to itk.org.
