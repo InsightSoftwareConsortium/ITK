@@ -23,7 +23,7 @@ itk_wrap_class("itk::VectorContainer" POINTER)
   itk_wrap_template("${ITKM_UI}${ITKM_VUC1}"    "${ITKT_UI},${ITKT_VUC1}")
   itk_wrap_template("${ITKM_IT}S${ITKM_IT}"    "${ITKT_IT}, std::set< ${ITKT_IT} >")
   #used  in ImageRegistrationMethodv4
-  UNIQUE(vectypes "IT;UI;${WRAP_ITK_USIGN_INT}")
+  UNIQUE(vectypes "${ITKM_IT};UI;${WRAP_ITK_USIGN_INT}")
   foreach(t1 ${vectypes})
     foreach(t2 ${vectypes})
       itk_wrap_template("${ITKM_${t1}}${ITKM_${t2}}" "${ITKT_${t1}}, ${ITKT_${t2}}")
