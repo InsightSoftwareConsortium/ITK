@@ -30,7 +30,7 @@ namespace itk
  * The difference with @sa FFTPadImageFilter is that the padded image
  * has no negative indices, that can be problematic for @sa NeighborhoodIterator.
  *
- * FFT filters usually requires a specific image size. The size is decomposed
+ * FFT filters usually require a specific image size. The size is decomposed
  * in several prime factors, and the filter only supports prime factors up to
  * a maximum value.
  * This filter automatically finds the greatest prime factor required by the
