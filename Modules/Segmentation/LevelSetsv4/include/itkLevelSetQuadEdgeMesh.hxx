@@ -47,7 +47,7 @@ typename LevelSetQuadEdgeMesh< TMesh >::GradientType
 LevelSetQuadEdgeMesh< TMesh >::EvaluateGradient( const InputType& itkNotUsed(iP) ) const
 {
   itkWarningMacro( <<"to be implemented" );
-  return this->GradientType();
+  return Self::GradientType(); //Create a new object with default initializer
 }
 
 template< typename TMesh >
@@ -55,7 +55,7 @@ typename LevelSetQuadEdgeMesh< TMesh >::HessianType
 LevelSetQuadEdgeMesh< TMesh >::EvaluateHessian( const InputType& itkNotUsed(iP) ) const
 {
   itkWarningMacro( <<"to be implemented" );
-  return this->HessianType();
+  return Self::HessianType(); //Create a new objet with default initializer
 }
 
 template< typename TMesh >
