@@ -50,11 +50,14 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
     endforeach()
   endforeach()
 
-  # Real <-> CovariantVector
-  itk_wrap_include("itkCovariantVector.h")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    itk_wrap_template("I${ITKM_F}${d}ICV${ITKM_D}${d}${d}"
-                      "itk::Image<${ITKT_F}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
-  endforeach()
+  list(FIND WRAP_ITK_COV_VECTOR_REAL "CVD" index)
+  if(index EQUAL -1)
+    # Real <-> CovariantVector
+    itk_wrap_include("itkCovariantVector.h")
+    foreach(d ${ITK_WRAP_IMAGE_DIMS})
+      itk_wrap_template("I${ITKM_F}${d}ICV${ITKM_D}${d}${d}"
+                        "itk::Image<${ITKT_F}, ${d}>, itk::Image<itk::CovariantVector<${ITKT_D}, ${d}>, ${d}>")
+    endforeach()
+  endif()
 
 itk_end_wrap_class()
