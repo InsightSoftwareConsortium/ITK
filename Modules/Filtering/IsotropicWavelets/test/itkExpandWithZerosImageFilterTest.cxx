@@ -31,7 +31,7 @@
 
 template <unsigned int VDimension>
 int
-runExpandWithZerosImageFilterTest()
+runExpandWithZerosImageFilterTest(unsigned int expandFactor)
 {
   typedef float                             PixelType;
   typedef itk::Image<PixelType, VDimension> ImageType;
@@ -56,12 +56,14 @@ runExpandWithZerosImageFilterTest()
   typedef itk::ExpandWithZerosImageFilter<ImageType, ImageType> ExpanderType;
   typename ExpanderType::Pointer                                expander = ExpanderType::New();
 
-  unsigned int                             expandFactor = 3;
   typename ExpanderType::ExpandFactorsType expandFactors;
   expandFactors.Fill(expandFactor);
-
   expander->SetExpandFactors(expandFactors);
   TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
+
+  expander->SetExpandFactors(expandFactor);
+  TEST_SET_GET_VALUE(expandFactors, expander->GetExpandFactors());
+
   expander->SetInput(input);
   expander->Update();
 
@@ -148,9 +150,9 @@ runExpandWithZerosImageFilterTest()
 int
 itkExpandWithZerosImageFilterTest(int argc, char * argv[])
 {
-  if (argc > 2)
+  if (argc < 3)
   {
-    std::cerr << "Usage: " << argv[0] << "[dimension]" << std::endl;
+    std::cerr << "Usage: " << argv[0] << "dimension" << std::endl << "expandFactor" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -165,19 +167,18 @@ itkExpandWithZerosImageFilterTest(int argc, char * argv[])
   ExpanderType::Pointer                                         expander = ExpanderType::New();
   EXERCISE_BASIC_OBJECT_METHODS(expander, ExpandWithZerosImageFilter, ImageToImageFilter);
 
-  unsigned int dimension = 3;
-  if (argc == 2)
-  {
-    dimension = atoi(argv[1]);
-  }
+  // Parse input arguments
+  unsigned int dimension = atoi(argv[1]);
+  unsigned int expandFactor = static_cast<unsigned int>(atoi(argv[2]));
+
 
   if (dimension == 2)
   {
-    return runExpandWithZerosImageFilterTest<2>();
+    return runExpandWithZerosImageFilterTest<2>(expandFactor);
   }
   else if (dimension == 3)
   {
-    return runExpandWithZerosImageFilterTest<3>();
+    return runExpandWithZerosImageFilterTest<3>(expandFactor);
   }
   else
   {

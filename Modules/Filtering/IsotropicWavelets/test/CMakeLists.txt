@@ -474,12 +474,14 @@ itk_add_test(
     IsotropicWaveletsTestDriver
     itkExpandWithZerosImageFilterTest
     2
+    3
 )
 itk_add_test(
   NAME itkExpandWithZerosImageFilterTest3D
   COMMAND
     IsotropicWaveletsTestDriver
     itkExpandWithZerosImageFilterTest
+    3
     3
 )
 ## ShrinkDecimate (in spatial domain)
