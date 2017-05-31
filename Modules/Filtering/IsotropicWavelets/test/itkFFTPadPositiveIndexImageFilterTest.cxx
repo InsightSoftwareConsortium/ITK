@@ -27,10 +27,12 @@
 int
 itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 5)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << argv[0] << " inputImageFile outputImageFile" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImageFile"
+              << " outputImageFile"
+              << " sizeGreatestPrimeFactor"
+              << " boundarycondition (ZEROFLUXNEUMANN; CONSTANT; PERIODIC)" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -51,13 +53,39 @@ itkFFTPadPositiveIndexImageFilterTest(int argc, char * argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS(fftpad, FFTPadPositiveIndexImageFilter, ImageToImageFilter);
 
-  /*itk::SizeValueType sizeGreatestPrimeFactor;
-  fftpad->SetSizeGreatestPrimeFactor( sizeGreatestPrimeFactor );
-  TEST_SET_GET_VALUE( sizeGreatestPrimeFactor, fftpad->GetSizeGreatestPrimeFactor() );*/
 
-  /*FFTPadType::BoundaryConditionPointerType boundaryCondition;
-  fftpad->SetBoundaryCondition( boundaryCondition );
-  TEST_SET_GET_VALUE( boundaryCondition, fftpad->GetBoundaryCondition() );*/
+  FFTPadType::SizeType::SizeValueType sizeGreatestPrimeFactor =
+    static_cast<FFTPadType::SizeType::SizeValueType>(atoi(argv[3]));
+  fftpad->SetSizeGreatestPrimeFactor(sizeGreatestPrimeFactor);
+  TEST_SET_GET_VALUE(sizeGreatestPrimeFactor, fftpad->GetSizeGreatestPrimeFactor());
+
+  itk::ConstantBoundaryCondition<ImageType>        constantBoundaryCondition;
+  itk::PeriodicBoundaryCondition<ImageType>        periodicBoundaryCondition;
+  itk::ZeroFluxNeumannBoundaryCondition<ImageType> zeroFluxNeumannBoundaryCondition;
+
+  std::string boundaryCondition(argv[4]);
+  if (boundaryCondition == "CONSTANT")
+  {
+    fftpad->SetBoundaryCondition(&constantBoundaryCondition);
+    TEST_SET_GET_VALUE(&constantBoundaryCondition, fftpad->GetBoundaryCondition());
+  }
+  else if (boundaryCondition == "PERIODIC")
+  {
+    fftpad->SetBoundaryCondition(&periodicBoundaryCondition);
+    TEST_SET_GET_VALUE(&periodicBoundaryCondition, fftpad->GetBoundaryCondition());
+  }
+  else if (boundaryCondition == "ZEROFLUXNEUMANN")
+  {
+    fftpad->SetBoundaryCondition(&zeroFluxNeumannBoundaryCondition);
+    TEST_SET_GET_VALUE(&zeroFluxNeumannBoundaryCondition, fftpad->GetBoundaryCondition());
+  }
+  else
+  {
+    std::cerr << "Invalid BoundaryCondition '" << boundaryCondition << "'" << std::endl;
+    std::cerr << "Valid values are CONSTANT, PERIODIC or ZEROFLUXNEUMANN." << std::endl;
+    return EXIT_FAILURE;
+  }
+
 
   fftpad->SetInput(reader->GetOutput());
 
