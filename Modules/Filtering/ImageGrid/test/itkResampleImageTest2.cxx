@@ -49,13 +49,6 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(NonlinearAffineTransform, AffineTransform);
 
-  /** Dimension of the domain space. */
-  itkStaticConstMacro(InputSpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(OutputSpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro(SpaceDimension, unsigned int, NDimensions);
-  itkStaticConstMacro( ParametersDimension, unsigned int,
-                       NDimensions *( NDimensions + 1 ) );
-
   /** Override this. See test below. */
     virtual bool IsLinear() const ITK_OVERRIDE { return false; }
 };
@@ -176,12 +169,6 @@ int itkResampleImageTest2(int argc, char * argv [] )
   std::cout << "Test with NonlinearAffineTransform." << std::endl;
   NonlinearAffineTransformType::Pointer nonlinearAffineTransform =
                                     NonlinearAffineTransformType::New();
-  // mark as used
-  (void) NonlinearAffineTransformType::InputSpaceDimension;
-  (void) NonlinearAffineTransformType::OutputSpaceDimension;
-  (void) NonlinearAffineTransformType::SpaceDimension;
-  (void) NonlinearAffineTransformType::ParametersDimension;
-
 
   nonlinearAffineTransform->Scale(2.0);
   resample->SetTransform( nonlinearAffineTransform );
