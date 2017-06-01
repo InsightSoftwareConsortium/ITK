@@ -74,7 +74,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   fftFilter->SetInput(zeroDCFilter->GetOutput());
   typedef typename FFTFilterType::OutputImageType ComplexImageType;
 
-  // ShinkFrequency
+  // ShrinkFrequency
   typedef itk::FrequencyShrinkImageFilter<ComplexImageType> ShrinkType;
   typename ShrinkType::Pointer                              shrinkFilter = ShrinkType::New();
 
@@ -116,7 +116,7 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   }
   std::cout << "Image Even? " << imageIsEven << std::endl;
 
-  // Test hermitian properties for even Images. Odd real images are not even hermitian after FFTw.
+  // Test Hermitian properties for even Images. Odd real images are not even hermitian after FFTw.
   if (imageIsEven)
   {
     bool fftIsHermitian = itk::Testing::ComplexImageIsHermitian(fftFilter->GetOutput());
@@ -250,21 +250,22 @@ runFrequencyShrinkTest(const std::string & inputImage, const std::string & outpu
   changeInputInfoFilter->Update();
 
   typename ShrinkType::Pointer shrinkBandFilter = ShrinkType::New();
-  shrinkBandFilter->SetApplyBandFilter(true);
+  bool                         applyBandFilter = true;
+  TEST_SET_GET_BOOLEAN(shrinkBandFilter, ApplyBandFilter, applyBandFilter);
   shrinkBandFilter->SetInput(changeInputInfoFilter->GetOutput());
   bool lowFreqThresholdPassing = true;
   bool highFreqThresholdPassing = true;
   shrinkBandFilter->GetFrequencyBandFilter()->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
 
   typename ShrinkType::Pointer shrinkNoIntersectionFilter = ShrinkType::New();
-  shrinkNoIntersectionFilter->SetApplyBandFilter(true);
+  TEST_SET_GET_BOOLEAN(shrinkNoIntersectionFilter, ApplyBandFilter, applyBandFilter);
   shrinkNoIntersectionFilter->SetInput(changeInputInfoFilter->GetOutput());
   lowFreqThresholdPassing = true;
   highFreqThresholdPassing = false;
   shrinkNoIntersectionFilter->GetFrequencyBandFilter()->SetPassBand(lowFreqThresholdPassing, highFreqThresholdPassing);
 
   typename ShrinkType::Pointer shrinkIntersectionPassFilter = ShrinkType::New();
-  shrinkIntersectionPassFilter->SetApplyBandFilter(true);
+  TEST_SET_GET_BOOLEAN(shrinkIntersectionPassFilter, ApplyBandFilter, applyBandFilter);
   shrinkIntersectionPassFilter->SetInput(changeInputInfoFilter->GetOutput());
   lowFreqThresholdPassing = true;
   highFreqThresholdPassing = true;
