@@ -106,13 +106,23 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   typename ShrinkType::Pointer                              shrinkFilter = ShrinkType::New();
   shrinkFilter->SetInput(expandFilter->GetOutput());
   shrinkFilter->SetShrinkFactors(resizeFactor);
-  shrinkFilter->Update();
+
+  TRY_EXPECT_NO_EXCEPTION(shrinkFilter->Update());
 
   typedef itk::FrequencyShrinkViaInverseFFTImageFilter<ComplexImageType> ShrinkViaInverseFFTType;
   typename ShrinkViaInverseFFTType::Pointer shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
   shrinkViaInverseFFTFilter->SetInput(expandViaInverseFFTFilter->GetOutput());
+
+  ShrinkViaInverseFFTType::ShrinkFactorsType shrinkFactors;
+  shrinkFactors.Fill(resizeFactor);
   shrinkViaInverseFFTFilter->SetShrinkFactors(resizeFactor);
-  shrinkViaInverseFFTFilter->Update();
+  TEST_SET_GET_VALUE(shrinkFactors, shrinkViaInverseFFTFilter->GetShrinkFactors());
+
+  shrinkViaInverseFFTFilter->SetShrinkFactors(shrinkFactors);
+  TEST_SET_GET_VALUE(shrinkFactors, shrinkViaInverseFFTFilter->GetShrinkFactors());
+
+  TRY_EXPECT_NO_EXCEPTION(shrinkViaInverseFFTFilter->Update());
+
 
   // Test size and metadata
   typename ComplexImageType::PointType   fftOrigin = fftFilter->GetOutput()->GetOrigin();
