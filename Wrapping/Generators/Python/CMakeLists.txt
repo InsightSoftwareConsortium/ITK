@@ -69,10 +69,18 @@ if(NOT PY_SITE_PACKAGES_PATH)
   message(SEND_ERROR "Please set PY_SITE_PACKAGES_PATH to the Python bindings installation directory.")
 endif()
 
-macro(WRAP_ITK_PYTHON_BINDINGS_INSTALL path)
+macro(WRAP_ITK_PYTHON_BINDINGS_INSTALL path wrapper_library_name)
+  set(_component_module "")
+  if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+    if("${wrapper_library_name}" MATCHES "^ITK(PyUtils|PyBase)$")
+      set(_component_module "ITKCommon")
+    else()
+      set(_component_module "${wrapper_library_name}")
+    endif()
+  endif()
   install(FILES ${ARGN}
     DESTINATION "${PY_SITE_PACKAGES_PATH}/${path}"
-    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
     )
 endmacro()
 
@@ -115,7 +123,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
                  "${ITK_WRAP_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py"
                 @ONLY)
 
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${ITK_WRAP_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" "${ITK_WRAP_PYTHON_BINARY_DIR}/InstallOnly/itkConfig.py")
 
   # copy the files to expose build options in python
   set(ITK_WRAP_PYTHON_VECTOR_REAL )
@@ -145,7 +153,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itkBuildOptions.py.in"
                  "${ITK_WRAP_PYTHON_BINARY_DIR}/itkBuildOptions.py"
                 @ONLY)
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${ITK_WRAP_PYTHON_BINARY_DIR}/itkBuildOptions.py")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" "${ITK_WRAP_PYTHON_BINARY_DIR}/itkBuildOptions.py")
 endif()
 
 
@@ -200,10 +208,10 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   # Install the package python files.
   list(GET ITK_WRAP_PYTHON_INSTALL_FILES 0 init_file)
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk ${init_file})
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${init_file})
   set(python_modules ${ITK_WRAP_PYTHON_INSTALL_FILES})
   list(REMOVE_AT python_modules 0)
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ ${python_modules})
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "ITKCommon" ${python_modules})
 endif()
 
 
@@ -324,7 +332,7 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
     WORKING_DIRECTORY ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python
     DEPENDS ${dependencies}
   )
-  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "${python_file}")
+  WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "${WRAPPER_LIBRARY_NAME}" "${python_file}")
 
 endmacro()
 
@@ -365,6 +373,7 @@ macro(itk_end_wrap_module_python)
     "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
     @ONLY)
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/Configuration
+    "${WRAPPER_LIBRARY_NAME}"
     "${ITK_WRAP_PYTHON_BINARY_DIR}/Configuration/${WRAPPER_LIBRARY_NAME}Config.py"
   )
 
@@ -376,7 +385,7 @@ macro(itk_end_wrap_module_python)
     configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/ModuleLoader.py.in"
       "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py"
       @ONLY)
-    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
+    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/ "${WRAPPER_LIBRARY_NAME}" "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}.py")
   endif()
 
   set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS )
@@ -492,9 +501,17 @@ _ITKCommonPython_GetGlobalTimeStamp_PROTO
       target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_NAME}Explicit)
       add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Explicit)
     endif()
+    set(_component_module "")
+    if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+      if("${WRAPPER_LIBRARY_NAME}" MATCHES "^ITK(PyUtils|PyBase)$")
+        set(_component_module "ITKCommon")
+      else()
+        set(_component_module "${WRAPPER_LIBRARY_NAME}")
+      endif()
+    endif()
     install(TARGETS "${lib}"
       DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
-      COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+      COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
       )
     if(NOT EXTERNAL_WRAP_ITK_PROJECT)
       # don't depends on the targets from wrapitk in external projects

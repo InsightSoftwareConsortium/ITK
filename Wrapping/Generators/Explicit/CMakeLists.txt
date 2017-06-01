@@ -3,6 +3,9 @@
 set(ITK_WRAP_EXPLICIT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "explicit source dir")
 set(ITK_WRAP_EXPLICIT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "explicit binary dir")
 
+if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+  message(WARNING "Option WRAP_ITK_INSTALL_COMPONENT_PER_MODULE is not supported for Explicit wrapping")
+endif()
 
 macro(itk_wrap_include_explicit include_file)
   list(APPEND EXPLICIT_INCLUDES ${include_file})

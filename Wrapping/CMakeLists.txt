@@ -132,6 +132,13 @@ if(NOT WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER)
   set(WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER "")
 endif()
 
+# Set WRAP_ITK_INSTALL_COMPONENT_PER_MODULE to 1 to have wrapping install
+# component names prefixed with their respective module name.
+# This can be used to have fine-control over the split of installation.
+if(NOT DEFINED WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+  set(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE 0)
+endif()
+
 mark_as_advanced(CMAKE_LIBRARY_OUTPUT_DIRECTORY EXECUTABLE_OUTPUT_PATH WRAP_ITK_INSTALL_PREFIX)
 
 set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
@@ -141,9 +148,14 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 ###############################################################################
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+  # Install CMake module(s) along with ITKCommon wrapping
+  set(_component_module "")
+  if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+    set(_component_module "ITKCommon")
+  endif()
   install(FILES "${WrapITK_BINARY_DIR}/InstallOnly/WrapITKConfig.cmake"
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}/"
-    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}Development
+    COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}Development
     )
 endif()
 
