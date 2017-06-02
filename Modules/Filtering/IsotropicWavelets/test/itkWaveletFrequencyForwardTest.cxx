@@ -47,6 +47,96 @@ AppendToFilename(const std::string & filename, const std::string & appendix)
   return filename.substr(0, foundDot) + appendix + filename.substr(foundDot);
 }
 
+void
+printComputeMaxNumberOfLevelsError(itk::Size<3> inputSize,
+                                   unsigned int scaleFactor,
+                                   unsigned int expected,
+                                   unsigned int result)
+{
+  std::cerr << "Error in ComputeMaxNumberOfLevels with" << std::endl;
+  std::cerr << "scaleFactor = " << scaleFactor << std::endl;
+  std::cerr << "inputSize = " << inputSize << std::endl;
+  std::cerr << "Expected: " << expected << ", but got " << result << std::endl;
+}
+
+bool
+testComputeMaxNumberOfLevels()
+{
+  bool                                                                                            testPassed = true;
+  const unsigned int                                                                              Dimension = 3;
+  typedef itk::Image<std::complex<double>, Dimension>                                             ComplexImageType;
+  typedef itk::HeldIsotropicWavelet<double, Dimension>                                            WaveletFunctionType;
+  typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType>         WaveletFilterBankType;
+  typedef itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, WaveletFilterBankType> ForwardWaveletType;
+
+  unsigned int                       scaleFactor = 2;
+  typedef ComplexImageType::SizeType SizeType;
+  SizeType                           inputSize;
+  inputSize.Fill(12);
+  unsigned int expected = 3;
+
+  unsigned int result = ForwardWaveletType::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+  if (result != expected)
+  {
+    printComputeMaxNumberOfLevelsError(inputSize, scaleFactor, expected, result);
+    testPassed = false;
+  }
+
+  inputSize.Fill(16);
+  expected = 4;
+  result = ForwardWaveletType::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+
+  if (result != expected)
+  {
+    printComputeMaxNumberOfLevelsError(inputSize, scaleFactor, expected, result);
+    testPassed = false;
+  }
+
+  inputSize.Fill(17);
+  expected = 1;
+  result = ForwardWaveletType::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+
+  if (result != expected)
+  {
+    printComputeMaxNumberOfLevelsError(inputSize, scaleFactor, expected, result);
+    testPassed = false;
+  }
+
+  inputSize.Fill(22);
+  expected = 2;
+  result = ForwardWaveletType::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+
+  if (result != expected)
+  {
+    printComputeMaxNumberOfLevelsError(inputSize, scaleFactor, expected, result);
+    testPassed = false;
+  }
+
+  inputSize.Fill(3);
+  expected = 1;
+  result = ForwardWaveletType::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+
+  if (result != expected)
+  {
+    printComputeMaxNumberOfLevelsError(inputSize, scaleFactor, expected, result);
+    testPassed = false;
+  }
+
+  // Change scaleFactor
+  scaleFactor = 3;
+  inputSize.Fill(27);
+  expected = 3;
+  result = ForwardWaveletType::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
+
+  if (result != expected)
+  {
+    printComputeMaxNumberOfLevelsError(inputSize, scaleFactor, expected, result);
+    testPassed = false;
+  }
+
+  return testPassed;
+}
+
 template <unsigned int VDimension, typename TWaveletFunction>
 int
 runWaveletFrequencyForwardTest(const std::string &  inputImage,
@@ -261,6 +351,13 @@ runWaveletFrequencyForwardTest(const std::string &  inputImage,
       writer->SetInput(inverseFFT->GetOutput());
       TRY_EXPECT_NO_EXCEPTION(writer->Update());
     }
+  }
+
+  // Run ComputeMaxNumberOfLevel Test.
+  bool testLevelsPassed = testComputeMaxNumberOfLevels();
+  if (!testLevelsPassed)
+  {
+    testPassed = false;
   }
 
   if (testPassed)

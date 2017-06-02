@@ -120,31 +120,44 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 unsigned int
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
-  ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size, unsigned int scaleFactor)
+  ComputeMaxNumberOfLevels(typename InputImageType::SizeType & inputSize, unsigned int scaleFactor)
 {
-  FixedArray<unsigned int, ImageDimension> exponent_per_axis;
+  FixedArray<unsigned int, ImageDimension> exponentPerAxis;
+  exponentPerAxis.Fill(1);
   for (unsigned int axis = 0; axis < ImageDimension; ++axis)
   {
-    size_t size_axis = input_size[axis];
-    if (size_axis < scaleFactor)
-    {
-      exponent_per_axis[axis] = 1;
-      continue;
-    }
-    double exponent = std::log(size_axis) / std::log(static_cast<double>(scaleFactor));
+    size_t sizeAxis = inputSize[axis];
+    double exponent = std::log(sizeAxis) / std::log(static_cast<double>(scaleFactor));
     // check that exponent is integer: the fractional part is 0
-    double int_part;
-    if (std::modf(exponent, &int_part) == 0)
+    double exponentIntPart;
+    double exponentFractionPart = std::modf(exponent, &exponentIntPart);
+    if (exponentFractionPart == 0)
     {
-      exponent_per_axis[axis] = static_cast<unsigned int>(exponent);
+      exponentPerAxis[axis] = static_cast<unsigned int>(exponent);
     }
     else
     {
-      exponent_per_axis[axis] = 1;
+      // increase valid levels until the division size/scale_factor gives a non-integer.
+      double sizeAtLevel = static_cast<double>(sizeAxis);
+      for (;;)
+      {
+        double division = sizeAtLevel / static_cast<double>(scaleFactor);
+        double intPartDivision;
+        double fractionPartDivision = std::modf(division, &intPartDivision);
+        if (fractionPartDivision == 0)
+        {
+          exponentPerAxis[axis]++;
+          sizeAtLevel = intPartDivision;
+        }
+        else
+        {
+          break;
+        }
+      }
     }
   }
   // return the min_element of array (1 if any size is not power of 2)
-  return *std::min_element(exponent_per_axis.Begin(), exponent_per_axis.End());
+  return *std::min_element(exponentPerAxis.Begin(), exponentPerAxis.End());
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
