@@ -27,6 +27,7 @@
 
 #include "itkVectorInverseFFTImageFilter.h"
 
+#include "itkMath.h"
 #include "itkTestingMacros.h"
 
 #include <string>
@@ -40,11 +41,19 @@
 int
 itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 {
-  if (argc != 3)
+  if (argc != 8)
   {
-    std::cerr << "Usage: " << argv[0] << " inputImage outputImage" << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImage"
+              << " outputImage"
+              << " applySoftThreshold"
+              << " numberOfSigmas"
+              << " expectedMeanAmp"
+              << " expectedSigmaAmp"
+              << " expectedThreshold" << std::endl;
     return EXIT_FAILURE;
   }
+
+  int testStatus = EXIT_SUCCESS;
 
   const std::string inputImage = argv[1];
   const std::string outputImage = argv[2];
@@ -94,20 +103,52 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
 
   EXERCISE_BASIC_OBJECT_METHODS(phaseAnalyzer, PhaseAnalysisSoftThresholdImageFilter, PhaseAnalysisImageFilter);
 
-  bool applySoftThreshold = true;
+  bool applySoftThreshold = static_cast<bool>(atoi(argv[3]));
   TEST_SET_GET_BOOLEAN(phaseAnalyzer, ApplySoftThreshold, applySoftThreshold);
 
-  /*PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType numOfSigmas;
-  phaseAnalyzer->SetNumOfSigmas( numOfSigmas );
-  TEST_SET_GET_VALUE( numOfSigmas, phaseAnalyzer->GetNumOfSigmas() );*/
-
-  /*std::cout << phaseAnalyzer->GetMeanAmp() << std::endl;
-  std::cout << phaseAnalyzer->GetSigmaAmp() << std::endl;
-  std::cout << phaseAnalyzer->GetThreshold() << std::endl;*/
+  PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType numOfSigmas =
+    static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[4]));
+  phaseAnalyzer->SetNumOfSigmas(numOfSigmas);
+  TEST_SET_GET_VALUE(numOfSigmas, phaseAnalyzer->GetNumOfSigmas());
 
   phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
 
   TRY_EXPECT_NO_EXCEPTION(phaseAnalyzer->Update());
+
+
+  // Regression tests
+  PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType expectedMeanAmp =
+    static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[5]));
+  PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType computedMeanAmp = phaseAnalyzer->GetMeanAmp();
+  if (itk::Math::NotAlmostEquals(expectedMeanAmp, computedMeanAmp))
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetMeanAmp()" << std::endl;
+    std::cerr << "Expected: " << expectedMeanAmp << ", but got: " << computedMeanAmp << std::endl;
+    testStatus = EXIT_FAILURE;
+  }
+
+  PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType expectedSigmaAmp =
+    static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[6]));
+  PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType computedSigmaAmp = phaseAnalyzer->GetSigmaAmp();
+  if (itk::Math::NotAlmostEquals(expectedSigmaAmp, computedSigmaAmp))
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetSigmaAmp()" << std::endl;
+    std::cerr << "Expected: " << expectedSigmaAmp << ", but got: " << computedSigmaAmp << std::endl;
+    testStatus = EXIT_FAILURE;
+  }
+
+  PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType expectedThreshold =
+    static_cast<PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType>(atof(argv[7]));
+  PhaseAnalysisSoftThresholdFilterType::OutputImagePixelType computedThreshold = phaseAnalyzer->GetThreshold();
+  if (itk::Math::NotAlmostEquals(expectedThreshold, computedThreshold))
+  {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetThreshold()" << std::endl;
+    std::cerr << "Expected: " << expectedThreshold << ", but got: " << computedThreshold << std::endl;
+    testStatus = EXIT_FAILURE;
+  }
 
   PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer cosPhase = phaseAnalyzer->GetOutputCosPhase();
   PhaseAnalysisSoftThresholdFilterType::OutputImageType::Pointer amp = phaseAnalyzer->GetOutputAmplitude();
@@ -117,5 +158,5 @@ itkPhaseAnalysisSoftThresholdImageFilterTest(int argc, char * argv[])
   itk::Testing::ViewImage(cosPhase.GetPointer(), "PhaseAnalyzer(Soft) output");
 #endif
 
-  return EXIT_SUCCESS;
+  return testStatus;
 }
