@@ -117,11 +117,8 @@ public:
   itkGetMacro(WaveletFilterBankPyramid, std::vector<OutputImagePointer>);
 
   /** Compute max number of levels depending on the size of the image.
-   * Return J: $ J = min_element(J_0,J_1,...) $;
-   * where $ 2^J_0 = input_size[0], 2^J_1 = input_size[1] ...  $
-   * When the max level is equal to 1 (J=1) implies that there isn't multidimensional analysis.
-   * If the size on any dimension is not a power of 2, the max level will be 1.
-   * If the sizes are different, but all of them are power of 2, the max level will be the minimum $J_i$.
+   * Return J: $ J = \text{min_element}\{J_0,\ldots, J_d\} $;
+   * where each $J_i$ is the  number of integer divisions that can be done with the $i$ size and the scale factor.
    */
   static unsigned int
   ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size, unsigned int scaleFactor = 2);
