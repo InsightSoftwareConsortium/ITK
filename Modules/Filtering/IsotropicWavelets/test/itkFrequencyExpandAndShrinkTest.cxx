@@ -77,6 +77,7 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   typedef typename FFTFilterType::OutputImageType                 ComplexImageType;
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
   size_t                                                          resizeFactor = 2;
+
   /*********** EXPAND ***************/
   typedef itk::FrequencyExpandImageFilter<ComplexImageType> ExpandType;
   typename ExpandType::Pointer                              expandFilter = ExpandType::New();
@@ -87,8 +88,16 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   typedef itk::FrequencyExpandViaInverseFFTImageFilter<ComplexImageType> ExpandViaInverseFFTType;
   typename ExpandViaInverseFFTType::Pointer expandViaInverseFFTFilter = ExpandViaInverseFFTType::New();
   expandViaInverseFFTFilter->SetInput(fftFilter->GetOutput());
+
+  typename ExpandViaInverseFFTType::ExpandFactorsType expandFactors;
+  expandFactors.Fill(resizeFactor);
   expandViaInverseFFTFilter->SetExpandFactors(resizeFactor);
-  expandViaInverseFFTFilter->Update();
+  TEST_SET_GET_VALUE(expandFactors, expandViaInverseFFTFilter->GetExpandFactors());
+
+  expandViaInverseFFTFilter->SetExpandFactors(expandFactors);
+  TEST_SET_GET_VALUE(expandFactors, expandViaInverseFFTFilter->GetExpandFactors());
+
+  TRY_EXPECT_NO_EXCEPTION(expandViaInverseFFTFilter->Update());
 
   // #ifdef ITK_VISUALIZE_TESTS
   //   typename InverseFFTFilterType::Pointer inverseFFTExpand1 = InverseFFTFilterType::New();
