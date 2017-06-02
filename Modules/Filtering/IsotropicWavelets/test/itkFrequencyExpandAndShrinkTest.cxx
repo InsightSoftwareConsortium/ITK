@@ -113,7 +113,7 @@ runFrequencyExpandAndShrinkTest(const std::string & inputImage, const std::strin
   typename ShrinkViaInverseFFTType::Pointer shrinkViaInverseFFTFilter = ShrinkViaInverseFFTType::New();
   shrinkViaInverseFFTFilter->SetInput(expandViaInverseFFTFilter->GetOutput());
 
-  ShrinkViaInverseFFTType::ShrinkFactorsType shrinkFactors;
+  typename ShrinkViaInverseFFTType::ShrinkFactorsType shrinkFactors;
   shrinkFactors.Fill(resizeFactor);
   shrinkViaInverseFFTFilter->SetShrinkFactors(resizeFactor);
   TEST_SET_GET_VALUE(shrinkFactors, shrinkViaInverseFFTFilter->GetShrinkFactors());
