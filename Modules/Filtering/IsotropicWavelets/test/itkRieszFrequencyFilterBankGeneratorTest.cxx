@@ -45,7 +45,6 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   }
   const std::string inputImage = argv[1];
   const std::string outputImage = argv[2];
-  unsigned int      inputOrder = atoi(argv[3]);
 
   const unsigned int                       Dimension = 3;
   typedef double                           PixelType;
@@ -72,8 +71,16 @@ itkRieszFrequencyFilterBankGeneratorTest(int argc, char * argv[])
   EXERCISE_BASIC_OBJECT_METHODS(filterBank, RieszFrequencyFilterBankGenerator, GenerateImageSource);
 
   filterBank->SetSize(fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize());
+
+  // Test exception cases
+  unsigned int inputOrder = 0;
+  TRY_EXPECT_EXCEPTION(filterBank->SetOrder(inputOrder));
+
+  inputOrder = atoi(argv[3]);
   filterBank->SetOrder(inputOrder);
-  filterBank->Update();
+  TEST_SET_GET_VALUE(inputOrder, filterBank->GetOrder());
+
+  TRY_EXPECT_NO_EXCEPTION(filterBank->Update());
 
   // Get iterator to Indices of RieszFunction.
   typedef RieszFilterBankType::RieszFunctionType::SetType IndicesType;
