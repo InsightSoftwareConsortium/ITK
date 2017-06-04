@@ -404,7 +404,7 @@ itk_add_test(
 )
 #IsotropicWaveletFrequencyFunctionTest
 itk_add_test(
-  NAME itkIsotropicWaveletFrequencyFunctionTest
+  NAME itkIsotropicWaveletFrequencyFunctionHeldTest
   COMMAND
     IsotropicWaveletsTestDriver
     itkIsotropicWaveletFrequencyFunctionTest
@@ -414,6 +414,40 @@ itk_add_test(
     "Held"
     2
 )
+itk_add_test(
+  NAME itkIsotropicWaveletFrequencyFunctionShannonTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkIsotropicWaveletFrequencyFunctionTest
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
+    "unused"
+    1
+    "Shannon"
+    2
+)
+itk_add_test(
+  NAME itkIsotropicWaveletFrequencyFunctionSimoncelliTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkIsotropicWaveletFrequencyFunctionTest
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
+    "unused"
+    1
+    "Simonecelli"
+    2
+)
+itk_add_test(
+  NAME itkIsotropicWaveletFrequencyFunctionVowTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkIsotropicWaveletFrequencyFunctionTest
+    ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
+    "unused"
+    1
+    "Vow"
+    2
+)
+
 itk_add_test(
   NAME itkHeldIsotropicWaveletTest
   COMMAND
