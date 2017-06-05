@@ -3,6 +3,10 @@
 # TCL support is currently unstable. Show the warning message
 message(WARNING "TCL support is currently unstable.But if we you still want to use it, please go ahead!")
 
+if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+  message(WARNING "Option WRAP_ITK_INSTALL_COMPONENT_PER_MODULE is not supported for TCL wrapping language")
+endif()
+
 find_package(TCL REQUIRED)
 # Hide useless settings provided by FindTCL.
 foreach(entry TCL_LIBRARY_DEBUG

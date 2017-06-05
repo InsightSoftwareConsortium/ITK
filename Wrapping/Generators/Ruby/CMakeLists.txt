@@ -3,6 +3,10 @@
 # Ruby support is currently broken. Show the warning message.
 message(WARNING "RUBY support in WrapITK is currently broken!")
 
+if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+  message(WARNING "Option WRAP_ITK_INSTALL_COMPONENT_PER_MODULE is not supported for Ruby wrapping language")
+endif()
+
 find_package(Ruby)
 mark_as_advanced(RUBY_EXECUTABLE)
 include_directories(${RUBY_INCLUDE_PATH})

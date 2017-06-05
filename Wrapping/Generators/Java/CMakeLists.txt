@@ -3,6 +3,10 @@
 # Java support is currently broken. Show the warning message.
 message(WARNING "JAVA support in WrapITK is currently broken!")
 
+if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+  message(WARNING "Option WRAP_ITK_INSTALL_COMPONENT_PER_MODULE is not supported for JAVA wrapping language")
+endif()
+
 if(APPLE)
   set( ITK_WRAP_JAVAC_ARGS "-J-mx2048m" CACHE STRING "Extra arguments for javac")
 else()

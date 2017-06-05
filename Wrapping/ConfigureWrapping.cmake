@@ -114,9 +114,14 @@ set(GENERATORS_SRC_DIR "${WRAP_ITK_CMAKE_DIR}/Generators" CACHE INTERNAL "genera
 include("${WRAP_ITK_CMAKE_DIR}/CMakeUtilityFunctions.cmake")
 
 macro(WRAP_ITK_INSTALL path)
+  # Install documentation along with ITKCommon wrapping
+  set(_component_module "")
+  if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+    set(_component_module "ITKCommon")
+  endif()
   install(FILES ${ARGN}
     DESTINATION "${WRAP_ITK_INSTALL_PREFIX}${path}"
-    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+    COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
     )
 endmacro()
 
@@ -125,6 +130,9 @@ endmacro()
 # Macro to install the language bindings
 ###############################################################################
 macro(WRAP_ITK_BINDINGS_INSTALL path)
+  if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+    message(WARNING "Option WRAP_ITK_INSTALL_COMPONENT_PER_MODULE is only supported for Python wrapping language")
+  endif()
   install(FILES ${ARGN}
     DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}${path}"
     COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
