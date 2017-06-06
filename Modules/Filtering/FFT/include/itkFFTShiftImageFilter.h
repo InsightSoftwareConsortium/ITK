@@ -23,7 +23,7 @@
 namespace itk
 {
 /** \class FFTShiftImageFilter
- * \brief Shift the zero-frequency components of a Fourier transfrom
+ * \brief Shift the zero-frequency components of a Fourier transform
  * to the center of the image.
  *
  * The Fourier transform produces an image where the zero frequency
