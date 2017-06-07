@@ -87,8 +87,18 @@ public:
   itkGetConstMacro(SizeGreatestPrimeFactor, SizeValueType);
   itkSetMacro(SizeGreatestPrimeFactor, SizeValueType);
   /** Set/get the boundary condition. */
-  itkSetMacro(BoundaryCondition, BoundaryConditionPointerType);
   itkGetConstMacro(BoundaryCondition, BoundaryConditionPointerType);
+  virtual void
+  SetBoundaryCondition(const BoundaryConditionPointerType boundaryCondition)
+  {
+    if (this->m_BoundaryCondition != boundaryCondition)
+    {
+      this->m_BoundaryCondition = boundaryCondition;
+      this->m_FFTPadFilter->SetBoundaryCondition(this->m_BoundaryCondition);
+      this->m_FFTPadFilter->Modified();
+      this->Modified();
+    }
+  }
 
 protected:
   FFTPadPositiveIndexImageFilter();
