@@ -31,7 +31,7 @@ namespace itk
  * LBFGS is a quasi-Newton method. Quasi-Newton methods use an approximate estimate
  * of the inverse Hessian \f$ (\nabla^2 f(x) )^{-1} \f$ to scale the gradient step:
  * \f[
- * x_{n+1} = x_n - s (\nabla^2 f(x_n) )^-{1} \nabla f(x)
+ * x_{n+1} = x_n - s (\nabla^2 f(x_n) )^{-1} \nabla f(x)
  * \f]
  * with \f$ s \f$ the step size.
  *
