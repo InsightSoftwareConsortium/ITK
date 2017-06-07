@@ -49,13 +49,19 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateInputRequeste
   const typename InputImageType::RegionType &  inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
   const typename OutputImageType::RegionType & outputRequestedRegion = outputPtr->GetRequestedRegion();
 
+  typename OutputImageType::RegionType            shiftedOutputRequestedRegion;
+  typename OutputImageType::RegionType::IndexType shiftedRequestedIndex =
+    outputRequestedRegion.GetIndex() - this->m_ChangeInfoFilter->GetOutputOffset();
+  shiftedOutputRequestedRegion.SetIndex(shiftedRequestedIndex);
+  shiftedOutputRequestedRegion.SetSize(outputRequestedRegion.GetSize());
+
   // Ask the boundary condition for the input requested region.
   if (!m_BoundaryCondition)
   {
     itkExceptionMacro(<< "Boundary condition is ITK_NULLPTR so no request region can be generated.");
   }
   typename InputImageType::RegionType inputRequestedRegion =
-    m_BoundaryCondition->GetInputRequestedRegion(inputLargestPossibleRegion, outputRequestedRegion);
+    m_BoundaryCondition->GetInputRequestedRegion(inputLargestPossibleRegion, shiftedOutputRequestedRegion);
 
   inputPtr->SetRequestedRegion(inputRequestedRegion);
 }
