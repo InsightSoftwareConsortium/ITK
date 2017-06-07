@@ -15,3 +15,13 @@ itk_add_test(NAME itkTestingExtractSliceImageFilterTest
 itk_add_test(NAME itkTestingStretchIntensityImageFilterTest
   COMMAND ITKTestKernelTestDriver itkTestingStretchIntensityImageFilterTest
   )
+
+set(ITKTestKernelGTests
+  itkGoogleTest.cxx
+  itkGoogleTestFixture.cxx
+)
+
+
+CreateGoogleTestDriver(ITKTestKernel "${ITKTestKernel-Test_LIBRARIES}" "${ITKTestKernelGTests}")
+
+
