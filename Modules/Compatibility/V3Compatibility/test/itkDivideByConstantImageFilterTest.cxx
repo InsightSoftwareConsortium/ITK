@@ -17,40 +17,42 @@
  *=========================================================================*/
 #include "itkDivideByConstantImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
+#include "itkTestingMacros.h"
 
-
-int itkDivideByConstantImageFilterTest(int, char* [] )
+int itkDivideByConstantImageFilterTest( int, char* [] )
 {
 
   // Define the dimension of the images
   const unsigned int ImageDimension = 3;
 
   // Declare the types of the images
-  typedef itk::Image<float, ImageDimension>  InputImageType;
-  typedef itk::Image<float, ImageDimension>  OutputImageType;
-  typedef float                              FactorType;
+  typedef float                                   PixelType;
+  typedef itk::Image< PixelType, ImageDimension > InputImageType;
+  typedef itk::Image< PixelType, ImageDimension > OutputImageType;
+  typedef float                                   FactorType;
 
-  // Declare Iterator types apropriated for each image
+  // Declare appropriate iterator types
   typedef itk::ImageRegionIteratorWithIndex<
-                                  InputImageType>  InputIteratorType;
+                                  InputImageType >  InputIteratorType;
 
   typedef itk::ImageRegionIteratorWithIndex<
-                                  OutputImageType>  OutputIteratorType;
+                                  OutputImageType > OutputIteratorType;
 
 
   // Declare the type of the index to access images
-  typedef itk::Index<ImageDimension>         IndexType;
+  typedef itk::Index< ImageDimension >         IndexType;
 
   // Declare the type of the size
-  typedef itk::Size<ImageDimension>          SizeType;
+  typedef itk::Size< ImageDimension >          SizeType;
 
   // Declare the type of the Region
-  typedef itk::ImageRegion<ImageDimension>   RegionType;
+  typedef itk::ImageRegion< ImageDimension >   RegionType;
 
-  // Create two images
-  InputImageType::Pointer inputImage  = InputImageType::New();
+  // Create the input image
+  InputImageType::Pointer inputImage = InputImageType::New();
 
-  // Define their size, and start index
+  // Define its size, and start index
   SizeType size;
   size[0] = 2;
   size[1] = 2;
@@ -65,53 +67,50 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
   region.SetIndex( start );
   region.SetSize( size );
 
-  // Initialize Image A
+  // Initialize image
   inputImage->SetLargestPossibleRegion( region );
   inputImage->SetBufferedRegion( region );
   inputImage->SetRequestedRegion( region );
   inputImage->Allocate();
-  // Create one iterator for the Input Image (this is a light object)
+
+  // Create an iterator for the input image (this is a light object)
   InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
 
-  // Initialize the content of Image A
+  // Initialize the content of the input image
   const double value = itk::Math::pi / 6.0;
-  std::cout << "Content of the Input " << std::endl;
-  it.GoToBegin();
-  while( !it.IsAtEnd() )
-    {
-    it.Set( value );
-    std::cout << it.Get() << std::endl;
-    ++it;
-    }
+  inputImage->FillBuffer( value );
 
-  // Declare the type for the Log filter
+
+  // Declare the type for the DivideByConstantImageFilter filter
   typedef itk::DivideByConstantImageFilter<
-    InputImageType, FactorType, OutputImageType  >   FilterType;
+    InputImageType, FactorType, OutputImageType > FilterType;
 
 
-  // Create an ADD Filter
+  // Create the filter
   FilterType::Pointer filter = FilterType::New();
 
+  EXERCISE_BASIC_OBJECT_METHODS( filter, DivideByConstantImageFilter,
+    BinaryFunctorImageFilter );
 
-  // Connect the input images
+  // Set the input image
   filter->SetInput( inputImage );
 
-  // Get the Smart Pointer to the Filter Output
+  // Get the filter output
   OutputImageType::Pointer outputImage = filter->GetOutput();
 
   const FactorType factor = 17.0;
-
   filter->SetConstant( factor );
+  TEST_SET_GET_VALUE( factor, filter->GetConstant() );
+
 
   // Execute the filter
-  filter->Update();
-  filter->Print(std::cout);
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
 
   // Create an iterator for going through the image output
-  OutputIteratorType ot(outputImage, outputImage->GetRequestedRegion());
+  OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
-  //  Check the content of the result image
-  std::cout << "Verification of the output " << std::endl;
+  // Check the content of the result image
   const OutputImageType::PixelType epsilon = 1e-6;
 
   ot.GoToBegin();
@@ -121,12 +120,12 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
     const InputImageType::PixelType  input  = it.Get();
     const OutputImageType::PixelType output = ot.Get();
     const float expectedValue = input / factor;
-    std::cout << output << " = ";
-    std::cout << expectedValue  << std::endl;
-    if( itk::Math::abs( expectedValue - output ) > epsilon )
+    if( !itk::Math::FloatAlmostEqual( expectedValue, output, 2, epsilon ) )
       {
-      std::cerr << "Error " << std::endl;
-      std::cerr << " expected Value = " << expectedValue << std::endl;
+      std::cerr.precision( unsigned( itk::Math::abs( std::log10( epsilon ) ) ) );
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in pixel value at index [" << ot.GetIndex() << "]" << std::endl;
+      std::cerr << "Expected value " << expectedValue << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
@@ -137,32 +136,19 @@ int itkDivideByConstantImageFilterTest(int, char* [] )
 
   FilterType::Pointer filter2 = FilterType::New();
   filter2 = filter;
-  filter2->Print(std::cout);
-  if (filter2 != filter)
+  if( filter2 != filter )
     {
-    std::cout << "Error: operator = failed. filter2 != filter." << std::endl;
+    std::cout << "Test failed!" << std::endl;
+    std::cout << "Error: operator = failed." << std::endl;
     return EXIT_FAILURE;
     }
 
+
   // Check for exception if constant is 0
-  bool caught = false;
-  try
-    {
-    filter->SetConstant(0);
-    filter->Update();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-    std::cout << "Caught expected exception" << std::endl;
-    err.Print(std::cout);
-    caught = true;
-    }
-  if (!caught)
-    {
-    return EXIT_FAILURE;
-    }
-  else
-    {
-    return EXIT_SUCCESS;
-    }
+  filter->SetConstant( 0.0 );
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
+
+  std::cout << "Test finished." << std::endl;
+  return EXIT_SUCCESS;
 }
