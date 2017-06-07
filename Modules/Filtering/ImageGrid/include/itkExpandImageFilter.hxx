@@ -253,10 +253,8 @@ ExpandImageFilter< TInputImage, TOutputImage >
     const_cast< TInputImage * >( this->GetInput() );
   OutputImagePointer outputPtr = this->GetOutput();
 
-  if ( !inputPtr || !outputPtr )
-    {
-    return;
-    }
+  itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr != ITK_NULLPTR );
 
   // We need to compute the output spacing, the output image size, and the
   // output image start index
