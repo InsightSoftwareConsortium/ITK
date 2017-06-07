@@ -195,10 +195,8 @@ FrequencyExpandImageFilter<TImageType>::GenerateInputRequestedRegion()
   ImagePointer inputPtr = const_cast<TImageType *>(this->GetInput());
   ImagePointer outputPtr = this->GetOutput();
 
-  if (!inputPtr || !outputPtr)
-  {
-    return;
-  }
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != ITK_NULLPTR);
 
   // We need to compute the input requested region (size and start index)
   unsigned int                           i;
@@ -245,10 +243,8 @@ FrequencyExpandImageFilter<TImageType>::GenerateOutputInformation()
   ImagePointer inputPtr = const_cast<TImageType *>(this->GetInput());
   ImagePointer outputPtr = this->GetOutput();
 
-  if (!inputPtr || !outputPtr)
-  {
-    return;
-  }
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != ITK_NULLPTR);
 
   // We need to compute the output spacing, the output image size, and the
   // output image start index
