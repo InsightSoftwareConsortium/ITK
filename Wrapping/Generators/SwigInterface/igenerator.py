@@ -55,6 +55,7 @@ class SwigInputGenerator(object):
     """Generates a swig input .i file for an ITK module."""
 
     notWrapped = [
+        "std::_Deque_alloc<.+>",
         "itk::AtomicInt<.+>",
         "itk::MapContainer< unsigned long, itk::CellInterface<.+>",
         "itk::VectorContainer< unsigned long, itk::CellInterface<.+>",
