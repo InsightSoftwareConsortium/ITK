@@ -21,48 +21,10 @@
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkArithmeticOpsFunctors.h"
 
 namespace itk
 {
-
-namespace Functor {
-
-template< typename TNumerator, typename TDenominator=TNumerator, typename TOutput=TNumerator >
-class DivideOrZeroOut
-{
-public:
-  DivideOrZeroOut()
-  {
-    m_Threshold = 1e-5 * NumericTraits< TDenominator >::OneValue();
-    m_Constant = NumericTraits< TOutput >::ZeroValue();
-  };
-
-  ~DivideOrZeroOut() {};
-
-  bool operator!=( const DivideOrZeroOut & other ) const
-  {
-    return !(*this == other);
-  }
-
-  bool operator==( const DivideOrZeroOut & itkNotUsed(other) ) const
-  {
-    // Always return true for now.  Do a comparison to m_Threshold if it is
-    // every made set-able.
-    return true;
-  }
-
-  inline TOutput operator()( const TNumerator & n, const TDenominator & d )
-  {
-    if ( d < m_Threshold )
-      {
-      return m_Constant;
-      }
-    return static_cast< TOutput >( n ) / static_cast< TOutput >( d );
-  }
-  TDenominator m_Threshold;
-  TOutput      m_Constant;
-};
-}  // end namespace functor
 
 
 /** \class DivideOrZeroOutImageFilter

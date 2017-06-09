@@ -56,7 +56,7 @@ namespace Functor
  * \ingroup ITKImageIntensity
 */
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
-class LogicOpBase
+class ITK_TEMPLATE_EXPORT LogicOpBase
 {
 public:
   typedef LogicOpBase Self;
@@ -112,7 +112,7 @@ protected:
 */
 
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
-class Equal : public LogicOpBase<TInput1, TInput2, TOutput>
+class ITK_TEMPLATE_EXPORT Equal : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   typedef Equal Self;
@@ -150,7 +150,7 @@ public:
 */
 
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
-class NotEqual : public LogicOpBase<TInput1, TInput2, TOutput>
+class ITK_TEMPLATE_EXPORT NotEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   typedef NotEqual Self;
@@ -186,7 +186,7 @@ public:
 */
 
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
-class GreaterEqual : public LogicOpBase<TInput1, TInput2, TOutput>
+class ITK_TEMPLATE_EXPORT GreaterEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   typedef GreaterEqual Self;
@@ -222,7 +222,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
-class Greater : public LogicOpBase<TInput1, TInput2, TOutput>
+class ITK_TEMPLATE_EXPORT Greater : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   typedef Greater Self;
@@ -256,7 +256,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
-class LessEqual : public LogicOpBase<TInput1, TInput2, TOutput>
+class ITK_TEMPLATE_EXPORT LessEqual : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   typedef LessEqual Self;
@@ -292,7 +292,7 @@ public:
  * \ingroup ITKImageIntensity
 */
 template< typename TInput1, typename TInput2=TInput1, typename TOutput=TInput1 >
-class Less : public LogicOpBase<TInput1, TInput2, TOutput>
+class ITK_TEMPLATE_EXPORT Less : public LogicOpBase<TInput1, TInput2, TOutput>
 {
 public:
   typedef Less Self;
@@ -324,7 +324,7 @@ public:
  * \ingroup ITKImageIntensity
  */
 template< typename TInput, typename TOutput = TInput >
-class NOT : public LogicOpBase<TInput, TInput, TOutput>
+class ITK_TEMPLATE_EXPORT NOT : public LogicOpBase<TInput, TInput, TOutput>
 {
 public:
   NOT() {}
@@ -349,6 +349,41 @@ public:
   }
 };
 
+/**
+ * \class TernaryOperator
+ * \brief Return argument 2 if argument 1 is false, and argument 3 otherwise.
+ * \ingroup ITKImageIntensity
+ */
+template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
+class ITK_TEMPLATE_EXPORT TernaryOperator
+{
+public:
+  TernaryOperator() {}
+  ~TernaryOperator() {}
+  bool operator!=(const TernaryOperator &) const
+  {
+    return false;
+  }
+
+  bool operator==(const TernaryOperator & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutput operator()(const TInput1 & A,
+                            const TInput2 & B,
+                            const TInput3 & C) const
+  {
+    if (A)
+      {
+      return static_cast<TOutput>( B );
+      }
+    else
+      {
+      return static_cast<TOutput>( C );
+      }
+  }
+};
 
 }
 }

@@ -19,38 +19,11 @@
 #define itkTernaryAddImageFilter_h
 
 #include "itkTernaryFunctorImageFilter.h"
+#include "itkArithmeticOpsFunctors.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class Add3
- * \brief
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2, typename TInput3, typename TOutput >
-class Add3
-{
-public:
-  Add3() {}
-  ~Add3() {}
-  bool operator!=(const Add3 &) const
-  {
-    return false;
-  }
 
-  bool operator==(const Add3 & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A,
-                            const TInput2 & B,
-                            const TInput3 & C) const
-  { return static_cast<TOutput>( A + B + C ); }
-};
-}
 /** \class TernaryAddImageFilter
  * \brief Pixel-wise addition of three images.
  *

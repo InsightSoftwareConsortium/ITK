@@ -19,47 +19,13 @@
 #define itkDivideImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkArithmeticOpsFunctors.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class Div
- * \brief
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2, typename TOutput >
-class ITK_TEMPLATE_EXPORT Div
-{
-public:
-  Div() {}
-  ~Div() {}
-  bool operator!=(const Div &) const
-  {
-    return false;
-  }
 
-  bool operator==(const Div & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  {
-    if ( itk::Math::NotAlmostEquals(B, NumericTraits<TInput2>::ZeroValue()) )
-      {
-      return (TOutput)( A / B );
-      }
-    else
-      {
-      return NumericTraits< TOutput >::max( static_cast<TOutput>(A) );
-      }
-  }
-};
-}
 /** \class DivideImageFilter
  * \brief Pixel-wise division of two images.
  *

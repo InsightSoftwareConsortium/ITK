@@ -19,39 +19,12 @@
 #define itkAndImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkBitwiseOpsFunctors.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class AND
- * \brief bitwise AND functor
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
-class AND
-{
-public:
-  AND() {}
-  ~AND() {}
-  bool operator!=(const AND &) const
-  {
-    return false;
-  }
 
-  bool operator==(const AND & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  {
-    return static_cast< TOutput >( A & B );
-  }
-};
-}
 /** \class AndImageFilter
  * \brief Implements the AND bitwise operator pixel-wise between two images.
  *

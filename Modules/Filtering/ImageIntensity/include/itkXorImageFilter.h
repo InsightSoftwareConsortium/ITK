@@ -19,39 +19,11 @@
 #define itkXorImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkBitwiseOpsFunctors.h"
 #include "itkNumericTraits.h"
 
 namespace itk
 {
-namespace Functor
-{
-/**
- * \class XOR
- * \brief bitwise XOR fucntor
- * \ingroup ITKImageIntensity
- */
-template< typename TInput1, typename TInput2 = TInput1, typename TOutput = TInput1 >
-class XOR
-{
-public:
-  XOR() {}
-  ~XOR() {}
-  bool operator!=(const XOR &) const
-  {
-    return false;
-  }
-
-  bool operator==(const XOR & other) const
-  {
-    return !( *this != other );
-  }
-
-  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
-  {
-    return static_cast< TOutput >( A ^ B );
-  }
-};
-}
 /** \class XorImageFilter
  * \brief Computes the XOR bitwise operator pixel-wise between two images.
  *
