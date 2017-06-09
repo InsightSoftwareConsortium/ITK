@@ -413,19 +413,20 @@ const char *System::GetCurrentProcessFileName()
     {
     return buf;
     }
-#elif defined(__APPLE__)
-  static char buf[PATH_MAX];
-  Boolean success = false;
-  CFURLRef pathURL = CFBundleCopyExecutableURL(CFBundleGetMainBundle());
-  if ( pathURL)
-    {
-    success = CFURLGetFileSystemRepresentation(pathURL, true /*resolveAgainstBase*/, (unsigned char*) buf, PATH_MAX);
-    CFRelease(pathURL);
-    }
-  if (success)
-    {
-    return buf;
-    }
+// Disabled in ITK
+//#elif defined(__APPLE__)
+  //static char buf[PATH_MAX];
+  //Boolean success = false;
+  //CFURLRef pathURL = CFBundleCopyExecutableURL(CFBundleGetMainBundle());
+  //if ( pathURL)
+    //{
+    //success = CFURLGetFileSystemRepresentation(pathURL, true [>resolveAgainstBase<], (unsigned char*) buf, PATH_MAX);
+    //CFRelease(pathURL);
+    //}
+  //if (success)
+    //{
+    //return buf;
+    //}
 #elif defined (__SVR4) && defined (__sun)
   // solaris
   const char *ret = getexecname();
@@ -482,7 +483,8 @@ const char *System::GetCurrentModuleFileName()
 
 const char *System::GetCurrentResourcesDirectory()
 {
-#ifdef __APPLE__
+// Disabled in ITK
+#if 0
   static char path[PATH_MAX];
   Boolean success = false;
   CFURLRef pathURL = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
