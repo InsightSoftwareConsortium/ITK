@@ -57,10 +57,6 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ScalarImageT
   nhood.SetRadius(2);
   this->m_NeighborhoodRadius = nhood.GetRadius();
 
-  TOutputImage *                   outputPtr = this->GetOutput();
-  typename TOutputImage::PixelType pixelNull;
-  pixelNull.Fill(0);
-  outputPtr->FillBuffer(pixelNull);
   this->m_Normalize = false;
 }
 

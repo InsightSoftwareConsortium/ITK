@@ -58,11 +58,6 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::ScalarImag
   NeighborhoodType nhood;
   nhood.SetRadius(2);
   this->m_NeighborhoodRadius = nhood.GetRadius();
-
-  TOutputImage *                   outputPtr = this->GetOutput();
-  typename TOutputImage::PixelType pixelNull;
-  pixelNull.Fill(0);
-  outputPtr->FillBuffer(pixelNull);
 }
 
 template <typename TInputImage, typename TOutputImage>
