@@ -39,7 +39,7 @@ int itkManhattanDistanceMetricTest(int, char* [] )
   measurementNew[2] = 4.0;
 
   //Attempting to compute distance before setting a measurment vector should
-  //throw an excpetion
+  //throw an exception
 
   try
     {

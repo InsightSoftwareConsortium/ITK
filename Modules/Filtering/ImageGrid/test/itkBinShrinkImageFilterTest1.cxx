@@ -119,7 +119,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cout << "Excpetion: " << e << std::endl;
+    std::cout << "Exception: " << e << std::endl;
     failed = true;
     }
 
@@ -145,7 +145,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cout << "Excpetion: " << e << std::endl;
+    std::cout << "Exception: " << e << std::endl;
     failed = true;
     }
 
@@ -171,7 +171,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cout << "Excpetion: " << e << std::endl;
+    std::cout << "Exception: " << e << std::endl;
     failed = true;
     }
 
@@ -197,7 +197,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cout << "Excpetion: " << e << std::endl;
+    std::cout << "Exception: " << e << std::endl;
     failed = true;
     }
 
@@ -241,7 +241,7 @@ int itkBinShrinkImageFilterTest1( int , char *[] )
     }
   catch (itk::ExceptionObject &e)
     {
-    std::cout << "Excpetion: " << e << std::endl;
+    std::cout << "Exception: " << e << std::endl;
     failed = true;
     }
 
