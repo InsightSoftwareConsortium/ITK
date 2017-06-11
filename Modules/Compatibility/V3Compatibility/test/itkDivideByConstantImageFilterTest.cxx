@@ -90,7 +90,7 @@ int itkDivideByConstantImageFilterTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, DivideByConstantImageFilter,
-    BinaryFunctorImageFilter );
+    DivideImageFilter );
 
   // Set the input image
   filter->SetInput( inputImage );

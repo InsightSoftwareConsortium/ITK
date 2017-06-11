@@ -90,7 +90,7 @@ int itkAddConstantToImageFilterTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, AddConstantToImageFilter,
-    BinaryFunctorImageFilter );
+    AddImageFilter );
 
   // Set the input image
   filter->SetInput( inputImage );
