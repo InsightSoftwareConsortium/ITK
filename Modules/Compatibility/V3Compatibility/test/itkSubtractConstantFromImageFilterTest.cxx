@@ -104,7 +104,8 @@ int itkSubtractConstantFromImageFilterTest( int, char* [] )
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
 
-  // Create an iterator for going through the image output
+  // Create iterators for going through the images
+  InputIteratorType it( inputImage, inputImage->GetBufferedRegion() );
   OutputIteratorType ot( outputImage, outputImage->GetRequestedRegion() );
 
   // Check the content of the result image
