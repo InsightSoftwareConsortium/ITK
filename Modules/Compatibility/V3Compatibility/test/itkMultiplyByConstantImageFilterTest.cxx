@@ -90,7 +90,7 @@ int itkMultiplyByConstantImageFilterTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, MultiplyByConstantImageFilter,
-    BinaryFunctorImageFilter );
+    MultiplyImageFilter );
 
 
   // Set the input image

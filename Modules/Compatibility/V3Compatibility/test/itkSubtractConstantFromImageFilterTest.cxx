@@ -87,7 +87,7 @@ int itkSubtractConstantFromImageFilterTest( int, char* [] )
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter, SubtractConstantFromImageFilter,
-    BinaryFunctorImageFilter );
+    SubtractImageFilter );
 
   // Set the input image
   filter->SetInput( inputImage );
