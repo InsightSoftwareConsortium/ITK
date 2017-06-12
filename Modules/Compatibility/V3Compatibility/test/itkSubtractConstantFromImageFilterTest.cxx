@@ -46,10 +46,10 @@ int itkSubtractConstantFromImageFilterTest( int, char* [] )
   // Declare the type of the size
   typedef itk::Size< ImageDimension >          SizeType;
 
-  // Create the input image
+  // Declare the type of the Region
   typedef itk::ImageRegion< ImageDimension >   RegionType;
 
-  // Create two images
+  // Create the input image
   InputImageType::Pointer inputImage = InputImageType::New();
 
   // Define its size, and start index
