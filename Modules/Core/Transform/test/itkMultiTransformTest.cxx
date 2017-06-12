@@ -638,7 +638,7 @@ int itkMultiTransformTest(int, char *[] )
   multiTransform->RemoveTransform();
   if( multiTransform->GetNumberOfTransforms() != 2 )
     {
-    std::cout << "ERROR: Wrong number of transfroms after RemoveTransform: " << multiTransform->GetNumberOfTransforms() << std::endl;
+    std::cout << "ERROR: Wrong number of transforms after RemoveTransform: " << multiTransform->GetNumberOfTransforms() << std::endl;
     return EXIT_FAILURE;
     }
 

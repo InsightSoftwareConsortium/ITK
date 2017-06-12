@@ -33,7 +33,7 @@ namespace itk
  *
  * In terms of grid coordinates the image is flipped within
  * the LargestPossibleRegion of the input image. As such,
- * the LargestPossibleRegion of the ouput image is the same
+ * the LargestPossibleRegion of the output image is the same
  * as the input.
  *
  * In terms of geometric coordinates, the output origin

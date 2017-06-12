@@ -223,7 +223,7 @@ public:
   virtual void StopRegistration()
   { m_StopRegistrationFlag = true; }
 
-  /** Set/Get the desired maximum error of the Guassian kernel approximate.
+  /** Set/Get the desired maximum error of the Gaussian kernel approximate.
    * \sa GaussianOperator. */
   itkSetMacro(MaximumError, double);
   itkGetConstMacro(MaximumError, double);
@@ -259,7 +259,7 @@ protected:
   virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Utility to smooth the displacement field (represented in the Output)
-   * using a Guassian operator. The amount of smoothing can be specified
+   * using a Gaussian operator. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
   virtual void SmoothDisplacementField();
 #ifdef ITKV3_COMPATIBILITY
@@ -313,7 +313,7 @@ private:
   /** Maximum error for Gaussian operator approximation. */
   double m_MaximumError;
 
-  /** Limits of Guassian kernel width. */
+  /** Limits of Gaussian kernel width. */
   unsigned int m_MaximumKernelWidth;
 
   /** Flag to indicate user stop registration request. */

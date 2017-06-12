@@ -33,7 +33,7 @@ int itkAbsoluteValueDifferenceImageFilterTest(int, char* [] )
   // Define the values of the output images
   const float outputValue = 1.0;
 
-  // Define the precison for output comparison
+  // Define the precision for output comparison
   const float epsilon = 1e-6;
 
   // Declare the types of the images

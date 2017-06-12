@@ -27,7 +27,7 @@ namespace itk
  * \brief Computes the sigmoid function pixel-wise
  *
  * A linear transformation is applied first on the argument of
- * the sigmoid fuction. The resulting total transform is given by
+ * the sigmoid function. The resulting total transform is given by
  *
  * \f[
  * f(x) = (Max-Min) \cdot \frac{1}{\left(1+e^{- \frac{ x - \beta }{\alpha}}\right)} + Min

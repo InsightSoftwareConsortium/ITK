@@ -87,7 +87,7 @@ namespace itk
  * For an alternative implementation, see itk::FastMarchingImageFilter.
  *
  * Possible Improvements:
- * In the current implemenation, std::priority_queue only allows
+ * In the current implementation, std::priority_queue only allows
  * taking nodes out from the front and putting nodes in from the back.
  * To update a value already on the heap, a new node is added to the heap.
  * The defunct old node is left on the heap. When it is removed from the

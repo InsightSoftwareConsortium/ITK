@@ -322,7 +322,7 @@ ProjectionImageFilter< TInputImage, TOutputImage, TAccumulator >
       ++iIt;
       }
 
-    // move the ouput iterator and set the output value
+    // move the output iterator and set the output value
     typename TOutputImage::IndexType oIdx;
     typename TInputImage::IndexType iIdx = iIt.GetIndex();
 

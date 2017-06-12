@@ -29,7 +29,7 @@ namespace itk
  *
  * This image source supports image which have a multi-component pixel
  * equal to the image dimension, and variable length VectorImages. It
- * is recommented that the component type be a real valued type.
+ * is recommended that the component type be a real valued type.
  *
  * \ingroup DataSources
  * \ingroup ITKImageSources

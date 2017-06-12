@@ -68,7 +68,7 @@ namespace itk
  *    \li Superclass (itk::ImageToImageFilter or
  * itk::QuadEdgeMeshToQuadEdgeMeshFilter )
  *
- * \todo In the current implemenation, std::priority_queue only allows
+ * \todo In the current implementation, std::priority_queue only allows
  * taking nodes out from the front and putting nodes in from the back.
  * Use itk::PriorityQueueContainer instead.
  *
@@ -247,7 +247,7 @@ protected:
   /** \brief Get the total number of nodes in the domain */
   virtual IdentifierType GetTotalNumberOfNodes() const = 0;
 
-  /** \brief Get the ouput value (front value) for a given node */
+  /** \brief Get the output value (front value) for a given node */
   virtual const OutputPixelType GetOutputValue( OutputDomainType* oDomain,
                                          const NodeType& iNode ) const = 0;
 

@@ -104,7 +104,7 @@ private:
  * and can also be applied as a convenient preprocessing operation for image
  * segmentation.
  *
- * All computations are performed in the precison of the input pixel's
+ * All computations are performed in the precision of the input pixel's
  * RealType. Before assigning the computed value to the output pixel.
  *
  * \ingroup IntensityImageFilters  MultiThreaded

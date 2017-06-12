@@ -892,7 +892,7 @@ CompositeTransform<TParametersValueType, NDimensions>
    * NOTE: We might want to optimize this only to store the result and
    * only re-calc when the composite object has been modified.
    * However, it seems that number of parameter might change for dense
-   * field transfroms (deformation, bspline) during processing and
+   * field transforms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 
@@ -1130,7 +1130,7 @@ typename LightObject::Pointer
 CompositeTransform<TParametersValueType, NDimensions>
 ::InternalClone() const
 {
-  // This class doesn't use its superclass implemenation
+  // This class doesn't use its superclass implementation
   // TODO: is it really the right behavior?
   // LightObject::Pointer loPtr = Superclass::InternalClone();
 

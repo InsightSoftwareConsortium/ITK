@@ -33,7 +33,7 @@ namespace itk
 * has in its neighborhood at least one pixel which its pixel value is
 * equal to the input background value. The output image will have
 * pixels which will be set to the output foreground value if they
-* belong to the contour, otherwise they will be set to the ouput
+* belong to the contour, otherwise they will be set to the output
 * background value.
 *
 * The neighborhood "radius" is set thanks to the radius params.

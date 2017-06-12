@@ -31,7 +31,7 @@ namespace itk
  * regional extrema to the max or min of the pixel type.
  *
  * This is the class used by ValuedRegionalMinimaImageFilter and
- * ValuedRegionalMaximaImageFilter. There is no supression of regional
+ * ValuedRegionalMaximaImageFilter. There is no suppression of regional
  * minima based on dynamics, as available in HMinimaImageFilter. This
  * flooding algorithm is a very simple one, but I'm not sure where it
  * came from - I certainly didn't invent it.

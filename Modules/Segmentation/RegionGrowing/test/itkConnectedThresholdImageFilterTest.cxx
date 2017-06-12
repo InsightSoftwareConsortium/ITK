@@ -127,8 +127,8 @@ int itkConnectedThresholdImageFilterTest( int argc, char* argv[] )
   itk::ImageFileWriter< ImageType >::Pointer writer =
     itk::ImageFileWriter< ImageType >::New();
 
-  std::string ouputImageFilename = argv[2];
-  writer->SetFileName( ouputImageFilename );
+  std::string outputImageFilename = argv[2];
+  writer->SetFileName( outputImageFilename );
 
   writer->SetInput( connectedThresholdFilter->GetOutput() );
 
