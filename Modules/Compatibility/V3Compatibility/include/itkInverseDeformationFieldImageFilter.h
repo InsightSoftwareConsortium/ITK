@@ -23,7 +23,7 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 #ifndef ITKV3_COMPATIBILITY
-#error "This file is only valid when ITKV3_COMPATIBILITY is turned on.  Users are encouraged to convert to itkInverseDisplacementFieldImageFilter.h in ITKv4"
+#error "This file is only valid when ITKV3_COMPATIBILITY is turned on. Users are encouraged to convert to itk::InverseDisplacementFieldImageFilter in ITKv4"
 #endif
 
 namespace itk
