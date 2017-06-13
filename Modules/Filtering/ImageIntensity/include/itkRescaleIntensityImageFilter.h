@@ -111,7 +111,7 @@ private:
  *  \frac{(outputMax - outputMin )}{(inputMax - inputMin)} + outputMin
  * \f]
  *
- * All computations are performed in the precison of the input pixel's
+ * All computations are performed in the precision of the input pixel's
  * RealType. Before assigning the computed value to the output pixel.
  *
  * NOTE: In this filter the minimum and maximum values of the input image are

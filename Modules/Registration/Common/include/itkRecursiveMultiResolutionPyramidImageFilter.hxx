@@ -51,7 +51,7 @@ RecursiveMultiResolutionPyramidImageFilter< TInputImage, TOutputImage >
 {
   if ( !this->IsScheduleDownwardDivisible( this->GetSchedule() ) )
     {
-    // use the Superclass implemenation
+    // use the Superclass implementation
     this->Superclass::GenerateData();
     return;
     }

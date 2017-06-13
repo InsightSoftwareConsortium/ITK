@@ -31,7 +31,7 @@ namespace
 {
 /** \brief A function which does nothing
  *
- * This function is to be used to mark parameters as unused to supress
+ * This function is to be used to mark parameters as unused to suppress
  * compiler warning. It can be used when the parameter needs to be named
  * (i.e. itkNotUsed cannot be used) but is not always used. It ensures
  * that the parameter is not optimized out.

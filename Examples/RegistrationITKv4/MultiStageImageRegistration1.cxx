@@ -624,7 +624,7 @@ int main( int argc, char *argv[] )
   //  parameters of vector $\bf{T}$ ($T_x$, $T_y$) compared to the parameters
   //  of matrix $\bf{M}$ ($M_{11}$, $M_{12}$, $M_{21}$, $M_{22}$).
   //  However, it is not easy to have an intuitive estimation of all parameter
-  //  scales when we have to deal with a large paramter space.
+  //  scales when we have to deal with a large parameter space.
   //
   //  Fortunately, ITKv4 provides a framework for automated parameter scaling.
   //  \doxygen{RegistrationParameterScalesEstimator} vastly reduces the

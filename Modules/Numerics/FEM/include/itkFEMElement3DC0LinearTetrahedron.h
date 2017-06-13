@@ -49,7 +49,7 @@ namespace fem
  *            (1,1,0)
  *
  *
- * This is an abstract class. Specific concrete implemenations of this
+ * This is an abstract class. Specific concrete implementations of this
  * It must be combined with the physics component of the problem.
  * This has already been done in the following classes:
  *

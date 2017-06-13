@@ -266,7 +266,7 @@ public:
   virtual OutputCovariantVectorType TransformCovariantVector(
     const InputCovariantVectorType & ) const ITK_OVERRIDE
   {
-    itkExceptionMacro( << "Method not applicable for deformable transfrom. " );
+    itkExceptionMacro( << "Method not applicable for deformable transform. " );
   }
 
   /** Get Jacobian at a point. A very specialized function just for BSplines */

@@ -133,7 +133,7 @@ public:
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical
    * space. When this flag is ON the derivatives are computed with respect to
-   * the coodinate system of physical space. The difference is whether we take
+   * the coordinate system of physical space. The difference is whether we take
    * into account the image Direction or not. The flag ON will take into
    * account the image direction and will result in an extra matrix
    * multiplication compared to the amount of computation performed when the

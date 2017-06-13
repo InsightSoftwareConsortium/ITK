@@ -55,7 +55,7 @@ namespace itk
  * To get function result, users can use the operator() or its
  * SimpleForwardIterator's Get() method.
  *
- * This is a part of the bias correction methods and implemenations
+ * This is a part of the bias correction methods and implementations
  * that was initially developed and implemented
  * by Martin Styner, Univ. of North Carolina at Chapel Hill, and his
  * colleagues.

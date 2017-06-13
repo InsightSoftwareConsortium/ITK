@@ -235,7 +235,7 @@ MultiTransform<TParametersValueType, NDimensions, NSubDimensions>
    * NOTE: Ideally we'd optimize this to store the result and
    * only re-calc when the composite object has been modified.
    * However, it seems that number of parameter might change for dense
-   * field transfroms (deformation, bspline) during processing and
+   * field transforms (deformation, bspline) during processing and
    * we wouldn't know that in this class, so this is safest. */
   NumberOfParametersType result = NumericTraits< NumberOfParametersType >::ZeroValue();
 

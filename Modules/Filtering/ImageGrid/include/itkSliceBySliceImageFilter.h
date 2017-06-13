@@ -58,7 +58,7 @@ namespace itk
  * requested region per slice is not enlarged to the whole slice
  * unless done by the internal filters ).
  *
- * The ouput images of SliceBySliceImageFilter must be of the same size than the
+ * The output images of SliceBySliceImageFilter must be of the same size than the
  * input images. All the input images must be of the same pixel type. All the
  * output images must be of the same pixel type.
  *

@@ -89,7 +89,7 @@ DemonsImageToImageMetricv4GetValueAndDerivativeThreader< TDomainPartitioner, TIm
    * The units for the second term is intensity^2/mm^2 while the
    * units for the first term is intensity^2. This mismatch is particularly
    * problematic when the fixed image does not have unit spacing.
-   * In this implemenation, we normalize the first term by a factor K,
+   * In this implementation, we normalize the first term by a factor K,
    * such that denominator = (g-f)^2/K + grad_mag^2
    * where K = mean square spacing to compensate for the mismatch in units.
    */

@@ -49,7 +49,7 @@ namespace itk
  * This filter requires that an "inside value" and "outside value" be set as
  * parameters. The "inside value" is the intensity value of the binary image
  * which corresponds to objects, and the "outside value" is the intensity of the
- * background. (A typical binary image often repesents objects as black (0) and
+ * background. (A typical binary image often represents objects as black (0) and
  * background as white (usually 255), or vice-versa.) Note that this filter is
  * slightly faster if the inside value is less than the outside value. Otherwise
  * an extra iteration through the image is required.

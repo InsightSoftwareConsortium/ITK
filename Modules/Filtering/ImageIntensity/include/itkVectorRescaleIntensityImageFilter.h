@@ -76,7 +76,7 @@ private:
  * defined by the user in terms of the maximum magnitude value of the vectors
  * in the pixels that the output image should have.
  *
- * All computations are performed in the precison of the input pixel's
+ * All computations are performed in the precision of the input pixel's
  * RealType. Before assigning the computed value to the output pixel.
  *
  * \sa RescaleIntensityImageFilter

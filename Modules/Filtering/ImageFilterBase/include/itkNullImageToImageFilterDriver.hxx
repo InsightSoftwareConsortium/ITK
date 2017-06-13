@@ -148,7 +148,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   // Setup the filter
   m_Filter->SetInput(ip);
 
-  // print out the ouput object so we can see it modified times and regions
+  // print out the output object so we can see it modified times and regions
   //  std::cout << "Output object before filter execution" << std::endl
   //            << m_Filter->GetOutput() << std::endl;
 
@@ -161,7 +161,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>
   m_Filter->UpdateLargestPossibleRegion();
   clock_t stop = ::clock();
 
-  // print out the ouput object so we can see it modified times and regions
+  // print out the output object so we can see it modified times and regions
   std::cout << "Output object after filter execution" << std::endl
             << m_Filter->GetOutput() << std::endl;
 

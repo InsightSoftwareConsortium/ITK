@@ -38,7 +38,7 @@ namespace itk
  *  Generally, the histogram from the training data is to be
  *  computed in exactly the same way as the histogram from the
  *  images to be compared are computed. Thus, the user can set the
- *  interpolator, region, two training images and the transfrom and
+ *  interpolator, region, two training images and the transform and
  *  the training histogram will be formed. OR, the user can simply
  *  calculate the training histogram separately and set it.
  *

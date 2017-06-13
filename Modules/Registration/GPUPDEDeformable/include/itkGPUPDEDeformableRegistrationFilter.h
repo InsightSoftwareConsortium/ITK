@@ -173,7 +173,7 @@ protected:
   virtual void InitializeIteration() ITK_OVERRIDE;
 
   /** Utility to smooth the deformation field (represented in the Output)
-   * using a Guassian operator. The amount of smoothing can be specified
+   * using a Gaussian operator. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
   virtual void SmoothDisplacementField() ITK_OVERRIDE;
 
