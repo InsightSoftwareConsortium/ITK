@@ -484,7 +484,26 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFea
 template <typename TInputImage, typename TOutputImage>
 void
 ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
-{}
+{
+  Superclass::PrintSelf(os, indent);
+
+  itkPrintSelfObjectMacro(DigitalisedInputImageg);
+
+  os << indent << "NeighborhoodRadius"
+     << static_cast<typename NumericTraits<NeighborhoodRadiusType>::PrintType>(m_NeighborhoodRadius) << std::endl;
+
+  itkPrintSelfObjectMacro(Offsets);
+
+  os << indent << "NumberOfBinsPerAxis" << m_NumberOfBinsPerAxis << std::endl;
+  os << indent << "Min" << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Min) << std::endl;
+  os << indent << "Max" << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Max) << std::endl;
+  os << indent << "MinDistance" << static_cast<typename NumericTraits<RealType>::PrintType>(m_MinDistance) << std::endl;
+  os << indent << "MaxDistance" << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance) << std::endl;
+  os << indent << "InsidePixelValue" << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InsidePixelValue)
+     << std::endl;
+  os << indent << "Spacing"
+     << static_cast<typename NumericTraits<typename TInputImage::SpacingType>::PrintType>(m_Spacing) << std::endl;
+}
 } // end of namespace Statistics
 } // end of namespace itk
 
