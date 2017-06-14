@@ -18,6 +18,7 @@
 #ifndef itkBitwiseOpsFunctors_h
 #define itkBitwiseOpsFunctors_h
 
+#include "itkMacro.h"
 
 namespace itk
 {
