@@ -363,7 +363,7 @@ ScalarImageToRunLengthFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNe
   bool insideNeighborhood = true;
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
   {
-    int boundDistance = m_NeighborhoodRadius[i] - std::abs(iteratedOffset[i]);
+    int boundDistance = m_NeighborhoodRadius[i] - Math::abs(iteratedOffset[i]);
     if (boundDistance < 0)
     {
       insideNeighborhood = false;
