@@ -236,6 +236,17 @@ function(itk_python_expression_add_test)
     )
 endfunction()
 
+function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
+  set(exe "${KIT}GTestDriver")
+  add_executable(${exe} ${KitTests} )
+  target_link_libraries(${exe} ${KIT_LIBS} ITK::GTest ITK::GTestMain)
+  itk_module_target_label(${exe})
+
+  include(GoogleTest)
+  gtest_add_tests(${exe} "" AUTO)
+  # TODO need to label the produced ctests
+endfunction()
+
 #-----------------------------------------------------------------------------
 # ITK function to ignore a test
 #
