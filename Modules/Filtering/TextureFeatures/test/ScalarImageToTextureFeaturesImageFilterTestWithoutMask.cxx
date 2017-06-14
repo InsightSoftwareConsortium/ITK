@@ -22,42 +22,72 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
+#include "itkTestingMacros.h"
 
 int
 ScalarImageToTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 {
-  // Setup types
-  typedef itk::Image<int, 3>                                                                    InputImageType;
-  typedef itk::Image<itk::Vector<float, 8>, 3>                                                  OutputImageType;
-  typedef itk::ImageFileReader<InputImageType>                                                  readerType;
+  if (argc < 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << argv[0] << " inputImageFile"
+              << " outputImageFile"
+              << " [numberOfBinsPerAxis]"
+              << " [pixelValueMin]"
+              << " [pixelValueMax]"
+              << " [neighborhoodRadius]" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  const unsigned int ImageDimension = 3;
+  const unsigned int VectorComponentDimension = 8;
+
+  // Declare types
+  typedef int                                                             InputPixelType;
+  typedef float                                                           OutputPixelComponentType;
+  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
+
+  typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
+  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
+  typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
-  NeighborhoodType                                                                              hood;
 
-  // Create and setup a reader
-  readerType::Pointer reader = readerType::New();
-  std::string         inputFilename = argv[1];
-  reader->SetFileName(inputFilename.c_str());
+  // Create and set up a reader
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName(argv[1]);
 
-  // Apply the filter
+  // Create the filter
   typedef itk::Statistics::ScalarImageToTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
+
   filter->SetInput(reader->GetOutput());
+
   if (argc >= 4)
   {
-    filter->SetNumberOfBinsPerAxis(std::atoi(argv[3]));
-    filter->SetPixelValueMinMax(std::atof(argv[4]), std::atof(argv[5]));
-    hood.SetRadius(std::atoi(argv[6]));
+    unsigned int numberOfBinsPerAxis = std::atoi(argv[3]);
+    filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
+
+    FilterType::PixelType pixelValueMin = std::atof(argv[4]);
+    FilterType::PixelType pixelValueMax = std::atof(argv[5]);
+    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[6]);
+    NeighborhoodType                hood;
+    hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
   }
-  filter->UpdateLargestPossibleRegion();
 
-  // Create and setup a writter
+  TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+  // Create and set up a writer
   typedef itk::ImageFileWriter<OutputImageType> WriterType;
   WriterType::Pointer                           writer = WriterType::New();
-  std::string                                   outputFilename = argv[2];
-  writer->SetFileName(outputFilename.c_str());
+  writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
-  writer->UpdateLargestPossibleRegion();
 
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
