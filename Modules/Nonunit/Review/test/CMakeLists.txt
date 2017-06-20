@@ -28,9 +28,6 @@ itkJPEG2000ImageIOTest04.cxx
 itkJPEG2000ImageIOTest05.cxx
 itkJPEG2000ImageIOTest06.cxx
 itkLabelGeometryImageFilterTest.cxx
-itkMapMaskedRankImageFilterTest.cxx
-itkMapRankImageFilterTest.cxx
-itkMaskedRankImageFilterTest.cxx
 itkMultiphaseDenseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseFiniteDifferenceImageFilterTest.cxx
 itkMultiphaseSparseFiniteDifferenceImageFilterTest.cxx
@@ -39,7 +36,6 @@ itkNeuralNetworkIOTest.cxx
 itkOptImageToImageMetricsTest.cxx
 itkOptImageToImageMetricsTest2.cxx
 itkOptMattesMutualInformationImageToImageMetricThreadsTest1.cxx
-itkRankImageFilterTest.cxx
 itkRegionBasedLevelSetFunctionTest.cxx
 itkRobustAutomaticThresholdCalculatorTest.cxx
 itkRobustAutomaticThresholdImageFilterTest.cxx
@@ -274,36 +270,6 @@ itk_add_test(NAME itkLabelGeometryImageFilterTest3D
     --compare DATA{${BASELINE}/itkLabelGeometryImageFilterTest3D.mhd,itkLabelGeometryImageFilterTest3D.raw}
               ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest3D.mhd
     itkLabelGeometryImageFilterTest DATA{${INPUTDATA}/LabelVolumeWithVariousShapes.mhd,LabelVolumeWithVariousShapes.raw} DATA{${INPUTDATA}/GrayscaleVolumeWithVariousShapes.mhd,GrayscaleVolumeWithVariousShapes.raw} ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest3D.mhd ${ITK_TEST_OUTPUT_DIR}/itkLabelGeometryImageFilterTest3D.csv DATA{${BASELINE}/itkLabelGeometryImageFilterTest3D.csv})
-itk_add_test(NAME itkMapMaskedRankImageFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMaskedRankImageFilter3.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter3.png
-    itkMapMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter3.png 3)
-itk_add_test(NAME itkMapMaskedRankImageFilterTest10
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMaskedRankImageFilter10.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter10.png
-    itkMapMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter10.png 10)
-itk_add_test(NAME itkMapRankImageFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkRankImageFilter3.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter3.png
-    itkMapRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter3.png 3)
-itk_add_test(NAME itkMapRankImageFilterTest10
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkRankImageFilter10.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter10.png
-    itkMapRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter10.png 10)
-itk_add_test(NAME itkMaskedRankImageFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMaskedRankImageFilter3.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter3.png
-    itkMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter3.png 3)
-itk_add_test(NAME itkMaskedRankImageFilterTest10
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkMaskedRankImageFilter10.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png
-    itkMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png 10)
 itk_add_test(NAME itkMultiphaseDenseFiniteDifferenceImageFilterTest
       COMMAND ITKReviewTestDriver itkMultiphaseDenseFiniteDifferenceImageFilterTest)
 itk_add_test(NAME itkMultiphaseFiniteDifferenceImageFilterTest
@@ -346,16 +312,6 @@ itk_add_test(NAME itkOptImageToImageMetricsTest04
 itk_add_test(NAME itkOptMattesImageToImageMetricsTest01
       COMMAND ITKReviewTestDriver itkOptMattesMutualInformationImageToImageMetricThreadsTest1
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png 0 100)
-itk_add_test(NAME itkRankImageFilterTest3
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkRankImageFilter3.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter3.png
-    itkRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter3.png 3)
-itk_add_test(NAME itkRankImageFilterTest10
-      COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkRankImageFilter10.png}
-              ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png
-    itkRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png 10)
 itk_add_test(NAME itkRegionBasedLevelSetFunctionTest
       COMMAND ITKReviewTestDriver itkRegionBasedLevelSetFunctionTest)
 itk_add_test(NAME itkRobustAutomaticThresholdImageFilterTest

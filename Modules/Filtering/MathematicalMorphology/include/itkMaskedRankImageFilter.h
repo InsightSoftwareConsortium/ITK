@@ -58,7 +58,7 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/160
  *
  * \author Richard Beare
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel =

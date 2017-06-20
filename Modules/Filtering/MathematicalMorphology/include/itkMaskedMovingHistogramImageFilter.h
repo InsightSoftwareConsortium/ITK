@@ -36,7 +36,7 @@ namespace itk
  *
  * \author Richard Beare
  * \author Gaetan Lehmann
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >

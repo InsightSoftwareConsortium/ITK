@@ -39,6 +39,10 @@ itkRegionalMaximaImageFilterTest.cxx
 itkRegionalMinimaImageFilterTest.cxx
 itkValuedRegionalMaximaImageFilterTest.cxx
 itkValuedRegionalMinimaImageFilterTest.cxx
+itkMaskedRankImageFilterTest.cxx
+itkRankImageFilterTest.cxx
+itkMapMaskedRankImageFilterTest.cxx
+itkMapRankImageFilterTest.cxx
 )
 
 CreateTestDriver(ITKMathematicalMorphology  "${ITKMathematicalMorphology-Test_LIBRARIES}" "${ITKMathematicalMorphologyTests}")
@@ -471,3 +475,43 @@ itk_add_test(NAME itkValuedRegionalMinimaImageFilterTest2
     --compare DATA{Baseline/cthead1ValuedRegionalMinimal-ref2.png}
               ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png
     itkValuedRegionalMinimaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1ValuedRegionalMinimal-ref2.png 0)
+itk_add_test(NAME itkMapMaskedRankImageFilterTest3
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkMaskedRankImageFilter3.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter3.png
+    itkMapMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter3.png 3)
+itk_add_test(NAME itkMapMaskedRankImageFilterTest10
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkMaskedRankImageFilter10.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter10.png
+    itkMapMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMapMaskedRankImageFilter10.png 10)
+itk_add_test(NAME itkMapRankImageFilterTest3
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkRankImageFilter3.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter3.png
+    itkMapRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter3.png 3)
+itk_add_test(NAME itkMapRankImageFilterTest10
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkRankImageFilter10.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter10.png
+    itkMapRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkMapRankImageFilter10.png 10)
+itk_add_test(NAME itkMaskedRankImageFilterTest3
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkMaskedRankImageFilter3.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter3.png
+    itkMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter3.png 3)
+itk_add_test(NAME itkMaskedRankImageFilterTest10
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkMaskedRankImageFilter10.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png
+    itkMaskedRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} DATA{${ITK_DATA_ROOT}/Input/cthead1-mask.png} ${ITK_TEST_OUTPUT_DIR}/itkMaskedRankImageFilter10.png 10)
+itk_add_test(NAME itkRankImageFilterTest3
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkRankImageFilter3.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter3.png
+    itkRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter3.png 3)
+itk_add_test(NAME itkRankImageFilterTest10
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/itkRankImageFilter10.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png
+    itkRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkRankImageFilter10.png 10)

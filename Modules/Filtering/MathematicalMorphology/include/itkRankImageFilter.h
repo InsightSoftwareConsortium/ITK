@@ -60,7 +60,7 @@ namespace itk
  *
  *
  * \author Richard Beare
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel =
