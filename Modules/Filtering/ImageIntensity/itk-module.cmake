@@ -14,6 +14,7 @@ itk_module(ITKImageIntensity
   TEST_DEPENDS
     ITKTestKernel
     ITKDistanceMap
+    ITKGoogleTest
   DESCRIPTION
     "${DOCUMENTATION}"
 )
