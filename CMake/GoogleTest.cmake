@@ -1,43 +1,43 @@
 # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
 # file Copyright.txt or https://cmake.org/licensing for details.
 
-#[=======================================================================[.rst:
-GoogleTest
-----------
+#.rst:
+# GoogleTest
+# ----------
+#
+# This module defines functions to help use the Google Test infrastructure.
+#
+# .. command:: gtest_add_tests
+#
+#   Automatically add tests with CTest by scanning source code for Google test
+#   macros.
+#
+#   ::
+#
+#     gtest_add_tests(<exe> <args> <files>...)
+#
+#   ``<exe>``
+#     The path to the test executable.
+#   ``<args>``
+#     A ;-list of extra arguments to be passed to executable.  The entire
+#     list must be passed as a single argument.  Enclose it in quotes,
+#     or pass ``""`` for no arguments.
+#   ``<files>...``
+#     A list of source files to search for tests and test fixtures.
+#     Alternatively, use ``AUTO`` to specify that ``<exe>`` is the name
+#     of a CMake executable target whose sources should be scanned.
+#
+# Example
+# ^^^^^^^
+#
+# .. code-block:: cmake
+#
+#   include(GoogleTest)
+#   set(FooTestArgs --foo 1 --bar 2)
+#   add_executable(FooTest FooUnitTest.cc)
+#   gtest_add_tests(FooTest "${FooTestArgs}" AUTO)
+#
 
-This module defines functions to help use the Google Test infrastructure.
-
-.. command:: gtest_add_tests
-
-  Automatically add tests with CTest by scanning source code for Google test
-  macros.
-
-  ::
-
-    gtest_add_tests(<exe> <args> <files>...)
-
-  ``<exe>``
-    The path to the test executable.
-  ``<args>``
-    A ;-list of extra arguments to be passed to executable.  The entire
-    list must be passed as a single argument.  Enclose it in quotes,
-    or pass ``""`` for no arguments.
-  ``<files>...``
-    A list of source files to search for tests and test fixtures.
-    Alternatively, use ``AUTO`` to specify that ``<exe>`` is the name
-    of a CMake executable target whose sources should be scanned.
-
-Example
-^^^^^^^
-
-.. code-block:: cmake
-
-  include(GoogleTest)
-  set(FooTestArgs --foo 1 --bar 2)
-  add_executable(FooTest FooUnitTest.cc)
-  gtest_add_tests(FooTest "${FooTestArgs}" AUTO)
-
-#]=======================================================================]
 
 function(gtest_add_tests executable extra_args)
   if(NOT ARGN)
