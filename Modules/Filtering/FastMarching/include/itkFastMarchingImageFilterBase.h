@@ -29,7 +29,7 @@ namespace itk
 {
 /**
  * \class FastMarchingImageFilterBase
- * \brief Fast Marching Method on Image
+ * \brief Apply the Fast Marching method to solve an Eikonal equation on an image.
  *
  * The speed function can be specified as a speed image or a
  * speed constant. The speed image is set using the method
@@ -40,7 +40,7 @@ namespace itk
  * is an approximate distance function from the initial alive points.
  *
  * There are two ways to specify the output image information
- * ( LargestPossibleRegion, Spacing, Origin):
+ * (LargestPossibleRegion, Spacing, Origin):
  * \li it is copied directly from the input speed image
  * \li it is specified by the user.
  * Default values are used if the user does not specify all the information.
@@ -156,11 +156,11 @@ public:
 
 protected:
 
-  /** Constructor */
   FastMarchingImageFilterBase();
 
-  /** Destructor */
   virtual ~FastMarchingImageFilterBase();
+
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   OutputRegionType  m_BufferedRegion;
   NodeType          m_StartIndex;
@@ -221,12 +221,9 @@ protected:
                const NodeType& iNode,
                InternalNodeStructureArray& ioNeighbors ) const;
 
-  // --------------------------------------------------------------------------
-  // --------------------------------------------------------------------------
-
-  /**
-   * Functions and variables to check for topology changes (2D/3D only).
-   */
+  //
+  // Functions and variables to check for topology changes (2D/3D only).
+  //
 
   // Functions/data for the 2-D case
   void InitializeIndices2D();
@@ -256,10 +253,12 @@ protected:
 
 private:
 
-  FastMarchingImageFilterBase( const Self& );
-  void operator = ( const Self& );
-  };
-}
+  ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingImageFilterBase);
+};
+} // end namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
 #include "itkFastMarchingImageFilterBase.hxx"
+#endif
+
 #endif // itkFastMarchingImageFilterBase_h
