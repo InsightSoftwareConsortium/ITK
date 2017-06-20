@@ -29,18 +29,16 @@ namespace itk
 {
 namespace Function
 {
-// a simple histogram class hierarchy. One subclass will be maps, the
-// other vectors.
-// This version is intended for keeping track of arbitrary ranks. It is
-// based on the code from consolidatedMorphology.
-//
-// Support for different TCompare hasn't been tested, and shouldn't be
-// necessary for the rank filters.
-//
-// This is a modified version for use with masks. Need to allow for
-// the situation in which the map is empty
 
-/*
+/* \class RankHistogram
+ * \brief A simple histogram class hierarchy. One specialization will
+ * be maps, the other vectors.
+ *
+ * This version is intended for keeping track of arbitrary ranks. It
+ * is based on the code from consolidatedMorphology.
+ *
+ * This is a modified version for use with masks. Need to allow for
+ * the situation in which the map is empty.
  *
  * This code was contributed in the Insight Journal paper:
  * "Efficient implementation of kernel filtering"
@@ -48,15 +46,14 @@ namespace Function
  * https://hdl.handle.net/1926/555
  * http://www.insight-journal.org/browse/publication/160
  *
+ * /sa VectorRankHistogram
  */
-
-
 template< typename TInputPixel >
 class RankHistogram
 {
 public:
 
-  typedef std::less< TInputPixel > TCompare;
+  typedef std::less< TInputPixel > Compare;
 
   RankHistogram()
   {
@@ -189,6 +186,10 @@ public:
           break;
           }
         }
+      if (searchIt == m_Map.end())
+        {
+        --searchIt;
+        }
       m_RankValue = searchIt->first;
       m_RankIt = searchIt;
       }
@@ -246,15 +247,16 @@ protected:
   float m_Rank;
 
 private:
-  typedef typename std::map< TInputPixel, SizeValueType, TCompare > MapType;
+  typedef typename std::map< TInputPixel, SizeValueType, Compare > MapType;
 
   MapType       m_Map;
   SizeValueType m_Below;
   SizeValueType m_Entries;
   TInputPixel   m_RankValue;
   TInputPixel   m_InitVal;
-  TCompare      m_Compare;
+  Compare       m_Compare;
   bool          m_Initialized;
+
   // This iterator will point at the desired rank value
   typename MapType::iterator m_RankIt;
 };
@@ -264,7 +266,7 @@ template< typename TInputPixel >
 class VectorRankHistogram
 {
 public:
-  typedef std::less< TInputPixel > TCompare;
+  typedef std::less< TInputPixel > Compare;
 
   VectorRankHistogram()
   {
@@ -363,7 +365,7 @@ private:
 
   VecType       m_Vec;
   SizeValueType m_Size;
-  TCompare      m_Compare;
+  Compare       m_Compare;
   TInputPixel   m_RankValue;
   TInputPixel   m_InitVal;
   int           m_Below;
