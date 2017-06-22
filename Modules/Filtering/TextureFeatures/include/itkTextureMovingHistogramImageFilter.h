@@ -25,9 +25,20 @@ namespace itk
 {
 /**
  * \class TextureMovingHistogramImageFilter
- * \brief Compute first order statistics in a neighborhood at each pixel
+ * \brief Compute first order statistics in a neighborhood for each
+ * pixel.
  *
- * \ingroup ITKTextureAnalysis
+ * The output of this filter is a multi-component image where each
+ * pixel is the mean, minimum, maximum, variance, standard deviation
+ * (sigma), skewness, kurtosis, and entropy. These first order
+ * statistics are computed based on a define neighborhood or kernel
+ * which defaults to a hyper-cube.
+ *
+ * The boundary is handle by only considering the pixel in the image,
+ * so that the boundary pixel have lets data to compute the
+ * statistics.
+ *
+ * \ingroup ITKTextureFeatures
  */
 
 template <class TInputImage, class TOutputImage, class TKernel>
@@ -77,10 +88,7 @@ protected:
     return 8;
   }
 
-  TextureMovingHistogramImageFilter()
-  {
-    // this->m_Boundary = NumericTraits< PixelType >::max();
-  }
+  TextureMovingHistogramImageFilter() {}
 
   void
   GenerateOutputInformation()

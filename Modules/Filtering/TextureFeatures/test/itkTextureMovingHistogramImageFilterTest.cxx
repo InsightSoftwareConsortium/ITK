@@ -1,6 +1,6 @@
 /*=========================================================================
  *
- *  Copyright Bradley Lowekamp
+ *  Copyright Insight Software Consortium
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,10 +25,11 @@
 static void
 Test1(const std::string & inFileName, const std::string & outFileName)
 {
-  const unsigned int                                                                ImageDimension = 3;
-  typedef itk::Image<unsigned char, ImageDimension>                                 ImageType;
-  typedef itk::Image<itk::FixedArray<float, 8>, ImageDimension>                     OImageType;
-  typedef itk::FlatStructuringElement<ImageDimension>                               KernelType;
+  const unsigned int                                            ImageDimension = 3;
+  typedef itk::Image<unsigned char, ImageDimension>             ImageType;
+  typedef itk::Image<itk::FixedArray<float, 8>, ImageDimension> OImageType;
+  typedef itk::FlatStructuringElement<ImageDimension>           KernelType;
+
   typedef itk::TextureMovingHistogramImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
 
 
@@ -58,10 +59,11 @@ Test1(const std::string & inFileName, const std::string & outFileName)
 static void
 Test2(std::string inFileName)
 {
-  const unsigned int                                                                ImageDimension = 3;
-  typedef itk::Image<unsigned char, ImageDimension>                                 ImageType;
-  typedef itk::VectorImage<float, ImageDimension>                                   OImageType;
-  typedef itk::FlatStructuringElement<ImageDimension>                               KernelType;
+  const unsigned int                                  ImageDimension = 3;
+  typedef itk::Image<unsigned char, ImageDimension>   ImageType;
+  typedef itk::VectorImage<float, ImageDimension>     OImageType;
+  typedef itk::FlatStructuringElement<ImageDimension> KernelType;
+
   typedef itk::TextureMovingHistogramImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
 
 

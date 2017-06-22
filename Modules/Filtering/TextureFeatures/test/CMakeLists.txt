@@ -14,6 +14,22 @@ set(
   ScalarImageToTextureFeaturesImageFilterTestWithoutMask.cxx
   ScalarImageToTextureFeaturesImageFilterTestWithVectorImage.cxx
   ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
+)
+
+set(
+  TextureFeaturesTests
+  RunLengthTextureFeaturesImageFilterInstantiationTest.cxx
+  RunLengthTextureFeaturesImageFilterTest.cxx
+  RunLengthTextureFeaturesImageFilterTestSeparateFeatures.cxx
+  RunLengthTextureFeaturesImageFilterTestWithoutMask.cxx
+  RunLengthTextureFeaturesImageFilterTestWithVectorImage.cxx
+  RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
+  CoocurrenceTextureFeaturesImageFilterInstantiationTest.cxx
+  CoocurrenceTextureFeaturesImageFilterTest.cxx
+  CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures.cxx
+  CoocurrenceTextureFeaturesImageFilterTestWithoutMask.cxx
+  CoocurrenceTextureFeaturesImageFilterTestWithVectorImage.cxx
+  CoocurrenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
   itkTextureMovingHistogramImageFilterTest.cxx
 )
 

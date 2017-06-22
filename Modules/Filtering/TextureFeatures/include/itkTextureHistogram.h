@@ -17,7 +17,9 @@
  *=========================================================================*/
 #ifndef itkTextureHistogram_h
 #define itkTextureHistogram_h
+
 #include "itkNumericTraits.h"
+#include <map>
 
 namespace itk
 {
@@ -26,17 +28,18 @@ namespace Function
 
 /* \class TextureHistogram
  *
+ * An implementation of the "MovingHistogram" interface for the
+ * MovingHistogramImageFilter class. This implementation maintains a
+ * std::map based "histogram" during iteration and computes first
+ * order statistics from the histogram.
  *
- *
- * \ingroup ITKTextureAnalysis
+ * \ingroup ITKTextureFeatures
  */
 template <class TInputPixel, class TOutputPixel>
 class ITK_TEMPLATE_EXPORT TextureHistogram
 {
 public:
   TextureHistogram() { m_Count = 0; }
-
-  // ~TextureHistogram()  {} default is ok
 
   void
   AddPixel(const TInputPixel & p)
@@ -72,11 +75,10 @@ public:
     double       sum3 = 0.0;
     double       sum4 = 0.0;
     const size_t count = m_Count;
-    // double median = 0.0;
 
     double entropy = 0.0;
     size_t curCount = 0;
-    // typename MapType::iterator medianIt = m_Map.end();
+
     for (typename MapType::iterator i = m_Map.begin(); i != m_Map.end(); ++i)
     {
       double t = double(i->first) * double(i->second);
@@ -88,55 +90,23 @@ public:
       curCount += i->second;
 
       const double p_x = double(i->second) / count;
-      entropy += -p_x * vcl_log(p_x);
-
-      //       // this is wrong!
-      //       if ( curCount == count / 2 )
-      //         {
-      //         median += i->first;
-      //         medianIt = il
-      //         // we have an even number so take the average
-      //           if ( !(count % 2) )
-      //             {
-      //               median *= 0.5;
-      //             }
-      //         }
+      entropy += -p_x * std::log(p_x);
     }
-
-    //     curCount = 0;
-    //     typename MapType::iterator fmedianIt = medianIt;
-    //     typename MapType::iterator rmedianIt = medianIt;
-    //     double mad = 0.0;
-
-    //     while (curCount < count/2 )
-    //     {
-    //     if ( vcl_fabs( fmedianIt->first - median ) < vcl_fabs( rmedianIt->first - median ) )
-    //       {
-    //       curCount += fmedianIt->second;
-    //       ++fmedianIt;
-    //       }
-    //     else
-    //       {
-    //       curCount += rmedianIt->second;
-    //       --rmedianIt;
-    //       }
-    //     }
-
 
     const double icount = 1.0 / count;
     const double mean = sum * icount;
 
     // unbiased estimate
     const double variance = (sum2 - (sum * sum * icount)) / (count - 1);
-    const double sigma = vcl_sqrt(variance);
+    const double sigma = std::sqrt(variance);
     double       skewness = 0.0;
     double       kurtosis = 0.0;
-    if (vcl_abs(variance * sigma) > itk::NumericTraits<double>::min())
+    if (std::abs(variance * sigma) > itk::NumericTraits<double>::min())
     {
 
       skewness = ((sum3 - 3.0 * mean * sum2) * icount + 2.0 * mean * mean * mean) / (variance * sigma);
     }
-    if (vcl_abs(variance) > itk::NumericTraits<double>::min())
+    if (std::abs(variance) > itk::NumericTraits<double>::min())
     {
       kurtosis = (sum4 * icount + mean * (-4.0 * sum3 * icount + mean * (6.0 * sum2 * icount - 3.0 * mean * mean))) /
                    (variance * variance) -
