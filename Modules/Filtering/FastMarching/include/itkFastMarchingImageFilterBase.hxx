@@ -52,6 +52,9 @@ FastMarchingImageFilterBase() :
   m_OverrideOutputInformation( false ),
   m_LabelImage( LabelImageType::New() )
 {
+  m_StartIndex.Fill(0);
+  m_LastIndex.Fill(0);
+
   OutputSizeType outputSize;
   outputSize.Fill(16);
 
