@@ -145,13 +145,11 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGene
   typename OffsetVector::ConstIterator offsets;
 
   // Declaration of the variables usefull to iterate over the all the offsets
-  OffsetType      offset;
-  unsigned int    totalNumberOfFreq;
-  unsigned int ** hist = new unsigned int *[m_NumberOfBinsPerAxis];
-  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
-  {
-    hist[a] = new unsigned int[m_NumberOfBinsPerAxis];
-  }
+  OffsetType   offset;
+  unsigned int totalNumberOfFreq;
+
+
+  vnl_matrix<unsigned int> hist(m_NumberOfBinsPerAxis, m_NumberOfBinsPerAxis);
 
   // Declaration of the variables usefull to iterate over the all neighborhood region
   PixelType curentInNeighborhoodPixelIntensity;
@@ -161,7 +159,7 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGene
   OffsetType tempOffset;
 
   /// ***** Non-boundary Region *****
-  for (fit; fit != faceList.end(); ++fit)
+  for (; fit != faceList.end(); ++fit)
   {
     NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_DigitalisedInputImageg, *fit);
     typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
@@ -307,7 +305,7 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeig
 template <typename TInputImage, typename TOutputImage>
 void
 ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
-  unsigned int **                    hist,
+  vnl_matrix<unsigned int> &         hist,
   const unsigned int &               totalNumberOfFreq,
   typename TOutputImage::PixelType & outputPixel)
 {
@@ -380,12 +378,12 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatu
 template <typename TInputImage, typename TOutputImage>
 void
 ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAndVariances(
-  unsigned int **      hist,
-  const unsigned int & totalNumberOfFreq,
-  double &             pixelMean,
-  double &             marginalMean,
-  double &             marginalDevSquared,
-  double &             pixelVariance)
+  vnl_matrix<unsigned int> & hist,
+  const unsigned int &       totalNumberOfFreq,
+  double &                   pixelMean,
+  double &                   marginalMean,
+  double &                   marginalDevSquared,
+  double &                   pixelVariance)
 {
   // This function takes two passes through the histogram and two passes through
   // an array of the same length as a histogram axis. This could probably be

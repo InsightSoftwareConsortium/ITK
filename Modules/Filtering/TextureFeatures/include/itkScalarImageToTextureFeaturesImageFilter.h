@@ -212,16 +212,16 @@ protected:
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);
   void
-  ComputeFeatures(unsigned int **                    hist,
+  ComputeFeatures(vnl_matrix<unsigned int> &         hist,
                   const unsigned int &               totalNumberOfFreq,
                   typename TOutputImage::PixelType & outputPixel);
   void
-  ComputeMeansAndVariances(unsigned int **      hist,
-                           const unsigned int & totalNumberOfFreq,
-                           double &             pixelMean,
-                           double &             marginalMean,
-                           double &             marginalDevSquared,
-                           double &             pixelVariance);
+  ComputeMeansAndVariances(vnl_matrix<unsigned int> & hist,
+                           const unsigned int &       totalNumberOfFreq,
+                           double &                   pixelMean,
+                           double &                   marginalMean,
+                           double &                   marginalDevSquared,
+                           double &                   pixelVariance);
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
