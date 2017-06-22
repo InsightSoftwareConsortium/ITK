@@ -73,8 +73,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  typename TInputImage::Pointer maskPointer = TInputImage::New();
-  maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
+  InputImageType * maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
   this->m_DigitalisedInputImageg = InputImageType::New();
   this->m_DigitalisedInputImageg->SetRegions(this->GetInput()->GetRequestedRegion());
   this->m_DigitalisedInputImageg->CopyInformation(this->GetInput());
@@ -105,8 +104,7 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThread
   m_Spacing = this->GetInput()->GetSpacing();
 
   // Support VectorImages by setting number of components on output.
-  typename TOutputImage::Pointer outputPtr = TOutputImage::New();
-  outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   if (strcmp(outputPtr->GetNameOfClass(), "VectorImage") == 0)
   {
     typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
@@ -122,8 +120,7 @@ ScalarImageToTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGene
   ThreadIdType             threadId)
 {
   // Recuperation of the different inputs/outputs
-  typename TOutputImage::Pointer outputPtr = TOutputImage::New();
-  outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 
