@@ -14,22 +14,7 @@ set(
   ScalarImageToTextureFeaturesImageFilterTestWithoutMask.cxx
   ScalarImageToTextureFeaturesImageFilterTestWithVectorImage.cxx
   ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
-)
-
-set(
-  TextureFeaturesTests
-  RunLengthTextureFeaturesImageFilterInstantiationTest.cxx
-  RunLengthTextureFeaturesImageFilterTest.cxx
-  RunLengthTextureFeaturesImageFilterTestSeparateFeatures.cxx
-  RunLengthTextureFeaturesImageFilterTestWithoutMask.cxx
-  RunLengthTextureFeaturesImageFilterTestWithVectorImage.cxx
-  RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
-  CoocurrenceTextureFeaturesImageFilterInstantiationTest.cxx
-  CoocurrenceTextureFeaturesImageFilterTest.cxx
-  CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures.cxx
-  CoocurrenceTextureFeaturesImageFilterTestWithoutMask.cxx
-  CoocurrenceTextureFeaturesImageFilterTestWithVectorImage.cxx
-  CoocurrenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
+  itkTextureMovingHistogramImageFilterTest.cxx
 )
 
 createtestdriver(TextureFeatures "${TextureFeatures-Test_LIBRARIES}" "${TextureFeaturesTests}")
@@ -500,4 +485,14 @@ itk_add_test(
     0
     4200
     4
+)
+
+itk_add_test(
+  NAME itkTextureMovingHistogramImageFilterTest1
+  COMMAND
+    TextureFeaturesTestDriver
+    itkTextureMovingHistogramImageFilterTest
+    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkTextureFeatureImageFilterTest1.mha
+    5
 )
