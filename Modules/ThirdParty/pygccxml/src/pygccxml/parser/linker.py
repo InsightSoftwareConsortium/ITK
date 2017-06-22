@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -12,7 +12,9 @@ class linker_t(
         declarations.type_visitor_t,
         object):
 
-    def __init__(self, decls, types, access, membership, files):
+    def __init__(
+            self, decls, types, access, membership,
+            files, xml_generator_from_xml_file=None):
         declarations.decl_visitor_t.__init__(self)
         declarations.type_visitor_t.__init__(self)
         object.__init__(self)
@@ -23,6 +25,7 @@ class linker_t(
         self.__membership = membership
         self.__files = files
         self.__inst = None
+        self.__xml_generator_from_xml_file = xml_generator_from_xml_file
 
     @property
     def instance(self):
@@ -38,11 +41,10 @@ class linker_t(
         self.__inst = inst
 
         # use inst, to reduce attribute access time
-        if isinstance(inst, declarations.declaration_t) and inst.location:
-            if inst.location.file_name == '':
-                inst.location.file_name = ''
-            else:
-                inst.location.file_name = self.__files[inst.location.file_name]
+        if isinstance(inst, declarations.declaration_t) and \
+                inst.location is not None and \
+                inst.location.file_name != '':
+            inst.location.file_name = self.__files[inst.location.file_name]
 
     def __link_type(self, type_id):
         if type_id is None:
@@ -55,7 +57,7 @@ class linker_t(
             base = declarations.declarated_t(declaration=self.__decls[type_id])
             self.__types[type_id] = base
             return base
-        elif '...' == type_id:
+        elif type_id == '...':
             return declarations.ellipsis_t()
         else:
             return declarations.unknown_t()
@@ -144,12 +146,15 @@ class linker_t(
             data = base.split(':')
             base_decl = self.__decls[data[-1]]
             access = declarations.ACCESS_TYPES.PUBLIC
-            if 2 == len(data):
+            if len(data) == 2:
                 access = data[0]
             self.__inst.bases.append(
                 declarations.hierarchy_info_t(base_decl, access))
             base_decl.derived.append(
                 declarations.hierarchy_info_t(self.__inst, access))
+
+    def visit_ellipsis(self):
+        pass
 
     def visit_enumeration(self):
         pass
@@ -264,9 +269,10 @@ class linker_t(
         self.__link_compound_type()
 
     def visit_pointer(self):
-        if ('0.9' in utils.xml_generator or 'CastXML' in utils.xml_generator) \
-                and isinstance(
-                    self.__inst.base, declarations.member_variable_type_t):
+        gen = self.__xml_generator_from_xml_file
+        if (gen.is_castxml or gen.is_gccxml_09 or gen.is_gccxml_09_buggy) and \
+                isinstance(self.__inst.base,
+                           declarations.member_variable_type_t):
             original_inst = self.__inst
             self.__inst = self.__inst.base
             self.visit_member_variable_type()
@@ -275,6 +281,9 @@ class linker_t(
             self.__link_compound_type()
 
     def visit_reference(self):
+        self.__link_compound_type()
+
+    def visit_elaborated(self):
         self.__link_compound_type()
 
     def visit_array(self):

@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -13,6 +13,8 @@ class VIRTUALITY_TYPES(object):
     VIRTUAL = 'virtual'
     PURE_VIRTUAL = 'pure virtual'
     ALL = [NOT_VIRTUAL, VIRTUAL, PURE_VIRTUAL]
+
+
 # preserving backward compatebility
 FUNCTION_VIRTUALITY_TYPES = VIRTUALITY_TYPES
 

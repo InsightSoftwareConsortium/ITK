@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -16,7 +16,6 @@ This modules contains definition for next C++ declarations:
     - constructor
     - destructor
 """
-import warnings
 from . import cpptypes
 from . import declaration_utils
 from . import declaration
@@ -24,7 +23,6 @@ from . import class_declaration
 from . import call_invocation
 from . import type_traits
 from . import calldef_types
-from .. import utils
 
 
 # First level in hierarchy of calldef
@@ -37,24 +35,10 @@ class argument_t(object):
     def __init__(
             self,
             name='',
-            type=None,
             decl_type=None,
             default_value=None,
             attributes=None):
         object.__init__(self)
-
-        if type is not None:
-            # Deprecated since 1.8.0. Will be removed in 1.9.0
-            warnings.warn(
-                "The type argument is deprecated. \n" +
-                "Please use the decl_type argument instead.",
-                DeprecationWarning)
-            if decl_type is not None:
-                raise (
-                    "Please use only either the type or " +
-                    "decl_type argument.")
-            # Still allow to use the old type for the moment.
-            decl_type = type
 
         self._name = name
         self._default_value = default_value
@@ -72,11 +56,10 @@ class argument_t(object):
 
         """
         return argument_t(
-            name=keywd.get(
-                'name', self.name), decl_type=keywd.get(
-                'decl_type', self.decl_type), default_value=keywd.get(
-                'default_value', self.default_value), attributes=keywd.get(
-                'attributes', self.attributes))
+            name=keywd.get('name', self.name),
+            decl_type=keywd.get('decl_type', self.decl_type),
+            default_value=keywd.get('default_value', self.default_value),
+            attributes=keywd.get('attributes', self.attributes))
 
     def __str__(self):
         if self.ellipsis:
@@ -95,7 +78,7 @@ class argument_t(object):
             and self.default_value == other.default_value \
             and self.decl_type == other.decl_type
 
-    def __hash__(self, other):
+    def __hash__(self):
         return (hash(self.__class__) ^
                 hash(self.name) ^
                 hash(self.default_value) ^
@@ -136,30 +119,6 @@ class argument_t(object):
     @default_value.setter
     def default_value(self, default_value):
         self._default_value = default_value
-
-    @property
-    def type(self):
-        """
-        Deprecated since v1.8.0. Will be removed in v1.9.0
-
-        """
-
-        warnings.warn(
-            "argument_t.type is deprecated.\n" +
-            "Please use argument_t.decl_type instead.", DeprecationWarning)
-        return self._decl_type
-
-    @type.setter
-    def type(self, _decl_type):
-        """
-        Deprecated since v1.8.0. Will be removed in v1.9.0
-
-        """
-
-        warnings.warn(
-            "argument_t.type is deprecated.\n" +
-            "Please use argument_t.decl_type instead.", DeprecationWarning)
-        self._decl_type = _decl_type
 
     @property
     def decl_type(self):
@@ -222,24 +181,15 @@ class calldef_t(declaration.declaration_t):
 
         """
 
-        if "GCC" in utils.xml_generator:
-            items = [
-                self.arguments,
-                self.return_type,
-                self.has_extern,
-                self.does_throw,
-                self.exceptions.sort(),
-                self.demangled_name,
-                self.has_inline]
-        elif "CastXML" in utils.xml_generator:
-            # No demangled name
-            items = [
-                self.arguments,
-                self.return_type,
-                self.has_extern,
-                self.does_throw,
-                self.exceptions.sort(),
-                self.has_inline]
+        items = [
+            self.arguments,
+            self.return_type,
+            self.has_extern,
+            self.does_throw,
+            self.exceptions.sort(),
+            self.demangled_name,
+            self.has_inline]
+
         items.extend(self._get__cmp__call_items())
         return items
 
@@ -247,31 +197,18 @@ class calldef_t(declaration.declaration_t):
         if not declaration.declaration_t.__eq__(self, other):
             return False
 
-        if "GCC" in utils.xml_generator:
-            return self.return_type == other.return_type \
-                and self.arguments == other.arguments \
-                and self.has_extern == other.has_extern \
-                and self.does_throw == other.does_throw \
-                and self.exceptions.sort() == other.exceptions.sort() \
-                and self.demangled_name == other.demangled_name
-        elif "CastXML" in utils.xml_generator:
-            # Do not check for demangled name
-            return self.return_type == other.return_type \
-                and self.arguments == other.arguments \
-                and self.has_extern == other.has_extern \
-                and self.does_throw == other.does_throw \
-                and self.exceptions.sort() == other.exceptions.sort()
+        return self.return_type == other.return_type \
+            and self.arguments == other.arguments \
+            and self.has_extern == other.has_extern \
+            and self.does_throw == other.does_throw \
+            and self.exceptions.sort() == other.exceptions.sort() \
+            and self.demangled_name == other.demangled_name
 
     def __hash__(self):
-        if "GCC" in utils.xml_generator:
-            return (super.__hash__(self) ^
-                    hash(self.return_type) ^
-                    hash(self.demangled_name))
-        elif "CastXML" in utils.xml_generator:
-            # No demangled name with castxml. Use the normal name.
-            return (super.__hash__(self) ^
-                    hash(self.return_type) ^
-                    hash(self.name))
+        return (super(calldef_t, self).__hash__() ^
+                hash(self.return_type) ^
+                hash(self.demangled_name) ^
+                hash(self.name))
 
     @property
     def arguments(self):
@@ -392,9 +329,6 @@ class calldef_t(declaration.declaration_t):
         """returns function demangled name. It can help you to deal with
             function template instantiations"""
 
-        if "CastXML" in utils.xml_generator:
-            raise Exception("Demangled name is not available with CastXML.")
-
         if not self.demangled:
             self._demangled_name = ''
 
@@ -429,11 +363,11 @@ class calldef_t(declaration.declaration_t):
         # well, I am going to try an other strategy
         fname = declaration_utils.full_name(self)
         found = self.demangled.find(fname)
-        if -1 == found:
+        if found == -1:
             if fname.startswith('::'):
                 fname = fname[2:]
             found = self.demangled.find(fname)
-            if -1 == found:
+            if found == -1:
                 self._demangled_name = ''
                 return self.name
         demangled_name = call_invocation.name(self.demangled[found:])
@@ -444,7 +378,6 @@ class calldef_t(declaration.declaration_t):
         if demangled_name.startswith(self.name):
             self._demangled_name = demangled_name
             return self._demangled_name
-        # if -1 == found:
         self._demangled_name = ''
         return self.name
 

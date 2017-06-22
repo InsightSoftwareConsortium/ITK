@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -64,9 +64,9 @@ def split_recursive(decl_string):
     return __THE_PARSER.split_recursive(decl_string)
 
 
-def join(name, args):
+def join(name_, args_):
     """returns name< argument_1, argument_2, ..., argument_n >"""
-    return __THE_PARSER.join(name, args)
+    return __THE_PARSER.join(name_, args_)
 
 
 def normalize(decl_string):

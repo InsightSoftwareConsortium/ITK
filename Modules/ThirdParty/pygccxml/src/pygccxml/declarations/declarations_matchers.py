@@ -1,13 +1,11 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
 import os
-import warnings
 
 from . import templates
-from . import declaration_utils
 from . import matcher_base_t
 from . import variable
 from . import cpptypes
@@ -192,7 +190,6 @@ class variable_matcher_t(declaration_matcher_t):
     def __init__(
             self,
             name=None,
-            type=None,
             decl_type=None,
             header_dir=None,
             header_file=None):
@@ -200,19 +197,6 @@ class variable_matcher_t(declaration_matcher_t):
         :param decl_type: variable type
         :type decl_type: string or instance of :class:`type_t` derived class
         """
-
-        if type is not None:
-            # Deprecated since 1.8.0. Will be removed in 1.9.0
-            warnings.warn(
-                "The type argument is deprecated. \n" +
-                "Please use the decl_type argument instead.",
-                DeprecationWarning)
-            if decl_type is not None:
-                raise (
-                    "Please use only either the type or " +
-                    "decl_type argument.")
-            # Still allow to use the old type for the moment.
-            decl_type = type
 
         declaration_matcher_t.__init__(
             self,
@@ -334,15 +318,16 @@ class calldef_matcher_t(declaration_matcher_t):
                             return False
         return True
 
-    def __compare_types(self, type_or_str, type):
+    @staticmethod
+    def __compare_types(type_or_str, decl_type):
         assert type_or_str
-        if type is None:
+        if decl_type is None:
             return False
         if isinstance(type_or_str, cpptypes.type_t):
-            if type_or_str != type:
+            if type_or_str != decl_type:
                 return False
         else:
-            if type_or_str != type.decl_string:
+            if type_or_str != decl_type.decl_string:
                 return False
         return True
 

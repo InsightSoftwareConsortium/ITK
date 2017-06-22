@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -12,6 +12,7 @@ within the code.
 """
 
 import os
+import warnings
 
 
 class call_redirector_t(object):
@@ -86,9 +87,9 @@ class mdecl_wrapper_t(object):
         invalid_decls = [d for d in self.declarations if not hasattr(d, name)]
         sep = os.linesep + '    '
         if invalid_decls:
-            raise RuntimeError((
-                "Next declarations don't have '%s' attribute: %s")
-                % (name, sep.join(map(str, invalid_decls))))
+            raise RuntimeError(
+                "Next declarations don't have '%s' attribute: %s" %
+                (name, sep.join(map(str, invalid_decls))))
 
     def __setattr__(self, name, value):
         """Updates the value of attribute on all declarations.
@@ -107,8 +108,11 @@ class mdecl_wrapper_t(object):
     def __contains__(self, item):
         return item in self.declarations
 
-    def to_list(self):
-        l = []
+    def to_list(self):  # pragma: no cover
+        warnings.warn(
+            "The to_list method is deprecated. Please implement your own "
+            "version of it if you really need it.", DeprecationWarning)
+        li = []
         for d in self.declarations:
-            l.append(d)
-        return l
+            li.append(d)
+        return li

@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -7,6 +7,7 @@ from . import templates
 from . import type_traits
 from . import class_declaration
 from . import class_declaration_traits
+from . import class_traits
 from . import traits_impl_details
 
 
@@ -17,8 +18,7 @@ class internal_type_traits(object):
     @staticmethod
     def get_by_name(type_, name):
         if class_declaration_traits.is_my_case(type_):
-            cls = class_declaration_traits.class_traits.declaration_class(
-                type_)
+            cls = class_traits.declaration_class(type_)
             return type_traits.remove_declarated(
                 cls.typedef(name, recursive=False).decl_type)
         elif class_declaration_traits.is_my_case(type_):
@@ -33,9 +33,9 @@ class internal_type_traits(object):
                     "Unable to find reference to internal " +
                     "type '%s' in type '%s'.") % (name, cls.decl_string))
         else:
-            raise RuntimeError((
-                "Unable to find reference to internal type '%s' in type '%s'.")
-                % (name, type_.decl_string))
+            raise RuntimeError(
+                ("Unable to find reference to internal type '%s'"
+                 "in type '%s'.") % (name, type_.decl_string))
 
 
 class smart_pointer_traits(object):
@@ -54,10 +54,11 @@ class smart_pointer_traits(object):
                           (class_declaration.class_declaration_t,
                            class_declaration.class_t)):
             return False
-        if not (traits_impl_details.impl_details.is_defined_in_xxx(
-                'boost', type_) or
+        if not (
                 traits_impl_details.impl_details.is_defined_in_xxx(
-                'std', type_)):
+                    'boost', type_) or
+                traits_impl_details.impl_details.is_defined_in_xxx(
+                    'std', type_)):
             return False
         return type_.decl_string.startswith('::boost::shared_ptr<') or \
             type_.decl_string.startswith('::std::shared_ptr<')

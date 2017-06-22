@@ -1,5 +1,5 @@
-# Copyright 2014-2016 Insight Software Consortium.
-# Copyright 2004-2008 Roman Yakovenko.
+# Copyright 2014-2017 Insight Software Consortium.
+# Copyright 2004-2009 Roman Yakovenko.
 # Distributed under the Boost Software License, Version 1.0.
 # See http://www.boost.org/LICENSE_1_0.txt
 
@@ -59,6 +59,7 @@ from .cpptypes import volatile_t
 from .cpptypes import const_t
 from .cpptypes import pointer_t
 from .cpptypes import reference_t
+from .cpptypes import elaborated_t
 from .cpptypes import restrict_t
 from .cpptypes import array_t
 from .cpptypes import calldef_type_t
@@ -94,7 +95,6 @@ from .scopedef import matcher
 
 from .algorithm import apply_visitor
 from .algorithm import match_declaration_t
-from .algorithm import visit_function_has_not_been_found_t
 
 from .calldef_types import VIRTUALITY_TYPES
 from .calldef_types import FUNCTION_VIRTUALITY_TYPES
@@ -139,6 +139,7 @@ from .type_traits import is_std_wstring
 from .type_traits import is_std_ostream
 from .type_traits import is_std_wostream
 from .type_traits import is_calldef_pointer
+from .type_traits import is_elaborated
 
 from .type_traits import array_size
 from .type_traits import array_item_type
@@ -150,6 +151,7 @@ from .type_traits import remove_volatile
 from .type_traits import remove_reference
 from .type_traits import remove_declarated
 from .type_traits import remove_alias
+from .type_traits import remove_elaborated
 
 from .has_operator_matcher import has_public_binary_operator
 from .has_operator_matcher import has_public_equal
@@ -167,6 +169,7 @@ from .type_traits_classes import is_convertible
 from .type_traits_classes import is_noncopyable
 from .type_traits_classes import is_copy_constructor
 from .type_traits_classes import is_trivial_constructor
+from .type_traits_classes import is_struct
 from .type_traits_classes import is_union
 
 from .type_traits_classes import is_unary_operator
@@ -240,21 +243,12 @@ from .decl_printer import print_declarations
 
 from . import scopedef
 
-all_container_traits = container_traits.container_traits
-"""tuple of all STD container traits classes"""
+from .container_traits import all_container_traits
+from .container_traits import sequential_container_traits
 
-sequential_container_traits = [
-    list_traits,
-    deque_traits,
-    queue_traits,
-    priority_queue_traits,
-    vector_traits,
-    stack_traits,
-    set_traits,
-    hash_set_traits,
-    multiset_traits,
-    hash_multiset_traits]
-"""list, that contains all STD container traits classes"""
+from .runtime_errors import declaration_not_found_t
+from .runtime_errors import multiple_declarations_found_t
+from .runtime_errors import visit_function_has_not_been_found_t
 
 # make matchers to look more like functors
 or_matcher = or_matcher_t
