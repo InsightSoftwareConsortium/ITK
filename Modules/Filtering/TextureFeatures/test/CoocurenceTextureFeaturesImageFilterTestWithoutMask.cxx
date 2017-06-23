@@ -15,24 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToTextureFeaturesImageFilter.h"
+#include "itkCoocurenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
-#include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
+CoocurenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc < 3)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " inputImageFile"
-              << " maskImageFile"
               << " outputImageFile"
               << " [numberOfBinsPerAxis]"
               << " [pixelValueMin]"
@@ -58,28 +56,22 @@ ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * arg
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  // Create and set up a maskReader
-  ReaderType::Pointer maskReader = ReaderType::New();
-  maskReader->SetFileName(argv[2]);
-
-
   // Create the filter
-  typedef itk::Statistics::ScalarImageToTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
-  filter->SetMaskImage(maskReader->GetOutput());
 
-  if (argc >= 5)
+  if (argc >= 4)
   {
-    unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
+    unsigned int numberOfBinsPerAxis = std::atoi(argv[3]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType min = std::atof(argv[5]);
-    FilterType::PixelType max = std::atof(argv[6]);
-    filter->SetPixelValueMinMax(min, max);
+    FilterType::PixelType pixelValueMin = std::atof(argv[4]);
+    FilterType::PixelType pixelValueMax = std::atof(argv[5]);
+    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[6]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
@@ -87,28 +79,13 @@ ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * arg
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
+  // Create and set up a writer
+  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  WriterType::Pointer                           writer = WriterType::New();
+  writer->SetFileName(argv[2]);
+  writer->SetInput(filter->GetOutput());
 
-  typedef itk::Image<OutputPixelComponentType, ImageDimension>                        FeatureImageType;
-  typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
-  IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
-  indexSelectionFilter->SetInput(filter->GetOutput());
-
-  for (unsigned int i = 0; i < VectorComponentDimension; i++)
-  {
-    indexSelectionFilter->SetIndex(i);
-
-    // Create and set up a writer
-    typedef itk::ImageFileWriter<FeatureImageType> WriterType;
-    WriterType::Pointer                            writer = WriterType::New();
-    std::string                                    outputFilename = argv[3];
-    std::ostringstream                             ss;
-    ss << i + 1;
-    std::string s = ss.str();
-    writer->SetFileName(outputFilename + "_1" + s + ".nrrd");
-    writer->SetInput(indexSelectionFilter->GetOutput());
-
-    TRY_EXPECT_NO_EXCEPTION(writer->Update());
-  }
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

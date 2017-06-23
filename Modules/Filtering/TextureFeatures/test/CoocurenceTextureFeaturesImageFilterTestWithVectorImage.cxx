@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToTextureFeaturesImageFilter.h"
+#include "itkCoocurenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
 #include "itkVectorImage.h"
@@ -25,7 +25,7 @@
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
+CoocurenceTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -60,10 +60,10 @@ ScalarImageToTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::ScalarImageToTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, ScalarImageToTextureFeaturesImageFilter, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(filter, CoocurenceTextureFeaturesImageFilter, ImageToImageFilter);
 
 
   filter->SetInput(reader->GetOutput());

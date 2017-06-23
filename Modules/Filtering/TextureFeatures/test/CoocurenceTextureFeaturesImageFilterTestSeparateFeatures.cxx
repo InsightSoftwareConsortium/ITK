@@ -15,20 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToTextureFeaturesImageFilter.h"
+#include "itkCoocurenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkImageAlgorithm.h"
+#include "itkVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
-#include "itkVectorImageToImageAdaptor.h"
-#include "itkNthElementImageAdaptor.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, char * argv[])
+CoocurenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -47,11 +45,12 @@ ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc,
   const unsigned int VectorComponentDimension = 8;
 
   // Declare types
-  typedef int   InputPixelType;
-  typedef float OutputPixelType;
+  typedef int                                                             InputPixelType;
+  typedef float                                                           OutputPixelComponentType;
+  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
-  typedef itk::VectorImage<OutputPixelType, ImageDimension>                                     OutputImageType;
+  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
@@ -63,8 +62,9 @@ ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc,
   ReaderType::Pointer maskReader = ReaderType::New();
   maskReader->SetFileName(argv[2]);
 
+
   // Create the filter
-  typedef itk::Statistics::ScalarImageToTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
@@ -75,9 +75,9 @@ ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc,
     unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType pixelValueMin = std::atof(argv[5]);
-    FilterType::PixelType pixelValueMax = std::atof(argv[6]);
-    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+    FilterType::PixelType min = std::atof(argv[5]);
+    FilterType::PixelType max = std::atof(argv[6]);
+    filter->SetPixelValueMinMax(min, max);
 
     NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
     NeighborhoodType                hood;
@@ -88,7 +88,7 @@ ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc,
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
-  typedef itk::Image<OutputPixelType, ImageDimension>                                 FeatureImageType;
+  typedef itk::Image<OutputPixelComponentType, ImageDimension>                        FeatureImageType;
   typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
   IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
   indexSelectionFilter->SetInput(filter->GetOutput());
@@ -97,7 +97,7 @@ ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc,
   {
     indexSelectionFilter->SetIndex(i);
 
-    // Create and setup a writer
+    // Create and set up a writer
     typedef itk::ImageFileWriter<FeatureImageType> WriterType;
     WriterType::Pointer                            writer = WriterType::New();
     std::string                                    outputFilename = argv[3];
