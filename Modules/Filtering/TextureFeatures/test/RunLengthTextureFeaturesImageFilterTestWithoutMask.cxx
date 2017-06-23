@@ -15,24 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToRunLengthFeaturesImageFilter.h"
+#include "itkRunLengthTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
-#include "itkVectorIndexSelectionCastImageFilter.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
+RunLengthTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc < 3)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " inputImageFile"
-              << " maskImageFile"
               << " outputImageFile"
               << " [numberOfBinsPerAxis]"
               << " [pixelValueMin]"
@@ -56,36 +54,31 @@ ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures(int argc, char * a
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
-
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
+  std::string         inputFilename = argv[1];
   reader->SetFileName(argv[1]);
 
-  // Create and set up a maskReader
-  ReaderType::Pointer maskReader = ReaderType::New();
-  maskReader->SetFileName(argv[2]);
-
   // Create the filter
-  typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
-  filter->SetMaskImage(maskReader->GetOutput());
 
-  if (argc >= 5)
+  if (argc >= 4)
   {
-    unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
+    unsigned int numberOfBinsPerAxis = std::atoi(argv[3]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType pixelValueMin = std::atof(argv[5]);
-    FilterType::PixelType pixelValueMax = std::atof(argv[6]);
+    FilterType::PixelType pixelValueMin = std::atof(argv[4]);
+    FilterType::PixelType pixelValueMax = std::atof(argv[5]);
     filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
 
-    FilterType::RealType minDistance = std::atof(argv[7]);
-    FilterType::RealType maxDistance = std::atof(argv[8]);
+    FilterType::RealType minDistance = std::atof(argv[6]);
+    FilterType::RealType maxDistance = std::atof(argv[7]);
     filter->SetDistanceValueMinMax(minDistance, maxDistance);
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[8]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
@@ -93,28 +86,13 @@ ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures(int argc, char * a
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
+  // Create and set up a writer
+  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  WriterType::Pointer                           writer = WriterType::New();
+  writer->SetFileName(argv[2]);
+  writer->SetInput(filter->GetOutput());
 
-  typedef itk::Image<OutputPixelComponentType, ImageDimension>                        FeatureImageType;
-  typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
-  IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
-  indexSelectionFilter->SetInput(filter->GetOutput());
-
-  for (unsigned int i = 0; i < VectorComponentDimension; i++)
-  {
-    indexSelectionFilter->SetIndex(i);
-
-    // Create and set up a writer
-    typedef itk::ImageFileWriter<FeatureImageType> WriterType;
-    WriterType::Pointer                            writer = WriterType::New();
-    std::string                                    outputFilename = argv[3];
-    std::ostringstream                             ss;
-    ss << i;
-    std::string s = ss.str();
-    writer->SetFileName(outputFilename + "_" + s + ".nrrd");
-    writer->SetInput(indexSelectionFilter->GetOutput());
-
-    TRY_EXPECT_NO_EXCEPTION(writer->Update());
-  }
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

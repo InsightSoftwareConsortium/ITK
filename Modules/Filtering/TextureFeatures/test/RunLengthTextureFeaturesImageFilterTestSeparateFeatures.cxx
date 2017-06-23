@@ -15,20 +15,18 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToRunLengthFeaturesImageFilter.h"
+#include "itkRunLengthTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkImageAlgorithm.h"
+#include "itkVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
-#include "itkVectorImageToImageAdaptor.h"
-#include "itkNthElementImageAdaptor.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, char * argv[])
+RunLengthTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -58,6 +56,7 @@ ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures(int arg
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
+
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
@@ -67,7 +66,7 @@ ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures(int arg
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());

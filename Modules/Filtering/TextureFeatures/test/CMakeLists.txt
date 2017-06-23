@@ -7,12 +7,12 @@ set(ITK_TEST_DRIVER itkTestDriver)
 
 set(
   TextureFeaturesTests
-  ScalarImageToRunLengthFeaturesImageFilterInstantiationTest.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTest.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage.cxx
-  ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
+  RunLengthTextureFeaturesImageFilterInstantiationTest.cxx
+  RunLengthTextureFeaturesImageFilterTest.cxx
+  RunLengthTextureFeaturesImageFilterTestSeparateFeatures.cxx
+  RunLengthTextureFeaturesImageFilterTestWithoutMask.cxx
+  RunLengthTextureFeaturesImageFilterTestWithVectorImage.cxx
+  RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
   CoocurenceTextureFeaturesImageFilterInstantiationTest.cxx
   CoocurenceTextureFeaturesImageFilterTest.cxx
   CoocurenceTextureFeaturesImageFilterTestSeparateFeatures.cxx
@@ -26,22 +26,22 @@ set(TestOutput ${ITK_TEST_OUTPUT_DIR})
 createtestdriver(TextureFeatures "${TextureFeatures-Test_LIBRARIES}" "${TextureFeaturesTests}")
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterInstantiationTest
+  NAME RunLengthTextureFeaturesImageFilterInstantiationTest
   COMMAND
     TextureFeaturesTestDriver
-    ScalarImageToRunLengthFeaturesImageFilterInstantiationTest
+    RunLengthTextureFeaturesImageFilterInstantiationTest
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask1
+  NAME RunLengthTextureFeaturesImageFilterTestWithoutMask1
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultTestWithoutMask1.nrrd}
     ${TEMP}/resultTestWithoutMask1.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask
+    RunLengthTextureFeaturesImageFilterTestWithoutMask
     DATA{Input/Scan_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultTestWithoutMask1.nrrd
     10
@@ -53,13 +53,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask2
+  NAME RunLengthTextureFeaturesImageFilterTestWithoutMask2
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultTestWithoutMask2.nrrd}
     ${TEMP}/resultTestWithoutMask2.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask
+    RunLengthTextureFeaturesImageFilterTestWithoutMask
     DATA{Input/Scan_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultTestWithoutMask2.nrrd
     10
@@ -71,13 +71,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask3
+  NAME RunLengthTextureFeaturesImageFilterTestWithoutMask3
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultTestWithoutMask3.nrrd}
     ${TEMP}/resultTestWithoutMask3.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTestWithoutMask
+    RunLengthTextureFeaturesImageFilterTestWithoutMask
     DATA{Input/Scan_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultTestWithoutMask3.nrrd
     10
@@ -89,13 +89,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterVectorlImage1
+  NAME RunLengthTextureFeaturesImageFilterVectorlImage1
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultPartialImage1.nrrd}
     ${TEMP}/resultVectorImage1.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage
+    RunLengthTextureFeaturesImageFilterTestWithVectorImage
     DATA{Input/Scan_CBCT_13R_D1_crop.nrrd}
     DATA{Input/SegmC_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultVectorImage1.nrrd
@@ -108,13 +108,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterVectorImage2
+  NAME RunLengthTextureFeaturesImageFilterVectorImage2
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultPartialImage2.nrrd}
     ${TEMP}/resultVectorImage2.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage
+    RunLengthTextureFeaturesImageFilterTestWithVectorImage
     DATA{Input/Scan_CBCT_13R_D1_crop.nrrd}
     DATA{Input/SegmC_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultVectorImage2.nrrd
@@ -127,13 +127,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterPartialImage1
+  NAME RunLengthTextureFeaturesImageFilterPartialImage1
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultPartialImage1.nrrd}
     ${TEMP}/resultPartialImage1.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTest
+    RunLengthTextureFeaturesImageFilterTest
     DATA{Input/Scan_CBCT_13R_D1_crop.nrrd}
     DATA{Input/SegmC_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultPartialImage1.nrrd
@@ -146,13 +146,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterPartialImage2
+  NAME RunLengthTextureFeaturesImageFilterPartialImage2
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultPartialImage2.nrrd}
     ${TEMP}/resultPartialImage2.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTest
+    RunLengthTextureFeaturesImageFilterTest
     DATA{Input/Scan_CBCT_13R_D1_crop.nrrd}
     DATA{Input/SegmC_CBCT_13R_D1_crop.nrrd}
     ${TEMP}/resultPartialImage2.nrrd
@@ -165,13 +165,13 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterTestWholeImage
+  NAME RunLengthTextureFeaturesImageFilterTestWholeImage
   COMMAND
     TextureFeaturesTestDriver
     --compare
     DATA{Baseline/resultWholeImage.nrrd}
     ${TEMP}/resultWholeImage.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTest
+    RunLengthTextureFeaturesImageFilterTest
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
     ${TEMP}/resultWholeImage.nrrd
@@ -184,7 +184,7 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures
+  NAME RunLengthTextureFeaturesImageFilterTestSeparateFeatures
   COMMAND
     TextureFeaturesTestDriver
     --compare
@@ -217,7 +217,7 @@ itk_add_test(
     --compare
     DATA{Baseline/resultSeparateFeatures_0.nrrd}
     ${TEMP}/resultSeparateFeatures_0.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTestSeparateFeatures
+    RunLengthTextureFeaturesImageFilterTestSeparateFeatures
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
     ${TEMP}/resultSeparateFeatures
@@ -230,7 +230,7 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures
+  NAME RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures
   COMMAND
     TextureFeaturesTestDriver
     --compare
@@ -263,7 +263,7 @@ itk_add_test(
     --compare
     DATA{Baseline/resultSeparateFeatures_0.nrrd}
     ${TEMP}/resultVectorImageSeparateFeatures_0.nrrd
-    ScalarImageToRunLengthFeaturesImageFilterTestVectorImageSeparateFeatures
+    RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
     ${TEMP}/resultVectorImageSeparateFeatures

@@ -15,21 +15,30 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToRunLengthFeaturesImageFilter.h"
+#include "itkRunLengthTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkNeighborhood.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToRunLengthFeaturesImageFilterInstantiationTest(int argc, char * argv[])
+RunLengthTextureFeaturesImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " inputImageFile"
-              << " maskImageFile" << std::endl;
+              << " maskImageFile"
+              << " outputImageFile"
+              << " [numberOfBinsPerAxis]"
+              << " [pixelValueMin]"
+              << " [pixelValueMax]"
+              << " [minDistance]"
+              << " [maxDistance]"
+              << " [neighborhoodRadius]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -46,7 +55,6 @@ ScalarImageToRunLengthFeaturesImageFilterInstantiationTest(int argc, char * argv
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
-
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
@@ -56,55 +64,51 @@ ScalarImageToRunLengthFeaturesImageFilterInstantiationTest(int argc, char * argv
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
 
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, ScalarImageToRunLengthFeaturesImageFilter, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(filter, RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
 
 
   filter->SetInput(reader->GetOutput());
-
   filter->SetMaskImage(maskReader->GetOutput());
   TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
 
-  unsigned int numberOfBinsPerAxis = 15;
-  filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
-  TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
+  if (argc >= 5)
+  {
+    unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
+    filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
+    TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
 
-  FilterType::PixelType pixelValueMin = -62;
-  FilterType::PixelType pixelValueMax = 2456;
-  filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
-  TEST_SET_GET_VALUE(pixelValueMin, filter->GetMin());
-  TEST_SET_GET_VALUE(pixelValueMax, filter->GetMax());
+    FilterType::PixelType pixelValueMin = std::atof(argv[5]);
+    FilterType::PixelType pixelValueMax = std::atof(argv[6]);
+    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+    TEST_SET_GET_VALUE(pixelValueMin, filter->GetMin());
+    TEST_SET_GET_VALUE(pixelValueMax, filter->GetMax());
 
-  FilterType::RealType minDistance = 0.15;
-  FilterType::RealType maxDistance = 1.5;
-  filter->SetDistanceValueMinMax(minDistance, maxDistance);
-  TEST_SET_GET_VALUE(minDistance, filter->GetMinDistance());
-  TEST_SET_GET_VALUE(maxDistance, filter->GetMaxDistance());
+    FilterType::RealType minDistance = std::atof(argv[7]);
+    FilterType::RealType maxDistance = std::atof(argv[8]);
+    filter->SetDistanceValueMinMax(minDistance, maxDistance);
+    TEST_SET_GET_VALUE(minDistance, filter->GetMinDistance());
+    TEST_SET_GET_VALUE(maxDistance, filter->GetMaxDistance());
 
-  NeighborhoodType::SizeValueType neighborhoodRadius = 3;
-  NeighborhoodType                hood;
-  hood.SetRadius(neighborhoodRadius);
-  filter->SetNeighborhoodRadius(hood.GetRadius());
-  TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
-
-  FilterType::PixelType insidePixelValue = 0;
-  filter->SetInsidePixelValue(insidePixelValue);
-  TEST_SET_GET_VALUE(insidePixelValue, filter->GetInsidePixelValue());
-
-  FilterType::OffsetType            offset = { { -1, 0, 1 } };
-  FilterType::OffsetVector::Pointer offsetVector = FilterType::OffsetVector::New();
-  offsetVector->push_back(offset);
-  filter->SetOffsets(offsetVector);
-  TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
-
-  filter->SetOffsets(offsetVector);
-  TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
-
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
+    NeighborhoodType                hood;
+    hood.SetRadius(neighborhoodRadius);
+    filter->SetNeighborhoodRadius(hood.GetRadius());
+    TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
+  }
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+  // Create and set up a writer
+  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  WriterType::Pointer                           writer = WriterType::New();
+  writer->SetFileName(argv[3]);
+  writer->SetInput(filter->GetOutput());
+
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

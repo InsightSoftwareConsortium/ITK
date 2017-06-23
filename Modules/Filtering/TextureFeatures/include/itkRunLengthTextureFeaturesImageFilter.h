@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkScalarImageToRunLengthFeaturesImageFilter_h
-#define itkScalarImageToRunLengthFeaturesImageFilter_h
+#ifndef itkRunLengthTextureFeaturesImageFilter_h
+#define itkRunLengthTextureFeaturesImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkScalarImageToRunLengthMatrixFilter.h"
@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ScalarImageToRunLengthFeaturesImageFilter
+/** \class RunLengthTextureFeaturesImageFilter
  *  \brief This class computes run length features for each voxel of
  *  a given image and a mask image if provided. The output image can then be
  *  displayed by using colormaps.
@@ -92,18 +92,17 @@ namespace Statistics
  */
 
 template <typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT ScalarImageToRunLengthFeaturesImageFilter
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT RunLengthTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard typedefs */
-  typedef ScalarImageToRunLengthFeaturesImageFilter     Self;
+  typedef RunLengthTextureFeaturesImageFilter           Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarImageToRunLengthFeaturesImageFilter, ImageToImageFilter);
+  itkTypeMacro(RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
 
   /** standard New() method support */
   itkNewMacro(Self);
@@ -227,8 +226,8 @@ public:
 #endif
 
 protected:
-  ScalarImageToRunLengthFeaturesImageFilter();
-  virtual ~ScalarImageToRunLengthFeaturesImageFilter() {}
+  RunLengthTextureFeaturesImageFilter();
+  virtual ~RunLengthTextureFeaturesImageFilter() {}
 
   void
   NormalizeOffsetDirection(OffsetType & offset);
@@ -271,7 +270,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkScalarImageToRunLengthFeaturesImageFilter.hxx"
+#  include "itkRunLengthTextureFeaturesImageFilter.hxx"
 #endif
 
 #endif

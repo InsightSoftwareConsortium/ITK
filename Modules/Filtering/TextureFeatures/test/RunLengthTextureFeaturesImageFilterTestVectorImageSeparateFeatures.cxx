@@ -15,17 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToRunLengthFeaturesImageFilter.h"
+#include "itkRunLengthTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkVectorImage.h"
+#include "itkImageAlgorithm.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
+#include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkVectorImageToImageAdaptor.h"
+#include "itkNthElementImageAdaptor.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
+RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -43,13 +46,15 @@ ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * ar
   }
 
   const unsigned int ImageDimension = 3;
+  const unsigned int VectorComponentDimension = 10;
 
   // Declare types
-  typedef int   InputPixelType;
-  typedef float OutputPixelType;
+  typedef int                                                             InputPixelType;
+  typedef float                                                           OutputPixelComponentType;
+  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
-  typedef itk::VectorImage<OutputPixelType, ImageDimension>                                     OutputImageType;
+  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
@@ -62,11 +67,8 @@ ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * ar
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-
-  EXERCISE_BASIC_OBJECT_METHODS(filter, ScalarImageToRunLengthFeaturesImageFilter, ImageToImageFilter);
-
 
   filter->SetInput(reader->GetOutput());
   filter->SetMaskImage(maskReader->GetOutput());
@@ -92,13 +94,28 @@ ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * ar
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  // Create and set up a writer
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer = WriterType::New();
-  writer->SetFileName(argv[3]);
-  writer->SetInput(filter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  typedef itk::Image<OutputPixelComponentType, ImageDimension>                        FeatureImageType;
+  typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
+  IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
+  indexSelectionFilter->SetInput(filter->GetOutput());
+
+  for (unsigned int i = 0; i < VectorComponentDimension; i++)
+  {
+    indexSelectionFilter->SetIndex(i);
+
+    // Create and set up a writer
+    typedef itk::ImageFileWriter<FeatureImageType> WriterType;
+    WriterType::Pointer                            writer = WriterType::New();
+    std::string                                    outputFilename = argv[3];
+    std::ostringstream                             ss;
+    ss << i;
+    std::string s = ss.str();
+    writer->SetFileName(outputFilename + "_" + s + ".nrrd");
+    writer->SetInput(indexSelectionFilter->GetOutput());
+
+    TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  }
 
 
   std::cout << "Test finished." << std::endl;
