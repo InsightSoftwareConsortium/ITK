@@ -69,15 +69,6 @@ include_directories(
 # Where Google Test's libraries can be found.
 link_directories(${gtest_BINARY_DIR}/src)
 
-# Summary of tuple support for Microsoft Visual Studio:
-# Compiler    version(MS)  version(cmake)  Support
-# ----------  -----------  --------------  -----------------------------
-# <= VS 2010  <= 10        <= 1600         Use Google Tests's own tuple.
-# VS 2012     11           1700            std::tr1::tuple + _VARIADIC_MAX=10
-# VS 2013     12           1800            std::tr1::tuple
-if (MSVC AND MSVC_VERSION EQUAL 1700)
-  add_definitions(/D _VARIADIC_MAX=10)
-endif()
 
 ########################################################################
 #
@@ -97,6 +88,18 @@ target_link_libraries(gtest_main gtest)
 if (DEFINED CMAKE_VERSION AND NOT "${CMAKE_VERSION}" VERSION_LESS "2.8.11")
   target_include_directories(gtest      INTERFACE "${gtest_SOURCE_DIR}/include")
   target_include_directories(gtest_main INTERFACE "${gtest_SOURCE_DIR}/include")
+endif()
+
+# Summary of tuple support for Microsoft Visual Studio:
+# Compiler    version(MS)  version(cmake)  Support
+# ----------  -----------  --------------  -----------------------------
+# <= VS 2010  <= 10        <= 1600         Use Google Tests's own tuple.
+# VS 2012     11           1700            std::tr1::tuple + _VARIADIC_MAX=10
+# VS 2013     12           1800            std::tr1::tuple
+if (MSVC AND MSVC_VERSION EQUAL 1700)
+  target_compile_definitions(gtest
+    PUBLIC _VARIADIC_MAX=10
+    PRIVATE _VARIADIC_MAX=10)
 endif()
 
 ########################################################################
