@@ -101,6 +101,7 @@ else()
       if(NOT CMAKE_CROSSCOMPILING)
         set(pcre_env
           env
+            "AR=${CMAKE_AR}"
             "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
             "CFLAGS=${CMAKE_C_FLAGS} ${CMAKE_C_FLAGS_RELEASE} -w"
             "LDFLAGS=$ENV{LDFLAGS}"
