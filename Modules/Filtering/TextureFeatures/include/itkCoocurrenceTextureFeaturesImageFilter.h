@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkCoocurenceTextureFeaturesImageFilter_h
-#define itkCoocurenceTextureFeaturesImageFilter_h
+#ifndef itkCoocurrenceTextureFeaturesImageFilter_h
+#define itkCoocurrenceTextureFeaturesImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkScalarImageToRunLengthMatrixFilter.h"
@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class CoocurenceTextureFeaturesImageFilter
+/** \class CoocurrenceTextureFeaturesImageFilter
  *  \brief This class computes texture descriptions for each voxel of
  *  a given image and a mask image if provided. The output image can then be
  *  displayed by using colormaps.
@@ -83,17 +83,17 @@ namespace Statistics
  **/
 
 template <typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT CoocurenceTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT CoocurrenceTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard typedefs */
-  typedef CoocurenceTextureFeaturesImageFilter          Self;
+  typedef CoocurrenceTextureFeaturesImageFilter         Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CoocurenceTextureFeaturesImageFilter, ImageToImageFilter);
+  itkTypeMacro(CoocurrenceTextureFeaturesImageFilter, ImageToImageFilter);
 
   /** standard New() method support */
   itkNewMacro(Self);
@@ -206,8 +206,8 @@ public:
 #endif
 
 protected:
-  CoocurenceTextureFeaturesImageFilter();
-  virtual ~CoocurenceTextureFeaturesImageFilter() {}
+  CoocurrenceTextureFeaturesImageFilter();
+  virtual ~CoocurrenceTextureFeaturesImageFilter() {}
 
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);
@@ -248,7 +248,7 @@ private:
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkCoocurenceTextureFeaturesImageFilter.hxx"
+#  include "itkCoocurrenceTextureFeaturesImageFilter.hxx"
 #endif
 
 #endif

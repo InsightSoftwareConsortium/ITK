@@ -15,23 +15,22 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkCoocurenceTextureFeaturesImageFilter.h"
+#include "itkCoocurrenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkVectorImage.h"
+#include "itkVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
 #include "itkTestingMacros.h"
 
 int
-CoocurenceTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
+CoocurrenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc < 3)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " inputImageFile"
-              << " maskImageFile"
               << " outputImageFile"
               << " [numberOfBinsPerAxis]"
               << " [pixelValueMin]"
@@ -41,13 +40,15 @@ CoocurenceTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
   }
 
   const unsigned int ImageDimension = 3;
+  const unsigned int VectorComponentDimension = 8;
 
   // Declare types
-  typedef int   InputPixelType;
-  typedef float OutputPixelType;
+  typedef int                                                             InputPixelType;
+  typedef float                                                           OutputPixelComponentType;
+  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
-  typedef itk::VectorImage<OutputPixelType, ImageDimension>                                     OutputImageType;
+  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
@@ -55,30 +56,22 @@ CoocurenceTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  // Create and set up a maskReader
-  ReaderType::Pointer maskReader = ReaderType::New();
-  maskReader->SetFileName(argv[2]);
-
   // Create the filter
-  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, CoocurenceTextureFeaturesImageFilter, ImageToImageFilter);
-
-
   filter->SetInput(reader->GetOutput());
-  filter->SetMaskImage(maskReader->GetOutput());
 
-  if (argc >= 5)
+  if (argc >= 4)
   {
-    unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
+    unsigned int numberOfBinsPerAxis = std::atoi(argv[3]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType pixelValueMin = std::atof(argv[5]);
-    FilterType::PixelType pixelValueMax = std::atof(argv[6]);
+    FilterType::PixelType pixelValueMin = std::atof(argv[4]);
+    FilterType::PixelType pixelValueMax = std::atof(argv[5]);
     filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[6]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
@@ -89,7 +82,7 @@ CoocurenceTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
   // Create and set up a writer
   typedef itk::ImageFileWriter<OutputImageType> WriterType;
   WriterType::Pointer                           writer = WriterType::New();
-  writer->SetFileName(argv[3]);
+  writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());
 
   TRY_EXPECT_NO_EXCEPTION(writer->Update());

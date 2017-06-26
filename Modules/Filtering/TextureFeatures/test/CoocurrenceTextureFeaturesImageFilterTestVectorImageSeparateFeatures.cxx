@@ -15,23 +15,31 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkCoocurenceTextureFeaturesImageFilter.h"
+#include "itkCoocurrenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkVector.h"
+#include "itkImageAlgorithm.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
+#include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkVectorImageToImageAdaptor.h"
+#include "itkNthElementImageAdaptor.h"
 #include "itkTestingMacros.h"
 
 int
-CoocurenceTextureFeaturesImageFilterTest(int argc, char * argv[])
+CoocurrenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " inputImageFile"
-              << " maskImageFile" << std::endl;
+              << " maskImageFile"
+              << " outputImageFile"
+              << " [numberOfBinsPerAxis]"
+              << " [pixelValueMin]"
+              << " [pixelValueMax]"
+              << " [neighborhoodRadius]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -39,12 +47,11 @@ CoocurenceTextureFeaturesImageFilterTest(int argc, char * argv[])
   const unsigned int VectorComponentDimension = 8;
 
   // Declare types
-  typedef int                                                             InputPixelType;
-  typedef float                                                           OutputPixelComponentType;
-  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
+  typedef int   InputPixelType;
+  typedef float OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
+  typedef itk::VectorImage<OutputPixelType, ImageDimension>                                     OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
@@ -57,7 +64,7 @@ CoocurenceTextureFeaturesImageFilterTest(int argc, char * argv[])
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
@@ -80,13 +87,28 @@ CoocurenceTextureFeaturesImageFilterTest(int argc, char * argv[])
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  // Create and set up a writer
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer = WriterType::New();
-  writer->SetFileName(argv[3]);
-  writer->SetInput(filter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  typedef itk::Image<OutputPixelType, ImageDimension>                                 FeatureImageType;
+  typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
+  IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
+  indexSelectionFilter->SetInput(filter->GetOutput());
+
+  for (unsigned int i = 0; i < VectorComponentDimension; i++)
+  {
+    indexSelectionFilter->SetIndex(i);
+
+    // Create and setup a writer
+    typedef itk::ImageFileWriter<FeatureImageType> WriterType;
+    WriterType::Pointer                            writer = WriterType::New();
+    std::string                                    outputFilename = argv[3];
+    std::ostringstream                             ss;
+    ss << i + 1;
+    std::string s = ss.str();
+    writer->SetFileName(outputFilename + "_1" + s + ".nrrd");
+    writer->SetInput(indexSelectionFilter->GetOutput());
+
+    TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  }
 
 
   std::cout << "Test finished." << std::endl;

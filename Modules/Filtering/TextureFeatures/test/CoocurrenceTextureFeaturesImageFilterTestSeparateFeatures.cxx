@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkCoocurenceTextureFeaturesImageFilter.h"
+#include "itkCoocurrenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
@@ -26,7 +26,7 @@
 #include "itkTestingMacros.h"
 
 int
-CoocurenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
+CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -64,7 +64,7 @@ CoocurenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[]
 
 
   // Create the filter
-  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());

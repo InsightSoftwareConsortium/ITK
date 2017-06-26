@@ -2,7 +2,7 @@ itk_wrap_module(TextureFeatures)
 
 set(
   WRAPPER_SUBMODULE_ORDER
-  itkCoocurenceTextureFeaturesImageFilter
+  itkCoocurrenceTextureFeaturesImageFilter
   itkRunLengthTextureFeaturesImageFilter
 )
 

@@ -15,27 +15,21 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkCoocurenceTextureFeaturesImageFilter.h"
+#include "itkCoocurrenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageFileReader.h"
-#include "itkImageFileWriter.h"
-#include "itkNeighborhood.h"
 #include "itkTestingMacros.h"
 
 int
-CoocurenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
+CoocurrenceTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " inputImageFile"
-              << " outputImageFile"
-              << " [numberOfBinsPerAxis]"
-              << " [pixelValueMin]"
-              << " [pixelValueMax]"
-              << " [neighborhoodRadius]" << std::endl;
+              << " maskImageFile" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -52,40 +46,60 @@ CoocurenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
+
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
+  std::string         inputFilename = argv[1];
   reader->SetFileName(argv[1]);
 
+  // Create and set up a maskReader
+  ReaderType::Pointer maskReader = ReaderType::New();
+  maskReader->SetFileName(argv[2]);
+
   // Create the filter
-  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(filter, CoocurrenceTextureFeaturesImageFilter, ImageToImageFilter);
+
 
   filter->SetInput(reader->GetOutput());
 
-  if (argc >= 4)
-  {
-    unsigned int numberOfBinsPerAxis = std::atoi(argv[3]);
-    filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
+  filter->SetMaskImage(maskReader->GetOutput());
+  TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
 
-    FilterType::PixelType pixelValueMin = std::atof(argv[4]);
-    FilterType::PixelType pixelValueMax = std::atof(argv[5]);
-    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+  unsigned int numberOfBinsPerAxis = 15;
+  filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
+  TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[6]);
-    NeighborhoodType                hood;
-    hood.SetRadius(neighborhoodRadius);
-    filter->SetNeighborhoodRadius(hood.GetRadius());
-  }
+
+  FilterType::PixelType min = -62;
+  FilterType::PixelType max = 2456;
+  filter->SetPixelValueMinMax(min, max);
+  TEST_SET_GET_VALUE(min, filter->GetMin());
+  TEST_SET_GET_VALUE(max, filter->GetMax());
+
+  NeighborhoodType::SizeValueType neighborhoodRadius = 3;
+  NeighborhoodType                hood;
+  hood.SetRadius(neighborhoodRadius);
+  filter->SetNeighborhoodRadius(hood.GetRadius());
+  TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
+
+  FilterType::PixelType insidePixelValue = 0;
+  filter->SetInsidePixelValue(insidePixelValue);
+  TEST_SET_GET_VALUE(insidePixelValue, filter->GetInsidePixelValue());
+
+  FilterType::OffsetType            offset = { { -1, 0, 1 } };
+  FilterType::OffsetVector::Pointer offsetVector = FilterType::OffsetVector::New();
+  offsetVector->push_back(offset);
+  filter->SetOffsets(offsetVector);
+  TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
+
+  filter->SetOffsets(offsetVector);
+  TEST_SET_GET_VALUE(offsetVector, filter->GetOffsets());
+
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
-
-  // Create and set up a writer
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer = WriterType::New();
-  writer->SetFileName(argv[2]);
-  writer->SetInput(filter->GetOutput());
-
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

@@ -15,20 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkCoocurenceTextureFeaturesImageFilter.h"
+#include "itkCoocurrenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkImageAlgorithm.h"
+#include "itkVectorImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
-#include "itkVectorIndexSelectionCastImageFilter.h"
-#include "itkVectorImageToImageAdaptor.h"
-#include "itkNthElementImageAdaptor.h"
 #include "itkTestingMacros.h"
 
 int
-CoocurenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, char * argv[])
+CoocurrenceTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -44,7 +41,6 @@ CoocurenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, ch
   }
 
   const unsigned int ImageDimension = 3;
-  const unsigned int VectorComponentDimension = 8;
 
   // Declare types
   typedef int   InputPixelType;
@@ -64,8 +60,11 @@ CoocurenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, ch
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::CoocurenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(filter, CoocurrenceTextureFeaturesImageFilter, ImageToImageFilter);
+
 
   filter->SetInput(reader->GetOutput());
   filter->SetMaskImage(maskReader->GetOutput());
@@ -87,28 +86,13 @@ CoocurenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, ch
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
+  // Create and set up a writer
+  typedef itk::ImageFileWriter<OutputImageType> WriterType;
+  WriterType::Pointer                           writer = WriterType::New();
+  writer->SetFileName(argv[3]);
+  writer->SetInput(filter->GetOutput());
 
-  typedef itk::Image<OutputPixelType, ImageDimension>                                 FeatureImageType;
-  typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
-  IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
-  indexSelectionFilter->SetInput(filter->GetOutput());
-
-  for (unsigned int i = 0; i < VectorComponentDimension; i++)
-  {
-    indexSelectionFilter->SetIndex(i);
-
-    // Create and setup a writer
-    typedef itk::ImageFileWriter<FeatureImageType> WriterType;
-    WriterType::Pointer                            writer = WriterType::New();
-    std::string                                    outputFilename = argv[3];
-    std::ostringstream                             ss;
-    ss << i + 1;
-    std::string s = ss.str();
-    writer->SetFileName(outputFilename + "_1" + s + ".nrrd");
-    writer->SetInput(indexSelectionFilter->GetOutput());
-
-    TRY_EXPECT_NO_EXCEPTION(writer->Update());
-  }
+  TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test finished." << std::endl;

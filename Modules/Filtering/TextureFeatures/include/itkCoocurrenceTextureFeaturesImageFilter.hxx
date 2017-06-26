@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkCoocurenceTextureFeaturesImageFilter_hxx
-#define itkCoocurenceTextureFeaturesImageFilter_hxx
+#ifndef itkCoocurrenceTextureFeaturesImageFilter_hxx
+#define itkCoocurrenceTextureFeaturesImageFilter_hxx
 
-#include "itkCoocurenceTextureFeaturesImageFilter.h"
+#include "itkCoocurrenceTextureFeaturesImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 
@@ -27,7 +27,7 @@ namespace itk
 namespace Statistics
 {
 template <typename TInputImage, typename TOutputImage>
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::CoocurenceTextureFeaturesImageFilter()
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::CoocurrenceTextureFeaturesImageFilter()
   : m_NumberOfBinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis))
   , m_Min(NumericTraits<PixelType>::NonpositiveMin())
   , m_Max(NumericTraits<PixelType>::max())
@@ -62,7 +62,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::CoocurenceTextu
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetOffset(const OffsetType offset)
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetOffset(const OffsetType offset)
 {
   OffsetVectorPointer offsetVector = OffsetVector::New();
   offsetVector->push_back(offset);
@@ -71,7 +71,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetOffset(const
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   InputImageType * maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
   this->m_DigitalisedInputImageg = InputImageType::New();
@@ -115,7 +115,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedG
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   const OutputRegionType & outputRegionForThread,
   ThreadIdType             threadId)
 {
@@ -241,7 +241,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerat
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::UpdateOutputInformation()
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::UpdateOutputInformation()
 {
   // Call superclass's version
   Superclass::UpdateOutputInformation();
@@ -255,7 +255,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::UpdateOutputInf
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetMaskImage(const InputImageType * image)
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetMaskImage(const InputImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(1, const_cast<InputImageType *>(image));
@@ -263,7 +263,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetMaskImage(co
 
 template <typename TInputImage, typename TOutputImage>
 const TInputImage *
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GetMaskImage() const
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GetMaskImage() const
 {
   if (this->GetNumberOfInputs() < 2)
   {
@@ -274,7 +274,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GetMaskImage() 
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetPixelValueMinMax(PixelType min, PixelType max)
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetPixelValueMinMax(PixelType min, PixelType max)
 {
   if (this->m_Min != min || this->m_Max != max)
   {
@@ -286,7 +286,8 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetPixelValueMi
 
 template <typename TInputImage, typename TOutputImage>
 bool
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighborhood(const OffsetType & iteratedOffset)
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighborhood(
+  const OffsetType & iteratedOffset)
 {
   bool insideNeighborhood = true;
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
@@ -303,7 +304,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighbo
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
   vnl_matrix<unsigned int> &         hist,
   const unsigned int &               totalNumberOfFreq,
   typename TOutputImage::PixelType & outputPixel)
@@ -376,7 +377,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAndVariances(
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAndVariances(
   vnl_matrix<unsigned int> & hist,
   const unsigned int &       totalNumberOfFreq,
   double &                   pixelMean,
@@ -453,7 +454,7 @@ CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAnd
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
 
   Superclass::PrintSelf(os, indent);
