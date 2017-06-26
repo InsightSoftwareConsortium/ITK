@@ -95,6 +95,19 @@ void
 ImageBase< VImageDimension >
 ::SetSpacing(const SpacingType & spacing)
 {
+  for ( unsigned int i = 0; i < VImageDimension; i++ )
+    {
+    if ( this->m_Spacing[i] < 0.0 )
+      {
+#if  defined(ITK_FUTURE_LEGACY_REMOVE)
+      itkExceptionMacro("Negative spacing is not allowed: Spacing is " << this->m_Spacing);
+#else
+      itkWarningMacro("Negative spacing is not supported and may result in undefined behavior. Spacing is " << this->m_Spacing);
+      break;
+#endif
+      }
+    }
+
   itkDebugMacro("setting Spacing to " << spacing);
   if ( this->m_Spacing != spacing )
     {
