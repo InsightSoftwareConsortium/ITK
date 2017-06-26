@@ -29,3 +29,8 @@ add_subdirectory( "${GTEST_SRC}"
 
 add_library(ITK::GTest ALIAS gtest)
 add_library(ITK::GTestMain ALIAS gtest_main)
+
+mark_as_advanced(gtest_build_samples)
+mark_as_advanced(gtest_build_tests)
+mark_as_advanced(gtest_disable_pthreads)
+mark_as_advanced(gtest_hide_internal_symbols)
