@@ -29,10 +29,17 @@ namespace itk
  * pixel.
  *
  * The output of this filter is a multi-component image where each
- * pixel is the mean, minimum, maximum, variance, standard deviation
- * (sigma), skewness, kurtosis, and entropy. These first order
- * statistics are computed based on a define neighborhood or kernel
- * which defaults to a hyper-cube.
+ * pixel is:
+ *   -# mean
+ *   -# minimum
+ *   -# maximum
+ *   -# variance
+ *   -# standard deviation (sigma)
+ *   -# skewness
+ *   -# kurtosis
+ *   -# entropy.
+ *  These first order statistics are computed based on a define
+ * neighborhood or kernel such as FlatStructuringElement::Box.
  *
  * The boundary is handle by only considering the pixel in the image,
  * so that the boundary pixel have lets data to compute the
