@@ -36,7 +36,7 @@ namespace itk
  *
  * \author Richard Beare
  * \author Gaetan Lehmann
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram >
@@ -72,7 +72,7 @@ public:
   typedef THistogram                                 HistogramType;
 
   /** Set the marker image */
-  void SetMaskImage(MaskImageType *input)
+  void SetMaskImage(const MaskImageType *input)
   {
     // Process object is not const-correct so the const casting is required.
     this->SetNthInput( 1, const_cast< TMaskImage * >( input ) );
@@ -85,13 +85,13 @@ public:
   }
 
   /** Set the input image */
-  void SetInput1(InputImageType *input)
+  void SetInput1(const InputImageType *input)
   {
     this->SetInput(input);
   }
 
   /** Set the marker image */
-  void SetInput2(MaskImageType *input)
+  void SetInput2(const MaskImageType *input)
   {
     this->SetMaskImage(input);
   }
@@ -136,7 +136,7 @@ public:
   void SetGenerateOutputMask(bool);
 
   itkGetConstMacro(GenerateOutputMask, bool);
-//   itkBooleanMacro(GenerateOutputMask);
+  itkBooleanMacro(GenerateOutputMask);
 
   /** ConfigurewHistogram can be used to configure the histogram. The default version just do nothing. */
   virtual void ConfigureHistogram(THistogram &) {}

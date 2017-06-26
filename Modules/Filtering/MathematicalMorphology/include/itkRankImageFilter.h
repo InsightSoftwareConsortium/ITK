@@ -59,8 +59,10 @@ namespace itk
  * http://www.insight-journal.org/browse/publication/160
  *
  *
+ * \sa MedianImageFilter
+ *
  * \author Richard Beare
- * \ingroup ITKReview
+ * \ingroup ITKMathematicalMorphology
  */
 
 template< typename TInputImage, typename TOutputImage, typename TKernel =
@@ -111,10 +113,10 @@ public:
   /** n-dimensional Kernel radius. */
   typedef typename KernelType::SizeType RadiusType;
 
-  itkSetMacro(Rank, float)
+  itkSetClampMacro(Rank, float, 0.0, 1.0);
   itkGetConstMacro(Rank, float)
 
-  bool GetUseVectorBasedAlgorithm()
+  bool GetUseVectorBasedAlgorithm() const
   {
     return HistogramType::UseVectorBasedAlgorithm();
   }
