@@ -511,3 +511,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/itkTextureFeatureImageFilterTest1.mha
     5
 )
+
+set(TextureFeaturesGTests itkFirstOrderTextureFeaturesImageFilterGTest.cxx)
+
+creategoogletestdriver(TextureFeatures "${TextureFeatures-Test_LIBRARIES}" "${TextureFeaturesGTests}")

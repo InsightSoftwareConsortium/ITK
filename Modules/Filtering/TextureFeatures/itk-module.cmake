@@ -15,12 +15,12 @@ itk_module(
     ITKStatistics
     ITKImageGrid
     ITKMathematicalMorphology
-  COMPILE_DEPENDS
-    ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
     ITKImageIntensity
+    ITKImageNoise
+    ITKGoogleTest
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
 )

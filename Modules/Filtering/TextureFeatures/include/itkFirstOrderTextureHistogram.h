@@ -90,7 +90,7 @@ public:
       curCount += i->second;
 
       const double p_x = double(i->second) / count;
-      entropy += -p_x * std::log(p_x);
+      entropy += -p_x * std::log(p_x) / itk::Math::ln2;
     }
 
     const double icount = 1.0 / count;
