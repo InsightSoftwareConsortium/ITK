@@ -338,10 +338,8 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
   ImageConstPointer inputPtr = this->GetInput();
   ImagePointer      outputPtr = this->GetOutput();
 
-  if (!inputPtr || !outputPtr)
-  {
-    return;
-  }
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != ITK_NULLPTR);
 
   // Compute the output spacing, the output image size, and the
   // output image start index
