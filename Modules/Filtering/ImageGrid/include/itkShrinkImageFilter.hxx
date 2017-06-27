@@ -201,11 +201,12 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
 
   // Get pointers to the input and output
-  InputImagePointer  inputPtr = const_cast< TInputImage * >( this->GetInput() );
-  OutputImagePointer outputPtr = this->GetOutput();
+  InputImageType * inputPtr =
+    const_cast< InputImageType * >( this->GetInput() );
+  const OutputImageType * outputPtr = this->GetOutput();
 
   itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != ITK_NULLPTR );
-  itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr );
 
   // Compute the input requested region (size and start index)
   // Use the image transformations to insure an input requested region
@@ -281,10 +282,10 @@ ShrinkImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  InputImageConstPointer inputPtr  = this->GetInput();
-  OutputImagePointer     outputPtr = this->GetOutput();
+  const InputImageType * inputPtr = this->GetInput();
+  OutputImageType * outputPtr = this->GetOutput();
 
-  itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr != ITK_NULLPTR );
+  itkAssertInDebugAndIgnoreInReleaseMacro( inputPtr );
   itkAssertInDebugAndIgnoreInReleaseMacro( outputPtr != ITK_NULLPTR );
 
   // Compute the output spacing, the output image size, and the
