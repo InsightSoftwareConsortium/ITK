@@ -49,10 +49,10 @@ namespace itk
  *   \le
  * \nu \lVert \nabla f(x) \rVert
  * \f]
- * The parameter $\nu$ is set through SetLinesearchAccuracy() (default 0.9)
+ * The parameter \f$\nu\f$ is set through SetLinesearchAccuracy() (default 0.9)
  * and SetGradientLinesearchAccuracy()
  *
- * Instae of the More-Tunete method, backtracking with three different
+ * Instead of the More-Tunete method, backtracking with three different
  * conditions [7] are availabe and can be set through SetLinesearch():
  *  - LINESEARCH_BACKTRACKING_ARMIJO
  *  - LINESEARCH_BACKTRACKING_WOLFE
@@ -63,7 +63,7 @@ namespace itk
  * \lVert \nabla f(x) \rVert \le \epsilon \max(1, \lVert X \rVert)
  * \f]
  * or a maximum number of function evaluations has been reached.
- * The tolerance $\epsilon$ is set through SetSolutionAccuracy()
+ * The tolerance \f$\epsilon\f$ is set through SetSolutionAccuracy()
  * (default 1e-5) and the maximum number of function evaluations is set
  * through SetMaximumIterations() (default 0 = no maximum).
  *
@@ -181,7 +181,7 @@ public:
   virtual void SetWeights(const ScalesType ) ITK_OVERRIDE;
   /**
   * Set/Get the number of corrections to approximate the inverse hessian matrix.
-  * The L-BFGS routine stores the computation results of previous \ref m
+  * The L-BFGS routine stores the computation results of previous \c m
   * iterations to approximate the inverse hessian matrix of the current
   * iteration. This parameter controls the size of the limited memories
   * (corrections). The default value is \c 6. Values less than \c 3 are
@@ -194,7 +194,7 @@ public:
   * Set/Get epsilon for convergence test.
   * This parameter determines the accuracy with which the solution is to
   * be found. A minimization terminates when
-  * ||g|| < \ref epsilon * max(1, ||x||),
+  * \f$||g|| < \epsilon * max(1, ||x||)\f$,
   * where ||.|| denotes the Euclidean (L2) norm. The default value is
   * \c 1e-5.
   */
@@ -216,8 +216,8 @@ public:
   * This parameter determines the minimum rate of decrease of the
   * objective function. The library stops iterations when the
   * following condition is met:
-  * (f' - f) / f < \ref delta,
-  * where f' is the objective value of \ref past iterations ago, and f is
+  * \f$(f' - f) / f < \delta\f$,
+  * where f' is the objective value of past iterations ago, and f is
   * the objective value of the current iteration.
   * The default value is \c 0.
   */
@@ -228,7 +228,7 @@ public:
   /**
    * The maximum number of iterations.
    *  The lbfgs() function terminates an optimization process with
-   *  ::LBFGSERR_MAXIMUMITERATION status code when the iteration count
+   *  \c LBFGSERR_MAXIMUMITERATION status code when the iteration count
    *  exceedes this parameter. Setting this parameter to zero continues an
    *  optimization process until a convergence or error. The default value
    *  is \c 0.
@@ -289,7 +289,7 @@ public:
    *  LINESEARCH_BACKTRACKING_STRONG_WOLFE or
    *  LINESEARCH_BACKTRACKING_WOLFE .
    *  The default value is \c 0.9. This parameter should be greater
-   *  than the \ref ftol parameter and smaller than \c 1.0.
+   *  than the \c ftol parameter and smaller than \c 1.0.
    */
   void SetWolfeCoefficient( PrecisionType wc );
   PrecisionType GetWolfeCoefficient() const;
@@ -303,7 +303,7 @@ public:
    * iteration (which is sometimes the case when solving very large
    * problems) it may be advantageous to set this parameter to a small
    * value. A typical small value is \c 0.1. This parameter shuold be
-   * greater than the \ref ftol parameter (\c 1e-4) and smaller than
+   * greater than the \c ftol parameter (\c 1e-4) and smaller than
    * \c 1.0.
    */
   void SetLinesearchGradientAccuracy( PrecisionType gtol );
@@ -313,7 +313,7 @@ public:
    * The machine precision for floating-point values.
    *  This parameter must be a positive value set by a client program to
    *  estimate the machine precision. The line search routine will terminate
-   *  with the status code (::LBFGSERR_ROUNDING_ERROR) if the relative width
+   *  with the status code (\c LBFGSERR_ROUNDING_ERROR) if the relative width
    *  of the interval of uncertainty is less than this parameter.
    */
   void SetMachinePrecisionTolerance(PrecisionType xtol);
@@ -325,7 +325,7 @@ public:
    *  problems. Setting this parameter to a positive value activates
    *  Orthant-Wise Limited-memory Quasi-Newton (OWL-QN) method, which
    *  minimizes the objective function F(x) combined with the L1 norm |x|
-   *  of the variables, {F(x) + C |x|}. This parameter is the coeefficient
+   *  of the variables, \f$F(x) + C |x|}. \f$. This parameter is the coefficient
    *  for the |x|, i.e., C. As the L1 norm |x| is not differentiable at
    *  zero, the library modifies function and gradient evaluations from
    *  a client program suitably; a client program thus have only to return
@@ -338,13 +338,15 @@ public:
   /**
    * Start index for computing L1 norm of the variables.
    *  This parameter is valid only for OWL-QN method
-   *  (i.e., \ref orthantwise_c != 0). This parameter b (0 <= b < N)
+   *  (i.e., \f$ orthantwise_c != 0 \f$). This parameter b (0 <= b < N)
    *  specifies the index number from which the library computes the
    *  L1 norm of the variables x,
+   *  \f[
    *      |x| := |x_{b}| + |x_{b+1}| + ... + |x_{N}| .
-   *  In other words, variables x_1, ..., x_{b-1} are not used for
-   *  computing the L1 norm. Setting b (0 < b < N), one can protect
-   *  variables, x_1, ..., x_{b-1} (e.g., a bias term of logistic
+   *  \f]
+   *  In other words, variables \f$x_1, ..., x_{b-1}\f$ are not used for
+   *  computing the L1 norm. Setting \c b, (0 < b < N), one can protect
+   *  variables, \f$x_1, ..., x_{b-1}\f$ (e.g., a bias term of logistic
    *  regression) from being regularized. The default value is zero.
    */
   void SetOrthantwiseStart(int start);
@@ -353,7 +355,7 @@ public:
   /**
    * End index for computing L1 norm of the variables.
    *  This parameter is valid only for OWL-QN method
-   *  (i.e., \ref orthantwise_c != 0). This parameter e (0 < e <= N)
+   *  (i.e., \f$ orthantwise_c != 0 \f$). This parameter \c e, (0 < e <= N)
    *  specifies the index number at which the library stops computing the
    *  L1 norm of the variables x,
    */
