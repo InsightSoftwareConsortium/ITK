@@ -438,7 +438,7 @@ itk_add_test(
     ${ITK_TEST_OUTPUT_DIR}/profileMotherWavelet
     "unused"
     1
-    "Simonecelli"
+    "Simoncelli"
     2
 )
 itk_add_test(
