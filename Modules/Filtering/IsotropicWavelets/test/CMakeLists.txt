@@ -34,6 +34,7 @@ set(
   itkWaveletFrequencyFilterBankGeneratorDownsampleTest.cxx
   itkWaveletFrequencyForwardTest.cxx
   itkWaveletFrequencyInverseTest.cxx
+  itkWaveletFrequencyForwardUndecimatedTest.cxx
   # Phase Analysis
   itkPhaseAnalysisSoftThresholdImageFilterTest.cxx
   # Riesz / Monogenic
@@ -45,7 +46,7 @@ set(
   # TODO Wavelet + Riesz + PhaseAnalysis. This is not an unit test. Convert to example or application.
   itkRieszWaveletPhaseAnalysisTest.cxx
   itkStructureTensorWithGeneralizedRieszTest.cxx
-  # TODO add Steerable framework?
+  # Steerable Riesz Matrix
   itkRieszRotationMatrixTest.cxx
 )
 
@@ -260,6 +261,18 @@ itk_add_test(
     1
     "Held"
     2
+)
+# Wavelet Forward Undecimated
+itk_add_test(
+  NAME itkWaveletFrequencyForwardUndecimatedTest
+  COMMAND
+    IsotropicWaveletsTestDriver
+    itkWaveletFrequencyForwardUndecimatedTest
+    DATA{Input/collagen_64x64x16.tiff}
+    ${ITK_TEST_OUTPUT_DIR}/itkWaveletFrequencyForwardUndecimatedTest.tiff
+    2
+    1
+    "Simoncelli"
 )
 
 #Wavelet Inverse

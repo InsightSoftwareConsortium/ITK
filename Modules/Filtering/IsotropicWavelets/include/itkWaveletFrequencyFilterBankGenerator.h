@@ -89,6 +89,18 @@ public:
   itkSetMacro(InverseBank, bool);
   itkBooleanMacro(InverseBank);
 
+  /** Level to scale the wavelet function. Used in undecimated wavelet.
+   * /sa WaveletFrequencyForwardUndecimated
+   */
+  itkGetMacro(Level, unsigned int);
+  virtual void
+  SetLevel(const unsigned int & level)
+  {
+    this->m_Level = level;
+    this->m_LevelFactor = std::pow(static_cast<double>(this->m_ScaleFactor), level);
+    this->Modified();
+  }
+
   /** Get pointer to the instance of the wavelet function in order to access and change wavelet parameters */
   itkGetModifiableObjectMacro(WaveletFunction, WaveletFunctionType);
 
@@ -131,6 +143,11 @@ private:
   unsigned int           m_HighPassSubBands;
   bool                   m_InverseBank;
   WaveletFunctionPointer m_WaveletFunction;
+  unsigned int           m_Level;
+  /** Default to 2 (Dyadic). No modifiable, but allow future extensions */
+  unsigned int m_ScaleFactor;
+  /** m_ScaleFactor^m_Level */
+  double m_LevelFactor;
 }; // end of class
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
