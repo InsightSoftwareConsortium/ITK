@@ -239,7 +239,7 @@ endfunction()
 function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
   set(exe "${KIT}GTestDriver")
   add_executable(${exe} ${KitTests} )
-  target_link_libraries(${exe} ${KIT_LIBS} ITK::GTest ITK::GTestMain)
+  target_link_libraries(${exe} ${KIT_LIBS} GTest::GTest GTest::Main)
   itk_module_target_label(${exe})
 
   include(GoogleTest)

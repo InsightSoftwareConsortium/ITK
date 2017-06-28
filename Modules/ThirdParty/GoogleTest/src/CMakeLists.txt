@@ -27,8 +27,8 @@ endif()
 add_subdirectory( "${GTEST_SRC}"
   "${CMAKE_CURRENT_BINARY_DIR}/GTest-build" EXCLUDE_FROM_ALL)
 
-add_library(ITK::GTest ALIAS gtest)
-add_library(ITK::GTestMain ALIAS gtest_main)
+add_library(GTest::GTest ALIAS gtest)
+add_library(GTest::Main ALIAS gtest_main)
 
 mark_as_advanced(gtest_build_samples)
 mark_as_advanced(gtest_build_tests)
