@@ -319,8 +319,9 @@ FrequencyShrinkImageFilter<TImageType>::GenerateInputRequestedRegion()
   Superclass::GenerateInputRequestedRegion();
 
   // get pointers to the input and output
-  ImagePointer inputPtr = const_cast<TImageType *>(this->GetInput());
-  ImagePointer outputPtr = this->GetOutput();
+  TImageType * inputPtr = const_cast<TImageType *>(this->GetInput());
+
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
 
   // The filter chops high frequencys [0 1...H,H-1 H-2...1].
   // We need the whole input image, indepently of the RequestedRegion.
@@ -335,10 +336,10 @@ FrequencyShrinkImageFilter<TImageType>::GenerateOutputInformation()
   Superclass::GenerateOutputInformation();
 
   // Get pointers to the input and output
-  ImageConstPointer inputPtr = this->GetInput();
-  ImagePointer      outputPtr = this->GetOutput();
+  const TImageType * inputPtr = this->GetInput();
+  TImageType *       outputPtr = this->GetOutput();
 
-  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr);
   itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != ITK_NULLPTR);
 
   // Compute the output spacing, the output image size, and the

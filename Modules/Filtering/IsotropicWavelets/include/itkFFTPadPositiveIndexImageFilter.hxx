@@ -43,8 +43,11 @@ void
 FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   // Get pointers to the input and output.
-  InputImageType *  inputPtr = const_cast<TInputImage *>(this->GetInput());
-  OutputImageType * outputPtr = this->GetOutput();
+  InputImageType *        inputPtr = const_cast<InputImageType *>(this->GetInput());
+  const OutputImageType * outputPtr = this->GetOutput();
+
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr != ITK_NULLPTR);
+  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr);
 
   const typename InputImageType::RegionType &  inputLargestPossibleRegion = inputPtr->GetLargestPossibleRegion();
   const typename OutputImageType::RegionType & outputRequestedRegion = outputPtr->GetRequestedRegion();
@@ -73,10 +76,13 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateOutputInforma
   // call the superclass' implementation of this method
   Superclass::GenerateOutputInformation();
 
-  const InputImageType * input0 = this->GetInput();
-  OutputImageType *      output0 = this->GetOutput();
+  const InputImageType * inputPtr = this->GetInput();
+  OutputImageType *      outputPtr = this->GetOutput();
 
-  RegionType region0 = input0->GetLargestPossibleRegion();
+  itkAssertInDebugAndIgnoreInReleaseMacro(inputPtr);
+  itkAssertInDebugAndIgnoreInReleaseMacro(outputPtr != ITK_NULLPTR);
+
+  RegionType inputRegion = inputPtr->GetLargestPossibleRegion();
   SizeType   size;
   IndexType  index;
   for (unsigned int i = 0; i < ImageDimension; ++i)
@@ -84,7 +90,7 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateOutputInforma
     SizeValueType padSize = 0;
     if (m_SizeGreatestPrimeFactor > 1)
     {
-      while (Math::GreatestPrimeFactor(region0.GetSize()[i] + padSize) > m_SizeGreatestPrimeFactor)
+      while (Math::GreatestPrimeFactor(inputRegion.GetSize()[i] + padSize) > m_SizeGreatestPrimeFactor)
       {
         ++padSize;
       }
@@ -92,13 +98,13 @@ FFTPadPositiveIndexImageFilter<TInputImage, TOutputImage>::GenerateOutputInforma
     else if (m_SizeGreatestPrimeFactor == 1)
     {
       // make sure the total size is even
-      padSize += (region0.GetSize()[i] + padSize) % 2;
+      padSize += (inputRegion.GetSize()[i] + padSize) % 2;
     }
-    index[i] = region0.GetIndex()[i];
-    size[i] = region0.GetSize()[i] + padSize;
+    index[i] = inputRegion.GetIndex()[i];
+    size[i] = inputRegion.GetSize()[i] + padSize;
   }
   RegionType region(index, size);
-  output0->SetLargestPossibleRegion(region);
+  outputPtr->SetLargestPossibleRegion(region);
 }
 
 template <class TInputImage, class TOutputImage>
