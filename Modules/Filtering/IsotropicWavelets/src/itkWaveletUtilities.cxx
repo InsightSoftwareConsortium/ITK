@@ -44,7 +44,7 @@ IndexToLevelBandSteerablePyramid(unsigned int linearIndex,
   unsigned int level = (linearIndex) / bands;
   itkAssertInDebugAndIgnoreInReleaseMacro(level < levels);
   return std::make_pair(level, band);
-};
+}
 
 // Instantiation
 template unsigned int
