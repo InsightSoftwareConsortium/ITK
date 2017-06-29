@@ -338,8 +338,8 @@ WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
     else
     {
       waveletLow = this->m_WaveletFilterBankPyramid[level * (1 + this->m_HighPassSubBands)];
-      itkDebugMacro(<< "waveletLow: " << level << " Region:" << waveletLow->GetLargestPossibleRegion());
     }
+    itkDebugMacro(<< "waveletLow: " << level << " Region:" << waveletLow->GetLargestPossibleRegion());
 
     typedef itk::ChangeInformationImageFilter<InputImageType> ChangeInformationFilterType;
     typename ChangeInformationFilterType::Pointer changeWaveletInfoFilter = ChangeInformationFilterType::New();

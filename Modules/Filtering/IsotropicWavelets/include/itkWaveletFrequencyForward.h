@@ -121,7 +121,7 @@ public:
    * where each $J_i$ is the  number of integer divisions that can be done with the $i$ size and the scale factor.
    */
   static unsigned int
-  ComputeMaxNumberOfLevels(typename InputImageType::SizeType & input_size, unsigned int scaleFactor = 2);
+  ComputeMaxNumberOfLevels(const typename InputImageType::SizeType & input_size, const unsigned int scaleFactor = 2);
 
   /** (Level, band) pair.
    * Level from: [0, m_Levels), and equal to m_Levels only for the low_pass image.
