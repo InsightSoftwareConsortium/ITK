@@ -213,61 +213,82 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       }
 
     // moments computation
+    //
+    //  This computation has changed from what is documented in the
+    //  original publication ( see class level documentation for
+    //  reference).  It has been re derived to properly support the
+    //  direction cosine matrix in the image.
+    //
+    // Using the same optimization of the computation and substitutions,
+    // the new computation is derived with the following:
+    //
+    //   p_i = o_i + s_0*d_i_0 * x, where s_0 is spacing the line run, and
+    //   d_i_0, it the components of the first column of the direction cosine
+    //        matrix, and x is the index offset from o_i.
+    //
+    // Then the elements of the central moments _all_ are:
+    //   S_i_j = sum_L_in_O( sum_p_in_L( p_i dot p_j ) )
+    //
+    // Then we follow the paper, in substituting p, expanding and
+    // substituting for known summations over x. This is very similar to
+    // equation 9 in the paper but with p_i dot p_j and NOT p_i dot p_i.
+
+#if defined ITK_SHAPE_LABEL_MAP_BASIC_IMPLEMENTATION
 // ****************************************************************
 // that commented code is the basic implementation. The next piece of code
 // give the same result in a much efficient way, by using expended formulae
 // allowed by the binary case instead of loops.
 // ****************************************************************
-//     IndexValueType endIdx0 = idx[0] + length;
-//     for( IndexType iidx = idx; iidx[0]<endIdx0; iidx[0]++)
-//       {
-//       typename LabelObjectType::CentroidType pP;
-//       output->TransformIndexToPhysicalPoint(iidx, pP);
-//
-//       for(unsigned int i=0; i<ImageDimension; i++)
-//         {
-//         for(unsigned int j=0; j<ImageDimension; j++)
-//           {
-//           centralMoments[i][j] += pP[i] * pP[j];
-//           }
-//         }
-//       }
+     IndexValueType endIdx0 = idx[0] + length;
+     for( IndexType iidx = idx; iidx[0]<endIdx0; iidx[0]++)
+       {
+       typename LabelObjectType::CentroidType pP;
+       output->TransformIndexToPhysicalPoint(iidx, pP);
+
+       for(unsigned int i=0; i<ImageDimension; i++)
+         {
+         for(unsigned int j=0; j<ImageDimension; j++)
+           {
+           centralMoments[i][j] += pP[i] * pP[j];
+           }
+         }
+       }
+#else
     // get the physical position and the spacing - they are used several times
     // later
     typename LabelObjectType::CentroidType physicalPosition;
     output->TransformIndexToPhysicalPoint(idx, physicalPosition);
-    const typename ImageType::SpacingType & spacing = output->GetSpacing();
-    // the sum of x positions, also reused several times
-    double sumX = length * ( physicalPosition[0] + ( spacing[0] * ( length - 1 ) ) / 2.0 );
-    // the real job - the sum of square of x positions
-    // that's the central moments for dims 0, 0
-    centralMoments[0][0] += length * ( physicalPosition[0] * physicalPosition[0]
-                                       + spacing[0]
-                                       * ( length
-                                           - 1 ) * ( ( spacing[0] * ( 2 * length - 1 ) ) / 6.0 + physicalPosition[0] ) );
-    // the other ones
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
+
+    const typename ImageType::DirectionType &direction = output->GetDirection();
+    VectorType scale(output->GetSpacing()[0]);
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      // do this one here to avoid the double assigment in the following loop
-      // when i == j
-      centralMoments[i][i] += length * physicalPosition[i] * physicalPosition[i];
-      // central moments are symetrics, so avoid to compute them 2 times
-      for ( unsigned int j = i + 1; j < ImageDimension; j++ )
-        {
-        // note that we won't use that code if the image dimension is less than
-        // 3
-        // --> the tests should be in 3D at least
-        double cm = length * physicalPosition[i] * physicalPosition[j];
-        centralMoments[i][j] += cm;
-        centralMoments[j][i] += cm;
-        }
-      // the last moments: the ones for the dimension 0
-      double cm = sumX * physicalPosition[i];
-      centralMoments[i][0] += cm;
-      centralMoments[0][i] += cm;
+      scale[i] *= direction(i,0);
       }
+
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      centralMoments[i][i] += length * ( physicalPosition[i] * physicalPosition[i]
+                                        + (( length - 1.0 )/2.0)*(2.0 * physicalPosition[i] * scale[i]
+                                                                 + ((2.0*length - 1.0)/3.0) * scale[i] *  scale[i]));
+
+      for ( unsigned int j = i+1; j < ImageDimension; j++ )
+        {
+        const double cm =  length * ( physicalPosition[i] * physicalPosition[j]
+                                      + (( length - 1.0 )/2.0)*( physicalPosition[i] * scale[j] + scale[i] * physicalPosition[j]
+                                                               + ((2.0*length - 1.0)/3.0) * scale[i] *  scale[j]));
+        centralMoments[j][i] += cm;
+        centralMoments[i][j] += cm;
+
+        }
+
+      }
+
+#endif
+
     ++lit;
     }
+
 
   // final computation
   typename LabelObjectType::RegionType::SizeType boundingBoxSize;
