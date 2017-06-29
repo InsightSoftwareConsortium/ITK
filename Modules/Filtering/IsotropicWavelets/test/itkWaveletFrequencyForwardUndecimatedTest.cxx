@@ -85,8 +85,8 @@ runWaveletFrequencyForwardUndecimatedTest(const std::string &  inputImage,
   forwardWavelet->SetHighPassSubBands(highSubBands);
   forwardWavelet->SetLevels(levels);
   forwardWavelet->SetInput(fftFilter->GetOutput());
-  typename WaveletFunctionType::Pointer waveletInstance = forwardWavelet->GetModifiableWaveletFunction();
-  waveletInstance->Print(std::cout);
+  // typename WaveletFunctionType::Pointer waveletInstance = forwardWavelet->GetModifiableWaveletFunction();
+  // waveletInstance->Print(std::cout);
   forwardWavelet->Update();
 
   // Regression tests
@@ -190,7 +190,7 @@ runWaveletFrequencyForwardUndecimatedTest(const std::string &  inputImage,
   typename ComplexImageType::SizeType  inputSize = fftFilter->GetOutput()->GetLargestPossibleRegion().GetSize();
   typename ComplexImageType::SizeType  expectedSize = inputSize;
   itk::NumberToString<unsigned int>    n2s;
-  for (unsigned int level = 0; level < levels + 1; ++level)
+  for (unsigned int nOutput = 0; nOutput < forwardWavelet->GetTotalOutputs(); ++nOutput)
   {
     for (unsigned int i = 0; i < Dimension; ++i)
     {
@@ -198,71 +198,59 @@ runWaveletFrequencyForwardUndecimatedTest(const std::string &  inputImage,
       expectedOrigin[i] = inputOrigin[i];
       expectedSpacing[i] = inputSpacing[i];
     }
-    for (unsigned int band = 0; band < highSubBands; ++band)
+    bool sizeIsCorrect = true;
+    bool spacingIsCorrect = true;
+    bool originIsCorrect = true;
+
+    if (expectedSize != forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize())
     {
-      bool sizeIsCorrect = true;
-      bool spacingIsCorrect = true;
-      bool originIsCorrect = true;
+      std::cerr << "Size of the output: " << forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize()
+                << " is not as expected: " << expectedSize << std::endl;
+      sizeIsCorrect = false;
+    }
+    if (expectedOrigin != forwardWavelet->GetOutput(nOutput)->GetOrigin())
+    {
+      std::cerr << "Origin of the output: " << forwardWavelet->GetOutput(nOutput)->GetOrigin()
+                << " is not as expected: " << expectedOrigin << std::endl;
+      originIsCorrect = false;
+    }
+    if (expectedSpacing != forwardWavelet->GetOutput(nOutput)->GetSpacing())
+    {
+      std::cerr << "Spacing of the output: " << forwardWavelet->GetOutput(nOutput)->GetSpacing()
+                << " is not as expected: " << expectedSpacing << std::endl;
+      spacingIsCorrect = false;
+    }
 
-      unsigned int nOutput = level * forwardWavelet->GetHighPassSubBands() + band;
+    std::pair<unsigned int, unsigned int> pairLvBand = forwardWavelet->OutputIndexToLevelBand(nOutput);
+    unsigned int                          level = pairLvBand.first;
+    unsigned int                          band = pairLvBand.second;
+    if (!sizeIsCorrect || !originIsCorrect || !spacingIsCorrect)
+    {
+      testPassed = false;
+      std::cerr << "OutputIndex : " << nOutput << std::endl;
+      std::cerr << "Level: " << level << " / " << forwardWavelet->GetLevels() << std::endl;
+      std::cerr << "Band: " << band << " / " << forwardWavelet->GetHighPassSubBands() << std::endl;
+      // std::cerr << "Largest Region: " << forwardWavelet->GetOutput( nOutput )->GetLargestPossibleRegion() <<
+      // std::endl;
+      std::cerr << "Origin: " << forwardWavelet->GetOutput(nOutput)->GetOrigin() << std::endl;
+      std::cerr << "Spacing: " << forwardWavelet->GetOutput(nOutput)->GetSpacing() << std::endl;
+      std::cerr << "RegionSize: " << forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize()
+                << std::endl;
+    }
 
-      // Do not compute bands in low-pass level.
-      if (level == levels && band == 0)
-      {
-        nOutput = forwardWavelet->GetTotalOutputs() - 1;
-      }
-      else if (level == levels && band != 0)
-      {
-        break;
-      }
-
-      if (expectedSize != forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize())
-      {
-        std::cerr << "Size of the output: " << forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize()
-                  << " is not as expected: " << expectedSize << std::endl;
-        sizeIsCorrect = false;
-      }
-      if (expectedOrigin != forwardWavelet->GetOutput(nOutput)->GetOrigin())
-      {
-        std::cerr << "Origin of the output: " << forwardWavelet->GetOutput(nOutput)->GetOrigin()
-                  << " is not as expected: " << expectedOrigin << std::endl;
-        originIsCorrect = false;
-      }
-      if (expectedSpacing != forwardWavelet->GetOutput(nOutput)->GetSpacing())
-      {
-        std::cerr << "Spacing of the output: " << forwardWavelet->GetOutput(nOutput)->GetSpacing()
-                  << " is not as expected: " << expectedSpacing << std::endl;
-        spacingIsCorrect = false;
-      }
-
-      if (!sizeIsCorrect || !originIsCorrect || !spacingIsCorrect)
-      {
-        testPassed = false;
-        std::cerr << "OutputIndex : " << nOutput << std::endl;
-        std::cerr << "Level: " << level << " / " << forwardWavelet->GetLevels() << std::endl;
-        std::cerr << "Band: " << band << " / " << forwardWavelet->GetHighPassSubBands() << std::endl;
-        // std::cerr << "Largest Region: " << forwardWavelet->GetOutput( nOutput )->GetLargestPossibleRegion() <<
-        // std::endl;
-        std::cerr << "Origin: " << forwardWavelet->GetOutput(nOutput)->GetOrigin() << std::endl;
-        std::cerr << "Spacing: " << forwardWavelet->GetOutput(nOutput)->GetSpacing() << std::endl;
-        std::cerr << "RegionSize: " << forwardWavelet->GetOutput(nOutput)->GetLargestPossibleRegion().GetSize()
-                  << std::endl;
-      }
-
-      inverseFFT->SetInput(forwardWavelet->GetOutput(nOutput));
-      inverseFFT->Update();
+    std::cout << "InverseFFT + writer for nOutput: " << nOutput << std::endl;
+    inverseFFT->SetInput(forwardWavelet->GetOutput(nOutput));
+    inverseFFT->Update();
 
 #ifdef ITK_VISUALIZE_TESTS
-      std::pair<unsigned int, unsigned int> pairLvBand = forwardWavelet->OutputIndexToLevelBand(nOutput);
-      itk::Testing::ViewImage(inverseFFT->GetOutput(),
-                              "Wavelet coef. n_out: " + n2s(nOutput) + " level: " + n2s(pairLvBand.first) +
-                                " , band: " + n2s(pairLvBand.second) + "/" + n2s(inputBands));
+    itk::Testing::ViewImage(inverseFFT->GetOutput(),
+                            "Wavelet coef. n_out: " + n2s(nOutput) + " level: " + n2s(level) + " , band: " + n2s(band) +
+                              "/" + n2s(inputBands));
 #endif
 
-      writer->SetFileName(AppendToFilenameUndecimated(outputImage, n2s(nOutput)));
-      writer->SetInput(inverseFFT->GetOutput());
-      TRY_EXPECT_NO_EXCEPTION(writer->Update());
-    }
+    writer->SetFileName(AppendToFilenameUndecimated(outputImage, n2s(nOutput)));
+    writer->SetInput(inverseFFT->GetOutput());
+    TRY_EXPECT_NO_EXCEPTION(writer->Update());
   }
 
   if (testPassed)
