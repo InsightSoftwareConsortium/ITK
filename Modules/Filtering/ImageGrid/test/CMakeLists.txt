@@ -265,3 +265,7 @@ itk_add_test(NAME itkSliceBySliceImageFilterDimension2Test
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/itkSliceBySliceImageFilterDimension2Test.mha 2)
 itk_add_test(NAME itkPadImageFilterTest
       COMMAND ITKImageGridTestDriver itkPadImageFilterTest)
+
+set( ITKImageGridGTests
+  itkSliceImageFilterTest.cxx )
+CreateGoogleTestDriver(ITKImageGrid "${ITKImageGrid-Test_LIBRARIES}" "${ITKImageGridGTests}")
