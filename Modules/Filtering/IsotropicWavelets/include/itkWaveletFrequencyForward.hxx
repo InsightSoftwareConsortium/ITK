@@ -24,6 +24,7 @@
 #include <itkMultiplyImageFilter.h>
 #include <itkShrinkDecimateImageFilter.h>
 #include <itkChangeInformationImageFilter.h>
+#include <itkWaveletUtilities.h>
 
 namespace itk
 {
@@ -45,19 +46,7 @@ std::pair<unsigned int, unsigned int>
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
   OutputIndexToLevelBand(unsigned int linear_index)
 {
-  if (linear_index > this->m_TotalOutputs - 1 || linear_index < 0)
-  {
-    itkExceptionMacro(<< "Failed converting liner index " << linear_index << " to Level,Band pair : out of bounds");
-  }
-  // Low pass (band = 0).
-  // if (linear_index == this->m_TotalOutputs - 1 )
-  //   return std::make_pair(this->m_Levels, 0);
-
-  unsigned int band = (linear_index) % this->m_HighPassSubBands;
-  // note integer division ahead.
-  unsigned int level = (linear_index) / this->m_HighPassSubBands;
-  itkAssertInDebugAndIgnoreInReleaseMacro(level >= 0);
-  return std::make_pair(level, band);
+  return itk::utils::IndexToLevelBandSteerablePyramid(linear_index, this->m_Levels, this->m_HighPassSubBands);
 };
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
@@ -120,44 +109,9 @@ WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequenc
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>
 unsigned int
 WaveletFrequencyForward<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyShrinkFilterType>::
-  ComputeMaxNumberOfLevels(typename InputImageType::SizeType & inputSize, unsigned int scaleFactor)
+  ComputeMaxNumberOfLevels(const typename InputImageType::SizeType & inputSize, const unsigned int scaleFactor)
 {
-  FixedArray<unsigned int, ImageDimension> exponentPerAxis;
-  exponentPerAxis.Fill(1);
-  for (unsigned int axis = 0; axis < ImageDimension; ++axis)
-  {
-    size_t sizeAxis = inputSize[axis];
-    double exponent = std::log(sizeAxis) / std::log(static_cast<double>(scaleFactor));
-    // check that exponent is integer: the fractional part is 0
-    double exponentIntPart;
-    double exponentFractionPart = std::modf(exponent, &exponentIntPart);
-    if (exponentFractionPart == 0)
-    {
-      exponentPerAxis[axis] = static_cast<unsigned int>(exponent);
-    }
-    else
-    {
-      // increase valid levels until the division size/scale_factor gives a non-integer.
-      double sizeAtLevel = static_cast<double>(sizeAxis);
-      for (;;)
-      {
-        double division = sizeAtLevel / static_cast<double>(scaleFactor);
-        double intPartDivision;
-        double fractionPartDivision = std::modf(division, &intPartDivision);
-        if (fractionPartDivision == 0)
-        {
-          exponentPerAxis[axis]++;
-          sizeAtLevel = intPartDivision;
-        }
-        else
-        {
-          break;
-        }
-      }
-    }
-  }
-  // return the min_element of array (1 if any size is not power of 2)
-  return *std::min_element(exponentPerAxis.Begin(), exponentPerAxis.End());
+  return itk::utils::ComputeMaxNumberOfLevels(inputSize, scaleFactor);
 }
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyShrinkFilterType>

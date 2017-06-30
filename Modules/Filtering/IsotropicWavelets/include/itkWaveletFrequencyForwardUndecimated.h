@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkWaveletFrequencyForward_h
-#define itkWaveletFrequencyForward_h
+#ifndef itkWaveletFrequencyForwardUndecimated_h
+#define itkWaveletFrequencyForwardUndecimated_h
 
 #include <itkImageRegionConstIterator.h>
 #include <itkImageRegionIterator.h>
@@ -24,12 +24,10 @@
 #include <complex>
 #include <itkFixedArray.h>
 #include <itkImageToImageFilter.h>
-#include <itkFrequencyShrinkImageFilter.h>
-#include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
 
 namespace itk
 {
-/** \class WaveletFrequencyForward
+/** \class WaveletFrequencyForwardUndecimated
  * @brief IsotropicWavelet multiscale analysis where input is an image in the frequency domain.
  * Output Layout:
  * Output 0 is the residual low pass filtered of the last level/scale.
@@ -43,16 +41,12 @@ namespace itk
  *
  * \ingroup IsotropicWavelets
  */
-template <typename TInputImage,
-          typename TOutputImage,
-          typename TWaveletFilterBank,
-          typename TFrequencyShrinkFilterType = FrequencyShrinkImageFilter<TOutputImage>>
-// FrequencyShrinkViaInverseFFTImageFilter<TOutputImage> >
-class WaveletFrequencyForward : public ImageToImageFilter<TInputImage, TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
+class WaveletFrequencyForwardUndecimated : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard typenames typedefs. */
-  typedef WaveletFrequencyForward                       Self;
+  typedef WaveletFrequencyForwardUndecimated            Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
@@ -75,8 +69,6 @@ public:
   typedef typename WaveletFilterBankType::WaveletFunctionType WaveletFunctionType;
   typedef typename WaveletFilterBankType::FunctionValueType   FunctionValueType;
 
-  typedef TFrequencyShrinkFilterType FrequencyShrinkFilterType;
-
   /** ImageDimension constants */
   itkStaticConstMacro(ImageDimension, unsigned int, TInputImage::ImageDimension);
 
@@ -84,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(WaveletFrequencyForward, ImageToImageFilter);
+  itkTypeMacro(WaveletFrequencyForwardUndecimated, ImageToImageFilter);
   virtual void
   SetLevels(unsigned int n);
 
@@ -148,8 +140,8 @@ public:
   GetOutputsHighPassByLevel(unsigned int level);
 
 protected:
-  WaveletFrequencyForward();
-  ~WaveletFrequencyForward() {}
+  WaveletFrequencyForwardUndecimated();
+  ~WaveletFrequencyForwardUndecimated() {}
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -159,9 +151,9 @@ protected:
 
   /************ Information *************/
 
-  /** WaveletFrequencyForward produces images which are of
+  /** WaveletFrequencyForwardUndecimated produces images which are of
    * different resolution and different pixel spacing than its input image.
-   * As such, WaveletFrequencyForward needs to provide an
+   * As such, WaveletFrequencyForwardUndecimated needs to provide an
    * implementation for GenerateOutputInformation() in order to inform the
    * pipeline execution model.  The original documentation of this method is
    * below.
@@ -178,9 +170,9 @@ protected:
   virtual void
   GenerateOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
 
-  /** WaveletFrequencyForward requires a larger input requested
+  /** WaveletFrequencyForwardUndecimated requires a larger input requested
    * region than the output requested regions to accommodate the shrinkage and
-   * smoothing operations. As such, WaveletFrequencyForward needs
+   * smoothing operations. As such, WaveletFrequencyForwardUndecimated needs
    * to provide an implementation for GenerateInputRequestedRegion().  The
    * original documentation of this method is below.
    * \sa ProcessObject::GenerateInputRequestedRegion()
@@ -189,7 +181,7 @@ protected:
   GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForward);
+  ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyForwardUndecimated);
 
   unsigned int                    m_Levels;
   unsigned int                    m_HighPassSubBands;
@@ -201,7 +193,7 @@ private:
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkWaveletFrequencyForward.hxx"
+#  include "itkWaveletFrequencyForwardUndecimated.hxx"
 #endif
 
 #endif

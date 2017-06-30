@@ -27,6 +27,9 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
   WaveletFrequencyFilterBankGenerator()
   : m_HighPassSubBands(0)
   , m_InverseBank(false)
+  , m_Level(0)
+  , m_ScaleFactor(2)
+  , m_LevelFactor(1)
 {
   this->SetHighPassSubBands(1);
   m_WaveletFunction = TWaveletFunction::New();
@@ -60,7 +63,8 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
   Superclass::PrintSelf(os, indent);
 
   os << indent << "HighPassSubBands: " << this->m_HighPassSubBands << indent
-     << "InverseBank: " << (this->m_InverseBank ? "true" : "false") << std::endl;
+     << "InverseBank: " << (this->m_InverseBank ? "true" : "false") << indent << "Level: " << this->m_Level << indent
+     << "LevelFactor: " << this->m_LevelFactor << std::endl;
 }
 
 /* ******* Get Outputs *****/
@@ -160,8 +164,9 @@ WaveletFrequencyFilterBankGenerator<TOutputImage, TWaveletFunction, TFrequencyRe
     // l = 0 is low pass filter, l = m_HighPassSubBands is high-pass filter.
     for (unsigned int l = 0; l < m_HighPassSubBands + 1; ++l)
     {
-      evaluatedSubBand = this->m_InverseBank ? this->m_WaveletFunction->EvaluateInverseSubBand(w, l)
-                                             : this->m_WaveletFunction->EvaluateForwardSubBand(w, l);
+      evaluatedSubBand = this->m_InverseBank
+                           ? this->m_WaveletFunction->EvaluateInverseSubBand(this->m_LevelFactor * w, l)
+                           : this->m_WaveletFunction->EvaluateForwardSubBand(this->m_LevelFactor * w, l);
 
       outputItList[l].Set(outputItList[l].Get() +
                           static_cast<typename OutputImageType::PixelType::value_type>(evaluatedSubBand));
