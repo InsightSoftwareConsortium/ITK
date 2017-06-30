@@ -93,22 +93,21 @@ public:
       entropy += -p_x * std::log(p_x) / itk::Math::ln2;
     }
 
-    const double icount = 1.0 / count;
-    const double mean = sum * icount;
+    const double mean = sum / count;
 
     // unbiased estimate
-    const double variance = (sum2 - (sum * sum * icount)) / (count - 1);
+    const double variance = (sum2 - (sum * sum) / count) / (count - 1);
     const double sigma = std::sqrt(variance);
     double       skewness = 0.0;
     double       kurtosis = 0.0;
     if (std::abs(variance * sigma) > itk::NumericTraits<double>::min())
     {
 
-      skewness = ((sum3 - 3.0 * mean * sum2) * icount + 2.0 * mean * mean * mean) / (variance * sigma);
+      skewness = ((sum3 - 3.0 * mean * sum2) / count + 2.0 * mean * mean * mean) / (variance * sigma);
     }
     if (std::abs(variance) > itk::NumericTraits<double>::min())
     {
-      kurtosis = (sum4 * icount + mean * (-4.0 * sum3 * icount + mean * (6.0 * sum2 * icount - 3.0 * mean * mean))) /
+      kurtosis = (sum4 / count + mean * (-4.0 * sum3 / count + mean * (6.0 * sum2 / count - 3.0 * mean * mean))) /
                    (variance * variance) -
                  3.0;
     }
