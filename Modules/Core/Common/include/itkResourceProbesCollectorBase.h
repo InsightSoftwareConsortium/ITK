@@ -72,6 +72,12 @@ public:
     method. */
   virtual void Clear();
 
+
+  /** Returns a named Probe. If the name does not exists an exception
+   * is thrown. */
+  const TProbe & GetProbe(const char*name) const;
+
+
 protected:
   MapType m_Probes;
 };

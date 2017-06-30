@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkMemoryProbesCollectorBase.h"
-
+#include "itkTestingMacros.h"
 #if defined(TEST_WITH_SLEEP)
 #if defined(_WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
@@ -66,5 +66,10 @@ int itkMemoryProbesCollecterBaseTest(int, char *[])
     }
   mcollecter.Report();
   delete[] buf;
+
+
+  TRY_EXPECT_EXCEPTION(mcollecter.GetProbe("IDoNotExist"));
+  TRY_EXPECT_NO_EXCEPTION(mcollecter.GetProbe("Update"));
+
   return EXIT_SUCCESS;
 }
