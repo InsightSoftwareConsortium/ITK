@@ -305,8 +305,8 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighb
 template <typename TInputImage, typename TOutputImage>
 void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
-  vnl_matrix<unsigned int> &         hist,
-  const unsigned int &               totalNumberOfFreq,
+  const vnl_matrix<unsigned int> &   hist,
+  const unsigned int                 totalNumberOfFreq,
   typename TOutputImage::PixelType & outputPixel)
 {
   // Now get the various means and variances. This is takes two passes
@@ -378,12 +378,12 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeature
 template <typename TInputImage, typename TOutputImage>
 void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAndVariances(
-  vnl_matrix<unsigned int> & hist,
-  const unsigned int &       totalNumberOfFreq,
-  double &                   pixelMean,
-  double &                   marginalMean,
-  double &                   marginalDevSquared,
-  double &                   pixelVariance)
+  const vnl_matrix<unsigned int> & hist,
+  const unsigned int               totalNumberOfFreq,
+  double &                         pixelMean,
+  double &                         marginalMean,
+  double &                         marginalDevSquared,
+  double &                         pixelVariance)
 {
   // This function takes two passes through the histogram and two passes through
   // an array of the same length as a histogram axis. This could probably be
