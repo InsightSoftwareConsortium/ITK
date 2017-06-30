@@ -44,8 +44,7 @@ std::pair<unsigned int, unsigned int>
 WaveletFrequencyForwardUndecimated<TInputImage, TOutputImage, TWaveletFilterBank>::OutputIndexToLevelBand(
   unsigned int linear_index)
 {
-  return itk::utils::IndexToLevelBandSteerablePyramid(
-    linear_index, this->m_TotalOutputs, this->m_Levels, this->m_HighPassSubBands);
+  return itk::utils::IndexToLevelBandSteerablePyramid(linear_index, this->m_Levels, this->m_HighPassSubBands);
 };
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>

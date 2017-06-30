@@ -132,48 +132,6 @@ runWaveletFrequencyForwardUndecimatedTest(const std::string &  inputImage,
     std::cout << "InputIndex: " << i << " --> lv:" << lv << " b:" << b << std::endl;
   }
 
-  // Test OutputIndexToLevelBand
-  bool testOutputIndexToLevelBandPassed = true;
-  {
-    std::pair<unsigned int, unsigned int> pairLvBand = forwardWavelet->OutputIndexToLevelBand(0);
-    unsigned int                          lv = pairLvBand.first;
-    unsigned int                          b = pairLvBand.second;
-    if (lv != 0 || b != 0)
-    {
-      std::cerr << "Error in first index: inputindex: " << 0 << " lv:" << lv << " b:" << b << " should be (0, 0)"
-                << std::endl;
-      testOutputIndexToLevelBandPassed = false;
-    }
-  }
-  {
-    std::pair<unsigned int, unsigned int> pairLvBand = forwardWavelet->OutputIndexToLevelBand(highSubBands);
-    unsigned int                          lv = pairLvBand.first;
-    unsigned int                          b = pairLvBand.second;
-    if (lv != 1 || b != 0)
-    {
-      std::cerr << "Error in inputindex: " << highSubBands << " lv:" << lv << " b:" << b << " should be (1, 0)"
-                << std::endl;
-      testOutputIndexToLevelBandPassed = false;
-    }
-  }
-  {
-    std::pair<unsigned int, unsigned int> pairLvBand =
-      forwardWavelet->OutputIndexToLevelBand(forwardWavelet->GetTotalOutputs() - 1);
-    unsigned int lv = pairLvBand.first;
-    unsigned int b = pairLvBand.second;
-    if (lv != levels || b != 0)
-    {
-      std::cerr << "Error in last inputindex: " << highSubBands << " lv:" << lv << " b:" << b << " should be ("
-                << levels << ", 0)" << std::endl;
-      testOutputIndexToLevelBandPassed = false;
-    }
-  }
-  if (!testOutputIndexToLevelBandPassed)
-  {
-    std::cerr << "Error in OutputIndexToLevelBand" << std::endl;
-    testPassed = false;
-  }
-
   // Inverse FFT Transform (Multilevel)
   typedef itk::InverseFFTImageFilter<ComplexImageType, ImageType> InverseFFTFilterType;
   typename InverseFFTFilterType::Pointer                          inverseFFT = InverseFFTFilterType::New();

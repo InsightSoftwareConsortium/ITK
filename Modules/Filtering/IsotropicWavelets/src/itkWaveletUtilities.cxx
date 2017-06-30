@@ -24,20 +24,20 @@ namespace utils
 {
 
 IndexPairType
-IndexToLevelBandSteerablePyramid(unsigned int linearIndex,
-                                 unsigned int totalOutputs,
-                                 unsigned int levels,
-                                 unsigned int bands)
+IndexToLevelBandSteerablePyramid(unsigned int linearIndex, unsigned int levels, unsigned int bands)
 {
+  unsigned int totalOutputs = 1 + levels * bands;
   if (linearIndex > totalOutputs - 1)
   {
-    itkGenericExceptionMacro(<< "Failed converting liner index " << linearIndex
-                             << " to Level,Band pair : out of bounds");
+    itkGenericExceptionMacro(<< "Failed converting linearIndex " << linearIndex << " with levels: " << levels
+                             << " bands: " << bands << " to Level,Band pair : out of bounds");
   }
 
   // Low pass (band = 0).
   if (linearIndex == totalOutputs - 1)
+  {
     return std::make_pair(levels - 1, 0);
+  }
 
   unsigned int band = (linearIndex) % bands + 1;
   // note integer division ahead.

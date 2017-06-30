@@ -46,21 +46,7 @@ std::pair<unsigned int, unsigned int>
 WaveletFrequencyInverse<TInputImage, TOutputImage, TWaveletFilterBank, TFrequencyExpandFilterType>::
   InputIndexToLevelBand(unsigned int linear_index)
 {
-  if (linear_index > this->m_TotalInputs - 1 || linear_index < 0)
-  {
-    itkExceptionMacro(<< "Failed converting liner index " << linear_index << " to Level,Band pair : out of bounds");
-  }
-  // Low pass (band = 0).
-  if (linear_index == 0)
-  {
-    return std::make_pair(this->m_Levels, 0);
-  }
-
-  unsigned int band = (linear_index - 1) % this->m_HighPassSubBands;
-  band = band + 1;
-  // note integer division ahead.
-  unsigned int level = (linear_index - band) / this->m_HighPassSubBands + 1;
-  return std::make_pair(level, band);
+  return itk::utils::IndexToLevelBandSteerablePyramid(linear_index, this->m_Levels, this->m_HighPassSubBands);
 };
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyExpandFilterType>
