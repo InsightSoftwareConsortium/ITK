@@ -177,13 +177,8 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
         continue;
       }
       // Initialisation of the histogram
-      for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
-      {
-        for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
-        {
-          hist[a][b] = 0;
-        }
-      }
+      hist.fill(0);
+
       totalNumberOfFreq = 0;
       // Iteration over all the offsets
       for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
