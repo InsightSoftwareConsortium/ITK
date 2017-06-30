@@ -30,6 +30,7 @@
 
 #include "itkSliceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkMath.h"
 #include "itkContinuousIndex.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
@@ -204,7 +205,7 @@ SliceImageFilter< TInputImage, TOutputImage >
     {
     if ( outputRequestedRegionSize[i] > 0 )
       {
-      inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1 ) * vnl_math_abs(m_Step[i]) + 1;
+      inputRequestedRegionSize[i] = (outputRequestedRegionSize[i] - 1 ) * itk::Math::abs(m_Step[i]) + 1;
       }
     }
 
@@ -265,7 +266,7 @@ SliceImageFilter< TInputImage, TOutputImage >
 
   for ( unsigned int i = 0; i < TOutputImage::ImageDimension; ++i )
     {
-    outputSpacing[i] = inputSpacing[i] * vnl_math_abs(m_Step[i]);
+    outputSpacing[i] = inputSpacing[i] * itk::Math::abs(m_Step[i]);
 
     // clamp start
     // Based on the sign of the step include 1 after the end.
