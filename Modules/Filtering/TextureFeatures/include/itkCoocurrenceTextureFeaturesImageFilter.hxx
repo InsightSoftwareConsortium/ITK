@@ -21,6 +21,7 @@
 #include "itkCoocurrenceTextureFeaturesImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
 {
@@ -73,35 +74,31 @@ template <typename TInputImage, typename TOutputImage>
 void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  const InputImageType * maskPointer = this->GetMaskImage();
-  this->m_DigitalisedInputImageg = InputImageType::New();
-  this->m_DigitalisedInputImageg->SetRegions(this->GetInput()->GetRequestedRegion());
-  this->m_DigitalisedInputImageg->CopyInformation(this->GetInput());
-  this->m_DigitalisedInputImageg->Allocate();
-  typedef itk::ImageRegionIterator<InputImageType> IteratorType;
-  IteratorType digitIt(this->m_DigitalisedInputImageg, this->m_DigitalisedInputImageg->GetLargestPossibleRegion());
-  typedef itk::ImageRegionConstIterator<InputImageType> ConstIteratorType;
-  ConstIteratorType inputIt(this->GetInput(), this->GetInput()->GetLargestPossibleRegion());
-  unsigned int      binNumber;
-  while (!inputIt.IsAtEnd())
+
+  typename TInputImage::Pointer input = InputImageType::New();
+  input->Graft(const_cast<TInputImage *>(this->GetInput()));
+
+  typedef PreProcessingFunctor PPFType;
+  PPFType                      ppf(m_NumberOfBinsPerAxis, m_InsidePixelValue, m_Min, m_Max);
+
+  typedef BinaryFunctorImageFilter<MaskImageType, InputImageType, InputImageType, PPFType> BinaryFunctorType;
+  typename BinaryFunctorType::Pointer functorF = BinaryFunctorType::New();
+  if (this->GetMaskImage() != ITK_NULLPTR)
   {
-    if (maskPointer && maskPointer->GetPixel(inputIt.GetIndex()) != this->m_InsidePixelValue)
-    {
-      digitIt.Set(this->m_Min - 10);
-    }
-    else if (inputIt.Get() < this->m_Min || inputIt.Get() >= this->m_Max)
-    {
-      digitIt.Set(this->m_Min - 1);
-    }
-    else
-    {
-      binNumber = (inputIt.Get() - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis);
-      digitIt.Set(binNumber);
-    }
-    ++inputIt;
-    ++digitIt;
+    typename TInputImage::Pointer mask = MaskImageType::New();
+    mask->Graft(const_cast<TInputImage *>(this->GetMaskImage()));
+    functorF->SetInput1(mask);
   }
-  m_Spacing = this->GetInput()->GetSpacing();
+  else
+  {
+    functorF->SetConstant1(m_InsidePixelValue);
+  }
+  functorF->SetInput2(input);
+  functorF->SetFunctor(ppf);
+  functorF->SetNumberOfThreads(this->GetNumberOfThreads());
+
+  functorF->Update();
+  m_DigitalisedInputImageg = functorF->GetOutput();
 
   // Support VectorImages by setting number of components on output.
   OutputImageType * outputPtr = this->GetOutput();
