@@ -241,8 +241,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
   InputImagePointer low_pass_per_level = duplicator->GetModifiableOutput();
 
   typedef itk::MultiplyImageFilter<InputImageType> MultiplyFilterType;
-
-  double scaleFactor = static_cast<double>(this->m_ScaleFactor);
+  double                                           scaleFactor = static_cast<double>(this->m_ScaleFactor);
   for (int level = this->m_Levels - 1; level > -1; --level)
   {
     itkDebugMacro(<< "LEVEL: " << level);
@@ -274,7 +273,16 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
     multiplyLowPass->SetInput1(waveletLow);
     multiplyLowPass->SetInput2(low_pass_per_level);
     multiplyLowPass->Update();
-    low_pass_per_level = multiplyLowPass->GetOutput();
+
+    // Dilation factor for the approx image by one level.
+    typename MultiplyFilterType::Pointer multiplyByLevelFactor = MultiplyFilterType::New();
+    multiplyByLevelFactor->SetInput1(multiplyLowPass->GetOutput());
+    double expLevelFactor = static_cast<double>(ImageDimension) / 2.0;
+    multiplyByLevelFactor->SetConstant(std::pow(scaleFactor, expLevelFactor));
+    multiplyByLevelFactor->InPlaceOn();
+    multiplyByLevelFactor->Update();
+
+    low_pass_per_level = multiplyByLevelFactor->GetOutput();
 
     /******* HighPass sub-bands *****/
     std::vector<InputImagePointer> highPassMasks;
@@ -326,8 +334,8 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
       double expBandFactor = 0;
       if (this->GetApplyReconstructionFactors())
       {
-        expBandFactor =
-          (static_cast<double>(level) - band / static_cast<double>(this->m_HighPassSubBands)) * ImageDimension / 2.0;
+        expBandFactor = (static_cast<double>(level + 1) - band / static_cast<double>(this->m_HighPassSubBands)) *
+                        ImageDimension / 2.0;
       }
       multiplyByReconstructionBandFactor->SetConstant(std::pow(scaleFactor, expBandFactor));
       multiplyByReconstructionBandFactor->InPlaceOn();

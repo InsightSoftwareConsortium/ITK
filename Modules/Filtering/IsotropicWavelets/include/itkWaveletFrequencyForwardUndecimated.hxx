@@ -325,7 +325,7 @@ WaveletFrequencyForwardUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
       // double expBandFactor = 0;
       // double expBandFactor = - static_cast<double>(level*ImageDimension)/2.0;
       double expBandFactor =
-        (-static_cast<double>(level) + band / static_cast<double>(this->m_HighPassSubBands)) * ImageDimension / 2.0;
+        (-static_cast<double>(level + 1) + band / static_cast<double>(this->m_HighPassSubBands)) * ImageDimension / 2.0;
       multiplyByAnalysisBandFactor->SetConstant(std::pow(scaleFactor, expBandFactor));
       // TODO Warning: InPlace here deletes buffered region of input.
       // http://public.kitware.com/pipermail/community/2015-April/008819.html
@@ -351,7 +351,12 @@ WaveletFrequencyForwardUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
     multiplyLowFilter->Update();
     if (level == this->m_Levels - 1) // Set low_pass output (index=this->m_TotalOutputs - 1)
     {
-      this->GraftNthOutput(this->m_TotalOutputs - 1, multiplyLowFilter->GetOutput());
+      typename MultiplyFilterType::Pointer multiplyByLevelFactor = MultiplyFilterType::New();
+      multiplyByLevelFactor->SetInput1(multiplyLowFilter->GetOutput());
+      double expLevelFactor = (-static_cast<double>(this->m_Levels * ImageDimension)) / 2.0;
+      multiplyByLevelFactor->SetConstant(std::pow(scaleFactor, expLevelFactor));
+      multiplyByLevelFactor->Update();
+      this->GraftNthOutput(this->m_TotalOutputs - 1, multiplyByLevelFactor->GetOutput());
       this->UpdateProgress(static_cast<float>(this->m_TotalOutputs - 1) / static_cast<float>(this->m_TotalOutputs));
       continue;
     }
