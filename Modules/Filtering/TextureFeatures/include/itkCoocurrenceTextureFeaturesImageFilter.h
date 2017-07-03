@@ -100,8 +100,11 @@ public:
 
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
+  typedef TInputImage  MaskImageType;
+  typedef TInputImage  DigitalisedImageType;
 
   typedef typename InputImageType::PixelType PixelType;
+  typedef typename MaskImageType::PixelType  MaskPixelType;
   typedef typename InputImageType::IndexType IndexType;
   typedef typename InputImageType::PointType PointType;
 
@@ -125,12 +128,11 @@ public:
   itkGetConstMacro(NeighborhoodRadius, NeighborhoodRadiusType);
 
   /** Method to set the mask image */
-  void
-  SetMaskImage(const InputImageType * image);
+  itkSetInputMacro(MaskImage, InputImageType);
 
   /** Method to get the mask image */
-  const InputImageType *
-  GetMaskImage() const;
+  itkGetInputMacro(MaskImage, InputImageType);
+
 
   /** Specify the default number of bins per axis */
   itkStaticConstMacro(DefaultBinsPerAxis, unsigned int, 256);
@@ -229,12 +231,15 @@ protected:
   virtual void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
   virtual void
+  AfterThreadedGenerateData() ITK_OVERRIDE;
+  virtual void
   ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
   virtual void
-  UpdateOutputInformation() ITK_OVERRIDE;
+  GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  typename InputImageType::Pointer  m_DigitalisedInputImageg;
+  typename DigitalisedImageType::Pointer m_DigitalisedInputImageg;
+
   NeighborhoodRadiusType            m_NeighborhoodRadius;
   OffsetVectorPointer               m_Offsets;
   unsigned int                      m_NumberOfBinsPerAxis;
@@ -243,6 +248,62 @@ private:
   PixelType                         m_InsidePixelValue;
   typename TInputImage::SpacingType m_Spacing;
   bool                              m_Normalize;
+
+
+  struct PreProcessingFunctor
+  {
+    PreProcessingFunctor()
+      : m_NumberOfBinsPerAxis(256)
+      , m_MaskValue(1)
+      , m_Min(NumericTraits<PixelType>::min())
+      , m_Max(NumericTraits<PixelType>::max())
+    {}
+
+    PreProcessingFunctor(unsigned int numberOfBinsPerAxis, PixelType maskValue, PixelType min, PixelType max)
+      : m_NumberOfBinsPerAxis(numberOfBinsPerAxis)
+      , m_MaskValue(maskValue)
+      , m_Min(min)
+      , m_Max(max)
+    {}
+
+    ~PreProcessingFunctor() {}
+
+    bool
+    operator!=(const PreProcessingFunctor & other) const
+    {
+      return (m_NumberOfBinsPerAxis != other.m_NumberOfBinsPerAxis) || (m_MaskValue != other.m_MaskValue) ||
+             (m_Min != other.m_Min) || (m_Max != other.m_Max);
+    }
+
+    bool
+    operator==(const PreProcessingFunctor & other) const
+    {
+      return !(*this != other);
+    }
+
+    inline typename DigitalisedImageType::PixelType
+    operator()(const MaskPixelType & maskPixel, const PixelType & inputPixel) const
+    {
+      if (maskPixel != m_MaskValue)
+      {
+        return this->m_Min - 10;
+      }
+      else if (inputPixel < this->m_Min || inputPixel >= m_Max)
+      {
+        return m_Min - 1;
+      }
+      else
+      {
+        return (inputPixel - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis);
+      }
+    }
+
+    unsigned int m_NumberOfBinsPerAxis;
+
+    PixelType m_MaskValue;
+    PixelType m_Min;
+    PixelType m_Max;
+  };
 };
 } // end of namespace Statistics
 } // end of namespace itk

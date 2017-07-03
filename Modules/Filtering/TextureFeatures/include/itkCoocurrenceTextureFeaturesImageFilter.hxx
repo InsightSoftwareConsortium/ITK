@@ -21,6 +21,7 @@
 #include "itkCoocurrenceTextureFeaturesImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkBinaryFunctorImageFilter.h"
 
 namespace itk
 {
@@ -35,6 +36,12 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::CoocurrenceTex
 {
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
+
+  // Mark the "MaskImage" as an optional named input. First it has to
+  // be added to the list of named inputs then removed from the
+  // required list.
+  Self::AddRequiredInputName("MaskImage");
+  Self::RemoveRequiredInputName("MaskImage");
 
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
@@ -73,45 +80,41 @@ template <typename TInputImage, typename TOutputImage>
 void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  const InputImageType * maskPointer = this->GetMaskImage();
-  this->m_DigitalisedInputImageg = InputImageType::New();
-  this->m_DigitalisedInputImageg->SetRegions(this->GetInput()->GetRequestedRegion());
-  this->m_DigitalisedInputImageg->CopyInformation(this->GetInput());
-  this->m_DigitalisedInputImageg->Allocate();
-  typedef itk::ImageRegionIterator<InputImageType> IteratorType;
-  IteratorType digitIt(this->m_DigitalisedInputImageg, this->m_DigitalisedInputImageg->GetLargestPossibleRegion());
-  typedef itk::ImageRegionConstIterator<InputImageType> ConstIteratorType;
-  ConstIteratorType inputIt(this->GetInput(), this->GetInput()->GetLargestPossibleRegion());
-  unsigned int      binNumber;
-  while (!inputIt.IsAtEnd())
-  {
-    if (maskPointer && maskPointer->GetPixel(inputIt.GetIndex()) != this->m_InsidePixelValue)
-    {
-      digitIt.Set(this->m_Min - 10);
-    }
-    else if (inputIt.Get() < this->m_Min || inputIt.Get() >= this->m_Max)
-    {
-      digitIt.Set(this->m_Min - 1);
-    }
-    else
-    {
-      binNumber = (inputIt.Get() - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis);
-      digitIt.Set(binNumber);
-    }
-    ++inputIt;
-    ++digitIt;
-  }
-  m_Spacing = this->GetInput()->GetSpacing();
 
-  // Support VectorImages by setting number of components on output.
-  OutputImageType * outputPtr = this->GetOutput();
-  if (strcmp(outputPtr->GetNameOfClass(), "VectorImage") == 0)
+  typename TInputImage::Pointer input = InputImageType::New();
+  input->Graft(const_cast<TInputImage *>(this->GetInput()));
+
+  typedef PreProcessingFunctor PPFType;
+  PPFType                      ppf(m_NumberOfBinsPerAxis, m_InsidePixelValue, m_Min, m_Max);
+
+  typedef BinaryFunctorImageFilter<MaskImageType, InputImageType, InputImageType, PPFType> BinaryFunctorType;
+  typename BinaryFunctorType::Pointer functorF = BinaryFunctorType::New();
+  if (this->GetMaskImage() != ITK_NULLPTR)
   {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength(outputPtr, 8);
+    typename TInputImage::Pointer mask = MaskImageType::New();
+    mask->Graft(const_cast<TInputImage *>(this->GetMaskImage()));
+    functorF->SetInput1(mask);
   }
-  outputPtr->Allocate();
+  else
+  {
+    functorF->SetConstant1(m_InsidePixelValue);
+  }
+  functorF->SetInput2(input);
+  functorF->SetFunctor(ppf);
+  functorF->SetNumberOfThreads(this->GetNumberOfThreads());
+
+  functorF->Update();
+  m_DigitalisedInputImageg = functorF->GetOutput();
 }
+
+template <typename TInputImage, typename TOutputImage>
+void
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
+{
+  // free internal image
+  this->m_DigitalisedInputImageg = ITK_NULLPTR;
+}
+
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -236,36 +239,22 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::UpdateOutputInformation()
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // Call superclass's version
-  Superclass::UpdateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
-  if (strcmp(this->GetOutput()->GetNameOfClass(), "VectorImage") == 0)
+  OutputImageType * output = this->GetOutput();
+  // If the output image type is a VectorImage the number of
+  // components will be properly sized if before allocation, if the
+  // output is a fixed width vector and the wrong number of
+  // components, then an exception will be thrown.
+  if (output->GetNumberOfComponentsPerPixel() != 8)
   {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength(this->GetOutput(), 8);
+    output->SetNumberOfComponentsPerPixel(8);
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
-void
-CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetMaskImage(const InputImageType * image)
-{
-  // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(1, const_cast<InputImageType *>(image));
-}
-
-template <typename TInputImage, typename TOutputImage>
-const TInputImage *
-CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GetMaskImage() const
-{
-  if (this->GetNumberOfInputs() < 2)
-  {
-    return ITK_NULLPTR;
-  }
-  return static_cast<const InputImageType *>(this->ProcessObject::GetInput(1));
-}
 
 template <typename TInputImage, typename TOutputImage>
 void
