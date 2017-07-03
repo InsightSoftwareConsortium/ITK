@@ -99,15 +99,6 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreaded
 
   functorF->Update();
   m_DigitalisedInputImageg = functorF->GetOutput();
-
-  // Support VectorImages by setting number of components on output.
-  OutputImageType * outputPtr = this->GetOutput();
-  if (strcmp(outputPtr->GetNameOfClass(), "VectorImage") == 0)
-  {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength(outputPtr, 8);
-  }
-  outputPtr->Allocate();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -242,15 +233,19 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
 
 template <typename TInputImage, typename TOutputImage>
 void
-CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::UpdateOutputInformation()
+CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 {
   // Call superclass's version
-  Superclass::UpdateOutputInformation();
+  Superclass::GenerateOutputInformation();
 
-  if (strcmp(this->GetOutput()->GetNameOfClass(), "VectorImage") == 0)
+  OutputImageType * output = this->GetOutput();
+  // If the output image type is a VectorImage the number of
+  // components will be properly sized if before allocation, if the
+  // output is a fixed width vector and the wrong number of
+  // components, then an exception will be thrown.
+  if (output->GetNumberOfComponentsPerPixel() != 8)
   {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength(this->GetOutput(), 8);
+    output->SetNumberOfComponentsPerPixel(8);
   }
 }
 
