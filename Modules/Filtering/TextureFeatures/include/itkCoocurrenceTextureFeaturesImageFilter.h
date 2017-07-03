@@ -232,6 +232,8 @@ protected:
   virtual void
   BeforeThreadedGenerateData() ITK_OVERRIDE;
   virtual void
+  AfterThreadedGenerateData() ITK_OVERRIDE;
+  virtual void
   ThreadedGenerateData(const OutputRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
   virtual void
   UpdateOutputInformation() ITK_OVERRIDE;
