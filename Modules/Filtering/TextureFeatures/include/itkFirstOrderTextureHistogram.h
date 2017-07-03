@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkTextureHistogram_h
-#define itkTextureHistogram_h
+#ifndef itkFirstOrderTextureHistogram_h
+#define itkFirstOrderTextureHistogram_h
 
 #include "itkNumericTraits.h"
 #include <map>
@@ -26,7 +26,7 @@ namespace itk
 namespace Function
 {
 
-/* \class TextureHistogram
+/* \class FirstOrderTextureHistogram
  *
  * An implementation of the "MovingHistogram" interface for the
  * MovingHistogramImageFilter class. This implementation maintains a
@@ -36,10 +36,10 @@ namespace Function
  * \ingroup ITKTextureFeatures
  */
 template <class TInputPixel, class TOutputPixel>
-class ITK_TEMPLATE_EXPORT TextureHistogram
+class ITK_TEMPLATE_EXPORT FirstOrderTextureHistogram
 {
 public:
-  TextureHistogram() { m_Count = 0; }
+  FirstOrderTextureHistogram() { m_Count = 0; }
 
   void
   AddPixel(const TInputPixel & p)

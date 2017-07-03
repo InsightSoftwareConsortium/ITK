@@ -15,16 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkTextureMovingHistogramImageFilter_h
-#define itkTextureMovingHistogramImageFilter_h
+#ifndef itkFirstOrderTextureFeaturesImageFilter_h
+#define itkFirstOrderTextureFeaturesImageFilter_h
 
 #include "itkMovingHistogramImageFilter.h"
-#include "itkTextureHistogram.h"
+#include "itkFirstOrderTextureHistogram.h"
 
 namespace itk
 {
 /**
- * \class TextureMovingHistogramImageFilter
+ * \class FirstOrderTextureFeaturesImageFilter
  * \brief Compute first order statistics in a neighborhood for each
  * pixel.
  *
@@ -42,21 +42,21 @@ namespace itk
  */
 
 template <class TInputImage, class TOutputImage, class TKernel>
-class ITK_TEMPLATE_EXPORT TextureMovingHistogramImageFilter
+class ITK_TEMPLATE_EXPORT FirstOrderTextureFeaturesImageFilter
   : public MovingHistogramImageFilter<
       TInputImage,
       TOutputImage,
       TKernel,
-      typename Function::TextureHistogram<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
+      typename Function::FirstOrderTextureHistogram<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
 {
 public:
   /** Standard class typedefs. */
-  typedef TextureMovingHistogramImageFilter Self;
+  typedef FirstOrderTextureFeaturesImageFilter Self;
   typedef MovingHistogramImageFilter<
     TInputImage,
     TOutputImage,
     TKernel,
-    typename Function::TextureHistogram<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
+    typename Function::FirstOrderTextureHistogram<typename TInputImage::PixelType, typename TOutputImage::PixelType>>
                                    Superclass;
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
@@ -65,7 +65,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(TextureMovingHistogramImageFilter, MovingHistogramMorphologyImageFilter);
+  itkTypeMacro(FirstOrderTextureFeaturesImageFilter, MovingHistogramMorphologyImageFilter);
 
   /** Image related typedefs. */
   typedef TInputImage                                InputImageType;
@@ -88,7 +88,7 @@ protected:
     return 8;
   }
 
-  TextureMovingHistogramImageFilter() {}
+  FirstOrderTextureFeaturesImageFilter() {}
 
   void
   GenerateOutputInformation()
@@ -110,10 +110,10 @@ protected:
   }
 
 
-  ~TextureMovingHistogramImageFilter() {}
+  ~FirstOrderTextureFeaturesImageFilter() {}
 
 private:
-  TextureMovingHistogramImageFilter(const Self &); // purposely not implemented
+  FirstOrderTextureFeaturesImageFilter(const Self &); // purposely not implemented
   void
   operator=(const Self &); // purposely not implemented
 }; // end of class

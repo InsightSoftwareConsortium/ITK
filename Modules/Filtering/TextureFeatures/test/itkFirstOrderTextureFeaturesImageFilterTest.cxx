@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkTextureMovingHistogramImageFilter.h"
+#include "itkFirstOrderTextureFeaturesImageFilter.h"
 #include "itkFlatStructuringElement.h"
 #include "itkImage.h"
 #include "itkImageFileReader.h"
@@ -30,7 +30,7 @@ Test1(const std::string & inFileName, const std::string & outFileName)
   typedef itk::Image<itk::FixedArray<float, 8>, ImageDimension> OImageType;
   typedef itk::FlatStructuringElement<ImageDimension>           KernelType;
 
-  typedef itk::TextureMovingHistogramImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
+  typedef itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
 
 
   typedef itk::ImageFileReader<ImageType> ReaderType;
@@ -64,7 +64,7 @@ Test2(std::string inFileName)
   typedef itk::VectorImage<float, ImageDimension>     OImageType;
   typedef itk::FlatStructuringElement<ImageDimension> KernelType;
 
-  typedef itk::TextureMovingHistogramImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
+  typedef itk::FirstOrderTextureFeaturesImageFilter<ImageType, OImageType, KernelType> TextureFilterType;
 
 
   typedef itk::ImageFileReader<ImageType> ReaderType;
@@ -85,7 +85,7 @@ Test2(std::string inFileName)
 }
 
 int
-itkTextureMovingHistogramImageFilterTest(int argc, char * argv[])
+itkFirstOrderTextureFeaturesImageFilterTest(int argc, char * argv[])
 {
 
   if (argc < 2)
