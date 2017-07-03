@@ -128,12 +128,11 @@ public:
   itkGetConstMacro(NeighborhoodRadius, NeighborhoodRadiusType);
 
   /** Method to set the mask image */
-  void
-  SetMaskImage(const InputImageType * image);
+  itkSetInputMacro(MaskImage, InputImageType);
 
   /** Method to get the mask image */
-  const InputImageType *
-  GetMaskImage() const;
+  itkGetInputMacro(MaskImage, InputImageType);
+
 
   /** Specify the default number of bins per axis */
   itkStaticConstMacro(DefaultBinsPerAxis, unsigned int, 256);

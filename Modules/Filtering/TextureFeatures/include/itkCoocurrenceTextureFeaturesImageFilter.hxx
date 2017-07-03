@@ -37,6 +37,12 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::CoocurrenceTex
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
 
+  // Mark the "MaskImage" as an optional named input. First it has to
+  // be added to the list of named inputs then removed from the
+  // required list.
+  Self::AddRequiredInputName("MaskImage");
+  Self::RemoveRequiredInputName("MaskImage");
+
   // Set the offset directions to their defaults: half of all the possible
   // directions 1 pixel away. (The other half is included by symmetry.)
   // We use a neighborhood iterator to calculate the appropriate offsets.
@@ -249,24 +255,6 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GenerateOutput
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
-void
-CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetMaskImage(const InputImageType * image)
-{
-  // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(1, const_cast<InputImageType *>(image));
-}
-
-template <typename TInputImage, typename TOutputImage>
-const TInputImage *
-CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::GetMaskImage() const
-{
-  if (this->GetNumberOfInputs() < 2)
-  {
-    return ITK_NULLPTR;
-  }
-  return static_cast<const InputImageType *>(this->ProcessObject::GetInput(1));
-}
 
 template <typename TInputImage, typename TOutputImage>
 void
