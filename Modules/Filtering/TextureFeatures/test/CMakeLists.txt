@@ -507,7 +507,7 @@ itk_add_test(
   COMMAND
     TextureFeaturesTestDriver
     itkFirstOrderTextureFeaturesImageFilterTest
-    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+    DATA{Input/cthead1.png}
     ${ITK_TEST_OUTPUT_DIR}/itkTextureFeatureImageFilterTest1.mha
     5
 )
