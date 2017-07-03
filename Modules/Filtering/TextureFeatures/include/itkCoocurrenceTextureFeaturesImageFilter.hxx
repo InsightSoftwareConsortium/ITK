@@ -73,7 +73,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  InputImageType * maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
+  const InputImageType * maskPointer = this->GetMaskImage();
   this->m_DigitalisedInputImageg = InputImageType::New();
   this->m_DigitalisedInputImageg->SetRegions(this->GetInput()->GetRequestedRegion());
   this->m_DigitalisedInputImageg->CopyInformation(this->GetInput());
@@ -177,13 +177,8 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
         continue;
       }
       // Initialisation of the histogram
-      for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
-      {
-        for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
-        {
-          hist[a][b] = 0;
-        }
-      }
+      hist.fill(0);
+
       totalNumberOfFreq = 0;
       // Iteration over all the offsets
       for (offsets = m_Offsets->Begin(); offsets != m_Offsets->End(); ++offsets)
@@ -305,8 +300,8 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighb
 template <typename TInputImage, typename TOutputImage>
 void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
-  vnl_matrix<unsigned int> &         hist,
-  const unsigned int &               totalNumberOfFreq,
+  const vnl_matrix<unsigned int> &   hist,
+  const unsigned int                 totalNumberOfFreq,
   typename TOutputImage::PixelType & outputPixel)
 {
   // Now get the various means and variances. This is takes two passes
@@ -378,12 +373,12 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeature
 template <typename TInputImage, typename TOutputImage>
 void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAndVariances(
-  vnl_matrix<unsigned int> & hist,
-  const unsigned int &       totalNumberOfFreq,
-  double &                   pixelMean,
-  double &                   marginalMean,
-  double &                   marginalDevSquared,
-  double &                   pixelVariance)
+  const vnl_matrix<unsigned int> & hist,
+  const unsigned int               totalNumberOfFreq,
+  double &                         pixelMean,
+  double &                         marginalMean,
+  double &                         marginalDevSquared,
+  double &                         pixelVariance)
 {
   // This function takes two passes through the histogram and two passes through
   // an array of the same length as a histogram axis. This could probably be
@@ -404,7 +399,6 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeMeansAn
   {
     for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
     {
-      int   k = hist[a][b];
       float frequency = hist[a][b] / (float)totalNumberOfFreq;
       pixelMean += a * frequency;
       marginalSums[a] += frequency;
