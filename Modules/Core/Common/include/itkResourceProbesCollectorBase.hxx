@@ -59,6 +59,22 @@ ResourceProbesCollectorBase< TProbe >
 
 
 template< typename TProbe >
+const TProbe &
+ResourceProbesCollectorBase< TProbe >
+::GetProbe(const char *id) const
+{
+  IdType tid = id;
+
+  typename MapType::const_iterator pos = this->m_Probes.find(tid);
+  if ( pos == this->m_Probes.end() )
+    {
+    itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist.");
+    }
+  return pos->second;
+}
+
+
+template< typename TProbe >
 void
 ResourceProbesCollectorBase< TProbe >
 ::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
