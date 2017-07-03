@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToTextureFeaturesImageFilter.h"
+#include "itkRunLengthTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
 #include "itkVector.h"
@@ -26,7 +26,7 @@
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
+RunLengthTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -37,12 +37,14 @@ ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * arg
               << " [numberOfBinsPerAxis]"
               << " [pixelValueMin]"
               << " [pixelValueMax]"
+              << " [minDistance]"
+              << " [maxDistance]"
               << " [neighborhoodRadius]" << std::endl;
     return EXIT_FAILURE;
   }
 
   const unsigned int ImageDimension = 3;
-  const unsigned int VectorComponentDimension = 8;
+  const unsigned int VectorComponentDimension = 10;
 
   // Declare types
   typedef int                                                             InputPixelType;
@@ -54,6 +56,7 @@ ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * arg
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
+
   // Create and set up a reader
   ReaderType::Pointer reader = ReaderType::New();
   reader->SetFileName(argv[1]);
@@ -62,9 +65,8 @@ ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * arg
   ReaderType::Pointer maskReader = ReaderType::New();
   maskReader->SetFileName(argv[2]);
 
-
   // Create the filter
-  typedef itk::Statistics::ScalarImageToTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
@@ -75,11 +77,15 @@ ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * arg
     unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType min = std::atof(argv[5]);
-    FilterType::PixelType max = std::atof(argv[6]);
-    filter->SetPixelValueMinMax(min, max);
+    FilterType::PixelType pixelValueMin = std::atof(argv[5]);
+    FilterType::PixelType pixelValueMax = std::atof(argv[6]);
+    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
+    FilterType::RealType minDistance = std::atof(argv[7]);
+    FilterType::RealType maxDistance = std::atof(argv[8]);
+    filter->SetDistanceValueMinMax(minDistance, maxDistance);
+
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
@@ -102,9 +108,9 @@ ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * arg
     WriterType::Pointer                            writer = WriterType::New();
     std::string                                    outputFilename = argv[3];
     std::ostringstream                             ss;
-    ss << i + 1;
+    ss << i;
     std::string s = ss.str();
-    writer->SetFileName(outputFilename + "_1" + s + ".nrrd");
+    writer->SetFileName(outputFilename + "_" + s + ".nrrd");
     writer->SetInput(indexSelectionFilter->GetOutput());
 
     TRY_EXPECT_NO_EXCEPTION(writer->Update());

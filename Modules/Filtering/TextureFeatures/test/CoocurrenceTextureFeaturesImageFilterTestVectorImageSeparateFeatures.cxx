@@ -15,17 +15,20 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToRunLengthFeaturesImageFilter.h"
+#include "itkCoocurrenceTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkVectorImage.h"
+#include "itkImageAlgorithm.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
+#include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkVectorImageToImageAdaptor.h"
+#include "itkNthElementImageAdaptor.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
+CoocurrenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -36,13 +39,12 @@ ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * ar
               << " [numberOfBinsPerAxis]"
               << " [pixelValueMin]"
               << " [pixelValueMax]"
-              << " [minDistance]"
-              << " [maxDistance]"
               << " [neighborhoodRadius]" << std::endl;
     return EXIT_FAILURE;
   }
 
   const unsigned int ImageDimension = 3;
+  const unsigned int VectorComponentDimension = 8;
 
   // Declare types
   typedef int   InputPixelType;
@@ -62,11 +64,8 @@ ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * ar
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::ScalarImageToRunLengthFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
-
-  EXERCISE_BASIC_OBJECT_METHODS(filter, ScalarImageToRunLengthFeaturesImageFilter, ImageToImageFilter);
-
 
   filter->SetInput(reader->GetOutput());
   filter->SetMaskImage(maskReader->GetOutput());
@@ -80,11 +79,7 @@ ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * ar
     FilterType::PixelType pixelValueMax = std::atof(argv[6]);
     filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
 
-    FilterType::RealType minDistance = std::atof(argv[7]);
-    FilterType::RealType maxDistance = std::atof(argv[8]);
-    filter->SetDistanceValueMinMax(minDistance, maxDistance);
-
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
@@ -92,13 +87,28 @@ ScalarImageToRunLengthFeaturesImageFilterTestWithVectorImage(int argc, char * ar
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  // Create and set up a writer
-  typedef itk::ImageFileWriter<OutputImageType> WriterType;
-  WriterType::Pointer                           writer = WriterType::New();
-  writer->SetFileName(argv[3]);
-  writer->SetInput(filter->GetOutput());
 
-  TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  typedef itk::Image<OutputPixelType, ImageDimension>                                 FeatureImageType;
+  typedef itk::VectorIndexSelectionCastImageFilter<OutputImageType, FeatureImageType> IndexSelectionType;
+  IndexSelectionType::Pointer indexSelectionFilter = IndexSelectionType::New();
+  indexSelectionFilter->SetInput(filter->GetOutput());
+
+  for (unsigned int i = 0; i < VectorComponentDimension; i++)
+  {
+    indexSelectionFilter->SetIndex(i);
+
+    // Create and setup a writer
+    typedef itk::ImageFileWriter<FeatureImageType> WriterType;
+    WriterType::Pointer                            writer = WriterType::New();
+    std::string                                    outputFilename = argv[3];
+    std::ostringstream                             ss;
+    ss << i + 1;
+    std::string s = ss.str();
+    writer->SetFileName(outputFilename + "_1" + s + ".nrrd");
+    writer->SetInput(indexSelectionFilter->GetOutput());
+
+    TRY_EXPECT_NO_EXCEPTION(writer->Update());
+  }
 
 
   std::cout << "Test finished." << std::endl;

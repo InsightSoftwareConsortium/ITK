@@ -15,36 +15,41 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToTextureFeaturesImageFilter.h"
+#include "itkRunLengthTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkVector.h"
+#include "itkVectorImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToTextureFeaturesImageFilterTest(int argc, char * argv[])
+RunLengthTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << argv[0] << " inputImageFile"
-              << " maskImageFile" << std::endl;
+              << " maskImageFile"
+              << " outputImageFile"
+              << " [numberOfBinsPerAxis]"
+              << " [pixelValueMin]"
+              << " [pixelValueMax]"
+              << " [minDistance]"
+              << " [maxDistance]"
+              << " [neighborhoodRadius]" << std::endl;
     return EXIT_FAILURE;
   }
 
   const unsigned int ImageDimension = 3;
-  const unsigned int VectorComponentDimension = 8;
 
   // Declare types
-  typedef int                                                             InputPixelType;
-  typedef float                                                           OutputPixelComponentType;
-  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
+  typedef int   InputPixelType;
+  typedef float OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
+  typedef itk::VectorImage<OutputPixelType, ImageDimension>                                     OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
@@ -57,8 +62,11 @@ ScalarImageToTextureFeaturesImageFilterTest(int argc, char * argv[])
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::ScalarImageToTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
+
+  EXERCISE_BASIC_OBJECT_METHODS(filter, RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
+
 
   filter->SetInput(reader->GetOutput());
   filter->SetMaskImage(maskReader->GetOutput());
@@ -72,7 +80,11 @@ ScalarImageToTextureFeaturesImageFilterTest(int argc, char * argv[])
     FilterType::PixelType pixelValueMax = std::atof(argv[6]);
     filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
+    FilterType::RealType minDistance = std::atof(argv[7]);
+    FilterType::RealType maxDistance = std::atof(argv[8]);
+    filter->SetDistanceValueMinMax(minDistance, maxDistance);
+
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());

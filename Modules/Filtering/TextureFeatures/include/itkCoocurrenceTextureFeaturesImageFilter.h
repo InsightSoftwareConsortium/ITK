@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkScalarImageToRunLengthFeaturesImageFilter_h
-#define itkScalarImageToRunLengthFeaturesImageFilter_h
+#ifndef itkCoocurrenceTextureFeaturesImageFilter_h
+#define itkCoocurrenceTextureFeaturesImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkScalarImageToRunLengthMatrixFilter.h"
@@ -26,27 +26,22 @@ namespace itk
 {
 namespace Statistics
 {
-/** \class ScalarImageToRunLengthFeaturesImageFilter
- *  \brief This class computes run length features for each voxel of
+/** \class CoocurrenceTextureFeaturesImageFilter
+ *  \brief This class computes texture descriptions for each voxel of
  *  a given image and a mask image if provided. The output image can then be
  *  displayed by using colormaps.
  *
  * This filter computes a N-D image where each voxel will contain
- * a vector of up to 10 scalars representing the run length features
+ * a vector of up to 8 scalars representing the texture features
  * (of the specified neighborhood) from a N-D scalar image.
- * The run length features are computed for each spatial
+ * The texture features are computed for each spatial
  * direction and averaged afterward.
- * The result obtained is a possible texture description. See the following references.
- * M. M. Galloway. Texture analysis using gray level run lengths. Computer
- * Graphics and Image Processing, 4:172-179, 1975.
  *
- * A. Chu, C. M. Sehgal, and J. F. Greenleaf. Use of gray value distribution of
- * run lengths for texture analysis.  Pattern Recognition Letters, 11:415-420,
- * 1990.
- *
- * B. R. Dasarathy and E. B. Holder. Image characterizations based on joint
- * gray-level run-length distributions. Pattern Recognition Letters, 12:490-502,
- * 1991.
+ * This filter use grey-level co-occurence matrix in order to compute  description a la Haralick. (See
+ * Haralick, R.M., K. Shanmugam and I. Dinstein. 1973. Textural Features for
+ * Image Classification. IEEE Transactions on Systems, Man and Cybernetics.
+ * SMC-3(6):610-620. See also Haralick, R.M. 1979. Statistical and Structural
+ * Approaches to Texture. Proceedings of the IEEE, 67:786-804.)
  *
  * Template Parameters:
  * -# The input image type: a N dimensional image where the pixel type MUST be integer.
@@ -65,8 +60,6 @@ namespace Statistics
  *    for ND images.)
  * -# The pixel intensity range over which the features will be calculated.
  *    (Optional, defaults to the full dynamic range of the pixel type.)
- * -# The distance range over which the features will be calculated.
- *    (Optional, defaults to the full dynamic range of double type.)
  * -# The size of the neighborhood radius. (Optional, defaults to 2.)
  *
  * Recommendations:
@@ -75,35 +68,32 @@ namespace Statistics
  *    the image a crop step should be considered prior to the usage of this filter.
  * -# Mask: Even if optional, the usage of a mask will greatly improve the computation time.
  * -# Number of intensity bins: The number of bins should be adapted to the type of results expected
- *    and the intensity and distances ranges. In addition a high number of bins will increase the
+ *    and the intensity range. In addition a high number of bins will increase the
  *    computation time.
  * -# Pixel intensity range: For better results the Pixel intensity should be adapted to the input image
  *    intensity range. For example they could be the minimum and maximum intensity of the image, or 0 and
  *    the maximum intensity (if the negative values are considered as noise).
- * -# Distance range: For better results the distance range should be adapted to the spacing of the input image
- *    and the size of the neighborhood.
  *
- * \sa ScalarImageToRunLengthFeaturesFilter
- * \sa ScalarImageToRunLengthMatrixFilter
- * \sa HistogramToRunLengthFeaturesFilter
+ * \sa HistogramToTextureFeaturesFilter
+ * \sa ScalarImageToCooccurrenceMatrixFilte
+ * \sa ScalarImageToTextureFeaturesFilter
  *
  * \author: Jean-Baptiste Vimort
  * \ingroup TextureFeatures
- */
+ **/
 
 template <typename TInputImage, typename TOutputImage>
-class ITK_TEMPLATE_EXPORT ScalarImageToRunLengthFeaturesImageFilter
-  : public ImageToImageFilter<TInputImage, TOutputImage>
+class ITK_TEMPLATE_EXPORT CoocurrenceTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   /** Standard typedefs */
-  typedef ScalarImageToRunLengthFeaturesImageFilter     Self;
+  typedef CoocurrenceTextureFeaturesImageFilter         Self;
   typedef ImageToImageFilter<TInputImage, TOutputImage> Superclass;
   typedef SmartPointer<Self>                            Pointer;
   typedef SmartPointer<const Self>                      ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ScalarImageToRunLengthFeaturesImageFilter, ImageToImageFilter);
+  itkTypeMacro(CoocurrenceTextureFeaturesImageFilter, ImageToImageFilter);
 
   /** standard New() method support */
   itkNewMacro(Self);
@@ -146,7 +136,7 @@ public:
   itkStaticConstMacro(DefaultBinsPerAxis, unsigned int, 256);
 
   /**
-   * Set the offsets over which the intensity/distance pairs will be computed.
+   * Set the offsets over which the intensities pairs will be computed.
    * Invoking this function clears the previous offsets.
    * Note: for each individual offset in the OffsetVector, the rightmost non-zero
    * offset element must be positive. For example, in the offset list of a 2D image,
@@ -157,7 +147,7 @@ public:
   itkSetObjectMacro(Offsets, OffsetVector);
 
   /**
-   * Set offset over which the intensity/distance pairs will be computed.
+   * Set offset over which the intensities pairs will be computed.
    * Invoking this function clears the previous offset(s).
    * Note: for each individual offset, the rightmost non-zero
    * offset element must be positive. For example, in the offset list of a 2D image,
@@ -193,28 +183,17 @@ public:
   itkGetConstMacro(Max, PixelType);
 
   /**
-   * Set the min and max (inclusive) pixel value that will be used in
-   * generating the histogram.
-   */
-  void
-  SetDistanceValueMinMax(RealType min, RealType max);
-
-  /**
-   * Get the min distance value defining one dimension of the joint histogram.
-   */
-  itkGetConstMacro(MinDistance, RealType);
-
-  /**
-   * Get the max distance value defining one dimension of the joint histogram.
-   */
-  itkGetConstMacro(MaxDistance, RealType);
-
-  /**
    * Set the pixel value of the mask that should be considered "inside" the
    * object. Defaults to 1.
    */
   itkSetMacro(InsidePixelValue, PixelType);
   itkGetConstMacro(InsidePixelValue, PixelType);
+
+  /** Set the calculator to normalize the histogram (divide all bins by the
+    total frequency). Normalization is off by default. */
+  itkSetMacro(Normalize, bool);
+  itkGetConstMacro(Normalize, bool);
+  itkBooleanMacro(Normalize);
 
   typedef typename OutputImageType::PixelType                     OutputPixelType;
   typedef typename NumericTraits<OutputPixelType>::ScalarRealType OutputRealType;
@@ -227,23 +206,22 @@ public:
 #endif
 
 protected:
-  ScalarImageToRunLengthFeaturesImageFilter();
-  virtual ~ScalarImageToRunLengthFeaturesImageFilter() {}
+  CoocurrenceTextureFeaturesImageFilter();
+  virtual ~CoocurrenceTextureFeaturesImageFilter() {}
 
-  void
-  NormalizeOffsetDirection(OffsetType & offset);
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);
   void
-  IncreaseHistograme(unsigned int **      hist,
-                     unsigned int &       totalNumberOfRuns,
-                     const PixelType &    curentInNeighborhoodPixelIntensity,
-                     const OffsetType &   offset,
-                     const unsigned int & pixelDistance);
-  void
-  ComputeFeatures(unsigned int **                    hist,
-                  const unsigned int &               totalNumberOfRuns,
+  ComputeFeatures(vnl_matrix<unsigned int> &         hist,
+                  const unsigned int &               totalNumberOfFreq,
                   typename TOutputImage::PixelType & outputPixel);
+  void
+  ComputeMeansAndVariances(vnl_matrix<unsigned int> & hist,
+                           const unsigned int &       totalNumberOfFreq,
+                           double &                   pixelMean,
+                           double &                   marginalMean,
+                           double &                   marginalDevSquared,
+                           double &                   pixelVariance);
   virtual void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
@@ -262,16 +240,15 @@ private:
   unsigned int                      m_NumberOfBinsPerAxis;
   PixelType                         m_Min;
   PixelType                         m_Max;
-  RealType                          m_MinDistance;
-  RealType                          m_MaxDistance;
   PixelType                         m_InsidePixelValue;
   typename TInputImage::SpacingType m_Spacing;
+  bool                              m_Normalize;
 };
 } // end of namespace Statistics
 } // end of namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkScalarImageToRunLengthFeaturesImageFilter.hxx"
+#  include "itkCoocurrenceTextureFeaturesImageFilter.hxx"
 #endif
 
 #endif

@@ -15,17 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkScalarImageToTextureFeaturesImageFilter.h"
+#include "itkRunLengthTextureFeaturesImageFilter.h"
 
 #include "itkImage.h"
-#include "itkVectorImage.h"
+#include "itkVector.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkNeighborhood.h"
 #include "itkTestingMacros.h"
 
 int
-ScalarImageToTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv[])
+RunLengthTextureFeaturesImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
@@ -36,18 +36,22 @@ ScalarImageToTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv
               << " [numberOfBinsPerAxis]"
               << " [pixelValueMin]"
               << " [pixelValueMax]"
+              << " [minDistance]"
+              << " [maxDistance]"
               << " [neighborhoodRadius]" << std::endl;
     return EXIT_FAILURE;
   }
 
   const unsigned int ImageDimension = 3;
+  const unsigned int VectorComponentDimension = 10;
 
   // Declare types
-  typedef int   InputPixelType;
-  typedef float OutputPixelType;
+  typedef int                                                             InputPixelType;
+  typedef float                                                           OutputPixelComponentType;
+  typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
-  typedef itk::VectorImage<OutputPixelType, ImageDimension>                                     OutputImageType;
+  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
   typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
@@ -60,28 +64,40 @@ ScalarImageToTextureFeaturesImageFilterTestWithVectorImage(int argc, char * argv
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::ScalarImageToTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+
   FilterType::Pointer filter = FilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS(filter, ScalarImageToTextureFeaturesImageFilter, ImageToImageFilter);
+  EXERCISE_BASIC_OBJECT_METHODS(filter, RunLengthTextureFeaturesImageFilter, ImageToImageFilter);
 
 
   filter->SetInput(reader->GetOutput());
   filter->SetMaskImage(maskReader->GetOutput());
+  TEST_SET_GET_VALUE(maskReader->GetOutput(), filter->GetMaskImage());
 
   if (argc >= 5)
   {
     unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
+    TEST_SET_GET_VALUE(numberOfBinsPerAxis, filter->GetNumberOfBinsPerAxis());
 
     FilterType::PixelType pixelValueMin = std::atof(argv[5]);
     FilterType::PixelType pixelValueMax = std::atof(argv[6]);
     filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+    TEST_SET_GET_VALUE(pixelValueMin, filter->GetMin());
+    TEST_SET_GET_VALUE(pixelValueMax, filter->GetMax());
 
-    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
+    FilterType::RealType minDistance = std::atof(argv[7]);
+    FilterType::RealType maxDistance = std::atof(argv[8]);
+    filter->SetDistanceValueMinMax(minDistance, maxDistance);
+    TEST_SET_GET_VALUE(minDistance, filter->GetMinDistance());
+    TEST_SET_GET_VALUE(maxDistance, filter->GetMaxDistance());
+
+    NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
     NeighborhoodType                hood;
     hood.SetRadius(neighborhoodRadius);
     filter->SetNeighborhoodRadius(hood.GetRadius());
+    TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
   }
 
   TRY_EXPECT_NO_EXCEPTION(filter->Update());
