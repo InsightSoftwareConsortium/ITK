@@ -19,6 +19,7 @@
 #define itkFirstOrderTextureHistogram_h
 
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 #include <map>
 
 namespace itk
