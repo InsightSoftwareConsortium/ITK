@@ -51,7 +51,7 @@ TEST(TextTureFeatures, FirstOrder_Test1)
 
   unsigned int                r = 50u;
   unsigned int                d = r * 2 + 1;
-  ImageType::SizeType         imageSize = { d, d };
+  ImageType::SizeType         imageSize = { { d, d } };
   ImageType::SpacingValueType imageSpacing[] = { 1.0f, 1.0f };
 
   ImageType::Pointer image = ImageType::New();
@@ -81,8 +81,8 @@ TEST(TextTureFeatures, FirstOrder_Test1)
   FilterWatcher watcher(filter, "filter");
 
 
-  ImageType::SizeType   requestSize = { 10, 10 };
-  ImageType::IndexType  requestIndex = { 45, 45 };
+  ImageType::SizeType   requestSize = { { 10, 10 } };
+  ImageType::IndexType  requestIndex = { { 45, 45 } };
   ImageType::RegionType request(requestIndex, requestSize);
   filter->GetOutput()->SetRequestedRegion(request);
   filter->Update();
@@ -90,7 +90,7 @@ TEST(TextTureFeatures, FirstOrder_Test1)
   OImageType::ConstPointer output = filter->GetOutput();
 
   {
-    ImageType::IndexType          idx = { r, r };
+    ImageType::IndexType          idx = { { r, r } };
     const OImageType::PixelType & p = output->GetPixel(idx);
 
     print_feature(p);
@@ -121,7 +121,7 @@ TEST(TextTureFeatures, FirstOrder_Test2)
 
   unsigned int                r = 50u;
   unsigned int                d = r * 2 + 1;
-  ImageType::SizeType         imageSize = { d, d };
+  ImageType::SizeType         imageSize = { { d, d } };
   ImageType::SpacingValueType imageSpacing[] = { 1.0f, 1.0f };
 
   ImageType::Pointer image = ImageType::New();
@@ -151,8 +151,8 @@ TEST(TextTureFeatures, FirstOrder_Test2)
   FilterWatcher watcher(filter, "filter");
 
 
-  ImageType::SizeType   requestSize = { 10, 10 };
-  ImageType::IndexType  requestIndex = { 45, 45 };
+  ImageType::SizeType   requestSize = { { 10, 10 } };
+  ImageType::IndexType  requestIndex = { { 45, 45 } };
   ImageType::RegionType request(requestIndex, requestSize);
   filter->GetOutput()->SetRequestedRegion(request);
   filter->Update();
@@ -160,7 +160,7 @@ TEST(TextTureFeatures, FirstOrder_Test2)
   OImageType::ConstPointer output = filter->GetOutput();
 
   {
-    ImageType::IndexType          idx = { r, r };
+    ImageType::IndexType          idx = { { r, r } };
     const OImageType::PixelType & p = output->GetPixel(idx);
 
     print_feature(p);
