@@ -27,8 +27,18 @@ endif()
 add_subdirectory( "${GTEST_SRC}"
   "${CMAKE_CURRENT_BINARY_DIR}/GTest-build" EXCLUDE_FROM_ALL)
 
+
+# The standard CMake FindGTest exports namespace targets, create
+# similar name alias and export names
+
 add_library(GTest::GTest ALIAS gtest)
 add_library(GTest::Main ALIAS gtest_main)
+
+set_property(TARGET gtest PROPERTY EXPORT_NAME GTest::GTest)
+set_property(TARGET gtest_main PROPERTY EXPORT_NAME GTest::Main)
+
+itk_module_target(gtest NO_INSTALL)
+itk_module_target(gtest_main NO_INSTALL)
 
 mark_as_advanced(gtest_build_samples)
 mark_as_advanced(gtest_build_tests)
