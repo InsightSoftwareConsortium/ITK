@@ -34,9 +34,24 @@
 die() {
   echo "$@" 1>&2; exit 1
 }
+do_cleanup=false
+object_store=""
+help=false
+while [[ $# -gt 0 ]] ;
+do
+    opt="$1";
+    shift;
+    case "$opt" in
+        "-h"|"--help")
+           help=true;;
+        "--cleanup" )
+           do_cleanup=true;;
+        *) if test "${object_store}" = "" ; then object_store=$opt; else echo >&2 "Invalid option: $opt"; exit 1; fi;;
+   esac
+done
 
-if test $# -lt 1 || test "$1" = "-h" || test "$1" = "--help"; then
-  die "Usage: $0 <ExternalData_OBJECT_STORES path>"
+if test "${object_store}" = "" || $help; then
+  die "Usage: $0 <ExternalData_OBJECT_STORES path> [--cleanup]"
 fi
 
 if ! type md5sum > /dev/null; then
@@ -48,8 +63,6 @@ fi
 
 top_level_dir=$(git rev-parse --show-toplevel)
 cd "$top_level_dir"
-
-object_store=$1
 
 mkdir -p ${object_store}/{MD5,SHA512}
 
@@ -102,8 +115,31 @@ verify_and_create() {
   done || exit 1
 }
 
+cleanup() {
+  algo=$1
+  alt_algo=$2
+
+  algo_upper=$(echo $algo | awk '{print toupper($0)}')
+  alt_algo_upper=$(echo $alt_algo | awk '{print toupper($0)}')
+
+  for algo_file_name in `ls "${object_store}/${algo_upper}"`; do
+    algo_file=${object_store}/${algo_upper}/${algo_file_name}
+    echo "Verifying  ${algo_file}"
+    alt_algo_file=$(${alt_algo}sum "${algo_file}"  | cut -f 1 -d ' ')
+    if test ! -e "${object_store}/${alt_algo_upper}/${alt_algo_file}"; then
+      die "extra file ${algo_file} ..."
+    fi
+  done || exit 1
+}
+
+
 verify_and_create md5 sha512
 verify_and_create sha512 md5
+
+if $do_cleanup; then
+  cleanup md5 sha512
+  cleanup sha512 md5
+fi
 
 echo ""
 echo "Verification completed successfully."
