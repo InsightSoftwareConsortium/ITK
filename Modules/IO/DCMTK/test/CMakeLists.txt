@@ -44,12 +44,12 @@ itk_add_test(NAME itkDCMTKImageIOTest4 COMMAND ITKIODCMTKTestDriver
 itk_add_test(NAME itkDCMTKSeriesReadImageWrite
   COMMAND ITKIODCMTKTestDriver itkDCMTKSeriesReadImageWrite
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
-  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk)
 
 itk_add_test(NAME itkDCMTKDirCosinesTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKSeriesReadImageWrite
   DATA{${ITK_DATA_ROOT}/Input/DicomDirectionsTest/,REGEX:1020_[0-9]+.dcm}
-  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk ${ITK_TEST_OUTPUT_DIR})
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesReadImageWrite.vtk)
 
 set_property(TEST itkDCMTKSeriesReadImageWrite APPEND PROPERTY DEPENDS ITKData)
 
@@ -58,6 +58,14 @@ itk_add_test(NAME itkDCMTKSeriesStreamReadImageWrite1
   DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesStreamReadImageWrite1.mhd
   0.859375 0.85939 1.60016 0)
+
+itk_add_test(NAME itkDCMTKSeriesImageOrientationWrite1
+  COMMAND ITKIODCMTKTestDriver
+  --compare ${CMAKE_SOURCE_DIR}/Modules/IO/DCMTK/test/Input/ImageOrientation/itkDCMTKSeriesImageOrientationWrite1.mha
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesImageOrientationWrite1.mha
+  itkDCMTKSeriesReadImageWrite
+  ${CMAKE_SOURCE_DIR}/Modules/IO/DCMTK/test/Input/ImageOrientation
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesImageOrientationWrite1.mha)
 
 itk_add_test(NAME itkDCMTKImageIOOrthoDirTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKImageIOOrthoDirTest
