@@ -13,7 +13,6 @@ set(
   ScalarImageToTextureFeaturesImageFilterTestSeparateFeatures.cxx
   ScalarImageToTextureFeaturesImageFilterTestWithoutMask.cxx
   ScalarImageToTextureFeaturesImageFilterTestWithVectorImage.cxx
-  ScalarImageToTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
 )
 
 set(
@@ -30,6 +29,7 @@ set(
   CoocurrenceTextureFeaturesImageFilterTestWithoutMask.cxx
   CoocurrenceTextureFeaturesImageFilterTestWithVectorImage.cxx
   CoocurrenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures.cxx
+  itkFirstOrderTextureFeaturesImageFilterTest.cxx
 )
 
 createtestdriver(TextureFeatures "${TextureFeatures-Test_LIBRARIES}" "${TextureFeaturesTests}")
@@ -501,3 +501,19 @@ itk_add_test(
     4200
     4
 )
+
+itk_add_test(
+  NAME itkFirstOrderTextureFeaturesImageFilterTest1
+  COMMAND
+    TextureFeaturesTestDriver
+    itkFirstOrderTextureFeaturesImageFilterTest
+    DATA{Input/cthead1.png}
+    ${ITK_TEST_OUTPUT_DIR}/itkTextureFeatureImageFilterTest1.mha
+    5
+)
+
+if(NOT "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}" VERSION_LESS "4.12")
+  set(TextureFeaturesGTests itkFirstOrderTextureFeaturesImageFilterGTest.cxx)
+
+  creategoogletestdriver(TextureFeatures "${TextureFeatures-Test_LIBRARIES}" "${TextureFeaturesGTests}")
+endif()
