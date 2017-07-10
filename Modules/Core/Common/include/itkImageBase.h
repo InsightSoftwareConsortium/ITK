@@ -530,6 +530,9 @@ public:
    * possible to use this method with both Vector and CovariantVector.
    * The Method is implemented differently in the itk::Image.
    *
+   * The inputGradient and the outputGradient must not refer to the
+   * same data.
+   *
    * \sa Image
    */
   template< typename TCoordRep >
@@ -542,6 +545,8 @@ public:
     // MetaProgramming.
     //
     const DirectionType & direction = this->GetDirection();
+
+    itkAssertInDebugAndIgnoreInReleaseMacro( inputGradient.GetDataPointer() != outputGradient.GetDataPointer());
 
     for ( unsigned int i = 0; i < VImageDimension; ++i )
       {
@@ -562,6 +567,10 @@ public:
    * multiply the array (vector or covariant vector) by the inverse of Direction
    * Cosines. The arguments of the method are of type FixedArray to make
    * possible to use this method with both Vector and CovariantVector.
+   *
+   * The inputGradient and the outputGradient must not refer to the
+   * same data.
+   *
    */
   template< typename TCoordRep >
   void TransformPhysicalVectorToLocalVector(
@@ -573,6 +582,8 @@ public:
     // MetaProgramming.
     //
     const DirectionType & inverseDirection = this->GetInverseDirection();
+
+    itkAssertInDebugAndIgnoreInReleaseMacro( inputGradient.GetDataPointer() != outputGradient.GetDataPointer());
 
     for ( unsigned int i = 0; i < VImageDimension; ++i )
       {
