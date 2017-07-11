@@ -782,7 +782,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
   const ImageType *            output = this->GetOutput();
 
-  VNLMatrixType rotationMatrix = labelObject->GetPrincipalAxes().GetVnlMatrix();
+  VNLMatrixType principalAxesBasisMatrix = labelObject->GetPrincipalAxes().GetVnlMatrix();
+
   const typename LabelObjectType::CentroidType centroid = labelObject->GetCentroid();
   const unsigned int numLines = labelObject->GetNumberOfLines();
 
@@ -814,57 +815,69 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
 
   // Project the physical points onto principal axes
-  VNLMatrixType transformedPixelLocations = rotationMatrix * pixelLocations;
+  VNLMatrixType transformedPixelLocations = principalAxesBasisMatrix * pixelLocations;
 
   // find the bounds in the projected domain
   assert( transformedPixelLocations.columns() != 0 );
-  VNLVectorType proj_min = transformedPixelLocations.get_column(0);
-  VNLVectorType proj_max = transformedPixelLocations.get_column(0);
+  VNLVectorType minimumPrincipalAxis = transformedPixelLocations.get_column(0);
+  VNLVectorType maximumPrincipalAxis = transformedPixelLocations.get_column(0);
 
   for ( unsigned int column = 1; column < transformedPixelLocations.columns(); column++ )
     {
     for ( unsigned int i = 0; i < ImageDimension; ++i )
       {
       const double value = transformedPixelLocations(i, column);
-      proj_min[i] = std::min(proj_min[i], value);
-      proj_max[i] = std::max(proj_max[i], value);
+      minimumPrincipalAxis[i] = std::min(minimumPrincipalAxis[i], value);
+      maximumPrincipalAxis[i] = std::max(maximumPrincipalAxis[i], value);
       }
     }
 
+  // The minimumPrincipalAxis/maximumPrincipalAxis is from center of pixel to center of pixel
+  // in the principal axis basis. The full extent of the pixels needs
+  // to include the offset bits from the center of the pixel to the
+  // corners. The extrema of the OBB is increased by checking all
+  // corners of the pixels, via computing the offset vector from the
+  // center to the corner in the principal axis basis.
 
-  // The proj_min/max is from center of pixel to center of pixel. The
-  // full extent of the pixels needs to include the offset bits from
-  // the center of the pixel to the corners. The extrema of the
-  // OBB is increased by the maximum of the projected spacing.
+  VNLVectorType adjusted_minimumPrincipalAxis = minimumPrincipalAxis;
+  VNLVectorType adjusted_maximumPrincipalAxis = maximumPrincipalAxis;
+
   const typename ImageType::SpacingType & spacing = output->GetSpacing();
-  Vector<double, ImageDimension> physicalOffset;
-  output->TransformLocalVectorToPhysicalVector(spacing, physicalOffset);
 
-  for ( unsigned int i = 0; i < ImageDimension; ++i )
+  // iterate over all corners (2^D) of the pixel
+  for ( unsigned int p = 0; p < 1u<<ImageDimension; ++p )
     {
+    Vector<double, ImageDimension> spacingAxis(0.5*spacing);
 
-    // the size of the pixels center to corner offset is maximized,
-    // when the sign of the basis vector ( rotation matrix column )
-    // matches, the spacing.
-    Vector<double, ImageDimension>  basisVector;
-    for ( unsigned int j = 0; j < ImageDimension; ++j )
+    // permute signs of spacing vector components, based on a bit of p
+    // to component of spacingAxis mapping
+    for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-      basisVector[j] = rotationMatrix(j,i);
-      basisVector[j] *= Math::sgn0(basisVector[j]) * Math::sgn0( physicalOffset[j]);
+      if (p & 1u<<i)
+        {
+        spacingAxis[i] *= -1;
+        }
       }
 
-    // projection the spacing vector onto the sign corrected basis
-    // vector to get maximum offset
-    const double maxOffset= basisVector*physicalOffset;
-    proj_min[i] -= maxOffset/2.0;
-    proj_max[i] += maxOffset/2.0;
+    Vector<double, ImageDimension> physicalOffset;
+    output->TransformLocalVectorToPhysicalVector(spacingAxis, physicalOffset);
+    VNLVectorType  paOffset = principalAxesBasisMatrix*physicalOffset.GetVnlVector();
+
+    for ( unsigned int i = 0; i < ImageDimension; ++i )
+      {
+      adjusted_minimumPrincipalAxis[i] = std::min(adjusted_minimumPrincipalAxis[i], minimumPrincipalAxis[i]+paOffset[i]);
+      adjusted_maximumPrincipalAxis[i] = std::max(adjusted_maximumPrincipalAxis[i], maximumPrincipalAxis[i]+paOffset[i]);
+      }
     }
+
+  minimumPrincipalAxis = adjusted_minimumPrincipalAxis;
+  maximumPrincipalAxis = adjusted_maximumPrincipalAxis;
 
   // real physical size, in basis space
   Vector<double, ImageDimension> rsize;
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    rsize[i] = std::abs(proj_max[i]-proj_min[i]);
+    rsize[i] = std::abs(maximumPrincipalAxis[i]-minimumPrincipalAxis[i]);
     }
 
 
@@ -872,10 +885,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   // Invert rotation matrix, we will now convert points from the
   // projected space back to the physical one, for the origin
   //
-  rotationMatrix.inplace_transpose();
+  principalAxesBasisMatrix.inplace_transpose();
 
   typename LabelObjectType::OrientedBoundingBoxPointType origin;
-  VNLVectorType min = rotationMatrix*proj_min;
+  VNLVectorType min = principalAxesBasisMatrix*minimumPrincipalAxis;
 
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
