@@ -106,6 +106,33 @@ public:
   }
 };
 
+/**
+ * \class BitwiseNot
+ * \brief Performs the C++ unary bitwise NOT operator.
+ * \ingroup ITKImageIntensity
+ */
+template< class TInput, class TOutput >
+class BitwiseNot
+{
+public:
+  // Use default copy, assigned and destructor
+  // BitwiseNot() {} default constructor OK
+
+  bool operator!=(const BitwiseNot &) const
+    {
+      return false;
+    }
+
+  bool operator==(const BitwiseNot & other) const
+    {
+      return !( *this != other );
+    }
+
+  inline TOutput operator()(const TInput & A) const
+    {
+      return static_cast<TOutput>( ~A );
+    }
+};
 }
 }
 

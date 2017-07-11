@@ -321,3 +321,19 @@ itk_add_test(NAME itkMagnitudeAndPhaseToComplexImageFilterTest
       DATA{Input/itkBrainSliceComplexMagnitude.mha}
       DATA{Input/itkBrainSliceComplexPhase.mha}
       ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha )
+
+
+set(ITKImageIntensityGTests
+  itkBitwiseOpsFunctorsTest.cxx
+  itkArithmeticOpsFunctorsTest.cxx
+)
+
+if(MSVC)
+  # disable false warning about floating division by zero
+  # Floating division by zero is defined unlike integer division
+  set_source_files_properties(
+    itkArithmeticOpsFunctorsTest.cxx
+    PROPERTIES COMPILE_FLAGS  -wd4723)
+endif()
+
+CreateGoogleTestDriver(ITKImageIntensity "${ITKImageIntensity-Test_LIBRARIES}" "${ITKImageIntensityGTests}")

@@ -285,6 +285,107 @@ private:
   TInput m_Dividend;
 };
 
+/**
+ * \class DivFloor
+ * \brief Cast arguments to double, performs division then takes the floor.
+ *
+ * This division operator is intended to implement Pythons PEP 238
+ * "Floor Division"-style operation.
+ *
+ * \ingroup ITKImageIntensity
+ */
+template< class TInput1, class TInput2, class TOutput >
+class DivFloor
+{
+public:
+
+  bool operator!=(const DivFloor &) const
+    {
+      return false;
+    }
+
+  bool operator==(const DivFloor & other) const
+    {
+      return !( *this != other );
+    }
+
+  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+    {
+      const double temp = std::floor( double(A) / double(B) );
+      if(NumericTraits< TOutput >::IsInteger && Math::isinf(temp))
+        {
+        if ( temp > 0 )
+          {
+          return NumericTraits< TOutput >::max( A );
+          }
+        else
+          {
+          return NumericTraits< TOutput >::NonpositiveMin( A );
+          }
+        }
+      return static_cast< TOutput >(temp);
+    }
+};
+
+/**
+ * \class DivReal
+ * \brief Promotes arguments to real type and performs division.
+ *
+ * This division operator is intended to implement Pythons PEP 238
+ * "True Division". The output type is intended to be a real
+ * type. Division by zero is expected to produce an "inf" floating
+ * point value.
+ *
+ * \ingroup ITKImageIntensity
+ */
+template< class TInput1, class TInput2, class TOutput >
+class DivReal
+{
+public:
+  // Use default copy, assigned and destructor
+  bool operator!=(const DivReal &) const
+  {
+    return false;
+  }
+
+  bool operator==(const DivReal & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutput operator()(const TInput1 & A, const TInput2 & B) const
+  {
+    return static_cast<TOutput>( static_cast<typename NumericTraits<TInput1>::RealType>(A)
+                                 /
+                                 static_cast<typename NumericTraits<TInput2>::RealType >(B) );
+  }
+};
+/**
+ * \class UnaryMinus
+ * \brief Apply the unary minus operator
+ *
+ * Assumed that the output type is signed.
+ * \ingroup ITKImageIntensity
+ */
+template< class TInput1, class TOutput = TInput1 >
+class UnaryMinus
+{
+public:
+  UnaryMinus() {}
+  ~UnaryMinus() {}
+  bool operator!=(const UnaryMinus &) const
+  {
+    return false;
+  }
+
+  bool operator==(const UnaryMinus & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutput operator()(const TInput1 & A ) const
+  { return (TOutput)( -A ); }
+};
 }
 }
 
