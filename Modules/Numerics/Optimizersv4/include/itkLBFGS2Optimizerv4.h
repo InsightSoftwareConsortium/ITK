@@ -172,7 +172,7 @@ public:
   /** Start optimization with an initial value. */
   virtual void StartOptimization(bool doOnlyInitialization = false) ITK_OVERRIDE;
 
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const;
+  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
 
   /** This optimizer does not support scaling of the derivatives. */
   virtual void SetScales(const ScalesType &) ITK_OVERRIDE;

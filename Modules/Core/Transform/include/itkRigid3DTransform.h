@@ -165,7 +165,7 @@ public:
   //      member functions
   //      (with no real effect) for backwards compatibility.
   //      In ITKv4 mode only the super class is needed
-  virtual InverseTransformBasePointer GetInverseTransform() const;
+  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
   /**
    * Get rotation Matrix from an Rigid3DTransform
    *
