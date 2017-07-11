@@ -233,12 +233,13 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     // substituting for known summations over x. This is very similar to
     // equation 9 in the paper but with p_i dot p_j and NOT p_i dot p_i.
 
-#if defined ITK_SHAPE_LABEL_MAP_BASIC_IMPLEMENTATION
-// ****************************************************************
-// that commented code is the basic implementation. The next piece of code
-// give the same result in a much efficient way, by using expended formulae
-// allowed by the binary case instead of loops.
-// ****************************************************************
+    if (length <= 2)
+      {
+
+      // The following code is the basic implementation. The next
+      // piece of code gives the same result in an efficient way, by
+      // using expended formulae allowed by the binary case instead of
+      // loops.
      IndexValueType endIdx0 = idx[0] + length;
      for( IndexType iidx = idx; iidx[0]<endIdx0; iidx[0]++)
        {
@@ -247,44 +248,52 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
        for(unsigned int i=0; i<ImageDimension; i++)
          {
-         for(unsigned int j=0; j<ImageDimension; j++)
+         centralMoments[i][i] += pP[i] * pP[i];
+         for(unsigned int j=i+1; j<ImageDimension; j++)
            {
-           centralMoments[i][j] += pP[i] * pP[j];
+           const double cm =  pP[i] * pP[j];
+           centralMoments[i][j] += cm;
+           centralMoments[j][i] += cm;
            }
          }
        }
-#else
-    // get the physical position and the spacing - they are used several times
-    // later
-    typename LabelObjectType::CentroidType physicalPosition;
-    output->TransformIndexToPhysicalPoint(idx, physicalPosition);
-
-    const typename ImageType::DirectionType &direction = output->GetDirection();
-    VectorType scale(output->GetSpacing()[0]);
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
-      {
-      scale[i] *= direction(i,0);
       }
-
-    for ( unsigned int i = 0; i < ImageDimension; i++ )
+    else
       {
-      centralMoments[i][i] += length * ( physicalPosition[i] * physicalPosition[i]
-                                        + (( length - 1.0 )/2.0)*(2.0 * physicalPosition[i] * scale[i]
-                                                                 + ((2.0*length - 1.0)/3.0) * scale[i] *  scale[i]));
+      // get the physical position and the spacing - they are used several times
+      // later
+      typename LabelObjectType::CentroidType physicalPosition;
+      output->TransformIndexToPhysicalPoint(idx, physicalPosition);
 
-      for ( unsigned int j = i+1; j < ImageDimension; j++ )
+      const typename ImageType::DirectionType &direction = output->GetDirection();
+      VectorType scale(output->GetSpacing()[0]);
+      for ( unsigned int i = 0; i < ImageDimension; i++ )
         {
-        const double cm =  length * ( physicalPosition[i] * physicalPosition[j]
-                                      + (( length - 1.0 )/2.0)*( physicalPosition[i] * scale[j] + scale[i] * physicalPosition[j]
-                                                               + ((2.0*length - 1.0)/3.0) * scale[i] *  scale[j]));
-        centralMoments[j][i] += cm;
-        centralMoments[i][j] += cm;
+        scale[i] *= direction(i,0);
+        }
+
+      const double lcoff_1 = ( length - 1.0 )/2.0;
+      const double lcoff_2 = (2.0*length - 1.0)/3.0;
+
+      for ( unsigned int i = 0; i < ImageDimension; i++ )
+        {
+        centralMoments[i][i] += length * ( physicalPosition[i] * physicalPosition[i]
+                                           + lcoff_1*(2.0 * physicalPosition[i] * scale[i]
+                                                      + lcoff_2 * scale[i] *  scale[i]));
+
+        for ( unsigned int j = i+1; j < ImageDimension; j++ )
+          {
+          const double cm =  length * ( physicalPosition[i] * physicalPosition[j]
+                                        + lcoff_1*( physicalPosition[i] * scale[j] + scale[i] * physicalPosition[j]
+                                                    + lcoff_2 * scale[i] *  scale[j]));
+          centralMoments[j][i] += cm;
+          centralMoments[i][j] += cm;
+
+          }
 
         }
 
       }
-
-#endif
 
     ++lit;
     }
