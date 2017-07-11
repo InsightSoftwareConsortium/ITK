@@ -101,6 +101,10 @@ int itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   i2l->ComputePerimeterOn();
   TEST_SET_GET_VALUE( true, i2l->GetComputePerimeter() );
 
+  i2l->SetComputeOrientedBoundingBox(true);
+  TEST_SET_GET_VALUE(true, i2l->GetComputeOrientedBoundingBox() );
+
+
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> L2IType;
   L2IType::Pointer l2i = L2IType::New();
   itk::SimpleFilterWatcher watcher2( l2i );
