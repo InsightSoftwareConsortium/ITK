@@ -356,10 +356,16 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     elongation = 1;
     flatness = 1;
     }
-  else if ( Math::NotAlmostEquals( principalMoments[0], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
+  else
     {
-    elongation = std::sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
-    flatness = std::sqrt(principalMoments[1] / principalMoments[0]);
+    if ( Math::NotAlmostEquals( principalMoments[0], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
+      {
+      flatness = std::sqrt(principalMoments[1] / principalMoments[0]);
+      }
+    if ( Math::NotAlmostEquals( principalMoments[ImageDimension - 2], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
+      {
+      elongation = std::sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
+      }
     }
 
   double physicalSize = nbOfPixels * sizePerPixel;
