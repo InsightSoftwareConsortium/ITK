@@ -284,17 +284,18 @@ private:
     inline typename DigitalisedImageType::PixelType
     operator()(const MaskPixelType & maskPixel, const PixelType & inputPixel) const
     {
+
       if (maskPixel != m_MaskValue)
       {
-        return this->m_Min - 10;
+        return -10;
       }
       else if (inputPixel < this->m_Min || inputPixel >= m_Max)
       {
-        return m_Min - 1;
+        return -1;
       }
       else
       {
-        return (inputPixel - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis);
+        return ((inputPixel - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis));
       }
     }
 

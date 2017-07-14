@@ -172,7 +172,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
     while (!inputNIt.IsAtEnd())
     {
       // If the voxel is outside of the mask, don't treat it
-      if (inputNIt.GetCenterPixel() < (this->m_Min - 5)) // the pixel is outside of the mask
+      if (inputNIt.GetCenterPixel() < (-5)) // the pixel is outside of the mask
       {
         progress.CompletedPixel();
         ++inputNIt;
@@ -192,7 +192,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
         {
           // Test if the curent voxel is in the mask and is the range of the image intensity sepcified
           curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
-          if (curentInNeighborhoodPixelIntensity < this->m_Min)
+          if (curentInNeighborhoodPixelIntensity < 0)
           {
             continue;
           }
@@ -216,7 +216,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
 
           // Test if the pointed voxel is in the mask and is the range of the image intensity sepcified
           pixelIntensity = inputNIt.GetPixel(tempOffset);
-          if (pixelIntensity < this->m_Min)
+          if (pixelIntensity < 0)
           {
             continue;
           }
