@@ -655,7 +655,7 @@ endmacro()
 macro(itk_wrap_one_type_python wrap_method wrap_class swig_name template_params)
   string(REGEX REPLACE "(.*::)" "" base_name "${wrap_class}")
 
-  if(NOT "${wrap_class}" STREQUAL "MetaEvent" AND NOT "${wrap_method}" MATCHES "ENUM")
+  if(NOT "${wrap_class}" STREQUAL "MetaEvent")
     ADD_PYTHON_CONFIG_TEMPLATE("${base_name}" "${wrap_class}" "${swig_name}" "${template_params}")
   endif()
 endmacro()

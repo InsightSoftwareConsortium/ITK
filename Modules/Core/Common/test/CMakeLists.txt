@@ -621,6 +621,8 @@ endif()
 itk_python_add_test(NAME itkMetaDataDictionaryPythonTest COMMAND itkMetaDataDictionaryTest.py)
 itk_python_add_test(NAME itkDirectoryPythonTest COMMAND itkDirectoryTest.py)
 itk_python_expression_add_test(NAME itkObjectPythonTest EXPRESSION "itkObject = itk.Object.New()")
+itk_python_expression_add_test(NAME itkSpatialOrientationPythonTest
+  EXPRESSION "itk.ValidCoordinateOrientationFlags.ITK_COORDINATE_ORIENTATION_ASL != itk.ValidCoordinateOrientationFlags.ITK_COORDINATE_ORIENTATION_AIL")
 itk_python_add_test(NAME itkIndexOffsetPythonTest COMMAND itkIndexOffsetTest.py)
 
 set(ITKCommonGTests
