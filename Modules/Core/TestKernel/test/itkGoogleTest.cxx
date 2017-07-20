@@ -25,6 +25,5 @@
 TEST(GoogleTest,t1) {
   void *ptr = NULL;
   ASSERT_TRUE((ptr == ITK_NULLPTR));
-  EXPECT_TRUE((false == ITK_NULLPTR));
-  // ASSERT_EQ(0, ITK_NULLPTR); fails with C++11
+  EXPECT_TRUE((ptr == ITK_NULLPTR));
 }
