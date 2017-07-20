@@ -241,7 +241,7 @@ M_SetupWriteFields(void)
 
   m_NPoints = (int)m_PointList.size();
   mF = new MET_FieldRecordType;
-  MET_InitWriteField(mF, "NPoints", MET_INT,m_NPoints);
+  MET_InitWriteField(mF, "NPoints", MET_INT,static_cast<double>(m_NPoints));
   m_Fields.push_back(mF);
 
   mF = new MET_FieldRecordType;
@@ -298,8 +298,7 @@ M_Read(void)
   MET_StringToWordArray(m_PointDim, &pntDim, &pntVal);
 
 
-  int j;
-  for(j = 0; j < pntDim; j++)
+  for(int j = 0; j < pntDim; j++)
   {
     if(!strcmp(pntVal[j], "x") || !strcmp(pntVal[j], "X"))
     {
@@ -333,7 +332,7 @@ M_Read(void)
     char* _data = new char[readSize];
     m_ReadStream->read((char *)_data, readSize);
 
-    int gc = static_cast<int>(m_ReadStream->gcount());
+    size_t gc = static_cast<size_t>(m_ReadStream->gcount());
     if(gc != readSize)
     {
       METAIO_STREAM::cout << "MetaBlob: m_Read: data not read completely"
@@ -347,7 +346,7 @@ M_Read(void)
     i=0;
     int d;
     unsigned int k;
-    for(j=0; j<m_NPoints; j++)
+    for(size_t j=0; j<m_NPoints; j++)
     {
       BlobPnt* pnt = new BlobPnt(m_NDims);
 
@@ -387,7 +386,7 @@ M_Read(void)
   }
   else
   {
-    for(j=0; j<m_NPoints; j++)
+    for(size_t j=0; j<m_NPoints; j++)
     {
       BlobPnt* pnt = new BlobPnt(m_NDims);
 
@@ -416,7 +415,7 @@ M_Read(void)
       char c = ' ';
       while( (c!='\n') && (!m_ReadStream->eof()))
         {
-        c = static_cast<char>(m_ReadStream->get());// to avoid unrecognize charactere
+        c = static_cast<char>(m_ReadStream->get());// to avoid unrecognized characters
         }
       }
   }
