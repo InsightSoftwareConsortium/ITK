@@ -650,7 +650,7 @@ class show2D:
                     ref = imageOrFilter
                     if s:
                         ref = s
-                    for n, v in ip.user_ns.iteritems():
+                    for n, v in ip.user_ns.items():
                         if isinstance(v, itk.LightObject) and v == ref:
                             names.append(n)
                     if names != []:
