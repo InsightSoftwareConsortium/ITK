@@ -325,7 +325,7 @@ def _GetVnlObjectFromArray(arr, function):
     import itk
     PixelType = _get_itk_pixelid(arr)
     templatedFunction = getattr(itk.PyVnl[PixelType], function)
-    return templatedFunction(vnlObject)
+    return templatedFunction(arr)
 
 def GetVnlVectorFromArray(arr):
     """Get a vnl vector from a Python array.
@@ -650,7 +650,7 @@ class show2D:
                     ref = imageOrFilter
                     if s:
                         ref = s
-                    for n, v in ip.user_ns.iteritems():
+                    for n, v in ip.user_ns.items():
                         if isinstance(v, itk.LightObject) and v == ref:
                             names.append(n)
                     if names != []:
