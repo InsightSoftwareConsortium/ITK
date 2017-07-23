@@ -131,10 +131,14 @@ RieszFrequencyFunction<TFunctionValue, VImageDimension, TInput>::EvaluateAllComp
     double freqProduct(1);
     for (unsigned int dim = 0; dim < VImageDimension; ++dim)
     {
-      for (unsigned int n = 0; n < indice[dim]; ++n)
+      if (indice[dim] > 0)
       {
-        freqProduct *= frequency_point[dim];
+        freqProduct *= std::pow(static_cast<double>(frequency_point[dim]), static_cast<double>(indice[dim]));
       }
+      // for (unsigned int n = 0; n<indice[dim]; ++n)
+      //   {
+      //   freqProduct *= frequency_point[dim];
+      //   }
     }
     // rieszComponent = (-j)^{m_Order} * sqrt(m_Order!/(n1!n2!...nd!)) * w1^n1...wd^nd / ||w||^m_Order
     OutputComplexType outPerIndice = this->ComputeNormalizingFactor(indice);

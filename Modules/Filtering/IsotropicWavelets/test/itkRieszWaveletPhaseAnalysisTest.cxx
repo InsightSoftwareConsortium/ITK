@@ -20,6 +20,8 @@
 #include "itkInverseFFTImageFilter.h"
 #include "itkWaveletFrequencyForward.h"
 #include "itkWaveletFrequencyInverse.h"
+#include "itkWaveletFrequencyForwardUndecimated.h"
+#include "itkWaveletFrequencyInverseUndecimated.h"
 #include "itkWaveletFrequencyFilterBankGenerator.h"
 #include "itkHeldIsotropicWavelet.h"
 #include "itkVowIsotropicWavelet.h"
@@ -97,6 +99,8 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   typedef TWaveletFunction                                                                        WaveletFunctionType;
   typedef itk::WaveletFrequencyFilterBankGenerator<ComplexImageType, WaveletFunctionType>         WaveletFilterBankType;
   typedef itk::WaveletFrequencyForward<ComplexImageType, ComplexImageType, WaveletFilterBankType> ForwardWaveletType;
+  // typedef itk::WaveletFrequencyForwardUndecimated< ComplexImageType, ComplexImageType, WaveletFilterBankType >
+  // ForwardWaveletType;
   typename ForwardWaveletType::Pointer forwardWavelet = ForwardWaveletType::New();
   unsigned int                         highSubBands = inputBands;
   unsigned int                         levels = inputLevels;
@@ -166,6 +170,8 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
 #endif
 
   typedef itk::WaveletFrequencyInverse<ComplexImageType, ComplexImageType, WaveletFilterBankType> InverseWaveletType;
+  // typedef itk::WaveletFrequencyInverseUndecimated< ComplexImageType, ComplexImageType, WaveletFilterBankType >
+  // InverseWaveletType;
   typename InverseWaveletType::Pointer inverseWavelet = InverseWaveletType::New();
   inverseWavelet->SetHighPassSubBands(highSubBands);
   inverseWavelet->SetLevels(levels);
