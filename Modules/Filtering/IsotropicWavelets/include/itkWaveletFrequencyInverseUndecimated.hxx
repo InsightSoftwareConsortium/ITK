@@ -274,15 +274,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
     multiplyLowPass->SetInput2(low_pass_per_level);
     multiplyLowPass->Update();
 
-    // Dilation factor for the approx image by one level.
-    typename MultiplyFilterType::Pointer multiplyByLevelFactor = MultiplyFilterType::New();
-    multiplyByLevelFactor->SetInput1(multiplyLowPass->GetOutput());
-    double expLevelFactor = static_cast<double>(ImageDimension) / 2.0;
-    multiplyByLevelFactor->SetConstant(std::pow(scaleFactor, expLevelFactor));
-    multiplyByLevelFactor->InPlaceOn();
-    multiplyByLevelFactor->Update();
-
-    low_pass_per_level = multiplyByLevelFactor->GetOutput();
+    low_pass_per_level = multiplyLowPass->GetOutput();
 
     /******* HighPass sub-bands *****/
     std::vector<InputImagePointer> highPassMasks;
@@ -334,8 +326,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
       double expBandFactor = 0;
       if (this->GetApplyReconstructionFactors())
       {
-        expBandFactor = (static_cast<double>(level + 1) - band / static_cast<double>(this->m_HighPassSubBands)) *
-                        ImageDimension / 2.0;
+        expBandFactor = -(band / static_cast<double>(this->m_HighPassSubBands)) * ImageDimension / 2.0;
       }
       multiplyByReconstructionBandFactor->SetConstant(std::pow(scaleFactor, expBandFactor));
       multiplyByReconstructionBandFactor->InPlaceOn();
@@ -361,18 +352,30 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
     addHighAndLow->InPlaceOn();
     addHighAndLow->Update();
 
+    // Dilation factor for reconstructed by one level.
+    typename MultiplyFilterType::Pointer multiplyByLevelFactor = MultiplyFilterType::New();
+    multiplyByLevelFactor->SetInput1(addHighAndLow->GetOutput());
+    double expLevelFactor = 0;
+    if (this->GetApplyReconstructionFactors())
+    {
+      expLevelFactor = static_cast<double>(ImageDimension) / 2.0;
+    }
+    multiplyByLevelFactor->SetConstant(std::pow(scaleFactor, expLevelFactor));
+    multiplyByLevelFactor->InPlaceOn();
+    multiplyByLevelFactor->Update();
+
     if (level == 0 /* Last level to compute */) // Graft Output
     {
       typedef itk::CastImageFilter<InputImageType, OutputImageType> CastFilterType;
       typename CastFilterType::Pointer                              castFilter = CastFilterType::New();
-      castFilter->SetInput(addHighAndLow->GetOutput());
+      castFilter->SetInput(multiplyByLevelFactor->GetOutput());
       castFilter->GraftOutput(this->GetOutput());
       castFilter->Update();
       this->GraftOutput(castFilter->GetOutput());
     }
     else // Update low_pass
     {
-      low_pass_per_level = addHighAndLow->GetOutput();
+      low_pass_per_level = multiplyByLevelFactor->GetOutput();
     }
   }
 }

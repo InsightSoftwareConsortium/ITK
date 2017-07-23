@@ -294,11 +294,6 @@ WaveletFrequencyForwardUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
   this->m_WaveletFilterBank->Update();
   std::vector<OutputImagePointer> highPassWavelets = this->m_WaveletFilterBank->GetOutputsHighPassBands();
   OutputImagePointer              lowPassWavelet = this->m_WaveletFilterBank->GetOutputLowPass();
-  lowPassWavelet->DisconnectPipeline();
-  for (unsigned int band = 0; band < this->m_HighPassSubBands; ++band)
-  {
-    highPassWavelets[band]->DisconnectPipeline();
-  }
 
   if (this->m_StoreWaveletFilterBankPyramid)
   {

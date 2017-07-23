@@ -25,6 +25,8 @@
 #include <itkAddImageFilter.h>
 #include <itkImageDuplicator.h>
 #include <itkChangeInformationImageFilter.h>
+#include <itkWaveletUtilities.h>
+
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank, typename TFrequencyExpandFilterType>
