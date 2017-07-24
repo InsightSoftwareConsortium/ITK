@@ -20,7 +20,7 @@
 
 #include "itkArray.h"
 #include "itkNumericTraits.h"
-#include "itkImageSource.h"
+#include "itkImageToImageFilter.h"
 
 namespace itk
 {
@@ -40,20 +40,20 @@ namespace Testing
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ComparisonImageFilter:
-  public ImageSource< TOutputImage >
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ComparisonImageFilter             Self;
-  typedef ImageSource< TOutputImage >       Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  typedef ComparisonImageFilter                            Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage >  Superclass;
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComparisonImageFilter, ImageSource);
+  itkTypeMacro(ComparisonImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
   typedef TInputImage                                         InputImageType;
