@@ -41,10 +41,10 @@ RunLengthTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
   typedef float                                                           OutputPixelComponentType;
   typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
 
-  typedef itk::Image<InputPixelType, ImageDimension>                                            InputImageType;
-  typedef itk::Image<OutputPixelType, ImageDimension>                                           OutputImageType;
-  typedef itk::ImageFileReader<InputImageType>                                                  ReaderType;
-  typedef itk::Neighborhood<typename InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
+  typedef itk::Image<InputPixelType, ImageDimension>                                   InputImageType;
+  typedef itk::Image<OutputPixelType, ImageDimension>                                  OutputImageType;
+  typedef itk::ImageFileReader<InputImageType>                                         ReaderType;
+  typedef itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
 
   // Create and set up a reader
