@@ -34,9 +34,17 @@ namespace Statistics
 /** \class MersenneTwisterRandomVariateGenerator
  * \brief MersenneTwisterRandom random variate generator
  *
- * This class contains a "Singleton-like" GetInstance method wrapper
- * for a global instance of this class. This may result in concurrent
- * access to the global instance.
+ * It is recommended to create a separate object in each thread. By
+ * default, each instantiated class will have a different seed created
+ * by the GetNextSeed method. The creation of the initial seeds are
+ * initialized once from the time. For deterministic behavior, the
+ * individual instances' seeds should be manual set to separate
+ * values in each thread.
+ *
+ * It is no longer recommended to use this class using a
+ * "Singleton-like" GetInstance method for the global instance of this
+ * class. This usage may result in unsafe concurrent access to
+ * the global instance.
  *
  * \warning This class's instance methods are NEITHER reentrant
  * nor concurrent thread-safe, except where marked as
