@@ -289,8 +289,10 @@ int PSOTest3()
     itk::ParticleSwarmTestF3::New();
 
   OptimizerType::Pointer  itkOptimizer = OptimizerType::New();
+  itkOptimizer->UseSeedOn();
+  itkOptimizer->SetSeed(8775070 + seedOffset++);
 
-         // set optimizer parameters
+  // set optimizer parameters
   OptimizerType::ParameterBoundsType bounds;
   bounds.push_back( std::make_pair( -100, 100 ) );
   bounds.push_back( std::make_pair( -100, 100 ) );
