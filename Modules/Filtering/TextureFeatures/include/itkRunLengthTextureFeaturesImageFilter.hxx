@@ -260,7 +260,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
             }
           }
           // Increase the coresponding bin in the histogram
-          this->IncreaseHistograme(hist, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
+          this->IncreaseHistogram(hist, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
         }
       }
       // Compute the run lenght features
@@ -373,7 +373,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighbor
 
 template <typename TInputImage, typename TOutputImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistograme(
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogram(
   unsigned int **      hist,
   unsigned int &       totalNumberOfRuns,
   const PixelType &    curentInNeighborhoodPixelIntensity,
