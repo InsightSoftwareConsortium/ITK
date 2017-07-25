@@ -16,29 +16,26 @@
  *
  *=========================================================================*/
 
-#include "itkGTest.h"
+#ifndef itkGTest_h
+#define itkGTest_h
 
-// this is a minimal test example to verify Google Test with fixture
-// based testing.
+#include "gtest/gtest.h"
+#include "itkGTestPredicate.h"
+#include "itkGTestTypedefsAndConstructors.h"
 
-namespace
+namespace itk
 {
-class GoogleTestFixture
-  : public ::testing::Test
+
+/** \namespace GTest
+ * \brief The GTest namespace contains GTest extensions for ITK, and
+ * convenience typedefs, and functions to aid in analytic testing of
+ * results and values.
+ *
+ */
+namespace GTest
 {
-public:
-  GoogleTestFixture() : m_C(1) {}
-  ~GoogleTestFixture() {}
+} // end namespace GTest
 
-protected:
-  void SetUp() {}
-  void TearDown() {}
+} // end namespace itk
 
-  int m_C;
-};
-}
-
-
-TEST_F(GoogleTestFixture,t) {
-  EXPECT_EQ(1, m_C);
-}
+#endif // itkGTest_h

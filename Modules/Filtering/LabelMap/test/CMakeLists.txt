@@ -29,7 +29,6 @@ itkConvertLabelMapFilterTest2.cxx
 itkCropLabelMapFilterTest1.cxx
 itkLabelImageToLabelMapFilterTest.cxx
 itkLabelImageToShapeLabelMapFilterTest1.cxx
-itkLabelImageToShapeLabelMapFilterTest2.cxx
 itkLabelImageToStatisticsLabelMapFilterTest1.cxx
 itkLabelMapFilterTest.cxx
 itkLabelMapMaskImageFilterTest.cxx
@@ -268,9 +267,6 @@ itk_add_test(NAME itkLabelImageToShapeLabelMapFilterTest1
     --compare DATA{Baseline/simple-label-to-shapelabelmap.mha}
               ${ITK_TEST_OUTPUT_DIR}/simple-label-to-shapelabelmap.mha
     itkLabelImageToShapeLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/simple-label-b.png} ${ITK_TEST_OUTPUT_DIR}/simple-label-to-shapelabelmap.mha 90 1 1)
-itk_add_test(NAME itkLabelImageToShapeLabelMapFilterTest2
-      COMMAND ITKLabelMapTestDriver
-    itkLabelImageToShapeLabelMapFilterTest2)
 itk_add_test(NAME itkLabelImageToStatisticsLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Input/Spots.png}
@@ -597,3 +593,8 @@ itk_add_test(NAME itkStatisticsUniqueLabelMapFilterTest2
       ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterTest2.png
       ${ITK_TEST_OUTPUT_DIR}/itkStatisticsUniqueLabelMapFilterDilationStability2.png
       1 100)
+
+set(ITKLabelMapGTests
+  itkShapeLabelMapFilterGTest.cxx)
+
+CreateGoogleTestDriver(ITKLabelMap "${ITKLabelMap-Test_LIBRARIES}" "${ITKLabelMapGTests}")

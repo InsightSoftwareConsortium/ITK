@@ -16,6 +16,7 @@ itk_module(ITKLabelMap
     ITKTestKernel
     ITKBinaryMathematicalMorphology
     ITKStatistics
+    ITKGoogleTest
   DESCRIPTION
     "${DOCUMENTATION}"
 )
