@@ -260,7 +260,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
             }
           }
           // Increase the coresponding bin in the histogram
-          this->IncreaseHistograme(hist, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
+          this->IncreaseHistogram(hist, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
         }
       }
       // Compute the run lenght features
@@ -373,7 +373,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighbor
 
 template <typename TInputImage, typename TOutputImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistograme(
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogram(
   unsigned int **      hist,
   unsigned int &       totalNumberOfRuns,
   const PixelType &    curentInNeighborhoodPixelIntensity,
@@ -387,10 +387,10 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogra
   }
   offsetDistance = std::sqrt(offsetDistance);
 
-  int offsetDistanceBin = (int)((offsetDistance * pixelDistance - m_MinDistance) /
-                                ((m_MaxDistance - m_MinDistance) / (float)m_NumberOfBinsPerAxis));
+  int offsetDistanceBin = static_cast<int>((offsetDistance * pixelDistance - m_MinDistance) /
+                                           ((m_MaxDistance - m_MinDistance) / (float)m_NumberOfBinsPerAxis));
 
-  if (offsetDistanceBin < m_NumberOfBinsPerAxis)
+  if (offsetDistanceBin < static_cast<int>(m_NumberOfBinsPerAxis))
   {
     totalNumberOfRuns++;
     hist[curentInNeighborhoodPixelIntensity][offsetDistanceBin]++;
