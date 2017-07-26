@@ -56,6 +56,7 @@ set(HDF5_TEST_VFD OFF CACHE INTERNAL "Execute tests with different VFDs")
 set(HDF5_USE_FOLDERS  ON CACHE INTERNAL "Enable folder grouping of projects in IDEs.")
 set(HDF_TEST_EXPRESS OFF CACHE INTERNAL "Control testing framework (0-3)")
 set(BUILD_STATIC_EXECS OFF CACHE INTERNAL "Build Static Executables")
+set(BUILD_USER_DEFINED_LIBS OFF CACHE INTERNAL "Build user defined libs")
 
 # Setup all necessary overrides for zlib so that HDF5 uses our
 # internally compiled zlib rather than any other version
@@ -71,6 +72,9 @@ if(HDF5_ENABLE_Z_LIB_SUPPORT)
 endif()
 
 add_subdirectory(itkhdf5)
+
+mark_as_advanced(HDF_ENABLE_LARGE_FILE)
+mark_as_advanced(CTEST_TEST_TIMEOUT)
 
 if(BUILD_SHARED_LIBS)
   set(target_extension -shared)
