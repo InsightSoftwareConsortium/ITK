@@ -182,7 +182,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   bool         insideNeighborhood;
 
   /// ***** Non-boundary Region *****
-  for (fit; fit != faceList.end(); ++fit)
+  for (; fit != faceList.end(); ++fit)
   {
     NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_DigitalisedInputImageg, *fit);
     typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
