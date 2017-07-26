@@ -166,10 +166,10 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   // Declaration of the variables useful to iterate over the all the offsets
   OffsetType      offset;
   unsigned int    totalNumberOfRuns;
-  unsigned int ** hist = new unsigned int *[m_NumberOfBinsPerAxis];
-  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  unsigned int ** histogram = new unsigned int *[m_NumberOfBinsPerAxis];
+  for (unsigned int axis = 0; axis < m_NumberOfBinsPerAxis; ++axis)
   {
-    hist[a] = new unsigned int[m_NumberOfBinsPerAxis];
+    histogram[axis] = new unsigned int[m_NumberOfBinsPerAxis];
   }
 
   // Declaration of the variables useful to iterate over the all neighborhood region
@@ -205,7 +205,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
       {
         for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
         {
-          hist[a][b] = 0;
+          histogram[a][b] = 0;
         }
       }
       totalNumberOfRuns = 0;
@@ -261,11 +261,12 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
             }
           }
           // Increase the corresponding bin in the histogram
-          this->IncreaseHistogram(hist, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
+          this->IncreaseHistogram(
+            histogram, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
         }
       }
       // Compute the run length features
-      this->ComputeFeatures(hist, totalNumberOfRuns, outputPixel);
+      this->ComputeFeatures(histogram, totalNumberOfRuns, outputPixel);
       outputIt.Set(outputPixel);
 
       progress.CompletedPixel();
@@ -273,6 +274,12 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
       ++outputIt;
     }
   }
+
+  for (unsigned int axis = 0; axis < m_NumberOfBinsPerAxis; ++axis)
+  {
+    delete histogram[axis];
+  }
+  delete histogram;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -375,7 +382,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighbor
 template <typename TInputImage, typename TOutputImage>
 void
 RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogram(
-  unsigned int **      hist,
+  unsigned int **      histogram,
   unsigned int &       totalNumberOfRuns,
   const PixelType &    curentInNeighborhoodPixelIntensity,
   const OffsetType &   offset,
@@ -394,14 +401,14 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogra
   if (offsetDistanceBin < static_cast<int>(m_NumberOfBinsPerAxis))
   {
     totalNumberOfRuns++;
-    hist[curentInNeighborhoodPixelIntensity][offsetDistanceBin]++;
+    histogram[curentInNeighborhoodPixelIntensity][offsetDistanceBin]++;
   }
 }
 
 template <typename TInputImage, typename TOutputImage>
 void
 RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
-  unsigned int **                    hist,
+  unsigned int **                    histogram,
   const unsigned int &               totalNumberOfRuns,
   typename TOutputImage::PixelType & outputPixel)
 {
@@ -423,7 +430,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
   {
     for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
     {
-      OutputRealType frequency = hist[a][b];
+      OutputRealType frequency = histogram[a][b];
       if (Math::ExactlyEquals(frequency, NumericTraits<OutputRealType>::ZeroValue()))
       {
         continue;
