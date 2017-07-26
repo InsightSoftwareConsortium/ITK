@@ -45,8 +45,8 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::RunLengthTexture
   NeighborhoodType                                                                         hood;
   hood.SetRadius(1);
 
-  // select all "previous" neighbors that are face+edge+vertex
-  // connected to the iterated pixel. do not include the curentInNeighborhood pixel.
+  // Select all "previous" neighbors that are face+edge+vertex
+  // connected to the iterated pixel. Do not include the curentInNeighborhood pixel.
   unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetVectorPointer offsets = OffsetVector::New();
   for (unsigned int d = 0; d < centerIndex; d++)
@@ -104,7 +104,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGe
   }
   m_Spacing = this->GetInput()->GetSpacing();
 
-  // Support VectorImages by setting number of components on output.
+  // Support VectorImages by setting the number of components on the output.
   typename TOutputImage::Pointer outputPtr = TOutputImage::New();
   outputPtr = this->GetOutput();
   if (strcmp(outputPtr->GetNameOfClass(), "VectorImage") == 0)
@@ -121,7 +121,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   const OutputRegionType & outputRegionForThread,
   ThreadIdType             threadId)
 {
-  // Recuperation of the different inputs/outputs
+  // Get the inputs/outputs
   typename TOutputImage::Pointer outputPtr = TOutputImage::New();
   outputPtr = this->GetOutput();
 
@@ -130,8 +130,8 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   // Creation of the output pixel type
   typename TOutputImage::PixelType outputPixel;
 
-  // Creation of a region with the same size than the neighborhood, this region
-  // will be used to check if each voxel has already been visited
+  // Creation of a region with the same size as the neighborhood. This region
+  // will be used to check if each voxel has already been visited.
   InputRegionType                                  boolRegion;
   typename InputRegionType::IndexType              boolStart;
   typename InputRegionType::SizeType               boolSize;
@@ -150,19 +150,19 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   alreadyVisitedImage->SetRegions(boolRegion);
   alreadyVisitedImage->Allocate();
 
-  // Separation of the non-boundery region that will be processed in a different way
+  // Separation of the non-boundary region that will be processed in a different way
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                           boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     boundaryFacesCalculator(this->m_DigitalisedInputImageg, outputRegionForThread, m_NeighborhoodRadius);
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit =
     faceList.begin();
 
-  // Declaration of the variables usefull to iterate over the all image region
+  // Declaration of the variables useful to iterate over the all image region
   bool isInImage;
   outputPixel = outputPtr->GetPixel(boolCurentInNeighborhoodIndex);
   typename OffsetVector::ConstIterator offsets;
 
-  // Declaration of the variables usefull to iterate over the all the offsets
+  // Declaration of the variables useful to iterate over the all the offsets
   OffsetType      offset;
   unsigned int    totalNumberOfRuns;
   unsigned int ** hist = new unsigned int *[m_NumberOfBinsPerAxis];
@@ -171,10 +171,10 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
     hist[a] = new unsigned int[m_NumberOfBinsPerAxis];
   }
 
-  // Declaration of the variables usefull to iterate over the all neighborhood region
+  // Declaration of the variables useful to iterate over the all neighborhood region
   PixelType curentInNeighborhoodPixelIntensity;
 
-  // Declaration of the variables usefull to iterate over the run
+  // Declaration of the variables useful to iterate over the run
   PixelType    pixelIntensity(NumericTraits<PixelType>::ZeroValue());
   OffsetType   iteratedOffset;
   OffsetType   tempOffset;
@@ -219,13 +219,13 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
         {
           curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
           tempOffset = inputNIt.GetOffset(nb);
-          // Cecking if the value is out-of-bounds or is outside the mask.
-          if (curentInNeighborhoodPixelIntensity < 0 || // the pixel is outside of the mask or outside of bounds
+          // Checking if the value is out-of-bounds or is outside the mask.
+          if (curentInNeighborhoodPixelIntensity < 0 || // The pixel is outside of the mask or outside of bounds
               alreadyVisitedImage->GetPixel(boolCurentInNeighborhoodIndex + tempOffset))
           {
             continue;
           }
-          // Initialisation of the variables usefull to iterate over the run
+          // Initialisation of the variables useful to iterate over the run
           iteratedOffset = tempOffset + offset;
           pixelDistance = 0;
           insideNeighborhood = this->IsInsideNeighborhood(iteratedOffset);
@@ -259,11 +259,11 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
               break;
             }
           }
-          // Increase the coresponding bin in the histogram
+          // Increase the corresponding bin in the histogram
           this->IncreaseHistogram(hist, totalNumberOfRuns, curentInNeighborhoodPixelIntensity, offset, pixelDistance);
         }
       }
-      // Compute the run lenght features
+      // Compute the run length features
       this->ComputeFeatures(hist, totalNumberOfRuns, outputPixel);
       outputIt.Set(outputPixel);
 
@@ -438,11 +438,11 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
       greyLevelNonuniformityVector[a] += frequency;
       runLengthNonuniformityVector[b] += frequency;
 
-      // measures from Chu et al.
+      // Measures from Chu et al.
       lowGreyLevelRunEmphasis += (frequency / i2);
       highGreyLevelRunEmphasis += (frequency * i2);
 
-      // measures from Dasarathy and Holder
+      // Measures from Dasarathy and Holder
       shortRunLowGreyLevelEmphasis += (frequency / (i2 * j2));
       shortRunHighGreyLevelEmphasis += (frequency * i2 / j2);
       longRunLowGreyLevelEmphasis += (frequency * j2 / i2);
