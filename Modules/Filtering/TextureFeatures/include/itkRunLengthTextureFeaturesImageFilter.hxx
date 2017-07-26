@@ -34,6 +34,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::RunLengthTexture
   , m_MinDistance(NumericTraits<RealType>::ZeroValue())
   , m_MaxDistance(NumericTraits<RealType>::max())
   , m_InsidePixelValue(NumericTraits<PixelType>::OneValue())
+  , m_Spacing(1.0)
 {
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
