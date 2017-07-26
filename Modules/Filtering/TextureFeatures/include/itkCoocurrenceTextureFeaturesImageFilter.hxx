@@ -104,7 +104,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreaded
   functorF->SetNumberOfThreads(this->GetNumberOfThreads());
 
   functorF->Update();
-  m_DigitalisedInputImageg = functorF->GetOutput();
+  m_DigitalizedInputImage = functorF->GetOutput();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -112,7 +112,7 @@ void
 CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
 {
   // Free internal image
-  this->m_DigitalisedInputImageg = ITK_NULLPTR;
+  this->m_DigitalizedInputImage = ITK_NULLPTR;
 }
 
 
@@ -133,7 +133,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
   // Separation of the non-boundary region that will be processed in a different way
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>                           boundaryFacesCalculator;
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
-    boundaryFacesCalculator(this->m_DigitalisedInputImageg, outputRegionForThread, m_NeighborhoodRadius);
+    boundaryFacesCalculator(this->m_DigitalizedInputImage, outputRegionForThread, m_NeighborhoodRadius);
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit =
     faceList.begin();
 
@@ -164,7 +164,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
   /// ***** Non-boundary Region *****
   for (; fit != faceList.end(); ++fit)
   {
-    NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_DigitalisedInputImageg, *fit);
+    NeighborhoodIteratorType inputNIt(m_NeighborhoodRadius, this->m_DigitalizedInputImage, *fit);
     typedef itk::ImageRegionIterator<OutputImageType> IteratorType;
     IteratorType                                      outputIt(outputPtr, *fit);
 
@@ -442,7 +442,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::PrintSelf(std:
 
   Superclass::PrintSelf(os, indent);
 
-  itkPrintSelfObjectMacro(DigitalisedInputImageg);
+  itkPrintSelfObjectMacro(DigitalizedInputImage);
 
   os << indent << "NeighborhoodRadius"
      << static_cast<typename NumericTraits<NeighborhoodRadiusType>::PrintType>(m_NeighborhoodRadius) << std::endl;
