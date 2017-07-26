@@ -51,7 +51,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::CoocurrenceTex
   hood.SetRadius(1);
 
   // Select all "previous" neighbors that are face+edge+vertex
-  // connected to the iterated pixel. Do not include the curentInNeighborhood pixel.
+  // connected to the iterated pixel. Do not include the currentInNeighborhood pixel.
   unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetVectorPointer offsets = OffsetVector::New();
   for (unsigned int d = 0; d < centerIndex; d++)
@@ -155,7 +155,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
   vnl_matrix<unsigned int> hist(m_NumberOfBinsPerAxis, m_NumberOfBinsPerAxis);
 
   // Declaration of the variables useful to iterate over the all neighborhood region
-  PixelType curentInNeighborhoodPixelIntensity;
+  PixelType currentInNeighborhoodPixelIntensity;
 
   // Declaration of the variables useful to iterate over the run
   PixelType  pixelIntensity(NumericTraits<PixelType>::ZeroValue());
@@ -190,14 +190,14 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
         // Iteration over the all neighborhood region
         for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
         {
-          // Test if the curent voxel is in the mask and is the range of the image intensity specified
-          curentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
-          if (curentInNeighborhoodPixelIntensity < 0)
+          // Test if the current voxel is in the mask and is the range of the image intensity specified
+          currentInNeighborhoodPixelIntensity = inputNIt.GetPixel(nb);
+          if (currentInNeighborhoodPixelIntensity < 0)
           {
             continue;
           }
 
-          // Test if the curent offset is still pointing to a voxel inside th neighborhood
+          // Test if the current offset is still pointing to a voxel inside th neighborhood
           tempOffset = inputNIt.GetOffset(nb) + offset;
           if (!(this->IsInsideNeighborhood(tempOffset)))
           {
@@ -223,7 +223,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
 
           // Increase the corresponding bin in the histogram
           totalNumberOfFreq++;
-          hist[curentInNeighborhoodPixelIntensity][pixelIntensity]++;
+          hist[currentInNeighborhoodPixelIntensity][pixelIntensity]++;
         }
       }
       // Compute the run length features

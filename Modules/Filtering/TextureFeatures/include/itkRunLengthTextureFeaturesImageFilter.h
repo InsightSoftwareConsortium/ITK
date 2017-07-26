@@ -236,7 +236,7 @@ protected:
   void
   IncreaseHistogram(unsigned int **      hist,
                     unsigned int &       totalNumberOfRuns,
-                    const PixelType &    curentInNeighborhoodPixelIntensity,
+                    const PixelType &    currentInNeighborhoodPixelIntensity,
                     const OffsetType &   offset,
                     const unsigned int & pixelDistance);
   void
