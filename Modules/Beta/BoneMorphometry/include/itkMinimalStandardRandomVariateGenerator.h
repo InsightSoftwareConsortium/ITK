@@ -21,7 +21,7 @@
 #include "itkIntTypes.h"
 #include "itkObjectFactory.h"
 #include "itkRandomVariateGeneratorBase.h"
-#include "ModuleTemplateExport.h"
+#include "BoneMorphometryExport.h"
 #include "itkNormalVariateGenerator.h"
 
 namespace itk
@@ -48,9 +48,9 @@ namespace Statistics
  * 2147483647\f$, the Minimial Standard configuration recommended by Park,
  * Miller and Stockmeyer in 1993.
  *
- * \ingroup ModuleTemplate
+ * \ingroup BoneMorphometry
  */
-class ModuleTemplate_EXPORT MinimalStandardRandomVariateGenerator:
+class BoneMorphometry_EXPORT MinimalStandardRandomVariateGenerator:
   public RandomVariateGeneratorBase
 {
 public:

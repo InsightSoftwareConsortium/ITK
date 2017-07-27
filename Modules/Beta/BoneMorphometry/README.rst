@@ -1,12 +1,12 @@
-ITKModuleTemplate
+ITKBoneMorphometry
 =================
 
 
-.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKModuleTemplate.svg?style=shield
-    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKModuleTemplate
+.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry.svg?style=shield
+    :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKBoneMorphometry
 
-.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKModuleTemplate.svg?branch=master
-    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKModuleTemplate
+.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry.svg?branch=master
+    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry
 
 .. image:: https://img.shields.io/appveyor/ci/thewtex/itkmoduletemplate.svg
     :target: https://ci.appveyor.com/project/thewtex/itkmoduletemplate
@@ -27,13 +27,13 @@ started in a new repository::
   mkdir ITK/Modules/External/ITKMyModule
   cd ITK/Modules/External/ITKMyModule
   git init
-  git fetch https://github.com/InsightSoftwareConsortium/ITKModuleTemplate.git
+  git fetch https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry.git
   git merge FETCH_HEAD
 
 Create a new repository account via GitHub's web interface. The module should
 follow the naming convention, *ITK<MyModuleName>*.
 
-Search and replace *ModuleTemplate* with *MyModuleName* in ``CMakeLists.txt``
+Search and replace *BoneMorphometry* with *MyModuleName* in ``CMakeLists.txt``
 and ``itk-module.cmake``.
 
 Documentation on `how to populate the module

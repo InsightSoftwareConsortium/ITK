@@ -38,7 +38,7 @@ namespace itk
  * where \f$s\f$ is the StandardDeviation and \f$m\f$ is the Mean of the
  * underlying normal distribution.
  *
- * \ingroup ModuleTemplate
+ * \ingroup BoneMorphometry
  *
  */
 template< typename TImage >
