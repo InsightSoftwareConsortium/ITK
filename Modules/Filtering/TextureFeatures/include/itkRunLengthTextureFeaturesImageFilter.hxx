@@ -50,7 +50,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::RunLengthTexture
   // connected to the iterated pixel. Do not include the currentInNeighborhood pixel.
   unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetVectorPointer offsets = OffsetVector::New();
-  for (unsigned int d = 0; d < centerIndex; d++)
+  for (unsigned int d = 0; d < centerIndex; ++d)
   {
     OffsetType offset = hood.GetOffset(d);
     offsets->push_back(offset);
@@ -139,7 +139,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   IndexType                                        boolCurentInNeighborhoodIndex;
   typedef Image<bool, TInputImage::ImageDimension> BoolImageType;
   typename BoolImageType::Pointer                  alreadyVisitedImage = BoolImageType::New();
-  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
   {
     boolSize[i] = this->m_NeighborhoodRadius[i] * 2 + 1;
     boolStart[i] = 0;
@@ -201,9 +201,9 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
         continue;
       }
       // Initialisation of the histogram
-      for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+      for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; ++a)
       {
-        for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+        for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; ++b)
         {
           histogram[a][b] = 0;
         }
@@ -251,7 +251,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
             if (pixelIntensity == currentInNeighborhoodPixelIntensity)
             {
               alreadyVisitedImage->SetPixel(boolCurentInNeighborhoodIndex + iteratedOffset, true);
-              pixelDistance++;
+              ++pixelDistance;
               iteratedOffset += offset;
               insideNeighborhood = this->IsInsideNeighborhood(iteratedOffset);
             }
@@ -400,8 +400,8 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogra
 
   if (offsetDistanceBin < static_cast<int>(m_NumberOfBinsPerAxis))
   {
-    totalNumberOfRuns++;
-    histogram[currentInNeighborhoodPixelIntensity][offsetDistanceBin]++;
+    ++totalNumberOfRuns;
+    ++histogram[currentInNeighborhoodPixelIntensity][offsetDistanceBin];
   }
 }
 
@@ -426,9 +426,9 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
   vnl_vector<double> greyLevelNonuniformityVector(m_NumberOfBinsPerAxis, 0.0);
   vnl_vector<double> runLengthNonuniformityVector(m_NumberOfBinsPerAxis, 0.0);
 
-  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; ++a)
   {
-    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; ++b)
     {
       OutputRealType frequency = histogram[a][b];
       if (Math::ExactlyEquals(frequency, NumericTraits<OutputRealType>::ZeroValue()))
