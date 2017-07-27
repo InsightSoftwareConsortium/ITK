@@ -240,14 +240,13 @@ protected:
 private:
   typename DigitalisedImageType::Pointer m_DigitalizedInputImage;
 
-  NeighborhoodRadiusType            m_NeighborhoodRadius;
-  OffsetVectorPointer               m_Offsets;
-  unsigned int                      m_NumberOfBinsPerAxis;
-  PixelType                         m_Min;
-  PixelType                         m_Max;
-  PixelType                         m_InsidePixelValue;
-  typename TInputImage::SpacingType m_Spacing;
-  bool                              m_Normalize;
+  NeighborhoodRadiusType m_NeighborhoodRadius;
+  OffsetVectorPointer    m_Offsets;
+  unsigned int           m_NumberOfBinsPerAxis;
+  PixelType              m_Min;
+  PixelType              m_Max;
+  PixelType              m_InsidePixelValue;
+  bool                   m_Normalize;
 
 
   struct PreProcessingFunctor
