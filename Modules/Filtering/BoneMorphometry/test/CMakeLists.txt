@@ -1,24 +1,24 @@
 itk_module_test()
 
 set(
-  ModuleTemplateTests
+  BoneMorphometryTests
   itkMinimalStandardRandomVariateGeneratorTest.cxx
   itkNormalDistributionImageSourceTest.cxx
 )
 
-createtestdriver(ModuleTemplate "${ModuleTemplate-Test_LIBRARIES}" "${ModuleTemplateTests}")
+createtestdriver(BoneMorphometry "${BoneMorphometry-Test_LIBRARIES}" "${BoneMorphometryTests}")
 
 itk_add_test(
   NAME itkMinimalStandardRandomVariateGeneratorTest
   COMMAND
-    ModuleTemplateTestDriver
+    BoneMorphometryTestDriver
     itkMinimalStandardRandomVariateGeneratorTest
 )
 
 itk_add_test(
   NAME itkNormalDistributionImageSourceTest
   COMMAND
-    ModuleTemplateTestDriver
+    BoneMorphometryTestDriver
     --without-threads
     --compare
     ${ITK_TEST_OUTPUT_DIR}/itkNormalDistributionImageSourceTestOutput.mha
