@@ -54,7 +54,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::CoocurrenceTex
   // connected to the iterated pixel. Do not include the currentInNeighborhood pixel.
   unsigned int        centerIndex = hood.GetCenterNeighborhoodIndex();
   OffsetVectorPointer offsets = OffsetVector::New();
-  for (unsigned int d = 0; d < centerIndex; d++)
+  for (unsigned int d = 0; d < centerIndex; ++d)
   {
     OffsetType offset = hood.GetOffset(d);
     offsets->push_back(offset);
@@ -140,7 +140,7 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
   // Declaration of the variables useful to iterate over the all image region
   bool      isInImage;
   IndexType firstIndex;
-  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; i++)
+  for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
   {
     firstIndex[i] = 0;
   }
@@ -222,8 +222,8 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
           }
 
           // Increase the corresponding bin in the histogram
-          totalNumberOfFreq++;
-          hist[currentInNeighborhoodPixelIntensity][pixelIntensity]++;
+          ++totalNumberOfFreq;
+          ++hist[currentInNeighborhoodPixelIntensity][pixelIntensity];
         }
       }
       // Compute the run length features
@@ -325,9 +325,9 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeature
   }
   const double log2 = std::log(2.0);
 
-  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; a++)
+  for (unsigned int a = 0; a < m_NumberOfBinsPerAxis; ++a)
   {
-    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; b++)
+    for (unsigned int b = 0; b < m_NumberOfBinsPerAxis; ++b)
     {
       float frequency = hist[a][b] / (float)totalNumberOfFreq;
       if (Math::AlmostEquals(frequency, NumericTraits<float>::ZeroValue()))
@@ -444,19 +444,17 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::PrintSelf(std:
 
   itkPrintSelfObjectMacro(DigitalizedInputImage);
 
-  os << indent << "NeighborhoodRadius"
+  os << indent << "NeighborhoodRadius: "
      << static_cast<typename NumericTraits<NeighborhoodRadiusType>::PrintType>(m_NeighborhoodRadius) << std::endl;
 
   itkPrintSelfObjectMacro(Offsets);
 
-  os << indent << "NumberOfBinsPerAxis" << m_NumberOfBinsPerAxis << std::endl;
-  os << indent << "Min" << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Min) << std::endl;
-  os << indent << "Max" << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Max) << std::endl;
-  os << indent << "InsidePixelValue" << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InsidePixelValue)
+  os << indent << "NumberOfBinsPerAxis: " << m_NumberOfBinsPerAxis << std::endl;
+  os << indent << "Min: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Min) << std::endl;
+  os << indent << "Max: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Max) << std::endl;
+  os << indent << "InsidePixelValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InsidePixelValue)
      << std::endl;
-  os << indent << "Spacing"
-     << static_cast<typename NumericTraits<typename TInputImage::SpacingType>::PrintType>(m_Spacing) << std::endl;
-  os << indent << "Normalize" << m_Normalize << std::endl;
+  os << indent << "Normalize: " << m_Normalize << std::endl;
 }
 } // end of namespace Statistics
 } // end of namespace itk
