@@ -174,6 +174,8 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenera
       // If the voxel is outside of the mask, don't treat it
       if (inputNIt.GetCenterPixel() < (-5)) // the pixel is outside of the mask
       {
+        outputPixel.Fill(0);
+        outputIt.Set(outputPixel);
         progress.CompletedPixel();
         ++inputNIt;
         ++outputIt;
