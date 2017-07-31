@@ -512,7 +512,7 @@ itk_add_test(
     5
 )
 
-if(NOT "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}" VERSION_LESS "4.12")
+if(NOT "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}" VERSION_LESS "4.13")
   set(TextureFeaturesGTests itkFirstOrderTextureFeaturesImageFilterGTest.cxx)
 
   creategoogletestdriver(TextureFeatures "${TextureFeatures-Test_LIBRARIES}" "${TextureFeaturesGTests}")
