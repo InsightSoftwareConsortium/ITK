@@ -353,8 +353,7 @@ public:
    * at the full image resolution (using the class
    * BSplineControlPointImageFilter).
    */
-  itkGetConstMacro( LogBiasFieldControlPointLattice,
-                    typename BiasFieldControlPointLatticeType::Pointer );
+  itkGetConstObjectMacro( LogBiasFieldControlPointLattice, BiasFieldControlPointLatticeType );
 
   /**
    * Get the number of elapsed iterations.  This is a helper function for
