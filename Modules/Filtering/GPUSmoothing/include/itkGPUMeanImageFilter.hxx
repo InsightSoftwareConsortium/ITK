@@ -36,7 +36,6 @@ GPUMeanImageFilter< TInputImage, TOutputImage >::GPUMeanImageFilter()
   defines << "#define DIM_" << TInputImage::ImageDimension << "\n";
   defines << "#define PIXELTYPE ";
   GetTypenameInString( typeid ( typename TInputImage::PixelType ), defines );
-  std::cout << "Defines: " << defines.str() << std::endl;
 
   const char* GPUSource = GPUMeanImageFilter::GetOpenCLSource();
 
@@ -58,8 +57,6 @@ void
 GPUMeanImageFilter< TInputImage, TOutputImage >::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  //os << indent << "GPU: " << ( m_GPUEnabled ? "Enabled" : "Disabled" ) <<
-  // std::endl;
 }
 
 template< typename TInputImage, typename TOutputImage >
