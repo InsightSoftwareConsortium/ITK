@@ -13,11 +13,14 @@ itk_module(
   DEPENDS
     ITKCommon
     ITKStatistics
+    ITKImageGrid
+    ITKMathematicalMorphology
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKImageIntensity
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
   ENABLE_SHARED
