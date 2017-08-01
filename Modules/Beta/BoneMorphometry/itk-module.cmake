@@ -15,11 +15,14 @@ itk_module(BoneMorphometry
   DEPENDS
     ITKCommon
     ITKStatistics
+    ITKImageGrid
+    ITKMathematicalMorphology
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS
     ITKTestKernel
     ITKMetaIO
+    ITKImageIntensity
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
