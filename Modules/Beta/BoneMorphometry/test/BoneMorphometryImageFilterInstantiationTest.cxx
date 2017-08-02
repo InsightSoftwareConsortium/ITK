@@ -69,24 +69,12 @@ int BoneMorphometryImageFilterInstantiationTest( int argc, char *argv[] )
   std::cout<<std::endl;
   std::cout<<"BVTV = "<<filter->GetBVTV()<<std::endl;
   std::cout<<std::endl;
-  std::cout<<"xTbN = "<<filter->GetxTbN()<<std::endl;
-  std::cout<<"yTbN = "<<filter->GetyTbN()<<std::endl;
-  std::cout<<"zTbN = "<<filter->GetzTbN()<<std::endl;
   std::cout<<"TbN = "<<filter->GetTbN()<<std::endl;
   std::cout<<std::endl;
-  std::cout<<"xTbTh = "<<filter->GetxTbTh()<<std::endl;
-  std::cout<<"yTbTh = "<<filter->GetyTbTh()<<std::endl;
-  std::cout<<"zTbTh = "<<filter->GetzTbTh()<<std::endl;
   std::cout<<"TbTh = "<<filter->GetTbTh()<<std::endl;
   std::cout<<std::endl;
-  std::cout<<"xTbSp = "<<filter->GetxTbSp()<<std::endl;
-  std::cout<<"yTbSp = "<<filter->GetyTbSp()<<std::endl;
-  std::cout<<"zTbSp = "<<filter->GetzTbSp()<<std::endl;
   std::cout<<"TbSp = "<<filter->GetTbSp()<<std::endl;
   std::cout<<std::endl;
-  std::cout<<"xBSBV = "<<filter->GetxBSBV()<<std::endl;
-  std::cout<<"yBSBV = "<<filter->GetyBSBV()<<std::endl;
-  std::cout<<"zBSBV = "<<filter->GetzBSBV()<<std::endl;
   std::cout<<"BSBV = "<<filter->GetBSBV()<<std::endl;
   \
   std::cout << "Test finished." << std::endl;

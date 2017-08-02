@@ -91,27 +91,15 @@ public:
 
   /** Methods to get the mask different outputs */
 
-  double GetBVTV() { return m_Pp; }
+  RealType GetBVTV() { return m_Pp; }
 
-  double GetxTbN() { return m_PlX; }
-  double GetyTbN() { return m_PlY; }
-  double GetzTbN() { return m_PlZ; }
-  double GetTbN() { return m_Pl; }
+  RealType GetTbN() { return m_Pl; }
 
-  double GetxTbTh() { return m_Pp/m_PlX; }
-  double GetyTbTh() { return m_Pp/m_PlY; }
-  double GetzTbTh() { return m_Pp/m_PlZ; }
-  double GetTbTh() { return m_Pp/m_Pl; }
+  RealType GetTbTh() { return m_Pp/m_Pl; }
 
-  double GetxTbSp() { return (1.0 - m_Pp) / m_PlX; }
-  double GetyTbSp() { return (1.0 - m_Pp) / m_PlY; }
-  double GetzTbSp() { return (1.0 - m_Pp) / m_PlZ; }
-  double GetTbSp() { return (1.0 - m_Pp) / m_Pl; }
+  RealType GetTbSp() { return (1.0 - m_Pp) / m_Pl; }
 
-  double GetxBSBV() { return 2.0 * (m_PlX / m_Pp); }
-  double GetyBSBV() { return 2.0 * (m_PlY / m_Pp); }
-  double GetzBSBV() { return 2.0 * (m_PlZ / m_Pp); }
-  double GetBSBV() { return 2.0 * (m_Pl / m_Pp); }
+  RealType GetBSBV() { return 2.0 * (m_Pl / m_Pp); }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
