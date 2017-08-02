@@ -26,7 +26,7 @@
 namespace itk
 {
 
-/** \namespace GTest
+/** \namespace itk::GTest
  * \brief The GTest namespace contains GTest extensions for ITK, and
  * convenience typedefs, and functions to aid in analytic testing of
  * results and values.

@@ -34,7 +34,7 @@ namespace GTest
 namespace TypedefsAndConstructors
 {
 
-/** \namespace Dimension2
+/** \namespace itk::GTest::TypedefsAndConstructors::Dimension2
  * \brief Contains commonly used typedefs for working with 2-D Images,
  * and utility functions to construct commonly used objects.
  */
@@ -86,7 +86,7 @@ inline static SizeType MakeSize(SizeType::SizeValueType s1,
 }  // end namespace Dimension2
 
 
-/** \namespace Dimension3
+/** \namespace itk::GTest::TypedefsAndConstructors::Dimension3
  * \brief Contains commonly used typedefs for working with 3-D Images,
  * and utility functions to construct commonly used objects.
  */
