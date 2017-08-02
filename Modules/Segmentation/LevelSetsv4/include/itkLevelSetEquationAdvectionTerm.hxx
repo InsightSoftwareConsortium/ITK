@@ -54,7 +54,7 @@ LevelSetEquationAdvectionTerm< TInput, TLevelSetContainer >
 ::SetAdvectionImage( AdvectionImageType* iImage )
 {
   this->m_AdvectionImage = iImage;
-  this->m_AutoGenerateAdvectionImage = this->m_AdvectionImage.isNull();
+  this->m_AutoGenerateAdvectionImage = this->m_AdvectionImage.IsNull();
   this->Modified();
 }
 
