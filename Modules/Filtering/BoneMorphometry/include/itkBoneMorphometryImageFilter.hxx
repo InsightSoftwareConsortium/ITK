@@ -112,14 +112,14 @@ BoneMorphometryImageFilter<TInputImage>::AfterThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
-  long numVoxels = 0;
-  long numBoneVoxels = 0;
-  long numX = 0;
-  long numY = 0;
-  long numZ = 0;
-  long numXO = 0;
-  long numYO = 0;
-  long numZO = 0;
+  itk::SizeValueType numVoxels = 0;
+  itk::SizeValueType numBoneVoxels = 0;
+  itk::SizeValueType numX = 0;
+  itk::SizeValueType numY = 0;
+  itk::SizeValueType numZ = 0;
+  itk::SizeValueType numXO = 0;
+  itk::SizeValueType numYO = 0;
+  itk::SizeValueType numZO = 0;
 
   for (unsigned int i = 0; i < numberOfThreads; ++i)
   {
@@ -155,14 +155,14 @@ BoneMorphometryImageFilter<TInputImage>::ThreadedGenerateData(const RegionType &
   NeighborhoodOffsetType offsetZ = { { 0, 0, 1 } };
   NeighborhoodOffsetType offsetZO = { { 0, 0, -1 } };
 
-  long numVoxels = 0;
-  long numBoneVoxels = 0;
-  long numX = 0;
-  long numY = 0;
-  long numZ = 0;
-  long numXO = 0;
-  long numYO = 0;
-  long numZO = 0;
+  itk::SizeValueType numVoxels = 0;
+  itk::SizeValueType numBoneVoxels = 0;
+  itk::SizeValueType numX = 0;
+  itk::SizeValueType numY = 0;
+  itk::SizeValueType numZ = 0;
+  itk::SizeValueType numXO = 0;
+  itk::SizeValueType numYO = 0;
+  itk::SizeValueType numZO = 0;
 
   typename TInputImage::Pointer maskPointer = TInputImage::New();
   maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
