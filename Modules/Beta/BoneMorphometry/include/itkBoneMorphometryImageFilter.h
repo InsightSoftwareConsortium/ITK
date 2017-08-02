@@ -150,7 +150,7 @@ private:
   double m_PlY;
   double m_PlZ;
 
-  itk::Array<itk::SizeValueType> m_NumVoxels;
+  itk::Array<itk::SizeValueType> m_NumVoxelsInsideMask;
   itk::Array<itk::SizeValueType> m_NumBoneVoxels;
   itk::Array<itk::SizeValueType> m_NumX;
   itk::Array<itk::SizeValueType> m_NumY;
