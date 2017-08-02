@@ -153,12 +153,6 @@ protected:
   */
   void AllocateOutputs() ITK_OVERRIDE;
 
-  /** Override since the filter needs all the data for the algorithm */
-  void GenerateInputRequestedRegion() ITK_OVERRIDE;
-
-  /** Override since the filter produces all of its output */
-  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
-
   /** Initialize some accumulators before the threads run. */
   void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
