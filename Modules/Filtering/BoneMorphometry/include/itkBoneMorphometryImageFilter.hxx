@@ -34,7 +34,7 @@ BoneMorphometryImageFilter<TInputImage>::BoneMorphometryImageFilter()
   , m_PlX(0)
   , m_PlY(0)
   , m_PlZ(0)
-  , m_NumVoxels(0)
+  , m_NumVoxelsInsideMask(0)
   , m_NumBoneVoxels(0)
 {
   this->SetNumberOfRequiredInputs(1);
@@ -86,7 +86,7 @@ BoneMorphometryImageFilter<TInputImage>::BeforeThreadedGenerateData()
   m_PlZ = 0;
 
   // Resize the thread temporaries
-  m_NumVoxels.SetSize(numberOfThreads);
+  m_NumVoxelsInsideMask.SetSize(numberOfThreads);
   m_NumBoneVoxels.SetSize(numberOfThreads);
   m_NumX.SetSize(numberOfThreads);
   m_NumY.SetSize(numberOfThreads);
@@ -96,7 +96,7 @@ BoneMorphometryImageFilter<TInputImage>::BeforeThreadedGenerateData()
   m_NumZO.SetSize(numberOfThreads);
 
   // Resize the thread temporaries
-  m_NumVoxels.Fill(0);
+  m_NumVoxelsInsideMask.Fill(0);
   m_NumBoneVoxels.Fill(0);
   m_NumX.Fill(0);
   m_NumY.Fill(0);
@@ -123,7 +123,7 @@ BoneMorphometryImageFilter<TInputImage>::AfterThreadedGenerateData()
 
   for (unsigned int i = 0; i < numberOfThreads; ++i)
   {
-    numVoxels += m_NumVoxels[i];
+    numVoxels += m_NumVoxelsInsideMask[i];
     numBoneVoxels += m_NumBoneVoxels[i];
     numX += m_NumX[i];
     numY += m_NumY[i];
@@ -221,7 +221,7 @@ BoneMorphometryImageFilter<TInputImage>::ThreadedGenerateData(const RegionType &
     }
   }
 
-  m_NumVoxels[threadId] = numVoxels;
+  m_NumVoxelsInsideMask[threadId] = numVoxels;
   m_NumBoneVoxels[threadId] = numBoneVoxels;
   m_NumX[threadId] = numX;
   m_NumY[threadId] = numY;
@@ -242,7 +242,7 @@ BoneMorphometryImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) 
   os << indent << "m_PlX: " << m_PlX << std::endl;
   os << indent << "m_PlY: " << m_PlY << std::endl;
   os << indent << "m_PlZ: " << m_PlZ << std::endl;
-  os << indent << "m_NumVoxels: " << m_NumVoxels << std::endl;
+  os << indent << "m_NumVoxelsInsideMask: " << m_NumVoxelsInsideMask << std::endl;
   os << indent << "m_NumBoneVoxels: " << m_NumBoneVoxels << std::endl;
   os << indent << "m_NumX: " << m_NumX << std::endl;
   os << indent << "m_NumY: " << m_NumY << std::endl;
