@@ -40,27 +40,6 @@ BoneMorphometryImageFilter<TInputImage>::BoneMorphometryImageFilter()
   this->SetNumberOfRequiredInputs(1);
 }
 
-
-template <typename TInputImage>
-void
-BoneMorphometryImageFilter<TInputImage>::GenerateInputRequestedRegion()
-{
-  Superclass::GenerateInputRequestedRegion();
-  if (this->GetInput())
-  {
-    InputImagePointer image = const_cast<typename Superclass::InputImageType *>(this->GetInput());
-    image->SetRequestedRegionToLargestPossibleRegion();
-  }
-}
-
-template <typename TInputImage>
-void
-BoneMorphometryImageFilter<TInputImage>::EnlargeOutputRequestedRegion(DataObject * data)
-{
-  Superclass::EnlargeOutputRequestedRegion(data);
-  data->SetRequestedRegionToLargestPossibleRegion();
-}
-
 template <typename TInputImage>
 void
 BoneMorphometryImageFilter<TInputImage>::AllocateOutputs()
