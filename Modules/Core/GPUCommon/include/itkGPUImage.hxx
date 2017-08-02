@@ -161,15 +161,10 @@ const TPixel * GPUImage< TPixel, VImageDimension >::GetBufferPointer() const
 }
 
 template <typename TPixel, unsigned int VImageDimension>
-GPUDataManager::Pointer
-GPUImage< TPixel, VImageDimension >::GetGPUDataManager() const
+GPUDataManager *
+GPUImage< TPixel, VImageDimension >::GetGPUDataManager()
 {
-  typedef typename GPUImageDataManager< GPUImage >::Superclass GPUImageDataSuperclass;
-  typedef typename GPUImageDataSuperclass::Pointer             GPUImageDataSuperclassPointer;
-
-  return static_cast< GPUImageDataSuperclassPointer >( m_DataManager.GetPointer() );
-
-  //return m_DataManager.GetPointer();
+  return m_DataManager.GetPointer();
 }
 
 template <typename TPixel, unsigned int VImageDimension>
@@ -178,10 +173,7 @@ GPUImage< TPixel, VImageDimension >::Graft(const Self *data)
 {
   typedef GPUImageDataManager< GPUImage >              GPUImageDataManagerType;
 
-  // Pass regular pointer to Graft() instead of smart pointer due to type
-  // casting problem
-  GPUImageDataManagerType* ptr = static_cast<GPUImageDataManagerType*>(
-      ( data->GetGPUDataManager() ).GetPointer() );
+  GPUImageDataManagerType* ptr = const_cast<GPUImageDataManagerType*>( data->GetDataManager() );
 
   // call the superclass' implementation
   Superclass::Graft(ptr->GetImagePointer());
