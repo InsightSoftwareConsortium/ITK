@@ -91,91 +91,31 @@ public:
 
   /** Methods to get the mask different outputs */
 
-  double
+  RealType
   GetBVTV()
   {
     return m_Pp;
   }
 
-  double
-  GetxTbN()
-  {
-    return m_PlX;
-  }
-  double
-  GetyTbN()
-  {
-    return m_PlY;
-  }
-  double
-  GetzTbN()
-  {
-    return m_PlZ;
-  }
-  double
+  RealType
   GetTbN()
   {
     return m_Pl;
   }
 
-  double
-  GetxTbTh()
-  {
-    return m_Pp / m_PlX;
-  }
-  double
-  GetyTbTh()
-  {
-    return m_Pp / m_PlY;
-  }
-  double
-  GetzTbTh()
-  {
-    return m_Pp / m_PlZ;
-  }
-  double
+  RealType
   GetTbTh()
   {
     return m_Pp / m_Pl;
   }
 
-  double
-  GetxTbSp()
-  {
-    return (1.0 - m_Pp) / m_PlX;
-  }
-  double
-  GetyTbSp()
-  {
-    return (1.0 - m_Pp) / m_PlY;
-  }
-  double
-  GetzTbSp()
-  {
-    return (1.0 - m_Pp) / m_PlZ;
-  }
-  double
+  RealType
   GetTbSp()
   {
     return (1.0 - m_Pp) / m_Pl;
   }
 
-  double
-  GetxBSBV()
-  {
-    return 2.0 * (m_PlX / m_Pp);
-  }
-  double
-  GetyBSBV()
-  {
-    return 2.0 * (m_PlY / m_Pp);
-  }
-  double
-  GetzBSBV()
-  {
-    return 2.0 * (m_PlZ / m_Pp);
-  }
-  double
+  RealType
   GetBSBV()
   {
     return 2.0 * (m_Pl / m_Pp);
