@@ -29,7 +29,7 @@ namespace itk
 template< typename TInputImage >
 BoneMorphometryImageFilter< TInputImage >
 ::BoneMorphometryImageFilter():
-    m_Threshold(0),
+    m_Threshold(1),
     m_Pp(0),
     m_Pl(0),
     m_PlX(0),
