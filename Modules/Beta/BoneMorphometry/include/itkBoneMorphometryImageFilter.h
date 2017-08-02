@@ -33,16 +33,16 @@ namespace itk
  *
  * BoneMorphometryImageFilter computes bone morphometry features such as the percent bone volume [BVTV], the trabecular thickness [TbTh],
  * the trabecular separation [TbSp], the trabecular number [TbN], or the Bone Surface to Bone Volume ration [BSBV].
- * To do so, the filter needs a 3D input scan and a threshold. All the voxel with an intensity higher than the threshold will
+ * To do so, the filter needs a 3D input scan and a threshold. All voxels with an intensity higher than the threshold will
  * be considered as part of the bone.
  * A mask can also be specified in order to have more precise results (the morphometry will be computed only for the mask's voxels with a value of 1)
  *
  * BoneMorphometryImageFilter behaves as a filter with an input and output. Thus it can be inserted
- * in a pipline with other filters and the statistics will only be
+ * in a pipeline with other filters and the metrics will only be
  * recomputed if a downstream filter changes.
  *
  * The filter passes its input through unmodified.  The filter is
- * threaded. It computes statistics in each thread then combines them in
+ * threaded. It computes metrics in each thread then combines them in
  * its AfterThreadedGenerate method.
  *
  * \author: Jean-Baptiste Vimort
