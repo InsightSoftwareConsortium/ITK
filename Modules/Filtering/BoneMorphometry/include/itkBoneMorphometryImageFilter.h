@@ -181,6 +181,11 @@ public:
     return 2.0 * (m_Pl / m_Pp);
   }
 
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro(InputPixelDimensionCheck, (Concept::SameDimension<TInputImage::ImageDimension, 3u>));
+  // End concept checking
+#endif
 
 protected:
   BoneMorphometryImageFilter();
