@@ -30,13 +30,18 @@ namespace itk
  * produce as output a new label map where the label Ids have been replaced
  * according to the pairs in the list.
  *
+ * Labels that are relabeled to the same label Id are automatically
+ * merged and optimized into a single LabelObject. The background
+ * label can also be changed. Any object relabeled to the output
+ * background will automatically be removed.
+ *
  * This implementation was taken from the Insight Journal paper:
  * https://hdl.handle.net/1926/584  or
  * http://www.insight-journal.org/browse/publication/176
  *
  * \author Gaetan Lehmann. Biologie du Developpement et de la Reproduction, INRA de Jouy-en-Josas, France.
  *
- * \sa ShapeLabelObject, RelabelComponentImageFilter
+ * \sa ShapeLabelObject, RelabelComponentImageFilter, ChangeLabelImageFilter
  * \ingroup ImageEnhancement  MathematicalMorphologyImageFilters
  * \ingroup ITKLabelMap
  */
