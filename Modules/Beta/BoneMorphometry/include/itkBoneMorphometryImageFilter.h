@@ -150,14 +150,14 @@ private:
   double m_PlY;
   double m_PlZ;
 
-  itk::Array<long> m_NumVoxels;
-  itk::Array<long> m_NumBoneVoxels;
-  itk::Array<long> m_NumX;
-  itk::Array<long> m_NumY;
-  itk::Array<long> m_NumZ;
-  itk::Array<long> m_NumXO;
-  itk::Array<long> m_NumYO;
-  itk::Array<long> m_NumZO;
+  itk::Array<itk::SizeValueType> m_NumVoxels;
+  itk::Array<itk::SizeValueType> m_NumBoneVoxels;
+  itk::Array<itk::SizeValueType> m_NumX;
+  itk::Array<itk::SizeValueType> m_NumY;
+  itk::Array<itk::SizeValueType> m_NumZ;
+  itk::Array<itk::SizeValueType> m_NumXO;
+  itk::Array<itk::SizeValueType> m_NumYO;
+  itk::Array<itk::SizeValueType> m_NumZO;
 
 }; // end of class
 } // end namespace itk
