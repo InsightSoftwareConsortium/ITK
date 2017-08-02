@@ -178,21 +178,12 @@ GPUImage< TPixel, VImageDimension >::Graft(const Self *data)
   // call the superclass' implementation
   Superclass::Graft(ptr->GetImagePointer());
 
-  // Debug
-  //std::cout << "GPU timestamp : " << m_DataManager->GetMTime() << ", CPU
-  // timestamp : " << this->GetMTime() << std::endl;
-
   // call GPU data graft function
   m_DataManager->SetImagePointer( this );
   m_DataManager->Graft( ptr );
 
   // Synchronize timestamp of GPUImage and GPUDataManager
   m_DataManager->SetTimeStamp( this->GetTimeStamp() );
-
-  // Debug
-  //std::cout << "GPU timestamp : " << m_DataManager->GetMTime() << ", CPU
-  // timestamp : " << this->GetMTime() << std::endl;
-
 }
 
 template <typename TPixel, unsigned int VImageDimension>
