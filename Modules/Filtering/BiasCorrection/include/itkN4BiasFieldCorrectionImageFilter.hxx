@@ -757,7 +757,7 @@ N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>
   Superclass::PrintSelf( os, indent );
 
 #if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
-  os << indent << "Mask label: " << this->m_MaskLabel << std::endl;
+  os << indent << "Mask label: " << static_cast< typename NumericTraits< MaskPixelType >::PrintType >( this->m_MaskLabel ) << std::endl;
 #endif
   os << indent << "Number of histogram bins: "
      << this->m_NumberOfHistogramBins << std::endl;
