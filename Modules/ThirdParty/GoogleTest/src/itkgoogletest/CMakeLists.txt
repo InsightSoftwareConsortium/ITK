@@ -1,5 +1,9 @@
 cmake_minimum_required(VERSION 2.6.2)
 
+if( POLICY CMP0063 )
+  cmake_policy(SET CMP0063 NEW)
+endif()
+
 project( googletest-distribution )
 
 enable_testing()
