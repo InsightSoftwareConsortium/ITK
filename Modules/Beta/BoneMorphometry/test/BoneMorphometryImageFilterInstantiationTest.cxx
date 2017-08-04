@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkBoneMorphometryImageFilter.h"
 
+#include "itkMath.h"
 #include "itkImage.h"
 #include "itkVector.h"
 #include "itkImageFileReader.h"
@@ -58,24 +59,19 @@ int BoneMorphometryImageFilterInstantiationTest( int argc, char *argv[] )
 
   filter->SetInput( reader->GetOutput() );
 
-  filter->SetMaskImage( maskReader->GetOutput() );
-  TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
+//  filter->SetMaskImage( maskReader->GetOutput() );
+//  TEST_SET_GET_VALUE( maskReader->GetOutput(), filter->GetMaskImage() );
 
   filter->SetThreshold( 1300 );
   TEST_SET_GET_VALUE( 1300, filter->GetThreshold() );
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  std::cout<<std::endl;
-  std::cout<<"BVTV = "<<filter->GetBVTV()<<std::endl;
-  std::cout<<std::endl;
-  std::cout<<"TbN = "<<filter->GetTbN()<<std::endl;
-  std::cout<<std::endl;
-  std::cout<<"TbTh = "<<filter->GetTbTh()<<std::endl;
-  std::cout<<std::endl;
-  std::cout<<"TbSp = "<<filter->GetTbSp()<<std::endl;
-  std::cout<<std::endl;
-  std::cout<<"BSBV = "<<filter->GetBSBV()<<std::endl;
+  TEST_EXPECT_TRUE (itk::Math::FloatAlmostEqual( 0.232113, filter->GetBVTV(),6,0.000001));
+  TEST_EXPECT_TRUE (itk::Math::FloatAlmostEqual( 0.281487, filter->GetTbN(),6,0.000001));
+  TEST_EXPECT_TRUE (itk::Math::FloatAlmostEqual( 0.824595, filter->GetTbTh(),6,0.000001));
+  TEST_EXPECT_TRUE (itk::Math::FloatAlmostEqual( 2.72796, filter->GetTbSp(),5,0.00001));
+  TEST_EXPECT_TRUE (itk::Math::FloatAlmostEqual( 2.42543, filter->GetBSBV(),5,0.00001));
   \
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
