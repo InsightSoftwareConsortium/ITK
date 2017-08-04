@@ -38,16 +38,10 @@
 namespace itk
 {
 
-/** \namespace GTest
- * \brief The GTest namespace contains GTest extensions for ITK, and
- * convenience typedefs, and functions to aid in analytic testing of
- * results and values.
- *
- */
 namespace GTest
 {
 
-/** \namespace Predicate
+/** \namespace itk::GTest::Predicate
  *  \brief The Predicate namespace contains functions used to
  *  implement custom GTest Predicate-Formatters.
  */
