@@ -194,6 +194,13 @@ try:
     assert m1.get(0,0) == view[0,0]
     view[0,0] = 0
     assert m1.get(0,0) == view[0,0]
+    arr = numpy.zeros([3,3])
+    m_vnl = itk.GetVnlMatrixFromArray(arr)
+    assert m_vnl(0,0) == 0
+    m_vnl.put(0,0,3)
+    assert m_vnl(0,0) == 3
+    assert arr[0,0] == 0
+
 except ImportError:
     print("NumPy not imported. Skipping BridgeNumPy tests")
     # Numpy is not available, do not run the Bridge NumPy tests
