@@ -224,6 +224,28 @@ void
 BoneMorphometryImageFilter< TImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
+  itk::SizeValueType numVoxels = 0;
+  itk::SizeValueType numBoneVoxels = 0;
+  itk::SizeValueType numX = 0;
+  itk::SizeValueType numY = 0;
+  itk::SizeValueType numZ = 0;
+  itk::SizeValueType numXO = 0;
+  itk::SizeValueType numYO = 0;
+  itk::SizeValueType numZO = 0;
+
+  for (unsigned int i = 0; i < m_NumVoxelsInsideMask.GetSize(); ++i )
+  {
+    numVoxels += m_NumVoxelsInsideMask[i];
+    numBoneVoxels += m_NumBoneVoxels[i];
+    numX += m_NumX[i];
+    numY += m_NumY[i];
+    numZ += m_NumZ[i];
+    numXO += m_NumXO[i];
+    numYO += m_NumYO[i];
+    numZO += m_NumZO[i];
+  }
+  os << indent << "m_Threshold: " << m_Threshold << std::endl;
+
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Threshold: " << m_Threshold << std::endl;
   os << indent << "m_Pp: " << m_Pp << std::endl;
@@ -232,13 +254,21 @@ BoneMorphometryImageFilter< TImage >
   os << indent << "m_PlY: " << m_PlY << std::endl;
   os << indent << "m_PlZ: " << m_PlZ << std::endl;
   os << indent << "m_NumVoxelsInsideMask: " << m_NumVoxelsInsideMask << std::endl;
+  os << indent << "NumVoxelsInsideMask total: " << numVoxels << std::endl;
   os << indent << "m_NumBoneVoxels: " << m_NumBoneVoxels << std::endl;
+  os << indent << "NumBoneVoxels: " << numBoneVoxels << std::endl;
   os << indent << "m_NumX: " << m_NumX << std::endl;
+  os << indent << "NumX total: " << numX << std::endl;
   os << indent << "m_NumY: " << m_NumY << std::endl;
+  os << indent << "NumY total: " << numY << std::endl;
   os << indent << "m_NumZ: " << m_NumZ << std::endl;
+  os << indent << "NumZ total: " << numZ << std::endl;
   os << indent << "m_NumXO: " << m_NumXO << std::endl;
+  os << indent << "NumXO total: " << numXO << std::endl;
   os << indent << "m_NumYO: " << m_NumYO << std::endl;
+  os << indent << "NumYO total: " << numYO << std::endl;
   os << indent << "m_NumZO: " << m_NumZO << std::endl;
+  os << indent << "NumZO total: " << numZO << std::endl;
 
 }
 } // end namespace itk
