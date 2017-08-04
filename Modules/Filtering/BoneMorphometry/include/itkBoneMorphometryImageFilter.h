@@ -25,9 +25,9 @@
 #include "itkHistogram.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkSimpleDataObjectDecorator.h"
+#include "itkConstantBoundaryCondition.h"
 
 #include <vector>
-
 
 namespace itk
 {
@@ -77,9 +77,10 @@ public:
   typedef typename TInputImage::PixelType  PixelType;
 
   /** NeighborhoodIterator typedef */
-  typedef typename itk::ConstNeighborhoodIterator<TInputImage> NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::RadiusType        NeighborhoodRadiusType;
-  typedef typename NeighborhoodIteratorType::OffsetType        NeighborhoodOffsetType;
+  typedef typename itk::ConstantBoundaryCondition<TInputImage>                        BoundaryConditionType;
+  typedef typename itk::ConstNeighborhoodIterator<TInputImage, BoundaryConditionType> NeighborhoodIteratorType;
+  typedef typename NeighborhoodIteratorType::RadiusType                               NeighborhoodRadiusType;
+  typedef typename NeighborhoodIteratorType::OffsetType                               NeighborhoodOffsetType;
 
   /** Type to use for computations. */
   typedef typename NumericTraits<PixelType>::RealType RealType;

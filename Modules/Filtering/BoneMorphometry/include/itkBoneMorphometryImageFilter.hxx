@@ -127,12 +127,12 @@ BoneMorphometryImageFilter<TInputImage>::ThreadedGenerateData(const RegionType &
 {
   NeighborhoodRadiusType radius;
   radius.Fill(1);
-  NeighborhoodOffsetType offsetX = { { 1, 0, 0 } };
-  NeighborhoodOffsetType offsetXO = { { -1, 0, 0 } };
+  NeighborhoodOffsetType offsetX = { { 0, 0, 1 } };
+  NeighborhoodOffsetType offsetXO = { { 0, 0, -1 } };
   NeighborhoodOffsetType offsetY = { { 0, 1, 0 } };
   NeighborhoodOffsetType offsetYO = { { 0, -1, 0 } };
-  NeighborhoodOffsetType offsetZ = { { 0, 0, 1 } };
-  NeighborhoodOffsetType offsetZO = { { 0, 0, -1 } };
+  NeighborhoodOffsetType offsetZ = { { 1, 0, 0 } };
+  NeighborhoodOffsetType offsetZO = { { -1, 0, 0 } };
 
   itk::SizeValueType numVoxels = 0;
   itk::SizeValueType numBoneVoxels = 0;
@@ -155,6 +155,10 @@ BoneMorphometryImageFilter<TInputImage>::ThreadedGenerateData(const RegionType &
   for (; fit != faceList.end(); ++fit)
   {
     NeighborhoodIteratorType inputNIt(radius, this->GetInput(), *fit);
+    BoundaryConditionType    BoundaryCondition;
+    inputNIt.SetBoundaryCondition(BoundaryCondition);
+    inputNIt.GoToBegin();
+
     while (!inputNIt.IsAtEnd())
     {
       if (maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) != 0)
@@ -172,27 +176,27 @@ BoneMorphometryImageFilter<TInputImage>::ThreadedGenerateData(const RegionType &
 
         if (inputNIt.GetPixel(offsetX) < m_Threshold)
         {
-          ++numX;
+          ++numXO;
         }
         if (inputNIt.GetPixel(offsetXO) < m_Threshold)
         {
-          ++numXO;
+          ++numX;
         }
         if (inputNIt.GetPixel(offsetY) < m_Threshold)
         {
-          ++numY;
+          ++numYO;
         }
         if (inputNIt.GetPixel(offsetYO) < m_Threshold)
         {
-          ++numYO;
+          ++numY;
         }
         if (inputNIt.GetPixel(offsetZ) < m_Threshold)
         {
-          ++numZ;
+          ++numZO;
         }
         if (inputNIt.GetPixel(offsetZO) < m_Threshold)
         {
-          ++numZO;
+          ++numZ;
         }
       }
 
