@@ -61,7 +61,7 @@ ComputeMaxNumberOfLevels(const Size<VImageDimension> & inputSize, const unsigned
   for (unsigned int axis = 0; axis < VImageDimension; ++axis)
   {
     size_t sizeAxis = inputSize[axis];
-    double exponent = std::log(sizeAxis) / std::log(static_cast<double>(scaleFactor));
+    double exponent = std::log(static_cast<double>(sizeAxis)) / std::log(static_cast<double>(scaleFactor));
     // check that exponent is integer: the fractional part is 0
     double exponentIntPart;
     double exponentFractionPart = std::modf(exponent, &exponentIntPart);
