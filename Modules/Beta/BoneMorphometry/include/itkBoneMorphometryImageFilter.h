@@ -174,11 +174,11 @@ private:
   RealType m_Threshold;
 
   // Internal computation
-  double m_Pp;
-  double m_Pl;
-  double m_PlX;
-  double m_PlY;
-  double m_PlZ;
+  RealType m_Pp;
+  RealType m_Pl;
+  RealType m_PlX;
+  RealType m_PlY;
+  RealType m_PlZ;
 
   Array<SizeValueType> m_NumVoxelsInsideMask;
   Array<SizeValueType> m_NumBoneVoxels;
