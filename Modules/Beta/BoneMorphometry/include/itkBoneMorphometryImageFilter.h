@@ -77,10 +77,10 @@ public:
   typedef typename TInputImage::PixelType  PixelType;
 
   /** NeighborhoodIterator typedef */
-  typedef typename itk::ConstantBoundaryCondition< TInputImage >  BoundaryConditionType;
-  typedef typename itk::ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >    NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::RadiusType             NeighborhoodRadiusType;
-  typedef typename NeighborhoodIteratorType::OffsetType             NeighborhoodOffsetType;
+  typedef ConstantBoundaryCondition< TInputImage >                           BoundaryConditionType;
+  typedef ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >    NeighborhoodIteratorType;
+  typedef typename NeighborhoodIteratorType::RadiusType                      NeighborhoodRadiusType;
+  typedef typename NeighborhoodIteratorType::OffsetType                      NeighborhoodOffsetType;
 
   /** Type to use for computations. */
   typedef typename NumericTraits< PixelType >::RealType RealType;
@@ -180,14 +180,14 @@ private:
   double m_PlY;
   double m_PlZ;
 
-  itk::Array<itk::SizeValueType> m_NumVoxelsInsideMask;
-  itk::Array<itk::SizeValueType> m_NumBoneVoxels;
-  itk::Array<itk::SizeValueType> m_NumX;
-  itk::Array<itk::SizeValueType> m_NumY;
-  itk::Array<itk::SizeValueType> m_NumZ;
-  itk::Array<itk::SizeValueType> m_NumXO;
-  itk::Array<itk::SizeValueType> m_NumYO;
-  itk::Array<itk::SizeValueType> m_NumZO;
+  Array<SizeValueType> m_NumVoxelsInsideMask;
+  Array<SizeValueType> m_NumBoneVoxels;
+  Array<SizeValueType> m_NumX;
+  Array<SizeValueType> m_NumY;
+  Array<SizeValueType> m_NumZ;
+  Array<SizeValueType> m_NumXO;
+  Array<SizeValueType> m_NumYO;
+  Array<SizeValueType> m_NumZO;
 
 }; // end of class
 } // end namespace itk
