@@ -26,8 +26,8 @@
 
 namespace itk
 {
-template< typename TInputImage >
-BoneMorphometryImageFilter< TInputImage >
+template< typename TInputImage, typename TMaskImage >
+BoneMorphometryImageFilter< TInputImage, TMaskImage >
 ::BoneMorphometryImageFilter():
     m_Threshold(1),
     m_Pp(0),
@@ -41,9 +41,9 @@ BoneMorphometryImageFilter< TInputImage >
   this->SetNumberOfRequiredInputs( 1 );
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TMaskImage >
 void
-BoneMorphometryImageFilter< TInputImage >
+BoneMorphometryImageFilter< TInputImage, TMaskImage >
 ::AllocateOutputs()
 {
   // Pass the input through as the output
@@ -55,9 +55,9 @@ BoneMorphometryImageFilter< TInputImage >
   // Nothing that needs to be allocated for the remaining outputs
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TMaskImage >
 void
-BoneMorphometryImageFilter< TInputImage >
+BoneMorphometryImageFilter< TInputImage, TMaskImage >
 ::BeforeThreadedGenerateData()
 {
     ThreadIdType numberOfThreads = this->GetNumberOfThreads();
@@ -89,9 +89,9 @@ BoneMorphometryImageFilter< TInputImage >
     m_NumZO.Fill(0);
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TMaskImage >
 void
-BoneMorphometryImageFilter< TInputImage >
+BoneMorphometryImageFilter< TInputImage, TMaskImage >
 ::AfterThreadedGenerateData()
 {
     ThreadIdType numberOfThreads = this->GetNumberOfThreads();
@@ -125,9 +125,9 @@ BoneMorphometryImageFilter< TInputImage >
     m_Pl =(m_PlX + m_PlY + m_PlZ) / 3.0;
 }
 
-template< typename TInputImage >
+template< typename TInputImage, typename TMaskImage >
 void
-BoneMorphometryImageFilter< TInputImage >
+BoneMorphometryImageFilter< TInputImage, TMaskImage >
 ::ThreadedGenerateData(const RegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
@@ -149,8 +149,8 @@ BoneMorphometryImageFilter< TInputImage >
     SizeValueType numYO = 0;
     SizeValueType numZO = 0;
 
-    typename TInputImage::Pointer maskPointer = TInputImage::New();
-    maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
+    MaskImagePointer maskPointer = TMaskImage::New();
+    maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
 
     NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage > boundaryFacesCalculator;
     typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator< TInputImage >::FaceListType
@@ -219,9 +219,9 @@ BoneMorphometryImageFilter< TInputImage >
     m_NumZO[threadId] = numZO;
 }
 
-template< typename TImage >
+template< typename TInputImage, typename TMaskImage >
 void
-BoneMorphometryImageFilter< TImage >
+BoneMorphometryImageFilter< TInputImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   SizeValueType numVoxels = 0;

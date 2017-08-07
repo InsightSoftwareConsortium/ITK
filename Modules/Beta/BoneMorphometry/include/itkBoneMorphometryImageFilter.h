@@ -52,7 +52,7 @@ namespace itk
  * \ingroup BoneMorphometry
  *
  */
-template< typename TInputImage>
+template< typename TInputImage,typename TMaskImage = TInputImage>
 class ITK_TEMPLATE_EXPORT BoneMorphometryImageFilter:
 public ImageToImageFilter< TInputImage, TInputImage >
 {
@@ -76,6 +76,9 @@ public:
   typedef typename TInputImage::IndexType  IndexType;
   typedef typename TInputImage::PixelType  PixelType;
 
+  /** Mask related typedefs. */
+  typedef typename TMaskImage::Pointer    MaskImagePointer;
+
   /** NeighborhoodIterator typedef */
   typedef ConstantBoundaryCondition< TInputImage >                           BoundaryConditionType;
   typedef ConstNeighborhoodIterator< TInputImage, BoundaryConditionType >    NeighborhoodIteratorType;
@@ -86,8 +89,8 @@ public:
   typedef typename NumericTraits< PixelType >::RealType RealType;
 
   /** Methods to set/get the mask image */
-  itkSetInputMacro(MaskImage, TInputImage);
-  itkGetInputMacro(MaskImage, TInputImage);
+  itkSetInputMacro(MaskImage, TMaskImage);
+  itkGetInputMacro(MaskImage, TMaskImage);
 
   /** Methods to set/get the mask image */
   itkSetMacro(Threshold, RealType);
