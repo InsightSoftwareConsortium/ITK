@@ -1,21 +1,11 @@
 itk_module_test()
 
-set(BoneMorphometryTests
-  itkMinimalStandardRandomVariateGeneratorTest.cxx
-  itkNormalDistributionImageSourceTest.cxx
+set(BoneMorphometryTests BoneMorphometryImageFilterInstantiationTest.cxx
   )
 
 CreateTestDriver(BoneMorphometry "${BoneMorphometry-Test_LIBRARIES}" "${BoneMorphometryTests}")
 
-itk_add_test(NAME itkMinimalStandardRandomVariateGeneratorTest
-  COMMAND BoneMorphometryTestDriver itkMinimalStandardRandomVariateGeneratorTest
-  )
-
-itk_add_test(NAME itkNormalDistributionImageSourceTest
-  COMMAND BoneMorphometryTestDriver --without-threads
-  --compare
-    ${ITK_TEST_OUTPUT_DIR}/itkNormalDistributionImageSourceTestOutput.mha
-    DATA{Baseline/itkNormalDistributionImageSourceTestOutput.mha}
-  itkNormalDistributionImageSourceTest
-    ${ITK_TEST_OUTPUT_DIR}/itkNormalDistributionImageSourceTestOutput.mha
-  )
+itk_add_test(NAME BoneMorphometryImageFilterInstantiationTest
+  COMMAND BoneMorphometryTestDriver
+  BoneMorphometryImageFilterInstantiationTest
+  DATA{Input/Scan_CBCT_13R.nrrd} DATA{Input/SegmC_CBCT_13R.nrrd})
