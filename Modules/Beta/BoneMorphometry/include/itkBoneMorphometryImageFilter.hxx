@@ -118,10 +118,10 @@ BoneMorphometryImageFilter< TInputImage, TMaskImage >
     }
 
     typename TInputImage::SpacingType inSpacing = this->GetInput()->GetSpacing();
-    m_Pp = (double)numBoneVoxels / (double)numVoxels;
-    m_PlX = (double) ((numX+numXO)/2.0) / (double) (numVoxels * inSpacing[0]) * 2;
-    m_PlY = (double) ((numY+numYO)/2.0) / (double) (numVoxels * inSpacing[1]) * 2;
-    m_PlZ = (double) ((numZ+numZO)/2.0) / (double) (numVoxels * inSpacing[2]) * 2;
+    m_Pp = (RealType)numBoneVoxels / (RealType)numVoxels;
+    m_PlX = (RealType) ((numX+numXO)/2.0) / (RealType) (numVoxels * inSpacing[0]) * 2;
+    m_PlY = (RealType) ((numY+numYO)/2.0) / (RealType) (numVoxels * inSpacing[1]) * 2;
+    m_PlZ = (RealType) ((numZ+numZO)/2.0) / (RealType) (numVoxels * inSpacing[2]) * 2;
     m_Pl =(m_PlX + m_PlY + m_PlZ) / 3.0;
 }
 
