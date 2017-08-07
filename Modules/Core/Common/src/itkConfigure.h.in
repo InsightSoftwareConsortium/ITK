@@ -106,6 +106,8 @@
 #cmakedefine ITK_HAS_GNU_ATTRIBUTE_ALIGNED
 // defined if the STL implementation includes std::copy_n
 #cmakedefine ITK_HAS_STD_COPY_N
+// defined if the C library as the mallinfo struct
+#cmakedefine ITK_HAS_MALLINFO
 
 // defined if the spacing/origin/direction parameters in
 // itk::ImageBase are float instead of double

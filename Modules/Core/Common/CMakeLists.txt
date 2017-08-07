@@ -94,6 +94,11 @@ try_compile( ITK_HAS_GNU_ATTRIBUTE_ALIGNED
 
 set(ITK_WINDOWS_EXPORT_ALL_SYMBOLS ${CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS})
 
+try_compile(ITK_HAS_MALLINFO
+  ${ITK_BINARY_DIR}
+  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasMallinfo.cxx
+  )
+
 #-----------------------------------------------------------------------------
 # Make default visibility as an option for generated export header
 

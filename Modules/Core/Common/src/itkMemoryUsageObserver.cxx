@@ -33,10 +33,9 @@
 
 #if !defined( WIN32 ) && !defined( _WIN32 )
   #include <sys/resource.h>     // getrusage()
-  #if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ ) \
-  && !defined( __OpenBSD__ )
+  #if defined( ITK_HAS_MALLINFO )
     #include <malloc.h>           // mallinfo()
-  #endif // !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__)
+  #endif // ITK_HAS_MALLINFO
 #endif // !defined(WIN32) && !defined(_WIN32)
 
 #if defined( __OpenBSD__ )
@@ -452,8 +451,7 @@ SysResourceMemoryUsageObserver::GetMemoryUsage()
   return 0;
 }
 
-#if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ ) \
-  && !defined( __OpenBSD__ )
+#if defined( ITK_HAS_MALLINFO )
 
 /**         ----         Mallinfo Memory Usage Observer       ----       */
 
@@ -471,8 +469,7 @@ MallinfoMemoryUsageObserver::GetMemoryUsage()
   return mem;
 }
 
-#endif //  !defined(__APPLE__) && !defined(__SUNPRO_CC) && !defined (__sun__) &&
-       // !defined(__FreeBSD__) && !defined(__OpenBSD__)
+#endif //  ITK_HAS_MALLINFO
 
 #endif // Unix and Mac Platforms !defined(WIN32) && !defined(_WIN32)
 
