@@ -91,14 +91,14 @@ BoneMorphometryImageFilter<TInputImage>::AfterThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
-  itk::SizeValueType numVoxels = 0;
-  itk::SizeValueType numBoneVoxels = 0;
-  itk::SizeValueType numX = 0;
-  itk::SizeValueType numY = 0;
-  itk::SizeValueType numZ = 0;
-  itk::SizeValueType numXO = 0;
-  itk::SizeValueType numYO = 0;
-  itk::SizeValueType numZO = 0;
+  SizeValueType numVoxels = 0;
+  SizeValueType numBoneVoxels = 0;
+  SizeValueType numX = 0;
+  SizeValueType numY = 0;
+  SizeValueType numZ = 0;
+  SizeValueType numXO = 0;
+  SizeValueType numYO = 0;
+  SizeValueType numZO = 0;
 
   for (unsigned int i = 0; i < numberOfThreads; ++i)
   {
@@ -134,14 +134,14 @@ BoneMorphometryImageFilter<TInputImage>::ThreadedGenerateData(const RegionType &
   NeighborhoodOffsetType offsetZ = { { 1, 0, 0 } };
   NeighborhoodOffsetType offsetZO = { { -1, 0, 0 } };
 
-  itk::SizeValueType numVoxels = 0;
-  itk::SizeValueType numBoneVoxels = 0;
-  itk::SizeValueType numX = 0;
-  itk::SizeValueType numY = 0;
-  itk::SizeValueType numZ = 0;
-  itk::SizeValueType numXO = 0;
-  itk::SizeValueType numYO = 0;
-  itk::SizeValueType numZO = 0;
+  SizeValueType numVoxels = 0;
+  SizeValueType numBoneVoxels = 0;
+  SizeValueType numX = 0;
+  SizeValueType numY = 0;
+  SizeValueType numZ = 0;
+  SizeValueType numXO = 0;
+  SizeValueType numYO = 0;
+  SizeValueType numZO = 0;
 
   typename TInputImage::Pointer maskPointer = TInputImage::New();
   maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
@@ -218,14 +218,14 @@ template <typename TImage>
 void
 BoneMorphometryImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  itk::SizeValueType numVoxels = 0;
-  itk::SizeValueType numBoneVoxels = 0;
-  itk::SizeValueType numX = 0;
-  itk::SizeValueType numY = 0;
-  itk::SizeValueType numZ = 0;
-  itk::SizeValueType numXO = 0;
-  itk::SizeValueType numYO = 0;
-  itk::SizeValueType numZO = 0;
+  SizeValueType numVoxels = 0;
+  SizeValueType numBoneVoxels = 0;
+  SizeValueType numX = 0;
+  SizeValueType numY = 0;
+  SizeValueType numZ = 0;
+  SizeValueType numXO = 0;
+  SizeValueType numYO = 0;
+  SizeValueType numZO = 0;
 
   for (unsigned int i = 0; i < m_NumVoxelsInsideMask.GetSize(); ++i)
   {
