@@ -279,9 +279,6 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
 
   if( isValidJacobianCalcLocat )
     {
-    OutputVectorType cpix = this->m_DisplacementField->GetPixel(index);
-    m_DisplacementField->TransformLocalVectorToPhysicalVector( cpix, cpix );
-    // cpix = directionRaw->TransformVector( cpix );
     // itkCentralDifferenceImageFunction does not support 4th order so
     // do manually here
     for( unsigned int row = 0; row < NDimensions; row++ )
@@ -301,15 +298,24 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>
         ddlindex[row] = index[row] - 2;
         }
 
-      OutputVectorType rpix = m_DisplacementField->GetPixel( difIndex[row][1] );
-      OutputVectorType lpix = m_DisplacementField->GetPixel( difIndex[row][0] );
-      OutputVectorType rrpix = m_DisplacementField->GetPixel( ddrindex );
-      OutputVectorType llpix = m_DisplacementField->GetPixel( ddlindex );
+      OutputVectorType tempPix;
 
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( rpix, rpix );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( rrpix, rrpix );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( lpix, lpix );
-      m_DisplacementField->TransformLocalVectorToPhysicalVector( llpix, llpix );
+      OutputVectorType rpix;
+      tempPix = m_DisplacementField->GetPixel( difIndex[row][1] );
+      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, rpix );
+
+      OutputVectorType lpix;
+      tempPix = m_DisplacementField->GetPixel( difIndex[row][0] );
+      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, lpix );
+
+      OutputVectorType rrpix;
+      tempPix = m_DisplacementField->GetPixel( ddrindex );
+      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, rrpix );
+
+      OutputVectorType llpix;
+      tempPix = m_DisplacementField->GetPixel( ddlindex );
+      m_DisplacementField->TransformLocalVectorToPhysicalVector( tempPix, llpix );
+
 
       // 4th order centered difference
       OutputVectorType dPix =
