@@ -117,8 +117,8 @@ public:
   virtual ~SysResourceMemoryUsageObserver();
   virtual MemoryLoadType GetMemoryUsage() ITK_OVERRIDE;
 };
-#if !defined( __APPLE__ ) && !defined( __SUNPRO_CC ) && !defined ( __sun__ ) && !defined( __FreeBSD__ ) \
-  && !defined( __OpenBSD__ )
+
+#if defined( ITK_HAS_MALLINFO )
 /** \class MallinfoMemoryUsageObserver
  * \brief The MallinfoMemoryUsageObserver
  * \ingroup ITKCommon
