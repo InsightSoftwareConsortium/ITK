@@ -182,6 +182,9 @@ int itkSingleLevelSetDenseAdvectionImage2DTest( int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
+  AdvectionTermType::AdvectionImageType * advectionImage = advectionTerm->GetModifiableAdvectionImage();
+  advectionTerm->SetAdvectionImage( advectionImage );
+
   ImageType::Pointer outputImage = ImageType::New();
   outputImage->SetRegions( input->GetLargestPossibleRegion() );
   outputImage->CopyInformation( input );
