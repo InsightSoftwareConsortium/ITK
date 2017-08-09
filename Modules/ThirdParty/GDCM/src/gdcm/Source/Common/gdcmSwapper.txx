@@ -72,6 +72,12 @@
                       (((x) & 0x00FF000000000000ULL) >> 40) | \
                       (((x) & 0xFF00000000000000ULL) >> 56))
 
+#else
+
+// If this condition is encountered, first check whether the platform has the functions required.
+// If not, test whether the workaround for __MINGW32__ can be used for this platform.
+#error "Byte swap methods are not available."
+
 #endif
 
 #include "gdcmTag.h"
