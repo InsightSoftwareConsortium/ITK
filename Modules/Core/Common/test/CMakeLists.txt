@@ -478,7 +478,7 @@ itk_add_test(NAME itkCompensatedSummationTest2 COMMAND ITKCommon2TestDriver itkC
 # this test depends on being able to raise C++ exceptions from
 # the signal handler. This is apparently not something that
 # works properly
-if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux")
+if("${CMAKE_SYSTEM_NAME}" MATCHES "Linux" AND ITK_HAS_FEENABLEEXCEPT)
   itk_add_test(NAME itkFloatingPointExceptionsTest1 COMMAND ITKCommon1TestDriver
     itkFloatingPointExceptionsTest DivByZero)
   itk_add_test(NAME itkFloatingPointExceptionsTest2 COMMAND ITKCommon1TestDriver
