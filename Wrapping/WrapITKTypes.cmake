@@ -256,6 +256,11 @@ WRAP_TYPE("itk::Image" "I" "itkImage.h")
         ADD_TEMPLATE("${ITKM_VD${vector_dim}}${d_inc}" "${ITKT_VD${vector_dim}},${d_inc}")
       endif()
     endforeach()
+    # For N4BiasFieldCorrectionImageFilter
+    list(FIND defined_vector_list "${ITKM_VF1}${d}" index)
+    if(index EQUAL -1)
+      ADD_TEMPLATE("${ITKM_VF1}${d}" "${ITKT_VF1},${d}")
+    endif()
   endforeach()
 
   # CovariantVector types required by ImageToImageMetric class
