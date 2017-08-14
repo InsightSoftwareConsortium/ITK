@@ -69,38 +69,10 @@ void
 FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
 
-  InputImageConstPointer inputPtr = this->GetInput(0);
-  OutputImagePointer     outputPtr = this->GetOutput(0);
-
-
-  // some checks
-  if (inputPtr.IsNull())
-  {
-    itkExceptionMacro("\n Input is missing.");
-  }
-  if ((!TInputImage::ImageDimension) == TOutputImage::ImageDimension)
-  {
-    itkExceptionMacro("\n Image Dimensions must be the same.");
-  }
-
-  // The initial Displacement field is simply the negative input Displacement field.
-  // Here we create this Displacement field.
-  InputImagePointer negField = InputImageType::New();
-  negField->SetRegions(inputPtr->GetLargestPossibleRegion());
-  negField->SetOrigin(inputPtr->GetOrigin());
-  negField->SetSpacing(inputPtr->GetSpacing());
-  negField->SetDirection(inputPtr->GetDirection());
-  negField->Allocate();
-
+  const InputImageType * inputPtr = this->GetInput(0);
+  OutputImageType *      outputPtr = this->GetOutput(0);
 
   InputConstIterator InputIt = InputConstIterator(inputPtr, inputPtr->GetRequestedRegion());
-  InputIterator      negImageIt = InputIterator(negField, negField->GetRequestedRegion());
-
-  for (negImageIt.GoToBegin(), InputIt.GoToBegin(); !negImageIt.IsAtEnd(); ++negImageIt)
-  {
-    negImageIt.Set(-InputIt.Get());
-    ++InputIt;
-  }
 
   // We allocate a Displacement field that holds the output
   // and initialize it to 0
@@ -110,17 +82,14 @@ FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Genera
   OutputIterator       outputIt = OutputIterator(outputPtr, outputPtr->GetRequestedRegion());
   OutputImagePixelType zero_pt;
   zero_pt.Fill(0);
-  for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
-  {
-    outputIt.Set(zero_pt);
-  }
+  outputPtr->FillBuffer(zero_pt);
 
 
   // In the fixed point iteration, we will need to access non-grid points.
   // Currently, the best interpolator that is supported by itk for vector
   // images is the linear interpolater.
   typename FieldInterpolatorType::Pointer vectorInterpolator = FieldInterpolatorType::New();
-  vectorInterpolator->SetInputImage(negField);
+  vectorInterpolator->SetInputImage(inputPtr);
 
 
   // Finally, perform the fixed point iteration.
@@ -148,7 +117,7 @@ FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Genera
         OutputVectorType       outputVector;
         for (unsigned int j = 0; j < ImageDimension; j++)
         {
-          outputVector[j] = val[j];
+          outputVector[j] = -val[j];
         }
         outputIt.Set(outputVector);
       }
@@ -168,7 +137,7 @@ FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Genera
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  OutputImagePointer outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   if (!outputPtr)
   {
     return;
