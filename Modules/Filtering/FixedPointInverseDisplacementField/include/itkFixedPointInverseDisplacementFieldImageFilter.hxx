@@ -190,6 +190,28 @@ FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Genera
 //----------------------------------------------------------------------------
 template <class TInputImage, class TOutputImage>
 void
+FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
+{
+  // call the superclass's implementation of this method
+  Superclass::GenerateInputRequestedRegion();
+
+  if (!this->GetInput())
+  {
+    return;
+  }
+
+  // get pointers to the input and output
+  InputImageType * inputPtr = const_cast<InputImageType *>(this->GetInput());
+
+  // Request the entire input image
+  InputImageRegionType inputRegion;
+  inputRegion = inputPtr->GetLargestPossibleRegion();
+  inputPtr->SetRequestedRegion(inputRegion);
+}
+
+//----------------------------------------------------------------------------
+template <class TInputImage, class TOutputImage>
+void
 FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
                                                                                     Indent         indent) const
 {
