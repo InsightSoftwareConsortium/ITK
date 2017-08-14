@@ -143,7 +143,11 @@ protected:
   void
   GenerateData();
   void
-               GenerateOutputInformation();
+  GenerateOutputInformation();
+
+  virtual void
+  GenerateInputRequestedRegion() ITK_OVERRIDE;
+
   unsigned int m_NumberOfIterations;
 
 
