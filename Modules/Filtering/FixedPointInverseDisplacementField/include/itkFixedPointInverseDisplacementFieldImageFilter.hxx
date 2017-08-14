@@ -95,16 +95,14 @@ FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Genera
   // Finally, perform the fixed point iteration.
   InputImagePointType  mappedPt;
   OutputImagePointType pt;
-  OutputImageIndexType index;
-  OutputImagePixelType displacement;
 
   for (unsigned int i = 0; i <= m_NumberOfIterations; i++)
   {
     for (outputIt.GoToBegin(); !outputIt.IsAtEnd(); ++outputIt)
     {
-      index = outputIt.GetIndex();
+      const OutputImageIndexType index = outputIt.GetIndex();
       outputPtr->TransformIndexToPhysicalPoint(index, pt);
-      displacement = outputIt.Get();
+      const OutputImagePixelType displacement = outputIt.Get();
       for (unsigned int j = 0; j < ImageDimension; j++)
       {
         mappedPt[j] = pt[j] + displacement[j];
