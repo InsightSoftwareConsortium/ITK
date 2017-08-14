@@ -69,8 +69,8 @@ void
 FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
 
-  InputImageConstPointer inputPtr = this->GetInput(0);
-  OutputImagePointer     outputPtr = this->GetOutput(0);
+  const InputImageType * inputPtr = this->GetInput(0);
+  OutputImageType *      outputPtr = this->GetOutput(0);
 
 
   // The initial Displacement field is simply the negative input Displacement field.
@@ -158,7 +158,7 @@ FixedPointInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Genera
   Superclass::GenerateOutputInformation();
 
   // get pointers to the input and output
-  OutputImagePointer outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
   if (!outputPtr)
   {
     return;
