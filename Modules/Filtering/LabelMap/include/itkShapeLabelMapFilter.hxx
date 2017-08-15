@@ -213,61 +213,82 @@ ShapeLabelMapFilter< TImage, TLabelImage >
       }
 
     // moments computation
+    //
+    //  This computation has changed from what is documented in the
+    //  original publication ( see class level documentation for
+    //  reference).  It has been re derived to properly support the
+    //  direction cosine matrix in the image.
+    //
+    // Using the same optimization of the computation and substitutions,
+    // the new computation is derived with the following:
+    //
+    //   p_i = o_i + s_0*d_i_0 * x, where s_0 is spacing the line run, and
+    //   d_i_0, it the components of the first column of the direction cosine
+    //        matrix, and x is the index offset from o_i.
+    //
+    // Then the elements of the central moments _all_ are:
+    //   S_i_j = sum_L_in_O( sum_p_in_L( p_i dot p_j ) )
+    //
+    // Then we follow the paper, in substituting p, expanding and
+    // substituting for known summations over x. This is very similar to
+    // equation 9 in the paper but with p_i dot p_j and NOT p_i dot p_i.
+
+#if defined ITK_SHAPE_LABEL_MAP_BASIC_IMPLEMENTATION
 // ****************************************************************
 // that commented code is the basic implementation. The next piece of code
 // give the same result in a much efficient way, by using expended formulae
 // allowed by the binary case instead of loops.
 // ****************************************************************
-//     IndexValueType endIdx0 = idx[0] + length;
-//     for( IndexType iidx = idx; iidx[0]<endIdx0; iidx[0]++)
-//       {
-//       typename LabelObjectType::CentroidType pP;
-//       output->TransformIndexToPhysicalPoint(iidx, pP);
-//
-//       for(unsigned int i=0; i<ImageDimension; i++)
-//         {
-//         for(unsigned int j=0; j<ImageDimension; j++)
-//           {
-//           centralMoments[i][j] += pP[i] * pP[j];
-//           }
-//         }
-//       }
+     IndexValueType endIdx0 = idx[0] + length;
+     for( IndexType iidx = idx; iidx[0]<endIdx0; iidx[0]++)
+       {
+       typename LabelObjectType::CentroidType pP;
+       output->TransformIndexToPhysicalPoint(iidx, pP);
+
+       for(unsigned int i=0; i<ImageDimension; i++)
+         {
+         for(unsigned int j=0; j<ImageDimension; j++)
+           {
+           centralMoments[i][j] += pP[i] * pP[j];
+           }
+         }
+       }
+#else
     // get the physical position and the spacing - they are used several times
     // later
     typename LabelObjectType::CentroidType physicalPosition;
     output->TransformIndexToPhysicalPoint(idx, physicalPosition);
-    const typename ImageType::SpacingType & spacing = output->GetSpacing();
-    // the sum of x positions, also reused several times
-    double sumX = length * ( physicalPosition[0] + ( spacing[0] * ( length - 1 ) ) / 2.0 );
-    // the real job - the sum of square of x positions
-    // that's the central moments for dims 0, 0
-    centralMoments[0][0] += length * ( physicalPosition[0] * physicalPosition[0]
-                                       + spacing[0]
-                                       * ( length
-                                           - 1 ) * ( ( spacing[0] * ( 2 * length - 1 ) ) / 6.0 + physicalPosition[0] ) );
-    // the other ones
-    for ( unsigned int i = 1; i < ImageDimension; i++ )
+
+    const typename ImageType::DirectionType &direction = output->GetDirection();
+    VectorType scale(output->GetSpacing()[0]);
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
       {
-      // do this one here to avoid the double assigment in the following loop
-      // when i == j
-      centralMoments[i][i] += length * physicalPosition[i] * physicalPosition[i];
-      // central moments are symetrics, so avoid to compute them 2 times
-      for ( unsigned int j = i + 1; j < ImageDimension; j++ )
-        {
-        // note that we won't use that code if the image dimension is less than
-        // 3
-        // --> the tests should be in 3D at least
-        double cm = length * physicalPosition[i] * physicalPosition[j];
-        centralMoments[i][j] += cm;
-        centralMoments[j][i] += cm;
-        }
-      // the last moments: the ones for the dimension 0
-      double cm = sumX * physicalPosition[i];
-      centralMoments[i][0] += cm;
-      centralMoments[0][i] += cm;
+      scale[i] *= direction(i,0);
       }
+
+    for ( unsigned int i = 0; i < ImageDimension; i++ )
+      {
+      centralMoments[i][i] += length * ( physicalPosition[i] * physicalPosition[i]
+                                        + (( length - 1.0 )/2.0)*(2.0 * physicalPosition[i] * scale[i]
+                                                                 + ((2.0*length - 1.0)/3.0) * scale[i] *  scale[i]));
+
+      for ( unsigned int j = i+1; j < ImageDimension; j++ )
+        {
+        const double cm =  length * ( physicalPosition[i] * physicalPosition[j]
+                                      + (( length - 1.0 )/2.0)*( physicalPosition[i] * scale[j] + scale[i] * physicalPosition[j]
+                                                               + ((2.0*length - 1.0)/3.0) * scale[i] *  scale[j]));
+        centralMoments[j][i] += cm;
+        centralMoments[i][j] += cm;
+
+        }
+
+      }
+
+#endif
+
     ++lit;
     }
+
 
   // final computation
   typename LabelObjectType::RegionType::SizeType boundingBoxSize;
@@ -326,10 +347,16 @@ ShapeLabelMapFilter< TImage, TLabelImage >
     elongation = 1;
     flatness = 1;
     }
-  else if ( Math::NotAlmostEquals( principalMoments[0], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
+  else
     {
-    elongation = std::sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
-    flatness = std::sqrt(principalMoments[1] / principalMoments[0]);
+    if ( Math::NotAlmostEquals( principalMoments[0], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
+      {
+      flatness = std::sqrt(principalMoments[1] / principalMoments[0]);
+      }
+    if ( Math::NotAlmostEquals( principalMoments[ImageDimension - 2], itk::NumericTraits< typename VectorType::ValueType >::ZeroValue() ) )
+      {
+      elongation = std::sqrt(principalMoments[ImageDimension - 1] / principalMoments[ImageDimension - 2]);
+      }
     }
 
   double physicalSize = nbOfPixels * sizePerPixel;
@@ -755,7 +782,8 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
   const ImageType *            output = this->GetOutput();
 
-  VNLMatrixType rotationMatrix = labelObject->GetPrincipalAxes().GetVnlMatrix();
+  VNLMatrixType principalAxesBasisMatrix = labelObject->GetPrincipalAxes().GetVnlMatrix();
+
   const typename LabelObjectType::CentroidType centroid = labelObject->GetCentroid();
   const unsigned int numLines = labelObject->GetNumberOfLines();
 
@@ -787,57 +815,69 @@ ShapeLabelMapFilter< TImage, TLabelImage >
 
 
   // Project the physical points onto principal axes
-  VNLMatrixType transformedPixelLocations = rotationMatrix * pixelLocations;
+  VNLMatrixType transformedPixelLocations = principalAxesBasisMatrix * pixelLocations;
 
   // find the bounds in the projected domain
   assert( transformedPixelLocations.columns() != 0 );
-  VNLVectorType proj_min = transformedPixelLocations.get_column(0);
-  VNLVectorType proj_max = transformedPixelLocations.get_column(0);
+  VNLVectorType minimumPrincipalAxis = transformedPixelLocations.get_column(0);
+  VNLVectorType maximumPrincipalAxis = transformedPixelLocations.get_column(0);
 
   for ( unsigned int column = 1; column < transformedPixelLocations.columns(); column++ )
     {
     for ( unsigned int i = 0; i < ImageDimension; ++i )
       {
       const double value = transformedPixelLocations(i, column);
-      proj_min[i] = std::min(proj_min[i], value);
-      proj_max[i] = std::max(proj_max[i], value);
+      minimumPrincipalAxis[i] = std::min(minimumPrincipalAxis[i], value);
+      maximumPrincipalAxis[i] = std::max(maximumPrincipalAxis[i], value);
       }
     }
 
+  // The minimumPrincipalAxis/maximumPrincipalAxis is from center of pixel to center of pixel
+  // in the principal axis basis. The full extent of the pixels needs
+  // to include the offset bits from the center of the pixel to the
+  // corners. The extrema of the OBB is increased by checking all
+  // corners of the pixels, via computing the offset vector from the
+  // center to the corner in the principal axis basis.
 
-  // The proj_min/max is from center of pixel to center of pixel. The
-  // full extent of the pixels needs to include the offset bits from
-  // the center of the pixel to the corners. The extrema of the
-  // OBB is increased by the maximum of the projected spacing.
+  VNLVectorType adjusted_minimumPrincipalAxis = minimumPrincipalAxis;
+  VNLVectorType adjusted_maximumPrincipalAxis = maximumPrincipalAxis;
+
   const typename ImageType::SpacingType & spacing = output->GetSpacing();
-  Vector<double, ImageDimension> physicalOffset;
-  output->TransformLocalVectorToPhysicalVector(spacing, physicalOffset);
 
-  for ( unsigned int i = 0; i < ImageDimension; ++i )
+  // iterate over all corners (2^D) of the pixel
+  for ( unsigned int p = 0; p < 1u<<ImageDimension; ++p )
     {
+    Vector<double, ImageDimension> spacingAxis(0.5*spacing);
 
-    // the size of the pixels center to corner offset is maximized,
-    // when the sign of the basis vector ( rotation matrix column )
-    // matches, the spacing.
-    Vector<double, ImageDimension>  basisVector;
-    for ( unsigned int j = 0; j < ImageDimension; ++j )
+    // permute signs of spacing vector components, based on a bit of p
+    // to component of spacingAxis mapping
+    for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-      basisVector[j] = rotationMatrix(j,i);
-      basisVector[j] *= Math::sgn0(basisVector[j]) * Math::sgn0( physicalOffset[j]);
+      if (p & 1u<<i)
+        {
+        spacingAxis[i] *= -1;
+        }
       }
 
-    // projection the spacing vector onto the sign corrected basis
-    // vector to get maximum offset
-    const double maxOffset= basisVector*physicalOffset;
-    proj_min[i] -= maxOffset/2.0;
-    proj_max[i] += maxOffset/2.0;
+    Vector<double, ImageDimension> physicalOffset;
+    output->TransformLocalVectorToPhysicalVector(spacingAxis, physicalOffset);
+    VNLVectorType  paOffset = principalAxesBasisMatrix*physicalOffset.GetVnlVector();
+
+    for ( unsigned int i = 0; i < ImageDimension; ++i )
+      {
+      adjusted_minimumPrincipalAxis[i] = std::min(adjusted_minimumPrincipalAxis[i], minimumPrincipalAxis[i]+paOffset[i]);
+      adjusted_maximumPrincipalAxis[i] = std::max(adjusted_maximumPrincipalAxis[i], maximumPrincipalAxis[i]+paOffset[i]);
+      }
     }
+
+  minimumPrincipalAxis = adjusted_minimumPrincipalAxis;
+  maximumPrincipalAxis = adjusted_maximumPrincipalAxis;
 
   // real physical size, in basis space
   Vector<double, ImageDimension> rsize;
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
-    rsize[i] = std::abs(proj_max[i]-proj_min[i]);
+    rsize[i] = std::abs(maximumPrincipalAxis[i]-minimumPrincipalAxis[i]);
     }
 
 
@@ -845,10 +885,10 @@ ShapeLabelMapFilter< TImage, TLabelImage >
   // Invert rotation matrix, we will now convert points from the
   // projected space back to the physical one, for the origin
   //
-  rotationMatrix.inplace_transpose();
+  principalAxesBasisMatrix.inplace_transpose();
 
   typename LabelObjectType::OrientedBoundingBoxPointType origin;
-  VNLVectorType min = rotationMatrix*proj_min;
+  VNLVectorType min = principalAxesBasisMatrix*minimumPrincipalAxis;
 
   for ( unsigned int i = 0; i < ImageDimension; ++i )
     {
