@@ -27,7 +27,7 @@
 // this is based on work by David N. Williams
 // www-personal.umich.edu/~williams
 // http://www-personal.umich.edu/~williams/archive/computation/fe-handling-example.c
-#if !defined(_WIN32) && defined(ITK_HAVE_FENV_H)
+#if !defined(_WIN32) && defined(ITK_HAVE_FENV_H) && defined(ITK_HAS_FEENABLEEXCEPT)
 
 #include <iostream>
 #include <string.h> // memcpy
@@ -429,7 +429,7 @@ SetEnabled(bool val)
     }
 }
 
-#if defined(_WIN32) || !defined(ITK_HAVE_FENV_H)
+#if defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAS_FEENABLEEXCEPT)
 
 #if defined(_MSC_VER)
 #include <float.h>
@@ -484,7 +484,7 @@ void FloatingPointExceptions
     }
 }
 
-#endif // defined(_MSC_VER) || !defined(ITK_HAVE_FENV_H)
+#endif // defined(_MSC_VER) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAS_FEENABLEEXCEPT)
 
 #else // defined(_WIN32)
 
