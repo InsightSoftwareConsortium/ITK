@@ -429,7 +429,7 @@ SetEnabled(bool val)
     }
 }
 
-#if defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAVE_FEENABLEEXCEPT)
+#if defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAS_FEENABLEEXCEPT)
 
 #if defined(_MSC_VER)
 #include <float.h>
