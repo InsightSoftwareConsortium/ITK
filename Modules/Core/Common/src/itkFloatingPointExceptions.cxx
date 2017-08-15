@@ -486,7 +486,7 @@ void FloatingPointExceptions
 
 #endif // defined(_MSC_VER)
 
-#else // defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAVE_FEENABLEEXCEPT)
+#else // defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAS_FEENABLEEXCEPT)
 
 void
 FloatingPointExceptions
@@ -524,6 +524,6 @@ FloatingPointExceptions
   FloatingPointExceptions::m_Enabled = false;
 }
 
-#endif // defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAVE_FEENABLEEXCEPT)
+#endif // defined(_WIN32) || !defined(ITK_HAVE_FENV_H) || !defined(ITK_HAS_FEENABLEEXCEPT)
 
 } // end of itk namespace
