@@ -99,11 +99,6 @@ try_compile(ITK_HAS_MALLINFO
   ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasMallinfo.cxx
   )
 
-try_compile(ITK_HAS_FEENABLEEXCEPT
-  ${ITK_BINARY_DIR}
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake/itkCheckHasFeenableexcept.cxx
-  )
-
 #-----------------------------------------------------------------------------
 # Make default visibility as an option for generated export header
 
