@@ -229,7 +229,7 @@ void NrrdImageIO::ReadImageInformation()
 
   try
     {
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && (defined(ITK_HAS_FEENABLEEXCEPT) || defined(_MSC_VER))
     // nrrd causes exceptions on purpose, so mask them
     bool saveFPEState(FloatingPointExceptions::GetExceptionAction() );
     FloatingPointExceptions::Disable();
@@ -251,7 +251,7 @@ void NrrdImageIO::ReadImageInformation()
       throw e_;
       }
 
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && (defined(ITK_HAS_FEENABLEEXCEPT) || defined(_MSC_VER))
     // restore state
     FloatingPointExceptions::SetEnabled(saveFPEState);
 #endif
@@ -731,7 +731,7 @@ void NrrdImageIO::Read(void *buffer)
       }
     }
 
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && (defined(ITK_HAS_FEENABLEEXCEPT) || defined(_MSC_VER))
   // nrrd causes exceptions on purpose, so mask them
   bool saveFPEState(FloatingPointExceptions::GetExceptionAction() );
   FloatingPointExceptions::Disable();
@@ -746,7 +746,7 @@ void NrrdImageIO::Read(void *buffer)
                       << this->GetFileName() << ":\n" << err);
     }
 
-#ifndef __MINGW32__
+#if !defined(__MINGW32__) && (defined(ITK_HAS_FEENABLEEXCEPT) || defined(_MSC_VER))
   // restore state
   FloatingPointExceptions::SetEnabled(saveFPEState);
 #endif
