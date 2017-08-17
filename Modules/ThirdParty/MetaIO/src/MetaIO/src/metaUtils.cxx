@@ -62,6 +62,8 @@ int META_DEBUG = 0;
 
 static char MET_SeperatorChar = '=';
 
+static const METAIO_STL::streamoff MET_MaxChunkSize = 1024*1024*1024;
+
 MET_FieldRecordType *
 MET_GetFieldRecord(const char * _fieldName,
                    METAIO_STL::vector<MET_FieldRecordType *> * _fields)
@@ -703,9 +705,8 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
   int compression_rate = Z_DEFAULT_COMPRESSION;
 
   METAIO_STL::streamoff buffer_out_size = sourceSize;
-  // could be smaller, but must not be bigger than UINT_MAX:
-  METAIO_STL::streamoff max_chunk_size = std::numeric_limits<uInt>::max();
-  METAIO_STL::streamoff chunk_size  = static_cast<uInt>(std::min(sourceSize, max_chunk_size));
+  METAIO_STL::streamoff max_chunk_size = MET_MaxChunkSize;
+  METAIO_STL::streamoff chunk_size  = std::min(sourceSize, max_chunk_size);
   unsigned char * input_buffer      = const_cast<unsigned char *>(source);
   unsigned char * output_buffer     = new unsigned char[chunk_size];
   unsigned char * compressed_data   = new unsigned char[buffer_out_size];
@@ -770,8 +771,7 @@ bool MET_PerformUncompression(const unsigned char * sourceCompressed,
 
   inflateInit2(&d_stream,47); // allow both gzip and zlib compression headers
 
-  // could be smaller, but must not be bigger than UINT_MAX:
-  METAIO_STL::streamoff max_chunk_size = std::numeric_limits<uInt>::max();
+  METAIO_STL::streamoff max_chunk_size = MET_MaxChunkSize;
   METAIO_STL::streamoff source_pos = 0;
   METAIO_STL::streamoff dest_pos = 0;
   int err;
@@ -785,10 +785,8 @@ bool MET_PerformUncompression(const unsigned char * sourceCompressed,
     source_pos += d_stream.avail_in;
     do
       {
-      uInt cur_remain_chunk = static_cast<uInt>(std::min(
-        uncompressedDataSize - dest_pos,
-        static_cast<METAIO_STL::streamoff>(std::numeric_limits<uInt>::max())
-      ));
+      uInt cur_remain_chunk = static_cast<uInt>( std::min( uncompressedDataSize - dest_pos,
+                                                           MET_MaxChunkSize) );
       d_stream.next_out = static_cast<unsigned char *>(uncompressedData) + dest_pos;
       d_stream.avail_out = cur_remain_chunk;
       err = inflate(&d_stream, Z_NO_FLUSH);
