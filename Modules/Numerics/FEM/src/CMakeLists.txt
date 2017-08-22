@@ -50,5 +50,3 @@ set(ITKFEM_SRCS
 
 itk_module_add_library(ITKFEM ${ITKFEM_SRCS})
 target_link_libraries(ITKFEM LINK_PUBLIC ${ITKMetaIO_LIBRARIES})
-# not valid because of dsrc2c.c
-set_property(TARGET ITKFEM PROPERTY VISIBILITY_INLINES_HIDDEN 0)
