@@ -23,7 +23,6 @@
 
 #include <fstream>
 #include "itkImageIOBase.h"
-#include <nifti1_io.h>
 
 namespace itk
 {
@@ -128,7 +127,29 @@ private:
 
   void  SetImageIOMetadataFromNIfTI();
 
-  nifti_image *m_NiftiImage;
+  //This proxy class provides a nifti_image pointer interface to the internal implementation
+  //of itk::NiftiImageIO, while hiding the niftilib interface from the external ITK interface.
+  class NiftiImageProxy;
+
+  //This class has ownership of the proxy and is thereby holder of the nifti_image pointer.
+  class NiftiImageHolder
+  {
+  private:
+    NiftiImageProxy* const m_NiftiImageProxy;
+  public:
+    NiftiImageHolder();
+    ~NiftiImageHolder();
+    NiftiImageProxy& GetNiftiImageProxy();
+
+  private:
+    NiftiImageHolder(const NiftiImageHolder&) ITK_DELETED_FUNCTION;
+    NiftiImageHolder& operator=(const NiftiImageHolder &) ITK_DELETED_FUNCTION;
+  };
+
+  //Note that it is essential that m_NiftiImageHolder is defined before m_NiftiImage, to ensure that
+  //m_NiftiImage can directly get a proxy from m_NiftiImageHolder during NiftiImageIO construction.
+  NiftiImageHolder m_NiftiImageHolder;
+  NiftiImageProxy& m_NiftiImage;
 
   double m_RescaleSlope;
   double m_RescaleIntercept;

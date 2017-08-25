@@ -19,6 +19,7 @@
 #include "itkIOCommon.h"
 #include "itkMetaDataObject.h"
 #include "itkSpatialOrientationAdapter.h"
+#include <nifti1_io.h>
 
 namespace itk
 {
@@ -389,8 +390,47 @@ NiftiImageIO
   return requestedRegion;
 }
 
-NiftiImageIO::NiftiImageIO():
-  m_NiftiImage(ITK_NULLPTR),
+
+//This internal proxy class provides a pointer-like interface to a nifti_image*, by supporting
+//conversions between proxy and nifti_image pointer and arrow syntax (e.g., m_NiftiImage->data).
+class NiftiImageIO::NiftiImageProxy
+{
+  nifti_image* m_ptr;
+public:
+  NiftiImageProxy(nifti_image* ptr) :
+    m_ptr(ptr)
+  {
+  }
+
+  operator nifti_image*()
+  {
+    return m_ptr;
+  }
+
+  nifti_image* operator->()
+  {
+    return m_ptr;
+  }
+};
+
+NiftiImageIO::NiftiImageHolder::NiftiImageHolder() :
+m_NiftiImageProxy(new NiftiImageProxy(ITK_NULLPTR))
+{
+}
+
+NiftiImageIO::NiftiImageHolder::~NiftiImageHolder()
+{
+  delete m_NiftiImageProxy;
+}
+
+NiftiImageIO::NiftiImageProxy& NiftiImageIO::NiftiImageHolder::GetNiftiImageProxy()
+{
+  return *m_NiftiImageProxy;
+}
+
+
+NiftiImageIO::NiftiImageIO() :
+  m_NiftiImage(m_NiftiImageHolder.GetNiftiImageProxy()),
   m_RescaleSlope(1.0),
   m_RescaleIntercept(0.0),
   m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE),
