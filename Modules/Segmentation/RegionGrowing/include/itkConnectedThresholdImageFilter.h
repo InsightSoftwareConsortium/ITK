@@ -156,9 +156,6 @@ private:
 
   SeedContainerType     m_Seeds;
 
-  InputImagePixelType   m_Lower;
-  InputImagePixelType   m_Upper;
-
   OutputImagePixelType  m_ReplaceValue;
 
   ConnectivityEnumType  m_Connectivity;

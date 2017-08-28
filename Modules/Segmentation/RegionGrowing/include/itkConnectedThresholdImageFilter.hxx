@@ -32,8 +32,6 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::ConnectedThresholdImageFilter() :
-  m_Lower( NumericTraits< InputImagePixelType >::NonpositiveMin() ),
-  m_Upper( NumericTraits< InputImagePixelType >::max() ),
   m_ReplaceValue( NumericTraits< OutputImagePixelType >::OneValue() ),
   m_Connectivity( FaceConnectivity )
 {
@@ -252,8 +250,8 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   typename InputPixelObjectType::Pointer lowerThreshold = this->GetLowerInput();
   typename InputPixelObjectType::Pointer upperThreshold = this->GetUpperInput();
 
-  m_Lower = lowerThreshold->Get();
-  m_Upper = upperThreshold->Get();
+  const InputImagePixelType lower = lowerThreshold->Get();
+  const InputImagePixelType upper = upperThreshold->Get();
 
   // Zero the output
   OutputImageRegionType region = outputImage->GetRequestedRegion();
@@ -265,7 +263,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage( inputImage );
-  function->ThresholdBetween( m_Lower, m_Upper );
+  function->ThresholdBetween( lower, upper );
 
   ProgressReporter progress( this, 0, region.GetNumberOfPixels() );
 
