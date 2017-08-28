@@ -90,7 +90,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
   if ( this->GetInput() )
     {
-    InputImagePointer image =
+    InputImageType * image =
       const_cast< InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -244,11 +244,11 @@ void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  InputImageConstPointer inputImage = this->GetInput();
-  OutputImagePointer     outputImage = this->GetOutput();
+  const InputImageType* inputImage = this->GetInput();
+  OutputImageType*      outputImage = this->GetOutput();
 
-  typename InputPixelObjectType::Pointer lowerThreshold = this->GetLowerInput();
-  typename InputPixelObjectType::Pointer upperThreshold = this->GetUpperInput();
+  const InputPixelObjectType* lowerThreshold = this->GetLowerInput();
+  const InputPixelObjectType* upperThreshold = this->GetUpperInput();
 
   const InputImagePixelType lower = lowerThreshold->Get();
   const InputImagePixelType upper = upperThreshold->Get();
