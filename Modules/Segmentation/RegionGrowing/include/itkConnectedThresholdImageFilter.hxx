@@ -310,14 +310,20 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Upper: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Upper )
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( this->GetUpper() )
      << std::endl;
   os << indent << "Lower: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Lower )
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( this->GetLower() )
      << std::endl;
   os << indent << "ReplaceValue: "
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue )
      << std::endl;
+  os << indent << "Seeds: ";
+  for (unsigned int i = 0; i < this->m_Seeds.size(); ++i)
+    {
+    os << "  " << this->m_Seeds[i] << std::endl;
+    }
+  os << std::endl;
   os << indent << "Connectivity: " << m_Connectivity << std::endl;
 }
 } // end namespace itk
