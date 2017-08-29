@@ -32,8 +32,6 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::ConnectedThresholdImageFilter() :
-  m_Lower( NumericTraits< InputImagePixelType >::NonpositiveMin() ),
-  m_Upper( NumericTraits< InputImagePixelType >::max() ),
   m_ReplaceValue( NumericTraits< OutputImagePixelType >::OneValue() ),
   m_Connectivity( FaceConnectivity )
 {
@@ -92,7 +90,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
   Superclass::GenerateInputRequestedRegion();
   if ( this->GetInput() )
     {
-    InputImagePointer image =
+    InputImageType * image =
       const_cast< InputImageType * >( this->GetInput() );
     image->SetRequestedRegionToLargestPossibleRegion();
     }
@@ -246,14 +244,14 @@ void
 ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
-  InputImageConstPointer inputImage = this->GetInput();
-  OutputImagePointer     outputImage = this->GetOutput();
+  const InputImageType* inputImage = this->GetInput();
+  OutputImageType*      outputImage = this->GetOutput();
 
-  typename InputPixelObjectType::Pointer lowerThreshold = this->GetLowerInput();
-  typename InputPixelObjectType::Pointer upperThreshold = this->GetUpperInput();
+  const InputPixelObjectType* lowerThreshold = this->GetLowerInput();
+  const InputPixelObjectType* upperThreshold = this->GetUpperInput();
 
-  m_Lower = lowerThreshold->Get();
-  m_Upper = upperThreshold->Get();
+  const InputImagePixelType lower = lowerThreshold->Get();
+  const InputImagePixelType upper = upperThreshold->Get();
 
   // Zero the output
   OutputImageRegionType region = outputImage->GetRequestedRegion();
@@ -265,7 +263,7 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 
   typename FunctionType::Pointer function = FunctionType::New();
   function->SetInputImage( inputImage );
-  function->ThresholdBetween( m_Lower, m_Upper );
+  function->ThresholdBetween( lower, upper );
 
   ProgressReporter progress( this, 0, region.GetNumberOfPixels() );
 
@@ -310,14 +308,20 @@ ConnectedThresholdImageFilter< TInputImage, TOutputImage >
 {
   this->Superclass::PrintSelf(os, indent);
   os << indent << "Upper: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Upper )
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( this->GetUpper() )
      << std::endl;
   os << indent << "Lower: "
-     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_Lower )
+     << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( this->GetLower() )
      << std::endl;
   os << indent << "ReplaceValue: "
      << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( m_ReplaceValue )
      << std::endl;
+  os << indent << "Seeds: ";
+  for (unsigned int i = 0; i < this->m_Seeds.size(); ++i)
+    {
+    os << "  " << this->m_Seeds[i] << std::endl;
+    }
+  os << std::endl;
   os << indent << "Connectivity: " << m_Connectivity << std::endl;
 }
 } // end namespace itk
