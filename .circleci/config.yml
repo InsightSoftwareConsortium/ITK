@@ -1,0 +1,54 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/python:2.7
+    working_directory: ~/
+    resource_class: large
+    branches:
+      ignore:
+        - gh-pages
+        - dashboard
+        - hooks
+    environment:
+      CTEST_DASHBOARD_ROOT: /home/circleci
+      CTEST_SOURCE_DIRECTORY: /home/circleci/ITK
+      CTEST_BINARY_DIRECTORY: /home/circleci/ITK-build
+      DASHBOARD_BRANCH_DIRECTORY: /home/circleci/ITK-dashboard
+      ExternalData_OBJECT_STORES: /home/circleci/.ExternalData
+    steps:
+      - store_test_results:
+          path: /tmp/test-results
+      - checkout:
+          path : ~/ITK
+      - run:
+          name: Cloning dashboard branch
+          command: |
+            git clone --single-branch https://github.com/blowekamp/ITK.git -b dashboard ${DASHBOARD_BRANCH_DIRECTORY}
+      - run:
+          name: Dependencies
+          command: |
+            sudo apt-get install -y  rsync ninja-build
+            sudo pip install --upgrade pip
+            sudo pip install scikit-ci-addons
+            ci_addons circle/install_cmake.py 3.7.2
+      - run: echo 'export DASHBOARD_MODEL=$( [[ "$CIRCLE_BRANCH" = "master" ]] && echo Continuous || echo Experimental )' >> $BASH_ENV
+      - run:
+          name: Build and Testing with CTest
+          environment:
+            ITK_GLOBAL_DEFAULT_NUMBER_OF_THREAD: 2
+            CTEST_OUTPUT_ON_FAILURE: 1
+            CTEST_CONFIGURATION_TYPE: "Release"
+            CTEST_BUILD_FLAGS: "-j 5"
+            PARALLEL_LEVEL: 4
+            CTEST_CMAKE_GENERATOR: "Ninja"
+          command: |
+            mkdir -p ${CTEST_BINARY_DIRECTORY}
+            ctest -V -Ddashboard_no_clean:BOOL=1 -S "${DASHBOARD_BRANCH_DIRECTORY}/circleci.cmake"
+      - run:
+          name: Formatting CTest for JUnit
+          when: always
+          command: |
+            env
+            mkdir -p /tmp/test-results/CTest
+            ci_addons ctest_junit_formatter ${CTEST_BINARY_DIRECTORY} > /tmp/test-results/CTest/JUnit-${CIRCLE_NODE_INDEX}.xml
