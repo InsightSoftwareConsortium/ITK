@@ -48,9 +48,18 @@ set_from_env(dashboard_git_branch "CIRCLE_BRANCH")
 set_from_env(dashboard_model "DASHBOARD_MODEL" DEFAULT "Continuous" )
 set(dashboard_loop 0)
 
-list(APPEND CTEST_NOTES_FILES
-  "${CTEST_SOURCE_DIRECTORY}/circle.yml"
-  )
+if ( EXISTS "${CTEST_SOURCE_DIRECTORY}/circle.yml")
+  list(APPEND CTEST_NOTES_FILES
+    "${CTEST_SOURCE_DIRECTORY}/circle.yml"
+    )
+endif()
+
+if ( EXISTS  "${CTEST_SOURCE_DIRECTORY}/.circleci/config.yml")
+  list(APPEND CTEST_NOTES_FILES
+    "${CTEST_SOURCE_DIRECTORY}/.circleci/config.yml"
+    )
+endif()
+
 
 SET (dashboard_cache "
     BUILD_DOCUMENTATION:BOOL=OFF
