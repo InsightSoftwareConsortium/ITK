@@ -23,7 +23,9 @@ endfunction()
 
 set(CTEST_SITE "CircleCI")
 set(CTEST_UPDATE_VERSION_ONLY 1)
-set( CTEST_TEST_ARGS ${CTEST_TEST_ARGS} PARALLEL_LEVEL 2 )
+
+set_from_env(PARALLEL_LEVEL "PARALLEL_LEVEL" DEFAULT 2 )
+set( CTEST_TEST_ARGS ${CTEST_TEST_ARGS} PARALLEL_LEVEL  ${PARALLEL_LEVEL})
 
 
 # Make environment variables to CMake variables for CTest
@@ -57,9 +59,16 @@ SET (dashboard_cache "
     BUILD_TESTING:BOOL=ON
     ITK_USE_KWSTYLE:BOOL=OFF
     ITK_BUILD_DEFAULT_MODULES:BOOL=ON
+" )
+
+
+if (DEFINED ENV{DISTCC_DIR})
+  SET (dashboard_cache "${dashboard_cache}
     CMAKE_CXX_COMPILER_LAUNCHER:STRING=distcc
     CMAKE_C_COMPILER_LAUNCHER:STRING=distcc
-" )
+")
+endif()
+
 
 
 include("${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake")
