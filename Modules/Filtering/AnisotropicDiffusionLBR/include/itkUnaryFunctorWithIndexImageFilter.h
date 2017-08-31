@@ -26,12 +26,15 @@
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageScanlineIterator.h"
 #include "itkAnisotropicDiffusionLBRMacro.h"
-/** A (simplification of) UnaryFunctorImageFilter, which provides the pixel index to the functor.
- */
+#include "itkImageToImageFilter.h"
 
 namespace itk
 {
 
+/** \class UnaryFunctorWithIndexImageFilter
+ *
+ * \brief A (simplification of) UnaryFunctorImageFilter, which provides the pixel index to the functor.
+ */
 template<typename TInputImage, typename TOutputImage, typename TFunctor>
 class UnaryFunctorWithIndexImageFilter:
   public ImageToImageFilter<TInputImage, TOutputImage>
