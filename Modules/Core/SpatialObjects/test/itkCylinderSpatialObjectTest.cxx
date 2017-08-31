@@ -29,6 +29,7 @@ int itkCylinderSpatialObjectTest(int, char* [])
   CylinderType::Pointer myCylinder = CylinderType::New();
   double radius = 3.0;
   double height = 12.0;
+  itk::Vector<double, 3> axis;
 
   std::cout << "Testing Print after construction " << std::endl;
   myCylinder->Print( std::cout );
@@ -79,15 +80,39 @@ int itkCylinderSpatialObjectTest(int, char* [])
     || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[4], -3.0 )
     || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[5],  3.0 )
     )
-   {
-   std::cout<<"[FAILED]"<<std::endl;
-   return EXIT_FAILURE;
-   }
+    {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]" << std::endl;
+
+  // ComputeBoundingBox after 45 degree rotation.
+  std::cout << "ComputeBoundingBox after 45 degree rotation: ";
+  axis.Fill(0);
+  axis[0] = 1;
+  double angle = itk::Math::pi_over_4;
+  myCylinder->GetObjectToParentTransform()->Rotate3D(axis, angle);
+  myCylinder->ComputeObjectToWorldTransform();
+  myCylinder->ComputeBoundingBox();
+  boundingBox = myCylinder->GetBoundingBox();
+
+  if(  itk::Math::NotAlmostEquals(boundingBox->GetBounds()[0], -3.0 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[1],  3.0 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[2], -9.0 * itk::Math::sqrt1_2 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[3],  9.0 * itk::Math::sqrt1_2 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[4], -9.0 * itk::Math::sqrt1_2 )
+    || itk::Math::NotAlmostEquals(boundingBox->GetBounds()[5],  9.0 * itk::Math::sqrt1_2 )
+    )
+    {
+    std::cout<<"[FAILED]"<<std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Testing Print after all modifications " << std::endl;
   myCylinder->Print( std::cout );
 
-  std::cout<<"[PASSED]"<<std::endl;
+  std::cout<<"[DONE]"<<std::endl;
   return EXIT_SUCCESS;
 
 }
