@@ -1,9 +1,0 @@
-
-# build seems to succeed only with unsigned char
-# also, Superclass typedef is wrong in VoronoiSegmentationImageFilter
-# and so we can't use POINTER_WITH_SUPERCLASS to wrap
-# VoronoiSegmentationImageFilterBase
-
-itk_wrap_class("itk::VoronoiSegmentationImageFilter" POINTER_WITH_SUPERCLASS)
-  itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 3 2)
-itk_end_wrap_class()

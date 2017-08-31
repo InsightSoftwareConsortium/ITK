@@ -1,3 +1,0 @@
-itk_wrap_class("itk::VectorConfidenceConnectedImageFilter" POINTER)
-  itk_wrap_image_filter_combinations("${WRAP_ITK_COLOR};${WRAP_ITK_VECTOR}" "${WRAP_ITK_INT}")
-itk_end_wrap_class()

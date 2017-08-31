@@ -1,4 +1,0 @@
-itk_wrap_class("itk::DanielssonDistanceMapImageFilter" POINTER)
-  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
-  itk_wrap_image_filter_combinations("${WRAP_ITK_USIGN_INT}" "${WRAP_ITK_REAL}")
-itk_end_wrap_class()

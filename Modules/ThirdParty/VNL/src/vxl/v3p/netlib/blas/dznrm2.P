@@ -1,1 +1,0 @@
-extern doublereal dznrm2_(integer *n, doublecomplex *x, integer *incx);

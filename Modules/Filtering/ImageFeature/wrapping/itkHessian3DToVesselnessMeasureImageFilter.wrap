@@ -1,9 +1,0 @@
-itk_wrap_filter_dims(has_d_3 3)
-
-if(has_d_3)
-  itk_wrap_class("itk::Hessian3DToVesselnessMeasureImageFilter" POINTER)
-    foreach(t ${WRAP_ITK_SCALAR})
-      itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-    endforeach()
-  itk_end_wrap_class()
-endif(has_d_3)
