@@ -74,15 +74,17 @@ RunLengthTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
 
   FilterType::PixelType pixelValueMin = -62;
   FilterType::PixelType pixelValueMax = 2456;
-  filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
-  TEST_SET_GET_VALUE(pixelValueMin, filter->GetMin());
-  TEST_SET_GET_VALUE(pixelValueMax, filter->GetMax());
+  filter->SetHistogramValueMinimum(pixelValueMin);
+  filter->SetHistogramValueMaximum(pixelValueMax);
+  TEST_SET_GET_VALUE(pixelValueMin, filter->GetHistogramValueMinimum());
+  TEST_SET_GET_VALUE(pixelValueMax, filter->GetHistogramValueMaximum());
 
   FilterType::RealType minDistance = 0.15;
   FilterType::RealType maxDistance = 1.5;
-  filter->SetDistanceValueMinMax(minDistance, maxDistance);
-  TEST_SET_GET_VALUE(minDistance, filter->GetMinDistance());
-  TEST_SET_GET_VALUE(maxDistance, filter->GetMaxDistance());
+  filter->SetHistogramDistanceMinimum(minDistance);
+  filter->SetHistogramDistanceMaximum(maxDistance);
+  TEST_SET_GET_VALUE(minDistance, filter->GetHistogramDistanceMinimum());
+  TEST_SET_GET_VALUE(maxDistance, filter->GetHistogramDistanceMaximum());
 
   NeighborhoodType::SizeValueType neighborhoodRadius = 3;
   NeighborhoodType                hood;

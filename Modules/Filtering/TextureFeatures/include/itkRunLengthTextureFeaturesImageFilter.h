@@ -34,8 +34,10 @@ namespace Statistics
  * This filter computes a N-D image where each voxel will contain
  * a vector of up to 10 scalars representing the run length features
  * (of the specified neighborhood) from a N-D scalar image.
- * The run length features are computed for each spatial
- * direction and averaged afterward.
+ * The run length features are computed from joint histograms of
+ * pixel intensities and distance (run length) per spatial direction
+ * then averaged afterward.
+ *
  * The result obtained is a possible texture description. See the following references.
  * M. M. Galloway. Texture analysis using gray level run lengths. Computer
  * Graphics and Image Processing, 4:172-179, 1975.
@@ -50,8 +52,8 @@ namespace Statistics
  *
  * Template Parameters:
  * -# The input image type: a N dimensional image where the pixel type MUST be integer.
- * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points or an
- * ImageVector.
+ * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points or a
+ * VectorImage.
  *
  * Inputs and parameters:
  * -# An image
@@ -63,10 +65,12 @@ namespace Statistics
  * -# The set of directions (offsets) to average across. (Optional, defaults to
  *    {(-1, 0), (-1, -1), (0, -1), (1, -1)} for 2D images and scales analogously
  *    for ND images.)
- * -# The pixel intensity range over which the features will be calculated.
- *    (Optional, defaults to the full dynamic range of the pixel type.)
- * -# The distance range over which the features will be calculated.
- *    (Optional, defaults to the full dynamic range of double type.)
+ * -# The pixel intensity range for the joint histogram over which the
+ *    features will be calculated. (Optional, defaults to the full
+ *    dynamic range of the pixel type.)
+ * -# The distance range for the joint histogram over which the
+ *    features will be calculated. (Optional, defaults to the full
+ *    dynamic range of double type.)
  * -# The size of the neighborhood radius. (Optional, defaults to 2.)
  *
  * Recommendations:
@@ -178,35 +182,30 @@ public:
   /** Get number of histogram bins along each axis */
   itkGetConstMacro(NumberOfBinsPerAxis, unsigned int);
 
-  /**
-   * Set the min and max (inclusive) pixel value that will be used in
-   * generating the histogram.
-   */
-  void
-  SetPixelValueMinMax(PixelType min, PixelType max);
+  /** Set/Get the minimum (inclusive) pixel value defining one dimension of the joint
+   * value distance histogram. */
+  itkGetConstMacro(HistogramValueMinimum, PixelType);
+  itkSetMacro(HistogramValueMinimum, PixelType);
 
-  /** Get the min pixel value defining one dimension of the joint histogram. */
-  itkGetConstMacro(Min, PixelType);
+  /** Set/Get the maximum pixel value defining one dimension of the joint
+   * value distance histogram. */
+  itkGetConstMacro(HistogramValueMaximum, PixelType);
+  itkSetMacro(HistogramValueMaximum, PixelType);
 
-  /** Get the max pixel value defining one dimension of the joint histogram. */
-  itkGetConstMacro(Max, PixelType);
 
   /**
-   * Set the min and max (inclusive) pixel value that will be used in
-   * generating the histogram.
+   * Set/Get the minimum (inclusive) run length distance in physical
+   * space that will be used in generating the joint value distance histogram.
    */
-  void
-  SetDistanceValueMinMax(RealType min, RealType max);
+  itkGetConstMacro(HistogramDistanceMinimum, RealType);
+  itkSetMacro(HistogramDistanceMinimum, RealType);
 
   /**
-   * Get the min distance value defining one dimension of the joint histogram.
+   * Set/Get the maximum  run length distance in physical
+   * space that will be used in generating the joint value distance histogram.
    */
-  itkGetConstMacro(MinDistance, RealType);
-
-  /**
-   * Get the max distance value defining one dimension of the joint histogram.
-   */
-  itkGetConstMacro(MaxDistance, RealType);
+  itkGetConstMacro(HistogramDistanceMaximum, RealType);
+  itkSetMacro(HistogramDistanceMaximum, RealType);
 
   /**
    * Set the pixel value of the mask that should be considered "inside" the
@@ -259,10 +258,10 @@ private:
   NeighborhoodRadiusType            m_NeighborhoodRadius;
   OffsetVectorPointer               m_Offsets;
   unsigned int                      m_NumberOfBinsPerAxis;
-  PixelType                         m_Min;
-  PixelType                         m_Max;
-  RealType                          m_MinDistance;
-  RealType                          m_MaxDistance;
+  PixelType                         m_HistogramValueMinimum;
+  PixelType                         m_HistogramValueMaximum;
+  RealType                          m_HistogramDistanceMinimum;
+  RealType                          m_HistogramDistanceMaximum;
   PixelType                         m_InsidePixelValue;
   typename TInputImage::SpacingType m_Spacing;
 };

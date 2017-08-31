@@ -69,7 +69,8 @@ CoocurrenceTextureFeaturesImageFilterTestWithoutMask(int argc, char * argv[])
 
     FilterType::PixelType pixelValueMin = std::atof(argv[4]);
     FilterType::PixelType pixelValueMax = std::atof(argv[5]);
-    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+    filter->SetHistogramMinimum(pixelValueMin);
+    filter->SetHistogramMaximum(pixelValueMax);
 
     NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[6]);
     NeighborhoodType                hood;

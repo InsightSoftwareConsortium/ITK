@@ -75,9 +75,11 @@ CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[
     unsigned int numberOfBinsPerAxis = std::atoi(argv[4]);
     filter->SetNumberOfBinsPerAxis(numberOfBinsPerAxis);
 
-    FilterType::PixelType min = std::atof(argv[5]);
-    FilterType::PixelType max = std::atof(argv[6]);
-    filter->SetPixelValueMinMax(min, max);
+    FilterType::PixelType pixelValueMin = std::atof(argv[5]);
+    FilterType::PixelType pixelValueMax = std::atof(argv[6]);
+    filter->SetHistogramMinimum(pixelValueMin);
+    filter->SetHistogramMaximum(pixelValueMax);
+
 
     NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
     NeighborhoodType                hood;

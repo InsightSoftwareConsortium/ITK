@@ -45,8 +45,8 @@ namespace Statistics
  *
  * Template Parameters:
  * -# The input image type: a N dimensional image where the pixel type MUST be integer.
- * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points or an
- * ImageVector.
+ * -# The output image type: a N dimensional image where the pixel type MUST be a vector of floating points or a
+ * VectorImage.
  *
  * Inputs and parameters:
  * -# An image
@@ -171,18 +171,13 @@ public:
   /** Get number of histogram bins along each axis */
   itkGetConstMacro(NumberOfBinsPerAxis, unsigned int);
 
-  /**
-   * Set the min and max (inclusive) pixel value that will be used in
-   * generating the histogram.
-   */
-  void
-  SetPixelValueMinMax(PixelType min, PixelType max);
+  /** Get the max pixel value defining one dimension of the joint histogram. */
+  itkGetConstMacro(HistogramMaximum, PixelType);
+  itkSetMacro(HistogramMaximum, PixelType);
 
   /** Get the min pixel value defining one dimension of the joint histogram. */
-  itkGetConstMacro(Min, PixelType);
-
-  /** Get the max pixel value defining one dimension of the joint histogram. */
-  itkGetConstMacro(Max, PixelType);
+  itkGetConstMacro(HistogramMinimum, PixelType);
+  itkSetMacro(HistogramMinimum, PixelType);
 
   /**
    * Set the pixel value of the mask that should be considered "inside" the
@@ -243,8 +238,8 @@ private:
   NeighborhoodRadiusType m_NeighborhoodRadius;
   OffsetVectorPointer    m_Offsets;
   unsigned int           m_NumberOfBinsPerAxis;
-  PixelType              m_Min;
-  PixelType              m_Max;
+  PixelType              m_HistogramMinimum;
+  PixelType              m_HistogramMaximum;
   PixelType              m_InsidePixelValue;
   bool                   m_Normalize;
 

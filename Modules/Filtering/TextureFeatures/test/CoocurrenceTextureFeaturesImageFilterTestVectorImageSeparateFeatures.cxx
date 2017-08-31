@@ -77,7 +77,8 @@ CoocurrenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, c
 
     FilterType::PixelType pixelValueMin = std::atof(argv[5]);
     FilterType::PixelType pixelValueMax = std::atof(argv[6]);
-    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+    filter->SetHistogramMinimum(pixelValueMin);
+    filter->SetHistogramMaximum(pixelValueMax);
 
     NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[7]);
     NeighborhoodType                hood;

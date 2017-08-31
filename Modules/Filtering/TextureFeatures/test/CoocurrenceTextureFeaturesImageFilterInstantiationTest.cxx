@@ -75,9 +75,10 @@ CoocurrenceTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
 
   FilterType::PixelType min = -62;
   FilterType::PixelType max = 2456;
-  filter->SetPixelValueMinMax(min, max);
-  TEST_SET_GET_VALUE(min, filter->GetMin());
-  TEST_SET_GET_VALUE(max, filter->GetMax());
+  filter->SetHistogramMinimum(min);
+  filter->SetHistogramMaximum(max);
+  TEST_SET_GET_VALUE(min, filter->GetHistogramMinimum());
+  TEST_SET_GET_VALUE(max, filter->GetHistogramMaximum());
 
   NeighborhoodType::SizeValueType neighborhoodRadius = 3;
   NeighborhoodType                hood;

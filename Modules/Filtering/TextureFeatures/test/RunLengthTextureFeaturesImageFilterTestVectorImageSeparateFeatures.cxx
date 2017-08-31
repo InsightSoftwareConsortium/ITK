@@ -80,11 +80,13 @@ RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, cha
 
     FilterType::PixelType pixelValueMin = std::atof(argv[5]);
     FilterType::PixelType pixelValueMax = std::atof(argv[6]);
-    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
+    filter->SetHistogramValueMinimum(pixelValueMin);
+    filter->SetHistogramValueMaximum(pixelValueMax);
 
     FilterType::RealType minDistance = std::atof(argv[7]);
     FilterType::RealType maxDistance = std::atof(argv[8]);
-    filter->SetDistanceValueMinMax(minDistance, maxDistance);
+    filter->SetHistogramDistanceMinimum(minDistance);
+    filter->SetHistogramDistanceMaximum(maxDistance);
 
     NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
     NeighborhoodType                hood;

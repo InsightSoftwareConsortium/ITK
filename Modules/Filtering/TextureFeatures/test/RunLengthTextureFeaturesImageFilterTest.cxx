@@ -83,15 +83,17 @@ RunLengthTextureFeaturesImageFilterTest(int argc, char * argv[])
 
     FilterType::PixelType pixelValueMin = std::atof(argv[5]);
     FilterType::PixelType pixelValueMax = std::atof(argv[6]);
-    filter->SetPixelValueMinMax(pixelValueMin, pixelValueMax);
-    TEST_SET_GET_VALUE(pixelValueMin, filter->GetMin());
-    TEST_SET_GET_VALUE(pixelValueMax, filter->GetMax());
+    filter->SetHistogramValueMinimum(pixelValueMin);
+    filter->SetHistogramValueMaximum(pixelValueMax);
+    TEST_SET_GET_VALUE(pixelValueMin, filter->GetHistogramValueMinimum());
+    TEST_SET_GET_VALUE(pixelValueMax, filter->GetHistogramValueMaximum());
 
     FilterType::RealType minDistance = std::atof(argv[7]);
     FilterType::RealType maxDistance = std::atof(argv[8]);
-    filter->SetDistanceValueMinMax(minDistance, maxDistance);
-    TEST_SET_GET_VALUE(minDistance, filter->GetMinDistance());
-    TEST_SET_GET_VALUE(maxDistance, filter->GetMaxDistance());
+    filter->SetHistogramDistanceMinimum(minDistance);
+    filter->SetHistogramDistanceMaximum(maxDistance);
+    TEST_SET_GET_VALUE(minDistance, filter->GetHistogramDistanceMinimum());
+    TEST_SET_GET_VALUE(maxDistance, filter->GetHistogramDistanceMaximum());
 
     NeighborhoodType::SizeValueType neighborhoodRadius = std::atoi(argv[9]);
     NeighborhoodType                hood;
