@@ -34,6 +34,8 @@ namespace itk
 /** \class UnaryFunctorWithIndexImageFilter
  *
  * \brief A (simplification of) UnaryFunctorImageFilter, which provides the pixel index to the functor.
+ *
+ * \ingroup AnisotropicDiffusionLBR
  */
 template<typename TInputImage, typename TOutputImage, typename TFunctor>
 class UnaryFunctorWithIndexImageFilter:
