@@ -46,55 +46,20 @@ bool CylinderSpatialObject
   PointType transformedPoint =
     this->GetInternalInverseTransform()->TransformPoint(point);
 
-  this->ComputeLocalBoundingBox();
-
-  if ( this->GetBounds()->IsInside(point) )
+  // Does the point lie above or below the cylinder (y-axis)?
+  if ( transformedPoint[1] < -0.5 * m_Height ||
+       transformedPoint[1] >  0.5 * m_Height )
     {
-    // Check if the point is on the normal plane
-    PointType a, b;
-    a[0] = 0;
-    a[1] = -m_Height / 2;
-    a[2] = 0;
-
-    b[0] = 0;
-    b[1] = m_Height / 2;
-    b[2] = 0;
-
-    double A = 0;
-    double B = 0;
-
-    for ( unsigned int i = 0; i < 3; i++ )
-      {
-      A += ( b[i] - a[i] ) * ( transformedPoint[i] - a[i] );
-      B += ( b[i] - a[i] ) * ( b[i] - a[i] );
-      }
-
-    double lambda = A / B;
-
-    if ( (
-           ( lambda > -( m_Radius / ( 2 * std::sqrt(B) ) ) )
-           && ( lambda < 0 ) )
-         || ( ( lambda <= 1.0 ) && ( lambda >= 0.0 ) )
-          )
-      {
-      PointType p;
-
-      for ( unsigned int i = 0; i < 3; i++ )
-        {
-        p[i] = a[i] + lambda * ( b[i] - a[i] );
-        }
-
-      double tempSquareDist = transformedPoint.EuclideanDistanceTo(p);
-
-      double R =  m_Radius;
-
-      if ( tempSquareDist <= R )
-        {
-        return true;
-        }
-      }
+    return false;
     }
-  return false;
+
+  // Does the point lie outside the radius of the cylinder?
+  if ( Math::sqr(transformedPoint[0]) + Math::sqr(transformedPoint[2]) > Math::sqr(m_Radius) )
+    {
+    return false;
+    }
+
+  return true;
 }
 
 /** Test if the given point is inside the Cylinder */
@@ -130,28 +95,37 @@ bool CylinderSpatialObject
   if ( this->GetBoundingBoxChildrenName().empty()
        || strstr( typeid( Self ).name(), this->GetBoundingBoxChildrenName().c_str() ) )
     {
-    // First point
+    // First we compute the bounding box in the index space
+    BoundingBoxType::Pointer bb = BoundingBoxType::New();
     PointType ptMin, ptMax;
     ptMin[0] = -m_Radius;
     ptMin[1] = -m_Height / 2;
     ptMin[2] = -m_Radius;
+    ptMax[0] = m_Radius;
+    ptMax[1] = m_Height / 2;
+    ptMax[2] = m_Radius;
+    bb->SetMinimum(ptMin);
+    bb->SetMaximum(ptMax);
+
+    // Initialize the final bounding box by setting the min and max to the
+    // transformed ptMin and ptMax.
     ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
-    ptMax[0] = +m_Radius;
-    ptMax[1] = -m_Height / 2;
-    ptMax[2] = +m_Radius;
-    ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
     const_cast< BoundingBoxType * >( this->GetBounds() )->SetMinimum(ptMin);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(ptMax);
-    ptMin[0] = -m_Radius;
-    ptMin[1] = +m_Height / 2;
-    ptMin[2] = -m_Radius;
-    ptMin = this->GetIndexToWorldTransform()->TransformPoint(ptMin);
-    ptMax[0] = +m_Radius;
-    ptMax[1] = +m_Height / 2;
-    ptMax[2] = +m_Radius;
     ptMax = this->GetIndexToWorldTransform()->TransformPoint(ptMax);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(ptMin);
-    const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(ptMax);
+    const_cast< BoundingBoxType * >( this->GetBounds() )->SetMaximum(ptMax);
+
+    // Transform all corners of the bounding box in index space to world space,
+    // and make sure that the final bounding box includes these.
+    const BoundingBoxType::PointsContainer *corners = bb->GetCorners();
+    BoundingBoxType::PointsContainer::const_iterator
+    itBB = corners->begin();
+    while ( itBB != corners->end() )
+      {
+      PointType pnt =
+        this->GetIndexToWorldTransform()->TransformPoint(*itBB);
+      const_cast< BoundingBoxType * >( this->GetBounds() )->ConsiderPoint(pnt);
+      ++itBB;
+      }
     }
   return true;
 }

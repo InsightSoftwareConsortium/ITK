@@ -59,12 +59,6 @@ bool
 EllipseSpatialObject< TDimension >
 ::IsInside(const PointType & point) const
 {
-  this->ComputeLocalBoundingBox();
-  if ( !this->GetBounds()->IsInside(point) )
-    {
-    return false;
-    }
-
   if ( !this->SetInternalInverseTransformToWorldToIndexTransform() )
     {
     return false;
