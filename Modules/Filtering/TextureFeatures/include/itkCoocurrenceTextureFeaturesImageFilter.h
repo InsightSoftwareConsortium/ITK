@@ -101,7 +101,7 @@ public:
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   typedef TInputImage  MaskImageType;
-  typedef TInputImage  DigitalisedImageType;
+  typedef TInputImage  DigitizedImageType;
 
   typedef typename InputImageType::PixelType PixelType;
   typedef typename MaskImageType::PixelType  MaskPixelType;
@@ -233,7 +233,7 @@ protected:
   GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  typename DigitalisedImageType::Pointer m_DigitalizedInputImage;
+  typename DigitizedImageType::Pointer m_DigitalizedInputImage;
 
   NeighborhoodRadiusType m_NeighborhoodRadius;
   OffsetVectorPointer    m_Offsets;
