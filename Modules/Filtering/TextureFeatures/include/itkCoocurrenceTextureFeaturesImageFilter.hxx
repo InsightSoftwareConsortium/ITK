@@ -22,6 +22,7 @@
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkDigitizerFunctor.h"
 
 namespace itk
 {
@@ -84,27 +85,28 @@ CoocurrenceTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreaded
   typename TInputImage::Pointer input = InputImageType::New();
   input->Graft(const_cast<TInputImage *>(this->GetInput()));
 
-  typedef PreProcessingFunctor PPFType;
-  PPFType                      ppf(m_NumberOfBinsPerAxis, m_InsidePixelValue, m_HistogramMinimum, m_HistogramMaximum);
+  typedef Digitizer<PixelType, PixelType, typename DigitalisedImageType::PixelType> DigitizerFunctorType;
 
-  typedef BinaryFunctorImageFilter<MaskImageType, InputImageType, InputImageType, PPFType> BinaryFunctorType;
-  typename BinaryFunctorType::Pointer functorF = BinaryFunctorType::New();
+  DigitizerFunctorType digitalizer(m_NumberOfBinsPerAxis, m_InsidePixelValue, m_HistogramMinimum, m_HistogramMaximum);
+
+  typedef BinaryFunctorImageFilter<MaskImageType, InputImageType, InputImageType, DigitizerFunctorType> FilterType;
+  typename FilterType::Pointer filter = FilterType::New();
   if (this->GetMaskImage() != ITK_NULLPTR)
   {
     typename TInputImage::Pointer mask = MaskImageType::New();
     mask->Graft(const_cast<TInputImage *>(this->GetMaskImage()));
-    functorF->SetInput1(mask);
+    filter->SetInput1(mask);
   }
   else
   {
-    functorF->SetConstant1(m_InsidePixelValue);
+    filter->SetConstant1(m_InsidePixelValue);
   }
-  functorF->SetInput2(input);
-  functorF->SetFunctor(ppf);
-  functorF->SetNumberOfThreads(this->GetNumberOfThreads());
+  filter->SetInput2(input);
+  filter->SetFunctor(digitalizer);
+  filter->SetNumberOfThreads(this->GetNumberOfThreads());
 
-  functorF->Update();
-  m_DigitalizedInputImage = functorF->GetOutput();
+  filter->Update();
+  m_DigitalizedInputImage = filter->GetOutput();
 }
 
 template <typename TInputImage, typename TOutputImage>

@@ -242,63 +242,6 @@ private:
   PixelType              m_HistogramMaximum;
   PixelType              m_InsidePixelValue;
   bool                   m_Normalize;
-
-
-  struct PreProcessingFunctor
-  {
-    PreProcessingFunctor()
-      : m_NumberOfBinsPerAxis(256)
-      , m_MaskValue(1)
-      , m_Min(NumericTraits<PixelType>::min())
-      , m_Max(NumericTraits<PixelType>::max())
-    {}
-
-    PreProcessingFunctor(unsigned int numberOfBinsPerAxis, PixelType maskValue, PixelType min, PixelType max)
-      : m_NumberOfBinsPerAxis(numberOfBinsPerAxis)
-      , m_MaskValue(maskValue)
-      , m_Min(min)
-      , m_Max(max)
-    {}
-
-    ~PreProcessingFunctor() {}
-
-    bool
-    operator!=(const PreProcessingFunctor & other) const
-    {
-      return (m_NumberOfBinsPerAxis != other.m_NumberOfBinsPerAxis) || (m_MaskValue != other.m_MaskValue) ||
-             (m_Min != other.m_Min) || (m_Max != other.m_Max);
-    }
-
-    bool
-    operator==(const PreProcessingFunctor & other) const
-    {
-      return !(*this != other);
-    }
-
-    inline typename DigitalisedImageType::PixelType
-    operator()(const MaskPixelType & maskPixel, const PixelType & inputPixel) const
-    {
-
-      if (maskPixel != m_MaskValue)
-      {
-        return -10;
-      }
-      else if (inputPixel < this->m_Min || inputPixel >= m_Max)
-      {
-        return -1;
-      }
-      else
-      {
-        return ((inputPixel - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis));
-      }
-    }
-
-    unsigned int m_NumberOfBinsPerAxis;
-
-    PixelType m_MaskValue;
-    PixelType m_Min;
-    PixelType m_Max;
-  };
 };
 } // end of namespace Statistics
 } // end of namespace itk
