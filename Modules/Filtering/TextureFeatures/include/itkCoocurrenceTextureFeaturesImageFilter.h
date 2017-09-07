@@ -233,7 +233,7 @@ protected:
   GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
-  typename DigitizedImageType::Pointer m_DigitalizedInputImage;
+  typename DigitizedImageType::Pointer m_DigitizedInputImage;
 
   NeighborhoodRadiusType m_NeighborhoodRadius;
   OffsetVectorPointer    m_Offsets;
