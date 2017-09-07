@@ -113,6 +113,8 @@ public:
 
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
+  typedef TInputImage  MaskImageType;
+  typedef TInputImage  DigitizedImageType;
 
   typedef typename InputImageType::PixelType PixelType;
   typedef typename InputImageType::IndexType IndexType;

@@ -21,6 +21,8 @@
 #include "itkRunLengthTextureFeaturesImageFilter.h"
 #include "itkRegionOfInterestImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
+#include "itkBinaryFunctorImageFilter.h"
+#include "itkDigitizerFunctor.h"
 
 namespace itk
 {
@@ -80,47 +82,35 @@ template <typename TInputImage, typename TOutputImage>
 void
 RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  typename TInputImage::Pointer maskPointer = TInputImage::New();
-  maskPointer = const_cast<TInputImage *>(this->GetMaskImage());
-  this->m_DigitizedInputImage = InputImageType::New();
-  this->m_DigitizedInputImage->SetRegions(this->GetInput()->GetRequestedRegion());
-  this->m_DigitizedInputImage->CopyInformation(this->GetInput());
-  this->m_DigitizedInputImage->Allocate();
-  typedef itk::ImageRegionIterator<InputImageType> IteratorType;
-  IteratorType digitIt(this->m_DigitizedInputImage, this->m_DigitizedInputImage->GetLargestPossibleRegion());
-  typedef itk::ImageRegionConstIterator<InputImageType> ConstIteratorType;
-  ConstIteratorType inputIt(this->GetInput(), this->GetInput()->GetLargestPossibleRegion());
-  unsigned int      binNumber;
-  while (!inputIt.IsAtEnd())
-  {
-    if (maskPointer && maskPointer->GetPixel(inputIt.GetIndex()) != this->m_InsidePixelValue)
-    {
-      digitIt.Set(-10);
-    }
-    else if (inputIt.Get() < this->m_HistogramValueMinimum || inputIt.Get() >= this->m_HistogramValueMinimum)
-    {
-      digitIt.Set(-1);
-    }
-    else
-    {
-      binNumber = (inputIt.Get() - m_HistogramValueMinimum) /
-                  ((m_HistogramValueMaximum - m_HistogramValueMinimum) / (float)m_NumberOfBinsPerAxis);
-      digitIt.Set(binNumber);
-    }
-    ++inputIt;
-    ++digitIt;
-  }
-  m_Spacing = this->GetInput()->GetSpacing();
 
-  // Support VectorImages by setting the number of components on the output.
-  typename TOutputImage::Pointer outputPtr = TOutputImage::New();
-  outputPtr = this->GetOutput();
-  if (strcmp(outputPtr->GetNameOfClass(), "VectorImage") == 0)
+  typename TInputImage::Pointer input = InputImageType::New();
+  input->Graft(const_cast<TInputImage *>(this->GetInput()));
+
+  typedef Digitizer<PixelType, PixelType, typename DigitizedImageType::PixelType> DigitizerFunctorType;
+
+  DigitizerFunctorType digitalizer(
+    m_NumberOfBinsPerAxis, m_InsidePixelValue, m_HistogramValueMinimum, m_HistogramValueMaximum);
+
+  typedef BinaryFunctorImageFilter<MaskImageType, InputImageType, InputImageType, DigitizerFunctorType> FilterType;
+  typename FilterType::Pointer filter = FilterType::New();
+  if (this->GetMaskImage() != ITK_NULLPTR)
   {
-    typedef typename TOutputImage::AccessorFunctorType AccessorFunctorType;
-    AccessorFunctorType::SetVectorLength(outputPtr, 10);
+    typename TInputImage::Pointer mask = MaskImageType::New();
+    mask->Graft(const_cast<TInputImage *>(this->GetMaskImage()));
+    filter->SetInput1(mask);
   }
-  outputPtr->Allocate();
+  else
+  {
+    filter->SetConstant1(m_InsidePixelValue);
+  }
+  filter->SetInput2(input);
+  filter->SetFunctor(digitalizer);
+  filter->SetNumberOfThreads(this->GetNumberOfThreads());
+
+  filter->Update();
+  m_DigitizedInputImage = filter->GetOutput();
+
+  m_Spacing = this->GetInput()->GetSpacing();
 }
 
 
