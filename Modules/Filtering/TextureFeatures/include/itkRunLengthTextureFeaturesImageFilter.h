@@ -234,13 +234,13 @@ protected:
   bool
   IsInsideNeighborhood(const OffsetType & iteratedOffset);
   void
-  IncreaseHistogram(unsigned int **      hist,
-                    unsigned int &       totalNumberOfRuns,
-                    const PixelType &    currentInNeighborhoodPixelIntensity,
-                    const OffsetType &   offset,
-                    const unsigned int & pixelDistance);
+  IncreaseHistogram(vnl_matrix<unsigned int> & hist,
+                    unsigned int &             totalNumberOfRuns,
+                    const PixelType &          currentInNeighborhoodPixelIntensity,
+                    const OffsetType &         offset,
+                    const unsigned int &       pixelDistance);
   void
-  ComputeFeatures(unsigned int **                    hist,
+  ComputeFeatures(vnl_matrix<unsigned int> &         hist,
                   const unsigned int &               totalNumberOfRuns,
                   typename TOutputImage::PixelType & outputPixel);
   virtual void

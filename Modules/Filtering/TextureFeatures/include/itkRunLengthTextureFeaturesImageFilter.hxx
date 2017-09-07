@@ -171,13 +171,11 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   typename OffsetVector::ConstIterator offsets;
 
   // Declaration of the variables useful to iterate over the all the offsets
-  OffsetType      offset;
-  unsigned int    totalNumberOfRuns;
-  unsigned int ** histogram = new unsigned int *[m_NumberOfBinsPerAxis];
-  for (unsigned int axis = 0; axis < m_NumberOfBinsPerAxis; ++axis)
-  {
-    histogram[axis] = new unsigned int[m_NumberOfBinsPerAxis];
-  }
+  OffsetType   offset;
+  unsigned int totalNumberOfRuns;
+
+  vnl_matrix<unsigned int> histogram(m_NumberOfBinsPerAxis, m_NumberOfBinsPerAxis);
+
 
   // Declaration of the variables useful to iterate over the all neighborhood region
   PixelType currentInNeighborhoodPixelIntensity;
@@ -284,12 +282,6 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
       ++outputIt;
     }
   }
-
-  for (unsigned int axis = 0; axis < m_NumberOfBinsPerAxis; ++axis)
-  {
-    delete[] histogram[axis];
-  }
-  delete[] histogram;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -352,11 +344,11 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighbor
 template <typename TInputImage, typename TOutputImage>
 void
 RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogram(
-  unsigned int **      histogram,
-  unsigned int &       totalNumberOfRuns,
-  const PixelType &    currentInNeighborhoodPixelIntensity,
-  const OffsetType &   offset,
-  const unsigned int & pixelDistance)
+  vnl_matrix<unsigned int> & histogram,
+  unsigned int &             totalNumberOfRuns,
+  const PixelType &          currentInNeighborhoodPixelIntensity,
+  const OffsetType &         offset,
+  const unsigned int &       pixelDistance)
 {
   float offsetDistance = 0;
   for (unsigned int i = 0; i < offset.GetOffsetDimension(); ++i)
@@ -377,7 +369,7 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogra
 template <typename TInputImage, typename TOutputImage>
 void
 RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
-  unsigned int **                    histogram,
+  vnl_matrix<unsigned int> &         histogram,
   const unsigned int &               totalNumberOfRuns,
   typename TOutputImage::PixelType & outputPixel)
 {
