@@ -17,8 +17,6 @@ jobs:
       DASHBOARD_BRANCH_DIRECTORY: /home/circleci/ITK-dashboard
       ExternalData_OBJECT_STORES: /home/circleci/.ExternalData
     steps:
-      - store_test_results:
-          path: /tmp/test-results
       - checkout:
           path : ~/ITK
       - run:
@@ -51,4 +49,7 @@ jobs:
           command: |
             env
             mkdir -p /tmp/test-results/CTest
-            ci_addons ctest_junit_formatter ${CTEST_BINARY_DIRECTORY} > /tmp/test-results/CTest/JUnit-${CIRCLE_NODE_INDEX}.xml
+            ci_addons ctest_junit_formatter ${CTEST_BINARY_DIRECTORY} > /tmp/test-results/JUnit-${CIRCLE_NODE_INDEX}.xml
+      - store_test_results:
+          path: /tmp/test-results
+          destination: ctest
