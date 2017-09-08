@@ -47,15 +47,15 @@ class ITK_TEMPLATE_EXPORT GPUMeanImageFilter : //public GPUImageToImageFilter<
 {
 public:
   /** Standard class typedefs. */
-  typedef GPUMeanImageFilter                                                                               Self;
-  typedef GPUImageToImageFilter< TInputImage, TOutputImage, MeanImageFilter< TInputImage, TOutputImage > > Superclass;
-  typedef SmartPointer< Self >                                                                             Pointer;
-  typedef SmartPointer< const Self >                                                                       ConstPointer;
+  typedef GPUMeanImageFilter                                                                           Self;
+  typedef GPUBoxImageFilter< TInputImage, TOutputImage, MeanImageFilter< TInputImage, TOutputImage > > Superclass;
+  typedef SmartPointer< Self >                                                                         Pointer;
+  typedef SmartPointer< const Self >                                                                   ConstPointer;
 
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GPUMeanImageFilter, Superclass);
+  itkTypeMacro(GPUMeanImageFilter, GPUBoxImageFilter);
 
   /** Superclass typedefs. */
   typedef typename Superclass::OutputImageRegionType OutputImageRegionType;

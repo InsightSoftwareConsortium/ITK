@@ -241,8 +241,8 @@ GPUDemonsRegistrationFunction< TFixedImage, TMovingImage, TDisplacementField >
                     void *itkNotUsed(gd)
                     )
 {
-  typename TFixedImage::ConstPointer  fixedImage  = dynamic_cast< const TFixedImage * >( this->GetFixedImage() );
-  typename TMovingImage::ConstPointer movingImage = dynamic_cast< const TMovingImage * >( this->GetMovingImage() );
+  TFixedImage * fixedImage  = const_cast< TFixedImage * >( this->GetFixedImage() );
+  TMovingImage * movingImage = const_cast< TMovingImage * >( this->GetMovingImage() );
   typename DisplacementFieldType::SizeType outSize = output->GetLargestPossibleRegion().GetSize();
 
   int imgSize[3];
