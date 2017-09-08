@@ -216,7 +216,7 @@ set(LIST_OF_IMAGEIO_FORMATS
     Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC GE4 GE5
     MINC
     MGH SCIFIO FDF OpenSlide
-    PhilipsREC
+    PhilipsREC Bruker2DSEQ
     )
 
 # Exceptions:

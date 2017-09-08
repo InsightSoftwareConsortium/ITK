@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkBruker2DSEQImageIOFactory.h"
-#include "itkBruker2DSEQImageIO.h"
+#include "itkBruker2dseqImageIOFactory.h"
+#include "itkBruker2dseqImageIO.h"
 #include "itkVersion.h"
 
 /*
@@ -30,28 +30,42 @@
 
 namespace itk
 {
-Bruker2DSEQImageIOFactory::Bruker2DSEQImageIOFactory()
+Bruker2dseqImageIOFactory::Bruker2dseqImageIOFactory()
 {
   this->RegisterOverride( "itkImageIOBase",
-                          "itkBruker2DSEQImageIO",
-                          "Bruker 2DSEQ Image IO",
+                          "itkBruker2dseqImageIO",
+                          "Bruker2dseq Image IO",
                           1,
-                          CreateObjectFunction< Bruker2DSEQImageIO >::New() );
+                          CreateObjectFunction< Bruker2dseqImageIO >::New() );
 }
 
-Bruker2DSEQImageIOFactory::~Bruker2DSEQImageIOFactory()
+Bruker2dseqImageIOFactory::~Bruker2dseqImageIOFactory()
 {}
 
 const char *
-Bruker2DSEQImageIOFactory::GetITKSourceVersion(void) const
+Bruker2dseqImageIOFactory::GetITKSourceVersion(void) const
 {
   return ITK_SOURCE_VERSION;
 }
 
 const char *
-Bruker2DSEQImageIOFactory::GetDescription(void) const
+Bruker2dseqImageIOFactory::GetDescription(void) const
 {
-  return "Bruker 2DSEQ ImageIO Factory, allows the loading of most Bruker 2DSEQ"
+  return "Bruker2dseq ImageIO Factory, allows the loading of Bruker2dseq"
          " images into Insight";
+}
+
+// Undocumented API used to register during static initialization.
+// DO NOT CALL DIRECTLY.
+
+static bool Bruker2dseqImageIOFactoryHasBeenRegistered;
+
+void ITKIOBruker_EXPORT Bruker2dseqImageIOFactoryRegister__Private(void)
+{
+  if( ! Bruker2dseqImageIOFactoryHasBeenRegistered )
+    {
+    Bruker2dseqImageIOFactoryHasBeenRegistered = true;
+    Bruker2dseqImageIOFactory::RegisterOneFactory();
+    }
 }
 } // end namespace itk

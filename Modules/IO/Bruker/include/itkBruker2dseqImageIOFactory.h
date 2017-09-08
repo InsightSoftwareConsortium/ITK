@@ -15,16 +15,17 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBruker2DSEQImageIOFactory_h
-#define itkBruker2DSEQImageIOFactory_h
+#ifndef itkBruker2dseqImageIOFactory_h
+#define itkBruker2dseqImageIOFactory_h
+#include "ITKIOBrukerExport.h"
 
 #include "itkObjectFactoryBase.h"
 #include "itkImageIOBase.h"
 
 namespace itk
 {
-/** \class Bruker2DSEQImageIOFactory
- * \brief Create instances of Bruker2DSEQImageIO objects using an object factory.
+/** \class Bruker2dseqImageIOFactory
+ * \brief Create instances of Bruker2dseqImageIO objects using an object factory.
  *
  * \author Don C. Bigler
  *         The Pennsylvania State University 2005
@@ -32,13 +33,13 @@ namespace itk
  * This implementation was contributed as a paper to the Insight Journal
  * https://hdl.handle.net/1926/1381
  *
- * \ingroup ITKReview
+ * \ingroup ITKIOBruker
  */
-class Bruker2DSEQImageIOFactory:public ObjectFactoryBase
+class ITKIOBruker_EXPORT Bruker2dseqImageIOFactory : public ObjectFactoryBase
 {
 public:
   /** Standard class typedefs. */
-  typedef Bruker2DSEQImageIOFactory  Self;
+  typedef Bruker2dseqImageIOFactory  Self;
   typedef ObjectFactoryBase          Superclass;
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -52,23 +53,23 @@ public:
   itkFactorylessNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Bruker2DSEQImageIOFactory, ObjectFactoryBase);
+  itkTypeMacro(Bruker2dseqImageIOFactory, ObjectFactoryBase);
 
   /** Register one factory of this type  */
   static void RegisterOneFactory(void)
   {
-    Bruker2DSEQImageIOFactory::Pointer factory =
-      Bruker2DSEQImageIOFactory::New();
+    Bruker2dseqImageIOFactory::Pointer factory =
+      Bruker2dseqImageIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactory(factory);
+    ObjectFactoryBase::RegisterFactoryInternal(factory);
   }
 
 protected:
-  Bruker2DSEQImageIOFactory();
-  virtual ~Bruker2DSEQImageIOFactory();
+  Bruker2dseqImageIOFactory();
+  virtual ~Bruker2dseqImageIOFactory();
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2DSEQImageIOFactory);
+  ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2dseqImageIOFactory);
 };
 } // end namespace itk
 
