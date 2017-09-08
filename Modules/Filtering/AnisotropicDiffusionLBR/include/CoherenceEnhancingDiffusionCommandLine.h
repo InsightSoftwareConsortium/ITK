@@ -40,7 +40,7 @@ void Usage()
     "Output image filename. Required.\n" <<
     "Diffusion time. Suggested range: 0.5-5, up to 50 for strong noise. Default: 2.\n" <<
     "Lambda. Small values detect more edges. Suggested range: 0.05, 0.0001. Default: 0.01\n" <<
-    "Weickert diffusion type. Accepted values: Edge, Coherence. Default: Edge.\n" <<
+    "Weickert diffusion type. Accepted values: CED, cCED, EED, cEED, Isotropic. Default: CED.\n" <<
     "Noise scale. Suggested range: 0.5 - 4. Default 1.\n" <<
     "Feature scale. Suggested range: 2-6. Default 2.\n"
     << "\n";
