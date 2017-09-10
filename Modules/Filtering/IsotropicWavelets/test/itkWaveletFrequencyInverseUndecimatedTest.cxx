@@ -193,7 +193,7 @@ itkWaveletFrequencyInverseUndecimatedTest(int argc, char * argv[])
   const unsigned int inputBands = atoi(argv[4]);
   const std::string  waveletFunction = argv[5];
   const std::string  inputUseWaveletFilterBankPyramid = argv[6];
-  bool               useWaveletFilterBankPyramid;
+  bool               useWaveletFilterBankPyramid = false;
   if (inputUseWaveletFilterBankPyramid == "reuseFilterBankPyramid")
   {
     useWaveletFilterBankPyramid = true;
