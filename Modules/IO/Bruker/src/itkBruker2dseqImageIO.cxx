@@ -69,7 +69,7 @@ SwapSlicesAndVolumes(T *buffer, const int sx, const int sy, const int sz, const 
 {
   const int ss = sx*sy;
   std::vector<T> tempBuffer(ss*sz*sv);
-  T *toPixel = tempBuffer.data();
+  T *toPixel = &(tempBuffer[0]);
   T *fromVol = buffer;
   for (int v = 0; v < sv; ++v)
     {
@@ -466,40 +466,41 @@ void Bruker2dseqImageIO::Read(void *buffer)
       }
 
     std::vector<char> dataFromDisk(numberOfBytesOnDisk);
-    stream2Dseq.read(dataFromDisk.data(), numberOfBytesOnDisk);
+    char * dataFromDiskBuffer = &(dataFromDisk[0]);
+    stream2Dseq.read(dataFromDiskBuffer, numberOfBytesOnDisk);
     if (stream2Dseq.fail())
       {
       itkExceptionMacro("Failed to read file: " << path2Dseq);
       }
 
-    this->SwapBytesIfNecessary(dataFromDisk.data(), numberOfComponents);
+    this->SwapBytesIfNecessary(dataFromDiskBuffer, numberOfComponents);
 
     float *floatBuffer = static_cast<float *>(buffer);
     switch (m_OnDiskComponentType)
       {
       case CHAR:
-        CastCopy<char>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<char>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case UCHAR:
-        CastCopy<unsigned char>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<unsigned char>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case SHORT:
-        CastCopy<short>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<short>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case USHORT:
-        CastCopy<unsigned short>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<unsigned short>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case INT:
-        CastCopy<int>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<int>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case UINT:
-        CastCopy<unsigned int>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<unsigned int>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case LONG:
-        CastCopy<long>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<long>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case ULONG:
-        CastCopy<unsigned long>(floatBuffer, dataFromDisk.data(), numberOfComponents);
+        CastCopy<unsigned long>(floatBuffer, dataFromDiskBuffer, numberOfComponents);
         break;
       case FLOAT:
         itkExceptionMacro("FLOAT pixels do not need Casting to float");
