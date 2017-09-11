@@ -156,8 +156,7 @@ public:
   }
 
   itkGetModifiableObjectMacro(DataManager, GPUImageDataManager< GPUImage >);
-
-  GPUDataManager::Pointer GetGPUDataManager() const;
+  GPUDataManager * GetGPUDataManager();
 
   /* Override DataHasBeenGenerated() in DataObject class.
    * We need this because CPU time stamp is always bigger
