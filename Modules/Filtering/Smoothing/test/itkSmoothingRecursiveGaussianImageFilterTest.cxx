@@ -17,253 +17,159 @@
  *=========================================================================*/
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
+#include "itkImageFileReader.h"
 #include "itkFilterWatcher.h"
+#include "itkImageFileWriter.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkTestingMacros.h"
 
 namespace
 {
 
-int InPlaceTest( void )
+template< typename TFilter >
+int InPlaceTest( char * inputFilename, bool normalizeAcrossScale, typename TFilter::SigmaArrayType::ValueType sigmaValue )
 {
-// Define the dimension of the images
-  const unsigned int myDimension = 2;
+  // Read the input image
+  typedef itk::ImageFileReader< typename TFilter::InputImageType > ReaderType;
+  typename ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( inputFilename );
 
-  // Declare the types of the images
-  typedef itk::Image<float, myDimension>           myImageType;
+  // Create the filter
+  typename TFilter::Pointer filter = TFilter::New();
 
-  // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
+  filter->SetNormalizeAcrossScale( normalizeAcrossScale );
+  filter->SetSigma( sigmaValue );
 
-  // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
+  filter->SetInput( reader->GetOutput() );
 
-  // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
-
-  // Define their size, and start index
-  mySizeType size;
-  size[0] = 11;
-  size[1] = 11;
-
-  myIndexType start;
-  start.Fill(0);
-
-  myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
-
-  // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
-
-  // Initialize Image
-  inputImage->SetRegions( region );
-  inputImage->Allocate();
-
-  inputImage->FillBuffer( 0.0 );
+  if( !filter->CanRunInPlace() )
+    {
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Expected the filter to be able to run in-place!" << std::endl;
+    std::cerr << "Expected itk:SmoothingRecursiveGaussianImageFilter::CanRunInPlace to be true, but got: "
+      << filter->CanRunInPlace() << std::endl;
+    return EXIT_FAILURE;
+    }
 
 
-  myIndexType index;
-  index[0] = ( size[0] - 1 ) / 2;  // the middle pixel
-  index[1] = ( size[1] - 1 ) / 2;  // the middle pixel
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  inputImage->SetPixel( index, 1.0 );
-
-  typedef itk::SmoothingRecursiveGaussianImageFilter<myImageType >  myFilterType;
-
-
-  // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
-  filter->SetInput( inputImage );
-  filter->SetSigma( 1.0 );
-
-  filter->Update();
-
-  myImageType::Pointer outputImage1 = filter->GetOutput();
+  typename TFilter::OutputImageType::Pointer outputImage1 = filter->GetOutput();
   outputImage1->DisconnectPipeline();
 
 
+  // Set the InPlace flag to On
   filter->InPlaceOn();
-  filter->Update();
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  myImageType::Pointer outputImage2 = filter->GetOutput();
+  typename TFilter::OutputImageType::Pointer outputImage2 = filter->GetOutput();
   outputImage2->DisconnectPipeline();
 
-  typedef itk::ImageRegionConstIterator< myImageType > IteratorType;
-  IteratorType  it1( outputImage1, outputImage1->GetBufferedRegion() );
-  IteratorType  it2( outputImage2, outputImage2->GetBufferedRegion() );
+  typedef itk::ImageRegionConstIterator< typename TFilter::OutputImageType > IteratorType;
+  IteratorType it1( outputImage1, outputImage1->GetBufferedRegion() );
+  IteratorType it2( outputImage2, outputImage2->GetBufferedRegion() );
 
-
-  // check value of the in-place and not in-place executions are the same
+  // Check whether the values of the in-place and not in-place executions are the same
   it1.GoToBegin();
   it2.GoToBegin();
-  while( ! it1.IsAtEnd() )
+  double epsilon = itk::NumericTraits< double >::epsilon();
+  while( !it1.IsAtEnd() )
     {
-    if ( it1.Get() - it2.Get() > itk::NumericTraits<double>::epsilon() )
+    if( !itk::Math::FloatAlmostEqual( static_cast< double >( it1.Get() ), static_cast< double >( it2.Get() ), 10, epsilon ) )
       {
-      std::cout << "ERROR at " << it1.GetIndex() << " " << it1.Get() << " "
-                << it2.Get() << std::endl;
+      std::cerr.precision( static_cast< int >( itk::Math::abs( std::log10( epsilon ) ) ) );
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in pixel value at index [" << std::endl;
+      std::cerr << "Error in pixel value at index [" << it1.GetIndex() << "]" << std::endl;
+      std::cerr << "Expected value " << it1.Get() << std::endl;
+      std::cerr << " differs from " << it2.Get();
+      std::cerr << " by more than " << epsilon << std::endl;
       return EXIT_FAILURE;
       }
-    std::cout << it1.Get() << std::endl;
     ++it1;
     ++it2;
     }
 
-  std::cout << "CanRunInPlace: " << filter->CanRunInPlace() << std::endl;
-  std::cout << "input buffer region: " << inputImage->GetBufferedRegion() << std::endl;
-  std::cout << "output buffer region: " << outputImage2->GetBufferedRegion() << std::endl;
-
-  if ( inputImage->GetBufferedRegion().GetNumberOfPixels() != 0 )
-    {
-    std::cerr << "Failure for filter to run in-place!" << std::endl;
-    return EXIT_FAILURE;
-    }
-
-  if ( !filter->CanRunInPlace() )
-    {
-    std::cerr << "expected CanRunInPlace to be true!" << std::endl;
-    return EXIT_FAILURE;
-    }
 
   return EXIT_SUCCESS;
 }
 
 }
 
-int itkSmoothingRecursiveGaussianImageFilterTest(int, char* [] )
+int itkSmoothingRecursiveGaussianImageFilterTest( int argc, char* argv[] )
 {
+  if( argc != 5 )
+    {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << " inputImageFile outputImageFile normalizeAcrossScale sigma" << std::endl;
+    return EXIT_FAILURE;
+    }
+
+  int testStatus = EXIT_SUCCESS;
 
   // Define the dimension of the images
-  const unsigned int myDimension = 3;
+  const unsigned int Dimension = 2;
 
   // Declare the types of the images
-  typedef itk::Image<float, myDimension>           myImageType;
+  typedef unsigned char                       PixelType;
+  typedef itk::Image< PixelType, Dimension >  ImageType;
 
-  // Declare the type of the index to access images
-  typedef itk::Index<myDimension>             myIndexType;
+  // Read the input image
+  typedef itk::ImageFileReader< ImageType > ReaderType;
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( argv[1] );
 
-  // Declare the type of the size
-  typedef itk::Size<myDimension>              mySizeType;
+  // Declare the type for the itk::SmoothingRecursiveGaussianImageFilter
+  typedef itk::SmoothingRecursiveGaussianImageFilter< ImageType > SmoothingRecursiveGaussianImageFilterType;
 
-  // Declare the type of the Region
-  typedef itk::ImageRegion<myDimension>        myRegionType;
+  // Create the filter
+  SmoothingRecursiveGaussianImageFilterType::Pointer filter = SmoothingRecursiveGaussianImageFilterType::New();
 
-  // Create the image
-  myImageType::Pointer inputImage  = myImageType::New();
+  EXERCISE_BASIC_OBJECT_METHODS( filter, SmoothingRecursiveGaussianImageFilter, InPlaceImageFilter );
 
-
-  // Define their size, and start index
-  mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
-
-  myIndexType start;
-  start.Fill(0);
-
-  myRegionType region;
-  region.SetIndex( start );
-  region.SetSize( size );
-
-  // Initialize Image A
-  inputImage->SetLargestPossibleRegion( region );
-  inputImage->SetBufferedRegion( region );
-  inputImage->SetRequestedRegion( region );
-  inputImage->Allocate();
-
-  // Declare Iterator type for the input image
-  typedef itk::ImageRegionIteratorWithIndex<myImageType>  myIteratorType;
-
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it( inputImage, inputImage->GetRequestedRegion() );
-
-  // Initialize the content of Image A
-  while( !it.IsAtEnd() )
-  {
-    it.Set( 0.0 );
-    ++it;
-  }
-
-  size[0] = 4;
-  size[1] = 4;
-  size[2] = 4;
-
-  start[0] = 2;
-  start[1] = 2;
-  start[2] = 2;
-
-  // Create one iterator for an internal region
-  region.SetSize( size );
-  region.SetIndex( start );
-  myIteratorType itb( inputImage, region );
-
-  // Initialize the content the internal region
-  while( !itb.IsAtEnd() )
-  {
-    itb.Set( 100.0 );
-    ++itb;
-  }
-
-  // Declare the type for the
-  typedef itk::SmoothingRecursiveGaussianImageFilter<
-                                            myImageType >  myFilterType;
-
-  typedef myFilterType::OutputImageType myGradientImageType;
+  FilterWatcher watcher( filter );
 
 
-  // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
-  FilterWatcher watchit(filter);
+  // Set the scale normalization flag
+  bool normalizeAcrossScale = atoi( argv[3] );
+  TEST_SET_GET_BOOLEAN( filter, NormalizeAcrossScale, normalizeAcrossScale );
 
-  // Connect the input images
-  filter->SetInput( inputImage );
+  // Set the value ofthe standard deviation of the Gaussian used for smoothing
+  SmoothingRecursiveGaussianImageFilterType::SigmaArrayType::ValueType sigmaValue = atof( argv[4] );
+  SmoothingRecursiveGaussianImageFilterType::SigmaArrayType sigma;
+  sigma.Fill( sigmaValue );
 
-  // Select the value of Sigma
-  filter->SetSigma( 2.5 );
+  filter->SetSigma( sigmaValue );
+  TEST_SET_GET_VALUE( sigmaValue, filter->GetSigma() );
+
+  filter->SetSigmaArray( sigma );
+  TEST_SET_GET_VALUE( sigma, filter->GetSigmaArray() );
 
 
-  // Execute the filter
-  try
+  // Set the input image
+  filter->SetInput( reader->GetOutput() );
+
+  // Run the filter
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+
+  // Write the output
+  typedef itk::ImageFileWriter< ImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[2] );
+  writer->SetInput( filter->GetOutput() );
+
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
+
+  // Test the InPlaceOn option output
+  if( InPlaceTest< SmoothingRecursiveGaussianImageFilterType >( argv[1], normalizeAcrossScale, sigmaValue ) == EXIT_FAILURE )
     {
-    filter->Update();
-    }
-  catch(itk::ExceptionObject &err)
-    {
-    (&err)->Print(std::cerr);
-    return EXIT_FAILURE;
+    testStatus = EXIT_FAILURE;
     }
 
-
-  // Get the Smart Pointer to the Filter Output
-  // It is important to do it AFTER the filter is Updated
-  // Because the object connected to the output may be changed
-  // by another during GenerateData() call
-  myGradientImageType::Pointer outputImage = filter->GetOutput();
-
-  // Declare Iterator type for the output image
-  typedef itk::ImageRegionIteratorWithIndex<
-                                 myGradientImageType>  myOutputIteratorType;
-
-  // Create an iterator for going through the output image
-  myOutputIteratorType itg( outputImage,
-                            outputImage->GetRequestedRegion() );
-
-  //  Print the content of the result image
-  std::cout << " Result " << std::endl;
-  itg.GoToBegin();
-  while( !itg.IsAtEnd() )
-  {
-    std::cout << itg.Get() << std::endl;
-    ++itg;
-  }
-
-  if ( InPlaceTest() == EXIT_FAILURE )
-    {
-    return EXIT_FAILURE;
-    }
 
   // All objects should be automatically destroyed at this point
-  std::cout << std::endl << "Test PASSED ! " << std::endl;
-  return EXIT_SUCCESS;
-
+  std::cout << "Test finished." << std::endl;
+  return testStatus;
 }

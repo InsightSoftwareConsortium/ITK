@@ -42,8 +42,11 @@ itk_add_test(NAME itkDiscreteGaussianImageFilterTest2
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/DiscreteGaussianImageFilterTest2_OutputA.mha}
               ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
     itkDiscreteGaussianImageFilterTest2 2 3 DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} 3.5 ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha)
-itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterTest
-      COMMAND ITKSmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterTest)
+itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn
+      COMMAND ITKSmoothingTestDriver
+    --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn.png
+                  58ec36acf622fc9c4567f0edd89d2ffa
+    itkSmoothingRecursiveGaussianImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn.png 1 2.5)
 itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest
       COMMAND ITKSmoothingTestDriver itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest)
 itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest
