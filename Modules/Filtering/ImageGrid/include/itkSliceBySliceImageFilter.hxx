@@ -210,15 +210,8 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
 
   for ( unsigned int i = 0; i < numberOfIndexedInputs; i++ )
     {
-    // Passing through a N-1 direction matrix to the internal slice filter is
-    // not supported to avoid dealing with singularities, but we still account
-    // for the direction matrix when collapsing the origin to an N-1 point.
-    const typename InputImageType::IndexType originIndex = this->GetInput(i)->GetRequestedRegion().GetIndex();
-    typename InputImageType::PointType inputOrigin;
-    this->GetInput(i)->TransformIndexToPhysicalPoint(originIndex, inputOrigin);
 
     InternalSpacingType internalInputSpacing;
-    InternalPointType internalInputOrigin;
     unsigned int internalDim = 0;
     for ( unsigned int dim = 0; internalDim < InternalImageDimension; ++dim, ++internalDim )
       {
@@ -227,7 +220,6 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
         ++dim;
         }
       internalInputSpacing[internalDim] = this->GetInput(i)->GetSpacing()[dim];
-      internalInputOrigin[internalDim] = inputOrigin[dim];
       }
 
     // keep the internal input around each iteration, because if the
@@ -235,7 +227,6 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
     internalInputs[i] = InternalInputImageType::New();
 
     internalInputs[i]->SetSpacing(internalInputSpacing);
-    internalInputs[i]->SetOrigin(internalInputOrigin);
     }
 
   const IndexValueType sliceRangeMax =
@@ -246,6 +237,36 @@ SliceBySliceImageFilter< TInputImage, TOutputImage, TInputFilter, TOutputFilter,
     // say to the user that we are begining a new slice
     this->m_SliceIndex = slice;
     this->InvokeEvent( IterationEvent() );
+
+    // update the origin on a per-slice basis
+    for ( unsigned int i = 0; i < numberOfIndexedInputs; i++ )
+    {
+    // Passing through a N-1 direction matrix to the internal slice filter is
+    // not supported to avoid dealing with singularities, but we still account
+    // for the direction matrix when collapsing the origin to an N-1
+    // point.
+    typename InputImageType::IndexType originIndex;
+    originIndex.Fill(0);
+    originIndex[m_Dimension] = slice;
+
+    typename InputImageType::PointType inputOrigin;
+    this->GetInput(i)->TransformIndexToPhysicalPoint(originIndex, inputOrigin);
+
+    InternalPointType internalInputOrigin;
+    unsigned int internalDim = 0;
+    for ( unsigned int dim = 0; internalDim < InternalImageDimension; ++dim, ++internalDim )
+      {
+      if ( dim == this->m_Dimension )
+        {
+        ++dim;
+        }
+      internalInputOrigin[internalDim] = inputOrigin[dim];
+      }
+
+    internalInputs[i]->SetOrigin(internalInputOrigin);
+
+    itkDebugMacro( "internalInputs[" << i <<"] origin: " << internalInputOrigin );
+    }
 
 
     RegionType inputRegion = this->GetInput( 0 )->GetRequestedRegion();
