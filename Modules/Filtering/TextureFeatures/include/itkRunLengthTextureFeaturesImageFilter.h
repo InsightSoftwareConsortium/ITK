@@ -95,7 +95,7 @@ namespace Statistics
  * \ingroup TextureFeatures
  */
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage>
 class ITK_TEMPLATE_EXPORT RunLengthTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
@@ -113,10 +113,11 @@ public:
 
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
-  typedef TInputImage  MaskImageType;
+  typedef TMaskImage   MaskImageType;
   typedef TInputImage  DigitizedImageType;
 
   typedef typename InputImageType::PixelType PixelType;
+  typedef typename MaskImageType::PixelType  MaskPixelType;
   typedef typename InputImageType::IndexType IndexType;
   typedef typename InputImageType::PointType PointType;
 
@@ -140,10 +141,10 @@ public:
   itkGetConstMacro(NeighborhoodRadius, NeighborhoodRadiusType);
 
   /** Method to set the mask image */
-  itkSetInputMacro(MaskImage, InputImageType);
+  itkSetInputMacro(MaskImage, MaskImageType);
 
   /** Method to get the mask image */
-  itkGetInputMacro(MaskImage, InputImageType);
+  itkGetInputMacro(MaskImage, MaskImageType);
 
 
   /** Specify the default number of bins per axis */
@@ -212,8 +213,8 @@ public:
    * Set the pixel value of the mask that should be considered "inside" the
    * object. Defaults to 1.
    */
-  itkSetMacro(InsidePixelValue, PixelType);
-  itkGetConstMacro(InsidePixelValue, PixelType);
+  itkSetMacro(InsidePixelValue, MaskPixelType);
+  itkGetConstMacro(InsidePixelValue, MaskPixelType);
 
   typedef typename OutputImageType::PixelType                     OutputPixelType;
   typedef typename NumericTraits<OutputPixelType>::ScalarRealType OutputRealType;
@@ -265,7 +266,7 @@ private:
   PixelType                         m_HistogramValueMaximum;
   RealType                          m_HistogramDistanceMinimum;
   RealType                          m_HistogramDistanceMaximum;
-  PixelType                         m_InsidePixelValue;
+  MaskPixelType                     m_InsidePixelValue;
   typename TInputImage::SpacingType m_Spacing;
 };
 } // end of namespace Statistics

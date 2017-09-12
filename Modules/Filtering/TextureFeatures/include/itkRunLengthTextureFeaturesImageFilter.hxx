@@ -28,14 +28,14 @@ namespace itk
 {
 namespace Statistics
 {
-template <typename TInputImage, typename TOutputImage>
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::RunLengthTextureFeaturesImageFilter()
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::RunLengthTextureFeaturesImageFilter()
   : m_NumberOfBinsPerAxis(itkGetStaticConstMacro(DefaultBinsPerAxis))
   , m_HistogramValueMinimum(NumericTraits<PixelType>::NonpositiveMin())
   , m_HistogramValueMaximum(NumericTraits<PixelType>::max())
   , m_HistogramDistanceMinimum(NumericTraits<RealType>::ZeroValue())
   , m_HistogramDistanceMaximum(NumericTraits<RealType>::max())
-  , m_InsidePixelValue(NumericTraits<PixelType>::OneValue())
+  , m_InsidePixelValue(NumericTraits<MaskPixelType>::OneValue())
   , m_Spacing(1.0)
 {
   this->SetNumberOfRequiredInputs(1);
@@ -69,18 +69,18 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::RunLengthTexture
   this->m_NeighborhoodRadius = nhood.GetRadius();
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::SetOffset(const OffsetType offset)
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::SetOffset(const OffsetType offset)
 {
   OffsetVectorPointer offsetVector = OffsetVector::New();
   offsetVector->push_back(offset);
   this->SetOffsets(offsetVector);
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::BeforeThreadedGenerateData()
 {
 
   typename TInputImage::Pointer input = InputImageType::New();
@@ -95,8 +95,8 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGe
   typename FilterType::Pointer filter = FilterType::New();
   if (this->GetMaskImage() != ITK_NULLPTR)
   {
-    typename TInputImage::Pointer mask = MaskImageType::New();
-    mask->Graft(const_cast<TInputImage *>(this->GetMaskImage()));
+    typename TMaskImage::Pointer mask = MaskImageType::New();
+    mask->Graft(const_cast<TMaskImage *>(this->GetMaskImage()));
     filter->SetInput1(mask);
   }
   else
@@ -114,18 +114,18 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::BeforeThreadedGe
 }
 
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::AfterThreadedGenerateData()
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::AfterThreadedGenerateData()
 {
   // free internal image
   this->m_DigitizedInputImage = ITK_NULLPTR;
 }
 
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::ThreadedGenerateData(
   const OutputRegionType & outputRegionForThread,
   ThreadIdType             threadId)
 {
@@ -284,9 +284,9 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ThreadedGenerate
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateOutputInformation()
 {
   Superclass::GenerateOutputInformation();
 
@@ -301,9 +301,10 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::GenerateOutputIn
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::NormalizeOffsetDirection(OffsetType & offset)
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::NormalizeOffsetDirection(
+  OffsetType & offset)
 {
   itkDebugMacro("old offset = " << offset << std::endl);
   int  sign = 1;
@@ -324,9 +325,10 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::NormalizeOffsetD
   itkDebugMacro("new  offset = " << offset << std::endl);
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 bool
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighborhood(const OffsetType & iteratedOffset)
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::IsInsideNeighborhood(
+  const OffsetType & iteratedOffset)
 {
   bool insideNeighborhood = true;
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
@@ -341,9 +343,9 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IsInsideNeighbor
   return insideNeighborhood;
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogram(
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::IncreaseHistogram(
   vnl_matrix<unsigned int> & histogram,
   unsigned int &             totalNumberOfRuns,
   const PixelType &          currentInNeighborhoodPixelIntensity,
@@ -366,9 +368,9 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::IncreaseHistogra
   }
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::ComputeFeatures(
   vnl_matrix<unsigned int> &         histogram,
   const unsigned int &               totalNumberOfRuns,
   typename TOutputImage::PixelType & outputPixel)
@@ -448,9 +450,10 @@ RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::ComputeFeatures(
   outputPixel[9] = longRunHighGreyLevelEmphasis;
 }
 
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
-RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
+RunLengthTextureFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(std::ostream & os,
+                                                                                      Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
 
