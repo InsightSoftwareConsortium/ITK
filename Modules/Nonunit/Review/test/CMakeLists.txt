@@ -5,8 +5,6 @@ itkAreaOpeningImageFilterTest.cxx
 itkConformalFlatteningMeshFilterTest.cxx
 itkConformalFlatteningQuadEdgeMeshFilterTest.cxx
 itkContourExtractor2DImageFilterTest.cxx
-itkDiffeomorphicDemonsRegistrationFilterTest.cxx
-itkDiffeomorphicDemonsRegistrationFilterTest2.cxx
 itkDirectFourierReconstructionImageToImageFilterTest.cxx
 itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest.cxx
 itkDiscreteGaussianDerivativeImageFilterTest.cxx
@@ -14,7 +12,6 @@ itkDiscreteGaussianDerivativeImageFunctionTest.cxx
 itkDiscreteGradientMagnitudeGaussianImageFunctionTest.cxx
 itkDiscreteHessianGaussianImageFunctionTest.cxx
 itkFastApproximateRankImageFilterTest.cxx
-itkFastSymmetricForcesDemonsRegistrationFilterTest.cxx
 itkGridForwardWarpImageFilterTest.cxx
 itkImageFunctionTest.cxx
 itkJPEG2000ImageIOFactoryTest01.cxx
@@ -91,46 +88,6 @@ itk_add_test(NAME itkConformalFlatteningQuadEdgeMeshFilterTest2
 itk_add_test(NAME itkContourExtractor2DImageFilterTest
       COMMAND ITKReviewTestDriver itkContourExtractor2DImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/ContourExtractor2DTest.tif})
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest01
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
-              0 0 0.001 20.0 200 0.01 0.08 5 10)
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest02
-      COMMAND ITKReviewTestDriver --redirectOutput itkDiffeomorphicDemonsRegistrationFilterTest02 --redirectOutput ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt
-          itkDiffeomorphicDemonsRegistrationFilterTest
-              1 0 0.01 3.0 400 0.2 0.9 10 70)
-set_tests_properties(itkDiffeomorphicDemonsRegistrationFilterTest02 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest02.txt)
-
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest03
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
-              2 0 0.001 20.0 200 0.01 0.08 5 10)
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest04
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
-              3 0 0.01 3.0 200 0.2 0.8 5 70)
-
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest05
-      COMMAND ITKReviewTestDriver --redirectOutput ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt
-          itkDiffeomorphicDemonsRegistrationFilterTest
-              0 1 0.01 3.0 400 0.2 0.08 5 70)
-set_tests_properties(itkDiffeomorphicDemonsRegistrationFilterTest05 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkDiffeomorphicDemonsRegistrationFilterTest05.txt)
-
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest06
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest
-              0 0 0.005 20.0 200 0.01 0.08 5 10)
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest07
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest07.mha 0 0 0.001 0.1)
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest08
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest08.mha 1 0 0.001 0.1)
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest09
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest09.mha 2 0 0.001 0.1)
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest10
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest10.mha 3 0 0.001 0.1)
-itk_add_test(NAME itkDiffeomorphicDemonsRegistrationFilterTest11
-      COMMAND ITKReviewTestDriver itkDiffeomorphicDemonsRegistrationFilterTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice1.mha ${ITK_EXAMPLE_DATA_ROOT}/RatLungSlice2.mha ${ITK_TEST_OUTPUT_DIR}/itkDiffeomorphicDemonsRegistrationFilterTest11.mha 0 1 0.001 0.1)
 itk_add_test(NAME itkDirectFourierReconstructionImageToImageFilterTest
       COMMAND ITKReviewTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/reconstruct.mha}
@@ -223,8 +180,6 @@ itk_add_test(NAME itkFastApproximateRankImageFilterTest10
     --compare DATA{${ITK_DATA_ROOT}/Baseline/Review/itkFastApproximateRankImageFilter10.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter10.png
     itkFastApproximateRankImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/itkFastApproximateRankImageFilter10.png 10)
-itk_add_test(NAME itkFastSymmetricForcesDemonsRegistrationFilterTest
-      COMMAND ITKReviewTestDriver itkFastSymmetricForcesDemonsRegistrationFilterTest)
 itk_add_test(NAME itkGridForwardWarpImageFilterTest
       COMMAND ITKReviewTestDriver
       --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkGridForwardWarpImageFilterTest.mha

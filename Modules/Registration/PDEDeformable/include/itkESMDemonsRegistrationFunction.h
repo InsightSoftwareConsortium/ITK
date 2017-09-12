@@ -54,7 +54,7 @@ namespace itk
  * \sa DemonsRegistrationFunction
  * \ingroup FiniteDifferenceFunctions
  *
- * \ingroup ITKReview
+ * \ingroup ITKPDEDeformableRegistration
  */
 template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
 class ITK_TEMPLATE_EXPORT ESMDemonsRegistrationFunction:
