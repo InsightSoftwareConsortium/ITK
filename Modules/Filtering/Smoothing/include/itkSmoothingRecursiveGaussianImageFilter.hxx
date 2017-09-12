@@ -24,15 +24,12 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template< typename TInputImage, typename TOutputImage >
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
-::SmoothingRecursiveGaussianImageFilter()
+::SmoothingRecursiveGaussianImageFilter() :
+  m_NormalizeAcrossScale( false )
 {
-  m_NormalizeAcrossScale = false;
-
   // NB: The first filter is the last dimension because it does not
   // always run in-place. As this dimension provides the least amount
   // of cache coherency, it will provide the least  amount of performance
@@ -77,6 +74,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   this->SetSigma(1.0);
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -89,6 +87,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     }
   m_FirstSmoothingFilter->SetNumberOfThreads(nb);
 }
+
 
 template< typename TInputImage, typename TOutputImage >
 bool
@@ -112,7 +111,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   return m_FirstSmoothingFilter->CanRunInPlace() || this->Superclass::CanRunInPlace();
 }
 
-// Set value of Sigma (isotropic)
+
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -123,7 +122,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   this->SetSigmaArray(sigmas);
 }
 
-// Set value of Sigma (anisotropic)
+
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -142,7 +141,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     }
 }
 
-// Get the sigma array.
+
 template< typename TInputImage, typename TOutputImage >
 typename SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >::SigmaArrayType
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -151,8 +150,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   return m_Sigma;
 }
 
-// Get the sigma scalar. If the sigma is anisotropic, we will just
-// return the sigma along the first dimension.
+
 template< typename TInputImage, typename TOutputImage >
 typename SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >::ScalarRealType
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -161,9 +159,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   return m_Sigma[0];
 }
 
-/**
- * Set Normalize Across Scale Space
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -212,9 +208,7 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
     }
 }
 
-/**
- * Compute filter for Gaussian kernel
- */
+
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
@@ -283,12 +277,20 @@ SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
   this->GraftOutput( m_CastingFilter->GetOutput() );
 }
 
+
 template< typename TInputImage, typename TOutputImage >
 void
 SmoothingRecursiveGaussianImageFilter< TInputImage, TOutputImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  for( unsigned int i = 0; i < ImageDimension - 1; ++i )
+    {
+    itkPrintSelfObjectMacro( SmoothingFilters[i] );
+    }
+  itkPrintSelfObjectMacro( FirstSmoothingFilter );
+  itkPrintSelfObjectMacro( CastingFilter );
 
   os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
   os << indent << "Sigma: " << m_Sigma << std::endl;
