@@ -13,5 +13,4 @@ itk_module(ITKIOMINC
     ITKImageStatistics
   DESCRIPTION
     "${DOCUMENTATION}"
-  EXCLUDE_FROM_DEFAULT
 )
