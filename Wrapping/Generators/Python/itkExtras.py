@@ -325,27 +325,17 @@ def _GetVnlObjectFromArray(arr, function):
     import itk
     PixelType = _get_itk_pixelid(arr)
     templatedFunction = getattr(itk.PyVnl[PixelType], function)
-    return templatedFunction(vnlObject)
+    return templatedFunction(arr)
 
 def GetVnlVectorFromArray(arr):
     """Get a vnl vector from a Python array.
     """
     return _GetVnlObjectFromArray(arr, "GetVnlVectorFromArray")
 
-def GetVnlVectorViewFromArray(arr):
-    """Get a vnl vector view of a Python array.
-    """
-    return _GetVnlObjectFromArray(arr, "GetVnlVectorViewFromArray")
-
 def GetVnlMatrixFromArray(arr):
     """Get a vnl matrix from a Python array.
     """
     return _GetVnlObjectFromArray(arr, "GetVnlMatrixFromArray")
-
-def GetVnlMatrixViewFromArray(arr):
-    """Get a vnl matrix view of a Python array.
-    """
-    return _GetVnlObjectFromArray(arr, "GetVnlMatrixViewFromArray")
 
 # return an image
 from itkTemplate import image, output
