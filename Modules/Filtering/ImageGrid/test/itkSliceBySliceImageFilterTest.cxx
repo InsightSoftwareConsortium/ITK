@@ -153,11 +153,18 @@ int itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   //
   // Test that a sliced version of the input image information is passed
-  // through to the internal filters
+  // through to the internal filters, with proper origin and
+  // spacing. We are setting the input image to have a non-zero
+  // starting index.
   //
   ImageType::Pointer image = ImageType::New();
-  image->SetRegions(reader->GetOutput()->GetLargestPossibleRegion());
+  {
+  ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
+  region.SetIndex(0,10);
+  image->SetRegions(region);
   image->Allocate(true);
+  }
+
   ImageType::SpacingType spacing;
   ImageType::PointType origin;
   for ( unsigned int i = 0; i < ImageType::ImageDimension; ++i )
