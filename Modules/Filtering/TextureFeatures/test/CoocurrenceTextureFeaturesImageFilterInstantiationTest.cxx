@@ -38,12 +38,15 @@ CoocurrenceTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
 
   // Declare types
   typedef int                                                             InputPixelType;
+  typedef unsigned char                                                   MaskPixelType;
   typedef float                                                           OutputPixelComponentType;
   typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                   InputImageType;
+  typedef itk::Image<MaskPixelType, ImageDimension>                                    MaskImageType;
   typedef itk::Image<OutputPixelType, ImageDimension>                                  OutputImageType;
   typedef itk::ImageFileReader<InputImageType>                                         ReaderType;
+  typedef itk::ImageFileReader<MaskImageType>                                          MaskReaderType;
   typedef itk::Neighborhood<InputImageType::PixelType, InputImageType::ImageDimension> NeighborhoodType;
 
 
@@ -53,7 +56,7 @@ CoocurrenceTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
 
   // Create and set up a maskReader
-  ReaderType::Pointer maskReader = ReaderType::New();
+  MaskReaderType::Pointer maskReader = MaskReaderType::New();
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
@@ -86,7 +89,7 @@ CoocurrenceTextureFeaturesImageFilterInstantiationTest(int argc, char * argv[])
   filter->SetNeighborhoodRadius(hood.GetRadius());
   TEST_SET_GET_VALUE(hood.GetRadius(), filter->GetNeighborhoodRadius());
 
-  FilterType::PixelType insidePixelValue = 0;
+  FilterType::MaskPixelType insidePixelValue = 0;
   filter->SetInsidePixelValue(insidePixelValue);
   TEST_SET_GET_VALUE(insidePixelValue, filter->GetInsidePixelValue());
 
