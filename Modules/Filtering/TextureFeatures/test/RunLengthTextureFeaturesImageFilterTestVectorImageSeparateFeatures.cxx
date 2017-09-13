@@ -67,7 +67,8 @@ RunLengthTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, cha
   maskReader->SetFileName(argv[2]);
 
   // Create the filter
-  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::RunLengthTextureFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>
+                      FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());

@@ -82,7 +82,9 @@ namespace Statistics
  * \ingroup TextureFeatures
  **/
 
-template <typename TInputImage, typename TOutputImage, typename TMaskImage = TInputImage>
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TMaskImage = Image<unsigned char, TInputImage::ImageDimension>>
 class ITK_TEMPLATE_EXPORT CoocurrenceTextureFeaturesImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:

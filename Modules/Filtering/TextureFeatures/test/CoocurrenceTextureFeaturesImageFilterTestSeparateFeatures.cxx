@@ -64,7 +64,8 @@ CoocurrenceTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[
 
 
   // Create the filter
-  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType> FilterType;
+  typedef itk::Statistics::CoocurrenceTextureFeaturesImageFilter<InputImageType, OutputImageType, InputImageType>
+                      FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
