@@ -401,7 +401,7 @@ else()
           DESTINATION ${ITK_INSTALL_PACKAGE_DIR} COMPONENT Development)
 endif()
 
-install(FILES "LICENSE" "NOTICE" "README.txt" DESTINATION ${ITK_INSTALL_DOC_DIR} COMPONENT Runtime)
+install(FILES "LICENSE" "NOTICE" "README.md" DESTINATION ${ITK_INSTALL_DOC_DIR} COMPONENT Runtime)
 
 if(BUILD_TESTING)
   add_subdirectory(Utilities/InstallTest)
