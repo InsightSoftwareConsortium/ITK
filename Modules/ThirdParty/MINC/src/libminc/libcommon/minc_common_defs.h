@@ -436,6 +436,12 @@ image dimensions */
 #define _(x) x      /* For future gettext */
 #endif 
 
+/* Force P_tmpdir to be something reasonable. */
+#if !defined(P_tmpdir)
+#define P_tmpdir "/var/tmp"
+#endif /* P_tmpdir not defined */
+
+
 #endif /*MINC_COMMON_DEFS_H*/
 
 /* kate: indent-mode cstyle; indent-width 2; replace-tabs on; */

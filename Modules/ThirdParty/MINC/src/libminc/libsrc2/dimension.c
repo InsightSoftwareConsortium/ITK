@@ -19,6 +19,10 @@
 
 #include <math.h>
 
+#ifdef HAVE_STRING_H
+#include <string.h>
+#endif /*HAVE_STRING_H*/
+
 /**
   Figure out whether a dimension is associated with a volume.
   \param dimension The dimension handle.

@@ -836,6 +836,8 @@ int micreate_volume(const char *filename, int number_of_dimensions,
 
     if(!dimension_is_vector)
     {
+      const char *align_str;
+
       miset_attr_at_loc(dataset_id, "class", MI_TYPE_STRING, strlen(name),
                       name);
 
@@ -848,7 +850,6 @@ int micreate_volume(const char *filename, int number_of_dimensions,
       miset_attr_at_loc(dataset_id, "start", MI_TYPE_DOUBLE,
                       1, &dimensions[i]->start);
 
-      const char *align_str;
       if (dimensions[i]->align == MI_DIMALIGN_END)
         align_str = "end___";
       else if (dimensions[i]->align == MI_DIMALIGN_START)

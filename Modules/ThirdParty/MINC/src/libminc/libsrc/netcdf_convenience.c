@@ -1787,10 +1787,6 @@ MNCAPI int micopy_all_var_values(int incdfid, int outcdfid, int nexclude,
 @MODIFIED   : 
 ---------------------------------------------------------------------------- */
 
-/* Force P_tmpdir to be something reasonable. */
-#if !defined(P_tmpdir)
-#define P_tmpdir "/var/tmp"
-#endif /* P_tmpdir not defined */
 
 MNCAPI char *
 micreate_tempfile(void)
