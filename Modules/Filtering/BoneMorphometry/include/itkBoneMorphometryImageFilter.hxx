@@ -161,7 +161,7 @@ BoneMorphometryImageFilter<TInputImage, TMaskImage>::ThreadedGenerateData(const 
 
     while (!inputNIt.IsAtEnd())
     {
-      if (maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) != 0)
+      if (maskPointer && maskPointer->GetPixel(inputNIt.GetIndex()) == 0)
       {
         ++inputNIt;
         continue;
