@@ -1120,7 +1120,7 @@ PRIVATE void setup_variables(int inmincid, int outmincid,
       }
       else {
          set_ncopts(0);
-         (void) ncattdel(outmincid, outimgid, MIvalid_range);
+         (void) ncattdel(outmincid, outimgid, MIvalid_range);  /*VF: why is this needed?*/
          set_ncopts(NC_OPTS_VAL);
       }
    }

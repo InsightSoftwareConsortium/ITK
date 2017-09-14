@@ -50,8 +50,10 @@
 #cmakedefine HAVE_SYS_NDIR_H 1 
 #cmakedefine HAVE_SYS_STAT_H 1 
 #cmakedefine HAVE_SYS_TIME_H 1 
+#cmakedefine HAVE_TIME_H 1 
 #cmakedefine HAVE_SYS_TYPES_H 1 
 #cmakedefine HAVE_SYS_WAIT_H 1 
+#cmakedefine HAVE_SYS_SELECT_H 1
 #cmakedefine HAVE_TEMPNAM 1 
 #cmakedefine HAVE_TMPNAM 1 
 #cmakedefine HAVE_UNISTD_H 1 
