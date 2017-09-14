@@ -42,8 +42,7 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
   Self::RemoveRequiredInputName("Primary");
 
   // #0 "InitialDisplacementField" optional
-  Self::AddRequiredInputName("InitialDisplacementField", 0);
-  Self::RemoveRequiredInputName("InitialDisplacementField");
+  Self::AddOptionalInputName("InitialDisplacementField", 0);
 
   // #1 "FixedImage" required
   Self::AddRequiredInputName("FixedImage", 1);
