@@ -144,15 +144,8 @@ public:
                                              itkGetStaticConstMacro(OutputImageDimension) > ) );
   itkConceptMacro( OutputImagePixelTypeIsInteger, ( Concept::IsInteger< OutputImagePixelType > ) );
 
-  void SetMaskImage(TMaskImage *mask)
-  {
-    this->SetNthInput( 1, const_cast< TMaskImage * >( mask ) );
-  }
-
-  const TMaskImage * GetMaskImage() const
-  {
-    return ( static_cast< const TMaskImage * >( this->ProcessObject::GetInput(1) ) );
-  }
+  itkSetInputMacro(MaskImage, MaskImageType);
+  itkGetInputMacro(MaskImage, MaskImageType);
 
   /**
    * Set the pixel intensity to be used for background (non-object)
@@ -168,6 +161,12 @@ protected:
     m_FullyConnected = false;
     m_ObjectCount = 0;
     m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
+
+    // implicit
+    // #0 "Primary" required
+
+    //  #1 "MaskImage" optional
+    Self::AddOptionalInputName("MaskImage",1);
   }
 
   virtual ~ConnectedComponentImageFilter() {}
