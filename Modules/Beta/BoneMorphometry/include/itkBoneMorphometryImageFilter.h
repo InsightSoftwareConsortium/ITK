@@ -52,7 +52,7 @@ namespace itk
  * \ingroup BoneMorphometry
  *
  */
-template< typename TInputImage,typename TMaskImage = TInputImage>
+template< typename TInputImage,typename TMaskImage = Image< unsigned char, TInputImage::ImageDimension> >
 class ITK_TEMPLATE_EXPORT BoneMorphometryImageFilter:
 public ImageToImageFilter< TInputImage, TInputImage >
 {
