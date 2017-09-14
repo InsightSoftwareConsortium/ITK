@@ -13,7 +13,15 @@
 #include  <internal_volume_io.h>
 
 #include <stdio.h>
+
+#if HAVE_STRING_H
 #include <string.h>
+#endif
+
+#if HAVE_STRINGS_H
+#include <strings.h>
+#endif
+
 #include <unistd.h>
 #include <ctype.h>
 #include <stdint.h>             /* for int32_t, etc. */
