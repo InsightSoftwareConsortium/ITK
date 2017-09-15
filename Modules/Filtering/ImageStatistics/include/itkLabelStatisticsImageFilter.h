@@ -299,7 +299,9 @@ public:
   /** Return the computed Variance for a label. */
   RealType GetVariance(LabelPixelType label) const;
 
-  /** Return the computed bounding box for a label. */
+  /** Return the computed bounding box for a label. A vector of
+   * minIndex, maxIndex pairs for each axis. The intervals include
+   * the endpoints.*/
   BoundingBoxType GetBoundingBox(LabelPixelType label) const;
 
   /** Return the computed region. */
