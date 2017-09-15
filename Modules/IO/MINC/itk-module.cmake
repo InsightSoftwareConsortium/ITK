@@ -5,11 +5,9 @@ itk_module(ITKIOMINC
   ENABLE_SHARED
   DEPENDS
     ITKIOImageBase
-  PRIVATE_DEPENDS
     ITKMINC
   TEST_DEPENDS
     ITKTestKernel
-    ITKMINC
     ITKImageStatistics
   DESCRIPTION
     "${DOCUMENTATION}"
