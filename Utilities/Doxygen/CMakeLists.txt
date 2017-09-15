@@ -103,6 +103,21 @@ else()
   set( ITK_DOXYGEN_INPUT_FILTER )
 endif()
 
+# When updating Doxygen versions, also re-run workbox-sw to regenerate the
+# service worker pre-cache. Do this by running:
+#
+#  npm install -g workbox-cli
+#  cd ITK-Doxygen-build
+#  make Documentation
+#  cd Utilites/Doxygen
+#  workbox
+#  cp ./html/serviceWorker.js ~/src/ITK/Utilies/Doxygen/
+#
+# If workbox has changed version, we also need to update workbox-sw.prod*.js
+# referenced below
+file(COPY workbox-cli-config.js serviceWorker.js.in
+  DESTINATION ${ITK_BINARY_DIR}/Utilities/Doxygen/)
+
 configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config)
 
