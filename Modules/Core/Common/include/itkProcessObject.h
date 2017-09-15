@@ -552,7 +552,7 @@ protected:
   const DataObject * GetPrimaryInput() const
   { return m_IndexedInputs[0]->second; }
 
-  /** Set/Get the name associated with the Primary output.  Defaults to "Primary". */
+  /** Set/Get the name associated with the Primary input.  Defaults to "Primary". */
   virtual void SetPrimaryInputName(const DataObjectIdentifierType & key);
   virtual const char *GetPrimaryInputName( void ) const
   { return this->m_IndexedInputs[0]->first.c_str(); }
@@ -596,11 +596,29 @@ protected:
    */
   void SetRequiredInputNames( const NameArray & );
 
-  /** \brief Define a required named input and optionally associate it with an indexed.  */
+  /** \brief Define a required named input and optionally associate it
+   * with a numbered index.
+   *
+   * The previous named input associated with idx will be removed from
+   * the defined input names.
+   *
+   * If the specified named inputs already exists with a non-null
+   * value, then that value will be used. Otherwise if the specified
+   * index has a non-null value, then that will be the value set.
+   */
   bool AddRequiredInputName( const DataObjectIdentifierType & );
   bool AddRequiredInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
 
-  /** \brief Define a named input that is not required  and optionally associate with an indexed. */
+  /** \brief Define a named input that is not required  and optionally
+   *  associate with a numbered index.
+   *
+   * The previous named input associated with idx will be removed from
+   * the defined input names.
+   *
+   * If the specified named inputs already exists with a non-null
+   * value, then that value will be used. Otherwise if the specified
+   * index has a non-null value, then that will be the value set.
+   */
   void AddOptionalInputName( const DataObjectIdentifierType & );
   void AddOptionalInputName( const DataObjectIdentifierType &, DataObjectPointerArraySizeType idx );
 

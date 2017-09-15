@@ -860,6 +860,7 @@ ProcessObject
 
   if( !m_RequiredInputNames.insert( name ).second )
     {
+    itkWarningMacro(<< "Input already \"" << name << "\" already required!");
     return false;
     }
 
@@ -904,6 +905,8 @@ ProcessObject
 
   if( !m_RequiredInputNames.insert( name ).second )
     {
+    itkWarningMacro(<< "Input already \"" << name << "\" already required!");
+    // Input already required, but it is not added as indexed input?
     return false;
     }
 
@@ -929,7 +932,7 @@ ProcessObject
     }
 
   DataObjectPointerMap::value_type p(name, DataObjectPointer() );
-  // note: insert will not change value if it's already there.
+  // note: insert will not change value if it's already in named inputs.
   DataObjectPointerMap::iterator it = m_Inputs.insert(p).first;
 
   if ( idx >= this->GetNumberOfIndexedInputs() )
@@ -941,6 +944,10 @@ ProcessObject
     // if the old index had a data object move that to the new name
     it->second = this->GetInput( m_IndexedInputs[idx]->first );
     }
+
+  // remove name of the old input ( may be new default index name
+  // i.e. _1 )
+  m_Inputs.erase( m_IndexedInputs[idx]->first );
 
   m_IndexedInputs[idx] = it;
 
