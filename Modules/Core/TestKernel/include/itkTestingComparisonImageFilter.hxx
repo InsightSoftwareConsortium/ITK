@@ -50,6 +50,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   m_TotalDifference = NumericTraits< AccumulateType >::ZeroValue();
   m_NumberOfPixelsWithDifferences = 0;
   m_IgnoreBoundaryPixels = false;
+  m_VerifyInputInformation = true;
 }
 
 //----------------------------------------------------------------------------
@@ -284,6 +285,17 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   if ( m_NumberOfPixelsWithDifferences > 0 )
     {
     m_MeanDifference = m_TotalDifference / m_NumberOfPixelsWithDifferences;
+    }
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+ComparisonImageFilter< TInputImage, TOutputImage >
+::VerifyInputInformation()
+{
+  if(m_VerifyInputInformation)
+    {
+    this->Superclass::VerifyInputInformation();
     }
 }
 

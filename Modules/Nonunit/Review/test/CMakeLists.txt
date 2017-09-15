@@ -208,7 +208,7 @@ itk_add_test(NAME itkJPEG2000Test05
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR} jp2)
 itk_add_test(NAME itkJPEG2000Test06
       COMMAND ITKReviewTestDriver
-    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1.tif}
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/IO/cthead1-unitspacing.tif}
               ${ITK_TEST_OUTPUT_DIR}/cthead1.tif
     itkJPEG2000ImageIOTest06 DATA{${ITK_DATA_ROOT}/Input/cthead1.j2k} ${ITK_TEST_OUTPUT_DIR}/cthead1.tif)
 itk_add_test(NAME itkLabelGeometryImageFilterTest

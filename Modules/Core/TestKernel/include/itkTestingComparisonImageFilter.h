@@ -70,6 +70,12 @@ public:
   /** Set the test image input.  This will be input 1.  */
   virtual void SetTestInput(const InputImageType *testImage);
 
+  /** Verify that the origin, spacing, and direction of both images match
+  */
+  itkSetMacro(VerifyInputInformation, bool);
+  itkGetConstMacro(VerifyInputInformation, bool);
+  itkBooleanMacro(VerifyInputInformation);
+
   /** Set/Get the maximum distance away to look for a matching pixel.
       Default is 0. */
   itkSetMacro(ToleranceRadius, int);
@@ -123,11 +129,14 @@ protected:
 
   void AfterThreadedGenerateData() ITK_OVERRIDE;
 
+  void VerifyInputInformation() ITK_OVERRIDE;
+
   OutputPixelType m_DifferenceThreshold;
 
   RealType        m_MeanDifference;
   OutputPixelType m_MinimumDifference;
   OutputPixelType m_MaximumDifference;
+  bool            m_VerifyInputInformation;
 
   AccumulateType m_TotalDifference;
 

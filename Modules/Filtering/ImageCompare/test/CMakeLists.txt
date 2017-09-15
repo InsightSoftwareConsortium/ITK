@@ -36,4 +36,4 @@ itk_add_test(NAME itkTestingComparisonImageFilterTest
       COMMAND ITKImageCompareTestDriver
       --compare DATA{Input//itkTestingComparisonImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
-    itkTestingComparisonImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} DATA{${ITK_DATA_ROOT}/Input/cake_hard.png} ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png 10 1)
+    itkTestingComparisonImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} DATA{${ITK_DATA_ROOT}/Input/cake_hard.png} ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png 10 1 1647)

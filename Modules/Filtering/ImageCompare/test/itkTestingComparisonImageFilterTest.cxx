@@ -21,6 +21,8 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
+#include <cstdlib>
 
 #ifdef ITKV3_COMPATIBILITY
 #include "itkDifferenceImageFilter.h"
@@ -28,11 +30,11 @@
 
 int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 {
-  if( argc < 6 )
+  if( argc < 7 )
     {
     std::cerr << "Usage: " << std::endl;
     std::cerr << argv[0];
-    std::cerr << "  inputImageFile1 inputImageFile2 outputImage threshold radius" << std::endl;
+    std::cerr << "  inputImageFile1 inputImageFile2 outputImage threshold radius numberOfPixelsWithDifferences" << std::endl;
     return EXIT_FAILURE;
     }
 
@@ -98,21 +100,77 @@ int itkTestingComparisonImageFilterTest(int argc, char *argv [] )
 
   writer->SetFileName( argv[3] );
 
-  try
-    {
-    writer->Update();
-    }
-  catch( itk::ExceptionObject & excp )
-    {
-    std::cerr << "Exception : " << excp << std::endl;
-    return EXIT_FAILURE;
-    }
+  TRY_EXPECT_NO_EXCEPTION( writer->Update() );
 
   unsigned long numberOfPixelsWithDifferences =
     filter->GetNumberOfPixelsWithDifferences();
 
-  std::cout << "Number of pixels with differences = ";
-  std::cout << numberOfPixelsWithDifferences << std::endl;
+  char *end;
+  TEST_EXPECT_EQUAL(numberOfPixelsWithDifferences, std::strtoul( argv[6], &end, 10 ) );
+
+  // Change test input spacing to test that comparison filter fails if spacings are different
+  InputImageType::SpacingType spacing;
+  spacing[0] = 5;
+  spacing[1] = 1;
+
+  // Expect failure
+  reader2->GetOutput()->SetSpacing( spacing );
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
+  // Expect success
+  double coordinateTolerance = static_cast<double>( spacing[0] );
+  filter->SetCoordinateTolerance(coordinateTolerance);
+  TEST_SET_GET_VALUE( coordinateTolerance, filter->GetCoordinateTolerance() );
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  // Reset
+  filter->SetCoordinateTolerance(1.0e-6);
+  reader2->GetOutput()->SetSpacing( reader1->GetOutput()->GetSpacing() );
+  // Change test input origin to test that comparison filter fails if origins are different
+  InputImageType::PointType origin;
+  origin[0] = 5;
+  origin[1] = 1;
+
+  // Expect failure
+  reader2->GetOutput()->SetOrigin( origin );
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
+  filter->SetCoordinateTolerance( 10 );
+  // Expect success
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  // Reset
+  filter->SetCoordinateTolerance( 1.0e-6 );
+  reader2->GetOutput()->SetOrigin( reader1->GetOutput()->GetOrigin() );
+
+  // Change test input direction to test that comparison filter fails if directions are different
+  InputImageType::DirectionType direction;
+  direction[0][0] = 2;
+  direction[0][1] = 0;
+  direction[1][0] = 0;
+  direction[1][1] = 1;
+
+  // Expect failure
+  reader2->GetOutput()->SetDirection( direction );
+  TRY_EXPECT_EXCEPTION( filter->Update() );
+
+  // Expect success
+  filter->SetDirectionTolerance( 2 );
+  TEST_SET_GET_VALUE( 2, filter->GetDirectionTolerance() );
+
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
+
+  // Reset
+  filter->SetDirectionTolerance( 1.0e-6 );
+
+  // Test disabling VerifyInputInformation()
+  filter->SetVerifyInputInformation(false);
+  TEST_SET_GET_VALUE( false, filter->GetVerifyInputInformation() );
+  filter->VerifyInputInformationOn();
+  TEST_SET_GET_VALUE( true, filter->GetVerifyInputInformation() );
+  filter->VerifyInputInformationOff();
+  TEST_SET_GET_VALUE( false, filter->GetVerifyInputInformation() );
+  TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
   return EXIT_SUCCESS;
 }
