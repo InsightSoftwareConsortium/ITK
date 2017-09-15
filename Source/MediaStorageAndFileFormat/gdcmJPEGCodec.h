@@ -23,7 +23,7 @@ class PixelFormat;
 class TransferSyntax;
 /**
  * \brief JPEG codec
- * Class to do JPEG (8bits, 12bits, 16bits lossy & lossless).
+ * \details Class to do JPEG (8bits, 12bits, 16bits lossy & lossless).
  * It redispatch in between the different codec implementation: JPEG8Codec,
  * JPEG12Codec & JPEG16Codec
  * It also support inconsistency in between DICOM header and JPEG compressed stream

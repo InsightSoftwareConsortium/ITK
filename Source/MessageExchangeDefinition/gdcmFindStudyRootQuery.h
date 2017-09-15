@@ -20,7 +20,7 @@ namespace gdcm
 {
 /**
  * \brief FindStudyRootQuery
- * contains: the class which will produce a dataset for C-FIND with study root
+ * \details contains: the class which will produce a dataset for C-FIND with study root
  */
 class GDCM_EXPORT FindStudyRootQuery : public BaseRootQuery
 {

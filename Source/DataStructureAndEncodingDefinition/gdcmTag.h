@@ -24,7 +24,7 @@ namespace gdcm
 
 /**
  * \brief Class to represent a DICOM Data Element (Attribute) Tag (Group, Element).
- * Basically an uint32_t which can also be expressed as two uint16_t (group and
+ * \details Basically an uint32_t which can also be expressed as two uint16_t (group and
  * element)
  * \note
  * DATA ELEMENT TAG:

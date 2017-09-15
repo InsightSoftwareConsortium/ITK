@@ -133,6 +133,10 @@ bool Global::Prepend(const char *path)
   return true;
 }
 
+#ifndef PATH_MAX
+#define PATH_MAX 4096
+#endif
+
 const char *Global::Locate(const char *resfile) const
 {
 #ifdef _WIN32

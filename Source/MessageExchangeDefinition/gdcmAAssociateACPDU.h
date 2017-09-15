@@ -31,7 +31,7 @@ class AAssociateRQPDU;
 
 /**
  * \brief AAssociateACPDU
- * Table 9-17
+ * \details Table 9-17
  * ASSOCIATE-AC PDU fields
  */
 class AAssociateACPDU : public BasePDU

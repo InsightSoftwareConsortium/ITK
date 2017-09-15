@@ -56,7 +56,7 @@ Ref:
 
 /**
  * \brief Class for Spacing
- *
+ * \details 
  * See PS 3.3-2008, Table C.7-11b IMAGE PIXEL MACRO ATTRIBUTES
 
 Ratio of the vertical size and horizontal size

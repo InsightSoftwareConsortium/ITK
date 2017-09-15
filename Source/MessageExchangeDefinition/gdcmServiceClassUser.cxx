@@ -807,7 +807,7 @@ EStateID ServiceClassUser::RunMoveEventLoop(ULEvent& currentEvent, ULConnectionC
         }
       catch ( std::exception & e )
         {
-        gdcmErrorMacro( "Error 2nd connection:" << e.what() );
+        gdcmErrorMacro( "Error 2nd connection:" << e.what() ); (void)e;
         }
       catch ( ... )
         {

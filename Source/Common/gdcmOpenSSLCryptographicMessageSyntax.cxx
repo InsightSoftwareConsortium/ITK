@@ -55,20 +55,20 @@ CryptographicMessageSyntax::CipherTypes OpenSSLCryptographicMessageSyntax::GetCi
 }
 
 bool OpenSSLCryptographicMessageSyntax::SetPassword(const char * pass, size_t passLen)
-  {
-    assert(pass);
+{
+  assert(pass);
 
-    if (password)
-      {
-      delete[] password;
-      }
+  if (password)
+    {
+    delete[] password;
+    }
 
-    passwordLength = passLen;
-    password = new char[passLen];
-    memcpy(password, pass, passLen);
-    
-    return true;
-  }
+  passwordLength = passLen;
+  password = new char[passLen];
+  memcpy(password, pass, passLen);
+
+  return true;
+}
 
 bool OpenSSLCryptographicMessageSyntax::Encrypt(char *output, size_t &outlen, const char *array, size_t len) const
 {

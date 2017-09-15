@@ -226,7 +226,7 @@ void AAssociateRQPDU::SetCalledAETitle(const char calledaetitle[16])
   if( len <= 16 )
     {
     memset(CalledAETitle, ' ', sizeof(CalledAETitle));
-    strncpy(CalledAETitle, calledaetitle, len );
+    memcpy(CalledAETitle, calledaetitle, len );
     }
   // FIXME Need to check upper case
   // FIXME cannot set to only whitespaces
@@ -239,7 +239,7 @@ void AAssociateRQPDU::SetCallingAETitle(const char callingaetitle[16])
   if( len <= 16 )
     {
     memset(CallingAETitle, ' ', sizeof(CallingAETitle));
-    strncpy(CallingAETitle, callingaetitle, len );
+    memcpy(CallingAETitle, callingaetitle, len );
     }
   // FIXME Need to check upper case
   // FIXME cannot set to only whitespaces

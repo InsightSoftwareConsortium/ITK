@@ -22,7 +22,7 @@
 #define bswap_32(X) _byteswap_ulong(X)
 #define bswap_64(X) _byteswap_uint64(X)
 
-#elif defined(__GLIBC__) || defined(__CYGWIN__) || defined(__ANDROID__) || defined(__EMSCRIPTEN__) // linux and al
+#elif defined(GDCM_HAVE_BYTESWAP_H)
 
 #include <endian.h>
 #include <byteswap.h>
@@ -61,7 +61,7 @@
                       (((x) & 0xFF00) >> 8))
 # define bswap_32(x) ((((x) & 0x000000FF) << 24) | \
                       (((x) & 0x0000FF00) << 8) | \
-                      (((x) & 0x00FF0000) << 8) | \
+                      (((x) & 0x00FF0000) >> 8) | \
                       (((x) & 0xFF000000) >> 24))
 # define bswap_64(x) ((((x) & 0x00000000000000FFULL) << 56) | \
                       (((x) & 0x000000000000FF00ULL) << 40) | \
@@ -71,6 +71,12 @@
                       (((x) & 0x0000FF0000000000ULL) >> 24) | \
                       (((x) & 0x00FF000000000000ULL) >> 40) | \
                       (((x) & 0xFF00000000000000ULL) >> 56))
+
+#else
+
+// If this condition is encountered, first check whether the platform has the functions required.
+// If not, test whether the workaround for __MINGW32__ can be used for this platform.
+#error "Byte swap methods are not available."
 
 #endif
 

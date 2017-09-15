@@ -191,7 +191,7 @@ std::istream &ExplicitDataElement::ReadValue(std::istream &is, bool readvalues)
   //assert( ValueField == 0 );
   if( VRField == VR::SQ )
     {
-    // Check wether or not this is an undefined length sequence
+    // Check whether or not this is an undefined length sequence
     assert( TagField != Tag(0x7fe0,0x0010) );
     ValueField = new SequenceOfItems;
     }
@@ -366,7 +366,8 @@ std::istream &ExplicitDataElement::ReadValue(std::istream &is, bool readvalues)
 template <typename TSwap>
 std::istream &ExplicitDataElement::ReadWithLength(std::istream &is, VL & length)
 {
-  return Read<TSwap>(is); (void)length;
+  (void)length;
+  return Read<TSwap>(is);
 }
 
 //-----------------------------------------------------------------------------
@@ -422,8 +423,7 @@ const std::ostream &ExplicitDataElement::Write(std::ostream &os) const
       {
       const VR un = VR::UN;
       un.Write(os);
-      Value* v = &*ValueField;
-      if( dynamic_cast<const SequenceOfItems*>(v) )
+      if( ValueField && dynamic_cast<const SequenceOfItems*>(&*ValueField) )
         {
         VL vl = 0xFFFFFFFF;
         assert( vl.IsUndefined() );

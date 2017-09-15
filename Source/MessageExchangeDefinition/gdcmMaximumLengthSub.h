@@ -24,7 +24,7 @@ namespace network
 
 /**
  * \brief MaximumLengthSub
- * Annex D
+ * \details Annex D
  * Table D.1-1
  * MAXIMUM LENGTH SUB-ITEM FIELDS (A-ASSOCIATE-RQ)
  *

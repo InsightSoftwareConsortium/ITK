@@ -51,6 +51,7 @@ void MovePatientRootQuery::InitializeDataSet(const EQueryLevel& inQueryLevel)
       Attribute<0x20, 0xd> Studylevel = { "" };
       mDataSet.Insert( Studylevel.GetAsDataElement() );
       }
+    break;
   case eImage:
       {
       Attribute<0x8,0x52> at1 = { "IMAGE " };
@@ -83,11 +84,11 @@ std::vector<Tag> MovePatientRootQuery::GetTagListByLevel(const EQueryLevel& inQu
   case eImage:
     return mImage.GetUniqueTags(ePatientRootType);
   default: //have to return _something_ if a query level isn't given
-	  assert(0);
-	  {
-		  std::vector<Tag> empty;
-		  return empty;
-	  }
+    assert(0);
+      {
+      std::vector<Tag> empty;
+      return empty;
+      }
     }
 }
 

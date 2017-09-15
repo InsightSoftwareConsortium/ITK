@@ -23,7 +23,7 @@ class IconImageFilterInternals;
 
 /**
  * \brief IconImageFilter
- * This filter will extract icons from a File
+ * \details This filter will extract icons from a File
  * This filter will loop over all known sequence (public and private) that may
  * contains an IconImage and retrieve them. The filter will fails with a value
  * of false if no icon can be found

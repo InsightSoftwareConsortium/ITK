@@ -11,7 +11,6 @@
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
-
 #ifndef GDCMPREAMBLE_H
 #define GDCMPREAMBLE_H
 
@@ -32,26 +31,30 @@ public:
 
   friend std::ostream &operator<<(std::ostream &_os, const Preamble &_val);
 
-  // Clear
+  /// Clear
   void Clear();
 
-  // Set Preamble to the default one
+  /// Set Preamble to the default one
   void Valid();
   void Create();
   void Remove();
 
- // Read
+  /// Read Preamble
   std::istream &Read(std::istream &is);
 
-  // Write
+  /// Write Preamble
   std::ostream const &Write(std::ostream &os) const;
 
+  /// Print Preamble
   void Print(std::ostream &os) const;
 
+  /// Get internal pointer to preamble
   const char *GetInternal() const { return Internal; }
 
+  /// Check if Preamble is empty
   bool IsEmpty() const { return !Internal; }
 
+  /// Return size of Preamble
   VL GetLength() const { return 128 + 4; }
 
   Preamble(Preamble const &)
@@ -70,7 +73,6 @@ protected:
     return true;
   }
 
-
 private:
   char *Internal;
 };
@@ -80,7 +82,6 @@ inline std::ostream& operator<<(std::ostream &os, const Preamble &val)
   os << val.Internal;
   return os;
 }
-
 
 } // end namespace gdcm
 

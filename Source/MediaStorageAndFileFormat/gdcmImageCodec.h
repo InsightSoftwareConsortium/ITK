@@ -105,7 +105,7 @@ public:
 protected:
   // Streaming (write) API:
   /// This is a high level API to encode in a streaming fashion. Each plugin
-  /// will handle differently the caching mecanism so that a limited memory is
+  /// will handle differently the caching mechanism so that a limited memory is
   /// used when compressing dataset.
   /// Codec will fall into two categories:
   /// - Full row encoder: only a single scanline (row) of data is needed to be loaded at a time;

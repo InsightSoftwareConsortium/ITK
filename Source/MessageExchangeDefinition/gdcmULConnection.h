@@ -33,7 +33,7 @@ namespace gdcm{
 
 /**
  * \brief ULConnection
- * This is the class that contains the socket to another machine, and passes
+ * \details This is the class that contains the socket to another machine, and passes
  * data through itself, as well as maintaining a sense of state.
  *
  * The ULConnectionManager tells the ULConnection what data can actually be
@@ -54,7 +54,7 @@ namespace gdcm{
  * this class) without a wrapper.
  *
  */
-class ULConnection
+class GDCM_EXPORT ULConnection
 {
       ULConnectionInfo mInfo;
       //this is a dirty dirty hack

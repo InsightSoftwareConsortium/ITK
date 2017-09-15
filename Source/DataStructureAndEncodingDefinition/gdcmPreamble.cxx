@@ -54,14 +54,14 @@ void Preamble::Valid()
 {
   if( !Internal ) Internal = new char[128+4];
   memset( Internal, 0, 128 );
-  strncpy( Internal+128, "DICM", 4);
+  memcpy( Internal+128, "DICM", 4);
 }
 
 void Preamble::Create()
 {
   if( !Internal ) Internal = new char[128+4];
   memset( Internal, 0, 128 );
-  strncpy( Internal+128, "DICM", 4);
+  memcpy( Internal+128, "DICM", 4);
 }
 
 void Preamble::Remove()
@@ -87,9 +87,8 @@ void Preamble::Clear()
 {
 }
 
-void Preamble::Print(std::ostream &os) const
+void Preamble::Print(std::ostream &) const
 {
-(void)os;
 }
 
 } // end namespace gdcm

@@ -24,7 +24,7 @@ namespace network
 
 /**
  * \brief ImplementationVersionNameSub
- * Table D.3-3
+ * \details Table D.3-3
  * IMPLEMENTATION VERSION NAME SUB-ITEM FIELDS (A-ASSOCIATE-RQ)
  */
 class ImplementationVersionNameSub

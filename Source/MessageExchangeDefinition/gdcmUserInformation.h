@@ -32,7 +32,7 @@ class SOPClassExtendedNegociationSub;
 struct SOPClassExtendedNegociationSubItems;
 /**
  * \brief UserInformation
- * Table 9-16
+ * \details Table 9-16
  * USER INFORMATION ITEM FIELDS
  *
  * TODO what is the goal of :

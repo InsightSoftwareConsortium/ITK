@@ -43,7 +43,8 @@ public:
   template <typename TSwap>
   std::istream &ReadWithLength(std::istream &is, VL & length)
     {
-    return Read<TSwap>(is); (void)length;
+    (void)length;
+    return Read<TSwap>(is);
     }
 
   // PURPOSELY do not provide an implementation for writing !

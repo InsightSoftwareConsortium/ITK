@@ -241,7 +241,7 @@ bool JPEGCodec::Decode(DataElement const &in, DataElement &out)
       }
     }
   //assert( pos == len );
-  const size_t sizeOfOs = os.tellp();
+  const size_t sizeOfOs = (size_t)os.tellp();
   os.seekp( 0, std::ios::beg );
   ByteValue * bv = new ByteValue;
   bv->SetLength( (uint32_t)sizeOfOs );
@@ -324,6 +324,7 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
   //sq->GetTable().SetByteValue( dummy, sizeof(dummy) );
 
   const ByteValue *bv = in.GetByteValue();
+  if(!bv) return false; // broken DICOM file ?
   const unsigned int *dims = this->GetDimensions();
   const char *input = bv->GetPointer();
   unsigned long len = bv->GetLength();
@@ -573,8 +574,8 @@ bool JPEGCodec::DecodeExtent(
       {
       //std::streamoff relstart = is.tellg();
       //assert( relstart - thestart == 8 );
-      std::streamoff off = frag.GetVL();
-      offsets.push_back( off );
+      const std::streamoff off = frag.GetVL();
+      offsets.push_back( (size_t)off );
       is.seekg( off, std::ios::cur );
       ++numfrags;
       }

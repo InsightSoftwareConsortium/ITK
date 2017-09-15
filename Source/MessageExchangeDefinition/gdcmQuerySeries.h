@@ -24,7 +24,7 @@ namespace gdcm
 {
 /**
  * \brief QuerySeries
- * contains: class to construct a series-based query for c-find and c-move
+ * \details contains: class to construct a series-based query for c-find and c-move
  */
 class GDCM_EXPORT QuerySeries : public QueryBase
 {

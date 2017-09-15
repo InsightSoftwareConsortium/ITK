@@ -21,7 +21,7 @@ namespace gdcm
 class BoxRegionInternals;
 /**
  * \brief Class for manipulation box region
- * This is a very simple implementation of the Region class.
+ * \details This is a very simple implementation of the Region class.
  * It only support 3D box type region.
  * It assumes the 3D Box does not have a tilt
  * Origin is as (0,0,0)

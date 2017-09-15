@@ -20,10 +20,11 @@
 namespace gdcm
 {
 class TransferSyntax;
+class File;
 
 /**
  * \brief PresentationContextGenerator
- * This class is responsible for generating the proper PresentationContext that
+ * \details This class is responsible for generating the proper PresentationContext that
  * will be used in subsequent operation during a DICOM Query/Retrieve
  * association. The step of the association is very sensible as special care
  * need to be taken to explicitly define what instance are going to be send
@@ -72,6 +73,10 @@ public:
   /// be valid DICOM files.
   /// Used for C-STORE operations
   bool GenerateFromFilenames(const Directory::FilenamesType &files);
+
+  /// Add a single PresentationContext from a single File. Call multiple times when
+  /// dealing with multiple files.
+  bool AddFromFile(const File &file);
 
   typedef std::vector<PresentationContext> PresentationContextArrayType;
   typedef PresentationContextArrayType::size_type SizeType;

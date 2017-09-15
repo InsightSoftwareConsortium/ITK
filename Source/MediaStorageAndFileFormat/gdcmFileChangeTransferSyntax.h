@@ -26,10 +26,10 @@ class TransferSyntax;
 /**
  * \brief FileChangeTransferSyntax
  *
- * This class is a file-based (limited) replacement of the in-memory
+ * \details This class is a file-based (limited) replacement of the in-memory
  * ImageChangeTransferSyntax.
  *
- * This class provide a file-based compression-only mecanism. It will take in
+ * This class provide a file-based compression-only mechanism. It will take in
  * an uncompressed DICOM image file (Pixel Data element). Then produced as
  * output a compressed DICOM file (Transfer Syntax will be updated).
  *

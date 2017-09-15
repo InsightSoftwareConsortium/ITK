@@ -30,7 +30,7 @@ namespace network
 class AAssociateACPDU;
 /**
  * \brief AAssociateRQPDU
- * Table 9-11 ASSOCIATE-RQ PDU fields
+ * \details Table 9-11 ASSOCIATE-RQ PDU fields
  */
 class AAssociateRQPDU : public BasePDU
 {

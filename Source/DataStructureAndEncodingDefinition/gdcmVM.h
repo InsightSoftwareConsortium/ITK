@@ -126,7 +126,7 @@ public:
 
   ///
   static VMType GetVMTypeFromLength(unsigned int length, unsigned int size);
-  static unsigned int GetNumberOfElementsFromArray(const char *array, unsigned int length);
+  static size_t GetNumberOfElementsFromArray(const char *array, size_t length);
 
   VM(VMType type = VM0):VMField(type) {}
   operator VMType () const { return VMField; }

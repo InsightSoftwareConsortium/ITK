@@ -9,6 +9,9 @@
 // They are invoked in processline.h to convert between decoded values and the internal line buffers. 
 // Color transforms work best for computer generated images. 
 //
+#ifdef _MSC_VER
+#pragma warning (disable: 4127)
+#endif
 
 template<class sample>
 struct TransformNoneImpl

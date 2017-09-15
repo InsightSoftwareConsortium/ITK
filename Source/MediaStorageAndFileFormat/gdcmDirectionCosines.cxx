@@ -22,22 +22,22 @@ namespace gdcm
 
 DirectionCosines::DirectionCosines()
 {
-    Values[0] = 1;
-    Values[1] = 0;
-    Values[2] = 0;
-    Values[3] = 0;
-    Values[4] = 1;
-    Values[5] = 0;
+  Values[0] = 1;
+  Values[1] = 0;
+  Values[2] = 0;
+  Values[3] = 0;
+  Values[4] = 1;
+  Values[5] = 0;
 }
 
 DirectionCosines::DirectionCosines(const double dircos[6])
 {
-    Values[0] = dircos[0];
-    Values[1] = dircos[1];
-    Values[2] = dircos[2];
-    Values[3] = dircos[3];
-    Values[4] = dircos[4];
-    Values[5] = dircos[5];
+  Values[0] = dircos[0];
+  Values[1] = dircos[1];
+  Values[2] = dircos[2];
+  Values[3] = dircos[3];
+  Values[4] = dircos[4];
+  Values[5] = dircos[5];
 }
 
 DirectionCosines::~DirectionCosines() {}
@@ -84,17 +84,37 @@ void DirectionCosines::Cross(double z[3]) const
   z[0] = Zx; z[1] = Zy; z[2] = Zz;
 }
 
-double DirectionCosines::Dot() const
+static inline double DotImpl(const double x[3], const double y[3])
 {
-  const double *x = Values;
-  const double *y = x+3;
   return x[0]*y[0] + x[1]*y[1] + x[2]*y[2];
 }
 
+double DirectionCosines::Dot(const double x[3], const double y[3])
+{
+  return DotImpl(x, y);
+}
+
+double DirectionCosines::Dot() const
+{
+  return DotImpl(Values, Values+3);
+}
+
 // static function is within gdcm:: namespace, so should not pollute too much on UNIX
-static double Norm(const double x[3])
+static inline double Norm(const double x[3])
 {
   return sqrt(x[0]*x[0] + x[1]*x[1] + x[2]*x[2]);
+}
+
+void DirectionCosines::Normalize(double v[3])
+{
+  double den;
+  if ( (den = Norm(v)) != 0.0 )
+    {
+    for (int i=0; i < 3; i++)
+      {
+      v[i] /= den;
+      }
+    }
 }
 
 void DirectionCosines::Normalize()
@@ -120,11 +140,14 @@ void DirectionCosines::Normalize()
 
 bool DirectionCosines::SetFromString(const char *str)
 {
-  if( !str ) return false;
-  int n = sscanf( str, "%lf\\%lf\\%lf\\%lf\\%lf\\%lf", Values, Values+1, Values+2, Values+3, Values+4, Values+5 );
-  if( n == 6 )
+  if( str )
     {
-    return true;
+    const int n = sscanf( str, "%lf\\%lf\\%lf\\%lf\\%lf\\%lf",
+      Values, Values+1, Values+2, Values+3, Values+4, Values+5 );
+    if( n == 6 )
+      {
+      return true;
+      }
     }
   // else
   Values[0] = 1;
@@ -157,5 +180,4 @@ double DirectionCosines::ComputeDistAlongNormal(const double ipp[3]) const
   return dist;
 }
 
-
-}
+} // end namespace gdcm

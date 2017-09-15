@@ -199,7 +199,11 @@ bool PNMCodec::Read(const char *filename, DataElement &out) const
   char * buf = new char[pdlen];
   // is should be at right offset, just read!
   is.read(buf, len);
-  if( !is.eof() ) return false;
+  if( !is.eof() )
+  {
+    delete[] buf;
+    return false;
+  }
 
   out.SetTag( Tag(0x7fe0,0x0010) );
   VL::Type pdLenSize = (VL::Type)pdlen;

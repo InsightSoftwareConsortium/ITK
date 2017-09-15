@@ -19,7 +19,6 @@
 namespace gdcm
 {
 //-----------------------------------------------------------------------------
-class MD5Internals;
 /**
  * \brief Class for MD5
  *
@@ -33,18 +32,11 @@ class MD5Internals;
 class GDCM_EXPORT MD5
 {
 public :
-  MD5();
-  ~MD5();
+  // Compute md5 from memory pointed by `pointer` of size `buf_len`
+  static bool Compute(const char *buffer, size_t buf_len, char digest_str[33]);
 
-  static bool Compute(const char *buffer, unsigned long buf_len, char digest_str[33]);
-
+  /// Compute md5 from a file `filename`
   static bool ComputeFile(const char *filename, char digest_str[33]);
-
-private:
-  MD5Internals *Internals;
-private:
-  MD5(const MD5&);  // Not implemented.
-  void operator=(const MD5&);  // Not implemented.
 };
 } // end namespace gdcm
 //-----------------------------------------------------------------------------

@@ -52,17 +52,36 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
   const Tag tipp(0x0020,0x0032); // Image Position (Patient)
   const Tag tiop(0x0020,0x0037); // Image Orientation (Patient)
   const Tag tframe(0x0020,0x0052); // Frame of Reference UID
+  const Tag tgantry(0x0018,0x1120); // Gantry/Detector Tilt
   // Temporal Position Identifier (0020,0100) 3 Temporal order of a dynamic or functional set of Images.
   //const Tag tpi(0x0020,0x0100);
   scanner.AddTag( tipp );
   scanner.AddTag( tiop );
   scanner.AddTag( tframe );
+  scanner.AddTag( tgantry );
   bool b = scanner.Scan( filenames );
   if( !b )
     {
     gdcmDebugMacro( "Scanner failed" );
     return false;
     }
+  Scanner::ValuesType gantry = scanner.GetValues(tgantry);
+  if( gantry.size() > 1 )
+  {
+    gdcmDebugMacro( "More than one Gantry/Detector Tilt" );
+    return false;
+  }
+  if( gantry.size() == 1 )
+  {
+    std::stringstream ss( *gantry.begin() );
+    double tilt;
+    ss >> tilt;
+    if( tilt != 0.0 )
+    {
+      gdcmDebugMacro( "Gantry/Detector Tilt is not 0" );
+      return false;
+    }
+  }
   Scanner::ValuesType iops = scanner.GetValues(tiop);
   Scanner::ValuesType frames = scanner.GetValues(tframe);
   if( DirCosTolerance == 0. )
@@ -74,9 +93,18 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
       return false;
       }
     }
-  if( frames.size() > 1 ) // Should I really tolerate no Frame of Reference UID ?
+  const size_t fsize = frames.size(); // Should I really tolerate issue with Frame of Reference UID ?
+  if( fsize == 1 ) // by the book
     {
-    gdcmDebugMacro( "More than one Frame Of Reference UID" );
+    // TODO: need to check not empty ? technically PMS used to send MR Image Storage with empty FoR
+    }
+  else if( fsize == 0 || fsize == filenames.size() ) // Should I really tolerate no Frame of Reference UID ?
+    {
+    gdcmWarningMacro( "Odd number of Frame Of Reference UID (continuing with caution): " << fsize );
+    }
+  else
+    {
+    gdcmErrorMacro( "Sorry your setup with Frame Of Reference UID does not make any sense: " << fsize );
     return false;
     }
 
@@ -236,9 +264,9 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
       for(SortedFilenames::const_iterator it1 = sorted.begin(); it1 != sorted.end(); ++it1)
         {
         std::string f = it1->second;
-        if( f.length() > 32 )
+        if( f.length() > 62 )
           {
-          f = f.substr(0,10) + " ... " + f.substr(f.length()-17);
+          f = f.substr(0,10) + " ... " + f.substr(f.length()-47);
           }
         double d = it1->first - prev1;
         if( it1 != sorted.begin() && fabs(d - zspacing) > ZTolerance) os << "* ";
@@ -256,10 +284,12 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
   return true;
 }
 
+#if !defined(GDCM_LEGACY_REMOVE)
 bool IPPSorter::ComputeSpacing(std::vector<std::string> const & filenames)
 {
   (void)filenames;
   return false;
 }
+#endif
 
 } // end namespace gdcm

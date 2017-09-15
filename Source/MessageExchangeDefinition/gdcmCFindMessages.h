@@ -28,7 +28,7 @@ namespace network
 
 /**
  * \brief CFindRQ
- * this file defines the messages for the cfind action
+ * \details this file defines the messages for the cfind action
  */
 class CFindRQ : public BaseCompositeMessage
 {

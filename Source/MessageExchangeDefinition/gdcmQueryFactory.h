@@ -46,7 +46,7 @@ namespace gdcm{
 /**
  * \brief QueryFactory.h
  * \note
- * contains: a class to produce a query based off of user-entered information
+ * \details contains: a class to produce a query based off of user-entered information
  *
  * Essentially, this class is used to construct a query based off of user input
  * (typically from the command line; if in code directly, the query itself
@@ -58,6 +58,8 @@ namespace gdcm{
 class GDCM_EXPORT QueryFactory
 {
 public:
+	
+	static BaseQuery* ProduceQuery( const std::string & sopInstanceUID, ENQueryType inQueryType );
   /// this function will produce a query (basically, a wrapper to a dataset that
   /// can validate whether or not the query is a valid cfind/cmove query) and the
   /// level of the query (patient, study, series, image). If the user provides

@@ -22,22 +22,15 @@ if(NOT GDCM_USE_SYSTEM_EXPAT)
 endif()
 
 # Do openjpeg (jpeg2000 implementation)
-if(GDCM_USE_OPENJPEG_V2)
-  APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/gdcmopenjpeg-v2/license.txt)
-else()
-  APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/gdcmopenjpeg-v1/LICENSE)
-endif()
+APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/gdcmopenjpeg/LICENSE)
 if(NOT GDCM_USE_SYSTEM_OPENJPEG)
   set(OPENJPEG_NAMESPACE "GDCMOPENJPEG")
   set(OPENJPEG_INSTALL_NO_LIBRARIES ${GDCM_INSTALL_NO_LIBRARIES})
   set(OPENJPEG_INSTALL_BIN_DIR      ${GDCM_INSTALL_BIN_DIR})
   set(OPENJPEG_INSTALL_LIB_DIR      ${GDCM_INSTALL_LIB_DIR})
   set(OPENJPEG_INSTALL_INCLUDE_DIR  ${GDCM_INSTALL_INCLUDE_DIR}/gdcmopenjpeg)
-  if(GDCM_USE_OPENJPEG_V2)
-    subdirs(gdcmopenjpeg-v2)
-  else()
-    subdirs(gdcmopenjpeg-v1)
-  endif()
+  subdirs(gdcmopenjpeg)
+  mark_as_advanced(BUILD_JPIP BUILD_JPWL BUILD_CODEC BUILD_DOC BUILD_MJ2 BUILD_PKGCONFIG_FILES BUILD_SHARED_LIBS BUILD_THIRDPARTY OPJ_DATA_ROOT OPJ_DISABLE_TPSOT_FIX)
 endif()
 
 # Do jpegls (JPEG-LS aka near lossless implementation)
@@ -106,15 +99,8 @@ if(GDCM_USE_PVRG)
   endif()
 endif()
 
-if(GDCM_USE_RLE)
-  subdirs(rle)
-endif()
-
 # Do C99
 APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/C99/COPYING)
-
-# Do wxVTK
-APPEND_COPYRIGHT(${CMAKE_CURRENT_SOURCE_DIR}/wxWidgets/Copyright.txt)
 
 #if(NOT GDCM_INSTALL_NO_DEVELOPMENT)
 ##  file(GLOB header_files "*.h" "*.txx")

@@ -23,7 +23,7 @@ namespace gdcm
 class DataElement;
 /**
  * \brief ImageChangePhotometricInterpretation class
- * Class to change the Photometric Interpetation of an input DICOM
+ * \details Class to change the Photometric Interpetation of an input DICOM
  */
 class GDCM_EXPORT ImageChangePhotometricInterpretation : public ImageToImageFilter
 {

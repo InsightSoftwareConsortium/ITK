@@ -174,7 +174,7 @@ public:
 protected:
   T* m_This;
   TMemberFunctionPointer m_MemberFunction;
-  SimpleMemberCommand():m_MemberFunction(0) {}
+  SimpleMemberCommand():m_This(0),m_MemberFunction(0) {}
   virtual ~SimpleMemberCommand() {}
 
 private:

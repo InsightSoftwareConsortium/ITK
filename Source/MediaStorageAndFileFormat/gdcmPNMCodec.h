@@ -21,7 +21,7 @@ namespace gdcm
 
 /**
  * \brief Class to do PNM
- * PNM is the Portable anymap file format. The main web page can be found at:
+ * \details PNM is the Portable anymap file format. The main web page can be found at:
  *   http://netpbm.sourceforge.net/
  * \note
  * Only support P5 & P6 PNM file (binary grayscale and binary rgb)

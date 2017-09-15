@@ -29,7 +29,7 @@ class CryptographicMessageSyntax;
 
 /**
  * \brief Anonymizer
- * This class is a multi purpose anonymizer. It can work in 2 mode:
+ * \details This class is a multi purpose anonymizer. It can work in 2 mode:
  * - Full (irreversible) anonymizer (aka dumb mode)
  * - reversible de-identifier/re-identifier (aka smart mode). This implements the Basic Application Level Confidentiality Profile, DICOM PS 3.15-2009
  *

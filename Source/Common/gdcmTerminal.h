@@ -21,7 +21,7 @@ namespace gdcm
 {
 /**
  * \brief Class for Terminal
- * Allow one to print in color in a shell
+ * \details Allow one to print in color in a shell
  * - support VT100 compatible shell
  * - win32 console
  */

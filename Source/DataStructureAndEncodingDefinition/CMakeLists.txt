@@ -52,6 +52,7 @@ set(DSED_SRCS
   gdcmWriter.cxx
   #gdcmParser.cxx
   gdcmCSAHeader.cxx
+  gdcmMrProtocol.cxx
   gdcmPDBHeader.cxx
   gdcmTransferSyntax.cxx
   gdcmVM.cxx

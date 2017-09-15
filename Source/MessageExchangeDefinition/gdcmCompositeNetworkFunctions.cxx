@@ -106,7 +106,7 @@ bool CompositeNetworkFunctions::CEcho(const char *remote, uint16_t portno,
 // note that the caller is responsible for deleting the constructed query.
 // used to build both a move and a find query (true for inMove if it's move, false if it's find)
 BaseRootQuery* CompositeNetworkFunctions::ConstructQuery( ERootType inRootType,
-  EQueryLevel inQueryLevel, const KeyValuePairArrayType& keys, bool inMove)
+  EQueryLevel inQueryLevel, const KeyValuePairArrayType& keys, EQueryType queryType /*= eFind*/ )
 {
   KeyValuePairArrayType::const_iterator it = keys.begin();
   DataSet ds;
@@ -118,17 +118,20 @@ BaseRootQuery* CompositeNetworkFunctions::ConstructQuery( ERootType inRootType,
     ds.Insert( de );
     }
   return CompositeNetworkFunctions::ConstructQuery( inRootType,
-    inQueryLevel, ds, inMove);
+    inQueryLevel, ds, queryType);
 }
 
 BaseRootQuery* CompositeNetworkFunctions::ConstructQuery( ERootType inRootType,
-  EQueryLevel inQueryLevel, const DataSet& ds, bool inMove)
+  EQueryLevel inQueryLevel, const DataSet& ds, EQueryType queryType /*= eFind*/ )
 {
   BaseRootQuery* outQuery = NULL;
-  if( inMove )
+  if( queryType == eMove )
     outQuery = QueryFactory::ProduceQuery(inRootType, eMove, inQueryLevel);
-  else
+  else if( queryType == eFind )
     outQuery = QueryFactory::ProduceQuery(inRootType, eFind, inQueryLevel);
+  else if( queryType == eWLMFind )
+    outQuery = QueryFactory::ProduceQuery(inRootType, eWLMFind, inQueryLevel);
+
   if (!outQuery)
     {
     gdcmErrorMacro( "Specify the query" );
@@ -407,14 +410,19 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
       // PS 3.4 - 2011
       // Table W.4-1 C-STORE RESPONSE STATUS VALUES
       const uint16_t theVal = at.GetValue();
-      switch( theVal )
+      // http://dicom.nema.org/medical/dicom/current/output/chtml/part07/chapter_C.html
+      if( theVal == 0x0 ) // Sucess
         {
-      case 0x0:
         gdcmDebugMacro( "C-Store of file " << filename << " was successful." );
-        break;
-      case 0xA700:
-      case 0xA900:
-      case 0xC000:
+        }
+      else if ( theVal == 0x0001 || (theVal & 0xf000) == 0xb000 ) // Warning
+        {
+        gdcmWarningMacro( "C-Store of file " << filename << " had a warning." );
+        }
+      else if ( (theVal & 0xf000) == 0xa000 || (theVal & 0xf000) == 0xc000 ) // Failure
+      //case 0xA700:
+      //case 0xA900:
+      //case 0xC000:
           {
           // TODO: value from 0901 ?
           gdcmErrorMacro( "C-Store of file " << filename << " was a failure." );
@@ -425,11 +433,8 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
           gdcmErrorMacro( "Response Status: " << themsg );
           ret = false; // at least one file was not sent correctly
           }
-        break;
-      default:
-        gdcmErrorMacro( "Unhandle error code: " << theVal );
-        gdcmAssertAlwaysMacro( 0 );
-        }
+       else
+        gdcmWarningMacro( "Unhandle error code: " << theVal );
       theManager.InvokeEvent( IterationEvent() );
       }
     }

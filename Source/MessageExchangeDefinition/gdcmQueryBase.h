@@ -33,7 +33,7 @@ namespace gdcm
 
 /**
  * \brief QueryBase
- * contains: the base class for constructing a query dataset for a C-FIND and a
+ * \details contains: the base class for constructing a query dataset for a C-FIND and a
  * C-MOVE
  *
  * There are four levels of C-FIND and C-MOVE query:

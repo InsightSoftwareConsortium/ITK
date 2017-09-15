@@ -28,6 +28,7 @@ class DataSet;
 class DataElement;
 /**
  * \brief Curve class to handle element 50xx,3000 Curve Data
+ * \details  
  *  WARNING: This is deprecated and lastly defined in PS 3.3 - 2004
  *
  *  Examples:

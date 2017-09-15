@@ -24,7 +24,7 @@ namespace gdcm
 class DataElement;
 /**
  * \brief FileDecompressLookupTable class
- * It decompress the segmented LUT into linearized one (only PALETTE_COLOR images)
+ * \details It decompress the segmented LUT into linearized one (only PALETTE_COLOR images)
  * Output will be a PhotometricInterpretation=RGB image
  */
 class GDCM_EXPORT FileDecompressLookupTable : public Subject

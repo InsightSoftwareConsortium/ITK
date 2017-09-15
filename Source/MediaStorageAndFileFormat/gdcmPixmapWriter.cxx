@@ -12,6 +12,7 @@
 
 =========================================================================*/
 #include "gdcmPixmapWriter.h"
+#include "gdcmImageHelper.h"
 #include "gdcmTrace.h"
 #include "gdcmDataSet.h"
 #include "gdcmDataElement.h"
@@ -229,7 +230,7 @@ Attribute<0x0028,0x0004> piat;
     }
 }
 
-bool PixmapWriter::PrepareWrite()
+bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
 {
   File& file = GetFile();
   DataSet& ds = file.GetDataSet();
@@ -238,6 +239,7 @@ bool PixmapWriter::PrepareWrite()
   const TransferSyntax &ts_orig = fmi_orig.GetDataSetTransferSyntax();
 
   // col & rows:
+#if 0
   Attribute<0x0028, 0x0011> columns;
   columns.SetValue( (uint16_t)PixelData->GetDimension(0) );
   ds.Replace( columns.GetAsDataElement() );
@@ -261,6 +263,7 @@ bool PixmapWriter::PrepareWrite()
     assert( PixelData->GetDimension(2) == 1 );
     ds.Remove( tnumberofframes );
     }
+#endif
 
   PixelFormat pf = PixelData->GetPixelFormat();
   if ( !pf.IsValid() )
@@ -277,7 +280,7 @@ bool PixmapWriter::PrepareWrite()
     }
 
     {
-    assert( pi != PhotometricInterpretation::UNKNOW );
+    assert( pi != PhotometricInterpretation::UNKNOWN );
     const char *pistr = PhotometricInterpretation::GetPIString(pi);
     DataElement de( Tag(0x0028, 0x0004 ) );
     VL::Type strlenPistr = (VL::Type)strlen(pistr);
@@ -490,9 +493,15 @@ bool PixmapWriter::PrepareWrite()
 
   // Pixel Data
   DataElement depixdata( Tag(0x7fe0,0x0010) );
-  const Value &v = PixelData->GetDataElement().GetValue();
-  depixdata.SetValue( v );
-  const ByteValue *bvpixdata = depixdata.GetByteValue();
+  DataElement & pde = PixelData->GetDataElement();
+  const ByteValue *bvpixdata = NULL;
+  // Sometime advanced user may use a gdcm::ImageRegionReader to feed an empty gdcm::Image
+  if( !pde.IsEmpty() )
+    {
+    const Value &v = PixelData->GetDataElement().GetValue();
+    depixdata.SetValue( v );
+    bvpixdata = depixdata.GetByteValue();
+    }
   const TransferSyntax &ts = PixelData->GetTransferSyntax();
   assert( ts.IsExplicit() || ts.IsImplicit() );
 
@@ -567,10 +576,15 @@ bool PixmapWriter::PrepareWrite()
       }
     else
       {
-      assert( ds.FindDataElement( at1.GetTag() ) );
-      //assert( ds.FindDataElement( at3.GetTag() ) );
-      at1.Set( ds );
-      assert( atoi(at1.GetValue().c_str()) == 1 );
+      if( ds.FindDataElement( at1.GetTag() ) ) {
+            //assert( ds.FindDataElement( at3.GetTag() ) );
+            at1.Set( ds );
+            if( atoi(at1.GetValue().c_str()) != 1 ) {
+               gdcmWarningMacro( "Invalid value for LossyImageCompression" );
+            }
+      } else {
+               gdcmWarningMacro( "Missing attribute for LossyImageCompression" );
+      }
       }
     }
 
@@ -608,26 +622,38 @@ bool PixmapWriter::PrepareWrite()
     depixdata.SetVR( VR::OB );
     }
   depixdata.SetVL( vl );
-  ds.Replace( depixdata );
+  // Advanced user may have passed an empty image
+  if( !pde.IsEmpty() )
+    {
+    ds.Replace( depixdata );
+    }
 
   // Do Icon Image
   DoIconImage(ds, GetPixmap());
 
-  MediaStorage ms;
-  ms.SetFromFile( GetFile() );
-  assert( ms != MediaStorage::MS_END );
+  MediaStorage ms = ref_ms;
 
   // Most SOP Class support 2D, but let's make sure that 3D is ok:
   if( PixelData->GetNumberOfDimensions() > 2 )
-    {
+  {
     if( ms.GetModalityDimension() < PixelData->GetNumberOfDimensions() )
+    {
+      // input was specified with SC, but the Number of Frame is > 1. Fix that:
+      ms = ImageHelper::ComputeMediaStorageFromModality( ms.GetModality(),
+          PixelData->GetNumberOfDimensions(),
+          PixelData->GetPixelFormat(),
+          PixelData->GetPhotometricInterpretation(),
+          0, 1 );
+      if( ms.GetModalityDimension() < PixelData->GetNumberOfDimensions() )
       {
-      gdcmErrorMacro( "Problem with NumberOfDimensions and MediaStorage" );
-#if 0
-      return false;
-#endif
+        gdcmErrorMacro( "Problem with NumberOfDimensions and MediaStorage" );
+        return false;
       }
     }
+  }
+  // if we reach here somethnig went really wrong in previous step. Let's make
+  // it a hard failure
+  gdcmAssertAlwaysMacro( ms != MediaStorage::MS_END );
 
   const char* msstr = MediaStorage::GetMSString(ms);
   if( !ds.FindDataElement( Tag(0x0008, 0x0016) ) )
@@ -658,6 +684,7 @@ bool PixmapWriter::PrepareWrite()
       assert( bv->GetLength() == strlen( msstr ) || bv->GetLength() == strlen(msstr) + 1 );
       }
     }
+  ImageHelper::SetDimensionsValue(file, *PixelData);
 
   // UIDs:
   // (0008,0018) UI [1.3.6.1.4.1.5962.1.1.1.1.3.20040826185059.5457] #  46, 1 SOPInstanceUID
@@ -742,18 +769,33 @@ bool PixmapWriter::PrepareWrite()
     }
 
   FileMetaInformation &fmi = file.GetHeader();
-  fmi.Clear();
-  //assert( ts == TransferSyntax::ImplicitVRLittleEndian );
-    {
-    const char *tsuid = TransferSyntax::GetTSString( ts );
-    DataElement de( Tag(0x0002,0x0010) );
-    VL::Type strlenTSUID = (VL::Type)strlen(tsuid);
-    de.SetByteValue( tsuid, strlenTSUID );
-    de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
-    fmi.Replace( de );
-    fmi.SetDataSetTransferSyntax(ts);
-    }
-  fmi.FillFromDataSet( ds );
+  if( GetCheckFileMetaInformation() )
+  {
+    fmi.Clear();
+    //assert( ts == TransferSyntax::ImplicitVRLittleEndian );
+      {
+      const char *tsuid = TransferSyntax::GetTSString( ts );
+      DataElement de( Tag(0x0002,0x0010) );
+      VL::Type strlenTSUID = (VL::Type)strlen(tsuid);
+      de.SetByteValue( tsuid, strlenTSUID );
+      de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
+      fmi.Replace( de );
+      fmi.SetDataSetTransferSyntax(ts);
+      }
+    fmi.FillFromDataSet( ds );
+  }
+  else
+  {
+      Attribute<0x0002,0x0010> at;
+      at.SetFromDataSet( fmi );
+      const char *tsuid = TransferSyntax::GetTSString( ts );
+      UIComp tsui  = at.GetValue();
+      if( tsui != tsuid )
+      {
+        gdcmErrorMacro( "Incompatible TransferSyntax." );
+         return false;
+      }
+  }
 
 
   return true;
@@ -761,7 +803,17 @@ bool PixmapWriter::PrepareWrite()
 
 bool PixmapWriter::Write()
 {
-  if( !PrepareWrite() ) return false;
+  MediaStorage ms;
+  if( !ms.SetFromFile( GetFile() ) )
+  {
+    // Let's fix some old ACR-NAME stuff:
+    ms = ImageHelper::ComputeMediaStorageFromModality( ms.GetModality(),
+        PixelData->GetNumberOfDimensions(),
+        PixelData->GetPixelFormat(),
+        PixelData->GetPhotometricInterpretation(),
+        0, 1 );
+  }
+  if( !PrepareWrite( ms ) ) return false;
 
   assert( Stream );
   if( !Writer::Write() )

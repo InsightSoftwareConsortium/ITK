@@ -26,7 +26,7 @@ namespace network
 
 /**
  * \brief PresentationDataValue
- * Table 9-23
+ * \details Table 9-23
  * PRESENTATION-DATA-VALUE ITEM FIELDS
  */
 class GDCM_EXPORT PresentationDataValue

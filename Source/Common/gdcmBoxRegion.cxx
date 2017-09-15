@@ -79,14 +79,30 @@ bool BoxRegion::IsValid() const
     {
     return false;
     }
+  // Some properly crafted DICOM could have bigger values, reject them:
+  // technically there is no such restrictions for Z direction
+  if (Internals->XMax >= std::numeric_limits<uint16_t>::max() ||
+      Internals->YMax >= std::numeric_limits<uint16_t>::max() ||
+      Internals->ZMax == std::numeric_limits<uint32_t>::max() )
+  {
+    return false;
+  }
   return true;
 }
 
 size_t BoxRegion::Area() const
 {
-  return (Internals->YMax - Internals->YMin + 1)*
-         (Internals->XMax - Internals->XMin + 1)*
-         (Internals->ZMax - Internals->ZMin + 1);
+  // on some system size_t is too small:
+  const uint64_t A = Internals->XMax - Internals->XMin + 1;
+  const uint64_t B = Internals->YMax - Internals->YMin + 1;
+  const uint64_t C = Internals->ZMax - Internals->ZMin + 1;
+  const uint64_t tmp = A * B;
+  if (tmp != 0 && (std::numeric_limits<size_t>::max() / tmp) < C)
+  {
+    // multiplication exceed range of unsigned
+    return 0;
+  }
+  return (size_t)(tmp * C);
 }
 
 unsigned int BoxRegion::GetXMin() const

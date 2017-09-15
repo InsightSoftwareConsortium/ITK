@@ -20,11 +20,32 @@
 #include "gdcmMovePatientRootQuery.h"
 #include "gdcmFindStudyRootQuery.h"
 #include "gdcmMoveStudyRootQuery.h"
+#include "gdcmWLMFindQuery.h"
+
+
+#include "gdcmModalityPerformedProcedureStepCreateQuery.h"
+#include "gdcmModalityPerformedProcedureStepSetQuery.h"
 
 #include <locale>
 
 namespace gdcm
 {
+
+BaseQuery* QueryFactory::ProduceQuery( const std::string & sopInstanceUID, ENQueryType inQueryType )
+{
+  BaseQuery* theReturn = NULL;
+    switch (inQueryType)
+    {
+	case eCreateMMPS :
+		theReturn = new ModalityPerformedProcedureStepCreateQuery( sopInstanceUID );
+		break;
+	case eSetMMPS :
+		theReturn = new ModalityPerformedProcedureStepSetQuery( sopInstanceUID );
+		break;
+	}
+  return theReturn;
+}
+
 BaseRootQuery* QueryFactory::ProduceQuery(ERootType inRootType, EQueryType inQueryType,
  EQueryLevel inQueryLevel)
 {
@@ -55,7 +76,13 @@ BaseRootQuery* QueryFactory::ProduceQuery(ERootType inRootType, EQueryType inQue
       break;
       }
     break;
+  case eWLMFind:
+	theReturn = new WLMFindQuery();
+	  break;
     }
+
+
+
   if( theReturn )
     theReturn->InitializeDataSet(inQueryLevel);
   return theReturn;

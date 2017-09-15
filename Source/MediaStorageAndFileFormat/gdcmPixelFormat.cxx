@@ -233,8 +233,7 @@ int64_t PixelFormat::GetMin() const
       }
     }
   // else
-  throw "PixelFormat bad representation";
-  return 0;
+  gdcmAssertAlwaysMacro( 0 ); // throw "PixelFormat bad representation";
 }
 
 int64_t PixelFormat::GetMax() const
@@ -252,8 +251,7 @@ int64_t PixelFormat::GetMax() const
       }
     }
   // else
-  throw "PixelFormat bad representation";
-  return 0;
+  gdcmAssertAlwaysMacro( 0 ); // throw "PixelFormat bad representation";
 }
 
 bool PixelFormat::IsValid() const

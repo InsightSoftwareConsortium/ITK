@@ -41,14 +41,14 @@ void AAssociateACPDU::SetCalledAETitle(const char calledaetitle[16])
 {
   //size_t len = strlen( calledaetitle );
   //assert( len <= 16 ); // since forwared from AA-RQ no reason to be invalid
-  strncpy(Reserved11_26, calledaetitle, 16 );
+  memcpy(Reserved11_26, calledaetitle, 16 );
 }
 
 void AAssociateACPDU::SetCallingAETitle(const char callingaetitle[16])
 {
   //size_t len = strlen( callingaetitle );
   //assert( len <= 16 ); // since forwared from AA-RQ no reason to be invalid
-  strncpy(Reserved27_42, callingaetitle, 16 );
+  memcpy(Reserved27_42, callingaetitle, 16 );
 }
 
 std::istream &AAssociateACPDU::Read(std::istream &is)

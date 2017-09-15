@@ -25,7 +25,7 @@ namespace gdcm
 
 /**
   * \brief  This class defines a segment.
-  * It mainly contains attributes of group 0x0062.
+  * \details It mainly contains attributes of group 0x0062.
   * In addition, it can be associated with surface.
   *
   * \see  PS 3.3 C.8.20.2 and C.8.23
@@ -35,10 +35,12 @@ class GDCM_EXPORT Segment : public Object
 public:
 
   typedef std::vector< SmartPointer< Surface > > SurfaceVector;
+  typedef std::vector< SegmentHelper::BasicCodedEntry > BasicCodedEntryVector;
 
   typedef enum {
-    MANUAL = 0,
-    AUTOMATIC,
+    AUTOMATIC = 0,
+    SEMIAUTOMATIC,
+    MANUAL,
     ALGOType_END
   } ALGOType;
 
@@ -64,6 +66,10 @@ public:
   SegmentHelper::BasicCodedEntry & GetAnatomicRegion();
   void SetAnatomicRegion(SegmentHelper::BasicCodedEntry const & BSE);
 
+  BasicCodedEntryVector const & GetAnatomicRegionModifiers() const;
+  BasicCodedEntryVector & GetAnatomicRegionModifiers();
+  void SetAnatomicRegionModifiers(BasicCodedEntryVector const & BSEV);
+
   SegmentHelper::BasicCodedEntry const & GetPropertyCategory() const;
   SegmentHelper::BasicCodedEntry & GetPropertyCategory();
   void SetPropertyCategory(SegmentHelper::BasicCodedEntry const & BSE);
@@ -71,6 +77,10 @@ public:
   SegmentHelper::BasicCodedEntry const & GetPropertyType() const;
   SegmentHelper::BasicCodedEntry & GetPropertyType();
   void SetPropertyType(SegmentHelper::BasicCodedEntry const & BSE);
+
+  BasicCodedEntryVector const & GetPropertyTypeModifiers() const;
+  BasicCodedEntryVector & GetPropertyTypeModifiers();
+  void SetPropertyTypeModifiers(BasicCodedEntryVector const & BSEV);
 
   ALGOType GetSegmentAlgorithmType() const;
   void SetSegmentAlgorithmType(ALGOType type);
@@ -101,10 +111,14 @@ protected :
 
   // General Anatomic Region
   SegmentHelper::BasicCodedEntry AnatomicRegion;
+  // General Anatomic Region Modifier
+  BasicCodedEntryVector AnatomicRegionModifiers;
   // Property Category Code
   SegmentHelper::BasicCodedEntry PropertyCategory;
   // Property Type Code
   SegmentHelper::BasicCodedEntry PropertyType;
+  // Property Type Modifier Code
+  BasicCodedEntryVector PropertyTypeModifiers;
 
   //0062 0008 CS 1 Segment Algorithm Type
   ALGOType        SegmentAlgorithmType;

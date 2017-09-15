@@ -21,6 +21,7 @@ namespace gdcm
 
 /**
  * \brief Class for generating unique UID
+ * \details 
  * \note bla
  * Usage:
  * When constructing a Series or Study UID, user *has* to keep around the UID,

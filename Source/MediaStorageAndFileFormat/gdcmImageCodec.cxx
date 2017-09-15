@@ -36,7 +36,7 @@ ImageCodec::ImageCodec()
   PlanarConfiguration = 0;
   RequestPlanarConfiguration = false;
   RequestPaddedCompositePixelCode = false;
-  PI = PhotometricInterpretation::UNKNOW;
+  PI = PhotometricInterpretation::UNKNOWN;
   //LUT = LookupTable(LookupTable::UNKNOWN);
   LUT = new LookupTable;
   NeedByteSwap = false;
@@ -268,6 +268,7 @@ bool ImageCodec::DoPaddedCompositePixelCode(std::istream &is, std::ostream &os)
   //SwapCode sc = is.GetSwapCode();
 
   assert( !(buf_size % 2) );
+  bool ret = true;
   if( GetPixelFormat().GetBitsAllocated() == 16 )
     {
     for(size_t i = 0; i < buf_size/2; ++i)
@@ -301,10 +302,10 @@ bool ImageCodec::DoPaddedCompositePixelCode(std::istream &is, std::ostream &os)
     }
   else
     {
-    return false;
+    ret = false;
     }
   delete[] dummy_buffer;
-  return true;
+  return ret;
 }
 
 bool ImageCodec::DoInvertMonochrome(std::istream &is, std::ostream &os)
@@ -466,7 +467,7 @@ bool ImageCodec::Decode(DataElement const &, DataElement &)
 bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
 {
   assert( PlanarConfiguration == 0 || PlanarConfiguration == 1);
-  assert( PI != PhotometricInterpretation::UNKNOW );
+  assert( PI != PhotometricInterpretation::UNKNOWN );
   std::stringstream bs_os; // ByteSwap
   std::stringstream pcpc_os; // Padded Composite Pixel Code
   std::stringstream pi_os; // PhotometricInterpretation

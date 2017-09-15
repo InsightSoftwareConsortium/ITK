@@ -2,7 +2,7 @@
 
   Program: GDCM (Grassroots DICOM). A DICOM library
 
-  Copyright (c) 2006-2011 Mathieu Malaterre
+  Copyright (c) 2006-2016 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -42,11 +42,9 @@
 #elif defined(GDCM_HAVE__SNPRINTF)
 #define snprintf _snprintf
 #endif
-#ifdef __APPLE__
-#include <CoreFoundation/CFBase.h>
-#include <CoreFoundation/CFBundle.h>
-#include <CoreFoundation/CFURL.h>
-#endif // __APPLE__
+#ifdef GDCM_USE_COREFOUNDATION_LIBRARY
+#include <CoreFoundation/CoreFoundation.h>
+#endif
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__WATCOMC__) ||defined(__BORLANDC__) || defined(__MINGW32__))
 #include <io.h>
@@ -142,6 +140,8 @@ const char * System::GetCWD()
 
 bool System::MakeDirectory(const char *path)
 {
+  if( !path || !*path )
+    return false;
   if(System::FileExists(path))
     {
     return true;
@@ -155,12 +155,14 @@ bool System::MakeDirectory(const char *path)
     pos = 0;
     }
   std::string topdir;
-  while((pos = dir.find('/', pos)) != std::string::npos)
+  bool ok = true;
+  while(ok && (pos = dir.find('/', pos)) != std::string::npos)
     {
     topdir = dir.substr(0, pos);
-    Mkdir(topdir.c_str());
+    ok = ok && Mkdir(topdir.c_str());
     pos++;
     }
+  if( !ok ) return false;
   if(dir[dir.size()-1] == '/')
     {
     topdir = dir.substr(0, dir.size());
@@ -363,6 +365,10 @@ bool System::DeleteDirectory(const char *source)
   return Rmdir(source) == 0;
 }
 
+#ifndef PATH_MAX
+#define PATH_MAX 4096
+#endif
+
 // return size of file; also returns zero if no file exists
 size_t System::FileSize(const char* filename)
 {
@@ -398,51 +404,6 @@ size_t System::FileSize(const char* filename)
   return size2;
 }
 
-#if 0
-const char *System::GetCurrentDataDirectory()
-{
-#ifdef _WIN32
-  static char path[MAX_PATH];
-  gdcm::Filename fn( GetCurrentProcessFileName() );
-  if ( !fn.IsEmpty() )
-    {
-    std::string str = fn.GetPath();
-    str += "/../" GDCM_INSTALL_DATA_DIR;
-    strcpy(path, str.c_str());
-    return path;
-    }
-#else
-
-  static char path[PATH_MAX];
-
-#ifdef __APPLE__
-  Boolean success = false;
-  CFURLRef pathURL = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
-  if (pathURL != NULL)
-    {
-    success = CFURLGetFileSystemRepresentation(pathURL, true /*resolveAgainstBase*/, (unsigned char*) path, PATH_MAX);
-    CFRelease(pathURL);
-    }
-  if (success)
-    {
-    strncat(path, "/" GDCM_INSTALL_DATA_DIR, PATH_MAX);
-    return path;
-    }
-#endif
-
-  gdcm::Filename fn( GetCurrentProcessFileName() );
-  if ( !fn.IsEmpty() )
-    {
-    std::string str = fn.GetPath();
-    str += "/../" GDCM_INSTALL_DATA_DIR;
-    strcpy(path, str.c_str());
-    return path;
-    }
-#endif
-  return 0;
-}
-#endif
-
 /*
  * TODO:
  * check cygwin
@@ -450,9 +411,6 @@ const char *System::GetCurrentDataDirectory()
  * check solaris
  * check hpux
  * check os2: DosGetInfoBlocks / DosQueryModuleName
- * check macosx :
- *  ProcessSerialNumber psn = {kNoProcess, kCurrentProcess};
- *  GetProcessInformation -> FSMakeFSSpec
  * ...
  */
 const char *System::GetCurrentProcessFileName()
@@ -463,8 +421,7 @@ const char *System::GetCurrentProcessFileName()
     {
     return buf;
     }
-#elif defined(__APPLE__)
-  //  _NSGetExecutablePath()
+#elif defined(GDCM_USE_COREFOUNDATION_LIBRARY)
   static char buf[PATH_MAX];
   Boolean success = false;
   CFURLRef pathURL = CFBundleCopyExecutableURL(CFBundleGetMainBundle());
@@ -533,7 +490,7 @@ const char *System::GetCurrentModuleFileName()
 
 const char *System::GetCurrentResourcesDirectory()
 {
-#ifdef __APPLE__
+#ifdef GDCM_USE_COREFOUNDATION_LIBRARY
   static char path[PATH_MAX];
   Boolean success = false;
   CFURLRef pathURL = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
@@ -544,7 +501,7 @@ const char *System::GetCurrentResourcesDirectory()
     }
   if (success)
     {
-    strncat(path, "/" GDCM_INSTALL_DATA_DIR, PATH_MAX);
+    strlcat(path, "/" GDCM_INSTALL_DATA_DIR, PATH_MAX);
     return path;
     }
 #endif
@@ -722,6 +679,7 @@ bool System::ParseDateTime(time_t &timep, long &milliseconds, const char date[22
     case 3: hour = 0;
     case 4: min = 0;
     case 5: sec = 0;
+      break; // http://security.coverity.com/blog/2013/Sep/gimme-a-break.html
       }
     ptm.tm_year = year - 1900;
     if( mon < 1 || mon > 12 ) return false;
@@ -1019,6 +977,7 @@ static const char *CharsetAliasToName(const char *alias)
       }
     }
   // We need to tell the user...
+  gdcmWarningMacro( std::string("Could not find Charset from alias: ") + alias );
   return NULL;
 }
 #endif //_WIN32

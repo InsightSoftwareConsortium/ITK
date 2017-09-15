@@ -39,7 +39,7 @@ namespace gdcm
 
 /**
  * \brief VR class
- * This is adapted from DICOM standard
+ * \details This is adapted from DICOM standard
  * The biggest difference is the INVALID VR
  * and the composite one that differ from standard (more like an addition)
  * This allow us to represent all the possible case express in the DICOMV3 dict
@@ -72,6 +72,7 @@ public:
     OB = 4096,
     OD = 134217728, // 2^27
     OF = 8192,
+    OL = 268435456, // 2^28
     OW = 16384,
     PN = 32768,
     SH = 65536,
@@ -90,15 +91,15 @@ public:
     US_SS_OW = US | SS | OW,
     // The following do not have a VRString equivalent (ie cannot be found in PS 3.6)
     VL16 = AE | AS | AT | CS | DA | DS | DT | FD | FL | IS | LO | LT | PN | SH | SL | SS | ST | TM | UI | UL | US, // if( VR & VL16 ) => VR has its VL coded over 16bits
-    VL32 = OB | OW | OD | OF | SQ | UN | UT, // if( VR & VL32 ) => VR has its VL coded over 32bits
+    VL32 = OB | OW | OD | OF | OL | SQ | UN | UT, // if( VR & VL32 ) => VR has its VL coded over 32bits
     VRASCII = AE | AS | CS | DA | DS | DT | IS | LO | LT | PN | SH | ST | TM | UI | UT,
-    VRBINARY = AT | FL | FD | OB | OD | OF | OW | SL | SQ | SS | UL | UN | US, // FIXME: UN ?
+    VRBINARY = AT | FL | FD | OB | OD | OF | OL | OW | SL | SQ | SS | UL | UN | US, // FIXME: UN ?
     // PS 3.5:
-    // Data Elements with a VR of SQ, OD, OF, OW, OB or UN shall always have a Value Multiplicity of one.
+    // Data Elements with a VR of SQ, OD, OF, OL, OW, OB or UN shall always have a Value Multiplicity of one.
     // GDCM is adding a couple more: AS, LT, ST, UT
-    VR_VM1 = AS | LT | ST | UT | SQ | OF | OD | OW | OB | UN, // All those VR have a VM1
+    VR_VM1 = AS | LT | ST | UT | SQ | OF | OL | OD | OW | OB | UN, // All those VR have a VM1
     VRALL = VRASCII | VRBINARY,
-    VR_END = UT+1  // Invalid VR, need to be max(VRType)+1
+    VR_END = OL+1  // Invalid VR, need to be max(VRType)+1
   } VRType;
 
   static const char *GetVRString(VRType vr);
@@ -152,8 +153,19 @@ public:
     is.read(vr, 2);
     VRField = GetVRTypeFromFile(vr);
     assert( VRField != VR::VR_END );
-    //assert( VRField != VR::INVALID );
-    if( VRField == VR::INVALID ) throw Exception( "INVALID VR" );
+    if( VRField == VR::INVALID )
+    {
+      // \0\2 Data/TheralysGDCM120Bug.dcm
+      // \0\0 Data/MR_Philips_Intera_PrivateSequenceExplicitVR_in_SQ_2001_e05f_item_wrong_lgt_use_NOSHADOWSEQ.dcm
+      // \0\4 Data/BugGDCM2_UndefItemWrongVL.dcm
+      // \44\0 Data/gdcm-MR-PHILIPS-16-Multi-Seq.dcm
+      // \0\20 Data/ExplicitVRforPublicElementsImplicitVRforShadowElements.dcm
+      // \0\3 Data/DMCPACS_ExplicitImplicit_BogusIOP.dcm
+      // \0\4 Data/THERALYS-12-MONO2-Uncompressed-Even_Length_Tag.dcm
+      // \0\4 Data/PrivateGEImplicitVRBigEndianTransferSyntax16Bits.dcm
+      // \0\4 Data/GE_DLX-8-MONO2-PrivateSyntax.dcm
+      throw Exception( "INVALID VR" );
+    }
     if( VRField & VL32 )
       {
 #if 0
@@ -270,7 +282,9 @@ TYPETOENCODING(IS,VRASCII ,int32_t)
 TYPETOENCODING(LO,VRASCII ,LOComp)
 TYPETOENCODING(LT,VRASCII ,LTComp)
 TYPETOENCODING(OB,VRBINARY,uint8_t)
+TYPETOENCODING(OD,VRBINARY,double)
 TYPETOENCODING(OF,VRBINARY,float)
+TYPETOENCODING(OL,VRBINARY,uint32_t)
 TYPETOENCODING(OW,VRBINARY,uint16_t)
 TYPETOENCODING(PN,VRASCII ,PNComp)
 TYPETOENCODING(SH,VRASCII ,SHComp)
@@ -306,7 +320,9 @@ inline unsigned int VR::GetSize() const
     VRTypeTemplateCase(LO)
     VRTypeTemplateCase(LT)
     VRTypeTemplateCase(OB)
+    VRTypeTemplateCase(OD)
     VRTypeTemplateCase(OF)
+    VRTypeTemplateCase(OL)
     VRTypeTemplateCase(OW)
     VRTypeTemplateCase(PN)
     VRTypeTemplateCase(SH)

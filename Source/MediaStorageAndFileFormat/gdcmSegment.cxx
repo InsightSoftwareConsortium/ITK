@@ -20,8 +20,9 @@ namespace gdcm
 {
 
 static const char * ALGOTypeStrings[] = {
-  "MANUAL",
   "AUTOMATIC",
+  "SEMIAUTOMATIC",
+  "MANUAL",
 
   0
 };
@@ -40,7 +41,8 @@ Segment::ALGOType Segment::GetALGOType(const char * type)
   String<>  str( type );
   str.Trim();
 
-  const char * strClear = str.Trim().c_str();
+  std::string strClearStr = str.Trim();
+  const char * strClear = strClearStr.c_str();
 
   for(unsigned int i = 0; ALGOTypeStrings[i] != 0; ++i)
     {
@@ -70,8 +72,10 @@ Segment::Segment():
   SegmentLabel(""),
   SegmentDescription(""),
   AnatomicRegion(),
+  AnatomicRegionModifiers(),
   PropertyCategory(),
   PropertyType(),
+  PropertyTypeModifiers(),
   SegmentAlgorithmType(ALGOType_END),
   SegmentAlgorithmName(""),
   SurfaceCount(0),
@@ -130,6 +134,21 @@ void Segment::SetAnatomicRegion(SegmentHelper::BasicCodedEntry const & BSE)
   AnatomicRegion.CM   = BSE.CM;
 }
 
+Segment::BasicCodedEntryVector const & Segment::GetAnatomicRegionModifiers() const
+{
+  return AnatomicRegionModifiers;
+}
+
+Segment::BasicCodedEntryVector & Segment::GetAnatomicRegionModifiers()
+{
+  return AnatomicRegionModifiers;
+}
+
+void Segment::SetAnatomicRegionModifiers(BasicCodedEntryVector const & BSEV)
+{
+    AnatomicRegionModifiers = BSEV;
+}
+
 SegmentHelper::BasicCodedEntry const & Segment::GetPropertyCategory() const
 {
   return PropertyCategory;
@@ -164,6 +183,21 @@ void Segment::SetPropertyType(SegmentHelper::BasicCodedEntry const & BSE)
   PropertyType.CM   = BSE.CM;
 }
 
+Segment::BasicCodedEntryVector const & Segment::GetPropertyTypeModifiers() const
+{
+  return PropertyTypeModifiers;
+}
+
+Segment::BasicCodedEntryVector & Segment::GetPropertyTypeModifiers()
+{
+  return PropertyTypeModifiers;
+}
+
+void Segment::SetPropertyTypeModifiers(BasicCodedEntryVector const & BSEV)
+{
+    PropertyTypeModifiers = BSEV;
+}
+
 Segment::ALGOType Segment::GetSegmentAlgorithmType() const
 {
   return SegmentAlgorithmType;
@@ -192,7 +226,7 @@ void Segment::SetSegmentAlgorithmName(const char * name)
 
 void Segment::ComputeSurfaceCount()
 {
-  SurfaceCount = Surfaces.size();
+  SurfaceCount = (unsigned long)Surfaces.size();
 }
 
 unsigned long Segment::GetSurfaceCount()

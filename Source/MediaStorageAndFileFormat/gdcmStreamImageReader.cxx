@@ -390,7 +390,7 @@ bool StreamImageReader::ReadImageInformation()
     {
     if( !ds_t.FindDataElement( Tag(0x0048,0x0200) ) )
       {
-      gdcmWarningMacro( "error occured in WSI File read" );
+      gdcmWarningMacro( "error occurred in WSI File read" );
       return false;
       }
 
@@ -403,7 +403,7 @@ bool StreamImageReader::ReadImageInformation()
 
     if( !subds_L.FindDataElement( Tag(0x0008,0x1160) ) )
       {
-      gdcmWarningMacro( "Error occured during WSI File Read" );
+      gdcmWarningMacro( "Error occurred during WSI File Read" );
       return false;
       }
 
@@ -426,7 +426,7 @@ bool StreamImageReader::ReadImageInformation()
 
     if( !subds_H.FindDataElement( Tag(0x0008,0x1160) ) )
       {
-      gdcmWarningMacro( "Error occured during WSI File Read" );
+      gdcmWarningMacro( "Error occurred during WSI File Read" );
       return false;
       }
 

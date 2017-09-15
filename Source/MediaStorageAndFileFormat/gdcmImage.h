@@ -23,7 +23,7 @@ namespace gdcm
 
 /**
  * \brief Image
- * This is the container for an Image in the general sense.
+ * \details This is the container for an Image in the general sense.
  * From this container you should be able to request information like:
  * - Origin
  * - Dimension

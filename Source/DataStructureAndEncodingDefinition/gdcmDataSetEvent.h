@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
  * \brief DataSetEvent
- * Special type of event triggered during the DataSet store/move process
+ * \details Special type of event triggered during the DataSet store/move process
  *
  * \see
  */

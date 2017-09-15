@@ -109,7 +109,7 @@ void IconImageFilter::ExtractIconImages()
       PhotometricInterpretation pi(
         PhotometricInterpretation::GetPIType(
           photometricinterpretation_str.c_str()));
-      assert( pi != PhotometricInterpretation::UNKNOW);
+      assert( pi != PhotometricInterpretation::UNKNOWN);
       pixeldata.SetPhotometricInterpretation( pi );
 
       //
@@ -287,7 +287,7 @@ void IconImageFilter::ExtractIconImages()
     PhotometricInterpretation pi(
       PhotometricInterpretation::GetPIType(
         photometricinterpretation_str.c_str()));
-    assert( pi != PhotometricInterpretation::UNKNOW);
+    assert( pi != PhotometricInterpretation::UNKNOWN);
     pixeldata.SetPhotometricInterpretation( pi );
     const Tag tpixeldata = Tag(0x7fe0, 0x0010);
     assert( ds.FindDataElement( tpixeldata ) );
@@ -425,7 +425,7 @@ void IconImageFilter::ExtractIconImages()
     PhotometricInterpretation pi(
       PhotometricInterpretation::GetPIType(
         photometricinterpretation_str.c_str()));
-    assert( pi != PhotometricInterpretation::UNKNOW);
+    assert( pi != PhotometricInterpretation::UNKNOWN);
     pixeldata.SetPhotometricInterpretation( pi );
     //const Tag tpixeldata = Tag(0x7fe0, 0x0010);
     const PrivateTag tpixeldata(0x6003,0x0011,"GEMS_Ultrasound_ImageGroup_001");

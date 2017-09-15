@@ -136,7 +136,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
   const char subdelim[] = "[]@='";
 
   char *str1, *str2, *token, *subtoken;
-  char *saveptr1, *saveptr2;
+  char *saveptr1= NULL, *saveptr2;
   int j;
 
   //bool dicomnativemodel = false;//unused
@@ -221,6 +221,7 @@ bool StringFilter::ExecuteQuery(std::string const & query_const,
     }
   if( state != 2 )
     {
+    free( query );
     return false;
     }
   free( query );
@@ -469,17 +470,6 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
   return ret;
 }
 
-#if !defined(GDCM_LEGACY_REMOVE)
-std::string StringFilter::FromString(const Tag&t, const char * value, VL const & vl)
-{
-  (void)t;
-  (void)value;
-  (void)vl;
-  assert(0 && "TODO");
-  return "";
-}
-#endif
-
 #define FromStringFilterCase(type) \
   case VR::type: \
       { \
@@ -495,6 +485,7 @@ std::string StringFilter::FromString(const Tag&t, const char * value, VL const &
       } \
     break
 
+#if 0
 static inline size_t count_backslash(const char *s, size_t len)
 {
   assert( s );
@@ -508,6 +499,7 @@ static inline size_t count_backslash(const char *s, size_t len)
     }
   return c;
 }
+#endif
 
 std::string StringFilter::FromString(const Tag&t, const char * value, size_t len)
 {
@@ -561,12 +553,12 @@ std::string StringFilter::FromString(const Tag&t, const char * value, size_t len
     return s;
     }
   VL::Type castLen = (VL::Type)len;
-  VL::Type count = VM::GetNumberOfElementsFromArray(value, castLen);
+  size_t count = VM::GetNumberOfElementsFromArray(value, castLen);
   VL vl = vm.GetLength() * vr.GetSizeof();
   if( vm.GetLength() == 0 )
     {
     // VM1_n
-    vl = count * vr.GetSizeof();
+    vl = (VL)( (VL)count * vr.GetSizeof());
 #if !defined(NDEBUG)
     VM check  = VM::GetVMTypeFromLength(count, 1);
     assert( vm.Compatible( check ) );

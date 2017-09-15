@@ -348,9 +348,9 @@ VM::VMType VM::GetVMTypeFromLength(unsigned int length, unsigned int size)
     }
 }
 
-unsigned int VM::GetNumberOfElementsFromArray(const char *array, unsigned int length)
+size_t VM::GetNumberOfElementsFromArray(const char *array, size_t length)
 {
-  unsigned int c=0;
+  size_t c=0;
   if( !length || !array ) return 0;
   const char *parray = array;
   const char *end = array + length;

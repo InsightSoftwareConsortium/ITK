@@ -28,7 +28,7 @@ namespace gdcm
     {
     /**
      * \brief ULBasicCallback
-     * This is the most basic of callbacks for how the ULConnectionManager handles
+     * \details This is the most basic of callbacks for how the ULConnectionManager handles
      * incoming datasets.  DataSets are just concatenated to the mDataSets vector,
      * and the result can be pulled out of the vector by later code.
      * Alternatives to this method include progress updates, saving to disk, etc.

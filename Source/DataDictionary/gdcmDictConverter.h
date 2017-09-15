@@ -27,6 +27,7 @@ namespace gdcm
 class DictConverterInternal;
 /**
  * \brief Class to convert a .dic file into something else:
+ * \details 
  *  - CXX code : embeded dict into shared lib (DICT_DEFAULT)
  *  - Debug mode (DICT_DEBUG)
  *  - XML dict (DICT_XML)
