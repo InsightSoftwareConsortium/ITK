@@ -37,4 +37,8 @@ The [Insight Software Consortium](http://www.insightsoftwareconsortium.org)
 holds the copyright of this software. This is a non-profit entity that
 promotes the use of ITK for educational and research purposes. ITK is
 distributed under a license that enables use for both non-commercial and
-commercial applications. See LICENSE and NOTICE files for details.
+commercial applications. See [LICENSE]
+(https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
+and [NOTICE]
+(https://github.com/InsightSoftwareConsortium/ITK/blob/master/NOTICE)
+files for details.
