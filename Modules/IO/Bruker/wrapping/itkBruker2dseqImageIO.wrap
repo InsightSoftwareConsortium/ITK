@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::Bruker2dseqImageIO" POINTER)
+itk_wrap_simple_class("itk::Bruker2dseqImageIOFactory" POINTER)
