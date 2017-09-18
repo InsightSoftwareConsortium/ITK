@@ -18,6 +18,8 @@
 #ifndef itkDigitizerFunctor_h
 #define itkDigitizerFunctor_h
 
+#include "itkNumericTraits.h"
+
 namespace itk
 {
 namespace Statistics
