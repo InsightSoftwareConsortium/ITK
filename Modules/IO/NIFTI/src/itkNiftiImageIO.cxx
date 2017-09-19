@@ -413,24 +413,10 @@ public:
   }
 };
 
-NiftiImageIO::NiftiImageHolder::NiftiImageHolder() :
-m_NiftiImageProxy(new NiftiImageProxy(ITK_NULLPTR))
-{
-}
-
-NiftiImageIO::NiftiImageHolder::~NiftiImageHolder()
-{
-  delete m_NiftiImageProxy;
-}
-
-NiftiImageIO::NiftiImageProxy& NiftiImageIO::NiftiImageHolder::GetNiftiImageProxy()
-{
-  return *m_NiftiImageProxy;
-}
-
 
 NiftiImageIO::NiftiImageIO() :
-  m_NiftiImage(m_NiftiImageHolder.GetNiftiImageProxy()),
+  m_NiftiImageHolder(new NiftiImageProxy(ITK_NULLPTR), true),
+  m_NiftiImage(*m_NiftiImageHolder.GetPointer()),
   m_RescaleSlope(1.0),
   m_RescaleIntercept(0.0),
   m_OnDiskComponentType(UNKNOWNCOMPONENTTYPE),
