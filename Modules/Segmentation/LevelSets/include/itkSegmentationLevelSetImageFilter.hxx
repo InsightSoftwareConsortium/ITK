@@ -28,6 +28,12 @@ template< typename TInputImage, typename TFeatureImage, typename TOutputPixelTyp
 SegmentationLevelSetImageFilter< TInputImage, TFeatureImage, TOutputPixelType >
 ::SegmentationLevelSetImageFilter()
 {
+  // #0 "InitialImage" required
+  Self::SetPrimaryInputName("InitialImage");
+
+  // #1 "FeatureImage" required
+  Self::AddRequiredInputName("FeatureImage", 1);
+
   this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfLayers(TInputImage::ImageDimension);
   m_SegmentationFunction = ITK_NULLPTR;

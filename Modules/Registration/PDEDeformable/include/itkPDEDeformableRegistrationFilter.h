@@ -122,20 +122,19 @@ public:
                       Superclass::ImageDimension);
 
   /** Set the fixed image. */
-  void SetFixedImage(const FixedImageType *ptr);
+  itkSetInputMacro(FixedImage, FixedImageType);
 
   /** Get the fixed image. */
-  const FixedImageType * GetFixedImage() const;
+  itkGetInputMacro(FixedImage, FixedImageType);
 
   /** Set the moving image. */
-  void SetMovingImage(const MovingImageType *ptr);
+  itkSetInputMacro(MovingImage, MovingImageType);
 
   /** Get the moving image. */
-  const MovingImageType * GetMovingImage() const;
+  itkGetInputMacro(MovingImage, MovingImageType);
 
   /** Set initial displacement field. */
-  void SetInitialDisplacementField(const DisplacementFieldType *ptr)
-  { this->SetInput(ptr); }
+  itkSetInputMacro(InitialDisplacementField, DisplacementFieldType);
 
   /** Get output displacement field. */
   DisplacementFieldType * GetDisplacementField()

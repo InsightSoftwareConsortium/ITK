@@ -38,8 +38,7 @@ GenerateImageSource< TOutputImage >
 
   // implicit: No Input Required
   // "ReferenceImage" optional
-  Self::AddRequiredInputName("ReferenceImage");
-  Self::RemoveRequiredInputName("ReferenceImage");
+  Self::AddOptionalInputName("ReferenceImage",1);
 }
 
 template< typename TOutputImage >

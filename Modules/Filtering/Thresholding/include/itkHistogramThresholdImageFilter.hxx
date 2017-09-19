@@ -38,8 +38,13 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>
   m_NumberOfHistogramBins( 256 ),
   m_MaskOutput( true )
 {
-  this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
+
+  // implicit:
+  // #0 "Primary" required
+
+  // #1 "MaskImage" optional
+  Self::AddOptionalInputName("MaskImage",1);
 
   if( typeid(ValueType) == typeid(signed char)
       || typeid(ValueType) == typeid(unsigned char)

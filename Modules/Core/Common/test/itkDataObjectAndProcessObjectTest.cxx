@@ -92,6 +92,7 @@ public:
   using Superclass::RestoreInputReleaseDataFlags;
   using Superclass::GetRequiredInputNames;
   using Superclass::AddRequiredInputName;
+  using Superclass::AddOptionalInputName;
   using Superclass::RemoveRequiredInputName;
   using Superclass::IsRequiredInputName;
   using Superclass::SetRequiredInputNames;
@@ -345,6 +346,58 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_EXPECT_EQUAL( 2, process->GetNumberOfValidRequiredInputs() );
   TRY_EXPECT_NO_EXCEPTION(process->VerifyPreconditions() );
 
+  // Test AddOptionalInputName
+  process = itk::TestProcessObject::New();
+  process->AddOptionalInputName("OptImage");
+  TEST_EXPECT_EQUAL(0, process->GetRequiredInputNames().size());
+  TEST_EXPECT_EQUAL(1, process->GetInputNames().size());
+  TEST_EXPECT_EQUAL("OptImage", process->GetInputNames().front());
+  TEST_EXPECT_TRUE(!process->IsRequiredInputName("OptImage"));
+
+  process = itk::TestProcessObject::New();
+  process->SetNumberOfRequiredInputs(1);
+  process->AddOptionalInputName("OptImage",1);
+  TEST_EXPECT_EQUAL(1, process->GetRequiredInputNames().size());
+  TEST_EXPECT_EQUAL(2, process->GetInputNames().size())
+  TEST_EXPECT_TRUE(!process->IsRequiredInputName("OptImage"));
+  process->SetInput( "OptImage", input0 );
+  TEST_EXPECT_EQUAL( input0, process->GetInput("OptImage") );
+
+  process = itk::TestProcessObject::New();
+  process->SetNumberOfRequiredInputs(1);
+  process->AddOptionalInputName("OptImage",1);
+  TEST_EXPECT_EQUAL(1, process->GetRequiredInputNames().size());
+  TEST_EXPECT_EQUAL(2, process->GetInputNames().size());
+  TEST_EXPECT_TRUE(!process->IsRequiredInputName("OptImage"));
+
+  process->SetInput( "OptImage", input0 );
+  TEST_EXPECT_EQUAL( input0, process->GetInput("OptImage") );
+  TEST_EXPECT_EQUAL( input0, process->GetInput(1) );
+  TEST_EXPECT_EQUAL( 0, process->GetNumberOfValidRequiredInputs() );
+  TRY_EXPECT_EXCEPTION(process->VerifyPreconditions() );
+
+  process->SetPrimaryInput( input0 );
+  TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
+  TRY_EXPECT_NO_EXCEPTION(process->VerifyPreconditions() );
+
+  process->SetInput( "OptImage", ITK_NULLPTR );
+  TEST_EXPECT_EQUAL( 1, process->GetNumberOfValidRequiredInputs() );
+  TRY_EXPECT_NO_EXCEPTION(process->VerifyPreconditions() );
+
+  process = itk::TestProcessObject::New();
+  process->SetNthInput( 1, input0 );
+  process->AddOptionalInputName("OptImage",1);
+  TEST_EXPECT_EQUAL( input0, process->GetInput("OptImage") );
+  TEST_EXPECT_EQUAL( input0, process->GetInput(1) );
+
+  process = itk::TestProcessObject::New();
+  process->SetInput( "OptImage", input0 );
+  process->SetNthInput( 1, input1 );
+  process->AddOptionalInputName("OptImage",1);
+  TEST_EXPECT_EQUAL( input0, process->GetInput("OptImage") );
+  TEST_EXPECT_EQUAL( input0, process->GetInput(1) );
+
+  //
   process = itk::TestProcessObject::New();
   process->SetNumberOfRequiredInputs(2);
   process->SetPrimaryInputName("Image1");

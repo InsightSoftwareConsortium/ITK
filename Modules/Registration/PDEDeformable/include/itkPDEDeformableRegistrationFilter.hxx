@@ -39,9 +39,16 @@ template< typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 ::PDEDeformableRegistrationFilter()
 {
-  this->SetNumberOfRequiredInputs(2);
-  // Primary input is optional in this filter
-  this->RemoveRequiredInputName( "Primary" );
+  Self::RemoveRequiredInputName("Primary");
+
+  // #0 "InitialDisplacementField" optional
+  Self::AddOptionalInputName("InitialDisplacementField", 0);
+
+  // #1 "FixedImage" required
+  Self::AddRequiredInputName("FixedImage", 1);
+
+  // #2 "MovingImage" required
+  Self::AddRequiredInputName("MovingImage", 2);
 
   this->SetNumberOfIterations(10);
 
@@ -59,56 +66,6 @@ PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
 
   m_SmoothDisplacementField = true;
   m_SmoothUpdateField = false;
-}
-
-/*
- * Set the fixed image.
- */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-void
-PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::SetFixedImage(
-  const FixedImageType *ptr)
-{
-  this->ProcessObject::SetNthInput( 1, const_cast< FixedImageType * >( ptr ) );
-}
-
-/*
- * Get the fixed image.
- */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-const typename PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::FixedImageType *
-PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::GetFixedImage() const
-{
-  return dynamic_cast< const FixedImageType * >
-         ( this->ProcessObject::GetInput(1) );
-}
-
-/*
- * Set the moving image.
- */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-void
-PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::SetMovingImage(
-  const MovingImageType *ptr)
-{
-  this->ProcessObject::SetNthInput( 2, const_cast< MovingImageType * >( ptr ) );
-}
-
-/*
- * Get the moving image.
- */
-template< typename TFixedImage, typename TMovingImage, typename TDisplacementField >
-const typename PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::MovingImageType *
-PDEDeformableRegistrationFilter< TFixedImage, TMovingImage, TDisplacementField >
-::GetMovingImage() const
-{
-  return dynamic_cast< const MovingImageType * >
-         ( this->ProcessObject::GetInput(2) );
 }
 
 /*

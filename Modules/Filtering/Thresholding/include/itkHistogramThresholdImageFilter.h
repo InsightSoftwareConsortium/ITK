@@ -119,19 +119,8 @@ public:
                       MaskImageType::ImageDimension );
 
   /** Set and Get the mask image */
-    /** Set the marker image */
-  void SetMaskImage(const TMaskImage *input)
-  {
-    // Process object is not const-correct so the const casting is required.
-    this->SetNthInput( 1, const_cast< TMaskImage * >( input ) );
-  }
-
-  /** Get the marker image */
-  const MaskImageType * GetMaskImage() const
-  {
-    return itkDynamicCastInDebugMode< MaskImageType * >
-      (const_cast< DataObject * >( this->ProcessObject::GetInput(1) ) );
-  }
+  itkSetInputMacro(MaskImage, TMaskImage);
+  itkGetInputMacro(MaskImage, TMaskImage);
 
   /** Set the input image */
   void SetInput1(const TInputImage *input)

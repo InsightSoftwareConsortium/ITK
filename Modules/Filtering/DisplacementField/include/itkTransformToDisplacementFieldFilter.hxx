@@ -44,8 +44,8 @@ TransformToDisplacementFieldFilter< TOutputImage, TParametersValueType>
   this->SetPrimaryInputName( "Transform" );
 
   //  #1 "ReferenceImage" optional
-  Self::AddRequiredInputName("ReferenceImage",1);
-  Self::RemoveRequiredInputName("ReferenceImage");
+  Self::AddOptionalInputName("ReferenceImage",1);
+
 }
 
 
