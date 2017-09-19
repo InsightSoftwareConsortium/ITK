@@ -20,15 +20,40 @@
 #include "itkMetaDataObject.h"
 
 #include <itksys/SystemTools.hxx>
+#include "gifti_io.h"
 
 namespace itk
 {
+//This internal proxy class provides a pointer-like interface to a gifti_image*, by supporting
+//conversions between proxy and gifti_image pointer and arrow syntax (e.g., m_GiftiImage->data).
+class GiftiMeshIO::GiftiImageProxy
+{
+  gifti_image* m_ptr;
+public:
+  GiftiImageProxy(gifti_image* ptr) :
+    m_ptr(ptr)
+  {
+  }
+
+  operator gifti_image*()
+  {
+    return m_ptr;
+  }
+
+  gifti_image* operator->()
+  {
+    return m_ptr;
+  }
+};
+
+
 GiftiMeshIO
-::GiftiMeshIO()
+::GiftiMeshIO() :
+  m_GiftiImageHolder(new GiftiImageProxy(ITK_NULLPTR), true),
+  m_GiftiImage(*m_GiftiImageHolder.GetPointer())
 {
   this->AddSupportedWriteExtension(".gii");
   m_ReadPointData = true;
-  m_GiftiImage = ITK_NULLPTR;
   m_Direction.SetIdentity();
   this->m_FileType = BINARY;
   this->m_ByteOrder = BigEndian;

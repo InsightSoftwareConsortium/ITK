@@ -19,12 +19,11 @@
 #define itkGiftiMeshIO_h
 #include "ITKIOMeshExport.h"
 
+#include "itkAutoPointer.h"
 #include "itkMapContainer.h"
 #include "itkMatrix.h"
 #include "itkMeshIOBase.h"
 #include "itkRGBAPixel.h"
-
-#include "gifti_io.h"
 
 #include <fstream>
 #include <string>
@@ -137,8 +136,17 @@ protected:
   }
 
 private:
+  //This proxy class provides a gifti_image pointer interface to the internal implementation
+  //of itk::GiftiImageIO, while hiding the gifticlib interface from the external ITK interface.
+  class GiftiImageProxy;
+
+  //Note that it is essential that m_GiftiImageHolder is defined before m_GiftiImage, to ensure that
+  //m_GiftiImage can directly get a proxy from m_GiftiImageHolder during GiftiImageIO construction.
+  const AutoPointer<GiftiImageProxy> m_GiftiImageHolder;
+
+  GiftiImageProxy& m_GiftiImage;
+
   bool          m_ReadPointData;
-  gifti_image * m_GiftiImage;
   DirectionType m_Direction;
 
 private:
