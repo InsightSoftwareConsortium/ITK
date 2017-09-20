@@ -860,7 +860,6 @@ ProcessObject
 
   if( !m_RequiredInputNames.insert( name ).second )
     {
-    itkWarningMacro(<< "Input already \"" << name << "\" already required!");
     return false;
     }
 
