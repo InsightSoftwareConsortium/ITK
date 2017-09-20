@@ -122,6 +122,8 @@ TEST_F(ShapeLabelMapFixture,3D_T1x1x1)
   EXPECT_EQ(MakeVector(0.0,0.0,0.0), labelObject->GetPrincipalMoments());
   EXPECT_NEAR(1.6098, labelObject->GetRoundness(), 0.0001); // resulting value
 
+  EXPECT_EQ(labelObject->GetBoundingBox(), labelObject->GetRegion());
+
   if (::testing::Test::HasFailure())
     {
     labelObject->Print(std::cout);
@@ -165,6 +167,8 @@ TEST_F(ShapeLabelMapFixture,3D_T3x2x1)
   // labelObject->GetPrincipalAxes(); omitted
   EXPECT_VECTOR_NEAR(MakeVector(0, 0.25, 0.666667), labelObject->GetPrincipalMoments(),1e-4);
   EXPECT_NEAR(1.09189, labelObject->GetRoundness(), 1e-4); // resulting value
+
+  EXPECT_EQ(labelObject->GetBoundingBox(), labelObject->GetRegion());
 
   if (::testing::Test::HasFailure())
     {

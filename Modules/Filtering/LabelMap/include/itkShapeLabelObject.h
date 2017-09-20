@@ -536,6 +536,12 @@ public:
 
   // some helper methods - not really required, but really useful!
 
+  /** Get the BoundingBox as an ImageRegion. */
+  const RegionType & GetRegion() const
+  {
+    return m_BoundingBox;
+  }
+
 
   /** Get the direction matrix for the oriented bounding box
     * coordinates. This is an alias for the principal axes. */
