@@ -848,7 +848,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   } // iterator destroyed here
 
   // recurse if needed
-  if (abs(i - j) > 2)
+  if (std::abs(i - j) > 2)
   {
     PixelList regionIDs;
     regionIDs.push_back(1);
@@ -862,8 +862,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     int  mReq = mid < reqRegion.GetIndex(axis)
                   ? -1
                   : (mid > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
-    bool first = abs(i - mid) > 1 && abs(iReq + mReq) <= 1;  // i-mid?
-    bool second = abs(j - mid) > 1 && abs(jReq + mReq) <= 1; // j-mid?
+    bool first = std::abs(i - mid) > 1 && std::abs(iReq + mReq) <= 1;  // i-mid?
+    bool second = std::abs(j - mid) > 1 && std::abs(jReq + mReq) <= 1; // j-mid?
 
     if (first)
     {
@@ -1572,9 +1572,9 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
                      ? -1
                      : (*next > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
 
-        if (*prev + 1 < *next         // only if they are not adjacent slices
-            && abs(iReq + jReq) <= 1) // and not out of the requested region
-                                      // unless they are on opposite ends
+        if (*prev + 1 < *next              // only if they are not adjacent slices
+            && std::abs(iReq + jReq) <= 1) // and not out of the requested region
+                                           // unless they are on opposite ends
         {
           SegmentBetweenTwo<TImage> s;
           s.axis = axis;
