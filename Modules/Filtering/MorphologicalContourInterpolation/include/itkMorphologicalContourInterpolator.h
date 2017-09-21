@@ -181,7 +181,9 @@ public:
                          typename TImage::PixelType                           label,
                          const std::vector<typename TImage::IndexValueType> & indices)
   {
-    m_LabeledSlices[axis][label] = SliceSetType().insert(indices.begin(), indices.end());
+    SliceSetType sliceSet;
+    sliceSet.insert(indices.begin(), indices.end());
+    m_LabeledSlices[axis][label] = sliceSet;
     this->Modified();
   }
 
