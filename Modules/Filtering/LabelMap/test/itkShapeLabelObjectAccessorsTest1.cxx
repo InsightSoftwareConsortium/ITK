@@ -64,6 +64,8 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   attributes.push_back("EquivalentEllipsoidDiameter");
   attributes.push_back("Flatness");
   attributes.push_back("PerimeterOnBorderRatio");
+  attributes.push_back("OrientedBoundingBoxSize");
+  attributes.push_back("OrientedBoundingBoxOrigin");
   for (size_t a = 0; a < attributes.size(); a++)
     {
     if (ShapeLabelObjectType::GetNameFromAttribute(ShapeLabelObjectType::GetAttributeFromName(attributes[a])) != attributes[a])
@@ -80,6 +82,7 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
   I2LType::Pointer i2l = I2LType::New();
   i2l->SetInput( reader->GetOutput() );
   i2l->SetComputePerimeter(true);
+  i2l->SetComputeOrientedBoundingBox(true);
   i2l->Update();
 
   LabelMapType *labelMap = i2l->GetOutput();
@@ -125,6 +128,11 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
               << labelObject->GetFlatness() << std::endl;
     std::cout << "    PerimeterOnBorderRatio: "
               << labelObject->GetPerimeterOnBorderRatio() << std::endl;
+    std::cout << "    OrientedBoundingBoxSize: "
+              << labelObject->GetOrientedBoundingBoxSize() << std::endl;
+    std::cout << "    OrientedBoundingBoxOrigin: "
+              << labelObject->GetOrientedBoundingBoxOrigin() << std::endl;
+
     }
   for (unsigned int n = 0; n < labelMap->GetNumberOfLabelObjects(); n++)
     {
@@ -219,6 +227,16 @@ int itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
     if (itk::Math::NotExactlyEquals(labelCopy->GetPerimeterOnBorderRatio(), labelObject->GetPerimeterOnBorderRatio()))
       {
       std::cout << "CopyAttributeFrom failed for attribute " << "PerimeterOnBorderRatio" << std::endl;
+      status = EXIT_FAILURE;
+      }
+   if (labelCopy->GetOrientedBoundingBoxSize() != labelObject->GetOrientedBoundingBoxSize())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "OrientedBoundingBoxSize" << std::endl;
+      status = EXIT_FAILURE;
+      }
+   if (labelCopy->GetOrientedBoundingBoxOrigin() != labelObject->GetOrientedBoundingBoxOrigin())
+      {
+      std::cout << "CopyAttributeFrom failed for attribute " << "OrientedBoundingBoxOrigin" << std::endl;
       status = EXIT_FAILURE;
       }
     }

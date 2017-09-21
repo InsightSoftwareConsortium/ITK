@@ -227,11 +227,11 @@ public:
       {
       return PERIMETER_ON_BORDER_RATIO;
       }
-    else if ( s == "OrientedBoundingBoxSize")
+    else if ( s == "OrientedBoundingBoxOrigin")
       {
       return ORIENTED_BOUNDING_BOX_ORIGIN;
       }
-    else if ( s == "OrientedBoundingBoxOrigin")
+    else if ( s == "OrientedBoundingBoxSize")
       {
       return ORIENTED_BOUNDING_BOX_SIZE;
       }
