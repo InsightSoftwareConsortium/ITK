@@ -15,10 +15,10 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBoneMorphometryImageFilter_hxx
-#define itkBoneMorphometryImageFilter_hxx
+#ifndef itkBoneMorphometryFeaturesFilter_hxx
+#define itkBoneMorphometryFeaturesFilter_hxx
 
-#include "itkBoneMorphometryImageFilter.h"
+#include "itkBoneMorphometryFeaturesFilter.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
@@ -27,7 +27,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TMaskImage>
-BoneMorphometryImageFilter<TInputImage, TMaskImage>::BoneMorphometryImageFilter()
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::BoneMorphometryFeaturesFilter()
   : m_Threshold(1)
   , m_Pp(0)
   , m_Pl(0)
@@ -42,7 +42,7 @@ BoneMorphometryImageFilter<TInputImage, TMaskImage>::BoneMorphometryImageFilter(
 
 template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryImageFilter<TInputImage, TMaskImage>::AllocateOutputs()
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::AllocateOutputs()
 {
   // Pass the input through as the output
   InputImagePointer image = const_cast<TInputImage *>(this->GetInput());
@@ -54,7 +54,7 @@ BoneMorphometryImageFilter<TInputImage, TMaskImage>::AllocateOutputs()
 
 template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryImageFilter<TInputImage, TMaskImage>::BeforeThreadedGenerateData()
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::BeforeThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
@@ -87,7 +87,7 @@ BoneMorphometryImageFilter<TInputImage, TMaskImage>::BeforeThreadedGenerateData(
 
 template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryImageFilter<TInputImage, TMaskImage>::AfterThreadedGenerateData()
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::AfterThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
@@ -122,8 +122,8 @@ BoneMorphometryImageFilter<TInputImage, TMaskImage>::AfterThreadedGenerateData()
 
 template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryImageFilter<TInputImage, TMaskImage>::ThreadedGenerateData(const RegionType & outputRegionForThread,
-                                                                          ThreadIdType       threadId)
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::ThreadedGenerateData(const RegionType & outputRegionForThread,
+                                                                             ThreadIdType       threadId)
 {
   NeighborhoodRadiusType radius;
   radius.Fill(1);
@@ -216,7 +216,7 @@ BoneMorphometryImageFilter<TInputImage, TMaskImage>::ThreadedGenerateData(const 
 
 template <typename TInputImage, typename TMaskImage>
 void
-BoneMorphometryImageFilter<TInputImage, TMaskImage>::PrintSelf(std::ostream & os, Indent indent) const
+BoneMorphometryFeaturesFilter<TInputImage, TMaskImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   SizeValueType numVoxels = 0;
   SizeValueType numBoneVoxels = 0;
@@ -266,4 +266,4 @@ BoneMorphometryImageFilter<TInputImage, TMaskImage>::PrintSelf(std::ostream & os
 }
 } // end namespace itk
 
-#endif // itkBoneMorphometryImageFilter_hxx
+#endif // itkBoneMorphometryFeaturesFilter_hxx
