@@ -216,7 +216,7 @@ set(LIST_OF_IMAGEIO_FORMATS
     Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC GE4 GE5
     MINC
     MGH SCIFIO FDF OpenSlide
-    PhilipsREC Bruker2DSEQ
+    PhilipsREC Bruker2dseq
     )
 
 # Exceptions:
@@ -237,6 +237,8 @@ set(GE5_image_module_name ITKIOGE)
 set(SCIFIO_image_module_name SCIFIO)
 
 set(FDF_image_module_name IOFDF)
+
+set(Bruker2dseq_image_module_name ITKIOBruker)
 
 foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
   if (NOT ${ImageFormat}_image_module_name )
