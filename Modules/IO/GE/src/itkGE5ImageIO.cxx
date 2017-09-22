@@ -18,6 +18,7 @@
 #include "itkGE5ImageIO.h"
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
+#include "Ge5xHdr.h"
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -117,8 +118,10 @@ bool GE5ImageIO::CanReadFile(const char *FileNameToRead)
   return this->CheckGE5xImages(FileNameToRead, reason) == 0 ? true : false;
 }
 
+namespace
+{
 void
-GE5ImageIO::SwapPixHdr(Ge5xPixelHeader *hdr)
+SwapPixHdr(Ge5xPixelHeader *hdr)
 {
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_magic ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_hdr_length ) );
@@ -160,6 +163,7 @@ GE5ImageIO::SwapPixHdr(Ge5xPixelHeader *hdr)
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_l_series ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_p_image ) );
   ByteSwapper< int >::SwapFromSystemToBigEndian ( &( hdr->GENESIS_IH_img_l_image ) );
+}
 }
 
 GEImageHeader *
@@ -210,7 +214,7 @@ GE5ImageIO::ReadHeader(const char  *FileNameToRead)
       << "Reason: " << itksys::SystemTools::GetLastSystemError()
       );
     }
-  this->SwapPixHdr(&imageHdr);
+  SwapPixHdr(&imageHdr);
 
   // NOTE: The handling of version 2 vs Version3 is modelled after
   // the sivic GE5Signa5x reader -- found here
