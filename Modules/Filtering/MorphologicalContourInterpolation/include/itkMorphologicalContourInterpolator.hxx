@@ -144,9 +144,9 @@ MorphologicalContourInterpolator<TImage>::MorphologicalContourInterpolator()
   , m_UseDistanceTransform(true)
   , m_UseBallStructuringElement(false)
   , m_UseCustomSlicePositions(false)
-  , m_MinAlignIters(pow(2, TImage::ImageDimension))
+  , m_MinAlignIters(std::pow(2., static_cast<int>(TImage::ImageDimension)))
   , // smaller of this and pixel count of the search image
-  m_MaxAlignIters(pow(6, TImage::ImageDimension))
+  m_MaxAlignIters(std::pow(6., static_cast<int>(TImage::ImageDimension)))
   , // bigger of this and root of pixel count of the search image
   m_ThreadCount(MultiThreader::GetGlobalDefaultNumberOfThreads())
   , m_LabeledSlices(TImage::ImageDimension) // initialize with empty sets
@@ -558,9 +558,9 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   long long bestDiff = LLONG_MAX;
   for (unsigned b = 0; b < maxSize; b++)
   {
-    long long iS = std::abs(iTotal - iSum[b] + jSum[b]);
-    long long jS = std::abs(jTotal - jSum[b] + iSum[b]);
-    long long diff = std::abs(iS - jS);
+    long long iS = Math::abs(iTotal - iSum[b] + jSum[b]);
+    long long jS = Math::abs(jTotal - jSum[b] + iSum[b]);
+    long long diff = Math::abs(iS - jS);
     if (diff < bestDiff)
     {
       bestDiff = diff;
@@ -848,7 +848,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   } // iterator destroyed here
 
   // recurse if needed
-  if (std::abs(i - j) > 2)
+  if (Math::abs(i - j) > 2)
   {
     PixelList regionIDs;
     regionIDs.push_back(1);
@@ -862,8 +862,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     int  mReq = mid < reqRegion.GetIndex(axis)
                   ? -1
                   : (mid > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
-    bool first = std::abs(i - mid) > 1 && std::abs(iReq + mReq) <= 1;  // i-mid?
-    bool second = std::abs(j - mid) > 1 && std::abs(jReq + mReq) <= 1; // j-mid?
+    bool first = Math::abs(i - mid) > 1 && Math::abs(iReq + mReq) <= 1;  // i-mid?
+    bool second = Math::abs(j - mid) > 1 && Math::abs(jReq + mReq) <= 1; // j-mid?
 
     if (first)
     {
@@ -1263,7 +1263,8 @@ MorphologicalContourInterpolator<TImage>::Align(typename SliceType::Pointer & iC
   typename SliceType::IndexType bestIndex;
   IdentifierType                iter = 0;
   IdentifierType                minIter = std::min(m_MinAlignIters, searchRegion.GetNumberOfPixels());
-  IdentifierType maxIter = std::max(m_MaxAlignIters, (IdentifierType)sqrt(searchRegion.GetNumberOfPixels()));
+  IdentifierType                maxIter = std::max(
+    m_MaxAlignIters, static_cast<IdentifierType>(std::sqrt(static_cast<double>(searchRegion.GetNumberOfPixels()))));
 
   while (!uncomputed.empty())
   {
@@ -1572,9 +1573,9 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int axis, TImage * ou
                      ? -1
                      : (*next > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
 
-        if (*prev + 1 < *next              // only if they are not adjacent slices
-            && std::abs(iReq + jReq) <= 1) // and not out of the requested region
-                                           // unless they are on opposite ends
+        if (*prev + 1 < *next               // only if they are not adjacent slices
+            && Math::abs(iReq + jReq) <= 1) // and not out of the requested region
+                                            // unless they are on opposite ends
         {
           SegmentBetweenTwo<TImage> s;
           s.axis = axis;
