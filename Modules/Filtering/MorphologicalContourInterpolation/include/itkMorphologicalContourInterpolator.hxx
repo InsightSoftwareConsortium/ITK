@@ -1263,7 +1263,8 @@ MorphologicalContourInterpolator<TImage>::Align(typename SliceType::Pointer & iC
   typename SliceType::IndexType bestIndex;
   IdentifierType                iter = 0;
   IdentifierType                minIter = std::min(m_MinAlignIters, searchRegion.GetNumberOfPixels());
-  IdentifierType maxIter = std::max(m_MaxAlignIters, (IdentifierType)sqrt(searchRegion.GetNumberOfPixels()));
+  IdentifierType                maxIter = std::max(
+    m_MaxAlignIters, static_cast<IdentifierType>(std::sqrt(static_cast<double>(searchRegion.GetNumberOfPixels()))));
 
   while (!uncomputed.empty())
   {
