@@ -23,8 +23,34 @@
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
 
+#include <itk_minc2.h>
+
+
 namespace itk
 {
+
+struct ITKIOMINC_HIDDEN MINCImageIOPImpl
+{
+  int  m_NDims; /*Number of dimensions*/
+
+  // dimension size and start and step, in FILE ORDER!
+
+  char         **m_DimensionName;
+  misize_t      *m_DimensionSize;
+  double        *m_DimensionStart;
+  double        *m_DimensionStep;
+  int            m_DimensionIndices[5];
+
+  midimhandle_t *m_MincFileDims;
+  midimhandle_t *m_MincApparentDims;
+  mitype_t       m_Volume_type;
+  miclass_t      m_Volume_class;
+  int            m_CompressionLevel;
+
+  // MINC2 volume handle , currently opened
+  mihandle_t     m_Volume;
+};
+
 
 bool MINCImageIO::CanReadFile(const char *file)
 {
@@ -147,7 +173,7 @@ void MINCImageIO::Read(void *buffer)
       return;
     }
 
-  if ( miget_real_value_hyperslab(m_Volume, volume_data_type, start, count, buffer) < 0 )
+  if ( miget_real_value_hyperslab(this->m_MINCPImpl->m_Volume, volume_data_type, start, count, buffer) < 0 )
     {
     delete[] start;
     delete[] count;
@@ -159,54 +185,54 @@ void MINCImageIO::Read(void *buffer)
 
 void MINCImageIO::CleanupDimensions(void)
 {
-  if( this->m_DimensionName )
+  if( this->m_MINCPImpl->m_DimensionName )
     {
-    for ( int i = 0; i < this->m_NDims; i++ )
+    for ( int i = 0; i < this->m_MINCPImpl->m_NDims; i++ )
       {
-      mifree_name( this->m_DimensionName[i] );
-      this->m_DimensionName[i]=ITK_NULLPTR;
+      mifree_name( this->m_MINCPImpl->m_DimensionName[i] );
+      this->m_MINCPImpl->m_DimensionName[i]=ITK_NULLPTR;
       }
     }
 
-  delete[] this->m_DimensionName;
-  delete[] this->m_DimensionSize;
-  delete[] this->m_DimensionStart;
-  delete[] this->m_DimensionStep;
-  delete[] this->m_MincFileDims;
-  delete[] this->m_MincApparentDims;
+  delete[] this->m_MINCPImpl->m_DimensionName;
+  delete[] this->m_MINCPImpl->m_DimensionSize;
+  delete[] this->m_MINCPImpl->m_DimensionStart;
+  delete[] this->m_MINCPImpl->m_DimensionStep;
+  delete[] this->m_MINCPImpl->m_MincFileDims;
+  delete[] this->m_MINCPImpl->m_MincApparentDims;
 
-  this->m_DimensionName    = ITK_NULLPTR;
-  this->m_DimensionSize    = ITK_NULLPTR;
-  this->m_DimensionStart   = ITK_NULLPTR;
-  this->m_DimensionStep    = ITK_NULLPTR;
-  this->m_MincFileDims     = ITK_NULLPTR;
-  this->m_MincApparentDims = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionName    = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionSize    = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionStart   = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionStep    = ITK_NULLPTR;
+  this->m_MINCPImpl->m_MincFileDims     = ITK_NULLPTR;
+  this->m_MINCPImpl->m_MincApparentDims = ITK_NULLPTR;
 }
 
 void MINCImageIO::AllocateDimensions(int nDims)
 {
   this->CleanupDimensions();
 
-  m_NDims=nDims;
+  this->m_MINCPImpl->m_NDims=nDims;
 
-  this->m_DimensionName  = new char*[m_NDims];
-  this->m_DimensionSize  = new misize_t[m_NDims];
-  this->m_DimensionStart = new double[m_NDims];
-  this->m_DimensionStep  = new double[m_NDims];
-  this->m_MincFileDims   = new midimhandle_t[m_NDims];
-  this->m_MincApparentDims = new midimhandle_t[m_NDims];
+  this->m_MINCPImpl->m_DimensionName  = new char*[this->m_MINCPImpl->m_NDims];
+  this->m_MINCPImpl->m_DimensionSize  = new misize_t[this->m_MINCPImpl->m_NDims];
+  this->m_MINCPImpl->m_DimensionStart = new double[this->m_MINCPImpl->m_NDims];
+  this->m_MINCPImpl->m_DimensionStep  = new double[this->m_MINCPImpl->m_NDims];
+  this->m_MINCPImpl->m_MincFileDims   = new midimhandle_t[this->m_MINCPImpl->m_NDims];
+  this->m_MINCPImpl->m_MincApparentDims = new midimhandle_t[this->m_MINCPImpl->m_NDims];
 
-  for ( int i = 0; i < this->m_NDims; i++ )
+  for ( int i = 0; i < this->m_MINCPImpl->m_NDims; i++ )
     {
-    this->m_DimensionName[i]  = ITK_NULLPTR;
-    this->m_DimensionSize[i]  = 0;
-    this->m_DimensionStart[i] = 0.0;
-    this->m_DimensionStep[i]  = 0.0;
+    this->m_MINCPImpl->m_DimensionName[i]  = ITK_NULLPTR;
+    this->m_MINCPImpl->m_DimensionSize[i]  = 0;
+    this->m_MINCPImpl->m_DimensionStart[i] = 0.0;
+    this->m_MINCPImpl->m_DimensionStep[i]  = 0.0;
     }
 
   for ( int i = 0; i < 5; i++ )
     {
-    this->m_DimensionIndices[i] = -1;
+    this->m_MINCPImpl->m_DimensionIndices[i] = -1;
     }
 
 }
@@ -216,27 +242,28 @@ void MINCImageIO::CloseVolume(void)
 {
   this->CleanupDimensions();
 
-  if( m_Volume )
+  if( this->m_MINCPImpl->m_Volume )
     {
-    miclose_volume( m_Volume );
+    miclose_volume( this->m_MINCPImpl->m_Volume );
     }
-  m_Volume = ITK_NULLPTR;
+  this->m_MINCPImpl->m_Volume = ITK_NULLPTR;
 }
 
 MINCImageIO::MINCImageIO()
+  : m_MINCPImpl(new MINCImageIOPImpl)
 {
-  this->m_NDims = 0;
-  this->m_DimensionName  = ITK_NULLPTR;
-  this->m_DimensionSize  = ITK_NULLPTR;
-  this->m_DimensionStart = ITK_NULLPTR;
-  this->m_DimensionStep  = ITK_NULLPTR;
-  this->m_MincFileDims   = ITK_NULLPTR;
-  this->m_MincApparentDims = ITK_NULLPTR;
-  this->m_Volume = ITK_NULLPTR;
+  this->m_MINCPImpl->m_NDims = 0;
+  this->m_MINCPImpl->m_DimensionName  = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionSize  = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionStart = ITK_NULLPTR;
+  this->m_MINCPImpl->m_DimensionStep  = ITK_NULLPTR;
+  this->m_MINCPImpl->m_MincFileDims   = ITK_NULLPTR;
+  this->m_MINCPImpl->m_MincApparentDims = ITK_NULLPTR;
+  this->m_MINCPImpl->m_Volume = ITK_NULLPTR;
 
   for ( int i = 0; i < 5; i++ )
     {
-    this->m_DimensionIndices[i] = -1;
+    this->m_MINCPImpl->m_DimensionIndices[i] = -1;
     }
 
   this->AddSupportedWriteExtension(".mnc");
@@ -246,23 +273,41 @@ MINCImageIO::MINCImageIO()
   this->AddSupportedReadExtension(".MNC");
 
   this->m_UseCompression = false;
-  this->m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 =
+  this->m_MINCPImpl->m_CompressionLevel = 4; // Range 0-9; 0 = no file compression, 9 =
                                 // maximum file compression
-  this->m_Volume_type = MI_TYPE_FLOAT;
-  this->m_Volume_class = MI_CLASS_REAL;
+  this->m_MINCPImpl->m_Volume_type = MI_TYPE_FLOAT;
+  this->m_MINCPImpl->m_Volume_class = MI_CLASS_REAL;
 
 }
 
 MINCImageIO::~MINCImageIO()
 {
   this->CloseVolume();
+  delete m_MINCPImpl;
 }
+
+void MINCImageIO::SetCompressionLevel(int level)
+{
+   itkDebugMacro("setting CompressionLevel to " << level);
+
+   if ( this->m_MINCPImpl->m_CompressionLevel != level )
+     {
+     this->m_MINCPImpl->m_CompressionLevel = level;
+     this->Modified();
+     }
+}
+
+int MINCImageIO::GetCompressionLevel() const
+{
+  return this->m_MINCPImpl->m_CompressionLevel;
+}
+
 
 void MINCImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NDims: " << m_NDims << std::endl;
+  os << indent << "NDims: " << this->m_MINCPImpl->m_NDims << std::endl;
 }
 
 void MINCImageIO::ReadImageInformation()
@@ -271,7 +316,7 @@ void MINCImageIO::ReadImageInformation()
 
   this->CloseVolume();
   // call to minc2.0 function to open the file
-  if ( miopen_volume(m_FileName.c_str(), MI2_OPEN_READ, &m_Volume) < 0 )
+  if ( miopen_volume(m_FileName.c_str(), MI2_OPEN_READ, &this->m_MINCPImpl->m_Volume) < 0 )
     {
     // Error opening the volume
     itkExceptionMacro(<< "Could not open file \"" << m_FileName.c_str() << "\".");
@@ -280,7 +325,7 @@ void MINCImageIO::ReadImageInformation()
   // find out how many dimensions are there regularly sampled
   // dimensions only
   int ndims;
-  if ( miget_volume_dimension_count(m_Volume, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, &ndims) < 0 )
+  if ( miget_volume_dimension_count(this->m_MINCPImpl->m_Volume, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, &ndims) < 0 )
     {
     itkDebugMacro("Could not get the number of dimensions in the volume!");
     return;
@@ -289,57 +334,57 @@ void MINCImageIO::ReadImageInformation()
 
   // get dimension handles in FILE ORDER (i.e, the order as they are
   // submitted to file)
-  if ( miget_volume_dimensions(m_Volume, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, MI_DIMORDER_FILE, m_NDims,
-                               this->m_MincFileDims) < 0 )
+  if ( miget_volume_dimensions(this->m_MINCPImpl->m_Volume, MI_DIMCLASS_ANY, MI_DIMATTR_ALL, MI_DIMORDER_FILE, this->m_MINCPImpl->m_NDims,
+                               this->m_MINCPImpl->m_MincFileDims) < 0 )
     {
     itkExceptionMacro(<< "Could not get dimension handles!");
   }
 
-  for (int i = 0; i < m_NDims; i++ )
+  for (int i = 0; i < this->m_MINCPImpl->m_NDims; i++ )
     {
     char *      name;
     double      _sep;
     const char *_sign="+";
-    if ( miget_dimension_name(this->m_MincFileDims[i], &name) < 0 )
+    if ( miget_dimension_name(this->m_MINCPImpl->m_MincFileDims[i], &name) < 0 )
       {
       // Error getting dimension name
       itkExceptionMacro( << "Could not get dimension name!");
     }
 
-    if( miget_dimension_separation(this->m_MincFileDims[i],MI_ORDER_FILE, &_sep) == MI_NOERROR && _sep < 0 )
+    if( miget_dimension_separation(this->m_MINCPImpl->m_MincFileDims[i],MI_ORDER_FILE, &_sep) == MI_NOERROR && _sep < 0 )
       _sign = "-";
 
-    this->m_DimensionName[i] = name;
+    this->m_MINCPImpl->m_DimensionName[i] = name;
     if(!strcmp(name,MIxspace) || !strcmp(name,MIxfrequency) ) //this is X space
       {
-      this->m_DimensionIndices[1]=i;
+      this->m_MINCPImpl->m_DimensionIndices[1]=i;
       dimension_order += _sign;
       dimension_order += "X";
       }
     else if(!strcmp(name,MIyspace) || !strcmp(name,MIyfrequency) ) //this is Y
                                                                    // space
       {
-      this->m_DimensionIndices[2]=i;
+      this->m_MINCPImpl->m_DimensionIndices[2]=i;
       dimension_order += _sign;
       dimension_order += "Y";
       }
     else if(!strcmp(name,MIzspace) || !strcmp(name,MIzfrequency) ) //this is Z
                                                                    // space
       {
-      this->m_DimensionIndices[3]=i;
+      this->m_MINCPImpl->m_DimensionIndices[3]=i;
       dimension_order += _sign;
       dimension_order += "Z";
       }
     else if(!strcmp(name,MIvector_dimension) ) //this is vector space
       {
-      this->m_DimensionIndices[0]=i;
+      this->m_MINCPImpl->m_DimensionIndices[0]=i;
       dimension_order += "+"; // vector dimension is always positive
       dimension_order += "V";
       }
     else if(!strcmp(name,MItime) || !strcmp(name,MItfrequency) ) //this is time
                                                                  // space
       {
-      this->m_DimensionIndices[4]=i;
+      this->m_MINCPImpl->m_DimensionIndices[4]=i;
       dimension_order += _sign;
       dimension_order += "T";
       }
@@ -350,24 +395,24 @@ void MINCImageIO::ReadImageInformation()
     }
 
   // fill the DimensionSize by calling the following MINC2.0 function
-  if ( miget_dimension_sizes(this->m_MincFileDims, m_NDims, m_DimensionSize) < 0 )
+  if ( miget_dimension_sizes(this->m_MINCPImpl->m_MincFileDims, this->m_MINCPImpl->m_NDims, this->m_MINCPImpl->m_DimensionSize) < 0 )
     {
     // Error getting dimension sizes
     itkExceptionMacro( << "Could not get dimension sizes!");
   }
 
-  if ( miget_dimension_separations(this->m_MincFileDims, MI_ORDER_FILE, m_NDims, m_DimensionStep) < 0 )
+  if ( miget_dimension_separations(this->m_MINCPImpl->m_MincFileDims, MI_ORDER_FILE, this->m_MINCPImpl->m_NDims, this->m_MINCPImpl->m_DimensionStep) < 0 )
     {
     itkExceptionMacro( << " Could not dimension sizes");
   }
 
-  if ( miget_dimension_starts(this->m_MincFileDims, MI_ORDER_FILE, this->m_NDims, m_DimensionStart) < 0 )
+  if ( miget_dimension_starts(this->m_MINCPImpl->m_MincFileDims, MI_ORDER_FILE, this->m_MINCPImpl->m_NDims, this->m_MINCPImpl->m_DimensionStart) < 0 )
     {
     itkExceptionMacro( << " Could not dimension sizes");
   }
 
   mitype_t volume_data_type;
-  if ( miget_data_type(m_Volume, &volume_data_type) < 0 )
+  if ( miget_data_type(this->m_MINCPImpl->m_Volume, &volume_data_type) < 0 )
     {
     itkExceptionMacro( << " Can not get volume data type!!\n");
     }
@@ -376,7 +421,7 @@ void MINCImageIO::ReadImageInformation()
   miboolean_t slice_scaling_flag=0;
   miboolean_t global_scaling_flag=0;
 
-  if ( miget_slice_scaling_flag(m_Volume, &slice_scaling_flag) < 0 )
+  if ( miget_slice_scaling_flag(this->m_MINCPImpl->m_Volume, &slice_scaling_flag) < 0 )
     {
     itkExceptionMacro( << " Can not get slice scaling flag!!\n");
     }
@@ -384,7 +429,7 @@ void MINCImageIO::ReadImageInformation()
   //voxel valid range
   double valid_min,valid_max;
   //get the voxel valid range
-  if(miget_volume_valid_range(m_Volume,&valid_max,&valid_min) < 0 )
+  if(miget_volume_valid_range(this->m_MINCPImpl->m_Volume,&valid_max,&valid_min) < 0 )
     {
     itkExceptionMacro( << " Can not get volume valid range!!\n");
     }
@@ -393,7 +438,7 @@ void MINCImageIO::ReadImageInformation()
   double volume_min=0.0,volume_max=1.0;
   if( !slice_scaling_flag )
     {
-    if( miget_volume_range(m_Volume,&volume_max,&volume_min) < 0 )
+    if( miget_volume_range(this->m_MINCPImpl->m_Volume,&volume_max,&volume_min) < 0 )
       {
       itkExceptionMacro( << " Can not get volume range!!\n");
       }
@@ -407,7 +452,7 @@ void MINCImageIO::ReadImageInformation()
   // extract direction cosines
   for(int i=1; i<4; i++)
     {
-    if(this->m_DimensionIndices[i]!=-1) //this dimension is present
+    if(this->m_MINCPImpl->m_DimensionIndices[i]!=-1) //this dimension is present
       {
       spatial_dimension_count++;
       }
@@ -418,7 +463,7 @@ void MINCImageIO::ReadImageInformation()
     itkExceptionMacro( <<  " minc files without spatial dimensions are not supported!");
     }
 
-  if ( this->m_DimensionIndices[0]!=-1 && this->m_DimensionIndices[4]!=-1 )
+  if ( this->m_MINCPImpl->m_DimensionIndices[0]!=-1 && this->m_MINCPImpl->m_DimensionIndices[4]!=-1 )
     {
     itkExceptionMacro( <<  " 4D minc files vector dimension are not supported currently");
     }
@@ -441,22 +486,22 @@ void MINCImageIO::ReadImageInformation()
   //minc api uses inverse order of dimensions , fastest varying are last
   for(int i=3; i>0; i--)
     {
-    if(this->m_DimensionIndices[i]!=-1)
+    if(this->m_MINCPImpl->m_DimensionIndices[i]!=-1)
       {
       //MINC2: bad design!
-      //micopy_dimension(hdim[this->m_DimensionIndices[i]],&apparent_dimension_order[usable_dimensions]);
-      this->m_MincApparentDims[usable_dimensions]=this->m_MincFileDims[this->m_DimensionIndices[i]];
+      //micopy_dimension(hdim[this->m_MINCPImpl->m_DimensionIndices[i]],&apparent_dimension_order[usable_dimensions]);
+      this->m_MINCPImpl->m_MincApparentDims[usable_dimensions]=this->m_MINCPImpl->m_MincFileDims[this->m_MINCPImpl->m_DimensionIndices[i]];
       //always use positive
-      miset_dimension_apparent_voxel_order(this->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
+      miset_dimension_apparent_voxel_order(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
       misize_t _sz;
-      miget_dimension_size(this->m_MincApparentDims[usable_dimensions],&_sz);
+      miget_dimension_size(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],&_sz);
 
       std::vector< double > _dir(3);
       double                _sep,_start;
 
-      miget_dimension_separation(this->m_MincApparentDims[usable_dimensions],MI_ORDER_APPARENT,&_sep);
-      miget_dimension_cosines(this->m_MincApparentDims[usable_dimensions],&_dir[0]);
-      miget_dimension_start(this->m_MincApparentDims[usable_dimensions],MI_ORDER_APPARENT,&_start);
+      miget_dimension_separation(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_ORDER_APPARENT,&_sep);
+      miget_dimension_cosines(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],&_dir[0]);
+      miget_dimension_start(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_ORDER_APPARENT,&_start);
 
       for(int j=0; j<3; j++)
         dir_cos[j][i-1]=_dir[j];
@@ -473,32 +518,32 @@ void MINCImageIO::ReadImageInformation()
       }
     }
 
-  if(this->m_DimensionIndices[0]!=-1) // have vector dimension
+  if(this->m_MINCPImpl->m_DimensionIndices[0]!=-1) // have vector dimension
     {
-    //micopy_dimension(this->m_MincFileDims[this->m_DimensionIndices[0]],&apparent_dimension_order[usable_dimensions]);
-    this->m_MincApparentDims[usable_dimensions]=this->m_MincFileDims[this->m_DimensionIndices[0]];
+    //micopy_dimension(this->m_MINCPImpl->m_MincFileDims[this->m_MINCPImpl->m_DimensionIndices[0]],&apparent_dimension_order[usable_dimensions]);
+    this->m_MINCPImpl->m_MincApparentDims[usable_dimensions]=this->m_MINCPImpl->m_MincFileDims[this->m_MINCPImpl->m_DimensionIndices[0]];
     //always use positive, vector dimension does not supposed to have notion of positive step size, so leaving as is
-    //miset_dimension_apparent_voxel_order(this->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
+    //miset_dimension_apparent_voxel_order(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
     misize_t _sz;
-    miget_dimension_size(this->m_MincApparentDims[usable_dimensions],&_sz);
+    miget_dimension_size(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],&_sz);
     numberOfComponents=_sz;
     usable_dimensions++;
     }
 
-  if(this->m_DimensionIndices[4]!=-1) // have time dimension
+  if(this->m_MINCPImpl->m_DimensionIndices[4]!=-1) // have time dimension
     {
-    //micopy_dimension(hdim[this->m_DimensionIndices[4]],&apparent_dimension_order[usable_dimensions]);
-    this->m_MincApparentDims[usable_dimensions]=this->m_MincFileDims[this->m_DimensionIndices[4]];
+    //micopy_dimension(hdim[this->m_MINCPImpl->m_DimensionIndices[4]],&apparent_dimension_order[usable_dimensions]);
+    this->m_MINCPImpl->m_MincApparentDims[usable_dimensions]=this->m_MINCPImpl->m_MincFileDims[this->m_MINCPImpl->m_DimensionIndices[4]];
     //always use positive
-    miset_dimension_apparent_voxel_order(this->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
+    miset_dimension_apparent_voxel_order(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],MI_POSITIVE);
     misize_t _sz;
-    miget_dimension_size(this->m_MincApparentDims[usable_dimensions],&_sz);
+    miget_dimension_size(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions],&_sz);
     numberOfComponents=_sz;
     usable_dimensions++;
     }
 
   //Set apparent dimension order to the MINC2 api
-  if(miset_apparent_dimension_order(m_Volume,usable_dimensions,this->m_MincApparentDims)<0)
+  if(miset_apparent_dimension_order(this->m_MINCPImpl->m_Volume,usable_dimensions,this->m_MINCPImpl->m_MincApparentDims)<0)
     {
     itkExceptionMacro( << " Can't set apparent dimension order!");
     }
@@ -510,7 +555,7 @@ void MINCImageIO::ReadImageInformation()
 
   miclass_t volume_data_class;
 
-  if ( miget_data_class(m_Volume, &volume_data_class) < 0 )
+  if ( miget_data_class(this->m_MINCPImpl->m_Volume, &volume_data_class) < 0 )
     {
     itkExceptionMacro( << " Could not get data class");
     }
@@ -639,22 +684,22 @@ void MINCImageIO::ReadImageInformation()
 
   // store history
   size_t minc_history_length=0;
-  if(miget_attr_length(m_Volume,"","history",&minc_history_length) == MI_NOERROR)
+  if(miget_attr_length(this->m_MINCPImpl->m_Volume,"","history",&minc_history_length) == MI_NOERROR)
     {
     char *minc_history=new char[minc_history_length+1];
-    if( miget_attr_values(m_Volume,MI_TYPE_STRING,"","history",minc_history_length+1,minc_history) == MI_NOERROR)
+    if( miget_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_STRING,"","history",minc_history_length+1,minc_history) == MI_NOERROR)
       {
       EncapsulateMetaData<std::string>(thisDic,"history", std::string(minc_history) );
       }
     delete[] minc_history;
     }
 
-  if(this->m_DimensionIndices[4]!=-1) //have time dimension
+  if(this->m_MINCPImpl->m_DimensionIndices[4]!=-1) //have time dimension
     {
     //store time dimension start and step in metadata for preservation
     double _sep,_start;
-    miget_dimension_separation(this->m_MincFileDims[this->m_DimensionIndices[4]],MI_ORDER_APPARENT,&_sep);
-    miget_dimension_start(this->m_MincFileDims[this->m_DimensionIndices[4]],MI_ORDER_APPARENT,&_start);
+    miget_dimension_separation(this->m_MINCPImpl->m_MincFileDims[this->m_MINCPImpl->m_DimensionIndices[4]],MI_ORDER_APPARENT,&_sep);
+    miget_dimension_start(this->m_MINCPImpl->m_MincFileDims[this->m_MINCPImpl->m_DimensionIndices[4]],MI_ORDER_APPARENT,&_start);
     EncapsulateMetaData<double>(thisDic,"tstart",_start);
     EncapsulateMetaData<double>(thisDic,"tstep",_sep);
     }
@@ -710,18 +755,18 @@ void MINCImageIO::ReadImageInformation()
   //at least it is not used anywhere
   milisthandle_t grplist;
 
-  if ( (milist_start(m_Volume, "", 0, &grplist) ) == MI_NOERROR )
+  if ( (milist_start(this->m_MINCPImpl->m_Volume, "", 0, &grplist) ) == MI_NOERROR )
     {
     char           group_name[256];
     milisthandle_t attlist;
 
     while( milist_grp_next(grplist, group_name, sizeof(group_name) ) == MI_NOERROR )
       {
-      if( (milist_start(m_Volume, group_name, 1 , &attlist) ) == MI_NOERROR)
+      if( (milist_start(this->m_MINCPImpl->m_Volume, group_name, 1 , &attlist) ) == MI_NOERROR)
         {
         char attribute[256];
 
-        while( milist_attr_next(m_Volume,attlist,group_name,sizeof(group_name),attribute,
+        while( milist_attr_next(this->m_MINCPImpl->m_Volume,attlist,group_name,sizeof(group_name),attribute,
                                 sizeof(attribute) ) == MI_NOERROR )
           {
           mitype_t    att_data_type;
@@ -732,15 +777,15 @@ void MINCImageIO::ReadImageInformation()
           entry_key += ":";
           entry_key += attribute;
 
-          if(miget_attr_type(m_Volume,group_name,attribute,&att_data_type) == MI_NOERROR &&
-             miget_attr_length(m_Volume,group_name,attribute,&att_length) == MI_NOERROR )
+          if(miget_attr_type(this->m_MINCPImpl->m_Volume,group_name,attribute,&att_data_type) == MI_NOERROR &&
+             miget_attr_length(this->m_MINCPImpl->m_Volume,group_name,attribute,&att_length) == MI_NOERROR )
             {
             switch(att_data_type)
               {
               case MI_TYPE_STRING:
                 {
                 char *tmp=new char[att_length+1];
-                if(miget_attr_values(m_Volume,att_data_type,group_name,attribute,att_length+1,tmp) == MI_NOERROR )
+                if(miget_attr_values(this->m_MINCPImpl->m_Volume,att_data_type,group_name,attribute,att_length+1,tmp) == MI_NOERROR )
                   {
                   EncapsulateMetaData< std::string >( thisDic, entry_key, std::string(tmp) );
                   }
@@ -750,7 +795,7 @@ void MINCImageIO::ReadImageInformation()
               case MI_TYPE_FLOAT:
                 {
                 Array<float> tmp(att_length);
-                if(miget_attr_values(m_Volume,att_data_type,group_name,attribute,att_length,
+                if(miget_attr_values(this->m_MINCPImpl->m_Volume,att_data_type,group_name,attribute,att_length,
                                      tmp.data_block() ) == MI_NOERROR )
                   {
                   if(att_length==1)
@@ -769,7 +814,7 @@ void MINCImageIO::ReadImageInformation()
               case MI_TYPE_DOUBLE:
                 {
                 Array<double> tmp(att_length);
-                if(miget_attr_values(m_Volume,att_data_type,group_name,attribute,att_length,
+                if(miget_attr_values(this->m_MINCPImpl->m_Volume,att_data_type,group_name,attribute,att_length,
                                      tmp.data_block() ) == MI_NOERROR )
                   {
                   if(att_length==1)
@@ -786,7 +831,7 @@ void MINCImageIO::ReadImageInformation()
               case MI_TYPE_INT:
                 {
                 Array<int> tmp(att_length);
-                if(miget_attr_values(m_Volume,att_data_type,group_name,attribute,att_length,
+                if(miget_attr_values(this->m_MINCPImpl->m_Volume,att_data_type,group_name,attribute,att_length,
                                      tmp.data_block() ) == MI_NOERROR )
                   {
                   if(att_length==1)
@@ -872,46 +917,46 @@ void MINCImageIO::WriteImageInformation(void)
   if(nComp>3) //last dimension will be either vector or time
     {
     micreate_dimension(MItime, MI_DIMCLASS_TIME, MI_DIMATTR_REGULARLY_SAMPLED, nComp,
-                       &this->m_MincApparentDims[m_NDims-minc_dimensions-1] );
+                       &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims-minc_dimensions-1] );
 
     if(!ExposeMetaData< double >(thisDic,"tstart",tstart))
       {
       tstart=0.0;
       }
 
-    miset_dimension_start(this->m_MincApparentDims[m_NDims-minc_dimensions-1],tstart);
+    miset_dimension_start(this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims-minc_dimensions-1],tstart);
 
     if(!ExposeMetaData< double >(thisDic,"tstep",tstep))
       {
       tstep=1.0;
       }
 
-    miset_dimension_separation(this->m_MincApparentDims[m_NDims-minc_dimensions-1],tstep);
+    miset_dimension_separation(this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims-minc_dimensions-1],tstep);
 
     minc_dimensions++;
     }
   else if(nComp>1)
     {
     micreate_dimension(MIvector_dimension,MI_DIMCLASS_RECORD, MI_DIMATTR_REGULARLY_SAMPLED, nComp,
-                       &this->m_MincApparentDims[m_NDims-minc_dimensions-1] );
+                       &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims-minc_dimensions-1] );
     minc_dimensions++;
     }
 
   micreate_dimension(MIxspace,MI_DIMCLASS_SPATIAL, MI_DIMATTR_REGULARLY_SAMPLED,
-                     this->GetDimensions(0), &this->m_MincApparentDims[m_NDims-minc_dimensions-1] );
+                     this->GetDimensions(0), &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims-minc_dimensions-1] );
   minc_dimensions++;
 
   if(nDims > 1)
     {
     micreate_dimension(MIyspace,MI_DIMCLASS_SPATIAL, MI_DIMATTR_REGULARLY_SAMPLED,
-                       this->GetDimensions(1), &this->m_MincApparentDims[m_NDims-minc_dimensions-1] );
+                       this->GetDimensions(1), &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims-minc_dimensions-1] );
     minc_dimensions++;
     }
 
   if(nDims > 2)
     {
     micreate_dimension(MIzspace,MI_DIMCLASS_SPATIAL, MI_DIMATTR_REGULARLY_SAMPLED,
-                       this->GetDimensions(2), &this->m_MincApparentDims[m_NDims-minc_dimensions-1] );
+                       this->GetDimensions(2), &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims-minc_dimensions-1] );
     minc_dimensions++;
     }
 
@@ -952,40 +997,40 @@ void MINCImageIO::WriteImageInformation(void)
         dir_cos[k]=0.0;
         }
       }
-    miset_dimension_separation(this->m_MincApparentDims[minc_dimensions-j-1],this->GetSpacing(i) );
-    miset_dimension_start(this->m_MincApparentDims[minc_dimensions-j-1],origin[i]);
-    miset_dimension_cosines(this->m_MincApparentDims[minc_dimensions-j-1],dir_cos);
+    miset_dimension_separation(this->m_MINCPImpl->m_MincApparentDims[minc_dimensions-j-1],this->GetSpacing(i) );
+    miset_dimension_start(this->m_MINCPImpl->m_MincApparentDims[minc_dimensions-j-1],origin[i]);
+    miset_dimension_cosines(this->m_MINCPImpl->m_MincApparentDims[minc_dimensions-j-1],dir_cos);
     }
 
   //TODO: fix this to appropriate
-  this->m_Volume_type=MI_TYPE_FLOAT;
-  this->m_Volume_class=MI_CLASS_REAL;
+  this->m_MINCPImpl->m_Volume_type=MI_TYPE_FLOAT;
+  this->m_MINCPImpl->m_Volume_class=MI_CLASS_REAL;
 
   switch(this->GetComponentType() )
     {
     case UCHAR:
-      this->m_Volume_type=MI_TYPE_UBYTE;
-      //m_Volume_class=MI_CLASS_INT;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_UBYTE;
+      //this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case CHAR:
-      this->m_Volume_type=MI_TYPE_BYTE;
-      //m_Volume_class=MI_CLASS_INT;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_BYTE;
+      //this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case USHORT:
-      this->m_Volume_type=MI_TYPE_USHORT;
-      //m_Volume_class=MI_CLASS_INT;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_USHORT;
+      //this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case SHORT:
-      this->m_Volume_type=MI_TYPE_SHORT;
-      //m_Volume_class=MI_CLASS_INT;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_SHORT;
+      //this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case UINT:
-      this->m_Volume_type=MI_TYPE_UINT;
-      //m_Volume_class=MI_CLASS_INT;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_UINT;
+      //this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
     case INT:
-      this->m_Volume_type=MI_TYPE_INT;
-      //m_Volume_class=MI_CLASS_INT;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_INT;
+      //this->m_MINCPImpl->m_Volume_class=MI_CLASS_INT;
       break;
 //     case ULONG://TODO: make sure we are cross-platform here!
 //       volume_data_type=MI_TYPE_ULONG;
@@ -994,10 +1039,10 @@ void MINCImageIO::WriteImageInformation(void)
 //       volume_data_type=MI_TYPE_LONG;
 //       break;
     case FLOAT: //TODO: make sure we are cross-platform here!
-      this->m_Volume_type=MI_TYPE_FLOAT;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_FLOAT;
       break;
     case DOUBLE: //TODO: make sure we are cross-platform here!
-      this->m_Volume_type=MI_TYPE_DOUBLE;
+      this->m_MINCPImpl->m_Volume_type=MI_TYPE_DOUBLE;
       break;
     default:
       itkExceptionMacro(<<"Could read datatype " << this->GetComponentType() );
@@ -1010,21 +1055,21 @@ void MINCImageIO::WriteImageInformation(void)
       ExposeMetaData< std::string >(thisDic,"storage_data_type",storage_data_type) )
     {
       if(storage_data_type==typeid(char).name())
-        this->m_Volume_type=MI_TYPE_BYTE;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_BYTE;
       else if(storage_data_type==typeid(unsigned char).name())
-        this->m_Volume_type=MI_TYPE_UBYTE;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_UBYTE;
       else if(storage_data_type==typeid(short).name())
-        this->m_Volume_type=MI_TYPE_SHORT;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_SHORT;
       else if(storage_data_type==typeid(unsigned short).name())
-        this->m_Volume_type=MI_TYPE_USHORT;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_USHORT;
       else if(storage_data_type==typeid(int).name() )
-        this->m_Volume_type=MI_TYPE_INT;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_INT;
       else if(storage_data_type==typeid(unsigned int).name())
-        this->m_Volume_type=MI_TYPE_UINT;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_UINT;
       else if(storage_data_type==typeid(float).name())
-        this->m_Volume_type=MI_TYPE_FLOAT;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_FLOAT;
       else if(storage_data_type==typeid(double).name())
-        this->m_Volume_type=MI_TYPE_DOUBLE;
+        this->m_MINCPImpl->m_Volume_type=MI_TYPE_DOUBLE;
     }
   //now let's create the same dimension order and positive/negative step size as
   // in original image
@@ -1052,7 +1097,7 @@ void MINCImageIO::WriteImageInformation(void)
               }
             else
               {
-              j=m_NDims-1;
+              j=this->m_MINCPImpl->m_NDims-1;
               }
             break;
           case 't':
@@ -1064,20 +1109,20 @@ void MINCImageIO::WriteImageInformation(void)
               }
             else
               {
-              j=m_NDims-1;
+              j=this->m_MINCPImpl->m_NDims-1;
               }
             break;
           case 'x':
           case 'X':
-            j=m_NDims-1-((nComp>1 ? 1 : 0));
+            j=this->m_MINCPImpl->m_NDims-1-((nComp>1 ? 1 : 0));
             break;
           case 'y':
           case 'Y':
-            j=m_NDims-1-((nComp>1 ? 1 : 0)+1);
+            j=this->m_MINCPImpl->m_NDims-1-((nComp>1 ? 1 : 0)+1);
             break;
           case 'z':
           case 'Z':
-            j=m_NDims-1-((nComp>1 ? 1 : 0)+2);
+            j=this->m_MINCPImpl->m_NDims-1-((nComp>1 ? 1 : 0)+2);
             break;
           default:
             itkDebugMacro( << "Dimension order is incorrect " << dimension_order.c_str() );
@@ -1094,20 +1139,20 @@ void MINCImageIO::WriteImageInformation(void)
             double   _sep,_start;
             misize_t _sz;
 
-            miget_dimension_separation(this->m_MincApparentDims[j],MI_ORDER_FILE,&_sep);
-            miget_dimension_start(this->m_MincApparentDims[j],MI_ORDER_FILE,&_start);
-            miget_dimension_size(this->m_MincApparentDims[j],&_sz);
+            miget_dimension_separation(this->m_MINCPImpl->m_MincApparentDims[j],MI_ORDER_FILE,&_sep);
+            miget_dimension_start(this->m_MINCPImpl->m_MincApparentDims[j],MI_ORDER_FILE,&_start);
+            miget_dimension_size(this->m_MINCPImpl->m_MincApparentDims[j],&_sz);
 
             _start=_start+(_sz-1)*_sep;
             _sep=-_sep;
 
-            miset_dimension_separation(this->m_MincApparentDims[j],_sep);
-            miset_dimension_start(this->m_MincApparentDims[j],_start);
+            miset_dimension_separation(this->m_MINCPImpl->m_MincApparentDims[j],_sep);
+            miset_dimension_start(this->m_MINCPImpl->m_MincApparentDims[j],_start);
 
-            miset_dimension_apparent_voxel_order(this->m_MincApparentDims[j],MI_POSITIVE);
+            miset_dimension_apparent_voxel_order(this->m_MINCPImpl->m_MincApparentDims[j],MI_POSITIVE);
             }
           //Hmmm.... what are we going to get in the end?
-          this->m_MincFileDims[i]=this->m_MincApparentDims[j];
+          this->m_MINCPImpl->m_MincFileDims[i]=this->m_MINCPImpl->m_MincApparentDims[j];
           }
         }
       }
@@ -1120,7 +1165,7 @@ void MINCImageIO::WriteImageInformation(void)
   if(!dimorder_good) //use default order!
     {
     for(unsigned int i=0; i<minc_dimensions; i++)
-      this->m_MincFileDims[i]=this->m_MincApparentDims[i];
+      this->m_MINCPImpl->m_MincFileDims[i]=this->m_MINCPImpl->m_MincApparentDims[i];
     }
 
   mivolumeprops_t hprops;
@@ -1136,7 +1181,7 @@ void MINCImageIO::WriteImageInformation(void)
       itkExceptionMacro( << "Could not set MINC compression");
       }
 
-    if(miset_props_zlib_compression(hprops,this->m_CompressionLevel)<0)
+    if(miset_props_zlib_compression(hprops,this->m_MINCPImpl->m_CompressionLevel)<0)
       {
       itkExceptionMacro( << "Could not set MINC compression level");
       }
@@ -1149,34 +1194,34 @@ void MINCImageIO::WriteImageInformation(void)
       }
     }
 
-  if ( micreate_volume ( m_FileName.c_str(), minc_dimensions, this->m_MincFileDims, this->m_Volume_type,
-                         this->m_Volume_class, hprops, &this->m_Volume )<0 )
+  if ( micreate_volume ( m_FileName.c_str(), minc_dimensions, this->m_MINCPImpl->m_MincFileDims, this->m_MINCPImpl->m_Volume_type,
+                         this->m_MINCPImpl->m_Volume_class, hprops, &this->m_MINCPImpl->m_Volume )<0 )
     {
     // Error opening the volume
     itkExceptionMacro( << "Could not open file \"" << m_FileName.c_str() << "\".");
     }
 
-  if (  micreate_volume_image ( m_Volume ) <0 )
+  if (  micreate_volume_image ( this->m_MINCPImpl->m_Volume ) <0 )
     {
     // Error opening the volume
     itkExceptionMacro( << "Could not create image in  file \"" << m_FileName.c_str() << "\".");
     }
 
-  if ( miset_apparent_dimension_order(m_Volume,minc_dimensions,this->m_MincApparentDims)<0)
+  if ( miset_apparent_dimension_order(this->m_MINCPImpl->m_Volume,minc_dimensions,this->m_MINCPImpl->m_MincApparentDims)<0)
     {
     itkExceptionMacro( << " Can't set apparent dimension order!");
     }
 
-  if ( miset_slice_scaling_flag(m_Volume, 0 )<0)
+  if ( miset_slice_scaling_flag(this->m_MINCPImpl->m_Volume, 0 )<0)
     {
     itkExceptionMacro( << "Could not set slice scaling flag");
     }
 
   double valid_min,valid_max;
-  miget_volume_valid_range(m_Volume,&valid_max,&valid_min);
+  miget_volume_valid_range(this->m_MINCPImpl->m_Volume,&valid_max,&valid_min);
 
   //by default valid range will be equal to range, to avoid scaling
-  miset_volume_range(m_Volume,valid_max,valid_min);
+  miset_volume_range(this->m_MINCPImpl->m_Volume,valid_max,valid_min);
 
   for(MetaDataDictionary::ConstIterator it=thisDic.Begin();
       it != thisDic.End(); ++it)
@@ -1209,37 +1254,37 @@ void MINCImageIO::WriteImageInformation(void)
       if(!strcmp(tname,typeid(std::string).name() ) )
         {
         const std::string &tmp=dynamic_cast<MetaDataObject<std::string> *>(bs )->GetMetaDataObjectValue();
-        miset_attr_values(m_Volume,MI_TYPE_STRING,var.c_str(),att.c_str(),tmp.length()+1,tmp.c_str() );
+        miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_STRING,var.c_str(),att.c_str(),tmp.length()+1,tmp.c_str() );
         }
       else if(!strcmp(tname,typeid(Array<double>).name() ) )
         {
         const Array<double> &tmp=dynamic_cast<MetaDataObject<Array<double> > * >(bs)->GetMetaDataObjectValue();
-        miset_attr_values(m_Volume,MI_TYPE_DOUBLE,var.c_str(),att.c_str(),tmp.Size(),tmp.data_block() );
+        miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_DOUBLE,var.c_str(),att.c_str(),tmp.Size(),tmp.data_block() );
         }
       else if(!strcmp(tname,typeid(Array<float>).name() ) )
         {
         const Array<float> &tmp=dynamic_cast<MetaDataObject<Array<float> > * >(bs)->GetMetaDataObjectValue();
-        miset_attr_values(m_Volume,MI_TYPE_FLOAT,var.c_str(),att.c_str(),tmp.Size(),tmp.data_block() );
+        miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_FLOAT,var.c_str(),att.c_str(),tmp.Size(),tmp.data_block() );
         }
       else if(!strcmp(tname,typeid(Array<int>).name() ) )
         {
         const Array<int> &tmp=dynamic_cast<MetaDataObject<Array<int> > * >(bs)->GetMetaDataObjectValue();
-        miset_attr_values(m_Volume,MI_TYPE_INT,var.c_str(),att.c_str(),tmp.Size(),tmp.data_block() );
+        miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_INT,var.c_str(),att.c_str(),tmp.Size(),tmp.data_block() );
         }
       else if(!strcmp(tname,typeid(double).name() ) )
         {
         double tmp=dynamic_cast<MetaDataObject<double > * >(bs)->GetMetaDataObjectValue();
-        miset_attr_values(m_Volume,MI_TYPE_DOUBLE,var.c_str(),att.c_str(),1,&tmp);
+        miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_DOUBLE,var.c_str(),att.c_str(),1,&tmp);
         }
       else if(!strcmp(tname,typeid(float).name() ) )
         {
         float tmp=dynamic_cast<MetaDataObject<float > * >(bs)->GetMetaDataObjectValue();
-        miset_attr_values(m_Volume,MI_TYPE_FLOAT,var.c_str(),att.c_str(),1,&tmp);
+        miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_FLOAT,var.c_str(),att.c_str(),1,&tmp);
         }
       else if(!strcmp(tname,typeid(int).name() ) )
         {
         int tmp=dynamic_cast<MetaDataObject<int > * >(bs)->GetMetaDataObjectValue();
-        miset_attr_values(m_Volume,MI_TYPE_INT,var.c_str(),att.c_str(),1,&tmp);
+        miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_INT,var.c_str(),att.c_str(),1,&tmp);
         }
       else
         {
@@ -1249,7 +1294,7 @@ void MINCImageIO::WriteImageInformation(void)
     else if( (*it).first == "history")
       {
       const std::string &tmp=dynamic_cast<MetaDataObject<std::string> *>(bs )->GetMetaDataObjectValue();
-      miset_attr_values(m_Volume,MI_TYPE_STRING,"","history",tmp.length()+1,tmp.c_str() );
+      miset_attr_values(this->m_MINCPImpl->m_Volume,MI_TYPE_STRING,"","history",tmp.length()+1,tmp.c_str() );
       }
     else
       { // else we have an attribute without variable name, most likely
@@ -1354,10 +1399,10 @@ void MINCImageIO::Write(const void *buffer)
   this->WriteImageInformation();
 
   //by default valid range will be equal to range, to avoid scaling
-  if( volume_data_type == this->m_Volume_type )
+  if( volume_data_type == this->m_MINCPImpl->m_Volume_type )
     {
-    miset_volume_valid_range(m_Volume,buffer_max,buffer_min);
-    miset_volume_range(m_Volume,buffer_max,buffer_min);
+    miset_volume_valid_range(this->m_MINCPImpl->m_Volume,buffer_max,buffer_min);
+    miset_volume_range(this->m_MINCPImpl->m_Volume,buffer_max,buffer_min);
     }
   else // we are using scaling
     {
@@ -1366,19 +1411,19 @@ void MINCImageIO::Write(const void *buffer)
       //but it's ok since it matches float
       if( this->GetComponentType() == FLOAT )
         {
-          if( this->m_Volume_type == MI_TYPE_INT )
+          if( this->m_MINCPImpl->m_Volume_type == MI_TYPE_INT )
             {
-              miset_volume_valid_range(m_Volume,INT_MAX/2,INT_MIN/2);
+              miset_volume_valid_range(this->m_MINCPImpl->m_Volume,INT_MAX/2,INT_MIN/2);
             }
-          else if( this->m_Volume_type == MI_TYPE_UINT )
+          else if( this->m_MINCPImpl->m_Volume_type == MI_TYPE_UINT )
             {
-              miset_volume_valid_range(m_Volume,UINT_MAX/2,0);
+              miset_volume_valid_range(this->m_MINCPImpl->m_Volume,UINT_MAX/2,0);
             }
         }
-      miset_volume_range(m_Volume,buffer_max,buffer_min);
+      miset_volume_range(this->m_MINCPImpl->m_Volume,buffer_max,buffer_min);
     }
 
-  if ( miset_real_value_hyperslab(m_Volume, volume_data_type, start, count, const_cast<void*>( buffer) ) < 0 )
+  if ( miset_real_value_hyperslab(this->m_MINCPImpl->m_Volume, volume_data_type, start, count, const_cast<void*>( buffer) ) < 0 )
     {
     delete[] start;
     delete[] count;

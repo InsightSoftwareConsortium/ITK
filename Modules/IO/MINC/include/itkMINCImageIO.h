@@ -31,12 +31,15 @@
 
 #include "itkMatrix.h"
 
-#include <itk_minc2.h>
-
 #include "ITKIOMINCExport.h"
 
 namespace itk
 {
+
+// Structure for "Pointer to Implementation" or "Private
+// Implementation" to hide MINC data from the ITK interface.
+struct ITKIOMINC_HIDDEN MINCImageIOPImpl;
+
 /** \class MINCImageIO
  *
  * \author Leila Baghdadi
@@ -83,8 +86,8 @@ public:
 
   /** Set/Get the level of compression for the output images.
    *  0-9; 0 = none, 9 = maximum. */
-  itkSetMacro(CompressionLevel, int);
-  itkGetConstMacro(CompressionLevel, int);
+  void SetCompressionLevel(int level);
+  int GetCompressionLevel() const;
 
   /*-------- This part of the interface deals with reading data. ------ */
 
@@ -115,31 +118,10 @@ public:
 protected:
   MINCImageIO();
   ~MINCImageIO();
+
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void WriteSlice(std::string & fileName, const void *buffer);
-
-  int  m_NDims; /*Number of dimensions*/
-
-  // dimension size and start and step, in FILE ORDER!
-
-  char         **m_DimensionName;
-  misize_t      *m_DimensionSize;
-  double        *m_DimensionStart;
-  double        *m_DimensionStep;
-  int            m_DimensionIndices[5];
-  midimhandle_t *m_MincFileDims;
-  midimhandle_t *m_MincApparentDims;
-  mitype_t       m_Volume_type;
-  miclass_t      m_Volume_class;
-  int            m_CompressionLevel;
-
-  // MINC2 volume handle , currently opened
-  mihandle_t     m_Volume;
-
-  MatrixType     m_DirectionCosines;
-  // complex type images, composed of complex numbers
-  //int m_Complex;
 
   // will assign m_NDims and allocate all internal buffers to hold the
   // information
@@ -152,6 +134,14 @@ protected:
   void CloseVolume();
 
 private:
+
+  MINCImageIOPImpl *m_MINCPImpl;
+
+  MatrixType     m_DirectionCosines;
+
+  // complex type images, composed of complex numbers
+  //int m_Complex;
+
   ITK_DISALLOW_COPY_AND_ASSIGN(MINCImageIO);
 
 };
