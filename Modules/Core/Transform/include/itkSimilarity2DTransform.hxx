@@ -243,6 +243,11 @@ Similarity2DTransform<TParametersValueType>
     }
 
   inverse->SetFixedParameters(this->GetFixedParameters());
+  this->GetInverseMatrix();
+  if( this->GetSingular() )
+    {
+    return false;
+    }
   inverse->SetCenter( this->GetCenter() );  // inverse have the same center
   inverse->SetScale( NumericTraits<double>::OneValue() / this->GetScale() );
   inverse->SetAngle( -this->GetAngle() );

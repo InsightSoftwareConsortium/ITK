@@ -322,6 +322,19 @@ int itkSimilarity2DTransformTest(int, char *[] )
       return EXIT_FAILURE;
       }
 
+    // Test singular matrix transform
+    parameters[0] = 0.0; //scale
+    parameters[1] = -2;
+    parameters[2] = 12.0;
+    parameters[3] = -8.9;
+    t1->SetParameters( parameters );
+    bool computedInverse = t1->GetInverse( t2 );
+    if( computedInverse )
+      {
+      std::cout << "Did not report singular matrix when computed inverse of singular matrix" << std::endl;
+      return EXIT_FAILURE;
+      }
+
     // Test compose
     TransformType::Pointer t4 = TransformType::New();
 

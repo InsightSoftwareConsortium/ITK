@@ -535,6 +535,7 @@ protected:
     m_Center = center;
   }
 
+  itkGetConstMacro(Singular, bool);
 private:
 
   MatrixOffsetTransformBase(const Self & other);
