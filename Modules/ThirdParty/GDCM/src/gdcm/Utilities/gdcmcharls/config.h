@@ -1,6 +1,6 @@
-// 
-// (C) Jan de Vaan 2007-2010, all rights reserved. See the accompanying "License.txt" for licensed use. 
-// 
+/* 
+ (C) Jan de Vaan 2007-2010, all rights reserved. See the accompanying "License.txt" for licensed use. 
+*/ 
 
 
 #ifndef CHARLS_CONFIG
@@ -29,8 +29,7 @@ typedef long long int64_t;
 typedef unsigned long long uint64_t;
 #endif
 
-// Typedef used by Charls for the default integral type. 
-// charls will work correctly with 64 or 32 bit. 
+/* Typedef used by Charls for the default integral type.  charls will work correctly with 64 or 32 bit. */
 typedef long LONG;
 
 enum constants

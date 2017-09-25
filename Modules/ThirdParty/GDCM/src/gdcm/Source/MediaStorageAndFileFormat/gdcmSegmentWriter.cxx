@@ -61,6 +61,84 @@ void SegmentWriter::SetSegments(SegmentVector & segments)
   Segments = segments;
 }
 
+
+void writeCodeSequenceMacroAttributes(const SegmentHelper::BasicCodedEntry & entry,
+                                      const Tag & tag,
+                                      DataSet & dataset,
+                                      bool severalItemsAllowed)
+{
+  SmartPointer<SequenceOfItems> sequence;
+
+  // If the sequence does not exist, we create it
+  if(!dataset.FindDataElement(tag))
+  {
+    sequence = new SequenceOfItems();
+    DataElement dataElement( tag );
+    dataElement.SetVR( VR::SQ );
+    dataElement.SetValue(*sequence);
+    dataElement.SetVLToUndefined();
+    dataset.Insert(dataElement);
+  }
+
+  // Retrieve the sequence from the dataset
+  sequence = dataset.GetDataElement(tag).GetValueAsSQ();
+
+  // Check if an item is already present in the sequence
+  if (!severalItemsAllowed && sequence->GetNumberOfItems() > 0)
+  {
+    // Obviously the user has already added an item to the sequence
+    // Let's assume the user knows what he does
+    return;
+  }
+
+  // Fill the Sequence
+  sequence->SetLengthToUndefined();
+
+  Item item;
+  item.SetVLToUndefined();
+  DataSet & itemDataSet = item.GetNestedDataSet();
+
+  // Code Sequence Macro Attributes
+  {
+    // Code Value (Type 1C)
+    Attribute<0x0008, 0x0100> codeValueAttribute;
+    codeValueAttribute.SetValue(entry.CV);
+    itemDataSet.Replace(codeValueAttribute.GetAsDataElement());
+
+    // Coding Scheme Designator (Type 1C)
+    Attribute<0x0008, 0x0102> codingSchemeDesignatorAttribute;
+    codingSchemeDesignatorAttribute.SetValue(entry.CSD);
+    itemDataSet.Replace(codingSchemeDesignatorAttribute.GetAsDataElement());
+
+    // Coding Scheme Version (Type 1C)
+    if(!entry.CSV.empty())
+    {
+      Attribute<0x0008, 0x0103> codingSchemeVersionAttribute;
+      codingSchemeVersionAttribute.SetValue(entry.CSV);
+      itemDataSet.Replace(codingSchemeVersionAttribute.GetAsDataElement());
+    }
+
+    // Code Meaning (Type 1)
+    Attribute<0x0008, 0x0104> codeMeaningAttribute;
+    codeMeaningAttribute.SetValue(entry.CM);
+    itemDataSet.Replace(codeMeaningAttribute.GetAsDataElement());
+  }
+
+  sequence->AddItem(item);
+
+}
+
+void writeCodeSequenceMacroAttributes(const Segment::BasicCodedEntryVector & entries,
+                                      const Tag & tag,
+                                      DataSet & dataset)
+{
+  Segment::BasicCodedEntryVector::const_iterator it = entries.begin();
+  for(; it != entries.end(); ++it)
+  {
+    writeCodeSequenceMacroAttributes(*it, tag, dataset, true);
+  }
+}
+
 bool SegmentWriter::PrepareWrite()
 {
   File &      file    = GetFile();
@@ -80,23 +158,23 @@ bool SegmentWriter::PrepareWrite()
   segmentsSQ = ds.GetDataElement( Tag(0x0062, 0x0002) ).GetValueAsSQ();
   segmentsSQ->SetLengthToUndefined();
 
-{
-  // Fill the Segment Sequence
-  const unsigned int              numberOfSegments  = this->GetNumberOfSegments();
-  assert( numberOfSegments );
-  const size_t nbItems           = segmentsSQ->GetNumberOfItems();
-  if (nbItems < numberOfSegments)
   {
-    const size_t diff           = numberOfSegments - nbItems;
-    const size_t nbOfItemToMake = (diff > 0?diff:0);
-    for(unsigned int i = 1; i <= nbOfItemToMake; ++i)
+    // Fill the Segment Sequence
+    const unsigned int              numberOfSegments  = this->GetNumberOfSegments();
+    assert( numberOfSegments );
+    const size_t nbItems           = segmentsSQ->GetNumberOfItems();
+    if (nbItems < numberOfSegments)
     {
-      Item item;
-      item.SetVLToUndefined();
-      segmentsSQ->AddItem(item);
+      const size_t diff           = numberOfSegments - nbItems;
+      const size_t nbOfItemToMake = (diff > 0?diff:0);
+      for(unsigned int i = 1; i <= nbOfItemToMake; ++i)
+      {
+        Item item;
+        item.SetVLToUndefined();
+        segmentsSQ->AddItem(item);
+      }
     }
   }
-}
   // else Should I remove items?
 
   std::vector< SmartPointer< Segment > >::const_iterator  it0            = Segments.begin();
@@ -149,172 +227,63 @@ bool SegmentWriter::PrepareWrite()
     }
     else
     {
-    Attribute<0x0062, 0x0008> segmentAlgorithmTypeAt;
-    segmentAlgorithmTypeAt.SetValue( segmentAlgorithmType );
-    segmentDS.Replace( segmentAlgorithmTypeAt.GetAsDataElement() );
+      Attribute<0x0062, 0x0008> segmentAlgorithmTypeAt;
+      segmentAlgorithmTypeAt.SetValue( segmentAlgorithmType );
+      segmentDS.Replace( segmentAlgorithmTypeAt.GetAsDataElement() );
     }
 
-    //*****   GENERAL ANATOMY MANDATORY MACRO ATTRIBUTES   *****//
+
+    // General Anatomy Optional Macro Attributes
     {
-      const SegmentHelper::BasicCodedEntry & anatReg = segment->GetAnatomicRegion();
-      if (anatReg.IsEmpty())
+      // Anatomic Region Sequence (Type 3) - Only a single Item allowed
+      const SegmentHelper::BasicCodedEntry & anatomicRegion = segment->GetAnatomicRegion();
+      if(!anatomicRegion.IsEmpty())
       {
-        gdcmWarningMacro("Anatomic region not specified or incomplete");
+        writeCodeSequenceMacroAttributes(anatomicRegion, Tag(0x0008, 0x2218), segmentDS, false);
+
+        // Anatomic Region Modifier Sequence (Type 3)
+        const Segment::BasicCodedEntryVector & anatomicRegionModifiers = segment->GetAnatomicRegionModifiers();
+        if(!anatomicRegionModifiers.empty())
+        {
+          SmartPointer<SequenceOfItems> sequence = segmentDS.GetDataElement(Tag(0x0008, 0x2218)).GetValueAsSQ();
+          Item& item = sequence->GetItem(1);
+          DataSet& itemDataSet = item.GetNestedDataSet();
+
+          writeCodeSequenceMacroAttributes(anatomicRegionModifiers, Tag(0x0008, 0x2220), itemDataSet);
+        }
       }
 
-      // Anatomic Region Sequence (0008,2218) Type 1
-      SmartPointer<SequenceOfItems> anatRegSQ;
-      const Tag anatRegSQTag(0x0008, 0x2218);
-      if( !segmentDS.FindDataElement( anatRegSQTag ) )
-      {
-        anatRegSQ = new SequenceOfItems;
-        DataElement detmp( anatRegSQTag );
-        detmp.SetVR( VR::SQ );
-        detmp.SetValue( *anatRegSQ );
-        detmp.SetVLToUndefined();
-        segmentDS.Insert( detmp );
-      }
-      anatRegSQ = segmentDS.GetDataElement( anatRegSQTag ).GetValueAsSQ();
-      anatRegSQ->SetLengthToUndefined();
-
-      // Fill the Anatomic Region Sequence
-      const size_t nbItems = anatRegSQ->GetNumberOfItems();
-      if (nbItems < 1)  // Only one item is a type 1
-      {
-        Item item;
-        item.SetVLToUndefined();
-        anatRegSQ->AddItem(item);
-      }
-
-      Item &    anatRegItem = anatRegSQ->GetItem(1);
-      DataSet & anatRegDS   = anatRegItem.GetNestedDataSet();
-
-      //*****   CODE SEQUENCE MACRO ATTRIBUTES   *****//
-      {
-        // Code Value (Type 1)
-        Attribute<0x0008, 0x0100> codeValueAt;
-        codeValueAt.SetValue( anatReg.CV );
-        anatRegDS.Replace( codeValueAt.GetAsDataElement() );
-
-        // Coding Scheme (Type 1)
-        Attribute<0x0008, 0x0102> codingSchemeAt;
-        codingSchemeAt.SetValue( anatReg.CSD );
-        anatRegDS.Replace( codingSchemeAt.GetAsDataElement() );
-
-        // Code Meaning (Type 1)
-        Attribute<0x0008, 0x0104> codeMeaningAt;
-        codeMeaningAt.SetValue( anatReg.CM );
-        anatRegDS.Replace( codeMeaningAt.GetAsDataElement() );
-      }
     }
 
-    //*****   Segmented Property Category Code Sequence   *****//
+    // Segmented Property Category Code Sequence (Type 1) - Only a single Item allowed
+    const SegmentHelper::BasicCodedEntry & propertyCategory = segment->GetPropertyCategory();
+    if(propertyCategory.IsEmpty())
     {
-      const SegmentHelper::BasicCodedEntry & propCat = segment->GetPropertyCategory();
-      if (propCat.IsEmpty())
-      {
-        gdcmWarningMacro("Segmented property category not specified or incomplete");
-      }
-
-      // Segmented Property Category Code Sequence (0062,0003) Type 1
-      SmartPointer<SequenceOfItems> propCatSQ;
-      const Tag propCatSQTag(0x0062, 0x0003);
-      if( !segmentDS.FindDataElement( propCatSQTag ) )
-      {
-        propCatSQ = new SequenceOfItems;
-        DataElement detmp( propCatSQTag );
-        detmp.SetVR( VR::SQ );
-        detmp.SetValue( *propCatSQ );
-        detmp.SetVLToUndefined();
-        segmentDS.Insert( detmp );
-      }
-      propCatSQ = segmentDS.GetDataElement( propCatSQTag ).GetValueAsSQ();
-      propCatSQ->SetLengthToUndefined();
-
-      // Fill the Segmented Property Category Code Sequence
-      const size_t nbItems = propCatSQ->GetNumberOfItems();
-      if (nbItems < 1)  // Only one item is a type 1
-      {
-        Item item;
-        item.SetVLToUndefined();
-        propCatSQ->AddItem(item);
-      }
-
-      Item &    propCatItem = propCatSQ->GetItem(1);
-      DataSet & propCatDS   = propCatItem.GetNestedDataSet();
-
-      //*****   CODE SEQUENCE MACRO ATTRIBUTES   *****//
-      {
-        // Code Value (Type 1)
-        Attribute<0x0008, 0x0100> codeValueAt;
-        codeValueAt.SetValue( propCat.CV );
-        propCatDS.Replace( codeValueAt.GetAsDataElement() );
-
-        // Coding Scheme (Type 1)
-        Attribute<0x0008, 0x0102> codingSchemeAt;
-        codingSchemeAt.SetValue( propCat.CSD );
-        propCatDS.Replace( codingSchemeAt.GetAsDataElement() );
-
-        // Code Meaning (Type 1)
-        Attribute<0x0008, 0x0104> codeMeaningAt;
-        codeMeaningAt.SetValue( propCat.CM );
-        propCatDS.Replace( codeMeaningAt.GetAsDataElement() );
-      }
+      gdcmWarningMacro("The property category is not specified or incomplete");
     }
+    writeCodeSequenceMacroAttributes(propertyCategory, Tag(0x0062, 0x0003), segmentDS, false);
 
-    //*****   Segmented Property Type Code Sequence   *****//
+
+    // Segmented Property Type Code Sequence (Type 1) - Only a single Item allowed
+    const SegmentHelper::BasicCodedEntry & propertyType = segment->GetPropertyType();
+    if(propertyType.IsEmpty())
     {
-      const SegmentHelper::BasicCodedEntry & propType = segment->GetPropertyType();
-      if (propType.IsEmpty())
-      {
-        gdcmWarningMacro("Segmented property type not specified or incomplete");
-      }
-
-      // Segmented Property Type Code Sequence (0062,000F) Type 1
-      SmartPointer<SequenceOfItems> propTypeSQ;
-      const Tag propTypeSQTag(0x0062, 0x000F);
-      if( !segmentDS.FindDataElement( propTypeSQTag ) )
-      {
-        propTypeSQ = new SequenceOfItems;
-        DataElement detmp( propTypeSQTag );
-        detmp.SetVR( VR::SQ );
-        detmp.SetValue( *propTypeSQ );
-        detmp.SetVLToUndefined();
-        segmentDS.Insert( detmp );
-      }
-      propTypeSQ = segmentDS.GetDataElement( propTypeSQTag ).GetValueAsSQ();
-      propTypeSQ->SetLengthToUndefined();
-
-      // Fill the Segmented Property Type Code Sequence
-      const size_t nbItems = propTypeSQ->GetNumberOfItems();
-      if (nbItems < 1)  // Only one item is a type 1
-      {
-        Item item;
-        item.SetVLToUndefined();
-        propTypeSQ->AddItem(item);
-      }
-
-      Item &    propTypeItem = propTypeSQ->GetItem(1);
-      DataSet & propTypeDS   = propTypeItem.GetNestedDataSet();
-
-      //*****   CODE SEQUENCE MACRO ATTRIBUTES   *****//
-      {
-        // Code Value (Type 1)
-        Attribute<0x0008, 0x0100> codeValueAt;
-        codeValueAt.SetValue( propType.CV );
-        propTypeDS.Replace( codeValueAt.GetAsDataElement() );
-
-        // Coding Scheme (Type 1)
-        Attribute<0x0008, 0x0102> codingSchemeAt;
-        codingSchemeAt.SetValue( propType.CSD );
-        propTypeDS.Replace( codingSchemeAt.GetAsDataElement() );
-
-        // Code Meaning (Type 1)
-        Attribute<0x0008, 0x0104> codeMeaningAt;
-        codeMeaningAt.SetValue( propType.CM );
-        propTypeDS.Replace( codeMeaningAt.GetAsDataElement() );
-      }
+      gdcmWarningMacro("The property type is not specified or incomplete");
     }
+    writeCodeSequenceMacroAttributes(propertyType, Tag(0x0062, 0x000F), segmentDS, false);
+
+
+    // Segmented Property Type Modifier Code Sequence (Type 3)
+    const Segment::BasicCodedEntryVector & propertyTypeModifiers = segment->GetPropertyTypeModifiers();
+    if(!propertyTypeModifiers.empty())
+    {
+      SmartPointer<SequenceOfItems> sequence = segmentDS.GetDataElement(Tag(0x0062, 0x000F)).GetValueAsSQ();
+      Item& item = sequence->GetItem(1);
+      DataSet& itemDataSet = item.GetNestedDataSet();
+
+      writeCodeSequenceMacroAttributes(propertyTypeModifiers, Tag(0x0062, 0x0011), itemDataSet);
+    }
+
 
     //*****   Surface segmentation    *****//
     const unsigned long surfaceCount = segment->GetSurfaceCount();

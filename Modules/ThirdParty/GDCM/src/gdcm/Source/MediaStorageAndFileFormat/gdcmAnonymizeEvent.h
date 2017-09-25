@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
  * \brief AnonymizeEvent
- * Special type of event triggered during the Anonymization process
+ * \details Special type of event triggered during the Anonymization process
  *
  * \see Anonymizer
  */

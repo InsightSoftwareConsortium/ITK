@@ -25,7 +25,7 @@ namespace gdcm{
   namespace network {
 /**
  * \brief ULConnectionInfo
- * this class contains all the information about a particular connection
+ * \details this class contains all the information about a particular connection
  * as established by the user.  That is, it's:
  *  User Information
  *  Calling AE Title

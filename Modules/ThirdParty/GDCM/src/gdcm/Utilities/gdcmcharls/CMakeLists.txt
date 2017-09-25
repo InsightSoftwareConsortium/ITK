@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 2.8.7)
+
 if(NOT CHARLS_NAMESPACE)
   set(CHARLS_NAMESPACE "CHARLS")
   set(CHARLS_STANDALONE 1)
@@ -10,7 +12,7 @@ project(${CHARLS_NAMESPACE} CXX)
 #-----------------------------------------------------------------------------
 # CHARLS version number
 set(CHARLS_MAJOR_VERSION 1)
-set(CHARLS_MINOR_VERSION 0)
+set(CHARLS_MINOR_VERSION 1)
 set(CHARLS_BUILD_VERSION 0)
 set(CHARLS_VERSION
       "${CHARLS_MAJOR_VERSION}.${CHARLS_MINOR_VERSION}.${CHARLS_BUILD_VERSION}")
@@ -50,14 +52,19 @@ endif()
 
 if(WIN32)
   if(BUILD_SHARED_LIBS)
-    add_definitions(-DCHARLS_SHARED)
+    add_definitions(-DCHARLS_DLL)
+  else()
+    add_definitions(-DCHARLS_STATIC)
   endif()
 endif()
 
 add_library(${CHARLS_LIBRARY_NAME} header.cpp  interface.cpp  jpegls.cpp
-  stdafx.cpp
+  jpegmarkersegment.cpp  jpegstreamwriter.cpp
   )
-set_target_properties(${CHARLS_LIBRARY_NAME} PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
+set_target_properties( ${CHARLS_LIBRARY_NAME} PROPERTIES
+                              VERSION ${CHARLS_MAJOR_VERSION}.${CHARLS_MINOR_VERSION}
+                              SOVERSION ${CHARLS_MAJOR_VERSION})
+
 
 # Install library
 if(NOT CHARLS_INSTALL_NO_LIBRARIES)
@@ -83,8 +90,3 @@ if(NOT CHARLS_INSTALL_NO_DEVELOPMENT)
     DESTINATION ${CHARLS_INSTALL_INCLUDE_DIR} COMPONENT Headers
   )
 endif()
-#add_executable(charlstest test/test.cpp test/time.cpp)
-#target_link_libraries (charlstest CharLS)
-
-#include(CTest)
-#add_test(charlstest charlstest)

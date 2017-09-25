@@ -551,7 +551,7 @@ UINT16 Y_density
     || cinfo.Y_density != 1
   )
     {
-    gdcmErrorMacro( "Pixel Density from JFIF Marker is not supported (for now)" );
+    gdcmWarningMacro( "Pixel Density from JFIF Marker is not supported (for now)" );
     //return false;
     }
 
@@ -793,9 +793,15 @@ bool JPEGBITSCodec::DecodeByStreams(std::istream &is, std::ostream &os)
     if( cinfo.image_width != dims[0]
       || cinfo.image_height != dims[1] )
       {
-      gdcmErrorMacro( "Unhandled: dimension mismatch. JPEG is " <<
+      gdcmWarningMacro( "dimension mismatch. JPEG is " <<
         cinfo.image_width << "," << cinfo.image_height << " while DICOM " << dims[0] <<
-        "," << dims[1]  ); // FIXME is this ok by standard ?
+        "," << dims[1]  ); 
+      //this->Dimensions[0] = cinfo.image_width;
+      //this->Dimensions[1] = cinfo.image_height;
+      /*
+       * Long story short, the real issue is that class such as ImageRegionReader expect to read the
+       * image information without ever touching the JPEG codestream...
+       */
       return false;
       }
     assert( cinfo.image_width == dims[0] );

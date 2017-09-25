@@ -137,6 +137,9 @@ static const char *MSStrings[] = {
   "1.2.840.10008.5.1.4.1.1.77.1.2",   // VL Microscopic Image Storage
   "1.2.840.10008.5.1.4.1.1.130", // Enhanced PET Image Storage
   "1.2.840.10008.5.1.4.1.1.77.1.4.1", // Video Photographic Image Storage
+  "1.2.840.10008.5.1.4.1.1.13.1.2", // XRay3DCraniofacialImageStorage
+  "1.2.840.10008.5.1.4.1.1.14.1", // IVOCTForPresentation,
+  "1.2.840.10008.5.1.4.1.1.14.2", // IVCOTForProcessing,
   0
 };
 
@@ -316,6 +319,9 @@ static const MSModalityType MSModalityTypes[] = {
   {"GM", 3, 0},// VLMicroscopicImageStorage
   {"PT", 3, 0},//PETImageStorage,
   {"XC", 3, 0},// VideoPhotographicImageStorage
+  {"DX", 3, 0},// XRay3DCraniofacialImageStorage
+  {"IVOCT", 3, 0},// IVOCTForPresentation,
+  {"IVOCT", 3, 0},// IVCOTForProcessing,
 
   {NULL, 0, 0} //MS_END
 };

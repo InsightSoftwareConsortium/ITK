@@ -145,6 +145,51 @@ bool SegmentReader::ReadSegments()
   return res;
 }
 
+
+Segment::BasicCodedEntryVector readCodeSequenceMacroAttributes(const Tag & tag, const DataSet & dataset)
+{
+  Segment::BasicCodedEntryVector result;
+
+  if(dataset.FindDataElement(tag))
+  {
+    SmartPointer<SequenceOfItems> sequence = dataset.GetDataElement(tag).GetValueAsSQ();
+
+    SequenceOfItems::Iterator it = sequence->Begin();
+    for(; it != sequence->End(); ++it)
+    {
+      const Item & item = *it;
+      const DataSet & itemDataSet = item.GetNestedDataSet();
+
+      SegmentHelper::BasicCodedEntry entry;
+
+      // Code Value (Type 1C)
+      Attribute<0x0008, 0x0100> codeValueAttribute;
+      codeValueAttribute.SetFromDataSet(itemDataSet);
+      entry.CV = codeValueAttribute.GetValue();
+
+      // Coding Scheme Designator (Type 1C)
+      Attribute<0x0008, 0x0102> codingSchemeDesignatorAttribute;
+      codingSchemeDesignatorAttribute.SetFromDataSet(itemDataSet);
+      entry.CSD = codingSchemeDesignatorAttribute.GetValue();
+
+      // Coding Scheme Version (Type 1C)
+      Attribute<0x0008, 0x0103> codingSchemeVersionAttribute;
+      codingSchemeVersionAttribute.SetFromDataSet(itemDataSet);
+      entry.CSV = codingSchemeVersionAttribute.GetValue();
+
+      // Code Meaning (Type 1)
+      Attribute<0x0008, 0x0104> codeMeaningAttribute;
+      codeMeaningAttribute.SetFromDataSet(itemDataSet);
+      entry.CM = codeMeaningAttribute.GetValue();
+
+      result.push_back(entry);
+    }
+  }
+
+  return result;
+}
+
+
 bool SegmentReader::ReadSegment(const Item & segmentItem, const unsigned int idx)
 {
   SmartPointer< Segment > segment   = new Segment;
@@ -188,104 +233,80 @@ bool SegmentReader::ReadSegment(const Item & segmentItem, const unsigned int idx
   segment->SetSurfaceCount( surfaceCount );
 
   // Check if there is a Surface Segmentation Module
-  if (surfaceCount > 0
-   || rootDs.FindDataElement( Tag(0x0066, 0x0002) ))
+  if (surfaceCount > 0 || rootDs.FindDataElement(Tag(0x0066, 0x0002)))
   {
-    //*****   GENERAL ANATOMY MANDATORY MACRO ATTRIBUTES   *****//
-    // Anatomic Region Sequence (0008,2218) Type 1
-    if( segmentDS.FindDataElement( Tag(0x0008, 0x2218) ) )
+
+    //Basic Coded Entries in each sequences
+    Segment::BasicCodedEntryVector basicCodedEntries;
+
+    // Anatomic Region Sequence (Type 3)
+    basicCodedEntries = readCodeSequenceMacroAttributes(Tag(0x0008, 0x2218), segmentDS);
+    if(!basicCodedEntries.empty())
     {
-      SmartPointer<SequenceOfItems> anatRegSQ = segmentDS.GetDataElement( Tag(0x0008, 0x2218) ).GetValueAsSQ();
-
-      if (anatRegSQ->GetNumberOfItems() > 0)  // Only one item is a type 1
+      segment->SetAnatomicRegion(basicCodedEntries[0]);
+      // Only a single Item is permitted in this Sequence
+      if(basicCodedEntries.size() > 1)
       {
-        const Item &    anatRegItem = anatRegSQ->GetItem(1);
-        const DataSet & anatRegDS   = anatRegItem.GetNestedDataSet();
+        gdcmWarningMacro("Only a single Item is permitted in Anatomic Region Sequence, other items will be ignored");
+      }
 
-        //*****   CODE SEQUENCE MACRO ATTRIBUTES   *****//
-        SegmentHelper::BasicCodedEntry & anatReg = segment->GetAnatomicRegion();
+      SmartPointer<SequenceOfItems> sequence = segmentDS.GetDataElement(Tag(0x0008, 0x2218)).GetValueAsSQ();
+      Item& item = sequence->GetItem(1);
+      DataSet& itemDataSet = item.GetNestedDataSet();
 
-        // Code Value (Type 1)
-        Attribute<0x0008, 0x0100> codeValueAt;
-        codeValueAt.SetFromDataSet( anatRegDS );
-        anatReg.CV = codeValueAt.GetValue();
-
-        // Coding Scheme (Type 1)
-        Attribute<0x0008, 0x0102> codingSchemeAt;
-        codingSchemeAt.SetFromDataSet( anatRegDS );
-        anatReg.CSD = codingSchemeAt.GetValue();
-
-        // Code Meaning (Type 1)
-        Attribute<0x0008, 0x0104> codeMeaningAt;
-        codeMeaningAt.SetFromDataSet( anatRegDS );
-        anatReg.CM = codeMeaningAt.GetValue();
+      // Anatomic Region Modifier Sequence (Type 3)
+      basicCodedEntries = readCodeSequenceMacroAttributes(Tag(0x0008, 0x2220), itemDataSet);
+      if(!basicCodedEntries.empty())
+      {
+          segment->SetAnatomicRegionModifiers(basicCodedEntries);
       }
     }
-    // else assert? return false? gdcmWarning?
 
-    //*****   Segmented Property Category Code Sequence   *****//
-    // Segmented Property Category Code Sequence (0062,0003) Type 1
-    if( segmentDS.FindDataElement( Tag(0x0062, 0x0003) ) )
+
+    // Segmented Property Category Code Sequence (Type 1)
+    basicCodedEntries = readCodeSequenceMacroAttributes(Tag(0x0062, 0x0003), segmentDS);
+    if(!basicCodedEntries.empty())
     {
-      SmartPointer<SequenceOfItems> propCatSQ = segmentDS.GetDataElement( Tag(0x0062, 0x0003) ).GetValueAsSQ();
-
-      if (propCatSQ->GetNumberOfItems() > 0)  // Only one item is a type 1
+      segment->SetPropertyCategory(basicCodedEntries[0]);
+      // Only a single Item shall be included in this Sequence
+      if(basicCodedEntries.size() > 1)
       {
-        const Item &    propCatItem = propCatSQ->GetItem(1);
-        const DataSet & propCatDS   = propCatItem.GetNestedDataSet();
-
-        //*****   CODE SEQUENCE MACRO ATTRIBUTES   *****//
-        SegmentHelper::BasicCodedEntry & propCat = segment->GetPropertyCategory();
-
-        // Code Value (Type 1)
-        Attribute<0x0008, 0x0100> codeValueAt;
-        codeValueAt.SetFromDataSet( propCatDS );
-        propCat.CV = codeValueAt.GetValue();
-
-        // Coding Scheme (Type 1)
-        Attribute<0x0008, 0x0102> codingSchemeAt;
-        codingSchemeAt.SetFromDataSet( propCatDS );
-        propCat.CSD = codingSchemeAt.GetValue();
-
-        // Code Meaning (Type 1)
-        Attribute<0x0008, 0x0104> codeMeaningAt;
-        codeMeaningAt.SetFromDataSet( propCatDS );
-        propCat.CM = codeMeaningAt.GetValue();
+        gdcmWarningMacro("Only a single Item shall be included in Segmented Property Category Code Sequence, other items will be ignored");
       }
     }
-    // else assert? return false? gdcmWarning?
-
-    //*****   Segmented Property Type Code Sequence   *****//
-    // Segmented Property Type Code Sequence (0062,000F) Type 1
-    if( segmentDS.FindDataElement( Tag(0x0062, 0x000F) ) )
+    else
     {
-      SmartPointer<SequenceOfItems> propTypSQ = segmentDS.GetDataElement( Tag(0x0062, 0x000F) ).GetValueAsSQ();
+        gdcmWarningMacro("No Item have been found in Segmented Property Category Code Sequence.");
+    }
 
-      if (propTypSQ->GetNumberOfItems() > 0)  // Only one item is a type 1
+    // Segmented Property Type Code Sequence (Type 1)
+    basicCodedEntries = readCodeSequenceMacroAttributes(Tag(0x0062, 0x000F), segmentDS);
+    if(!basicCodedEntries.empty())
+    {
+      segment->SetPropertyType(basicCodedEntries[0]);
+      // Only a single Item shall be included in this Sequence
+      if(basicCodedEntries.size() > 1)
       {
-        const Item &    propTypItem = propTypSQ->GetItem(1);
-        const DataSet & propTypDS   = propTypItem.GetNestedDataSet();
+        gdcmWarningMacro("Only a single Item shall be included in Segmented Property Type Code Sequence, other items will be ignored");
+      }
 
-        //*****   CODE SEQUENCE MACRO ATTRIBUTES   *****//
-        SegmentHelper::BasicCodedEntry & propTyp = segment->GetPropertyType();
+      SmartPointer<SequenceOfItems> sequence = segmentDS.GetDataElement(Tag(0x0062, 0x000F)).GetValueAsSQ();
+      Item& item = sequence->GetItem(1);
+      DataSet& itemDataSet = item.GetNestedDataSet();
 
-        // Code Value (Type 1)
-        Attribute<0x0008, 0x0100> codeValueAt;
-        codeValueAt.SetFromDataSet( propTypDS );
-        propTyp.CV = codeValueAt.GetValue();
-
-        // Coding Scheme (Type 1)
-        Attribute<0x0008, 0x0102> codingSchemeAt;
-        codingSchemeAt.SetFromDataSet( propTypDS );
-        propTyp.CSD = codingSchemeAt.GetValue();
-
-        // Code Meaning (Type 1)
-        Attribute<0x0008, 0x0104> codeMeaningAt;
-        codeMeaningAt.SetFromDataSet( propTypDS );
-        propTyp.CM = codeMeaningAt.GetValue();
+      // Segmented Property Type Modifier Sequence (Type 3)
+      basicCodedEntries = readCodeSequenceMacroAttributes(Tag(0x0062, 0x0011), itemDataSet);
+      if(!basicCodedEntries.empty())
+      {
+          segment->SetPropertyTypeModifiers(basicCodedEntries);
       }
     }
-    // else assert? return false? gdcmWarning?
+    else
+    {
+        gdcmWarningMacro("No Item have been found in Segmented Property Type Code Sequence.");
+    }
+
+
 
     // Referenced Surface Sequence
     const Tag refSurfaceSQTag(0x0066, 0x002B);

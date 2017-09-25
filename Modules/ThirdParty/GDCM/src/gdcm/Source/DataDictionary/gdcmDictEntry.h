@@ -25,7 +25,7 @@ namespace gdcm
 {
 /**
  * \brief Class to represent an Entry in the Dict
- * Does not really exist within the DICOM definition, just a way to minimize
+ * \details Does not really exist within the DICOM definition, just a way to minimize
  * storage and have a mapping from gdcm::Tag to the needed information
  * \note bla
  * TODO FIXME: Need a PublicDictEntry...indeed DictEntry has a notion of retired which

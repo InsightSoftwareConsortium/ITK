@@ -35,7 +35,7 @@ class PrivateTag;
 /**
  * \brief Class for PDBHeader
  *
- * GEMS MR Image have an Attribute (0025,1b,GEMS_SERS_01) which store the
+ * \details GEMS MR Image have an Attribute (0025,1b,GEMS_SERS_01) which store the
  * Acquisition parameter of the MR Image. It is compressed and can therefore
  * not be used as is. This class de-encapsulated the Protocol Data Block and
  * allow users to query element by name.

@@ -29,7 +29,7 @@ namespace gdcm
  */
 /**
  * \brief SplitMosaicFilter class
- * Class to reshuffle bytes for a SIEMENS Mosaic image
+ * \details Class to reshuffle bytes for a SIEMENS Mosaic image
  * Siemens CSA Image Header
  * CSA:= Common Siemens Architecture, sometimes also known as Common syngo Architecture
  *
@@ -46,6 +46,12 @@ public:
   /// Compute the new dimensions according to private information
   /// stored in the MOSAIC header.
   bool ComputeMOSAICDimensions(unsigned int dims[3]);
+
+  /// Extract the value for SliceNormalVector (CSA header)
+  bool ComputeMOSAICSliceNormal( double dims[3], bool & inverted );
+
+  /// Extract the value for ImagePositionPatient (requires inverted flag)
+  bool ComputeMOSAICSlicePosition( double pos[3], bool inverted );
 
   void SetImage(const Image& image);
   const Image &GetImage() const { return *I; }

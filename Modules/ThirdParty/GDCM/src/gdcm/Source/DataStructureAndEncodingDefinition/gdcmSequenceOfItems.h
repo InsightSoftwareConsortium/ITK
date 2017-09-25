@@ -26,7 +26,7 @@ namespace gdcm_ns
 
 /**
  * \brief Class to represent a Sequence Of Items
- * (value representation : SQ)
+ * \details (value representation : SQ)
  *  - a Value Representation for Data Elements that contains a sequence of Data Sets.
  *  - Sequence of Item allows for Nested Data Sets
  *
@@ -82,6 +82,7 @@ public:
   /// Index starts at 1 not 0
   bool RemoveItemByIndex( const SizeType index );
 
+  bool IsEmpty() const { return Items.empty(); };
   SizeType GetNumberOfItems() const {  return Items.size(); }
   void SetNumberOfItems(SizeType n) {  Items.resize(n); }
 

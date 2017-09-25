@@ -6,14 +6,14 @@
 #ifndef CHARLS_DEFAULTTRAITS
 #define CHARLS_DEFAULTTRAITS
 
-#include <cstdlib>
-
 // Default traits that support all JPEG LS parameters: custom limit, near, maxval (not power of 2)
 
 // This traits class is used to initialize a coder/decoder.
 // The coder/decoder also delegates some functions to the traits class.
 // This is to allow the traits class to replace the default implementation here with optimized specific implementations.
 // This is done for lossless coding/decoding: see losslesstraits.h 
+
+#include <cstdlib>
 
 template <class sample, class pixel>
 struct DefaultTraitsT 
@@ -55,8 +55,7 @@ public:
 	
 	inlinehint LONG ComputeErrVal(LONG e) const
 	{
-		LONG q = Quantize(e);
-		return ModRange(q);
+	 	return ModRange(Quantize(e));
 	}
 	
 	inlinehint SAMPLE ComputeReconstructedSample(LONG Px, LONG ErrVal)
@@ -69,9 +68,9 @@ public:
 
 	bool IsNear(Triplet<SAMPLE> lhs, Triplet<SAMPLE> rhs) const
 	{
-		return abs(lhs.v1-rhs.v1) <=NEAR && 
-			abs(lhs.v2-rhs.v2) <=NEAR && 
-			abs(lhs.v3-rhs.v3) <=NEAR; 
+		return std::abs(lhs.v1 - rhs.v1) <= NEAR && 
+		       std::abs(lhs.v2 - rhs.v2) <= NEAR && 
+		       std::abs(lhs.v3 - rhs.v3) <= NEAR;
 	}
 
 	inlinehint LONG CorrectPrediction(LONG Pxc) const

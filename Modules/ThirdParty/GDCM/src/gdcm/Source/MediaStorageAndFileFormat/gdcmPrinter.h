@@ -72,7 +72,8 @@ public:
     VERBOSE_STYLE = 0, // GDCM Legacy VERBOSE one
     CONDENSED_STYLE, //
     // Ok I am missing voc here ...better naming would be nice
-    XML // sure why not
+    XML, // 
+    CXX
   } PrintStyles;
 
   /// Set PrintStyle value

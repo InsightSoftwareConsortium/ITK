@@ -30,7 +30,7 @@ namespace gdcm_ns
 class DataSet;
 /**
  * \brief Class to represent an Item
- * A component of the value of a Data Element that is of Value Representation
+ * \details A component of the value of a Data Element that is of Value Representation
  * Sequence of Items.
  * An Item contains a Data Set .
  * See PS 3.5 7.5.1 Item Encoding Rules

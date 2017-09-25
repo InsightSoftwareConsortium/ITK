@@ -26,7 +26,7 @@ class TransferSyntax;
 /**
  * \brief FileChangeTransferSyntax
  *
- * This class is a file-based (limited) replacement of the in-memory
+ * \details This class is a file-based (limited) replacement of the in-memory
  * ImageChangeTransferSyntax.
  *
  * This class provide a file-based compression-only mechanism. It will take in

@@ -24,7 +24,7 @@ namespace network
 
 /**
  * \brief RoleSelectionSub
- * PS 3.7
+ * \details PS 3.7
  * Table D.3-9
  * SCP/SCU ROLE SELECTION SUB-ITEM FIELDS (A-ASSOCIATE-RQ)
  */

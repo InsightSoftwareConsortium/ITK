@@ -21,7 +21,7 @@ namespace gdcm
 // Data Element (ExplicitImplicit)
 /**
  * \brief Class to read/write a DataElement as ExplicitImplicit Data Element
- * This class gather two known bugs:
+ * \details This class gather two known bugs:
  * 1. GDCM 1.2.0 would rewrite VR=UN Value Length on 2 bytes instead of 4 bytes
  * 2. GDCM 1.2.0 would also rewrite DataElement as Implicit when the VR would not be known
  *    this would only happen in some very rare cases.

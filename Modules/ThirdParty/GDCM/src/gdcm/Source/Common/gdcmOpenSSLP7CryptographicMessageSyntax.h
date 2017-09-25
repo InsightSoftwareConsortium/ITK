@@ -24,7 +24,7 @@ class CryptographicMessageSyntaxInternals;
 
 /**
  * \brief
- * Class for CryptographicMessageSyntax encryption. This is just a simple
+ * \details Class for CryptographicMessageSyntax encryption. This is just a simple
  * wrapper around openssl PKCS7_encrypt functionalities
  *
  * See online documentation

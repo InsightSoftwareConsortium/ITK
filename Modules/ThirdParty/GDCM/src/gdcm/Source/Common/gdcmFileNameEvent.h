@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
  * \brief FileNameEvent
- * Special type of event triggered during processing of FileSet
+ * \details Special type of event triggered during processing of FileSet
  *
  * \see AnyEvent
  */

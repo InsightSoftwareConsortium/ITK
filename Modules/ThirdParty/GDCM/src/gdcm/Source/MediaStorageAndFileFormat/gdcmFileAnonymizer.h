@@ -26,7 +26,7 @@ class FileAnonymizerInternals;
 /**
  * \brief FileAnonymizer
  *
- * This Anonymizer is a file-based Anonymizer. It requires a valid DICOM
+ * \details This Anonymizer is a file-based Anonymizer. It requires a valid DICOM
  * file and will use the Value Length to skip over any information.
  *
  * It will not load the DICOM dataset taken from SetInputFileName() into memory

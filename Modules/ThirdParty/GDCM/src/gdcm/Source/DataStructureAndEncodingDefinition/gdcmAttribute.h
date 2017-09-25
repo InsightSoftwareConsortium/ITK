@@ -631,7 +631,6 @@ public:
     assert( Internal == 0 );
     if( own ) // make a copy:
       {
-      assert( /*array &&*/ numel );
       Internal = new ArrayType[numel];
       if( array && numel )
         std::copy(array, array+numel, Internal);

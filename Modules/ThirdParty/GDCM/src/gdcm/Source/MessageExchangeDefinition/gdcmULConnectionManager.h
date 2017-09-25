@@ -35,7 +35,7 @@ namespace gdcm {
 
 /**
  * \brief ULConnectionManager
- * The ULConnectionManager performs actions on the ULConnection given inputs
+ * \details The ULConnectionManager performs actions on the ULConnection given inputs
  * from the user and from the state of what's going on around the connection
  * (ie, timeouts of the ARTIM timer, responses from the peer across the
  * connection, etc).

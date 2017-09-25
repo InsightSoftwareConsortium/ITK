@@ -26,7 +26,7 @@ namespace gdcm{
   class ULConnection;
 /**
  * \brief CMoveRQ
- * this file defines the messages for the cmove action
+ * \details this file defines the messages for the cmove action
  */
 class CMoveRQ : public BaseCompositeMessage {
       //this class will fulfill the inheritance,

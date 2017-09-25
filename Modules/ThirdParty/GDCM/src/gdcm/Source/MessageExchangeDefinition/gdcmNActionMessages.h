@@ -23,7 +23,7 @@ class ULConnection;
 
 /**
  * \brief NActionRQ
- * this file defines the messages for the NAction action
+ * \details this file defines the messages for the NAction action
  */
 class NActionRQ : public BaseNormalizedMessage {
     public:

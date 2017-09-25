@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 2.8.7)
+
 if(NOT JPEG_NAMESPACE)
   set(JPEG_NAMESPACE "JPEG")
   set(JPEG_STANDALONE 1)

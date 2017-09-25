@@ -25,7 +25,7 @@ class Tag;
 class PrivateTag;
 /**
  * \brief FileStreamer
- * This class let a user create a massive DICOM DataSet from a template DICOM
+ * \details This class let a user create a massive DICOM DataSet from a template DICOM
  * file, by appending chunks of data.
  *
  * This class support two mode of operation:

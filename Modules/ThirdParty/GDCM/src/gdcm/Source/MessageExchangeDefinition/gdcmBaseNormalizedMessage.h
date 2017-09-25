@@ -26,7 +26,7 @@ namespace gdcm
 class ULConnection;
 /**
  * \brief BaseNormalizedMessage
- * The Normalized events described in section 3.7-2011 of the DICOM standard all
+ * \details The Normalized events described in section 3.7-2011 of the DICOM standard all
  * use their own messages.  These messages are constructed using Presentation
  * Data Values, from section 3.8-2011 of the standard, and then fill in
  * appropriate values in their datasets.

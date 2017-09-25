@@ -30,7 +30,7 @@ class GDCM_EXPORT DataElementException : public std::exception {};
 class PrivateTag;
 /**
  * \brief Class to represent a Data Set (which contains Data Elements)
- * A Data Set represents an instance of a real world Information Object
+ * \details A Data Set represents an instance of a real world Information Object
  * \note
  * DATA SET:
  * Exchanged information consisting of a structured set of Attribute values

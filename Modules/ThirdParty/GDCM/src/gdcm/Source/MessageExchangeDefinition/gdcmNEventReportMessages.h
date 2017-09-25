@@ -23,7 +23,7 @@ class ULConnection;
 
 /**
  * \brief NEventReportRQ
- * this file defines the messages for the neventreport action
+ * \details this file defines the messages for the neventreport action
  */
 class NEventReportRQ : public BaseNormalizedMessage {
     public:

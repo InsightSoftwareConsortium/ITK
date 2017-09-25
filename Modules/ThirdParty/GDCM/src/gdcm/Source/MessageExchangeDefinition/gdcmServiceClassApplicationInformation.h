@@ -23,7 +23,7 @@ namespace network
 {
 
 /**
- * PS 3.4
+ * \details PS 3.4
  * Table B.3-1
  * SERVICE-CLASS-APPLICATION-INFORMATION (A-ASSOCIATE-RQ)
  */

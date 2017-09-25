@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
   * \brief  This class defines a SURFACE IE writer.
-  * It writes surface mesh module attributes.
+  * \details It writes surface mesh module attributes.
   *
   * \see  PS 3.3 A.1.2.18 , A.57 and C.27
   */

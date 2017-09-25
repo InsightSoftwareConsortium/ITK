@@ -25,7 +25,7 @@ namespace network
 
 /**
  * \brief AAssociateRJPDU
- * Table 9-21
+ * \details Table 9-21
  * ASSOCIATE-RJ PDU FIELDS
  */
 class AAssociateRJPDU : public BasePDU

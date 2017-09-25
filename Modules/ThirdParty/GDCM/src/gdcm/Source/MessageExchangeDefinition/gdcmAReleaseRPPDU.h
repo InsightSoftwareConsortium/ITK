@@ -25,7 +25,7 @@ namespace network
 
 /**
  * \brief AReleaseRPPDU
- * Table 9-25
+ * \details Table 9-25
  * A-RELEASE-RP PDU fields
  */
 class AReleaseRPPDU : public BasePDU

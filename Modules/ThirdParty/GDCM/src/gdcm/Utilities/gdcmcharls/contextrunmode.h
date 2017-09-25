@@ -64,7 +64,7 @@ struct CContextRunMode
 	{
 		bool map = temp & 1;
 
-		LONG errvalabs = (temp + map) / 2;
+		LONG errvalabs = (temp + LONG(map)) / 2;
 
 		if ((k != 0 || (2 * Nn >= N)) == map)
 		{
@@ -80,19 +80,19 @@ struct CContextRunMode
 	bool ComputeMap(LONG Errval, LONG k) const
 	{
 		if ((k == 0) && (Errval > 0) && (2 * Nn < N))
-			return 1;
+			return true;
 
-		else if ((Errval < 0) && (2 * Nn >= N))
-			return 1;		 
+		if ((Errval < 0) && (2 * Nn >= N))
+			return true;		 
 
-		else if ((Errval < 0) && (k != 0))
-			return 1;
+		if ((Errval < 0) && (k != 0))
+			return true;
 
-		return 0;
+		return false;
 	}
 
 
-	inlinehint LONG ComputeMapNegativeE(LONG k) const
+	inlinehint bool ComputeMapNegativeE(LONG k) const
 	{
 		return  k != 0 || (2 * Nn >= N );
 	}

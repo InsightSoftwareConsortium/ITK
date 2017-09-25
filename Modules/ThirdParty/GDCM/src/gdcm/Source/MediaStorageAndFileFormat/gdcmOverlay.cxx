@@ -262,7 +262,7 @@ bool Overlay::GrabOverlayFromPixelData(DataSet const &ds)
     //assert( Internal->BitPosition >= 12 );
     if( ds.FindDataElement( Tag(0x7fe0,0x0010) ) )
       {
-      gdcmErrorMacro("Could not find Pixel Data. Cannot extract Overlay." );
+      gdcmWarningMacro("Could not find Pixel Data. Cannot extract Overlay." );
       return false;
       }
     const DataElement &pixeldata = ds.GetDataElement( Tag(0x7fe0,0x0010) );
@@ -352,7 +352,7 @@ Overlay::OverlayType Overlay::GetOverlayTypeFromString(const char *s)
       }
     }
   // could not find the proper type, maybe padded with \0 ?
-  if( strlen(s) == 1 )
+  if( s && strlen(s) == 1 )
     {
     for( int i = 0; i < n; ++i )
       {

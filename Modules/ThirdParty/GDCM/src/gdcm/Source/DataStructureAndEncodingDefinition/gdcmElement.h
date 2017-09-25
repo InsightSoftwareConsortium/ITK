@@ -719,7 +719,7 @@ class Element<TVR, VM::VM1_2> : public Element<TVR, VM::VM1_n>
 public:
   typedef Element<TVR, VM::VM1_n> Parent;
   void SetLength(int len) {
-    if( len != 1 || len != 2 ) return;
+    if( len != 1 && len != 2 ) return;
     Parent::SetLength(len);
   }
 };

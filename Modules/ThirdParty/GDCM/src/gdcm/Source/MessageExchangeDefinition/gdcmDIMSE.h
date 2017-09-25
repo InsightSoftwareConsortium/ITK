@@ -24,7 +24,7 @@ namespace network
 
 /**
  * \brief DIMSE
- * PS 3.7 - 2009
+ * \details PS 3.7 - 2009
  * Annex E Command Dictionary (Normative)
  * E.1 REGISTRY OF DICOM COMMAND ELEMENTS
  * Table E.1-1

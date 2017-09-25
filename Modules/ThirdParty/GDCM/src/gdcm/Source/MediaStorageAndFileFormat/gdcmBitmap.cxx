@@ -96,8 +96,18 @@ void Bitmap::SetDimensions(const unsigned int *dims)
 {
   assert( NumberOfDimensions );
   //assert( Dimensions.empty() );
+#if 0
   Dimensions = std::vector<unsigned int>(dims,
     dims+NumberOfDimensions);
+#else
+  assert( Dimensions.size() == 3 );
+  Dimensions[0] = dims[0];
+  Dimensions[1] = dims[1];
+  if( NumberOfDimensions == 2 )
+    Dimensions[2] = 1;
+  else
+    Dimensions[2] = dims[2];
+#endif
 }
 
 void Bitmap::SetDimension(unsigned int idx, unsigned int dim)
@@ -396,6 +406,12 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
         i->SetPixelFormat( codec.GetPixelFormat() );
         }
 #endif
+      if( GetDimensions()[0] != codec.GetDimensions()[0]
+      || GetDimensions()[1] != codec.GetDimensions()[1] )
+{
+      gdcmWarningMacro( "dimension mismatch for JPEG" );
+	((Bitmap*)this)->SetDimensions( codec.GetDimensions() ); //JPEGNote_bogus.dcm
+}
 
       return true;
       }

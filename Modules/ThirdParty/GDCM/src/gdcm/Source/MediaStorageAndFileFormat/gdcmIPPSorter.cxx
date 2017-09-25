@@ -93,9 +93,18 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
       return false;
       }
     }
-  if( frames.size() > 1 ) // Should I really tolerate no Frame of Reference UID ?
+  const size_t fsize = frames.size(); // Should I really tolerate issue with Frame of Reference UID ?
+  if( fsize == 1 ) // by the book
     {
-    gdcmDebugMacro( "More than one Frame Of Reference UID" );
+    // TODO: need to check not empty ? technically PMS used to send MR Image Storage with empty FoR
+    }
+  else if( fsize == 0 || fsize == filenames.size() ) // Should I really tolerate no Frame of Reference UID ?
+    {
+    gdcmWarningMacro( "Odd number of Frame Of Reference UID (continuing with caution): " << fsize );
+    }
+  else
+    {
+    gdcmErrorMacro( "Sorry your setup with Frame Of Reference UID does not make any sense: " << fsize );
     return false;
     }
 
@@ -255,9 +264,9 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
       for(SortedFilenames::const_iterator it1 = sorted.begin(); it1 != sorted.end(); ++it1)
         {
         std::string f = it1->second;
-        if( f.length() > 32 )
+        if( f.length() > 62 )
           {
-          f = f.substr(0,10) + " ... " + f.substr(f.length()-17);
+          f = f.substr(0,10) + " ... " + f.substr(f.length()-47);
           }
         double d = it1->first - prev1;
         if( it1 != sorted.begin() && fabs(d - zspacing) > ZTolerance) os << "* ";
@@ -275,10 +284,12 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
   return true;
 }
 
+#if !defined(GDCM_LEGACY_REMOVE)
 bool IPPSorter::ComputeSpacing(std::vector<std::string> const & filenames)
 {
   (void)filenames;
   return false;
 }
+#endif
 
 } // end namespace gdcm

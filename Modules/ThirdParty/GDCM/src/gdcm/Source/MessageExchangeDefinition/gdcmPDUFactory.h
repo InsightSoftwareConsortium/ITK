@@ -32,7 +32,7 @@ namespace gdcm{
 
 /**
  * \brief PDUFactory basically, given an initial byte, construct the
- * appropriate PDU. This way, the event loop doesn't have to know about all
+ * \details appropriate PDU. This way, the event loop doesn't have to know about all
  * the different PDU types.
  */
   class PDUFactory {

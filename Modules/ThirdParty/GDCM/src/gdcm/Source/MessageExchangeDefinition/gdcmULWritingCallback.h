@@ -26,7 +26,7 @@ class DataSet;
 namespace network
 {
 /* \brief ULWritingCallback
- * This is the most basic of callbacks for how the ULConnectionManager handles
+ * \details This is the most basic of callbacks for how the ULConnectionManager handles
  * incoming datasets.  DataSets are immediately written to disk as soon as they
  * are received.  NOTE that if the incoming connection is faster than the disk
  * writing speed, this callback could cause some pileups!

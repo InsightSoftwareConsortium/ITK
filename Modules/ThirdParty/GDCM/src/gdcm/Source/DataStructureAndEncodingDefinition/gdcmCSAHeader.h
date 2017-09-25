@@ -17,6 +17,7 @@
 #include "gdcmTypes.h"
 #include "gdcmDataSet.h"
 #include "gdcmCSAElement.h"
+#include "gdcmMrProtocol.h"
 
 namespace gdcm
 {
@@ -77,10 +78,10 @@ public :
   } CSAHeaderType;
 
   template <typename TSwap>
-  std::istream &Read(std::istream &is);
+  GDCM_LEGACY(std::istream &Read(std::istream &is));
 
   template <typename TSwap>
-  const std::ostream &Write(std::ostream &os) const;
+  GDCM_LEGACY(const std::ostream &Write(std::ostream &os) const);
 
   /// Decode the CSAHeader from element 'de'
   bool LoadFromDataElement(DataElement const &de);
@@ -117,6 +118,9 @@ public :
   /// Return true if the CSA element matching 'name' is found or not
   /// \warning Case Sensitive
   bool FindCSAElementByName(const char *name);
+
+  /// Retrieve the ASCII portion stored within the MrProtocol/MrPhoenixProtocol:
+  bool GetMrProtocol( const DataSet & ds, MrProtocol & mrProtocol );
 
 protected:
   const CSAElement& GetCSAEEnd() const;

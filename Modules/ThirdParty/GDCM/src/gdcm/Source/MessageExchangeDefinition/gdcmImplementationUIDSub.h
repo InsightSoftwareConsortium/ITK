@@ -24,7 +24,7 @@ namespace network
 
 /**
  * \brief ImplementationUIDSub
- * Table D.3-2
+ * \details Table D.3-2
  * IMPLEMENTATION UID SUB-ITEM FIELDS (A-ASSOCIATE-AC)
  */
 class GDCM_EXPORT ImplementationUIDSub

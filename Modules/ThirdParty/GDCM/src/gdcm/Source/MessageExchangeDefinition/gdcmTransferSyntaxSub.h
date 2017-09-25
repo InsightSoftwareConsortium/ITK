@@ -26,7 +26,7 @@ namespace network
 
 /**
  * \brief TransferSyntaxSub
- * Table 9-15
+ * \details Table 9-15
  * TRANSFER SYNTAX SUB-ITEM FIELDS
  *
  * TODO what is the goal of :

@@ -1,3 +1,16 @@
+cmake_minimum_required(VERSION 2.8.7)
+if(POLICY CMP0022)
+  cmake_policy(SET CMP0022 OLD)
+endif()
+if(POLICY CMP0025)
+  cmake_policy(SET CMP0025 NEW)
+endif()
+if(POLICY CMP0026)
+  cmake_policy(SET CMP0026 OLD)
+endif()
+if(POLICY CMP0042)
+  cmake_policy(SET CMP0042 NEW)
+endif()
 project(GDCM)
 mark_as_advanced(CMAKE_BACKWARDS_COMPATIBILITY CMAKE_BUILD_TYPE CMAKE_INSTALL_PREFIX)
 set(GDCM_CMAKE_DIR "${GDCM_SOURCE_DIR}/CMake" CACHE INTERNAL "")
@@ -21,8 +34,8 @@ set(GDCM_PACKAGE_CONTACT "GDCM Developers <gdcm-developers@lists.sourceforge.net
 
 #----------------------------------------------------------------------------
 set(GDCM_MAJOR_VERSION 2)
-set(GDCM_MINOR_VERSION 6)
-set(GDCM_BUILD_VERSION 4)
+set(GDCM_MINOR_VERSION 8)
+set(GDCM_BUILD_VERSION 3)
 set(GDCM_VERSION
   "${GDCM_MAJOR_VERSION}.${GDCM_MINOR_VERSION}.${GDCM_BUILD_VERSION}")
 # let advanced user the option to define GDCM_API_VERSION:
@@ -314,7 +327,7 @@ option(GDCM_USE_SYSTEM_PAPYRUS3 "Use system papyrus3" OFF)
 option(GDCM_USE_SYSTEM_SOCKETXX "Use system socket++" OFF)
 option(GDCM_USE_SYSTEM_LJPEG "Use system ljpeg (ijg lib)" OFF)
 option(GDCM_USE_SYSTEM_OPENJPEG "Use system openjpeg" OFF)
-option(GDCM_USE_SYSTEM_CHARLS "Use system charls" OFF)
+option(GDCM_USE_SYSTEM_CHARLS "Use system CharLS" OFF)
 mark_as_advanced(
   GDCM_USE_SYSTEM_ZLIB
   GDCM_USE_SYSTEM_OPENSSL
@@ -354,15 +367,10 @@ else()
 endif()
 
 if(GDCM_USE_SYSTEM_OPENJPEG)
-  # For some reason I cannot specify the version I want.
-  # find_package(OpenJPEG 2.0 REQUIRED)
-  # oh well we should handle both 1.0 and 2.0 anyway...
-  find_package(OpenJPEG REQUIRED)
+  find_package(OpenJPEG 2.0.0 REQUIRED)
   set(GDCM_OPENJPEG_LIBRARIES ${OPENJPEG_LIBRARIES})
 else()
-  set(GDCM_OPENJPEG_LIBRARIES gdcmopenjpeg)
-  option(GDCM_USE_OPENJPEG_V2 "Use openjpeg v2 version (advanced users only)." OFF)
-  mark_as_advanced(GDCM_USE_OPENJPEG_V2)
+  set(GDCM_OPENJPEG_LIBRARIES gdcmopenjp2)
 endif()
 
 # Very advanced user option:
@@ -399,6 +407,7 @@ endif()
 if(GDCM_USE_SYSTEM_ZLIB)
   # If user say so, then this is a requirement !
   find_package(ZLIB REQUIRED)
+  include_directories(${ZLIB_INCLUDE_DIR})
   set(GDCM_ZLIB_LIBRARIES ${ZLIB_LIBRARIES})
 else()
   set(GDCM_ZLIB_LIBRARIES "gdcmzlib")
@@ -508,8 +517,8 @@ if(GDCM_STANDALONE)
   option(GDCM_WRAP_PHP "build php wrapping" OFF)
   option(GDCM_WRAP_JAVA "build java wrapping" OFF)
   option(GDCM_WRAP_CSHARP "build csharp wrapping" OFF)
+  mark_as_advanced(GDCM_WRAP_PHP)
   mark_as_advanced(GDCM_WRAP_PERL)
-  mark_as_advanced(GDCM_USE_RLE)
   mark_as_advanced(GDCM_USE_ACTIVIZ)
   option(GDCM_USE_JPEGLS "Build GDCM with JPEG-LS support" ON)
   mark_as_advanced(GDCM_USE_JPEGLS)
@@ -533,9 +542,12 @@ set(GDCM_EXECUTABLE_DIR ${EXECUTABLE_OUTPUT_PATH}/${CMAKE_CFG_INTDIR})
 
 #-----------------------------------------------------------------------------
 # we need to link against CoreFoundation so that we can use CFBundle to get the executable path.
-#if(APPLE)
-#  find_library(COREFOUNDATION_LIBRARY CoreFoundation )
-#endif()
+if(APPLE)
+  option(GDCM_USE_COREFOUNDATION_LIBRARY "Use COREFOUNDATION_LIBRARY?" ON)
+  if(GDCM_USE_COREFOUNDATION_LIBRARY)
+    find_library(COREFOUNDATION_LIBRARY CoreFoundation )
+  endif()
+endif()
 
 #-----------------------------------------------------------------------------
 # Allow user to set a postfix symbol to a target library name (eg. 'd')
@@ -547,6 +559,16 @@ if(WIN32)
   mark_as_advanced(GDCM_DEBUG_POSTFIX)
 endif()
 #-----------------------------------------------------------------------------
+
+# Add a target so that the documentation can be build from the
+# root dir
+if(GDCM_DOCUMENTATION)
+  if(NOT DEFINED GDCM_SKIP_DOXYGENDOC_ALL_RULE)
+    add_custom_target(DoxygenDoc ALL)
+  else()
+    add_custom_target(DoxygenDoc)
+  endif()
+endif()
 
 # Need to subdirs in Source/Common before Wrapping
 # to have gdcmConfigure.h around
@@ -637,12 +659,6 @@ if(GDCM_STANDALONE)
     mark_as_advanced(GDCM_USE_PARAVIEW)
     subdirs(Utilities/VTK)
   endif()
-endif()
-#-----------------------------------------------------------------------------
-option(GDCM_USE_WXWIDGETS "wxWidgets bridge ?" OFF)
-mark_as_advanced(GDCM_USE_WXWIDGETS)
-if(GDCM_USE_WXWIDGETS)
-  subdirs(Utilities/wxWidgets)
 endif()
 
 #-----------------------------------------------------------------------------

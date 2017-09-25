@@ -44,7 +44,8 @@ MeshPrimitive::MPType MeshPrimitive::GetMPType(const char * type)
   // Delete possible space as last character
   String<>  str( type );
   str.Trim();
-  const char * typeClear = str.Trim().c_str();
+  std::string typeClearStr = str.Trim();
+  const char * typeClear = typeClearStr.c_str();
 
   for(unsigned int i = 0; MPStrings[i] != 0; ++i)
   {

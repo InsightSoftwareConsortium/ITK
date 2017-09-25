@@ -28,7 +28,7 @@ class Subject;
 
 /**
  * \brief ULAction
- * A ULConnection in a given ULState can perform certain ULActions.  This base class
+ * \details A ULConnection in a given ULState can perform certain ULActions.  This base class
  * provides the interface for running those ULActions on a given ULConnection.
  *
  * Essentially, the ULConnectionManager will take this object, determined from the current

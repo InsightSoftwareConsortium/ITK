@@ -27,7 +27,7 @@ namespace network
 
 /**
  * \brief PDataTFPDU
- * Table 9-22
+ * \details Table 9-22
  * P-DATA-TF PDU FIELDS
  */
 class GDCM_EXPORT PDataTFPDU : public BasePDU

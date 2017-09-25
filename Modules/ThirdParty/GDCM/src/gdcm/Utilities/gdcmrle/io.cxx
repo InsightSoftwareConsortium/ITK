@@ -35,7 +35,7 @@ int source::read_into_segments( char * out, int len, image_info const & ii )
   if( numsegs == 1 )
     {
     const int nvalues = read(out, len);
-    assert( nvalues == len );
+    assert( nvalues == len ); (void)nvalues;
     }
   else
     {
@@ -55,7 +55,7 @@ int source::read_into_segments( char * out, int len, image_info const & ii )
       for(int l = 0; l < llen; ++l )
         {
         const int nvalues = read(values, numsegs);
-        assert( nvalues == numsegs );
+        assert( nvalues == numsegs ); (void)nvalues;
         for( int c = 0; c < nc; ++c )
           {
           for( int p = 0; p < npadded; ++p )

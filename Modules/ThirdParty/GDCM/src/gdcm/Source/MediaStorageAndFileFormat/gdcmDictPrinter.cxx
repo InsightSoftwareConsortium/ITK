@@ -23,6 +23,7 @@ namespace gdcm
 //-----------------------------------------------------------------------------
 DictPrinter::DictPrinter()
 {
+  PrintStyle = XML;
 }
 
 //-----------------------------------------------------------------------------
@@ -80,8 +81,8 @@ VM GuessVMType(DataElement const &de)
           {
           assert( bv && "not bv" );
           const char *array = bv->GetPointer();
-          unsigned int c = VM::GetNumberOfElementsFromArray(array, vl);
-          vm = VM::GetVMTypeFromLength( c, 1 );
+          size_t c = VM::GetNumberOfElementsFromArray(array, vl);
+          vm = VM::GetVMTypeFromLength( (unsigned int)c, 1 );
           }
         }
       break;
@@ -466,17 +467,33 @@ void DictPrinter::PrintDataElement2(std::ostream& os, const DataSet &ds, const D
       }
     VM vm = GuessVMType(de);
 
-    os <<
-      "<entry group=\"" << std::hex << std::setw(4) << std::setfill('0') <<
-      t.GetGroup() << "\" element=\"" << std::setw(4) << ((uint16_t)(t.GetElement() << 8) >> 8) << "\" ";
-
-    os <<  "vr=\"" << pvr << "\" vm=\"" << vm << "\" ";
-    //os <<  "\" retired=\"false\";
+    if( PrintStyle == XML )
+    {
+      os <<
+        "<entry group=\"" << std::hex << std::setw(4) << std::setfill('0') <<
+        t.GetGroup() << "\" element=\"" << std::setw(4) << ((uint16_t)(t.GetElement() << 8) >> 8) << "\" ";
+      os <<  "vr=\"" << pvr << "\" vm=\"" << vm << "\" ";
     if( de.GetTag().IsPrivate() )
       {
       os << "name=\"?\" owner=\"" << owner
         << /*"\"  version=\"" << version << */ "\"/>\n";
       }
+    }
+    else if ( PrintStyle == CXX )
+    {
+      os <<
+        "{0x" << std::hex << std::setw(4) << std::setfill('0') <<
+        t.GetGroup() << ",0x" << std::setw(4) << ((uint16_t)(t.GetElement() << 8) >> 8) << ",";
+      if( de.GetTag().IsPrivate() )
+      {
+        os << "\"" << owner
+          << "\",";
+      }
+      std::string vm_str = VM::GetVMString(vm);
+      std::replace( vm_str.begin(), vm_str.end(), '-', '_');
+      os << "VR::" << pvr << ",VM::VM" << vm_str << ",\"??\",false},\n";
+    }
+
     //os << "\n  <description>?</description>\n";
     //os << "</entry>\n";
     //os << "/>\n";

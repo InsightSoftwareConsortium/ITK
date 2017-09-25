@@ -27,7 +27,7 @@ namespace network
 
 /**
  * \brief BasePDU
- * base class for PDUs
+ * \details base class for PDUs
  *
  * all PDUs start with the first ten bytes as specified:
  * 01 PDU type

@@ -24,7 +24,7 @@ class File;
 
 /**
  * \brief PresentationContextGenerator
- * This class is responsible for generating the proper PresentationContext that
+ * \details This class is responsible for generating the proper PresentationContext that
  * will be used in subsequent operation during a DICOM Query/Retrieve
  * association. The step of the association is very sensible as special care
  * need to be taken to explicitly define what instance are going to be send

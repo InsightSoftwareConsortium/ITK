@@ -21,7 +21,7 @@
 namespace gdcm {
   namespace network{
 /** \brief ARTIMTimer
- * This file contains the code for the ARTIM timer.
+ * \details This file contains the code for the ARTIM timer.
  *
  * Basically, the ARTIM timer will just get the wall time when it's started,
  * and then can be queried for the current time, and then can be stopped (ie,

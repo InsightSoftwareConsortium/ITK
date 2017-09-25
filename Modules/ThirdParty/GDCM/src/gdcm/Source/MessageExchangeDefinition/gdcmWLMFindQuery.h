@@ -20,7 +20,7 @@ namespace gdcm
 {
 /**
  * \brief PatientRootQuery
- * contains: the class which will produce a dataset for c-find with patient root
+ * \details contains: the class which will produce a dataset for c-find with patient root
  */
 class GDCM_EXPORT WLMFindQuery : public BaseRootQuery
 {

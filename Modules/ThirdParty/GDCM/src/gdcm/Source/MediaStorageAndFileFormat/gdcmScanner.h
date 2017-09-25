@@ -32,7 +32,7 @@ class StringFilter;
 
 /**
  * \brief Scanner
- * This filter is meant for quickly browsing a FileSet (a set of files on
+ * \details This filter is meant for quickly browsing a FileSet (a set of files on
  * disk). Special consideration are taken so as to read the mimimum amount of
  * information in each file in order to retrieve the user specified set of
  * DICOM Attribute.

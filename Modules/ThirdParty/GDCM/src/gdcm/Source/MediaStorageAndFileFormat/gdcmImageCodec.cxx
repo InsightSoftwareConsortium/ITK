@@ -268,6 +268,7 @@ bool ImageCodec::DoPaddedCompositePixelCode(std::istream &is, std::ostream &os)
   //SwapCode sc = is.GetSwapCode();
 
   assert( !(buf_size % 2) );
+  bool ret = true;
   if( GetPixelFormat().GetBitsAllocated() == 16 )
     {
     for(size_t i = 0; i < buf_size/2; ++i)
@@ -301,10 +302,10 @@ bool ImageCodec::DoPaddedCompositePixelCode(std::istream &is, std::ostream &os)
     }
   else
     {
-    return false;
+    ret = false;
     }
   delete[] dummy_buffer;
-  return true;
+  return ret;
 }
 
 bool ImageCodec::DoInvertMonochrome(std::istream &is, std::ostream &os)

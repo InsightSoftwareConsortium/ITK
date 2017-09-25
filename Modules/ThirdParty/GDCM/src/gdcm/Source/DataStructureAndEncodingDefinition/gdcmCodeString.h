@@ -21,7 +21,7 @@ namespace gdcm
 
 /**
  * \brief CodeString
- * This is an implementation of DICOM VR: CS
+ * \details This is an implementation of DICOM VR: CS
  * The cstor will properly Trim so that operator== is correct.
  *
  * \note the cstor of CodeString will Trim the string on the fly so as

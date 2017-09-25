@@ -48,7 +48,7 @@ namespace gdcm
 
 /**
  * \brief BaseRootQuery
- * contains: a baseclass which will produce a dataset for c-find and c-move
+ * \details contains: a baseclass which will produce a dataset for c-find and c-move
  * with patient/study root
  *
  * This class contains the functionality used in patient c-find and c-move

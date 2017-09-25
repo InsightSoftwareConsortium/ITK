@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
  * \brief Rescale class
- * This class is meant to apply the linear transform of Stored Pixel Value to
+ * \details This class is meant to apply the linear transform of Stored Pixel Value to
  * Real World Value.
  * This is mostly found in CT or PET dataset, where the value are stored using
  * one type, but need to be converted to another scale using a linear

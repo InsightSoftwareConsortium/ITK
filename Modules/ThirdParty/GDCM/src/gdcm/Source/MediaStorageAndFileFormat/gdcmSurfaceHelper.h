@@ -24,7 +24,7 @@ namespace gdcm
 
 /**
  * \brief SurfaceHelper
- * Helper class for Surface object
+ * \details Helper class for Surface object
  */
 class GDCM_EXPORT SurfaceHelper
 {

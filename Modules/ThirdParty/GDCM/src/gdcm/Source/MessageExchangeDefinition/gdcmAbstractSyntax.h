@@ -26,7 +26,7 @@ namespace network
 
 /**
  * \brief AbstractSyntax
- * Table 9-14
+ * \details Table 9-14
  * ABSTRACT SYNTAX SUB-ITEM FIELDS
  */
 class AbstractSyntax

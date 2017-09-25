@@ -39,7 +39,7 @@ public :
   /// string will be \0 padded. (md5 are 32 bytes long)
   /// Testing is not meant to be shipped with an installed GDCM release, always
   /// prefer the gdcm::MD5 API when doing md5 computation.
-  static bool ComputeMD5(const char *buffer, unsigned long buf_len,
+  static bool ComputeMD5(const char *buffer, size_t buf_len,
     char digest_str[33]);
   static bool ComputeFileMD5(const char *filename, char digest_str[33]);
 
