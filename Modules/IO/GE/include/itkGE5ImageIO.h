@@ -35,7 +35,6 @@
 
 
 #include "itkIPLCommonImageIO.h"
-#include "Ge5xHdr.h"
 
 namespace itk
 {
@@ -120,8 +119,6 @@ protected:
   virtual GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;
 
 private:
-  void SwapPixHdr(Ge5xPixelHeader *hdr);
-
   int CheckGE5xImages(char const *const imageFileTemplate, std::string & reason);
 
   ITK_DISALLOW_COPY_AND_ASSIGN(GE5ImageIO);
