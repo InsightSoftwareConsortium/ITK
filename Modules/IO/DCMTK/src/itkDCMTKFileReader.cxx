@@ -1102,17 +1102,21 @@ DCMTKFileReader
 
   dircos[0] = 1; dircos[1] = 0; dircos[2] = 0;
   dircos[3] = 0; dircos[4] = 1; dircos[5] = 0;
-  if((rval = this->GetElementDS(0x0020,0x0037,6,dircos,false)) != EXIT_SUCCESS)
+  // check toplevel ImageOrientationPatient (most common case)
+  if((rval = this->GetElementDS(0x0020,0x0037,6,dircos,false)) == EXIT_SUCCESS)
     {
-    rval = this->GetElementSQ(0x0020,0x9116,planeSeq,false);
-    if(rval == EXIT_SUCCESS)
-      {
-      rval = planeSeq.GetElementDS(0x0020,0x0037,6,dircos,false);
-      return rval;
-      }
+    return rval;
     }
-  //
-  // for multiframe Philips images
+  // look inside plane sequence at top level (probably not common)
+  rval = this->GetElementSQ(0x0020,0x9116,planeSeq,false);
+  if(rval == EXIT_SUCCESS)
+    {
+    rval = planeSeq.GetElementDS(0x0020,0x0037,6,dircos,false);
+    return rval;
+    }
+  // ImageOrientationPatient not at top level or toplevel plane sequence,
+  // so look in the shared and per-frame functional groups
+  // as standard for multiframe (e.g. Philips) images
   unsigned short candidateSequences[2] =
     {
       0x9229, // check for Shared Functional Group Sequence first

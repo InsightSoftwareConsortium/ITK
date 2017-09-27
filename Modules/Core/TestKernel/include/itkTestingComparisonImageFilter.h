@@ -20,7 +20,7 @@
 
 #include "itkArray.h"
 #include "itkNumericTraits.h"
-#include "itkImageSource.h"
+#include "itkImageToImageFilter.h"
 
 namespace itk
 {
@@ -40,20 +40,20 @@ namespace Testing
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT ComparisonImageFilter:
-  public ImageSource< TOutputImage >
+  public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
-  typedef ComparisonImageFilter             Self;
-  typedef ImageSource< TOutputImage >       Superclass;
-  typedef SmartPointer< Self >              Pointer;
-  typedef SmartPointer< const Self >        ConstPointer;
+  typedef ComparisonImageFilter                            Self;
+  typedef ImageToImageFilter< TInputImage, TOutputImage >  Superclass;
+  typedef SmartPointer< Self >                             Pointer;
+  typedef SmartPointer< const Self >                       ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ComparisonImageFilter, ImageSource);
+  itkTypeMacro(ComparisonImageFilter, ImageToImageFilter);
 
   /** Some convenient typedefs. */
   typedef TInputImage                                         InputImageType;
@@ -69,6 +69,12 @@ public:
 
   /** Set the test image input.  This will be input 1.  */
   virtual void SetTestInput(const InputImageType *testImage);
+
+  /** Verify that the origin, spacing, and direction of both images match
+  */
+  itkSetMacro(VerifyInputInformation, bool);
+  itkGetConstMacro(VerifyInputInformation, bool);
+  itkBooleanMacro(VerifyInputInformation);
 
   /** Set/Get the maximum distance away to look for a matching pixel.
       Default is 0. */
@@ -123,11 +129,14 @@ protected:
 
   void AfterThreadedGenerateData() ITK_OVERRIDE;
 
+  void VerifyInputInformation() ITK_OVERRIDE;
+
   OutputPixelType m_DifferenceThreshold;
 
   RealType        m_MeanDifference;
   OutputPixelType m_MinimumDifference;
   OutputPixelType m_MaximumDifference;
+  bool            m_VerifyInputInformation;
 
   AccumulateType m_TotalDifference;
 

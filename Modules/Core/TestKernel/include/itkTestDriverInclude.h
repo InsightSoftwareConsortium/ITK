@@ -67,7 +67,10 @@ int RegressionTestImage(const char *testImageFilename,
                         int reportErrors,
                         double intensityTolerance,
                         ::itk::SizeValueType numberOfPixelsTolerance = 0,
-                        unsigned int radiusTolerance = 0);
+                        unsigned int radiusTolerance = 0,
+                        bool verifyInputInformation = true,
+                        double coordinateTolerance = 1.0e-6,
+                        double directionTolerance = 1.0e-6);
 
 int HashTestImage( const char *testImageFilename,
                    const std::string md5hash );
@@ -84,6 +87,9 @@ typedef struct
   double intensityTolerance;
   unsigned int numberOfPixelsTolerance;
   unsigned int radiusTolerance;
+  bool verifyInputInformation;
+  double coordinateTolerance;
+  double directionTolerance;
 } RegressionTestParameters;
 
 RegressionTestParameters regressionTestParameters;
@@ -171,6 +177,14 @@ void usage()
   std::cerr << "  --compareIntensityTolerance TOLERANCE" << std::endl;
   std::cerr << "      Default is 2.0." << std::endl;
   std::cerr << std::endl;
+  std::cerr << "  --compareCoordinateTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 1.0e-6. Relative to the first spacing element of the input image." << std::endl;
+  std::cerr << std::endl;
+  std::cerr << "  --compareDirectionTolerance TOLERANCE" << std::endl;
+  std::cerr << "      Default is 1.0e-6." << std::endl;
+  std::cerr << std::endl;  std::cerr << "  --ignoreInputInformation" << std::endl;
+  std::cerr << "      Skip verification of matching origins, spacings, and directions of input images." << std::endl;
+  std::cerr << std::endl;
   std::cerr << "  --no-process" << std::endl;
   std::cerr << "      The test driver will not invoke any process." << std::endl;
   std::cerr << std::endl;
@@ -201,7 +215,9 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
   regressionTestParameters.intensityTolerance  = 2.0;
   regressionTestParameters.numberOfPixelsTolerance = 0;
   regressionTestParameters.radiusTolerance = 0;
-
+  regressionTestParameters.verifyInputInformation = true;
+  regressionTestParameters.coordinateTolerance = 1.0e-6;
+  regressionTestParameters.directionTolerance = 1.0e-6;
   redirectOutputParameters.redirect = false;
 
   if( processedOutput )
@@ -345,6 +361,35 @@ int ProcessArguments(int *ac, ArgumentStringType *av, ProcessedOutputType * proc
       (*av) += 2;
       *ac -= 2;
       }
+    else if ( !skip && strcmp((*av)[i], "--compareCoordinateTolerance") == 0 )
+      {
+      if ( i + 2 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      regressionTestParameters.coordinateTolerance = atof((*av)[i + 1]);
+      (*av) += 2;
+      *ac -= 2;
+      }
+    else if ( !skip && strcmp((*av)[i], "--compareDirectionTolerance") == 0 )
+      {
+      if ( i + 2 >= *ac )
+        {
+        usage();
+        return 1;
+        }
+      regressionTestParameters.directionTolerance = atof((*av)[i + 1]);
+      (*av) += 2;
+      *ac -= 2;
+      }
+
+    else if ( !skip && strcmp((*av)[i], "--ignoreInputInformation") == 0 )
+      {
+      regressionTestParameters.verifyInputInformation = false;
+      (*av) += 1;
+      *ac -= 1;
+      }
     else if ( !skip && strcmp((*av)[i], "--add-before-libpath") == 0 )
       {
       if ( i + 2 >= *ac )
@@ -462,7 +507,10 @@ int RegressionTestImage(const char *testImageFilename,
                         int reportErrors,
                         double intensityTolerance,
                         ::itk::SizeValueType numberOfPixelsTolerance,
-                        unsigned int radiusTolerance)
+                        unsigned int radiusTolerance,
+                        bool verifyInputInformation,
+                        double coordinateTolerance,
+                        double directionTolerance)
 {
   // Use the factory mechanism to read the test and baseline files and convert
   // them to double
@@ -520,6 +568,9 @@ int RegressionTestImage(const char *testImageFilename,
   diff->SetTestInput( testReader->GetOutput() );
   diff->SetDifferenceThreshold(intensityTolerance);
   diff->SetToleranceRadius(radiusTolerance);
+  diff->SetVerifyInputInformation(verifyInputInformation);
+  diff->SetCoordinateTolerance(coordinateTolerance);
+  diff->SetDirectionTolerance(directionTolerance);
   diff->UpdateLargestPossibleRegion();
 
   itk::SizeValueType status = diff->GetNumberOfPixelsWithDifferences();

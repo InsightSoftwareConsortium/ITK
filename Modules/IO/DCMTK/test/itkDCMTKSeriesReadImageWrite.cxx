@@ -34,7 +34,7 @@ int itkDCMTKSeriesReadImageWrite( int argc, char* argv[] )
   if( argc < 3 )
     {
     std::cerr << "Usage: " << argv[0] <<
-      " DicomDirectory  outputFile OutputDicomDirectory" << std::endl;
+      " DicomDirectory  outputFile" << std::endl;
     return EXIT_FAILURE;
     }
 

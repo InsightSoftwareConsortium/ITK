@@ -32,7 +32,7 @@ itk_add_test(NAME itkRichardsonLucyDeconvolutionImageFilterIrregularKernelTest
 )
 itk_add_test(NAME itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest
       COMMAND ITKDeconvolutionTestDriver
-    --compare DATA{Baseline/itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest.nrrd}
+    --compare DATA{Baseline/itkRichardsonLucyDeconvolutionImageFilterGaussianKernelNonNullImageOriginTest.nrrd}
       ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterNonNullImageOriginTest.nrrd
     itkRichardsonLucyDeconvolutionImageFilterTest
       DATA{Input/itkDeconvolutionImageFilterTestNonNullOriginInput.mha}

@@ -61,7 +61,10 @@ for ( int ii = 0;
                           0,
                           regressionTestParameters.intensityTolerance,
                           regressionTestParameters.numberOfPixelsTolerance,
-                          regressionTestParameters.radiusTolerance);
+                          regressionTestParameters.radiusTolerance,
+                          regressionTestParameters.verifyInputInformation,
+                          regressionTestParameters.coordinateTolerance,
+                          regressionTestParameters.directionTolerance);
 
     if ( baseline->second == itk::NumericTraits< int >::max() )
       {
@@ -99,7 +102,10 @@ for ( int ii = 0;
         1,
         regressionTestParameters.intensityTolerance,
         regressionTestParameters.numberOfPixelsTolerance,
-        regressionTestParameters.radiusTolerance);
+        regressionTestParameters.radiusTolerance,
+        regressionTestParameters.verifyInputInformation,
+        regressionTestParameters.coordinateTolerance,
+        regressionTestParameters.directionTolerance);
         result = EXIT_FAILURE; //Nonzero indicates failure
       }
     // output the matching baseline
