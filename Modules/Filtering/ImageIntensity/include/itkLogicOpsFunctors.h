@@ -130,7 +130,7 @@ public:
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
   {
     if( Math::ExactlyEquals(A, static_cast<TInput1>(B)) )
       {
@@ -165,7 +165,7 @@ public:
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
   {
     if( Math::NotExactlyEquals(A, B) )
       {
@@ -201,7 +201,7 @@ public:
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
   {
     if( A >= B )
       {
@@ -236,7 +236,7 @@ public:
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
   {
     if( A > B )
       {
@@ -271,7 +271,7 @@ public:
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
   {
     if( A <= B )
       {
@@ -306,7 +306,7 @@ public:
   {
     return !(*this != other);
   }
-  inline TOutput operator()( const TInput1 & A, const TInput2 & B)
+  inline TOutput operator()( const TInput1 & A, const TInput2 & B) const
   {
     if( A < B )
       {
