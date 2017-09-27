@@ -20,6 +20,7 @@
 #include "itkStatisticsAlgorithm.h"
 #include "itkTestingMacros.h"
 
+// Problem has been solved in _MSC_FULL_VER == 191125508
 #if ( NDEBUG && (_MSC_FULL_VER == 190024215 || _MSC_FULL_VER == 191025017 ) )
 #pragma optimize ("g", off) // disable global optimizations
 #endif
