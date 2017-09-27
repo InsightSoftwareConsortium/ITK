@@ -40,7 +40,6 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
 ::GPUPDEDeformableRegistrationFilter()
 {
-  this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfIterations(10);
 
   this->SetStandardDeviations(1.0);
