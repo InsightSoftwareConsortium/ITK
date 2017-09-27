@@ -10,7 +10,6 @@ set(ITKIODCMTKTests
   itkDCMTKImageIOMultiFrameImageTest.cxx
 )
 
-
 CreateTestDriver(ITKIODCMTK "${ITKIODCMTK-Test_LIBRARIES}" "${ITKIODCMTKTests}")
 
 itk_add_test(NAME itkDCMTKImageIOTest1

@@ -5,52 +5,59 @@ set(ITKDCMTK_THIRD_PARTY 1)
 # This depends on the external project, nothing locally built
 set(ITKDCMTK_NO_SRC 1)
 
-# add to module path to find FindLIBICONV.cmake
-set(CMAKE_MODULE_PATH
-  ${CMAKE_CURRENT_SOURCE_DIR}/CMake ${CMAKE_MODULE_PATH})
+if(CMAKE_VERSION VERSION_LESS 3.2)
+  if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+    message(FATAL_ERROR "CMake >= 3.2 required with Ninja to compile DCMTK.")
+  endif()
+  set(build_byproducts)
+else()
+  set(build_byproducts  BUILD_BYPRODUCTS ${BYPRODUCTS})
+endif()
 
-set(ITKDCMTK_PREREQS
-  ${ITKDCMTK_BINARY_DIR}/DCMTK_Prereqs)
+if(DCMTK_USE_ICU)
+  option(ITK_USE_SYSTEM_ICU "Use an installed version of icu" OFF)
+  if(NOT ITK_USE_SYSTEM_ICU)
+    if(MSVC)
+      if(CMAKE_SIZEOF_VOID_P EQUAL "8")  # 64 bits
+        set(ICU_URL "http://download.icu-project.org/files/icu4c/54.1/icu4c-54_1-Win64-msvc10.zip")
+        set(ICU_MD5 4d85e1817a5a59582517262b9396c7ba)
+      else()  # 32 bits
+        set(ICU_URL "http://download.icu-project.org/files/icu4c/54.1/icu4c-54_1-Win32-msvc10.zip")
+        set(ICU_MD5 2419927dae9f0ac2498b10de657ff6d3)
+      endif()
+    else()
+      set(ICU_URL "http://download.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.tgz")
+      set(ICU_MD5 fac212b32b7ec7ab007a12dff1f3aea1)
+    endif()
 
-if(DCMTK_USE_LIBICONV)
-  find_package(LIBICONV QUIET)
-  if(LIBICONV_FOUND)
-    #message("ICONV LIBRARY FOUND: ${LIBICONV_LIBRARIES}")
-    get_filename_component(LIBICONV_LIBDIR ${LIBICONV_LIBRARY} PATH)
-    set(ICONV_ARGS
-      -DLIBICONV_LIBDIR:PATH=${LIBICONV_LIBDIR}
-      -DLIBICONV_INCLUDE_DIR:PATH=${LIBICONV_INCLUDE_DIRS}
-      -DLIBICONV_LIBRARY:PATH=${LIBICONV_LIBRARY}
+    set(ICU_ARGS
+      -DDCMTK_WITH_STDLIBC_ICONV:BOOL=OFF
+      -DDCMTK_WITH_ICU:BOOL=ON
+      -DICU_ROOT_DIR:PATH=${ITKDCMTK_PREREQS}
+      -DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=ICU
+      -DICU_ROOT:PATH=${ITKDCMTK_PREREQS} # CMake >= 3.6.20160710
+      # Missing "sbin" subdirectory  in "icu_binary_suffixes" in FindICU.cmake in CMake when called from DCMTK
+      -DICU_GENCCODE_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/genccode
+      -DICU_GENCMN_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gencmn
+      -DICU_GENNORM2_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gennorm2
+      -DICU_ICUPKG_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/icupkg
+      -DICU_GENSPREP_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gensprep
       )
-  else(LIBICONV_FOUND)
-    itk_download_attempt_check(libiconv)
-    ExternalProject_Add(libiconv
-      URL http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.14.tar.gz
-      URL_MD5 e34509b1623cec449dfeb73d7ce9c6c6
-      #  GIT_REPOSITORY git://git.savannah.gnu.org/libiconv.git
+    itk_download_attempt_check(icu)
+    ExternalProject_Add(icu
+      URL ${ICU_URL}
+      URL_MD5 ${ICU_MD5}
       PREFIX ${ITKDCMTK_BINARY_DIR}
       UPDATE_COMMAND ""
-      CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=${ITKDCMTK_PREREQS}
-      --enable-static=yes
-      --enable-shared=no
-      "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
-      "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
+      ${build_byproducts}
+      CONFIGURE_COMMAND <SOURCE_DIR>/source/configure --prefix=${ITKDCMTK_PREREQS}
+        --enable-static=yes
+        --enable-shared=no
+        "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
+        "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
       )
-    set(ICONV_ARGS
-      -DDCMTK_WITH_ICONV:BOOL=ON
-      -DLIBICONV_LIBDIR:PATH=${ITKDCMTK_PREREQS}/lib
-      -DLIBICONV_INCLUDE_DIR:PATH=${ITKDCMTK_PREREQS}/include
-      -DLIBICONV_LIBRARY:FILEPATH=${LIBICONV_LIBRARY})
-
-    set(LIBICONV_LIBRARY ${ITKDCMTK_PREREQS}/lib/${lib_prefix}iconv${lib_suffix})
-    set(ICONV_DEPENDENCY libiconv)
-  endif(LIBICONV_FOUND)
-
-  add_library(ITKDCMTK_iconv STATIC IMPORTED)
-  set_property(TARGET ITKDCMTK_iconv PROPERTY
-    IMPORTED_LOCATION ${LIBICONV_LIBRARY})
-else()
-  set(ICONV_ARGS -DDCMTK_WITH_ICONV:BOOL=OFF)
+    set(ICU_DEPENDENCY icu)
+  endif()
 endif()
 
 #
@@ -79,26 +86,6 @@ endif()
   itk_module_impl()
 
 else(ITK_USE_SYSTEM_DCMTK)
-  if(NOT WIN32)
-    set(lib_prefix lib)
-    if(BUILD_SHARED_LIBS)
-      set(lib_suffix "${CMAKE_SHARED_LIBRARY_SUFFIX}")
-      set(lib_prefix "${CMAKE_SHARED_LIBRARY_PREFIX}")
-    else()
-      set(lib_suffix "${CMAKE_STATIC_LIBRARY_SUFFIX}")
-      set(lib_prefix "${CMAKE_STATIC_LIBRARY_PREFIX}")
-    endif()
-  else()
-    set(lib_prefix "")
-    if(BUILD_SHARED_LIBS)
-      set(lib_suffix "${CMAKE_IMPORT_LIBRARY_SUFFIX}")
-      set(lib_prefix "${CMAKE_IMPORT_LIBRARY_PREFIX}")
-    else()
-      set(lib_suffix "${CMAKE_STATIC_LIBRARY_SUFFIX}")
-      set(lib_prefix "${CMAKE_IMPORT_LIBRARY_PREFIX}")
-    endif()
-  endif()
-
   set(DCMTK_EPNAME ITKDCMTK_ExtProject)
   set(lib_dir ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}-build/lib)
 
@@ -152,7 +139,6 @@ foreach(lib ${_ITKDCMTK_LIB_NAMES})
 endforeach()
 ")
   endif()
-
   # create imported targets when module is loaded from install tree
   set(ITKDCMTK_EXPORT_CODE_INSTALL "
 foreach(lib ${_ITKDCMTK_LIB_NAMES})
@@ -205,14 +191,13 @@ endforeach()
   # build the list of libraries upon which DCMTK depends
   set(ITKDCMTK_LIBDEP "")
   foreach(lib ITKJPEG_LIBRARIES ITKTIFF_LIBRARIES ITKPNG_LIBRARIES
-      ITKZLIB_LIBRARIES ITKDCMTK_iconv)
+      ITKZLIB_LIBRARIES ITKDCMTK_ICU_LIBRARIES)
     foreach(_lib ${${lib}})
       if(TARGET ${_lib})
         list(APPEND ITKDCMTK_LIBDEP ${_lib})
       endif()
     endforeach()
   endforeach()
-
   # attach actual filenames to the
   # imported libraries from the ExternalProject
   foreach(lib ${_ITKDCMTK_LIB_NAMES})
@@ -239,15 +224,6 @@ endforeach()
     add_dependencies(${lib} ${DCMTK_EPNAME})
   endforeach()
 
-  if(CMAKE_VERSION VERSION_LESS 3.2)
-    if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
-      message(FATAL_ERROR "CMake >= 3.2 required with Ninja to compile DCMTK.")
-    endif()
-    set(build_byproducts)
-  else()
-    set(build_byproducts  BUILD_BYPRODUCTS ${BYPRODUCTS})
-  endif()
-
   if(CMAKE_VERSION VERSION_LESS 3.4)
     set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG )
     set(CMAKE_C_COMPILER_LAUNCHER_FLAG )
@@ -255,6 +231,7 @@ endforeach()
     set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER})
     set(CMAKE_C_COMPILER_LAUNCHER_FLAG -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER})
   endif()
+
   itk_download_attempt_check(${DCMTK_EPNAME})
   ExternalProject_Add(${DCMTK_EPNAME}
     GIT_REPOSITORY ${DCMTK_GIT_REPOSITORY}
@@ -262,9 +239,6 @@ endforeach()
     SOURCE_DIR ${DCMTK_EPNAME}
     BINARY_DIR ${DCMTK_EPNAME}-build
     LIST_SEPARATOR ":::"
-    # PATCH_COMMAND ${CMAKE_COMMAND} -E
-    # copy ${CMAKE_CURRENT_LIST_DIR}/CMake/FindLIBICONV.cmake
-    # ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}/CMake/FindICONV.cmake
     INSTALL_COMMAND ""
    CMAKE_ARGS
     -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
@@ -292,7 +266,8 @@ endforeach()
     -DCMAKE_ARCHIVE_OUTPUT_DIRECTORY:PATH=${CMAKE_ARCHIVE_OUTPUT_DIRECTORY}
     -DCMAKE_RUNTIME_OUTPUT_DIRECTORY:PATH=${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
     -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
-    DEPENDS ${JPEG_DEPENDENCY} ${PNG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICONV_DEPENDENCY}
+    ${ICU_ARGS}
+    DEPENDS ${JPEG_DEPENDENCY} ${PNG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICU_DEPENDENCY}
     ${build_byproducts}
     )
 
