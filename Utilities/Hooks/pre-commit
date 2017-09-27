@@ -118,12 +118,14 @@ git diff-index --cached HEAD --diff-filter=M |
 while read src_mode dst_mode src_obj dst_obj status file; do
   if echo "$dst_mode $file" | egrep-q '^100644 .*\.(md5)$'; then
     if ! git diff-index --cached HEAD --diff-filter=DM -- "${file/.md5}".sha512 | egrep-q '\.(sha512)$'; then
-      die "The $file content link was updated without
+      if git ls-tree -r HEAD~1 --name-only | grep "${file/.md5}".sha512; then # sha512 exists in git tree
+          die "The $file content link was updated without
 updating its .sha512 counterpart. Please run
 
   cd \"$top_level_dir\"
   git rm -- ${file/.md5}.sha512
 "
+      fi
     fi
     ExternalData_stage_linked_content
   elif echo "$dst_mode $file" | egrep-q '^100644 .*\.(sha512)$'; then
