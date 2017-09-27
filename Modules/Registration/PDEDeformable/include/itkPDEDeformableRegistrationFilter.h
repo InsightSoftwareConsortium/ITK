@@ -136,6 +136,9 @@ public:
   /** Set initial displacement field. */
   itkSetInputMacro(InitialDisplacementField, DisplacementFieldType);
 
+  /** Get initial displacement field. */
+  itkGetInputMacro(InitialDisplacementField, DisplacementFieldType);
+
   /** Get output displacement field. */
   DisplacementFieldType * GetDisplacementField()
   { return this->GetOutput(); }
