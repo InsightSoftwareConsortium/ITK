@@ -54,6 +54,41 @@ CastImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 CastImageFilter< TInputImage, TOutputImage >
+::GenerateOutputInformation()
+  {
+    typedef typename Superclass::InputImageType  InputImageType;
+    typedef typename Superclass::OutputImageType OutputImageType;
+
+    // do not call the superclass' implementation of this method since
+    // this filter allows the input the output to be of different dimensions
+
+    // get pointers to the input and output
+    OutputImageType *outputPtr = this->GetOutput();
+    const InputImageType *inputPtr  = this->GetInput();
+
+    if ( !outputPtr || !inputPtr )
+      {
+      return;
+      }
+
+    // Set the output image largest possible region.  Use a RegionCopier
+    // so that the input and output images can be different dimensions.
+    OutputImageRegionType outputLargestPossibleRegion;
+    this->CallCopyInputRegionToOutputRegion( outputLargestPossibleRegion,
+                                             inputPtr->GetLargestPossibleRegion() );
+    outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
+
+    ImageToImageFilterDetail::ImageInformationCopier<Superclass::OutputImageDimension,
+                                                     Superclass::InputImageDimension>
+      informationCopier;
+    informationCopier(outputPtr, inputPtr);
+
+  }
+
+
+template< typename TInputImage, typename TOutputImage >
+void
+CastImageFilter< TInputImage, TOutputImage >
 ::ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
