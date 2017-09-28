@@ -197,7 +197,7 @@ public:
     return true;
   }
 
-  inline TOutput operator()( const TNumerator & n, const TDenominator & d )
+  inline TOutput operator()( const TNumerator & n, const TDenominator & d ) const
   {
     if ( d < m_Threshold )
       {
