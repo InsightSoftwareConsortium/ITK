@@ -541,10 +541,10 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   }
   iHist.resize(maxSize, 0);
   jHist.resize(maxSize, 0);
-  assert(iHist[0] == 0);
-  assert(jHist[0] == 0);
   std::vector<long long> iSum(maxSize, 0);
   std::vector<long long> jSum(maxSize, 0);
+  iSum[0] = iHist[0];
+  jSum[0] = jHist[0];
   for (unsigned b = 1; b < maxSize; b++)
   {
     iSum[b] = iSum[b - 1] + iHist[b];
