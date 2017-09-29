@@ -3,16 +3,8 @@ itk_module_test()
 set(
   MorphologicalContourInterpolationTests
   itkMorphologicalContourInterpolationTest.cxx
+  itkMorphologicalContourInterpolationTestWithRLEImage.cxx
 )
-set(TestExe itkMorphologicalContourInterpolationTest)
-
-if(${MCI_TestWithRLEImage})
-  list(
-    APPEND MorphologicalContourInterpolationTests
-    itkMorphologicalContourInterpolationTestWithRLEImage.cxx
-  )
-  set(TestExe itkMorphologicalContourInterpolationTestWithRLEImage)
-endif()
 
 createtestdriver( MorphologicalContourInterpolation "${MorphologicalContourInterpolation-Test_LIBRARIES}" "${MorphologicalContourInterpolationTests}")
 
@@ -44,7 +36,7 @@ function(JustInputTest ImageName Ext) #optional: Axis Label
       NAME itkMCI_JustInOut_${imageAlgoArgs}
       COMMAND
         MorphologicalContourInterpolationTestDriver
-        ${TestExe}
+        itkMorphologicalContourInterpolationTest
         DATA{Input/${ImageName}.${Ext}}
         "${ITK_TEST_OUTPUT_DIR}/${imageAlgoArgs}.${Ext}"
         ${algo}
@@ -72,7 +64,21 @@ function(RegressionTest RunsLong ImageName Ext) #optional: Axis Label
         --compare
         DATA{Baseline/${imageAlgoArgs}.${Ext}}
         ${outImage}
-        ${TestExe}
+        itkMorphologicalContourInterpolationTest
+        DATA{Input/${ImageName}.${Ext}}
+        ${outImage}
+        ${algo}
+        ${ARGN}
+    )
+
+    itk_add_test(
+      NAME itkMCIRLE_${imageAlgoArgs}
+      COMMAND
+        MorphologicalContourInterpolationTestDriver
+        --compare
+        DATA{Baseline/${imageAlgoArgs}.${Ext}}
+        ${outImage}
+        itkMorphologicalContourInterpolationTestWithRLEImage
         DATA{Input/${ImageName}.${Ext}}
         ${outImage}
         ${algo}
@@ -83,6 +89,14 @@ function(RegressionTest RunsLong ImageName Ext) #optional: Axis Label
       set_property(
         TEST
           itkMCI_${imageAlgoArgs}
+        APPEND
+        PROPERTY
+          LABELS
+            RUNS_LONG
+      )
+      set_property(
+        TEST
+          itkMCIRLE_${imageAlgoArgs}
         APPEND
         PROPERTY
           LABELS
