@@ -23,22 +23,6 @@ workboxSW.precache([
     "revision": "b83638ec86d9102531dcc276ca14dd43"
   },
   {
-    "url": "search_config.php",
-    "revision": "862e3b82f14207c2ce8dfe827d39fa1d"
-  },
-  {
-    "url": "search_functions.php",
-    "revision": "0f72df0d486386934debaaccdac2be78"
-  },
-  {
-    "url": "search_opensearch.php",
-    "revision": "b156c5ea11454a34569d7f9801655e3a"
-  },
-  {
-    "url": "search.php",
-    "revision": "bb9cbcbb361ec22e103d56338e6e54cb"
-  },
-  {
     "url": "search/search.css",
     "revision": "f55d2d0c0650c5a8b71b3270a8436691"
   },

@@ -110,7 +110,7 @@ endif()
 #  cd ITK-Doxygen-build
 #  make Documentation
 #  cd Utilites/Doxygen
-#  workbox
+#  workbox inject:manifest
 #  cp ./html/serviceWorker.js ~/src/ITK/Utilies/Doxygen/
 #
 # If workbox has changed version, we also need to update workbox-sw.prod*.js

@@ -1,7 +1,7 @@
 module.exports = {
   "globDirectory": "html/",
   "globPatterns": [
-    "**/*.{css,js,jpg,php}",
+    "**/*.{css,js,jpg}",
     "itkLogoSmall.gif"
   ],
   "swSrc": "serviceWorker.js.in",
