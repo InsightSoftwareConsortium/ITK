@@ -65,12 +65,15 @@ public:
   typedef typename RieszFunctionType::Pointer           RieszFunctionPointer;
   typedef typename RieszFunctionType::FunctionValueType FunctionValueType;
 
+  typedef typename std::vector<OutputImagePointer> OutputsType;
+  // typedef typename itk::VectorContainer<int, OutputImagePointer> OutputsType;
+
   /** Dimension */
   itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
 
   /** Get Outputs *****/
   /** Return vector of images from all directions */
-  std::vector<OutputImagePointer>
+  OutputsType
   GetOutputs();
 
   // #ifdef ITK_USE_CONCEPT_CHECKING

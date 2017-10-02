@@ -50,6 +50,9 @@ public:
   typedef typename Superclass::OutputImagePointer     OutputImagePointer;
   typedef typename Superclass::InputImageConstPointer InputImageConstPointer;
 
+  typedef typename std::vector<InputImagePointer> InputsType;
+  // typedef typename itk::VectorContainer<int, InputImagePointer> InputsType;
+
   typedef TWaveletFilterBank                                  WaveletFilterBankType;
   typedef typename WaveletFilterBankType::Pointer             WaveletFilterBankPointer;
   typedef typename WaveletFilterBankType::WaveletFunctionType WaveletFunctionType;
@@ -97,7 +100,7 @@ public:
    * This vector is generated in the ForwardWavelet when StoreWaveletFilterBankPyramid is On.
    */
   void
-  SetWaveletFilterBankPyramid(const std::vector<InputImagePointer> & filterBankPyramid)
+  SetWaveletFilterBankPyramid(const InputsType & filterBankPyramid)
   {
     this->m_WaveletFilterBankPyramid = filterBankPyramid;
   }
@@ -108,13 +111,13 @@ public:
   InputIndexToLevelBand(unsigned int linear_index);
 
   void
-  SetInputs(const std::vector<InputImagePointer> & inputs);
+  SetInputs(const InputsType & inputs);
 
   void
   SetInputLowPass(const InputImagePointer & input_low_pass);
 
   void
-  SetInputsHighPass(const std::vector<InputImagePointer> & inputs);
+  SetInputsHighPass(const InputsType & inputs);
 
 protected:
   WaveletFrequencyInverseUndecimated();
@@ -165,14 +168,14 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WaveletFrequencyInverseUndecimated);
 
-  unsigned int                   m_Levels;
-  unsigned int                   m_HighPassSubBands;
-  unsigned int                   m_TotalInputs;
-  unsigned int                   m_ScaleFactor;
-  bool                           m_ApplyReconstructionFactors;
-  bool                           m_UseWaveletFilterBankPyramid;
-  WaveletFilterBankPointer       m_WaveletFilterBank;
-  std::vector<InputImagePointer> m_WaveletFilterBankPyramid;
+  unsigned int             m_Levels;
+  unsigned int             m_HighPassSubBands;
+  unsigned int             m_TotalInputs;
+  unsigned int             m_ScaleFactor;
+  bool                     m_ApplyReconstructionFactors;
+  bool                     m_UseWaveletFilterBankPyramid;
+  WaveletFilterBankPointer m_WaveletFilterBank;
+  InputsType               m_WaveletFilterBankPyramid;
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

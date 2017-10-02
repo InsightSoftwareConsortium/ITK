@@ -84,8 +84,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
 
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
 void
-WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank>::SetInputs(
-  const std::vector<InputImagePointer> & inputs)
+WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank>::SetInputs(const InputsType & inputs)
 {
   if (inputs.size() != this->m_TotalInputs)
   {
@@ -112,7 +111,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
 template <typename TInputImage, typename TOutputImage, typename TWaveletFilterBank>
 void
 WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank>::SetInputsHighPass(
-  const std::vector<InputImagePointer> & inputs)
+  const InputsType & inputs)
 {
   if (inputs.size() != this->m_TotalInputs - 1)
   {
@@ -277,7 +276,7 @@ WaveletFrequencyInverseUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
     low_pass_per_level = multiplyLowPass->GetOutput();
 
     /******* HighPass sub-bands *****/
-    std::vector<InputImagePointer> highPassMasks;
+    InputsType highPassMasks;
     if (!this->m_UseWaveletFilterBankPyramid)
     {
       highPassMasks = this->m_WaveletFilterBank->GetOutputsHighPassBands();

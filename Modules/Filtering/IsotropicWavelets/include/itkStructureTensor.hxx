@@ -41,7 +41,7 @@ StructureTensor<TInputImage, TOutputImage>::StructureTensor()
 
 template <typename TInputImage, typename TOutputImage>
 void
-StructureTensor<TInputImage, TOutputImage>::SetInputs(const std::vector<InputImagePointer> & inputs)
+StructureTensor<TInputImage, TOutputImage>::SetInputs(const InputsType & inputs)
 {
   if (inputs.size() <= 1)
   {

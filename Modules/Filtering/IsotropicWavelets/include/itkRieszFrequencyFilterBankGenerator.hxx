@@ -44,11 +44,10 @@ RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegion
 
 /* ******* Get Outputs *****/
 template <typename TOutputImage, typename TRieszFunction, typename TFrequencyRegionIterator>
-std::vector<typename RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::
-              OutputImagePointer>
+typename RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::OutputsType
 RieszFrequencyFilterBankGenerator<TOutputImage, TRieszFunction, TFrequencyRegionIterator>::GetOutputs()
 {
-  std::vector<OutputImagePointer> outputList;
+  OutputsType outputList;
   for (unsigned int comp = 0; comp < this->GetNumberOfOutputs(); ++comp)
   {
     outputList.push_back(this->GetOutput(comp));
