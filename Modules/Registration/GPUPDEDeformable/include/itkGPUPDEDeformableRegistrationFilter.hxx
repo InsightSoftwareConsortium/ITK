@@ -40,7 +40,6 @@ template <typename TFixedImage, typename TMovingImage, typename TDisplacementFie
 GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
 ::GPUPDEDeformableRegistrationFilter()
 {
-  this->SetNumberOfRequiredInputs(2);
   this->SetNumberOfIterations(10);
 
   this->SetStandardDeviations(1.0);
@@ -79,56 +78,6 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 #endif
 
 }
-
-/*
- * Set the fixed image.
- */
-template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
-void
-GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
-::SetFixedImage(
-  const FixedImageType *ptr)
-{
-  this->ProcessObject::SetNthInput( 1, const_cast<FixedImageType *>( ptr ) );
-}
-
-/*
- * Get the fixed image.
- */
-template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
-const typename GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
-::FixedImageType
-* GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
-::GetFixedImage() const
-  {
-  return dynamic_cast<const FixedImageType *>
-         ( this->ProcessObject::GetInput(1) );
-  }
-
-/*
- * Set the moving image.
- */
-template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
-void
-GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
-::SetMovingImage(
-  const MovingImageType *ptr)
-{
-  this->ProcessObject::SetNthInput( 2, const_cast<MovingImageType *>( ptr ) );
-}
-
-/*
- * Get the moving image.
- */
-template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
-const typename GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
-::MovingImageType
-* GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>
-::GetMovingImage() const
-  {
-  return dynamic_cast<const MovingImageType *>
-         ( this->ProcessObject::GetInput(2) );
-  }
 
 /*
  * Standard PrintSelf method.
