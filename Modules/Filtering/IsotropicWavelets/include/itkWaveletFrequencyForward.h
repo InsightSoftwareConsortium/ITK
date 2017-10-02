@@ -32,10 +32,10 @@ namespace itk
 /** \class WaveletFrequencyForward
  * @brief IsotropicWavelet multiscale analysis where input is an image in the frequency domain.
  * Output Layout:
- * Output 0 is the residual low pass filtered of the last level/scale.
- * [0]: Low pass residual, also called approximation.
- * [1,..,HighPassBands]: Wavelet coef of first level.
- * [HighPassBands + 1,..,l*HighPassBands]: Wavelet coef of l level.
+ * Output m_TotalOutputs - 1 is the residual low pass filtered of the last level/scale.
+ * [N - 1]: Low pass residual, also called approximation.
+ * [0,..,HighPassBands): Wavelet coef of first level.
+ * [HighPassBands,..,l*HighPassBands]: Wavelet coef of l level.
  *
  * @note The information/metadata of input image is ignored.
  * It can be restored after reconstruction @sa WaveletFrequencyInverse
