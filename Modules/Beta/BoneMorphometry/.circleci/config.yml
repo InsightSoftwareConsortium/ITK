@@ -19,6 +19,8 @@ jobs:
       - run:
           name: Build and Test
           no_output_timeout: 1.0h
+          environment:
+            CTEST_BUILD_FLAGS: "-j5"
           command: |
             ctest -j 2 -VV -D Experimental
   package:
