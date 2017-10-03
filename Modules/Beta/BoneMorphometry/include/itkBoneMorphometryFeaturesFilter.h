@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBoneMorphometryImageFilter_h
-#define itkBoneMorphometryImageFilter_h
+#ifndef itkBoneMorphometryFeaturesFilter_h
+#define itkBoneMorphometryFeaturesFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
@@ -31,16 +31,16 @@
 
 namespace itk
 {
-/** \class BoneMorphometryImageFilter
+/** \class BoneMorphometryFeaturesFilter
  * \brief Compute the percent bone volume [BVTV], trabecular thickness [TbTh], trabecular separation [TbSp] trabecular number [TbN] and Bone Surface to Bone Volume ration [BSBV]
  *
- * BoneMorphometryImageFilter computes bone morphometry features such as the percent bone volume [BVTV], the trabecular thickness [TbTh],
+ * BoneMorphometryFeaturesFilter computes bone morphometry features such as the percent bone volume [BVTV], the trabecular thickness [TbTh],
  * the trabecular separation [TbSp], the trabecular number [TbN], or the Bone Surface to Bone Volume ration [BSBV].
  * To do so, the filter needs a 3D input scan and a threshold. All voxels with an intensity higher than the threshold will
  * be considered as part of the bone.
  * A mask can also be specified in order to have more precise results (the morphometry will be computed only for the mask's voxels with a value of 1)
  *
- * BoneMorphometryImageFilter behaves as a filter with an input and output. Thus it can be inserted
+ * BoneMorphometryFeaturesFilter behaves as a filter with an input and output. Thus it can be inserted
  * in a pipeline with other filters and the metrics will only be
  * recomputed if a downstream filter changes.
  *
@@ -52,13 +52,13 @@ namespace itk
  * \ingroup BoneMorphometry
  *
  */
-template< typename TInputImage,typename TMaskImage = TInputImage>
-class ITK_TEMPLATE_EXPORT BoneMorphometryImageFilter:
+template< typename TInputImage,typename TMaskImage = Image< unsigned char, TInputImage::ImageDimension> >
+class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesFilter:
 public ImageToImageFilter< TInputImage, TInputImage >
 {
 public:
   /** Standard Self typedef */
-  typedef BoneMorphometryImageFilter                      Self;
+  typedef BoneMorphometryFeaturesFilter                   Self;
   typedef ImageToImageFilter< TInputImage, TInputImage >  Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
@@ -67,7 +67,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoneMorphometryImageFilter, ImageToImageFilter);
+  itkTypeMacro(BoneMorphometryFeaturesFilter, ImageToImageFilter);
 
   /** Image related typedefs. */
   typedef typename TInputImage::Pointer    InputImagePointer;
@@ -148,8 +148,8 @@ public:
 #endif
 
 protected:
-  BoneMorphometryImageFilter();
-  virtual ~BoneMorphometryImageFilter() {}
+  BoneMorphometryFeaturesFilter();
+  virtual ~BoneMorphometryFeaturesFilter() {}
 
 
   /** Pass the input through unmodified. Do this by Grafting in the
@@ -196,7 +196,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoneMorphometryImageFilter.hxx"
+#include "itkBoneMorphometryFeaturesFilter.hxx"
 #endif
 
-#endif // itkBoneMorphometryImageFilter_h
+#endif // itkBoneMorphometryFeaturesFilter_h

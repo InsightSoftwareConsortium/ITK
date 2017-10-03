@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkBoneMorphometryImageFilter.h"
+#include "itkBoneMorphometryFeaturesFilter.h"
 
 #include "itkMath.h"
 #include "itkImage.h"
@@ -23,7 +23,7 @@
 #include "itkImageFileReader.h"
 #include "itkTestingMacros.h"
 
-int BoneMorphometryImageFilterInstantiationTest( int argc, char *argv[] )
+int BoneMorphometryFeaturesFilterInstantiationTest( int argc, char *argv[] )
 {
     if( argc < 3 )
       {
@@ -51,11 +51,11 @@ int BoneMorphometryImageFilterInstantiationTest( int argc, char *argv[] )
   maskReader->SetFileName( argv[2] );
 
   // Create the filter
-  typedef itk::BoneMorphometryImageFilter<InputImageType> FilterType;
+  typedef itk::BoneMorphometryFeaturesFilter<InputImageType> FilterType;
   FilterType::Pointer filter = FilterType::New();
 
   EXERCISE_BASIC_OBJECT_METHODS( filter,
-  BoneMorphometryImageFilter, ImageToImageFilter );
+  BoneMorphometryFeaturesFilter, ImageToImageFilter );
 
   filter->SetInput( reader->GetOutput() );
 
