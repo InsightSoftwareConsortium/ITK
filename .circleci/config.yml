@@ -19,6 +19,13 @@ jobs:
     steps:
       - checkout:
           path : ~/ITK
+      - restore_cache:
+          keys:
+            - external-data
+      - restore_cache:
+          keys:
+            - ccache-{{ arch }}-{{ .Branch }}
+            - ccache-{{ arch }}-master
       - run:
           name: Cloning dashboard branch
           command: |
@@ -26,10 +33,16 @@ jobs:
       - run:
           name: Dependencies
           command: |
-            sudo apt-get install -y  rsync ninja-build
+            sudo apt-get install -y  rsync ninja-build ccache
             sudo pip install --upgrade pip
             sudo pip install scikit-ci-addons
             ci_addons circle/install_cmake.py 3.7.2
+      - run:
+          name: CCache initialization
+          command: |
+            ccache --show-stats
+            ccache --zero-stats
+            ccache --max-size=2.0G
       - run: echo 'export DASHBOARD_MODEL=$( [[ "$CIRCLE_BRANCH" = "master" ]] && echo Continuous || echo Experimental )' >> $BASH_ENV
       - run:
           name: Build and Testing with CTest
@@ -41,8 +54,14 @@ jobs:
             PARALLEL_LEVEL: 4
             CTEST_CMAKE_GENERATOR: "Ninja"
           command: |
+            export PATH=/usr/lib/ccache:${PATH}
             mkdir -p ${CTEST_BINARY_DIRECTORY}
             ctest -V -Ddashboard_no_clean:BOOL=1 -S "${DASHBOARD_BRANCH_DIRECTORY}/circleci.cmake"
+      - run:
+          name: ccache stats
+          when: always
+          command: |
+            ccache --show-stats
       - run:
           name: Formatting CTest for JUnit
           when: always
@@ -53,3 +72,9 @@ jobs:
       - store_test_results:
           path: /tmp/test-results
           destination: ctest
+      - save_cache:
+          key: 'ccache-{{ arch }}-{{ .Branch }}-{{ epoch }}'
+          paths: [ "/home/circleci/.ccache" ]
+      - save_cache:
+          key: 'external-data'
+          paths: [ "/home/circleci/.ExternalData" ]
