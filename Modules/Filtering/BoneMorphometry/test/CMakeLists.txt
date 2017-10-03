@@ -1,14 +1,31 @@
 itk_module_test()
 
-set(BoneMorphometryTests BoneMorphometryImageFilterInstantiationTest.cxx)
+set(
+  BoneMorphometryTests
+  BoneMorphometryFeaturesFilterInstantiationTest.cxx
+  BoneMorphometryFeaturesImageFilterInstantiationTest.cxx
+)
 
 createtestdriver(BoneMorphometry "${BoneMorphometry-Test_LIBRARIES}" "${BoneMorphometryTests}")
 
 itk_add_test(
-  NAME BoneMorphometryImageFilterInstantiationTest
+  NAME BoneMorphometryFeaturesFilterInstantiationTest
   COMMAND
     BoneMorphometryTestDriver
-    BoneMorphometryImageFilterInstantiationTest
+    BoneMorphometryFeaturesFilterInstantiationTest
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
+)
+
+itk_add_test(
+  NAME BoneMorphometryFeaturesImageFilterInstantiationTest
+  COMMAND
+    BoneMorphometryTestDriver
+    --compare
+    DATA{Baseline/resultTestFilterInstensiation.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstensiation.nrrd
+    BoneMorphometryFeaturesImageFilterInstantiationTest
+    DATA{Input/Scan_CBCT_13R.nrrd}
+    DATA{Input/SegmC_CBCT_13R.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstensiation.nrrd
 )
