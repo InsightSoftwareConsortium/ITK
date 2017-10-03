@@ -21,6 +21,9 @@ itk_add_test(
   NAME BoneMorphometryFeaturesImageFilterInstantiationTest
   COMMAND
     BoneMorphometryTestDriver
+    --compare
+    DATA{Baseline/resultTestFilterInstensiation.nrrd}
+    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstensiation.nrrd
     BoneMorphometryFeaturesImageFilterInstantiationTest
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
