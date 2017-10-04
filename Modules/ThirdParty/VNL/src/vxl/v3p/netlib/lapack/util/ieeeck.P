@@ -1,1 +1,0 @@
-extern integer ieeeck_(integer *ispec, real *zero, real *one);

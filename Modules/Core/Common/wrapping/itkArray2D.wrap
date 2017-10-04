@@ -1,7 +1,0 @@
-itk_wrap_class("itk::Array2D")
-  UNIQUE(types "D;${WRAP_ITK_REAL}")
-  foreach(t ${types})
-    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
-  endforeach(t ${types})
-  itk_wrap_template("${ITKM_UI}" "${ITKT_UI}")
-itk_end_wrap_class()

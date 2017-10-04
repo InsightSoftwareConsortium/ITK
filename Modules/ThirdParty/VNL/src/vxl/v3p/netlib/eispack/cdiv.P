@@ -1,1 +1,0 @@
-extern int cdiv_(doublereal *ar, doublereal *ai, doublereal *br, doublereal *bi, doublereal *cr, doublereal *ci);

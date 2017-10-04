@@ -1,2 +1,0 @@
-project(ITKBinaryMathematicalMorphology)
-itk_module_impl()

@@ -1,6 +1,0 @@
-itk_wrap_class("itk::TriangleHelper")
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    ADD_TEMPLATE("${ITKM_PF${d}}"  "${ITKT_PF${d}}")
-    ADD_TEMPLATE("${ITKM_PD${d}}"  "${ITKT_PD${d}}")
-  endforeach()
-itk_end_wrap_class()

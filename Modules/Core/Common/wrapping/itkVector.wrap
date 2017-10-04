@@ -1,3 +1,0 @@
-itk_wrap_class("itk::Vector")
-  set(WRAPPER_TEMPLATES "${itk_Wrap_Vector}")
-itk_end_wrap_class()
