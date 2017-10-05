@@ -98,6 +98,7 @@ bool vnl_lbfgs::minimize(vnl_vector<double>& x)
     f_->compute(x, &f, &g);
     if (this->num_evaluations_ == 0) {
       this->start_error_ = f;
+      best_x = x;
       best_f = f;
     } else if (f < best_f) {
       best_x = x;

@@ -26,7 +26,7 @@ if(BUILD_DOCUMENTATION)
   function(doxygen_add_book _book _description)
     if(TEXI2HTML_EXECUTABLE)
       string(REPLACE / _ bookname ${_book})
-      file(APPEND "${PROJECT_BINARY_DIR}/doxygen_configuration.cmake"
+      file(APPEND "${CMAKE_BINARY_DIR}/doxygen_configuration.cmake"
         "set(DOXYGEN_BOOK_LIST \${DOXYGEN_BOOK_LIST} ${_book})\n"
         "set(DOXYGEN_${bookname}_BOOK_DESCRIPTION\n"
         "    \"${_description}\")\n"
@@ -46,7 +46,7 @@ if(BUILD_DOCUMENTATION)
   #     )
   function(doxygen_add_package _package _description)
     string(REPLACE / _ packname ${_package})
-    file(APPEND "${PROJECT_BINARY_DIR}/doxygen_configuration.cmake"
+    file(APPEND "${CMAKE_BINARY_DIR}/doxygen_configuration.cmake"
       "set(DOXYGEN_PACKAGE_LIST \${DOXYGEN_PACKAGE_LIST} ${_package})\n"
       "set(DOXYGEN_${packname}_DESCRIPTION \"${_description}\")\n"
       )
@@ -105,11 +105,11 @@ if(BUILD_DOCUMENTATION)
     set(tagfiles @tagfiles@)
     configure_file(
       "${DOXYGEN_SCRIPT_DIR}/doxyfile.in"
-      "${PROJECT_BINARY_DIR}/doxy/output/doxyfile.${libname}"
+      "${CMAKE_BINARY_DIR}/doxy/output/doxyfile.${libname}"
       @ONLY
       )
 
-    file(APPEND "${PROJECT_BINARY_DIR}/doxygen_configuration.cmake"
+    file(APPEND "${CMAKE_BINARY_DIR}/doxygen_configuration.cmake"
       "set(DOXYGEN_LIBRARY_LIST\n"
       "  \${DOXYGEN_LIBRARY_LIST} ${library})\n"
       "set(DOXYGEN_${libname}_DEPS \"${DEPENDS}\")\n"
@@ -143,7 +143,7 @@ if(BUILD_DOCUMENTATION)
   #
   #-------------------------------------------------------------------
   # FIXME: Should others be cached?: DOXYGEN_STYLESHEET.
-  set(DOXYGEN_OUTPUT_DIR "${PROJECT_BINARY_DIR}/doxy"
+  set(DOXYGEN_OUTPUT_DIR "${CMAKE_BINARY_DIR}/doxy"
     CACHE PATH "Path to your doxygen output."
     )
   set(DOXYGEN_INDEX_FILE index.html
@@ -170,7 +170,7 @@ if(BUILD_DOCUMENTATION)
   endif()
 
   # make configuration loadable when running build_doxygen_doc target
-  file(WRITE "${PROJECT_BINARY_DIR}/doxygen_configuration.cmake"
+  file(WRITE "${CMAKE_BINARY_DIR}/doxygen_configuration.cmake"
     "# Doxygen configuration variables for:\n"
     "#   ${DOXYGEN_SCRIPT_DIR}/doxygen_makeall.cmake\n"
     "# *** This is a auto-generated file. DO NOT edit! ***\n"
@@ -202,7 +202,7 @@ if(BUILD_DOCUMENTATION)
   set(title "\$title")
   configure_file(
     "${DOXYGEN_SCRIPT_DIR}/doxy_header.html"
-    "${PROJECT_BINARY_DIR}/doxy/output/doxy_header.html"
+    "${CMAKE_BINARY_DIR}/doxy/output/doxy_header.html"
     )
 
   #-------------------------------------------------------------------
@@ -226,8 +226,8 @@ if(BUILD_DOCUMENTATION)
   set( doxygen_sources )
   if(CMAKE_MINIMUM_REQUIRED_VERSION GREATER 2.6.3)
     # this file does not exist in clean build
-    if( NOT EXISTS ${PROJECT_BINARY_DIR}/doxygen_last_build_rev.cmake )
-       file(WRITE "${PROJECT_BINARY_DIR}/doxygen_last_build_rev.cmake"
+    if( NOT EXISTS ${CMAKE_BINARY_DIR}/doxygen_last_build_rev.cmake )
+       file(WRITE "${CMAKE_BINARY_DIR}/doxygen_last_build_rev.cmake"
          "# *** This is a auto-generated file. DO NOT edit! ***\n\n" )
     endif()
 
@@ -238,15 +238,15 @@ if(BUILD_DOCUMENTATION)
         "${DOXYGEN_SCRIPT_DIR}/doxyfile.in"
         "${DOXYGEN_SCRIPT_DIR}/doxy_header.html"
         "${DOXYGEN_SCRIPT_DIR}/vxl_doxy.pl"
-        "${PROJECT_BINARY_DIR}/doxygen_configuration.cmake"
-        "${PROJECT_BINARY_DIR}/doxygen_last_build_rev.cmake"
-        "${PROJECT_BINARY_DIR}/doxygen_last_build_rev.cmake"
+        "${CMAKE_BINARY_DIR}/doxygen_configuration.cmake"
+        "${CMAKE_BINARY_DIR}/doxygen_last_build_rev.cmake"
+        "${CMAKE_BINARY_DIR}/doxygen_last_build_rev.cmake"
      )
   endif()
 
   add_custom_target(build_doxygen_doc
     ${CMAKE_COMMAND} -P "${DOXYGEN_SCRIPT_DIR}/doxygen_makeall.cmake"
-    WORKING_DIRECTORY "${PROJECT_BINARY_DIR}"
+    WORKING_DIRECTORY "${CMAKE_BINARY_DIR}"
     COMMENT "Build Doxygen Documentation"
     VERBATIM
     ${doxygen_sources}

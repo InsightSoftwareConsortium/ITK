@@ -18,15 +18,6 @@ cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
 if( POLICY CMP0003 )
   cmake_policy(SET CMP0003 NEW)
 endif()
-if( POLICY CMP0033 )
-  ####
-  # Remove warning by disabling test.  The proper fix
-  # will require careful effort.
-  # Documentation for what would be a better solution
-  # is given at https://github.com/vxl/vxl/issues/127
-  # and https://github.com/vxl/vxl/pull/122
-  cmake_policy(SET CMP0033 OLD)
-endif()
 # Use @rpath on OS X
 if( POLICY CMP0042 )
   cmake_policy(SET CMP0042 NEW)
