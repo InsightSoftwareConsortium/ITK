@@ -6,7 +6,11 @@
 #      error Unsupported compiler version
 #    endif
 
-# define VXL_COMPILER_VERSION_MAJOR VXL_DEC(__GNUC__)
+# if defined(__GNUC__)
+#  define VXL_COMPILER_VERSION_MAJOR VXL_DEC(__GNUC__)
+# else
+#  define VXL_COMPILER_VERSION_MAJOR VXL_DEC(__GNUG__)
+# endif
 # if defined(__GNUC_MINOR__)
 #  define VXL_COMPILER_VERSION_MINOR VXL_DEC(__GNUC_MINOR__)
 # endif

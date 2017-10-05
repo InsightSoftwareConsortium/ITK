@@ -727,7 +727,7 @@ HTML_FILE_EXTENSION    = .html
 # each generated HTML page. If it is left blank doxygen will generate a
 # standard header.
 
-HTML_HEADER     = "@PROJECT_BINARY_DIR@/doxy/output/doxy_header.html"
+HTML_HEADER     = "@CMAKE_BINARY_DIR@/doxy/output/doxy_header.html"
 
 # The HTML_FOOTER tag can be used to specify a personal HTML footer for
 # each generated HTML page. If it is left blank doxygen will generate a

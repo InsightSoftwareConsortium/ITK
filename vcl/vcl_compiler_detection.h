@@ -124,7 +124,7 @@
 # undef VXL_COMPILER_IS_Clang
 # define VXL_COMPILER_IS_Clang 1
 
-#elif defined(__GNUC__)
+#elif defined(__GNUC__) || defined(__GNUG__)
 # undef VXL_COMPILER_IS_GNU
 # define VXL_COMPILER_IS_GNU 1
 
@@ -159,11 +159,11 @@
 
 #    include "compilers/VXL_COMPILER_INFO_Clang_CXX.h"
 
-#  elif VXL_COMPILER_IS_GNU && ((__GNUC__ * 100 + __GNUC_MINOR__) >= 404) //Default to UNKWOWN compiler if < 4.4
+#  elif VXL_COMPILER_IS_GNU
 
 #    include "compilers/VXL_COMPILER_INFO_GNU_CXX.h"
 
-#  elif VXL_COMPILER_IS_MSVC && (_MSC_VER >= 1600) //Default to UNKOWN compiler if < 1600
+#  elif VXL_COMPILER_IS_MSVC
 
 #    include "compilers/VXL_COMPILER_INFO_MSVC_CXX.h"
 
@@ -182,7 +182,7 @@
 #   include "compilers/VXL_COMPILER_INFO_UNKNOWN_CXX.h"
 #  endif
 
-#  if VXL_COMPILER_CXX_ALIGNAS
+#  if defined(VXL_COMPILER_CXX_ALIGNAS) && VXL_COMPILER_CXX_ALIGNAS
 #    define VXL_ALIGNAS(X) alignas(X)
 #  elif VXL_COMPILER_IS_GNU || VXL_COMPILER_IS_Clang || VXL_COMPILER_IS_AppleClang
 #    define VXL_ALIGNAS(X) __attribute__ ((__aligned__(X)))
@@ -193,7 +193,7 @@
 #  endif
 
 
-#  if VXL_COMPILER_CXX_ALIGNOF
+#  if defined(VXL_COMPILER_CXX_ALIGNOF) && VXL_COMPILER_CXX_ALIGNOF
 #    define VXL_ALIGNOF(X) alignof(X)
 #  elif VXL_COMPILER_IS_GNU || VXL_COMPILER_IS_Clang || VXL_COMPILER_IS_AppleClang
 #    define VXL_ALIGNOF(X) __alignof__(X)
@@ -203,7 +203,7 @@
 
 
 #  ifndef VXL_DEPRECATED
-#    if VXL_COMPILER_CXX_ATTRIBUTE_DEPRECATED
+#    if defined(VXL_COMPILER_CXX_ATTRIBUTE_DEPRECATED) && VXL_COMPILER_CXX_ATTRIBUTE_DEPRECATED
 #      define VXL_DEPRECATED [[deprecated]]
 #      define VXL_DEPRECATED_MSG(MSG) [[deprecated(MSG)]]
 #    elif VXL_COMPILER_IS_GNU || VXL_COMPILER_IS_Clang
@@ -219,7 +219,7 @@
 #  endif
 
 
-#  if VXL_COMPILER_CXX_CONSTEXPR
+#  if defined(VXL_COMPILER_CXX_CONSTEXPR) && VXL_COMPILER_CXX_CONSTEXPR
 #    define VXL_CONSTEXPR constexpr
 #  else
 #    define VXL_CONSTEXPR

@@ -52,7 +52,11 @@
 #      define VXL_COMPILER_CXX_AUTO_TYPE 0
 #    endif
 
-#    define VXL_COMPILER_CXX_BINARY_LITERALS 0
+#    if (__SUNPRO_CC >= 0x5140) && __cplusplus >= 201103L
+#      define VXL_COMPILER_CXX_BINARY_LITERALS 1
+#    else
+#      define VXL_COMPILER_CXX_BINARY_LITERALS 0
+#    endif
 
 #    if (__SUNPRO_CC >= 0x5130) && __cplusplus >= 201103L
 #      define VXL_COMPILER_CXX_CONSTEXPR 1
@@ -216,7 +220,11 @@
 #      define VXL_COMPILER_CXX_RAW_STRING_LITERALS 0
 #    endif
 
-#    define VXL_COMPILER_CXX_REFERENCE_QUALIFIED_FUNCTIONS 0
+#    if (__SUNPRO_CC >= 0x5140) && __cplusplus >= 201103L
+#      define VXL_COMPILER_CXX_REFERENCE_QUALIFIED_FUNCTIONS 1
+#    else
+#      define VXL_COMPILER_CXX_REFERENCE_QUALIFIED_FUNCTIONS 0
+#    endif
 
 #    define VXL_COMPILER_CXX_RELAXED_CONSTEXPR 0
 
