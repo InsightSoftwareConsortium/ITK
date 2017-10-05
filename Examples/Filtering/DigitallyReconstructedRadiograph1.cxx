@@ -390,8 +390,8 @@ int main( int argc, char *argv[] )
 
 
 #ifdef WRITE_CUBE_IMAGE_TO_FILE
-    char *filename = "cube.gipl";
-    typedef itk::ImageFileWriter< OutputImageType >  WriterType;
+    const char *filename = "cube.gipl";
+    typedef itk::ImageFileWriter< InputImageType >  WriterType;
     WriterType::Pointer writer = WriterType::New();
 
     writer->SetFileName( filename );

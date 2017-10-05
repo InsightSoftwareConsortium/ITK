@@ -677,14 +677,9 @@ RayCastHelper< TInputImage, TCoordRep >
   m_VoxelDimensionInY = spacing[1];
   m_VoxelDimensionInZ = spacing[2];
 
-  m_CurrentRayPositionInMM[0] =
-    rayPosition[0] + 0.5 * m_VoxelDimensionInX * (double)m_NumberOfVoxelsInX;
-
-  m_CurrentRayPositionInMM[1] =
-    rayPosition[1] + 0.5 * m_VoxelDimensionInY * (double)m_NumberOfVoxelsInY;
-
-  m_CurrentRayPositionInMM[2] =
-    rayPosition[2] + 0.5 * m_VoxelDimensionInZ * (double)m_NumberOfVoxelsInZ;
+  m_CurrentRayPositionInMM[0] = rayPosition[0];
+  m_CurrentRayPositionInMM[1] = rayPosition[1];
+  m_CurrentRayPositionInMM[2] = rayPosition[2];
 
   m_RayDirectionInMM[0] = rayDirection[0];
   m_RayDirectionInMM[1] = rayDirection[1];
@@ -1451,7 +1446,7 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   ray.ZeroState();
   ray.Initialise();
 
-  ray.SetRay(point, direction);
+  ray.SetRay(point - this->m_Image->GetOrigin().GetVectorFromOrigin(), direction);
   ray.IntegrateAboveThreshold(integral, m_Threshold);
 
   return ( static_cast< OutputType >( integral ) );
