@@ -22,6 +22,7 @@
 #include "itkRayCastInterpolateImageFunction.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -121,13 +122,15 @@ itkRayCastInterpolateImageFunctionTest(
     /* Evaluate the function */
     double integral;
     PointType query;
-    query[0] = 15;
-    query[1] = 15;
-    query[2] = 15;
+    query[0] = 15.;
+    query[1] = 15.;
+    query[2] = -2.;
 
     integral = interp->Evaluate(query);
 
     std::cout << "Integral = " << integral << std::endl;
+
+    TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual( integral, 1247. ) );
 
     return EXIT_SUCCESS;
 }

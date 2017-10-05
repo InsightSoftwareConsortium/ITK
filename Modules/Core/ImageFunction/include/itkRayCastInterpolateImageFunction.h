@@ -126,9 +126,10 @@ public:
   virtual OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 
-  /** Connect the Transform. */
+  /** Connect the Transform.
+    * This Transformation is used to calculate the new focal point position.
+    * */
   itkSetObjectMacro(Transform, TransformType);
-  /** Get a pointer to the Transform.  */
   itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** Connect the Interpolator. */
@@ -136,14 +137,12 @@ public:
   /** Get a pointer to the Interpolator.  */
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
-  /** Connect the Interpolator. */
+  /** The focal point or position of the ray source. */
   itkSetMacro(FocalPoint, InputPointType);
-  /** Get a pointer to the Interpolator.  */
   itkGetConstMacro(FocalPoint, InputPointType);
 
-  /** Connect the Transform. */
+  /** The threshold above which voxels along the ray path are integrated. */
   itkSetMacro(Threshold, double);
-  /** Get a pointer to the Transform.  */
   itkGetConstMacro(Threshold, double);
 
   /** Check if a point is inside the image buffer.
@@ -165,26 +164,14 @@ public:
   }
 
 protected:
-
-  /// Constructor
   RayCastInterpolateImageFunction();
+  virtual ~RayCastInterpolateImageFunction(){}
 
-  /// Destructor
-  ~RayCastInterpolateImageFunction(){}
-
-  /// Print the object
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  /// Transformation used to calculate the new focal point position
-  TransformPointer m_Transform;
-
-  /// The focal point or position of the ray source
-  InputPointType m_FocalPoint;
-
-  /// The threshold above which voxels along the ray path are integrated.
-  double m_Threshold;
-
-  /// Pointer to the interpolator
+  TransformPointer    m_Transform;
+  InputPointType      m_FocalPoint;
+  double              m_Threshold;
   InterpolatorPointer m_Interpolator;
 
 private:
