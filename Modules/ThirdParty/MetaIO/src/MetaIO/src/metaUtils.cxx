@@ -28,7 +28,7 @@ inline bool IsBlank(int c)
 
 #include "metaUtils.h"
 
-//#include <cassert>
+#include <cassert>
 #include <stdio.h>
 #include <ctype.h>
 #include <stddef.h>
@@ -244,7 +244,8 @@ bool MET_StringToType(const char *_s, MET_ValueEnumType *_vType)
 //
 bool MET_TypeToString(MET_ValueEnumType _vType, char *_s)
   {
-  if(_vType>=0 && _vType<=MET_NUM_VALUE_TYPES)
+  assert(_vType>=0);
+  if(_vType<MET_NUM_VALUE_TYPES)
     {
     strcpy(_s, MET_ValueTypeName[_vType]);
     return true;
@@ -711,7 +712,7 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
   unsigned char * output_buffer     = new unsigned char[chunk_size];
   unsigned char * compressed_data   = new unsigned char[buffer_out_size];
 
-  int ret = deflateInit(&z, compression_rate);
+  /*int ret =*/ deflateInit(&z, compression_rate);
   //assert(ret == Z_OK);
 
   METAIO_STL::streamoff cur_in_start = 0;
@@ -726,9 +727,9 @@ unsigned char * MET_PerformCompression(const unsigned char * source,
     cur_in_start += z.avail_in;
     do
       {
-      z.avail_out = chunk_size;
+      z.avail_out = static_cast<uInt>(chunk_size);
       z.next_out  = output_buffer;
-      ret = deflate(&z, flush);
+      /*ret =*/ deflate(&z, flush);
       //assert(ret != Z_STREAM_ERROR);
       METAIO_STL::streamoff count_out = chunk_size - z.avail_out;
       if ( (cur_out_start + count_out) >= buffer_out_size )
@@ -1293,7 +1294,9 @@ bool MET_Read(METAIO_STREAM::istream &fp,
   return MET_IsComplete(fields);
   }
 
-std::string convert_ulonglong_to_string(MET_ULONG_LONG_TYPE val)
+// Workaround for ancient compilers.
+#if defined(_MSC_VER) || defined(__HP_aCC)
+static std::string convert_ulonglong_to_string(MET_ULONG_LONG_TYPE val)
   {
   std::string result;
   while (val > 0)
@@ -1303,6 +1306,7 @@ std::string convert_ulonglong_to_string(MET_ULONG_LONG_TYPE val)
     }
   return result;
   }
+#endif
 
 //
 bool MET_Write(METAIO_STREAM::ostream &fp,
