@@ -11,14 +11,14 @@ except ImportError:
     sys.exit(1)
 
 setup(
-    name='itk-moduletemplate',
-    version='0.1.0',
-    author='Insight Software Consortium',
-    author_email='community@itk.org',
+    name='itk-bonemorphometry',
+    version='1.0.0',
+    author='Jean-Baptiste Vimort',
+    author_email='jb.vimort@kitware.com',
     packages=['itk'],
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry',
-    description=r'This module is empty. It is a template that is a starting point for a module with actual content.',
+    description=r'An TIK module to compute bone morphometry features and feature maps',
     long_description='ITK is an open-source, cross-platform library that '
                      'provides developers with an extensive suite of software '
                      'tools for image analysis. Developed through extreme '
