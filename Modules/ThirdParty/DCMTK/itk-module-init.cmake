@@ -31,9 +31,6 @@ if(ITK_USE_SYSTEM_DCMTK)
   list(INSERT CMAKE_MODULE_PATH 0 "${CMAKE_CURRENT_LIST_DIR}/CMake")
   find_package(DCMTK REQUIRED NO_MODULE)
 else(ITK_USE_SYSTEM_DCMTK)
-  if(MSVC)
-    message(FATAL_ERROR "The ITKDCMTK module requires ITK_USE_SYSTEM_DCMTK to be ON for MSVC.")
-  endif()
   set(_ITKDCMTK_LIB_NAMES dcmdata dcmimage dcmimgle dcmjpeg dcmjpls
     dcmnet dcmpstat dcmqrdb dcmsr dcmtls ijg12 ijg16 ijg8 oflog ofstd)
   if(BUILD_SHARED_LIBS)
@@ -55,6 +52,7 @@ else(ITK_USE_SYSTEM_DCMTK)
         -DDCMTK_WITH_STDLIBC_ICONV:BOOL=ON
         -DDCMTK_WITH_ICU:BOOL=OFF
         "-DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=stdlibc (iconv)"
+        CACHE INTERNAL "ICU Internal arguments"
         )
       set(_DCMTK_USE_ICU_default OFF)
     else()
