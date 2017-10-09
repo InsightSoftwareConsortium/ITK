@@ -1446,7 +1446,8 @@ RayCastInterpolateImageFunction< TInputImage, TCoordRep >
   ray.ZeroState();
   ray.Initialise();
 
-  ray.SetRay(point - this->m_Image->GetOrigin().GetVectorFromOrigin(), direction);
+  const PointType origin = this->m_Image->GetOrigin();
+  ray.SetRay(point - origin, direction);
   ray.IntegrateAboveThreshold(integral, m_Threshold);
 
   return ( static_cast< OutputType >( integral ) );
