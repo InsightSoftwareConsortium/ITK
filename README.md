@@ -12,7 +12,7 @@ Links
 * [Help](https://itk.org/ITK/help/help.html)
 * [Examples](https://itk.org/ITKExamples/)
 * [Bugtracker](https://issues.itk.org/)
-* [Submit a patch](https://itk.org/Wiki/ITK/Git/Develop)
+* [Submit a patch](CONTRIBUTING.md)
 
 
 About
