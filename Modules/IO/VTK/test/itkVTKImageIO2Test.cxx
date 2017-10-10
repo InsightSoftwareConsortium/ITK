@@ -800,6 +800,13 @@ int itkVTKImageIO2Test(int argc, char* argv[])
     }
   std::cout << "[PASSED] rejected bad file extension for writing" << std::endl;
 
+  // write bad file extension when the string ".vtk" is part of the prefix
+  if ( VTKImageIOTester<char,3>::CanWriteFileTest( filePrefix + ".vtk", "bad", outputPath ))
+    {
+    std::cout << "[FAILED] didn't properly reject bad file extension for writing" << std::endl;
+    return EXIT_FAILURE;
+    }
+  std::cout << "[PASSED] rejected bad file extension for writing" << std::endl;
 
   //
   // use print methods
