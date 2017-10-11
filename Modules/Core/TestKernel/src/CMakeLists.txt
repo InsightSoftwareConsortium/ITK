@@ -5,4 +5,7 @@ target_link_libraries(itkTestDriver
   LINK_PUBLIC ${ITK_MODULE_ITKTestKernel_PUBLIC_DEPENDS})
 itk_module_target_label(itkTestDriver)
 itk_module_target_export(itkTestDriver)
-itk_module_target_install(itkTestDriver)
+
+if(NOT DO_NOT_INSTALL_ITK_TEST_DRIVER) # used only by vcpkg
+  itk_module_target_install(itkTestDriver)
+endif()
