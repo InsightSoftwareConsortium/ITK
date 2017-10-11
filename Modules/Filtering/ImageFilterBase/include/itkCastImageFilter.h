@@ -95,19 +95,13 @@ public:
  */
 template< typename TInputImage, typename TOutputImage >
 class ITK_TEMPLATE_EXPORT CastImageFilter:
-    public UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                    Functor::Cast<
-                                      typename TInputImage::PixelType,
-                                      typename TOutputImage::PixelType > >
+    public InPlaceImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard class typedefs. */
   typedef CastImageFilter Self;
-  typedef UnaryFunctorImageFilter< TInputImage, TOutputImage,
-                                   Functor::Cast<
-                                     typename TInputImage::PixelType,
-                                     typename TOutputImage::PixelType >
-                                   >  Superclass;
+
+  typedef InPlaceImageFilter< TInputImage, TOutputImage >  Superclass;
 
   typedef SmartPointer< Self >       Pointer;
   typedef SmartPointer< const Self > ConstPointer;
@@ -119,7 +113,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(CastImageFilter, UnaryFunctorImageFilter);
+  itkTypeMacro(CastImageFilter, InPlaceImageFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -132,6 +126,8 @@ public:
 protected:
   CastImageFilter();
   // virtual ~CastImageFilter() {} default OK
+
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   void GenerateData() ITK_OVERRIDE;
 

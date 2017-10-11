@@ -346,6 +346,111 @@ bool operator!=(const ImageRegionCopier< D1, D2 > & c1,
 {
   return &c1 != &c2;
 }
+
+
+template< unsigned int D1, unsigned int D2 >
+void ImageToImageFilterDefaultCopyInformation(const typename
+                                              BinaryUnsignedIntDispatch< D1, D2 >::FirstEqualsSecondType &,
+                                              ImageBase< D1 >* destImage,
+                                              const ImageBase< D2 >* srcImage)
+{
+  destImage->CopyInformation(srcImage);
+}
+
+
+template< unsigned int D1, unsigned int D2 >
+void ImageToImageFilterDefaultCopyInformation(const typename
+                                              BinaryUnsignedIntDispatch< D1, D2 >::FirstGreaterThanSecondType &,
+                                              ImageBase< D1 >* destImage,
+                                              const ImageBase< D2 >* srcImage)
+{
+  typedef ImageBase<D1> DestinationImageType;
+  typedef ImageBase<D2> SourceImageType;
+
+  // Copy what we can from the image from spacing and origin of the input
+  // This logic needs to be augmented with logic that select which
+  // dimensions to copy
+  const typename SourceImageType::SpacingType &inputSpacing = srcImage->GetSpacing();
+  const typename SourceImageType::PointType &inputOrigin = srcImage->GetOrigin();
+  const typename SourceImageType::DirectionType &inputDirection = srcImage->GetDirection();
+
+  typename DestinationImageType::SpacingType destSpacing;
+  typename DestinationImageType::PointType destOrigin;
+  typename DestinationImageType::DirectionType destDirection;
+
+  // copy the input to the output and fill the rest of the
+  // output with zeros.
+  unsigned int i = 0;
+  for (; i < SourceImageType::ImageDimension; ++i )
+    {
+    destSpacing[i] = inputSpacing[i];
+    destOrigin[i] = inputOrigin[i];
+    for ( unsigned int j = 0; j < DestinationImageType::ImageDimension; j++ )
+      {
+      if ( j < SourceImageType::ImageDimension )
+        {
+        destDirection[j][i] = inputDirection[j][i];
+        }
+      else
+        {
+        destDirection[j][i] = 0.0;
+        }
+      }
+    }
+  for (; i < DestinationImageType::ImageDimension; ++i )
+    {
+    destSpacing[i] = 1.0;
+    destOrigin[i] = 0.0;
+    for ( unsigned int j = 0; j < DestinationImageType::ImageDimension; j++ )
+      {
+      if ( j == i )
+        {
+        destDirection[j][i] = 1.0;
+        }
+      else
+        {
+        destDirection[j][i] = 0.0;
+        }
+      }
+    }
+
+  // set the spacing and origin
+  destImage->SetSpacing(destSpacing);
+  destImage->SetOrigin(destOrigin);
+  destImage->SetDirection(destDirection);
+  // propagate vector length info
+  destImage->SetNumberOfComponentsPerPixel( srcImage->GetNumberOfComponentsPerPixel() );
+}
+
+
+/** \class ImageInformationCopier
+ * \brief A Function object used to copy image meta-data of an image.
+ *
+ * This function objects dispatches to Specialized versions. When the
+ * images match dimensionalality the ImageBase::CopyInformation method
+ * is used. But for expanding dimensional of images, the
+ * functor copies the common dimensions then fills the extra meta-data
+ * with "identity" information.
+ *
+ * \ingroup ITKCommon
+ */
+template< unsigned int D1, unsigned int D2 >
+class ImageInformationCopier
+{
+public:
+  virtual void operator()(ImageBase< D1 > * destImage,
+                          const ImageBase< D2 > * srcImage) const
+  {
+    typedef typename BinaryUnsignedIntDispatch< D1, D2 >::ComparisonType ComparisonType;
+    ImageToImageFilterDefaultCopyInformation< D1, D2 >(
+      ComparisonType(),
+      destImage, srcImage);
+  }
+
+  virtual ~ImageInformationCopier() {}
+};
+
+
 } // end of namespace ImageToImageFilterDetail
 } // end namespace itk
 
