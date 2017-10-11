@@ -40,7 +40,7 @@
 #include "dcmtk/dcmdata/dcvrda.h"          /* for DcmDate */
 #include "dcmtk/dcmdata/dcvrpn.h"          /* for DcmPersonName */
 #include "dcmtk/dcmimgle/dcmimage.h"        /* fore DicomImage */
-// #include "diregist.h"     /* include to support color images */
+#include "dcmtk/dcmimage/diregist.h"     /* include to support color images */
 #include "vnl/vnl_cross.h"
 #include "itkIntTypes.h"
 #include <algorithm>
