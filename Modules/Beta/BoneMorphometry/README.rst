@@ -8,8 +8,11 @@ ITKBoneMorphometry
 .. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry.svg?branch=master
     :target: https://travis-ci.org/InsightSoftwareConsortium/ITKBoneMorphometry
 
-.. image:: https://img.shields.io/appveyor/ci/thewtex/itkmoduletemplate.svg
-    :target: https://ci.appveyor.com/project/thewtex/itkmoduletemplate
+.. image:: https://img.shields.io/appveyor/ci/jbvimort/ITKBoneMorphometry.svg
+    :target: https://ci.appveyor.com/project/jbvimort/ITKBoneMorphometry
+
+Overview
+--------
 
 This is a module for the `Insight Toolkit (ITK) <http://itk.org>`_ that
 provides filters that `quantify bone morphometry
@@ -18,8 +21,30 @@ from computed tomography (CT) images.
 
 This module is currently a work in progress.
 
+Installation
+------------
+
+Python
+^^^^^^
+
+Binary `Python packages <https://pypi.python.org/pypi/itk-bonemorphometry>`_
+are available for Linux, macOS, and Windows. They can be installed with::
+
+  python -m pip install --upgrade pip
+  python -m pip install itk-bonemorphometry
+
+
 License
 -------
 
 This software is distributed under the Apache 2.0 license. Please see
 the *LICENSE* file for details.
+
+Acknowledgements
+----------------
+
+This work was supported by the National Institute of Health (NIH) National
+Institute for Dental and Craniofacial Research (NIDCR) grant R21DE025306
+(Textural Biomarkers of Arthritis for the Subchondral Bone in the
+Temporomandibular Joint) and NIDCR grant R01DE024450 (Quantification of 3D
+bony Changes in Temporomandibular Joint Osteoarthritis).
