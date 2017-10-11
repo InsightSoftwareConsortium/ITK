@@ -103,9 +103,9 @@ public:
   itkGetConstObjectMacro(DistanceMap, DistanceMapType);
 
   /** Set/Get if the distance should be squared.
-   *  When set to true, the filter's computational speed is slighlty imporved,
-   *  but it will result in minimizing the sum of distances^4 instead of the
-   *  sum of distances^2. Default is On. */
+   *  When set to true, the filter's computational speed is substantially improved
+   *  (by avoiding numerous sqrt() calls), but it will result in minimizing the sum
+   *  of distances^4 instead of the sum of distances^2. Default is false. */
   itkSetMacro(ComputeSquaredDistance, bool);
   itkGetConstMacro(ComputeSquaredDistance, bool);
   itkBooleanMacro(ComputeSquaredDistance);

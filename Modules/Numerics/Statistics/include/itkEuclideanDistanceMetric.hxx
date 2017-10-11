@@ -41,7 +41,7 @@ EuclideanDistanceMetric< TVector >
 
   double sumOfSquares = NumericTraits< double >::ZeroValue();
 
-  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
+  for ( unsigned int i = 0; i < measurementVectorSize; ++i )
     {
     const double temp = this->GetOrigin()[i] - x[i];
     sumOfSquares += temp * temp;
@@ -68,7 +68,7 @@ EuclideanDistanceMetric< TVector >
 
   double sumOfSquares = NumericTraits< double >::ZeroValue();
 
-  for ( unsigned int i = 0; i < measurementVectorSize; i++ )
+  for ( unsigned int i = 0; i < measurementVectorSize; ++i )
     {
     const double temp = x1[i] - x2[i];
     sumOfSquares += temp * temp;

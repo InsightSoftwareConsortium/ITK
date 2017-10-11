@@ -345,7 +345,7 @@ void MRCImageIO::UpdateHeaderWithMinMaxMean(const TPixelType *bufferBegin)
   ConstPixelPointer bufferEnd = bufferBegin + m_IORegion.GetNumberOfPixels();
 
   // this could be replaced with std::min_element and
-  // std::max_element, but that is slighlty less efficient
+  // std::max_element, but that is slightly less efficient
   std::pair< ConstPixelPointer, ConstPixelPointer > mm =
     itk::min_max_element(bufferBegin, bufferEnd);
 
