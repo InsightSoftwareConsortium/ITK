@@ -9,9 +9,12 @@ if(CMAKE_VERSION VERSION_LESS 3.2)
   if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
     message(FATAL_ERROR "CMake >= 3.2 required with Ninja to compile DCMTK.")
   endif()
-  set(build_byproducts)
+  set(icu_build_byproducts)
+  # dcmtk_build_byproducts is emptied later if CMake version is less than 3.2.
+  # This allows to initialize it without checking CMake version each time.
 else()
-  set(build_byproducts  BUILD_BYPRODUCTS ${BYPRODUCTS})
+  set(icu_build_byproducts  BUILD_BYPRODUCTS ${ICU_BYPRODUCTS})
+  set(dcmtk_build_byproducts  BUILD_BYPRODUCTS)
 endif()
 
 if(DCMTK_USE_ICU)
@@ -49,12 +52,14 @@ if(DCMTK_USE_ICU)
       URL_MD5 ${ICU_MD5}
       PREFIX ${ITKDCMTK_BINARY_DIR}
       UPDATE_COMMAND ""
-      ${build_byproducts}
+      ${icu_build_byproducts}
       CONFIGURE_COMMAND <SOURCE_DIR>/source/configure --prefix=${ITKDCMTK_PREREQS}
         --enable-static=yes
         --enable-shared=no
         "CC=${CMAKE_C_COMPILER_LAUNCHER} ${CMAKE_C_COMPILER}"
         "CXX=${CMAKE_CXX_COMPILER_LAUNCHER} ${CMAKE_CXX_COMPILER}"
+        "CFLAGS=-fPIC"
+        "CXXFLAGS=-fPIC"
       )
     set(ICU_DEPENDENCY icu)
   endif()
@@ -207,12 +212,12 @@ endforeach()
         string(TOUPPER "${c}" C)
         set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION_${C}
           ${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix})
-        list(APPEND BYPRODUCTS "${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}")
+        list(APPEND dcmtk_build_byproducts "${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}")
       endforeach()
     else()
       set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION
         ${lib_dir}/${lib_prefix}${lib}${lib_suffix})
-      list(APPEND BYPRODUCTS "${lib_dir}/${lib_prefix}${lib}${lib_suffix}")
+      list(APPEND dcmtk_build_byproducts "${lib_dir}/${lib_prefix}${lib}${lib_suffix}")
     endif()
 
     # make the imported library depend on its prerequisite
@@ -231,7 +236,9 @@ endforeach()
     set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER})
     set(CMAKE_C_COMPILER_LAUNCHER_FLAG -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER})
   endif()
-
+  if(CMAKE_VERSION VERSION_LESS 3.2)
+    set(dcmtk_build_byproducts)
+  endif()
   itk_download_attempt_check(${DCMTK_EPNAME})
   ExternalProject_Add(${DCMTK_EPNAME}
     GIT_REPOSITORY ${DCMTK_GIT_REPOSITORY}
@@ -268,7 +275,7 @@ endforeach()
     -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_INSTALL_PREFIX}
     ${ICU_ARGS}
     DEPENDS ${JPEG_DEPENDENCY} ${PNG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICU_DEPENDENCY}
-    ${build_byproducts}
+    ${dcmtk_build_byproducts}
     )
 
   # Tell CPack to install DCMTK stuff
