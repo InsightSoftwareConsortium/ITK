@@ -21,33 +21,59 @@ if(DCMTK_USE_ICU)
   option(ITK_USE_SYSTEM_ICU "Use an installed version of icu" OFF)
   if(NOT ITK_USE_SYSTEM_ICU)
     if(MSVC)
-      if(CMAKE_SIZEOF_VOID_P EQUAL "8")  # 64 bits
-        set(ICU_URL "http://download.icu-project.org/files/icu4c/54.1/icu4c-54_1-Win64-msvc10.zip")
-        set(ICU_MD5 4d85e1817a5a59582517262b9396c7ba)
-      else()  # 32 bits
-        set(ICU_URL "http://download.icu-project.org/files/icu4c/54.1/icu4c-54_1-Win32-msvc10.zip")
-        set(ICU_MD5 2419927dae9f0ac2498b10de657ff6d3)
+      # Create map of MD5
+      set(ICU_1800_32 462050 6d45a684e608637b0350cd596249373d)
+      set(ICU_1800_64 462052 177721696d87a2cfa6c38a5d385eb21e)
+      set(ICU_1900_32 462049 86f191c160ff86e66437c23ae36c50f8)
+      set(ICU_1900_64 462053 3db188b9ba24ca39a0c5d1411b591d4d)
+      set(ICU_1911_32 9462051 e4053721d7d11125d82df34e0a576c2a)
+      set(ICU_1911_64 462048 1706884a6fb773caad3f3955747cf7db)
+      ###
+      if(${MSVC_VERSION} LESS "1900") # Before VS 2015, so VS 2013 and earlier
+        set(version "58.2")
+      else()  # VS2015 && VS2017
+        set(version "59.1")
       endif()
+      string(REPLACE "." "_" version_underscore ${version})
+      math(EXPR bitness "${CMAKE_SIZEOF_VOID_P} * 8")
+      set(root_name "icu4c-${version_underscore}")
+      set(binary_archive_name "${root_name}-install-msvc${MSVC_VERSION}-${bitness}")
+      if(NOT DEFINED ICU_${MSVC_VERSION}_${bitness})
+        message(FATAL_ERROR
+        "Unsupported version of Visual Studio. Disable DCMTK_USE_ICU."
+        )
+      endif()
+      list(GET ICU_${MSVC_VERSION}${bitness} 0 item_id)
+      set(ICU_URL "https://midas3.kitware.com/midas/download/bitstream/462048/${root_name}-install-msvc${MSVC_VERSION}-${bitness}.tar.gz")
+      list(GET ICU_${MSVC_VERSION}${bitness} 1 ICU_MD5)
     else()
       set(ICU_URL "http://download.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.tgz")
       set(ICU_MD5 fac212b32b7ec7ab007a12dff1f3aea1)
     endif()
 
+    # If not Debug, use Release (for Release, MinSizeRel,...)
+    set(ICU_ROOT_DIR ${ITKDCMTK_PREREQS}/$<$<CONFIG:Debug>:Debug>$<$<NOT:$<CONFIG:Debug>>:Release>)
     set(ICU_ARGS
       -DDCMTK_WITH_STDLIBC_ICONV:BOOL=OFF
       -DDCMTK_WITH_ICU:BOOL=ON
-      -DICU_ROOT_DIR:PATH=${ITKDCMTK_PREREQS}
+      -DICU_ROOT_DIR:PATH=${ICU_ROOT_DIR}
       -DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=ICU
-      -DICU_ROOT:PATH=${ITKDCMTK_PREREQS} # CMake >= 3.6.20160710
-      # Missing "sbin" subdirectory  in "icu_binary_suffixes" in FindICU.cmake in CMake when called from DCMTK
-      -DICU_GENCCODE_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/genccode
-      -DICU_GENCMN_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gencmn
-      -DICU_GENNORM2_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gennorm2
-      -DICU_ICUPKG_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/icupkg
-      -DICU_GENSPREP_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gensprep
+      -DICU_ROOT:PATH=${ICU_ROOT_DIR}  # CMake >= 3.6.20160710
       )
     itk_download_attempt_check(icu)
-    ExternalProject_Add(icu
+    if(MSVC)
+      ExternalProject_Add(icu
+        URL ${ICU_URL}
+        URL_MD5 ${ICU_MD5}
+        SOURCE_DIR ${ITKDCMTK_PREREQS}
+        UPDATE_COMMAND ""
+        ${build_byproducts}
+        CONFIGURE_COMMAND ""
+      BUILD_COMMAND ""
+      INSTALL_COMMAND ""
+      )
+    else()
+      ExternalProject_Add(icu
       URL ${ICU_URL}
       URL_MD5 ${ICU_MD5}
       PREFIX ${ITKDCMTK_BINARY_DIR}
@@ -61,6 +87,15 @@ if(DCMTK_USE_ICU)
         "CFLAGS=-fPIC"
         "CXXFLAGS=-fPIC"
       )
+    list(APPEND ICU_ARGS
+    # Missing "sbin" subdirectory  in "icu_binary_suffixes" in FindICU.cmake in CMake when called from DCMTK
+      -DICU_GENCCODE_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/genccode
+      -DICU_GENCMN_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gencmn
+      -DICU_GENNORM2_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gennorm2
+      -DICU_ICUPKG_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/icupkg
+      -DICU_GENSPREP_EXECUTABLE:FILEPATH=${ITKDCMTK_PREREQS}/sbin/gensprep
+      )
+    endif()
     set(ICU_DEPENDENCY icu)
   endif()
 endif()
@@ -195,6 +230,9 @@ endforeach()
 
   # build the list of libraries upon which DCMTK depends
   set(ITKDCMTK_LIBDEP "")
+  if(WIN32)
+    list(APPEND ITKDCMTK_LIBDEP iphlpapi ws2_32 netapi32 wsock32)
+  endif()
   foreach(lib ITKJPEG_LIBRARIES ITKTIFF_LIBRARIES ITKPNG_LIBRARIES
       ITKZLIB_LIBRARIES ITKDCMTK_ICU_LIBRARIES)
     foreach(_lib ${${lib}})
