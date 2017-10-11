@@ -60,10 +60,10 @@ itk_add_test(NAME itkDCMTKSeriesStreamReadImageWrite1
 
 itk_add_test(NAME itkDCMTKSeriesImageOrientationWrite1
   COMMAND ITKIODCMTKTestDriver
-  --compare ${CMAKE_SOURCE_DIR}/Modules/IO/DCMTK/test/Input/ImageOrientation/itkDCMTKSeriesImageOrientationWrite1.mha
+  --compare DATA{${ITK_DATA_ROOT}/Baseline/itkDCMTKSeriesImageOrientationWrite1.mha}
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesImageOrientationWrite1.mha
   itkDCMTKSeriesReadImageWrite
-  ${CMAKE_SOURCE_DIR}/Modules/IO/DCMTK/test/Input/ImageOrientation
+  DATA{${ITK_DATA_ROOT}/Input/DicomImageOrientationTest/,REGEX:ImageOrientation.[0-9]+.dcm}
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKSeriesImageOrientationWrite1.mha)
 
 itk_add_test(NAME itkDCMTKImageIOOrthoDirTest
