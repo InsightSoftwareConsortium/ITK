@@ -123,14 +123,14 @@ EuclideanDistancePointMetric< TFixedPointSet, TMovingPointSet, TDistanceMap >
           {
           minimumDistance = dist;
           }
-        pointItr2++;
+        ++pointItr2;
         }
       }
 
     measure.put(identifier, minimumDistance);
 
     ++pointItr;
-    identifier++;
+    ++identifier;
     }
 
   return measure;
