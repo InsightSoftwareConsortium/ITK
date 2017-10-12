@@ -102,8 +102,8 @@ public:
 
   /** Set/Get the image input of this process object.  */
   using Superclass::SetInput;
-  virtual void SetInput(const TInputImage *image);
-  virtual void SetInput(unsigned int, const TInputImage *image);
+  virtual void SetInput(const TInputImage *image) ITK_OVERRIDE;
+  virtual void SetInput(unsigned int, const TInputImage *image) ITK_OVERRIDE;
   const TInputImage * GetInput() const;
   const TInputImage * GetInput(unsigned int idx) const;
 
