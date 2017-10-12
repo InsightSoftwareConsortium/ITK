@@ -7,9 +7,8 @@ This page documents how to develop ITK using [Git].
 different "workflows" for indivudal development and collaboration. Here we
 document procedures used by the ITK development community. In the interest of
 simplicity and brevity we do not provide an explanation of why we use this
-approach. Furthermore, this is not a Git tutorial. Please see our
-[Git resource links](https://itk.org/Wiki/Git/Resources) for third-party
-documentation, such as the [ProGit Book](http://git-scm.com/book/).*
+approach. Furthermore, this is not a Git tutorial. Please see our [GitHelp]
+guide for third-party documentation.*
 
 Setup
 -----
@@ -25,18 +24,24 @@ Before you begin, perform initial setup:
    $ git clone git://itk.org/ITK.git
 ```
 
-  4. Run the developer setup script to prepare your ITK work tree and create
-     Git command aliases used below:
+  4. Run the developer setup script [`SetupForDevelopment.sh`] to prepare your
+     ITK work tree and create Git command aliases used below:
 
 ```sh
    $ ./Utilities/SetupForDevelopment.sh
 ```
+
+Note that ITK defines some useful Git aliases, such as `pullall` or `prepush`,
+through the [`SetupGitAliases.sh`] script for general Git tasks in ITK.
 
 Note that if you answer `y` to the question "Do you want to test push access to
 itk.org? \[y/N\]:", you will most likely receive the following error message:
 "Permission denied (publickey). fatal: Could not read from remote repository.".
  Only a few experienced contributors have push access. Having push access is
  not necessary to contribute to ITK.
+
+You may visit the *Pro Git: Setup* resource in [GitHelp] for further
+information on setting up your local Git environment.
 
 Workflow
 --------
@@ -91,6 +96,9 @@ convention use a topic name starting in `release-`:
    $ git checkout -b my-topic origin/release
 ```
 
+(*You may visit the* Pro Git: Basic Branching *resource in [GitHelp] for
+further information on working with branches.*)
+
 Edit files and create commits (repeat as needed). Add a prefix to your commit
 message (see below).
 
@@ -103,6 +111,9 @@ message (see below).
    $ git add file1 file2 file3
    $ git commit
 ```
+
+(*You may visit the* Pro Git: Recording Changes *resource in [GitHelp] for
+further information on making changes and committing snapshots.*)
 
 **Note**: *If your change modifies any of the modules in the
 `Modules/ThirdParty` directory, please read our [UpdatingThirdParty.md] guide.*
@@ -171,6 +182,9 @@ normally and then amend the commit:
    $ git commit --amend
 ```
 
+(*You may visit the* Pro Git: Changing the Last Commit *resource in [GitHelp]
+for further information on revising and rewriting your commit history.*)
+
 To revise commits further back on the topic, say the `3`rd commit back:
 
 ```sh
@@ -183,6 +197,12 @@ Follow Git's interactive instructions. Preserve the `Change-Id:` line at the
 bottom of each commit message.
 
 Return to the [#share-a-topic] step to share the revised topic.
+
+(*You may visit the* Pro Git: Changing Multiple Commits *resource in [GitHelp]
+for further information on changing multiple commits -i.e. not only the last
+one, but further back in your history-, and the* Pro Git: Rebasing *resource on
+taking all the changes that were committed on one branch and replaying them on
+another one.*)
 
 Test a Topic
 ------------
@@ -212,7 +232,6 @@ Builds can be spawned by adding the following comments to a patch set in Gerrit.
   * `request build: power8`
   * `request build: cpp11`
   * `request build: cpp14`
-
 
 Merge a Topic
 -------------
@@ -290,8 +309,12 @@ branch (**warning**: you could lose commits).
 [download instructions]: Documentation/Download.md
 [Gerrit access]: Documentation/Access.md
 [Gerrit push access]: Documentation/Access.md
+[GitHelp]: Documentation/GitHelp.md
 [Git push access]: Documentation/Access.md
 [UpdatingThirdParty]: Documentation/UpdatingThirdParty.md
+
+[`SetupForDevelopment.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/SetupForDevelopment.sh
+[`SetupGitAliases.sh`]: https://github.com/InsightSoftwareConsortium/ITK/blob/master/Utilities/DevelopmentSetupScripts/SetupGitAliases.sh
 
 [ITK discussion]: https://discourse.itk.org/
 [ITK Gerrit]: http://review.source.kitware.com/p/ITK
