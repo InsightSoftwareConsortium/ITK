@@ -23,7 +23,7 @@ class ULConnection;
 
 /**
  * \brief NGetRQ
- * this file defines the messages for the nget action
+ * \details this file defines the messages for the nget action
  */
 class NGetRQ : public BaseNormalizedMessage {
     public:

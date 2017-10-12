@@ -19,6 +19,7 @@
 
 #include <map>
 #include <algorithm>
+#include <set>
 
 namespace gdcm
 {
@@ -26,11 +27,16 @@ namespace gdcm
 Sorter::Sorter()
 {
   SortFunc = NULL;
+  TagsToRead = std::set<Tag>();
 }
-
 
 Sorter::~Sorter()
 {
+}
+
+void Sorter::SetTagsToRead( std::set<Tag> const & tags )
+{
+  TagsToRead = tags;
 }
 
 void Sorter::SetSortFunction( SortFunction f )
@@ -83,7 +89,9 @@ bool Sorter::StableSort(std::vector<std::string> const & filenames)
     Reader reader;
     reader.SetFileName( it->c_str() );
     SmartPointer<FileWithName> &f = *it2;
-    if( reader.Read() )
+
+    bool readWasSuccessful = TagsToRead.empty() ? reader.Read() : reader.ReadSelectedTags(TagsToRead);
+    if (readWasSuccessful)
       {
       f = new FileWithName( reader.GetFile() );
       f->filename = *it;
@@ -125,7 +133,8 @@ bool Sorter::Sort(std::vector<std::string> const & filenames)
     Reader reader;
     reader.SetFileName( it->c_str() );
     SmartPointer<FileWithName> &f = *it2;
-    if( reader.Read() )
+    bool readWasSuccessful = TagsToRead.empty() ? reader.Read() : reader.ReadSelectedTags(TagsToRead);
+    if (readWasSuccessful)
       {
       f = new FileWithName( reader.GetFile() );
       f->filename = *it;

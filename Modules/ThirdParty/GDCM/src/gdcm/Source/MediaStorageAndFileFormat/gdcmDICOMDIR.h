@@ -21,7 +21,7 @@ namespace gdcm
 /**
  * \brief DICOMDIR class
  *
- * Structured for handling DICOMDIR
+ * \details Structured for handling DICOMDIR
  */
 class GDCM_EXPORT DICOMDIR
 {

@@ -41,7 +41,8 @@ Surface::STATES Surface::GetSTATES(const char * state)
   // Delete possible space as last character
   String<>  str( state );
   str.Trim();
-  const char * stateClear = str.Trim().c_str();
+  std::string stateClearStr = str.Trim();
+  const char * stateClear = stateClearStr.c_str();
 
   for(unsigned int i = 0; STATESStrings[i] != 0; ++i)
   {
@@ -87,7 +88,8 @@ Surface::VIEWType Surface::GetVIEWType(const char * type)
   // Delete possible space as last character
   String<>  str( type );
   str.Trim();
-  const char * typeClear = str.Trim().c_str();
+  std::string typeClearStr = str.Trim();
+  const char * typeClear = typeClearStr.c_str();
 
   for(unsigned int i = 0; VIEWStrings[i] != 0; ++i)
   {

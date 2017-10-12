@@ -24,6 +24,11 @@ namespace gdcm
 class ImageRegionReaderInternals;
 /**
  * \brief ImageRegionReader
+ * \details This class is able to read a region from a DICOM file containing an image. This implementation
+ * requires that the information stored in the DICOM header are consistent with what is in the
+ * encapsulated Pixel Data. This is technically not required by DICOM standard, which makes 
+ * this implementation illegal with regards to the famous JPEG note:
+ * http://dicom.nema.org/medical/dicom/current/output/chtml/part05/sect_8.2.html#para_4bcb841e-c6bf-4e26-82a5-3fad3c942da0
  * \see ImageReader
  */
 class GDCM_EXPORT ImageRegionReader : public ImageReader
@@ -54,6 +59,7 @@ protected:
   bool Read();
 
 private:
+  BoxRegion ComputeBoundingBox();
   bool ReadRAWIntoBuffer(char *buffer, size_t buflen);
   bool ReadRLEIntoBuffer(char *buffer, size_t buflen);
   bool ReadJPEG2000IntoBuffer(char *buffer, size_t buflen);

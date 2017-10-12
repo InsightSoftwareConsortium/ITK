@@ -20,7 +20,7 @@ namespace gdcm
 
 /**
  * \brief DirectoryHelper
- * this class is designed to help mitigate some of the commonly performed
+ * \details this class is designed to help mitigate some of the commonly performed
  * operations on directories.  namely:
  * 1) the ability to determine the number of series in a directory by what type
  * of series is present

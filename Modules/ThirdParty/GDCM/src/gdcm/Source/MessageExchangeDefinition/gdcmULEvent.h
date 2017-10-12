@@ -28,7 +28,7 @@ namespace gdcm {
 
 /**
  * \brief ULEvent
- * base class for network events.
+ * \details base class for network events.
  *
  * An event consists of the event ID and the data associated with that event.
  *

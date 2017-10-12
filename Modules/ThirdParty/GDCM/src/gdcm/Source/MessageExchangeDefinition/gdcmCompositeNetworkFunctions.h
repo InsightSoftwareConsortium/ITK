@@ -28,7 +28,7 @@ namespace gdcm
 {
 /**
  * \brief Composite Network Functions
- * These functions provide a generic API to the DICOM functions implemented in
+ * \details These functions provide a generic API to the DICOM functions implemented in
  * GDCM.
  * Advanced users can use this code as a template for building their own
  * versions of these functions (for instance, to provide progress bars or some

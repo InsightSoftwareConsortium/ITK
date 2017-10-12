@@ -23,6 +23,7 @@ namespace gdcm
 
 /**
  * \brief ApplicationEntity
+ * \details 
  * - AE Application Entity
  * - A string of characters that identifies an Application Entity with leading
  *   and trailing spaces (20H) being non-significant. A value consisting solely

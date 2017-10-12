@@ -230,9 +230,6 @@ Attribute<0x0028,0x0004> piat;
     }
 }
 
-// TODO: remove me
-bool PrepareWrite(){ return false; }
-
 bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
 {
   File& file = GetFile();
@@ -496,9 +493,15 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
 
   // Pixel Data
   DataElement depixdata( Tag(0x7fe0,0x0010) );
-  const Value &v = PixelData->GetDataElement().GetValue();
-  depixdata.SetValue( v );
-  const ByteValue *bvpixdata = depixdata.GetByteValue();
+  DataElement & pde = PixelData->GetDataElement();
+  const ByteValue *bvpixdata = NULL;
+  // Sometime advanced user may use a gdcm::ImageRegionReader to feed an empty gdcm::Image
+  if( !pde.IsEmpty() )
+    {
+    const Value &v = PixelData->GetDataElement().GetValue();
+    depixdata.SetValue( v );
+    bvpixdata = depixdata.GetByteValue();
+    }
   const TransferSyntax &ts = PixelData->GetTransferSyntax();
   assert( ts.IsExplicit() || ts.IsImplicit() );
 
@@ -573,10 +576,15 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
       }
     else
       {
-      assert( ds.FindDataElement( at1.GetTag() ) );
-      //assert( ds.FindDataElement( at3.GetTag() ) );
-      at1.Set( ds );
-      assert( atoi(at1.GetValue().c_str()) == 1 );
+      if( ds.FindDataElement( at1.GetTag() ) ) {
+            //assert( ds.FindDataElement( at3.GetTag() ) );
+            at1.Set( ds );
+            if( atoi(at1.GetValue().c_str()) != 1 ) {
+               gdcmWarningMacro( "Invalid value for LossyImageCompression" );
+            }
+      } else {
+               gdcmWarningMacro( "Missing attribute for LossyImageCompression" );
+      }
       }
     }
 
@@ -614,7 +622,11 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     depixdata.SetVR( VR::OB );
     }
   depixdata.SetVL( vl );
-  ds.Replace( depixdata );
+  // Advanced user may have passed an empty image
+  if( !pde.IsEmpty() )
+    {
+    ds.Replace( depixdata );
+    }
 
   // Do Icon Image
   DoIconImage(ds, GetPixmap());
@@ -757,18 +769,33 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     }
 
   FileMetaInformation &fmi = file.GetHeader();
-  fmi.Clear();
-  //assert( ts == TransferSyntax::ImplicitVRLittleEndian );
-    {
-    const char *tsuid = TransferSyntax::GetTSString( ts );
-    DataElement de( Tag(0x0002,0x0010) );
-    VL::Type strlenTSUID = (VL::Type)strlen(tsuid);
-    de.SetByteValue( tsuid, strlenTSUID );
-    de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
-    fmi.Replace( de );
-    fmi.SetDataSetTransferSyntax(ts);
-    }
-  fmi.FillFromDataSet( ds );
+  if( GetCheckFileMetaInformation() )
+  {
+    fmi.Clear();
+    //assert( ts == TransferSyntax::ImplicitVRLittleEndian );
+      {
+      const char *tsuid = TransferSyntax::GetTSString( ts );
+      DataElement de( Tag(0x0002,0x0010) );
+      VL::Type strlenTSUID = (VL::Type)strlen(tsuid);
+      de.SetByteValue( tsuid, strlenTSUID );
+      de.SetVR( Attribute<0x0002, 0x0010>::GetVR() );
+      fmi.Replace( de );
+      fmi.SetDataSetTransferSyntax(ts);
+      }
+    fmi.FillFromDataSet( ds );
+  }
+  else
+  {
+      Attribute<0x0002,0x0010> at;
+      at.SetFromDataSet( fmi );
+      const char *tsuid = TransferSyntax::GetTSString( ts );
+      UIComp tsui  = at.GetValue();
+      if( tsui != tsuid )
+      {
+        gdcmErrorMacro( "Incompatible TransferSyntax." );
+         return false;
+      }
+  }
 
 
   return true;

@@ -22,7 +22,7 @@ namespace gdcm
 class DataElement;
 /**
  * \brief ImageChangePlanarConfiguration class
- * Class to change the Planar configuration of an input DICOM
+ * \details Class to change the Planar configuration of an input DICOM
  * By default it will change into the more usual reprensentation: PlanarConfiguration = 0
  */
 class GDCM_EXPORT ImageChangePlanarConfiguration : public ImageToImageFilter

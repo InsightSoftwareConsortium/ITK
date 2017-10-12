@@ -23,7 +23,7 @@ namespace gdcm_ns
 
 /**
  * \brief a DICOM File
- * See PS 3.10 File: A File is an ordered string of zero or more bytes, where
+ * \details See PS 3.10 File: A File is an ordered string of zero or more bytes, where
  * the first byte is at the beginning of the file and the last byte at the end
  * of the File. Files are identified by a unique File ID and may by written,
  * read and/or deleted.

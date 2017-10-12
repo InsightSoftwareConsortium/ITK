@@ -324,6 +324,7 @@ bool JPEGCodec::Code(DataElement const &in, DataElement &out)
   //sq->GetTable().SetByteValue( dummy, sizeof(dummy) );
 
   const ByteValue *bv = in.GetByteValue();
+  if(!bv) return false; // broken DICOM file ?
   const unsigned int *dims = this->GetDimensions();
   const char *input = bv->GetPointer();
   unsigned long len = bv->GetLength();

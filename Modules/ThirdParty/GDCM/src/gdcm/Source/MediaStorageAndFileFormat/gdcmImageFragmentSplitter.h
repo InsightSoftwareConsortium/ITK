@@ -22,7 +22,7 @@ namespace gdcm
 class DataElement;
 /**
  * \brief ImageFragmentSplitter class
- * For single frame image, DICOM standard allow splitting the frame into multiple fragments
+ * \details For single frame image, DICOM standard allow splitting the frame into multiple fragments
  */
 class GDCM_EXPORT ImageFragmentSplitter : public ImageToImageFilter
 {

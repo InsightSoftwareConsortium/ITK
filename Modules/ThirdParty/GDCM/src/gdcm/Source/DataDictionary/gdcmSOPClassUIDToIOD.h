@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
  * \brief Class convert a class SOP Class UID into IOD
- *
+ * \details 
  * Reference PS 3.4 Table B.5-1 STANDARD SOP CLASSES
  */
 class GDCM_EXPORT SOPClassUIDToIOD

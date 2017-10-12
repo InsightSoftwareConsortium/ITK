@@ -23,7 +23,7 @@ class ULConnection;
 
 /**
  * \brief NSetRQ
- * this file defines the messages for the nset action
+ * \details this file defines the messages for the nset action
  */
 class NSetRQ : public BaseNormalizedMessage {
     public:

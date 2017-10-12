@@ -34,7 +34,7 @@ namespace gdcm
     };
 /**
  * \brief BaseQuery
- * contains: a baseclass which will produce a dataset for all dimse messages
+ * \details contains: a baseclass which will produce a dataset for all dimse messages
  *
  *
  */

@@ -92,20 +92,20 @@ bool SurfaceWriter::PrepareWrite()
   surfacesSQ->SetLengthToUndefined();
 
   // Fill the Surface Sequence
-{
-  const size_t nbItems    = surfacesSQ->GetNumberOfItems();
-  if (nbItems < nbSurfaces)
   {
-    const size_t diff           = nbSurfaces - nbItems;
-    const size_t nbOfItemToMake = (diff > 0?diff:0);
-    for(unsigned int i = 1; i <= nbOfItemToMake; ++i)
+    const size_t nbItems    = surfacesSQ->GetNumberOfItems();
+    if (nbItems < nbSurfaces)
     {
-      Item item;
-      item.SetVLToUndefined();
-      surfacesSQ->AddItem(item);
+      const size_t diff           = nbSurfaces - nbItems;
+      const size_t nbOfItemToMake = (diff > 0?diff:0);
+      for(unsigned int i = 1; i <= nbOfItemToMake; ++i)
+      {
+        Item item;
+        item.SetVLToUndefined();
+        surfacesSQ->AddItem(item);
+      }
     }
   }
-}
   // else Should I remove items?
 
   std::vector< SmartPointer< Segment > >                  segments  = this->GetSegments();
@@ -208,7 +208,7 @@ bool SurfaceWriter::PrepareWrite()
             const SegmentHelper::BasicCodedEntry & processingAlgo = surface->GetProcessingAlgorithm();
             if (processingAlgo.IsEmpty())
             {
-              gdcmWarningMacro("Surface provessing algorithm family not specified or incomplete");
+              gdcmWarningMacro("Surface processing algorithm family not specified or incomplete");
             }
 
             SmartPointer<SequenceOfItems> algoFamilyCodeSQ;
@@ -385,7 +385,7 @@ bool SurfaceWriter::PrepareWrite()
       //        Two exemples :
       //        (0066,0013) SQ (Sequence with undefined length #=1)     # u/l, 1 Surface Mesh Primitives Sequence
       //          (fffe,e000) na (Item with undefined length #=1)         # u/l, 1 Item
-      //            (0066,0016) OW                                         #  0, 1 Edge Point Index List
+      //            (0066,0042) OL                                         #  0, 1 Long Edge Point Index List
       //          (fffe,e00d) na (ItemDelimitationItem)                   #   0, 0 ItemDelimitationItem
       //        (fffe,e0dd) na (SequenceDelimitationItem)               #   0, 0 SequenceDelimitationItem
       //
@@ -395,11 +395,11 @@ bool SurfaceWriter::PrepareWrite()
       //          (fffe,e000) na (Item with undefined length #=1)         # u/l, 1 Item
       //            (0066,0026) SQ (Sequence with undefined length #=1)     # u/l, 1 // Triangle Strip Sequence
       //              (fffe,e000) na (Item with undefined length #=1)         # u/l, 1 Item
-      //                (0066,0029) OW                                         #  0, 1 // Primitive Point Index List
+      //                (0066,0040) OL                                         #  0, 1 // Long Primitive Point Index List
       //              (fffe,e00d) na (ItemDelimitationItem)                   #   0, 0 ItemDelimitationItem
       //                                            ...
       //              (fffe,e000) na (Item with undefined length #=1)         # u/l, 1 Item
-      //                (0066,0029) OW                                         #  0, 1 // Primitive Point Index List
+      //                (0066,0040) OL                                         #  0, 1 // Long Primitive Point Index List
       //              (fffe,e00d) na (ItemDelimitationItem)                   #   0, 0 ItemDelimitationItem
       //            (fffe,e0dd) na (SequenceDelimitationItem)               #   0, 0 SequenceDelimitationItem
       //          (fffe,e00d) na (ItemDelimitationItem)                   #   0, 0 ItemDelimitationItem
@@ -441,23 +441,23 @@ bool SurfaceWriter::PrepareWrite()
         switch (primitiveType)
         {
         case MeshPrimitive::VERTEX:
-          // Vertex Point Index List
-          typedPrimitiveTag.SetElement(0x0025);
+          // Long Vertex Point Index List
+          typedPrimitiveTag.SetElement(0x0043);
           break;
         case MeshPrimitive::EDGE:
-          // Edge Point Index List
-          typedPrimitiveTag.SetElement(0x0024);
+          // Long Edge Point Index List
+          typedPrimitiveTag.SetElement(0x0042);
           break;
         case MeshPrimitive::TRIANGLE:
-          // Triangle Point Index List
-          typedPrimitiveTag.SetElement(0x0023);
+          // Long Triangle Point Index List
+          typedPrimitiveTag.SetElement(0x0041);
           break;
         case MeshPrimitive::TRIANGLE_STRIP:
         case MeshPrimitive::TRIANGLE_FAN:
         case MeshPrimitive::LINE:
         case MeshPrimitive::FACET:
-          // Primitive Point Index List
-          typedPrimitiveTag.SetElement(0x0029);
+          // Long Primitive Point Index List
+          typedPrimitiveTag.SetElement(0x0040);
           insertInSQ = true;
           break;
         default:
@@ -554,7 +554,7 @@ bool SurfaceWriter::PrepareWrite()
             typedPointIndexListDE.SetVL( pointIndexListVL );
 
             if ( ts.IsExplicit() )
-              typedPointIndexListDE.SetVR( VR::OW );
+              typedPointIndexListDE.SetVR( VR::OL );
 
             pointIndexListDS.Replace( typedPointIndexListDE );
           }
@@ -579,41 +579,41 @@ bool SurfaceWriter::PrepareWrite()
           typedPointIndexListDE.SetVL( pointIndexListVL );
 
           if ( ts.IsExplicit() )
-            typedPointIndexListDE.SetVR( VR::OW );
+            typedPointIndexListDE.SetVR( VR::OL );
 
           pointIndexListDS0.Replace( typedPointIndexListDE );
         }
 
         //*****   Add empty values in unused but required tags (Type 2)   *****//
 
-        DataElement emptyOWDE;
-        emptyOWDE.SetVLToUndefined();
-        emptyOWDE.SetVR( VR::OW );
+        DataElement emptyOLDE;
+        emptyOLDE.SetVLToUndefined();
+        emptyOLDE.SetVR( VR::OL );
         SmartPointer<ByteValue> emptyValueOW = new ByteValue;
-        emptyOWDE.SetValue(*emptyValueOW);
+        emptyOLDE.SetValue(*emptyValueOW);
 
-        // Vertex Point Index List ( Type 2 )
-        Tag vertexPointIndexListTag(0x0066, 0x0025);
+        // Long Vertex Point Index List ( Type 2 )
+        Tag vertexPointIndexListTag(0x0066, 0x0043);
         if( !surfaceMeshPrimitivesDS.FindDataElement( vertexPointIndexListTag ) )
         {
-          emptyOWDE.SetTag( vertexPointIndexListTag );
-          surfaceMeshPrimitivesDS.Insert( emptyOWDE );
+          emptyOLDE.SetTag( vertexPointIndexListTag );
+          surfaceMeshPrimitivesDS.Insert( emptyOLDE );
         }
 
-        // Edge Point Index List ( Type 2 )
-        Tag edgePointIndexListTag(0x0066, 0x0024);
+        // Long Edge Point Index List ( Type 2 )
+        Tag edgePointIndexListTag(0x0066, 0x0042);
         if( !surfaceMeshPrimitivesDS.FindDataElement( edgePointIndexListTag ) )
         {
-          emptyOWDE.SetTag( edgePointIndexListTag );
-          surfaceMeshPrimitivesDS.Insert( emptyOWDE );
+          emptyOLDE.SetTag( edgePointIndexListTag );
+          surfaceMeshPrimitivesDS.Insert( emptyOLDE );
         }
 
-        // Triangle Point Index List ( Type 2 )
-        Tag trianglePointIndexListTag(0x0066, 0x0023);
+        // Long Triangle Point Index List ( Type 2 )
+        Tag trianglePointIndexListTag(0x0066, 0x0041);
         if( !surfaceMeshPrimitivesDS.FindDataElement( trianglePointIndexListTag ) )
         {
-          emptyOWDE.SetTag( trianglePointIndexListTag );
-          surfaceMeshPrimitivesDS.Insert( emptyOWDE );
+          emptyOLDE.SetTag( trianglePointIndexListTag );
+          surfaceMeshPrimitivesDS.Insert( emptyOLDE );
         }
 
         DataElement emptySQDE;

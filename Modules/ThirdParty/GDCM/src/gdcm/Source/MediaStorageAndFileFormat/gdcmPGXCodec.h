@@ -21,7 +21,7 @@ namespace gdcm
 
 /**
  * \brief Class to do PGX
- * See PGX as used in JPEG 2000 implementation and reference images
+ * \details See PGX as used in JPEG 2000 implementation and reference images
  */
 class GDCM_EXPORT PGXCodec : public ImageCodec
 {

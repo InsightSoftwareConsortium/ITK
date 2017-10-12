@@ -285,7 +285,7 @@ bool OpenSSLP7CryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, 
   ::PKCS7 *p7;
 #undef PKCS7_SIGNER_INFO
   ::PKCS7_SIGNER_INFO *si;
-  X509_STORE_CTX cert_ctx;
+  X509_STORE_CTX *cert_ctx=NULL;
   X509_STORE *cert_store=NULL;
   BIO *data,*detached=NULL,*p7bio=NULL;
   char buf[1024*4];
@@ -331,6 +331,7 @@ bool OpenSSLP7CryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, 
 //  }
 
 
+  cert_ctx=X509_STORE_CTX_new();
   /* This stuff is being setup for certificate verification.
    * When using SSL, it could be replaced with a
    * cert_stre=SSL_CTX_get_cert_store(ssl_ctx); */
@@ -378,13 +379,14 @@ bool OpenSSLP7CryptographicMessageSyntax::Decrypt(char *output, size_t &outlen, 
       {
       //si=my_sk_PKCS7_SIGNER_INFO_value(sk,i);
           si=sk_PKCS7_SIGNER_INFO_value(sk,i);
-      i=PKCS7_dataVerify(cert_store,&cert_ctx,p7bio,p7,si);
+      i=PKCS7_dataVerify(cert_store,cert_ctx,p7bio,p7,si);
       if (i <= 0)
         goto err;
       else
         fprintf(stderr,"Signature verified\n");
       }
     }
+  X509_STORE_CTX_free(cert_ctx);
   X509_STORE_free(cert_store);
 
   BIO_free_all(p7bio);

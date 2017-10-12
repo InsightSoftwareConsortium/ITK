@@ -25,7 +25,7 @@ namespace network
 
 /**
  * \brief AAbortPDU
- * Table 9-26 A-ABORT PDU FIELDS
+ * \details Table 9-26 A-ABORT PDU FIELDS
  */
 class GDCM_EXPORT AAbortPDU : public BasePDU
 {

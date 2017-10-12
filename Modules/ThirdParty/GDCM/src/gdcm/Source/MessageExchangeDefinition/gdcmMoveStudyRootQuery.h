@@ -20,7 +20,7 @@ namespace gdcm
 {
 /**
  * \brief MoveStudyRootQuery
- * contains: the class which will produce a dataset for C-MOVE with study root
+ * \details contains: the class which will produce a dataset for C-MOVE with study root
  */
 class GDCM_EXPORT MoveStudyRootQuery : public BaseRootQuery
 {

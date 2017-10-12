@@ -48,9 +48,11 @@ static const char *VRStrings[] = {
   "UN",        // 25
   "US",        // 26
   "UT",        // 27
-  "OB or OW",  // 28
-  "US or SS",  // 29
-  "US or SS or OW", //30
+  "OD",        // 28
+  "OL",        // 29
+  "OB or OW",  // 30
+  "US or SS",  // 31
+  "US or SS or OW", //32
   0
 };
 
@@ -82,7 +84,9 @@ static VR::VRType VRValue[] = {
     VR::UL ,
     VR::UN ,
     VR::US ,
-    VR::UT
+    VR::UT ,
+    VR::OD ,
+    VR::OL ,
 };
 
 bool VR::IsVRFile() const
@@ -103,7 +107,9 @@ bool VR::IsVRFile() const
   case VR::LO:
   case VR::LT:
   case VR::OB:
+  case VR::OD:
   case VR::OF:
+  case VR::OL:
   case VR::OW:
   case VR::PN:
   case VR::SH:
@@ -169,8 +175,14 @@ unsigned int VR::GetSizeof() const
   case VR::OB:
     size = sizeof(VRToType<VR::OB>::Type);
     break;
+  case VR::OD:
+    size = sizeof(VRToType<VR::OD>::Type);
+    break;
   case VR::OF:
     size = sizeof(VRToType<VR::OF>::Type);
+    break;
+  case VR::OL:
+    size = sizeof(VRToType<VR::OL>::Type);
     break;
   case VR::OW:
     size = sizeof(VRToType<VR::OW>::Type);
@@ -232,16 +244,16 @@ int VR::GetIndex(VRType vr)
     l = 0;
     break;
   case OB_OW:
-    l =  28;
-    break;
-  case US_SS:
-    l =  29;
-    break;
-  case US_SS_OW:
     l =  30;
     break;
+  case US_SS:
+    l =  31;
+    break;
+  case US_SS_OW:
+    l =  32;
+    break;
   case VR_END:
-    l = 31;
+    l = 33;
     break;
   default:
       {
@@ -264,7 +276,7 @@ const char *VR::GetVRStringFromFile(VRType vr)
 {
 #if 1
   static const int N = sizeof(VRValue) / sizeof(VRType);
-  assert( N == 28 );
+  assert( N == 30 );
   static VRType *start = VRValue;
   static VRType *end   = VRValue+N;
   const VRType *p =
@@ -299,7 +311,7 @@ VR::VRType VR::GetVRTypeFromFile(const char *vr)
  */
 #if 1
   static const int N = sizeof(VRValue) / sizeof(VRType);
-  assert( N == 28 );
+  assert( N == 30 );
   static const char **start = VRStrings+1;
   static const char **end   = VRStrings+N;
   //std::cerr << "VR=" << vr << std::endl;
@@ -356,16 +368,16 @@ VR::VRType VR::GetVRType(const char *vr)
       case 0:
         r = INVALID;
         break;
-      case 28:
+      case 30:
         r = OB_OW;
         break;
-      case 29:
+      case 31:
         r = US_SS;
         break;
-      case 30:
+      case 32:
         r = US_SS_OW;
         break;
-      case 31:
+      case 33:
         r = VR_END; assert(0);
         break;
       default:
@@ -386,7 +398,7 @@ bool VR::IsValid(const char *vr)
     // Use lazy evaluation instead of strncmp
     if (ref[0] == vr[0] && ref[1] == vr[1] )
       {
-      assert( i < 28 ); // FIXME
+      assert( i < 30 ); // FIXME
       return true;
       }
     }
@@ -429,7 +441,9 @@ VRTemplateCase(IS,rep) \
 VRTemplateCase(LO,rep) \
 VRTemplateCase(LT,rep) \
 VRTemplateCase(OB,rep) \
+VRTemplateCase(OD,rep) \
 VRTemplateCase(OF,rep) \
+VRTemplateCase(OL,rep) \
 VRTemplateCase(OW,rep) \
 VRTemplateCase(PN,rep) \
 VRTemplateCase(SH,rep) \

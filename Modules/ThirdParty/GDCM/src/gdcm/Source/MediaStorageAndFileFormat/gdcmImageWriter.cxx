@@ -59,10 +59,13 @@ MediaStorage ImageWriter::ComputeTargetMediaStorage()
   }
   // double check for Grayscale since they need specific pixel type
   if( ms == MediaStorage::MultiframeGrayscaleByteSecondaryCaptureImageStorage
-   || ms == MediaStorage::MultiframeGrayscaleWordSecondaryCaptureImageStorage )
+   || ms == MediaStorage::MultiframeGrayscaleWordSecondaryCaptureImageStorage
+   || ms == MediaStorage::MultiframeSingleBitSecondaryCaptureImageStorage
+   || ms == MediaStorage::MultiframeTrueColorSecondaryCaptureImageStorage )
   {
+    // Always pretend to use number of dimension = 3 here:
     ms = ImageHelper::ComputeMediaStorageFromModality( ms.GetModality(),
-        PixelData->GetNumberOfDimensions(),
+        3 /*PixelData->GetNumberOfDimensions()*/,
         PixelData->GetPixelFormat(),
         PixelData->GetPhotometricInterpretation(),
         GetImage().GetIntercept(), GetImage().GetSlope() );

@@ -28,7 +28,7 @@ namespace gdcm {
     class BasePDU;
 /**
  * \brief CompositeMessageFactory
- * This class constructs PDataPDUs, but that have been specifically constructed for the
+ * \details This class constructs PDataPDUs, but that have been specifically constructed for the
  * composite DICOM services (C-Echo, C-Find, C-Get, C-Move, and C-Store).  It will also handle
  * parsing the incoming data to determine which of the CompositePDUs the incoming data is, and
  * so therefore allowing the scu to determine what to do with incoming data (if acting as

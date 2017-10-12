@@ -4,7 +4,7 @@
 
 #include "config.h"
 #include "util.h"
-#include "streams.h"
+#include "jpegmarker.h"
 #include "header.h"
                
 
@@ -21,7 +21,6 @@
 #include "lookuptable.h"
 
 
-signed char* JlsContext::_tableC = CreateTableC();
 
 // As defined in the JPEG-LS standard 
 

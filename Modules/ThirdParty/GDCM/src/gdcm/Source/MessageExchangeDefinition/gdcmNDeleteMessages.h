@@ -23,7 +23,7 @@ class ULConnection;
 
 /**
  * \brief NDeleteRQ
- * this file defines the messages for the ndelete action
+ * \details this file defines the messages for the ndelete action
  */
 class NDeleteRQ : public BaseNormalizedMessage {
     public:

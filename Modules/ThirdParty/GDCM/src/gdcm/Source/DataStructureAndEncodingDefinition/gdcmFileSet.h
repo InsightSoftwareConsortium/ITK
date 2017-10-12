@@ -21,7 +21,7 @@ namespace gdcm
 {
 /**
  * \brief
- * File-set: A File-set is a collection of DICOM Files (and possibly non-DICOM Files)
+ * \details File-set: A File-set is a collection of DICOM Files (and possibly non-DICOM Files)
  * that share a common naming space within which File IDs are unique.
  */
 class GDCM_EXPORT FileSet

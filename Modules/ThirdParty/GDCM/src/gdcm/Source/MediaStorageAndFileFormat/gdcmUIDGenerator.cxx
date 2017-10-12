@@ -222,6 +222,8 @@ bool UIDGenerator::IsValid(const char *uid_)
     {
     return false;
     }
+  if( uid.size() < 3 ) return false;
+  if( uid[0] == '0' && uid[1] != '.' ) return false;
   std::string::size_type i = 0;
   for(; i < uid.size(); ++i)
     {

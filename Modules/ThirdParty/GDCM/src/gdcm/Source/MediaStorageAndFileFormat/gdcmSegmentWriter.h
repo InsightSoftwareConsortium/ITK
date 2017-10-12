@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
   * \brief  This class defines a segment writer.
-  * It writes attributes of group 0x0062.
+  * \details It writes attributes of group 0x0062.
   *
   * \see  PS 3.3 C.8.20.2 and C.8.23
   */

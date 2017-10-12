@@ -410,14 +410,19 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
       // PS 3.4 - 2011
       // Table W.4-1 C-STORE RESPONSE STATUS VALUES
       const uint16_t theVal = at.GetValue();
-      switch( theVal )
+      // http://dicom.nema.org/medical/dicom/current/output/chtml/part07/chapter_C.html
+      if( theVal == 0x0 ) // Sucess
         {
-      case 0x0:
         gdcmDebugMacro( "C-Store of file " << filename << " was successful." );
-        break;
-      case 0xA700:
-      case 0xA900:
-      case 0xC000:
+        }
+      else if ( theVal == 0x0001 || (theVal & 0xf000) == 0xb000 ) // Warning
+        {
+        gdcmWarningMacro( "C-Store of file " << filename << " had a warning." );
+        }
+      else if ( (theVal & 0xf000) == 0xa000 || (theVal & 0xf000) == 0xc000 ) // Failure
+      //case 0xA700:
+      //case 0xA900:
+      //case 0xC000:
           {
           // TODO: value from 0901 ?
           gdcmErrorMacro( "C-Store of file " << filename << " was a failure." );
@@ -428,11 +433,8 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
           gdcmErrorMacro( "Response Status: " << themsg );
           ret = false; // at least one file was not sent correctly
           }
-        break;
-      default:
-        gdcmErrorMacro( "Unhandle error code: " << theVal );
-        gdcmAssertAlwaysMacro( 0 );
-        }
+       else
+        gdcmWarningMacro( "Unhandle error code: " << theVal );
       theManager.InvokeEvent( IterationEvent() );
       }
     }

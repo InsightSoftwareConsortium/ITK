@@ -26,7 +26,7 @@ class File;
     class BasePDU;
 /**
  * \brief CStoreRQ
- * this file defines the messages for the cecho action
+ * \details this file defines the messages for the cecho action
  */
 class CStoreRQ : public BaseCompositeMessage {
       std::vector<PresentationDataValue> ConstructPDV(const ULConnection &inConnection, const BaseRootQuery* inRootQuery);//to fulfill the virtual contract

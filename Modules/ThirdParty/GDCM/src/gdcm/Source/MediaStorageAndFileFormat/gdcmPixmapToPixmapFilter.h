@@ -22,7 +22,7 @@ namespace gdcm
 class Pixmap;
 /**
  * \brief PixmapToPixmapFilter class
- * Super class for all filter taking an image and producing an output image
+ * \details Super class for all filter taking an image and producing an output image
  */
 class GDCM_EXPORT PixmapToPixmapFilter : public BitmapToBitmapFilter
 {

@@ -24,7 +24,7 @@ namespace gdcm
 {
 /**
  * \brief QueryPatient
- * contains: class to construct a patient-based query for c-find and c-move
+ * \details contains: class to construct a patient-based query for c-find and c-move
  */
 class GDCM_EXPORT QueryPatient : public QueryBase
 {

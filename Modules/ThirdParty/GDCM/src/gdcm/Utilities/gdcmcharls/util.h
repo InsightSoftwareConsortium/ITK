@@ -6,10 +6,10 @@
 #ifndef CHARLS_UTIL
 #define CHARLS_UTIL
 
+#include "publictypes.h"
 #include <stdlib.h>
 #include <string.h>
-#include "publictypes.h"
-
+#include <vector>
 
 #ifndef MAX
 #define MAX(a,b)            (((a) > (b)) ? (a) : (b))
@@ -18,6 +18,13 @@
 #ifndef MIN
 #define MIN(a,b)            (((a) < (b)) ? (a) : (b))
 #endif
+
+
+inline void push_back(std::vector<BYTE>& vec, USHORT value)
+{
+	vec.push_back(BYTE(value / 0x100));
+	vec.push_back(BYTE(value % 0x100));
+}
 
 
 inline LONG log_2(LONG n)

@@ -124,7 +124,7 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
   DataSet &ds = F->GetDataSet();
   // Let's do the private tag:
   bool ret = false;
-  if ( t.IsPrivate() )
+  if ( t.IsPrivate() && !t.IsPrivateCreator() )
     {
     // Only one operation is allowed: making a private tag empty ...
     if ( vl == 0 )
@@ -162,7 +162,7 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
   else
     {
     // Ok this is a public element
-    assert( t.IsPublic() );
+    assert( t.IsPublic() || t.IsPrivateCreator() );
     const DictEntry &dictentry = dicts.GetDictEntry(t);
     if ( dictentry.GetVR() == VR::INVALID
       || dictentry.GetVR() == VR::UN

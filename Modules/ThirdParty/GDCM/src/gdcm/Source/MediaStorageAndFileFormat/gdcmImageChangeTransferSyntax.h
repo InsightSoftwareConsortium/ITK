@@ -24,7 +24,7 @@ class DataElement;
 class ImageCodec;
 /**
  * \brief ImageChangeTransferSyntax class
- * Class to change the transfer syntax of an input DICOM
+ * \details Class to change the transfer syntax of an input DICOM
  *
  * If only Force param is set but no input TransferSyntax is set, it is assumed
  * that user only wants to inspect encapsulated stream (advanced dev. option).

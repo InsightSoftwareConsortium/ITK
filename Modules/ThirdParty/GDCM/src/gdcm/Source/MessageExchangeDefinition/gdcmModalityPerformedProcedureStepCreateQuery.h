@@ -20,7 +20,7 @@ namespace gdcm
 {
 /**
  * \brief ModalityPerformedProcedureStepCreateQuery
- * contains: the class which will produce a dataset for n-create for Modality Performed Procedure Step sop class
+ * \details contains: the class which will produce a dataset for n-create for Modality Performed Procedure Step sop class
  */
 class GDCM_EXPORT ModalityPerformedProcedureStepCreateQuery : public BaseQuery{
   friend class QueryFactory;

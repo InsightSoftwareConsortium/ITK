@@ -27,7 +27,7 @@ class ULConnection;
 
 /**
  * \brief CEchoRQ
- * this file defines the messages for the cecho action
+ * \details this file defines the messages for the cecho action
  */
 class CEchoRQ : public BaseCompositeMessage {
     public:

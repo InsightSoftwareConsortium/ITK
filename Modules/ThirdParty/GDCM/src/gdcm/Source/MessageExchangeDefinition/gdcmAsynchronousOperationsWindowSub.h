@@ -24,7 +24,7 @@ namespace network
 
 /**
  * \brief AsynchronousOperationsWindowSub
- * PS 3.7
+ * \details PS 3.7
  * Table D.3-7
  * ASYNCHRONOUS OPERATIONS WINDOW SUB-ITEM FIELDS
  * (A-ASSOCIATE-RQ)

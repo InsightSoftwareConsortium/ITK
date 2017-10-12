@@ -23,7 +23,7 @@ namespace network
 
 /**
  * \brief SOPClassExtendedNegociationSub
- * PS 3.7
+ * \details PS 3.7
  * Table D.3-11
  * SOP CLASS EXTENDED NEGOTIATION SUB-ITEM FIELDS
  * (A-ASSOCIATE-RQ and A-ASSOCIATE-AC)

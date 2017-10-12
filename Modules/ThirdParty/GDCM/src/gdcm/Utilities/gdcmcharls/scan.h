@@ -8,7 +8,7 @@
 #include "lookuptable.h"
 #include <cstdlib>
 
-// This file contains the code for handling a "scan". Usually an image is encoded as a single scan. 
+// This file contains the code for handling a "scan". Usually an image is encoded as a single scan.
 
 
 #ifdef _MSC_VER
@@ -25,7 +25,7 @@ extern std::vector<signed char> rgquant16Ll;
 // Apply 
 //
 inlinehint LONG ApplySign(LONG i, LONG sign)
-{ return (sign ^ i) - sign; }									
+{ return (sign ^ i) - sign; }
 
 
 
@@ -66,7 +66,7 @@ inlinehint LONG GetPredictedValue(LONG Ra, LONG Rb, LONG Rc)
 	if ((sgn ^ (Rc - Ra)) < 0)
 	{
 		return Rb;
-	} 
+	}
 	else if ((sgn ^ (Rb - Rc)) < 0)
 	{
 		return Ra;
@@ -114,7 +114,7 @@ public:
 	  JlsCodec(const TRAITS& inTraits, const JlsParameters& info) : STRATEGY(info), 
 	  traits(inTraits),
 		  _rect(),
-		  _width(0),
+		  _width(info.width),
 		  T1(0),
 		  T2(0),
 		  T3(0),
@@ -188,22 +188,22 @@ public:
 
 	  void DoLine(SAMPLE* pdummy);
 	  void DoLine(Triplet<SAMPLE>* pdummy);
-	  void DoScan(BYTE* compressedBytes, size_t compressedLength);         
+	  void DoScan();
 
 public:
-	ProcessLine* CreateProcess(void* pvoidOut);
+	ProcessLine* CreateProcess(ByteStreamInfo rawStreamInfo);
 	void InitDefault();
 	void InitParams(LONG t1, LONG t2, LONG t3, LONG nReset);
 
-	size_t  EncodeScan(const void* rawData, void* pvoidOut, size_t compressedLength, void* pvoidCompare);
-	size_t  DecodeScan(void* rawData, const JlsRect& size, const void* compressedData, size_t compressedLength, bool bCompare);
+	size_t  EncodeScan(std::auto_ptr<ProcessLine> rawData, ByteStreamInfo* compressedData, void* pvoidCompare);
+	void DecodeScan(std::auto_ptr<ProcessLine> rawData, const JlsRect& size, ByteStreamInfo* compressedData, bool bCompare);
 
 protected:
 	// codec parameters 
 	TRAITS traits;
 	JlsRect _rect;
 	int _width;
-	LONG T1;	
+	LONG T1;
 	LONG T2;
 	LONG T3; 
 
@@ -213,7 +213,6 @@ protected:
 	LONG _RUNindex;
 	PIXEL* _previousLine; // previous line ptr
 	PIXEL* _currentLine; // current line ptr
-
 
 	// quantization lookup table
 	signed char* _pquant;
@@ -228,7 +227,7 @@ protected:
 
 template<class TRAITS, class STRATEGY>
 typename TRAITS::SAMPLE JlsCodec<TRAITS,STRATEGY>::DoRegular(LONG Qs, LONG, LONG pred, DecoderStrategy*)
-{		
+{
 	LONG sign		= BitWiseSign(Qs);
 	JlsContext& ctx	= _contexts[ApplySign(Qs, sign)];
 	LONG k			= ctx.GetGolomb();	
@@ -247,8 +246,11 @@ typename TRAITS::SAMPLE JlsCodec<TRAITS,STRATEGY>::DoRegular(LONG Qs, LONG, LONG
 		ErrVal = UnMapErrVal(DecodeValue(k, traits.LIMIT, traits.qbpp)); 
 		if (std::abs(ErrVal) > 65535)
 			throw JlsException(InvalidCompressedData);
-	}	
-	ErrVal = ErrVal ^ ((traits.NEAR == 0) ? ctx.GetErrorCorrection(k) : 0);
+	}
+	if (k == 0)
+	{
+		ErrVal = ErrVal ^ ctx.GetErrorCorrection(traits.NEAR);
+	}
 	ctx.UpdateVariables(ErrVal, traits.NEAR, traits.RESET);	
 	ErrVal = ApplySign(ErrVal, sign);
 	return traits.ComputeReconstructedSample(Px, ErrVal); 
@@ -261,7 +263,7 @@ typename TRAITS::SAMPLE JlsCodec<TRAITS,STRATEGY>::DoRegular(LONG Qs, LONG x, LO
 	LONG sign		= BitWiseSign(Qs);
 	JlsContext& ctx	= _contexts[ApplySign(Qs, sign)];
 	LONG k			= ctx.GetGolomb();
-	LONG Px			= traits.CorrectPrediction(pred + ApplySign(ctx.C, sign));	
+	LONG Px			= traits.CorrectPrediction(pred + ApplySign(ctx.C, sign));
 
 	LONG ErrVal		= traits.ComputeErrVal(ApplySign(x - Px, sign));
 
@@ -340,7 +342,7 @@ inlinehint void JlsCodec<TRAITS,STRATEGY>::EncodeMappedValue(LONG k, LONG mapped
 		if (highbits + 1 > 31)
 		{
 			STRATEGY::AppendToBitStream(0, highbits / 2);
-			highbits = highbits - highbits / 2;													
+			highbits = highbits - highbits / 2;
 		}
 		STRATEGY::AppendToBitStream(1, highbits + 1);
 		STRATEGY::AppendToBitStream((mappedError & ((1 << k) - 1)), k);
@@ -350,48 +352,54 @@ inlinehint void JlsCodec<TRAITS,STRATEGY>::EncodeMappedValue(LONG k, LONG mapped
 	if (limit - traits.qbpp > 31)
 	{
 		STRATEGY::AppendToBitStream(0, 31);
-		STRATEGY::AppendToBitStream(1, limit - traits.qbpp - 31);			
+		STRATEGY::AppendToBitStream(1, limit - traits.qbpp - 31);
 	}
 	else
 	{
-		STRATEGY::AppendToBitStream(1, limit - traits.qbpp);			
+		STRATEGY::AppendToBitStream(1, limit - traits.qbpp);
 	}
 	STRATEGY::AppendToBitStream((mappedError - 1) & ((1 << traits.qbpp) - 1), traits.qbpp);
 }
 
+
+// Disable the Microsoft Static Analyzer warning: Potential comparison of a constant with another constant. (false warning, triggered by template construction)
+#ifdef _PREFAST_
+#pragma warning(push)
+#pragma warning(disable:6326)
+#endif
 
 // Sets up a lookup table to "Quantize" sample difference.
 
 template<class TRAITS, class STRATEGY>
 void JlsCodec<TRAITS,STRATEGY>::InitQuantizationLUT()
 {
-	// for lossless mode with default parameters, we have precomputed te luts for bitcounts 8,10,12 and 16 
+	// for lossless mode with default parameters, we have precomputed the luts for bitcounts 8,10,12 and 16.
 	if (traits.NEAR == 0 && traits.MAXVAL == (1 << traits.bpp) - 1)
 	{
 		JlsCustomParameters presets = ComputeDefault(traits.MAXVAL, traits.NEAR);
 		if (presets.T1 == T1 && presets.T2 == T2 && presets.T3 == T3)
 		{
-			if (traits.bpp == 8) 
+			if (traits.bpp == 8)
 			{
-				_pquant = &rgquant8Ll[rgquant8Ll.size() / 2 ]; 
+				_pquant = &rgquant8Ll[rgquant8Ll.size() / 2 ];
 				return;
 			}
-			if (traits.bpp == 10) 
+			if (traits.bpp == 10)
 			{
-				_pquant = &rgquant10Ll[rgquant10Ll.size() / 2 ]; 
+				_pquant = &rgquant10Ll[rgquant10Ll.size() / 2 ];
 				return;
-			}			
-			if (traits.bpp == 12) 
+			}
+			if (traits.bpp == 12)
 			{
-				_pquant = &rgquant12Ll[rgquant12Ll.size() / 2 ]; 
+				_pquant = &rgquant12Ll[rgquant12Ll.size() / 2 ];
 				return;
-			}			
-			if (traits.bpp == 16) 
+			}
+			if (traits.bpp == 16)
 			{
-				_pquant = &rgquant16Ll[rgquant16Ll.size() / 2 ]; 
+				_pquant = &rgquant16Ll[rgquant16Ll.size() / 2 ];
 				return;
-			}			
-		}	
+			}
+		}
 	}
 
 	LONG RANGE = 1 << traits.bpp;
@@ -405,6 +413,9 @@ void JlsCodec<TRAITS,STRATEGY>::InitQuantizationLUT()
 	}
 }
 
+#ifdef _PREFAST_
+#pragma warning(pop)
+#endif
 
 template<class TRAITS, class STRATEGY>
 signed char JlsCodec<TRAITS,STRATEGY>::QuantizeGratientOrg(LONG Di)
@@ -429,12 +440,11 @@ template<class TRAITS, class STRATEGY>
 LONG JlsCodec<TRAITS,STRATEGY>::DecodeRIError(CContextRunMode& ctx)
 {
 	LONG k = ctx.GetGolomb();
-	LONG EMErrval = DecodeValue(k, traits.LIMIT - J[_RUNindex]-1, traits.qbpp);	
+	LONG EMErrval = DecodeValue(k, traits.LIMIT - J[_RUNindex]-1, traits.qbpp);
 	LONG Errval = ctx.ComputeErrVal(EMErrval + ctx._nRItype, k);
 	ctx.UpdateVariables(Errval, EMErrval);
 	return Errval;
 }
-
 
 
 template<class TRAITS, class STRATEGY>
@@ -442,7 +452,7 @@ void JlsCodec<TRAITS,STRATEGY>::EncodeRIError(CContextRunMode& ctx, LONG Errval)
 {
 	LONG k			= ctx.GetGolomb();
 	bool map		= ctx.ComputeMap(Errval, k);
-	LONG EMErrval	= 2 * std::abs(Errval) - ctx._nRItype - map;	
+	LONG EMErrval	= 2 * std::abs(Errval) - ctx._nRItype - LONG(map);
 
 	ASSERT(Errval == ctx.ComputeErrVal(EMErrval + ctx._nRItype, k));
 	EncodeMappedValue(k, EMErrval, traits.LIMIT-J[_RUNindex]-1);
@@ -476,12 +486,10 @@ Triplet<typename TRAITS::SAMPLE> JlsCodec<TRAITS,STRATEGY>::EncodeRIPixel(Triple
 	LONG errval3	= traits.ComputeErrVal(Sign(Rb.v3 - Ra.v3) * (x.v3 - Rb.v3));
 	EncodeRIError(_contextRunmode[0], errval3);
 
-
 	return Triplet<SAMPLE>(traits.ComputeReconstructedSample(Rb.v1, errval1 * Sign(Rb.v1  - Ra.v1)),
 		traits.ComputeReconstructedSample(Rb.v2, errval2 * Sign(Rb.v2  - Ra.v2)),
 		traits.ComputeReconstructedSample(Rb.v3, errval3 * Sign(Rb.v3  - Ra.v3)));
 }
-
 
 
 template<class TRAITS, class STRATEGY>
@@ -489,12 +497,12 @@ typename TRAITS::SAMPLE JlsCodec<TRAITS,STRATEGY>::DecodeRIPixel(LONG Ra, LONG R
 {
 	if (std::abs(Ra - Rb) <= traits.NEAR)
 	{
-		LONG ErrVal		= DecodeRIError(_contextRunmode[1]);
+		LONG ErrVal = DecodeRIError(_contextRunmode[1]);
 		return static_cast<SAMPLE>(traits.ComputeReconstructedSample(Ra, ErrVal));
 	}
 	else
 	{
-		LONG ErrVal		= DecodeRIError(_contextRunmode[0]);
+		LONG ErrVal = DecodeRIError(_contextRunmode[0]);
 		return static_cast<SAMPLE>(traits.ComputeReconstructedSample(Rb, ErrVal * Sign(Rb - Ra)));
 	}
 }
@@ -563,7 +571,6 @@ LONG JlsCodec<TRAITS,STRATEGY>::DecodeRunPixels(PIXEL Ra, PIXEL* startPos, LONG 
 			break;
 	}
 
-
 	if (index != cpixelMac)
 	{
 		// incomplete run 	
@@ -576,7 +583,7 @@ LONG JlsCodec<TRAITS,STRATEGY>::DecodeRunPixels(PIXEL Ra, PIXEL* startPos, LONG 
 	for (LONG i = 0; i < index; ++i)
 	{
 		startPos[i] = Ra;
-	}	
+	}
 
 	return index;
 }
@@ -641,7 +648,7 @@ void JlsCodec<TRAITS,STRATEGY>::DoLine(SAMPLE*)
 	LONG Rd = _previousLine[index];
 
 	while(index < _width)
-	{	
+	{
 		LONG Ra = _currentLine[index -1];
 		LONG Rc = Rb;
 		Rb = Rd;
@@ -651,15 +658,15 @@ void JlsCodec<TRAITS,STRATEGY>::DoLine(SAMPLE*)
 
 		if (Qs != 0)
 		{
-			_currentLine[index] = DoRegular(Qs, _currentLine[index], GetPredictedValue(Ra, Rb, Rc), (STRATEGY*)(NULL));
+			_currentLine[index] = DoRegular(Qs, _currentLine[index], GetPredictedValue(Ra, Rb, Rc), static_cast<STRATEGY*>(NULL));
 			index++;
 		}
 		else
 		{
-			index += DoRunMode(index, (STRATEGY*)(NULL));
+			index += DoRunMode(index, static_cast<STRATEGY*>(NULL));
 			Rb = _previousLine[index-1];
-			Rd = _previousLine[index];	
-		}				
+			Rd = _previousLine[index];
+		}
 	}
 }
 
@@ -684,17 +691,17 @@ void JlsCodec<TRAITS,STRATEGY>::DoLine(Triplet<SAMPLE>*)
 		
 		if (Qs1 == 0 && Qs2 == 0 && Qs3 == 0)
 		{
-			index += DoRunMode(index, (STRATEGY*)(NULL));
+			index += DoRunMode(index, static_cast<STRATEGY*>(NULL));
 		}
 		else
 		{
 			Triplet<SAMPLE> Rx;
-			Rx.v1 = DoRegular(Qs1, _currentLine[index].v1, GetPredictedValue(Ra.v1, Rb.v1, Rc.v1), (STRATEGY*)(NULL));
-			Rx.v2 = DoRegular(Qs2, _currentLine[index].v2, GetPredictedValue(Ra.v2, Rb.v2, Rc.v2), (STRATEGY*)(NULL));
-			Rx.v3 = DoRegular(Qs3, _currentLine[index].v3, GetPredictedValue(Ra.v3, Rb.v3, Rc.v3), (STRATEGY*)(NULL));
+			Rx.v1 = DoRegular(Qs1, _currentLine[index].v1, GetPredictedValue(Ra.v1, Rb.v1, Rc.v1), static_cast<STRATEGY*>(NULL));
+			Rx.v2 = DoRegular(Qs2, _currentLine[index].v2, GetPredictedValue(Ra.v2, Rb.v2, Rc.v2), static_cast<STRATEGY*>(NULL));
+			Rx.v3 = DoRegular(Qs3, _currentLine[index].v3, GetPredictedValue(Ra.v3, Rb.v3, Rc.v3), static_cast<STRATEGY*>(NULL));
 			_currentLine[index] = Rx;
 			index++;
-		}	
+		}
 	}
 }
 
@@ -705,22 +712,18 @@ void JlsCodec<TRAITS,STRATEGY>::DoLine(Triplet<SAMPLE>*)
 // In ILV_NONE mode, DoScan is called for each component 
 
 template<class TRAITS, class STRATEGY>
-void JlsCodec<TRAITS,STRATEGY>::DoScan(BYTE* compressedBytes, size_t compressedLength)
-{		
-	_width = Info().width;
-
-	STRATEGY::Init(compressedBytes, compressedLength);
-
+void JlsCodec<TRAITS,STRATEGY>::DoScan()
+{
 	LONG pixelstride = _width + 4;
 	int components = Info().ilv == ILV_LINE ? Info().components : 1;
 
 	std::vector<PIXEL> vectmp(2 * components * pixelstride);
 	std::vector<LONG> rgRUNindex(components);
-	
+
 	for (LONG line = 0; line < Info().height; ++line)
 	{
-		_previousLine			= &vectmp[1];	
-		_currentLine			= &vectmp[1 + components * pixelstride];	
+		_previousLine = &vectmp[1];
+		_currentLine = &vectmp[1 + components * pixelstride];
 		if ((line & 1) == 1)
 		{
 			std::swap(_previousLine, _currentLine);
@@ -731,17 +734,17 @@ void JlsCodec<TRAITS,STRATEGY>::DoScan(BYTE* compressedBytes, size_t compressedL
 		for (int component = 0; component < components; ++component)
 		{
 			_RUNindex = rgRUNindex[component];
-		
+
 			// initialize edge pixels used for prediction
 			_previousLine[_width]	= _previousLine[_width - 1];
 			_currentLine[-1]		= _previousLine[0];
 			DoLine((PIXEL*) NULL); // dummy arg for overload resolution
-	
+
 			rgRUNindex[component] = _RUNindex;
 			_previousLine += pixelstride;
 			_currentLine += pixelstride;
 		}
-		
+
 		if (_rect.Y <= line && line < _rect.Y + _rect.Height)
 		{
 			STRATEGY::OnLineEnd(_rect.Width, _currentLine + _rect.X - (components * pixelstride), pixelstride);
@@ -755,32 +758,38 @@ void JlsCodec<TRAITS,STRATEGY>::DoScan(BYTE* compressedBytes, size_t compressedL
 // Factory function for ProcessLine objects to copy/transform unencoded pixels to/from our scanline buffers.
 
 template<class TRAITS, class STRATEGY>
-ProcessLine* JlsCodec<TRAITS,STRATEGY>::CreateProcess(void* pvoidOut)
+ProcessLine* JlsCodec<TRAITS,STRATEGY>::CreateProcess(ByteStreamInfo info)
 {
 	if (!IsInterleaved())
-		return new PostProcesSingleComponent(pvoidOut, Info(), sizeof(typename TRAITS::PIXEL));
+	{
+		return info.rawData != NULL ?
+			static_cast<ProcessLine*>(new PostProcesSingleComponent(info.rawData, Info(), sizeof(typename TRAITS::PIXEL))) :
+			static_cast<ProcessLine*>(new PostProcesSingleStream(info.rawStream, Info(), sizeof(typename TRAITS::PIXEL)));
+	}
 
-	if (Info().colorTransform == 0)
-		return new ProcessTransformed<TransformNone<typename TRAITS::SAMPLE> >(pvoidOut, Info(), TransformNone<SAMPLE>()); 
+	int transform = Info().colorTransform & 0xFF;
+
+	if (transform == 0)
+		return new ProcessTransformed<TransformNone<typename TRAITS::SAMPLE> >(info, Info(), TransformNone<SAMPLE>()); 
 
 	if (Info().bitspersample == sizeof(SAMPLE)*8)
 	{
-		switch(Info().colorTransform)
+		switch(transform)
 		{
-			case COLORXFORM_HP1 : return new ProcessTransformed<TransformHp1<SAMPLE> >(pvoidOut, Info(), TransformHp1<SAMPLE>()); break;
-			case COLORXFORM_HP2 : return new ProcessTransformed<TransformHp2<SAMPLE> >(pvoidOut, Info(), TransformHp2<SAMPLE>()); break;
-			case COLORXFORM_HP3 : return new ProcessTransformed<TransformHp3<SAMPLE> >(pvoidOut, Info(), TransformHp3<SAMPLE>()); break;
+			case COLORXFORM_HP1 : return new ProcessTransformed<TransformHp1<SAMPLE> >(info, Info(), TransformHp1<SAMPLE>());
+			case COLORXFORM_HP2 : return new ProcessTransformed<TransformHp2<SAMPLE> >(info, Info(), TransformHp2<SAMPLE>());
+			case COLORXFORM_HP3 : return new ProcessTransformed<TransformHp3<SAMPLE> >(info, Info(), TransformHp3<SAMPLE>());
 			default: throw JlsException(UnsupportedColorTransform);
 		}
-	} 
+	}
 	else if (Info().bitspersample > 8)
 	{
 		int shift = 16 - Info().bitspersample;
-		switch(Info().colorTransform)
+		switch(transform)
 		{
-			case COLORXFORM_HP1 : return new ProcessTransformed<TransformShifted<TransformHp1<USHORT> > >(pvoidOut, Info(), TransformShifted<TransformHp1<USHORT> >(shift)); break;
-			case COLORXFORM_HP2 : return new ProcessTransformed<TransformShifted<TransformHp2<USHORT> > >(pvoidOut, Info(), TransformShifted<TransformHp2<USHORT> >(shift)); break;
-			case COLORXFORM_HP3 : return new ProcessTransformed<TransformShifted<TransformHp3<USHORT> > >(pvoidOut, Info(), TransformShifted<TransformHp3<USHORT> >(shift)); break;
+			case COLORXFORM_HP1 : return new ProcessTransformed<TransformShifted<TransformHp1<USHORT> > >(info, Info(), TransformShifted<TransformHp1<USHORT> >(shift));
+			case COLORXFORM_HP2 : return new ProcessTransformed<TransformShifted<TransformHp2<USHORT> > >(info, Info(), TransformShifted<TransformHp2<USHORT> >(shift));
+			case COLORXFORM_HP3 : return new ProcessTransformed<TransformShifted<TransformHp3<USHORT> > >(info, Info(), TransformShifted<TransformHp3<USHORT> >(shift));
 			default: throw JlsException(UnsupportedColorTransform);
 		}
 	}
@@ -788,61 +797,46 @@ ProcessLine* JlsCodec<TRAITS,STRATEGY>::CreateProcess(void* pvoidOut)
 }
 
 
-
 // Setup codec for encoding and calls DoScan
 
 template<class TRAITS, class STRATEGY>
-size_t JlsCodec<TRAITS,STRATEGY>::EncodeScan(const void* rawData, void* compressedData, size_t compressedLength, void* pvoidCompare)
+size_t JlsCodec<TRAITS,STRATEGY>::EncodeScan(std::auto_ptr<ProcessLine> processLine, ByteStreamInfo* compressedData, void* pvoidCompare)
 {
-	STRATEGY::_processLine = std::auto_ptr<ProcessLine>(CreateProcess(const_cast<void*>(rawData)));
-	
-	BYTE* compressedBytes = static_cast<BYTE*>(compressedData);
+	STRATEGY::_processLine = processLine;
 
+	ByteStreamInfo info = { NULL, (BYTE*)pvoidCompare, compressedData->count };
 	if (pvoidCompare != NULL)
 	{
-		STRATEGY::_qdecoder = std::auto_ptr<DecoderStrategy>(new JlsCodec<TRAITS,DecoderStrategy>(traits, Info()));		
-		STRATEGY::_qdecoder->Init((BYTE*)pvoidCompare, compressedLength); 
+		STRATEGY::_qdecoder.reset(new JlsCodec<TRAITS,DecoderStrategy>(traits, Info()));
+		STRATEGY::_qdecoder->Init(&info);
 	}
 
-	DoScan(compressedBytes, compressedLength);
-	
-	return	STRATEGY::GetLength();
+	STRATEGY::Init(compressedData);
 
+	DoScan();
+
+	return STRATEGY::GetLength();
 }
 
 // Setup codec for decoding and calls DoScan
 
+
 template<class TRAITS, class STRATEGY>
-size_t JlsCodec<TRAITS,STRATEGY>::DecodeScan(void* rawData, const JlsRect& rect, const void* compressedData, size_t compressedLength, bool bCompare)
+void JlsCodec<TRAITS,STRATEGY>::DecodeScan(std::auto_ptr<ProcessLine> processLine, const JlsRect& rect, ByteStreamInfo* compressedData, bool bCompare)
 {
-	STRATEGY::_processLine = std::auto_ptr<ProcessLine>(CreateProcess(rawData));
+	STRATEGY::_processLine = processLine;
 
-	BYTE* compressedBytes	= const_cast<BYTE*>(static_cast<const BYTE*>(compressedData));
+	BYTE* compressedBytes	= const_cast<BYTE*>(static_cast<const BYTE*>(compressedData->rawData));
 	_bCompare = bCompare;
-
-	BYTE rgbyte[20];
-
-	size_t readBytes = 0;
-	::memcpy(rgbyte, compressedBytes, 4);
-	readBytes += 4;
-
-	size_t cbyteScanheader = rgbyte[3] - 2;
-
-	if (cbyteScanheader > sizeof(rgbyte))
-		throw JlsException(InvalidCompressedData);
-
-	::memcpy(rgbyte, compressedBytes, cbyteScanheader);
-	readBytes += cbyteScanheader;
-
 	_rect = rect;
 
-	DoScan(compressedBytes + readBytes, compressedLength - readBytes);
-	
-	return STRATEGY::GetCurBytePos() - compressedBytes;
+	STRATEGY::Init(compressedData);
+	DoScan();
+	SkipBytes(compressedData, STRATEGY::GetCurBytePos() - compressedBytes);
 }
 
-// Initialize the codec data structures. Depends on JPEG-LS parameters like T1-T3.
 
+// Initialize the codec data structures. Depends on JPEG-LS parameters like T1-T3.
 template<class TRAITS, class STRATEGY>
 void JlsCodec<TRAITS,STRATEGY>::InitParams(LONG t1, LONG t2, LONG t3, LONG nReset)
 {

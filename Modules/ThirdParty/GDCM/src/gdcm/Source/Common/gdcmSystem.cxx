@@ -42,9 +42,9 @@
 #elif defined(GDCM_HAVE__SNPRINTF)
 #define snprintf _snprintf
 #endif
-#ifdef __APPLE__
+#ifdef GDCM_USE_COREFOUNDATION_LIBRARY
 #include <CoreFoundation/CoreFoundation.h>
-#endif // __APPLE__
+#endif
 
 #if defined(_WIN32) && (defined(_MSC_VER) || defined(__WATCOMC__) ||defined(__BORLANDC__) || defined(__MINGW32__))
 #include <io.h>
@@ -140,6 +140,8 @@ const char * System::GetCWD()
 
 bool System::MakeDirectory(const char *path)
 {
+  if( !path || !*path )
+    return false;
   if(System::FileExists(path))
     {
     return true;
@@ -153,12 +155,14 @@ bool System::MakeDirectory(const char *path)
     pos = 0;
     }
   std::string topdir;
-  while((pos = dir.find('/', pos)) != std::string::npos)
+  bool ok = true;
+  while(ok && (pos = dir.find('/', pos)) != std::string::npos)
     {
     topdir = dir.substr(0, pos);
-    Mkdir(topdir.c_str());
+    ok = ok && Mkdir(topdir.c_str());
     pos++;
     }
+  if( !ok ) return false;
   if(dir[dir.size()-1] == '/')
     {
     topdir = dir.substr(0, dir.size());
@@ -361,6 +365,10 @@ bool System::DeleteDirectory(const char *source)
   return Rmdir(source) == 0;
 }
 
+#ifndef PATH_MAX
+#define PATH_MAX 4096
+#endif
+
 // return size of file; also returns zero if no file exists
 size_t System::FileSize(const char* filename)
 {
@@ -413,20 +421,19 @@ const char *System::GetCurrentProcessFileName()
     {
     return buf;
     }
-// Disabled in ITK
-//#elif defined(__APPLE__)
-  //static char buf[PATH_MAX];
-  //Boolean success = false;
-  //CFURLRef pathURL = CFBundleCopyExecutableURL(CFBundleGetMainBundle());
-  //if ( pathURL)
-    //{
-    //success = CFURLGetFileSystemRepresentation(pathURL, true [>resolveAgainstBase<], (unsigned char*) buf, PATH_MAX);
-    //CFRelease(pathURL);
-    //}
-  //if (success)
-    //{
-    //return buf;
-    //}
+#elif defined(GDCM_USE_COREFOUNDATION_LIBRARY)
+  static char buf[PATH_MAX];
+  Boolean success = false;
+  CFURLRef pathURL = CFBundleCopyExecutableURL(CFBundleGetMainBundle());
+  if ( pathURL)
+    {
+    success = CFURLGetFileSystemRepresentation(pathURL, true /*resolveAgainstBase*/, (unsigned char*) buf, PATH_MAX);
+    CFRelease(pathURL);
+    }
+  if (success)
+    {
+    return buf;
+    }
 #elif defined (__SVR4) && defined (__sun)
   // solaris
   const char *ret = getexecname();
@@ -483,8 +490,7 @@ const char *System::GetCurrentModuleFileName()
 
 const char *System::GetCurrentResourcesDirectory()
 {
-// Disabled in ITK
-#if 0
+#ifdef GDCM_USE_COREFOUNDATION_LIBRARY
   static char path[PATH_MAX];
   Boolean success = false;
   CFURLRef pathURL = CFBundleCopyResourcesDirectoryURL(CFBundleGetMainBundle());
@@ -673,6 +679,7 @@ bool System::ParseDateTime(time_t &timep, long &milliseconds, const char date[22
     case 3: hour = 0;
     case 4: min = 0;
     case 5: sec = 0;
+      break; // http://security.coverity.com/blog/2013/Sep/gimme-a-break.html
       }
     ptm.tm_year = year - 1900;
     if( mon < 1 || mon > 12 ) return false;
@@ -970,6 +977,7 @@ static const char *CharsetAliasToName(const char *alias)
       }
     }
   // We need to tell the user...
+  gdcmWarningMacro( std::string("Could not find Charset from alias: ") + alias );
   return NULL;
 }
 #endif //_WIN32

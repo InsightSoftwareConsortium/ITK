@@ -23,7 +23,7 @@ namespace gdcm
 
 /**
   * \brief  This class defines surface mesh primitives.
-  * It is designed from surface mesh primitives macro.
+  * \details It is designed from surface mesh primitives macro.
   *
   * \see  PS 3.3 C.27.4
   */

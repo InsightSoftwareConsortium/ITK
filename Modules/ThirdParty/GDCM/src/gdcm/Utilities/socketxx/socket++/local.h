@@ -97,7 +97,7 @@ extern "C" int shutdown (int, int); // they have forgotten this
 //  extern "C" int gethostname (char* hostname, size_t len);
 // the above breaks on some old MacOSX system where prototype is:
 //  extern "C" int gethostname (char* hostname, int len);
-#if !(defined(__FreeBSD__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__) || defined(__APPLE__))
+#if !(defined(__FreeBSD__) || defined(__GNU__) || defined(__FreeBSD_kernel__) || defined(__NetBSD__) || defined(__OpenBSD__) || defined(__bsdi__) || defined(__APPLE__))
   extern char* SYS_SIGLIST [];
 #endif
 #endif

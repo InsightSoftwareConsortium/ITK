@@ -26,7 +26,7 @@ namespace gdcm
 class Event;
 /**
  * \brief SimpleSubjectWatcher
- * This is a typical Subject Watcher class. It will observe all events.
+ * \details This is a typical Subject Watcher class. It will observe all events.
  */
 class GDCM_EXPORT SimpleSubjectWatcher
 {

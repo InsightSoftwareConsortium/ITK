@@ -1132,14 +1132,12 @@ EStateID ULConnectionManager::RunEventLoop(ULEvent& currentEvent, ULConnection* 
                     {
                     delete theData[i];
                     }
-                  //outDataSet.push_back(theCompleteFindResponse);
-                  if (inCallback)
+                  assert(inCallback);
                     {
                     inCallback->HandleDataSet(theCompleteFindResponse);
                     }
                   //  DataSetEvent dse( &theCompleteFindResponse );
                   //  this->InvokeEvent( dse );
-
 
                   if (theCommandCode == 1){//if we're doing cstore scp stuff, send information back along the connection.
                     std::vector<BasePDU*> theCStoreRSPPDU = PDUFactory::CreateCStoreRSPPDU(&theRSP, theFirstPDU);//pass NULL for C-Echo

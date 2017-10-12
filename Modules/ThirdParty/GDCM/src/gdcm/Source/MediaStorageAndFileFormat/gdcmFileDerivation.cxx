@@ -188,11 +188,13 @@ static const CodeDefinition PurposeOfReferencetoAlternateRepresentation[] = {
 class FileDerivationInternals
 {
 public:
-  FileDerivationInternals():References(),DerivationCodeSequenceCodeValue(0),PurposeOfReferenceCodeSequenceCodeValue(0),DerivationDescription() {}
+  FileDerivationInternals():References(),DerivationCodeSequenceCodeValue(0),PurposeOfReferenceCodeSequenceCodeValue(0),DerivationDescription(),
+    AppendDerivationHistory(false) {}
   std::vector< std::pair< std::string, std::string > > References;
   unsigned int DerivationCodeSequenceCodeValue;
   unsigned int PurposeOfReferenceCodeSequenceCodeValue;
   std::string DerivationDescription;
+  bool AppendDerivationHistory;
 };
 
 FileDerivation::FileDerivation():F(new File),Internals(new FileDerivationInternals)
@@ -247,6 +249,11 @@ bool FileDerivation::AddReference(const char *referencedsopclassuid, const char 
   return true;
 }
 
+void FileDerivation::SetAppendDerivationHistory(bool b)
+{
+    Internals->AppendDerivationHistory = b;
+}
+
 /*
 PS 3.3 - 2008 C.7.6.1.1.3 Derivation Description
 If an Image is identified to be a derived image (see C.7.6.1.1.2 Image Type), Derivation
@@ -268,16 +275,15 @@ bool FileDerivation::AddDerivationDescription()
     ds.Replace( at1.GetAsDataElement() );
     }
 
-// ADD_DERIV: should we append the derivation after any existing one ?
-// For compat reason: always override the existing one
-//#define ADD_DERIV
   const Tag sisq(0x8,0x9215);
   SmartPointer<SequenceOfItems> sqi;
   sqi = new SequenceOfItems;
-#ifdef ADD_DERIV
-  if( ds.FindDataElement( sisq ) )
-    sqi = ds.GetDataElement( sisq ).GetValueAsSQ();
-#endif
+  // should we append the derivation after any existing one ?
+  if( Internals->AppendDerivationHistory )
+    {
+    if( ds.FindDataElement( sisq ) )
+      sqi = ds.GetDataElement( sisq ).GetValueAsSQ();
+    }
   sqi->SetLengthToUndefined();
 
   Item item;
@@ -328,23 +334,19 @@ Derivation Description (0008,2111) or Derivation Code Sequence (0008,9215).
 bool FileDerivation::AddSourceImageSequence()
 {
   File &file = GetFile();
+  DataSet &ds = file.GetDataSet();
 
   const Tag sisq(0x8,0x2112);
   SmartPointer<SequenceOfItems> sqi;
   sqi = new SequenceOfItems;
-  DataElement de( sisq);
-  de.SetVR( VR::SQ );
-  de.SetValue( *sqi );
-  de.SetVLToUndefined();
 
-  DataSet &ds = file.GetDataSet();
-  ds.Insert( de );
-
-  //sqi = (SequenceOfItems*)ds.GetDataElement( sisq ).GetSequenceOfItems();
-  sqi = ds.GetDataElement( sisq ).GetValueAsSQ();
+  if( ds.FindDataElement( sisq ) )
+    {
+    sqi = ds.GetDataElement( sisq ).GetValueAsSQ();
+    }
   sqi->SetLengthToUndefined();
 
-  if( sqi->GetNumberOfItems() )
+  if( !Internals->AppendDerivationHistory && sqi->GetNumberOfItems() )
     {
     gdcmWarningMacro( "Do not support appending Referenced Image" );
     return false;
@@ -376,6 +378,11 @@ bool FileDerivation::AddSourceImageSequence()
     sqi->AddItem( item1 );
     }
 
+  DataElement de( sisq);
+  de.SetVR( VR::SQ );
+  de.SetValue( *sqi );
+  de.SetVLToUndefined();
+  ds.Replace( de );
 
   return true;
 }

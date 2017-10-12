@@ -181,7 +181,7 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
     //const SequenceOfItems* sq = iconimagesq.GetSequenceOfItems();
     SmartPointer<SequenceOfItems> sq = iconimagesq.GetValueAsSQ();
     // Is SQ empty ?
-    if( !sq ) return;
+    if( !sq || sq->IsEmpty() ) return;
     SequenceOfItems::ConstIterator it = sq->Begin();
     const DataSet &ds = it->GetNestedDataSet();
 
@@ -1034,8 +1034,18 @@ bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldat
           v[0] = jpeg.GetDimensions()[0];
           v[1] = jpeg.GetDimensions()[1];
           PixelData->SetDimensions( &v[0] );
-          //PixelData->SetPixelFormat( jpeg.GetPixelFormat() );
+          //PixelData->SetPixelFormat( jpeg.GetPixelFormat() ); // need to handle carefully
+          if( PixelData->GetPixelFormat().GetSamplesPerPixel() != jpeg.GetPixelFormat().GetSamplesPerPixel() )
+          {
+          gdcmDebugMacro( "Fix samples per pixel." );
+          PixelData->GetPixelFormat().SetSamplesPerPixel( jpeg.GetPixelFormat().GetSamplesPerPixel() );
+          }
           //PixelData->SetPhotometricInterpretation( jpeg.GetPhotometricInterpretation() );
+          if( PixelData->GetPhotometricInterpretation().GetSamplesPerPixel() != jpeg.GetPhotometricInterpretation().GetSamplesPerPixel() )
+          {
+          gdcmDebugMacro( "Fix photometric interpretation." );
+          PixelData->SetPhotometricInterpretation( jpeg.GetPhotometricInterpretation() );
+          }
           assert( PixelData->IsTransferSyntaxCompatible( ts ) );
           }
         else

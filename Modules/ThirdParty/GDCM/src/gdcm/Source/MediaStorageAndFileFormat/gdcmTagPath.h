@@ -23,7 +23,7 @@ namespace gdcm
 
 /**
  * \brief class to handle a path of tag.
- *
+ * \details 
  * Any Resemblance to Existing XPath is Purely Coincidental
  * ftp://medical.nema.org/medical/dicom/supps/sup118_pc.pdf
  */

@@ -319,6 +319,7 @@ public:
         // no attribute found, easy case !
         }
       }
+    assert( pFile == NULL );
     pFile = fopen(outfilename, "r+b");
     assert( pFile );
     CurrentDataLenth = 0;
@@ -357,26 +358,10 @@ public:
         return false;
         }
       // insert new data in between
-      FSeeko(pFile, thepos, SEEK_SET);
-      std::stringstream ss;
       const Tag tag = t;
-      if( TS.GetSwapCode() == SwapCode::BigEndian )
-        tag.Write<SwapperDoOp>(ss);
-      else
-        tag.Write<SwapperNoOp>(ss);
-      if( TS.GetNegociatedType() == TransferSyntax::Explicit )
-        {
-        VR un = VR::UN;
-        un.Write(ss);
-        }
       const VL vl = 0; // will be updated later (UpdateDataElement)
-      if( TS.GetSwapCode() == SwapCode::BigEndian )
-        vl.Write<SwapperDoOp>(ss);
-      else
-        vl.Write<SwapperNoOp>(ss);
-      const std::string dicomdata = ss.str();
-      fwrite(dicomdata.c_str(), 1, dicomdata.size(), pFile);
-      assert( dicomdata.size() == dicomlen );
+      const size_t ddsize = WriteHelper( thepos, tag, vl );
+      assert( ddsize == dicomlen );
       thepos += dicomlen;
       }
     else
@@ -470,7 +455,11 @@ public:
       cols.SetFromDataSet( ds );
       ba.SetFromDataSet( ds );
       nframes.SetFromDataSet( ds );
-      assert( ba.GetValue() % 8 == 0 );
+      if( ba.GetValue() % 8 != 0 )
+        {
+        gdcmErrorMacro( "old ACR NEMA file: " << ba.GetValue() );
+        return false;
+        }
       const size_t computedlength = spp.GetValue() * nframes.GetValue() * rows.GetValue() * cols.GetValue() * ( ba.GetValue() / 8 );
       if( computedlength != currentdatalenth )
         {
@@ -597,7 +586,9 @@ public:
       }
 
     const size_t pclen = dicomdata.size();
+    assert( pFile == NULL );
     pFile = fopen(outfilename, "r+b");
+    assert( pFile );
 
     if( !prepare_file( pFile, (off64_t)thepcpos, pclen ) )
       {
@@ -726,29 +717,35 @@ private:
         }
       vlpos -= 4; // Tag
       gdcmAssertAlwaysMacro( vlpos >= 0 );
-      FSeeko(pFile, vlpos, SEEK_SET);
-      std::stringstream ss;
       const Tag tag = t;
-      if( TS.GetSwapCode() == SwapCode::BigEndian )
-        tag.Write<SwapperDoOp>(ss);
-      else
-        tag.Write<SwapperNoOp>(ss);
-      if( TS.GetNegociatedType() == TransferSyntax::Explicit )
-        {
-        VR un = VR::UN;
-        un.Write(ss);
-        }
       gdcmAssertAlwaysMacro( CurrentDataLenth < std::numeric_limits<uint32_t>::max() );
       const VL vl = (uint32_t)CurrentDataLenth;
-      if( TS.GetSwapCode() == SwapCode::BigEndian )
-        vl.Write<SwapperDoOp>(ss);
-      else
-        vl.Write<SwapperNoOp>(ss);
-      const std::string dicomdata = ss.str();
-      fwrite(dicomdata.c_str(), 1, dicomdata.size(), pFile);
+      size_t ret = WriteHelper( vlpos, tag, vl );
+      (void)ret;
       CurrentDataLenth = 0;
       }
     return true;
+    }
+  size_t WriteHelper( off64_t offset, const Tag & tag, const VL & vl )
+    {
+    FSeeko(pFile, offset, SEEK_SET);
+    std::stringstream ss;
+    if( TS.GetSwapCode() == SwapCode::BigEndian )
+      tag.Write<SwapperDoOp>(ss);
+    else
+      tag.Write<SwapperNoOp>(ss);
+    if( TS.GetNegociatedType() == TransferSyntax::Explicit )
+      {
+      VR un = VR::UN;
+      un.Write(ss);
+      }
+    if( TS.GetSwapCode() == SwapCode::BigEndian )
+      vl.Write<SwapperDoOp>(ss);
+    else
+      vl.Write<SwapperNoOp>(ss);
+    const std::string dicomdata = ss.str();
+    fwrite(dicomdata.c_str(), 1, dicomdata.size(), pFile);
+    return dicomdata.size();
     }
 };
 
@@ -797,10 +794,13 @@ bool FileStreamer::InitializeCopy()
       Reader reader;
       reader.SetFileName( filename );
       if( !reader.Read() ) return false;
-      Writer writer;
-      writer.SetFileName( outfilename );
-      writer.SetFile( reader.GetFile() );
-      if( !writer.Write() ) return false;
+      if( strcmp( filename, outfilename ) )
+        {
+        Writer writer;
+        writer.SetFileName( outfilename );
+        writer.SetFile( reader.GetFile() );
+        if( !writer.Write() ) return false;
+        }
       }
     else
       {
@@ -808,10 +808,13 @@ bool FileStreamer::InitializeCopy()
       assert( outfilename );
       std::ifstream is( filename, std::ios::binary );
       if( !is.good() ) return false;
-      std::ofstream of( outfilename, std::ios::binary );
-      if( !of.good() ) return false;
-      of << is.rdbuf();
-      of.close();
+      if( strcmp( filename, outfilename ) )
+        {
+        std::ofstream of( outfilename, std::ios::binary );
+        if( !of.good() ) return false;
+        of << is.rdbuf();
+        of.close();
+        }
       is.close();
       }
     this->Internals->InitializeCopy = true;

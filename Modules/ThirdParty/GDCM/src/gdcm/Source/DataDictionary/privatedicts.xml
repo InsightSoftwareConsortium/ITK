@@ -4508,7 +4508,7 @@
   <entry owner="PRIVATE ORIGINAL ATTRIBUTES" group="0021" element="xx05" vr="DT" vm="1" name="Replacement Date and Time"/>
   <entry owner="PRIVATE ORIGINAL ATTRIBUTES" group="0021" element="xx10" vr="LO" vm="1" name="Replacement Originator Name"/>
   <entry owner="PRIVATE ORIGINAL ATTRIBUTES" group="0021" element="xx12" vr="LO" vm="1" name="Replacement Reason"/>
-  <entry owner="PRIVATE ORIGINAL ATTRIBUTES" group="0021" element="xx70" vr="PN" vm="1-n" name="Original Operators'Name"/>
+  <entry owner="PRIVATE ORIGINAL ATTRIBUTES" group="0021" element="xx70" vr="PN" vm="1-n" name="Original Operators' Name"/>
   <entry owner="Philips EV Imaging DD 017" group="2007" element="xxc1" vr="UI" vm="1" name="? SOP Instance UID ?"/>
   <entry owner="Philips EV Imaging DD 017" group="2007" element="xxc2" vr="DA" vm="1" name="?"/>
   <entry owner="Philips EV Imaging DD 017" group="2007" element="xxc3" vr="TM" vm="1" name="?"/>

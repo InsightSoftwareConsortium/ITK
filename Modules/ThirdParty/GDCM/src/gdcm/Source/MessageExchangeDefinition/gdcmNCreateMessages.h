@@ -23,7 +23,7 @@ class ULConnection;
 
 /**
  * \brief NCreateRQ
- * this file defines the messages for the ncreate action
+ * \details this file defines the messages for the ncreate action
  */
 class NCreateRQ : public BaseNormalizedMessage {
     public:

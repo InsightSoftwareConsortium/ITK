@@ -21,7 +21,7 @@ namespace gdcm
 
 /**
  * \brief ByteSwapFilter
- * In place byte-swapping of a dataset
+ * \details In place byte-swapping of a dataset
  * FIXME: FL status ??
  */
 class GDCM_EXPORT ByteSwapFilter

@@ -733,9 +733,9 @@ std::istream &FileMetaInformation::ReadCompatInternal(std::istream &is)
 //  if( t.GetGroup() == 0x0002 )
     {
     // Purposely not Re-use ReadVR since we can read VR_END
-    char vr_str[2];
-    is.read(vr_str, 2);
-    if( VR::IsValid(vr_str) )
+    char vr_str0[2];
+    is.read(vr_str0, 2);
+    if( VR::IsValid(vr_str0) )
       {
       MetaInformationTS = TransferSyntax::Explicit;
       // Hourah !
@@ -778,7 +778,34 @@ std::istream &FileMetaInformation::ReadCompatInternal(std::istream &is)
           }
         }
       // Now is a good time to find out the dataset transfer syntax
+      try {
       ComputeDataSetTransferSyntax();
+      } catch( gdcm::Exception & ) {
+        // We were able to read some of the Meta Header, but failed to compute the DataSetTS
+        // technically GDCM is able to cope with any value here. But be kind and try to have a good guess:
+     
+          gdcmWarningMacro( "Meta Header is bogus. Guessing DataSet TS." );
+  Tag t;
+  if( !t.Read<SwapperNoOp>(is) )
+    {
+    throw Exception( "Cannot read very first tag" );
+    }
+
+    char vr_str[3];
+    is.read(vr_str, 2);
+    vr_str[2] = '\0';
+    VR::VRType vr = VR::GetVRType(vr_str);
+    if( vr != VR::VR_END )
+      {
+      DataSetTS = TransferSyntax::ExplicitVRLittleEndian;
+      }
+    else
+      {
+      DataSetTS = TransferSyntax::ImplicitVRLittleEndian;
+      }
+    is.seekg(-6, std::ios::cur); // Seek back
+
+      }
       }
     }
 //  else

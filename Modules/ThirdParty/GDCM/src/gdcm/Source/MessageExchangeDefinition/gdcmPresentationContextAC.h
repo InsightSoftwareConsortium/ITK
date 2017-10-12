@@ -25,7 +25,7 @@ namespace network
 
 /**
  * \brief PresentationContextAC
- * Table 9-18
+ * \details Table 9-18
  * PRESENTATION CONTEXT ITEM FIELDS
  * \see PresentationContext
  */

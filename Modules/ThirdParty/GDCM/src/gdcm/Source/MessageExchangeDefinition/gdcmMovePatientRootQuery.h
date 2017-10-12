@@ -20,7 +20,7 @@ namespace gdcm
 {
 /**
  * \brief MovePatientRootQuery
- * contains: the class which will produce a dataset for c-move with patient root
+ * \details contains: the class which will produce a dataset for c-move with patient root
  */
 class GDCM_EXPORT MovePatientRootQuery : public BaseRootQuery
 {

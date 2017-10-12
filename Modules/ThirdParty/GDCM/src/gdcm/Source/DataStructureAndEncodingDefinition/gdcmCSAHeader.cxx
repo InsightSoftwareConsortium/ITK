@@ -1261,4 +1261,53 @@ const PrivateTag & CSAHeader::GetCSADataInfo()
   return t3;
 }
 
+bool CSAHeader::GetMrProtocol( const DataSet & ds, MrProtocol & mrProtocol )
+{
+  if(!ds.FindDataElement( t2 ) )
+    return false;
+  if( !LoadFromDataElement( ds.GetDataElement( t2 ) ) )
+    return false;
+
+  //  28 - 'MrProtocolVersion' VM 1, VR IS, SyngoDT 6, NoOfItems 6, Data '21710006'
+  int mrprotocolversion = 0;
+  static const char version[] = "MrProtocolVersion";
+  // This is not an error if we do not find the version:
+  if( FindCSAElementByName( version ) )
+  {
+    const CSAElement &csavers = GetCSAElementByName( version );
+    if( !csavers.IsEmpty() )
+    {
+      const ByteValue* bv = csavers.GetByteValue();
+      std::string str( bv->GetPointer(), bv->GetLength() );
+      std::istringstream is(str);
+      is >> mrprotocolversion;
+    }
+  }
+
+  static const char * candidates[] = {
+    "MrProtocol",
+    "MrPhoenixProtocol" 
+  };
+  static const int n = sizeof candidates / sizeof * candidates;
+  bool found = false;
+  for( int i = 0; i < n; ++i )
+  {
+    const char * candidate = candidates[i];
+    if( FindCSAElementByName( candidate ) )
+    {
+      // assume the correct one is the one that is not empty,
+      // ideally we should rely on the version...
+      const gdcm::CSAElement &csael = GetCSAElementByName( candidate );
+      if( !csael.IsEmpty() )
+      {
+        if( mrProtocol.Load(csael.GetByteValue(), candidate, mrprotocolversion) )
+        {
+          found = true;
+        }
+      }
+    }
+  }
+  return found;
+}
+
 } // end namespace gdcm

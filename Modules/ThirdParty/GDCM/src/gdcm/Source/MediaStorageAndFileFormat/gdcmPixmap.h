@@ -24,7 +24,7 @@ namespace gdcm
 
 /**
  * \brief Pixmap class
- * A bitmap based image. Used as parent for both IconImage and the main Pixel Data Image
+ * \details A bitmap based image. Used as parent for both IconImage and the main Pixel Data Image
  * It does not contains any World Space information (IPP, IOP)
  *
  * \see PixmapReader

@@ -21,7 +21,7 @@ namespace gdcm
 
 /**
  * \brief Class for generating unique UUID
- * generate DCE 1.1 uid
+ * \details generate DCE 1.1 uid
  */
 class GDCM_EXPORT UUIDGenerator
 {

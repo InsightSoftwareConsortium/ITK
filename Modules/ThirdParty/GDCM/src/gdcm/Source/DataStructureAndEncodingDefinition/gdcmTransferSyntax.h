@@ -80,9 +80,7 @@ public:
     RLELossless,
     MPEG2MainProfile,
     ImplicitVRBigEndianACRNEMA,
-#ifdef GDCM_SUPPORT_BROKEN_IMPLEMENTATION
     WeirdPapryus,
-#endif
     CT_private_ELE,
     JPIPReferenced,
     MPEG2MainProfileHighLevel,
