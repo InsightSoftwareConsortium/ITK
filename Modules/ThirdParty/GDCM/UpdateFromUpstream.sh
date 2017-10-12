@@ -28,9 +28,8 @@ readonly paths="
   Utilities/gdcm_ljpeg8.h
   Utilities/gdcmmd5
   Utilities/gdcm_md5.h
-  Utilities/gdcm_openjpeg2.h
   Utilities/gdcm_openjpeg.h
-  Utilities/gdcmopenjpeg-v2
+  Utilities/gdcmopenjpeg
   Utilities/gdcmrle
   Utilities/gdcmutfcpp
   Utilities/gdcmuuid
@@ -41,6 +40,11 @@ readonly paths="
 
 extract_source () {
     git_archive
+    pushd "${extractdir}/${name}-reduced"
+    fromdos \
+      Utilities/gdcmcharls/encoderstrategy.h \
+      Utilities/gdcmutfcpp/utf8.h
+    popd
 }
 
 . "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
