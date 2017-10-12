@@ -18,11 +18,12 @@ Links
 About
 -----
 
-ITK is an open-source, cross-platform C++ toolkit for segmentation and
-registration. Segmentation is the process of identifying and classifying
-data found in a digitally sampled representation. Typically the sampled
-representation is an image acquired from such medical instrumentation as
-CT or MRI scanners. Registration is the task of aligning or developing
+The National Library of Medicine Insight Segmentation and Registration Toolkit
+(ITK), or Insight Toolkit, is an open-source, cross-platform C++ toolkit for
+segmentation and registration. Segmentation is the process of identifying and
+classifying  data found in a digitally sampled representation. Typically the
+sampled representation is an image acquired from such medical instrumentation
+as CT or MRI scanners. Registration is the task of aligning or developing
 correspondences between data. For example, in the medical environment, a
 CT scan may be aligned with a MRI scan in order to combine the information
 contained in both.
