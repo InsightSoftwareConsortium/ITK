@@ -39,12 +39,14 @@ Manual changes:
 </xsl:comment>
 <xsl:text disable-output-escaping="yes">
 &lt;!DOCTYPE doc [
-  &lt;!ENTITY part7 SYSTEM "Part7.xml"&gt;
+  &lt;!ENTITY part7a SYSTEM "Part7a.xml"&gt;
+  &lt;!ENTITY part7b SYSTEM "Part7b.xml"&gt;
   ]&gt;
 </xsl:text>
 <dicts edition="2011">
 <xsl:text disable-output-escaping="yes">
-  &amp;part7;
+  &amp;part7a;
+  &amp;part7b;
 </xsl:text>
   <xsl:apply-templates select="*/*/dk:table[@xml:id='table_6-1']" mode="m1"/>
   <xsl:apply-templates select="*/*/dk:table[@xml:id='table_7-1']" mode="m1"/>

@@ -8,7 +8,6 @@ option(GDCM_SUPPORT_BROKEN_IMPLEMENTATION "Handle broken DICOM" ON)
 mark_as_advanced(
   GDCM_ALWAYS_TRACE_MACRO
   GDCM_SUPPORT_BROKEN_IMPLEMENTATION
-  GDCM_AUTOLOAD_GDCMJNI
   )
 
 #if(WIN32)
@@ -188,29 +187,29 @@ add_library(gdcmCommon ${Common_SRCS})
 
 #target_link_libraries(gdcmCommon ${GDCM_ZLIB_LIBRARIES}) # ${GDCM_POLARSSL_LIBRARIES})
 if(GDCM_BUILD_TESTING)
-target_link_libraries(gdcmCommon gdcmmd5 )
+  target_link_libraries(gdcmCommon LINK_PRIVATE gdcmmd5)
 endif()
 if(APPLE)
   if(GDCM_USE_COREFOUNDATION_LIBRARY)
-    target_link_libraries(gdcmCommon ${COREFOUNDATION_LIBRARY})
+    target_link_libraries(gdcmCommon LINK_PRIVATE ${COREFOUNDATION_LIBRARY})
   endif()
 endif()
 if(UNIX)
-  target_link_libraries(gdcmCommon ${CMAKE_DL_LIBS})
+  target_link_libraries(gdcmCommon LINK_PRIVATE ${CMAKE_DL_LIBS})
 endif()
 
 if(WIN32)
-  target_link_libraries(gdcmCommon ws2_32)
-  target_link_libraries(gdcmCommon crypt32)
+  target_link_libraries(gdcmCommon LINK_PRIVATE ws2_32)
+  target_link_libraries(gdcmCommon LINK_PRIVATE crypt32)
 endif()
 
 if(GDCM_USE_SYSTEM_OPENSSL)
   include_directories(${OPENSSL_INCLUDE_DIR})
-  target_link_libraries(gdcmCommon ${OPENSSL_LIBRARIES})
+  target_link_libraries(gdcmCommon LINK_PRIVATE ${OPENSSL_LIBRARIES})
 endif()
 set_target_properties(gdcmCommon PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
 if(BUILD_SHARED_LIBS)
-  set_target_properties(gdcmCommon PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
+  #set_target_properties(gdcmCommon PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
 endif()
 
 # libs

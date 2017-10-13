@@ -96,10 +96,10 @@ set(DICT_SRCS
   )
 
 add_library(gdcmDICT ${DICT_SRCS})
-target_link_libraries(gdcmDICT gdcmDSED gdcmIOD)
+target_link_libraries(gdcmDICT LINK_PRIVATE gdcmDSED gdcmIOD)
 set_target_properties(gdcmDICT PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
 if(BUILD_SHARED_LIBS)
-  set_target_properties(gdcmDICT PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
+  #set_target_properties(gdcmDICT PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
 endif()
 
 # libs
@@ -112,7 +112,8 @@ install_includes("*.h")
 set(XML_FILES
   ${CMAKE_CURRENT_SOURCE_DIR}/CSAHeader.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/Part6.xml
-  ${CMAKE_CURRENT_SOURCE_DIR}/Part7.xml
+  ${CMAKE_CURRENT_SOURCE_DIR}/Part7a.xml
+  ${CMAKE_CURRENT_SOURCE_DIR}/Part7b.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/UIDs.xml
   ${CMAKE_CURRENT_SOURCE_DIR}/cp699.xml
   )

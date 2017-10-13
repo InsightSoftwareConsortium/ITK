@@ -92,18 +92,18 @@ set(MessageExchangeDefinition_SRCS
   )
 
 add_library(gdcmMEXD ${MessageExchangeDefinition_SRCS})
-target_link_libraries(gdcmMEXD gdcmMSFF gdcmDICT gdcmDSED gdcmIOD)
+target_link_libraries(gdcmMEXD LINK_PRIVATE gdcmMSFF gdcmDICT gdcmDSED gdcmIOD)
 if(GDCM_USE_SYSTEM_SOCKETXX)
-  target_link_libraries(gdcmMEXD socket++)
+  target_link_libraries(gdcmMEXD LINK_PRIVATE socket++)
 else()
-  target_link_libraries(gdcmMEXD socketxx)
+  target_link_libraries(gdcmMEXD LINK_PRIVATE socketxx)
 endif()
 if(WIN32)
-  target_link_libraries(gdcmMEXD ws2_32)
+  target_link_libraries(gdcmMEXD LINK_PRIVATE ws2_32)
 endif()
 set_target_properties(gdcmMEXD PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
 if(BUILD_SHARED_LIBS)
-  set_target_properties(gdcmMEXD PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
+  #set_target_properties(gdcmMEXD PROPERTIES INTERFACE_LINK_LIBRARIES "" LINK_INTERFACE_LIBRARIES "")
 endif()
 
 # libs

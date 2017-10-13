@@ -189,9 +189,10 @@ if(GDCM_USE_PVRG)
 endif()
 
 # main libs:
-target_link_libraries(gdcmMSFF gdcmIOD gdcmDSED gdcmDICT ${GDCM_LJPEG_LIBRARIES} ${GDCM_OPENJPEG_LIBRARIES})
+target_link_libraries(gdcmMSFF LINK_PUBLIC gdcmIOD gdcmDSED gdcmDICT)
+target_link_libraries(gdcmMSFF LINK_PRIVATE ${GDCM_LJPEG_LIBRARIES} ${GDCM_OPENJPEG_LIBRARIES})
 if(GDCM_USE_JPEGLS)
-  target_link_libraries(gdcmMSFF ${GDCM_CHARLS_LIBRARIES})
+  target_link_libraries(gdcmMSFF LINK_PRIVATE ${GDCM_CHARLS_LIBRARIES})
 endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX AND MINGW)
@@ -206,20 +207,20 @@ endif()
 if(WIN32)
   # For UuidCreate
   # http://msdn.microsoft.com/en-us/library/aa379205(VS.85).aspx
-  target_link_libraries(gdcmMSFF rpcrt4)
+  target_link_libraries(gdcmMSFF LINK_PRIVATE rpcrt4)
 #endif()
 else()
-target_link_libraries(gdcmMSFF ${GDCMUUID})
+  target_link_libraries(gdcmMSFF LINK_PRIVATE ${GDCMUUID})
 endif()
 if(GDCM_USE_SYSTEM_JSON)
-target_link_libraries(gdcmMSFF ${JSON_LIBRARIES})
+  target_link_libraries(gdcmMSFF LINK_PRIVATE ${JSON_LIBRARIES})
 endif()
 # handling of static lib within shared is a mess:
 #target_link_libraries(gdcmMSFF gdcmrle)
 set_target_properties(gdcmMSFF PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
 if(BUILD_SHARED_LIBS)
-  set(_ill "gdcmDSED;gdcmDICT;gdcmIOD")
-  set_target_properties(gdcmMSFF PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
+  #set(_ill "gdcmDSED;gdcmDICT;gdcmIOD")
+  #set_target_properties(gdcmMSFF PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
 endif()
 
 # libs
