@@ -18,10 +18,12 @@ Manual changes:
 1. DateTime -> Date Time (0008,002a)
 -->
 <!DOCTYPE doc [
-  <!ENTITY part7 SYSTEM "Part7.xml">
+  <!ENTITY part7a SYSTEM "Part7a.xml">
+  <!ENTITY part7b SYSTEM "Part7b.xml">
   ]>
 <dicts edition="2011">
-  &part7;
+  &part7a;
+  &part7b;
 <dict ref="6" name="Registry of DICOM Data Elements">
         <entry group="0008" element="0001" keyword="LengthToEnd" vr="UL" vm="1" retired="true" name="Length to End"/>
         <entry group="0008" element="0005" keyword="SpecificCharacterSet" vr="CS" vm="1-n" name="Specific Character Set"/>

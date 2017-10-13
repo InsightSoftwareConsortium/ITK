@@ -2,7 +2,7 @@
 
   Program: GDCM (Grassroots DICOM). A DICOM library
 
-  Copyright (c) 2006-2011 Mathieu Malaterre
+  Copyright (c) 2006-2017 Mathieu Malaterre
   All rights reserved.
   See Copyright.txt or http://gdcm.sourceforge.net/Copyright.html for details.
 
@@ -136,23 +136,23 @@ SurfaceHelper::ColorArray SurfaceHelper::RGBToRecommendedDisplayCIELab(const std
 
   // Convert to range 0x0000-0xFFFF
   // 0xFFFF "=" 127, 0x8080 "=" 0, 0x0000 "=" -128
-    CIELab[0] = (unsigned short) (          0xFFFF           * (tmp[0]*0.01f));
-    if(tmp[1] >= -128 && tmp[1] <= 0)
-    {
-        CIELab[1] = (unsigned short)(((float)(0x8080)/128.0f)*tmp[1] + ((float)0x8080));
-    }
-    else if(tmp[1] <= 127 && tmp[1] > 0)
-    {
-        CIELab[1] = (unsigned short)(((float)(0xFFFF - 0x8080)/127.0f)*tmp[1] + (float)(0x8080));
-    }
-    if(tmp[2] >= -128 && tmp[2] <= 0)
-    {
-        CIELab[2] = (unsigned short)(((float)0x8080/128.0f)*tmp[2] + ((float)0x8080));
-    }
-    else if(tmp[2] <= 127 && tmp[2] > 0)
-    {
-        CIELab[2] = (unsigned short)(((float)(0xFFFF - 0x8080)/127.0f)*tmp[2] + (float)(0x8080));
-    }
+  CIELab[0] = (unsigned short) (          0xFFFF           * (tmp[0]*0.01f));
+  if(tmp[1] >= -128 && tmp[1] <= 0)
+  {
+      CIELab[1] = (unsigned short)(((float)(0x8080)/128.0f)*tmp[1] + ((float)0x8080));
+  }
+  else if(tmp[1] <= 127 && tmp[1] > 0)
+  {
+      CIELab[1] = (unsigned short)(((float)(0xFFFF - 0x8080)/127.0f)*tmp[1] + (float)(0x8080));
+  }
+  if(tmp[2] >= -128 && tmp[2] <= 0)
+  {
+      CIELab[2] = (unsigned short)(((float)0x8080/128.0f)*tmp[2] + ((float)0x8080));
+  }
+  else if(tmp[2] <= 127 && tmp[2] > 0)
+  {
+      CIELab[2] = (unsigned short)(((float)(0xFFFF - 0x8080)/127.0f)*tmp[2] + (float)(0x8080));
+  }
 
   return CIELab;
 }
@@ -168,23 +168,23 @@ std::vector<T> SurfaceHelper::RecommendedDisplayCIELabToRGB(const ColorArray & C
 
   // Convert to range 0-1
 
-    tmp[0] = 100.0f*CIELab[0] /(float)(0xFFFF);
-    if(CIELab[1] >= 0x0000 && CIELab[1] <= 0x8080)
-    {
-        tmp[1] = (float)(((CIELab[1] - 0x8080) * 128.0f)/(float)0x8080);
-    }
-    else if(CIELab[1] <= 0xFFFF && CIELab[1] > 0x8080)
-    {
-        tmp[1] = (float)((CIELab[1]-0x8080)*127.0f / (float)(0xFFFF - 0x8080));
-    }
-    if(CIELab[2] >= 0x0000 && CIELab[2] <= 0x8080)
-    {
-        tmp[2] = (float)(((CIELab[2] - 0x8080) * 128.0f)/(float)0x8080);
-    }
-    else if(CIELab[2] <= 0xFFFF && CIELab[2] > 0x8080)
-    {
-        tmp[2] = (float)((CIELab[2]-0x8080)*127.0f / (float)(0XFFFF - 0x8080));
-    }
+  tmp[0] = 100.0f*CIELab[0] /(float)(0xFFFF);
+  if(CIELab[1] <= 0x8080)
+  {
+      tmp[1] = (float)(((CIELab[1] - 0x8080) * 128.0f)/(float)0x8080);
+  }
+  else
+  {
+      tmp[1] = (float)((CIELab[1]-0x8080)*127.0f / (float)(0xFFFF - 0x8080));
+  }
+  if(CIELab[2] <= 0x8080)
+  {
+      tmp[2] = (float)(((CIELab[2] - 0x8080) * 128.0f)/(float)0x8080);
+  }
+  else
+  {
+      tmp[2] = (float)((CIELab[2]-0x8080)*127.0f / (float)(0XFFFF - 0x8080));
+  }
 
   tmp = SurfaceHelper::XYZToRGB( SurfaceHelper::CIELabToXYZ( tmp ) );
 

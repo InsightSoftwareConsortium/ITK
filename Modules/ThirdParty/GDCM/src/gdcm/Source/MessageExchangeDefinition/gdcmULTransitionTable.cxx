@@ -325,7 +325,7 @@ void ULTransitionTable::HandleEvent(Subject *s, ULEvent& inEvent, ULConnection& 
                                     bool& outWaitingForEvent, EEventID& outRaisedEvent) const{
   //first, find the Event
   EEventID eventID = inEvent.GetEvent();
-  if (eventID >= 0 && eventID < eEventDoesNotExist)
+  if (eventID < eEventDoesNotExist)
     { //make sure that the event exists
     //have to convert the state ID into an index
     int stateIndex = GetStateIndex(inConnection.GetState());
