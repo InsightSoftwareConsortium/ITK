@@ -132,7 +132,7 @@ public:
 
 protected:
   StatisticsLabelMapFilter();
-  ~StatisticsLabelMapFilter() {}
+  ~StatisticsLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 

@@ -112,7 +112,7 @@ public:
       }
   }
 
-  ~QuadraticTriangleCell() {}
+  ~QuadraticTriangleCell() ITK_OVERRIDE {}
 
 protected:
   /** Store the number of points needed for a triangle. */

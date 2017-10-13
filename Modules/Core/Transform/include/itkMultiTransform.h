@@ -280,7 +280,7 @@ public:
 
 protected:
   MultiTransform();
-  virtual ~MultiTransform();
+  virtual ~MultiTransform() ITK_OVERRIDE;
   virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   virtual void PushFrontTransform( TransformTypePointer t  )

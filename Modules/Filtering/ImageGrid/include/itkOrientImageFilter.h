@@ -267,7 +267,7 @@ public:
 
 protected:
   OrientImageFilter();
-  ~OrientImageFilter() {}
+  ~OrientImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** OrientImageFilter needs the entire input be

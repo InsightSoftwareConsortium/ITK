@@ -78,7 +78,7 @@ public:
 
 protected:
   ConvertLabelMapFilter() {}
-  ~ConvertLabelMapFilter() {}
+  ~ConvertLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void GenerateData() ITK_OVERRIDE;
 

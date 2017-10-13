@@ -62,7 +62,7 @@ public:
 
 protected:
   CoolColormapFunction() {}
-  ~CoolColormapFunction() {}
+  ~CoolColormapFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CoolColormapFunction);

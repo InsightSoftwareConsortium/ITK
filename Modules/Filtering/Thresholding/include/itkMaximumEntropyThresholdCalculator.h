@@ -70,7 +70,7 @@ public:
 
 protected:
   MaximumEntropyThresholdCalculator() {};
-  virtual ~MaximumEntropyThresholdCalculator() {};
+  virtual ~MaximumEntropyThresholdCalculator() ITK_OVERRIDE {};
   void GenerateData(void) ITK_OVERRIDE;
 
 private:

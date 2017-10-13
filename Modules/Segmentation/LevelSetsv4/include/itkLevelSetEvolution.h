@@ -414,7 +414,7 @@ public:
 
 protected:
   LevelSetEvolution();
-  virtual ~LevelSetEvolution();
+  virtual ~LevelSetEvolution() ITK_OVERRIDE;
 
   virtual void UpdateLevelSets() ITK_OVERRIDE;
 

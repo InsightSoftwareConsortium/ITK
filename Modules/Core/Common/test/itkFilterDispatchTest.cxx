@@ -80,7 +80,7 @@ protected:
   ExampleImageFilter() {}
   ExampleImageFilter(const Self&) {}
   void operator=(const Self&) {}
-  virtual ~ExampleImageFilter() {}
+  virtual ~ExampleImageFilter() ITK_OVERRIDE {}
 
 private:
   /**

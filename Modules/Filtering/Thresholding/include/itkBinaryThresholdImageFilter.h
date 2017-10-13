@@ -205,7 +205,7 @@ public:
 
 protected:
   BinaryThresholdImageFilter();
-  virtual ~BinaryThresholdImageFilter() {}
+  virtual ~BinaryThresholdImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method is used to set the state of the filter before

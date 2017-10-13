@@ -91,7 +91,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(CylinderSpatialObject);
 
   CylinderSpatialObject();
-  ~CylinderSpatialObject();
+  ~CylinderSpatialObject() ITK_OVERRIDE;
 
   double m_Radius;
   double m_Height;

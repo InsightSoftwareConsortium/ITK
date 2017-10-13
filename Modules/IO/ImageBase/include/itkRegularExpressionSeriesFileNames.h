@@ -114,7 +114,7 @@ protected:
     m_NumericSort(false),
     m_RegularExpression(".*\\.([0-9]+)")
   {}
-  ~RegularExpressionSeriesFileNames() {}
+  ~RegularExpressionSeriesFileNames() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

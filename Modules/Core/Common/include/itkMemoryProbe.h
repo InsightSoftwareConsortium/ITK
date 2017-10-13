@@ -42,7 +42,7 @@ class ITKCommon_EXPORT MemoryProbe:
 public:
 
   MemoryProbe();
-  ~MemoryProbe();
+  ~MemoryProbe() ITK_OVERRIDE;
 
   /** Type for measuring memory. */
   typedef SizeValueType MemoryLoadType;

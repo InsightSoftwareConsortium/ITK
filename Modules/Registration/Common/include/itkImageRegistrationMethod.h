@@ -213,7 +213,7 @@ public:
 
 protected:
   ImageRegistrationMethod();
-  virtual ~ImageRegistrationMethod() {}
+  virtual ~ImageRegistrationMethod() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */

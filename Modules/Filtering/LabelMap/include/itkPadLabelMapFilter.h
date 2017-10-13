@@ -112,7 +112,7 @@ protected:
     m_LowerBoundaryPadSize.Fill(0);
   }
 
-  ~PadLabelMapFilter() {}
+  ~PadLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 

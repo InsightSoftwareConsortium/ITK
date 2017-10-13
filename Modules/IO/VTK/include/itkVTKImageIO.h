@@ -104,7 +104,7 @@ public:
 
 protected:
   VTKImageIO();
-  ~VTKImageIO();
+  ~VTKImageIO() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

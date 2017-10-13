@@ -137,7 +137,7 @@ public:
 
 protected:
   ImportImageContainer();
-  virtual ~ImportImageContainer();
+  virtual ~ImportImageContainer() ITK_OVERRIDE;
 
   /** PrintSelf routine. Normally this is a protected internal method. It is
    * made public here so that Image can call this method.  Users should not

@@ -111,7 +111,7 @@ public:
 
 protected:
   MahalanobisDistanceMetric();
-  virtual ~MahalanobisDistanceMetric(void) {}
+  virtual ~MahalanobisDistanceMetric(void) ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

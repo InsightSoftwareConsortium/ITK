@@ -211,7 +211,7 @@ public:
 
 protected:
   LevelSetBase();
-  virtual ~LevelSetBase() {}
+  virtual ~LevelSetBase() ITK_OVERRIDE {}
 
   // If the RegionType is ITK_UNSTRUCTURED_REGION, then the following
   // variables represent the maximum number of region that the data

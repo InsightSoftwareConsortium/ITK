@@ -90,7 +90,7 @@ public:
 
 protected:
   SingleValuedNonLinearVnlOptimizer();
-  virtual ~SingleValuedNonLinearVnlOptimizer();
+  virtual ~SingleValuedNonLinearVnlOptimizer() ITK_OVERRIDE;
 
   typedef SingleValuedVnlCostFunctionAdaptor CostFunctionAdaptorType;
 

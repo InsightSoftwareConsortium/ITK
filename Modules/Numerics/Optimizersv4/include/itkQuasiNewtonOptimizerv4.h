@@ -186,7 +186,7 @@ protected:
   virtual void AdvanceOneStep(void) ITK_OVERRIDE;
 
   QuasiNewtonOptimizerv4Template();
-  virtual ~QuasiNewtonOptimizerv4Template();
+  virtual ~QuasiNewtonOptimizerv4Template() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

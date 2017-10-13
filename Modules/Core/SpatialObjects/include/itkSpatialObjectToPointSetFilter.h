@@ -89,7 +89,7 @@ public:
 
 protected:
   SpatialObjectToPointSetFilter();
-  ~SpatialObjectToPointSetFilter();
+  ~SpatialObjectToPointSetFilter() ITK_OVERRIDE;
 
   virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
   virtual void GenerateData() ITK_OVERRIDE;

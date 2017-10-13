@@ -132,7 +132,7 @@ public:
 
 protected:
   LevelSetNeighborhoodExtractor();
-  ~LevelSetNeighborhoodExtractor(){}
+  ~LevelSetNeighborhoodExtractor() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typename LevelSetImageType::PixelType GetLargeValue() const

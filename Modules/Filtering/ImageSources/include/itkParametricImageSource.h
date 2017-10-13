@@ -84,7 +84,7 @@ public:
 
 protected:
   ParametricImageSource() {};
-  virtual ~ParametricImageSource() {}
+  virtual ~ParametricImageSource() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 private:

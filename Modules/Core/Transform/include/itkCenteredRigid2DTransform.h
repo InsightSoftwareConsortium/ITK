@@ -159,9 +159,7 @@ public:
 
 protected:
   CenteredRigid2DTransform();
-  ~CenteredRigid2DTransform()
-  {
-  }
+  ~CenteredRigid2DTransform() ITK_OVERRIDE {}
 
   CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
 

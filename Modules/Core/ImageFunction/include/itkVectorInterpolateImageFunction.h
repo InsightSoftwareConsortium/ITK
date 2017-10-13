@@ -139,7 +139,7 @@ public:
 
 protected:
   VectorInterpolateImageFunction() {}
-  ~VectorInterpolateImageFunction() {}
+  ~VectorInterpolateImageFunction() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 

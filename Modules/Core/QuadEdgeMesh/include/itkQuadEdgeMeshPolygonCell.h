@@ -97,7 +97,7 @@ public:
   /** Object memory management methods. */
   QuadEdgeMeshPolygonCell(PointIdentifier nPoints = 0);
   QuadEdgeMeshPolygonCell(QuadEdgeType *e);
-  virtual ~QuadEdgeMeshPolygonCell();
+  virtual ~QuadEdgeMeshPolygonCell() ITK_OVERRIDE;
 
   /** Accessors for m_Ident. */
   void SetIdent(CellIdentifier cid) { m_Ident = cid; }

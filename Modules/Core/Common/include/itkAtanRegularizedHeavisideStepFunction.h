@@ -76,7 +76,7 @@ public:
 protected:
 
   AtanRegularizedHeavisideStepFunction();
-  virtual ~AtanRegularizedHeavisideStepFunction();
+  virtual ~AtanRegularizedHeavisideStepFunction() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AtanRegularizedHeavisideStepFunction);

@@ -115,7 +115,7 @@ protected:
   virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   RegionConstrainedSubsampler();
-  virtual ~RegionConstrainedSubsampler() {};
+  virtual ~RegionConstrainedSubsampler() ITK_OVERRIDE {};
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 

@@ -218,7 +218,7 @@ public:
 
 protected:
   TranslationTransform();
-  ~TranslationTransform();
+  ~TranslationTransform() ITK_OVERRIDE;
   /** Print contents of an TranslationTransform. */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

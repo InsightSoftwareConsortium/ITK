@@ -86,7 +86,7 @@ protected:
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   TransformFileReaderTemplate();
-  virtual ~TransformFileReaderTemplate();
+  virtual ~TransformFileReaderTemplate() ITK_OVERRIDE;
 
   TransformListType                 m_TransformList;
   typename TransformIOType::Pointer m_TransformIO;

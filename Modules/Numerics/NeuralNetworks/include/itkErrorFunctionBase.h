@@ -59,7 +59,7 @@ public:
 protected:
 
   ErrorFunctionBase(){};
-  ~ErrorFunctionBase(){};
+  ~ErrorFunctionBase() ITK_OVERRIDE {};
 
 private:
 

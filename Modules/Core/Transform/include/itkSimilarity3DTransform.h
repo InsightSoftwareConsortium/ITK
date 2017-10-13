@@ -133,9 +133,7 @@ protected:
   Similarity3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   Similarity3DTransform(unsigned int paramDim);
   Similarity3DTransform();
-  ~Similarity3DTransform()
-  {
-  }
+  ~Similarity3DTransform() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

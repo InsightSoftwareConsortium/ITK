@@ -126,7 +126,7 @@ public:
 
 protected:
   OneWayEquivalencyTable()  {}
-  virtual ~OneWayEquivalencyTable() {}
+  virtual ~OneWayEquivalencyTable() ITK_OVERRIDE {}
   ITK_DISALLOW_COPY_AND_ASSIGN(OneWayEquivalencyTable);
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

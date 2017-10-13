@@ -99,7 +99,7 @@ public:
 
 protected:
   ConvolutionImageFilter();
-  ~ConvolutionImageFilter() {}
+  ~ConvolutionImageFilter() ITK_OVERRIDE {}
 
   /** ConvolutionImageFilter needs the entire image kernel, which in
    * general is going to be a different size then the output requested

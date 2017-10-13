@@ -219,7 +219,7 @@ protected:
   AzimuthElevationToCartesianTransform();
 
   /** Destroy an AzimuthElevationToCartesianTransform object. */
-  virtual ~AzimuthElevationToCartesianTransform();
+  virtual ~AzimuthElevationToCartesianTransform() ITK_OVERRIDE;
 
   /** Print contents of an AzimuthElevationTransform. */
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;

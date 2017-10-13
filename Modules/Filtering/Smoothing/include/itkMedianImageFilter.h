@@ -97,7 +97,7 @@ public:
 
 protected:
   MedianImageFilter();
-  virtual ~MedianImageFilter() {}
+  virtual ~MedianImageFilter() ITK_OVERRIDE {}
 
   /** MedianImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

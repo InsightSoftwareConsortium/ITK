@@ -124,7 +124,7 @@ public:
 
 protected:
   ByteSwapper() {}
-  ~ByteSwapper() {}
+  ~ByteSwapper() ITK_OVERRIDE {}
 
   /** Swap 2 bytes. */
   static void Swap2(void *p);

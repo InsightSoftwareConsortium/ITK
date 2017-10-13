@@ -125,7 +125,7 @@ public:
 
 protected:
   GradientDescentOptimizer();
-  virtual ~GradientDescentOptimizer() {}
+  virtual ~GradientDescentOptimizer() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // made protected so subclass can access

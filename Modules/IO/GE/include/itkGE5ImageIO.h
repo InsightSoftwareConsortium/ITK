@@ -114,7 +114,7 @@ public:
 
 protected:
   GE5ImageIO();
-  ~GE5ImageIO();
+  ~GE5ImageIO() ITK_OVERRIDE;
 
   virtual GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;
 

@@ -99,7 +99,7 @@ public:
 
 protected:
   WrapPadImageFilter();
-  ~WrapPadImageFilter() {}
+  ~WrapPadImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WrapPadImageFilter);

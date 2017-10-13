@@ -203,7 +203,7 @@ public:
 
 protected:
   NumberOfFacesCriterion() {}
-  ~NumberOfFacesCriterion() {}
+  ~NumberOfFacesCriterion() ITK_OVERRIDE {}
 
 private:
   NumberOfFacesCriterion(const Self &);

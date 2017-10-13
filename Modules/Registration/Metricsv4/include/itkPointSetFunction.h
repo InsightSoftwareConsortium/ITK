@@ -107,7 +107,7 @@ public:
 
 protected:
   PointSetFunction();
-  virtual ~PointSetFunction();
+  virtual ~PointSetFunction() ITK_OVERRIDE;
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Const pointer to the input image. */

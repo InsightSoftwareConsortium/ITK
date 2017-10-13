@@ -93,7 +93,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
   ImageMaskSpatialObject();
-  virtual ~ImageMaskSpatialObject();
+  virtual ~ImageMaskSpatialObject() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };

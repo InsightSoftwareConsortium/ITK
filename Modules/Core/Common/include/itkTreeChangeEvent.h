@@ -47,7 +47,7 @@ public:
   TreeChangeEvent(const TreeIteratorBase< TTreeType > & position) { m_ChangePosition = &position; }
 
   /** Destructor */
-  virtual ~TreeChangeEvent() {}
+  virtual ~TreeChangeEvent() ITK_OVERRIDE {}
 
   /** Get the event name */
   virtual const char * GetEventName() const ITK_OVERRIDE { return "TreeChangeEvent"; }

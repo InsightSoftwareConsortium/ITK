@@ -90,7 +90,7 @@ public:
 
 protected:
   PadImageFilterBase();
-  ~PadImageFilterBase() {}
+  ~PadImageFilterBase() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** PadImageFilterBase needs a smaller input requested region than

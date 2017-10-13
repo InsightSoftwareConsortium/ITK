@@ -92,7 +92,7 @@ public:
 
 protected:
   TransformFileWriterTemplate();
-  virtual ~TransformFileWriterTemplate();
+  virtual ~TransformFileWriterTemplate() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

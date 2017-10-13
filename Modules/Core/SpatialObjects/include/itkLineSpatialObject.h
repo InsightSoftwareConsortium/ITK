@@ -118,7 +118,7 @@ protected:
   PointListType m_Points;
 
   LineSpatialObject();
-  virtual ~LineSpatialObject();
+  virtual ~LineSpatialObject() ITK_OVERRIDE;
 
   /** Method to print the object. */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

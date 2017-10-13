@@ -216,7 +216,7 @@ protected:
     m_Barrier = Barrier::New();
   }
 
-  virtual ~NarrowBandImageFilterBase() {}
+  virtual ~NarrowBandImageFilterBase() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   NarrowBandPointer m_NarrowBand;

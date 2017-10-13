@@ -164,7 +164,7 @@ public:
 
 protected:
   LabelVotingImageFilter();
-  virtual ~LabelVotingImageFilter() {}
+  virtual ~LabelVotingImageFilter() ITK_OVERRIDE {}
 
   /** Determine maximum label value in all input images and initialize
    * global data. */

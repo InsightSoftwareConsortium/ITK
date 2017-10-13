@@ -103,7 +103,7 @@ protected:
     {
     this->SetCalculator( CalculatorType::New() );
     }
-  ~MomentsThresholdImageFilter(){};
+  ~MomentsThresholdImageFilter() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MomentsThresholdImageFilter);

@@ -206,7 +206,7 @@ protected:
   SegmentTable() :
     m_MaximumDepth(0)
   {}
-  virtual ~SegmentTable() {}
+  virtual ~SegmentTable() ITK_OVERRIDE {}
 
   HashMapType m_HashMap;
 

@@ -69,7 +69,7 @@ public:
 
 protected:
   RenyiEntropyThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
-  virtual ~RenyiEntropyThresholdCalculator() {}
+  virtual ~RenyiEntropyThresholdCalculator() ITK_OVERRIDE {}
 
   void GenerateData(void) ITK_OVERRIDE;
 

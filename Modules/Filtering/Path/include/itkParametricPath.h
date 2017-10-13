@@ -118,7 +118,7 @@ public:
 
 protected:
   ParametricPath();
-  ~ParametricPath(){}
+  ~ParametricPath() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Default 1D input increment amount to trace along the path.  Also, the

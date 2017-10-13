@@ -693,7 +693,7 @@ protected:
   bool                                    m_UseFixedSampledPointSet;
 
   ImageToImageMetricv4();
-  virtual ~ImageToImageMetricv4();
+  virtual ~ImageToImageMetricv4() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 

@@ -425,7 +425,7 @@ public:
 protected:
 
   DisplacementFieldTransform();
-  virtual ~DisplacementFieldTransform();
+  virtual ~DisplacementFieldTransform() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** The displacement field and its inverse (if it exists). */

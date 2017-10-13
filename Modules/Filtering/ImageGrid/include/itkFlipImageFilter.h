@@ -115,7 +115,7 @@ public:
 
 protected:
   FlipImageFilter();
-  ~FlipImageFilter() {}
+  ~FlipImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** FlipImageFilter can be implemented as a multithreaded filter.

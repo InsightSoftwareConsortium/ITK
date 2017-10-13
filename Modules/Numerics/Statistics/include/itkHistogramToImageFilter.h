@@ -115,7 +115,7 @@ public:
 
 protected:
   HistogramToImageFilter();
-  ~HistogramToImageFilter();
+  ~HistogramToImageFilter() ITK_OVERRIDE;
 
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 

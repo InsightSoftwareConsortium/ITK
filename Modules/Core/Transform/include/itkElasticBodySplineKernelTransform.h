@@ -86,7 +86,7 @@ public:
 
 protected:
   ElasticBodySplineKernelTransform();
-  virtual ~ElasticBodySplineKernelTransform();
+  virtual ~ElasticBodySplineKernelTransform() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::GMatrixType GMatrixType;

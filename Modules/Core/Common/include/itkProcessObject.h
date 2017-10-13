@@ -452,7 +452,7 @@ public:
 
 protected:
   ProcessObject();
-  ~ProcessObject();
+  ~ProcessObject() ITK_OVERRIDE;
 
   /** \class ProcessObjectDomainThreader
    *  \brief Multi-threaded processing on a domain by processing sub-domains per

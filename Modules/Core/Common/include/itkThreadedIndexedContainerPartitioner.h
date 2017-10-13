@@ -83,7 +83,7 @@ public:
 
 protected:
   ThreadedIndexedContainerPartitioner();
-  virtual ~ThreadedIndexedContainerPartitioner();
+  virtual ~ThreadedIndexedContainerPartitioner() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadedIndexedContainerPartitioner);

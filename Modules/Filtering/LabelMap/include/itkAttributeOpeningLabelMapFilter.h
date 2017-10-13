@@ -103,7 +103,7 @@ public:
 
 protected:
   AttributeOpeningLabelMapFilter();
-  ~AttributeOpeningLabelMapFilter() {};
+  ~AttributeOpeningLabelMapFilter() ITK_OVERRIDE {};
 
   void GenerateData() ITK_OVERRIDE;
 

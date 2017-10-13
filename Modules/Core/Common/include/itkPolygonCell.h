@@ -131,7 +131,7 @@ public:
     this->BuildEdges();
   }
 
-  ~PolygonCell() {}
+  ~PolygonCell() ITK_OVERRIDE {}
 
 protected:
   std::vector< EdgeInfo >        m_Edges;

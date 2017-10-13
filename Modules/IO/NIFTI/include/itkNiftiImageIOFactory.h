@@ -59,7 +59,7 @@ public:
 
 protected:
   NiftiImageIOFactory();
-  ~NiftiImageIOFactory();
+  ~NiftiImageIOFactory() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

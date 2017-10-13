@@ -147,7 +147,7 @@ protected:
   void ComputeMatrix() ITK_OVERRIDE;
 
   /** Destroy an ScalableAffineTransform object   */
-  virtual ~ScalableAffineTransform();
+  virtual ~ScalableAffineTransform() ITK_OVERRIDE;
 
   /** Print contents of an ScalableAffineTransform */
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;

@@ -126,7 +126,7 @@ public:
   TriangleCell():
     m_PointIds( NumberOfPoints, NumericTraits< PointIdentifier >::max() )
   {}
-  ~TriangleCell() {}
+  ~TriangleCell() ITK_OVERRIDE {}
 
 protected:
   /** Store the number of points needed for a triangle. */

@@ -130,7 +130,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   BSplineUpsampleImageFilter();
-  virtual ~BSplineUpsampleImageFilter() {}
+  virtual ~BSplineUpsampleImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

@@ -110,7 +110,7 @@ protected:
     this->ProcessObject::SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
   }
-  virtual ~HistogramThresholdCalculator() {};
+  virtual ~HistogramThresholdCalculator() ITK_OVERRIDE {};
   using ProcessObject::SetInput;
 
 private:

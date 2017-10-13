@@ -149,7 +149,7 @@ public:
 
 protected:
   LabelMapOverlayImageFilter();
-  ~LabelMapOverlayImageFilter() {};
+  ~LabelMapOverlayImageFilter() ITK_OVERRIDE {};
 
   /** LabelMapOverlayImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

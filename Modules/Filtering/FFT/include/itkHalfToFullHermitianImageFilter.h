@@ -84,7 +84,7 @@ public:
 
 protected:
   HalfToFullHermitianImageFilter();
-  ~HalfToFullHermitianImageFilter() {}
+  ~HalfToFullHermitianImageFilter() ITK_OVERRIDE {}
 
   void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                             ThreadIdType threadId) ITK_OVERRIDE;

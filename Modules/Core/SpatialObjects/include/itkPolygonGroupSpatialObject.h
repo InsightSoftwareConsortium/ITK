@@ -103,7 +103,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObject);
 
   PolygonGroupSpatialObject(void) {}
-  ~PolygonGroupSpatialObject(void) {}
+  ~PolygonGroupSpatialObject(void) ITK_OVERRIDE {}
 };
 }
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -124,7 +124,7 @@ public:
 protected:
 
   ArrowSpatialObject();
-  virtual ~ArrowSpatialObject();
+  virtual ~ArrowSpatialObject() ITK_OVERRIDE;
 
   /** Update the transformation given the position and the direction */
   void UpdateTransform();

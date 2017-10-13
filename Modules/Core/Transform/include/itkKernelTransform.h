@@ -220,7 +220,7 @@ public:
 
 protected:
   KernelTransform();
-  virtual ~KernelTransform();
+  virtual ~KernelTransform() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 public:

@@ -117,7 +117,7 @@ public:
 protected:
   DenseFiniteDifferenceImageFilter()
   { m_UpdateBuffer = UpdateBufferType::New(); }
-  ~DenseFiniteDifferenceImageFilter() {}
+  ~DenseFiniteDifferenceImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** A simple method to copy the data from the input to the output.  ( Supports

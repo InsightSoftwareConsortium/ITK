@@ -82,7 +82,7 @@ public:
 
 protected:
   HeavisideStepFunctionBase() : Superclass() {}
-  virtual ~HeavisideStepFunctionBase() {}
+  virtual ~HeavisideStepFunctionBase() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HeavisideStepFunctionBase);

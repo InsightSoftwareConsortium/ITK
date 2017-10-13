@@ -473,7 +473,7 @@ public:
 #endif
 
 protected:
-  virtual ~SegmentationLevelSetImageFilter() {}
+  virtual ~SegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   SegmentationLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

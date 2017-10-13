@@ -202,7 +202,7 @@ protected:
   ScaleTransform();
 
   /** Destroy an ScaleTransform object. */
-  ~ScaleTransform();
+  ~ScaleTransform() ITK_OVERRIDE;
 
   /** Print contents of an ScaleTransform */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

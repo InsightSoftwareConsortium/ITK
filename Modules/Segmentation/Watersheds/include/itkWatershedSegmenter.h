@@ -266,7 +266,7 @@ protected:
 
   Segmenter();
   Segmenter(const Self &) {}
-  virtual ~Segmenter();
+  virtual ~Segmenter() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void operator=(const Self &) {}

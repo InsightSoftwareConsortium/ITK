@@ -375,7 +375,7 @@ public:
 
 protected:
   LBFGS2Optimizerv4();
-  virtual ~LBFGS2Optimizerv4();
+  virtual ~LBFGS2Optimizerv4() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 

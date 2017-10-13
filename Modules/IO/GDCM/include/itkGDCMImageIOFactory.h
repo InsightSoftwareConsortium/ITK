@@ -58,7 +58,7 @@ public:
 
 protected:
   GDCMImageIOFactory();
-  ~GDCMImageIOFactory();
+  ~GDCMImageIOFactory() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GDCMImageIOFactory);

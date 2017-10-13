@@ -95,7 +95,7 @@ public:
       }
   }
 
-  ~QuadraticEdgeCell() {}
+  ~QuadraticEdgeCell() ITK_OVERRIDE {}
 
   /** Given the parametric coordinates of a point in the cell
    * returned the values of its ShapeFunctions */

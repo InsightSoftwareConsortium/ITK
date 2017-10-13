@@ -76,7 +76,7 @@ public:
 
 protected:
   SingleValuedNonLinearOptimizer();
-  virtual ~SingleValuedNonLinearOptimizer() {}
+  virtual ~SingleValuedNonLinearOptimizer() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   CostFunctionPointer m_CostFunction;

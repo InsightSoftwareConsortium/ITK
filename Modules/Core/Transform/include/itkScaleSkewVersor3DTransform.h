@@ -146,9 +146,7 @@ protected:
   ScaleSkewVersor3DTransform();
   ScaleSkewVersor3DTransform(const MatrixType & matrix, const OutputVectorType & offset);
   ScaleSkewVersor3DTransform(unsigned int paramDims);
-  ~ScaleSkewVersor3DTransform()
-  {
-  }
+  ~ScaleSkewVersor3DTransform() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

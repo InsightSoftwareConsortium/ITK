@@ -85,7 +85,7 @@ public:
 
 protected:
   CyclicShiftImageFilter();
-  ~CyclicShiftImageFilter() {}
+  ~CyclicShiftImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This filter needs the entire input be available so it needs to

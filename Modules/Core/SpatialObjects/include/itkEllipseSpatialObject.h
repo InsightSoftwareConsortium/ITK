@@ -103,7 +103,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(EllipseSpatialObject);
 
   EllipseSpatialObject();
-  ~EllipseSpatialObject();
+  ~EllipseSpatialObject() ITK_OVERRIDE;
 
   ArrayType m_Radius;
 

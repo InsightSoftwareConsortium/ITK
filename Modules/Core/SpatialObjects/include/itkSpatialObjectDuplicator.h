@@ -66,7 +66,7 @@ public:
 
 protected:
   SpatialObjectDuplicator();
-  virtual ~SpatialObjectDuplicator() {}
+  virtual ~SpatialObjectDuplicator() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void CopyObject(const InternalSpatialObjectType *source,

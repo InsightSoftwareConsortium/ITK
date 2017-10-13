@@ -120,7 +120,7 @@ public:
       }
   }
 
-  ~TetrahedronCell() {}
+  ~TetrahedronCell() ITK_OVERRIDE {}
 
 protected:
   /** Store the number of points needed for a tetrahedron. */

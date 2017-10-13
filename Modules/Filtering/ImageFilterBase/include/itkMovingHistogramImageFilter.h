@@ -135,7 +135,7 @@ public:
 
 protected:
   MovingHistogramImageFilter();
-  ~MovingHistogramImageFilter() {}
+  ~MovingHistogramImageFilter() ITK_OVERRIDE {}
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &

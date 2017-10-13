@@ -721,7 +721,7 @@ protected:
   KdTree();
 
   /** Destructor: deletes the root node and the empty terminal node. */
-  virtual ~KdTree();
+  virtual ~KdTree() ITK_OVERRIDE;
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 

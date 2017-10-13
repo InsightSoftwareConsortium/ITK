@@ -294,7 +294,7 @@ protected:
   AffineTransform();
 
   /** Destroy an AffineTransform object   */
-  virtual ~AffineTransform();
+  virtual ~AffineTransform() ITK_OVERRIDE;
 
   /** Print contents of an AffineTransform */
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;

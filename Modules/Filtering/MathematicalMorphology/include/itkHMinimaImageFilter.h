@@ -117,7 +117,7 @@ public:
 
 protected:
   HMinimaImageFilter();
-  ~HMinimaImageFilter() {}
+  ~HMinimaImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** HMinimaImageFilter needs the entire input be

@@ -87,7 +87,7 @@ public:
 
 protected:
   BSplineResampleImageFunction() {}
-  virtual ~BSplineResampleImageFunction() {}
+  virtual ~BSplineResampleImageFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineResampleImageFunction);

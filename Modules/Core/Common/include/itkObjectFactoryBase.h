@@ -217,7 +217,7 @@ protected:
   CreateAllObject(const char *itkclassname);
 
   ObjectFactoryBase();
-  virtual ~ObjectFactoryBase();
+  virtual ~ObjectFactoryBase() ITK_OVERRIDE;
 
 private:
   OverRideMap *m_OverrideMap;

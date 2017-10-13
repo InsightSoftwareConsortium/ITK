@@ -63,7 +63,7 @@ public:
 
 protected:
   WinterColormapFunction() {}
-  ~WinterColormapFunction() {}
+  ~WinterColormapFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WinterColormapFunction);

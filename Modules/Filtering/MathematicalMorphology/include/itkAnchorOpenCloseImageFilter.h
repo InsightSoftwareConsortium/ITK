@@ -85,7 +85,7 @@ public:
 
 protected:
   AnchorOpenCloseImageFilter();
-  ~AnchorOpenCloseImageFilter() {}
+  ~AnchorOpenCloseImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */

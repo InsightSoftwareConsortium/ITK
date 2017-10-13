@@ -60,7 +60,7 @@ public:
   TimeProbe();
 
   /** Destructor */
-  virtual ~TimeProbe();
+  virtual ~TimeProbe() ITK_OVERRIDE;
 
   /** Get the current time.
    *  Warning: the returned value is not the elapsed time since the last Start() call.

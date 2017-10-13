@@ -107,7 +107,7 @@ protected:
   FixedCenterOfRotationAffineTransform();
 
   /** Destroy an FixedCenterOfRotationAffineTransform object   */
-  virtual ~FixedCenterOfRotationAffineTransform();
+  virtual ~FixedCenterOfRotationAffineTransform() ITK_OVERRIDE;
 
 private:
   FixedCenterOfRotationAffineTransform(const Self & other);

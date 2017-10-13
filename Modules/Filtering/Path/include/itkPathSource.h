@@ -172,7 +172,7 @@ public:
 
 protected:
   PathSource();
-  virtual ~PathSource() {}
+  virtual ~PathSource() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // Inherit the empty ProcessObject::GenerateData()

@@ -148,7 +148,7 @@ public:
 
 protected:
   AmoebaOptimizer();
-  virtual ~AmoebaOptimizer();
+  virtual ~AmoebaOptimizer() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;

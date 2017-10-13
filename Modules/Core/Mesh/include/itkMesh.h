@@ -437,7 +437,7 @@ public:
 protected:
   /** Constructor for use by New() method. */
   Mesh();
-  ~Mesh();
+  ~Mesh() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Release the memory allocated for the cells pointers. This is done

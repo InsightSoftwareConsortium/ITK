@@ -105,7 +105,7 @@ protected:
     this->m_Frequency = static_cast<TRealValueType>(0.4);
     this->m_PhaseOffset = NumericTraits< TRealValueType >::ZeroValue();
     }
-  ~GaborKernelFunction() {};
+  ~GaborKernelFunction() ITK_OVERRIDE {};
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
     {
     Superclass::PrintSelf(os, indent);

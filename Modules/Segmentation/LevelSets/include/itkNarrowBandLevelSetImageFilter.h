@@ -356,7 +356,7 @@ public:
 #endif
 
 protected:
-  virtual ~NarrowBandLevelSetImageFilter() {}
+  virtual ~NarrowBandLevelSetImageFilter() ITK_OVERRIDE {}
   NarrowBandLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

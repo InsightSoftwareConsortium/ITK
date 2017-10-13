@@ -57,7 +57,7 @@ public:
 protected:
 
   SumInputFunction();
-  virtual ~SumInputFunction();
+  virtual ~SumInputFunction() ITK_OVERRIDE;
 
   unsigned int m_Size;
 

@@ -105,7 +105,7 @@ protected:
 
   MalcolmSparseLevelSetImage();
 
-  virtual ~MalcolmSparseLevelSetImage();
+  virtual ~MalcolmSparseLevelSetImage() ITK_OVERRIDE;
 
   /** Initialize the sparse field layers */
   virtual void InitializeLayers() ITK_OVERRIDE;

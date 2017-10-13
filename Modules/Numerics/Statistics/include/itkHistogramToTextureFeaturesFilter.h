@@ -202,7 +202,7 @@ public:
 
 protected:
   HistogramToTextureFeaturesFilter();
-  ~HistogramToTextureFeaturesFilter() {}
+  ~HistogramToTextureFeaturesFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Make a DataObject to be used for output output. */

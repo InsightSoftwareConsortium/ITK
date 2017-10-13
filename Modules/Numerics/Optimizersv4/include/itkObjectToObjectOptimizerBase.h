@@ -218,7 +218,7 @@ protected:
 
   /** Default constructor */
   ObjectToObjectOptimizerBaseTemplate();
-  virtual ~ObjectToObjectOptimizerBaseTemplate();
+  virtual ~ObjectToObjectOptimizerBaseTemplate() ITK_OVERRIDE;
 
   MetricTypePointer             m_Metric;
   ThreadIdType                  m_NumberOfThreads;

@@ -65,7 +65,7 @@ public:
 
 protected:
   MinimumDecisionRule() {}
-  virtual ~MinimumDecisionRule() {}
+  virtual ~MinimumDecisionRule() ITK_OVERRIDE {}
 
 };  // end of class
 } // end of namespace Statistics

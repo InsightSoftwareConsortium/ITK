@@ -181,7 +181,7 @@ protected:
   BilateralImageFilter();
 
   /** Destructor. */
-  virtual ~BilateralImageFilter() {}
+  virtual ~BilateralImageFilter() ITK_OVERRIDE {}
 
   /** PrintSelf. */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

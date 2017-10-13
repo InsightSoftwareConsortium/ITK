@@ -124,7 +124,7 @@ public:
 
 protected:
   ImageGaussianModelEstimator();
-  ~ImageGaussianModelEstimator();
+  ~ImageGaussianModelEstimator() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Starts the image modelling process */

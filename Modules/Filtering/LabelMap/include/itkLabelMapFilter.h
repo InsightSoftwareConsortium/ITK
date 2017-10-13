@@ -99,7 +99,7 @@ public:
 
 protected:
   LabelMapFilter();
-  ~LabelMapFilter();
+  ~LabelMapFilter() ITK_OVERRIDE;
 
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 

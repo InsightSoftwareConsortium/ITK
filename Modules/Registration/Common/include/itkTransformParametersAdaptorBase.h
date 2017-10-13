@@ -89,7 +89,7 @@ public:
 
 protected:
   TransformParametersAdaptorBase() {}
-  ~TransformParametersAdaptorBase() {}
+  ~TransformParametersAdaptorBase() ITK_OVERRIDE {}
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE
   {

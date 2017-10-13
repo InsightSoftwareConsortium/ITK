@@ -122,7 +122,7 @@ public:
 
 protected:
   VotingBinaryImageFilter();
-  virtual ~VotingBinaryImageFilter() {}
+  virtual ~VotingBinaryImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** VotingBinaryImageFilter can be implemented as a multithreaded filter.

@@ -74,7 +74,7 @@ public:
 
 protected:
   FileOutputWindow();
-  virtual ~FileOutputWindow();
+  virtual ~FileOutputWindow() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void Initialize();

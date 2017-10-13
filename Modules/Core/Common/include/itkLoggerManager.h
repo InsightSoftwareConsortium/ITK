@@ -96,7 +96,7 @@ protected:
   LoggerManager() {}
 
   /** Destructor */
-  virtual ~LoggerManager() {}
+  virtual ~LoggerManager() ITK_OVERRIDE {}
 
   /** Print contents of a LoggerManager */
   virtual void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;

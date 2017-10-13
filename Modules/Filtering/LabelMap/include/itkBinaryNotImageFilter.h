@@ -122,7 +122,7 @@ protected:
     m_ForegroundValue = NumericTraits<PixelType>::max();
     m_BackgroundValue = NumericTraits<PixelType>::NonpositiveMin();
     }
-  virtual ~BinaryNotImageFilter() {}
+  virtual ~BinaryNotImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
     {

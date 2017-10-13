@@ -118,7 +118,7 @@ public:
 protected:
   LevelSetEquationPropagationTerm();
 
-  virtual ~LevelSetEquationPropagationTerm();
+  virtual ~LevelSetEquationPropagationTerm() ITK_OVERRIDE;
 
   PropagationImagePointer m_PropagationImage;
 

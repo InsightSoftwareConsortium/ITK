@@ -114,7 +114,7 @@ protected:
   NeighborhoodOperatorImageFunction();
   NeighborhoodOperatorImageFunction(const Self &){}
 
-  ~NeighborhoodOperatorImageFunction(){}
+  ~NeighborhoodOperatorImageFunction() ITK_OVERRIDE {}
 
   void operator=(const Self &){}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

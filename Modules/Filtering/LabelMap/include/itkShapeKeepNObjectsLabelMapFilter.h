@@ -110,7 +110,7 @@ public:
 
 protected:
   ShapeKeepNObjectsLabelMapFilter();
-  ~ShapeKeepNObjectsLabelMapFilter() {}
+  ~ShapeKeepNObjectsLabelMapFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

@@ -113,7 +113,7 @@ public:
 
   /** Destructor. ImageRegion is a lightweight object that is not reference
    * counted, so the destructor is public. */
-  virtual ~ImageRegion();
+  virtual ~ImageRegion() ITK_OVERRIDE;
 
   /** Copy constructor. ImageRegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */

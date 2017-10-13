@@ -187,7 +187,7 @@ public:
 protected:
 
   ConstantVelocityFieldTransform();
-  virtual ~ConstantVelocityFieldTransform();
+  virtual ~ConstantVelocityFieldTransform() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */

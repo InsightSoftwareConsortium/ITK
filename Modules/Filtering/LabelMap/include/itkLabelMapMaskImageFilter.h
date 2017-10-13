@@ -149,7 +149,7 @@ public:
 
 protected:
   LabelMapMaskImageFilter();
-  ~LabelMapMaskImageFilter() {};
+  ~LabelMapMaskImageFilter() ITK_OVERRIDE {};
 
   /** LabelMapMaskImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

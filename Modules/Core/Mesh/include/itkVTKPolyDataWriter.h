@@ -93,7 +93,7 @@ public:
 
 protected:
   VTKPolyDataWriter();
-  virtual ~VTKPolyDataWriter();
+  virtual ~VTKPolyDataWriter() ITK_OVERRIDE;
 
   virtual void GenerateData();
 

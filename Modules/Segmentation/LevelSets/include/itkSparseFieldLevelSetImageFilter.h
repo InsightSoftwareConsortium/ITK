@@ -325,7 +325,7 @@ public:
 
 protected:
   SparseFieldLevelSetImageFilter();
-  ~SparseFieldLevelSetImageFilter();
+  ~SparseFieldLevelSetImageFilter() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**This function allows a subclass to override the way in which updates to

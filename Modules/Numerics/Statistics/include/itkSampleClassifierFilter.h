@@ -127,7 +127,7 @@ public:
 
 protected:
   SampleClassifierFilter();
-  virtual ~SampleClassifierFilter() {}
+  virtual ~SampleClassifierFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(SampleClassifierFilter);

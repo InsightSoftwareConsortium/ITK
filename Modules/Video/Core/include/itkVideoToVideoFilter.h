@@ -121,7 +121,7 @@ protected:
   virtual void BeforeTemporalStreamingGenerateData() ITK_OVERRIDE;
 
   VideoToVideoFilter();
-  virtual ~VideoToVideoFilter();
+  virtual ~VideoToVideoFilter() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

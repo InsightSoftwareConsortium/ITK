@@ -115,7 +115,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(GaussianSpatialObject);
 
   GaussianSpatialObject();
-  ~GaussianSpatialObject();
+  ~GaussianSpatialObject() ITK_OVERRIDE;
 
   ScalarType m_Maximum;
   ScalarType m_Radius;

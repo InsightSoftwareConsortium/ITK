@@ -283,7 +283,7 @@ protected:
   SpecialCoordinatesImage();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual ~SpecialCoordinatesImage() {}
+  virtual ~SpecialCoordinatesImage() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpecialCoordinatesImage);

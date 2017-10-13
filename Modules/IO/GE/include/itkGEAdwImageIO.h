@@ -110,7 +110,7 @@ public:
 
 protected:
   GEAdwImageIO();
-  ~GEAdwImageIO();
+  ~GEAdwImageIO() ITK_OVERRIDE;
   // Implemented in superclass
   //      void PrintSelf(std::ostream& os, Indent indent) const;
   virtual GEImageHeader * ReadHeader(const char *FileNameToRead) ITK_OVERRIDE;

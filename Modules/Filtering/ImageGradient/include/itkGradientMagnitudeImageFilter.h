@@ -112,7 +112,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~GradientMagnitudeImageFilter() {}
+  virtual ~GradientMagnitudeImageFilter() ITK_OVERRIDE {}
 
   /** GradientMagnitudeImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

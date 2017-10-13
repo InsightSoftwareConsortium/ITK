@@ -62,7 +62,7 @@ public:
 
 protected:
   BlueColormapFunction() {}
-  ~BlueColormapFunction() {}
+  ~BlueColormapFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BlueColormapFunction);

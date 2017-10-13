@@ -79,7 +79,7 @@ protected:
 
   /** Constructor */
   SpatialObjectTreeNode();
-  virtual ~SpatialObjectTreeNode(){}
+  virtual ~SpatialObjectTreeNode() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   TransformPointer m_NodeToParentNodeTransform;

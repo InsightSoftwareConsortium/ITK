@@ -316,7 +316,7 @@ public:
 
 protected:
   ImageToImageMetric();
-  virtual ~ImageToImageMetric();
+  virtual ~ImageToImageMetric() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

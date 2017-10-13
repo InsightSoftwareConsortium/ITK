@@ -374,7 +374,7 @@ public:
 
 protected:
   CompositeTransform();
-  virtual ~CompositeTransform();
+  virtual ~CompositeTransform() ITK_OVERRIDE;
   virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */

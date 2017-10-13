@@ -127,9 +127,7 @@ protected:
   Euler3DTransform(unsigned int paramsSpaceDims);
   Euler3DTransform();
 
-  ~Euler3DTransform()
-  {
-  }
+  ~Euler3DTransform() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

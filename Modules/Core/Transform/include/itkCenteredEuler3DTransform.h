@@ -115,7 +115,7 @@ protected:
   CenteredEuler3DTransform();
   CenteredEuler3DTransform(const MatrixType & matrix, const OutputPointType & offset);
   CenteredEuler3DTransform(unsigned int ParametersDimension);
-  ~CenteredEuler3DTransform();
+  ~CenteredEuler3DTransform() ITK_OVERRIDE;
 
   /**
    * Print contents of an CenteredEuler3DTransform

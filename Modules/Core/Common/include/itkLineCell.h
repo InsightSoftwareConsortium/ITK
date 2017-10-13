@@ -100,7 +100,7 @@ public:
       }
   }
 
-  ~LineCell() {}
+  ~LineCell() ITK_OVERRIDE {}
 
 protected:
   /** Store number of points needed for a line segment. */

@@ -54,7 +54,7 @@ public:
 
 protected:
   ImageIOFactory();
-  ~ImageIOFactory();
+  ~ImageIOFactory() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageIOFactory);

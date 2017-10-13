@@ -47,7 +47,7 @@ public:
 
 protected:
   FastMarchingBaseTestHelper() {}
-  ~FastMarchingBaseTestHelper() {}
+  ~FastMarchingBaseTestHelper() ITK_OVERRIDE {}
 
   IdentifierType GetTotalNumberOfNodes() const ITK_OVERRIDE
     { return 1; }

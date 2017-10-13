@@ -65,7 +65,7 @@ public:
 
 protected:
   VnlComplexToComplexFFTImageFilter();
-  virtual ~VnlComplexToComplexFFTImageFilter() {}
+  virtual ~VnlComplexToComplexFFTImageFilter() ITK_OVERRIDE {}
 
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
   virtual void ThreadedGenerateData(const OutputImageRegionType& outputRegionForThread, ThreadIdType itkNotUsed(threadId) ) ITK_OVERRIDE;

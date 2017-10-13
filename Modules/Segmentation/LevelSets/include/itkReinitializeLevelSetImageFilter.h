@@ -132,7 +132,7 @@ public:
 
 protected:
   ReinitializeLevelSetImageFilter();
-  ~ReinitializeLevelSetImageFilter(){}
+  ~ReinitializeLevelSetImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Internal typedefs. */

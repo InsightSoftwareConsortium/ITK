@@ -118,7 +118,7 @@ protected:
   SceneSpatialObject();
 
   /** destructor */
-  virtual ~SceneSpatialObject();
+  virtual ~SceneSpatialObject() ITK_OVERRIDE;
 
   /** Print the object informations in a stream. */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

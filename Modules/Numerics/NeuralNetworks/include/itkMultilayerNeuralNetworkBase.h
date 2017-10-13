@@ -112,7 +112,7 @@ public:
 
 protected:
   MultilayerNeuralNetworkBase();
-  ~MultilayerNeuralNetworkBase();
+  ~MultilayerNeuralNetworkBase() ITK_OVERRIDE;
 
   LayerVectorType                                   m_Layers;
   WeightVectorType                                  m_Weights;

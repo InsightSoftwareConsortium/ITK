@@ -71,7 +71,7 @@ public:
 
 protected:
   SpatialFunction();
-  virtual ~SpatialFunction();
+  virtual ~SpatialFunction() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

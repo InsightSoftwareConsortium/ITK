@@ -98,7 +98,7 @@ public:
 
 protected:
   UnaryFunctorImageFilter();
-  virtual ~UnaryFunctorImageFilter() {}
+  virtual ~UnaryFunctorImageFilter() ITK_OVERRIDE {}
 
   /** UnaryFunctorImageFilter can produce an image which is a different
    * resolution than its input image.  As such, UnaryFunctorImageFilter

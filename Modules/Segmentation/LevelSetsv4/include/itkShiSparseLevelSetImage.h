@@ -103,7 +103,7 @@ protected:
 
   ShiSparseLevelSetImage();
 
-  virtual ~ShiSparseLevelSetImage();
+  virtual ~ShiSparseLevelSetImage() ITK_OVERRIDE;
 
   /** Initialize the sparse field layers */
   virtual void InitializeLayers() ITK_OVERRIDE;

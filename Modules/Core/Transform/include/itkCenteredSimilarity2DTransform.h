@@ -167,7 +167,7 @@ protected:
   CenteredSimilarity2DTransform();
   CenteredSimilarity2DTransform(unsigned int spaceDimension, unsigned int parametersDimension);
 
-  virtual ~CenteredSimilarity2DTransform() {}
+  virtual ~CenteredSimilarity2DTransform() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

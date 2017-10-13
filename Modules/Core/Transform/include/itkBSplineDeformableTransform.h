@@ -316,7 +316,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   BSplineDeformableTransform();
-  virtual ~BSplineDeformableTransform();
+  virtual ~BSplineDeformableTransform() ITK_OVERRIDE;
 
 private:
 

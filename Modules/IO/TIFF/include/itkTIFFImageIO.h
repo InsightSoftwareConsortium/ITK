@@ -139,7 +139,7 @@ public:
 
 protected:
   TIFFImageIO();
-  ~TIFFImageIO();
+  ~TIFFImageIO() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void InternalWrite(const void *buffer);

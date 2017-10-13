@@ -97,7 +97,7 @@ public:
 
 protected:
   LoggerOutput():m_Logger(ITK_NULLPTR) {}
-  virtual ~LoggerOutput() {}
+  virtual ~LoggerOutput() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

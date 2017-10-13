@@ -114,7 +114,7 @@ public:
 
 protected:
   FiniteDifferenceSparseImageFilter();
-  ~FiniteDifferenceSparseImageFilter() {}
+  ~FiniteDifferenceSparseImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method splits the active pixels of the sparse image into equal size

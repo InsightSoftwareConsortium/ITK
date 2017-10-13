@@ -59,7 +59,7 @@ public:
 
 protected:
   JPEGImageIOFactory();
-  ~JPEGImageIOFactory();
+  ~JPEGImageIOFactory() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEGImageIOFactory);

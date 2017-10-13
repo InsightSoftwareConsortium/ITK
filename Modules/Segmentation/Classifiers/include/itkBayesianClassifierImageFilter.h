@@ -205,7 +205,7 @@ public:
 protected:
 
   BayesianClassifierImageFilter();
-  virtual ~BayesianClassifierImageFilter() {}
+  virtual ~BayesianClassifierImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GenerateData() ITK_OVERRIDE;

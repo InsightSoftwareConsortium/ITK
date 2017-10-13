@@ -115,7 +115,7 @@ public:
       }
   }
 
-  ~QuadrilateralCell() {}
+  ~QuadrilateralCell() ITK_OVERRIDE {}
 
 protected:
   /** Store the number of points needed for a quadrilateral. */

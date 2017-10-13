@@ -153,7 +153,7 @@ public:
 protected:
   NeighborhoodOperatorImageFilter()
   { m_BoundsCondition = static_cast< ImageBoundaryConditionPointerType >( &m_DefaultBoundaryCondition ); }
-  virtual ~NeighborhoodOperatorImageFilter() {}
+  virtual ~NeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
 
   /** NeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

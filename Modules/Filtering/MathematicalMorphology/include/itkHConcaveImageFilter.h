@@ -107,7 +107,7 @@ public:
 
 protected:
   HConcaveImageFilter();
-  ~HConcaveImageFilter() {}
+  ~HConcaveImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** HConcaveImageFilter needs the entire input be

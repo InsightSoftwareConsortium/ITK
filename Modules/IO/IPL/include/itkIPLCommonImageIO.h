@@ -121,7 +121,7 @@ public:
 
 protected:
   IPLCommonImageIO();
-  ~IPLCommonImageIO();
+  ~IPLCommonImageIO() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   int AddElementToList(char const *const filename,

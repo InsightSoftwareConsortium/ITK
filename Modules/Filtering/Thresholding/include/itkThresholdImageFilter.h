@@ -133,7 +133,7 @@ public:
 
 protected:
   ThresholdImageFilter();
-  ~ThresholdImageFilter() {}
+  ~ThresholdImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ThresholdImageFilter can be implemented as a multithreaded filter.

@@ -318,7 +318,7 @@ public:
 
 protected:
   MRFImageFilter();
-  ~MRFImageFilter();
+  ~MRFImageFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Allocate memory for labelled images. */

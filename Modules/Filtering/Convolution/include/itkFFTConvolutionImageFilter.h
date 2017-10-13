@@ -107,7 +107,7 @@ public:
 
 protected:
   FFTConvolutionImageFilter();
-  ~FFTConvolutionImageFilter() {}
+  ~FFTConvolutionImageFilter() ITK_OVERRIDE {}
 
   /** Because the inputs are real, we can use the specialized filters
    * for real-to-complex Fourier transforms. */

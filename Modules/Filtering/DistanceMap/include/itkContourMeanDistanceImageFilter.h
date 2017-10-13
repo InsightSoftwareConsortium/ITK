@@ -132,7 +132,7 @@ public:
 
 protected:
   ContourMeanDistanceImageFilter();
-  ~ContourMeanDistanceImageFilter(){}
+  ~ContourMeanDistanceImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GenerateData. */

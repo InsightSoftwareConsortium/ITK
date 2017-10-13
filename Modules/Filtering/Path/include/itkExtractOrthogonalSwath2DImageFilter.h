@@ -131,7 +131,7 @@ protected:
     m_Spacing[0] = m_Spacing[1] = 1.0;
   }
 
-  virtual ~ExtractOrthogonalSwath2DImageFilter() {}
+  virtual ~ExtractOrthogonalSwath2DImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   //--------------------------------------------------------------------------

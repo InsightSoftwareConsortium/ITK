@@ -81,7 +81,7 @@ public:
 
 protected:
   BoxImageFilter();
-  ~BoxImageFilter() {}
+  ~BoxImageFilter() ITK_OVERRIDE {}
 
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 

@@ -73,7 +73,7 @@ public:
 
 protected:
   ThinPlateSplineKernelTransform() {}
-  virtual ~ThinPlateSplineKernelTransform() {}
+  virtual ~ThinPlateSplineKernelTransform() ITK_OVERRIDE {}
 
   /** These (rather redundant) typedefs are needed because typedefs are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;

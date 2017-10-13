@@ -131,7 +131,7 @@ public:
 
 protected:
   GrayscaleDilateImageFilter();
-  ~GrayscaleDilateImageFilter() {}
+  ~GrayscaleDilateImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData() ITK_OVERRIDE;

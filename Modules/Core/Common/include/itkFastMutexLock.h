@@ -84,7 +84,7 @@ public:
 
 protected:
   FastMutexLock() {}
-  ~FastMutexLock() {}
+  ~FastMutexLock() ITK_OVERRIDE {}
 
   SimpleFastMutexLock m_SimpleFastMutexLock;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

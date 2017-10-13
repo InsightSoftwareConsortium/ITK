@@ -101,7 +101,7 @@ public:
 
 protected:
   PadImageFilter();
-  ~PadImageFilter() {}
+  ~PadImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** PadImageFilter produces an image which is a different resolution

@@ -205,7 +205,7 @@ public:
 
 protected:
   BSplineControlPointImageFilter();
-  virtual ~BSplineControlPointImageFilter();
+  virtual ~BSplineControlPointImageFilter() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /**

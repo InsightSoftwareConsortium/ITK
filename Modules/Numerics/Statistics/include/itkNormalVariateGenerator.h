@@ -120,7 +120,7 @@ public:
 
 protected:
   NormalVariateGenerator();
-  virtual ~NormalVariateGenerator();
+  virtual ~NormalVariateGenerator() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** get a variate */
