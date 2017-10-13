@@ -40,11 +40,6 @@ readonly paths="
 
 extract_source () {
     git_archive
-    pushd "${extractdir}/${name}-reduced"
-    fromdos \
-      Utilities/gdcmcharls/encoderstrategy.h \
-      Utilities/gdcmutfcpp/utf8.h
-    popd
 }
 
 . "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
