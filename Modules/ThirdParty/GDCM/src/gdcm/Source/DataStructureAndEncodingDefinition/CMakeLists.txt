@@ -85,13 +85,13 @@ if(NOT GDCM_USE_SYSTEM_ZLIB)
 endif()
 
 add_library(gdcmDSED ${DSED_SRCS} ${DSED3_SRCS})
-target_link_libraries(gdcmDSED gdcmCommon)
+target_link_libraries(gdcmDSED LINK_PUBLIC gdcmCommon)
 # zlib stuff are actually included (template) so we need to link them here.
-target_link_libraries(gdcmDSED ${GDCM_ZLIB_LIBRARIES})
+target_link_libraries(gdcmDSED LINK_PRIVATE ${GDCM_ZLIB_LIBRARIES})
 set_target_properties(gdcmDSED PROPERTIES ${GDCM_LIBRARY_PROPERTIES})
 if(BUILD_SHARED_LIBS)
-  set(_ill "gdcmCommon")
-  set_target_properties(gdcmDSED PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
+  #set(_ill "gdcmCommon")
+  #set_target_properties(gdcmDSED PROPERTIES INTERFACE_LINK_LIBRARIES "${_ill}" LINK_INTERFACE_LIBRARIES "${_ill}")
 endif()
 
 # libs
