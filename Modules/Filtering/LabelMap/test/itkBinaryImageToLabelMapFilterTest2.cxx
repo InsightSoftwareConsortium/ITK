@@ -20,6 +20,7 @@
 #include "itkImageFileWriter.h"
 #include "itkBinaryImageToLabelMapFilter.h"
 #include "itkLabelMapToLabelImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int itkBinaryImageToLabelMapFilterTest2( int argc, char * argv [] )
@@ -58,6 +59,8 @@ int itkBinaryImageToLabelMapFilterTest2( int argc, char * argv [] )
   imageToLabel->Update();
 
   std::cout << "There are " << imageToLabel->GetOutput()->GetNumberOfLabelObjects() << " objects." << std::endl;
+
+  TEST_EXPECT_EQUAL( imageToLabel->GetOutput()->GetNumberOfLabelObjects(), imageToLabel->GetNumberOfObjects() );
 
   typedef itk::LabelMapToLabelImageFilter< LabelMapType, ImageType> LabelToImageType;
   LabelToImageType::Pointer labelToImage = LabelToImageType::New();
