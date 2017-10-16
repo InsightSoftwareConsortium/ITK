@@ -35,8 +35,8 @@ Before you begin, perform initial setup:
 Note that if you answer `y` to the question "Do you want to test push access to
 itk.org? \[y/N\]:", you will most likely receive the following error message:
 "Permission denied (publickey). fatal: Could not read from remote repository.".
- Only a few experienced contributors have push access. Having push access is
- not necessary to contribute to ITK.
+Only a few experienced contributors have push access. Having push access is
+not necessary to contribute to ITK.
 
 Workflow
 --------
@@ -49,10 +49,10 @@ branches. Our collaboration workflow consists of three main steps:
      * [Update](#update)
      * [Create a Topic](#create-a-topic)
   2. Code Review
-     * [Share a Topic](#share-a-topic) (requires [Gerrit access]
+     * [Share a Topic](#share-a-topic) (requires [Gerrit access])
      * [Revise a Topic](#revise-a-topic)
   3. Integrate Changes
-     * [Merge a Topic](#merge-a-topic) (requires [Gerrit push access]
+     * [Merge a Topic](#merge-a-topic) (requires [Gerrit push access])
      * [Delete a Topic](#delete-a-topic)
 
 Update
@@ -97,7 +97,7 @@ message (see below).
 ```sh
    $ edit file1 file2 file3
 ```
-(*To add data follow [these instructions](Documentation/Data/#add-data).*)
+(*To add data follow [these instructions](Documentation/Data.md#add-data).*)
 
 ```sh
    $ git add file1 file2 file3
@@ -141,7 +141,7 @@ Push commits in your topic branch for review by the community:
    $ git gerrit-push
 ```
 
-(*If the topic adds data see [this note](Documentation/Data/#push).*)
+(*If the topic adds data see [this note](Documentation/Data.md#push).*)
 
 or if you started the topic from the release branch:
 
@@ -182,7 +182,7 @@ To revise commits further back on the topic, say the `3`rd commit back:
 Follow Git's interactive instructions. Preserve the `Change-Id:` line at the
 bottom of each commit message.
 
-Return to the [#share-a-topic] step to share the revised topic.
+Return to the [Share a Topic](#share-a-topic) step to share the revised topic.
 
 Test a Topic
 ------------
@@ -191,10 +191,11 @@ When a patch is submitted, it is tested across the three major platforms before
 being merged and tested on many platforms and configurations on the
 [nightly dashboard](https://open.cdash.org/index.php?project=Insight).
 
-If tests fail on a submitted topic, see the [#revise-a-topic] step on how to
-submit a revised version. After a topic is merged, please check the next day's
-nightly dashboard to ensure there are not any regressions. If there are any new
-warnings or errors, submit a follow-up patch as soon as possible.
+If tests fail on a submitted topic, see the [Revise a Topic](#revise-a-topic)
+step on how to submit a revised version. After a topic is merged, please check
+the next day's nightly dashboard to ensure there are not any regressions. If
+there are any new warnings or errors, submit a follow-up patch as soon as
+possible.
 
 When a patch is submitted, macOS-Clang, Windows-MSVC, and Linux-GCC builds will
 start. Once they have finished, the build robots will make a comment on the
@@ -212,7 +213,6 @@ Builds can be spawned by adding the following comments to a patch set in Gerrit.
   * `request build: power8`
   * `request build: cpp11`
   * `request build: cpp14`
-
 
 Merge a Topic
 -------------
@@ -286,7 +286,6 @@ branch (**warning**: you could lose commits).
 
 [README]: Documentation/README.md
 [Access]: Documentation/Access.md
-[Add Data]: Documentation/Data.md#add-data
 [download instructions]: Documentation/Download.md
 [Gerrit access]: Documentation/Access.md
 [Gerrit push access]: Documentation/Access.md
