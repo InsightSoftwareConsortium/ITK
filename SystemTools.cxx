@@ -20,6 +20,7 @@
 #include KWSYS_HEADER(SystemTools.hxx)
 #include KWSYS_HEADER(Directory.hxx)
 #include KWSYS_HEADER(FStream.hxx)
+#include KWSYS_HEADER(Encoding.h)
 #include KWSYS_HEADER(Encoding.hxx)
 
 #include <fstream>
@@ -227,13 +228,17 @@ inline const char* Getcwd(char* buf, unsigned int len)
 {
   std::vector<wchar_t> w_buf(len);
   if (_wgetcwd(&w_buf[0], len)) {
-    // make sure the drive letter is capital
-    if (wcslen(&w_buf[0]) > 1 && w_buf[1] == L':') {
-      w_buf[0] = towupper(w_buf[0]);
+    size_t nlen = kwsysEncoding_wcstombs(buf, &w_buf[0], len);
+    if (nlen == static_cast<size_t>(-1)) {
+      return 0;
     }
-    std::string tmp = KWSYS_NAMESPACE::Encoding::ToNarrow(&w_buf[0]);
-    strcpy(buf, tmp.c_str());
-    return buf;
+    if (nlen < len) {
+      // make sure the drive letter is capital
+      if (nlen > 1 && buf[1] == ':') {
+        buf[0] = toupper(buf[0]);
+      }
+      return buf;
+    }
   }
   return 0;
 }
@@ -547,15 +552,13 @@ bool SystemTools::HasEnv(const std::string& key)
   return SystemTools::HasEnv(key.c_str());
 }
 
-//----------------------------------------------------------------------------
-
 #if KWSYS_CXX_HAS_UNSETENV
 /* unsetenv("A") removes A from the environment.
    On older platforms it returns void instead of int.  */
 static int kwsysUnPutEnv(const std::string& env)
 {
   size_t pos = env.find('=');
-  if (pos != env.npos) {
+  if (pos != std::string::npos) {
     std::string name = env.substr(0, pos);
     unsetenv(name.c_str());
   } else {
@@ -571,7 +574,7 @@ static int kwsysUnPutEnv(const std::string& env)
 {
   int err = 0;
   size_t pos = env.find('=');
-  size_t const len = pos == env.npos ? env.size() : pos;
+  size_t const len = pos == std::string::npos ? env.size() : pos;
   size_t const sz = len + 1;
   char local_buf[256];
   char* buf = sz > sizeof(local_buf) ? (char*)malloc(sz) : local_buf;
@@ -605,7 +608,7 @@ static int kwsysUnPutEnv(std::string const& env)
 {
   std::wstring wEnv = Encoding::ToWide(env);
   size_t const pos = wEnv.find('=');
-  size_t const len = pos == wEnv.npos ? wEnv.size() : pos;
+  size_t const len = pos == std::string::npos ? wEnv.size() : pos;
   wEnv.resize(len + 1, L'=');
   wchar_t* newEnv = _wcsdup(wEnv.c_str());
   if (!newEnv) {
@@ -621,7 +624,7 @@ static int kwsysUnPutEnv(std::string const& env)
 static int kwsysUnPutEnv(const std::string& env)
 {
   size_t pos = env.find('=');
-  size_t const len = pos == env.npos ? env.size() : pos;
+  size_t const len = pos == std::string::npos ? env.size() : pos;
   int in = 0;
   int out = 0;
   while (environ[in]) {
@@ -639,8 +642,6 @@ static int kwsysUnPutEnv(const std::string& env)
 }
 #endif
 
-//----------------------------------------------------------------------------
-
 #if KWSYS_CXX_HAS_SETENV
 
 /* setenv("A", "B", 1) will set A=B in the environment and makes its
@@ -648,7 +649,7 @@ static int kwsysUnPutEnv(const std::string& env)
 bool SystemTools::PutEnv(const std::string& env)
 {
   size_t pos = env.find('=');
-  if (pos != env.npos) {
+  if (pos != std::string::npos) {
     std::string name = env.substr(0, pos);
     return setenv(name.c_str(), env.c_str() + pos + 1, 1) == 0;
   } else {
@@ -730,8 +731,6 @@ bool SystemTools::UnPutEnv(const std::string& env)
 }
 
 #endif
-
-//----------------------------------------------------------------------------
 
 const char* SystemTools::GetExecutableExtension()
 {
@@ -853,6 +852,8 @@ void SystemTools::ReplaceString(std::string& source, const char* replace,
   free(orig);
 }
 
+#if defined(_WIN32) && !defined(__CYGWIN__)
+
 #if defined(KEY_WOW64_32KEY) && defined(KEY_WOW64_64KEY)
 #define KWSYS_ST_KEY_WOW64_32KEY KEY_WOW64_32KEY
 #define KWSYS_ST_KEY_WOW64_64KEY KEY_WOW64_64KEY
@@ -861,7 +862,6 @@ void SystemTools::ReplaceString(std::string& source, const char* replace,
 #define KWSYS_ST_KEY_WOW64_64KEY 0x0100
 #endif
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
 static bool SystemToolsParseRegistryKey(const std::string& key,
                                         HKEY& primaryKey, std::string& second,
                                         std::string& valuename)
@@ -1144,7 +1144,6 @@ bool SystemTools::SameFile(const std::string& file1, const std::string& file2)
 #endif
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::PathExists(const std::string& path)
 {
   if (path.empty()) {
@@ -1167,7 +1166,6 @@ bool SystemTools::PathExists(const std::string& path)
 #endif
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::FileExists(const char* filename)
 {
   if (!filename) {
@@ -1176,7 +1174,6 @@ bool SystemTools::FileExists(const char* filename)
   return SystemTools::FileExists(std::string(filename));
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::FileExists(const std::string& filename)
 {
   if (filename.empty()) {
@@ -1203,7 +1200,6 @@ bool SystemTools::FileExists(const std::string& filename)
 #endif
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::FileExists(const char* filename, bool isFile)
 {
   if (!filename) {
@@ -1212,7 +1208,6 @@ bool SystemTools::FileExists(const char* filename, bool isFile)
   return SystemTools::FileExists(std::string(filename), isFile);
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::FileExists(const std::string& filename, bool isFile)
 {
   if (SystemTools::FileExists(filename)) {
@@ -1223,7 +1218,6 @@ bool SystemTools::FileExists(const std::string& filename, bool isFile)
   return false;
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::TestFileAccess(const char* filename,
                                  TestFilePermissions permissions)
 {
@@ -1233,7 +1227,6 @@ bool SystemTools::TestFileAccess(const char* filename,
   return SystemTools::TestFileAccess(std::string(filename), permissions);
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::TestFileAccess(const std::string& filename,
                                  TestFilePermissions permissions)
 {
@@ -1255,7 +1248,6 @@ bool SystemTools::TestFileAccess(const std::string& filename,
 #endif
 }
 
-//----------------------------------------------------------------------------
 int SystemTools::Stat(const char* path, SystemTools::Stat_t* buf)
 {
   if (!path) {
@@ -1265,7 +1257,6 @@ int SystemTools::Stat(const char* path, SystemTools::Stat_t* buf)
   return SystemTools::Stat(std::string(path), buf);
 }
 
-//----------------------------------------------------------------------------
 int SystemTools::Stat(const std::string& path, SystemTools::Stat_t* buf)
 {
   if (path.empty()) {
@@ -1287,7 +1278,6 @@ int SystemTools::Stat(const std::string& path, SystemTools::Stat_t* buf)
 #endif
 }
 
-//----------------------------------------------------------------------------
 #ifdef __CYGWIN__
 bool SystemTools::PathCygwinToWin32(const char* path, char* win32_path)
 {
@@ -1737,7 +1727,7 @@ std::string SystemTools::CropString(const std::string& s, size_t max_len)
   size_t middle = max_len / 2;
 
   n += s.substr(0, middle);
-  n += s.substr(s.size() - (max_len - middle), std::string::npos);
+  n += s.substr(s.size() - (max_len - middle));
 
   if (max_len > 2) {
     n[middle] = '.';
@@ -1752,7 +1742,6 @@ std::string SystemTools::CropString(const std::string& s, size_t max_len)
   return n;
 }
 
-//----------------------------------------------------------------------------
 std::vector<kwsys::String> SystemTools::SplitString(const std::string& p,
                                                     char sep, bool isPath)
 {
@@ -1777,7 +1766,6 @@ std::vector<kwsys::String> SystemTools::SplitString(const std::string& p,
   return paths;
 }
 
-//----------------------------------------------------------------------------
 int SystemTools::EstimateFormatLength(const char* format, va_list ap)
 {
   if (!format) {
@@ -1868,7 +1856,7 @@ static void ConvertVMSToUnix(std::string& path)
 {
   std::string::size_type rootEnd = path.find(":[");
   std::string::size_type pathEnd = path.find("]");
-  if (rootEnd != path.npos) {
+  if (rootEnd != std::string::npos) {
     std::string root = path.substr(0, rootEnd);
     std::string pathPart = path.substr(rootEnd + 2, pathEnd - rootEnd - 2);
     const char* pathCString = pathPart.c_str();
@@ -2165,7 +2153,6 @@ bool SystemTools::FilesDiffer(const std::string& source,
   return false;
 }
 
-//----------------------------------------------------------------------------
 /**
  * Copy a file named by "source" to the file named by "destination".
  */
@@ -2269,7 +2256,6 @@ bool SystemTools::CopyFileAlways(const std::string& source,
   return true;
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::CopyAFile(const std::string& source,
                             const std::string& destination, bool always)
 {
@@ -2288,11 +2274,7 @@ bool SystemTools::CopyADirectory(const std::string& source,
                                  const std::string& destination, bool always)
 {
   Directory dir;
-#ifdef _WIN32
-  dir.Load(Encoding::ToNarrow(Encoding::ToWindowsExtendedPath(source)));
-#else
   dir.Load(source);
-#endif
   size_t fileNum;
   if (!SystemTools::MakeDirectory(destination)) {
     return false;
@@ -2392,104 +2374,6 @@ long int SystemTools::CreationTime(const std::string& filename)
   }
 #endif
   return ct;
-}
-
-bool SystemTools::ConvertDateMacroString(const char* str, time_t* tmt)
-{
-  if (!str || !tmt || strlen(str) > 11) {
-    return false;
-  }
-
-  struct tm tmt2;
-
-  // __DATE__
-  // The compilation date of the current source file. The date is a string
-  // literal of the form Mmm dd yyyy. The month name Mmm is the same as for
-  // dates generated by the library function asctime declared in TIME.H.
-
-  // index:   012345678901
-  // format:  Mmm dd yyyy
-  // example: Dec 19 2003
-
-  static char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-
-  char buffer[12];
-  strcpy(buffer, str);
-
-  buffer[3] = 0;
-  char* ptr = strstr(month_names, buffer);
-  if (!ptr) {
-    return false;
-  }
-
-  int month = static_cast<int>((ptr - month_names) / 3);
-  int day = atoi(buffer + 4);
-  int year = atoi(buffer + 7);
-
-  tmt2.tm_isdst = -1;
-  tmt2.tm_hour = 0;
-  tmt2.tm_min = 0;
-  tmt2.tm_sec = 0;
-  tmt2.tm_wday = 0;
-  tmt2.tm_yday = 0;
-  tmt2.tm_mday = day;
-  tmt2.tm_mon = month;
-  tmt2.tm_year = year - 1900;
-
-  *tmt = mktime(&tmt2);
-  return true;
-}
-
-bool SystemTools::ConvertTimeStampMacroString(const char* str, time_t* tmt)
-{
-  if (!str || !tmt || strlen(str) > 26) {
-    return false;
-  }
-
-  struct tm tmt2;
-
-  // __TIMESTAMP__
-  // The date and time of the last modification of the current source file,
-  // expressed as a string literal in the form Ddd Mmm Date hh:mm:ss yyyy,
-  /// where Ddd is the abbreviated day of the week and Date is an integer
-  // from 1 to 31.
-
-  // index:   0123456789
-  //                    0123456789
-  //                              0123456789
-  // format:  Ddd Mmm Date hh:mm:ss yyyy
-  // example: Fri Dec 19 14:34:58 2003
-
-  static char month_names[] = "JanFebMarAprMayJunJulAugSepOctNovDec";
-
-  char buffer[27];
-  strcpy(buffer, str);
-
-  buffer[7] = 0;
-  char* ptr = strstr(month_names, buffer + 4);
-  if (!ptr) {
-    return false;
-  }
-
-  int month = static_cast<int>((ptr - month_names) / 3);
-  int day = atoi(buffer + 8);
-  int hour = atoi(buffer + 11);
-  int min = atoi(buffer + 14);
-  int sec = atoi(buffer + 17);
-  int year = atoi(buffer + 20);
-
-  tmt2.tm_isdst = -1;
-  tmt2.tm_hour = hour;
-  tmt2.tm_min = min;
-  tmt2.tm_sec = sec;
-  tmt2.tm_wday = 0;
-  tmt2.tm_yday = 0;
-  tmt2.tm_mday = day;
-  tmt2.tm_mon = month;
-  tmt2.tm_year = year - 1900;
-
-  *tmt = mktime(&tmt2);
-  return true;
 }
 
 std::string SystemTools::GetLastSystemError()
@@ -2645,11 +2529,7 @@ bool SystemTools::RemoveADirectory(const std::string& source)
   }
 
   Directory dir;
-#ifdef _WIN32
-  dir.Load(Encoding::ToNarrow(Encoding::ToWindowsExtendedPath(source)));
-#else
   dir.Load(source);
-#endif
   size_t fileNum;
   for (fileNum = 0; fileNum < dir.GetNumberOfFiles(); ++fileNum) {
     if (strcmp(dir.GetFile(static_cast<unsigned long>(fileNum)), ".") &&
@@ -3550,7 +3430,6 @@ static std::string GetCasePathName(std::string const& pathIn)
 }
 #endif
 
-//----------------------------------------------------------------------------
 std::string SystemTools::GetActualCaseForPath(const std::string& p)
 {
 #ifndef _WIN32
@@ -3571,7 +3450,6 @@ std::string SystemTools::GetActualCaseForPath(const std::string& p)
 #endif
 }
 
-//----------------------------------------------------------------------------
 const char* SystemTools::SplitPathRootComponent(const std::string& p,
                                                 std::string* root)
 {
@@ -3638,7 +3516,6 @@ const char* SystemTools::SplitPathRootComponent(const std::string& p,
   return c;
 }
 
-//----------------------------------------------------------------------------
 void SystemTools::SplitPath(const std::string& p,
                             std::vector<std::string>& components,
                             bool expand_home_dir)
@@ -3695,13 +3572,11 @@ void SystemTools::SplitPath(const std::string& p,
   }
 }
 
-//----------------------------------------------------------------------------
 std::string SystemTools::JoinPath(const std::vector<std::string>& components)
 {
   return SystemTools::JoinPath(components.begin(), components.end());
 }
 
-//----------------------------------------------------------------------------
 std::string SystemTools::JoinPath(
   std::vector<std::string>::const_iterator first,
   std::vector<std::string>::const_iterator last)
@@ -3733,7 +3608,6 @@ std::string SystemTools::JoinPath(
   return result;
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::ComparePath(const std::string& c1, const std::string& c2)
 {
 #if defined(_WIN32) || defined(__APPLE__)
@@ -3749,7 +3623,6 @@ bool SystemTools::ComparePath(const std::string& c1, const std::string& c2)
 #endif
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::Split(const std::string& str,
                         std::vector<std::string>& lines, char separator)
 {
@@ -3770,7 +3643,6 @@ bool SystemTools::Split(const std::string& str,
   return true;
 }
 
-//----------------------------------------------------------------------------
 bool SystemTools::Split(const std::string& str,
                         std::vector<std::string>& lines)
 {
@@ -3824,11 +3696,7 @@ std::string SystemTools::GetFilenamePath(const std::string& filename)
  */
 std::string SystemTools::GetFilenameName(const std::string& filename)
 {
-#if defined(_WIN32)
   std::string::size_type slash_pos = filename.find_last_of("/\\");
-#else
-  std::string::size_type slash_pos = filename.rfind('/');
-#endif
   if (slash_pos != std::string::npos) {
     return filename.substr(slash_pos + 1);
   } else {
@@ -4141,66 +4009,6 @@ bool SystemTools::GetShortPath(const std::string& path, std::string& shortPath)
 #endif
 }
 
-void SystemTools::SplitProgramFromArgs(const std::string& path,
-                                       std::string& program, std::string& args)
-{
-  // see if this is a full path to a program
-  // if so then set program to path and args to nothing
-  if (SystemTools::FileExists(path)) {
-    program = path;
-    args = "";
-    return;
-  }
-  // Try to find the program in the path, note the program
-  // may have spaces in its name so we have to look for it
-  std::vector<std::string> e;
-  std::string findProg = SystemTools::FindProgram(path, e);
-  if (!findProg.empty()) {
-    program = findProg;
-    args = "";
-    return;
-  }
-
-  // Now try and peel off space separated chunks from the end of the string
-  // so the largest path possible is found allowing for spaces in the path
-  std::string dir = path;
-  std::string::size_type spacePos = dir.rfind(' ');
-  while (spacePos != std::string::npos) {
-    std::string tryProg = dir.substr(0, spacePos);
-    // See if the file exists
-    if (SystemTools::FileExists(tryProg)) {
-      program = tryProg;
-      // remove trailing spaces from program
-      std::string::size_type pos = program.size() - 1;
-      while (program[pos] == ' ') {
-        program.erase(pos);
-        pos--;
-      }
-      args = dir.substr(spacePos, dir.size() - spacePos);
-      return;
-    }
-    // Now try and find the program in the path
-    findProg = SystemTools::FindProgram(tryProg, e);
-    if (!findProg.empty()) {
-      program = findProg;
-      // remove trailing spaces from program
-      std::string::size_type pos = program.size() - 1;
-      while (program[pos] == ' ') {
-        program.erase(pos);
-        pos--;
-      }
-      args = dir.substr(spacePos, dir.size() - spacePos);
-      return;
-    }
-    // move past the space for the next search
-    spacePos--;
-    spacePos = dir.rfind(' ', spacePos);
-  }
-
-  program = "";
-  args = "";
-}
-
 std::string SystemTools::GetCurrentDateTime(const char* format)
 {
   char buf[1024];
@@ -4354,7 +4162,7 @@ bool SystemTools::GetPermissions(const std::string& file, mode_t& mode)
     mode |= S_IFREG;
   }
   size_t dotPos = file.rfind('.');
-  const char* ext = dotPos == file.npos ? 0 : (file.c_str() + dotPos);
+  const char* ext = dotPos == std::string::npos ? 0 : (file.c_str() + dotPos);
   if (ext && (Strucmp(ext, ".exe") == 0 || Strucmp(ext, ".com") == 0 ||
               Strucmp(ext, ".cmd") == 0 || Strucmp(ext, ".bat") == 0)) {
     mode |= (_S_IEXEC | (_S_IEXEC >> 3) | (_S_IEXEC >> 6));
@@ -4707,7 +4515,6 @@ std::string SystemTools::GetOperatingSystemNameAndVersion()
   return res;
 }
 
-// ----------------------------------------------------------------------
 bool SystemTools::ParseURLProtocol(const std::string& URL,
                                    std::string& protocol,
                                    std::string& dataglom)
@@ -4726,7 +4533,6 @@ bool SystemTools::ParseURLProtocol(const std::string& URL,
   return true;
 }
 
-// ----------------------------------------------------------------------
 bool SystemTools::ParseURL(const std::string& URL, std::string& protocol,
                            std::string& username, std::string& password,
                            std::string& hostname, std::string& dataport,
@@ -4757,7 +4563,6 @@ bool SystemTools::ParseURL(const std::string& URL, std::string& protocol,
   return true;
 }
 
-// ----------------------------------------------------------------------
 // These must NOT be initialized.  Default initialization to zero is
 // necessary.
 static unsigned int SystemToolsManagerCount;
