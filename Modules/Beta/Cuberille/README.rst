@@ -1,8 +1,15 @@
 ITKCuberille
 ============
 
-.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKCuberille.svg?style=svg
+.. image:: https://circleci.com/gh/InsightSoftwareConsortium/ITKCuberille.svg?style=shield
     :target: https://circleci.com/gh/InsightSoftwareConsortium/ITKCuberille
+
+.. image:: https://travis-ci.org/InsightSoftwareConsortium/ITKCuberille.svg?branch=master
+    :target: https://travis-ci.org/InsightSoftwareConsortium/ITKCuberille
+
+.. image:: https://img.shields.io/appveyor/ci/itkrobot/ITKCuberille.svg
+    :target: https://ci.appveyor.com/project/itkrobot/ITKCuberille
+
 
 This module implements cuberille implicit surface polygonization for ITK. This
 method operates by diving the surface into a number of small cubes called
