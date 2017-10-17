@@ -1,6 +1,7 @@
 itk_module_test()
 set(ITKIODCMTKTests
   itkDCMTKImageIOTest.cxx
+  itkDCMTKRGBImageIOTest.cxx
   itkDCMTKSeriesReadImageWrite.cxx
   itkDCMTKSeriesStreamReadImageWrite.cxx
   itkDCMTKImageIOOrthoDirTest.cxx
@@ -84,6 +85,14 @@ itk_add_test(NAME itkDCMTKImageIONonSquareTest
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquare.nii.gz
   ${ITK_TEST_OUTPUT_DIR}/itkDCMTKNonSquareRescale.dcm)
+
+itk_add_test(NAME itkDCMTKRGBImageIOColorImageTest
+  COMMAND ITKIODCMTKTestDriver
+    --compare DATA{${ITK_DATA_ROOT}/Baseline/itkDCMTKColorImage.png}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImage.png
+  itkDCMTKRGBImageIOTest
+  DATA{${ITK_DATA_ROOT}/Input/RGBDicomTest.dcm}
+  ${ITK_TEST_OUTPUT_DIR}/itkDCMTKColorImage.png)
 
 itk_add_test(NAME ITKDCMTKLoggerTest
   COMMAND ITKIODCMTKTestDriver itkDCMTKLoggerTest
