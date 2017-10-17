@@ -622,14 +622,7 @@ void VTKImageIO::ReadImageInformation()
 
 bool VTKImageIO::CanWriteFile(const char *name)
 {
-  std::string filename = name;
-
-  if ( filename != ""
-       && filename.find(".vtk") < filename.length() )
-    {
-    return true;
-    }
-  return false;
+  return itksys::SystemTools::GetFilenameLastExtension(name) == ".vtk";
 }
 
 void VTKImageIO::WriteImageInformation( const void *itkNotUsed(buffer) )
