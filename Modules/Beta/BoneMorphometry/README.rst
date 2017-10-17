@@ -19,8 +19,6 @@ provides filters that `quantify bone morphometry
 <http://www.b-cube.ch/index.php?option=com_content&view=article&id=22&Itemid=20>`_.
 from computed tomography (CT) images.
 
-This module is currently a work in progress.
-
 Installation
 ------------
 
