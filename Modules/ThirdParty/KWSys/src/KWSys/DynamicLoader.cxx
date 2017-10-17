@@ -26,20 +26,17 @@
 // the static methods of DynamicLoader.
 
 #if !KWSYS_SUPPORTS_SHARED_LIBS
-//----------------------------------------------------------------------------
 // Implementation for environments without dynamic libs
 #include <string.h> // for strerror()
 
 namespace KWSYS_NAMESPACE {
 
-//----------------------------------------------------------------------------
 DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   const std::string& libname)
 {
   return 0;
 }
 
-//----------------------------------------------------------------------------
 int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
 {
   if (!lib) {
@@ -49,14 +46,12 @@ int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
   return 1;
 }
 
-//----------------------------------------------------------------------------
 DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   DynamicLoader::LibraryHandle lib, const std::string& sym)
 {
   return 0;
 }
 
-//----------------------------------------------------------------------------
 const char* DynamicLoader::LastError()
 {
   return "General error";
@@ -65,21 +60,18 @@ const char* DynamicLoader::LastError()
 } // namespace KWSYS_NAMESPACE
 
 #elif defined(__hpux)
-//----------------------------------------------------------------------------
 // Implementation for HPUX  machines
 #include <dl.h>
 #include <errno.h>
 
 namespace KWSYS_NAMESPACE {
 
-//----------------------------------------------------------------------------
 DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   const std::string& libname)
 {
   return shl_load(libname.c_str(), BIND_DEFERRED | DYNAMIC_PATH, 0L);
 }
 
-//----------------------------------------------------------------------------
 int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
 {
   if (!lib) {
@@ -88,7 +80,6 @@ int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
   return !shl_unload(lib);
 }
 
-//----------------------------------------------------------------------------
 DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   DynamicLoader::LibraryHandle lib, const std::string& sym)
 {
@@ -132,14 +123,12 @@ const char* DynamicLoader::LastError()
 } // namespace KWSYS_NAMESPACE
 
 #elif defined(__APPLE__) && (MAC_OS_X_VERSION_MAX_ALLOWED < 1030)
-//----------------------------------------------------------------------------
 // Implementation for Mac OS X 10.2.x and earlier
 #include <mach-o/dyld.h>
 #include <string.h> // for strlen
 
 namespace KWSYS_NAMESPACE {
 
-//----------------------------------------------------------------------------
 DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   const std::string& libname)
 {
@@ -158,7 +147,6 @@ DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   return handle;
 }
 
-//----------------------------------------------------------------------------
 int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
 {
   // NSUNLINKMODULE_OPTION_KEEP_MEMORY_MAPPED
@@ -170,28 +158,22 @@ int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
   return success;
 }
 
-//----------------------------------------------------------------------------
 DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   DynamicLoader::LibraryHandle lib, const std::string& sym)
 {
   void* result = 0;
   // Need to prepend symbols with '_' on Apple-gcc compilers
-  size_t len = sym.size();
-  char* rsym = new char[len + 1 + 1];
-  strcpy(rsym, "_");
-  strcat(rsym + 1, sym.c_str());
+  std::string rsym = '_' + sym;
 
-  NSSymbol symbol = NSLookupSymbolInModule(lib, rsym);
+  NSSymbol symbol = NSLookupSymbolInModule(lib, rsym.c_str());
   if (symbol) {
     result = NSAddressOfSymbol(symbol);
   }
 
-  delete[] rsym;
   // Hack to cast pointer-to-data to pointer-to-function.
   return *reinterpret_cast<DynamicLoader::SymbolPointer*>(&result);
 }
 
-//----------------------------------------------------------------------------
 const char* DynamicLoader::LastError()
 {
   return 0;
@@ -200,13 +182,11 @@ const char* DynamicLoader::LastError()
 } // namespace KWSYS_NAMESPACE
 
 #elif defined(_WIN32) && !defined(__CYGWIN__)
-//----------------------------------------------------------------------------
 // Implementation for Windows win32 code but not cygwin
 #include <windows.h>
 
 namespace KWSYS_NAMESPACE {
 
-//----------------------------------------------------------------------------
 DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   const std::string& libname)
 {
@@ -220,13 +200,11 @@ DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   return lh;
 }
 
-//----------------------------------------------------------------------------
 int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
 {
   return (int)FreeLibrary(lib);
 }
 
-//----------------------------------------------------------------------------
 DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   DynamicLoader::LibraryHandle lib, const std::string& sym)
 {
@@ -255,17 +233,12 @@ DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   void* result;
 #if defined(__BORLANDC__) || defined(__WATCOMC__)
   // Need to prepend symbols with '_'
-  size_t len = sym.size();
-  char* rsym = new char[len + 1 + 1];
-  strcpy(rsym, "_");
-  strcat(rsym, sym.c_str());
+  std::string ssym = '_' + sym;
+  const char* rsym = ssym.c_str();
 #else
   const char* rsym = sym.c_str();
 #endif
   result = (void*)GetProcAddress(lib, rsym);
-#if defined(__BORLANDC__) || defined(__WATCOMC__)
-  delete[] rsym;
-#endif
 // Hack to cast pointer-to-data to pointer-to-function.
 #ifdef __WATCOMC__
   return *(DynamicLoader::SymbolPointer*)(&result);
@@ -274,7 +247,6 @@ DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
 #endif
 }
 
-//----------------------------------------------------------------------------
 const char* DynamicLoader::LastError()
 {
   LPVOID lpMsgBuf = NULL;
@@ -299,7 +271,6 @@ const char* DynamicLoader::LastError()
 } // namespace KWSYS_NAMESPACE
 
 #elif defined(__BEOS__)
-//----------------------------------------------------------------------------
 // Implementation for BeOS / Haiku
 #include <string.h> // for strerror()
 
@@ -310,7 +281,6 @@ namespace KWSYS_NAMESPACE {
 
 static image_id last_dynamic_err = B_OK;
 
-//----------------------------------------------------------------------------
 DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   const std::string& libname)
 {
@@ -325,7 +295,6 @@ DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   return rc + 1;
 }
 
-//----------------------------------------------------------------------------
 int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
 {
   if (!lib) {
@@ -343,7 +312,6 @@ int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
   return 1;
 }
 
-//----------------------------------------------------------------------------
 DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   DynamicLoader::LibraryHandle lib, const std::string& sym)
 {
@@ -372,7 +340,6 @@ DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   return result.psym;
 }
 
-//----------------------------------------------------------------------------
 const char* DynamicLoader::LastError()
 {
   const char* retval = strerror(last_dynamic_err);
@@ -383,7 +350,6 @@ const char* DynamicLoader::LastError()
 } // namespace KWSYS_NAMESPACE
 
 #elif defined(__MINT__)
-//----------------------------------------------------------------------------
 // Implementation for FreeMiNT on Atari
 #define _GNU_SOURCE /* for program_invocation_name */
 #include <dld.h>
@@ -393,7 +359,6 @@ const char* DynamicLoader::LastError()
 
 namespace KWSYS_NAMESPACE {
 
-//----------------------------------------------------------------------------
 DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   const std::string& libname)
 {
@@ -404,7 +369,6 @@ DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   return (void*)name;
 }
 
-//----------------------------------------------------------------------------
 int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
 {
   dld_unlink_by_file((char*)lib, 0);
@@ -412,7 +376,6 @@ int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
   return 0;
 }
 
-//----------------------------------------------------------------------------
 DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   DynamicLoader::LibraryHandle lib, const std::string& sym)
 {
@@ -426,7 +389,6 @@ DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   return result.psym;
 }
 
-//----------------------------------------------------------------------------
 const char* DynamicLoader::LastError()
 {
   return dld_strerror(dld_errno);
@@ -435,21 +397,18 @@ const char* DynamicLoader::LastError()
 } // namespace KWSYS_NAMESPACE
 
 #else
-//----------------------------------------------------------------------------
 // Default implementation for *NIX systems (including Mac OS X 10.3 and
 // later) which use dlopen
 #include <dlfcn.h>
 
 namespace KWSYS_NAMESPACE {
 
-//----------------------------------------------------------------------------
 DynamicLoader::LibraryHandle DynamicLoader::OpenLibrary(
   const std::string& libname)
 {
   return dlopen(libname.c_str(), RTLD_LAZY);
 }
 
-//----------------------------------------------------------------------------
 int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
 {
   if (lib) {
@@ -460,7 +419,6 @@ int DynamicLoader::CloseLibrary(DynamicLoader::LibraryHandle lib)
   return 0;
 }
 
-//----------------------------------------------------------------------------
 DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   DynamicLoader::LibraryHandle lib, const std::string& sym)
 {
@@ -474,7 +432,6 @@ DynamicLoader::SymbolPointer DynamicLoader::GetSymbolAddress(
   return result.psym;
 }
 
-//----------------------------------------------------------------------------
 const char* DynamicLoader::LastError()
 {
   return dlerror();
