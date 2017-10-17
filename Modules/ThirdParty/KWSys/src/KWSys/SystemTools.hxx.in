@@ -206,13 +206,6 @@ public:
   static int Strucmp(const char* s1, const char* s2);
 
   /**
-   * Convert a string in __DATE__ or __TIMESTAMP__ format into a time_t.
-   * Return false on error, true on success
-   */
-  static bool ConvertDateMacroString(const char* str, time_t* tmt);
-  static bool ConvertTimeStampMacroString(const char* str, time_t* tmt);
-
-  /**
    * Split a string on its newlines into multiple lines
    * Return false only if the last line stored had no newline
    */
@@ -461,6 +454,10 @@ public:
    * produce the original path.  Home directory references are
    * automatically expanded if expand_home_dir is true and this
    * platform supports them.
+   *
+   * This does *not* normalize the input path.  All components are
+   * preserved, including empty ones.  Typically callers should use
+   * this only on paths that have already been normalized.
    */
   static void SplitPath(const std::string& p,
                         std::vector<std::string>& components,
@@ -469,6 +466,10 @@ public:
   /**
    * Join components of a path name into a single string.  See
    * SplitPath for the format of the components.
+   *
+   * This does *not* normalize the input path.  All components are
+   * preserved, including empty ones.  Typically callers should use
+   * this only on paths that have already been normalized.
    */
   static std::string JoinPath(const std::vector<std::string>& components);
   static std::string JoinPath(std::vector<std::string>::const_iterator first,
@@ -488,12 +489,6 @@ public:
    * Return file name of a full filename (i.e. file name without path)
    */
   static std::string GetFilenameName(const std::string&);
-
-  /**
-   * Split a program from its arguments and handle spaces in the paths
-   */
-  static void SplitProgramFromArgs(const std::string& path,
-                                   std::string& program, std::string& args);
 
   /**
    * Return longest file extension of a full filename (dot included)
