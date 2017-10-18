@@ -20,7 +20,7 @@ setup(
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKCuberille',
     description=r'This module implements cuberille implicit surface polygonization for ITK.',
-    long_description=r'This method operates by diving the surface into a number of small cubes called cuberilles. Each cuberille is centered at a pixel lying on the iso-surface and then quadrilaterals are generated for each face. The original approach is improved by projecting the vertices of each cuberille onto the implicit surface, smoothing the typical block-like resultant mesh.',
+    long_description=r'This method operates by dividing the surface into a number of small cubes called cuberilles. Each cuberille is centered at a pixel lying on the iso-surface and then quadrilaterals are generated for each face. The original approach is improved by projecting the vertices of each cuberille onto the implicit surface, smoothing the typical block-like resultant mesh.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",
