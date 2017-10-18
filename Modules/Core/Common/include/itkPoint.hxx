@@ -256,7 +256,6 @@ BarycentricCombination< TPointContainer, TWeightContainer >
   const PointContainerPointer & points,
   const WeightContainerType & weights)
 {
-  typedef typename TPointContainer::Element PointType;
   typedef typename PointType::ValueType     ValueType;
   PointType barycentre;
   barycentre.Fill(NumericTraits< ValueType >::ZeroValue());   // set to null
