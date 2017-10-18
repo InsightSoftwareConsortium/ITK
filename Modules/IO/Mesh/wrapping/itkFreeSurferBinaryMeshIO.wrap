@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::FreeSurferBinaryMeshIO" POINTER)
+itk_wrap_simple_class("itk::FreeSurferBinaryMeshIOFactory" POINTER)
