@@ -174,9 +174,7 @@ protected:
     this->m_SparseGetValueAndDerivativeThreader = VanillaSparseGetValueAndDerivativeThreaderType::New();
   }
 
-  virtual ~VanillaImageToImageMetricv4()
-  {
-  }
+  virtual ~VanillaImageToImageMetricv4() ITK_OVERRIDE {}
 
   // template <unsigned int VVirtualImageDimension, typename TMovingTransformType>
   // template <>

@@ -159,7 +159,7 @@ public:
 
 protected:
   SliceBySliceImageFilter();
-  ~SliceBySliceImageFilter() {}
+  ~SliceBySliceImageFilter() ITK_OVERRIDE {}
 
   void VerifyInputInformation() ITK_OVERRIDE;
 

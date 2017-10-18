@@ -145,8 +145,7 @@ protected:
   TemporalProcessObject();
 
   /** Empty Destructor */
-  virtual ~TemporalProcessObject(){
-  }
+  virtual ~TemporalProcessObject() ITK_OVERRIDE {}
 
   /** ITK print mechanism */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

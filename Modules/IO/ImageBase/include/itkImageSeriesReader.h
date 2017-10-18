@@ -162,7 +162,7 @@ protected:
     m_UseStreaming(true),
     m_MetaDataDictionaryArrayUpdate(true)
       {}
-  ~ImageSeriesReader();
+  ~ImageSeriesReader() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Does the real work. */

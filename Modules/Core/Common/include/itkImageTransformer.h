@@ -115,7 +115,7 @@ public:
 
 protected:
   ImageTransformer();
-  virtual ~ImageTransformer() {}
+  virtual ~ImageTransformer() ITK_OVERRIDE {}
 
   /** The image transformer is assumed to need the whole input.
    *

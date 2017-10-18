@@ -106,7 +106,7 @@ protected:
   ScaleLogarithmicTransform();
 
   /** Destroy an ScaleLogarithmicTransform object. */
-  ~ScaleLogarithmicTransform();
+  ~ScaleLogarithmicTransform() ITK_OVERRIDE;
 
   /** Print contents of an ScaleLogarithmicTransform */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

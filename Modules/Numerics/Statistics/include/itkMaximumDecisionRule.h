@@ -67,7 +67,7 @@ public:
 
 protected:
   MaximumDecisionRule() {}
-  virtual ~MaximumDecisionRule() {}
+  virtual ~MaximumDecisionRule() ITK_OVERRIDE {}
 
 };  // end of class
 } // end of namespace Statistics

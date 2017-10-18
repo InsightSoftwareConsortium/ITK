@@ -125,7 +125,7 @@ public:
 
 protected:
   WhitakerSparseLevelSetImage();
-  virtual ~WhitakerSparseLevelSetImage();
+  virtual ~WhitakerSparseLevelSetImage() ITK_OVERRIDE;
 
   /** Initialize the sparse field layers */
   virtual void InitializeLayers() ITK_OVERRIDE;

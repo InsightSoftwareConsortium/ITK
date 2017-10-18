@@ -229,7 +229,7 @@ public:
 
 protected:
   ExtractImageFilter();
-  ~ExtractImageFilter() {}
+  ~ExtractImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ExtractImageFilter can produce an image which is a different

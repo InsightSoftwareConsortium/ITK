@@ -121,7 +121,7 @@ public:
 
 protected:
   MaximumImageFilter() {}
-  virtual ~MaximumImageFilter() {}
+  virtual ~MaximumImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaximumImageFilter);

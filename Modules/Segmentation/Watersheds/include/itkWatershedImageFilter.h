@@ -258,7 +258,7 @@ public:
 
 protected:
   WatershedImageFilter();
-  virtual ~WatershedImageFilter() {}
+  virtual ~WatershedImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** An opportunity to Allocate/Deallocate bulk data.

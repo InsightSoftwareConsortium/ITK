@@ -687,7 +687,7 @@ public:
 
 protected:
   ImageBase();
-  ~ImageBase();
+  ~ImageBase() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Calculate the offsets needed to move from one pixel to the next

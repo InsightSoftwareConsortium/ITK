@@ -129,9 +129,7 @@ protected:
   QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);
   QuaternionRigidTransform(unsigned int paramDims);
   QuaternionRigidTransform();
-  ~QuaternionRigidTransform()
-  {
-  }
+  ~QuaternionRigidTransform() ITK_OVERRIDE {}
 
   void ComputeMatrix() ITK_OVERRIDE;
 

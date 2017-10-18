@@ -141,7 +141,7 @@ public:
 
 protected:
   Relabeler();
-  virtual ~Relabeler() {}
+  virtual ~Relabeler() ITK_OVERRIDE {}
   Relabeler(const Self &) {}
   void operator=(const Self &) {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

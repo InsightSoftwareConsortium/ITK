@@ -197,7 +197,7 @@ public:
 
 protected:
   Boundary();
-  virtual ~Boundary() {}
+  virtual ~Boundary() ITK_OVERRIDE {}
   Boundary(const Self &) {}
   void operator=(const Self &) {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

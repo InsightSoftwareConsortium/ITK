@@ -112,7 +112,7 @@ protected:
   CenteredAffineTransform();
 
   /** Destroy an CenteredAffineTransform object */
-  virtual ~CenteredAffineTransform();
+  virtual ~CenteredAffineTransform() ITK_OVERRIDE;
 
 private:
   CenteredAffineTransform(const Self & other);

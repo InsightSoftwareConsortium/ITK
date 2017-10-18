@@ -458,7 +458,7 @@ public:
 
 protected:
   ImageRegistrationMethodv4();
-  virtual ~ImageRegistrationMethodv4();
+  virtual ~ImageRegistrationMethodv4() ITK_OVERRIDE;
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Perform the registration. */

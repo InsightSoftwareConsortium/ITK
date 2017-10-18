@@ -78,7 +78,7 @@ protected:
   StdStreamLogOutput();
 
   /** Destructor */
-  virtual ~StdStreamLogOutput();
+  virtual ~StdStreamLogOutput() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -105,7 +105,7 @@ public:
 
 protected:
   BasicDilateImageFilter();
-  ~BasicDilateImageFilter() {}
+  ~BasicDilateImageFilter() ITK_OVERRIDE {}
 
   /** Evaluate image neighborhood with kernel to find the new value
    * for the center pixel value

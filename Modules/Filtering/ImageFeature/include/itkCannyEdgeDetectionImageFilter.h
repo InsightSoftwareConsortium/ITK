@@ -238,7 +238,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CannyEdgeDetectionImageFilter);
 
-  virtual ~CannyEdgeDetectionImageFilter(){}
+  virtual ~CannyEdgeDetectionImageFilter() ITK_OVERRIDE {}
 
   /** Thread-Data structure. */
   struct CannyThreadStruct

@@ -95,7 +95,7 @@ public:
 
   /** Destructor. ImageIORegion is a lightweight object that is not reference
    * counted, so the destructor is public. */
-  virtual ~ImageIORegion();
+  virtual ~ImageIORegion() ITK_OVERRIDE;
 
   /** Copy constructor. ImageIORegion is a lightweight object that is not
    * reference counted, so the copy constructor is public. */

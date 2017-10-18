@@ -232,7 +232,7 @@ public:
 
 protected:
   GaussianDistribution();
-  virtual ~GaussianDistribution(void) {}
+  virtual ~GaussianDistribution(void) ITK_OVERRIDE {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

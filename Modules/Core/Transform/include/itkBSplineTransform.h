@@ -279,7 +279,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   BSplineTransform();
-  virtual ~BSplineTransform();
+  virtual ~BSplineTransform() ITK_OVERRIDE;
 
 private:
 

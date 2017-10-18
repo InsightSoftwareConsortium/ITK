@@ -209,7 +209,7 @@ protected:
                    const OutputVectorType & offset);
   Rigid3DTransform(unsigned int paramDim);
   Rigid3DTransform();
-  ~Rigid3DTransform();
+  ~Rigid3DTransform() ITK_OVERRIDE;
 
   /**
    * Print contents of an Rigid3DTransform

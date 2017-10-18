@@ -97,7 +97,7 @@ public:
 
 protected:
   LabelMapToRGBImageFilter();
-  ~LabelMapToRGBImageFilter() {};
+  ~LabelMapToRGBImageFilter() ITK_OVERRIDE {};
 
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 

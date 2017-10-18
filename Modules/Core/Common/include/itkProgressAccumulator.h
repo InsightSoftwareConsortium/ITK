@@ -113,7 +113,7 @@ public:
 
 protected:
   ProgressAccumulator();
-  virtual ~ProgressAccumulator();
+  virtual ~ProgressAccumulator() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
 private:

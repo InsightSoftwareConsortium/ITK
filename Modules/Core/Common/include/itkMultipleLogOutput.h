@@ -75,7 +75,7 @@ protected:
   MultipleLogOutput();
 
   /** Destructor */
-  virtual ~MultipleLogOutput();
+  virtual ~MultipleLogOutput() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultipleLogOutput);

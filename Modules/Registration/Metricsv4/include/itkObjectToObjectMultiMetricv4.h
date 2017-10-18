@@ -201,7 +201,7 @@ public:
 protected:
 
   ObjectToObjectMultiMetricv4();
-  virtual ~ObjectToObjectMultiMetricv4();
+  virtual ~ObjectToObjectMultiMetricv4() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

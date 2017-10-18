@@ -168,7 +168,7 @@ public:
 
 protected:
   PointSetToImageMetric();
-  virtual ~PointSetToImageMetric() {}
+  virtual ~PointSetToImageMetric() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   mutable SizeValueType m_NumberOfPixelsCounted;

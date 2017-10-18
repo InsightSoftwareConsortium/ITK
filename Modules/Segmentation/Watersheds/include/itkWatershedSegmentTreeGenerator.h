@@ -194,7 +194,7 @@ public:
 
 protected:
   SegmentTreeGenerator();
-  virtual ~SegmentTreeGenerator() {}
+  virtual ~SegmentTreeGenerator() ITK_OVERRIDE {}
   SegmentTreeGenerator(const Self &) {}
   void operator=(const Self &) {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

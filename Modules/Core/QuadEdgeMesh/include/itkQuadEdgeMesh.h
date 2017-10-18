@@ -500,7 +500,7 @@ public:
 protected:
   /** Constructor and Destructor. */
   QuadEdgeMesh();
-  virtual ~QuadEdgeMesh();
+  virtual ~QuadEdgeMesh() ITK_OVERRIDE;
 
   /** Release the memory of each one of the cells independently. */
   virtual void ClearCellsContainer();

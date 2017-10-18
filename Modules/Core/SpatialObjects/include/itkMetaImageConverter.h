@@ -76,7 +76,7 @@ protected:
   typename ImageType::Pointer AllocateImage(const ImageMetaObjectType *image);
 
   MetaImageConverter();
-  ~MetaImageConverter() {}
+  ~MetaImageConverter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageConverter);

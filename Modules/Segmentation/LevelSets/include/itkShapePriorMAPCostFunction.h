@@ -141,7 +141,7 @@ public:
 
 protected:
   ShapePriorMAPCostFunction();
-  virtual ~ShapePriorMAPCostFunction() {}
+  virtual ~ShapePriorMAPCostFunction() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -90,7 +90,7 @@ public:
 
 protected:
   PNGImageIO();
-  ~PNGImageIO();
+  ~PNGImageIO() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void WriteSlice(const std::string & fileName, const void *buffer);

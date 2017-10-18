@@ -486,7 +486,7 @@ private:
 
 protected:
   Histogram();
-  virtual ~Histogram() {}
+  virtual ~Histogram() ITK_OVERRIDE {}
 
   // The number of bins for each dimension
   SizeType m_Size;

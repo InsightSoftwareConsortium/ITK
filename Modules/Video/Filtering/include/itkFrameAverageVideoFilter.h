@@ -67,7 +67,7 @@ protected:
 
   /** Constructor and Destructor */
   FrameAverageVideoFilter();
-  virtual ~FrameAverageVideoFilter() {}
+  virtual ~FrameAverageVideoFilter() ITK_OVERRIDE {}
 
   /** PrintSelf */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

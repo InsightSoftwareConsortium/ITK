@@ -140,7 +140,7 @@ public:
 
 protected:
   PasteImageFilter();
-  ~PasteImageFilter() {}
+  ~PasteImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** PasteImageFilter can be implemented as a multithreaded filter.

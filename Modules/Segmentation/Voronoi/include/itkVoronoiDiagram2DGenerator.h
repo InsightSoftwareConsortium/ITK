@@ -106,7 +106,7 @@ public:
 
 protected:
   VoronoiDiagram2DGenerator();
-  ~VoronoiDiagram2DGenerator();
+  ~VoronoiDiagram2DGenerator() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Voronoi Diagram based on the current list of seeds. */

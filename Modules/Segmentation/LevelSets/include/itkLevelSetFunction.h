@@ -301,7 +301,7 @@ protected:
   {
   }
 
-  virtual ~LevelSetFunction() {}
+  virtual ~LevelSetFunction() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;
 
   /** Constants used in the time step calculation. */

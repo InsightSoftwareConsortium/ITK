@@ -143,7 +143,7 @@ public:
 
 protected:
   MeshSource();
-  virtual ~MeshSource() {}
+  virtual ~MeshSource() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Requested region of Mesh is specified as i of N unstructured regions.

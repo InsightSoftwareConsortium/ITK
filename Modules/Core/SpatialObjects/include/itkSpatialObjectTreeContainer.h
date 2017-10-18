@@ -78,7 +78,7 @@ public:
 protected:
 
   SpatialObjectTreeContainer();
-  virtual ~SpatialObjectTreeContainer();
+  virtual ~SpatialObjectTreeContainer() ITK_OVERRIDE;
 };
 } // namespace itk
 

@@ -157,7 +157,7 @@ public:
 
 protected:
   CollidingFrontsImageFilter();
-  virtual ~CollidingFrontsImageFilter() {}
+  virtual ~CollidingFrontsImageFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

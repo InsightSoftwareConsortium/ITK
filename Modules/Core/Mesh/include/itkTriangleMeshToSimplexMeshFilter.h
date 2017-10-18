@@ -114,7 +114,7 @@ public:
 protected:
 
   TriangleMeshToSimplexMeshFilter();
-  ~TriangleMeshToSimplexMeshFilter();
+  ~TriangleMeshToSimplexMeshFilter() ITK_OVERRIDE;
   TriangleMeshToSimplexMeshFilter(const Self &) {}
 
   void operator=(const Self &) {}

@@ -145,7 +145,7 @@ public:
 
 protected:
   UnsharpMaskImageFilter();
-  virtual ~UnsharpMaskImageFilter(){}
+  virtual ~UnsharpMaskImageFilter() ITK_OVERRIDE {}
 
   /**
   * UnsharpMaskImageFilter needs a larger input requested region than

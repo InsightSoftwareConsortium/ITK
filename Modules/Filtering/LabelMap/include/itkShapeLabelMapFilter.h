@@ -132,7 +132,7 @@ public:
 
 protected:
   ShapeLabelMapFilter();
-  ~ShapeLabelMapFilter() {}
+  ~ShapeLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 

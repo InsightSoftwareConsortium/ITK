@@ -161,7 +161,7 @@ public:
 
 protected:
   SegmentTree() {}
-  virtual ~SegmentTree() {}
+  virtual ~SegmentTree() ITK_OVERRIDE {}
   SegmentTree(const Self &) {}
   void operator=(const Self &) {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

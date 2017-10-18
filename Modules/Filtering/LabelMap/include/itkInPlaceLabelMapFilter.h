@@ -142,7 +142,7 @@ public:
 
 protected:
   InPlaceLabelMapFilter();
-  ~InPlaceLabelMapFilter();
+  ~InPlaceLabelMapFilter() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

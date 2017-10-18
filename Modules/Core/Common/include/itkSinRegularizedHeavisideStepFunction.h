@@ -75,7 +75,7 @@ public:
 
 protected:
   SinRegularizedHeavisideStepFunction();
-  ~SinRegularizedHeavisideStepFunction();
+  ~SinRegularizedHeavisideStepFunction() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SinRegularizedHeavisideStepFunction);

@@ -126,7 +126,7 @@ protected:
   GaussianDerivativeImageFunction();
   GaussianDerivativeImageFunction(const Self &);
 
-  ~GaussianDerivativeImageFunction(){}
+  ~GaussianDerivativeImageFunction() ITK_OVERRIDE {}
 
   void operator=(const Self &);
 

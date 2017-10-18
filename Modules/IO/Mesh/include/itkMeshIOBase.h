@@ -513,7 +513,7 @@ public:
 
 protected:
   MeshIOBase();
-  virtual ~MeshIOBase(){}
+  virtual ~MeshIOBase() ITK_OVERRIDE {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -109,7 +109,7 @@ public:
                           const MeasureArrayType & classSigmas);
 
   /** Destructor. */
-    virtual ~CompositeValleyFunction();
+    virtual ~CompositeValleyFunction() ITK_OVERRIDE;
 
   /** Get energy table's higher bound. */
   double GetUpperBound() { return m_UpperBound; }

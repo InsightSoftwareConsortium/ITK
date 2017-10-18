@@ -109,7 +109,7 @@ public:
 
 protected:
   ComparisonImageFilter();
-  virtual ~ComparisonImageFilter() {}
+  virtual ~ComparisonImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

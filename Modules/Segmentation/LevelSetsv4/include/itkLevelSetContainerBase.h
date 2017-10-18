@@ -276,7 +276,7 @@ protected:
   LevelSetContainerBase();
 
   /** \brief Default Destructor */
-  ~LevelSetContainerBase();
+  ~LevelSetContainerBase() ITK_OVERRIDE;
 
   const LevelSetContainerType& GetContainer() const;
   void SetContainer( const LevelSetContainerType& iContainer );

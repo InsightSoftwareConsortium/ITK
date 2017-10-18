@@ -33,7 +33,7 @@ class ITKIOMesh_EXPORT MeshFileReaderException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
-  virtual ~MeshFileReaderException() throw();
+  virtual ~MeshFileReaderException() throw() ITK_OVERRIDE;
 
   /** Run-time information. */
   itkTypeMacro(MeshFileReaderException, ExceptionObject);

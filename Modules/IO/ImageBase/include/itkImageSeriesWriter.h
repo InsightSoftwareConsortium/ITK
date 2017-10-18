@@ -34,7 +34,7 @@ class ITKIOImageBase_EXPORT ImageSeriesWriterException:public ExceptionObject
 {
 public:
   /** Has to have empty throw(). */
-  virtual ~ImageSeriesWriterException() throw( );
+  virtual ~ImageSeriesWriterException() throw( ) ITK_OVERRIDE;
 
   /** Run-time information. */
   itkTypeMacro(ImageSeriesWriterException, ExceptionObject);
@@ -199,7 +199,7 @@ public:
 
 protected:
   ImageSeriesWriter();
-  ~ImageSeriesWriter();
+  ~ImageSeriesWriter() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Does the real work. */

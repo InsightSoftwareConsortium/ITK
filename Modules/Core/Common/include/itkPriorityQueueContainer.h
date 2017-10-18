@@ -224,7 +224,7 @@ public:
 
 public:
   PriorityQueueContainer();
-  ~PriorityQueueContainer();
+  ~PriorityQueueContainer() ITK_OVERRIDE;
 
   template< typename TInputIterator >
   PriorityQueueContainer(TInputIterator first, TInputIterator last):

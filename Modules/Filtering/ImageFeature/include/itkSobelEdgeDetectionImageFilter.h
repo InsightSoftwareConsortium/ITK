@@ -121,7 +121,7 @@ public:
 
 protected:
   SobelEdgeDetectionImageFilter() {}
-  virtual ~SobelEdgeDetectionImageFilter() {}
+  virtual ~SobelEdgeDetectionImageFilter() ITK_OVERRIDE {}
 
   /**
    * Standard pipeline method. While this class does not implement a

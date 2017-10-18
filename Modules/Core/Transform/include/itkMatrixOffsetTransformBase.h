@@ -482,7 +482,7 @@ protected:
   MatrixOffsetTransformBase();
 
   /** Destroy an MatrixOffsetTransformBase object */
-  virtual ~MatrixOffsetTransformBase();
+  virtual ~MatrixOffsetTransformBase() ITK_OVERRIDE;
 
   /** Print contents of an MatrixOffsetTransformBase */
   virtual void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;

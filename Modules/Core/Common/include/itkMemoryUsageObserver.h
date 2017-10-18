@@ -94,7 +94,7 @@ class ITKCommon_EXPORT MacOSXMemoryUsageObserver:public MemoryUsageObserverBase
 {
 public:
   /** destructor */
-  virtual ~MacOSXMemoryUsageObserver();
+  virtual ~MacOSXMemoryUsageObserver() ITK_OVERRIDE;
   virtual MemoryLoadType GetMemoryUsage() ITK_OVERRIDE;
 };
 #endif // Mac OS X
@@ -114,7 +114,7 @@ class ITKCommon_EXPORT SysResourceMemoryUsageObserver:public MemoryUsageObserver
 {
 public:
   /** destructor */
-  virtual ~SysResourceMemoryUsageObserver();
+  virtual ~SysResourceMemoryUsageObserver() ITK_OVERRIDE;
   virtual MemoryLoadType GetMemoryUsage() ITK_OVERRIDE;
 };
 

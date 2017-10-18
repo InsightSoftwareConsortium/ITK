@@ -62,7 +62,7 @@ protected:
     this->m_OutputMesh = ITK_NULLPTR;
   }
 
-  ~DecimationQuadEdgeMeshFilter() {}
+  ~DecimationQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
   CriterionPointer m_Criterion;
   SizeValueType    m_Iteration;

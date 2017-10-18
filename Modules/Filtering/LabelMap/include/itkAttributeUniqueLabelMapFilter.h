@@ -100,7 +100,7 @@ public:
 
 protected:
   AttributeUniqueLabelMapFilter();
-  ~AttributeUniqueLabelMapFilter() {};
+  ~AttributeUniqueLabelMapFilter() ITK_OVERRIDE {};
 
   void GenerateData() ITK_OVERRIDE;
 

@@ -231,7 +231,7 @@ protected:
     m_ConfidenceWeight = 1.0;
   }
 
-  virtual ~STAPLEImageFilter() {}
+  virtual ~STAPLEImageFilter() ITK_OVERRIDE {}
   void GenerateData() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream &, Indent) const ITK_OVERRIDE;

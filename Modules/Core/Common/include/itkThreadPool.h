@@ -130,7 +130,7 @@ protected:
 
   ThreadPool();  // Protected so that only the GetThreadPool can create a thread
                  // pool
-  virtual ~ThreadPool();
+  virtual ~ThreadPool() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadPool);

@@ -210,9 +210,7 @@ protected:
   Similarity2DTransform(unsigned int parametersDimension);
   Similarity2DTransform();
 
-  ~Similarity2DTransform()
-  {
-  }
+  ~Similarity2DTransform() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute matrix from angle and scale. This is used in Set methods

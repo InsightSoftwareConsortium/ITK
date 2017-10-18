@@ -51,7 +51,7 @@ public:
   {}
 
   /** Has to have empty throw(). */
-  virtual ~ImageFileWriterException() throw( );
+  virtual ~ImageFileWriterException() throw( ) ITK_OVERRIDE;
 };
 
 /** \class ImageFileWriter
@@ -194,7 +194,7 @@ public:
 
 protected:
   ImageFileWriter();
-  ~ImageFileWriter();
+  ~ImageFileWriter() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Does the real work. */

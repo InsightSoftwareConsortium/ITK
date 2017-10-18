@@ -123,7 +123,7 @@ public:
 
 protected:
   MetaDataObject();
-  virtual ~MetaDataObject();
+  virtual ~MetaDataObject() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaDataObject);

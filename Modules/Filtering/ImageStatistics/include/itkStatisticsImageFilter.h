@@ -141,7 +141,7 @@ public:
 
 protected:
   StatisticsImageFilter();
-  ~StatisticsImageFilter(){}
+  ~StatisticsImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Pass the input through unmodified. Do this by Grafting in the

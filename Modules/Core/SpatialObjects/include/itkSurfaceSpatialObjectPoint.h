@@ -49,7 +49,7 @@ public:
   SurfaceSpatialObjectPoint();
 
   /** Destructor */
-  virtual ~SurfaceSpatialObjectPoint();
+  virtual ~SurfaceSpatialObjectPoint() ITK_OVERRIDE;
 
   /** Get Normal */
   const VectorType & GetNormal() const;

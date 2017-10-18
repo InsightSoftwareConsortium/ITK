@@ -193,7 +193,7 @@ public:
 
 protected:
   IntensityWindowingImageFilter();
-  virtual ~IntensityWindowingImageFilter() {}
+  virtual ~IntensityWindowingImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IntensityWindowingImageFilter);

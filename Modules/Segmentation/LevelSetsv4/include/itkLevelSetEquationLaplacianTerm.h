@@ -108,7 +108,7 @@ public:
 protected:
   LevelSetEquationLaplacianTerm();
 
-  virtual ~LevelSetEquationLaplacianTerm();
+  virtual ~LevelSetEquationLaplacianTerm() ITK_OVERRIDE;
 
   /** Return the spatial speed dependence a given pixel location
    * Usually, it is constant across the image domain */

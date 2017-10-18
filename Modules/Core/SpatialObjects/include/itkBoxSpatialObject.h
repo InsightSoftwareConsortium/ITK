@@ -88,7 +88,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(BoxSpatialObject);
 
   BoxSpatialObject();
-  ~BoxSpatialObject();
+  ~BoxSpatialObject() ITK_OVERRIDE;
 
   SizeType m_Size;
 

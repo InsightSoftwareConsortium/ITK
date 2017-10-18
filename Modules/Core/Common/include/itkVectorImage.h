@@ -336,7 +336,7 @@ protected:
   VectorImage();
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual ~VectorImage() {}
+  virtual ~VectorImage() ITK_OVERRIDE {}
   virtual void Graft(const DataObject *data) ITK_OVERRIDE;
   using Superclass::Graft;
 private:

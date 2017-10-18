@@ -89,7 +89,7 @@ protected:
   InputImageType * GetNonConstImageInput();
   InputPathType * GetNonConstPathInput();
   ImageAndPathToImageFilter();
-  virtual ~ImageAndPathToImageFilter() {}
+  virtual ~ImageAndPathToImageFilter() ITK_OVERRIDE {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -86,7 +86,7 @@ public:
 
 protected:
   ThreadedImageRegionPartitioner();
-  virtual ~ThreadedImageRegionPartitioner();
+  virtual ~ThreadedImageRegionPartitioner() ITK_OVERRIDE;
 
   typedef ImageRegionSplitterSlowDimension ImageRegionSplitterType;
 

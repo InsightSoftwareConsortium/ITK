@@ -123,7 +123,7 @@ public:
 
 protected:
   BinaryReconstructionLabelMapFilter();
-  ~BinaryReconstructionLabelMapFilter() {};
+  ~BinaryReconstructionLabelMapFilter() ITK_OVERRIDE {};
 
   virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
 

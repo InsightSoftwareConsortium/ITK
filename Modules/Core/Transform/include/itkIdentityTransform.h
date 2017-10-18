@@ -248,9 +248,7 @@ protected:
     this->m_IdentityJacobian.Fill(0.0);
   }
 
-  virtual ~IdentityTransform()
-  {
-  }
+  virtual ~IdentityTransform() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IdentityTransform);

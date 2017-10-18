@@ -231,7 +231,7 @@ protected:
     m_TimeStep                 = 0.125f;  // default value
   }
 
-  ~AnisotropicDiffusionFunction() {}
+  ~AnisotropicDiffusionFunction() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

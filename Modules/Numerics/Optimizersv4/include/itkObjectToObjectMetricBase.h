@@ -187,7 +187,7 @@ public:
 
 protected:
   ObjectToObjectMetricBaseTemplate();
-  virtual ~ObjectToObjectMetricBaseTemplate();
+  virtual ~ObjectToObjectMetricBaseTemplate() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

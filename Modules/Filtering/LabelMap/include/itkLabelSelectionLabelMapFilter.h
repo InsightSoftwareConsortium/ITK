@@ -123,7 +123,7 @@ public:
 
 protected:
   LabelSelectionLabelMapFilter() {};
-  ~LabelSelectionLabelMapFilter() {};
+  ~LabelSelectionLabelMapFilter() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelSelectionLabelMapFilter);

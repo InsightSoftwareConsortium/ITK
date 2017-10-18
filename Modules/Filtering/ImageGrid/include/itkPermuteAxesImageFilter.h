@@ -104,7 +104,7 @@ protected:
   virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   PermuteAxesImageFilter();
-  ~PermuteAxesImageFilter() {}
+  ~PermuteAxesImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** PermuteAxesImageFilter can be implemented as a multithreaded filter.

@@ -131,7 +131,7 @@ protected:
       MeasurementVectorType() );
   }
 
-  virtual ~MembershipFunctionBase(void) {}
+  virtual ~MembershipFunctionBase(void) ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

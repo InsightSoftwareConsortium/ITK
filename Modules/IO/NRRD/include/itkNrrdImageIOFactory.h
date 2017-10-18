@@ -58,7 +58,7 @@ public:
 
 protected:
   NrrdImageIOFactory();
-  ~NrrdImageIOFactory();
+  ~NrrdImageIOFactory() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NrrdImageIOFactory);

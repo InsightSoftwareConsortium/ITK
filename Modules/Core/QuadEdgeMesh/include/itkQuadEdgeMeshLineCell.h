@@ -99,7 +99,7 @@ public:
 public:
   /** Object memory management methods. */
   QuadEdgeMeshLineCell();
-  virtual ~QuadEdgeMeshLineCell();
+  virtual ~QuadEdgeMeshLineCell() ITK_OVERRIDE;
 
   /** Accessors for m_Identifier. */
   void SetIdent(CellIdentifier cid);

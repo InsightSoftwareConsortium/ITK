@@ -145,7 +145,7 @@ public:
 
 protected:
   GaussianInterpolateImageFunction();
-  ~GaussianInterpolateImageFunction(){};
+  ~GaussianInterpolateImageFunction() ITK_OVERRIDE {};
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   virtual void ComputeBoundingBox();

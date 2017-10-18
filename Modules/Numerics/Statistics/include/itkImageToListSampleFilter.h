@@ -113,7 +113,7 @@ public:
 
 protected:
   ImageToListSampleFilter();
-  virtual ~ImageToListSampleFilter() {}
+  virtual ~ImageToListSampleFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Standard itk::ProcessObject subclass method. */

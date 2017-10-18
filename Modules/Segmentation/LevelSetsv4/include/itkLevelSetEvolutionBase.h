@@ -120,7 +120,7 @@ public:
 protected:
   LevelSetEvolutionBase();
 
-  virtual ~LevelSetEvolutionBase();
+  virtual ~LevelSetEvolutionBase() ITK_OVERRIDE;
 
   void CheckSetUp();
 

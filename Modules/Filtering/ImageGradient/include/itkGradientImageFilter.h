@@ -146,7 +146,7 @@ public:
 
 protected:
   GradientImageFilter();
-  virtual ~GradientImageFilter();
+  virtual ~GradientImageFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.

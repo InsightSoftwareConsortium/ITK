@@ -119,7 +119,7 @@ public:
 
 protected:
   LabelMapToBinaryImageFilter();
-  ~LabelMapToBinaryImageFilter() {}
+  ~LabelMapToBinaryImageFilter() ITK_OVERRIDE {}
 
   /** LabelMapToBinaryImageFilter needs the entire input be
    * available. Thus, it needs to provide an implementation of

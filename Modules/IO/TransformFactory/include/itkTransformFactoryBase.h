@@ -102,7 +102,7 @@ public:
 
 protected:
   TransformFactoryBase();
-  virtual ~TransformFactoryBase();
+  virtual ~TransformFactoryBase() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformFactoryBase);

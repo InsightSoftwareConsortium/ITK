@@ -71,7 +71,7 @@ public:
   TComponentType GetAlpha() const;
 
   SpatialObjectProperty();
-  virtual ~SpatialObjectProperty();
+  virtual ~SpatialObjectProperty() ITK_OVERRIDE;
 
   void SetName(const char *name);
 

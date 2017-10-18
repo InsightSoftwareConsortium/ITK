@@ -171,7 +171,7 @@ public:
 
 protected:
   BoundingBox();
-  virtual ~BoundingBox();
+  virtual ~BoundingBox() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename PointsContainer::ConstIterator ConstIterator;

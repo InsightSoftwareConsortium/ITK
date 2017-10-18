@@ -557,9 +557,7 @@ protected:
 
   Transform();
   Transform(NumberOfParametersType NumberOfParameters);
-  virtual ~Transform()
-  {
-  }
+  virtual ~Transform() ITK_OVERRIDE { }
 
   mutable ParametersType      m_Parameters;
   mutable FixedParametersType m_FixedParameters;

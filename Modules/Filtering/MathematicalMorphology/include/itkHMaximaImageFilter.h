@@ -119,7 +119,7 @@ public:
 
 protected:
   HMaximaImageFilter();
-  ~HMaximaImageFilter() {}
+  ~HMaximaImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** HMaximaImageFilter needs the entire input be

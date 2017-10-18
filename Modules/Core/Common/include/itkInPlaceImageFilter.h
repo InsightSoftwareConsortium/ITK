@@ -121,7 +121,7 @@ public:
 
 protected:
   InPlaceImageFilter();
-  ~InPlaceImageFilter();
+  ~InPlaceImageFilter() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

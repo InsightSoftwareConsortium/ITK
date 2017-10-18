@@ -223,7 +223,7 @@ public:
 protected:
 
   FiniteDifferenceImageFilter();
-  virtual ~FiniteDifferenceImageFilter();
+  virtual ~FiniteDifferenceImageFilter() ITK_OVERRIDE;
 
   /** State that the filter is in, i.e. UNINITIALIZED or INITIALIZED */
   bool m_IsInitialized;

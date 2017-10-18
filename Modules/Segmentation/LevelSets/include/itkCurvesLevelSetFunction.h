@@ -124,7 +124,7 @@ protected:
     this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
-  virtual ~CurvesLevelSetFunction() {}
+  virtual ~CurvesLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(CurvesLevelSetFunction);
 

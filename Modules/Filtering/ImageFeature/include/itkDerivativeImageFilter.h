@@ -123,7 +123,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~DerivativeImageFilter() {}
+  virtual ~DerivativeImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Standard pipeline method. While this class does not implement a

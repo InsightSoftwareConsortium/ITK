@@ -310,7 +310,7 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   BSplineBaseTransform();
-  virtual ~BSplineBaseTransform();
+  virtual ~BSplineBaseTransform() ITK_OVERRIDE;
 
   /** Get/Set to allow subclasses to access and manipulate the weights function. */
   itkSetObjectMacro( WeightsFunction, WeightsFunctionType );

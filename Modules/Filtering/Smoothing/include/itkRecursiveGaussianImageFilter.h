@@ -155,7 +155,7 @@ public:
 
 protected:
   RecursiveGaussianImageFilter();
-  virtual ~RecursiveGaussianImageFilter() {}
+  virtual ~RecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Set up the coefficients of the filter to approximate a specific kernel.

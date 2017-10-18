@@ -81,7 +81,7 @@ public:
 
 protected:
   MeanSquaresImageToImageMetricv4();
-  virtual ~MeanSquaresImageToImageMetricv4();
+  virtual ~MeanSquaresImageToImageMetricv4() ITK_OVERRIDE;
 
   friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class MeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;

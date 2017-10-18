@@ -133,7 +133,7 @@ public:
 
 protected:
   RawImageIO();
-  ~RawImageIO();
+  ~RawImageIO() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   //void ComputeInternalFileName(unsigned long slice);

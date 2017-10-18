@@ -142,7 +142,7 @@ public:
 
 protected:
   AttributeSelectionLabelMapFilter();
-  ~AttributeSelectionLabelMapFilter() {};
+  ~AttributeSelectionLabelMapFilter() ITK_OVERRIDE {};
 
   void GenerateData() ITK_OVERRIDE;
 

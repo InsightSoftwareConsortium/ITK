@@ -95,7 +95,7 @@ public:
 
 protected:
   JoinSeriesImageFilter();
-  ~JoinSeriesImageFilter() {}
+  ~JoinSeriesImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Override VeriyInputInformation() to add the additional check

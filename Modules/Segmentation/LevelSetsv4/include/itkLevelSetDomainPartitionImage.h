@@ -90,7 +90,7 @@ public:
 
 protected:
   LevelSetDomainPartitionImage();
-  virtual ~LevelSetDomainPartitionImage();
+  virtual ~LevelSetDomainPartitionImage() ITK_OVERRIDE;
 
   /** Allocate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */

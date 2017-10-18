@@ -75,7 +75,7 @@ public:
   TemporalRegion();
 
   /** Destructor */
-  virtual ~TemporalRegion();
+  virtual ~TemporalRegion() ITK_OVERRIDE;
 
   /** Compare two temporal regions in Frame space */
   virtual bool IsEqualInFrames(const Self & region) const;

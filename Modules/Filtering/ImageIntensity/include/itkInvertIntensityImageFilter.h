@@ -132,7 +132,7 @@ public:
 
 protected:
   InvertIntensityImageFilter();
-  virtual ~InvertIntensityImageFilter() {}
+  virtual ~InvertIntensityImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(InvertIntensityImageFilter);

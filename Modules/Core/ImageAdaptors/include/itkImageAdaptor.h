@@ -393,7 +393,7 @@ public:
 protected:
 
   ImageAdaptor();
-  virtual ~ImageAdaptor();
+  virtual ~ImageAdaptor() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
   virtual void Graft(const DataObject *data) ITK_OVERRIDE;
   using Superclass::Graft;

@@ -87,7 +87,7 @@ public:
 
 protected:
   SpatialObjectFactoryBase();
-  virtual ~SpatialObjectFactoryBase();
+  virtual ~SpatialObjectFactoryBase() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SpatialObjectFactoryBase);

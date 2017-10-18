@@ -140,7 +140,7 @@ public:
 
 protected:
   ImagePCAShapeModelEstimator();
-  ~ImagePCAShapeModelEstimator();
+  ~ImagePCAShapeModelEstimator() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This filter must produce all of the outputs at once, as such it

@@ -212,7 +212,7 @@ public:
 
 protected:
   ImageFunction();
-  ~ImageFunction() {}
+  ~ImageFunction() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Const pointer to the input image. */

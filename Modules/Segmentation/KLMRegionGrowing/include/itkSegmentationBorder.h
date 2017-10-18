@@ -70,7 +70,7 @@ public:
 
 protected:
   SegmentationBorder();
-  ~SegmentationBorder();
+  ~SegmentationBorder() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

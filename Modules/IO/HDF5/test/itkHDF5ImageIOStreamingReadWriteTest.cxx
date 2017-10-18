@@ -61,7 +61,7 @@ class DemoImageSource:public GenerateImageSource< TOutputImage >
     {
       m_Value = NumericTraits< typename TOutputImage::PixelType >::ZeroValue();
     }
-    ~DemoImageSource(){}
+    ~DemoImageSource() ITK_OVERRIDE {}
 
     /** Does the real work. */
     virtual void GenerateData() ITK_OVERRIDE

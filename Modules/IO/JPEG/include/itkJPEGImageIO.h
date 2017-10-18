@@ -85,7 +85,7 @@ public:
 
 protected:
   JPEGImageIO();
-  ~JPEGImageIO();
+  ~JPEGImageIO() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void WriteSlice(std::string & fileName, const void *buffer);

@@ -125,7 +125,7 @@ public:
 
 protected:
   WienerDeconvolutionImageFilter();
-  ~WienerDeconvolutionImageFilter() {}
+  ~WienerDeconvolutionImageFilter() ITK_OVERRIDE {}
 
   /** This filter uses a minipipeline to compute the output. */
   void GenerateData() ITK_OVERRIDE;

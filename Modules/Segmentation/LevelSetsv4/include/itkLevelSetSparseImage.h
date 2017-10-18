@@ -105,7 +105,7 @@ public:
 
 protected:
   LevelSetSparseImage();
-  virtual ~LevelSetSparseImage();
+  virtual ~LevelSetSparseImage() ITK_OVERRIDE;
 
   LayerMapType      m_Layers;
   LabelMapPointer   m_LabelMap;

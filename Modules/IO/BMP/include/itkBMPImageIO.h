@@ -87,7 +87,7 @@ public:
   virtual void Write(const void *buffer) ITK_OVERRIDE;
 
   BMPImageIO();
-  ~BMPImageIO();
+  ~BMPImageIO() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

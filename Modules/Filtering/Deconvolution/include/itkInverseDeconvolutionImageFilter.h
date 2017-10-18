@@ -105,7 +105,7 @@ public:
 
 protected:
   InverseDeconvolutionImageFilter();
-  ~InverseDeconvolutionImageFilter() {}
+  ~InverseDeconvolutionImageFilter() ITK_OVERRIDE {}
 
   /** This filter uses a minipipeline to compute the output. */
   virtual void GenerateData() ITK_OVERRIDE;

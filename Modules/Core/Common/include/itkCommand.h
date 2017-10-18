@@ -63,7 +63,7 @@ public:
 
 protected:
   Command();
-  ~Command();
+  ~Command() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Command);
@@ -144,7 +144,7 @@ protected:
     m_ConstMemberFunction( ITK_NULLPTR )
   {}
 
-  virtual ~MemberCommand(){}
+  virtual ~MemberCommand() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MemberCommand);
@@ -212,7 +212,7 @@ protected:
     m_MemberFunction( ITK_NULLPTR )
   {}
 
-  virtual ~ReceptorMemberCommand() {}
+  virtual ~ReceptorMemberCommand() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReceptorMemberCommand);
@@ -278,7 +278,7 @@ protected:
     m_MemberFunction( ITK_NULLPTR )
   {}
 
-  virtual ~SimpleMemberCommand() {}
+  virtual ~SimpleMemberCommand() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SimpleMemberCommand);
@@ -400,7 +400,7 @@ public:
 
 protected:
   CStyleCommand();
-  ~CStyleCommand();
+  ~CStyleCommand() ITK_OVERRIDE;
 
   void *                    m_ClientData;
   FunctionPointer           m_Callback;

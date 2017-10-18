@@ -131,9 +131,7 @@ protected:
   VersorTransform();
 
   /** Destroy an VersorTransform object */
-  ~VersorTransform()
-  {
-  }
+  ~VersorTransform() ITK_OVERRIDE {}
 
 #ifdef ITKV3_COMPATIBILITY
   /** \deprecated This method must be made protected here because it is not a safe way of

@@ -97,7 +97,7 @@ public:
 protected:
 
   AffineGeometryFrame();
-  virtual ~AffineGeometryFrame();
+  virtual ~AffineGeometryFrame() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** used in clone to initialize the newly created geometry */

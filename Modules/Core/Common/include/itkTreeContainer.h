@@ -105,7 +105,7 @@ public:
 protected:
 
   TreeContainer();
-  virtual ~TreeContainer();
+  virtual ~TreeContainer() ITK_OVERRIDE;
 
   typename TreeNodeType::Pointer m_Root;
 

@@ -274,7 +274,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
   virtual void Graft(const DataObject *data) ITK_OVERRIDE;
 
-  virtual ~Image() {}
+  virtual ~Image() ITK_OVERRIDE {}
 
   /** Compute helper matrices used to transform Index coordinates to
    * PhysicalPoint coordinates and back. This method is virtual and will be

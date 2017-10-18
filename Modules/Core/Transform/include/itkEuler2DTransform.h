@@ -117,7 +117,7 @@ public:
 protected:
   Euler2DTransform(unsigned int parametersDimension);
   Euler2DTransform();
-  ~Euler2DTransform(){}
+  ~Euler2DTransform() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

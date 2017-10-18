@@ -210,7 +210,7 @@ protected:
   GradientDescentOptimizerv4Template();
 
   /** Destructor */
-  virtual ~GradientDescentOptimizerv4Template();
+  virtual ~GradientDescentOptimizerv4Template() ITK_OVERRIDE;
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 

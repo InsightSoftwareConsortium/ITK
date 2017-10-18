@@ -118,7 +118,7 @@ protected:
   double      m_IsInsidePrecision;
 
   MeshSpatialObject();
-  virtual ~MeshSpatialObject();
+  virtual ~MeshSpatialObject() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };

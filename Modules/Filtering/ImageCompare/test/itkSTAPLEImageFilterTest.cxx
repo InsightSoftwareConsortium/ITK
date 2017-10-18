@@ -80,7 +80,7 @@ public:
     m_Stapler = StapleFilterType::New();
     this->SetForeground(1);
   }
-  virtual ~Stapler() {}
+  virtual ~Stapler() ITK_OVERRIDE {}
 
   virtual double GetConfidenceWeight( ) const ITK_OVERRIDE
   { return m_Stapler->GetConfidenceWeight(); }

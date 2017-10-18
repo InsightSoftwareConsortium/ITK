@@ -89,7 +89,7 @@ public:
 
 protected:
   MinMaxCurvatureFlowFunction();
-  ~MinMaxCurvatureFlowFunction() {}
+  ~MinMaxCurvatureFlowFunction() ITK_OVERRIDE {}
 
   typedef Neighborhood< PixelType, itkGetStaticConstMacro(ImageDimension) > StencilOperatorType;
   StencilOperatorType m_StencilOperator;

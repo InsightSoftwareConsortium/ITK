@@ -218,7 +218,7 @@ public:
 
 protected:
   ImageSource();
-  virtual ~ImageSource() {}
+  virtual ~ImageSource() ITK_OVERRIDE {}
 
   /** A version of GenerateData() specific for image processing
    * filters.  This implementation will split the processing across

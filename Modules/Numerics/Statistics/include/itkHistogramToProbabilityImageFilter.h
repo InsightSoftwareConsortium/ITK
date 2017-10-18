@@ -109,7 +109,7 @@ public:
 
 protected:
   HistogramToProbabilityImageFilter() {}
-  virtual ~HistogramToProbabilityImageFilter() {}
+  virtual ~HistogramToProbabilityImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToProbabilityImageFilter);

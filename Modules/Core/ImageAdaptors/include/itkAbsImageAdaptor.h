@@ -95,7 +95,7 @@ public:
 
 protected:
   AbsImageAdaptor() {}
-  virtual ~AbsImageAdaptor() {}
+  virtual ~AbsImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AbsImageAdaptor);

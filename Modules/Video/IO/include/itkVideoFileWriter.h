@@ -108,7 +108,7 @@ public:
 protected:
 
   VideoFileWriter();
-  virtual ~VideoFileWriter();
+  virtual ~VideoFileWriter() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream &os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize output parameters. */

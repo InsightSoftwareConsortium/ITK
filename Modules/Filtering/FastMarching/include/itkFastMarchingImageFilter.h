@@ -336,7 +336,7 @@ private:
 
 protected:
   FastMarchingImageFilter();
-  ~FastMarchingImageFilter(){}
+  ~FastMarchingImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void Initialize(LevelSetImageType *);

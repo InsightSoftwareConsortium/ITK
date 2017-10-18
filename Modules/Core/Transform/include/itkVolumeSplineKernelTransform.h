@@ -74,7 +74,7 @@ public:
 
 protected:
   VolumeSplineKernelTransform() {}
-  virtual ~VolumeSplineKernelTransform() {}
+  virtual ~VolumeSplineKernelTransform() ITK_OVERRIDE {}
 
   /** These (rather redundant) typedefs are needed because on typedefs are not inherited. */
   typedef typename Superclass::GMatrixType GMatrixType;

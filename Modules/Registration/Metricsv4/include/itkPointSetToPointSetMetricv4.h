@@ -323,7 +323,7 @@ public:
 
 protected:
   PointSetToPointSetMetricv4();
-  virtual ~PointSetToPointSetMetricv4();
+  virtual ~PointSetToPointSetMetricv4() ITK_OVERRIDE;
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   typename FixedPointSetType::ConstPointer                m_FixedPointSet;

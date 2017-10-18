@@ -78,7 +78,7 @@ public:
 protected:
   LevelSetDenseImage();
 
-  virtual ~LevelSetDenseImage();
+  virtual ~LevelSetDenseImage() ITK_OVERRIDE;
 
   ImagePointer m_Image;
 

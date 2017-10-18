@@ -63,7 +63,7 @@ public:
 
 protected:
   HotColormapFunction() {}
-  ~HotColormapFunction() {}
+  ~HotColormapFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HotColormapFunction);

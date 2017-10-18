@@ -133,7 +133,7 @@ protected:
     m_BackgroundValue = NumericTraits< OutputImagePixelType >::ZeroValue();
   }
 
-  ~ZeroCrossingImageFilter(){}
+  ~ZeroCrossingImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   OutputImagePixelType m_BackgroundValue;

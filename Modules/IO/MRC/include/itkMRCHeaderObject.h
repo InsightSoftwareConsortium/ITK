@@ -262,7 +262,7 @@ public:
 protected:
 
   MRCHeaderObject();
-  ~MRCHeaderObject();
+  ~MRCHeaderObject() ITK_OVERRIDE;
 
   /** Methods to fix the order of a set header */
   void swapHeader(bool bigEndian);

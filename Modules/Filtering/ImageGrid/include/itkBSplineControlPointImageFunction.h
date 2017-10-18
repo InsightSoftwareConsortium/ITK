@@ -268,7 +268,7 @@ public:
 
 protected:
   BSplineControlPointImageFunction();
-  virtual ~BSplineControlPointImageFunction();
+  virtual ~BSplineControlPointImageFunction() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:

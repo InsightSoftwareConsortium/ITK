@@ -152,7 +152,7 @@ public:
 
 protected:
   ScalarImageKmeansImageFilter();
-  virtual ~ScalarImageKmeansImageFilter() {}
+  virtual ~ScalarImageKmeansImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method runs the statistical methods that identify the means of the

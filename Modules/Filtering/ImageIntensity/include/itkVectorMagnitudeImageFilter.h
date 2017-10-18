@@ -101,7 +101,7 @@ public:
 
 protected:
   VectorMagnitudeImageFilter() {}
-  virtual ~VectorMagnitudeImageFilter() {}
+  virtual ~VectorMagnitudeImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorMagnitudeImageFilter);

@@ -271,7 +271,7 @@ public:
 protected:
   LevelSetEquationTermContainer();
 
-  virtual ~LevelSetEquationTermContainer();
+  virtual ~LevelSetEquationTermContainer() ITK_OVERRIDE;
 
   LevelSetIdentifierType    m_CurrentLevelSetId;
   LevelSetContainerPointer  m_LevelSetContainer;

@@ -111,7 +111,7 @@ class ITK_TEMPLATE_EXPORT LevelSetDomainMapImageFilter : public ImageToImageFilt
 
   protected:
     LevelSetDomainMapImageFilter();
-    ~LevelSetDomainMapImageFilter();
+    ~LevelSetDomainMapImageFilter() ITK_OVERRIDE;
 
     /** Computes a consistent region for the same set of overlapping
      * level set support. */

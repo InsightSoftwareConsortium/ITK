@@ -105,7 +105,7 @@ public:
 protected:
   DiscreteLevelSetImage();
 
-  virtual ~DiscreteLevelSetImage();
+  virtual ~DiscreteLevelSetImage() ITK_OVERRIDE;
 
   /** Initial the level set pointer */
   virtual void Initialize() ITK_OVERRIDE;

@@ -101,7 +101,7 @@ public:
       }
   }
 
-  ~VertexCell() {}
+  ~VertexCell() ITK_OVERRIDE {}
 
 protected:
   /**

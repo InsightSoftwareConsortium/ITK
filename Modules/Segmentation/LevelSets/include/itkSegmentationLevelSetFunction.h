@@ -160,7 +160,7 @@ protected:
   virtual VectorType AdvectionField(const NeighborhoodType &,
                                     const FloatOffsetType &, GlobalDataStruct *gd) const ITK_OVERRIDE;
 
-  virtual ~SegmentationLevelSetFunction() {}
+  virtual ~SegmentationLevelSetFunction() ITK_OVERRIDE {}
   SegmentationLevelSetFunction()
   {
     m_SpeedImage = ImageType::New();

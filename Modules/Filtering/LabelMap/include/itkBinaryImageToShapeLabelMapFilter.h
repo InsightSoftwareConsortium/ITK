@@ -160,7 +160,7 @@ public:
 
 protected:
   BinaryImageToShapeLabelMapFilter();
-  ~BinaryImageToShapeLabelMapFilter() {}
+  ~BinaryImageToShapeLabelMapFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryImageToShapeLabelMapFilter needs the entire input be available.

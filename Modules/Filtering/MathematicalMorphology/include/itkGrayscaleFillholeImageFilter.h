@@ -107,7 +107,7 @@ public:
 
 protected:
   GrayscaleFillholeImageFilter();
-  ~GrayscaleFillholeImageFilter() {}
+  ~GrayscaleFillholeImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GrayscaleFillholeImageFilter needs the entire input be

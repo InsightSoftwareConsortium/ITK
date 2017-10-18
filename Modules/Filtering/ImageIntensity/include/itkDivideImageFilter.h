@@ -96,7 +96,7 @@ public:
 
 protected:
   DivideImageFilter() {}
-  virtual ~DivideImageFilter() {}
+  virtual ~DivideImageFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE
     {

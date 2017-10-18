@@ -51,7 +51,7 @@ public:
   TubeSpatialObjectPoint();
 
   /** Default destructor. */
-  virtual ~TubeSpatialObjectPoint();
+  virtual ~TubeSpatialObjectPoint() ITK_OVERRIDE;
 
   /** Get the tangent */
   const VectorType & GetTangent() const;

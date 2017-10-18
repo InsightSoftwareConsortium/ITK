@@ -239,7 +239,7 @@ public:
 
 protected:
   MersenneTwisterRandomVariateGenerator();
-  virtual ~MersenneTwisterRandomVariateGenerator();
+  virtual ~MersenneTwisterRandomVariateGenerator() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Period parameter */

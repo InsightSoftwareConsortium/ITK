@@ -164,7 +164,7 @@ public:
 
 protected:
   HistogramMatchingImageFilter();
-  ~HistogramMatchingImageFilter() {}
+  ~HistogramMatchingImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void BeforeThreadedGenerateData() ITK_OVERRIDE;

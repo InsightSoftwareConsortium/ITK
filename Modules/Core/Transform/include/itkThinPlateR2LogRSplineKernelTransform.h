@@ -74,7 +74,7 @@ public:
 
 protected:
   ThinPlateR2LogRSplineKernelTransform() {}
-  virtual ~ThinPlateR2LogRSplineKernelTransform() {}
+  virtual ~ThinPlateR2LogRSplineKernelTransform() ITK_OVERRIDE {}
 
   typedef typename Superclass::GMatrixType GMatrixType;
   /** Compute G(x)

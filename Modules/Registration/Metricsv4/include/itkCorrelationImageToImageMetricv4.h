@@ -116,7 +116,7 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4();
-  virtual ~CorrelationImageToImageMetricv4();
+  virtual ~CorrelationImageToImageMetricv4() ITK_OVERRIDE;
 
   /** Perform any initialization required before each evaluation of
    * \c GetValueAndDerivative. This is distinct from Initialize, which
