@@ -15,7 +15,7 @@ Overview
 --------
 
 This module implements cuberille implicit surface polygonization for `ITK
-<https://www.itk.org>`_. This method operates by diving the surface into a
+<https://www.itk.org>`_. This method operates by dividing the surface into a
 number of small cubes called cuberilles. Each cuberille is centered at a pixel
 lying on the iso-surface and then quadrilaterals are generated for each face.
 The original approach is improved by projecting the vertices of each cuberille
@@ -39,7 +39,7 @@ Binary `Python packages <https://pypi.python.org/pypi/itk-bonemorphometry>`_
 are available for Linux, macOS, and Windows. They can be installed with::
 
   python -m pip install --upgrade pip
-  python -m pip install itk-bonemorphometry
+  python -m pip install itk-cuberille
 
 C++
 ^^^
