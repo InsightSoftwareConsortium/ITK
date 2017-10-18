@@ -249,7 +249,7 @@
 #      define ITK_COMPILER_CXX_NULLPTR 0
 #    endif
 
-#    if _MSC_VER >= 1600
+#    if _MSC_VER >= 1700
 #      define ITK_COMPILER_CXX_OVERRIDE 1
 #    else
 #      define ITK_COMPILER_CXX_OVERRIDE 0
