@@ -65,10 +65,10 @@ public:
   typedef typename NumericTraits< RealType >::AccumulateType  AccumulateType;
 
   /** Set the valid image input.  This will be input 0.  */
-  virtual void SetValidInput(const InputImageType *validImage);
+  itkSetInputMacro(ValidInput, InputImageType);
 
   /** Set the test image input.  This will be input 1.  */
-  virtual void SetTestInput(const InputImageType *testImage);
+  itkSetInputMacro(TestInput, InputImageType);
 
   /** Verify that the origin, spacing, and direction of both images match
   */
@@ -99,13 +99,6 @@ public:
   itkGetConstMacro(MeanDifference, RealType);
   itkGetConstMacro(TotalDifference, AccumulateType);
   itkGetConstMacro(NumberOfPixelsWithDifferences, SizeValueType);
-
-  /** Set/Get the image input of this process object.  */
-  using Superclass::SetInput;
-  virtual void SetInput(const TInputImage *image) ITK_OVERRIDE;
-  virtual void SetInput(unsigned int, const TInputImage *image) ITK_OVERRIDE;
-  const TInputImage * GetInput() const;
-  const TInputImage * GetInput(unsigned int idx) const;
 
 protected:
   ComparisonImageFilter();
