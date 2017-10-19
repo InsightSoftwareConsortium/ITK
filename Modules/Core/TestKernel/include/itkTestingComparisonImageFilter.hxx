@@ -34,9 +34,6 @@ template< typename TInputImage, typename TOutputImage >
 ComparisonImageFilter< TInputImage, TOutputImage >
 ::ComparisonImageFilter()
 {
-  // We require two inputs to execute.
-  this->SetNumberOfRequiredInputs(2);
-
   // Set the default DifferenceThreshold.
   m_DifferenceThreshold = NumericTraits< OutputPixelType >::ZeroValue();
 
@@ -51,6 +48,12 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   m_NumberOfPixelsWithDifferences = 0;
   m_IgnoreBoundaryPixels = false;
   m_VerifyInputInformation = true;
+
+  // #0 "Valid" required
+  Self::SetPrimaryInputName("ValidInput");
+
+  // #1 "Test" required
+  Self::AddRequiredInputName("TestInput", 1);
 }
 
 //----------------------------------------------------------------------------
@@ -70,26 +73,6 @@ ComparisonImageFilter< TInputImage, TOutputImage >
      << m_NumberOfPixelsWithDifferences << "\n";
   os << indent << "IgnoreBoundaryPixels: "
      << m_IgnoreBoundaryPixels << "\n";
-}
-
-//----------------------------------------------------------------------------
-template< typename TInputImage, typename TOutputImage >
-void
-ComparisonImageFilter< TInputImage, TOutputImage >
-::SetValidInput(const InputImageType *validImage)
-{
-  // The valid image should be input 0.
-  this->SetInput(0, validImage);
-}
-
-//----------------------------------------------------------------------------
-template< typename TInputImage, typename TOutputImage >
-void
-ComparisonImageFilter< TInputImage, TOutputImage >
-::SetTestInput(const InputImageType *testImage)
-{
-  // The test image should be input 1.
-  this->SetInput(1, testImage);
 }
 
 //----------------------------------------------------------------------------
@@ -119,6 +102,7 @@ ComparisonImageFilter< TInputImage, TOutputImage >
   m_ThreadDifferenceSum.Fill(NumericTraits< AccumulateType >::ZeroValue());
   m_ThreadNumberOfPixels.Fill(0);
 }
+
 
 //----------------------------------------------------------------------------
 template< typename TInputImage, typename TOutputImage >
@@ -297,54 +281,6 @@ ComparisonImageFilter< TInputImage, TOutputImage >
     {
     this->Superclass::VerifyInputInformation();
     }
-}
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-void
-ComparisonImageFilter< TInputImage, TOutputImage >
-::SetInput(const TInputImage *input)
-{
-  // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( 0, const_cast< TInputImage * >( input ) );
-}
-
-/**
- * Connect one of the operands for pixel-wise addition
- */
-template< typename TInputImage, typename TOutputImage >
-void
-ComparisonImageFilter< TInputImage, TOutputImage >
-::SetInput(unsigned int index, const TInputImage *image)
-{
-  // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput( index,
-                                    const_cast< TInputImage * >( image ) );
-}
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-const TInputImage *
-ComparisonImageFilter< TInputImage, TOutputImage >
-::GetInput(void) const
-{
-  return itkDynamicCastInDebugMode< const TInputImage * >( this->GetPrimaryInput() );
-}
-
-/**
- *
- */
-template< typename TInputImage, typename TOutputImage >
-const TInputImage *
-ComparisonImageFilter< TInputImage, TOutputImage >
-::GetInput(unsigned int idx) const
-{
-  return itkDynamicCastInDebugMode< const TInputImage * >
-    ( this->ProcessObject::GetInput(idx) );
 }
 
 
