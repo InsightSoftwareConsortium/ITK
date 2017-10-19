@@ -5,6 +5,21 @@ if(ITK_USE_SYSTEM_GOOGLETEST)
   # The recommendation from google test is NOT to compile google tests
   # for system installs, but allow users of the library to include the
   # source in their project.
+
+  set( GTEST_SRC_SEARCH_PATHS
+    "/usr/src/googletest"
+    "/usr/src/gtest"
+    )
+
+  if (NOT DEFINED GTEST_ROOT)
+    foreach( search_path ${GTEST_SRC_SEARCH_PATHS})
+      if(EXISTS "${search_path}/CMakeLists.txt")
+        set( GTEST_ROOT "${search_path}")
+        break()
+      endif()
+    endforeach()
+  endif()
+
   if( DEFINED GTEST_ROOT AND EXISTS "${GTEST_ROOT}/CMakeLists.txt")
 
     find_path(GTEST_INCLUDE_DIRS gtest/gtest.h
