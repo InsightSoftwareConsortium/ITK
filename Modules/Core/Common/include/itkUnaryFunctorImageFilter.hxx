@@ -49,10 +49,6 @@ void
 UnaryFunctorImageFilter< TInputImage, TOutputImage, TFunction >
 ::GenerateOutputInformation()
 {
-
-  typedef typename Superclass::InputImageType  InputImageType;
-  typedef typename Superclass::OutputImageType OutputImageType;
-
   // do not call the superclass' implementation of this method since
   // this filter allows the input the output to be of different dimensions
 
