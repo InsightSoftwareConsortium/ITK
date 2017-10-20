@@ -159,13 +159,13 @@ public:
   void SetOutputParametersFromImage(const ImageBaseType *image);
 
   /** DeformationFieldImageFilter produces a vector image. */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Just checking if transform is set. */
-  virtual void BeforeThreadedGenerateData();
+  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Compute the Modified Time based on changes to the components. */
-  ModifiedTimeType GetMTime() const;
+  ModifiedTimeType GetMTime() const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -187,7 +187,7 @@ protected:
    */
   void ThreadedGenerateData(
     const OutputImageRegionType & outputRegionForThread,
-    ThreadIdType threadId);
+    ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Default implementation for resampling that works for any
    * transformation type.

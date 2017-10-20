@@ -92,13 +92,13 @@ public:
    * method returns a number less than or equal to the requested number
    * of pieces.  */
   virtual unsigned int GetNumberOfSplits(const RegionType & region,
-                                         unsigned int requestedNumber);
+                                         unsigned int requestedNumber) ITK_OVERRIDE;
 
   /** Get a region definition that represents the ith piece a specified region.
    * The "numberOfPieces" must be equal to what
    * GetNumberOfSplits() returns. */
   virtual RegionType GetSplit(unsigned int i, unsigned int numberOfPieces,
-                              const RegionType & region);
+                              const RegionType & region) ITK_OVERRIDE;
 
 protected:
   ImageRegionMultidimensionalSplitter() {}

@@ -119,15 +119,15 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize some accumulators before the threads run. */
-  void BeforeThreadedGenerateData();
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Tally data accumulated in threads. */
-  void AfterThreadedGenerateData();
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &
                              outputRegionForThread,
-                             ThreadIdType threadId);
+                             ThreadIdType threadId) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ShiftScaleInPlaceImageFilter);

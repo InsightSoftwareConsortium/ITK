@@ -140,10 +140,10 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime() const;
+  ModifiedTimeType GetMTime() const ITK_OVERRIDE;
 
 protected:
   DeformationFieldSource();
@@ -154,7 +154,7 @@ protected:
    * GenerateData() computes the internal KernelBase spline and resamples
    * the deformation field.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Subsample the input deformation field and generate the
    *  landmarks for the kernel base spline

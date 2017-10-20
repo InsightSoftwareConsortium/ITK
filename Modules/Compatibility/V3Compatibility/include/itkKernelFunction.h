@@ -48,12 +48,12 @@ public:
   itkTypeMacro(KernelFunction, FunctionBase);
 
   /** Evaluate the function. Subclasses must implement this. */
-  virtual RealType Evaluate(const RealType & u) const = 0;
+  virtual RealType Evaluate(const RealType & u) const ITK_OVERRIDE = 0;
 
 protected:
   KernelFunction() {};
   virtual ~KernelFunction() {};
-  void PrintSelf(std::ostream & os, Indent indent) const
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 };
 } // end namespace itk

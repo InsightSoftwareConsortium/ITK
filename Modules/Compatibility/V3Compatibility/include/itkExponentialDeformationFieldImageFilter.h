@@ -145,7 +145,7 @@ protected:
   /**
    * GenerateData()
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   typedef typename InputImageType::RegionType RegionType;
 

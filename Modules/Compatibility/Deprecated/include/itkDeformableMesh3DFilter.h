@@ -161,7 +161,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(DeformableMesh3DFilter);
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void GenerateData();
+  virtual void GenerateData() ITK_OVERRIDE;
 
 private:
   /** Meshes for Forces,Displacement,Normals, etc. */

@@ -158,17 +158,17 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation();
+  virtual void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** InverseDeformationFieldImageFilter needs a different input requested region than
    * the output requested region.  As such, InverseDeformationFieldImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion();
+  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Method Compute the Modified Time based on changed to the components. */
-  ModifiedTimeType GetMTime() const;
+  ModifiedTimeType GetMTime() const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -186,7 +186,7 @@ protected:
    * GenerateData() computes the internal KernelBase spline and resamples
    * the deformation field.
    */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Subsample the input deformation field and generate the
    *  landmarks for the kernel base spline

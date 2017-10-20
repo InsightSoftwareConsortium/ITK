@@ -89,7 +89,7 @@ protected:
    *
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData()  */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ReflectImageFilter);

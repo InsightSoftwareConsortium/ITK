@@ -134,7 +134,7 @@ public:
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const;
+  virtual TRealType EvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const ITK_OVERRIDE;
 
 protected:
   DeformationFieldJacobianDeterminantFilter();
