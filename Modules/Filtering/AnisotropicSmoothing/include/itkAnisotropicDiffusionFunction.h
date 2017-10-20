@@ -136,7 +136,7 @@ namespace itk
  * \ingroup ITKAnisotropicSmoothing
  */
 template< typename TImage >
-class AnisotropicDiffusionFunction:
+class ITK_TEMPLATE_EXPORT AnisotropicDiffusionFunction:
   public FiniteDifferenceFunction< TImage >
 {
 public:
