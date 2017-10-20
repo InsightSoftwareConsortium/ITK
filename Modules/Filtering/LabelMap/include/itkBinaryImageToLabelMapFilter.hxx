@@ -345,13 +345,13 @@ BinaryImageToLabelMapFilter< TInputImage, TOutputImage >
   const SizeValueType pixelcount = output->GetRequestedRegion().GetNumberOfPixels();
   const SizeValueType xsize = output->GetRequestedRegion().GetSize()[0];
   const SizeValueType linecount = pixelcount / xsize;
-  SizeValueType totalLabs = CreateConsecutive();
+  m_NumberOfObjects = CreateConsecutive();
   ProgressReporter  progress(this, 0, linecount, 25, 0.75f, 0.25f);
   // check for overflow exception here
-  if ( totalLabs > static_cast< SizeValueType >( NumericTraits< OutputPixelType >::max() ) )
+  if ( m_NumberOfObjects > static_cast< SizeValueType >( NumericTraits< OutputPixelType >::max() ) )
     {
     itkExceptionMacro(
-      << "Number of objects (" << totalLabs << ") greater than maximum of output pixel type ("
+      << "Number of objects (" << m_NumberOfObjects << ") greater than maximum of output pixel type ("
       << static_cast< typename NumericTraits< OutputImagePixelType >::PrintType >( NumericTraits< OutputPixelType >::
                                                                                    max() ) << ").");
     }
