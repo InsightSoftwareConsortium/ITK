@@ -43,39 +43,6 @@ extern "C"
 typedef void *( *c_void_cast )(void *);
 }
 
-ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
-{
-  ThreadIdType num;
-
-  // Default the number of threads to be the number of available
-  // processors if we are using pthreads()
-#ifdef _SC_NPROCESSORS_ONLN
-  num = static_cast<ThreadIdType>( sysconf(_SC_NPROCESSORS_ONLN) );
-#elif defined( _SC_NPROC_ONLN )
-  num = static_cast<ThreadIdType>( sysconf(_SC_NPROC_ONLN) );
-#else
-  num = 1;
-#endif
-#if defined( __SVR4 ) && defined( sun ) && defined( PTHREAD_MUTEX_NORMAL )
-  pthread_setconcurrency(num);
-#endif
-
-#ifdef __APPLE__
-  // Determine the number of CPU cores. Prefer sysctlbyname()
-  // over MPProcessors() because it doesn't require CoreServices
-  // (which is only available in 32bit on Mac OS X 10.4).
-  // hw.logicalcpu takes into account cores/CPUs that are
-  // disabled because of power management.
-  size_t dataLen = sizeof( int );   // 'num' is an 'int'
-  int    result = sysctlbyname("hw.logicalcpu", &num, &dataLen, ITK_NULLPTR, 0);
-  if( result == -1 )
-    {
-    num = 1;
-    }
-#endif
-  return num;
-}
-
 void MultiThreader::MultipleMethodExecute()
 {
 
@@ -208,27 +175,6 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
 
   m_SpawnedThreadActiveFlagLock[ThreadID] = ITK_NULLPTR;
   m_SpawnedThreadActiveFlagLock[ThreadID] = ITK_NULLPTR;
-}
-
-void
-MultiThreader
-::ThreadPoolWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
-{
-  itkDebugMacro(<<  std::endl << "For wait : threadhandle :" << threadHandle << std::endl );
-  m_ThreadPool->WaitForJobOnThreadHandle(threadHandle);
-}
-
-ThreadProcessIdType
-MultiThreader
-::ThreadPoolDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
-{
-
-  ThreadJob threadJob;
-  threadJob.m_ThreadFunction =  reinterpret_cast<c_void_cast>(this->SingleMethodProxy);
-  threadJob.m_UserData = (void *) threadInfo;
-  ThreadProcessIdType returnHandle = m_ThreadPool->AssignWork(threadJob);
-  itkDebugMacro(<< std::endl << "Got handle :" << returnHandle );
-  return returnHandle;
 }
 
 void

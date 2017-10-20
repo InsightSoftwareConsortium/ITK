@@ -35,15 +35,6 @@
 
 namespace itk
 {
-ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreadsByPlatform()
-{
-  SYSTEM_INFO sysInfo;
-
-  GetSystemInfo(&sysInfo);
-  ThreadIdType num = sysInfo.dwNumberOfProcessors;
-  return num;
-}
-
 void MultiThreader::MultipleMethodExecute()
 {
   ThreadIdType threadCount;
@@ -172,30 +163,8 @@ void MultiThreader::TerminateThread(ThreadIdType ThreadID)
   WaitForSingleObject(m_SpawnedThreadProcessID[ThreadID], INFINITE);
   CloseHandle(m_SpawnedThreadProcessID[ThreadID]);
   m_SpawnedThreadActiveFlagLock[ThreadID] = 0;
-  m_SpawnedThreadActiveFlagLock[ThreadID] = 0;
 }
 
-void
-MultiThreader
-::ThreadPoolWaitForSingleMethodThread(ThreadProcessIdType threadHandle)
-{
-  // We are now using thread pool
-  itkDebugMacro(<<  std::endl << "For wait : threadhandle :" << threadHandle << std::endl );
-  m_ThreadPool->WaitForJobOnThreadHandle(threadHandle);
-}
-
-ThreadProcessIdType
-MultiThreader
-::ThreadPoolDispatchSingleMethodThread(MultiThreader::ThreadInfoStruct *threadInfo)
-{
-  ThreadJob threadJob;
-  threadJob.m_ThreadFunction = (this->SingleMethodProxy);
-  threadJob.m_UserData = (void *) threadInfo;
-  HANDLE returnHandle = m_ThreadPool->AssignWork(threadJob);
-  itkDebugMacro(<< std::endl << "Got handle :" << returnHandle );
-  return returnHandle;
-
-}
 void
 MultiThreader
 ::SpawnWaitForSingleMethodThread(ThreadProcessIdType threadHandle)

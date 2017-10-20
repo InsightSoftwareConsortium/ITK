@@ -20,6 +20,23 @@
 #define itkThreadJob_h
 
 #include "itkMacro.h"
+#include "itkThreadSupport.h"
+
+#if defined(ITK_USE_PTHREADS)
+#include <pthread.h>
+#include <semaphore.h>
+#include <unistd.h> // for sleep
+#elif defined(ITK_USE_WIN32_THREADS)
+#include <windows.h>
+#endif
+
+#if defined __APPLE__
+#include <mach/mach_init.h>
+#include <mach/mach_error.h>
+#include <mach/semaphore.h>
+#include <mach/task.h>
+#include <mach/task_info.h>
+#endif
 
 namespace itk
 {
@@ -27,25 +44,32 @@ namespace itk
  * \class ThreadJob
  *
  * \brief This class is used to submit jobs to the thread pool.
- * The thread job maintains important information of the submitted job
- * such as Job Id, information to identify if the job has finished executing.
- * It holds the function pointer that the user sets to the function the
- * user wants to be executed in parallel by the thread pool.
- * Also holds the args pointer - it is passed to the executing function by
- * the thread pool.
+ *
+ * The thread job contains information of the submitted job:
+ *   the function to be executed in parallel
+ *   the function's argument
+ *   a pointer to the semaphore to wait on for job completion.
+ *
  * \ingroup OSSystemObjects
  * \ingroup ITKCommon
  */
 struct ThreadJob
 {
 public:
-  typedef int JobIdType;
+
+#if defined(ITK_USE_PTHREADS) && defined(__APPLE__)
+    typedef semaphore_t Semaphore;
+#elif defined(ITK_USE_WIN32_THREADS)
+    typedef HANDLE Semaphore;
+#elif defined(ITK_USE_PTHREADS)
+    typedef sem_t Semaphore;
+#else
+#error Unknown thread system!
+#endif
 
   ThreadJob() :
     m_ThreadFunction(ITK_NULLPTR),
-    m_Id(-1),
-    m_Assigned(false),
-    m_Executed(false),
+    m_Semaphore(ITK_NULLPTR),
     m_UserData(ITK_NULLPTR)
   {
   }
@@ -55,26 +79,18 @@ public:
   }
 
 
-/** Declaring function thatwill be called */
+/** Function that will be called. */
 #if defined(_WIN32) || defined(_WIN64)
     DWORD ( __stdcall *m_ThreadFunction )( void * ptr );
 #else
     void * (*m_ThreadFunction)(void *ptr);
 #endif
 
-  /** This is the Job's id. If it is -1 it means the job hasn't been
-    initialized*/
-  JobIdType m_Id;
+  /** This is the Job's id. Used for waiting on this job's completion. */
+  Semaphore * m_Semaphore;
 
-  /** Set if the job is assigned to a thread */
-  bool m_Assigned;
-
-  /**  set if job is finished */
-  bool m_Executed;
-
- /** Stores the user's data that needs to be passed into the function */
-  void *m_UserData;
-
+ /** Stores the user's data that needs to be passed into the function. */
+  void * m_UserData;
 };
 
 } // end namespace itk
