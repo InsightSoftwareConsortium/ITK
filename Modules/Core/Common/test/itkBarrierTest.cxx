@@ -27,14 +27,16 @@ public:
 
   itk::Barrier::Pointer m_FirstBarrier;
   itk::Barrier::Pointer m_SecondBarrier;
-  unsigned int          m_Counter[3];
+  unsigned int          m_Counter[ITK_MAX_THREADS];
   unsigned int          m_NumberOfIterations;
+  unsigned int          m_NumberOfThreads;
   bool                  m_TestFailure;
 
   BarrierTestUserData( unsigned int number_of_threads)
   {
     m_TestFailure = false;
-    for (unsigned int i = 0; i < 3; i++)
+    m_NumberOfThreads = number_of_threads;
+    for (unsigned int i = 0; i < number_of_threads - 1; i++)
       { m_Counter[i] = 0; }
     m_NumberOfIterations = 50;
     m_FirstBarrier = itk::Barrier::New();
@@ -75,7 +77,7 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
     data->m_FirstBarrier->Wait();
 
     // Check the values in the m_Counter array
-    for (unsigned int j = 0; j < 3; j++ )
+    for (unsigned int j = 0; j < data->m_NumberOfThreads - 1; j++)
       {
       if (data->m_Counter[j] != i)
         {
@@ -91,8 +93,10 @@ ITK_THREAD_RETURN_TYPE BarrierCheckIncrement( void *ptr )
 ITK_THREAD_RETURN_TYPE BarrierTestCallback( void *ptr )
 {
   itk::ThreadIdType threadId = ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->ThreadID;
+  BarrierTestUserData *data = static_cast<BarrierTestUserData *>(
+                  ( (itk::MultiThreader::ThreadInfoStruct *)(ptr) )->UserData );
 
-  if (threadId == 3)
+  if (threadId == data->m_NumberOfThreads - 1)
     {
     BarrierCheckIncrement( ptr );
     }
@@ -122,7 +126,7 @@ int itkBarrierTest(int argc, char *argv[])
   itk::Barrier::Pointer barrier = itk::Barrier::New();
   EXERCISE_BASIC_OBJECT_METHODS( barrier, Barrier, LightObject );
 
-  int number_of_threads = 4;
+  itk::ThreadIdType number_of_threads = 4;
   if (argc > 1)
     {
     number_of_threads = ::atoi(argv[1]);
@@ -133,17 +137,22 @@ int itkBarrierTest(int argc, char *argv[])
   try
     {
     itk::MultiThreader::Pointer multithreader = itk::MultiThreader::New();
+    itk::ThreadIdType maxThreads = multithreader->GetGlobalDefaultNumberOfThreads();
+    if (multithreader->GetUseThreadPool() && maxThreads < number_of_threads)
+      {
+      multithreader->GetModifiableThreadPool()->AddThreads(number_of_threads - maxThreads);
+      }
     multithreader->SetNumberOfThreads(number_of_threads);
     multithreader->SetSingleMethod( BarrierTestCallback, &data);
 
-    for (unsigned int i = 0; i < 5; i++)
+    for (unsigned int i = 0; i < 5; i++) //repeat test 5 times
       {
       multithreader->SingleMethodExecute();
       }
 
     // perform another test
-    //    multithreader->SetSingleMethod( BarrierSpecialTest, &data);
-    //   multithreader->SingleMethodExecute();
+    multithreader->SetSingleMethod( BarrierSpecialTest, &data);
+    multithreader->SingleMethodExecute();
     }
   catch (itk::ExceptionObject &e)
     {
