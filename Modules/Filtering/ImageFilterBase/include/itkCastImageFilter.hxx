@@ -56,15 +56,12 @@ void
 CastImageFilter< TInputImage, TOutputImage >
 ::GenerateOutputInformation()
   {
-    typedef typename Superclass::InputImageType  InputImageType;
-    typedef typename Superclass::OutputImageType OutputImageType;
-
     // do not call the superclass' implementation of this method since
     // this filter allows the input the output to be of different dimensions
 
     // get pointers to the input and output
-    OutputImageType *outputPtr = this->GetOutput();
-    const InputImageType *inputPtr  = this->GetInput();
+    TOutputImage *outputPtr = this->GetOutput();
+    const TInputImage *inputPtr  = this->GetInput();
 
     if ( !outputPtr || !inputPtr )
       {
