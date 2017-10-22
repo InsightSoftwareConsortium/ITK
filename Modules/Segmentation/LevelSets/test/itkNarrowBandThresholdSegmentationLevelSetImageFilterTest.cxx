@@ -95,7 +95,7 @@ public:
 
 protected:
   NBRMSCommand()  {}
-  virtual ~NBRMSCommand() {}
+  virtual ~NBRMSCommand() ITK_OVERRIDE {}
 };
 
 }

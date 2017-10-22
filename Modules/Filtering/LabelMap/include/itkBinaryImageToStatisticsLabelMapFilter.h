@@ -182,7 +182,7 @@ public:
 
 protected:
   BinaryImageToStatisticsLabelMapFilter();
-  ~BinaryImageToStatisticsLabelMapFilter() {}
+  ~BinaryImageToStatisticsLabelMapFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryImageToStatisticsLabelMapFilter needs the entire input be

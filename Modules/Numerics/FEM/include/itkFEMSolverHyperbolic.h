@@ -79,7 +79,7 @@ public:
 
 protected:
   SolverHyperbolic();
-  virtual ~SolverHyperbolic() { }
+  virtual ~SolverHyperbolic() ITK_OVERRIDE {}
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the linear system wrapper. */

@@ -93,7 +93,7 @@ public:
 private:
 
   RegistrationParameterScalesFromPhysicalShiftTestMetric() {}
-  ~RegistrationParameterScalesFromPhysicalShiftTestMetric() {}
+  ~RegistrationParameterScalesFromPhysicalShiftTestMetric() ITK_OVERRIDE {}
 
 };
 

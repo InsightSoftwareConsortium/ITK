@@ -62,7 +62,7 @@ public:
 
 protected:
   ErrorBackPropagationLearningWithMomentum();
-  virtual ~ErrorBackPropagationLearningWithMomentum() {};
+  virtual ~ErrorBackPropagationLearningWithMomentum() ITK_OVERRIDE {};
 
   virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 

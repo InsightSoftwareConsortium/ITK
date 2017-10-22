@@ -85,7 +85,7 @@ protected:
     this->m_Boundary = NumericTraits< PixelType >::max();
   }
 
-  ~MovingHistogramErodeImageFilter() {}
+  ~MovingHistogramErodeImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MovingHistogramErodeImageFilter);

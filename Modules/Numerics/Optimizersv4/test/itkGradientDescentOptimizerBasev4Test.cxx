@@ -80,7 +80,7 @@ public:
   { Superclass::PrintSelf( os, indent ); }
 
 protected:
-  ~GradientDescentOptimizerBasev4TestMetric() {}
+  ~GradientDescentOptimizerBasev4TestMetric() ITK_OVERRIDE {}
 
 private:
   GradientDescentOptimizerBasev4TestMetric() {}
@@ -135,7 +135,7 @@ public:
 protected:
 
   GradientDescentOptimizerBasev4TestOptimizer(){}
-  ~GradientDescentOptimizerBasev4TestOptimizer(){}
+  ~GradientDescentOptimizerBasev4TestOptimizer() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4TestOptimizer);

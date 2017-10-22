@@ -61,7 +61,7 @@ public:
 private:
 
   RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric() {}
-  ~RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric() {}
+  ~RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric() ITK_OVERRIDE {}
 
 };
 

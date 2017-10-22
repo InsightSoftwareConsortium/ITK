@@ -87,7 +87,7 @@ public:
 
 protected:
   SpatialFunctionImageEvaluatorFilter();
-  virtual ~SpatialFunctionImageEvaluatorFilter() {}
+  virtual ~SpatialFunctionImageEvaluatorFilter() ITK_OVERRIDE {}
 
   /** Method for evaluating the implicit function over the image. */
   void GenerateData() ITK_OVERRIDE;

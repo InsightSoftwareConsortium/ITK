@@ -340,7 +340,7 @@ public:
 
 protected:
   ParallelSparseFieldLevelSetImageFilter();
-  ~ParallelSparseFieldLevelSetImageFilter() {}
+  ~ParallelSparseFieldLevelSetImageFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Connectivity information for examining neighbor pixels.   */

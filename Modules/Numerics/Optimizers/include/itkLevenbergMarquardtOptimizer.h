@@ -76,7 +76,7 @@ public:
 
 protected:
   LevenbergMarquardtOptimizer();
-  virtual ~LevenbergMarquardtOptimizer();
+  virtual ~LevenbergMarquardtOptimizer() ITK_OVERRIDE;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

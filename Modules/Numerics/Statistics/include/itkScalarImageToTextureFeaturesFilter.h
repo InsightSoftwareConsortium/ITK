@@ -197,7 +197,7 @@ public:
 
 protected:
   ScalarImageToTextureFeaturesFilter();
-  virtual ~ScalarImageToTextureFeaturesFilter() {}
+  virtual ~ScalarImageToTextureFeaturesFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void FastCompute();

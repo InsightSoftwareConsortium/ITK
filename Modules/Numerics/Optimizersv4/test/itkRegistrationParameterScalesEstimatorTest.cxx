@@ -98,7 +98,7 @@ public:
 private:
 
   RegistrationParameterScalesEstimatorTestMetric() {}
-  ~RegistrationParameterScalesEstimatorTestMetric() {}
+  ~RegistrationParameterScalesEstimatorTestMetric() ITK_OVERRIDE {}
 
 };
 
@@ -194,7 +194,7 @@ public:
 
 protected:
   RegistrationParameterScalesEstimatorTest(){};
-  ~RegistrationParameterScalesEstimatorTest(){};
+  ~RegistrationParameterScalesEstimatorTest() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegistrationParameterScalesEstimatorTest);

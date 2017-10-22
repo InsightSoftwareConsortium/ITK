@@ -104,7 +104,7 @@ public:
 
 protected:
   ShapeRelabelLabelMapFilter();
-  ~ShapeRelabelLabelMapFilter() {}
+  ~ShapeRelabelLabelMapFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

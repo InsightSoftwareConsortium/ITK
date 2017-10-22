@@ -147,7 +147,7 @@ public:
 
 protected:
   ImageClassifierFilter();
-  virtual ~ImageClassifierFilter() {}
+  virtual ~ImageClassifierFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageClassifierFilter);

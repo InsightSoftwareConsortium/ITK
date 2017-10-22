@@ -91,7 +91,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(PlaneSpatialObject);
 
   PlaneSpatialObject();
-  ~PlaneSpatialObject();
+  ~PlaneSpatialObject() ITK_OVERRIDE;
 
   PointType m_LowerPoint;
   PointType m_UpperPoint;

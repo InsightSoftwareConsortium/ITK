@@ -145,7 +145,7 @@ public:
 
 protected:
   BinaryReconstructionByDilationImageFilter();
-  ~BinaryReconstructionByDilationImageFilter() {};
+  ~BinaryReconstructionByDilationImageFilter() ITK_OVERRIDE {};
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryReconstructionByDilationImageFilter needs the entire input be

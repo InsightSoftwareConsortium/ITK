@@ -278,7 +278,7 @@ public:
 
 protected:
   DiffusionTensor3DReconstructionImageFilter();
-  ~DiffusionTensor3DReconstructionImageFilter() {}
+  ~DiffusionTensor3DReconstructionImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void ComputeTensorBasis();

@@ -102,7 +102,7 @@ public:
 
 protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransform();
-  virtual ~GaussianSmoothingOnUpdateDisplacementFieldTransform();
+  virtual ~GaussianSmoothingOnUpdateDisplacementFieldTransform() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Clone the current transform */

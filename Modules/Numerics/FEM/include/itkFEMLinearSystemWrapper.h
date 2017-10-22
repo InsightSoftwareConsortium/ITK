@@ -508,7 +508,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionLinearSystem()
-  throw ( );
+  throw ( ) ITK_OVERRIDE;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);
@@ -536,7 +536,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionLinearSystemBounds()
-  throw ( );
+  throw ( ) ITK_OVERRIDE;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionLinearSystem, FEMException);

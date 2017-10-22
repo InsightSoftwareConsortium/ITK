@@ -60,7 +60,7 @@ namespace itk
 
   protected:
     MINCTransformIOFactory();
-    ~MINCTransformIOFactory();
+    ~MINCTransformIOFactory() ITK_OVERRIDE;
     virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   private:

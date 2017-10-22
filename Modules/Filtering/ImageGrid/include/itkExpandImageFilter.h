@@ -143,7 +143,7 @@ public:
 
 protected:
   ExpandImageFilter();
-  ~ExpandImageFilter() {}
+  ~ExpandImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ExpandImageFilter is implemented as a multithreaded filter.  Therefore,

@@ -100,7 +100,7 @@ protected:
   virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   GaussianRandomSpatialNeighborSubsampler();
-  virtual ~GaussianRandomSpatialNeighborSubsampler() {};
+  virtual ~GaussianRandomSpatialNeighborSubsampler() ITK_OVERRIDE {};
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 

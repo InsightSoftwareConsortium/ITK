@@ -123,7 +123,7 @@ public:
 
 protected:
   OpeningByReconstructionImageFilter();
-  ~OpeningByReconstructionImageFilter() {}
+  ~OpeningByReconstructionImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** OpeningByReconstructionImageFilter needs the entire input be

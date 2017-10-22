@@ -109,7 +109,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~LaplacianSharpeningImageFilter()  {}
+  virtual ~LaplacianSharpeningImageFilter() ITK_OVERRIDE {}
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all

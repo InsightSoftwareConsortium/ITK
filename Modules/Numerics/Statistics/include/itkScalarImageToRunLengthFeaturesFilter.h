@@ -195,7 +195,7 @@ public:
 
 protected:
   ScalarImageToRunLengthFeaturesFilter();
-  virtual ~ScalarImageToRunLengthFeaturesFilter() {}
+  virtual ~ScalarImageToRunLengthFeaturesFilter() ITK_OVERRIDE {}
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   void FastCompute();

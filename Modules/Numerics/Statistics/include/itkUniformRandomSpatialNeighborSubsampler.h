@@ -138,7 +138,7 @@ protected:
   virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   UniformRandomSpatialNeighborSubsampler();
-  virtual ~UniformRandomSpatialNeighborSubsampler() {};
+  virtual ~UniformRandomSpatialNeighborSubsampler() ITK_OVERRIDE {};
 
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 

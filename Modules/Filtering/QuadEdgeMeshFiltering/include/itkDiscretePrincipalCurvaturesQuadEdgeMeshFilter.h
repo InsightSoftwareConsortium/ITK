@@ -73,7 +73,7 @@ public:
 protected:
   DiscretePrincipalCurvaturesQuadEdgeMeshFilter():
     m_Gaussian(0.0), m_Mean(0.0){}
-  ~DiscretePrincipalCurvaturesQuadEdgeMeshFilter() {}
+  ~DiscretePrincipalCurvaturesQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
   OutputCurvatureType m_Gaussian;
   OutputCurvatureType m_Mean;

@@ -124,7 +124,7 @@ public:
 
 protected:
   SliceImageFilter();
-  ~SliceImageFilter() {}
+  ~SliceImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
  /** SliceImageFilter produces an image which is a different

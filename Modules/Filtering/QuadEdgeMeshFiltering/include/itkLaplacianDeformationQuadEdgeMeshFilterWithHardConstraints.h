@@ -74,7 +74,7 @@ public:
 protected:
 
   LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints();
-  virtual ~LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() {}
+  virtual ~LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::OutputMapPointIdentifier               OutputMapPointIdentifier;

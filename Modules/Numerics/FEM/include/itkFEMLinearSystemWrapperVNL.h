@@ -55,7 +55,7 @@ public:
   LinearSystemWrapperVNL() : LinearSystemWrapper(), m_Matrices(ITK_NULLPTR), m_Vectors(ITK_NULLPTR), m_Solutions(ITK_NULLPTR)
   {
   }
-  virtual ~LinearSystemWrapperVNL();
+  virtual ~LinearSystemWrapperVNL() ITK_OVERRIDE;
 
   /* memory management routines */
   virtual void  InitializeMatrix(unsigned int matrixIndex) ITK_OVERRIDE;

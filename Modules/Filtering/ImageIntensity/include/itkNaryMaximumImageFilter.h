@@ -139,7 +139,7 @@ public:
 
 protected:
   NaryMaximumImageFilter() {}
-  virtual ~NaryMaximumImageFilter() {}
+  virtual ~NaryMaximumImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(NaryMaximumImageFilter);

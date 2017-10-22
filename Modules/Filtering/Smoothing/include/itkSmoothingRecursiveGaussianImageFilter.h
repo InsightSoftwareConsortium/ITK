@@ -145,7 +145,7 @@ public:
 
 protected:
   SmoothingRecursiveGaussianImageFilter();
-  virtual ~SmoothingRecursiveGaussianImageFilter() {}
+  virtual ~SmoothingRecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData(void) ITK_OVERRIDE;

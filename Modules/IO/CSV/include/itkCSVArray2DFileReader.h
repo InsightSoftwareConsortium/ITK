@@ -118,7 +118,7 @@ public:
 protected:
 
   CSVArray2DFileReader();
-  virtual ~CSVArray2DFileReader () {}
+  virtual ~CSVArray2DFileReader () ITK_OVERRIDE {}
 
   /** Print the reader. */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

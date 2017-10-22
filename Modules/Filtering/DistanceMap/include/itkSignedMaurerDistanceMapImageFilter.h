@@ -156,7 +156,7 @@ public:
 
 protected:
   SignedMaurerDistanceMapImageFilter();
-  virtual ~SignedMaurerDistanceMapImageFilter();
+  virtual ~SignedMaurerDistanceMapImageFilter() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

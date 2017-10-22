@@ -200,7 +200,7 @@ public:
 protected:
 
   SPSAOptimizer();
-  virtual ~SPSAOptimizer() {}
+  virtual ~SPSAOptimizer() ITK_OVERRIDE {}
 
   /** PrintSelf method. */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

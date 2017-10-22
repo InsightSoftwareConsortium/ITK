@@ -77,7 +77,7 @@ namespace itk
    LevelSetEvolutionStoppingCriterion();
 
    /** Destructor */
-   virtual ~LevelSetEvolutionStoppingCriterion();
+   virtual ~LevelSetEvolutionStoppingCriterion() ITK_OVERRIDE;
 
    LevelSetContainerPointer m_LevelSetContainer;
    OutputRealType           m_RMSChangeAccumulator;

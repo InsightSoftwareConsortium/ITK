@@ -82,7 +82,7 @@ public:
 
 private:
   ObjectToObjectOptimizerBaseTestMetric() {}
-  ~ObjectToObjectOptimizerBaseTestMetric() {}
+  ~ObjectToObjectOptimizerBaseTestMetric() ITK_OVERRIDE {}
 };
 
 /* Define a simple derived optimizer class.

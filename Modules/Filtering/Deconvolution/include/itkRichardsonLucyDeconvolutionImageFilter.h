@@ -90,7 +90,7 @@ public:
 
 protected:
   RichardsonLucyDeconvolutionImageFilter();
-  virtual ~RichardsonLucyDeconvolutionImageFilter();
+  virtual ~RichardsonLucyDeconvolutionImageFilter() ITK_OVERRIDE;
 
   virtual void Initialize(ProgressAccumulator * progress,
                           float progressWeight,

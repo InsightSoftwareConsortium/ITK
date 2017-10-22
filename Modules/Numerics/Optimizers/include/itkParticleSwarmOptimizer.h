@@ -94,7 +94,7 @@ public:
 
 protected:
   ParticleSwarmOptimizer();
-  virtual ~ParticleSwarmOptimizer();
+  virtual ~ParticleSwarmOptimizer() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
   virtual void UpdateSwarm() ITK_OVERRIDE;
 

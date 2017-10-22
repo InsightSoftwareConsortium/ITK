@@ -176,7 +176,7 @@ protected:
   virtual void GenerateData() ITK_OVERRIDE;
 
   BlockMatchingImageFilter();
-  ~BlockMatchingImageFilter();
+  ~BlockMatchingImageFilter() ITK_OVERRIDE;
 
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 

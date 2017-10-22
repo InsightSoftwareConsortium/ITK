@@ -151,7 +151,7 @@ public:
 
 protected:
   GrayscaleGeodesicDilateImageFilter();
-  ~GrayscaleGeodesicDilateImageFilter() {}
+  ~GrayscaleGeodesicDilateImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GrayscaleGeodesicDilateImageFilter needs to request enough of the

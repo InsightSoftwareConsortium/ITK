@@ -104,7 +104,7 @@ public:
 
 protected:
   IsotropicFourthOrderLevelSetImageFilter();
-  ~IsotropicFourthOrderLevelSetImageFilter() {}
+  ~IsotropicFourthOrderLevelSetImageFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The LevelSetFunctionWithRefitTerm object. */

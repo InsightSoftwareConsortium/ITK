@@ -300,7 +300,7 @@ public:
 protected:
   /** Constructor for use by New() method. */
   FEMObject();
-  ~FEMObject();
+  ~FEMObject() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**

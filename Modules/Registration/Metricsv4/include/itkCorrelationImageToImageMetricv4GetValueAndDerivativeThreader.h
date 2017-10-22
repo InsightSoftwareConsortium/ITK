@@ -70,7 +70,7 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();
-  virtual ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();
+  virtual ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() ITK_OVERRIDE;
 
   /** Overload: Resize and initialize per thread objects:
    *    number of valid points

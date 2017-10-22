@@ -50,7 +50,7 @@ public:
 
 private:
   MyCovarianceSampleFilter() {}
-  ~MyCovarianceSampleFilter() {}
+  ~MyCovarianceSampleFilter() ITK_OVERRIDE {}
 };
 }
 }

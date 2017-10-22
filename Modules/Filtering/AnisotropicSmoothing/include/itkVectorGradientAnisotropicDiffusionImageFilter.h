@@ -100,7 +100,7 @@ protected:
     this->SetDifferenceFunction(p);
   }
 
-  ~VectorGradientAnisotropicDiffusionImageFilter() {}
+  ~VectorGradientAnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientAnisotropicDiffusionImageFilter);

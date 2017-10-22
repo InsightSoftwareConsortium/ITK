@@ -97,7 +97,7 @@ protected:
   bool        m_WriteImagesInSeparateFile;
 
   SpatialObjectWriter();
-  virtual ~SpatialObjectWriter();
+  virtual ~SpatialObjectWriter() ITK_OVERRIDE;
 
 private:
 

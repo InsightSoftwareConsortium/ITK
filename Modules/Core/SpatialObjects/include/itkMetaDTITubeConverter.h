@@ -68,7 +68,7 @@ protected:
   virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaDTITubeConverter();
-  ~MetaDTITubeConverter() {}
+  ~MetaDTITubeConverter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaDTITubeConverter);

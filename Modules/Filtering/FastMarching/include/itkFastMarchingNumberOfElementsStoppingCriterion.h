@@ -77,7 +77,7 @@ protected:
     m_TargetNumberOfElements( NumericTraits< IdentifierType >::ZeroValue() )
   {}
 
-  ~FastMarchingNumberOfElementsStoppingCriterion() {}
+  ~FastMarchingNumberOfElementsStoppingCriterion() ITK_OVERRIDE {}
 
   IdentifierType  m_CurrentNumberOfElements;
   IdentifierType  m_TargetNumberOfElements;

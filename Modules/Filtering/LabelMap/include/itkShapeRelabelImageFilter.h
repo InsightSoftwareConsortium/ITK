@@ -129,7 +129,7 @@ public:
 
 protected:
   ShapeRelabelImageFilter();
-  ~ShapeRelabelImageFilter() {}
+  ~ShapeRelabelImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ShapeRelabelImageFilter needs the entire input be

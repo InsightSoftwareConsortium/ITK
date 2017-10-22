@@ -67,7 +67,7 @@ protected:
     {
     m_Radius = 0;
     }
-  ~RadialBasisFunctionBase() {};
+  ~RadialBasisFunctionBase() ITK_OVERRIDE {};
 
   /** Method to print the object. */
   virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE

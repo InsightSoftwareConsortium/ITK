@@ -122,7 +122,7 @@ public:
 
 protected:
   LevelSetEvolution();
-  ~LevelSetEvolution();
+  ~LevelSetEvolution() ITK_OVERRIDE;
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
@@ -233,7 +233,7 @@ public:
 
 protected:
   LevelSetEvolution();
-  ~LevelSetEvolution();
+  ~LevelSetEvolution() ITK_OVERRIDE;
 
   typedef std::pair< LevelSetInputType, LevelSetOutputType > NodePairType;
 
@@ -334,7 +334,7 @@ public:
 
 protected:
   LevelSetEvolution();
-  ~LevelSetEvolution();
+  ~LevelSetEvolution() ITK_OVERRIDE;
 
   /** Update the levelset by 1 iteration from the computed updates */
   virtual void UpdateLevelSets() ITK_OVERRIDE;

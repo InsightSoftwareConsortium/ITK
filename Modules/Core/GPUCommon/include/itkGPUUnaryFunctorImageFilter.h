@@ -84,8 +84,7 @@ public:
 protected:
   GPUUnaryFunctorImageFilter() {
   }
-  virtual ~GPUUnaryFunctorImageFilter() {
-  }
+  virtual ~GPUUnaryFunctorImageFilter() ITK_OVERRIDE {}
 
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 

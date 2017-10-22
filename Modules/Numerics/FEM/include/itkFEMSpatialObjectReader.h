@@ -52,7 +52,7 @@ protected:
   std::string m_FileName;
 
   FEMSpatialObjectReader();
-  virtual ~FEMSpatialObjectReader() {}
+  virtual ~FEMSpatialObjectReader() ITK_OVERRIDE {}
 
 };
 

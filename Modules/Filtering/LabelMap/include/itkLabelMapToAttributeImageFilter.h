@@ -90,7 +90,7 @@ public:
 
 protected:
   LabelMapToAttributeImageFilter();
-  ~LabelMapToAttributeImageFilter() {};
+  ~LabelMapToAttributeImageFilter() ITK_OVERRIDE {};
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** LabelMapToAttributeImageFilter needs the entire input be

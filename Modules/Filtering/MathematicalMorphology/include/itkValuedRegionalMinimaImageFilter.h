@@ -96,7 +96,7 @@ protected:
     this->SetMarkerValue( NumericTraits< typename TOutputImage::PixelType >::max() );
   }
 
-  virtual ~ValuedRegionalMinimaImageFilter() {}
+  virtual ~ValuedRegionalMinimaImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ValuedRegionalMinimaImageFilter);

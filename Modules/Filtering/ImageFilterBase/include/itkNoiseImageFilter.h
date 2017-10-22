@@ -93,7 +93,7 @@ public:
 
 protected:
   NoiseImageFilter();
-  virtual ~NoiseImageFilter() {}
+  virtual ~NoiseImageFilter() ITK_OVERRIDE {}
 
   /** NoiseImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()

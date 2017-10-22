@@ -288,7 +288,7 @@ protected:
       itkExceptionMacro(<< "Sorry, only 3D to 3d minc xfm transform is currently implemented");
   }
 
-  virtual ~MINCTransformAdapter()
+  virtual ~MINCTransformAdapter() ITK_OVERRIDE
   {
     cleanup();
   }

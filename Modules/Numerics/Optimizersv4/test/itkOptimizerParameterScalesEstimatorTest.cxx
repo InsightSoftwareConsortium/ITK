@@ -63,7 +63,7 @@ public:
 
 protected:
   OptimizerParameterScalesEstimatorTest(){};
-  ~OptimizerParameterScalesEstimatorTest(){};
+  ~OptimizerParameterScalesEstimatorTest() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(OptimizerParameterScalesEstimatorTest);

@@ -66,7 +66,7 @@ public:
 
 protected:
   Bruker2dseqImageIOFactory();
-  virtual ~Bruker2dseqImageIOFactory();
+  virtual ~Bruker2dseqImageIOFactory() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Bruker2dseqImageIOFactory);

@@ -93,7 +93,7 @@ protected:
     this->SetCurvatureWeight(1.0);
   }
 
-  virtual ~LaplacianSegmentationLevelSetFunction() {}
+  virtual ~LaplacianSegmentationLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetFunction);
 };

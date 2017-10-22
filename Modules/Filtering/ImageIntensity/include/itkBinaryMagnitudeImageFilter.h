@@ -121,7 +121,7 @@ public:
 
 protected:
   BinaryMagnitudeImageFilter() {}
-  virtual ~BinaryMagnitudeImageFilter() {}
+  virtual ~BinaryMagnitudeImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryMagnitudeImageFilter);

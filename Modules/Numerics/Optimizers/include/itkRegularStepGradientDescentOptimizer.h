@@ -53,7 +53,7 @@ public:
 
 protected:
   RegularStepGradientDescentOptimizer() {}
-  virtual ~RegularStepGradientDescentOptimizer() {}
+  virtual ~RegularStepGradientDescentOptimizer() ITK_OVERRIDE {}
 
   /** Advance one step along the corrected gradient taking into
    * account the steplength represented by factor.

@@ -94,7 +94,7 @@ public:
 private:
 
   RegistrationParameterScalesFromIndexShiftTestMetric() {}
-  ~RegistrationParameterScalesFromIndexShiftTestMetric() {}
+  ~RegistrationParameterScalesFromIndexShiftTestMetric() ITK_OVERRIDE {}
 
 };
 

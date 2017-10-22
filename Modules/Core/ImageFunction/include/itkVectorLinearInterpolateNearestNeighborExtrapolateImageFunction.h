@@ -131,7 +131,7 @@ public:
 
 protected:
   VectorLinearInterpolateNearestNeighborExtrapolateImageFunction();
-  virtual ~VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() {}
+  virtual ~VectorLinearInterpolateNearestNeighborExtrapolateImageFunction() ITK_OVERRIDE {}
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

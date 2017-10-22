@@ -105,7 +105,7 @@ public:
 
 protected:
   MergeLabelMapFilter();
-  ~MergeLabelMapFilter() {}
+  ~MergeLabelMapFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

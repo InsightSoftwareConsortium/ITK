@@ -88,7 +88,7 @@ protected:
   QuadricDecimationQuadEdgeMeshFilter();
 
   /** \brief Destructor */
-  virtual ~QuadricDecimationQuadEdgeMeshFilter();
+  virtual ~QuadricDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
 
   /** \brief Compute the quadric error at the origin of the edge
    *  \param[in] iEdge input edge

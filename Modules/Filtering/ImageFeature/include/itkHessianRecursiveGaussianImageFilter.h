@@ -154,7 +154,7 @@ public:
 protected:
 
   HessianRecursiveGaussianImageFilter();
-  virtual ~HessianRecursiveGaussianImageFilter() {}
+  virtual ~HessianRecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */

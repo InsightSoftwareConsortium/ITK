@@ -123,7 +123,7 @@ protected:
     this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
-  virtual ~ShapeDetectionLevelSetFunction() {}
+  virtual ~ShapeDetectionLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetFunction);
 };

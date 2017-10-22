@@ -118,8 +118,7 @@ private:
 
   // Destructor. Only invoked via LightObject::UnRegister(), when its reference
   // count drops to zero.
-  ~ReferenceCountedExceptionData()
-         {}
+  ~ReferenceCountedExceptionData() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ReferenceCountedExceptionData);
 };

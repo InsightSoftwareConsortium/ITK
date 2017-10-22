@@ -145,7 +145,7 @@ public:
 
 protected:
   BinaryReconstructionByErosionImageFilter();
-  ~BinaryReconstructionByErosionImageFilter() {};
+  ~BinaryReconstructionByErosionImageFilter() ITK_OVERRIDE {};
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryReconstructionByErosionImageFilter needs the entire input be

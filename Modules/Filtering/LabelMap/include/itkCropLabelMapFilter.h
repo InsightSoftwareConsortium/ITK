@@ -112,7 +112,7 @@ protected:
     m_LowerBoundaryCropSize.Fill(0);
   }
 
-  ~CropLabelMapFilter() {}
+  ~CropLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 

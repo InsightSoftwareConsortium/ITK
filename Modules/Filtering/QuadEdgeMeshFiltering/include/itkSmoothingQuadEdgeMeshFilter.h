@@ -107,7 +107,7 @@ public:
 
 protected:
   SmoothingQuadEdgeMeshFilter();
-  ~SmoothingQuadEdgeMeshFilter();
+  ~SmoothingQuadEdgeMeshFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   CoefficientsComputation *m_CoefficientsMethod;

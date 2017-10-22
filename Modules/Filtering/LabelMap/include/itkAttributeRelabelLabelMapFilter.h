@@ -95,7 +95,7 @@ public:
 
 protected:
   AttributeRelabelLabelMapFilter();
-  ~AttributeRelabelLabelMapFilter() {};
+  ~AttributeRelabelLabelMapFilter() ITK_OVERRIDE {};
 
   void GenerateData() ITK_OVERRIDE;
 

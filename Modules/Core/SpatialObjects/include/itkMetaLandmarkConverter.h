@@ -68,7 +68,7 @@ protected:
   virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaLandmarkConverter();
-  ~MetaLandmarkConverter() {}
+  ~MetaLandmarkConverter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaLandmarkConverter);

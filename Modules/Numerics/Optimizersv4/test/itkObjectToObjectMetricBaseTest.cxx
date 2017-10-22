@@ -87,7 +87,7 @@ public:
 
 private:
   ObjectToObjectMetricTestMetric() {}
-  ~ObjectToObjectMetricTestMetric() {}
+  ~ObjectToObjectMetricTestMetric() ITK_OVERRIDE {}
 };
 
 int itkObjectToObjectMetricBaseTest(int ,char * [])

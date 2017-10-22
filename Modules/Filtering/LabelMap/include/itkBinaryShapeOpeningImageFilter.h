@@ -153,7 +153,7 @@ public:
 
 protected:
   BinaryShapeOpeningImageFilter();
-  ~BinaryShapeOpeningImageFilter() {}
+  ~BinaryShapeOpeningImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryShapeOpeningImageFilter needs the entire input to be available.

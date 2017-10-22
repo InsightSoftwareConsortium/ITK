@@ -143,7 +143,7 @@ public:
 
 protected:
   ValuedRegionalExtremaImageFilter();
-  ~ValuedRegionalExtremaImageFilter() {}
+  ~ValuedRegionalExtremaImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ValuedRegionalExtremaImageFilter needs the entire input be

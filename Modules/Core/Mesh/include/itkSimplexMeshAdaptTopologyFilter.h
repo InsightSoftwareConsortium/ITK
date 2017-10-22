@@ -247,7 +247,7 @@ public:
 protected:
 
   SimplexMeshAdaptTopologyFilter();
-  ~SimplexMeshAdaptTopologyFilter();
+  ~SimplexMeshAdaptTopologyFilter() ITK_OVERRIDE;
   SimplexMeshAdaptTopologyFilter(const Self &) {}
 
   void operator=(const Self &) {}

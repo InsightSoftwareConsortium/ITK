@@ -138,7 +138,7 @@ public:
 
 protected:
   LabelShapeOpeningImageFilter();
-  ~LabelShapeOpeningImageFilter() {}
+  ~LabelShapeOpeningImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** LabelShapeOpeningImageFilter needs the entire input be

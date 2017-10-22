@@ -125,7 +125,7 @@ public:
 
 protected:
   LevelSetVelocityNeighborhoodExtractor();
-  ~LevelSetVelocityNeighborhoodExtractor(){}
+  ~LevelSetVelocityNeighborhoodExtractor() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void Initialize() ITK_OVERRIDE;

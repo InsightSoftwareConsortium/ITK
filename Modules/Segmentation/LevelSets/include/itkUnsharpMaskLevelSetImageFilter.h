@@ -96,7 +96,7 @@ public:
 
 protected:
   UnsharpMaskLevelSetImageFilter();
-  ~UnsharpMaskLevelSetImageFilter() {}
+  ~UnsharpMaskLevelSetImageFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** The LevelSetFunctionWithRefitTerm object. */

@@ -180,7 +180,7 @@ public:
 protected:
   virtual void Graft(const DataObject *data) ITK_OVERRIDE;
   GPUImage();
-  virtual ~GPUImage();
+  virtual ~GPUImage() ITK_OVERRIDE;
   using Superclass::Graft;
 
 private:

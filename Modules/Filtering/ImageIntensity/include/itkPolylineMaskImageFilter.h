@@ -120,7 +120,7 @@ public:
 
 protected:
   PolylineMaskImageFilter();
-  virtual ~PolylineMaskImageFilter() {}
+  virtual ~PolylineMaskImageFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GenerateData() ITK_OVERRIDE;

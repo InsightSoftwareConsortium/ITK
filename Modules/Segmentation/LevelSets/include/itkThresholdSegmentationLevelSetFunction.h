@@ -167,7 +167,7 @@ protected:
     this->SetEdgeWeight(0.0);
   }
 
-  virtual ~ThresholdSegmentationLevelSetFunction(){}
+  virtual ~ThresholdSegmentationLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ThresholdSegmentationLevelSetFunction);
 

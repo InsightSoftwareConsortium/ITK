@@ -159,7 +159,7 @@ public:
 
 protected:
   BSplineExponentialDiffeomorphicTransform();
-  virtual ~BSplineExponentialDiffeomorphicTransform();
+  virtual ~BSplineExponentialDiffeomorphicTransform() ITK_OVERRIDE;
 
   void PrintSelf( std::ostream &, Indent ) const ITK_OVERRIDE;
 

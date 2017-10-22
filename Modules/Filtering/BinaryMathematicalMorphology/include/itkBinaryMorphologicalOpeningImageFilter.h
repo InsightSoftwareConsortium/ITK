@@ -96,7 +96,7 @@ public:
 
 protected:
   BinaryMorphologicalOpeningImageFilter();
-  ~BinaryMorphologicalOpeningImageFilter() {}
+  ~BinaryMorphologicalOpeningImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Single-threaded version of GenerateData.  This filter delegates

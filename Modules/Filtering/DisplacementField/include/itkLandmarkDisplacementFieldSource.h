@@ -142,7 +142,7 @@ public:
 
 protected:
   LandmarkDisplacementFieldSource();
-  ~LandmarkDisplacementFieldSource() {}
+  ~LandmarkDisplacementFieldSource() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**

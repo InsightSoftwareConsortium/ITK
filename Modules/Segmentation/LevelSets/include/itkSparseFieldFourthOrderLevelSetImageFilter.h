@@ -285,7 +285,7 @@ public:
 
 protected:
   SparseFieldFourthOrderLevelSetImageFilter();
-  ~SparseFieldFourthOrderLevelSetImageFilter() {}
+  ~SparseFieldFourthOrderLevelSetImageFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method computes curvature from normal vectors stored in a sparse

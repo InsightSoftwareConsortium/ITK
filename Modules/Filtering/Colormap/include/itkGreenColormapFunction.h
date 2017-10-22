@@ -62,7 +62,7 @@ public:
 
 protected:
   GreenColormapFunction() {}
-  ~GreenColormapFunction() {}
+  ~GreenColormapFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GreenColormapFunction);

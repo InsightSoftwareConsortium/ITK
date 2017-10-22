@@ -77,7 +77,7 @@ public:
 protected:
   WindowConvergenceMonitoringFunction();
 
-  ~WindowConvergenceMonitoringFunction();
+  ~WindowConvergenceMonitoringFunction() ITK_OVERRIDE;
 
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 

@@ -87,7 +87,7 @@ public:
 
 protected:
   DilateObjectMorphologyImageFilter();
-  ~DilateObjectMorphologyImageFilter() {}
+  ~DilateObjectMorphologyImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Apply the kernel to the neighborhood given.

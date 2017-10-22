@@ -135,7 +135,7 @@ public:
 
 protected:
   NormalizedCorrelationImageFilter() {}
-  virtual ~NormalizedCorrelationImageFilter() {}
+  virtual ~NormalizedCorrelationImageFilter() ITK_OVERRIDE {}
 
   /** NormalizedCorrelationImageFilter needs to request enough of an
    * input image to account for template size.  The input requested

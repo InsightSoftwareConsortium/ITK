@@ -103,7 +103,7 @@ protected:
 
 protected:
   BSplineCenteredResampleImageFilterBase();
-  virtual ~BSplineCenteredResampleImageFilterBase() {}
+  virtual ~BSplineCenteredResampleImageFilterBase() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

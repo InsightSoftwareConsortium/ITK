@@ -168,7 +168,7 @@ public:
   itkGetConstReferenceMacro(CurrentParameters, ParametersType);
 
 protected:
-  virtual ~ShapePriorSegmentationLevelSetImageFilter() {}
+  virtual ~ShapePriorSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   ShapePriorSegmentationLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

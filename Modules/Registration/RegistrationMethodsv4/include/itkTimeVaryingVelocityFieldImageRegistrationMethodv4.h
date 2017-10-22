@@ -155,7 +155,7 @@ public:
 
 protected:
   TimeVaryingVelocityFieldImageRegistrationMethodv4();
-  virtual ~TimeVaryingVelocityFieldImageRegistrationMethodv4();
+  virtual ~TimeVaryingVelocityFieldImageRegistrationMethodv4() ITK_OVERRIDE;
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   /** Perform the registration. */

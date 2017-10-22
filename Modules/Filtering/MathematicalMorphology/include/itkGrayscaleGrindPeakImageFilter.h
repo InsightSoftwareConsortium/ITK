@@ -121,7 +121,7 @@ public:
 
 protected:
   GrayscaleGrindPeakImageFilter();
-  ~GrayscaleGrindPeakImageFilter() {}
+  ~GrayscaleGrindPeakImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GrayscaleGrindPeakImageFilter needs the entire input be

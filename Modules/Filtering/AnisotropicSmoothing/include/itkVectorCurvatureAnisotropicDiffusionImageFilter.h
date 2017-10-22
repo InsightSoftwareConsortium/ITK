@@ -102,7 +102,7 @@ protected:
     this->SetDifferenceFunction(q);
   }
 
-  ~VectorCurvatureAnisotropicDiffusionImageFilter() {}
+  ~VectorCurvatureAnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
 
   virtual void InitializeIteration() ITK_OVERRIDE
   {

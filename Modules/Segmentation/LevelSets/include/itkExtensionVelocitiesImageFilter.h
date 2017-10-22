@@ -113,7 +113,7 @@ public:
 
 protected:
   ExtensionVelocitiesImageFilter();
-  ~ExtensionVelocitiesImageFilter(){}
+  ~ExtensionVelocitiesImageFilter() ITK_OVERRIDE {}
 
   virtual void GenerateDataFull() ITK_OVERRIDE;
 

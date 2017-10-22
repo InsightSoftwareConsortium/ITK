@@ -100,7 +100,7 @@ public:
 
 protected:
   SinImageFilter() {}
-  virtual ~SinImageFilter() {}
+  virtual ~SinImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SinImageFilter);

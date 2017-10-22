@@ -100,7 +100,7 @@ public:
 
 protected:
   ExampleImageSource() {};
-  virtual ~ExampleImageSource() {};
+  virtual ~ExampleImageSource() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExampleImageSource);

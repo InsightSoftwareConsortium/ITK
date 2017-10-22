@@ -189,7 +189,7 @@ public:
 
 protected:
   FastMarchingUpwindGradientImageFilter();
-  ~FastMarchingUpwindGradientImageFilter(){}
+  ~FastMarchingUpwindGradientImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void Initialize(LevelSetImageType *) ITK_OVERRIDE;

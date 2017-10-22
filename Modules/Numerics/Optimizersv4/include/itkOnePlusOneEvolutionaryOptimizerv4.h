@@ -161,7 +161,7 @@ public:
 protected:
   OnePlusOneEvolutionaryOptimizerv4();
   OnePlusOneEvolutionaryOptimizerv4(const OnePlusOneEvolutionaryOptimizerv4 &);
-  virtual ~OnePlusOneEvolutionaryOptimizerv4();
+  virtual ~OnePlusOneEvolutionaryOptimizerv4() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

@@ -38,7 +38,7 @@ public:
 
 protected:
   DataObjectTestHelper() {}
-  ~DataObjectTestHelper() {}
+  ~DataObjectTestHelper() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
     {
     this->Superclass::PrintSelf( os, indent );

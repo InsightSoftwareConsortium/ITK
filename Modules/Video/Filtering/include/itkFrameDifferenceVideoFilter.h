@@ -68,7 +68,7 @@ protected:
 
   /** Constructor and Destructor */
   FrameDifferenceVideoFilter();
-  virtual ~FrameDifferenceVideoFilter() {}
+  virtual ~FrameDifferenceVideoFilter() ITK_OVERRIDE {}
 
   /** PrintSelf */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

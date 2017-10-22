@@ -162,7 +162,7 @@ protected:
     m_DerivativeSigma = 1.0;
   }
 
-  virtual ~GeodesicActiveContourShapePriorLevelSetFunction() {}
+  virtual ~GeodesicActiveContourShapePriorLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(GeodesicActiveContourShapePriorLevelSetFunction);
 

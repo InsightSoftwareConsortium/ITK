@@ -100,7 +100,7 @@ public:
 
 protected:
   AttributeKeepNObjectsLabelMapFilter();
-  ~AttributeKeepNObjectsLabelMapFilter() {};
+  ~AttributeKeepNObjectsLabelMapFilter() ITK_OVERRIDE {};
 
   void GenerateData() ITK_OVERRIDE;
 

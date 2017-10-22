@@ -117,7 +117,7 @@ public:
 
 protected:
   NeighborhoodConnectedImageFilter();
-  ~NeighborhoodConnectedImageFilter(){}
+  ~NeighborhoodConnectedImageFilter() ITK_OVERRIDE {}
   std::vector< IndexType > m_Seeds;
 
   InputImagePixelType m_Lower;

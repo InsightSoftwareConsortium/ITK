@@ -105,7 +105,7 @@ protected:
       this->GetProperty()->SetBlue(0);
       this->GetProperty()->SetAlpha(1);
     }
-  ~DummySpatialObject() {}
+  ~DummySpatialObject() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DummySpatialObject);
@@ -193,7 +193,7 @@ protected:
   }
 
   MetaDummyConverter() {}
-  ~MetaDummyConverter() {}
+  ~MetaDummyConverter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaDummyConverter);

@@ -140,7 +140,7 @@ protected:
     this->SetThreshold(1.8);
   }
 
-  virtual ~VectorThresholdSegmentationLevelSetFunction(){}
+  virtual ~VectorThresholdSegmentationLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetFunction);
 

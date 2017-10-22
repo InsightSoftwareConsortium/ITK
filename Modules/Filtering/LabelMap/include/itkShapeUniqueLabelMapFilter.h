@@ -105,7 +105,7 @@ public:
 
 protected:
   ShapeUniqueLabelMapFilter();
-  ~ShapeUniqueLabelMapFilter() {}
+  ~ShapeUniqueLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void GenerateData() ITK_OVERRIDE;
 

@@ -70,7 +70,7 @@ public:
 
 protected:
   ParametricSpaceToImageSpaceMeshFilter();
-  ~ParametricSpaceToImageSpaceMeshFilter() {}
+  ~ParametricSpaceToImageSpaceMeshFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate requested data. */

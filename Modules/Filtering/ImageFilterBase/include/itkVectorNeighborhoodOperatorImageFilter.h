@@ -136,7 +136,7 @@ protected:
     m_BoundsCondition(ITK_NULLPTR)
   {}
 
-  virtual ~VectorNeighborhoodOperatorImageFilter() {}
+  virtual ~VectorNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
 
   /** VectorNeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

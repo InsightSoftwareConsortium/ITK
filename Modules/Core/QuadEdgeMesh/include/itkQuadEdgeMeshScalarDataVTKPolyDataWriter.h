@@ -81,7 +81,7 @@ public:
 
 protected:
   QuadEdgeMeshScalarDataVTKPolyDataWriter();
-  ~QuadEdgeMeshScalarDataVTKPolyDataWriter();
+  ~QuadEdgeMeshScalarDataVTKPolyDataWriter() ITK_OVERRIDE;
 
   std::string m_CellDataName;
   std::string m_PointDataName;

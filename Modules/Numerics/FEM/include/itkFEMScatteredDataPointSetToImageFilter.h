@@ -242,7 +242,7 @@ public:
 protected:
 
   FEMScatteredDataPointSetToImageFilter();
-  virtual ~FEMScatteredDataPointSetToImageFilter();
+  virtual ~FEMScatteredDataPointSetToImageFilter() ITK_OVERRIDE;
 
   /** Generate 2D/3D rectilinear mesh */
   void GenerateRectilinearMesh();

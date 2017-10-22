@@ -73,7 +73,7 @@ public:
 
 protected:
   ConjugateGradientOptimizer();
-  virtual ~ConjugateGradientOptimizer();
+  virtual ~ConjugateGradientOptimizer() ITK_OVERRIDE;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;
 

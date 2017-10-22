@@ -195,7 +195,7 @@ public:
 
 protected:
   IsolatedConnectedImageFilter();
-  ~IsolatedConnectedImageFilter(){}
+  ~IsolatedConnectedImageFilter() ITK_OVERRIDE {}
   SeedsContainerType m_Seeds1;
   SeedsContainerType m_Seeds2;
 

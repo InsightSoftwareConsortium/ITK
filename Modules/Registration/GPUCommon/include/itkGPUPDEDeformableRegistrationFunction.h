@@ -142,9 +142,7 @@ protected:
     m_GradientStep = 1.0;
   }
 
-  ~GPUPDEDeformableRegistrationFunction()
-  {
-  }
+  ~GPUPDEDeformableRegistrationFunction() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

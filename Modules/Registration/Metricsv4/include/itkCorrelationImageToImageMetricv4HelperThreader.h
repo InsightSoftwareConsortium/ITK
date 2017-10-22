@@ -71,7 +71,7 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4HelperThreader();
-  virtual ~CorrelationImageToImageMetricv4HelperThreader();
+  virtual ~CorrelationImageToImageMetricv4HelperThreader() ITK_OVERRIDE;
 
   /** Overload: Resize and initialize per thread objects. */
   virtual void BeforeThreadedExecution() ITK_OVERRIDE;

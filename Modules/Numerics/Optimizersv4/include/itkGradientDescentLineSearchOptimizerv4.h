@@ -116,7 +116,7 @@ protected:
   GradientDescentLineSearchOptimizerv4Template();
 
   /** Destructor */
-  virtual ~GradientDescentLineSearchOptimizerv4Template();
+  virtual ~GradientDescentLineSearchOptimizerv4Template() ITK_OVERRIDE;
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 

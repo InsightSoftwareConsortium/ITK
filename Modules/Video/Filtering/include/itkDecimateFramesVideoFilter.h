@@ -64,7 +64,7 @@ protected:
 
   /** Constructor and Destructor */
   DecimateFramesVideoFilter();
-  virtual ~DecimateFramesVideoFilter() {}
+  virtual ~DecimateFramesVideoFilter() ITK_OVERRIDE {}
 
   /** PrintSelf */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

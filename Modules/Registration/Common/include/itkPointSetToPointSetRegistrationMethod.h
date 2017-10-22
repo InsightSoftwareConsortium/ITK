@@ -175,7 +175,7 @@ public:
 
 protected:
   PointSetToPointSetRegistrationMethod();
-  virtual ~PointSetToPointSetRegistrationMethod() {}
+  virtual ~PointSetToPointSetRegistrationMethod() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void GenerateData() ITK_OVERRIDE;

@@ -127,7 +127,7 @@ public:
 
 protected:
   BSplineSyNImageRegistrationMethod();
-  virtual ~BSplineSyNImageRegistrationMethod();
+  virtual ~BSplineSyNImageRegistrationMethod() ITK_OVERRIDE;
 
   /** Handle optimization internally */
   virtual void StartOptimization() ITK_OVERRIDE;

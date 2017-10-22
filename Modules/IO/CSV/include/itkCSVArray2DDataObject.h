@@ -148,7 +148,7 @@ public:
 protected:
 
   CSVArray2DDataObject();
-  virtual ~CSVArray2DDataObject() {}
+  virtual ~CSVArray2DDataObject() ITK_OVERRIDE {}
   /** Print method */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

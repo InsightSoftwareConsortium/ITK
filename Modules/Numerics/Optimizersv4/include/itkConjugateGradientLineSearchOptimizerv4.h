@@ -84,7 +84,7 @@ protected:
   ConjugateGradientLineSearchOptimizerv4Template();
 
   /** Destructor */
-  virtual ~ConjugateGradientLineSearchOptimizerv4Template();
+  virtual ~ConjugateGradientLineSearchOptimizerv4Template() ITK_OVERRIDE;
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 

@@ -115,7 +115,7 @@ public:
 
 protected:
   GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform();
-  virtual ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform();
+  virtual ~GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform() ITK_OVERRIDE;
   virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /** Track when the temporary displacement field used during smoothing

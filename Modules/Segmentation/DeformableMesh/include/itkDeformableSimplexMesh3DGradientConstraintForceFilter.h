@@ -148,7 +148,7 @@ public:
 
 protected:
   DeformableSimplexMesh3DGradientConstraintForceFilter();
-  ~DeformableSimplexMesh3DGradientConstraintForceFilter();
+  ~DeformableSimplexMesh3DGradientConstraintForceFilter() ITK_OVERRIDE;
   DeformableSimplexMesh3DGradientConstraintForceFilter(const Self &) {}
   void operator=(const Self &){}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

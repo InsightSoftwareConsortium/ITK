@@ -172,7 +172,7 @@ public:
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4();
-  virtual ~ANTSNeighborhoodCorrelationImageToImageMetricv4();
+  virtual ~ANTSNeighborhoodCorrelationImageToImageMetricv4() ITK_OVERRIDE;
 
   friend class ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass, Self >;
   typedef ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< VirtualImageDimension >, Superclass, Self >

@@ -133,7 +133,7 @@ public:
 
 protected:
   ImplicitManifoldNormalVectorFilter();
-  ~ImplicitManifoldNormalVectorFilter() {}
+  ~ImplicitManifoldNormalVectorFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This calls SetNormalBand to create the band of normals to process. */

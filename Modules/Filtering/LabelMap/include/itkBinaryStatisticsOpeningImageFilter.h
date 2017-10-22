@@ -180,7 +180,7 @@ public:
 
 protected:
   BinaryStatisticsOpeningImageFilter();
-  ~BinaryStatisticsOpeningImageFilter() {}
+  ~BinaryStatisticsOpeningImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryStatisticsOpeningImageFilter needs the entire input to be available.

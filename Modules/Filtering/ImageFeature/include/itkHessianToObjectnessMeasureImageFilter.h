@@ -129,7 +129,7 @@ public:
 
 protected:
   HessianToObjectnessMeasureImageFilter();
-  ~HessianToObjectnessMeasureImageFilter() {}
+  ~HessianToObjectnessMeasureImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void VerifyPreconditions() ITK_OVERRIDE;

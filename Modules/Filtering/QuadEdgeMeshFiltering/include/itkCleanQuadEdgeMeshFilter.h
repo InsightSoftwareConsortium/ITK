@@ -111,7 +111,7 @@ public:
 protected:
   CleanQuadEdgeMeshFilter();
 
-  virtual ~CleanQuadEdgeMeshFilter() {}
+  virtual ~CleanQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
   virtual void GenerateData() ITK_OVERRIDE;
 

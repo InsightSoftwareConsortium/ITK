@@ -254,7 +254,7 @@ protected:
   DisplacementFieldToBSplineImageFilter();
 
   /** Deconstructor */
-  virtual ~DisplacementFieldToBSplineImageFilter();
+  virtual ~DisplacementFieldToBSplineImageFilter() ITK_OVERRIDE;
 
   /** Standard print self function **/
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;

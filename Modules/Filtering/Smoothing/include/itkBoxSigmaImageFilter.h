@@ -82,7 +82,7 @@ public:
 
 protected:
   BoxSigmaImageFilter();
-  ~BoxSigmaImageFilter() {}
+  ~BoxSigmaImageFilter() ITK_OVERRIDE {}
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType &

@@ -97,7 +97,7 @@ public:
 
 protected:
   IterativeDeconvolutionImageFilter();
-  virtual ~IterativeDeconvolutionImageFilter();
+  virtual ~IterativeDeconvolutionImageFilter() ITK_OVERRIDE;
 
   /** Runs before iterating . */
   virtual void Initialize(ProgressAccumulator * progress,

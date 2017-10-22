@@ -63,7 +63,7 @@ public:
 
 protected:
   JointHistogramMutualInformationComputeJointPDFThreaderBase();
-  virtual ~JointHistogramMutualInformationComputeJointPDFThreaderBase();
+  virtual ~JointHistogramMutualInformationComputeJointPDFThreaderBase() ITK_OVERRIDE;
 
   /** Create the \c m_JointPDFPerThread's. */
   virtual void BeforeThreadedExecution() ITK_OVERRIDE;

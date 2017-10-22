@@ -103,8 +103,7 @@ public:
 
 protected:
   GPUGradientNDAnisotropicDiffusionFunction();
-  ~GPUGradientNDAnisotropicDiffusionFunction() {
-  }
+  ~GPUGradientNDAnisotropicDiffusionFunction() ITK_OVERRIDE {}
 
   /** Inner product function. */
   NeighborhoodInnerProduct< ImageType > m_InnerProduct;

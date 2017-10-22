@@ -117,7 +117,7 @@ protected:
     this->SetNumberOfRequiredInputs(2);
   }
 
-  ~RegionFromReferenceLabelMapFilter() {}
+  ~RegionFromReferenceLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
 

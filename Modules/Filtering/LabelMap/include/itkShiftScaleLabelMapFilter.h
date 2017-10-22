@@ -90,7 +90,7 @@ public:
 
 protected:
   ShiftScaleLabelMapFilter();
-  ~ShiftScaleLabelMapFilter() {}
+  ~ShiftScaleLabelMapFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

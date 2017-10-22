@@ -162,7 +162,7 @@ public:
 protected:
 
   HoughTransform2DLinesImageFilter();
-  virtual ~HoughTransform2DLinesImageFilter() {}
+  virtual ~HoughTransform2DLinesImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

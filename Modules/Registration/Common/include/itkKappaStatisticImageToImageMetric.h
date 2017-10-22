@@ -121,7 +121,7 @@ public:
 
 protected:
   KappaStatisticImageToImageMetric();
-  virtual ~KappaStatisticImageToImageMetric() {}
+  virtual ~KappaStatisticImageToImageMetric() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

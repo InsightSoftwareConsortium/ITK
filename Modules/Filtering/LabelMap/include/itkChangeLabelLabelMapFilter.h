@@ -99,7 +99,7 @@ public:
 
 protected:
   ChangeLabelLabelMapFilter();
-  ~ChangeLabelLabelMapFilter() {}
+  ~ChangeLabelLabelMapFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

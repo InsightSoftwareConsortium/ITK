@@ -161,7 +161,7 @@ protected:
 protected:
 
   SimplexMeshToTriangleMeshFilter();
-  virtual ~SimplexMeshToTriangleMeshFilter();
+  virtual ~SimplexMeshToTriangleMeshFilter() ITK_OVERRIDE;
   SimplexMeshToTriangleMeshFilter(const Self &) {}
   void operator=(const Self &) {}
 

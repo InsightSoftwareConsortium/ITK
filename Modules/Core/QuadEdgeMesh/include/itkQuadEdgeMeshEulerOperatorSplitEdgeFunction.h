@@ -85,7 +85,7 @@ protected:
     m_SplitVertex = SplitVertex::New();
   }
 
-  ~QuadEdgeMeshEulerOperatorSplitEdgeFunction(){}
+  ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitEdgeFunction);

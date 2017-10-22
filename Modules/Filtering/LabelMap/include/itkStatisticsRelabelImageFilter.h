@@ -156,7 +156,7 @@ public:
 
 protected:
   StatisticsRelabelImageFilter();
-  ~StatisticsRelabelImageFilter() {}
+  ~StatisticsRelabelImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** StatisticsRelabelImageFilter needs the entire input be

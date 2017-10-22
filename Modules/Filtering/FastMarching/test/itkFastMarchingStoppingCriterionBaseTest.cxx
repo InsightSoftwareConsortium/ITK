@@ -44,7 +44,7 @@ public:
 
 protected:
   FastMarchingStoppingCriterionBaseHelperTest() : Superclass() {}
-  ~FastMarchingStoppingCriterionBaseHelperTest() {}
+  ~FastMarchingStoppingCriterionBaseHelperTest() ITK_OVERRIDE {}
 
   void SetCurrentNode( const NodeType& ) ITK_OVERRIDE {}
 

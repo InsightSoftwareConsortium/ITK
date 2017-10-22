@@ -150,7 +150,7 @@ public:
 #endif
 
 protected:
-  ~NarrowBandCurvesLevelSetImageFilter() {}
+  ~NarrowBandCurvesLevelSetImageFilter() ITK_OVERRIDE {}
   NarrowBandCurvesLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

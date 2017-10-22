@@ -123,7 +123,7 @@ public:
 
 protected:
   SquaredDifferenceImageFilter() {}
-  virtual ~SquaredDifferenceImageFilter() {}
+  virtual ~SquaredDifferenceImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SquaredDifferenceImageFilter);

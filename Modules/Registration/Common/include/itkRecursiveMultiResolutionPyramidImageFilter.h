@@ -110,7 +110,7 @@ public:
 
 protected:
   RecursiveMultiResolutionPyramidImageFilter();
-  ~RecursiveMultiResolutionPyramidImageFilter() {}
+  ~RecursiveMultiResolutionPyramidImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate the output data. */

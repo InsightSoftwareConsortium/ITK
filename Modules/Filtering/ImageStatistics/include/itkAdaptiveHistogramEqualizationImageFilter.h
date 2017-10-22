@@ -165,7 +165,7 @@ protected:
     m_UseLookupTable = false;
   }
 
-  virtual ~AdaptiveHistogramEqualizationImageFilter(){}
+  virtual ~AdaptiveHistogramEqualizationImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**
