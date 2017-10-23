@@ -45,6 +45,16 @@ namespace itk
  * ThreadPool by calling its AddWork method.
  * One can then wait for the job by calling the WaitForJob method.
  *
+ * When thread pool is in use by the MultiThreader, invoking SetNumberOfThreads
+ * on MultiThreader will only increase the number of jobs submitted to the
+ * ThreadPool, it will not increase the number of threads. This trick can be
+ * used to increase the number of chunks, which can help load balancing in
+ * case the algorithm takes more time for some parts of the image, and there
+ * is relatively small overhead for chunking (splitting the image for processing).
+ *
+ * If more threads are required, e.g. in case when Barrier is used,
+ * AddThreads method should be invoked.
+ *
  * \ingroup OSSystemObjects
  * \ingroup ITKCommon
  */
