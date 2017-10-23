@@ -1,27 +1,41 @@
 version: 2
 jobs:
   build-and-test:
-    working_directory: ~/ITKSimpleITKFilters-build
+    working_directory: /ITKSimpleITKFilters-build
     docker:
       - image: insighttoolkit/module-ci:latest
     steps:
       - checkout:
-          path: ~/ITKSimpleITKFilters
+          path: /ITKSimpleITKFilters
       - run:
-          name: Configure
+          name: Fetch CTest driver script
           command: |
-            cmake \
-              -DITK_DIR:PATH=/ITK-build \
-              -DBUILD_TESTING:BOOL=ON \
-              -DBUILDNAME:STRING=External-ITKSimpleITKFilters-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM} \
-                ~/ITKSimpleITKFilters
+            curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/dashboard/itk_common.cmake -O
+      - run:
+          name: Configure CTest script
+          command: |
+            SHASNIP=$(echo $CIRCLE_SHA1 | cut -c1-7)
+            cat > dashboard.cmake << EOF
+            set(CTEST_SITE "CircleCI")
+            set(CTEST_BUILD_NAME "External-ITKSimpleITKFilters-${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}-${SHASNIP}")
+            set(CTEST_BUILD_CONFIGURATION "MinSizeRel")
+            set(CTEST_CMAKE_GENERATOR "Unix Makefiles")
+            set(CTEST_BUILD_FLAGS: "-j5")
+            set(CTEST_SOURCE_DIRECTORY /ITKSimpleITKFilters)
+            set(CTEST_BINARY_DIRECTORY /ITKSimpleITKFilters-build)
+            set(dashboard_model Experimental)
+            set(dashboard_no_clean 1)
+            set(dashboard_cache "
+            ITK_DIR:PATH=/ITK-build
+            BUILD_TESTING:BOOL=ON
+            ")
+            include(\${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
+            EOF
       - run:
           name: Build and Test
           no_output_timeout: 1.0h
-          environment:
-            CTEST_BUILD_FLAGS: "-j5"
           command: |
-            ctest -j 2 -VV -D Experimental
+            ctest -j 2 -VV -S dashboard.cmake
   package:
     working_directory: ~/ITKSimpleITKFilters
     machine: true
