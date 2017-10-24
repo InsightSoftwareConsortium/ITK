@@ -266,6 +266,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
         m_CirclesList.push_back(Circle);
 
+        circles++;
+        found = true;
+        if ( circles == m_NumberOfCircles ) { break; }
+
         // Remove a black disc from the Hough space domain
         for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
           {
@@ -282,10 +286,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
         minMaxCalculator->SetImage(postProcessImage);
         minMaxCalculator->ComputeMaximum();
         max = minMaxCalculator->GetMaximum();
-
-        circles++;
-        found = true;
-        if ( circles == m_NumberOfCircles ) { break; }
         }
       }
     }
