@@ -171,6 +171,7 @@ public:
   // End concept checking
 #endif
 
+
 protected:
   BoneMorphometryFeaturesFilter();
   virtual ~BoneMorphometryFeaturesFilter() {}
