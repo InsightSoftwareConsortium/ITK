@@ -66,7 +66,7 @@ public:
 
 protected:
   WeightedMeanTestFunction() {}
-  ~WeightedMeanTestFunction() {}
+  ~WeightedMeanTestFunction() ITK_OVERRIDE {}
 }; // end of class
 
 

@@ -101,7 +101,7 @@ protected:
   LoggerThreadWrapper();
 
   /** Destructor */
-  virtual ~LoggerThreadWrapper();
+  virtual ~LoggerThreadWrapper() ITK_OVERRIDE;
 
   /** Print contents of a LoggerThreadWrapper */
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

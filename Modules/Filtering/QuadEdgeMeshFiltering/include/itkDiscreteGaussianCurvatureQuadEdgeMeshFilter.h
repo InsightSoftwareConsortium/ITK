@@ -77,7 +77,7 @@ public:
 
 protected:
   DiscreteGaussianCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() {}
+  ~DiscreteGaussianCurvatureQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
   virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
   {

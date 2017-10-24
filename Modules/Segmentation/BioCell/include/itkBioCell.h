@@ -47,7 +47,7 @@ public:
   friend class CellularAggregateBase; // need to give access to the constructor.
 
 public:
-  virtual ~Cell();
+  virtual ~Cell() ITK_OVERRIDE;
   virtual void ClearForce();
 
   virtual void AddForce(const VectorType & force);

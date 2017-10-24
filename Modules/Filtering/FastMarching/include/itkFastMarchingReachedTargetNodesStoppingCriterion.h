@@ -159,7 +159,7 @@ protected:
   }
 
   /** Destructor */
-  ~FastMarchingReachedTargetNodesStoppingCriterion() {}
+  ~FastMarchingReachedTargetNodesStoppingCriterion() ITK_OVERRIDE {}
 
   TargetConditionType     m_TargetCondition;
   std::vector< NodeType > m_TargetNodes;

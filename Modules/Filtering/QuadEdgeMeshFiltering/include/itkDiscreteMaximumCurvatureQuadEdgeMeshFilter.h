@@ -73,7 +73,7 @@ public:
 
 protected:
   DiscreteMaximumCurvatureQuadEdgeMeshFilter() {}
-  ~DiscreteMaximumCurvatureQuadEdgeMeshFilter() {}
+  ~DiscreteMaximumCurvatureQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
   virtual OutputCurvatureType EstimateCurvature(const OutputPointType & iP) ITK_OVERRIDE
   {

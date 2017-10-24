@@ -91,7 +91,7 @@ public:
 
 protected:
   ExampleWeightFunction() {}
-  ~ExampleWeightFunction() {}
+  ~ExampleWeightFunction() ITK_OVERRIDE {}
 }; // end of class
 
 int main()

@@ -111,7 +111,7 @@ public:
 
 protected:
   TensorFractionalAnisotropyImageFilter() {}
-  virtual ~TensorFractionalAnisotropyImageFilter() {}
+  virtual ~TensorFractionalAnisotropyImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TensorFractionalAnisotropyImageFilter);

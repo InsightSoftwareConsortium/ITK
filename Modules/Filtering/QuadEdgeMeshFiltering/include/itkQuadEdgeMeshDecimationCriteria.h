@@ -79,7 +79,7 @@ protected:
     this->m_MeasureBound = itk::NumericTraits< MeasureType >::ZeroValue();
   }
 
-  ~QuadEdgeMeshDecimationCriterion() {}
+  ~QuadEdgeMeshDecimationCriterion() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
     Superclass::PrintSelf(os, indent);
@@ -254,7 +254,7 @@ public:
 
 protected:
   MaxMeasureBoundCriterion():Superclass() {}
-  ~MaxMeasureBoundCriterion() {}
+  ~MaxMeasureBoundCriterion() ITK_OVERRIDE {}
 
 private:
   MaxMeasureBoundCriterion(const Self &);

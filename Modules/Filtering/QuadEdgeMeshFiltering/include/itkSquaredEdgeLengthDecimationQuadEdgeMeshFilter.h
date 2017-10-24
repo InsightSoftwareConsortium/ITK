@@ -71,7 +71,7 @@ public:
 
 protected:
   SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
-  virtual ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter();
+  virtual ~SquaredEdgeLengthDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
 
   // keep the start of this documentation text on very first comment line,
   // it prevents a Doxygen bug

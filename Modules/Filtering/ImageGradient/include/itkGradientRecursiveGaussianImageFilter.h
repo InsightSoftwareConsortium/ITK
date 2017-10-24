@@ -181,7 +181,7 @@ public:
 
 protected:
   GradientRecursiveGaussianImageFilter();
-  virtual ~GradientRecursiveGaussianImageFilter() {}
+  virtual ~GradientRecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */

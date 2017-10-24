@@ -136,8 +136,7 @@ public:
 
 protected:
   ShotNoiseImageFilter();
-  virtual ~ShotNoiseImageFilter() {
-  }
+  virtual ~ShotNoiseImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

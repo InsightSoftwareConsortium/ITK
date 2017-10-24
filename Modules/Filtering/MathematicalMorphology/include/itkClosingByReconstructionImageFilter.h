@@ -121,7 +121,7 @@ public:
 
 protected:
   ClosingByReconstructionImageFilter();
-  ~ClosingByReconstructionImageFilter() {}
+  ~ClosingByReconstructionImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** ClosingByReconstructionImageFilter needs the entire input be

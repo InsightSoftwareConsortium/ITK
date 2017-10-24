@@ -88,7 +88,7 @@ public:
 
 protected:
   FFTShiftImageFilter();
-  ~FFTShiftImageFilter() {}
+  ~FFTShiftImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Override GenerateData method to set some parameters in the

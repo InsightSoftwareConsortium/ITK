@@ -123,7 +123,7 @@ public:
 protected:
   LevelSetEquationAdvectionTerm();
 
-  virtual ~LevelSetEquationAdvectionTerm();
+  virtual ~LevelSetEquationAdvectionTerm() ITK_OVERRIDE;
 
   AdvectionImagePointer m_AdvectionImage;
 

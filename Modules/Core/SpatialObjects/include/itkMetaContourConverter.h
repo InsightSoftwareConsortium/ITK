@@ -69,7 +69,7 @@ protected:
   virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaContourConverter();
-  ~MetaContourConverter() {}
+  ~MetaContourConverter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaContourConverter);

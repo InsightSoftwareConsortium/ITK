@@ -113,7 +113,7 @@ public:
 
 protected:
   GaussianExponentialDiffeomorphicTransform();
-  virtual ~GaussianExponentialDiffeomorphicTransform();
+  virtual ~GaussianExponentialDiffeomorphicTransform() ITK_OVERRIDE;
 
   /** Type of Gaussian Operator used during smoothing. Define here
    * so we can use a member var during the operation. */

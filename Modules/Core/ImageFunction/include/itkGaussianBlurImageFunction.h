@@ -161,7 +161,7 @@ protected:
   GaussianBlurImageFunction();
   GaussianBlurImageFunction(const Self &);
 
-  ~GaussianBlurImageFunction(){}
+  ~GaussianBlurImageFunction() ITK_OVERRIDE {}
 
   void operator=(const Self &);
 

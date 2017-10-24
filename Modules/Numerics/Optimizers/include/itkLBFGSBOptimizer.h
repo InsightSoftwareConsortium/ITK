@@ -180,7 +180,7 @@ public:
 
 protected:
   LBFGSBOptimizer();
-  virtual ~LBFGSBOptimizer();
+  virtual ~LBFGSBOptimizer() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef Superclass::CostFunctionAdaptorType CostFunctionAdaptorType;

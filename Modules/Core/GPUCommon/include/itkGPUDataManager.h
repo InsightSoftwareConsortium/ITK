@@ -118,7 +118,7 @@ public:
 protected:
 
   GPUDataManager();
-  virtual ~GPUDataManager();
+  virtual ~GPUDataManager() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 protected:

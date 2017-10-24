@@ -128,7 +128,7 @@ protected:
     this->ProcessObject::SetNthOutput( 0, eq.GetPointer() );
   }
 
-  virtual ~BoundaryResolver() {}
+  virtual ~BoundaryResolver() ITK_OVERRIDE {}
   BoundaryResolver(const Self &) {}
   void operator=(const Self &) {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

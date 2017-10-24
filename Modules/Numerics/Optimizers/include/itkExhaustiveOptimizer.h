@@ -118,7 +118,7 @@ public:
 
 protected:
   ExhaustiveOptimizer();
-  virtual ~ExhaustiveOptimizer() {}
+  virtual ~ExhaustiveOptimizer() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Advance to the next grid position. */

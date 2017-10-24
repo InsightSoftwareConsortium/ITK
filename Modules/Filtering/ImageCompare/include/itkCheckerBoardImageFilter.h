@@ -85,7 +85,7 @@ public:
 
 protected:
   CheckerBoardImageFilter();
-  ~CheckerBoardImageFilter() {}
+  ~CheckerBoardImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** CheckerBoardImageFilter can be implemented as a multithreaded filter. Therefore,

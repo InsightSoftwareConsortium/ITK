@@ -67,7 +67,7 @@ public:
 
 protected:
   QuickPropLearningRule();
-  virtual ~QuickPropLearningRule(){};
+  virtual ~QuickPropLearningRule() ITK_OVERRIDE{};
 
   ValueType m_Momentum;
   ValueType m_Max_Growth_Factor;

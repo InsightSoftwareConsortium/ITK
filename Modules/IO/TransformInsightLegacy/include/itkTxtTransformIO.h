@@ -72,7 +72,7 @@ public:
 
 protected:
   TxtTransformIOTemplate();
-  virtual ~TxtTransformIOTemplate();
+  virtual ~TxtTransformIOTemplate() ITK_OVERRIDE;
 
 private:
   /** trim spaces and newlines from start and end of a string */

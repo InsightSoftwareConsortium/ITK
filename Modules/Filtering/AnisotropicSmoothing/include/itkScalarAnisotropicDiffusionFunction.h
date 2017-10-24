@@ -68,7 +68,7 @@ public:
 
 protected:
   ScalarAnisotropicDiffusionFunction() {}
-  ~ScalarAnisotropicDiffusionFunction() {}
+  ~ScalarAnisotropicDiffusionFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarAnisotropicDiffusionFunction);

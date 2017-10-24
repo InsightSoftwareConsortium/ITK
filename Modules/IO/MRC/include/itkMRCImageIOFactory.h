@@ -76,7 +76,7 @@ public:
 
 protected:
   MRCImageIOFactory();
-  ~MRCImageIOFactory();
+  ~MRCImageIOFactory() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRCImageIOFactory);

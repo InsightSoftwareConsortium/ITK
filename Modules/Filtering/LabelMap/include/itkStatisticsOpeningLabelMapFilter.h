@@ -86,7 +86,7 @@ public:
 
 protected:
   StatisticsOpeningLabelMapFilter();
-  ~StatisticsOpeningLabelMapFilter() {}
+  ~StatisticsOpeningLabelMapFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

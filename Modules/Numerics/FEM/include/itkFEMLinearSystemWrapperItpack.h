@@ -575,7 +575,7 @@ public:
   /**
    * destructor
    */
-  ~LinearSystemWrapperItpack();
+  ~LinearSystemWrapperItpack() ITK_OVERRIDE;
 
   /* memory management routines */
   virtual void  InitializeMatrix(unsigned int matrixIndex) ITK_OVERRIDE;
@@ -693,9 +693,7 @@ public:
   FEMExceptionItpackSolver(const char *file, unsigned int lineNumber, std::string location, integer errorCode);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionItpackSolver() ITK_NOEXCEPT_OR_THROW
-  {
-  }
+  virtual ~FEMExceptionItpackSolver() ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE {}
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionItpackSolver, FEMException);

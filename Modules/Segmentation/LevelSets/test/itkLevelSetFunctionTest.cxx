@@ -117,7 +117,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ~MorphFunction() {}
+  ~MorphFunction() ITK_OVERRIDE {}
 
   MorphFunction()
     {
@@ -175,7 +175,7 @@ public:
     }
 
 protected:
-  ~MorphFilter() {}
+  ~MorphFilter() ITK_OVERRIDE {}
   MorphFilter()
     {
       MorphFunction::Pointer p = MorphFunction::New();

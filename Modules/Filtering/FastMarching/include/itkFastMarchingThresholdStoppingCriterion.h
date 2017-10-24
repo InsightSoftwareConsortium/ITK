@@ -70,7 +70,7 @@ protected:
     m_Threshold( NumericTraits< OutputPixelType >::ZeroValue() )
   {}
 
-  ~FastMarchingThresholdStoppingCriterion() {}
+  ~FastMarchingThresholdStoppingCriterion() ITK_OVERRIDE {}
 
   OutputPixelType m_Threshold;
 

@@ -189,7 +189,7 @@ public:
 
 protected:
   SymmetricEigenAnalysisImageFilter() {}
-  virtual ~SymmetricEigenAnalysisImageFilter() {}
+  virtual ~SymmetricEigenAnalysisImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SymmetricEigenAnalysisImageFilter);

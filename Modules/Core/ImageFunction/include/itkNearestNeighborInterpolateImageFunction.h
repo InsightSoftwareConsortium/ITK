@@ -86,7 +86,7 @@ public:
 
 protected:
   NearestNeighborInterpolateImageFunction(){}
-  ~NearestNeighborInterpolateImageFunction(){}
+  ~NearestNeighborInterpolateImageFunction() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 

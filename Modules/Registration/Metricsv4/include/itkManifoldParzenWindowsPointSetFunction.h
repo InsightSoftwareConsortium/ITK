@@ -177,7 +177,7 @@ public:
 
 protected:
   ManifoldParzenWindowsPointSetFunction();
-  virtual ~ManifoldParzenWindowsPointSetFunction();
+  virtual ~ManifoldParzenWindowsPointSetFunction() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   void GenerateData();

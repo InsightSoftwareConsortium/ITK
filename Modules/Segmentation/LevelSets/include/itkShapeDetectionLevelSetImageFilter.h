@@ -133,7 +133,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ~ShapeDetectionLevelSetImageFilter() {}
+  ~ShapeDetectionLevelSetImageFilter() ITK_OVERRIDE {}
   ShapeDetectionLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

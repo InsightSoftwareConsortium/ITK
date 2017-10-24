@@ -92,7 +92,7 @@ protected:
   /** Constructor */
   SimpleLogger() {};
   /** Destructor */
-  virtual ~SimpleLogger() {};
+  virtual ~SimpleLogger() ITK_OVERRIDE {};
 };  // class Logger
 
 class LogTester

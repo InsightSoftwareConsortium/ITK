@@ -68,7 +68,7 @@ protected:
   virtual MetaObjectType *CreateMetaObject() ITK_OVERRIDE;
 
   MetaGroupConverter();
-  ~MetaGroupConverter() {}
+  ~MetaGroupConverter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaGroupConverter);

@@ -103,7 +103,7 @@ public:
 
 protected:
   RegularStepGradientDescentBaseOptimizer();
-  virtual ~RegularStepGradientDescentBaseOptimizer() {}
+  virtual ~RegularStepGradientDescentBaseOptimizer() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Advance one step following the gradient direction

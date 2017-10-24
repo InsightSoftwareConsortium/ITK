@@ -92,7 +92,7 @@ public:
 
 protected:
   VoronoiPartitioningImageFilter();
-  ~VoronoiPartitioningImageFilter();
+  ~VoronoiPartitioningImageFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   // Classify all the voronoi cells as interior , exterior or boundary.

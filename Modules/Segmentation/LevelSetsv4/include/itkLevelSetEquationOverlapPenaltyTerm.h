@@ -113,7 +113,7 @@ public:
 protected:
   LevelSetEquationOverlapPenaltyTerm();
 
-  virtual ~LevelSetEquationOverlapPenaltyTerm();
+  virtual ~LevelSetEquationOverlapPenaltyTerm() ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location index */
   virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& index ) ITK_OVERRIDE;

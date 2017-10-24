@@ -110,7 +110,7 @@ public:
 
 protected:
   CosImageFilter() {}
-  virtual ~CosImageFilter() {}
+  virtual ~CosImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CosImageFilter);

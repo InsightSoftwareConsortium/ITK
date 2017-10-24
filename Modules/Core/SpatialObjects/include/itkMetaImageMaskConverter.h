@@ -56,7 +56,7 @@ protected:
     return "Mask";
   }
   MetaImageMaskConverter() {}
-  ~MetaImageMaskConverter() {}
+  ~MetaImageMaskConverter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageMaskConverter);

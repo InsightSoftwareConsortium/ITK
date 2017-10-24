@@ -46,7 +46,7 @@ public:
 
 private:
   Rigid3DTransformSurrogate() {}
-  ~Rigid3DTransformSurrogate() {}
+  ~Rigid3DTransformSurrogate() ITK_OVERRIDE {}
 
 };
 

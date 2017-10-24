@@ -103,7 +103,7 @@ public:
 
 protected:
   BinomialBlurImageFilter();
-  virtual ~BinomialBlurImageFilter() {}
+  virtual ~BinomialBlurImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Method for evaluating the implicit function over the image. */

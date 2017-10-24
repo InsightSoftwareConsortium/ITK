@@ -144,7 +144,7 @@ protected:
   MRIBiasEnergyFunction();
 
   /** Destructor. */
-  virtual ~MRIBiasEnergyFunction();
+  virtual ~MRIBiasEnergyFunction() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
@@ -479,7 +479,7 @@ public:
 
 protected:
   MRIBiasFieldCorrectionFilter();
-  virtual ~MRIBiasFieldCorrectionFilter();
+  virtual ~MRIBiasFieldCorrectionFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Checks if the mask image's dimensionality and size matches with

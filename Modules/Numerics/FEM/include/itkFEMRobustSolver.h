@@ -168,7 +168,7 @@ protected:
    * for the matrix and vector storage.
    */
   RobustSolver();
-  ~RobustSolver();
+  ~RobustSolver() ITK_OVERRIDE;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */

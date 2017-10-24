@@ -116,7 +116,7 @@ public:
 
 protected:
   EigenAnalysis2DImageFilter();
-  virtual ~EigenAnalysis2DImageFilter() {}
+  virtual ~EigenAnalysis2DImageFilter() ITK_OVERRIDE {}
 
   void GenerateData(void) ITK_OVERRIDE;
 

@@ -90,7 +90,7 @@ public:
 protected:
 
   BinaryThresholdSpatialFunction();
-  ~BinaryThresholdSpatialFunction();
+  ~BinaryThresholdSpatialFunction() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   FunctionOutputType m_LowerThreshold;

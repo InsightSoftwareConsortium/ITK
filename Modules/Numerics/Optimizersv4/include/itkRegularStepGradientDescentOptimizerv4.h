@@ -124,7 +124,7 @@ protected:
   RegularStepGradientDescentOptimizerv4();
 
   /** Destructor. */
-  virtual ~RegularStepGradientDescentOptimizerv4();
+  virtual ~RegularStepGradientDescentOptimizerv4() ITK_OVERRIDE;
 
   virtual void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 

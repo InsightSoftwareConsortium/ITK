@@ -59,7 +59,7 @@ public:
 
 protected:
   GE4ImageIOFactory();
-  ~GE4ImageIOFactory();
+  ~GE4ImageIOFactory() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

@@ -90,7 +90,7 @@ public:
 
 protected:
   VnlHalfHermitianToRealInverseFFTImageFilter()  {}
-  virtual ~VnlHalfHermitianToRealInverseFFTImageFilter(){}
+  virtual ~VnlHalfHermitianToRealInverseFFTImageFilter() ITK_OVERRIDE {}
 
   virtual void GenerateData() ITK_OVERRIDE;
 

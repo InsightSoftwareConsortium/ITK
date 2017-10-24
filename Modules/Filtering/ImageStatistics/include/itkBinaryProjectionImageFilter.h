@@ -156,7 +156,7 @@ protected:
     m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
   }
 
-  virtual ~BinaryProjectionImageFilter() {}
+  virtual ~BinaryProjectionImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

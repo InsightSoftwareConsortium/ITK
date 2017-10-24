@@ -161,7 +161,7 @@ public:
 
 protected:
   BayesianClassifierInitializationImageFilter();
-  virtual ~BayesianClassifierInitializationImageFilter() {}
+  virtual ~BayesianClassifierInitializationImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the membership functions. This will be called only if the membership

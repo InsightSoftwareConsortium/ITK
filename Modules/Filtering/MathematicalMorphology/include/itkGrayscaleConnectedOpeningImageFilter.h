@@ -106,7 +106,7 @@ public:
 
 protected:
   GrayscaleConnectedOpeningImageFilter();
-  ~GrayscaleConnectedOpeningImageFilter() {}
+  ~GrayscaleConnectedOpeningImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GrayscaleConnectedOpeningImageFilter needs the entire input be

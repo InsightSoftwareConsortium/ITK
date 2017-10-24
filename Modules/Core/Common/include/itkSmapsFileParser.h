@@ -166,7 +166,7 @@ class ITKCommon_EXPORT SmapsData_2_6:public MapData
 public:
   typedef MapData::MemoryLoadType MemoryLoadType;
 
-  virtual ~SmapsData_2_6();
+  virtual ~SmapsData_2_6() ITK_OVERRIDE;
 
   /** Returns the heap usage in kB of the process */
   virtual MemoryLoadType GetHeapUsage() ITK_OVERRIDE;
@@ -195,7 +195,7 @@ class ITKCommon_EXPORT VMMapData_10_2:public MapData
 public:
   typedef MapData::MemoryLoadType MemoryLoadType;
   VMMapData_10_2();
-  virtual ~VMMapData_10_2();
+  virtual ~VMMapData_10_2() ITK_OVERRIDE;
 
   /** Returns the heap usage in kB of the process */
   virtual MemoryLoadType GetHeapUsage() ITK_OVERRIDE;

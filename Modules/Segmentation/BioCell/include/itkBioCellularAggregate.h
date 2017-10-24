@@ -147,7 +147,7 @@ public:
 
 protected:
   CellularAggregate();
-  virtual ~CellularAggregate();
+  virtual ~CellularAggregate() ITK_OVERRIDE;
   CellularAggregate(const Self &);
   void operator=(const Self &);
 

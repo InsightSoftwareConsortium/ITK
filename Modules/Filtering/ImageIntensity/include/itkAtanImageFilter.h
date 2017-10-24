@@ -109,7 +109,7 @@ public:
 
 protected:
   AtanImageFilter() {}
-  virtual ~AtanImageFilter() {}
+  virtual ~AtanImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AtanImageFilter);

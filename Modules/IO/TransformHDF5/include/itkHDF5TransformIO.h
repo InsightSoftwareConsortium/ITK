@@ -120,7 +120,7 @@ public:
 
 protected:
   HDF5TransformIOTemplate();
-  virtual ~HDF5TransformIOTemplate();
+  virtual ~HDF5TransformIOTemplate() ITK_OVERRIDE;
 
 private:
   /** Read a parameter array from the file location name */

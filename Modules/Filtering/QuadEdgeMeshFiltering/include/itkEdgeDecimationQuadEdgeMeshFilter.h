@@ -88,7 +88,7 @@ public:
 protected:
 
   EdgeDecimationQuadEdgeMeshFilter();
-  virtual ~EdgeDecimationQuadEdgeMeshFilter();
+  virtual ~EdgeDecimationQuadEdgeMeshFilter() ITK_OVERRIDE;
 
   bool m_Relocate;
   bool m_CheckOrientation;

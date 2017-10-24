@@ -83,7 +83,7 @@ public:
 
 protected:
   ModulusImageFilter();
-  virtual ~ModulusImageFilter() {}
+  virtual ~ModulusImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ModulusImageFilter);

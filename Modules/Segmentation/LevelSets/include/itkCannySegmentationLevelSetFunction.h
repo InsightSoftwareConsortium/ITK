@@ -106,7 +106,7 @@ protected:
     m_Distance = DanielssonDistanceMapImageFilter< ImageType, ImageType >::New();
   }
 
-  virtual ~CannySegmentationLevelSetFunction() {}
+  virtual ~CannySegmentationLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(CannySegmentationLevelSetFunction);
 

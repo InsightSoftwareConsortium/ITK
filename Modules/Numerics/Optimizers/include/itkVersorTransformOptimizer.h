@@ -76,7 +76,7 @@ public:
 
 protected:
   VersorTransformOptimizer() {}
-  virtual ~VersorTransformOptimizer() {}
+  virtual ~VersorTransformOptimizer() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VersorTransformOptimizer);

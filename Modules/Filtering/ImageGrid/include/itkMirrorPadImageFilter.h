@@ -95,7 +95,7 @@ public:
 
 protected:
   MirrorPadImageFilter() {}
-  ~MirrorPadImageFilter() {}
+  ~MirrorPadImageFilter() ITK_OVERRIDE {}
 
   /** Convert from the output index to the input index taking
    * into consideration mirrored and normal regions. */

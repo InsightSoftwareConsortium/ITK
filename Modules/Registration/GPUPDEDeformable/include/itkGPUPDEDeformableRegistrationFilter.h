@@ -160,8 +160,8 @@ public:
 
 protected:
   GPUPDEDeformableRegistrationFilter();
-  ~GPUPDEDeformableRegistrationFilter() {
-  }
+  ~GPUPDEDeformableRegistrationFilter() ITK_OVERRIDE {}
+
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** A simple method to copy the data from the input to the output.

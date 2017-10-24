@@ -171,7 +171,7 @@ public:
 
 protected:
   TimeVaryingBSplineVelocityFieldTransform();
-  virtual ~TimeVaryingBSplineVelocityFieldTransform();
+  virtual ~TimeVaryingBSplineVelocityFieldTransform() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:

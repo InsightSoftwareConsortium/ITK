@@ -73,7 +73,7 @@ protected:
     m_NewPoint = (PointIdentifier)0;
   }
 
-  ~QuadEdgeMeshEulerOperatorSplitVertexFunction(){}
+  ~QuadEdgeMeshEulerOperatorSplitVertexFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorSplitVertexFunction);

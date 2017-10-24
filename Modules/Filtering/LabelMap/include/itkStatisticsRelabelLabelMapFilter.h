@@ -86,7 +86,7 @@ public:
 
 protected:
   StatisticsRelabelLabelMapFilter();
-  ~StatisticsRelabelLabelMapFilter() {}
+  ~StatisticsRelabelLabelMapFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

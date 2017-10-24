@@ -94,7 +94,7 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(StandardDeviationPerComponentSampleFilter);
 
   StandardDeviationPerComponentSampleFilter();
-  virtual ~StandardDeviationPerComponentSampleFilter();
+  virtual ~StandardDeviationPerComponentSampleFilter() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DataObject pointer */

@@ -100,9 +100,8 @@ public:
 
 protected:
   GPUDiscreteGaussianImageFilter();
+  virtual ~GPUDiscreteGaussianImageFilter() ITK_OVERRIDE {}
 
-  virtual ~GPUDiscreteGaussianImageFilter() {
-  }
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Standard GPU pipeline method. */

@@ -202,7 +202,7 @@ public:
 #endif
 
 protected:
-  ~NarrowBandThresholdSegmentationLevelSetImageFilter() {}
+  ~NarrowBandThresholdSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   NarrowBandThresholdSegmentationLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

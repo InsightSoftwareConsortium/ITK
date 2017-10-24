@@ -147,7 +147,7 @@ public:
 
 protected:
   ConfidenceConnectedImageFilter();
-  ~ConfidenceConnectedImageFilter(){}
+  ~ConfidenceConnectedImageFilter() ITK_OVERRIDE {}
 
   // Override since the filter needs all the data for the algorithm
   void GenerateInputRequestedRegion() ITK_OVERRIDE;

@@ -65,7 +65,7 @@ public:
 
 protected:
   MatlabTransformIOTemplate();
-  virtual ~MatlabTransformIOTemplate();
+  virtual ~MatlabTransformIOTemplate() ITK_OVERRIDE;
 };
 
 /** This helps to meet backward compatibility */

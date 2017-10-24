@@ -79,7 +79,7 @@ public:
 
 protected:
   EuclideanDistancePointSetToPointSetMetricv4();
-  virtual ~EuclideanDistancePointSetToPointSetMetricv4();
+  virtual ~EuclideanDistancePointSetToPointSetMetricv4() ITK_OVERRIDE;
 
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;

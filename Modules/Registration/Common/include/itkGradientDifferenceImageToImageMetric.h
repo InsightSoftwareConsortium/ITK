@@ -144,7 +144,7 @@ public:
 
 protected:
   GradientDifferenceImageToImageMetric();
-  virtual ~GradientDifferenceImageToImageMetric() {}
+  virtual ~GradientDifferenceImageToImageMetric() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the range of the moved image gradients. */

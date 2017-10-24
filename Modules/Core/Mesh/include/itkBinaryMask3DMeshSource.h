@@ -146,7 +146,7 @@ public:
 
 protected:
   BinaryMask3DMeshSource();
-  ~BinaryMask3DMeshSource();
+  ~BinaryMask3DMeshSource() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData() ITK_OVERRIDE;

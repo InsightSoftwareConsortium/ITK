@@ -175,7 +175,7 @@ public:
 
 protected:
   BSplineSmoothingOnUpdateDisplacementFieldTransform();
-  virtual ~BSplineSmoothingOnUpdateDisplacementFieldTransform();
+  virtual ~BSplineSmoothingOnUpdateDisplacementFieldTransform() ITK_OVERRIDE;
 
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 

@@ -84,8 +84,7 @@ protected:
     this->SetDifferenceFunction(p);
   }
 
-  ~GPUGradientAnisotropicDiffusionImageFilter() {
-  }
+  ~GPUGradientAnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUGradientAnisotropicDiffusionImageFilter);

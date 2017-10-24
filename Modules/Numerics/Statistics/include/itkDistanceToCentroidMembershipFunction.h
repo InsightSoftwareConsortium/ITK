@@ -98,7 +98,7 @@ public:
 
 protected:
   DistanceToCentroidMembershipFunction();
-  virtual ~DistanceToCentroidMembershipFunction(void) {}
+  virtual ~DistanceToCentroidMembershipFunction() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Return a copy of the current membership function */

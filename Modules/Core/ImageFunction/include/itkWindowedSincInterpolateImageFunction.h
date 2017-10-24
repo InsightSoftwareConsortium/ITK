@@ -308,7 +308,7 @@ public:
 
 protected:
   WindowedSincInterpolateImageFunction();
-  virtual ~WindowedSincInterpolateImageFunction();
+  virtual ~WindowedSincInterpolateImageFunction() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

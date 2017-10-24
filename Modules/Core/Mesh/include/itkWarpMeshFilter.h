@@ -77,7 +77,7 @@ public:
 
 protected:
   WarpMeshFilter();
-  ~WarpMeshFilter() {}
+  ~WarpMeshFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Requested Data */

@@ -156,7 +156,7 @@ public:
 
 protected:
   BinaryShapeKeepNObjectsImageFilter();
-  ~BinaryShapeKeepNObjectsImageFilter() {}
+  ~BinaryShapeKeepNObjectsImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryShapeKeepNObjectsImageFilter needs the entire input be

@@ -130,8 +130,7 @@ protected:
     m_TimeStep                 = 0.125f;  // default value
   }
 
-  ~GPUAnisotropicDiffusionFunction() {
-  }
+  ~GPUAnisotropicDiffusionFunction() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

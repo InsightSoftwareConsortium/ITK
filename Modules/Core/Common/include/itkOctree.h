@@ -133,7 +133,7 @@ public:
   void BuildFromImage(Image< TPixel, 3 > *fromImage);
 
   Octree();
-  ~Octree();
+  ~Octree() ITK_OVERRIDE;
   void SetColor(unsigned int color) { m_Tree.SetColor(color); }
   void SetTree(OctreeNodeBranch *branch) { m_Tree.SetBranch(branch); }
   void SetTrueDims(const unsigned int Dim0, const unsigned int Dim1,

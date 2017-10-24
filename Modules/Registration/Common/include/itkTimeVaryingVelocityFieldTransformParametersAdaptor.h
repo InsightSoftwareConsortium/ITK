@@ -123,7 +123,7 @@ public:
 
 protected:
   TimeVaryingVelocityFieldTransformParametersAdaptor();
-  ~TimeVaryingVelocityFieldTransformParametersAdaptor();
+  ~TimeVaryingVelocityFieldTransformParametersAdaptor() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TimeVaryingVelocityFieldTransformParametersAdaptor);

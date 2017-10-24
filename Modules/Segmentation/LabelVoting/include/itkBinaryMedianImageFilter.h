@@ -121,7 +121,7 @@ public:
 
 protected:
   BinaryMedianImageFilter();
-  virtual ~BinaryMedianImageFilter() {}
+  virtual ~BinaryMedianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryMedianImageFilter can be implemented as a multithreaded filter.

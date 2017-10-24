@@ -94,7 +94,7 @@ public:
 private:
 
   RegistrationParameterScalesFromJacobianTestMetric() {}
-  ~RegistrationParameterScalesFromJacobianTestMetric() {}
+  ~RegistrationParameterScalesFromJacobianTestMetric() ITK_OVERRIDE {}
 
 };
 

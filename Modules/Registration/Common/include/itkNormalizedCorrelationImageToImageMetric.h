@@ -98,7 +98,7 @@ public:
 
 protected:
   NormalizedCorrelationImageToImageMetric();
-  virtual ~NormalizedCorrelationImageToImageMetric() {}
+  virtual ~NormalizedCorrelationImageToImageMetric() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

@@ -91,7 +91,7 @@ public:
 
 protected:
   DeformableSimplexMesh3DBalloonForceFilter();
-  ~DeformableSimplexMesh3DBalloonForceFilter();
+  ~DeformableSimplexMesh3DBalloonForceFilter() ITK_OVERRIDE;
   DeformableSimplexMesh3DBalloonForceFilter(const Self &)
   {}
 

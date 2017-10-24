@@ -150,7 +150,7 @@ public:
   { return m_GeodesicActiveContourFunction->GetDerivativeSigma(); }
 
 protected:
-  ~GeodesicActiveContourLevelSetImageFilter() {}
+  ~GeodesicActiveContourLevelSetImageFilter() ITK_OVERRIDE {}
   GeodesicActiveContourLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

@@ -552,7 +552,7 @@ public:
 
 protected:
   FEMRegistrationFilter();
-  ~FEMRegistrationFilter();
+  ~FEMRegistrationFilter() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

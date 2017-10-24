@@ -100,8 +100,7 @@ public:
 
 protected:
   GPUDenseFiniteDifferenceImageFilter();
-  ~GPUDenseFiniteDifferenceImageFilter() {
-  }
+  ~GPUDenseFiniteDifferenceImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method applies changes from the m_UpdateBuffer to the output using

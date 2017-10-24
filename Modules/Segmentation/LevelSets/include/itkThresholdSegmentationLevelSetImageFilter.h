@@ -190,7 +190,7 @@ public:
   }
 
 protected:
-  ~ThresholdSegmentationLevelSetImageFilter() {}
+  ~ThresholdSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   ThresholdSegmentationLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

@@ -150,8 +150,7 @@ public:
 
 protected:
   GPUNeighborhoodOperatorImageFilter();
-  virtual ~GPUNeighborhoodOperatorImageFilter() {
-  }
+  virtual ~GPUNeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
 
   /** NeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

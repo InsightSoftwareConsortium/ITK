@@ -142,7 +142,7 @@ public:
 
 protected:
   LabelShapeKeepNObjectsImageFilter();
-  ~LabelShapeKeepNObjectsImageFilter() {}
+  ~LabelShapeKeepNObjectsImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** LabelShapeKeepNObjectsImageFilter needs the entire input be

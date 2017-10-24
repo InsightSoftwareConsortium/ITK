@@ -67,8 +67,7 @@ public:
 
 protected:
   GPUScalarAnisotropicDiffusionFunction();
-  ~GPUScalarAnisotropicDiffusionFunction() {
-  }
+  ~GPUScalarAnisotropicDiffusionFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GPUScalarAnisotropicDiffusionFunction);

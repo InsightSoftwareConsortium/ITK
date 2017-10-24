@@ -166,7 +166,7 @@ public:
 
 protected:
   LabelImageToStatisticsLabelMapFilter();
-  ~LabelImageToStatisticsLabelMapFilter() {}
+  ~LabelImageToStatisticsLabelMapFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** LabelImageToStatisticsLabelMapFilter needs the entire input be

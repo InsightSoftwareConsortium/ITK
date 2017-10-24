@@ -128,7 +128,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  ~LaplacianSegmentationLevelSetImageFilter() {}
+  ~LaplacianSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   LaplacianSegmentationLevelSetImageFilter();
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

@@ -92,7 +92,7 @@ public:
 
 protected:
   ImageToImageMetricv4GetValueAndDerivativeThreaderBase();
-  virtual ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase();
+  virtual ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase() ITK_OVERRIDE;
 
   /** Resize and initialize per thread objects. */
   virtual void BeforeThreadedExecution() ITK_OVERRIDE;

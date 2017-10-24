@@ -217,7 +217,7 @@ public:
 
 protected:
   MaskNegatedImageFilter() {}
-  virtual ~MaskNegatedImageFilter() {}
+  virtual ~MaskNegatedImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {

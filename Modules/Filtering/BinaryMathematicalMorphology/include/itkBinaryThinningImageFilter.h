@@ -130,7 +130,7 @@ public:
 
 protected:
   BinaryThinningImageFilter();
-  virtual ~BinaryThinningImageFilter() {}
+  virtual ~BinaryThinningImageFilter() ITK_OVERRIDE {}
 
   /** Compute thinning Image. */
   void GenerateData() ITK_OVERRIDE;

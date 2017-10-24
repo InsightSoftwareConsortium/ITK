@@ -237,7 +237,7 @@ protected:
     m_MaximumNumberOfOverlappingPixels = 0;
     m_AccumulatedProgress = 0.0;
   }
-  virtual ~MaskedFFTNormalizedCorrelationImageFilter() {}
+  virtual ~MaskedFFTNormalizedCorrelationImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Overlap the VerifyInputInformation method */

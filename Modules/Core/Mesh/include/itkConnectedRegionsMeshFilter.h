@@ -226,7 +226,7 @@ public:
 protected:
 
   ConnectedRegionsMeshFilter();
-  virtual ~ConnectedRegionsMeshFilter(void) {}
+  virtual ~ConnectedRegionsMeshFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

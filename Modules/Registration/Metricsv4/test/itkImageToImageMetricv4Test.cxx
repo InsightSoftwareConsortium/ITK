@@ -158,7 +158,7 @@ protected:
     this->m_DenseGetValueAndDerivativeThreader  = DenseThreaderType::New();
     this->m_SparseGetValueAndDerivativeThreader = SparseThreaderType::New();
     }
-  virtual ~ImageToImageMetricv4TestMetric() {}
+  virtual ~ImageToImageMetricv4TestMetric() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream& stream, itk::Indent indent) const ITK_OVERRIDE
   {

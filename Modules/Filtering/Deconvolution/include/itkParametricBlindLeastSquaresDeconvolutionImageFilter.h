@@ -106,7 +106,7 @@ public:
 
 protected:
   ParametricBlindLeastSquaresDeconvolutionImageFilter();
-  virtual ~ParametricBlindLeastSquaresDeconvolutionImageFilter();
+  virtual ~ParametricBlindLeastSquaresDeconvolutionImageFilter() ITK_OVERRIDE;
 
   virtual void Initialize(ProgressAccumulator * progress,
                           float progressWeight,

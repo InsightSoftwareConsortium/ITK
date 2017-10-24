@@ -110,7 +110,7 @@ public:
 
 protected:
   TensorRelativeAnisotropyImageFilter() {}
-  virtual ~TensorRelativeAnisotropyImageFilter() {}
+  virtual ~TensorRelativeAnisotropyImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TensorRelativeAnisotropyImageFilter);

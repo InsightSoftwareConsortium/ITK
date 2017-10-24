@@ -85,7 +85,7 @@ public:
 
 protected:
   BoxMeanImageFilter();
-  ~BoxMeanImageFilter() {}
+  ~BoxMeanImageFilter() ITK_OVERRIDE {}
 
   /** Multi-thread version GenerateData. */
   void  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;

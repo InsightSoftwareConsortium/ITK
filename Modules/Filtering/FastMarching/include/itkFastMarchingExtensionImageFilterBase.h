@@ -130,7 +130,7 @@ public:
 
 protected:
   FastMarchingExtensionImageFilterBase();
-  ~FastMarchingExtensionImageFilterBase(){}
+  ~FastMarchingExtensionImageFilterBase() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void InitializeOutput(OutputImageType *) ITK_OVERRIDE;

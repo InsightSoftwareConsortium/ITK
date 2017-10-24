@@ -129,8 +129,7 @@ public:
 
 protected:
   GPUBinaryThresholdImageFilter();
-  virtual ~GPUBinaryThresholdImageFilter() {
-  }
+  virtual ~GPUBinaryThresholdImageFilter() ITK_OVERRIDE {}
 
   /** This method is used to set the state of the filter before
    * multi-threading. */

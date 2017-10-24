@@ -110,7 +110,7 @@ public:
 
 protected:
   SpatialObjectToImageStatisticsCalculator();
-  virtual ~SpatialObjectToImageStatisticsCalculator() {}
+  virtual ~SpatialObjectToImageStatisticsCalculator() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   bool ComputeStatistics();

@@ -138,7 +138,7 @@ public:
 
 protected:
   ShapePriorSegmentationLevelSetFunction();
-  virtual ~ShapePriorSegmentationLevelSetFunction() {}
+  virtual ~ShapePriorSegmentationLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapePriorSegmentationLevelSetFunction);
 

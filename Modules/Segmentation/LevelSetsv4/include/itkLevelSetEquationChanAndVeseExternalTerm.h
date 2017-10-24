@@ -108,7 +108,7 @@ public:
 
 protected:
   LevelSetEquationChanAndVeseExternalTerm();
-  virtual ~LevelSetEquationChanAndVeseExternalTerm();
+  virtual ~LevelSetEquationChanAndVeseExternalTerm() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseExternalTerm);

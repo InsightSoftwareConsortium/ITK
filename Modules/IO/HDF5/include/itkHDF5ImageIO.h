@@ -133,7 +133,7 @@ public:
 
 protected:
   HDF5ImageIO();
-  ~HDF5ImageIO();
+  ~HDF5ImageIO() ITK_OVERRIDE;
 
   virtual SizeType GetHeaderSize(void) const ITK_OVERRIDE;
 

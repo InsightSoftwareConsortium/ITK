@@ -103,7 +103,7 @@ public:
 
 protected:
   FEMFactoryBase();
-  virtual ~FEMFactoryBase();
+  virtual ~FEMFactoryBase() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FEMFactoryBase);

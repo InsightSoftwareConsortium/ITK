@@ -81,7 +81,7 @@ public:
 
 protected:
   StatisticsUniqueLabelMapFilter();
-  ~StatisticsUniqueLabelMapFilter() {}
+  ~StatisticsUniqueLabelMapFilter() ITK_OVERRIDE {}
 
   virtual void GenerateData() ITK_OVERRIDE;
 

@@ -80,7 +80,7 @@ protected:
   virtual void GraftOutput(DataObject *output) ITK_OVERRIDE;
   virtual void GraftOutput(const DataObjectIdentifierType & key, DataObject *output) ITK_OVERRIDE;
   GPUImageToImageFilter();
-  ~GPUImageToImageFilter();
+  ~GPUImageToImageFilter() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

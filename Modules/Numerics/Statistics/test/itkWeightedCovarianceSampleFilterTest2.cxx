@@ -88,7 +88,7 @@ public:
 
 protected:
   WeightedCovarianceTestFunction() {}
-  ~WeightedCovarianceTestFunction() {}
+  ~WeightedCovarianceTestFunction() ITK_OVERRIDE {}
 }; // end of class
 
 

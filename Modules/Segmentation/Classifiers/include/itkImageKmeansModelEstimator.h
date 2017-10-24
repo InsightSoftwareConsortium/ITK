@@ -210,7 +210,7 @@ public:
 
 protected:
   ImageKmeansModelEstimator();
-  ~ImageKmeansModelEstimator();
+  ~ImageKmeansModelEstimator() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Starts the image modelling process */

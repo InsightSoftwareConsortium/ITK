@@ -168,7 +168,7 @@ public:
 protected:
 
   ImageToSpatialObjectMetric();
-  virtual ~ImageToSpatialObjectMetric() {}
+  virtual ~ImageToSpatialObjectMetric() ITK_OVERRIDE {}
   ImageToSpatialObjectMetric(const Self &) {}
   void operator=(const Self &) {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

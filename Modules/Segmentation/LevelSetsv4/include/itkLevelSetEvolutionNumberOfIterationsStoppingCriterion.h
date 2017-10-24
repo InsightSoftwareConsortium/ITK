@@ -69,7 +69,7 @@ protected:
   LevelSetEvolutionNumberOfIterationsStoppingCriterion();
 
   /** Destructor */
-  virtual ~LevelSetEvolutionNumberOfIterationsStoppingCriterion();
+  virtual ~LevelSetEvolutionNumberOfIterationsStoppingCriterion() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionNumberOfIterationsStoppingCriterion);

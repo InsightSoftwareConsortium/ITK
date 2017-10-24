@@ -166,7 +166,7 @@ public:
 protected:
 
   VectorExpandImageFilter();
-  ~VectorExpandImageFilter() {}
+  ~VectorExpandImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** VectorExpandImageFilter is implemented as a multithreaded filter.

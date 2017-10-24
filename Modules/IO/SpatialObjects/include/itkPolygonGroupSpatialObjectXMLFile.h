@@ -58,7 +58,7 @@ public:
 
 protected:
   PolygonGroupSpatialObjectXMLFileReader() {}
-  virtual ~PolygonGroupSpatialObjectXMLFileReader() {}
+  virtual ~PolygonGroupSpatialObjectXMLFileReader() ITK_OVERRIDE {}
 
   virtual void StartElement(const char *name, const char **atts) ITK_OVERRIDE;
 
@@ -106,7 +106,7 @@ public:
 
 protected:
   PolygonGroupSpatialObjectXMLFileWriter() {}
-  virtual ~PolygonGroupSpatialObjectXMLFileWriter() {}
+  virtual ~PolygonGroupSpatialObjectXMLFileWriter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolygonGroupSpatialObjectXMLFileWriter);

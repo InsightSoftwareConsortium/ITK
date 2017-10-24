@@ -113,7 +113,7 @@ public:
 
 protected:
   MinimumImageFilter() {}
-  virtual ~MinimumImageFilter() {}
+  virtual ~MinimumImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MinimumImageFilter);

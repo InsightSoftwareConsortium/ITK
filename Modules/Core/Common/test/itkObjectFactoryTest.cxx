@@ -46,9 +46,7 @@ public:
   itkTypeMacro(TestImage, Image);
 
   // Methods from itkObject
-  virtual ~TestImage()
-    {
-    }
+  virtual ~TestImage() ITK_OVERRIDE {}
   TestImage()
     {
     }
@@ -75,9 +73,7 @@ public:
   itkTypeMacro(TestImage2, Image);
 
   // Methods from itkObject
-  virtual ~TestImage2()
-    {
-    }
+  virtual ~TestImage2() ITK_OVERRIDE {}
   TestImage2()
     {
     }

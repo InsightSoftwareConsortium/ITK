@@ -126,7 +126,7 @@ public:
 
 protected:
   SimpleContourExtractorImageFilter();
-  virtual ~SimpleContourExtractorImageFilter() {}
+  virtual ~SimpleContourExtractorImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** SimpleContourExtractorImageFilter can be implemented as a

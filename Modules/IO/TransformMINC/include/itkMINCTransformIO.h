@@ -78,7 +78,7 @@ public:
 
 protected:
   MINCTransformIOTemplate();
-  virtual ~MINCTransformIOTemplate();
+  virtual ~MINCTransformIOTemplate() ITK_OVERRIDE;
 
   VIO_General_transform m_XFM;
   bool                  m_XFM_initialized;

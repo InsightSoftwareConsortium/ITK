@@ -103,7 +103,7 @@ public:
 
 protected:
   CumulativeGaussianCostFunction();
-  virtual ~CumulativeGaussianCostFunction();
+  virtual ~CumulativeGaussianCostFunction() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

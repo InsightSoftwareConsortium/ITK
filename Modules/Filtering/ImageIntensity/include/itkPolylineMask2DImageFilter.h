@@ -103,7 +103,7 @@ public:
 
 protected:
   PolylineMask2DImageFilter();
-  virtual ~PolylineMask2DImageFilter() {}
+  virtual ~PolylineMask2DImageFilter() ITK_OVERRIDE {}
 
   virtual void GenerateData() ITK_OVERRIDE;
 

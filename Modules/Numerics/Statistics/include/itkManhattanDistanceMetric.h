@@ -62,7 +62,7 @@ public:
 
 protected:
   ManhattanDistanceMetric() {}
-  virtual ~ManhattanDistanceMetric() {}
+  virtual ~ManhattanDistanceMetric() ITK_OVERRIDE {}
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

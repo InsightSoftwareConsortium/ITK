@@ -135,7 +135,7 @@ public:
 
 protected:
   RMSCommand()  {}
-  virtual ~RMSCommand() {}
+  virtual ~RMSCommand() ITK_OVERRIDE {}
 };
 
 }

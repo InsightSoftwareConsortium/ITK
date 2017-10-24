@@ -90,7 +90,7 @@ public:
 
 protected:
   VectorGradientNDAnisotropicDiffusionFunction();
-  ~VectorGradientNDAnisotropicDiffusionFunction() {}
+  ~VectorGradientNDAnisotropicDiffusionFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorGradientNDAnisotropicDiffusionFunction);

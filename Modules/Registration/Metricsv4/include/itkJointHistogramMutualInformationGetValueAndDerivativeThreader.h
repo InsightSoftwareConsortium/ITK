@@ -77,7 +77,7 @@ public:
 
 protected:
   JointHistogramMutualInformationGetValueAndDerivativeThreader();
-  virtual ~JointHistogramMutualInformationGetValueAndDerivativeThreader();
+  virtual ~JointHistogramMutualInformationGetValueAndDerivativeThreader() ITK_OVERRIDE;
 
   typedef Image< SizeValueType, 2 > JointHistogramType;
 

@@ -122,7 +122,7 @@ protected:
     this->ProcessObject::SetNthOutput( 0, img.GetPointer() );
   }
 
-  virtual ~EquivalenceRelabeler() {}
+  virtual ~EquivalenceRelabeler() ITK_OVERRIDE {}
   EquivalenceRelabeler(const Self &) {}
   void operator=(const Self &) {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

@@ -172,7 +172,7 @@ public:
 
 protected:
   ScalarImageToCooccurrenceMatrixFilter();
-  virtual ~ScalarImageToCooccurrenceMatrixFilter() {}
+  virtual ~ScalarImageToCooccurrenceMatrixFilter() ITK_OVERRIDE {}
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   virtual void FillHistogram(RadiusType radius, RegionType region);

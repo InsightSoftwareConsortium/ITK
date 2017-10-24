@@ -101,7 +101,7 @@ public:
 
 protected:
   BinaryOpeningByReconstructionImageFilter();
-  ~BinaryOpeningByReconstructionImageFilter() {};
+  ~BinaryOpeningByReconstructionImageFilter() ITK_OVERRIDE {};
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryOpeningByReconstructionImageFilter need to make sure they request enough of an

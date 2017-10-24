@@ -114,7 +114,7 @@ public:
 
 protected:
   HardConnectedComponentImageFilter() {}
-  virtual ~HardConnectedComponentImageFilter() {}
+  virtual ~HardConnectedComponentImageFilter() ITK_OVERRIDE {}
 
   /**
    * Standard pipeline method.

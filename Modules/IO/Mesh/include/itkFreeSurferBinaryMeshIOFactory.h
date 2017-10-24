@@ -58,7 +58,7 @@ public:
 
 protected:
   FreeSurferBinaryMeshIOFactory();
-  ~FreeSurferBinaryMeshIOFactory();
+  ~FreeSurferBinaryMeshIOFactory() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

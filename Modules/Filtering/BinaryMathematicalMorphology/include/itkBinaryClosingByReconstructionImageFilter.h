@@ -96,7 +96,7 @@ public:
 
 protected:
   BinaryClosingByReconstructionImageFilter();
-  ~BinaryClosingByReconstructionImageFilter() {};
+  ~BinaryClosingByReconstructionImageFilter() ITK_OVERRIDE {};
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** BinaryClosingByReconstructionImageFilter need to make sure they request enough of an

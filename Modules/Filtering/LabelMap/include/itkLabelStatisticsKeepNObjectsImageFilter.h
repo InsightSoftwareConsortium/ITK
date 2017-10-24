@@ -164,7 +164,7 @@ public:
 
 protected:
   LabelStatisticsKeepNObjectsImageFilter();
-  ~LabelStatisticsKeepNObjectsImageFilter() {}
+  ~LabelStatisticsKeepNObjectsImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** LabelStatisticsKeepNObjectsImageFilter needs the entire input be

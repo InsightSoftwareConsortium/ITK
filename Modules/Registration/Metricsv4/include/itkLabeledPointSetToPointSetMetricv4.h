@@ -120,7 +120,7 @@ public:
 
 protected:
   LabeledPointSetToPointSetMetricv4();
-  virtual ~LabeledPointSetToPointSetMetricv4();
+  virtual ~LabeledPointSetToPointSetMetricv4() ITK_OVERRIDE;
 
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;

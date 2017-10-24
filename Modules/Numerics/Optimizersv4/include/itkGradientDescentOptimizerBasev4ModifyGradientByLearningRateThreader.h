@@ -57,7 +57,7 @@ protected:
                                   const ThreadIdType threadId ) ITK_OVERRIDE;
 
   GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
-  virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() {}
+  virtual ~GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientDescentOptimizerBasev4ModifyGradientByLearningRateThreaderTemplate);

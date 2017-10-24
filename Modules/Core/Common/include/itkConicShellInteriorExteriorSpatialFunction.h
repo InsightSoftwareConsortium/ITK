@@ -117,7 +117,7 @@ public:
 
 protected:
   ConicShellInteriorExteriorSpatialFunction();
-  virtual ~ConicShellInteriorExteriorSpatialFunction();
+  virtual ~ConicShellInteriorExteriorSpatialFunction() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

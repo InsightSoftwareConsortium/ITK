@@ -69,7 +69,7 @@ protected:
     this->m_NewPointID = (PointIdentifier)0;
   }
 
-  ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() {}
+  ~QuadEdgeMeshEulerOperatorCreateCenterVertexFunction() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(QuadEdgeMeshEulerOperatorCreateCenterVertexFunction);

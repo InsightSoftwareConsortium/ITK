@@ -97,7 +97,7 @@ public:
 
 protected:
   RMSCommand()  {}
-  virtual ~RMSCommand() {}
+  virtual ~RMSCommand() ITK_OVERRIDE {}
 };
 
 
@@ -126,7 +126,7 @@ public:
 
 protected:
   TSIFTNProgressCommand()  {}
-  virtual ~TSIFTNProgressCommand() {}
+  virtual ~TSIFTNProgressCommand() ITK_OVERRIDE {}
 };
 
 

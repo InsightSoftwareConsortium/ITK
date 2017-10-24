@@ -193,7 +193,7 @@ public:
     /**
      * Destructor
      */
-    ~Node()
+    ~Node() ITK_OVERRIDE
       {
         this->ClearDegreesOfFreedom();
         this->m_elements.clear();

@@ -89,7 +89,7 @@ public:
 
 protected:
   SqrtImageAdaptor() {}
-  virtual ~SqrtImageAdaptor() {}
+  virtual ~SqrtImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(SqrtImageAdaptor);

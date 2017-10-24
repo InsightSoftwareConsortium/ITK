@@ -153,7 +153,7 @@ public:
 
 protected:
   ConnectedComponentFunctorImageFilter() {}
-  virtual ~ConnectedComponentFunctorImageFilter() {}
+  virtual ~ConnectedComponentFunctorImageFilter() ITK_OVERRIDE {}
   ConnectedComponentFunctorImageFilter(const Self &) {}
 
   FunctorType m_Functor;

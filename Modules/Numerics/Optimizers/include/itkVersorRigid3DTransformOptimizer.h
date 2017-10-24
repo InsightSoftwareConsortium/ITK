@@ -78,7 +78,7 @@ public:
 
 protected:
   VersorRigid3DTransformOptimizer() {}
-  virtual ~VersorRigid3DTransformOptimizer() {}
+  virtual ~VersorRigid3DTransformOptimizer() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VersorRigid3DTransformOptimizer);

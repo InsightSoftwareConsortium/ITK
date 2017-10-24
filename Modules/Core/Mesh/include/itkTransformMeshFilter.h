@@ -72,7 +72,7 @@ public:
 
 protected:
   TransformMeshFilter();
-  ~TransformMeshFilter() {}
+  ~TransformMeshFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Requested Data */

@@ -130,7 +130,7 @@ public:
 
 protected:
   VectorIndexSelectionCastImageFilter() {}
-  virtual ~VectorIndexSelectionCastImageFilter() {}
+  virtual ~VectorIndexSelectionCastImageFilter() ITK_OVERRIDE {}
 
   virtual void BeforeThreadedGenerateData() ITK_OVERRIDE
   {

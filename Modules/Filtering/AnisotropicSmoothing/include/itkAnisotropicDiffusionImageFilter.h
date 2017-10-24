@@ -135,7 +135,7 @@ public:
 
 protected:
   AnisotropicDiffusionImageFilter();
-  ~AnisotropicDiffusionImageFilter() {}
+  ~AnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Supplies the halting criteria for this class of filters.  The

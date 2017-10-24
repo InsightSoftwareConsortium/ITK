@@ -56,7 +56,7 @@ public:
 protected:
 
   SymmetricSigmoidTransferFunction();
-  virtual ~SymmetricSigmoidTransferFunction();
+  virtual ~SymmetricSigmoidTransferFunction() ITK_OVERRIDE;
 
   ScalarType m_Range;
   ScalarType m_Offset;

@@ -199,7 +199,7 @@ protected:
   * Time step and other parameters are also initialized.
   */
   SolverCrankNicolson();
-  ~SolverCrankNicolson() { }
+  ~SolverCrankNicolson() ITK_OVERRIDE {}
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */

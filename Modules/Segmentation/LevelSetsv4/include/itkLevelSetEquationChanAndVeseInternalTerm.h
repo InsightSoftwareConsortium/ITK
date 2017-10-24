@@ -116,7 +116,7 @@ public:
 protected:
   LevelSetEquationChanAndVeseInternalTerm();
 
-  virtual ~LevelSetEquationChanAndVeseInternalTerm();
+  virtual ~LevelSetEquationChanAndVeseInternalTerm() ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location inputPixel, i.e.
    *  \f$ \omega_i( p ) \f$. */

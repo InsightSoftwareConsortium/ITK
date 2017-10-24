@@ -124,7 +124,7 @@ public:
 
 protected:
   DelaunayConformingQuadEdgeMeshFilter();
-  virtual ~DelaunayConformingQuadEdgeMeshFilter();
+  virtual ~DelaunayConformingQuadEdgeMeshFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   OutputEdgeCellListType m_ListOfConstrainedEdges;

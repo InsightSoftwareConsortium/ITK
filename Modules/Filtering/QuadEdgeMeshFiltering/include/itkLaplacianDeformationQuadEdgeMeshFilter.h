@@ -176,7 +176,7 @@ protected:
 
   /** Default constructor*/
   LaplacianDeformationQuadEdgeMeshFilter();
-  virtual ~LaplacianDeformationQuadEdgeMeshFilter() {}
+  virtual ~LaplacianDeformationQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
   typedef itksys::hash_map< OutputPointIdentifier, OutputPointIdentifier >  OutputMapPointIdentifier;
   typedef typename OutputMapPointIdentifier::iterator                       OutputMapPointIdentifierIterator;

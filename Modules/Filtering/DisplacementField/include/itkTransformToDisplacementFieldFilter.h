@@ -157,7 +157,7 @@ public:
 
 protected:
   TransformToDisplacementFieldFilter();
-  virtual ~TransformToDisplacementFieldFilter() {}
+  virtual ~TransformToDisplacementFieldFilter() ITK_OVERRIDE {}
 
   /** Produces a Vector Image. */
   virtual void GenerateOutputInformation() ITK_OVERRIDE;
