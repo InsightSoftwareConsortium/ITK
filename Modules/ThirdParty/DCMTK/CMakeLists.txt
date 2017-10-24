@@ -5,21 +5,52 @@ set(ITKDCMTK_THIRD_PARTY 1)
 # This depends on the external project, nothing locally built
 set(ITKDCMTK_NO_SRC 1)
 
-if(CMAKE_VERSION VERSION_LESS 3.2)
-  if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
-    message(FATAL_ERROR "CMake >= 3.2 required with Ninja to compile DCMTK.")
+include(CMakeParseArguments)
+
+macro(define_by_product)
+  cmake_parse_arguments(BY_PRODUCT "" "NAME" "TARGETS" ${ARGN})
+  if(CMAKE_VERSION VERSION_LESS 3.2)
+    if("${CMAKE_GENERATOR}" STREQUAL "Ninja")
+      message(FATAL_ERROR "CMake >= 3.2 required with Ninja to compile DCMTK.")
+    endif()
+    set(${BY_PRODUCT_NAME}_build_byproducts)
+  else()
+    set(${BY_PRODUCT_NAME}_build_byproducts  BUILD_BYPRODUCTS ${BY_PRODUCT_TARGETS})
   endif()
-  set(icu_build_byproducts)
-  # dcmtk_build_byproducts is emptied later if CMake version is less than 3.2.
-  # This allows to initialize it without checking CMake version each time.
-else()
-  set(icu_build_byproducts  BUILD_BYPRODUCTS ${ICU_BYPRODUCTS})
-  set(dcmtk_build_byproducts  BUILD_BYPRODUCTS)
-endif()
+endmacro()
 
 if(DCMTK_USE_ICU)
   option(ITK_USE_SYSTEM_ICU "Use an installed version of icu" OFF)
   if(NOT ITK_USE_SYSTEM_ICU)
+    set(ITKDCMTK_PREREQS ${ITKDCMTK_BINARY_DIR}/DCMTK_Prereqs)
+    set(ITKDCMTK_ICU_LIBRARIES )
+    if(WIN32)
+      set(ITKDCMTK_ICU_LIBRARY_NAMES uc dt)
+    else()
+      set(ITKDCMTK_ICU_LIBRARY_NAMES uc data)
+    endif()
+    foreach(lib_name ${ITKDCMTK_ICU_LIBRARY_NAMES})
+      set(lib ICU::${lib_name})
+        list(APPEND ITKDCMTK_ICU_LIBRARIES ${lib})
+        add_library(${lib} STATIC IMPORTED GLOBAL)
+        if(CMAKE_CONFIGURATION_TYPES)
+          foreach(c ${CMAKE_CONFIGURATION_TYPES})
+            string(TOUPPER "${c}" C)
+            set(debug_suffix)
+            if("${C}" STREQUAL "DEBUG")
+              set(lib_path ${ITKDCMTK_PREREQS}/${c}/lib/${lib_prefix}icu${lib_name}d${CMAKE_STATIC_LIBRARY_SUFFIX})
+            else()  # For all non-debug, use release
+              set(lib_path ${ITKDCMTK_PREREQS}/Release/lib/${lib_prefix}icu${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
+            endif()
+            set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION_${C} ${lib_path})
+          endforeach()
+        else()
+          set(lib_path ${ITKDCMTK_PREREQS}/lib/${lib_prefix}icu${lib_name}${CMAKE_STATIC_LIBRARY_SUFFIX})
+          set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION ${lib_path})
+        endif()
+        list(APPEND ICU_BYPRODUCTS "${lib_path}")
+      endforeach()
+    define_by_product(NAME icu TARGETS ${ICU_BYPRODUCTS})
     if(MSVC)
       # Create map of MD5
       set(ICU_1800_32 462050 6d45a684e608637b0350cd596249373d)
@@ -100,6 +131,10 @@ if(DCMTK_USE_ICU)
   endif()
 endif()
 
+
+set(_ITKDCMTK_LIB_NAMES dcmdata dcmimage dcmimgle dcmjpeg dcmjpls
+    dcmnet dcmpstat dcmqrdb dcmsr dcmtls ijg12 ijg16 ijg8 oflog ofstd)
+
 #
 # if DCMTK is built elsewhere
 if(ITK_USE_SYSTEM_DCMTK)
@@ -128,6 +163,16 @@ endif()
 else(ITK_USE_SYSTEM_DCMTK)
   set(DCMTK_EPNAME ITKDCMTK_ExtProject)
   set(lib_dir ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME}-build/lib)
+
+  if(BUILD_SHARED_LIBS)
+    set(_ITKDCMTK_LIB_LINKAGE SHARED)
+  else()
+    set(_ITKDCMTK_LIB_LINKAGE STATIC)
+  endif()
+  foreach(lib ${_ITKDCMTK_LIB_NAMES})
+    # add it as an imported  library target
+    add_library(${lib} ${_ITKDCMTK_LIB_LINKAGE} IMPORTED GLOBAL)
+  endforeach()
 
   # Use DCMTK include files in place in the build directory.
   set(ITKDCMTK_INCLUDE ${CMAKE_CURRENT_BINARY_DIR}/${DCMTK_EPNAME})
@@ -250,12 +295,12 @@ endforeach()
         string(TOUPPER "${c}" C)
         set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION_${C}
           ${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix})
-        list(APPEND dcmtk_build_byproducts "${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}")
+        list(APPEND DCMTK_BYPRODUCTS "${lib_dir}/${c}/${lib_prefix}${lib}${lib_suffix}")
       endforeach()
     else()
       set_property(TARGET ${lib} PROPERTY IMPORTED_LOCATION
         ${lib_dir}/${lib_prefix}${lib}${lib_suffix})
-      list(APPEND dcmtk_build_byproducts "${lib_dir}/${lib_prefix}${lib}${lib_suffix}")
+      list(APPEND DCMTK_BYPRODUCTS "${lib_dir}/${lib_prefix}${lib}${lib_suffix}")
     endif()
 
     # make the imported library depend on its prerequisite
@@ -274,9 +319,7 @@ endforeach()
     set(CMAKE_CXX_COMPILER_LAUNCHER_FLAG -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${CMAKE_CXX_COMPILER_LAUNCHER})
     set(CMAKE_C_COMPILER_LAUNCHER_FLAG -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${CMAKE_C_COMPILER_LAUNCHER})
   endif()
-  if(CMAKE_VERSION VERSION_LESS 3.2)
-    set(dcmtk_build_byproducts)
-  endif()
+  define_by_product(NAME dcmtk TARGETS ${DCMTK_BYPRODUCTS})
   itk_download_attempt_check(${DCMTK_EPNAME})
   ExternalProject_Add(${DCMTK_EPNAME}
     GIT_REPOSITORY ${DCMTK_GIT_REPOSITORY}
