@@ -68,7 +68,8 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
                                  const std::string &  outputImage,
                                  const unsigned int & inputLevels,
                                  const unsigned int & inputBands,
-                                 const bool           applySoftThreshold)
+                                 const bool           applySoftThreshold,
+                                 const double         thresholdNumOfSigmas = 2.0)
 {
   const unsigned int Dimension = VDimension;
 
@@ -142,6 +143,10 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
 
     phaseAnalyzer->SetInput(vecInverseFFT->GetOutput());
     phaseAnalyzer->SetApplySoftThreshold(applySoftThreshold);
+    if (applySoftThreshold)
+    {
+      phaseAnalyzer->SetNumOfSigmas(thresholdNumOfSigmas);
+    }
     phaseAnalyzer->Update();
 
     fftForwardPhaseFilter->SetInput(phaseAnalyzer->GetOutputCosPhase());
@@ -199,8 +204,8 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
   // typedef itk::ImageFileWriter< typename InverseFFTFilterType::OutputImageType > WriterType;
   typedef itk::ImageFileWriter<ImageFloatType> WriterType;
   typename WriterType::Pointer                 writer = WriterType::New();
-  std::string                                  appendString = "_" + n2s(inputLevels) + "_" + n2s(inputBands);
-  std::string                                  outputFile = AppendToFilenameRiesz(outputImage, appendString);
+  std::string appendString = "_L" + n2s(inputLevels) + "_B" + n2s(inputBands) + "_S" + n2s(thresholdNumOfSigmas);
+  std::string outputFile = AppendToFilenameRiesz(outputImage, appendString);
   writer->SetFileName(outputFile);
   writer->SetInput(caster->GetOutput());
 
@@ -212,11 +217,12 @@ runRieszWaveletPhaseAnalysisTest(const std::string &  inputImage,
 int
 itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
 {
-  if (argc < 7 || argc > 8)
+  if (argc < 8 || argc > 9)
   {
-    std::cerr << "Usage: " << argv[0]
-              << " inputImage outputImage inputLevels inputBands waveletFunction Apply|NoApply [dimension]"
-              << std::endl;
+    std::cerr
+      << "Usage: " << argv[0]
+      << " inputImage outputImage inputLevels inputBands waveletFunction dimension Apply|NoApply [thresholdNumOfSigmas]"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -225,7 +231,8 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
   const unsigned int inputLevels = atoi(argv[3]);
   const unsigned int inputBands = atoi(argv[4]);
   const std::string  waveletFunction = argv[5];
-  const std::string  applySoftThresholdInput = argv[6];
+  const unsigned int dimension = atoi(argv[6]);
+  const std::string  applySoftThresholdInput = argv[7];
   bool               applySoftThreshold = false;
   if (applySoftThresholdInput == "Apply")
   {
@@ -241,10 +248,10 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int dimension = 3;
-  if (argc == 8)
+  double thresholdNumOfSigmas = 2.0;
+  if (argc == 9)
   {
-    dimension = atoi(argv[7]);
+    thresholdNumOfSigmas = atof(argv[8]);
   }
 
   const unsigned int                                   ImageDimension = 2;
@@ -329,22 +336,22 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
     if (waveletFunction == "Held")
     {
       return runRieszWaveletPhaseAnalysisTest<2, HeldWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else if (waveletFunction == "Vow")
     {
       return runRieszWaveletPhaseAnalysisTest<2, VowWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else if (waveletFunction == "Simoncelli")
     {
       return runRieszWaveletPhaseAnalysisTest<2, SimoncelliWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else if (waveletFunction == "Shannon")
     {
       return runRieszWaveletPhaseAnalysisTest<2, ShannonWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else
     {
@@ -358,22 +365,22 @@ itkRieszWaveletPhaseAnalysisTest(int argc, char * argv[])
     if (waveletFunction == "Held")
     {
       return runRieszWaveletPhaseAnalysisTest<3, HeldWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else if (waveletFunction == "Vow")
     {
       return runRieszWaveletPhaseAnalysisTest<3, VowWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else if (waveletFunction == "Simoncelli")
     {
       return runRieszWaveletPhaseAnalysisTest<3, SimoncelliWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else if (waveletFunction == "Shannon")
     {
       return runRieszWaveletPhaseAnalysisTest<3, ShannonWavelet>(
-        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold);
+        inputImage, outputImage, inputLevels, inputBands, applySoftThreshold, thresholdNumOfSigmas);
     }
     else
     {
