@@ -16,7 +16,7 @@
 #
 #==========================================================================*/
 
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
 foreach(p
     CMP0025 # CMake 3.0
     CMP0042 # CMake 3.0

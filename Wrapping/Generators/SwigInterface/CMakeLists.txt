@@ -2,11 +2,7 @@
 # Swig and PCRE do not support blank spaces in install directory namespaces
 # This means that ITK cannot be built in a path that contains spaces
 # See http://www.swig.org/Doc1.3/Windows.html
-# Note: Using "string(FIND...) ..." instead of
-# "if("${CMAKE_BINARY_DIR}" MATCHES "^.* .*$")"
-# to support CMake 2.8.9
-string(FIND "${CMAKE_BINARY_DIR}" " " _space_position)
-if(NOT ${_space_position} EQUAL -1)
+if("${CMAKE_BINARY_DIR}" MATCHES "^.* .*$")
   message(FATAL_ERROR "Swig and PCRE do not support paths with space characters. Please change build directory name.")
 endif()
 

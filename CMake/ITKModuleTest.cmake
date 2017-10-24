@@ -229,8 +229,6 @@ function(itk_python_expression_add_test)
   set(multiValueArgs )
   cmake_parse_arguments(PYTHON_EXPRESSION_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
-  # For $<SEMICOLON>
-  cmake_minimum_required(VERSION 2.8.11)
   itk_python_add_test(NAME ${PYTHON_EXPRESSION_ADD_TEST_NAME}
     COMMAND -c "import itk$<SEMICOLON> itk.auto_progress(2)$<SEMICOLON> ${PYTHON_EXPRESSION_ADD_TEST_EXPRESSION}"
     )

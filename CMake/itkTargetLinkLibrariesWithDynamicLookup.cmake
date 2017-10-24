@@ -57,12 +57,8 @@ add_library(foo SHARED \"foo.c\")
 extern int bar(void);
 int foo(void) {return bar()+1;}
 ")
-
-    if(APPLE AND ${CMAKE_VERSION} VERSION_GREATER 2.8.11)
-      set( _rpath_arg  "-DCMAKE_MACOSX_RPATH='${CMAKE_MACOSX_RPATH}'" )
-    else()
-      set( _rpath_arg )
-    endif()
+    # ITK requires CMake >= 2.8.12. Before that, on APPLE, no flag should be passed.
+    set( _rpath_arg  "-DCMAKE_MACOSX_RPATH='${CMAKE_MACOSX_RPATH}'" )
 
     try_compile(${VARIABLE}
       "${test_project_dir}"
