@@ -75,7 +75,7 @@ public:
     }
     else
     {
-      return ((inputPixel - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis));
+      return Math::Floor<TOutput>((inputPixel - m_Min) / ((m_Max - m_Min) / (float)m_NumberOfBinsPerAxis));
     }
   }
 

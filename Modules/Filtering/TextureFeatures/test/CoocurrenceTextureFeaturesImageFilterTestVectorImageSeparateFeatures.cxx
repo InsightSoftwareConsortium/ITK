@@ -47,7 +47,7 @@ CoocurrenceTextureFeaturesImageFilterTestVectorImageSeparateFeatures(int argc, c
   const unsigned int VectorComponentDimension = 8;
 
   // Declare types
-  typedef int   InputPixelType;
+  typedef float InputPixelType;
   typedef float OutputPixelType;
 
   typedef itk::Image<InputPixelType, ImageDimension>                                   InputImageType;

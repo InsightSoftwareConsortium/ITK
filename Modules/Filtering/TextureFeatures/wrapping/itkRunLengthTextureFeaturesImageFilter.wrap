@@ -27,7 +27,7 @@ itk_end_wrap_class()
 
 itk_wrap_class("itk::ImageToImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  foreach(t ${WRAP_ITK_INT})
+  foreach(t ${WRAP_ITK_SCALAR})
     itk_wrap_template("${ITKM_I${t}${d}}IV${ITKM_F}${OutputVectorDim}${d}"
                         "${ITKT_I${t}${d}}, itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,${d}>"
     )
@@ -53,7 +53,7 @@ itk_end_wrap_class()
 
 itk_wrap_class("itk::Statistics::RunLengthTextureFeaturesImageFilter" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  foreach(t ${WRAP_ITK_INT})
+  foreach(t ${WRAP_ITK_SCALAR})
     itk_wrap_template("${ITKM_I${t}${d}}IV${ITKM_F}${OutputVectorDim}${d}"
                       "${ITKT_I${t}${d}}, itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,${d}>"
     )

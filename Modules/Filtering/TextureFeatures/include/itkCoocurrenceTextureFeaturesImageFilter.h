@@ -103,12 +103,15 @@ public:
   typedef TInputImage  InputImageType;
   typedef TOutputImage OutputImageType;
   typedef TMaskImage   MaskImageType;
-  typedef TInputImage  DigitizedImageType;
 
   typedef typename InputImageType::PixelType PixelType;
   typedef typename MaskImageType::PixelType  MaskPixelType;
   typedef typename InputImageType::IndexType IndexType;
   typedef typename InputImageType::PointType PointType;
+
+
+  typedef int                                                         HistogramIndexType;
+  typedef itk::Image<HistogramIndexType, TInputImage::ImageDimension> DigitizedImageType;
 
   typedef typename InputImageType::OffsetType        OffsetType;
   typedef VectorContainer<unsigned char, OffsetType> OffsetVector;
@@ -118,9 +121,9 @@ public:
   typedef typename InputImageType::RegionType  InputRegionType;
   typedef typename OutputImageType::RegionType OutputRegionType;
 
-  typedef typename itk::ConstNeighborhoodIterator<InputImageType> NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::RadiusType           NeighborhoodRadiusType;
-  typedef typename NeighborhoodIteratorType::NeighborIndexType    NeighborIndexType;
+  typedef typename itk::ConstNeighborhoodIterator<DigitizedImageType> NeighborhoodIteratorType;
+  typedef typename NeighborhoodIteratorType::RadiusType               NeighborhoodRadiusType;
+  typedef typename NeighborhoodIteratorType::NeighborIndexType        NeighborIndexType;
 
   typedef typename NumericTraits<PixelType>::RealType MeasurementType;
   typedef typename NumericTraits<PixelType>::RealType RealType;
@@ -199,7 +202,6 @@ public:
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
-  itkConceptMacro(InputPixelTypeCheck, (Concept::IsInteger<typename InputImageType::PixelType>));
   itkConceptMacro(OutputPixelTypeCheck, (Concept::IsFloatingPoint<OutputRealType>));
   // End concept checking
 #endif

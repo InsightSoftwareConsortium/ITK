@@ -47,7 +47,7 @@ RunLengthTextureFeaturesImageFilterTestSeparateFeatures(int argc, char * argv[])
   const unsigned int VectorComponentDimension = 10;
 
   // Declare types
-  typedef int                                                             InputPixelType;
+  typedef float                                                           InputPixelType;
   typedef float                                                           OutputPixelComponentType;
   typedef itk::Vector<OutputPixelComponentType, VectorComponentDimension> OutputPixelType;
 
