@@ -277,31 +277,59 @@ DCMTKImageIO
                         ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
     }
+  // get the image in the DCMTK buffer
+  const DiPixel * const interData = m_DImage->getInterData();
+  const void *data = interData->getData();
+  unsigned long count = interData->getCount();
   size_t voxelSize(scalarSize);
   switch(this->m_PixelType)
     {
+    case RGB:
+      ReorderRGBValues(buffer, data, count, 3);
+      return;
+    case RGBA:
+      ReorderRGBValues(buffer, data, count, 4);
+      return;
     case VECTOR:
       voxelSize *= this->GetNumberOfComponents();
-      break;
-    case RGB:
-      voxelSize *= 3;
-      break;
-    case RGBA:
-      voxelSize *= 4;
       break;
     default:
       voxelSize *= 1;
       break;
     }
-  // get the image in the DCMTK buffer
-  const DiPixel * const interData = m_DImage->getInterData();
-  const void *data = interData->getData();
-  unsigned long count = interData->getCount();
-  memcpy(buffer,
+    memcpy(buffer,
          data,
          count * voxelSize);
 }
 
+void
+DCMTKImageIO
+::ReorderRGBValues(void *buffer, const void* data, unsigned long count, unsigned int voxel_size)
+{
+    switch(this->m_ComponentType)
+      {
+      // DCMTK only supports unsigned integer types for RGB(A) images.
+      // see DCMTK file dcmimage/libsrc/dicoimg.cc (function const void *DiColorImage::getData(...) )
+      // DCMTK only supports uint8, uint16, and uint32, but we leave LONG (at least 32bits but
+      // could be 64bits) for future support.
+      case UCHAR:
+        ReorderRGBValues<unsigned char>(buffer, data, count, voxel_size);
+        break;
+      case USHORT:
+        ReorderRGBValues<unsigned short>(buffer, data, count, voxel_size);
+        break;
+      case UINT:
+        ReorderRGBValues<unsigned int>(buffer, data, count, voxel_size);
+        break;
+      case ULONG:
+        ReorderRGBValues<unsigned long>(buffer, data, count, voxel_size);
+        break;
+      default:
+        itkExceptionMacro(<< "Only unsigned integer pixel types are supported. Bad component type for color image" <<
+                        ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
+      break;
+    }
+}
 /**
  *  Read Information about the DICOM file
  */
@@ -462,8 +490,10 @@ void DCMTKImageIO::ReadImageInformation()
       this->SetNumberOfComponents(2);
       this->m_PixelType = VECTOR; break;
     case 3:
+      this->SetNumberOfComponents(3);
       this->m_PixelType = RGB; break;
     case 4:
+      this->SetNumberOfComponents(4);
       this->m_PixelType = RGBA; break;
     }
 }

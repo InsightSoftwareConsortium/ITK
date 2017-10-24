@@ -111,6 +111,28 @@ private:
 
   void OpenDicomImage();
 
+  /** Finds the correct type to call the templated function ReorderRGBValues(...) */
+  void ReorderRGBValues(void *buffer, const void* data, unsigned long count, unsigned int voxel_size);
+  /** Reorders RGB values in an image from color-by-plane (R1R2R3...G1G2G3...B1B2B3...)
+   * to color-by-pixel (R1G1B1...R2G2B2...R3G3B3...). `voxel_size` specifies the pixel size: It should
+   * be 3 for RGB images, and 4 for RGBA images.
+   * The code in this function is based on code available in DCMTK dcmimage/include/dcmtk/dcmimage/dicoopxt.h
+   * in the Convert(...) function.*/
+  template<typename T>
+  void
+  ReorderRGBValues(void *buffer, const void* data, unsigned long count, unsigned int voxel_size)
+  {
+    T* output_buffer = static_cast<T*>(buffer);
+    const T** input_buffer = static_cast<const T**>(const_cast<void *>(data));
+    for (unsigned long pos = 0; pos < count; ++pos)
+      {
+      for (unsigned int color = 0; color < voxel_size; ++color)
+        {
+        *(output_buffer++)=input_buffer[color][pos];
+        }
+      }
+  }
+
   /*----- internal helpers --------------------------------------------*/
   bool m_UseJPEGCodec;
   bool m_UseJPLSCodec;
