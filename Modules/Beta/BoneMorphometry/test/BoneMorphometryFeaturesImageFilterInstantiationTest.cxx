@@ -40,7 +40,7 @@ int BoneMorphometryFeaturesImageFilterInstantiationTest( int argc, char *argv[] 
   const unsigned int VectorComponentDimension = 5;
 
   // Declare types
-  typedef int                                           InputPixelType;
+  typedef float                                         InputPixelType;
   typedef itk::Image< InputPixelType, ImageDimension >  InputImageType;
   typedef itk::ImageFileReader< InputImageType >        ReaderType;
 
