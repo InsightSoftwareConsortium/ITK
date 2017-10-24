@@ -1,0 +1,2 @@
+itk_wrap_simple_class("itk::OBJMeshIO" POINTER)
+itk_wrap_simple_class("itk::OBJMeshIOFactory" POINTER)
