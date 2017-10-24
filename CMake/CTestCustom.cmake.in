@@ -120,6 +120,9 @@ set(CTEST_CUSTOM_WARNING_EXCEPTION
   # KWStyle's internal utilities
   ".*KWStyle/Utilities.*"
 
+  # ignore third party GoogleTest warnings
+  ".*Modules/ThirdParty/GoogleTest.*:warning:.*"
+
   # CircleCI distcc warnings
   ".*WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED.*"
   "Warning: Permanently added.*to the list of known hosts"
