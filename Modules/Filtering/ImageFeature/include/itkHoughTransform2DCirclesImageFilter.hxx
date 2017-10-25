@@ -239,7 +239,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   Index< 2 > index;
 
   CirclesListSizeType circles = 0;
-  bool found;
 
   // Find maxima
   do
@@ -248,7 +247,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     minMaxCalculator->ComputeMaximum();
     InternalImageType::PixelType max = minMaxCalculator->GetMaximum();
 
-    found = false;
     for ( it_input.GoToBegin(); !it_input.IsAtEnd(); ++it_input )
       {
       if ( Math::ExactlyEquals(it_input.Get(), max) )
@@ -267,7 +265,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
         m_CirclesList.push_back(Circle);
 
         circles++;
-        found = true;
         if ( circles == m_NumberOfCircles ) { break; }
 
         // Remove a black disc from the Hough space domain
@@ -289,7 +286,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
         }
       }
     }
-  while ( ( circles < m_NumberOfCircles ) && ( found ) );
+  while ( circles < m_NumberOfCircles );
 
   m_OldModifiedTime = this->GetMTime();
   m_OldNumberOfCircles = m_CirclesList.size();
