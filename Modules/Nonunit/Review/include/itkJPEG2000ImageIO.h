@@ -107,7 +107,7 @@ public:
 
 protected:
   JPEG2000ImageIO();
-  ~JPEG2000ImageIO();
+  ~JPEG2000ImageIO() ITK_OVERRIDE;
 
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -70,7 +70,7 @@ public:
 
 protected:
   JPEG2000ImageIOFactory();
-  ~JPEG2000ImageIOFactory();
+  ~JPEG2000ImageIOFactory() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(JPEG2000ImageIOFactory);
