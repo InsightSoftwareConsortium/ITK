@@ -364,9 +364,7 @@ macro(_DO_GENERATE_EXPORT_HEADER TARGET_LIBRARY)
   if(NOT EXPORT_IMPORT_CONDITION)
     set(EXPORT_IMPORT_CONDITION ${TARGET_LIBRARY}_EXPORTS)
   endif()
-  if(NOT CMAKE_VERSION VERSION_LESS 2.8.12)
-    string(MAKE_C_IDENTIFIER ${EXPORT_IMPORT_CONDITION} EXPORT_IMPORT_CONDITION)
-  endif()
+  string(MAKE_C_IDENTIFIER ${EXPORT_IMPORT_CONDITION} EXPORT_IMPORT_CONDITION)
 
   configure_file("${_GENERATE_EXPORT_HEADER_MODULE_DIR}/exportheader.cmake.in"
     "${EXPORT_FILE_NAME}" @ONLY)
@@ -385,32 +383,4 @@ function(GENERATE_EXPORT_HEADER TARGET_LIBRARY)
   _test_compiler_has_deprecated()
   _do_set_macro_values(${TARGET_LIBRARY})
   _do_generate_export_header(${TARGET_LIBRARY} ${ARGN})
-endfunction()
-
-function(add_compiler_export_flags)
-  if(NOT CMAKE_MINIMUM_REQUIRED_VERSION VERSION_LESS 2.8.11)
-    message(DEPRECATION "The add_compiler_export_flags function is obsolete. Use the CXX_VISIBILITY_PRESET and VISIBILITY_INLINES_HIDDEN target properties instead.")
-  endif()
-
-  _test_compiler_hidden_visibility()
-  _test_compiler_has_deprecated()
-
-  if(NOT (USE_COMPILER_HIDDEN_VISIBILITY AND COMPILER_HAS_HIDDEN_VISIBILITY))
-    # Just return if there are no flags to add.
-    return()
-  endif()
-
-  set (EXTRA_FLAGS "-fvisibility=hidden")
-
-  if(COMPILER_HAS_HIDDEN_INLINE_VISIBILITY)
-    set (EXTRA_FLAGS "${EXTRA_FLAGS} -fvisibility-inlines-hidden")
-  endif()
-
-  # Either return the extra flags needed in the supplied argument, or to the
-  # CMAKE_CXX_FLAGS if no argument is supplied.
-  if(ARGC GREATER 0)
-    set(${ARGV0} "${EXTRA_FLAGS}" PARENT_SCOPE)
-  else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_FLAGS}" PARENT_SCOPE)
-  endif()
 endfunction()
