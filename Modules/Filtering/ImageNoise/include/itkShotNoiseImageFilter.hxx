@@ -48,7 +48,7 @@ ShotNoiseImageFilter<TInputImage, TOutputImage>
   const uint32_t seed = Self::Hash( this->GetSeed(), threadId );
   rand->Initialize(seed);
   typename Statistics::NormalVariateGenerator::Pointer randn = Statistics::NormalVariateGenerator::New();
-  randn->Initialize(*static_cast<int32_t*>( (void*)&seed) );
+  randn->Initialize(*reinterpret_cast<const int32_t*>( &seed ));
 
   // Define the portion of the input to walk for this thread, using
   // the CallCopyOutputRegionToInputRegion method allows for the input

@@ -103,7 +103,7 @@ bool GPUKernelManager::LoadProgramFromFile(const char* filename, const char* cPr
   //
   cl_int errid;
   m_Program = clCreateProgramWithSource(
-      m_Manager->GetCurrentContext(), 1, (const char **)&cSourceString, &szFinalLength, &errid);
+      m_Manager->GetCurrentContext(), 1, const_cast<const char **>(&cSourceString), &szFinalLength, &errid);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
   free(cSourceString);
 
@@ -176,7 +176,7 @@ bool GPUKernelManager::LoadProgramFromString(const char* cSource, const char* cP
   //
   cl_int errid;
   m_Program = clCreateProgramWithSource(
-      m_Manager->GetCurrentContext(), 1, (const char **)&cSourceString, &szFinalLength, &errid);
+      m_Manager->GetCurrentContext(), 1, const_cast<const char **>(&cSourceString), &szFinalLength, &errid);
   OpenCLCheckError(errid, __FILE__, __LINE__, ITK_LOCATION);
   free(cSourceString);
 
