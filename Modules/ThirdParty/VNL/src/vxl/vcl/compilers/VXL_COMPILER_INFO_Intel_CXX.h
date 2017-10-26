@@ -24,7 +24,7 @@
 #  define VXL_SIMULATE_VERSION_MINOR VXL_DEC(_MSC_VER % 100)
 # endif
 
-#    if __INTEL_COMPILER >= 1600 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if __INTEL_COMPILER >= 1600 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) )
 #      define VXL_COMPILER_CXX_AGGREGATE_DEFAULT_INITIALIZERS 1
 #    else
 #      define VXL_COMPILER_CXX_AGGREGATE_DEFAULT_INITIALIZERS 0
@@ -48,13 +48,13 @@
 #      define VXL_COMPILER_CXX_ALIGNOF 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if (__cpp_attributes >= 200809 || __INTEL_COMPILER >= 1210) && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_ATTRIBUTES 1
 #    else
 #      define VXL_COMPILER_CXX_ATTRIBUTES 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) )
 #      define VXL_COMPILER_CXX_ATTRIBUTE_DEPRECATED 1
 #    else
 #      define VXL_COMPILER_CXX_ATTRIBUTE_DEPRECATED 0
@@ -66,37 +66,37 @@
 #      define VXL_COMPILER_CXX_AUTO_TYPE 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if __cpp_binary_literals >= 201304 || __INTEL_COMPILER >= 1210
 #      define VXL_COMPILER_CXX_BINARY_LITERALS 1
 #    else
 #      define VXL_COMPILER_CXX_BINARY_LITERALS 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1400 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if __cpp_constexpr >= 200704 || __INTEL_COMPILER >= 1400 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_CONSTEXPR 1
 #    else
 #      define VXL_COMPILER_CXX_CONSTEXPR 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1600 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if __INTEL_COMPILER >= 1600 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) )
 #      define VXL_COMPILER_CXX_CONTEXTUAL_CONVERSIONS 1
 #    else
 #      define VXL_COMPILER_CXX_CONTEXTUAL_CONVERSIONS 0
 #    endif
 
-#    if ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__)) && (__INTEL_COMPILER > 1400 || (__INTEL_COMPILER == 1400 && __INTEL_COMPILER_UPDATE >= 2))
+#    if ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__)) && (__INTEL_COMPILER > 1400 || (__INTEL_COMPILER == 1400 && __INTEL_COMPILER_UPDATE >= 2)) && !defined(_MSC_VER)
 #      define VXL_COMPILER_CXX_DECLTYPE_INCOMPLETE_RETURN_TYPES 1
 #    else
 #      define VXL_COMPILER_CXX_DECLTYPE_INCOMPLETE_RETURN_TYPES 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if __cpp_decltype >= 200707 || __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_DECLTYPE 1
 #    else
 #      define VXL_COMPILER_CXX_DECLTYPE 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if __cpp_decltype_auto >= 201304 || __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) )
 #      define VXL_COMPILER_CXX_DECLTYPE_AUTO 1
 #    else
 #      define VXL_COMPILER_CXX_DECLTYPE_AUTO 0
@@ -132,7 +132,7 @@
 #      define VXL_COMPILER_CXX_DELETED_FUNCTIONS 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1600 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if __INTEL_COMPILER >= 1600 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) )
 #      define VXL_COMPILER_CXX_DIGIT_SEPARATORS 1
 #    else
 #      define VXL_COMPILER_CXX_DIGIT_SEPARATORS 0
@@ -176,7 +176,7 @@
 
 #    define VXL_COMPILER_CXX_GENERALIZED_INITIALIZERS 0
 
-#    if __INTEL_COMPILER >= 1600 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if __cpp_generic_lambdas >= 201304
 #      define VXL_COMPILER_CXX_GENERIC_LAMBDAS 1
 #    else
 #      define VXL_COMPILER_CXX_GENERIC_LAMBDAS 0
@@ -194,13 +194,13 @@
 #      define VXL_COMPILER_CXX_INLINE_NAMESPACES 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if (__cpp_lambdas >= 200907 || __INTEL_COMPILER >= 1210) && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_LAMBDAS 1
 #    else
 #      define VXL_COMPILER_CXX_LAMBDAS 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if (__cpp_init_captures >= 201304 || __INTEL_COMPILER >= 1500) && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) )
 #      define VXL_COMPILER_CXX_LAMBDA_INIT_CAPTURES 1
 #    else
 #      define VXL_COMPILER_CXX_LAMBDA_INIT_CAPTURES 0
@@ -248,7 +248,7 @@
 #      define VXL_COMPILER_CXX_RANGE_FOR 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1400 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if __cpp_raw_strings >= 200710 || __INTEL_COMPILER >= 1400 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_RAW_STRING_LITERALS 1
 #    else
 #      define VXL_COMPILER_CXX_RAW_STRING_LITERALS 0
@@ -260,9 +260,13 @@
 #      define VXL_COMPILER_CXX_REFERENCE_QUALIFIED_FUNCTIONS 0
 #    endif
 
-#    define VXL_COMPILER_CXX_RELAXED_CONSTEXPR 0
+#    if __cpp_constexpr >= 201304 || (__INTEL_COMPILER >= 1700 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) ) && !defined(_MSC_VER))
+#      define VXL_COMPILER_CXX_RELAXED_CONSTEXPR 1
+#    else
+#      define VXL_COMPILER_CXX_RELAXED_CONSTEXPR 0
+#    endif
 
-#    if __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) )
+#    if __cpp_return_type_deduction >= 201304 || __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201300L) || ((__cplusplus == 201103L) && !defined(__INTEL_CXX11_MODE__)) || ((((__INTEL_COMPILER == 1500) && (__INTEL_COMPILER_UPDATE == 1))) && defined(__GXX_EXPERIMENTAL_CXX0X__) && !defined(__INTEL_CXX11_MODE__) ) || (defined(__INTEL_CXX11_MODE__) && defined(__cpp_aggregate_nsdmi)) )
 #      define VXL_COMPILER_CXX_RETURN_TYPE_DEDUCTION 1
 #    else
 #      define VXL_COMPILER_CXX_RETURN_TYPE_DEDUCTION 0
@@ -274,7 +278,7 @@
 #      define VXL_COMPILER_CXX_RIGHT_ANGLE_BRACKETS 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if (__cpp_rvalue_references >= 200610 || __INTEL_COMPILER >= 1210) && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_RVALUE_REFERENCES 1
 #    else
 #      define VXL_COMPILER_CXX_RVALUE_REFERENCES 0
@@ -286,7 +290,7 @@
 #      define VXL_COMPILER_CXX_SIZEOF_MEMBER 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if (__cpp_static_assert >= 200410 || __INTEL_COMPILER >= 1210) && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_STATIC_ASSERT 1
 #    else
 #      define VXL_COMPILER_CXX_STATIC_ASSERT 0
@@ -310,7 +314,7 @@
 #      define VXL_COMPILER_CXX_TRAILING_RETURN_TYPES 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1400 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if __cpp_unicode_literals >= 200710 || (__INTEL_COMPILER >= 1400 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__)) && (!defined(_MSC_VER) || __INTEL_COMPILER >= 1600))
 #      define VXL_COMPILER_CXX_UNICODE_LITERALS 1
 #    else
 #      define VXL_COMPILER_CXX_UNICODE_LITERALS 0
@@ -328,13 +332,17 @@
 #      define VXL_COMPILER_CXX_UNRESTRICTED_UNIONS 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1500 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if __cpp_user_defined_literals >= 200809 || (__INTEL_COMPILER >= 1500 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__)) && (!defined(_MSC_VER) || __INTEL_COMPILER >= 1600))
 #      define VXL_COMPILER_CXX_USER_LITERALS 1
 #    else
 #      define VXL_COMPILER_CXX_USER_LITERALS 0
 #    endif
 
-#    define VXL_COMPILER_CXX_VARIABLE_TEMPLATES 0
+#    if __cpp_variable_templates >= 201304
+#      define VXL_COMPILER_CXX_VARIABLE_TEMPLATES 1
+#    else
+#      define VXL_COMPILER_CXX_VARIABLE_TEMPLATES 0
+#    endif
 
 #    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_VARIADIC_MACROS 1
@@ -342,7 +350,7 @@
 #      define VXL_COMPILER_CXX_VARIADIC_MACROS 0
 #    endif
 
-#    if __INTEL_COMPILER >= 1210 && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
+#    if (__cpp_variadic_templates >= 200704 || __INTEL_COMPILER >= 1210) && ((__cplusplus >= 201103L) || defined(__INTEL_CXX11_MODE__) || defined(__GXX_EXPERIMENTAL_CXX0X__))
 #      define VXL_COMPILER_CXX_VARIADIC_TEMPLATES 1
 #    else
 #      define VXL_COMPILER_CXX_VARIADIC_TEMPLATES 0

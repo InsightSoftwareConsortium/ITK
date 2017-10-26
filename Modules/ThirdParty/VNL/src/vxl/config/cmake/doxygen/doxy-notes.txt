@@ -1,0 +1,45 @@
+Notes on how Doxygen documentation generation works within the VXL framework.
+
+-----
+Usage
+-----
+In package directory CMakeList.txt, use doxygen_add_package(...) to describe the package.
+
+e.g.:
+doxygen_add_package(contrib/mul
+     "Manchester University Libraries"
+     )
+
+In each library director CMakeLists.txt, use doxygen_add_library(...) to describe the library
+e.g.:
+doxygen_add_library(contrib/gel/mrc/vpgl
+     DEPENDS core/vcsl core/vgl core/vnl core/vbl
+     PACKAGE contrib/gel
+     DESCRIPTION "Photogrammetry Library"
+     )
+
+------------
+How it works
+------------
+doxygen_add_package and doxygen_add_library are defined in config/cmake/doxygen.cmake
+
+doxygen_add_library:
+- Creates a file ${CMAKE_BINARY_DIR}/doxy/output/doxyfile.${libname}, a copy of config/cmake/doxyfile.in
+- Appends information about library to ${CMAKE_BINARY_DIR}/doxygen_configuration.cmake
+
+
+To build documentation, use command:
+make build_doxygen_doc
+
+This is defined in doxygen.cmake
+It invokes  "cmake -P ${DOXYGEN_SCRIPT_DIR}doxygen_makeall.cmake ..."
+
+doxygen_makeall.cmake
+---------------------
+1) Loads in configuration from doxygen_configuration.cmake
+2) Processes each book
+3) Processes each library (in ${DOXYGEN_LIBRARY_LIST})
+4) Creates a directory ${DOXYGEN_OUTPUT_DIR}/html/${library}/html
+5) Runs doxygen using the parameter file ${CMAKE_BINARY_DIR}/doxy/output/doxyfile.${libname}
+6) Creates a global index, which expects data for each library to be in somewhere like:
+   obj/doxy/html/core/vnl/html/index.html
