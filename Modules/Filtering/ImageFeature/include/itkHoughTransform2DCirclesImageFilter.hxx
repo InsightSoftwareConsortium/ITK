@@ -241,52 +241,43 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   CirclesListSizeType circles = 0;
 
   // Find maxima
-  do
+  // Break out of "forever loop" as soon as the requested number of circles is found.
+  for(;;)
     {
     minMaxCalculator->SetImage(postProcessImage);
     minMaxCalculator->ComputeMaximum();
-    InternalImageType::PixelType max = minMaxCalculator->GetMaximum();
+    const InternalImageType::IndexType indexOfMaximum = minMaxCalculator->GetIndexOfMaximum();
 
-    for ( it_input.GoToBegin(); !it_input.IsAtEnd(); ++it_input )
+    // Create a Circle Spatial Object
+    CirclePointer Circle = CircleType::New();
+    Circle->SetId(static_cast<int>( circles ));
+    Circle->SetRadius( m_RadiusImage->GetPixel( indexOfMaximum ) );
+
+    CircleType::VectorType center;
+    center[0] = indexOfMaximum[0];
+    center[1] = indexOfMaximum[1];
+    Circle->GetObjectToParentTransform()->SetOffset(center);
+    Circle->ComputeBoundingBox();
+
+    m_CirclesList.push_back(Circle);
+
+    circles++;
+    if ( circles >= m_NumberOfCircles ) { break; }
+
+    // Remove a black disc from the Hough space domain
+    for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
       {
-      if ( Math::ExactlyEquals(it_input.Get(), max) )
+      for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
         {
-        // Create a Circle Spatial Object
-        CirclePointer Circle = CircleType::New();
-        Circle->SetId(static_cast<int>( circles ));
-        Circle->SetRadius( m_RadiusImage->GetPixel( it_input.GetIndex() ) );
-
-        CircleType::VectorType center;
-        center[0] = it_input.GetIndex()[0];
-        center[1] = it_input.GetIndex()[1];
-        Circle->GetObjectToParentTransform()->SetOffset(center);
-        Circle->ComputeBoundingBox();
-
-        m_CirclesList.push_back(Circle);
-
-        circles++;
-        if ( circles == m_NumberOfCircles ) { break; }
-
-        // Remove a black disc from the Hough space domain
-        for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
+        index[0] = (IndexValueType)( indexOfMaximum[0] + length * std::cos(angle) );
+        index[1] = (IndexValueType)( indexOfMaximum[1] + length * std::sin(angle) );
+        if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
           {
-          for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
-            {
-            index[0] = (IndexValueType)( it_input.GetIndex()[0] + length * std::cos(angle) );
-            index[1] = (IndexValueType)( it_input.GetIndex()[1] + length * std::sin(angle) );
-            if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
-              {
-              postProcessImage->SetPixel(index, 0);
-              }
-            }
+          postProcessImage->SetPixel(index, 0);
           }
-        minMaxCalculator->SetImage(postProcessImage);
-        minMaxCalculator->ComputeMaximum();
-        max = minMaxCalculator->GetMaximum();
         }
       }
     }
-  while ( circles < m_NumberOfCircles );
 
   m_OldModifiedTime = this->GetMTime();
   m_OldNumberOfCircles = m_CirclesList.size();
