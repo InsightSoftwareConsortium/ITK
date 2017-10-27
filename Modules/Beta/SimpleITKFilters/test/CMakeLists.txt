@@ -33,3 +33,9 @@ itk_add_test(NAME itkObjectnessMeasureImageFilterTest2
 
 add_test(NAME itkHessianImageFilterTest
       COMMAND ${itk-module}TestDriver itkHessianImageFilterTest )
+
+
+set(SimpleITKFiltersGTest
+  itkHessianImageFilterGTest.cxx)
+
+CreateGoogleTestDriver(SimpleITKFilters "${SimpleITKFilters-Test_LIBRARIES}" "${SimpleITKFiltersGTest}")
