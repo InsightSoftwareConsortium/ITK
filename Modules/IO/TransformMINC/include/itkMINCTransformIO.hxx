@@ -188,7 +188,7 @@ void
 MINCTransformIOTemplate<TParametersValueType>
 ::Read()
 {
-  if(input_transform_file((char*)this->GetFileName(), &m_XFM) != VIO_OK)
+  if(input_transform_file(this->GetFileName(), &m_XFM) != VIO_OK)
     {
     itkExceptionMacro( << "Error reading XFM:" << this->GetFileName() );
     }
@@ -347,7 +347,7 @@ MINCTransformIOTemplate<TParametersValueType>
     transform = concated;
     }
 
-  VIO_Status wrt = output_transform_file((char*)(xfm_filename.c_str()),(char*)"ITK-XFM writer",&transform);
+  VIO_Status wrt = output_transform_file(xfm_filename.c_str(),"ITK-XFM writer",&transform);
 
   delete_general_transform(&transform);
 

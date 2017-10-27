@@ -1011,7 +1011,7 @@ JPEG2000ImageIO
   itkDebugMacro(<< " START COPY BUFFER");
   if ( this->GetComponentType() == UCHAR )
     {
-    unsigned char *charBuffer = (unsigned char *)buffer;
+    const unsigned char *charBuffer = (const unsigned char *)buffer;
     for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )
@@ -1024,7 +1024,7 @@ JPEG2000ImageIO
 
   if ( this->GetComponentType() == USHORT )
     {
-    unsigned short *shortBuffer = (unsigned short *)buffer;
+    const unsigned short *shortBuffer = (const unsigned short *)buffer;
     for ( SizeValueType j = 0; j < numberOfPixels; j++ )
       {
       for ( unsigned int k = 0; k < this->GetNumberOfComponents(); k++ )

@@ -93,7 +93,7 @@ public:
 
 protected:
   TestImageFunction(){};
-  ~TestImageFunction(){};
+  ~TestImageFunction() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TestImageFunction);
