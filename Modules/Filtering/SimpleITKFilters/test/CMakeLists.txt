@@ -45,3 +45,7 @@ add_test(
   COMMAND
     ${itk-module}TestDriver itkHessianImageFilterTest
 )
+
+set(SimpleITKFiltersGTest itkHessianImageFilterGTest.cxx)
+
+creategoogletestdriver(SimpleITKFilters "${SimpleITKFilters-Test_LIBRARIES}" "${SimpleITKFiltersGTest}")
