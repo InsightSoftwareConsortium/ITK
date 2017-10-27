@@ -11,6 +11,8 @@ itk_module(ITKIOPhilipsREC
     ITKTransform
     ITKImageGrid
     ITKImageIntensity
+  FACTORY_NAMES
+    ImageIO::PhilipsREC
   EXCLUDE_FROM_DEFAULT
   DESCRIPTION
     "${DOCUMENTATION}")

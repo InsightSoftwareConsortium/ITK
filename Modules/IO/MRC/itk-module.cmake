@@ -8,6 +8,8 @@ itk_module(ITKIOMRC
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSources
+  FACTORY_NAMES
+    ImageIO::MRC
   DESCRIPTION
     "${DOCUMENTATION}"
 )

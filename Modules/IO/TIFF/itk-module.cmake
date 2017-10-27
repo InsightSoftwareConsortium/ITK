@@ -8,6 +8,8 @@ itk_module(ITKIOTIFF
     ITKTIFF
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::TIFF
   DESCRIPTION
     "${DOCUMENTATION}"
 )

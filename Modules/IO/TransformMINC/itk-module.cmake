@@ -13,6 +13,8 @@ itk_module(ITKIOTransformMINC
   TEST_DEPENDS
     ITKTestKernel
     ITKDisplacementField
+  FACTORY_NAMES
+    TransformIO::MINC
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT

@@ -29,6 +29,7 @@ include(GenerateExportHeader)
 #  COMPILE_DEPENDS = Modules that are needed at compile time by this module
 #  TEST_DEPENDS = Modules that are needed by this modules testing executables
 #  DESCRIPTION = Free text description of the module
+#  FACTORY_NAMES = List of <factories>::<formats> to register
 #
 # The following options take no arguments:
 #  EXCLUDE_FROM_DEFAULT = Exclude this module from the build default modules flag
@@ -50,7 +51,7 @@ include(GenerateExportHeader)
 #  dependencies for the current module ensuring that they are built before the
 #  current module, but will not be linked either publicly or privately, they are
 #  only used to support the building of the current module.
-#
+
 macro(itk_module _name)
   itk_module_check_name(${_name})
   set(itk-module ${_name})
@@ -61,13 +62,14 @@ macro(itk_module _name)
   set(ITK_MODULE_${itk-module}_DEPENDS "")
   set(ITK_MODULE_${itk-module}_COMPILE_DEPENDS "")
   set(ITK_MODULE_${itk-module}_PRIVATE_DEPENDS "")
+  set(ITK_MODULE_${itk-module}_FACTORY_NAMES "")
   set(ITK_MODULE_${itk-module-test}_DEPENDS "${itk-module}")
   set(ITK_MODULE_${itk-module}_DESCRIPTION "description")
   set(ITK_MODULE_${itk-module}_EXCLUDE_FROM_DEFAULT 0)
   set(ITK_MODULE_${itk-module}_ENABLE_SHARED 0)
   foreach(arg ${ARGN})
     ### Parse itk_module named options
-    if("${arg}" MATCHES "^((|COMPILE_|PRIVATE_|TEST_|)DEPENDS|DESCRIPTION|DEFAULT)$")
+    if("${arg}" MATCHES "^((|COMPILE_|PRIVATE_|TEST_|)DEPENDS|DESCRIPTION|DEFAULT|FACTORY_NAMES)$")
       set(_doing "${arg}")
     elseif("${arg}" MATCHES "^EXCLUDE_FROM_DEFAULT$")
       set(_doing "")
@@ -79,9 +81,6 @@ macro(itk_module _name)
     elseif("${arg}" MATCHES "^ENABLE_SHARED$")
       set(_doing "")
       set(ITK_MODULE_${itk-module}_ENABLE_SHARED 1)
-    elseif("${arg}" MATCHES "^[A-Z][A-Z][A-Z]$")
-      set(_doing "")
-      message(AUTHOR_WARNING "Unknown argument [${arg}]")
     ### Parse named option parameters
     elseif("${_doing}" MATCHES "^DEPENDS$")
       list(APPEND ITK_MODULE_${itk-module}_DEPENDS "${arg}")
@@ -91,6 +90,8 @@ macro(itk_module _name)
       list(APPEND ITK_MODULE_${itk-module}_COMPILE_DEPENDS "${arg}")
     elseif("${_doing}" MATCHES "^PRIVATE_DEPENDS$")
       list(APPEND ITK_MODULE_${itk-module}_PRIVATE_DEPENDS "${arg}")
+    elseif("${_doing}" MATCHES "^FACTORY_NAMES$")
+      list(APPEND ITK_MODULE_${itk-module}_FACTORY_NAMES "${arg}")
     elseif("${_doing}" MATCHES "^DESCRIPTION$")
       set(_doing "")
       set(ITK_MODULE_${itk-module}_DESCRIPTION "${arg}")
@@ -118,6 +119,9 @@ macro(itk_module _name)
   endif()
   list(SORT ITK_MODULE_${itk-module}_PRIVATE_DEPENDS) # Deterministic order.
   list(SORT ITK_MODULE_${itk-module-test}_DEPENDS) # Deterministic order.
+  if(ITK_MODULE_${itk-module}_FACTORY_NAMES) # Don't sort an empty list
+    list(SORT ITK_MODULE_${itk-module}_FACTORY_NAMES) # Deterministic order.
+  endif()
 endmacro()
 
 macro(itk_module_check_name _name)
@@ -255,6 +259,7 @@ macro(itk_module_impl)
   set(itk-module-PUBLIC_DEPENDS "${ITK_MODULE_${itk-module}_PUBLIC_DEPENDS}")
   set(itk-module-TRANSITIVE_DEPENDS "${ITK_MODULE_${itk-module}_TRANSITIVE_DEPENDS}")
   set(itk-module-PRIVATE_DEPENDS "${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}")
+  set(itk-module-FACTORY_NAMES "${ITK_MODULE_${itk-module}_FACTORY_NAMES}")
   set(itk-module-LIBRARIES "${${itk-module}_LIBRARIES}")
   set(itk-module-INCLUDE_DIRS-build "${${itk-module}_INCLUDE_DIRS}")
   set(itk-module-INCLUDE_DIRS-install "\${ITK_INSTALL_PREFIX}/${${itk-module}_INSTALL_INCLUDE_DIR}")

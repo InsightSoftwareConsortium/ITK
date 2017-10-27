@@ -70,6 +70,13 @@ endif()
 #  ITK_INCLUDE_DIRS    = Header file search path
 #  ITK_LIBRARY_DIRS    = Library search path (for outside dependencies)
 #  ITK_RUNTIME_LIBRARY_DIRS = Runtime linker search path
+#  ITK_FACTORY_NAMES = List of <module>::<factory>::<format>
+#  ITK_FACTORY_LIST  = List of factories set
+#  ITK_<factory_name> = List of formats for each factory
+#
+#  `ITK_FACTORY_NAMES` has the following format:
+#  <Module1>::<factory1>::<format1> <Module2>::<factory2>::<format2> ...
+
 itk_module_config(ITK ${ITK_MODULES_REQUESTED})
 
 # Add configuration with FFTW

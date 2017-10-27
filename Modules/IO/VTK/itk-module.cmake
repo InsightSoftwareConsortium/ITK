@@ -8,6 +8,8 @@ itk_module(ITKIOVTK
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSources
+  FACTORY_NAMES
+    ImageIO::VTK
   DESCRIPTION
     "${DOCUMENTATION}"
 )

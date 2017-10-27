@@ -8,6 +8,8 @@ itk_module(ITKIOStimulate
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::Stimulate
   DESCRIPTION
     "${DOCUMENTATION}"
 )

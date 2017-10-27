@@ -10,6 +10,8 @@ itk_module(ITKIOMINC
   TEST_DEPENDS
     ITKTestKernel
     ITKImageStatistics
+  FACTORY_NAMES
+    ImageIO::MINC
   DESCRIPTION
     "${DOCUMENTATION}"
 )

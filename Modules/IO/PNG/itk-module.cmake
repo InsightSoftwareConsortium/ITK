@@ -8,6 +8,8 @@ itk_module(ITKIOPNG
     ITKPNG
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::PNG
   DESCRIPTION
     "${DOCUMENTATION}"
 )

@@ -14,6 +14,8 @@ itk_module(ITKIOMeta
     ITKTestKernel
     ITKSmoothing
     ITKMetaIO
+  FACTORY_NAMES
+    ImageIO::Meta
   DESCRIPTION
     "${DOCUMENTATION}"
 )

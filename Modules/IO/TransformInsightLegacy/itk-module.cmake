@@ -9,6 +9,8 @@ itk_module(ITKIOTransformInsightLegacy
     ITKDoubleConversion
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    TransformIO::Txt
   DESCRIPTION
     "${DOCUMENTATION}"
 )
