@@ -122,9 +122,6 @@ public:
   typedef typename InputImageType::IndexType IndexType;
   typedef typename InputImageType::PointType PointType;
 
-  typedef int                                                         HistogramIndexType;
-  typedef itk::Image<HistogramIndexType, TInputImage::ImageDimension> DigitizedImageType;
-
   typedef typename InputImageType::OffsetType        OffsetType;
   typedef VectorContainer<unsigned char, OffsetType> OffsetVector;
   typedef typename OffsetVector::Pointer             OffsetVectorPointer;
@@ -133,9 +130,7 @@ public:
   typedef typename InputImageType::RegionType  InputRegionType;
   typedef typename OutputImageType::RegionType OutputRegionType;
 
-  typedef typename itk::ConstNeighborhoodIterator<DigitizedImageType> NeighborhoodIteratorType;
-  typedef typename NeighborhoodIteratorType::RadiusType               NeighborhoodRadiusType;
-  typedef typename NeighborhoodIteratorType::NeighborIndexType        NeighborIndexType;
+  typedef typename itk::ConstNeighborhoodIterator<InputImageType>::RadiusType NeighborhoodRadiusType;
 
   typedef typename NumericTraits<PixelType>::RealType MeasurementType;
   typedef typename NumericTraits<PixelType>::RealType RealType;
@@ -230,6 +225,11 @@ public:
 #endif
 
 protected:
+  typedef int                                                         HistogramIndexType;
+  typedef itk::Image<HistogramIndexType, TInputImage::ImageDimension> DigitizedImageType;
+  typedef typename itk::ConstNeighborhoodIterator<DigitizedImageType> NeighborhoodIteratorType;
+  typedef typename NeighborhoodIteratorType::NeighborIndexType        NeighborIndexType;
+
   RunLengthTextureFeaturesImageFilter();
   virtual ~RunLengthTextureFeaturesImageFilter() {}
 
