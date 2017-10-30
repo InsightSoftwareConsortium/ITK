@@ -16,6 +16,7 @@ itk_add_test(NAME itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest
       COMMAND ITKDeconvolutionTestDriver
     --compare DATA{Baseline/itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest.nrrd}
               ${ITK_TEST_OUTPUT_DIR}/itkRichardsonLucyDeconvolutionImageFilterGaussianKernelTest.nrrd
+    --ignoreInputInformation
     itkRichardsonLucyDeconvolutionImageFilterTest
       DATA{Input/itkDeconvolutionImageFilterTestInput.png}
       DATA{Input/itkDeconvolutionImageFilterTestKernel.png}
