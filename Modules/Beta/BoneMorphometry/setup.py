@@ -12,7 +12,7 @@ except ImportError:
 
 setup(
     name='itk-bonemorphometry',
-    version='1.0.0',
+    version='1.1.0',
     author='Jean-Baptiste Vimort',
     author_email='jb.vimort@kitware.com',
     packages=['itk'],
