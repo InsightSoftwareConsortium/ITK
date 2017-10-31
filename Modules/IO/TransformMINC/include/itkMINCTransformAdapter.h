@@ -260,7 +260,7 @@ public:
   void OpenXfm(const char *xfm)
   {
     cleanup();
-    if(input_transform_file((char*)xfm, &m_Xfm) != VIO_OK)
+    if(input_transform_file(xfm, &m_Xfm) != VIO_OK)
       itkExceptionMacro( << "Error reading XFM:" << xfm );
     m_Initialized=true;
   }
