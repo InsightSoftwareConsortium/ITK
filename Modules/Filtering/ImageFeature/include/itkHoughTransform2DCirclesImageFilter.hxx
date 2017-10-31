@@ -200,25 +200,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   typedef Image< float, 2 > InternalImageType;
 
   OutputImagePointer outputImage = OutputImageType::New();
-  outputImage->SetRegions( this->GetOutput(0)->GetLargestPossibleRegion() );
-  outputImage->SetOrigin( this->GetOutput(0)->GetOrigin() );
-  outputImage->SetSpacing( this->GetOutput(0)->GetSpacing() );
-  outputImage->SetDirection( this->GetOutput(0)->GetDirection() );
-  outputImage->Allocate( true ); // initialize buffer to zero
-
-  ImageRegionConstIteratorWithIndex< OutputImageType > image_it(
-    this->GetOutput(0), this->GetOutput( 0 )->GetRequestedRegion() );
-  image_it.GoToBegin();
-
-  ImageRegionIterator< OutputImageType > it( outputImage,
-    outputImage->GetRequestedRegion() );
-
-  while ( !image_it.IsAtEnd() )
-    {
-    it.Set( image_it.Get() );
-    ++image_it;
-    ++it;
-    }
+  outputImage->Graft(this->GetOutput(0));
 
   typedef DiscreteGaussianImageFilter< OutputImageType, InternalImageType > GaussianFilterType;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
