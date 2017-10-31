@@ -199,6 +199,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   // Blur the accumulator in order to find the maximum
   typedef Image< float, 2 > InternalImageType;
 
+  // The variable "outputImage" is only used as input to gaussianFilter.
+  // It should not be modified, because GetOutput(0) should not be changed.
   OutputImagePointer outputImage = OutputImageType::New();
   outputImage->Graft(this->GetOutput(0));
 
