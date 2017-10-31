@@ -198,6 +198,8 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
     set(${_registration_list_var}
       "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private();")
     set(${_names_list_var} "${${_names_list_var}}${_factory_name}FactoryRegister__Private,")
+  else()
+    message(WARNING "Trying to register ${_module_name} in factory, but module was not requested")
   endif()
 endmacro()
 

@@ -110,12 +110,13 @@ for inc in allIncludes:
         allModules.add(pathsToModules[includesToPaths[inc]])
 
 # Print a useful cmake command
-print(r'set(ITK_IO_MODULES_USED "")')
 print("find_package(ITK COMPONENTS")
 for module in sorted(allModules):
     print("  " + module)
 if "ITKIOImageBase" in allModules:
-    print(r"  ${ITK_IO_MODULES_USED}")
+    print(r"  ITKImageIO")
+if "ITKIOTransformBase" in allModules:
+    print(r"  ITKTransformIO")
 print(")")
 
 print("Your application code includes " + str(len(allModules)) + " of " + str(len(pathsToModules)) + " itk modules.")
