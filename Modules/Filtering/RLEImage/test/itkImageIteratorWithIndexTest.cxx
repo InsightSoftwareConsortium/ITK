@@ -215,6 +215,36 @@ itkImageIteratorWithIndexTest(int, char *[])
     testPassed = false;
   }
 
+  std::cout << "Testing with Image< long long, 3 > " << std::endl;
+  itkImageIteratorWithIndexTestIteratorTester<long long> TesterF(10);
+  if (TesterF.TestIterator() == false)
+  {
+    testPassed = false;
+  }
+  if (TesterF.TestConstIterator() == false)
+  {
+    testPassed = false;
+  }
+  if (TesterF.TestReverseIteration() == false)
+  {
+    testPassed = false;
+  }
+
+  std::cout << "Testing with Image< unsigned long long, 3 > " << std::endl;
+  itkImageIteratorWithIndexTestIteratorTester<unsigned long long> TesterUI(10);
+  if (TesterUI.TestIterator() == false)
+  {
+    testPassed = false;
+  }
+  if (TesterUI.TestConstIterator() == false)
+  {
+    testPassed = false;
+  }
+  if (TesterUI.TestReverseIteration() == false)
+  {
+    testPassed = false;
+  }
+
   std::cout << "Testing with Image< float, 3 > " << std::endl;
   itkImageIteratorWithIndexTestIteratorTester<float> TesterF(10.0);
   if (TesterF.TestIterator() == false)
