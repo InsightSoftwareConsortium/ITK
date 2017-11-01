@@ -29,21 +29,6 @@ namespace
 
 const double epsilon = 1e-10;
 
-template <typename TPoint>
-bool testPoint( const TPoint & p1, const TPoint & p2 )
-{
-  bool pass = true;
-
-  for( unsigned int i = 0; i < TPoint::PointDimension; i++ )
-    {
-    if( std::fabs( p1[i] - p2[i] ) > epsilon )
-      {
-      pass = false;
-      }
-    }
-  return pass;
-}
-
 template <typename TMatrix>
 bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
 {
@@ -64,7 +49,7 @@ bool testMatrix( const TMatrix & m1, const TMatrix & m2 )
 }
 
 template <typename TArray2D>
-bool testJacobian( const TArray2D & m1, const TArray2D & m2 )
+inline bool testJacobian( const TArray2D & m1, const TArray2D & m2 )
 {
   unsigned int i, j;
   bool         pass = true;

@@ -55,7 +55,7 @@ namespace Predicate
  * used to check if the arrays are "near" each other.
  */
 template<typename T1, typename T2>
-static ::testing::AssertionResult VectorDoubleRMSPredFormat(const char* expr1,
+inline ::testing::AssertionResult VectorDoubleRMSPredFormat(const char* expr1,
                                                             const char* expr2,
                                                             const char* rmsErrorExpr,
                                                             const T1 &val1,

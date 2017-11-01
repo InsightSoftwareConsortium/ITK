@@ -49,7 +49,7 @@ const char *const magicMAP = "MAP ";
 /// If first == last then return is pair(first,first);
 /// otherwise is it pair(min, max)
 template< typename TInputIter >
-std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last)
+inline std::pair< TInputIter, TInputIter > min_max_element(TInputIter first, TInputIter last)
 {
   std::pair< TInputIter, TInputIter > result(first, first);
 

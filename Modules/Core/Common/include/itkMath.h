@@ -520,7 +520,7 @@ struct AlmostEqualsScalarImplementer
 // approximate comparison between two scalar values of
 // potentially different data types.
 template <typename TScalarType1, typename TScalarType2>
-static bool
+inline bool
 AlmostEqualsScalarComparer( TScalarType1 x1, TScalarType2 x2 )
 {
   return AlmostEqualsScalarImplementer<TScalarType1, TScalarType2>::SelectedVersion:: template AlmostEqualsFunction<TScalarType1, TScalarType2>(x1, x2);

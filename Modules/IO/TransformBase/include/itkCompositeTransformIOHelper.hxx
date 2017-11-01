@@ -23,7 +23,7 @@
 namespace
 {
   template <unsigned int VDimension>
-  std::string GetTransformDimensionAsString()
+  inline std::string GetTransformDimensionAsString()
   {
     std::string rval("unknown");
     return rval;

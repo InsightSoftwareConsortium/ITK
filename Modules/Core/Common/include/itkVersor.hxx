@@ -587,7 +587,7 @@ Versor< T >
 
 namespace {
   template< typename InputVectorType, typename ValueType, typename OutputVectorType >
-    const OutputVectorType localTransformVectorMath(const InputVectorType & VectorObject,
+    inline const OutputVectorType localTransformVectorMath(const InputVectorType & VectorObject,
       const ValueType & inputX,
       const ValueType & inputY,
       const ValueType & inputZ,
