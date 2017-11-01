@@ -132,24 +132,6 @@ public:
   /** Get OpenCL Kernel source as a string, creates a GetOpenCLSource method */
   itkGetOpenCLSourceFromKernelMacro(GPUPDEDeformableRegistrationFilterKernel);
 
-  /** Set the fixed image. */
-  itkSetInputMacro(FixedImage, FixedImageType);
-
-  /** Get the fixed image. */
-  itkGetInputMacro(FixedImage, FixedImageType);
-
-  /** Set the moving image. */
-  itkSetInputMacro(MovingImage, MovingImageType);
-
-  /** Get the moving image. */
-  itkGetInputMacro(MovingImage, MovingImageType);
-
-  /** Set initial deformation field. */
-  itkSetInputMacro(InitialDisplacementField, DisplacementFieldType);
-
-  /** Get initial deformation field. */
-  itkGetInputMacro(InitialDisplacementField, DisplacementFieldType);
-
   /** Get output deformation field. */
   DisplacementFieldType * GetDisplacementField()
   {
