@@ -364,6 +364,15 @@ class itkTemplate(object):
         return dir2(self)
 
 
+    def __call__(self, *args, **kwargs):
+        filt = self.New(*args, **kwargs)
+        try:
+            filt.UpdateLargestPossibleRegion()
+            img = filt.GetOutput()
+        except AttributeError:
+            img = filt
+        return img
+
     def New(self, *args, **kwargs):
         """Instantiate the template with a type implied from its input.
 

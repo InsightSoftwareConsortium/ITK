@@ -167,6 +167,15 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
       3
     )
 
+  itk_python_add_test(NAME PythonMeanImageFilterFunctionCall
+    TEST_DRIVER_ARGS
+      --compare ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterFunctionCall.png DATA{${WrapITK_SOURCE_DIR}/images/MeanImageFilterFunctionCall.png}
+    COMMAND MeanImageFilterFunctionCall.py
+      DATA{${WrapITK_SOURCE_DIR}/images/cthead1UC.png}
+      ${ITK_TEST_OUTPUT_DIR}/MeanImageFilterFunctionCall.png
+      3
+    )
+
   itk_python_add_test(NAME PythonMedianImageFilter
     TEST_DRIVER_ARGS
       --compare ${ITK_TEST_OUTPUT_DIR}/MedianImageFilter.png DATA{${WrapITK_SOURCE_DIR}/images/MedianImageFilter.png}
