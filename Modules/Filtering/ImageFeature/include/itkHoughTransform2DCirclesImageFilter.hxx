@@ -199,26 +199,10 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   // Blur the accumulator in order to find the maximum
   typedef Image< float, 2 > InternalImageType;
 
+  // The variable "outputImage" is only used as input to gaussianFilter.
+  // It should not be modified, because GetOutput(0) should not be changed.
   OutputImagePointer outputImage = OutputImageType::New();
-  outputImage->SetRegions( this->GetOutput(0)->GetLargestPossibleRegion() );
-  outputImage->SetOrigin( this->GetOutput(0)->GetOrigin() );
-  outputImage->SetSpacing( this->GetOutput(0)->GetSpacing() );
-  outputImage->SetDirection( this->GetOutput(0)->GetDirection() );
-  outputImage->Allocate( true ); // initialize buffer to zero
-
-  ImageRegionConstIteratorWithIndex< OutputImageType > image_it(
-    this->GetOutput(0), this->GetOutput( 0 )->GetRequestedRegion() );
-  image_it.GoToBegin();
-
-  ImageRegionIterator< OutputImageType > it( outputImage,
-    outputImage->GetRequestedRegion() );
-
-  while ( !image_it.IsAtEnd() )
-    {
-    it.Set( image_it.Get() );
-    ++image_it;
-    ++it;
-    }
+  outputImage->Graft(this->GetOutput(0));
 
   typedef DiscreteGaussianImageFilter< OutputImageType, InternalImageType > GaussianFilterType;
   typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
