@@ -1,0 +1,532 @@
+%
+% Complete documentation on the extended LaTeX markup used for Insight
+% documentation is available in ``Documenting Insight'', which is part
+% of the standard documentation for Insight.  It may be found online
+% at:
+%
+%     http://www.itk.org/
+
+\documentclass{InsightArticle}
+
+\usepackage[utf8]{inputenc}
+\usepackage[dvips]{graphicx}
+\usepackage{color}
+\usepackage{minted}
+\usepackage{float}
+\definecolor{ltgray}{rgb}{0.93,0.93,0.93}
+\usemintedstyle{emacs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  hyperref should be the last package to be loaded.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[dvips,
+bookmarks,
+bookmarksopen,
+backref,
+colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
+]{hyperref}
+
+
+%  This is a template for Papers to the Insight Journal.
+%  It is comparable to a technical report format.
+
+% The title should be descriptive enough for people to be able to find
+% the relevant document.
+\title{Computing Bone Morphometric Feature Maps from 3-Dimensional Images}
+
+%
+% NOTE: This is the last number of the "handle" URL that
+% The Insight Journal assigns to your paper as part of the
+% submission process. Please replace the number "1338" with
+% the actual handle number that you get assigned.
+%
+\newcommand{\IJhandlerIDnumber}{3588}
+
+% Increment the release number whenever significant changes are made.
+% The author and/or editor can define 'significant' however they like.
+\release{2.0.0}
+
+% At minimum, give your name and an email address.  You can include a
+% snail-mail address if you like.
+\author{Jean-Baptiste Vimort$^{1}$, Matthew McCormick$^{1}$ and Beatriz Paniagua$^{1}$}
+\authoraddress{$^{1}$Kitware Inc., Carrboro, NC}
+
+\begin{document}
+
+%
+% Add hyperlink to the web location and license of the paper.
+% The argument of this command is the handler identifier given
+% by the Insight Journal to this paper.
+%
+\IJhandlefooter{\IJhandlerIDnumber}
+
+
+\ifpdf
+\else
+   %
+   % Commands for including Graphics when using latex
+   %
+   \DeclareGraphicsExtensions{.eps,.jpg,.gif,.tiff,.bmp,.png}
+   \DeclareGraphicsRule{.jpg}{eps}{.jpg.bb}{`convert #1 eps:-}
+   \DeclareGraphicsRule{.gif}{eps}{.gif.bb}{`convert #1 eps:-} 
+   \DeclareGraphicsRule{.tiff}{eps}{.tiff.bb}{`convert #1 eps:-}
+   \DeclareGraphicsRule{.bmp}{eps}{.bmp.bb}{`convert #1 eps:-}
+   \DeclareGraphicsRule{.png}{eps}{.png.bb}{`convert #1 eps:-}
+\fi
+
+\maketitle
+
+\ifhtml
+\chapter*{Front Matter\label{front}}
+\fi
+
+
+% The abstract should be a paragraph or two long, and describe the
+% scope of the document.
+\begin{abstract}
+\noindent
+This document describes a new remote module implemented for the Insight Toolkit (ITK,
+  \url{www.itk.org}), itkBoneMorphometry. This module contains bone analysis filters that compute features from N-dimensional images that represent the internal architecture of bone. The computation of the bone morphometry features in this module is based on well known methods. The two filters contained in this module are itkBoneMorphometryFeaturesFilter. which computes a set of features that describe the whole input image in the form of a feature vector, and itkBoneMorphometryFeaturesImageFilter, which computes an N-D feature map that locally describes the input image (i.e. for every voxel). itkBoneMorphometryFeaturesImageFilter can be configured based in the locality of the desired morphometry features by specifying the neighborhood size. This paper is accompanied by the source code, the  input data, the choice of parameters and the output data that we have used for validating the algorithms described. This adheres to the fundamental principle that scientific publications must facilitate reproducibility of the reported results.
+
+\end{abstract}
+
+\IJhandlenote{\IJhandlerIDnumber}
+\newpage
+\tableofcontents
+\newpage
+\section{Introduction}
+\label{sec:intro}
+
+Morphometry (or morphometrics) refers to the quantitative analysis of form and it is done by analyzing different aspects of an object such as the size or the shape of the studied object. The first bone morphometry analyses were performed in the 60s, thanks to a method called histomorphometry. Histomorphometry consists of slicing piece of \textit{ex-vivo} bone and performing a succession of 2D morphometry analysis on the tissue slices obtained. Therefore, this technique was limited by the destructive nature of the procedure, which did not allow clinical application. Additionally, due to the 2D nature of the images, certain types of features such as bone volume density (\textit{BV/TV}) and bone surface density (\textit{BS/BV})\cite{BoneMorpho1} could be computed, but computation of other types of 3D features, such as trabecular thickness (\textit{Tb.Th}), trabecular separation (\textit{Tb.Sp}), and trabecular number (\textit{Tb.N}), were not possible\cite{BoneMorpho2}.
+
+In the past decade, improvements in 3D medical imaging technologies in terms of contrast, resolution and reconstruction have enabled the study bone structure \textit{in-vivo}. Combined with the ever increasing computational power available, the development of tools to compute quantitative biomarkers of bone morphometry is now possible. Several free packages already offer a way to compute 3D bone morphometry features such as Microview or BoneJ. However, none of those tools contain bone morphometry filters that are able to compute bone morphometry N-dimensional feature maps.
+
+We have created a new remote module containing two bone morphometry filters for ITK: the first one is able to compute a set of feature characterizing the whole input image (\code{itk::BoneMorphometryFeaturesFilter}) and a second one is optimized for the computation of feature maps characterizing the input image locally for every one of its voxels (\code{itk::BoneMorphometryFeaturesImageFilter}).
+
+Significant computational power is required to create the feature maps described, so the \code{itk::BoneMorphometryFeaturesImageFilter} algorithms have been optimized thanks to ITK's multi-threading, \doxygen{NeighborhoodIterator}, and \doxygen{ImageBoundaryFacesCalculator}. These improvements, only possible thanks to the internal ITK infrastructure, allow fast and efficient feature maps computation.
+
+All the features available in \textit{itkBoneMorphometry} are presented in Section~\ref{sec:features}. Section~\ref{sec:filterUsage} describes the filters specifications (templates, inputs, parameters) of each filter and how to customize the use of these filters. Section~\ref{sec:examples} contain examples of code using \text{itkBoneMorphometry} filters in Python and C++. Finally, Sections~\ref{sec:results} and \ref{sec:conclusions} present several scenarios, results and conclusions obtained with \textit{itkBoneMorphometry}.
+
+\newpage
+
+\section{Bone Morphometry Features Available}
+\label{sec:features}
+
+The computation of the bone morphometry features is based on the following parameters:
+\begin{itemize}
+  \item The total number of voxels in the studied volume \begin{math}  N_{Total} \end{math}: It represents the total number of voxels contained in the mask. If no \begin{math} N_{Total} \end{math} is specified, the total number voxels in the whole image will be considered by default. In the particular case of the figure \ref{fig:N} as no mask is specified and the image is a square of 25 by 25 voxels \begin{math}  N_{Total} = 625 \end{math}
+  \item The number of voxels that are part of the bone \begin{math}  N_{Bone} \end{math}: It represents the number of pixels with an intensity higher than the specified threshold. Figure \ref{fig:N} shows the pixels that are part of the bone highlighted in brown and  \begin{math}  N_{Bone} = 292 \end{math}
+  \item The number of voxels that are part of the bone/non-bone boundary \begin{math}  N_{Boundary} \end{math}: This number represents the separation for that can be separated for each direction \begin{math}  N_{Boundary X} \end{math}, \begin{math}  N_{Boundary Y} \end{math} and \begin{math}  N_{Boundary Z} \end{math}: This parameter represents the number of boundary bone/non-bone voxels, it is important to notice that a single voxel can be part of the \begin{math}  N_{Boundary} \end{math} several times. In the figure \ref{fig:N} example \begin{math}  N_{Boundary} = 218 \end{math}
+\end{itemize}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.115]{figures/Ntotal.eps}
+    \includegraphics[scale=0.115]{figures/Nbone.eps}
+    \includegraphics[scale=0.115]{figures/Nboundary.eps}
+    \itkcaption{ \begin{math}  N_{Total} \end{math}(left), \begin{math}  N_{Bone} \end{math} (center) and \begin{math}  N_{Boundary} \end{math} (right)}
+    \label{fig:N}
+  \end{center}
+\end{figure}
+
+The following features can be computed thanks to the itkBoneMorphometry filters:
+
+\textbf{Bone volume density} or BvTv (which stands for  stands for Bone Volume Bv over Total Volume Tv ratio) indicates the fraction of a given volume of interest (VOI, i.e. the Total Volume Tv) that is occupied by mineralized bone (Bone Volume Bv).
+\begin{equation} \label{eqn:BvTv}
+BvTv = \frac{N_{Bone}}{N_{Total}}
+\end{equation}
+
+\textbf{Trabecular number} (TbN) is taken as the inverse of the mean distance between the mid-axes of the structure to be examined. 
+\begin{equation} \label{eqn:TbN}
+TbN = (TbN_x + TbN_y + TbN_z) / 3
+\end{equation}
+with
+\begin{equation} \label{eqn:TbNxyz}
+TbN_{x/y/z} = \frac{N_{Boundary x/y/z}}{N_{Total}*ImSpacing_{x/y/z}}
+\end{equation}
+
+\textbf{Bone surface density} or BsBv (which stands for  stands for Bone Surface Bs over Bone Volume Bv) gives an indication on how many bone lining cells cover a given volume of bone (Bv).
+\begin{equation} \label{eqn:BsBv}
+BsBv = 2 \frac{TbN}{BsBv}
+\end{equation}
+
+\textbf{Trabecular thickness} (TbTh) is determined by filling maximal spheres into the structure using a distance transform. Then the average thickness of all maximal spheres is calculated to give an estimate of mean TbTh.
+
+\begin{equation} \label{eqn:TbTh} 
+TbTh = \frac{BsBv}{TbN}
+\end{equation}
+
+\textbf{Trabecular separation} (TbSp) is calculated in the same way than TbTh, but this time the voxels representing non-bone parts are filled with maximal spheres. TbSp can thus be expressed as the average thickness of the marrow cavities. 
+\begin{equation} \label{eqn:TbSp}
+TbSp = \frac{1 - BsBv}{TbN}
+\end{equation}
+
+\newpage
+\section{Filter Usage}
+\label{sec:filterUsage}
+
+\subsection{itk::BoneMorphometryFeaturesFilter}
+\label{sec:BMFilter}
+
+For a given N-dimensional input image, \code{itk::BoneMorphometryFeaturesFilter} will provide a set of 5 bone morphometry features summarizing the whole image. This filter behaves as a filter with an input image and output value. Thus it can be inserted in a pipeline with other filters and the metrics will only be recomputed if a downstream filter changes.
+
+Template Parameters (if used in C++):
+\begin{itemize}
+ \item The input image type: it must be a ND image of any type.
+ \item The mask image type: it also must be a ND image of any type (will be unsigned char by default)
+\end{itemize}
+
+Inputs and parameters:
+\begin{itemize}
+ \item An input image
+ \item A mask defining the region over which features will be calculated. (Optional)
+ \item A Threshold that will be used to determine if each voxel is part of the bone or not. Every voxel with an intensity higher than the threshold will be considered as part of the bone. 
+\end{itemize}
+
+\subsection{itk::BoneMorphometryFeaturesImageFilter}
+\label{sec:BMImageFilter}
+
+For each voxel of the input image, the itkBoneMorphometryFeaturesImageFilter will compute a 5-D vector containing a local bone morphometry feature for that voxel. The output of the filter is a N-D image where each pixel will contain a vector of 5 scalars. Each feature map can be extracted from the output image afterward thanks to \doxygen{NthElementImageAdaptor}. By default the morphometry features are computed for each spatial direction and averaged afterward.
+
+Template Parameters:
+\begin{itemize}
+ \item The input image type: must be a N-D image of any type.
+ \item The output image type: must be a N-D image where the pixel type must be a vector of floating points or an ImageVector.
+ \item The mask image type: must be a N-D image of any type (will be unsigned char by default)
+\end{itemize}
+
+Inputs and parameters:
+\begin{itemize}
+ \item An input image
+ \item A mask defining the region over which features will be calculated. (Optional)
+ \item A threshold that will be used to determine if each voxel is part of the bone or not. Every voxel with an intensity higher than the threshold will be considered as part of the bone. 
+ \item The size of the neighborhood radius. (Optional, defaults to 2.)
+\end{itemize}
+
+\subsection{Recommendations}
+\label{sec:recommendations}
+
+To obtain significant results, it is important to carefully choose the parameters depending on the input data and the significant information that need to be revealed by the output. The radius of the neighborhood should be chosen depending on the scale of the trabecular spaces and resolution of the input data and the size of the anomaly/object that needs to be detected in the input image. The threshold will need to be specifically adapted to every input data; it is possible to use a segmentation of the bone as an input by setting the threshold to 1.
+
+The usage of a Region Of Interest (ROI) mask is strongly advised, it will reduce the computation time by avoiding computing features for the noisy/background parts of the image.
+
+In addition to the settings, particular attention should be payed to the input data. Please consider cropping the input so it contains only areas that will be interesting for the analysis. This will both help improve the computation time, and avoid memory problems due to large output data (consider that the output data is 8 or 10 times bigger than the input data).
+
+The memory problems arise from output data that is too large, separate the output feature map image into several scalar feature images with the ITK class \doxygen{VectorIndexSelectionCastImageFilter}.
+
+\subsection{Python Packages}
+\label{sec:PythonWheels}
+
+Python wheels allow easily installation of \textit{itkBoneMorphometry} filters and all their dependencies to use with any other Python tools. They have been generated for the three main operating systems (Mac, Linux and Windows) and three versions of Python (2.7, 3.5 and 3.6). To install the Python package, use the following command from your shell:
+
+\begin{minted}[baselinestretch=1,fontsize=\footnotesize,linenos=false]{bash}
+python -m pip install itk-bonemorphometry
+\end{minted}
+\normalsize
+
+\newpage
+\section{Practical examples}
+\label{sec:examples}
+
+\subsection{C++}
+\label{sec:C++Ex}
+
+\subsubsection{itk::BoneMorphometryFeaturesFilter}
+
+\begin{minted}[baselinestretch=1,fontsize=\footnotesize,linenos=false]{cpp}
+
+#include "itkBoneMorphometryFeaturesFilter.h"
+#include "itkMath.h"
+#include "itkImage.h"
+#include "itkVector.h"
+#include "itkImageFileReader.h"
+#include "itkTestingMacros.h"
+
+int BoneMorphometryFeaturesFilterInstantiationTest( int argc, char *argv[] )
+{
+    if( argc < 3 )
+      {
+      std::cerr << "Missing parameters." << std::endl;
+      std::cerr << "Usage: " << argv[0]
+        << " inputImageFile"
+        << " maskImageFile"
+        << " threshold"
+        << std::endl;
+      return EXIT_FAILURE;
+      }
+
+  const unsigned int ImageDimension = 3;
+
+  // Declare types
+  typedef float                                         InputPixelType;
+  typedef itk::Image< InputPixelType, ImageDimension >  InputImageType;
+  typedef itk::ImageFileReader< InputImageType >        ReaderType;
+
+  // Create and set up a reader
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( argv[1] );
+
+  // Create and set up a maskReader
+  ReaderType::Pointer maskReader = ReaderType::New();
+  maskReader->SetFileName( argv[2] );
+
+  // Create the filter
+  typedef itk::BoneMorphometryFeaturesFilter<InputImageType> FilterType;
+  FilterType::Pointer filter = FilterType::New();
+  filter->SetInput( reader->GetOutput() );
+  filter->SetMaskImage( maskReader->GetOutput() );
+  filter->SetThreshold( std::atoi( ragv[3]) );
+  filter->Update();
+
+  filter->GetBVTV();
+  filter->GetTbN();
+  filter->GetTbTh();
+  filter->GetTbSp();
+  filter->GetBSBV();
+  
+  return EXIT_SUCCESS;
+}
+
+\end{minted}
+\normalsize
+
+\subsubsection{itk::BoneMorphometryFeaturesImageFilter}
+
+\begin{minted}[baselinestretch=1,fontsize=\footnotesize,linenos=false]{cpp}
+
+#include "itkBoneMorphometryFeaturesImageFilter.h"
+
+#include "itkMath.h"
+#include "itkImage.h"
+#include "itkVector.h"
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
+
+int BoneMorphometryFeaturesImageFilterInstantiationTest( int argc, char *argv[] )
+{
+    if( argc < 5 )
+      {
+      std::cerr << "Missing parameters." << std::endl;
+      std::cerr << "Usage: " << argv[0]
+        << " inputImageFile"
+        << " maskImageFile"
+        << " outputImageFile"
+        << " threshold"
+        << " neighborhoodRadius"
+        << std::endl;
+      return EXIT_FAILURE;
+      }
+
+  const unsigned int ImageDimension = 3;
+  const unsigned int VectorComponentDimension = 5;
+
+  // Declare types
+  typedef float                                         InputPixelType;
+  typedef itk::Image< InputPixelType, ImageDimension >  InputImageType;
+  typedef itk::ImageFileReader< InputImageType >        ReaderType;
+  typedef itk::Neighborhood<typename InputImageType::PixelType,
+      InputImageType::ImageDimension>                   NeighborhoodType;
+  typedef float                                         OutputPixelComponentType;
+  typedef itk::Vector< OutputPixelComponentType, VectorComponentDimension >
+                                                        OutputPixelType;
+  typedef itk::Image< OutputPixelType, ImageDimension > OutputImageType;
+
+  // Create and set up a reader
+  ReaderType::Pointer reader = ReaderType::New();
+  reader->SetFileName( argv[1] );
+
+  // Create and set up a maskReader
+  ReaderType::Pointer maskReader = ReaderType::New();
+  maskReader->SetFileName( argv[2] );
+
+  // Create the filter
+  typedef itk::BoneMorphometryFeaturesImageFilter<InputImageType, OutputImageType, InputImageType> FilterType;
+  FilterType::Pointer filter = FilterType::New();
+
+  filter->SetInput( reader->GetOutput() );
+  filter->SetMaskImage( maskReader->GetOutput() );
+  filter->SetThreshold( std::atoi( ragv[4]) );
+  NeighborhoodType neighborhood;
+  neighborhood.SetRadius( std::atoi(argv[5]) );
+  filter->SetNeighborhoodRadius(neighborhood.GetRadius());
+  filter->Update();
+
+  // Create and set up a writer
+  typedef itk::ImageFileWriter< OutputImageType > WriterType;
+  WriterType::Pointer writer = WriterType::New();
+  writer->SetFileName( argv[3] );
+  writer->SetInput( filter->GetOutput() );
+  writer->Update();
+
+  return EXIT_SUCCESS;
+}
+\end{minted}
+\normalsize
+
+\subsection{Python}
+\label{sec:pythonEx}
+
+\subsubsection{itk.BoneMorphometryFeaturesFilter}
+
+\begin{minted}[baselinestretch=1,fontsize=\footnotesize,linenos=false]{python}
+
+import itk, sys
+
+if len(sys.argv) != 4:
+    print("Usage: " + sys.argv[0] + " <inputImagePath> "
+                                    " <maskImagePath> "
+                                    " <threshold> ")
+    sys.exit(1)
+
+
+Dimension = 3
+
+#Input scan reader
+InputPixelType = itk.ctype('signed short')
+InputImageType = itk.Image[InputPixelType, Dimension]
+imReader = itk.ImageFileReader[InputImageType].New()
+imReader.SetFileName(sys.argv[1])
+
+#Input mask reader
+MaskPixelType = itk.ctype('unsigned char')
+MaskImageType = itk.Image[MaskPixelType, Dimension]
+maskReader = itk.ImageFileReader[MaskImageType].New()
+maskReader.SetFileName(sys.argv[2])
+
+im = imReader.GetOutput()
+mask = maskReader.GetOutput()
+
+filtr = itk.BoneMorphometryFeaturesFilter.New(im)
+filtr.SetMaskImage(mask)
+filtr.SetThreshold(int(sys.argv[3]))
+
+filtr.Update()
+
+print filtr.GetBVTV()
+print filtr.GetTbN()
+print filtr.GetTbTh()
+print filtr.GetTbSp()
+print filtr.GetBSBV()
+
+\end{minted}
+
+\subsubsection{itk.BoneMorphometryFeaturesImageFilter}
+
+\begin{minted}[baselinestretch=1,fontsize=\footnotesize,linenos=false]{python}
+import itk, sys
+
+if len(sys.argv) != 6:
+    print("Usage: " + sys.argv[0] + " <inputImagePath> "
+                                    " <maskImagePath> "
+                                    " <outputImagePath> "
+                                    " <threshold> "
+                                    " <neigborhoodRadius> ")
+    sys.exit(1)
+
+
+Dimension = 3
+
+#Input scan reader
+InputPixelType = itk.ctype('signed short')
+InputImageType = itk.Image[InputPixelType, Dimension]
+imReader = itk.ImageFileReader[InputImageType].New()
+imReader.SetFileName(sys.argv[1])
+
+#Input mask reader
+MaskPixelType = itk.ctype('unsigned char')
+MaskImageType = itk.Image[MaskPixelType, Dimension]
+maskReader = itk.ImageFileReader[MaskImageType].New()
+maskReader.SetFileName(sys.argv[2]t
+
+im = imReader.GetOutput()
+mask = maskReader.GetOutput()
+
+filtr = itk.BoneMorphometryFeaturesImageFilter.New(im)
+filtr.SetMaskImage(mask)
+filtr.SetThreshold(int(sys.argv[4]))
+filtr.SetNeighborhoodRadius([int(sys.argv[5]),int(sys.argv[5]),int(sys.argv[5])])
+
+result = filtr.GetOutput()
+
+itk.imwrite(result, sys.argv[3])
+\end{minted}
+
+\normalsize
+\newpage
+\section{Results}
+\label{sec:results}
+
+We presented concrete use case scenarios of the itkBoneMorphometry's filters in this section. We used itkBoneMorphometry to characterize subchondral bone structure in temporomandibular joint (TMJ) Osteoarthritis (OA). To date, there is no single sign, symptom, or test that can clearly diagnose early stages of TMJ OA. However, it has been observed that changes in the subchondral bone occur in very early stages of this disease involving structural changes in the subchondral bone (i.e. bone marrow).
+
+The different tools presented in this document can aid highlighting those structural variations to help clinicians to detect TMJ OA earlier in disease progression.
+
+In the test case (figure \ref{fig:Scan}), the lower part of the condyle is healthy (normal bone trabeculae density) whereas the upper part is characteristic of a TMJ OA case (low bone trabeculae density).
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{figures/Scan.eps}
+    \itkcaption{CBCT of the test condyle: this condyle suffers of a lack of trabecula in the upper part}
+    \label{fig:Scan}
+  \end{center}
+\end{figure}
+
+The results exposed in this part were obtained by specifying the following parameters (the default parameters were used for the other ones):
+
+\begin{itemize}
+ \item Input data: Scan\textunderscore CBCT\textunderscore 13R.nrrd
+ \item Input mask: SegmC\textunderscore CBCT\textunderscore 13R.nrrd
+ \item Threshold: 1100
+ \item Neighborhood Radius: 6
+\end{itemize}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.15]{figures/BVTV.eps}
+    \includegraphics[scale=0.15]{figures/BSBV.eps}
+    \includegraphics[scale=0.505]{figures/discreteFullRainbow.eps}
+    \itkcaption{BSBV (left) and BVTV (right)}
+    \label{fig:BSBV&BVTV}
+  \end{center}
+\end{figure}
+
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.115]{figures/TbN.eps}
+    \includegraphics[scale=0.115]{figures/TbSp.eps}
+    \includegraphics[scale=0.115]{figures/TbTh.eps}
+    \includegraphics[scale=0.385]{figures/discreteFullRainbow.eps}
+    \itkcaption{TbN (left), TbSp (center) and TbTh (right)}
+    \label{fig:TbN/TbSp/TbTh}
+  \end{center}
+\end{figure}
+
+All the different bone morphometry feature maps computed for this case (figure \ref{fig:BSBV&BVTV} and \ref{fig:TbN/TbSp/TbTh}) seem to discriminate unaffected areas from affected areas in the TMJ trabecular bone. It is highly probable that those features can help in an automatic detection of TM JOA.
+
+\newpage
+\section{Conclusion}
+\label{sec:conclusions}
+
+This document presented a new, fast, and efficient tool to compute bone morphometry features in N-Dimensional images. The described features are correlated to each other, so they do not provide independent discrimination. The usage with a combination with other types of image feature descriptors (such as some textural features\cite{textureFeat1}) will allow the detection of a larger number of disease variations. This method is currently used in conjunction with other biomarkers in a large study aimed to create a new method to detect TMJ OA at early stages using subchondral bone structure as a biomarker.
+
+\section*{Acknowledgements}
+
+This work was supported by the National Institute of Health (NIH) National Institute for Dental and Craniofacial Research (NIDCR) grant R01EB021391 (Textural Biomarkers of Arthritis for the Subchondral Bone in the Temporomandibular Joint), NIDCR grant R01DE024450  (Quantification of 3D bony Changes in Temporomandibular Joint Osteoarthritis) and National Institute of Biomedical Imaging and Bioengineering (NIBIB) grant R01EB021391 (Shape Analysis Toolbox for Medical Image Computing Projects). 
+
+We would like to thank Dr. Larry Wolford from the Baylor University Medical Center for kindly providing the bone specimens from which we obtained the scans used in the paper. We would like to thank Drs. Lucia Cevidanes, Erika Benavides and Antonio Ruellas at the University of Michigan School of Dentistry as well, for generating the CBCT scans that were processed with the filters presented in the paper.
+
+We are also grateful for the support received from the ITK community.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Insert the bibliography using BibTeX
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{plain}
+\bibliography{InsightJournal}
+
+
+\end{document}
+
