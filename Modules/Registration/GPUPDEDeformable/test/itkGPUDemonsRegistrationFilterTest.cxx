@@ -92,7 +92,7 @@ TDisplacementFieldPointer itkGPUDemons(int argc, char *argv[]);
 template <unsigned VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer itkCPUDemons(int argc, char *argv[]);
 
-char * AppendFileName(char *src, char *postfix)
+char * AppendFileName(char *src, const char *postfix)
 {
   char *dest = new char[strlen(src) + strlen(postfix) + 1];
   char *pos = strrchr(src, '.');
@@ -336,7 +336,7 @@ TDisplacementFieldPointer itkGPUDemons(int, char *argv[])
   typename WriterType::Pointer     writer =  WriterType::New();
   typename CastFilterType::Pointer caster =  CastFilterType::New();
 
-  char *outName = AppendFileName(argv[5], (char *)"_gpu");
+  char *outName = AppendFileName(argv[5], "_gpu");
   writer->SetFileName( outName );
 
   caster->SetInput( warper->GetOutput() );
@@ -453,7 +453,7 @@ TDisplacementFieldPointer itkCPUDemons(int, char *argv[])
   typename WriterType::Pointer     writer =  WriterType::New();
   typename CastFilterType::Pointer caster =  CastFilterType::New();
 
-  char *outName = AppendFileName(argv[5], (char *)"_cpu");
+  char *outName = AppendFileName(argv[5], "_cpu");
   writer->SetFileName( outName );
 
   caster->SetInput( warper->GetOutput() );
