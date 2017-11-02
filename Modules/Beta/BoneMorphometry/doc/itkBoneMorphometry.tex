@@ -87,8 +87,7 @@ colorlinks,linkcolor={blue},citecolor={blue},urlcolor={blue},
 % scope of the document.
 \begin{abstract}
 \noindent
-This document describes a new remote module implemented for the Insight Toolkit (ITK,
-  \url{www.itk.org}), itkBoneMorphometry. This module contains bone analysis filters that compute features from N-dimensional images that represent the internal architecture of bone. The computation of the bone morphometry features in this module is based on well known methods. The two filters contained in this module are itkBoneMorphometryFeaturesFilter. which computes a set of features that describe the whole input image in the form of a feature vector, and itkBoneMorphometryFeaturesImageFilter, which computes an N-D feature map that locally describes the input image (i.e. for every voxel). itkBoneMorphometryFeaturesImageFilter can be configured based in the locality of the desired morphometry features by specifying the neighborhood size. This paper is accompanied by the source code, the  input data, the choice of parameters and the output data that we have used for validating the algorithms described. This adheres to the fundamental principle that scientific publications must facilitate reproducibility of the reported results.
+This document describes a new remote module implemented for the Insight Toolkit (ITK, \url{www.itk.org}), itkBoneMorphometry. This module contains bone analysis filters that compute features from N-dimensional images that represent the internal architecture of bone. The computation of the bone morphometry features in this module is based on well known methods. The two filters contained in this module are itkBoneMorphometryFeaturesFilter. which computes a set of features that describe the whole input image in the form of a feature vector, and itkBoneMorphometryFeaturesImageFilter, which computes an N-D feature map that locally describes the input image (i.e. for every voxel). itkBoneMorphometryFeaturesImageFilter can be configured based in the locality of the desired morphometry features by specifying the neighborhood size. This paper is accompanied by the source code, the  input data, the choice of parameters and the output data that we have used for validating the algorithms described. This adheres to the fundamental principle that scientific publications must facilitate reproducibility of the reported results.
 
 \end{abstract}
 
@@ -476,8 +475,8 @@ In the test case (figure \ref{fig:Scan}), the lower part of the condyle is healt
 The results exposed in this part were obtained by specifying the following parameters (the default parameters were used for the other ones):
 
 \begin{itemize}
- \item Input data: Scan\textunderscore CBCT\textunderscore 13R.nrrd
- \item Input mask: SegmC\textunderscore CBCT\textunderscore 13R.nrrd
+ \item Input data: Scan\textunderscore CBCT\textunderscore 13R.nrrd (\url{https://data.kitware.com/#item/58ebc4cd8d777f16d095fd02})
+ \item Input mask: SegmC\textunderscore CBCT\textunderscore 13R.nrrd  (\url{https://data.kitware.com/#item/58ebc4cd8d777f16d095fd08})
  \item Threshold: 1100
  \item Neighborhood Radius: 6
 \end{itemize}
