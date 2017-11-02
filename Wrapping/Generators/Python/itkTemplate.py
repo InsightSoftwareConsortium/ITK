@@ -61,6 +61,13 @@ class itkTemplate(object):
 
     """This class manages access to available template arguments of a C++ class.
 
+    This class is generic and does not give help on the methods available in
+    the instantiated class. To get help on a specific ITK class, instantiate an
+    object of that class.
+
+    e.g.: median = itk.MedianImageFilter[ImageType, ImageType].New()
+          help(median)
+
     There are two ways to access types:
 
     1. With a dict interface. The user can manipulate template parameters
@@ -269,39 +276,6 @@ class itkTemplate(object):
     def __repr__(self):
         return '<itkTemplate %s>' % self.__name__
 
-    def __getattr__(self, attr):
-        """Support for reading doxygen man pages to produce __doc__ strings."""
-        root = itkTemplate.__doxygen_root__
-        indoc = (attr == '__doc__')
-        if indoc and root != "" and self.__name__.startswith('itk'):
-            try:
-                import commands
-                doxyname = self.__name__.replace("::", "_")
-                man_path = "%s/man3/%s.3" % (root, doxyname)
-                bzman_path = "%s/man3/%s.3.bz2" % (root, doxyname)
-                if os.path.exists(bzman_path):
-                        return (
-                            commands.getoutput(
-                                "bunzip2 --stdout '" + bzman_path +
-                                "' | groff -mandoc -Tascii -c"))
-                elif os.path.exists(man_path):
-                    # Use groff here instead of man because man dies when it is
-                    # passed paths with spaces (!) groff does not.
-                    return (
-                        commands.getoutput(
-                            "groff -mandoc -Tascii -c '" +
-                            man_path + "'"))
-                else:
-                    return (
-                        "Cannot find man page for %s: %s"
-                        % (self.__name__, man_path + "[.bz2]"))
-            except Exception as e:
-                return (
-                    "Cannot display man page for %s due to exception: %s."
-                    % (self.__name__, e))
-        else:
-            self._LoadModules()
-            return object.__getattribute__(self, attr)
 
     def _LoadModules(self):
         """Loads all the module that may have not been loaded by the lazy loading system.
@@ -387,10 +361,7 @@ class itkTemplate(object):
 
         or:
 
-          median = itk.MedianImageFilter.New(reader)
-
-        TODO: Don't call it __call__ as it break the __doc__
-        attribute feature in ipython"""
+          median = itk.MedianImageFilter.New(reader)"""
         import itk
         keys = self.keys()
         cur = itk.auto_pipeline.current
