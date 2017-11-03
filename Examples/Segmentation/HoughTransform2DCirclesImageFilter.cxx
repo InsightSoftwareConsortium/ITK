@@ -176,7 +176,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   HoughTransformFilterType::CirclesListType circles;
-  circles = houghFilter->GetCircles( atoi(argv[3]) );
+  circles = houghFilter->GetCircles();
   std::cout << "Found " << circles.size() << " circle(s)." << std::endl;
   // Software Guide : EndCodeSnippet
 

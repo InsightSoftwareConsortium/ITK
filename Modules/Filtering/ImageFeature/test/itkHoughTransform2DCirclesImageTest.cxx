@@ -185,7 +185,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
   HoughTransformFilterType::CirclesListType circleList =
     houghFilter->GetCircles();
 
-  circleList = houghFilter->GetCircles( circles );
+  circleList = houghFilter->GetCircles();
 
   double radiusTolerance = 2.0;
 

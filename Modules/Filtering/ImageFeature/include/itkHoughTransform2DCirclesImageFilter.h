@@ -125,7 +125,11 @@ public:
   itkGetConstMacro(SigmaGradient, double);
 
   /** Get the list of circles. This recomputes the circles. */
-  CirclesListType & GetCircles(unsigned int n = 0);
+  CirclesListType & GetCircles();
+
+  /** Get the list of circles.
+  * \deprecated Use GetCircles() without arguments instead! */
+  itkLegacyMacro(CirclesListType & GetCircles(unsigned int n));
 
   /** Set/Get the number of circles to extract. */
   itkSetMacro(NumberOfCircles, CirclesListSizeType);
@@ -191,8 +195,6 @@ private:
   float                 m_DiscRadiusRatio;
   float                 m_Variance;
   ModifiedTimeType      m_OldModifiedTime;
-
-  CirclesListSizeType m_OldNumberOfCircles;
 };
 } // end namespace itk
 
