@@ -127,6 +127,10 @@ public:
   /** Get the list of circles. This recomputes the circles. */
   CirclesListType & GetCircles();
 
+  /** Get the list of circles.
+  * \deprecated Use GetCircles() without arguments instead! */
+  itkLegacyMacro(CirclesListType & GetCircles(unsigned int n));
+
   /** Set/Get the number of circles to extract. */
   itkSetMacro(NumberOfCircles, CirclesListSizeType);
   itkGetConstMacro(NumberOfCircles, CirclesListSizeType);
