@@ -38,8 +38,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   m_NumberOfCircles( 1 ),
   m_DiscRadiusRatio( 1 ),
   m_Variance( 10 ),
-  m_OldModifiedTime( 0 ),
-  m_OldNumberOfCircles( 0 )
+  m_OldModifiedTime( 0 )
 {
   this->SetNumberOfRequiredInputs( 1 );
 }
@@ -178,12 +177,12 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 template< typename TInputPixelType, typename TOutputPixelType >
 typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >::CirclesListType &
 HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
-::GetCircles(unsigned int n)
+::GetCircles()
 {
   // Make sure that all the required inputs exist and have a non-null value
   this->VerifyPreconditions();
 
-  if ( ( this->GetMTime() == m_OldModifiedTime ) && ( n == m_OldNumberOfCircles ) )
+  if ( this->GetMTime() == m_OldModifiedTime )
     {
     // If the filter has not been updated
     return m_CirclesList;
@@ -264,7 +263,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     }
 
   m_OldModifiedTime = this->GetMTime();
-  m_OldNumberOfCircles = m_CirclesList.size();
   return m_CirclesList;
 }
 
@@ -298,9 +296,6 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
   os << indent << "OldModifiedTime: "
     << NumericTraits< ModifiedTimeType >::PrintType( m_OldModifiedTime )
-    << std::endl;
-  os << indent << "OldNumberOfCircles: "
-    << NumericTraits< CirclesListSizeType >::PrintType( m_OldNumberOfCircles )
     << std::endl;
 }
 } // end namespace
