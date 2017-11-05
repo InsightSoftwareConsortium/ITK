@@ -170,6 +170,17 @@ DeformableSimplexMesh3DFilter< TInputMesh, TOutputMesh >
   InputPointsContainerConstIterator pointItr = points->Begin();
 
   const GradientImageType * gradientImage = this->GetGradient();
+  if (gradientImage->GetSpacing()[0] != 1.0
+      || gradientImage->GetSpacing()[1] != 1.0
+      || gradientImage->GetSpacing()[2] != 1.0
+      || gradientImage->GetOrigin()[0] != 0.0
+      || gradientImage->GetOrigin()[1] != 0.0
+      || gradientImage->GetOrigin()[2] != 0.0)
+    {
+    itkExceptionMacro("This filter assumes [0,0,0] origin and spacing of [1,1,1]."
+        << " Gradient image has origin: " << gradientImage->GetOrigin()
+        << " and spacing: " << gradientImage->GetSpacing());
+    }
 
   if ( gradientImage )
     {
