@@ -308,8 +308,6 @@ endforeach()
     set_property(TARGET ${lib} PROPERTY
       IMPORTED_LINK_INTERFACE_LIBRARIES
       ${ITKDCMTK_LIBDEP} )
-    # make imported library target depend on external project target
-    add_dependencies(${lib} ${DCMTK_EPNAME})
   endforeach()
 
   if(CMAKE_VERSION VERSION_LESS 3.4)
@@ -358,6 +356,10 @@ endforeach()
     DEPENDS ${JPEG_DEPENDENCY} ${PNG_DEPENDENCY} ${TIFF_DEPENDENCY} ${ICU_DEPENDENCY}
     ${dcmtk_build_byproducts}
     )
+  foreach(lib ${_ITKDCMTK_LIB_NAMES})
+    # make imported library target depend on external project target
+    add_dependencies(${lib} ${DCMTK_EPNAME})
+  endforeach()
 
   # Tell CPack to install DCMTK stuff
   list(APPEND CPACK_INSTALL_CMAKE_PROJECTS
