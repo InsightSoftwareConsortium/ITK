@@ -195,68 +195,71 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
   m_CirclesList.clear();
 
-  // Blur the accumulator in order to find the maximum
-  typedef Image< float, 2 > InternalImageType;
-
-  // The variable "outputImage" is only used as input to gaussianFilter.
-  // It should not be modified, because GetOutput(0) should not be changed.
-  OutputImagePointer outputImage = OutputImageType::New();
-  outputImage->Graft(this->GetOutput(0));
-
-  typedef DiscreteGaussianImageFilter< OutputImageType, InternalImageType > GaussianFilterType;
-  typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
-
-  gaussianFilter->SetInput(outputImage); // The output is the accumulator image
-  double variance[2];
-  variance[0] = m_Variance;
-  variance[1] = m_Variance;
-  gaussianFilter->SetVariance(variance);
-  gaussianFilter->Update();
-  typename InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
-
-  typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
-  typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
-  ImageRegionIterator< InternalImageType > it_input( postProcessImage,
-    postProcessImage->GetLargestPossibleRegion() );
-
-  Index< 2 > index;
-
-  CirclesListSizeType circles = 0;
-
-  // Find maxima
-  // Break out of "forever loop" as soon as the requested number of circles is found.
-  for(;;)
+  if ( m_NumberOfCircles > 0 )
     {
-    minMaxCalculator->SetImage(postProcessImage);
-    minMaxCalculator->ComputeMaximum();
-    const InternalImageType::IndexType indexOfMaximum = minMaxCalculator->GetIndexOfMaximum();
+    // Blur the accumulator in order to find the maximum
+    typedef Image< float, 2 > InternalImageType;
 
-    // Create a Circle Spatial Object
-    CirclePointer Circle = CircleType::New();
-    Circle->SetId(static_cast<int>( circles ));
-    Circle->SetRadius( m_RadiusImage->GetPixel( indexOfMaximum ) );
+    // The variable "outputImage" is only used as input to gaussianFilter.
+    // It should not be modified, because GetOutput(0) should not be changed.
+    OutputImagePointer outputImage = OutputImageType::New();
+    outputImage->Graft(this->GetOutput(0));
 
-    CircleType::VectorType center;
-    center[0] = indexOfMaximum[0];
-    center[1] = indexOfMaximum[1];
-    Circle->GetObjectToParentTransform()->SetOffset(center);
-    Circle->ComputeBoundingBox();
+    typedef DiscreteGaussianImageFilter< OutputImageType, InternalImageType > GaussianFilterType;
+    typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
-    m_CirclesList.push_back(Circle);
+    gaussianFilter->SetInput(outputImage); // The output is the accumulator image
+    double variance[2];
+    variance[0] = m_Variance;
+    variance[1] = m_Variance;
+    gaussianFilter->SetVariance(variance);
+    gaussianFilter->Update();
+    typename InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
-    circles++;
-    if ( circles >= m_NumberOfCircles ) { break; }
+    typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
+    typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
+    ImageRegionIterator< InternalImageType > it_input( postProcessImage,
+      postProcessImage->GetLargestPossibleRegion() );
 
-    // Remove a black disc from the Hough space domain
-    for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
+    Index< 2 > index;
+
+    CirclesListSizeType circles = 0;
+
+    // Find maxima
+    // Break out of "forever loop" as soon as the requested number of circles is found.
+    for(;;)
       {
-      for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
+      minMaxCalculator->SetImage(postProcessImage);
+      minMaxCalculator->ComputeMaximum();
+      const InternalImageType::IndexType indexOfMaximum = minMaxCalculator->GetIndexOfMaximum();
+
+      // Create a Circle Spatial Object
+      CirclePointer Circle = CircleType::New();
+      Circle->SetId(static_cast<int>( circles ));
+      Circle->SetRadius( m_RadiusImage->GetPixel( indexOfMaximum ) );
+
+      CircleType::VectorType center;
+      center[0] = indexOfMaximum[0];
+      center[1] = indexOfMaximum[1];
+      Circle->GetObjectToParentTransform()->SetOffset(center);
+      Circle->ComputeBoundingBox();
+
+      m_CirclesList.push_back(Circle);
+
+      circles++;
+      if ( circles >= m_NumberOfCircles ) { break; }
+
+      // Remove a black disc from the Hough space domain
+      for ( double angle = 0; angle <= 2 * itk::Math::pi; angle += itk::Math::pi / 1000 )
         {
-        index[0] = (IndexValueType)( indexOfMaximum[0] + length * std::cos(angle) );
-        index[1] = (IndexValueType)( indexOfMaximum[1] + length * std::sin(angle) );
-        if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
+        for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
           {
-          postProcessImage->SetPixel(index, 0);
+          index[0] = (IndexValueType)( indexOfMaximum[0] + length * std::cos(angle) );
+          index[1] = (IndexValueType)( indexOfMaximum[1] + length * std::sin(angle) );
+          if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
+            {
+            postProcessImage->SetPixel(index, 0);
+            }
           }
         }
       }
