@@ -29,7 +29,7 @@ static const unsigned int Dimension = 2;
 
 
 template< typename ImageType >
-void CreateCircle( typename ImageType::Pointer image, unsigned int center[Dimension], double radius )
+void CreateCircle( typename ImageType::Pointer image, const unsigned int center[Dimension], double radius )
 {
   typename ImageType::IndexType index = image->GetLargestPossibleRegion().GetIndex();
 
@@ -44,6 +44,39 @@ void CreateCircle( typename ImageType::Pointer image, unsigned int center[Dimens
   }
 }
 
+namespace
+{
+  bool Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero()
+  {
+    typedef unsigned char PixelType;
+
+    typedef itk::Image<PixelType> ImageType;
+
+    // Create an image that has at least one circle.
+    const ImageType::Pointer image = ImageType::New();
+    const ImageType::SizeType size = { { 64, 64 } };
+    image->SetRegions(size);
+    image->Allocate(true);
+    const unsigned int center[] = { 16, 16 };
+    const double radius = 7.0;
+    CreateCircle<ImageType>(image, center, radius);
+
+    typedef itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType > FilterType;
+
+    const FilterType::Pointer filter = FilterType::New();
+
+    filter->SetInput(image);
+    filter->SetNumberOfCircles(0);
+    filter->Update();
+
+    if (!filter->GetCircles().empty())
+    {
+      std::cout << "GetCircles() should return an empty list when NumberOfCircles is set to zero" << std::endl;
+      return false;
+    }
+    return true;
+  }
+}
 
 int itkHoughTransform2DCirclesImageTest( int, char* [] )
 {
@@ -317,6 +350,11 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
                 << centerResult[i][1] << "] -> radius: " << radiusResult[i] << std::endl;
       }
     }
+
+  if (!Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero())
+  {
+    return EXIT_FAILURE;
+  }
 
   std::cout << "Test succeeded!" << std::endl;
   return EXIT_SUCCESS;
