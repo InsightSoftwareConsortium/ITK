@@ -18,7 +18,7 @@ setup(
     packages=['itk'],
     package_dir={'itk': 'itk'},
     download_url=r'https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry',
-    description=r'An TIK module to compute bone morphometry features and feature maps',
+    description=r'An ITK module to compute bone morphometry features and feature maps',
     long_description='ITK is an open-source, cross-platform library that '
                      'provides developers with an extensive suite of software '
                      'tools for image analysis. Developed through extreme '
