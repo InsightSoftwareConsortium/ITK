@@ -12,7 +12,6 @@ set(ITK_WRAP_DOC_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "doc bi
 # the var to store the file produced by doxygen
 set(ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES "" CACHE INTERNAL "man pages produced by doxygen and already installed")
 
-
 ###############################################################################
 macro(itk_wrap_module_DOC library_name)
   set(ITK_WRAP_DOC_DOXYGEN_HEADERS )  # doxygen headers to process in this lib
@@ -51,10 +50,12 @@ macro(itk_wrap_named_class_DOC class swig_name)
       # some simple computations to find the xml file produced for this class
       string(REGEX REPLACE "([A-Z])" "\\1" xmlname ${class})
       string(REGEX REPLACE ":" "_1" xmlname ${xmlname})
+      # Converts camel case names to snake case.
+      string(REGEX REPLACE "([A-Z])" "_\\1" xmlname ${xmlname})
       string(TOLOWER  ${xmlname} xmlname)
-      list(APPEND ITK_WRAP_DOC_DOXYGEN_XML_FILES "${ITK_BINARY_DIR}/Utilities/Doxygen/xml/class${xmlname}.xml")
+      list(APPEND ITK_WRAP_DOC_DOXYGEN_XML_FILES "${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml")
       # the doxy2swig input
-      set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\n${ITK_BINARY_DIR}/Utilities/Doxygen/xml/class${xmlname}.xml\t${class}")
+      set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\n${CMAKE_CURRENT_BINARY_DIR}/Doc/xml/class${xmlname}.xml\t${class}")
       set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT ON)
     endif()
   endif()
@@ -76,7 +77,7 @@ macro(itk_end_wrap_module_DOC)
 
     # configure doxygen input file.
     # be sure to not include a header several times
-    if("${ITK_WRAP_DOC_DOXYGEN_HEADERS}")
+    if(NOT "${ITK_WRAP_DOC_DOXYGEN_HEADERS}" STREQUAL "")
       UNIQUE(headers "${ITK_WRAP_DOC_DOXYGEN_HEADERS}")
     endif()
     set(library_doxygen_config_file ${library_doc_build_dir}/doxygen.config)
@@ -126,7 +127,6 @@ macro(itk_end_wrap_submodule_DOC)
     configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.conf.in"
       "${doxy2swig_config_file}"
       @ONLY)
-
     # run itk_doxy2swig
     set(itk_doxy2swig_py "${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.py")
     set(swig_doc_interface_file ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i)
