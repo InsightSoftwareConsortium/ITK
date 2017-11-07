@@ -25,14 +25,14 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash 48d812ca105d7aa10fdc2d16678f7388)
+    set(_castxml_hash 84c2851a4df419b5834114bbfafa8d3e)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-linux.tar.gz")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash dd0cf24fd9d9a06ed49189f11e72c9f0)
+    set(_castxml_hash b862fcc384b496c0d9a39dea0386454a)
     set(_castxml_url https://midas3.kitware.com/midas/download/bitstream/460537/castxml-windows.zip)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-windows.zip")
     set(_download_castxml_binaries 1)
@@ -40,7 +40,7 @@ else()
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash 5de72fb4970513f805457db9a2c4e6a3)
+    set(_castxml_hash e784aa985f59f57f4d71339bd60e27a8)
     set(_castxml_url "https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${_castxml_hash}&name=castxml-macosx.tar.gz")
     set(_download_castxml_binaries 1)
 
@@ -97,10 +97,11 @@ else()
         itk_download_attempt_check(LLVM)
         itk_download_attempt_check(Clang)
       endif()
-      set(llvm_version 3.7.0)
+      set(llvm_version 5.0.0)
+      set(llvm_md5 e3782305ff4a60ad9bbc3a926425786f)
       ExternalProject_Add(llvm
-        URL https://midas3.kitware.com/midas/download/bitstream/457222/llvm-${llvm_version}.src.tar.gz
-        URL_MD5 255939e1ba0a40d687a683e41323baca
+        URL https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${llvm_md5}&name=llvm-${llvm_version}.src.tar.gz
+        URL_MD5 ${llvm_md5}
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm-${llvm_version}
         CMAKE_ARGS -Wno-dev
         CMAKE_GENERATOR "${CMAKE_GENERATOR}"
@@ -108,17 +109,19 @@ else()
           ${compiler_information}
           -DCMAKE_BUILD_TYPE:STRING=${CMAKE_BUILD_TYPE}
           -DCMAKE_INSTALL_PREFIX:PATH=<INSTALL_DIR>
+          -DLLVM_ENABLE_TERMINFO:BOOL=OFF
           -DLLVM_INCLUDE_TESTS:BOOL=OFF
           -DLLVM_INCLUDE_EXAMPLES:BOOL=OFF
           -DLLVM_INCLUDE_DOCS:BOOL=OFF
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
         )
+      set(clang_md5 79eddb9b1f6e6ee8e9eeff1245d3f359)
       ExternalProject_Add(clang
         # This is the upstream source code repackages in a .tar.gz for
         # compatibility with older CMake. Also the tests/ and doc/ directories
         # are removed to remove symlink files and save space.
-        URL https://midas3.kitware.com/midas/download/bitstream/457221/cfe-${llvm_version}.src.tar.gz
-        URL_MD5 d4290cab76f44be2d38631f819b8c2ec
+        URL https://midas3.kitware.com/midas/api/rest?method=midas.bitstream.download&checksum=${clang_md5}&name=cfe-${llvm_version}.src.tar.gz
+        URL_MD5 ${clang_md5}
         DEPENDS llvm
         SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/cfe-${llvm_version}
         CMAKE_ARGS -Wno-dev
@@ -132,7 +135,7 @@ else()
           -DLLVM_CONFIG:PATH=${CMAKE_CURRENT_BINARY_DIR}/llvm/bin/llvm-config${exe}
         INSTALL_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm
         )
-      set(LLVM_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm/share/llvm/cmake)
+      set(LLVM_DIR ${CMAKE_CURRENT_BINARY_DIR}/llvm/lib/cmake/llvm/)
       set(castxml_deps llvm clang)
     endif()
 
@@ -142,8 +145,8 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2017-04-18
-      GIT_TAG fab9c47d251a7973eed066d3eec3b83bcf9d0582
+      # CastXML master, 2017-11-06
+      GIT_TAG 3a81f3cc3060be86064ba2e666d30b0c358cc847
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
