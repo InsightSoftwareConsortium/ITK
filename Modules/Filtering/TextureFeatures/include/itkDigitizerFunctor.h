@@ -19,6 +19,7 @@
 #define itkDigitizerFunctor_h
 
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 namespace itk
 {
