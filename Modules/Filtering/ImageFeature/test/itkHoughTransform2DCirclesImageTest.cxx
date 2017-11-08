@@ -76,10 +76,47 @@ namespace
     }
     return true;
   }
+
+
+  bool Test_GetCircles_should_return_empty_list_when_input_image_is_uniform()
+  {
+    typedef unsigned char PixelType;
+
+    typedef itk::Image<PixelType> ImageType;
+
+    typedef itk::HoughTransform2DCirclesImageFilter< PixelType, PixelType > FilterType;
+
+    const FilterType::Pointer filter = FilterType::New();
+
+    // Create an input image for the filter.
+    const ImageType::Pointer image = ImageType::New();
+    const ImageType::SizeType size = { { 32, 32 } };
+    image->SetRegions(size);
+    image->Allocate();
+
+    filter->SetInput(image);
+
+    // Test for uniform input images of pixel value 0, 1, and 2 (which should be sufficient).
+    for (PixelType pixelValue = 0; pixelValue <= 2; ++pixelValue)
+    {
+      image->FillBuffer(pixelValue);
+      image->Modified();
+      filter->Update();
+
+      if (!filter->GetCircles().empty())
+      {
+        std::cout << "GetCircles() should return an empty list when the input image is uniform" << std::endl;
+        return false;
+      }
+    }
+
+    return true;
+  }
 }
 
 int itkHoughTransform2DCirclesImageTest( int, char* [] )
 {
+  bool success = true;
 
   // Declare the pixel types of the images
   typedef unsigned char                           PixelType;
@@ -235,7 +272,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
       {
       std::cout << "Failure for circle #" << i << std::endl;
       std::cout << "Expected radius: " << radius[i] << ", found " << it->GetPointer()->GetRadius() << std::endl;
-      return EXIT_FAILURE;
+      success = false;
       }
     else
       {
@@ -342,7 +379,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
       std::cout << "Expected center: [" << center[i][0] << ", " << center[i][1]
                 << "], found [" << centerResult[i][0] << ", " << centerResult[i][1] << "]" << std::endl;
       std::cout << "Excpected radius: " << radius[i] << ", found " << radiusResult[i] << std::endl;
-      return EXIT_FAILURE;
+      success = false;
       }
     else
       {
@@ -351,11 +388,17 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
       }
     }
 
-  if (!Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero())
+  success &= Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero();
+  success &= Test_GetCircles_should_return_empty_list_when_input_image_is_uniform();
+
+  if (success)
   {
+    std::cout << "Test succeeded!" << std::endl;
+    return EXIT_SUCCESS;
+  }
+  else
+  {
+    std::cout << "Test FAILED!" << std::endl;
     return EXIT_FAILURE;
   }
-
-  std::cout << "Test succeeded!" << std::endl;
-  return EXIT_SUCCESS;
 }
