@@ -14,6 +14,8 @@
 #ifndef GDCMSEGMENTHELPER_H
 #define GDCMSEGMENTHELPER_H
 
+#include "gdcmTypes.h"
+
 #include <string>
 
 namespace gdcm
@@ -27,7 +29,7 @@ namespace SegmentHelper
   *
   * \see  PS 3.3 section 8.8.
   */
-struct BasicCodedEntry
+struct GDCM_EXPORT BasicCodedEntry
 {
   /**
     * \brief Constructor.

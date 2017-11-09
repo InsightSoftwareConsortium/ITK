@@ -47,7 +47,7 @@ JLS_ERROR CheckParameterCoherent(const JlsParameters* pparams)
 	if (pparams->bitspersample < 2 || pparams->bitspersample > 16)
 		return ParameterValueNotSupported;
 
-	if (pparams->ilv < 0 || pparams->ilv > 2)
+	if (/*pparams->ilv < 0 ||*/ pparams->ilv > 2)
 		return InvalidCompressedData;
 
 	switch (pparams->components)

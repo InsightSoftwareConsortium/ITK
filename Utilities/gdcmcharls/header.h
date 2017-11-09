@@ -7,7 +7,6 @@
 #define CHARLS_HEADER
 
 #include "jpegmarker.h"
-#include "encoderstrategy.h"
 
 // JPEG Marker codes have the pattern 0xFFaa. The valid 'aa' options are defined by several ITU / IEC standards.
 // 0x00, 0x01, 0xFE, 0xC0-0xDF are defined in ITU T.81/IEC 10918-1
@@ -62,17 +61,6 @@ public:
 private:
 	STRATEGY* GetCodecImpl(const JlsParameters& info);
 };
-
-
-#if defined(__clang__)
-# define CHARLS_CLANG_VERSION (__clang_major__ * 100 + __clang_minor__)
-# define CHARLS_USE_EXTERN_TEMPLATES (CHARLS_CLANG_VERSION >= 209)
-#endif
-
-#if CHARLS_USE_EXTERN_TEMPLATES
-extern template class JlsCodecFactory<EncoderStrategy>;
-extern template class JlsCodecFactory<DecoderStrategy>;
-#endif
 
 JLS_ERROR CheckParameterCoherent(const JlsParameters* pparams);
 
