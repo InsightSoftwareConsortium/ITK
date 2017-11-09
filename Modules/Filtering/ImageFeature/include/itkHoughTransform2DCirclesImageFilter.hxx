@@ -231,6 +231,16 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
       {
       minMaxCalculator->SetImage(postProcessImage);
       minMaxCalculator->ComputeMaximum();
+
+      if ( minMaxCalculator->GetMaximum() <= 0 )
+        {
+        // When all pixel values in 'postProcessImage' are zero or less, no more circles
+        // should be found. Note that a zero in 'postProcessImage' might correspond to a
+        // zero in the accumulator image, or it might be that the pixel is within a
+        // removed disc around a previously found circle center.
+        break;
+        }
+
       const InternalImageType::IndexType indexOfMaximum = minMaxCalculator->GetIndexOfMaximum();
 
       // Create a Circle Spatial Object
