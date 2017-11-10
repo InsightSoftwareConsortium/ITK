@@ -19,7 +19,13 @@ provides filters that `quantify bone morphometry
 <http://www.b-cube.ch/index.php?option=com_content&view=article&id=22&Itemid=20>`_.
 from computed tomography (CT) images.
 
-This module is currently a work in progress.
+For more information, see the `Insight Journal article <http://hdl.handle.net/10380/3588>`_::
+
+  Vimort J., McCormick M., Paniagua B.
+  Computing Bone Morphometric Feature Maps from 3-Dimensional Images
+  The Insight Journal. January-December. 2017.
+  http://hdl.handle.net/10380/3588
+  http://insight-journal.org/browse/publication/988
 
 Installation
 ------------
