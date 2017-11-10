@@ -134,8 +134,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
           do
             {
-            index[0] = (IndexValueType)( point[0] - i * ( Vx * std::cos(angle) + Vy * std::sin(angle) ) );
-            index[1] = (IndexValueType)( point[1] - i * ( Vx * std::sin(angle) + Vy * std::cos(angle) ) );
+            index[0] = Math::Round<IndexValueType>( point[0] - i * ( Vx * std::cos(angle) + Vy * std::sin(angle) ) );
+            index[1] = Math::Round<IndexValueType>( point[1] - i * ( Vx * std::sin(angle) + Vy * std::cos(angle) ) );
 
             distance = std::sqrt( ( index[1] - point[1] ) * ( index[1] - point[1] )
                                  + ( index[0] - point[0] ) * ( index[0] - point[0] ) );
@@ -264,8 +264,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
         {
         for ( double length = 0; length < m_DiscRadiusRatio * Circle->GetRadius()[0]; length += 1 )
           {
-          index[0] = (IndexValueType)( indexOfMaximum[0] + length * std::cos(angle) );
-          index[1] = (IndexValueType)( indexOfMaximum[1] + length * std::sin(angle) );
+          index[0] = Math::Round<IndexValueType>( indexOfMaximum[0] + length * std::cos(angle) );
+          index[1] = Math::Round<IndexValueType>( indexOfMaximum[1] + length * std::sin(angle) );
           if ( postProcessImage->GetLargestPossibleRegion().IsInside(index) )
             {
             postProcessImage->SetPixel(index, 0);

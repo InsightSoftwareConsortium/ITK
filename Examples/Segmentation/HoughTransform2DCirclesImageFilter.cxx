@@ -230,10 +230,10 @@ int main( int argc, char *argv[] )
     for(double angle = 0;angle <= 2*itk::Math::pi; angle += itk::Math::pi/60.0 )
       {
       localIndex[0] =
-         (long int)((*itCircles)->GetObjectToParentTransform()->GetOffset()[0]
+         itk::Math::Round<long int>((*itCircles)->GetObjectToParentTransform()->GetOffset()[0]
                     + (*itCircles)->GetRadius()[0]*std::cos(angle));
       localIndex[1] =
-         (long int)((*itCircles)->GetObjectToParentTransform()->GetOffset()[1]
+         itk::Math::Round<long int>((*itCircles)->GetObjectToParentTransform()->GetOffset()[1]
                     + (*itCircles)->GetRadius()[0]*std::sin(angle));
       OutputImageType::RegionType outputRegion =
                                   localOutputImage->GetLargestPossibleRegion();
