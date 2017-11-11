@@ -30,6 +30,7 @@ int itkByteSwapTest ( int, char*[] )
   unsigned short us = 1, us1 = 1;
   unsigned int ui = 1, ui1 = 1;
   unsigned long ul = 1, ul1 = 1;
+  unsigned long long ull = 1, ull1 = 1;
   float f = 1.0, f1 = 1.0;
   double d = 1.0, d1 = 1.0;
 
@@ -115,6 +116,31 @@ int itkByteSwapTest ( int, char*[] )
   catch ( itk::ExceptionObject &err )
     {
     std::cout << "Caught unsigned long exception size is: " << sizeof ( unsigned long ) << std::endl;
+    (&err)->Print(std::cerr);
+    }
+
+
+  try
+    {
+    if ( itk::ByteSwapper<long>::SystemIsBigEndian() )
+      {
+      itk::ByteSwapper<unsigned long long>::SwapFromSystemToLittleEndian ( &ull );
+      itk::ByteSwapper<unsigned long long>::SwapFromSystemToLittleEndian ( &ull );
+      }
+    else
+      {
+      itk::ByteSwapper<unsigned long long>::SwapFromSystemToBigEndian ( &ull );
+      itk::ByteSwapper<unsigned long long>::SwapFromSystemToBigEndian ( &ull );
+      }
+    if ( ull != ull1 )
+      {
+      return EXIT_FAILURE;
+      }
+    std::cout << "Passed unsigned long long: " << ull << std::endl;
+    }
+  catch ( itk::ExceptionObject &err )
+    {
+    std::cout << "Caught unsigned long long exception size is: " << sizeof ( unsigned long long ) << std::endl;
     (&err)->Print(std::cerr);
     }
 

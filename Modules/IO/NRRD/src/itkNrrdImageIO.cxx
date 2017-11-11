@@ -78,20 +78,17 @@ NrrdImageIO::NrrdToITKComponentType(const int nrrdComponentType) const
     case nrrdTypeUShort:
       return USHORT;
 
-    // "long" is a silly type because it basically guaranteed not to be
-    // cross-platform across 32-vs-64 bit machines, but we'll use it
-    // where possible.
-    case nrrdTypeLLong:
-      return (4 == sizeof(long) ) ? UNKNOWNCOMPONENTTYPE : LONG;
-
-    case nrrdTypeULLong:
-      return (4 == sizeof(long) ) ? UNKNOWNCOMPONENTTYPE : ULONG;
-
     case nrrdTypeInt:
       return INT;
 
     case nrrdTypeUInt:
       return UINT;
+
+    case nrrdTypeLLong:
+      return LONGLONG;
+
+    case nrrdTypeULLong:
+      return ULONGLONG;
 
     case nrrdTypeFloat:
       return FLOAT;
@@ -138,6 +135,12 @@ NrrdImageIO::ITKToNrrdComponentType(const ImageIOBase::IOComponentType itkCompon
 
     case UINT:
       return nrrdTypeUInt;
+
+    case LONGLONG:
+      return nrrdTypeLLong;
+
+    case ULONGLONG:
+      return nrrdTypeULLong;
 
     case FLOAT:
       return nrrdTypeFloat;

@@ -58,6 +58,8 @@ int itkMetaDataObjectTest( int , char * [] )
   result += testMetaData< int >( -24 );
   result += testMetaData< unsigned long >( 24 );
   result += testMetaData< long >( -24 );
+  result += testMetaData< unsigned long long >( 24 );
+  result += testMetaData< long long >( -24 );
   result += testMetaData< float >( -24 );
   result += testMetaData< double >( -24 );
   result += testMetaData< std::string >( "I T K" );

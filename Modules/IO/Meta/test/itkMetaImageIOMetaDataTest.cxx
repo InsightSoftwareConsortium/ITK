@@ -203,6 +203,16 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
   itk::EncapsulateMetaData<unsigned long>(dict,key,value);
   }
   {
+  // Add long long
+  std::string key("long_long"); long long value(-8589934592);
+  itk::EncapsulateMetaData<long long>(dict,key,value);
+  }
+  {
+  // Add unsigned long long
+  std::string key("unsigned_long_long"); unsigned long long value(8589934592);
+  itk::EncapsulateMetaData<unsigned long long>(dict,key,value);
+  }
+  {
   // Add int
   std::string key("int"); int value(-3141592);
   itk::EncapsulateMetaData<int>(dict,key,value);
@@ -263,6 +273,16 @@ itkMetaImageIOMetaDataTest(int argc, char * argv [] )
     }
   // Add unsigned long
   if(!TestMatch< unsigned long >(dict,"unsigned_long",27182818))
+    {
+    return 1; // error
+    }
+  // Add long long
+  if(!TestMatch< long long >(dict,"long_long",-8589934592))
+    {
+    return 1; // error
+    }
+  // Add unsigned long long
+  if(!TestMatch< unsigned long long >(dict,"unsigned_long_long",8589934592))
     {
     return 1; // error
     }

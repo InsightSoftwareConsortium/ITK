@@ -131,9 +131,10 @@ int itkImageIOBaseTest( int , char * [] )
                                                            itk::ImageIOBase::USHORT, itk::ImageIOBase::SHORT,
                                                            itk::ImageIOBase::UINT, itk::ImageIOBase::INT,
                                                            itk::ImageIOBase::ULONG, itk::ImageIOBase::LONG,
+                                                           itk::ImageIOBase::ULONGLONG, itk::ImageIOBase::LONGLONG,
                                                            itk::ImageIOBase::FLOAT, itk::ImageIOBase::DOUBLE};
   const char* listComponentTypeString[] = {"unknown", "unsigned_char", "char", "unsigned_short", "short", "unsigned_int", "int",
-                                           "unsigned_long", "long", "float", "double"};
+                                           "unsigned_long", "long", "unsigned_long_long", "long_long", "float", "double"};
   itk::ImageIOBase::IOPixelType listIOPixelType[] = {itk::ImageIOBase::UNKNOWNPIXELTYPE,itk::ImageIOBase::SCALAR,
                                                      itk::ImageIOBase::RGB, itk::ImageIOBase::RGBA,
                                                      itk::ImageIOBase::OFFSET, itk::ImageIOBase::VECTOR,

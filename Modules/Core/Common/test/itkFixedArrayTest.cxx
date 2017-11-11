@@ -138,6 +138,8 @@ int itkFixedArrayTest(int, char* [] )
       TRY_INDEX_CONST(unsigned int);
       TRY_INDEX_CONST(long);
       TRY_INDEX_CONST(unsigned long);
+      TRY_INDEX_CONST(long long);
+      TRY_INDEX_CONST(unsigned long long);
 #define TRY_INDEX(T) {T in = 10; array20[in] = 10;}
       TRY_INDEX(short);
       TRY_INDEX(unsigned short);
@@ -145,5 +147,7 @@ int itkFixedArrayTest(int, char* [] )
       TRY_INDEX(unsigned int);
       TRY_INDEX(long);
       TRY_INDEX(unsigned long);
+      TRY_INDEX(long long);
+      TRY_INDEX(unsigned long long);
   return EXIT_SUCCESS;
 }

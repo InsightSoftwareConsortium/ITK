@@ -631,6 +631,12 @@ void NiftiImageIO::Read(void *buffer)
       case ULONG:
         CastCopy< unsigned long >(_data, data, imageSizeInComponents);
         break;
+      case LONGLONG:
+        CastCopy< long long >(_data, data, imageSizeInComponents);
+        break;
+      case ULONGLONG:
+        CastCopy< unsigned long long >(_data, data, imageSizeInComponents);
+        break;
       case FLOAT:
         itkExceptionMacro(<< "FLOAT pixels do not need Casting to float");
       case DOUBLE:
@@ -771,6 +777,16 @@ void NiftiImageIO::Read(void *buffer)
         break;
       case ULONG:
         RescaleFunction(static_cast< unsigned long * >( buffer ),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept, numElts);
+        break;
+      case LONGLONG:
+        RescaleFunction(static_cast< long long * >( buffer ),
+                        this->m_RescaleSlope,
+                        this->m_RescaleIntercept, numElts);
+        break;
+      case ULONGLONG:
+        RescaleFunction(static_cast< unsigned long long * >( buffer ),
                         this->m_RescaleSlope,
                         this->m_RescaleIntercept, numElts);
         break;
@@ -1090,6 +1106,30 @@ NiftiImageIO
       this->m_ComponentType = UINT;
       this->m_PixelType = SCALAR;
       break;
+    case NIFTI_TYPE_INT64:
+      // if long is big enough, use long
+      if(sizeof(long) == 8)
+      {
+          this->m_ComponentType = LONG;
+      }
+      else // long long is at least 64bits
+      {
+          this->m_ComponentType = LONGLONG;
+      }
+      this->m_PixelType = SCALAR;
+      break;
+    case NIFTI_TYPE_UINT64:
+      // if unsigned long is big enough, use unsigned long
+      if(sizeof(unsigned long) == 8)
+      {
+          this->m_ComponentType = ULONG;
+      }
+      else // unsigned long long is at least 64bits
+      {
+          this->m_ComponentType = ULONGLONG;
+      }
+      this->m_PixelType = SCALAR;
+      break;
     case NIFTI_TYPE_FLOAT32:
       this->m_ComponentType = FLOAT;
       this->m_PixelType = SCALAR;
@@ -1208,7 +1248,9 @@ NiftiImageIO
          || this->m_ComponentType == INT
          || this->m_ComponentType == UINT
          || this->m_ComponentType == LONG
-         || this->m_ComponentType == ULONG )
+         || this->m_ComponentType == ULONG
+         || this->m_ComponentType == LONGLONG
+         || this->m_ComponentType == ULONGLONG  )
       {
       this->m_ComponentType = FLOAT;
       }
@@ -1556,15 +1598,53 @@ NiftiImageIO
       this->m_NiftiImage->datatype = NIFTI_TYPE_INT16;
       this->m_NiftiImage->nbyper = 2;
       break;
-    case ULONG:
     case UINT:
       this->m_NiftiImage->datatype = NIFTI_TYPE_UINT32;
       this->m_NiftiImage->nbyper = 4;
       break;
-    case LONG:
     case INT:
       this->m_NiftiImage->datatype = NIFTI_TYPE_INT32;
       this->m_NiftiImage->nbyper = 4;
+      break;
+    case ULONG:
+      switch(sizeof(unsigned long))
+      {
+        case 4:
+          this->m_NiftiImage->datatype = NIFTI_TYPE_UINT32;
+          this->m_NiftiImage->nbyper = 4;
+          break;
+        case 8:
+          this->m_NiftiImage->datatype = NIFTI_TYPE_UINT64;
+          this->m_NiftiImage->nbyper = 8;
+          break;
+        default:
+          itkExceptionMacro(
+            << "'unsigned long' type is neither 32 or 64 bits.");
+      }
+      break;
+    case LONG:
+      switch(sizeof(long))
+      {
+        case 4:
+          this->m_NiftiImage->datatype = NIFTI_TYPE_INT32;
+          this->m_NiftiImage->nbyper = 4;
+          break;
+        case 8:
+          this->m_NiftiImage->datatype = NIFTI_TYPE_INT64;
+          this->m_NiftiImage->nbyper = 8;
+          break;
+        default:
+          itkExceptionMacro(
+            << "'long' type is neither 32 or 64 bits.");
+      }
+      break;
+    case ULONGLONG:
+      this->m_NiftiImage->datatype = NIFTI_TYPE_UINT64;
+      this->m_NiftiImage->nbyper = 8;
+      break;
+    case LONGLONG:
+      this->m_NiftiImage->datatype = NIFTI_TYPE_INT64;
+      this->m_NiftiImage->nbyper = 8;
       break;
     case FLOAT:
       this->m_NiftiImage->datatype = NIFTI_TYPE_FLOAT32;

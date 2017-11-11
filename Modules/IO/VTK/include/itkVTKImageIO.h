@@ -142,6 +142,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageIO);
   void SetPixelTypeFromString(const std::string & pixelType);
+  std::string GetComponentTypeAsString(IOComponentType);
 
   /** Return the number of pixels in the IOregion. */
   SizeType GetIORegionSizeInPixels() const;

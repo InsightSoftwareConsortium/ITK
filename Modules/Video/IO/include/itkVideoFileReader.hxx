@@ -324,6 +324,8 @@ DoConvertBuffer(void* inputData, FrameOffsetType frameNumber)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::INT,int)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONG,unsigned long)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONG,long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONGLONG,unsigned long long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONGLONG,long long)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::FLOAT,float)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::DOUBLE,double)
   else

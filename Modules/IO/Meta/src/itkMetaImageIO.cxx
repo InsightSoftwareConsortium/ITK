@@ -99,6 +99,8 @@ void MetaImageIO::ReadImageInformation()
 
   this->SetNumberOfComponents( m_MetaImage.ElementNumberOfChannels() );
 
+  // Set default value
+  this->SetComponentType(UNKNOWNCOMPONENTTYPE);
   itk::MetaDataDictionary & thisMetaDict = this->GetMetaDataDictionary();
   switch ( m_MetaImage.ElementType() )
     {
@@ -232,62 +234,62 @@ void MetaImageIO::ReadImageInformation()
       break;
     case MET_LONG_LONG:
       this->SetPixelType(SCALAR);
-      if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG_LONG] )
+      if ( sizeof( long long ) == MET_ValueTypeSize[MET_LONG_LONG] )
         {
-        this->SetComponentType(LONG);
+        this->SetComponentType(LONGLONG);
         }
       else if ( sizeof( int ) == MET_ValueTypeSize[MET_LONG_LONG] )
         {
         this->SetComponentType(INT);
         }
-      else
+      else if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG_LONG] )
         {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
+        this->SetComponentType(LONG);
         }
       break;
     case MET_LONG_LONG_ARRAY:
       this->SetPixelType(VECTOR);
-      if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG_LONG] )
+      if ( sizeof( long long ) == MET_ValueTypeSize[MET_LONG_LONG] )
         {
-        this->SetComponentType(LONG);
+        this->SetComponentType(LONGLONG);
         }
       else if ( sizeof( int ) == MET_ValueTypeSize[MET_LONG_LONG] )
         {
         this->SetComponentType(INT);
         }
-      else
+      else if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG_LONG] )
         {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
+        this->SetComponentType(LONG);
         }
       break;
     case MET_ULONG_LONG:
       this->SetPixelType(SCALAR);
-      if ( sizeof( unsigned long ) == MET_ValueTypeSize[MET_ULONG_LONG] )
+      if ( sizeof( unsigned long long ) == MET_ValueTypeSize[MET_ULONG_LONG] )
         {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(ULONGLONG);
         }
       else if ( sizeof( unsigned int ) == MET_ValueTypeSize[MET_ULONG_LONG] )
         {
         this->SetComponentType(UINT);
         }
-      else
+      else if ( sizeof( unsigned long ) == MET_ValueTypeSize[MET_ULONG_LONG] )
         {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
+        this->SetComponentType(ULONG);
         }
       break;
     case MET_ULONG_LONG_ARRAY:
       this->SetPixelType(VECTOR);
-      if ( sizeof( unsigned long ) == MET_ValueTypeSize[MET_ULONG_LONG] )
+      if ( sizeof( unsigned long long ) == MET_ValueTypeSize[MET_ULONG_LONG] )
         {
-        this->SetComponentType(ULONG);
+        this->SetComponentType(ULONGLONG);
         }
       else if ( sizeof( unsigned int ) == MET_ValueTypeSize[MET_ULONG_LONG] )
         {
         this->SetComponentType(UINT);
         }
-      else
+      else if ( sizeof( unsigned long ) == MET_ValueTypeSize[MET_ULONG_LONG] )
         {
-        this->SetComponentType(UNKNOWNCOMPONENTTYPE);
+        this->SetComponentType(ULONG);
         }
       break;
     case MET_FLOAT:
@@ -523,6 +525,7 @@ void
 MetaImageIO
 ::WriteImageInformation(void)
 {
+
   MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
   std::string          metaDataStr;
 
@@ -570,6 +573,8 @@ MetaImageIO
     float fval=0.0F;
     long lval=0L;
     unsigned long ulval=0L;
+    long long llval=0LL;
+    unsigned long long ullval=0uLL;
     int ival=0;
     unsigned uval=0;
     short shval=0;
@@ -597,6 +602,14 @@ MetaImageIO
     else if(ExposeMetaData<unsigned long>(metaDict,*keyIt,ulval))
       {
       strs << ulval;
+      }
+    else if(ExposeMetaData<long long>(metaDict,*keyIt,llval))
+      {
+      strs << llval;
+      }
+    else if(ExposeMetaData<unsigned long long>(metaDict,*keyIt,ullval))
+      {
+      strs << ullval;
       }
     else if(ExposeMetaData<int>(metaDict,*keyIt,ival))
       {
@@ -711,6 +724,19 @@ MetaImageIO
         eType = MET_UINT;
         }
       else if ( sizeof( long ) == MET_ValueTypeSize[MET_LONG_LONG] )
+        {
+        eType = MET_ULONG_LONG;
+        }
+      break;
+    case LONGLONG:
+
+      if ( sizeof( long long ) == MET_ValueTypeSize[MET_LONG_LONG] )
+        {
+        eType = MET_LONG_LONG;
+        }
+      break;
+    case ULONGLONG:
+      if ( sizeof( long long) == MET_ValueTypeSize[MET_ULONG_LONG] )
         {
         eType = MET_ULONG_LONG;
         }

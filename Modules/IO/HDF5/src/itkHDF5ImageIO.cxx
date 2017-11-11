@@ -130,13 +130,21 @@ PredTypeToComponentType(H5::DataType &type)
     {
     return ImageIOBase::INT;
     }
-  else if(type ==  H5::PredType::NATIVE_ULLONG)
+  else if(type ==  H5::PredType::NATIVE_ULONG)
     {
     return ImageIOBase::ULONG;
     }
-  else if(type ==  H5::PredType::NATIVE_LLONG)
+  else if(type ==  H5::PredType::NATIVE_LONG)
     {
     return ImageIOBase::LONG;
+    }
+  else if(type ==  H5::PredType::NATIVE_LLONG)
+    {
+    return ImageIOBase::LONGLONG;
+    }
+  else if(type ==  H5::PredType::NATIVE_ULLONG)
+    {
+    return ImageIOBase::ULONGLONG;
     }
   else if(type ==  H5::PredType::NATIVE_FLOAT)
     {
@@ -146,30 +154,7 @@ PredTypeToComponentType(H5::DataType &type)
     {
     return ImageIOBase::DOUBLE;
     }
-  else if(type ==  H5::PredType::NATIVE_ULONG)
-    {
-    if(sizeof(unsigned int) == sizeof(unsigned long))
-      {
-      return ImageIOBase::UINT;
-      }
-    else if(sizeof(unsigned int) == sizeof(unsigned long long))
-      {
-      return ImageIOBase::ULONG;
-      }
-    }
-  else if(type ==  H5::PredType::NATIVE_LONG)
-    {
-    if(sizeof(int) == sizeof(long))
-      {
-      return ImageIOBase::INT;
-      }
-    else if(sizeof(int) == sizeof(long long))
-      {
-      return ImageIOBase::LONG;
-      }
-    }
-  itkGenericExceptionMacro(<< "unsupported data type "
-                           << type.fromClass());
+  itkGenericExceptionMacro(<< "unsupported HDF5 data type with id " << type.getId());
 }
 
 H5::PredType
@@ -193,6 +178,10 @@ ComponentToPredType(ImageIOBase::IOComponentType cType)
       return H5::PredType::NATIVE_ULONG;
     case ImageIOBase::LONG:
       return H5::PredType::NATIVE_LONG;
+    case ImageIOBase::ULONGLONG:
+      return H5::PredType::NATIVE_ULLONG;
+    case ImageIOBase::LONGLONG:
+      return H5::PredType::NATIVE_LLONG;
     case ImageIOBase::FLOAT:
       return H5::PredType::NATIVE_FLOAT;
     case ImageIOBase::DOUBLE:
@@ -235,6 +224,12 @@ ComponentToString(ImageIOBase::IOComponentType cType)
       break;
     case ImageIOBase::LONG:
       rval = "LONG";
+      break;
+    case ImageIOBase::ULONGLONG:
+      rval = "ULONGLONG";
+      break;
+    case ImageIOBase::LONGLONG:
+      rval = "LONGLONG";
       break;
     case ImageIOBase::FLOAT:
       rval = "FLOAT";
@@ -310,9 +305,9 @@ HDF5ImageIO
                           scalarSpace);
   //
   // HDF5 can't distinguish
-  // between bool and int datasets
+  // between long and int datasets
   // in a disk file. So add an attribute
-  // labeling this as a bool
+  // labeling this as a long.
   const std::string isLongName("isLong");
   H5::Attribute isLong =
     scalarSet.createAttribute(isLongName,
@@ -343,9 +338,9 @@ HDF5ImageIO
                           scalarSpace);
   //
   // HDF5 can't distinguish
-  // between bool and int datasets
+  // between unsigned long and unsigned int datasets
   // in a disk file. So add an attribute
-  // labeling this as a bool
+  // labeling this as an unsigned long.
   const std::string isUnsignedLongName("isUnsignedLong");
   H5::Attribute isUnsignedLong =
     scalarSet.createAttribute(isUnsignedLongName,
@@ -357,6 +352,70 @@ HDF5ImageIO
   int tempVal = static_cast<int>(value);
   scalarSet.write(&tempVal,scalarType);
   scalarSet.close();
+}
+
+void
+HDF5ImageIO
+::WriteScalar(const std::string &path,
+              const long long &value)
+{
+  hsize_t numScalars(1);
+  H5::DataSpace scalarSpace(1,&numScalars);
+  H5::PredType scalarType =
+    H5::PredType::STD_I64LE;
+  H5::PredType attrType =
+    H5::PredType::NATIVE_HBOOL;
+  H5::DataSet scalarSet =
+    this->m_H5File->createDataSet(path,
+                          scalarType,
+                          scalarSpace);
+  //
+  // HDF5 can't distinguish
+  // between long and long long datasets
+  // in a disk file. So add an attribute
+  // labeling this as a long long
+  const std::string isLLongName("isLLong");
+  H5::Attribute isLLong =
+    scalarSet.createAttribute(isLLongName,
+                               attrType,
+                               scalarSpace);
+  bool trueVal(true);
+  isLLong.write(attrType,&trueVal);
+  isLLong.close();
+  scalarSet.write(&value,scalarType);
+  scalarSet.close();
+}
+
+void
+HDF5ImageIO
+::WriteScalar(const std::string &path,
+              const unsigned long long &value)
+{
+    hsize_t numScalars(1);
+    H5::DataSpace scalarSpace(1,&numScalars);
+    H5::PredType scalarType =
+      H5::PredType::STD_U64LE;
+    H5::PredType attrType =
+      H5::PredType::NATIVE_HBOOL;
+    H5::DataSet scalarSet =
+      this->m_H5File->createDataSet(path,
+                            scalarType,
+                            scalarSpace);
+    //
+    // HDF5 can't distinguish
+    // between unsigned long and unsigned long long
+    // datasets in a disk file. So add an attribute
+    // labeling this as a unsigned long long
+    const std::string isULLongName("isULLong");
+    H5::Attribute isULLong =
+      scalarSet.createAttribute(isULLongName,
+                                 attrType,
+                                 scalarSpace);
+    bool trueVal(true);
+    isULLong.write(attrType,&trueVal);
+    isULLong.close();
+    scalarSet.write(&value,scalarType);
+    scalarSet.close();
 }
 
 template <typename TScalar>
@@ -904,17 +963,33 @@ HDF5ImageIO
         }
       else if(metaDataType == H5::PredType::NATIVE_LONG)
         {
-        this->StoreMetaData<long>(&metaDict,
-                                  localMetaDataName,
-                                  name,
-                                  metaDataDims[0]);
+        if(doesAttrExist(metaDataSet,"isLLong"))
+            {
+            long long val = this->ReadScalar<long long>(localMetaDataName);
+            EncapsulateMetaData<long long>(metaDict,name,val);
+            }
+        else
+            {
+            this->StoreMetaData<long>(&metaDict,
+                                      localMetaDataName,
+                                      name,
+                                      metaDataDims[0]);
+            }
         }
       else if(metaDataType == H5::PredType::NATIVE_ULONG)
         {
-        this->StoreMetaData<unsigned long>(&metaDict,
-                                           localMetaDataName,
-                                           name,
-                                           metaDataDims[0]);
+        if(doesAttrExist(metaDataSet,"isULLong"))
+            {
+            unsigned long long val = this->ReadScalar<unsigned long long>(localMetaDataName);
+            EncapsulateMetaData<unsigned long long>(metaDict,name,val);
+            }
+        else
+            {
+            this->StoreMetaData<unsigned long>(&metaDict,
+                                               localMetaDataName,
+                                               name,
+                                               metaDataDims[0]);
+            }
         }
       else if(metaDataType == H5::PredType::NATIVE_LLONG)
         {

@@ -170,6 +170,36 @@ int itkNiftiImageIOTest(int ac, char* av[])
           std::cerr << "Error writing Nifti file type int" << std::endl;
           rval += cur_return;
         }
+      cur_return = MakeNiftiImage<unsigned int>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Nifti file type unsigned int" << std::endl;
+          rval += cur_return;
+        }
+      cur_return = MakeNiftiImage<long>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Nifti file type long" << std::endl;
+          rval += cur_return;
+        }
+      cur_return = MakeNiftiImage<unsigned long>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Nifti file type unsigned long" << std::endl;
+          rval += cur_return;
+        }
+      cur_return = MakeNiftiImage<long long>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Nifti file type long long" << std::endl;
+          rval += cur_return;
+        }
+      cur_return = MakeNiftiImage<unsigned long long>();
+      if(cur_return != 0)
+        {
+          std::cerr << "Error writing Nifti file type unsigned long long" << std::endl;
+          rval += cur_return;
+        }
       cur_return = MakeNiftiImage<float>();
       if(cur_return != 0)
         {

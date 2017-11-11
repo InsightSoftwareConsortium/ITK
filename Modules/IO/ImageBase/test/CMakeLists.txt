@@ -35,6 +35,7 @@ itkNoiseImageFilterTest.cxx
 itkMatrixImageWriteReadTest.cxx
 itkReadWriteImageWithDictionaryTest.cxx
 itkVectorImageReadWriteTest.cxx
+itk64bitTest.cxx
 )
 
 
@@ -64,6 +65,21 @@ itk_add_test(NAME itkIOCommonTest2
       COMMAND ITKIOImageBaseTestDriver itkIOCommonTest2)
 itk_add_test(NAME itkNumericSeriesFileNamesTest
       COMMAND ITKIOImageBaseTestDriver itkNumericSeriesFileNamesTest)
+itk_add_test(NAME itk64bitTestNRRDtoMHA
+      COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha
+      itk64bitTest DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha)
+itk_add_test(NAME itk64bitTestMHAtoNRRD
+      COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.mha} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nrrd
+      itk64bitTest DATA{Input/Test64bit.mha} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nrrd)
+itk_add_test(NAME itk64bitTestNRRDtoMHA2
+      COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha
+      itk64bitTest DATA{Input/Test64bit.mha} ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha)
+itk_add_test(NAME itk64bitTestNRRDtoNIFTI
+      COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nii
+      itk64bitTest DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nii)
+itk_add_test(NAME itk64bitTestNRRDtoVTK
+      COMMAND ITKIOImageBaseTestDriver --ignoreInputInformation --compare DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.vtk
+      itk64bitTest DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.vtk)
 
 itk_add_test(NAME itkRegularExpressionSeriesFileNamesTest
       COMMAND ITKIOImageBaseTestDriver --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkRegularExpressionSeriesFileNamesTest.txt

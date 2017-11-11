@@ -182,6 +182,7 @@ private:
       OverrideTypeMacro(unsigned char);
       OverrideTypeMacro(float);
       OverrideTypeMacro(int);
+      OverrideTypeMacro(long long);
       OverrideTypeMacro(double);
       OverrideTypeMacro(itk::RGBPixel<unsigned char>);
       OverrideTypeMacro(itk::RGBPixel<unsigned short>);

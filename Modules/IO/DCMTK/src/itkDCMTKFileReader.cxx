@@ -1239,32 +1239,41 @@ DCMTKFileReader
         {
         type = ImageIOBase::UCHAR;
         }
-    break;
-  case 12:
-  case 16:
-    if(IsSigned)
-      {
-      type = ImageIOBase::SHORT;
-      }
-    else
-      {
-      type = ImageIOBase::USHORT;
-      }
-    break;
-  case 32:
-  case 64: // Don't know what this actually means
-    if(IsSigned)
-      {
-      type = ImageIOBase::LONG;
-      }
-    else
-      {
-      type = ImageIOBase::ULONG;
-      }
-    break;
-  case 0:
-  default:
-    break;
+      break;
+    case 12:
+    case 16:
+      if(IsSigned)
+        {
+        type = ImageIOBase::SHORT;
+        }
+      else
+        {
+        type = ImageIOBase::USHORT;
+        }
+      break;
+    case 32:
+      if(IsSigned)
+        {
+        type = ImageIOBase::INT;
+        }
+      else
+        {
+        type = ImageIOBase::UINT;
+        }
+      break;
+    case 64:
+      if(IsSigned)
+        {
+        type = ImageIOBase::LONGLONG;
+        }
+      else
+        {
+        type = ImageIOBase::ULONGLONG;
+        }
+      break;
+    case 0:
+    default:
+      break;
     //assert(0);
     }
 

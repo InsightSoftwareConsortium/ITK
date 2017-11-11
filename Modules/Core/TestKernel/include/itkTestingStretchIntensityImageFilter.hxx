@@ -31,6 +31,7 @@
 #include "itkTestingStretchIntensityImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -81,7 +82,8 @@ StretchIntensityImageFilter< TInputImage, TOutputImage >
     ++it;
     }
 
-  if ( std::abs( m_InputMaximum - m_InputMinimum ) > NumericTraits< InputPixelType >::epsilon() )
+  if (itk::Math::abs( m_InputMaximum - m_InputMinimum ) >
+      itk::Math::abs( NumericTraits< InputPixelType >::epsilon() ) )
     {
     m_Scale =
       ( static_cast< RealType >( m_OutputMaximum )
