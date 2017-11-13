@@ -13,6 +13,8 @@ itk_module(
   TEST_DEPENDS
     ITKTestKernel
     ITKTransform
+  FACTORY_NAMES
+    ImageIO::FDF
   DESCRIPTION "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT
 )
