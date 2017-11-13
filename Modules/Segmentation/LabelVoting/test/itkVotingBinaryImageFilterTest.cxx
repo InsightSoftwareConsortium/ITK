@@ -141,11 +141,13 @@ int itkVotingBinaryImageFilterTest(int argc, char* argv[] )
       break;
     case itk::ImageIOBase::ULONG:
     case itk::ImageIOBase::LONG:
+    case itk::ImageIOBase::ULONGLONG:
+    case itk::ImageIOBase::LONGLONG:
     case itk::ImageIOBase::FLOAT:
     case itk::ImageIOBase::DOUBLE:
     case itk::ImageIOBase::UNKNOWNCOMPONENTTYPE:
     default:
-      itkGenericExceptionMacro( "Input image is a real, long or a unknown component type" );
+      itkGenericExceptionMacro( "Input image is a real, long, long long, or an unknown component type" );
     }
 
   std::cerr << "Unexcpected program flow!" << std::endl;

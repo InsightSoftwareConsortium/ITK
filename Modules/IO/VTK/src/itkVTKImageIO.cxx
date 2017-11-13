@@ -124,50 +124,39 @@ bool VTKImageIO::CanStreamWrite(void)
 
 void VTKImageIO::SetPixelTypeFromString(const std::string & pixelType)
 {
-  if ( pixelType.find("float") < pixelType.length() )
+  ImageIOBase::IOComponentType compType = GetComponentTypeFromString(pixelType);
+  if (compType == UNKNOWNCOMPONENTTYPE)
     {
-    SetComponentType(FLOAT);
-    }
-  else if ( pixelType.find("double") < pixelType.length() )
-    {
-    SetComponentType(DOUBLE);
-    }
-  else if ( pixelType.find("unsigned_char") < pixelType.length() )
-    {
-    SetComponentType(UCHAR);
-    }
-  else if ( pixelType.find("char") < pixelType.length() )
-    {
-    SetComponentType(CHAR);
-    }
-  else if ( pixelType.find("unsigned_short") < pixelType.length() )
-    {
-    SetComponentType(USHORT);
-    }
-  else if ( pixelType.find("short") < pixelType.length() )
-    {
-    SetComponentType(SHORT);
-    }
-  else if ( pixelType.find("unsigned_int") < pixelType.length() )
-    {
-    SetComponentType(UINT);
-    }
-  else if ( pixelType.find("int") < pixelType.length() )
-    {
-    SetComponentType(INT);
-    }
-  else if ( pixelType.find("unsigned_long") < pixelType.length() )
-    {
-    SetComponentType(ULONG);
-    }
-  else if ( pixelType.find("long") < pixelType.length() )
-    {
-    SetComponentType(LONG);
+    if ( pixelType.find("vtktypeuint64") < pixelType.length() )
+      {
+      SetComponentType(ULONGLONG);
+      }
+    else if ( pixelType.find("vtktypeint64") < pixelType.length() )
+      {
+      SetComponentType(LONGLONG);
+      }
+    else
+      {
+      itkExceptionMacro(<< "Unrecognized pixel type");
+      }
     }
   else
     {
-    itkExceptionMacro(<< "Unrecognized type");
+    SetComponentType(compType);
     }
+}
+
+std::string VTKImageIO::GetComponentTypeAsString(IOComponentType t)
+{
+  if (t == ULONGLONG)
+    {
+    return "vtktypeuint64";
+    }
+  else if (t == LONGLONG)
+    {
+    return "vtktypeint64";
+    }
+  return ImageIOBase::GetComponentTypeAsString(t);
 }
 
 void VTKImageIO::InternalReadImageInformation(std::ifstream & file)

@@ -21,6 +21,99 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkIOTestHelper.h"
+#include <itkImage.h>
+#include <itkImageRegionIterator.h>
+#include <itkTestingComparisonImageFilter.h>
+#include "itkMetaImageIO.h"
+
+template< typename PixelType, unsigned int Dimension>
+int ReadWriteCompare(PixelType value, std::string type)
+{
+  std::cout << "Testing: " << type << std::endl;
+  typedef itk::Image<PixelType, 3> ImageType;
+  const char *filename = "test.mha";
+  typename ImageType::SpacingType spacing;
+  typename ImageType::PointType origin;
+  typename ImageType::DirectionType direction;
+  typename ImageType::SizeType size;
+  //Allocate Images
+  direction[0][1] = 1;
+  direction[1][0] = -1;
+  direction[0][0] = 0;
+  direction[1][1] = 0;
+  for( size_t ii = 0; ii < Dimension; ii++)
+  {
+    spacing[ii] = 0.12;
+    origin[ii] = 3.2;
+    size[ii] = 10;
+  }
+  typename ImageType::RegionType region(size);
+  typename ImageType::Pointer img =
+    itk::IOTestHelper::AllocateImageFromRegionAndSpacing<ImageType>(region, spacing);
+  { //Fill in entire image
+    itk::ImageRegionIterator<ImageType> ri(img,region);
+    try
+      {
+        while(!ri.IsAtEnd())
+          {
+            ri.Set( value );
+            ++ri;
+          }
+      }
+    catch ( itk::ExceptionObject & ex )
+      {
+        std::cerr << "Error filling array" << ex << std::endl;
+        return EXIT_FAILURE;
+      }
+  }
+  try
+    {
+    itk::IOTestHelper::WriteImage<ImageType,itk::MetaImageIO>(img,std::string(filename));
+    }
+  catch ( itk::ExceptionObject & ex )
+    {
+      std::string message;
+      message = "Problem found while writing image ";
+      message += filename;
+      message += "\n";
+      message += ex.GetLocation();
+      message += "\n";
+      message += ex.GetDescription();
+      std::cerr << message << std::endl;
+      itk::IOTestHelper::Remove(filename);
+      return EXIT_FAILURE;
+    }
+
+  typename ImageType::Pointer input;
+  try
+    {
+    input = itk::IOTestHelper::ReadImage<ImageType>(std::string(filename));
+    }
+  catch (itk::ExceptionObject &e)
+    {
+    e.Print(std::cerr);
+    itk::IOTestHelper::Remove(filename);
+    return EXIT_FAILURE;
+    }
+
+  // Now compare the two images
+  typedef itk::Testing::ComparisonImageFilter<ImageType,ImageType> DiffType;
+  typename DiffType::Pointer diff = DiffType::New();
+  diff->SetValidInput(img);
+  diff->SetTestInput(input);
+  diff->SetDifferenceThreshold( itk::NumericTraits<PixelType>::Zero );
+  diff->SetToleranceRadius( 0 );
+  diff->UpdateLargestPossibleRegion();
+  if( diff->GetTotalDifference() > 0 )
+  {
+    std::cerr << "Image created and image read are different" << std::endl;
+    itk::IOTestHelper::Remove(filename);
+    return EXIT_FAILURE;
+  }
+  itk::IOTestHelper::Remove(filename);
+  return EXIT_SUCCESS;
+}
 
 int testMetaImage(int , char * [])
   {
@@ -154,6 +247,56 @@ int testMetaImage(int , char * [])
     }
 
   itksys::SystemTools::RemoveFile("test.mha");
+
+  // Testing all pixel types
+  if( ReadWriteCompare<unsigned char,3>( static_cast<unsigned char>(12), "unsigned char" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<char,3>( static_cast<char>(-8), "char" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<unsigned short,3>( static_cast<unsigned short>(8192) , "unsigned short" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<short,3>( static_cast<short>(-16384) , "short" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<unsigned int,3>( static_cast<unsigned int>(2718281) , "unsigned int" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<int,3>( static_cast<int>(-3141592), "int" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<unsigned long,3>( static_cast<unsigned long>(27182818), "unsigned long" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<long,3>( static_cast<long>(-31415926), "long" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<unsigned long long,3>( static_cast<unsigned long long>(8589934592), "unsigned long long" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<long long,3>( static_cast<long long>(-8589934592), "long long" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<float,3>( static_cast<float>(1.23456), "float" ) )
+  {
+    return EXIT_FAILURE;
+  }
+  if( ReadWriteCompare<double,3>( static_cast<double>(7.891011121314), "double" ) )
+  {
+    return EXIT_FAILURE;
+  }
 
   std::cout << "[DONE]" << std::endl;
 

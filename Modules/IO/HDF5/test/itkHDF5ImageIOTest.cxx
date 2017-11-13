@@ -26,6 +26,7 @@
 template <typename TPixel>
 int HDF5ReadWriteTest(const char *fileName)
 {
+  std::cout << fileName << std::endl;
   int success(EXIT_SUCCESS);
   typedef typename itk::Image<TPixel,3> ImageType;
   typename ImageType::RegionType imageRegion;
@@ -86,6 +87,12 @@ int HDF5ReadWriteTest(const char *fileName)
 
   unsigned long metaDataULong(7);
   itk::EncapsulateMetaData<unsigned long>(metaDict,"TestULong",metaDataULong);
+
+  long long metaDataLLong(-5);
+  itk::EncapsulateMetaData<long long>(metaDict,"TestLLong",metaDataLLong);
+
+  unsigned long long metaDataULLong(7ull);
+  itk::EncapsulateMetaData<unsigned long long>(metaDict,"TestULLong",metaDataULLong);
 
   float metaDataFloat(1.23456);
   itk::EncapsulateMetaData<float>(metaDict,"TestFloat",metaDataFloat);
@@ -252,6 +259,26 @@ int HDF5ReadWriteTest(const char *fileName)
     success = EXIT_FAILURE;
     }
 
+  long long metaDataLLong2(0);
+  if(!itk::ExposeMetaData<long long>(metaDict2,"TestLLong",metaDataLLong2) ||
+     metaDataLLong2 != metaDataLLong)
+    {
+    std::cerr << "Failure Reading metaData " << "TestLLong "
+              << metaDataLLong2 << " " << metaDataLLong
+              <<  std::endl;
+    success = EXIT_FAILURE;
+    }
+
+  unsigned long long metaDataULLong2(0);
+  if(!itk::ExposeMetaData<unsigned long long>(metaDict2,"TestULLong",metaDataULLong2) ||
+     metaDataULLong2 != metaDataULLong)
+    {
+    std::cerr << "Failure Reading metaData " << "TestULLong "
+              << metaDataULLong2 << " " << metaDataULLong
+              <<  std::endl;
+    success = EXIT_FAILURE;
+    }
+
   float metaDataFloat2(0.0f);
   if(!itk::ExposeMetaData<float>(metaDict2,"TestFloat",metaDataFloat2) ||
      itk::Math::NotAlmostEquals( metaDataFloat2, metaDataFloat) )
@@ -365,6 +392,7 @@ itkHDF5ImageIOTest(int ac, char * av [] )
 
   result += HDF5ReadWriteTest<unsigned char>("UCharImage.hdf5");
   result += HDF5ReadWriteTest<float>("FloatImage.hdf5");
+  result += HDF5ReadWriteTest<unsigned long long>("ULongLongImage.hdf5");
   result += HDF5ReadWriteTest<itk::RGBPixel<unsigned char> >("RGBImage.hdf5");
 
   result += HDF5ReuseReadWriteTest("UCharImage.hdf5");

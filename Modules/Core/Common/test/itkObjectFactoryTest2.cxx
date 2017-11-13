@@ -166,6 +166,7 @@ int itkObjectFactoryTest2(int argc, char *argv[])
   MakeImage(10, static_cast<short>(0));
   MakeImage(10, static_cast<unsigned char>(0));
   MakeImage(10, static_cast<int>(0));
+  MakeImage(10, static_cast<long long>(0));
   {
   MakeImage(10, static_cast<float>(0));
   MakeImage(10, static_cast<double>(0));

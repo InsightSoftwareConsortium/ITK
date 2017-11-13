@@ -153,5 +153,7 @@ int itkNiftiImageIOTest5(int ac, char* av[])
   success |= SlopeInterceptTest<unsigned short,NIFTI_TYPE_UINT16>();
   success |= SlopeInterceptTest<int,NIFTI_TYPE_INT32>();
   success |= SlopeInterceptTest<unsigned int,NIFTI_TYPE_UINT32>();
+  success |= SlopeInterceptTest<long long,NIFTI_TYPE_INT64>();
+  success |= SlopeInterceptTest<unsigned long long,NIFTI_TYPE_UINT64>();
   return success;
 }

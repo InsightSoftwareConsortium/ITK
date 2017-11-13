@@ -176,7 +176,6 @@ inline bool ExposeMetaData(const MetaDataDictionary & Dictionary, const std::str
     }
 
   const MetaDataObjectBase::ConstPointer baseObjectSmartPointer = Dictionary[key];
-
   MetaDataObject< T > const * const TempMetaDataObject = dynamic_cast< MetaDataObject< T > const * >( baseObjectSmartPointer.GetPointer() );
   if ( TempMetaDataObject == ITK_NULLPTR )
     {
@@ -280,6 +279,8 @@ extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< unsigned int >;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< int >;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< unsigned long >;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< long >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< unsigned long long >;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< long long >;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< float >;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< double >;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject< std::string >;

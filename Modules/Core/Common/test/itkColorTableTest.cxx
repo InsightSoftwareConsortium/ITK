@@ -200,6 +200,8 @@ int itkColorTableTest( int argc, char* argv[] )
   testStatus |= ColorTableTestHelper< int >( "int", numberOfColors );
   testStatus |= ColorTableTestHelper< unsigned long >( "unsigned long", numberOfColors );
   testStatus |= ColorTableTestHelper< long >( "long", numberOfColors );
+  testStatus |= ColorTableTestHelper< unsigned long long>("unsigned long long", numberOfColors);
+  testStatus |= ColorTableTestHelper< long  long>("long long", numberOfColors);
   testStatus |= ColorTableTestHelper< float >( "float", numberOfColors );
   testStatus |= ColorTableTestHelper< double >( "double", numberOfColors );
 

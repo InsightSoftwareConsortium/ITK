@@ -114,6 +114,20 @@ public:
     }
 
   static void
+  RandomPix(vnl_random &randgen, long long &pix)
+    {
+      pix = randgen.lrand32(itk::NumericTraits<int>::max());
+      pix = (pix << 32) | randgen.lrand32();
+    }
+
+  static void
+  RandomPix(vnl_random &randgen, unsigned long long &pix)
+    {
+      pix = randgen.lrand32();
+      pix = (pix << 32) | randgen.lrand32();
+    }
+
+  static void
   RandomPix(vnl_random &randgen, double &pix)
     {
       pix = randgen.drand64(itk::NumericTraits<double>::max());

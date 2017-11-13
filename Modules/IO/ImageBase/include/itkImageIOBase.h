@@ -108,7 +108,7 @@ public:
    * SCALAR pixel type or elements of a compound pixel.
    */
   typedef  enum { UNKNOWNCOMPONENTTYPE, UCHAR, CHAR, USHORT, SHORT, UINT, INT,
-                  ULONG, LONG, FLOAT, DOUBLE } IOComponentType;
+                  ULONG, LONG, ULONGLONG, LONGLONG, FLOAT, DOUBLE } IOComponentType;
 
   /** Set/Get the number of independent variables (dimensions) in the
    * image being read or written. Note this is not necessarily what
@@ -725,6 +725,8 @@ IMAGEIOBASE_TYPEMAP(int, INT);
 IMAGEIOBASE_TYPEMAP(unsigned int, UINT);
 IMAGEIOBASE_TYPEMAP(long, LONG);
 IMAGEIOBASE_TYPEMAP(unsigned long, ULONG);
+IMAGEIOBASE_TYPEMAP(long long, LONGLONG);
+IMAGEIOBASE_TYPEMAP(unsigned long long, ULONGLONG);
 IMAGEIOBASE_TYPEMAP(float, FLOAT);
 IMAGEIOBASE_TYPEMAP(double, DOUBLE);
 #undef IMAGIOBASE_TYPEMAP

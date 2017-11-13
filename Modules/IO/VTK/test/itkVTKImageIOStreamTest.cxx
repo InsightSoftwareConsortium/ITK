@@ -306,6 +306,8 @@ int itkVTKImageIOStreamTest(int argc, char* argv[] )
   ReadWriteTestMACRO(int)
   ReadWriteTestMACRO(unsigned long)
   ReadWriteTestMACRO(long)
+  ReadWriteTestMACRO(unsigned long long)
+  ReadWriteTestMACRO(long long)
 
   return status;
 }

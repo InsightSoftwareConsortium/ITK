@@ -541,6 +541,8 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::INT,int)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONG,unsigned long)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONG,long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::ULONGLONG,unsigned long long)
+  ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::LONGLONG,long long)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::FLOAT,float)
   ITK_CONVERT_BUFFER_IF_BLOCK(ImageIOBase::DOUBLE,double)
   else
@@ -563,6 +565,8 @@ ImageFileReader< TOutputImage, ConvertPixelTraits >
         << std::endl << "    " << TYPENAME( int )
         << std::endl << "    " << TYPENAME( unsigned long )
         << std::endl << "    " << TYPENAME( long )
+        << std::endl << "    " << TYPENAME( unsigned long long )
+        << std::endl << "    " << TYPENAME( long long )
         << std::endl << "    " << TYPENAME( float )
         << std::endl << "    " << TYPENAME( double )
         << std::endl;

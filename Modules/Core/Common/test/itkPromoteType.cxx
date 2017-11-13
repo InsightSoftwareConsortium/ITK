@@ -61,6 +61,8 @@ int itkPromoteType(int, char*[])
   itkStaticAssert((IsSame<PromoteType<double,int>                  ::Type, double>::Value), "test failed");
   itkStaticAssert((IsSame<PromoteType<float,int>                   ::Type, float>::Value), "test failed");
   itkStaticAssert((IsSame<PromoteType<long,int>                    ::Type, long>::Value), "test failed");
+  itkStaticAssert((IsSame<PromoteType<long long,int>               ::Type, long long>::Value), "test failed");
+  itkStaticAssert((IsSame<PromoteType<int,long long>               ::Type, long long>::Value), "test failed");
   itkStaticAssert((IsSame<PromoteType<long,long double>            ::Type, long double>::Value), "test failed");
   itkStaticAssert((IsSame<PromoteType<double,std::complex<double> >::Type, std::complex<double> >::Value), "test failed");
 

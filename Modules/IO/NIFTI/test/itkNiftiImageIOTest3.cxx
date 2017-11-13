@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkNiftiImageIOTest.h"
+#include "itkEnableIf.h"
+#include <limits>
 /* VS 2015 has a bug when building release with the heavly nested for
  * loops iterating too many times.  This turns off optimization to
  * allow the tests to pass.
@@ -24,6 +26,30 @@
 #if _MSC_VER == 1900
 # pragma optimize( "", off )
 #endif
+
+template <typename ScalarType>
+void
+Decrement( ScalarType &value,
+    typename itk::DisableIfC<std::numeric_limits<ScalarType>
+    ::is_signed, ScalarType>::Type* = 0 )
+{
+  if( value > 1 )
+    {
+    value--;
+    }
+}
+
+template <typename ScalarType>
+void
+Decrement( ScalarType &value,
+    typename itk::EnableIfC<std::numeric_limits<ScalarType>
+    ::is_signed, ScalarType>::Type* = 0 )
+{
+  if( value > -std::numeric_limits<ScalarType>::max() + 1 )
+    {
+    value--;
+    }
+}
 
 template <typename ScalarType, unsigned TVecLength, unsigned TDimension>
 int
@@ -74,8 +100,8 @@ TestImageOfVectors(const std::string &fname)
   vi->SetOrigin(origin);
   vi->SetDirection(myDirection);
 
-  int dims[7];
-  int _index[7];
+  size_t dims[7];
+  size_t _index[7];
   for(unsigned i = 0; i < TDimension; i++)
     {
     dims[i] = size[i];
@@ -85,36 +111,37 @@ TestImageOfVectors(const std::string &fname)
     dims[i] = 1;
     }
 
-  int incr_value=0;
+  ScalarType value=std::numeric_limits<ScalarType>::max();
   //  for(fillIt.GoToBegin(); !fillIt.IsAtEnd(); ++fillIt)
-  for(int l = 0; l < dims[6]; l++)
+  for(size_t l = 0; l < dims[6]; l++)
     {
     _index[6] = l;
-    for(int m = 0; m < dims[5]; m++)
+    for(size_t m = 0; m < dims[5]; m++)
       {
       _index[5] = m;
-      for(int n = 0; n < dims[4]; n++)
+      for(size_t n = 0; n < dims[4]; n++)
         {
         _index[4] = n;
-        for(int p = 0; p < dims[3]; p++)
+        for(size_t p = 0; p < dims[3]; p++)
           {
           _index[3] = p;
-          for(int i = 0; i < dims[2]; i++)
+          for(size_t i = 0; i < dims[2]; i++)
             {
             _index[2] = i;
-            for(int j = 0; j < dims[1]; j++)
+            for(size_t j = 0; j < dims[1]; j++)
               {
               _index[1] = j;
-              for(int k = 0; k < dims[0]; k++)
+              for(size_t k = 0; k < dims[0]; k++)
                 {
                 _index[0] = k;
                 FieldPixelType pixel;
-                for(unsigned int q = 0; q < TVecLength; q++)
+                for(size_t q = 0; q < TVecLength; q++)
                   {
                   //pixel[q] = randgen.drand32(lowrange,highrange);
-                  pixel[q] = incr_value++;
+                  Decrement(value);
+                  pixel[q] = value;
                   }
-                for(unsigned int q = 0; q < TDimension; q++)
+                for(size_t q = 0; q < TDimension; q++)
                   {
                   index[q] = _index[q];
                   }
@@ -181,29 +208,29 @@ TestImageOfVectors(const std::string &fname)
       }
     }
   std::cout << "Original vector Image  ?=   vector Image read from disk " << std::endl;
-  for(int l = 0; l < dims[6]; l++)
+  for(size_t l = 0; l < dims[6]; l++)
     {
     _index[6] = l;
-    for(int m = 0; m < dims[5]; m++)
+    for(size_t m = 0; m < dims[5]; m++)
       {
       _index[5] = m;
-      for(int n = 0; n < dims[4]; n++)
+      for(size_t n = 0; n < dims[4]; n++)
         {
         _index[4] = n;
-        for(int p = 0; p < dims[3]; p++)
+        for(size_t p = 0; p < dims[3]; p++)
           {
           _index[3] = p;
-          for(int i = 0; i < dims[2]; i++)
+          for(size_t i = 0; i < dims[2]; i++)
             {
             _index[2] = i;
-            for(int j = 0; j < dims[1]; j++)
+            for(size_t j = 0; j < dims[1]; j++)
               {
               _index[1] = j;
-              for(int k = 0; k < dims[0]; k++)
+              for(size_t k = 0; k < dims[0]; k++)
                 {
                 _index[0] = k;
                 FieldPixelType p1,p2;
-                for(unsigned int q = 0; q < TDimension; q++)
+                for(size_t q = 0; q < TDimension; q++)
                   {
                   index[q] = _index[q];
                   }
@@ -253,6 +280,16 @@ int itkNiftiImageIOTest3(int ac, char* av[])
     }
   int success(0);
 
+  success |= TestImageOfVectors<unsigned char,3,1>(std::string("testVectorImage_unsigned_char_3_1.nii.gz"));
+  success |= TestImageOfVectors<char,3,1>(std::string("testVectorImage_char_3_1.nii.gz"));
+  success |= TestImageOfVectors<unsigned short,3,1>(std::string("testVectorImage_unsigned_short_3_1.nii.gz"));
+  success |= TestImageOfVectors<short,3,1>(std::string("testVectorImage_short_3_1.nii.gz"));
+  success |= TestImageOfVectors<unsigned int,3,1>(std::string("testVectorImage_unsigned_int_3_1.nii.gz"));
+  success |= TestImageOfVectors<int,3,1>(std::string("testVectorImage_int_3_1.nii.gz"));
+  success |= TestImageOfVectors<unsigned long,3,1>(std::string("testVectorImage_unsigned_long_3_1.nii.gz"));
+  success |= TestImageOfVectors<long,3,1>(std::string("testVectorImage_long_3_1.nii.gz"));
+  success |= TestImageOfVectors<unsigned long long,3,1>(std::string("testVectorImage_unsigned_long_long_3_1.nii.gz"));
+  success |= TestImageOfVectors<long long,3,1>(std::string("testVectorImage_long_long_3_1.nii.gz"));
   success |= TestImageOfVectors<float,3,1>(std::string("testVectorImage_float_3_1.nii.gz"));
   success |= TestImageOfVectors<float,3,2>(std::string("testVectorImage_float_3_2.nii.gz"));
   success |= TestImageOfVectors<float,3,3>(std::string("testVectorImage_float_3_3.nii.gz"));
