@@ -1143,6 +1143,9 @@ protected:
       }
   }
 
+  /** Convenience method returns the IOComponentType corresponding to a string. */
+  IOComponentType GetComponentTypeFromString(const std::string & pixelType);
+
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKPolyDataMeshIO);
 };
