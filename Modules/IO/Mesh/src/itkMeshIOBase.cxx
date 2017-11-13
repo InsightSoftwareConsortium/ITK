@@ -178,7 +178,7 @@ MeshIOBase
     case DOUBLE:
       return std::string( "double" );
     case LDOUBLE:
-      return std::string( "long_doulbe" );
+      return std::string( "long_double" );
     case UNKNOWNCOMPONENTTYPE:
       break;
     default:

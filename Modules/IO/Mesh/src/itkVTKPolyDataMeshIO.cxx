@@ -75,6 +75,69 @@ VTKPolyDataMeshIO
   return true;
 }
 
+MeshIOBase::IOComponentType
+VTKPolyDataMeshIO::GetComponentTypeFromString(const std::string & pointType)
+{
+  IOComponentType compType;
+  if ( pointType == "unsigned_char" )
+    {
+    compType = UCHAR;
+    }
+  else if ( pointType == "char" )
+    {
+    compType = CHAR;
+    }
+  else if ( pointType == "unsigned_short" )
+    {
+    compType = USHORT;
+    }
+  else if ( pointType == "short" )
+    {
+    compType = SHORT;
+    }
+  else if ( pointType == "unsigned_int" )
+    {
+    compType = UINT;
+    }
+  else if ( pointType == "int" )
+    {
+    compType = INT;
+    }
+  else if ( pointType == "unsigned_long" )
+    {
+    compType = ULONG;
+    }
+  else if ( pointType == "long" )
+    {
+    compType = LONG;
+    }
+  else if ( pointType == "unsigned_long_long" || pointType == "vtktypeuint64" )
+    {
+    compType = ULONGLONG; // is this supported by standard vtk format?
+    }
+  else if ( pointType == "long_long"  || pointType == "vtktypeint64" )
+    {
+    compType = LONGLONG; // is this supported by standard vtk format?
+    }
+  else if ( pointType == "float" )
+    {
+    compType = FLOAT;
+    }
+  else if ( pointType == "double" )
+    {
+    compType = DOUBLE;
+    }
+  else if ( pointType == "long_double" )
+    {
+    compType = LDOUBLE; // not supported by standard vtk format
+    }
+  else
+    {
+    compType = UNKNOWNCOMPONENTTYPE;
+    }
+  return compType;
+}
+
 void
 VTKPolyDataMeshIO
 ::ReadMeshInformation()
@@ -174,62 +237,8 @@ VTKPolyDataMeshIO
       // Get point component type
       StringType pointType;
       ss >> pointType;
-      if ( pointType == "unsigned_char" )
-        {
-        this->m_PointComponentType = UCHAR;
-        }
-      else if ( pointType == "char" )
-        {
-        this->m_PointComponentType = CHAR;
-        }
-      else if ( pointType == "unsigned_short" )
-        {
-        this->m_PointComponentType = USHORT;
-        }
-      else if ( pointType == "short" )
-        {
-        this->m_PointComponentType = SHORT;
-        }
-      else if ( pointType == "unsigned_int" )
-        {
-        this->m_PointComponentType = UINT;
-        }
-      else if ( pointType == "int" )
-        {
-        this->m_PointComponentType = INT;
-        }
-      else if ( pointType == "unsigned_long" )
-        {
-        this->m_PointComponentType = ULONG;
-        }
-      else if ( pointType == "long" )
-        {
-        this->m_PointComponentType = LONG;
-        }
-      else if ( pointType == "unsigned_long_long" )
-        {
-        this->m_PointComponentType = ULONGLONG; // not supported by standard vtk
-                                                // format
-        }
-      else if ( pointType == "long_long" )
-        {
-        this->m_PointComponentType = LONGLONG; // not supported by standard vtk
-                                               // format
-        }
-      else if ( pointType == "float" )
-        {
-        this->m_PointComponentType = FLOAT;
-        }
-      else if ( pointType == "double" )
-        {
-        this->m_PointComponentType = DOUBLE;
-        }
-      else if ( pointType == "long_double" )
-        {
-        this->m_PointComponentType = LDOUBLE; // not supported by standard vtk
-                                              // format
-        }
-      else
+      this->m_PointComponentType= this->GetComponentTypeFromString(pointType);
+      if (this->m_PointComponentType == UNKNOWNCOMPONENTTYPE)
         {
         itkExceptionMacro(<< "Unknown point component type");
         }
@@ -390,64 +399,10 @@ VTKPolyDataMeshIO
           scss >> pointDataComponentType;
 
           // Set point pixel component type
-          if ( pointDataComponentType == "unsigned_char" )
+          this->m_PointPixelComponentType = this->GetComponentTypeFromString(pointDataComponentType);
+          if (this->m_PointPixelComponentType == UNKNOWNCOMPONENTTYPE)
             {
-            this->m_PointPixelComponentType = UCHAR;
-            }
-          else if ( pointDataComponentType == "char" )
-            {
-            this->m_PointPixelComponentType = CHAR;
-            }
-          else if ( pointDataComponentType == "unsigned_short" )
-            {
-            this->m_PointPixelComponentType = USHORT;
-            }
-          else if ( pointDataComponentType == "short" )
-            {
-            this->m_PointPixelComponentType = SHORT;
-            }
-          else if ( pointDataComponentType == "unsigned_int" )
-            {
-            this->m_PointPixelComponentType = UINT;
-            }
-          else if ( pointDataComponentType == "int" )
-            {
-            this->m_PointPixelComponentType = INT;
-            }
-          else if ( pointDataComponentType == "unsigned_long" )
-            {
-            this->m_PointPixelComponentType = ULONG;
-            }
-          else if ( pointDataComponentType == "long" )
-            {
-            this->m_PointPixelComponentType = LONG;
-            }
-          else if ( pointDataComponentType == "unsigned_long_long" )
-            {
-            // not supported by standard vtk format
-            this->m_PointPixelComponentType = ULONGLONG;
-            }
-          else if ( pointDataComponentType == "long_long" )
-            {
-            // not supported by standard vtk format
-            this->m_PointPixelComponentType = LONGLONG;
-            }
-          else if ( pointDataComponentType == "float" )
-            {
-            this->m_PointPixelComponentType = FLOAT;
-            }
-          else if ( pointDataComponentType == "double" )
-            {
-            this->m_PointPixelComponentType = DOUBLE;
-            }
-          else if ( pointDataComponentType == "long_double" )
-            {
-            // not supported by standard vtk format
-            this->m_PointPixelComponentType = LDOUBLE;
-            }
-          else
-            {
-            itkExceptionMacro(<< "Unknown point component type");
+            itkExceptionMacro(<< "Unknown point data component type");
             }
 
           // Set point pixel type
@@ -498,64 +453,10 @@ VTKPolyDataMeshIO
         vss >> pointDataComponentType;
 
         // Set point pixel component type
-        if ( pointDataComponentType == "unsigned_char" )
+        this->m_PointPixelComponentType = this->GetComponentTypeFromString(pointDataComponentType);
+        if (this->m_PointPixelComponentType == UNKNOWNCOMPONENTTYPE)
           {
-          this->m_PointPixelComponentType = UCHAR;
-          }
-        else if ( pointDataComponentType == "char" )
-          {
-          this->m_PointPixelComponentType = CHAR;
-          }
-        else if ( pointDataComponentType == "unsigned_short" )
-          {
-          this->m_PointPixelComponentType = USHORT;
-          }
-        else if ( pointDataComponentType == "short" )
-          {
-          this->m_PointPixelComponentType = SHORT;
-          }
-        else if ( pointDataComponentType == "unsigned_int" )
-          {
-          this->m_PointPixelComponentType = UINT;
-          }
-        else if ( pointDataComponentType == "int" )
-          {
-          this->m_PointPixelComponentType = INT;
-          }
-        else if ( pointDataComponentType == "unsigned_long" )
-          {
-          this->m_PointPixelComponentType = ULONG;
-          }
-        else if ( pointDataComponentType == "long" )
-          {
-          this->m_PointPixelComponentType = LONG;
-          }
-        else if ( pointDataComponentType == "unsigned_long_long" )
-          {
-          this->m_PointPixelComponentType = ULONGLONG; // not supported by
-                                                       // standard vtk format
-          }
-        else if ( pointDataComponentType == "long_long" )
-          {
-          this->m_PointPixelComponentType = LONGLONG; // not supported by
-                                                      // standard vtk format
-          }
-        else if ( pointDataComponentType == "float" )
-          {
-          this->m_PointPixelComponentType = FLOAT;
-          }
-        else if ( pointDataComponentType == "double" )
-          {
-          this->m_PointPixelComponentType = DOUBLE;
-          }
-        else if ( pointDataComponentType == "long_double" )
-          {
-          this->m_PointPixelComponentType = LDOUBLE; // not supported by
-                                                     // standard vtk format
-          }
-        else
-          {
-          itkExceptionMacro(<< "Unknown point component type");
+          itkExceptionMacro(<< "Unknown point vector component type");
           }
 
         // Set point pixel type
@@ -578,64 +479,10 @@ VTKPolyDataMeshIO
         tss >> pointDataComponentType;
 
         // Set point pixel component type
-        if ( pointDataComponentType == "unsigned_char" )
+        this->m_PointPixelComponentType = this->GetComponentTypeFromString(pointDataComponentType);
+        if (this->m_PointPixelComponentType == UNKNOWNCOMPONENTTYPE)
           {
-          this->m_PointPixelComponentType = UCHAR;
-          }
-        else if ( pointDataComponentType == "char" )
-          {
-          this->m_PointPixelComponentType = CHAR;
-          }
-        else if ( pointDataComponentType == "unsigned_short" )
-          {
-          this->m_PointPixelComponentType = USHORT;
-          }
-        else if ( pointDataComponentType == "short" )
-          {
-          this->m_PointPixelComponentType = SHORT;
-          }
-        else if ( pointDataComponentType == "unsigned_int" )
-          {
-          this->m_PointPixelComponentType = UINT;
-          }
-        else if ( pointDataComponentType == "int" )
-          {
-          this->m_PointPixelComponentType = INT;
-          }
-        else if ( pointDataComponentType == "unsigned_long" )
-          {
-          this->m_PointPixelComponentType = ULONG;
-          }
-        else if ( pointDataComponentType == "long" )
-          {
-          this->m_PointPixelComponentType = LONG;
-          }
-        else if ( pointDataComponentType == "unsigned_long_long" )
-          {
-          this->m_PointPixelComponentType = ULONGLONG; // not supported by
-                                                       // standard vtk format
-          }
-        else if ( pointDataComponentType == "long_long" )
-          {
-          this->m_PointPixelComponentType = LONGLONG; // not supported by
-                                                      // standard vtk format
-          }
-        else if ( pointDataComponentType == "float" )
-          {
-          this->m_PointPixelComponentType = FLOAT;
-          }
-        else if ( pointDataComponentType == "double" )
-          {
-          this->m_PointPixelComponentType = DOUBLE;
-          }
-        else if ( pointDataComponentType == "long_double" )
-          {
-          this->m_PointPixelComponentType = LDOUBLE; // not supported by
-                                                     // standard vtk format
-          }
-        else
-          {
-          itkExceptionMacro(<< "Unknown point component type");
+          itkExceptionMacro(<< "Unknown point SYMMETRICSECONDRANKTENSOR component type");
           }
 
         // Set point pixel type
@@ -687,62 +534,8 @@ VTKPolyDataMeshIO
           sss >> cellDataComponentType;
 
           // Set point pixel component type
-          if ( cellDataComponentType == "unsigned_char" )
-            {
-            this->m_CellPixelComponentType = UCHAR;
-            }
-          else if ( cellDataComponentType == "char" )
-            {
-            this->m_CellPixelComponentType = CHAR;
-            }
-          else if ( cellDataComponentType == "unsigned_short" )
-            {
-            this->m_CellPixelComponentType = USHORT;
-            }
-          else if ( cellDataComponentType == "short" )
-            {
-            this->m_CellPixelComponentType = SHORT;
-            }
-          else if ( cellDataComponentType == "unsigned_int" )
-            {
-            this->m_CellPixelComponentType = UINT;
-            }
-          else if ( cellDataComponentType == "int" )
-            {
-            this->m_CellPixelComponentType = INT;
-            }
-          else if ( cellDataComponentType == "unsigned_long" )
-            {
-            this->m_CellPixelComponentType = ULONG;
-            }
-          else if ( cellDataComponentType == "long" )
-            {
-            this->m_CellPixelComponentType = LONG;
-            }
-          else if ( cellDataComponentType == "unsigned_long_long" )
-            {
-            // not supported by standard vtk format
-            this->m_CellPixelComponentType = ULONGLONG;
-            }
-          else if ( cellDataComponentType == "long_long" )
-            {
-            // not supported by standard vtk format
-            this->m_CellPixelComponentType = LONGLONG;
-            }
-          else if ( cellDataComponentType == "float" )
-            {
-            this->m_CellPixelComponentType = FLOAT;
-            }
-          else if ( cellDataComponentType == "double" )
-            {
-            this->m_CellPixelComponentType = DOUBLE;
-            }
-          else if ( cellDataComponentType == "long_double" )
-            {
-            // not supported by standard vtk format
-            this->m_CellPixelComponentType = LDOUBLE;
-            }
-          else
+          this->m_CellPixelComponentType = this->GetComponentTypeFromString(cellDataComponentType);
+          if (this->m_CellPixelComponentType == UNKNOWNCOMPONENTTYPE)
             {
             itkExceptionMacro(<< "Unknown cell component type");
             }
@@ -793,61 +586,10 @@ VTKPolyDataMeshIO
         vss >> cellDataComponentType;
 
         // Set cell pixel component type
-        if ( cellDataComponentType == "unsigned_char" )
+        this->m_CellPixelComponentType = this->GetComponentTypeFromString(cellDataComponentType);
+        if (this->m_CellPixelComponentType == UNKNOWNCOMPONENTTYPE)
           {
-          this->m_CellPixelComponentType = UCHAR;
-          }
-        else if ( cellDataComponentType == "char" )
-          {
-          this->m_CellPixelComponentType = CHAR;
-          }
-        else if ( cellDataComponentType == "unsigned_short" )
-          {
-          this->m_CellPixelComponentType = USHORT;
-          }
-        else if ( cellDataComponentType == "short" )
-          {
-          this->m_CellPixelComponentType = SHORT;
-          }
-        else if ( cellDataComponentType == "unsigned_int" )
-          {
-          this->m_CellPixelComponentType = UINT;
-          }
-        else if ( cellDataComponentType == "int" )
-          {
-          this->m_CellPixelComponentType = INT;
-          }
-        else if ( cellDataComponentType == "unsigned_long" )
-          {
-          this->m_CellPixelComponentType = ULONG;
-          }
-        else if ( cellDataComponentType == "long" )
-          {
-          this->m_CellPixelComponentType = LONG;
-          }
-        else if ( cellDataComponentType == "unsigned_long_long" )
-          {
-          this->m_CellPixelComponentType = ULONGLONG;
-          }
-        else if ( cellDataComponentType == "long_long" )
-          {
-          this->m_CellPixelComponentType = LONGLONG;
-          }
-        else if ( cellDataComponentType == "float" )
-          {
-          this->m_CellPixelComponentType = FLOAT;
-          }
-        else if ( cellDataComponentType == "double" )
-          {
-          this->m_CellPixelComponentType = DOUBLE;
-          }
-        else if ( cellDataComponentType == "long_double" )
-          {
-          this->m_CellPixelComponentType = LDOUBLE;
-          }
-        else
-          {
-          itkExceptionMacro(<< "Unknown cell component type");
+          itkExceptionMacro(<< "Unknown cell normal component type");
           }
 
         // Set cell pixel type
@@ -870,61 +612,10 @@ VTKPolyDataMeshIO
         tss >> cellDataComponentType;
 
         // Set cell pixel component type
-        if ( cellDataComponentType == "unsigned_char" )
+        this->m_CellPixelComponentType = this->GetComponentTypeFromString(cellDataComponentType);
+        if (this->m_CellPixelComponentType == UNKNOWNCOMPONENTTYPE)
           {
-          this->m_CellPixelComponentType = UCHAR;
-          }
-        else if ( cellDataComponentType == "char" )
-          {
-          this->m_CellPixelComponentType = CHAR;
-          }
-        else if ( cellDataComponentType == "unsigned_short" )
-          {
-          this->m_CellPixelComponentType = USHORT;
-          }
-        else if ( cellDataComponentType == "short" )
-          {
-          this->m_CellPixelComponentType = SHORT;
-          }
-        else if ( cellDataComponentType == "unsigned_int" )
-          {
-          this->m_CellPixelComponentType = UINT;
-          }
-        else if ( cellDataComponentType == "int" )
-          {
-          this->m_CellPixelComponentType = INT;
-          }
-        else if ( cellDataComponentType == "unsigned_long" )
-          {
-          this->m_CellPixelComponentType = ULONG;
-          }
-        else if ( cellDataComponentType == "long" )
-          {
-          this->m_CellPixelComponentType = LONG;
-          }
-        else if ( cellDataComponentType == "unsigned_long_long" )
-          {
-          this->m_CellPixelComponentType = ULONGLONG;
-          }
-        else if ( cellDataComponentType == "long_long" )
-          {
-          this->m_CellPixelComponentType = LONGLONG;
-          }
-        else if ( cellDataComponentType == "float" )
-          {
-          this->m_CellPixelComponentType = FLOAT;
-          }
-        else if ( cellDataComponentType == "double" )
-          {
-          this->m_CellPixelComponentType = DOUBLE;
-          }
-        else if ( cellDataComponentType == "long_double" )
-          {
-          this->m_CellPixelComponentType = LDOUBLE;
-          }
-        else
-          {
-          itkExceptionMacro(<< "Unknown cell component type");
+          itkExceptionMacro(<< "Unknown cell SYMMETRICSECONDRANKTENSOR component type");
           }
 
         // Set cell pixel type
