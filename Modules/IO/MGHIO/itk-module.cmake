@@ -10,6 +10,8 @@ itk_module(MGHIO
     ITKTestKernel
     ITKTransform
   EXCLUDE_FROM_DEFAULT
+  FACTORY_NAMES
+    ImageIO::MGH
   DESCRIPTION
     "${DOCUMENTATION}"
 )
