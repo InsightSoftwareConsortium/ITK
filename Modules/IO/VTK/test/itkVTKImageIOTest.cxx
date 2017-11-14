@@ -104,11 +104,8 @@ int ReadWrite(TScalar low, TScalar hi, char *file1, char *file2, bool ascii)
   return EXIT_SUCCESS;
 }
 
-char * file1;
-char * file2;
-
 template<typename TScalar>
-int Test1Type()
+int Test1Type(char *file1, char *file2)
 {
   int status = 0;
 
@@ -138,23 +135,23 @@ int itkVTKImageIOTest(int argc, char* argv[] )
     return EXIT_FAILURE;
     }
 
-  file1 = argv[1];
-  file2 = argv[2];
+  char* file1 = argv[1];
+  char* file2 = argv[2];
 
   int status = 0;
 
-  status += Test1Type<float>();
-  status += Test1Type<double>();
-  status += Test1Type<unsigned char>();
-  status += Test1Type<char>();
-  status += Test1Type<unsigned short>();
-  status += Test1Type<short>();
-  status += Test1Type<unsigned int>();
-  status += Test1Type<int>();
-  status += Test1Type<unsigned long>();
-  status += Test1Type<long>();
-  status += Test1Type<unsigned long long>();
-  status += Test1Type<long long>();
+  status += Test1Type<float>(file1, file2);
+  status += Test1Type<double>(file1, file2);
+  status += Test1Type<unsigned char>(file1, file2);
+  status += Test1Type<char>(file1, file2);
+  status += Test1Type<unsigned short>(file1, file2);
+  status += Test1Type<short>(file1, file2);
+  status += Test1Type<unsigned int>(file1, file2);
+  status += Test1Type<int>(file1, file2);
+  status += Test1Type<unsigned long>(file1, file2);
+  status += Test1Type<long>(file1, file2);
+  status += Test1Type<unsigned long long>(file1, file2);
+  status += Test1Type<long long>(file1, file2);
 
   return status;
 }
