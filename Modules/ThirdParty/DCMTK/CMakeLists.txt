@@ -53,30 +53,35 @@ if(DCMTK_USE_ICU)
     define_by_product(NAME icu TARGETS ${ICU_BYPRODUCTS})
     if(MSVC)
       # Create map of MD5
-      set(ICU_1800_32 462050 6d45a684e608637b0350cd596249373d)
-      set(ICU_1800_64 462052 177721696d87a2cfa6c38a5d385eb21e)
+      set(ICU_1800_32 462079 39c597cf28f2df71baf92156d9276a4e)
+      set(ICU_1800_64 462080 9f9bc9e165ce47182889a748c20028c3)
       set(ICU_1900_32 462049 86f191c160ff86e66437c23ae36c50f8)
       set(ICU_1900_64 462053 3db188b9ba24ca39a0c5d1411b591d4d)
-      set(ICU_1911_32 9462051 e4053721d7d11125d82df34e0a576c2a)
+      set(ICU_1911_32 462051 e4053721d7d11125d82df34e0a576c2a)
       set(ICU_1911_64 462048 1706884a6fb773caad3f3955747cf7db)
       ###
-      if(${MSVC_VERSION} LESS "1900") # Before VS 2015, so VS 2013 and earlier
+      # Use a compatible MSVC_VERSION version if specific version is not available.
+      set(ICU_MSVC_VERSION ${MSVC_VERSION})
+      if(${ICU_MSVC_VERSION} LESS 1900) # Before VS 2015, so VS 2013 and earlier
         set(version "58.2")
       else()  # VS2015 && VS2017
         set(version "59.1")
+        if(${ICU_MSVC_VERSION} EQUAL 1910)
+          set(ICU_MSVC_VERSION 1911)
+        endif()
       endif()
       string(REPLACE "." "_" version_underscore ${version})
       math(EXPR bitness "${CMAKE_SIZEOF_VOID_P} * 8")
       set(root_name "icu4c-${version_underscore}")
-      set(binary_archive_name "${root_name}-install-msvc${MSVC_VERSION}-${bitness}")
-      if(NOT DEFINED ICU_${MSVC_VERSION}_${bitness})
+      set(binary_archive_name "${root_name}-install-msvc${ICU_MSVC_VERSION}-${bitness}")
+      if(NOT DEFINED ICU_${ICU_MSVC_VERSION}_${bitness})
         message(FATAL_ERROR
         "Unsupported version of Visual Studio. Disable DCMTK_USE_ICU."
         )
       endif()
-      list(GET ICU_${MSVC_VERSION}${bitness} 0 item_id)
-      set(ICU_URL "https://midas3.kitware.com/midas/download/bitstream/462048/${root_name}-install-msvc${MSVC_VERSION}-${bitness}.tar.gz")
-      list(GET ICU_${MSVC_VERSION}${bitness} 1 ICU_MD5)
+      list(GET ICU_${ICU_MSVC_VERSION}_${bitness} 0 item_id)
+      set(ICU_URL "https://midas3.kitware.com/midas/download/bitstream/${item_id}")
+      list(GET ICU_${ICU_MSVC_VERSION}${bitness} 1 ICU_MD5)
     else()
       set(ICU_URL "http://download.icu-project.org/files/icu4c/58.2/icu4c-58_2-src.tgz")
       set(ICU_MD5 fac212b32b7ec7ab007a12dff1f3aea1)
@@ -87,9 +92,9 @@ if(DCMTK_USE_ICU)
     set(ICU_ARGS
       -DDCMTK_WITH_STDLIBC_ICONV:BOOL=OFF
       -DDCMTK_WITH_ICU:BOOL=ON
-      -DICU_ROOT_DIR:PATH=${ICU_ROOT_DIR}
+      -DICU_ROOT_DIR:PATH=${ICU_ROOT_DIR} # Using CMake < 3.7 (FindICU.cmake from DCMTK)
       -DDCMTK_ENABLE_CHARSET_CONVERSION:STRING=ICU
-      -DICU_ROOT:PATH=${ICU_ROOT_DIR}  # CMake >= 3.6.20160710
+      -DICU_ROOT:PATH=${ICU_ROOT_DIR}  # CMake >= 3.7 (FindICU.cmake from CMake)
       )
     itk_download_attempt_check(icu)
     if(MSVC)

@@ -42,6 +42,8 @@ else(ITK_USE_SYSTEM_DCMTK)
     else()
       if(WIN32 AND ${MSVC_VERSION} LESS 1800) # No precompiled ICU for VS < 2013
         set(_DCMTK_USE_ICU_default OFF)
+      elseif(WIN32 AND CMAKE_VERSION VERSION_LESS 3.7)  # FindICU.cmake included in DMCTK doesn't find Windows ICU libraries.
+        set(_DCMTK_USE_ICU_default OFF)
       else()
         set(_DCMTK_USE_ICU_default ON)
       endif()
