@@ -1,21 +1,13 @@
 find_package(Doxygen REQUIRED)
 
-option(${module_prefix}_WRAP_DOC_MAN "Generate unix manual pages." ON)
-
 ###############################################################################
 # store the current dir, so it can be reused later
 set(ITK_WRAP_DOC_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "doc source dir")
 set(ITK_WRAP_DOC_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "doc binary dir")
 
-
-###############################################################################
-# the var to store the file produced by doxygen
-set(ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES "" CACHE INTERNAL "man pages produced by doxygen and already installed")
-
 ###############################################################################
 macro(itk_wrap_module_DOC library_name)
   set(ITK_WRAP_DOC_DOXYGEN_HEADERS )  # doxygen headers to process in this lib
-  set(ITK_WRAP_DOC_DOXYGEN_PAGES )  # pages produced by doxygen in this lib
   set(ITK_WRAP_DOC_DOXYGEN_XML_FILES )  # xml files produced by doxygen in this lib
   set(ITK_WRAP_DOC_DOCSTRING_FILES )  # swig docstring files produced by doxygen in this lib
 endmacro()
@@ -39,14 +31,6 @@ macro(itk_wrap_named_class_DOC class swig_name)
       list(APPEND ITK_WRAP_DOC_DOXYGEN_HEADERS "${doc_path}")
       # and the produced file
       string(REPLACE "::" "_" base_name "${class}")
-      set(page "${CMAKE_CURRENT_BINARY_DIR}/Doc/man3/${base_name}.3")
-      set(ITK_WRAP_DOC_DOXYGEN_PAGES "${ITK_WRAP_DOC_DOXYGEN_PAGES};${page}")
-      # and in install the manpage, if requested, and if not yet installed from another dir
-      if(${module_prefix}_WRAP_DOC_MAN AND NOT "${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES}" MATCHES "(^|;)${base_name}\\.3(;|$)")
-        WRAP_ITK_INSTALL(/Doc/man3 "${page}")
-        set(ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES ${ITK_WRAP_DOC_DOXYGEN_INSTALLED_PAGES} "${base_name}.3" CACHE INTERNAL "man pages produced by doxygen and already installed")
-      endif()
-
       # some simple computations to find the xml file produced for this class
       string(REGEX REPLACE "([A-Z])" "\\1" xmlname ${class})
       string(REGEX REPLACE ":" "_1" xmlname ${xmlname})
@@ -85,10 +69,6 @@ macro(itk_end_wrap_module_DOC)
     foreach(header ${headers})
       set(ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED "${ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED}           \"${header}\"\\\n")
     endforeach()
-    set(ITK_WRAP_DOC_GENERATE_MAN "NO")
-    if(${module_prefix}_WRAP_DOC_MAN)
-      set(ITK_WRAP_DOC_GENERATE_MAN "YES")
-    endif()
     set(ITK_WRAP_DOC_LIBRARY_DIR "${library_doc_build_dir}")
     configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/doxygen.config.in"
       "${library_doxygen_config_file}"
@@ -96,9 +76,6 @@ macro(itk_end_wrap_module_DOC)
 
     # which files are produced?
     set(outputs ${ITK_WRAP_DOC_DOXYGEN_XML_FILES})
-    if(${module_prefix}_WRAP_DOC_MAN)
-      list(APPEND outputs ${ITK_WRAP_DOC_DOXYGEN_PAGES})
-    endif()
 
     # run doxygen
     add_custom_command(
