@@ -12,6 +12,8 @@ itk_module(ITKIOLSM
     ITKTIFF
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::LSM
   DESCRIPTION
     "${DOCUMENTATION}"
 )

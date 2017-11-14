@@ -8,6 +8,8 @@ itk_module(ITKIOJPEG
     ITKJPEG
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::JPEG
   DESCRIPTION
     "${DOCUMENTATION}"
 )

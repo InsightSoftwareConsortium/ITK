@@ -4,6 +4,15 @@
 #
 # This file is configured by ITK and used by the UseITK.cmake module
 # to load ITK's settings for an external project.
+#
+# ITK components can be specified when using the CMake function `find_package()`
+# E.g. find_package(ITK COMPONENTS ITKCommon ITKIOImageBase ITKIONRRD ITKImageGradient)
+#
+# The components listed in this call must be ITK module names or factories
+# (e.g. ITKImageIO, ITKTransformIO). Factories allow the user to load all the
+# modules of a specific type (e.g. ImageIO, TransformIO) without having to
+# specify them individually.
+
 @ITK_CONFIG_CODE@
 
 # The C and C++ flags added by ITK to the cmake-configured flags.
@@ -55,22 +64,37 @@ endif()
 
 # Load module interface macros.
 include("@ITK_CONFIG_MODULE_API_FILE@")
-
-# Compute set of requested modules.
-if(ITK_FIND_COMPONENTS)
-  # Specific modules requested by find_package(ITK).
-  set(ITK_MODULES_REQUESTED "${ITK_FIND_COMPONENTS}")
-else()
-  # No specific modules requested.  Use all of them.
-  set(ITK_MODULES_REQUESTED "${ITK_MODULES_ENABLED}")
-endif()
-
 # Load requested modules and their dependencies into variables:
 #  ITK_LIBRARIES       = Libraries to link
 #  ITK_INCLUDE_DIRS    = Header file search path
 #  ITK_LIBRARY_DIRS    = Library search path (for outside dependencies)
 #  ITK_RUNTIME_LIBRARY_DIRS = Runtime linker search path
-itk_module_config(ITK ${ITK_MODULES_REQUESTED})
+#  ITK_FACTORY_NAMES = List of <module>::<factory>::<format>
+#  ITK_FACTORY_LIST  = List of factories set
+#  ITK_<factory_name> = List of formats for each factory
+itk_module_config(ITK ${ITK_MODULES_ENABLED})
+
+# Compute set of requested modules.
+if(ITK_FIND_COMPONENTS)
+  set(ITK_MODULES_REQUESTED ${ITK_FIND_COMPONENTS})
+  # Search for factory modules
+  foreach(_factory ${ITK_FACTORY_LIST})
+    string(REGEX MATCH "ITK${_factory}" factory_module_name "${ITK_MODULES_REQUESTED}")
+    if(factory_module_name)
+      # Remove factory module from ITK_MODULES_REQUESTED.
+      string(REGEX REPLACE "(${factory_module_name})" "" ITK_MODULES_REQUESTED "${ITK_MODULES_REQUESTED}")
+      # Extract all modules declaring this factory
+      string(REGEX MATCHALL "([A-Za-z0-9]+)::${_factory}::[A-Za-z0-9]*;*" _factory_modules "${ITK_FACTORY_NAMES}")
+      string(REGEX REPLACE "([A-Za-z0-9]+)::${_factory}::[A-Za-z0-9]*;*" "\\1;" _modules "${_factory_modules}")
+      # Add all additional modules to ITK_MODULES_REQUESTED
+      list(APPEND ITK_MODULES_REQUESTED ${_modules})
+    endif()
+  endforeach()
+  # Specific modules requested by find_package(ITK).
+  itk_module_config(ITK ${ITK_MODULES_REQUESTED})
+else()
+  set(ITK_MODULES_REQUESTED ${ITK_MODULES_ENABLED})
+endif()
 
 # Add configuration with FFTW
 set(ITK_USE_FFTWD "@ITK_USE_FFTWD@")

@@ -38,7 +38,7 @@ endif()
 # Collecting image format's description into a string for verification
 set(REGEX_IO_Factory_Description_First_Word  "")
 foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
-  if (${${ImageFormat}_image_module_name}_ENABLED)
+  if (${${ImageFormat}_imageio_module_name}_ENABLED)
     if (NOT REGEX_IO_Factory_Description_First_Word)
       set (REGEX_IO_Factory_Description_First_Word ${ImageFormat})
     else()

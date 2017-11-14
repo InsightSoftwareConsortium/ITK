@@ -6,5 +6,7 @@ itk_module(ITKIOBruker
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::Bruker2dseq
   DESCRIPTION
     "${DOCUMENTATION}")

@@ -9,6 +9,8 @@ itk_module(ITKIODCMTK
   TEST_DEPENDS
     ITKTestKernel
     ITKImageIntensity
+  FACTORY_NAMES
+    ImageIO::DCMTK
   DESCRIPTION
     "${DOCUMENTATION}"
   EXCLUDE_FROM_DEFAULT

@@ -8,6 +8,8 @@ itk_module(ITKIOBioRad
     ITKIOImageBase
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::BioRad
   DESCRIPTION
     "${DOCUMENTATION}"
 )

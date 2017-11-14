@@ -40,4 +40,8 @@ endif()
 #  ITK_INCLUDE_DIRS    = Header file search path
 #  ITK_LIBRARY_DIRS    = Library search path (for outside dependencies)
 #  ITK_RUNTIME_LIBRARY_DIRS = Runtime linker search path
+#  ITK_FACTORY_NAMES = List of <module>::<factory>::<format> to register
+#  ITK_FACTORY_LIST  = List of factories
+#  ITK_<factory_name> = List of formats for each factory
+
 itk_module_config(ITK ${ITK_MODULES_REQUESTED})

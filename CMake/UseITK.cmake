@@ -86,8 +86,9 @@ link_directories(${ITK_LIBRARY_DIRS})
 # IO format lists
 # ---------------
 #
-# The IO format lists are CMake variables set to an hardcoded list of file
-# format.
+# The IO format lists are CMake variables initialized when loading ITK modules.
+# Each module is responsible for declaration of the image and transform formats that it
+# implements.
 #
 # One list will be set for each factory type.
 #
@@ -132,23 +133,17 @@ link_directories(${ITK_LIBRARY_DIRS})
 # ----------------------------------------
 #
 # The configuration of the registration header for each factory is done
-# using the convenience function `_configure_IOFactoryRegisterManager()`.
+# using the convenience function `_configure_FactoryRegisterManager()`.
 #
 # It expects a list of file format associated with each factory types.
 #
-# By iterating over the format list, the CMake function `_configure_IOFactoryRegisterManager()`
+# By iterating over the format list, the CMake function `_configure_FactoryRegisterManager()`
 # will itself call `ADD_FACTORY_REGISTRATION()` to generate the Private function
 # names and update the `LIST_OF_FACTORY_NAMES` and `LIST_OF_FACTORIES_REGISTRATION`
 # CMake lists.
 #
 # Every file format is associated with a module name and factory name set
-# by iterating over the list of file format prior the call to `_configure_IOFactoryRegisterManager()`.
-#
-# For any given file format, it is possible to hardcode a different factory and
-# module name by setting CMake variable of the form `<format>_<factory_type>_module_name`
-# and `<format>_<factory_type>_factory_name` where `<factory_type>` is lower-cased.
-#
-# These custom associations are reported below under the "Exceptions" comments.
+# by iterating over the list of file format prior the call to `_configure_FactoryRegisterManager()`.
 #
 #
 # Caveats
@@ -162,19 +157,18 @@ link_directories(${ITK_LIBRARY_DIRS})
 
 
 
-# _configure_IOFactoryRegisterManager(<factory_type> <formats>)
+# _configure_FactoryRegisterManager(<factory_type> <formats>)
 #
 # Configure the registration manager header in the directory
-# `<CMAKE_CURRENT_BINARY_DIR>/ITKIOFactoryRegistration/`.
+# `<CMAKE_CURRENT_BINARY_DIR>/ITKFactoryRegistration/`.
 #
-# Header is named using the template `itk<factory_type>IOFactoryRegisterManager.h`
+# Header is named using the template `itk<factory_type>FactoryRegisterManager.h`
 #
-function(_configure_IOFactoryRegisterManager factory_type formats)
+function(_configure_FactoryRegisterManager factory_type formats)
   set(LIST_OF_FACTORIES_REGISTRATION "")
   set(LIST_OF_FACTORY_NAMES "")
 
   string(TOLOWER ${factory_type} _qualifier)
-
   foreach (format ${formats})
     set(_module_name ${${format}_${_qualifier}_module_name})
     set(_factory_name ${${format}_${_qualifier}_factory_name})
@@ -183,8 +177,8 @@ function(_configure_IOFactoryRegisterManager factory_type formats)
   endforeach()
 
   get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
-  configure_file(${_selfdir}/itk${factory_type}IOFactoryRegisterManager.h.in
-   "${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration/itk${factory_type}IOFactoryRegisterManager.h" @ONLY)
+  configure_file(${_selfdir}/itk${factory_type}FactoryRegisterManager.h.in
+   "${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration/itk${factory_type}FactoryRegisterManager.h" @ONLY)
 
 endfunction()
 
@@ -204,90 +198,46 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
     set(${_registration_list_var}
       "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private();")
     set(${_names_list_var} "${${_names_list_var}}${_factory_name}FactoryRegister__Private,")
+  else()
+    message(WARNING "Trying to register ${_module_name} in factory, but module was not requested")
   endif()
 endmacro()
 
 #-----------------------------------------------------------------------------
-# ImageIO
+# Factory registration
 #-----------------------------------------------------------------------------
-
-# a list of image IOs to be registered when the corresponding modules are enabled
-set(LIST_OF_IMAGEIO_FORMATS
-    Nifti Nrrd Gipl HDF5 JPEG GDCM BMP LSM PNG TIFF VTK Stimulate BioRad Meta MRC GE4 GE5
-    MINC
-    MGH SCIFIO FDF OpenSlide
-    PhilipsREC Bruker2dseq
-    )
-
-# Exceptions:
-
-set(Nifti_image_module_name  ITKIONIFTI)
-
-set(Nrrd_image_module_name ITKIONRRD)
-
-set(Gipl_image_module_name ITKIOGIPL)
-
-set(MGH_image_module_name MGHIO)
-
-set(OpenSlide_image_module_name IOOpenSlide)
-
-set(GE4_image_module_name ITKIOGE)
-set(GE5_image_module_name ITKIOGE)
-
-set(SCIFIO_image_module_name SCIFIO)
-
-set(FDF_image_module_name IOFDF)
-
-set(Bruker2dseq_image_module_name ITKIOBruker)
-
-foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
-  if (NOT ${ImageFormat}_image_module_name )
-     set(${ImageFormat}_image_module_name ITKIO${ImageFormat})
-  endif()
-  if (NOT ${ImageFormat}_image_factory_name)
-     set(${ImageFormat}_image_factory_name ${ImageFormat}ImageIO)
-  endif()
+foreach(_factory_name ${ITK_FACTORY_LIST})
+  set(Factory_${_factory_name}_formats ${ITK_${_factory_name}} CACHE STRING "List of formats to register to ${_factory_name}")
+  mark_as_advanced(Factory_${_factory_name}_formats)
 endforeach()
 
-if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-  _configure_IOFactoryRegisterManager("Image" "${LIST_OF_IMAGEIO_FORMATS}")
-endif()
-
-#-----------------------------------------------------------------------------
-# TransformIO
-#-----------------------------------------------------------------------------
-
-# a list of transform IOs to be registered when the corresponding modules are enabled
-set(LIST_OF_TRANSFORMIO_FORMATS
-  HDF5
-  Matlab
-  MINC
-  Txt
-  )
-
-# Exceptions:
-
-set(Txt_transform_module_name ITKIOTransformInsightLegacy)
-set(Txt_transform_factory_name TxtTransformIO)
-
-foreach(TransformFormat ${LIST_OF_TRANSFORMIO_FORMATS})
-  if (NOT ${TransformFormat}_transform_module_name )
-    set(${TransformFormat}_transform_module_name ITKIOTransform${TransformFormat})
-  endif()
-  if (NOT ${TransformFormat}_transform_factory_name)
-    set(${TransformFormat}_transform_factory_name ${TransformFormat}TransformIO)
+foreach(_factory_name ${ITK_FACTORY_LIST})
+  string(TOUPPER ${_factory_name} factory_uc)
+  string(TOLOWER ${_factory_name} factory_lc)
+  foreach(_format ${Factory_${_factory_name}_formats})
+    set(Module )
+    foreach(_module ${ITK_FACTORY_NAMES})
+      string(REGEX MATCH "^.*::${_factory_name}::${_format}$" Module_Matched "${_module}")
+      if(Module_Matched)
+        string(REGEX REPLACE "(.*)::${_factory_name}::${_format}" "\\1" Module "${Module_Matched}")
+        break()
+      endif()
+    endforeach()
+    if(NOT Module)
+      message(FATAL_ERROR "Module not found for ${_factory_name} format \"${_format}\" in factory")
+    endif()
+    list(APPEND LIST_OF_${factory_uc}_FORMATS ${_format})
+    set(${_format}_${factory_lc}_module_name ${Module})
+    set(${_format}_${factory_lc}_factory_name ${_format}${_factory_name})
+  endforeach()
+  if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+    _configure_FactoryRegisterManager("${_factory_name}" "${LIST_OF_${factory_uc}_FORMATS}")
   endif()
 endforeach()
-
-if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-  _configure_IOFactoryRegisterManager("Transform" "${LIST_OF_TRANSFORMIO_FORMATS}")
-endif()
-
-
 #-----------------------------------------------------------------------------
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
 
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
-  include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKIOFactoryRegistration)
+  include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration)
 
 endif()

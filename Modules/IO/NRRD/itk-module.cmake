@@ -9,6 +9,8 @@ itk_module(ITKIONRRD
     ITKNrrdIO
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::Nrrd
   DESCRIPTION
     "${DOCUMENTATION}"
 )

@@ -11,6 +11,8 @@ itk_module(ITKIONIFTI
     ITKTestKernel
     ITKNIFTI
     ITKTransform
+  FACTORY_NAMES
+    ImageIO::Nifti
   DESCRIPTION
     "${DOCUMENTATION}"
 )

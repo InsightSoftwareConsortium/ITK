@@ -12,6 +12,9 @@ itk_module(ITKIOGE
     ITKTestKernel
     ITKIOIPL
     ITKIOSiemens
+  FACTORY_NAMES
+    ImageIO::GE4
+    ImageIO::GE5
   DESCRIPTION
     "${DOCUMENTATION}"
 )

@@ -8,6 +8,8 @@ itk_module(ITKIOGIPL
     ITKZLIB
   TEST_DEPENDS
     ITKTestKernel
+  FACTORY_NAMES
+    ImageIO::Gipl
   DESCRIPTION
     "${DOCUMENTATION}"
 )

@@ -12,6 +12,8 @@ itk_module(ITKIOGDCM
     ITKTestKernel
     ITKGDCM
     ITKImageIntensity
+  FACTORY_NAMES
+    ImageIO::GDCM
   DESCRIPTION
     "${DOCUMENTATION}"
 )

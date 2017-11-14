@@ -10,6 +10,8 @@ itk_module(ITKIOHDF5
   TEST_DEPENDS
     ITKTestKernel
     ITKImageSources
+  FACTORY_NAMES
+    ImageIO::HDF5
   DESCRIPTION
     "${DOCUMENTATION}"
 )

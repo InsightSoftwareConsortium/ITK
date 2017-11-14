@@ -28,6 +28,16 @@ macro(_itk_module_config_recurse ns mod)
     list(APPEND ${ns}_INCLUDE_DIRS ${${mod}_INCLUDE_DIRS})
     list(APPEND ${ns}_LIBRARY_DIRS ${${mod}_LIBRARY_DIRS})
     list(APPEND ${ns}_RUNTIME_LIBRARY_DIRS ${${mod}_RUNTIME_LIBRARY_DIRS})
+    if(${mod}_FACTORY_NAMES)
+      foreach(_factory_format ${${mod}_FACTORY_NAMES})
+        # Split <factory_name>::<format>
+        string(REGEX REPLACE "^(.*)::(.*)$" "\\1" _factory_name "${_factory_format}")
+        string(REGEX REPLACE "^(.*)::(.*)$" "\\2" _format "${_factory_format}")
+        list(APPEND ${ns}_${_factory_name} ${_format})
+        list(APPEND ${ns}_FACTORY_NAMES ${mod}::${_factory_format})
+        list(APPEND ${ns}_FACTORY_LIST ${_factory_name})
+      endforeach()
+    endif()
     foreach(dep IN LISTS ${mod}_TRANSITIVE_DEPENDS)
       _itk_module_config_recurse("${ns}" "${dep}")
     endforeach()
@@ -72,13 +82,20 @@ endmacro()
 #  <namespace>_INCLUDE_DIRS = Header search path
 #  <namespace>_LIBRARY_DIRS = Library search path (for outside dependencies)
 #  <namespace>_RUNTIME_LIBRARY_DIRS = Runtime linker search path
+#  <namespace>_FACTORY_NAMES = List of formats to register
+#  <namespace>_FACTORY_LIST = List of factories to register
+#  <namespace>_<factory_list> = List of formats in each factory
 # Do not name a module as the namespace.
 macro(itk_module_config ns)
   set(${ns}_LIBRARIES "")
   set(${ns}_INCLUDE_DIRS "")
   set(${ns}_LIBRARY_DIRS "")
   set(${ns}_RUNTIME_LIBRARY_DIRS "")
-
+  set(${ns}_FACTORY_NAMES "")
+  foreach(_factory_name ${${ns}_FACTORY_LIST})
+    unset(${ns}_${_factory_name})
+  endforeach()
+  set(${ns}_FACTORY_LIST "")
   set(_${ns}_USED_MODULES "")
   foreach(mod ${ARGN})
     _itk_module_config_recurse("${ns}" "${mod}")
@@ -89,10 +106,13 @@ macro(itk_module_config ns)
   unset(_${ns}_USED_MODULES)
 
   foreach(v ${ns}_LIBRARIES ${ns}_INCLUDE_DIRS ${ns}_LIBRARY_DIRS
-            ${ns}_RUNTIME_LIBRARY_DIRS)
+            ${ns}_RUNTIME_LIBRARY_DIRS ${ns}_FACTORY_NAMES ${ns}_FACTORY_LIST)
     if(${v})
       list(REMOVE_DUPLICATES ${v})
     endif()
+  endforeach()
+  foreach(_factory ${${ns}_FACTORY_LIST})
+    list(SORT ${ns}_${_factory}) # Sort in a deterministic order
   endforeach()
 endmacro()
 
