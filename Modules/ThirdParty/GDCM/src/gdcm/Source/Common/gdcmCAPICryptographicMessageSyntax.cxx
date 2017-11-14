@@ -485,6 +485,7 @@ bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, BYTE* & buf
   if (f == NULL)
     {
     gdcmErrorMacro("Couldn't open the file: " << filename);
+    fclose(f);
     return false;
     }
   fseek(f, 0L, SEEK_END);
@@ -492,7 +493,11 @@ bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, BYTE* & buf
   rewind(f);
 
   buffer = new BYTE[sz];
-  if( !buffer ) return false;
+  if( !buffer )
+  {
+    fclose(f);
+    return false;
+  }
   bufLen = sz;
 
   while (sz)
@@ -501,6 +506,7 @@ bool CAPICryptographicMessageSyntax::LoadFile(const char * filename, BYTE* & buf
     sz -= (long)l;
     }
 
+  fclose(f);
   return true;
 }
 
