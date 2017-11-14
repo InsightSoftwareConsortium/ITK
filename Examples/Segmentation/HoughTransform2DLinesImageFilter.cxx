@@ -196,7 +196,7 @@ int main( int argc, char *argv[] )
 
   // Software Guide : BeginCodeSnippet
   HoughTransformFilterType::LinesListType lines;
-  lines = houghFilter->GetLines(atoi(argv[3]));
+  lines = houghFilter->GetLines();
   std::cout << "Found " << lines.size() << " line(s)." << std::endl;
   // Software Guide : EndCodeSnippet
 

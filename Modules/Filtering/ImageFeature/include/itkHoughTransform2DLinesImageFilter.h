@@ -133,7 +133,11 @@ public:
   itkGetModifiableObjectMacro(SimplifyAccumulator, OutputImageType);
 
   /** Get the list of lines. This recomputes the lines */
-  LinesListType & GetLines(unsigned int n = 0);
+  LinesListType & GetLines();
+
+  /** Get the list of lines.
+  * \deprecated Use GetLines() without arguments instead! */
+  itkLegacyMacro(LinesListType & GetLines(unsigned int n));
 
   /** Set/Get the number of lines to extract */
   itkSetMacro(NumberOfLines, LinesListSizeType);
@@ -195,7 +199,6 @@ private:
   float              m_DiscRadius;
   float              m_Variance;
   ModifiedTimeType   m_OldModifiedTime;
-  LinesListSizeType  m_OldNumberOfLines;
 };
 } // end namespace itk
 

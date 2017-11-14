@@ -38,7 +38,6 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
   m_DiscRadius = 10;
   m_Variance = 5;
   m_OldModifiedTime = 0;
-  m_OldNumberOfLines = 0;
   m_SimplifyAccumulator = ITK_NULLPTR;
 }
 
@@ -235,10 +234,10 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 template< typename TInputPixelType, typename TOutputPixelType >
 typename HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >::LinesListType &
 HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
-::GetLines(unsigned int n)
+::GetLines()
 {
   // if the filter has not been updated
-  if ( ( this->GetMTime() == m_OldModifiedTime ) && ( n == m_OldNumberOfLines ) )
+  if ( this->GetMTime() == m_OldModifiedTime )
     {
     return m_LinesList;
     }
@@ -366,9 +365,18 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
   while ( ( lines < m_NumberOfLines ) && ( found ) );
 
   m_OldModifiedTime = this->GetMTime();
-  m_OldNumberOfLines = m_LinesList.size();
   return m_LinesList;
 }
+
+#if !defined(ITK_LEGACY_REMOVE)
+template< typename TInputPixelType, typename TOutputPixelType >
+typename HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >::LinesListType &
+HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
+::GetLines(unsigned int)
+{
+  return this->GetLines();
+}
+#endif
 
 /** Print Self information */
 template< typename TInputPixelType, typename TOutputPixelType >
@@ -397,9 +405,6 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 
   os << indent << "OldModifiedTime: "
     << NumericTraits< ModifiedTimeType >::PrintType( m_OldModifiedTime )
-    << std::endl;
-  os << indent << "OldNumberOfLines: "
-    << NumericTraits< LinesListSizeType >::PrintType( m_OldNumberOfLines )
     << std::endl;
 }
 } // end namespace
