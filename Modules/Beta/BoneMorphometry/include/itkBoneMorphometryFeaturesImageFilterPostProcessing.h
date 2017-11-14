@@ -22,6 +22,12 @@
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
 
+//useful filters
+#include <itkVectorIndexSelectionCastImageFilter.h>
+#include <itkMinimumMaximumImageFilter.h>
+#include <itkMaskImageFilter.h>
+#include <itkComposeImageFilter.h>
+
 #include <vector>
 
 namespace itk
@@ -40,7 +46,7 @@ public ImageToImageFilter< TImage, TImage >
 public:
   /** Standard Self typedef */
   typedef BoneMorphometryFeaturesImageFilterPostProcessing Self;
-  typedef ImageToImageFilter< TInputImage, TOutputImage>   Superclass;
+  typedef ImageToImageFilter< TImage, TImage>              Superclass;
   typedef SmartPointer< Self >                             Pointer;
   typedef SmartPointer< const Self >                       ConstPointer;
 
@@ -50,26 +56,35 @@ public:
   /** Runtime information support. */
   itkTypeMacro(BoneMorphometryFeaturesImageFilterPostProcessing, ImageToImageFilter);
 
-  /** Image related typedefs. */
-  typedef typename TImage::Pointer    ImagePointer;
-  typedef typename TImage::RegionType RegionType;
-  typedef typename TImage::SizeType   SizeType;
-  typedef typename TImage::IndexType  IndexType;
-  typedef typename TImage::PixelType  PixelType;
+protected:
+
+  /** Input Image related typedefs. */
+  typedef typename TImage::Pointer           ImagePointer;
+  typedef typename TImage::RegionType        RegionType;
+  typedef typename TImage::SizeType          SizeType;
+  typedef typename TImage::IndexType         IndexType;
+  typedef typename TImage::PixelType         PixelType;
 
   /** Type to use for computations. */
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  typedef typename NumericTraits< PixelType >::ScalarRealType RealType;
 
-protected:
+  /** Intermediate Image related typedefs. */
+  typedef itk::Image< RealType, TImage::ImageDimension >        InterImageType;
+  typedef itk::ImageRegionConstIterator< InterImageType >       InterIteratorType;
+
   BoneMorphometryFeaturesImageFilterPostProcessing();
   virtual ~BoneMorphometryFeaturesImageFilterPostProcessing() {}
 
-  void GenerateData();
+  typedef VectorIndexSelectionCastImageFilter< TImage , InterImageType > IndexSelectionFiterType;
+  typedef MinimumMaximumImageFilter< InterImageType >                    MinMaxImageFilterType;
+  typedef MaskImageFilter< InterImageType , InterImageType >             MaskImageFilterType;
+
+  void GenerateData() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-
+  typename  IndexSelectionFiterType::Pointer   m_IndexSelectionFiter;
 
 }; // end of class
 } // end namespace itk

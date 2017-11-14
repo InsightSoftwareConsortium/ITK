@@ -27,7 +27,9 @@ template< typename TImage >
 BoneMorphometryFeaturesImageFilterPostProcessing<TImage>
 ::BoneMorphometryFeaturesImageFilterPostProcessing()
 {
-
+  m_IndexSelectionFiter = IndexSelectionFiterType::New();
+  m_IndexSelectionFiter->SetInput( this->GetInput() );
+  m_IndexSelectionFiter->SetIndex(0);
 }
 
 template< typename TImage >
@@ -35,7 +37,72 @@ void
 BoneMorphometryFeaturesImageFilterPostProcessing<TImage>
 ::GenerateData()
 {
+  m_IndexSelectionFiter->SetInput( this->GetInput() );
 
+  for(unsigned int i = 0; i < 5; i++)
+  {
+    m_IndexSelectionFiter->SetInput( this->GetInput() );
+    m_IndexSelectionFiter->SetIndex(i);
+    m_IndexSelectionFiter->Update();
+
+    InterIteratorType interIt( m_IndexSelectionFiter->GetOutput(), m_IndexSelectionFiter->GetOutput()->GetLargestPossibleRegion() );
+    interIt.GoToBegin();
+    RealType min = interIt.Get();
+    RealType max = interIt.Get();
+
+     while( !interIt.IsAtEnd() )
+     {
+       if(!std::isnan(interIt.Get()) && !std::isinf(interIt.Get()))
+       {
+         if(interIt.Get() < min) min = interIt.Get();
+         if(interIt.Get() > max) max = interIt.Get();
+       }
+       ++interIt;
+     }
+
+    TImage* outputPtr = this->GetOutput();
+    outputPtr->SetRegions( this->GetInput()->GetLargestPossibleRegion());
+    outputPtr->Allocate();
+    typedef itk::ImageRegionIterator< TImage > IteratorType;
+    IteratorType outputIt( outputPtr, outputPtr->GetLargestPossibleRegion() );
+    outputIt.GoToBegin();
+    interIt.GoToBegin();
+    PixelType pixel;
+
+    while( !interIt.IsAtEnd() )
+    {
+      pixel = outputIt.Get();
+      if(std::isnan(interIt.Get()))
+      {
+        if(i == 4)
+        {
+          pixel[i] = max;
+        }
+        else
+        {
+          pixel[i] = min;
+        }
+      }
+      else if (std::isinf(interIt.Get()))
+      {
+        if(i == 4)
+        {
+          pixel[i] = min;
+        }
+        else
+        {
+          pixel[i] = max;
+        }
+      }
+      else
+      {
+        pixel[i] = interIt.Get();
+      }
+      outputIt.Set(pixel);
+      ++interIt; ++outputIt;
+    }
+  }
+  this->GraftOutput( this->GetOutput() );
 }
 
 template< typename TImage >
