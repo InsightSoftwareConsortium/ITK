@@ -67,21 +67,11 @@ ThreadPool
   AddThreads(this->GetGlobalDefaultNumberOfThreads());
 }
 
-// Initialize static member that controls global default number of threads
-// 0 => Not initialized.
-ThreadIdType ThreadPool::m_GlobalDefaultNumberOfThreads = 0;
-
 ThreadIdType
 ThreadPool
 ::GetGlobalDefaultNumberOfThreads()
 {
-  // if default number has been set then don't try to update it; just
-  // return the value
-  if( m_GlobalDefaultNumberOfThreads != 0 )
-    {
-    return m_GlobalDefaultNumberOfThreads;
-    }
-
+  ThreadIdType threadCount = 0;
   /* The ITK_NUMBER_OF_THREADS_ENV_LIST contains is an
    * environmental variable that holds a ':' separated
    * list of environmental variables that whould be
@@ -129,27 +119,23 @@ ThreadPool
     {
     if( itksys::SystemTools::GetEnv(lit->c_str(), itkGlobalDefaultNumberOfThreadsEnv) )
       {
-      m_GlobalDefaultNumberOfThreads =
-        static_cast<ThreadIdType>( atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
+      threadCount = static_cast<ThreadIdType>( atoi( itkGlobalDefaultNumberOfThreadsEnv.c_str() ) );
       }
     }
 
   // otherwise, set number of threads based on system information
-  if( m_GlobalDefaultNumberOfThreads <= 0 )
+  if( threadCount <= 0 )
     {
-    const ThreadIdType num = GetGlobalDefaultNumberOfThreadsByPlatform();
-    m_GlobalDefaultNumberOfThreads = num;
+    threadCount = GetGlobalDefaultNumberOfThreadsByPlatform();
     }
 
   // limit the number of threads to m_GlobalMaximumNumberOfThreads
-  m_GlobalDefaultNumberOfThreads  = std::min( m_GlobalDefaultNumberOfThreads,
-                                              ThreadIdType(ITK_MAX_THREADS) );
+  threadCount  = std::min( threadCount, ThreadIdType(ITK_MAX_THREADS) );
 
   // verify that the default number of threads is larger than zero
-  m_GlobalDefaultNumberOfThreads  = std::max( m_GlobalDefaultNumberOfThreads,
-                                              NumericTraits<ThreadIdType>::OneValue() );
+  threadCount  = std::max( threadCount, NumericTraits<ThreadIdType>::OneValue() );
 
-  return m_GlobalDefaultNumberOfThreads;
+  return threadCount;
 }
 
 void

@@ -159,7 +159,11 @@ void MultiThreader::SetNumberOfThreads(ThreadIdType numberOfThreads)
 
 ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
 {
-  return ThreadPool::GetGlobalDefaultNumberOfThreads();
+  if( m_GlobalDefaultNumberOfThreads == 0 ) //need to initialize
+    {
+    m_GlobalDefaultNumberOfThreads = ThreadPool::GetGlobalDefaultNumberOfThreads();
+    }
+  return m_GlobalDefaultNumberOfThreads;
 }
 
 MultiThreader::MultiThreader() :
