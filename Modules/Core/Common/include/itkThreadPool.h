@@ -99,6 +99,7 @@ public:
   /** Platform specific number of threads */
   static ThreadIdType GetGlobalDefaultNumberOfThreadsByPlatform();
 
+  /** Examines environment variables and falls back to hyper-threaded core count */
   static ThreadIdType GetGlobalDefaultNumberOfThreads();
 
 protected:
@@ -152,14 +153,6 @@ private:
 
   /** The continuously running thread function */
   static void * ThreadExecute(void *param);
-
-  /* Global variable defining the default number of threads to set at
-  * construction time of a MultiThreader instance.
-  * m_GlobalDefaultNumberOfThreads must always be less than or equal to the
-  * m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
-  * initialized in the constructor of the first MultiThreader instantiation.
-  */
-  static ThreadIdType m_GlobalDefaultNumberOfThreads;
 };
 
 }
