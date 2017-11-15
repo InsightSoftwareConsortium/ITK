@@ -369,15 +369,9 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
   const VR &vr_read = de.GetVR();
   const VR &vr_dict = entry.GetVR();
 
-  if( vr_dict == VR::INVALID )
-    {
-    // FIXME This is a public element we do not support...
-    return ret;
-    }
-
   VR vr;
   // always prefer the vr from the file:
-  if( vr_read == VR::INVALID )
+  if( vr_read == VR::INVALID && vr_dict != VR::INVALID )
     {
     vr = vr_dict;
     }
@@ -389,7 +383,14 @@ std::pair<std::string, std::string> StringFilter::ToStringPairInternal(const Dat
     {
     vr = vr_read;
     }
-  if( vr.IsDual() ) // This mean vr was read from a dict entry:
+  if( vr == VR::INVALID )
+    {
+    // FIXME This is a public element we do not support...
+    gdcmDebugMacro( "DataElement does not specify the VR." );
+    return ret;
+    }
+
+   if( vr.IsDual() ) // This mean vr was read from a dict entry:
     {
     vr = DataSetHelper::ComputeVR(*F,ds, t);
     }

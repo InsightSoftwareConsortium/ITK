@@ -103,6 +103,15 @@ public:
     {
     if( ba )
       {
+      switch( ba )
+        {
+        /* some devices (FUJIFILM CR + MONO1) incorrectly set BitsAllocated/BitsStored
+         * as bitmask instead of value. Do what they mean instead of what they say.
+         */
+        case 0xffff: ba = 16; break;
+        case 0x0fff: ba = 12; break;
+        case 0x00ff: ba =  8; break;
+        }
       BitsAllocated = ba;
       BitsStored = ba;
       HighBit = (unsigned short)(ba - 1);
@@ -122,6 +131,14 @@ public:
     }
   void SetBitsStored(unsigned short bs)
     {
+    switch( bs )
+      {
+      /* see SetBitsAllocated for explanation
+       */
+      case 0xffff: bs = 16; break;
+      case 0x0fff: bs = 12; break;
+      case 0x00ff: bs =  8; break;
+      }
     if( bs <= BitsAllocated && bs )
       {
       BitsStored = bs;
@@ -137,6 +154,15 @@ public:
     }
   void SetHighBit(unsigned short hb)
     {
+    switch( hb )
+      {
+      /* broken implementations that use bitmask for BitsAllocated/Stored
+       * nonetheless use (BitsStored-1) for HighBit. correct for this here.
+       */
+      case 0xfffe: hb = 15; break;
+      case 0x0ffe: hb = 11; break;
+      case 0x00fe: hb =  7; break;
+      }
     if( hb < BitsStored )
       HighBit = hb;
     }
