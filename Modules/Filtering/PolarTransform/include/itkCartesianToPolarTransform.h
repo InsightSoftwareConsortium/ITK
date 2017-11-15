@@ -26,17 +26,19 @@
 namespace itk
 {
 
-/** \brief Polar transformation of a vector space (e.g. space coordinates).
+/** \class CartesianToPolarTransform
+ *
+ * \brief Polar transformation of a vector space (e.g. space coordinates).
  *
  * Transforms first two coordinates form cartesian coordinates  to polar
  * coordinates <alpha,radius>. Other dimensions are left unchanges. In fact
  * this is generalized cylindric transform:
- * \f[			r = \sqrt{ x_0^2 + x_1^2 } \f]
- * \f[			\alpha = \left\{ \begin{array}{ll}
+ * \f[          r = \sqrt{ x_0^2 + x_1^2 } \f]
+ * \f[          \alpha = \left\{ \begin{array}{ll}
  * arccos( \frac{x_0}{r} ) & \mbox{$x_1 >= 0$} \\
  * \mbox{2 \pi} - arccos( \frac{x_0}{r} ) & \mbox{$x_1 < 0$}
  * \end{array}\right. \f]
- * \f[			x_n = x_n, \mbox{n >= 2} \f]
+ * \f[          x_n = x_n, \mbox{n >= 2} \f]
  *
  *
  * \par
@@ -48,6 +50,7 @@ namespace itk
  * Sciences of the Czech Republic.
  *
  * \ingroup Transforms
+ * \ingroup PolarTransform
  */
 template <typename TParametersValueType = double, // Data type for scalars (float or double)
           unsigned int NDimensions = 3>           // Number of dimensions
