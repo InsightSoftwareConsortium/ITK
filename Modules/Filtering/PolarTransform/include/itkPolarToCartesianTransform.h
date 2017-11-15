@@ -1,14 +1,27 @@
-
-
-#ifndef __itkPolarToCartesianTransform_h
-#define __itkPolarToCartesianTransform_h
-
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef itkPolarToCartesianTransform_h
+#define itkPolarToCartesianTransform_h
 
 #include <iostream>
 #include "itkTransform.h"
 #include "itkExceptionObject.h"
 #include "itkMatrix.h"
-
 
 namespace itk
 {
@@ -34,17 +47,18 @@ namespace itk
  * Sciences of the Czech Republic.
  *
  * \ingroup Transforms
+ * \ingroup PolarTransform
  */
-template <class TScalarType = double,   // Data type for scalars (float or double)
-          unsigned int NDimensions = 3> // Number of dimensions
-class ITK_EXPORT PolarToCartesianTransform : public Transform<TScalarType, NDimensions, NDimensions>
+template <typename TParametersValueType = double, // Data type for scalars (float or double)
+          unsigned int NDimensions = 3>           // Number of dimensions
+class ITK_TEMPLATE_EXPORT PolarToCartesianTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
 {
 public:
   /** Standard class typedefs. */
-  typedef PolarToCartesianTransform                        Self;
-  typedef Transform<TScalarType, NDimensions, NDimensions> Superclass;
-  typedef SmartPointer<Self>                               Pointer;
-  typedef SmartPointer<const Self>                         ConstPointer;
+  typedef PolarToCartesianTransform                                 Self;
+  typedef Transform<TParametersValueType, NDimensions, NDimensions> Superclass;
+  typedef SmartPointer<Self>                                        Pointer;
+  typedef SmartPointer<const Self>                                  ConstPointer;
 
   /** New macro for creation of through the object factory.*/
   itkNewMacro(Self);
@@ -66,83 +80,87 @@ public:
   typedef typename Superclass::ParametersType ParametersType;
 
   /** Standard vector type for this class. */
-  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
-  typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
+  typedef Vector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
 
   /** Standard covariant vector type for this class. */
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
-  typedef CovariantVector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputCovariantVectorType;
+  typedef CovariantVector<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputCovariantVectorType;
 
   /** Standard vnl_vector type for this class. */
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
-  typedef vnl_vector_fixed<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputVnlVectorType;
+  typedef vnl_vector_fixed<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputVnlVectorType;
 
   /** Standard coordinate point type for this class. */
-  typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
-  typedef Point<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
+  typedef Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> InputPointType;
+  typedef Point<TParametersValueType, itkGetStaticConstMacro(SpaceDimension)> OutputPointType;
 
   /** Method to transform a point.
    * This method transforms first two dimensions of a point from polar
    * coordinates <alpha,radius> to cartesian coordinates.
    */
   OutputPointType
-  TransformPoint(const InputPointType & point) const;
+  TransformPoint(const InputPointType & point) const ITK_OVERRIDE;
 
   /** Method to transform a vector - not applicable for this type of
       transform. */
   virtual OutputVectorType
-  TransformVector(const InputVectorType &) const
+  TransformVector(const InputVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not applicable for polar transform.");
+    itkExceptionMacro(<< "Method not implemented yet.");
     return OutputVectorType();
   }
 
   /** Method to transform a vnl_vector - not applicable for this type of
       transform. */
   virtual OutputVnlVectorType
-  TransformVector(const InputVnlVectorType &) const
+  TransformVector(const InputVnlVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not applicable for polar transform. ");
+    itkExceptionMacro(<< "Method not implemented yet.");
     return OutputVnlVectorType();
   }
 
   /** Method to transform a CovariantVector - not applicable for this type of
       transform */
   virtual OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType &) const
+  TransformCovariantVector(const InputCovariantVectorType &) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not applicable for polar transfrom. ");
+    itkExceptionMacro(<< "Method not implemented yet.");
     return OutputCovariantVectorType();
   }
 
   /** Compute the Jacobian Matrix of the transformation at one point - not
       applicable for this type of transform */
   virtual const JacobianType &
-  GetJacobian(const InputPointType & point) const
+  GetJacobian(const InputPointType & point) const ITK_OVERRIDE
   {
-    itkExceptionMacro(<< "Method not applicable for polar transform. ");
-    return this->m_Jacobian;
+    itkExceptionMacro(<< "Method not implemented yet.");
   }
+
+  virtual void
+  ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const ITK_OVERRIDE
+  {
+    itkExceptionMacro(<< "Method not implemented yet.");
+  }
+
   void
-  SetParameters(const ParametersType & parameters)
+  SetParameters(const ParametersType & parameters) ITK_OVERRIDE
   {}
 
   void
-  SetFixedParameters(const ParametersType &)
+  SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {}
 
 protected:
   PolarToCartesianTransform();
-  ~PolarToCartesianTransform();
+  virtual ~PolarToCartesianTransform() ITK_OVERRIDE;
 
   /** Print contents of an PolarToCartesianTransform. */
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  PolarToCartesianTransform(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
+  ITK_DISALLOW_COPY_AND_ASSIGN(PolarToCartesianTransform);
 
 }; // class PolarToCartesianTransform
 
@@ -151,7 +169,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkPolarToCartesianTransform.txx"
+#  include "itkPolarToCartesianTransform.hxx"
 #endif
 
-#endif /* __itkPolarToCartesianTransform_h */
+#endif

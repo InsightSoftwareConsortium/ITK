@@ -19,10 +19,10 @@
 
 #include "itkPolarToCartesianTransform.h"
 #include "itkCartesianToPolarTransform.h"
-#include "vnl/vnl_math.h"
+#include "itkMath.h"
 
 int
-main(int, char *[])
+itkPolarTransformTest(int, char *[])
 {
   const unsigned int Dimension = 6;
   const double       epsilon = 1e-10;

@@ -1,7 +1,5 @@
-itk_wrap_class("itk::NormalDistributionImageSource" POINTER)
+itk_wrap_class("itk::CartesianToPolarTransform" POINTER)
 foreach(d ${ITK_WRAP_IMAGE_DIMS})
-  itk_wrap_template("${ITKM_I${ITKM_F}${d}}"
-                     "${ITKT_I${ITKM_F}${d}}"
-  )
+  itk_wrap_template("${ITKM_D}${d}" "${ITKT_D},${d}")
 endforeach()
 itk_end_wrap_class()
