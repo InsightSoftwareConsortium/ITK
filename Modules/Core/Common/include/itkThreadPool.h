@@ -91,7 +91,7 @@ public:
   void AddThreads(ThreadIdType count);
 
   /** The approximate number of idle threads. */
-  ThreadIdType GetNumberOfCurrentlyIdleThreads() const;
+  int GetNumberOfCurrentlyIdleThreads() const;
 
   /** This method blocks until the given job has finished executing. */
   void WaitForJob(Semaphore& jobSemaphore);
@@ -125,8 +125,6 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ThreadPool);
 
-  ThreadIdType m_ThreadCount;
-
   /** Set if exception occurs */
   bool m_ExceptionOccurred;
 
@@ -152,7 +150,7 @@ private:
   static Pointer m_ThreadPoolInstance;
 
   /** The continuously running thread function */
-  static void * ThreadExecute(void *param);
+  static ITK_THREAD_RETURN_TYPE ThreadExecute(void *param);
 };
 
 }

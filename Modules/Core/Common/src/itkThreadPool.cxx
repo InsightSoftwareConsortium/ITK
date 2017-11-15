@@ -43,14 +43,10 @@ ThreadPool
   MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
   if( m_ThreadPoolInstance.IsNull() )
     {
-    // Try the factory first
     m_ThreadPoolInstance  = ObjectFactory< Self >::Create();
-    // if the factory did not provide one, then create it here
     if ( m_ThreadPoolInstance.IsNull() )
       {
-      m_ThreadPoolInstance = new ThreadPool();
-      // Remove extra reference from construction.
-      m_ThreadPoolInstance->UnRegister();
+      new ThreadPool(); //constructor sets m_ThreadPoolInstance
       }
     }
   return m_ThreadPoolInstance;
@@ -58,13 +54,12 @@ ThreadPool
 
 ThreadPool
 ::ThreadPool() :
-  m_ThreadCount(0),
   m_ExceptionOccurred(false)
 {
   MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
   m_ThreadPoolInstance = this; //threads need this
+  m_ThreadPoolInstance->UnRegister(); // Remove extra reference
   PlatformCreate(m_ThreadsSemaphore);
-  AddThreads(this->GetGlobalDefaultNumberOfThreads());
 }
 
 ThreadIdType
@@ -147,7 +142,6 @@ ThreadPool
   for( unsigned int i = 0; i < count; ++i )
     {
     AddThread();
-    m_ThreadCount++;
     }
 }
 
@@ -165,12 +159,16 @@ ThreadPool
     }
 }
 
-ThreadIdType
+int
 ThreadPool
 ::GetNumberOfCurrentlyIdleThreads() const
 {
   MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
-  return GetGlobalDefaultNumberOfThreads() - m_WorkQueue.size(); // lousy approximation
+  if ( m_Threads.empty() ) //not yet initialized
+    {
+    const_cast<ThreadPool *>(this)->AddThreads(ThreadPool::GetGlobalDefaultNumberOfThreads());
+    }
+  return int(m_Threads.size()) - int(m_WorkQueue.size()); // lousy approximation
 }
 
 ITK_THREAD_RETURN_TYPE
@@ -182,20 +180,39 @@ noOperation(void *)
 ThreadPool
 ::~ThreadPool()
 {
-  //add dummy jobs for clean thread exit
-  std::vector<Semaphore> jobSem(m_Threads.size());
-  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+  bool waitForThreads = true;
+#if defined(WIN32) && defined(ITKCommon_EXPORTS)
+  //this destructor is called during DllMain's DLL_PROCESS_DETACH.
+  //Because ITKCommon-4.X.dll is usually being detached due to process termination,
+  //lpvReserved is non-NULL meaning that "all threads in the process
+  //except the current thread either have exited already or have been
+  //explicitly terminated by a call to the ExitProcess function".
+  if ( !m_Threads.empty() ) //thread pool was used
     {
-    ThreadJob dummy;
-    dummy.m_ThreadFunction = &noOperation;
-    dummy.m_Semaphore = &jobSem[i];
-    dummy.m_UserData = ITK_NULLPTR; //makes dummy jobs easier to spot while debugging
-    AddWork(dummy);
+    DWORD dwWaitResult = WaitForSingleObject(m_Threads[0], 1);
+    if (dwWaitResult == WAIT_OBJECT_0) //thread has finished
+      {
+      waitForThreads = false;
+      }
     }
+#endif
 
-  for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+  if (waitForThreads) //add dummy jobs for clean thread exit
     {
-    WaitForJob(jobSem[i]);
+    std::vector<Semaphore> jobSem(m_Threads.size());
+    for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+      {
+      ThreadJob dummy;
+      dummy.m_ThreadFunction = &noOperation;
+      dummy.m_Semaphore = &jobSem[i];
+      dummy.m_UserData = ITK_NULLPTR; //makes dummy jobs easier to spot while debugging
+      AddWork(dummy);
+      }
+
+    for (ThreadIdType i = 0; i < m_Threads.size(); i++)
+      {
+      WaitForJob(jobSem[i]);
+      }
     }
 
   DeleteThreads();
@@ -216,6 +233,10 @@ ThreadPool
 {
   {
     MutexLockHolder<SimpleFastMutexLock> mutexHolder(m_Mutex);
+    if ( m_Threads.empty() ) //first job
+      {
+      AddThreads(ThreadPool::GetGlobalDefaultNumberOfThreads());
+      }
     m_WorkQueue.push_back(threadJob);
   }
 
@@ -224,7 +245,7 @@ ThreadPool
 }
 
 
-void *
+ITK_THREAD_RETURN_TYPE
 ThreadPool
 ::ThreadExecute(void *)
 {
@@ -262,7 +283,7 @@ ThreadPool
     threadPool->m_ExceptionOccurred = true;
     throw;
     }
-  return ITK_NULLPTR;
+  return ITK_THREAD_RETURN_VALUE;
 }
 
 }
