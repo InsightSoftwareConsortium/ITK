@@ -281,11 +281,11 @@ int testMetaImage(int , char * [])
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<unsigned long long,3>( static_cast<unsigned long long>(8589934592), "unsigned long long" ) )
+  if( ReadWriteCompare<unsigned long long,3>( static_cast<unsigned long long>(8589934592ull), "unsigned long long" ) )
   {
     return EXIT_FAILURE;
   }
-  if( ReadWriteCompare<long long,3>( static_cast<long long>(-8589934592), "long long" ) )
+  if( ReadWriteCompare<long long,3>( static_cast<long long>(-8589934592ll), "long long" ) )
   {
     return EXIT_FAILURE;
   }
