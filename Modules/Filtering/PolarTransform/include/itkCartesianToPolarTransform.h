@@ -62,6 +62,9 @@ public:
   /** Standard Jacobian container. */
   typedef typename Superclass::JacobianType JacobianType;
 
+  /** Standard parameters container. */
+  typedef typename Superclass::ParametersType ParametersType;
+
   /** Standard vector type for this class. */
   typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> InputVectorType;
   typedef Vector<TScalarType, itkGetStaticConstMacro(SpaceDimension)> OutputVectorType;
@@ -117,8 +120,16 @@ public:
   GetJacobian(const InputPointType & point) const
   {
     itkExceptionMacro(<< "Method not applicable for polar transform. ");
-    return m_Jacobian;
+    return this->m_Jacobian;
   }
+
+  void
+  SetParameters(const ParametersType & parameters)
+  {}
+
+  void
+  SetFixedParameters(const ParametersType &)
+  {}
 
 protected:
   CartesianToPolarTransform();
