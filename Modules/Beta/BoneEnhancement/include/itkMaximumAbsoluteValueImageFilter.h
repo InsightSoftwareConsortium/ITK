@@ -1,53 +1,94 @@
-#ifndef __MaximumAbsoluteValueImageFilter_h_
-#define __MaximumAbsoluteValueImageFilter_h_
+/*=========================================================================
+ *
+ *  Copyright Insight Software Consortium
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+#ifndef MaximumAbsoluteValueImageFilter_h
+#define MaximumAbsoluteValueImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
+#include "itkMath.h"
 
 namespace itk {
-    namespace Functor {
-        template<typename TInputPixel1, typename TInputPixel2, typename TOutputPixel>
-        class MaximumAbsoluteValue {
-        public:
-            MaximumAbsoluteValue() {
-            }
+namespace Functor {
+template<typename TInputPixel1, typename TInputPixel2 = TInputPixel1, typename TOutputPixel = TInputPixel1>
+class MaximumAbsoluteValue {
+public:
+    MaximumAbsoluteValue() {
+    }
 
-            ~MaximumAbsoluteValue() {
-            }
+    ~MaximumAbsoluteValue() {
+    }
 
-            inline TOutputPixel operator()(const TInputPixel1 A, const TInputPixel2 B) {
-                return static_cast<TOutputPixel>(vnl_math_abs(A) >= vnl_math_abs(B) ? A : B);
-            }
-        };
-    } // namespace functor
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking TODO
+  itkConceptMacro( Input1ConvertableToOutputCheck,
+                   ( Concept::Convertible< TInputPixel1, TOutputPixel >) );
+  itkConceptMacro( Input2ConvertableToOutputCheck,
+                   ( Concept::Convertible< TInputPixel2, TOutputPixel >) );
+  itkConceptMacro( Input1GreaterThanInput2Check,
+                   ( Concept::GreaterThanComparable< TInputPixel1, TInputPixel2 >) );
+  // End concept checking
+#endif
 
-    template<typename TInputImage1, typename TInputImage2, typename TOutputImage>
-    class MaximumAbsoluteValueImageFilter :
-            public BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
-                    Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,
-                            typename TOutputImage::PixelType> > {
-    public:
-        // itk requirements
-        typedef MaximumAbsoluteValueImageFilter Self;
-        typedef BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
-                Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,
-                        typename TOutputImage::PixelType> > Superclass;
-        typedef SmartPointer<Self> Pointer;
-        typedef SmartPointer<const Self> ConstPointer;
+    inline TOutputPixel operator()(const TInputPixel1 A, const TInputPixel2 B) {
+        return static_cast<TOutputPixel>(Math::abs(A) > Math::abs(B) ? A : B);
+    }
+}; // end of class
+} // namespace functor
 
-        itkNewMacro(Self); // create the smart pointers and register with ITKs object factory
-        itkTypeMacro(MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter); // type information for runtime evaluation
+/** \class MaximumAbsoluteValueImageFilter
+ * \brief Compute the maximum (of the absolute value) between two images.
+ *
+ * TODO: See BoneMorphometry for an example DOXYGEN description https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/blob/master/include/itkBoneMorphometryFeaturesFilter.h
+ *
+ * \author: Thomas Fitze
+ * \ingroup BoneEnhancement
+ *
+ */
+template<typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
+class MaximumAbsoluteValueImageFilter :
+public BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,typename TOutputImage::PixelType> > 
+{
+public:
+  typedef MaximumAbsoluteValueImageFilter Self;
+  typedef BinaryFunctorImageFilter<TInputImage1, TInputImage2, TOutputImage,
+          Functor::MaximumAbsoluteValue<typename TInputImage1::PixelType, typename TInputImage2::PixelType,
+                  typename TOutputImage::PixelType> > Superclass;
+  typedef SmartPointer<Self> Pointer;
+  typedef SmartPointer<const Self> ConstPointer;
 
-    protected:
-        MaximumAbsoluteValueImageFilter() {
-        };
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
 
-        virtual ~MaximumAbsoluteValueImageFilter() {
-        };
+  /** Runtime information support. */
+  itkTypeMacro(MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
 
-    private:
-        MaximumAbsoluteValueImageFilter(const Self &); //purposely not implemented
-        void operator=(const Self &);   //purposely not implemented
+protected:
+    MaximumAbsoluteValueImageFilter() {
+
     };
-}
 
-#endif //__MaximumAbsoluteValueImageFilter_h_
+    virtual ~MaximumAbsoluteValueImageFilter() {
+    };
+
+private:
+    MaximumAbsoluteValueImageFilter(const Self &);
+    void operator=(const Self &);
+}; // end of class
+} // end namespace itk
+
+#endif // MaximumAbsoluteValueImageFilter_h
