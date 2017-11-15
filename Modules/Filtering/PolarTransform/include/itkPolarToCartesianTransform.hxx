@@ -25,7 +25,9 @@ namespace itk
 
 template <typename TParametersValueType, unsigned int NDimensions>
 PolarToCartesianTransform<TParametersValueType, NDimensions>::PolarToCartesianTransform()
-{}
+{
+  this->m_Center.Fill(0.0);
+}
 
 
 template <typename TParametersValueType, unsigned int NDimensions>
@@ -38,6 +40,7 @@ void
 PolarToCartesianTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+  os << indent << "Center: " << m_Center << std::endl;
 }
 
 
@@ -46,8 +49,15 @@ typename PolarToCartesianTransform<TParametersValueType, NDimensions>::OutputPoi
 PolarToCartesianTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & inputPoint) const
 {
   OutputPointType outputPoint(inputPoint);
+
   outputPoint[0] = inputPoint[1] * std::cos(inputPoint[0]); // r*cos(alpha)
   outputPoint[1] = inputPoint[1] * std::sin(inputPoint[0]); // r*sin(alpha)
+
+  for (unsigned int ii = 0; ii < SpaceDimension; ++ii)
+  {
+    outputPoint[ii] = this->m_Center[ii] + outputPoint[ii];
+  }
+
   return outputPoint;
 }
 

@@ -37,11 +37,11 @@ namespace itk
  * \f[          x_2 = r sin( \alpha ) \f]
  * \f[          x_n = x_n, \mbox{ n>=2 } \f]
  *
- *
  * \par
- * Center of the polar transform is a center of coordinate system < 0, 0 >.
+ * Center of the polar transform is can be specified with SetCenter().
+ * The default is center of coordinate system < 0, 0 >.
  *
- * Dimension must be at least 2 or an exception is thrown during transform.
+ * Dimension must be at least 2.
  *
  * Extent of input in first dimension (alpha) should be only < 0, 2*pi ).
  *
@@ -145,6 +145,10 @@ public:
   SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {}
 
+  /** Set the location of the center of the polar coordinate system. */
+  itkSetMacro(Center, OutputPointType);
+  itkGetConstReferenceMacro(Center, OutputPointType);
+
 protected:
   PolarToCartesianTransform();
   virtual ~PolarToCartesianTransform() ITK_OVERRIDE;
@@ -156,6 +160,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PolarToCartesianTransform);
 
+  OutputPointType m_Center;
 }; // class PolarToCartesianTransform
 
 

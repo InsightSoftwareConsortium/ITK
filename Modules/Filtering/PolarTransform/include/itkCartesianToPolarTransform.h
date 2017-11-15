@@ -42,9 +42,10 @@ namespace itk
  *
  *
  * \par
- * Center of the polar transform is a center of coordinate system <0,0>.
+ * Center of the polar transform is can be specified with SetCenter().
+ * The default is center of coordinate system < 0, 0 >.
  *
- * Dimension must be at least 2 or an exception is thrown during transform.
+ * Dimension must be at least 2.
  *
  * \author Jakub Bican, Department of Image Processing, Institute of Information Theory and Automation, Academy of
  * Sciences of the Czech Republic.
@@ -145,6 +146,10 @@ public:
   SetFixedParameters(const ParametersType &) ITK_OVERRIDE
   {}
 
+  /** Set the location of the center of the polar coordinate system. */
+  itkSetMacro(Center, InputPointType);
+  itkGetConstReferenceMacro(Center, InputPointType);
+
 protected:
   CartesianToPolarTransform();
   virtual ~CartesianToPolarTransform() ITK_OVERRIDE;
@@ -155,6 +160,8 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CartesianToPolarTransform);
+
+  InputPointType m_Center;
 
 }; // class CartesianToPolarTransform
 

@@ -15,8 +15,6 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <iostream>
-
 #include "itkPolarToCartesianTransform.h"
 #include "itkCartesianToPolarTransform.h"
 #include "itkMath.h"
@@ -24,7 +22,7 @@
 int
 itkPolarTransformTest(int, char *[])
 {
-  const unsigned int Dimension = 6;
+  const unsigned int Dimension = 4;
   const double       epsilon = 1e-10;
 
   /* Create 3D polar transforms and print them. */
@@ -33,19 +31,26 @@ itkPolarTransformTest(int, char *[])
   P2CTransformType::Pointer                                 p2c = P2CTransformType::New();
   C2PTransformType::Pointer                                 c2p = C2PTransformType::New();
 
+  P2CTransformType::InputPointType center;
+  center.Fill(0.0);
+  center[0] = -1.0;
+
+  p2c->SetCenter(center);
+  c2p->SetCenter(center);
+
   std::cout << "Polar to cartesian transform: " << p2c << std::endl;
   std::cout << "Cartesian to polar transform: " << c2p << std::endl;
 
 
   /* Create testing points in cartesian and polar space. */
   itk::Point<double, Dimension> c, p, tmp;
-  c[0] = 1;
-  c[1] = sqrt(3.0);
-  p[0] = vnl_math::pi / 3.0;
-  p[1] = 2;
+  c[0] = 0.0;
+  c[1] = std::sqrt(3.0);
+  p[0] = itk::Math::pi / 3.0;
+  p[1] = 2.0;
   for (unsigned int i = 2; i < Dimension; ++i)
   {
-    c[i] = 3;
+    c[i] = 3.0;
     p[i] = c[i];
   }
 
@@ -55,7 +60,6 @@ itkPolarTransformTest(int, char *[])
   {
     if (std::abs(tmp[i] - c[i]) > epsilon)
     {
-      std::cout << "Invalid polar to cartesian computed." << std::endl;
       return EXIT_FAILURE;
     }
   }
