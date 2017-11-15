@@ -266,11 +266,14 @@ TEST_F(ShapeLabelMapFixture,3D_T2x2x2_Spacing)
   EXPECT_EQ(8u, labelObject->GetNumberOfPixels());
   EXPECT_EQ(0u, labelObject->GetNumberOfPixelsOnBorder());
   EXPECT_VECTOR_NEAR(MakeVector(2, 2.2, 4.4), labelObject->GetOrientedBoundingBoxSize(),1e-10);
-  EXPECT_VECTOR_NEAR(MakePoint(4.5, 9.35, 23.1), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
   EXPECT_NEAR(28.3919, labelObject->GetPerimeter(), 1e-4); // resulting value
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorder());
   EXPECT_EQ(0.0, labelObject->GetPerimeterOnBorderRatio());
   EXPECT_NEAR(19.36, labelObject->GetPhysicalSize(), 1e-10);
+  // We are omitted these because the sign of the eigen vectors is not
+  //unique, therefore the axes may not always point in the same
+  //direction and the origin may not be the same corner
+  //EXPECT_VECTOR_NEAR(MakePoint(4.5, 9.35, 23.1), labelObject->GetOrientedBoundingBoxOrigin(), 1e-4);
   //labelObject->GetPrincipalAxes(); omitted
   EXPECT_VECTOR_NEAR(MakeVector(0.25, 0.3025, 1.21), labelObject->GetPrincipalMoments(),1e-4);
   EXPECT_NEAR( 1.22808, labelObject->GetRoundness(), 1e-4); // resulting value
