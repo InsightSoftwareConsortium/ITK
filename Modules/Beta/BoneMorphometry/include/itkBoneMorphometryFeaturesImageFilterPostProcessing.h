@@ -33,7 +33,14 @@
 namespace itk
 {
 /** \class BoneMorphometryFeaturesImageFilterPostProcessing
- * \brief
+ * \brief This new filter can be used after the usage of itkBoneMorphometryFeaturesImageFilter
+ * in order to remove the Nan and Inf values of the feature maps. (Those values are due to
+ * neighborhood containing only bone voxel, containing 0 bone voxel)
+ *
+ * This filter is working with two passes for each feature map:
+ *   -The first pass allow the detection of the minumum and maximum values of the feature maps.
+ *   -During the second pass, every NaN or Inf value will be replace by eather the maximum of minimum value detected
+ *   in the first path  depending of the feature.
  *
  * \author: Jean-Baptiste Vimort
  * \ingroup BoneMorphometry
