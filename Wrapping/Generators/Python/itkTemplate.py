@@ -276,6 +276,11 @@ class itkTemplate(object):
     def __repr__(self):
         return '<itkTemplate %s>' % self.__name__
 
+    def __getattr__(self, attr):
+        """Support for lazy loading."""
+        self._LoadModules()
+        return object.__getattribute__(self, attr)
+
 
     def _LoadModules(self):
         """Loads all the module that may have not been loaded by the lazy loading system.
