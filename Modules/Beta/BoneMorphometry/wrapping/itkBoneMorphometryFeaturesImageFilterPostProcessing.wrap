@@ -1,0 +1,46 @@
+set(OutputVectorDim 5)
+itk_wrap_class("itk::FixedArray")
+  itk_wrap_template("${ITKM_F}${OutputVectorDim}" "${ITKT_F},${OutputVectorDim}")
+itk_end_wrap_class()
+
+itk_wrap_class("itk::Vector")
+  itk_wrap_template("${ITKM_F}${OutputVectorDim}" "${ITKT_F},${OutputVectorDim}")
+itk_end_wrap_class()
+
+WRAP_TYPE("itk::Image" "I" "itkImage.h")
+    ADD_TEMPLATE("V${ITKM_F}${OutputVectorDim}3" "itk::Vector<${ITKT_F},${OutputVectorDim}>,3")
+END_WRAP_TYPE()
+
+itk_wrap_class("itk::Image" POINTER)
+    itk_wrap_template("V${ITKM_F}${OutputVectorDim}3" "itk::Vector<${ITKT_F},${OutputVectorDim}>,3")
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageSource" POINTER)
+    itk_wrap_template("IV${ITKM_F}${OutputVectorDim}3" "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageToImageFilter" POINTER)
+  foreach(t ${WRAP_ITK_SCALAR})
+    itk_wrap_template("IV${ITKM_F}${OutputVectorDim}3IV${ITKM_F}${OutputVectorDim}3"
+                      "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>, itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
+  endforeach()
+itk_end_wrap_class()
+
+itk_wrap_simple_class("itk::ImageIOBase" )
+
+itk_wrap_class("itk::ImageFileReader" POINTER)
+  itk_wrap_template("IV${ITKM_F}${OutputVectorDim}3"
+                    "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
+itk_end_wrap_class()
+
+itk_wrap_class("itk::ImageFileWriter" POINTER)
+  itk_wrap_template("IV${ITKM_F}${OutputVectorDim}3"
+                    "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
+itk_end_wrap_class()
+
+itk_wrap_class("itk::BoneMorphometryFeaturesImageFilterPostProcessing" POINTER)
+  itk_wrap_template("IV${ITKM_F}${OutputVectorDim}3"
+                    "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
+  itk_wrap_template("${ITKM_VI${ITKM_F}3}"
+                    "${ITKT_VI${ITKM_F}3}")
+itk_end_wrap_class()
