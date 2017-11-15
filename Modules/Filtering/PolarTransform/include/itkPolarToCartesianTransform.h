@@ -131,14 +131,6 @@ public:
     return OutputCovariantVectorType();
   }
 
-  /** Compute the Jacobian Matrix of the transformation at one point - not
-      applicable for this type of transform */
-  virtual const JacobianType &
-  GetJacobian(const InputPointType & point) const ITK_OVERRIDE
-  {
-    itkExceptionMacro(<< "Method not implemented yet.");
-  }
-
   virtual void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const ITK_OVERRIDE
   {
