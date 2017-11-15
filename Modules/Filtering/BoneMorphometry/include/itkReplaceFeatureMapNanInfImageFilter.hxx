@@ -15,16 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBoneMorphometryFeaturesImageFilterPostProcessing_hxx
-#define itkBoneMorphometryFeaturesImageFilterPostProcessing_hxx
+#ifndef itkReplaceFeatureMapNanInfImageFilter_hxx
+#define itkReplaceFeatureMapNanInfImageFilter_hxx
 
-#include "itkBoneMorphometryFeaturesImageFilterPostProcessing.h"
+#include "itkReplaceFeatureMapNanInfImageFilter.h"
 
 namespace itk
 {
 template <typename TImage>
 
-BoneMorphometryFeaturesImageFilterPostProcessing<TImage>::BoneMorphometryFeaturesImageFilterPostProcessing()
+ReplaceFeatureMapNanInfImageFilter<TImage>::ReplaceFeatureMapNanInfImageFilter()
 {
   m_IndexSelectionFiter = IndexSelectionFiterType::New();
   m_IndexSelectionFiter->SetInput(this->GetInput());
@@ -33,7 +33,7 @@ BoneMorphometryFeaturesImageFilterPostProcessing<TImage>::BoneMorphometryFeature
 
 template <typename TImage>
 void
-BoneMorphometryFeaturesImageFilterPostProcessing<TImage>::GenerateData()
+ReplaceFeatureMapNanInfImageFilter<TImage>::GenerateData()
 {
   m_IndexSelectionFiter->SetInput(this->GetInput());
 
@@ -109,10 +109,10 @@ BoneMorphometryFeaturesImageFilterPostProcessing<TImage>::GenerateData()
 
 template <typename TImage>
 void
-BoneMorphometryFeaturesImageFilterPostProcessing<TImage>::PrintSelf(std::ostream & os, Indent indent) const
+ReplaceFeatureMapNanInfImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 } // end namespace itk
 
-#endif // itkBoneMorphometryFeaturesImageFilterPostProcessing_hxx
+#endif // itkReplaceFeatureMapNanInfImageFilter_hxx

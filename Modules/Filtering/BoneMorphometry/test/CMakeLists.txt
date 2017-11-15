@@ -4,7 +4,7 @@ set(
   BoneMorphometryTests
   BoneMorphometryFeaturesFilterInstantiationTest.cxx
   BoneMorphometryFeaturesImageFilterInstantiationTest.cxx
-  BoneMorphometryFeaturesImagePostProcessingFilterInstantiationTest.cxx
+  ReplaceFeatureMapNanInfImageFilterInstantiationTest.cxx
 )
 
 createtestdriver(BoneMorphometry "${BoneMorphometry-Test_LIBRARIES}" "${BoneMorphometryTests}")
@@ -32,14 +32,14 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME BoneMorphometryFeaturesImagePostProcessingFilterInstantiationTest
+  NAME ReplaceFeatureMapNanInfImageFilterInstantiationTest
   COMMAND
     BoneMorphometryTestDriver
     --compare
     DATA{Baseline/resultTestFilterInstensiation.nrrd}
-    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstensiationPostProcessing.nrrd
-    BoneMorphometryFeaturesImagePostProcessingFilterInstantiationTest
+    ${ITK_TEST_OUTPUT_DIR}/resultTestReplaceFeatureMapNanInfImageFilter.nrrd
+    ReplaceFeatureMapNanInfImageFilterInstantiationTest
     DATA{Input/Scan_CBCT_13R.nrrd}
     DATA{Input/SegmC_CBCT_13R.nrrd}
-    ${ITK_TEST_OUTPUT_DIR}/resultTestFilterInstensiationPostProcessing.nrrd
+    ${ITK_TEST_OUTPUT_DIR}/resultTestReplaceFeatureMapNanInfImageFilter.nrrd
 )
