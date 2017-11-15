@@ -38,7 +38,7 @@ itk_wrap_class("itk::ImageFileWriter" POINTER)
                     "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
 itk_end_wrap_class()
 
-itk_wrap_class("itk::BoneMorphometryFeaturesImageFilterPostProcessing" POINTER)
+itk_wrap_class("itk::ReplaceFeatureMapNanInfImageFilter" POINTER)
   itk_wrap_template("IV${ITKM_F}${OutputVectorDim}3"
                     "itk::Image<itk::Vector<${ITKT_F},${OutputVectorDim}>,3>")
   itk_wrap_template("${ITKM_VI${ITKM_F}3}"

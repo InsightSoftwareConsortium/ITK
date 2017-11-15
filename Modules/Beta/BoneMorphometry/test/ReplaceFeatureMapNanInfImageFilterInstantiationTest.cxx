@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 #include "itkBoneMorphometryFeaturesImageFilter.h"
-#include "itkBoneMorphometryFeaturesImageFilterPostProcessing.h"
+#include "itkReplaceFeatureMapNanInfImageFilter.h"
 
 #include "itkMath.h"
 #include "itkImage.h"
@@ -26,7 +26,7 @@
 #include "itkTestingMacros.h"
 #include "itkVectorIndexSelectionCastImageFilter.h"
 
-int BoneMorphometryFeaturesImagePostProcessingFilterInstantiationTest( int argc, char *argv[] )
+int ReplaceFeatureMapNanInfImageFilterInstantiationTest( int argc, char *argv[] )
 {
     if( argc < 3 )
       {
@@ -70,7 +70,7 @@ int BoneMorphometryFeaturesImagePostProcessingFilterInstantiationTest( int argc,
 
   TRY_EXPECT_NO_EXCEPTION( filter->Update() );
 
-  typedef itk::BoneMorphometryFeaturesImageFilterPostProcessing<OutputImageType> PostProcessingFilterType;
+  typedef itk::ReplaceFeatureMapNanInfImageFilter<OutputImageType> PostProcessingFilterType;
   PostProcessingFilterType::Pointer postProcessingFilter = PostProcessingFilterType::New();
 
   postProcessingFilter->SetInput( filter->GetOutput() );

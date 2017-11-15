@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkBoneMorphometryFeaturesImageFilterPostProcessing_h
-#define itkBoneMorphometryFeaturesImageFilterPostProcessing_h
+#ifndef itkReplaceFeatureMapNanInfImageFilter_h
+#define itkReplaceFeatureMapNanInfImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
@@ -32,7 +32,7 @@
 
 namespace itk
 {
-/** \class BoneMorphometryFeaturesImageFilterPostProcessing
+/** \class ReplaceFeatureMapNanInfImageFilter
  * \brief This new filter can be used after the usage of itkBoneMorphometryFeaturesImageFilter
  * in order to remove the Nan and Inf values of the feature maps. (Those values are due to
  * neighborhood containing only bone voxel, containing 0 bone voxel)
@@ -47,21 +47,21 @@ namespace itk
  *
  */
 template< typename TImage >
-class ITK_TEMPLATE_EXPORT BoneMorphometryFeaturesImageFilterPostProcessing:
+class ITK_TEMPLATE_EXPORT ReplaceFeatureMapNanInfImageFilter:
 public ImageToImageFilter< TImage, TImage >
 {
 public:
   /** Standard Self typedef */
-  typedef BoneMorphometryFeaturesImageFilterPostProcessing Self;
-  typedef ImageToImageFilter< TImage, TImage>              Superclass;
-  typedef SmartPointer< Self >                             Pointer;
-  typedef SmartPointer< const Self >                       ConstPointer;
+  typedef ReplaceFeatureMapNanInfImageFilter    Self;
+  typedef ImageToImageFilter< TImage, TImage>   Superclass;
+  typedef SmartPointer< Self >                  Pointer;
+  typedef SmartPointer< const Self >            ConstPointer;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(BoneMorphometryFeaturesImageFilterPostProcessing, ImageToImageFilter);
+  itkTypeMacro(ReplaceFeatureMapNanInfImageFilter, ImageToImageFilter);
 
 protected:
 
@@ -79,8 +79,8 @@ protected:
   typedef itk::Image< RealType, TImage::ImageDimension >        InterImageType;
   typedef itk::ImageRegionConstIterator< InterImageType >       InterIteratorType;
 
-  BoneMorphometryFeaturesImageFilterPostProcessing();
-  virtual ~BoneMorphometryFeaturesImageFilterPostProcessing() {}
+  ReplaceFeatureMapNanInfImageFilter();
+  virtual ~ReplaceFeatureMapNanInfImageFilter() {}
 
   typedef VectorIndexSelectionCastImageFilter< TImage , InterImageType > IndexSelectionFiterType;
   typedef MinimumMaximumImageFilter< InterImageType >                    MinMaxImageFilterType;
@@ -97,7 +97,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#include "itkBoneMorphometryFeaturesImageFilterPostProcessing.hxx"
+#include "itkReplaceFeatureMapNanInfImageFilter.hxx"
 #endif
 
-#endif // itkBoneMorphometryFeaturesImageFilterPostProcessing_h
+#endif // itkReplaceFeatureMapNanInfImageFilter_h
