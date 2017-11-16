@@ -236,6 +236,11 @@ public:
   void SetMaximumIterations(int maxIterations);
   int GetMaximumIterations() const;
 
+  /** Aliased to Set/Get MaximumIterations to match base class interface.
+   */
+  virtual SizeValueType GetNumberOfIterations() const  ITK_OVERRIDE { return GetMaximumIterations(); }
+  virtual void SetNumberOfIterations( const SizeValueType _arg ) ITK_OVERRIDE { SetMaximumIterations(static_cast<int>(_arg)); }
+
   /**
    * The line search algorithm.
    * This parameter specifies a line search algorithm to be used by the

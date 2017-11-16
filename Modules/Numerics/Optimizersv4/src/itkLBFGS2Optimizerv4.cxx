@@ -124,6 +124,14 @@ LBFGS2Optimizerv4
                         LBFGS2Optimizerv4::UpdateProgressCallback,
                         this, m_Pimpl->m_Parameters );
 
+  // Match the behavior of other optimizer setting the current
+  // iteration to the max when iteration limit is reached
+  if (m_StatusCode == LBFGSERR_MAXIMUMITERATION)
+    {
+    ++this->m_CurrentIteration;
+    }
+
+
   //Copy results
   ParametersType optimizedParameters(N);
   std::memcpy(optimizedParameters.data_block(), x, sizeof(LBFGS2Optimizerv4::PrecisionType)*N );
@@ -197,8 +205,10 @@ LBFGS2Optimizerv4::UpdateProgress( const LBFGS2Optimizerv4::PrecisionType *x,
                                    int,
                                    int k,
                                    int ls
-                                 ){
-  this->m_CurrentIteration = k;
+                                 )
+{
+  // Convert to 0-based ITK iteration counting
+  this->m_CurrentIteration = k - 1;
   this->m_CurrentMetricValue = fx;
 
   m_CurrentGradient = g;
