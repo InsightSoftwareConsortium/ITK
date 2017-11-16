@@ -270,17 +270,17 @@ LBFGS2Optimizerv4::GetStopConditionDescription() const{
     case LBFGSERR_INVALID_ORTHANTWISE_END:
       return "Invalid orthantwise end";
     case LBFGSERR_OUTOFINTERVAL:
-      return "Linesearch went outside of the uncertainty interval";
+      return "LineSearch went outside of the uncertainty interval";
     case LBFGSERR_INCORRECT_TMINMAX:
       return "Interval of uncretainty beecame too small";
     case LBFGSERR_ROUNDING_ERROR:
       return "A roundng error occured";
     case LBFGSERR_MINIMUMSTEP:
-      return "Linesearch became smaller than the minimum linesearch step size";
+      return "LineSearch became smaller than the minimum linesearch step size";
     case LBFGSERR_MAXIMUMSTEP:
-      return "Linesearch became bigger than the maximum linesearch step size";
+      return "LineSearch became bigger than the maximum linesearch step size";
     case LBFGSERR_MAXIMUMLINESEARCH:
-      return "Linesearch reched maximum umber of iterations";
+      return "LineSearch reched maximum umber of iterations";
     case LBFGSERR_MAXIMUMITERATION:
       return "Reached maximum number of iterations";
     case LBFGSERR_WIDTHTOOSMALL:
@@ -375,55 +375,56 @@ LBFGS2Optimizerv4::GetMaximumIterations() const{
 //this translation is kind of annoying and error prone
 //but avoids exposing lbfgs.h
 void
-LBFGS2Optimizerv4::SetLinesearch(const LBFGS2Optimizerv4::LinesearchMethod &linesearch){
+LBFGS2Optimizerv4::SetLineSearch(const LBFGS2Optimizerv4::LineSearchMethod &linesearch)
+{
   //
-  int lbfgsLinesearch = LINESEARCH_DEFAULT;
+  int lbfgsLineSearch = LINESEARCH_DEFAULT;
   if( linesearch == LINESEARCH_BACKTRACKING)
     {
-    lbfgsLinesearch = LBFGS_LINESEARCH_BACKTRACKING;
+    lbfgsLineSearch = LBFGS_LINESEARCH_BACKTRACKING;
     }
   else if( linesearch == LINESEARCH_BACKTRACKING_ARMIJO )
     {
-    lbfgsLinesearch = LBFGS_LINESEARCH_BACKTRACKING_ARMIJO;
+    lbfgsLineSearch = LBFGS_LINESEARCH_BACKTRACKING_ARMIJO;
     }
   else if( linesearch == LINESEARCH_BACKTRACKING_WOLFE )
     {
-    lbfgsLinesearch = LBFGS_LINESEARCH_BACKTRACKING_WOLFE;
+    lbfgsLineSearch = LBFGS_LINESEARCH_BACKTRACKING_WOLFE;
     }
   else if( linesearch == LINESEARCH_BACKTRACKING_STRONG_WOLFE )
     {
-    lbfgsLinesearch = LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE;
+    lbfgsLineSearch = LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE;
     }
   else if( linesearch == LINESEARCH_MORETHUENTE )
     {
-    lbfgsLinesearch = LBFGS_LINESEARCH_MORETHUENTE;
+    lbfgsLineSearch = LBFGS_LINESEARCH_MORETHUENTE;
     }
 
-  m_Pimpl->m_Parameters.linesearch = lbfgsLinesearch;
+  m_Pimpl->m_Parameters.linesearch = lbfgsLineSearch;
   this->Modified();
 }
 
-LBFGS2Optimizerv4::LinesearchMethod
-LBFGS2Optimizerv4::GetLinesearch() const{
-  LinesearchMethod linesearch = LINESEARCH_DEFAULT;
-  int lbfgsLinesearch = m_Pimpl->m_Parameters.linesearch;
-  if( lbfgsLinesearch == LBFGS_LINESEARCH_BACKTRACKING)
+LBFGS2Optimizerv4::LineSearchMethod
+LBFGS2Optimizerv4::GetLineSearch() const{
+  LineSearchMethod linesearch = LINESEARCH_DEFAULT;
+  int lbfgsLineSearch = m_Pimpl->m_Parameters.linesearch;
+  if( lbfgsLineSearch == LBFGS_LINESEARCH_BACKTRACKING)
     {
      linesearch = LINESEARCH_BACKTRACKING;
     }
-  else if( lbfgsLinesearch == LBFGS_LINESEARCH_BACKTRACKING_ARMIJO )
+  else if( lbfgsLineSearch == LBFGS_LINESEARCH_BACKTRACKING_ARMIJO )
     {
     linesearch = LINESEARCH_BACKTRACKING_ARMIJO;
     }
-  else if( lbfgsLinesearch == LBFGS_LINESEARCH_BACKTRACKING_WOLFE )
+  else if( lbfgsLineSearch == LBFGS_LINESEARCH_BACKTRACKING_WOLFE )
     {
     linesearch = LINESEARCH_BACKTRACKING_WOLFE;
     }
-  else if( lbfgsLinesearch == LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE )
+  else if( lbfgsLineSearch == LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE )
     {
     linesearch = LINESEARCH_BACKTRACKING_STRONG_WOLFE;
     }
-  else if( lbfgsLinesearch == LBFGS_LINESEARCH_MORETHUENTE )
+  else if( lbfgsLineSearch == LBFGS_LINESEARCH_MORETHUENTE )
     {
     linesearch = LINESEARCH_MORETHUENTE;
     }
@@ -433,46 +434,48 @@ LBFGS2Optimizerv4::GetLinesearch() const{
 
 
 void
-LBFGS2Optimizerv4::SetMaximumLinesearchEvaluations(int n){
+LBFGS2Optimizerv4::SetMaximumLineSearchEvaluations(int n){
   m_Pimpl->m_Parameters.max_linesearch = n;
   this->Modified();
 }
 
 int
-LBFGS2Optimizerv4::GetMaximumLinesearchEvaluations() const{
+LBFGS2Optimizerv4::GetMaximumLineSearchEvaluations() const{
   return m_Pimpl->m_Parameters.max_linesearch;
 }
 
 void
-LBFGS2Optimizerv4::SetMinimumLinesearchStep(LBFGS2Optimizerv4::PrecisionType step){
+LBFGS2Optimizerv4::SetMinimumLineSearchStep(LBFGS2Optimizerv4::PrecisionType step){
   m_Pimpl->m_Parameters.min_step = step;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
-LBFGS2Optimizerv4::GetMinimumLinesearchStep() const{
+LBFGS2Optimizerv4::GetMinimumLineSearchStep() const{
   return m_Pimpl->m_Parameters.min_step;
 }
 
 void
-LBFGS2Optimizerv4::SetMaximumLinesearchStep(LBFGS2Optimizerv4::PrecisionType step){
+LBFGS2Optimizerv4::SetMaximumLineSearchStep(LBFGS2Optimizerv4::PrecisionType step){
   m_Pimpl->m_Parameters.max_step = step;
+
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
-LBFGS2Optimizerv4::GetMaximumLinesearchStep() const{
+LBFGS2Optimizerv4::GetMaximumLineSearchStep() const{
   return m_Pimpl->m_Parameters.max_step;
 }
 
 void
-LBFGS2Optimizerv4::SetLinesearchAccuracy( LBFGS2Optimizerv4::PrecisionType ftol ){
+LBFGS2Optimizerv4::SetLineSearchAccuracy( LBFGS2Optimizerv4::PrecisionType ftol ){
   m_Pimpl->m_Parameters.ftol = ftol;
+
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
-LBFGS2Optimizerv4::GetLinesearchAccuracy() const{
+LBFGS2Optimizerv4::GetLineSearchAccuracy() const{
   return m_Pimpl->m_Parameters.ftol;
 }
 
@@ -489,13 +492,13 @@ LBFGS2Optimizerv4::GetWolfeCoefficient() const{
 }
 
 void
-LBFGS2Optimizerv4::SetLinesearchGradientAccuracy( LBFGS2Optimizerv4::PrecisionType gtol ){
+LBFGS2Optimizerv4::SetLineSearchGradientAccuracy( LBFGS2Optimizerv4::PrecisionType gtol ){
   m_Pimpl->m_Parameters.gtol = gtol;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
-LBFGS2Optimizerv4::GetLinesearchGradientAccuracy() const{
+LBFGS2Optimizerv4::GetLineSearchGradientAccuracy() const{
   return m_Pimpl->m_Parameters.gtol;
 }
 
