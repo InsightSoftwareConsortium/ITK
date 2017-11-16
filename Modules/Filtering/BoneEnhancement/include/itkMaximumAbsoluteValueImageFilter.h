@@ -15,8 +15,9 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef MaximumAbsoluteValueImageFilter_h
-#define MaximumAbsoluteValueImageFilter_h
+
+#ifndef itkMaximumAbsoluteValueImageFilter_h
+#define itkMaximumAbsoluteValueImageFilter_h
 
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkMath.h"
@@ -69,6 +70,7 @@ class MaximumAbsoluteValueImageFilter
                                                                   typename TOutputImage::PixelType>>
 {
 public:
+  /** Standard Self typedef */
   typedef MaximumAbsoluteValueImageFilter Self;
   typedef BinaryFunctorImageFilter<TInputImage1,
                                    TInputImage2,
@@ -87,11 +89,9 @@ public:
   itkTypeMacro(MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
 
 protected:
-  MaximumAbsoluteValueImageFilter() {
+  MaximumAbsoluteValueImageFilter() {};
 
-  };
-
-  virtual ~MaximumAbsoluteValueImageFilter() {};
+  virtual ~MaximumAbsoluteValueImageFilter() {}
 
 private:
   MaximumAbsoluteValueImageFilter(const Self &);
@@ -100,4 +100,4 @@ private:
 }; // end of class
 } // end namespace itk
 
-#endif // MaximumAbsoluteValueImageFilter_h
+#endif // itkMaximumAbsoluteValueImageFilter_h

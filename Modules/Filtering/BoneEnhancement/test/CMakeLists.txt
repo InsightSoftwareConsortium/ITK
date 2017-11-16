@@ -4,6 +4,7 @@ set(
   BoneEnhancementTests
   itkMinimalStandardRandomVariateGeneratorTest.cxx
   itkNormalDistributionImageSourceTest.cxx
+  itkMaximumAbsoluteValueImageFilterTest.cxx
 )
 
 createtestdriver(BoneEnhancement "${BoneEnhancement-Test_LIBRARIES}" "${BoneEnhancementTests}")
@@ -25,4 +26,11 @@ itk_add_test(
     DATA{Baseline/itkNormalDistributionImageSourceTestOutput.mha}
     itkNormalDistributionImageSourceTest
     ${ITK_TEST_OUTPUT_DIR}/itkNormalDistributionImageSourceTestOutput.mha
+)
+
+itk_add_test(
+  NAME itkMaximumAbsoluteValueImageFilterTest
+  COMMAND
+    BoneEnhancementTestDriver
+    itkMaximumAbsoluteValueImageFilterTest
 )
