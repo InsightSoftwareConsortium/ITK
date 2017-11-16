@@ -53,11 +53,12 @@ public:
 /** \class MaximumAbsoluteValueImageFilter
  * \brief Compute the maximum (of the absolute value) between two images.
  *
- * TODO: See BoneMorphometry for an example DOXYGEN description https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/blob/master/include/itkBoneMorphometryFeaturesFilter.h
- *
+ * This class takes two images as arguments and takes 
+ * 
+ * \sa MultiScaleHessianEnhancementImageFilter
+ * 
  * \author: Thomas Fitze
  * \ingroup BoneEnhancement
- *
  */
 template<typename TInputImage1, typename TInputImage2 = TInputImage1, typename TOutputImage = TInputImage1>
 class MaximumAbsoluteValueImageFilter :
@@ -87,8 +88,7 @@ protected:
     }
 
 private:
-    MaximumAbsoluteValueImageFilter(const Self &);
-    void operator=(const Self &);
+    ITK_DISALLOW_COPY_AND_ASSIGN(MaximumAbsoluteValueImageFilter);
 }; // end of class
 } // end namespace itk
 
