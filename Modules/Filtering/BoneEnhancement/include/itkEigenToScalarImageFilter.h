@@ -68,6 +68,7 @@ public:
   itkConceptMacro(InputOutputHaveSamePixelDimensionCheck,
                   (Concept::SameDimension<TInputImage::ImageDimension, TOutputImage::ImageDimension>));
   // End concept checking
+#endif
 protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
@@ -78,7 +79,6 @@ protected:
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(EigenToScalarImageFilter);
-#endif
 }; // end class
 } // namespace itk
 
