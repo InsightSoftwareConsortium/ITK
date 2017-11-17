@@ -5,8 +5,8 @@ set(
   itkMinimalStandardRandomVariateGeneratorTest.cxx
   itkNormalDistributionImageSourceTest.cxx
   itkMaximumAbsoluteValueImageFilterTest.cxx
-  itkMultiScaleHessianEnhancementImageFilterTestStaticMethods.cxx
-  itkEigenToScalarImageFilterTestStaticMethods.cxx
+  itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest.cxx
+  itkEigenToScalarImageFilterStaticMethodsTest.cxx
 )
 
 createtestdriver(BoneEnhancement "${BoneEnhancement-Test_LIBRARIES}" "${BoneEnhancementTests}")
@@ -38,17 +38,15 @@ itk_add_test(
 )
 
 itk_add_test(
-  NAME itkMultiScaleHessianEnhancementImageFilterTestStaticMethods
+  NAME itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest
   COMMAND
     BoneEnhancementTestDriver
-    itkMultiScaleHessianEnhancementImageFilterTestStaticMethods
-    itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateLogarithmicSigmaArray
-    itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateEquispacedSigmaArray
+    itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest
 )
 
 itk_add_test(
-  NAME itkEigenToScalarImageFilterTestStaticMethods
+  NAME itkEigenToScalarImageFilterStaticMethodsTest
   COMMAND
     BoneEnhancementTestDriver
-    itkEigenToScalarImageFilterTestStaticMethods
+    itkEigenToScalarImageFilterStaticMethodsTest
 )

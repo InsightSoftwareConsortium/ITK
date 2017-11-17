@@ -22,7 +22,7 @@
 #include "itkMath.h"
 
 int
-itkMultiScaleHessianEnhancementImageFilterTestStaticMethods(int, char *[])
+itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest(int, char *[])
 {
   const unsigned int                                                  Dimension = 2;
   typedef int                                                         PixelType;
@@ -52,18 +52,6 @@ itkMultiScaleHessianEnhancementImageFilterTestStaticMethods(int, char *[])
   sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(1, 1, 100);
   TEST_EXPECT_EQUAL(expectedOneSigmaArray, sigmaArray);
 
-  return EXIT_SUCCESS;
-}
-
-int
-itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateLogarithmicSigmaArray(int, char *[])
-{
-  const unsigned int                                                  Dimension = 2;
-  typedef int                                                         PixelType;
-  typedef itk::Image<PixelType, Dimension>                            ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
-
   /* Test the Logarithmic method */
   ArrayType expectedLogarithmicArray;
   expectedLogarithmicArray.SetSize(5);
@@ -90,18 +78,6 @@ itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateLogarithmicSig
     TEST_EXPECT_TRUE(
       itk::Math::FloatAlmostEqual(expectedLogarithmicArray.GetElement(i), logarithmicArray.GetElement(i), 6, 0.000001));
   }
-
-  return EXIT_SUCCESS;
-}
-
-int
-itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateEquispacedSigmaArray(int, char *[])
-{
-  const unsigned int                                                  Dimension = 2;
-  typedef int                                                         PixelType;
-  typedef itk::Image<PixelType, Dimension>                            ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType>     MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
 
   /* Test the Equidistance method */
   ArrayType expectedEquidistanceArray;
