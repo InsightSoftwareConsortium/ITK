@@ -21,7 +21,7 @@
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 
-int itkMultiScaleHessianEnhancementImageFilterTestStaticMethods( int, char * [] )
+int itkMultiScaleHessianEnhancementImageFilterStaticMethodsTest( int, char * [] )
 {
   const unsigned int                         Dimension = 2;
   typedef int                                PixelType;
@@ -50,17 +50,6 @@ int itkMultiScaleHessianEnhancementImageFilterTestStaticMethods( int, char * [] 
   TEST_EXPECT_EQUAL(expectedOneSigmaArray, sigmaArray);
   sigmaArray = MultiScaleHessianEnhancementImageFilterType::GenerateEquispacedSigmaArray(1, 1, 100);
   TEST_EXPECT_EQUAL(expectedOneSigmaArray, sigmaArray);
-
-  return EXIT_SUCCESS;
-}
-
-int itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateLogarithmicSigmaArray( int, char * [] )
-{
-  const unsigned int                         Dimension = 2;
-  typedef int                                PixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType> MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
 
   /* Test the Logarithmic method */
   ArrayType expectedLogarithmicArray;
@@ -96,17 +85,6 @@ int itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateLogarithmi
       0.000001
     ));
   }
-
-  return EXIT_SUCCESS;
-}
-
-int itkMultiScaleHessianEnhancementImageFilterTestStaticMethodGenerateEquispacedSigmaArray( int, char * [] )
-{
-  const unsigned int                         Dimension = 2;
-  typedef int                                PixelType;
-  typedef itk::Image< PixelType, Dimension > ImageType;
-  typedef itk::MultiScaleHessianEnhancementImageFilter<ImageType> MultiScaleHessianEnhancementImageFilterType;
-  typedef MultiScaleHessianEnhancementImageFilterType::SigmaArrayType ArrayType;
 
   /* Test the Equidistance method */
   ArrayType expectedEquidistanceArray;

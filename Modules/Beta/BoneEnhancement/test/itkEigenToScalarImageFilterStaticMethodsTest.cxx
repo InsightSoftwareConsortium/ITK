@@ -19,7 +19,7 @@
 #include "itkEigenToScalarImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkEigenToScalarImageFilterTestStaticMethods( int, char * [] )
+int itkEigenToScalarImageFilterStaticMethodsTest( int, char * [] )
 {
   const unsigned int                         Dimension = 2;
   typedef int                                PixelType;
