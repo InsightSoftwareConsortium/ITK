@@ -95,10 +95,7 @@ bool PNGImageIO::CanReadFile(const char *file)
   size_t temp = fread(header, 1, 8, pngfp.m_FilePointer);
   if( temp != 8 )
     {
-    itkExceptionMacro( "PNGImageIO failed to read header for file: "
-      << this->GetFileName() << std::endl
-      << "Reason: fread read only " << temp
-      << " instead of 8" );
+    return false;
     }
   bool is_png = !png_sig_cmp(header, 0, 8);
   if ( !is_png )
