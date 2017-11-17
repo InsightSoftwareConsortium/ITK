@@ -81,8 +81,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 ::GenerateData()
 {
   // Get the input and output pointers
-  InputImageConstPointer inputImage = this->GetInput(0);
-  OutputImagePointer     outputImage = this->GetOutput(0);
+  const InputImageConstPointer inputImage = this->GetInput(0);
+  const OutputImagePointer     outputImage = this->GetOutput(0);
 
   // Allocate the output
   this->AllocateOutputs();
@@ -105,17 +105,15 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     inputImage->GetRequestedRegion() );
   image_it.GoToBegin();
 
-  Index< 2 >        index;
-  Point< float, 2 > point;
+  const ImageRegion< 2 > & region = outputImage->GetRequestedRegion();
 
   while ( !image_it.IsAtEnd() )
     {
     if ( image_it.Get() > m_Threshold )
       {
-      point[0] = image_it.GetIndex()[0];
-      point[1] = image_it.GetIndex()[1];
-      typename DoGFunctionType::VectorType grad =
-        DoGFunction->EvaluateAtIndex( image_it.GetIndex() );
+      const Index< 2 > inputIndex = image_it.GetIndex();
+      const typename DoGFunctionType::VectorType grad =
+        DoGFunction->EvaluateAtIndex( inputIndex );
 
       double Vx = grad[0];
       double Vy = grad[1];
@@ -123,7 +121,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
       // if the gradient is not flat
       if ( ( std::fabs(Vx) > 1 ) || ( std::fabs(Vy) > 1 ) )
         {
-        double norm = std::sqrt(Vx * Vx + Vy * Vy);
+        const double norm = std::sqrt(Vx * Vx + Vy * Vy);
         Vx /= norm;
         Vy /= norm;
 
@@ -134,22 +132,27 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
           do
             {
-            index[0] = Math::Round<IndexValueType>( point[0] - i * ( Vx * std::cos(angle) + Vy * std::sin(angle) ) );
-            index[1] = Math::Round<IndexValueType>( point[1] - i * ( Vx * std::sin(angle) + Vy * std::cos(angle) ) );
+            const Index< 2 > outputIndex =
+              {{
+              Math::Round<IndexValueType>( inputIndex[0] - i * ( Vx * std::cos(angle) + Vy * std::sin(angle) ) ),
+              Math::Round<IndexValueType>( inputIndex[1] - i * ( Vx * std::sin(angle) + Vy * std::cos(angle) ) )
+              }};
 
-            distance = std::sqrt( ( index[1] - point[1] ) * ( index[1] - point[1] )
-                                 + ( index[0] - point[0] ) * ( index[0] - point[0] ) );
-
-            if ( outputImage->GetRequestedRegion().IsInside(index) )
+            if ( region.IsInside(outputIndex) )
               {
-              outputImage->SetPixel(index, outputImage->GetPixel(index) + 1);
-              m_RadiusImage->SetPixel( index, ( m_RadiusImage->GetPixel(index) + distance ) );
-              }
+              distance = std::sqrt((outputIndex[1] - inputIndex[1]) * (outputIndex[1] - inputIndex[1])
+                                 + (outputIndex[0] - inputIndex[0]) * (outputIndex[0] - inputIndex[0]));
 
-            i = i + 1;
+              ++outputImage->GetPixel(outputIndex);
+              m_RadiusImage->GetPixel(outputIndex) += distance;
+              }
+            else
+              {
+              break;
+              }
+            ++i;
             }
-          while ( outputImage->GetRequestedRegion().IsInside(index)
-                  && ( distance < m_MaximumRadius ) );
+          while ( distance < m_MaximumRadius );
           }
         }
       }
@@ -165,9 +168,9 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   radius_it.GoToBegin();
   while ( !output_it.IsAtEnd() )
     {
-    if ( output_it.Get() > 0 )
+    if ( output_it.Get() > 1 )
       {
-      radius_it.Set( radius_it.Get() / output_it.Get() );
+      radius_it.Value() /= output_it.Get();
       }
     ++output_it;
     ++radius_it;
