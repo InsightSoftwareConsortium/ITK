@@ -243,39 +243,17 @@ DCMTKImageIO
   // pick a size for output image (should get it from DCMTK in the ReadImageInformation()))
   // NOTE ALEX: EP_Representation is made for that
   // but i don t know yet where to fetch it from
-  size_t scalarSize = 0;
+  size_t scalarSize = ImageIOBase::GetComponentSize();
+
   switch(this->m_ComponentType)
     {
-    case UCHAR:
-      scalarSize = sizeof(unsigned char);
-      break;
-    case CHAR:
-      scalarSize = sizeof(char);
-      break;
-    case USHORT:
-      scalarSize = sizeof(unsigned short);
-      break;
-    case SHORT:
-      scalarSize = sizeof(short);
-      break;
-    case UINT:
-      scalarSize = sizeof(unsigned int);
-      break;
-    case INT:
-      scalarSize = sizeof(int);
-      break;
-    case ULONG:
-      scalarSize = sizeof(unsigned long);
-      break;
-    case LONG:
-      scalarSize = sizeof(long);
-      break;
     case UNKNOWNCOMPONENTTYPE:
     case FLOAT:
     case DOUBLE:
       itkExceptionMacro(<< "Bad component type" <<
                         ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
+    default: // scalarSize already set
     }
   // get the image in the DCMTK buffer
   const DiPixel * const interData = m_DImage->getInterData();
