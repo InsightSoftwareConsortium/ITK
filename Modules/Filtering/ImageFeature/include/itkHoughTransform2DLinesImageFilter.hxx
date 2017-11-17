@@ -244,125 +244,133 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
 
   m_LinesList.clear();
 
-  /** Blur the accumulator in order to find the maximum */
-  typedef float                              InternalImagePixelType;
-  typedef Image< InternalImagePixelType, 2 > InternalImageType;
-
-  OutputImagePointer outputImage = this->GetOutput(0);
-
-  if ( !outputImage )
+  if ( m_NumberOfLines > 0 )
     {
-    itkExceptionMacro("Update() must be called before GetLines().");
-    }
+    /** Blur the accumulator in order to find the maximum */
+    typedef float                              InternalImagePixelType;
+    typedef Image< InternalImagePixelType, 2 > InternalImageType;
 
-  /** xxxConvert the accumulator output image type to internal image type */
-  typedef CastImageFilter< OutputImageType, InternalImageType > CastImageFilterType;
+    OutputImagePointer outputImage = this->GetOutput(0);
 
-  typename CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
-  castImageFilter->SetInput(outputImage);
-
-  typedef DiscreteGaussianImageFilter< InternalImageType, InternalImageType > GaussianFilterType;
-  typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
-
-  // the output is the accumulator image
-  gaussianFilter->SetInput( castImageFilter->GetOutput() );
-  double variance[2];
-  variance[0] = m_Variance;
-  variance[1] = m_Variance;
-  gaussianFilter->SetVariance(variance);
-  gaussianFilter->Update();
-  InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
-
-  typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
-  typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
-  itk::ImageRegionIterator< InternalImageType >
-  it_input( postProcessImage, postProcessImage->GetLargestPossibleRegion() );
-
-  const double nPI = 4.0 * std::atan(1.0);
-
-  itk::Index< 2 > index;
-
-  unsigned int lines = 0;
-  bool         found;
-
-  // Find maxima
-  do
-    {
-    minMaxCalculator->SetImage(postProcessImage);
-    minMaxCalculator->ComputeMaximum();
-    InternalImageType::PixelType max = minMaxCalculator->GetMaximum();
-
-    found = false;
-    for ( it_input.GoToBegin(); !it_input.IsAtEnd(); ++it_input )
+    if ( !outputImage )
       {
-      if ( Math::ExactlyEquals(it_input.Get(), max) )
+      itkExceptionMacro("Update() must be called before GetLines().");
+      }
+
+    /** xxxConvert the accumulator output image type to internal image type */
+    typedef CastImageFilter< OutputImageType, InternalImageType > CastImageFilterType;
+
+    typename CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
+    castImageFilter->SetInput(outputImage);
+
+    typedef DiscreteGaussianImageFilter< InternalImageType, InternalImageType > GaussianFilterType;
+    typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
+
+    // the output is the accumulator image
+    gaussianFilter->SetInput( castImageFilter->GetOutput() );
+    double variance[2];
+    variance[0] = m_Variance;
+    variance[1] = m_Variance;
+    gaussianFilter->SetVariance(variance);
+    gaussianFilter->Update();
+    InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
+
+    typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
+    typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
+    itk::ImageRegionIterator< InternalImageType >
+    it_input( postProcessImage, postProcessImage->GetLargestPossibleRegion() );
+
+
+    itk::Index< 2 > index;
+
+    unsigned int lines = 0;
+
+    // Find maxima
+    do
+      {
+      minMaxCalculator->SetImage(postProcessImage);
+      minMaxCalculator->ComputeMaximum();
+      InternalImageType::PixelType max = minMaxCalculator->GetMaximum();
+
+      if ( max <= 0 )
         {
-        // Create the line
-        LineType::PointListType list; // insert two points per line
+        // When all pixel values in 'postProcessImage' are zero or less, no more lines
+        // should be found. Note that a zero in 'postProcessImage' might correspond to a
+        // zero in the accumulator image, or it might be that the pixel is within a
+        // removed disc.
+        break;
+        }
 
-        double radius = it_input.GetIndex()[0];
-        double teta   = ( ( it_input.GetIndex()[1] ) * 2 * nPI / this->GetAngleResolution() ) - nPI;
-        double Vx = radius * std::cos(teta);
-        double Vy = radius * std::sin(teta);
-        double norm = std::sqrt(Vx * Vx + Vy * Vy);
-        double VxNorm = Vx / norm;
-        double VyNorm = Vy / norm;
-
-        if ( ( teta <= 0 ) || ( teta >= nPI / 2 ) )
+      for ( it_input.GoToBegin(); !it_input.IsAtEnd(); ++it_input )
+        {
+        if ( Math::ExactlyEquals(it_input.Get(), max) )
           {
-          if ( teta >= nPI / 2 )
+          // Create the line
+          LineType::PointListType list; // insert two points per line
+
+          double radius = it_input.GetIndex()[0];
+          double teta   = ( ( it_input.GetIndex()[1] ) * 2 * Math::pi / this->GetAngleResolution() ) - Math::pi;
+          double Vx = radius * std::cos(teta);
+          double Vy = radius * std::sin(teta);
+          double norm = std::sqrt(Vx * Vx + Vy * Vy);
+          double VxNorm = Vx / norm;
+          double VyNorm = Vy / norm;
+
+          if ( ( teta <= 0 ) || ( teta >= Math::pi / 2 ) )
             {
-            VyNorm = -VyNorm;
-            VxNorm = -VxNorm;
-            }
-
-          LinePointType p;
-          p.SetPosition(Vx, Vy);
-          list.push_back(p);
-          p.SetPosition(Vx - VyNorm * 5, Vy + VxNorm * 5);
-          list.push_back(p);
-          }
-        else // if teta>0
-          {
-          LinePointType p;
-          p.SetPosition(Vx, Vy);
-          list.push_back(p);
-          p.SetPosition(Vx - VyNorm * 5, Vy + VxNorm * 5);
-          list.push_back(p);
-          } // end if(teta>0)
-
-        // Create a Line Spatial Object
-        LinePointer Line = LineType::New();
-        Line->SetId(lines);
-        Line->SetPoints(list);
-        Line->ComputeBoundingBox();
-
-        m_LinesList.push_back(Line);
-
-        // Remove a black disc from the hough space domain
-        for ( double angle = 0; angle <= 2 * nPI; angle += nPI / 1000 )
-          {
-          for ( double length = 0; length < m_DiscRadius; length += 1 )
-            {
-            index[0] = (IndexValueType)( it_input.GetIndex()[0] + length * std::cos(angle) );
-            index[1] = (IndexValueType)( it_input.GetIndex()[1] + length * std::sin(angle) );
-            if ( postProcessImage->GetBufferedRegion().IsInside(index) )
+            if ( teta >= Math::pi / 2 )
               {
-              postProcessImage->SetPixel(index, 0);
+              VyNorm = -VyNorm;
+              VxNorm = -VxNorm;
+              }
+
+            LinePointType p;
+            p.SetPosition(Vx, Vy);
+            list.push_back(p);
+            p.SetPosition(Vx - VyNorm * 5, Vy + VxNorm * 5);
+            list.push_back(p);
+            }
+          else // if teta>0
+            {
+            LinePointType p;
+            p.SetPosition(Vx, Vy);
+            list.push_back(p);
+            p.SetPosition(Vx - VyNorm * 5, Vy + VxNorm * 5);
+           list.push_back(p);
+            } // end if(teta>0)
+
+          // Create a Line Spatial Object
+          LinePointer Line = LineType::New();
+          Line->SetId(lines);
+          Line->SetPoints(list);
+          Line->ComputeBoundingBox();
+
+          m_LinesList.push_back(Line);
+
+          // Remove a black disc from the hough space domain
+          for ( double angle = 0; angle <= 2 * Math::pi; angle += Math::pi / 1000 )
+            {
+            for ( double length = 0; length < m_DiscRadius; length += 1 )
+              {
+              index[0] = (IndexValueType)( it_input.GetIndex()[0] + length * std::cos(angle) );
+              index[1] = (IndexValueType)( it_input.GetIndex()[1] + length * std::sin(angle) );
+              if ( postProcessImage->GetBufferedRegion().IsInside(index) )
+                {
+                postProcessImage->SetPixel(index, 0);
+                }
               }
             }
-          }
-        minMaxCalculator->SetImage(postProcessImage);
-        minMaxCalculator->ComputeMaximum();
-        max = minMaxCalculator->GetMaximum();
+          minMaxCalculator->SetImage(postProcessImage);
+          minMaxCalculator->ComputeMaximum();
+          max = minMaxCalculator->GetMaximum();
 
-        lines++;
-        found = true;
-        if ( lines == m_NumberOfLines ) { break; }
+          lines++;
+          if ( lines == m_NumberOfLines ) { break; }
+          }
         }
       }
-    }
-  while ( ( lines < m_NumberOfLines ) && ( found ) );
+    while ( lines < m_NumberOfLines );
+  }
 
   m_OldModifiedTime = this->GetMTime();
   return m_LinesList;

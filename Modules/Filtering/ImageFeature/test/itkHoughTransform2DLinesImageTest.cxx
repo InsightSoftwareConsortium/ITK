@@ -31,7 +31,80 @@
  * - Blur the accumulator.
  * - Find maxima in the accumulator.
  * - Display the results
+ *
+ * It also does unit testing.
  */
+
+namespace
+{
+  bool Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
+  {
+    typedef unsigned char PixelType;
+
+    typedef itk::Image<PixelType> ImageType;
+
+    typedef itk::HoughTransform2DLinesImageFilter< PixelType, double > FilterType;
+
+    // Create a black input image for the filter.
+    const ImageType::Pointer image = ImageType::New();
+    const ImageType::SizeType size = { { 32, 32 } };
+    image->SetRegions(size);
+    image->Allocate(true);
+
+    const FilterType::Pointer filter = FilterType::New();
+    filter->SetInput(image);
+    filter->Update();
+
+    if (!filter->GetLines().empty())
+    {
+      std::cout << "GetLines() should return an empty list when the input image is entirely black."
+        << std::endl;
+      return false;
+    }
+    return true;
+  }
+
+
+  bool Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
+  {
+    typedef unsigned char PixelType;
+
+    typedef itk::Image<PixelType> ImageType;
+
+    // Create an image.
+    const ImageType::Pointer image = ImageType::New();
+    enum { sizeX = 32, sizeY = 32 };
+    const ImageType::SizeType size = { { sizeX, sizeY } };
+    image->SetRegions(size);
+    image->Allocate(true);
+
+    // Place some line segment in the image.
+    for ( unsigned x = 1; x < (sizeX - 1); ++x )
+    {
+      const itk::Index<> index = { {x, sizeY / 2} };
+      image->SetPixel(index, 1);
+    }
+
+    typedef itk::HoughTransform2DLinesImageFilter< PixelType, double > FilterType;
+
+    const FilterType::Pointer filter = FilterType::New();
+
+    filter->SetInput(image);
+    filter->SetNumberOfLines(0);
+    filter->Update();
+
+    // Even when there appears a line segment in the image, GetLines() should return an empty list
+    // because SetNumberOfLines(0) was called.
+    if (!filter->GetLines().empty())
+    {
+      std::cout << "GetLines() should return an empty list when NumberOfLines is set to zero."
+        << std::endl;
+      return false;
+    }
+    return true;
+  }
+}
+
 
 /** Hough Point structure */
 struct HoughPoint
@@ -43,6 +116,8 @@ struct HoughPoint
 
 int itkHoughTransform2DLinesImageTest( int, char* [] )
 {
+  bool success = true;
+
   // Define the dimension of the images
   const unsigned Dimension = 2;
 
@@ -259,13 +334,13 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
       {
       std::cout << "Failure for line" << std::endl;
       std::cout << "Expected angle: " << theta << ", found: " << it_list->angle << std::endl;
-      return EXIT_FAILURE;
+      success = false;
       }
     if( !itk::Math::FloatAlmostEqual( it_list->radius, radius, 10, radiusTolerance ) )
       {
       std::cout << "Failure for line" << std::endl;
       std::cout << "Expected radius: " << radius << ", found: " << it_list->radius << std::endl;
-      return EXIT_FAILURE;
+      success = false;
       }
     else
       {
@@ -275,6 +350,17 @@ int itkHoughTransform2DLinesImageTest( int, char* [] )
     ++it_list;
     }
 
-  std::cout << "Test succeeded!" << std::endl;
-  return EXIT_SUCCESS;
+  success &= Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black();
+  success &= Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero();
+
+  if (success)
+  {
+    std::cout << "Test succeeded!" << std::endl;
+    return EXIT_SUCCESS;
+  }
+  else
+  {
+    std::cout << "Test FAILED!" << std::endl;
+    return EXIT_FAILURE;
+  }
 }
