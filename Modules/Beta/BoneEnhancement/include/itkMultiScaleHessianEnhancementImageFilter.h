@@ -24,7 +24,7 @@
 #include "itkMaximumAbsoluteValueImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
-#include "itkEigenvalueToScalarImageFilter.h"
+#include "itkEigenToScalarImageFilter.h"
 
 namespace itk
 {
@@ -32,14 +32,14 @@ namespace itk
  * \brief Compute an image enhancement using eigenvalues of the local hessian matrix over many scales.
  *
  * This class enhances an image using many of the bone image enhancement filters. Other filters based
- * on a functional of the eigenvalues can be written using this class by extending EigenvalueToScalarImageFilter.
+ * on a functional of the eigenvalues can be written using this class by extending EigenToScalarImageFilter.
  * This class works by computing the second derivative and cross derivatives usign HessianRecursiveGaussianImageFilter.
  * The hessian matrix is decomposed into the eigenvalues using SymmetricEigenAnalysisImageFilter. By setting a filter
  * using SetEigenToScalarImageFilter( ), a filter is used to convert eigenvalues back into a scalar values. This is
  * repeated at multiple scales and the maximum response (in an absolute sense) is taken over all scales.
  * 
  * To enhance the bone image, call SetEigenToScalarImageFilter( ) with an appropriate class derived from the
- * EigenvalueToScalarImageFilter. This filter should be constructed outside of this class. You will also need
+ * EigenToScalarImageFilter. This filter should be constructed outside of this class. You will also need
  * to set the number of scales by which the image is enhanced using SetSigmaArray( ). Convenient static methods
  * GenerateSigmaArray( ), GenerateEquispacedSigmaArray( ), and GenerateLogarithmicSigmaArray( ) can be used to
  * generate naturally spaced sigma values. Note that you still need to pass the array to SetSigmaArray( ). 
@@ -52,7 +52,7 @@ namespace itk
  * This class is heavily derived from \see MultiScaleHessianBasedMeasureImageFilter
  * 
  * \sa MaximumAbsoluteValueImageFilter
- * \sa EigenvalueToScalarImageFilter
+ * \sa EigenToScalarImageFilter
  * \sa SymmetricEigenAnalysisImageFilter
  * \sa HessianRecursiveGaussianImageFilter
  * 
@@ -95,7 +95,7 @@ public:
   typedef MaximumAbsoluteValueImageFilter< TOutputImage > MaximumAbsoluteValueFilterType;
 
   /** Eigenvalue image to scalar image related typedefs */
-  typedef EigenvalueToScalarImageFilter< EigenValueImageType, TOutputImage > EigenToScalarImageFilterType;
+  typedef EigenToScalarImageFilter< EigenValueImageType, TOutputImage > EigenToScalarImageFilterType;
 
   /** Set/Get the EigenToScalarImageFilter. */
   itkSetObjectMacro(EigenToScalarImageFilter, EigenToScalarImageFilterType);

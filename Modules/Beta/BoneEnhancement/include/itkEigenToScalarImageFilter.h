@@ -16,13 +16,13 @@
  *
  *=========================================================================*/
 
-#ifndef itkEigenvalueToScalarImageFilter_h
-#define itkEigenvalueToScalarImageFilter_h
+#ifndef itkEigenToScalarImageFilter_h
+#define itkEigenToScalarImageFilter_h
 
 #include "itkImageToImageFilter.h"
 
 namespace itk {
-/** \class EigenvalueToScalarImageFilter
+/** \class EigenToScalarImageFilter
  * \brief Abstract class for converting eigenvalue image to scalar image.
  *
  * This is an abstract class that converts an eigenvalue image to a scalar image based using a mathematical function.
@@ -36,25 +36,25 @@ namespace itk {
  * \ingroup BoneEnhancement
  */
 template< typename TInputImage, typename TOutputImage = TInputImage >
-class ITK_TEMPLATE_EXPORT EigenvalueToScalarImageFilter:
+class ITK_TEMPLATE_EXPORT EigenToScalarImageFilter:
 public ImageToImageFilter< TInputImage, TOutputImage >
 {
 public:
   /** Standard Self typedef */
-  typedef EigenvalueToScalarImageFilter                   Self;
+  typedef EigenToScalarImageFilter                        Self;
   typedef ImageToImageFilter< TInputImage, TOutputImage > Superclass;
   typedef SmartPointer< Self >                            Pointer;
   typedef SmartPointer< const Self >                      ConstPointer;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(EigenvalueToScalarImageFilter, ImageToImageFilter);
+  itkTypeMacro(EigenToScalarImageFilter, ImageToImageFilter);
 
   /** Template the EigenValueOrderType. Methods that inherit from this class can override this function
    * to produce a different eigenvalue ordering. Ideally, the enum EigenValueOrderType should come from
    * itkSymmetricEigenAnalysisImageFilter.h or itkSymmetricEigenAnalysis.h. That turns out to be non-trivial
    * because the enumeration is hidden within the templated class. Therefore, you would need the hessian type
    * and eigenvalue type to do such an operation. We do not necessarily have the hessian type information.
-   * */
+   */
   typedef enum {
     OrderByValue = 1,
     OrderByMagnitude,
@@ -74,9 +74,9 @@ protected:
   }
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(EigenvalueToScalarImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(EigenToScalarImageFilter);
 #endif
 }; //end class
 } // end namespace 
 
-#endif // itkEigenvalueToScalarImageFilter_h
+#endif // itkEigenToScalarImageFilter_h

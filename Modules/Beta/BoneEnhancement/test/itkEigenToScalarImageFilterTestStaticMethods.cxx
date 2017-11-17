@@ -16,19 +16,19 @@
  *
  *=========================================================================*/
 
-#include "itkEigenvalueToScalarImageFilter.h"
+#include "itkEigenToScalarImageFilter.h"
 #include "itkTestingMacros.h"
 
-int itkEigenvalueToScalarImageFilterTestStaticMethods( int, char * [] )
+int itkEigenToScalarImageFilterTestStaticMethods( int, char * [] )
 {
   const unsigned int                         Dimension = 2;
   typedef int                                PixelType;
   typedef itk::Image< PixelType, Dimension > ImageType;
   
-  typedef itk::EigenvalueToScalarImageFilter<ImageType, ImageType> EigenvalueToScalarImageFilterType;
+  typedef itk::EigenToScalarImageFilter<ImageType, ImageType> EigenToScalarImageFilterType;
 
   /* Test that the default is order by magnitude */
-  TEST_EXPECT_EQUAL(EigenvalueToScalarImageFilterType::EigenValueOrder, EigenvalueToScalarImageFilterType::OrderByMagnitude);
+  TEST_EXPECT_EQUAL(EigenToScalarImageFilterType::EigenValueOrder, EigenToScalarImageFilterType::OrderByMagnitude);
 
   return EXIT_SUCCESS;
 }
