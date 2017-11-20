@@ -79,7 +79,7 @@ namespace
     image->Allocate(true);
 
     // Place some line segment in the image.
-    for ( unsigned x = 1; x < (sizeX - 1); ++x )
+    for ( itk::IndexValueType x = 1; x < (sizeX - 1); ++x )
     {
       const itk::Index<> index = { {x, sizeY / 2} };
       image->SetPixel(index, 1);
