@@ -36,8 +36,10 @@ template< typename TInputImage, typename TOutputImage, typename TDisplacementFie
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
 ::WarpImageFilter()
 {
-  // Setup the number of required inputs
-  this->SetNumberOfRequiredInputs(2);
+  // #0 implicit "Primary" input required
+  // #1 "DisplacementField" required
+  Self::AddRequiredInputName("DisplacementField", 1);
+
 
   // Setup default values
   m_OutputSpacing.Fill(1.0);
@@ -123,36 +125,6 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   this->SetOutputSize ( image->GetLargestPossibleRegion().GetSize() );
 }
 
-/**
- * Set displacement field as Inputs[1] for this ProcessObject.
- *
- */
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
-void
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::SetDisplacementField(
-  const DisplacementFieldType *field)
-{
-  // const cast is needed because the pipeline is not const-correct.
-  DisplacementFieldType *input =
-    const_cast< DisplacementFieldType * >( field );
-
-  this->ProcessObject::SetNthInput(1, input);
-}
-
-/**
- * Return a pointer to the displacement field.
- */
-template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
-typename WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::DisplacementFieldType *
-WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
-::GetDisplacementField(void)
-{
-  return itkDynamicCastInDebugMode< DisplacementFieldType * >
-         ( this->ProcessObject::GetInput(1) );
-}
-
 template< typename TInputImage, typename TOutputImage, typename TDisplacementField >
 void
 WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
@@ -178,7 +150,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
     {
     itkExceptionMacro(<< "Interpolator not set");
     }
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  const DisplacementFieldType *fieldPtr = this->GetDisplacementField();
 
   unsigned int numberOfComponents = DefaultConvertPixelTraits<PixelType>::GetNumberOfComponents(m_EdgePaddingValue);
 
@@ -431,7 +403,7 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   Superclass::GenerateInputRequestedRegion();
 
   // request the largest possible region for the input image
-  InputImagePointer inputPtr =
+  InputImageType * inputPtr =
     const_cast< InputImageType * >( this->GetInput() );
 
   if ( inputPtr )
@@ -445,9 +417,10 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   // the smallest region of the deformation field that fully
   // contains the physical space covered by the output's requested
   // region, se we do the easy thing and request the largest possible region
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
-  OutputImagePointer      outputPtr = this->GetOutput();
-  if ( fieldPtr.IsNotNull() )
+  DisplacementFieldType *fieldPtr =
+    const_cast<DisplacementFieldType *>(this->GetDisplacementField());
+  const OutputImageType *outputPtr = this->GetOutput();
+  if ( fieldPtr != ITK_NULLPTR )
     {
     // tolerance for origin and spacing depends on the size of pixel
     // tolerance for direction is a fraction of the unit cube.
@@ -467,8 +440,8 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
       typedef typename TDisplacementField::RegionType DisplacementRegionType;
 
       DisplacementRegionType fieldRequestedRegion = ImageAlgorithm::EnlargeRegionOverBox(outputPtr->GetRequestedRegion(),
-                                                                                         outputPtr.GetPointer(),
-                                                                                         fieldPtr.GetPointer());
+                                                                                         outputPtr,
+                                                                                         fieldPtr);
       fieldPtr->SetRequestedRegion( fieldRequestedRegion );
       }
     if ( !fieldPtr->VerifyRequestedRegion() )
@@ -486,15 +459,15 @@ WarpImageFilter< TInputImage, TOutputImage, TDisplacementField >
   // call the superclass's implementation of this method
   Superclass::GenerateOutputInformation();
 
-  OutputImagePointer outputPtr = this->GetOutput();
+  OutputImageType * outputPtr = this->GetOutput();
 
   outputPtr->SetSpacing(m_OutputSpacing);
   outputPtr->SetOrigin(m_OutputOrigin);
   outputPtr->SetDirection(m_OutputDirection);
 
-  DisplacementFieldPointer fieldPtr = this->GetDisplacementField();
+  const DisplacementFieldType* fieldPtr = this->GetDisplacementField();
   if ( this->m_OutputSize[0] == 0
-       && fieldPtr.IsNotNull() )
+       && fieldPtr != ITK_NULLPTR )
     {
     outputPtr->SetLargestPossibleRegion( fieldPtr->
                                          GetLargestPossibleRegion() );
