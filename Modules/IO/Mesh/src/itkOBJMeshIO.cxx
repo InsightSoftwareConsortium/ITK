@@ -105,6 +105,35 @@ OBJMeshIO
     }
 }
 
+bool
+OBJMeshIO
+::SplitLine(const std::string& line, std::string& type, std::string& content)
+{
+  std::locale loc;
+  std::string::const_iterator start = line.begin();
+
+  while (start != line.end() && std::isspace(*start, loc))
+    {
+    ++start; // start should be at the first non-empty sign.
+    }
+
+  std::string::const_iterator it = start;
+  while (it != line.end() && !std::isspace(*it, loc))
+    {
+    ++it;
+    }
+
+  if (it == line.end())
+    {
+    return false;
+    }
+  // else anyways
+  type = line.substr(start - line.begin(), it - start);
+  content = line.substr(it - line.begin());
+
+  return true;
+}
+
 void
 OBJMeshIO
 ::ReadMeshInformation()
@@ -123,18 +152,7 @@ OBJMeshIO
   std::locale   loc;
   while ( std::getline(m_InputFile, line, '\n') )
     {
-    inputLine.clear();
-    for ( unsigned int ii = 0; ii < line.size(); ii++ )
-      {
-      if ( !std::isspace(line[ii], loc) )
-        {
-        type = line[ii];
-        inputLine = line.substr(ii + 1);
-        break;
-        }
-      }
-
-    if ( !inputLine.empty() )
+    if ( SplitLine(line, type, inputLine) && !inputLine.empty() )
       {
       if ( type == "v" )
         {
@@ -222,18 +240,7 @@ OBJMeshIO
   std::locale loc;
   while ( std::getline(m_InputFile, line, '\n') )
     {
-    inputLine.clear();
-    for ( unsigned int ii = 0; ii < line.size(); ii++ )
-      {
-      if ( !std::isspace(line[ii], loc) )
-        {
-        type = line[ii];
-        inputLine = line.substr(ii + 1);
-        break;
-        }
-      }
-
-    if ( !inputLine.empty() )
+    if ( SplitLine(line, type, inputLine) && !inputLine.empty() )
       {
       if ( type == "v" )
         {
@@ -266,18 +273,7 @@ OBJMeshIO
   std::locale loc;
   while ( std::getline(m_InputFile, line, '\n') )
     {
-    inputLine.clear();
-    for ( unsigned int ii = 0; ii < line.size(); ii++ )
-      {
-      if ( !std::isspace(line[ii], loc) )
-        {
-        type = line[ii];
-        inputLine = line.substr(ii + 1);
-        break;
-        }
-      }
-
-    if ( !inputLine.empty() )
+    if ( SplitLine(line, type, inputLine) && !inputLine.empty() )
       {
       if ( type == "f" )
         {
@@ -335,18 +331,7 @@ OBJMeshIO
   std::locale loc;
   while ( std::getline(m_InputFile, line, '\n') )
     {
-    inputLine.clear();
-    for ( unsigned int ii = 0; ii < line.size(); ii++ )
-      {
-      if ( !std::isspace(line[ii], loc) )
-        {
-        type = line[ii];
-        inputLine = line.substr(ii + 1);
-        break;
-        }
-      }
-
-    if ( !inputLine.empty() )
+    if ( SplitLine(line, type, inputLine) && !inputLine.empty() )
       {
       if ( type == "vn" )
         {
