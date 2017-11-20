@@ -56,6 +56,10 @@ function(RegressionTest RunsLong ImageName Ext) #optional: Axis Label
   foreach(algo B;C;T)
     set(imageAlgoArgs "${ImageName}_${algo}${optArgs}")
     set(outImage "${ITK_TEST_OUTPUT_DIR}/${imageAlgoArgs}.${Ext}")
+    # have the RLE version output the results into a different file
+    # otherwise parallel invocation of tests causes undeterministic failures
+    # when both tests try to write to the same file at the same time
+    set(outImageRLE "${ITK_TEST_OUTPUT_DIR}/${imageAlgoArgs}_RLE.${Ext}")
 
     itk_add_test(
       NAME itkMCI_${imageAlgoArgs}
@@ -77,10 +81,10 @@ function(RegressionTest RunsLong ImageName Ext) #optional: Axis Label
         MorphologicalContourInterpolationTestDriver
         --compare
         DATA{Baseline/${imageAlgoArgs}.${Ext}}
-        ${outImage}
+        ${outImageRLE}
         itkMorphologicalContourInterpolationTestWithRLEImage
         DATA{Input/${ImageName}.${Ext}}
-        ${outImage}
+        ${outImageRLE}
         ${algo}
         ${ARGN}
     )
