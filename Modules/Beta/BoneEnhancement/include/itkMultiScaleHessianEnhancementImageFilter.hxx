@@ -166,9 +166,12 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   SigmaArrayType sigmaArray;
   sigmaArray.SetSize(NumberOfSigmaSteps);
 
-  /* Populate that array */
+  /* Populate first element to avoid division by zero */
+  sigmaArray.SetElement(0, SigmaMinimum);
+
+  /* Populate the remaining array */
   SigmaType thisSigma;
-  for (SigmaStepsType scaleLevel = 0; scaleLevel < sigmaArray.GetSize(); ++scaleLevel)
+  for (SigmaStepsType scaleLevel = 1; scaleLevel < sigmaArray.GetSize(); ++scaleLevel)
   {
     switch ( SigmaStepMethod )
     {
