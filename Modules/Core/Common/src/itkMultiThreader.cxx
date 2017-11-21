@@ -195,7 +195,7 @@ MultiThreader::MultiThreader() :
     }
   else
     {
-    m_NumberOfThreads = m_ThreadPool->GetGlobalDefaultNumberOfThreads();
+    m_NumberOfThreads = MultiThreader::GetGlobalDefaultNumberOfThreads();
     }
 }
 
