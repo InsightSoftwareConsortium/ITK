@@ -60,7 +60,7 @@ public:
     OrderByMagnitude,
     DoNotOrder
   } EigenValueOrderType;
-  itkStaticConstMacro(EigenValueOrder, EigenValueOrderType, OrderByMagnitude);
+  virtual EigenValueOrderType GetEigenValueOrder() = 0;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
