@@ -151,6 +151,8 @@ protected:
       }
   }
 
+  static bool SplitLine(const std::string& line, std::string& type, std::string& content);
+
 protected:
   OBJMeshIO();
   virtual ~OBJMeshIO() ITK_OVERRIDE;
