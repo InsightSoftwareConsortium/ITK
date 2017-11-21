@@ -116,7 +116,7 @@ public:
 
   /**
    * Static methods for generating an array of sigma values. Note that these still need to be passed
-   * into the class using TODO: link to SetSigmaArray. Implementation taken from itkMultiScaleHessianBasedMeasureImageFilter.
+   * into the class using SetSigmaArray . Implementation taken from itkMultiScaleHessianBasedMeasureImageFilter.
    * Note that these methods cannot throw exceptions according to the standard itkExceptionMacro since they are static
    * methods. Instead, they will return an empty sigma array on error.
    */
