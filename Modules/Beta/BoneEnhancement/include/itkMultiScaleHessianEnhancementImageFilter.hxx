@@ -21,6 +21,7 @@
 #include "itkMultiScaleHessianEnhancementImageFilter.h"
 #include "itkMath.h"
 #include "itkProgressAccumulator.h"
+#include "itkExceptionObject.h"
 
 namespace itk
 {
@@ -148,14 +149,7 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   /* Quick check to make sure value is correct */
   if ( NumberOfSigmaSteps < 1 )
   {
-    /*
-    * Since this is a static class, we have no "this" pointer so we cannot throw an exception. Instead
-    * we will return an empty sigma array.
-    */
-    // itkExceptionMacro(<< "NumberOfSigmaSteps (" << NumberOfSigmaSteps << ") must be one or greater");
-    SigmaArrayType sigmaArrayEmpty;
-    sigmaArrayEmpty.SetSize(0);
-    return sigmaArrayEmpty;
+    throw ExceptionObject(__FILE__, __LINE__, "Number of sigma values requested is less than 1", ITK_LOCATION);
   }
 
   /* If we have min greater than max just swap */
@@ -192,15 +186,7 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
       break;
       }
     default:
-      /*
-      * Since this is a static class, we have no "this" pointer so we cannot throw an exception. Instead
-      * we will return an empty sigma array.
-      */
-      // itkExceptionMacro ("Invalid SigmaStepMethod: " << SigmaStepMethod);
-      SigmaArrayType sigmaArrayEmpty;
-      sigmaArrayEmpty.SetSize(0);
-      return sigmaArrayEmpty;
-      break;
+      throw ExceptionObject(__FILE__, __LINE__, "Requested sigma step method does not exist", ITK_LOCATION);
     }
     
     /* Assign to array */
