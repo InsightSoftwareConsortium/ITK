@@ -15,6 +15,8 @@ itk_module(BoneEnhancement
   DEPENDS
     ITKCommon
     ITKStatistics
+    ITKImageFilterBase
+    ITKImageFeature
   COMPILE_DEPENDS
     ITKImageSources
   TEST_DEPENDS
