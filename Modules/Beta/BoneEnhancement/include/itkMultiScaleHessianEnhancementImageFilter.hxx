@@ -79,30 +79,26 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   /*
    * We checked that m_SigmaArray.GetSize() > 0 above and do not need to repeat the check. However,
    * if we are only given one sigma value we do not need to take the maximum over scales.
+   * 
+   * Three filters, ran m_SigmaArray.GetSize() times
+   * One filter, ran (m_SigmaArray.GetSize() - 1) times
    */
+  float numberOfFiltersToProcess = 3*m_SigmaArray.GetSize() + 1*(m_SigmaArray.GetSize()-1);
+  float perFilterProccessPercentage = 1.0 / numberOfFiltersToProcess;
+  itkDebugMacro(<< "each filter accounts for " << perFilterProccessPercentage*100.0 << "% of processing");
+
+  progress->RegisterInternalFilter(m_HessianFilter, perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenAnalysisFilter, perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenToScalarImageFilter, perFilterProccessPercentage);
+
+  /* Check if we need to run the MaximumAbsoluteValueFilter at all */ 
   if (m_SigmaArray.GetSize() > 1)
   {
-    /*
-     * Three filters, ran m_SigmaArray.GetSize() times
-     * One filter, ran (m_SigmaArray.GetSize() - 1) times
-     */
-    float numberOfFiltersToProcess = 3*m_SigmaArray.GetSize() + 1*(m_SigmaArray.GetSize()-1);
-    float perFilterProccessPercentage = 1.0 / numberOfFiltersToProcess;
-    itkDebugMacro(<< "each filter accounts for " << perFilterProccessPercentage*100.0 << "% of processing");
-
-    progress->RegisterInternalFilter(m_HessianFilter, perFilterProccessPercentage);
-    progress->RegisterInternalFilter(m_EigenAnalysisFilter, perFilterProccessPercentage);
-    progress->RegisterInternalFilter(m_EigenToScalarImageFilter, perFilterProccessPercentage);
-
-    /* Check if we need to run the MaximumAbsoluteValueFilter at all */ 
-    if (m_SigmaArray.GetSize() > 1)
-    {
-      progress->RegisterInternalFilter(m_MaximumAbsoluteValueFilter, perFilterProccessPercentage);
-    }
-    else
-    {
-      itkDebugMacro(<< "maximumAbsoluteValueFilter is not being used");
-    }
+    progress->RegisterInternalFilter(m_MaximumAbsoluteValueFilter, perFilterProccessPercentage);
+  }
+  else
+  {
+    itkDebugMacro(<< "maximumAbsoluteValueFilter is not being used");
   }
 
   /* We store a single pointer that we will graft to the output */
