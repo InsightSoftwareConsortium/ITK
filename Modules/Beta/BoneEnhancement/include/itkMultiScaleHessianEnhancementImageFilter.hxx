@@ -105,7 +105,7 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   typename TOutputImage::Pointer outputImageTypePointer;
 
   /* Process the first scale */
-  outputImageTypePointer = generateResponseAtScale((SigmaType)0);
+  outputImageTypePointer = generateResponseAtScale((SigmaStepsType)0);
 
   /* Process the remaining sigma values */
   for (SigmaStepsType scaleLevel = 1; scaleLevel < m_SigmaArray.GetSize(); ++scaleLevel)
