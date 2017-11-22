@@ -254,6 +254,7 @@ DCMTKImageIO
                         ImageIOBase::GetComponentTypeAsString(this->m_ComponentType));
       break;
     default: // scalarSize already set
+      break;
     }
   // get the image in the DCMTK buffer
   const DiPixel * const interData = m_DImage->getInterData();
