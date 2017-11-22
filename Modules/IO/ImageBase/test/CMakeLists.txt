@@ -72,8 +72,8 @@ itk_add_test(NAME itk64bitTestMHAtoNRRD
       COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.mha} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nrrd
       itk64bitTest DATA{Input/Test64bit.mha} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nrrd)
 itk_add_test(NAME itk64bitTestNRRDtoMHA2
-      COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha
-      itk64bitTest DATA{Input/Test64bit.mha} ${ITK_TEST_OUTPUT_DIR}/Test64bit.mha)
+      COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit2.mha
+      itk64bitTest DATA{Input/Test64bit.mha} ${ITK_TEST_OUTPUT_DIR}/Test64bit2.mha)
 itk_add_test(NAME itk64bitTestNRRDtoNIFTI
       COMMAND ITKIOImageBaseTestDriver --compare DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nii
       itk64bitTest DATA{Input/Test64bit.nrrd} ${ITK_TEST_OUTPUT_DIR}/Test64bit.nii)
