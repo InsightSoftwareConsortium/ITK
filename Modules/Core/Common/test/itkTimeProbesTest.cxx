@@ -165,11 +165,22 @@ int itkTimeProbesTest(int, char* [] )
   std::cout << std::endl << "Print an expanded report of a specific probe" << std::endl;
   collector.ExpandedReport("o:TransformPhysicalPointToIndex");
 
+  std::cout << std::endl << "Print a JSON report from all probes" << std::endl;
+  collector.JSONReport();
+
+  std::cout << std::endl << "Print a JSON report of a specific probe" << std::endl;
+  collector.JSONReport("o:TransformPhysicalPointToIndex");
+
   // Test writing to a ostream
   std::ofstream  logfile;
   logfile.open("itkTimeProbesTest.txt");
   collector.Report( logfile );
   logfile.close();
+
+  std::ofstream jsonFile;
+  jsonFile.open("itkTimeProbesTest.json");
+  collector.JSONReport(jsonFile);
+  jsonFile.close();
 
   // Print to the standard error
   std::cout << std::endl << "Print normal reports from all probes to the standard error" << std::endl;

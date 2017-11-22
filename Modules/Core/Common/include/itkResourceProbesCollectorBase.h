@@ -60,13 +60,19 @@ public:
                       bool printSystemInfo = true, bool printReportHead = true,
                       bool useTabs = false);
 
-  /** Expanded report the summary of results from all  probes */
+  /** Expanded report of the summary of results from all probes */
   virtual void ExpandedReport(std::ostream & os = std::cout,bool printSystemInfo = true,
                               bool printReportHead = true, bool useTabs = false);
 
-  /** Expanded report the summary of results from a specific probes */
+  /** Expanded report of the summary of results from a specific probe */
   virtual void ExpandedReport(const char *name, std::ostream & os = std::cout,
                               bool printSystemInfo = true, bool printReportHead = true, bool useTabs = false);
+
+  /** JavaScript Object Notation (JSON) expanded report the summary of results from all probes */
+  virtual void JSONReport(std::ostream & os = std::cout, bool printSystemInfo = true);
+
+  /** JavaScript Object Notation (JSON) expanded report the summary of results from a specific probe */
+  virtual void JSONReport(const char *name, std::ostream & os = std::cout);
 
   /** Destroy the set of probes. New probes can be created after invoking this
     method. */
