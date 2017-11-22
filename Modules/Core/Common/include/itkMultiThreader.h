@@ -28,6 +28,7 @@
 #ifndef itkMultiThreader_h
 #define itkMultiThreader_h
 
+#include "itkMultiThreaderBase.h"
 #include "itkMutexLock.h"
 #include "itkThreadSupport.h"
 #include "itkIntTypes.h"
@@ -49,12 +50,12 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT MultiThreader : public Object
+class ITKCommon_EXPORT MultiThreader : public MultiThreaderBase
 {
 public:
   /** Standard class type aliases. */
   using Self = MultiThreader;
-  using Superclass = Object;
+  using Superclass = MultiThreaderBase;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -62,68 +63,39 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiThreader, Object);
+  itkTypeMacro(MultiThreader, MultiThreaderBase);
 
-  /** Get/Set the number of threads to create. It will be clamped to the range
-   * [ 1, m_GlobalMaximumNumberOfThreads ], so the caller of this method should
-   * check that the requested number of threads was accepted. */
-  void SetNumberOfThreads(ThreadIdType numberOfThreads);
-
-  itkGetConstMacro(NumberOfThreads, ThreadIdType);
-
-  /** Set/Get the maximum number of threads to use when multithreading.  It
-   * will be clamped to the range [ 1, ITK_MAX_THREADS ] because several arrays
-   * are already statically allocated using the ITK_MAX_THREADS number.
-   * Therefore the caller of this method should check that the requested number
-   * of threads was accepted. */
-  static void SetGlobalMaximumNumberOfThreads(ThreadIdType val);
-  static ThreadIdType  GetGlobalMaximumNumberOfThreads();
-
-  /** Set/Get whether to use the to use the thread pool
-   * implementation or the spawing implementation of
-   * starting threads.
-   */
-  static void SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool );
-  static bool GetGlobalDefaultUseThreadPool( );
-
-  /** Set/Get the value which is used to initialize the NumberOfThreads in the
-   * constructor.  It will be clamped to the range [1, m_GlobalMaximumNumberOfThreads ].
-   * Therefore the caller of this method should check that the requested number
-   * of threads was accepted. */
-  static void SetGlobalDefaultNumberOfThreads(ThreadIdType val);
-
-  static ThreadIdType  GetGlobalDefaultNumberOfThreads();
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
    * m_NumberOfThreads threads. As a side effect the m_NumberOfThreads will be
    * checked against the current m_GlobalMaximumNumberOfThreads and clamped if
    * necessary. */
-  void SingleMethodExecute();
+  void SingleMethodExecute() override;
 
   /** Execute the MultipleMethods (as define by calling SetMultipleMethod for
    * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
    * threads. As a side effect the m_NumberOfThreads will be checked against the
    * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
-  void MultipleMethodExecute();
+  void MultipleMethodExecute() override;
 
   /** Set the SingleMethod to f() and the UserData field of the
    * ThreadInfoStruct that is passed to it will be data.
    * This method (and all the methods passed to SetMultipleMethod)
    * must be of type itkThreadFunctionType and must take a single argument of
    * type void *. */
-  void SetSingleMethod(ThreadFunctionType, void *data);
+  void SetSingleMethod(ThreadFunctionType, void *data) override;
 
   /** Set the MultipleMethod at the given index to f() and the UserData
    * field of the ThreadInfoStruct that is passed to it will be data. */
-  void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data);
+  void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data) override;
 
   /** Create a new thread for the given function. Return a thread id
      * which is a number between 0 and ITK_MAX_THREADS - 1. This
    * id should be used to kill the thread at a later time. */
-  ThreadIdType SpawnThread(ThreadFunctionType, void *data);
+  ThreadIdType SpawnThread(ThreadFunctionType, void *data) override;
 
   /** Terminate the thread that was created with a SpawnThreadExecute() */
-  void TerminateThread(ThreadIdType thread_id);
+  void TerminateThread(ThreadIdType thread_id) override;
 
   /** Set the ThreadPool used by this MultiThreader. If not set,
     * the default ThreadPool will be used. Currently ThreadPool
@@ -140,7 +112,8 @@ public:
   /** Get the UseThreadPool flag*/
   itkGetMacro(UseThreadPool,bool);
 
-  using JobSemaphoreType = ThreadPool::Semaphore;
+
+  typedef ThreadPool::Semaphore JobSemaphoreType;
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute, MultipleMethodExecute or
@@ -170,17 +143,18 @@ public:
 
 protected:
   MultiThreader();
-  ~MultiThreader() override;
-  void PrintSelf(std::ostream & os, Indent indent) const override;
+  ~MultiThreader() ITK_OVERRIDE;
+  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreader);
 
-  // Thread pool instance and factory
-  ThreadPool::Pointer m_ThreadPool;
-
   // choose whether to use Spawn or ThreadPool methods
   bool m_UseThreadPool;
+
+
+  // Thread pool instance and factory
+  ThreadPool::Pointer m_ThreadPool;
 
   /** An array of thread info containing a thread id
    *  (0, 1, 2, .. ITK_MAX_THREADS-1), the thread count, and a pointer
@@ -201,36 +175,6 @@ private:
   /** Internal storage of the data. */
   void *m_SingleData;
   void *m_MultipleData[ITK_MAX_THREADS];
-
-  /** Global variable defining the maximum number of threads that can be used.
-   *  The m_GlobalMaximumNumberOfThreads must always be less than or equal to
-   *  ITK_MAX_THREADS and greater than zero. */
-  static ThreadIdType m_GlobalMaximumNumberOfThreads;
-
-  /** Global value to control weather the threadpool implementation should
-   * be used.  This defaults to the environmental variable "ITK_USE_THREADPOOL"
-   * if set, else it default to true.
-   */
-  static bool m_GlobalDefaultUseThreadPool;
-
-  /*  Global variable defining the default number of threads to set at
-   *  construction time of a MultiThreader instance.  The
-   *  m_GlobalDefaultNumberOfThreads must always be less than or equal to the
-   *  m_GlobalMaximumNumberOfThreads and larger or equal to 1 once it has been
-   *  initialized in the constructor of the first MultiThreader instantiation.
-   */
-  static ThreadIdType m_GlobalDefaultNumberOfThreads;
-
-  /** The number of threads to use.
-   *  The m_NumberOfThreads must always be less than or equal to
-   *  the m_GlobalMaximumNumberOfThreads before it is used during the execution
-   *  of a threaded method. Its value is clamped in the SingleMethodExecute()
-   *  and MultipleMethodExecute(). Its value is initialized to
-   *  m_GlobalDefaultNumberOfThreads at construction time. Its value is clamped
-   *  to the current m_GlobalMaximumNumberOfThreads in the
-   *  SingleMethodExecute() and MultipleMethodExecute() methods.
-   */
-  ThreadIdType m_NumberOfThreads;
 
   /** Static function used as a "proxy callback" by the MultiThreader.  The
    * threading library will call this routine for each thread, which

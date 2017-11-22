@@ -49,9 +49,9 @@ void MultiThreader::MultipleMethodExecute()
   pthread_t process_id[ITK_MAX_THREADS];
 
   // obey the global maximum number of threads limit
-  if( m_NumberOfThreads > m_GlobalMaximumNumberOfThreads )
+  if( m_NumberOfThreads > this->GetGlobalMaximumNumberOfThreads() )
     {
-    m_NumberOfThreads = m_GlobalMaximumNumberOfThreads;
+    m_NumberOfThreads = this->GetGlobalMaximumNumberOfThreads();
     }
   for( ThreadIdType thread_loop = 0; thread_loop < m_NumberOfThreads; ++thread_loop )
     {

@@ -227,7 +227,7 @@ int itkDataObjectAndProcessObjectTest(int, char* [] )
   TEST_SET_GET_VALUE( itk::MultiThreader::GetGlobalDefaultNumberOfThreads(), process->GetNumberOfThreads() );
 
   // not sure what to test with that method - at least test that it exist
-  itk::MultiThreader::Pointer multiThreader = process->GetMultiThreader();
+  itk::MultiThreaderBase::Pointer multiThreader = process->GetMultiThreader();
   TEST_SET_GET_VALUE( true, multiThreader.IsNotNull() );
 
   // create some data object that will be used as input and output

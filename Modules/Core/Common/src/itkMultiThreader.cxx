@@ -45,148 +45,27 @@
 namespace itk
 {
 
-// GlobalDefaultUseThreadPoolIsInitialized is used only in this
-// file to ensure that the ITK_USE_THREADPOOL environmenal variable
-// is only used as a fall back option.  If the SetGlobalDefaultUseThreadPool
-// API is ever used by the developer, the developers choice is
-// respected over the environmental variable.
-static bool GlobalDefaultUseThreadPoolIsInitialized=false;
-static SimpleFastMutexLock globalDefaultInitializerLock;
-
-bool MultiThreader::m_GlobalDefaultUseThreadPool = false;
-
-void MultiThreader::SetGlobalDefaultUseThreadPool( const bool GlobalDefaultUseThreadPool )
-  {
-  m_GlobalDefaultUseThreadPool = GlobalDefaultUseThreadPool;
-  GlobalDefaultUseThreadPoolIsInitialized=true;
-  }
-
-bool MultiThreader::GetGlobalDefaultUseThreadPool( )
-  {
-  // This method must be concurrent thread safe
-
-  if( !GlobalDefaultUseThreadPoolIsInitialized )
-    {
-
-    MutexLockHolder< SimpleFastMutexLock > lock(globalDefaultInitializerLock);
-
-    // After we have the lock, double check the initialization
-    // flag to ensure it hasn't been changed by another thread.
-
-    if (!GlobalDefaultUseThreadPoolIsInitialized )
-      {
-      // look for runtime request to use thread pool
-      std::string use_threadpool;
-
-      if( itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL",use_threadpool) )
-        {
-
-        use_threadpool = itksys::SystemTools::UpperCase(use_threadpool);
-
-        // NOTE: GlobalDefaultUseThreadPoolIsInitialized=true after this call
-        if(use_threadpool != "NO" && use_threadpool != "OFF" && use_threadpool != "FALSE")
-          {
-          MultiThreader::SetGlobalDefaultUseThreadPool( true );
-          }
-        else
-          {
-          MultiThreader::SetGlobalDefaultUseThreadPool( false );
-          }
-        }
-
-      // always set that we are initialized
-      GlobalDefaultUseThreadPoolIsInitialized=true;
-      }
-    }
-  return m_GlobalDefaultUseThreadPool;
-  }
-
-// Initialize static member that controls global maximum number of threads.
-ThreadIdType MultiThreader::m_GlobalMaximumNumberOfThreads = ITK_MAX_THREADS;
-
-// Initialize static member that controls global default number of threads : 0
-// => Not initialized.
-ThreadIdType MultiThreader::m_GlobalDefaultNumberOfThreads = 0;
-
-void MultiThreader::SetGlobalMaximumNumberOfThreads(ThreadIdType val)
-{
-  m_GlobalMaximumNumberOfThreads = val;
-
-  // clamp between 1 and ITK_MAX_THREADS
-  m_GlobalMaximumNumberOfThreads = std::min( m_GlobalMaximumNumberOfThreads,
-                                             (ThreadIdType) ITK_MAX_THREADS );
-  m_GlobalMaximumNumberOfThreads = std::max( m_GlobalMaximumNumberOfThreads,
-                                             NumericTraits<ThreadIdType>::OneValue() );
-
-  // If necessary reset the default to be used from now on.
-  m_GlobalDefaultNumberOfThreads = std::min( m_GlobalDefaultNumberOfThreads,
-                                             m_GlobalMaximumNumberOfThreads);
-}
-
-ThreadIdType MultiThreader::GetGlobalMaximumNumberOfThreads()
-{
-  return m_GlobalMaximumNumberOfThreads;
-}
-
-void MultiThreader::SetGlobalDefaultNumberOfThreads(ThreadIdType val)
-{
-  m_GlobalDefaultNumberOfThreads = val;
-
-  // clamp between 1 and m_GlobalMaximumNumberOfThreads
-  m_GlobalDefaultNumberOfThreads  = std::min( m_GlobalDefaultNumberOfThreads,
-                                              m_GlobalMaximumNumberOfThreads );
-  m_GlobalDefaultNumberOfThreads  = std::max( m_GlobalDefaultNumberOfThreads,
-                                              NumericTraits<ThreadIdType>::OneValue() );
-
-}
-
-void MultiThreader::SetNumberOfThreads(ThreadIdType numberOfThreads)
-{
-  if( m_NumberOfThreads == numberOfThreads &&
-      numberOfThreads <= m_GlobalMaximumNumberOfThreads )
-    {
-    return;
-    }
-
-  m_NumberOfThreads = numberOfThreads;
-
-  // clamp between 1 and m_GlobalMaximumNumberOfThreads
-  m_NumberOfThreads  = std::min( m_NumberOfThreads,
-                                 m_GlobalMaximumNumberOfThreads );
-  m_NumberOfThreads  = std::max( m_NumberOfThreads, NumericTraits<ThreadIdType>::OneValue() );
-
-}
-
-ThreadIdType MultiThreader::GetGlobalDefaultNumberOfThreads()
-{
-  if( m_GlobalDefaultNumberOfThreads == 0 ) //need to initialize
-    {
-    m_GlobalDefaultNumberOfThreads = ThreadPool::GetGlobalDefaultNumberOfThreads();
-    }
-  return m_GlobalDefaultNumberOfThreads;
-}
-
 MultiThreader::MultiThreader() :
-  m_ThreadPool( ThreadPool::GetInstance() ),
-  m_UseThreadPool( MultiThreader::GetGlobalDefaultUseThreadPool() )
+  m_UseThreadPool( MultiThreaderBase::GetGlobalDefaultUseThreadPool() ),
+  m_ThreadPool( ThreadPool::GetInstance() )
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
     m_ThreadInfoArray[i].ThreadID           = i;
-    m_ThreadInfoArray[i].ActiveFlag         = nullptr;
-    m_ThreadInfoArray[i].ActiveFlagLock     = nullptr;
+    m_ThreadInfoArray[i].ActiveFlag         = ITK_NULLPTR;
+    m_ThreadInfoArray[i].ActiveFlagLock     = ITK_NULLPTR;
 
-    m_MultipleMethod[i]                     = nullptr;
-    m_MultipleData[i]                       = nullptr;
+    m_MultipleMethod[i]                     = ITK_NULLPTR;
+    m_MultipleData[i]                       = ITK_NULLPTR;
 
     m_SpawnedThreadActiveFlag[i]            = 0;
-    m_SpawnedThreadActiveFlagLock[i]        = nullptr;
+    m_SpawnedThreadActiveFlagLock[i]        = ITK_NULLPTR;
     m_SpawnedThreadInfoArray[i].ThreadID    = i;
     }
 
-  m_SingleMethod = nullptr;
-  m_SingleData = nullptr;
-  if (m_UseThreadPool)
+  m_SingleMethod = ITK_NULLPTR;
+  m_SingleData = ITK_NULLPTR;
+  if (Self::GetUseThreadPool())
     {
     ThreadIdType idleCount = std::max<ThreadIdType>(1u,
         m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
@@ -241,13 +120,13 @@ void MultiThreader::SingleMethodExecute()
     }
 
   // obey the global maximum number of threads limit
-  m_NumberOfThreads = std::min( m_GlobalMaximumNumberOfThreads, m_NumberOfThreads );
+  m_NumberOfThreads = std::min( this->GetGlobalMaximumNumberOfThreads(), m_NumberOfThreads );
 
   // Init process_id table because a valid process_id (i.e., non-zero), is
   // checked in the WaitForSingleMethodThread loops
   for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
     {
-    process_id[thread_loop] = ITK_DEFAULT_THREAD_ID;
+    process_id[thread_loop] = 0;
     }
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
@@ -267,7 +146,7 @@ void MultiThreader::SingleMethodExecute()
       m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
       m_ThreadInfoArray[thread_loop].ThreadFunction = m_SingleMethod;
 
-      if(this->m_UseThreadPool)
+      if(this->GetUseThreadPool())
         {
         this->ThreadPoolDispatchSingleMethodThread(&m_ThreadInfoArray[thread_loop]);
         }
@@ -310,7 +189,7 @@ void MultiThreader::SingleMethodExecute()
       {
       try
         {
-        if(this->m_UseThreadPool)
+        if(this->GetUseThreadPool())
           {
           try
             {
@@ -354,7 +233,7 @@ void MultiThreader::SingleMethodExecute()
     {
     try
       {
-      if(this->m_UseThreadPool)
+      if(this->GetUseThreadPool())
         {
         try
           {
@@ -461,11 +340,6 @@ void MultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Thread Count: " << m_NumberOfThreads << "\n";
-  os << indent << "Global Maximum Number Of Threads: "
-     << m_GlobalMaximumNumberOfThreads << std::endl;
-  os << indent << "Global Default Number Of Threads: "
-     << m_GlobalDefaultNumberOfThreads << std::endl;
 }
 
 }

@@ -159,7 +159,7 @@ public:
   using NameArray = std::vector< DataObjectIdentifierType >;
 
   //** Type of general multi-threader interface */
-  using MultiThreaderType = MultiThreader;
+  using MultiThreaderType = MultiThreaderBase;
 
   /** \brief Return an array with the names of the inputs defined.
    *

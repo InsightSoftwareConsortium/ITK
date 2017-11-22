@@ -168,7 +168,6 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   this->GetMultiThreader()->SetNumberOfThreads( nbthreads );
   this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
 
-
   // multithread the execution
   for( unsigned int d=0; d<ImageDimension; d++ )
     {

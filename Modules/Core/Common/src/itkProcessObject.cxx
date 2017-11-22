@@ -1914,7 +1914,7 @@ void
 ProcessObject::ProcessObjectDomainThreader< TDomainPartitioner, TAssociate >
 ::DetermineNumberOfThreadsUsed()
 {
-  MultiThreader * multiThreader = this->m_Associate->GetMultiThreader();
+  MultiThreaderBase * multiThreader = this->m_Associate->GetMultiThreader();
   this->SetMultiThreader( multiThreader );
   multiThreader->SetNumberOfThreads( this->m_Associate->GetNumberOfThreads() );
 

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkMultiThreader.h"
+#include "itkTestingMacros.h"
 
 bool VerifyRange(int value, int min, int max, const char * msg)
 {
@@ -71,11 +72,13 @@ int itkMultiThreaderTest(int argc, char* argv[])
       }
     }
 
-  itk::MultiThreader::Pointer    threader = itk::MultiThreader::New();
+  itk::MultiThreader::Pointer threader = itk::MultiThreader::New();
   if(threader.IsNull())
     {
     return EXIT_FAILURE;
     }
+
+  EXERCISE_BASIC_OBJECT_METHODS(threader, MultiThreader, MultiThreaderBase);
 
   itk::MultiThreader::SetGlobalDefaultNumberOfThreads( numberOfThreads );
 
