@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkThreadPool.h"
 #include <utility>
+#include <process.h>
 
 namespace itk
 {
@@ -57,7 +58,7 @@ void
 ThreadPool
 ::PlatformCreate(Semaphore &semaphore)
 {
-  semaphore = CreateSemaphore(ITK_NULLPTR, 0, 1000, ITK_NULLPTR);
+  semaphore = CreateSemaphore(ITK_NULLPTR, 0, 0x7ffffffel, ITK_NULLPTR);
   if (semaphore == ITK_NULLPTR)
     {
     itkGenericExceptionMacro(<< "CreateSemaphore error. " << GetLastErrorAsString());
@@ -102,19 +103,21 @@ ThreadPool
   return CloseHandle(threadId);
 }
 
+typedef unsigned int(__cdecl *ThreadExFunction)(void *);
+
 void
 ThreadPool
 ::AddThread()
 {
-  ThreadProcessIdType threadHandle = CreateThread(
+  ThreadProcessIdType threadHandle = reinterpret_cast<ThreadProcessIdType>(_beginthreadex(
     ITK_NULLPTR,
     0,
-    (LPTHREAD_START_ROUTINE) ThreadPool::ThreadExecute,
+    ThreadExFunction(ThreadPool::ThreadExecute),
     ITK_NULLPTR,
     0,
-    ITK_NULLPTR);
+    ITK_NULLPTR));
 
-  if( threadHandle == NULL )
+  if (threadHandle == ITK_NULLPTR)
     {
     itkDebugMacro(<< "ERROR adding thread to thread pool");
     itkExceptionMacro(<< "Cannot create thread. " << GetLastErrorAsString());
