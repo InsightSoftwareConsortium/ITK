@@ -338,7 +338,7 @@ int itkAtomicIntTest(int, char*[])
     return 1;
     }
 
-  if ((int)AnObject->GetMTime() != Target + beforeMTime + 2 )
+  if ((int)AnObject->GetMTime() != Target + beforeMTime + 1 )
     {
     return 1;
     }

@@ -25,7 +25,7 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#include "itkMultiThreader.h"
+#include "itkPoolMultiThreader.h"
 #include "itkNumericTraits.h"
 #include <iostream>
 #include <string>
@@ -34,73 +34,44 @@
 #endif
 #include <algorithm>
 
-#if defined(ITK_USE_PTHREADS)
-#include "itkMultiThreaderPThreads.cxx"
-#elif defined(ITK_USE_WIN32_THREADS)
-#include "itkMultiThreaderWinThreads.cxx"
-#else
-#include "itkMultiThreaderNoThreads.cxx"
-#endif
-
 namespace itk
 {
 
-MultiThreader::MultiThreader()
+PoolMultiThreader::PoolMultiThreader() :
+  m_ThreadPool( ThreadPool::GetInstance() )
 {
   for( ThreadIdType i = 0; i < ITK_MAX_THREADS; ++i )
     {
     m_ThreadInfoArray[i].ThreadID           = i;
     m_ThreadInfoArray[i].ActiveFlag         = nullptr;
     m_ThreadInfoArray[i].ActiveFlagLock     = nullptr;
-
-    m_MultipleMethod[i]                     = nullptr;
-    m_MultipleData[i]                       = nullptr;
-
-    m_SpawnedThreadActiveFlag[i]            = 0;
-    m_SpawnedThreadActiveFlagLock[i]        = nullptr;
-    m_SpawnedThreadInfoArray[i].ThreadID    = i;
     }
 
   m_SingleMethod = nullptr;
   m_SingleData = nullptr;
 
+  ThreadIdType idleCount = std::max<ThreadIdType>(1u,
+                                                  m_ThreadPool->GetNumberOfCurrentlyIdleThreads());
+  ThreadIdType maxCount = std::max(1u, GetGlobalDefaultNumberOfThreads());
+  m_NumberOfThreads = std::min(maxCount, idleCount);
 }
 
-MultiThreader::~MultiThreader()
+PoolMultiThreader::~PoolMultiThreader()
 {
 }
 
 // Set the user defined method that will be run on NumberOfThreads threads
 // when SingleMethodExecute is called.
-void MultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
+void PoolMultiThreader::SetSingleMethod(ThreadFunctionType f, void *data)
 {
   m_SingleMethod = f;
   m_SingleData   = data;
 }
 
-// Set one of the user defined methods that will be run on NumberOfThreads
-// threads when MultipleMethodExecute is called. This method should be
-// called with index = 0, 1, ..,  NumberOfThreads-1 to set up all the
-// required user defined methods
-void MultiThreader::SetMultipleMethod(ThreadIdType index, ThreadFunctionType f, void *data)
-{
-  // You can only set the method for 0 through NumberOfThreads-1
-  if( index >= m_NumberOfThreads )
-    {
-    itkExceptionMacro(<< "Can't set method " << index << " with a thread count of " << m_NumberOfThreads);
-    }
-  else
-    {
-    m_MultipleMethod[index] = f;
-    m_MultipleData[index]   = data;
-    }
-}
-
 // Execute the method set as the SingleMethod on NumberOfThreads threads.
-void MultiThreader::SingleMethodExecute()
+void PoolMultiThreader::SingleMethodExecute()
 {
-  ThreadIdType        thread_loop = 0;
-  ThreadProcessIdType process_id[ITK_MAX_THREADS];
+  ThreadIdType thread_loop = 0;
 
   if( !m_SingleMethod )
     {
@@ -110,12 +81,6 @@ void MultiThreader::SingleMethodExecute()
   // obey the global maximum number of threads limit
   m_NumberOfThreads = std::min( this->GetGlobalMaximumNumberOfThreads(), m_NumberOfThreads );
 
-  // Init process_id table because a valid process_id (i.e., non-zero), is
-  // checked in the WaitForSingleMethodThread loops
-  for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
-    {
-    process_id[thread_loop] = 0;
-    }
 
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
   // thrown from a thread will be caught by the SingleMethodProxy. A
@@ -124,18 +89,30 @@ void MultiThreader::SingleMethodExecute()
   //
   // Thanks to Hannu Helminen for suggestions on how to catch
   // exceptions thrown by threads.
-  bool        exceptionOccurred = false;
+  bool exceptionOccurred = false;
   std::string exceptionDetails;
   try
     {
+    ThreadJob threadJob;
+    threadJob.m_ThreadFunction = (this->SingleMethodProxy);
+
     for( thread_loop = 1; thread_loop < m_NumberOfThreads; ++thread_loop )
       {
       m_ThreadInfoArray[thread_loop].UserData = m_SingleData;
       m_ThreadInfoArray[thread_loop].NumberOfThreads = m_NumberOfThreads;
       m_ThreadInfoArray[thread_loop].ThreadFunction = m_SingleMethod;
 
-      process_id[thread_loop] =
-        this->SpawnDispatchSingleMethodThread(&m_ThreadInfoArray[thread_loop]);
+      threadJob.m_UserData = &m_ThreadInfoArray[thread_loop];
+      threadJob.m_Semaphore = &m_ThreadInfoArray[thread_loop].Semaphore;
+      try
+        {
+        m_ThreadPool->AddWork(threadJob);
+        }
+      catch (ExceptionObject& exc)
+        {
+        std::cerr << exc << std::endl;
+        throw;
+        }
       }
     }
   catch( std::exception & e )
@@ -154,8 +131,6 @@ void MultiThreader::SingleMethodExecute()
     }
 
   // Now, the parent thread calls this->SingleMethod() itself
-  //
-  //
   try
     {
     m_ThreadInfoArray[0].UserData = m_SingleData;
@@ -170,15 +145,17 @@ void MultiThreader::SingleMethodExecute()
       {
       try
         {
-
-        this->SpawnWaitForSingleMethodThread(process_id[thread_loop]);
-
+        m_ThreadPool->WaitForJob(m_ThreadInfoArray[thread_loop].Semaphore);
+        }
+      catch (ExceptionObject& exc)
+        {
+        std::cerr << exc << std::endl;
+        throw;
         }
       catch( ... )
         {
         }
       }
-    // rethrow
     throw;
     }
   catch( std::exception & e )
@@ -201,14 +178,12 @@ void MultiThreader::SingleMethodExecute()
     {
     try
       {
-
-      this->SpawnWaitForSingleMethodThread(process_id[thread_loop]);
-
-      if( m_ThreadInfoArray[thread_loop].ThreadExitCode
-          != ThreadInfoStruct::SUCCESS )
-        {
-        exceptionOccurred = true;
-        }
+      m_ThreadPool->WaitForJob(m_ThreadInfoArray[thread_loop].Semaphore);
+      }
+    catch (ExceptionObject& exc)
+      {
+      std::cerr << exc << std::endl;
+      throw;
       }
     catch( std::exception & e )
       {
@@ -235,45 +210,46 @@ void MultiThreader::SingleMethodExecute()
     }
 }
 
-
 ITK_THREAD_RETURN_TYPE
-MultiThreader
+PoolMultiThreader
 ::SingleMethodProxy(void *arg)
 {
   // grab the ThreadInfoStruct originally prescribed
-  auto * threadInfoStruct = reinterpret_cast<MultiThreader::ThreadInfoStruct *>( arg );
+  PoolMultiThreader::ThreadInfoStruct
+  * threadInfoStruct =
+    reinterpret_cast<PoolMultiThreader::ThreadInfoStruct *>( arg );
 
   // execute the user specified threader callback, catching any exceptions
   try
     {
     ( *threadInfoStruct->ThreadFunction )(threadInfoStruct);
-    threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::SUCCESS;
+    threadInfoStruct->ThreadExitCode = PoolMultiThreader::ThreadInfoStruct::SUCCESS;
     }
   catch( ProcessAborted & )
     {
     threadInfoStruct->ThreadExitCode =
-      MultiThreader::ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
+      PoolMultiThreader::ThreadInfoStruct::ITK_PROCESS_ABORTED_EXCEPTION;
     }
   catch( ExceptionObject & )
     {
     threadInfoStruct->ThreadExitCode =
-      MultiThreader::ThreadInfoStruct::ITK_EXCEPTION;
+      PoolMultiThreader::ThreadInfoStruct::ITK_EXCEPTION;
     }
   catch( std::exception & )
     {
     threadInfoStruct->ThreadExitCode =
-      MultiThreader::ThreadInfoStruct::STD_EXCEPTION;
+      PoolMultiThreader::ThreadInfoStruct::STD_EXCEPTION;
     }
   catch( ... )
     {
-    threadInfoStruct->ThreadExitCode = MultiThreader::ThreadInfoStruct::UNKNOWN;
+    threadInfoStruct->ThreadExitCode = PoolMultiThreader::ThreadInfoStruct::UNKNOWN;
     }
 
   return ITK_THREAD_RETURN_VALUE;
 }
 
 // Print method for the multithreader
-void MultiThreader::PrintSelf(std::ostream & os, Indent indent) const
+void PoolMultiThreader::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

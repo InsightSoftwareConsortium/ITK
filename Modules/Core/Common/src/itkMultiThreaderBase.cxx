@@ -27,11 +27,15 @@
  *=========================================================================*/
 #include "itkMultiThreaderBase.h"
 #include "itkMultiThreader.h"
+#include "itkPoolMultiThreader.h"
 #include "itkNumericTraits.h"
+#include "itkMutexLockHolder.h"
 #include "itksys/SystemTools.hxx"
+#include "itkThreadPool.h"
 #include <iostream>
 #include <string>
 #include <algorithm>
+
 
 namespace itk
 {
@@ -161,9 +165,16 @@ ThreadIdType MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
 MultiThreaderBase::Pointer MultiThreaderBase::New()
 {
   Pointer smartPtr = ::itk::ObjectFactory< MultiThreaderBase >::Create().GetPointer();
-  if ( smartPtr.GetPointer() == ITK_NULLPTR )
+  if ( smartPtr.GetPointer() == nullptr )
     {
-    return MultiThreader::New().GetPointer();
+    if ( GetGlobalDefaultUseThreadPool() )
+      {
+      return PoolMultiThreader::New().GetPointer();
+      }
+    else
+      {
+      return MultiThreader::New().GetPointer();
+      }
     }
   smartPtr->UnRegister();
   return smartPtr;

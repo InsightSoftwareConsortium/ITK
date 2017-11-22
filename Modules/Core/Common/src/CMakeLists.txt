@@ -81,6 +81,7 @@ set(ITKCommon_SRCS
   itkNumericTraitsFixedArrayPixel.cxx
   itkMultiThreaderBase.cxx
   itkMultiThreader.cxx
+  itkPoolMultiThreader.cxx
   itkMetaDataObject.cxx
   itkMetaDataDictionary.cxx
   itkDataObject.cxx

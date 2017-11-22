@@ -25,35 +25,33 @@
  *  please refer to the NOTICE file at the top of the ITK source tree.
  *
  *=========================================================================*/
-#ifndef itkMultiThreader_h
-#define itkMultiThreader_h
+#ifndef itkPoolMultiThreader_h
+#define itkPoolMultiThreader_h
 
 #include "itkMultiThreaderBase.h"
 #include "itkMutexLock.h"
 #include "itkThreadSupport.h"
 #include "itkIntTypes.h"
 
+#include "itkThreadPool.h"
+
 namespace itk
 {
-/** \class MultiThreader
- * \brief A class for performing multithreaded execution
- *
- * Multithreader is a class that provides support for multithreaded
- * execution using Windows or POSIX threads.
- * This class can be used to execute a single
- * method on multiple threads, or to specify a method per thread.
+/** \class PoolMultiThreader
+ * \brief A class for performing multithreaded execution with a thread
+ * pool back end
  *
  * \ingroup OSSystemObjects
  *
  * \ingroup ITKCommon
  */
 
-class ITKCommon_EXPORT MultiThreader : public MultiThreaderBase
+class ITKCommon_EXPORT PoolMultiThreader : public MultiThreaderBase
 {
 public:
   /** Standard class type aliases. */
-  using Self = MultiThreader;
-  using Superclass = MultiThreaderBase;
+  using Self = PoolMultiThreader;
+  using Superclass = Object;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -61,7 +59,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MultiThreader, MultiThreaderBase);
+  itkTypeMacro(PoolMultiThreader, Object);
 
 
   /** Execute the SingleMethod (as define by SetSingleMethod) using
@@ -70,12 +68,7 @@ public:
    * necessary. */
   void SingleMethodExecute() override;
 
-  /** Execute the MultipleMethods (as define by calling SetMultipleMethod for
-   * each of the required m_NumberOfThreads methods) using m_NumberOfThreads
-   * threads. As a side effect the m_NumberOfThreads will be checked against the
-   * current m_GlobalMaximumNumberOfThreads and clamped if necessary. */
-  void MultipleMethodExecute() override;
-
+  void MultipleMethodExecute() override {}
   /** Set the SingleMethod to f() and the UserData field of the
    * ThreadInfoStruct that is passed to it will be data.
    * This method (and all the methods passed to SetMultipleMethod)
@@ -85,15 +78,11 @@ public:
 
   /** Set the MultipleMethod at the given index to f() and the UserData
    * field of the ThreadInfoStruct that is passed to it will be data. */
-  void SetMultipleMethod(ThreadIdType index, ThreadFunctionType, void *data) override;
+  void SetMultipleMethod(ThreadIdType, ThreadFunctionType, void *) override {}
 
-  /** Create a new thread for the given function. Return a thread id
-     * which is a number between 0 and ITK_MAX_THREADS - 1. This
-   * id should be used to kill the thread at a later time. */
-  ThreadIdType SpawnThread(ThreadFunctionType, void *data) override;
-
-  /** Terminate the thread that was created with a SpawnThreadExecute() */
-  void TerminateThread(ThreadIdType thread_id) override;
+  ThreadIdType SpawnThread(ThreadFunctionType, void *) override {return 0;}
+  void TerminateThread(ThreadIdType) override {return;}
+  using JobSemaphoreType = ThreadPool::Semaphore;
 
   /** This is the structure that is passed to the thread that is
    * created from the SingleMethodExecute, MultipleMethodExecute or
@@ -117,16 +106,20 @@ public:
     MutexLock::Pointer ActiveFlagLock;
     void *UserData;
     ThreadFunctionType ThreadFunction;
+    JobSemaphoreType Semaphore;
     enum { SUCCESS, ITK_EXCEPTION, ITK_PROCESS_ABORTED_EXCEPTION, STD_EXCEPTION, UNKNOWN } ThreadExitCode;
     };
 
 protected:
-  MultiThreader();
-  ~MultiThreader() ITK_OVERRIDE;
+  PoolMultiThreader();
+  ~PoolMultiThreader() ITK_OVERRIDE;
   virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(MultiThreader);
+  ITK_DISALLOW_COPY_AND_ASSIGN(PoolMultiThreader);
+
+  // Thread pool instance and factory
+  ThreadPool::Pointer m_ThreadPool;
 
   /** An array of thread info containing a thread id
    *  (0, 1, 2, .. ITK_MAX_THREADS-1), the thread count, and a pointer
@@ -135,18 +128,9 @@ private:
 
   /** The methods to invoke. */
   ThreadFunctionType m_SingleMethod;
-  ThreadFunctionType m_MultipleMethod[ITK_MAX_THREADS];
-
-  /** Storage of MutexFunctions and ints used to control spawned
-   *  threads and the spawned thread ids. */
-  int                 m_SpawnedThreadActiveFlag[ITK_MAX_THREADS];
-  MutexLock::Pointer  m_SpawnedThreadActiveFlagLock[ITK_MAX_THREADS];
-  ThreadProcessIdType m_SpawnedThreadProcessID[ITK_MAX_THREADS];
-  ThreadInfoStruct    m_SpawnedThreadInfoArray[ITK_MAX_THREADS];
 
   /** Internal storage of the data. */
   void *m_SingleData;
-  void *m_MultipleData[ITK_MAX_THREADS];
 
   /** Static function used as a "proxy callback" by the MultiThreader.  The
    * threading library will call this routine for each thread, which
@@ -155,11 +139,6 @@ private:
    * user supplied callback (SingleMethod) in order to catch any
    * exceptions thrown by the threads. */
   static ITK_THREAD_RETURN_TYPE SingleMethodProxy(void *arg);
-
-  /** spawn a new thread for the SingleMethod */
-  ThreadProcessIdType SpawnDispatchSingleMethodThread(ThreadInfoStruct *);
-  /** wait for a thread in the threadpool to finish work */
-  void SpawnWaitForSingleMethodThread(ThreadProcessIdType);
 
   /** Friends of Multithreader.
    * ProcessObject is a friend so that it can call PrintSelf() on its
