@@ -313,24 +313,24 @@ bool Rescaler::InverseRescale(char *out, const char *in, size_t n)
   switch(PF)
     {
   case PixelFormat::UINT16:
-    InverseRescaleFunctionIntoBestFit<uint16_t>(out,(uint16_t*)in,n);
+    InverseRescaleFunctionIntoBestFit<uint16_t>(out,(const uint16_t*)in,n);
     break;
   case PixelFormat::INT16:
-    InverseRescaleFunctionIntoBestFit<int16_t>(out,(int16_t*)in,n);
+    InverseRescaleFunctionIntoBestFit<int16_t>(out,(const int16_t*)in,n);
     break;
   case PixelFormat::UINT32:
-    InverseRescaleFunctionIntoBestFit<uint32_t>(out,(uint32_t*)in,n);
+    InverseRescaleFunctionIntoBestFit<uint32_t>(out,(const uint32_t*)in,n);
     break;
   case PixelFormat::INT32:
-    InverseRescaleFunctionIntoBestFit<int32_t>(out,(int32_t*)in,n);
+    InverseRescaleFunctionIntoBestFit<int32_t>(out,(const int32_t*)in,n);
     break;
   case PixelFormat::FLOAT32:
     assert( sizeof(float) == 32 / 8 );
-    InverseRescaleFunctionIntoBestFit<float>(out,(float*)in,n);
+    InverseRescaleFunctionIntoBestFit<float>(out,(const float*)in,n);
     break;
   case PixelFormat::FLOAT64:
     assert( sizeof(double) == 64 / 8 );
-    InverseRescaleFunctionIntoBestFit<double>(out,(double*)in,n);
+    InverseRescaleFunctionIntoBestFit<double>(out,(const double*)in,n);
     break;
   default:
     assert(0);
@@ -363,24 +363,24 @@ bool Rescaler::Rescale(char *out, const char *in, size_t n)
     memcpy(out,in,n);
     break;
   case PixelFormat::UINT8:
-    RescaleFunctionIntoBestFit<uint8_t>(out,(uint8_t*)in,n);
+    RescaleFunctionIntoBestFit<uint8_t>(out,(const uint8_t*)in,n);
     break;
   case PixelFormat::INT8:
-    RescaleFunctionIntoBestFit<int8_t>(out,(int8_t*)in,n);
+    RescaleFunctionIntoBestFit<int8_t>(out,(const int8_t*)in,n);
     break;
   case PixelFormat::UINT12:
   case PixelFormat::UINT16:
-    RescaleFunctionIntoBestFit<uint16_t>(out,(uint16_t*)in,n);
+    RescaleFunctionIntoBestFit<uint16_t>(out,(const uint16_t*)in,n);
     break;
   case PixelFormat::INT12:
   case PixelFormat::INT16:
-    RescaleFunctionIntoBestFit<int16_t>(out,(int16_t*)in,n);
+    RescaleFunctionIntoBestFit<int16_t>(out,(const int16_t*)in,n);
     break;
   case PixelFormat::UINT32:
-    RescaleFunctionIntoBestFit<uint32_t>(out,(uint32_t*)in,n);
+    RescaleFunctionIntoBestFit<uint32_t>(out,(const uint32_t*)in,n);
     break;
   case PixelFormat::INT32:
-    RescaleFunctionIntoBestFit<int32_t>(out,(int32_t*)in,n);
+    RescaleFunctionIntoBestFit<int32_t>(out,(const  int32_t*)in,n);
     break;
   default:
     gdcmErrorMacro( "Unhandled: " << PF );

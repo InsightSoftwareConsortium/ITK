@@ -338,6 +338,17 @@ inline unsigned int VR::GetSize() const
     VRTypeTemplateCase(UT)
     case VR::US_SS:
       return 2;
+
+    case VR::INVALID:
+    case VR::OB_OW:
+    case VR::US_SS_OW:
+    case VR::VL16:
+    case VR::VL32:
+    case VR::VRASCII:
+    case VR::VRBINARY:
+    case VR::VR_VM1:
+    case VR::VRALL:
+    case VR::VR_END:
     default:
        assert( 0 && "should not" );
   }

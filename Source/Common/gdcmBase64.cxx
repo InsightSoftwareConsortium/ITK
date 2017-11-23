@@ -142,13 +142,13 @@ static std::string base64_decode(std::string const& encoded_string)
 
 size_t Base64::GetEncodeLength(const char *src, size_t slen )
 {
-  std::string ret = base64_encode((unsigned char*)src, slen);
+  std::string ret = base64_encode((const unsigned char*)src, slen);
   return ret.size();
 }
 
 size_t Base64::Encode( char *dst, size_t dlen, const char *src, size_t slen )
 {
-  const std::string & ret = base64_encode((unsigned char*)src, slen);
+  const std::string & ret = base64_encode((const unsigned char*)src, slen);
   if( ret.size() > dlen )
     return 0;
   memcpy( dst, ret.c_str(), ret.size() );

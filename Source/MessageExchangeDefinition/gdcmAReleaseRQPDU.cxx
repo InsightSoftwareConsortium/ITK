@@ -48,12 +48,12 @@ std::istream &AReleaseRQPDU::Read(std::istream &is)
 
 const std::ostream &AReleaseRQPDU::Write(std::ostream &os) const
 {
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
   uint32_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
-  os.write( (char*)&Reserved7_10, sizeof(Reserved7_10) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&Reserved7_10, sizeof(Reserved7_10) );
 
   assert( ItemLength + 6 == Size() );
 

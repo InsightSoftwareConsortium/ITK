@@ -159,7 +159,7 @@ int PDBHeader::readprotocoldatablock(const char *input, size_t inputlen, bool ve
 {
   (void)verbose;
   // First 4 bytes are the length (again)
-  uint32_t len = *(uint32_t*)input;
+  uint32_t len = *(const uint32_t*)input;
   SwapperNoOp::SwapArray(&len,1);
   //if( verbose )
   //  std::cout << len << "," << inputlen << std::endl;

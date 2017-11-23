@@ -73,7 +73,7 @@ bool UUIDGenerator::IsValid(const char *suid)
   uuid_t uu;
   // technically the specification wants char* input not const char*:
   // this makes compilation fails otherwise on OpenIndiana:
-  int res = uuid_parse((char*)suid, uu);
+  int res = uuid_parse((const char*)suid, uu);
   if( res ) return false;
 #elif defined(HAVE_UUID_CREATE)
   // http://www.freebsd.org/cgi/man.cgi?query=uuid_create
