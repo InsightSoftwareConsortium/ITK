@@ -58,11 +58,11 @@ struct ThreadJob
 public:
 
 #if defined(ITK_USE_PTHREADS) && defined(__APPLE__)
-    typedef semaphore_t Semaphore;
+  typedef semaphore_t Semaphore;
 #elif defined(ITK_USE_WIN32_THREADS)
-    typedef HANDLE Semaphore;
+  typedef HANDLE Semaphore;
 #elif defined(ITK_USE_PTHREADS)
-    typedef sem_t Semaphore;
+  typedef sem_t Semaphore;
 #else
 #error Unknown thread system!
 #endif
@@ -81,9 +81,9 @@ public:
 
 /** Function that will be called. */
 #if defined(_WIN32) || defined(_WIN64)
-    DWORD ( __stdcall *m_ThreadFunction )( void * ptr );
+  ThreadFunctionType m_ThreadFunction;
 #else
-    void * (*m_ThreadFunction)(void *ptr);
+  void * (*m_ThreadFunction)(void *ptr);
 #endif
 
   /** This is the Job's id. Used for waiting on this job's completion. */

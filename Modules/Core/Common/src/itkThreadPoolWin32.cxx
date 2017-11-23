@@ -103,8 +103,6 @@ ThreadPool
   return CloseHandle(threadId);
 }
 
-typedef unsigned int(__cdecl *ThreadExFunction)(void *);
-
 void
 ThreadPool
 ::AddThread()
@@ -112,7 +110,7 @@ ThreadPool
   ThreadProcessIdType threadHandle = reinterpret_cast<ThreadProcessIdType>(_beginthreadex(
     ITK_NULLPTR,
     0,
-    ThreadExFunction(ThreadPool::ThreadExecute),
+    ThreadPool::ThreadExecute,
     ITK_NULLPTR,
     0,
     ITK_NULLPTR));
