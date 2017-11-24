@@ -63,16 +63,16 @@ std::istream &SOPClassExtendedNegociationSub::Read(std::istream &is)
 
 const std::ostream &SOPClassExtendedNegociationSub::Write(std::ostream &os) const
 {
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  //os.write( (char*)&ItemLength, sizeof(ItemLength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  //os.write( (const char*)&ItemLength, sizeof(ItemLength) );
   uint16_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
 
   uint16_t uidlength = UIDLength;
   SwapperDoOp::SwapArray(&uidlength,1);
-  os.write( (char*)&uidlength, sizeof(UIDLength) );
+  os.write( (const char*)&uidlength, sizeof(UIDLength) );
 
   os.write( Name.c_str(), Name.size() );
   SCAI.Write( os );

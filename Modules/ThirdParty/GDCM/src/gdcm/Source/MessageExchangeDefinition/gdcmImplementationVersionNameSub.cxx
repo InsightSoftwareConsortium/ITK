@@ -51,12 +51,12 @@ std::istream &ImplementationVersionNameSub::Read(std::istream &is)
 
 const std::ostream &ImplementationVersionNameSub::Write(std::ostream &os) const
 {
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  //os.write( (char*)&ItemLength, sizeof(ItemLength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  //os.write( (const char*)&ItemLength, sizeof(ItemLength) );
   uint16_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
 
   os.write( ImplementationVersionName.c_str(), ImplementationVersionName.size() );
 

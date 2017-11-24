@@ -28,9 +28,9 @@ ImplementationUIDSub::ImplementationUIDSub()
 
 const std::ostream &ImplementationUIDSub::Write(std::ostream &os) const
 {
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  os.write( (char*)&ItemLength, sizeof(ItemLength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  os.write( (const char*)&ItemLength, sizeof(ItemLength) );
   os.write( ImplementationClassUID.c_str(), ImplementationClassUID.size() );
 
   return os;

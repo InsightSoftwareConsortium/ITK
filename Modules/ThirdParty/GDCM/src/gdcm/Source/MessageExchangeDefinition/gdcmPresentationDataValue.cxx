@@ -91,14 +91,14 @@ const std::ostream &PresentationDataValue::Write(std::ostream &os) const
 {
   uint32_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
   assert( os.good() );
-  os.write( (char*)&PresentationContextID, sizeof(PresentationContextID) );
+  os.write( (const char*)&PresentationContextID, sizeof(PresentationContextID) );
   assert( os.good() );
 
   assert( MessageHeader <= 3 );
   uint8_t t = MessageHeader;
-  os.write( (char*)&t, 1 );
+  os.write( (const char*)&t, 1 );
   assert( os.good() );
 
   os.write( Blob.c_str(), Blob.size() );

@@ -197,7 +197,7 @@ void Printer::PrintElement(std::ostream& os, const ImplicitDataElement &ide, Dic
   case VM::rep: \
     {Element<VR::type, VM::rep> e; \
     /*assert( VM::rep == VM::VM1_n );*/ \
-    e.SetArray( (VRToType<VR::type>::Type *)array, length, true ); \
+    e.SetArray( (const VRToType<VR::type>::Type *)array, length, true ); \
     e.Print( os ); }\
     break;
 #define PrinterTemplateSubCase(type,rep) \

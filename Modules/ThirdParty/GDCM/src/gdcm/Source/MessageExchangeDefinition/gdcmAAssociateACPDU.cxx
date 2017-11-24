@@ -127,25 +127,25 @@ std::istream &AAssociateACPDU::Read(std::istream &is)
 
 const std::ostream &AAssociateACPDU::Write(std::ostream &os) const
 {
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  //os.write( (char*)&PDULength, sizeof(PDULength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  //os.write( (const char*)&PDULength, sizeof(PDULength) );
   uint32_t copy = PDULength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(PDULength) );
+  os.write( (const char*)&copy, sizeof(PDULength) );
   uint16_t protocolversion = ProtocolVersion;
   SwapperDoOp::SwapArray(&protocolversion,1);
-  os.write( (char*)&protocolversion, sizeof(ProtocolVersion) );
-  os.write( (char*)&Reserved9_10, sizeof(Reserved9_10) );
-  os.write( (char*)&Reserved11_26, sizeof(Reserved11_26) );
+  os.write( (const char*)&protocolversion, sizeof(ProtocolVersion) );
+  os.write( (const char*)&Reserved9_10, sizeof(Reserved9_10) );
+  os.write( (const char*)&Reserved11_26, sizeof(Reserved11_26) );
   //const char calling[] = "ANY-SCP         ";
   //os.write( calling, 16 );
 
-  os.write( (char*)&Reserved27_42, sizeof(Reserved27_42) );
+  os.write( (const char*)&Reserved27_42, sizeof(Reserved27_42) );
   //const char called[] = "STORESCU        ";
   //const char called[] = "ECHOSCU        ";
   //os.write( called, 16 );
-  os.write( (char*)&Reserved43_74, sizeof(Reserved43_74) );
+  os.write( (const char*)&Reserved43_74, sizeof(Reserved43_74) );
   AppContext.Write( os );
   gdcmAssertAlwaysMacro( PresContextAC.size() );
   std::vector<PresentationContextAC>::const_iterator it = PresContextAC.begin();

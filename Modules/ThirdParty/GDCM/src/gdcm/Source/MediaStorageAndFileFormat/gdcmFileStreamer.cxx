@@ -361,7 +361,7 @@ public:
       const Tag tag = t;
       const VL vl = 0; // will be updated later (UpdateDataElement)
       const size_t ddsize = WriteHelper( thepos, tag, vl );
-      assert( ddsize == dicomlen );
+      assert( ddsize == dicomlen ); (void)ddsize;
       thepos += dicomlen;
       }
     else

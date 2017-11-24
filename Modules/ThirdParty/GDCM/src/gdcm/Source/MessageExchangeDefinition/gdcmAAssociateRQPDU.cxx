@@ -132,20 +132,20 @@ const std::ostream &AAssociateRQPDU::Write(std::ostream &os) const
     it->Write(os);
     }
 #endif
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
   uint32_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
   uint16_t protocolversion = ProtocolVersion;
   SwapperDoOp::SwapArray(&protocolversion,1);
-  os.write( (char*)&protocolversion, sizeof(ProtocolVersion) );
-  os.write( (char*)&Reserved9_10, sizeof(Reserved9_10) );
+  os.write( (const char*)&protocolversion, sizeof(ProtocolVersion) );
+  os.write( (const char*)&Reserved9_10, sizeof(Reserved9_10) );
   assert( AAssociateRQPDU::IsAETitleValid(CalledAETitle) );
   os.write( CalledAETitle, 16 );
   assert( AAssociateRQPDU::IsAETitleValid(CallingAETitle) );
   os.write( CallingAETitle, 16 );
-  os.write( (char*)&Reserved43_74, sizeof(Reserved43_74) );
+  os.write( (const char*)&Reserved43_74, sizeof(Reserved43_74) );
   AppContext.Write(os);
   std::vector<PresentationContextRQ>::const_iterator it = PresContext.begin();
   for( ; it != PresContext.end(); ++it)

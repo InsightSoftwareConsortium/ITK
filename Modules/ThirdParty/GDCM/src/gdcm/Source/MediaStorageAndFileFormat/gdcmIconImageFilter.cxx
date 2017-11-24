@@ -154,7 +154,7 @@ void IconImageFilter::ExtractIconImages()
             assert( lut_raw );
             // LookupTableType::RED == 0
             lut->SetLUT( LookupTable::LookupTableType(i),
-              (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
+              (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
             //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
             //unsigned long check =
@@ -167,7 +167,7 @@ void IconImageFilter::ExtractIconImages()
             const ByteValue *lut_raw = ds.GetDataElement( seglut ).GetByteValue();
             assert( lut_raw );
             lut->SetLUT( LookupTable::LookupTableType(i),
-              (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
+              (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
             //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
             //unsigned long check =

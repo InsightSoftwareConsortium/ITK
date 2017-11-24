@@ -218,11 +218,11 @@ std::istream &UserInformation::Read(std::istream &is)
 const std::ostream &UserInformation::Write(std::ostream &os) const
 {
   assert( (size_t)ItemLength + 4 == Size() );
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
   uint16_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
 
   MLS.Write(os);
   ICUID.Write(os);

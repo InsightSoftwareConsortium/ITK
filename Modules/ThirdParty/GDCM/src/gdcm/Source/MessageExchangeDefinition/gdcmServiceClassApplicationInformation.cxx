@@ -42,7 +42,7 @@ const std::ostream &ServiceClassApplicationInformation::Write(std::ostream &os) 
   assert( InternalArray[3] == 0 );
   assert( InternalArray[4] < 3 );
   assert( InternalArray[5] == 0 );
-  os.write( (char*)InternalArray, sizeof(InternalArray) );
+  os.write( (const char*)InternalArray, sizeof(InternalArray) );
   return os;
 }
 

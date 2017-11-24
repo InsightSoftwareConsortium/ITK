@@ -30,7 +30,7 @@ Preamble::~Preamble()
 std::istream &Preamble::Read(std::istream &is)
 {
   // \precondition: we are at beg of Preamble
-  assert ( !IsEmpty() /*&& is.tellg() == 0*/ );
+  gdcmAssertAlwaysMacro( !IsEmpty() /*&& is.tellg() == 0*/ );
   if( is.read(Internal, 128+4) )
     {
     if( Internal[128+0] == 'D'

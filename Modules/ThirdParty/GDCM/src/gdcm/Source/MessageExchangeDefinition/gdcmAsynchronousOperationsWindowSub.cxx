@@ -59,20 +59,20 @@ std::istream &AsynchronousOperationsWindowSub::Read(std::istream &is)
 
 const std::ostream &AsynchronousOperationsWindowSub::Write(std::ostream &os) const
 {
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  //os.write( (char*)&ItemLength, sizeof(ItemLength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  //os.write( (const char*)&ItemLength, sizeof(ItemLength) );
   uint16_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
 
   uint16_t maximumnumberoperationsinvoked = MaximumNumberOperationsInvoked;
   SwapperDoOp::SwapArray(&maximumnumberoperationsinvoked,1);
-  os.write( (char*)&maximumnumberoperationsinvoked, sizeof(MaximumNumberOperationsInvoked) );
+  os.write( (const char*)&maximumnumberoperationsinvoked, sizeof(MaximumNumberOperationsInvoked) );
 
   uint16_t maximumnumberoperationsperformed = MaximumNumberOperationsPerformed;
   SwapperDoOp::SwapArray(&maximumnumberoperationsperformed,1);
-  os.write( (char*)&maximumnumberoperationsperformed, sizeof(MaximumNumberOperationsPerformed) );
+  os.write( (const char*)&maximumnumberoperationsperformed, sizeof(MaximumNumberOperationsPerformed) );
 
   return os;
 }

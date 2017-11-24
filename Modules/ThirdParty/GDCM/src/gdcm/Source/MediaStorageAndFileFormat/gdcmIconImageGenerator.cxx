@@ -213,7 +213,7 @@ Retrieved from: http://en.literateprograms.org/Median_cut_algorithm_(C_Plus_Plus
     assert( Points );
     const ByteValue *bv = PixelData.GetByteValue();
     assert( bv );
-    const unsigned char *inbuffer = (unsigned char*)bv->GetPointer();
+    const unsigned char *inbuffer = (const unsigned char*)bv->GetPointer();
     assert( inbuffer );
     size_t bvlen = bv->GetLength(); (void)bvlen;
     assert( bvlen == (size_t) numPoints * 3 ); // only 8bits RGB please
@@ -896,16 +896,16 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
         switch ( pf.GetScalarType() )
           {
         case PixelFormat::UINT8:
-          ComputeMinMax<uint8_t>( (uint8_t*)p, len / sizeof( uint8_t ), min, max, d);
+          ComputeMinMax<uint8_t>( (const uint8_t*)p, len / sizeof( uint8_t ), min, max, d);
           break;
         case PixelFormat::INT8:
-          ComputeMinMax<int8_t>( (int8_t*)p, len / sizeof( int8_t ), min, max, d);
+          ComputeMinMax<int8_t>( (const int8_t*)p, len / sizeof( int8_t ), min, max, d);
           break;
         case PixelFormat::UINT16:
-          ComputeMinMax<uint16_t>( (uint16_t*)p, len / sizeof( uint16_t ), min, max, d);
+          ComputeMinMax<uint16_t>( (const uint16_t*)p, len / sizeof( uint16_t ), min, max, d);
           break;
         case PixelFormat::INT16:
-          ComputeMinMax<int16_t>( (int16_t*)p, len / sizeof( int16_t ), min, max, d);
+          ComputeMinMax<int16_t>( (const int16_t*)p, len / sizeof( int16_t ), min, max, d);
           break;
         default:
           assert( 0 ); // should not happen
@@ -934,16 +934,16 @@ f. If a Palette Color lookup Table is used, an 8 Bit Allocated (0028,0100) shall
       switch ( pf.GetScalarType() )
         {
       case PixelFormat::UINT8:
-        ComputeMinMax<uint8_t>( (uint8_t*)p, len / sizeof( uint8_t ), min, max);
+        ComputeMinMax<uint8_t>( (const uint8_t*)p, len / sizeof( uint8_t ), min, max);
         break;
       case PixelFormat::INT8:
-        ComputeMinMax<int8_t>( (int8_t*)p, len / sizeof( int8_t ), min, max);
+        ComputeMinMax<int8_t>( (const int8_t*)p, len / sizeof( int8_t ), min, max);
         break;
       case PixelFormat::UINT16:
-        ComputeMinMax<uint16_t>( (uint16_t*)p, len / sizeof( uint16_t ), min, max);
+        ComputeMinMax<uint16_t>( (const uint16_t*)p, len / sizeof( uint16_t ), min, max);
         break;
       case PixelFormat::INT16:
-        ComputeMinMax<int16_t>( (int16_t*)p, len / sizeof( int16_t ), min, max);
+        ComputeMinMax<int16_t>( (const int16_t*)p, len / sizeof( int16_t ), min, max);
         break;
       default:
         assert( 0 ); // should not happen
