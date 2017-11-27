@@ -22,6 +22,7 @@
 #include "itkUnaryFunctorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkSimpleDataObjectDecorator.h"
 
 namespace itk
 {
@@ -55,10 +56,7 @@ public:
   typedef typename NumericTraits<TOutputPixel>::RealType RealType;
 
   KrcahEigenToScalarFunctor()
-    : m_Alpha(1.0)
-    , m_Beta(1.0)
-    , m_Gamma(1.0)
-    , m_Direction(-1.0)
+    : m_Direction(-1.0)
   {}
 
   inline TOutputPixel
@@ -194,37 +192,25 @@ public:
   /** Runtime information support. */
   itkTypeMacro(KrcahEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter);
 
-  /** Member functions to set/get variables */
+  /** Define decorator types */
+  typedef SimpleDataObjectDecorator<RealType> InputAlphaObjectType;
+
+  /** Process object */
+  itkSetGetDecoratedInputMacro(Alpha, RealType);
+  itkSetGetDecoratedInputMacro(Beta, RealType);
+  itkSetGetDecoratedInputMacro(Gamma, RealType);
+
+  /** Need to access the input parameters at execution time */
   void
-  SetAlpha(RealType value)
+  BeforeThreadedGenerateData() ITK_OVERRIDE
   {
-    this->GetFunctor().SetAlpha(value);
+    this->GetFunctor().SetAlpha(this->GetAlpha());
+    this->GetFunctor().SetBeta(this->GetBeta());
+    this->GetFunctor().SetGamma(this->GetGamma());
+    Superclass::BeforeThreadedGenerateData();
   }
-  void
-  SetBeta(RealType value)
-  {
-    this->GetFunctor().SetBeta(value);
-  }
-  void
-  SetGamma(RealType value)
-  {
-    this->GetFunctor().SetGamma(value);
-  }
-  RealType
-  GetAlpha() const
-  {
-    return this->GetFunctor().GetAlpha();
-  }
-  RealType
-  GetBeta() const
-  {
-    return this->GetFunctor().GetBeta();
-  }
-  RealType
-  GetGamma() const
-  {
-    return this->GetFunctor().GetGamma();
-  }
+
+  /** setter/getter methods for setting type of object to enhance */
   void
   SetEnhanceBrightObjects()
   {
@@ -242,7 +228,13 @@ public:
   }
 
 protected:
-  KrcahEigenToScalarFunctorImageFilter() {}
+  KrcahEigenToScalarFunctorImageFilter()
+  {
+    /* Need to set initial values */
+    this->SetAlpha(1.0);
+    this->SetBeta(1.0);
+    this->SetGamma(1.0);
+  }
   virtual ~KrcahEigenToScalarFunctorImageFilter() {}
 
 private:
