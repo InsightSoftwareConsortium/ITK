@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkKrcahEigentoScalarParameterEstimationImageFilter.h"
+#include "itkKrcahEigenToScalarParameterEstimationImageFilter.h"
 #include "itkTestingMacros.h"
 #include "itkMath.h"
 #include "itkImageRegionIteratorWithIndex.h"
@@ -31,17 +31,20 @@ int itkKrcahEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
   typedef itk::FixedArray< EigenValueType, Dimension >  EigenValueArrayType;
   typedef itk::Image< EigenValueArrayType, Dimension >  EigenValueImageType;
   
-  typedef itk::KrcahEigentoScalarParameterEstimationImageFilter<EigenValueImageType, MaskType> KrcahEigentoScalarParameterEstimationImageFilterType;
+  typedef itk::KrcahEigenToScalarParameterEstimationImageFilter<EigenValueImageType, MaskType> KrcahEigenToScalarParameterEstimationImageFilterType;
 
-  KrcahEigentoScalarParameterEstimationImageFilterType::Pointer krcahParameterEstimator = KrcahEigentoScalarParameterEstimationImageFilterType::New();
+  KrcahEigenToScalarParameterEstimationImageFilterType::Pointer krcahParameterEstimator = KrcahEigenToScalarParameterEstimationImageFilterType::New();
 
-  EXERCISE_BASIC_OBJECT_METHODS( krcahParameterEstimator, KrcahEigentoScalarParameterEstimationImageFilter, ImageToImageFilter );
+  EXERCISE_BASIC_OBJECT_METHODS( krcahParameterEstimator, KrcahEigenToScalarParameterEstimationImageFilter, ImageToImageFilter );
 
   /* Test defaults */
-  TEST_EXPECT_EQUAL(krcahParameterEstimator->GetParameterSet(), KrcahEigentoScalarParameterEstimationImageFilterType::UseImplementationParameters);
+  TEST_EXPECT_EQUAL(krcahParameterEstimator->GetParameterSet(), KrcahEigenToScalarParameterEstimationImageFilterType::UseImplementationParameters);
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), 0.5, 6, 0.000001));
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlphaOutput()->Get(), 0.5, 6, 0.000001));
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBetaOutput()->Get(), 0.5, 6, 0.000001));
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGammaOutput()->Get(), 0.5, 6, 0.000001));
 
   /* Create some test data which is computable */
   EigenValueArrayType simpleEigenPixel;

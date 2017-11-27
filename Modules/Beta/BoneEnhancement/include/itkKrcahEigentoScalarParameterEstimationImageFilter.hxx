@@ -16,10 +16,10 @@
  *
  *=========================================================================*/
 
-#ifndef itkKrcahEigentoScalarParameterEstimationImageFilter_hxx
-#define itkKrcahEigentoScalarParameterEstimationImageFilter_hxx
+#ifndef itkKrcahEigenToScalarParameterEstimationImageFilter_hxx
+#define itkKrcahEigenToScalarParameterEstimationImageFilter_hxx
 
-#include "itkKrcahEigentoScalarParameterEstimationImageFilter.h"
+#include "itkKrcahEigenToScalarParameterEstimationImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
@@ -27,33 +27,39 @@
 namespace itk
 {
 template< typename TInputImage, typename TMaskImage >
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::KrcahEigentoScalarParameterEstimationImageFilter():
-  m_Alpha(0.5f),
-  m_Beta(0.5f),
-  m_Gamma(0.5f),
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::KrcahEigenToScalarParameterEstimationImageFilter():
   m_ParameterSet(UseImplementationParameters),
   m_BackgroundValue(NumericTraits< MaskPixelType >::Zero),
   m_NumVoxels(1),
   m_AccumulatedFrobeniusNorm(1)
 {
+  /* We require an input, optional mask */
   this->SetNumberOfRequiredInputs( 1 );
+
+  /* Allocate all decorators */
+  for ( int i = 1; i < 4; ++i )
+  {
+    this->ProcessObject::SetNthOutput( i,  RealTypeDecoratedType::New().GetPointer() );
+  }
+  this->GetAlphaOutput()->Set( 0.5 );
+  this->GetBetaOutput()->Set( 0.5 );
+  this->GetGammaOutput()->Set( 0.5 );
 }
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::AllocateOutputs()
 {
-  // Pass the input through as the output
+  /* Pass the input through as the output */
   InputImagePointer image = const_cast< TInputImage * >( this->GetInput() );
-
   this->GraftOutput(image);
 }
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -67,7 +73,7 @@ KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::EnlargeOutputRequestedRegion(DataObject *data)
 {
   Superclass::EnlargeOutputRequestedRegion(data);
@@ -76,7 +82,7 @@ KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::BeforeThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
@@ -91,23 +97,24 @@ KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::AfterThreadedGenerateData()
 {
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   /* Determine default parameters */
+  RealType alpha, beta, gamma;
   switch(m_ParameterSet)
   {
     case UseImplementationParameters:
-      m_Alpha = 0.5f;
-      m_Beta = 0.5f;
-      m_Gamma = 0.5f;
+      alpha = 0.5f;
+      beta = 0.5f;
+      gamma = 0.5f;
       break;
     case UseJournalParameters:
-      m_Alpha = 0.5f;
-      m_Beta = 0.5f;
-      m_Gamma = 0.25f;
+      alpha = 0.5f;
+      beta = 0.5f;
+      gamma = 0.25f;
       break;
     default:
       itkExceptionMacro(<< "Have bad parameterset enumeration " << m_ParameterSet);
@@ -127,13 +134,18 @@ KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   /* Do derived measure */
   if (numVoxels > 0) {
     RealType averageFrobeniusNorm = (RealType)accumulatedFrobeniusNorm / (RealType)numVoxels;
-    m_Gamma = m_Gamma * averageFrobeniusNorm;
+    gamma = gamma * averageFrobeniusNorm;
   }
+
+  /* Assign outputs */
+  this->GetAlphaOutput()->Set( alpha );
+  this->GetBetaOutput()->Set( beta );
+  this->GetGammaOutput()->Set( gamma );
 }
 
 template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
@@ -196,8 +208,8 @@ KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 }
 
 template< typename TInputImage, typename TMaskImage >
-typename KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::CalculateNormAccordingToImplementation(InputPixelType pixel) {
   /* Sum of the absolute value of the eigenvalues */
   RealType norm = 0;
@@ -208,8 +220,8 @@ KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 }
 
 template< typename TInputImage, typename TMaskImage >
-typename KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::CalculateNormAccordingToJournalArticle(InputPixelType pixel) {
   /* Sum of the eigenvalues */
   RealType norm = 0;
@@ -220,18 +232,60 @@ KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 }
 
 template< typename TInputImage, typename TMaskImage >
+typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetAlphaOutput() {
+  return static_cast< RealTypeDecoratedType * >( this->ProcessObject::GetOutput(1) );
+}
+
+template< typename TInputImage, typename TMaskImage >
+const typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetAlphaOutput() const {
+  return static_cast< const RealTypeDecoratedType * >( this->ProcessObject::GetOutput(1) );
+}
+
+template< typename TInputImage, typename TMaskImage >
+typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetBetaOutput() {
+  return static_cast< RealTypeDecoratedType * >( this->ProcessObject::GetOutput(2) );
+}
+
+template< typename TInputImage, typename TMaskImage >
+const typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetBetaOutput() const {
+  return static_cast< const RealTypeDecoratedType * >( this->ProcessObject::GetOutput(2) );
+}
+
+template< typename TInputImage, typename TMaskImage >
+typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetGammaOutput() {
+  return static_cast< RealTypeDecoratedType * >( this->ProcessObject::GetOutput(3) );
+}
+
+template< typename TInputImage, typename TMaskImage >
+const typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealTypeDecoratedType *
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+::GetGammaOutput() const {
+  return static_cast< const RealTypeDecoratedType * >( this->ProcessObject::GetOutput(3) );
+}
+
+template< typename TInputImage, typename TMaskImage >
 void
-KrcahEigentoScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
+KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_Alpha: " << m_Alpha << std::endl;
-  os << indent << "m_Beta: " << m_Beta << std::endl;
-  os << indent << "m_Gamma: " << m_Gamma << std::endl;
+  os << indent << "m_Alpha: " << this->GetAlpha() << std::endl;
+  os << indent << "m_Beta: " << this->GetBeta() << std::endl;
+  os << indent << "m_Gamma: " << this->GetGamma() << std::endl;
   os << indent << "m_BackgroundValue: " << m_BackgroundValue << std::endl;
   os << indent << "m_ParameterSet: " << m_ParameterSet << std::endl;
 }
 
 } // end namespace itk
 
-#endif // itkKrcahEigentoScalarParameterEstimationImageFilter_hxx
+#endif // itkKrcahEigenToScalarParameterEstimationImageFilter_hxx
