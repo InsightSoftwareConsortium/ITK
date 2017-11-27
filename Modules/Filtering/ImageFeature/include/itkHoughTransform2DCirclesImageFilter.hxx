@@ -140,8 +140,8 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
             if ( region.IsInside(outputIndex) )
               {
-              distance = std::sqrt((outputIndex[1] - inputIndex[1]) * (outputIndex[1] - inputIndex[1])
-                                 + (outputIndex[0] - inputIndex[0]) * (outputIndex[0] - inputIndex[0]));
+              distance = std::sqrt(static_cast<double>((outputIndex[1] - inputIndex[1]) * (outputIndex[1] - inputIndex[1])
+                                 + (outputIndex[0] - inputIndex[0]) * (outputIndex[0] - inputIndex[0])));
 
               ++outputImage->GetPixel(outputIndex);
               m_RadiusImage->GetPixel(outputIndex) += distance;

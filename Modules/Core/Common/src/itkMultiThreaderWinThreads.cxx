@@ -73,8 +73,8 @@ void MultiThreader::MultipleMethodExecute()
 
     processId[threadCount] = (void *)
       _beginthreadex(0, 0,
-                     ( unsigned int (__stdcall *)(void *) )m_MultipleMethod[threadCount],
-                     ( (void *)( &m_ThreadInfoArray[threadCount] ) ), 0,
+                     m_MultipleMethod[threadCount],
+                     &m_ThreadInfoArray[threadCount], 0,
                      (unsigned int *)&threadId);
 
     if( processId[threadCount] == ITK_NULLPTR )
@@ -139,8 +139,8 @@ ThreadIdType MultiThreader::SpawnThread(ThreadFunctionType f, void *UserData)
   // Using _beginthreadex on a PC
   //
   m_SpawnedThreadProcessID[id] = (void *)
-    _beginthreadex(0, 0, ( unsigned int (__stdcall *)(void *) )f,
-                   ( (void *)( &m_SpawnedThreadInfoArray[id] ) ), 0,
+    _beginthreadex(0, 0, f,
+                   &m_SpawnedThreadInfoArray[id], 0,
                    (unsigned int *)&threadId);
   if( m_SpawnedThreadProcessID[id] == 0 )
     {
@@ -181,8 +181,8 @@ MultiThreader
   // Using _beginthreadex on a PC
   DWORD  threadId;
   HANDLE threadHandle =  (HANDLE)_beginthreadex(0, 0,
-                                                ( unsigned int (__stdcall *)(void *) ) this->SingleMethodProxy,
-                                                ( (void *)threadInfo ), 0, (unsigned int *)&threadId);
+                                                this->SingleMethodProxy,
+                                                threadInfo, 0, (unsigned int *)&threadId);
   if ( threadHandle == ITK_NULLPTR )
     {
     itkExceptionMacro("Error in thread creation !!!");

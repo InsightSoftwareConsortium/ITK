@@ -55,10 +55,10 @@ namespace itk
 #define ITK_MAX_THREADS              128
   typedef HANDLE                 MutexType;
   typedef CRITICAL_SECTION       FastMutexType;
-  typedef LPTHREAD_START_ROUTINE ThreadFunctionType;
+  typedef unsigned(__stdcall * ThreadFunctionType)(void *);
   typedef HANDLE                 ThreadProcessIdType;
 #define ITK_THREAD_RETURN_VALUE 0
-#define ITK_THREAD_RETURN_TYPE DWORD __stdcall
+#define ITK_THREAD_RETURN_TYPE unsigned __stdcall
 
 #else
 
