@@ -16,17 +16,23 @@
  *
  *=========================================================================*/
 
-#ifndef itkKrcahEigentoScalarParameterEstimationImageFilter_h
-#define itkKrcahEigentoScalarParameterEstimationImageFilter_h
+#ifndef itkKrcahEigenToScalarParameterEstimationImageFilter_h
+#define itkKrcahEigenToScalarParameterEstimationImageFilter_h
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkArray.h"
 
+/*
+Need to use decorators
+https://github.com/InsightSoftwareConsortium/ITK/blob/6883e0007ee69e0c8fd9afde79c56fa052e699d7/Modules/Filtering/ImageStatistics/include/itkStatisticsImageFilter.h
+https://github.com/InsightSoftwareConsortium/ITK/blob/6883e0007ee69e0c8fd9afde79c56fa052e699d7/Modules/Filtering/ImageStatistics/include/itkStatisticsImageFilter.hxx
+*/
+
 namespace itk
 {
-/** \class KrcahEigentoScalarParameterEstimationImageFilter
+/** \class KrcahEigenToScalarParameterEstimationImageFilter
  * \brief Abstract class for converting eigenvalue image to scalar image.
  *
  * This class takes an image of eigenvalues and estimates the parameters for the Krcah
@@ -72,12 +78,12 @@ namespace itk
  * \ingroup BoneEnhancement
  */
 template <typename TInputImage, typename TMaskImage>
-class ITK_TEMPLATE_EXPORT KrcahEigentoScalarParameterEstimationImageFilter
+class ITK_TEMPLATE_EXPORT KrcahEigenToScalarParameterEstimationImageFilter
   : public ImageToImageFilter<TInputImage, TInputImage>
 {
 public:
   /** Standard Self typedef */
-  typedef KrcahEigentoScalarParameterEstimationImageFilter Self;
+  typedef KrcahEigenToScalarParameterEstimationImageFilter Self;
   typedef ImageToImageFilter<TInputImage, TInputImage>     Superclass;
   typedef SmartPointer<Self>                               Pointer;
   typedef SmartPointer<const Self>                         ConstPointer;
@@ -86,7 +92,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(KrcahEigentoScalarParameterEstimationImageFilter, ImageToImageFilter);
+  itkTypeMacro(KrcahEigenToScalarParameterEstimationImageFilter, ImageToImageFilter);
 
   /** Image related typedefs. */
   typedef typename TInputImage::Pointer      InputImagePointer;
@@ -139,32 +145,35 @@ public:
   typedef typename NumericTraits<InputPixelValueType>::RealType RealType;
   typedef SimpleDataObjectDecorator<RealType>                   RealTypeDecoratedType;
 
-  itkGetConstMacro(Alpha, RealType);
-  itkGetConstMacro(Beta, RealType);
-  itkGetConstMacro(Gamma, RealType);
-
+  /** Decorators for parameters so they can be passed as a process object */
   RealTypeDecoratedType *
-  GetAlphaOutput()
+  GetAlphaOutput();
+  const RealTypeDecoratedType *
+  GetAlphaOutput() const;
+  RealTypeDecoratedType *
+  GetBetaOutput();
+  const RealTypeDecoratedType *
+  GetBetaOutput() const;
+  RealTypeDecoratedType *
+  GetGammaOutput();
+  const RealTypeDecoratedType *
+  GetGammaOutput() const;
+
+  /** Standard getters for the output parameters */
+  RealType
+  GetAlpha() const
   {
-    typename RealTypeDecoratedType::Pointer decoratedAlpha = RealTypeDecoratedType::New();
-    decoratedAlpha->Set(this->GetAlpha());
-    return decoratedAlpha.GetPointer();
+    return this->GetAlphaOutput()->Get();
   }
-
-  RealTypeDecoratedType *
-  GetBetaOutput()
+  RealType
+  GetBeta() const
   {
-    typename RealTypeDecoratedType::Pointer decoratedBeta = RealTypeDecoratedType::New();
-    decoratedBeta->Set(this->GetBeta());
-    return decoratedBeta.GetPointer();
+    return this->GetBetaOutput()->Get();
   }
-
-  RealTypeDecoratedType *
-  GetGammaOutput()
+  RealType
+  GetGamma() const
   {
-    typename RealTypeDecoratedType::Pointer decoratedGamma = RealTypeDecoratedType::New();
-    decoratedGamma->Set(this->GetGamma());
-    return decoratedGamma.GetPointer();
+    return this->GetGammaOutput()->Get();
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
@@ -173,8 +182,8 @@ public:
   // End concept checking
 #endif
 protected:
-  KrcahEigentoScalarParameterEstimationImageFilter();
-  virtual ~KrcahEigentoScalarParameterEstimationImageFilter() {}
+  KrcahEigenToScalarParameterEstimationImageFilter();
+  virtual ~KrcahEigenToScalarParameterEstimationImageFilter() {}
 
   /** Pass the input through unmodified. Do this by Grafting in the AllocateOutputs method. */
   void
@@ -210,12 +219,9 @@ protected:
   CalculateNormAccordingToJournalArticle(InputPixelType pixel);
 
 private:
-  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigentoScalarParameterEstimationImageFilter);
+  ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarParameterEstimationImageFilter);
 
   /* Parameters */
-  RealType                m_Alpha;
-  RealType                m_Beta;
-  RealType                m_Gamma;
   KrcahImplementationType m_ParameterSet;
 
   /* Inputs */
@@ -228,7 +234,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkKrcahEigentoScalarParameterEstimationImageFilter.hxx"
+#  include "itkKrcahEigenToScalarParameterEstimationImageFilter.hxx"
 #endif
 
-#endif // itkKrcahEigentoScalarParameterEstimationImageFilter_h
+#endif // itkKrcahEigenToScalarParameterEstimationImageFilter_h
