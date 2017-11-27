@@ -166,15 +166,15 @@ SignedMaurerDistanceMapImageFilter< TInputImage, TOutputImage >
   typename ImageSource< OutputImageType >::ThreadStruct str;
   str.Filter = this;
 
-  MultiThreader* multithreader = this->GetMultiThreader();
-  multithreader->SetNumberOfThreads( nbthreads );
-  multithreader->SetSingleMethod(this->ThreaderCallback, &str);
+  this->GetMultiThreader()->SetNumberOfThreads( nbthreads );
+  this->GetMultiThreader()->SetSingleMethod(this->ThreaderCallback, &str);
+
 
   // multithread the execution
   for( unsigned int d=0; d<ImageDimension; d++ )
     {
     m_CurrentDimension = d;
-    multithreader->SingleMethodExecute();
+    this->GetMultiThreader()->SingleMethodExecute();
     }
 }
 

@@ -78,7 +78,7 @@ ProcessObject
   m_IndexedInputs.push_back( m_Inputs.insert(p).first );
   m_IndexedOutputs.push_back( m_Outputs.insert(p).first );
 
-  m_Threader = MultiThreader::New();
+  m_Threader = MultiThreaderType::New();
   m_NumberOfThreads = m_Threader->GetNumberOfThreads();
 
   m_ReleaseDataBeforeUpdateFlag = true;
