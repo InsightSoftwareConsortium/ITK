@@ -60,7 +60,7 @@ public:
     OrderByMagnitude,
     DoNotOrder
   } EigenValueOrderType;
-  virtual EigenValueOrderType GetEigenValueOrder() = 0;
+  virtual EigenValueOrderType GetEigenValueOrder() const = 0;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -69,6 +69,9 @@ public:
   // End concept checking
 #endif
 protected:
+  EigenToScalarImageFilter() {}
+  virtual ~EigenToScalarImageFilter() {}
+
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE {
     Superclass::PrintSelf(os, indent);
     os << indent << "EigenValueOrder: " << this->GetEigenValueOrder() << std::endl;
