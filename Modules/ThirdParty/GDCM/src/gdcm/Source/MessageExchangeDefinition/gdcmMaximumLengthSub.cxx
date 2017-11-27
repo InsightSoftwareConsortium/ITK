@@ -50,20 +50,20 @@ std::istream &MaximumLengthSub::Read(std::istream &is)
 
 const std::ostream &MaximumLengthSub::Write(std::ostream &os) const
 {
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  //os.write( (char*)&ItemLength, sizeof(ItemLength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  //os.write( (const char*)&ItemLength, sizeof(ItemLength) );
   {
   uint16_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
   }
 
-  //os.write( (char*)&MaximumLength, sizeof(MaximumLength) );
+  //os.write( (const char*)&MaximumLength, sizeof(MaximumLength) );
   {
   uint32_t copy = MaximumLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(MaximumLength) );
+  os.write( (const char*)&copy, sizeof(MaximumLength) );
   }
 
   return os;

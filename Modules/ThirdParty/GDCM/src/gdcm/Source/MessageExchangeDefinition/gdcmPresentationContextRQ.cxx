@@ -94,16 +94,16 @@ std::istream &PresentationContextRQ::Read(std::istream &is)
 const std::ostream &PresentationContextRQ::Write(std::ostream &os) const
 {
   assert( (size_t)ItemLength + 4 == Size() );
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
   uint16_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
 
-  os.write( (char*)&ID, sizeof(ID) );
-  os.write( (char*)&Reserved6, sizeof(Reserved6) );
-  os.write( (char*)&Reserved7, sizeof(Reserved7) );
-  os.write( (char*)&Reserved8, sizeof(Reserved8) );
+  os.write( (const char*)&ID, sizeof(ID) );
+  os.write( (const char*)&Reserved6, sizeof(Reserved6) );
+  os.write( (const char*)&Reserved7, sizeof(Reserved7) );
+  os.write( (const char*)&Reserved8, sizeof(Reserved8) );
   SubItems.Write(os);
   std::vector<TransferSyntaxSub>::const_iterator it = TransferSyntaxes.begin();
   for( ; it != TransferSyntaxes.end(); ++it )

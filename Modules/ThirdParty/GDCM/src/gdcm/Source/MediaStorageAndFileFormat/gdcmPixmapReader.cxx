@@ -301,7 +301,7 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
           assert( lut_raw );
           // LookupTableType::RED == 0
           lut->SetLUT( LookupTable::LookupTableType(i),
-            (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
+            (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
           //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
           unsigned long check =
@@ -315,7 +315,7 @@ void DoIconImage(const DataSet& rootds, Pixmap& image)
           const ByteValue *lut_raw = ds.GetDataElement( seglut ).GetByteValue();
           assert( lut_raw );
           lut->SetLUT( LookupTable::LookupTableType(i),
-            (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
+            (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
           //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
 
           //unsigned long check =
@@ -908,7 +908,7 @@ bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldat
           {
           // LookupTableType::RED == 0
           lut->SetLUT( LookupTable::LookupTableType(i),
-            (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
+            (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
           //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
           }
         else
@@ -927,7 +927,7 @@ bool PixmapReader::ReadImageInternal(MediaStorage const &ms, bool handlepixeldat
         if( lut_raw )
           {
           lut->SetLUT( LookupTable::LookupTableType(i),
-            (unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
+            (const unsigned char*)lut_raw->GetPointer(), lut_raw->GetLength() );
           //assert( pf.GetBitsAllocated() == el_us3.GetValue(2) );
           }
         else

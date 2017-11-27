@@ -248,7 +248,7 @@ bool JPEGLSCodec::Decode(DataElement const &in, DataElement &out)
         {
         return false;
         }
-      os.write( (char*)&rgbyteOut[0], rgbyteOut.size() );
+      os.write( (const char*)&rgbyteOut[0], rgbyteOut.size() );
 
       if(!r) return false;
       assert( r == true );

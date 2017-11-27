@@ -83,12 +83,12 @@ std::istream &PDataTFPDU::ReadInto(std::istream &is, std::ostream &os)
 const std::ostream &PDataTFPDU::Write(std::ostream &os) const
 {
   assert( (ItemLength + 4 + 1 + 1) == Size() );
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  //os.write( (char*)&ItemLength, sizeof(ItemLength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  //os.write( (const char*)&ItemLength, sizeof(ItemLength) );
   uint32_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
   std::vector<PresentationDataValue>::const_iterator it = V.begin();
   for( ; it != V.end(); ++it )
     {

@@ -209,7 +209,7 @@ static bool parsejp2_imp( const char * const stream, const size_t file_size, boo
     if( len32 == 1 ) /* 64bits ? */
       {
       bool b = read64(&cur, &cur_size, &len64);
-      assert( b );
+      assert( b ); (void)b;
       len64 -= 8;
       }
     if( marker == JP2C )
@@ -874,9 +874,9 @@ bool JPEG2000Codec::DecodeByStreams(std::istream &is, std::ostream &os)
 }
 
 template<typename T>
-void rawtoimage_fill(T *inputbuffer, int w, int h, int numcomps, opj_image_t *image, int pc)
+void rawtoimage_fill(const T *inputbuffer, int w, int h, int numcomps, opj_image_t *image, int pc)
 {
-  T *p = inputbuffer;
+  const T *p = inputbuffer;
   if( pc )
     {
     for(int compno = 0; compno < numcomps; compno++)
@@ -903,7 +903,7 @@ void rawtoimage_fill(T *inputbuffer, int w, int h, int numcomps, opj_image_t *im
     }
 }
 
-opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
+opj_image_t* rawtoimage(const char *inputbuffer, opj_cparameters_t *parameters,
   int fragment_size, int image_width, int image_height, int sample_pixel,
   int bitsallocated, int bitsstored, int sign, int quality, int pc)
 {
@@ -973,33 +973,33 @@ opj_image_t* rawtoimage(char *inputbuffer, opj_cparameters_t *parameters,
     {
     if( sign )
       {
-      rawtoimage_fill<int8_t>((int8_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<int8_t>((const int8_t*)inputbuffer,w,h,numcomps,image,pc);
       }
     else
       {
-      rawtoimage_fill<uint8_t>((uint8_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<uint8_t>((const uint8_t*)inputbuffer,w,h,numcomps,image,pc);
       }
     }
   else if (bitsallocated <= 16)
     {
     if( sign )
       {
-      rawtoimage_fill<int16_t>((int16_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<int16_t>((const int16_t*)inputbuffer,w,h,numcomps,image,pc);
       }
     else
       {
-      rawtoimage_fill<uint16_t>((uint16_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<uint16_t>((const uint16_t*)inputbuffer,w,h,numcomps,image,pc);
       }
     }
   else if (bitsallocated <= 32)
     {
     if( sign )
       {
-      rawtoimage_fill<int32_t>((int32_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<int32_t>((const int32_t*)inputbuffer,w,h,numcomps,image,pc);
       }
     else
       {
-      rawtoimage_fill<uint32_t>((uint32_t*)inputbuffer,w,h,numcomps,image,pc);
+      rawtoimage_fill<uint32_t>((const uint32_t*)inputbuffer,w,h,numcomps,image,pc);
       }
     }
   else // dead branch ?
@@ -1101,7 +1101,7 @@ bool JPEG2000Codec::CodeFrameIntoBuffer(char * outdata, size_t outlen, size_t & 
   /* decode the source image */
   /* ----------------------- */
 
-  image = rawtoimage((char*)inputdata, &parameters,
+  image = rawtoimage((const char*)inputdata, &parameters,
     static_cast<int>( inputlength ),
     image_width, image_height,
     sample_pixel, bitsallocated, bitsstored, sign, quality, this->GetPlanarConfiguration() );
@@ -1255,7 +1255,7 @@ bool JPEG2000Codec::GetHeaderInfo(const char * dummy_buffer, size_t buf_size, Tr
   opj_codec_t* dinfo = NULL;  /* handle to a decompressor */
   opj_stream_t *cio = NULL;
   opj_image_t *image = NULL;
-  unsigned char *src = (unsigned char*)dummy_buffer;
+  const unsigned char *src = (const unsigned char*)dummy_buffer;
   size_t file_length = buf_size;
 
   /* set decoding parameters to default values */

@@ -72,28 +72,28 @@ const std::ostream &RoleSelectionSub::Write(std::ostream &os) const
 {
   assert( (size_t)ItemLength + 4 == Size() );
 
-  os.write( (char*)&ItemType, sizeof(ItemType) );
-  os.write( (char*)&Reserved2, sizeof(Reserved2) );
-  //os.write( (char*)&ItemLength, sizeof(ItemLength) );
+  os.write( (const char*)&ItemType, sizeof(ItemType) );
+  os.write( (const char*)&Reserved2, sizeof(Reserved2) );
+  //os.write( (const char*)&ItemLength, sizeof(ItemLength) );
   uint16_t copy = ItemLength;
   SwapperDoOp::SwapArray(&copy,1);
-  os.write( (char*)&copy, sizeof(ItemLength) );
+  os.write( (const char*)&copy, sizeof(ItemLength) );
 
   assert( ItemLength > UIDLength );
   uint16_t uidlength = UIDLength;
   SwapperDoOp::SwapArray(&uidlength,1);
-  os.write( (char*)&uidlength, sizeof(UIDLength) );
+  os.write( (const char*)&uidlength, sizeof(UIDLength) );
 
   assert( (size_t)UIDLength == Name.size() );
   os.write( Name.c_str(), Name.size() );
 
   uint8_t scurole = SCURole;
   assert( scurole == 0 || scurole == 1 );
-  os.write( (char*)&scurole, sizeof(SCURole) );
+  os.write( (const char*)&scurole, sizeof(SCURole) );
 
   uint8_t scprole = SCPRole;
   assert( scprole == 0 || scprole == 1 );
-  os.write( (char*)&scprole, sizeof(SCPRole) );
+  os.write( (const char*)&scprole, sizeof(SCPRole) );
 
   return os;
 }
