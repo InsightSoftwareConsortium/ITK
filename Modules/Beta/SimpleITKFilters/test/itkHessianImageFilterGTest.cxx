@@ -162,11 +162,11 @@ TEST_F(HessianImageFilterFixture,ValueTest_3D)
                       output->GetPixel(MakeIndex(12,12,12)),
                       1e-6);
 
-  EXPECT_VECTOR_NEAR(MakeFixedArray(-0.00016,0.0,0.0,
-                                    -0.00016,0.0,
-                                    -0.00016),
+  EXPECT_VECTOR_NEAR(MakeFixedArray(-0.00014602,0.0,0.0,
+                                    -0.00014602,0.0,
+                                    -0.00014602),
                       output->GetPixel(MakeIndex(10,10,10)),
-                      1e-7);
+                      1e-5);
 
 }
 
