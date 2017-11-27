@@ -8,6 +8,7 @@ set(BoneEnhancementTests
   itkKrcahEigenToScalarParameterEstimationImageFilterTest.cxx
   itkKrcahEigenToScalarFunctorTest.cxx
   itkKrcahEigenToScalarFunctorImageFilterTest.cxx
+  itkKrcahEigenToScalarImageFilterTest.cxx
   )
 
 CreateTestDriver(BoneEnhancement "${BoneEnhancement-Test_LIBRARIES}" "${BoneEnhancementTests}")
@@ -44,4 +45,7 @@ itk_add_test(NAME itkKrcahEigenToScalarFunctorTest
 itk_add_test(NAME itkKrcahEigenToScalarFunctorImageFilterTest
   COMMAND BoneEnhancementTestDriver itkKrcahEigenToScalarFunctorImageFilterTest 
   )
-  
+
+itk_add_test(NAME itkKrcahEigenToScalarImageFilterTest
+  COMMAND BoneEnhancementTestDriver itkKrcahEigenToScalarImageFilterTest 
+  )
