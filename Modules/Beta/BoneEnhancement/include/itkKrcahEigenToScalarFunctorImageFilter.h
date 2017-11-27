@@ -171,7 +171,7 @@ public:
   itkTypeMacro(KrcahEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter);
 
   /** Define decorator types */
-  typedef SimpleDataObjectDecorator< RealType > InputAlphaObjectType;
+  typedef SimpleDataObjectDecorator< RealType > InputParameterDecoratorType;
 
   /** Process object */
   itkSetGetDecoratedInputMacro(Alpha, RealType);
@@ -181,10 +181,10 @@ public:
   /** Need to access the input parameters at execution time */
   void BeforeThreadedGenerateData() ITK_OVERRIDE
   {
-    this->GetFunctor().SetAlpha( this->GetAlpha() );
-    this->GetFunctor().SetBeta( this->GetBeta() );
-    this->GetFunctor().SetGamma( this->GetGamma() );
-    Superclass::BeforeThreadedGenerateData();
+    /* Set functor parameters after a call to Update() to make sure the input parameters resolve */
+    this->GetFunctor().SetAlpha( this->GetAlphaInput()->Get() );
+    this->GetFunctor().SetBeta( this->GetBetaInput()->Get() );
+    this->GetFunctor().SetGamma( this->GetGammaInput()->Get() );
   }
 
   /** setter/getter methods for setting type of object to enhance */
@@ -202,13 +202,7 @@ public:
   }
 
 protected:
-  KrcahEigenToScalarFunctorImageFilter()
-  {
-    /* Need to set initial values */
-    this->SetAlpha( 1.0 );
-    this->SetBeta( 1.0 );
-    this->SetGamma( 1.0 );
-  }
+  KrcahEigenToScalarFunctorImageFilter() {}
   virtual ~KrcahEigenToScalarFunctorImageFilter() {}
 
 private:

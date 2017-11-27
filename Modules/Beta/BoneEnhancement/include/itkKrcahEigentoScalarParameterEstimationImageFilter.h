@@ -24,12 +24,6 @@
 #include "itkSimpleDataObjectDecorator.h"
 #include "itkArray.h"
 
-/*
-Need to use decorators
-https://github.com/InsightSoftwareConsortium/ITK/blob/6883e0007ee69e0c8fd9afde79c56fa052e699d7/Modules/Filtering/ImageStatistics/include/itkStatisticsImageFilter.h
-https://github.com/InsightSoftwareConsortium/ITK/blob/6883e0007ee69e0c8fd9afde79c56fa052e699d7/Modules/Filtering/ImageStatistics/include/itkStatisticsImageFilter.hxx
-*/
-
 namespace itk {
 /** \class KrcahEigenToScalarParameterEstimationImageFilter
  * \brief Abstract class for converting eigenvalue image to scalar image.

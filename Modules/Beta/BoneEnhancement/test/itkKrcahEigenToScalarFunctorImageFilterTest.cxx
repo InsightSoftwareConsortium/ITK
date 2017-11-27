@@ -36,7 +36,10 @@ int itkKrcahEigenToScalarFunctorImageFilterTest( int argc, char * argv[] )
   typedef itk::KrcahEigenToScalarFunctorImageFilter< EigenValueImageType, ImageType> FilterType;
   FilterType::Pointer krcahFilter = FilterType::New();
 
-  /* Basic tests */
+  /* Basic tests. Need to set parameters first. */
+  krcahFilter->SetAlpha(0.5);
+  krcahFilter->SetBeta(0.5);
+  krcahFilter->SetGamma(0.25);
   EXERCISE_BASIC_OBJECT_METHODS( krcahFilter, KrcahEigenToScalarFunctorImageFilter, UnaryFunctorImageFilter );
 
   /* Exercise basic set/get methods */
@@ -88,6 +91,28 @@ int itkKrcahEigenToScalarFunctorImageFilterTest( int argc, char * argv[] )
   {
     TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input.Get(), 0.0, 6, 0.000001));
     ++input;
+  }
+
+  /* Create some test data which is computable */
+  for (unsigned int i = 0; i < Dimension; ++i) {
+    simpleEigenPixel.SetElement(i, -1);
+  }
+ 
+  EigenValueImageType::Pointer image2 = EigenValueImageType::New();
+  image2->SetRegions(region);
+  image2->Allocate();
+  image2->FillBuffer(simpleEigenPixel);
+
+  krcahFilter->SetInput(image2);
+  TRY_EXPECT_NO_EXCEPTION(krcahFilter->Update());
+
+  itk::ImageRegionIteratorWithIndex< ImageType > input2(krcahFilter->GetOutput(), region);
+
+  input2.GoToBegin();
+  while ( !input2.IsAtEnd() )
+  {
+    TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( input2.Get(), 0.000335462627903, 6, 0.000001));
+    ++input2;
   }
 
   return EXIT_SUCCESS;

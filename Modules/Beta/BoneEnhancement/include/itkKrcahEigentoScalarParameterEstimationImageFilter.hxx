@@ -36,15 +36,15 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 {
   /* We require an input, optional mask */
   this->SetNumberOfRequiredInputs( 1 );
+  this->SetNumberOfRequiredOutputs( 4 );
 
   /* Allocate all decorators */
   for ( int i = 1; i < 4; ++i )
   {
-    this->ProcessObject::SetNthOutput( i,  RealTypeDecoratedType::New().GetPointer() );
+    typename RealTypeDecoratedType::Pointer output = RealTypeDecoratedType::New();
+    output->Set( 0.5 );
+    this->ProcessObject::SetNthOutput( i,  output.GetPointer() );
   }
-  this->GetAlphaOutput()->Set( 0.5 );
-  this->GetBetaOutput()->Set( 0.5 );
-  this->GetGammaOutput()->Set( 0.5 );
 }
 
 template< typename TInputImage, typename TMaskImage >
@@ -137,7 +137,7 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
     gamma = gamma * averageFrobeniusNorm;
   }
 
-  /* Assign outputs */
+  /* Assign outputs parameters */
   this->GetAlphaOutput()->Set( alpha );
   this->GetBetaOutput()->Set( beta );
   this->GetGammaOutput()->Set( gamma );
