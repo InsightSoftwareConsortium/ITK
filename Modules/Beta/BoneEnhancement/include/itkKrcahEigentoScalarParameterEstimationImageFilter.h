@@ -55,9 +55,9 @@ namespace itk {
  * eigenvalues. To account for these discrepancies, the flag KrcahImplementationType
  * can be set which enables the implementation parameters:
  *    \f{eqnarray*}{
- *      \alpha &=& 0.5 \\
- *      \beta &=& 0.5 \\
- *      \gamma &=& 0.5 \cdot T
+ *      \alpha &=& \sqrt{2} \cdot 0.5 \\
+ *      \beta &=& \sqrt{2} \cdot 0.5 \\
+ *      \gamma &=& \sqrt{2} \cdot 0.5 \cdot T
  *    \f}
  * Default is to use parameters from the implementation, not the paper.
  * 

@@ -107,9 +107,9 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   switch(m_ParameterSet)
   {
     case UseImplementationParameters:
-      alpha = 0.5f;
-      beta = 0.5f;
-      gamma = 0.5f;
+      alpha = Math::sqrt2 * 0.5f;
+      beta = Math::sqrt2 * 0.5f;
+      gamma = Math::sqrt2 * 0.5f;
       break;
     case UseJournalParameters:
       alpha = 0.5f;
