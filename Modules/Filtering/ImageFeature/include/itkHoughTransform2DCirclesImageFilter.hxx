@@ -205,19 +205,16 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 
     // The variable "outputImage" is only used as input to gaussianFilter.
     // It should not be modified, because GetOutput(0) should not be changed.
-    OutputImagePointer outputImage = OutputImageType::New();
+    const OutputImagePointer outputImage = OutputImageType::New();
     outputImage->Graft(this->GetOutput(0));
 
     typedef DiscreteGaussianImageFilter< OutputImageType, InternalImageType > GaussianFilterType;
-    typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
+    const typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
     gaussianFilter->SetInput(outputImage); // The output is the accumulator image
-    double variance[2];
-    variance[0] = m_Variance;
-    variance[1] = m_Variance;
-    gaussianFilter->SetVariance(variance);
+    gaussianFilter->SetVariance(m_Variance);
     gaussianFilter->Update();
-    typename InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
+    const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
     typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
     typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();

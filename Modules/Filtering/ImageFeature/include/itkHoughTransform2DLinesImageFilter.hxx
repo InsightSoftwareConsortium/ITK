@@ -260,20 +260,17 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
     /** xxxConvert the accumulator output image type to internal image type */
     typedef CastImageFilter< OutputImageType, InternalImageType > CastImageFilterType;
 
-    typename CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
+    const typename CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
     castImageFilter->SetInput(outputImage);
 
     typedef DiscreteGaussianImageFilter< InternalImageType, InternalImageType > GaussianFilterType;
-    typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
+    const typename GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
 
     // the output is the accumulator image
     gaussianFilter->SetInput( castImageFilter->GetOutput() );
-    double variance[2];
-    variance[0] = m_Variance;
-    variance[1] = m_Variance;
-    gaussianFilter->SetVariance(variance);
+    gaussianFilter->SetVariance(m_Variance);
     gaussianFilter->Update();
-    InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
+    const InternalImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
     typedef MinimumMaximumImageCalculator< InternalImageType > MinMaxCalculatorType;
     typename MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
