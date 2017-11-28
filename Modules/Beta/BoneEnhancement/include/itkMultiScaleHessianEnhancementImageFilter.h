@@ -21,6 +21,7 @@
 #include "itkImageToImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"
+#include "itkSymmetricEigenAnalysis.h"
 #include "itkMaximumAbsoluteValueImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
@@ -97,6 +98,11 @@ public:
   /** Eigenvalue image to scalar image related typedefs */
   typedef EigenToScalarImageFilter< EigenValueImageType, TOutputImage > EigenToScalarImageFilterType;
 
+  /** Need some types to determine how to order the eigenvalues */
+  // typedef typename Functor::SymmetricEigenAnalysisFunction::EigenValueOrderType InternalEigenValueOrderType;
+  typedef typename EigenAnalysisFilterType::FunctorType::EigenValueOrderType InternalEigenValueOrderType;
+  typedef typename EigenToScalarImageFilterType::EigenValueOrderType         ExternalEigenValueOrderType;
+
   /** Set/Get the EigenToScalarImageFilter. */
   itkSetObjectMacro(EigenToScalarImageFilter, EigenToScalarImageFilterType);
   itkGetModifiableObjectMacro(EigenToScalarImageFilter, EigenToScalarImageFilterType);
@@ -111,8 +117,8 @@ public:
   } SigmaStepMethodEnum;
 
   /** Set/Get macros for SigmaArray */
-  itkSetMacro(SigmaArray, SigmaType);
-  itkGetConstMacro(SigmaArray, SigmaType);
+  itkSetMacro(SigmaArray, SigmaArrayType);
+  itkGetConstMacro(SigmaArray, SigmaArrayType);
 
   /**
    * Static methods for generating an array of sigma values. Note that these still need to be passed
@@ -141,6 +147,9 @@ protected:
   /** Internal function to generate the response at a scale */
   typename TOutputImage::Pointer generateResponseAtScale(SigmaStepsType scaleLevel);
 
+  /** Internal function to convert types for EigenValueOrder */
+  InternalEigenValueOrderType ConvertType(ExternalEigenValueOrderType order);
+
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
@@ -151,7 +160,7 @@ private:
   typename EigenToScalarImageFilterType::Pointer    m_EigenToScalarImageFilter;
 
   /** Sigma member variables. */
-  SigmaType           m_SigmaArray;
+  SigmaArrayType  m_SigmaArray;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiScaleHessianEnhancementImageFilter);
 }; // end of class

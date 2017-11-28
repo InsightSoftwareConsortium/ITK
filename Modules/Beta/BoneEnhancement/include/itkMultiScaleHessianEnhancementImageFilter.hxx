@@ -61,7 +61,7 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   /* Set filters parameters */
   m_HessianFilter->SetNormalizeAcrossScale(true);
   m_EigenAnalysisFilter->SetDimension(ImageDimension);
-  m_EigenAnalysisFilter->OrderEigenValuesBy(m_EigenToScalarImageFilter->GetEigenValueOrder());
+  m_EigenAnalysisFilter->OrderEigenValuesBy(this->ConvertType(m_EigenToScalarImageFilter->GetEigenValueOrder()));
 
   /* Connect filters */
   m_HessianFilter->SetInput(this->GetInput());
@@ -213,6 +213,24 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
 ::GenerateLogarithmicSigmaArray(SigmaType SigmaMinimum, SigmaType SigmaMaximum, SigmaStepsType NumberOfSigmaSteps)
 {
   return GenerateSigmaArray(SigmaMinimum, SigmaMaximum, NumberOfSigmaSteps, Self::LogarithmicSigmaSteps);
+}
+
+template< typename TInputImage, typename TOutputImage >
+typename MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >::InternalEigenValueOrderType
+MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
+::ConvertType(ExternalEigenValueOrderType order)
+{
+  switch(order)
+  {
+  case EigenToScalarImageFilterType::OrderByValue:
+    return EigenAnalysisFilterType::FunctorType::OrderByValue;
+  case EigenToScalarImageFilterType::OrderByMagnitude:
+    return EigenAnalysisFilterType::FunctorType::OrderByMagnitude;
+  case EigenToScalarImageFilterType::DoNotOrder:
+    return EigenAnalysisFilterType::FunctorType::DoNotOrder;
+  default:
+    itkExceptionMacro(<< "Trying to convert bad order " << order);
+  }
 }
 
 template< typename TInputImage, typename TOutputImage >
