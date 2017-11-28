@@ -153,7 +153,7 @@ int itkKrcahEigenToScalarParameterEstimationImageFilterTest( int, char * [] )
   TRY_EXPECT_NO_EXCEPTION(krcahParameterEstimator->Update());
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetAlpha(), 0.5, 6, 0.000001));
   TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetBeta(), 0.5, 6, 0.000001));
-  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), -3*3*0.25, 6, 0.000001));
+  TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual( krcahParameterEstimator->GetGamma(), 3*3*0.25, 6, 0.000001));
 
   krcahParameterEstimator->SetParameterSetToJournalArticle();
   krcahParameterEstimator->SetBackgroundValue(foregroundValue);
