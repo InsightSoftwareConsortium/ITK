@@ -41,6 +41,10 @@ namespace itk
  * radius given by the user, and fills in the array of radii.
  * The SweepAngle value can be adjusted to improve the segmentation.
  *
+ * The filter will detect ring-shaped objects in the image, but it also finds discs.
+ * For a disc to be found, the intensity values within the disc must be higher than
+ * the surrounding of the disc.
+ *
  * \ingroup ImageFeatureExtraction
  *
  * \ingroup ITKImageFeature
@@ -100,7 +104,7 @@ public:
   /** Set both Minimum and Maximum radius values. */
   void SetRadius(double radius);
 
-  /** Set the minimum radiu value the filter should look for. */
+  /** Set the minimum radius value the filter should look for. */
   itkSetMacro(MinimumRadius, double);
   itkGetConstMacro(MinimumRadius, double);
 
