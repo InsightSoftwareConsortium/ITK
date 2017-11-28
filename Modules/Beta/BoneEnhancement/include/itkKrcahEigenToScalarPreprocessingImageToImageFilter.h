@@ -28,7 +28,23 @@
 namespace itk
 {
 /** \class KrcahEigenToScalarPreprocessingImageToImageFilter
- * \brief TODO
+ * \brief Perform preprocessing as defined by Krcah et al
+ * 
+ * This filters performs an unsharp filter as defined by Krcah
+ * et al. The unsharp filter is defined by:
+ *  \f{
+ *      J = I+k*(I-(I*G))
+ *  \f}
+ * 
+ * Where \f$ k \f$ is a scaling constant set to 5 and the Guassian
+ * filter has smoothing parameter \f$ s = 1 mm \f$. A user can modify
+ * these defaults using the appropriate setter methods.
+ * 
+ * Additionally, this filter provides the ReleaseInternalFilterData
+ * flag. When this flag is set, the internal filters used to compute
+ * the unsharp filter will release their data after processing. This
+ * conserves memory at the expense of computation time if ScalingConstant
+ * or Sigma are changed. This flag is on by default.
  * 
  * \sa KrcahEigenToScalarImageFilter
  * 

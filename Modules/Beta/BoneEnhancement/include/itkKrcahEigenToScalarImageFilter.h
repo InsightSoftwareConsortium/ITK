@@ -25,15 +25,22 @@
 
 namespace itk {
 /** \class KrcahEigenToScalarImageFilter
- * \brief Abstract class for converting eigenvalue image to scalar image.
+ * \brief Compute the Krcah sheetness measure from the eigenvalues
  *
- * This is an abstract class that converts an eigenvalue image to a scalar image based using a mathematical function.
- * Other classes should inherit from this class so they can be used in the BoneEnhancement framework. This abstract
- * class guarantees that the variable EigenValueOrder has a valid type and enforces some concept checking
- * on the class template parameters: TInputImage and TOutputImage . TODO
+ * This is a convenience class implementing the EigenToScalarImageFilter
+ * abstract class. This class computes the Krcah sheetness measure for
+ * cortical bone. Internally, KrcahEigenToScalarParameterEstimationImageFilter
+ * and KrcahEigenToScalarFunctorImageFilter are used for automatic parameter
+ * estimation and implementation of the functor.
+ * 
+ * Before passing an input to MultiScaleHessianEnhancementImageFilter,
+ * the KrcahEigenToScalarPreprocessingImageToImageFilter should be used.
  * 
  * \sa MultiScaleHessianEnhancementImageFilter
  * \sa EigenToScalarImageFilter
+ * \sa KrcahEigenToScalarParameterEstimationImageFilter
+ * \sa KrcahEigenToScalarFunctorImageFilter
+ * \sa KrcahEigenToScalarPreprocessingImageToImageFilter
  * 
  * \author: Bryce Besler
  * \ingroup BoneEnhancement

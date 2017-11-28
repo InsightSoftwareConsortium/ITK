@@ -26,7 +26,7 @@
 
 namespace itk {
 /** \class KrcahEigenToScalarParameterEstimationImageFilter
- * \brief Abstract class for converting eigenvalue image to scalar image.
+ * \brief Automatic parameter estimation for the Krcah method
  *
  * This class takes an image of eigenvalues and estimates the parameters for the Krcah
  * bone enhanced filter. According to the original paper,

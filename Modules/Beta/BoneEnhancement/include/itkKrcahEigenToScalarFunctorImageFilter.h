@@ -139,7 +139,9 @@ private:
  * \brief Convert eigenvalues into a measure of sheetness according to the method of Krcah et al.
  * 
  * Converts a 3D fixed array of eigenvalues into a measure of sheetness according to the method
- * of Krcah et al. The parameters of the filter should be set using KrcahEigentoScalarParameterEstimationImageFilter
+ * of Krcah et al. The parameters of the filter should be set using KrcahEigentoScalarParameterEstimationImageFilter.
+ * 
+ * See functor for mathematics.
  * 
  * \sa KrcahEigenToScalarFunctor
  * \sa KrcahEigenToScalarImageFilter

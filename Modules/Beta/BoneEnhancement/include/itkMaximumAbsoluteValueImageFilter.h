@@ -34,7 +34,7 @@ public:
     }
 
 #ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking TODO
+  // Begin concept checking
   itkConceptMacro( Input1ConvertableToOutputCheck,
                    ( Concept::Convertible< TInputPixel1, TOutputPixel >) );
   itkConceptMacro( Input2ConvertableToOutputCheck,
@@ -53,7 +53,10 @@ public:
 /** \class MaximumAbsoluteValueImageFilter
  * \brief Compute the maximum (of the absolute value) between two images.
  *
- * This class takes two images as arguments and takes 
+ * This class takes two images as arguments and returns the maximum
+ * of the absolute value pixel wise. For instance, two pixels with
+ * values 2 and -3 would return -3, since the absolute value of -3
+ * is larger than 2.
  * 
  * \sa MultiScaleHessianEnhancementImageFilter
  * 
