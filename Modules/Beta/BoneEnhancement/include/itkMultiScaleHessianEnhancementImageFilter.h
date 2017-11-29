@@ -150,6 +150,12 @@ protected:
   /** Internal function to convert types for EigenValueOrder */
   InternalEigenValueOrderType ConvertType(ExternalEigenValueOrderType order);
 
+  /** Override since the filter needs all the data for the algorithm */
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
+
+  /** Override since the filter produces all of its output */
+  void EnlargeOutputRequestedRegion(DataObject *data) ITK_OVERRIDE;
+
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
