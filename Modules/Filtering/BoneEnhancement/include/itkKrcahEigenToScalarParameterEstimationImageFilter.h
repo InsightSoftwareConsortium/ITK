@@ -208,9 +208,9 @@ protected:
 
   /** Calculation of \f$ T \f$ changes depending on the implementation */
   inline RealType
-  CalculateNormAccordingToImplementation(InputPixelType pixel);
+  CalculateTraceAccordingToImplementation(InputPixelType pixel);
   inline RealType
-  CalculateNormAccordingToJournalArticle(InputPixelType pixel);
+  CalculateTraceAccordingToJournalArticle(InputPixelType pixel);
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(KrcahEigenToScalarParameterEstimationImageFilter);
@@ -222,7 +222,7 @@ private:
   MaskPixelType m_BackgroundValue;
 
   /* Arrays for threads */
-  Array<RealType>      m_AccumulatedFrobeniusNorm;
+  Array<RealType>      m_AccumulatedAverageTrace;
   Array<SizeValueType> m_NumVoxels;
 }; // end class
 } // namespace itk
