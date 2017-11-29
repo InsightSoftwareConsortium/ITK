@@ -43,6 +43,26 @@ MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::MultiScaleHe
 
 template <typename TInputImage, typename TOutputImage>
 void
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+  if (this->GetInput())
+  {
+    typename TInputImage::Pointer image = const_cast<TInputImage *>(this->GetInput());
+    image->SetRequestedRegionToLargestPossibleRegion();
+  }
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
+MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * data)
+{
+  Superclass::EnlargeOutputRequestedRegion(data);
+  data->SetRequestedRegionToLargestPossibleRegion();
+}
+
+template <typename TInputImage, typename TOutputImage>
+void
 MultiScaleHessianEnhancementImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   /* Test all inputs are set */
