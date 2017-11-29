@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 set(module BoneEnhancementExamples)
 project(${module})
 
-find_package(ITK REQUIRED COMPONENTS BoneEnhancement ITKIOImageBase ITKIONIFTI)
+find_package(ITK REQUIRED COMPONENTS BoneEnhancement ITKIOImageBase ITKIONIFTI ITKIONRRD)
 include(${ITK_USE_FILE})
 include_directories(../include)
 
