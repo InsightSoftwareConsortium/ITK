@@ -27,8 +27,8 @@
 
 namespace itk
 {
-template< typename TInputPixelType, typename TOutputPixelType >
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::HoughTransform2DCirclesImageFilter() :
   m_SweepAngle( 0.0 ),
   m_MinimumRadius( 0.0 ),
@@ -43,27 +43,27 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   this->SetNumberOfRequiredInputs( 1 );
 }
 
-template< typename TInputPixelType, typename TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::SetRadius(double radius)
 {
   this->SetMinimumRadius(radius);
   this->SetMaximumRadius(radius);
 }
 
-template< typename TInputPixelType, typename TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::EnlargeOutputRequestedRegion(DataObject *output)
 {
   Superclass::EnlargeOutputRequestedRegion(output);
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-template< typename TInputPixelType, typename TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
@@ -75,9 +75,9 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     }
 }
 
-template< typename TInputPixelType, typename TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::GenerateData()
 {
   // Get the input and output pointers
@@ -93,7 +93,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   DoGFunction->SetInputImage(inputImage);
   DoGFunction->SetSigma(m_SigmaGradient);
 
-  m_RadiusImage = OutputImageType::New();
+  m_RadiusImage = RadiusImageType::New();
 
   m_RadiusImage->SetRegions( outputImage->GetLargestPossibleRegion() );
   m_RadiusImage->SetOrigin( inputImage->GetOrigin() );
@@ -162,7 +162,7 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
   // Compute the average radius
   ImageRegionConstIterator< OutputImageType > output_it( outputImage,
     outputImage->GetLargestPossibleRegion() );
-  ImageRegionIterator< OutputImageType > radius_it( m_RadiusImage,
+  ImageRegionIterator< RadiusImageType > radius_it( m_RadiusImage,
     m_RadiusImage->GetLargestPossibleRegion() );
   output_it.GoToBegin();
   radius_it.GoToBegin();
@@ -177,9 +177,9 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
     }
 }
 
-template< typename TInputPixelType, typename TOutputPixelType >
-typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >::CirclesListType &
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >::CirclesListType &
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::GetCircles()
 {
   // Make sure that all the required inputs exist and have a non-null value
@@ -280,18 +280,18 @@ HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
 }
 
 #if !defined(ITK_LEGACY_REMOVE)
-template< typename TInputPixelType, typename TOutputPixelType >
-typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >::CirclesListType &
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
+typename HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >::CirclesListType &
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::GetCircles(unsigned int)
 {
   return this->GetCircles();
 }
 #endif
 
-template< typename TInputPixelType, typename TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType >
 void
-HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType >
+HoughTransform2DCirclesImageFilter< TInputPixelType, TOutputPixelType, TRadiusPixelType >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);

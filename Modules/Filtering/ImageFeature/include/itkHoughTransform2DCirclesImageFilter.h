@@ -45,6 +45,16 @@ namespace itk
  * For a disc to be found, the intensity values within the disc must be higher than
  * the surrounding of the disc.
  *
+ * TOutputPixelType is the pixel type of the accumulator image. An unsigned integer
+ * type (like 'unsigned long') is usually the best choice for this pixel type.
+ *
+ * TRadiusPixelType is the pixel type of the radius image. A floating point type
+ * is recommended, as the estimation of the radius involves floating point
+ * calculations. Usually, 'double' is the best choice for this pixel type.
+ *
+ * By default, TRadiusPixelType = TOutputPixelType, in order to preserve backward
+ * compatibility with ITK <= 4.12.2.
+ *
  * \ingroup ImageFeatureExtraction
  *
  * \ingroup ITKImageFeature
@@ -54,7 +64,7 @@ namespace itk
  * \endwiki
  */
 
-template< typename TInputPixelType, typename TOutputPixelType >
+template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType = TOutputPixelType  >
 class ITK_TEMPLATE_EXPORT HoughTransform2DCirclesImageFilter:
   public ImageToImageFilter< Image< TInputPixelType, 2 >, Image< TOutputPixelType, 2 > >
 {
@@ -75,6 +85,10 @@ public:
   /** Output Image typedefs. */
   typedef Image< TOutputPixelType, 2 >      OutputImageType;
   typedef typename OutputImageType::Pointer OutputImagePointer;
+
+  /** Radius Image typedefs. */
+  typedef Image< TRadiusPixelType, 2 >      RadiusImageType;
+  typedef typename RadiusImageType::Pointer RadiusImagePointer;
 
   /** Image index typedef. */
   typedef typename InputImageType::IndexType IndexType;
@@ -120,7 +134,7 @@ public:
   itkGetConstMacro(Threshold, double);
 
   /** Get the radius image. */
-  itkGetModifiableObjectMacro(RadiusImage, OutputImageType);
+  itkGetModifiableObjectMacro(RadiusImage, RadiusImageType);
 
   /** Set the scale of the derivative function (using DoG). */
   itkSetMacro(SigmaGradient, double);
@@ -193,7 +207,7 @@ private:
   double                m_Threshold;
   double                m_SigmaGradient;
 
-  OutputImagePointer    m_RadiusImage;
+  RadiusImagePointer    m_RadiusImage;
   CirclesListType       m_CirclesList;
   CirclesListSizeType   m_NumberOfCircles;
   float                 m_DiscRadiusRatio;

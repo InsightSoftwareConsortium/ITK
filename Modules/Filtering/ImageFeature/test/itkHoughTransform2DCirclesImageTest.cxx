@@ -112,6 +112,143 @@ namespace
 
     return true;
   }
+
+
+  // Tests that RadiusImage and OutputImage may have different types.
+  // The estimated centers of the found circles should not be affected
+  // by changing the RadiusImage type, but the estimated radii may be
+  // slightly affected.
+  bool Test_RadiusImage_and_OutputImage_may_have_different_types()
+  {
+    typedef unsigned char InputPixelType;
+
+    typedef itk::Image<InputPixelType> InputImageType;
+
+    // Create an image that has at least one circle.
+    const InputImageType::Pointer inputImage = InputImageType::New();
+    const InputImageType::SizeType size = { { 64, 64 } };
+    inputImage->SetRegions(size);
+    inputImage->Allocate();
+    inputImage->FillBuffer(1);
+    const unsigned int center[] = { 32, 32 };
+    const double radius = 8.5;
+    CreateCircle<InputImageType>(inputImage, center, radius);
+
+    typedef unsigned long OutputPixelType;
+
+    // By default, the radius image has the same type as the output image (the accumulator image).
+    // FilterType2 has 'double' as radius pixel type, allowing a slightly more accurate radius estimation.
+    typedef itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType >         FilterType1;
+    typedef itk::HoughTransform2DCirclesImageFilter< InputPixelType, OutputPixelType, double > FilterType2;
+
+    const FilterType1::Pointer filter1 = FilterType1::New();
+    const FilterType2::Pointer filter2 = FilterType2::New();
+
+    filter1->SetInput(inputImage);
+    filter2->SetInput(inputImage);
+    filter1->Update();
+    filter2->Update();
+
+    const FilterType1::RadiusImageType* const radiusImage1 = filter1->GetRadiusImage();
+    const FilterType2::RadiusImageType* const radiusImage2 = filter2->GetRadiusImage();
+
+    if ( (radiusImage1 == ITK_NULLPTR) || (radiusImage2 == ITK_NULLPTR) )
+    {
+      std::cout << "GetRadiusImage() should not return NULL!" << std::endl;
+      return false;
+    }
+
+    // Note that GetBufferPointer() returns a different type for filter2 than for filter1.
+    const OutputPixelType* const radiusBufferPointer1 = radiusImage1->GetBufferPointer();
+    const double* const radiusBufferPointer2 = radiusImage2->GetBufferPointer();
+
+    if ( (radiusBufferPointer1 == ITK_NULLPTR) || (radiusBufferPointer2 == ITK_NULLPTR) )
+    {
+      std::cout << "A GetBufferPointer() call appears to fail!" << std::endl;
+      return false;
+    }
+
+    typedef FilterType1::CirclesListType CirclesListType;
+
+    const CirclesListType& circles1 = filter1->GetCircles();
+    const CirclesListType& circles2 = filter2->GetCircles();
+
+    if ( circles1.empty() || circles2.empty() )
+    {
+      std::cout << "This test was expecting to find a circle!" << std::endl;
+      return false;
+    }
+
+    if ( circles1.size() != circles2.size() )
+    {
+      // The choice of the radius image type should not affect the number of circles found.
+      std::cout << "The size of circles1 and circles2 should be equal, even while the radius image types differ!"
+        << std::endl;
+      return false;
+    }
+
+    typedef FilterType1::CircleType CircleType;
+
+    const CircleType* const circle1 = circles1.front().GetPointer();
+    const CircleType* const circle2 = circles2.front().GetPointer();
+
+    if ( (circle1 == ITK_NULLPTR) || (circle2 == ITK_NULLPTR) )
+    {
+      std::cout << "A Circle pointer appears to be incorrect!" << std::endl;
+      return false;
+    }
+
+    const CircleType::TransformType* const transform1 = circle1->GetObjectToParentTransform();
+    const CircleType::TransformType* const transform2 = circle2->GetObjectToParentTransform();
+
+    if ( (transform1 == ITK_NULLPTR) || (transform2 == ITK_NULLPTR) )
+    {
+      std::cout << "A GetObjectToParentTransform() call appears to be incorrect!" << std::endl;
+      return false;
+    }
+
+    bool success = true;
+
+    const itk::Vector<double, 2>& center1 = transform1->GetOffset();
+    const itk::Vector<double, 2>& center2 = transform2->GetOffset();
+
+    if (center1 != center2)
+    {
+      // The choice of the radius image type should not affect the center estimation.
+      std::cout << "center1 and center2 should be equal, even while the radius image types differ!"
+        << std::endl;
+      success = false;
+    }
+
+    const double radius1 = circle1->GetRadius()[0];
+    const double radius2 = circle2->GetRadius()[0];
+
+    if ( radius2 < radius1 )
+    {
+      // The radius estimation of filter1 was truncated, whereas the radius estimation of filter2 was not,
+      // so radius2 is expected to be greater than or equal to radius1.
+      std::cout << "radius2 (radius image type double) should be >= radius1 (radius image type unsigned long)!"
+        << std::endl;
+      success = false;
+    }
+
+    const double radiusTolerance = 1.0;
+
+    if (!itk::Math::FloatAlmostEqual(radius1, radius, 0, radiusTolerance))
+    {
+      std::cout << "Expected radius: " << radius << ", found radius1 = " << radius1 << std::endl;
+      success = false;
+    }
+
+    if (!itk::Math::FloatAlmostEqual(radius2, radius, 0, radiusTolerance))
+    {
+      std::cout << "Expected radius: " << radius << ", found radius2 = " << radius2 << std::endl;
+      success = false;
+    }
+
+    return success;
+  }
+
 }
 
 int itkHoughTransform2DCirclesImageTest( int, char* [] )
@@ -370,6 +507,7 @@ int itkHoughTransform2DCirclesImageTest( int, char* [] )
 
   success &= Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero();
   success &= Test_GetCircles_should_return_empty_list_when_input_image_is_uniform();
+  success &= Test_RadiusImage_and_OutputImage_may_have_different_types();
 
   if (success)
   {
