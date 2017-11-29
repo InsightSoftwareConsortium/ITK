@@ -32,7 +32,7 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   m_ParameterSet(UseImplementationParameters),
   m_BackgroundValue(NumericTraits< MaskPixelType >::Zero),
   m_NumVoxels(1),
-  m_AccumulatedFrobeniusNorm(1)
+  m_AccumulatedAverageTrace(1)
 {
   /* We require an input, optional mask */
   this->SetNumberOfRequiredInputs( 1 );
@@ -88,10 +88,10 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   ThreadIdType numberOfThreads = this->GetNumberOfThreads();
 
   /* Resize threads */
-  m_AccumulatedFrobeniusNorm.SetSize(numberOfThreads);
+  m_AccumulatedAverageTrace.SetSize(numberOfThreads);
   m_NumVoxels.SetSize(numberOfThreads);
 
-  m_AccumulatedFrobeniusNorm.Fill(NumericTraits< RealType >::ZeroValue());
+  m_AccumulatedAverageTrace.Fill(NumericTraits< RealType >::ZeroValue());
   m_NumVoxels.Fill(NumericTraits< SizeValueType >::ZeroValue());
 }
 
@@ -123,18 +123,18 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
   /* Accumulate over threads */
   SizeValueType numVoxels = NumericTraits< SizeValueType >::ZeroValue();
-  RealType accumulatedFrobeniusNorm = NumericTraits< RealType >::ZeroValue();
+  RealType accumulatedAverageTrace = NumericTraits< RealType >::ZeroValue();
 
   for (unsigned int i = 0; i < numberOfThreads; ++i )
   {
     numVoxels += m_NumVoxels[i];
-    accumulatedFrobeniusNorm += m_AccumulatedFrobeniusNorm[i];
+    accumulatedAverageTrace += m_AccumulatedAverageTrace[i];
   }
 
   /* Do derived measure */
   if (numVoxels > 0) {
-    RealType averageFrobeniusNorm = (RealType)accumulatedFrobeniusNorm / (RealType)numVoxels;
-    gamma = gamma * averageFrobeniusNorm;
+    RealType averageTrace = (RealType)accumulatedAverageTrace / (RealType)numVoxels;
+    gamma = gamma * averageTrace;
   }
 
   /* Assign outputs parameters */
@@ -156,14 +156,14 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   }
 
   /* Determine which function to call */
-  RealType (Self::*normFunction)(InputPixelType);
+  RealType (Self::*traceFunction)(InputPixelType);
   switch(m_ParameterSet)
   {
     case UseImplementationParameters:
-      normFunction = &Self::CalculateNormAccordingToImplementation;
+      traceFunction = &Self::CalculateTraceAccordingToImplementation;
       break;
     case UseJournalParameters:
-      normFunction = &Self::CalculateNormAccordingToJournalArticle;
+      traceFunction = &Self::CalculateTraceAccordingToJournalArticle;
       break;
     default:
       itkExceptionMacro(<< "Have bad parameterset enumeration " << m_ParameterSet);
@@ -172,7 +172,7 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 
   /* Count starts zero */
   SizeValueType numVoxels = NumericTraits< SizeValueType >::ZeroValue();
-  RealType accumulatedFrobeniusNorm = NumericTraits< RealType >::ZeroValue();
+  RealType accumulatedAverageTrace = NumericTraits< RealType >::ZeroValue();
 
   /* Get input pointer */
   InputImagePointer inputPointer = const_cast< TInputImage * >( this->GetInput() );
@@ -195,40 +195,40 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
     {
       numVoxels++;
 
-      /* Compute norm */
-      accumulatedFrobeniusNorm += (this->*normFunction)(inputIt.Get());
+      /* Compute trace */
+      accumulatedAverageTrace += (this->*traceFunction)(inputIt.Get());
     }
     ++inputIt;
     progress.CompletedPixel();
   }
 
   /* Store this thread */
-  m_AccumulatedFrobeniusNorm[threadId] = accumulatedFrobeniusNorm;
+  m_AccumulatedAverageTrace[threadId] = accumulatedAverageTrace;
   m_NumVoxels[threadId] = numVoxels;
 }
 
 template< typename TInputImage, typename TMaskImage >
 typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
 KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::CalculateNormAccordingToImplementation(InputPixelType pixel) {
+::CalculateTraceAccordingToImplementation(InputPixelType pixel) {
   /* Sum of the absolute value of the eigenvalues */
-  RealType norm = 0;
+  RealType trace = 0;
   for( unsigned int i = 0; i < pixel.Length; ++i) {
-    norm += Math::abs(pixel[i]);
+    trace += Math::abs(pixel[i]);
   }
-  return norm;
+  return trace;
 }
 
 template< typename TInputImage, typename TMaskImage >
 typename KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >::RealType
 KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
-::CalculateNormAccordingToJournalArticle(InputPixelType pixel) {
+::CalculateTraceAccordingToJournalArticle(InputPixelType pixel) {
   /* Sum of the eigenvalues */
-  RealType norm = 0;
+  RealType trace = 0;
   for( unsigned int i = 0; i < pixel.Length; ++i) {
-    norm += pixel[i];
+    trace += pixel[i];
   }
-  return norm;
+  return trace;
 }
 
 template< typename TInputImage, typename TMaskImage >
