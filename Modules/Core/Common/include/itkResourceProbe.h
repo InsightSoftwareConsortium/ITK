@@ -130,6 +130,12 @@ public:
   virtual void ExpandedReport(std::ostream & os = std::cout, bool printSystemInfo = true,
                               bool printReportHead = true, bool useTabs = false);
 
+  /** Print Probe Results. */
+  virtual void JSONReport(std::ostream & os = std::cout);
+
+  /** Print Probe Results. */
+  virtual void PrintJSONSystemInformation(std::ostream & os = std::cout);
+
 protected:
   /** Update the Min and Max values with an input value */
   virtual void UpdateMinimumMaximumMeasuredValue(ValueType value);
@@ -139,6 +145,11 @@ protected:
 
   /** Print Probe Results. */
   virtual void PrintExpandedReportHead(std::ostream & os = std::cout, bool useTabs = false);
+
+  /** Prints a varName: varValue pair. */
+  template<typename T>
+  void PrintJSONvar(std::ostream & os, const char* varName, T varValue,
+      unsigned indent = 4, bool comma = true);
 
   /** Get System information */
   virtual void GetSystemInformation();

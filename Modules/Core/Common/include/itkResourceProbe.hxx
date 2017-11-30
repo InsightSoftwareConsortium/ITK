@@ -39,6 +39,7 @@
 #include "itkMultiThreader.h"
 #include "itksys/SystemInformation.hxx"
 #include "itkMath.h"
+#include "itkIsNumber.h"
 
 namespace itk
 {
@@ -290,7 +291,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs )
+::Report(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
   if(printSystemInfo)
     {
@@ -330,7 +331,7 @@ ResourceProbe< ValueType, MeanType >
 template< typename ValueType, typename MeanType >
 void
 ResourceProbe< ValueType, MeanType >
-::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs )
+::ExpandedReport(std::ostream & os, bool printSystemInfo, bool printReportHead, bool useTabs)
 {
   if(printSystemInfo)
     {
@@ -397,6 +398,83 @@ ResourceProbe< ValueType, MeanType >
        << std::left << std::setw( tabwidth    ) << this->GetStandardError();
     }
   os << ss.str() << std::endl;
+}
+
+
+template< typename ValueType, typename MeanType >
+template<typename T>
+void
+ResourceProbe< ValueType, MeanType >
+::PrintJSONvar(std::ostream & os, const char* varName, T varValue,
+    unsigned indent, bool comma)
+{
+  bool varIsNumber = mpl::IsNumber<T>::Value;
+  while (indent > 0)
+    {
+      os << ' ';
+      --indent;
+    }
+  if (varIsNumber) //no quotes around the value
+    {
+    os << '"' << varName << "\": " << varValue;
+    }
+  else //put quotes around the value
+    {
+    os << '"' << varName << "\": \"" << varValue << '"';
+    }
+  if (comma)
+    {
+    os << ',';
+    }
+  os << '\n'; //std::endl has a side-effect of flushing the stream
+}
+
+template< typename ValueType, typename MeanType >
+void
+ResourceProbe< ValueType, MeanType >
+::JSONReport(std::ostream & os)
+{
+  std::stringstream ss;
+
+  ValueType ratioOfMeanToMinimum;
+  if(Math::ExactlyEquals( this->GetMinimum() , 0.0) )
+    {
+    ratioOfMeanToMinimum = NumericTraits<ValueType>::ZeroValue();
+    }
+  else
+    {
+    ratioOfMeanToMinimum = static_cast<ValueType>(this->GetMean())/this->GetMinimum();
+    }
+
+  ValueType ratioOfMaximumToMean;
+  if(Math::ExactlyEquals( this->GetMean() , 0.0) )
+    {
+    ratioOfMaximumToMean = NumericTraits<ValueType>::ZeroValue();
+    }
+  else
+    {
+    ratioOfMaximumToMean = this->GetMaximum()/static_cast<ValueType>(this->GetMean());
+    }
+
+  os << "  {\n";
+  PrintJSONvar(os, "Name", m_NameOfProbe);
+  PrintJSONvar(os, "Type", m_TypeString);
+  PrintJSONvar(os, "Iterations", m_NumberOfIteration);
+  PrintJSONvar(os, "Units", m_UnitString);
+
+  PrintJSONvar(os, "Mean", this->GetMean());
+  PrintJSONvar(os, "Minimum", this->GetMinimum());
+  PrintJSONvar(os, "Maximum", this->GetMaximum());
+  PrintJSONvar(os, "Total", this->GetTotal());
+  PrintJSONvar(os, "StandardDeviation", this->GetStandardDeviation());
+  PrintJSONvar(os, "StandardError", this->GetStandardError());
+
+  PrintJSONvar(os, "TotalDifference", this->GetMaximum() - this->GetMinimum());
+  PrintJSONvar(os, "MeanMinimumDifference", this->GetMean() - this->GetMinimum());
+  PrintJSONvar(os, "MeanMinimumDifferencePercent", ratioOfMeanToMinimum * 100);
+  PrintJSONvar(os, "MaximumMeanDifference", this->GetMaximum() - this->GetMean());
+  PrintJSONvar(os, "MaximumMeanDifferencePercent", ratioOfMaximumToMean * 100, 4, false);
+  os << "  }";
 }
 
 
@@ -490,6 +568,38 @@ ResourceProbe< ValueType, MeanType >
   os << ss.str() << std::endl;
 }
 
+
+template< typename ValueType, typename MeanType >
+void
+ResourceProbe< ValueType, MeanType >
+::PrintJSONSystemInformation(std::ostream & os)
+{
+  os << "{\n";
+  PrintJSONvar(os, "System", m_SystemName);
+
+  os << "    \"Processor\" :{\n";
+  PrintJSONvar(os, "Name", m_ProcessorName, 6);
+  PrintJSONvar(os, "Cache", m_ProcessorCacheSize, 6);
+  PrintJSONvar(os, "Clock", m_ProcessorClockFrequency, 6);
+  PrintJSONvar(os, "Physical CPUs", m_NumberOfPhysicalCPU, 6);
+  PrintJSONvar(os, "Logical CPUs", m_NumberOfLogicalCPU, 6);
+  PrintJSONvar(os, "Virtual Memory Total", m_TotalVirtualMemory, 6);
+  PrintJSONvar(os, "Virtual Memory Available", m_AvailableVirtualMemory, 6);
+  PrintJSONvar(os, "Physical Memory Total", m_TotalPhysicalMemory, 6);
+  PrintJSONvar(os, "Physical Memory Available", m_AvailablePhysicalMemory, 6, false);
+  os << "    },\n";
+
+  os << "    \"OperatingSystem\" :{\n";
+  PrintJSONvar(os, "Name", m_OSName, 6);
+  PrintJSONvar(os, "Release", m_OSRelease, 6);
+  PrintJSONvar(os, "Version", m_OSVersion, 6);
+  PrintJSONvar(os, "Platform", m_OSPlatform, 6);
+  PrintJSONvar(os, "Bitness", (m_Is64Bits ? "64 bit" : "32 bit"), 6, false);
+  os << "    },\n";
+
+  PrintJSONvar(os, "ITKVersion", m_ITKVersion, 4, false);
+  os << "  }";
+}
 
 template< typename ValueType, typename MeanType >
 void

@@ -98,7 +98,7 @@ ResourceProbesCollectorBase< TProbe >
       }
     else
       {
-      probe->second.Report(os, false, false);
+      probe->second.Report(os, false, false, useTabs);
       }
 
     ++probe;
@@ -121,7 +121,6 @@ ResourceProbesCollectorBase< TProbe >
     }
 
   pos->second.Report(os, printSystemInfo, printReportHead, useTabs);
-
 }
 
 
@@ -172,9 +171,67 @@ ResourceProbesCollectorBase< TProbe >
     }
 
   pos->second.ExpandedReport(os, printSystemInfo, printReportHead, useTabs);
-
 }
 
+
+template< typename TProbe >
+void
+ResourceProbesCollectorBase< TProbe >
+::JSONReport(std::ostream & os, bool printSystemInfo)
+{
+  typename MapType::iterator probe = this->m_Probes.begin();
+  typename MapType::const_iterator end = this->m_Probes.end();
+
+  if ( probe == end )
+    {
+    os << "{ \"Status\": \"No probes have been created\" }" << std::endl;
+    return;
+    }
+
+  os << "{\n";
+  if (printSystemInfo)
+    {
+    os << "  \"SystemInformation\": ";
+    probe->second.PrintJSONSystemInformation(os);
+    os << ",\n";
+    }
+  os << "  \"Probes\": [\n";
+  bool firstProbe = true;
+  while ( probe != end )
+    {
+    if(firstProbe)
+      {
+      probe->second.JSONReport(os);
+      firstProbe = false;
+      }
+    else
+      {
+      os << ",\n";
+      probe->second.JSONReport(os);
+      }
+
+    ++probe;
+    }
+  os << "\n  ]\n}" << std::endl;
+}
+
+
+template< typename TProbe >
+void
+ResourceProbesCollectorBase< TProbe >
+::JSONReport(const char *name, std::ostream & os)
+{
+  const IdType tid = name;
+
+  typename MapType::iterator pos = this->m_Probes.find(tid);
+  if ( pos == this->m_Probes.end() )
+    {
+    os << "  { \"ProbeName\": \"" << name << "\", \"Status\": \"Does not exist!\" }" <<std::endl;
+    return;
+    }
+
+  pos->second.JSONReport(os);
+}
 
 template< typename TProbe >
 void

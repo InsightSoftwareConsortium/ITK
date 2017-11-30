@@ -95,6 +95,9 @@ int itkTimeProbeTest2( int, char * [] )
   std::cout << std::endl << "Print an expanded report" << std::endl;
   localTimer.ExpandedReport();
 
+  std::cout << std::endl << "Print a JSON report" << std::endl;
+  localTimer.JSONReport();
+
   // invoke reset
   localTimer.Reset();
 
