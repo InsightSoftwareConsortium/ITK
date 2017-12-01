@@ -18,6 +18,7 @@
 #include "itkImage.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMetaImageIO.h"
 #include "itkLabelGeometryImageFilter.h"
 
 #include "itkCSVArray2DFileReader.h"
@@ -39,6 +40,8 @@ int itkLabelGeometryImageFilterTest( int argc, char * argv[] )
     std::cerr << argv[0] << "labelImage intensityImage outputImage outputFileName [compareFileName]" << std::endl;
     return EXIT_FAILURE;
   }
+  // Legacy compat with older MetaImages
+  itk::MetaImageIO::SetDefaultDoublePrecision(6);
 
   std::string labelImageName  = argv[1];
   std::string intensityImageName = argv[2];

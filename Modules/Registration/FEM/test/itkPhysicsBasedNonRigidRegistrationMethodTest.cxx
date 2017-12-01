@@ -24,6 +24,7 @@
 #include "itkWarpImageFilter.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkImageFileWriter.h"
+#include "itkMetaImageIO.h"
 #include "itkTestingMacros.h"
 
 #include <iostream>
@@ -49,6 +50,8 @@ int itkPhysicsBasedNonRigidRegistrationMethodTest( int argc, char *argv[] )
     std::cerr << std::endl;
     return EXIT_FAILURE;
     }
+  // Legacy compat with older MetaImages
+  itk::MetaImageIO::SetDefaultDoublePrecision(6);
 
   const unsigned int ImageDimension = 3;
 

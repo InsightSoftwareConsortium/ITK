@@ -20,6 +20,7 @@
 #include "itkBruker2dseqImageIOFactory.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMetaImageIO.h"
 #include "itkTestingMacros.h"
 
 int itkBrukerImageTest( int argc, char *argv[] )
@@ -32,6 +33,8 @@ int itkBrukerImageTest( int argc, char *argv[] )
     return EXIT_FAILURE;
     }
 
+  // Legacy compat with older MetaImages
+  itk::MetaImageIO::SetDefaultDoublePrecision(6);
   std::cout << "Running Bruker2DSeq Test" << std::endl;
 
   typedef float                      PixelType;
