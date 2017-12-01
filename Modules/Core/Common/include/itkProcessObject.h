@@ -158,6 +158,9 @@ public:
   /** STL array of data object names */
   typedef std::vector< DataObjectIdentifierType >  NameArray;
 
+  //** Type of general multi-threader interface */
+  typedef MultiThreader MultiThreaderType;
+
   /** \brief Return an array with the names of the inputs defined.
    *
    * The names are ordered lexicographically, and match the order of the
@@ -439,7 +442,7 @@ public:
   itkGetConstReferenceMacro(NumberOfThreads, ThreadIdType);
 
   /** Return the multithreader used by this class. */
-  MultiThreader * GetMultiThreader() const
+  MultiThreaderType * GetMultiThreader() const
   { return m_Threader; }
 
   /** An opportunity to deallocate a ProcessObject's bulk data
@@ -841,8 +844,8 @@ private:
 
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
-  MultiThreader::Pointer m_Threader;
-  ThreadIdType           m_NumberOfThreads;
+  MultiThreaderType::Pointer m_Threader;
+  ThreadIdType               m_NumberOfThreads;
 
   /** Memory management ivars */
   bool m_ReleaseDataBeforeUpdateFlag;
