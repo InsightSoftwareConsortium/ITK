@@ -68,7 +68,7 @@ PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputation
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 PointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::Initialize( void ) throw ( ExceptionObject )
+::Initialize( void )
 {
   if ( !this->m_FixedPointSet )
     {

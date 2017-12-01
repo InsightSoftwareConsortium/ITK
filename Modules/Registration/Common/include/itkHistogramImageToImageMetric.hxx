@@ -81,7 +81,6 @@ HistogramImageToImageMetric< TFixedImage, TMovingImage >
 template< typename TFixedImage, typename TMovingImage >
 void HistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::Initialize()
-throw ( ExceptionObject )
 {
   Superclass::Initialize();
 

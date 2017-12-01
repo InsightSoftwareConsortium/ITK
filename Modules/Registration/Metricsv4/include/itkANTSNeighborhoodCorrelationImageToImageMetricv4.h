@@ -168,7 +168,7 @@ public:
   itkGetMacro(Radius, RadiusType);
   itkGetConstMacro(Radius, RadiusType);
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
+  void Initialize(void) ITK_OVERRIDE;
 
 protected:
   ANTSNeighborhoodCorrelationImageToImageMetricv4();

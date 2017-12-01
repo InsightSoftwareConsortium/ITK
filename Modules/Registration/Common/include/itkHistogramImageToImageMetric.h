@@ -79,7 +79,7 @@ public:
   typedef typename HistogramType::Pointer               HistogramPointer;
 
   /** Initializes the metric. */
-  void Initialize() throw ( ExceptionObject ) ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
   /** Define the transform and thereby the parameter space of the metric
    *   and the space of its derivatives */

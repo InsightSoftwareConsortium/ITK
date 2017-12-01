@@ -140,7 +140,6 @@ template< typename TFixedImage, typename TMovingImage >
 void
 ImageRegistrationMethod< TFixedImage, TMovingImage >
 ::Initialize()
-throw ( ExceptionObject )
 {
   if ( !m_FixedImage )
     {

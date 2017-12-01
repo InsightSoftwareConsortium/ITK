@@ -164,8 +164,7 @@ public:
 
   /** Initialize must be called before the first call of
    Evaluate() to allow the class to validate any inputs. */
-  virtual void Initialize()
-  throw ( ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize() ITK_OVERRIDE;
 
 protected:
   PCAShapeSignedDistanceFunction();

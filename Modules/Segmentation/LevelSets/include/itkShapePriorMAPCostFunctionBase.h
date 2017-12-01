@@ -135,8 +135,7 @@ public:
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */
-  virtual void Initialize(void)
-  throw ( ExceptionObject );
+  virtual void Initialize(void);
 
 protected:
   ShapePriorMAPCostFunctionBase();

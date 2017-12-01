@@ -91,7 +91,7 @@ public:
    * Initialize the metric by making sure that all the components
    *  are present and plugged together correctly.
    */
-  virtual void Initialize( void ) throw ( ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize( void ) ITK_OVERRIDE;
 
   /**
    * Calculates the local metric value for a single point.  The label type

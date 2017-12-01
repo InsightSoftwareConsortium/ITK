@@ -127,7 +127,7 @@ public:
 
   /** Forms the histogram of the training images to prepare to evaluate the */
   /** metric. Must set all parameters first */
-  void Initialize() throw ( ExceptionObject ) ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
 protected:
   /** Constructor is protected to ensure that \c New() function is used to
@@ -137,8 +137,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Form the Histogram for the Training data */
-  void FormTrainingHistogram()
-  throw ( ExceptionObject );
+  void FormTrainingHistogram();
 
   /** Evaluates the mutual information from the histogram. */
   virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;

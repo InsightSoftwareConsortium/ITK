@@ -49,7 +49,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
 template<typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>
-::Initialize( void ) throw ( ExceptionObject )
+::Initialize( void )
 {
   if( !this->m_FixedPointSet->GetPointData() || this->m_FixedPointSet->GetPoints()->Size() != this->m_FixedPointSet->GetPointData()->Size() ||
     !this->m_MovingPointSet->GetPointData() || this->m_MovingPointSet->GetPoints()->Size() != this->m_MovingPointSet->GetPointData()->Size() )

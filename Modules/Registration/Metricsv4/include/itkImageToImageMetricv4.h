@@ -523,7 +523,7 @@ public:
    * before entering the registration loop, during which GetValue or
    * GetDerivative will be called repeatedly. It must be called again if
    * metric settings are changed before beginning a new registration. */
-  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize(void) ITK_OVERRIDE;
 
   virtual MeasureType GetValue() const ITK_OVERRIDE;
 

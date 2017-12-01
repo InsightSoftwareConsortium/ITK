@@ -63,7 +63,7 @@ template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename T
  typename TParametersValueType>
 void
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>
-::Initialize() throw ( ExceptionObject )
+::Initialize()
 {
   if ( !this->m_FixedTransform )
     {

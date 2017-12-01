@@ -70,7 +70,6 @@ template< typename TFeatureImage, typename TOutputPixel >
 void
 ShapePriorMAPCostFunctionBase< TFeatureImage, TOutputPixel >
 ::Initialize(void)
-throw ( ExceptionObject )
 {
   if ( !m_ShapeFunction )
     {

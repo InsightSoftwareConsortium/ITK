@@ -137,7 +137,7 @@ public:
 
   /** Initialize the cost function by making sure that all the components
    *  are present. */
-  virtual void Initialize() throw ( ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize() ITK_OVERRIDE;
 
 protected:
   ShapePriorMAPCostFunction();

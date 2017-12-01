@@ -205,8 +205,7 @@ protected:
   virtual void  GenerateData() ITK_OVERRIDE;
 
   /** Initialize by setting the interconnects between the components. */
-  void Initialize()
-  throw ( ExceptionObject );
+  void Initialize();
 
   ParametersType m_InitialTransformParameters;
   ParametersType m_LastTransformParameters;

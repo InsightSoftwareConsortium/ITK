@@ -50,7 +50,6 @@ template< typename TFixedPointSet, typename TMovingPointSet >
 void
 PointSetToPointSetMetric< TFixedPointSet, TMovingPointSet >
 ::Initialize(void)
-throw ( ExceptionObject )
 {
   if ( !m_Transform )
     {

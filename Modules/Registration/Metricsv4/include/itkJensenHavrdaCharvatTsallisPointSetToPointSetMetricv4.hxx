@@ -50,7 +50,7 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
 template<typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>
-::Initialize( void ) throw ( ExceptionObject )
+::Initialize( void )
 {
   Superclass::Initialize();
 

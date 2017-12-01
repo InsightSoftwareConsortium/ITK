@@ -50,7 +50,7 @@ DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComp
 template < typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits >
 void
 DemonsImageToImageMetricv4<TFixedImage,TMovingImage,TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::Initialize(void) throw ( itk::ExceptionObject )
+::Initialize(void)
 {
   // Make sure user has not set to use both moving and fixed image
   // gradients

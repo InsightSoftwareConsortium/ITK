@@ -388,8 +388,7 @@ public:
    * If the numbers of elements in the means and the sigmas are not equal
    * it will throw an exception. */
   void SetTissueClassStatistics(const Array< double > & means,
-                                const Array< double > & sigmas)
-  throw ( ExceptionObject );
+                                const Array< double > & sigmas);
 
   /** Set/Get the maximum iteration termination condition parameter for the
    * bias field correction. */
@@ -458,8 +457,7 @@ public:
    * intensity values, tissue classes' statistics values and the optimizer's
    * initial radius NOTE: If the tissue class statistics values (mean and
    * sigma values) then it will throw exception. */
-  void Initialize()
-  throw ( ExceptionObject );
+  void Initialize();
 
   /** Optimizes the bias field only using the image data that are in
    * the specified region. */

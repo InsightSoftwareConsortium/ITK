@@ -241,8 +241,7 @@ protected:
       This method is executed at every level of the pyramid with the
       values corresponding to this resolution
    */
-  void Initialize()
-  throw ( ExceptionObject );
+  void Initialize();
 
   /** Compute the size of the fixed region for each level of the pyramid. */
   void PreparePyramids();

@@ -37,7 +37,6 @@ template< typename TFixedImage, typename TMovingImage >
 void
 CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::Initialize()
-throw ( ExceptionObject )
 {
   Superclass::Initialize();
 
@@ -51,7 +50,6 @@ template< typename TFixedImage, typename TMovingImage >
 void
 CompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
 ::FormTrainingHistogram()
-throw ( ExceptionObject )
 {
   // Check to make sure everything is set
   if ( !m_TrainingTransform )

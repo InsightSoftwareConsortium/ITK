@@ -290,7 +290,7 @@ public:
    * Initialize the metric by making sure that all the components
    *  are present and plugged together correctly.
    */
-  virtual void Initialize( void ) throw ( ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize( void ) ITK_OVERRIDE;
 
   virtual bool SupportsArbitraryVirtualDomainSamples( void ) const ITK_OVERRIDE
   {

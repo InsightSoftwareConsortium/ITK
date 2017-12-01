@@ -74,7 +74,7 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualI
 template <typename TFixedImage, typename TMovingImage, typename TVirtualImage, typename TInternalComputationValueType, typename TMetricTraits>
 void
 MattesMutualInformationImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputationValueType, TMetricTraits>
-::Initialize(void) throw ( itk::ExceptionObject )
+::Initialize(void)
 {
   /* Superclass initialization */
   this->Superclass::Initialize();

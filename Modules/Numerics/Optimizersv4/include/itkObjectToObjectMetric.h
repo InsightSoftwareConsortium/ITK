@@ -173,7 +173,7 @@ public:
   /** DisplacementFieldTransform types for working with local-support transforms */
   typedef DisplacementFieldTransform<CoordinateRepresentationType, itkGetStaticConstMacro( MovingDimension ) >  MovingDisplacementFieldTransformType;
 
-  virtual void Initialize(void) throw ( ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize(void) ITK_OVERRIDE;
 
   virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
   virtual NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE;
