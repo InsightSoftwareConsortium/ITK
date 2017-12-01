@@ -58,10 +58,6 @@ namespace itk
  * \ingroup ImageFeatureExtraction
  *
  * \ingroup ITKImageFeature
- *
- * \wiki
- * \wikiexample{Conversions/HoughTransform2DCirclesImageFilter,HoughTransform2DCirclesImageFilter}
- * \endwiki
  */
 
 template< typename TInputPixelType, typename TOutputPixelType, typename TRadiusPixelType = TOutputPixelType  >
