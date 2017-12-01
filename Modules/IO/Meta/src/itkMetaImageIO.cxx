@@ -785,18 +785,17 @@ MetaImageIO
     }
 
   int *        dSize = new int[numberOfDimensions];
-  float *      eSpacing = new float[numberOfDimensions];
+  double *     eSpacing = new double[numberOfDimensions];
   double *     eOrigin = new double[numberOfDimensions];
   for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
     {
     dSize[ii] = this->GetDimensions(ii);
-    eSpacing[ii] = static_cast< float >( this->GetSpacing(ii) );
+    eSpacing[ii] = this->GetSpacing(ii);
     eOrigin[ii] = this->GetOrigin(ii);
     }
 
   m_MetaImage.InitializeEssential( numberOfDimensions, dSize, eSpacing, eType, nChannels,
                                    const_cast< void * >( buffer ) );
-  m_MetaImage.SetDoublePrecision(6);
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
