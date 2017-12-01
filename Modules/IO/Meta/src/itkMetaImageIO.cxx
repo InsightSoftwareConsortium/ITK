@@ -796,6 +796,7 @@ MetaImageIO
 
   m_MetaImage.InitializeEssential( numberOfDimensions, dSize, eSpacing, eType, nChannels,
                                    const_cast< void * >( buffer ) );
+  m_MetaImage.SetDoublePrecision(6);
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
