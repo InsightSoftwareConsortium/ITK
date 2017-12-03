@@ -35,8 +35,8 @@ die() {
   exit 1
 }
 
-u=$(cd "$(echo "$0"|sed 's/[^/]*$//')"; pwd)
-cd "$(git rev-parse --git-dir)"
+u=$(git rev-parse --git-dir)
+cd "$u/hooks"
 
 # We need to have a git repository to do a pull.
 if ! test -d ./.git; then
