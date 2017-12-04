@@ -17,6 +17,7 @@
 #include <string.h> // for memcpy
 #include <stdlib.h> // for atoi
 #include <math.h>
+#include <algorithm> // for std::min & std::max
 
 #if defined (__BORLANDC__) && (__BORLANDC__ >= 0x0580)
 #include <mem.h>
@@ -156,14 +157,13 @@ MetaImage(MetaImage *_im)
   }
 
 //
-MetaImage::
-MetaImage(int _nDims,
+void MetaImage::
+InitHelper(int _nDims,
           const int * _dimSize,
-          const float * _elementSpacing,
+          const double * _elementSpacing,
           MET_ValueEnumType _elementType,
           int _elementNumberOfChannels,
           void *_elementData)
-:MetaObject()
   {
   if(META_DEBUG)
     {
@@ -198,8 +198,44 @@ MetaImage(int _nDims,
 
 //
 MetaImage::
+MetaImage(int _nDims,
+          const int * _dimSize,
+          const float * _elementSpacing,
+          MET_ValueEnumType _elementType,
+          int _elementNumberOfChannels,
+          void *_elementData)
+:MetaObject()
+  {
+  // Only consider at most 10 element of spacing:
+  // See MetaObject::InitializeEssential(_nDims)
+  double tmpElementSpacing[10];
+  int ndims = std::max( std::min( _nDims, 10 ), 0);
+  for( int i = 0; i < ndims; ++i )
+    {
+    tmpElementSpacing[i] = static_cast<double>(_elementSpacing[i]);
+    }
+   InitHelper(_nDims, _dimSize, tmpElementSpacing, _elementType,
+     _elementNumberOfChannels, _elementData);
+  }
+
+//
+MetaImage::
+MetaImage(int _nDims,
+          const int * _dimSize,
+          const double * _elementSpacing,
+          MET_ValueEnumType _elementType,
+          int _elementNumberOfChannels,
+          void *_elementData)
+:MetaObject()
+  {
+  InitHelper(_nDims, _dimSize, _elementSpacing, _elementType,
+    _elementNumberOfChannels, _elementData);
+  }
+
+//
+MetaImage::
 MetaImage(int _x, int _y,
-          float _elementSpacingX, float _elementSpacingY,
+          double _elementSpacingX, double _elementSpacingY,
           MET_ValueEnumType _elementType,
           int _elementNumberOfChannels, void *_elementData)
 :MetaObject()
@@ -218,7 +254,7 @@ MetaImage(int _x, int _y,
   ds[0] = _x;
   ds[1] = _y;
 
-  float es[2];
+  double es[2];
   es[0] = _elementSpacingX;
   es[1] = _elementSpacingY;
 
@@ -247,9 +283,9 @@ MetaImage(int _x, int _y,
 //
 MetaImage::
 MetaImage(int _x, int _y, int _z,
-          float _elementSpacingX,
-          float _elementSpacingY,
-          float _elementSpacingZ,
+          double _elementSpacingX,
+          double _elementSpacingY,
+          double _elementSpacingZ,
           MET_ValueEnumType _elementType,
           int _elementNumberOfChannels,
           void *_elementData)
@@ -270,7 +306,7 @@ MetaImage(int _x, int _y, int _z,
   ds[1] = _y;
   ds[2] = _z;
 
-  float es[3];
+  double es[3];
   es[0] = _elementSpacingX;
   es[1] = _elementSpacingY;
   es[2] = _elementSpacingZ;
@@ -449,10 +485,10 @@ void MetaImage::Clear(void)
 
   m_HeaderSize = 0;
 
-  memset(m_SequenceID, 0, 4*sizeof(float));
+  memset(m_SequenceID, 0, sizeof(m_SequenceID));
 
   m_ElementSizeValid = false;
-  memset(m_ElementSize, 0, 10*sizeof(float));
+  memset(m_ElementSize, 0, sizeof(m_ElementSize));
 
   m_ElementType = MET_NONE;
 
@@ -500,6 +536,27 @@ bool MetaImage::
 InitializeEssential(int _nDims,
                     const int * _dimSize,
                     const float * _elementSpacing,
+                    MET_ValueEnumType _elementType,
+                    int _elementNumberOfChannels,
+                    void * _elementData,
+                    bool _allocElementMemory)
+{
+  // Only consider at most 10 element of spacing:
+  // See MetaObject::InitializeEssential(_nDims)
+  double tmpElementSpacing[10];
+  int ndims = std::max( std::min( _nDims, 10 ), 0);
+  for( int i = 0; i < ndims; ++i )
+    {
+    tmpElementSpacing[i] = static_cast<double>(_elementSpacing[i]);
+    }
+  return InitializeEssential(_nDims, _dimSize, tmpElementSpacing, _elementType,
+    _elementNumberOfChannels, _elementData, _allocElementMemory);
+}
+
+bool MetaImage::
+InitializeEssential(int _nDims,
+                    const int * _dimSize,
+                    const double * _elementSpacing,
                     MET_ValueEnumType _elementType,
                     int _elementNumberOfChannels,
                     void * _elementData,
@@ -683,27 +740,38 @@ ElementSizeValid(bool _elementSizeValid)
   m_ElementSizeValid = _elementSizeValid;
   }
 
-const float * MetaImage::
+const double * MetaImage::
 ElementSize(void) const
   {
   return m_ElementSize;
   }
 
-float MetaImage::
+double MetaImage::
 ElementSize(int _i) const
   {
   return m_ElementSize[_i];
   }
 
 void MetaImage::
-ElementSize(const float *_elementSize)
+ElementSize(const double *_elementSize)
   {
-  memcpy(m_ElementSize, _elementSize, m_NDims*sizeof(float));
+  memcpy(m_ElementSize, _elementSize, m_NDims*sizeof(*m_ElementSize));
   m_ElementSizeValid = true;
   }
 
 void MetaImage::
-ElementSize(int _i, float _value)
+ElementSize(const float *_elementSize)
+  {
+  for(int i = 0; i < m_NDims; ++i)
+    {
+    m_ElementSize[i] = static_cast<double>(_elementSize[i]);
+    }
+  m_ElementSizeValid = true;
+  }
+
+
+void MetaImage::
+ElementSize(int _i, double _value)
   {
   m_ElementSize[_i] = _value;
   m_ElementSizeValid = true;
@@ -2421,7 +2489,7 @@ M_Read(void)
     int i;
     for(i=0; i<m_NDims; i++)
       {
-      m_ElementSize[i] = (float)(mF->value[i]);
+      m_ElementSize[i] = mF->value[i];
       }
     mF = MET_GetFieldRecord("ElementSpacing", &m_Fields);
     if(mF && !mF->defined)
