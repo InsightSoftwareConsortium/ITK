@@ -132,7 +132,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void) throw ( ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize(void) ITK_OVERRIDE;
 
   /** Write gradient images to a files for debugging purposes. */
   void WriteGradientImagesToFiles() const;

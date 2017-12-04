@@ -37,7 +37,7 @@ KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage,
 template< typename TFixedImage, typename TMovingImage >
 void
 KullbackLeiblerCompareHistogramImageToImageMetric< TFixedImage, TMovingImage >
-::Initialize() throw ( ExceptionObject )
+::Initialize()
 {
   Superclass::Initialize();
 }

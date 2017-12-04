@@ -104,7 +104,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
 template<unsigned int TFixedDimension, unsigned int TMovingDimension, typename TVirtualImage, typename TInternalComputationValueType>
 void
 ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TInternalComputationValueType>
-::Initialize() throw ( ExceptionObject )
+::Initialize()
 {
   if( this->GetNumberOfMetrics() == 0 )
     {

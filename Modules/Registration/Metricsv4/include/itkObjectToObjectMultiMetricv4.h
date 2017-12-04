@@ -141,7 +141,7 @@ public:
   /** Get the number of metrics */
   SizeValueType GetNumberOfMetrics() const;
 
-  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
+  void Initialize(void) ITK_OVERRIDE;
 
   /** Set fixed object (image, point set, etc.)*/
   virtual void SetFixedObject( const ObjectType *itkNotUsed( object ) ) ITK_OVERRIDE

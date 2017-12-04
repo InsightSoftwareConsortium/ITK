@@ -73,7 +73,6 @@ template< typename TFixedImage, typename TMovingImage >
 void
 MultiResolutionImageRegistrationMethod< TFixedImage, TMovingImage >
 ::Initialize()
-throw ( ExceptionObject )
 {
   // Sanity checks
   if ( !m_Metric )

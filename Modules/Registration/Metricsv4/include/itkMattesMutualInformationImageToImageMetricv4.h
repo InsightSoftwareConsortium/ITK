@@ -153,7 +153,7 @@ public:
   itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize(void) ITK_OVERRIDE;
 
   /** The marginal PDFs are stored as std::vector. */
   //NOTE:  floating point precision is not as stable.

@@ -105,7 +105,7 @@ public:
   itkStaticConstMacro(MovingImageDimension, ImageDimensionType,
       TMovingImage::ImageDimension);
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize(void) ITK_OVERRIDE;
 
   /** Accessors for the image intensity difference threshold use
    *  in derivative calculation */

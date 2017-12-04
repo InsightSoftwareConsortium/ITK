@@ -149,8 +149,7 @@ public:
   itkGetConstReferenceMacro(LastTransformParameters, ParametersType);
 
   /** Initialize by setting the interconnects between the components. */
-  void Initialize()
-  throw ( ExceptionObject );
+  void Initialize();
 
   /** Returns the transform resulting from the registration process. */
   const TransformOutputType * GetOutput() const;

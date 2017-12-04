@@ -119,7 +119,7 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize( void ) throw ( ExceptionObject ) ITK_OVERRIDE;
+  virtual void Initialize( void ) ITK_OVERRIDE;
 
   /**
    * Set the alpha parameter used to tune the point-set metric from

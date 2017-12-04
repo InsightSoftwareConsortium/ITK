@@ -155,8 +155,7 @@ public:
   virtual unsigned int GetNumberOfParameters( void ) const ITK_OVERRIDE;
 
   /** Initialize the metric */
-  virtual void Initialize(void)
-  throw ( ExceptionObject );
+  virtual void Initialize(void);
 
   /** Get the last transformation parameters visited by
    * the optimizer. This function overload the superclass's one */

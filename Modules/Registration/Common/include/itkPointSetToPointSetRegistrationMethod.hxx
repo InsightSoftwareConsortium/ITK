@@ -54,7 +54,6 @@ template< typename TFixedPointSet, typename TMovingPointSet >
 void
 PointSetToPointSetRegistrationMethod< TFixedPointSet, TMovingPointSet >
 ::Initialize()
-throw ( ExceptionObject )
 {
   if ( !m_FixedPointSet )
     {

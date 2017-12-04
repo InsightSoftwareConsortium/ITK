@@ -103,7 +103,7 @@ public:
    */
   itkGetConstMacro( EvaluationKNeighborhood, unsigned int );
 
-  void Initialize( void ) throw ( ExceptionObject ) ITK_OVERRIDE;
+  void Initialize( void ) ITK_OVERRIDE;
 
   /** Clone method will clone the existing instance of this type,
    *  including its internal member variables. */

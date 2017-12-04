@@ -119,7 +119,6 @@ template< typename TCoordRep, unsigned int VSpaceDimension, typename TImage >
 void
 PCAShapeSignedDistanceFunction< TCoordRep, VSpaceDimension, TImage >
 ::Initialize()
-throw ( ExceptionObject )
 {
   // verify mean image
   if ( !m_MeanImage )

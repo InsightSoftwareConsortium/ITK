@@ -438,7 +438,6 @@ template< typename TInputImage, typename TOutputImage, typename TMaskImage >
 void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::Initialize()
-throw ( ExceptionObject )
 {
   m_InternalInput->SetRegions( this->GetInput()->GetLargestPossibleRegion() );
   m_InternalInput->Allocate();
@@ -829,7 +828,6 @@ void
 MRIBiasFieldCorrectionFilter< TInputImage, TOutputImage, TMaskImage >
 ::SetTissueClassStatistics(const Array< double > & means,
                            const Array< double > & sigmas)
-throw ( ExceptionObject )
 {
   const SizeValueType meanSize = means.Size();
   const SizeValueType sigmaSize = sigmas.Size();

@@ -60,7 +60,6 @@ template< typename TFixedPointSet, typename TMovingImage >
 void
 PointSetToImageMetric< TFixedPointSet, TMovingImage >
 ::Initialize(void)
-throw ( ExceptionObject )
 {
   if ( !m_Transform )
     {

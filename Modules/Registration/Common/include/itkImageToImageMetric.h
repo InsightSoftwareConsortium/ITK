@@ -216,11 +216,10 @@ public:
 
   /** Initialize the Metric by making sure that all the components
    *  are present and plugged together correctly     */
-  virtual void Initialize(void)
-  throw ( ExceptionObject );
+  virtual void Initialize(void);
 
   /** Initialize the components related to supporting multiple threads */
-  virtual void MultiThreadingInitialize(void) throw ( ExceptionObject );
+  virtual void MultiThreadingInitialize(void);
 
   /** Number of spatial samples to used to compute metric
    *   This sets the number of samples.  */

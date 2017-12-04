@@ -52,7 +52,6 @@ template< typename TFixedImage, typename TMovingSpatialObject >
 void
 ImageToSpatialObjectRegistrationMethod< TFixedImage, TMovingSpatialObject >
 ::Initialize()
-throw ( ExceptionObject )
 {
   if ( !m_FixedImage )
     {

@@ -55,7 +55,6 @@ template< typename TFixedImage, typename TMovingSpatialObject >
 void
 ImageToSpatialObjectMetric< TFixedImage, TMovingSpatialObject >
 ::Initialize(void)
-throw ( ExceptionObject )
 {
   if ( !m_Transform )
     {

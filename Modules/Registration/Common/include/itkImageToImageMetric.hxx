@@ -293,7 +293,6 @@ template< typename TFixedImage, typename TMovingImage >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::Initialize(void)
-throw ( ExceptionObject )
 {
   if ( !m_Transform )
     {
@@ -371,7 +370,6 @@ template< typename TFixedImage, typename TMovingImage >
 void
 ImageToImageMetric< TFixedImage, TMovingImage >
 ::MultiThreadingInitialize(void)
-throw ( ExceptionObject )
 {
   this->SetNumberOfThreads(m_NumberOfThreads);
 

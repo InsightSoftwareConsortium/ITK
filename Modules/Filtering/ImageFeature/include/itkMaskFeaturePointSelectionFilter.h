@@ -152,7 +152,7 @@ protected:
    * the execution of the filter. This method must be called after invoking
    * SetNonConnectivity().
    */
-  void ComputeConnectivityOffsets( void ) throw ( ExceptionObject );
+  void ComputeConnectivityOffsets( void );
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaskFeaturePointSelectionFilter);

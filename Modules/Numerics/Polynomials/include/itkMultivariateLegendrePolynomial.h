@@ -141,11 +141,9 @@ public:
    * \warning The number of coefficients provided should
    * match the number returned by GetNumberOfCoefficients()
    * otherwise an exception is thrown.  */
-  void SetCoefficients(const CoefficientArrayType & coef)
-  throw ( CoefficientVectorSizeMismatch );
+  void SetCoefficients(const CoefficientArrayType & coef);
 
-  void SetCoefficients(const ParametersType & coef)
-  throw ( CoefficientVectorSizeMismatch );
+  void SetCoefficients(const ParametersType & coef);
 
   /** \brief Gets Legendre polynomials' coefficients. */
   const CoefficientArrayType & GetCoefficients() const;

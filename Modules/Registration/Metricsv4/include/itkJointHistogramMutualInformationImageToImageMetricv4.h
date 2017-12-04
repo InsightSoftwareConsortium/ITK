@@ -141,7 +141,7 @@ public:
   itkGetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
 
   /** Initialize the metric. Make sure all essential inputs are plugged in. */
-  virtual void Initialize() throw (itk::ExceptionObject) ITK_OVERRIDE;
+  virtual void Initialize() ITK_OVERRIDE;
 
   virtual MeasureType GetValue() const ITK_OVERRIDE;
 

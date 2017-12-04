@@ -123,7 +123,6 @@ void MultivariateLegendrePolynomial
 
 void MultivariateLegendrePolynomial
 ::SetCoefficients(const CoefficientArrayType & coefficients)
-throw ( MultivariateLegendrePolynomial::CoefficientVectorSizeMismatch )
 {
   if ( coefficients.size() != m_NumberOfCoefficients )
     {
@@ -146,7 +145,6 @@ throw ( MultivariateLegendrePolynomial::CoefficientVectorSizeMismatch )
 
 void MultivariateLegendrePolynomial
 ::SetCoefficients(const ParametersType & coefficients)
-throw ( MultivariateLegendrePolynomial::CoefficientVectorSizeMismatch )
 {
   if ( coefficients.size() != m_NumberOfCoefficients )
     {

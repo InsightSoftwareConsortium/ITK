@@ -176,8 +176,7 @@ public:
   itkSetMacro(FixedImageRegionDefined, bool);
 
   /** Initialize by setting the interconnects between the components. */
-  virtual void Initialize()
-  throw ( ExceptionObject );
+  virtual void Initialize();
 
   /** Returns the transform resulting from the registration process  */
   const TransformOutputType * GetOutput() const;

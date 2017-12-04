@@ -167,7 +167,7 @@ protected:
   /** Generate temporary containers to be used by individual threads exclusively */
   virtual void BeforeThreadedGenerateData();
 
-  virtual void ThreadedGenerateData( ThreadIdType threadId ) throw ( ExceptionObject );
+  virtual void ThreadedGenerateData( ThreadIdType threadId );
 
   /** Compose pieces computed by each thread into a single output */
   virtual void AfterThreadedGenerateData();
