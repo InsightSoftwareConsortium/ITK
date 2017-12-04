@@ -404,12 +404,21 @@ _ITKCommonPython_GetGlobalTimeStamp_PROTO
 {
   return itk::TimeStamp::GetGlobalTimeStamp();
 }
+
+static
+_ITKCommonPython_GetObjectFactoryBase_RETURN
+_ITKCommonPython_GetObjectFactoryBase
+_ITKCommonPython_GetObjectFactoryBase_PROTO
+{
+  return itk::ObjectFactoryBase::GetObjectFactoryBase();
+}
 ")
       set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
   static void * _ITKCommonPython_API[_ITKCommonPython_API_pointers];
 
   /* Initialize the C API pointer array */
   _ITKCommonPython_API[_ITKCommonPython_GetGlobalTimeStamp_NUM] = (void *)_ITKCommonPython_GetGlobalTimeStamp;
+  _ITKCommonPython_API[_ITKCommonPython_GetObjectFactoryBase_NUM] = (void *)_ITKCommonPython_GetObjectFactoryBase;
 
   /* Create a Capsule containing the API pointer array's address */
   PyObject * cAPIObject = PyCapsule_New((void *)_ITKCommonPython_API,
@@ -434,6 +443,7 @@ _ITKCommonPython_GetGlobalTimeStamp_PROTO
 #endif
     }
   itk::TimeStamp::SetGlobalTimeStamp( _ITKCommonPython_GetGlobalTimeStamp() );
+  itk::ObjectFactoryBase::SynchronizeObjectFactoryBase( _ITKCommonPython_GetObjectFactoryBase() );
 ")
     endif()
   endif()
