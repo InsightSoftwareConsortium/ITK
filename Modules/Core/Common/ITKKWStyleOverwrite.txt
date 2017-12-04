@@ -21,3 +21,4 @@ itkSmartPointerForwardReferenceProcessObject\.cxx Namespace Disable
 itkSparseImageTest\.cxx InternalVariables Disable
 itkImageToImageFilter.\h InternalVariables Disable
 itkTimeStamp\.cxx Namespace Disable
+itkObjectFactoryBase\.cxx Namespace Disable
