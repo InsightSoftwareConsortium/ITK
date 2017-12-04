@@ -207,14 +207,9 @@ endmacro()
 # Factory registration
 #-----------------------------------------------------------------------------
 foreach(_factory_name ${ITK_FACTORY_LIST})
-  set(Factory_${_factory_name}_formats ${ITK_${_factory_name}} CACHE STRING "List of formats to register to ${_factory_name}")
-  mark_as_advanced(Factory_${_factory_name}_formats)
-endforeach()
-
-foreach(_factory_name ${ITK_FACTORY_LIST})
   string(TOUPPER ${_factory_name} factory_uc)
   string(TOLOWER ${_factory_name} factory_lc)
-  foreach(_format ${Factory_${_factory_name}_formats})
+  foreach(_format ${ITK_${_factory_name}})
     set(Module )
     foreach(_module ${ITK_FACTORY_NAMES})
       string(REGEX MATCH "^.*::${_factory_name}::${_format}$" Module_Matched "${_module}")
