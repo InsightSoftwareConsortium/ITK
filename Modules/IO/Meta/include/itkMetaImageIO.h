@@ -150,6 +150,19 @@ public:
   itkSetMacro(SubSamplingFactor, unsigned int);
   itkGetConstMacro(SubSamplingFactor, unsigned int);
 
+  /**
+   * Set the default precision when writing out the MetaImage header.
+   * MetaImage header contains values stored in memory as double,
+   * use this precision when writing out the value. The precision
+   * should only be defined in the range [0, 17] since a value of 17
+   * will make the conversion of a double floating-point to text and
+   * back exact.
+   * This function is not thread safe.
+   * \default value is 17
+   */
+  static void SetDefaultDoublePrecision(unsigned int precision);
+  static unsigned int GetDefaultDoublePrecision();
+
 protected:
   MetaImageIO();
   ~MetaImageIO() ITK_OVERRIDE;
@@ -162,6 +175,8 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MetaImageIO);
 
   unsigned int m_SubSamplingFactor;
+
+  static unsigned int m_DefaultDoublePrecision;
 };
 } // end namespace itk
 

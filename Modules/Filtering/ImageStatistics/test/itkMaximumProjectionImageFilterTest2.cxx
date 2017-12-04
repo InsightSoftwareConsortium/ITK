@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkMetaImageIO.h"
 #include "itkSimpleFilterWatcher.h"
 
 #include "itkMaximumProjectionImageFilter.h"
@@ -32,6 +33,8 @@ int itkMaximumProjectionImageFilterTest2(int argc, char * argv[])
     return EXIT_FAILURE;
     }
 
+  // Legacy compat with older MetaImages
+  itk::MetaImageIO::SetDefaultDoublePrecision(6);
   int dim = atoi(argv[1]);
 
   typedef unsigned char PixelType;

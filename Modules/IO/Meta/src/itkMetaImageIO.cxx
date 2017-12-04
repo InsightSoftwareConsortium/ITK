@@ -25,6 +25,10 @@
 
 namespace itk
 {
+// Explicitly set std::numeric_limits<double>::max_digits10 this will provide
+// better accuracy when writing out floating point number in MetaImage header.
+unsigned int MetaImageIO::m_DefaultDoublePrecision = 17;
+
 MetaImageIO::MetaImageIO()
 {
   m_FileType = Binary;
@@ -43,6 +47,8 @@ MetaImageIO::MetaImageIO()
 
   this->AddSupportedReadExtension(".mha");
   this->AddSupportedReadExtension(".mhd");
+  // set behavior of MetaImageIO independently of the default value in MetaImage
+  this->SetDoublePrecision(GetDefaultDoublePrecision());
 }
 
 MetaImageIO::~MetaImageIO()
@@ -785,18 +791,17 @@ MetaImageIO
     }
 
   int *        dSize = new int[numberOfDimensions];
-  float *      eSpacing = new float[numberOfDimensions];
+  double *     eSpacing = new double[numberOfDimensions];
   double *     eOrigin = new double[numberOfDimensions];
   for ( unsigned int ii = 0; ii < numberOfDimensions; ++ii )
     {
     dSize[ii] = this->GetDimensions(ii);
-    eSpacing[ii] = static_cast< float >( this->GetSpacing(ii) );
+    eSpacing[ii] = this->GetSpacing(ii);
     eOrigin[ii] = this->GetOrigin(ii);
     }
 
   m_MetaImage.InitializeEssential( numberOfDimensions, dSize, eSpacing, eType, nChannels,
                                    const_cast< void * >( buffer ) );
-  m_MetaImage.SetDoublePrecision(6);
   m_MetaImage.Position(eOrigin);
   m_MetaImage.BinaryData(binaryData);
 
@@ -1291,4 +1296,15 @@ MetaImageIO::GetSplitRegionForWriting( unsigned int ithPiece,
 {
   return GetSplitRegionForWritingCanStreamWrite(ithPiece, numberOfActualSplits, pasteRegion);
 }
+
+void MetaImageIO::SetDefaultDoublePrecision(unsigned int precision)
+{
+  m_DefaultDoublePrecision = precision;
+}
+
+unsigned int MetaImageIO::GetDefaultDoublePrecision()
+{
+  return m_DefaultDoublePrecision;
+}
+
 } // end namespace itk
