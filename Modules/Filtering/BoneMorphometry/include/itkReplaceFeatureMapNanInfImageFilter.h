@@ -27,6 +27,7 @@
 #include <itkMinimumMaximumImageFilter.h>
 #include <itkMaskImageFilter.h>
 #include <itkComposeImageFilter.h>
+#include <itkMath.h>
 
 #include <vector>
 
