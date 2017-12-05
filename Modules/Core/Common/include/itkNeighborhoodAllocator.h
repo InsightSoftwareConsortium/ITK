@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef itkNeighborhoodAllocator_h
 #define itkNeighborhoodAllocator_h
+#include <algorithm>
 #include <iostream>
 #include "itkMacro.h"
 
@@ -73,14 +74,11 @@ public:
   }
 
   /** Copy constructor. */
-  NeighborhoodAllocator(const Self & other):m_ElementCount(0), m_Data(0)
+  NeighborhoodAllocator(const Self & other):
+    m_ElementCount(other.m_ElementCount),
+    m_Data(new TPixel[other.m_ElementCount])
   {
-    this->set_size(other.m_ElementCount);
-    for ( unsigned int i = 0; i < other.m_ElementCount; ++i )
-      {
-      this->operator[](i) = other[i];
-      }
-    m_ElementCount = other.m_ElementCount;
+    std::copy(other.m_Data, other.m_Data + m_ElementCount, m_Data);
   }
 
   /** Assignment operator. */
@@ -89,12 +87,8 @@ public:
     if(this != &other)
       {
       this->set_size(other.m_ElementCount);
-      for ( unsigned int i = 0; i < other.m_ElementCount; ++i )
-        {
-        this->operator[](i) = other[i];
-        }
-      m_ElementCount = other.m_ElementCount;
-      }
+      std::copy(other.m_Data, other.m_Data + m_ElementCount, m_Data);
+    }
     return *this;
   }
 
@@ -131,8 +125,11 @@ public:
   /** Allocates or Reallocates a buffer of size n */
   void set_size(unsigned int n)
   {
-    if ( m_Data ) { Deallocate(); }
-    this->Allocate(n);
+    if (n != m_ElementCount)
+      {
+      if ( m_Data ) { Deallocate(); }
+      this->Allocate(n);
+      }
   }
 
 protected:
