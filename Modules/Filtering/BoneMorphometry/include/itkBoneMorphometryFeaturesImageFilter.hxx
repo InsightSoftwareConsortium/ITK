@@ -121,6 +121,12 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Threa
       // Iteration over the all neighborhood region
       for (NeighborIndexType nb = 0; nb < inputNIt.Size(); ++nb)
       {
+        tempOffset = inputNIt.GetOffset(nb);
+        if (!this->IsInsideNeighborhood(tempOffset))
+        {
+          continue;
+        }
+
         if (maskPointer && maskPointer->GetPixel(inputNIt.GetIndex(nb)) == 0)
         {
           continue;
@@ -128,7 +134,6 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::Threa
 
         ++numVoxels;
         inputNIt.GetPixel(nb);
-        tempOffset = inputNIt.GetOffset(nb);
         if (inputNIt.GetPixel(tempOffset) >= m_Threshold)
         {
           ++numBoneVoxels;
