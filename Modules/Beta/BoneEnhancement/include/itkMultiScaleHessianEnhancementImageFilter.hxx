@@ -45,6 +45,29 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
 template< typename TInputImage, typename TOutputImage >
 void
 MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
+::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+  if ( this->GetInput() )
+  {
+  typename TInputImage::Pointer image =
+    const_cast< TInputImage * >( this->GetInput() );
+  image->SetRequestedRegionToLargestPossibleRegion();
+  }
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
+::EnlargeOutputRequestedRegion(DataObject *data)
+{
+  Superclass::EnlargeOutputRequestedRegion(data);
+  data->SetRequestedRegionToLargestPossibleRegion();
+}
+
+template< typename TInputImage, typename TOutputImage >
+void
+MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
 ::GenerateData()
 {
   /* Test all inputs are set */
@@ -88,9 +111,9 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   float perFilterProccessPercentage = 1.0 / numberOfFiltersToProcess;
   itkDebugMacro(<< "each filter accounts for " << perFilterProccessPercentage*100.0 << "% of processing");
 
-  progress->RegisterInternalFilter(m_HessianFilter, perFilterProccessPercentage);
-  progress->RegisterInternalFilter(m_EigenAnalysisFilter, perFilterProccessPercentage);
-  progress->RegisterInternalFilter(m_EigenToScalarImageFilter, perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_HessianFilter, 3*perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenAnalysisFilter, 3*perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenToScalarImageFilter, 3*perFilterProccessPercentage);
 
   /* Check if we need to run the MaximumAbsoluteValueFilter at all */ 
   if (m_SigmaArray.GetSize() > 1)
