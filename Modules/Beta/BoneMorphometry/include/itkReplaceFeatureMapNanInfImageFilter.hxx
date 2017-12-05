@@ -52,7 +52,7 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
 
      while( !interIt.IsAtEnd() )
      {
-       if(!std::isnan(interIt.Get()) && !std::isinf(interIt.Get()))
+       if(!Math::isnan(interIt.Get()) && !Math::isinf(interIt.Get()))
        {
          if(interIt.Get() < min) min = interIt.Get();
          if(interIt.Get() > max) max = interIt.Get();
@@ -63,7 +63,7 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
     TImage* outputPtr = this->GetOutput();
     outputPtr->SetRegions( this->GetInput()->GetLargestPossibleRegion());
     outputPtr->Allocate();
-    typedef itk::ImageRegionIterator< TImage > IteratorType;
+    typedef ImageRegionIterator< TImage > IteratorType;
     IteratorType outputIt( outputPtr, outputPtr->GetLargestPossibleRegion() );
     outputIt.GoToBegin();
     interIt.GoToBegin();
@@ -72,7 +72,7 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
     while( !interIt.IsAtEnd() )
     {
       pixel = outputIt.Get();
-      if(std::isnan(interIt.Get()))
+      if(Math::isnan(interIt.Get()))
       {
         if(i == 4)
         {
@@ -83,7 +83,7 @@ ReplaceFeatureMapNanInfImageFilter<TImage>
           pixel[i] = min;
         }
       }
-      else if (std::isinf(interIt.Get()))
+      else if (Math::isinf(interIt.Get()))
       {
         if(i == 4)
         {
