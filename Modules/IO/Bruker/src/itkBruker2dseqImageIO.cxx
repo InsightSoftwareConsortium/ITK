@@ -65,27 +65,33 @@ Rescale(T *buffer, const std::vector<double> &slopes, const std::vector<double> 
 // Internal function to swap slices and volumes
 template< typename T >
 void
-SwapSlicesAndVolumes(T *buffer, const int sx, const int sy, const int sz, const int sv)
+SwapSlicesAndVolumes(T *buffer, const int sizeX, const int sizeY, const int sizeZ,
+                     const int sizeToSwap, const int sizeNoSwap)
 {
-  const int ss = sx*sy;
-  std::vector<T> tempBuffer(ss*sz*sv);
+  const int szSlice = sizeX*sizeY;
+  std::vector<T> tempBuffer(szSlice*sizeZ*sizeToSwap*sizeNoSwap);
   T *toPixel = &(tempBuffer[0]);
-  T *fromVol = buffer;
-  for (int v = 0; v < sv; ++v)
+  T *fromNoSwapVol = buffer;
+  for (int n = 0; n < sizeNoSwap; ++n)
     {
-    T *fromSlice = fromVol;
-    for (int z = 0; z < sz; ++z)
+    T *fromSwapVol = fromNoSwapVol;
+    for (int v = 0; v < sizeToSwap; ++v)
       {
-      T *fromPixel = fromSlice;
-      for (int p = 0; p < ss; ++p)
+      T *fromSlice = fromSwapVol;
+      for (int z = 0; z < sizeZ; ++z)
         {
-        *toPixel = *fromPixel;
-        toPixel++;
-        fromPixel++;
+        T *fromPixel = fromSlice;
+        for (int p = 0; p < szSlice; ++p)
+          {
+          *toPixel = *fromPixel;
+          toPixel++;
+          fromPixel++;
+          }
+        fromSlice += sizeToSwap * szSlice;
         }
-      fromSlice += sv * ss;
+      fromSwapVol += szSlice;
       }
-    fromVol += ss;
+    fromNoSwapVol += szSlice*sizeZ*sizeToSwap;
     }
 
   // Now copy back to buffer
@@ -99,12 +105,12 @@ SwapSlicesAndVolumes(T *buffer, const int sx, const int sy, const int sz, const 
 // Internal function to reverse slice order
 template< typename T >
 void
-ReverseSliceOrder(T *buffer, const int sx, const int sy, const int sz, const int sv)
+ReverseSliceOrder(T *buffer, const int sizeX, const int sizeY, const int sz, const int sizeToSwap)
 {
-  const int ss = sx*sy;
+  const int ss = sizeX*sizeY;
   T *fromVol = buffer;
   T temp;
-  for (int v = 0; v < sv; ++v)
+  for (int v = 0; v < sizeToSwap; ++v)
     {
     T *fromSlice = fromVol;
     T *toSlice = fromVol + (ss*(sz-1));
@@ -192,110 +198,111 @@ void ReadJCAMPDX(const std::string &filename, MetaDataDictionary &dict)
       // Then process all lines together and look for strings or numbers
       par.clear();
       std::string lines;
-      std::vector<std::string> stringValues;
-      std::vector<double> doubleValues;
       while (paramsStream.peek() != '#' && paramsStream.peek() != '$')
         {
         std::getline(paramsStream, line);
         lines.append(line);
         }
 
-        // Check for and deal with strings surrounded by <>
-        std::string::size_type lb = 0, rb = 0;
-        lb = lines.find('<');
-        if (lb != std::string::npos)
+      std::string::size_type leftBracket = lines.find('(');
+      if (leftBracket == std::string::npos)
+        {
+        // Now check for array of strings marked with <>
+        std::string::size_type left = lines.find('<');
+        if (left != std::string::npos)
           {
-          // We are dealing with strings
-          while (lb != std::string::npos)
+          std::vector<std::string> stringArray;
+          while(left != std::string::npos)
             {
-            rb = lines.find('>', lb);
-            stringValues.push_back(lines.substr(lb + 1, rb - lb - 1));
-            lb = lines.find('<', rb);
+            std::string::size_type right = lines.find('>', left + 1);
+            stringArray.push_back(lines.substr(left + 1, right - (left + 1)));
+            left = lines.find('<', right + 1);
             }
-
-          EncapsulateMetaData(dict, parname, stringValues);
+          EncapsulateMetaData(dict, parname, stringArray);
           }
         else
           {
-          double dblValue;
-          std::istringstream lineStream(lines);
-          if (lineStream.peek() == '(')
+          // An array of numbers
+          std::stringstream lineStream(lines);
+          double doubleValue;
+          std::vector<double> doubleArray;
+          while (lineStream >> doubleValue)
             {
-            // Array of arrays
-            std::vector<std::vector<double> > doubleValuesArray;
-            lb = lines.find('(');
-            while (lb != std::string::npos)
+            doubleArray.push_back(doubleValue);
+            if (lineStream.peek() == ',')
               {
-              rb = line.find(')', lb);
-              std::string stringArray(line.substr(lb + 1, rb - lb - 1));
-              std::istringstream streamArray(stringArray);
-              doubleValues.clear();
-
-              while (streamArray >> dblValue)
-                {
-                doubleValues.push_back(dblValue);
-                if (streamArray && (streamArray.peek() == ','))
-                  {
-                  // Ignore commas
-                  streamArray.ignore();
-                  }
-                }
-
-              doubleValuesArray.push_back(doubleValues);
-              lb = line.find('(', rb);
+              // Ignore commas
+              lineStream.ignore();
               }
-            EncapsulateMetaData(dict, parname, doubleValuesArray);
+            }
+          EncapsulateMetaData(dict, parname, doubleArray);
+          }
+        }
+      else
+        {
+        // An array of arrays
+        std::string::size_type rightBracket = lines.find(')', leftBracket);
+
+        if (lines.find('<') != std::string::npos)
+          {
+          // Array of array of strings (and maybe doubles, but let's keep it sane)
+          std::vector<std::vector<std::string> > stringArrayArray;
+          while (leftBracket != std::string::npos)
+            {
+            std::string::size_type stringStart = leftBracket + 1;
+            std::string::size_type stringEnd = lines.find(',', stringStart);
+            std::vector<std::string> stringArray;
+            while (stringStart < rightBracket)
+              {
+              stringArray.push_back(lines.substr(stringStart, stringEnd - stringStart));
+              stringStart = stringEnd + 2; // Eat comma + space character
+              stringEnd = lines.find(',', stringStart + 1);
+              if (stringEnd > rightBracket)
+                {
+                stringEnd = rightBracket;
+                }
+              }
+            stringArrayArray.push_back(stringArray);
+            leftBracket = lines.find('(', rightBracket);
+            rightBracket = lines.find(')', leftBracket);
+            }
+          EncapsulateMetaData(dict, parname, stringArrayArray);
           }
         else
           {
-          lineStream >> dblValue;
-          if (lineStream.fail())
+          // Array of array of numbers
+          std::vector<std::vector<double> > doubleArrayArray;
+          while (leftBracket != std::string::npos)
             {
-            // It wasn't a number. Try strings
-            std::string strValue;
-            lineStream.clear();
-            lineStream.unget();
-            while (lineStream >> strValue)
+            std::istringstream arrayStream(lines.substr(leftBracket, rightBracket - leftBracket));
+            std::vector<double> doubleArray;
+            double doubleValue;
+            while (arrayStream >> doubleValue)
               {
-              stringValues.push_back(strValue);
-              }
-
-            EncapsulateMetaData(dict, parname, stringValues);
-            }
-          else
-            {
-            doubleValues.push_back(dblValue);
-            while (lineStream >> dblValue)
-              {
-              doubleValues.push_back(dblValue);
-              if (lineStream.peek() == ',')
+              doubleArray.push_back(doubleValue);
+              if (arrayStream && (arrayStream.peek() == ','))
                 {
-                // Ignore commas
-                lineStream.ignore();
+                // Ignore commas. Some arrays have them, others don't
+                arrayStream.ignore();
                 }
               }
-
-              EncapsulateMetaData(dict, parname, doubleValues);
+            doubleArrayArray.push_back(doubleArray);
+            leftBracket = lines.find('(', rightBracket);
+            rightBracket = lines.find(')', leftBracket);
             }
+          EncapsulateMetaData(dict, parname, doubleArrayArray);
           }
         }
       }
-    else if (par[0] == '<')
-      {
-      // Definitely a string value
-      std::string::size_type lb = par.find('<');
-      std::string::size_type rb = par.find('>');
-      EncapsulateMetaData(dict, parname, line.substr(lb + 1, rb - lb - 1));
-      }
     else
       {
-      // Try to convert to a number, otherwise it's actually a string
+      // A single value
       std::istringstream streamPar(par);
       double value;
       streamPar >> value;
       if (streamPar.fail())
         {
-        // Didn't read a valid number
+        // Didn't read a valid number, so it's a string
         EncapsulateMetaData(dict, parname, par);
         }
       else
@@ -569,45 +576,57 @@ void Bruker2dseqImageIO::Read(void *buffer)
   //
   if (frameDim == 2 && dict.HasKey("VisuFGOrderDesc") )
     {
-    std::vector<std::string> orderDescription = GetParameter<std::vector<std::string> >(dict, "VisuFGOrderDesc");
-    if (orderDescription[0] != "FG_CYCLE"
-      && orderDescription[0] != "FG_SLICE")
+    size_t sizeToSwap = 1;
+    std::vector<std::vector<std::string> > orderDescription = GetParameter<std::vector<std::vector<std::string> > >(dict, "VisuFGOrderDesc");
+    for (size_t i = 0; i < orderDescription.size(); i++)
+      {
+      // Anything before the SLICE order needs to be re-ordered
+      if (orderDescription[i][1] == "<FG_SLICE>")
+        {
+        break;
+        }
+      else
+        {
+        sizeToSwap *= atoi(orderDescription[i][0].c_str());
+        }
+      }
+    if (sizeToSwap > 1)
       {
       const SizeValueType x = this->GetDimensions(0);
       const SizeValueType y = this->GetDimensions(1);
       const SizeValueType z = this->GetDimensions(2);
-      const SizeValueType v = (this->GetNumberOfDimensions() > 3) ? this->GetDimensions(3) : 1;
+      const SizeValueType noswap = this->GetDimensions(3) / sizeToSwap;
       switch ( this->m_ComponentType )
         {
         case CHAR:
-          SwapSlicesAndVolumes(static_cast<char *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<char *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case UCHAR:
-          SwapSlicesAndVolumes(static_cast<unsigned char *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<unsigned char *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case SHORT:
-          SwapSlicesAndVolumes(static_cast<short *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<short *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case USHORT:
-          SwapSlicesAndVolumes(static_cast<unsigned short *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<unsigned short *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case INT:
-          SwapSlicesAndVolumes(static_cast<int *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<int *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case UINT:
-          SwapSlicesAndVolumes(static_cast<unsigned int *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<unsigned int *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case LONG:
-          SwapSlicesAndVolumes(static_cast<long *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<long *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case ULONG:
-          SwapSlicesAndVolumes(static_cast<unsigned long *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<unsigned long *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case FLOAT:
-          SwapSlicesAndVolumes(static_cast<float *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<float *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         case DOUBLE:
-          SwapSlicesAndVolumes(static_cast<double *>(buffer), x, y, z, v);
+          SwapSlicesAndVolumes(static_cast<double *>(buffer), x, y, z, sizeToSwap, noswap);
           break;
         default:
           itkExceptionMacro("Datatype not supported: " << this->GetComponentTypeAsString(this->m_ComponentType));
@@ -772,26 +791,77 @@ void Bruker2dseqImageIO::ReadImageInformation()
   else
     {
     const std::vector<double> position = GetParameter<std::vector<double> >(dict, "VisuCorePosition");
+    // Bruker 'origin' is corner of slice/volume. Needs shifting by half-voxel to be ITK origin
+    // But for 2D images, the slice position is correct (center of slice)
+    vnl_vector<double> halfStep(3);
+    halfStep[0] = FoV[0] / (2*size[0]);
+    halfStep[1] = FoV[1] / (2*size[1]);
     int sizeZ = 1;
     int sizeT = 1;
     double spacingZ = 1;
+    double reverseZ = 1;
     if (brukerDim == 2)
       {
-      const std::vector<std::vector<double> > slicePacks = GetParameter<std::vector<std::vector<double> > >(dict, "VisuCoreSlicePacksSlices");
-      const double thickness = GetParameter<std::vector<double> >(dict, "VisuCoreSlicePacksSliceDist")[0];
-      spacingZ = thickness;
-      for (unsigned int i = 0; i < slicePacks.size(); ++i)
-        {
-        // 1st element of slice pack is index, 2nd is size
-        sizeZ = sizeZ * slicePacks[i][1];
+      // The obvious way to get number of slices is sum of SlicePacksSlices - but single-slice images do not store this!
+      // The easiest way is divide the length of Position by 3 (3 co-ordinates per slice position)
+      sizeZ = position.size() / 3;
+      if (sizeZ == 1)
+        { // Special case for single-slice, because that doesn't store SliceDist
+        spacingZ = GetParameter<std::vector<double> >(dict, "VisuCoreFrameThickness")[0];
         }
-      sizeT = frames / sizeZ; // Each slice is a 'frame'
+      else
+        {
+        // FrameThickness does not include slice gap
+        // You would think that we could use the SliceDist field for multi-slice, but ParaVision
+        // has a bug that sometimes sets SliceDist to 0
+        // So - calculate this manually from the SlicePosition field
+        vnl_vector<double> slice1(&position[0], 3);
+        vnl_vector<double> slice2(&position[3], 3);
+        vnl_vector<double> diff = slice2 - slice1;
+        spacingZ = diff.magnitude();
+        }
+      if (dict.HasKey("VisuFGOrderDesc"))
+        {
+        // Find the FG_CYCLE field
+        std::vector<std::vector<std::string> > orderDescription = GetParameter<std::vector<std::vector<std::string> > >(dict, "VisuFGOrderDesc");
+        sizeT = 1;
+        for (size_t i = 0; i < orderDescription.size(); i++)
+          {
+          // Anything dimension that isn't a slice needs to be collapsed into the 4th dimension
+          if (orderDescription[i][1] != "<FG_SLICE>")
+            {
+            sizeT *= atoi(orderDescription[i][0].c_str());
+            }
+          }
+        }
+      else
+        {
+        itkGenericExceptionMacro("Could not find order description field");
+        }
+      halfStep[2] = 0; // Slice position will be correct
+
+      if (sizeZ > 1)
+        { // There appears to be a bug in 2dseq orientations for Coronal 2D slices.
+          // This code checks if we have coronal slices and reverses the Z-direction
+          // further down, which makes the images appear correct in FSL View.
+          // The acquisition orientation is not stored in visu_pars so work out if
+          // this is coronal by checking if the Y component of the slice positions is
+          // changing.
+        vnl_vector<double> corner1(&position[0], 3);
+        vnl_vector<double> corner2(&position[3], 3);
+        vnl_vector<double> diff = corner2 - corner1;
+        if (diff[1] != 0)
+          {
+          reverseZ = -1;
+          }
+        }
       }
     else
       {
       sizeZ = size[2];
       spacingZ = FoV[2] / sizeZ;
       sizeT = frames; // Each volume is a 'frame'
+      halfStep[2] = FoV[2] / (2*size[2]);
       }
 
     if (sizeT > 1)
@@ -814,27 +884,35 @@ void Bruker2dseqImageIO::ReadImageInformation()
     // It is possible for every slice to have a different orientation,
     // but ITK doesn't support this so concatenate all slices as if they
     // had the same orientation
-    //
     const std::vector<double> orient = GetParameter<std::vector<double> >(dict, "VisuCoreOrientation");
-    std::vector<double> dirX(orient.begin(), orient.begin() + 3);
-    std::vector<double> dirY(orient.begin() + 3, orient.begin() + 6);
-    std::vector<double> dirZ(orient.begin() + 6, orient.begin() + 9);
 
+    // The Bruker orient field is scanner-to-image. ITK is image-to-scanner.
+    // However, ITK stores column-wise, Bruker row-wise. So the below is
+    // equivalent to a matrix transpose, which because these are direction
+    // matrices with determinant +/-1, is equivalent to an inverse. So this
+    // gives the correct orientations.
+    vnl_matrix<double> dirMatrix(&orient[0], 3, 3);
+    this->SetDirection(0, dirMatrix.get_row(0));
+    this->SetDirection(1, dirMatrix.get_row(1));
+    // See note above for apparent bug in 2D coronal acquisitions
+    this->SetDirection(2, reverseZ * dirMatrix.get_row(2));
 
-    this->SetDimensions(2, sizeZ);
-    this->SetSpacing(2, spacingZ);
-    this->SetOrigin(2, position[2]);
-    this->SetDirection(2, dirZ);
+    // Now work out the correct ITK origin including the half-voxel offset
+    vnl_vector<double> corner(&position[0], 3);
+    vnl_vector<double> origin = corner + dirMatrix * halfStep;
 
-    this->SetDimensions(1, size[1]);
-    this->SetSpacing(1, FoV[1] / size[1]);
-    this->SetOrigin(1, position[1]);
-    this->SetDirection(1, dirY);
+    this->SetOrigin(0, origin[0]);
+    this->SetOrigin(1, origin[1]);
+    this->SetOrigin(2, origin[2]);
 
+    // Finally set matrix size and voxel spacing
     this->SetDimensions(0, size[0]);
+    this->SetDimensions(1, size[1]);
+    this->SetDimensions(2, sizeZ);
+
     this->SetSpacing(0, FoV[0] / size[0]);
-    this->SetOrigin(0, position[0]);
-    this->SetDirection(0, dirX);
+    this->SetSpacing(1, FoV[1] / size[1]);
+    this->SetSpacing(2, spacingZ);
     }
 }
 
