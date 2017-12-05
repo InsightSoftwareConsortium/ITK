@@ -595,47 +595,42 @@ void NiftiImageIO::Read(void *buffer)
       static_cast< unsigned int >( this->GetNumberOfComponents() )
       * static_cast< unsigned int >( sizeof( float ) );
 
-    // Deal with correct management of 64bits platforms
-    const size_t imageSizeInComponents =
-      static_cast< size_t >( this->GetImageSizeInComponents() );
-
-    //
     // allocate new buffer for floats. Malloc instead of new to
     // be consistent with allocation used in niftilib
     float *_data =
       static_cast< float * >
-      ( malloc( imageSizeInComponents * sizeof( float ) ) );
+      ( malloc( numElts * sizeof( float ) ) );
     switch ( this->m_OnDiskComponentType )
       {
       case CHAR:
-        CastCopy< char >(_data, data, imageSizeInComponents);
+        CastCopy< char >(_data, data, numElts);
         break;
       case UCHAR:
-        CastCopy< unsigned char >(_data, data, imageSizeInComponents);
+        CastCopy< unsigned char >(_data, data, numElts);
         break;
       case SHORT:
-        CastCopy< short >(_data, data, imageSizeInComponents);
+        CastCopy< short >(_data, data, numElts);
         break;
       case USHORT:
-        CastCopy< unsigned short >(_data, data, imageSizeInComponents);
+        CastCopy< unsigned short >(_data, data, numElts);
         break;
       case INT:
-        CastCopy< int >(_data, data, imageSizeInComponents);
+        CastCopy< int >(_data, data, numElts);
         break;
       case UINT:
-        CastCopy< unsigned int >(_data, data, imageSizeInComponents);
+        CastCopy< unsigned int >(_data, data, numElts);
         break;
       case LONG:
-        CastCopy< long >(_data, data, imageSizeInComponents);
+        CastCopy< long >(_data, data, numElts);
         break;
       case ULONG:
-        CastCopy< unsigned long >(_data, data, imageSizeInComponents);
+        CastCopy< unsigned long >(_data, data, numElts);
         break;
       case LONGLONG:
-        CastCopy< long long >(_data, data, imageSizeInComponents);
+        CastCopy< long long >(_data, data, numElts);
         break;
       case ULONGLONG:
-        CastCopy< unsigned long long >(_data, data, imageSizeInComponents);
+        CastCopy< unsigned long long >(_data, data, numElts);
         break;
       case FLOAT:
         itkExceptionMacro(<< "FLOAT pixels do not need Casting to float");

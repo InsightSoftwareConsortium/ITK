@@ -13,6 +13,7 @@ itkNiftiImageIOTest10.cxx
 itkNiftiImageIOTest11.cxx
 itkNiftiImageIOTest12.cxx
 itkNiftiReadAnalyzeTest.cxx
+itkExtractSlice.cxx
 )
 
 # For itkNiftiImageIOTest.h.
@@ -73,3 +74,6 @@ itk_add_test(NAME itkNiftiDimensionLimitsTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} SizeFailure.nii.gz )
 itk_add_test(NAME itkNiftiReadAnalyzeTest
       COMMAND ITKIONIFTITestDriver itkNiftiReadAnalyzeTest ${ITK_TEST_OUTPUT_DIR} )
+itk_add_test(NAME itkExtractSliceSlopeInterceptUCHAR
+      COMMAND ITKIONIFTITestDriver --compare DATA{Baseline/SlopeInterceptUCHAR-midSlice.nrrd} ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd
+              itkExtractSlice DATA{Input/SlopeInterceptUCHAR.nii.gz} ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd)
