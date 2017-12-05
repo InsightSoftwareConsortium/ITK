@@ -421,15 +421,10 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGS2Optimizerv4);
 
+  // Private Implementation (Pimpl), to hide liblbfgs data structures
+  class PrivateImplementationHolder;
 
-  /**
-   * Internal optimizer paramaters.
-   * This will be assigned a pointer to lbfgs_parameter_t defined in lbfgs.h
-   * Makes this code hard to read but hides lbfgs.h
-   */
-  typedef  void InternalOptimizerParametersType;
-  InternalOptimizerParametersType *m_Parameters;
-
+  PrivateImplementationHolder *m_Pimpl;
 
   /** Progress update variables */
   const double *m_CurrentGradient;
@@ -441,10 +436,6 @@ private:
   int    m_CurrentNumberOfEvaluations;
 
   int m_StatusCode;
-
-  //dummy variable to avoid warnings
-  int    m_NumberOfParameters;
-  double m_EvaluateStepSize;
 };
 
 } // end namespace itk
