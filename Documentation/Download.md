@@ -1,8 +1,8 @@
 Download ITK
 ============
 
-This page documents how to download ITK. See our [CONTRIBUTING.md] guide for
-more information.
+This page documents how to download ITK. See our
+[CONTRIBUTING](../CONTRIBUTING.md) guide for more information.
 
 Download ITK Sources with Git
 -----------------------------

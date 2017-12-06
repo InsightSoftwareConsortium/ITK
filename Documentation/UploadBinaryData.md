@@ -18,7 +18,7 @@ content link files at **build** time, download them from a list of server
 resources, and create symlinks or copies of the original files at the
 corresponding location in the **build tree**.
 
-See also our [Data.md] guide for more information.
+See also our [Data](Data.md) guide for more information.
 
 **Note**: for historical reasons, before [SHA512 hash] files were used in ITK,
 [MD5 hash] content link files were used.
