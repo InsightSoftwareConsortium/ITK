@@ -53,7 +53,7 @@ public:
   DataObjectError();
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  virtual ~DataObjectError() ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE {}
+  virtual ~DataObjectError() ITK_NOEXCEPT ITK_OVERRIDE {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   DataObjectError(const char *file, unsigned int lineNumber);
@@ -101,7 +101,7 @@ public:
   InvalidRequestedRegionError();
 
   /** Destructor. Need to specify empty throw() to avoid warnings. */
-  virtual ~InvalidRequestedRegionError() ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE {}
+  virtual ~InvalidRequestedRegionError() ITK_NOEXCEPT ITK_OVERRIDE {}
 
   /** Constructor. Needed to ensure the exception object can be copied. */
   InvalidRequestedRegionError(const char *file, unsigned int lineNumber);

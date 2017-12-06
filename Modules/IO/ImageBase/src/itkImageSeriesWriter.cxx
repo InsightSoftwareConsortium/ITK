@@ -18,5 +18,5 @@
 #include "itkImageSeriesWriter.h"
 
 namespace itk{
-ImageSeriesWriterException::~ImageSeriesWriterException() ITK_NOEXCEPT_OR_THROW {};
+ImageSeriesWriterException::~ImageSeriesWriterException() ITK_NOEXCEPT {};
 }

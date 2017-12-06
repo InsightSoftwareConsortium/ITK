@@ -53,7 +53,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMException()
-  ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE;
+  ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
   itkTypeMacro(FEMException, ExceptionObject);
@@ -78,7 +78,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionIO()
-  ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE;
+  ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionIO, FEMException);
@@ -109,7 +109,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionWrongClass()
-  ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE;
+  ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionWrongClass, FEMException);
@@ -131,7 +131,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionObjectNotFound()
-  ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE;
+  ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionObjectNotFound, FEMException);
@@ -163,7 +163,7 @@ public:
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
   virtual ~FEMExceptionSolution()
-  ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE;
+  ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
   itkTypeMacro(FEMExceptionSolution, FEMException);

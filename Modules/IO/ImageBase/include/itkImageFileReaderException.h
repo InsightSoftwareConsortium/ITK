@@ -50,7 +50,7 @@ public:
   {}
 
   /** Has to have empty throw(). */
-  virtual ~ImageFileReaderException() ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE;
+  virtual ~ImageFileReaderException() ITK_NOEXCEPT ITK_OVERRIDE;
 };
 }
 #endif // itkImageFileReaderException_h

@@ -229,13 +229,19 @@ namespace itk
        #undef ITK_HAS_CPP11_ALIGNAS
      #endif
   #endif
+  #if ITK_COMPILER_CXX_NOEXCEPT // NOTE DEPRECATED!  Kept for backwards compatibility.
+    // Should use ITK_NOEXCEPT defined in: itk_compiler_detection.h.
+    // Following comments apply to ITK_NOEXCEPT as well.
+    // Use only for low-level functions. Swap, UnRegister, etc, involved in move semantics.
+    // Avoid using it elsewhere.
+    // Unnecesary in destructors when c++11 becomes a requirement.
+    //   Used right now to avoid c++03 errors in destructors of child classes of std::exception.
+    #define ITK_NOEXCEPT_OR_THROW() noexcept
+  #else
+    #define ITK_NOEXCEPT_OR_THROW() throw()
+  #endif
 #endif
 
-#if ITK_COMPILER_CXX_NOEXCEPT
-  #define ITK_NOEXCEPT_OR_THROW noexcept
-#else
-  #define ITK_NOEXCEPT_OR_THROW throw()
-#endif
 
 #if ITK_COMPILER_CXX_CONSTEXPR
   #define ITK_CONSTEXPR_FUNC constexpr

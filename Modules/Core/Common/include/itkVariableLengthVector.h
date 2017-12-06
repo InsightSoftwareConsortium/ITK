@@ -125,7 +125,7 @@ public:
    */
   struct AlwaysReallocate : AllocateRootPolicy
     {
-    bool operator()(unsigned int itkNotUsed(newSize), unsigned int itkNotUsed(oldSize)) const ITK_NOEXCEPT
+    bool operator()(unsigned int itkNotUsed(newSize), unsigned int itkNotUsed(oldSize)) const
       {
       return true;
       }
@@ -151,7 +151,7 @@ public:
    */
   struct NeverReallocate : AllocateRootPolicy
     {
-    bool operator()(unsigned int newSize, unsigned int oldSize) const ITK_NOEXCEPT
+    bool operator()(unsigned int newSize, unsigned int oldSize) const
       {
       (void) newSize;
       (void) oldSize;
@@ -179,7 +179,7 @@ public:
    */
   struct ShrinkToFit : AllocateRootPolicy
     {
-    bool operator()(unsigned int newSize, unsigned int oldSize) const ITK_NOEXCEPT
+    bool operator()(unsigned int newSize, unsigned int oldSize) const
       { return newSize != oldSize; }
     };
 
@@ -211,7 +211,7 @@ public:
    */
   struct DontShrinkToFit : AllocateRootPolicy
     {
-    bool operator()(unsigned int newSize, unsigned int oldSize) const ITK_NOEXCEPT
+    bool operator()(unsigned int newSize, unsigned int oldSize) const
       { return newSize > oldSize; }
     };
 
@@ -261,7 +261,7 @@ public:
     template <typename TValue2>
       void operator()(
         unsigned int newSize, unsigned int oldSize,
-        TValue2 * oldBuffer, TValue2 * newBuffer) const ITK_NOEXCEPT
+        TValue2 * oldBuffer, TValue2 * newBuffer) const
         {
         itkAssertInDebugAndIgnoreInReleaseMacro(newBuffer);
         const std::size_t nb = std::min(newSize, oldSize);
@@ -291,7 +291,7 @@ public:
     template <typename TValue2>
       void operator()(
         unsigned int itkNotUsed(newSize), unsigned int itkNotUsed(oldSize),
-        TValue2 * itkNotUsed(oldBuffer), TValue2 * itkNotUsed(newBuffer)) const ITK_NOEXCEPT
+        TValue2 * itkNotUsed(oldBuffer), TValue2 * itkNotUsed(newBuffer)) const
         {
         }
     };
@@ -492,7 +492,7 @@ public:
   /** Set the all the elements of the array to the specified value.
    * \pre This function may be called on empty vectors, it's a no-op.
    */
-  void Fill(TValue const & v) ITK_NOEXCEPT;
+  void Fill(TValue const & v);
 
   /** Converting assignment operator.
    * \note Ensures a <em>String Exception Guarantee</em>: resists to
@@ -550,7 +550,7 @@ public:
    * operand, checked with an assertion.
    * \pre Doesn't not support empty vectors.
    */
-  Self & FastAssign(const Self & v) ITK_NOEXCEPT;
+  Self & FastAssign(const Self & v);
 
   /** Assignment operator from a numeric value.
    * \pre This assumes \c m_LetArrayManageMemory is true, but it is unchecked.
@@ -559,23 +559,23 @@ public:
    * \post Elements in `[m_Data, m_Data+GetSize())` will be equal to \c v, modulo
    * precision
    */
-  Self & operator=(TValue const & v) ITK_NOEXCEPT;
+  Self & operator=(TValue const & v);
 
   /** Return the number of elements in the Array  */
-  unsigned int Size(void) const ITK_NOEXCEPT { return m_NumElements; }
-  unsigned int GetSize(void) const ITK_NOEXCEPT { return m_NumElements; }
-  unsigned int GetNumberOfElements(void) const ITK_NOEXCEPT { return m_NumElements; }
+  unsigned int Size(void) const { return m_NumElements; }
+  unsigned int GetSize(void) const { return m_NumElements; }
+  unsigned int GetNumberOfElements(void) const { return m_NumElements; }
 
   /** Return reference to the element at specified index. No range checking. */
-  TValue       & operator[](unsigned int i) ITK_NOEXCEPT { return this->m_Data[i]; }
+  TValue       & operator[](unsigned int i) { return this->m_Data[i]; }
   /** Return reference to the element at specified index. No range checking. */
-  TValue const & operator[](unsigned int i) const ITK_NOEXCEPT { return this->m_Data[i]; }
+  TValue const & operator[](unsigned int i) const { return this->m_Data[i]; }
 
   /** Get one element */
-  const TValue & GetElement(unsigned int i) const ITK_NOEXCEPT { return m_Data[i]; }
+  const TValue & GetElement(unsigned int i) const { return m_Data[i]; }
 
   /** Set one element */
-  void SetElement(unsigned int i, const TValue & value) ITK_NOEXCEPT { m_Data[i] = value; }
+  void SetElement(unsigned int i, const TValue & value) { m_Data[i] = value; }
 
   /** Resizes the vector.
    * \tparam TReallocatePolicy Policy that determines precisely the conditions
@@ -642,7 +642,7 @@ public:
 
   /** Destroy data that is allocated internally, if \c LetArrayManageMemory is
    * true. */
-  void DestroyExistingData() ITK_NOEXCEPT;
+  void DestroyExistingData();
 
   /** Set the pointer from which the data is imported.
    * If "LetArrayManageMemory" is false, then the application retains
@@ -656,7 +656,7 @@ public:
    * \post `m_LetArrayManageMemory ==LetArrayManageMemory`
    * \post \c Size() is left unmodified.
    */
-  void SetData(TValue *data, bool LetArrayManageMemory = false) ITK_NOEXCEPT;
+  void SetData(TValue *data, bool LetArrayManageMemory = false);
 
   /** Similar to the previous method. In the above method, the size must be
    * separately set prior to using user-supplied data. This introduces an
@@ -672,7 +672,7 @@ public:
    * \post `m_LetArrayManageMemory ==LetArrayManageMemory`
    * \post `m_NumElements == sz`
    */
-  void SetData(TValue *data, unsigned int sz, bool LetArrayManageMemory = false) ITK_NOEXCEPT;
+  void SetData(TValue *data, unsigned int sz, bool LetArrayManageMemory = false);
 
   /** This destructor is not virtual for performance reasons. However, this
    * means that subclasses cannot allocate memory.
@@ -708,11 +708,11 @@ public:
    */
   TValue * AllocateElements(ElementIdentifier size) const;
 
-  const TValue * GetDataPointer() const ITK_NOEXCEPT { return m_Data; }
+  const TValue * GetDataPointer() const { return m_Data; }
 
   /** Prefix operator that subtracts 1 from each element of the
    * vector. */
-  Self & operator--() ITK_NOEXCEPT
+  Self & operator--()
     {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -722,7 +722,7 @@ public:
     }
 
   /** Prefix operator that adds 1 to each element of the vector. */
-  Self & operator++() ITK_NOEXCEPT // prefix operator ++v;
+  Self & operator++() // prefix operator ++v;
     {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -760,7 +760,7 @@ public:
    * they are assumed to have the same length. */
   template< typename T >
   Self & operator-=
-    (const VariableLengthVector< T > & v) ITK_NOEXCEPT
+    (const VariableLengthVector< T > & v)
     {
     itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -771,7 +771,7 @@ public:
     }
 
   /** Subtract scalar 's' from each element of the current vector. */
-  Self & operator-=(TValue s) ITK_NOEXCEPT
+  Self & operator-=(TValue s)
     {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -790,7 +790,7 @@ public:
    * they are assumed to have the same length. */
   template< typename T >
   Self & operator+=
-    (const VariableLengthVector< T > & v) ITK_NOEXCEPT
+    (const VariableLengthVector< T > & v)
     {
     itkAssertInDebugAndIgnoreInReleaseMacro( m_NumElements == v.GetSize() );
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -801,7 +801,7 @@ public:
     }
 
   /** Add scalar 's' to each element of the vector. */
-  Self & operator+=(TValue s) ITK_NOEXCEPT
+  Self & operator+=(TValue s)
     {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -820,7 +820,7 @@ public:
    * \note The elements of the expression template are evaluated one by one.
    */
   template <typename TExpr1, typename TExpr2, typename TBinaryOp>
-  Self& operator+=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& rhs) ITK_NOEXCEPT
+  Self& operator+=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& rhs)
     {
     itkAssertInDebugAndIgnoreInReleaseMacro(rhs.Size() == Size());
     for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
@@ -840,7 +840,7 @@ public:
    * \note The elements of the expression template are evaluated one by one.
    */
   template <typename TExpr1, typename TExpr2, typename TBinaryOp>
-  Self& operator-=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& rhs) ITK_NOEXCEPT
+  Self& operator-=(VariableLengthVectorExpression<TExpr1,TExpr2,TBinaryOp> const& rhs)
     {
     itkAssertInDebugAndIgnoreInReleaseMacro(rhs.Size() == Size());
     for ( ElementIdentifier i = 0; i < m_NumElements; ++i )
@@ -856,7 +856,7 @@ public:
    * \throw None
    */
   template< typename T >
-  Self & operator*=(T s) ITK_NOEXCEPT
+  Self & operator*=(T s)
     {
     const ValueType & sc = static_cast<ValueType>(s);
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -869,7 +869,7 @@ public:
   /** Multiply each element of the vector by a scalar 's'.
    * \throw None
    */
-  Self & operator*=(TValue s) ITK_NOEXCEPT
+  Self & operator*=(TValue s)
     {
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
       {
@@ -885,7 +885,7 @@ public:
    * \throw None
    */
   template< typename T >
-  Self & operator/=(T s) ITK_NOEXCEPT
+  Self & operator/=(T s)
     {
     const RealValueType sc = s;
     for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
@@ -901,20 +901,20 @@ public:
    * \warning This operator has a non standard semantics. Instead of returning
    * a new \c VariableLengthVector, it modifies the current object.
    */
-  Self & operator-() ITK_NOEXCEPT;  // negation operator
+  Self & operator-();  // negation operator
 
-  bool operator==(const Self & v) const ITK_NOEXCEPT;
+  bool operator==(const Self & v) const;
 
-  bool operator!=(const Self & v) const ITK_NOEXCEPT;
+  bool operator!=(const Self & v) const;
 
   /** Returns vector's Euclidean Norm  */
-  RealValueType GetNorm() const ITK_NOEXCEPT;
+  RealValueType GetNorm() const;
 
   /** Returns vector's squared Euclidean Norm  */
-  RealValueType GetSquaredNorm() const ITK_NOEXCEPT;
+  RealValueType GetSquaredNorm() const;
 
   /** letArrayManageMemory getter. */
-  bool IsAProxy() const ITK_NOEXCEPT { return ! m_LetArrayManageMemory;}
+  bool IsAProxy() const { return ! m_LetArrayManageMemory;}
 
 private:
   bool              m_LetArrayManageMemory; // if true, the array is responsible
@@ -968,7 +968,7 @@ template <typename TExpr> struct GetType
   /** Fetches the i-th element from an array (expression).
    * \note the default unspecialized behaviour returns the input number \c v.
    */
-  static Type Load(Type const& v, unsigned int idx) ITK_NOEXCEPT
+  static Type Load(Type const& v, unsigned int idx)
     { (void)idx; return v; }
   };
 
@@ -985,7 +985,7 @@ template <typename TExpr> struct GetType
 template <typename TExpr1, typename TExpr2>
 inline
 typename mpl::EnableIf<mpl::And<mpl::IsArray<TExpr1>, mpl::IsArray<TExpr2> >, unsigned int>::Type
-GetSize(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
+GetSize(TExpr1 const& lhs, TExpr2 const& rhs)
   {
   (void)rhs;
   itkAssertInDebugAndIgnoreInReleaseMacro(lhs.Size() == rhs.Size());
@@ -1005,7 +1005,7 @@ GetSize(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
 template <typename TExpr1, typename TExpr2>
 inline
 typename mpl::EnableIf<mpl::And<mpl::IsArray<TExpr1>, mpl::Not<mpl::IsArray<TExpr2> > >, unsigned int>::Type
-GetSize(TExpr1 const& lhs, TExpr2 const& itkNotUsed(rhs)) ITK_NOEXCEPT
+GetSize(TExpr1 const& lhs, TExpr2 const& itkNotUsed(rhs))
   {
   return lhs.Size();
   }
@@ -1022,7 +1022,7 @@ GetSize(TExpr1 const& lhs, TExpr2 const& itkNotUsed(rhs)) ITK_NOEXCEPT
 template <typename TExpr1, typename TExpr2>
 inline
 typename mpl::EnableIf<mpl::And<mpl::IsArray<TExpr2>, mpl::Not<mpl::IsArray<TExpr1> > >, unsigned int>::Type
-GetSize(TExpr1 const& itkNotUsed(lhs), TExpr2 const& rhs) ITK_NOEXCEPT
+GetSize(TExpr1 const& itkNotUsed(lhs), TExpr2 const& rhs)
   {
   return rhs.Size();
   }
@@ -1031,14 +1031,14 @@ template <typename T>
 struct GetType<VariableLengthVector<T> >
   {
   typedef T Type;
-  static Type Load(VariableLengthVector<T> const& v, unsigned int idx) ITK_NOEXCEPT
+  static Type Load(VariableLengthVector<T> const& v, unsigned int idx)
     { return v[idx]; }
   };
 template <typename TExpr1, typename TExpr2, typename TBinaryOp>
 struct GetType<VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> >
   {
   typedef typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::ResType Type;
-  static Type Load(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& v, unsigned int idx) ITK_NOEXCEPT
+  static Type Load(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const& v, unsigned int idx)
     { return v[idx]; }
   };
 /// \endcond
@@ -1130,7 +1130,7 @@ struct CanBeDivided
 template <typename TExpr1, typename TExpr2, typename TBinaryOp>
 struct VariableLengthVectorExpression
 {
-  VariableLengthVectorExpression(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
+  VariableLengthVectorExpression(TExpr1 const& lhs, TExpr2 const& rhs)
     : m_lhs(lhs), m_rhs(rhs)
     {
     // Not neccessary actually as end-user/developper is not expected to
@@ -1141,7 +1141,7 @@ struct VariableLengthVectorExpression
     }
 
   /// Returns the size of the vector expression.
-  unsigned int Size() const ITK_NOEXCEPT{ return Details::GetSize(m_lhs, m_rhs); }
+  unsigned int Size() const{ return Details::GetSize(m_lhs, m_rhs); }
 
   /// Vector type of the Result Expression
   typedef typename mpl::PromoteType<
@@ -1160,7 +1160,7 @@ struct VariableLengthVectorExpression
    *
    * \c Load() is in charge of fetching the i-th element of the sub-expressions
    */
-  ResType operator[](unsigned int idx) const ITK_NOEXCEPT
+  ResType operator[](unsigned int idx) const
     {
     itkAssertInDebugAndIgnoreInReleaseMacro(idx < Size());
     return TBinaryOp::Apply(
@@ -1169,10 +1169,10 @@ struct VariableLengthVectorExpression
     }
 
   /** Returns vector's Euclidean Norm  */
-  RealValueType GetNorm() const ITK_NOEXCEPT;
+  RealValueType GetNorm() const;
 
   /** Returns vector's squared Euclidean Norm  */
-  RealValueType GetSquaredNorm() const ITK_NOEXCEPT;
+  RealValueType GetSquaredNorm() const;
 
 private:
   TExpr1 const& m_lhs;
@@ -1191,7 +1191,7 @@ private:
 template <typename TExpr1, typename TExpr2>
 inline
 typename mpl::EnableIf<Details::op::CanBeAddedOrSubstracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus> >::Type
-operator+(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
+operator+(TExpr1 const& lhs, TExpr2 const& rhs)
 { return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Plus>(lhs, rhs); }
 
 /** Substraction involving a \c VariableLengthVector.
@@ -1206,7 +1206,7 @@ operator+(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
 template <typename TExpr1, typename TExpr2>
 inline
 typename mpl::EnableIf<Details::op::CanBeAddedOrSubstracted<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Sub> >::Type
-operator-(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
+operator-(TExpr1 const& lhs, TExpr2 const& rhs)
 { return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Sub>(lhs, rhs); }
 
 /** Multiplication between a \c VariableLengthVector and a scalar.
@@ -1220,7 +1220,7 @@ operator-(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
 template <typename TExpr1, typename TExpr2>
 inline
 typename mpl::EnableIf<Details::op::CanBeMultiplied<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Mult> >::Type
-operator*(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
+operator*(TExpr1 const& lhs, TExpr2 const& rhs)
 { return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Mult>(lhs, rhs); }
 
 /** Division of a \c VariableLengthVector by a scalar.
@@ -1233,7 +1233,7 @@ operator*(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
 template <typename TExpr1, typename TExpr2>
 inline
 typename mpl::EnableIf<Details::op::CanBeDivided<TExpr1,TExpr2>, VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Div> >::Type
-operator/(TExpr1 const& lhs, TExpr2 const& rhs) ITK_NOEXCEPT
+operator/(TExpr1 const& lhs, TExpr2 const& rhs)
 { return VariableLengthVectorExpression<TExpr1, TExpr2, Details::op::Div>(lhs, rhs); }
 
 /** Serialization of \c VariableLengthVectorExpression
@@ -1262,7 +1262,7 @@ std::ostream & operator<<(std::ostream &os, VariableLengthVectorExpression<TExpr
 template <typename TExpr>
 inline
 typename mpl::EnableIf<mpl::IsArray<TExpr>, typename TExpr::RealValueType>::Type
-GetNorm(TExpr const& v) ITK_NOEXCEPT
+GetNorm(TExpr const& v)
 {
   return static_cast<typename TExpr::RealValueType>(
     std::sqrt(static_cast<double>(GetSquaredNorm(v))));
@@ -1276,7 +1276,7 @@ GetNorm(TExpr const& v) ITK_NOEXCEPT
 template <typename TExpr>
 inline
 typename mpl::EnableIf<mpl::IsArray<TExpr>, typename TExpr::RealValueType>::Type
-GetSquaredNorm(TExpr const& v) ITK_NOEXCEPT
+GetSquaredNorm(TExpr const& v)
 {
   typedef typename TExpr::RealValueType RealValueType;
   RealValueType sum = 0.0;
