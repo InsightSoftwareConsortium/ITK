@@ -2,7 +2,7 @@ Access to ITK
 =============
 
 This page documents how to setup ITK developer accounts. See our
-[CONTRIBUTING.md] guide for more information.
+[CONTRIBUTING.md](../CONTRIBUTING.md) guide for more information.
 
 Gerrit
 ------

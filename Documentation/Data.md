@@ -2,7 +2,8 @@ ITK Data
 ========
 
 This page documents how to add test data while developing ITK. See our
-[CONTRIBUTING.md] and [UploadBinaryData.md] guides for more information.
+[CONTRIBUTING](../CONTRIBUTING.md) and
+[UploadBinaryData](UploadBinaryData.md) guides for more information.
 
 Setup
 -----
