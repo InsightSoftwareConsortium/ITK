@@ -117,7 +117,7 @@ further information on making changes and committing snapshots.*)
 
 **Note**: *If your change modifies any of the modules in the
 `Modules/ThirdParty` directory, please read our
-[UpdatingThirdParty.md](Documentation/UpdatingThirdParty.md) guide.*
+[UpdatingThirdParty](Documentation/UpdatingThirdParty.md) guide.*
 
 Standard prefixes for ITK commit messages:
 
