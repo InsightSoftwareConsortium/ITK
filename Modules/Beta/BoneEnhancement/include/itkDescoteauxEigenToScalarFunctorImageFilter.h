@@ -80,7 +80,7 @@ public:
     /* Compute measures */
     const double Rsheet = l2 / l3;
     const double Rblob = Math::abs(2*l3 - l2 - l1) / l3;
-    const double Rnoise = Math::sqr(l1*l1 + l2*l2 + l3*l3);
+    const double Rnoise = sqrt(l1*l1 + l2*l2 + l3*l3);
 
     /* Multiply together to get sheetness */
     sheetness = 1.0;
