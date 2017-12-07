@@ -249,7 +249,7 @@ TValue *VariableLengthVector< TValue >
 template< typename TValue >
 void
 VariableLengthVector< TValue >
-::SetData(TValue *datain, bool LetArrayManageMemory) ITK_NOEXCEPT
+::SetData(TValue *datain, bool LetArrayManageMemory)
 {
   // Free any existing data if we manage its memory
   if ( m_LetArrayManageMemory )
@@ -273,7 +273,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 void
 VariableLengthVector< TValue >
-::SetData(TValue *datain, unsigned int sz, bool LetArrayManageMemory) ITK_NOEXCEPT
+::SetData(TValue *datain, unsigned int sz, bool LetArrayManageMemory)
 {
   // Free any existing data if we manage its memory
   if ( m_LetArrayManageMemory )
@@ -289,7 +289,7 @@ VariableLengthVector< TValue >
 
 template< typename TValue >
 void VariableLengthVector< TValue >
-::DestroyExistingData() ITK_NOEXCEPT
+::DestroyExistingData()
 {
   // Free any existing data if we manage its memory.
   if ( m_LetArrayManageMemory )
@@ -333,7 +333,7 @@ void VariableLengthVector< TValue >
 /** Set the all the elements of the array to the specified value */
 template< typename TValue >
 void VariableLengthVector< TValue >
-::Fill(TValue const & v) ITK_NOEXCEPT
+::Fill(TValue const & v)
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(m_NumElements == 0 || (m_NumElements>0 && m_Data!=ITK_NULLPTR));
   // VC++ version of std::fill_n() expects the output iterator to be valid
@@ -373,7 +373,7 @@ template< typename TValue >
 inline
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::FastAssign(const Self & v) ITK_NOEXCEPT
+::FastAssign(const Self & v)
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(this->m_LetArrayManageMemory);
   ElementIdentifier const N = v.Size();
@@ -392,7 +392,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::operator=(TValue const & v) ITK_NOEXCEPT
+::operator=(TValue const & v)
 {
   this->Fill(v);
   return *this;
@@ -401,7 +401,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 VariableLengthVector< TValue > &
 VariableLengthVector< TValue >
-::operator-() ITK_NOEXCEPT
+::operator-()
 {
   for ( ElementIdentifier i = 0; i < m_NumElements; i++ )
     {
@@ -413,7 +413,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 bool
 VariableLengthVector< TValue >
-::operator==(const Self & v) const ITK_NOEXCEPT
+::operator==(const Self & v) const
 {
   if ( m_NumElements != v.Size() )
     {
@@ -432,7 +432,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 bool
 VariableLengthVector< TValue >
-::operator!=(const Self & v) const ITK_NOEXCEPT
+::operator!=(const Self & v) const
 {
   return ! operator==( v );
 }
@@ -443,7 +443,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
-::GetNorm(void) const ITK_NOEXCEPT
+::GetNorm(void) const
 {
   using std::sqrt;
   return static_cast<RealValueType>(sqrt( this->GetSquaredNorm() ) );
@@ -455,7 +455,7 @@ VariableLengthVector< TValue >
 template< typename TValue >
 typename VariableLengthVector< TValue >::RealValueType
 VariableLengthVector< TValue >
-::GetSquaredNorm(void) const ITK_NOEXCEPT
+::GetSquaredNorm(void) const
 {
   RealValueType sum = 0.0;
 
@@ -470,7 +470,7 @@ VariableLengthVector< TValue >
 template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
 typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
 VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
-::GetNorm() const ITK_NOEXCEPT
+::GetNorm() const
 {
   return itk::GetNorm(*this);
 }
@@ -478,7 +478,7 @@ VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
 template <typename TExpr1, typename TExpr2, typename  TBinaryOp>
 typename VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>::RealValueType
 VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp>
-::GetSquaredNorm() const ITK_NOEXCEPT
+::GetSquaredNorm() const
 {
   return itk::GetSquaredNorm(*this);
 }

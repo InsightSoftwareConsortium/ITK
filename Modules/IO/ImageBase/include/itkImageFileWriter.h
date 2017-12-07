@@ -51,7 +51,7 @@ public:
   {}
 
   /** Has to have empty throw(). */
-  virtual ~ImageFileWriterException() ITK_NOEXCEPT_OR_THROW ITK_OVERRIDE;
+  virtual ~ImageFileWriterException() ITK_NOEXCEPT ITK_OVERRIDE;
 };
 
 /** \class ImageFileWriter

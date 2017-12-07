@@ -265,10 +265,8 @@
 
 #  if ITK_COMPILER_CXX_NOEXCEPT
 #    define ITK_NOEXCEPT noexcept
-#    define ITK_NOEXCEPT_EXPR(X) noexcept(X)
 #  else
-#    define ITK_NOEXCEPT
-#    define ITK_NOEXCEPT_EXPR(X)
+#    define ITK_NOEXCEPT throw()
 #  endif
 
 
