@@ -28,8 +28,8 @@ namespace itk
  * dimensional, discrete Gaussian kernel.
  *
  * GaussianOperator can be used to perform Gaussian blurring
- * by taking its inner product with to a Neighborhood
- * (NeighborhooIterator) that is swept across an image region.
+ * by taking its inner product with a Neighborhood
+ * (NeighborhoodIterator) that is swept across an image region.
  * It is a directional operator.  N successive applications
  * oriented along each dimensional direction will effect separable,
  * efficient, N-D Gaussian blurring of an image region.

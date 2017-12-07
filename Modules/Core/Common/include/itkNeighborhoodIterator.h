@@ -27,7 +27,8 @@ namespace itk
 {
 /**
  * \class NeighborhoodIterator
- * \brief  Defines iteration of a local N-dimensional neighborhood of pixels
+ *
+ * \brief Defines iteration of a local N-dimensional neighborhood of pixels
  * across an itk::Image.
  *
  * This class is a loose extension of the Standard Template Library (STL)
@@ -47,25 +48,25 @@ namespace itk
  * Itk, consider the following code that takes directional derivatives at each
  * point in an image.
  *
- * \code
- * itk::NeighborhoodInnerProduct<ImageType> IP;
- *
- * itk::DerivativeOperator<ImageType> operator;
- *  operator->SetOrder(1);
- *  operator->SetDirection(0);
- *  operator->CreateDirectional();
- *
- * itk::NeighborhoodIterator<ImageType>
- *   iterator(operator->GetRadius(), myImage, myImage->GetRequestedRegion());
- *
- * iterator.SetToBegin();
- * while ( ! iterator.IsAtEnd() )
- * {
- *   std::cout << "Derivative at index " << iterator.GetIndex() << is <<
- *     IP(iterator, operator) << std::endl;
- *   ++iterator;
- * }
- * \endcode
+\code
+itk::NeighborhoodInnerProduct<ImageType> innerProduct;
+
+itk::DerivativeOperator<ImageType> operator;
+ operator->SetOrder(1);
+ operator->SetDirection(0);
+ operator->CreateDirectional();
+
+itk::NeighborhoodIterator<ImageType>
+  iterator(operator->GetRadius(), myImage, myImage->GetRequestedRegion());
+
+iterator.SetToBegin();
+while ( ! iterator.IsAtEnd() )
+{
+  std::cout << "Derivative at index " << iterator.GetIndex() << is <<
+    innerProduct(iterator, operator) << std::endl;
+  ++iterator;
+}
+\endcode
  *
  * Most of the work for the programmer in the code above is in setting up for
  * the iteration.  There are three steps.  First an inner product function
@@ -99,53 +100,47 @@ namespace itk
  * like elements in an array.  For example, a 2D neighborhood with radius 2x1
  * has indices:
  *
- * \code
- *
- * 0  1  2  3  4
- * 5  6  7  8  9
- * 10 11 12 13 14
- *
- * \endcode
+\code
+0  1  2  3  4
+5  6  7  8  9
+10 11 12 13 14
+\endcode
  *
  * Now suppose a NeighborhoodIterator with the above dimensions is constructed
  * and positioned over a neighborhood of values in an Image:
  *
- * \code
- *
- * 1.2 1.3 1.8 1.4 1.1
- * 1.8 1.1 0.7 1.0 1.0
- * 2.1 1.9 1.7 1.4 2.0
- *
- * \endcode
+\code
+1.2 1.3 1.8 1.4 1.1
+1.8 1.1 0.7 1.0 1.0
+2.1 1.9 1.7 1.4 2.0
+\endcode
  *
  * Shown below is some sample pixel access code and the values that it returns.
  *
- * \code
- *
- * SizeValueType c = (SizeValueType) (iterator.Size() / 2); // get offset of center pixel
- * SizeValueType s = iterator.GetStride(1);            // y-dimension step size
- *
- * std::cout << iterator.GetPixel(7)      << std::endl;
- * std::cout << iterator.GetCenterPixel() << std::endl;
- * std::cout << iterator.GetPixel(c)      << std::endl;
- * std::cout << iterator.GetPixel(c-1)    << std::endl;
- * std::cout << iterator.GetPixel(c-s)    << std::endl;
- * std::cout << iterator.GetPixel(c-s-1)  << std::endl;
- * std::cout << *iterator[c]              << std::endl;
- *
- * \endcode
+\code
+SizeValueType c = (SizeValueType) (iterator.Size() / 2); // get offset of center pixel
+SizeValueType s = iterator.GetStride(1);            // y-dimension step size
+
+std::cout << iterator.GetPixel(7)      << std::endl;
+std::cout << iterator.GetCenterPixel() << std::endl;
+std::cout << iterator.GetPixel(c)      << std::endl;
+std::cout << iterator.GetPixel(c-1)    << std::endl;
+std::cout << iterator.GetPixel(c-s)    << std::endl;
+std::cout << iterator.GetPixel(c-s-1)  << std::endl;
+std::cout << *iterator[c]              << std::endl;
+\endcode
  *
  * Results:
  *
- * \code
- * 0.7
- * 0.7
- * 0.7
- * 1.1
- * 1.8
- * 1.3
- * 0.7
- * \endcode
+\code
+0.7
+0.7
+0.7
+1.1
+1.8
+1.3
+0.7
+\endcode
  *
  * Use of GetPixel() is preferred over the *iterator[] form, and can be used
  * without loss of efficiency in most cases. Some variations (subclasses) of
@@ -157,11 +152,11 @@ namespace itk
  * directions through the data set.  These directions correspond to the layout
  * of the image data in memory and not to spatial directions of the
  * N-dimensional itk::Image.  Iteration always proceeds along the fastest
- * increasing dimension (as defined by the layout of the image data) .  For
+ * increasing dimension (as defined by the layout of the image data).  For
  * itk::Image this is the first dimension specified (i.e. for 3-dimensional
  * (x,y,z) NeighborhoodIterator proceeds along the x-dimension) (For random
  * access iteration through N-dimensional indices, use
- * RandomAccessNeighborhoodIterator.)
+ * RandomAccessNeighborhoodIterator).
  *
  * Each subclass of a ConstNeighborhoodIterator may also define its own
  * mechanism for iteration through an image.  In general, the Iterator does not
