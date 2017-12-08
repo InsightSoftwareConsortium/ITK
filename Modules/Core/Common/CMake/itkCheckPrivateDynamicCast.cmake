@@ -52,8 +52,8 @@ int main(void)
 # accomplished with a custom command as a post build step for the
 # compilation of the executable.
   file(WRITE "${test_project_dir}/CMakeLists.txt" "
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
-cmake_policy(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.8.2 FATAL_ERROR)
+cmake_policy(VERSION 3.8.2)
 project(support_private_dynamic_cast CXX)
 add_library(base SHARED \"base.cxx\")
 set_target_properties(base PROPERTIES CXX_VISIBILITY_PRESET hidden)

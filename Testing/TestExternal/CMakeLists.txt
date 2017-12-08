@@ -1,6 +1,6 @@
 # This project builds the test directories from all ITK modules as a separate
 # project outside the main ITK build tree as if they were an application.
-cmake_minimum_required(VERSION 2.8.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.8.2 FATAL_ERROR)
 
 foreach(p
     CMP0025 # CMake 3.0
