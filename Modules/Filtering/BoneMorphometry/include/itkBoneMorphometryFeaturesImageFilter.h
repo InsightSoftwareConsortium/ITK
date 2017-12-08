@@ -141,6 +141,9 @@ protected:
 
   bool
   IsInsideNeighborhood(const NeighborhoodOffsetType & iteratedOffset);
+  bool
+  IsInsideMaskRegion(const IndexType & imageIndex, const typename TMaskImage::SizeType & maskSize);
+
 
   void
   PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
