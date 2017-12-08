@@ -13,7 +13,12 @@ import sys
 import os
 import glob
 from doxy2swig import *
-from cStringIO import StringIO
+if sys.version_info >= (3,0):
+    # Python 3
+    from io import StringIO
+else:
+    # Python 2
+    from cStringIO import StringIO
 
 class itkDoxy2SWIG(Doxy2SWIG):
     def __init__(self, src, cpp_name="", swig_name=""):
@@ -94,29 +99,29 @@ class itkDoxy2SWIG(Doxy2SWIG):
 
 
 def d2s_dir(in_dir_name, out_swig_i):
-  conffile = file(in_dir_name)
-  output = StringIO()
-  for l in conffile:
-    l = l.strip()
-    if l != "":
-      ls = l.split("\t")
-      xfn = ls[0]
-      if os.path.isfile(xfn): # make sure the assumed file exists
-          cpp_name = ls[1]
-#          print("-- Doxygen to SWIG: " + cpp_name)
-          output2 = StringIO()
-          d2s = itkDoxy2SWIG(xfn, cpp_name, "@[{(]})@")
-          d2s.generate()
-          d2s.write_to_file(output2)
-          tpl = output2.getvalue()
-          output2.close()
-          for swig_name in ls[2:]:
-            output.write(tpl.replace("@[{(]})@", swig_name))
-      else:
-        print("Warning: %s does not exist. Ignore it." % xfn, file=sys.stderr)
-  f = open(out_swig_i, 'w')
-  f.write(output.getvalue())
-  f.close()
+  with open(in_dir_name) as conffile:
+    output = StringIO()
+    for l in conffile:
+      l = l.strip()
+      if l != "":
+        ls = l.split("\t")
+        xfn = ls[0]
+        if os.path.isfile(xfn): # make sure the assumed file exists
+            cpp_name = ls[1]
+#            print("-- Doxygen to SWIG: " + cpp_name)
+            output2 = StringIO()
+            d2s = itkDoxy2SWIG(xfn, cpp_name, "@[{(]})@")
+            d2s.generate()
+            d2s.write_to_file(output2)
+            tpl = output2.getvalue()
+            output2.close()
+            for swig_name in ls[2:]:
+              output.write(tpl.replace("@[{(]})@", swig_name))
+        else:
+          print("Warning: %s does not exist. Ignore it." % xfn, file=sys.stderr)
+  with open(out_swig_i, 'w') as f:
+    f.write(output.getvalue())
+    f.close()
 
 def main(in_dir_name, out_swig_i):
         d2s_dir(in_dir_name, out_swig_i)
