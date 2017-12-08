@@ -21,6 +21,7 @@
 
 #include "itkObjectToObjectOptimizerBase.h"
 #include "ITKOptimizersv4Export.h"
+#include "itkAutoPointer.h"
 
 
 namespace itk
@@ -236,6 +237,11 @@ public:
   void SetMaximumIterations(int maxIterations);
   int GetMaximumIterations() const;
 
+  /** Aliased to Set/Get MaximumIterations to match base class interface.
+   */
+  virtual SizeValueType GetNumberOfIterations() const  ITK_OVERRIDE { return GetMaximumIterations(); }
+  virtual void SetNumberOfIterations( const SizeValueType _arg ) ITK_OVERRIDE { SetMaximumIterations(static_cast<int>(_arg)); }
+
   /**
    * The line search algorithm.
    * This parameter specifies a line search algorithm to be used by the
@@ -421,15 +427,10 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LBFGS2Optimizerv4);
 
+  // Private Implementation (Pimpl), to hide liblbfgs data structures
+  class PrivateImplementationHolder;
 
-  /**
-   * Internal optimizer paramaters.
-   * This will be assigned a pointer to lbfgs_parameter_t defined in lbfgs.h
-   * Makes this code hard to read but hides lbfgs.h
-   */
-  typedef  void InternalOptimizerParametersType;
-  InternalOptimizerParametersType *m_Parameters;
-
+  AutoPointer<PrivateImplementationHolder> m_Pimpl;
 
   /** Progress update variables */
   const double *m_CurrentGradient;
@@ -441,10 +442,6 @@ private:
   int    m_CurrentNumberOfEvaluations;
 
   int m_StatusCode;
-
-  //dummy variable to avoid warnings
-  int    m_NumberOfParameters;
-  double m_EvaluateStepSize;
 };
 
 } // end namespace itk

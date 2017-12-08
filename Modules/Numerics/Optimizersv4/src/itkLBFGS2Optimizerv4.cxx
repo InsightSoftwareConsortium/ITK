@@ -23,12 +23,19 @@
 
 namespace itk
 {
-LBFGS2Optimizerv4
-  ::LBFGS2Optimizerv4(){
 
-  m_Parameters = new lbfgs_parameter_t();
+class LBFGS2Optimizerv4::PrivateImplementationHolder
+{
+public:
+  lbfgs_parameter_t m_Parameters;
+};
+
+LBFGS2Optimizerv4
+  ::LBFGS2Optimizerv4()
+    :m_Pimpl(new PrivateImplementationHolder, true)
+{
   //Initialize to default paramaters
-  lbfgs_parameter_init( (lbfgs_parameter_t*) m_Parameters);
+  lbfgs_parameter_init( &m_Pimpl->m_Parameters );
   m_StatusCode = 100;
 }
 
@@ -36,7 +43,6 @@ LBFGS2Optimizerv4
 LBFGS2Optimizerv4
 ::~LBFGS2Optimizerv4()
 {
-  delete (lbfgs_parameter_t*)m_Parameters;
 }
 
 void
@@ -45,37 +51,37 @@ LBFGS2Optimizerv4
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->m << std::endl;
+     << m_Pimpl->m_Parameters.m << std::endl;
   os << indent << "epsilon: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->epsilon << std::endl;
+     << m_Pimpl->m_Parameters.epsilon << std::endl;
   os << indent << "past: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->past << std::endl;
+     << m_Pimpl->m_Parameters.past << std::endl;
   os << indent << "delta: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->delta << std::endl;
+     << m_Pimpl->m_Parameters.delta << std::endl;
   os << indent << "max_iterations: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->max_iterations << std::endl;
+     << m_Pimpl->m_Parameters.max_iterations << std::endl;
   os << indent << "linesearch: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->linesearch << std::endl;
+     << m_Pimpl->m_Parameters.linesearch << std::endl;
   os << indent << "max_linesearch: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->max_linesearch << std::endl;
+     << m_Pimpl->m_Parameters.max_linesearch << std::endl;
   os << indent << "min_step: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->min_step << std::endl;
+     << m_Pimpl->m_Parameters.min_step << std::endl;
   os << indent << "max_step: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->max_step << std::endl;
+     << m_Pimpl->m_Parameters.max_step << std::endl;
   os << indent << "ftol: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->ftol << std::endl;
+     << m_Pimpl->m_Parameters.ftol << std::endl;
   os << indent << "wolfe: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->wolfe << std::endl;
+     << m_Pimpl->m_Parameters.wolfe << std::endl;
   os << indent << "gtol: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->gtol << std::endl;
+     << m_Pimpl->m_Parameters.gtol << std::endl;
   os << indent << "xtol: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->xtol << std::endl;
+     << m_Pimpl->m_Parameters.xtol << std::endl;
   os << indent << "orthantwise_c: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_c << std::endl;
+     << m_Pimpl->m_Parameters.orthantwise_c << std::endl;
   os << indent << "orthantwise_start: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_start << std::endl;
+     << m_Pimpl->m_Parameters.orthantwise_start << std::endl;
   os << indent << "orthantwise_end: "
-     << ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_end << std::endl;
+     << m_Pimpl->m_Parameters.orthantwise_end << std::endl;
 }
 
 
@@ -112,7 +118,15 @@ LBFGS2Optimizerv4
   m_StatusCode = lbfgs( N, x, &this->m_CurrentMetricValue,
                         LBFGS2Optimizerv4::EvaluateCostCallback,
                         LBFGS2Optimizerv4::UpdateProgressCallback,
-                        this, (lbfgs_parameter_t*) m_Parameters );
+                        this, &m_Pimpl->m_Parameters );
+
+  // Match the behavior of other optimizer setting the current
+  // iteration to the max when iteration limit is reached
+  if (m_StatusCode == LBFGSERR_MAXIMUMITERATION)
+    {
+    ++this->m_CurrentIteration;
+    }
+
 
   //Copy results
   ParametersType optimizedParameters(N);
@@ -141,11 +155,9 @@ LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::EvaluateCost( const LBFGS2Optimizerv4::PrecisionType *x,
                                  LBFGS2Optimizerv4::PrecisionType *g,
                                  const int n,
-                                 const LBFGS2Optimizerv4::PrecisionType step
+                                 const LBFGS2Optimizerv4::PrecisionType
                                )
 {
-
-  m_EvaluateStepSize = step;
 
   static ParametersType xItk(n);
   std::memcpy(xItk.data_block(), x, n * sizeof(LBFGS2Optimizerv4::PrecisionType) );
@@ -186,11 +198,13 @@ LBFGS2Optimizerv4::UpdateProgress( const LBFGS2Optimizerv4::PrecisionType *x,
                                    const LBFGS2Optimizerv4::PrecisionType xnorm,
                                    const LBFGS2Optimizerv4::PrecisionType gnorm,
                                    const LBFGS2Optimizerv4::PrecisionType step,
-                                   int n,
+                                   int,
                                    int k,
                                    int ls
-                                 ){
-  this->m_CurrentIteration = k;
+                                 )
+{
+  // Convert to 0-based ITK iteration counting
+  this->m_CurrentIteration = k - 1;
   this->m_CurrentMetricValue = fx;
 
   m_CurrentGradient = g;
@@ -199,8 +213,6 @@ LBFGS2Optimizerv4::UpdateProgress( const LBFGS2Optimizerv4::PrecisionType *x,
   m_CurrentGradientNorm =  gnorm;
   m_CurrentStepSize = step;
   m_CurrentNumberOfEvaluations = ls;
-
-  m_NumberOfParameters = n;
 
   this->InvokeEvent( IterationEvent() );
   return 0;
@@ -305,58 +317,58 @@ LBFGS2Optimizerv4
 //A bunch of Set/Get methods for setting lbfgs paramaters
 void
 LBFGS2Optimizerv4::SetHessianApproximationAccuracy( int m ){
-  ( (lbfgs_parameter_t*) m_Parameters )->m = m;
+  m_Pimpl->m_Parameters.m = m;
   this->Modified();
 }
 
 int
 LBFGS2Optimizerv4::GetHessianApproximationAccuracy() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->m;
+  return m_Pimpl->m_Parameters.m;
 }
 
 void
 LBFGS2Optimizerv4::SetSolutionAccuracy(LBFGS2Optimizerv4::PrecisionType epsilon){
-  ( (lbfgs_parameter_t*) m_Parameters )->epsilon = epsilon;
+  m_Pimpl->m_Parameters.epsilon = epsilon;
   this->Modified();
 }
 
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetSolutionAccuracy() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->epsilon;
+  return m_Pimpl->m_Parameters.epsilon;
 }
 
 void
 LBFGS2Optimizerv4::SetDeltaConvergenceDistance(int nPast){
-  ( (lbfgs_parameter_t*) m_Parameters )->past = nPast;
+  m_Pimpl->m_Parameters.past = nPast;
   this->Modified();
 }
 
 int
 LBFGS2Optimizerv4::GetDeltaConvergenceDistance() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->past;
+  return m_Pimpl->m_Parameters.past;
 }
 
 void
 LBFGS2Optimizerv4::SetDeltaConvergenceTolerance(LBFGS2Optimizerv4::PrecisionType tol){
-  ( (lbfgs_parameter_t*) m_Parameters )->delta = tol;
+  m_Pimpl->m_Parameters.delta = tol;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetDeltaConvergenceTolerance() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->delta;
+  return m_Pimpl->m_Parameters.delta;
 }
 
 void
 LBFGS2Optimizerv4::SetMaximumIterations(int maxIterations){
- ( (lbfgs_parameter_t*) m_Parameters )->max_iterations = maxIterations;
+ m_Pimpl->m_Parameters.max_iterations = maxIterations;
  this->Modified();
 }
 
 int
 LBFGS2Optimizerv4::GetMaximumIterations() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->max_iterations;
+  return m_Pimpl->m_Parameters.max_iterations;
 }
 
 //translate to lbfgs.h enum
@@ -387,14 +399,14 @@ LBFGS2Optimizerv4::SetLinesearch(const LBFGS2Optimizerv4::LinesearchMethod &line
     lbfgsLinesearch = LBFGS_LINESEARCH_MORETHUENTE;
     }
 
-  ( (lbfgs_parameter_t*) m_Parameters )->linesearch = lbfgsLinesearch;
+  m_Pimpl->m_Parameters.linesearch = lbfgsLinesearch;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::LinesearchMethod
 LBFGS2Optimizerv4::GetLinesearch() const{
   LinesearchMethod linesearch = LINESEARCH_DEFAULT;
-  int lbfgsLinesearch = ( (lbfgs_parameter_t*) m_Parameters )->linesearch;
+  int lbfgsLinesearch = m_Pimpl->m_Parameters.linesearch;
   if( lbfgsLinesearch == LBFGS_LINESEARCH_BACKTRACKING)
     {
      linesearch = LINESEARCH_BACKTRACKING;
@@ -422,113 +434,113 @@ LBFGS2Optimizerv4::GetLinesearch() const{
 
 void
 LBFGS2Optimizerv4::SetMaximumLinesearchEvaluations(int n){
-  ( (lbfgs_parameter_t*) m_Parameters )->max_linesearch = n;
+  m_Pimpl->m_Parameters.max_linesearch = n;
   this->Modified();
 }
 
 int
 LBFGS2Optimizerv4::GetMaximumLinesearchEvaluations() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->max_linesearch;
+  return m_Pimpl->m_Parameters.max_linesearch;
 }
 
 void
 LBFGS2Optimizerv4::SetMinimumLinesearchStep(LBFGS2Optimizerv4::PrecisionType step){
-  ( (lbfgs_parameter_t*) m_Parameters )->min_step = step;
+  m_Pimpl->m_Parameters.min_step = step;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetMinimumLinesearchStep() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->min_step;
+  return m_Pimpl->m_Parameters.min_step;
 }
 
 void
 LBFGS2Optimizerv4::SetMaximumLinesearchStep(LBFGS2Optimizerv4::PrecisionType step){
-  ( (lbfgs_parameter_t*) m_Parameters )->max_step = step;
+  m_Pimpl->m_Parameters.max_step = step;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetMaximumLinesearchStep() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->max_step;
+  return m_Pimpl->m_Parameters.max_step;
 }
 
 void
 LBFGS2Optimizerv4::SetLinesearchAccuracy( LBFGS2Optimizerv4::PrecisionType ftol ){
-  ( (lbfgs_parameter_t*) m_Parameters )->ftol = ftol;
+  m_Pimpl->m_Parameters.ftol = ftol;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetLinesearchAccuracy() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->ftol;
+  return m_Pimpl->m_Parameters.ftol;
 }
 
 
 void
 LBFGS2Optimizerv4::SetWolfeCoefficient( LBFGS2Optimizerv4::PrecisionType wc ){
-  ( (lbfgs_parameter_t*) m_Parameters )->wolfe = wc;
+  m_Pimpl->m_Parameters.wolfe = wc;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetWolfeCoefficient() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->wolfe;
+  return m_Pimpl->m_Parameters.wolfe;
 }
 
 void
 LBFGS2Optimizerv4::SetLinesearchGradientAccuracy( LBFGS2Optimizerv4::PrecisionType gtol ){
-  ( (lbfgs_parameter_t*) m_Parameters )->gtol = gtol;
+  m_Pimpl->m_Parameters.gtol = gtol;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetLinesearchGradientAccuracy() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->gtol;
+  return m_Pimpl->m_Parameters.gtol;
 }
 
 void
 LBFGS2Optimizerv4::SetMachinePrecisionTolerance(LBFGS2Optimizerv4::PrecisionType xtol){
-  ( (lbfgs_parameter_t*) m_Parameters )->xtol = xtol;
+  m_Pimpl->m_Parameters.xtol = xtol;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetMachinePrecisionTolerance() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->xtol;
+  return m_Pimpl->m_Parameters.xtol;
 }
 
 void
 LBFGS2Optimizerv4::SetOrthantwiseCoefficient(LBFGS2Optimizerv4::PrecisionType orthant_c){
-  ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_c = orthant_c;
+  m_Pimpl->m_Parameters.orthantwise_c = orthant_c;
   this->Modified();
 }
 
 LBFGS2Optimizerv4::PrecisionType
 LBFGS2Optimizerv4::GetOrthantwiseCoefficient() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_c;
+  return m_Pimpl->m_Parameters.orthantwise_c;
 }
 
 void
 LBFGS2Optimizerv4::SetOrthantwiseStart(int start){
-  ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_start = start;
+  m_Pimpl->m_Parameters.orthantwise_start = start;
   this->Modified();
 }
 
 int
 LBFGS2Optimizerv4::GetOrthantwiseStart() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_start;
+  return m_Pimpl->m_Parameters.orthantwise_start;
 }
 
 void
 LBFGS2Optimizerv4::SetOrthantwiseEnd(int end){
-  ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_end = end;
+  m_Pimpl->m_Parameters.orthantwise_end = end;
   this->Modified();
 }
 
 int
 LBFGS2Optimizerv4::GetOrthantwiseEnd() const{
-  return ( (lbfgs_parameter_t*) m_Parameters )->orthantwise_end;
+  return m_Pimpl->m_Parameters.orthantwise_end;
 }
 
 
