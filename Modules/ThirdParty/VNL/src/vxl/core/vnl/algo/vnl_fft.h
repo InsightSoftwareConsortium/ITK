@@ -9,11 +9,12 @@
 // \author fsm
 
 #include <vcl_compiler.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: use C++ overloading to find the correct FORTRAN routine from templated FFT code.
-void vnl_fft_setgpfa(float  *triggs, long size, long pqr[3], long *info);
+void VNL_ALGO_EXPORT vnl_fft_setgpfa(float  *triggs, long size, long pqr[3], long *info);
 //: use C++ overloading to find the correct FORTRAN routine from templated FFT code.
-void vnl_fft_setgpfa(double *triggs, long size, long pqr[3], long *info);
+void VNL_ALGO_EXPORT vnl_fft_setgpfa(double *triggs, long size, long pqr[3], long *info);
 
 
 //        CALL GPFA(A,B,TRIGS,INC,JUMP,N,LOT,ISIGN,NIPQ,INFO)
@@ -38,10 +39,10 @@ void vnl_fft_setgpfa(double *triggs, long size, long pqr[3], long *info);
 // These functions perform a number (LOT) of 1D FFTs, each of the same signal size (N).
 // The signal is stored in two real arrays (A, B), with consecutive elements separated
 // by a stride (INC). The separation between the LOT signals to be transformed is JUMP.
-void vnl_fft_gpfa(float  *a, float  *b, float const  *triggs,
+void VNL_ALGO_EXPORT vnl_fft_gpfa(float  *a, float  *b, float const  *triggs,
                   long inc, long jump, long n,
                   long lot, long isign, long const pqr[3], long *info);
-void vnl_fft_gpfa(double *a, double *b, double const *triggs,
+void VNL_ALGO_EXPORT vnl_fft_gpfa(double *a, double *b, double const *triggs,
                   long inc, long jump, long n,
                   long lot, long isign, long const pqr[3], long *info);
 

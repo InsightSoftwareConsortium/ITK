@@ -20,6 +20,7 @@
 #include <vector>
 #include <vnl/vnl_sparse_matrix.h>
 #include <vcl_compiler.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Find the eigenvalues of a sparse symmetric matrix
 //  Solve the standard eigenproblem $A x = \lambda x$, or the
@@ -34,7 +35,7 @@
 //  Uses the dsaupd routine from the ARPACK package of netlib for
 //  solving the generalized case.
 
-class vnl_sparse_symmetric_eigensystem
+class VNL_ALGO_EXPORT vnl_sparse_symmetric_eigensystem
 {
  public:
   vnl_sparse_symmetric_eigensystem();

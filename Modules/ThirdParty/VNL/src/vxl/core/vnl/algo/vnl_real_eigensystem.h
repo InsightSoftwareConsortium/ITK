@@ -21,11 +21,13 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_diag_matrix.h>
 
+#include <vnl/algo/vnl_algo_export.h>
+
 //: Extract eigensystem of asymmetric matrix M, using the EISPACK routine
 //  vnl_eigensystem is a full-bore real eigensystem.  If your matrix
 //  is symmetric, it is \e much better to use \sa vnl_symmetric_eigensystem.
 
-class vnl_real_eigensystem
+class VNL_ALGO_EXPORT vnl_real_eigensystem
 {
  public:
   vnl_real_eigensystem(vnl_matrix<double> const& M);

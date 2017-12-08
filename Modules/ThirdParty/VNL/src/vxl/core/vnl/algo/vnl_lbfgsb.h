@@ -19,13 +19,14 @@
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Limited memory Broyden Fletcher Goldfarb Shannon minimization with constraints.
 //  Lower and upper bounds may be specified for the variables to be optimized.
 //  The algorithm minimizes a nonlinear function f(x) of n variables
 //  subject to simple bound constraints of l <= x <= u.
 
-class vnl_lbfgsb : public vnl_nonlinear_minimizer
+class VNL_ALGO_EXPORT vnl_lbfgsb : public vnl_nonlinear_minimizer
 {
  public:
   vnl_lbfgsb(vnl_cost_function& f);

@@ -14,6 +14,7 @@
 #include <complex>
 #include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Find all the roots of a univariate polynomial with complex coefficients.
 //  Class to find all the roots of a univariate polynomial f
@@ -24,7 +25,7 @@
 //  The polynomial is f = t^N + a[0] t^{N-1} + ... + a[N-1]
 //  The roots can then be found in the 'solns' member.
 
-class vnl_cpoly_roots
+class VNL_ALGO_EXPORT vnl_cpoly_roots
 {
 public:
   vnl_cpoly_roots(vnl_vector<std::complex<double> > const & a);

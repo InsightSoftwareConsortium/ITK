@@ -18,12 +18,13 @@
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: The ever-popular Powell minimizer.
 // Derivative-free method which may be faster if your
 // function is expensive to compute and many-dimensional.
 // Implemented from scratch from NR.
-class vnl_powell : public vnl_nonlinear_minimizer
+class VNL_ALGO_EXPORT vnl_powell : public vnl_nonlinear_minimizer
 {
  public:
 

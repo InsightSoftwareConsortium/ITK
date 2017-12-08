@@ -6,8 +6,9 @@
 // \date   Jan. 17th, 2005
 //
 #include <vnl/vnl_definite_integral.h>
+#include <vnl/algo/vnl_algo_export.h>
 
-class vnl_simpson_integral : public vnl_definite_integral
+class VNL_ALGO_EXPORT vnl_simpson_integral : public vnl_definite_integral
 {
  private:
   //: used to extract integrand functions of the vnl_integrant_fnct.

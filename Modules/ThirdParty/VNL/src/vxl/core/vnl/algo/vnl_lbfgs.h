@@ -20,6 +20,7 @@
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Limited memory Broyden Fletcher Goldfarb Shannon minimization
 // Considered to be the best optimisation algorithm for functions
@@ -38,7 +39,7 @@
 // version of BFGS only maintains a certain number of vector corrections
 // to a diagonal estimate of the inverse Hessian estimate.
 
-class vnl_lbfgs : public vnl_nonlinear_minimizer
+class VNL_ALGO_EXPORT vnl_lbfgs : public vnl_nonlinear_minimizer
 {
  public:
   vnl_lbfgs();

@@ -17,9 +17,10 @@
 // \endverbatim
 
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Holds one half of a discretely sampled 1D gaussian distribution
-class vnl_gaussian_kernel_1d
+class VNL_ALGO_EXPORT vnl_gaussian_kernel_1d
 {
  public:
   // Constructors/Destructors--------------------------------------------------
