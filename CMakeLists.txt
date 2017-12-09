@@ -214,17 +214,19 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
 option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
-option(ITK_LEGACY_REMOVE "Remove all legacy code completely." OFF)
+# During major release updates deprecated interface may be needed for backwards compatibility
+option(ITK_LEGACY_REMOVE "Remove current legacy code completely." OFF)
+# During minor releases bugs may be identified that identify broken interface, or
+# useless interfaces that need to be retained to not break backwards compatibilty.
+# These ITK_FUTURE_LEGACY_REMOVE are another level of granularity for
+# which backwards compatible features we want to maintain.
+option(ITK_FUTURE_LEGACY_REMOVE "Completely remove compilation of code which will become deprecated by default in ITKv5." OFF)
 if(ITK_WRAPPING)
   option(ITK_LEGACY_SILENT "Silence all legacy code messages." ON)
 else()
   option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
 endif()
-# The ITK_FUTURE_LEGACY_REMOVE is a very advanced feature only
-# available to developers at configuration time by manually
-# adding this to the CMakeCache.txt -DITK_FUTURE_LEGACY_REMOVE:BOOL=ON
-set( ITK_FUTURE_LEGACY_REMOVE 0 CACHE INTERNAL "Remove code that will become legacy in future releases completely." )
-mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_V3_COMPATIBILITY)
+mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE ITK_V3_COMPATIBILITY)
 
 # The disabling of legacy code, and the ITKv3 compatibility option can not both be
 # requested. If removal of legacy code is requested, then ITKV3_COMPATIBILITY must
