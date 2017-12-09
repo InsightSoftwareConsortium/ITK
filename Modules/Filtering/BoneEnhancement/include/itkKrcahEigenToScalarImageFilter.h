@@ -84,6 +84,7 @@ public:
   SetMaskImage(const TMaskImage * mask)
   {
     this->m_ParameterEstimationFilter->SetMaskImage(mask);
+    this->Modified();
   }
   virtual const TMaskImage *
   GetMaskImage() const
@@ -96,6 +97,7 @@ public:
   SetBackgroundValue(const MaskPixelType back)
   {
     this->m_ParameterEstimationFilter->SetBackgroundValue(back);
+    this->Modified();
   }
   virtual MaskPixelType
   GetBackgroundValue() const
@@ -108,6 +110,7 @@ public:
   SetParameterSet(const KrcahImplementationType back)
   {
     this->m_ParameterEstimationFilter->SetParameterSet(back);
+    this->Modified();
   }
   virtual KrcahImplementationType
   GetParameterSet() const
@@ -118,11 +121,13 @@ public:
   SetParameterSetToImplementation()
   {
     this->m_ParameterEstimationFilter->SetParameterSetToImplementation();
+    this->Modified();
   }
   virtual void
   SetParameterSetToJournalArticle()
   {
     this->m_ParameterEstimationFilter->SetParameterSetToJournalArticle();
+    this->Modified();
   }
 
   /** Methods to get the computed parameters */
@@ -147,11 +152,13 @@ public:
   SetEnhanceBrightObjects()
   {
     this->m_UnaryFunctorFilter->SetEnhanceBrightObjects();
+    this->Modified();
   }
   void
   SetEnhanceDarkObjects()
   {
     this->m_UnaryFunctorFilter->SetEnhanceDarkObjects();
+    this->Modified();
   }
   typename UnaryFunctorFilterType::RealType
   GetEnhanceType() const
