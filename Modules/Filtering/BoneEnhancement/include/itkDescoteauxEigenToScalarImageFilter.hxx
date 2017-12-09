@@ -59,9 +59,8 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 DescoteauxEigenToScalarImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
-  /* Get input */
-  typename TInputImage::Pointer input = TInputImage::New();
-  input->Graft(const_cast<TInputImage *>(this->GetInput()));
+  /* Get inputs */
+  InputImageConstPointer input = this->GetInput();
 
   /* Connect filters */
   m_ParameterEstimationFilter->SetInput(input);
