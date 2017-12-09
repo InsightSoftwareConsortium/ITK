@@ -9,6 +9,7 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Solve quadratic programming problem with linear constraints
 //  Minimise F(x)=0.5x'Hx + g'x  subject to Ax=b
@@ -41,7 +42,7 @@ bool vnl_solve_qp_zero_sum(const vnl_matrix<double>& H,
 //  \param con_tol Tolerance for testing constraints:   |Ax-b|^2<con_tol
 //  \param verbose When true, output error messages to cerr if failed
 //  \retval True if successful
-bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
+bool VNL_ALGO_EXPORT vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
                                            const vnl_vector<double>& g,
                                            const vnl_matrix<double>& A,
                                            const vnl_vector<double>& b,
@@ -60,7 +61,7 @@ bool vnl_solve_qp_with_non_neg_constraints(const vnl_matrix<double>& H,
 //  \param x On input, it must satisfy all constraints (sum(x)=1, x(i)>=0)
 //  \param verbose When true, output error messages to cerr if failed
 //  \retval True if successful
-bool vnl_solve_qp_non_neg_sum_one(const vnl_matrix<double>& H,
+bool VNL_ALGO_EXPORT vnl_solve_qp_non_neg_sum_one(const vnl_matrix<double>& H,
                                   const vnl_vector<double>& g,
                                   vnl_vector<double>& x,
                                   bool verbose=true);

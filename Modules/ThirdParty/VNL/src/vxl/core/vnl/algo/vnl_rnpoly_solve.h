@@ -23,6 +23,7 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_real_npolynomial.h>
 #include <vcl_compiler.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Solves for roots of system of real polynomials
 //  Calculates all the roots of a system of N polynomials in N variables
@@ -30,7 +31,7 @@
 //  Adapted from the  PARALLEL CONTINUATION algorithm, written by Darrell
 //  Stam, 1991, and further improved by  Kriegman and Ponce, 1992.
 
-class vnl_rnpoly_solve
+class VNL_ALGO_EXPORT vnl_rnpoly_solve
 {
   // Data Members--------------------------------------------------------------
   std::vector<vnl_real_npolynomial*> ps_;   // the input

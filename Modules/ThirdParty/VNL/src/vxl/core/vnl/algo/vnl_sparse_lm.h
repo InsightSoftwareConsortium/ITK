@@ -23,6 +23,8 @@
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
 
+#include <vnl/algo/vnl_algo_export.h>
+
 class vnl_sparse_lst_sqr_function;
 
 //: Sparse Levenberg Marquardt nonlinear least squares
@@ -31,7 +33,7 @@ class vnl_sparse_lst_sqr_function;
 //  the Hartley and Zisserman "Multiple View Geometry" book and further
 //  described in a technical report on sparse bundle adjustment available
 //  at http://www.ics.forth.gr/~lourakis/sba
-class vnl_sparse_lm : public vnl_nonlinear_minimizer
+class VNL_ALGO_EXPORT vnl_sparse_lm : public vnl_nonlinear_minimizer
 {
  public:
 

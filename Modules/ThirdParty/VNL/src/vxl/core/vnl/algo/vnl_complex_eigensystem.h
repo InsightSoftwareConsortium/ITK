@@ -15,6 +15,8 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 
+#include <vnl/algo/vnl_algo_export.h>
+
 //: Calculates eigenvalues and eigenvectors of a square complex matrix
 //
 //  Class to compute and hold the eigenvalues and (optionally) eigenvectors
@@ -35,7 +37,7 @@
 //  The ith right eigenvector v satisfies A*v = W[i]*v   \n
 //  The ith left  eigenvector u satisfies u*A = W[i]*u (no conjugation)
 
-class vnl_complex_eigensystem
+class VNL_ALGO_EXPORT vnl_complex_eigensystem
 {
  public:
   // please do not add underscores to my members - they are publicly accessible

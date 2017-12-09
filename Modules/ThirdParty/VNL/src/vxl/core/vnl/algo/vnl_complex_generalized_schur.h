@@ -15,6 +15,7 @@
 #include <algorithm>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 
 //:
@@ -39,7 +40,7 @@ bool vnl_generalized_schur(vnl_matrix<std::complex<T> > *A,
                            vnl_matrix<std::complex<T> > *R);
 
 template <>
-bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
+VNL_ALGO_EXPORT bool vnl_generalized_schur(vnl_matrix<std::complex<double> > *A,
                            vnl_matrix<std::complex<double> > *B,
                            vnl_vector<std::complex<double> > *alpha,
                            vnl_vector<std::complex<double> > *beta,

@@ -16,6 +16,8 @@
 #include <vnl/vnl_cost_function.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
 
+#include <vnl/algo/vnl_algo_export.h>
+
 struct vnl_brent_data;
 
 //: Brent 1D minimizer
@@ -47,7 +49,7 @@ struct vnl_brent_data;
 //   double x = brent.minimize(initial_x);
 //   double min_f = brent.f_at_last_minimum();
 // \endverbatim
-class vnl_brent_minimizer : public vnl_nonlinear_minimizer
+class VNL_ALGO_EXPORT vnl_brent_minimizer : public vnl_nonlinear_minimizer
 {
  protected:
   vnl_cost_function* f_;

@@ -21,6 +21,7 @@
 #include <complex>
 #include <vcl_compiler.h>
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 class vnl_real_polynomial;
 
@@ -34,7 +35,7 @@ class vnl_real_polynomial;
 //  This class is not very const-correct as it is intended as a compute object
 //  rather than a data object.
 
-class vnl_rpoly_roots
+class VNL_ALGO_EXPORT vnl_rpoly_roots
 {
  public:
 // Constructors/Destructors--------------------------------------------------

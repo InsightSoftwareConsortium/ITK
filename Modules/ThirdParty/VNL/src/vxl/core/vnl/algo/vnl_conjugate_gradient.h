@@ -24,12 +24,13 @@
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_nonlinear_minimizer.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 class vnl_cost_function;
 
 //: real function minimization
 
-class vnl_conjugate_gradient : public vnl_nonlinear_minimizer
+class VNL_ALGO_EXPORT vnl_conjugate_gradient : public vnl_nonlinear_minimizer
 {
  public:
   // Constructors/Destructors--------------------------------------------------

@@ -17,6 +17,7 @@
 
 #include <vnl/vnl_cost_function.h>
 #include <vnl/algo/vnl_brent_minimizer.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Brent 1D minimizer (deprecated)
 //
@@ -24,7 +25,7 @@
 //
 // This routine used to contain copyrighted code, and is deprecated.
 // It is now simply a wrapper around vnl_brent_minimizer.
-class vnl_brent : public vnl_brent_minimizer
+class VNL_ALGO_EXPORT vnl_brent : public vnl_brent_minimizer
 {
  public:
   vnl_brent(vnl_cost_function* functor);

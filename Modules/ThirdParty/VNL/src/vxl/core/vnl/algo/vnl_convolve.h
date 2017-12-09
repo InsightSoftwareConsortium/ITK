@@ -13,6 +13,7 @@
 // or using FFT to do a `frequency-domain' calculation.
 
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Convolve two vnl_vector<T>'s, possibly with different base types T.
 //  $res[k] := \displaystyle\sum_{i=-\infty}^{+\infty} v1[k-i] \cdot v2[i]$.
@@ -35,6 +36,7 @@
 //  then vnl_convolve_cyclic() is applied.
 //
 template <class T1, class T2, class U>
+VNL_TEMPLATE_EXPORT
 vnl_vector<U>
 vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
              U*, int use_fft = 0);
@@ -47,6 +49,7 @@ vnl_convolve(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
 //
 //  \relatesalso vnl_vector
 template <class T>
+VNL_TEMPLATE_EXPORT
 vnl_vector<T>
 vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
              int use_fft = 0);
@@ -69,7 +72,9 @@ vnl_convolve(vnl_vector<T> const& v1, vnl_vector<T> const& v2,
 //  not sparse, and/or if n is a power of 2.
 //
 //  \relatesalso vnl_vector
+
 template <class T1, class T2, class U>
+VNL_TEMPLATE_EXPORT
 vnl_vector<U>
 vnl_convolve_cyclic(vnl_vector<T1> const& v1, vnl_vector<T2> const& v2,
                     U*, bool use_fft = false);

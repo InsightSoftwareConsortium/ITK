@@ -249,10 +249,8 @@
 
 #  if VXL_COMPILER_CXX_NOEXCEPT
 #    define VXL_NOEXCEPT noexcept
-#    define VXL_NOEXCEPT_EXPR(X) noexcept(X)
 #  else
-#    define VXL_NOEXCEPT
-#    define VXL_NOEXCEPT_EXPR(X)
+#    define VXL_NOEXCEPT throw()
 #  endif
 
 

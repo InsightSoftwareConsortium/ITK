@@ -19,6 +19,7 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Decomposition of symmetric matrix.
 //  A class to hold the Cholesky decomposition of a symmetric matrix and
@@ -30,7 +31,7 @@
 //  equation it is wise to construct with mode==estimate_condition and
 //  check that rcond()>sqrt(machine precision).  If this is not the case
 //  it might be a good idea to use vnl_svd instead.
-class vnl_cholesky
+class VNL_ALGO_EXPORT vnl_cholesky
 {
  public:
   //: Modes of computation.  See constructor for details.

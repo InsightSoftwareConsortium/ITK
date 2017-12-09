@@ -41,7 +41,7 @@ template <class T> T vnl_determinant(T const *row0,
 // 2.95.4 can't handle the default value.  This overload must appear
 // before the template declaration because VC.net 7.0 gets confused
 // otherwise.
-int vnl_determinant(vnl_matrix<int> const &M, bool balance = false);
+int VNL_ALGO_EXPORT vnl_determinant(vnl_matrix<int> const &M, bool balance = false);
 
 //: evaluation using direct methods for sizes of 2x2, 3x3, and 4x4 or qr decomposition for other matrices.
 //  \relatesalso vnl_matrix

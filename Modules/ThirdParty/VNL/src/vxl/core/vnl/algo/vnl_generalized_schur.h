@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <vnl/vnl_matrix.h>
 #include <vnl/vnl_vector.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //:
 // For a \e real scalar type T, this function uses orthogonal
@@ -47,7 +48,7 @@ bool vnl_generalized_schur(vnl_matrix<T> *A,
                            vnl_matrix<T> *R);
 
 template <>
-bool vnl_generalized_schur(vnl_matrix<double> *A,
+VNL_ALGO_EXPORT bool vnl_generalized_schur(vnl_matrix<double> *A,
                            vnl_matrix<double> *B,
                            vnl_vector<double> *alphar,
                            vnl_vector<double> *alphai,

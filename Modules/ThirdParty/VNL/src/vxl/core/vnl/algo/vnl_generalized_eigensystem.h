@@ -17,13 +17,14 @@
 // \endverbatim
 
 #include <vnl/vnl_diag_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Solves the generalized eigenproblem Ax=Bx
 //  Solves the generalized eigenproblem of $A x = \lambda B x$,
 //  with $A$ symmetric and $B$ positive definite. \n
 //  See Golub and van Loan, Section 8.7.
 
-class vnl_generalized_eigensystem
+class VNL_ALGO_EXPORT vnl_generalized_eigensystem
 {
  public:
 // Public data members because they're unique.

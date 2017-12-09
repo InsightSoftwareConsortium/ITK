@@ -17,6 +17,7 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_sparse_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Linear system solver for Mx = b using LU decomposition of a sparse matrix
 //  Encapsulating Sparse 1.3 by Kenneth S. Kundert.
@@ -27,7 +28,7 @@
 //  the solution may be suspect. An upper bound on error is provided.
 //  The solution of M^t x = b is also available.
 
-class vnl_sparse_lu
+class VNL_ALGO_EXPORT vnl_sparse_lu
 {
  public:
   //: Modes of computation.  See constructor for details.

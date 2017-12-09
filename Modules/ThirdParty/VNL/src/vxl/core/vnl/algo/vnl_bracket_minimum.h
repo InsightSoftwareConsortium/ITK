@@ -15,6 +15,7 @@
 // \endverbatim
 
 #include <vnl/vnl_cost_function.h>
+#include <vnl/algo/vnl_algo_export.h>
 
 //: Given initial values a and b, find bracket a<b<c s.t. f(a)>f(b)<f(c)
 //  Final function values at a,b,c stored in fa,fb,fc.
@@ -28,7 +29,7 @@
 //  Note that there's currently nothing
 //  to stop it if it is supplied with a monotonic function - it will just continue
 //  forever.
-void vnl_bracket_minimum(vnl_cost_function& f,
+void VNL_ALGO_EXPORT vnl_bracket_minimum(vnl_cost_function& f,
                          double& a, double& b, double& c,
                          double& fa, double& fb, double& fc);
 

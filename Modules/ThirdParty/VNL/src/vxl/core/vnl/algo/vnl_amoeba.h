@@ -43,7 +43,7 @@ class vnl_least_squares_function;
 //  are obtained by adding each dx[i] to the elements of x, one at a time.
 //  This is useful if you know roughly the scale of your space.
 
-class vnl_amoeba
+class VNL_ALGO_EXPORT vnl_amoeba
 {
  public:
   int verbose;

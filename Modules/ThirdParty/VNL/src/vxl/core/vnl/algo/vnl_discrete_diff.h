@@ -28,25 +28,27 @@
 
 #include <vnl/vnl_vector.h>
 #include <vnl/vnl_matrix.h>
+#include <vnl/algo/vnl_algo_export.h>
+
 class vnl_least_squares_function;
 
 //: forward differences
 //  \relatesalso vnl_least_squares_function
-bool vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
+bool VNL_ALGO_EXPORT vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
                            double h,
                            vnl_vector<double> const &x,
                            vnl_matrix<double>       &J);
 
 //: forward differences
 //  \relatesalso vnl_least_squares_function
-bool vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
+bool VNL_ALGO_EXPORT vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
                            vnl_vector<double> const &h,
                            vnl_vector<double> const &x,
                            vnl_matrix<double>       &J);
 
 //: forward differences
 //  \relatesalso vnl_least_squares_function
-bool vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
+bool VNL_ALGO_EXPORT vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
                            vnl_vector<double> const &h,
                            vnl_vector<double> const &x,
                            vnl_vector<double> const &y,
@@ -54,14 +56,14 @@ bool vnl_discrete_diff_fwd(vnl_least_squares_function *lsf,
 
 //: symmetric differences
 //  \relatesalso vnl_least_squares_function
-bool vnl_discrete_diff_sym(vnl_least_squares_function *lsf,
+bool VNL_ALGO_EXPORT vnl_discrete_diff_sym(vnl_least_squares_function *lsf,
                            double h,
                            vnl_vector<double> const &x,
                            vnl_matrix<double>       &J);
 
 //: symmetric differences
 //  \relatesalso vnl_least_squares_function
-bool vnl_discrete_diff_sym(vnl_least_squares_function *lsf,
+bool VNL_ALGO_EXPORT vnl_discrete_diff_sym(vnl_least_squares_function *lsf,
                            vnl_vector<double> const &h,
                            vnl_vector<double> const &x,
                            vnl_matrix<double>       &J);

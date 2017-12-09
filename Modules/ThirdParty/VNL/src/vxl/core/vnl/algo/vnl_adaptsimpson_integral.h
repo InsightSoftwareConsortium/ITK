@@ -6,8 +6,9 @@
 // \date   Jan. 17th, 2005
 //
 #include <vnl/vnl_definite_integral.h>
+#include <vnl/algo/vnl_algo_export.h>
 
-class vnl_adaptsimpson_integral : public vnl_definite_integral
+class VNL_ALGO_EXPORT vnl_adaptsimpson_integral : public vnl_definite_integral
 {
  private:
   //: used to wrap the function class to an ordinary function.
