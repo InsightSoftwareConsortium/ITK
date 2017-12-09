@@ -260,6 +260,7 @@ private:
 
   static  bool  m_StrictVersionChecking;
 
+  // This variable should NOT be accessed directly, but through GetObjectFactoryBase
   static ObjectFactoryBasePrivate * m_ObjectFactoryBasePrivate;
 };
 } // end namespace itk
