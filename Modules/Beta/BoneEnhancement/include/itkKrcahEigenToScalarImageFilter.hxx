@@ -41,11 +41,16 @@ KrcahEigenToScalarImageFilter< TInputImage, TOutputImage, TMaskImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
+
   if ( this->GetInput() )
   {
-  typename TInputImage::Pointer image =
-    const_cast< TInputImage * >( this->GetInput() );
-  image->SetRequestedRegionToLargestPossibleRegion();
+    InputImagePointer image = const_cast< typename Superclass::InputImageType * >( this->GetInput() );
+    image->SetRequestedRegionToLargestPossibleRegion();
+  }
+  if ( this->GetMaskImage() )
+  {
+    MaskImagePointer mask = const_cast< TMaskImage * >( this->GetMaskImage() );
+    mask->SetRequestedRegionToLargestPossibleRegion();
   }
 }
 

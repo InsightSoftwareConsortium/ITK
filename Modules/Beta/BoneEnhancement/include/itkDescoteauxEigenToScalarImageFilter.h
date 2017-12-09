@@ -62,8 +62,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(DescoteauxEigenToScalarImageFilter, EigenToScalarImageFilter);
 
-  /** Mask related typedefs. */
-  typedef typename TMaskImage::PixelType    MaskPixelType;
+  /** Useful template typedefs. */
+  typedef typename TInputImage::Pointer       InputImagePointer;
+  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
+  typedef typename TMaskImage::Pointer        MaskImagePointer;
+  typedef typename TMaskImage::ConstPointer   MaskImageConstPointer;
+  typedef typename TMaskImage::PixelType      MaskPixelType;
 
   /** Procesing filters */
   typedef DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
