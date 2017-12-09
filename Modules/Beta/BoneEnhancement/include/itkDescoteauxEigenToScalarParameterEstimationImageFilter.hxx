@@ -143,11 +143,10 @@ DescoteauxEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   RealType thisFrobeniusNorm;
 
   /* Get input pointer */
-  InputImagePointer inputPointer = const_cast< TInputImage * >( this->GetInput() );
+  InputImageConstPointer inputPointer = this->GetInput();
 
   /* Get mask pointer */
-  MaskImagePointer maskPointer = TMaskImage::New();
-  maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
+  MaskImageConstPointer maskPointer = this->GetMaskImage();
 
   /* Setup progress reporter */
   ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
