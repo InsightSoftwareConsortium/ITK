@@ -5,12 +5,17 @@
 # This script will parse the Git commits on the current branch and initializes
 # an XML migration guide document with the apropriate content.
 
-from __future__ import print_function
-
 import os.path
 import sys
 import subprocess
 import datetime
+
+#############################
+# Python version 3 required #
+#############################
+if (sys.version_info < (3, 0)):
+    print("ERROR:  Python version 3 or greater required")
+    sys.exit(-1)
 
 ####################
 # Helper Functions #
@@ -49,7 +54,7 @@ def runCommand(command):
   process = subprocess.Popen(args, stdout = subprocess.PIPE)
   while process.returncode == None:
     process.poll()
-  return process.communicate()[0]
+  return str(process.communicate()[0])
 
 #
 # add proper number of indents
@@ -126,7 +131,7 @@ if __name__ == '__main__':
   while uniqueName == False:
 
     # get the user's input
-    nameCandidate = raw_input(">> ")
+    nameCandidate = input(">> ")
     if not endsWith(nameCandidate, ".xml"):
       nameCandidate = nameCandidate + ".xml"
     pathCandidate = migrationDir + "/" + nameCandidate
