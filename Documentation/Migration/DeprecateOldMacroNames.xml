@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Change SYSTEM "https://itk.org/migrationv4/ITKMigration.dtd">
+
+<!--**
+**
+** DeprecateOldMacroNames.xml
+**
+** Please, make sure this file validates the following w3c test before committing it: http://validator.w3.org
+**-->
+<Change>
+    <Title>
+      Deprecate Old Macro Names
+    </Title>
+
+    <Author>
+      b'Hans Johnson'
+    </Author>
+
+    <Date>
+      2017-12-10
+    </Date>
+
+    <!--**
+    ** Plain text description of the change
+    ** Extracted from git commit messages
+    **-->
+    <Description>
+      <![CDATA[
+       Several macro names have been replaced to conform to CMake standards across several projects.
+
+       The script "Utilities/ITKv5Preparation/ReplaceOutdatedMacroNames.sh" can assist with updating
+       external code bases to replace.
+      ]]>
+    </Description>
+
+    <!--**
+    ** Sample code snippets
+    ** Extracted from git diff of changed files in Examples and Testing
+    **-->
+    <SampleCode>
+      <Old>
+        <![CDATA[
+        ]]>
+      </Old>
+
+      <New>
+        <![CDATA[
+        ]]>
+      </New>
+
+    </SampleCode>
+
+    <!--**
+    ** The change-ids for all commits in the topic branch
+    **-->
+    <Gerrit-ChangeId>
+    </Gerrit-ChangeId>
+
+    <!--**
+    ** List of all changed files from the topic branch
+    **-->
+    <FileList>
+      b''
+    </FileList>
+
+</Change>
