@@ -44,14 +44,14 @@ itk_add_test(NAME itkMINCImageIOTest4
 itk_add_test(NAME itkMINCImageIOTest5
   COMMAND ITKIOMINCTestDriver
       --compare DATA{Input/t1_z+_float_yxz_norm.mnc}
-                ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm.mnc
+                ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm_noParams.mnc
   itkMINCImageIOTest4
       DATA{Input/t1_z+_ubyte_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm_noParams.mnc)
 
 itk_add_test(NAME itkMINCImageIOTest6
   COMMAND ITKIOMINCTestDriver
       --compare DATA{Input/t1_z+_float_yxz_norm.mnc}
-                ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm.mnc
+                ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm_noParams.mnc
   itkMINCImageIOTest4
       DATA{Input/t1_z+_float_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm_noParams.mnc)
 
