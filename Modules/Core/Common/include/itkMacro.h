@@ -754,13 +754,6 @@ itkTypeMacro(newexcp, parentexcp);                                              
 #define itkAssertInDebugAndIgnoreInReleaseMacro(X)
 #endif
 
-#ifdef ITKV3_COMPATIBILITY
-// As of MSVS++ 7.1 and greater, typename is supported in templates
-// All ITKv4 compilers support the typename keyword, but this is
-// needed to ease transition from ITKv3.
-#define ITK_TYPENAME typename
-#endif
-
 /** itkDynamicCastInDebugMode
   * Use static_cast in Release builds, and dynamic_cast in Debug
   */

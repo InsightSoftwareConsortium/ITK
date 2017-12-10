@@ -158,39 +158,6 @@ Rigid3DTransform<TParametersValueType>::Translate(const OffsetType & offset, boo
   this->ComputeTranslation();
 }
 
-#ifdef ITKV3_COMPATIBILITY
-#if !defined(ITK_LEGACY_REMOVE)
-template<typename TParametersValueType>
-bool
-Rigid3DTransform<TParametersValueType>::GetInverse(Self *inverse) const
-{
-  return this->Superclass::GetInverse(inverse);
-}
-
-template<typename TParametersValueType>
-typename Rigid3DTransform<TParametersValueType>::InverseTransformBasePointer
-Rigid3DTransform<TParametersValueType>::GetInverseTransform() const
-{
-  Pointer inv = New();
-  return this->GetInverse(inv) ? inv.GetPointer() : ITK_NULLPTR;
-}
-
-template<typename TParametersValueType>
-const typename Rigid3DTransform<TParametersValueType>::MatrixType &
-Rigid3DTransform<TParametersValueType>::GetRotationMatrix() const
-{
-  return this->GetMatrix();
-}
-
-template<typename TParametersValueType>
-void
-Rigid3DTransform<TParametersValueType>::SetRotationMatrix(const MatrixType & matrix)
-{
-  this->SetMatrix(matrix);
-}
-#endif // end ITK_LEGACY_REMOVE
-#endif // ITKV3_COMPATIBILITY
-
 #if !defined(ITK_LEGACY_REMOVE)
 // Back transform a point
 template<typename TParametersValueType>

@@ -463,27 +463,6 @@ public:
     return ( this->GetTransformCategory() == Superclass::Linear );
   }
 
-
-#ifdef ITKV3_COMPATIBILITY
-  /**
-   * This function is only here for ITKv3 backwards compatibility.
-   *
-   * This is not a thread-safe version for GetJacobian(), because the internal
-   * class member variable m_Jacobian could be changed for different values
-   * in different threads.
-   *
-   * All derived classes should move the computations of computing a jacobian
-   * from GetJacobian to ComputeJacobianWithRespectToParameters and then
-   * use this forwarding function for backwards compatibility.
-   */
-  virtual const JacobianType & GetJacobian(const InputPointType  & x) const
-  {
-    this->ComputeJacobianWithRespectToParameters(x, m_SharedLocalJacobian);
-    return m_SharedLocalJacobian;
-  }
-
-#endif
-
   /**
    * Compute the Jacobian of the transformation
    *
@@ -565,14 +544,7 @@ protected:
   OutputDiffusionTensor3DType PreservationOfPrincipalDirectionDiffusionTensor3DReorientation(
     const InputDiffusionTensor3DType, const JacobianType ) const;
 
-#ifdef ITKV3_COMPATIBILITY
-  // This is only needed to provide the old interface that returns a reference to the Jacobian.
-  // It is NOT thread-safe and should be avoided whenever possible.
-  mutable JacobianType m_SharedLocalJacobian;
-#endif
-
   mutable DirectionChangeMatrix m_DirectionChange;
-
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(Transform);

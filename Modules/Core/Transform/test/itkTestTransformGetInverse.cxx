@@ -48,7 +48,6 @@
 #include "itkThinPlateR2LogRSplineKernelTransform.h"
 #include "itkThinPlateSplineKernelTransform.h"
 #include "itkTranslationTransform.h"
-#include "itkv3Rigid3DTransform.h"
 #include "itkVersorRigid3DTransform.h"
 #include "itkVersorTransform.h"
 #include "itkVolumeSplineKernelTransform.h"

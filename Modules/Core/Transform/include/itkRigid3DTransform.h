@@ -64,11 +64,6 @@ public:
   typedef SmartPointer<Self>                                    Pointer;
   typedef SmartPointer<const Self>                              ConstPointer;
 
-#ifdef ITKV3_COMPATIBILITY
-  /** Run-time type information (and related methods).   */
-  itkNewMacro(Self);
-#endif
-
   /** Run-time type information (and related methods). */
   itkTypeMacro(Rigid3DTransform, MatrixOffsetTransformBase);
 
@@ -147,46 +142,6 @@ public:
   bool MatrixIsOrthogonal(const MatrixType & matrix,
               const TParametersValueType tolerance =
                   MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance());
-
-#ifdef ITKV3_COMPATIBILITY
-  /** Get an inverse of this transform. */
-  //NOTE: itkLegacyRemove can not be used for GetInverse
-  //      because in itkV3 mode these functions
-  //      must be traversed when calling the child classes
-  //      member functions
-  //      (with no real effect) for backwards compatibility.
-  //      In ITKv4 mode only the super class is needed
-  bool GetInverse(Self *inverse) const;
-
-  /** Return an inverse of this transform. */
-  //NOTE: itkLegacyRemove can not be used for GetInverseTransform
-  //      because in itkV3 mode these functions
-  //      must be traversed when calling the child classes
-  //      member functions
-  //      (with no real effect) for backwards compatibility.
-  //      In ITKv4 mode only the super class is needed
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
-  /**
-   * Get rotation Matrix from an Rigid3DTransform
-   *
-   * This method returns the value of the rotation of the
-   * Rigid3DTransform.
-   *
-   * \deprecated Use GetMatrix instead
-   */
-  itkLegacyMacro(const MatrixType & GetRotationMatrix() const);
-  /**
-   * Set the rotation Matrix of a Rigid3D Transform
-   *
-   * This method sets the 3x3 matrix representing a rotation
-   * in the transform.  The Matrix is expected to be orthogonal
-   * with a certain tolerance.
-   *
-   * \deprecated Use SetMatrix instead
-   *
-   */
-  itkLegacyMacro(virtual void SetRotationMatrix(const MatrixType & matrix) );
-#endif
 
   /**
    * Back transform by an affine transformation

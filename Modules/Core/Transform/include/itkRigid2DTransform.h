@@ -234,17 +234,6 @@ public:
   /** Reset the parameters to create and identity transform. */
   virtual void SetIdentity() ITK_OVERRIDE;
 
-#ifdef ITKV3_COMPATIBILITY
-  /**
-   * \deprecated
-   * Set/Get the rotation matrix. These methods are old and are
-   * retained for backward compatibility. Instead, use SetMatrix()
-   * GetMatrix().
-   */
-  itkLegacyMacro(virtual void SetRotationMatrix(const MatrixType & matrix));
-  itkLegacyMacro(const MatrixType & GetRotationMatrix() const);
-#endif
-
 protected:
   Rigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
   Rigid2DTransform(unsigned int parametersDimension);

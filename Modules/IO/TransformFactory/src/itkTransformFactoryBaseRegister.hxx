@@ -29,7 +29,6 @@
 #include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkQuaternionRigidTransform.h"
-#include "itkv3Rigid3DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkScaleLogarithmicTransform.h"
 #include "itkScaleVersor3DTransform.h"
@@ -127,13 +126,6 @@ void TransformFactoryBase::RegisterTransformFactory()
   TransformFactory< QuaternionRigidTransform<TParameterType > >::RegisterTransform ();
 
   TransformFactory< Rigid2DTransform<TParameterType > >::RegisterTransform ();
-  // We cannot register both Rigid3DTransform and
-  // itkv3::Rigid3DTransform because they both have the same name
-#ifdef ITKV3_COMPATIBILITY
-  TransformFactory< Rigid3DTransform<TParameterType > >::RegisterTransform ();
-#else
-  TransformFactory< itkv3::Rigid3DTransform<TParameterType > >::RegisterTransform ();
-#endif
   TransformFactory< Rigid3DPerspectiveTransform<TParameterType > >::RegisterTransform ();
 
   TransformFactory< ScalableAffineTransform<TParameterType, 3> >::RegisterTransform ();

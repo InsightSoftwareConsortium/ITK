@@ -180,21 +180,6 @@ public:
    * any of its cached ivars */
   virtual ModifiedTimeType GetMTime() const ITK_OVERRIDE;
 
-#ifdef ITKV3_COMPATIBILITY
-  // StartRegistration is an old API from before
-  // the RegistrationMethod was a subclass of ProcessObject.
-  // Historically, one could call StartRegistration() instead of
-  // calling Update().  However, when called directly by the user, the
-  // inputs to the RegistrationMethod may not be up to date.  This
-  // may cause an unexpected behavior.
-  //
-  // Since we cannot eliminate StartRegistration for ITKv3 backward
-  // compatibility reasons, we check whether StartRegistration was
-  // called directly or whether Update() (which in turn called
-  // StartRegistration()).
-  void StartRegistration(void) { this->Update(); }
-#endif
-
 protected:
   ImageToSpatialObjectRegistrationMethod();
   virtual ~ImageToSpatialObjectRegistrationMethod() ITK_OVERRIDE {}

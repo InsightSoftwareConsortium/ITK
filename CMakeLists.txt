@@ -225,6 +225,7 @@ set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 #-----------------------------------------------------------------------------
 # Provide compatibility options.
 option(ITKV3_COMPATIBILITY "Enable compatibility with ITK3.x when possible." OFF)
+option(ITKV4_COMPATIBILITY "Enable compatibility with ITK4.x when possible." OFF)
 # During major release updates deprecated interface may be needed for backwards compatibility
 option(ITK_LEGACY_REMOVE "Remove current legacy code completely." OFF)
 # During minor releases bugs may be identified that identify broken interface, or
@@ -237,18 +238,16 @@ if(ITK_WRAPPING)
 else()
   option(ITK_LEGACY_SILENT "Silence all legacy code messages." OFF)
 endif()
-mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE ITK_V3_COMPATIBILITY)
+mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE ITK_V4_COMPATIBILITY)
 
-
-if (NOT ITK_LEGACY_SILENT AND ITKV3_COMPATIBILITY)
-  message(WARNING "ITKV3_COMPATIBILITY will be removed starting in ITK version 5.0.")
-endif()
-
-# The disabling of legacy code, and the ITKv3 compatibility option can not both be
-# requested. If removal of legacy code is requested, then ITKV3_COMPATIBILITY must
+# The disabling of legacy code, and the ITKv4 compatibility option can not both be
+# requested. If removal of legacy code is requested, then ITKV4_COMPATIBILITY must
 # be off.
-if(ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE)
-  message(FATAL_ERROR "Invlaid configuration: ITKV3_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
+if(ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE)
+  message(FATAL_ERROR "Invalid configuration: ITKV4_COMPATIBILITY AND ITK_LEGACY_REMOVE can not both be ON")
+endif()
+if (NOT ITK_LEGACY_SILENT AND ITKV3_COMPATIBILITY)
+  message(WARNING "ITKV3_COMPATIBILITY is removed starting in ITK version 5.0.")
 endif()
 
 #-----------------------------------------------------------------------------
@@ -256,7 +255,7 @@ endif()
 # ITK_USE_REVIEW is deprecated, only kept for backward compatibility
 if (ITK_USE_REVIEW AND NOT Module_ITKReview)
   message(WARNING "ITK_USE_REVIEW is deprecated, please use Module_ITKReview to turn Review module ON/OFF")
-  set(Module_ITKReview ON CACHE BOOL "Module containing code from the Review directory of ITKv3." FORCE)
+  set(Module_ITKReview ON CACHE BOOL "Module containing code from the Review directory of ITKv4." FORCE)
 endif()
 
 #-----------------------------------------------------------------------------
@@ -311,7 +310,7 @@ if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
   include(itkExternal_FFTW)
 endif()
 
-if(NOT ITKV3_COMPATIBILITY)
+if(NOT ITKV4_COMPATIBILITY)
   set(ITK_USE_64BITS_IDS_DEFAULT "OFF")
   # Note WIN32 is true when targeting any windows system
   if(CMAKE_SIZEOF_VOID_P EQUAL "8" AND WIN32)

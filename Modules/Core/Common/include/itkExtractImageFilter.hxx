@@ -31,11 +31,7 @@ namespace itk
 template< typename TInputImage, typename TOutputImage >
 ExtractImageFilter< TInputImage, TOutputImage >
 ::ExtractImageFilter():
-#ifdef ITKV3_COMPATIBILITY
-  m_DirectionCollapseStrategy(DIRECTIONCOLLAPSETOGUESS)
-#else
   m_DirectionCollapseStrategy(DIRECTIONCOLLAPSETOUNKOWN)
-#endif
 {
   Superclass::InPlaceOff();
 }

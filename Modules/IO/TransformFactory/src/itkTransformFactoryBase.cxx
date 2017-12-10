@@ -27,7 +27,6 @@
 #include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkQuaternionRigidTransform.h"
-#include "itkv3Rigid3DTransform.h"
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkScaleLogarithmicTransform.h"
 #include "itkScaleVersor3DTransform.h"
