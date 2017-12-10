@@ -142,11 +142,6 @@ public:
   /** Initialize the values of the histogram bins to zero */
   void SetToZero();
 
-  /** Get the index of a measurement value from the histogram.
-   * \deprecated Use GetIndex(const MeasurementVectorType &
-   * measurement, IndexType & index ) const instead. */
-  itkLegacyMacro(const IndexType & GetIndex(const MeasurementVectorType & measurement) const);
-
   /** Get the index of histogram corresponding to the specified
    *  measurement value. Returns true if index is valid and false if
    *  the measurement is outside the histogram */

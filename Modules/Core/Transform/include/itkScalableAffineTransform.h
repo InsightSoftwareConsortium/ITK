@@ -112,23 +112,6 @@ public:
   /** Return an inverse of this transform. */
   virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
-  /** Set the matrix of the transform. The matrix should not include
-   *  scale.
-   *  \deprecated use SetMatrix instead */
-  itkLegacyMacro(void SetMatrixComponent(const MatrixType & matrix));
-
-  /** Get matrix of the transform.
-   * \deprecated use GetMatrix instead  */
-  itkLegacyMacro(const MatrixType & GetMatrixComponent() const);
-
-  /** Set offset (origin) of the Transform.
-   * \deprecated use SetTranslation instead. */
-  itkLegacyMacro(void SetOffsetComponent(const OffsetType & offset) );
-
-  /** Get offset of the transform
-   * \deprecated use GetTranslation instead. */
-  itkLegacyMacro(const OffsetType & GetOffsetComponent(void) const );
-
 protected:
   /** Construct an ScalableAffineTransform object
    *

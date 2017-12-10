@@ -680,20 +680,6 @@ protected:
   bool IsIndexedInputName( const DataObjectIdentifierType & ) const;
   bool IsIndexedOutputName( const DataObjectIdentifierType & ) const;
 
-  /** \deprecated use RemoveOutput(unsigned int) instead */
-  itkLegacyMacro(virtual void RemoveOutput(DataObject *output));
-
-  /** \deprecated use SetNumberOfIndexedOutputs() instead */
-  itkLegacyMacro(void SetNumberOfOutputs(DataObjectPointerArraySizeType num));
-
-  /** Remove an indexed input.
-   *\deprecated use RemoveInput(unsigned int) instead
-   */
-  itkLegacyMacro(virtual void RemoveInput(DataObject *input));
-
-  /** \deprecated use SetNumberOfIndexedInputs() instead */
-  itkLegacyMacro(void SetNumberOfInputs(DataObjectPointerArraySizeType num));
-
   //
   // Pipeline Methods
   //

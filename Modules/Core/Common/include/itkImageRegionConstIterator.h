@@ -210,16 +210,6 @@ public:
     m_SpanBeginOffset = m_SpanEndOffset - static_cast< OffsetValueType >( this->m_Region.GetSize()[0] );
   }
 
-  /** Return an iterator for the beginning of the region. "Begin"
-   * is defined as the first pixel in the region.
-   * \deprecated Use GoToBegin() instead */
-  itkLegacyMacro(Self Begin(void) const);
-
-  /** Return an iterator for the end of the region. "End" is defined
-  * as one pixel past the last pixel of the region.
-  * \deprecated Use GoToEnd() instead */
-  itkLegacyMacro(Self End(void) const);
-
   /** Set the index. No bounds checking is performed. This is overridden
    * from the parent because we have an extra ivar.
    * \sa GetIndex */

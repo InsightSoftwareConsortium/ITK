@@ -158,56 +158,6 @@ Rigid3DTransform<TParametersValueType>::Translate(const OffsetType & offset, boo
   this->ComputeTranslation();
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-// Back transform a point
-template<typename TParametersValueType>
-typename Rigid3DTransform<TParametersValueType>::InputPointType
-Rigid3DTransform<TParametersValueType>::BackTransform(const OutputPointType & point) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed from ITK."
-    <<
-    "Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
-  return this->GetInverseMatrix() * ( point - this->GetOffset() );
-}
-
-// Back transform a vector
-template<typename TParametersValueType>
-typename Rigid3DTransform<TParametersValueType>::InputVectorType
-Rigid3DTransform<TParametersValueType>::BackTransform(const OutputVectorType & vect) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed from ITK."
-    <<
-    "Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
-  return this->GetInverseMatrix() * vect;
-}
-
-// Back transform a vnl_vector
-template<typename TParametersValueType>
-typename Rigid3DTransform<TParametersValueType>::InputVnlVectorType
-Rigid3DTransform<TParametersValueType>::BackTransform(const OutputVnlVectorType & vect) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed from ITK."
-    <<
-    " Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
-  return this->GetInverseMatrix() * vect;
-}
-
-// Back Transform a CovariantVector
-template<typename TParametersValueType>
-typename Rigid3DTransform<TParametersValueType>::InputCovariantVectorType
-Rigid3DTransform<TParametersValueType>::BackTransform(const OutputCovariantVectorType & vect) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed from ITK."
-    <<
-    " Instead, please use GetInverse() to generate an inverse transform and then perform the transform using that inverted transform.");
-  return this->GetMatrix() * vect;
-}
-#endif // end ITK_LEGACY_REMOVE
-
 } // namespace
 
 #endif

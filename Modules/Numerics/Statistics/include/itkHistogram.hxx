@@ -774,17 +774,6 @@ Histogram< TMeasurement, TFrequencyContainer >
     }
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-template< typename TMeasurement, typename TFrequencyContainer >
-inline const typename Histogram< TMeasurement, TFrequencyContainer >::IndexType &
-Histogram< TMeasurement, TFrequencyContainer >
-::GetIndex(const MeasurementVectorType & measurement) const
-{
-  // Have this deprecated method call the un-deprecated one..
-  this->GetIndex(measurement, m_TempIndex);
-  return m_TempIndex;
-}
-#endif
 } // end of namespace Statistics
 } // end of namespace itk
 

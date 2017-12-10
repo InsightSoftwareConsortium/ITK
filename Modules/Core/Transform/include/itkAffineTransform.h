@@ -238,30 +238,6 @@ public:
   /** Return an inverse of this transform. */
   virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
-  /** Back transform by an affine transformation
-   *
-   * This method finds the point or vector that maps to a given
-   * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown.
-   *
-   * \deprecated Please use GetInverseTransform and then call the
-   *   forward transform function */
-  itkLegacyMacro(InputPointType   BackTransform(const OutputPointType  & point) const);
-  itkLegacyMacro(InputVectorType  BackTransform(const OutputVectorType & vector) const);
-  itkLegacyMacro(InputVnlVectorType BackTransform( const OutputVnlVectorType & vector) const);
-  itkLegacyMacro(InputCovariantVectorType BackTransform( const OutputCovariantVectorType & vector) const);
-
-  /** Back transform a point by an affine transform
-   *
-   * This method finds the point that maps to a given point under
-   * the affine transformation defined by self.  If no such point
-   * exists, an exception is thrown.  The returned value is (a
-   * pointer to) a brand new point created with new.
-   *
-   * \deprecated Please use GetInverseTransform and then call the
-   *   forward transform function */
-  itkLegacyMacro(InputPointType BackTransformPoint(const OutputPointType  & point) const);
-
   /** Compute distance between two affine transformations
    *
    * This method computes a "distance" between two affine
@@ -305,96 +281,6 @@ private:
   const Self & operator=(const Self &);
 }; //class AffineTransform
 
-#if !defined(ITK_LEGACY_REMOVE)
-/** Back transform a vector */
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename AffineTransform<TParametersValueType, NDimensions>::InputVectorType
-AffineTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVectorType & vect) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed "
-    << "from ITK. Instead, please use GetInverse() to generate an inverse "
-    << "transform and then perform the transform using that inverted transform.");
-  return this->GetInverseMatrix() * vect;
-}
-
-/** Back transform a vnl_vector */
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename AffineTransform<TParametersValueType, NDimensions>::InputVnlVectorType
-AffineTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed "
-    << "from ITK. Instead, please use GetInverse() to generate an inverse "
-    << "transform and then perform the transform using that inverted transform.");
-  return this->GetInverseMatrix() * vect;
-}
-
-/** Back Transform a CovariantVector */
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename AffineTransform<TParametersValueType, NDimensions>::InputCovariantVectorType
-AffineTransform<TParametersValueType, NDimensions>::BackTransform(const OutputCovariantVectorType & vec) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed "
-    << "from ITK. Instead, please use GetInverse() to generate an inverse "
-    << "transform and then perform the transform using that inverted transform.");
-
-  InputCovariantVectorType result;    // Converted vector
-
-  for ( unsigned int i = 0; i < NDimensions; i++ )
-    {
-    result[i] = NumericTraits< ScalarType >::ZeroValue();
-    for ( unsigned int j = 0; j < NDimensions; j++ )
-      {
-      result[i] += this->GetMatrix()[j][i] * vec[j]; // Direct matrix transposed
-      }
-    }
-  return result;
-}
-
-/** Back transform a given point which is represented as type PointType */
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename AffineTransform<TParametersValueType, NDimensions>::InputPointType
-AffineTransform<TParametersValueType, NDimensions>::BackTransformPoint(const OutputPointType & point) const
-{
-  return this->BackTransform(point);
-}
-
-/** Back transform a point */
-template<typename TParametersValueType, unsigned int NDimensions>
-inline
-typename AffineTransform<TParametersValueType, NDimensions>::InputPointType
-AffineTransform<TParametersValueType, NDimensions>::BackTransform(const OutputPointType & point) const
-{
-  itkWarningMacro(
-    << "BackTransform(): This method is slated to be removed "
-    << "from ITK.  Instead, please use GetInverse() to generate an inverse "
-    << "transform and then perform the transform using that inverted transform.");
-  InputPointType result;       // Converted point
-  ScalarType     temp[NDimensions];
-  unsigned int   i, j;
-
-  for ( j = 0; j < NDimensions; j++ )
-    {
-    temp[j] = point[j] - this->GetOffset()[j];
-    }
-
-  for ( i = 0; i < NDimensions; i++ )
-    {
-    result[i] = 0.0;
-    for ( j = 0; j < NDimensions; j++ )
-      {
-      result[i] += this->GetInverseMatrix()[i][j] * temp[j];
-      }
-    }
-  return result;
-}
-#endif
 }  // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION

@@ -141,15 +141,6 @@ public:
     return m_UseSeriesDetails;
   }
 
-  /** Returns a pointer to the SeriesHelper class.  This access allows
-   *   the files as gdcm dicom objects in a series to be queried for
-   *   dicom tag values prior to reading the series.   Such querying is
-   *   useful to determine which series should be read - e.g., to determine
-   *   which is the T2 scan, etc.
-   * \deprecated because SerieHelper is deprecated in GDCM itself.
-   */
-  itkLegacyMacro(gdcm::SerieHelper * GetSeriesHelper(void));
-
   /** Add more restriction on the selection of a Series. This follow the same
    * approach as SetUseSeriesDetails, but allow a user to add even more DICOM
    * tags to take into account for subrefining a set of DICOM files into multiple

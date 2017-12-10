@@ -36,12 +36,4 @@ TimeProbe
   return m_RealTimeClock->GetTimeInSeconds();
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-TimeProbe::TimeStampType
-TimeProbe
-::GetMeanTime(void) const
-{
-  return this->GetMean();
-}
-#endif
 } // end namespace itk

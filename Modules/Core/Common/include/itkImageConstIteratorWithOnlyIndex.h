@@ -226,16 +226,8 @@ public:
     m_PositionIndex = ind;
   }
 
-  /** Move an iterator to the beginning of the region.
-   * \deprecated Use GoToBegin() instead */
-  itkLegacyMacro(Self Begin(void) const);
-
   /** Move an iterator to the beginning of the region. */
   void GoToBegin();
-
-  /** Move an iterator to the End of the region.
-   * \deprecated Use GoToReverseBegin() instead */
-  itkLegacyMacro(Self End(void) const);
 
   /** Move an iterator to the End of the region. */
   void GoToReverseBegin();

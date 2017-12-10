@@ -373,16 +373,6 @@ HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
   return m_LinesList;
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-template< typename TInputPixelType, typename TOutputPixelType >
-typename HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >::LinesListType &
-HoughTransform2DLinesImageFilter< TInputPixelType, TOutputPixelType >
-::GetLines(unsigned int)
-{
-  return this->GetLines();
-}
-#endif
-
 /** Print Self information */
 template< typename TInputPixelType, typename TOutputPixelType >
 void

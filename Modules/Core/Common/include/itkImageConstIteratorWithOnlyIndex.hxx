@@ -156,36 +156,6 @@ ImageConstIteratorWithOnlyIndex< TImage >
     }
 }
 
-#if !defined(ITK_LEGACY_REMOVE)
-//----------------------------------------------------------------------------
-// Begin() is the first pixel in the region.
-//----------------------------------------------------------------------------
-template< typename TImage >
-ImageConstIteratorWithOnlyIndex< TImage >
-ImageConstIteratorWithOnlyIndex< TImage >
-::Begin() const
-{
-  Self it(*this);
-
-  it.GoToBegin();
-  return it;
-}
-
-//----------------------------------------------------------------------------
-// End() is the last pixel in the region.  DEPRECATED
-//----------------------------------------------------------------------------
-template< typename TImage >
-ImageConstIteratorWithOnlyIndex< TImage >
-ImageConstIteratorWithOnlyIndex< TImage >
-::End() const
-{
-  Self it(*this);
-
-  it.GoToReverseBegin();
-  return it;
-}
-#endif
-
 } // end namespace itk
 
 #endif

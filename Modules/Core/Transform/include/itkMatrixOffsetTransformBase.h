@@ -458,13 +458,7 @@ public:
     return true;
   }
 
-#if !defined(ITK_LEGACY_REMOVE)
-
-public:
-#else
-
 protected:
-#endif
   /** \deprecated Use GetInverse for public API instead.
    * Method will eventually be made a protected member function */
   const InverseMatrixType & GetInverseMatrix() const;

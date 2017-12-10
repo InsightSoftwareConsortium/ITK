@@ -97,10 +97,6 @@ public:
   using Superclass::IsRequiredInputName;
   using Superclass::SetRequiredInputNames;
   using Superclass::VerifyPreconditions;
-#if !defined(ITK_LEGACY_REMOVE)
-  using Superclass::SetNumberOfInputs;
-  using Superclass::SetNumberOfOutputs;
-#endif
 };
 
 }

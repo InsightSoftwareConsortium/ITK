@@ -143,22 +143,6 @@ public:
               const TParametersValueType tolerance =
                   MatrixOrthogonalityTolerance<TParametersValueType>::GetTolerance());
 
-  /**
-   * Back transform by an affine transformation
-   *
-   * This method finds the point or vector that maps to a given
-   * point or vector under the affine transformation defined by
-   * self.  If no such point exists, an exception is thrown.
-   *
-   * \deprecated Please use GetInverseTransform and then call the forward
-   *   transform using the result.
-   *
-   */
-  itkLegacyMacro(InputPointType      BackTransform(const OutputPointType & point) const);
-  itkLegacyMacro(InputVectorType     BackTransform(const OutputVectorType & vector) const);
-  itkLegacyMacro(InputVnlVectorType  BackTransform(const OutputVnlVectorType & vector) const);
-  itkLegacyMacro(InputCovariantVectorType BackTransform(const OutputCovariantVectorType & vector) const);
-
 protected:
   Rigid3DTransform(const MatrixType & matrix,
                    const OutputVectorType & offset);
