@@ -21,7 +21,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"
-#include "itkSymmetricEigenAnalysis.h"
 #include "itkMaximumAbsoluteValueImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
@@ -88,7 +87,7 @@ public:
 
   /** Eigenvalue analysis related typedefs. */
   typedef typename NumericTraits< PixelType >::RealType                               RealType;
-  typedef FixedArray< RealType, HessianPixelType::Dimension >                         EigenValueArrayType;
+  typedef Vector< RealType, HessianPixelType::Dimension >                         EigenValueArrayType;
   typedef Image< EigenValueArrayType, TInputImage::ImageDimension >                   EigenValueImageType;
   typedef SymmetricEigenAnalysisImageFilter< HessianImageType, EigenValueImageType >  EigenAnalysisFilterType;
 
