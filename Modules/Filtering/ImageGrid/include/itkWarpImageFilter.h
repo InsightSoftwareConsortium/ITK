@@ -151,10 +151,12 @@ public:
   /** Type for representing the direction of the output image */
   typedef typename TOutputImage::DirectionType DirectionType;
 
+
   /** Set the displacement field. */
-  void SetDisplacementField(const DisplacementFieldType *field);
+  itkSetInputMacro(DisplacementField, DisplacementFieldType);
+
   /** Get a pointer the displacement field. */
-  DisplacementFieldType * GetDisplacementField();
+  itkGetInputMacro(DisplacementField, DisplacementFieldType);
 
 #ifdef ITKV3_COMPATIBILITY
   void SetDeformationField(const DisplacementFieldType *field)
@@ -163,7 +165,7 @@ public:
   }
   DeformationFieldType * GetDeformationField(void)
   {
-    return static_cast<DeformationFieldType *> (GetDisplacementField());
+    return const_cast<DeformationFieldType *> (GetDisplacementField());
   }
 #endif
 
