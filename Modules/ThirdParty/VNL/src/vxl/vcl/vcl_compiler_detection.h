@@ -128,7 +128,7 @@
 # undef VXL_COMPILER_IS_GNU
 # define VXL_COMPILER_IS_GNU 1
 
-#elif defined(_MSC_VER)
+#elif defined(_MSC_VER) && _MSC_VER >= 1600
 # undef VXL_COMPILER_IS_MSVC
 # define VXL_COMPILER_IS_MSVC 1
 
