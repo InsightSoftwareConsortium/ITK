@@ -27,26 +27,25 @@ namespace Functor {
 template<typename TInputPixel1, typename TInputPixel2 = TInputPixel1, typename TOutputPixel = TInputPixel1>
 class MaximumAbsoluteValue {
 public:
-    MaximumAbsoluteValue() {
-    }
+  MaximumAbsoluteValue() {
+  }
 
-    ~MaximumAbsoluteValue() {
-    }
+  ~MaximumAbsoluteValue() {
+  }
 
-#ifdef ITK_USE_CONCEPT_CHECKING
-  // Begin concept checking
-  itkConceptMacro( Input1ConvertableToOutputCheck,
-                   ( Concept::Convertible< TInputPixel1, TOutputPixel >) );
-  itkConceptMacro( Input2ConvertableToOutputCheck,
-                   ( Concept::Convertible< TInputPixel2, TOutputPixel >) );
-  itkConceptMacro( Input1GreaterThanInput2Check,
-                   ( Concept::GreaterThanComparable< TInputPixel1, TInputPixel2 >) );
-  // End concept checking
-#endif
+  bool operator!=(const MaximumAbsoluteValue &) const
+  {
+    return false;
+  }
 
-    inline TOutputPixel operator()(const TInputPixel1 A, const TInputPixel2 B) {
-        return static_cast<TOutputPixel>(Math::abs(A) > Math::abs(B) ? A : B);
-    }
+  bool operator==(const MaximumAbsoluteValue & other) const
+  {
+    return !( *this != other );
+  }
+
+  inline TOutputPixel operator()(const TInputPixel1 A, const TInputPixel2 B) {
+    return static_cast<TOutputPixel>(Math::abs(A) > Math::abs(B) ? A : B);
+  }
 }; // end of class
 } // namespace functor
 
@@ -76,13 +75,25 @@ public:
                   typename TOutputImage::PixelType> > Superclass;
   typedef SmartPointer<Self>                          Pointer;
   typedef SmartPointer<const Self>                    ConstPointer;
+  typedef typename TInputImage1::PixelType            Input1PixelType;
+  typedef typename TInputImage2::PixelType            Input2PixelType;
+  typedef typename TOutputImage::PixelType            OutputPixelType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
   /** Runtime information support. */
   itkTypeMacro(MaximumAbsoluteValueImageFilter, BinaryFunctorImageFilter);
-
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro( Input1ConvertableToOutputCheck,
+                   ( Concept::Convertible< Input1PixelType, OutputPixelType > ) );
+  itkConceptMacro( Input2ConvertableToOutputCheck,
+                   ( Concept::Convertible< Input2PixelType, OutputPixelType > ) );
+  itkConceptMacro( Input1GreaterThanInput2Check,
+                   ( Concept::GreaterThanComparable< Input1PixelType, Input2PixelType > ) );
+  // End concept checking
+#endif
 protected:
     MaximumAbsoluteValueImageFilter() {
     };
