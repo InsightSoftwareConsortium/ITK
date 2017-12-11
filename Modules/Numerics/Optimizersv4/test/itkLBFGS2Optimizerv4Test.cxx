@@ -162,13 +162,13 @@ int itkLBFGS2Optimizerv4Test(int, char* [] )
   itkOptimizer->SetDeltaConvergenceDistance( 0 );
   itkOptimizer->SetDeltaConvergenceTolerance( 0 );
   itkOptimizer->SetMaximumIterations( 0 );
-  itkOptimizer->SetLinesearch( OptimizerType::LINESEARCH_DEFAULT );
-  itkOptimizer->SetMaximumLinesearchEvaluations( 20 );
-  itkOptimizer->SetMinimumLinesearchStep( 1e-20 );
-  itkOptimizer->SetMaximumLinesearchStep( 1e+20 );
-  itkOptimizer->SetLinesearchAccuracy( 1e-4 );
+  itkOptimizer->SetLineSearch( OptimizerType::LINESEARCH_DEFAULT );
+  itkOptimizer->SetMaximumLineSearchEvaluations( 20 );
+  itkOptimizer->SetMinimumLineSearchStep( 1e-20 );
+  itkOptimizer->SetMaximumLineSearchStep( 1e+20 );
+  itkOptimizer->SetLineSearchAccuracy( 1e-4 );
   itkOptimizer->SetWolfeCoefficient( 0 );
-  itkOptimizer->SetLinesearchGradientAccuracy( 0.9 );
+  itkOptimizer->SetLineSearchGradientAccuracy( 0.9 );
   //itkOptimizer->SetMachinePrecisionTolerance():
   itkOptimizer->SetOrthantwiseCoefficient( 0 );
   itkOptimizer->SetOrthantwiseStart( 0 );
@@ -216,7 +216,7 @@ int itkLBFGS2Optimizerv4Test(int, char* [] )
   std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
 
   std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "LinesearchAccuracy   = " << itkOptimizer->GetLinesearchAccuracy() << std::endl;
+  std::cout << "LineSearchAccuracy   = " << itkOptimizer->GetLineSearchAccuracy() << std::endl;
   std::cout << "SolutionAccuracy   = " << itkOptimizer->GetSolutionAccuracy() << std::endl;
   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 

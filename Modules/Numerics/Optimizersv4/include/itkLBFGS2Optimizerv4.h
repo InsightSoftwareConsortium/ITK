@@ -50,11 +50,11 @@ namespace itk
  *   \le
  * \nu \lVert \nabla f(x) \rVert
  * \f]
- * The parameter \f$\nu\f$ is set through SetLinesearchAccuracy() (default 0.9)
- * and SetGradientLinesearchAccuracy()
+ * The parameter \f$\nu\f$ is set through SetLineSearchAccuracy() (default 0.9)
+ * and SetGradientLineSearchAccuracy()
  *
  * Instead of the More-Tunete method, backtracking with three different
- * conditions [7] are availabe and can be set through SetLinesearch():
+ * conditions [7] are availabe and can be set through SetLineSearch():
  *  - LINESEARCH_BACKTRACKING_ARMIJO
  *  - LINESEARCH_BACKTRACKING_WOLFE
  *  - LINESEARCH_BACKTRACKING_STRONG_WOLFE
@@ -104,7 +104,7 @@ class ITKOptimizersv4_EXPORT LBFGS2Optimizerv4:
 
 public:
 
-  enum LinesearchMethod{
+  enum LineSearchMethod{
     /** The default algorithm (MoreThuente method). */
     LINESEARCH_DEFAULT = 0,
     /** MoreThuente method proposd by More and Thuente. */
@@ -245,19 +245,19 @@ public:
   /**
    * The line search algorithm.
    * This parameter specifies a line search algorithm to be used by the
-   * L-BFGS routine. See lbfgs.h for enumeration of linesearchtype.
+   * L-BFGS routine. See lbfgs.h for enumeration of line search type.
    * Defaults to More-Thuente's method.
    */
-  void SetLinesearch(const LinesearchMethod &linesearch);
-  LinesearchMethod GetLinesearch() const;
+  void SetLineSearch(const LineSearchMethod &linesearch);
+  LineSearchMethod GetLineSearch() const;
 
   /**
    * The maximum number of trials for the line search.
    *  This parameter controls the number of function and gradients evaluations
    *  per iteration for the line search routine. The default value is \c 20.
    */
-  void SetMaximumLinesearchEvaluations(int n);
-  int GetMaximumLinesearchEvaluations() const;
+  void SetMaximumLineSearchEvaluations(int n);
+  int GetMaximumLineSearchEvaluations() const;
 
   /**
    * The minimum step of the line search routine.
@@ -266,8 +266,8 @@ public:
    *  problem is extremely badly scaled (in which case the exponents should
    *  be increased).
    */
-  void SetMinimumLinesearchStep(PrecisionType step);
-  PrecisionType GetMinimumLinesearchStep() const;
+  void SetMinimumLineSearchStep(PrecisionType step);
+  PrecisionType GetMinimumLineSearchStep() const;
 
   /**
    * The maximum step of the line search.
@@ -276,16 +276,16 @@ public:
    *  problem is extremely badly scaled (in which case the exponents should
    *  be increased).
    */
-  void SetMaximumLinesearchStep(PrecisionType step);
-  PrecisionType GetMaximumLinesearchStep() const;
+  void SetMaximumLineSearchStep(PrecisionType step);
+  PrecisionType GetMaximumLineSearchStep() const;
 
   /**
    * A parameter to control the accuracy of the line search routine.
    *  The default value is \c 1e-4. This parameter should be greater
    *  than zero and smaller than \c 0.5.
    */
-  void SetLinesearchAccuracy( PrecisionType ftol );
-  PrecisionType GetLinesearchAccuracy() const;
+  void SetLineSearchAccuracy( PrecisionType ftol );
+  PrecisionType GetLineSearchAccuracy() const;
 
 
   /**
@@ -312,8 +312,8 @@ public:
    * greater than the \c ftol parameter (\c 1e-4) and smaller than
    * \c 1.0.
    */
-  void SetLinesearchGradientAccuracy( PrecisionType gtol );
-  PrecisionType GetLinesearchGradientAccuracy() const;
+  void SetLineSearchGradientAccuracy( PrecisionType gtol );
+  PrecisionType GetLineSearchGradientAccuracy() const;
 
   /**
    * The machine precision for floating-point values.
