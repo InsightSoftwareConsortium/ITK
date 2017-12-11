@@ -47,7 +47,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("BSplineTransform_double_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_double_3_3", 3);
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined ( ITK_LEGACY_REMOVE )
   itkPushIfTransformDim("BSplineDeformableTransform_double_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_double_3_3", 3);
 #endif
@@ -128,7 +128,7 @@ int itkTransformFactoryBaseTest (int, char*[])
 
   itkPushIfTransformDim("BSplineTransform_float_2_2", 2);
   itkPushIfTransformDim("BSplineTransform_float_3_3", 3);
-#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+#if !defined ( ITK_LEGACY_REMOVE )
   itkPushIfTransformDim("BSplineDeformableTransform_float_2_2", 2);
   itkPushIfTransformDim("BSplineDeformableTransform_float_3_3", 3);
 #endif

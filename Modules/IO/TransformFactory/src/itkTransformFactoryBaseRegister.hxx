@@ -55,7 +55,7 @@
 #include "itkTimeVaryingVelocityFieldTransform.h"
 #include "itkVelocityFieldTransform.h"
 
-#if !defined( ITK_FUTURE_LEGACY_REMOVE )
+#if !defined ( ITK_LEGACY_REMOVE )
 #include "itkBSplineDeformableTransform.h"
 #endif
 
@@ -110,7 +110,7 @@ void TransformFactoryBase::RegisterTransformFactory()
 
   TransformFactory< BSplineTransform<TParameterType, 2, 3> >::RegisterTransform ();
   TransformFactory< BSplineTransform<TParameterType, 3, 3> >::RegisterTransform ();
-#if !defined( ITK_FUTURE_LEGACY_REMOVE )
+#if !defined ( ITK_LEGACY_REMOVE )
   TransformFactory< BSplineDeformableTransform<TParameterType, 2, 2> >::RegisterTransform ();
   TransformFactory< BSplineDeformableTransform<TParameterType, 3, 3> >::RegisterTransform ();
 #endif

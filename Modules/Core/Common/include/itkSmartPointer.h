@@ -141,7 +141,7 @@ public:
     return m_Pointer;
   }
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   void swap(SmartPointer &other)
     {
       this->Swap(other);

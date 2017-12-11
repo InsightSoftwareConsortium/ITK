@@ -163,7 +163,7 @@ public:
     return static_cast<const MaskImageType*>( this->ProcessObject::GetInput( 1 ) );
     }
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   /**
    * \deprecated
    * Set/Get mask label value. If a binary mask image is specified and if
@@ -416,7 +416,7 @@ private:
    */
   RealType CalculateConvergenceMeasurement( const RealImageType *, const RealImageType * ) const;
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   MaskPixelType m_MaskLabel;
   bool          m_UseMaskLabel;
 #endif

@@ -117,7 +117,7 @@ public:
   itkSetMacro(Beta, float);
   itkGetConstMacro(Beta, float);
 
-#ifndef ITK_FUTURE_LEGACY_REMOVE
+#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
   /** Set/Get whether an optimized lookup table for the intensity
    * mapping function is used.  Default is off.
    * \deprecated

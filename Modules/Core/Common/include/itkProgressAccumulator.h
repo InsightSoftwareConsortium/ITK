@@ -91,7 +91,7 @@ public:
    * because this functionality is already present in the filter
    * constructor.
    */
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   void ResetProgress();
 #endif
 
@@ -107,7 +107,7 @@ public:
    * triggered a ModifiedTime and thus caused the filters to rerun.
    * To avoid this behavior, the implementation of this method is now empty.
    */
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   void ResetFilterProgressAndKeepAccumulatedProgress();
 #endif
 

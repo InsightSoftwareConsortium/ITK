@@ -112,7 +112,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
 /** \deprecated
  * Set seed point 1. This seed will be isolated from Seed2 (if possible).
  *  This method is deprecated, please use AddSeed1() */
@@ -149,7 +149,7 @@ IsolatedConnectedImageFilter< TInputImage, TOutputImage >
   this->Modified();
 }
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
 /** \deprecated
  * Set seed point 2. This seed will be isolated from Seed1 (if possible).
  *  This method is deprecated, please use AddSeed2() */

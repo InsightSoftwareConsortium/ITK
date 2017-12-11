@@ -299,13 +299,13 @@ public:
   void SetOutputMask(ImageMaskType *outputMask);
   itkGetModifiableObjectMacro(OutputMask, ImageMaskType);
 
-#if defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if defined ( ITK_LEGACY_REMOVE )
   /** If this value is true, the filter assumes the bias field is
    * multiplicative and internally uses log intensity values for
    * every calculation. */
   void IsBiasFieldMultiplicative(bool flag)
   { m_BiasFieldMultiplicative = flag; }
-#endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
+#endif // defined ( ITK_LEGACY_REMOVE )
 
   /** Set/Get the multiplicative nature of the filter's bias field: if
    * true, the filter assumes the bias field is multiplicative and
@@ -314,11 +314,11 @@ public:
   itkGetConstMacro(BiasFieldMultiplicative, bool);
   itkBooleanMacro(BiasFieldMultiplicative);
 
-#if defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if defined ( ITK_LEGACY_REMOVE )
   /** If the bias field is multiplicative, it returns true. */
   bool IsBiasFieldMultiplicative()
   { return m_BiasFieldMultiplicative; }
-#endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
+#endif // defined ( ITK_LEGACY_REMOVE )
 
   /** Set/Get the intensity correction flag. If the flag is true, inter-slice
    * intensity correction will be applied before bias field

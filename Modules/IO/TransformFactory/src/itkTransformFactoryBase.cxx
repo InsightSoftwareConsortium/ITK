@@ -49,7 +49,7 @@
 #include "itkTimeVaryingVelocityFieldTransform.h"
 #include "itkVelocityFieldTransform.h"
 
-#if !defined( ITK_FUTURE_LEGACY_REMOVE )
+#if !defined ( ITK_LEGACY_REMOVE )
 #include "itkBSplineDeformableTransform.h"
 #endif
 

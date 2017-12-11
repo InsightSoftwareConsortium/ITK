@@ -292,7 +292,7 @@ public:
    * if it doesn't need to.
    * Thus, we implement the SetClampMacro directly without the call to
    * Modified. */
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   void SetProgress(float progress)
   {
     // Clamp the value to be between 0 and 1.

@@ -68,7 +68,7 @@ public:
   /** Read the transforms */
   virtual void Update();
 
-#if !defined( ITK_FUTURE_LEGACY_REMOVE )
+#if !defined ( ITK_LEGACY_REMOVE )
   /** Get the list of transforms.
    * \warning The output is not intended to be modifiable.
    * \deprecated */

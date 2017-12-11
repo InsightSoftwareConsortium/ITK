@@ -99,11 +99,11 @@ ImageBase< VImageDimension >
     {
     if ( this->m_Spacing[i] < 0.0 )
       {
-#if  defined(ITK_FUTURE_LEGACY_REMOVE)
-      itkExceptionMacro("Negative spacing is not allowed: Spacing is " << this->m_Spacing);
-#else
+#if ! defined ( ITK_LEGACY_REMOVE )
       itkWarningMacro("Negative spacing is not supported and may result in undefined behavior. Spacing is " << this->m_Spacing);
       break;
+#else
+      itkExceptionMacro("Negative spacing is not allowed: Spacing is " << this->m_Spacing);
 #endif
       }
     }

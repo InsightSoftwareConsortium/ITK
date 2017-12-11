@@ -144,7 +144,7 @@ public:
   itkSetMacro(Upper, InputImagePixelType);
   itkGetConstReferenceMacro(Upper, InputImagePixelType);
 
-#if ! defined ( ITK_FUTURE_LEGACY_REMOVE )
+#if ! defined ( ITK_LEGACY_REMOVE )
   /** \deprecated
    * Set/Get the limit on the upper threshold value. The default is
       the max() for the InputPixelType.  These methods have been
