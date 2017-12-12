@@ -103,7 +103,7 @@ class VNL_ALGO_EXPORT vnl_amoeba
   //: Modify x so as to minimise f(x)
   static void minimize(vnl_least_squares_function& f, vnl_vector<double>& x);
 
-  static VNL_ALGO_EXPORT bool default_verbose;
+  static bool default_verbose;
 
  protected:
   vnl_cost_function* fptr;
