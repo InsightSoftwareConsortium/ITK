@@ -38,6 +38,11 @@ namespace itk {
  * Where the Frobenius norm for a real, symmetric matrix is given by
  * the square root of the sum of squares of the eigenvalues.
  * 
+ * If the input image and mask have different regions over which they
+ * are defined, parameters are estimated only in the intersection of
+ * the two image regions. However, the mask region must be a proper sub
+ * subset (contained) in the image region.
+ * 
  * \sa KrcahEigenToScalarImageFilter
  * 
  * \author: Bryce Besler

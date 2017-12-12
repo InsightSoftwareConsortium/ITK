@@ -62,8 +62,12 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(KrcahEigenToScalarImageFilter, EigenToScalarImageFilter);
 
-  /** Mask related typedefs. */
-  typedef typename TMaskImage::PixelType    MaskPixelType;
+  /** Useful template typedefs. */
+  typedef typename TInputImage::Pointer       InputImagePointer;
+  typedef typename TInputImage::ConstPointer  InputImageConstPointer;
+  typedef typename TMaskImage::Pointer        MaskImagePointer;
+  typedef typename TMaskImage::ConstPointer   MaskImageConstPointer;
+  typedef typename TMaskImage::PixelType      MaskPixelType;
 
   /** Procesing filters */
   typedef KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >   ParameterEstimationFilterType;
@@ -80,6 +84,7 @@ public:
   void SetMaskImage(const TMaskImage * mask)
   {
     this->m_ParameterEstimationFilter->SetMaskImage(mask);
+    this->Modified();
   }
   virtual const TMaskImage * GetMaskImage() const
   {
@@ -90,6 +95,7 @@ public:
   virtual void SetBackgroundValue(const MaskPixelType back)
   {
     this->m_ParameterEstimationFilter->SetBackgroundValue(back);
+    this->Modified();
   }
   virtual MaskPixelType GetBackgroundValue() const
   {
@@ -100,6 +106,7 @@ public:
   virtual void SetParameterSet(const KrcahImplementationType back)
   {
     this->m_ParameterEstimationFilter->SetParameterSet(back);
+    this->Modified();
   }
   virtual KrcahImplementationType GetParameterSet() const
   {
@@ -107,9 +114,11 @@ public:
   }
   virtual void SetParameterSetToImplementation(){
     this->m_ParameterEstimationFilter->SetParameterSetToImplementation();
+    this->Modified();
   }
   virtual void SetParameterSetToJournalArticle(){
     this->m_ParameterEstimationFilter->SetParameterSetToJournalArticle();
+    this->Modified();
   }
 
   /** Methods to get the computed parameters */
@@ -127,10 +136,12 @@ public:
   void SetEnhanceBrightObjects()
   {
     this->m_UnaryFunctorFilter->SetEnhanceBrightObjects();
+    this->Modified();
   }
   void SetEnhanceDarkObjects()
   {
     this->m_UnaryFunctorFilter->SetEnhanceDarkObjects();
+    this->Modified();
   }
   typename UnaryFunctorFilterType::RealType GetEnhanceType() const
   {

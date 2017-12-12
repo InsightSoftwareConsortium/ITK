@@ -65,6 +65,11 @@ namespace itk {
  * of view may throw off the parameter estimation. In those cases, a mask can
  * be provided so those voxels are not factored into the calculation of \f$ T \f$.
  * 
+ * If the input image and mask have different regions over which they
+ * are defined, parameters are estimated only in the intersection of
+ * the two image regions. However, the mask region must be a proper sub
+ * subset (contained) in the image region.
+ * 
  * \sa KrcahEigenToScalarImageFilter
  * 
  * \author: Bryce Besler

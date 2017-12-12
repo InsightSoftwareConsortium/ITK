@@ -63,11 +63,16 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
+  
   if ( this->GetInput() )
   {
-  InputImagePointer image =
-    const_cast< typename Superclass::InputImageType * >( this->GetInput() );
-  image->SetRequestedRegionToLargestPossibleRegion();
+    InputImagePointer image = const_cast< typename Superclass::InputImageType * >( this->GetInput() );
+    image->SetRequestedRegionToLargestPossibleRegion();
+  }
+  if ( this->GetMaskImage() )
+  {
+    MaskImagePointer mask = const_cast< TMaskImage * >( this->GetMaskImage() );
+    mask->SetRequestedRegionToLargestPossibleRegion();
   }
 }
 
@@ -149,12 +154,6 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
 ::ThreadedGenerateData(const OutputRegionType & outputRegionForThread,
                        ThreadIdType threadId)
 {
-  const SizeValueType size0 = outputRegionForThread.GetSize(0);
-  if (size0 == 0)
-  {
-    return;
-  }
-
   /* Determine which function to call */
   RealType (Self::*traceFunction)(InputPixelType);
   switch(m_ParameterSet)
@@ -175,17 +174,34 @@ KrcahEigenToScalarParameterEstimationImageFilter< TInputImage, TMaskImage >
   RealType accumulatedAverageTrace = NumericTraits< RealType >::ZeroValue();
 
   /* Get input pointer */
-  InputImagePointer inputPointer = const_cast< TInputImage * >( this->GetInput() );
+  InputImageConstPointer inputPointer = this->GetInput();
 
   /* Get mask pointer */
-  MaskImagePointer maskPointer = TMaskImage::New();
-  maskPointer = const_cast<TMaskImage*>(this->GetMaskImage());
+  MaskImageConstPointer maskPointer = this->GetMaskImage();
+
+  /* If we have a mask pointer we need to crop outputRegionForThread to the mask region */
+  InputRegionType croppedRegion = outputRegionForThread;
+  if (maskPointer) {
+    croppedRegion.Crop( maskPointer->GetLargestPossibleRegion() );
+    /* No check for one region being inside the other. Superclass::GenerateInputRequestedRegion()
+     * takes care of the case of the mask region being outside the image region. It's actually
+     * impossible to determine if the mask region is valid inside ThreadedGenerateData because
+     * outputRegionForThread is a sub region of the output region.
+     */
+  }
+
+  /* If size is zero, return */
+  const SizeValueType size0 = croppedRegion.GetSize(0);
+  if (size0 == 0)
+  {
+    return;
+  }
 
   /* Setup progress reporter */
-  ProgressReporter progress( this, threadId, outputRegionForThread.GetNumberOfPixels() );
+  ProgressReporter progress( this, threadId, croppedRegion.GetNumberOfPixels() );
 
   /* Setup iterator */
-  ImageRegionConstIteratorWithIndex< TInputImage > inputIt(inputPointer, outputRegionForThread);
+  ImageRegionConstIteratorWithIndex< TInputImage > inputIt(inputPointer, croppedRegion);
 
   /* Iterate and count */
   inputIt.GoToBegin();
