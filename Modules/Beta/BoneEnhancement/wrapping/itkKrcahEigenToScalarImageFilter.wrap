@@ -1,4 +1,4 @@
-itk_wrap_class("itk::KrcahEigenToScalarParameterEstimationImageFilter" POINTER_WITH_SUPERCLASS)
+itk_wrap_class("itk::KrcahEigenToScalarParameterEstimationImageFilter" POINTER)
   foreach(t1 ${WRAP_ITK_VECTOR_REAL})
     foreach(t3 ${WRAP_ITK_SCALAR})
       # Only defined for vectors of dimension 3 and images of dimension 3
@@ -7,7 +7,7 @@ itk_wrap_class("itk::KrcahEigenToScalarParameterEstimationImageFilter" POINTER_W
   endforeach()
 itk_end_wrap_class()
 
-itk_wrap_class("itk::KrcahEigenToScalarImageFilter" POINTER_WITH_SUPERCLASS)
+itk_wrap_class("itk::KrcahEigenToScalarImageFilter" POINTER)
   foreach(t1 ${WRAP_ITK_VECTOR_REAL})
     foreach(t2 ${WRAP_ITK_REAL})
       foreach(t3 ${WRAP_ITK_SCALAR})
