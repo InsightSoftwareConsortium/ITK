@@ -523,7 +523,7 @@ itk_add_test(NAME itkRegionSplitterMultidimensionalTest COMMAND ITKCommon2TestDr
 
 itk_add_test(NAME itkSimpleFastMutexLockTest COMMAND ITKCommon2TestDriver itkSimpleFastMutexLockTest)
 # short timeout because failing test will hang and test is quite small
-set_tests_properties(itkSimpleFastMutexLockTest PROPERTIES TIMEOUT 5)
+set_tests_properties(itkSimpleFastMutexLockTest PROPERTIES TIMEOUT 60)
 
 itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaDataObjectTest)
 
