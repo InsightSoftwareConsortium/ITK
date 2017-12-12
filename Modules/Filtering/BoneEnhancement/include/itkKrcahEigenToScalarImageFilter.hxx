@@ -39,10 +39,16 @@ void
 KrcahEigenToScalarImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
+
   if (this->GetInput())
   {
-    typename TInputImage::Pointer image = const_cast<TInputImage *>(this->GetInput());
+    InputImagePointer image = const_cast<typename Superclass::InputImageType *>(this->GetInput());
     image->SetRequestedRegionToLargestPossibleRegion();
+  }
+  if (this->GetMaskImage())
+  {
+    MaskImagePointer mask = const_cast<TMaskImage *>(this->GetMaskImage());
+    mask->SetRequestedRegionToLargestPossibleRegion();
   }
 }
 
@@ -58,9 +64,8 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 KrcahEigenToScalarImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
-  /* Get input */
-  typename TInputImage::Pointer input = TInputImage::New();
-  input->Graft(const_cast<TInputImage *>(this->GetInput()));
+  /* Get inputs */
+  InputImageConstPointer input = this->GetInput();
 
   /* Connect filters */
   m_ParameterEstimationFilter->SetInput(input);
