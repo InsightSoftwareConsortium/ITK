@@ -111,14 +111,14 @@ MultiScaleHessianEnhancementImageFilter< TInputImage, TOutputImage >
   float perFilterProccessPercentage = 1.0 / numberOfFiltersToProcess;
   itkDebugMacro(<< "each filter accounts for " << perFilterProccessPercentage*100.0 << "% of processing");
 
-  progress->RegisterInternalFilter(m_HessianFilter, 3*perFilterProccessPercentage);
-  progress->RegisterInternalFilter(m_EigenAnalysisFilter, 3*perFilterProccessPercentage);
-  progress->RegisterInternalFilter(m_EigenToScalarImageFilter, 3*perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_HessianFilter, m_SigmaArray.GetSize()*perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenAnalysisFilter, m_SigmaArray.GetSize()*perFilterProccessPercentage);
+  progress->RegisterInternalFilter(m_EigenToScalarImageFilter, m_SigmaArray.GetSize()*perFilterProccessPercentage);
 
   /* Check if we need to run the MaximumAbsoluteValueFilter at all */ 
   if (m_SigmaArray.GetSize() > 1)
   {
-    progress->RegisterInternalFilter(m_MaximumAbsoluteValueFilter, perFilterProccessPercentage);
+    progress->RegisterInternalFilter(m_MaximumAbsoluteValueFilter, (m_SigmaArray.GetSize()-1)*perFilterProccessPercentage);
   }
   else
   {
