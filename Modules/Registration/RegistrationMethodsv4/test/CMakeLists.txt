@@ -219,6 +219,8 @@ itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldImageRegistrationTest
               0.5 # learning rate
               )
 
+set_property(TEST itkTimeVaryingBSplineVelocityFieldImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
+
 itk_add_test(NAME itkSyNImageRegistrationTest
       COMMAND ITKRegistrationMethodsv4TestDriver
               itkSyNImageRegistrationTest
