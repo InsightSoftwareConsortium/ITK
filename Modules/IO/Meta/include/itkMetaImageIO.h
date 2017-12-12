@@ -158,7 +158,7 @@ public:
    * will make the conversion of a double floating-point to text and
    * back exact.
    * This function is not thread safe.
-   * \default value is 17
+   * Default value after static initialization is 17.
    */
   static void SetDefaultDoublePrecision(unsigned int precision);
   static unsigned int GetDefaultDoublePrecision();
