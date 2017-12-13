@@ -68,9 +68,15 @@ public:
   /** Runtime information support. */
   itkTypeMacro(KrcahEigenToScalarPreprocessingImageToImageFilter, ImageToImageFilter);
 
+  /** Extract some information from the image types.  Dimensionality
+   * of the two images is assumed to be the same. */
+  itkStaticConstMacro(ImageDimension, unsigned int, TOutputImage::ImageDimension);
+
   /** Image related typedefs. */
-  typedef typename TInputImage::PixelType               PixelType;
-  typedef typename NumericTraits< PixelType >::RealType RealType;
+  typedef typename TInputImage::PixelType                     PixelType;
+  typedef typename TOutputImage::PixelType                    OutputPixelType;
+  typedef typename NumericTraits< PixelType >::RealType       RealType;
+  typedef typename NumericTraits<OutputPixelType>::ValueType  OutputPixelValueType;
 
   /** Typedefs for internal filters */
   typedef DiscreteGaussianImageFilter<TInputImage, TInputImage>       GaussianFilterType;
@@ -91,6 +97,20 @@ public:
   itkSetMacro(ScalingConstant, RealType);
   itkGetConstMacro(ScalingConstant, RealType);
 
+  /** DiscreteGaussianImageFilter needs a larger input requested region
+   * than the output requested region (larger by the size of the
+   * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
+   * provide an implementation for GenerateInputRequestedRegion() in
+   * order to inform the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  virtual void GenerateInputRequestedRegion() throw( InvalidRequestedRegionError );
+  
+#ifdef ITK_USE_CONCEPT_CHECKING
+  // Begin concept checking
+  itkConceptMacro( InputOutputHaveSamePixelDimensionCheck,
+                   ( Concept::SameDimension< TInputImage::ImageDimension, TOutputImage::ImageDimension >) );
+  // End concept checking
+#endif
 protected:
   KrcahEigenToScalarPreprocessingImageToImageFilter();
   virtual ~KrcahEigenToScalarPreprocessingImageToImageFilter() {}
