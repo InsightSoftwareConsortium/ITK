@@ -63,7 +63,8 @@ add_library(${CHARLS_LIBRARY_NAME} header.cpp  interface.cpp  jpegls.cpp
   )
 set_target_properties( ${CHARLS_LIBRARY_NAME} PROPERTIES
                               VERSION ${CHARLS_MAJOR_VERSION}.${CHARLS_MINOR_VERSION}
-                              SOVERSION ${CHARLS_MAJOR_VERSION})
+                              SOVERSION ${CHARLS_MAJOR_VERSION}
+                              ${CHARLS_LIBRARY_PROPERTIES})
 
 
 # Install library
