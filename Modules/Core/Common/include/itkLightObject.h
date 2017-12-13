@@ -149,7 +149,7 @@ private:
  * PrintSelf method that all objects should define, if they have anything
  * interesting to print out.
  */
-std::ostream &
+ITKCommon_EXPORT std::ostream &
 operator<<(std::ostream & os, const LightObject & o);
 
 } // end namespace itk
