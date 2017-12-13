@@ -149,10 +149,16 @@ if [[ -z "$snapshot_old_sha" ]]; then
   local snapshot_new_change_id=$(git commit-tree $snapshot_new_tree </dev/null)
   local snapshot_log_command=""
 else
-  local snapshot_new_shortlog=$(git shortlog --perl-regexp --author='^((?!Kitware Robot).*)$' --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha..$upstream_new_sha)
   local snapshot_new_change_id=$(git commit-tree $snapshot_new_tree -p $snapshot_old_sha </dev/null)
-  local snapshot_log_command="\$ git shortlog --perl-regexp --author='^((?!Kitware Robot).*)$' --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha_short..$upstream_new_sha_short"
+  if [[ $github_compare == true ]]; then
+    local snapshot_log_command=""
+    local snapshot_new_shortlog="${upstream_git_url%.*}/compare/$(git rev-list $upstream_old_sha -n 1)...$upstream_new_sha"
+  else
+    local snapshot_new_shortlog=$(git shortlog --perl-regexp --author='^((?!Kitware Robot).*)$' --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha..$upstream_new_sha)
+    local snapshot_log_command="\$ git shortlog --perl-regexp --author='^((?!Kitware Robot).*)$' --no-merges --abbrev=8 --format='%h %s' $upstream_old_sha_short..$upstream_new_sha_short"
+  fi
 fi
+
 local snapshot_new_commit_msg="$thirdparty_module_name $upstream_new_date ($upstream_new_sha_short)
 
 Run the UpdateFromUpstream.sh script to extract upstream $thirdparty_module_name

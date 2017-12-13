@@ -5,6 +5,8 @@ thirdparty_module_name='GoogleTest'
 upstream_git_url='https://github.com/google/googletest.git'
 upstream_git_branch='release-1.8.0'
 
+github_compare=true
+
 snapshot_author_name='GoogleTest Upstream'
 snapshot_author_email='googletestframework@googlegroups.com'
 
