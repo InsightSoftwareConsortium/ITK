@@ -98,12 +98,17 @@ int itkGaussianDerivativeOperatorTest( int argc, char *argv[] )
     TestGaussianOperator( variance, error, width, order );
     return EXIT_FAILURE;
     }
-  else if ( argc != 1 )
+  else if ( argc > 1 )
     {
     std::cerr << "Usage: " << argv[0] << " [ variance error width order ]" << std::endl;
     return EXIT_FAILURE;
     }
 
+  // At this point, obviously, argc <= 1. In some scenario's, argc == 0, typically when
+  // the test function is called from the interactive TestDriver commandline interface,
+  // by having the user entering its test number. On the other hand, argc == 1 when the
+  // the TestDriver has the name of the test function as its only commandline argument.
+  // In either way the tests below here should be performed.
 
   // Exercise code
 
