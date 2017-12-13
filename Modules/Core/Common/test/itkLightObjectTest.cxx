@@ -35,6 +35,8 @@ int itkLightObjectTest(int, char* [] )
   std::cout << "Printing LightObject: " << std::endl;
   light->Print( std::cout );
 
+  std::cout << "Printing LightObject via operator: " << *light << std::endl;
+
   std::cout << "Number of References counts: " << std::endl;
   const int counts1 = light->GetReferenceCount();
   std::cout << counts1 << std::endl;
