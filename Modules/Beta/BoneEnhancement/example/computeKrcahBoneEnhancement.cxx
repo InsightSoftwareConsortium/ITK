@@ -120,7 +120,7 @@ int main(int argc, char * argv[])
   preprocessingWriter->SetInput(preprocessingFilter->GetOutput());
   preprocessingWriter->SetFileName(outputPreprocessedFileName);
 
-  std::cout << "Writing out result" << std::endl;
+  std::cout << "Writing out " << outputPreprocessedFileName << std::endl;
   preprocessingWriter->Write();
 
   /* Multiscale measure */

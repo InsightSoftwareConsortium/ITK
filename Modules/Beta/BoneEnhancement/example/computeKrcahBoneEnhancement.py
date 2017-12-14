@@ -34,6 +34,27 @@ print('')
 print('Reading in {}'.format(inputFileName))
 inputImage = itk.imread(inputFileName)
 
+# Preprocessing filter
+preprocFilter = itk.KrcahEigenToScalarPreprocessingImageToImageFilter.New(inputImage)
+preprocFilter.SetInput(inputImage)
+
+def PreprocessingCommand():
+  progress = int(100*preprocFilter.GetProgress())
+  if progress > PreprocessingCommand.progress:
+    PreprocessingCommand.progress = progress
+    print('\rProgress: {}%'.format(progress), end='')
+    sys.stdout.flush()
+PreprocessingCommand.progress = -1
+
+print('Running preprocessing...')
+preprocFilter.AddObserver(itk.ProgressEvent(), PreprocessingCommand)
+preprocFilter.Update()
+print('')
+
+# Write the result
+print('Writing out {}'.format(outputPreprocessedFileName))
+itk.imwrite(preprocFilter.GetOutput(), outputPreprocessedFileName)
+
 # Create enhancmenet filters
 Dimension = 3
 EigenPixelType = itk.Vector[itk.F, Dimension]
@@ -43,8 +64,8 @@ FloatImageType = itk.Image[itk.F, Dimension]
 eigenFilterType = itk.KrcahEigenToScalarImageFilter[EigenImageType, FloatImageType, MaskType]
 eigenFilter = eigenFilterType.New()
 
-multiscaleFilter = itk.MultiScaleHessianEnhancementImageFilter.New(inputImage)
-multiscaleFilter.SetInput(inputImage)
+multiscaleFilter = itk.MultiScaleHessianEnhancementImageFilter.New(preprocFilter.GetOutput())
+multiscaleFilter.SetInput(preprocFilter.GetOutput())
 multiscaleFilter.SetEigenToScalarImageFilter(eigenFilter)
 multiscaleFilter.SetSigmaArray(sigmaArray)
 
