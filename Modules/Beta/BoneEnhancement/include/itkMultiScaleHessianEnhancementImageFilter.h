@@ -21,7 +21,6 @@
 #include "itkImageToImageFilter.h"
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkSymmetricEigenAnalysisImageFilter.h"
-#include "itkSymmetricEigenAnalysis.h"
 #include "itkMaximumAbsoluteValueImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkArray.h"
@@ -86,9 +85,12 @@ public:
   typedef typename HessianFilterType::OutputImageType         HessianImageType;
   typedef typename HessianImageType::PixelType                HessianPixelType;
 
-  /** Eigenvalue analysis related typedefs. */
+  /** Eigenvalue analysis related typedefs. The ITK python wrapping usually wraps floating types
+   * and not double types. For this reason, the eigenvalues are of type float.
+   */
   typedef typename NumericTraits< PixelType >::RealType                               RealType;
-  typedef FixedArray< RealType, HessianPixelType::Dimension >                         EigenValueArrayType;
+  typedef typename NumericTraits< PixelType >::FloatType                              FloatType;
+  typedef Vector< FloatType, HessianPixelType::Dimension >                            EigenValueArrayType;
   typedef Image< EigenValueArrayType, TInputImage::ImageDimension >                   EigenValueImageType;
   typedef SymmetricEigenAnalysisImageFilter< HessianImageType, EigenValueImageType >  EigenAnalysisFilterType;
 
