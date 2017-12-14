@@ -188,19 +188,14 @@ endfunction()
 # used to configure `itk<factory_type>IOFactoryRegisterManager.h`.
 #
 macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_name _factory_name)
-  list(FIND ITK_MODULES_REQUESTED ${_module_name} _module_was_requested)
-  if(NOT ${_module_was_requested} EQUAL -1)
-    # note: this is an internal CMake variable and should not be used outside ITK
-    set(_abi)
-    if(${_module_name}_ENABLE_SHARED AND ITK_BUILD_SHARED)
-      set(_abi "ITK_ABI_IMPORT")
-    endif()
-    set(${_registration_list_var}
-      "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private();")
-    set(${_names_list_var} "${${_names_list_var}}${_factory_name}FactoryRegister__Private,")
-  else()
-    message(WARNING "Trying to register ${_module_name} in factory, but module was not requested")
+  # note: this is an internal CMake variable and should not be used outside ITK
+  set(_abi)
+  if(${_module_name}_ENABLE_SHARED AND ITK_BUILD_SHARED)
+    set(_abi "ITK_ABI_IMPORT")
   endif()
+  set(${_registration_list_var}
+    "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private();")
+  set(${_names_list_var} "${${_names_list_var}}${_factory_name}FactoryRegister__Private,")
 endmacro()
 
 #-----------------------------------------------------------------------------
