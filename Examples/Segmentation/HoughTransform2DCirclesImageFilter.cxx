@@ -227,13 +227,21 @@ int main( int argc, char *argv[] )
     //  Software Guide : EndLatex
 
     // Software Guide : BeginCodeSnippet
-    for(double angle = 0;angle <= 2*itk::Math::pi; angle += itk::Math::pi/60.0 )
+    for( double angle = 0;
+         angle <= itk::Math::twopi;
+         angle += itk::Math::pi/60.0 )
       {
+      typedef HoughTransformFilterType::CircleType::TransformType
+        TransformType;
+      typedef TransformType::OutputVectorType
+        OffsetType;
+      const OffsetType offset =
+        (*itCircles)->GetObjectToParentTransform()->GetOffset();
       localIndex[0] =
-         itk::Math::Round<long int>((*itCircles)->GetObjectToParentTransform()->GetOffset()[0]
+         itk::Math::Round<long int>(offset[0]
                     + (*itCircles)->GetRadius()[0]*std::cos(angle));
       localIndex[1] =
-         itk::Math::Round<long int>((*itCircles)->GetObjectToParentTransform()->GetOffset()[1]
+         itk::Math::Round<long int>(offset[1]
                     + (*itCircles)->GetRadius()[0]*std::sin(angle));
       OutputImageType::RegionType outputRegion =
                                   localOutputImage->GetLargestPossibleRegion();
