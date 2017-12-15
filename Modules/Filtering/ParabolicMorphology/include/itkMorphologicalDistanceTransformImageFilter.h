@@ -91,7 +91,7 @@ public:
   /** a type to represent the "kernel radius" */
   typedef typename itk::FixedArray<ScalarRealType, TInputImage::ImageDimension> RadiusType;
   virtual void
-  Modified() const;
+  Modified() const ITK_OVERRIDE;
 
   /** this describes the input mask - default value 0 - we compute the
   distance from all voxels with value not equal to "OutsideValue" to
@@ -130,11 +130,11 @@ protected:
   MorphologicalDistanceTransformImageFilter();
   virtual ~MorphologicalDistanceTransformImageFilter() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
   void
-  GenerateData(void);
+  GenerateData(void) ITK_OVERRIDE;
 
   // do everything in the output image type, which should have high precision
   typedef typename itk::BinaryThresholdImageFilter<InputImageType, OutputImageType> ThreshType;
