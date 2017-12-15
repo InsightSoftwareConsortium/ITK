@@ -77,6 +77,20 @@ include_directories(
   ${gtest_SOURCE_DIR}/include
   ${gtest_SOURCE_DIR})
 
+
+
+########################################################################
+#
+# Defines the gtest & gtest_main libraries.  User tests should link
+# with one of them.
+
+# Google Test libraries.  We build them using more strict warnings than what
+# are used for other targets, to ensure that gtest can be compiled by a user
+# aggressive about warnings.
+cxx_library(gtest "${cxx_strict}" src/gtest-all.cc)
+cxx_library(gtest_main "${cxx_strict}" src/gtest_main.cc)
+target_link_libraries(gtest_main gtest)
+
 # Summary of tuple support for Microsoft Visual Studio:
 # Compiler    version(MS)  version(cmake)  Support
 # ----------  -----------  --------------  -----------------------------
@@ -90,18 +104,6 @@ if (MSVC AND MSVC_VERSION EQUAL 1700)
         PUBLIC _VARIADIC_MAX=10
         PRIVATE _VARIADIC_MAX=10)
 endif()
-
-########################################################################
-#
-# Defines the gtest & gtest_main libraries.  User tests should link
-# with one of them.
-
-# Google Test libraries.  We build them using more strict warnings than what
-# are used for other targets, to ensure that gtest can be compiled by a user
-# aggressive about warnings.
-cxx_library(gtest "${cxx_strict}" src/gtest-all.cc)
-cxx_library(gtest_main "${cxx_strict}" src/gtest_main.cc)
-target_link_libraries(gtest_main gtest)
 
 # If the CMake version supports it, attach header directory information
 # to the targets for when we are part of a parent build (ie being pulled
