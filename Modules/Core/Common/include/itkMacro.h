@@ -207,9 +207,7 @@ namespace itk
   #endif
 #endif
 
-#if ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L
-  #define ITK_HAS_CXX11_RVREF
-#endif
+#define ITK_HAS_CXX11_RVREF
 
 //-*-*-*
 //The following deprecations should be removed in ITKV6 and later
@@ -238,7 +236,7 @@ namespace itk
 # if ( __GNUC__ >= 7 )
 #  define ITK_FALLTHROUGH __attribute__((fallthrough))
 # endif
-#elif ITK_COMPILED_CXX_STANDARD_VERSION >= 201103L && defined(__has_warning)
+#elif defined(__has_warning)
 # if __has_feature(cxx_attributes) && __has_warning("-Wimplicit-fallthrough")
 #  define ITK_FALLTHROUGH [[clang::fallthrough]]
 # endif
