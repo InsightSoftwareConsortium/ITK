@@ -367,16 +367,25 @@ SpatialObject< TDimension >
     }
   delete children;
 }
-
+#if !defined(ITK_LEGACY_REMOVE)
 /** Get the local transformation */
 template< unsigned int TDimension >
 typename SpatialObject< TDimension >::TransformType *
 SpatialObject< TDimension >
 ::GetObjectToNodeTransform(void)
 {
-  return m_AffineGeometryFrame->GetObjectToNodeTransform();
+  return m_AffineGeometryFrame->GetModifiableObjectToNodeTransform();
 }
-
+#else
+/** Get the local transformation */
+template< unsigned int TDimension >
+typename SpatialObject< TDimension >::TransformType *
+SpatialObject< TDimension >
+::GetModifiableObjectToNodeTransform(void)
+{
+  return m_AffineGeometryFrame->GetModifiableObjectToNodeTransform();
+}
+#endif
 /** Get the local transformation (const) */
 template< unsigned int TDimension >
 const typename SpatialObject< TDimension >::TransformType *
@@ -708,7 +717,7 @@ SpatialObject< TDimension >
     }
   else
     {
-    m_TreeNode->SetParent( parent->GetTreeNode() );
+    m_TreeNode->SetParent( parent->GetModifiableTreeNode() );
     }
 }
 
