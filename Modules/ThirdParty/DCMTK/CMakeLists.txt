@@ -66,7 +66,9 @@ if(DCMTK_USE_ICU)
         set(version "58.2")
       else()  # VS2015 && VS2017
         set(version "59.1")
-        if(${ICU_MSVC_VERSION} EQUAL 1910)
+        # All MSVC versions between 1910 and 1919 (both included) are or will
+        # be VS2017
+        if(${ICU_MSVC_VERSION} GREATER 1909 AND ${ICU_MSVC_VERSION} LESS 1920)
           set(ICU_MSVC_VERSION 1911)
         endif()
       endif()
