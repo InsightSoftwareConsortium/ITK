@@ -57,7 +57,7 @@ endif()
 # Identify the version of CXX compiler used when ITK was built. This needs to be
 # identified so that external applications can identify how ITK was built.
 set(ITK_COMPILED_CXX_STANDARD_VERSION 1)
-foreach(CXX_TEST_VERSION 199711L 201103L 201402L)
+foreach(CXX_TEST_VERSION 201103L 201402L 201703L)
   try_compile(ITK_MIN_CXX_LEVEL_TEST
     ${CMAKE_CURRENT_BINARY_DIR}/CMakeTmp
     ${CMAKE_CURRENT_LIST_DIR}/CMake/itkGetCXXCompilerVersion.cxx
