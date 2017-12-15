@@ -109,7 +109,7 @@ public:
   itkGetConstReferenceMacro(Radius, RadiusType);
 
   virtual void
-  Modified() const;
+  Modified() const ITK_OVERRIDE;
 
   void
   SetUseImageSpacing(bool g)
@@ -130,12 +130,12 @@ public:
   /* add in the traits here */
 protected:
   void
-  GenerateData(void);
+  GenerateData(void) ITK_OVERRIDE;
 
   BinaryDilateParaImageFilter();
   virtual ~BinaryDilateParaImageFilter() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename itk::Image<InternalRealType, InputImageType::ImageDimension>            InternalRealImageType;
   typedef typename itk::Image<InternalIntType, InputImageType::ImageDimension>             InternalIntImageType;

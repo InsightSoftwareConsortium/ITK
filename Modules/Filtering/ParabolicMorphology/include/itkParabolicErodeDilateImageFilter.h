@@ -173,24 +173,24 @@ protected:
   ParabolicErodeDilateImageFilter();
   virtual ~ParabolicErodeDilateImageFilter() {}
   void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
   void
-  GenerateData(void);
+  GenerateData(void) ITK_OVERRIDE;
 
   unsigned int
-  SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion);
+  SplitRequestedRegion(unsigned int i, unsigned int num, OutputImageRegionType & splitRegion) ITK_OVERRIDE;
 
   void
-  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
+  ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
   void
-  GenerateInputRequestedRegion() throw(InvalidRequestedRegionError);
+  GenerateInputRequestedRegion() throw (InvalidRequestedRegionError)ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset.
   void
-  EnlargeOutputRequestedRegion(DataObject * output);
+  EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
 
   bool m_UseImageSpacing;
   int  m_ParabolicAlgorithm;
