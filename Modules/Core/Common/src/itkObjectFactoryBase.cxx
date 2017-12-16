@@ -968,16 +968,17 @@ void
 ObjectFactoryBase
 ::SynchronizeObjectFactoryBase(ObjectFactoryBasePrivate * objectFactoryBasePrivate )
 {
-  ObjectFactoryBasePrivate * factoryBase = GetObjectFactoryBase();
-
+  static ObjectFactoryBasePrivate * factoryBase = GetObjectFactoryBase();
+  (void) factoryBase;
   ObjectFactoryBasePrivate *previousObjectFactoryBasePrivate;
-  previousObjectFactoryBasePrivate = factoryBase;
-  factoryBase = objectFactoryBasePrivate;
-  if(factoryBase && previousObjectFactoryBasePrivate)
+  previousObjectFactoryBasePrivate = m_ObjectFactoryBasePrivate;
+  // The global static variable needs to be updated here
+  m_ObjectFactoryBasePrivate = objectFactoryBasePrivate;
+  if(m_ObjectFactoryBasePrivate && previousObjectFactoryBasePrivate)
     {
-    SynchronizeList(factoryBase->m_InternalFactories,
+    SynchronizeList(m_ObjectFactoryBasePrivate->m_InternalFactories,
       previousObjectFactoryBasePrivate->m_InternalFactories, true);
-    SynchronizeList(factoryBase->m_RegisteredFactories,
+    SynchronizeList(m_ObjectFactoryBasePrivate->m_RegisteredFactories,
       previousObjectFactoryBasePrivate->m_RegisteredFactories, false);
     }
 }
@@ -989,14 +990,12 @@ std::list< ObjectFactoryBase * >
 ObjectFactoryBase
 ::GetRegisteredFactories()
 {
-  ObjectFactoryBasePrivate * factoryBase = GetObjectFactoryBase();
-
-  if( factoryBase == ITK_NULLPTR )
-    {
-    GetObjectFactoryBase();
-    }
+  if( m_ObjectFactoryBasePrivate == ITK_NULLPTR )
+     {
+     GetObjectFactoryBase();
+     }
   ObjectFactoryBase::Initialize();
-  return *factoryBase->m_RegisteredFactories;
+  return *m_ObjectFactoryBasePrivate->m_RegisteredFactories;
 }
 
 /**
