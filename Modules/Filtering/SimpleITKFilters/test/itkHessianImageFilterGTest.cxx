@@ -32,14 +32,14 @@ class HessianImageFilterFixture : public ::testing::Test
 {
 public:
   HessianImageFilterFixture() {}
-  ~HessianImageFilterFixture() {}
+  ~HessianImageFilterFixture() override {}
 
 protected:
   void
-  SetUp()
+  SetUp() override
   {}
   void
-  TearDown()
+  TearDown() override
   {}
 
   template <unsigned int D, typename TPixelType = float>

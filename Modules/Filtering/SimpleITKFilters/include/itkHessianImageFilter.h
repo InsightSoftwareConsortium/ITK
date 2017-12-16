@@ -69,7 +69,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  virtual void
+  void
   GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 
