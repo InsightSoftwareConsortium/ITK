@@ -128,7 +128,7 @@ protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute thinning Image. */
-  void GenerateData();
+  void GenerateData() ITK_OVERRIDE;
 
   /** Prepare data. */
   void PrepareData();
