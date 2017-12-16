@@ -123,8 +123,8 @@ public:
   }
 
   /** Prints some debugging information */
-  virtual void
-  PrintSelf(std::ostream & os, Indent i) const
+  void
+  PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
   {
     os << i << "HigherOrderAccurateDerivativeOperator { this=" << this << ", m_Order = " << m_Order
        << ", m_OrderOfAccuracy = " << m_OrderOfAccuracy << "}" << std::endl;
@@ -138,11 +138,11 @@ protected:
 
   /** Calculates operator coefficients. */
   CoefficientVector
-  GenerateCoefficients();
+  GenerateCoefficients() ITK_OVERRIDE;
 
   /** Arranges coefficients spatially in the memory buffer. */
   void
-  Fill(const CoefficientVector & coeff)
+  Fill(const CoefficientVector & coeff) ITK_OVERRIDE
   {
     Superclass::FillCenteredDirectional(coeff);
   }

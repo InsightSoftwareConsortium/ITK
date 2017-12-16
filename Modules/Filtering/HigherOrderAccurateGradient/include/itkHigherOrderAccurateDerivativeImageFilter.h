@@ -120,9 +120,9 @@ protected:
     , m_UseImageSpacing(true)
   {}
 
-  virtual ~HigherOrderAccurateDerivativeImageFilter() {}
-  virtual void
-  PrintSelf(std::ostream & os, Indent indent) const;
+  ~HigherOrderAccurateDerivativeImageFilter() override {}
+  void
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** HigherOrderAccurateDerivativeImageFilter needs a larger input requested region than
    * the output requested region (larger in the direction of the
@@ -131,7 +131,7 @@ protected:
    * inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void
+  void
   GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Standard pipeline method. While this class does not implement a
@@ -139,7 +139,7 @@ protected:
    * calculations to an NeighborhoodOperatorImageFilter.  Since the
    * NeighborhoodOperatorImageFilter is multithreaded, this filter is
    * multithreaded by default. */
-  virtual void
+  void
   GenerateData() ITK_OVERRIDE;
 
 private:
