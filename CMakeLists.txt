@@ -228,6 +228,11 @@ else()
 endif()
 mark_as_advanced(ITK_LEGACY_SILENT ITK_LEGACY_REMOVE ITK_FUTURE_LEGACY_REMOVE ITK_V3_COMPATIBILITY)
 
+
+if (NOT ITK_LEGACY_SILENT AND ITKV3_COMPATIBILITY)
+  message(WARNING "ITKV3_COMPATIBILITY will be removed starting in ITK version 5.0.")
+endif()
+
 # The disabling of legacy code, and the ITKv3 compatibility option can not both be
 # requested. If removal of legacy code is requested, then ITKV3_COMPATIBILITY must
 # be off.
