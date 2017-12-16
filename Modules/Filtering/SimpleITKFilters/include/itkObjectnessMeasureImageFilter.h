@@ -96,13 +96,13 @@ public:
 protected:
   ObjectnessMeasureImageFilter();
 
-  ~ObjectnessMeasureImageFilter();
+  ~ObjectnessMeasureImageFilter() override;
 
 
   void
   EnlargeOutputRequestedRegion(DataObject * output) ITK_OVERRIDE;
 
-  virtual void
+  void
   GenerateData() ITK_OVERRIDE;
 
   void
