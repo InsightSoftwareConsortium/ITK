@@ -115,13 +115,13 @@ protected:
   ExtensionVelocitiesImageFilter();
   ~ExtensionVelocitiesImageFilter() ITK_OVERRIDE {}
 
-  virtual void GenerateDataFull() ITK_OVERRIDE;
+  void GenerateDataFull() ITK_OVERRIDE;
 
-  virtual void GenerateDataNarrowBand() ITK_OVERRIDE;
+  void GenerateDataNarrowBand() ITK_OVERRIDE;
 
-  virtual void AllocateOutput() ITK_OVERRIDE;
+  void AllocateOutput() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExtensionVelocitiesImageFilter);

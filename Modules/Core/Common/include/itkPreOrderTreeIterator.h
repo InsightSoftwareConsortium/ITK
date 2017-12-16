@@ -41,17 +41,17 @@ public:
   PreOrderTreeIterator(const TTreeType *tree, const TreeNodeType *start = ITK_NULLPTR);
 
   /** Get the type of the iterator */
-  NodeType GetType() const;
+  NodeType GetType() const ITK_OVERRIDE;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone();
+  TreeIteratorBase< TTreeType > * Clone() ITK_OVERRIDE;
 
 protected:
   /** Return the next node */
-  const ValueType & Next();
+  const ValueType & Next() ITK_OVERRIDE;
 
   /** Return true if the next node exists */
-  bool HasNext() const;
+  bool HasNext() const ITK_OVERRIDE;
 
 private:
 

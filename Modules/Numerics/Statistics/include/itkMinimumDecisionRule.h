@@ -61,11 +61,11 @@ public:
    * Evaluate the decision rule, returning the class label associated
    * with the smallest discriminant score.
    */
-  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const ITK_OVERRIDE;
+  ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const ITK_OVERRIDE;
 
 protected:
   MinimumDecisionRule() {}
-  virtual ~MinimumDecisionRule() ITK_OVERRIDE {}
+  ~MinimumDecisionRule() ITK_OVERRIDE {}
 
 };  // end of class
 } // end of namespace Statistics

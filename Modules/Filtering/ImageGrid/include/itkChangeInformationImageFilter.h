@@ -208,10 +208,10 @@ public:
   itkGetConstMacro(CenterImage, bool);
 
   /** Apply changes to the output image information. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Apply changes to the input image requested region. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Copy the input buffer. */
   void GenerateData() ITK_OVERRIDE;
@@ -227,7 +227,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ChangeInformationImageFilter);

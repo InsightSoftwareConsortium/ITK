@@ -162,7 +162,7 @@ public:
   typedef typename Superclass::OutputPointType OutputPointType;
 
 
-  virtual std::string GetTransformTypeAsString() const ITK_OVERRIDE;
+  std::string GetTransformTypeAsString() const ITK_OVERRIDE;
 
   /** This method sets the fixed parameters of the transform.
    * For a BSpline deformation transform, the fixed parameters are the
@@ -186,7 +186,7 @@ public:
    * itkTransformReader/Writer I/O filters.
    *
    */
-  virtual void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE;
+  void SetFixedParameters( const FixedParametersType & parameters ) ITK_OVERRIDE;
 
   /** Parameters as SpaceDimension number of images. */
   typedef typename Superclass::ImageType             ImageType;
@@ -204,7 +204,7 @@ public:
    * Warning: use either the SetParameters() or SetCoefficientImages()
    * API. Mixing the two modes may results in unexpected results.
    */
-  virtual void SetCoefficientImages( const CoefficientImageArray & images ) ITK_OVERRIDE;
+  void SetCoefficientImages( const CoefficientImageArray & images ) ITK_OVERRIDE;
 
   /** Typedefs for specifying the extent of the grid. */
   typedef typename Superclass::RegionType    RegionType;
@@ -233,14 +233,14 @@ public:
    * ( i * this->GetNumberOfParametersPerDimension() ) to the indices array.
    */
   using Superclass::TransformPoint;
-  virtual void TransformPoint( const InputPointType & inputPoint, OutputPointType & outputPoint,
+  void TransformPoint( const InputPointType & inputPoint, OutputPointType & outputPoint,
     WeightsType & weights, ParameterIndexArrayType & indices, bool & inside ) const ITK_OVERRIDE;
 
   /** Compute the Jacobian in one position. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType &, JacobianType & ) const ITK_OVERRIDE;
 
   /** Return the number of parameters that completely define the Transfom. */
-  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
+  NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
 
   /** Return the number of parameters per dimension. */
   NumberOfParametersType GetNumberOfParametersPerDimension() const ITK_OVERRIDE;
@@ -279,29 +279,29 @@ protected:
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;
 
   BSplineTransform();
-  virtual ~BSplineTransform() ITK_OVERRIDE;
+  ~BSplineTransform() ITK_OVERRIDE;
 
 private:
 
   /** Construct control point grid size from transform domain information. */
-  virtual void SetFixedParametersGridSizeFromTransformDomainInformation() const ITK_OVERRIDE;
+  void SetFixedParametersGridSizeFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid origin from transform domain information. */
-  virtual void SetFixedParametersGridOriginFromTransformDomainInformation() const ITK_OVERRIDE;
+  void SetFixedParametersGridOriginFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid spacing from transform domain information. */
-  virtual void SetFixedParametersGridSpacingFromTransformDomainInformation() const ITK_OVERRIDE;
+  void SetFixedParametersGridSpacingFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid direction from transform domain information. */
-  virtual void SetFixedParametersGridDirectionFromTransformDomainInformation() const ITK_OVERRIDE;
+  void SetFixedParametersGridDirectionFromTransformDomainInformation() const ITK_OVERRIDE;
 
   /** Construct control point grid size from transform domain information. */
-  virtual void SetCoefficientImageInformationFromFixedParameters() ITK_OVERRIDE;
+  void SetCoefficientImageInformationFromFixedParameters() ITK_OVERRIDE;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(BSplineTransform);
 
   /** Check if a continuous index is inside the valid region. */
-  virtual bool InsideValidRegion( ContinuousIndexType & ) const ITK_OVERRIDE;
+  bool InsideValidRegion( ContinuousIndexType & ) const ITK_OVERRIDE;
 
 private:
 

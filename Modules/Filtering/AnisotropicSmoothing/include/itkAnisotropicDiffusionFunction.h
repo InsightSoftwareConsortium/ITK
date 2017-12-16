@@ -205,20 +205,20 @@ public:
 
   /** Returns the time step supplied by the user.  We don't need to use the
    * global data supplied since we are returning a fixed value.  */
-  virtual TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
+  TimeStepType ComputeGlobalTimeStep( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
   {
     return this->GetTimeStep();
   }
 
   /** The anisotropic diffusion classes don't use this particular parameter
    * so it's safe to return a null value. */
-  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
+  void * GetGlobalDataPointer() const ITK_OVERRIDE
   {
     return ITK_NULLPTR;
   }
 
   /** Does nothing.  No global data is used in this class of equations.   */
-  virtual void ReleaseGlobalDataPointer( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
+  void ReleaseGlobalDataPointer( void *itkNotUsed(GlobalData) ) const ITK_OVERRIDE
   {
     /* do nothing */
   }

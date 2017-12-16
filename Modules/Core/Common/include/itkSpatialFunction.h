@@ -67,11 +67,11 @@ public:
 
   /** Evaluate the function at a given position. Remember, position is
   * represented by an n-d itk::Point object with data type double. */
-  virtual OutputType Evaluate(const InputType & input) const ITK_OVERRIDE = 0;
+  OutputType Evaluate(const InputType & input) const ITK_OVERRIDE = 0;
 
 protected:
   SpatialFunction();
-  virtual ~SpatialFunction() ITK_OVERRIDE;
+  ~SpatialFunction() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

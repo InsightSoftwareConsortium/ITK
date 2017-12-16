@@ -42,7 +42,7 @@ public:
                         LBFGSBOptimizer * const itkObj);
 
   /** Handle new iteration event */
-  virtual bool report_iter() ITK_OVERRIDE;
+  bool report_iter() ITK_OVERRIDE;
 
 private:
   LBFGSBOptimizer * const m_ItkObj;

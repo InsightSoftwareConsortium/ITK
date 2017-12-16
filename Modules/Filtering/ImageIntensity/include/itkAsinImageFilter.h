@@ -116,7 +116,7 @@ public:
 
 protected:
   AsinImageFilter() {}
-  virtual ~AsinImageFilter() ITK_OVERRIDE {}
+  ~AsinImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AsinImageFilter);

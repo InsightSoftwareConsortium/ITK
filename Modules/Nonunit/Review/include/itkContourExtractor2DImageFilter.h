@@ -179,7 +179,7 @@ public:
 protected:
 
   ContourExtractor2DImageFilter();
-  virtual ~ContourExtractor2DImageFilter();
+  ~ContourExtractor2DImageFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData() ITK_OVERRIDE;
@@ -187,7 +187,7 @@ protected:
   /** ContourExtractor2DImageFilter manually controls the input requested
     * region via SetRequestedRegion and ClearRequestedRegion, so it must
     * override the superclass method. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   VertexType InterpolateContourPosition(InputPixelType fromValue,

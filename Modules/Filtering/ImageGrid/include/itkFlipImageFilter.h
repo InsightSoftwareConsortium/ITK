@@ -102,7 +102,7 @@ public:
    * image meta information. The original documentation of this method is
    * below.
    * \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** FlipImageFilter needs different input requested region than the output
    * requested region.  As such, FlipImageFilter needs to provide an
@@ -111,7 +111,7 @@ public:
    * The required input requested region is obtained by permuting the index and
    * size of the output requested region.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 protected:
   FlipImageFilter();

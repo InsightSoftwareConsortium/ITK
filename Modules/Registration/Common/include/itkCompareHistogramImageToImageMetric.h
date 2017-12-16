@@ -135,7 +135,7 @@ protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   CompareHistogramImageToImageMetric();
-  virtual ~CompareHistogramImageToImageMetric() ITK_OVERRIDE {}
+  ~CompareHistogramImageToImageMetric() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Form the Histogram for the Training data */
@@ -143,7 +143,7 @@ protected:
 
   /** Evaluates the comparison histogram metric. All sub-classes must
       re-implement method. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE = 0;
+  MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE = 0;
 
 private:
   // Purposely not implemented.

@@ -72,26 +72,26 @@ public:
   itkGetModifiableObjectMacro(Image, ImageType );
 
   /** Returns the value of the level set function at a given location inputIndex */
-  virtual OutputType Evaluate( const InputType& inputIndex ) const ITK_OVERRIDE;
-  virtual void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
+  OutputType Evaluate( const InputType& inputIndex ) const ITK_OVERRIDE;
+  void Evaluate( const InputType& inputIndex, LevelSetDataType& data ) const ITK_OVERRIDE;
 
 protected:
   LevelSetDenseImage();
 
-  virtual ~LevelSetDenseImage() ITK_OVERRIDE;
+  ~LevelSetDenseImage() ITK_OVERRIDE;
 
   ImagePointer m_Image;
 
-  virtual bool IsInsideDomain( const InputType& inputIndex ) const ITK_OVERRIDE;
+  bool IsInsideDomain( const InputType& inputIndex ) const ITK_OVERRIDE;
 
   /** Initial the level set pointer */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
   /** Copy level set information from data object */
-  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
   /** Graft data object as level set object */
-  virtual void Graft( const DataObject* data ) ITK_OVERRIDE;
+  void Graft( const DataObject* data ) ITK_OVERRIDE;
 
 private:
 

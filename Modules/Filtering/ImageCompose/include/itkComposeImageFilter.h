@@ -89,11 +89,11 @@ public:
 protected:
   ComposeImageFilter();
 
-  virtual void GenerateOutputInformation(void) ITK_OVERRIDE;
+  void GenerateOutputInformation(void) ITK_OVERRIDE;
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType) ITK_OVERRIDE;
+  void ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ComposeImageFilter);

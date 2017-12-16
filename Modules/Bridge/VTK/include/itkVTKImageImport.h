@@ -155,16 +155,16 @@ public:
 
 protected:
   VTKImageImport();
-  ~VTKImageImport() {}
+  ~VTKImageImport() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void PropagateRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void PropagateRequestedRegion(DataObject *) ITK_OVERRIDE;
 
-  virtual void UpdateOutputInformation() ITK_OVERRIDE;
+  void UpdateOutputInformation() ITK_OVERRIDE;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VTKImageImport);

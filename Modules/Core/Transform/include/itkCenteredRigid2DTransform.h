@@ -116,7 +116,7 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Get the parameters that uniquely define the transform
    * This is typically used by optimizers.
@@ -126,20 +126,20 @@ public:
    *
    * \sa Transform::GetParameters()
    * \sa Transform::GetFixedParameters() */
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** This method computes the Jacobian matrix of the transformation
    * at a given input point.
    */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
   /** Set the fixed parameters and update internal transformation.
    * This is a null function as there are no fixed parameters. */
-  virtual void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
+  void SetFixedParameters(const FixedParametersType &) ITK_OVERRIDE;
 
   /** Get the Fixed Parameters. An empty array is returned
    * as there are no fixed parameters. */
-  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -150,7 +150,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
   /**
    * This method creates and returns a new CenteredRigid2DTransform object
@@ -163,7 +163,7 @@ protected:
 
   CenteredRigid2DTransform(unsigned int outputSpaceDimension, unsigned int parametersDimension);
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CenteredRigid2DTransform);

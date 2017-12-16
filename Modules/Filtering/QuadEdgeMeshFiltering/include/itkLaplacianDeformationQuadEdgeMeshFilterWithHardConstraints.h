@@ -74,7 +74,7 @@ public:
 protected:
 
   LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints();
-  virtual ~LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() ITK_OVERRIDE {}
+  ~LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::OutputMapPointIdentifier               OutputMapPointIdentifier;
@@ -88,7 +88,7 @@ protected:
   typedef typename Superclass::RowConstIterator RowConstIterator;
   typedef typename Superclass::RowIterator      RowIterator;
 
-  virtual void ComputeVertexIdMapping() ITK_OVERRIDE;
+  void ComputeVertexIdMapping() ITK_OVERRIDE;
 
   /**
    *  \brief Fill matrix iM and vectors Bx and m_By depending on if one
@@ -96,7 +96,7 @@ protected:
    */
   void FillMatrix(MatrixType & iM, VectorType & iBx, VectorType & iBy, VectorType & iBz);
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints);

@@ -51,7 +51,7 @@ public:
   itkTypeMacro(FileOutputWindow, OutputWindow);
 
   /** Send a string to display. */
-  virtual void DisplayText(const char *) ITK_OVERRIDE;
+  void DisplayText(const char *) ITK_OVERRIDE;
 
   /** Set the filename for the log file */
   itkSetStringMacro(FileName);
@@ -74,8 +74,8 @@ public:
 
 protected:
   FileOutputWindow();
-  virtual ~FileOutputWindow() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~FileOutputWindow() ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void Initialize();
 

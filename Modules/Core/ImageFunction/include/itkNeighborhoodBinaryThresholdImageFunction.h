@@ -87,10 +87,10 @@ public:
   itkGetConstReferenceMacro(Radius, InputSizeType);
 
   /** Evalulate the function at specified index */
-  virtual bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at non-integer positions */
-  virtual bool Evaluate(const PointType & point) const ITK_OVERRIDE
+  bool Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     IndexType index;
 
@@ -98,7 +98,7 @@ public:
     return this->EvaluateAtIndex(index);
   }
 
-  virtual bool EvaluateAtContinuousIndex(
+  bool EvaluateAtContinuousIndex(
     const ContinuousIndexType & cindex) const ITK_OVERRIDE
   {
     IndexType index;

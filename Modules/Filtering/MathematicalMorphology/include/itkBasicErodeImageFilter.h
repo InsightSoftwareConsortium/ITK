@@ -111,7 +111,7 @@ protected:
    * It will return the minimum value of the image pixels whose corresponding
    * element in the structuring element is positive. This version of
    * Evaluate is used for non-boundary pixels. */
-  virtual PixelType Evaluate(const NeighborhoodIteratorType & nit,
+  PixelType Evaluate(const NeighborhoodIteratorType & nit,
                              const KernelIteratorType kernelBegin,
                              const KernelIteratorType kernelEnd) ITK_OVERRIDE;
 

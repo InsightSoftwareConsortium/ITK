@@ -161,14 +161,14 @@ public:
 protected:
   HistogramToRunLengthFeaturesFilter();
   ~HistogramToRunLengthFeaturesFilter() ITK_OVERRIDE {};
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Make a DataObject to be used for output output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput( DataObjectPointerArraySizeType ) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput( DataObjectPointerArraySizeType ) ITK_OVERRIDE;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(HistogramToRunLengthFeaturesFilter);

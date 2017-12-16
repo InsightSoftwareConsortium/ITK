@@ -147,12 +147,12 @@ public:
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);
 
   /** Get Value and Derivatives for MultipleValuedOptimizers */
-  virtual void GetValueAndDerivative(const ParametersType & parameters,
+  void GetValueAndDerivative(const ParametersType & parameters,
                                      MeasureType & Value,
                                      DerivativeType  & Derivative) const ITK_OVERRIDE = 0;
 
   /** Return the number of parameters required by the Transform */
-  virtual unsigned int GetNumberOfParameters( void ) const ITK_OVERRIDE;
+  unsigned int GetNumberOfParameters( void ) const ITK_OVERRIDE;
 
   /** Initialize the metric */
   virtual void Initialize(void);
@@ -167,10 +167,10 @@ public:
 protected:
 
   ImageToSpatialObjectMetric();
-  virtual ~ImageToSpatialObjectMetric() ITK_OVERRIDE {}
+  ~ImageToSpatialObjectMetric() ITK_OVERRIDE {}
   ImageToSpatialObjectMetric(const Self &) {}
   void operator=(const Self &) {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   MeasureType              m_MatchMeasure;
   DerivativeType           m_MatchMeasureDerivatives;

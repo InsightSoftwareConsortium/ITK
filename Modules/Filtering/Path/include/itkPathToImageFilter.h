@@ -107,8 +107,8 @@ protected:
   PathToImageFilter();
   ~PathToImageFilter() ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  void GenerateData() ITK_OVERRIDE;
 
   SizeType m_Size;
   double m_Spacing[OutputImageDimension];
@@ -116,7 +116,7 @@ protected:
   ValueType m_PathValue;
   ValueType m_BackgroundValue;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PathToImageFilter);

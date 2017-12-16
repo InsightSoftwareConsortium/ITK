@@ -92,7 +92,7 @@ protected:
   ShapePositionLabelMapFilter();
   ~ShapePositionLabelMapFilter() ITK_OVERRIDE {};
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
 
   template< typename TAttributeAccessor >
   void TemplatedThreadedProcessLabelObject( const TAttributeAccessor & accessor, bool physical, LabelObjectType * labelObject )

@@ -251,7 +251,7 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE;
 
   /** Get the output data of this process object.  The output of this
    * function is not valid until an appropriate Update() method has
@@ -272,12 +272,12 @@ public:
 
 protected:
   Solver();
-  virtual ~Solver() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  ~Solver() ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Method invoked by the pipeline in order to trigger the computation of
    * the registration. */
-  virtual void  GenerateData() ITK_OVERRIDE;
+  void  GenerateData() ITK_OVERRIDE;
 
 
   /**

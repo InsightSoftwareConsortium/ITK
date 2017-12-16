@@ -111,9 +111,9 @@ public:
 protected:
   CleanQuadEdgeMeshFilter();
 
-  virtual ~CleanQuadEdgeMeshFilter() ITK_OVERRIDE {}
+  ~CleanQuadEdgeMeshFilter() ITK_OVERRIDE {}
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   virtual void MergePoints( const InputCoordRepType absoluteToleranceSquared );
 

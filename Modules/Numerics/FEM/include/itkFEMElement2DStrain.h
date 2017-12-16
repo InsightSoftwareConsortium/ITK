@@ -78,12 +78,12 @@ public:
   /**
    * Compute the B matrix.
    */
-  virtual void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const ITK_OVERRIDE;
+  void GetStrainDisplacementMatrix(MatrixType & B, const MatrixType & shapeDgl) const ITK_OVERRIDE;
 
   /**
    * Compute the D matrix.
    */
-  virtual void GetMaterialMatrix(MatrixType & D) const ITK_OVERRIDE;
+  void GetMaterialMatrix(MatrixType & D) const ITK_OVERRIDE;
 
   /**
    * Compute the mass matrix specific for 2D strain problems.
@@ -93,7 +93,7 @@ public:
   /**
    * 2D strain elements have 2 DOFs per node.
    */
-  virtual unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfDegreesOfFreedomPerNode(void) const ITK_OVERRIDE
   {
     return 2;
   }
@@ -101,12 +101,12 @@ public:
   /**
    * Get/Set the material properties for the element
    */
-  virtual Material::ConstPointer GetMaterial(void) const ITK_OVERRIDE
+  Material::ConstPointer GetMaterial(void) const ITK_OVERRIDE
   {
     return dynamic_cast<const Material *>(m_mat);
   }
 
-  virtual void SetMaterial(Material::ConstPointer mat_) ITK_OVERRIDE
+  void SetMaterial(Material::ConstPointer mat_) ITK_OVERRIDE
   {
     m_mat =
       dynamic_cast<const MaterialLinearElasticity *>( mat_.GetPointer() );
@@ -114,7 +114,7 @@ public:
 
 protected:
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Pointer to material properties of the element

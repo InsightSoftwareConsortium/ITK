@@ -180,7 +180,7 @@ protected:
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint.
    * And adds entries to m_MeasurePerThread and m_LocalDerivativesPerThread,
    * m_NumberOfValidPointsPerThread. */
-  virtual bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
+  bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                                     const VirtualPointType & virtualPoint,
                                     const ThreadIdType threadId ) ITK_OVERRIDE {
     return ProcessVirtualPoint_impl(IdentityHelper<TDomainPartitioner>(), virtualIndex, virtualPoint, threadId );
@@ -207,7 +207,7 @@ protected:
   /** \c ProcessPoint() must be overloaded since it is a pure virtual function.
    * It is not used for either sparse or dense threader.
    * */
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
          const VirtualIndexType &          itkNotUsed(virtualIndex),
          const VirtualPointType &          itkNotUsed(virtualPoint),
          const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
@@ -223,7 +223,7 @@ protected:
         itkExceptionMacro("ProcessPoint should never be reached in ANTS CC metric threader class.");
      }
 
-  virtual void ThreadedExecution( const DomainType& domain,
+  void ThreadedExecution( const DomainType& domain,
                                     const ThreadIdType threadId ) ITK_OVERRIDE
     {
     ThreadedExecution_impl(IdentityHelper<TDomainPartitioner>(), domain, threadId );

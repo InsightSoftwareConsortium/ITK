@@ -308,18 +308,18 @@ protected:
   /**
    * Standard pipeline method.
    */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** KLMRegionGrowImageFilter needs the entire input. Therefore
    * it must provide an implementation GenerateInputRequestedRegion().
    * \sa ProcessObject::GenerateInputRequestedRegion(). */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** KLMRegionGrowImageFilter will produce all of the output.
    * Therefore it must provide an implementation of
    * EnlargeOutputRequestedRegion().
    * \sa ProcessObject::EnlargeOutputRequestedRegion() */
-  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
   /** This is the interface function that calls the specific algorithm
    * implementation of region growing. */
@@ -328,7 +328,7 @@ protected:
   /** Function to merge two regions.
    * The smaller label is always assigned to the new region.  This is
    * consistent with the connected components algorithm. */
-  virtual void MergeRegions() ITK_OVERRIDE;
+  void MergeRegions() ITK_OVERRIDE;
 
   /** Generate output approximated image. */
   virtual void GenerateOutputImage();

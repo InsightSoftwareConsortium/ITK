@@ -68,7 +68,7 @@ public:
    * not mark the image source as modified; subclasses should override
    * this method to forward parameters through setters that call
    * Modified(). */
-  virtual void SetParameters( const ParametersType & parameters ) ITK_OVERRIDE
+  void SetParameters( const ParametersType & parameters ) ITK_OVERRIDE
   {
     ParametersType gaussianParameters = this->Superclass::GetParameters();
     for ( unsigned int i = 0; i < OutputImageDimension; ++i )
@@ -80,7 +80,7 @@ public:
   }
 
   /** Get the parameters for this source. */
-  virtual ParametersType GetParameters() const ITK_OVERRIDE
+  ParametersType GetParameters() const ITK_OVERRIDE
   {
     ParametersType gaussianParameters = this->Superclass::GetParameters();
     ParametersType parameters(OutputImageDimension);
@@ -93,14 +93,14 @@ public:
   }
 
   /** Get the number of parameters. */
-  virtual unsigned int GetNumberOfParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters() const ITK_OVERRIDE
   {
     return OutputImageDimension;
   }
 
 protected:
   ExampleImageSource() {};
-  virtual ~ExampleImageSource() ITK_OVERRIDE {};
+  ~ExampleImageSource() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExampleImageSource);

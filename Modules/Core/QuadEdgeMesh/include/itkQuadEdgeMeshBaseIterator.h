@@ -258,7 +258,7 @@ public:
                        bool start = true):
     Superclass(e, op, start) {}
 
-  virtual ~QuadEdgeMeshIterator() {}
+  ~QuadEdgeMeshIterator() ITK_OVERRIDE {}
 
   QuadEdgeType * Value() { return ( this->m_Iterator ); }
   const QuadEdgeType * Value() const { return ( this->m_Iterator ); }
@@ -314,7 +314,7 @@ public:
                             bool start = true):
     Superclass(const_cast< QuadEdgeType * >( e ), op, start) {}
 
-  virtual ~QuadEdgeMeshConstIterator() {}
+  ~QuadEdgeMeshConstIterator() ITK_OVERRIDE {}
 
   Self & operator=(const NoConstType & r)
   {
@@ -354,7 +354,7 @@ public:
                                 bool start = true):
     Superclass(e, op, start) {}
 
-  virtual ~QuadEdgeMeshConstIteratorGeom() {}
+  ~QuadEdgeMeshConstIteratorGeom() ITK_OVERRIDE {}
 
   Self & operator=(const NoConstType & r)
   {

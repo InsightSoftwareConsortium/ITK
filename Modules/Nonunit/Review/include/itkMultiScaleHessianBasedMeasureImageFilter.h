@@ -178,7 +178,7 @@ public:
 
 protected:
   MultiScaleHessianBasedMeasureImageFilter();
-  ~MultiScaleHessianBasedMeasureImageFilter() {}
+  ~MultiScaleHessianBasedMeasureImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */
@@ -187,7 +187,7 @@ protected:
   void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 private:
   void UpdateMaximumResponse(double sigma);

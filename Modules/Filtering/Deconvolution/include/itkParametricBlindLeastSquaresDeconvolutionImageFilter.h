@@ -106,18 +106,18 @@ public:
 
 protected:
   ParametricBlindLeastSquaresDeconvolutionImageFilter();
-  virtual ~ParametricBlindLeastSquaresDeconvolutionImageFilter() ITK_OVERRIDE;
+  ~ParametricBlindLeastSquaresDeconvolutionImageFilter() ITK_OVERRIDE;
 
-  virtual void Initialize(ProgressAccumulator * progress,
+  void Initialize(ProgressAccumulator * progress,
                           float progressWeight,
                           float iterationProgressWeight) ITK_OVERRIDE;
 
-  virtual void Iteration(ProgressAccumulator * progress,
+  void Iteration(ProgressAccumulator * progress,
                          float iterationProgressWeight) ITK_OVERRIDE;
 
-  virtual void Finish(ProgressAccumulator *progress, float progressWeight) ITK_OVERRIDE;
+  void Finish(ProgressAccumulator *progress, float progressWeight) ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ParametricBlindLeastSquaresDeconvolutionImageFilter);

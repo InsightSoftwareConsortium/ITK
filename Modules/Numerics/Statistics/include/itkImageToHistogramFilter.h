@@ -119,7 +119,7 @@ public:
 
 protected:
   ImageToHistogramFilter();
-  virtual ~ImageToHistogramFilter() ITK_OVERRIDE {}
+  ~ImageToHistogramFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void BeforeThreadedGenerateData(void) ITK_OVERRIDE;

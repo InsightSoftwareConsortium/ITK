@@ -227,11 +227,11 @@ public:
   }
 
   /** If all sub-transforms are linear, then the multi-transform is linear. */
-  virtual bool IsLinear() const ITK_OVERRIDE;
+  bool IsLinear() const ITK_OVERRIDE;
 
   /** If all sub-transforms are of the same category, return that category.
    * Otherwise return UnknownTransformCategory. */
-  virtual TransformCategoryType GetTransformCategory() const ITK_OVERRIDE;
+  TransformCategoryType GetTransformCategory() const ITK_OVERRIDE;
 
   /** Get/Set Parameter functions work on all sub-transforms.
       The parameter data from each sub-transform is
@@ -240,32 +240,32 @@ public:
       so the returned array is ordered in the same way. That is,
       first sub-transform to be added is returned first in the
       parameter array.*/
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /* SetParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  virtual void  SetParameters(const ParametersType & p) ITK_OVERRIDE;
+  void  SetParameters(const ParametersType & p) ITK_OVERRIDE;
 
   /* GetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  virtual const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
+  const FixedParametersType & GetFixedParameters() const ITK_OVERRIDE;
 
   /* SetFixedParameters for all sub-transforms.
    * See GetParameters() for parameter ordering. */
-  virtual void SetFixedParameters(const FixedParametersType & fixedParameters) ITK_OVERRIDE;
+  void SetFixedParameters(const FixedParametersType & fixedParameters) ITK_OVERRIDE;
 
   /* Get total number of parameters. Sum of all sub-transforms. */
-  virtual NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
+  NumberOfParametersType GetNumberOfParameters() const ITK_OVERRIDE;
 
   /* Get total number of local parameters, the sum of all sub-transforms. */
-  virtual NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE;
+  NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE;
 
   /* Get total number of fixed parameters, the sum of all sub-transforms. */
-  virtual NumberOfParametersType GetNumberOfFixedParameters() const ITK_OVERRIDE;
+  NumberOfParametersType GetNumberOfFixedParameters() const ITK_OVERRIDE;
 
   /** Update the transform's parameters by the values in \c update.
    * See GetParameters() for parameter ordering. */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType  factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType  factor = 1.0 ) ITK_OVERRIDE;
 
   /** Returns a boolean indicating whether it is possible or not to compute the
    * inverse of this current Transform. If it is possible, then the inverse of
@@ -280,8 +280,8 @@ public:
 
 protected:
   MultiTransform();
-  virtual ~MultiTransform() ITK_OVERRIDE;
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  ~MultiTransform() ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   virtual void PushFrontTransform( TransformTypePointer t  )
   {

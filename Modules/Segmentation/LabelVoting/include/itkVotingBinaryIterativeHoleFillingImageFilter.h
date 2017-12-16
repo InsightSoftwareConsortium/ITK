@@ -140,7 +140,7 @@ public:
 
 protected:
   VotingBinaryIterativeHoleFillingImageFilter();
-  virtual ~VotingBinaryIterativeHoleFillingImageFilter() ITK_OVERRIDE {}
+  ~VotingBinaryIterativeHoleFillingImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**

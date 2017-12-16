@@ -120,7 +120,7 @@ public:
 
   /** GrayscaleMorphologicalClosingImageFilter need to set its internal filters
     as modified */
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const ITK_OVERRIDE;
 
   /** A safe border is added to input image to avoid borders effects
    * and remove it once the closing is done */

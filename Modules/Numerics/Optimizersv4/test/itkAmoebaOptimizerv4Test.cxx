@@ -69,7 +69,7 @@ public:
     m_HasLocalSupport = false;
   }
 
-  virtual MeasureType GetValue() const ITK_OVERRIDE
+  MeasureType GetValue() const ITK_OVERRIDE
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -77,7 +77,7 @@ public:
     return val;
   }
 
-  virtual void GetDerivative( DerivativeType  & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType  & derivative ) const ITK_OVERRIDE
   {
     double x = this->m_Parameters[0];
     double y = this->m_Parameters[1];
@@ -87,38 +87,38 @@ public:
     derivative[1] = -(2*x + 6*y +8);
   }
 
-  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
   {
     value = GetValue();
     GetDerivative( derivative );
   }
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE
+  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE
   {
     m_Parameters.SetSize( SpaceDimension );
   }
 
-  virtual Superclass::NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
+  Superclass::NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
   {
     return SpaceDimension;
   }
 
-  virtual Superclass::NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
+  Superclass::NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return SpaceDimension;
   }
 
-  virtual void SetParameters( ParametersType & params ) ITK_OVERRIDE
+  void SetParameters( ParametersType & params ) ITK_OVERRIDE
   {
     this->m_Parameters =  params;
   }
 
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const ITK_OVERRIDE
   {
     return this->m_Parameters;
   }
 
-  virtual bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const ITK_OVERRIDE
   {
     return m_HasLocalSupport;
   }
@@ -128,7 +128,7 @@ public:
     m_HasLocalSupport = hls;
   }
 
-  virtual void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE
   {
   }
 
@@ -174,7 +174,7 @@ public:
     m_HasLocalSupport = false;
     }
 
-  virtual double GetValue() const ITK_OVERRIDE
+  double GetValue() const ITK_OVERRIDE
     {
     double x = this->m_Parameters[0];
     double val;
@@ -195,38 +195,38 @@ public:
                                   "no derivative available" );
     }
 
-  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
     {
     value = GetValue();
     GetDerivative( derivative );
     }
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE
+  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE
     {
     m_Parameters.SetSize( SpaceDimension );
     }
 
-  virtual Superclass::NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
+  Superclass::NumberOfParametersType GetNumberOfLocalParameters() const ITK_OVERRIDE
     {
     return SpaceDimension;
     }
 
-  virtual Superclass::NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
+  Superclass::NumberOfParametersType GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }
 
-  virtual void SetParameters( ParametersType & params ) ITK_OVERRIDE
+  void SetParameters( ParametersType & params ) ITK_OVERRIDE
     {
     this->m_Parameters =  params;
     }
 
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const ITK_OVERRIDE
     {
     return this->m_Parameters;
     }
 
-  virtual bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const ITK_OVERRIDE
     {
     return m_HasLocalSupport;
     }
@@ -236,7 +236,7 @@ public:
     m_HasLocalSupport = hls;
     }
 
-  virtual void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE
     {
     }
 
@@ -257,12 +257,12 @@ public:
 
   void Reset() { m_IterationNumber = 0; }
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     const itk::AmoebaOptimizerv4 *optimizer = static_cast< const itk::AmoebaOptimizerv4 * >( object );
     if( dynamic_cast< const itk::FunctionEvaluationIterationEvent * >( &event ) != ITK_NULLPTR)

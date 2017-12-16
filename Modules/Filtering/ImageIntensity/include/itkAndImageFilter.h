@@ -89,7 +89,7 @@ public:
 
 protected:
   AndImageFilter() {}
-  virtual ~AndImageFilter() ITK_OVERRIDE {}
+  ~AndImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(AndImageFilter);

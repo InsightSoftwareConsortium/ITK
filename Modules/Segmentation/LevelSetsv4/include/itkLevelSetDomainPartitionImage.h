@@ -86,11 +86,11 @@ public:
 
   /** Populate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */
-  virtual void PopulateListDomain() ITK_OVERRIDE;
+  void PopulateListDomain() ITK_OVERRIDE;
 
 protected:
   LevelSetDomainPartitionImage();
-  virtual ~LevelSetDomainPartitionImage() ITK_OVERRIDE;
+  ~LevelSetDomainPartitionImage() ITK_OVERRIDE;
 
   /** Allocate a list image with each pixel being a list of overlapping
    *  level set support at that pixel */

@@ -90,24 +90,24 @@ public:
   typedef std::vector< MeasureType >                MetricValuesListType;
 
   /** Get stop condition enum */
-  virtual const StopConditionType & GetStopCondition() const ITK_OVERRIDE
+  const StopConditionType & GetStopCondition() const ITK_OVERRIDE
     {
     return this->m_StopCondition;
     }
 
   /** Begin the optimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
+  void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE;
 
   /** Stop optimization. The object is left in a state so the
    * optimization can be resumed by calling ResumeOptimization. */
-  virtual void StopOptimization(void) ITK_OVERRIDE;
+  void StopOptimization(void) ITK_OVERRIDE;
 
   /** Resume the optimization. Can be called after StopOptimization to
    * resume. The bulk of the optimization work loop is here. */
-  virtual void ResumeOptimization() ITK_OVERRIDE;
+  void ResumeOptimization() ITK_OVERRIDE;
 
   /** Get the reason for termination */
-  virtual const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
+  const StopConditionReturnStringType GetStopConditionDescription() const ITK_OVERRIDE;
 
   /** Get the list of optimizers currently held.  */
   OptimizersListType & GetOptimizersList();
@@ -122,9 +122,9 @@ public:
 
   /** Default constructor */
   MultiGradientOptimizerv4Template();
-  virtual ~MultiGradientOptimizerv4Template() ITK_OVERRIDE;
+  ~MultiGradientOptimizerv4Template() ITK_OVERRIDE;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /* Common variables for optimization control and reporting */
   bool                          m_Stop;

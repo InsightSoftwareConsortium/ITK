@@ -392,7 +392,7 @@ protected:
     this->InPlaceOff();
   }
 
-  ~MultiphaseFiniteDifferenceImageFilter(){}
+  ~MultiphaseFiniteDifferenceImageFilter() ITK_OVERRIDE{}
 
   IdCellType                       m_FunctionCount;
   std::vector< InputImagePointer > m_LevelSet;
@@ -436,7 +436,7 @@ protected:
   /** This is the default, high-level algorithm for calculating finite
    * difference solutions.  It calls virtual methods in its subclasses
    * to implement the major steps of the algorithm. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** FiniteDifferenceImageFilter2 needs a larger input requested region than
    * the output requested region.  As such, we need to provide
@@ -449,7 +449,7 @@ protected:
    * handled as described in the FiniteDifferenceFunction defined by the
    * subclass.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** This method returns true when the current iterative solution of the
    * equation has met the criteria to stop solving.  Defined by a subclass. */

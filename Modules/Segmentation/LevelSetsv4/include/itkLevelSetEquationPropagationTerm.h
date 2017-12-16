@@ -102,23 +102,23 @@ public:
   itkGetModifiableObjectMacro(PropagationImage, PropagationImageType );
 
   /** \todo to be documented. */
-  virtual void Update() ITK_OVERRIDE;
+  void Update() ITK_OVERRIDE;
 
   /** Initialize the parameters in the terms prior to an iteration */
-  virtual void InitializeParameters() ITK_OVERRIDE;
+  void InitializeParameters() ITK_OVERRIDE;
 
   /** \todo to be documented. */
-  virtual void Initialize( const LevelSetInputIndexType& ) ITK_OVERRIDE;
+  void Initialize( const LevelSetInputIndexType& ) ITK_OVERRIDE;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  virtual void UpdatePixel( const LevelSetInputIndexType& iP,
+  void UpdatePixel( const LevelSetInputIndexType& iP,
                             const LevelSetOutputRealType& oldValue,
                             const LevelSetOutputRealType& newValue ) ITK_OVERRIDE;
 
 protected:
   LevelSetEquationPropagationTerm();
 
-  virtual ~LevelSetEquationPropagationTerm() ITK_OVERRIDE;
+  ~LevelSetEquationPropagationTerm() ITK_OVERRIDE;
 
   PropagationImagePointer m_PropagationImage;
 
@@ -128,8 +128,8 @@ protected:
 
   /** Returns the term contribution for a given location iP, i.e.
    *  \f$ \omega_i( p ) \f$. */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& iP,
                                         const LevelSetDataType& iData ) ITK_OVERRIDE;
 
 private:

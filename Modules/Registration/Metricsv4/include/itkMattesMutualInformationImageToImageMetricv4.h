@@ -153,7 +153,7 @@ public:
   itkSetClampMacro( NumberOfHistogramBins, SizeValueType, 5, NumericTraits<SizeValueType>::max() );
   itkGetConstReferenceMacro(NumberOfHistogramBins, SizeValueType);
 
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) ITK_OVERRIDE;
 
   /** The marginal PDFs are stored as std::vector. */
   //NOTE:  floating point precision is not as stable.
@@ -188,11 +188,11 @@ public:
     return this->m_JointPDFDerivatives;
     }
 
-  virtual void FinalizeThread( const ThreadIdType threadId ) ITK_OVERRIDE;
+  void FinalizeThread( const ThreadIdType threadId ) ITK_OVERRIDE;
 
 protected:
   MattesMutualInformationImageToImageMetricv4();
-  virtual ~MattesMutualInformationImageToImageMetricv4() ITK_OVERRIDE;
+  ~MattesMutualInformationImageToImageMetricv4() ITK_OVERRIDE;
 
   friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Superclass, Self >;
   friend class MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader< ThreadedIndexedContainerPartitioner, Superclass, Self >;

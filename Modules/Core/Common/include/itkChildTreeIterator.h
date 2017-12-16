@@ -43,16 +43,16 @@ public:
   ChildTreeIterator(const TreeIteratorBase< TTreeType > & iterator);
 
   /** Get the type of the iterator */
-  NodeType GetType() const;
+  NodeType GetType() const ITK_OVERRIDE;
 
   /** Go to a specific child node */
-  virtual bool GoToChild(ChildIdentifier number = 0);
+  bool GoToChild(ChildIdentifier number = 0) ITK_OVERRIDE;
 
   /** Go to a parent node */
-  virtual bool GoToParent();
+  bool GoToParent() ITK_OVERRIDE;
 
   /** Clone function */
-  TreeIteratorBase< TTreeType > * Clone();
+  TreeIteratorBase< TTreeType > * Clone() ITK_OVERRIDE;
 
   /** operator = */
   Self & operator=(Superclass & iterator)
@@ -71,10 +71,10 @@ public:
 protected:
 
   /** Get the next value */
-  const ValueType & Next();
+  const ValueType & Next() ITK_OVERRIDE;
 
   /** Return true if the next value exists */
-  bool HasNext() const;
+  bool HasNext() const ITK_OVERRIDE;
 
 private:
 

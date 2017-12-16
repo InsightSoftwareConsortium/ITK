@@ -103,7 +103,7 @@ public:
   /**
    * Evaluate at the given index
    */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & cindex ) const ITK_OVERRIDE
     {
     return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );
@@ -119,7 +119,7 @@ private:
   /**
    * Evaluate function value at the given index
    */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType &, OutputType * ) const ITK_OVERRIDE;
 };
 

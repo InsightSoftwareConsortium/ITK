@@ -129,11 +129,11 @@ protected:
   ~RandomImageSource() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void
+  void
   ThreadedGenerateData(const OutputImageRegionType &
                        outputRegionForThread, ThreadIdType threadId) ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RandomImageSource);

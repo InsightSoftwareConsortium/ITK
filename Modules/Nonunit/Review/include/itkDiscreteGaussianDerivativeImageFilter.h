@@ -196,7 +196,7 @@ protected:
     m_InternalNumberOfStreamDivisions = ImageDimension * ImageDimension;
   }
 
-  virtual ~DiscreteGaussianDerivativeImageFilter() {}
+  ~DiscreteGaussianDerivativeImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DiscreteGaussianDerivativeImageFilter needs a larger input requested region
@@ -205,7 +205,7 @@ protected:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all

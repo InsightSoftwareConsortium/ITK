@@ -82,20 +82,20 @@ public:
 
   /** Returns the value of the level set function at a given location inputPixel */
   using Superclass::Evaluate;
-  virtual OutputType Evaluate( const InputType& inputPixel ) const ITK_OVERRIDE;
+  OutputType Evaluate( const InputType& inputPixel ) const ITK_OVERRIDE;
 
   /** Returns the Hessian of the level set function at a given location inputPixel */
-  virtual HessianType EvaluateHessian( const InputType& inputPixel ) const ITK_OVERRIDE;
+  HessianType EvaluateHessian( const InputType& inputPixel ) const ITK_OVERRIDE;
 
   /** Returns the Laplacian of the level set function at a given location inputPixel */
-  virtual OutputRealType EvaluateLaplacian( const InputType& inputPixel ) const ITK_OVERRIDE;
+  OutputRealType EvaluateLaplacian( const InputType& inputPixel ) const ITK_OVERRIDE;
 
   /** Returns the MeanCurvature of the level set function at a given location inputPixel */
-  virtual OutputRealType EvaluateMeanCurvature( const InputType& inputPixel ) const ITK_OVERRIDE;
+  OutputRealType EvaluateMeanCurvature( const InputType& inputPixel ) const ITK_OVERRIDE;
 
-  virtual void EvaluateHessian( const InputType& inputPixel, LevelSetDataType& data ) const ITK_OVERRIDE;
-  virtual void EvaluateLaplacian( const InputType& inputPixel, LevelSetDataType& data ) const ITK_OVERRIDE;
-  virtual void EvaluateMeanCurvature( const InputType& inputPixel, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateHessian( const InputType& inputPixel, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateLaplacian( const InputType& inputPixel, LevelSetDataType& data ) const ITK_OVERRIDE;
+  void EvaluateMeanCurvature( const InputType& inputPixel, LevelSetDataType& data ) const ITK_OVERRIDE;
 
   static inline LayerIdType MinusOneLayer() { return -1; }
   static inline LayerIdType ZeroLayer() { return 0; }
@@ -105,12 +105,12 @@ protected:
 
   MalcolmSparseLevelSetImage();
 
-  virtual ~MalcolmSparseLevelSetImage() ITK_OVERRIDE;
+  ~MalcolmSparseLevelSetImage() ITK_OVERRIDE;
 
   /** Initialize the sparse field layers */
-  virtual void InitializeLayers() ITK_OVERRIDE;
+  void InitializeLayers() ITK_OVERRIDE;
 
-  virtual void InitializeInternalLabelList() ITK_OVERRIDE;
+  void InitializeInternalLabelList() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MalcolmSparseLevelSetImage);

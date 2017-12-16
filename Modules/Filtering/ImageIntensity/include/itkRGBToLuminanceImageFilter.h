@@ -94,7 +94,7 @@ public:
 
 protected:
   RGBToLuminanceImageFilter() {}
-  virtual ~RGBToLuminanceImageFilter() ITK_OVERRIDE {}
+  ~RGBToLuminanceImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RGBToLuminanceImageFilter);

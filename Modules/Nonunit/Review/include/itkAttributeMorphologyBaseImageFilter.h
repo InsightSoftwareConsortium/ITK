@@ -143,7 +143,7 @@ protected:
     m_Lambda = 0;
   }
 
-  virtual ~AttributeMorphologyBaseImageFilter() {}
+  ~AttributeMorphologyBaseImageFilter() ITK_OVERRIDE {}
   AttributeMorphologyBaseImageFilter(const Self &) {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

@@ -69,28 +69,28 @@ public:
   //Member Functions
   itkGetConstReferenceMacro(RBF_Dim, unsigned int);
   void SetRBF_Dim(unsigned int size);
-  virtual void SetNumberOfNodes(unsigned int numNodes) ITK_OVERRIDE;
-  virtual ValueType GetInputValue(unsigned int i) const ITK_OVERRIDE;
+  void SetNumberOfNodes(unsigned int numNodes) ITK_OVERRIDE;
+  ValueType GetInputValue(unsigned int i) const ITK_OVERRIDE;
   void SetInputValue(unsigned int i, ValueType value);
 
-  virtual ValueType GetOutputValue(unsigned int) const ITK_OVERRIDE;
+  ValueType GetOutputValue(unsigned int) const ITK_OVERRIDE;
   virtual void SetOutputValue(unsigned int, ValueType);
 
-  virtual ValueType * GetOutputVector() ITK_OVERRIDE;
+  ValueType * GetOutputVector() ITK_OVERRIDE;
   void SetOutputVector(TMeasurementVector value);
 
-  virtual void ForwardPropagate() ITK_OVERRIDE;
-  virtual void ForwardPropagate(TMeasurementVector input) ITK_OVERRIDE;
+  void ForwardPropagate() ITK_OVERRIDE;
+  void ForwardPropagate(TMeasurementVector input) ITK_OVERRIDE;
 
-  virtual void BackwardPropagate() ITK_OVERRIDE;
-  virtual void BackwardPropagate(TTargetVector itkNotUsed(errors)) ITK_OVERRIDE {};
+  void BackwardPropagate() ITK_OVERRIDE;
+  void BackwardPropagate(TTargetVector itkNotUsed(errors)) ITK_OVERRIDE {};
 
-  virtual void SetOutputErrorValues(TTargetVector) ITK_OVERRIDE;
-  virtual ValueType GetOutputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
+  void SetOutputErrorValues(TTargetVector) ITK_OVERRIDE;
+  ValueType GetOutputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
 
-  virtual ValueType GetInputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
-  virtual ValueType * GetInputErrorVector() ITK_OVERRIDE;
-  virtual void SetInputErrorValue(ValueType, unsigned int node_id) ITK_OVERRIDE;
+  ValueType GetInputErrorValue(unsigned int node_id) const ITK_OVERRIDE;
+  ValueType * GetInputErrorVector() ITK_OVERRIDE;
+  void SetInputErrorValue(ValueType, unsigned int node_id) ITK_OVERRIDE;
 
   //TMeasurementVector GetCenter(int i);
   InternalVectorType GetCenter(unsigned int i) const;
@@ -99,8 +99,8 @@ public:
   ValueType GetRadii(unsigned int i) const;
   void SetRadii(ValueType c,unsigned int i);
 
-  virtual ValueType Activation(ValueType) ITK_OVERRIDE;
-  virtual ValueType DActivation(ValueType) ITK_OVERRIDE;
+  ValueType Activation(ValueType) ITK_OVERRIDE;
+  ValueType DActivation(ValueType) ITK_OVERRIDE;
 
   /** Set/Get the bias */
   itkSetMacro( Bias, ValueType );
@@ -118,10 +118,10 @@ public:
 protected:
 
   RBFLayer();
-  virtual ~RBFLayer() ITK_OVERRIDE;
+  ~RBFLayer() ITK_OVERRIDE;
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:
 

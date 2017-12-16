@@ -110,7 +110,7 @@ protected:
    * to inform the pipeline execution model.  The original
    * documentation of this method is below.
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PadImageFilter);

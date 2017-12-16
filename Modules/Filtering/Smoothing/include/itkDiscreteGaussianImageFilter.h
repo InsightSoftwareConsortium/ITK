@@ -218,7 +218,7 @@ public:
    * provide an implementation for GenerateInputRequestedRegion() in
    * order to inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -240,7 +240,7 @@ protected:
     m_InternalNumberOfStreamDivisions = ImageDimension * ImageDimension;
   }
 
-  virtual ~DiscreteGaussianImageFilter() ITK_OVERRIDE {}
+  ~DiscreteGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Standard pipeline method. While this class does not implement a

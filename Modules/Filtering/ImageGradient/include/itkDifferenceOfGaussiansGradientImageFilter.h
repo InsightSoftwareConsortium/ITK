@@ -85,7 +85,7 @@ public:
 
 protected:
   DifferenceOfGaussiansGradientImageFilter();
-  virtual ~DifferenceOfGaussiansGradientImageFilter() ITK_OVERRIDE {}
+  ~DifferenceOfGaussiansGradientImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Method for evaluating the implicit function over the image. */

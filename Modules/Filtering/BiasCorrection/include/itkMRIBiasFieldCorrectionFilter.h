@@ -122,7 +122,7 @@ public:
 
   /** Gets the total energy value of an image or a slice using the
    * given parameters. */
-  virtual MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
+  MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
 
   /** Dummy implementation to confirm to the SingleValuedCostFunction
    * interfaces. It is pure virtual in the superclass. */
@@ -137,14 +137,14 @@ public:
   void InitializeDistributions(Array< double > classMeans,
                                Array< double > classSigmas);
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE;
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE;
 
 protected:
   /** Constructor. */
   MRIBiasEnergyFunction();
 
   /** Destructor. */
-  virtual ~MRIBiasEnergyFunction() ITK_OVERRIDE;
+  ~MRIBiasEnergyFunction() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MRIBiasEnergyFunction);
@@ -477,7 +477,7 @@ public:
 
 protected:
   MRIBiasFieldCorrectionFilter();
-  virtual ~MRIBiasFieldCorrectionFilter() ITK_OVERRIDE;
+  ~MRIBiasFieldCorrectionFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Checks if the mask image's dimensionality and size matches with

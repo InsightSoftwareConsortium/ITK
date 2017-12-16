@@ -166,13 +166,13 @@ class ITKCommon_EXPORT SmapsData_2_6:public MapData
 public:
   typedef MapData::MemoryLoadType MemoryLoadType;
 
-  virtual ~SmapsData_2_6() ITK_OVERRIDE;
+  ~SmapsData_2_6() ITK_OVERRIDE;
 
   /** Returns the heap usage in kB of the process */
-  virtual MemoryLoadType GetHeapUsage() ITK_OVERRIDE;
+  MemoryLoadType GetHeapUsage() ITK_OVERRIDE;
 
   /** Returns the stack usage in kB of the process */
-  virtual MemoryLoadType GetStackUsage() ITK_OVERRIDE;
+  MemoryLoadType GetStackUsage() ITK_OVERRIDE;
 
   /** fill the smaps data */
   friend ITKCommon_EXPORT std::istream &  operator>>(std::istream & smapsStream,
@@ -195,13 +195,13 @@ class ITKCommon_EXPORT VMMapData_10_2:public MapData
 public:
   typedef MapData::MemoryLoadType MemoryLoadType;
   VMMapData_10_2();
-  virtual ~VMMapData_10_2() ITK_OVERRIDE;
+  ~VMMapData_10_2() ITK_OVERRIDE;
 
   /** Returns the heap usage in kB of the process */
-  virtual MemoryLoadType GetHeapUsage() ITK_OVERRIDE;
+  MemoryLoadType GetHeapUsage() ITK_OVERRIDE;
 
   /** Returns the stack usage in kB of the process */
-  virtual MemoryLoadType GetStackUsage() ITK_OVERRIDE;
+  MemoryLoadType GetStackUsage() ITK_OVERRIDE;
 
   /** fill the smaps data */
   friend ITKCommon_EXPORT std::istream & operator>>(std::istream & stream,

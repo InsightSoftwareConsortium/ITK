@@ -152,7 +152,7 @@ public:
 
 protected:
   BinaryImageToLabelMapFilter();
-  virtual ~BinaryImageToLabelMapFilter() ITK_OVERRIDE {}
+  ~BinaryImageToLabelMapFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef SizeValueType InternalLabelType;
@@ -180,7 +180,7 @@ protected:
   /** Provide an ImageRegionSplitter that does not split along the first
    * dimension -- we assume the data is complete along this dimension when
    * threading. */
-  virtual const ImageRegionSplitterBase* GetImageRegionSplitter() const ITK_OVERRIDE;
+  const ImageRegionSplitterBase* GetImageRegionSplitter() const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLabelMapFilter);

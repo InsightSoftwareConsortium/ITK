@@ -119,7 +119,7 @@ public:
     return point;
   }
 
-  virtual void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const ITK_OVERRIDE
+  void ComputeJacobianWithRespectToParameters(const InputPointType  & itkNotUsed(p), JacobianType & itkNotUsed(jacobian) ) const ITK_OVERRIDE
     {
     itkExceptionMacro(
       "ComputeJacobianWithRespectToParamters( InputPointType, JacobianType"
@@ -127,7 +127,7 @@ public:
     }
 protected:
   MultiTransformTestTransform(){};
-  virtual ~MultiTransformTestTransform() ITK_OVERRIDE {};
+  ~MultiTransformTestTransform() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MultiTransformTestTransform);

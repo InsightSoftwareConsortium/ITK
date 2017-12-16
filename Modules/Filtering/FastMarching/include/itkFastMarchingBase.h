@@ -211,7 +211,7 @@ protected:
   FastMarchingBase();
 
   /** \brief Destructor */
-  virtual ~FastMarchingBase() ITK_OVERRIDE;
+  ~FastMarchingBase() ITK_OVERRIDE;
 
   StoppingCriterionPointer m_StoppingCriterion;
 

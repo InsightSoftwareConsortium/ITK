@@ -65,30 +65,30 @@ public:
 
   /** Determine the file type. Returns true if this ImageIO can read the
    * file specified. */
-  virtual bool CanReadFile(const char *) ITK_OVERRIDE;
+  bool CanReadFile(const char *) ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void ReadImageInformation() ITK_OVERRIDE;
+  void ReadImageInformation() ITK_OVERRIDE;
 
   /** Reads the data from disk into the memory buffer provided. */
-  virtual void Read(void *buffer) ITK_OVERRIDE;
+  void Read(void *buffer) ITK_OVERRIDE;
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 
   /** Determine the file type. Returns true if this ImageIO can write the
    * file specified. */
-  virtual bool CanWriteFile(const char *) ITK_OVERRIDE;
+  bool CanWriteFile(const char *) ITK_OVERRIDE;
 
   /** Set the spacing and dimension information for the set filename. */
-  virtual void WriteImageInformation() ITK_OVERRIDE;
+  void WriteImageInformation() ITK_OVERRIDE;
 
   /** Writes the data to disk from the memory buffer provided. Make sure
    * that the IORegions has been set properly. */
-  virtual void Write(const void *buffer) ITK_OVERRIDE;
+  void Write(const void *buffer) ITK_OVERRIDE;
 
   BMPImageIO();
   ~BMPImageIO() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BMPImageIO);

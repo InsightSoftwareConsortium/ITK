@@ -62,7 +62,7 @@ public:
   itkGetMacro(NumberOfIterations, unsigned int);
 
   /** Returns the time step used for dynamic problems. */
-  virtual Float GetTimeStep(void) const ITK_OVERRIDE
+  Float GetTimeStep(void) const ITK_OVERRIDE
   {
     return this->m_TimeStep;
   }
@@ -72,33 +72,33 @@ public:
    *
    * \param dt New time step.
    */
-  virtual void SetTimeStep(Float dt) ITK_OVERRIDE
+  void SetTimeStep(Float dt) ITK_OVERRIDE
   {
     this->m_TimeStep = dt;
   }
 
 protected:
   SolverHyperbolic();
-  virtual ~SolverHyperbolic() ITK_OVERRIDE {}
+  ~SolverHyperbolic() ITK_OVERRIDE {}
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Initialize the linear system wrapper. */
-  virtual void InitializeLinearSystemWrapper(void) ITK_OVERRIDE;
+  void InitializeLinearSystemWrapper(void) ITK_OVERRIDE;
 
   /**
    * When assembling the element matrix into master matrix, we
    * need to assemble the mass matrix too.
    */
-  virtual void AssembleElementMatrix(Element::Pointer e) ITK_OVERRIDE;
+  void AssembleElementMatrix(Element::Pointer e) ITK_OVERRIDE;
 
   /** Initialize the storage for all master matrices. */
-  virtual void InitializeMatrixForAssembly(unsigned int N) ITK_OVERRIDE;
+  void InitializeMatrixForAssembly(unsigned int N) ITK_OVERRIDE;
 
   /**
    * Combine the M, C and K matrices into one big system of linear
    * equations.
    */
-  virtual void FinalizeMatrixAfterAssembly( void ) ITK_OVERRIDE;
+  void FinalizeMatrixAfterAssembly( void ) ITK_OVERRIDE;
 
 
   /** Method invoked by the pipeline in order to trigger the computation. */
@@ -106,7 +106,7 @@ protected:
 
   /** Solve for the displacement vector u at a given time.
   * Update the total solution as well. */
-  virtual void RunSolver(void) ITK_OVERRIDE;
+  void RunSolver(void) ITK_OVERRIDE;
 
   /** Solve for the displacement vector u for one iteration. */
   void Solve();

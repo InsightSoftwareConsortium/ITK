@@ -137,7 +137,7 @@ public:
    * copy all necessary information from passed object
    * to the mesh
    */
-  virtual void CopyInformation(const DataObject *data) ITK_OVERRIDE;
+  void CopyInformation(const DataObject *data) ITK_OVERRIDE;
 
   /**
    * Add a new edge to the simplex mesh by specifying the ids of the start
@@ -260,7 +260,7 @@ public:
 protected:
   //  /** Constructor for use by New() method. */
   SimplexMesh();
-  virtual ~SimplexMesh() ITK_OVERRIDE;
+  ~SimplexMesh() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /**

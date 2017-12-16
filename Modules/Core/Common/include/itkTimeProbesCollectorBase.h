@@ -42,7 +42,7 @@ public:
   TimeProbesCollectorBase();
 
   /** destructor */
-  virtual ~TimeProbesCollectorBase();
+  ~TimeProbesCollectorBase() ITK_OVERRIDE;
 };
 }
 

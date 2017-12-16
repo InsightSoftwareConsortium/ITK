@@ -53,16 +53,16 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+  ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
   /**
    * Methods to access the most recent solution vector
    */
-  virtual void SetSolution(Solution::ConstPointer ptr) ITK_OVERRIDE
+  void SetSolution(Solution::ConstPointer ptr) ITK_OVERRIDE
   {
     m_Solution = ptr;
   }
-  virtual Solution::ConstPointer GetSolution() ITK_OVERRIDE
+  Solution::ConstPointer GetSolution() ITK_OVERRIDE
   {
     return m_Solution;
   }
@@ -223,11 +223,11 @@ public:
   double GetEta() const;
 
   /** Apply the load to the specified element */
-  virtual void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
+  void ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe) ITK_OVERRIDE;
 
 protected:
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /**
    * Square root of the variance (eta)

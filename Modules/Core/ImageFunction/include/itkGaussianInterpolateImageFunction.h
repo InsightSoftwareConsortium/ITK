@@ -90,7 +90,7 @@ public:
   typedef FixedArray<RealType, ImageDimension> ArrayType;
 
   /** Set input image. */
-  virtual void SetInputImage( const TInputImage *image ) ITK_OVERRIDE
+  void SetInputImage( const TInputImage *image ) ITK_OVERRIDE
     {
     Superclass::SetInputImage( image );
     this->ComputeBoundingBox();
@@ -137,7 +137,7 @@ public:
     }
 
   /** Evaluate at the given index. */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & cindex ) const ITK_OVERRIDE
     {
     return this->EvaluateAtContinuousIndex( cindex, ITK_NULLPTR );

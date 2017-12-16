@@ -59,7 +59,7 @@ public:
 
 protected:
   GaussianKernelFunction(): m_Factor(  NumericTraits< TRealValueType >::OneValue() / std::sqrt(static_cast< TRealValueType >(2.0 * itk::Math::pi )) ) {};
-  virtual ~GaussianKernelFunction() ITK_OVERRIDE {};
+  ~GaussianKernelFunction() ITK_OVERRIDE {};
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf(os, indent); }
 

@@ -114,7 +114,7 @@ public:
    * This calls the ComputeGlobalTimeStep method defined in LevelSetFunction
    * and then imposes our own restrictions for the refitting term on the
    * returned value. */
-  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const ITK_OVERRIDE;
+  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const ITK_OVERRIDE;
 
 protected:
   /** The weight for the refitting term. */
@@ -134,7 +134,7 @@ protected:
   /** Defines the virtual function in LevelSetFunction to add the refitting
    * term. This function also calls OtherPropagationSpeed to provide a
    * mechanism for subclasses to define other propagation terms. */
-  virtual ScalarValueType PropagationSpeed(const NeighborhoodType &,
+  ScalarValueType PropagationSpeed(const NeighborhoodType &,
                                            const FloatOffsetType &,
                                            GlobalDataStruct * = 0) const ITK_OVERRIDE;
 

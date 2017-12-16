@@ -111,7 +111,7 @@ public:
    * Set the input image.  Note that the size, spacing, origin, and spline
    * order must be called prior to setting the input image.
    */
-  virtual void SetInputImage( const InputImageType * ) ITK_OVERRIDE;
+  void SetInputImage( const InputImageType * ) ITK_OVERRIDE;
 
   /**
    * Set the spline order of the B-spline object for all parametric dimensions.
@@ -192,13 +192,13 @@ public:
    * Evaluate the resulting B-spline object at a specified index in the
    * parametric domain.
    */
-  virtual OutputType EvaluateAtIndex( const IndexType & ) const ITK_OVERRIDE;
+  OutputType EvaluateAtIndex( const IndexType & ) const ITK_OVERRIDE;
 
   /**
    * Evaluate the resulting B-spline object at a specified continuous index in
    * the parametric domain.
    */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & ) const ITK_OVERRIDE;
 
   /**
@@ -206,7 +206,7 @@ public:
    * point.  Note that the internal parameterization over each dimension of the
    * B-spline object is [0, 1).
    */
-  virtual OutputType Evaluate( const PointType & ) const ITK_OVERRIDE;
+  OutputType Evaluate( const PointType & ) const ITK_OVERRIDE;
 
   /**
    * Evaluate the gradient of the resulting B-spline object at a specified point
@@ -268,7 +268,7 @@ public:
 
 protected:
   BSplineControlPointImageFunction();
-  virtual ~BSplineControlPointImageFunction() ITK_OVERRIDE;
+  ~BSplineControlPointImageFunction() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:

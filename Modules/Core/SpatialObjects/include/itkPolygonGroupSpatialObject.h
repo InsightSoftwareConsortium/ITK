@@ -95,7 +95,7 @@ public:
   double MeasureVolume();
 
   /** Test whether a point is inside or outside the object. */
-  virtual bool IsInside(const PointType & point,
+  bool IsInside(const PointType & point,
                         unsigned int depth = 0,
                         char *name = ITK_NULLPTR) const ITK_OVERRIDE;
 

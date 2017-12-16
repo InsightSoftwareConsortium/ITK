@@ -115,14 +115,14 @@ public:
    *
    * \sa Transform::SetParameters()
    * \sa Transform::SetFixedParameters() */
-  virtual void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
+  void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal to within a specified tolerance,
    * else an exception is thrown.
    *
    * \sa MatrixOffsetTransformBase::SetMatrix() */
-  virtual void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
+  void SetMatrix(const MatrixType & matrix) ITK_OVERRIDE;
 
   /** Directly set the rotation matrix of the transform.
    * \warning The input matrix must be orthogonal to within the specified tolerance,

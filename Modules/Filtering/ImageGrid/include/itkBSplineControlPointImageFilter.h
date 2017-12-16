@@ -205,7 +205,7 @@ public:
 
 protected:
   BSplineControlPointImageFilter();
-  virtual ~BSplineControlPointImageFilter() ITK_OVERRIDE;
+  ~BSplineControlPointImageFilter() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
   /**
@@ -227,7 +227,7 @@ private:
    * Based on the way CollapsePhiLattice() is written, we want to split on the
    * the last dimension.
    */
-  virtual unsigned int SplitRequestedRegion( unsigned int, unsigned int, OutputImageRegionType & ) ITK_OVERRIDE;
+  unsigned int SplitRequestedRegion( unsigned int, unsigned int, OutputImageRegionType & ) ITK_OVERRIDE;
 
   /**
    * Sub-function used by GenerateOutputImageFast() to generate the sampled

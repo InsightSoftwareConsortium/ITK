@@ -66,9 +66,9 @@ public:
 
 protected:
   CellularAggregateBase();
-  virtual ~CellularAggregateBase() ITK_OVERRIDE;
+  ~CellularAggregateBase() ITK_OVERRIDE;
   CellularAggregateBase(const Self &);
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace bio
 } // end namespace itk

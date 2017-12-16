@@ -102,7 +102,7 @@ public:
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion()
    */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -121,7 +121,7 @@ public:
 
 protected:
   SobelEdgeDetectionImageFilter() {}
-  virtual ~SobelEdgeDetectionImageFilter() ITK_OVERRIDE {}
+  ~SobelEdgeDetectionImageFilter() ITK_OVERRIDE {}
 
   /**
    * Standard pipeline method. While this class does not implement a

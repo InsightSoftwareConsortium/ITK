@@ -112,7 +112,7 @@ public:
   }
 
 
-  virtual MeasureType GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
     TransformType::ParametersType p( itkGetStaticConstMacro( SpaceDimension ));
     for(unsigned int i=0; i<6; i++)
@@ -206,7 +206,7 @@ public:
 
   }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return itkGetStaticConstMacro( SpaceDimension );
     }

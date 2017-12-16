@@ -99,7 +99,7 @@ public:
    * them as a Subsample.  The definition of similar will be subclass-
    * specific.  And could mean spatial similarity or feature similarity
    * etc.  */
-  virtual void Search(const InstanceIdentifier& query,
+  void Search(const InstanceIdentifier& query,
                       SubsamplePointer& results) ITK_OVERRIDE;
 
 protected:
@@ -108,12 +108,12 @@ protected:
    * This does a complete copy of the subsampler state
    * to the new subsampler
    */
-  virtual typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
+  typename LightObject::Pointer InternalClone() const ITK_OVERRIDE;
 
   SpatialNeighborSubsampler();
-  virtual ~SpatialNeighborSubsampler() ITK_OVERRIDE {};
+  ~SpatialNeighborSubsampler() ITK_OVERRIDE {};
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   RadiusType m_Radius;
   bool       m_RadiusInitialized;

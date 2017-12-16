@@ -221,7 +221,7 @@ public:
         }
     }
 
-    virtual ~MultiVisitor() ITK_OVERRIDE {}
+    ~MultiVisitor() ITK_OVERRIDE {}
 
 protected:
     VisitorPointer m_Visitors[LAST_ITK_CELL];      // fixed array set to the

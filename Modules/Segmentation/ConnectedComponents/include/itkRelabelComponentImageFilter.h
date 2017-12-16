@@ -253,7 +253,7 @@ protected:
     m_OriginalNumberOfObjects(0), m_MinimumObjectSize(0),
     m_SortByObjectSize(true)
   { this->InPlaceOff(); }
-  virtual ~RelabelComponentImageFilter() ITK_OVERRIDE {}
+  ~RelabelComponentImageFilter() ITK_OVERRIDE {}
 
   /**
    * Standard pipeline method.

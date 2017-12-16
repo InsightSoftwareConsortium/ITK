@@ -171,7 +171,7 @@ public:
 
 protected:
   ClampImageFilter();
-  virtual ~ClampImageFilter() ITK_OVERRIDE {}
+  ~ClampImageFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE;
 

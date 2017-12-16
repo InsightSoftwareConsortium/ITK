@@ -62,17 +62,17 @@ public:
   typedef typename EnergyValueContainerType::const_iterator  EnergyValueConstIterator;
 
   /** Add energy value */
-  virtual void AddEnergyValue( const EnergyValueType ) ITK_OVERRIDE;
+  void AddEnergyValue( const EnergyValueType ) ITK_OVERRIDE;
 
   /* Clear energy values and set total energy to 0 */
-  virtual void ClearEnergyValues() ITK_OVERRIDE;
+  void ClearEnergyValues() ITK_OVERRIDE;
 
   /** Set/Get window size over which the convergence value is calculated */
   itkSetMacro( WindowSize, EnergyValueContainerSizeType );
   itkGetConstMacro( WindowSize, EnergyValueContainerSizeType );
 
   /** Calculate convergence value by fitting to a window of the enrgy profile */
-  virtual RealType GetConvergenceValue() const ITK_OVERRIDE;
+  RealType GetConvergenceValue() const ITK_OVERRIDE;
 
 protected:
   WindowConvergenceMonitoringFunction();

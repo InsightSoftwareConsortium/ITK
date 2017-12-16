@@ -84,7 +84,7 @@ public:
 
 protected:
   ElasticBodyReciprocalSplineKernelTransform();
-  virtual ~ElasticBodyReciprocalSplineKernelTransform() ITK_OVERRIDE;
+  ~ElasticBodyReciprocalSplineKernelTransform() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   typedef typename Superclass::GMatrixType GMatrixType;
@@ -98,7 +98,7 @@ protected:
    * r(x) = Euclidean norm = sqrt[x1^2 + x2^2 + x3^2]
    * \f[ r(x) = \sqrt{ x_1^2 + x_2^2 + x_3^2 }  \f]
    * I = identity matrix */
-  virtual void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const ITK_OVERRIDE;
+  void ComputeG(const InputVectorType & landmarkVector, GMatrixType & gmatrix) const ITK_OVERRIDE;
 
   /** alpha, Poisson's ratio */
   TParametersValueType m_Alpha;

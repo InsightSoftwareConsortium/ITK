@@ -59,9 +59,9 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  virtual void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() ITK_OVERRIDE;
 
-  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
+  void Initialize(const RadiusType & r) ITK_OVERRIDE
   {
     Superclass::Initialize(r);
 
@@ -93,7 +93,7 @@ protected:
     this->SetCurvatureWeight(1.0);
   }
 
-  virtual ~LaplacianSegmentationLevelSetFunction() ITK_OVERRIDE {}
+  ~LaplacianSegmentationLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(LaplacianSegmentationLevelSetFunction);
 };

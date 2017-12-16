@@ -309,7 +309,7 @@ public:
   double Mean(unsigned int dimension) const;
 
   /** Method to graft another histogram's output */
-  virtual void Graft(const DataObject *) ITK_OVERRIDE;
+  void Graft(const DataObject *) ITK_OVERRIDE;
 
 protected:
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
@@ -463,7 +463,7 @@ private:
 
 protected:
   Histogram();
-  virtual ~Histogram() ITK_OVERRIDE {}
+  ~Histogram() ITK_OVERRIDE {}
 
   // The number of bins for each dimension
   SizeType m_Size;
@@ -478,7 +478,7 @@ private:
 
   // This method is provided here just to avoid a "hidden" warning
   // related to the virtual method available in DataObject.
-  virtual void Initialize() ITK_OVERRIDE {}
+  void Initialize() ITK_OVERRIDE {}
 
   // lower bound of each bin
   std::vector< std::vector< MeasurementType > > m_Min;

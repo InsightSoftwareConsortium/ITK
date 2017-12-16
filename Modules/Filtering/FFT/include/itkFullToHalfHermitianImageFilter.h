@@ -90,10 +90,10 @@ protected:
                             ThreadIdType threadId) ITK_OVERRIDE;
 
   /** The output is a different size from the input. */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This class requires the entire input. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   itkSetDecoratedOutputMacro(ActualXDimensionIsOdd, bool);
 

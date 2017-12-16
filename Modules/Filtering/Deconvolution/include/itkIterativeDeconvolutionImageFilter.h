@@ -97,7 +97,7 @@ public:
 
 protected:
   IterativeDeconvolutionImageFilter();
-  virtual ~IterativeDeconvolutionImageFilter() ITK_OVERRIDE;
+  ~IterativeDeconvolutionImageFilter() ITK_OVERRIDE;
 
   /** Runs before iterating . */
   virtual void Initialize(ProgressAccumulator * progress,
@@ -119,11 +119,11 @@ protected:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion()  */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Generate the output image data. Uses a minipipeline, so
    * ThreadedGenerateData is not overridden. */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** Discrete Fourier transform of the padded kernel. */
   InternalComplexImagePointerType m_TransferFunction;
@@ -134,7 +134,7 @@ protected:
   typedef typename Superclass::FFTFilterType  FFTFilterType;
   typedef typename Superclass::IFFTFilterType IFFTFilterType;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(IterativeDeconvolutionImageFilter);

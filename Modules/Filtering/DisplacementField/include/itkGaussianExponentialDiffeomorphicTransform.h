@@ -92,7 +92,7 @@ public:
    * base class implementation as we might want to smooth the update field before
    * adding it to the velocity field
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Smooth the velocity field in-place.
    * \warning Not thread safe. Does its own threading.
@@ -113,7 +113,7 @@ public:
 
 protected:
   GaussianExponentialDiffeomorphicTransform();
-  virtual ~GaussianExponentialDiffeomorphicTransform() ITK_OVERRIDE;
+  ~GaussianExponentialDiffeomorphicTransform() ITK_OVERRIDE;
 
   /** Type of Gaussian Operator used during smoothing. Define here
    * so we can use a member var during the operation. */

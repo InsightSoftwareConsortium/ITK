@@ -52,7 +52,7 @@ public:
   FEMException(const char *file, unsigned int lineNumber, std::string location = "Unknown");
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMException()
+  ~FEMException()
   ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
@@ -77,7 +77,7 @@ public:
   FEMExceptionIO(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionIO()
+  ~FEMExceptionIO()
   ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
@@ -108,7 +108,7 @@ public:
   FEMExceptionWrongClass(const char *file, unsigned int lineNumber, std::string location);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionWrongClass()
+  ~FEMExceptionWrongClass()
   ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
@@ -130,7 +130,7 @@ public:
                              int GN);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionObjectNotFound()
+  ~FEMExceptionObjectNotFound()
   ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */
@@ -162,7 +162,7 @@ public:
   FEMExceptionSolution(const char *file, unsigned int lineNumber, std::string location, std::string moreDescription);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~FEMExceptionSolution()
+  ~FEMExceptionSolution()
   ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Type related information. */

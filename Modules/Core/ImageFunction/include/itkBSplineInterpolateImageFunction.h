@@ -141,7 +141,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE
   {
     ContinuousIndexType index;
 
@@ -161,7 +161,7 @@ public:
     return ( this->EvaluateAtContinuousIndex(index, threadId) );
   }
 
-  virtual OutputType EvaluateAtContinuousIndex(const ContinuousIndexType &
+  OutputType EvaluateAtContinuousIndex(const ContinuousIndexType &
                                                index) const ITK_OVERRIDE
   {
     // Don't know thread information, make evaluateIndex, weights on the stack.
@@ -296,7 +296,7 @@ public:
   itkGetConstMacro(NumberOfThreads, ThreadIdType);
 
   /** Set the input image.  This must be set by the user. */
-  virtual void SetInputImage(const TImageType *inputData) ITK_OVERRIDE;
+  void SetInputImage(const TImageType *inputData) ITK_OVERRIDE;
 
   /** The UseImageDirection flag determines whether image derivatives are
    * computed with respect to the image grid or with respect to the physical

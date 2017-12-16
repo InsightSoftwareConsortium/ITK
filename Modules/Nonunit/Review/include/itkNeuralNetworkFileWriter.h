@@ -126,8 +126,8 @@ public:
 
 protected:
   NeuralNetworkFileWriter();
-  ~NeuralNetworkFileWriter();
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~NeuralNetworkFileWriter() ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   void ClearFields();

@@ -55,7 +55,7 @@ protected:
   /** \brief Constructor */
   StoppingCriterionBase();
   /** \brief Destructor */
-  virtual ~StoppingCriterionBase() ITK_OVERRIDE;
+  ~StoppingCriterionBase() ITK_OVERRIDE;
 
 private:
   StoppingCriterionBase( const Self& );

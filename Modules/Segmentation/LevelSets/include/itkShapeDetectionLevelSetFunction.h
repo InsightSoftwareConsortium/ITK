@@ -99,14 +99,14 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int,
                       Superclass::ImageDimension);
 
-  virtual void CalculateSpeedImage() ITK_OVERRIDE;
+  void CalculateSpeedImage() ITK_OVERRIDE;
 
   /** The curvature speed is same as the propagation speed. */
-  virtual ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
+  ScalarValueType CurvatureSpeed(const NeighborhoodType & neighborhood,
                                          const FloatOffsetType & offset, GlobalDataStruct *gd) const ITK_OVERRIDE
   { return this->PropagationSpeed(neighborhood, offset, gd); }
 
-  virtual void Initialize(const RadiusType & r) ITK_OVERRIDE
+  void Initialize(const RadiusType & r) ITK_OVERRIDE
   {
     Superclass::Initialize(r);
 
@@ -123,7 +123,7 @@ protected:
     this->SetCurvatureWeight(NumericTraits< ScalarValueType >::OneValue());
   }
 
-  virtual ~ShapeDetectionLevelSetFunction() ITK_OVERRIDE {}
+  ~ShapeDetectionLevelSetFunction() ITK_OVERRIDE {}
 
   ITK_DISALLOW_COPY_AND_ASSIGN(ShapeDetectionLevelSetFunction);
 };

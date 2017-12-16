@@ -70,7 +70,7 @@ public:
 
 protected:
   HuangThresholdCalculator() { m_FirstBin = 0; m_LastBin = 0; m_Size = 0; }
-  virtual ~HuangThresholdCalculator() ITK_OVERRIDE {}
+  ~HuangThresholdCalculator() ITK_OVERRIDE {}
   void GenerateData(void) ITK_OVERRIDE;
 
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;

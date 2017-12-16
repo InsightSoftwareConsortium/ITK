@@ -253,7 +253,7 @@ public:
 protected:
 
   LevelSetEquationContainer();
-  virtual ~LevelSetEquationContainer() ITK_OVERRIDE;
+  ~LevelSetEquationContainer() ITK_OVERRIDE;
 
   LevelSetContainerPointer  m_LevelSetContainer;
   MapContainerType          m_Container;

@@ -70,7 +70,7 @@ public:
 
 protected:
   TriangleThresholdCalculator() {};
-  virtual ~TriangleThresholdCalculator() ITK_OVERRIDE {};
+  ~TriangleThresholdCalculator() ITK_OVERRIDE {};
   void GenerateData(void) ITK_OVERRIDE;
 
 private:

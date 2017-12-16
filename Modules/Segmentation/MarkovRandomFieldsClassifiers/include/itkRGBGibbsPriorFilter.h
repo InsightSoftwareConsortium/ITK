@@ -113,7 +113,7 @@ public:
   void SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set the Number of classes. */
-  virtual void SetNumberOfClasses( const unsigned int numberOfClasses ) ITK_OVERRIDE
+  void SetNumberOfClasses( const unsigned int numberOfClasses ) ITK_OVERRIDE
     {
     itkDebugMacro("setting NumberOfClasses to " << numberOfClasses );
     if ( this->m_NumberOfClasses != numberOfClasses )
@@ -124,14 +124,14 @@ public:
     }
 
   /** Get the Number of classes. */
-  virtual unsigned int GetNumberOfClasses() const ITK_OVERRIDE
+  unsigned int GetNumberOfClasses() const ITK_OVERRIDE
     {
     return this->m_NumberOfClasses;
     }
 
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
-  virtual void SetMaximumNumberOfIterations( const unsigned int numberOfIterations ) ITK_OVERRIDE
+  void SetMaximumNumberOfIterations( const unsigned int numberOfIterations ) ITK_OVERRIDE
     {
     itkDebugMacro("setting MaximumNumberOfIterations to " << numberOfIterations);
     if ( this->m_MaximumNumberOfIterations != numberOfIterations )
@@ -143,7 +143,7 @@ public:
 
   /** Get the number of iterations of the Iterated Conditional Mode
    * (ICM) algorithm. */
-  virtual unsigned int GetMaximumNumberOfIterations() const ITK_OVERRIDE
+  unsigned int GetMaximumNumberOfIterations() const ITK_OVERRIDE
     {
     return this->m_MaximumNumberOfIterations;
     }
@@ -188,9 +188,9 @@ protected:
 
   void Allocate(); /** allocate memory space for the filter. */
 
-  virtual void MinimizeFunctional() ITK_OVERRIDE;
+  void MinimizeFunctional() ITK_OVERRIDE;
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   virtual void ApplyGibbsLabeller();
 

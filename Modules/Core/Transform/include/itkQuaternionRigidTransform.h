@@ -107,7 +107,7 @@ public:
   }
 
   /** Set the parameters to the IdentityTransform */
-  virtual void SetIdentity(void) ITK_OVERRIDE;
+  void SetIdentity(void) ITK_OVERRIDE;
 
   /** Set the transformation from a container of parameters.
    * This is typically used by optimizers.
@@ -116,14 +116,14 @@ public:
    * offset. */
   void SetParameters(const ParametersType & parameters) ITK_OVERRIDE;
 
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE;
+  const ParametersType & GetParameters() const ITK_OVERRIDE;
 
   /** Compute the Jacobian of the transformation.
    * This method computes the Jacobian matrix of the transformation.
    * given point or vector, returning the transformed point or
    * vector. The rank of the Jacobian will also indicate if the transform
    * is invertible at this point. */
-  virtual void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
+  void ComputeJacobianWithRespectToParameters( const InputPointType  & p, JacobianType & jacobian) const ITK_OVERRIDE;
 
 protected:
   QuaternionRigidTransform(const MatrixType & matrix, const OutputVectorType & offset);

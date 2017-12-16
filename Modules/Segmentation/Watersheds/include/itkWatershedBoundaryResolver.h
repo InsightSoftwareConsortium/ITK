@@ -111,12 +111,12 @@ public:
   }
 
   /** Standard non-threaded pipeline method */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** Standard itk::ProcessObject subclass method. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 protected:
   BoundaryResolver():m_Face(0)
@@ -128,13 +128,13 @@ protected:
     this->ProcessObject::SetNthOutput( 0, eq.GetPointer() );
   }
 
-  virtual ~BoundaryResolver() ITK_OVERRIDE {}
+  ~BoundaryResolver() ITK_OVERRIDE {}
   BoundaryResolver(const Self &) {}
   void operator=(const Self &) {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   unsigned short m_Face;
-  virtual void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 };
 } // end namespace watershed
 } // end namespace itk

@@ -135,7 +135,7 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Method Compute the Modified Time based on changed to the components. */
   ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;

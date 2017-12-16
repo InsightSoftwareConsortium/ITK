@@ -89,7 +89,7 @@ public:
 
 protected:
   ExpImageAdaptor() {}
-  virtual ~ExpImageAdaptor() ITK_OVERRIDE {}
+  ~ExpImageAdaptor() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ExpImageAdaptor);

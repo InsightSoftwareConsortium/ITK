@@ -100,7 +100,7 @@ public:
 
 protected:
   LabelToRGBImageFilter();
-  virtual ~LabelToRGBImageFilter() ITK_OVERRIDE {}
+  ~LabelToRGBImageFilter() ITK_OVERRIDE {}
 
   /** Process to execute before entering the multithreaded section */
   void BeforeThreadedGenerateData() ITK_OVERRIDE;

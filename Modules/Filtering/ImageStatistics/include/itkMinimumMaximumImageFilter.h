@@ -98,7 +98,7 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -113,7 +113,7 @@ public:
 
 protected:
   MinimumMaximumImageFilter();
-  virtual ~MinimumMaximumImageFilter() ITK_OVERRIDE {}
+  ~MinimumMaximumImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Pass the input through unmodified. Do this by Grafting in the

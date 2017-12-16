@@ -181,7 +181,7 @@ protected:
   BilateralImageFilter();
 
   /** Destructor. */
-  virtual ~BilateralImageFilter() ITK_OVERRIDE {}
+  ~BilateralImageFilter() ITK_OVERRIDE {}
 
   /** PrintSelf. */
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
@@ -200,7 +200,7 @@ protected:
    * an implementation for GenerateInputRequestedRegion() in order to
    * inform the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BilateralImageFilter);

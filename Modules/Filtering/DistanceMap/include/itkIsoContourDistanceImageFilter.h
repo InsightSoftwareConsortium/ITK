@@ -165,9 +165,9 @@ protected:
 
   void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *) ITK_OVERRIDE;
 
   typedef ConstNeighborhoodIterator< InputImageType > InputNeighbordIteratorType;
   typedef NeighborhoodIterator< OutputImageType >     OutputNeighborhoodIteratorType;

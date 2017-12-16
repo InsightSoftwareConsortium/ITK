@@ -104,7 +104,7 @@ public:
   }
 
   /** Prints some debugging information   */
-  virtual void PrintSelf(std::ostream & os, Indent i) const
+  void PrintSelf(std::ostream & os, Indent i) const ITK_OVERRIDE
   {
     os << i << "LaplacianOperator { this=" << this
        << "}" << std::endl;
@@ -122,11 +122,11 @@ protected:
   typedef typename Superclass::CoefficientVector CoefficientVector;
 
   /** Calculates operator coefficients.   */
-  CoefficientVector GenerateCoefficients();
+  CoefficientVector GenerateCoefficients() ITK_OVERRIDE;
 
   /** Arranges coefficients spatially in the memory buffer, default
    * function was NOT used.   */
-  void Fill(const CoefficientVector &);
+  void Fill(const CoefficientVector &) ITK_OVERRIDE;
 
 private:
   /** Weights applied to derivatives in each axial direction */

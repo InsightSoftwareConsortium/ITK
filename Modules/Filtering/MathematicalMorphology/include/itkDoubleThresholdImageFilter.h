@@ -130,7 +130,7 @@ public:
 
 protected:
   DoubleThresholdImageFilter();
-  virtual ~DoubleThresholdImageFilter() ITK_OVERRIDE {}
+  ~DoubleThresholdImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DoubleThresholdImageFilter needs all of the input. So it must

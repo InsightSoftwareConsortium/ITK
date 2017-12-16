@@ -60,7 +60,7 @@ public:
 
 protected:
   EuclideanSquareDistanceMetric() {}
-  virtual ~EuclideanSquareDistanceMetric() ITK_OVERRIDE {}
+  ~EuclideanSquareDistanceMetric() ITK_OVERRIDE {}
 };  // end of class
 } // end of namespace Statistics
 } // end of namespace itk

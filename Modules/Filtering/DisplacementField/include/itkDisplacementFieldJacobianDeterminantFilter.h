@@ -171,7 +171,7 @@ public:
    * pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Set the derivative weights according to the spacing of the input image
       (1/spacing). Use this option if you want to calculate the Jacobian
@@ -201,7 +201,7 @@ public:
 
 protected:
   DisplacementFieldJacobianDeterminantFilter();
-  virtual ~DisplacementFieldJacobianDeterminantFilter() ITK_OVERRIDE {}
+  ~DisplacementFieldJacobianDeterminantFilter() ITK_OVERRIDE {}
 
   /** Do any necessary casting/copying of the input data.  Input pixel types
      whose value types are not real number types must be cast to real number

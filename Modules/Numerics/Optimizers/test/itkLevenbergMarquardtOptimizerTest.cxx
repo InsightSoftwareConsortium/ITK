@@ -87,7 +87,7 @@ public:
   }
 
 
-  virtual MeasureType GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
 
     std::cout << "GetValue( ";
@@ -149,12 +149,12 @@ public:
 
   }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
   {
     return SpaceDimension;
   }
 
-  virtual unsigned int GetNumberOfValues(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfValues(void) const ITK_OVERRIDE
   {
     return RangeDimension;
   }
@@ -185,12 +185,12 @@ public:
   typedef itk::LevenbergMarquardtOptimizer   OptimizerType;
   typedef   const OptimizerType   *          OptimizerPointer;
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
     std::cout << "Observer::Execute() " << std::endl;
       OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );

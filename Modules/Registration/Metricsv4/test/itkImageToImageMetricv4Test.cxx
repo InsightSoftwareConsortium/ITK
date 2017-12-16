@@ -71,7 +71,7 @@ protected:
   TestImageToImageGetValueAndDerivativeThreader() { }
 
   /* Provide the worker routine to process each point */
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
         const VirtualIndexType &          itkNotUsed(virtualIndex),
         const VirtualPointType &          itkNotUsed(virtualPoint),
         const FixedImagePointType &       itkNotUsed(mappedFixedPoint),
@@ -158,7 +158,7 @@ protected:
     this->m_DenseGetValueAndDerivativeThreader  = DenseThreaderType::New();
     this->m_SparseGetValueAndDerivativeThreader = SparseThreaderType::New();
     }
-  virtual ~ImageToImageMetricv4TestMetric() ITK_OVERRIDE {}
+  ~ImageToImageMetricv4TestMetric() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream& stream, itk::Indent indent) const ITK_OVERRIDE
   {

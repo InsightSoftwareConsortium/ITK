@@ -128,10 +128,10 @@ public:
   /** Get the required direction. */
   itkGetConstReferenceMacro( RequiredTransformDomainDirection, DirectionType );
 
-  virtual void SetRequiredFixedParameters( const FixedParametersType ) ITK_OVERRIDE;
+  void SetRequiredFixedParameters( const FixedParametersType ) ITK_OVERRIDE;
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   BSplineTransformParametersAdaptor();

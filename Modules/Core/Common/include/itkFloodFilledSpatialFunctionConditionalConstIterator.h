@@ -80,10 +80,10 @@ public:
   FloodFilledSpatialFunctionConditionalConstIterator(const ImageType *imagePtr,
                                                      FunctionType *fnPtr);
   /** Default Destructor. */
-  virtual ~FloodFilledSpatialFunctionConditionalConstIterator() {}
+  ~FloodFilledSpatialFunctionConditionalConstIterator() ITK_OVERRIDE {}
 
   /** Compute whether the index of interest should be included in the flood */
-  bool IsPixelIncluded(const IndexType & index) const;
+  bool IsPixelIncluded(const IndexType & index) const ITK_OVERRIDE;
 
   /** Set the inclusion strategy to origin */
   void SetOriginInclusionStrategy() { m_InclusionStrategy = 0; }

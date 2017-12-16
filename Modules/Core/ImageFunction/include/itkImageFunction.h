@@ -115,7 +115,7 @@ public:
 
   /** Evaluate the function at specified Point position.
    * Subclasses must provide this method. */
-  virtual TOutput Evaluate(const PointType & point) const ITK_OVERRIDE = 0;
+  TOutput Evaluate(const PointType & point) const ITK_OVERRIDE = 0;
 
   /** Evaluate the function at specified Index position.
    * Subclasses must provide this method. */

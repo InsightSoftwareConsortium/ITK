@@ -63,24 +63,24 @@ public:
   PeriodicBoundaryCondition() {}
 
   /** Runtime information support. */
-  virtual const char * GetNameOfClass() const
+  const char * GetNameOfClass() const ITK_OVERRIDE
   {
     return "itkPeriodicBoundaryCondition";
   }
 
   /** Computes and returns a neighborhood of appropriate values from
    * neighborhood iterator data.. */
-  virtual OutputPixelType operator()(const OffsetType & point_index,
+  OutputPixelType operator()(const OffsetType & point_index,
                                      const OffsetType & boundary_offset,
-                                     const NeighborhoodType *data) const;
+                                     const NeighborhoodType *data) const ITK_OVERRIDE;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
-  virtual OutputPixelType operator()(
+  OutputPixelType operator()(
     const OffsetType & point_index,
     const OffsetType & boundary_offset,
     const NeighborhoodType *data,
-    const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const;
+    const NeighborhoodAccessorFunctorType & neighborhoodAccessorFunctor) const ITK_OVERRIDE;
 
   /** Determines the necessary input region for the output region.
    * For this boundary condition, the output region is mapped into the
@@ -95,8 +95,8 @@ public:
    * \return The necessary input region required to determine the
    * pixel values in the outputRequestedRegion.
    */
-  virtual RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
-                                              const RegionType & outputRequestedRegion ) const;
+  RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                                              const RegionType & outputRequestedRegion ) const ITK_OVERRIDE;
 
   /** Returns a value for a given pixel at an index. If the index is inside the
    * bounds of the input image, then the pixel value is obtained from
@@ -106,7 +106,7 @@ public:
    * \param index The index of the desired pixel.
    * \param image The image from which pixel values should be determined.
    */
-  OutputPixelType GetPixel( const IndexType & index, const TInputImage * image ) const;
+  OutputPixelType GetPixel( const IndexType & index, const TInputImage * image ) const ITK_OVERRIDE;
 
 };
 } // end namespace itk

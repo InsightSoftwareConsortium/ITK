@@ -240,7 +240,7 @@ protected:
    * below.
    *
    * \sa ProcessObject::GenerateOutputInformaton()  */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** This function calls the actual region copier to do the mapping from
    * output image space to input image space.  It uses a
@@ -252,7 +252,7 @@ protected:
    * support output images of a lower dimension that the input.
    *
    * \sa ImageToImageFilter::CallCopyRegion() */
-  virtual void CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
+  void CallCopyOutputRegionToInputRegion(InputImageRegionType & destRegion,
                                                  const OutputImageRegionType & srcRegion) ITK_OVERRIDE;
 
   /** ExtractImageFilter can be implemented as a multithreaded filter.

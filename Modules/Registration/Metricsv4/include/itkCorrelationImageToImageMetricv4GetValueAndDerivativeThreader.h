@@ -70,14 +70,14 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();
-  virtual ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() ITK_OVERRIDE;
+  ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() ITK_OVERRIDE;
 
   /** Overload: Resize and initialize per thread objects:
    *    number of valid points
    *    moving transform jacobian
    *    cross-correlation specific variables
    *  */
-  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() ITK_OVERRIDE;
 
   /** Overload:
    * Collects the results from each thread and sums them.  Results are stored
@@ -86,21 +86,21 @@ protected:
    * m_NumberOfValidPoints, to average the value sum, and to average
    * derivative sums for global transforms only (i.e. transforms without local
    * support).  */
-  virtual void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() ITK_OVERRIDE;
 
   /** Overload to avoid execution of adding entries to m_MeasurePerThread
    * StorePointDerivativeResult() after this function calls ProcessPoint().
    * Method called by the threaders to process the given virtual point.  This
    * in turn calls \c TransformAndEvaluateFixedPoint, \c
    * TransformAndEvaluateMovingPoint, and \c ProcessPoint. */
-  virtual bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
+  bool ProcessVirtualPoint( const VirtualIndexType & virtualIndex,
                                     const VirtualPointType & virtualPoint,
                                     const ThreadIdType threadId ) ITK_OVERRIDE;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  virtual bool ProcessPoint(const VirtualIndexType &          virtualIndex,
+  bool ProcessPoint(const VirtualIndexType &          virtualIndex,
         const VirtualPointType &          virtualPoint,
         const FixedImagePointType &       mappedFixedPoint,
         const FixedImagePixelType &       mappedFixedPixelValue,

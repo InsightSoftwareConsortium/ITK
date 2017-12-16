@@ -137,7 +137,7 @@ public:
 
 protected:
   UnconstrainedRegionBasedLevelSetFunctionSharedData():Superclass(){}
-  ~UnconstrainedRegionBasedLevelSetFunctionSharedData(){}
+  ~UnconstrainedRegionBasedLevelSetFunctionSharedData() ITK_OVERRIDE{}
 
 private:
   UnconstrainedRegionBasedLevelSetFunctionSharedData(const Self &); //purposely

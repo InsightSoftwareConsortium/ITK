@@ -64,13 +64,13 @@ public:
   TreeContainer(TreeContainer< TValue > & tree);
 
   /** Set the root as an element */
-  virtual bool SetRoot(const TValue element) ITK_OVERRIDE;
+  bool SetRoot(const TValue element) ITK_OVERRIDE;
 
   /** The the root as an iterator position */
   bool SetRoot(IteratorType & pos);
 
   /** Set the root as a tree node */
-  virtual bool SetRoot(TreeNode< TValue > *node) ITK_OVERRIDE;
+  bool SetRoot(TreeNode< TValue > *node) ITK_OVERRIDE;
 
   /** Return true if the element is in the tree */
   bool Contains(const TValue element) ITK_OVERRIDE;
@@ -105,7 +105,7 @@ public:
 protected:
 
   TreeContainer();
-  virtual ~TreeContainer() ITK_OVERRIDE;
+  ~TreeContainer() ITK_OVERRIDE;
 
   typename TreeNodeType::Pointer m_Root;
 

@@ -119,7 +119,7 @@ public:
 
 protected:
   LaplacianRecursiveGaussianImageFilter();
-  virtual ~LaplacianRecursiveGaussianImageFilter() ITK_OVERRIDE {}
+  ~LaplacianRecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */

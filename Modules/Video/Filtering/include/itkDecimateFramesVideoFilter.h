@@ -64,14 +64,14 @@ protected:
 
   /** Constructor and Destructor */
   DecimateFramesVideoFilter();
-  virtual ~DecimateFramesVideoFilter() ITK_OVERRIDE {}
+  ~DecimateFramesVideoFilter() ITK_OVERRIDE {}
 
   /** PrintSelf */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** DecimateFramesVideoFilter is implemented as a temporal streaming and
    * spatially multithreaded filter, so we override ThreadedGenerateData */
-  virtual void ThreadedGenerateData(
+  void ThreadedGenerateData(
                 const FrameSpatialRegionType& outputRegionForThread,
                 int threadId) ITK_OVERRIDE;
 

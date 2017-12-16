@@ -49,7 +49,7 @@ public:
   typedef Array<ScalarType> ArrayType;
 
   ///** Evaluate at the specified input position */
-  virtual ScalarType Evaluate(const ScalarType& input) const ITK_OVERRIDE =0;
+  ScalarType Evaluate(const ScalarType& input) const ITK_OVERRIDE =0;
 
   /** Evaluate the derivative at the specified input position */
   virtual ScalarType EvaluateDerivative(const ScalarType& dist, const ArrayType& input,
@@ -70,7 +70,7 @@ protected:
   ~RadialBasisFunctionBase() ITK_OVERRIDE {};
 
   /** Method to print the object. */
-  virtual void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE
+  void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE
     {
     os << indent << "RadialBasisFunctionBase(" << this << ")" << std::endl;
     Superclass::PrintSelf( os, indent );

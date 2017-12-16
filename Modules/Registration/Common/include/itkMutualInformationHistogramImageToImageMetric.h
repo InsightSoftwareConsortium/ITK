@@ -76,10 +76,10 @@ protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   MutualInformationHistogramImageToImageMetric(){}
-  virtual ~MutualInformationHistogramImageToImageMetric() ITK_OVERRIDE {}
+  ~MutualInformationHistogramImageToImageMetric() ITK_OVERRIDE {}
 
   /** Evaluates the mutual information from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
+  MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   // Purposely not implemented.

@@ -70,7 +70,7 @@ public:
   typedef vnl_matrix< double > CovarianceMatrixType;
 
   /**  Set the length of each measurement vector. */
-  virtual void SetMeasurementVectorSize(MeasurementVectorSizeType) ITK_OVERRIDE;
+  void SetMeasurementVectorSize(MeasurementVectorSizeType) ITK_OVERRIDE;
 
   /** Method to set mean */
   void SetMean(const MeanVectorType & mean);
@@ -111,7 +111,7 @@ public:
 
 protected:
   MahalanobisDistanceMetric();
-  virtual ~MahalanobisDistanceMetric(void) ITK_OVERRIDE {}
+  ~MahalanobisDistanceMetric(void) ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

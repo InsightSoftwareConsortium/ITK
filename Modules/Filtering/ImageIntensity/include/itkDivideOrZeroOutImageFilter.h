@@ -107,7 +107,7 @@ public:
 
 protected:
   DivideOrZeroOutImageFilter() {};
-  virtual ~DivideOrZeroOutImageFilter() ITK_OVERRIDE {};
+  ~DivideOrZeroOutImageFilter() ITK_OVERRIDE {};
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(DivideOrZeroOutImageFilter);

@@ -88,7 +88,7 @@ public:
    * assumed). Parameter to Evaluate() is the discriminant score in
    * the form of a likelihood \f$p(x|i)\f$.
    */
-  virtual ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const ITK_OVERRIDE;
+  ClassIdentifierType Evaluate(const MembershipVectorType & discriminantScores) const ITK_OVERRIDE;
 
   /** Set the prior probabilities used in evaluating
    * \f$p(x|i) p(i) > p(x|j) p(j)\f$. The likelihoods are set using
@@ -101,8 +101,8 @@ public:
 
 protected:
   MaximumRatioDecisionRule();
-  virtual ~MaximumRatioDecisionRule() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  ~MaximumRatioDecisionRule() ITK_OVERRIDE {}
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MaximumRatioDecisionRule);

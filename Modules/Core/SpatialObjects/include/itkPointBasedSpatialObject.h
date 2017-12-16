@@ -93,10 +93,10 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointBasedSpatialObject);
 
   PointBasedSpatialObject();
-  virtual ~PointBasedSpatialObject() ITK_OVERRIDE;
+  ~PointBasedSpatialObject() ITK_OVERRIDE;
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 

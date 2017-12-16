@@ -139,7 +139,7 @@ protected:
   InvertDisplacementFieldImageFilter();
 
   /** Deconstructor */
-  virtual ~InvertDisplacementFieldImageFilter() ITK_OVERRIDE;
+  ~InvertDisplacementFieldImageFilter() ITK_OVERRIDE;
 
   /** Standard print self function **/
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;

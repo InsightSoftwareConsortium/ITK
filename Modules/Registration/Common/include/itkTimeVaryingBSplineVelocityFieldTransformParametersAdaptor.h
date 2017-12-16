@@ -181,9 +181,9 @@ public:
     }
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() ITK_OVERRIDE;
 
-  virtual void SetRequiredFixedParameters( const FixedParametersType ) ITK_OVERRIDE;
+  void SetRequiredFixedParameters( const FixedParametersType ) ITK_OVERRIDE;
 
 protected:
   TimeVaryingBSplineVelocityFieldTransformParametersAdaptor();

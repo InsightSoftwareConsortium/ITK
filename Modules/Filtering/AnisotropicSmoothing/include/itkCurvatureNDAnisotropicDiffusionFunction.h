@@ -103,13 +103,13 @@ public:
   itkStaticConstMacro(ImageDimension, unsigned int, Superclass::ImageDimension);
 
   /** Compute incremental update. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
+  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
                                   ) ITK_OVERRIDE;
 
   /** This method is called prior to each iteration of the solver. */
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() ITK_OVERRIDE
   {
     m_K = static_cast< PixelType >( this->GetAverageGradientMagnitudeSquared()
                                     * this->GetConductanceParameter()

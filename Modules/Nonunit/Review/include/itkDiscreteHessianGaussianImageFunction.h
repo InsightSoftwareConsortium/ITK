@@ -116,13 +116,13 @@ public:
 public:
 
   /** Evalutate the  in the given dimension at specified point */
-  virtual OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
+  OutputType Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified Index position */
-  virtual OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  OutputType EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the function at specified ContinuousIndex position */
-  virtual OutputType EvaluateAtContinuousIndex(
+  OutputType EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** Set/Get the variance for the discrete Gaussian kernel.
@@ -182,7 +182,7 @@ public:
    * \warning this method caches BufferedRegion information.
    * If the BufferedRegion has changed, user must call
    * SetInputImage again to update cached values. */
-  virtual void SetInputImage(const InputImageType *ptr) ITK_OVERRIDE;
+  void SetInputImage(const InputImageType *ptr) ITK_OVERRIDE;
 
   /** Initialize the Gaussian kernel. Call this method before evaluating the function.
    * This method MUST be called after any changes to function parameters. */
@@ -193,7 +193,7 @@ protected:
   DiscreteHessianGaussianImageFunction();
   DiscreteHessianGaussianImageFunction(const Self &){}
 
-  ~DiscreteHessianGaussianImageFunction(){}
+  ~DiscreteHessianGaussianImageFunction() ITK_OVERRIDE{}
 
   void operator=(const Self &){}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;

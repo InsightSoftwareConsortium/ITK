@@ -155,7 +155,7 @@ public:
    * an implementation for GenerateInputRequestedRegion in order to inform
    * the pipeline execution model.
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** The UseImageDirection flag determines whether the gradients are
    * computed with respect to the image grid or with respect to the physical
@@ -181,7 +181,7 @@ public:
 
 protected:
   GradientRecursiveGaussianImageFilter();
-  virtual ~GradientRecursiveGaussianImageFilter() ITK_OVERRIDE {}
+  ~GradientRecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Data */

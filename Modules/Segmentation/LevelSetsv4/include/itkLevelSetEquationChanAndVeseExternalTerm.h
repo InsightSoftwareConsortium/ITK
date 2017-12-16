@@ -93,22 +93,22 @@ public:
   typedef typename Superclass::HeavisideConstPointer HeavisideConstPointer;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases */
-  virtual void ComputeProduct( const LevelSetInputIndexType& iP,
+  void ComputeProduct( const LevelSetInputIndexType& iP,
                                LevelSetOutputRealType& prod ) ITK_OVERRIDE;
 
   /** Compute the product of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
-  virtual void ComputeProductTerm( const LevelSetInputIndexType& iP,
+  void ComputeProductTerm( const LevelSetInputIndexType& iP,
                                   LevelSetOutputRealType& prod ) ITK_OVERRIDE;
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  virtual void UpdatePixel( const LevelSetInputIndexType& iP,
+  void UpdatePixel( const LevelSetInputIndexType& iP,
                            const LevelSetOutputRealType & oldValue,
                            const LevelSetOutputRealType & newValue ) ITK_OVERRIDE;
 
 protected:
   LevelSetEquationChanAndVeseExternalTerm();
-  virtual ~LevelSetEquationChanAndVeseExternalTerm() ITK_OVERRIDE;
+  ~LevelSetEquationChanAndVeseExternalTerm() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEquationChanAndVeseExternalTerm);

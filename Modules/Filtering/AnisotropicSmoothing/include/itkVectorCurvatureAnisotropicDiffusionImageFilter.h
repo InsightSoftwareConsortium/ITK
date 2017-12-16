@@ -104,7 +104,7 @@ protected:
 
   ~VectorCurvatureAnisotropicDiffusionImageFilter() ITK_OVERRIDE {}
 
-  virtual void InitializeIteration() ITK_OVERRIDE
+  void InitializeIteration() ITK_OVERRIDE
   {
     Superclass::InitializeIteration();
     if ( this->GetTimeStep() >  0.5 / std::pow( 2.0, static_cast< double >( ImageDimension ) ) )

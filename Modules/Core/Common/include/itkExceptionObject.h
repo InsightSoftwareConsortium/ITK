@@ -64,7 +64,7 @@ public:
   ExceptionObject(const ExceptionObject & orig);
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~ExceptionObject() ITK_NOEXCEPT ITK_OVERRIDE;
+  ~ExceptionObject() ITK_NOEXCEPT ITK_OVERRIDE;
 
   /** Assignment operator. */
   ExceptionObject & operator=(const ExceptionObject & orig);
@@ -103,7 +103,7 @@ public:
   virtual unsigned int GetLine() const;
 
   /** Provide std::exception::what() implementation. */
-  virtual const char * what() const ITK_NOEXCEPT ITK_OVERRIDE;
+  const char * what() const ITK_NOEXCEPT ITK_OVERRIDE;
 
 private:
   /** \class ReferenceCounterInterface
@@ -183,9 +183,9 @@ public:
                         const std::string & loc):ExceptionObject(file, lineNumber, desc, loc) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~MemoryAllocationError() ITK_NOEXCEPT ITK_OVERRIDE;
+  ~MemoryAllocationError() ITK_NOEXCEPT ITK_OVERRIDE;
 
-  virtual const char * GetNameOfClass() const ITK_OVERRIDE
+  const char * GetNameOfClass() const ITK_OVERRIDE
   { return "MemoryAllocationError"; }
 };
 
@@ -208,9 +208,9 @@ public:
   RangeError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~RangeError() ITK_NOEXCEPT ITK_OVERRIDE;
+  ~RangeError() ITK_NOEXCEPT ITK_OVERRIDE;
 
-  virtual const char * GetNameOfClass() const ITK_OVERRIDE
+  const char * GetNameOfClass() const ITK_OVERRIDE
   { return "RangeError"; }
 };
 
@@ -240,9 +240,9 @@ public:
   InvalidArgumentError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~InvalidArgumentError() ITK_NOEXCEPT ITK_OVERRIDE;
+  ~InvalidArgumentError() ITK_NOEXCEPT ITK_OVERRIDE;
 
-  virtual const char * GetNameOfClass() const ITK_OVERRIDE
+  const char * GetNameOfClass() const ITK_OVERRIDE
   { return "InvalidArgumentError"; }
 };
 
@@ -265,9 +265,9 @@ public:
   IncompatibleOperandsError(const std::string & file, unsigned int lineNumber):ExceptionObject(file, lineNumber) {}
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~IncompatibleOperandsError() ITK_NOEXCEPT ITK_OVERRIDE;
+  ~IncompatibleOperandsError() ITK_NOEXCEPT ITK_OVERRIDE;
 
-  virtual const char * GetNameOfClass() const ITK_OVERRIDE
+  const char * GetNameOfClass() const ITK_OVERRIDE
   { return "IncompatibleOperandsError"; }
 };
 
@@ -299,9 +299,9 @@ public:
   }
 
   /** Virtual destructor needed for subclasses. Has to have empty throw(). */
-  virtual ~ProcessAborted()  ITK_NOEXCEPT ITK_OVERRIDE;
+  ~ProcessAborted()  ITK_NOEXCEPT ITK_OVERRIDE;
 
-  virtual const char * GetNameOfClass() const ITK_OVERRIDE
+  const char * GetNameOfClass() const ITK_OVERRIDE
   { return "ProcessAborted"; }
 };
 } // end namespace itk

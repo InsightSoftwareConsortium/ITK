@@ -85,7 +85,7 @@ public:
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * Subclasses must provide this method. */
-  virtual WeightsType Evaluate(const ContinuousIndexType & index) const ITK_OVERRIDE;
+  WeightsType Evaluate(const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * The weights are returned in the user specified container.

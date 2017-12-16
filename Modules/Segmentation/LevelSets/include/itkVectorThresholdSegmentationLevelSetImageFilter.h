@@ -156,7 +156,7 @@ protected:
   ~VectorThresholdSegmentationLevelSetImageFilter() ITK_OVERRIDE {}
   VectorThresholdSegmentationLevelSetImageFilter();
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   ITK_DISALLOW_COPY_AND_ASSIGN(VectorThresholdSegmentationLevelSetImageFilter);
 

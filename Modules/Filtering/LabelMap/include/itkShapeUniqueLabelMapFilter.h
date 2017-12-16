@@ -107,7 +107,7 @@ protected:
   ShapeUniqueLabelMapFilter();
   ~ShapeUniqueLabelMapFilter() ITK_OVERRIDE {}
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   template< typename TAttributeAccessor >
   void TemplatedGenerateData(const TAttributeAccessor & accessor)
@@ -313,7 +313,7 @@ protected:
       }
   }
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   AttributeType m_Attribute;
 

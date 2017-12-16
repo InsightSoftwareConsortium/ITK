@@ -81,14 +81,14 @@ public:
    * Currently, this function returns the user specified constant time step.
    * \todo compute timestep based on CFL condition.
    */
-  virtual TimeStepType ComputeGlobalTimeStep(void *GlobalData) const ITK_OVERRIDE;
+  TimeStepType ComputeGlobalTimeStep(void *GlobalData) const ITK_OVERRIDE;
 
   /** Returns a pointer to a global data structure that is passed to this
    * object from the solver at each calculation.  The idea is that the solver
    * holds the state of any global values needed to calculate the time step,
    * while the equation object performs the actual calculations.  The global
    * data should also be initialized in this method. */
-  virtual void * GetGlobalDataPointer() const ITK_OVERRIDE
+  void * GetGlobalDataPointer() const ITK_OVERRIDE
   {
     GlobalDataStruct *ans = new GlobalDataStruct();
 
@@ -100,7 +100,7 @@ public:
    * data pointer, it passes it to this method, which frees the memory.
    * The solver cannot free the memory because it does not know the type
    * to which the pointer points. */
-  virtual void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE
+  void ReleaseGlobalDataPointer(void *GlobalData) const ITK_OVERRIDE
   { delete (GlobalDataStruct *)GlobalData; }
 
   /** Set the time step parameter */
@@ -113,7 +113,7 @@ public:
 
   /** This method computes the solution update for each pixel that does not
    * lie on a the data set boundary. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
+  PixelType ComputeUpdate(const NeighborhoodType & neighborhood,
                                   void *globalData,
                                   const FloatOffsetType & offset = FloatOffsetType(0.0)
                                   ) ITK_OVERRIDE;

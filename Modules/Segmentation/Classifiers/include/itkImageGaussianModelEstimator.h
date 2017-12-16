@@ -125,7 +125,7 @@ public:
 protected:
   ImageGaussianModelEstimator();
   ~ImageGaussianModelEstimator() ITK_OVERRIDE;
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Starts the image modelling process */
   void GenerateData() ITK_OVERRIDE;
@@ -150,7 +150,7 @@ private:
   /** A function that generates the
    * model based on the training input data.
    * Achieves the goal of training the classifier. */
-  virtual void EstimateModels() ITK_OVERRIDE;
+  void EstimateModels() ITK_OVERRIDE;
 
   void EstimateGaussianModelParameters();
 }; // class ImageGaussianModelEstimator

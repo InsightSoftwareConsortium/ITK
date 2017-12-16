@@ -94,7 +94,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool Evaluate(const PointType & point) const ITK_OVERRIDE;
+  bool Evaluate(const PointType & point) const ITK_OVERRIDE;
 
   /** BinaryThreshold the image at a continuous index position
    *
@@ -104,7 +104,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtContinuousIndex(
+  bool EvaluateAtContinuousIndex(
     const ContinuousIndexType & index) const ITK_OVERRIDE;
 
   /** BinaryThreshold the image at an index position.
@@ -115,7 +115,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
+  bool EvaluateAtIndex(const IndexType & index) const ITK_OVERRIDE;
 
   /** Returns the actual value of the MahalanobisDistance at that point.
    * The point is assumed to lie within the image buffer.

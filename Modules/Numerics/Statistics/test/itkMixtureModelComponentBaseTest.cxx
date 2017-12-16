@@ -49,7 +49,7 @@ public:
     }
 
 protected:
-  virtual void GenerateData() ITK_OVERRIDE
+  void GenerateData() ITK_OVERRIDE
     {
     std::cout << "Executing GenerateData() " << std::endl;
     }

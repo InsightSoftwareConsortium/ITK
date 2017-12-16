@@ -143,7 +143,7 @@ protected:
   //  virtual bool Halt();
 
   /** Prepare for the iteration process. */
-  virtual void InitializeIteration() ITK_OVERRIDE;
+  void InitializeIteration() ITK_OVERRIDE;
 
   bool m_GradientMagnitudeIsFixed;
 

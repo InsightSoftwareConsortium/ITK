@@ -156,7 +156,7 @@ protected:
     m_BackgroundValue = NumericTraits< OutputPixelType >::NonpositiveMin();
   }
 
-  virtual ~BinaryProjectionImageFilter() ITK_OVERRIDE {}
+  ~BinaryProjectionImageFilter() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE
   {
@@ -177,7 +177,7 @@ protected:
        << std::endl;
   }
 
-  virtual AccumulatorType NewAccumulator( SizeValueType size ) const ITK_OVERRIDE
+  AccumulatorType NewAccumulator( SizeValueType size ) const ITK_OVERRIDE
   {
     AccumulatorType accumulator(size);
 

@@ -54,7 +54,7 @@ public:
   LineSpatialObjectPoint();
 
   /** Destructor */
-  virtual ~LineSpatialObjectPoint() ITK_OVERRIDE;
+  ~LineSpatialObjectPoint() ITK_OVERRIDE;
 
   /** Get Normal */
   const VectorType & GetNormal(unsigned int index) const;
@@ -70,7 +70,7 @@ protected:
   NormalArrayType m_NormalArray;
 
   /** Method to print the object. */
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end of namespace itk
 

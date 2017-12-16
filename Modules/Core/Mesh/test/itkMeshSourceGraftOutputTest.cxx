@@ -61,7 +61,7 @@ protected:
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
   /** Generate Requested Data */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** Transform to apply to all the mesh points. */
   typename TransformType::Pointer   m_Transform;

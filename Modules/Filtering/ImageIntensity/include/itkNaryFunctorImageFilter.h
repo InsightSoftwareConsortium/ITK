@@ -105,7 +105,7 @@ public:
 
 protected:
   NaryFunctorImageFilter();
-  virtual ~NaryFunctorImageFilter() ITK_OVERRIDE {}
+  ~NaryFunctorImageFilter() ITK_OVERRIDE {}
 
   /** NaryFunctorImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData() routine

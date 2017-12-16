@@ -81,7 +81,7 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader();
 
-  virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
@@ -132,7 +132,7 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader();
 
-  virtual void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const DomainType & imageSubRegion, const ThreadIdType threadId ) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LevelSetEvolutionComputeIterationThreader);
@@ -182,11 +182,11 @@ public:
 protected:
   LevelSetEvolutionComputeIterationThreader();
 
-  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() ITK_OVERRIDE;
 
-  virtual void ThreadedExecution( const DomainType & iteratorSubRange, const ThreadIdType threadId ) ITK_OVERRIDE;
+  void ThreadedExecution( const DomainType & iteratorSubRange, const ThreadIdType threadId ) ITK_OVERRIDE;
 
-  virtual void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() ITK_OVERRIDE;
 
   typedef std::vector< std::vector< NodePairType > > NodePairsPerThreadType;
   NodePairsPerThreadType m_NodePairsPerThread;

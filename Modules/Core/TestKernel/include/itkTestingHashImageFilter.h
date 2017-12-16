@@ -78,7 +78,7 @@ public:
    * output. */
   typedef ProcessObject::DataObjectPointerArraySizeType DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
-  virtual DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
+  DataObjectPointer MakeOutput(DataObjectPointerArraySizeType idx) ITK_OVERRIDE;
 
   enum  HashFunction { MD5 };
 
@@ -94,9 +94,9 @@ protected:
 
   // virtual ~HashImageFilter(); // implementation not needed
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual
+
     void ThreadedGenerateData(const typename Superclass::OutputImageRegionType &,
                               ThreadIdType) ITK_OVERRIDE {}
 

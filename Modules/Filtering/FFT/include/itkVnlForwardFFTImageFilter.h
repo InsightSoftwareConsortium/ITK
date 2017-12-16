@@ -87,7 +87,7 @@ protected:
   VnlForwardFFTImageFilter() {}
   ~VnlForwardFFTImageFilter() ITK_OVERRIDE {}
 
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlForwardFFTImageFilter);

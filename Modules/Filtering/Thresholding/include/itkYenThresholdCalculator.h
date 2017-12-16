@@ -74,7 +74,7 @@ public:
 
 protected:
   YenThresholdCalculator() {};
-  virtual ~YenThresholdCalculator() ITK_OVERRIDE {};
+  ~YenThresholdCalculator() ITK_OVERRIDE {};
   void GenerateData(void) ITK_OVERRIDE;
 
 private:

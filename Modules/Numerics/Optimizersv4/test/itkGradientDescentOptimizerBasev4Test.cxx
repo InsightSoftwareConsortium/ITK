@@ -41,42 +41,42 @@ public:
   itkNewMacro(Self);
 
   // Pure virtual functions that all Metrics must provide
-  virtual unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
+  unsigned int GetNumberOfParameters() const ITK_OVERRIDE { return 5; }
 
-  virtual MeasureType GetValue() const ITK_OVERRIDE
+  MeasureType GetValue() const ITK_OVERRIDE
     {
     return itk::NumericTraits< MeasureType >::OneValue();
     }
 
-  virtual void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetDerivative( DerivativeType & derivative ) const ITK_OVERRIDE
     {
     derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
-  virtual void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
+  void GetValueAndDerivative( MeasureType & value, DerivativeType & derivative ) const ITK_OVERRIDE
     {
     value = itk::NumericTraits< MeasureType >::OneValue();
     derivative.Fill( itk::NumericTraits< ParametersValueType >::ZeroValue() );
     }
 
-  virtual unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
+  unsigned int GetNumberOfLocalParameters() const ITK_OVERRIDE
   { return 3; }
 
-  virtual void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
+  void UpdateTransformParameters( const DerivativeType &, ParametersValueType ) ITK_OVERRIDE {}
 
-  virtual const ParametersType & GetParameters() const ITK_OVERRIDE
+  const ParametersType & GetParameters() const ITK_OVERRIDE
   { return m_Parameters; }
 
-  virtual void SetParameters( ParametersType & ) ITK_OVERRIDE {}
+  void SetParameters( ParametersType & ) ITK_OVERRIDE {}
 
-  virtual bool HasLocalSupport() const ITK_OVERRIDE
+  bool HasLocalSupport() const ITK_OVERRIDE
     {
     return false;
     }
 
-  virtual void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
+  void Initialize(void) throw ( itk::ExceptionObject ) ITK_OVERRIDE {}
 
-  virtual void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE
+  void PrintSelf(std::ostream& os, itk::Indent indent) const ITK_OVERRIDE
   { Superclass::PrintSelf( os, indent ); }
 
 protected:
@@ -109,24 +109,24 @@ public:
                 GradientDescentOptimizerBasev4);
 
   /* Provide an override for the pure virtual StartOptimization */
-  virtual void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE
+  void StartOptimization( bool doOnlyInitialization = false ) ITK_OVERRIDE
     {
     Superclass::StartOptimization( doOnlyInitialization );
     std::cout << "StartOptimization called. doOnlyInitialization: " << doOnlyInitialization << std::endl;
     }
 
-  virtual void ResumeOptimization() ITK_OVERRIDE
+  void ResumeOptimization() ITK_OVERRIDE
     {
     std::cout << "ResumeOptimization called." << std::endl;
     }
 
-  virtual void ModifyGradientByScalesOverSubRange (const IndexRangeType& index ) ITK_OVERRIDE
+  void ModifyGradientByScalesOverSubRange (const IndexRangeType& index ) ITK_OVERRIDE
     {
     std::cout << "ModifyGradientByScalesOverSubRange called with index:"
               << index << std::endl;
     }
 
-  virtual void ModifyGradientByLearningRateOverSubRange (const IndexRangeType& index ) ITK_OVERRIDE
+  void ModifyGradientByLearningRateOverSubRange (const IndexRangeType& index ) ITK_OVERRIDE
     {
     std::cout << "ModifyGradientByLearningRateOverSubRange called with index:"
               << index << std::endl;

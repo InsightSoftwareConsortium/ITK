@@ -137,15 +137,15 @@ protected:
   ~FastMarchingExtensionImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void Initialize(LevelSetImageType *) ITK_OVERRIDE;
+  void Initialize(LevelSetImageType *) ITK_OVERRIDE;
 
-  virtual double UpdateValue(const IndexType & index,
+  double UpdateValue(const IndexType & index,
                              const SpeedImageType *speed, LevelSetImageType *output) ITK_OVERRIDE;
 
   /** Generate the output image meta information */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
-  virtual void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(FastMarchingExtensionImageFilter);

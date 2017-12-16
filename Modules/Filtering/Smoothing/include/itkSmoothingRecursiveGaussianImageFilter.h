@@ -133,7 +133,7 @@ public:
 
   void SetNumberOfThreads(ThreadIdType nb) ITK_OVERRIDE;
 
-  virtual bool CanRunInPlace( void ) const ITK_OVERRIDE;
+  bool CanRunInPlace( void ) const ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -145,7 +145,7 @@ public:
 
 protected:
   SmoothingRecursiveGaussianImageFilter();
-  virtual ~SmoothingRecursiveGaussianImageFilter() ITK_OVERRIDE {}
+  ~SmoothingRecursiveGaussianImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   void GenerateData(void) ITK_OVERRIDE;
@@ -156,7 +156,7 @@ protected:
    * the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   // Override since the filter produces the entire dataset
   void EnlargeOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;

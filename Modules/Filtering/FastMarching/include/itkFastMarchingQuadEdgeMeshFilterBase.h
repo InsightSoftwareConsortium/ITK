@@ -107,7 +107,7 @@ public:
 protected:
 
   FastMarchingQuadEdgeMeshFilterBase();
-  virtual ~FastMarchingQuadEdgeMeshFilterBase() ITK_OVERRIDE;
+  ~FastMarchingQuadEdgeMeshFilterBase() ITK_OVERRIDE;
 
   NodeLabelMapType m_Label;
 

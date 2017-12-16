@@ -124,7 +124,7 @@ protected:
   /**
    * Override from ProcessObject
    */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /**
    * Initializes all necessary datastructures

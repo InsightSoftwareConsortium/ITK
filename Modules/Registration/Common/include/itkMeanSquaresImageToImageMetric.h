@@ -86,7 +86,7 @@ public:
    *  (2) uniformly select NumberOfSpatialSamples within
    *      the FixedImageRegion, and
    *  (3) allocate memory for pdf data structures. */
-  virtual void Initialize(void) ITK_OVERRIDE;
+  void Initialize(void) ITK_OVERRIDE;
 
   /**  Get the value. */
   MeasureType GetValue(const ParametersType & parameters) const ITK_OVERRIDE;
@@ -103,7 +103,7 @@ public:
 protected:
 
   MeanSquaresImageToImageMetric();
-  virtual ~MeanSquaresImageToImageMetric() ITK_OVERRIDE;
+  ~MeanSquaresImageToImageMetric() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:

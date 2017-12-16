@@ -93,7 +93,7 @@ public:
 
 protected:
   TernaryOperatorImageFilter() {}
-  virtual ~TernaryOperatorImageFilter() ITK_OVERRIDE {}
+  ~TernaryOperatorImageFilter() ITK_OVERRIDE {}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TernaryOperatorImageFilter);

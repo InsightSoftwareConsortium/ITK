@@ -135,7 +135,7 @@ protected:
   CenteredTransformInitializer();
   ~CenteredTransformInitializer() ITK_OVERRIDE {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   itkGetModifiableObjectMacro(Transform, TransformType);
 

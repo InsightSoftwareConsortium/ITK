@@ -79,7 +79,7 @@ public:
 
 protected:
   EllipsoidInteriorExteriorSpatialFunction();
-  virtual ~EllipsoidInteriorExteriorSpatialFunction() ITK_OVERRIDE;
+  ~EllipsoidInteriorExteriorSpatialFunction() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

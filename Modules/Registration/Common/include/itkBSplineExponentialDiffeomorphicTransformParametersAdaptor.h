@@ -111,7 +111,7 @@ public:
   /**
    * Change the displacement field fixed parameters
    */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   BSplineExponentialDiffeomorphicTransformParametersAdaptor();

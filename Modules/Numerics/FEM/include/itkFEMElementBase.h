@@ -172,7 +172,7 @@ public:
 
     /** CreateAnother method will clone the existing instance of this type,
      * including its internal member variables. */
-    virtual::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
+    ::itk::LightObject::Pointer CreateAnother(void) const ITK_OVERRIDE;
 
     /**
      * Floating point precision type.
@@ -250,7 +250,7 @@ public:
     typedef std::set<Element *> SetOfElements;
     mutable SetOfElements m_elements;
   protected:
-    virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+    void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
   private:
     /**
      * Vector object that holds node coordinates.
@@ -678,7 +678,7 @@ protected:
   // to store edge connectivity data
   std::vector<std::vector<int> > m_EdgeIds;
 
-  virtual void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE;
 
 };
 

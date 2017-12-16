@@ -112,7 +112,7 @@ public:
 
 protected:
   EuclideanDistancePointMetric();
-  virtual ~EuclideanDistancePointMetric() ITK_OVERRIDE {}
+  ~EuclideanDistancePointMetric() ITK_OVERRIDE {}
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

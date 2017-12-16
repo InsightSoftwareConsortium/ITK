@@ -176,7 +176,7 @@ public:
 
 protected:
   RegionBasedLevelSetFunctionSharedData():m_NumberOfNeighbors(6), m_KdTree(ITK_NULLPTR){}
-  ~RegionBasedLevelSetFunctionSharedData(){}
+  ~RegionBasedLevelSetFunctionSharedData() ITK_OVERRIDE{}
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(RegionBasedLevelSetFunctionSharedData);

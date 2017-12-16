@@ -101,7 +101,7 @@ public:
    * in order to inform the pipeline execution model.
    *
    * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Use the image spacing information in calculations. Use this option if you
    *  want derivatives in physical space. Default is UseImageSpacingOn. */
@@ -146,7 +146,7 @@ public:
 
 protected:
   GradientImageFilter();
-  virtual ~GradientImageFilter() ITK_OVERRIDE;
+  ~GradientImageFilter() ITK_OVERRIDE;
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** GradientImageFilter can be implemented as a multithreaded filter.
@@ -165,7 +165,7 @@ protected:
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(GradientImageFilter);
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   // An overloaded method which may transform the gradient to a
   // physical vector and converts to the correct output pixel type.

@@ -60,30 +60,30 @@ public:
   itkStaticConstMacro(CellDimension, unsigned int, 2);
 
   /** Implement the standard CellInterface. */
-  virtual CellGeometry GetType(void) const ITK_OVERRIDE
+  CellGeometry GetType(void) const ITK_OVERRIDE
   { return Superclass::QUADRATIC_TRIANGLE_CELL; }
-  virtual void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
+  void MakeCopy(CellAutoPointer &) const ITK_OVERRIDE;
 
-  virtual unsigned int GetDimension(void) const ITK_OVERRIDE;
+  unsigned int GetDimension(void) const ITK_OVERRIDE;
 
-  virtual unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
+  unsigned int GetNumberOfPoints(void) const ITK_OVERRIDE;
 
-  virtual CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
+  CellFeatureCount GetNumberOfBoundaryFeatures(int dimension) const ITK_OVERRIDE;
 
-  virtual bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
-  virtual void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
+  bool GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) ITK_OVERRIDE;
+  void SetPointIds(PointIdConstIterator first) ITK_OVERRIDE;
 
-  virtual void SetPointIds(PointIdConstIterator first,
+  void SetPointIds(PointIdConstIterator first,
                            PointIdConstIterator last) ITK_OVERRIDE;
 
-  virtual void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
-  virtual PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
+  void SetPointId(int localId, PointIdentifier) ITK_OVERRIDE;
+  PointIdIterator      PointIdsBegin(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsBegin(void) const ITK_OVERRIDE;
 
-  virtual PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
+  PointIdIterator      PointIdsEnd(void) ITK_OVERRIDE;
 
-  virtual PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
+  PointIdConstIterator PointIdsEnd(void) const ITK_OVERRIDE;
 
   /** Triangle-specific interface. */
   virtual CellFeatureCount GetNumberOfVertices() const;
@@ -99,7 +99,7 @@ public:
   /** Given the parametric coordinates of a point in the cell
    *  determine the value of its Shape Functions
    *  returned through an itkArray<InterpolationWeightType>).  */
-  virtual void EvaluateShapeFunctions(
+  void EvaluateShapeFunctions(
     const ParametricCoordArrayType & parametricCoordinates,
     ShapeFunctionsArrayType  & weights) const ITK_OVERRIDE;
 

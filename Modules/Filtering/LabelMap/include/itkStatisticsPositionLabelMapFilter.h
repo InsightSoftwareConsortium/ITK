@@ -85,7 +85,7 @@ protected:
   StatisticsPositionLabelMapFilter();
   ~StatisticsPositionLabelMapFilter() ITK_OVERRIDE {};
 
-  virtual void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject( LabelObjectType * labelObject ) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(StatisticsPositionLabelMapFilter);

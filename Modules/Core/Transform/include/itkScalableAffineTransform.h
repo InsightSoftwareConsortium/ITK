@@ -110,7 +110,7 @@ public:
   bool GetInverse(Self *inverse) const;
 
   /** Return an inverse of this transform. */
-  virtual InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
+  InverseTransformBasePointer GetInverseTransform() const ITK_OVERRIDE;
 
 protected:
   /** Construct an ScalableAffineTransform object
@@ -130,7 +130,7 @@ protected:
   void ComputeMatrix() ITK_OVERRIDE;
 
   /** Destroy an ScalableAffineTransform object   */
-  virtual ~ScalableAffineTransform() ITK_OVERRIDE;
+  ~ScalableAffineTransform() ITK_OVERRIDE;
 
   /** Print contents of an ScalableAffineTransform */
   void PrintSelf(std::ostream & s, Indent indent) const ITK_OVERRIDE;

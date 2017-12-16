@@ -48,9 +48,9 @@ public:
   typedef SmartPointer< const Self > ConstPointer;
 
   /** Class methods used to interface with the registered factories. */
-  virtual const char * GetITKSourceVersion(void) const ITK_OVERRIDE;
+  const char * GetITKSourceVersion(void) const ITK_OVERRIDE;
 
-  virtual const char * GetDescription(void) const ITK_OVERRIDE;
+  const char * GetDescription(void) const ITK_OVERRIDE;
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(TransformFactoryBase, ObjectFactoryBase);
@@ -102,7 +102,7 @@ public:
 
 protected:
   TransformFactoryBase();
-  virtual ~TransformFactoryBase() ITK_OVERRIDE;
+  ~TransformFactoryBase() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(TransformFactoryBase);

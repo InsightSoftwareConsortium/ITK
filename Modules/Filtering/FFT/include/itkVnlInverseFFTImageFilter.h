@@ -89,9 +89,9 @@ public:
 
 protected:
   VnlInverseFFTImageFilter()  {}
-  virtual ~VnlInverseFFTImageFilter() ITK_OVERRIDE {}
+  ~VnlInverseFFTImageFilter() ITK_OVERRIDE {}
 
-  virtual void GenerateData() ITK_OVERRIDE;  // generates output from input
+  void GenerateData() ITK_OVERRIDE;  // generates output from input
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(VnlInverseFFTImageFilter);

@@ -92,7 +92,7 @@ public:
    *
    * ImageFunction::IsInsideBuffer() can be used to check bounds before
    * calling the method. */
-  virtual OutputType EvaluateAtContinuousIndex(const
+  OutputType EvaluateAtContinuousIndex(const
                                                 ContinuousIndexType &
                                                 index) const ITK_OVERRIDE
   {

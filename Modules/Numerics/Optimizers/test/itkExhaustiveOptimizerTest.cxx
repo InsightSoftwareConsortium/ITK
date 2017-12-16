@@ -60,7 +60,7 @@ public:
   }
 
 
-  virtual MeasureType  GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
+  MeasureType  GetValue( const ParametersType & parameters ) const ITK_OVERRIDE
   {
 
     double x = parameters[0];
@@ -96,7 +96,7 @@ public:
   }
 
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }
@@ -111,7 +111,7 @@ public:
 
   itkNewMacro ( IndexObserver );
 
-  virtual void  Execute ( const itk::Object *caller, const itk::EventObject &) ITK_OVERRIDE
+  void  Execute ( const itk::Object *caller, const itk::EventObject &) ITK_OVERRIDE
   {
     typedef itk::ExhaustiveOptimizer OptimizerType;
     const OptimizerType *optimizer = dynamic_cast < const OptimizerType * > ( caller );
@@ -130,7 +130,7 @@ public:
     }
   }
 
-  virtual void  Execute (itk::Object *caller, const itk::EventObject &event) ITK_OVERRIDE
+  void  Execute (itk::Object *caller, const itk::EventObject &event) ITK_OVERRIDE
   {
     Execute ( static_cast < const itk::Object * > ( caller ), event );
   }

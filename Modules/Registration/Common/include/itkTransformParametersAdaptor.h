@@ -79,7 +79,7 @@ public:
   /** Set the transform to be adapted */
   itkSetObjectMacro( Transform, TransformType );
 
-  virtual void SetTransform( TransformBaseType * _arg, void * ) ITK_OVERRIDE
+  void SetTransform( TransformBaseType * _arg, void * ) ITK_OVERRIDE
     {
       TransformType *tx = dynamic_cast<TransformType *>(_arg);
       itkAssertOrThrowMacro( tx != ITK_NULLPTR, "Unable to convert Transform to require concrete transform!" );
@@ -90,7 +90,7 @@ public:
   itkNewMacro( Self );
 
   /** Set the fixed parameters */
-  virtual void SetRequiredFixedParameters( const FixedParametersType fixedParameters ) ITK_OVERRIDE
+  void SetRequiredFixedParameters( const FixedParametersType fixedParameters ) ITK_OVERRIDE
     {
     itkDebugMacro("setting RequiredFixedParameters to " << fixedParameters );
     if ( this->m_RequiredFixedParameters != fixedParameters )
@@ -101,13 +101,13 @@ public:
     }
 
   /** Get the fixed parameters */
-  virtual const FixedParametersType & GetRequiredFixedParameters() const ITK_OVERRIDE
+  const FixedParametersType & GetRequiredFixedParameters() const ITK_OVERRIDE
     {
     return this->m_RequiredFixedParameters;
     }
 
   /** Initialize the transform using the specified fixed parameters */
-  virtual void AdaptTransformParameters() ITK_OVERRIDE {};
+  void AdaptTransformParameters() ITK_OVERRIDE {};
 
 protected:
   TransformParametersAdaptor() {}

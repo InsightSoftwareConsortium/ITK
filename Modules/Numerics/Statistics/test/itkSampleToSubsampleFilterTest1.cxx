@@ -40,7 +40,7 @@ public:
 
 protected:
   SubsamplerTester() {}
-  virtual ~SubsamplerTester() ITK_OVERRIDE {}
+  ~SubsamplerTester() ITK_OVERRIDE {}
   void PrintSelf(std::ostream& os, Indent indent) const ITK_OVERRIDE
     {
     this->Superclass::PrintSelf(os,indent);

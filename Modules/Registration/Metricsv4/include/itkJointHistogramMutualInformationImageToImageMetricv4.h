@@ -141,18 +141,18 @@ public:
   itkGetMacro(VarianceForJointPDFSmoothing, TInternalComputationValueType);
 
   /** Initialize the metric. Make sure all essential inputs are plugged in. */
-  virtual void Initialize() ITK_OVERRIDE;
+  void Initialize() ITK_OVERRIDE;
 
-  virtual MeasureType GetValue() const ITK_OVERRIDE;
+  MeasureType GetValue() const ITK_OVERRIDE;
 
 protected:
   JointHistogramMutualInformationImageToImageMetricv4();
-  virtual ~JointHistogramMutualInformationImageToImageMetricv4() ITK_OVERRIDE;
+  ~JointHistogramMutualInformationImageToImageMetricv4() ITK_OVERRIDE;
 
   /** Update the histograms for use in GetValueAndDerivative
    *  Results are returned in \c value and \c derivative.
    */
-  virtual void InitializeForIteration() const ITK_OVERRIDE;
+  void InitializeForIteration() const ITK_OVERRIDE;
 
   /** Compute the metric value. For internal use. */
   MeasureType ComputeValue() const;

@@ -92,7 +92,7 @@ public:
 protected:
 
   FiniteCylinderSpatialFunction();
-  virtual ~FiniteCylinderSpatialFunction() ITK_OVERRIDE;
+  ~FiniteCylinderSpatialFunction() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

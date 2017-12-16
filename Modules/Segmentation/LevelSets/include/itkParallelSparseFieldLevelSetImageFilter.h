@@ -341,7 +341,7 @@ public:
 protected:
   ParallelSparseFieldLevelSetImageFilter();
   ~ParallelSparseFieldLevelSetImageFilter() ITK_OVERRIDE {}
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Connectivity information for examining neighbor pixels.   */
   ParallelSparseFieldCityBlockNeighborList< NeighborhoodIterator< OutputImageType > >
@@ -417,7 +417,7 @@ protected:
 
   /** Reimplement the GenerateData() function from FiniteDifferenceImageFilter
    *  for more effective multithreading */
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateData() ITK_OVERRIDE;
 
   /** Copies the input to the output image.  Processing occurs on the output
    * image, so the data type of the output image determines the precision of

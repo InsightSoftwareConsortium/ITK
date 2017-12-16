@@ -114,7 +114,7 @@ public:
 
   /** MorphologicalGradientImageFilter need to set its internal filters as
     modified */
-  virtual void Modified() const ITK_OVERRIDE;
+  void Modified() const ITK_OVERRIDE;
 
   /** define values used to determine which algorithm to use */
   enum AlgorithmType {

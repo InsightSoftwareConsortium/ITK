@@ -106,7 +106,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~AreaClosingImageFilter() {}
+  ~AreaClosingImageFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE
   {

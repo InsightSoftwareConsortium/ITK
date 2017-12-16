@@ -141,7 +141,7 @@ protected:
 
 private:
   ::itk::Image<float, 3>::Pointer m_DistanceTransform;
-  virtual ScalarValueType PropagationSpeed(
+  ScalarValueType PropagationSpeed(
     const NeighborhoodType& neighborhood,
     const FloatOffsetType &,
     GlobalDataStruct *
@@ -202,7 +202,7 @@ private:
   ITK_DISALLOW_COPY_AND_ASSIGN(MorphFilter);
   unsigned int m_Iterations;
 
-  virtual bool Halt() ITK_OVERRIDE
+  bool Halt() ITK_OVERRIDE
   {
     if (this->GetElapsedIterations() == m_Iterations) return true;
     else return false;

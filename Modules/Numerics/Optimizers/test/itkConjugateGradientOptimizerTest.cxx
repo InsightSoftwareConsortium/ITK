@@ -64,7 +64,7 @@ public:
   {
   }
 
-  virtual double GetValue( const ParametersType & position ) const ITK_OVERRIDE
+  double GetValue( const ParametersType & position ) const ITK_OVERRIDE
   {
 
     double x = position[0];
@@ -100,7 +100,7 @@ public:
     std::cout << derivative[1] << ")" << std::endl;
   }
 
-  virtual unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
+  unsigned int GetNumberOfParameters(void) const ITK_OVERRIDE
     {
     return SpaceDimension;
     }
@@ -128,12 +128,12 @@ public:
   typedef itk::ConjugateGradientOptimizer   OptimizerType;
   typedef   const OptimizerType   *         OptimizerPointer;
 
-  virtual void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(itk::Object *caller, const itk::EventObject & event) ITK_OVERRIDE
     {
       Execute( (const itk::Object *)caller, event);
     }
 
-  virtual void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
+  void Execute(const itk::Object * object, const itk::EventObject & event) ITK_OVERRIDE
     {
       OptimizerPointer optimizer = static_cast< OptimizerPointer >( object );
       if( m_FunctionEvent.CheckEvent( &event ) )

@@ -205,7 +205,7 @@ public:
     m_Segmenter->SetInputImage( const_cast< InputImageType * >( input ) );
   }
 
-  virtual void SetInput(unsigned int i, const TInputImage *image) ITK_OVERRIDE
+  void SetInput(unsigned int i, const TInputImage *image) ITK_OVERRIDE
   {
     if ( i != 0 )
                   { itkExceptionMacro(<< "Filter has only one input."); }
@@ -258,12 +258,12 @@ public:
 
 protected:
   WatershedImageFilter();
-  virtual ~WatershedImageFilter() ITK_OVERRIDE {}
+  ~WatershedImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** An opportunity to Allocate/Deallocate bulk data.
    */
-  virtual void PrepareOutputs() ITK_OVERRIDE;
+  void PrepareOutputs() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(WatershedImageFilter);

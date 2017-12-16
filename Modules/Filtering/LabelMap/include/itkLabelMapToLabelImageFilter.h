@@ -87,9 +87,9 @@ protected:
   LabelMapToLabelImageFilter();
   ~LabelMapToLabelImageFilter() ITK_OVERRIDE {}
 
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
-  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(LabelMapToLabelImageFilter);

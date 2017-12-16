@@ -108,7 +108,7 @@ protected:
   BinaryImageToLevelSetImageAdaptor();
 
   /** Destructor */
-  virtual ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
+  ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(BinaryImageToLevelSetImageAdaptor);
@@ -179,7 +179,7 @@ public:
 
 protected:
   BinaryImageToSparseLevelSetImageAdaptorBase() : Superclass() {}
-  virtual ~BinaryImageToSparseLevelSetImageAdaptorBase() ITK_OVERRIDE {}
+  ~BinaryImageToSparseLevelSetImageAdaptorBase() ITK_OVERRIDE {}
 
   LevelSetLabelMapPointer m_LabelMap;
 
@@ -264,7 +264,7 @@ protected:
   BinaryImageToLevelSetImageAdaptor();
 
   /** Destructor */
-  virtual ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
+  ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
 
 private:
 
@@ -438,7 +438,7 @@ protected:
   BinaryImageToLevelSetImageAdaptor();
 
   /** Destructor */
-  virtual ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
+  ~BinaryImageToLevelSetImageAdaptor() ITK_OVERRIDE;
 
   /** Find the active layer separating the foreground and background regions */
   void FindActiveLayer();

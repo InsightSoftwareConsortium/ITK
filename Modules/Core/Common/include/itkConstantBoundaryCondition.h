@@ -92,13 +92,13 @@ public:
   ConstantBoundaryCondition();
 
   /** Runtime information support. */
-  virtual const char * GetNameOfClass() const
+  const char * GetNameOfClass() const ITK_OVERRIDE
   {
     return "itkConstantBoundaryCondition";
   }
 
   /** Utility for printing the boundary condition. */
-  virtual void Print( std::ostream & os, Indent i = 0 ) const;
+  void Print( std::ostream & os, Indent i = 0 ) const ITK_OVERRIDE;
 
   /** Special version of initialize for images with pixel type
    * VariableLengthVector. */
@@ -107,17 +107,17 @@ public:
 
   /** Computes and returns appropriate out-of-bounds values from
    * neighborhood iterator data. */
-  virtual OutputPixelType operator()(const OffsetType &,
+  OutputPixelType operator()(const OffsetType &,
                                      const OffsetType &,
-                                     const NeighborhoodType *) const;
+                                     const NeighborhoodType *) const ITK_OVERRIDE;
 
   /** Computes and returns the appropriate pixel value from
    * neighborhood iterator data, using the functor. */
-  virtual OutputPixelType operator()(
+  OutputPixelType operator()(
     const OffsetType &,
     const OffsetType &,
     const NeighborhoodType *,
-    const NeighborhoodAccessorFunctorType &) const;
+    const NeighborhoodAccessorFunctorType &) const ITK_OVERRIDE;
 
   /** Set the value of the constant. */
   void SetConstant(const OutputPixelType & c);
@@ -128,7 +128,7 @@ public:
   /** Tell if the boundary condition can index to any location within
     * the associated iterator's neighborhood or if it has some limited
     * subset (such as none) that it relies upon. */
-  bool RequiresCompleteNeighborhood() { return false; }
+  bool RequiresCompleteNeighborhood() ITK_OVERRIDE { return false; }
 
   /** Determines the necessary input region for the output region.
    * For this boundary condition, only the intersection of the largest
@@ -139,8 +139,8 @@ public:
    * \return The necessary input region required to determine the
    * pixel values in the outputRequestedRegion.
    */
-  virtual RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
-                                              const RegionType & outputRequestedRegion ) const;
+  RegionType GetInputRequestedRegion( const RegionType & inputLargestPossibleRegion,
+                                              const RegionType & outputRequestedRegion ) const ITK_OVERRIDE;
 
   /** Returns a value for a given pixel at an index. If the index is inside the
    * bounds of the input image, then the pixel value is obtained from
@@ -149,7 +149,7 @@ public:
    * \param index The index of the desired pixel.
    * \param image The image from which pixel values should be determined.
    */
-  OutputPixelType GetPixel( const IndexType & index, const TInputImage * image ) const;
+  OutputPixelType GetPixel( const IndexType & index, const TInputImage * image ) const ITK_OVERRIDE;
 
 private:
   OutputPixelType m_Constant;

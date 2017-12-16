@@ -62,10 +62,10 @@ protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(GroupSpatialObject);
 
   GroupSpatialObject();
-  virtual ~GroupSpatialObject() ITK_OVERRIDE;
+  ~GroupSpatialObject() ITK_OVERRIDE;
 
   /** Method to print the object.*/
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };
 } // end namespace itk
 

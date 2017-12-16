@@ -81,7 +81,7 @@ public:
    *  class because we need to work with neighborhoods of pointers to data
    *  variables instead of neighborhoods of data directly. This function is
    *  replaced by the ComputeSparseUpdate function. */
-  virtual PixelType ComputeUpdate(const NeighborhoodType &,
+  PixelType ComputeUpdate(const NeighborhoodType &,
                                   void *,
                                   const FloatOffsetType &) ITK_OVERRIDE
   {

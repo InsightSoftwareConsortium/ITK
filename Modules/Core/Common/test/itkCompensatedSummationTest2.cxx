@@ -56,7 +56,7 @@ public:
     TestDomainThreader() {};
 
   private:
-    virtual void BeforeThreadedExecution() ITK_OVERRIDE
+    void BeforeThreadedExecution() ITK_OVERRIDE
       {
       const itk::ThreadIdType numThreadsUsed = this->GetNumberOfThreadsUsed();
       this->m_PerThreadCompensatedSum.resize( numThreadsUsed );
@@ -66,7 +66,7 @@ public:
         }
       }
 
-    virtual void ThreadedExecution( const DomainType& subdomain,
+    void ThreadedExecution( const DomainType& subdomain,
                                     const itk::ThreadIdType threadId ) ITK_OVERRIDE
       {
       itk::CompensatedSummation<double> compensatedSum;
@@ -77,7 +77,7 @@ public:
         }
       }
 
-    virtual void AfterThreadedExecution() ITK_OVERRIDE
+    void AfterThreadedExecution() ITK_OVERRIDE
       {
       this->m_Associate->m_UncompensatedSumOfThreads = itk::NumericTraits<double>::ZeroValue();
       this->m_Associate->m_CompensatedSumOfThreads.ResetToZero();

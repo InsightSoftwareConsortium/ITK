@@ -91,13 +91,13 @@ public:
 
 
   /** Update the term parameter values at end of iteration */
-  virtual void Update() ITK_OVERRIDE;
+  void Update() ITK_OVERRIDE;
 
   /** Initialize parameters in the terms prior to an iteration */
-  virtual void InitializeParameters() ITK_OVERRIDE;
+  void InitializeParameters() ITK_OVERRIDE;
 
   /** Initialize term parameters in the dense case by computing for each pixel location */
-  virtual void Initialize( const LevelSetInputIndexType& index ) ITK_OVERRIDE;
+  void Initialize( const LevelSetInputIndexType& index ) ITK_OVERRIDE;
 
   /** Compute the sum of Heaviside functions in the multi-levelset cases
    *  except the current levelset */
@@ -105,7 +105,7 @@ public:
                                   LevelSetOutputRealType& sum );
 
   /** Supply updates at pixels to keep the term parameters always updated */
-  virtual void UpdatePixel( const LevelSetInputIndexType& index,
+  void UpdatePixel( const LevelSetInputIndexType& index,
                             const LevelSetOutputRealType& oldValue,
                             const LevelSetOutputRealType& newValue ) ITK_OVERRIDE;
 
@@ -113,13 +113,13 @@ public:
 protected:
   LevelSetEquationOverlapPenaltyTerm();
 
-  virtual ~LevelSetEquationOverlapPenaltyTerm() ITK_OVERRIDE;
+  ~LevelSetEquationOverlapPenaltyTerm() ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location index */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& index ) ITK_OVERRIDE;
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& index ) ITK_OVERRIDE;
 
   /** Returns the term contribution for a given location index */
-  virtual LevelSetOutputRealType Value( const LevelSetInputIndexType& index,
+  LevelSetOutputRealType Value( const LevelSetInputIndexType& index,
                                         const LevelSetDataType& data ) ITK_OVERRIDE;
 
 private:

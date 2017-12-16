@@ -267,22 +267,22 @@ public:
    * for GenerateOutputInformation() in order to inform the pipeline
    * execution model.  The original documentation of this method is
    * below. \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** ResampleImageFilter needs a different input requested region than
    * the output requested region.  As such, ResampleImageFilter needs
    * to provide an implementation for GenerateInputRequestedRegion()
    * in order to inform the pipeline execution model.
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Set up state of filter before multi-threading.
    * InterpolatorType::SetInputImage is not thread-safe and hence
    * has to be set up before ThreadedGenerateData */
-  virtual void BeforeThreadedGenerateData() ITK_OVERRIDE;
+  void BeforeThreadedGenerateData() ITK_OVERRIDE;
 
   /** Set the state of the filter after multi-threading. */
-  virtual void AfterThreadedGenerateData() ITK_OVERRIDE;
+  void AfterThreadedGenerateData() ITK_OVERRIDE;
 
   /** Compute the Modified Time based on the changed components. */
   ModifiedTimeType GetMTime(void) const ITK_OVERRIDE;
@@ -304,7 +304,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE { }
+  void VerifyInputInformation() ITK_OVERRIDE { }
 
   /** ResampleImageFilter can be implemented as a multithreaded filter.
    * Therefore, this implementation provides a ThreadedGenerateData()
@@ -315,7 +315,7 @@ protected:
    * specified by the parameter "outputRegionForThread"
    * \sa ImageToImageFilter::ThreadedGenerateData(),
    *     ImageToImageFilter::GenerateData() */
-  virtual void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
+  void ThreadedGenerateData(const OutputImageRegionType & outputRegionForThread,
                                     ThreadIdType threadId) ITK_OVERRIDE;
 
   /** Default implementation for resampling that works for any

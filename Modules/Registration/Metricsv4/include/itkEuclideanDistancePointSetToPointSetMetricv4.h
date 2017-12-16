@@ -69,17 +69,17 @@ public:
   /**
    * Calculates the local metric value for a single point.
    */
-  virtual MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
+  MeasureType GetLocalNeighborhoodValue( const PointType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
 
   /**
    * Calculates the local value and derivative for a single point.
    */
-  virtual void GetLocalNeighborhoodValueAndDerivative( const PointType &,
+  void GetLocalNeighborhoodValueAndDerivative( const PointType &,
     MeasureType &, LocalDerivativeType &, const PixelType & pixel = 0 ) const ITK_OVERRIDE;
 
 protected:
   EuclideanDistancePointSetToPointSetMetricv4();
-  virtual ~EuclideanDistancePointSetToPointSetMetricv4() ITK_OVERRIDE;
+  ~EuclideanDistancePointSetToPointSetMetricv4() ITK_OVERRIDE;
 
   /** PrintSelf function */
   void PrintSelf( std::ostream & os, Indent indent ) const ITK_OVERRIDE;

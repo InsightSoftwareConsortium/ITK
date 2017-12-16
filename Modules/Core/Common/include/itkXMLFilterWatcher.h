@@ -38,13 +38,13 @@ public:
 protected:
 
   /** Callback method to show the ProgressEvent */
-  virtual void ShowProgress();
+  void ShowProgress() ITK_OVERRIDE;
 
   /** Callback method to show the StartEvent */
-  virtual void StartFilter();
+  void StartFilter() ITK_OVERRIDE;
 
   /** Callback method to show the EndEvent */
-  virtual void EndFilter();
+  void EndFilter() ITK_OVERRIDE;
 };
 } // end namespace itk
 

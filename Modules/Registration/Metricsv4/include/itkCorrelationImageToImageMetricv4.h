@@ -116,13 +116,13 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4();
-  virtual ~CorrelationImageToImageMetricv4() ITK_OVERRIDE;
+  ~CorrelationImageToImageMetricv4() ITK_OVERRIDE;
 
   /** Perform any initialization required before each evaluation of
    * \c GetValueAndDerivative. This is distinct from Initialize, which
    * is called only once before a number of iterations, e.g. before
    * a registration loop. */
-  virtual void InitializeForIteration() const ITK_OVERRIDE;
+  void InitializeForIteration() const ITK_OVERRIDE;
 
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedImageRegionPartitioner< Superclass::VirtualImageDimension >, Self >;
   friend class ImageToImageMetricv4GetValueAndDerivativeThreaderBase< ThreadedIndexedContainerPartitioner, Self >;

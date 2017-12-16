@@ -134,7 +134,7 @@ public:
   itkBooleanMacro(ThresholdAtMeanIntensity);
 
   /** This filter requires all of the input to be in the buffer. */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   /** Methods to get the histograms of the source, reference, and
    * output. Objects are only valid after Update() has been called
@@ -179,7 +179,7 @@ protected:
    *
    * \sa ProcessObject::VerifyInputInformation
    */
-  virtual void VerifyInputInformation() ITK_OVERRIDE {}
+  void VerifyInputInformation() ITK_OVERRIDE {}
 
   /** Compute min, max and mean of an image. */
   void ComputeMinMaxMean(const InputImageType *image,

@@ -69,13 +69,13 @@ public:
   typedef typename Superclass::VirtualImageConstPointer  VirtualImageConstPointer;
 
   /** Estimate parameter scales */
-  virtual void EstimateScales(ScalesType &scales) ITK_OVERRIDE;
+  void EstimateScales(ScalesType &scales) ITK_OVERRIDE;
 
   /** Estimate the scale of a step */
-  virtual FloatType EstimateStepScale(const ParametersType &step) ITK_OVERRIDE;
+  FloatType EstimateStepScale(const ParametersType &step) ITK_OVERRIDE;
 
   /** Estimate the scales of local steps */
-  virtual void EstimateLocalStepScales(const ParametersType &step,
+  void EstimateLocalStepScales(const ParametersType &step,
     ScalesType &localStepScales) ITK_OVERRIDE;
 
   /** Set/get small parameter variation */
@@ -86,7 +86,7 @@ protected:
   RegistrationParameterScalesFromShiftBase();
   ~RegistrationParameterScalesFromShiftBase() ITK_OVERRIDE {};
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** Compute the shift in voxels when deltaParameters is applied onto the
    * current parameters. */

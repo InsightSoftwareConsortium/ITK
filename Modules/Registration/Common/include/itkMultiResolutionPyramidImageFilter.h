@@ -185,13 +185,13 @@ public:
    * implementation for GenerateOutputInformation() in order to inform the
    * pipeline execution model.  The original documentation of this method is
    * below.  \sa ProcessObject::GenerateOutputInformaton() */
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   /** Given one output whose requested region has been set, this method sets
    * the requested region for the remaining output images.  The original
    * documentation of this method is below.  \sa
    * ProcessObject::GenerateOutputRequestedRegion(); */
-  virtual void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
+  void GenerateOutputRequestedRegion(DataObject *output) ITK_OVERRIDE;
 
   /** MultiResolutionPyramidImageFilter requires a larger input requested
    * region than the output requested regions to accommodate the shrinkage and
@@ -199,7 +199,7 @@ public:
    * to provide an implementation for GenerateInputRequestedRegion().  The
    * original documentation of this method is below.  \sa
    * ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   itkSetMacro(MaximumError, double);
   itkGetConstReferenceMacro(MaximumError, double);

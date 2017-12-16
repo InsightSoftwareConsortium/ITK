@@ -87,13 +87,13 @@ public:
   /** Get the boundaries of a specific object.  This function needs to
    *  be called every time one of the object's components is
    *  changed. */
-  virtual bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
+  bool ComputeLocalBoundingBox() const ITK_OVERRIDE;
 
 protected:
   ITK_DISALLOW_COPY_AND_ASSIGN(ImageMaskSpatialObject);
 
   ImageMaskSpatialObject();
-  virtual ~ImageMaskSpatialObject() ITK_OVERRIDE;
+  ~ImageMaskSpatialObject() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 };

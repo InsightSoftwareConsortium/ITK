@@ -133,7 +133,7 @@ public:
    * execution model.
    *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
-  virtual void GenerateInputRequestedRegion() ITK_OVERRIDE;
+  void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -153,7 +153,7 @@ public:
 protected:
   NeighborhoodOperatorImageFilter()
   { m_BoundsCondition = static_cast< ImageBoundaryConditionPointerType >( &m_DefaultBoundaryCondition ); }
-  virtual ~NeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
+  ~NeighborhoodOperatorImageFilter() ITK_OVERRIDE {}
 
   /** NeighborhoodOperatorImageFilter can be implemented as a
    * multithreaded filter.  Therefore, this implementation provides a

@@ -108,7 +108,7 @@ protected:
     m_UseImageSpacing = true;
   }
 
-  virtual ~AreaOpeningImageFilter() {}
+  ~AreaOpeningImageFilter() ITK_OVERRIDE {}
 
   void GenerateData() ITK_OVERRIDE
   {

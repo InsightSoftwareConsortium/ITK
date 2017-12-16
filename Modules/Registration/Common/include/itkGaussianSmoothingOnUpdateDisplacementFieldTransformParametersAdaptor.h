@@ -63,7 +63,7 @@ public:
   virtual void SetGaussianSmoothingVarianceForTheTotalField( const ScalarType );
   itkGetConstReferenceMacro( GaussianSmoothingVarianceForTheTotalField, ScalarType );
 
-  virtual void AdaptTransformParameters() ITK_OVERRIDE;
+  void AdaptTransformParameters() ITK_OVERRIDE;
 
 protected:
   GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor();

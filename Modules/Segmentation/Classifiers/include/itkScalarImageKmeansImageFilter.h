@@ -152,7 +152,7 @@ public:
 
 protected:
   ScalarImageKmeansImageFilter();
-  virtual ~ScalarImageKmeansImageFilter() ITK_OVERRIDE {}
+  ~ScalarImageKmeansImageFilter() ITK_OVERRIDE {}
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
   /** This method runs the statistical methods that identify the means of the
@@ -164,7 +164,7 @@ protected:
 
   /* See superclass for doxygen. This methods additionally checks that
    * the number of means is not 0. */
-  virtual void VerifyPreconditions() ITK_OVERRIDE;
+  void VerifyPreconditions() ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(ScalarImageKmeansImageFilter);

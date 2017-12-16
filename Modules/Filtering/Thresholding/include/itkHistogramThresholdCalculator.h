@@ -90,7 +90,7 @@ public:
   }
 
   using Superclass::MakeOutput;
-  virtual typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE
+  typename DataObject::Pointer MakeOutput(DataObjectPointerArraySizeType) ITK_OVERRIDE
   {
     return DecoratedOutputType::New().GetPointer();
   }
@@ -110,7 +110,7 @@ protected:
     this->ProcessObject::SetNumberOfRequiredOutputs(1);
     this->ProcessObject::SetNthOutput( 0, this->MakeOutput(0) );
   }
-  virtual ~HistogramThresholdCalculator() ITK_OVERRIDE {};
+  ~HistogramThresholdCalculator() ITK_OVERRIDE {};
   using ProcessObject::SetInput;
 
 private:

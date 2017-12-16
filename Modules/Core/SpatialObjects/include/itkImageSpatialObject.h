@@ -124,7 +124,7 @@ protected:
   ImagePointer m_Image;
 
   ImageSpatialObject();
-  virtual ~ImageSpatialObject() ITK_OVERRIDE;
+  ~ImageSpatialObject() ITK_OVERRIDE;
 
   void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 

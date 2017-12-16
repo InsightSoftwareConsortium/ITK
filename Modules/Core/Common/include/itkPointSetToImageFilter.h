@@ -141,8 +141,8 @@ protected:
   PointSetToImageFilter();
   ~PointSetToImageFilter() ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
-  virtual void GenerateData() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE {}  // do nothing
+  void GenerateData() ITK_OVERRIDE;
 
   SizeType m_Size;
 
@@ -155,7 +155,7 @@ protected:
   ValueType m_InsideValue;
   ValueType m_OutsideValue;
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(PointSetToImageFilter);

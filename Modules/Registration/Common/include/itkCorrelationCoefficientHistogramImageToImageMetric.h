@@ -81,10 +81,10 @@ protected:
   /** Constructor is protected to ensure that \c New() function is used to
       create instances. */
   CorrelationCoefficientHistogramImageToImageMetric(){}
-  virtual ~CorrelationCoefficientHistogramImageToImageMetric() ITK_OVERRIDE {}
+  ~CorrelationCoefficientHistogramImageToImageMetric() ITK_OVERRIDE {}
 
   /** Evaluates the sum of squared differences from the histogram. */
-  virtual MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
+  MeasureType EvaluateMeasure(HistogramType & histogram) const ITK_OVERRIDE;
 
 private:
   /** Returns the mean in the x-direction. */

@@ -144,10 +144,10 @@ public:
    * to perform any required operations on the update parameters, typically
    * a converion to member variables for use in TransformPoint.
    */
-  virtual void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
+  void UpdateTransformParameters( const DerivativeType & update, ScalarType factor = 1.0 ) ITK_OVERRIDE;
 
   /** Trigger the computation of the displacement field by integrating the time-varying velocity field. */
-  virtual void IntegrateVelocityField() ITK_OVERRIDE;
+  void IntegrateVelocityField() ITK_OVERRIDE;
 
   /** Set/Get sampled velocity field origin */
   itkSetMacro( VelocityFieldOrigin, VelocityFieldPointType );
@@ -171,7 +171,7 @@ public:
 
 protected:
   TimeVaryingBSplineVelocityFieldTransform();
-  virtual ~TimeVaryingBSplineVelocityFieldTransform() ITK_OVERRIDE;
+  ~TimeVaryingBSplineVelocityFieldTransform() ITK_OVERRIDE;
   void PrintSelf( std::ostream& os, Indent indent ) const ITK_OVERRIDE;
 
 private:

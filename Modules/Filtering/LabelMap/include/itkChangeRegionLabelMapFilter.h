@@ -103,15 +103,15 @@ protected:
   ChangeRegionLabelMapFilter() {}
   ~ChangeRegionLabelMapFilter() ITK_OVERRIDE {}
 
-  virtual void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  void PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
 
-  virtual void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
+  void ThreadedProcessLabelObject(LabelObjectType *labelObject) ITK_OVERRIDE;
 
   void GenerateInputRequestedRegion() ITK_OVERRIDE;
 
   void EnlargeOutputRequestedRegion( DataObject *itkNotUsed(output) ) ITK_OVERRIDE;
 
-  virtual void GenerateOutputInformation() ITK_OVERRIDE;
+  void GenerateOutputInformation() ITK_OVERRIDE;
 
   void GenerateData() ITK_OVERRIDE;
 

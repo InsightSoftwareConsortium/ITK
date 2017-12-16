@@ -88,14 +88,14 @@ protected:
     m_MattesAssociate(ITK_NULLPTR)
   {}
 
-  virtual void BeforeThreadedExecution() ITK_OVERRIDE;
+  void BeforeThreadedExecution() ITK_OVERRIDE;
 
-  virtual void AfterThreadedExecution() ITK_OVERRIDE;
+  void AfterThreadedExecution() ITK_OVERRIDE;
 
   /** This function computes the local voxel-wise contribution of
    *  the metric to the global integral of the metric/derivative.
    */
-  virtual bool ProcessPoint(
+  bool ProcessPoint(
         const VirtualIndexType &          virtualIndex,
         const VirtualPointType &          virtualPoint,
         const FixedImagePointType &       mappedFixedPoint,
