@@ -33,11 +33,11 @@ class HessianImageFilterFixture
 {
 public:
   HessianImageFilterFixture() {}
-  ~HessianImageFilterFixture() {}
+  ~HessianImageFilterFixture() override {}
 
 protected:
-  void SetUp() {}
-  void TearDown() {}
+  void SetUp() override {}
+  void TearDown() override {}
 
   template<unsigned int D, typename TPixelType = float >
   struct FixtureUtilities
