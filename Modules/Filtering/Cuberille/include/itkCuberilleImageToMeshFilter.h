@@ -234,14 +234,14 @@ public:
 
 protected:
   CuberilleImageToMeshFilter();
-  ~CuberilleImageToMeshFilter();
+  ~CuberilleImageToMeshFilter() override;
   void
-  PrintSelf(std::ostream & os, Indent indent) const ITK_OVERRIDE;
+  PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  GenerateData() ITK_OVERRIDE;
-  virtual void
-  GenerateOutputInformation() ITK_OVERRIDE {}; // do nothing
+  GenerateData() override;
+  void
+  GenerateOutputInformation() override {}; // do nothing
 
 private:
   ITK_DISALLOW_COPY_AND_ASSIGN(CuberilleImageToMeshFilter);
